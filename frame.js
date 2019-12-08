@@ -7,37 +7,35 @@ var can = Volcanos("chat", {
         var name = meta.name, args = meta.args || [];
         var feature = JSON.parse(meta.feature||'{}');
         var plugin = Volcanos(name, {type: "local",
-            Append: shy("添加控件", function(item, cb) {item = item || {type: "text", name: "", className: "args temp"};
+            Append: function(item, cb) {item = item || {type: "text", name: "", className: "args temp"};
                 var name = item.name || item.value || "args"+plugin.page.Select(can, option, "input.args.temp").length;
                 var count = plugin.page.Select(can, option, ".args").length, value = "";
                 args && count < args.length && (value = args[count] || item.value || "");
                 plugin[name] = can.Inputs(plugin, item, name, value, cb, option);
-            }),
-            Select: shy("选择控件", function(event, target, focus) {
+            },
+            Select: function(event, target, focus) {
                 can.plugin = field, can.input = target || option.querySelectorAll("input")[1];
                 focus && can.input.focus();
-            }),
-            Option: shy("控件参数", function(key, value) {
+            },
+            Option: function(key, value) {
                 value != undefined && option[key] && (option[key].value = value)
                 return key != undefined? option[key] && option[key].value || "":
                     plugin.page.Select(can, option, ".args", function(item) {return item.value})
-            }),
-            Check: shy("检查控件", function(event, target, cb) {
+            },
+            Check: function(event, target, cb) {
                 plugin.page.Select(can, option, ".args", function(item, index, list) {
-                    item == target && index < list.length-1 && can.plugin == field && list[index+1].focus();
-                    (target == undefined || item == target) && index == list.length-1 && plugin.Runs(event, cb);
-                    return item;
+                    if (item == target && index < list.length-1) {can.plugin == field && list[index+1].focus(); return item}
                 }).length == 0 && plugin.Runs(event, cb)
-            }),
-            Runs: shy("执行命令", function(event, cb) {plugin.Run(event, plugin.Option(), cb)}),
-            Run: shy("执行命令", function(event, args, cb, silent) {var show = !silent;
+            },
+            Runs: function(event, cb) {plugin.Run(event, plugin.Option(), cb)},
+            Run: function(event, args, cb, silent) {var show = !silent;
                 show && plugin.Timer(1000, function() {show && plugin.user.toast(kit.Format(args||["running..."]), meta.name, -1)});
                 run(event, args, function(msg) {if (silent) {return typeof cb == "function" && cb(msg)}
                     var display = feature.display || "table";
                     plugin[display] = can.Output(plugin, display, msg, cb, output, option)
                     show = false, plugin.user.toast();
                 })
-            }),
+            },
         }, ["core", "page", "user", "state"], function(plugin) {
             function next(list, cb) {
                 list && list.length > 0 && cb(list[0], function() {
@@ -55,32 +53,39 @@ var can = Volcanos("chat", {
     Inputs: shy("构造控件", function(can, item, name, value, cb, option) {
         var input = Volcanos(name, {type: "local",
             Select: function(event) {can.Select(event, input.target, true)},
-            run: function(event) {(input[item.cb] || can[item.cb] || can.Check)(event)},
+            run: function(event, cmd, cb, silent) {
+                can.Check(event, event.target, cb)
+            },
 
         }, ["core", "page", "user", "input"], function(input) {typeof cb == "function" && cb();
             var target = input.onimport.init(can, item, name, value, option);
             input.target = target, target.Input = input;
 
-            kit.Item(input.onaction, function(key, cb) {target[key] = function(event) {
+            can.core.Item(input.onaction, function(key, cb) {target[key] = function(event) {
                 cb(event, input, item.type, option);
-            }})
+            }});
+
+            (item.type == "text" || item.type == "textarea") && !target.placeholder && (target.placeholder = item.name);
+            item.type == "text" && !target.title && (target.title = item.placeholder || item.name || "");
         })
         return input
     }),
     Output: shy("构造组件", function(can, type, msg, cb, target, option) {
         type = "table"
         var output = Volcanos(type, {type: "local",
-            run: function(event, can, msg, value, index, key) {(output[item.cb] || can[item.cb] || can.Check)(event)},
+            run: function(event, cmd, cb, silent) {
+                (output[cmd[1]] || can[cmd[1]] || can.Run)(event, cmd, cb, silent);
+            },
             size: function(cb) {
                 can.onfigure.meta.size(function(width, height) {
-                    cb(width, height)
-                })
+                    cb(width, height);
+                });
             }
         }, ["core", "page", "user", type], function(output) {
-            output.onimport.init(output, msg, cb, target, option)
+            output.onimport.init(output, msg, cb, target, option);
 
-            kit.Item(output.onaction, function(key, cb) {target[key] = function(event) {
-                cb(event, output, type, msg, target)
+            can.core.Item(output.onaction, function(key, cb) {target[key] = function(event) {
+                cb(event, output, type, msg, target);
             }})
 
             target.oncontextmenu = function(event) {

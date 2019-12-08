@@ -1,4 +1,4 @@
-function shy(help, meta, list, cb) {
+function shy(help, meta, list, cb) { // 封装函数
     var index = -1, value = "", type = "string", args = arguments;
     function next(check) {
         if (++index >= args.length) {return false}
@@ -13,15 +13,16 @@ function shy(help, meta, list, cb) {
     cb.runs = function() {};
     return cb;
 }
-function Volcanos(name, can, libs, cb) {var list = arguments.callee.list || [], meta = arguments.callee.meta || {
-        // 全局属性
+function Volcanos(name, can, libs, cb) { // 封装模块
+    // 全局属性
+    var list = arguments.callee.list || [], meta = arguments.callee.meta || {
         create_time: new Date(), path: "/static/volcanos/", index: 1, cache: {},
     };
 
+    // 定义原型
     var id = 1, conf = {}, conf_cb = {}, sync = {};
     can[name] || list.push({name: name, can: can, create_time: new Date()}) && (can.__proto__ = {
-        // 通用属性
-        create_time: new Date(), name: name, help: "插件模块", load: function(name) {
+        create_time: new Date(), name: name, path: "", help: "插件模块", load: function(name) {
             if (meta.cache[name]) {var cache = meta.cache[name];
                 for (var i = 0; i < cache.length; i++) {var item = cache[i];
                     if (item.can.name == can.name) {continue}
@@ -97,7 +98,7 @@ function Volcanos(name, can, libs, cb) {var list = arguments.callee.list || [], 
                     list.push(line)
                     break
             }
-            var ui = kit.AppendChild(target, item? list: [{view: ["item"+style], data: {id: "item"+can.ID(), draggable: false}, list:list}])
+            var ui = can.page.Append(can, target, item? list: [{view: ["item"+style], data: {id: "item"+can.ID(), draggable: false}, list:list}])
             return ui["item"+style].Meta = text, ui
         }),
         Cache: shy("缓存器", function(name, data) {
@@ -109,10 +110,12 @@ function Volcanos(name, can, libs, cb) {var list = arguments.callee.list || [], 
         }),
     }), arguments.callee.meta = meta, arguments.callee.list = list;
 
+    // 加载模块
+    function next() {
+        libs && libs.length > 1? Volcanos(name, can, libs.slice(1), cb):
+            typeof cb == "function" && setTimeout(function() {cb(can)}, 10);
+    }
     if (libs && libs.length > 0) {
-        function next() {
-            libs.length > 1? Volcanos(name, can, libs.slice(1), cb): setTimeout(function() {cb(can)}, 10);
-        }
         if (can[libs[0]]) {
             // 重复加载
             next()
@@ -123,12 +126,12 @@ function Volcanos(name, can, libs, cb) {var list = arguments.callee.list || [], 
             // 加载脚本
             var script = document.createElement("script");
             script.src = (can.path||meta.path)+libs[0]+".js";
-            script.type = "text/javascript";
             script.onload = function() {can.load(libs[0]), next()}
             document.body.appendChild(script);
         }
     } else {
-        typeof cb == "function" && cb(can);
+        // 独立模块
+        next()
     }
     return can
 }

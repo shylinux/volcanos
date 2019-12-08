@@ -16,7 +16,7 @@ Volcanos("core", {help: "核心模块",
 
         var list = [], res;
         for (var i = 0; i < obj.length; i++) {
-            typeof cb == "function"? (res = cb(obj[i], i, obj)) != undefined && list.push(res): list.push(res);
+            typeof cb == "function"? (res = cb(obj[i], i, obj)) != undefined && list.push(res): list.push(obj[i]);
         }
         return list;
     }),

@@ -26,10 +26,14 @@ Volcanos("onimport", {help: "导入数据", list: [],
             can.page.ClassList.add(can, item, value)
         })
         return can.Dream(option, "input", input)[input.name]
+        return can.page.Append(can, option, [input])[input.name]
     }),
 })
 Volcanos("onaction", {help: "控件交互", list: [],
     onclick: function(event, can, type, option) {can.Select(event); type == "button" && can.run(event)},
+    onkeydown: function(event, can, type, option) {
+        if (event.key == "Enter") {return can.run(event, [])}
+    },
 })
 Volcanos("onchoice", {help: "控件菜单", list: [],
 })
