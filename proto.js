@@ -13,7 +13,7 @@ function shy(help, meta, list, cb) { // 封装函数
     cb.runs = function() {};
     return cb;
 }
-function Volcanos(name, can, libs, cb) { // 封装模块
+function Volcanos(name, can, libs, cb, msg) { // 封装模块
     // 全局属性
     var list = arguments.callee.list || [], meta = arguments.callee.meta || {
         create_time: new Date(), path: "/static/volcanos/", index: 1, cache: {},
@@ -86,6 +86,9 @@ function Volcanos(name, can, libs, cb) { // 封装模块
                         return typeof cb == "function" && cb(one, index, array)
                     })
                 }),
+                Result: function() {
+                    return msg.result && msg.result.join("") || "";
+                },
             };
             msg.event = event
             return msg
@@ -113,7 +116,22 @@ function Volcanos(name, can, libs, cb) { // 封装模块
     // 加载模块
     function next() {
         libs && libs.length > 1? Volcanos(name, can, libs.slice(1), cb):
-            typeof cb == "function" && setTimeout(function() {cb(can)}, 10);
+            typeof cb == "function" && setTimeout(function() {cb(can);
+                if (!can.target) {return}
+                can.core.Item(can.onaction, function(key, cb) {can.target[key] = function(event) {
+                    cb(event, can);
+                }});
+
+                can.target.oncontextmenu = function(event) {
+                    can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, value, meta) {var cb = meta[value];
+                        typeof cb == "function"? cb(event, can, msg, value, event.target):
+                            can.run(event, [typeof cb == "string"? cb: value, event.target], null, true)
+                    }))
+                    event.stopPropagation()
+                    event.preventDefault()
+                    return true
+                }
+            }, 10);
     }
     if (libs && libs.length > 0) {
         if (can[libs[0]]) {

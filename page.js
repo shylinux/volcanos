@@ -65,7 +65,7 @@ Volcanos("page", {help: "网页模块",
             if (item.view) {var list = can.core.List(item.view);
                 (list.length > 0 && list[0]) && can.page.ClassList.add(can, data, list[0])
                 type = list[1] || "div"
-                data.innerHTML = list[2] || ""
+                data.innerHTML = list[2] || data.innerHTML || ""
                 name = name || list[3] || ""
             }
 

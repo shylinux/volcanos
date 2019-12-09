@@ -1,47 +1,15 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: function(can, msg, cb, output, option) {output.innerHTML = "";
-        if (!msg.append || msg.append.length == 0) {
-            var code = can.page.Append(can, output, [{view: ["code", "div", msg.Result()]}]).code;
-            return typeof cb == "function" && cb(msg), code;
-        }
-
-        var table = can.page.AppendTable(can, output, msg, msg.append);
-        table.onclick = function(event) {switch (event.target.tagName) {
-            case "TD":
-                can.onimport.which(event, table, msg.append, function(index, key) {
-                    can.ondetail["复制"](event, can, msg, event.target.innerHTML, index, key, event.target);
-                    can.Export(event, event.target.innerHTML, key, index)
-                })
-                break
-            case "TH":
-            case "TR":
-            case "TABLE":
-        }}
-        table.oncontextmenu = function(event) {var target = event.target;
+        output.innerHTML = msg.Result()
+        output.onclick = function(event) {
             switch (event.target.tagName) {
-                case "TD":
-                    can.onimport.which(event, table, msg.append, function(index, key) {
-                        can.user.carte(event, shy("", can.ondetail, can.ondetail.list, function(event, value, meta) {var cb = meta[value];
-                            typeof cb == "function"? cb(event, can, msg, value, index, key, target):
-                                can.run(event, [index, typeof cb == "string"? cb: value, key, target.innerHTML], null, true)
-                        }))
-                    })
-                    event.stopPropagation()
-                    event.preventDefault()
+                case "text":
+                    alert(event.target.innerHTML)
                     break
-                case "TH":
-                case "TR":
-                case "TABLE":
+                case "rect":
+                    break
             }
         }
-        return typeof cb == "function" && cb(msg), table;
-    },
-    which: function(event, table, list, cb) {if (event.target == table) {return cb(-1, "")}
-        can.page.Select(can, table, "tr", function(tr, index) {if (event.target == tr) {return cb(index, "")}
-            can.page.Select(can, tr, "th,td", function(td, order) {
-                if (event.target == td) {return cb(index, list[order])}
-            })
-        })
     },
 })
 Volcanos("onaction", {help: "组件交互", list: [],
@@ -92,4 +60,5 @@ Volcanos("onexport", {help: "导出数据", list: [],
         return [name, ext, txt]
     },
 })
+
 
