@@ -67,7 +67,13 @@ Volcanos("page", {help: "网页模块",
                 type = list[1] || "div"
                 data.innerHTML = list[2] || data.innerHTML || ""
                 name = name || list[3] || ""
+
+            } else if (item.text) {var list = can.core.List(item.text);
+                data.innerHTML = list[0] || data.innerHTML || ""
+                type = list[1] || "span"
+                list.length > 2 && (data.className = list[2])
             }
+
 
             // 创建节点
             name = name || data.className || type;
@@ -82,6 +88,15 @@ Volcanos("page", {help: "网页模块",
         return target.innerHTML = "", can.page.Append(can, target, key, value)
     }),
 
+    AppendField: shy("添加插件", function(can, target, type, item) {
+        var field = can.page.Append(can, target, [{view: [type, "fieldset"], list: [
+            {text: [item.name+item.help, "legend"]},
+            {view: ["option", "form"], list: [{type: "input", style: {display: "none"}}]},
+            {view: ["action"]},
+            {view: ["output"]},
+        ]}]).first;
+        return field;
+    }),
     AppendTable: shy("添加表格", function(can, target, msg, list) {
         var table = can.page.Append(can, target, "table");
         var tr = can.page.Append(can, table, "tr");

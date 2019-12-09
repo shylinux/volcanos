@@ -20,4 +20,12 @@ Volcanos("core", {help: "核心模块",
         }
         return list;
     }),
+    Next: shy("迭代器", function(obj, cb, cbs) {obj = typeof obj == "string"? [obj]: (obj || [])
+        function next(list, cb) {
+            list && list.length > 0? typeof cb == "function" && cb(list[0], function() {
+                list.length > 0 && next(list.slice(1), cb)
+            }): typeof cbs == "function" && cbs()
+        }
+        next(obj, cb)
+    }),
 })

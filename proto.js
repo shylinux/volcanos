@@ -20,7 +20,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
     };
 
     // 定义原型
-    var id = 1, conf = {}, conf_cb = {}, sync = {};
+    var id = 1, conf = {}, conf_cb = {}, sync = {}, cache = {};
     can[name] || list.push({name: name, can: can, create_time: new Date()}) && (can.__proto__ = {
         create_time: new Date(), name: name, path: "", help: "插件模块", load: function(name) {
             if (meta.cache[name]) {var cache = meta.cache[name];
@@ -69,12 +69,27 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             return loop(0)
         }),
         Event: shy("触发器", function(event, msg, proto) {
-            msg = event.msg = msg || event.msg || {}, msg.__proto__ = proto || msg.__proto__ || {
+            msg = event.msg = msg || event.msg || {}, msg.__proto__ = proto || {
                 Log: shy("输出日志", function() {console.log(arguments)}),
+                Option: function(key, val) {
+                    if (val == undefined) {return msg[key]}
+                    msg.option = msg.option || []
+                    can.core.List(msg.option, function(k) {
+                        if (k == key) {return k}
+                    }).length > 0 || msg.option.push(key)
+                    msg[key] = can.core.List(arguments).slice(1)
+                },
                 Echo: shy("输出响应", function(res) {msg.result = msg.result || []
                     for (var i = 0; i < arguments.length; i++) {msg.result.push(arguments[i])}
                     return msg;
                 }),
+                Copy: function(res) {
+                    res.result && (msg.result = res.result)
+                    res.append && (msg.append = res.append) && res.append.forEach(function(item) {
+                        res[item] && (msg[item] = res[item])
+                    })
+                    return msg
+                },
                 Table: shy("遍历数据", function(cb) {if (!msg.append || !msg.append.length || !msg[msg.append[0]]) {return}
                     var max = "", len = 0;
                     can.core.List(msg.append, function(key, index) {
@@ -104,10 +119,27 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             var ui = can.page.Append(can, target, item? list: [{view: ["item"+style], data: {id: "item"+can.ID(), draggable: false}, list:list}])
             return ui["item"+style].Meta = text, ui
         }),
-        Cache: shy("缓存器", function(name, data) {
-            if (data == undefined) {
-                return
+        Cache: shy("缓存器", function(name, output, data) {
+            if (data) {
+                var temp = document.createDocumentFragment()
+                while (output.childNodes.length>0) {
+                    var item = output.childNodes[0]
+                    item.parentNode.removeChild(item)
+                    temp.appendChild(item)
+                }
+                cache[name] = {node: temp, data: data}
+                return name
             }
+
+            var list = cache[name];
+            if (!list) {return}
+            while (list.node.childNodes.length>0) {
+                var item = list.node.childNodes[0]
+                item.parentNode.removeChild(item)
+                output.appendChild(item)
+            }
+            delete(cache[name])
+            return list.data
         }),
         Story: shy("存储器", function(type, meta, list) {
         }),
@@ -118,9 +150,9 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
         libs && libs.length > 1? Volcanos(name, can, libs.slice(1), cb):
             typeof cb == "function" && setTimeout(function() {cb(can);
                 if (!can.target) {return}
-                can.core.Item(can.onaction, function(key, cb) {can.target[key] = function(event) {
+                can.core.Item(can.onaction, function(key, cb) {key.indexOf("on") == 0 && (can.target[key] = function(event) {
                     cb(event, can);
-                }});
+                })});
 
                 can.target.oncontextmenu = function(event) {
                     can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, value, meta) {var cb = meta[value];
