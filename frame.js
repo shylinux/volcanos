@@ -15,46 +15,57 @@ var can = Volcanos("chat", {
                 page[item.name] = can.Pane(page, item.name, item, cb, can.page.Select(can, body, "fieldset."+item.name)[0] ||
                     can.page.AppendField(can, body, item.name+" dialog", item))
             }, function() {typeof cb == "function" && cb(page)})
-        })
+        }, conf)
         return page.target = body, page
     }),
     Pane: shy("构造面板", function(can, name, meta, cb, field) {
-        var option = field.querySelector("form.option");
-        var action = field.querySelector("div.action");
-        var output = field.querySelector("div.output");
-
         var river = "", storm = "";
 
         var pane = Volcanos(name, {type: "local",
+            option: field.querySelector("form.option"),
+            action: field.querySelector("div.action"),
+            output: field.querySelector("div.output"),
             Plugin: can.Plugin, Inputs: can.Inputs, Output: can.Output,
 
             Export: function(event, value, key) {can.Report(event, value, key)},
             Import: function(event, value, key) {var cb = pane.onimport[key];
-                typeof cb == "function" && cb(event, pane, value, key, output);
+                typeof cb == "function" && cb(event, pane, value, key, pane.output);
             },
 
             Show: function(width, height) {field.style.display = "block";
-                if (width > 0) {
-                    field.style.width = width + "px";
+                if (width < 0) {field.style.left = -width / 2 + "px";
+                    field.style.width = (document.body.offsetWidth + width) / 2 + "px";
+                }
+                if (height < 0) {field.style.top = -height / 2 + "px";
+                    field.style.height = (document.body.offsetHeight + height) / 2 + "px";
+                }
+                if (width > 0) {field.style.width = width + "px";
                     field.style.left = (document.body.offsetWidth - width) / 2 + "px";
                 }
-                if (height > 0) {
-                    field.style.height = height + "px";
+                if (height > 0) {field.style.height = height + "px";
                     field.style.top = (document.body.offsetHeight - height) / 2 + "px";
                 }
             },
             Hide: function() {field.style.display = "none"},
 
             run: function(event, cmds, cb) {var msg = pane.Event(event)
-                can.page.Select(can, action, "input", function(item, index) {
+                can.page.Select(can, pane.action, "input", function(item, index) {
                     msg.Option(name, item.value)
                 })
-                can.run(event, option.dataset, cmds, cb)
+                can.run(event, pane.option.dataset, cmds, cb)
             },
         }, Config.libs.concat(["pane/"+name]), function(pane) {
-            pane.onimport._init && pane.onimport._init(pane, output, action, option, field)
+            pane.onimport._init && pane.onimport._init(pane, pane.output, pane.action, pane.option, field)
+
+            function deal(event, value)  {
+                typeof pane.onaction[value] == "function" && pane.onaction[value](event, pane, meta, value, pane.output)
+            }
+
+            can.page.Append(can, pane.action, can.core.List(pane.onaction.list, function(line) {
+                return typeof line == "string"? {button: [line, deal]}: line.length > 0? {select: [line, deal]}: line
+            }))
             typeof cb == "function" && cb(pane)
-        })
+        }, meta)
         return pane.target = field, pane
     }),
     Plugin: shy("构造插件", function(can, name, meta, run, field) {
@@ -119,7 +130,7 @@ var can = Volcanos("chat", {
             },
         }, Config.libs.concat(["plugin/"+(meta.type||"state")]), function(plugin) {
             can.core.Next(JSON.parse(meta.inputs||"[]"), plugin.Append)
-        })
+        }, meta)
         return plugin.target = field, field.Plugin = plugin
     }),
     Inputs: shy("构造控件", function(can, item, type, name, value, cb, option) {

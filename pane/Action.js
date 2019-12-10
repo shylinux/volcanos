@@ -1,5 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [],
-    init: function(can, msg, output) {output.innerHTML = "";
+    init: function(event, can, msg, key, output) {output.innerHTML = "";
         msg.Table(function(item, index) {if (!item.name) {return}
             can[item.name] = can.Plugin(can, item.name, item, function(event, cmds, cbs) {
                 can.run(event, [item.river, item.storm, item.action].concat(cmds), cbs)
@@ -7,6 +7,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         })
     },
     river: function(event, can, value, key, output) {
+        if (value == "update") {return}
         can.Conf("temp_river", value)
     },
     storm: function(event, can, value, key, output) {
@@ -16,7 +17,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.Conf("storm", value)
         if (!can.Cache(can.Conf("river")+"."+can.Conf("storm"), output)) {
             can.run(event, [can.Conf("river"), can.Conf("storm")], function(msg) {
-                can.onimport.init(can, msg, output)
+                can.onimport.init(event, can, msg, key, output)
             })
         }
     },
@@ -52,11 +53,11 @@ Volcanos("ondetail", {help: "组件详情", list: ["选择", "修改", "删除",
             }, true)
         }}}])
     },
-    "复制": function(event, can, msg, value, index, key, target) {
-        can.user.toast(can.page.CopyText(can, target.innerHTML), "复制成功")
+    "复制": function(event, can, msg, value, index, key, td) {
+        can.user.toast(can.page.CopyText(can, td.innerHTML), "复制成功")
     },
-    "下载": function(event, can, msg, value, index, key, target) {
-        can.page.Download(can, key, target.innerHTML);
+    "下载": function(event, can, msg, value, index, key, td) {
+        can.page.Download(can, key, td.innerHTML);
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [],
@@ -69,6 +70,4 @@ Volcanos("onexport", {help: "导出数据", list: [],
         return [name, ext, txt]
     },
 })
-
-
 

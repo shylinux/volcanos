@@ -158,13 +158,12 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                 })});
 
                 can.target.oncontextmenu = function(event) {
-                    can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, value, meta) {var cb = meta[value];
-                        typeof cb == "function"? cb(event, can, msg, value, event.target):
-                            can.run(event, [typeof cb == "string"? cb: value, event.target], null, true)
+                    can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, key, meta) {var cb = meta[key];
+                        typeof cb == "function"? cb(event, can, msg, key, event.target):
+                            can.run(event, [typeof cb == "string"? cb: key, event.target], null, true)
                     }))
                     event.stopPropagation()
                     event.preventDefault()
-                    return true
                 }
             }, 10);
     }

@@ -12,7 +12,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, outpu
 
         var toast = can.page.Appends(can, output, list)
         var width = text.width||text.text.length*10+10
-        can.Show(width>400?400:width, text.height||80)
+        width = width>400?400:width
+        width = width<100?100:width
+        can.Show(width, text.height||80)
 
         var begin = can.base.Time().split(" ")[1]
         var timer = can.Timer({value: 1000, length: text.duration > 0? text.duration/1000: text.duration}, function(t, i) {

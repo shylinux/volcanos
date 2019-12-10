@@ -2,7 +2,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, outpu
     can.user.carte = function(event, cb) {if (!cb || !cb.list || cb.list.length == 0) {return}
         output.innerHTML = "", can.page.AppendItem(can, output, can.core.List(cb.list, function(item) {
             return {key: item};
-        }), "", function(event, line, item) {
+        }), false, function(event, line, item) {
             typeof cb == "function" && cb(event, line.key, cb.meta)
         })
 
