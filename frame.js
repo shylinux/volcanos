@@ -1,67 +1,61 @@
 var can = Volcanos("chat", {
-    Page: shy("构造网页", function(can, name, list, cb, target) {
+    Page: shy("构造网页", function(can, name, conf, cb, body) {
         var page = Volcanos(name, {type: "local",
-            Plugin: can.Plugin,
-            Inputs: can.Inputs,
-            Output: can.Output,
-            run: function(event, option, cmds, cb) {
-                ctx.Run(event, option, cmds, cb)
+            Plugin: can.Plugin, Inputs: can.Inputs, Output: can.Output,
+
+            Report: function(event, value, key) {
+                kit.Item(page, function(index, item) {
+                    item.Import && item.Import(event, value, key)
+                })
             },
-        }, ["core", "page", "user", "page/"+name], function(page) {
-            can.core.Next(list, function(item, cb) {
-                page[item] = can.Pane(page, item, cb, can.page.Select(can, target, "fieldset."+item)[0] ||
-                    can.page.AppendField(can, target, item+" dialog"))
+
+            run: function(event, option, cmds, cb) {ctx.Run(event, option, cmds, cb)},
+        }, Config.libs.concat(["page/"+name]), function(page) {
+            can.core.Next(conf.pane, function(item, cb) {
+                page[item.name] = can.Pane(page, item.name, item, cb, can.page.Select(can, body, "fieldset."+item.name)[0] ||
+                    can.page.AppendField(can, body, item.name+" dialog", item))
             }, function() {typeof cb == "function" && cb(page)})
         })
-        return page
+        return page.target = body, page
     }),
-    Pane: shy("构造面板", function(can, name, cb, field) {
+    Pane: shy("构造面板", function(can, name, meta, cb, field) {
         var option = field.querySelector("form.option");
         var action = field.querySelector("div.action");
         var output = field.querySelector("div.output");
 
         var river = "", storm = "";
+
         var pane = Volcanos(name, {type: "local",
-            Save: function(name, output) {pane.Cache(name, output, "hi")},
-            Load: function(name, output) {pane.Cache(name, output)},
+            Plugin: can.Plugin, Inputs: can.Inputs, Output: can.Output,
 
-            Inputs: can.Inputs,
-            Output: can.Output,
-            Plugin: function(item, type, index) {var name = item.name;
-                pane[item.name] = can.Plugin(pane, item, type, function(event, cmds, cbs) {
-                    pane.run(event, [item.river, item.storm, item.action].concat(cmds), cbs)
-                }, can.page.AppendField(can, output, "item "+item.group+" "+item.name, item))
+            Export: function(event, value, key) {can.Report(event, value, key)},
+            Import: function(event, value, key) {var cb = pane.onimport[key];
+                typeof cb == "function" && cb(event, pane, value, key, output);
             },
-            Show: function(river, storm) {
-                if (river && storm && field.Pane.Load(river+"."+storm, output)) {return}
 
-                pane.run(event, [river, storm], function(msg) {
-                    pane.onimport.init(pane, msg, output)
-                })
-            },
             run: function(event, cmds, cb) {var msg = pane.Event(event)
                 can.page.Select(can, action, "input", function(item, index) {
-                    msg.Option(item.name, item.value)
+                    msg.Option(name, item.value)
                 })
                 can.run(event, option.dataset, cmds, cb)
             },
-        }, ["core", "page", "user", "pane/"+name], function(pane) {
+        }, Config.libs.concat(["pane/"+name]), function(pane) {
             typeof cb == "function" && cb(pane)
         })
-        return pane.target = field, field.Pane = pane
+        return pane.target = field, pane
     }),
-    Plugin: shy("构造插件", function(can, meta, type, run, field) {
+    Plugin: shy("构造插件", function(can, name, meta, run, field) {
         var option = field.querySelector("form.option");
         var action = field.querySelector("div.action");
         var output = field.querySelector("div.output");
 
         var history = []
 
-        var name = meta.name, args = meta.args || [];
+        var args = meta.args || [];
         var feature = JSON.parse(meta.feature||'{}');
         var plugin = Volcanos(name, {type: "local",
-            Inputs: can.Inputs,
-            Output: can.Output,
+            Inputs: can.Inputs, Output: can.Output,
+
             Append: function(item, cb) {item = item || {type: "text", name: "", className: "args temp"};
                 var name = item.name || item.value || "args"+plugin.page.Select(can, option, "input.args.temp").length;
                 var count = plugin.page.Select(can, option, ".args").length, value = "";
@@ -106,7 +100,7 @@ var can = Volcanos("chat", {
             Show: function(type, msg, cb) {msg._plugin_name = name;
                 return plugin[type] = can.Output(plugin, type, msg, cb, output, option)
             },
-        }, ["core", "page", "user", "plugin/"+type], function(plugin) {
+        }, Config.libs.concat(["plugin/"+(meta.type||"state")]), function(plugin) {
             can.core.Next(JSON.parse(meta.inputs||"[]"), plugin.Append)
         })
         return plugin.target = field, field.Plugin = plugin
@@ -121,9 +115,11 @@ var can = Volcanos("chat", {
                 (input[item.cb] || can[item.cb] || can.Check)(event, event.target, cb);
             },
 
-        }, ["core", "page", "user", "plugin/"+type], function(input) {typeof cb == "function" && cb();
+        }, Config.libs.concat(["plugin/"+type]), function(input) {
             var target = input.onimport.init(input, item, name, value, option);
             input.target = target, target.Input = input;
+
+            typeof cb == "function" && cb();
         })
         return input
     }),
@@ -133,15 +129,18 @@ var can = Volcanos("chat", {
             run: function(event, cmd, cb, silent) {
                 (output[cmd[1]] || can[cmd[1]] || can.Run)(event, cmd, cb, silent);
             },
-        }, ["core", "page", "user", "plugin/"+type], function(output) {
+        }, Config.libs.concat(["plugin/"+type]), function(output) {
             output.onimport.init(output, msg, cb, target, option);
         }, msg)
         return output.target = target, target.Output = output
     }),
-}, ["base", "core", "misc", "page", "user",
-    "plugin/state", "plugin/input", "plugin/table"], function(can) {
-    // can.Page(can, Config.main, Config.list, document.body)
-    can.user.carte = page.carte.Pane.Show;
-    can.user.toast = page.toast.Pane.Show;
+}, Config.libs.concat(Config.list), function(can) {
+    if (ctx.Search("feature") != "") {
+        can[Config.main] = can.Page(can, Config.main, Config, function(chat) {
+            can.user.carte = page.carte.Pane.Show;
+            can.user.toast = page.toast.Pane.Show;
+            chat.River.Import(event||{}, "shy", "username")
+        }, document.body)
+    }
 })
 
