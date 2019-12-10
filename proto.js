@@ -63,10 +63,13 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             })
         }),
         Timer: shy("定时器", function(interval, cb, cbs) {interval = typeof interval == "object"? interval || []: [interval];
-            function loop(i) {if (i >= interval.length) {return typeof cbs == "function" && cbs(interval)}
-                return typeof cb == "function" && cb(interval[i], i, interval), setTimeout(function() {loop(i+1)}, interval[i]);
+            var timer = {stop: false};
+            function loop(i) {if (timer.stop || i >= interval.length && interval.length >= 0) {return typeof cbs == "function" && cbs(interval)}
+                return typeof cb == "function" && cb(interval.value||interval[i], i, interval)?
+                    typeof cbs == "function" && cbs(interval): setTimeout(function() {loop(i+1)}, interval.value||interval[i+1]);
             }
-            return loop(0)
+            setTimeout(function() {loop(0)}, interval.value||interval[0]);
+            return timer;
         }),
         Event: shy("触发器", function(event, msg, proto) {
             msg = event.msg = msg || event.msg || {}, msg.__proto__ = proto || {
@@ -96,9 +99,9 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                         if (msg[key].length > len) {max = key, len = msg[key].length}
                     });
 
-                    return can.core.List(msg[max], function(value, index, array) {var one = {}
+                    return can.core.List(msg[max], function(value, index, array) {var one = {}, res;
                         can.core.List(msg.append, function(key) {one[key] = msg[key][index]||""})
-                        return typeof cb == "function" && cb(one, index, array)
+                        return typeof cb == "function" && (res = cb(one, index, array)) && res != undefined || one
                     })
                 }),
                 Result: function() {

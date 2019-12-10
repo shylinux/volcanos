@@ -33,6 +33,18 @@ var can = Volcanos("chat", {
                 typeof cb == "function" && cb(event, pane, value, key, output);
             },
 
+            Show: function(width, height) {field.style.display = "block";
+                if (width > 0) {
+                    field.style.width = width + "px";
+                    field.style.left = (document.body.offsetWidth - width) / 2 + "px";
+                }
+                if (height > 0) {
+                    field.style.height = height + "px";
+                    field.style.top = (document.body.offsetHeight - height) / 2 + "px";
+                }
+            },
+            Hide: function() {field.style.display = "none"},
+
             run: function(event, cmds, cb) {var msg = pane.Event(event)
                 can.page.Select(can, action, "input", function(item, index) {
                     msg.Option(name, item.value)
@@ -40,6 +52,7 @@ var can = Volcanos("chat", {
                 can.run(event, option.dataset, cmds, cb)
             },
         }, Config.libs.concat(["pane/"+name]), function(pane) {
+            pane.onimport._init && pane.onimport._init(pane, output, action, option, field)
             typeof cb == "function" && cb(pane)
         })
         return pane.target = field, pane
@@ -53,6 +66,7 @@ var can = Volcanos("chat", {
 
         var args = meta.args || [];
         var feature = JSON.parse(meta.feature||'{}');
+        var exports = JSON.parse(meta.exports||'{}');
         var plugin = Volcanos(name, {type: "local",
             Inputs: can.Inputs, Output: can.Output,
 
@@ -72,6 +86,9 @@ var can = Volcanos("chat", {
                     plugin.page.Select(can, option, ".args", function(item) {return item.value})
             },
             Report: function(event, value, key, index) {
+                for (var i = 0; i < exports.length; i += 3) {
+                    if (exports[i+1] == key) {key = exports[i]}
+                }
                 plugin[key] && plugin[key].target && plugin[key].Import(event, value, key, index)
             },
             Check: function(event, target, cb) {
@@ -124,6 +141,9 @@ var can = Volcanos("chat", {
         return input
     }),
     Output: shy("构造组件", function(can, type, msg, cb, target, option) {
+        if (type == "inner" && (!msg.result || msg.result.length == 0)) {
+            type = "table"
+        }
         var output = Volcanos(type, {type: "local",
             Export: function(event, value, key, index) {can.Report(event, value, key, index)},
             run: function(event, cmd, cb, silent) {
@@ -137,8 +157,8 @@ var can = Volcanos("chat", {
 }, Config.libs.concat(Config.list), function(can) {
     if (ctx.Search("feature") != "") {
         can[Config.main] = can.Page(can, Config.main, Config, function(chat) {
-            can.user.carte = page.carte.Pane.Show;
-            can.user.toast = page.toast.Pane.Show;
+            // can.user.carte = page.carte.Pane.Show;
+            // can.user.toast = page.toast.Pane.Show;
             chat.River.Import(event||{}, "shy", "username")
         }, document.body)
     }

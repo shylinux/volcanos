@@ -1,15 +1,12 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: function(can, msg, output) {output.innerHTML = "";
-        msg.Table(function(item, index) {
-            can.page.Append(can, output, [{view: ["item"], list: [{text: [item.key]}], click: function(event) {
-                can.Export(event, item.key, "storm")
-            }}])
+        can.page.AppendItem(can, output, msg.Table(), can.user.Search(can, "storm"), function(event, line, item) {
+            can.Export(event, line.key, "storm")
         })
     },
     river: function(event, can, value, key, output) {
         can.run(event, [value], function(msg) {
             can.onimport.init(can, msg, output)
-            can.Export(event, msg.key[0], "storm")
         })
     },
 })

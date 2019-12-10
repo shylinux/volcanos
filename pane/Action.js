@@ -1,6 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: function(can, msg, output) {output.innerHTML = "";
-        msg.Table(function(item, index) {
+        msg.Table(function(item, index) {if (!item.name) {return}
             can[item.name] = can.Plugin(can, item.name, item, function(event, cmds, cbs) {
                 can.run(event, [item.river, item.storm, item.action].concat(cmds), cbs)
             }, can.page.AppendField(can, output, "item "+item.group+" "+item.name, item))
@@ -14,8 +14,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
 
         can.Conf("river", can.Conf("temp_river"))
         can.Conf("storm", value)
-        var data = can.Cache(can.Conf("river")+"."+can.Conf("storm"), output);
-        if (!data) {
+        if (!can.Cache(can.Conf("river")+"."+can.Conf("storm"), output)) {
             can.run(event, [can.Conf("river"), can.Conf("storm")], function(msg) {
                 can.onimport.init(can, msg, output)
             })
