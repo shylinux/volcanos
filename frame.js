@@ -58,7 +58,7 @@ var can = Volcanos("chat", {
 
                 typeof cb == "function" && cb(event, pane, {width: width, height: height}, "size", pane.output)
             },
-            Show: function(width, height) {field.style.display = "block";
+            Show: function(width, height, offset) {field.style.display = "block";
                 if (width < 0) {field.style.left = -width / 2 + "px";
                     field.style.width = (document.body.offsetWidth + width) + "px";
                 }
@@ -66,9 +66,9 @@ var can = Volcanos("chat", {
                     field.style.left = (document.body.offsetWidth - width) / 2 + "px";
                 }
                 if (height > 0) {field.style.height = height + "px";
-                    field.style.top = (document.body.offsetHeight - height) / 2 + "px";
+                    field.style.top = (document.body.offsetHeight - height) / 2 + (offset||0) + "px";
                 }
-                if (height < 0) {field.style.top = -height / 2 + "px";
+                if (height < 0) {field.style.top = -height / 2 + (offset||0) + "px";
                     field.style.height = (document.body.offsetHeight + height) + "px";
                 }
                 return field;

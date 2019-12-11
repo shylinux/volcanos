@@ -13,7 +13,7 @@ Volcanos("onaction", {help: "组件交互", list: [],
         switch (event.key) {
             case " ":
                 if (can.Favor) {
-                    can.page.Select(can, can.Favor.Show(400, 200), "input.cmd", function(item) {
+                    can.page.Select(can, can.Favor.Show(), "input.cmd", function(item) {
                         item.focus()
                     })
                 }

@@ -76,7 +76,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
         }),
         Event: shy("触发器", function(event, msg, proto) {event = event || {};
             msg = event.msg = msg || event.msg || {}, msg.__proto__ = proto || {
-                _create_time: can.base.Time(),
+                _create_time: can.base.Time(), _source: can,
                 Log: shy("输出日志", function() {console.log(arguments)}),
                 Option: function(key, val) {
                     if (val == undefined) {return msg[key]}
@@ -87,6 +87,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     msg[key] = can.core.List(arguments).slice(1)
                 },
                 Echo: shy("输出响应", function(res) {msg.result = msg.result || []
+                    msg._hand = true
                     for (var i = 0; i < arguments.length; i++) {msg.result.push(arguments[i])}
                     return msg;
                 }),

@@ -38,9 +38,9 @@ Volcanos("onimport", {help: "导入数据", list: [],
             item.value = value
         })
     },
-    favor: function(event, can, msg, cmd, output) {
-        var p = can[msg.detail[0]];
-        p.Select && p.Select(event, null, true) && (msg._hand = true)
+    favor: function(event, can, msg, cmd, output) {cmd = msg.detail[0];
+        var p = can[cmd]; if (p && p.Select) {p.Select(event, null, true); return msg._hand = true}
+        var cb = can.onaction[cmd]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg._hand = true}
     },
 })
 Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公", "聊天"], "清屏", "刷新", "串行", "并行",
