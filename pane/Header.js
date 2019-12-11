@@ -1,25 +1,51 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, output, action, option, field) {
-    can.user.carte = function(event, cb) {if (!cb || !cb.list || cb.list.length == 0) {return}
-        output.innerHTML = "", can.page.AppendItem(can, output, can.core.List(cb.list, function(item) {
-            return {key: item};
-        }), false, function(event, line, item) {
-            typeof cb == "function" && cb(event, line.key, cb.meta)
+Volcanos("onimport", {help: "导入数据", list: [],
+    _init: function(can, conf, output, action, option, field) {output.innerHTML = "";
+        conf.title && can.page.Append(can, output, [{view: "title",
+            list: [{text: conf.title, className: "title"}], click: function(event) {can.onexport.title(event, can)}}])
+        can.ui = can.page.Append(can, output, [{view: "state", list: can.core.List(conf.state, function(item) {
+            return {text: conf[item]||"", className: item, click: function(event) {var cb = can.onexport[item];
+                typeof cb == "function" && cb(event, can, item, item, output)
+            }};
+        })}])
+        can.timer = can.Timer({interval: 1000, length: -1}, function() {
+            can.ui.time.innerHTML = can.base.Time().split(" ")[1]
         })
-
-        var pos = {display: "block", left: event.x, top: event.y}
-        if (document.body.clientWidth - event.x < 60) {
-            var pos = {display: "block", right: event.x, top: event.y}
-        }
-        pos.left += "px"; pos.top += "px";
-        can.page.Modify(can, field, {style: pos})
-
-        event.stopPropagation()
-        event.preventDefault()
-        can.Show()
-    }
-}})
+    },
+    title: function(event, can, value, cmd, output) {
+        can.ui[cmd].innerHTML = value
+    },
+    username: function(event, can, value, cmd, output) {
+        can.ui["user"].innerHTML = value
+    },
+    time: function(event, can, value, cmd, output) {
+        can.ui[cmd].innerHTML = value
+    },
+    link: function(event, can, value, cmd, output) {
+        can.ui[cmd].innerHTML = value
+    },
+    river: function(event, can, value, cmd, output) {if (value == "update") {return}
+        can.Conf("river", value)
+    },
+    storm: function(event, can, value, cmd, output) {if (value == "update") {return}
+        can.Conf("storm", value)
+    },
+    layout: function(event, can, value, cmd, output) {if (value == "update") {return}
+        can.Conf("layout", value)
+    },
+})
 Volcanos("onaction", {help: "组件交互", list: []})
 Volcanos("onchoice", {help: "组件菜单", list: []})
 Volcanos("ondetail", {help: "组件详情", list: []})
-Volcanos("onexport", {help: "导出数据", list: []})
+Volcanos("onexport", {help: "导出数据", list: [],
+    title: function(event, can, value, cmd, output) {
+        can.user.Search(can, {
+            river: can.Conf("river"),
+            storm: can.Conf("storm"),
+            layout: can.Conf("layout"),
+        })
+    },
+    link: function(event, can, value, cmd, output) {
+        can.ui[cmd].innerHTML = value
+    },
+})
 

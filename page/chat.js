@@ -3,9 +3,26 @@ Volcanos("onimport", {help: "导入数据", list: [],
         window.onresize = function(event) {
             can.onlayout["刷新"](event, can, conf, null, body)
         }
+    },
+    layout: function(event, can, value, key, body) {var conf = can.Conf()
+        can.onlayout["刷新"](event, can, conf, conf.layout.size[value], body)
     }
 })
-Volcanos("onaction", {help: "组件交互", list: []})
+Volcanos("onaction", {help: "组件交互", list: [],
+    onkeydown: function(event, can) {
+        switch (event.key) {
+            case " ":
+                if (can.Favor) {
+                    can.page.Select(can, can.Favor.Show(400, 200), "input.cmd", function(item) {
+                        item.focus()
+                    })
+                }
+
+                event.stopPropagation()
+                event.preventDefault()
+        }
+    },
+})
 Volcanos("onlayout", {help: "组件布局", list: ["刷新"], 
     "刷新": function(event, can, conf, layout, body) {layout = layout || {};
         var height = body.clientHeight-conf.layout.border;
@@ -35,7 +52,6 @@ Volcanos("onlayout", {help: "组件布局", list: ["刷新"],
         height -= layout.top==0? height: can.center.target.offsetHeight+can.bottom.target.offsetHeight
         can.top.Size(event, width, height)
     },
-
 })
 Volcanos("onchoice", {help: "组件菜单", list: ["刷新", "登出"],
     "刷新": function(event, can, conf, key, body) {

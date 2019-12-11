@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [],
-    _init: function(can, output, action, option, field) {output.innerHTML = "";
+    _init: function(can, conf, output, action, option, field) {output.innerHTML = "";
         var ui = can.page.Append(can, field, [{view: ["create"], list: [
-            {input: ["name"], title: "群聊名称"},
+            {input: "name", value: can.Conf("def_name"), title: "群聊名称"},
             {button: ["创建群聊", function(event) {
                 if (!ui.name.value) {ui.name.focus(); can.user.toast("请输入群名"); return}
 

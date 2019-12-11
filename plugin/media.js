@@ -1,5 +1,8 @@
 Volcanos("onimport", {help: "导入数据", list: [],
-    _init: function(can, conf, output, action, option, field) {
+    _init: function(can, output, action, option, field) {
+    output.innerHTML = msg.Result();
+},
+    init: function(can, msg, cb, output, option) {output.innerHTML = msg.Result();
     },
 })
 Volcanos("onaction", {help: "组件交互", list: []})

@@ -20,24 +20,24 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
     };
 
     can = can || {};
-    can.name = name;
+    can._name = name;
 
     // 定义原型
     var id = 1, conf = {}, conf_cb = {}, sync = {}, cache = {};
-    can[name] || list.push({name: name, can: can, create_time: new Date()}) && (can.__proto__ = {
-        create_time: new Date(), name: name, path: "", help: "插件模块", load: function(name) {
+    can[name] || list.push({_name: name, can: can, create_time: new Date()}) && (can.__proto__ = {
+        _create_time: new Date(), _name: name, _path: "", _help: "插件模块", load: function(name) {
             if (meta.cache[name]) {var cache = meta.cache[name];
                 for (var i = 0; i < cache.length; i++) {var item = cache[i];
-                    if (item.can.name == can.name) {continue}
-                    can[item.name] = item.can;
+                    if (item.can._name == can._name) {continue}
+                    can[item._name] = item.can;
                 }
                 return can
             }
 
             meta.cache[name] = []
             for (var i = meta.index; i < list.length; i++) {var item = list[i];
-                if (item.can.name == can.name || item.can.type == "local") {continue}
-                can[item.name] = item.can;
+                if (item.can._name == can._name || item.can._type == "local") {continue}
+                can[item._name] = item.can;
                 meta.cache[name].push(item);
             }
             meta.index = i;
@@ -74,8 +74,9 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             setTimeout(function() {loop(0)}, interval.value||interval[0]);
             return timer;
         }),
-        Event: shy("触发器", function(event, msg, proto) {
+        Event: shy("触发器", function(event, msg, proto) {event = event || {};
             msg = event.msg = msg || event.msg || {}, msg.__proto__ = proto || {
+                _create_time: can.base.Time(),
                 Log: shy("输出日志", function() {console.log(arguments)}),
                 Option: function(key, val) {
                     if (val == undefined) {return msg[key]}
@@ -164,7 +165,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, key, meta) {var cb = meta[key];
                         typeof cb == "function"? cb(event, can, msg, key, event.target):
                             can.run(event, [typeof cb == "string"? cb: key, event.target], null, true)
-                    }))
+                    }), can)
                     event.stopPropagation()
                     event.preventDefault()
                 }
@@ -180,7 +181,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
         } else {
             // 加载脚本
             var script = document.createElement("script");
-            script.src = (can.path||meta.path)+libs[0]+".js";
+            script.src = (can._path||meta.path)+libs[0]+".js";
             script.onload = function() {can.load(libs[0]), next()}
             document.body.appendChild(script);
         }

@@ -1,64 +1,59 @@
 Volcanos("onimport", {help: "导入数据", list: [],
-    init: function(can, msg, cb, output, option) {output.innerHTML = "";
-        output.innerHTML = msg.Result()
-        output.onclick = function(event) {
-            switch (event.target.tagName) {
-                case "text":
-                    alert(event.target.innerHTML)
-                    break
-                case "rect":
-                    break
+    init: function(can, msg, cb, output, option) {output.innerHTML = msg.Result();
+        can.page.Select(can, output, "svg", function(svg) {
+            svg.onclick = function(event) {var item = event.target;
+                switch (event.target.tagName) {
+                    case "text":
+                        can.user.toast(can.page.CopyText(can, item.innerHTML), "复制成功")
+                        break
+                    case "rect":
+                        break
+                }
             }
-        }
+            svg.oncontextmenu = function(event) {var item = event.target;
+                switch (event.target.tagName) {
+                    case "text":
+                        can.user.carte(event, shy("", can.ondetail, can.ondetail.list, function(event, key, meta) {cb = meta[key];
+                            typeof cb == "function"? cb(event, can, msg, key, item, svg):
+                                can.run(event, [typeof cb == "string"? cb: key, item], null, true)
+                        }))
+                        break
+                    case "rect":
+                        can.user.carte(event, shy("", can.ondetail, can.ondetail.list, function(event, key, meta) {cb = meta[key];
+                            typeof cb == "function"? cb(event, can, msg, key, item, svg):
+                                can.run(event, [typeof cb == "string"? cb: key, item], null, true)
+                        }))
+                        break
+                }
+            }
+        })
     },
 })
 Volcanos("onaction", {help: "组件交互", list: [],
 })
 Volcanos("onchoice", {help: "组件菜单", list: ["返回", "清空", "复制", "下载", "表格", "绘图", "媒体"],
-    "返回": function(event, can, msg, value, target) {
+    "返回": function(event, can, msg, key, target) {
         can.run(event, ["", "Last"])
     },
-    "清空": function(event, can, msg, value, target) {
+    "清空": function(event, can, msg, key, target) {
         can.target.innerHTML = "";
     },
-    "复制": function(event, can, msg, value, target) {
+    "复制": function(event, can, msg, key, target) {
         var list = can.onexport.Format(can, msg, "data");
         can.user.toast(can.page.CopyText(can, list[2]), "复制成功")
     },
-    "下载": function(event, can, msg, value, target) {
+    "下载": function(event, can, msg, key, target) {
         var list = can.onexport.Format(can, msg, msg._plugin_name||"data");
         can.page.Download(can, list[0]+list[1], list[2]);
     },
 })
-Volcanos("ondetail", {help: "组件详情", list: ["选择", "修改", "删除", "复制", "下载"],
+Volcanos("ondetail", {help: "组件详情", list: ["选择", "修改", "复制"],
     "选择": "select",
     "删除": "delete",
-    "修改": function(event, can, msg, value, index, key, td) {
-        var text = td.innerHTML;
-        can.page.Appends(can, td, [{type: "input", style: {width: td.clientWidth+"px"}, data: {onkeydown: function(event) {
-            if (event.key != "Enter") {return}
-            can.run(event, [index, "modify", key == "value" && msg.key? msg[key][index]: key, event.target.value,], function(msg) {
-                td.innerHTML = event.target.value;
-                can.user.toast("修改成功")
-            }, true)
-        }}}])
-    },
-    "复制": function(event, can, msg, value, index, key, target) {
-        can.user.toast(can.page.CopyText(can, target.innerHTML), "复制成功")
-    },
-    "下载": function(event, can, msg, value, index, key, target) {
-        can.page.Download(can, key, target.innerHTML);
+    "复制": function(event, can, msg, key, svg) {
+        can.user.toast(can.page.CopyText(can, svg.innerHTML), "复制成功")
     },
 })
-Volcanos("onexport", {help: "导出数据", list: [],
-    Format: function(can, msg, name) {
-        var ext = ".csv", txt = can.page.Select(can, can.target, "tr", function(tr) {
-            return can.page.Select(can, tr, "td,th", function(td) {return td.innerText}).join(",")
-        }).join("\n");
-
-        !txt && (ext = ".txt", txt = msg.result && msg.result.join("") || "");
-        return [name, ext, txt]
-    },
-})
+Volcanos("onexport", {help: "导出数据", list: []})
 
 

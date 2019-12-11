@@ -32,11 +32,16 @@ Volcanos("onimport", {help: "导入数据", list: [],
         item.type == "button" && item.action == "auto" && can.run && can.run({});
         return target;
     }),
+    path: function(event, can, value, cmd, target) {
+        return target.value + (target.value == "" || target.value.endsWith("/")? "": "/") + value
+    },
 })
 Volcanos("onaction", {help: "控件交互", list: [],
     onclick: function(event, can) {can.Select(event); can.item.type == "button" && can.run(event)},
     onkeydown: function(event, can) {
-        if (event.key == "Enter") {return can.run(event, [])};
+        if (event.key == "Enter") {return can.run(event, [])}
+        if (event.key == "Escape") {return event.target.blur()}
+        can.page.oninput(event, can)
     },
 })
 Volcanos("onchoice", {help: "控件菜单", list: ["全选", "复制", "清空"],
@@ -50,8 +55,6 @@ Volcanos("onchoice", {help: "控件菜单", list: ["全选", "复制", "清空"]
         can.target.value = "";
     },
 })
-Volcanos("ondetail", {help: "控件详情", list: [],
-})
-Volcanos("onexport", {help: "导出数据", list: [],
-})
+Volcanos("ondetail", {help: "控件详情", list: []})
+Volcanos("onexport", {help: "导出数据", list: []})
 

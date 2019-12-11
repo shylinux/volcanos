@@ -16,6 +16,14 @@ Volcanos("onimport", {help: "导入数据", list: [],
             })
         }
     },
+    favor: function(event, can, msg, cmd, output) {
+        can.page.Select(can, output, "div.item>span", function(item) {
+            if (item.innerText == msg.detail[0])  {
+                msg.Echo("storm", msg.detail[0])
+                item.click(), msg._hand = true;
+            }
+        })
+    },
 })
 Volcanos("onaction", {help: "组件交互", list: ["创建", "刷新"],
     "创建": function(event, can, meta, key, output) {
