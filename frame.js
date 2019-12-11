@@ -11,8 +11,9 @@ var can = Volcanos("chat", {
 
             run: function(event, option, cmds, cb) {ctx.Run(event, option, cmds, cb)},
         }, Config.libs.concat(["page/"+name]), function(page) {
+            page.onimport._init && page.onimport._init(page, conf, body)
             can.core.Next(conf.pane, function(item, cb) {
-                page[item.name] = can.Pane(page, item.name, item, cb, can.page.Select(can, body, "fieldset."+item.name)[0] ||
+                page[item.pos] = page[item.name] = can.Pane(page, item.name, item, cb, can.page.Select(can, body, "fieldset."+item.name)[0] ||
                     can.page.AppendField(can, body, item.name+" dialog", item))
             }, function() {typeof cb == "function" && cb(page)})
         }, conf)
@@ -30,6 +31,22 @@ var can = Volcanos("chat", {
             Export: function(event, value, key) {can.Report(event, value, key)},
             Import: function(event, value, key) {var cb = pane.onimport[key];
                 typeof cb == "function" && cb(event, pane, value, key, pane.output);
+            },
+
+            Size: function(event, width, height) {var cb = pane.onimport["size"];
+                if (width > 0) {
+                    field.style.width = width + "px"
+                } else if (width == -1) {
+                    field.style.width = document.body.offsetWidth + "px"
+                }
+
+                if (height > 0) {
+                    field.style.height = height + "px"
+                } else if (height == -1) {
+                    field.style.height = document.body.offsetHeight + "px"
+                }
+
+                typeof cb == "function" && cb(event, pane, {width: width, height: height}, "size", pane.output)
             },
 
             Show: function(width, height) {field.style.display = "block";

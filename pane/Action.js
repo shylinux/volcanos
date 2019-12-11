@@ -6,6 +6,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
             }, can.page.AppendField(can, output, "item "+item.group+" "+item.name, item))
         })
     },
+    size: function(event, can, value, key, output) {
+    },
     river: function(event, can, value, key, output) {
         if (value == "update") {return}
         can.Conf("temp_river", value)

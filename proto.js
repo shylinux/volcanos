@@ -19,6 +19,9 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
         create_time: new Date(), path: "/static/volcanos/", index: 1, cache: {},
     };
 
+    can = can || {};
+    can.name = name;
+
     // 定义原型
     var id = 1, conf = {}, conf_cb = {}, sync = {}, cache = {};
     can[name] || list.push({name: name, can: can, create_time: new Date()}) && (can.__proto__ = {
