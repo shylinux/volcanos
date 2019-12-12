@@ -38,9 +38,14 @@ Volcanos("onimport", {help: "导入数据", list: [],
             item.value = value
         })
     },
-    favor: function(event, can, msg, cmd, output) {cmd = msg.detail[0];
-        var p = can[cmd]; if (p && p.Select) {p.Select(event, null, true); return msg._hand = true}
-        var cb = can.onaction[cmd]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg._hand = true}
+    favor: function(event, can, msg, cmd, output) {var key = msg.detail[0];
+        if (msg._hand) {return}
+        var cb = can.onaction[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onaction ", key), msg._hand = true}
+        var cb = can.onchoice[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onchoice ", key), msg._hand = true}
+
+        var sub = can[key]; if (sub && sub.Select) {sub.Select(event, null, true); return msg.Echo(can._name, " select ", sub._name), msg._hand = true}
+
+        can._plugin && can._plugin.Import(event, msg, cmd)
     },
 })
 Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公", "聊天"], "清屏", "刷新", "串行", "并行",

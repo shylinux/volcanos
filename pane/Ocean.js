@@ -29,7 +29,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         })
     },
     ocean: function(event, can, value, key, output) {
-        if (value == "create") {can.Show();
+        if (value == "create") {can.Show(event);
             can.run(event, [], function(msg) {
                 can.onimport.init(event, can, msg, key, output);
             });

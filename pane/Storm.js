@@ -17,10 +17,15 @@ Volcanos("onimport", {help: "导入数据", list: [],
             })
         }
     },
-    favor: function(event, can, msg, cmd, output) {
+    favor: function(event, can, msg, cmd, output) {var key = msg.detail[0];
+        if (msg._hand) {return}
+        var cb = can.onaction[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onaction ", key), msg._hand = true}
+        var cb = can.onchoice[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onchoice ", key), msg._hand = true}
+
+
         can.page.Select(can, output, "div.item.k"+msg.detail[0], function(item) {
-            msg.Echo("storm", msg.detail[0])
             item.click(), msg._hand = true;
+            msg.Echo(can._name, " ", key)
         })
     },
 })
@@ -34,20 +39,14 @@ Volcanos("onaction", {help: "组件交互", list: ["创建", "刷新"],
         })
     },
 })
-Volcanos("onchoice", {help: "组件菜单", list: ["返回", "清空", "复制", "下载", "表格", "绘图", "媒体"],
-    "返回": function(event, can, msg, cmd, target) {
-        can.run(event, ["", "Last"])
+Volcanos("onchoice", {help: "组件菜单", list: ["创建", "刷新"],
+    "创建": function(event, can, msg, cmd, output) {
+        can.Export(event, "create", "steam")
     },
-    "清空": function(event, can, msg, cmd, target) {
-        can.target.innerHTML = "";
-    },
-    "复制": function(event, can, msg, cmd, target) {
-        var list = can.onexport.Format(can, msg, "data");
-        can.user.toast(can.page.CopyText(can, list[2]), "复制成功")
-    },
-    "下载": function(event, can, msg, cmd, target) {
-        var list = can.onexport.Format(can, msg, msg._plugin_name||"data");
-        can.page.Download(can, list[0]+list[1], list[2]);
+    "刷新": function(event, can, msg, cmd, output) {
+        can.run(event, [can.Conf("river")], function(msg) {
+            can.onimport.init(event, can, msg, cmd, output)
+        })
     },
 })
 Volcanos("ondetail", {help: "组件详情", list: ["保存", "恢复", "删除"],

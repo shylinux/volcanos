@@ -11,12 +11,12 @@ Volcanos("onimport", {help: "导入数据", list: [],
 Volcanos("onaction", {help: "组件交互", list: [],
     onkeydown: function(event, can) {
         switch (event.key) {
+            case "Escape":
+                break
             case " ":
-                if (can.Favor) {
-                    can.page.Select(can, can.Favor.Show(), "input.cmd", function(item) {
-                        item.focus()
-                    })
-                }
+                can.Favor && can.page.Select(can, can.Favor.Show(), "input.cmd", function(item) {
+                    item.focus()
+                })
 
                 event.stopPropagation()
                 event.preventDefault()

@@ -112,11 +112,33 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                 Result: function() {
                     return msg.result && msg.result.join("") || "";
                 },
+                Export: function(name) {var ext = ".csv", txt = "";
+                    msg.append && msg.append.length > 0? txt = can.core.List(msg.append, function(key) {return key}).join(",")+"\n"+
+                    can.core.List(msg.Table(), function(line, index) {
+                        return can.core.List(msg.append, function(key) {return line[key]}).join(",")
+                    }).join("\n"): (ext = ".txt", txt = msg.Result())
+                    return [name, ext, txt]
+                },
             };
             msg.event = event
             return msg
         }),
         Dream: shy("构造器", function(target, type, line, key) {
+            if (type.endsWith(".css")) {
+                var style = document.createElement("link");
+                style.rel = "stylesheet", style.type = "text/css";
+                style.href = (can._path||meta.path)+type
+                style.onload = line;
+                target.appendChild(style);
+                return style
+            }
+            if (type.endsWith(".js")) {
+                var script = document.createElement("script");
+                script.src = (can._path||meta.path)+type,
+                script.onload = line;
+                target.appendChild(script);
+                return script
+            }
             var text = line, list = [], item = false, style = ""
             switch (type) {
                 case "input":
@@ -181,10 +203,9 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             can.load(libs[0]), next()
         } else {
             // 加载脚本
-            var script = document.createElement("script");
-            script.src = (can._path||meta.path)+libs[0]+".js";
-            script.onload = function() {can.load(libs[0]), next()}
-            document.body.appendChild(script);
+            can.Dream(document.body, libs[0]+".js", function() {
+                can.load(libs[0]), next();
+            })
         }
     } else {
         // 独立模块

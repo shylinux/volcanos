@@ -1,4 +1,12 @@
-Volcanos("onimport", {help: "导入数据", list: []})
+Volcanos("onimport", {help: "导入数据", list: [],
+    favor: function(event, can, msg, cmd, output) {var key = msg.detail[0];
+        var cb = can.onaction[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onaction ", key), msg._hand = true}
+        var cb = can.onchoice[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onchoice ", key), msg._hand = true}
+
+        var sub = can[key]; if (sub && sub.target) {sub.target.focus; return msg.Echo(can._name, " ", sub._name, " ", key), msg._hand = true}
+        can._output && can._output.Import(event, msg, cmd)
+    },
+})
 Volcanos("onaction", {help: "组件交互", list: []})
 Volcanos("onchoice", {help: "组件菜单", list: [["display", "表格", "文档", "相册"],
     "执行", "返回", "加参", "减参", "克隆", "删除"],

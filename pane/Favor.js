@@ -1,47 +1,58 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, conf, output, action, option, field) {
-        can.Show(400, 100, 100), can.Hide();
-        can.page.Append(can, option, [{input: ["cmd", function(event) {
+        can.Show(event, 400, 100), can.Hide();
+        can.target.style.height = ""
+        can.target.style.width = ""
+
+        function res(msg) {
+            if (msg._hand) {ui.cmd.value = "";
+                output.innerHTML = msg.Result()
+            }
+            return msg
+        }
+        function run(event, cmds) {cmds = cmds.trim().split(" ");
+            var cmd = cmds[0]; if (cmd == "") {return}
+            var msg = can.Event(event, {detail: cmds});
+            can.msg = msg;
+
+            var cb = can.onexport[cmd];
+            typeof cb == "function"? cb(event, can, msg, cmds, output): can.Export(event, msg, "favor");
+
+            return msg._hand? res(msg): can.run(event, cmds, res, true);
+        }
+
+        var ui = can.page.Append(can, option, [{input: ["cmd", function(event) {
             can.page.oninput(event, can)
 
-            function run(cmds) {cmds = cmds.split(" ")
-                var cmd = cmds[0]
-
-                var msg = can.Event(event, {detail: cmds});
-                var cb = can.onexport[cmd]
-                if (typeof cb == "function") {
-                    cb(event, can, msg, cmds, output);
-                } else {
-                    can.Export(event, msg, "favor")
-                }
-
-                if (!msg._hand) {
-                    can.run(event, cmds, function(msg) {
-                        (output.innerHTML = msg.Result()) == ""? (can.target.style.height = "100px"): (can.target.style.height = "");
-                        event.target.value = "";
-                    }, true)
-                } else {
-                    output.innerHTML = msg.Result();
-                    event.target.value = "";
-                }
-                return msg
-            }
-
             switch (event.key) {
-                case "Enter": run(event.target.value.trim()); break
+                case "Enter": run(event, event.target.value); break
                 case "Escape": can.Hide(); break
+                default: if (event.target.value.endsWith("j") && event.key == "k") {
+                    can.page.DelText(event.target, event.target.selectionStart-1, 2)
+                    event.target.value == ""? can.Hide(): run(event, event.target.value)
+                    break
+                } return false
             }
+            event.stopPropagation()
+            event.preventDefault()
+            return true
+        }, function(event) {
+            switch (event.key) {
+                default: return false
+            }
+            event.stopPropagation()
+            event.preventDefault()
+            return true
         }]}])
     },
 })
 Volcanos("onaction", {help: "组件交互", list: [],
     onmousedown: function(event, can) {
-        can.moving = !can.moving;
-        can.movarg = {
-            x: event.x, y: event.y,
-            top: can.target.offsetTop,
+        if (event.ctrlKey) {can.moving = !can.moving, can.movarg = {
             left: can.target.offsetLeft,
-        };
+            top: can.target.offsetTop,
+            x: event.x, y: event.y,
+        }}
     },
     onmousemove: function(event, can) {
         if (can.moving) {
@@ -53,16 +64,15 @@ Volcanos("onaction", {help: "组件交互", list: [],
         // can.moving = false;
     },
 })
-Volcanos("onchoice", {help: "组件菜单", list: []})
-Volcanos("ondetail", {help: "组件详情", list: []})
-Volcanos("onexport", {help: "导出数据", list: [], 
-    pwd: function(event, can, msg, cmd, output) {
-        msg.Echo("hello world")
-    },
-    time: function(event, can, msg, cmd, output) {
-        msg.Echo(can.base.Time())
+Volcanos("onchoice", {help: "组件菜单", list: ["下载"],
+    "下载": function(event, can, msg, cmd, target) {msg = msg || can.msg;
+        var list = msg.Export(can._name);
+        can.page.Download(can, list[0]+list[1], list[2]);
     },
 })
-
-
+Volcanos("ondetail", {help: "组件详情", list: []})
+Volcanos("onexport", {help: "导出数据", list: [], 
+    hi: function(event, can, msg, cmd, output) {msg.Echo("hello world")},
+    time: function(event, can, msg, cmd, output) {msg.Echo(can.base.Time())},
+})
 

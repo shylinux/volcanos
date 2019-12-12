@@ -4,7 +4,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         switch (item.type) {
             case "upfile": item.type = "file"; break
             case "select":
-                item.values = kit.Trans(item.values);
+                item.values = typeof item.values == "string"? item.values.split(" "): item.values;
                 input.type = "select", input.list = item.values.map(function(value) {
                     return {type: "option", value: value, inner: value};
                 })
@@ -39,9 +39,30 @@ Volcanos("onimport", {help: "导入数据", list: [],
 Volcanos("onaction", {help: "控件交互", list: [],
     onclick: function(event, can) {can.Select(event); can.item.type == "button" && can.run(event)},
     onkeydown: function(event, can) {
-        if (event.key == "Enter") {return can.run(event, [])}
-        if (event.key == "Escape") {return event.target.blur()}
         can.page.oninput(event, can)
+
+        switch (event.key) {
+            case "Enter": can.run(event, []); break
+            case "Escape": event.target.blur(); break
+            default:
+                if (event.target.value.endsWith("j") && event.key == "k") {
+                    can.page.DelText(event.target, event.target.selectionStart-1, 2);
+                    event.target.blur();
+                    break
+                }
+                return false
+        }
+        event.stopPropagation()
+        event.preventDefault()
+        return true
+    },
+    onkeyup: function(event, can) {
+        switch (event.key) {
+            default: return false
+        }
+        event.stopPropagation()
+        event.preventDefault()
+        return true
     },
 })
 Volcanos("onchoice", {help: "控件菜单", list: ["全选", "复制", "清空"],

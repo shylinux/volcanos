@@ -1,0 +1,10 @@
+fieldset.River {
+    float:left;
+}
+fieldset.River>div.output {
+    padding:0;
+}
+fieldset.River>div.output>div.item {
+    padding-left:6px;
+}
+

@@ -47,5 +47,12 @@ Volcanos("onexport", {help: "导出数据", list: [],
     link: function(event, can, value, cmd, output) {
         can.ui[cmd].innerHTML = value
     },
+    user: function(event, can, value, cmd, output) {
+        if (can.user.confirm("logout?")) {
+            can.user.Cookie(can, "sessid", "")
+            can.user.reload()
+        }
+        can.ui["user"].innerHTML = value
+    },
 })
 

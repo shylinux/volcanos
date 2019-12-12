@@ -21,7 +21,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.device = device
         can.ui = ui
     },
-    init: function(event, can, msg, key, output) {output.innerHTML = ""; can.Show(-100, -100);
+    init: function(event, can, msg, key, output) {output.innerHTML = ""; can.Show(event, -100, -100);
         var table = can.page.Append(can, output, "table")
 
         can.page.Append(can, table, [{text: ["1. 选择用户节点 ->", "caption"]}])

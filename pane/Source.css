@@ -1,0 +1,10 @@
+fieldset.Source {
+    overflow:hidden;
+}
+fieldset.Source div.action {
+    padding:0;
+}
+fieldset.Source div.output {
+    padding:0;
+}
+

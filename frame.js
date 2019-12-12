@@ -13,13 +13,13 @@ var can = Volcanos("chat", {
                 typeof cb == "function" && cb(event, page, value, key, body);
             },
 
-            run: function(event, option, cmds, cb) {ctx.Run(event, option, cmds, cb)},
+            run: function(event, option, cmds, cb) {can.misc.Run(event, page, option, cmds, cb)},
         }, Config.libs.concat(["page/"+name]), function(page) {page.Conf(conf);
             page.onimport._init && page.onimport._init(page, conf, body)
             can.core.Next(conf.pane, function(item, cb) {page.panes = page.panes || {};
                 page.panes[item.name] = page[item.pos] = page[item.name] = can.Pane(page, item.name, item, cb,
                     can.page.Select(can, body, "fieldset."+item.name)[0] ||
-                    can.page.AppendField(can, body, item.name+" dialog", item))
+                    can.page.AppendField(can, body, item.name+" "+(item.pos||""), item))
             }, function() {typeof cb == "function" && cb(page)})
         }, conf)
         return page.target = body, page
@@ -27,7 +27,7 @@ var can = Volcanos("chat", {
     Pane: shy("构造面板", function(can, name, meta, cb, field) {
         var river = "", storm = "";
 
-        var pane = Volcanos(name, {_type: "local",
+        var pane = Volcanos(name, {_type: "local", target: field,
             option: field.querySelector("form.option"),
             action: field.querySelector("div.action"),
             output: field.querySelector("div.output"),
@@ -58,7 +58,7 @@ var can = Volcanos("chat", {
 
                 typeof cb == "function" && cb(event, pane, {width: width, height: height}, "size", pane.output)
             },
-            Show: function(width, height, offset) {field.style.display = "block";
+            Show: function(event, width, height, offset) {field.style.display = "block";
                 if (width < 0) {field.style.left = -width / 2 + "px";
                     field.style.width = (document.body.offsetWidth + width) + "px";
                 }
@@ -71,6 +71,8 @@ var can = Volcanos("chat", {
                 if (height < 0) {field.style.top = -height / 2 + (offset||0) + "px";
                     field.style.height = (document.body.offsetHeight + height) + "px";
                 }
+                var cb = pane.onimport["show"];
+                typeof cb == "function" && cb(event, can, width, "show", pane.output)
                 return field;
             },
             Hide: function() {field.style.display = "none"},
@@ -80,8 +82,10 @@ var can = Volcanos("chat", {
                     msg.Option(item.name, item.value)
                 })
                 can.run(event, pane.option.dataset, cmds, cb)
+                return msg
             },
         }, Config.libs.concat(["pane/"+name]), function(pane) {
+            can.Dream(document.head, "pane/"+name+".css")
             pane.onimport._init && pane.onimport._init(pane, pane.Conf(meta), pane.output, pane.action, pane.option, field)
 
             function deal(event, value)  {
@@ -93,7 +97,7 @@ var can = Volcanos("chat", {
             }))
             typeof cb == "function" && cb(pane)
         }, meta)
-        return pane.target = field, pane
+        return pane
     }),
     Plugin: shy("构造插件", function(can, name, meta, run, field) {
         var option = field.querySelector("form.option");
@@ -105,11 +109,15 @@ var can = Volcanos("chat", {
         var args = meta.args || [];
         var feature = JSON.parse(meta.feature||'{}');
         var exports = JSON.parse(meta.exports||'{}');
-        var plugin = Volcanos(name, {_type: "local",
+        var plugin = Volcanos(name, {_type: "local", target: field,
             option: field.querySelector("form.option"),
             action: field.querySelector("div.action"),
             output: field.querySelector("div.output"),
             Inputs: can.Inputs, Output: can.Output,
+
+            Import: function(event, value, key) {var cb = plugin.onimport[key];
+                typeof cb == "function" && cb(event, plugin, value, key, plugin.output);
+            },
 
             Remove: function(event) {var list = can.page.Select(can, option, "input.temp")
                 list.length > 0 && list[list.length-1].parentNode.removeChild(list[list.length-1])
@@ -121,7 +129,12 @@ var can = Volcanos("chat", {
                 plugin[name] = can.Inputs(plugin, item, "input", name, value, cb, option);
             },
             Select: function(event, target, focus) {
-                can.plugin = field, can.input = target || option.querySelectorAll("input")[1];
+                can.page.Select(can, field.parentNode, "field.item.select", function(item) {
+                    can.page.ClassList.del(can, item, "select")
+                })
+                can.page.ClassList.add(can, field, "select")
+
+                can._plugin = plugin, can.input = target || option.querySelectorAll("input")[1];
                 focus && can.input.focus();
                 return true
             },
@@ -143,7 +156,7 @@ var can = Volcanos("chat", {
             },
             Check: function(event, target, cb) {
                 plugin.page.Select(can, option, ".args", function(item, index, list) {
-                    if (item == target && index < list.length-1) {can.plugin == field && list[index+1].focus(); return item}
+                    if (item == target && index < list.length-1) {can._plugin.target == field && list[index+1].focus(); return item}
                 }).length == 0 && plugin.Runs(event, cb)
             },
             Last: function(event) {
@@ -167,7 +180,7 @@ var can = Volcanos("chat", {
                 })
             },
             Show: function(type, msg, cb) {plugin.msg = msg, msg._plugin_name = name;
-                return plugin[type] = can.Output(plugin, type, msg, cb, output, option)
+                return plugin._output = plugin[type] = can.Output(plugin, type, msg, cb, output, option)
             },
             Clone: function(event) {meta.nick = meta.name + can.ID()
                 can.Plugin(can, meta.nick, meta, run,
@@ -177,7 +190,7 @@ var can = Volcanos("chat", {
         }, Config.libs.concat(["plugin/"+(meta.type||"state")]), function(plugin) {plugin.Conf(meta);
             can.core.Next(JSON.parse(meta.inputs||"[]"), plugin.Append)
         }, meta)
-        return plugin.target = field, field.Plugin = plugin
+        return plugin
     }),
     Inputs: shy("构造控件", function(can, item, type, name, value, cb, option) {
         var input = Volcanos(name, {type: "local", item: item,
@@ -200,10 +213,12 @@ var can = Volcanos("chat", {
         return input
     }),
     Output: shy("构造组件", function(can, type, msg, cb, target, option) {
-        if (type == "inner" && (!msg.result || msg.result.length == 0)) {
-            type = "table"
-        }
+        if (type == "inner" && (!msg.result || msg.result.length == 0)) {type = "table"}
         var output = Volcanos(type, {_type: "local", msg: msg,
+            Import: function(event, value, key) {var cb = output.onimport[key];
+                typeof cb == "function" && cb(event, output, value, key, target);
+            },
+
             Export: function(event, value, key, index) {can.Report(event, value, key, index)},
             run: function(event, cmd, cb, silent) {
                 (output[cmd[1]] || can[cmd[1]] || can.Run)(event, cmd, cb, silent);
@@ -214,11 +229,9 @@ var can = Volcanos("chat", {
         return output.target = target, target.Output = output
     }),
 }, Config.libs.concat(Config.list), function(can) {
-    if (ctx.Search("feature") != "") {
-        can[Config.main] = can.Page(can, Config.main, Config, function(chat) {
-            chat.Login.Import(event||{}, "", "login")
-            can.user.Search(can, "layout") && chat.Login.Export(event||{}, can.user.Search(can, "layout"), "layout")
-        }, document.body)
-    }
+    can[Config.main] = can.Page(can, Config.main, Config, function(chat) {
+        chat.Login.Export(event||{}, can.user.Search(can, "layout")||"工作", "layout")
+        chat.Login.Import(event||{}, "", "login")
+    }, document.body)
 })
 
