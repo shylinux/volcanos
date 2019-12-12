@@ -1,9 +1,9 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: function(event, can, msg, cmd, output) {output.innerHTML = "";
         msg.Table(function(item, index) {if (!item.name) {return}
-            can[item.name] = can.Plugin(can, item.name, item, function(event, cmds, cbs) {
+            can._plugins.push(can[item.name] = can.Plugin(can, item.name, item, function(event, cmds, cbs) {
                 can.run(event, [item.river, item.storm, item.action].concat(cmds), cbs)
-            }, can.page.AppendField(can, output, "item "+item.group+" "+item.name, item))
+            }, can.page.AppendField(can, output, "item "+item.group+" "+item.name, item)))
         })
     },
     size: function(event, can, value, cmd, output) {
@@ -30,7 +30,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
     },
     you: function(event, can, value, cmd, output) {
         can.page.Select(can, can.action, "input."+cmd, function(item) {
-            item.value = value
+            document.title = item.value = value;
         })
     },
     layout: function(event, can, value, cmd, output) {can.layout = value;

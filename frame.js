@@ -32,10 +32,12 @@ var can = Volcanos("chat", {
             action: field.querySelector("div.action"),
             output: field.querySelector("div.output"),
             Plugin: can.Plugin, Inputs: can.Inputs, Output: can.Output,
+            _plugins: [],
 
             Export: function(event, value, key) {can.Report(event, value, key)},
             Import: function(event, value, key) {var cb = pane.onimport[key];
                 typeof cb == "function" && cb(event, pane, value, key, pane.output);
+                can.core.List(pane._plugins, function(item) {item.Import(event, value, key)})
             },
 
             Size: function(event, width, height) {var cb = pane.onimport["size"];
@@ -117,6 +119,7 @@ var can = Volcanos("chat", {
 
             Import: function(event, value, key) {var cb = plugin.onimport[key];
                 typeof cb == "function" && cb(event, plugin, value, key, plugin.output);
+                key && plugin[key] && plugin[key].target && plugin[key].Import(event, value, key)
             },
 
             Remove: function(event) {var list = can.page.Select(can, option, "input.temp")
@@ -156,7 +159,7 @@ var can = Volcanos("chat", {
             },
             Check: function(event, target, cb) {
                 plugin.page.Select(can, option, ".args", function(item, index, list) {
-                    if (item == target && index < list.length-1) {can._plugin.target == field && list[index+1].focus(); return item}
+                    if (item == target && index < list.length-1) {can._plugin && can._plugin.target == field && list[index+1].focus(); return item}
                 }).length == 0 && plugin.Runs(event, cb)
             },
             Last: function(event) {

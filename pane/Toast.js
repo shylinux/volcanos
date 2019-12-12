@@ -1,5 +1,9 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, conf, output) {
+        can.Show(200, 100, -100)
+        can.target.style.height = ""
+        can.target.style.width = ""
+
         can.user.toast = function(text, title, duration, list) {if (!text) {return can.Hide()}
             text = typeof text == "object"? text: {list: list, text: text, title: title||""}
             text.duration = text.duration || conf.duration || 3000
@@ -30,8 +34,6 @@ Volcanos("onimport", {help: "导入数据", list: [],
             return timer
         }
     },
-    show: function(event, can, value, cmd, output) {
-    }
 })
 Volcanos("onaction", {help: "组件交互", list: []})
 Volcanos("onchoice", {help: "组件菜单", list: []})
