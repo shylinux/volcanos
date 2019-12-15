@@ -79,7 +79,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                 _create_time: can.base.Time(), _source: can,
                 Log: shy("输出日志", function() {console.log(arguments)}),
                 Option: function(key, val) {
-                    if (val == undefined) {return msg[key]}
+                    if (val == undefined) {return msg && msg[key] && msg[key][0] || ""}
                     msg.option = msg.option || []
                     can.core.List(msg.option, function(k) {
                         if (k == key) {return k}

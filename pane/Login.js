@@ -7,6 +7,15 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 if (!ui.username.value) {ui.username.focus(); return}
                 if (!ui.password.value) {ui.password.focus(); return}
 
+if (can.user.Search(can, "feature") == "ice") {
+                can.run(event, ["login", ui.username.value, ui.password.value], function(msg) {
+                    if (msg.result && msg.result.length > 0) {
+                        can.Hide(), can.Export(event, "", "login")
+                    } else {
+                        can.user.toast("用户或密码错误")
+                    }
+                })
+} else {
                 can.run(event, [ui.username.value, ui.password.value], function(msg) {
                     if (msg.result && msg.result.length > 0) {
                         can.Hide(), can.Export(event, "", "login")
@@ -14,6 +23,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                         can.user.toast("用户或密码错误")
                     }
                 })
+}
                 event.stopPropagation()
                 event.preventDefault()
                 return true
@@ -23,10 +33,16 @@ Volcanos("onimport", {help: "导入数据", list: [],
     login: function(event, can, value, cmd, output) {
         if (!can.user.Cookie("sessid")) {can.Show(event, 400, 400); return}
 
-        can.run(event||{}, [], function(msg) {
-            msg.nickname && msg.nickname.length > 0?
-                can.Export(event, msg.nickname[0], "username"): can.Show(event, -1, -1)
-        })
+if (can.user.Search(can, "feature") == "ice") {
+            can.run(event||{}, ["check"], function(msg) {var user = msg.Result()
+                user? can.Export(event, user, "username"): can.Show(event, -1, -1)
+            })
+} else {
+            can.run(event||{}, [], function(msg) {
+                msg.nickname && msg.nickname.length > 0?
+                    can.Export(event, msg.nickname[0], "username"): can.Show(event, -1, -1)
+            })
+}
     },
 })
 Volcanos("onaction", {help: "组件交互", list: []})

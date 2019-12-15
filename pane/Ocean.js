@@ -21,9 +21,11 @@ Volcanos("onimport", {help: "导入数据", list: [],
         var table = can.page.Append(can, output, "table");
         can.page.Append(can, table, [{text: ["1. 选择用户节点 ->", "caption"]}])
 
-        can.page.AppendTable(can, table, msg, ["key", "user.route"], function(event, value, key, index, tr, td) {
-            tr.className = "hidden";
-            var uis = kit.AppendChild(can.ui.list, [{type: "tr", list: [{text: [key, "td"]}, {text: [msg["user.route"][index], "td"]}], dataset: {user: key}, click: function(event) {
+        can.page.AppendTable(can, table, msg, ["key", "user.route"], function(event, value, key, index, tr, td) {tr.className = "hidden";
+            var uis = can.page.Append(can, can.ui.list, [{type: "tr", list: [
+                {text: [value, "td"]},
+                {text: [msg["user.route"][index], "td"]},
+            ], dataset: {user: value}, click: function(event) {
                 tr.className = "normal", uis.last.parentNode.removeChild(uis.last)
             }}])
         })
