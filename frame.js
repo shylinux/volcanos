@@ -183,7 +183,7 @@ var can = Volcanos("chat", {
                 })
             },
             Show: function(type, msg, cb) {plugin.msg = msg, msg._plugin_name = name;
-                return plugin._output = plugin[type] = can.Output(plugin, type, msg, cb, output, option)
+                return plugin._output = plugin[type] = can.Output(plugin, feature, type, msg, cb, output, option)
             },
             Clone: function(event) {meta.nick = meta.name + can.ID()
                 can.Plugin(can, meta.nick, meta, run,
@@ -215,9 +215,9 @@ var can = Volcanos("chat", {
         })
         return input
     }),
-    Output: shy("构造组件", function(can, type, msg, cb, target, option) {
+    Output: shy("构造组件", function(can, feature, type, msg, cb, target, option) {
         if (type == "inner" && (!msg.result || msg.result.length == 0)) {type = "table"}
-        var output = Volcanos(type, {_type: "local", msg: msg,
+        var output = Volcanos(type, {_type: "local", msg: msg, feature: feature,
             Import: function(event, value, key) {var cb = output.onimport[key];
                 typeof cb == "function" && cb(event, output, value, key, target);
             },
@@ -227,6 +227,7 @@ var can = Volcanos("chat", {
                 (output[cmd[1]] || can[cmd[1]] || can.Run)(event, cmd, cb, silent);
             },
         }, Config.libs.concat(["plugin/"+type]), function(output) {
+
             output.onimport.init(output, msg, cb, target, option);
         }, msg)
         return output.target = target, target.Output = output

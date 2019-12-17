@@ -27,9 +27,13 @@ Volcanos("onimport", {help: "导入数据", list: [],
             switch (event.target.tagName) {
                 case "TD":
                     can.onimport.which(event, table, msg.append, function(index, key) {
-                        can.user.carte(event, shy("", can.ondetail, can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
+                        can.user.carte(event, shy("", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
+                            var id = index;
+                            msg && msg.id && (id = msg.id[index]);
                             typeof cb == "function"? cb(event, can, msg, index, key, cmd, target):
-                                can.run(event, [index, typeof cb == "string"? cb: cmd, key, target.innerHTML], null, true)
+                                can.run(event, [id, typeof cb == "string"? cb: cmd, key, target.innerHTML], function(msg) {
+                                    can.onimport.init(can, msg, cb, output, option)
+                                }, true)
                         }))
                     })
                     event.stopPropagation()
