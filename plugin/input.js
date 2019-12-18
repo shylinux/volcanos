@@ -27,7 +27,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         })
 
         var target = can.Dream(option, "input", input)[input.name];
-        (item.type == "text" || item.type == "textarea") && !target.placeholder && (target.placeholder = item.name);
+        (item.type == "text" || item.type == "textarea") && !target.placeholder && (target.placeholder = item.name || "");
         item.type == "text" && !target.title && (target.title = item.placeholder || item.name || "");
         item.type == "button" && item.action == "auto" && can.run && can.run({});
         return target;

@@ -191,7 +191,8 @@ var can = Volcanos("chat", {
             },
             Delete: function(event) {field.parentNode.removeChild(field)},
         }, Config.libs.concat(["plugin/"+(meta.type||"state")]), function(plugin) {plugin.Conf(meta);
-            can.core.Next(JSON.parse(meta.inputs||"[]"), plugin.Append)
+            var list = JSON.parse(meta.inputs||"[]");
+            can.core.Next(list.length>0? list: [{type: "text"}, {type: "button", value: "执行"}], plugin.Append)
         }, meta)
         return plugin
     }),

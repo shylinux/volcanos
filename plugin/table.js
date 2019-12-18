@@ -14,11 +14,6 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 })
                 break
             case "TH":
-                var index = 0;
-                can.page.Select(can, table, "th", function(item, i) {if (item == event.target) {index = i}})
-                var dataset = event.target.dataset
-                dataset["sort_asc"] = (dataset["sort_asc"] == "1") ? 0: 1
-                can.page.RangeTable(can, table, index, dataset["sort_asc"] == "1")
                 break
             case "TR":
             case "TABLE":

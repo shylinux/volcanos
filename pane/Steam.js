@@ -33,7 +33,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             var node = msg.node[index];
             can.run(event, [can.Conf("river"), msg.user[index], node], function(com) {
                 can.page.Appends(can, can.device, [{text: ["2. 选择模块命令 ->", "caption"]}])
-                can.page.AppendTable(can, can.device, com, ["key", "index", "name", "help"], function(event, value, key, index, tr, td) {
+                var table = can.page.AppendTable(can, can.device, com, ["key", "index", "name", "help"], function(event, value, key, index, tr, td) {
 
                     var last = can.page.Append(can, can.ui.list, [{
                         row: [com.key[index], com.index[index], com.name[index], com.help[index]],
