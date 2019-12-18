@@ -110,7 +110,7 @@ var can = Volcanos("chat", {
 
         var args = meta.args || [];
         var feature = JSON.parse(meta.feature||'{}');
-        var exports = JSON.parse(meta.exports||'{}');
+        var exports = JSON.parse(meta.exports||'""')||feature.exports||[];
         var plugin = Volcanos(name, {_type: "local", target: field,
             option: field.querySelector("form.option"),
             action: field.querySelector("div.action"),
@@ -196,7 +196,7 @@ var can = Volcanos("chat", {
         return plugin
     }),
     Inputs: shy("构造控件", function(can, item, type, name, value, cb, option) {
-        var input = Volcanos(name, {type: "local", item: item,
+        var input = Volcanos(name, {_type: "local", item: item,
             Select: function(event) {can.Select(event, input.target, true)},
             Import: function(event, value, key, index) {var cb = input.onimport[item.imports];
                 value = typeof cb == "function" && cb(event, input, value, key, input.target) || value

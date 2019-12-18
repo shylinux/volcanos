@@ -14,7 +14,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 })
 
                 can.run(event, [can.Conf("river"), "spawn", ui.name.value].concat(list), function(msg) {
-                    can.Hide(), can.Export(event, "update", "ocean");
+                    can.Hide(), can.Export(event, "update", "storm");
                 })
             }]}, {name: "list", view: ["list", "table"], list: [{text: ["3. 已选命令列表", "caption"]}]},
         ]}])

@@ -29,7 +29,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                     can.onimport.which(event, table, msg.append, function(index, key) {
                         can.user.carte(event, shy("", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
                             var id = index;
-                            msg && msg.id && (id = msg.id[index]);
+                            msg && msg.id && (id = msg.id[index]) || msg && msg.name && (id = msg.name[index]);
                             typeof cb == "function"? cb(event, can, msg, index, key, cmd, target):
                                 can.run(event, [id, typeof cb == "string"? cb: cmd, key, target.innerHTML], function(msg) {
                                     can.onimport.init(can, msg, cb, output, option)
