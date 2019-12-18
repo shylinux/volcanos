@@ -132,7 +132,7 @@ var can = Volcanos("chat", {
                 plugin[name] = can.Inputs(plugin, item, "input", name, value, cb, option);
             },
             Select: function(event, target, focus) {
-                can.page.Select(can, field.parentNode, "field.item.select", function(item) {
+                can.page.Select(can, field.parentNode, "fieldset.item.select", function(item) {
                     can.page.ClassList.del(can, item, "select")
                 })
                 can.page.ClassList.add(can, field, "select")

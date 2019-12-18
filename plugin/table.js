@@ -23,8 +23,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 case "TD":
                     can.onimport.which(event, table, msg.append, function(index, key) {
                         can.user.carte(event, shy("", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
-                            var id = index;
-                            msg && msg.id && (id = msg.id[index]) || msg && msg.name && (id = msg.name[index]);
+                            var id = msg.Ids(index);
                             typeof cb == "function"? cb(event, can, msg, index, key, cmd, target):
                                 can.run(event, [id, typeof cb == "string"? cb: cmd, key, target.innerHTML], function(msg) {
                                     can.onimport.init(can, msg, cb, output, option)
@@ -72,18 +71,18 @@ Volcanos("onchoice", {help: "组件菜单", list: ["返回", "清空", "复制",
         can.page.Download(can, list[0]+list[1], list[2]);
     },
 })
-Volcanos("ondetail", {help: "组件详情", list: ["选择", "修改", "删除", "复制", "下载"],
+Volcanos("ondetail", {help: "组件详情", list: ["选择", "编辑", "删除", "复制", "下载"],
     "选择": "select",
     "删除": "delete",
-    "修改": function(event, can, msg, index, key, cmd, td) {
+    "编辑": function(event, can, msg, index, key, cmd, td) {
         var text = td.innerHTML;
         can.page.Appends(can, td, [{type: "input", style: {width: td.clientWidth+"px"}, data: {onkeydown: function(event) {
             if (event.key != "Enter") {return}
-            can.run(event, [index, "modify", key == "value" && msg.key? msg[key][index]: key, event.target.value,], function(msg) {
+            can.run(event, [msg.Ids(index), "modify", key == "value" && msg.key? msg[key][index]: key, event.target.value,], function(msg) {
                 td.innerHTML = event.target.value;
                 can.user.toast("修改成功")
             }, true)
-        }}}])
+        }}}]).first.focus()
     },
     "复制": function(event, can, msg, index, key, cmd, target) {
         can.user.toast(can.page.CopyText(can, target.innerHTML), "复制成功")
