@@ -5,28 +5,31 @@ Volcanos("onimport", {help: "导入数据", list: [],
             {button: ["创建群聊", function(event) {
                 if (!ui.name.value) {ui.name.focus(); can.user.toast("请输入群名"); return}
 
-                var list = can.page.Select(can, ui.list, "tr", function(item) {
+                var list = can.page.Select(can, ui.list, "tr", function(item, index) {if (index > 0) {
                     return item.dataset.user
-                })
+                }})
                 if (list.length == 0) {can.user.toast("请添加组员"); return}
 
-                can.run(event, ["spawn", "", ui.name.value].concat(list), function(msg) {
+                can.run(event, ["spawn", ui.name.value].concat(list), function(msg) {
                     can.Hide(), can.Export(event, "update", "river");
                 })
-            }]}, {name: "list", view: ["list", "table"], list: [{text: ["2. 已选用户列表", "caption"]}]},
+            }]}, {name: "list", view: ["list", "table"], list: [
+                {text: ["2. 已选用户列表", "caption"]},
+                {row: ["username", "usernode"], sub: "th"},
+            ]},
         ]}])
         can.ui = ui
     },
     init: function(event, can, msg, key, output) {output.innerHTML = "";
         var table = can.page.Append(can, output, "table");
-        can.page.Append(can, table, [{text: ["1. 选择用户节点 ->", "caption"]}])
+        can.page.Appends(can, table, [{text: ["1. 选择用户节点 ->", "caption"]}])
 
-        can.page.AppendTable(can, table, msg, ["key", "user.route"], function(event, value, key, index, tr, td) {tr.className = "hidden";
+        can.page.AppendTable(can, table, msg, ["username", "usernode"], function(event, value, key, index, tr, td) {tr.className = "hidden";
             var uis = can.page.Append(can, can.ui.list, [{type: "tr", list: [
-                {text: [value, "td"]},
-                {text: [msg["user.route"][index], "td"]},
+                {text: [msg["username"][index], "td"]},
+                {text: [msg["usernode"][index], "td"]},
             ], dataset: {user: value}, click: function(event) {
-                tr.className = "normal", uis.last.parentNode.removeChild(uis.last)
+                tr.className = "normal", can.page.Remove(can, uis.tr)
             }}])
         })
     },

@@ -1,5 +1,30 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: function(can, msg, cb, output, option) {output.innerHTML = msg.Result();
+        can.page.Select(can, output, "table", function(table) {
+            can.page.OrderTable(can, table)
+        })
+        can.page.Select(can, output, ".story", function(story) {var data = story.dataset||{};
+            story.oncontextmenu = function(event) {
+                can.user.carte(event, shy("", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
+
+                    typeof cb == "function"? cb(event, can, msg, cmd, story):
+                        can.run(event, ["story", typeof cb == "string"? cb: cmd, data.type, data.name, data.text], function(msg) {
+                            var timer = msg.Result()? can.user.toast(msg.Result()): can.user.toast({
+                                duration: -1, text: cmd, width: 800, height: 400,
+                                list: [{type: "table", list: [{row: msg.append, sub: "th"}].concat(msg.Table(function(line, index) {
+                                    return {row: can.core.List(msg.append, function(key) {return msg[key][index]})}
+                                }))}, {button: ["关闭", function(event) {timer.stop = true}]}],
+                            })
+                        }, true)
+                }))
+            }
+        })
+        return
+        can.page.Select(can, output, "ul.premenu", function(pre) {
+            can.page.Select(can, output, "ul.endmenu", function(end) {
+                can.page.CopySub(can, pre, end)
+            })
+        })
         can.page.Select(can, output, "svg", function(svg) {
             svg.onclick = function(event) {var item = event.target;
                 switch (event.target.tagName) {
@@ -54,7 +79,7 @@ Volcanos("onchoice", {help: "组件菜单", list: ["返回", "清空", "复制",
 Volcanos("ondetail", {help: "组件详情", list: ["选择", "修改", "复制"],
     "选择": "select",
     "删除": "delete",
-    "复制": function(event, can, msg, key, svg) {
+    "复制": function(event, can, msg, cmd, target) {
         can.user.toast(can.page.CopyText(can, svg.innerHTML), "复制成功")
     },
 })

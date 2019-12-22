@@ -67,11 +67,17 @@ var can = Volcanos("chat", {
                 if (width > 0) {field.style.width = width + "px";
                     field.style.left = (document.body.offsetWidth - width) / 2 + "px";
                 }
+                if (width === "") {
+                    field.style.width = ""
+                }
                 if (height > 0) {field.style.height = height + "px";
                     field.style.top = (document.body.offsetHeight - height) / 2 + (offset||0) + "px";
                 }
                 if (height < 0) {field.style.top = -height / 2 + (offset||0) + "px";
                     field.style.height = (document.body.offsetHeight + height) + "px";
+                }
+                if (height === "") {
+                    field.style.height = ""
                 }
                 var cb = pane.onimport["show"];
                 typeof cb == "function" && cb(event, can, width, "show", pane.output)
@@ -225,6 +231,10 @@ var can = Volcanos("chat", {
 
             Export: function(event, value, key, index) {can.Report(event, value, key, index)},
             run: function(event, cmd, cb, silent) {
+                var msg = can.Event(event);
+                can.page.Select(can, option, "input,select", function(item) {
+                    item.name && item.value && msg.Option(item.name, item.value)
+                });
                 (output[cmd[1]] || can[cmd[1]] || can.Run)(event, cmd, cb, silent);
             },
         }, Config.libs.concat(["plugin/"+type]), function(output) {

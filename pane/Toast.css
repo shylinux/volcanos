@@ -1,23 +1,23 @@
-fieldset.dialog.Toast {
+fieldset.Toast {
     border:solid 2px red;
-    background-color:#ffffff;
+    background-color:rgba(100,100,100,0.8);
     position:absolute;
     display:none;
     z-index:200;
 }
-fieldset.dialog.Toast>div.action {
+fieldset.Toast>div.action {
     padding:0 0px;
 }
-fieldset.dialog.Toast>div.output {
+fieldset.Toast>div.output {
     padding:0 10px;
     text-align:center;
 }
-fieldset.dialog.Toast>div.output>div.title {
+fieldset.Toast>div.output>div.title {
     font-size:12px;
     text-align:center;
     color:gray;
 }
-fieldset.dialog.Toast>div.output>div.content  {
+fieldset.Toast>div.output>div.content  {
     word-break:break-word;
     white-space:pre-wrap;
     text-align:center;
@@ -25,7 +25,16 @@ fieldset.dialog.Toast>div.output>div.content  {
     padding:2px;
     font-size:16px;
 }
-fieldset.dialog.Toast>div.output>div.tick {
+fieldset.Toast>div.output table {
+    color:yellow
+}
+fieldset.Toast>div.output table th {
+    background:red;
+}
+fieldset.Toast>div.output table td {
+    white-space:pre;
+}
+fieldset.Toast>div.output>div.tick {
     font-size:12px;
     color:gray;
 }

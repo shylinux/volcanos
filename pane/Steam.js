@@ -6,17 +6,20 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 if (!ui.name.value) {ui.name.focus(); can.user.toast("请输入群名"); return}
 
                 var list = []
-                can.page.Select(can, ui.list, "tr", function(item) {
+                can.page.Select(can, ui.list, "tr", function(item, index) {if (index > 0) {
                     list.push(item.dataset.pod)
-                    list.push(item.dataset.group)
+                    list.push(item.dataset.key)
                     list.push(item.dataset.index)
                     list.push(item.dataset.name)
-                })
+                }})
 
                 can.run(event, [can.Conf("river"), "spawn", ui.name.value].concat(list), function(msg) {
                     can.Hide(), can.Export(event, "update", "storm");
                 })
-            }]}, {name: "list", view: ["list", "table"], list: [{text: ["3. 已选命令列表", "caption"]}]},
+            }]}, {name: "list", view: ["list", "table"], list: [
+                {text: ["3. 已选命令列表", "caption"]},
+                {row: ["ctx", "cmd", "name", "help"], sub: "th"},
+            ]},
         ]}])
         can.device = device
         can.ui = ui
@@ -31,13 +34,13 @@ Volcanos("onimport", {help: "导入数据", list: [],
             can.page.ClassList.add(can, tr, "select")
 
             var node = msg.node[index];
-            can.run(event, [can.Conf("river"), msg.user[index], node], function(com) {
+            can.run(event, [can.Conf("river"), msg.user[index], node], function(com) {var list = com.Table()
                 can.page.Appends(can, can.device, [{text: ["2. 选择模块命令 ->", "caption"]}])
                 var table = can.page.AppendTable(can, can.device, com, ["key", "index", "name", "help"], function(event, value, key, index, tr, td) {
-
+                    var line = list[index];
+                    line.pod = node;
                     var last = can.page.Append(can, can.ui.list, [{
-                        row: [com.key[index], com.index[index], com.name[index], com.help[index]],
-                        dataset: {pod: node, group: com.key[index], index: com.index[index], name: com.name[index]},
+                        row: [line.key, line.index, line.name, line.help], dataset: line,
                         click: function(event) {last.parentNode.removeChild(last)},
                     }]).first
 

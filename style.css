@@ -83,23 +83,6 @@ fieldset>div.output div.item.select {
     background-color:red;
     border:ridge 2px yellow;
 }
-fieldset>div.output div.code {
-    color:white;
-    font-size:14px;
-    font-family:monospace;
-    background-color:#272822;
-    white-space:pre;
-    padding:10px;
-    overflow:auto;
-    border:solid 3px green;
-    max-height:640px;
-}
-fieldset>div.output div.code span.red {
-    color:red;
-}
-fieldset>div.output div.code span.green {
-    color:green;
-}
 fieldset>div.output table td {
     /* word-break:break-word; */
 }
@@ -194,11 +177,6 @@ fieldset.item>div.output>div.status>input.cmd {
     font-size:16px;
     width:250px;
 }
-fieldset.item>div.output>div.code {
-}
-fieldset.item>div.output>div.code div.number {
-    float:left;
-}
 
 fieldset table {
     font-size:14px;
@@ -243,4 +221,22 @@ fieldset table td:hover {
 }
 fieldset table td.select {
     background-color:red;
+}
+
+fieldset div.code {
+    color:white;
+    font-size:14px;
+    font-family:monospace;
+    background-color:#272822;
+    white-space:pre;
+    padding:10px;
+    overflow:auto;
+    border:solid 3px green;
+    max-height:640px;
+}
+fieldset div.code span.red {
+    color:red;
+}
+fieldset div.code span.green {
+    color:green;
 }

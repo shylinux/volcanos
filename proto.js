@@ -111,7 +111,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
 
                     return can.core.List(msg[max], function(value, index, array) {var one = {}, res;
                         can.core.List(msg.append, function(key) {one[key] = msg[key][index]||""})
-                        return typeof cb == "function" && (res = cb(one, index, array)) && res != undefined || one
+                        return typeof cb == "function" && (res = cb(one, index, array)) && res != undefined && res || one
                     })
                 }),
                 Result: function() {

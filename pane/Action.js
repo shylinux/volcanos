@@ -8,6 +8,11 @@ Volcanos("onimport", {help: "导入数据", list: [],
     },
     size: function(event, can, value, cmd, output) {
     },
+    layout: function(event, can, value, cmd, output) {can.layout = value;
+        can.page.Select(can, can.action, "select.layout", function(item) {
+            item.value = value
+        })
+    },
     river: function(event, can, value, cmd, output) {
         if (value == "update") {return}
         can.Conf("temp_river", value)
@@ -23,6 +28,15 @@ Volcanos("onimport", {help: "导入数据", list: [],
             })
         }
     },
+    favor: function(event, can, msg, cmd, output) {var key = msg.detail[0];
+        if (msg._hand) {return}
+        var cb = can.onaction[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onaction ", key), msg._hand = true}
+        var cb = can.onchoice[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onchoice ", key), msg._hand = true}
+
+        var sub = can[key]; if (sub && sub.Select) {sub.Select(event, null, true); return msg.Echo(can._name, " select ", sub._name), msg._hand = true}
+
+        can._plugin && can._plugin.Import(event, msg, cmd)
+    },
     pod: function(event, can, value, cmd, output) {
         can.page.Select(can, can.action, "input."+cmd, function(item) {
             item.value = value
@@ -32,20 +46,6 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.page.Select(can, can.action, "input."+cmd, function(item) {
             document.title = item.value = value;
         })
-    },
-    layout: function(event, can, value, cmd, output) {can.layout = value;
-        can.page.Select(can, can.action, "select.layout", function(item) {
-            item.value = value
-        })
-    },
-    favor: function(event, can, msg, cmd, output) {var key = msg.detail[0];
-        if (msg._hand) {return}
-        var cb = can.onaction[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onaction ", key), msg._hand = true}
-        var cb = can.onchoice[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onchoice ", key), msg._hand = true}
-
-        var sub = can[key]; if (sub && sub.Select) {sub.Select(event, null, true); return msg.Echo(can._name, " select ", sub._name), msg._hand = true}
-
-        can._plugin && can._plugin.Import(event, msg, cmd)
     },
 })
 Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公", "聊天"], "清屏", "刷新", "串行", "并行",
@@ -67,6 +67,9 @@ Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公"
     "刷新": function(event, can, msg, cmd, output) {
         can.page.Select(can, output, "fieldset.item>div.output", function(item) {
             item.innerHTML = "";
+        })
+        can.run(event, [can.Conf("river"), can.Conf("storm")], function(msg) {
+            can.onimport.init(event, can, msg, cmd, output)
         })
     },
 })

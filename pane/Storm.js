@@ -49,9 +49,18 @@ Volcanos("onchoice", {help: "组件菜单", list: ["创建", "刷新"],
         })
     },
 })
-Volcanos("ondetail", {help: "组件详情", list: ["保存", "恢复", "删除"],
+Volcanos("ondetail", {help: "组件详情", list: ["保存", "恢复", "重命名", "删除"],
+    "重命名": function(event, can, line, value, cmd, item) {
+        can.user.prompt("输入新名：", function(name) {
+            can.run(event, [can.Conf("river"), value, "rename", name], function(msg) {
+                can.run(event, [can.Conf("river")], function(msg) {
+                    can.onimport.init(event, can, msg, cmd, can.output)
+                })
+            })
+        })
+    },
     "删除": function(event, can, line, value, cmd, item) {
-        can.run(event, [can.Conf("river"), "delete", value], function(msg) {
+        can.run(event, [can.Conf("river"), value, "remove"], function(msg) {
             can.run(event, [can.Conf("river")], function(msg) {
                 can.onimport.init(event, can, msg, cmd, can.output)
             })

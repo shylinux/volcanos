@@ -18,8 +18,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
 
             var toast = can.page.Appends(can, output, list)
             var width = text.width||text.text.length*10+100
-            width = width>400?400:width
-            can.Show(event, width, text.height||80)
+            width = width>800?800:width
+            can.Show(event, text.width==undefined? width: text.width, text.height==undefined? 80: text.height)
 
             var begin = can.base.Time().split(" ")[1]
             var timer = can.Timer({value: 1000, length: text.duration > 0? text.duration/1000: text.duration}, function(t, i) {

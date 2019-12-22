@@ -1,6 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: shy("添加控件", function(can, item, name, value, option) {
         var input = {type: "input", name: name, data: item};
+        item.type = item.type || item._type;
         switch (item.type) {
             case "upfile": item.type = "file"; break
             case "select":
