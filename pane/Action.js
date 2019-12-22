@@ -37,19 +37,9 @@ Volcanos("onimport", {help: "导入数据", list: [],
 
         can._plugin && can._plugin.Import(event, msg, cmd)
     },
-    pod: function(event, can, value, cmd, output) {
-        can.page.Select(can, can.action, "input."+cmd, function(item) {
-            item.value = value
-        })
-    },
-    you: function(event, can, value, cmd, output) {
-        can.page.Select(can, can.action, "input."+cmd, function(item) {
-            document.title = item.value = value;
-        })
-    },
 })
 Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公", "聊天"], "清屏", "刷新", "串行", "并行",
-    {input: "pod"}, {input: "you"}],
+    {input: "pod"}, {input: "you"}, {input: "hot"}],
     "工作": function(event, can, msg, cmd, output) {
         can.Export(event, cmd, "layout")
     },

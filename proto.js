@@ -78,7 +78,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             msg = event.msg = msg || event.msg || {}, msg.__proto__ = proto || {
                 _create_time: can.base.Time(), _source: can,
                 Log: shy("输出日志", function() {console.log(arguments)}),
-                Ids: function(index) {
+                Ids: function(index, key) {
                     var id = index;
                     msg && msg.id && (id = msg.id[index]) || msg && msg.name && (id = msg.name[index]);
                     return id;

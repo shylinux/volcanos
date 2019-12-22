@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: shy("添加控件", function(can, item, name, value, option) {
         var input = {type: "input", name: name, data: item};
-        item.type = item.type || item._type;
+        item.type = item.type || item._type || item._input;
         switch (item.type) {
             case "upfile": item.type = "file"; break
             case "select":
@@ -40,7 +40,16 @@ Volcanos("onimport", {help: "导入数据", list: [],
 Volcanos("onaction", {help: "控件交互", list: [],
     onclick: function(event, can) {can.Select(event); can.item.type == "button" && can.run(event)},
     onkeydown: function(event, can) {
-        can.page.oninput(event, can)
+        can.page.oninput(event, can, function(event) {
+            switch (event.key) {
+                case "b":
+                    can.Append(event)
+                    return true
+                case "m":
+                    can.Clone(event)
+                    return true
+            }
+        })
 
         switch (event.key) {
             case "Enter": can.run(event, []); break
