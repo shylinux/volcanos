@@ -28,12 +28,12 @@ Volcanos("onimport", {help: "导入数据", list: [],
         var table = can.page.Append(can, output, "table")
 
         can.page.Append(can, table, [{text: ["1. 选择用户节点 ->", "caption"]}])
-        can.page.AppendTable(can, table, msg, ["user", "node"], function(event, value, key, index, tr, td) {
+        can.page.AppendTable(can, table, msg, ["type", "name", "user"], function(event, value, key, index, tr, td) {
 
             can.page.Select(can, table, "tr.select", function(item) {can.page.ClassList.del(can, item, "select")})
             can.page.ClassList.add(can, tr, "select")
 
-            var node = msg.node[index];
+            var node = msg.name[index];
             can.run(event, [can.Conf("river"), msg.user[index], node], function(com) {var list = com.Table()
                 can.page.Appends(can, can.device, [{text: ["2. 选择模块命令 ->", "caption"]}])
                 var table = can.page.AppendTable(can, can.device, com, ["key", "index", "name", "help"], function(event, value, key, index, tr, td) {

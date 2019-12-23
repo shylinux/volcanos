@@ -90,7 +90,7 @@ var can = Volcanos("chat", {
 
             run: function(event, cmds, cb) {var msg = pane.Event(event)
                 can.page.Select(can, pane.action, "input", function(item, index) {
-                    msg.Option(item.name, item.value)
+                    item.name && item.value && msg.Option(item.name, item.value)
                 })
                 can.run(event, pane.option.dataset, cmds, cb)
                 return msg

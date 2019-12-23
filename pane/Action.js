@@ -39,7 +39,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
     },
 })
 Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公", "聊天"], "清屏", "刷新", "串行", "并行",
-    {input: "pod"}, {input: "you"}, {input: "hot"}],
+    {input: "pod"}, {input: "top"},
+    {input: "you"}, {input: "hot"}],
     "工作": function(event, can, msg, cmd, output) {
         can.Export(event, cmd, "layout")
     },
