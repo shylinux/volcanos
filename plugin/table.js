@@ -76,7 +76,7 @@ Volcanos("ondetail", {help: "组件详情", list: ["选择", "编辑", "删除",
     "删除": "delete",
     "编辑": function(event, can, msg, index, key, cmd, td) {
         var text = td.innerHTML;
-        can.page.Appends(can, td, [{type: "input", style: {width: td.clientWidth+"px"}, data: {onkeydown: function(event) {
+        can.page.Appends(can, td, [{type: "input", value: text, style: {width: td.clientWidth+"px"}, data: {onkeydown: function(event) {
             if (event.key == " ") {return event.stopPropagation()}
             if (event.key != "Enter") {return}
             if (key == "value" && msg.key) {key = msg.key[index]}
