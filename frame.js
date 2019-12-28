@@ -252,7 +252,7 @@ var can = Volcanos("chat", {
     }),
 }, Config.libs.concat(Config.list), function(can) {
     can[Config.main] = can.Page(can, Config.main, Config, function(chat) {
-        chat.Login.Export(event||{}, can.user.Search(can, "layout")||"工作", "layout")
+        chat.Login.Export(event||{}, can.user.Search(can, "layout")||Config.layout.def, "layout")
         chat.Login.Import(event||{}, "", "login")
     }, document.body)
 })

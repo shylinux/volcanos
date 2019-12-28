@@ -30,7 +30,7 @@ var Config = {context: "/chat/",
         {group: "index", name: "Action", pos: "bottom"},
         {group: "index", name: "Footer", pos: "foot", state: ["ntxt", "ncmd"], title: '<a href="mailto:shylinux@163.com">shylinux@163.com</a>'},
 
-    ], layout: {list: ["工作", "办公", "聊天"], size: {
+    ], layout: {def: "办公", list: ["工作", "办公", "聊天"], size: {
         "工作": {head: 30, foot: 30, left: 0, right: 100, bottom: -1, center: 0, top: 0},
         "办公": {head: 30, foot: 30, left: 100, right: 100, bottom: -1, center: 0, top: 0},
         "聊天": {head: 30, foot: 30, left: 100, right: 100, bottom: 300, center: 40, top: -2},

@@ -76,7 +76,7 @@ Volcanos("ondetail", {help: "组件详情", list: ["选择", "编辑", "删除",
     "删除": "delete",
     "编辑": function(event, can, msg, index, key, cmd, td) {
         var text = td.innerHTML;
-        can.page.Appends(can, td, [{type: "input", value: text, style: {width: td.clientWidth+"px"}, data: {onkeydown: function(event) {
+        var input = can.page.Appends(can, td, [{type: "input", value: text, style: {width: td.clientWidth+"px"}, data: {onkeydown: function(event) {
             if (event.key == " ") {return event.stopPropagation()}
             if (event.key != "Enter") {return}
             if (key == "value" && msg.key) {key = msg.key[index]}
@@ -84,7 +84,9 @@ Volcanos("ondetail", {help: "组件详情", list: ["选择", "编辑", "删除",
                 td.innerHTML = event.target.value;
                 can.user.toast("修改成功")
             }, true)
-        }}}]).first.focus()
+        }}}]).first;
+        input.focus();
+        input.setSelectionRange(0, input.value.length);
     },
     "复制": function(event, can, msg, index, key, cmd, target) {
         can.user.toast(can.page.CopyText(can, target.innerHTML), "复制成功")
