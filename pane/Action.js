@@ -17,6 +17,9 @@ Volcanos("onimport", {help: "导入数据", list: [],
         if (value == "update") {return}
         can.Conf("temp_river", value)
     },
+    you: function(event, can, value, cmd, output) {
+        can.user.title(value)
+    },
     storm: function(event, can, value, cmd, output) {
         can.Cache(can.Conf("river")+"."+can.Conf("storm"), output, "some");
 
