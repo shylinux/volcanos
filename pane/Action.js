@@ -13,6 +13,9 @@ Volcanos("onimport", {help: "导入数据", list: [],
             item.value = value
         })
     },
+    scroll: function(event, can, value, cmd, output) {can.layout = value;
+        output.parentElement.scrollBy(value.x, value.y)
+    },
     river: function(event, can, value, cmd, output) {
         if (value == "update") {return}
         can.Conf("temp_river", value)

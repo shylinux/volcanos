@@ -20,6 +20,27 @@ Volcanos("onimport", {help: "导入数据", list: [],
             }]}, {type: "br"},
         ])
     },
+    username: function(event, can, value, cmd, output) {
+        return can._socket || (can._socket = can.misc.WSS(can, function(event, m) {
+            if (m.detail) {
+                switch (m.detail[0]) {
+                    case "share":
+                    case "pwd":
+                        m.Echo("hello world")
+
+                }
+                m.Reply(m)
+            } else {
+                page.toast.Pane.Show(m.result.join(""))
+            }
+
+        }, function() {
+            can._socket.close()
+
+        }, null, function() {
+            can.user.toast("WSS Open")
+        }))
+    },
     login: function(event, can, value, cmd, output) {
         if (!can.user.Cookie("sessid")) {can.Show(event, 400, 400); return}
             can.run(event||{}, ["check"], function(msg) {var user = msg.Result()

@@ -11,6 +11,12 @@ Volcanos("onimport", {help: "导入数据", list: [],
 Volcanos("onaction", {help: "组件交互", list: [],
     onkeydown: function(event, can) {
         switch (event.key) {
+            case "k":
+                can.Report(event, {x: 0, y: -30}, "scroll")
+                break
+            case "j":
+                can.Report(event, {x: 0, y: 30}, "scroll")
+                break
             case "Escape":
                 break
             case " ":
