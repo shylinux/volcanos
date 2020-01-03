@@ -13,6 +13,7 @@ App({
             typeof cb == "function" && cb(res)
         }})
     },
+    toast(title) {wx.showToast({title: title})},
     onLaunch() {var app = this
         wx.login({success(res) {app.request("login", {code: res.code}, function(msg) {app.conf.sessid = msg.Result()
             wx.getSetting({success(res) {res.authSetting['scope.userInfo'] && wx.getUserInfo({success(res) {

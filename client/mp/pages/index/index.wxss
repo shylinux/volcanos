@@ -1,3 +1,29 @@
+.display {
+    text-align:center;
+    padding:20px;
+}
+.display button {
+    width:100%;
+}
+.picture {
+    border:solid 2px green;
+}
+view.content {
+    text-align:left;
+    font-size:14px;
+    color:gray;
+}
+textarea {
+    height:45px;
+    overflow:auto;
+    border:solid 2px gray;
+    width:calc(100% - 4px);
+}
+view.comment {
+    text-align:left;
+    font-size:14px;
+    color:gray;
+}
 .output {
     text-align:center;
 }

@@ -1,9 +1,19 @@
-<view class="container">
-  <button bindtap="onscan">扫一扫</button>
-  <view>
-      <view wx:for="{{list}}" class="output">
-          <image src="{{item.path}}" bindtap="click" data-index="{{index}}" data-path="{{item.path}}"></image>
-          <view><text>{{item.time}}</text></view>
-      </view>
-  </view>
+<view class="display">
+    <view><image class="picture" src="{{picture}}"></image></view>
+    <view class="content"><text>扫描内容: </text><textarea class="content" value="{{content}}"/></view>
+    <button bindtap="onScan" type="primary" size="default">扫描二维码</button>
+    <button bindtap="onCopy">复制文本到粘贴板</button>
+    <button bindtap="onSave">保存图片到相册</button>
+    <view class="comment"><text>收藏备注: </text><textarea class="comment" value="{{comment}}"/></view>
+    <button bindtap="onList">添加到本地收藏</button>
+    <button bindtap="onClear" type="warn">清空本地收藏</button>
+    <view>
+        <view wx:for="{{list}}" class="output">
+            <image src="{{item.path}}" bindtap="onClick"
+                data-index="{{index}}" data-picture="{{item.path}}" data-content="{{item.content}}" data-comment="{{item.comment}}"
+                ></image>
+            <view><text>{{item.time}}</text></view>
+            <view><text>{{item.comment}}</text></view>
+        </view>
+    </view>
 </view>
