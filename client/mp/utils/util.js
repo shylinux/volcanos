@@ -29,8 +29,15 @@ function Time(t, fmt) {var now = t? new Date(t): new Date();
     fmt = fmt.replace("%S", Number(now.getSeconds(), 2))
     return fmt
 }
+function Args(url, args) {var list = []
+    for (var k in args) {
+        list.push(encodeURIComponent(k)+"="+encodeURIComponent(args[k]))
+    }
+    return url+"?"+list.join("&")
+}
 
 module.exports = {
-  formatTime: formatTime,
+    formatTime: formatTime,
     Time: Time,
+    Args: Args,
 }

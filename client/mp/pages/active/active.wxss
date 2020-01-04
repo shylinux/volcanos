@@ -8,7 +8,9 @@
     height:100%;
     width:100%;
 }
-
+.output {
+    background-color:#272822;
+}
 table {
     width:100%;
     background-color:#272822;
@@ -30,4 +32,7 @@ td {
     width:100%;
     text-align:center;
     border:solid 1px green;
+}
+.detail {
+    border:solid 2px green;
 }

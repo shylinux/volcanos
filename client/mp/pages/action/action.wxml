@@ -1,0 +1,26 @@
+<view class="display">
+    <view class="action">
+        <view wx:for="{{button}}">
+            <button size="mini" bindtap="{{item.bind}}" data-name="{{item.name}}">{{item.name}}</button>
+        </view>
+    </view>
+    <view class="field" wx:for="{{res}}" wx:for-index="order" wx:for-item="field">
+        <view class="detail">
+            <view><text class="title">{{field.name}}({{field.help}})</text></view>
+            <view wx:for="{{field.inputs}}" class="inputs">
+                <view wx:if="{{item._input == 'text'}}">
+                    <input type="text" placeholder="{{item.name}}" bindconfirm="onEnter" data-order="{{order}}" data-field="{{field}}"/>
+                </view>
+                <view wx:elif="{{item._input == 'button'}}" class="button">
+                    <button size="mini" bindtap="onClick" data-order="{{order}}" data-field="{{field}}" data-index="{{index}}" data-input="{{item}}">{{item.value}}</button>
+                </view>
+            </view>
+        </view>
+
+        <table wx:if="{{field.msg}}">
+            <tr><th wx:for="{{field.msg.append}}">{{item}}</th></tr>
+            <tr wx:for="{{field.msg[field.msg.append[0]]}}" wx:for-index="line"><td wx:for="{{field.msg.append}}">{{field.msg[item][line]}}</td></tr>
+        </table>
+        <view class="output" wx:if="{{field.msg.result}}"><text wx:for="{{field.msg.result}}">{{item}}</text></view>
+    </view>
+</view>

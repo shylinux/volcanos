@@ -1,6 +1,6 @@
+const utils = require("../../utils/util.js")
 const app = getApp()
 
-var utils = require("../../utils/util.js")
 Page({
     data: {
         picture: "",
@@ -13,8 +13,17 @@ Page({
     },
     onScan(event) {var page = this
         wx.scanCode({success(res) {
+            try {
+                var value = JSON.parse(res.result)
+                switch (value.type) {
+                    case "active":
+                        app.userinfo(function(userInfo) {
+                            app.request("mp/login/auth", {auth: value.name})
+                        })
+                }
+            } catch(e) {}
             page.setData({content: res.result})
-            app.download("login?type="+encodeURIComponent(res.scanType)+"&scan="+encodeURIComponent(res.result), {}, function(res) {
+            app.download("login/scan?type="+encodeURIComponent(res.scanType)+"&scan="+encodeURIComponent(res.result), {}, function(res) {
                 page.setData({picture: res.tempFilePath})
             })
         }})
@@ -58,18 +67,6 @@ Page({
                 case 2: wx.saveImageToPhotosAlbum({filePath: data.picture, success(res) {app.toast("保存成功")}}); break
                 case 3:
             }
-        }})
-    },
-    onscan(event) {var page = this
-        wx.scanCode({success(res) {
-            app.download("login?type="+encodeURIComponent(res.scanType)+"&scan="+encodeURIComponent(res.result), {}, function(res) {
-                wx.saveFile({tempFilePath: res.tempFilePath, success(res) {
-                    var list = wx.getStorageSync("qrcode") || []
-                    list.push({path: res.savedFilePath, index: list.length, time: utils.Time()})
-                    wx.setStorageSync("qrcode", list)
-                    page.show()
-                }})
-            })
         }})
     },
     onLoad() {this.show()},

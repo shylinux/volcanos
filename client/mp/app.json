@@ -1,13 +1,18 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/logs/logs"
+    "pages/river/river",
+    "pages/storm/storm",
+    "pages/action/action",
+    "pages/active/active",
+    "pages/favor/favor",
+    "pages/index/index"
   ],
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#000",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#000",
     "navigationBarTitleText": "终端工具链",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

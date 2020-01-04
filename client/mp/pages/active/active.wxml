@@ -1,0 +1,8 @@
+<view class="display">
+    <input class="detail" type="text" value="{{cmd}}" focus bindfocus="onFocus" bindinput="onInput" bindconfirm="onEnter" confirm-hold/>
+    <table wx:if="{{msg.append && msg.append[0]}}">
+        <tr><th wx:for="{{msg.append}}">{{item}}</th></tr>
+        <tr wx:for="{{msg[msg.append[0]]}}" wx:for-index="line"><td wx:for="{{msg.append}}">{{msg[item][line]}}</td></tr>
+    </table>
+    <view class="output"><text wx:for="{{msg.result}}">{{item}}</text></view>
+</view>

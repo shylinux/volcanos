@@ -1,0 +1,23 @@
+view.action view {
+    float:left;
+}
+view.detail {
+    margin-top:10px;
+    clear:both;
+}
+input {
+    width:80px;
+}
+text.title {
+    font-weight:bold;
+    font-size:18px;
+}
+view.detail>view.inputs>view {
+    float:left;
+}
+.input {
+    border:solid 1px green;
+}
+.output {
+    background-color:#272822;
+}

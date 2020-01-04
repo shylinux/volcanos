@@ -1,0 +1,5 @@
+<view class="display">
+    <table wx:if="{{msg.append && msg.append[0]}}">
+        <tr wx:for="{{msg[msg.append[0]]}}" wx:for-index="line" bindtap="onClick" data-index="{{line}}"><td>{{msg.name[line]}}</td></tr>
+    </table>
+</view>
