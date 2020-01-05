@@ -21,6 +21,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 item.value = value || item.value || "";
                 item.autocomplete = "off";
                 break
+            case "button":
+                item.value = item.value || item.name;
         }
         can.page.ClassList.add(can, item, item.view);
         can.core.List((item.clist||"").split(" "), function(value) {
