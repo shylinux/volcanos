@@ -3,38 +3,30 @@ const app = getApp()
 
 Page({
     data: {
-        cmd: "",
-        msg: {append: ["hi", "he"], hi: [1, 2], he: [3, 4]},
+        msg: {append: ["key", "name"]},
+    },
+    refresh: function() {var page = this
+        app.request("river", {}, function(msg) {page.setData({msg: msg})
+            msg.nRow() == 1 && page.toStorm(0)
+        })
     },
 
-    onClick: function(event) {var page = this, index = event.currentTarget.dataset.index
-        app.jumps("/pages/storm/storm", {river: page.data.msg.key[index]})
-    },
+    toStorm: function(index) {app.jumps("storm/storm", {river: this.data.msg.key[index]})},
+
     onFocus: function(event) {},
     onInput: function(event) {},
-    onEnter: function(event) {var page = this
-        app.userinfo(function(user) {
-            app.request("mp/login/", {cmds: ["cmds", event.detail.value]}, function(msg) {
-                page.setData({cmd: "", msg: msg})
-            })
-        })
-    },
-    onLoad: function (options) {var page = this
-        app.userinfo(function(userinfo) {
-            app.request("river", {}, function(msg) {
-                page.setData({msg: msg})
-                if (msg[msg.append[0]].length == 1) {
-                    app.jumps("/pages/storm/storm", {river: page.data.msg.key[0]})
-                }
-            })
-        })
+    onEnter: function(event) {},
+    onClick: function(event) {this.toStorm(event.currentTarget.dataset.index)},
+
+    onLoad: function (options) {
+        app.conf.sessid = app.conf.sessid || options.sessid
+        this.refresh()
     },
     onReady: function () {},
-    onShow: function () {
-    },
+    onShow: function () {},
     onHide: function () {},
     onUnload: function () {},
-    onPullDownRefresh: function () {},
+    onPullDownRefresh: function () {this.refresh()},
     onReachBottom: function () {},
     onShareAppMessage: function () {}
 })

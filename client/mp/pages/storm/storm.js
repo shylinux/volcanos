@@ -3,40 +3,29 @@ const app = getApp()
 
 Page({
     data: {
-        cmd: "",
-        river: "",
-        msg: {append: ["hi", "he"], hi: [1, 2], he: [3, 4]},
+        river: "", msg: {append: ["key", "name"]},
     },
+    refresh: function() {var page = this
+        app.request("storm", {cmds: [page.data.river]}, function(msg) {
+            page.setData({msg: msg}), msg.nRow() == 1 && page.toAction(0)
+        })
+    },
+    toAction: function(index) {app.jumps("action/action", {river: this.data.river, storm: this.data.msg.key[index]})},
 
-    onClick: function(event) {var page = this, index = event.currentTarget.dataset.index
-        app.jumps("/pages/action/action", {river: page.data.river, storm: page.data.msg.key[index]})
-    },
     onFocus: function(event) {},
     onInput: function(event) {},
-    onEnter: function(event) {var page = this
-        app.userinfo(function(user) {
-            app.request("mp/login/", {cmds: ["cmds", event.detail.value]}, function(msg) {
-                page.setData({cmd: "", msg: msg})
-            })
-        })
-    },
-    onLoad: function (options) {var page = this
-        page.data.river = options.river
-        app.userinfo(function(userinfo) {
-            app.request("storm", {cmds: [options.river]}, function(msg) {
-                page.setData({msg: msg})
-                if (msg[msg.append[0]].length == 1) {
-                    app.jumps("/pages/action/action", {river: options.river, storm: page.data.msg.key[0]})
-                }
-            })
-        })
+    onEnter: function(event) {},
+    onClick: function(event) {this.toAction(event.currentTarget.dataset.index)},
+
+    onLoad: function (options) {
+        app.conf.sessid = app.conf.sessid || options.sessid
+        this.data.river = options.river, this.refresh()
     },
     onReady: function () {},
-    onShow: function (args) {
-    },
+    onShow: function (args) {},
     onHide: function () {},
     onUnload: function () {},
-    onPullDownRefresh: function () {},
+    onPullDownRefresh: function () {this.refresh()},
     onReachBottom: function () {},
     onShareAppMessage: function () {}
 })

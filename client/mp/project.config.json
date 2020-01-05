@@ -33,13 +33,50 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
-		"miniprogram": {
+		"gamePlugin": {
 			"current": -1,
 			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": 0,
+					"name": "pages/action/action",
+					"pathName": "pages/action/action",
+					"query": "river=c796cd&storm=9092d5",
+					"scene": 1008
+				},
+				{
+					"id": 1,
+					"name": "pages/storm/storm",
+					"pathName": "pages/storm/storm",
+					"query": "river=c796cd&storm=9092d5",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "pages/river/river",
+					"pathName": "pages/river/river",
+					"query": "river=c796cd&storm=9092d5",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/scans/scans",
+					"pathName": "pages/scans/scans",
+					"query": "river=c796cd&storm=9092d5",
+					"scene": null
+				}
+			]
 		}
 	}
 }

@@ -69,5 +69,6 @@ Page({
             }
         }})
     },
+
     onLoad() {this.show()},
 })

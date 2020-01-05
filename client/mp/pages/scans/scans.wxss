@@ -1,5 +1,6 @@
 .display {
     text-align:center;
+    width:calc(100% - 40px);
     padding:20px;
 }
 .display button {
@@ -8,22 +9,23 @@
 .picture {
     border:solid 2px green;
 }
-view.content {
+.content {
     text-align:left;
     font-size:14px;
     color:gray;
 }
-textarea {
-    height:45px;
-    overflow:auto;
-    border:solid 2px gray;
-    width:calc(100% - 4px);
-}
-view.comment {
+.comment {
     text-align:left;
     font-size:14px;
     color:gray;
 }
 .output {
     text-align:center;
+}
+
+textarea {
+    height:45px;
+    overflow:auto;
+    border:solid 2px gray;
+    width:calc(100% - 4px);
 }

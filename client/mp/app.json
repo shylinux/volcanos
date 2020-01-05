@@ -5,7 +5,7 @@
     "pages/action/action",
     "pages/active/active",
     "pages/favor/favor",
-    "pages/index/index"
+    "pages/scans/scans"
   ],
   "window": {
     "backgroundColor": "#000",

@@ -31,3 +31,11 @@ td {
     text-align:center;
     border:solid 1px green;
 }
+td.item {
+    font-size:18px;
+    padding:10px;
+}
+
+.output {
+    border:solid 2px red;
+}
