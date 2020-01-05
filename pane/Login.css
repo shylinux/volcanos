@@ -1,10 +1,9 @@
 fieldset.Login {
-    font-size:28px;
+    font-size:24px;
     z-index:20;
 }
 fieldset.Login>form.option input {
-    font-size:18px;
-    height:28px;
+    height:24px;
 }
 fieldset.Login>form.option button {
     font-size:18px;
