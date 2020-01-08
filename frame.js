@@ -138,7 +138,7 @@ var can = Volcanos("chat", {
                 var name = item.name || item.value || "args"+plugin.page.Select(can, option, "input.args.temp").length;
                 var count = plugin.page.Select(can, option, ".args").length, value = "";
                 args && count < args.length && (value = args[count] || item.value || "");
-                plugin[name] = can.Inputs(plugin, item, "input", name, value, cb, option);
+                plugin[name] = can.Inputs(plugin, item, item.display||"input", name, value, cb, option);
             },
             Select: function(event, target, focus) {
                 can.page.Select(can, field.parentNode, "fieldset.item.select", function(item) {
@@ -208,7 +208,7 @@ var can = Volcanos("chat", {
         return plugin
     }),
     Inputs: shy("构造控件", function(can, item, type, name, value, cb, option) {
-        var input = Volcanos(name, {_type: "local", item: item,
+        var input = Volcanos(name, {_type: "local", item: item, _plugin: can,
             Select: function(event) {can.Select(event, input.target, true)},
             Import: function(event, value, key, index) {var cb = input.onimport[item.imports];
                 value = typeof cb == "function" && cb(event, input, value, key, input.target) || value
