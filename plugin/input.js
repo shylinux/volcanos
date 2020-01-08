@@ -16,6 +16,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 var half = parseFloat(item.half||"1")||1;
                 input.type = "textarea", item.style = "height:"+(item.height||"50px")+";width:"+parseInt(((500-35)/half))+"px";
                 // no break
+            case "password":
             case "text":
                 can.page.ClassList.add(can, item, "args");
                 item.value = value || item.value || "";
@@ -30,7 +31,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
         })
 
         var target = can.Dream(option, "input", input)[input.name];
-        (item.type == "text" || item.type == "textarea") && !target.placeholder && (target.placeholder = item.name || "");
+        !target.placeholder && (target.placeholder = item.name || "");
+        // (item.type == "text" || item.type == "textarea") && !target.placeholder && (target.placeholder = item.name || "");
         item.type == "text" && !target.title && (target.title = item.placeholder || item.name || "");
         item.type == "button" && item.action == "auto" && can.run && can.run({});
         return target;

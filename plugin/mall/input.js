@@ -1,110 +1,39 @@
 Volcanos("onimport", {help: "导入数据", list: [],
-    init: shy("添加控件", function(can, item, name, value, option) {
-        var input = {type: "input", name: name, data: item};
-        item.type = item.type || item._type || item._input;
-        switch (item.type) {
-            case "upfile": item.type = "file"; break
-            case "select":
-                item.values = typeof item.values == "string"? item.values.split(" "): item.values;
-                input.type = "select", input.list = item.values.map(function(value) {
-                    return {type: "option", value: value, inner: value};
-                })
-                item.value = value || item.value || item.values[0];
-                can.page.ClassList.add(can, item, "args");
-                break
-            case "textarea":
-                var half = parseFloat(item.half||"1")||1;
-                input.type = "textarea", item.style = "height:"+(item.height||"50px")+";width:"+parseInt(((500-35)/half))+"px";
-                // no break
-            case "text":
-                can.page.ClassList.add(can, item, "args");
-                item.value = value || item.value || "";
-                item.autocomplete = "off";
-                break
-            case "button":
-                item.value = item.value || item.name;
+    _init: function(can, feature, output, action, option) {
+        function passcode(event) {
+            can.Run(event, [], function(msg) {
+                can.page.Appends(can, output, [{type: "img", src: "data:image/jpg;base64,"+msg.image[0], onclick: function(event) {
+                    var p = can.page.Append(can, output, [{view: ["what", "div"], dataset: {meta: ""+(event.offsetX+1)+","+(event.offsetY-30+1)+""}, style: {
+                        background: "red", position: "absolute", width: "20px", height: "20px",
+                        left: event.offsetX+1+"px", top: event.offsetY+30+1+"px",
+                    }, onclick: function(event) {
+                        p.parentNode.removeChild(p)
+                    }}]).what
+                }}])
+            }, true)
         }
-        can.page.ClassList.add(can, item, item.view);
-        can.core.List((item.clist||"").split(" "), function(value) {
-            can.page.ClassList.add(can, item, value);
-        })
 
-        var target = can.Dream(option, "input", input)[input.name];
-        (item.type == "text" || item.type == "textarea") && !target.placeholder && (target.placeholder = item.name || "");
-        item.type == "text" && !target.title && (target.title = item.placeholder || item.name || "");
-        item.type == "button" && item.action == "auto" && can.run && can.run({});
-        return target;
-    }),
-    path: function(event, can, value, cmd, target) {
-        return target.value + (target.value == "" || target.value.endsWith("/")? "": "/") + value
-    },
-})
-Volcanos("onaction", {help: "控件交互", list: [],
-    onclick: function(event, can) {
-        switch (event.target.value) {
-            case "登录":
-                can._plugin.Run(event, ["check", can.page.Select(can, can._plugin._output.target, "div.what", function(item) {return item.dataset.meta}).join(",")], function(msg) {
+        can.page.Append(can, option, [
+            {button: ["刷新", passcode]},
+            {username: ["账号", "args"]}, {password: ["密码", "args"]},
+            {button: ["登录", function(event) {
+                var point = can.page.Select(can, output, "div.what", function(item) {return item.dataset.meta}).join(",")
+                point == ""? can.page.toast("请点击图片"): can.Run(event, ["check", point], function(msg) {
                     if (msg.result_code == "4") {
-                        can._plugin.Run(event, ["login"].concat(can.page.Select(can, can._plugin.target, "input.args", function(item) {return item.value})).concat([msg.cmds[4]]), function(msg) {
+                        var input = can.page.Select(can, option, "input.args", function(item) {return item.value})
+                        can.Run(event, ["login"].concat(input).concat([msg.cmds[4]]), function(msg) {
                             can.page.toast(msg.result_message[0])
                         })
                     } else {
-                        can._plugin.Run(event, [])
+                        passcode(event)
                     }
                 }, true)
-                break
-            case "刷新":
-                can.item.type == "button" && can._plugin.Run(event, [])
-                break
-        }
-    },
-    onkeydown: function(event, can) {
-        can.page.oninput(event, can, function(event) {
-            switch (event.key) {
-                case "b":
-                    can.Append(event)
-                    return true
-                case "m":
-                    can.Clone(event)
-                    return true
-            }
-        })
-
-        switch (event.key) {
-            case "Enter": can.run(event, []); break
-            case "Escape": event.target.blur(); break
-            default:
-                if (event.target.value.endsWith("j") && event.key == "k") {
-                    can.page.DelText(event.target, event.target.selectionStart-1, 2);
-                    event.target.blur();
-                    break
-                }
-                return false
-        }
-        event.stopPropagation()
-        event.preventDefault()
-        return true
-    },
-    onkeyup: function(event, can) {
-        switch (event.key) {
-            default: return false
-        }
-        event.stopPropagation()
-        event.preventDefault()
-        return true
+            }]},
+        ])
     },
 })
-Volcanos("onchoice", {help: "控件菜单", list: ["全选", "复制", "清空"],
-    "全选": function(event, can, msg, value, target) {
-        can.target.focus(), can.target.setSelectionRange(0, can.target.value.length);
-    },
-    "复制": function(event, can, msg, value, target) {
-        can.user.toast(can.page.CopyText(can, can.target.value), "复制成功")
-    },
-    "清空": function(event, can, msg, value, target) {
-        can.target.value = "";
-    },
-})
+Volcanos("onaction", {help: "控件交互", list: []})
+Volcanos("onchoice", {help: "控件菜单", list: []})
 Volcanos("ondetail", {help: "控件详情", list: []})
 Volcanos("onexport", {help: "导出数据", list: []})
 

@@ -199,8 +199,9 @@ var can = Volcanos("chat", {
                     can.page.AppendField(can, field.parentNode, "item "+meta.group+" "+meta.nick, meta), cb)
             },
             Delete: function(event) {field.parentNode.removeChild(field)},
-        }, Config.libs.concat(["plugin/"+(meta.type||"state")]), function(plugin) {plugin.Conf(meta);
+        }, Config.libs.concat(["plugin/"+(meta.type||feature.active||"state")]), function(plugin) {plugin.Conf(meta);
             var list = JSON.parse(meta.inputs||"[]");
+            plugin.onimport._init? plugin.onimport._init(plugin, feature, plugin.output, plugin.action, plugin.option):
             can.core.Next(list.length>0? list: [{type: "text"}, {type: "button", value: "执行"}], plugin.Append, function() {
                 typeof cb == "function" && cb(plugin)
             })
