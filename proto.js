@@ -208,7 +208,6 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             can.load(libs[0]), next()
         } else {
             // 加载脚本
-            if (libs[0].indexOf(".") == -1) {libs[0] += ".js"}
             if (libs[0].endsWith(".wasm")) {var go = new Go();
                 WebAssembly.instantiateStreaming(fetch(libs[0]), go.importObject).then((result) => {
                     go.argv = [can];
@@ -218,7 +217,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     console.error(err);
                 });
             } else {
-                can.Dream(document.body, libs[0], function() {
+                can.Dream(document.body, libs[0].indexOf(".") == -1? libs[0]+".js": libs[0], function() {
                     can.load(libs[0]), next();
                 })
             }
