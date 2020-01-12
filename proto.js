@@ -208,9 +208,20 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             can.load(libs[0]), next()
         } else {
             // 加载脚本
-            can.Dream(document.body, libs[0]+".js", function() {
-                can.load(libs[0]), next();
-            })
+            if (libs[0].indexOf(".") == -1) {libs[0] += ".js"}
+            if (libs[0].endsWith(".wasm")) {var go = new Go();
+                WebAssembly.instantiateStreaming(fetch(libs[0]), go.importObject).then((result) => {
+                    go.argv = [can];
+                    go.run(result.instance);
+                    next();
+                }).catch((err) => {
+                    console.error(err);
+                });
+            } else {
+                can.Dream(document.body, libs[0], function() {
+                    can.load(libs[0]), next();
+                })
+            }
         }
     } else {
         // 独立模块

@@ -10,7 +10,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             case "TD":
                 can.onimport.which(event, table, msg.append, function(index, key) {
                     can.ondetail["复制"](event, can, msg, event.target.innerHTML, index, key, event.target);
-                    can.Export(event, event.target.innerHTML, key, index)
+                    can.Export(event, event.target.innerHTML.trim(), key, index)
                 })
                 break
             case "TH":

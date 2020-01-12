@@ -195,8 +195,9 @@ var can = Volcanos("chat", {
                 return plugin._output = plugin[type] = can.Output(plugin, feature, type, msg, cb, output, option)
             },
             Clone: function(event, cb) {meta.nick = meta.name + can.ID()
-                can.Plugin(can, meta.nick, meta, run,
-                    can.page.AppendField(can, field.parentNode, "item "+meta.group+" "+meta.nick, meta), cb)
+                meta.args = can.page.Select(can, plugin.option, ".args", function(item) {return item.value})
+                can._plugins.push(can.Plugin(can, meta.nick, meta, run,
+                    can.page.AppendField(can, field.parentNode, "item "+meta.group+" "+meta.nick, meta), cb))
             },
             Delete: function(event) {field.parentNode.removeChild(field)},
         }, Config.libs.concat(["plugin/"+(meta.type||feature.active||"state")]), function(plugin) {plugin.Conf(meta);
@@ -257,4 +258,3 @@ var can = Volcanos("chat", {
         chat.Login.Import(event||{}, "", "login")
     }, document.body)
 })
-
