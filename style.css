@@ -223,6 +223,20 @@ fieldset table td.select {
     background-color:red;
 }
 
+fieldset div.stack {
+    cursor:pointer;
+    width:fit-content;
+}
+fieldset div.stack.fold {
+    font-weight:bold;
+}
+fieldset ul.stack {
+    margin:0px;
+}
+fieldset ul.stack:hover {
+    border:solid 2px red;
+}
+
 fieldset div.code {
     color:white;
     font-size:14px;

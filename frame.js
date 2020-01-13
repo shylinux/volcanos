@@ -97,15 +97,13 @@ var can = Volcanos("chat", {
             },
         }, Config.libs.concat(["pane/"+name]), function(pane) {
             can.Dream(document.head, "pane/"+name+".css")
-            pane.onimport._init && pane.onimport._init(pane, pane.Conf(meta), pane.output, pane.action, pane.option, field)
-
             function deal(event, value)  {
                 typeof pane.onaction[value] == "function" && pane.onaction[value](event, pane, meta, value, pane.output)
             }
-
             can.page.Append(can, pane.action, can.core.List(pane.onaction.list, function(line) {
                 return typeof line == "string"? {button: [line, deal]}: line.length > 0? {select: [line, deal]}: line
             }))
+            pane.onimport._init && pane.onimport._init(pane, pane.Conf(meta), pane.output, pane.action, pane.option, field)
             typeof cb == "function" && cb(pane)
         }, meta)
         return pane

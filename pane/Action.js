@@ -1,10 +1,16 @@
 Volcanos("onimport", {help: "导入数据", list: [],
+    _init: function(can, conf, output, action, option, field) {
+        can.page.Select(can, action, "input", function(input) {
+            input.value = can.user.Search(can, input.name) || ""
+        })
+    },
     init: function(event, can, msg, cmd, output) {output.innerHTML = "";
         msg.Table(function(item, index) {if (!item.name) {return}
             can._plugins.push(can[item.name] = can.Plugin(can, item.name, item, function(event, cmds, cbs) {
                 can.run(event, [item.river, item.storm, item.action].concat(cmds), cbs)
             }, can.page.AppendField(can, output, "item "+item.group+" "+item.name, item)))
         })
+
     },
     size: function(event, can, value, cmd, output) {
     },

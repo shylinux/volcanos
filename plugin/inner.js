@@ -22,6 +22,43 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 }))
             }
         })
+        can.page.Select(can, output, "div.stack", function(stack) {var data = stack.dataset||{};
+            function fold(stack) {
+                stack.nextSibling && (stack.nextSibling.style.display = "none")
+                can.page.ClassList.add(can, stack, "fold")
+                can.page.ClassList.del(can, stack, "span")
+                can.page.Select(can, stack, "span.state", function(state) {
+                    state.innerText = ">"
+                })
+            }
+            function span(stack) {
+                stack.nextSibling && (stack.nextSibling.style.display = "")
+                can.page.ClassList.add(can, stack, "span")
+                can.page.ClassList.del(can, stack, "fold")
+                can.page.Select(can, stack, "span.state", function(state) {
+                    state.innerText = "v"
+                })
+            }
+
+            stack.oncontextmenu = function(event) {var detail = can.feature.detail || can.ondetail.list, target = event.target;
+                can.user.carte(event, shy("", can.ondetail, ["全部折叠", "全部展开", "标记颜色"], function(event, cmd, meta) {var cb = meta[cmd];
+                    switch (cmd) {
+                        case "标记颜色":
+                            can.user.prompt("请输入颜色：", function(color) {
+                                target.style.background = color;
+                            })
+                            break
+                        case "全部折叠":
+                            fold(stack), can.page.Select(can, stack.nextSibling, "div.stack", fold)
+                            break
+                        case "全部展开":
+                            span(stack), can.page.Select(can, stack.nextSibling, "div.stack", span)
+                            break
+                    }
+                }))
+            }
+            stack.onclick = function(event) {stack.nextSibling && (stack.nextSibling.style.display == "none"? span(stack): fold(stack))}
+        })
     },
     favor: function(event, can, msg, cmd, output) {var key = msg.detail[0];
         var cb = can.onaction[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onaction ", key), msg._hand = true}

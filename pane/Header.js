@@ -38,11 +38,15 @@ Volcanos("onchoice", {help: "组件菜单", list: []})
 Volcanos("ondetail", {help: "组件详情", list: []})
 Volcanos("onexport", {help: "导出数据", list: [],
     title: function(event, can, value, cmd, output) {
-        can.user.Search(can, {
+        var args = {
             river: can.Conf("river"),
             storm: can.Conf("storm"),
             layout: can.Conf("layout"),
+        }
+        can.page.Select(can, document.body, "fieldset.Action>div.action>input", function(input) {
+            args[input.name] = input.value
         })
+        can.user.Search(can, args)
     },
     link: function(event, can, value, cmd, output) {
         can.ui[cmd].innerHTML = value
