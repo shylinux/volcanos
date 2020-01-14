@@ -231,6 +231,7 @@ fieldset div.stack.fold {
     font-weight:bold;
 }
 fieldset ul.stack {
+    border:solid 2px #0000;
     margin:0px;
 }
 fieldset ul.stack:hover {

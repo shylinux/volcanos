@@ -254,5 +254,6 @@ var can = Volcanos("chat", {
     can[Config.main] = can.Page(can, Config.main, Config, function(chat) {
         chat.Login.Export(event||{}, can.user.Search(can, "layout")||Config.layout.def, "layout")
         chat.Login.Import(event||{}, "", "login")
+        can.user.Search(can, "you") && can.user.title(can.user.Search(can, "you"))
     }, document.body)
 })

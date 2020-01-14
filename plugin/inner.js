@@ -25,28 +25,42 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.page.Select(can, output, "div.stack", function(stack) {var data = stack.dataset||{};
             function fold(stack) {
                 stack.nextSibling && (stack.nextSibling.style.display = "none")
-                can.page.ClassList.add(can, stack, "fold")
-                can.page.ClassList.del(can, stack, "span")
                 can.page.Select(can, stack, "span.state", function(state) {
+                    if (state.innerText == "o") {return}
+                    can.page.ClassList.add(can, stack, "fold")
+                    can.page.ClassList.del(can, stack, "span")
                     state.innerText = ">"
                 })
             }
             function span(stack) {
                 stack.nextSibling && (stack.nextSibling.style.display = "")
-                can.page.ClassList.add(can, stack, "span")
-                can.page.ClassList.del(can, stack, "fold")
                 can.page.Select(can, stack, "span.state", function(state) {
+                    if (state.innerText == "o") {return}
+                    can.page.ClassList.add(can, stack, "span")
+                    can.page.ClassList.del(can, stack, "fold")
                     state.innerText = "v"
                 })
             }
+            function mark(stack, color) {
+                stack.style.background = color;
+                stack.style.color = color == ""? "": "white";
+            }
 
             stack.oncontextmenu = function(event) {var detail = can.feature.detail || can.ondetail.list, target = event.target;
-                can.user.carte(event, shy("", can.ondetail, ["全部折叠", "全部展开", "标记颜色"], function(event, cmd, meta) {var cb = meta[cmd];
+                can.user.carte(event, shy("", can.ondetail, ["全部折叠", "全部展开", "标记颜色", "清除颜色", "red", "green", "blue"], function(event, cmd, meta) {var cb = meta[cmd];
                     switch (cmd) {
+                        case "red":
+                        case "green":
+                        case "blue":
+                            mark(target, cmd)
+                            break
                         case "标记颜色":
                             can.user.prompt("请输入颜色：", function(color) {
-                                target.style.background = color;
+                                mark(target, color)
                             })
+                            break
+                        case "清除颜色":
+                            mark(target, "")
                             break
                         case "全部折叠":
                             fold(stack), can.page.Select(can, stack.nextSibling, "div.stack", fold)
