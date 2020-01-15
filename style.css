@@ -223,6 +223,9 @@ fieldset table td.select {
     background-color:red;
 }
 
+fieldset div.stack:hover {
+    background-color:red;
+}
 fieldset div.stack {
     cursor:pointer;
     width:fit-content;
