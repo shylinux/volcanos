@@ -1,5 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [],
-    init: function(can, msg, cb, output, option) {output.innerHTML = msg.Result();
+    init: function(can, msg, cb, output, action, option) {output.innerHTML = msg.Result();
         can.page.Select(can, output, "table", function(table) {can.page.OrderTable(can, table)})
         can.page.Select(can, output, ".story", function(story) {var data = story.dataset||{};
             story.oncontextmenu = function(event) {var detail = can.feature.detail || can.ondetail.list;

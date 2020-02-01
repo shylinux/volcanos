@@ -61,6 +61,7 @@ fieldset>form.option div.item.textarea {
 }
 fieldset>div.action {
     padding:6px;
+    clear:both;
 }
 fieldset>div.action div.space {
     display:inline-block;
@@ -176,6 +177,36 @@ fieldset.item>div.output>div.status>input.cmd {
     color:lightgreen;;
     font-size:16px;
     width:250px;
+}
+
+fieldset.item>div.output>div.code svg {
+    border: solid 2px red;
+}
+
+fieldset.item div.border-left {
+    position:absolute;
+    width:2px;
+    height:inherit;
+    height:-webkit-fill-available;
+    background:green;
+    cursor:ew-resize;
+}
+fieldset.item div.border-right {
+    position:absolute;
+    right:0px;
+    width:2px;
+    height:inherit;
+    height:-webkit-fill-available;
+    background:green;
+    cursor:ew-resize;
+}
+fieldset.item div.border-bottom {
+    position:absolute;
+    bottom:0px;
+    height:2px;
+    width:-webkit-fill-available;
+    background:green;
+    cursor:ns-resize;
 }
 
 fieldset table {

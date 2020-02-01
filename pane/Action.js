@@ -50,18 +50,14 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can._plugin && can._plugin.Import(event, msg, cmd)
     },
 })
-Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公", "聊天"], "清屏", "刷新", "串行", "并行",
+Volcanos("onaction", {help: "组件交互", list: [["layout", "最大", "工作", "办公", "聊天"], "清屏", "刷新", "串行", "并行",
     {input: "pod"}, {input: "you"}, {input: "hot"}, {input: "top"},
 ],
-    "工作": function(event, can, msg, cmd, output) {
-
-        can.Export(event, cmd, "layout")
+    onmousemove: function(event, can, msg, cmd, output) {
+        can.resize && can.resize(event)
     },
-    "办公": function(event, can, msg, cmd, output) {
-        can.Export(event, cmd, "layout")
-    },
-    "聊天": function(event, can, msg, cmd, output) {
-        can.Export(event, cmd, "layout")
+    layout: function(event, can, value, cmd, output) {
+        can.Export(event, value, cmd)
     },
     "清屏": function(event, can, msg, cmd, output) {
         can.page.Select(can, output, "fieldset.item>div.output", function(item) {

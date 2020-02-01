@@ -101,6 +101,9 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     res.append && (msg.append = res.append) && res.append.forEach(function(item) {
                         res[item] && (msg[item] = res[item])
                     })
+                    res.option && (msg.option = res.option) && res.option.forEach(function(item) {
+                        res[item] && (msg[item] = res[item])
+                    })
                     return msg
                 },
                 Table: shy("遍历数据", function(cb) {if (!msg.append || !msg.append.length || !msg[msg.append[0]]) {return}
@@ -132,14 +135,14 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             if (type.endsWith(".css")) {
                 var style = document.createElement("link");
                 style.rel = "stylesheet", style.type = "text/css";
-                style.href = (can._path||meta.path)+type
+                style.href = (type.startsWith("/")? "": (can._path||meta.path))+type
                 style.onload = line;
                 target.appendChild(style);
                 return style
             }
             if (type.endsWith(".js")) {
                 var script = document.createElement("script");
-                script.src = (can._path||meta.path)+type,
+                script.src = (type.startsWith("/")? "": (can._path||meta.path))+type,
                 script.onload = line;
                 target.appendChild(script);
                 return script
@@ -182,22 +185,27 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
 
     // 加载模块
     function next() {
-        libs && libs.length > 1? Volcanos(name, can, libs.slice(1), cb):
-            typeof cb == "function" && setTimeout(function() {cb(can);
-                if (!can.target) {return}
-                can.core.Item(can.onaction, function(key, cb) {key.indexOf("on") == 0 && (can.target[key] = function(event) {
-                    cb(event, can);
-                })});
-
-                can.target.oncontextmenu = function(event) {
-                    can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, key, meta) {var cb = meta[key];
-                        typeof cb == "function"? cb(event, can, msg, key, event.target):
-                            can.run(event, [typeof cb == "string"? cb: key, event.target], null, true)
-                    }), can)
-                    event.stopPropagation()
-                    event.preventDefault()
+        libs && libs.length > 1? Volcanos(name, can, libs.slice(1), cb): typeof cb == "function" && setTimeout(function() {cb(can); if (can.target) {
+            function run(event, msg, key, cb) {
+                if (typeof cb == "function") {
+                    // 本地命令
+                    cb(event, can, msg, key, can.target)
+                } else {
+                    // 本地命令
+                    can.run(event, ["action", key], function(msg) {can.Import(event, msg, key)}, true)
                 }
-            }, 10);
+            }
+            // 注册event
+            can.core.Item(can.onaction, function(key, cb) {key.indexOf("on") == 0 && (can.target[key] = function(event) {cb(event, can)})});
+            // 注册action
+            can.action && (can.action.innerHTML = ""), can.onaction && can.page.AppendAction(can, can.action, can.onaction.list, function(event, value, key) {
+                key? run(event, value, key, can.onaction[key]): run(event, msg, value, can.onaction[value]);
+            })
+            // 注册choice
+            can.target.oncontextmenu = function(event) {can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, key, meta) {
+                run(event, msg, key, can.onchoice[key] || can.onaction[key]);
+            }), can), event.stopPropagation(), event.preventDefault()}
+        }}, 10);
     }
     if (libs && libs.length > 0) {
         if (can[libs[0]]) {

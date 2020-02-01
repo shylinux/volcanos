@@ -18,6 +18,7 @@ Volcanos("onaction", {help: "组件交互", list: [],
                 can.Report(event, {x: 0, y: 30}, "scroll")
                 break
             case "Escape":
+                can.Action.escape && can.Action.escape(event)
                 break
             case " ":
                 can.Favor && can.page.Select(can, can.Favor.Show(), "input.cmd", function(item) {
