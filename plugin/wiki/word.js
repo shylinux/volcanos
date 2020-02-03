@@ -17,7 +17,11 @@ Volcanos("onimport", {help: "导入数据", list: [],
             return typeof cb == "function" && cb(msg), table;
         }
 
-        var last = can.page.Append(can, output, [{type: "textarea", cols: 40, rows: 18, inner: msg.Result()}]).last;
+        can.page.Append(can, output, [{view: "preview", inner: msg.Option("preview"), style: {
+            float: "left", "max-height": "250px", overflow: "auto",
+            border: "solid 2px red",
+        }}])
+        var last = can.page.Append(can, output, [{type: "textarea", cols: 32, rows: 19, inner: msg.Result()}]).last;
         return typeof cb == "function" && cb(msg), can.view = last;
     },
     which: function(event, table, list, cb) {if (event.target == table) {return cb(-1, "")}

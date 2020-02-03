@@ -21,6 +21,9 @@ Volcanos("onaction", {help: "组件交互", list: [],
                 can.Action.escape && can.Action.escape(event)
                 break
             case " ":
+                if (event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA") {
+                    break
+                }
                 can.Favor && can.page.Select(can, can.Favor.Show(), "input.cmd", function(item) {
                     item.focus()
                 })
