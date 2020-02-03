@@ -259,14 +259,20 @@ var can = Volcanos("chat", {
         if (type == "inner" && (!msg.result || msg.result.length == 0)) {type = "table"}
 
         var output = Volcanos(type, {_type: "local", action: action, msg: msg, feature: feature,
+            Import: function(event, value, key) {var cb = output.onimport[key];
+                typeof cb == "function" && cb(event, output, value, key, target);
+            },
             Option: function(key, value) {
                 can.page.Select(can, can.option, "input[name="+key+"],select[name="+key+"]", function(item) {
                     value != undefined && (item.value = value), value = item.value
                 })
                 return value
             },
-            Import: function(event, value, key) {var cb = output.onimport[key];
-                typeof cb == "function" && cb(event, output, value, key, target);
+            Action: function(key, value) {
+                can.page.Select(can, can.action, "input[name="+key+"],select."+key+",select[name="+key+"]", function(item) {
+                    value != undefined && (item.value = value), value = item.value
+                })
+                return value
             },
             Status: function(event, value, key) {var cb = output.onstatus[key];
                 typeof cb == "function"? cb(event, output, value, key, can.page.Select(can, status, "div."+key)[0]): false && output.run(event, ["status", key, value], function(msg) {
@@ -274,7 +280,7 @@ var can = Volcanos("chat", {
                 }, true)
             },
             Export: function(event, value, key, index) {var cb = output.onexport[key];
-                typeof cb == "function"? cb(event, output, value, key, target): can.Report(event, value, key, index)
+                return typeof cb == "function"? cb(event, output, value, key, target): can.Report(event, value, key, index)
             },
 
             run: function(event, cmd, cb, silent) {var msg = can.Event(event);
