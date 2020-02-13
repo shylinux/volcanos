@@ -12,11 +12,12 @@ Volcanos("onimport", {help: "导入数据", list: [],
 
             var items = item.path.split(".");
             switch (items[items.length-1]) {
+                case "png":
                 case "JPG":
-                    return {img: "/share/local/web.wiki.feel/"+item.path, width: width, oncontextmenu: menu}
+                    return {className: "preview", img: "/share/local/web.wiki.feel/"+item.path, width: width, oncontextmenu: menu}
                 case "MOV":
                 case "m4v":
-                    return {type: "video", width: width, oncontextmenu: menu,
+                    return {className: "preview", type: "video", width: width, oncontextmenu: menu,
                         onplay: cb, onpause: cb,
                         onloadedmetadata: cb,
                         onloadeddata: cb,
@@ -31,7 +32,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         var table = can.page.AppendTable(can, output, msg, msg.append);
 
         var begin = 0, limit = 3;
-        var rate = 1, width = 200;
+        var rate = 1, width = 600;
         var control = can.page.Append(can, output, [{view: ["control"], list: [
             {select: [["width", 100, 200, 400, 600, 800], function(event, value) {width = parseInt(value), page(begin, limit)}]},
             {select: [["rate", 0.1, 0.2, 0.5, 1, 2, 3, 5, 10], function(event, value) {rate = value}]},
@@ -63,23 +64,27 @@ Volcanos("onimport", {help: "导入数据", list: [],
         page(begin, limit);
 
         function show(index) {var item = list[can.page.Select(can, table, "tr")[index+1].dataset.index];
-            var video;
+            var video = {};
             var timer = can.user.toast({text: "", list: [{view: "control", list: [
                 {button: ["close", function(event) {video.pause(), timer.toast.Hide()}]},
-                {select: [["width", 100, 200, 400, 600, 800], function(event, value) {timer.toast.Show(event, parseInt(value)+20), video.width = value}]},
+                {select: [["width", 100, 200, 400, 600, 800], function(event, value) {timer.toast.Show(event, parseInt(value)+20), 
+                        width = value
+                    timer.toast.preview.setAttribute("width", value)
+                        // video.width = value
+                }]},
                 {select: [["rate", 0.1, 0.2, 0.5, 1, 2, 3, 5, 10], function(event, value) {rate = video.playbackRate = value}]},
                 {button: ["prev", function(event) {show(index-1)}]},
                 {text: index+"/"+list.length},
                 {button: ["next", function(event) {show(index+1)}]},
                 {type: "br"}, {text: item.path},
                 {type: "br"}, {text: item.label},
-            ]}].concat([view(index, 400, true, function(event) {video = event.target;
+            ]}].concat([view(index, 600, true, function(event) {video = event.target;
                 switch (event.type) {
                     case "loadeddata": video.playbackRate = rate; break
                     case "ended": show(index+1); break
                 }
-            })]), width: 400+20, height: 620, duration: -1})
-            timer.toast.width.value = 400;
+            })]), width: 600+20, height: 620, duration: -1})
+            timer.toast.width.value = 600;
             timer.toast.rate.value = rate;
         }
 
@@ -99,6 +104,29 @@ Volcanos("onimport", {help: "导入数据", list: [],
             case "TR":
             case "TABLE":
         }}
+        table.oncontextmenu = function(event) {var target = event.target;
+            switch (event.target.tagName) {
+                case "TD":
+                    can.onimport.which(event, table, msg.append, function(index, key) {
+                        can.user.carte(event, shy("", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
+                            var id = msg.Ids(index);
+                            var sub = can.Event(event);
+                            msg.append.forEach(function(key) {sub.Option(key, msg[key][index].trim())})
+                            typeof cb == "function"? cb(event, can, msg, index, key, cmd, target):
+                                // can.run(event, [id, typeof cb == "string"? cb: cmd, key, target.innerHTML], function(msg) {
+                                can.run(event, ["action", typeof cb == "string"? cb: cmd, key, target.innerHTML], function(msg) {
+                                    can.onimport.init(can, msg, cb, output, option)
+                                }, true)
+                        }))
+                    })
+                    event.stopPropagation()
+                    event.preventDefault()
+                    break
+                case "TH":
+                case "TR":
+                case "TABLE":
+            }
+        }
         return typeof cb == "function" && cb(msg), table;
     },
     which: function(event, table, list, cb) {if (event.target == table) {return cb(-1, "")}
@@ -123,17 +151,12 @@ Volcanos("onchoice", {help: "组件交互", list: ["保存", "清空", ["rect", 
         console.log("choice", cmd)
     },
 })
-Volcanos("ondetail", {help: "组件详情", list: ["标签", "删除"],
+Volcanos("ondetail", {help: "组件详情", list: ["标签"],
     "标签": function(event, can, msg, index, key, cmd, target) {
         can.user.prompt("目标", function(kind) {
             can.run(event, ["action", "标签", msg.path, kind], function() {
             }, true)
         })
-        var figure = can.onfigure[target.tagName]
-        figure.copy(event, can, target)
-    },
-    "删除": function(event, can, msg, index, key, cmd, target) {
-        can.page.Remove(can, target)
     },
 })
 Volcanos("onstatus", {help: "组件状态", list: ["begin", "width", "point", "which"],

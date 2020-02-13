@@ -1,4 +1,4 @@
-var Config = {iceberg: "/chat/", volcano: "/static/volcanos/",
+var Config = {iceberg: "http://localhost:9020/chat/", volcano: "/",
     libs: ["lib/base", "lib/core", "lib/misc", "lib/page", "lib/user"],
     main: "chat", list: ["page/chat",
         "pane/Toast", "pane/Tutor", "pane/Debug",
@@ -29,7 +29,7 @@ var Config = {iceberg: "/chat/", volcano: "/static/volcanos/",
         {group: "index", name: "Action", pos: "bottom"},
         {group: "index", name: "Footer", pos: "foot", state: ["ntxt", "ncmd"], title: '<a href="mailto:shylinux@163.com">shylinux@163.com</a>'},
 
-    ], title: "volcanos", layout: {def: "办公", list: ["工作", "办公", "聊天"], size: {
+    ], title: "范晓旭", layout: {def: "办公", list: ["工作", "办公", "聊天"], size: {
         "最大": {head: 0, foot: 0, left: 0, right: 0, bottom: -1, center: 0, top: 0},
         "工作": {head: 30, foot: 30, left: 0, right: 100, bottom: -1, center: 0, top: 0},
         "办公": {head: 30, foot: 30, left: 100, right: 100, bottom: -1, center: 0, top: 0},
@@ -38,3 +38,4 @@ var Config = {iceberg: "/chat/", volcano: "/static/volcanos/",
         }, border: 4,
     },
 }
+

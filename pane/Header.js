@@ -2,11 +2,13 @@ Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, conf, output, action, option, field) {output.innerHTML = "";
         conf.title && can.page.Append(can, output, [{view: "title",
             list: [{text: conf.title, className: "title"}], click: function(event) {can.onexport.title(event, can)}}])
+
         can.ui = can.page.Append(can, output, [{view: "state", list: can.core.List(conf.state, function(item) {
             return {text: conf[item]||"", className: item, click: function(event) {var cb = can.onexport[item];
                 typeof cb == "function" && cb(event, can, item, item, output)
             }};
         })}])
+
         can.timer = can.Timer({interval: 1000, length: -1}, function() {
             can.ui.time.innerHTML = can.base.Time().split(" ")[1]
         })

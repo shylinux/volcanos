@@ -14,35 +14,66 @@ function shy(help, meta, list, cb) { // 封装函数
     return cb;
 }
 function Volcanos(name, can, libs, cb, msg) { // 封装模块
-    // 全局属性
-    var list = arguments.callee.list || [], meta = arguments.callee.meta || {
-        create_time: new Date(), path: "/static/volcanos/", index: 1, cache: {},
-    };
-
-    can = can || {};
-    can._name = name;
+    // 全局缓存
+    var list = arguments.callee.list || [], meta = arguments.callee.meta || {index: 1, cache: {}};
+    arguments.callee.meta = meta, arguments.callee.list = list;
 
     // 定义原型
     var id = 1, conf = {}, conf_cb = {}, sync = {}, cache = {};
-    can[name] || list.push({_name: name, can: can, create_time: new Date()}) && (can.__proto__ = {
-        _create_time: new Date(), _name: name, _path: "", _help: "插件模块", load: function(name) {
+    can = can || {}, list.push(can) && (can.__proto__ = {_name: name, _help: "插件模块", _create_time: new Date(), _load: function(name) {
             if (meta.cache[name]) {var cache = meta.cache[name];
                 for (var i = 0; i < cache.length; i++) {var item = cache[i];
-                    if (item.can._name == can._name) {continue}
-                    can[item._name] = item.can;
+                    if (item._name == can._name) {continue}
+                    can[item._name] = item;
                 }
                 return can
             }
 
             meta.cache[name] = []
             for (var i = meta.index; i < list.length; i++) {var item = list[i];
-                if (item.can._name == can._name || item.can._type == "local") {continue}
-                can[item._name] = item.can;
+                if (item._name == can._name || item._type == "local") {continue}
+                can[item._name] = item;
                 meta.cache[name].push(item);
             }
             meta.index = i;
             return can
         },
+        require: function(libs, cb) {
+            if (!libs || libs.length == 0) {
+                // 加载完成
+                typeof cb == "function" && setTimeout(function() {cb(can)}, 10);
+                return
+            }
+
+            if (can[libs[0]]) {
+                // 已经加载
+                can.require(libs.slice(1), cb)
+                return
+            }
+            if (meta.cache[libs[0]]) {
+                // 缓存加载
+                can._load(libs[0]), can.require(libs.slice(1), cb)
+                return
+            }
+
+            if (libs[0].endsWith(".wasm")) {var go = new Go();
+                // 加载汇编
+                WebAssembly.instantiateStreaming(fetch(libs[0]), go.importObject).then((result) => {
+                    go.argv = [can];
+                    go.run(result.instance);
+                    can.require(libs.slice(1), cb);
+                }).catch((err) => {
+                    console.error(err);
+                });
+                return
+            }
+
+            // 加载脚本
+            can.Dream(document.body, libs[0].indexOf(".") == -1? libs[0]+".js": libs[0], function() {
+                can._load(libs[0]), can.require(libs.slice(1), cb);
+            })
+        },
+
         ID: shy("生成器", function() {return id++}),
         Log: shy("日志器", function() {console.log(arguments)}),
         Conf: shy("配置器", function(key, value, cb) {if (key == undefined) {return conf}
@@ -78,8 +109,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             msg = event.msg = msg || event.msg || {}, msg.__proto__ = proto || {
                 _create_time: can.base.Time(), _source: can,
                 Log: shy("输出日志", function() {console.log(arguments)}),
-                Ids: function(index, key) {
-                    var id = index;
+                Ids: function(index, key) {var id = index;
                     msg && msg.id && (id = msg.id[index]) || msg && msg.name && (id = msg.name[index]);
                     return id;
                 },
@@ -96,6 +126,25 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     for (var i = 0; i < arguments.length; i++) {msg.result.push(arguments[i])}
                     return msg;
                 }),
+                Push: function(key, value) {msg.append = msg.append || []
+                    if (typeof key == "object") {
+                        value? can.core.List(value, function(item) {
+                            msg.Push(item, key[item]||"")
+                        }): can.core.Item(key, function(key, value) {
+                            msg.Push(key, value||"")
+                        })
+                        return
+                    }
+
+                    for (var i = 0; i < msg.append.length; i++) {
+                        if (msg.append[i] == key) {
+                            break
+                        }
+                    }
+                    if (i >= msg.append.length) {msg.append.push(key)}
+                    msg[key] = msg[key] || []
+                    msg[key].push(""+value)
+                },
                 Copy: function(res) {
                     res.result && (msg.result = res.result)
                     res.append && (msg.append = res.append) && res.append.forEach(function(item) {
@@ -128,21 +177,20 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     return [name, ext, txt]
                 },
             };
-            msg.event = event
-            return msg
+            return msg.event = event, msg
         }),
         Dream: shy("构造器", function(target, type, line, key) {
             if (type.endsWith(".css")) {
                 var style = document.createElement("link");
                 style.rel = "stylesheet", style.type = "text/css";
-                style.href = (type.startsWith("/")? "": (can._path||meta.path))+type
+                style.href = (type.startsWith("/")? "": Config.volcano)+type;
                 style.onload = line;
                 target.appendChild(style);
                 return style
             }
             if (type.endsWith(".js")) {
                 var script = document.createElement("script");
-                script.src = (type.startsWith("/")? "": (can._path||meta.path))+type,
+                script.src = (type.startsWith("/")? "": Config.volcano)+type;
                 script.onload = line;
                 target.appendChild(script);
                 return script
@@ -181,11 +229,13 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
         }),
         Story: shy("存储器", function(type, meta, list) {
         }),
-    }), arguments.callee.meta = meta, arguments.callee.list = list;
+    });
 
-    // 加载模块
-    function next() {
-        libs && libs.length > 1? Volcanos(name, can, libs.slice(1), cb): typeof cb == "function" && setTimeout(function() {cb(can); if (can.target) {
+    can.require(libs, function() {
+        can.onimport && can.onimport._begin && can.onimport._begin(can)
+        typeof cb == "function" && cb(can);
+        if (can.target) {
+            // 初始化主模块
             function run(event, msg, key, cb) {
                 if (typeof cb == "function") {
                     // 本地命令
@@ -199,41 +249,15 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             can.core.Item(can.onaction, function(key, cb) {key.indexOf("on") == 0 && (can.target[key] = function(event) {cb(event, can)})});
             // 注册action
             can.action && (can.action.innerHTML = ""), can.onaction && can.page.AppendAction(can, can.action, can.onaction.list, function(event, value, key) {
-                key? run(event, value, key, can.onaction[key]): run(event, msg, value, can.onaction[value]);
+                key? run(event, value, key, can.onaction[key]||can.onaction[value]): run(event, msg, value, can.onaction[value]);
             })
             // 注册choice
             can.target.oncontextmenu = function(event) {can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, key, meta) {
                 run(event, msg, key, can.onchoice[key] || can.onaction[key]);
             }), can), event.stopPropagation(), event.preventDefault()}
-        }}, 10);
-    }
-    if (libs && libs.length > 0) {
-        if (can[libs[0]]) {
-            // 重复加载
-            next()
-        } else if (meta.cache[libs[0]]) {
-            // 缓存加载
-            can.load(libs[0]), next()
-        } else {
-            // 加载脚本
-            if (libs[0].endsWith(".wasm")) {var go = new Go();
-                WebAssembly.instantiateStreaming(fetch(libs[0]), go.importObject).then((result) => {
-                    go.argv = [can];
-                    go.run(result.instance);
-                    next();
-                }).catch((err) => {
-                    console.error(err);
-                });
-            } else {
-                can.Dream(document.body, libs[0].indexOf(".") == -1? libs[0]+".js": libs[0], function() {
-                    can.load(libs[0]), next();
-                })
-            }
         }
-    } else {
-        // 独立模块
-        next()
-    }
+        can.onimport && can.onimport._start && can.onimport._start(can)
+    })
     return can
 }
 

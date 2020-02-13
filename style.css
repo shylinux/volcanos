@@ -254,6 +254,49 @@ fieldset table td.select {
     background-color:red;
 }
 
+fieldset div.code {
+    color:white;
+    font-size:14px;
+    font-family:monospace;
+    background-color:#272822;
+    white-space:pre;
+    padding:10px;
+    overflow:auto;
+    border:solid 3px green;
+    max-height:640px;
+}
+fieldset div.code span.red {
+    color:red;
+}
+fieldset div.code span.green {
+    color:green;
+}
+
+fieldset .story {
+    border:solid 2px #f000;
+}
+fieldset .story:hover {
+    border:solid 2px red;
+}
+
+fieldset ul.story li:hover {
+    border:solid 2px red;
+    cursor:pointer;
+}
+
+fieldset code.story {
+    display:block;
+    color:white;
+    font-size:14px;
+    font-family:monospace;
+    background-color:#272822;
+    white-space:pre;
+    padding:10px;
+    overflow:auto;
+    border:solid 3px green;
+    max-height:640px;
+}
+
 fieldset div.stack:hover {
     background-color:red;
 }
@@ -272,20 +315,25 @@ fieldset ul.stack:hover {
     border:solid 2px red;
 }
 
-fieldset div.code {
-    color:white;
-    font-size:14px;
-    font-family:monospace;
-    background-color:#272822;
-    white-space:pre;
-    padding:10px;
-    overflow:auto;
-    border:solid 3px green;
-    max-height:640px;
+fieldset td.over {
+    border:solid 2px red;
 }
-fieldset div.code span.red {
+
+sup.more {
     color:red;
 }
-fieldset div.code span.green {
-    color:green;
+
+fieldset.input {
+    z-index: 10000;
+    border:solid 2px yellow;
+}
+fieldset.input.date table tr:hover {
+    background-color:yellow;
+}
+fieldset.input.date table td:hover {
+    background-color:red;
+    cursor:pointer;
+}
+fieldset.input.date table td.now {
+    background-color:red;
 }

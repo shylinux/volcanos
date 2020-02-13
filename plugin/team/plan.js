@@ -41,6 +41,41 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 case "TABLE":
             }
         }
+
+        can.page.Select(can, table, "div.miss", function(item) {
+            item.setAttribute("draggable", true)
+            item.ondragstart = function(event) {can.drag = event.target}
+            item.ondragover = function(event) {event.preventDefault()}
+            item.ondrop = function(event) {event.preventDefault()
+                can.preview.insertBefore(can.drag, item)
+            }
+        })
+
+        can.page.Select(can, table, "tr", function(tr) {tr.list = [];
+            can.page.Select(can, tr, "td", function(item, index) {tr.list.push(item);
+                // item.setAttribute("draggable", true)
+                // item.ondragstart = function(event) {can.drag = event.target}
+                item.ondragover = function(event) {event.preventDefault(), can.page.Select(can, table, "td.over", function(item) {
+                    can.page.ClassList.del(can, item, "over")
+                }), can.page.ClassList.add(can, item, "over")}
+                item.ondrop = function(event) {event.preventDefault()
+                    item.append(can.drag)
+
+                    var data = can.drag.dataset;
+                    var begin_time = new Date(data.begin_time);
+                    begin_time.setHours(parseInt(tr.list[0].innerText));
+                    begin_time.setMinutes(0);
+                    begin_time.setSeconds(0);
+                    if (can.Option("scale") == "week") {
+                        begin_time.setDate(begin_time.getDate() - (begin_time.getDay() - index + 1))
+                    }
+                    can.run(event, ["action", "modify", "begin_time", can.base.Time(begin_time), data.begin_time, data.id, data.name], function(msg) {
+                        can.user.toast("修改成功")
+                    }, true);
+                }
+            })
+        })
+
         return typeof cb == "function" && cb(msg), table;
     },
     which: function(event, table, list, cb) {if (event.target == table) {return cb(-1, "")}
@@ -109,4 +144,6 @@ Volcanos("onexport", {help: "导出数据", list: [],
         return [name, ext, txt]
     },
 })
+
+
 

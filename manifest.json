@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "volcanos",
+    "version": "0.0.1",
+    "background": {"page": "plugin/chrome/chrome.html"},
+    "browser_action": {"default_popup": "plugin/chrome/popup.html"},
+    "content_scripts": [],
+    "permissions": [
+        "tabs",
+        "history",
+        "cookies",
+        "bookmarks",
+        "notifications",
+        "*://localhost/*",
+        "*://localhost:9020/*"
+    ]
+}
