@@ -19,6 +19,7 @@ Page({
     onClick: function(event) {this.toStorm(event.currentTarget.dataset.index)},
 
     onLoad: function (options) {
+        console.log("page", "river", options)
         app.conf.sessid = app.conf.sessid || options.sessid
         this.refresh()
     },

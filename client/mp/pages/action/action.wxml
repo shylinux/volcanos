@@ -1,15 +1,21 @@
 <view class="display">
     <view class="action">
-        <view wx:for="{{button}}">
+        <view wx:for="{{button}}" wx:key="name">
             <button size="mini" bindtap="{{item.bind}}" data-name="{{item.name}}">{{item.name}}</button>
         </view>
     </view>
-    <view class="field" wx:for="{{res}}" wx:for-index="order" wx:for-item="field">
+
+    <view class="field" wx:for="{{res}}" wx:key="name" wx:for-index="order" wx:for-item="field">
         <view class="detail">
             <view><text class="title">{{field.name}}({{field.help}})</text></view>
-            <view wx:for="{{field.inputs}}" class="inputs">
+            <view wx:for="{{field.inputs}}" wx:key="name" class="inputs">
                 <view wx:if="{{item._input == 'text'}}">
-                    <input type="text" value="{{item.value}}" placeholder="{{item.name}}" bindblur="onBlur" bindconfirm="onEnter" data-order="{{order}}" data-index="{{index}}" data-item="{{item}}"/>
+                    <input type="text" value="{{item.value}}" placeholder="{{item.name}}"
+                        bindtap="onClick" bindblur="onBlur" bindconfirm="onEnter" data-order="{{order}}" data-index="{{index}}" data-item="{{item}}"/>
+                </view>
+                <view wx:elif="{{item._input == 'textarea'}}" class="textarea">
+                    <textarea value="{{item.value||item.name}}" placeholder="{{item.name}}"
+                        bindtap="onClick" bindblur="onBlur" data-order="{{order}}" data-field="{{field}}" data-index="{{index}}" data-input="{{item}}"></textarea>
                 </view>
                 <view wx:elif="{{item._input == 'button'}}" class="button">
                     <button size="mini" bindtap="onClick" data-order="{{order}}" data-field="{{field}}" data-index="{{index}}" data-input="{{item}}">{{item.value||item.name}}</button>
@@ -18,10 +24,10 @@
         </view>
 
         <table wx:if="{{field.msg}}">
-            <tr><th wx:for="{{field.msg.append}}">{{item}}</th></tr>
-            <tr wx:for="{{field.msg[field.msg.append[0]]}}" wx:for-index="line"><td wx:for="{{field.msg.append}}" bindtap="onWhich" data-value="{{field.msg[item][line]}}" data-index="{{line}}" data-field="{{item}}" data-order="{{order}}">{{field.msg[item][line]}}</td></tr>
+            <tr><th wx:for="{{field.msg.append}}" wx:key="name">{{item}}</th></tr>
+            <tr wx:for="{{field.msg._index}}" wx:key="name" wx:for-index="line"><td wx:for="{{field.msg.append}}" bindtap="onWhich" data-value="{{field.msg[item][line]}}" data-index="{{line}}" data-field="{{item}}" data-order="{{order}}">{{field.msg[item][line]}}</td></tr>
         </table>
-        <view class="output" wx:if="{{field.msg.result && field.feature && field.feature.display == 'inner'}}"><rich-text wx:for="{{field.msg.result}}" nodes="{{item}}"></rich-text></view>
-        <view class="output" wx:elif="{{field.msg.result}}"><text wx:for="{{field.msg.result}}">{{item}}</text></view>
+        <view class="output" wx:if="{{field.msg.result && field.feature && field.feature.display == 'inner'}}"><rich-text wx:for="{{field.msg.result}}" wx:key="name" nodes="{{item}}"></rich-text></view>
+        <view class="output" wx:elif="{{field.msg.result}}"><text wx:for="{{field.msg.result}}" wx:key="name">{{item}}</text></view>
     </view>
 </view>

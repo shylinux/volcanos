@@ -31,7 +31,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
 
             meta.cache[name] = []
             for (var i = meta.index; i < list.length; i++) {var item = list[i];
-                if (item._name == can._name || item._type == "local") {continue}
+                if (item._name == can._name || item._type == "local"|| item._type == "input" || item._type == "output") {continue}
                 can[item._name] = item;
                 meta.cache[name].push(item);
             }

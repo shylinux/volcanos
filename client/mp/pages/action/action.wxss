@@ -5,19 +5,25 @@ view.detail {
     margin-top:10px;
     clear:both;
 }
-input {
-    width:80px;
-}
-text.title {
+view.detail text.title {
     font-weight:bold;
     font-size:18px;
 }
-view.detail>view.inputs>view {
+view.detail view.inputs>view {
     float:left;
 }
-.input {
+view.detail input {
+    width:80px;
+    margin:2px;
+    padding:2px;
     border:solid 1px green;
 }
-.output {
+view.detail view.textarea {
+    clear:both;
+    width:calc(100% - 2px);
+    border:solid 1px green;
+}
+view.output {
     background-color:#272822;
 }
+

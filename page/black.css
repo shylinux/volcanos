@@ -1,0 +1,56 @@
+body, fieldset { 
+    color: white;
+    background-color:black;
+}
+
+fieldset.item:hover {
+    /* background-color:gold; */
+    border:ridge 2px red;
+}
+fieldset.item.select {
+    /* background-color:gold; */
+    border:ridge 2px red;
+}
+
+fieldset.dialog {
+}
+
+fieldset input {
+    font-size:12px;
+}
+fieldset input.args {
+    background-color:cyan;
+    font-weight:600;
+    width:80px;
+}
+fieldset input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color:green;
+}
+
+fieldset table tr:hover {
+    background-color:#0fbd45;
+}
+fieldset table tr.select {
+    background-color:#0fbd45;
+}
+fieldset table th {
+    font-family:monospace;
+    background-color:#0fbd45;
+    cursor:pointer;
+    padding: 0 6px;
+}
+fieldset table td {
+    max-width:1200px;
+    font-family:monospace;
+    padding: 0 6px;
+    /* white-space: pre; */
+}
+fieldset table td.over {
+    border:solid 2px red;
+}
+fieldset table td:hover {
+    background-color:red;
+}
+fieldset table td.select {
+    background-color:red;
+}

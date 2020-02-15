@@ -10,6 +10,12 @@ Volcanos("onimport", {help: "导入数据", list: [],
 })
 Volcanos("onaction", {help: "组件交互", list: [],
     onkeydown: function(event, can) {
+        if (event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA") {
+            return
+        }
+        if (event.target.getAttribute("contenteditable")) {
+            return
+        }
         switch (event.key) {
             case "k":
                 can.Report(event, {x: 0, y: -30}, "scroll")
@@ -21,12 +27,6 @@ Volcanos("onaction", {help: "组件交互", list: [],
                 can.Action.escape && can.Action.escape(event)
                 break
             case " ":
-                if (event.target.getAttribute("contenteditable")) {
-                    break
-                }
-                if (event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA") {
-                    break
-                }
                 can.Favor && can.page.Select(can, can.Favor.Show(), "input.cmd", function(item) {
                     item.focus()
                 })

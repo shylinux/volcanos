@@ -5,7 +5,7 @@ App({
     conf: {serve: "https://shylinux.com/chat"},
     request: function(cmd, data, cb) {var app = this; data.sessid = app.conf.sessid
         wx.request({method: "POST", url: app.conf.serve+"/"+cmd, data: data, success(res) {var msg = res.data
-            console.log(msg)
+            console.log("POST", cmd, msg)
             if (res.statusCode == 401) {
                 app.usercode(function() {app.request(cmd, data, cb)})
                 return
@@ -26,6 +26,17 @@ App({
                     }
                 },
             }
+            var row = 0
+            var index = []
+            if (msg.append) {
+                for (var i = 0; i < msg.append.length; i++) {
+                    row = msg[msg.append[i]].length > row? msg[msg.append[i]].length: row
+                }
+                for (var i = 0; i < row; i++) {
+                    index.push(i)
+                }
+            }
+            msg._index = index
             typeof cb == "function" && cb(msg)
         }})
     },
@@ -54,5 +65,6 @@ App({
     toast: function(title) {wx.showToast({title: title})},
     onLaunch: function() {
         this.conf.sessid = wx.getStorageSync("sessid")
+        console.log("load", "sessid", this.conf.sessid)
     },
 })

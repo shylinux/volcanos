@@ -1,5 +1,5 @@
 <template name="list-name">
     <table wx:if="{{msg.append && msg.append[0]}}">
-        <tr wx:for="{{msg[msg.append[0]]}}" bindtap="onClick" data-index="{{index}}"><td class="item">{{msg.name[index]}}</td></tr>
+        <tr wx:for="{{msg[msg.append[0]]}}" wx:key="name" bindtap="onClick" data-index="{{index}}"><td class="item">{{msg.name[index]}}</td></tr>
     </table>
 </template>

@@ -11,33 +11,34 @@ Page({
             {name: "共享", bind: "refresh"},
             {name: "扫码", bind: "action"},
         ],
-        msg: {append: ["hi", "he"], hi: [1, 2], he: [3, 4]},
         res: [],
         his: {},
+        inputs: {},
     },
-    run: function(order, cb) {var page = this, field = page.data.res[order]
-        var his = page.data.his[order] || []
+    run: function(order, cmd, cb) {var page = this, field = page.data.res[order]
+        // var his = page.data.his[order] || []
         var arg = []
         field.inputs.forEach(function(input) {
             if (input._input == "text") {
                 arg.push(input.value||"")
             }
-        })
-        his.push(arg)
-        page.data.his[order] = his
-
-        var cmds = [page.data.river, page.data.storm, order]
-        field.inputs.forEach(function(input) {
-            if (input._input == "text") {
-                cmds.push(input.value||"")
+            if (input._input == "textarea") {
+                arg.push(input.value||"")
             }
         })
+        // his.push(arg)
+        // page.data.his[order] = his
+
+        var cmds = [page.data.river, page.data.storm, order]
+        cmds = cmds.concat(cmd||arg||[])
+
         for (var i = cmds.length-1; i > 0; i--) {
             if (cmds[i] === "") {cmds.pop()} else {break}
         }
         app.request("action", {cmds: cmds}, function(msg) {
             page.data.res[order].msg = msg
             page.setData({res: page.data.res})
+            console.log("update-----", page.data.res[order])
             typeof cb == "function" && cb(msg)
         })
     },
@@ -48,7 +49,7 @@ Page({
                 break
             case "串行":
                 function cb(i) {
-                    page.run(i, function() {i < page.data.res.length && cb(i+1)})
+                    page.run(i, null, function() {i < page.data.res.length && cb(i+1)})
                 }
                 cb(0)
                 break
@@ -82,10 +83,34 @@ Page({
     onEnter: function(event) {var page = this, data = event.target.dataset
         page.data.res[data.order].inputs[data.index].value = event.detail.value
     },
+    onfigure: {
+        key: {
+            click: function(event, page, data, cmd, field) {
+                page.run(data.order, ["action", "input", data.item.name, data.item.value], function(msg) {
+                    console.log("onkey-----", page.data.res[data.order])
+                })
+            },
+        },
+        location: {
+            click: function(event, page, data, cmd, field) {
+                wx.chooseLocation({success: function(res) {
+                    field.inputs[data.index].value = res.name
+                    page.setData({res: page.data.res})
+                    page.run(data.order, ["action", "location", res.name, res.address, res.latitude*100000, res.longitude*100000])
+                }})
+            },
+        }
+    },
     onClick: function(event) {var page = this, data = event.target.dataset
         var field = page.data.res[data.order]
+        if (data && data.item && data.item._input == "text") {
+            var figure = page.onfigure[data.item.cb||data.item.figure||data.item.name]
+            figure && figure.click(event, page, data, "what", field)
+            return
+        }
         switch (data.input.cb) {
             case "Last":
+                break
                 var his = page.data.his[data.order] || []
                 his.pop()
                 var arg = his.pop()
@@ -105,15 +130,21 @@ Page({
         page.data.res[data.order].inputs.forEach(function(input) {
             if (input.name == data.field) {
                 input.value = data.value
-                if (input.action == "auto") {
-                    page.run(data.order)
-                }
                 page.setData({res: page.data.res})
+                page.data.inputs[data.order] = page.data.res[data.order].inputs
+
+                if (input.action == "auto") {
+                    page.run(data.order, null, function(msg) {
+                        console.log("onwhich-----", page.data.res[data.order])
+
+                    })
+                }
             }
         })
     },
 
     onLoad: function (options) {var page = this
+        console.log("page", "action", options)
         app.conf.sessid = app.conf.sessid || options.sessid
         page.data.river = options.river
         page.data.storm = options.storm

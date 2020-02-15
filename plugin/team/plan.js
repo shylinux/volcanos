@@ -8,9 +8,19 @@ Volcanos("onimport", {help: "导入数据", list: [],
         var table = can.page.AppendTable(can, output, msg, msg.append);
         table.onclick = function(event) {switch (event.target.tagName) {
             case "TD":
-                can.onimport.which(event, table, msg.append, function(index, key) {
-                    can.ondetail["复制"](event, can, msg, event.target.innerHTML, index, key, event.target);
-                    can.Export(event, event.target.innerHTML.trim(), key, index)
+                var input = can.user.input(event, can, ["group", "type", "name", "text"], function(event, value, data) {
+                    switch (value) {
+                        case "提交":
+                            can.run(event, ["action", "insert", data.group, data.type, data.name, data.text, "begin_time", can.base.Time()], function(msg) {
+                                can.page.Remove(can, input.first)
+                                can.user.toast("添加成功")
+                                can.Runs(event)
+                                return true
+                            }, true)
+                            console.log(data)
+                            break
+                        case "取消": return true;
+                    }
                 })
                 break
             case "TH":
@@ -20,6 +30,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
         }}
         table.oncontextmenu = function(event) {var target = event.target;
             switch (event.target.tagName) {
+                case "DIV":
+                    break
                 case "TD":
                     can.onimport.which(event, table, msg.append, function(index, key) {
                         can.user.carte(event, shy("", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
@@ -42,7 +54,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             }
         }
 
-        can.page.Select(can, table, "div.miss", function(item) {
+        can.page.Select(can, table, "div.task", function(item) {
             item.setAttribute("draggable", true)
             item.ondragstart = function(event) {can.drag = event.target}
             item.ondragover = function(event) {event.preventDefault()}

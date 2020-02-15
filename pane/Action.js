@@ -5,10 +5,12 @@ Volcanos("onimport", {help: "导入数据", list: [],
         })
     },
     init: function(event, can, msg, cmd, target) {can.output.innerHTML = "";
-        msg.Table(function(item, index) {if (!item.name) {return}
-            can._plugins.push(can[item.name] = can.Plugin(can, item.name, item, function(event, cmds, cbs) {
+        can._local[msg.cmds[0]] = can._local[msg.cmds[0]] || {}
+        can._local[msg.cmds[0]][msg.cmds[1]] = msg.Table(function(item, index) {if (!item.name) {return}
+            var plugin = can[item.name] = can.Plugin(can, item.name, item, function(event, cmds, cbs) {
                 can.run(event, [item.river, item.storm, item.action].concat(cmds), cbs)
-            }, can.page.AppendField(can, can.output, "item "+item.group+" "+item.name, item)))
+            }, can.page.AppendField(can, can.output, "item "+item.name, item))
+            return can._plugins.push(plugin), plugin
         })
     },
     layout: function(event, can, value, cmd, target) {can.layout = value;
@@ -47,7 +49,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can._plugin && can._plugin.Import(event, msg, cmd)
     },
 })
-Volcanos("onaction", {help: "组件交互", list: [["layout", "最大", "工作", "办公", "聊天"], "刷新", "清屏", "并行","串行",
+Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公", "聊天"], "刷新", "清屏", "并行","串行",
     ["action", "正常", "编辑", "编排", "定位"],
     {input: "pod"}, {input: "you"}, {input: "hot"}, {input: "top"},
 ],

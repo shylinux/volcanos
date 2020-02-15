@@ -1,6 +1,6 @@
 fieldset.Toast {
     border:solid 2px red;
-    background-color:rgba(100,100,100,0.8);
+    /* background-color:rgba(100,100,100,0.8); */
     position:absolute;
     display:none;
     z-index:200;
@@ -15,7 +15,7 @@ fieldset.Toast>div.output {
 fieldset.Toast>div.output>div.title {
     font-size:12px;
     text-align:center;
-    color:gray;
+    /* color:gray; */
 }
 fieldset.Toast>div.output>div.content  {
     word-break:break-word;
@@ -26,16 +26,16 @@ fieldset.Toast>div.output>div.content  {
     font-size:16px;
 }
 fieldset.Toast>div.output table {
-    color:yellow
+    /* color:yellow */
 }
 fieldset.Toast>div.output table th {
-    background:red;
+    /* background:red; */
 }
 fieldset.Toast>div.output table td {
     white-space:pre;
 }
 fieldset.Toast>div.output>div.tick {
     font-size:12px;
-    color:gray;
+    /* color:gray; */
 }
 

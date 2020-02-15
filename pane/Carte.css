@@ -1,7 +1,7 @@
 fieldset.dialog.Carte {
     padding:0;
     border:solid 2px red;
-    background-color:greenyellow;
+    /* background-color:greenyellow; */
     position:absolute;
     display:none;
     z-index:200;

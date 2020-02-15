@@ -37,6 +37,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         // (item.type == "text" || item.type == "textarea") && !target.placeholder && (target.placeholder = item.name || "");
         item.type == "text" && !target.title && (target.title = item.placeholder || item.name || "");
         item.type == "button" && item.action == "auto" && can.run && can.run({});
+        item.type == "textarea" && can.page.Append(can, option, [{type: "br"}])
         return target;
     }),
     path: function(event, can, value, cmd, target) {
@@ -44,6 +45,25 @@ Volcanos("onimport", {help: "导入数据", list: [],
     },
 })
 Volcanos("onfigure", {help: "控件详情", list: [],
+    key: {click: function(event, can, value, cmd, target) {
+        function add(msg, list, update) {
+            can.page.Append(can, can.figure.output, [{view: "list", list: can.core.List(list, function(item) {
+                return {text: [item, "div", "label"], onclick: function(event) {
+                    target.value = item;
+                    update && can.history.unshift(item);
+                    msg.Option("_refresh") && run()
+                }}
+            })}])
+        }
+        function run() {can.figure.output.innerHTML = ""
+            can.Run(event, ["action", "input", can.item.name, target.value], function(msg) {
+                add(msg, can.history), can.core.List(msg.append, function(key) {add(msg, msg[key], true)})
+            }, true)
+        }
+
+        can.history = can.history || [];
+        can.onfigure._prepare(event, can, value, cmd ,target) && run()
+    }},
     date: {click: function(event, can, value, cmd, target) {if (can.date) {return}
         target.style.width = "120px"
         function set(now) {
@@ -162,7 +182,7 @@ Volcanos("onfigure", {help: "控件详情", list: [],
     _prepare: function(event, can, value, cmd, target) {if (can.figure) {return}
         can.figure = can.page.Append(can, document.body, [{view: ["input "+cmd, "fieldset"], style: {
             position: "absolute", left: "20px", top: event.clientY+10+"px",
-        }, list: [{view: ["action"]}, {view: ["output"]}], onmouseleave: function(event) {
+        }, list: [{text: [cmd, "legend"]}, {view: ["action"]}, {view: ["output"]}], onmouseleave: function(event) {
             !can.figure.stick && can.onfigure._release(event, can, value, cmd, target)
         }}])
         return can.figure
@@ -175,6 +195,9 @@ Volcanos("onaction", {help: "控件交互", list: [],
     onclick: function(event, can) {can.Select(event);
         var figure = can.onfigure[can.item.cb] || can.onfigure[can.item.figure]
         figure? figure.click(event, can, can.item, can.item.name, event.target): can.item.type == "button" && can.run(event)
+    },
+    onchange: function(event, can) {
+        can.item.type == "select" && can.item.action == "auto" && can.Runs(event)
     },
     onkeydown: function(event, can) {
         can.page.oninput(event, can, function(event) {

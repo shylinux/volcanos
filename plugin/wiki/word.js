@@ -28,7 +28,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
 
             item.onclick = function(event) {can.node = item}
             item.oncontextmenu = function(event) {var target = event.target; can.user.carte(event, shy("", can.ondetail, figure.menu||can.ondetail.list, function(event, key, meta) {var cb = meta[key];
-                typeof cb == "function" && cb(event, can, msg, 0, key, key, target);
+                cb? typeof cb == "function" && cb(event, can, msg, 0, key, key, target):
+                    (cb = can.onchoice[key] || can.onaction[key], typeof cb == "function" && cb(event, can, key, key, target))
             }), can), event.stopPropagation(), event.preventDefault()}
 
             figure && figure.init && figure.init({}, can, item.localName, "init", item)
@@ -105,7 +106,7 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
             return [{view: ["story", "p", "p"], dataset: {type: "spark", name: "", text: ""}, inner: "spark...."}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
-            return value? 'spark "'+data.name+'" `' + value + '`': ""
+            return value? 'spark "'+data.name+'" `' + value + '`': "spark"
         },
     },
 
@@ -235,13 +236,26 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         },
     },
 })
-Volcanos("onaction", {help: "组件菜单", list: ["保存", ["操作", "只读", "排序", "编辑"],
+Volcanos("onaction", {help: "组件菜单", list: ["刷新", "保存", ["操作", "只读", "排序", "编辑"],
     "插入", ["元素", "h1", "h2", "h3", "brief", "refer", "spark", "shell", "order", "table", "stack"]],
 
+    "刷新": function(event, can, value, cmd, target) {
+        can.run(event)
+    },
+    "追加": function(event, can, value, cmd, target) {
+        can.user.input(event, can, [["type", "spark", "label", "section", "chapter", "title"], "name", {name: "text", type: "textarea"}], function(event, value, form, list) {
+            value == "提交" && can.run(event, ["action", cmd, can.Option("name")].concat(list), function(msg) {
+                can.user.confirm("是否刷新") && can.run({})
+            }, true)
+            return true
+        })
+    },
     "保存": function(event, can, value, cmd, target) {
         var save = can.page.Select(can, target, ".story", function(story) {
             var figure = can.onfigure[story.dataset.type] || can.onfigure[story.localName];
-            return figure && figure.save && figure.save(event, can, story.innerHTML, cmd, story) || story.innerHTML
+            var text = figure && figure.save && figure.save(event, can, story.innerText||story.innerHTML, cmd, story) || story.innerText||story.innerHTML
+            console.log(story.dataset.type, text)
+            return text
         }).join("\n\n")
 
         can.run(event, ["action", cmd, can.Option("name"), save], function(msg) {
@@ -273,27 +287,12 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", ["操作", "只读"
         can.page.Append(can, can.preview, figure.push(event, can, value, cmd, target)).first.setAttribute("contenteditable", true)
     },
 })
-Volcanos("onchoice", {help: "组件交互", list: ["保存", "清空", ["rect", "rect", "line", "circle"]],
+Volcanos("onchoice", {help: "组件交互", list: ["刷新", "保存", "追加", "清空", ["rect", "rect", "line", "circle"]],
     "清空": function(event, can, msg, cmd, target) {
         console.log("choice", cmd)
     },
 })
-Volcanos("ondetail", {help: "组件详情", list: ["编辑", "删除"],
-    "编辑": function(event, can, msg, index, key, cmd, target) {
-        can.user.prompt("文字", function(text) {
-            if (target.tagName == "text") {return target.innerHTML = text}
-
-            var data = {"text-anchor": "middle", "dominant-baseline": "middle"}
-            var figure = can.onfigure[target.tagName]
-            figure.text(event, can, data, target)
-
-            var p = can.onaction.push(event, can, data, "text", can.svg)
-            p.innerHTML = text;
-
-            target.Text && can.page.Remove(can, target.Text) && delete(target.Text)
-            target.Text = p
-        }, target.Text && target.Text.innerText || "")
-    },
+Volcanos("ondetail", {help: "组件详情", list: ["刷新", "追加", "编辑", "删除", "插入"],
     "删除": function(event, can, msg, index, key, cmd, target) {
         can.page.Remove(can, target)
     },
