@@ -38,6 +38,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         item.type == "text" && !target.title && (target.title = item.placeholder || item.name || "");
         item.type == "button" && item.action == "auto" && can.run && can.run({});
         item.type == "textarea" && can.page.Append(can, option, [{type: "br"}])
+        item.type == "select" && (target.value = item.value)
         return target;
     }),
     path: function(event, can, value, cmd, target) {

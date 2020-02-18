@@ -1,22 +1,33 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, conf, output, action, option, field) {output.innerHTML = "";
+        function create(event, cmd) {
+            if (!ui.name.value) {ui.name.focus(); can.user.toast("请输入群名"); return}
+
+            var list = []
+            can.page.Select(can, ui.list, "tr", function(item, index) {if (index > 0) {
+                list.push(item.dataset.pod)
+                list.push(item.dataset.key)
+                list.push(item.dataset.index)
+                list.push(item.dataset.help)
+            }})
+
+            var name = ui.name.value;
+            switch (event.target.value) {
+                case "创建应用": cmd = "spawn"; break
+                case "追加应用": cmd = "append", name = can.Conf("storm"); break
+            }
+
+            can.run(event, [can.Conf("river"), cmd, name].concat(list), function(msg) {
+                can.Hide(), can.Export(event, "update", "storm");
+            })
+        }
+
         var device = can.page.Append(can, field, [{"view": ["device", "table"]}]).last
         var ui = can.page.Append(can, field, [{view: ["create"], list: [
-            {input: "name", value: can.Conf("def_name"), title: "应用名称"}, {button: ["创建应用", function(event) {
-                if (!ui.name.value) {ui.name.focus(); can.user.toast("请输入群名"); return}
-
-                var list = []
-                can.page.Select(can, ui.list, "tr", function(item, index) {if (index > 0) {
-                    list.push(item.dataset.pod)
-                    list.push(item.dataset.key)
-                    list.push(item.dataset.index)
-                    list.push(item.dataset.name)
-                }})
-
-                can.run(event, [can.Conf("river"), "spawn", ui.name.value].concat(list), function(msg) {
-                    can.Hide(), can.Export(event, "update", "storm");
-                })
-            }]}, {name: "list", view: ["list", "table"], list: [
+            {input: "name", value: can.Conf("def_name"), title: "应用名称"},
+            {button: ["创建应用", create]},
+            {button: ["追加应用", create]},
+            {name: "list", view: ["list", "table"], list: [
                 {text: ["3. 已选命令列表", "caption"]},
                 {row: ["ctx", "cmd", "name", "help"], sub: "th"},
             ]},
@@ -63,6 +74,10 @@ Volcanos("onimport", {help: "导入数据", list: [],
         if (value == "update") {return}
         can.Conf("river", value)
     },
+    storm: function(event, can, value, key, output) {
+        if (value == "update") {return}
+        can.Conf("storm", value)
+    },
 })
 Volcanos("onaction", {help: "组件交互", list: ["关闭", "刷新"],
     "关闭": function(event, can, meta, key, output) {
@@ -74,14 +89,7 @@ Volcanos("onaction", {help: "组件交互", list: ["关闭", "刷新"],
         })
     },
 })
-Volcanos("onchoice", {help: "组件菜单", list: ["关闭", "刷新"],
-    "关闭": function(event, can, msg, key, target) {
-        can.onaction[key](event, can, key, can.output)
-    },
-    "刷新": function(event, can, msg, key, target) {
-        can.onaction[key](event, can, key, can.output)
-    },
-})
+Volcanos("onchoice", {help: "组件菜单", list: ["关闭", "刷新"]})
 Volcanos("ondetail", {help: "组件详情", list: ["创建", "删除", "共享"],
     "创建": function(event, can, msg, value, key, index, td) {
         can.run(event, [can.Conf("river"), "spawn", msg.key[index]], function(msg) {

@@ -97,6 +97,9 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             })
         }),
         Timer: shy("定时器", function(interval, cb, cbs) {interval = typeof interval == "object"? interval || []: [interval];
+            // value
+            // [1,2,3,4]
+            // {value, length}
             var timer = {stop: false};
             function loop(i) {if (timer.stop || i >= interval.length && interval.length >= 0) {return typeof cbs == "function" && cbs(interval)}
                 return typeof cb == "function" && cb(interval.value||interval[i], i, interval)?
@@ -197,6 +200,8 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             }
             var text = line, list = [], item = false, style = ""
             switch (type) {
+                case "option":
+                    list.push({text: line.name+": "})
                 case "input":
                     style = " "+line.type
                     list.push(line)

@@ -2,6 +2,10 @@ body, fieldset {
     color: white;
     background-color:black;
 }
+fieldset.item { 
+    border:ridge 1px cyan;
+    margin:2px;
+}
 
 fieldset.item:hover {
     /* background-color:gold; */

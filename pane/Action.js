@@ -13,20 +13,9 @@ Volcanos("onimport", {help: "导入数据", list: [],
             return can._plugins.push(plugin), plugin
         })
     },
-    layout: function(event, can, value, cmd, target) {can.layout = value;
-        can.page.Select(can, can.action, "select.layout", function(item) {
-            item.value = value
-        })
-    },
-    scroll: function(event, can, value, cmd, target) {can.layout = value;
-        can.output.parentElement.scrollBy(value.x, value.y)
-    },
     river: function(event, can, value, cmd, target) {
         if (value == "update") {return}
         can.Conf("temp_river", value)
-    },
-    you: function(event, can, value, cmd, target) {
-        can.user.title(value)
     },
     storm: function(event, can, value, cmd, target) {
         can.Cache(can.Conf("river")+"."+can.Conf("storm"), can.output, "some");
@@ -39,6 +28,19 @@ Volcanos("onimport", {help: "导入数据", list: [],
             })
         }
     },
+
+    layout: function(event, can, value, cmd, target) {can.layout = value;
+        can.page.Select(can, can.action, "select.layout", function(item) {
+            item.value = value
+        })
+    },
+    scroll: function(event, can, value, cmd, target) {can.layout = value;
+        can.output.parentElement.scrollBy(value.x, value.y)
+    },
+
+    you: function(event, can, value, cmd, target) {
+        can.user.title(value)
+    },
     favor: function(event, can, msg, cmd, target) {var key = msg.detail[0];
         if (msg._hand) {return}
         var cb = can.onaction[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, can.output); return msg.Echo(can._name, " onaction ", key), msg._hand = true}
@@ -49,18 +51,65 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can._plugin && can._plugin.Import(event, msg, cmd)
     },
 })
-Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公", "聊天"], "刷新", "清屏", "并行","串行",
+Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公", "聊天", "最长"], "刷新", "清屏", "并行","串行",
     ["action", "正常", "编辑", "编排", "定位"],
     {input: "pod"}, {input: "you"}, {input: "hot"}, {input: "top"},
 ],
     onmousemove: function(event, can, msg, cmd, target) {
         can.resize && can.resize(event)
     },
+
+    layout: function(event, can, value, cmd, target) {can.Export(event, value, cmd)},
+
+    "保存": function(event, can, msg, cmd, target) {
+        var list = []
+        can.page.Select(can, target, "fieldset", function(item) {var meta = item.Meta
+            can.page.Select(can, item, "form.option", function(option) {
+                meta.args = can.page.Select(can, option, ".args", function(item) {return item.value})
+            })
+            list.push(meta.node||"", meta.group, meta.index, meta.help, JSON.stringify(meta.args||[]))
+        })
+        can.run(event, [can.Conf("river"), can.Conf("storm"), "save"].concat(list), function(msg) {
+            can.user.toast("保存成功")
+        })
+    },
+    "刷新": function(event, can, msg, cmd, target) {
+        can.page.Select(can, can.output, "fieldset.item>div.output", function(item) {
+            item.innerHTML = "";
+        })
+        can.run(event, [can.Conf("river"), can.Conf("storm")], function(msg) {
+            can.onimport.init(event, can, msg, cmd, can.output)
+        })
+    },
+    "清屏": function(event, can, msg, cmd, target) {
+        can.page.Select(can, can.output, "fieldset.item>div.output", function(item) {
+            item.innerHTML = "";
+        })
+    },
+    "并行": function(event, can, msg, cmd, target) {
+        can.page.Select(can, target, "fieldset.item", function(field) {
+            can.page.Select(can, field, "input[type=button]", function(input, index) {
+                index == 0 && field.Check(event, input, function() {})
+            })
+        })
+    },
+    "串行": function(event, can, msg, cmd, target) {
+        can.core.Next(can.page.Select(can, target, "fieldset.item", function(field) {
+            return field
+        }), function(field, cb) {
+            can.page.Select(can, field, "input[type=button]", function(input, index) {
+                index == 0 && field.Check(event, input, cb)
+            })
+        })
+    },
     action: function(event, can, value, cmd, target) {
         switch (value) {
             case "正常":
                 can.page.Select(can, target, "fieldset.item", function(item) {
                     item.setAttribute("draggable", false)
+                    item.style.position = ""
+                    item.style.left = ""
+                    item.style.top = ""
                 })
                 break
             case "编排":
@@ -103,59 +152,8 @@ Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公"
                 break
         }
     },
-    layout: function(event, can, value, cmd, target) {
-        can.Export(event, value, cmd)
-    },
-    "刷新": function(event, can, msg, cmd, target) {
-        can.page.Select(can, can.output, "fieldset.item>div.output", function(item) {
-            item.innerHTML = "";
-        })
-        can.run(event, [can.Conf("river"), can.Conf("storm")], function(msg) {
-            can.onimport.init(event, can, msg, cmd, can.output)
-        })
-    },
-    "清屏": function(event, can, msg, cmd, target) {
-        can.page.Select(can, can.output, "fieldset.item>div.output", function(item) {
-            item.innerHTML = "";
-        })
-    },
-    "并行": function(event, can, msg, cmd, target) {
-        can.page.Select(can, target, "fieldset.item", function(field) {
-            can.page.Select(can, field, "input[type=button]", function(input, index) {
-                index == 0 && field.Check(event, input, function() {})
-            })
-        })
-    },
-    "串行": function(event, can, msg, cmd, target) {
-        can.core.Next(can.page.Select(can, target, "fieldset.item", function(field) {
-            return field
-        }), function(field, cb) {
-            can.page.Select(can, field, "input[type=button]", function(input, index) {
-                index == 0 && field.Check(event, input, cb)
-            })
-        })
-    },
 })
-Volcanos("onchoice", {help: "组件菜单", list: [["layout", "工作", "办公", "聊天"], "保存"],
-    "工作": function(event, can, msg, cmd, target) {
-        can.Export(event, cmd, "layout")
-    },
-    "办公": function(event, can, msg, cmd, target) {
-        can.Export(event, cmd, "layout")
-    },
-    "聊天": function(event, can, msg, cmd, target) {
-        can.Export(event, cmd, "layout")
-    },
-    "保存": function(event, can, msg, cmd, target) {
-        var list = []
-        can.page.Select(can, target, "fieldset", function(item) {var meta = item.Meta
-            list.push(meta.node||"", meta.group, meta.index, meta.index)
-        })
-        can.run(event, [can.Conf("river"), can.Conf("storm"), "save"].concat(list), function(msg) {
-            can.user.toast("保存成功")
-        })
-    },
-})
+Volcanos("onchoice", {help: "组件菜单", list: ["保存", "刷新"]})
 Volcanos("ondetail", {help: "组件详情", list: []})
 Volcanos("onexport", {help: "导出数据", list: []})
 

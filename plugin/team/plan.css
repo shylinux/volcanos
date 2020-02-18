@@ -1,0 +1,15 @@
+fieldset.item.plan div.output div.task.finish {
+    color:red;
+}
+fieldset.item.plan div.output div.task.finish:hover {
+    color:white;
+}
+fieldset.item.plan div.output div.task.process {
+    color:green;
+}
+fieldset.item.plan div.output div.task.process:hover {
+    color:white;
+}
+fieldset.item.plan div.output div.task.cancel {
+    color:yellow;
+}

@@ -88,10 +88,6 @@ fieldset>div.output div.item:hover {
     background-color:red;
     border:ridge 2px yellow;
 }
-fieldset>div.output div.item.select {
-    background-color:red;
-    border:ridge 2px yellow;
-}
 fieldset>div.output table td {
     /* word-break:break-word; */
 }

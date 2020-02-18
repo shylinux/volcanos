@@ -8,15 +8,20 @@ Volcanos("onimport", {help: "导入数据", list: [],
     },
 })
 Volcanos("onaction", {help: "组件交互", list: []})
-Volcanos("onchoice", {help: "组件菜单", list: [["display", "表格", "文档", "相册"],
-    "执行", "返回", "加参", "减参", "克隆", "删除"],
-
-    "表格": function(event, can, msg, cmd, field) {can.Show("table", can.msg)},
-    "文档": function(event, can, msg, cmd, field) {can.Show("inner", can.msg)},
-    "相册": function(event, can, msg, cmd, field) {can.Show("media", can.msg)},
-
-    "返回": function(event, can, msg, cmd, field) {can.Last(event)},
+Volcanos("onchoice", {help: "组件菜单", list: ["执行", "返回", "重命名", "选项", "加参", "减参", "克隆", "删除"],
     "执行": function(event, can, msg, cmd, field) {can.Runs(event)},
+    "返回": function(event, can, msg, cmd, field) {can.Last(event)},
+    "重命名": function(event, can, msg, cmd, field) {can.Rename(event)},
+    "选项": function(event, can, msg, cmd, field) {
+        can.user.input(event, can, ["name", "value"], function(event, cmd, meta, list) {
+            var data = {type: "text", value: meta.value||""}
+            can.page.ClassList.add(can, data, "opts");
+
+            var input = {type: "input", name: meta.name, data: data};
+            var target = can.Dream(can.option, "option", input)[input.name];
+            return true
+        })
+    },
     "加参": function(event, can, msg, cmd, field) {can.Append()},
     "减参": function(event, can, msg, cmd, field) {can.Remove(event)},
     "克隆": function(event, can, msg, cmd, field) {can.Clone(event)},

@@ -1,25 +1,20 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
-        if (!msg.append || msg.append.length == 0) {
-            var code = can.page.Append(can, output, [{view: ["code", "div", msg.Result()]}]).code;
-            return typeof cb == "function" && cb(msg), code;
-        }
-
         var table = can.page.AppendTable(can, output, msg, msg.append);
         table.onclick = function(event) {switch (event.target.tagName) {
             case "TD":
-                var input = can.user.input(event, can, ["group", "type", "name", "text"], function(event, value, data) {
+                var input = can.user.input(event, can, ["zone", "type", "name", "text"], function(event, value, data) {
                     switch (value) {
                         case "提交":
-                            can.run(event, ["action", "insert", data.group, data.type, data.name, data.text, "begin_time", can.base.Time()], function(msg) {
+                            // 创建任务
+                            can.run(event, ["action", "insert", data.zone, data.type, data.name, data.text, "begin_time", can.base.Time()], function(msg) {
                                 can.page.Remove(can, input.first)
                                 can.user.toast("添加成功")
                                 can.Runs(event)
                                 return true
                             }, true)
-                            console.log(data)
                             break
-                        case "取消": return true;
+                        case "关闭": return true;
                     }
                 })
                 break
@@ -28,25 +23,21 @@ Volcanos("onimport", {help: "导入数据", list: [],
             case "TR":
             case "TABLE":
         }}
+
         table.oncontextmenu = function(event) {var target = event.target;
             switch (event.target.tagName) {
                 case "DIV":
-                    break
-                case "TD":
-                    can.onimport.which(event, table, msg.append, function(index, key) {
-                        can.user.carte(event, shy("", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
-                            var id = msg.Ids(index);
-                            var sub = can.Event(event);
-                            msg.append.forEach(function(key) {sub.Option(key, msg[key][index].trim())})
-                            typeof cb == "function"? cb(event, can, msg, index, key, cmd, target):
-                                // can.run(event, [id, typeof cb == "string"? cb: cmd, key, target.innerHTML], function(msg) {
-                                can.run(event, ["action", typeof cb == "string"? cb: cmd, key, target.innerHTML], function(msg) {
-                                    can.onimport.init(can, msg, cb, output, option)
-                                }, true)
-                        }))
-                    })
+                    // 任务操作
+                    var data = target.dataset;
+                    can.user.carte(event, shy("", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
+                        typeof cb == "function"? cb(event, can, msg, data.id, data.zone, cmd, target):
+                            can.run(event, ["action", typeof cb == "string"? cb: cmd, data.id, data.zone], function(msg) {
+                            }, true)
+                    }))
                     event.stopPropagation()
                     event.preventDefault()
+                    break
+                case "TD":
                     break
                 case "TH":
                 case "TR":
@@ -65,23 +56,35 @@ Volcanos("onimport", {help: "导入数据", list: [],
 
         can.page.Select(can, table, "tr", function(tr) {tr.list = [];
             can.page.Select(can, tr, "td", function(item, index) {tr.list.push(item);
-                // item.setAttribute("draggable", true)
-                // item.ondragstart = function(event) {can.drag = event.target}
                 item.ondragover = function(event) {event.preventDefault(), can.page.Select(can, table, "td.over", function(item) {
                     can.page.ClassList.del(can, item, "over")
                 }), can.page.ClassList.add(can, item, "over")}
+
                 item.ondrop = function(event) {event.preventDefault()
                     item.append(can.drag)
 
+                    // 任务排期
                     var data = can.drag.dataset;
                     var begin_time = new Date(data.begin_time);
-                    begin_time.setHours(parseInt(tr.list[0].innerText));
-                    begin_time.setMinutes(0);
-                    begin_time.setSeconds(0);
-                    if (can.Option("scale") == "week") {
-                        begin_time.setDate(begin_time.getDate() - (begin_time.getDay() - index + 1))
+
+                    switch (can.Option("scale")) {
+                        case "long":
+                            begin_time.setYear(parseInt(tr.list[0].innerText));
+                            break
+                        case "year":
+                            begin_time.setMonth(parseInt(tr.list[0].innerText)-1);
+                            break
+                        case "month":
+                            break
+                        case "week":
+                            begin_time.setDate(begin_time.getDate() - (begin_time.getDay() - index + 1))
+                        case "day":
+                            begin_time.setHours(parseInt(tr.list[0].innerText));
+                            begin_time.setMinutes(0);
+                            begin_time.setSeconds(0);
                     }
-                    can.run(event, ["action", "modify", "begin_time", can.base.Time(begin_time), data.begin_time, data.id, data.name], function(msg) {
+
+                    can.run(event, ["action", "modify", "begin_time", can.base.Time(begin_time), data.begin_time, data.id, data.zone], function(msg) {
                         can.user.toast("修改成功")
                     }, true);
                 }
@@ -97,65 +100,22 @@ Volcanos("onimport", {help: "导入数据", list: [],
             })
         })
     },
-
-    favor: function(event, can, msg, cmd, output) {var key = msg.detail[0];
-        var cb = can.onaction[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onaction ", key), msg._hand = true}
-        var cb = can.onchoice[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onchoice ", key), msg._hand = true}
-    },
-})
-Volcanos("onaction", {help: "组件交互", list: [],
-})
-Volcanos("onchoice", {help: "组件菜单", list: ["返回", "清空", "复制", "下载"],
+}, ["plugin/team/plan.css"])
+Volcanos("onaction", {help: "组件交互", list: []})
+Volcanos("onchoice", {help: "组件菜单", list: ["返回", "清空"],
     "返回": function(event, can, msg, cmd, target) {
         can.run(event, ["", "Last"])
     },
     "清空": function(event, can, msg, cmd, target) {
         can.target.innerHTML = "";
     },
-    "复制": function(event, can, msg, cmd, target) {
-        var list = can.onexport.Format(can, msg, "data");
-        can.user.toast(can.page.CopyText(can, list[2]), "复制成功")
-    },
-    "下载": function(event, can, msg, cmd, target) {msg = msg || can.msg;
-        var list = can.onexport.Format(can, msg, msg._plugin_name||"data");
-        can.page.Download(can, list[0]+list[1], list[2]);
-    },
 })
-Volcanos("ondetail", {help: "组件详情", list: ["选择", "编辑", "删除", "复制", "下载"],
-    "选择": "select",
-    "删除": "delete",
-    "编辑": function(event, can, msg, index, key, cmd, td) {
-        var text = td.innerHTML;
-        var input = can.page.Appends(can, td, [{type: "input", value: text, style: {width: td.clientWidth+"px"}, data: {onkeydown: function(event) {
-            if (event.key == " ") {return event.stopPropagation()}
-            if (event.key != "Enter") {return}
-            if (key == "value" && msg.key) {key = msg.key[index]}
-            // can.run(event, [msg.Ids(index), "modify", key, event.target.value, text], function(msg) {
-            can.run(event, ["action", "modify", key, event.target.value, text, msg.Ids(index)], function(msg) {
-                td.innerHTML = event.target.value;
-                can.user.toast("修改成功")
-            }, true)
-        }}}]).first;
-        input.focus();
-        input.setSelectionRange(0, input.value.length);
-    },
-    "复制": function(event, can, msg, index, key, cmd, target) {
-        can.user.toast(can.page.CopyText(can, target.innerHTML), "复制成功")
-    },
-    "下载": function(event, can, msg, index, key, cmd, target) {
-        can.page.Download(can, key, target.innerHTML);
-    },
+Volcanos("ondetail", {help: "组件详情", list: ["开始", "完成", "取消"],
+    "开始": "process",
+    "完成": "finish",
+    "取消": "cancel",
 })
-Volcanos("onexport", {help: "导出数据", list: [],
-    Format: function(can, msg, name) {
-        var ext = ".csv", txt = can.page.Select(can, can.target, "tr", function(tr) {
-            return can.page.Select(can, tr, "td,th", function(td) {return td.innerText}).join(",")
-        }).join("\n");
-
-        !txt && (ext = ".txt", txt = msg.result && msg.result.join("") || "");
-        return [name, ext, txt]
-    },
-})
+Volcanos("onexport", {help: "导出数据", list: []})
 
 
 

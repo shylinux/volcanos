@@ -27,8 +27,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                             var sub = can.Event(event);
                             msg.append.forEach(function(key) {sub.Option(key, msg[key][index].trim())})
                             typeof cb == "function"? cb(event, can, msg, index, key, cmd, target):
-                                // can.run(event, [id, typeof cb == "string"? cb: cmd, key, target.innerHTML], function(msg) {
-                                can.run(event, ["action", typeof cb == "string"? cb: cmd, key, target.innerHTML], function(msg) {
+                                can.run(event, ["action", typeof cb == "string"? cb: cmd, key, target.innerHTML, id], function(msg) {
                                     can.onimport.init(can, msg, cb, output, option)
                                 }, true)
                         }))
@@ -44,9 +43,9 @@ Volcanos("onimport", {help: "导入数据", list: [],
         return typeof cb == "function" && cb(msg), table;
     },
     which: function(event, table, list, cb) {if (event.target == table) {return cb(-1, "")}
-        can.page.Select(can, table, "tr", function(tr, index) {if (event.target == tr) {return cb(index-1, "")}
+        can.page.Select(can, table, "tr", function(tr, index) {if (event.target == tr) {return cb(tr.dataset.index, "")}
             can.page.Select(can, tr, "th,td", function(td, order) {
-                if (event.target == td) {return cb(index-1, list[order])}
+                if (event.target == td) {return cb(tr.dataset.index, list[order])}
             })
         })
     },
@@ -80,10 +79,8 @@ Volcanos("ondetail", {help: "组件详情", list: ["选择", "编辑", "删除",
     "编辑": function(event, can, msg, index, key, cmd, td) {
         var text = td.innerHTML;
         var input = can.page.Appends(can, td, [{type: "input", value: text, style: {width: td.clientWidth+"px"}, data: {onkeydown: function(event) {
-            if (event.key == " ") {return event.stopPropagation()}
             if (event.key != "Enter") {return}
             if (key == "value" && msg.key) {key = msg.key[index]}
-            // can.run(event, [msg.Ids(index), "modify", key, event.target.value, text], function(msg) {
             can.run(event, ["action", "modify", key, event.target.value, text, msg.Ids(index)], function(msg) {
                 td.innerHTML = event.target.value;
                 can.user.toast("修改成功")

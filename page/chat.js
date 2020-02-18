@@ -58,7 +58,7 @@ Volcanos("onlayout", {help: "组件布局", list: ["刷新"],
         layout.bottom == undefined && (layout.bottom = can.bottom.target.offsetHeight-conf.layout.border)
         layout.center == undefined && (layout.center = can.center.target.clientHeight)
         layout.top == undefined && (layout.top = can.top.target.clientHeight)
-        layout.center == 0 && layout.top == 0 && !can.user.isMobile && (layout.bottom = height)
+        layout.center == 0 && layout.top == 0 && !can.user.isMobile && layout.bottom != -2 && (layout.bottom = height)
         can.bottom.Size(event, width, layout.bottom)
         can.center.Size(event, width, layout.center)
 

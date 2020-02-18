@@ -60,8 +60,8 @@ var can = Volcanos("chat", {
                     field.style.height = height + "px"
                 } else if (height == -1) {
                     field.style.height = document.body.offsetHeight + "px"
-                } else if (width == -2) {
-                    field.style.width = ""
+                } else if (height == -2) {
+                    field.style.height = ""
                 }
 
                 typeof cb == "function" && cb(event, pane, {width: width, height: height}, "size", pane.output)
@@ -112,7 +112,7 @@ var can = Volcanos("chat", {
 
         var history = []
 
-        var args = meta.args || [];
+        var args = typeof meta.args == "string"? JSON.parse(meta.args): meta.args || [];
         var feature = JSON.parse(meta.feature||'{}');
         var exports = JSON.parse(meta.exports||'""')||feature.exports||[];
         var plugin = Volcanos(name, {_type: "local", _local: {}, target: field,
@@ -124,6 +124,11 @@ var can = Volcanos("chat", {
                 key && plugin[key] && plugin[key].target && plugin[key].Import(event, value, key)
             },
 
+            Rename: function(event) {var meta = field.Meta;
+                meta.help = can.user.prompt("", function(help) {
+                    meta.help = help
+                }, meta.help)
+            },
             Remove: function(event) {var list = can.page.Select(can, option, "input.temp")
                 list.length > 0 && list[list.length-1].parentNode.removeChild(list[list.length-1])
             },
@@ -178,6 +183,11 @@ var can = Volcanos("chat", {
                 }))
                 can.Export(event, 1, "ncmd")
 
+                var msg = can.Event(event);
+                can.page.Select(can, option, ".opts", function(item) {
+                    item.name && item.value && msg.Option(item.name, item.value)
+                })
+
                 for (var i = args.length-1; i >= 0; i--) {if (args[i] == "") {args = args.slice(0, i)} else {break}}
                 show && plugin.Timer(1000, function() {show && plugin.user.toast(can.base.Format(args||["running..."]), meta.name, -1)});
                 run(event, args, function(msg) {if (silent) {return typeof cb == "function" && cb(msg)}
@@ -190,9 +200,10 @@ var can = Volcanos("chat", {
                 return plugin._output = plugin._local[type] = plugin[type] = can.Output(plugin, feature, type, msg, cb, output, action, option, status)
             },
             Clone: function(event, cb) {meta.nick = meta.name + can.ID()
+                meta.msg = plugin.msg
                 meta.args = can.page.Select(can, plugin.option, ".args", function(item) {return item.value})
                 can._plugins.push(can.Plugin(can, meta.nick, meta, run,
-                    can.page.AppendField(can, field.parentNode, "item "+meta.group+" "+meta.nick, meta), cb))
+                    can.page.AppendField(can, field.parentNode, "item "+meta.name+" "+meta.nick, meta), cb))
             },
             Delete: function(event) {field.parentNode.removeChild(field)},
         }, Config.libs.concat(["plugin/"+(meta.type||feature.active||"state")]), function(plugin) {plugin.Conf(meta);
@@ -201,6 +212,7 @@ var can = Volcanos("chat", {
             can.core.Next(list.length>0? list: [{type: "text"}, {type: "button", value: "执行"}], plugin.Append, function() {
                 typeof cb == "function" && cb(plugin)
             })
+            meta.msg && plugin.Show(feature.display || "table", meta.msg)
         }, meta)
         field.Check = plugin.Check
         return plugin
@@ -259,7 +271,7 @@ var can = Volcanos("chat", {
             },
 
             run: function(event, cmd, cb, silent) {var msg = can.Event(event);
-                cmd = cmd || can.Option(), can.page.Select(can, option, "input,select", function(item) {
+                cmd = cmd || can.Option(), can.page.Select(can, option, ".args", function(item) {
                     item.name && item.value && msg.Option(item.name, item.value)
                 });
                 (output[cmd[1]] || can[cmd[1]] || can.Run)(event, cmd, cb, silent);
