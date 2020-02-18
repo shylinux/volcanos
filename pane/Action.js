@@ -51,7 +51,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can._plugin && can._plugin.Import(event, msg, cmd)
     },
 })
-Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公", "聊天", "最长"], "刷新", "清屏", "并行","串行",
+Volcanos("onaction", {help: "组件交互", list: [["layout"].concat(Config.layout.list), "刷新", "清屏", "并行","串行",
     ["action", "正常", "编辑", "编排", "定位"],
     {input: "pod"}, {input: "you"}, {input: "hot"}, {input: "top"},
 ],
@@ -61,6 +61,14 @@ Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公"
 
     layout: function(event, can, value, cmd, target) {can.Export(event, value, cmd)},
 
+    "共享": function(event, can, msg, cmd, target) {
+        can.user.input(event, can, ["name", "text"], function(event, cmd, meta, list) {
+            cmd == "提交" && can.run(event, [can.Conf("river"), can.Conf("storm"), "share", meta.name, meta.text], function(msg) {
+                can.user.toast(can.user.Share(can, {path: "/share/"+msg.Result()+"/"}, true))
+            }, true)
+            return true
+        })
+    },
     "保存": function(event, can, msg, cmd, target) {
         var list = []
         can.page.Select(can, target, "fieldset", function(item) {var meta = item.Meta
@@ -153,7 +161,7 @@ Volcanos("onaction", {help: "组件交互", list: [["layout", "工作", "办公"
         }
     },
 })
-Volcanos("onchoice", {help: "组件菜单", list: ["保存", "刷新"]})
+Volcanos("onchoice", {help: "组件菜单", list: ["保存", "刷新", "共享"]})
 Volcanos("ondetail", {help: "组件详情", list: []})
 Volcanos("onexport", {help: "导出数据", list: []})
 

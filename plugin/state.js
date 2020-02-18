@@ -8,9 +8,10 @@ Volcanos("onimport", {help: "导入数据", list: [],
     },
 })
 Volcanos("onaction", {help: "组件交互", list: []})
-Volcanos("onchoice", {help: "组件菜单", list: ["执行", "返回", "重命名", "选项", "加参", "减参", "克隆", "删除"],
+Volcanos("onchoice", {help: "组件菜单", list: ["执行", "返回", "共享", "重命名", "选项", "加参", "减参", "克隆", "删除"],
     "执行": function(event, can, msg, cmd, field) {can.Runs(event)},
     "返回": function(event, can, msg, cmd, field) {can.Last(event)},
+    "共享": function(event, can, msg, cmd, field) {can.Share(event)},
     "重命名": function(event, can, msg, cmd, field) {can.Rename(event)},
     "选项": function(event, can, msg, cmd, field) {
         can.user.input(event, can, ["name", "value"], function(event, cmd, meta, list) {

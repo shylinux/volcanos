@@ -124,6 +124,14 @@ var can = Volcanos("chat", {
                 key && plugin[key] && plugin[key].target && plugin[key].Import(event, value, key)
             },
 
+            Share: function(event) {
+                can.user.input(event, can, ["name", "text"], function(event, cmd, meta, list) {
+                    cmd == "提交" && plugin.Run(event, ["action", "share", meta.name, meta.text], function(msg) {
+                        can.user.toast(can.user.Share(can, {path: "/share/"+msg.Result()+"/"}, true))
+                    }, true)
+                    return true
+                })
+            },
             Rename: function(event) {var meta = field.Meta;
                 meta.help = can.user.prompt("", function(help) {
                     meta.help = help
@@ -286,10 +294,10 @@ var can = Volcanos("chat", {
     can[Config.main] = can.Page(can, Config.main, Config, function(chat) {
         chat.Import(event||{}, can.user.Search(can, "layout")||Config.layout.def, "layout")
         can.user.title(can.user.Search(can, "you")||Config.title)
-        can.user.login(function(user) {
+        chat.Login? can.user.login(function(user) {
             chat.River.Import(event||{}, "update", "river")
             chat.Header.Import(event||{}, user.name, "username")
-        })
+        }): (chat.Action.Import(event||{}, location.pathname.split("/")[2], "river"), chat.Action.Import(event||{}, "none", "storm"))
     }, document.body)
 
     can.require(["page/"+(can.user.Search(can, "topic")||Config.topic)+".css"], function() {})
