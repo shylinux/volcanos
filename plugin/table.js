@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
         if (!msg.append || msg.append.length == 0) {
-            var code = can.page.Append(can, output, [{view: ["code", "div", msg.Result()]}]).code;
+            var code = can.page.Append(can, output, [{view: ["code", "div", can.page.Display(msg.Result())]}]).code;
             return typeof cb == "function" && cb(msg), code;
         }
 
