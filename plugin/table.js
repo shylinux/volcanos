@@ -1,10 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
-        if (!msg.append || msg.append.length == 0) {
-            var code = can.page.Append(can, output, [{view: ["code", "div", can.page.Display(msg.Result())]}]).code;
-            return typeof cb == "function" && cb(msg), code;
-        }
-
         var table = can.page.AppendTable(can, output, msg, msg.append);
         table.onclick = function(event) {switch (event.target.tagName) {
             case "TD":
@@ -40,7 +35,9 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 case "TABLE":
             }
         }
-        return typeof cb == "function" && cb(msg), table;
+
+        var code = can.page.Append(can, output, [{view: ["code", "div", can.page.Display(msg.Result())]}]).code;
+        return typeof cb == "function" && cb(msg), code;
     },
     which: function(event, table, list, cb) {if (event.target == table) {return cb(-1, "")}
         can.page.Select(can, table, "tr", function(tr, index) {if (event.target == tr) {return cb(tr.dataset.index, "")}
