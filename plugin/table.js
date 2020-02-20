@@ -37,8 +37,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
             }
         }
 
-        var code = can.page.Append(can, output, [{view: ["code", "div", can.page.Display(msg.Result())]}]).code;
-        return typeof cb == "function" && cb(msg), code;
+        msg.result && can.page.Append(can, output, [{view: ["code", "div", can.page.Display(msg.Result())]}]).code;
+        return typeof cb == "function" && cb(msg);
     },
     which: function(event, table, list, cb) {if (event.target == table) {return cb(-1, "")}
         can.page.Select(can, table, "tr", function(tr, index) {if (event.target == tr) {return cb(tr.dataset.index, "")}
