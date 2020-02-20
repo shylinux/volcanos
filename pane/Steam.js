@@ -22,6 +22,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
             })
         }
 
+        can.page.AppendAction(can, field, [{type: "text", name: "pod"}])
+
         var device = can.page.Append(can, field, [{"view": ["device", "table"]}]).last
         var ui = can.page.Append(can, field, [{view: ["create"], list: [
             {input: "name", value: can.Conf("def_name"), title: "应用名称"},
@@ -35,8 +37,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.device = device
         can.ui = ui
     },
-    init: function(event, can, msg, key, output) {output.innerHTML = ""; can.Show(event, -100, -100);
-        var table = can.page.Append(can, output, "table")
+    init: function(event, can, msg, key) {can.output.innerHTML = ""; can.Show(event, -100, -100);
+        var table = can.page.Append(can, can.output, "table")
 
         can.page.Append(can, table, [{text: ["1. 选择用户节点 ->", "caption"]}])
         can.page.AppendTable(can, table, msg, ["type", "name", "user"], function(event, value, key, index, tr, td) {
@@ -79,7 +81,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.Conf("storm", value)
     },
 })
-Volcanos("onaction", {help: "组件交互", list: ["关闭", "刷新"],
+Volcanos("onaction", {help: "组件交互", list: ["关闭", "刷新", {input: "pod"}],
     "关闭": function(event, can, meta, key, output) {
         can.Hide()
     },
