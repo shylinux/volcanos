@@ -23,7 +23,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
                             msg.append.forEach(function(key) {sub.Option(key, msg[key][index].trim())})
                             typeof cb == "function"? cb(event, can, msg, index, key, cmd, target):
                                 can.run(event, ["action", typeof cb == "string"? cb: cmd, key, target.innerHTML, id], function(msg) {
-                                    can.onimport.init(can, msg, cb, output, option)
+                                    can.user.toast(msg.Result())
+                                    // can.onimport.init(can, msg, cb, output, option)
                                 }, true)
                         }))
                     })

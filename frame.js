@@ -162,6 +162,7 @@ var can = Volcanos("chat", {
                     plugin.page.Select(can, option, ".args", function(item) {return item.value})
             },
             Report: function(event, value, key, index) {
+                key && plugin[key] && plugin[key].target && plugin[key].Import(event, value, key, index)
                 for (var i = 0; i < exports.length; i += 3) {
                     if (exports[i+1] == key) {key = exports[i]
                         if (exports[i+2]) {var cb = plugin.onexport[exports[i+2]], res;
@@ -170,7 +171,6 @@ var can = Volcanos("chat", {
                         key && can.Import(event, value, key)
                     }
                 }
-                key && plugin[key] && plugin[key].target && plugin[key].Import(event, value, key, index)
             },
             Check: function(event, target, cb) {
                 plugin.page.Select(can, option, ".args", function(item, index, list) {
