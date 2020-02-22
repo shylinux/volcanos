@@ -40,4 +40,12 @@ module.exports = {
     formatTime: formatTime,
     Time: Time,
     Args: Args,
+    List: function(list, cb) {
+        var res = [], val;
+        for (var i = 0; i < list.length; i++) {
+            typeof cb == "function"? (val = cb(list[i], i, list)) != undefined && res.push(val): res.push(list[i])
+
+        }
+        return res
+    },
 }

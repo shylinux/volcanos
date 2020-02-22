@@ -1,5 +1,4 @@
 <import src="../../app.wxml"/>
 
-<view class="display">
-    <template is="list-name" data="{{msg}}"></template>
-</view>
+<template is="action" data="{{action}}"></template>
+<template is="list-name" data="{{msg}}"></template>

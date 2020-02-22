@@ -57,9 +57,9 @@
 				},
 				{
 					"id": 1,
-					"name": "pages/storm/storm",
-					"pathName": "pages/storm/storm",
-					"query": "river=c796cd&storm=9092d5",
+					"name": "action",
+					"pathName": "pages/action/action",
+					"query": "river=d022b3&storm= c22d21",
 					"scene": null
 				},
 				{

@@ -3,31 +3,49 @@ const app = getApp()
 
 Page({
     data: {
+        action: ["扫码", "刷新", "登录"],
         msg: {append: ["key", "name"]},
     },
-    refresh: function() {var page = this
-        app.request("river", {}, function(msg) {page.setData({msg: msg})
-            msg.nRow() == 1 && page.toStorm(0)
-        })
+    action: {
+        "扫码": function(event, page, data, name) {
+            app.scans(function(res) {
+                page.onaction(event, res, res.name)
+            })
+        },
+        "刷新": function(event, page, data, name) {
+            app.request("river", {}, function(msg) {
+                page.setData({msg: msg}), msg.nRow() == 1 && page.ondetail(event, data, 0)
+            })
+        },
+        "登录": function(event, page, data, name) {
+            app.conf.sessid = "", app.usercode(function() {
+                page.onaction(event, data, "刷新")
+            })
+        },
     },
-
-    toStorm: function(index) {app.jumps("storm/storm", {river: this.data.msg.key[index]})},
-
-    onFocus: function(event) {},
-    onInput: function(event) {},
-    onEnter: function(event) {},
-    onClick: function(event) {this.toStorm(event.currentTarget.dataset.index)},
+    onaction: function(event, data, name) {
+        data = data || event.target.dataset, name = name || data.name
+        console.log("action", "river", name)
+        this.action[name](event, this, data)
+    },
+    ondetail: function(event, data, index) {
+        data = data || event.target.dataset, index = index||data.index||0
+        console.log("detail", "river", index)
+        app.jumps("storm/storm", {river: this.data.msg.key[index]})
+    },
 
     onLoad: function (options) {
         console.log("page", "river", options)
-        app.conf.sessid = app.conf.sessid || options.sessid
-        this.refresh()
+        app.conf.sessid = options.sessid || app.conf.sessid
+        this.onaction({}, options, "刷新")
     },
     onReady: function () {},
     onShow: function () {},
     onHide: function () {},
     onUnload: function () {},
-    onPullDownRefresh: function () {this.refresh()},
+    onPullDownRefresh: function () {
+        this.onaction({}, {}, "刷新")
+    },
     onReachBottom: function () {},
     onShareAppMessage: function () {}
 })

@@ -1,41 +1,75 @@
-.display {
+page {
     color:white;
     font-size:14px;
     font-family:monospace;
     background-color:#272822;
-    position:absolute;
     white-space:pre;
-    height:100%;
-    width:100%;
+}
+
+view.action>view.item {
+    float:left;
+}
+view.option>view.item {
+    padding:0;
+    border: 0;
+    float:left;
+}
+view.option input {
+    width:80px;
+    margin:2px;
+    padding:2px;
+    border:solid 1px green;
+}
+view.option view.textarea {
+    clear:both;
+    width:calc(100% - 2px);
+    border:solid 1px green;
+}
+view.option view.select {
+    border:solid 1px green;
+    float:left;
+    /* width:40px; */
+    padding:6px;
+}
+view.option view.select picker {
+}
+view.option view.select picker view {
+}
+view.output {
+    clear:both;
+}
+view.output>view.item {
+    text-align:center;
+    font-size:18px;
+    padding:10px;
+    border:solid 1px green;
+}
+
+view.title {
+    margin-top:20px;
+    margin-bottom:10px;
+    font-weight:bold;
+    font-size:18px;
+}
+view.field {
 }
 
 table {
-    width:100%;
-    background-color:#272822;
 }
 tr {
-    background-color:#272822;
-    width:100%;
     display:flex;
     justify-content:space-between;
 }
 th {
-    background-color:#272822;
+    padding:5px;
     width:100%;
     text-align:center;
     border:solid 1px red;
 }
 td {
-    background-color:#272822;
+    padding:5px;
     width:100%;
     text-align:center;
     border:solid 1px green;
 }
-td.item {
-    font-size:18px;
-    padding:10px;
-}
 
-.output {
-    border:solid 2px red;
-}
