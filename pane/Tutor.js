@@ -1,7 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [],
-    _init: function(can, conf, output, action, option, field) {
-    },
-})
+Volcanos("onimport", {help: "导入数据", list: []})
 Volcanos("onaction", {help: "组件交互", list: []})
 Volcanos("onchoice", {help: "组件菜单", list: []})
 Volcanos("ondetail", {help: "组件详情", list: []})

@@ -24,6 +24,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             if (meta.cache[name]) {var cache = meta.cache[name];
                 for (var i = 0; i < cache.length; i++) {var item = cache[i];
                     if (item._name == can._name) {continue}
+                    // 加载索引
                     can[item._name] = item;
                 }
                 return can
@@ -32,6 +33,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             meta.cache[name] = []
             for (var i = meta.index; i < list.length; i++) {var item = list[i];
                 if (item._name == can._name || item._type == "local"|| item._type == "input" || item._type == "output") {continue}
+                // 加载缓存
                 can[item._name] = item;
                 meta.cache[name].push(item);
             }
@@ -69,10 +71,11 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             }
 
             // 加载脚本
-            can.Dream(document.body, libs[0].indexOf(".") == -1? libs[0]+".js": libs[0], function() {
+            can.Dream(document.body, !libs[0].endsWith("/") && libs[0].indexOf(".") == -1? libs[0]+".js": libs[0], function() {
                 can._load(libs[0]), can.require(libs.slice(1), cb);
             })
         },
+        name: function() {return can._name.toLowerCase()},
 
         ID: shy("生成器", function() {return id++}),
         Log: shy("日志器", function() {console.log(arguments)}),
@@ -101,16 +104,20 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             // [1,2,3,4]
             // {value, length}
             var timer = {stop: false};
-            function loop(i) {if (timer.stop || i >= interval.length && interval.length >= 0) {return typeof cbs == "function" && cbs(interval)}
-                return typeof cb == "function" && cb(interval.value||interval[i], i, interval)?
-                    typeof cbs == "function" && cbs(interval): setTimeout(function() {loop(i+1)}, interval.value||interval[i+1]);
+            function loop(event, i) {if (timer.stop || i >= interval.length && interval.length >= 0) {return typeof cbs == "function" && cbs(event, interval)}
+                return typeof cb == "function" && cb(event, interval.value||interval[i], i, interval)?
+                    typeof cbs == "function" && cbs(event, interval):
+                        setTimeout(function() {loop(event, i+1)}, interval.value||interval[i+1]);
             }
-            setTimeout(function() {loop(0)}, interval.value||interval[0]);
+            setTimeout(function(event) {loop(event, 0)}, interval.value||interval[0]);
             return timer;
         }),
         Event: shy("触发器", function(event, msg, proto) {event = event || {};
-            msg = event.msg = msg || event.msg || {}, msg.__proto__ = proto || {
-                _create_time: can.base.Time(), _source: can,
+            if (!msg && event.msg) {return event.msg}
+
+            event.msg = msg = msg || {}, msg.__proto__ = proto || {
+                __proto__: can, _create_time: can.base.Time(),
+                option: [],
                 Log: shy("输出日志", function() {console.log(arguments)}),
                 Ids: function(index, key) {var id = index;
                     msg && msg.id && (id = msg.id[index]) || msg && msg.name && (id = msg.name[index]);
@@ -124,11 +131,6 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     }).length > 0 || msg.option.push(key)
                     msg[key] = can.core.List(arguments).slice(1)
                 },
-                Echo: shy("输出响应", function(res) {msg.result = msg.result || []
-                    msg._hand = true
-                    for (var i = 0; i < arguments.length; i++) {msg.result.push(arguments[i])}
-                    return msg;
-                }),
                 Push: function(key, value) {msg.append = msg.append || []
                     if (typeof key == "object") {
                         value? can.core.List(value, function(item) {
@@ -148,6 +150,11 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     msg[key] = msg[key] || []
                     msg[key].push(""+value)
                 },
+                Echo: shy("输出响应", function(res) {msg.result = msg.result || []
+                    msg._hand = true
+                    for (var i = 0; i < arguments.length; i++) {msg.result.push(arguments[i])}
+                    return msg;
+                }),
                 Copy: function(res) {
                     res.result && (msg.result = res.result)
                     res.append && (msg.append = res.append) && res.append.forEach(function(item) {
@@ -182,7 +189,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             };
             return msg.event = event, msg
         }),
-        Dream: shy("构造器", function(target, type, line, key) {
+        Dream: shy("构造器", function(target, type, line) {
             if (type.endsWith(".css")) {
                 var style = document.createElement("link");
                 style.rel = "stylesheet", style.type = "text/css";
@@ -198,6 +205,11 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                 target.appendChild(script);
                 return script
             }
+            if (type.endsWith("/")) {
+                typeof line == "function" && line()
+                return
+            }
+
             var text = line, list = [], item = false, style = ""
             switch (type) {
                 case "option":
@@ -212,6 +224,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
         }),
         Cache: shy("缓存器", function(name, output, data) {
             if (data) {
+                // 写缓存
                 var temp = document.createDocumentFragment()
                 while (output.childNodes.length>0) {
                     var item = output.childNodes[0]
@@ -224,6 +237,8 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
 
             var list = cache[name];
             if (!list) {return}
+
+            // 读缓存
             while (list.node.childNodes.length>0) {
                 var item = list.node.childNodes[0]
                 item.parentNode.removeChild(item)
@@ -240,7 +255,6 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
         can.onimport && can.onimport._begin && can.onimport._begin(can)
         typeof cb == "function" && cb(can);
         if (can.target) {
-            // 初始化主模块
             function run(event, msg, key, cb) {
                 if (typeof cb == "function") {
                     // 本地命令
@@ -250,13 +264,14 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     can.run(event, ["action", key], function(msg) {can.Import(event, msg, key)}, true)
                 }
             }
-            // 注册event
+
+            // 注册事件
             can.core.Item(can.onaction, function(key, cb) {key.indexOf("on") == 0 && (can.target[key] = function(event) {cb(event, can)})});
-            // 注册action
+            // 注册控件
             can.action && (can.action.innerHTML = ""), can.onaction && can.page.AppendAction(can, can.action, can.onaction.list, function(event, value, key) {
                 key? run(event, value, key, can.onaction[key]||can.onaction[value]): run(event, msg, value, can.onaction[value]);
             })
-            // 注册choice
+            // 注册菜单
             can.target.oncontextmenu = function(event) {can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, key, meta) {
                 run(event, msg, key, can.onchoice[key] || can.onaction[key]);
             }), can), event.stopPropagation(), event.preventDefault()}

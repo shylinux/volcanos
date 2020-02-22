@@ -5,36 +5,33 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.target.style.width = ""
 
         function res(msg) {
-            if (msg._hand) {ui.cmd.value = "";
-                output.innerHTML = msg.Result()
+            if (msg._hand) {ui.cmd.value = "", output.innerHTML = "";
+                msg.result && msg.result.length > 0? can.page.Append(can, output, [{text: msg.Result()}]):
+                    can.page.AppendTable(can, output, msg, msg.append);
             }
             return msg
         }
-        function run(event, cmds) {cmds = cmds.trim().split(" ");
+        function run(event, cmds) {cmds = can.core.Split(cmds);
             var cmd = cmds[0]; if (cmd == "") {return}
-            var msg = can.Event(event, {detail: cmds});
-            can.msg = msg;
+            can.msg = can.Event(event, {detail: cmds});
 
             var cb = can.onexport[cmd];
-            typeof cb == "function"? cb(event, can, msg, cmds, output): can.Export(event, msg, "favor");
-
-            return msg._hand? res(msg): can.run(event, cmds, res, true);
+            typeof cb == "function"? cb(event, can, can.msg, cmds, output): can.Export(event, can.msg, "favor");
+            return can.msg._hand? res(can.msg): can.run(event, cmds, res, true);
         }
 
         var ui = can.page.Append(can, option, [{input: ["cmd", function(event) {
-            can.page.oninput(event, can)
-
             switch (event.key) {
-                case "Enter": run(event, event.target.value); break
-                case "Escape": can.Hide(); break
+                case "Enter": run(event, event.target.value); return
+                case "Escape": can.Hide(); return
                 default: if (event.target.value.endsWith("j") && event.key == "k") {
                     can.page.DelText(event.target, event.target.selectionStart-1, 2)
                     event.target.value == ""? can.Hide(): run(event, event.target.value)
-                    break
-                } return false
+                    return
+                }
             }
-            event.stopPropagation()
-            event.preventDefault()
+
+            can.page.oninput(event, can)
             return true
         }, function(event) {
             switch (event.key) {
@@ -45,8 +42,14 @@ Volcanos("onimport", {help: "导入数据", list: [],
             return true
         }]}])
     },
+
+    space: function(event, can, value, cmd, field) {
+        can.page.Select(can, can.Show(), "input.cmd", function(item) {
+            item.focus()
+        })
+    },
 })
-Volcanos("onaction", {help: "组件交互", list: [],
+Volcanos("onaction", {help: "组件交互", list: ["关闭", "清空", "下载"],
     onmousedown: function(event, can) {
         if (event.ctrlKey) {can.moving = !can.moving, can.movarg = {
             left: can.target.offsetLeft,
@@ -61,18 +64,21 @@ Volcanos("onaction", {help: "组件交互", list: [],
         }
     },
     onmouseup: function(event, can) {
-        // can.moving = false;
     },
-})
-Volcanos("onchoice", {help: "组件菜单", list: ["下载"],
-    "下载": function(event, can, msg, cmd, target) {msg = msg || can.msg;
-        var list = msg.Export(can._name);
+    "关闭": function(event, can, value, cmd, field) {
+        can.Hide();
+    },
+    "清空": function(event, can, value, cmd, field) {
+        can.output.innerHTML = ""
+    },
+    "下载": function(event, can, value, cmd, field) {
+        var list = can.msg.Export(can._name);
         can.page.Download(can, list[0]+list[1], list[2]);
     },
 })
+Volcanos("onchoice", {help: "组件菜单", list: ["下载", "关闭"]})
 Volcanos("ondetail", {help: "组件详情", list: []})
 Volcanos("onexport", {help: "导出数据", list: [], 
-    hi: function(event, can, msg, cmd, output) {msg.Echo("hello world")},
-    time: function(event, can, msg, cmd, output) {msg.Echo(can.base.Time())},
+    time: function(event, can, msg, cmd, field) {msg.Echo(can.base.Time())},
 })
 

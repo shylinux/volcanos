@@ -241,6 +241,9 @@ fieldset table caption {
 fieldset table tbody {
     overflow:auto;
 }
+fieldset table tr.hidden {
+    display:none;
+}
 fieldset table th.order {
     background-color:red;
     cursor:pointer;

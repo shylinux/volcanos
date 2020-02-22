@@ -5,12 +5,12 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.target.style.width = ""
 
         var timer;
-        can.user.toast = function(text, title, duration, list) {if (!text) {return can.Hide()}
-            text = typeof text == "object"? text: {list: list, text: text, title: title||""}
+        can.user.toast = function(text, title, duration, action) {if (!text) {return can.Hide()}
+            text = typeof text == "object"? text: {list: action, text: text, title: title||""}
             text.duration = text.duration || conf.duration || 3000
 
             var list = [{text: [text.title||"", "div", "title"]},
-                {text: [text.text||"", "div", "content"]},
+                typeof text.text == "string"?  {text: [text.text||"", "div", "content"]}: {view: "content", list: text.text},
                 {view: ["form"], list: text.list||[{type: "button", inner: "ok", click: function() {
                     timer.stop = true
                 }}]},

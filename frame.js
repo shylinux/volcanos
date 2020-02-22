@@ -1,5 +1,5 @@
 var can = Volcanos("chat", {
-    Page: shy("构造网页", function(can, name, conf, cb, body) {
+    Page: shy("构造网页", function(can, name, conf, cb, body, topic) {
         var page = Volcanos(name, {_type: "local", _panes: {}, _views: {}, target: body,
             Plugin: can.Plugin, Inputs: can.Inputs, Output: can.Output,
 
@@ -7,17 +7,38 @@ var can = Volcanos("chat", {
                 typeof cb == "function" && cb(event, page, value, key, body);
             },
             Report: function(event, value, key) {
-                page.Import && page.Import(event, value, key)
+                // 导入数据
+                page.Import(event, value, key)
+                // 分发数据
                 can.core.Item(page._panes, function(index, item) {
+                    if (key == "favor") {var msg = value;
+                        var cmds = msg.detail, cmd = cmds[0];
+                        if (cmd == item._name || cmd == item.name()) {cmd = cmds[1], cmds = cmds.slice(1)}
+
+                        var cb = item.onchoice[cmd];
+                        if (typeof cb == "function") {
+                            cb(event, item, value, cmd, item.target);
+                            return msg.Echo(item._name, " onchoice ", cmd), msg._hand = true;
+                        }
+
+                        var cb = item.onaction[cmd];
+                        if (typeof cb == "function") {
+                            cb(event, item, value, cmd, item.target);
+                            return msg.Echo(item._name, " onaction ", cmd), msg._hand = true;
+                        }
+                    }
+                    // 下发数据
                     item.Import && item.Import(event, value, key)
                 })
             },
 
             run: function(event, option, cmds, cb) {can.misc.Run(event, page, option, cmds, cb)},
-        }, Config.libs.concat(["page/"+name]), function(page) {
+        }, Config.libs.concat(["page/"+name, "page/"+topic+".css"]), function(page) {
+            // 加载配置
             page.onimport._init && page.onimport._init(page, page.Conf(conf), body)
 
             can.core.Next(conf.pane, function(item, cb) {
+                // 加载模块
                 page._panes[item.name] = page[item.name] = page._views[item.pos] = page[item.pos] = can.Pane(page, item.name, item, cb,
                     can.page.Select(can, body, "fieldset."+item.name)[0] ||
                     can.page.AppendField(can, body, item.name+" "+(item.pos||""), item))
@@ -25,7 +46,7 @@ var can = Volcanos("chat", {
         }, conf)
         return page
     }),
-    Pane: shy("构造面板", function(can, name, meta, cb, field) {
+    Pane: shy("构造组件", function(can, name, meta, cb, field) {
         var river = "", storm = "";
 
         var pane = Volcanos(name, {_type: "local", _plugins: [], _local: {}, target: field,
@@ -34,18 +55,21 @@ var can = Volcanos("chat", {
             output: field.querySelector("div.output"),
             Plugin: can.Plugin, Inputs: can.Inputs, Output: can.Output,
 
-            Export: function(event, value, key) {can.Report(event, value, key)},
+            Export: function(event, value, key) {var cb = pane.onexport[key];
+                typeof cb == "function"? cb(event, pane, value, key, field): can.Report(event, value, key)
+            },
             Import: function(event, value, key) {var cb = pane.onimport[key];
                 // 导入数据
-                typeof cb == "function" && cb(event, pane, value, key, pane.output);
+                typeof cb == "function" && cb(event, pane, value, key, field);
                 // 分发数据
-                can.core.List(pane._plugins, function(item) {item.Import(event, value, key)})
-                // 导入数据
+                // can.core.List(pane._plugins, function(item) {item.Import(event, value, key)})
+                // 显示数据
                 pane.page.Select(pane, pane.action, "input."+key, function(item) {item.value = value})
             },
 
             Action: function(key, value) {
                 return can.page.Select(can, pane.action, "input[name="+key+"],select."+key+",select[name="+key+"]", function(item) {
+                    // 读写控件
                     value != undefined && (item.value = value), value = item.value
                 }), value
             },
@@ -68,7 +92,7 @@ var can = Volcanos("chat", {
                     field.style.height = ""
                 }
 
-                typeof cb == "function" && cb(event, pane, {width: width, height: height}, "size", pane.output)
+                typeof cb == "function" && cb(event, pane, {width: width, height: height}, "size", field)
             },
             Show: function(event, width, height, offset) {field.style.display = "block";
                 if (width < 0) {field.style.left = -width / 2 + "px";
@@ -97,6 +121,7 @@ var can = Volcanos("chat", {
 
             run: function(event, cmds, cb) {var msg = pane.Event(event)
                 can.page.Select(can, pane.action, "input", function(item, index) {
+                    // 控件参数
                     item.name && item.value && msg.Option(item.name, item.value)
                 })
                 can.run(event, pane.option.dataset, cmds, cb)
@@ -123,6 +148,9 @@ var can = Volcanos("chat", {
             option: option, action: action, output: output,
             Inputs: can.Inputs, Output: can.Output,
 
+            Export: function(event, value, key) {var cb = plugin.onexport[key];
+                typeof cb == "function"? cb(event, plugin, value, key, field): can.Export(event, value, key)
+            },
             Import: function(event, value, key) {var cb = plugin.onimport[key];
                 // 导入数据
                 typeof cb == "function" && cb(event, plugin, value, key, plugin.output);
@@ -145,19 +173,6 @@ var can = Volcanos("chat", {
                 }
             },
 
-            Share: function(event) {
-                can.user.input(event, can, ["name", "text"], function(event, cmd, meta, list) {
-                    cmd == "提交" && plugin.Run(event, ["action", "share", meta.name, meta.text], function(msg) {
-                        can.user.toast(can.user.Share(can, {path: "/share/"+msg.Result()+"/"}, true))
-                    }, true)
-                    return true
-                })
-            },
-            Rename: function(event) {var meta = field.Meta;
-                meta.help = can.user.prompt("", function(help) {
-                    meta.help = help
-                }, meta.help)
-            },
             Remove: function(event) {var list = can.page.Select(can, option, "input.temp")
                 list.length > 0 && list[list.length-1].parentNode.removeChild(list[list.length-1])
             },
@@ -215,6 +230,7 @@ var can = Volcanos("chat", {
                 })
             },
             Show: function(type, msg, cb) {plugin.msg = msg, msg._plugin_name = name;
+                msg.Option("title") && can.user.title(msg.Option("title"))
                 return plugin._output = plugin._local[type] = plugin[type] = can.Output(plugin, feature, type, msg, cb, output, action, option, status)
             },
             Clone: function(event, cb) {meta.nick = meta.name + can.ID()
@@ -226,20 +242,21 @@ var can = Volcanos("chat", {
             Delete: function(event) {field.parentNode.removeChild(field)},
         }, Config.libs.concat(["plugin/"+(meta.type||feature.active||"state")]), function(plugin) {plugin.Conf(meta);
             var list = JSON.parse(meta.inputs||"[]");
+            // 加载配置
             plugin.onimport._init? plugin.onimport._init(plugin, feature, plugin.output, plugin.action, plugin.option):
+            // 加载控件
             can.core.Next(list.length>0? list: [{type: "text"}, {type: "button", value: "执行"}], plugin.Append, function() {
                 typeof cb == "function" && cb(plugin)
             })
+            // 加载控件
             meta.msg && plugin.Show(feature.display || "table", meta.msg)
         }, meta)
-        field.Check = plugin.Check
-        return plugin
+        return field.Check = plugin.Check, plugin
     }),
     Inputs: shy("构造控件", function(can, item, type, name, value, cb, option) {
         var input = Volcanos(name, {_type: "input", _plugin: can, item: item, target: "",
             Run: can.Run, Runs: can.Runs,
 
-            Select: function(event) {can.Select(event, input.target, true)},
             Import: function(event, value, key, index) {var cb = input.onimport[item.imports];
                 value = typeof cb == "function" && cb(event, input, value, key, input.target) || value
                 input.target.value = value;
@@ -247,25 +264,24 @@ var can = Volcanos("chat", {
             },
             Append: function(event, value) {can.Append(null, function(input) {can.Select(event, input.target, true)})},
             Clone: function(event, value) {can.Clone(event, function(input) {input.Select(event, null, true)})},
+            Select: function(event) {can.Select(event, input.target, true)},
+
             run: function(event, cmd, cb, silent) {var msg = can.Event(event);
                 msg.Option("_action", item.name);
                 (input[item.cb] || can[item.cb] || can.Check)(event, event.target, cb);
             },
-
-        }, Config.libs.concat(["plugin/"+type]), function(input) {
+        }, Config.libs.concat(["plugin/"+type, "plugin/input/"+(item.figure||"")]), function(input) {
             var target = input.onimport.init(input, item, name, value, option);
             input.target = target, typeof cb == "function" && cb(input);
         })
         return input
     }),
     Output: shy("构造组件", function(can, feature, type, msg, cb, target, action, option, status) {
-        if (type == "inner" && (!msg.result || msg.result.length == 0)) {type = "table"}
-
         var output = Volcanos(type, {_type: "output", feature: feature, msg: msg,
             target: target, action: action,
             Run: can.Run, Runs: can.Runs,
 
-            Import: function(event, value, key) {var cb = output.onimport[key];
+            Import: function(event, value, key) {var cb = output.onimport && output.onimport[key];
                 typeof cb == "function" && cb(event, output, value, key, target);
             },
             Option: function(key, value) {
@@ -301,14 +317,11 @@ var can = Volcanos("chat", {
         return output
     }),
 }, Config.libs.concat(Config.list), function(can) {
-    can[Config.main] = can.Page(can, Config.main, Config, function(chat) {
-        chat.Import(event||{}, can.user.Search(can, "layout")||Config.layout.def, "layout")
-        can.user.title(can.user.Search(can, "you")||Config.title)
-        chat.Login? can.user.login(function(user) {
-            chat.River.Import(event||{}, "update", "river")
-            chat.Header.Import(event||{}, user.name, "username")
-        }): (chat.Action.Import(event||{}, location.pathname.split("/")[2], "river"), chat.Action.Import(event||{}, "none", "storm"))
-    }, document.body)
+    can.user.Search(can, "sessid") && can.user.Cookie(can, "sessid", can.user.Search(can, "sessid")) && can.user.Search(can, "sessid", "")
 
-    can.require(["page/"+(can.user.Search(can, "topic")||Config.topic)+".css"], function() {})
+    can[Config.main] = can.Page(can, Config.main, Config, function(chat) {
+        chat.Import({}, can.user.Search(can, "layout")||Config.layout.def, "layout")
+        chat.Import({}, can.user.Search(can, "you")||can.user.Search(can, "title")||Config.title, "title")
+        chat.Import({}, "", "login")
+    }, document.body, can.user.Search(can, "topic")||Config.topic)
 })

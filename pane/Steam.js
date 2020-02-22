@@ -49,7 +49,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             var node = msg.name[index];
             can.run(event, [can.Conf("river"), msg.user[index], node], function(com) {var list = com.Table()
                 can.page.Appends(can, can.device, [{text: ["2. 选择模块命令 ->", "caption"]}])
-                var table = can.page.AppendTable(can, can.device, com, ["key", "index", "name", "help"], function(event, value, key, index, tr, td) {
+                can.com = list, can.command = can.page.AppendTable(can, can.device, com, ["key", "index", "name", "help"], function(event, value, key, index, tr, td) {
                     var line = list[index];
                     line.pod = node;
                     var last = can.page.Append(can, can.ui.list, [{
@@ -65,42 +65,49 @@ Volcanos("onimport", {help: "导入数据", list: [],
             })
         }), table.querySelector("td").click()
     },
-    steam: function(event, can, value, key, output) {
+    steam: function(event, can, value, key, field) {
         if (value == "create") {
             can.run(event, [can.Conf("river")], function(msg) {
-                can.onimport.init(event, can, msg, key, output);
+                can.onimport.init(event, can, msg, key, field);
             });
         }
     },
-    river: function(event, can, value, key, output) {
-        if (value == "update") {return}
+    river: function(event, can, value, key, field) {if (value == "update") {return}
         can.Conf("river", value)
     },
-    storm: function(event, can, value, key, output) {
-        if (value == "update") {return}
+    storm: function(event, can, value, key, field) {if (value == "update") {return}
         can.Conf("storm", value)
     },
 })
-Volcanos("onaction", {help: "组件交互", list: ["关闭", "刷新", {input: "pod"}],
-    "关闭": function(event, can, meta, key, output) {
+Volcanos("onaction", {help: "组件交互", list: ["关闭", "刷新", {input: ["pod"]}, {input: ["cmd", function(event, can) {
+}, function(event, can) {
+    if (event.key == "Enter") {
+        can.page.Select(can, can.command, "tr", function(tr, index) {
+            if (index == 0) {return}
+            if (!can.page.ClassList.has(can, tr, "hidden")) {
+                tr.firstChild.click()
+                event.target.value = ""
+            }
+        })
+        return
+    }
+    can.page.Select(can, can.command, "tr", function(tr, index) {
+        if (index == 0) {return}
+        if (can.com[index-1].index.indexOf(event.target.value) > -1) {
+            can.page.ClassList.del(can, tr, "hidden")
+        } else {
+            can.page.ClassList.add(can, tr, "hidden")
+        }
+    })
+}]}],
+    "关闭": function(event, can, meta, key, field) {
         can.Hide()
     },
-    "刷新": function(event, can, meta, key, output) {
-        can.run(event, [], function(msg) {
-            can.onimport.init(event, can, msg, key, output)
-        })
+    "刷新": function(event, can, meta, key, field) {
+        can.Import(event, "create", "steam")
     },
 })
 Volcanos("onchoice", {help: "组件菜单", list: ["关闭", "刷新"]})
-Volcanos("ondetail", {help: "组件详情", list: ["创建", "删除", "共享"],
-    "创建": function(event, can, msg, value, key, index, td) {
-        can.run(event, [can.Conf("river"), "spawn", msg.key[index]], function(msg) {
-            can.Hide(), can.Export(event, "update", "storm");
-        })
-    },
-    "共享": function(event, can, msg, value, key, index, td) {
-        can.user.toast(can.user.Share(can, {storm: line.key}), "共享链接", 10000)
-    },
-})
+Volcanos("ondetail", {help: "组件详情", list: []})
 Volcanos("onexport", {help: "导出数据", list: []})
 

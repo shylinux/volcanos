@@ -1,19 +1,19 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, conf, output, action, option, field) {output.innerHTML = "";
         conf.title && can.page.Append(can, output, [{view: "title", list: [{text: conf.title, className: "title"}]}])
+
         can.ui = can.page.Append(can, output, [{view: "state", list: can.core.List(conf.state, function(item) {
-            return {text: conf[item]||"", className: item, click: function(event) {var cb = can.onexport[item];
-                typeof cb == "function" && cb(event, can, item, item, output)
-            }};
+            return {text: conf[item]||"", className: item, click: function(event) {can.Export(event, conf[item], item)}};
         })}])
     },
-    email: function(event, can, value, cmd, output) {
+
+    email: function(event, can, value, cmd, field) {
         can.ui[cmd].innerHTML = value
     },
-    ntxt: function(event, can, value, cmd, output) {var state = can.Conf(cmd);
+    ntxt: function(event, can, value, cmd, field) {var state = can.Conf(cmd);
         can.ui[cmd].innerHTML = cmd+":"+ can.Conf(cmd, can.base.Int(value)+can.base.Int(state))
     },
-    ncmd: function(event, can, value, cmd, output) {var state = can.Conf(cmd);
+    ncmd: function(event, can, value, cmd, field) {var state = can.Conf(cmd);
         can.ui[cmd].innerHTML = cmd+":"+ can.Conf(cmd, can.base.Int(value)+can.base.Int(state))
     },
 })

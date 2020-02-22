@@ -18,11 +18,11 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 case "TD":
                     can.onimport.which(event, table, msg.append, function(index, key) {
                         can.user.carte(event, shy("", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
-                            var id = msg.Ids(index);
                             var sub = can.Event(event);
                             msg.append.forEach(function(key) {sub.Option(key, msg[key][index].trim())})
+
                             typeof cb == "function"? cb(event, can, msg, index, key, cmd, target):
-                                can.run(event, ["action", typeof cb == "string"? cb: cmd, key, target.innerHTML, id], function(msg) {
+                                can.run(event, ["action", typeof cb == "string"? cb: cmd, key, target.innerHTML.trim(), msg.Ids(index)], function(msg) {
                                     can.user.toast(msg.Result())
                                     // can.onimport.init(can, msg, cb, output, option)
                                 }, true)
@@ -47,14 +47,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
             })
         })
     },
-
-    favor: function(event, can, msg, cmd, output) {var key = msg.detail[0];
-        var cb = can.onaction[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onaction ", key), msg._hand = true}
-        var cb = can.onchoice[key]; if (typeof cb == "function") {cb(event, can, msg, cmd, output); return msg.Echo(can._name, " onchoice ", key), msg._hand = true}
-    },
 })
-Volcanos("onaction", {help: "组件交互", list: [],
-})
+Volcanos("onaction", {help: "组件交互", list: []})
 Volcanos("onchoice", {help: "组件菜单", list: ["返回", "清空", "复制", "下载"],
     "返回": function(event, can, msg, cmd, target) {
         can.run(event, ["", "Last"])
@@ -79,7 +73,7 @@ Volcanos("ondetail", {help: "组件详情", list: ["选择", "编辑", "删除",
         var input = can.page.Appends(can, td, [{type: "input", value: text, style: {width: td.clientWidth+"px"}, data: {onkeydown: function(event) {
             if (event.key != "Enter") {return}
             if (key == "value" && msg.key) {key = msg.key[index]}
-            can.run(event, ["action", "modify", key, event.target.value, text, msg.Ids(index)], function(msg) {
+            can.run(event, ["action", "modify", key, event.target.value, text, can.Option("id")||msg.Ids(index)], function(msg) {
                 td.innerHTML = event.target.value;
                 can.user.toast("修改成功")
             }, true)

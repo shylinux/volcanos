@@ -20,8 +20,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
         ]}])
         can.ui = ui
     },
-    init: function(event, can, msg, key, output) {output.innerHTML = "";
-        var table = can.page.Append(can, output, "table");
+    init: function(event, can, msg, key, field) {can.output.innerHTML = "";
+        var table = can.page.Append(can, can.output, "table");
         can.page.Appends(can, table, [{text: ["1. 选择用户节点 ->", "caption"]}])
 
         can.page.AppendTable(can, table, msg, ["username", "usernode"], function(event, value, key, index, tr, td) {tr.className = "hidden";
@@ -33,36 +33,23 @@ Volcanos("onimport", {help: "导入数据", list: [],
             }}])
         })
     },
-    ocean: function(event, can, value, key, output) {
+    ocean: function(event, can, value, key, field) {
         if (value == "create") {can.Show(event);
             can.run(event, [], function(msg) {
-                can.onimport.init(event, can, msg, key, output);
+                can.onimport.init(event, can, msg, key, field);
             });
         }
     },
 })
 Volcanos("onaction", {help: "组件交互", list: ["关闭", "刷新"],
-    "关闭": function(event, can, meta, key, output) {
+    "关闭": function(event, can, meta, key, field) {
         can.Hide()
     },
-    "刷新": function(event, can, meta, key, output) {
-        can.run(event, [], function(msg) {
-            can.onimport.init(event, can, msg, key, output)
-        })
+    "刷新": function(event, can, meta, key, field) {
+        can.Import(event, "create", "ocean")
     },
 })
-Volcanos("onchoice", {help: "组件菜单", list: ["关闭", "刷新"],
-    "关闭": function(event, can, msg, key, target) {
-        can.onaction[key](event, can, key, can.output)
-    },
-    "刷新": function(event, can, msg, key, target) {
-        can.onaction[key](event, can, key, can.output)
-    },
-})
-Volcanos("ondetail", {help: "组件详情", list: ["共享"],
-    "共享": function(event, can, line, key, target) {
-        can.user.toast(can.user.Share(can, {river: line.key}), "共享链接", 10000)
-    },
-})
+Volcanos("onchoice", {help: "组件菜单", list: ["关闭", "刷新"]})
+Volcanos("ondetail", {help: "组件详情", list: []})
 Volcanos("onexport", {help: "导出数据", list: []})
 

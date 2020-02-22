@@ -2,6 +2,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
     init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
         var table = can.page.AppendTable(can, output, msg, msg.append);
         table.onclick = function(event) {switch (event.target.tagName) {
+            case "SPAN":
             case "TD":
                 var input = can.user.input(event, can, ["zone", "type", "name", "text"], function(event, value, data) {
                     switch (value) {
@@ -46,6 +47,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         }
 
         can.page.Select(can, table, "div.task", function(item) {
+            // 拖动排期
             item.setAttribute("draggable", true)
             item.ondragstart = function(event) {can.drag = event.target}
             item.ondragover = function(event) {event.preventDefault()}
@@ -75,6 +77,11 @@ Volcanos("onimport", {help: "导入数据", list: [],
                             begin_time.setMonth(parseInt(tr.list[0].innerText)-1);
                             break
                         case "month":
+                            can.page.Select(can, item, "span", function(item) {var data = item.dataset
+                                begin_time.setYear(parseInt(data.year))
+                                begin_time.setMonth(parseInt(data.month)-1)
+                                begin_time.setDate(parseInt(data.day))
+                            })
                             break
                         case "week":
                             begin_time.setDate(begin_time.getDate() - (begin_time.getDay() - index + 1))

@@ -5,34 +5,49 @@ Volcanos("onimport", {help: "导入数据", list: [],
         }
     },
     layout: function(event, can, value, key, body) {var conf = can.Conf()
-        can.onlayout["刷新"](event, can, conf, conf.layout.size[value], body)
+        can.onlayout["刷新"](event, can, conf, value? conf.layout.size[value]: null, body)
+    },
+    title: function(event, can, value, key, body) {var conf = can.Conf()
+        can.user.title(value||conf.title)
+    },
+    login: function(event, can, value, key, body) {var conf = can.Conf()
+        var list = location.pathname.split("/");
+        can.Login? can.user.login(function(user) {
+            can.River.Import(event, "update", "river")
+            can.Header.Import(event, user.name, "username")
+        }): (
+            can.Action.Import(event, list[2], "river"),
+            can.Action.Import(event, "action", "storm")
+        )
     }
 })
 Volcanos("onaction", {help: "组件交互", list: [],
-    onkeydown: function(event, can) {
+    onkeydown: function(event, can) {var conf = can.Conf()
         if (event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA") {
             return
         }
         if (event.target.getAttribute("contenteditable")) {
             return
         }
+
         switch (event.key) {
-            case "k":
-                can.Report(event, {x: 0, y: -30}, "scroll")
-                break
             case "j":
-                can.Report(event, {x: 0, y: 30}, "scroll")
+                can.Report(event, {x: 0, y: conf.scroll.line}, "scroll")
+                break
+            case "k":
+                can.Report(event, {x: 0, y: -conf.scroll.line}, "scroll")
                 break
             case "Escape":
-                can.Action.escape && can.Action.escape(event)
+                can.Report(event, event.key, "escape")
+                break
+            case "Enter":
+                can.Report(event, event.key, "enter")
                 break
             case " ":
-                can.Favor && can.page.Select(can, can.Favor.Show(), "input.cmd", function(item) {
-                    item.focus()
-                })
-
-                event.stopPropagation()
-                event.preventDefault()
+                can.Report(event, event.key, "space")
+                break
+            default:
+                can.Report(event, event.key, "keydown")
         }
     },
 })
@@ -47,6 +62,9 @@ Volcanos("onlayout", {help: "组件布局", list: ["刷新"],
         can.head.Size(event, width, layout.head)
         can.foot.Size(event, width, layout.foot)
         height -= can.head.target.offsetHeight+can.foot.target.offsetHeight
+
+        layout.left != 0 && can.left.target.dataset.width && (layout.left = can.left.target.dataset.width)
+        layout.right != 0 && can.right.target.dataset.width && (layout.right = can.right.target.dataset.width)
 
         layout.left == undefined && (layout.left = can.left.target.clientWidth)
         layout.right == undefined && (layout.right = can.right.target.clientWidth)
@@ -66,13 +84,7 @@ Volcanos("onlayout", {help: "组件布局", list: ["刷新"],
         can.top.Size(event, width, height)
     },
 })
-Volcanos("onchoice", {help: "组件菜单", list: ["刷新", "登出"],
-    "刷新": function(event, can, conf, key, body) {
-    },
-    "登出": function(event, can, conf, value, target) {
-        can.target.innerHTML = "";
-    },
-})
+Volcanos("onchoice", {help: "组件菜单", list: []})
 Volcanos("ondetail", {help: "组件详情", list: []})
 Volcanos("onexport", {help: "导出数据", list: []})
 

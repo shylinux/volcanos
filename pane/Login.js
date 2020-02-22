@@ -5,6 +5,19 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 can.onaction.login(event, can, cb, "login", output)
         }
     },
+    share: function(event, can, value, cmd, target) {var msg = can.Event(event)
+        var list = [];
+        switch (value) {
+            case "storm": list.push("river", msg.Conf("river")); break
+            case "action": list.push("river", msg.Conf("river")), list.push("storm", msg.Conf("storm")); break
+        }
+        can.run(event, ["share", value, msg.Option("name"), msg.Option("text")].concat(list), function(msg) {
+            var p = "/share/" + msg.Result(); can.user.toast({title: msg.Option("name"),
+                text: [{text: can.user.Share(can, {path: p}, true)}, {img: p+"/qrcode"}],
+                width: 300, height: 400, duration: 300000,
+            })
+        })
+    },
 })
 Volcanos("onaction", {help: "组件交互", list: [],
     check: function(event, can, cb, cmd, target) {
@@ -41,7 +54,7 @@ Volcanos("onaction", {help: "组件交互", list: [],
                             break
                         case "sessid":
                             can.user.Cookie(can, "sessid", msg.detail[1])
-                            can.Hide(), typeof cb == "function" && cb({name: user})
+                            can.Hide(), typeof cb == "function" && cb({name: msg["user.name"]})
                             can.user.toast("")
                             return true
                     }
@@ -52,8 +65,7 @@ Volcanos("onaction", {help: "组件交互", list: [],
         can.Show(event, -1, -1)
     },
     socket: function(event, can, value, cmd, output) {can._username = value
-// location.protocol.replace("http", "ws")+"//"+location.host+"/space/?"+
-        return can._socket = can._socket || can.misc.WSS(can, function(event, msg) {
+        return can._socket = can._socket || can.misc.WSS(can, "wss://shylinux.com/space/", {node: "active", name: ""}, function(event, msg) {
             if (msg.Option("_handle")) {return can.user.toast(msg.result.join(""))}
             if (typeof cmd == "function" && cmd(event, msg)) {return msg.Reply(msg)}
 
