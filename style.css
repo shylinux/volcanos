@@ -5,7 +5,6 @@ html, body {
     margin:0px;
 }
 fieldset {
-    position:relative;
     padding:0px;
     min-width:10px;
     overflow:auto;
@@ -17,26 +16,20 @@ legend {
 
 fieldset>form.option {
     padding:0 5px;
+}
+fieldset>form.option>br {
+    clear:both;
+}
+fieldset>form.option>div.item {
     margin-right:3px;
     float:left;
 }
-fieldset>form.option div {
-    margin-right:3px;
-    float:left;
-}
-fieldset>form.option div.hide {
-    display:none;
-}
-fieldset>form.option div.clear {
+fieldset>form.option>div.item.textarea {
+    margin-top:4px;
     clear:both;
 }
 fieldset>form.option label {
     margin-right:3px;
-}
-fieldset>form.option input.args.cmd {
-    color:white;
-    background-color: black;
-    width:160px;
 }
 fieldset>form.option input.args.char {
     width:20px;
@@ -47,65 +40,56 @@ fieldset>form.option input.args.tiny {
 fieldset>form.option input.args {
     width:80px;
 }
+fieldset>form.option input.args.cmd {
+    background-color:black;
+    color:white;
+    width:160px;
+}
 fieldset>form.option input.args.long {
     width:240px;
 }
 fieldset>form.option input.args.full {
     width:480px;
 }
-fieldset>form.option div.item.textarea {
-    float:left;
-    clear:both;
+fieldset>form.option input.opts {
+    width:80px;
+}
+fieldset>form.option textarea.args {
+    width:300px;
+    height:50px;
 }
 fieldset>div.action {
     padding:6px;
     clear:both;
 }
-fieldset>div.action div.space {
+fieldset>div.action>div.item {
+    float:left;
+}
+fieldset>div.action>div.item.space {
     display:inline-block;
     width:10px;
 }
 fieldset>div.action input {
     width:60px;
-    margin-left:5px;
+    margin-left:6px;
+}
+fieldset>div.action input:hover {
+    width:100px;
 }
 fieldset>div.action input:focus {
     width:120px;
 }
-fieldset>div.action input:hover {
-    width:120px;
-}
 fieldset>div.output {
-    clear:both;
-    /* max-height:800px; */
     padding:5px;
+    clear:both;
 }
-fieldset>div.output div.item {
+fieldset>div.output>div.item {
     padding:2px;
 }
-fieldset>div.output div.item:hover {
+fieldset>div.output>div.item:hover {
     cursor:pointer;
     background-color:red;
     border:ridge 2px yellow;
-}
-fieldset>div.output table td {
-    /* word-break:break-word; */
-}
-fieldset>div.output table td.when {
-    /* word-break:break-word; */
-	text-align:center;
-}
-fieldset>div.output table.edit {
-}
-fieldset>div.output table.edit td {
-    min-width:4px;
-    padding:0px;
-}
-fieldset>div.output table.edit td>input {
-    width:600px;
-    padding:0px;
-}
-fieldset>div.output table.edit {
 }
 
 fieldset.dialog {
@@ -203,28 +187,20 @@ fieldset.item div.border-bottom {
 }
 
 fieldset.input {
-    z-index: 10000;
     border:solid 2px yellow;
     position:absolute;
 }
-fieldset.input.date table tr:hover {
+fieldset.input>legend {
+    padding-top:4px;
+}
+fieldset.input table tr:hover {
     background-color:yellow;
 }
-fieldset.input.date table td:hover {
+fieldset.input table td:hover {
     background-color:red;
     cursor:pointer;
 }
-fieldset.input.date table td.now {
-    background-color:red;
-}
-fieldset.input div.output div.list {
-    clear:both;
-}
-fieldset.input div.output div.label {
-    padding: 10px;
-    float:left;
-}
-fieldset.input div.output div.label:hover {
+fieldset.input table td.select {
     background-color:red;
 }
 

@@ -1,40 +1,36 @@
 Volcanos("onfigure", {help: "控件详情", list: [],
-    date: {click: function(event, can, value, cmd, target) {if (can.date) {return}
+    date: {click: function(event, can, value, cmd, target, figure) {
+        // 设置输入
         target.style.width = "120px"
         function set(now) {
             target.value = can.base.Time(now); 
-            if (can.item.action == "auto") {
-                can.run({});
-            }
+            can.item.action == "auto" && can.run({});
         }
 
-        can.stick = false
-        can.now = target.value? new Date(target.value): new Date();
-        can.date = can.page.Append(can, document.body, [{view: ["date input", "fieldset"], style: {
-            position: "absolute", left: event.clientX+"px", top: event.clientY+10+"px",
-        }, onmouseleave: function(event) {
-            if (can.stick) {can.stick = false; return}
-            can.page.Remove(can, can.date); delete(can.date);
-        }}]).last
+        // 添加插件
+        figure.table = can.page.Append(can, figure.output, [{type: "table"}]).first
 
-        var action = can.page.Append(can, can.date, [{view: ["action"]}]).last
-        var control = can.page.AppendAction(can, action, ["今天", "随机",
+        // 添加控件
+        can.now = target.value? new Date(target.value): new Date();
+        var control = can.page.AppendAction(can, figure.action, ["今天", "随机",
             ["hour"].concat(can.core.List(24)), ["minute"].concat(can.core.List(0, 60, 5)), ["second"].concat(can.core.List(0, 60, 5)), {view: ["", "br"]},
-            "上一月", ["year"].concat(can.core.List(can.now.getFullYear() - 20, can.now.getFullYear() + 20)),
+            {type: "br"}, "上一月", ["year"].concat(can.core.List(can.now.getFullYear() - 20, can.now.getFullYear() + 20)),
             ["month"].concat(can.core.List(1, 13)), "下一月", {view: ["", "br"]},
         ], function(event, value, cmd) {can.stick = true;
+            // 设置时间
             switch (cmd) {
                 case "year": can.now.setFullYear(parseInt(value)); show(can.now); return;
                 case "month": can.now.setMonth(parseInt(value)-1); show(can.now); return;
-                case "hour": can.now.setHours(parseInt(value)); show(can.now); set(can.now); return;
-                case "minute": can.now.setMinutes(parseInt(value)); show(can.now); set(can.now); return;
-                case "second": can.now.setSeconds(parseInt(value)); show(can.now); set(can.now); return;
+                case "hour": can.now.setHours(parseInt(value)); set(show(can.now)); return;
+                case "minute": can.now.setMinutes(parseInt(value)); set(show(can.now)); return;
+                case "second": can.now.setSeconds(parseInt(value)); set(show(can.now)); return;
             }
 
+            // 设置日期
             switch (value) {
-                case "今天": can.now = new Date(); show(can.now); set(can.now); break;
-                case "随机": can.now.setDate((Math.random() * 100 - 50) + can.now.getDate()); show(can.now); set(can.now); break;
-                case "关闭":can.page.Remove(can, can.date); delete(can.date);
+                case "今天": can.now = new Date(); set(show(can.now)); break;
+                case "随机": can.now.setDate((Math.random() * 100 - 50) + can.now.getDate()); set(show(can.now)); break;
+                case "关闭": can.page.Remove(can, figure.first); delete(can.figure);
                 case "前一年": can.now.setFullYear(can.now.getFullYear()-1); show(can.now); break;
                 case "后一年": can.now.setFullYear(can.now.getFullYear()+1); show(can.now); break;
                 case "上一月": can.now.setMonth(can.now.getMonth()-1); show(can.now); break;
@@ -42,50 +38,35 @@ Volcanos("onfigure", {help: "控件详情", list: [],
             }
         })
 
-        var table = can.page.Append(can, can.date, [{type: "table"}]).table
-        function click(event) {
-            var day = new Date(parseInt(event.target.dataset.date))
-            can.now = day;
-            set(can.now);
-        }
         function show(now) {
+            // 设置控件
             control.month.value = now.getMonth()+1;
             control.year.value = now.getFullYear();
             control.hour.value = now.getHours();
             control.minute.value = parseInt(now.getMinutes()/5)*5;
             control.second.value = parseInt(now.getSeconds()/5)*5;
-            var meta = ["日", "一", "二", "三", "四", "五", "六"]
-            can.page.Appends(can, table, [{type: "tr", list: can.core.List(meta, function(day) {return {text: [day, "th"]}})}])
 
+            // 设置组件
+            can.page.Appends(can, figure.table, [{type: "tr", list: can.core.List(["日", "一", "二", "三", "四", "五", "六"], function(day) {return {text: [day, "th"]}})}])
+            var tr; function add(day, type) {if (day.getDay() == 0) {tr = can.page.Append(can, figure.table, [{type: "tr"}]).tr}
+                can.page.Append(can, tr, [{text: [day.getDate(), "td", can.base.Time(day).split(" ")[0] == can.base.Time(now).split(" ")[0]? "select": type],
+                    dataset: {date: day.getTime()}, click: function(event) {set(can.now = new Date(parseInt(event.target.dataset.date)))},
+                }])
+            }
+
+            // 时间区间
             var one = new Date(now); one.setDate(1);
             var end = new Date(now); end.setMonth(now.getMonth()+1); end.setDate(1);
             var head = new Date(one); head.setDate(one.getDate()-one.getDay());
             var tail = new Date(end); tail.setDate(end.getDate()+7-end.getDay());
 
-            var tr;
-            function add(day, type) {
-                if (day.getDay() == 0) {tr = can.page.Append(can, table, [{type: "tr"}]).tr}
-                can.page.Append(can, tr, [{className: can.base.Time(day).split(" ")[0] == can.base.Time(now).split(" ")[0]? "now": type,
-                    text: [day.getDate(), "td"], dataset: {date: day.getTime()}, click: click,
-                }])
-            }
+            // 时间序列
             for (var day = new Date(head); day < one; day.setDate(day.getDate()+1)) {add(day, "last")}
             for (var day = new Date(one); day < end; day.setDate(day.getDate()+1)) {add(day, "main")}
             for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) {add(day, "next")}
+            return now
         }
 
-        show(can.now);
-        set(can.now);
+        set(show(can.now));
     }},
-    _prepare: function(event, can, value, cmd, target) {if (can.figure) {return}
-        can.figure = can.page.Append(can, document.body, [{view: ["input "+cmd, "fieldset"], style: {
-            position: "absolute", left: "20px", top: event.clientY+10+"px",
-        }, list: [{text: [cmd, "legend"]}, {view: ["action"]}, {view: ["output"]}], onmouseleave: function(event) {
-            !can.figure.stick && can.onfigure._release(event, can, value, cmd, target)
-        }}])
-        return can.figure
-    },
-    _release: function(event, can, value, cmd, target) {
-        can.page.Remove(can, can.figure.first); delete(can.figure);
-    },
 })

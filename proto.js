@@ -219,7 +219,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     list.push(line)
                     break
             }
-            var ui = can.page.Append(can, target, item? list: [{view: ["item"+style], data: {id: "item"+can.ID(), draggable: false}, list:list}])
+            var ui = can.page.Append(can, target, item? list: [{view: ["item"+style], list:list}])
             return ui["item"+style].Meta = text, ui
         }),
         Cache: shy("缓存器", function(name, output, data) {
