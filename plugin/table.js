@@ -1,51 +1,24 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
-        var table = can.page.AppendTable(can, output, msg, msg.append);
-        table.onclick = function(event) {switch (event.target.tagName) {
-            case "TD":
-                can.onimport.which(event, table, msg.append, function(index, key) {
-                    can.ondetail["复制"](event, can, msg, event.target.innerHTML, index, key, event.target);
-                    can.Export(event, event.target.innerHTML.trim(), key, index)
-                })
-                break
-            case "TH":
-                break
-            case "TR":
-            case "TABLE":
-        }}
-        table.oncontextmenu = function(event) {var target = event.target;
-            switch (event.target.tagName) {
-                case "TD":
-                    can.onimport.which(event, table, msg.append, function(index, key) {
-                        can.user.carte(event, shy("", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
-                            var sub = can.Event(event);
-                            msg.append.forEach(function(key) {sub.Option(key, msg[key][index].trim())})
+        var table = can.page.AppendTable(can, output, msg, msg.append, function(event, value, key, index, tr, td) {
+            can.ondetail["复制"](event, can, msg, value, index, key, td);
+            can.Export(event, value.trim(), key, index)
+        }, function(event, value, key, index, tr, td) {
+            can.user.carte(event, shy("上下文菜单", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
+                var sub = can.Event(event);
+                msg.append.forEach(function(key) {sub.Option(key, msg[key][index].trim())})
 
-                            typeof cb == "function"? cb(event, can, msg, index, key, cmd, target):
-                                can.run(event, ["action", typeof cb == "string"? cb: cmd, key, target.innerHTML.trim(), msg.Ids(index)], function(msg) {
-                                    can.user.toast(msg.Result())
-                                    // can.onimport.init(can, msg, cb, output, option)
-                                }, true)
-                        }))
-                    })
-                    event.stopPropagation()
-                    event.preventDefault()
-                    break
-                case "TH":
-                case "TR":
-                case "TABLE":
-            }
-        }
+                typeof cb == "function"? cb(event, can, msg, index, key, cmd, td):
+                    can.run(event, ["action", typeof cb == "string"? cb: cmd, key, value.trim(), msg.Ids(index)], function(msg) {
+                        can.user.toast(msg.Result())
+                    }, true)
+            }))
+            event.stopPropagation()
+            event.preventDefault()
+        });
 
         msg.result && can.page.Append(can, output, [{view: ["code", "div", can.page.Display(msg.Result())]}]).code;
         return typeof cb == "function" && cb(msg);
-    },
-    which: function(event, table, list, cb) {if (event.target == table) {return cb(-1, "")}
-        can.page.Select(can, table, "tr", function(tr, index) {if (event.target == tr) {return cb(tr.dataset.index, "")}
-            can.page.Select(can, tr, "th,td", function(td, order) {
-                if (event.target == td) {return cb(tr.dataset.index, list[order])}
-            })
-        })
     },
 })
 Volcanos("onaction", {help: "组件交互", list: []})

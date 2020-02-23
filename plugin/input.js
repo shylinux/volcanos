@@ -12,11 +12,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 item.className || can.page.ClassList.add(can, item, "args");
                 break
             case "textarea":
-                var half = parseFloat(item.half||"1")||1;
-                input.type = "textarea", item.style = {
-                    // width: parseInt(((500-35)/half))+"px",
-                    // height: (item.height||50)+"px",
-                }
+                input.type = "textarea"
                 // no break
             case "password":
                 // no break
@@ -27,11 +23,6 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 break
         }
 
-        // can.page.ClassList.add(can, item, item.view);
-        // can.core.List((item.clist||"").split(" "), function(value) {
-        //     can.page.ClassList.add(can, item, value);
-        // })
-        //
         var target = can.Dream(option, "input", input)[input.name];
         !target.placeholder && (target.placeholder = item.name || "");
         item.type != "button" && !target.title && (target.title = item.placeholder || item.name || "");

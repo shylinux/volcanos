@@ -41,7 +41,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
     },
     favor: function(event, can, msg, cmd, field) {if (msg._hand) {return}
         var cmds = msg.detail, key = cmds[0];
-        if (key == can.name()) {key = cmds[1], cmds = cmds.slice(1)}
+        if (key == can.Name()) {key = cmds[1], cmds = cmds.slice(1)}
 
         // 下发数据
         can.core.Item(can._local, function(river, list) {
@@ -190,7 +190,7 @@ Volcanos("onchoice", {help: "组件菜单", list: ["共享", "保存", "刷新"]
             var msg = can.Event(event);
             msg.Option("name", meta.name)
             msg.Option("text", meta.key)
-            cmd == "提交" && can.Export(event, can.name(), "share")
+            cmd == "提交" && can.Export(event, can.Name(), "share")
             return true
         })
     },

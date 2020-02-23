@@ -13,7 +13,7 @@ var can = Volcanos("chat", {
                 can.core.Item(page._panes, function(index, item) {
                     if (key == "favor") {var msg = value;
                         var cmds = msg.detail, cmd = cmds[0];
-                        if (cmd == item._name || cmd == item.name()) {cmd = cmds[1], cmds = cmds.slice(1)}
+                        if (cmd == item._name || cmd == item.Name()) {cmd = cmds[1], cmds = cmds.slice(1)}
 
                         var cb = item.onchoice[cmd];
                         if (typeof cb == "function") {
@@ -224,8 +224,7 @@ var can = Volcanos("chat", {
                 for (var i = args.length-1; i >= 0; i--) {if (args[i] == "") {args = args.slice(0, i)} else {break}}
                 show && plugin.Timer(1000, function() {show && plugin.user.toast(can.base.Format(args||["running..."]), meta.name, -1)});
                 run(event, args, function(msg) {if (silent) {return typeof cb == "function" && cb(msg)}
-                    plugin.msg = msg
-                    plugin.Show(feature.display || "table", msg, cb)
+                    plugin.msg = msg, plugin.Show(feature.display || "table", msg, cb)
                     show = false, plugin.user.toast();
                 })
             },

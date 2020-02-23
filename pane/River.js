@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: function(event, can, msg, cmd, field) {can.output.innerHTML = "";
-        can.page.AppendItem(can, can.output, msg.Table(), can.user.Search(can, can.name()), function(event, line, item) {
-            can.Export(event, line.key, can.name())
+        can.page.AppendItem(can, can.output, msg.Table(), can.user.Search(can, can.Name()), function(event, line, item) {
+            can.Export(event, line.key, can.Name())
         })
     },
     river: function(event, can, value, cmd, field) {if (value == "update") {
@@ -11,7 +11,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
     }},
     favor: function(event, can, msg, cmd, field) {if (msg._hand) {return}
         var cmds = msg.detail, key = cmds[0];
-        if (key == can.name()) {key = cmds[1], cmds = cmds.slice(1)}
+        if (key == can.Name()) {key = cmds[1], cmds = cmds.slice(1)}
 
         can.page.Select(can, field, "div.item>span", function(item) {
             if (item.innerText == key)  {
@@ -26,7 +26,7 @@ Volcanos("onaction", {help: "组件交互", list: ["创建", "刷新"],
         can.Export(event, "create", "ocean")
     },
     "刷新": function(event, can, meta, cmd, field) {
-        can.Import(event, "update", can.name())
+        can.Import(event, "update", can.Name())
     },
 })
 Volcanos("onchoice", {help: "组件菜单", list: ["创建", "刷新", "宽度"],
@@ -60,18 +60,18 @@ Volcanos("ondetail", {help: "组件详情", list: ["共享", "重命名", "删�
         var msg = can.Event(event);
         msg.Option("name", line.name)
         msg.Option("text", line.key)
-        can.Export(event, can.name(), "share")
+        can.Export(event, can.Name(), "share")
     },
     "重命名": function(event, can, line, value, cmd, item) {
         can.user.prompt("输入新名：", function(name) {
             can.run(event, [value, "rename", name], function(msg) {
-                can.Import(event, "update", can.name())
+                can.Import(event, "update", can.Name())
             })
         }, line.name)
     },
     "删除": function(event, can, line, value, cmd, item) {
         can.run(event, [value, "remove"], function(msg) {
-            can.Import(event, "update", can.name())
+            can.Import(event, "update", can.Name())
         })
     },
 })

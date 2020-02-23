@@ -75,7 +75,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                 can._load(libs[0]), can.require(libs.slice(1), cb);
             })
         },
-        name: function() {return can._name.toLowerCase()},
+        Name: function() {return can._name.toLowerCase()},
 
         ID: shy("生成器", function() {return id++}),
         Log: shy("日志器", function() {console.log(arguments)}),
