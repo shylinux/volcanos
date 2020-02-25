@@ -33,9 +33,11 @@ Volcanos("onaction", {help: "组件交互", list: [],
         switch (event.key) {
             case "j":
                 can.Report(event, {x: 0, y: conf.scroll.line}, "scroll")
+                can.Report(event, event.key, "keydown")
                 break
             case "k":
                 can.Report(event, {x: 0, y: -conf.scroll.line}, "scroll")
+                can.Report(event, event.key, "keydown")
                 break
             case "Escape":
                 can.Report(event, event.key, "escape")

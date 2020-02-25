@@ -1,0 +1,51 @@
+
+fieldset .story {
+    border:solid 2px #f000;
+}
+fieldset .story:hover {
+    border:solid 2px red;
+}
+
+fieldset fieldset.story {
+    border:ridge 1px cyan;
+}
+
+fieldset p.story {
+    white-space:pre;
+}
+fieldset ul.story li:hover {
+    border:solid 2px red;
+    cursor:pointer;
+}
+fieldset code.story {
+    display:block;
+    color:white;
+    font-size:14px;
+    font-family:monospace;
+    background-color:#272822;
+    white-space:pre;
+    padding:10px;
+    overflow:auto;
+    border:solid 3px green;
+    max-height:640px;
+}
+
+fieldset div.stack:hover {
+    background-color:red;
+}
+fieldset div.stack {
+    cursor:pointer;
+    width:fit-content;
+}
+fieldset div.stack.fold {
+    font-weight:bold;
+}
+fieldset ul.stack {
+    border:solid 2px #0000;
+    margin:0px;
+}
+fieldset ul.stack:hover {
+    border:solid 2px red;
+}
+
+

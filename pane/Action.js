@@ -196,8 +196,9 @@ Volcanos("onchoice", {help: "组件菜单", list: ["共享", "保存", "刷新"]
     },
     "保存": function(event, can, msg, cmd, field) {
         var list = []
-        can.page.Select(can, field, "fieldset", function(item) {var meta = item.Meta
+        can.page.Select(can, field, "fieldset.item", function(item) {var meta = item.Meta
             can.page.Select(can, item, "form.option", function(option) {
+                if (option.parentNode != item) {return}
                 meta.args = can.page.Select(can, option, ".args", function(item) {return item.value})
             })
             list.push(meta.node||"", meta.group, meta.index, meta.help, JSON.stringify(meta.args||[]))

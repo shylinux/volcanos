@@ -1,53 +1,45 @@
 Volcanos("onimport", {help: "导入数据", list: [],
-    _begin: function(can) {},
-    _start: function(can) {},
     init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
-        if (msg.append && msg.append.length > 0) {
-            var table = can.page.AppendTable(can, output, msg, msg.append);
-            table.onclick = function(event) {switch (event.target.tagName) {
-                case "TD":
-                    can.onimport.which(event, table, msg.append, function(index, key) {
-                        can.Option("name", event.target.innerHTML.trim())
-                        can.run(event, [event.target.innerHTML.trim()], function(msg) {})
+        if (can.page.AppendTable(can, output, msg, msg.append, function(event, value, key, index, tr, td) {
+            can.Export(event, value, key)
+        })) {return}
+
+        output.innerHTML = msg.Result()
+
+        can.page.Select(can, output, ".story", function(item) {var data = item.dataset
+            item.oncontextmenu = function(event) {
+                can.user.carte(event, shy("组件菜单", can.ondetail, can.ondetail.list, function(event, key, meta) {
+                    var cb = meta[key] || can.onchoice[key] || can.onaction[key]; typeof cb == "function" && cb(event, can, data, key, item);
+                }));
+                event.stopPropagation(), event.preventDefault();
+            }
+
+            switch (item.tagName) {
+                case "FIELDSET":
+                    can.Plugin(can, item.name, JSON.parse(data.meta||"{}"), function(event, cmds, cb, silent) {
+                        can.run(event, ["action", "story", data.type, data.name, data.text].concat(cmds), cb, true)
+                    }, item, function(sub) {
+
                     })
                     break
-                case "TH":
-                    break
-                case "TR":
-                case "TABLE":
-            }}
-            return typeof cb == "function" && cb(msg), table;
-        }
+                default:
+                    var figure = can.onfigure[item.type||item.tagName]
+                    figure && figure.init && figure.init({}, can, msg, "init", item)
 
-        can.preview = can.page.Append(can, output, [{view: "preview", inner: msg.Result(),
-            style: {border: "solid 2px red"},
-        }]).last
-
-        can.page.Select(can, can.preview, ".story", function(item) {
-            var figure = can.onfigure[item.dataset.type] || can.onfigure[item.localName];
-
-            item.onclick = function(event) {can.node = item}
-            item.oncontextmenu = function(event) {var target = event.target; can.user.carte(event, shy("", can.ondetail, figure.menu||can.ondetail.list, function(event, key, meta) {var cb = meta[key];
-                cb? typeof cb == "function" && cb(event, can, msg, 0, key, key, target):
-                    (cb = can.onchoice[key] || can.onaction[key], typeof cb == "function" && cb(event, can, key, key, target))
-            }), can), event.stopPropagation(), event.preventDefault()}
-
-            figure && figure.init && figure.init({}, can, item.localName, "init", item)
+            }
         })
-        return typeof cb == "function" && cb(msg), can.preview;
+        return typeof cb == "function" && cb(msg)
     },
-    which: function(event, table, list, cb) {if (event.target == table) {return cb(-1, "")}
-        can.page.Select(can, table, "tr", function(tr, index) {if (event.target == tr) {return cb(index-1, "")}
-            can.page.Select(can, tr, "th,td", function(td, order) {
-                if (event.target == td) {return cb(index-1, list[order])}
-            })
-        })
-    },
-})
+}, ["/plugin/wiki/word.css"])
 Volcanos("onfigure", {help: "图形绘制", list: [],
+    _spawn: function(sup, can) {can.sup = sup},
+    _begin: function(can) {},
+    _start: function(can) {},
+    _close: function(can) {},
+
     premenu: {
         init: function(event, can, value, cmd, target) {
-            can.page.Append(can, target, can.page.Select(can, can.preview, "h1.story,h2.story,h3.story", function(item) {var data = item.dataset;
+            can.page.Append(can, target, can.page.Select(can, can.target, "h1.story,h2.story,h3.story", function(item) {var data = item.dataset;
                 return {text: [item.innerHTML, "li"], onclick: function(event) {
                     item.scrollIntoView();
                 }};
@@ -235,6 +227,8 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
             return value? 'chain "'+data.name+'"' +' `\n' + data.text + '\n`': ""
         },
     },
+}, [], function(can) {var sup = can.sup
+
 })
 Volcanos("onaction", {help: "组件菜单", list: ["刷新", "保存", ["操作", "只读", "排序", "编辑"],
     "插入", ["元素", "h1", "h2", "h3", "brief", "refer", "spark", "shell", "order", "table", "stack"]],
@@ -263,28 +257,28 @@ Volcanos("onaction", {help: "组件菜单", list: ["刷新", "保存", ["操作"
         }, true)
     },
     "只读": function(event, can, value, cmd, target) {
-        can.page.Select(can, can.preview, ".story", function(item) {
+        can.page.Select(can, can.target, ".story", function(item) {
             item.setAttribute("contenteditable", false)
             item.setAttribute("draggable", false)
         })
     },
     "排序": function(event, can, value, cmd, target) {
-        can.page.Select(can, can.preview, ".story", function(item) {
+        can.page.Select(can, can.target, ".story", function(item) {
             item.setAttribute("draggable", true)
             item.ondragstart = function(event) {can.drag = event.target}
             item.ondragover = function(event) {event.preventDefault()}
             item.ondrop = function(event) {event.preventDefault()
-                can.preview.insertBefore(can.drag, item)
+                can.target.insertBefore(can.drag, item)
             }
         })
     },
     "编辑": function(event, can, value, cmd, target) {
-        can.page.Select(can, can.preview, ".story", function(item) {
+        can.page.Select(can, can.target, ".story", function(item) {
             item.setAttribute("contenteditable", true)
         })
     },
     "插入": function(event, can, value, cmd, target) {var figure = can.onfigure[can.Action("元素")];
-        can.page.Append(can, can.preview, figure.push(event, can, value, cmd, target)).first.setAttribute("contenteditable", true)
+        can.page.Append(can, can.target, figure.push(event, can, value, cmd, target)).first.setAttribute("contenteditable", true)
     },
 })
 Volcanos("onchoice", {help: "组件交互", list: ["刷新", "保存", "追加", "清空", ["rect", "rect", "line", "circle"]],

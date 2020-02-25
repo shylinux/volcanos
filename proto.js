@@ -22,20 +22,23 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
     var id = 1, conf = {}, conf_cb = {}, sync = {}, cache = {};
     can = can || {}, list.push(can) && (can.__proto__ = {_name: name, _help: "插件模块", _create_time: new Date(), _load: function(name) {
             if (meta.cache[name]) {var cache = meta.cache[name];
-                for (var i = 0; i < cache.length; i++) {var item = cache[i];
-                    if (item._name == can._name) {continue}
+                for (var i = 0; i < cache.length; i++) {var sub = cache[i];
+                    // if (sub._name == can._name) {continue}
                     // 加载索引
-                    can[item._name] = item;
+                    can[sub._name] = sub;
+                    typeof sub._spawn == "function" && sub._spawn(can, sub)
                 }
                 return can
             }
 
             meta.cache[name] = []
-            for (var i = meta.index; i < list.length; i++) {var item = list[i];
-                if (item._name == can._name || item._type == "local"|| item._type == "input" || item._type == "output") {continue}
+            for (var i = meta.index; i < list.length; i++) {var sub = list[i];
+                // if (sub._name == can._name) {continue}
+                if (sub._type == "local"|| sub._type == "input" || sub._type == "output") {continue}
                 // 加载缓存
-                can[item._name] = item;
-                meta.cache[name].push(item);
+                can[sub._name] = sub;
+                meta.cache[name].push(sub);
+                typeof sub._spawn == "function" && sub._spawn(can, sub)
             }
             meta.index = i;
             return can
@@ -201,7 +204,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             if (type.endsWith(".js")) {
                 var script = document.createElement("script");
                 script.src = (type.startsWith("/")? "": Config.volcano)+type;
-                script.onload = line;
+                script.onload = line
                 target.appendChild(script);
                 return script
             }
@@ -265,16 +268,17 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                 }
             }
 
-            // 注册事件
-            can.core.Item(can.onaction, function(key, cb) {key.indexOf("on") == 0 && (can.target[key] = function(event) {cb(event, can)})});
             // 注册控件
             can.action && (can.action.innerHTML = ""), can.onaction && can.page.AppendAction(can, can.action, can.onaction.list, function(event, value, key) {
-                key? run(event, value, key, can.onaction[key]||can.onaction[value]): run(event, msg, value, can.onaction[value]);
+                key? run(event, key, value, can.onaction[key]||can.onaction[value]): run(event, msg, value, can.onaction[value]);
             })
             // 注册菜单
             can.target.oncontextmenu = function(event) {can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, key, meta) {
                 run(event, msg, key, can.onchoice[key] || can.onaction[key]);
             }), can), event.stopPropagation(), event.preventDefault()}
+
+            // 注册事件
+            can.core.Item(can.onaction, function(key, cb) {key.indexOf("on") == 0 && (can.target[key] = function(event) {cb(event, can)})});
         }
         can.onimport && can.onimport._start && can.onimport._start(can)
     })

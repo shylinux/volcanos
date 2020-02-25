@@ -13,8 +13,6 @@ Volcanos("onimport", {help: "导入数据", list: [],
                         can.user.toast(msg.Result())
                     }, true)
             }))
-            event.stopPropagation()
-            event.preventDefault()
         });
 
         msg.result && can.page.Append(can, output, [{view: ["code", "div", can.page.Display(msg.Result())]}]).code;

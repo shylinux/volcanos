@@ -62,7 +62,7 @@ var can = Volcanos("chat", {
                 // 导入数据
                 typeof cb == "function" && cb(event, pane, value, key, field);
                 // 分发数据
-                // can.core.List(pane._plugins, function(item) {item.Import(event, value, key)})
+                can.core.List(pane._plugins, function(item) {item.Import(event, value, key)})
                 // 显示数据
                 pane.page.Select(pane, pane.action, "input."+key, function(item) {item.value = value})
             },
@@ -146,7 +146,7 @@ var can = Volcanos("chat", {
         var exports = JSON.parse(meta.exports||'""')||feature.exports||[];
         var plugin = Volcanos(name, {_type: "local", _local: {}, target: field,
             option: option, action: action, output: output,
-            Inputs: can.Inputs, Output: can.Output,
+            Plugin: can.Plugin, Inputs: can.Inputs, Output: can.Output,
 
             Export: function(event, value, key) {var cb = plugin.onexport[key];
                 typeof cb == "function"? cb(event, plugin, value, key, field): can.Export(event, value, key)
@@ -156,6 +156,8 @@ var can = Volcanos("chat", {
                 typeof cb == "function" && cb(event, plugin, value, key, plugin.output);
                 // 下发数据
                 key && plugin[key] && plugin[key].target && plugin[key].Import(event, value, key)
+                // 下发数据
+                plugin._output && plugin._output.Import(event, value, key)
             },
             Report: function(event, value, key, index) {
                 // 导入数据
@@ -168,7 +170,8 @@ var can = Volcanos("chat", {
                             value = typeof cb == "function" && ((res = cb(event, plugin, plugin.msg, value, key, index)) != undefined) && res || value;
                         }
                         // 上报数据
-                        key && can.Import(event, value, key)
+                        // 上下循环
+                        // key && can.Import(event, value, key)
                     }
                 }
             },
@@ -240,7 +243,7 @@ var can = Volcanos("chat", {
             },
             Delete: function(event) {field.parentNode.removeChild(field)},
         }, Config.libs.concat(["plugin/"+(meta.type||feature.active||"state")]), function(plugin) {plugin.Conf(meta);
-            var list = JSON.parse(meta.inputs||"[]");
+            var list = typeof meta.inputs == "string"? JSON.parse(meta.inputs||"[]"): meta.inputs;
             // 加载配置
             plugin.onimport._init? plugin.onimport._init(plugin, feature, plugin.output, plugin.action, plugin.option):
             // 加载控件
@@ -278,6 +281,7 @@ var can = Volcanos("chat", {
     Output: shy("构造组件", function(can, feature, type, msg, cb, target, action, option, status) {
         var output = Volcanos(type, {_type: "output", feature: feature, msg: msg,
             target: target, action: action,
+            Plugin: can.Plugin, Inputs: can.Inputs, Output: can.Output,
             Run: can.Run, Runs: can.Runs,
 
             Import: function(event, value, key) {var cb = output.onimport && output.onimport[key];
@@ -290,12 +294,12 @@ var can = Volcanos("chat", {
                     }), value)
             },
             Action: function(key, value) {
-                return can.page.Select(can, can.action, "input[name="+key+"],select."+key+",select[name="+key+"]", function(item) {
+                return can.page.Select(can, action, "input[name="+key+"],select."+key+",select[name="+key+"]", function(item) {
                     value != undefined && (item.value = value), value = item.value
                 }), value
             },
             Status: function(event, value, key) {var cb = output.onstatus[key];
-                typeof cb == "function"? cb(event, output, value, key, can.page.Select(can, status, "div."+key)[0]): false && output.run(event, ["status", key, value], function(msg) {
+                typeof cb == "function"? cb(event, output, value, key, can.page.Select(can, status, "div."+key)[0]||{}): false && output.run(event, ["status", key, value], function(msg) {
                     output.Export(event, msg, key)
                 }, true)
             },
@@ -311,7 +315,9 @@ var can = Volcanos("chat", {
             },
         }, Config.libs.concat([(type.startsWith("/")? "": "plugin/")+type]), function(output) {
             status.innerHTML = "", output.onstatus && can.page.AppendStatus(output, status, output.onstatus.list)
+            output.onimport.Action = output.Action
             output.onimport.init(output, msg, cb, target, action, option);
+            output.onfigure && (output.onfigure.sup = output, output.onfigure.target = target)
         }, msg)
         return output
     }),
@@ -319,8 +325,8 @@ var can = Volcanos("chat", {
     can.user.Search(can, "sessid") && can.user.Cookie(can, "sessid", can.user.Search(can, "sessid")) && can.user.Search(can, "sessid", "")
 
     can[Config.main] = can.Page(can, Config.main, Config, function(chat) {
-        chat.Import({}, can.user.Search(can, "layout")||Config.layout.def, "layout")
         chat.Import({}, can.user.Search(can, "you")||can.user.Search(can, "title")||Config.title, "title")
+        chat.Import({}, can.user.Search(can, "layout")||Config.layout.def, "layout")
         chat.Import({}, "", "login")
     }, document.body, can.user.Search(can, "topic")||Config.topic)
 })

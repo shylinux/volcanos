@@ -6,7 +6,6 @@ fieldset.item {
     border:ridge 1px cyan;
     margin:2px;
 }
-
 fieldset.item:hover {
     /* background-color:gold; */
     border:ridge 2px red;
@@ -16,7 +15,23 @@ fieldset.item.select {
     border:ridge 2px red;
 }
 
-fieldset.dialog {
+fieldset.input {
+    border:solid 2px yellow;
+}
+fieldset.input table tr:hover {
+    background-color:yellow;
+}
+fieldset.input table td:hover {
+    background-color:red;
+    cursor:pointer;
+}
+fieldset.input table td.select {
+    background-color:red;
+}
+
+fieldset.story { 
+    border:ridge 1px cyan;
+    margin:2px;
 }
 
 fieldset input {
@@ -34,6 +49,9 @@ fieldset input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 fieldset table tr:hover {
     background-color:#0fbd45;
 }
+fieldset table tr.over {
+    background:red;
+}
 fieldset table tr.select {
     background-color:#0fbd45;
 }
@@ -48,9 +66,6 @@ fieldset table td {
     font-family:monospace;
     padding: 0 6px;
     /* white-space: pre; */
-}
-fieldset table td.over {
-    border:solid 2px red;
 }
 fieldset table td:hover {
     background-color:red;

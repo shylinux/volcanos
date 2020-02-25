@@ -13,6 +13,9 @@ fieldset {
 legend {
     margin-left:10px;
 }
+.hidden {
+    display:none;
+}
 
 fieldset>form.option {
     padding:0 5px;
@@ -58,35 +61,35 @@ fieldset>form.option textarea.args {
     width:300px;
     height:50px;
 }
-fieldset>div.action {
+fieldset div.action {
     padding:6px;
     clear:both;
 }
-fieldset>div.action>div.item {
+fieldset div.action>div.item {
     float:left;
 }
-fieldset>div.action>div.item.space {
+fieldset div.action>div.item.space {
     display:inline-block;
     width:10px;
 }
-fieldset>div.action input {
+fieldset div.action input {
     width:60px;
     margin-left:6px;
 }
-fieldset>div.action input:hover {
+fieldset div.action input:hover {
     width:100px;
 }
-fieldset>div.action input:focus {
+fieldset div.action input:focus {
     width:120px;
 }
-fieldset>div.output {
+fieldset div.output {
     padding:5px;
     clear:both;
 }
-fieldset>div.output>div.item {
+fieldset div.output>div.item {
     padding:2px;
 }
-fieldset>div.output>div.item:hover {
+fieldset div.output>div.item:hover {
     cursor:pointer;
     background-color:red;
     border:ridge 2px yellow;
@@ -121,87 +124,15 @@ fieldset.dialog>div.create table {
 fieldset.item {
     float:left;
 }
-fieldset.item>form.option>div.item {
-    padding:0;
-    border:0;
-}
-fieldset.item>form.option>div.item:hover {
-    border:0;
-}
-fieldset.item>form.option>div.item.select {
-    border:0;
-}
 fieldset.item>div.output {
     overflow:auto;
 }
-fieldset.item>div.output>canvas {
-    background-color:#8dd09e;
-}
-fieldset.item>div.output>div.action>button.trap {
-    background-color:lightblue;
-    border:2px blue solid;
-}
-fieldset.item>div.output>div.action>div.space {
-    width:10px;
-    display:inline-block;
-}
-fieldset.item>div.output>div.status>div {
-    float:left;
-    height:20px;
-    border:1px solid black;
-}
-fieldset.item>div.output>div.status>input.cmd {
-    float:left;
-    background-color:black;
-    color:lightgreen;;
-    font-size:16px;
-    width:250px;
-}
-fieldset.item>div.output>div.code svg {
-    border: solid 2px red;
-}
-fieldset.item div.border-left {
-    position:absolute;
-    width:2px;
-    height:inherit;
-    height:-webkit-fill-available;
-    background:green;
-    cursor:ew-resize;
-}
-fieldset.item div.border-right {
-    position:absolute;
-    right:0px;
-    width:2px;
-    height:inherit;
-    height:-webkit-fill-available;
-    background:green;
-    cursor:ew-resize;
-}
-fieldset.item div.border-bottom {
-    position:absolute;
-    bottom:0px;
-    height:2px;
-    width:-webkit-fill-available;
-    background:green;
-    cursor:ns-resize;
-}
 
 fieldset.input {
-    border:solid 2px yellow;
     position:absolute;
 }
 fieldset.input>legend {
     padding-top:4px;
-}
-fieldset.input table tr:hover {
-    background-color:yellow;
-}
-fieldset.input table td:hover {
-    background-color:red;
-    cursor:pointer;
-}
-fieldset.input table td.select {
-    background-color:red;
 }
 
 fieldset table {
@@ -216,16 +147,6 @@ fieldset table caption {
 }
 fieldset table tbody {
     overflow:auto;
-}
-fieldset table tr.hidden {
-    display:none;
-}
-fieldset table th.order {
-    background-color:red;
-    cursor:pointer;
-}
-fieldset table td.clip {
-    background-color:red;
 }
 fieldset table td sup.more {
     color:red;
@@ -242,54 +163,6 @@ fieldset div.code {
     border:solid 3px green;
     max-height:640px;
 }
-fieldset div.code span.red {
-    color:red;
+fieldset div.hidden {
+    display:none;
 }
-fieldset div.code span.green {
-    color:green;
-}
-
-fieldset .story {
-    border:solid 2px #f000;
-}
-fieldset .story:hover {
-    border:solid 2px red;
-}
-fieldset p.story {
-    white-space:pre;
-}
-fieldset ul.story li:hover {
-    border:solid 2px red;
-    cursor:pointer;
-}
-fieldset code.story {
-    display:block;
-    color:white;
-    font-size:14px;
-    font-family:monospace;
-    background-color:#272822;
-    white-space:pre;
-    padding:10px;
-    overflow:auto;
-    border:solid 3px green;
-    max-height:640px;
-}
-
-fieldset div.stack:hover {
-    background-color:red;
-}
-fieldset div.stack {
-    cursor:pointer;
-    width:fit-content;
-}
-fieldset div.stack.fold {
-    font-weight:bold;
-}
-fieldset ul.stack {
-    border:solid 2px #0000;
-    margin:0px;
-}
-fieldset ul.stack:hover {
-    border:solid 2px red;
-}
-
