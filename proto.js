@@ -134,12 +134,12 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     }).length > 0 || msg.option.push(key)
                     msg[key] = can.core.List(arguments).slice(1)
                 },
-                Push: function(key, value) {msg.append = msg.append || []
+                Push: function(key, value, detail) {msg.append = msg.append || []
                     if (typeof key == "object") {
-                        value? can.core.List(value, function(item) {
-                            msg.Push(item, key[item]||"")
-                        }): can.core.Item(key, function(key, value) {
-                            msg.Push(key, value||"")
+                        value = value || can.core.Item(key)
+                        can.core.List(value, function(item) {
+                            detail? msg.Push("key", item).Push("value", key[item]||""):
+                                msg.Push(item, key[item]||"")
                         })
                         return
                     }
@@ -151,7 +151,8 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     }
                     if (i >= msg.append.length) {msg.append.push(key)}
                     msg[key] = msg[key] || []
-                    msg[key].push(""+value)
+                    msg[key].push(""+value+"")
+                    return msg
                 },
                 Echo: shy("输出响应", function(res) {msg.result = msg.result || []
                     msg._hand = true

@@ -94,6 +94,14 @@ fieldset div.output>div.item:hover {
     background-color:red;
     border:ridge 2px yellow;
 }
+fieldset div.status {
+    clear:both;
+}
+
+fieldset div.status>div.item {
+    margin:0 2px;
+    float:left;
+}
 
 fieldset.dialog {
     padding:10px;
@@ -156,7 +164,7 @@ fieldset div.code {
     color:white;
     font-size:14px;
     font-family:monospace;
-    background-color:#272822;
+    background-color:#343a34f2;
     white-space:pre;
     padding:10px;
     overflow:auto;

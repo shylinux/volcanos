@@ -299,9 +299,11 @@ var can = Volcanos("chat", {
                 }), value
             },
             Status: function(event, value, key) {var cb = output.onstatus[key];
-                typeof cb == "function"? cb(event, output, value, key, can.page.Select(can, status, "div."+key)[0]||{}): false && output.run(event, ["status", key, value], function(msg) {
-                    output.Export(event, msg, key)
-                }, true)
+                typeof cb == "function" && cb(event, output, value, key, can.page.Select(can, status, "span."+key, function(item) {
+                    value? can.page.ClassList.del(can, item.previousSibling, "hidden"):
+                        can.page.ClassList.add(can, item.previousSibling, "hidden")
+                    return item
+                })[0]||{})
             },
             Export: function(event, value, key, index) {var cb = output.onexport[key];
                 return typeof cb == "function"? cb(event, output, value, key, target): can.Report(event, value, key, index)
