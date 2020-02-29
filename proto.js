@@ -26,6 +26,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     // if (sub._name == can._name) {continue}
                     // 加载索引
                     can[sub._name] = sub;
+                    typeof can._swell == "function" && can._swell(can, sub)
                     typeof sub._spawn == "function" && sub._spawn(can, sub)
                 }
                 return can
@@ -38,6 +39,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                 // 加载缓存
                 can[sub._name] = sub;
                 meta.cache[name].push(sub);
+                typeof can._swell == "function" && can._swell(can, sub)
                 typeof sub._spawn == "function" && sub._spawn(can, sub)
             }
             meta.index = i;
@@ -274,12 +276,12 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                 key? run(event, key, value, can.onaction[key]||can.onaction[value]): run(event, msg, value, can.onaction[value]);
             })
             // 注册菜单
-            can.target.oncontextmenu = function(event) {can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, key, meta) {
+            can.onchice && (can.target.oncontextmenu = function(event) {can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, key, meta) {
                 run(event, msg, key, can.onchoice[key] || can.onaction[key]);
-            }), can), event.stopPropagation(), event.preventDefault()}
+            }), can), event.stopPropagation(), event.preventDefault()})
 
             // 注册事件
-            can.core.Item(can.onaction, function(key, cb) {key.indexOf("on") == 0 && (can.target[key] = function(event) {cb(event, can)})});
+            can.core && can.core.Item(can.onaction, function(key, cb) {key.indexOf("on") == 0 && (can.target[key] = function(event) {cb(event, can)})});
         }
         can.onimport && can.onimport._start && can.onimport._start(can)
     })

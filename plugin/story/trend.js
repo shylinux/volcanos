@@ -13,13 +13,11 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 can.page.ClassList.add(can, can.ui.display, "hidden")
             },
         }])
-        can.ui.table = can.page.AppendTable(can, target, can.msg, can.msg.append)
-        can.ui.table.style.clear = "both"
         can.data = can.msg.Table()
         can.page.ClassList.add(can, can.ui.total, "status")
 
         can.sub = can.Output(can, {}, "/plugin/wiki/draw", can.Event({}), function() {
-            can.onaction["表格"]({}, can)
+            can.Action("width", 600)
             can.onaction["编辑"]({}, can)
             can.onaction["股价图"]({}, can)
         }, can.ui.output, can.ui.action, option, can.ui.status)
@@ -63,12 +61,9 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", "股价�
             var begin = new Date(data[0].date)
             var end = new Date(data[data.length-1].date)
             var avg = parseInt((add + del) / (end - begin) * 1000 * 3600 * 24)
-            can.page.AppendStatus(can, can.ui.total, ["count", "avg", "max", "add", "del", "rest"], {
-                count: count,
-                avg: avg,
-                max: max,
-                del: del,
-                rest: can.rest,
+            can.page.AppendStatus(can, can.ui.total, ["from", "days", "count", "avg", "max", "add", "del", "rest"], {
+                from: can.base.Time(begin).split(" ")[0], days: can.base.Duration(end-begin),
+                count: count, avg: avg, max: max, add: add, del: del, rest: can.rest,
             })
         }
 
@@ -191,6 +186,11 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", "股价�
         })
     },
     "表格": function(event, can, value, cmd, target) {var sub = can.sub, data = can.data;
+        if (!can.ui.table) {
+            can.ui.table = can.page.AppendTable(can, can.target, can.msg, can.msg.append)
+            can.ui.table.style.clear = "both"
+            return
+        }
         can.page.ClassList.neg(can, can.ui.table, "hidden")
     },
 })

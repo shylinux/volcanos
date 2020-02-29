@@ -141,9 +141,9 @@ var can = Volcanos("chat", {
 
         var history = []
 
-        var args = typeof meta.args == "string"? JSON.parse(meta.args): meta.args || [];
-        var feature = JSON.parse(meta.feature||'{}');
-        var exports = JSON.parse(meta.exports||'""')||feature.exports||[];
+        var args = can.base.Obj(meta.args, []);
+        var feature = can.base.Obj(meta.feature);
+        var exports = can.base.Obj(meta.exports, feature.exports||[]);
         var plugin = Volcanos(name, {_type: "local", _local: {}, target: field,
             option: option, action: action, output: output,
             Plugin: can.Plugin, Inputs: can.Inputs, Output: can.Output,
@@ -306,7 +306,7 @@ var can = Volcanos("chat", {
                 })[0]||{})
             },
             Export: function(event, value, key, index) {var cb = output.onexport[key];
-                return typeof cb == "function"? cb(event, output, value, key, target): can.Report(event, value, key, index)
+                return typeof cb == "function"? cb(event, output, value, key, target): can.Report && can.Report(event, value, key, index)
             },
 
             run: function(event, cmd, cb, silent) {var msg = can.Event(event);

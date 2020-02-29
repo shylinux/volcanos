@@ -1,5 +1,4 @@
 Volcanos("onimport", {help: "导入数据", list: [],
-    _begin: function(can) {},
     _start: function(can) {
         var def = {
             "font-size": "24",
@@ -13,20 +12,25 @@ Volcanos("onimport", {help: "导入数据", list: [],
             can.svg.Value(key, can.Action(key, can.svg.Value(key)||value))
         })
         can.Action("mode", "select")
+        can.Action("mode", "draw")
+        can.Action("shape", "path")
     },
     init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
-        // 文件目录
-        msg.Option("_display") == "table" && can.page.AppendTable(can, output, msg, msg.append, function(event, value, key, index, tr, td) {
-            can.Export(event, value, key)
-        });
+        if (msg.Option("_display") == "table") {
+            // 文件目录
+            can.page.AppendTable(can, output, msg, msg.append, function(event, value, key, index, tr, td) {
+                can.Export(event, value, key)
+            })
+            return typeof cb == "function" && cb(msg);
+        }
 
-        // 用户操作
+        // 交互数据
         can.point = [], can.keys = []
         can.current = null, can.temp = null
         can.group = null, can.svg = null
 
         // 加载绘图
-        var code = can.page.Append(can, output, [{view: ["code", "div", msg.Result()||can.Export(event, null, "file")]}]).code;
+        var code = can.page.AppendBoard(can, output, msg.Result()||can.Export(event, null, "file"))
         can.page.Select(can, output, "svg", function(svg) {
             // 画布
             can.onaction.init(event, can, msg, "init", svg);
@@ -52,8 +56,12 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.core.Item(value.style, function(key, value) {data[key] = value})
         return can.onaction.push(event, can, data, value.shape, can.group||can.svg)
     },
-    keydown: function(event, can, value, cmd, target) {
-        can.keys.push(value)
+    escape: function(event, can, value) {
+        can.point = can.point.slice(0, -1)
+    },
+    keydown: function(event, can, value) {
+        if (["Shift", "Control", "Meta", "Alt"].indexOf(value) > -1 ) {return}
+        can.keys.push((event.ctrlKey? "C-": "") + (event.shiftKey? value.toUpperCase(): value))
 
         var list = {
             a: {prefix: ["mode", "mode"],
@@ -119,10 +127,16 @@ Volcanos("onimport", {help: "导入数据", list: [],
     },
 }, ["/plugin/wiki/draw.css"])
 Volcanos("onfigure", {help: "图形绘制", list: [],
+    _spawn: function(sup, can) {can.sup = sup},
+    _swell: function(can, sub) {
+        can.sup && can.sup.action && sub.draw && can.page.Select(can, can.sup.action, "select.shape", function(shape) {
+            can.page.Append(can, shape, [{text: [sub._name, "option"]}])
+        })
+    },
     svg: {
         data: {
             size: {},
-        }, // <svg font-size="24" stroke="yellow" stroke-width="2" fill="purple" grid="10"/>
+        }, // <svg font-size="24" stroke-width="2" stroke="yellow" fill="purple" grid="10"/>
         show: function(event, can, value, target) {
             return can.svg.Val("width") +","+ can.svg.Val("width")
         },
@@ -204,12 +218,13 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
     text: {
         data: {
             size: {x: "x", y: "y"},
+            copy: ["inner"],
         }, // <text x="60" y="10">hi<text>
         draw: function(event, can, point, style) {if (point.length < 1) {return}
             var p0 = point[0];
             var data = {
                 "x": p0.x, "y": p0.y,
-                "inner": style.inner||can.user.prompt("text"),
+                "inner": style&&style.inner||can.user.prompt("text"),
             }
             return can.point = [], data;
         },
@@ -219,8 +234,30 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
     },
     line: {
         data: {
-            size: {x: "x1", y: "y1"},
+            size: {},
             copy: ["x1", "y1", "x2", "y2"],
+            x: function(event, can, value, cmd, target) {
+                if (value != undefined) {
+                    var offset = value - target.Val("xx", value)
+                    target.Val("x1", target.Val("x1") + offset)
+                    target.Val("x2", target.Val("x2") + offset)
+                }
+                return target.Val("xx")
+            },
+            y: function(event, can, value, cmd, target) {
+                if (value != undefined) {
+                    var offset = value - target.Val("yy", value)
+                    target.Val("y1", target.Val("y1") + offset)
+                    target.Val("y2", target.Val("y2") + offset)
+                }
+                return target.Val("yy")
+            },
+            width: function(event, can, value, cmd, target) {
+                return value != undefined && target.Val("x2", target.Val("x1") + parseInt(value)), target.Val("x2") - target.Val("x1")
+            },
+            height: function(event, can, value, cmd, target) {
+                return value != undefined && target.Val("y2", target.Val("y1") + parseInt(value)), target.Val("y2") - target.Val("y1")
+            },
         },  // <line x1="10" y1="50" x2="110" y2="150"/>
         draw: function(event, can, point) {if (point.length < 2) {return}
             var p0 = point[0], p1 = point[1];
@@ -240,21 +277,128 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
                 + " - (" + value.Val("x2") + "," + value.Val("y2") + ")"
         },
     },
-
     path: {
-        data: {},  //  <path d="M10 10 H 90 V 90 H 10 Z" fill="transparent" stroke="black"/>
+        data: {
+            size: {},
+            x: function(event, can, value, cmd, target) {
+                var tt = JSON.parse(target.Value("tt")||'{"tx":0, "ty":0}')
+                if (value != undefined) {
+                    tt.tx = value-target.Val("xx")
+                    target.Value("tt", JSON.stringify(tt))
+                    target.Value("transform", "translate("+tt.tx+","+tt.ty+")")
+                }
+                return target.Val("xx")+tt.tx
+            },
+            y: function(event, can, value, cmd, target) {
+                var tt = JSON.parse(target.Value("tt")||'{"tx":0, "ty":0}')
+                if (value != undefined) {
+                    tt.ty = value-target.Val("yy")
+                    target.Value("tt", JSON.stringify(tt))
+                    target.Value("transform", "translate("+tt.tx+","+tt.ty+")")
+                }
+                return target.Val("yy")+tt.ty
+            },
+            copy: ["d", "cmd", "name", "meta", "tt", "xx", "yy", "fill"],
+        },  //  <path d="M10 10 H 90 V 90 H 10 Z" fill="transparent" stroke="black"/>
         draw: function(event, can, point) {
+            if (point.length == 1) {
+                can._temp = {}
+            }
+            if (point.length < 2) {return}
+            if (can.keys && can.keys.length > 0) {
+                switch (can._temp[point.length-1] = can.keys[0]) {
+                    case "C": can._temp[point.length+1] = ","
+                    case "Q": can._temp[point.length] = ","; break
+                    default:
+                }
+                can.keys = can.keys.slice(1)
+            }
+
+            var skip = 0;
+            var end = false;
             var data = {
-                d: can.core.List(point, function(p, i) {
+                d: can.core.List(point, function(p, i) {var k = p.k
+                    if (i < skip) {return}
                     switch (i) {
-                        case 0: return "M " + p.x + " " + p.y; break
-                        case 1: return "H " + p.x; break
-                        case 2: return "V " + p.y; break
-                        case 3: return "H " + p.x + " Z"; break
+                        case 0: k = "M"; break
+                        default: k = can._temp[i] || p.k || "L"; break
+                    }
+                    if (end) {return}
+
+                    switch (k) {
+                        case "Z": return can.point = [], can._temp = {}, k
+                        case "L": return k+" " + p.x + " " + p.y
+                        case "M": return k+" " + p.x + " " + p.y
+                        case "H": return k+" " + p.x
+                        case "V": return k+" " + p.y
+                        case "A":
+                            switch (point.length - i) {
+                                case 1: end = true;
+                                    return k+" " + (point[i-1].x+p.x)/2 + " " + (point[i-1].y+p.y)/2 + " 0 0 0 " + p.x + " " + p.y
+                                case 2: end = true;
+                                    var r = Math.sqrt(Math.pow(point[i+1].x - p.x, 2) + Math.pow(point[i+1].y - p.y, 2))
+                                    return k+" " + r + " " + r + " 0 0 0 " + p.x + " " + p.y
+                                case 3:
+                                    if (!p.done) {
+                                        var r = Math.sqrt(Math.pow(point[i+1].x - p.x, 2) + Math.pow(point[i+1].y - p.y, 2))
+                                        var temp = point[i]
+                                        p = point[i] = point[i+1]
+                                        point[i+1] = temp
+                                        var temp = can.point[i]
+                                        p = can.point[i] = can.point[i+1]
+                                        can.point[i+1] = temp
+                                        p.x = r
+                                        p.y = r
+                                        p.done = true
+                                        p.arg = " 0 0 0 "
+                                    }
+                                default:
+                                    skip = i + 2
+                                    return k+" " + p.x + " " + p.y + " 0 0 0 " + point[i+1].x + " " + point[i+1].y
+                            }
+                            break
+                        case "C":
+                            switch (point.length - i) {
+                                case 1: end = true;
+                                    return k+" " + (point[i-1].x+p.x)/2 + " " + (point[i-1].y+p.y)/2 + "," + (point[i-1].x+p.x)/2 + " " + (point[i-1].y+p.y)/2 + "," + p.x + " " + p.y
+                                case 2: end = true;
+                                    return k+" " + point[i+1].x + " " + point[i+1].y + "," + (point[i-1].x+p.x)/2 + " " + (point[i-1].y+p.y)/2 + "," + p.x + " " + p.y
+                                case 3:
+                                    return k+" " + point[i+1].x + " " + point[i+1].y + "," + point[i+2].x + " " + point[i+2].y + "," + p.x + " " + p.y
+                                case 4:
+                                    if (!p.done) {
+                                        var temp = point[i]
+                                        p = point[i] = point[i+1]
+                                        point[i+1] = temp
+
+                                        var temp = point[i+1]
+                                        point[i+1] = point[i+2]
+                                        point[i+2] = temp
+                                        p.done = true
+                                    }
+                                default:
+                                    return k+" " + p.x + " " + p.y
+                            }
+                        case "Q":
+                            switch (point.length - i) {
+                                case 1: end = true;
+                                    return k+" " + (point[i-1].x+p.x)/2 + " " + (point[i-1].y+p.y)/2 + "," + p.x + " " + p.y
+                                case 2: end = true;
+                                    return k+" " + point[i+1].x + " " + point[i+1].y + "," + p.x + " " + p.y
+                                case 3:
+                                    if (!p.done) {
+                                        var temp = point[i]
+                                        p = point[i] = point[i+1]
+                                        point[i+1] = temp
+                                        p.done = true
+                                    }
+                                default:
+                                    return k+" " + p.x + " " + p.y
+                            }
+                        default: return k+" " + p.x + " " + p.y
                     }
                 }).join(" ")
             }
-            event.type == "click" && point.length == 4 && (can.point = [])
             return data;
         },
         text: function(event, can, data, target) {
@@ -264,10 +408,9 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         },
         show: function(event, can, value, target) {
             return value.tagName
-                + ": (" + value.x1.baseVal.value + "," + value.y1.baseVal.value+ ")"
-                + " - (" + value.x2.baseVal.value + "," + value.y2.baseVal.value+ ")"
         },
     },
+
     polyline: {
         data: {},  // <polyline points="60 110, 65 120, 70 115, 75 130, 80 125, 85 140, 90 135, 95 150, 100 145"/>
         draw: function(event, can, point) {if (point.length < 2) {return}
@@ -302,14 +445,14 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
             return value.tagName + ": (" + value.points.baseVal.value + ")"
         },
     },
-})
+}, Config.libs.concat(["/plugin/wiki/draw/heart"]))
 Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除", "添加",
         ["group", "svg"],
         ["font-size", 12, 16, 18, 24, 32],
         ["stroke-width", 1, 2, 3, 4, 5],
         {text: "c"}, ["stroke", "red", "yellow", "green", "purple", "blue", "cyan", "white", "black"],
         {text: "f"}, ["fill", "red", "yellow", "green", "purple", "blue", "cyan", "white", "black", "#0000"],
-        {text: "a"}, ["mode", "scale", "draw", "move", "resize", "select", "delete"],
+        {text: "a"}, ["mode", "run", "draw", "move", "resize", "select", "delete"],
         {text: "s"}, ["shape", "rect", "circle", "ellipse", "text", "line", "path", "polyline", "polygon"],
         ["grid", 1, 2, 3, 4, 5, 10, 20],
     ],
@@ -318,7 +461,11 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除",
             can.user.toast("保存成功")
         }, true)
     },
-    "清空": function(event, can, msg, cmd, target) {can.svg.innerHTML = ""},
+    "清空": function(event, can, msg, cmd, target) {
+        can.svg.innerHTML = ""
+        can.point = []
+        can.keys = []
+    },
     "删除": function(event, can, msg, cmd, target) {if (can.group == can.svg) {return}
         can.page.Remove(can, can.group), can.page.Select(can, can.action, "option[value="+can.group.Value("class")+"]", function(item) {
             can.page.Remove(can, item)
@@ -341,6 +488,9 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除",
         })
     },
 
+    _get: function(can, item) {
+        return can.onfigure[item.getAttribute("name")||item.tagName];
+    },
     group: function(event, can, value, cmd, target) {
         if (cmd == "svg") {
             can.group = can.svg
@@ -364,13 +514,18 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除",
 
     init: function(event, can, msg, cmd, item) {
         item.Value = function(key, value) {
-            var figure = can.onfigure[item.tagName];
+            var figure = can.onaction._get(can, item);
             key && (key = figure && figure.data && figure.data.size && figure.data.size[key] || key)
-
+            if (figure && figure.data && typeof figure.data[key] == "function") {
+                return figure.data[key](event, can, value, key, item)
+            }
+            if (key == "inner") {
+                return value != undefined && (item.innerHTML = value), item.innerHTML
+            }
             return value && item.setAttribute(key, value), item.getAttribute(key||"class")||item[key]&&item[key].baseVal&&item[key].baseVal.value||item[key]&&item[key].baseVal||"";
         }
         item.Val = function(key, value) {
-            return parseInt(item.Value(key, value == undefined? value: parseInt(value)||0));
+            return parseInt(item.Value(key, value == undefined? value: parseInt(value)||0))||0;
         }
         item.Group = function() {var target = item
             while (target) {
@@ -392,6 +547,21 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除",
         });
         return rect;
     },
+    _run: function(event, can, target) {
+        var figure = can.onaction._get(can, event.target);
+        var msg = can.Event(event);
+        figure && can.core.List(["x", "y", "cmd"].concat(figure.copy||[]), function(item) {
+            msg.Option(item, target.Value(item))
+        })
+        figure && figure.run? figure.run(event, can, figure, "run", event.target): (event.type == "click" && can.run(event, ["action", "执行", target.Value("cmd")], function(msg) {
+            msg.Table(function(value, index) {
+                index > 0 && can.core.Item(value, function(key, val) {
+                    target.Value(key, val)
+                })
+            })
+        }, true))
+        return
+    },
     _draw: function(event, can, point) {
         can.Status(event, null, "width");
         can.Status(event, null, "begin");
@@ -400,7 +570,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除",
         var shape = can.page.Select(can, can.action, "select.shape", function(item) {return item.value})[0]
         var figure = can.onfigure[shape];
         var data = figure && figure.draw(event, can, point);
-        return data && can.onaction.push(event, can, data, shape, can.group||can.svg)
+        return data && can.onaction.push(event, can, data, figure.data.name||shape, can.group||can.svg)
     },
     _move: function(event, can, point) {
         if (point.length == 1) {if (event.type != "click") {return}
@@ -413,7 +583,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除",
         }
 
         var target = can.current.target
-        var figure = can.onfigure[target.tagName];
+        var figure = can.onaction._get(can, target);
         if (point.length == 1) {
             target.style.cursor = "move"
             can.current.pos = 5, can.current.begin = can.page.Select(can, target, "*", function(item) {
@@ -443,7 +613,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除",
         }
 
         var target = can.current.target
-        var figure = can.onfigure[target.tagName];
+        var figure = can.onaction._get(can, target);
         if (point.length == 1) {
             can.current.pos = can.page.Prepos(event, target)
             can.current.begin =  {
@@ -502,7 +672,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除",
     },
 
     oncontextmenu: function(event, can) {var target = event.target
-        var figure = can.onfigure[event.target.tagName]||{data: {}}
+        var figure = can.onaction._get(can, target);
 
         can.user.carte(event, shy("", can.ondetail, figure.data.detail || can.ondetail.list, function(event, key, meta) {var cb = meta[key];
             typeof cb == "function" && cb(event, can, figure, key, target);
@@ -516,7 +686,8 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除",
         can.point = (can.point || []).concat([point]);
 
         can.temp && can.page.Remove(can, can.temp) && delete(can.temp);
-        can.onaction["_"+can.Action("mode")](event, can, can.point);
+        can.temp = can.onaction["_"+can.Action("mode")](event, can, can.point);
+        can.point.length == 0 && (can.temp = null)
     },
     onmouseover: function(event, can) {
         can.Status(event, event.target, "which")
@@ -532,19 +703,19 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除",
         point.y = point.y - point.y % parseInt(can.Action("grid"));
         can.Status(event, point, "point")
 
-        if (!can.svg || can.point.length == 0) {return}
         can.temp && can.page.Remove(can, can.temp) && delete(can.temp)
         can.temp = can.onaction["_"+can.Action("mode")](event, can, can.point.concat(point))
+        can.point.length == 0 && (can.temp = null)
     },
 })
 Volcanos("onchoice", {help: "组件交互", list: ["保存", "添加", "删除"]})
-Volcanos("ondetail", {help: "组件详情", list: ["编辑", "复制", "删除"],
-    "编辑": function(event, can, value, cmd, target) {
+Volcanos("ondetail", {help: "组件详情", list: ["标签", "编辑", "复制", "运行", "变色", "删除"],
+    "标签": function(event, can, value, cmd, target) {
         can.user.prompt("文字", function(text) {
             if (target.tagName == "text") {return target.innerHTML = text}
 
             var data = {}
-            var figure = can.onfigure[target.tagName]
+            var figure = can.onaction._get(can, target);
             figure.text(event, can, data, target)
 
             var p = can.onaction.push(event, can, data, "text", target.Group())
@@ -554,23 +725,56 @@ Volcanos("ondetail", {help: "组件详情", list: ["编辑", "复制", "删除"]
             target.Text = p
         }, target.Text && target.Text.innerText || "")
     },
+    "编辑": function(event, can, value, cmd, target) {
+        var figure = can.onaction._get(can, target);
+        can.user.input(event, can, can.core.List(["x", "y", "cmd"].concat(figure.data.copy||[]), function(item) {
+            return {_input: "text", name: item, value: target.Value(item)}
+        }), function(event, cmd, meta, list) {
+            can.core.Item(meta, function(key, value) {
+                target.Value(key, value)
+            })
+        })
+    },
     "复制": function(event, can, value, cmd, target) {
-        var figure = can.onfigure[target.tagName].data
+        var figure = can.onaction._get(can, target).data;
         var data = {}
+        can.core.List(figure.copy, function(item) {data[item] = target.Value(item)});
         data[figure.size.x||"x"] = parseInt(target.Value(figure.size.x||"x"))+20;
         data[figure.size.y||"y"] = parseInt(target.Value(figure.size.y||"y"))+20;
-        can.core.List(figure.copy, function(item) {data[item] = target.Value(item)});
         return data && can.onaction.push(event, can, data, target.tagName, can.group||can.svg)
     },
-    "删除": function(event, can, value, key, cmd, target) {can.page.Remove(can, target)},
+    "变色": function(event, can, value, cmd, target) {
+        if (target._timer) {
+            target._timer.stop = true
+            delete(target._timer)
+            return
+        }
+
+        var list = ["red", "green", "yellow", "blue"]
+        target._timer = can.Timer({value: 500, length: -1}, function() {
+            target.Value("fill", list[parseInt(Math.random()*list.length%list.length)])
+        })
+    },
+    "运行": function(event, can, value, cmd, target) {
+        if (target._timer) {
+            target._timer.stop = true
+            delete(target._timer)
+            return
+        }
+
+        target._timer = can.Timer({value: 500, length: -1}, function(event) {
+            can.onaction._run({type: "click", target: target}, can, target)
+        })
+    },
+    "删除": function(event, can, value, cmd, target) {can.page.Remove(can, target)},
 })
-Volcanos("onstatus", {help: "组件状态", list: ["which", "point", "begin", "width", "keys"],
+Volcanos("onstatus", {help: "组件状态", list: ["point", "which", "begin", "width", "keys"],
+    "point": function(event, can, value, cmd, target) {target.innerHTML = value.x+","+value.y},
     "which": function(event, can, value, cmd, target) {
-        var figure = can.onfigure[value.tagName];
+        var figure = can.onaction._get(can, target);
         target.innerHTML = (value.Group && value.Group().Value("class") || "") + " " + value.tagName + " " + (
             figure? figure.show(event, can, value, value): "")
     },
-    "point": function(event, can, value, cmd, target) {target.innerHTML = value.x+","+value.y},
     "begin": function(event, can, value, cmd, target) {target.innerHTML = value? value.x+","+value.y: ""},
     "width": function(event, can, value, cmd, target) {target.innerHTML = value? value.Val("width")+","+value.Val("height"): ""},
     "keys": function(event, can, value, cmd, target) {target.innerHTML = value},

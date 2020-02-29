@@ -61,7 +61,7 @@ Volcanos("onaction", {help: "组件交互", list: [
     ["action", "正常", "竖排", "编排", "定位", "定形"],
     {input: "pod"}, {input: "you"}, {input: "hot"}, {input: "top"},
 ],
-    layout: function(event, can, value, cmd, field) {can.Export(event, value, cmd)},
+    layout: function(event, can, value, cmd, field) {can.Export(event, cmd, value)},
 
     "清屏": function(event, can, msg, cmd, field) {
         can.page.Select(can, can.output, "fieldset.item>div.output", function(item) {
