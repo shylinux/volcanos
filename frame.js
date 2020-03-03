@@ -172,6 +172,7 @@ var can = Volcanos("chat", {
                         // 上报数据
                         // 上下循环
                         // key && can.Import(event, value, key)
+                        can.Action(key, value)
                     }
                 }
             },
