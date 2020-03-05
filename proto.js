@@ -276,7 +276,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                 key? run(event, key, value, can.onaction[key]||can.onaction[value]): run(event, msg, value, can.onaction[value]);
             })
             // 注册菜单
-            can.onchice && (can.target.oncontextmenu = function(event) {can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, key, meta) {
+            can.onchoice && (can.target.oncontextmenu = function(event) {can.user.carte(event, shy("", can.onchoice, can.onchoice.list, function(event, key, meta) {
                 run(event, msg, key, can.onchoice[key] || can.onaction[key]);
             }), can), event.stopPropagation(), event.preventDefault()})
 

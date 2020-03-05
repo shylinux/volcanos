@@ -1,3 +1,7 @@
+fieldset.item.plan div.output td.over {
+    border:solid 2px red;
+}
+
 fieldset.item.plan div.output div.task.finish {
     color:red;
 }

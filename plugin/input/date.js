@@ -14,7 +14,8 @@ Volcanos("onfigure", {help: "控件详情", list: [],
         can.now = target.value? new Date(target.value): new Date();
         var control = can.page.AppendAction(can, figure.action, ["今天", "随机",
             ["hour"].concat(can.core.List(24)), ["minute"].concat(can.core.List(0, 60, 5)), ["second"].concat(can.core.List(0, 60, 5)), {view: ["", "br"]},
-            {type: "br"}, "上一月", ["year"].concat(can.core.List(can.now.getFullYear() - 20, can.now.getFullYear() + 20)),
+            {type: "hr", style: {margin: 0}}, {type: "br"},
+            "上一月", ["year"].concat(can.core.List(can.now.getFullYear() - 20, can.now.getFullYear() + 20)),
             ["month"].concat(can.core.List(1, 13)), "下一月", {view: ["", "br"]},
         ], function(event, value, cmd) {can.stick = true;
             // 设置时间
