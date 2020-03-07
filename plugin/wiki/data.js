@@ -37,6 +37,11 @@ Volcanos("onfigure", {help: "组件菜单", list: ["保存", "求和"],
     },
 })
 Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "正常", "块选", "反选", "多选", "拖动", "编辑"], "求和", "最大", "最小", "平均"],
+    "保存": function(event, can, msg, cmd, target) {
+        can.run(event, ["action", cmd, can.Option("path"), can.Export(event, "", "file")], function(msg) {
+            can.user.toast("保存成功")
+        }, true)
+    },
     "正常": function(event, can, msg, cmd, target) {
         cmd && can.Action("mode", cmd)
         can.page.Select(can, can.table, "tr", function(item) {
@@ -92,13 +97,6 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "正常", 
             item.setAttribute("contenteditable", true)
         })
     },
-    "保存": function(event, can, msg, cmd, target) {
-        can.run(event, ["action", cmd, can.Option("path"), can.page.Select(can, target, "tr", function(tr) {
-            return can.page.Select(can, tr, "th,td", function(td) {return td.innerHTML}).join(",")
-        }).join("\n")], function() {
-            can.user.toast("保存成功")
-        }, true)
-    },
 
     show: function(event, can, msg, cmd, target) {
         var res = {};
@@ -141,5 +139,11 @@ Volcanos("ondetail", {help: "组件详情", list: ["复制", "块选", "反选",
     },
 })
 Volcanos("onstatus", {help: "组件状态", list: []})
-Volcanos("onexport", {help: "导出数据", list: []})
+Volcanos("onexport", {help: "导出数据", list: [],
+    file: function(event, can, csv, cmd, target) {
+        return can.page.Select(can, target, "tr", function(tr) {
+            return can.page.Select(can, tr, "th,td", function(td) {return td.innerHTML}).join(",")
+        }).join("\n")
+    },
+})
 

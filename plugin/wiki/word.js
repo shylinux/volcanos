@@ -1,8 +1,12 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
-        if (can.page.AppendTable(can, output, msg, msg.append, function(event, value, key, index, tr, td) {
-            can.Export(event, value, key)
-        })) {return}
+        if (msg.Option("_display") == "table") {
+            // 文件目录
+            can.page.AppendTable(can, output, msg, msg.append, function(event, value, key, index, tr, td) {
+                can.Export(event, value, key)
+            })
+            return typeof cb == "function" && cb(msg);
+        }
 
         output.innerHTML = msg.Result()
 
@@ -16,14 +20,14 @@ Volcanos("onimport", {help: "导入数据", list: [],
 
             switch (item.tagName) {
                 case "FIELDSET":
-                    can.Plugin(can, item.name, JSON.parse(data.meta||"{}"), function(event, cmds, cb, silent) {
+                    can.Plugin(can, data.name, JSON.parse(data.meta||"{}"), function(event, cmds, cb, silent) {
                         can.run(event, ["action", "story", data.type, data.name, data.text].concat(cmds), cb, true)
                     }, item, function(sub) {
 
                     })
                     break
                 default:
-                    var figure = can.onfigure[item.type||item.tagName]
+                    var figure = can.onfigure[data.type||item.tagName]
                     figure && figure.init && figure.init({}, can, msg, "init", item)
 
             }
@@ -33,6 +37,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
 }, ["/plugin/wiki/word.css"])
 Volcanos("onfigure", {help: "图形绘制", list: [],
     _spawn: function(sup, can) {can.sup = sup},
+    _swell: function(can, sub) {},
     _begin: function(can) {},
     _start: function(can) {},
     _close: function(can) {},
@@ -52,40 +57,42 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         save: function(event, can, value, cmd, target) {return "endmenu"},
     },
     h1: {
-        push: function(event, can, value, cmd, target) {var data = target.dataset;
-            return [{view: ["story", "h1", "h1"], dataset: {type: "title", name: "", text: ""}, inner: "h1...."}]
+        push: function(event, can, value) {
+            return [{view: ["story", "h1", value.text], dataset: {type: "title", name: value.name, text: value.text}}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'title "' + value.replace(data.name+" ", "") + '"': ""
         },
     },
     h2: {
-        push: function(event, can, value, cmd, target) {
-            return [{view: ["story", "h2", "h2"], dataset: {type: "title", name: "", text: ""}, inner: "h2...."}]
+        push: function(event, can, value) {
+            return [{view: ["story", "h2", value.text], dataset: {type: "chapter", name: value.name, text: value.text}}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'chapter "' + value.replace(data.name+" ", "") + '"': ""
         },
     },
     h3: {
-        push: function(event, can, value, cmd, target) {var data = target.dataset;
-            return [{view: ["story", "h3", "h3"], dataset: {type: "title", name: "", text: ""}, inner: "h3...."}]
+        push: function(event, can, value) {
+            return [{view: ["story", "h3", value.text], dataset: {type: "section", name: value.name, text: value.text}}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'section "' + value.replace(data.name+" ", "") + '"': ""
         },
     },
     brief: {
-        push: function(event, can, value, cmd, target) {var data = target.dataset;
-            return [{view: ["story", "p", "p"], dataset: {type: "brief", name: "", text: ""}, inner: "brief...."}]
+        push: function(event, can, value) {
+            return [{view: ["story", "p", value.text], dataset: {type: "brief", name: value.name, text: value.text}}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'brief "'+data.name+'" `' + value + '`': ""
         },
     },
     refer: {
-        push: function(event, can, value, cmd, target) {var data = target.dataset;
-            return [{view: ["story", "ul"], dataset: {type: "refer", name: "", text: ""}, list: [{type: "li", inner: "refer...."}]}]
+        push: function(event, can, value, cmd, target) {
+            return [{view: ["story", "ul"], dataset: {type: "refer", name: value.name, text: value.text}, list: can.core.List(value.text.split("\n"), function(line) {
+                return {type: "li", inner: line}
+            })}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'refer "'+data.name+'" `\n' + can.page.Select(can, target, "li", function(item) {
@@ -94,8 +101,8 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         },
     },
     spark: {
-        push: function(event, can, value, cmd, target) {var data = target.dataset;
-            return [{view: ["story", "p", "p"], dataset: {type: "spark", name: "", text: ""}, inner: "spark...."}]
+        push: function(event, can, value) {
+            return [{view: ["story", "p", value.text], dataset: {type: "spark", name: value.name, text: value.text}}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'spark "'+data.name+'" `' + value + '`': "spark"
@@ -103,24 +110,35 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
     },
 
     local: {
-        push: function(event, can, value, cmd, target) {var data = target.dataset;
-            return [{view: ["story", "div"], dataset: {type: "local", name: "", text: ""}, inner: "local...."}]
+        push: function(event, can, value) {
+            return [{view: ["story", "div", value.text], dataset: {type: "local", name: value.name, text: value.text}}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'local "'+data.name+'" '+' `' + data.text + '`': ""
         },
     },
     shell: {
-        push: function(event, can, value, cmd, target) {var data = target.dataset;
-            return [{view: ["story", "code", "code"], dataset: {type: "shell", name: "", text: "", dir: "./"}, inner: "shell...."}]
+        push: function(event, can, value) {
+            return [{view: ["story", "code", value.text], dataset: {type: "shell", name: value.name, dir: "./", text: value.text}}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'shell "'+data.name+'" '+'"'+data.dir+'"' +' `' + data.text + '`': ""
         },
     },
+    field: {
+        push: function(event, can, value) {
+            return [{view: ["story", "code", value.text], dataset: {type: "field", name: value.name, text: value.text}}]
+        },
+        save: function(event, can, value, cmd, target) {var data = target.dataset;
+            return value? 'field "'+data.name+'" `'+data.text+'`': ""
+        },
+    },
+
     order: {
-        push: function(event, can, value, cmd, target) {var data = target.dataset;
-            return [{view: ["story", "ul"], dataset: {type: "order", name: "", text: ""}, list: [{type: "li", inner: "order...."}]}]
+        push: function(event, can, value) {
+            return [{view: ["story", "ul"], dataset: {type: "order", name: value.name, text: value.text}, list: can.core.List(value.text.split("\n"), function(line) {
+                return {type: "li", inner: line}
+            })}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'order "'+data.name+'" `\n' + can.page.Select(can, target, "li", function(item) {
@@ -130,11 +148,12 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
     },
     table: {
         data: {menu: ["追加行", "追加列", "删除行", "删除列"]},
-        push: function(event, can, value, cmd, target) {var data = target.dataset;
-            return [{view: ["story", "table", "table"], dataset: {type: "table", name: "", text: ""}, list: [
-                {type: "tr", list: [{type: "th"}, {type: "th"}]},
-                {type: "tr", list: [{type: "td"}, {type: "td"}]},
-            ]}]
+        push: function(event, can, value) {
+            return [{view: ["story", "table"], dataset: {type: "table", name: value.name, text: value.text}, list: can.core.List(value.text.split("\n"), function(line, index) {
+                return {type: "tr", list: can.core.List(line.split(" "), function(word) {
+                    return {type: index==0? "th": "td", inner: word}
+                })}
+            })}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'table "'+data.name+'" `\n' + can.page.Select(can, target, "tr", function(tr) {
@@ -198,20 +217,19 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
                 }
             })
         },
-        push: function(event, can, value, cmd, target) {var data = target.dataset;
-            return [{view: ["stack", "div"], dataset: {type: "stack", name: "", text: ""}}]
+        push: function(event, can, value) {
+            return [{view: ["story", "div", value.text], dataset: {type: "stack", name: value.name, text: value.text}}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'stack "'+data.name+'"' +' `' + data.text + '`': ""
         },
     },
-
     label: {
         init: function(event, can, value, cmd, target) {var data = target.dataset;
             target.Value = function(key, value) {return value && target.setAttribute(key, value), target.getAttribute(key||"class")||target[key]&&target[key].baseVal&&target[key].baseVal.value||target[key]&&target[key].baseVal||""}
         },
-        push: function(event, can, value, cmd, target) {var data = target.dataset;
-            return [{view: ["story", "svg"], dataset: {type: "story", name: "", text: ""}}]
+        push: function(event, can, value) {
+            return [{view: ["story", "svg", value.text], dataset: {type: "label", name: value.name, text: value.text}}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'label "'+data.name+'"' +' `\n' + data.text + '\n`' + " " + [
@@ -220,8 +238,11 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         },
     },
     chain: {
-        push: function(event, can, value, cmd, target) {var data = target.dataset;
-            return [{view: ["story", "svg"], dataset: {type: "story", name: "", text: ""}}]
+        init: function(event, can, value, cmd, target) {var data = target.dataset;
+            target.Value = function(key, value) {return value && target.setAttribute(key, value), target.getAttribute(key||"class")||target[key]&&target[key].baseVal&&target[key].baseVal.value||target[key]&&target[key].baseVal||""}
+        },
+        push: function(event, can, value) {
+            return [{view: ["story", "svg", value.text], dataset: {type: "chain", name: value.name, text: value.text}}]
         },
         save: function(event, can, value, cmd, target) {var data = target.dataset;
             return value? 'chain "'+data.name+'"' +' `\n' + data.text + '\n`': ""
@@ -230,32 +251,16 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
 }, [], function(can) {var sup = can.sup
 
 })
-Volcanos("onaction", {help: "组件菜单", list: ["刷新", "保存", ["操作", "只读", "排序", "编辑"],
-    "插入", ["元素", "h1", "h2", "h3", "brief", "refer", "spark", "shell", "order", "table", "stack"]],
-
-    "刷新": function(event, can, value, cmd, target) {
-        can.run(event)
-    },
-    "追加": function(event, can, value, cmd, target) {
-        can.user.input(event, can, [["type", "spark", "label", "section", "chapter", "title"], "name", {name: "text", type: "textarea"}], function(event, value, form, list) {
-            value == "提交" && can.run(event, ["action", cmd, can.Option("name")].concat(list), function(msg) {
-                can.user.confirm("是否刷新") && can.run({})
-            }, true)
-            return true
-        })
-    },
+Volcanos("onaction", {help: "组件菜单", list: ["保存", "刷新", ["操作", "只读", "排序", "编辑"]],
     "保存": function(event, can, value, cmd, target) {
-        var save = can.page.Select(can, target, ".story", function(story) {
-            var figure = can.onfigure[story.dataset.type] || can.onfigure[story.localName];
-            var text = figure && figure.save && figure.save(event, can, story.innerText||story.innerHTML, cmd, story) || story.innerText||story.innerHTML
-            console.log(story.dataset.type, text)
-            return text
-        }).join("\n\n")
-
-        can.run(event, ["action", cmd, can.Option("name"), save], function(msg) {
+        can.run(event, ["action", cmd, can.Option("path"), can.Export(event, "", "file")], function(msg) {
             can.user.toast("保存成功")
         }, true)
     },
+    "刷新": function(event, can, value, cmd, target) {
+        can.run(event)
+    },
+
     "只读": function(event, can, value, cmd, target) {
         can.page.Select(can, can.target, ".story", function(item) {
             item.setAttribute("contenteditable", false)
@@ -277,43 +282,33 @@ Volcanos("onaction", {help: "组件菜单", list: ["刷新", "保存", ["操作"
             item.setAttribute("contenteditable", true)
         })
     },
-    "插入": function(event, can, value, cmd, target) {var figure = can.onfigure[can.Action("元素")];
-        can.page.Append(can, can.target, figure.push(event, can, value, cmd, target)).first.setAttribute("contenteditable", true)
-    },
 })
-Volcanos("onchoice", {help: "组件交互", list: ["刷新", "保存", "追加", "清空", ["rect", "rect", "line", "circle"]],
-    "清空": function(event, can, msg, cmd, target) {
-        console.log("choice", cmd)
+Volcanos("onchoice", {help: "组件交互", list: ["保存", "刷新", "编辑", "排序"]})
+Volcanos("ondetail", {help: "组件详情", list: ["保存", "刷新", "编辑", "复制", "插入", "删除"],
+    "复制": function(event, can, value, cmd, target) {
+        var clone = target.cloneNode(true);
+        target.parentNode.insertBefore(clone, target);
     },
-})
-Volcanos("ondetail", {help: "组件详情", list: ["刷新", "追加", "编辑", "删除", "插入"],
-    "删除": function(event, can, msg, index, key, cmd, target) {
-        can.page.Remove(can, target)
-    },
-
-    "删除行": function(event, can, msg, index, key, cmd, target) {
-        var table = target.parentNode.parentNode
-        var tr = target.parentNode
-        table.removeChild(tr)
-    },
-    "追加行": function(event, can, msg, index, key, cmd, target) {
-        var tr = document.createElement("tr")
-        can.page.Append(can, tr, can.page.Select(can, target.parentNode, "td,th", function() {
-            return {type: "td", inner: " "}
-        }))
-        target.parentNode.parentNode.append(tr)
-    },
-    "追加列": function(event, can, msg, index, key, cmd, target) {
-        var table = target.parentNode.parentNode
-        var tr = target.parentNode
-        var index = can.page.Select(can, tr, "th,td", function(item, index) {
-            return item == target && index || undefined
-        })[0]
-
-        can.page.Select(can, table, "tr", function(tr, index) {
-            can.page.Append(can, tr, [{type: index == 0? "th": "td", inner: " "}])
+    "插入": function(event, can, value, cmd, target) {
+        can.user.input(event, can, [["type", "spark", "refer", "brief", "h3", "h2", "h1",
+            "local", "shell", "field", "order", "table", "stack", "label", "chain"], "name", {name: "text", type: "textarea"}], function(event, value, form, list) {
+            var figure = can.onfigure[form.type]
+            var node = can.page.Append(can, target.parentNode, figure.push(event, can, form)).first;
+            figure && figure.init && figure.init(event, can, figure, "init", node);
+            target.parentNode.insertBefore(node, target);
         })
     },
+    "删除": function(event, can, value, cmd, target) {
+        can.page.Remove(can, target)
+    },
 })
-Volcanos("onexport", {help: "导出数据", list: []})
+Volcanos("onexport", {help: "导出数据", list: [],
+    file: function(event, can, shy, cmd, target) {
+        return can.page.Select(can, target, ".story", function(story) {
+            var figure = can.onfigure[story.dataset.type] || can.onfigure[story.localName];
+            var text = figure && figure.save && figure.save(event, can, story.innerText||story.innerHTML, cmd, story) || story.innerText||story.innerHTML
+            return text
+        }).join("\n\n")
+    },
+})
 

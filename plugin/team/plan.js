@@ -33,6 +33,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                     can.user.carte(event, shy("", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
                         typeof cb == "function"? cb(event, can, msg, data.id, data.zone, cmd, target):
                             can.run(event, ["action", typeof cb == "string"? cb: cmd, data.id, data.zone], function(msg) {
+                                can.user.toast("修改成功")
                             }, true)
                     }))
                     event.stopPropagation()
