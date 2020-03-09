@@ -130,7 +130,7 @@ var can = Volcanos("chrome", {
     }, function() {can.user.toast("wss connect", "iceberg")})
 
     chrome.history.onVisited.addListener(function(item) {
-        can.run(can, {names: "crx", cmd: ["history", item.id, item.url, item.title]}, function(msg) {
+        can.run(can, {names: "chrome/crx", cmd: ["history", item.id, item.url, item.title]}, function(msg) {
             can.user.toast(item.url, item.title)
         })
     })

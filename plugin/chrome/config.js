@@ -9,7 +9,7 @@ var Config = {iceberg: "http://localhost:9020/chat/", volcano: "/",
         "pane/Target", "pane/Source", "pane/Action",
         "pane/Footer",
 
-        "plugin/state", "plugin/input", "plugin/table", "plugin/inner", "plugin/media",
+        "plugin/state", "plugin/input", "plugin/table", "plugin/inner",
     ], pane: [
         {group: "index", name: "Toast", pos: "dialog", duration: 3000},
         {group: "index", name: "Tutor", pos: "dialog"},
