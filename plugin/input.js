@@ -46,6 +46,8 @@ Volcanos("onaction", {help: "控件交互", list: [],
         can.item.type == "select" && can.item.action == "auto" && can.Runs(event)
     },
     onkeydown: function(event, can) {
+        if (event.target.tagName == "TEXTAREA") {return}
+
         can.page.oninput(event, can, function(event) {
             switch (event.key) {
                 case "b":
@@ -73,6 +75,8 @@ Volcanos("onaction", {help: "控件交互", list: [],
         return true
     },
     onkeyup: function(event, can) {
+        if (event.target.tagName == "TEXTAREA") {return}
+
         switch (event.key) {
             default: return false
         }
