@@ -49,7 +49,7 @@ Volcanos("ondetail", {help: "组件详情", list: ["选择", "编辑", "删除",
             can.core.List(msg.append, function(key) {sub.Option(key, msg[key][index])})
             can.run(event, ["action", "modify", key, event.target.value, text, can.Option("id")||msg.Ids(index)], function(msg) {
                 td.innerHTML = event.target.value;
-                can.user.toast("修改成功")
+                can.user.toast(msg.Result()||"修改成功")
             }, true)
         }}}]).first;
         input.focus();
