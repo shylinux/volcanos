@@ -1,4 +1,4 @@
-var Config = {iceberg: "http://localhost:9020/chat/", volcano: "/",
+var Config = {iceberg: "http://localhost:9020/", volcano: "/",
     libs: ["lib/base", "lib/core", "lib/misc", "lib/page", "lib/user"],
     main: "chat", list: ["page/chat",
         "pane/Toast", "pane/Tutor", "pane/Debug",

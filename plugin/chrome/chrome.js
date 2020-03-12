@@ -2,8 +2,9 @@ var can = Volcanos("chrome", {
     _send: function(msg, cb) {chrome.extension.sendRequest(msg, cb)},
     _open: function(url) {chrome.windows.create({url: url})},
 
-    run: function(can, msg, cb) {
-        can.misc.Run({names: "chrome", msg: msg}, can, {}, null, cb)
+    run: function(can, msg, cb) {msg = can.Event({}, msg)
+        msg.Option("sid", can.sid||"")
+        can.misc.Run({names: "code/chrome/crx", msg: msg}, can, {}, null, cb)
     },
 
     open: function(msg, cmd, cb) {
@@ -129,9 +130,21 @@ var can = Volcanos("chrome", {
         msg.Reply(msg)
     }, function() {can.user.toast("wss connect", "iceberg")})
 
+    can.run(can, {cmd: ["login", can.sid||""]}, function(msg) {
+        can.sid = msg.Result()
+    })
+
     chrome.history.onVisited.addListener(function(item) {
-        can.run(can, {names: "chrome/crx", cmd: ["history", item.id, item.url, item.title]}, function(msg) {
+        can.run(can, {cmd: ["history", item.id, item.url, item.title]}, function(msg) {
             can.user.toast(item.url, item.title)
+        })
+    })
+
+    chrome.bookmarks.onCreated.addListener(function(id, item) {
+        chrome.bookmarks.get(item.parentId, function(root) {
+            can.run(can, {cmd: ["bookmark", item.id, item.url, item.title, root[0].title]}, function(msg) {
+                can.user.toast(item.url, item.title)
+            })
         })
     })
 
