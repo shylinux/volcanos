@@ -15,7 +15,22 @@ Volcanos("onimport", {help: "导入数据", list: [],
             }))
         });
 
-        msg.result && can.page.Append(can, output, [{view: ["code", "div", can.page.Display(msg.Result())]}]).code;
+        if (msg.Option("render") != "" && msg.result) {
+            var story = can.page.Append(can, output, [{view: [msg.Option("render"), "div", msg.Result()]}]).first;
+            can.page.Select(can, story, ".story", function(item) {var data = item.dataset;
+                switch (item.tagName) {
+                    case "FIELDSET":
+                        can.Plugin(can, data.name, JSON.parse(data.meta||"{}"), function(event, cmds, cb, silent) {
+                            can.run(event, ["action", "story", data.type, data.name, data.text].concat(cmds), cb, true)
+                        }, item, function(sub) {
+
+                        })
+                        break
+                }
+            })
+        } else {
+            msg.result && can.page.Append(can, output, [{view: ["code", "div", can.page.Display(msg.Result())]}]).code;
+        }
         return typeof cb == "function" && cb(msg);
     },
 })
@@ -36,7 +51,7 @@ Volcanos("onchoice", {help: "组件菜单", list: ["返回", "清空", "复制",
         can.page.Download(can, list[0]+list[1], list[2]);
     },
 })
-Volcanos("ondetail", {help: "组件详情", list: ["选择", "编辑", "删除", "复制", "下载"],
+Volcanos("ondetail", {help: "组件详情", list: ["选择", "编辑", "删除", "复制", "下载", "收藏"],
     "选择": "select",
     "删除": "delete",
     "编辑": function(event, can, msg, index, key, cmd, td) {
@@ -60,6 +75,18 @@ Volcanos("ondetail", {help: "组件详情", list: ["选择", "编辑", "删除",
     },
     "下载": function(event, can, msg, index, key, cmd, target) {
         can.page.Download(can, key, target.innerHTML);
+    },
+    "收藏": function(event, can, msg, index, key, cmd, target) {
+        can.user.input(event, can, [
+            {_input: "text", name: "favor", value: can._last_favor||""},
+            {_input: "text", name: "type", value: msg.type && msg.type[index] || ""},
+            {_input: "text", name: "name", value: msg.name && msg.name[index] || ""},
+            {_input: "text", name: "text", value: msg.text && msg.text[index] || ""},
+        ], function(event, cmd, meta, list) {can._last_favor = meta.favor;
+            can.run(event, ["action", "favor", meta.favor, meta.type, meta.name, meta.text], function(msg) {
+                can.user.toast(msg.Result()||"收藏成功");
+            }, true)
+        })
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [],

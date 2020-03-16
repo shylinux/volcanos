@@ -8,7 +8,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         })}])
 
         can.timer = can.Timer({interval: 1000, length: -1}, function(event) {
-            can.Import(event, can.base.Time().split(" ")[1], "time")
+            can.onimport.time(event, can, can.base.Time().split(" ")[1], "time")
         })
     },
     title: function(event, can, value, cmd, field) {
@@ -39,7 +39,7 @@ Volcanos("onexport", {help: "导出数据", list: [],
     title: function(event, can, value, cmd, field) {
         var args = {river: can.Conf("river"), storm: can.Conf("storm"), layout: can.Conf("layout")}
 
-        can.page.Select(can, field, "div.action>input", function(input) {
+        can.page.Select(can, document.body, "fieldset.Action>div.action input", function(input) {
             input.name && input.value && (args[input.name] = input.value)
         })
         can.user.Search(can, args)

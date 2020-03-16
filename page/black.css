@@ -3,7 +3,7 @@ body, fieldset {
     background-color:black;
 }
 fieldset.item { 
-    border:ridge 1px cyan;
+    border:ridge 2px cyan;
     margin:2px;
 }
 fieldset.item:hover {

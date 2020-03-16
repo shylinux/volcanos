@@ -31,6 +31,9 @@ Volcanos("onimport", {help: "导入数据", list: [],
             can.onimport.init(event, can, msg, cmd, can.output)
         })
     },
+    pod: function(event, can, value, cmd, field) {
+        can.user.title(value)
+    },
     you: function(event, can, value, cmd, field) {
         can.user.title(value)
     },

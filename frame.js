@@ -48,7 +48,6 @@ var can = Volcanos("chat", {
     }),
     Pane: shy("构造组件", function(can, name, meta, cb, field) {
         var river = "", storm = "";
-
         var pane = Volcanos(name, {_type: "local", _plugins: [], _local: {}, target: field,
             option: field.querySelector("form.option"),
             action: field.querySelector("div.action"),
@@ -67,7 +66,9 @@ var can = Volcanos("chat", {
                 pane.page.Select(pane, pane.action, "input."+key, function(item) {item.value = value})
             },
 
-            Action: function(key, value) {
+            Action: function(key, value) {var cb = pane.onimport[key];
+                typeof cb == "function" && cb(event, pane, value, key, field);
+
                 return can.page.Select(can, pane.action, "input[name="+key+"],select."+key+",select[name="+key+"]", function(item) {
                     // 读写控件
                     value != undefined && (item.value = value), value = item.value
@@ -134,6 +135,8 @@ var can = Volcanos("chat", {
         return pane
     }),
     Plugin: shy("构造插件", function(can, name, meta, run, field, cb) {
+        meta && meta.class && can.page.ClassList.add(can, field, meta.class)
+
         var option = field.querySelector("form.option");
         var action = field.querySelector("div.action");
         var output = field.querySelector("div.output");
@@ -314,7 +317,7 @@ var can = Volcanos("chat", {
                 cmd = cmd || can.Option(), can.page.Select(can, option, ".args", function(item) {
                     item.name && item.value && msg.Option(item.name, item.value)
                 });
-                (output[cmd[1]] || can[cmd[1]] || can.Run)(event, cmd, cb, silent);
+                can.Run(event, cmd, cb, silent);
             },
         }, Config.libs.concat([(type.startsWith("/")? "": "plugin/")+type]), function(output) {
             status.innerHTML = "", output.onstatus && can.page.AppendStatus(output, status, output.onstatus.list)
@@ -328,7 +331,7 @@ var can = Volcanos("chat", {
     can.user.Search(can, "sessid") && can.user.Cookie(can, "sessid", can.user.Search(can, "sessid")) && can.user.Search(can, "sessid", "")
 
     can[Config.main] = can.Page(can, Config.main, Config, function(chat) {
-        chat.Import({}, can.user.Search(can, "you")||can.user.Search(can, "title")||Config.title, "title")
+        chat.Import({}, can.user.Search(can, "pod")||can.user.Search(can, "you")||can.user.Search(can, "title")||Config.title, "title")
         chat.Import({}, can.user.Search(can, "layout")||Config.layout.def, "layout")
         chat.Import({}, "", "login")
     }, document.body, can.user.Search(can, "topic")||Config.topic)

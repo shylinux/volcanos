@@ -1,3 +1,13 @@
+fieldset.story {
+    clear:both;
+}
+fieldset.float {
+    float:left;
+    clear:none;
+}
+fieldset.clear {
+    clear:both;
+}
 
 fieldset .story {
     border:solid 2px #f000;
@@ -7,7 +17,7 @@ fieldset .story:hover {
 }
 
 fieldset fieldset.story {
-    border:ridge 1px cyan;
+    border:ridge 2px cyan;
 }
 
 fieldset p.story {
