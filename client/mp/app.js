@@ -1,4 +1,4 @@
-const utils = require("utils/util.js")
+const kit = require("utils/kit.js")
 
 App({
     data: {}, conf: {serve: "https://shylinux.com/chat"},
@@ -61,25 +61,27 @@ App({
 
     modal: function(title, cb) {wx.showModal({title: title, success: cb})},
     toast: function(title) {wx.showToast({title: title})},
-    jumps: function(url, args, cb) {
-        wx.navigateTo({url: "/pages/"+utils.Args(url, args), success: cb})
+    jumps: function(url, args, cb) {var next = "/pages/"+kit.Args(url, args)
+        console.log("jump", next), wx.navigateTo({url: next, success: cb})
     },
     scans: function(cb) {var app = this
-        wx.scanCode({success(res) {
+        wx.scanCode({success(res) {console.log("scan", res)
             try {
                 var value = JSON.parse(res.result)
                 switch (value.type) {
                     case "active":
                         app.userinfo(function(userInfo) {
                             app.modal("授权登录", function(res) {
-                                res.confirm && app.request("mp/login/auth", {auth: value.name})
+                                res.confirm && app.request("mp/login/auth", {auth: value.name}, function(msg) {
+                                    app.toast("授权成功")
+                                })
                             })
                         })
                     default:
-                        typeof cb == "function" && cb(res)
+                        typeof cb == "function" && cb(value)
                 }
             } catch(e) {
-                typeof cb == "function" && cb(res)
+                typeof cb == "function" && cb({type: "", text: res.result})
             }
         }})
     },

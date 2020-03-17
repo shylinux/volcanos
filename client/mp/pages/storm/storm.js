@@ -1,4 +1,4 @@
-const utils = require("../../utils/util.js")
+const kit = require("../../utils/kit.js")
 const app = getApp()
 
 Page({
@@ -10,6 +10,7 @@ Page({
     action: {
         "扫码": function(event, page, data, name) {
             app.scans(function(res) {
+                app.toast()
             })
         },
         "刷新": function(event, page, data, name) {

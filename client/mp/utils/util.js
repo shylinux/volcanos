@@ -13,11 +13,10 @@ const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
-function Number(d, n) {var result = [];
-    while (d>0) {result.push(d % 10); d = parseInt(d / 10); n--}
-    while (n > 0) {result.push("0"); n--}
-    result.reverse();
-    return result.join("");
+function Number(d, n) {var res = [];
+    while (d > 0) {res.push(d % 10); d = parseInt(d / 10); n--}
+    while (n > 0) {res.push("0"); n--}
+    return res.reverse(), res.join("");
 }
 function Time(t, fmt) {var now = t? new Date(t): new Date();
     fmt = fmt || "%y-%m-%d %H:%M:%S";
