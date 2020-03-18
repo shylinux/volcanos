@@ -13,6 +13,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             var items = item.path.split(".");
             switch (items[items.length-1]) {
                 case "png":
+                case "jpg":
                 case "JPG":
                     return {className: "preview", img: "/share/local/web.wiki.feel/"+item.path, width: width, oncontextmenu: menu}
                 case "MOV":
