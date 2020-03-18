@@ -10,7 +10,7 @@
             <view class="item {{item._input}}" wx:for="{{field.inputs}}" wx:key="name">
                 <!-- 文本 -->
                 <input wx:if="{{item._input == 'text'}}" type="text" value="{{item.value}}" placeholder="{{item.name}}"
-                    bindtap="onClick" bindinput="onInput" bindconfirm="onEnter" data-order="{{order}}" data-index="{{index}}" data-item="{{item}}"/>
+                    bindtap="onClick" bindinput="onInput" bindconfirm="onEnter" data-order="{{order}}" data-index="{{index}}" data-input="{{item}}"/>
 
                 <!-- 文本 -->
                 <textarea wx:elif="{{item._input == 'textarea'}}" value="{{item.value}}" placeholder="{{item.name}}"

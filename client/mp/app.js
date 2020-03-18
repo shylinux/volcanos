@@ -9,6 +9,7 @@ App({
                 app.usercode(function() {app.request(cmd, data, cb)})
                 return
             }
+
             msg.__proto__ = {
                 nRow: function() {return msg.append && msg.append[0] && msg[msg.append[0]].length || 0},
                 Result: function() {return msg.result && msg.result.length > 0 && msg.result.join("") || ""},
@@ -36,6 +37,7 @@ App({
                 }
             }
             msg._index = index
+
             typeof cb == "function" && cb(msg)
         }})
     },
@@ -59,8 +61,8 @@ App({
         })
     },
 
-    modal: function(title, cb) {wx.showModal({title: title, success: cb})},
-    toast: function(title) {wx.showToast({title: title})},
+    modal: function(title, content, cb) {wx.showModal({title: title||"", content: content||"", success: cb})},
+    toast: function(title, content) {wx.showToast({title: title, content: content||""})},
     jumps: function(url, args, cb) {var next = "/pages/"+kit.Args(url, args)
         console.log("jump", next), wx.navigateTo({url: next, success: cb})
     },
@@ -71,7 +73,7 @@ App({
                 switch (value.type) {
                     case "active":
                         app.userinfo(function(userInfo) {
-                            app.modal("授权登录", function(res) {
+                            app.modal("授权登录", value.name, function(res) {
                                 res.confirm && app.request("mp/login/auth", {auth: value.name}, function(msg) {
                                     app.toast("授权成功")
                                 })
