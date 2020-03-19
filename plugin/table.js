@@ -29,7 +29,18 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 }
             })
         } else {
-            msg.result && can.page.Append(can, output, [{view: ["code", "div", can.page.Display(msg.Result())]}]).code;
+            switch (msg._xhr.getResponseHeader("content-type")) {
+                case "image/png":
+                    if (msg._xhr.responseType != "blob") {
+                        break
+                    }
+                    var str = URL.createObjectURL(new Blob([msg._xhr.response], {type: "image/png"}));
+                    msg.result && can.page.Append(can, output, [{img: [str]}])
+                    break
+
+                default:
+                    msg.result && can.page.Append(can, output, [{view: ["code", "div", can.page.Display(msg.Result())]}]).code;
+            }
         }
         return typeof cb == "function" && cb(msg);
     },

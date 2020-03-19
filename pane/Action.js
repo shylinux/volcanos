@@ -62,7 +62,9 @@ Volcanos("onimport", {help: "导入数据", list: [],
 Volcanos("onaction", {help: "组件交互", list: [
     ["layout"].concat(Config.layout.list), "清屏", "刷新", "并行","串行",
     ["action", "正常", "竖排", "编排", "定位", "定形"],
-    {input: "pod"}, {input: "you"}, {input: "hot"}, {input: "top"},
+    {input: "pod"}, {input: "you"},
+    {input: "hot"}, {input: "top"},
+    {input: "grp"}, {input: "lab"},
 ],
     layout: function(event, can, value, cmd, field) {can.Export(event, cmd, value)},
 
