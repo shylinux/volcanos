@@ -71,14 +71,38 @@ App({
             try {
                 var value = JSON.parse(res.result)
                 switch (value.type) {
-                    case "active":
+                    case "share":
+                        switch (value.name) {
+                            case "invite":
+                                app.userinfo(function(userInfo) {
+                                    app.modal("接受邀请", value.name, function(res) {
+                                        res.confirm && app.request("mp/login/auth", value, function(msg) {
+                                            app.toast("回执成功")
+                                        })
+                                    })
+                                })
+                                break
+                        }
+                        break
+
+                    case "login":
                         app.userinfo(function(userInfo) {
                             app.modal("授权登录", value.name, function(res) {
-                                res.confirm && app.request("mp/login/auth", {auth: value.name}, function(msg) {
+                                res.confirm && app.request("mp/login/auth", value, function(msg) {
                                     app.toast("授权成功")
                                 })
                             })
                         })
+                        break
+                    case "active":
+                        app.userinfo(function(userInfo) {
+                            app.modal("授权登录", value.name, function(res) {
+                                res.confirm && app.request("mp/login/auth", value, function(msg) {
+                                    app.toast("授权成功")
+                                })
+                            })
+                        })
+                        break
                     default:
                         typeof cb == "function" && cb(value)
                 }
