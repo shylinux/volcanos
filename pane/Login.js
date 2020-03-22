@@ -1,6 +1,17 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, conf, output, action, option, field) {
         can.user.login = function(cb) {
+            can.misc.WSS(can, "", {node: "active"}, function(event, msg, cmd, arg) {
+                switch (cmd) {
+                    case "space":
+                        can._share = arg[1]
+                        break
+                    case "sessid":
+                        can.user.Cookie(can, "sessid", arg[0]), can.user.toast(""), can.Hide()
+                        typeof cb == "function" && cb({name: msg["user.name"]})
+                        break
+                }
+            })
             can.user.Cookie("sessid")? can.onaction.check(event, can, cb, "check", output):
                 can.onaction.login(event, can, cb, "login", output)
         }
@@ -13,7 +24,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         }
         can.run(event, ["share", value, msg.Option("name"), msg.Option("text")].concat(list), function(msg) {
             var p = "/share/" + msg.Result(); can.user.toast({title: msg.Option("name"),
-                text: [{text: can.user.Share(can, {path: p}, true)}, {img: p+"/qrcode"}],
+                text: [{text: '<a target="_blank" href="'+can.user.Share(can, {path: p}, true)+'">'+p+'</a>'}, {img: p+"/share"}],
                 width: 300, height: 400, duration: 300000,
             })
         })
@@ -42,39 +53,13 @@ Volcanos("onaction", {help: "组件交互", list: [],
                 })
             }]},
             {button: ["扫码登录", function(event, cmd) {
-                can.onaction.socket(event, can, "", function(event, msg) {
-                    switch (msg.detail[0]) {
-                        case "space":
-                            if (msg.detail[1] == "share") {can._share = msg.detail[2]
-                                can.user.toast({title: "请用微信扫描", list: [{img: [can.user.Share(can, {
-                                    path: "/share/"+msg.detail[2],
-                                }, true)]}]})
-                                return true
-                            }
-                            break
-                        case "sessid":
-                            can.user.Cookie(can, "sessid", msg.detail[1])
-                            can.Hide(), typeof cb == "function" && cb({name: msg["user.name"]})
-                            can.user.toast("")
-                            return true
-                    }
-                })
+                can.user.toast({title: "请用微信扫码("+can._share+")", list: [{img: [can.user.Share(can, {
+                    path: "/share/"+can._share+"/value",
+                }, true)]}]})
             }]},
             {type: "br"},
         ])
         can.Show(event, -1, -1)
-    },
-    socket: function(event, can, value, cmd, output) {can._username = value
-        return can._socket = can._socket || can.misc.WSS(can, "wss://shylinux.com/space/", {node: "active", name: ""}, function(event, msg) {
-            if (msg.Option("_handle")) {return can.user.toast(msg.result.join(""))}
-            if (typeof cmd == "function" && cmd(event, msg)) {return msg.Reply(msg)}
-
-            switch (msg.detail[0]) {
-                case "space": can._share = msg.detail[2]; break
-                case "pwd": msg.Echo("hello world"); break
-            }
-            msg.Reply(msg)
-        })
     },
 })
 Volcanos("onchoice", {help: "组件菜单", list: []})
