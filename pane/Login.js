@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, conf, output, action, option, field) {
         can.user.login = function(cb) {
-            can.misc.WSS(can, "", {node: "active"}, function(event, msg, cmd, arg) {
+            can.misc.WSS(can, "", {node: "active", user: can.user.title()}, function(event, msg, cmd, arg) {
                 switch (cmd) {
                     case "space":
                         can._share = arg[1]
