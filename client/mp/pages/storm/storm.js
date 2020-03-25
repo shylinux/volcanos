@@ -10,7 +10,9 @@ Page({
     action: {
         "扫码": function(event, page, data, name) {
             app.scans(function(res) {
-                app.modal(res.name, res.text)
+                app.request("mp/login/scan", res, function(msg) {
+                    app.modal(res.name, res.text)
+                })
             })
         },
         "刷新": function(event, page, data, name) {
