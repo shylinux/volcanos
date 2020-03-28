@@ -22,14 +22,17 @@ Volcanos("onfigure", {help: "控件详情", list: [],
                 if (value == "关闭") {figure.stick = false; return}
 
                 var msg = can.Event(event);
-                msg._progress = show
-                begin = new Date();
+                can.page.Select(can, can._plugin.option, "input", function(item) {
+                    item.name && item.value && msg.Option(item.name, item.value)
+                })
 
                 // 上传文件
+                begin = new Date();
+                msg._progress = show
                 msg.upload = action.upload.files[0];
                 can.run(event, ["action", "upload"], function(msg) {
                     can.user.toast("上传成功")
-                });
+                }, true);
             })
     }},
 })
