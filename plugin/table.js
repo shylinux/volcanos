@@ -35,7 +35,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                         break
                     }
                     var str = URL.createObjectURL(new Blob([msg._xhr.response], {type: "image/png"}));
-                    msg.result && can.page.Append(can, output, [{img: [str]}])
+                    can.page.Append(can, output, [{img: [str]}])
                     break
 
                 default:

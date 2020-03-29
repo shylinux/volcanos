@@ -161,7 +161,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
                     for (var i = 0; i < arguments.length; i++) {msg.result.push(arguments[i])}
                     return msg;
                 }),
-                Copy: function(res) {
+                Copy: function(res) {if (!res) {return msg}
                     res.result && (msg.result = res.result)
                     res.append && (msg.append = res.append) && res.append.forEach(function(item) {
                         res[item] && (msg[item] = res[item])

@@ -9,7 +9,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 input.type = "select", input.list = item.values.map(function(value) {
                     return {type: "option", value: value, inner: value};
                 })
-                item.className || can.page.ClassList.add(can, item, "args");
+                item.className || can.page.ClassList.add(can, item, item.position||"args");
                 break
             case "textarea":
                 input.type = "textarea"
@@ -17,7 +17,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             case "password":
                 // no break
             case "text":
-                item.className || can.page.ClassList.add(can, item, "args");
+                item.className || can.page.ClassList.add(can, item, item.position||"args");
                 item.value = value || item.value || "";
                 item.autocomplete = "off";
                 break
