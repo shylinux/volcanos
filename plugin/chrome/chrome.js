@@ -116,7 +116,7 @@ var can = Volcanos("chrome", {
         message: message, title: title||Config.title, iconUrl: "/favicon.ico", type: "basic",
     })},
 
-    can.socket = can.socket || can.misc.WSS(can, "ws://localhost:9020/space/", {node: "chrome", name: chrome.runtime.id}, function(event, msg) {
+    can.misc.WSS(can, "ws://localhost:9020/space/", {node: "chrome", name: chrome.runtime.id}, function(event, msg) {
         if (msg.Option("_handle")) {return can.user.toast(msg.result.join(""))}
 
         can.user.toast(msg.detail.join(" "))
