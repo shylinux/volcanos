@@ -90,11 +90,6 @@ fieldset div.output {
 fieldset div.output>div.item {
     padding:2px;
 }
-fieldset div.output>div.item:hover {
-    cursor:pointer;
-    background-color:red;
-    border:ridge 2px yellow;
-}
 fieldset div.status {
     clear:both;
 }
@@ -147,7 +142,6 @@ fieldset.input>legend {
 fieldset table {
     font-size:14px;
     overflow: auto;
-    border:solid 1px green;
 }
 fieldset table caption {
     font-size:18px;

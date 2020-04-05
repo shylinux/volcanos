@@ -3,69 +3,71 @@ body, fieldset {
     background-color:black;
 }
 fieldset.item { 
-    border:ridge 2px cyan;
+    border:ridge 2px gray;
     margin:2px;
 }
 fieldset.item:hover {
     /* background-color:gold; */
-    border:ridge 2px red;
+    border:ridge 2px gray;
 }
 fieldset.item.select {
     /* background-color:gold; */
-    border:ridge 2px red;
+    border:ridge 2px gray;
+}
+a {
+    color:white;
 }
 
 fieldset.input {
     border:solid 2px yellow;
 }
 fieldset.input table tr:hover {
-    background-color:yellow;
+    background-color:gray;
 }
 fieldset.input table td:hover {
-    background-color:red;
+    background-color:gray;
     cursor:pointer;
 }
 fieldset.input table td.select {
-    background-color:red;
+    background-color:gray;
 }
 
 fieldset.story { 
-    border:ridge 1px cyan;
+    border:ridge 1px gray;
     margin:2px;
 }
 
 fieldset div.output>div.item:hover {
     cursor:pointer;
-    background-color:red;
-    border:ridge 2px yellow;
+    border:ridge 2px gray;
 }
 fieldset input {
     font-size:12px;
 }
 fieldset input.args {
-    background-color:cyan;
+    background-color:gray;
     font-weight:600;
     width:80px;
 }
 fieldset input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
-    color:green;
+    color:gray;
 }
 
 fieldset table {
-    border:solid 1px green;
+    border:solid 1px gray;
 }
 fieldset table tr:hover {
-    background-color:#0fbd45;
+    background-color:gray;
 }
 fieldset table tr.over {
-    background:red;
+    background:gray;
 }
 fieldset table tr.select {
-    background-color:#0fbd45;
+    background-color:gray;
 }
 fieldset table th {
     font-family:monospace;
-    background-color:#0fbd45;
+    background-color:gray;
     cursor:pointer;
     padding: 0 6px;
 }
@@ -76,38 +78,37 @@ fieldset table td {
     white-space: pre;
 }
 fieldset table td:hover {
-    background-color:red;
+    background-color:gray;
 }
 fieldset table td.select {
-    background-color:red;
+    background-color:gray;
 }
-
 fieldset div.code {
     color:white;
     font-size:14px;
     font-family:monospace;
-    background-color:#343a34f2;
+    background-color:black;
     white-space:pre;
     padding:10px;
     overflow:auto;
-    border:solid 3px green;
+    border:solid 3px gray;
     max-height:640px;
 }
 
 fieldset.Storm>div.output>div.item.select {
-    background-color:red;
-    border:ridge 2px yellow;
+    border:ridge 2px gray;
 }
 fieldset.item>div.output>div.code svg {
-    border: solid 2px red;
+    border: solid 2px gray;
 }
 
+
 fieldset .story {
-    border:solid 2px #f000;
+    border:solid 2px gray;
 }
 fieldset .story:hover {
-    border:solid 2px red;
+    border:solid 2px gray;
 }
 fieldset fieldset.story {
-    border:ridge 2px cyan;
+    border:ridge 2px gray;
 }

@@ -1,7 +1,4 @@
 
-fieldset.item>div.output>div.code svg {
-    border: solid 2px red;
-}
 fieldset.item>div.output>div.status>div {
     float:left;
     height:20px;

@@ -7,8 +7,4 @@ fieldset.Storm>div.output {
 fieldset.Storm>div.output>div.item {
     padding-left:6px;
 }
-fieldset.Storm>div.output>div.item.select {
-    background-color:red;
-    border:ridge 2px yellow;
-}
 

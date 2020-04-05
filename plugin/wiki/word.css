@@ -9,17 +9,6 @@ fieldset.clear {
     clear:both;
 }
 
-fieldset .story {
-    border:solid 2px #f000;
-}
-fieldset .story:hover {
-    border:solid 2px red;
-}
-
-fieldset fieldset.story {
-    border:ridge 2px cyan;
-}
-
 fieldset p.story {
     white-space:pre;
 }
