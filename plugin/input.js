@@ -4,7 +4,6 @@ Volcanos("onimport", {help: "导入数据", list: [],
         item.action = item.action || item.value || "";
         item.figure = item.figure || item.value || "";
         item.cb = item.cb || item.value || "";
-        if (item.value == "auto") {item.value = ""}
         item.name && item.name.indexOf("@") == 0 && (item.name = item.name.slice(1)) && (item.position = item.position || "opts")
 
         switch (item.type = item.type || item._type || item._input || "text") {
@@ -35,6 +34,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 break
         }
 
+        if (item.value == "auto") {item.value = ""}
         item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["plugin/input/"+item.figure], function() {
             target.type != "button" && (target.value = "")
         })
