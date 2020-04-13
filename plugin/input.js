@@ -3,7 +3,11 @@ Volcanos("onimport", {help: "导入数据", list: [],
         var input = {type: "input", name: name, data: item};
         switch (item.type = item.type || item._type || item._input) {
             case "upfile": item.type = "file"; break
-            case "button": item.value = item.value || item.name; break
+            case "button":
+                item.cb = item.cb || item.value;
+                item.action = item.action || item.value
+                item.value = item.name || item.value;
+                break
             case "select":
                 item.values = typeof item.values == "string"? item.values.split(" "): item.values;
                 input.type = "select", input.list = item.values.map(function(value) {
@@ -17,6 +21,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             case "password":
                 // no break
             case "text":
+                item.cb = item.cb || item.value || "";
                 item.className || can.page.ClassList.add(can, item, item.position||"args");
                 item.value = value || item.value || "";
                 item.autocomplete = "off";

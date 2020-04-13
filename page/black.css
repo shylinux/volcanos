@@ -14,6 +14,11 @@ fieldset.item.select {
     /* background-color:gold; */
     border:ridge 2px red;
 }
+fieldset.item legend {  
+    color:cyan;
+    border:ridge 2px cyan;
+    margin-bottom:4px;
+}
 
 fieldset.input {
     border:solid 2px yellow;

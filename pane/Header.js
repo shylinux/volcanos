@@ -1,14 +1,19 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, conf, output, action, option, field) {output.innerHTML = "";
-        conf.title && can.page.Append(can, output, [{view: "title",
-            list: [{text: conf.title, className: "title"}], click: function(event) {can.Export(event, conf.title, "title")}}])
+        can.run({}, [], function(msg) {
+            can.core.List(msg.result, function(title) {
+                can.page.Append(can, output, [{view: "title", list: [{text: title, className: "title"}],
+                click: function(event) {can.Export(event, conf.title, "title")},
+                }])
+            })
 
-        can.ui = can.page.Append(can, output, [{view: "state", list: can.core.List(conf.state, function(item) {
-            return {text: conf[item]||"", className: item, click: function(event) {can.Export(event, conf[item], item)}};
-        })}])
+            can.ui = can.page.Append(can, output, [{view: "state", list: can.core.List(conf.state, function(item) {
+                return {text: conf[item]||"", className: item, click: function(event) {can.Export(event, conf[item], item)}};
+            })}])
 
-        can.timer = can.Timer({interval: 1000, length: -1}, function(event) {
-            can.onimport.time(event, can, can.base.Time().split(" ")[1], "time")
+            can.timer = can.Timer({interval: 1000, length: -1}, function(event) {
+                can.onimport.time(event, can, can.base.Time().split(" ")[1], "time")
+            })
         })
     },
     title: function(event, can, value, cmd, field) {
