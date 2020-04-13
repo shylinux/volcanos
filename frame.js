@@ -274,7 +274,10 @@ var can = Volcanos("chat", {
 
             run: function(event, cmd, cb, silent) {var msg = can.Event(event);
                 msg.Option("_action", item.name);
-                (input[item.cb] || can[item.cb] || can.Check)(event, event.target, cb);
+
+                cb = typeof input[item.cb] == "function" && input[item.cb]
+                    || typeof can[item.cb] == "function" && can[item.cb] || can.Check
+                cb(event, event.target, cb);
             },
         }, Config.libs.concat(["plugin/"+type, "plugin/input/"+(item.figure||"")]), function(input) {
             var target = input.onimport.init(input, item, name, value, option);
