@@ -1,15 +1,23 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: shy("添加控件", function(can, item, name, value, option) {
         var input = {type: "input", name: name, data: item};
-        switch (item.type = item.type || item._type || item._input) {
+        item.action = item.action || item.value || "";
+        item.figure = item.figure || item.value || "";
+        item.cb = item.cb || item.value || "";
+        if (item.value == "auto") {item.value = ""}
+        item.name && item.name.indexOf("@") == 0 && (item.name = item.name.slice(1)) && (item.position = item.position || "opts")
+
+        switch (item.type = item.type || item._type || item._input || "text") {
             case "upfile": item.type = "file"; break
             case "button":
-                item.cb = item.cb || item.value;
-                item.action = item.action || item.value
                 item.value = item.name || item.value;
                 break
             case "select":
                 item.values = typeof item.values == "string"? item.values.split(" "): item.values;
+                if (!item.values && item.value) {
+                    item.values = item.value.split("|")
+                    item.value = item.values[0]
+                }
                 input.type = "select", input.list = item.values.map(function(value) {
                     return {type: "option", value: value, inner: value};
                 })
@@ -21,12 +29,15 @@ Volcanos("onimport", {help: "导入数据", list: [],
             case "password":
                 // no break
             case "text":
-                item.cb = item.cb || item.value || "";
                 item.className || can.page.ClassList.add(can, item, item.position||"args");
                 item.value = value || item.value || "";
                 item.autocomplete = "off";
                 break
         }
+
+        item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["plugin/input/"+item.figure], function() {
+            target.type != "button" && (target.value = "")
+        })
 
         var target = can.Dream(option, "input", input)[input.name];
         item.type == "text" && !target.placeholder && (target.placeholder = item.name || "");
