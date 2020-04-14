@@ -34,7 +34,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         })
         return typeof cb == "function" && cb(msg)
     },
-}, ["/plugin/wiki/word.css"])
+}, ["/plugin/local/wiki/word.css"])
 Volcanos("onfigure", {help: "图形绘制", list: [],
     _spawn: function(sup, can) {can.sup = sup},
     _swell: function(can, sub) {},

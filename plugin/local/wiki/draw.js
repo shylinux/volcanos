@@ -126,7 +126,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         call(prefix.concat(list.list))
         return can.keys = [], can.Status(event, can.keys, "keys")
     },
-}, ["/plugin/wiki/draw.css"])
+}, ["/plugin/local/wiki/draw.css"])
 Volcanos("onfigure", {help: "图形绘制", list: [],
     _spawn: function(sup, can) {can.sup = sup},
     _swell: function(can, sub) {
@@ -483,7 +483,7 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
             return value.tagName + ": (" + value.points.baseVal.value + ")"
         },
     },
-}, Config.libs.concat(["/plugin/wiki/draw/heart"]))
+}, Config.libs.concat(["/plugin/local/wiki/draw/heart"]))
 Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除", "添加",
         ["group", "svg"],
         ["font-size", 12, 16, 18, 24, 32],
