@@ -76,8 +76,9 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             }
 
             // 加载脚本
-            can.Dream(document.body, !libs[0].endsWith("/") && libs[0].indexOf(".") == -1? libs[0]+".js": libs[0], function() {
-                can._load(libs[0]), can.require(libs.slice(1), cb);
+            can.Dream(libs[0].endsWith(".css")? document.head: document.body,
+                !libs[0].endsWith("/") && libs[0].indexOf(".") == -1? libs[0]+".js": libs[0], function() {
+                    can._load(libs[0]), can.require(libs.slice(1), cb);
             })
         },
         Name: function() {return can._name.toLowerCase()},

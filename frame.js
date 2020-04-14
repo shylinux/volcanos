@@ -33,7 +33,7 @@ var can = Volcanos("chat", {
             },
 
             run: function(event, option, cmds, cb) {can.misc.Run(event, page, option, cmds, cb)},
-        }, Config.libs.concat(["page/"+name, "page/"+topic+".css"]), function(page) {
+        }, Config.libs.concat(["page/"+name, "page/topic/"+topic+".css"]), function(page) {
             // 加载配置
             page.onimport._init && page.onimport._init(page, page.Conf(conf), body)
 
@@ -128,7 +128,7 @@ var can = Volcanos("chat", {
                 can.run(event, pane.option.dataset, cmds, cb)
                 return msg
             },
-        }, Config.libs.concat(["pane/"+name]), function(pane) {can.Dream(document.head, "pane/"+name+".css")
+        }, Config.libs.concat(["pane/"+(meta.path||"")+name]), function(pane) {can.Dream(document.head, "pane/"+(meta.path||"")+name+".css")
             pane.onimport._init && pane.onimport._init(pane, pane.Conf(meta), pane.output, pane.action, pane.option, field)
             typeof cb == "function" && cb(pane)
         }, meta)

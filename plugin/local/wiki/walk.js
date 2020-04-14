@@ -18,8 +18,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
         }
 
         // can.page.Append(can, action, [{type: "script", src: "https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts.js"}]);
-        can.page.Append(can, output, [{include: ["/plugin/github.com/shylinux/echarts/echarts.js", function(event) {
-            can.page.Append(can, output, [{include: ["/plugin/github.com/shylinux/echarts/china.js", function(event) {
+        can.page.Append(can, output, [{include: ["plugin/github.com/shylinux/echarts/echarts.js", function(event) {
+            can.page.Append(can, output, [{include: ["plugin/github.com/shylinux/echarts/china.js", function(event) {
                 var china_chart = echarts.init(can.page.Append(can, output, [{type: "div", style: {width: "600px", height: "400px"}}]).last);
                 var data = msg.Table()
 

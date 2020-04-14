@@ -16,7 +16,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.data = can.msg.Table()
         can.page.ClassList.add(can, can.ui.total, "status")
 
-        can.sub = can.Output(can, {}, "/plugin/wiki/draw", can.Event({}), function() {
+        can.sub = can.Output(can, {}, "/plugin/local/wiki/draw", can.Event({}), function() {
             can.Action("width", 600)
             can.onaction["编辑"]({}, can)
             can.onaction["股价图"]({}, can)

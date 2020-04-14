@@ -1,6 +1,8 @@
 var Config = {iceberg: "", volcano: "/static/volcanos/",
     libs: ["lib/base", "lib/core", "lib/misc", "lib/page", "lib/user"],
     main: "chat", list: [
+        "pane/float/Toast", "pane/float/Carte",
+
         "pane/Header",
         "pane/River", "pane/Storm",
         "pane/Target", "pane/Source", "pane/Action",
