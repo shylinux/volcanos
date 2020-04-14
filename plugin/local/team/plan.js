@@ -108,7 +108,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             })
         })
     },
-}, ["plugin/team/plan.css"])
+}, ["plugin/local/team/plan.css"])
 Volcanos("onaction", {help: "组件交互", list: []})
 Volcanos("onchoice", {help: "组件菜单", list: ["返回", "清空"],
     "返回": function(event, can, msg, cmd, target) {
