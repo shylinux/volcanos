@@ -251,7 +251,8 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
 }, [], function(can) {var sup = can.sup
 
 })
-Volcanos("onaction", {help: "组件菜单", list: ["保存", "刷新", ["操作", "只读", "排序", "编辑"]],
+// Volcanos("onaction", {help: "组件菜单", list: ["保存", "刷新", ["操作", "只读", "排序", "编辑"]],
+Volcanos("onaction", {help: "组件菜单", list: [],
     "保存": function(event, can, value, cmd, target) {
         can.run(event, ["action", cmd, can.Option("path"), can.Export(event, "", "file")], function(msg) {
             can.user.toast("保存成功")
