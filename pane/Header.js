@@ -1,27 +1,27 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, conf, output, action, option, field) {output.innerHTML = "";
-        can.run({}, [], function(msg) {
-            can.core.List(msg.result, function(title) {
-                can.page.Append(can, output, [{view: "title", list: [{text: title, className: "title"}],
-                click: function(event) {can.Export(event, conf.title, "title")},
-                }])
-            })
+        can._init = function() {
+            can.run({}, [], function(msg) {
+                can.core.List(msg.result, function(title) {
+                    can.page.Append(can, output, [{view: "title", list: [{text: title, className: "title"}],
+                        click: function(event) {can.Export(event, conf.title, "title")},
+                    }])
+                })
 
-            can.ui = can.page.Append(can, output, [{view: "state", list: can.core.List(conf.state, function(item) {
-                return {text: conf[item]||"", className: item, click: function(event) {can.Export(event, conf[item], item)}};
-            })}])
+                can.ui = can.page.Append(can, output, [{view: "state", list: can.core.List(conf.state, function(item) {
+                    return {text: conf[item]||"", className: item, click: function(event) {can.Export(event, conf[item], item)}};
+                })}])
 
-            can.timer = can.Timer({interval: 1000, length: -1}, function(event) {
-                can.onimport.time(event, can, can.base.Time().split(" ")[1], "time")
+                can.timer = can.Timer({interval: 1000, length: -1}, function(event) {
+                    can.onimport.time(event, can, can.base.Time().split(" ")[1], "time")
+                })
             })
-        })
+        }
     },
+    username: function(event, can, value, cmd, field) {can.Conf("user", value), can._init()},
+
     title: function(event, can, value, cmd, field) {
         can.ui[cmd].innerHTML = value
-    },
-    username: function(event, can, value, cmd, field) {
-        value.length > 10 && (value = value.slice(0, 8))
-        can.ui["user"].innerHTML = value
     },
     time: function(event, can, value, cmd, field) {
         can.ui[cmd].innerHTML = value

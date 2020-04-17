@@ -14,7 +14,6 @@ Volcanos("onimport", {help: "导入数据", list: [],
         var list = location.pathname.split("/");
         can.Login? can.user.login(function(user) {
             can.River.Import(event, "update", "river")
-            can.Header.Import(event, user.name, "username")
         }): (
             can.Action.Import(event, list[2], "river"),
             can.Action.Import(event, "action", "storm")

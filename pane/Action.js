@@ -38,7 +38,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.user.title(value)
     },
 
-    layout: function(event, can, value, cmd, field) {value && can.Action(cmd, value)},
+    layout: function(event, can, value, cmd, field) {value},
     scroll: function(event, can, value, cmd, field) {can.layout = value;
         can.output.parentElement.scrollBy(value.x, value.y)
     },

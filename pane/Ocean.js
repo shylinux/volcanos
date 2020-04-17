@@ -20,7 +20,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         ]}])
         can.ui = ui
     },
-    init: function(event, can, msg, key, field) {can.output.innerHTML = "";
+    init: function(event, can, msg, key, field) {can.output.innerHTML = ""; can.Show(event, -100, -100);
         var table = can.page.Append(can, can.output, "table");
         can.page.Appends(can, table, [{text: ["1. 选择用户节点 ->", "caption"]}])
 

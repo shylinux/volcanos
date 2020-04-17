@@ -1,6 +1,10 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, conf, output, action, option, field) {
         can.user.login = function(cb) {
+            var cbs = function(res) {
+                typeof cb == "function" && cb(res)
+                can.Export({}, res.name, "username")
+            }
             can.misc.WSS(can, "", {node: "active", user: can.user.title()}, function(event, msg, cmd, arg) {
                 switch (cmd) {
                     case "space":
@@ -8,12 +12,12 @@ Volcanos("onimport", {help: "导入数据", list: [],
                         break
                     case "sessid":
                         can.user.Cookie(can, "sessid", arg[0]), can.user.toast(""), can.Hide()
-                        typeof cb == "function" && cb({name: msg["user.name"]})
+                        cbs({name: msg["user.name"]})
                         break
                 }
             })
-            can.user.Cookie("sessid")? can.onaction.check(event, can, cb, "check", output):
-                can.onaction.login(event, can, cb, "login", output)
+            can.user.Cookie("sessid")? can.onaction.check(event, can, cbs, "check", output):
+                can.onaction.login(event, can, cbs, "login", output)
         }
     },
     share: function(event, can, value, cmd, target) {var msg = can.Event(event)
