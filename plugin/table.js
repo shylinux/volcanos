@@ -4,13 +4,16 @@ Volcanos("onimport", {help: "导入数据", list: [],
             can.ondetail["复制"](event, can, msg, value, index, key, td);
             can.Export(event, value.trim(), key, index)
         }, function(event, value, key, index, tr, td) {
-            can.user.carte(event, shy("上下文菜单", can.ondetail, can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
+            can.user.carte(event, shy("上下文菜单", can.ondetail, msg["field.detail"] || can.feature.detail || can.ondetail.list, function(event, cmd, meta) {var cb = meta[cmd];
                 var sub = can.Event(event);
                 msg.append.forEach(function(key) {sub.Option(key, msg[key][index].trim())})
 
                 typeof cb == "function"? cb(event, can, msg, index, key, cmd, td):
                     can.run(event, ["action", typeof cb == "string"? cb: cmd, key, value.trim(), msg.Ids(index)], function(msg) {
                         can.user.toast(msg.Result())
+                        if (msg.Option("field.reload") == "true") {
+                            can.run(event)
+                        }
                     }, true)
             }))
         });
@@ -39,7 +42,9 @@ Volcanos("onimport", {help: "导入数据", list: [],
                     break
 
                 default:
-                    msg.result && can.page.Append(can, output, [{view: ["code", "div", can.page.Display(msg.Result())]}]).code;
+                    msg.result && can.page.Append(can, output, [{view: ["code", "div"], list: [
+                        {view: ["code", "pre", can.page.Display(msg.Result())]},
+                    ]}]).code;
             }
         }
         return typeof cb == "function" && cb(msg);

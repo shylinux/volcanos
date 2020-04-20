@@ -215,17 +215,17 @@ var can = Volcanos("chat", {
                 }).length > 0 && plugin.Runs(event)
             },
             Runs: function(event, cb) {
-                plugin.Run(event, plugin.Option(), cb)
-            },
-            Run: function(event, args, cb, silent) {var show = !silent;
                 history.push(plugin.page.Select(can, option, ".args", function(item, index, list) {
                     return {target: item, value: item.value}
                 }))
                 can.Export(event, 1, "ncmd")
 
+                plugin.Run(event, plugin.Option(), cb)
+            },
+            Run: function(event, args, cb, silent) {var show = !silent;
                 var msg = can.Event(event);
                 can.page.Select(can, option, ".opts", function(item) {
-                    item.name && item.value && msg.Option(item.name, item.value)
+                    msg[item] == undefined && item.name && item.value && msg.Option(item.name, item.value)
                 })
 
                 for (var i = args.length-1; i >= 0; i--) {if (args[i] == "") {args = args.slice(0, i)} else {break}}
@@ -318,7 +318,7 @@ var can = Volcanos("chat", {
 
             run: function(event, cmd, cb, silent) {var msg = can.Event(event);
                 cmd = cmd || can.Option(), can.page.Select(can, option, ".args", function(item) {
-                    item.name && item.value && msg.Option(item.name) == undefined && msg.Option(item.name, item.value)
+                    msg[item.name] == undefined && item.name && item.value && msg.Option(item.name, item.value)
                 });
                 can.Run(event, cmd, cb, silent);
             },
