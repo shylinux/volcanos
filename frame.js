@@ -247,7 +247,7 @@ var can = Volcanos("chat", {
             },
             Delete: function(event) {field.parentNode.removeChild(field)},
         }, Config.libs.concat(["plugin/"+(meta.type||feature.active||"state")]), function(plugin) {plugin.Conf(meta);
-            var list = typeof meta.inputs == "string"? JSON.parse(meta.inputs||"[]"): meta.inputs;
+            var list = typeof meta.inputs == "string"? JSON.parse(meta.inputs||"[]"): meta.inputs || [];
             // 加载配置
             plugin.onimport._init? plugin.onimport._init(plugin, feature, plugin.output, plugin.action, plugin.option):
             // 加载控件
@@ -318,7 +318,7 @@ var can = Volcanos("chat", {
 
             run: function(event, cmd, cb, silent) {var msg = can.Event(event);
                 cmd = cmd || can.Option(), can.page.Select(can, option, ".args", function(item) {
-                    item.name && item.value && msg.Option(item.name, item.value)
+                    item.name && item.value && msg.Option(item.name) == undefined && msg.Option(item.name, item.value)
                 });
                 can.Run(event, cmd, cb, silent);
             },

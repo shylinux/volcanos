@@ -62,7 +62,32 @@ Volcanos("onchoice", {help: "组件菜单", list: ["返回", "清空", "复制",
         can.page.Download(can, list[0]+list[1], list[2]);
     },
 })
-Volcanos("ondetail", {help: "组件详情", list: ["选择", "编辑", "删除", "复制", "下载", "收藏"],
+Volcanos("ondetail", {help: "组件详情", list: ["渲染", "选择", "编辑", "删除", "复制", "下载", "收藏"],
+    "渲染": function(event, can, msg, index, key, cmd, td) {
+        can._story = can._story || can.Plugin(can, msg.name[index], {inputs: [
+            {_input: "button", name: "喜欢"},
+            {_input: "button", name: "讨厌"},
+            {_input: "button", name: "查看"},
+            {_input: "button", name: "关闭"},
+        ]}, function(event, cmds, cb, silent) {
+            var req = can.Event(event)
+            switch (req.Option("_action")) {
+                case "关闭":
+                    can.page.Remove(can, can._story.target)
+                    delete(can._story)
+                    break
+                default:
+                    req.Option("pod", "");
+                    can.run(event, ["set", msg.pod[index], msg.engine[index], msg.favor[index], msg.id[index],
+                        msg.type[index], msg.name[index], msg.text[index]], function(res) {
+                            can._story.Show(res.Option("display")||"table", res, cb)
+                    }, true)
+            }
+        }, can.page.AppendField(can, document.body, "story", {name: msg.type[index], help: msg.name[index]}), function(plugin) {
+            can.page.Modify(can, plugin.target, {style: {position: "absolute", left: "10px", top: "100px"}})
+        })
+        can._story.Runs(event)
+    },
     "选择": "select",
     "删除": "delete",
     "编辑": function(event, can, msg, index, key, cmd, td) {
