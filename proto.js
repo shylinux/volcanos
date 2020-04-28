@@ -1,7 +1,7 @@
 // volcanos: 前端 火山架 我看不行
 // FMS: a fieldset manager system
 
-function shy(help, meta, list, cb) { // 封装函数
+function shy(help, meta, list, cb) {
     var index = -1, value = "", type = "string", args = arguments;
     function next(check) {
         if (++index >= args.length) {return false}
@@ -16,10 +16,10 @@ function shy(help, meta, list, cb) { // 封装函数
     cb.runs = function() {};
     return cb;
 }
-function Volcanos(name, can, libs, cb, msg) { // 封装模块
+function Volcanos(name, can, libs, cb, msg) {
     // 全局缓存
     var list = arguments.callee.list || [], meta = arguments.callee.meta || {index: 1, cache: {}};
-    arguments.callee.meta = meta, arguments.callee.list = list;
+    arguments.callee.list = list, arguments.callee.meta = meta;
 
     // 定义原型
     var id = 1, conf = {}, conf_cb = {}, sync = {}, cache = {};
@@ -79,7 +79,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             }
 
             // 加载脚本
-            can.Dream(libs[0].endsWith(".css")? document.head: document.body,
+            can.Dream(libs[0].endsWith(".css")? can.head||document.head: can.body||document.body,
                 !libs[0].endsWith("/") && libs[0].indexOf(".") == -1? libs[0]+".js": libs[0], function() {
                     can._load(libs[0]), can.require(libs.slice(1), cb);
             })
@@ -199,18 +199,18 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
             };
             return msg.event = event, msg
         }),
-        Dream: shy("构造器", function(target, type, line) {
+        Dream: shy("构造器", function(target, type, line) {var p = window.Config && Config.volcano || "";
             if (type.endsWith(".css")) {
                 var style = document.createElement("link");
                 style.rel = "stylesheet", style.type = "text/css";
-                style.href = (type.startsWith("/")? "": Config.volcano)+type;
+                style.href = (type.startsWith("/")? "": p)+type;
                 style.onload = line;
                 target.appendChild(style);
                 return style
             }
             if (type.endsWith(".js")) {
                 var script = document.createElement("script");
-                script.src = (type.startsWith("/")? "": Config.volcano)+type;
+                script.src = (type.startsWith("/")? "": p)+type;
                 script.onload = line
                 target.appendChild(script);
                 return script
@@ -264,6 +264,7 @@ function Volcanos(name, can, libs, cb, msg) { // 封装模块
     can.require(libs, function() {
         can.onimport && can.onimport._begin && can.onimport._begin(can)
         typeof cb == "function" && cb(can);
+
         if (can.target) {
             function run(event, msg, key, cb) {
                 if (typeof cb == "function") {
