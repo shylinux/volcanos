@@ -1,3 +1,6 @@
+// volcanos: 前端 火山架 我看不行
+// FMS: a fieldset manager system
+
 function shy(help, meta, list, cb) { // 封装函数
     var index = -1, value = "", type = "string", args = arguments;
     function next(check) {
