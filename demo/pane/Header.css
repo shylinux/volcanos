@@ -1,0 +1,30 @@
+fieldset.Header {
+    height:32px;
+    clear:both;
+}
+fieldset.Header>div {
+    margin:7px 0;
+}
+fieldset.Header>div.output>div.title {
+    margin-left:5px;
+    cursor:pointer;
+    float:left;
+}
+fieldset.Header>div.output>div.title:hover {
+    background-color:red;
+    border:ridge 2px yellow;
+}
+
+fieldset.Header>div.output>div.state {
+    margin-right:5px;
+    float:right;
+}
+fieldset.Header>div.output>div.state>div {
+    cursor:pointer;
+    margin-right:5px;
+    float:right;
+}
+fieldset.Header>div.output>div.state>div:hover {
+    background-color:red;
+}
+

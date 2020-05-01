@@ -129,7 +129,11 @@ var can = Volcanos("chat", {
                 return msg
             },
         }, Config.libs.concat(["pane/"+(meta.path||"")+name]), function(pane) {can.Dream(document.head, "pane/"+(meta.path||"")+name+".css")
-            pane.onimport._init && pane.onimport._init(pane, pane.Conf(meta), pane.output, pane.action, pane.option, field)
+            if (["Header", "Footer"].indexOf(meta.name) > -1) {
+                pane.onimport._init && pane.onimport._init(pane, pane.Conf(meta), [], function() {}, pane.output, pane.action, pane.option, field)
+            } else {
+                pane.onimport._init && pane.onimport._init(pane, pane.Conf(meta), pane.output, pane.action, pane.option, field)
+            }
             typeof cb == "function" && cb(pane)
         }, meta)
         return pane

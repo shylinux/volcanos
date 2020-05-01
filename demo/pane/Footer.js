@@ -1,21 +1,16 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, meta, list, cb, output, action, option, field) {output.innerHTML = "";
-        can._init = function() {
-            can.run({}, [], function(msg) {
-                can.core.List(msg.result, function(title) {
-                    can.page.Append(can, output, [{view: "title", list: [{text: title, className: "title"}]}])
-                })
-
-                can.ui = can.page.Append(can, output, [{view: "state", list: can.core.List(meta.state, function(item) {
-                    return {text: meta[item]||"", className: item, click: function(event) {can.Export(event, meta[item], item)}};
-                })}])
+        can.run({}, [], function(msg) {
+            console.log("volcano", "Footer", "display", msg.result)
+            can.core.List(msg.result, function(title) {
+                can.page.Append(can, output, [{view: ["title", "div", title]}])
             })
-        }
-    },
-    username: function(event, can, value, cmd, field) {can._init()},
 
-    email: function(event, can, value, cmd, field) {
-        can.ui[cmd].innerHTML = value
+            console.log("volcano", "Footer", "display", meta.state)
+            can.ui = can.page.Append(can, output, [{view: "state", list: can.core.List(meta.state, function(item) {
+                return {text: meta[item]||"", className: item, click: function(event) {can.Export(event, meta[item], item)}};
+            })}])
+        })
     },
     ntxt: function(event, can, value, cmd, field) {var state = can.Conf(cmd);
         can.ui[cmd].innerHTML = cmd+":"+ can.Conf(cmd, can.base.Int(value)+can.base.Int(state))

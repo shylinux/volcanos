@@ -84,5 +84,6 @@ Volcanos("ondetail", {help: "组件详情", list: ["共享", "重命名", "删�
         })
     },
 })
-Volcanos("onexport", {help: "导出数据", list: []})
+Volcanos("onexport", {help: "导出数据", list: [],
+})
 
