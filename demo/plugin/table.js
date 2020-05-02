@@ -4,10 +4,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
             can.page.Select(can, option, "input.args", function(input) { if (input.name == key) {
                 input.value = value
             } })
-
         }, function(event, value, key, index, tr, td) {
         });
-
         msg.result && can.page.AppendBoard(can, output, msg.result.join(""))
     },
 })

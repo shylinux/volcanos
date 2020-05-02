@@ -25,5 +25,3 @@ Volcanos("onaction", {help: "控件交互", list: [],
         }
     },
 })
-
-

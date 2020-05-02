@@ -18,12 +18,13 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
     volcano: false, config: true,
     require: true, cache: false, frame: false,
     request: true, search: true,
-}}, [], function(name, can, libs, cb) {
-    var meta = arguments.callee.meta, list = arguments.callee.list;
+}, follow: {
+    volcano: false, debug: true,
+}}, [], function(name, can, libs, cb) { var meta = arguments.callee.meta, list = arguments.callee.list;
 
     var conf = {}, conf_cb = {}, sync = {}, cache = {};
-    meta.debug["volcano"] && console.debug("volcano", name, "create");
-    can = can || {}, list.push(can) && (can.__proto__ = { _name: name, _create_time: new Date(), _load: function(name) {
+    meta.debug[can._root] && console.debug(can._root, name, "create");
+    can = can || {}, list.push(can) && (can.__proto__ = { _name: name, _root: "volcano", _create_time: new Date(), _load: function(name) {
             for (var cache = meta.cache[name] || []; meta.index < list.length; meta.index++) {
                 if (list[meta.index] == can) {continue}
                 meta.debug["cache"] && console.debug("cache", name, "load", meta.index, list[meta.index]);
@@ -43,7 +44,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                 return // 加载完成
             }
 
-            meta.debug["require"] && console.debug("volcano", can._name, "require", libs[0]); if (meta.cache[libs[0]]) {
+            meta.debug["require"] && console.debug(can._root, can._name, "require", libs[0]); if (meta.cache[libs[0]]) {
                 can._load(libs[0]), can.require(libs.slice(1), cb);
                 return // 缓存加载
             }
@@ -53,7 +54,6 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
 
             if (source.endsWith(".js")) { var script = document.createElement("script");
                 script.src = source, script.onload = function() {
-                    // meta.debug["require"] && console.debug("volcano", can._name, "required", libs[0]);
                     can._load(libs[0]), can.require(libs.slice(1), cb);
                 } // 加载脚本
                 target.appendChild(script);
@@ -61,16 +61,15 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
             } else if (source.endsWith(".css")) { var style = document.createElement("link");
                 style.rel = "stylesheet", style.type = "text/css";
                 style.href = source; style.onload = function() {
-                    // meta.debug["require"] && console.debug("volcano", can._name, "required", libs[0]);
                     can._load(libs[0]), can.require(libs.slice(1), cb);
                 } // 加载样式
                 target.appendChild(style);
             }
         },
         request: function(event, msg, proto) { event = event || {};
-            if (!msg && event.msg) { return event.msg }
+            if (!msg && event._msg) { return event._msg }
 
-            event.msg = msg = msg || {}, msg.event = event;
+            event._msg = msg = msg || {}, msg._event = event;
             msg.__proto__ = proto || { _name: meta.order++, _create_time: new Date(),
                 Option: function(key, val) {
                     if (val == undefined) { return msg && msg[key] && msg[key][0] || "" }
@@ -78,6 +77,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                         if (k == key) {return k}
                     }).length > 0 || msg.option.push(key)
                     msg[key] = can.core.List(arguments).slice(1)
+                    return val
                 },
                 Copy: function(res) { if (!res) { return msg }
                     res.result && (msg.result = res.result)
@@ -103,14 +103,14 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
             return msg
         },
 
-        Conf: function(key, value, cb) { if (key == undefined) { return conf }
+        Conf: shy("配置器", function(key, value, cb) { if (key == undefined) { return conf }
             if (typeof key == "object") { conf = key; return conf }
             typeof cb == "function" && (conf_cb[key] = cb);
-            if (value != undefined) {var old = conf[key], res; meta.debug["config"] && console.debug("volcano", can._name, "config", key, value, old)
+            if (value != undefined) {var old = conf[key], res; meta.debug["config"] && console.debug(can._root, can._name, "config", key, value, old)
                 conf[key] = conf_cb[key] && (res = conf_cb[key](value, old, key)) != undefined && res || value
             }
             return conf[key] || ""
-        },
+        }),
         Timer: shy("定时器, value, [1,2,3,4], {value, length}", function(interval, cb, cbs) { interval = typeof interval == "object"? interval || []: [interval];
             var timer = {stop: false};
             function loop(event, i) {if (timer.stop || i >= interval.length && interval.length >= 0) {return typeof cbs == "function" && cbs(event, interval)}
@@ -132,13 +132,12 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                 }
 
                 cache[name] = {node: temp, data: data}
-                console.log("volcano", can._name, "save", name, cache[name]);
+                console.log(can._root, can._name, "save", name, cache[name]);
                 return name
             }
 
-            var list = cache[name];
-            if (!list) {return}
-            console.log("volcano", can._name, "load", name, cache[name]);
+            var list = cache[name]; if (!list) {return}
+            console.log(can._root, can._name, "load", name, cache[name]);
 
             // 读缓存
             while (list.node.childNodes.length>0) {
