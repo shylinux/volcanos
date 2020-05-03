@@ -99,6 +99,42 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                         return typeof cb == "function" && (res = cb(one, index, array)) && res != undefined && res || one
                     })
                 }),
+                Clear: function(key) {
+                    switch (key) {
+                        case "append":
+                        case "option":
+                            can.core.List(msg[key], function(item) {
+                                delete(msg[item])
+                            })
+                        default:
+                            msg[key] = []
+                    }
+                },
+                Push: function(key, value, detail) {msg.append = msg.append || []
+                    if (typeof key == "object") {
+                        value = value || can.core.Item(key)
+                        can.core.List(value, function(item) {
+                            detail? msg.Push("key", item).Push("value", key[item]||""):
+                                msg.Push(item, key[item]||"")
+                        })
+                        return
+                    }
+
+                    for (var i = 0; i < msg.append.length; i++) {
+                        if (msg.append[i] == key) {
+                            break
+                        }
+                    }
+                    if (i >= msg.append.length) {msg.append.push(key)}
+                    msg[key] = msg[key] || []
+                    msg[key].push(""+value+"")
+                    return msg
+                },
+                Echo: shy("输出响应", function(res) {msg.result = msg.result || []
+                    msg._hand = true
+                    for (var i = 0; i < arguments.length; i++) {msg.result.push(arguments[i])}
+                    return msg;
+                }),
             }
             return msg
         },

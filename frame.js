@@ -31,6 +31,10 @@ Volcanos("onaction", {
         }, sub._target)
     },
     remote: function(event, can, msg, pane, cmds, cb) {
+        if (can.onengine && can.onengine.remote(event, can, msg, pane, cmds, cb)) {
+            return
+        }
+
         if (Volcanos.meta.follow[can._root]) { debugger }
         Volcanos.meta.debug[can._root] && console.log(can._root, pane._name, "remote", msg._name, "detail", cmds);
         can.misc.Run(event, can, {names: pane._name}, cmds, function(msg) {
