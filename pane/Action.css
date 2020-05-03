@@ -1,4 +1,10 @@
-fieldset.Action div.output div.item:hover {
+fieldset.Action {
+    min-width:160px;
+    min-height:160px;
+    padding-left:10px;
+    padding-right:10px;
+}
+fieldset.Action>div.output>div.item:hover {
     background-color:lightblue;
 }
 

@@ -44,6 +44,7 @@ Volcanos("onappend", {
         var option = can.page.Select(can, field, "form.option")[0];
         var action = can.page.Select(can, field, "div.action")[0];
         var output = can.page.Select(can, field, "div.output")[0];
+        var feature = JSON.parse(meta.feature||"{}")||{}
 
         // 添加插件
         if (Volcanos.meta.follow[can._root]) { debugger }
@@ -85,10 +86,10 @@ Volcanos("onappend", {
                             if (silent) { typeof cb == "function" && cb(msg); return }
 
                             // 添加组件
-                            var display = msg.Option("display")||meta.display||"table"
+                            var display = msg.Option("display")||feature.display||"plugin/table"
                             sub[display] = Volcanos(display, { _target: output,
                                 _option: option, _action: action, _output: output,
-                            }, Config.libs.concat(["plugin/"+display]), function(table) {
+                            }, Config.libs.concat([display]), function(table) {
                                 table.onimport._init(table, msg, msg.append||[], function() {
                                 }, output)
                             }) 

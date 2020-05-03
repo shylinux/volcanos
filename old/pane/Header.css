@@ -1,27 +1,29 @@
 fieldset.Header {
     height:32px;
+    min-width:640px;
     clear:both;
 }
-fieldset.Header>div {
-    margin:7px 0;
+fieldset.Header>div.action {
+    padding:0;
 }
 fieldset.Header>div.output>div.title {
-    margin-left:5px;
     cursor:pointer;
     float:left;
 }
 fieldset.Header>div.output>div.title:hover {
+    cursor:pointer;
     background-color:red;
     border:ridge 2px yellow;
 }
-
 fieldset.Header>div.output>div.state {
-    margin-right:5px;
     float:right;
+}
+fieldset.Header>div.output>div.state div.item {
+    padding:0;
 }
 fieldset.Header>div.output>div.state>div {
     cursor:pointer;
-    margin-right:5px;
+    margin-left:5px;
     float:right;
 }
 fieldset.Header>div.output>div.state>div:hover {

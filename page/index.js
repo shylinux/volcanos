@@ -1,46 +1,25 @@
-var Config = {iceberg: "/chat/", volcano: "",
-    libs: ["lib/base", "lib/core", "lib/misc", "lib/page", "lib/user"],
-    main: "chat", list: [
-        "page/chat",
-        "pane/float/Toast", "pane/float/Carte",
-        "pane/float/Tutor", "pane/float/Debug",
-        "pane/float/Login", "pane/float/Favor",
-
-        "pane/Header",
-        "pane/River", "pane/Storm",
-        "pane/Target", "pane/Source", "pane/Action",
-        "pane/Ocean", "pane/Steam",
-        "pane/Footer",
-
-        "plugin/state", "plugin/table", "plugin/input",
-        "plugin/input/date", "plugin/input/key",
-    ], pane: [
-        {group: "index", name: "Toast", path: "float/", pos: "dialog", duration: 3000},
-        {group: "index", name: "Carte", path: "float/", pos: "dialog"},
-        {group: "index", name: "Tutor", path: "float/", pos: "dialog"},
-        {group: "index", name: "Debug", path: "float/", pos: "dialog"},
-        {group: "index", name: "Login", path: "float/", pos: "dialog"},
-        {group: "index", name: "Favor", path: "float/", pos: "dialog"},
-
-        {group: "index", name: "Header", pos: "head", state: ["time", "user", "link"]},
-        {group: "index", name: "River", pos: "left"},
-        {group: "index", name: "Storm", pos: "right"},
-
-        {group: "index", name: "Target", pos: "top"},
-        {group: "index", name: "Source", pos: "center"},
-        {group: "index", name: "Action", pos: "bottom"},
-
-        {group: "index", name: "Ocean", pos: "dialog", def_name: "meet"},
-        {group: "index", name: "Steam", pos: "dialog", def_name: "miss"},
-        {group: "index", name: "Footer", pos: "foot", state: ["ntxt", "ncmd"]},
-
-    ], title: "volcanos", topic: "black", layout: {def: "工作", list: ["工作", "办公", "聊天"], size: {
-        "最大": {head: 0, foot: 0, left: 0, right: 0, bottom: -1, center: 0, top: 0},
-        "工作": {head: 30, foot: 30, left: 0, right: 100, bottom: -1, center: 0, top: 0},
-        "办公": {head: 30, foot: 30, left: 100, right: 100, bottom: -1, center: 0, top: 0},
-        "聊天": {head: 30, foot: 30, left: 100, right: 100, bottom: 300, center: 40, top: -2},
-        "最长": {head: 30, foot: 30, left: 0, right: 0, bottom: -2, center: 0, top: 0},
-        "全屏": {head: 0, foot: 0, left: 0, right: 0, bottom: -1, center: 0, top: 0},
-        }, border: 4,
-    }, scroll: {line: 100},
+var Config = {name: "demo", volcano: "frame.js", iceberg: "/chat/", intshell: "plug.sh",
+    libs: ["lib/base", "lib/core", "lib/misc", "lib/page", "lib/user"], panes: [
+        {type: "pane", name: "Header", help: "标题栏", pos: "head", list: ["pane/Header.js", "pane/Header.css"], state: ["time"]},
+        {type: "pane", name: "River",  help: "群聊组", pos: "left", list: ["pane/River.js", "pane/River.css"]},
+        {type: "pane", name: "Storm",  help: "应用流", pos: "right", list: ["pane/Storm.js", "pane/Storm.css"]},
+        {type: "pane", name: "Action", help: "工作台", pos: "middle", list: ["pane/Action.js", "pane/Action.css"]},
+        {type: "pane", name: "Footer", help: "状态条", pos: "foot", list: ["pane/Footer.js", "pane/Footer.css"]},
+    ], main: {name: "Header", engine: "remote", list: []},
+    list: ["plugin/state.js", "plugin/input.js", "plugin/table.js"],
 }
+
+var Preload = Config.libs; Config.panes.forEach(function(pane) {
+    Preload = Preload.concat(pane.list);
+}); Preload = Preload.concat(Config.list)
+
+Volcanos(Config.name, { _target: document.body,
+    _head: document.head, _body: document.body,
+    _width: window.innerWidth, _height: window.innerHeight,
+}, Preload.concat(Config.volcano), function(can) { // 程序入口
+    can.onimport._init(can, can.Conf(Config), [], function(msg) {
+        console.log(can._root, can._name, "start", can, msg);
+        can.Footer.onaction._init(can.Footer, msg);
+    }, can._target)
+})
+

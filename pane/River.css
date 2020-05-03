@@ -1,4 +1,6 @@
 fieldset.River {
+    min-width:80px;
+    min-height:160px;
     float:left;
 }
 fieldset.River>div.output {
@@ -6,6 +8,10 @@ fieldset.River>div.output {
 }
 fieldset.River>div.output>div.item {
     padding-left:6px;
+}
+fieldset.River>div.output>div.item:hover {
+    background-color:red;
+    border:ridge 2px yellow;
 }
 fieldset.River>div.output>div.item.select {
     background-color:red;

@@ -1,31 +1,25 @@
 Volcanos("onimport", {help: "导入数据", list: [],
-    _init: function(can, meta, list, cb, output, action, option, field) {output.innerHTML = "";
-        can._init = function() {
-            can.run({}, [], function(msg) {
-                can.core.List(msg.result, function(title) {
-                    can.page.Append(can, output, [{view: "title", list: [{text: title, className: "title"}]}])
-                })
-
-                can.ui = can.page.Append(can, output, [{view: "state", list: can.core.List(meta.state, function(item) {
-                    return {text: meta[item]||"", className: item, click: function(event) {can.Export(event, meta[item], item)}};
-                })}])
-            })
-        }
-    },
-    username: function(event, can, value, cmd, field) {can._init()},
-
-    email: function(event, can, value, cmd, field) {
-        can.ui[cmd].innerHTML = value
-    },
-    ntxt: function(event, can, value, cmd, field) {var state = can.Conf(cmd);
-        can.ui[cmd].innerHTML = cmd+":"+ can.Conf(cmd, can.base.Int(value)+can.base.Int(state))
-    },
-    ncmd: function(event, can, value, cmd, field) {var state = can.Conf(cmd);
-        can.ui && (can.ui[cmd].innerHTML = cmd+":"+ can.Conf(cmd, can.base.Int(value)+can.base.Int(state)))
+    _init: function(can, meta, list, cb, target) {
     },
 })
-Volcanos("onaction", {help: "组件交互", list: []})
-Volcanos("onchoice", {help: "组件菜单", list: []})
-Volcanos("ondetail", {help: "组件详情", list: []})
-Volcanos("onexport", {help: "导出数据", list: []})
+Volcanos("onaction", {help: "交互数据", list: [],
+    _init: function(can, msg, list, cb, target) {
+        can.onexport._init(can, msg, list, cb, target)
+    },
+})
+Volcanos("onexport", {help: "导出数据", list: [],
+    _init: function(can, msg, list, cb, target) { can._output.innerHTML = "";
+        can.run(msg._event, [], function(msg) {
+            console.log(can._root, can._name, "show", msg.result)
+            can.core.List(msg.result, function(title) {
+                can.page.Append(can, can._output, [{view: ["title", "div", title]}])
+            })
+
+            console.log(can._root, can._name, "show", can.Conf("state"))
+            can.ui = can.page.Append(can, can._output, [{view: "state", list: can.core.List(can.Conf("state"), function(item) {
+                return {text: can.Conf(item)||"", className: item, click: function(event) {can.onaction[item](event, can, item)}};
+            })}])
+        })
+    },
+})
 

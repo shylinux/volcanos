@@ -1,0 +1,10 @@
+fieldset.Storm {
+    float:right;
+}
+fieldset.Storm>div.output {
+    padding:0;
+}
+fieldset.Storm>div.output>div.item {
+    padding-left:6px;
+}
+
