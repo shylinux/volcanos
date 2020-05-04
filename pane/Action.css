@@ -1,10 +1,25 @@
 fieldset.Action {
     min-width:160px;
     min-height:160px;
-    padding-left:10px;
-    padding-right:10px;
 }
-fieldset.Action>div.output>div.item:hover {
-    background-color:lightblue;
+
+fieldset.Action fieldset.plugin {
+    margin:5px;
 }
+fieldset.Action fieldset.plugin legend {
+    border:ridge 2px cyan;
+    margin-top:5px;
+}
+fieldset.Action fieldset.plugin form.option div.item {
+    margin:5px;
+}
+fieldset.Action fieldset.plugin div.output {
+    margin:5px;
+    color:white;
+}
+fieldset.Action fieldset.plugin div.output tr {
+    background:green;
+}
+
+
 

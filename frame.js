@@ -3,7 +3,8 @@ Volcanos("onimport", {
         if (Volcanos.meta.follow[can._root]) { debugger }
         can.core.Next(meta.panes, function(item, next) {
             can.onappend._init(can, item, Config.libs.concat(item.list), function(pane) {
-                pane.run = function(event, cmds, cb) { var msg = pane.request(event);
+                // 插件回调
+                pane.Conf(item), pane.run = function(event, cmds, cb) { var msg = pane.request(event);
                     if (can.onaction[cmds[0]]) {
                         can.onaction[cmds[0]](event, can, msg, pane, cmds, cb);
                     } else {
@@ -31,11 +32,15 @@ Volcanos("onaction", {
         }, sub._target)
     },
     remote: function(event, can, msg, pane, cmds, cb) {
+        if (Volcanos.meta.follow[can._root]) { debugger }
         if (can.onengine && can.onengine.remote(event, can, msg, pane, cmds, cb)) {
             return
         }
+        if (location.protocol == "file:") {
+            typeof cb == "function" && cb(msg)
+            return
+        }
 
-        if (Volcanos.meta.follow[can._root]) { debugger }
         Volcanos.meta.debug[can._root] && console.log(can._root, pane._name, "remote", msg._name, "detail", cmds);
         can.misc.Run(event, can, {names: pane._name}, cmds, function(msg) {
             typeof cb == "function" && cb(msg);
@@ -44,7 +49,7 @@ Volcanos("onaction", {
 })
 Volcanos("onappend", {
     _init: function(can, meta, list, cb, target) {
-        var field = can.onappend.field(can, target, meta.type, meta);
+        var field = can.onappend.field(can, target, meta.type||"plugin", meta);
         var option = can.page.Select(can, field, "form.option")[0];
         var action = can.page.Select(can, field, "div.action")[0];
         var output = can.page.Select(can, field, "div.output")[0];
@@ -67,7 +72,7 @@ Volcanos("onappend", {
                     input.onimport._init(input, input.Conf(item), item.list||[], function() {
                     }, input._target);
 
-                    // 事件回调
+                    // 控件回调
                     input.run = function(event, cmds, cb, silent) {
                         switch (item.name) {
                         case "返回":
@@ -96,6 +101,11 @@ Volcanos("onappend", {
                             }, Config.libs.concat([display]), function(table) {
                                 table.onimport._init(table, msg, msg.append||[], function() {
                                 }, output)
+
+                                // 组件回调
+                                table.run = function(event, cmds, cb, silent) {
+                                    input.run(event, cmds, cb, silent)
+                                }
                             }) 
                         }, silent)
                     }
@@ -138,7 +148,7 @@ Volcanos("onappend", {
         item.action = item.action || item.value || "";
         item.cb = item.cb || item.value || "";
 
-        var input = {type: "input", name: item.name, data: item};
+        var input = {type: "input", name: item.name, data: item, dataset: {}};
         switch (item.type = item.type || item._type || item._input || "text") {
             case "upfile": item.type = "file"; break
             // case "button": item.value = item.value || item.name || "查看"; break
@@ -165,6 +175,7 @@ Volcanos("onappend", {
                 break
         }
 
+        item.value == "auto" && (item.value = "", input.dataset.action = "auto")
         var target = can.page.Append(can, option, [{view: ["item "+item.type], list: [item.position && {text: item.name+": "}, input]}]).last
         item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["plugin/input/"+item.figure], function() {
             target.type != "button" && (target.value = "")
@@ -198,7 +209,7 @@ Volcanos("onlayout", {
 
             can.page.Select(can, field, "div.output", function(output) {
                 var border = output.offsetHeight - output.clientHeight;
-                can.page.Modify(can, field, { style: {
+                can.page.Modify(can, output, { style: {
                     height: height-border*2-20+"px",
                 } })
             })

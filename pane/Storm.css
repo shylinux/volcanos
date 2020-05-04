@@ -1,6 +1,8 @@
 fieldset.Storm {
     min-width:80px;
+    max-width:160px;
     min-height:160px;
+    overflow:auto;
     float:right;
 }
 fieldset.Storm>div.output {

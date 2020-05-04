@@ -33,7 +33,7 @@ var can = Volcanos("chat", {
             },
 
             run: function(event, option, cmds, cb) {can.misc.Run(event, page, option, cmds, cb)},
-        }, Config.libs.concat(["page/"+name, "page/topic/"+topic+".css"]), function(page) {
+        }, Config.libs.concat([name, "topic/"+topic+".css"]), function(page) {
             // 加载配置
             page.onimport._init && page.onimport._init(page, page.Conf(conf), body)
 

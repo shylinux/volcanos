@@ -12,15 +12,17 @@ Volcanos("onaction", {help: "交互数据", list: [],
     },
     title: function(event, can, key) {
     },
-    time: function(event, can, key) {
-        can.ui[key].innerHTML = can.base.Time().split(" ")[1]
+    username: function(event, can, key) {
+        // can.ui[key].innerHTML = can.base.Time().split(" ")[1]
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [],
     _init: function(can, msg, list, cb, target) { can._output.innerHTML = "";
         can.run(msg._event, [], function(msg) {
-            console.log(can._root, can._name, "show", msg.result)
-            can.core.List(msg.result, function(title) {
+            if (Volcanos.meta.follow["debug"]) { debugger }
+            can.Conf("username", msg.Option("user.nick")||msg.Option("user.name"))
+
+            can.core.List(msg.result||["github.com/shylinux/contexts"], function(title) {
                 can.page.Append(can, can._output, [{view: ["title", "div", title],
                     click: function(event) {can.onaction["title"](event, can, "title")},
                 }])
@@ -28,12 +30,15 @@ Volcanos("onexport", {help: "导出数据", list: [],
 
             console.log(can._root, can._name, "show", can.Conf("state"))
             can.ui = can.page.Append(can, can._output, [{view: "state", list: can.core.List(can.Conf("state"), function(item) {
-                return {text: can.Conf(item)||"", className: item, click: function(event) {can.onaction[item](event, can, item)}};
+                return {name: item, view: ["item", "div", can.Conf(item)||""], click: function(event) {can.onaction[item](event, can, item)}};
             })}])
 
             can.timer = can.Timer({interval: 1000, length: -1}, function(event) {
-                can.onaction.time(event, can, "time")
+                can.onexport.time(event, can, "time")
             })
         })
+    },
+    time: function(event, can, key) {
+        can.ui[key].innerHTML = can.base.Time().split(" ")[1]
     },
 })

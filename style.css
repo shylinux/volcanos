@@ -109,6 +109,9 @@ fieldset table tr.select {
     background-color:#0fbd45;
 }
 fieldset table th {
+    background-color:#0fbd45;
+}
+fieldset table th {
     font-family:monospace;
     background-color:#0fbd45;
     cursor:pointer;

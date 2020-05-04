@@ -19,13 +19,12 @@ Volcanos("onexport", {help: "导出数据", list: [],
             if (can.Conf(key, msg.Option(key, can.Cache(river+"."+storm, can._output)))) {
                 typeof cb == "function" && cb(msg); return
             }
-
-            can.run(msg._event, [river, storm], function(msg) { can._output.innerHTML = "";
+            msg = can.request({}, {}), can.run(msg._event, [river, storm], function(msg) { can._output.innerHTML = "";
                 if (Volcanos.meta.follow[can._root]) { debugger }
                 msg.Table(function(value, index, array) {
                     // 添加列表
-                    //
                     can.onappend._init(can, value, Config.libs.concat(["plugin/state.js"]), function(sub) {
+                        // 插件回调
                         sub.run = function(event, cmds, cb, silent) {
                             can.run(event, [river, storm, index].concat(cmds), cb, silent)
                         }

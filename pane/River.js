@@ -14,7 +14,7 @@ Volcanos("onexport", {help: "导出数据", list: [],
             typeof cb == "function" && cb (msg); return
         }
 
-        can.run(msg._event, [], function(msg) { can._output.innerHTML = "";
+        msg = can.request({}, {}), can.run(msg._event, [], function(msg) { can._output.innerHTML = "";
             if (Volcanos.meta.follow[can._root]) { debugger }
             var select; msg.Table(function(value, index, array) {
                 // 添加列表
@@ -27,9 +27,10 @@ Volcanos("onexport", {help: "导出数据", list: [],
                     // 右键点击
                 });
                 if (index == 0 || [value.key, value.name].indexOf(can.user.Search(can, key)) > -1) {
+                    msg.Option("river", value.key)
                     select = view
                 }
-            }); select.click();
+            }); select && select.click();
             typeof cb == "function" && cb(msg)
         })
     },
