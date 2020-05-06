@@ -19,8 +19,8 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
     require: true, cache: false, frame: false,
     request: true, search: true,
 }, follow: {
-    // volcano: false, debug: true,
-    volcano: true, debug: true,
+    volcano: false, debug: true,
+    // volcano: true, debug: true,
 }}, [], function(name, can, libs, cb) { var meta = arguments.callee.meta, list = arguments.callee.list;
 
     var conf = {}, conf_cb = {}, sync = {}, cache = {};
