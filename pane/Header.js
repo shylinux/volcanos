@@ -18,6 +18,7 @@ Volcanos("onaction", {help: "交互数据", list: [],
 })
 Volcanos("onexport", {help: "导出数据", list: [],
     _init: function(can, msg, list, cb, target) { can._output.innerHTML = "";
+        msg = can.request({}, {})
         can.run(msg._event, [], function(msg) {
             // if (Volcanos.meta.follow["debug"]) { debugger }
             can.Conf("username", msg.Option("user.nick")||msg.Option("user.name"))
