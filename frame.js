@@ -53,7 +53,7 @@ Volcanos("onappend", {
         var option = can.page.Select(can, field, "form.option")[0];
         var action = can.page.Select(can, field, "div.action")[0];
         var output = can.page.Select(can, field, "div.output")[0];
-        var feature = JSON.parse(meta.feature||"{}")||{}
+        var feature = can.base.Obj(meta.feature)
 
         // 添加插件
         if (Volcanos.meta.follow[can._root]) { debugger }
@@ -64,7 +64,8 @@ Volcanos("onappend", {
             }, field);
 
             // 添加控件
-            can.core.Next(typeof meta.inputs == "string"? JSON.parse(meta.inputs||"[]"): meta.inputs || [], function(item, next) {
+            var args = can.base.Obj(meta.args, [])
+            can.core.Next(can.base.Obj(meta.inputs, []), function(item, next, index) {
                 sub[item.name] = Volcanos(item.name, { _help: item.name,
                     _target: can.onappend.input(sub, option, item.type, item),
                     _option: option, _action: action, _output: output,
@@ -95,15 +96,16 @@ Volcanos("onappend", {
                             if (silent) { typeof cb == "function" && cb(msg); return }
 
                             // 添加组件
-                            var display = msg.Option("display")||feature.display||"plugin/table"
+                            var display = "plugin/"+(msg.Option("_display")||feature.display||"table.js")
                             sub[display] = Volcanos(display, { _target: output,
                                 _option: option, _action: action, _output: output,
-                            }, Config.libs.concat([display]), function(table) {
+                            }, Config.libs.concat(["frame.js", display]), function(table) {
                                 table.onimport._init(table, msg, msg.append||[], function() {
                                 }, output)
 
                                 // 组件回调
                                 table.run = function(event, cmds, cb, silent) {
+                                    cmds[0] == "field"? sub.run(event, cmds.slice(1), cb, silent):
                                     input.run(event, cmds, cb, silent)
                                 }
                             }) 
@@ -116,6 +118,11 @@ Volcanos("onappend", {
                             value(event, input);
                         })
                     }), next();
+
+                    // 自动执行
+                    if (item.type == "button" && item.action == "auto") {
+                        input._target.click()
+                    }
                 })
             })
         }); cb(sub);
@@ -134,8 +141,8 @@ Volcanos("onappend", {
         return ui.item.Meta = item, ui.item
     },
     field: function(can, target, type, item) { var dataset = {}; item && item.name && (dataset.names = item.name);
-        item.help = typeof item.help == "string" && item.help.startsWith("[") && (item.help = JSON.parse(item.help)[0]) || item.help || ""
-        var field = can.page.Append(can, target, [{view: [(item.name||"")+" "+(type||"")+" "+(item.pos||""), "fieldset"], list: [
+        item.help = typeof item.help == "string" && item.help.startsWith("[") && (item.help = can.base.Obj(item.help, [""])[0]) || item.help || ""
+        var field = can.page.Append(can, target, [{view: [(type||"")+" "+(item.name||"")+" "+(item.pos||""), "fieldset"], list: [
             item.pos? undefined: {text: [(item.nick||item.name||"")+"("+(item.help||"")+")", "legend"]},
             {view: ["option", "form"], dataset: dataset, list: []},
             {view: ["action"]}, {view: ["output"]}, {view: ["status"]},
@@ -175,11 +182,12 @@ Volcanos("onappend", {
                 break
         }
 
-        item.value == "auto" && (item.value = "", input.dataset.action = "auto")
+        item.value == "auto" && (item.value = "")
         var target = can.page.Append(can, option, [{view: ["item "+item.type], list: [item.position && {text: item.name+": "}, input]}]).last
         item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["plugin/input/"+item.figure], function() {
             target.type != "button" && (target.value = "")
         })
+        item.action == "auto" && (input.dataset.action = "auto")
 
         item.type == "textarea" && can.page.Append(can, option, [{type: "br"}]);
         item.type == "text" && !target.placeholder && (target.placeholder = item.name || "");
@@ -188,6 +196,15 @@ Volcanos("onappend", {
         item.type == "select" && (target.value = item.value || item.values[item.index||0]);
         return target;
     },
+    table: function(can, target, type, msg, cb) {
+        var table = can.page.AppendTable(can, can._output, msg, msg.append, function(event, value, key, index, tr, td) {
+            can.page.Select(can, can._option, "input.args", function(input) { if (input.name == key) { var data = input.dataset || {}
+                input.value = value; if (data.action == "auto") {
+                    can.run(event, [], function(msg) {})
+                }
+            } })
+        })
+    }
 }, [], function(can) {})
 Volcanos("onlayout", {
     _init: function(can, meta, list, cb, target) {

@@ -9,10 +9,11 @@ var Config = {name: "demo", volcano: "frame.js", iceberg: "/chat/", intshell: "p
         {type: "pane", name: "Footer", help: "状态条", pos: "foot", list: ["pane/Footer.js", "pane/Footer.css"]},
     ], main: {name: "Header", engine: "remote", list: []},
     list: ["plugin/state.js", "plugin/input.js", "plugin/table.js",
-        "plugin/input/key.js",
-        "plugin/input/date.js",
-        "plugin/input/upload.js",
-        "plugin/input/province.js",
+        "plugin/input/key",
+        "plugin/input/date",
+        "plugin/input/upload",
+        "plugin/input/province",
+        "publish/order.js",
     ],
 }
 
@@ -23,7 +24,7 @@ var Preload = Config.libs; Config.panes.forEach(function(pane) {
 Volcanos(Config.name, { _target: document.body,
     _head: document.head, _body: document.body,
     _width: window.innerWidth, _height: window.innerHeight,
-}, Preload.concat(Config.volcano, "publish/order.js"), function(can) { // 程序入口
+}, Preload.concat(Config.volcano), function(can) { // 程序入口
     can.onimport._init(can, can.Conf(Config), [], function(msg) {
         console.log(can._root, can._name, "start", can, msg);
         can.Footer.onaction._init(can.Footer, msg);

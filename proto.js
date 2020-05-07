@@ -100,6 +100,9 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                         return typeof cb == "function" && (res = cb(one, index, array)) && res != undefined && res || one
                     })
                 }),
+                Result: shy("遍历数据", function(cb) {
+                    return msg.result && msg.result.join("") || ""
+                }),
                 Clear: function(key) {
                     switch (key) {
                         case "append":
