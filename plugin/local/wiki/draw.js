@@ -15,12 +15,9 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.Action("mode", "draw")
         can.Action("shape", "path")
     },
-    init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
+    _init: function(can, msg, list, cb, target) { can._output.innerHTML = "";
         if (msg.Option("_display") == "table") {
-            // 文件目录
-            can.page.AppendTable(can, output, msg, msg.append, function(event, value, key, index, tr, td) {
-                can.Export(event, value, key)
-            })
+            can.onappend.table(can, target, "table", msg)
             return typeof cb == "function" && cb(msg);
         }
 
@@ -31,8 +28,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can.last = null
 
         // 加载绘图
-        var code = can.page.AppendBoard(can, output, msg.Result()||can.Export(event, null, "file"))
-        can.page.Select(can, output, "svg", function(svg) {
+        var code = can.page.AppendBoard(can, can._output, msg.Result()||can.Export(event, null, "file"))
+        can.page.Select(can, can._output, "svg", function(svg) {
             // 画布
             can.onaction.init(event, can, msg, "init", svg);
             can.group = can.svg = svg;

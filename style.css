@@ -1,17 +1,17 @@
-* {
-    background:black;
-}
 body {
+    background:black;
     padding:0;
     margin:0;
 }
 fieldset {
     color:cyan;
     padding:2px;
-    margin:0px;
 }
 legend {
     margin-left:10px;
+}
+div.hidden {
+    display:none;
 }
 
 fieldset>form.option {
@@ -51,18 +51,19 @@ fieldset>form.option>div.item input.opts {
     width:80px;
 }
 fieldset>form.option>div.item textarea.args {
+    background-color:cyan;
     width:300px;
     height:50px;
-    background-color:cyan;
 }
-
 fieldset>form.option>div.item.text>input {
     background-color:cyan;
 }
 fieldset>form.option>div.item.button>input {
+    background:black;
     color:cyan;
 }
 fieldset>form.option>div.item.select>select {
+    background:black;
     color:cyan;
 }
 fieldset>form.option>div.item.textarea {
@@ -70,46 +71,37 @@ fieldset>form.option>div.item.textarea {
     clear:both;
 }
 
-fieldset.Action>div.output {
-    overflow:auto;
-}
-fieldset>div.output {
+fieldset div.output {
     margin-top:4px;
     clear:both;
     overflow:auto;
 }
+fieldset div.code {
+    color:white;
+    font-size:14px;
+    font-family:monospace;
+    background-color:#343a34f2;
+    white-space:pre;
+    padding:10px;
+    overflow:auto;
+    border:solid 3px green;
+    max-height:640px;
+}
 
 fieldset table {
     font-size:14px;
-    overflow: auto;
-}
-fieldset table caption {
-    font-size:18px;
-    font-style:italic;
-    border:solid 1px green;
-}
-fieldset table tbody {
-    overflow:auto;
-}
-fieldset table td sup.more {
-    color:red;
-}
-
-fieldset table {
-    border:solid 1px green;
     cursor:pointer;
+    border:solid 1px green;
+    overflow: auto;
 }
 fieldset table tr:hover {
     background-color:#0fbd45;
 }
-fieldset table tr.over {
-    background:red;
-}
 fieldset table tr.select {
     background-color:#0fbd45;
 }
-fieldset table th {
-    background-color:#0fbd45;
+fieldset table tr.over {
+    background:red;
 }
 fieldset table th {
     font-family:monospace;
@@ -130,30 +122,15 @@ fieldset table td.select {
     background-color:red;
 }
 
-fieldset div.code {
-    color:white;
-    font-size:14px;
-    font-family:monospace;
-    background-color:#343a34f2;
-    white-space:pre;
-    padding:10px;
-    overflow:auto;
-    border:solid 3px green;
-    max-height:640px;
+div.carte {
+    background:black;
+    border:solid 2px red;
 }
-fieldset div.hidden {
-    display:none;
+div.carte div.item {
+    padding:0 5px;
 }
-
-fieldset div.code {
-    color:white;
-    font-size:14px;
-    font-family:monospace;
-    background-color:#343a34f2;
-    white-space:pre;
-    padding:10px;
-    overflow:auto;
-    border:solid 3px green;
-    max-height:640px;
+div.carte div.item:hover {
+    background:red;
+    border:solid 2px yellow;
+    cursor:pointer;
 }
-

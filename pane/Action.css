@@ -2,9 +2,15 @@ fieldset.Action {
     min-width:160px;
     min-height:160px;
 }
+fieldset.Action>div.output {
+    overflow:auto;
+}
 
 fieldset.Action fieldset.plugin {
     margin:5px;
+}
+fieldset.Action fieldset.plugin:hover {
+    border-color:red;
 }
 fieldset.Action fieldset.plugin legend {
     border:ridge 2px cyan;
@@ -17,9 +23,3 @@ fieldset.Action fieldset.plugin div.output {
     margin:5px;
     color:white;
 }
-fieldset.Action fieldset.plugin div.output tr {
-    background:green;
-}
-
-
-

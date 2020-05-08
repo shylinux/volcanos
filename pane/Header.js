@@ -5,12 +5,15 @@ Volcanos("onimport", {help: "导入数据", list: [],
 Volcanos("onaction", {help: "交互数据", list: [],
     _init: function(can, msg, list, cb, target) {
         can.onexport._init(can, msg, list, cb, target)
-        can.run(msg._event, ["search", "Footer.onaction._init"], function(msg) {
+        can.run(msg._event, ["search", "River.onaction._init"], function(msg) {
         })
-        can.run(msg._event, ["search", "Action.onaction._init"], function(msg) {
+        can.run(msg._event, ["search", "Footer.onaction._init"], function(msg) {
         })
     },
     title: function(event, can, key) {
+        can.run(event, ["search", "Action.onaction._init"], function(msg) {
+            console.log(msg)
+        })
     },
     username: function(event, can, key) {
         // can.ui[key].innerHTML = can.base.Time().split(" ")[1]

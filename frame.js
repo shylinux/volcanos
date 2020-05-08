@@ -1,54 +1,29 @@
-Volcanos("onimport", {
-    _init: function(can, meta, list, cb, target) {
-        if (Volcanos.meta.follow[can._root]) { debugger }
+Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
         can.core.Next(meta.panes, function(item, next) {
             can.onappend._init(can, item, Config.libs.concat(item.list), function(pane) {
-                // 插件回调
-                pane.Conf(item), pane.run = function(event, cmds, cb) { var msg = pane.request(event);
-                    if (can.onaction[cmds[0]]) {
-                        can.onaction[cmds[0]](event, can, msg, pane, cmds, cb);
-                    } else {
-                        can.onaction[meta.main.engine](event, can, msg, pane, cmds, cb);
-                    }
+                pane.Conf(item), pane.run = function(event, cmds, cb) {
+                    (can.onaction[cmds[0]]||can.onaction[meta.main.engine])(event, can, pane.request(event), pane, cmds, cb);
                 }, can[item.name] = pane, next();
             }, can._target);
         }, function() { can.onlayout._init(can, meta, list, function() {
-            if (Volcanos.meta.follow[can._root]) { debugger }
             var pane = can[meta.main.name], msg = can.request(can._event);
             pane.onaction._init(pane, msg, msg.option||[], cb, target);
         }, target) });
     },
-})
-Volcanos("onaction", {
     search: function(event, can, msg, pane, cmds, cb) { var chain = cmds[1]
-        if (Volcanos.meta.follow[can._root]) { debugger }
         var sub, mod = can, key, fun = can; can.core.List(chain.split("."), function(value, index, array) {
             fun && (sub = mod, mod = fun, key = value, fun = mod[value])
         }); if (!sub || !mod || !fun) { console.error("not found", chain); return }
 
-        Volcanos.meta.debug[can._root] && console.log(can._root, can._name, "engine", chain, "match", sub._name+"."+mod._name)
-        typeof fun == "function" && fun(sub, msg, cmds.slice(2), function(value) {
-            typeof cb == "function" && cb(value)
-        }, sub._target)
+        typeof fun == "function" && fun(sub, msg, cmds.slice(2), cb, sub._target)
     },
     remote: function(event, can, msg, pane, cmds, cb) {
-        if (Volcanos.meta.follow[can._root]) { debugger }
-        if (can.onengine && can.onengine.remote(event, can, msg, pane, cmds, cb)) {
-            return
-        }
-        if (location.protocol == "file:") {
-            typeof cb == "function" && cb(msg)
-            return
-        }
-
-        Volcanos.meta.debug[can._root] && console.log(can._root, pane._name, "remote", msg._name, "detail", cmds);
-        can.misc.Run(event, can, {names: pane._name}, cmds, function(msg) {
-            typeof cb == "function" && cb(msg);
-        })
+        if (can.onengine && can.onengine.remote(event, can, msg, pane, cmds, cb)) { return }
+        if (location.protocol == "file:") { typeof cb == "function" && cb(msg); return }
+        can.misc.Run(event, can, {names: pane._name}, cmds, cb)
     },
 })
-Volcanos("onappend", {
-    _init: function(can, meta, list, cb, target, field) {
+Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         field = field || can.onappend.field(can, target, meta.type||"plugin", meta);
         var option = can.page.Select(can, field, "form.option")[0];
         var action = can.page.Select(can, field, "div.action")[0];
@@ -56,12 +31,13 @@ Volcanos("onappend", {
         var feature = can.base.Obj(meta.feature)
 
         // 添加插件
-        if (Volcanos.meta.follow[can._root]) { debugger }
         var sub = Volcanos(meta.name, { _help: meta.name, _target: field,
             _option: option, _action: action, _output: output, _history: [],
+            _follow: can._follow+"."+meta.name,
         }, [Config.volcano].concat(list), function(sub) {
-            sub.onimport._init(sub, sub.Conf(meta), list, function() {
-            }, field);
+            meta.feature = can.base.Obj(meta.feature, {})
+            meta.detail = meta.feature["detail"] || {}
+            sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field);
 
             // 添加控件
             var args = can.base.Obj(meta.args, [])
@@ -69,12 +45,12 @@ Volcanos("onappend", {
                 sub[item.name] = Volcanos(item.name, { _help: item.name,
                     _target: can.onappend.input(sub, option, item.type, item, args[index]),
                     _option: option, _action: action, _output: output,
+                    _follow: can._follow+"."+meta.name+"."+item.name,
                 }, Config.libs.concat([item.display||"plugin/input.js"]), function(input) {
-                    input.onimport._init(input, input.Conf(item), item.list||[], function() {
-                    }, input._target);
+                    input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target);
 
-                    // 控件回调
                     input.run = function(event, cmds, cb, silent) {
+                        // 控件回调
                         switch (item.name) {
                         case "返回":
                             // 历史命令
@@ -99,12 +75,12 @@ Volcanos("onappend", {
                             var display = "plugin/"+(msg.Option("_display")||feature.display||"table.js")
                             sub[display] = Volcanos(display, { _target: output,
                                 _option: option, _action: action, _output: output,
-                            }, Config.libs.concat(["frame.js", display]), function(table) {
-                                table.onimport._init(table, msg, msg.append||[], function() {
-                                }, output)
+                                _follow: can._follow+"."+meta.name+"."+display,
+                            }, Config.libs.concat(["frame.js", display]), function(table) { table.Conf(sub.Conf())
+                                table.onimport._init(table, msg, msg.append||[], function() {}, output)
 
-                                // 组件回调
                                 table.run = function(event, cmds, cb, silent) {
+                                    // 组件回调
                                     cmds[0] == "field"? sub.run(event, cmds.slice(1), cb, silent):
                                     input.run(event, cmds, cb, silent)
                                 }
@@ -127,11 +103,9 @@ Volcanos("onappend", {
             })
         }); cb(sub);
     },
-
     item: function(can, target, type, item, cb, cbs) {
         var ui = can.page.Append(can, target, [{view: [type, "div", item.nick||item.name],
-            oncontextmenu: function(event) { cbs(event, ui.item) },
-            click: function(event) {
+            oncontextmenu: function(event) { cbs(event, ui.item) }, click: function(event) {
                 can.page.Select(can, target, "div."+type, function(item) {
                     can.page.ClassList.del(can, item, "select");
                 }); can.page.ClassList.add(can, ui.item, "select");
@@ -158,7 +132,6 @@ Volcanos("onappend", {
         var input = {type: "input", name: item.name, data: item, dataset: {}};
         switch (item.type = item.type || item._type || item._input || "text") {
             case "upfile": item.type = "file"; break
-            // case "button": item.value = item.value || item.name || "查看"; break
             case "button": item.value = item.name || item.value || "查看"; break
             case "select":
                 item.values = typeof item.values == "string"? item.values.split(" "): item.values;
@@ -197,18 +170,64 @@ Volcanos("onappend", {
         item.type == "select" && (target.value = item.value || item.values[item.index||0]);
         return target;
     },
-    table: function(can, target, type, msg, cb) {
+    table: function(can, target, type, msg) {
         var table = can.page.AppendTable(can, can._output, msg, msg.append, function(event, value, key, index, tr, td) {
             can.page.Select(can, can._option, "input.args", function(input) { if (input.name == key) { var data = input.dataset || {}
                 input.value = value; if (data.action == "auto") {
                     can.run(event, [], function(msg) {})
                 }
             } })
+        }, function(event, value, key, index, tr, td) {
+            can.onappend.carte(can, can.ondetail||{}, msg["_detail"] || can.Conf("detail") || can.ondetail.list, function(event, item, meta) {
+                var res = can.request(event); can.core.List(msg.append, function(key) {
+                    res.Option(key, msg[key][index])
+                }); can.run(event, ["field", "action", item, key, value.trim()], function(res) {}, true)
+            })
         })
+    },
+    board: function(can, target, type, msg) {
+        msg.result && can.page.AppendBoard(can, can._output, can.page.Display(msg.Result()))
+    },
+    carte: function(can, meta, list, cb) {
+        can._carte = can._carte || can.page.Append(can, can._target, [{view: "carte", onmouseleave: function(event) {
+            can.page.Modify(can, can._carte, {style: {display: "none"}})
+        }}]).last
+
+        can.page.Appends(can, can._carte, can.core.List(list, function(item) {
+            return {view: ["item"], list: [typeof item == "string"? {text: [item], click: function(event) {
+                typeof cb == "function" && cb(event, item, meta)
+            }}: item.args? {text: [item.name], click: function(event) {
+                can.user.input(event, can, item.args, function(event, cmd, form, list) {
+                    var msg = can.Event(event);
+                    can.core.Item(form, function(key, value) {msg.Option(key, value)})
+                    cmd == "提交" && typeof cb == "function" && cb(event, item.name, meta)
+                    return true
+                })
+            }}: {select: [item, function(event) {
+                typeof cb == "function" && cb(event, event.target.value, meta)
+            }], value: src[item[0]]||""}]}
+        }))
+
+        var pos = {position: "absolute", display: "block", left: event.x, top: event.y}
+        if (document.body.clientWidth - event.x < 60) {
+            var pos = {display: "block", right: event.x, top: event.y}
+        }
+        pos.left += "px"; pos.top += "px";
+        can.page.Modify(can, can._carte, {style: pos})
+
+        event.stopPropagation()
+        event.preventDefault()
+    },
+    share: function(can, meta) {
+        return
+        can._share = can._share || can.page.Append(can, can._target, [{view: "share", onmouseleave: function(event) {
+            can.page.Modify(can, can._carte, {style: {display: "none"}})
+        }}]).last
+
+        can.page.Appends(can, can._share, [{view: ["title", "div", ]},])
     }
 }, [], function(can) {})
-Volcanos("onlayout", {
-    _init: function(can, meta, list, cb, target) {
+Volcanos("onlayout", { _init: function(can, meta, list, cb, target) {
         var width = can._width, height = can._height;
         if (Volcanos.meta.follow[can._root]) { debugger }
 

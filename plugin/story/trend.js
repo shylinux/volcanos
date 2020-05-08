@@ -18,14 +18,15 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 can.page.ClassList.add(can, can.ui.display, "hidden")
             },
         }])
-        can.data = can.msg.Table()
+        can.data = msg.Table()
         can.page.ClassList.add(can, can.ui.total, "status")
 
-        can.sub = can.Output(can, {}, "/plugin/local/wiki/draw", can.Event({}), function() {
+        return
+        can.sub = can.Output(can, {}, "/plugin/local/wiki/draw", can.request({}), function() {
             can.Action("width", 600)
             can.onaction["编辑"]({}, can)
             can.onaction["股价图"]({}, can)
-        }, can.ui.output, can.ui.action, option, can.ui.status)
+        }, can.ui.output, can.ui.action, can._option, can.ui.status)
     },
 })
 Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", "股价图", "趋势", "比例", ["width", "200", "400", "600", "800", "1000"], ["height", "200", "400", "600"], "表格"],

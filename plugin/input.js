@@ -14,6 +14,8 @@ Volcanos("onaction", {help: "控件交互", list: [],
         switch (event.key) {
             case "Enter":
                 can.run(event, [], function() {})
+                event.stopPropagation()
+                event.preventDefault()
                 break
         }
     },
@@ -21,6 +23,8 @@ Volcanos("onaction", {help: "控件交互", list: [],
         switch (event.key) {
             case "Enter":
                 can.run(event, [], function() {})
+                event.stopPropagation()
+                event.preventDefault()
                 break
         }
     },
