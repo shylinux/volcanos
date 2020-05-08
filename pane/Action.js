@@ -19,6 +19,8 @@ Volcanos("onexport", {help: "导出数据", list: [],
             if (can.Conf(key, msg.Option(key, can.Cache(river+"."+storm, can._output)))) {
                 typeof cb == "function" && cb(msg); return
             }
+
+            var pod = can.user.Search(can, "pod")
             msg = can.request({}, {}), can.run(msg._event, [river, storm], function(msg) { can._output.innerHTML = "";
                 if (Volcanos.meta.follow[can._root]) { debugger }
                 msg.Table(function(value, index, array) {
@@ -26,6 +28,8 @@ Volcanos("onexport", {help: "导出数据", list: [],
                     can.onappend._init(can, value, Config.libs.concat(["plugin/state.js"]), function(sub) {
                         // 插件回调
                         sub.run = function(event, cmds, cb, silent) {
+                            var msg = can.request(event)
+                            pod && msg.Option("pod", pod)
                             can.run(event, [river, storm, index].concat(cmds), cb, silent)
                         }
                     }, can._output)

@@ -1,5 +1,6 @@
 fieldset.story {
     clear:both;
+    margin:5px;
 }
 fieldset.float {
     float:left;

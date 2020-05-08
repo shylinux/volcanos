@@ -17,11 +17,12 @@ Volcanos("onimport", {help: "导入数据", list: [],
         can._output.innerHTML = msg.Result()
 
         can.page.Select(can, can._output, "fieldset.story", function(item) {var data = item.dataset
-            can.onappend._init(can, JSON.parse(data.meta||"{}"), Config.libs.concat(["plugin/state.js"]), function(sub) {
+            var meta = JSON.parse(data.meta||"{}")
+            can.onappend._init(can, meta, Config.libs.concat(["plugin/state.js"]), function(sub) {
                 sub.run = function(event, cmds, cb, silent) {
                     can.run(event, ["field", "action", "story", data.type, data.name, data.text].concat(cmds), cb, silent)
                 }
-            }, item)
+            }, can._output, item)
         })
         return typeof cb == "function" && cb(msg)
     },

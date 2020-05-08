@@ -48,8 +48,8 @@ Volcanos("onaction", {
     },
 })
 Volcanos("onappend", {
-    _init: function(can, meta, list, cb, target) {
-        var field = can.onappend.field(can, target, meta.type||"plugin", meta);
+    _init: function(can, meta, list, cb, target, field) {
+        field = field || can.onappend.field(can, target, meta.type||"plugin", meta);
         var option = can.page.Select(can, field, "form.option")[0];
         var action = can.page.Select(can, field, "div.action")[0];
         var output = can.page.Select(can, field, "div.output")[0];
@@ -67,7 +67,7 @@ Volcanos("onappend", {
             var args = can.base.Obj(meta.args, [])
             can.core.Next(can.base.Obj(meta.inputs, []), function(item, next, index) {
                 sub[item.name] = Volcanos(item.name, { _help: item.name,
-                    _target: can.onappend.input(sub, option, item.type, item),
+                    _target: can.onappend.input(sub, option, item.type, item, args[index]),
                     _option: option, _action: action, _output: output,
                 }, Config.libs.concat([item.display||"plugin/input.js"]), function(input) {
                     input.onimport._init(input, input.Conf(item), item.list||[], function() {
@@ -149,7 +149,7 @@ Volcanos("onappend", {
         ]}]).first;
         return field.Meta = item, field;
     },
-    input: function(can, option, type, item, cb) {
+    input: function(can, option, type, item, value) {
         item.name && item.name.indexOf("@") == 0 && (item.name = item.name.slice(1)) && (item.position = item.position || "opts")
         item.figure = item.figure || item.value || "";
         item.action = item.action || item.value || "";
@@ -177,17 +177,18 @@ Volcanos("onappend", {
             case "password":
                 // no break
             case "text":
+                item.value = value || item.value || ""
                 item.className || can.page.ClassList.add(can, item, item.position||"args");
                 item.autocomplete = "off";
                 break
         }
 
         item.value == "auto" && (item.value = "")
+        item.action == "auto" && (input.dataset.action = "auto")
         var target = can.page.Append(can, option, [{view: ["item "+item.type], list: [item.position && {text: item.name+": "}, input]}]).last
         item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["plugin/input/"+item.figure], function() {
             target.type != "button" && (target.value = "")
         })
-        item.action == "auto" && (input.dataset.action = "auto")
 
         item.type == "textarea" && can.page.Append(can, option, [{type: "br"}]);
         item.type == "text" && !target.placeholder && (target.placeholder = item.name || "");
