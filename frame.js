@@ -6,25 +6,27 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
                 }, can[item.name] = pane, next();
             }, can._target);
         }, function() { can.onlayout._init(can, meta, list, function() {
-            function getAction() {}
-            function getStorm(storm) { can.core.Item(storm, function(key, value) {
-                value._link? can.require([value._link], function(can) {
-                }, function(can, name, sub) {
-                    getAction(value.action = sub.action)
-                    return true
-                }): getAction(value.action)
-            }) }
-            function getRiver(river) { can.core.Item(river, function(key, value) {
-                value._link? can.require([value._link], function(can) {
-                }, function(can, name, sub) {
-                    getStorm(value.storm = sub.storm)
-                    return true
-                }): getStorm(value.storm)
-            }) }
-            can.onengine && getRiver(can.onengine.river)
+            can.require(["publish/order.js"], function(can) {
+                function getAction() {}
+                function getStorm(storm) { can.core.Item(storm, function(key, value) {
+                    value._link? can.require([value._link], function(can) {
+                    }, function(can, name, sub) {
+                        getAction(value.action = sub.action)
+                        return true
+                    }): getAction(value.action)
+                }) }
+                function getRiver(river) { can.core.Item(river, function(key, value) {
+                    value._link? can.require([value._link], function(can) {
+                    }, function(can, name, sub) {
+                        getStorm(value.storm = sub.storm)
+                        return true
+                    }): getStorm(value.storm)
+                }) }
+                can.onengine && getRiver(can.onengine.river)
 
-            var pane = can[meta.main.name], msg = can.request(can._event);
-            pane.onaction._init(pane, msg, msg.option||[], cb, target);
+                var pane = can[meta.main.name], msg = can.request(can._event);
+                pane.onaction._init(pane, msg, msg.option||[], cb, target);
+            })
         }, target) });
     },
     search: function(event, can, msg, pane, cmds, cb) { var chain = cmds[1]
@@ -34,7 +36,7 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
 
         typeof fun == "function" && fun(sub, msg, cmds.slice(2), cb, sub._target)
     },
-    engine: function(event, can, msg, pane, cmds, cb) {
+    engine: function(event, can, msg, pane, cmds, cb) { if (!can.onengine) { return false }
         switch (pane._name) {
             case "River":
                 if (cmds.length == 0) {
@@ -62,6 +64,7 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
                         msg.Push("name", value.name||"");
                         msg.Push("help", value.help||"");
                         msg.Push("inputs", JSON.stringify(value.inputs||[]));
+                        msg.Push("feature", JSON.stringify(value.feature||{}));
                     })
                     typeof cb == "function" && cb(msg);
                 } else if (action.engine) {
@@ -130,7 +133,9 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                             if (silent) { typeof cb == "function" && cb(msg); return }
 
                             // 添加组件
-                            var display = "plugin/"+(msg.Option("_display")||feature.display||"table.js")
+                            var display = (msg.Option("_display")||feature.display||"table.js")
+                            display.indexOf("/") == 0 || (display = "plugin/"+display)
+
                             sub[display] = Volcanos(display, { _target: output,
                                 _option: option, _action: action, _output: output,
                                 _follow: can._follow+"."+meta.name+"."+display,

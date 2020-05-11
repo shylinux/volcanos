@@ -15,7 +15,6 @@ var Config = {name: "demo", volcano: "frame.js", iceberg: "/chat/", intshell: "p
         "plugin/input/date",
         "plugin/input/upload",
         "plugin/input/province",
-        "publish/order.js",
     ],
 }
 
