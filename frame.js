@@ -6,6 +6,23 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
                 }, can[item.name] = pane, next();
             }, can._target);
         }, function() { can.onlayout._init(can, meta, list, function() {
+            function getAction() {}
+            function getStorm(storm) { can.core.Item(storm, function(key, value) {
+                value._link? can.require([value._link], function(can) {
+                }, function(can, name, sub) {
+                    getAction(value.action = sub.action)
+                    return true
+                }): getAction(value.action)
+            }) }
+            function getRiver(river) { can.core.Item(river, function(key, value) {
+                value._link? can.require([value._link], function(can) {
+                }, function(can, name, sub) {
+                    getStorm(value.storm = sub.storm)
+                    return true
+                }): getStorm(value.storm)
+            }) }
+            can.onengine && getRiver(can.onengine.river)
+
             var pane = can[meta.main.name], msg = can.request(can._event);
             pane.onaction._init(pane, msg, msg.option||[], cb, target);
         }, target) });
@@ -17,8 +34,49 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
 
         typeof fun == "function" && fun(sub, msg, cmds.slice(2), cb, sub._target)
     },
+    engine: function(event, can, msg, pane, cmds, cb) {
+        switch (pane._name) {
+            case "River":
+                if (cmds.length == 0) {
+                    can.core.Item(can.onengine.river, function(key, value) {
+                        msg.Push("key", key)
+                        msg.Push("name", value.name)
+                    })
+                }
+                break
+            case "Storm":
+                var river = can.onengine.river[cmds[0]]
+                if (!river) { break }
+                can.core.Item(river.storm, function(key, value) {
+                    msg.Push("key", key)
+                    msg.Push("name", value.name)
+                })
+                typeof cb == "function" && cb(msg)
+                return true
+            case "Action":
+                var river = can.onengine.river[cmds[0]];
+                var storm = river && river.storm[cmds[1]];
+                var action = storm && storm.action[cmds[2]];
+                if (!storm) { break } if (cmds.length == 2) {
+                    can.core.List(storm.action, function(value) {
+                        msg.Push("name", value.name||"");
+                        msg.Push("help", value.help||"");
+                        msg.Push("inputs", JSON.stringify(value.inputs||[]));
+                    })
+                    typeof cb == "function" && cb(msg);
+                } else if (action.engine) {
+                    action.engine(event, can, msg, pane, cmds, cb);
+                } else {
+                    msg.Option("group", action.group)
+                    msg.Option("index", action.index)
+                    return false
+                }
+                return true
+        }
+        return false;
+    },
     remote: function(event, can, msg, pane, cmds, cb) {
-        if (can.onengine && can.onengine.remote(event, can, msg, pane, cmds, cb)) { return }
+        if (can.onaction.engine(event, can, msg, pane, cmds, cb)) { return }
         if (location.protocol == "file:") { typeof cb == "function" && cb(msg); return }
         can.misc.Run(event, can, {names: pane._name}, cmds, cb)
     },

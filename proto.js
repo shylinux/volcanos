@@ -25,7 +25,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
 
     var conf = {}, conf_cb = {}, sync = {}, cache = {};
     meta.debug[can._root] && console.debug(can._root, name, "create");
-    can = can || {}, list.push(can) && (can.__proto__ = { _name: name, _root: "volcano", _create_time: new Date(), _load: function(name) {
+    can = can || {}, list.push(can) && (can.__proto__ = { _name: name, _root: "volcano", _create_time: new Date(), _load: function(name, cb) {
             for (var cache = meta.cache[name] || []; meta.index < list.length; meta.index++) {
                 if (list[meta.index] == can) {continue}
                 meta.debug["cache"] && console.debug("cache", name, "load", meta.index, list[meta.index]);
@@ -35,18 +35,18 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
 
             for (var i = 0; i < cache.length; i++) {
                 meta.debug["frame"] && console.debug("frame", can._name, "load", i, cache[i]);
-                can[cache[i]._name] = cache[i];
+                typeof cb == "function" && cb(can, name, cache[i]) || (can[cache[i]._name] = cache[i]);
                 // 加载索引
             }
             meta.cache[name] = cache;
         },
-        require: function(libs, cb) { if (!libs || libs.length == 0) {
+        require: function(libs, cb, each) { if (!libs || libs.length == 0) {
                 typeof cb == "function" && setTimeout(function() {cb(can)}, 10);
                 return // 加载完成
             }
 
             meta.debug["require"] && console.debug(can._root, can._name, "require", libs[0]); if (meta.cache[libs[0]]) {
-                can._load(libs[0]), can.require(libs.slice(1), cb);
+                can._load(libs[0], each), can.require(libs.slice(1), cb, each);
                 return // 缓存加载
             }
 
@@ -55,14 +55,14 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
 
             if (source.endsWith(".js")) { var script = document.createElement("script");
                 script.src = source, script.onload = function() {
-                    can._load(libs[0]), can.require(libs.slice(1), cb);
+                    can._load(libs[0], each), can.require(libs.slice(1), cb, each);
                 } // 加载脚本
                 target.appendChild(script);
 
             } else if (source.endsWith(".css")) { var style = document.createElement("link");
                 style.rel = "stylesheet", style.type = "text/css";
                 style.href = source; style.onload = function() {
-                    can._load(libs[0]), can.require(libs.slice(1), cb);
+                    can._load(libs[0], each), can.require(libs.slice(1), cb, each);
                 } // 加载样式
                 target.appendChild(style);
             }
