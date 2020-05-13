@@ -21,7 +21,10 @@ Volcanos("onexport", {help: "导出数据", list: [],
                     sub.run = function(event, cmds, cb, silent) {
                         // 插件回调
                         var msg = can.request(event); pod && msg.Option("pod", pod);
-                        can.run(event, [river, storm, index].concat(cmds), cb, silent);
+                        can.run(event, [river, storm, index].concat(cmds), function(msg) {
+                            can.onappend.toast(can, "执行成功", value.name, 2000);
+                            typeof cb == "function" && cb(msg)
+                        }, silent);
                         can.run(msg._event, ["search", "Footer.onaction.cmd"])
                     }
                 }, can._output);

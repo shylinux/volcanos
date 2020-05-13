@@ -125,6 +125,7 @@ fieldset table td.select {
 div.carte {
     background:black;
     border:solid 2px red;
+    position:absolute;
 }
 div.carte div.item {
     padding:0 5px;
@@ -133,4 +134,23 @@ div.carte div.item:hover {
     background:red;
     border:solid 2px yellow;
     cursor:pointer;
+}
+
+div.toast {
+    background:black;
+    border:solid 2px red;
+    position:absolute;
+    padding:5px;
+    color:yellow
+}
+div.toast div.title {
+    font-size:14px;
+    color:gray;
+}
+div.toast div.content {
+    text-align:center;
+}
+div.toast div.duration {
+    font-size:14px;
+    color:gray;
 }

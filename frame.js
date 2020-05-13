@@ -242,6 +242,31 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
             } })
         }, function(event, value, key, index, tr, td) {
             can.onappend.carte(can, can.ondetail||{}, msg["_detail"] || can.Conf("detail") || can.ondetail.list, function(event, item, meta) {
+                var back = td.innerHTML
+                switch (item) {
+                    case "编辑":
+                        var ui = can.page.Appends(can, td, [{type: "input", value: back, onkeydown: function(event) {
+                            console.log("key", event.key)
+                            switch (event.key) {
+                                case "Enter":
+                                    td.innerHTML = event.target.value
+
+                                    var res = can.request(event); can.core.List(msg.append, function(key) {
+                                        res.Option(key, msg[key][index])
+                                    }); can.run(event, ["field", "action", item, key, event.target.value.trim(), value.trim()], function(res) {}, true)
+                                    break
+                                case "Escape":
+                                    td.innerHTML = back
+                                    break
+                            }
+                        }, onkeyup: function(event) {
+
+                        }}]);
+                        ui.input.focus()
+                        ui.input.setSelectionRange(0, -1)
+                        return
+                }
+
                 var res = can.request(event); can.core.List(msg.append, function(key) {
                     res.Option(key, msg[key][index])
                 }); can.run(event, ["field", "action", item, key, value.trim()], function(res) {}, true)
@@ -251,6 +276,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
     board: function(can, target, type, msg) {
         msg.result && can.page.AppendBoard(can, can._output, can.page.Display(msg.Result()))
     },
+
     carte: function(can, meta, list, cb) {
         can._carte = can._carte || can.page.Append(can, can._target, [{view: "carte", onmouseleave: function(event) {
             can.page.Modify(can, can._carte, {style: {display: "none"}})
@@ -280,6 +306,36 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
 
         event.stopPropagation()
         event.preventDefault()
+    },
+    toast: function(can, text, title, duration) {
+        var meta = typeof text == "object"? text: {text: text, title: title, duration: duration}
+        can._toast = can._toast || can.page.Append(can, can._target, [{view: "toast", onmouseleave: function(event) {
+            can.page.Modify(can, can._carte, {style: {display: "none"}})
+        }}]).last
+
+        var ui = can.page.Appends(can, can._toast, [
+            {text: [meta.title||"", "div", "title"]},
+            {text: [meta.text||"执行成功", "div", "content"]},
+            meta.button,
+            {text: ["", "div", "duration"]},
+        ])
+
+        var width = meta.width||200, height = meta.height||100
+        var pos = {position: "absolute", display: "block",
+            width: width+"px",
+            top: document.body.clientHeight/2,
+            left: document.body.clientWidth/2-width/2,
+        }; pos.left += "px"; pos.top += "px";
+        can.page.Modify(can, can._toast, {style: pos})
+
+        can.Timer({value: 1000, length: (meta.duration||3000)/1000}, function(event, interval, index) {
+            if (index > 2) {
+                ui.duration.innerHTML = index+"s..."
+            }
+        }, function() {
+            can.page.Modify(can, can._toast, {style: {display: "none"}})
+        })
+        return ui
     },
     share: function(can, meta) {
         return

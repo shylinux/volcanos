@@ -16,7 +16,6 @@ fieldset.Header>div.output>div.title:hover {
 }
 
 fieldset.Header>div.output>div.state {
-    margin-right:5px;
     float:right;
 }
 fieldset.Header>div.output>div.state>div {

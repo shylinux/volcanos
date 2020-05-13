@@ -7,8 +7,9 @@ Volcanos("onaction", {help: "交互数据", list: [],
         can.onexport._init(can, msg, list, cb, target)
     },
     cmd: function(can, msg, list, cb, target) {
-        can.Conf("ncmd", parseInt(can.Conf("ncmd")||"0")+1+"")
-        can.onexport._init(can, msg, list, cb, target)
+        can.page.Select(can, can._target, "span.ncmd", function(item) {
+            item.innerHTML = can.Conf("ncmd", parseInt(can.Conf("ncmd")||"0")+1+"")+""
+        })
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [],
@@ -19,7 +20,7 @@ Volcanos("onexport", {help: "导出数据", list: [],
             })
 
             can.ui = can.page.Append(can, can._output, [{view: "state", list: can.core.List(can.Conf("state"), function(item) {
-                return {view: "item", list: [{text: item}, {text: ": "}, {text: can.Conf(item)||""}], click: function(event) {
+                return {view: "item", list: [{text: item}, {text: ": "}, {text: [can.Conf(item)||"", "span", item]}], click: function(event) {
                     can.onaction[item](event, can, item);
                 }};
             }) }])
