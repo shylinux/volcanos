@@ -10,10 +10,6 @@ fieldset.Footer>div.output div.title {
     float:left;
 }
 fieldset.Footer>div.output div.state {
-    float:right;
-}
-fieldset.Footer>div.output div.state>div {
     margin-right:5px;
     float:right;
 }
-

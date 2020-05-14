@@ -24,7 +24,8 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
                 }) }
                 can.onengine && getRiver(can.onengine.river)
 
-                var pane = can[meta.main.name], msg = can.request(can._event);
+                // 应用入口
+                var pane = can[meta.main.name], msg = can.request({});
                 pane.onaction._init(pane, msg, msg.option||[], cb, target);
             })
         }, target) });
@@ -316,14 +317,14 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         var ui = can.page.Appends(can, can._toast, [
             {text: [meta.title||"", "div", "title"]},
             {text: [meta.text||"执行成功", "div", "content"]},
-            meta.button,
+            {view: ["button"], list: meta.button},
             {text: ["", "div", "duration"]},
         ])
 
         var width = meta.width||200, height = meta.height||100
         var pos = {position: "absolute", display: "block",
             width: width+"px",
-            top: document.body.clientHeight/2,
+            top: document.body.clientHeight/2-height/2,
             left: document.body.clientWidth/2-width/2,
         }; pos.left += "px"; pos.top += "px";
         can.page.Modify(can, can._toast, {style: pos})
@@ -337,13 +338,14 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         })
         return ui
     },
-    share: function(can, meta) {
-        return
-        can._share = can._share || can.page.Append(can, can._target, [{view: "share", onmouseleave: function(event) {
-            can.page.Modify(can, can._carte, {style: {display: "none"}})
-        }}]).last
-
-        can.page.Appends(can, can._share, [{view: ["title", "div", ]},])
+    share: function(can, msg) {
+        can.run(msg._event, ["share"], function(msg) {
+            var src = can.user.Share(can, {path: "/share/"+msg.Result()}, true);
+            var ui = can.onappend.toast(can, {title: can.page.Format("a", src, msg.Result()), text: can.page.Format("img", src+"/share"),
+                width: 300, height: 300, duration: 100000, button: [{button: ["确定", function(event) {
+                    can.page.Modify(can, can._toast, {style: {display: "none"}})
+            }]}] });
+        })
     }
 }, [], function(can) {})
 Volcanos("onlayout", { _init: function(can, meta, list, cb, target) {

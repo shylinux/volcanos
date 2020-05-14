@@ -16,14 +16,11 @@ fieldset.Header>div.output>div.title:hover {
 }
 
 fieldset.Header>div.output>div.state {
-    float:right;
-}
-fieldset.Header>div.output>div.state>div {
     cursor:pointer;
     margin-right:5px;
     float:right;
 }
-fieldset.Header>div.output>div.state>div:hover {
+fieldset.Header>div.output>div.state:hover {
     background-color:red;
 }
 
