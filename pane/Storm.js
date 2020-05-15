@@ -7,9 +7,6 @@ Volcanos("onaction", {help: "交互操作", list: [],
     },
 })
 Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"],
-    _init: function(can, msg, list, cb, target) {
-        can.onexport._init(can, msg, list, cb, target)
-    },
     "共享": function(event, can, value) {
         var msg = can.request(event)
         msg.Option("name", "storm")
@@ -35,7 +32,6 @@ Volcanos("onexport", {help: "导出数据", list: [],
                 // 右键点击
                 can.onappend.carte(can, can.ondetail, can.ondetail.list, function(event, item, meta) {
                     meta[item] && meta[item](event, can, value)
-                    console.log(item)
                 })
             });
 

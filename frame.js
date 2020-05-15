@@ -6,7 +6,7 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
                 }, can[item.name] = pane, next();
             }, can._target);
         }, function() { can.onlayout._init(can, meta, list, function() {
-            can.require(["publish/order.js"], function(can) {
+            can.require(["/publish/order.js"], function(can) {
                 function getAction() {}
                 function getStorm(storm) { can.core.Item(storm, function(key, value) {
                     value._link? can.require([value._link], function(can) {
@@ -64,6 +64,10 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
                     can.core.List(storm.action, function(value) {
                         msg.Push("name", value.name||"");
                         msg.Push("help", value.help||"");
+                        msg.Push("pod", value.pod||"");
+                        msg.Push("group", value.group||"");
+                        msg.Push("index", value.index||"");
+                        msg.Push("args", value.args||"[]");
                         msg.Push("inputs", JSON.stringify(value.inputs||[]));
                         msg.Push("feature", JSON.stringify(value.feature||{}));
                     })
@@ -108,7 +112,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                     _target: can.onappend.input(sub, option, item.type, item, args[index]),
                     _option: option, _action: action, _output: output,
                     _follow: can._follow+"."+meta.name+"."+item.name,
-                }, Config.libs.concat([item.display||"plugin/input.js"]), function(input) {
+                }, Config.libs.concat([item.display||"/plugin/input.js"]), function(input) {
                     input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target);
 
                     input.run = function(event, cmds, cb, silent) {
@@ -135,12 +139,12 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
 
                             // 添加组件
                             var display = (msg.Option("_display")||feature.display||"table.js")
-                            display.indexOf("/") == 0 || (display = "plugin/"+display)
+                            display.indexOf("/") == 0 || (display = "/plugin/"+display)
 
                             sub[display] = Volcanos(display, { _target: output,
                                 _option: option, _action: action, _output: output,
                                 _follow: can._follow+"."+meta.name+"."+display,
-                            }, Config.libs.concat(["frame.js", display]), function(table) { table.Conf(sub.Conf())
+                            }, Config.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf())
                                 table.onimport._init(table, msg, msg.append||[], function() {}, output)
 
                                 table.run = function(event, cmds, cb, silent) {
@@ -223,7 +227,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         item.value == "auto" && (item.value = "")
         item.action == "auto" && (input.dataset.action = "auto")
         var target = can.page.Append(can, option, [{view: ["item "+item.type], list: [item.position && {text: item.name+": "}, input]}]).last
-        item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["plugin/input/"+item.figure], function() {
+        item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["/plugin/input/"+item.figure], function() {
             target.type != "button" && (target.value = "")
         })
 
