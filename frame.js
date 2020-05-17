@@ -315,7 +315,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
     toast: function(can, text, title, duration) {
         var meta = typeof text == "object"? text: {text: text, title: title, duration: duration}
         can._toast = can._toast || can.page.Append(can, can._target, [{view: "toast", onmouseleave: function(event) {
-            can.page.Modify(can, can._carte, {style: {display: "none"}})
+            can.page.Modify(can, can._toast, {style: {display: "none"}})
         }}]).last
 
         var ui = can.page.Appends(can, can._toast, [
