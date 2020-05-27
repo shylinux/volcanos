@@ -33,7 +33,7 @@ Volcanos("onexport", {help: "导出数据", list: [],
                 {type: "button", name: "返回"},
             ]);
             can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
-                sub.run = function(event, cmds, cb, silent) { var msg = can.request(event, {_msg: sup});
+                sub.run = function(event, cmds, cb, silent) { var msg = can.request(event, event._msg||{_msg: sup});
                     // 插件回调
                     can.run(event, [river, storm, index].concat(cmds), function(msg) {
                         can.run(msg._event, ["search", "Footer.onaction.ncmd"]);
