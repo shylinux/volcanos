@@ -27,9 +27,12 @@ Volcanos("onexport", {help: "导出数据", list: [],
         if (position) { can._output.scrollTo(0, position-1); return }
 
         msg.Clear("option"), can.run(msg._event, [river, storm], function(sup) { can._output.innerHTML = ""; sup.Table(function(value, index, array) {
-            value.inputs = can.base.Obj(value.inputs, [])
-            value.inputs.length == 0 && (value.inputs = [{type: "text"}, {type: "button", name: "查看"}])
-            can.onappend._init(can, value, Config.libs.concat(["/plugin/state.js"]), function(sub) {
+            value.inputs = can.base.Obj(value.inputs, []), value.inputs.length == 0 && (value.inputs = [
+                {type: "text", name: "name", action: "auto"},
+                {type: "button", name: "查看", action: "auto"},
+                {type: "button", name: "返回"},
+            ]);
+            can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
                 sub.run = function(event, cmds, cb, silent) { var msg = can.request(event, {_msg: sup});
                     // 插件回调
                     can.run(event, [river, storm, index].concat(cmds), function(msg) {

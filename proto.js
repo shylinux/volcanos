@@ -9,7 +9,7 @@ function shy(help, meta, list, cb) {
     }
 
     var cb = arguments[arguments.length-1] || function() {};
-    cb.help = next("string") || "还没有写";
+    cb.help = next("string") || cb.name;
     cb.meta = next("object") || {};
     cb.list = next("object") || [];
     return cb;
@@ -18,23 +18,31 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
     volcano: false, config: true,
     require: true, cache: false, frame: false,
     request: true, search: true,
-}, follow: {
-    volcano: false, debug: true,
-    // volcano: true, debug: true,
-}}, [], function(name, can, libs, cb) { var meta = arguments.callee.meta, list = arguments.callee.list;
+}, libs: []}, [], function(name, can, libs, cb) { var meta = arguments.callee.meta, list = arguments.callee.list;
+    if (typeof name == "object") { var Config = name;
+        meta.volcano = Config.volcano, meta.libs = Config.libs;
+        var Preload = Config.libs; Config.panes.forEach(function(pane) {
+            Preload = Preload.concat(pane.list);
+        }); Preload = Preload.concat(Config.plugin)
 
-    var conf = {}, conf_cb = {}, sync = {}, cache = {};
-    meta.debug[can._root] && console.debug(can._root, name, "create");
-    can = can || {}, list.push(can) && (can.__proto__ = { _name: name, _root: "volcano", _create_time: new Date(), _load: function(name, cb) {
+        name = Config.name, can = { _target: document.body, _follow: Config.name,
+            _head: document.head, _body: document.body,
+            _width: window.innerWidth, _height: window.innerHeight,
+        }, libs = Preload.concat(Config.volcano), cb = function(can) {
+            can.onaction._init(can, can.Conf(Config), [], function(msg) {
+            }, can._target)
+        }
+    }
+
+    var conf = {}, conf_cb = {}, cache = {};
+    can = can || {}, list.push(can) && (can.__proto__ = {_name: name, _root: "volcano", _create_time: new Date(), _load: function(name, cb) {
             for (var cache = meta.cache[name] || []; meta.index < list.length; meta.index++) {
-                if (list[meta.index] == can) {continue}
-                meta.debug["cache"] && console.debug("cache", name, "load", meta.index, list[meta.index]);
+                if (list[meta.index] == can) { continue }
                 cache.push(list[meta.index]);
                 // 加载缓存
             }
 
             for (var i = 0; i < cache.length; i++) {
-                meta.debug["frame"] && console.debug("frame", can._name, "load", i, cache[i]);
                 typeof cb == "function" && cb(can, name, cache[i]) || (can[cache[i]._name] = cache[i]);
                 // 加载索引
             }
@@ -159,16 +167,6 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
             }
             return conf[key] || ""
         }),
-        Timer: shy("定时器, value, [1,2,3,4], {value, length}", function(interval, cb, cbs) { interval = typeof interval == "object"? interval || []: [interval];
-            var timer = {stop: false};
-            function loop(event, i) {if (timer.stop || i >= interval.length && interval.length >= 0) {return typeof cbs == "function" && cbs(event, interval)}
-                return typeof cb == "function" && cb(event, interval.value||interval[i], i, interval)?
-                    typeof cbs == "function" && cbs(event, interval):
-                        setTimeout(function() {loop(event, i+1)}, interval.value||interval[i+1]);
-            }
-            setTimeout(function(event) {loop(event, 0)}, interval.value||interval[0]);
-            return timer;
-        }),
         Cache: shy("缓存器", function(name, output, data) {
             if (data) { if (output.children.length == 0) { return }
                 // 写缓存
@@ -195,6 +193,16 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
             }
             delete(cache[name]);
             return list.data;
+        }),
+        Timer: shy("定时器, value, [1,2,3,4], {value, length}", function(interval, cb, cbs) { interval = typeof interval == "object"? interval || []: [interval];
+            var timer = {stop: false};
+            function loop(event, i) {if (timer.stop || i >= interval.length && interval.length >= 0) {return typeof cbs == "function" && cbs(event, interval)}
+                return typeof cb == "function" && cb(event, interval.value||interval[i], i, interval)?
+                    typeof cbs == "function" && cbs(event, interval):
+                        setTimeout(function() {loop(event, i+1)}, interval.value||interval[i+1]);
+            }
+            setTimeout(function(event) {loop(event, 0)}, interval.value||interval[0]);
+            return timer;
         }),
     });
 

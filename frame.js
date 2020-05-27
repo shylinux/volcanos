@@ -1,12 +1,12 @@
 Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
         can.core.Next(meta.panes, function(item, next) {
-            can.onappend._init(can, item, Config.libs.concat(item.list), function(pane) {
+            can.onappend._init(can, item, meta.libs.concat(item.list), function(pane) {
                 pane.Conf(item), pane.run = function(event, cmds, cb) {
                     (can.onaction[cmds[0]]||can.onaction[meta.main.engine])(event, can, pane.request(event), pane, cmds, cb);
                 }, can[item.name] = pane, next();
             }, can._target);
         }, function() { can.onlayout._init(can, meta, list, function() {
-            can.require(["/publish/order.js"], function(can) {
+            can.require(meta.main.list, function(can) {
                 function getAction() {}
                 function getStorm(storm) { can.core.Item(storm, function(key, value) {
                     value._link? can.require([value._link], function(can) {
@@ -100,7 +100,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         var sub = Volcanos(meta.name, { _help: meta.name, _target: field,
             _option: option, _action: action, _output: output, _history: [],
             _follow: can._follow+"."+meta.name,
-        }, [Config.volcano].concat(list), function(sub) {
+        }, [Volcanos.meta.volcano].concat(list), function(sub) {
             meta.feature = can.base.Obj(meta.feature, {})
             meta.detail = meta.feature["detail"] || {}
             sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field);
@@ -112,7 +112,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                     _target: can.onappend.input(sub, option, item.type, item, args[index]),
                     _option: option, _action: action, _output: output,
                     _follow: can._follow+"."+meta.name+"."+item.name,
-                }, Config.libs.concat([item.display||"/plugin/input.js"]), function(input) {
+                }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js"]), function(input) {
                     input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target);
 
                     input.run = function(event, cmds, cb, silent) {
@@ -144,7 +144,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                             sub[display] = Volcanos(display, { _target: output,
                                 _option: option, _action: action, _output: output,
                                 _follow: can._follow+"."+meta.name+"."+display,
-                            }, Config.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf())
+                            }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf())
                                 table.onimport._init(table, msg, msg.append||[], function() {}, output)
 
                                 table.run = function(event, cmds, cb, silent) {
@@ -233,7 +233,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
 
         item.type == "textarea" && can.page.Append(can, option, [{type: "br"}]);
         item.type == "text" && !target.placeholder && (target.placeholder = item.name || "");
-        item.type != "button" && !target.title && (target.title = item.placeholder);
+        item.type != "button" && !target.title && (target.title = target.placeholder);
         // item.type == "button" && item.action == "auto" && can.run && can.run({});
         item.type == "select" && (target.value = item.value || item.values[item.index||0]);
         return target;
@@ -354,7 +354,6 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
 }, [], function(can) {})
 Volcanos("onlayout", { _init: function(can, meta, list, cb, target) {
         var width = can._width, height = can._height;
-        if (Volcanos.meta.follow[can._root]) { debugger }
 
         can.page.Select(can, target, "fieldset.head", function(field) {
             height -= field.offsetHeight;
