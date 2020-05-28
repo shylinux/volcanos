@@ -1,0 +1,43 @@
+fieldset.editor>div.output textarea.editor {
+    font-family:monospace;
+    background-color:black;
+    color:white;
+    border:solid 1px red;
+    padding:0;
+    width:0;
+    height:20px;
+    margin:0;
+    position:relative;
+    float:right;
+}
+fieldset.editor>div.output div.lineno {
+    font-family:monospace;
+    float:left;
+}
+fieldset.editor>div.output div.lineno>div.item {
+    text-align:right;
+    border:solid 1px black;
+    padding:0 4px;
+    height:20px;
+    margin:0;
+}
+fieldset.editor>div.output div.lineno>div.item:hover {
+    background-color:green;
+}
+fieldset.editor>div.output div.lineno>div.item.select {
+    background-color:red;
+}
+fieldset.editor>div.output div.content {
+    font-family:monospace;
+    border-left:solid 2px red;
+    padding-left:10px;
+}
+fieldset.editor>div.output div.content>pre.item {
+    border:solid 1px black;
+    padding:0;
+    height:20px;
+    margin:0;
+}
+fieldset.editor>div.output div.content>pre.item:hover {
+    background-color:green;
+}

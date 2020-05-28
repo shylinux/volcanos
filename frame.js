@@ -94,12 +94,25 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         var option = can.page.Select(can, field, "form.option")[0];
         var action = can.page.Select(can, field, "div.action")[0];
         var output = can.page.Select(can, field, "div.output")[0];
+        var status = can.page.Select(can, field, "div.status")[0];
         var feature = can.base.Obj(meta.feature)
 
         // 添加插件
         var sub = Volcanos(meta.name, { _help: meta.name, _target: field,
-            _option: option, _action: action, _output: output, _history: [],
-            _follow: can._follow+"."+meta.name,
+            _option: option, _action: action, _output: output,
+            _follow: can._follow+"."+meta.name, _history: [],
+            Option: function(key, value) {
+                sub.page.Select(sub, option, "input[name="+key+"]", function(item) {
+                    value == undefined? (value = item.value): (item.value = value)
+                })
+                return value
+            },
+            Status: function(key, value) {
+                sub.page.Select(sub, status, "div."+key, function(item) {
+                    item.innerHTML = key+": "+value
+                })
+                return value
+            },
         }, [Volcanos.meta.volcano].concat(list), function(sub) {
             meta.feature = can.base.Obj(meta.feature, {})
             meta.detail = meta.feature["detail"] || {}
@@ -141,18 +154,38 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                             var display = (msg.Option("_display")||feature.display||"table.js")
                             display.indexOf("/") == 0 || (display = "/plugin/"+display)
 
-                            sub[display] = Volcanos(display, { _target: output,
+                            sub[display] = Volcanos(display, { _help: display, _target: output,
                                 _option: option, _action: action, _output: output,
                                 _follow: can._follow+"."+meta.name+"."+display,
+                                Option: sub.Option, Status: sub.Status,
                             }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf())
                                 table.onimport._init(table, msg, msg.append||[], function() {}, output)
 
                                 table.run = function(event, cmds, cb, silent) {
                                     // 组件回调
-                                    cmds[0] == "field"? sub.run(event, cmds.slice(1), cb, silent):
-                                    input.run(event, cmds, cb, silent)
+                                    cmds[0] == "field"? sub.run(event, cmds.slice(1), cb, silent): input.run(event, cmds, cb, silent)
                                 }
+
+                                // 工具栏
+                                action.innerHTML = "", table.onaction && can.core.List(table.onaction.list, function(item) {
+                                    can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
+                                        table.onaction[item](event, table, msg)
+                                    }})
+                                })
+
+                                // 上下文
+                                table.ondetail && table.ondetail.list && table.ondetail.list.length > 0 && (table._target.oncontextmenu = function(event) {
+                                    can.onappend.carte(sub, table.ondetail||{}, msg["_detail"] || sub.Conf("detail"), function(ev, item, meta) {
+                                        (table.ondetail[item]||table.onaction[item])(event, table, msg)
+                                    })
+                                })
+
+                                // 状态条
+                                status.innerHTML = "", table.onexport && can.core.List(table.onexport.list, function(item) {
+                                    can.page.Append(can, status, [{view: "item "+item, inner: item, title: item}])
+                                })
                             }) 
+                            var table = sub[display];
                         }, silent)
                     }
 
@@ -282,7 +315,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         msg.result && can.page.AppendBoard(can, can._output, can.page.Display(msg.Result()))
     },
 
-    carte: function(can, meta, list, cb) {
+    carte: function(can, meta, list, cb) { list = list && list.length > 0? list: meta.list; if (list.length == 0) { return }
         can._carte = can._carte || can.page.Append(can, can._target, [{view: "carte", onmouseleave: function(event) {
             can.page.Modify(can, can._carte, {style: {display: "none"}})
         }}]).last

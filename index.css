@@ -71,6 +71,16 @@ fieldset>form.option>div.item.textarea {
     clear:both;
 }
 
+fieldset>div.action {
+    clear:both;
+}
+fieldset>div.action>div.item {
+    float:left;
+}
+fieldset>div.status>div.item {
+    float:left;
+}
+
 fieldset div.output {
     margin-top:4px;
     clear:both;

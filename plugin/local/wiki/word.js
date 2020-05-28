@@ -18,7 +18,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
 
         can.page.Select(can, can._output, "fieldset.story", function(item) {var data = item.dataset
             var meta = JSON.parse(data.meta||"{}")
-            can.onappend._init(can, meta, Config.libs.concat(["plugin/state.js"]), function(sub) {
+            can.onappend._init(can, meta, Volcanos.meta.libs.concat(["plugin/state.js"]), function(sub) {
                 sub.run = function(event, cmds, cb, silent) {
                     can.run(event, ["field", "action", "story", data.type, data.name, data.text].concat(cmds), cb, silent)
                 }
