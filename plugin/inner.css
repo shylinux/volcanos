@@ -38,6 +38,12 @@ fieldset.editor>div.output div.content>pre.item {
     height:20px;
     margin:0;
 }
+fieldset.editor>div.output div.content>pre.item span.keyword {
+    color:yellow;
+}
+fieldset.editor>div.output div.content>pre.item span.string {
+    color:magenta;
+}
 fieldset.editor>div.output div.content>pre.item:hover {
-    background-color:green;
+    border:solid 1px red;
 }

@@ -79,6 +79,11 @@ fieldset>div.action>div.item {
 }
 fieldset>div.status>div.item {
     float:left;
+    padding:4px;
+}
+fieldset>div.status>div.item>label {
+    font-size:14px;
+    color:gray;
 }
 
 fieldset div.output {

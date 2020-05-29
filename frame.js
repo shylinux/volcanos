@@ -102,14 +102,20 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
             _option: option, _action: action, _output: output,
             _follow: can._follow+"."+meta.name, _history: [],
             Option: function(key, value) {
-                sub.page.Select(sub, option, "input[name="+key+"]", function(item) {
+                sub.page.Select(sub, option, "select[name="+key+"],input[name="+key+"]", function(item) {
+                    value == undefined? (value = item.value): (item.value = value)
+                })
+                return value
+            },
+            Action: function(key, value) {
+                sub.page.Select(sub, action, "select[name="+key+"],input[name="+key+"]", function(item) {
                     value == undefined? (value = item.value): (item.value = value)
                 })
                 return value
             },
             Status: function(key, value) {
-                sub.page.Select(sub, status, "div."+key, function(item) {
-                    item.innerHTML = key+": "+value
+                sub.page.Select(sub, status, "div."+key+">span", function(item) {
+                    item.innerHTML = value
                 })
                 return value
             },
@@ -157,20 +163,22 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                             sub[display] = Volcanos(display, { _help: display, _target: output,
                                 _option: option, _action: action, _output: output,
                                 _follow: can._follow+"."+meta.name+"."+display,
-                                Option: sub.Option, Status: sub.Status,
+                                Option: sub.Option, Action: sub.Action, Status: sub.Status,
                             }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf())
                                 table.onimport._init(table, msg, msg.append||[], function() {}, output)
 
-                                table.run = function(event, cmds, cb, silent) {
+                                table.run = function(event, cmds, cb, silent) { cmds = cmds || []
                                     // 组件回调
                                     cmds[0] == "field"? sub.run(event, cmds.slice(1), cb, silent): input.run(event, cmds, cb, silent)
                                 }
 
                                 // 工具栏
                                 action.innerHTML = "", table.onaction && can.core.List(table.onaction.list, function(item) {
-                                    can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
+                                    typeof item == "string"? can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
                                         table.onaction[item](event, table, msg)
-                                    }})
+                                    }}): item.length > 0? can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
+                                        table.onaction[item[0]](event, table, msg, item[event.target.selectedIndex+1])
+                                    }}): typeof item == "object" && can.onappend.input(can, action, "input", item)
                                 })
 
                                 // 上下文
@@ -182,7 +190,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
 
                                 // 状态条
                                 status.innerHTML = "", table.onexport && can.core.List(table.onexport.list, function(item) {
-                                    can.page.Append(can, status, [{view: "item "+item, inner: item, title: item}])
+                                    can.page.Append(can, status, [{view: "item "+item, title: item, list: [{text: [item+": ", "label"]}, {text: ["", "span"]}]}])
                                 })
                             }) 
                             var table = sub[display];
@@ -268,7 +276,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         item.type == "text" && !target.placeholder && (target.placeholder = item.name || "");
         item.type != "button" && !target.title && (target.title = target.placeholder);
         // item.type == "button" && item.action == "auto" && can.run && can.run({});
-        item.type == "select" && (target.value = item.value || item.values[item.index||0]);
+        // item.type == "select" && (target.value = item.value || item.values[item.index||0]);
         return target;
     },
     table: function(can, target, type, msg) {
