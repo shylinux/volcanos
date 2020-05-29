@@ -91,6 +91,22 @@ fieldset div.output {
     clear:both;
     overflow:auto;
 }
+fieldset div.output>div.project {
+    float:left;
+}
+fieldset div.output>div.project>div.item {
+    clear:both;
+}
+fieldset div.output>div.project>div.item:hover {
+    border:solid 1px red;
+}
+fieldset div.output>pre.display {
+    padding:4px;
+    max-height:80px;
+    border:solid 2px red;
+    margin:0;
+    overflow:auto;
+}
 fieldset div.code {
     color:white;
     font-size:14px;

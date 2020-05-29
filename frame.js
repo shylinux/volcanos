@@ -361,7 +361,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
 
         var ui = can.page.Appends(can, can._toast, [
             {text: [meta.title||"", "div", "title"]},
-            {text: [meta.text||"执行成功", "div", "content"]},
+            typeof meta.text == "object"? meta.text: {text: [meta.text||"执行成功", "div", "content"]},
             {view: ["button"], list: meta.button},
             {text: ["", "div", "duration"]},
         ])
@@ -381,6 +381,9 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         }, function() {
             can.page.Modify(can, can._toast, {style: {display: "none"}})
         })
+        ui.Close = function() {
+            can.page.Modify(can, can._toast, {style: {display: "none"}})
+        }
         return ui
     },
     share: function(can, msg) {
