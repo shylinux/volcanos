@@ -1,62 +1,116 @@
-fieldset.editor>div.output textarea.editor {
-    font-family:monospace;
-    background-color:black;
-    color:white;
-    border:solid 1px red;
-    padding:0;
-    width:0;
-    height:20px;
-    margin:0;
-    position:relative;
-    float:right;
-}
-fieldset.editor>div.output div.lineno {
-    font-family:monospace;
+fieldset.editor>div.action>div.file {
+    border:solid 2px red;
+    padding:2px;
     float:left;
 }
-fieldset.editor>div.output div.lineno>div.item {
-    text-align:right;
-    border:solid 1px black;
-    padding:0 4px;
-    height:20px;
-    margin:0;
+fieldset.editor>div.action>div.file:hover {
+    background-color:green;
+    cursor:pointer;
 }
-fieldset.editor>div.output div.lineno>div.item:hover {
+fieldset.editor>div.action>div.file.select {
     background-color:green;
 }
-fieldset.editor>div.output div.lineno>div.item.select {
+fieldset.editor>div.output {
+    min-height:300px;
+}
+fieldset.editor>div.output>div.project {
+    width:80px; overflow:auto;
+    position:fixed;
+}
+fieldset.editor>div.output>div.profile {
+    position:absolute; right:0;
+    width:80px; overflow:auto;
+}
+fieldset.editor>div.output>div.profile:hover {
+    position:absolute; right:0;
+    width:480px;
+}
+
+fieldset.editor>div.output div.preview {
+    font-family:monospace;
+    float:left; margin-left:80px;
+}
+fieldset.editor>div.output div.preview>div.item {
+    text-align:right;
+    height:20px; border:solid 1px black;
+    padding:0 4px; margin:0;
+}
+fieldset.editor>div.output div.preview>div.item:hover {
+    background-color:green;
+}
+fieldset.editor>div.output div.preview>div.item.select {
     background-color:red;
 }
 fieldset.editor>div.output div.content {
-    font-family:monospace;
+    font-size:16px; font-family:monospace;
     border-left:solid 2px red;
     padding-left:10px;
 }
 fieldset.editor>div.output div.content>pre.item {
-    border:solid 1px black;
-    padding:0;
-    height:20px;
-    margin:0;
-}
-fieldset.editor>div.output div.content>pre.item span.comment {
-    background-color:blue;
-    color:cyan;
-}
-fieldset.editor>div.output div.content>pre.item span.keyword {
-    color:yellow;
-    font-weight:bold;
-}
-fieldset.editor>div.output div.content>pre.item span.function {
-    color:cyan;
-    font-weight:bold;
-}
-fieldset.editor>div.output div.content>pre.item span.datatype {
-    color:lightgreen;
-    font-weight:bold;
-}
-fieldset.editor>div.output div.content>pre.item span.string {
-    color:magenta;
+    height:20px; border:solid 1px black;
+    padding:0; margin:0;
 }
 fieldset.editor>div.output div.content>pre.item:hover {
     border:solid 1px red;
 }
+fieldset.editor>div.output div.content>pre.item span.comment {
+    background-color:blue; color:cyan;
+}
+fieldset.editor>div.output div.content>pre.item span.keyword {
+    font-weight:bold;
+    color:yellow;
+}
+fieldset.editor>div.output div.content>pre.item span.function {
+    font-weight:bold;
+    color:cyan;
+}
+fieldset.editor>div.output div.content>pre.item span.datatype {
+    font-weight:bold;
+    color:lightgreen;
+}
+fieldset.editor>div.output div.content>pre.item span.string {
+    color:magenta;
+}
+fieldset.editor>div.output pre.display {
+    padding:6px; border:solid 1px red;
+    max-height:80px; overflow:auto;
+    position:sticky; bottom:0;
+    display:none;
+}
+fieldset.editor>div.output pre.display:hover {
+    background-color:black;
+    max-height:360px;
+    z-index:100;
+}
+
+fieldset.editor>div.output textarea.editor.normal {
+    background-color:#00000000; color:#00000000;
+    caret-color:#00000000;
+}
+fieldset.editor>div.output textarea.editor {
+    font-size:16px; font-family:monospace;
+    background-color:black; color:white;
+    caret-color:yellow;
+
+    position:absolute; left:0;
+    border:solid 1px red;
+    width:0; height:20px;
+    padding:0; margin:0;
+
+    background-color:#00000000; color:#00000000;
+    padding-left:12px;
+    display:none;
+}
+fieldset.editor>div.output textarea.command {
+    background-color:black; color:white;
+    font-family:monospace;
+    caret-color:red;
+
+    position:sticky; bottom:0;
+    width:0; height:20px;
+    border:solid 1px red;
+    padding:0; margin:0;
+    padding-left:10px;
+    z-index:10;
+}
+

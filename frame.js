@@ -25,6 +25,7 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
                 can.onengine && getRiver(can.onengine.river)
 
                 // 应用入口
+                can.user.title(can.user.Search(can, "title"))
                 var pane = can[meta.main.name], msg = can.request({});
                 pane.onaction._init(pane, msg, msg.option||[], cb, target);
             })
@@ -33,7 +34,7 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
     search: function(event, can, msg, pane, cmds, cb) { var chain = cmds[1]
         var sub, mod = can, key, fun = can; can.core.List(chain.split("."), function(value, index, array) {
             fun && (sub = mod, mod = fun, key = value, fun = mod[value])
-        }); if (!sub || !mod || !fun) { console.error("not found", chain); return }
+        }); if (!sub || !mod || !fun) { console.info("not found", chain); return }
 
         typeof fun == "function" && fun(sub, msg, cmds.slice(2), cb, sub._target)
     },
@@ -57,8 +58,8 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
                 typeof cb == "function" && cb(msg)
                 return true
             case "Action":
-                var river = can.onengine.river[cmds[0]];
-                var storm = river && river.storm[cmds[1]];
+                var river = can.onengine.river[cmds[0]||can.user.Search(can, "river")];
+                var storm = river && river.storm[cmds[1]||can.user.Search(can, "storm")];
                 var action = storm && storm.action[cmds[2]];
                 if (!storm) { break } if (cmds.length == 2) {
                     can.core.List(storm.action, function(value) {
@@ -96,6 +97,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         var output = can.page.Select(can, field, "div.output")[0];
         var status = can.page.Select(can, field, "div.status")[0];
         var feature = can.base.Obj(meta.feature)
+        can.page.ClassList.add(can, field, feature.style||"")
 
         // 添加插件
         var sub = Volcanos(meta.name, { _help: meta.name, _target: field,
@@ -133,6 +135,10 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                     _follow: can._follow+"."+meta.name+"."+item.name,
                 }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js"]), function(input) {
                     input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target);
+                    if (can.user.Search(can, "active") == meta.name) {
+                        var p = sub.user.Search(can, item.name) || ""
+                        p && (input._target.value = p)
+                    }
 
                     input.run = function(event, cmds, cb, silent) {
                         // 控件回调
@@ -153,48 +159,9 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                             if (!cmds[i]) { cmds.pop() } else { break }
                         }
 
-                        sub._history.push(cmds); sub.run(event, cmds, function(msg) {
-                            if (silent) { typeof cb == "function" && cb(msg); return }
-
-                            // 添加组件
-                            var display = (msg.Option("_display")||feature.display||"table.js")
-                            display.indexOf("/") == 0 || (display = "/plugin/"+display)
-
-                            sub[display] = Volcanos(display, { _help: display, _target: output,
-                                _option: option, _action: action, _output: output,
-                                _follow: can._follow+"."+meta.name+"."+display,
-                                Option: sub.Option, Action: sub.Action, Status: sub.Status,
-                            }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf())
-                                table.onimport._init(table, msg, msg.append||[], function() {}, output)
-
-                                table.run = function(event, cmds, cb, silent) { cmds = cmds || []
-                                    // 组件回调
-                                    cmds[0] == "field"? sub.run(event, cmds.slice(1), cb, silent): input.run(event, cmds, cb, silent)
-                                }
-
-                                // 工具栏
-                                action.innerHTML = "", table.onaction && can.core.List(table.onaction.list, function(item) {
-                                    typeof item == "string"? can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
-                                        table.onaction[item](event, table, msg)
-                                    }}): item.length > 0? can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
-                                        table.onaction[item[0]](event, table, msg, item[event.target.selectedIndex+1])
-                                    }}): typeof item == "object" && can.onappend.input(can, action, "input", item)
-                                })
-
-                                // 上下文
-                                table.ondetail && table.ondetail.list && table.ondetail.list.length > 0 && (table._target.oncontextmenu = function(event) {
-                                    can.onappend.carte(sub, table.ondetail||{}, msg["_detail"] || sub.Conf("detail"), function(ev, item, meta) {
-                                        (table.ondetail[item]||table.onaction[item])(event, table, msg)
-                                    })
-                                })
-
-                                // 状态条
-                                status.innerHTML = "", table.onexport && can.core.List(table.onexport.list, function(item) {
-                                    can.page.Append(can, status, [{view: "item "+item, title: item, list: [{text: [item+": ", "label"]}, {text: ["", "span"]}]}])
-                                })
-                            }) 
-                            var table = sub[display];
-                        }, silent)
+                        var msg = sub.request(event); msg.Option("_action", item.name);
+                        cmds[0] != "action" && sub._history.push(cmds);
+                        run(event, cmds, cb, silent)
                     }
 
                     // 添加事件
@@ -210,6 +177,49 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                     }
                 })
             })
+
+            function run(event, cmds, cb, silent) { sub.run(event, cmds, function(msg) {
+                if (silent) { typeof cb == "function" && cb(msg); return }
+
+                // 添加组件
+                var display = (msg.Option("_display")||feature.display||"table.js")
+                display.indexOf("/") == 0 || (display = "/plugin/"+display)
+
+                sub[display] = Volcanos(display, { _help: display, _target: output,
+                    _option: option, _action: action, _output: output,
+                    _follow: can._follow+"."+meta.name+"."+display,
+                    Option: sub.Option, Action: sub.Action, Status: sub.Status,
+                }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf())
+                    table.onimport._init(table, msg, msg.result||[], function() {}, output)
+
+                    table.run = function(event, cmds, cb, silent) { cmds = cmds || []
+                        sub.run(event, cmds, cb, silent)
+                    }
+
+                    // 工具栏
+                    action.innerHTML = "", table.onaction && can.core.List(table.onaction.list, function(item) {
+                        typeof item == "string"? can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
+                            table.onaction[item](event, table, msg)
+                        }}): item.length > 0? can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
+                            table.onaction[item[0]](event, table, msg, item[event.target.selectedIndex+1])
+                        }}): typeof item == "object" && can.onappend.input(can, action, "input", item)
+                    })
+
+                    // 上下文
+                    table.ondetail && table.ondetail.list && table.ondetail.list.length > 0 && (table._target.oncontextmenu = function(event) {
+                        can.onappend.carte(sub, table.ondetail||{}, msg["_detail"] || sub.Conf("detail"), function(ev, item, meta) {
+                            (table.ondetail[item]||table.onaction[item])(event, table, msg)
+                        })
+                    })
+
+                    // 状态条
+                    status.innerHTML = "", table.onexport && can.core.List(table.onexport.list, function(item) {
+                        can.page.Append(can, status, [{view: "item "+item, title: item, list: [{text: [item+": ", "label"]}, {text: ["", "span"]}]}])
+                    })
+                }) 
+                var table = sub[display];
+            }, silent) }
+
         }); cb(sub);
     },
     item: function(can, target, type, item, cb, cbs) {
@@ -280,7 +290,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         return target;
     },
     table: function(can, target, type, msg) {
-        var table = can.page.AppendTable(can, can._output, msg, msg.append, function(event, value, key, index, tr, td) {
+        var table = can.page.AppendTable(can, target, msg, msg.append, function(event, value, key, index, tr, td) {
             can.page.Select(can, can._option, "input.args", function(input) { if (input.name == key) { var data = input.dataset || {}
                 input.value = value; if (data.action == "auto") {
                     can.run(event, [], function(msg) {})
@@ -320,7 +330,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         })
     },
     board: function(can, target, type, msg) {
-        msg.result && can.page.AppendBoard(can, can._output, can.page.Display(msg.Result()))
+        msg.result && can.page.AppendBoard(can, target, can.page.Display(msg.Result()))
     },
 
     carte: function(can, meta, list, cb) { list = list && list.length > 0? list: meta.list; if (list.length == 0) { return }
@@ -394,7 +404,44 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                     can.page.Modify(can, can._toast, {style: {display: "none"}})
             }]}] });
         })
-    }
+    },
+
+    upload: function(can) { var begin = new Date();
+        can._upload = can._upload || can.page.Append(can, can._target, [{view: "upload", list: [{view: "action"}, {view: "output"}]}])
+
+        function show(event, value, total, loaded) {
+            var now = new Date(); can.page.Appends(can, can._upload.output, [
+                {view: ["progress"], style: {height: "10px", border: "solid 2px red"}, list: [{
+                    view: ["progress"], style: {height: "10px", width: value + "%", background: "red"},  
+                }]},
+                {text: [value+"%", "div"], style: {"float": "right"}},
+                {text: [can.base.Duration(now - begin), "div"], style: {"float": "left"}},
+                {text: [can.base.Size(loaded)+"/"+can.base.Size(total), "div"], style: {"text-align": "center"}},
+            ]);
+        }
+
+        var action = can.page.AppendAction(can, can._upload.action, [
+            {type: "input", data: {name: "upload", type: "file", onchange: function(event) {
+                var file = action.upload.files[0]
+                show(event, 0, file.size, 0)
+            }}, style: {width: "200px"}}, "上传", "关闭"], function(event, value, cmd) {
+                if (action.upload.files.length == 0) {return action.upload.focus()}
+                if (value == "关闭") {can._upload.stick = false; return can.page.Remove(can, can._upload.output.parentNode)}
+
+                var msg = can.request(event);
+                can.page.Select(can, can._option, "input", function(item) {
+                    item.name && item.value && msg.Option(item.name, item.value)
+                })
+
+                // 上传文件
+                begin = new Date();
+                msg._progress = show
+                msg.upload = action.upload.files[0];
+                can.run(event, ["action", "upload"], function(msg) {
+                    can.onappend.toast(can, "上传成功")
+                }, true);
+            })
+    },
 }, [], function(can) {})
 Volcanos("onlayout", { _init: function(can, meta, list, cb, target) {
         var width = can._width, height = can._height;

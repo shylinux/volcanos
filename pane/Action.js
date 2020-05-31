@@ -32,6 +32,8 @@ Volcanos("onexport", {help: "导出数据", list: [],
                 {type: "button", name: "查看", action: "auto"},
                 {type: "button", name: "返回"},
             ]);
+            value.width = can._target.offsetWidth
+            value.height = can._target.offsetHeight
             can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
                 sub.run = function(event, cmds, cb, silent) { var msg = can.request(event, event._msg||{_msg: sup});
                     // 插件回调

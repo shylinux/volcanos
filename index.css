@@ -77,6 +77,17 @@ fieldset>div.action {
 fieldset>div.action>div.item {
     float:left;
 }
+fieldset>div.action>div.item>input {
+    color:cyan;
+    background:black;
+}
+fieldset>div.action>div.item>input:hover {
+    background:gray;
+}
+fieldset>div.action>div.item>select {
+    color:cyan;
+    background:black;
+}
 fieldset>div.status>div.item {
     float:left;
     padding:4px;
@@ -86,27 +97,32 @@ fieldset>div.status>div.item>label {
     color:gray;
 }
 
-fieldset div.output {
+fieldset>div.output {
     margin-top:4px;
     clear:both;
     overflow:auto;
+    position:relative;
 }
-fieldset div.output>div.project {
+fieldset>div.output>div.project {
     float:left;
+    /* position:fixed; */
 }
-fieldset div.output>div.project>div.item {
+fieldset>div.output>div.project>div.item {
     clear:both;
 }
-fieldset div.output>div.project>div.item:hover {
+fieldset>div.output>div.project>div.item:hover {
     border:solid 1px red;
 }
-fieldset div.output>pre.display {
-    padding:4px;
-    max-height:80px;
-    border:solid 2px red;
-    margin:0;
-    overflow:auto;
+fieldset>div.output>pre.profile {
+    float:right;
 }
+fieldset>div.output>div.profile>div.item {
+    clear:both;
+}
+fieldset>div.output>div.profile>div.item:hover {
+    border:solid 1px red;
+}
+
 fieldset div.code {
     color:white;
     font-size:14px;
@@ -172,7 +188,8 @@ div.toast {
     border:solid 2px red;
     position:absolute;
     padding:5px;
-    color:yellow
+    color:yellow;
+    z-index:100;
 }
 div.toast div.title {
     font-size:14px;
@@ -184,4 +201,18 @@ div.toast div.content {
 div.toast div.duration {
     font-size:14px;
     color:gray;
+}
+
+div.upload {
+    background:black;
+    border:solid 2px red;
+    position:absolute;
+    padding:5px;
+    color:yellow;
+    z-index:100;
+    left:20px;
+    top:20px;
+}
+div.upload div.item {
+    float:left;
 }
