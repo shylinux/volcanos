@@ -217,3 +217,8 @@ div.upload {
 div.upload div.item {
     float:left;
 }
+
+fieldset.input {
+    position:absolute;
+    left:0; top:0;
+}

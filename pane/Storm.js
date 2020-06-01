@@ -15,8 +15,7 @@ Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"]
         can.onappend.share(can, msg)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: [],
-    _init: function(can, msg, list, cb, target) { var key = "storm";
+Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) { var key = "storm";
         can.Cache(can.Conf("river"), can._output, can.Conf(key));
         var river = can.Conf("river", msg.Option("river"));
         if (msg.Option(key, can.Conf(key, can.Cache(river, can._output)||""))) {
@@ -40,5 +39,6 @@ Volcanos("onexport", {help: "导出数据", list: [],
             }
         }); select && select.click(); })
     },
+    key: function(can, msg) { msg.Option("storm", can.Conf("storm")) },
 })
 

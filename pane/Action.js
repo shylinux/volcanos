@@ -21,11 +21,10 @@ Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"]
         can.onappend.share(can, msg)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: [],
-    _init: function(can, msg, list, cb, target) { var key = "action";
+Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) { var key = "action";
         can.Cache(can.Conf("river")+"."+can.Conf("storm"), can._output, can._output.scrollTop+1);
         var river = can.Conf("river", msg.Option("river")), storm = can.Conf("storm", msg.Option("storm"));
-        var position = can.Conf(key, msg.Option(key, can.Cache(river+"."+storm, can._output)));
+        var position = can.Conf(key, msg.Option(key, can.Cache(river+"."+storm, can._output)||""));
         if (position) { can._output.scrollTo(0, position-1); return }
 
         msg.Clear("option"), can.run(msg._event, [river, storm], function(sup) { can._output.innerHTML = ""; sup.Table(function(value, index, array) {
@@ -38,6 +37,8 @@ Volcanos("onexport", {help: "导出数据", list: [],
             value.height = can._target.offsetHeight
             can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
                 sub.run = function(event, cmds, cb, silent) { var msg = can.request(event, event._msg||{_msg: sup});
+                    can.Conf("active", sub.Option())
+                    can.Conf("action", value.name)
                     // 插件回调
                     can.run(event, [river, storm, index].concat(cmds), function(msg) {
                         can.run(msg._event, ["search", "Footer.onaction.ncmd"]);
@@ -47,11 +48,15 @@ Volcanos("onexport", {help: "导出数据", list: [],
                 }
                 sub._target.oncontextmenu = function(event) {
                     can.onappend.carte(can, can.ondetail, can.ondetail.list, function(event, item, meta) {
+                        // 菜单命令
                         meta[item] && meta[item](event, can, value, sub)
                     })
                 }
             }, can._output);
         }) })
+    },
+    key: function(can, msg) { msg.Option("active", can.Conf("action"))
+        can.core.Item(can.Conf("active"), msg.Option)
     },
 })
 

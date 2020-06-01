@@ -146,8 +146,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                 }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js"]), function(input) {
                     input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target);
                     if (can.user.Search(can, "active") == meta.name || can.user.Search(can, "title") == meta.name) {
-                        var p = sub.user.Search(can, item.name) || ""
-                        p && (input._target.value = p)
+                        var p = sub.user.Search(can, item.name)
+                        p != undefined && (input._target.value = p)
                     }
 
                     input.run = function(event, cmds, cb, silent) {
