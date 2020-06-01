@@ -56,7 +56,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
     },
     project: function(can, path) { can.ui.project.innerHTML = ""
         can.Option("path", path)
-        can.run({}, ["action", "project", path], function(res) { res.Table(function(value) {
+        can.run({}, ["action", "project", path+"/"], function(res) { res.Table(function(value) {
             var title = can.core.List(["time", "size"], function(item) {
                 return item + ": " + value[item]
             }).join("\n")
@@ -93,7 +93,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         }); if (cache) { return }
 
         // remote
-        can.parse = file.split(".").pop()||"txt"
+        can.parse = can.base.Ext(file)
         can.max = 0, can.core.List(can.ls = msg.Result().split("\n"), function(item) {
             can.onaction.appendLine(can, item)
         })
@@ -116,7 +116,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
     },
     parse: function(can, line) { var p = can.onsyntax[can.parse]
         function wrap(type, str) { return type? '<span class="'+type+'">'+str+'</span>': str }
-        p && p.keyword && (line = can.core.List(can.core.Split(line, " ", p.split.operator), function(item, index, array) {
+        p && p.keyword && (line = can.core.List(can.core.Split(line, " ", p && p.split && p.split.operator || "{[()]}"), function(item, index, array) {
             item = typeof item == "object"? item: {text: item}
             p.word && (item = p.word(item, index, array))
             var text = item.text; var key = item.keyword||p.keyword[text]
@@ -131,17 +131,52 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         p && p.prefix && can.core.Item(p.prefix, function(pre, type) {
             if (line.startsWith(pre)) { line = wrap(type, line) }
         })
+        p && p.suffix && can.core.Item(p.suffix, function(pre, type) {
+            if (line.endsWith(pre)) { line = wrap(type, line) }
+        })
         return p && p.line? p.line(can, line): line
     },
-    sh: {
-        display: true,
+    makefile: {
         split: {},
+        prefix: {"#": "comment"},
+        suffix: {":": "comment"},
         keyword: {
-            export: "keyword",
-            source: "keyword",
-            require: "keyword",
+            "ifeq": "keyword",
+            "ifneq": "keyword",
+            "else": "keyword",
+            "endif": "keyword",
+        },
+    },
+    sh: {
+        split: {
+            operator: "{[(|)]}",
+        },
+        keyword: {
+            "if": "keyword",
+            "then": "keyword",
+            "for": "keyword",
+            "do": "keyword",
+            "done": "keyword",
+
+            "echo": "keyword",
+            "kill": "keyword",
+            "let": "keyword",
+            "cd": "keyword",
+
+            "xargs": "function",
+            "date": "function",
+            "awk": "function",
+            "pwd": "function",
+            "ps": "function",
+            "ls": "function",
+            "rm": "function",
+
+            "export": "keyword",
+            "source": "keyword",
+            "require": "keyword",
         },
         prefix: {"#": "comment"},
+        suffix: {"{": "comment"},
         line: function(can, line) { return line },
     },
     vim: {
@@ -154,7 +189,6 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
     },
     shy: {
         profile: true,
-        display: true,
         split: {},
         line: function(can, line) { return line },
     },
@@ -169,7 +203,6 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         prefix: {"#": "comment"},
     },
     go: {
-        display: true,
         split: {},
         keyword: {
             "package": "keyword",
@@ -216,7 +249,6 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         prefix: {"//": "comment"},
     },
     js: {
-        display: true,
         split: {
             space: " ",
             operator: "{[(.:,;!|)]}",
@@ -507,7 +539,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         },
     },
 })
-Volcanos("onaction", {help: "控件交互", list: ["项目", "上传", "保存", "运行", "提交", "历史"],
+Volcanos("onaction", {help: "控件交互", list: ["项目", "上传", "保存", "提交", "历史", "运行"],
     modifyLine: function(can, target, value) { var p = can.onsyntax.parse(can, value)
         typeof p == "object"? can.page.Appends(can, target, [p]): target.innerHTML = p
     },
@@ -556,9 +588,9 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "上传", "保存",
     "项目": function(event, can, msg) { can.onlayout.project(can) },
     "上传": function(event, can, msg) { can.onappend.upload(can) },
     "保存": function(event, can, msg) { can.onkeymap._remote(event, can, "保存") },
-    "运行": function(event, can, msg) { can.onkeymap._remote(event, can, "运行") },
     "提交": function(event, can, msg) { can.onkeymap._remote(event, can, "提交") },
     "历史": function(event, can, msg) { can.onkeymap._remote(event, can, "历史") },
+    "运行": function(event, can, msg) { can.onkeymap._remote(event, can, "运行") },
 })
 Volcanos("ondetail", {help: "菜单交互", list: ["删除行", "合并行", "插入行", "添加行", "追加行"],
     "删除行": function(event, can, msg) {
@@ -583,14 +615,15 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
     },
 
     project: function(can) { var hide = can.ui.project.style.display == "none"
-        can.page.Modify(can, can.ui.project, {style: {display: hide? "": "none"}})
+        var width = 80, height = 320;
+        can.page.Modify(can, can.ui.project, {style: {width: width, "max-height": height, display: hide? "": "none"}})
 
         var style = {style: {
-            "margin-left": hide? "80px": "0px",
+            "margin-left": hide? width: 0,
         }}; can.page.Modify(can, can.ui.preview, style)
 
         var style = {style: {
-            "margin-left": hide? "110px": "30px",
+            "margin-left": hide? width+30: 30,
         }}; can.page.Modify(can, can.ui.content, style)
 
         can.page.Modify(can, can.ui.display, style)
