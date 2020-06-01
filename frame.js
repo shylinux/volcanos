@@ -408,7 +408,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
     },
     share: function(can, msg) {
         can.run(msg._event, ["share"], function(msg) {
-            var src = can.user.Share(can, {path: "/share/"+msg.Result()}, true);
+            var src = can.user.Share(can, {_path: "/share/"+msg.Result()}, true);
             var ui = can.onappend.toast(can, {title: can.page.Format("a", src, msg.Result()), text: can.page.Format("img", src+"/share"),
                 width: 300, height: 300, duration: 100000, button: [{button: ["确定", function(event) {
                     can.page.Modify(can, can._toast, {style: {display: "none"}})
