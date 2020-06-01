@@ -1,10 +1,18 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) { target.innerHTML = ""
+        if (can.user.Search(can, "share") && can.user.Search(can, "river") && can.user.Search(can, "storm")) {
+            can.onaction.list = ["项目", "运行"]
+            can.page.Modify(can, can._action, {style: {clear: "none"}})
+            can.page.Select(can, can._option, "input[type=button]", function(item) {
+                can.page.Remove(can, item)
+            })
+            can.Conf("height", can.Conf("height") + 64)
+        }
         var width = can.Conf("width"), height = can.Conf("height")
         can.page.Modify(can, target, {style: {"max-height": height-160+"px"}})
 
-        msg.Option("_action") != "查看" && can.onappend.table(can, target, "table", msg)
+        msg.Option("_action") != "查看" && msg.Option("_action") != "打开" && can.onappend.table(can, target, "table", msg)
         can.ui = can.page.Append(can, target, [
-            {view: ["project", "div"], style: {width: "80px"}},
+            {view: ["project", "div"], style: {width: "80px", "max-height": height-160+"px"}},
             {view: ["profile", "div"]},
 
             {view: "preview", style: {width: "30px"}},
@@ -37,11 +45,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         can.Option("name", name)
         if (can.tabview[path+name]) { return can.onsyntax._init(can, can.tabview[path+name]) }
 
-        var p = can.onsyntax[can.parse]
-        !p && can.run({}, ["action", "plug", can.Option("path"), can.Option("name")], function(msg) {
-            can.onsyntax[can.parse] = p
-        }, true)
-
         can.run({}, [path, name], function(msg) {
             msg.Option("path", can.Option("path"))
             msg.Option("name", can.Option("name"))
@@ -53,18 +56,22 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
     },
     project: function(can, path) { can.ui.project.innerHTML = ""
         can.Option("path", path)
-        can.run({}, ["action", "project", path], function(res) {
-            res.Table(function(value) { can.page.Append(can, can.ui.project, [{text: [value.file, "div", "item"], onclick: function(event) {
+        can.run({}, ["action", "project", path], function(res) { res.Table(function(value) {
+            var title = can.core.List(["time", "size"], function(item) {
+                return item + ": " + value[item]
+            }).join("\n")
+
+            can.page.Append(can, can.ui.project, [{text: [value.file, "div", "item"], title: title, onclick: function(event) {
                 if (value.file.endsWith("/")) {
                     can.onimport.project(can, can.Option("path", can.base.Path(can.Option("path"), value.file)))
                 } else {
                     can.onimport.tabview(can, can.Option("path"), can.Option("name", value.file))
                 }
-            }} ]) })
-        }, true)
+            }} ])
+        }) }, true)
     },
 }, ["/plugin/inner.css"])
-Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"], _init: function(can, msg) {
+Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"], _init: function(can, msg) { can._msg = msg
         var file = can.base.Path(msg.Option("path"), msg.Option("name"))
 
         // option
@@ -86,8 +93,6 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         }); if (cache) { return }
 
         // remote
-        can.ui.preview.innerHTML = ""
-        can.ui.content.innerHTML = ""
         can.parse = file.split(".").pop()||"txt"
         can.max = 0, can.core.List(can.ls = msg.Result().split("\n"), function(item) {
             can.onaction.appendLine(can, item)
@@ -296,15 +301,17 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             k: function(event, can) {
             },
         },
-        display: true,
-        line: function(can, line) { var auto = false, loop = true
+        line: function(can, line) { var auto = true, loop = true
             var total = 0
             function cb(event) { console.log(event) }
             return {className: "preview", type: "video", style: {height: can.Conf("height")-160+"px", width: can.Conf("width")-160+"px"},
                 data: {src: "/share/local/"+line, controls: "controls", autoplay: auto, loop: loop},
                 oncontextmenu: cb, onplay: cb, onpause: cb, onended: cb,
-                onloadedmetadata: function(event) { total = event.timeStamp }, onloadeddata: cb, ontimeupdate: function(event) {
-                    can.Status("当前行", can.onexport.position(can, event.target.currentTime-1, event.target.duration))
+                onloadedmetadata: function(event) {
+                    total = event.timeStamp
+                    event.target.currentTime = can._msg.currentTime || 0
+                }, onloadeddata: cb, ontimeupdate: function(event) {
+                    can.Status("当前行", can.onexport.position(can, (can._msg.currentTime=event.target.currentTime)-1, event.target.duration))
                 },
             }
         },

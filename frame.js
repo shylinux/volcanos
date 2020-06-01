@@ -104,6 +104,12 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
             _option: option, _action: action, _output: output,
             _follow: can._follow+"."+meta.name, _history: [],
             Option: function(key, value) {
+                if (key == undefined) { value = {}
+                    sub.page.Select(sub, option, "select.args,input.args", function(item) {
+                        value[item.name] = item.value
+                    })
+                    return value
+                }
                 sub.page.Select(sub, option, "select[name="+key+"],input[name="+key+"]", function(item) {
                     value == undefined? (value = item.value): (item.value = value)
                 })
@@ -125,6 +131,10 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
             meta.feature = can.base.Obj(meta.feature, {})
             meta.detail = meta.feature["detail"] || {}
             sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field);
+            if (can.user.Search(can, "share") && can.user.Search(can, "river") && can.user.Search(can, "storm")) {
+                can.page.Select(can, field, "legend", function(item) { can.page.Remove(can, item) })
+            }
+
 
             // 添加控件
             var args = can.base.Obj(meta.args, [])
@@ -135,7 +145,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                     _follow: can._follow+"."+meta.name+"."+item.name,
                 }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js"]), function(input) {
                     input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target);
-                    if (can.user.Search(can, "active") == meta.name) {
+                    if (can.user.Search(can, "active") == meta.name || can.user.Search(can, "title") == meta.name) {
                         var p = sub.user.Search(can, item.name) || ""
                         p && (input._target.value = p)
                     }

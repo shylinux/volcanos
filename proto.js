@@ -182,6 +182,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                 return name
             }
 
+            output.innerHTML = ""
             var list = cache[name]; if (!list) {return}
             console.log(can._root, can._name, "load", name, cache[name]);
 

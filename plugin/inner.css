@@ -2,6 +2,7 @@ fieldset.editor>div.action>div.file {
     border:solid 2px red;
     padding:2px;
     float:left;
+    margin:2px 0;
 }
 fieldset.editor>div.action>div.file:hover {
     background-color:green;
@@ -22,7 +23,6 @@ fieldset.editor>div.output>div.profile {
     width:80px; overflow:auto;
 }
 fieldset.editor>div.output>div.profile:hover {
-    position:absolute; right:0;
     width:480px;
 }
 

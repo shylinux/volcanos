@@ -76,6 +76,11 @@ fieldset>div.action {
 }
 fieldset>div.action>div.item {
     float:left;
+    margin:2px 0;
+}
+fieldset>div.action>div.item>select {
+    color:cyan;
+    background:black;
 }
 fieldset>div.action>div.item>input {
     color:cyan;
@@ -83,10 +88,6 @@ fieldset>div.action>div.item>input {
 }
 fieldset>div.action>div.item>input:hover {
     background:gray;
-}
-fieldset>div.action>div.item>select {
-    color:cyan;
-    background:black;
 }
 fieldset>div.status>div.item {
     float:left;

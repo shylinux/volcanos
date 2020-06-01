@@ -7,13 +7,15 @@ Volcanos("onaction", {help: "交互操作", list: [],
     },
 })
 Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"],
-    "共享": function(event, can, value) {
-        var msg = can.request(event)
-        msg.Option("name", "storm")
+    "共享": function(event, can, value, sub) {
+        console.log(sub.Option())
+        var msg = sub.request(event)
+        msg.Option("name", value.name)
         msg.Option("node", value.pod)
         msg.Option("group", value.group)
         msg.Option("index", value.index)
         msg.Option("args", value.args)
+        msg.Option("value", JSON.stringify(sub.Option()))
         msg.Option("storm", can.Conf("storm"))
         msg.Option("river", can.Conf("river"))
         can.onappend.share(can, msg)
@@ -45,7 +47,7 @@ Volcanos("onexport", {help: "导出数据", list: [],
                 }
                 sub._target.oncontextmenu = function(event) {
                     can.onappend.carte(can, can.ondetail, can.ondetail.list, function(event, item, meta) {
-                        meta[item] && meta[item](event, can, value)
+                        meta[item] && meta[item](event, can, value, sub)
                     })
                 }
             }, can._output);
