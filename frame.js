@@ -135,7 +135,6 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                 can.page.Select(can, field, "legend", function(item) { can.page.Remove(can, item) })
             }
 
-
             // 添加控件
             var args = can.base.Obj(meta.args, [])
             can.core.Next(can.base.Obj(meta.inputs, []), function(item, next, index) {
@@ -242,6 +241,13 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
             },
         }])
         return ui.item.Meta = item, ui.item
+    },
+    menu: function(can, msg, value) {
+        can.ondetail && can.ondetail.list && can.ondetail.list.length > 0 && (can._target.oncontextmenu = function(event) {
+            can.onappend.carte(can, can.ondetail||{}, msg["_detail"] || can.Conf("detail"), function(ev, item, meta) {
+                (can.ondetail[item]||can.onaction[item])(event, can, value, item)
+            })
+        })
     },
     field: function(can, target, type, item) { var dataset = {}; item && item.name && (dataset.names = item.name);
         item.help = typeof item.help == "string" && item.help.startsWith("[") && (item.help = can.base.Obj(item.help, [""])[0]) || item.help || ""

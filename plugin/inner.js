@@ -32,11 +32,12 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
 
         msg.Option("path", can.Option("path"))
         msg.Option("name", can.Option("name"))
+        msg.Option("key", can.Option("key"))
         can.tabview = {}, can.Timer(10, function() {
             can.onlayout._init(can)
+            can.onsyntax._init(can, msg)
             can.onkeymap._init(can, "normal")
             can.onimport.project(can, can.Option("path"))
-            can.onimport.tabview(can, can.Option("path"), can.Option("name"))
         })
         return typeof cb == "function" && cb(msg)
     },

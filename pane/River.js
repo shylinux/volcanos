@@ -1,8 +1,21 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
     },
 })
-Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, list, cb, target) {
         can.onexport._init(can, msg, list, cb, target)
+    },
+})
+Volcanos("ondetail", {help: "菜单交互", list: ["添加用户", "重命名", "删除"], _init: function(can, msg, list, cb, target) {
+        can.onexport._init(can, msg, list, cb, target)
+    },
+    "添加用户": function(event, can, river, button) {
+        console.log(river, button)
+    },
+    "重命名": function(event, can, river, button) {
+        console.log(river, button)
+    },
+    "删除": function(event, can, river, button) {
+        console.log(river, button)
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) { var key = "river";
@@ -12,6 +25,7 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                 msg.Option(key, can.Conf(key, value.key)), can.run(event, ["search", "Storm.onaction._init"]);
             }, function(event) {
                 // 右键点击
+                can.onappend.menu(can, msg, value)
             });
 
             if (index == 0 || [value.key, value.name].indexOf(can.user.Search(can, key)) > -1) {
