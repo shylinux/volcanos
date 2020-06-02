@@ -10,6 +10,7 @@ Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"]
     "共享": function(event, can, value, sub) {
         console.log(sub.Option())
         var msg = sub.request(event)
+        msg.Option("pod", can.user.Search(can, "pod"))
         msg.Option("name", value.name)
         msg.Option("node", value.pod)
         msg.Option("group", value.group)

@@ -1,4 +1,7 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) { target.innerHTML = ""
+        if (msg.append&&msg.append["file"]) {
+            return
+        }
         if (can.user.Search(can, "share") && can.user.Search(can, "river") && can.user.Search(can, "storm")) {
             can.onaction.list = ["项目", "运行"]
             can.page.Modify(can, can._action, {style: {clear: "none"}})
@@ -10,7 +13,9 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         var width = can.Conf("width"), height = can.Conf("height")
         can.page.Modify(can, target, {style: {"max-height": height-160+"px"}})
 
+        // msg.key && (msg.key = msg.key.slice(2))
         msg.Option("_action") != "查看" && msg.Option("_action") != "打开" && can.onappend.table(can, target, "table", msg)
+
         can.ui = can.page.Append(can, target, [
             {view: ["project", "div"], style: {width: "80px", "max-height": height-160+"px"}},
             {view: ["profile", "div"]},
@@ -177,7 +182,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             "require": "keyword",
         },
         prefix: {"#": "comment"},
-        suffix: {"{": "comment"},
+        suffix: {"&": "comment"},
         line: function(can, line) { return line },
     },
     vim: {
@@ -349,6 +354,11 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             }
         },
     },
+    jpg: {
+        keymap: {
+        },
+        line: function(can, line) { return can.page.Format("img", "/share/local/"+line) }
+    },
 })
 Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"], _init: function(can, mode) {
         can.page.Modify(can, can.ui.command, {style: {display: "none", width: can._target.offsetWidth-20+"px"}})
@@ -379,6 +389,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         can.display = p && p.profile && can.ui.profile || can.ui.display
         var msg = can.request(event); msg.Option("content", can.onexport.content(can))
         can.run(event, arg||["action", key, can.Option("path"), can.Option("name")], function(msg) {
+            // msg.key && (msg.key = msg.key.slice(2))
             can.page.Modify(can, can.display, {innerHTML: "", style: {display: "block"}})
             can.onappend.table(can, can.display, "table", msg)
             can.onappend.board(can, can.display, "board", msg)
@@ -540,7 +551,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         },
     },
 })
-Volcanos("onaction", {help: "控件交互", list: ["项目", "上传", "保存", "提交", "历史", "运行"],
+Volcanos("onaction", {help: "控件交互", list: ["项目", "上传", "保存", "历史", "提交", "运行", "记录", "复盘"],
     modifyLine: function(can, target, value) { var p = can.onsyntax.parse(can, value)
         typeof p == "object"? can.page.Appends(can, target, [p]): target.innerHTML = p
     },
@@ -592,6 +603,10 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "上传", "保存",
     "提交": function(event, can, msg) { can.onkeymap._remote(event, can, "提交") },
     "历史": function(event, can, msg) { can.onkeymap._remote(event, can, "历史") },
     "运行": function(event, can, msg) { can.onkeymap._remote(event, can, "运行") },
+    "记录": function(event, can, msg) { var sub = can.request(event, can.Option()); sub.Option("display", can.display.innerText)
+        can.onkeymap._remote(event, can, "记录", ["action", "记录"])
+    },
+    "复盘": function(event, can, msg) { can.onkeymap._remote(event, can, "复盘") },
 })
 Volcanos("ondetail", {help: "菜单交互", list: ["删除行", "合并行", "插入行", "添加行", "追加行"],
     "删除行": function(event, can, msg) {
@@ -616,7 +631,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
     },
 
     project: function(can) { var hide = can.ui.project.style.display == "none"
-        var width = 80, height = 320;
+        var width = 80, height = 480;
         can.page.Modify(can, can.ui.project, {style: {width: width, "max-height": height, display: hide? "": "none"}})
 
         var style = {style: {

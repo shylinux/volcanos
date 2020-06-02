@@ -17,6 +17,7 @@ fieldset.editor>div.output {
 fieldset.editor>div.output>div.project {
     width:80px; overflow:auto;
     position:fixed;
+    min-height:240px;
 }
 fieldset.editor>div.output>div.profile {
     position:absolute; right:0;

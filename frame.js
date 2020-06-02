@@ -202,7 +202,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                     table.onimport._init(table, msg, msg.result||[], function() {}, output)
 
                     table.run = function(event, cmds, cb, silent) { cmds = cmds || []
-                        sub.run(event, cmds, cb, silent)
+                        run(event, cmds, cb, silent)
                     }
 
                     // 工具栏
@@ -305,11 +305,15 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         // item.type == "select" && (target.value = item.value || item.values[item.index||0]);
         return target;
     },
-    table: function(can, target, type, msg) {
+    table: function(can, target, type, msg, cb) {
         var table = can.page.AppendTable(can, target, msg, msg.append, function(event, value, key, index, tr, td) {
             can.page.Select(can, can._option, "input.args", function(input) { if (input.name == key) { var data = input.dataset || {}
-                input.value = value; if (data.action == "auto") {
-                    can.run(event, [], function(msg) {})
+                input.value = value; typeof cb == "function" && cb(event, value); if (data.action == "auto") {
+                    var sub = can.request(event, can.Option())
+                    sub.Option("_action", msg.Option("_action"))
+                    can.run(event, can.page.Select(can, can._option, "input.args", function(item) {
+                        return item.name && item.value || ""
+                    }))
                 }
             } })
         }, function(event, value, key, index, tr, td) {
@@ -412,7 +416,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         }
         return ui
     },
-    share: function(can, msg) {
+    share: function(can, msg, name, text) {
         can.run(msg._event, ["share"], function(msg) {
             var src = can.user.Share(can, {_path: "/share/"+msg.Result()}, true);
             var ui = can.onappend.toast(can, {title: can.page.Format("a", src, msg.Result()), text: can.page.Format("img", src+"/share"),
