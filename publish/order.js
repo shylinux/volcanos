@@ -1,67 +1,39 @@
-Volcanos("onengine", {
-    river: {
-        "two": {name: "two", storm: {
-            "one": {name: "one", action: [
-                {name: "some", help: "some", inputs: [
-                    {type: "text", name: "one"},
-                    {type: "button", name: "one"},
-                ], engine: function(event, can, msg, pane, cmds, cb) {
-                    msg.Echo("hello world")
-                    typeof cb == "function" && cb(msg)
-                }},
-            ]},
-            "two": {name: "two", action: [
-                {name: "some", help: "some", inputs: [
-                    {type: "text", name: "one"},
-                    {type: "button", name: "one"},
-                ], engine: function(event, can, msg, pane, cmds, cb) {
-                    msg.Echo("hello world")
-                    typeof cb == "function" && cb(msg)
-                }},
-                {name: "miss", help: "some", inputs: [
-                    {type: "text", name: "one"},
-                    {type: "button", name: "one"},
-                ], engine: function(event, can, msg, pane, cmds, cb) {
-                    msg.Echo("hello miss world")
-                    typeof cb == "function" && cb(msg)
-                }},
-            ]},
-        }},
-    },
-    remote: function(event, can, msg, pane, cmds, cb) {
-        switch (pane._name) {
-            case "River":
-                if (cmds.length == 0) {
-                    can.core.Item(can.onengine.river, function(key, value) {
-                        msg.Push("key", key)
-                        msg.Push("name", value.name)
-                    })
-                }
-                break
-            case "Storm":
-                var river = can.onengine.river[cmds[0]]
-                if (!river) { break }
-                can.core.Item(river.storm, function(key, value) {
-                    msg.Push("key", key)
-                    msg.Push("name", value.name)
-                })
-                typeof cb == "function" && cb(msg)
-                return true
-            case "Action":
-                var river = can.onengine.river[cmds[0]]
-                var storm = river && river.storm[cmds[1]]
-                if (!storm) { break } if (cmds.length == 2) {
-                    can.core.List(storm.action, function(value) {
-                        msg.Push("name", value.name||"")
-                        msg.Push("help", value.help||"")
-                        msg.Push("inputs", JSON.stringify(value.inputs||[]))
-                    })
-                    typeof cb == "function" && cb(msg)
-                } else {
-                    storm.action[cmds[2]].engine(event, can, msg, pane, cmds, cb)
-                }
-                return true
-        }
-        return false;
-    },
-}, [], function(can) {})
+Volcanos("onengine", { river: {
+    "main": {name: "main", storm: {
+        "main": {name: "main", action: [
+            {name: "IDE", help: "集成开发环境", inputs: [
+                {type: "text", name: "path", value: "tmp", action: "auto"},
+                {type: "text", name: "name", value: "hi.qrc", action: "auto"},
+                {type: "text", name: "key", value: "", action: "auto"},
+                {type: "button", name: "打开", action: "auto"},
+                {type: "button", name: "返回"},
+                {type: "button", name: "提交"},
+                {type: "button", name: "历史"},
+            ], index: "web.wiki.inner", feature: {display: "/plugin/inner.js", style: "editor"}},
+        ]},
+        "word": {name: "word", action: [
+            {name: "trans", help: "词汇", inputs: [
+                {type: "text", name: "word", value: "miss"},
+                {type: "text", name: "method", value: ""},
+                {type: "button", name: "翻译"},
+            ], group: "web.wiki.alpha", index: "trans"},
+        ]},
+        "hello": {name: "应用1", action: [
+            {name: "some", help: "some", inputs: [
+                {type: "text", name: "one"},
+                {type: "button", name: "one"},
+            ], engine: function(event, can, msg, pane, cmds, cb) {
+                can.onappend.toast(can, "hello", "world");
+                msg.Echo("hello world");
+                typeof cb == "function" && cb(msg);
+            }},
+        ]},
+        "world": {name: "应用2", action: [
+            {name: "hello", help: "world", inputs: [
+                {type: "text", name: "one", value: "pwd"},
+                {type: "button", name: "one"},
+            ], group: "cli", index: "system"},
+        ]},
+    }},
+}, })
+

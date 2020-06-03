@@ -24,7 +24,7 @@ Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"]
 })
 Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) { var key = "action";
         can.Cache(can.Conf("river")+"."+can.Conf("storm"), can._output, can._output.scrollTop+1);
-        var river = can.Conf("river", msg.Option("river")), storm = can.Conf("storm", msg.Option("storm"));
+        var river = can.Conf("river", msg.Option("river")||"main"), storm = can.Conf("storm", msg.Option("storm")||"main")
         var position = can.Conf(key, msg.Option(key, can.Cache(river+"."+storm, can._output)||""));
         if (position) { can._output.scrollTo(0, position-1); return }
 

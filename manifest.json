@@ -2,9 +2,23 @@
     "manifest_version": 2,
     "name": "volcanos",
     "version": "0.0.1",
-    "background": {"page": "plugin/chrome/chrome.html"},
-    "browser_action": {"default_popup": "plugin/chrome/popup.html"},
-    "content_scripts": [],
+    "background": {"page": "/plugin/chrome/chrome.html"},
+    "browser_action": {
+        "default_icon": "/favicon.ico",
+        "default_popup": "/plugin/chrome/popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [ "<all_urls>" ],
+            "js": ["/proto.js",
+                "/lib/base.js",
+                "/lib/core.js",
+                "/lib/misc.js",
+                "/lib/page.js",
+                "/lib/user.js",
+                "/plugin/chrome/contexts.js"]
+        }
+    ],
     "permissions": [
         "tabs",
         "history",

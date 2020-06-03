@@ -163,6 +163,10 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                     _follow: can._follow+"."+meta.name+"."+item.name,
                 }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js"]), function(input) {
                     input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target);
+                    if (location.protocol == "chrome-extension:") {
+                        var p = sub.user.Cookie(can, item.name)
+                        item.type != "button" && p != undefined && (input._target.value = p)
+                    }
                     if (can.user.Search(can, "active") == meta.name || can.user.Search(can, "title") == meta.name) {
                         var p = sub.user.Search(can, item.name)
                         p != undefined && (input._target.value = p)

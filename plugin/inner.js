@@ -17,7 +17,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         msg.Option("_action") != "查看" && msg.Option("_action") != "打开" && can.onappend.table(can, target, "table", msg)
 
         can.ui = can.page.Append(can, target, [
-            {view: ["project", "div"], style: {width: "80px", "max-height": height-160+"px"}},
+            {view: ["project", "div"], style: {width: "80px", "max-height": height-180+"px"}},
             {view: ["profile", "div"]},
 
             {view: "preview", style: {width: "30px"}},
@@ -50,6 +50,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         return typeof cb == "function" && cb(msg)
     },
     tabview: function(can, path, name) {
+        can.user.Cookie(can, "path", path)
+        can.user.Cookie(can, "name", name)
         can.Option("path", path)
         can.Option("name", name)
         can.Option("key", "")
@@ -356,10 +358,29 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             },
         },
         line: function(can, line) { var auto = true, loop = true
+            var p = location.href.startsWith("https")? "": "http://localhost:9020"
             var total = 0
             function cb(event) { console.log(event) }
-            return {className: "preview", type: "video", style: {height: can.Conf("height")-160+"px", width: can.Conf("width")-160+"px"},
-                data: {src: "/share/local/"+line, controls: "controls", autoplay: auto, loop: loop},
+            return {className: "preview", type: "video", style: {
+                height: can.Conf("height")-160+"px", width: can.Conf("width")-160+"px"},
+                data: {src: p+"/share/local/"+line, controls: "controls", autoplay: auto, loop: loop},
+                oncontextmenu: cb, onplay: cb, onpause: cb, onended: cb,
+                onloadedmetadata: function(event) {
+                    total = event.timeStamp
+                    event.target.currentTime = can._msg.currentTime || 0
+                }, onloadeddata: cb, ontimeupdate: function(event) {
+                    can.Status("当前行", can.onexport.position(can, (can._msg.currentTime=event.target.currentTime)-1, event.target.duration))
+                },
+            }
+        },
+    },
+    url: {
+        line: function(can, line) { var auto = true, loop = true
+            var total = 0
+            function cb(event) { console.log(event) }
+            return {className: "preview", type: "video", style: {
+                height: can.Conf("height")-160+"px", width: can.Conf("width")-160+"px"},
+                data: {src: line, controls: "controls", autoplay: auto, loop: loop},
                 oncontextmenu: cb, onplay: cb, onpause: cb, onended: cb,
                 onloadedmetadata: function(event) {
                     total = event.timeStamp
@@ -569,7 +590,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         },
     },
 })
-Volcanos("onaction", {help: "控件交互", list: ["", "项目", "", "上传", "保存", "运行", "日志", "", "提交", "历史", "记录", "复盘", ""],
+Volcanos("onaction", {help: "控件交互", list: ["", "项目", "", "上传", "保存", "运行", "日志", "", "提交", "历史", "记录", "复盘", "", "列表"],
     modifyLine: function(can, target, value) { var p = can.onsyntax.parse(can, value)
         typeof p == "object"? can.page.Appends(can, target, [p]): target.innerHTML = p
     },
@@ -629,6 +650,18 @@ Volcanos("onaction", {help: "控件交互", list: ["", "项目", "", "上传", "
 
     "提交": function(event, can, msg) { can.onkeymap._remote(event, can, "提交") },
     "历史": function(event, can, msg) { can.onkeymap._remote(event, can, "历史") },
+    "收藏": function(event, can, msg) {
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, { action: "copy" }, function (response) {
+                var win = chrome.extension.getBackgroundPage();
+                win.can.user.toast(response.src)
+                can.run(event, ["action", "favor", "url.favor", "spide", response.title, response.src, "poster", response.poster], function(msg) {
+                    alert(response.title)
+                }, true)
+            })
+        })
+    },
+    "列表": function(event, can, msg) { can.onkeymap._remote(event, can, "收藏", ["action", "favor", "url.favor"]) },
 })
 Volcanos("ondetail", {help: "菜单交互", list: ["删除行", "合并行", "插入行", "添加行", "追加行"],
     "删除行": function(event, can, msg) {
