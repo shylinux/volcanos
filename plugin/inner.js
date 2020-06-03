@@ -32,6 +32,9 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                 })
             }, onblur: function(event) {
                 can.onaction.modifyLine(can, can.current, can.editor.value)
+            }, onclick: function(event) {
+            }, ondblclick: function(event) {
+                can.onkeymap._mode(can, "insert")
             }},
         ])
 
@@ -110,7 +113,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
 
         // plugin
         function init() {
-            can.onkeymap._remote(event, can, "运行")
+            can.onkeymap._remote(null, can, "运行")
             typeof p.display == "object" && (
                 p.display.height && can.page.Modify(can, can.ui.display, {style: {
                     "max-height": p.display.height,
@@ -164,6 +167,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             "do": "keyword",
             "done": "keyword",
 
+            "local": "keyword",
             "echo": "keyword",
             "kill": "keyword",
             "let": "keyword",
@@ -171,18 +175,22 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
 
             "xargs": "function",
             "date": "function",
+            "find": "function",
+            "grep": "function",
+            "sed": "function",
             "awk": "function",
             "pwd": "function",
             "ps": "function",
             "ls": "function",
             "rm": "function",
+            "go": "function",
 
             "export": "keyword",
             "source": "keyword",
             "require": "keyword",
         },
         prefix: {"#": "comment"},
-        suffix: {"&": "comment"},
+        suffix: {"{": "comment"},
         line: function(can, line) { return line },
     },
     vim: {
@@ -553,7 +561,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         },
     },
 })
-Volcanos("onaction", {help: "控件交互", list: ["项目", "上传", "保存", "历史", "提交", "运行", "记录", "复盘"],
+Volcanos("onaction", {help: "控件交互", list: ["项目", "上传", "保存", "", "历史", "提交", "运行", "日志", "记录", "复盘"],
     modifyLine: function(can, target, value) { var p = can.onsyntax.parse(can, value)
         typeof p == "object"? can.page.Appends(can, target, [p]): target.innerHTML = p
     },
@@ -605,6 +613,7 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "上传", "保存",
     "提交": function(event, can, msg) { can.onkeymap._remote(event, can, "提交") },
     "历史": function(event, can, msg) { can.onkeymap._remote(event, can, "历史") },
     "运行": function(event, can, msg) { can.onkeymap._remote(event, can, "运行") },
+    "日志": function(event, can, msg) { can.onkeymap._remote(event, can, "日志") },
     "记录": function(event, can, msg) {
         var sub = can.request(event)
         can.core.Item(can.Option(), sub.Option)
@@ -652,10 +661,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
         can.page.Modify(can, can.ui.editor, style)
     },
 })
-Volcanos("ondaemon", {help: "数据刷新", list: [], _init: function(can) {
-},
-})
-Volcanos("onexport", {help: "导出数据", list: ["输入法", "输入值", "文件名", "解析器", "当前行"],
+Volcanos("onexport", {help: "导出数据", list: ["输入法", "输入值", "文件名", "解析器", "当前行", "ncmd"],
     content: function(can) {
         return can.page.Select(can, can._output, "div.content>pre.item", function(item) {
             return can.current == item? can.editor.value: item.innerText

@@ -37,9 +37,10 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             value.width = can._target.offsetWidth
             value.height = can._target.offsetHeight
             can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
-                sub.run = function(event, cmds, cb, silent) { var msg = can.request(event, event._msg||{_msg: sup});
+                sub.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                     can.Conf("active", sub.Option())
                     can.Conf("action", value.name)
+                    // console.log(event, sub, msg)
                     // 插件回调
                     can.run(event, [river, storm, index].concat(cmds), function(msg) {
                         can.run(msg._event, ["search", "Footer.onaction.ncmd"]);

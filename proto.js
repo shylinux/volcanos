@@ -1,6 +1,3 @@
-// volcanos: 前端 火山架 我看不行
-// FMS: a fieldset manager system
-
 function shy(help, meta, list, cb) {
     var index = -1, value = "", type = "string", args = arguments; function next(check) {
         if (++index >= args.length) {return false}
@@ -29,7 +26,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
             _head: document.head, _body: document.body,
             _width: window.innerWidth, _height: window.innerHeight,
         }, libs = Preload.concat(Config.volcano), cb = function(can) {
-            can.onaction._init(can, can.Conf(Config), [], function(msg) {
+            can.onengine._init(can, can.Conf(Config), [], function(msg) {
             }, can._target)
         }
     }
@@ -43,7 +40,9 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
             }
 
             for (var i = 0; i < cache.length; i++) {
-                typeof cb == "function" && cb(can, name, cache[i]) || (can[cache[i]._name] = cache[i]);
+                if (can[cache[i]._name] && can[cache[i]._name]._merge && can[cache[i]._name]._merge(can, cache[i])) { continue }
+                if (typeof cb == "function" && cb(can, name, cache[i])) { continue}
+                can[cache[i]._name] = cache[i]
                 // 加载索引
             }
             meta.cache[name] = cache;
@@ -209,3 +208,4 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
 
     return can.require(libs, cb), can
 })
+

@@ -10,6 +10,10 @@ fieldset {
 legend {
     margin-left:10px;
 }
+legend:hover {
+    cursor:pointer;
+    background:red;
+}
 div.hidden {
     display:none;
 }

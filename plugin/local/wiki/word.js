@@ -1,5 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [],
-    _init: function(can, msg, list, cb, target) { can._output.innerHTML = "";
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { can._output.innerHTML = "";
         can.onappend.table(can, target, "table", msg)
 
         // if (msg.Option("_display") == "table") {
@@ -20,7 +19,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             var meta = JSON.parse(data.meta||"{}")
             can.onappend._init(can, meta, Volcanos.meta.libs.concat(["plugin/state.js"]), function(sub) {
                 sub.run = function(event, cmds, cb, silent) {
-                    // can.run(event, ["field", "action", "story", data.type, data.name, data.text].concat(cmds), cb, silent)
+                    can.run(event, ["action", "story", data.type, data.name, data.text].concat(cmds), cb, true)
                 }
             }, can._output, item)
         })

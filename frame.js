@@ -1,8 +1,11 @@
-Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
+// volcanos: 前端 火山架 我看不行
+// FMS: a fieldset manager system
+
+Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
         can.core.Next(meta.panes, function(item, next) {
             can.onappend._init(can, item, meta.libs.concat(item.list), function(pane) {
                 pane.Conf(item), pane.run = function(event, cmds, cb) {
-                    (can.onaction[cmds[0]]||can.onaction[meta.main.engine])(event, can, pane.request(event), pane, cmds, cb);
+                    (can.onengine[cmds[0]]||can.onengine[meta.main.engine])(event, can, pane.request(event), pane, cmds, cb);
                 }, can[item.name] = pane, next();
             }, can._target);
         }, function() { can.onlayout._init(can, meta, list, function() {
@@ -27,10 +30,13 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
                 // 应用入口
                 can.user.title(can.user.Search(can, "title"))
                 var pane = can[meta.main.name], msg = can.request({});
-                pane.onaction._init(pane, msg, msg.option||[], cb, target);
+                pane.onaction && pane.onaction._init(pane, msg, msg.option||[], cb, target);
             })
         }, target) });
     },
+    _merge: function(can, sub) { can.core.Item(sub, function(key, value) {
+        if (sub.hasOwnProperty(key)) { can.onengine[key] = value }
+    }); return true },
     search: function(event, can, msg, pane, cmds, cb) { var chain = cmds[1]
         var sub, mod = can, key, fun = can; can.core.List(chain.split("."), function(value, index, array) {
             fun && (sub = mod, mod = fun, key = value, fun = mod[value])
@@ -85,13 +91,14 @@ Volcanos("onaction", { _init: function(can, meta, list, cb, target) {
         return false;
     },
     remote: function(event, can, msg, pane, cmds, cb) {
-        if (can.onaction.engine(event, can, msg, pane, cmds, cb)) { return }
+        if (can.onengine.engine(event, can, msg, pane, cmds, cb)) { return }
         if (location.protocol == "file:") { typeof cb == "function" && cb(msg); return }
         can.misc.Run(event, can, {names: pane._name}, cmds, cb)
     },
 })
 Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         field = field || can.onappend.field(can, target, meta.type||"plugin", meta);
+        var legend = can.page.Select(can, field, "legend")[0];
         var option = can.page.Select(can, field, "form.option")[0];
         var action = can.page.Select(can, field, "div.action")[0];
         var output = can.page.Select(can, field, "div.output")[0];
@@ -99,10 +106,22 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         var feature = can.base.Obj(meta.feature)
         can.page.ClassList.add(can, field, feature.style||"")
 
+        legend && (legend.onclick = function(event) { var msg = can.request(event)
+            can.core.List(["share", "pod"], function(key) { var value = can.user.Search(can, key)
+                value != undefined && msg.Option(key, can.user.Search(key))
+            })
+            can.core.List(["River", "Storm", "Action"], function(item) {
+                can.run(event, ["search", item+".onexport.key"])
+            })
+            var args = {}; can.core.List(msg.option, function(key) { args[key] = msg.Option(key) })
+            location.href = can.user.Share(can, args, true)
+        })
+
         // 添加插件
         var sub = Volcanos(meta.name, { _help: meta.name, _target: field,
             _option: option, _action: action, _output: output,
             _follow: can._follow+"."+meta.name, _history: [],
+            _inputs: {}, _outputs: [],
             Option: function(key, value) {
                 if (key == undefined) { value = {}
                     sub.page.Select(sub, option, "select.args,input.args", function(item) {
@@ -138,7 +157,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
             // 添加控件
             var args = can.base.Obj(meta.args, [])
             can.core.Next(can.base.Obj(meta.inputs, []), function(item, next, index) {
-                sub[item.name] = Volcanos(item.name, { _help: item.name,
+                sub._inputs[item.name] = Volcanos(item.name, { _help: item.name,
                     _target: can.onappend.input(sub, option, item.type, item, args[index]),
                     _option: option, _action: action, _output: output,
                     _follow: can._follow+"."+meta.name+"."+item.name,
@@ -168,8 +187,11 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                             if (!cmds[i]) { cmds.pop() } else { break }
                         }
 
-                        var msg = sub.request(event); msg.Option("_action", item.name);
-                        cmds[0] != "action" && sub._history.push(cmds);
+                        var msg = sub.request(event); msg.Option("_action", item.name)
+
+                        var last = sub._history[sub._history.length-1]
+                        !can.core.Eq(last, cmds) && cmds[0] != "action" && sub._history.push(cmds)
+
                         run(event, cmds, cb, silent)
                     }
 
@@ -187,26 +209,28 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                 })
             })
 
+            var count = 0
             function run(event, cmds, cb, silent) { sub.run(event, cmds, function(msg) {
+                sub.Status("ncmd", sub._history.length+"/"+count++)
                 if (silent) { typeof cb == "function" && cb(msg); return }
 
                 // 添加组件
                 var display = (msg.Option("_display")||feature.display||"table.js")
                 display.indexOf("/") == 0 || (display = "/plugin/"+display)
 
-                sub[display] = Volcanos(display, { _help: display, _target: output,
+                var table = Volcanos(display, { _help: display, _target: output,
                     _option: option, _action: action, _output: output,
                     _follow: can._follow+"."+meta.name+"."+display,
                     Option: sub.Option, Action: sub.Action, Status: sub.Status,
                 }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf())
                     table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function() {}, output)
-
                     table.run = function(event, cmds, cb, silent) { cmds = cmds || []
                         run(event, cmds, cb, silent)
                     }
 
                     // 工具栏
                     action.innerHTML = "", table.onaction && can.core.List(table.onaction.list, function(item) {
+                        item === ""? can.page.Append(can, action, [{view: "item space"}]):
                         typeof item == "string"? can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
                             table.onaction[item](event, table, msg)
                         }}): item.length > 0? can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
@@ -225,8 +249,9 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                     status.innerHTML = "", table.onexport && can.core.List(table.onexport.list, function(item) {
                         can.page.Append(can, status, [{view: "item "+item, title: item, list: [{text: [item+": ", "label"]}, {text: ["", "span"]}]}])
                     })
+                    sub.Status("ncmd", sub._history.length+"/"+count)
                 }) 
-                var table = sub[display];
+                sub._outputs.push(table)
             }, silent) }
 
         }); cb(sub);
