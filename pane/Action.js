@@ -42,11 +42,12 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                     can.Conf("action", value.name)
                     // console.log(event, sub, msg)
                     // 插件回调
-                    can.run(event, [river, storm, index].concat(cmds), function(msg) {
+                    //
+                    return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, index].concat(cmds), function(msg) {
                         can.run(msg._event, ["search", "Footer.onaction.ncmd"]);
                         can.onappend.toast(can, "执行成功", value.name, 2000);
                         typeof cb == "function" && cb(msg)
-                    }, silent);
+                    }, silent)
                 }
                 sub._target.oncontextmenu = function(event) {
                     can.onappend.carte(can, can.ondetail, can.ondetail.list, function(event, item, meta) {
@@ -59,6 +60,12 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
     },
     key: function(can, msg) { msg.Option("active", can.Conf("action"))
         can.core.Item(can.Conf("active"), msg.Option)
+    },
+    left: function(can) {
+        return can._target.offsetLeft
+    },
+    top: function(can) {
+        return can._target.offsetTop
     },
 })
 

@@ -93,6 +93,9 @@ fieldset>div.action>div.item>input {
 fieldset>div.action>div.item>input:hover {
     background:gray;
 }
+fieldset>div.action>div.item.space {
+    width:10px;
+}
 fieldset>div.status>div.item {
     float:left;
     padding:4px;
@@ -178,6 +181,7 @@ div.carte {
     background:black;
     border:solid 2px red;
     position:absolute;
+    z-index:10;
 }
 div.carte div.item {
     padding:0 5px;

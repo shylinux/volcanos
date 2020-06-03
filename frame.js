@@ -5,7 +5,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
         can.core.Next(meta.panes, function(item, next) {
             can.onappend._init(can, item, meta.libs.concat(item.list), function(pane) {
                 pane.Conf(item), pane.run = function(event, cmds, cb) {
-                    (can.onengine[cmds[0]]||can.onengine[meta.main.engine])(event, can, pane.request(event), pane, cmds, cb);
+                    return (can.onengine[cmds[0]]||can.onengine[meta.main.engine])(event, can, pane.request(event), pane, cmds, cb)
                 }, can[item.name] = pane, next();
             }, can._target);
         }, function() { can.onlayout._init(can, meta, list, function() {
@@ -42,7 +42,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
             fun && (sub = mod, mod = fun, key = value, fun = mod[value])
         }); if (!sub || !mod || !fun) { console.info("not found", chain); return }
 
-        typeof fun == "function" && fun(sub, msg, cmds.slice(2), cb, sub._target)
+        return typeof fun == "function" && fun(sub, msg, cmds.slice(2), cb, sub._target)
     },
     engine: function(event, can, msg, pane, cmds, cb) { if (!can.onengine) { return false }
         switch (pane._name) {
@@ -192,7 +192,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                         var last = sub._history[sub._history.length-1]
                         !can.core.Eq(last, cmds) && cmds[0] != "action" && sub._history.push(cmds)
 
-                        run(event, cmds, cb, silent)
+                        return run(event, cmds, cb, silent)
                     }
 
                     // 添加事件
@@ -210,7 +210,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
             })
 
             var count = 0
-            function run(event, cmds, cb, silent) { sub.run(event, cmds, function(msg) {
+            function run(event, cmds, cb, silent) { return sub.run(event, cmds, function(msg) {
                 sub.Status("ncmd", sub._history.length+"/"+count++)
                 if (silent) { typeof cb == "function" && cb(msg); return }
 
@@ -225,7 +225,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                 }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf())
                     table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function() {}, output)
                     table.run = function(event, cmds, cb, silent) { cmds = cmds || []
-                        run(event, cmds, cb, silent)
+                        return run(event, cmds, cb, silent)
                     }
 
                     // 工具栏
@@ -384,6 +384,10 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
             can.page.Modify(can, can._carte, {style: {display: "none"}})
         }}]).last
 
+        meta = meta||can.ondetail||{}, cb = cb||function(ev, item, meta) {
+            (can.ondetail[item]||can.onaction[item])(event, can)
+        }
+
         can.page.Appends(can, can._carte, can.core.List(list, function(item) {
             return {view: ["item"], list: [typeof item == "string"? {text: [item], click: function(event) {
                 typeof cb == "function" && cb(event, item, meta)
@@ -399,12 +403,19 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
             }], value: src[item[0]]||""}]}
         }))
 
-        var pos = {position: "absolute", display: "block", left: event.x, top: event.y}
-        if (document.body.clientWidth - event.x < 60) {
-            var pos = {display: "block", right: event.x, top: event.y}
-        }
-        pos.left += "px"; pos.top += "px";
+
+        var ls = can._follow.split(".")
+
+        console.log(ls.length, can)
+        var left = (ls.length > 2) && can.run({}, ["search", can._follow.split(".")[1]+".onexport.left"]) || 0
+        var top = (ls.length == 3) && can.run({}, ["search", can._follow.split(".")[1]+".onexport.top"]) || 0
+        var top = (ls.length > 3)? event.y: top
+        var pos = {position: "absolute", display: "block", left: event.x-left, top: event.y-top}
+        // if (document.body.clientWidth - event.x < 60) {
+        //     var pos = {display: "block", right: event.x, top: event.y}
+        // }
         can.page.Modify(can, can._carte, {style: pos})
+        console.log("carte ", can._carte.offsetLeft, "output", can._carte.parentNode.offsetLeft)
 
         event.stopPropagation()
         event.preventDefault()
