@@ -11,7 +11,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         can.page.Modify(can, target, {style: {"max-height": height-160+"px"}})
 
 
-        if (msg.key && msg.key.length != msg.time.length) {
+        if (msg.key && msg.time && msg.key.length != msg.time.length) {
             msg.key && (msg.key = msg.key.slice(2))
         }
         msg.Option("_action") != "查看" && msg.Option("_action") != "打开" && can.onappend.table(can, target, "table", msg)
@@ -389,7 +389,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         can.display = p && p.profile && can.ui.profile || can.ui.display
         var msg = can.request(event); msg.Option("content", can.onexport.content(can))
         can.run(event, arg||["action", key, can.Option("path"), can.Option("name")], function(msg) {
-            if (msg.key && msg.key.length != msg.time.length) {
+            if (msg.key && msg.time && msg.key.length != msg.time.length) {
                 msg.key && (msg.key = msg.key.slice(2))
             }
             can.page.Modify(can, can.display, {innerHTML: "", style: {display: "block"}})
