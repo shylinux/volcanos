@@ -14,6 +14,11 @@ fieldset.editor>div.action>div.file.select {
 fieldset.editor>div.output {
     min-height:300px;
 }
+fieldset.editor>div.output>table {
+    max-height:100px;
+    overflow:auto;
+    display:block;
+}
 fieldset.editor>div.output>div.project {
     width:80px; overflow:auto;
     position:fixed;

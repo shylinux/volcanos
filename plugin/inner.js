@@ -1,7 +1,4 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) { target.innerHTML = ""
-        if (msg.append&&msg.append["file"]) {
-            return
-        }
         if (can.user.Search(can, "share") && can.user.Search(can, "river") && can.user.Search(can, "storm")) {
             can.onaction.list = ["项目", "运行"]
             can.page.Modify(can, can._action, {style: {clear: "none"}})
@@ -13,7 +10,10 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         var width = can.Conf("width"), height = can.Conf("height")
         can.page.Modify(can, target, {style: {"max-height": height-160+"px"}})
 
-        // msg.key && (msg.key = msg.key.slice(2))
+
+        if (msg.key && msg.key.length != msg.time.length) {
+            msg.key && (msg.key = msg.key.slice(2))
+        }
         msg.Option("_action") != "查看" && msg.Option("_action") != "打开" && can.onappend.table(can, target, "table", msg)
 
         can.ui = can.page.Append(can, target, [
@@ -389,7 +389,9 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         can.display = p && p.profile && can.ui.profile || can.ui.display
         var msg = can.request(event); msg.Option("content", can.onexport.content(can))
         can.run(event, arg||["action", key, can.Option("path"), can.Option("name")], function(msg) {
-            // msg.key && (msg.key = msg.key.slice(2))
+            if (msg.key && msg.key.length != msg.time.length) {
+                msg.key && (msg.key = msg.key.slice(2))
+            }
             can.page.Modify(can, can.display, {innerHTML: "", style: {display: "block"}})
             can.onappend.table(can, can.display, "table", msg)
             can.onappend.board(can, can.display, "board", msg)
@@ -603,7 +605,10 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "上传", "保存",
     "提交": function(event, can, msg) { can.onkeymap._remote(event, can, "提交") },
     "历史": function(event, can, msg) { can.onkeymap._remote(event, can, "历史") },
     "运行": function(event, can, msg) { can.onkeymap._remote(event, can, "运行") },
-    "记录": function(event, can, msg) { var sub = can.request(event, can.Option()); sub.Option("display", can.display.innerText)
+    "记录": function(event, can, msg) {
+        var sub = can.request(event)
+        can.core.Item(can.Option(), sub.Option)
+        sub.Option("display", can.display.innerText)
         can.onkeymap._remote(event, can, "记录", ["action", "记录"])
     },
     "复盘": function(event, can, msg) { can.onkeymap._remote(event, can, "复盘") },

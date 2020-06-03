@@ -199,7 +199,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                     _follow: can._follow+"."+meta.name+"."+display,
                     Option: sub.Option, Action: sub.Action, Status: sub.Status,
                 }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf())
-                    table.onimport._init(table, msg, msg.result||[], function() {}, output)
+                    table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function() {}, output)
 
                     table.run = function(event, cmds, cb, silent) { cmds = cmds || []
                         run(event, cmds, cb, silent)
@@ -309,7 +309,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         var table = can.page.AppendTable(can, target, msg, msg.append, function(event, value, key, index, tr, td) {
             can.page.Select(can, can._option, "input.args", function(input) { if (input.name == key) { var data = input.dataset || {}
                 input.value = value; typeof cb == "function" && cb(event, value); if (data.action == "auto") {
-                    var sub = can.request(event, can.Option())
+                    var sub = can.request(event)
+                    can.core.Item(can.Option(), sub.Option)
                     sub.Option("_action", msg.Option("_action"))
                     can.run(event, can.page.Select(can, can._option, "input.args", function(item) {
                         return item.name && item.value || ""
@@ -448,10 +449,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                 if (action.upload.files.length == 0) {return action.upload.focus()}
                 if (value == "关闭") {can._upload.stick = false; return can.page.Remove(can, can._upload.output.parentNode)}
 
-                var msg = can.request(event);
-                can.page.Select(can, can._option, "input", function(item) {
-                    item.name && item.value && msg.Option(item.name, item.value)
-                })
+                var msg = can.request(event, can.Option());
 
                 // 上传文件
                 begin = new Date();
