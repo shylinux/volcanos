@@ -1,6 +1,6 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) { target.innerHTML = ""
         if (can.user.Search(can, "share") && can.user.Search(can, "river") && can.user.Search(can, "storm")) {
-            can.onaction.list = ["项目", "运行"]
+            can.onaction.list = ["项目", "运行", "列表"]
             can.page.Modify(can, can._action, {style: {clear: "none"}})
             can.page.Select(can, can._option, "input[type=button]", function(item) {
                 can.page.Remove(can, item)
@@ -590,7 +590,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         },
     },
 })
-Volcanos("onaction", {help: "控件交互", list: ["", "项目", "", "上传", "保存", "运行", "日志", "", "提交", "历史", "记录", "复盘", "", "列表"],
+Volcanos("onaction", {help: "控件交互", list: ["", "项目", "", "上传", "保存", "运行", "日志", "", "提交", "历史", "记录", "复盘", "", "收藏", "列表"],
     modifyLine: function(can, target, value) { var p = can.onsyntax.parse(can, value)
         typeof p == "object"? can.page.Appends(can, target, [p]): target.innerHTML = p
     },
