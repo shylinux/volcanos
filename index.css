@@ -140,7 +140,7 @@ fieldset div.code {
     padding:10px;
     overflow:auto;
     border:solid 3px green;
-    max-height:640px;
+    /* max-height:640px; */
 }
 
 fieldset table {

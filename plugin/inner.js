@@ -421,11 +421,11 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     _normal: function(can) { can.onkeymap._mode(can, "normal") },
     _insert: function(can) { can.onkeymap._mode(can, "insert") },
 
-    _remote: function(event, can, key, arg) { can.ui.display.innerHTML = "", can.ui.profile.innerHTML = ""
+    _remote: function(event, can, key, arg, cb) { can.ui.display.innerHTML = "", can.ui.profile.innerHTML = ""
         var p = can.onsyntax[can.parse]
         can.display = p && p.profile && can.ui.profile || can.ui.display
         var msg = can.request(event); msg.Option("content", can.onexport.content(can))
-        can.run(event, arg||["action", key, can.Option("path"), can.Option("name")], function(msg) {
+        can.run(event, arg||["action", key, can.Option("path"), can.Option("name")], cb||function(msg) {
             if (msg.key && msg.time && msg.key.length != msg.time.length) {
                 msg.key && (msg.key = msg.key.slice(2))
             }
@@ -590,7 +590,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         },
     },
 })
-Volcanos("onaction", {help: "控件交互", list: ["", "项目", "", "上传", "保存", "运行", "日志", "", "提交", "历史", "记录", "复盘", "", "收藏", "列表"],
+Volcanos("onaction", {help: "控件交互", list: ["", "项目", "", "上传", "保存", "运行", "日志", "", "提交", "历史", "记录", "复盘", "", "收藏", "列表", "搜索", "推荐"],
     modifyLine: function(can, target, value) { var p = can.onsyntax.parse(can, value)
         typeof p == "object"? can.page.Appends(can, target, [p]): target.innerHTML = p
     },
@@ -636,21 +636,15 @@ Volcanos("onaction", {help: "控件交互", list: ["", "项目", "", "上传", "
         return target
     },
 
-    "项目": function(event, can, msg) { can.onlayout.project(can) },
-    "上传": function(event, can, msg) { can.onappend.upload(can) },
-    "保存": function(event, can, msg) { can.onkeymap._remote(event, can, "保存") },
-    "运行": function(event, can, msg) { can.onkeymap._remote(event, can, "运行") },
-    "日志": function(event, can, msg) { can.onkeymap._remote(event, can, "日志") },
-    "记录": function(event, can, msg) { var sub = can.request(event)
+    "项目": function(event, can) { can.onlayout.project(can) },
+    "上传": function(event, can) { can.onappend.upload(can) },
+    "搜索": function(event, can) { can.onkeymap._remote(event, can, "搜索", ["action", "find", "vim.history", "", "id", "type", "name", "text"]) },
+    "记录": function(event, can) { var sub = can.request(event)
         can.core.Item(can.Option(), sub.Option)
         sub.Option("display", can.display.innerText)
         can.onkeymap._remote(event, can, "记录", ["action", "记录"])
     },
-    "复盘": function(event, can, msg) { can.onkeymap._remote(event, can, "复盘") },
-
-    "提交": function(event, can, msg) { can.onkeymap._remote(event, can, "提交") },
-    "历史": function(event, can, msg) { can.onkeymap._remote(event, can, "历史") },
-    "收藏": function(event, can, msg) {
+    "收藏": function(event, can) {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             chrome.tabs.sendMessage(tabs[0].id, { action: "copy" }, function (response) {
                 var win = chrome.extension.getBackgroundPage();
@@ -661,11 +655,11 @@ Volcanos("onaction", {help: "控件交互", list: ["", "项目", "", "上传", "
             })
         })
     },
-    "列表": function(event, can, msg) { can.onkeymap._remote(event, can, "收藏", ["action", "favor", "url.favor"]) },
+    "列表": function(event, can) { can.onkeymap._remote(event, can, "收藏", ["action", "favor", "url.favor"]) },
 })
-Volcanos("ondetail", {help: "菜单交互", list: ["删除行", "合并行", "插入行", "添加行", "追加行"],
+Volcanos("ondetail", {help: "菜单交互", list: ["保存", "运行", "提交", "记录", "删除行", "合并行", "插入行", "添加行", "追加行"],
     "删除行": function(event, can, msg) {
-        can.onaction.delteLine(can, can.current)
+        can.onaction.deleteLine(can, can.current)
     },
     "合并行": function(event, can, msg) {
         can.onaction.mergeLine(can, can.current)
@@ -684,7 +678,6 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
         can.onlayout.project(can)
         can.onlayout.project(can)
     },
-
     project: function(can) { var hide = can.ui.project.style.display == "none"
         var width = 80, height = 480;
         can.page.Modify(can, can.ui.project, {style: {width: width, "max-height": height, display: hide? "": "none"}})

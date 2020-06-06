@@ -64,26 +64,33 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 typeof cb == "function" && cb(msg)
                 return true
             case "Action":
-                var river = can.onengine.river[cmds[0]||can.user.Search(can, "river")];
-                var storm = river && river.storm[cmds[1]||can.user.Search(can, "storm")];
-                var action = storm && storm.action[cmds[2]];
+                var river = can.onengine.river[cmds[0]]
+                var storm = river && river.storm[cmds[1]]
+                var action = storm && storm.action && storm.action[cmds[2]]
                 if (!storm) { break } if (cmds.length == 2) {
+                    if (storm.index) {
+                        can.misc.Run(event, can, {names: pane._name}, [river.name, storm.name, "index"].concat(storm.index), cb)
+                        return true
+                    }
+
                     can.core.List(storm.action, function(value) {
-                        msg.Push("name", value.name||"");
-                        msg.Push("help", value.help||"");
-                        msg.Push("pod", value.pod||"");
-                        msg.Push("group", value.group||"");
-                        msg.Push("index", value.index||"");
-                        msg.Push("args", value.args||"[]");
-                        msg.Push("inputs", JSON.stringify(value.inputs||[]));
-                        msg.Push("feature", JSON.stringify(value.feature||{}));
+                        msg.Push("name", value.name||"")
+                        msg.Push("help", value.help||"")
+                        msg.Push("pod", value.pod||"")
+                        msg.Push("group", value.group||"")
+                        msg.Push("index", value.index||"")
+                        msg.Push("args", value.args||"[]")
+                        msg.Push("inputs", JSON.stringify(value.inputs||[]))
+                        msg.Push("feature", JSON.stringify(value.feature||{}))
                     })
                     typeof cb == "function" && cb(msg);
-                } else if (action.engine) {
-                    action.engine(event, can, msg, pane, cmds, cb);
-                } else {
+                } else if (action && action.engine) {
+                    action.engine(event, can, msg, pane, cmds, cb)
+                } else if (action) {
                     msg.Option("group", action.group)
                     msg.Option("index", action.index)
+                    return false
+                } else {
                     return false
                 }
                 return true
@@ -103,19 +110,10 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
         var action = can.page.Select(can, field, "div.action")[0];
         var output = can.page.Select(can, field, "div.output")[0];
         var status = can.page.Select(can, field, "div.status")[0];
+
         var feature = can.base.Obj(meta.feature)
         can.page.ClassList.add(can, field, feature.style||"")
-
-        legend && (legend.onclick = function(event) { var msg = can.request(event)
-            can.core.List(["share", "pod"], function(key) { var value = can.user.Search(can, key)
-                value != undefined && msg.Option(key, can.user.Search(key))
-            })
-            can.core.List(["River", "Storm", "Action"], function(item) {
-                can.run(event, ["search", item+".onexport.key"])
-            })
-            var args = {}; can.core.List(msg.option, function(key) { args[key] = msg.Option(key) })
-            location.href = can.user.Share(can, args, true)
-        })
+        can.onappend._legend(can, legend)
 
         // 添加插件
         var sub = Volcanos(meta.name, { _help: meta.name, _target: field,
@@ -185,7 +183,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                         }
 
                         // 解析参数
-                        cmds = cmds && cmds.length > 0? cmds: can.page.Select(can, option, "input.args", function(item) {
+                        cmds = cmds && cmds.length > 0? cmds: can.page.Select(can, option, "input.args,select.args", function(item) {
                             return item.name && item.value || ""
                         }); for (var i = cmds.length-1; i >= 0; i--) {
                             if (!cmds[i]) { cmds.pop() } else { break }
@@ -232,33 +230,50 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) {
                         return run(event, cmds, cb, silent)
                     }
 
-                    // 工具栏
-                    action.innerHTML = "", table.onaction && can.core.List(table.onaction.list, function(item) {
-                        item === ""? can.page.Append(can, action, [{view: "item space"}]):
-                        typeof item == "string"? can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
-                            table.onaction[item](event, table, msg)
-                        }}): item.length > 0? can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
-                            table.onaction[item[0]](event, table, msg, item[event.target.selectedIndex+1])
-                        }}): typeof item == "object" && can.onappend.input(can, action, "input", item)
-                    })
-
-                    // 上下文
-                    table.ondetail && table.ondetail.list && table.ondetail.list.length > 0 && (table._target.oncontextmenu = function(event) {
-                        can.onappend.carte(sub, table.ondetail||{}, msg["_detail"] || sub.Conf("detail"), function(ev, item, meta) {
-                            (table.ondetail[item]||table.onaction[item])(event, table, msg)
-                        })
-                    })
-
-                    // 状态条
-                    status.innerHTML = "", table.onexport && can.core.List(table.onexport.list, function(item) {
-                        can.page.Append(can, status, [{view: "item "+item, title: item, list: [{text: [item+": ", "label"]}, {text: ["", "span"]}]}])
-                    })
+                    // 交互控件
+                    can.onappend._action(table, action)
+                    can.onappend._detail(table, msg, msg["_detail"] || sub.Conf("detail"), output)
+                    can.onappend._status(table, status)
                     sub.Status("ncmd", sub._history.length+"/"+count)
                 }) 
                 sub._outputs.push(table)
             }, silent) }
 
         }); cb(sub);
+    },
+    _legend: function(can, legend) {
+        legend && (legend.onclick = function(event) { var msg = can.request(event)
+            can.core.List(["share", "pod"], function(key) { var value = can.user.Search(can, key)
+                value != undefined && msg.Option(key, can.user.Search(key))
+            })
+            can.core.List(["River", "Storm", "Action"], function(item) {
+                can.run(event, ["search", item+".onexport.key"])
+            })
+            var args = {}; can.core.List(msg.option, function(key) { args[key] = msg.Option(key) })
+            location.href = can.user.Share(can, args, true)
+        })
+    },
+    _action: function(can, action) { // [string [class item...] {}]
+        action.innerHTML = "", can.onaction && can.core.List(can.onaction.list, function(item) {
+            item === ""? can.page.Append(can, action, [{view: "item space"}]):
+                typeof item == "string"? can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
+                    (can.onaction[item] || can.onkeymap && can.onkeymap._remote)(event, can, item)
+                }}): item.length > 0? can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
+                    can.onaction[item[0]](event, can, msg, item[event.target.selectedIndex+1])
+                }}): typeof item == "object" && can.onappend.input(can, action, "input", item)
+        })
+    },
+    _detail: function(can, msg, list, target) {
+        can.ondetail && can.ondetail.list && can.ondetail.list.length > 0 && (target.oncontextmenu = function(event) {
+            can.onappend.carte(can, can.ondetail||{}, list, function(ev, item, meta) {
+                (can.ondetail[item] || can.onaction[item] || can.onkeymap && can.onkeymap._remote)(event, can, item)
+            })
+        })
+    },
+    _status: function(can, status) {
+        status.innerHTML = "", can.onexport && can.core.List(can.onexport.list, function(item) {
+            can.page.Append(can, status, [{view: "item "+item, title: item, list: [{text: [item+": ", "label"]}, {text: ["", "span"]}]}])
+        })
     },
     item: function(can, target, type, item, cb, cbs) {
         var ui = can.page.Append(can, target, [{view: [type, "div", item.nick||item.name],

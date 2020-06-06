@@ -1,6 +1,5 @@
-Volcanos("onimport", {help: "导入数据", list: [],
-    init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
-        var table = can.page.AppendTable(can, output, msg, msg.append);
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { can._target.innerHTML = ""
+        var table = can.onappend.table(can, target, "table", msg)
         table.onclick = function(event) {switch (event.target.tagName) {
             case "SPAN":
             case "TD":
@@ -124,6 +123,4 @@ Volcanos("ondetail", {help: "组件详情", list: ["开始", "完成", "取消"]
     "取消": "cancel",
 })
 Volcanos("onexport", {help: "导出数据", list: []})
-
-
 
