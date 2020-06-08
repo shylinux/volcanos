@@ -88,6 +88,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
             event._msg = msg = msg || {}, msg._event = event, msg._can = can;
             msg.__proto__ = proto || { _name: meta.order++, _create_time: new Date(),
                 Option: function(key, val) {
+                    if (typeof key == "object") { can.core.Item(key, msg.Option) }
                     if (val == undefined) { return msg && msg[key] && msg[key][0] || msg._msg && msg._msg.Option(key) || "" }
                     msg.option = msg.option || [], can.core.List(msg.option, function(k) {
                         if (k == key) {return k}

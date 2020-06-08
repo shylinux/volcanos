@@ -10,4 +10,12 @@ Volcanos("onaction", {help: "控件交互", list: [],
         can.run(event, [], function() {})
     },
 })
+Volcanos("ondetail", {help: "控件交互", list: ["编辑", "删除"],
+    "编辑": function(event, can, key) {
+        console.log(key)
+    },
+    "删除": function(event, can, key) {
+        console.log(key)
+    },
+})
 
