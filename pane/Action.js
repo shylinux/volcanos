@@ -29,7 +29,7 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
         if (position) { can._output.scrollTo(0, position-1); return }
 
         msg.Clear("option"), can.run(msg._event, [river, storm], function(sup) { can._output.innerHTML = ""; sup.Table(function(value, index, array) {
-            value.inputs = can.base.Obj(value.inputs, []), value.inputs.length == 0 && (value.inputs = [
+            value.inputs = can.base.Obj(value.inputs||"[]", []), value.inputs.length == 0 && (value.inputs = [
                 {type: "text", name: "name", action: "auto"},
                 {type: "button", name: "查看", action: "auto"},
                 {type: "button", name: "返回"},

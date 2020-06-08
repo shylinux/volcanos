@@ -51,7 +51,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             item.setAttribute("draggable", true)
             item.ondragstart = function(event) {can.drag = event.target}
             item.ondragover = function(event) {event.preventDefault()}
-            item.ondrop = function(event) {event.preventDefault()
+            item.ondrop = function(event) {
+                event.preventDefault()
                 can.preview.insertBefore(can.drag, item)
             }
         })

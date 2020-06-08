@@ -342,7 +342,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
 
         item.value == "auto" && (item.value = "")
         item.action == "auto" && (input.dataset.action = "auto")
-        var target = can.page.Append(can, option, [{view: ["item "+item.type], list: [item.position && {text: item.name+": "}, input]}]).last
+        var target = can.page.Append(can, option, [{view: ["item "+item.type], list: [item.position && {text: item.name+": "}, input]}])[item.name]
         item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["/plugin/input/"+item.figure], function() {
             target.type != "button" && (target.value = "")
         })
@@ -403,13 +403,14 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         msg.result && can.page.AppendBoard(can, target, can.page.Display(msg.Result()))
     },
 
-    carte: function(can, meta, list, cb) { list = list && list.length > 0? list: meta.list; if (list.length == 0) { return }
+    carte: function(can, meta, list, cb) { meta = meta || can.ondetail, list = list && list.length > 0? list: meta.list; if (list.length == 0) { return }
         can._carte = can._carte || can.page.Append(can, can._target, [{view: "carte", onmouseleave: function(event) {
             can.page.Modify(can, can._carte, {style: {display: "none"}})
         }}]).last
 
         meta = meta||can.ondetail||{}, cb = cb||function(ev, item, meta) {
-            (can.ondetail[item]||can.onaction[item]||can.onkeymap&&can.onkeymap._remote)(event, can, item)
+            var cb = can.ondetail[item] || can.onaction[item] || can.onkeymap&&can.onkeymap._remote
+            cb && cb(event, can, item)
         }
 
         can.page.Appends(can, can._carte, can.core.List(list, function(item) {

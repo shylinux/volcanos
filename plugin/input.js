@@ -1,8 +1,11 @@
 Volcanos("onimport", {help: "导入数据", list: [],
-    _init: function(can, meta, list, cb, output, action, option, field) { output.innerHTML = "";
+    _init: function(can, meta, list, cb, output, action, option, field) {
     },
 })
 Volcanos("onaction", {help: "控件交互", list: [],
+    onchange: function(event, can) {
+        console.log(can.Conf())
+    },
     onclick: function(event, can) {
         switch (can.Conf("type")) {
             case "button":
