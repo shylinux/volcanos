@@ -104,7 +104,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
     },
 })
 Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { meta.name = meta.name.split(" ")[0]
-        field = field || can.onappend.field(can, target, meta.type||"plugin", meta);
+        field = field || can.onappend.field(can, target, meta.type||"plugin", meta).first;
         var legend = can.page.Select(can, field, "legend")[0];
         var option = can.page.Select(can, field, "form.option")[0];
         var action = can.page.Select(can, field, "div.action")[0];
@@ -116,9 +116,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             _target: field, _inputs: {}, _outputs: [], _history: [],
             _option: option, _action: action, _output: output,
             Option: function(key, value) {
-                if (typeof key == "object") {
-                    return sub.core.Item(key, function(key, value) { sub.Option(key, value) }), key
-                }
+                if (typeof key == "object") { return sub.core.Item(key, can.Option), key }
                 if (key == undefined) { value = {}
                     sub.page.Select(sub, option, "select.args,input.args", function(item) {
                         value[item.name] = item.value
@@ -137,6 +135,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 return value
             },
             Status: function(key, value) {
+                if (typeof key == "object") { return sub.core.Item(key, sub.Status), key }
                 sub.page.Select(sub, status, "div."+key+">span", function(item) {
                     item.innerHTML = value
                 })
@@ -206,7 +205,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                     }
 
                     can.core.Item(input.onaction, function(key, value) {
-                        input._target && key.indexOf("on") == 0 && (input._target[key] = function(event) {
+                        input._target && key.indexOf("on") == 0 && (input._target[key] = input._target[key] || function(event) {
                             value(event, input);
                         })
                     }), next();
@@ -258,8 +257,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             location.href = can.user.Share(can, args, true)
         })
     },
-    _action: function(can, action) { // [string [class item...] {}]
-        action && (action.innerHTML = ""), can.onaction && can.core.List(can.onaction.list, function(item) {
+    _action: function(can, action, list) { // [string [class item...] {}]
+        action && (action.innerHTML = ""), can.onaction && can.core.List(list||can.onaction.list, function(item) {
             item === ""? can.page.Append(can, action, [{view: "item space"}]):
                 typeof item == "string"? can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
                     (can.onaction[item] || can.onkeymap && can.onkeymap._remote)(event, can, item)
@@ -304,8 +303,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             item.pos? undefined: {text: [(item.nick||item.name||"")+"("+(item.help||"")+")", "legend"]},
             {view: ["option", "form"], dataset: dataset, list: []},
             {view: ["action"]}, {view: ["output"]}, {view: ["status"]},
-        ]}]).first;
-        return field.Meta = item, field;
+        ]}]);
+        return field.first.Meta = item, field;
     },
     input: function(can, option, type, item, value) {
         item.name && item.name.indexOf("@") == 0 && (item.name = item.name.slice(1)) && (item.position = item.position || "opts")
@@ -343,7 +342,10 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         item.value == "auto" && (item.value = "")
         item.action == "auto" && (input.dataset.action = "auto")
         var target = can.page.Append(can, option, [{view: ["item "+item.type], list: [item.position && {text: item.name+": "}, input]}])[item.name]
-        item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["/plugin/input/"+item.figure], function() {
+        item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["/plugin/input/"+item.figure], function(can) {
+            can.core.Item(can.onfigure[item.figure], function(key, value) { if (key.startsWith("on")) {
+                target[key] = function(event) { value(event, can, item, target) }
+            } })
             target.type != "button" && (target.value = "")
         })
 
@@ -372,7 +374,6 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 switch (item) {
                     case "编辑":
                         var ui = can.page.Appends(can, td, [{type: "input", value: back, onkeydown: function(event) {
-                            console.log("key", event.key)
                             switch (event.key) {
                                 case "Enter":
                                     td.innerHTML = event.target.value
@@ -431,7 +432,6 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
 
         var ls = can._follow.split(".")
 
-        console.log(ls.length, can)
         var left = (ls.length > 2) && can.run({}, ["search", can._follow.split(".")[1]+".onexport.left"]) || 0
         var top = (ls.length == 3) && can.run({}, ["search", can._follow.split(".")[1]+".onexport.top"]) || 0
         var top = (ls.length > 3)? event.y: top
@@ -520,6 +520,24 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                     can.onappend.toast(can, "上传成功")
                 }, true);
             })
+    },
+
+    modify: function(can, target, cb) { var back = target.innerHTML
+        var ui = can.page.Appends(can, target, [{type: "input", value: back, onkeydown: function(event) {
+            switch (event.key) {
+                case "Enter":
+                    target.innerHTML = event.target.value
+                    if (event.target.value != back) {
+                        cb(event, event.target.value, back)
+                    }
+                    break
+                case "Escape":
+                    td.innerHTML = back
+                    break
+            }
+        }, onkeyup: function(event) {
+
+        }}]); ui.input.focus(), ui.input.setSelectionRange(0, -1)
     },
 }, [], function(can) {})
 Volcanos("onlayout", { _init: function(can, meta, list, cb, target) {
