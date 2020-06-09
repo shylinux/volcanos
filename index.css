@@ -227,6 +227,7 @@ div.upload div.item {
 }
 
 fieldset.input {
+    background-color:black;
     position:absolute;
     left:0; top:0;
 }

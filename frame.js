@@ -116,7 +116,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             _target: field, _inputs: {}, _outputs: [], _history: [],
             _option: option, _action: action, _output: output,
             Option: function(key, value) {
-                if (typeof key == "object") { return sub.core.Item(key, can.Option), key }
+                if (typeof key == "object") { return sub.core.Item(key, sub.Option), key }
                 if (key == undefined) { value = {}
                     sub.page.Select(sub, option, "select.args,input.args", function(item) {
                         value[item.name] = item.value
@@ -229,8 +229,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                     _option: option, _action: action, _output: output,
                 }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf())
                     table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function() {}, output)
-
-                    table.run = function(event, cmds, cb, silent) { cmds = cmds || []
+                    table._msg = msg, table.run = function(event, cmds, cb, silent) { cmds = cmds || []
                         var last = sub._history[sub._history.length-1]; !can.core.Eq(last, cmds) && !silent && sub._history.push(cmds)
                         return run(event, cmds, cb, silent)
                     }
@@ -263,7 +262,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 typeof item == "string"? can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
                     (can.onaction[item] || can.onkeymap && can.onkeymap._remote)(event, can, item)
                 }}): item.length > 0? can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
-                    can.onaction[item[0]](event, can, msg, item[event.target.selectedIndex+1])
+                    can.onaction[item[0]](event, can, item[0], item[event.target.selectedIndex+1])
                 }}): typeof item == "object" && can.onappend.input(can, action, "input", item)
         })
     },

@@ -3,7 +3,7 @@ Volcanos("onfigure", {help: "控件详情", list: [],
         can._figure && can.page.Remove(can, can._figure.fieldset)
         can._figure = can.onappend.field(can, can._target, "input date", {})
         // 设置输入
-        target.style.width = "120px"; function set(now) {
+        function set(now) {
             target.value = can.base.Time(now); 
             item.action == "auto" && can.run({});
         }
@@ -16,7 +16,7 @@ Volcanos("onfigure", {help: "控件详情", list: [],
 
         // 添加控件
         var now = target.value? new Date(target.value): new Date();
-        var control = can.page.AppendAction(can, figure.action, ["今天", "随机",
+        var control = can.page.AppendAction(can, figure.action, ["今天",
             ["hour"].concat(can.core.List(24)), ["minute"].concat(can.core.List(0, 60, 5)), ["second"].concat(can.core.List(0, 60, 5)), {view: ["", "br"]},
             "关闭", {type: "hr", style: {margin: 0}},
             "上一月", ["year"].concat(can.core.List(now.getFullYear() - 20, now.getFullYear() + 20)),

@@ -51,6 +51,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             msg.Option({path: can.Option("path"), name:  can.Option("name")})
             can.page.Append(can, can._action, [{view: ["file", "div", name], onclick: function(event) {
                 can.onsyntax._init(can, can.tabview[path+name] = msg)
+                can.Option({path: path, name: name, key: ""})
             }, oncontextmenu: function(event) {
                 can.onappend.carte(can, null, ["保存", "运行"])
             }}]).first.click()
