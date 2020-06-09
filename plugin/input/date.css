@@ -1,0 +1,7 @@
+fieldset.input.date {
+    background-color:black;
+    z-index:100;
+}
+fieldset.input.date div.action>hr{
+    clear:both;
+}
