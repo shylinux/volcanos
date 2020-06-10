@@ -1,16 +1,17 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { can._target.innerHTML = ""
-        can.ui = can.page.Append(can, can._target, [
-            {view: ["project", "table"], style: {display: can.user.Search(can, "project")||"none"}},
+        can._name = "plan", can.ui = can.page.Append(can, can._target, [
+            {view: ["project", "table"], style: {display: can.user.Searchs(can, "project")||"none"}},
             {view: ["content", "table"]},
-            {view: ["profile", "table"], style: {display: can.user.Search(can, "project")||"none"}},
+            {view: ["profile", "table"], style: {display: can.user.Searchs(can, "profile")||"none"}},
         ])
 
+        can.onimport[can.Option("scale")](can, msg)
         can.Timer(10, function() { can.onimport._stat(can, msg)
-            can.page.Select(can, can.ui.content, "div.item.id"+can.user.Search(can, "id"), function(item) {
+            can.page.Select(can, can.ui.content, "div.item.id"+can.user.Searchs(can, "id"), function(item) {
                 item.click()
             })
+            can.onaction.view({}, can, "view", can.user.Search(can, "view"))
         })
-        can.onimport[can.Option("scale")](can, msg)
     },
     _stat: function(can, msg) {
         var stat = {
@@ -26,23 +27,28 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             stat.count++
         })
         can.Status("count", stat.process+"/"+stat.count)
-        can.page.Append(can, can.ui.project, [
-            {th: ["key", "value"]},
-            {td: ["prepare", stat.prepare]},
-            {td: ["process", stat.process]},
-            {td: ["cancel", stat.cancel]},
-            {td: ["finish", stat.finish]},
-            stat.l1 > 0 && {td: ["level-1", stat.l1]},
-            stat.l2 > 0 && {td: ["level-2", stat.l2]},
-            stat.l3 > 0 && {td: ["level-3", stat.l3]},
-            stat.l4 > 0 && {td: ["level-4", stat.l4]},
-            stat.l5 > 0 && {td: ["level-5", stat.l5]},
-            stat.s1 > 0 && {td: ["score-1", stat.s1]},
-            stat.s2 > 0 && {td: ["score-2", stat.s2]},
-            stat.s3 > 0 && {td: ["score-3", stat.s3]},
-            stat.s4 > 0 && {td: ["score-4", stat.s4]},
-            stat.s5 > 0 && {td: ["score-5", stat.s5]},
-        ])
+
+        can.page.Append(can, can.ui.project, [ {th: ["key", "value"]} ])
+        can.core.List(["prepare", "process", "cancel", "finish"], function(item) {
+            can.page.Append(can, can.ui.project, [{td: [item, stat[item]], onclick: function(event) {
+                can.onaction._filter(event, can, "status", item)
+            } }])
+        })
+
+        can.core.List(["1", "2", "3", "4", "5"], function(item) {
+            stat["l"+item] > 0 && can.page.Append(can, can.ui.project, [
+                {td: ["level-"+item, stat["l"+item]], onclick: function(event) {
+                    can.onaction._filter(event, can, "level", "l"+item)
+                }}
+            ])
+        })
+        can.core.List(["1", "2", "3", "4", "5"], function(item) {
+            stat["s"+item] > 0 && can.page.Append(can, can.ui.project, [
+                {td: ["score-"+item, stat["s"+item]], onclick: function(event) {
+                    can.onaction._filter(event, can, "score", "s"+item)
+                }}
+            ])
+        })
     },
     _task: function(can, msg, time, list, view) {
         return {text: ["", "td"],
@@ -55,8 +61,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 can.drop(event, event.target, time)
             },
             list: can.core.List(list, function(task) {
-                return typeof task == "string"? {view: ["date", "div", task]}: {view: [["item", task.status, "id"+task.id, "l"+(task.level||""), "s"+(task.score||"")].join(" "),
-                    "div", can.onexport[can.Action("view")||view||"name"](can, task)],
+                return typeof task == "string"? {view: ["date", "div", task]}: {view: [can.onexport.style(can, task), "div",
+                    can.onexport[can.Action("view")||view||"name"](can, task)],
                     title: can.onexport.title(can, task), draggable: true,
                     ondragstart: function(event) { var target = event.target; can.drop = function(event, td, time) { td.append(target)
                         can.onaction.modifyTask(event, can, task, "begin_time", time, task.begin_time)
@@ -64,6 +70,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                         can.onimport._profile(can, msg, task)
                     }, oncontextmenu: function(event) { var target = event.target
                         can.onappend.carte(can, can.ondetail, can.ondetail.list, function(event, item) {
+                            can.onaction.modifyTask(event, can, task, "status", item)
                         })
                     }}
             }) }
@@ -195,11 +202,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }]).table
     },
 }, ["/plugin/local/team/miss.css"])
-Volcanos("onaction", {help: "组件交互", list: ["统计","详情", "添加",
+Volcanos("onaction", {help: "组件交互", list: ["统计","详情",  "",
     ["level", "all", "l1", "l2", "l3", "l4", "l5"],
     ["status", "all", "prepare", "process", "cancel", "finish"],
     ["score", "all", "s1", "s2", "s3", "s4", "s5"],
     ["view", "", "name", "text", "level", "score"],
+    "添加", "导出", "导入",
 ],
     modifyTask: function(event, can, task, key, value) {
         var msg = can.request(event); msg.Option(task)
@@ -226,12 +234,14 @@ Volcanos("onaction", {help: "组件交互", list: ["统计","详情", "添加",
             count++
         })
         can.Status("count", count)
+        can.Action(key, value)
     },
     level: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
     status: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
     score: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
+
     view: function(event, can, key, value) { can.ui.content.innerHTML = ""
-        can.onimport[can.Option("scale")](can, can._msg)
+        can.Action(key, value), can.onimport[can.Option("scale")](can, can._msg)
     },
 
     "统计": function(event, can, key) {
@@ -241,16 +251,13 @@ Volcanos("onaction", {help: "组件交互", list: ["统计","详情", "添加",
         can.page.Modify(can, can.ui.profile, {style: {display: can.ui.profile.style.display=="none"? "table": "none"}})
     },
     "添加": function(event, can, key) {
-        can.require(["/plugin/input/date"], function(can) {
-            console.log("waht")
-        })
-        function time(event) {
+        var now = new Date(); can.require(["/plugin/input/date"]); function date(event) {
             can.onfigure.date.onclick(event, can, {}, event.target)
         }
         can.user.input(event, can, [
             ["zone", "工作", "学习"], ["type", "项目开发", "项目测试"], "name", "text",
-            {name: "begin_time", type: "input", value: can.base.Time(), onclick: time},
-            {name: "end_timem", type: "input", value: can.base.Time(), onclick: time},
+            {name: "begin_time", type: "input", value: can.base.Time(can.base.TimeAdd(now, now.getHours()/24)), onclick: date},
+            {name: "end_time", type: "input", value: can.base.Time(can.base.TimeAdd(now, (now.getHours()+1)/24)), onclick: date},
         ], function(event, button, data, list) {
             can.run(event, ["action", "insert"].concat(list), function(msg) {
 
@@ -277,11 +284,15 @@ Volcanos("onexport", {help: "导出数据", list: ["count", "begin_time", "zone"
     title: function(can, task) {
         return task.zone+": "+(task.type||"")
     },
+    style: function(can, task) {
+        return ["item", task.status, "id"+task.id, "l"+(task.level||""), "s"+(task.score||"")].join(" ")
+    },
 
     key: function(can, msg) {
         msg.Option("project", can.ui.project.style.display)
         msg.Option("profile", can.ui.profile.style.display)
         msg.Option("id", can.Status("id"))
+        msg.Option("view", can.Action("view"))
     },
 })
 

@@ -137,7 +137,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             Status: function(key, value) {
                 if (typeof key == "object") { return sub.core.Item(key, sub.Status), key }
                 sub.page.Select(sub, status, "div."+key+">span", function(item) {
-                    item.innerHTML = value
+                    value == undefined? (value = item.innerHTML): (item.innerHTML = value)
                 })
                 return value
             },
@@ -261,7 +261,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         action && (action.innerHTML = ""), can.onaction && can.core.List(list||can.onaction.list, function(item) {
             item === ""? can.page.Append(can, action, [{view: "item space"}]):
                 typeof item == "string"? can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
-                    (can.onaction[item] || can.onkeymap && can.onkeymap._remote)(event, can, item)
+                    var cb = can.onaction[item] || can.onkeymap && can.onkeymap._remote
+                    cb? cb(event, can, item): can.run(event, ["action", item], function(msg) {}, true)
                 }}): item.length > 0? can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
                     can.onaction[item[0]](event, can, item[0], item[event.target.selectedIndex+1])
                 }}): typeof item == "object" && can.onappend.input(can, action, "input", item)
@@ -351,7 +352,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
 
         item.type == "textarea" && can.page.Append(can, option, [{type: "br"}]);
         item.type == "text" && !target.placeholder && (target.placeholder = item.name || "");
-        item.type != "button" && !target.title && (target.title = target.placeholder);
+        item.type == "text" && !target.title && (target.title = target.placeholder);
         // item.type == "button" && item.action == "auto" && can.run && can.run({});
         // item.type == "select" && (target.value = item.value || item.values[item.index||0]);
         return target;
@@ -460,10 +461,9 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
 
         var width = meta.width||200, height = meta.height||100
         var pos = {position: "absolute", display: "block",
-            width: width+"px",
-            top: document.body.clientHeight/2-height/2,
+            width: width, bottom: 100,
             left: document.body.clientWidth/2-width/2,
-        }; pos.left += "px"; pos.top += "px";
+        };
         can.page.Modify(can, can._toast, {style: pos})
 
         can.Timer({value: 1000, length: (meta.duration||3000)/1000}, function(event, interval, index) {

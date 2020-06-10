@@ -52,6 +52,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             can.page.Append(can, can._action, [{view: ["file", "div", name], onclick: function(event) {
                 can.onsyntax._init(can, can.tabview[path+name] = msg)
                 can.Option({path: path, name: name, key: ""})
+            }, ondblclick: function(event) {
+                can.onkeymap._remote(event, can, "运行")
             }, oncontextmenu: function(event) {
                 can.onappend.carte(can, null, ["保存", "运行"])
             }}]).first.click()
@@ -530,7 +532,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
 })
 Volcanos("onaction", {help: "控件交互", list: [
         "", "项目", "上传",
-        "", "保存", "运行", "日志",
+        "", "保存", "运行", "串行", "并行", "日志",
         "", "提交", "历史", "记录", "复盘",
         "", "收藏", "列表", "搜索", "推荐",
     ],
@@ -577,6 +579,19 @@ Volcanos("onaction", {help: "控件交互", list: [
         return target
     },
 
+    "串行": function(event, can, msg) {
+        can.core.Next(can.page.Select(can, can._action, "div.file", function(item) {
+            return item.innerHTML
+
+        }), function(item, next) {
+            can.run({}, ["action", "run", can.Option("path"), item], function(msg) {
+                next()
+            }, true)
+
+        }, function() {
+            can.onappend.toast(can, "执行成功")
+        })
+    },
     "项目": function(event, can) { can.onlayout.project(can) },
     "上传": function(event, can) { can.onappend.upload(can) },
     "搜索": function(event, can) { can.onkeymap._remote(event, can, "搜索", ["action", "find", "vim.history", "", "id", "type", "name", "text"]) },

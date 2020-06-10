@@ -4,7 +4,10 @@ Volcanos("onimport", {help: "导入数据", list: [],
 })
 Volcanos("onaction", {help: "控件交互", list: [],
     onchange: function(event, can) {
-        console.log(can.Conf())
+        can.run(event)
+        // if (can.Conf("auto") == "true") {
+        //     can.run(event)
+        // }
     },
     onclick: function(event, can) {
         switch (can.Conf("type")) {
