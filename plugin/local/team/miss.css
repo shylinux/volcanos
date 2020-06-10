@@ -1,7 +1,10 @@
+fieldset.plan>div.output table.project {
+    float:left;
+}
 fieldset.plan>div.output table.content {
     float:left;
 }
-fieldset.plan>div.output table.display {
+fieldset.plan>div.output table.profile {
     float:left;
 }
 
@@ -16,6 +19,13 @@ fieldset.plan>div.output table.content div.finish {
 }
 fieldset.plan>div.output table.content div.cancel {
     background-color:red;
+}
+
+fieldset.plan>div.output table.content td {
+    vertical-align:top;
+}
+fieldset.plan>div.output table.content td div.date {
+    color:gray;
 }
 fieldset.plan>div.output table.content td.over {
     border:solid 2px red;

@@ -40,10 +40,11 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                 sub.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                     can.Conf("active", sub.Option())
                     can.Conf("action", value.name)
+                    can.Conf("current", sub)
                     // console.log(event, sub, msg)
                     // 插件回调
                     //
-                    msg.Option("index", value.index)
+                    cmds[0] == "search" || msg.Option("index", value.index)
                     return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, index].concat(cmds), function(msg) {
                         can.run(msg._event, ["search", "Footer.onaction.ncmd"]);
                         can.onappend.toast(can, "执行成功", value.name, 2000);
@@ -61,6 +62,9 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
     },
     key: function(can, msg) { msg.Option("active", can.Conf("action"))
         can.core.Item(can.Conf("active"), msg.Option)
+        can.core.List(can.Conf("current")._outputs, function(item) {
+            item.onexport && item.onexport.key && item.onexport.key(item, msg)
+        })
     },
     left: function(can) {
         return can._target.offsetLeft

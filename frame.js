@@ -145,7 +145,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             meta.feature = can.base.Obj(meta.feature, {})
             can.page.ClassList.add(can, field, meta.feature.style||"")
 
-            can.onappend._legend(can, legend)
+            can.onappend._legend(sub, legend)
             if (can.user.Search(can, "share") && can.user.Search(can, "river") && can.user.Search(can, "storm")) {
                 can.page.Select(can, field, "legend", function(item) { can.page.Remove(can, item) })
             }
@@ -253,6 +253,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 can.run(event, ["search", item+".onexport.key"])
             })
             var args = {}; can.core.List(msg.option, function(key) { args[key] = msg.Option(key) })
+            // can.core.Item(can.Option(), function(key, value) { args[key] = value })
             location.href = can.user.Share(can, args, true)
         })
     },
