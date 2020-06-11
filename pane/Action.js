@@ -1,8 +1,7 @@
-Volcanos("onimport", {help: "导入数据", list: [],
-    _init: function(can, meta, list, cb, target) { },
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
+    },
 })
-Volcanos("onaction", {help: "交互操作", list: [],
-    _init: function(can, msg, list, cb, target) {
+Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
         can.onexport._init(can, msg, list, cb, target)
     },
 })
@@ -36,14 +35,12 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             ]);
             value.width = can._target.offsetWidth
             value.height = can._target.offsetHeight
-            can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
+            value.name && can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
                 sub.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                     can.Conf("active", sub.Option())
                     can.Conf("action", value.name)
                     can.Conf("current", sub)
-                    // console.log(event, sub, msg)
                     // 插件回调
-                    //
                     cmds[0] == "search" || msg.Option("index", value.index)
                     return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, index].concat(cmds), function(msg) {
                         can.run(msg._event, ["search", "Footer.onaction.ncmd"]);

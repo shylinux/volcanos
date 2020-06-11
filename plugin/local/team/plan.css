@@ -7,6 +7,10 @@ fieldset.plan>div.output table.content {
 fieldset.plan>div.output table.profile {
     float:left;
 }
+fieldset.plan>div.output pre.display {
+    position:sticky; bottom:0;
+    clear:both;
+}
 
 fieldset.plan>div.output table.content div.prepare {
     background-color:blue;
