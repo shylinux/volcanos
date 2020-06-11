@@ -521,7 +521,6 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 }, true);
             })
     },
-
     modify: function(can, target, cb) { var back = target.innerHTML
         var ui = can.page.Appends(can, target, [{type: "input", value: back, onkeydown: function(event) {
             switch (event.key) {

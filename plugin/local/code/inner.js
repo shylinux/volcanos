@@ -68,7 +68,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             }} ])
         }) }, true)
     },
-}, ["/plugin/inner.css"])
+}, ["/plugin/local/code/inner.css"])
 Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"], _init: function(can, msg) { can._msg = msg
         // action
         can.page.Select(can, can._action, "div.file", function(item) {
