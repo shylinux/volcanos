@@ -1,4 +1,7 @@
-Volcanos("onfigure", {help: "控件详情", list: [],
+Volcanos("onfigure", {help: "控件详情", list: [], _merge: function(can, sub) { can.core.Item(sub, function(key, value) {
+        if (sub.hasOwnProperty(key)) { can.onfigure[key] = value }
+    }); return true },
+
     date: {onclick: function(event, can, item, target) {
         can._figure && can.page.Remove(can, can._figure.fieldset)
         can._figure = can.onappend.field(can, can._target, "input date", {})
@@ -11,7 +14,9 @@ Volcanos("onfigure", {help: "控件详情", list: [],
         // 添加插件
         var figure = can._figure
         figure.table = can.page.Append(can, figure.output, [{type: "table"}]).first
-        can.page.Modify(can, figure.fieldset, {style: {top: target.offsetTop+20, left: target.offsetLeft}})
+        // can.page.Modify(can, figure.fieldset, {style: {top: target.offsetTop+20, left: target.offsetLeft}})
+        var offset = can.page.offset(can._target)
+        can.page.Modify(can, figure.fieldset, {style: {top: event.clientY-offset.Top+60, left: event.clientX-offset.Left+60}})
         can.page.Remove(can, figure.legend)
 
         // 添加控件

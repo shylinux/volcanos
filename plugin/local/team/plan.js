@@ -217,7 +217,10 @@ Volcanos("onaction", {help: "组件交互", list: ["统计", "添加", "详情",
         "", "导出", "导入",
     ],
     insertTask: function(event, can, now) { now = now || new Date()
-        can.require(["/plugin/input/date"]); function date(event) {
+        can.require([
+            "/plugin/input/key",
+            "/plugin/input/date",
+        ]); function date(event) {
             can.onfigure.date.onclick(event, can, {}, event.target)
         }
 
@@ -232,7 +235,12 @@ Volcanos("onaction", {help: "组件交互", list: ["统计", "添加", "详情",
 
                 }]},
 
-                "name", "text",
+                {name: "name", type: "input", onclick: function(event) {
+                    can.onfigure.key.onclick(event, can, {name: "name", zone: ui.zone.value, type: ui.type.value}, event.target)
+                }, autocomplete: "off"},
+                {name: "text", type: "input", onclick: function(event) {
+                    can.onfigure.key.onclick(event, can, {name: "text", zone: ui.zone.value, type: ui.type.value}, event.target)
+                }, autocomplete: "off"},
                 {name: "begin_time", type: "input", value: can.base.Time(can.base.TimeAdd(now, now.getHours()/24)), onclick: date},
                 {name: "end_time", type: "input", value: can.base.Time(can.base.TimeAdd(now, (now.getHours()+1)/24)), onclick: date},
             ], function(event, button, data, list) {

@@ -231,3 +231,12 @@ fieldset.input {
     position:absolute;
     left:0; top:0;
 }
+fieldset.input {
+    z-index:99;
+}
+fieldset.input.date {
+    z-index:101;
+}
+fieldset.input.key {
+    z-index:101;
+}
