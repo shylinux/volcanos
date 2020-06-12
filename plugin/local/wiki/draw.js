@@ -1,34 +1,14 @@
-Volcanos("onimport", {help: "导入数据", list: [],
-    _start: function(can) {
-        var def = {
-            "font-size": "24",
-            "stroke-width": 2,
-            "stroke": "yellow",
-            "fill": "purple",
-            "grid": "10",
-        }
-        // 默认参数
-        can.core.Item(def, function(key, value) {
-            can.svg.Value(key, can.Action(key, can.svg.Value(key)||value))
-        })
-        can.Action("mode", "select")
-        can.Action("mode", "draw")
-        can.Action("shape", "path")
-    },
-    _init: function(can, msg, list, cb, target) { can._output.innerHTML = "";
-        if (msg.Option("_display") == "table") {
-            can.onappend.table(can, target, "table", msg)
-            return typeof cb == "function" && cb(msg);
-        }
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { can._output.innerHTML = "";
+        can.onappend.table(can, target, "table", msg)
 
         // 交互数据
         can.point = [], can.keys = []
-        can.current = null, can.temp = null
         can.group = null, can.svg = null
+        can.current = null, can.temp = null
         can.last = null
 
         // 加载绘图
-        var code = can.page.AppendBoard(can, can._output, msg.Result()||can.Export(event, null, "file"))
+        var code = can.page.AppendBoard(can, can._output, msg.Result()||can.onexport.file(event, can))
         can.page.Select(can, can._output, "svg", function(svg) {
             // 画布
             can.onaction.init(event, can, msg, "init", svg);
@@ -46,8 +26,25 @@ Volcanos("onimport", {help: "导入数据", list: [],
             })
         })
 
+        can.Timer(10, function() {
+            var def = {
+                "font-size": "24",
+                "stroke-width": 2,
+                "stroke": "yellow",
+                "fill": "purple",
+                "grid": "10",
+            }
+            // 默认参数
+            can.core.Item(def, function(key, value) {
+                can.svg.Value(key, can.Action(key, can.svg.Value(key)||value))
+            })
+            can.Action("mode", "select")
+            can.Action("mode", "draw")
+            can.Action("shape", "path")
+        }) 
         return typeof cb == "function" && cb(msg);
     },
+
     draw: function(event, can, value) {
         var figure = can.onfigure[value.shape]
         var data = figure.draw(event, can, value.point, value.style)
@@ -480,7 +477,7 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
             return value.tagName + ": (" + value.points.baseVal.value + ")"
         },
     },
-}, Config.libs.concat(["plugin/local/wiki/draw/heart"]))
+})
 Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除", "添加",
         ["group", "svg"],
         ["font-size", 12, 16, 18, 24, 32],
@@ -896,7 +893,15 @@ Volcanos("ondetail", {help: "组件详情", list: ["标签", "编辑", "复制",
     },
     "删除": function(event, can, value, cmd, target) {can.page.Remove(can, target)},
 })
-Volcanos("onstatus", {help: "组件状态", list: ["point", "which", "begin", "width", "keys"],
+
+Volcanos("onexport", {help: "导出数据", list: ["point", "which", "begin", "width", "keys"],
+    file: function(event, can, svg) {
+        return ['<svg vertion="1.1" xmlns="https://www.w3.org/2000/svg" text-anchor="middle" dominant-baseline="middle"'].concat(
+            svg? can.core.List(["count", "width", "height", "font-size", "stroke-width", "stroke", "fill"], function(item) {
+                return svg.Value(item)? ' ' + item + '="' + svg.Value(item) + '"': ""
+            }): []).concat(['>', svg? svg.innerHTML: "", "</svg>"]).join("")
+    },
+
     "point": function(event, can, value, cmd, target) {target.innerHTML = value.x+","+value.y},
     "which": function(event, can, value, cmd, target) {
         var figure = can.onaction._get(can, value);
@@ -906,13 +911,5 @@ Volcanos("onstatus", {help: "组件状态", list: ["point", "which", "begin", "w
     "begin": function(event, can, value, cmd, target) {target.innerHTML = value? value.x+","+value.y: ""},
     "width": function(event, can, value, cmd, target) {target.innerHTML = value? value.Val("width")+","+value.Val("height"): ""},
     "keys": function(event, can, value, cmd, target) {target.innerHTML = value},
-})
-Volcanos("onexport", {help: "导出数据", list: [],
-    file: function(event, can, svg, cmd, target) {
-        return ['<svg vertion="1.1" xmlns="https://www.w3.org/2000/svg" text-anchor="middle" dominant-baseline="middle"'].concat(
-            svg? can.core.List(["count", "width", "height", "font-size", "stroke-width", "stroke", "fill"], function(item) {
-                return svg.Value(item)? ' ' + item + '="' + svg.Value(item) + '"': ""
-            }): []).concat(['>', svg? svg.innerHTML: "", "</svg>"]).join("")
-    },
 })
 
