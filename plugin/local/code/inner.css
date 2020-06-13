@@ -2,31 +2,19 @@ fieldset.editor>div.action {
     clear:none;
 }
 fieldset.editor>div.action>div.file {
-    border:solid 2px red;
-    padding:2px;
-    float:left;
-    margin:2px 0;
+    border:solid 2px red; padding:2px;
+    float:left; margin:2px 0;
+    cursor:pointer;
 }
 fieldset.editor>div.action>div.file:hover {
     background-color:green;
-    cursor:pointer;
 }
 fieldset.editor>div.action>div.file.select {
     background-color:green;
 }
 
-fieldset.editor>div.output {
-    min-height:300px;
-}
-fieldset.editor>div.output>table {
-    max-height:100px;
-    overflow:auto;
-    display:block;
-}
 fieldset.editor>div.output>div.project {
-    width:80px; overflow:auto;
-    position:fixed;
-    min-height:240px;
+    max-width:120px; overflow:auto;
 }
 fieldset.editor>div.output>div.profile {
     position:absolute; right:0;
@@ -38,46 +26,40 @@ fieldset.editor>div.output>div.profile:hover {
 
 fieldset.editor>div.output div.preview {
     font-family:monospace;
-    float:left; margin-left:80px;
+    float:left;
 }
 fieldset.editor>div.output div.preview>div.item {
-    text-align:right;
+    text-align:right; padding:0 4px; margin:0;
     height:20px; border:solid 1px black;
-    padding:0 4px; margin:0;
 }
 fieldset.editor>div.output div.preview>div.item:hover {
     background-color:green;
 }
 fieldset.editor>div.output div.preview>div.item.select {
     background-color:red;
-    height:20px; border:solid 1px yellow;
+    border:solid 1px yellow;
 }
 fieldset.editor>div.output div.content {
     font-size:16px; font-family:monospace;
     border-left:solid 2px red;
-    padding-left:10px;
+    float:left;
 }
 fieldset.editor>div.output div.content>pre.item {
     height:20px; border:solid 1px black;
     padding:0; margin:0;
-}
-fieldset.editor>div.output div.content>pre.item:hover {
-    border:solid 1px red;
+    padding-left:10px;
 }
 fieldset.editor>div.output div.content>pre.item span.comment {
-    background-color:blue; color:cyan;
+    color:cyan; background-color:blue;
 }
 fieldset.editor>div.output div.content>pre.item span.keyword {
-    font-weight:bold;
-    color:yellow;
+    color:yellow; font-weight:bold;
 }
 fieldset.editor>div.output div.content>pre.item span.function {
-    font-weight:bold;
-    color:cyan;
+    color:cyan; font-weight:bold;
 }
 fieldset.editor>div.output div.content>pre.item span.datatype {
-    font-weight:bold;
-    color:lightgreen;
+    color:lightgreen; font-weight:bold;
 }
 fieldset.editor>div.output div.content>pre.item span.string {
     color:magenta;
@@ -87,41 +69,37 @@ fieldset.editor>div.output pre.display {
     max-height:80px; overflow:auto;
     position:sticky; bottom:0;
     display:none;
+    clear:both;
+    margin:0;
 }
 fieldset.editor>div.output pre.display:hover {
     background-color:black;
     max-height:360px;
-    z-index:100;
+    z-index:10;
 }
 
-fieldset.editor>div.output textarea.editor.normal {
-    background-color:#00000000; color:#00000000;
-    caret-color:#00000000;
-}
 fieldset.editor>div.output textarea.editor {
+    position:absolute; padding:0; margin:0;
     font-size:16px; font-family:monospace;
-    background-color:black; color:white;
-    caret-color:yellow;
-
-    position:absolute; left:0;
-    border:solid 1px red;
-    width:0; height:20px;
-    padding:0; margin:0;
+    padding-left:12px;
 
     background-color:#00000000; color:#00000000;
-    padding-left:12px;
+    caret-color:yellow;
     display:none;
 }
+fieldset.editor>div.output textarea.editor.normal {
+    caret-color:#00000000;
+}
 fieldset.editor>div.output textarea.command {
+    clear:both;
+    padding:0; margin:0;
+    font-size:16px; font-family:monospace;
+    padding-left:12px;
+
     background-color:black; color:white;
-    font-family:monospace;
     caret-color:red;
 
-    position:sticky; bottom:0;
-    width:0; height:20px;
     border:solid 1px red;
-    padding:0; margin:0;
-    padding-left:10px;
     z-index:200;
 }
 

@@ -2,7 +2,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._name = "plan", can.ui = can.page.Append(can, can._target, [
             {view: ["project", "table"], style: {display: can.user.Searchs(can, "project")||"none"}},
             {view: ["content", "table"]},
-            {view: ["profile", "table"], style: {display: can.user.Searchs(can, "profile")||"none"}},
+            {view: ["profile", "table"]},
             {view: ["display", "pre"]},
         ])
 

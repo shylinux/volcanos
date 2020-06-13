@@ -130,6 +130,10 @@ fieldset>div.output>div.profile>div.item {
 fieldset>div.output>div.profile>div.item:hover {
     border:solid 1px red;
 }
+fieldset>div.output>pre.display {
+    position:sticky; bottom:0;
+    clear:both;
+}
 
 fieldset div.code {
     color:white;

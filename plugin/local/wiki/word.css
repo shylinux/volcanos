@@ -1,51 +1,25 @@
-fieldset.story {
-    clear:both;
-    margin:5px;
-}
-fieldset.float {
-    float:left;
-    clear:none;
-}
-fieldset.clear {
+fieldset.word h2.story {
     clear:both;
 }
-
-fieldset p.story {
+fieldset.word p.story {
     white-space:pre;
 }
-fieldset ul.story li:hover {
-    border:solid 2px red;
-    cursor:pointer;
+fieldset.word svg.story {
+    display:block;
+    float:left;
+}
+fieldset.word fieldset.story {
+    float:left; clear:both;
+}
+fieldset.word fieldset.story:hover {
+    border:solid 1px red;
 }
 fieldset code.story {
-    display:block;
-    color:white;
-    font-size:14px;
-    font-family:monospace;
-    background-color:#272822;
-    white-space:pre;
-    padding:10px;
-    overflow:auto;
-    border:solid 3px green;
-    max-height:640px;
+    display:block; border:solid 3px green;
+    color:white; background-color:#272822;
+    font-size:14px; font-family:monospace;
+    max-height:640px; overflow:auto;
+    padding:10px; white-space:pre;
+    clear:both;
 }
-
-fieldset div.stack:hover {
-    background-color:red;
-}
-fieldset div.stack {
-    cursor:pointer;
-    width:fit-content;
-}
-fieldset div.stack.fold {
-    font-weight:bold;
-}
-fieldset ul.stack {
-    border:solid 2px #0000;
-    margin:0px;
-}
-fieldset ul.stack:hover {
-    border:solid 2px red;
-}
-
 

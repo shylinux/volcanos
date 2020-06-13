@@ -10,7 +10,14 @@ Volcanos({name: "demo", volcano: "/frame.js", iceberg: "/chat/", intshell: "plug
             "ncmd",
         ]},
     ], main: {name: "Header", engine: "remote", list: ["/publish/order.js"]}, plugin: [
-        "/plugin/state.js", "/plugin/input.js", "/plugin/table.js",
-        "/plugin/input/key", "/plugin/input/date",
+        "/plugin/state.js",
+        "/plugin/table.js",
+        "/plugin/input.js",
+        "/plugin/input/key",
+        "/plugin/input/date",
+        "/plugin/local/team/plan.js",
+        "/plugin/local/wiki/draw.js",
+        "/plugin/local/wiki/word.js",
+        "/plugin/local/code/inner.js",
     ],
 })

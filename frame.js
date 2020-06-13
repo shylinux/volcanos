@@ -264,8 +264,9 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                     var cb = can.onaction[item] || can.onkeymap && can.onkeymap._remote
                     cb? cb(event, can, item): can.run(event, ["action", item], function(msg) {}, true)
                 }}): item.length > 0? can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
-                    can.onaction[item[0]](event, can, item[0], item[event.target.selectedIndex+1])
-                }}): typeof item == "object" && can.onappend.input(can, action, "input", item)
+                    var cb = can.onaction[item[0]]
+                    cb && cb(event, can, item[0], item[event.target.selectedIndex+1])
+                }}): typeof item == "object" && can.page.Append(can, action, [item])
         })
     },
     _detail: function(can, msg, list, target) {
@@ -520,6 +521,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                     can.onappend.toast(can, "上传成功")
                 }, true);
             })
+        action.upload.click()
     },
     modify: function(can, target, cb) { var back = target.innerHTML
         var ui = can.page.Appends(can, target, [{type: "input", value: back, onkeydown: function(event) {

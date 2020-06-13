@@ -3,11 +3,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         can.page.Modify(can, target, {style: {"max-height": height-160+"px"}})
 
         can.onappend.table(can, target, "table", msg), can.ui = can.page.Append(can, target, [
-            {view: ["project", "div"], style: {width: "80px", "max-height": height-180+"px"}},
-            {view: ["profile", "div"]},
-
-            {view: "preview", style: {width: "30px"}},
-            {view: "content"}, {type: "code", list: [{view: ["display", "pre"]}]},
+            {view: "project"}, {view: "profile"},
+            {view: "preview"}, {view: "content"},
 
             {view: ["editor", "textarea"], onkeydown: function(event) {
                 can.onkeymap.parse(event, can, "insert"), can.Timer(10, function() {
@@ -23,10 +20,11 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             {view: ["command", "textarea"], onkeydown: function(event) {
                 can.onkeymap.parse(event, can, "command")
             }},
+            {type: "code", list: [{view: ["display", "pre"]}]},
         ])
 
         msg.Option("path", can.Option("path"))
-        msg.Option("name", can.Option("name"))
+        msg.Option("file", can.Option("file"))
         msg.Option("key", can.Option("key"))
         can.tabview = {}, can.Timer(10, function() {
             can.onimport.project(can, can.Option("path"))
@@ -45,13 +43,13 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             can.Conf("height", can.Conf("height") + 64)
         }
     },
-    tabview: function(can, path, name) { can.Option({path: path, name: name, key: ""})
-        if (can.tabview[path+name]) { return can.onsyntax._init(can, can.tabview[path+name]) }
-        can.run({}, [path, name], function(msg) {
-            msg.Option({path: can.Option("path"), name:  can.Option("name")})
-            can.page.Append(can, can._action, [{view: ["file", "div", name], onclick: function(event) {
-                can.onsyntax._init(can, can.tabview[path+name] = msg)
-                can.Option({path: path, name: name, key: ""})
+    tabview: function(can, path, file) { can.Option({path: path, file: file, key: ""})
+        if (can.tabview[path+file]) { return can.onsyntax._init(can, can.tabview[path+file]) }
+        can.run({}, [path, file], function(msg) {
+            msg.Option({path: can.Option("path"), file:  can.Option("file")})
+            can.page.Append(can, can._action, [{view: ["file", "div", file], onclick: function(event) {
+                can.onsyntax._init(can, can.tabview[path+file] = msg)
+                can.Option({path: path, file: file, key: ""})
             }, ondblclick: function(event) {
                 can.onkeymap._remote(event, can, "运行")
             }, oncontextmenu: function(event) {
@@ -62,17 +60,22 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
     project: function(can, path) { can.Option({path: path}), can.ui.project.innerHTML = ""
         can.run({}, ["action", "project", path+"/"], function(res) { res.Table(function(value) {
             var title = can.core.List(["time", "size"], function(item) { return item + ": " + value[item] }).join("\n")
-            can.page.Append(can, can.ui.project, [{text: [value.file, "div", "item"], title: title, onclick: function(event) {
-                value.file.endsWith("/")? can.onimport.project(can, can.base.Path(can.Option("path"), value.file)):
-                    can.onimport.tabview(can, can.Option("path"), value.file)
-            }} ])
+            can.page.Append(can, can.ui.project, [{text: [value.file, "div", "item"], title: title,
+                onclick: function(event) {
+                    value.file.endsWith("/")? can.onimport.project(can, can.base.Path(can.Option("path"), value.file)):
+                        can.onimport.tabview(can, can.Option("path"), value.file)
+                },
+                ondblclick: function(event) {
+                    can.onkeymap._remote(event, can, "运行", ["action", "运行", path, value.file])
+                },
+            }])
         }) }, true)
     },
 }, ["/plugin/local/code/inner.css"])
 Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"], _init: function(can, msg) { can._msg = msg
         // action
         can.page.Select(can, can._action, "div.file", function(item) {
-            item.innerText == msg.Option("name")? can.page.ClassList.add(can, item, "select"):
+            item.innerText == msg.Option("file")? can.page.ClassList.add(can, item, "select"):
                 can.page.ClassList.del(can, item, "select")
         })
 
@@ -81,7 +84,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             can.Cache(can.file+item, can.ui[item], can.current)
         });
         // caches load
-        can.file = can.base.Path(msg.Option("path"), msg.Option("name"))
+        can.file = can.base.Path(msg.Option("path"), msg.Option("file"))
         var cache = false; can.core.List(["preview", "content", "display"], function(item) {
             var p = can.Cache(can.file+item, can.ui[item]); if (!cache && p) { p.click(), cache = true }
         }); if (cache) { return }
@@ -100,7 +103,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             typeof p.display == "object" && ( p.display.height && can.page.Modify(can, can.ui.display, {style: {
                 "max-height": p.display.height,
             }}))
-        }; var p = can.onsyntax[can.parse]; !p? can.run({}, ["action", "plug", can.Option("path"), can.Option("name")], function(msg) {
+        }; var p = can.onsyntax[can.parse]; !p? can.run({}, ["action", "plug", can.Option("path"), can.Option("file")], function(msg) {
             p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()), can.onsyntax._init(can, can._msg), init(p)
         }, true): init(p)
     },
@@ -319,7 +322,8 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         line: function(can, line) { var auto = true, loop = true, total = 0
             var p = location.href.startsWith("https")? "": "http://localhost:9020"
             function cb(event) { console.log(event) }
-            return {className: "preview", type: "video", style: {height: can.Conf("height")-160+"px", width: can.Conf("width")-160+"px"},
+            can.page.Modify(can, can._target, {style: {"min-height": can.Conf("height")-160}})
+            return {className: "preview", type: "video", style: {height: can.Conf("height")-160+"px", width: can._target.offsetWidth-160+"px"},
                 data: {src: p+"/share/local/"+line, controls: "controls", autoplay: auto, loop: loop},
                 oncontextmenu: cb, onplay: cb, onpause: cb, onended: cb,
                 onloadedmetadata: function(event) { total = event.timeStamp
@@ -357,8 +361,9 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             }), can.onkeymap[item]._engine = engine
         }), can.onkeymap._mode(can, mode||"normal")
     },
-    _mode: function(can, value) {
-        can.ui.editor.className = "editor "+can.Status("输入法", can.Action("mode", can.mode = value))
+    _mode: function(can, value) { can.Action("mode", can.mode = value)
+        can.page.Modify(can, can.ui.editor, {className: "editor "+can.mode, style: {display: "none"}})
+        can.page.Modify(can, can.ui.command, {className: "command "+can.mode, style: {display: "none"}})
         return value
     },
     _command: function(can) { can.onkeymap._mode(can, "command")
@@ -371,9 +376,10 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     _remote: function(event, can, key, arg, cb) { can.ui.display.innerHTML = "", can.ui.profile.innerHTML = ""
         var p = can.onsyntax[can.parse]; can.display = p && p.profile && can.ui.profile || can.ui.display
 
+        can.page.Modify(can, can.display, {innerHTML: "", style: {display: "none"}})
         var msg = can.request(event); msg.Option("content", can.onexport.content(can))
-        can.run(event, arg||["action", key, can.Option("path"), can.Option("name")], cb||function(msg) {
-            can.page.Modify(can, can.display, {innerHTML: "", style: {display: "block"}})
+        can.run(event, arg||["action", key, can.Option("path"), can.Option("file")], cb||function(msg) {
+            (msg.Result() || msg.append && msg.append.length > 0) && can.page.Modify(can, can.display, {innerHTML: "", style: {display: "block"}})
             can.onappend.table(can, can.display, "table", msg)
             can.onappend.board(can, can.display, "board", msg)
         }, true)
@@ -415,11 +421,11 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     },
     command: {
         Escape: function(event, can) { can.onkeymap._normal(can)
-            can.page.Modify(can, can.ui.command, {style: {display: "none"}})
-            can.editor.focus()
+            can.current.click()
         },
         Enter: function(event, can) { var line = can.ui.command.value; var ls = can.core.Split(line, " ", ",", {simple: true})
-            var cb = can.onkeymap._engine[ls[0]]; typeof cb == "function"? cb(event, can, line, ls): can.onkeymap._remote(event, can, line, ["action", "cmd"].concat(ls))
+            var cb = can.onkeymap._engine[ls[0]]; typeof cb == "function"? cb(event, can, line, ls):
+                can.onkeymap._remote(event, can, line, ["action", "cmd"].concat(ls))
             can.onkeymap.command.Escape(event, can)
         },
         jk: function(event, can) { can.history = can.history.slice(0, -1)
@@ -531,10 +537,8 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     },
 })
 Volcanos("onaction", {help: "控件交互", list: [
-        "", "项目", "上传",
-        "", "保存", "运行", "串行", "并行", "日志",
-        "", "提交", "历史", "记录", "复盘",
-        "", "收藏", "列表", "搜索", "推荐",
+        "", "项目", "上传", "", "保存", "运行",
+        "", "提交", "记录", "复盘", "历史",
     ],
     modifyLine: function(can, target, value) { var p = can.onsyntax.parse(can, value)
         typeof p == "object"? can.page.Appends(can, target, [p]): target.innerHTML = p
@@ -552,12 +556,14 @@ Volcanos("onaction", {help: "控件交互", list: [
         }); if (typeof target != "object") { return }; can.current = target
 
         can.page.Modify(can, can.editor, {className: "editor "+can.mode, value: can.current.innerText, style: {
-            height: target.offsetHeight+"px", width: target.offsetWidth+"px",
-            top: (target.offsetTop)+"px", display: "block",
+            height: target.offsetHeight, width: target.offsetWidth,
+            left: target.offsetLeft, top: target.offsetTop,
+            display: "block",
         }}), can.editor.focus()
 
-        can.page.Modify(can, can.ui.command, {value: can.current.innerText, style: {
-            height: target.offsetHeight+"px", width: target.offsetWidth+"px",
+        can.page.Modify(can, can.ui.command, {style: {
+            height: target.offsetHeight, width: target.offsetWidth,
+            left: target.offsetLeft,
         }})
     },
     appendLine: function(can, value) { var index = can.max++
@@ -635,20 +641,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
         can.onlayout.project(can)
     },
     project: function(can) { var hide = can.ui.project.style.display == "none"
-        var width = 80, height = 480;
-        can.page.Modify(can, can.ui.project, {style: {width: width, "max-height": height, display: hide? "": "none"}})
-
-        var style = {style: {
-            "margin-left": hide? width: 0,
-        }}; can.page.Modify(can, can.ui.preview, style)
-
-        var style = {style: {
-            "margin-left": hide? width+30: 30,
-        }}; can.page.Modify(can, can.ui.content, style)
-
-        can.page.Modify(can, can.ui.display, style)
-        can.page.Modify(can, can.ui.command, style)
-        can.page.Modify(can, can.ui.editor, style)
+        can.page.Modify(can, can.ui.project, {style: {display: hide? "": "none"}})
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["输入法", "输入值", "文件名", "解析器", "当前行", "ncmd"],
