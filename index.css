@@ -111,6 +111,9 @@ fieldset>div.output {
     overflow:auto;
     position:relative;
 }
+fieldset>div.output div.code a {
+    color:yellow;
+}
 fieldset>div.output>div.project {
     float:left;
     /* position:fixed; */

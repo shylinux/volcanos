@@ -1,7 +1,10 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, msg, list, cb, target) { can._output.innerHTML = "";
-        can.onappend.table(can, target, "table", msg)
-        can.onappend.board(can, target, "board", msg)
+        can.ui = can.page.Append(can, can._target, [
+            {view: ["content", "div"]}, {view: ["display", "pre"]},
+        ])
+        can.onappend.table(can, can.ui.content, "table", msg)
+        can.onappend.board(can, can.ui.display, "board", msg)
         return typeof cb == "function" && cb(msg)
     },
 })

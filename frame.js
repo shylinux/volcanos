@@ -359,47 +359,47 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         return target;
     },
     table: function(can, target, type, msg, cb) {
-        var table = can.page.AppendTable(can, target, msg, msg.append, function(event, value, key, index, tr, td) {
-            can.page.Select(can, can._option, "input.args", function(input) { if (input.name == key) { var data = input.dataset || {}
-                input.value = value; typeof cb == "function" && cb(event, value); if (data.action == "auto") {
-                    var sub = can.request(event)
-                    can.core.Item(can.Option(), sub.Option)
-                    sub.Option("_action", msg.Option("_action"))
-                    can.run(event, can.page.Select(can, can._option, "input.args", function(item) {
-                        return item.name && item.value || ""
-                    }))
+        var table = can.page.AppendTables(can, target, msg, msg.append, cb || function(value, key, index, line) {
+            function run(event, item, value) {
+                var msg = can.request(event); msg.Option(line)
+                var cb = can.onaction[item] || can.onaction["运行"]
+                cb? cb(event, can, item): can.run(event, ["action", item, key, value.trim()], function(res) {
+                    can.ui.display.innerHTML = ""
+                    can.onappend.table(can, can.ui.display, "table", res)
+                    can.onappend.board(can, can.ui.display, "board", res)
+                }, true)
+            }
+            return {type: "td", inner: value, click: function(event) {
+                var target = event.target; if (target.tagName == "INPUT" && target.type == "button") {
+                    return run(event, event.target.value, value)
                 }
-            } })
-        }, function(event, value, key, index, tr, td) {
-            can.onappend.carte(can, can.ondetail||{}, msg["_detail"] || can.Conf("detail") || can.ondetail.list, function(event, item, meta) {
-                var back = td.innerHTML
-                switch (item) {
-                    case "编辑":
-                        var ui = can.page.Appends(can, td, [{type: "input", value: back, onkeydown: function(event) {
-                            switch (event.key) {
-                                case "Enter":
-                                    td.innerHTML = event.target.value
-
-                                    var res = can.request(event); can.core.List(msg.append, function(key) {
-                                        res.Option(key, msg[key][index])
-                                    }); can.run(event, ["action", item, key, event.target.value.trim(), value.trim()], function(res) {}, true)
-                                    break
-                                case "Escape":
-                                    td.innerHTML = back
-                                    break
-                            }
-                        }, onkeyup: function(event) {
-
-                        }}]);
-                        ui.input.focus()
-                        ui.input.setSelectionRange(0, -1)
-                        return
-                }
-
-                var res = can.request(event); can.core.List(msg.append, function(key) {
-                    res.Option(key, msg[key][index])
-                }); can.run(event, ["action", item, key, value.trim()], function(res) {}, true)
-            })
+                can.page.Select(can, can._option, "input.args", function(input) { if (input.name == key) { var data = input.dataset || {}
+                    input.value = value; typeof cb == "function" && cb(event, value); if (data.action == "auto") {
+                        var sub = can.request(event)
+                        can.core.Item(can.Option(), sub.Option)
+                        sub.Option("_action", msg.Option("_action"))
+                        can.run(event, can.page.Select(can, can._option, "input.args", function(item) {
+                            return item.name && item.value || ""
+                        }))
+                    }
+                } })
+            }, ondblclick: function(event) {
+                can.onappend.modify(can, event.target, function(event, value, old) {
+                    run(event, "编辑", value)
+                })
+            }, oncontextmenu: function(event) {
+                can.onappend.carte(can, can.ondetail||{}, msg["_detail"] || can.Conf("detail") || can.ondetail.list, function(event, item, meta) {
+                    switch (item) {
+                        case "编辑":
+                            can.onappend.modify(can, event.target, function(event, value, old) {
+                                run(event, "编辑", value)
+                            })
+                            break
+                        default:
+                            run(event, item, value)
+                    }
+                })
+            }, }
         })
     },
     board: function(can, target, type, msg) {
