@@ -361,7 +361,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
     table: function(can, target, type, msg, cb) {
         var table = can.page.AppendTables(can, target, msg, msg.append, cb || function(value, key, index, line) {
             function run(event, item, value) {
-                var msg = can.request(event); msg.Option(line)
+                var msg = can.request(event);
+                msg.Option(can.Option()), msg.Option(line);
                 var cb = can.onaction[item] || can.onaction["运行"]
                 cb? cb(event, can, item): can.run(event, ["action", item, key, value.trim()], function(res) {
                     can.ui.display.innerHTML = ""
@@ -480,7 +481,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         return ui
     },
     share: function(can, msg, name, text) {
-        can.run(msg._event, ["share"], function(msg) {
+        can.run(msg._event, ["action", "share"], function(msg) {
             var src = can.user.Share(can, {_path: "/share/"+msg.Result()}, true);
             var ui = can.onappend.toast(can, {title: can.page.Format("a", src, msg.Result()), text: can.page.Format("img", src+"/share"),
                 width: 300, height: 300, duration: 100000, button: [{button: ["确定", function(event) {
