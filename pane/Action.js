@@ -15,7 +15,7 @@ Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"]
         msg.Option("_node", value.pod)
         msg.Option("_group", value.group)
         msg.Option("_index", value.index)
-        msg.Option("_args", value.args)
+        msg.Option("_args", JSON.stringify(can.core.Item(sub.Option(), function(key, value) { return value })))
         msg.Option("_value", JSON.stringify(sub.Option()))
         msg.Option("storm", can.Conf("storm"))
         msg.Option("river", can.Conf("river"))
