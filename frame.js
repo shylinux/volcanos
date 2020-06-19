@@ -55,8 +55,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 }
                 break
             case "Storm":
-                var river = can.onengine.river[cmds[0]]
-                if (!river) { break }
+                var river = can.onengine.river[cmds[0]]; if (!river) { break }
                 can.core.Item(river.storm, function(key, value) {
                     msg.Push("key", key)
                     msg.Push("name", value.name)
@@ -80,10 +79,11 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                         msg.Push("group", value.group||"")
                         msg.Push("index", value.index||"")
                         msg.Push("args", value.args||"[]")
+                        msg.Push("action", value.action||value.index||"")
                         msg.Push("inputs", JSON.stringify(value.inputs||[]))
                         msg.Push("feature", JSON.stringify(value.feature||{}))
                     })
-                    typeof cb == "function" && cb(msg);
+                    typeof cb == "function" && cb(msg)
                 } else if (action && action.engine) {
                     action.engine(event, can, msg, pane, cmds, cb)
                 } else if (action) {
@@ -176,21 +176,22 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                         p != undefined && (input._target.value = p)
                     }
 
-                    input.run = function(event, cmds, cb, silent) { var msg = sub.request(event); msg.Option("_action", item.name)
+                    input.run = function(event, cmds, cb, silent) { var msg = sub.request(event);
                         // 控件回调
                         switch (item.name) {
-                        case "查看":
                         case "打开":
-                                msg.Option("_action", "")
+                        case "查看":
                                 break
                         case "返回":
                             // 历史命令
-                            msg.Option("_action", "")
                             sub._history.pop(); var his = sub._history.pop(); if (his) {
                                 can.page.Select(can, option, "input.args", function(item, index) {
                                     item.value = his[index] || ""
                                 })
                             }
+                            break
+                        default:
+                            msg.Option("_action", item.name)
                         }
 
                         // 解析参数

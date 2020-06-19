@@ -42,8 +42,7 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                     can.Conf("action", value.name)
                     can.Conf("current", sub)
                     // 插件回调
-                    cmds[0] == "search" || msg.Option("index", value.index)
-                    return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, index].concat(cmds), function(msg) {
+                    return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
                         can.run(msg._event, ["search", "Footer.onaction.ncmd"]);
                         can.onappend.toast(can, "执行成功", value.name, 2000);
                         typeof cb == "function" && cb(msg)
