@@ -16,6 +16,9 @@ fieldset.editor>div.action>div.file.select {
 fieldset.editor>div.output>div.project {
     max-width:120px; overflow:auto;
 }
+fieldset.editor>div.output>div.project div.item {
+    cursor:pointer;
+}
 fieldset.editor>div.output>div.profile {
     position:absolute; right:0;
     width:80px; overflow:auto;

@@ -1,4 +1,24 @@
-Volcanos("onimport", {help: "导入数据", list: [],
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb) {
+        can._target.innerHTML = "", can.ui = can.page.Append(can, can._target, [
+            {view: "content"}, {view: "display"},
+        ])
+        can.table = can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line) {
+            return {text: [value, "td"], oncontextmenu: function(event) {
+                can.onappend.carte(can, can.ondetail, can.ondetail.list, function(ev, cmd, meta) {
+                    var cb = meta[cmd]; cb && cb(event, can, cmd, value, key, index, line)
+                })
+            }, ondblclick: function(event) {
+                can.page.Modify(can, event.target, {contenteditable: true})
+            }}
+        })
+
+        can.core.List(msg.result, function(item) {
+            var ls = item.split("/")
+            var ls = ls[ls.length-1].split(".")
+            var ext = ls[ls.length-1].toLowerCase()
+            can.page.Append(can, can.ui.content, [can.onfigure[ext](can, item)])
+        })
+    },
     init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
         if (!msg.append || msg.append.length == 0) {return}
 
@@ -18,13 +38,6 @@ Volcanos("onimport", {help: "导入数据", list: [],
                     return {className: "preview", img: "/share/local/web.wiki.feel/"+item.path, width: width, oncontextmenu: menu}
                 case "MOV":
                 case "m4v":
-                    return {className: "preview", type: "video", width: width, oncontextmenu: menu,
-                        onplay: cb, onpause: cb,
-                        onloadedmetadata: cb,
-                        onloadeddata: cb,
-                        ontimeupdate: cb,
-                        onended: cb,
-                        data: {src: "/share/local/web.wiki.feel/"+item.path, controls: "controls", autoplay: auto, loop: false}}
                 default:
                     return
             }
@@ -138,19 +151,31 @@ Volcanos("onimport", {help: "导入数据", list: [],
         })
     },
 })
-Volcanos("onaction", {help: "组件菜单", list: ["预览", "上传"],
-    "预览": function(event, can, msg, cmd, target) {
+
+Volcanos("onfigure", {help: "组件菜单", list: [],
+    image: function(can, path) {
+        return {img: "/share/local/"+path}
     },
-    "上传": function(event, can, msg, cmd, target) {
-        can.run(event, ["action", cmd, can.Option("name"), can.page.Select(can, target, "tr", function(tr) {return can.page.Select(can, tr, "th,td", function(td) {return td.innerHTML}).join(",")}).join("\n")], function() {
-            can.user.toast("保存成功")
-        }, true)
+    jpg: function(can, path) { return can.onfigure.image(can, path) },
+    qrc: function(can, path) { return can.onfigure.image(can, path) },
+
+    video: function(can, path) {
+        function cb(event) {
+        }
+        return {className: "preview", type: "video", width: width, oncontextmenu: menu,
+            onplay: cb, onpause: cb,
+            onloadedmetadata: cb,
+            onloadeddata: cb,
+            ontimeupdate: cb,
+            onended: cb,
+            data: {src: "/share/local/"+path, controls: "controls", autoplay: auto, loop: false,
+        }}
     },
+    m4v: function(can, path) { return can.onfigure.image(can, path) },
 })
-Volcanos("onchoice", {help: "组件交互", list: ["保存", "清空", ["rect", "rect", "line", "circle"]],
-    "清空": function(event, can, msg, cmd, target) {
-        console.log("choice", cmd)
-    },
+
+Volcanos("onaction", {help: "组件菜单", list: ["上传"],
+    "上传": function(event, can) { can.onappend.upload(can) },
 })
 Volcanos("ondetail", {help: "组件详情", list: ["标签"],
     "标签": function(event, can, msg, index, key, cmd, target) {

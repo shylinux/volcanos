@@ -85,7 +85,8 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
         },
         request: function(event, msg, proto) { event = event || {};
             if (!msg && event._msg) { return event._msg }
-
+            var ls = (can._name||can._help).split("/")
+            event._pane = ls[ls.length-1]
             event._msg = msg = msg || {}, msg._event = event, msg._can = can;
             msg.__proto__ = proto || { _name: meta.order++, _create_time: new Date(),
                 Option: function(key, val) {

@@ -223,7 +223,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 if (silent) { typeof cb == "function" && cb(msg); return }
 
                 // 添加组件
-                var display = (msg.Option("_display")||meta.feature.display||"table.js")
+                var display = (msg.Option("_plugin")||msg.Option("_display")||meta.feature.plugin||meta.feature.display||"table.js")
                 display.indexOf("/") == 0 || (display = "/plugin/"+display)
 
                 var table = Volcanos(display, { _help: display, _follow: can._follow+"."+meta.name+"."+display,
@@ -263,11 +263,14 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         action && (action.innerHTML = ""), can.onaction && can.core.List(list||can.onaction.list, function(item) {
             item === ""? /*空白*/ can.page.Append(can, action, [{view: "item space"}]):
                 typeof item == "string"? /*按键*/ can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
-                    var cb = can.onaction[item] || can.onkeymap && can.onkeymap._remote
+                    var cb = can.onaction[item] ||  can.onaction["_engine"] || can.onkeymap && can.onkeymap._remote
                     cb? cb(event, can, item): can.run(event, ["action", item], function(msg) {}, true)
                 }}): item.length > 0? /*列表*/ can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
+                    var which = item[event.target.selectedIndex+1]
+                    var cb = can.onaction[which]
+                    cb && cb(event, can, which)
                     var cb = can.onaction[item[0]]
-                    cb && cb(event, can, item[0], item[event.target.selectedIndex+1])
+                    cb && cb(event, can, item[0], which)
                 }}): item.input? /*文本*/ can.page.Append(can, action, [{view: "item", list: [{type: "input", name: item.input[0], onkeydown: function(event) {
                     item.input[1](event, can)
                 }}] }]): typeof item == "object" && /*其它*/ can.page.Append(can, action, [item])
@@ -406,6 +409,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 })
             }, }
         })
+        return table
     },
     board: function(can, target, type, msg) {
         msg.result && can.page.AppendBoard(can, target, can.page.Display(msg.Result()))

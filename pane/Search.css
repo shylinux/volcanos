@@ -6,7 +6,6 @@ fieldset.Search {
     background:black;
 }
 fieldset.Search div.output div.content {
-    max-height:400px;
     max-width:1000px;
     overflow:auto;
 }
