@@ -1,0 +1,22 @@
+fieldset.Search {
+    display:none;
+    position:absolute;
+    left:120px;
+    top:40px;
+    background:black;
+}
+fieldset.Search div.output div.content {
+    max-height:400px;
+    max-width:1000px;
+    overflow:auto;
+}
+fieldset.Search div.output div.display {
+    position:sticky;
+    max-height:200px;
+    max-width:1000px;
+    overflow:auto;
+}
+fieldset.Search div.output div.display:hover {
+    max-height:400px;
+}
+

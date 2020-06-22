@@ -14,6 +14,17 @@ fieldset.Header>div.output>div.title:hover {
     background-color:red;
     border:ridge 2px yellow;
 }
+fieldset.Header>div.output>div.search {
+    margin-left:20px;
+    float:left;
+}
+fieldset.Header>div.output>div.search>input {
+    width:120px;
+}
+fieldset.Header>div.output>div.search>input:focus {
+    width:240px;
+}
+
 
 fieldset.Header>div.output>div.state {
     cursor:pointer;

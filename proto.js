@@ -19,7 +19,8 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
     if (typeof name == "object") { var Config = name;
         meta.volcano = Config.volcano, meta.libs = Config.libs;
         var Preload = Config.libs; Config.panes.forEach(function(pane) {
-            Preload = Preload.concat(pane.list);
+            pane.list = pane.list || ["/pane/"+pane.name+".css", "/pane/"+pane.name+".js"]
+            Preload = Preload.concat(pane.list)
         }); Preload = Preload.concat(Config.plugin)
 
         name = Config.name, can = { _target: document.body, _follow: Config.name,

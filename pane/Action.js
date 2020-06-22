@@ -6,20 +6,13 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
     },
 })
 Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"],
-    "共享": function(event, can, value, sub) {
-        console.log(sub.Option())
-        var msg = sub.request(event)
-        msg.Option("_pod", can.user.Search(can, "pod"))
-        msg.Option("_name", value.name)
-        msg.Option("_text", value.help)
-        msg.Option("_node", value.pod)
-        msg.Option("_group", value.group)
-        msg.Option("_index", value.index)
-        msg.Option("_args", JSON.stringify(can.core.Item(sub.Option(), function(key, value) { return value })))
-        msg.Option("_value", JSON.stringify(sub.Option()))
-        msg.Option("storm", can.Conf("storm"))
-        msg.Option("river", can.Conf("river"))
-        can.onappend.share(can, msg)
+    "共享": function(event, can, value, sub) { var msg = sub.request(event)
+        var list = [can.Conf("river"), can.Conf("storm"), "share", value.name, value.help]
+        list = list.concat([
+            value.pod||"", value.group||"", value.index, JSON.stringify(can.core.Item(sub.Option(), function(key, value) { return value })),
+            JSON.stringify(sub.Option())
+        ])
+        can.onappend.share(can, msg, list)
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) { var key = "action";

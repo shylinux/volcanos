@@ -68,7 +68,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 var action = storm && storm.action && storm.action[cmds[2]]
                 if (!storm) { break } if (cmds.length == 2) {
                     if (storm.index) {
-                        can.misc.Run(event, can, {names: pane._name}, [river.name, storm.name, "index"].concat(storm.index), cb)
+                        can.misc.Run(event, can, {names: pane._name}, [river.name, storm.name, "order"].concat(storm.index), cb)
                         return true
                     }
 
@@ -149,6 +149,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             if (can.user.Search(can, "share") && can.user.Search(can, "river") && can.user.Search(can, "storm")) {
                 can.page.Select(can, field, "legend", function(item) { can.page.Remove(can, item) })
             }
+            sub.onaction && can.onappend._action(sub, sub._action, sub.onaction.list)
 
             meta.detail = meta.feature["detail"] || {}
             sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field);
@@ -260,14 +261,16 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
     },
     _action: function(can, action, list) { // [string [class item...] {}]
         action && (action.innerHTML = ""), can.onaction && can.core.List(list||can.onaction.list, function(item) {
-            item === ""? can.page.Append(can, action, [{view: "item space"}]):
-                typeof item == "string"? can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
+            item === ""? /*空白*/ can.page.Append(can, action, [{view: "item space"}]):
+                typeof item == "string"? /*按键*/ can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
                     var cb = can.onaction[item] || can.onkeymap && can.onkeymap._remote
                     cb? cb(event, can, item): can.run(event, ["action", item], function(msg) {}, true)
-                }}): item.length > 0? can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
+                }}): item.length > 0? /*列表*/ can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
                     var cb = can.onaction[item[0]]
                     cb && cb(event, can, item[0], item[event.target.selectedIndex+1])
-                }}): typeof item == "object" && can.page.Append(can, action, [item])
+                }}): item.input? /*文本*/ can.page.Append(can, action, [{view: "item", list: [{type: "input", name: item.input[0], onkeydown: function(event) {
+                    item.input[1](event, can)
+                }}] }]): typeof item == "object" && /*其它*/ can.page.Append(can, action, [item])
         })
     },
     _detail: function(can, msg, list, target) {
@@ -481,8 +484,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         }
         return ui
     },
-    share: function(can, msg, name, text) {
-        can.run(msg._event, ["action", "share"], function(msg) {
+    share: function(can, msg, cmd) {
+        can.run(msg._event, cmd||["action", "share"], function(msg) {
             var src = can.user.Share(can, {_path: "/share/"+msg.Result()}, true);
             var ui = can.onappend.toast(can, {title: can.page.Format("a", src, msg.Result()), text: can.page.Format("img", src+"/share"),
                 width: 300, height: 300, duration: 100000, button: [{button: ["确定", function(event) {

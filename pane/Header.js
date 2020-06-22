@@ -4,29 +4,25 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
         function init() {
             can.onexport._init(can, msg, list, function() {
-                can.user.title(can.user.Search(can, "pod"));
-                can.run(msg._event, ["search", "River.onaction._init"]);
-                can.run(msg._event, ["search", "Footer.onaction._init"]);
+                can.user.title(can.user.Search(can, "pod"))
+                can.run(msg._event, ["search", "River.onaction._init"])
+                can.run(msg._event, ["search", "Footer.onaction._init"])
             }, target)
         }
-        can.run({}, ["check"], function(msg) {
-            if (msg.Result()) { return init() }
-
+        can.run({}, ["check"], function(msg) { if (msg.Result()) { return init() }
             var ui = can.user.input({}, can, [
                 {username: "username", name: "用户"},
                 {password: "password", name: "密码"},
                 {button: [["登录", function(event) {
-                    var username = ui["用户"].value
-                    var password = ui["密码"].value
-                    can.run({}, ["login", username, password], function(msg) {
-                        if (msg.Result()) {
-                            can.page.Remove(can, ui.first)
-                            return init()
-                        }
+                    can.run({}, ["login", ui["用户"].value, ui["密码"].value], function(msg) {
+                        if (msg.Result()) { can.page.Remove(can, ui.first); return init() }
                         can.user.alert("用户或密码错误")
                     })
-                }], "扫码"]},
+                }], ["扫码", function(event) {
+                    // TODO
+                }]]},
             ], function(event, button, data, list) {
+                // TODO
             })
         })
     },
@@ -45,7 +41,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) {
-        can.run(msg._event, [], function(msg) { can._output.innerHTML = "";
+        can.run(msg._event, [], function(msg) { can._output.innerHTML = ""
             can.Conf("username", msg.Option("user.nick")||msg.Option("user.name"))
 
             can.core.List(msg.result||["github.com/shylinux/contexts"], function(title) {
@@ -53,6 +49,7 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                     click: function(event) { can.onaction["title"](event, can, "title") },
                 }])
             })
+
             can.core.List(can.Conf("state")||["time", "username"], function(item) {
                 can.page.Append(can, can._output, [{view: ["state "+item, "div", can.Conf(item)],
                     click: function(event) { can.onaction[item](event, can, item) },
@@ -63,6 +60,24 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                     can.onexport.time(event, can, "time", item)
                 })
             })
+
+            var search = can.page.Append(can, can._output, [{view: "search", list: [{type: "input",
+                onfocus: function(event) {
+
+                },
+                onkeydown: function(event) {
+                    switch (event.key) {
+                        case "Enter":
+                            can.run(event, ["search", "Search.onimport.input", event.target.value], function() {
+
+                            })
+                    }
+                },
+            }]}]).input
+            document.body.onkeydown = function(event) {
+                event.key == "Space" && search.focus()
+            }
+
             typeof cb == "function" && cb()
         })
     },
