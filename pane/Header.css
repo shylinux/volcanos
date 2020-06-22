@@ -24,6 +24,11 @@ fieldset.Header>div.output>div.search>input {
 fieldset.Header>div.output>div.search>input:focus {
     width:240px;
 }
+fieldset.Header>div.output>div.item {
+    margin-left:5px;
+    cursor:pointer;
+    float:left;
+}
 
 
 fieldset.Header>div.output>div.state {

@@ -1,4 +1,5 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) { target.innerHTML = ""
+        if (can.Conf("height") < 600) { can.Conf("height", 600) }
         can.onimport._share(can); var width = can.Conf("width"), height = can.Conf("height")
         can.page.Modify(can, target, {style: {"max-height": height-160+"px"}})
 

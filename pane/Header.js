@@ -61,22 +61,33 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                 })
             })
 
-            var search = can.page.Append(can, can._output, [{view: "search", list: [{type: "input",
-                onfocus: function(event) {
+            can.page.Append(can, can._output, [{view: "search", list: [{type: "input", onkeydown: function(event) {
+                switch (event.key) {
+                    case "Enter": can.run(event, ["search", "Search.onimport.input", event.target.value]); break
+                }
+            }, }], }])
 
-                },
-                onkeydown: function(event) {
-                    switch (event.key) {
-                        case "Enter":
-                            can.run(event, ["search", "Search.onimport.input", event.target.value], function() {
+            var height = document.body.offsetHeight
+            var ui = can.page.Append(can, can._output, can.core.List(["Search", "River", "Storm", "Footer"], function(item) {
+                return {view: "item", list: [{type: "input", data: {name: item, type: "button", value: item.toLowerCase()},
+                    onclick: function(event) {
+                        if (item == "Footer") { can.page.Select(can, document.body, "fieldset.Action", function(item) {
+                            if (item.style.height) {
+                                height = document.body.offsetHeight
+                                can.page.Select(can, item, "div.output")[0].style.height = ""
+                                item.style.height = ""
+                            } else {
+                                can.page.Select(can, item, "div.output")[0].style.height = height-100+"px"
+                                item.style.height = height-88+"px"
+                            }
+                        }) }
 
-                            })
-                    }
-                },
-            }]}]).input
-            document.body.onkeydown = function(event) {
-                event.key == "Space" && search.focus()
-            }
+                        can.page.Select(can, document.body, "fieldset."+item, function(item) {
+                            can.page.Modify(can, item, {style: {display: item.style.display == "none"? "block": "none"}})
+                        })
+                    },
+                }]}
+            })); ui.River.click(), ui.Footer.click(), ui.Storm.click()
 
             typeof cb == "function" && cb()
         })
