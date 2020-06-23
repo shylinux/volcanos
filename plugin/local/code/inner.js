@@ -5,7 +5,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
 
         can.onappend.table(can, target, "table", msg), can.ui = can.page.Append(can, target, [
             {view: "project"}, {view: "profile"},
-            {view: "preview"}, {view: "content"},
+            {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-240+"px"}},
 
             {view: ["editor", "textarea"], onkeydown: function(event) {
                 can.onkeymap.parse(event, can, "insert"), can.Timer(10, function() {

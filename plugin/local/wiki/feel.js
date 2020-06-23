@@ -48,12 +48,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         var ls = item.split("/")
         var ls = ls[ls.length-1].split(".")
         var ext = ls[ls.length-1].toLowerCase()
-        can.page.Append(can, can.ui.display, [can.onfigure[ext](can, item)])
+        ext && can.page.Append(can, can.ui.display, [can.onfigure[ext](can, item)])
     },
 }, ["/plugin/local/wiki/feel.css"])
 Volcanos("onfigure", {help: "组件菜单", list: [],
     image: function(can, path) {
-        return {img: "/share/local/"+path}
+        return {img: "/share/local/"+path, height: can.height}
     },
     jpg: function(can, path) { return can.onfigure.image(can, path) },
     qrc: function(can, path) { return can.onfigure.image(can, path) },
