@@ -2,6 +2,9 @@
 // FMS: a fieldset manager system
 
 Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
+        can.run = function(event, cmds, cb) {
+            return (can.onengine[cmds[0]]||can.onengine[meta.main.engine])(event, can, can.request(event), can, cmds, cb)
+        }
         can.core.Next(meta.panes, function(item, next) {
             can.onappend._init(can, item, meta.libs.concat(item.list), function(pane) {
                 pane.Conf(item), pane.run = function(event, cmds, cb) {
@@ -28,9 +31,11 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 can.onengine && getRiver(can.onengine.river)
 
                 // 应用入口
+                can.onappend.daemon(can, can.user.title())
                 can.user.title(can.user.Search(can, "title"))
                 var pane = can[meta.main.name], msg = can.request({});
                 pane.onaction && pane.onaction._init(pane, msg, msg.option||[], cb, target);
+
             })
         }, target) });
     },
@@ -229,9 +234,9 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 var table = Volcanos(display, { _help: display, _follow: can._follow+"."+meta.name+"."+display,
                     _target: output, Option: sub.Option, Action: sub.Action, Status: sub.Status,
                     _option: option, _action: action, _output: output,
-                }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf())
+                }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf()), table._msg = msg
                     table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function() {}, output)
-                    table._msg = msg, table.run = function(event, cmds, cb, silent) { cmds = cmds || []
+                    table.run = function(event, cmds, cb, silent) { cmds = cmds || []
                         var last = sub._history[sub._history.length-1]; !can.core.Eq(last, cmds) && !silent && sub._history.push(cmds)
                         return run(event, cmds, cb, silent)
                     }
@@ -548,6 +553,21 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         }, onkeyup: function(event) {
 
         }}]); ui.input.focus(), ui.input.setSelectionRange(0, -1)
+    },
+    daemon: function(can, name) {
+        can.misc.WSS(can, "", {name: name, type: "chrome"}, function(event, msg) {
+            if (msg.Option("_handle")) {return can.onappend.toast(can, msg.result.join(""))}
+
+            can.onappend.toast(can, msg.detail.join(" ")); switch (msg.detail[0]) {
+                case "pwd": msg.Echo("hello world"); break
+                default:
+                    can.run(event, ["search"].concat(msg.detail), function(msg) {
+                        msg.Reply(msg)
+                    }); return
+
+                msg.Reply(msg)
+            }
+        }, function() {can.user.toast("wss connect", "iceberg")})
     },
 }, [], function(can) {})
 Volcanos("onlayout", { _init: function(can, meta, list, cb, target) {

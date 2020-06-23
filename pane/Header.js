@@ -1,5 +1,9 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
     },
+    demo: function(can, msg, cmd, cb) {
+        msg.Echo("hello demo world")
+        cb(msg)
+    },
 })
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
         function init() {

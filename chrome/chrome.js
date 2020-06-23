@@ -114,15 +114,7 @@ var can = Volcanos("chrome", {
     can.run = function(event, cmd, cb, silent) { var msg = can.request(event)
         can.misc.Run(event, can, {names: "code/chrome/crx"}, cmd, cb)
     },
-
-    chrome.history.onVisited.addListener(function(item) {
-        can.run({}, ["history", item.id, item.url, item.title], function(msg) {
-            can.user.toast(item.url, item.title)
-        })
-    })
-    return
-
-    can.misc.WSS(can, "ws://localhost:9020/space/", {node: "chrome", name: chrome.runtime.id}, function(event, msg) {
+    can.misc.WSS(can, "ws://localhost:9020/space/", {name: "chrome", type: "chrome"}, function(event, msg) {
         if (msg.Option("_handle")) {return can.user.toast(msg.result.join(""))}
 
         can.user.toast(msg.detail.join(" "))
@@ -136,9 +128,13 @@ var can = Volcanos("chrome", {
         msg.Reply(msg)
     }, function() {can.user.toast("wss connect", "iceberg")})
 
-    can.run(can, {cmd: ["login", can.sid||""]}, function(msg) {
-        can.sid = msg.Result()
+    chrome.history.onVisited.addListener(function(item) {
+        can.run({}, ["history", item.id, item.title, item.url], function(msg) {
+            can.user.toast(item.url, item.title)
+        })
     })
+
+    return
 
     chrome.bookmarks.onCreated.addListener(function(id, item) {
         chrome.bookmarks.get(item.parentId, function(root) {
