@@ -68,7 +68,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 typeof cb == "function" && cb(msg)
                 return true
             case "Action":
-                var river = can.onengine.river[cmds[0]]
+                var river = can.onengine.river[cmds[0]||"main"]
                 var storm = river && river.storm[cmds[1]]
                 var action = storm && storm.action && storm.action[cmds[2]]
                 if (!storm) { break } if (cmds.length == 2) {
@@ -261,6 +261,9 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             })
             var args = {}; can.core.List(msg.option, function(key) { args[key] = msg.Option(key) })
             // can.core.Item(can.Option(), function(key, value) { args[key] = value })
+            //
+
+            can.user.locals(can, args)
             location.href = can.user.Share(can, args, true)
         })
     },

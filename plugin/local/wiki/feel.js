@@ -5,7 +5,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.table = can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line) {
             return {text: [value, "td"], onclick: function(event) {
-                can.onimport.file(can, line.path)
+                if (line.path.endsWith("/")) {
+                    can.run(event, [can.Option("path", line.path)])
+                } else {
+                    can.onimport.file(can, line.path)
+                }
             }}
         })
 
@@ -39,12 +43,15 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.rate = can.ctrl.rate.value = 1
         limit = can.ctrl.limit.value = parseInt(msg.Option("limit"))||1
         can.height = can.ctrl.height.value = parseInt(msg.Option("height"))||400
-        can.onimport.page(can, list, begin, limit)
+        can.Option("path") != "最近/" && can.onimport.page(can, list, begin, limit)
     },
     page: function(can, list, begin, limit) { can.ui.display.innerHTML = ""
-        for (var i = begin; i < begin+limit; i++) { can.onimport.file(can, list[i].path) }
+        for (var i = begin; i < begin+limit; i++) { list[i] && can.onimport.file(can, list[i].path) }
     },
-    file: function(can, item) { item = (can._msg.Option("prefix")||"")+"/"+item
+    file: function(can, item) {
+        var p = location.href.startsWith("http")? "": "http://localhost:9020"
+        item = item.startsWith("http")? item: p+can.base.Path("/share/local", " "+(can._msg.Option("prefix")||""), item)
+
         var ls = item.split("/")
         var ls = ls[ls.length-1].split(".")
         var ext = ls[ls.length-1].toLowerCase()
@@ -53,16 +60,15 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 }, ["/plugin/local/wiki/feel.css"])
 Volcanos("onfigure", {help: "组件菜单", list: [],
     image: function(can, path) {
-        return {img: "/share/local/"+path, height: can.height}
+        return {img: path, height: can.height}
     },
     jpg: function(can, path) { return can.onfigure.image(can, path) },
     qrc: function(can, path) { return can.onfigure.image(can, path) },
 
     video: function(can, path) { var auto = true, loop = true, total = 0
-        var p = location.href.startsWith("https")? "": "http://localhost:9020"
         function cb(event) { console.log(event) }
         return {className: "preview", type: "video", style: {height: can.height},
-            data: {src: p+"/share/local/"+path, controls: "controls", autoplay: auto, loop: loop, playbackRate: can.rate},
+            data: {src: path, controls: "controls", autoplay: auto, loop: loop, playbackRate: can.rate},
             oncontextmenu: cb, onplay: cb, onpause: cb, onended: cb,
             onloadedmetadata: function(event) { total = event.timeStamp
                 event.target.currentTime = can._msg.currentTime || 0
@@ -72,10 +78,22 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
         }
     },
     m4v: function(can, path) { return can.onfigure.video(can, path) },
+    mp4: function(can, path) { return can.onfigure.video(can, path) },
 })
 
-Volcanos("onaction", {help: "组件菜单", list: ["", "上传"],
+Volcanos("onaction", {help: "组件菜单", list: ["", "上传", "收藏"],
     "上传": function(event, can) { can.onappend.upload(can) },
+    "收藏": function(event, can) {
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, { action: "copy" }, function (response) {
+                can.onimport.file(can, response.src)
+                var msg = can.request(event); msg.Option(can.Option())
+                can.run(event, ["action", "spide", "mp4", response.title, response.src, "poster", response.poster], function(msg) {
+
+                }, true)
+            })
+        })
+    },
 })
 Volcanos("onexport", {help: "导出数据", list: ["当前行"],
     position: function(can, index, total) { total = total || can.max

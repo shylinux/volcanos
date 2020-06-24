@@ -130,7 +130,7 @@ var can = Volcanos("chrome", {
 
     chrome.history.onVisited.addListener(function(item) {
         can.run({}, ["history", item.id, item.title, item.url], function(msg) {
-            can.user.toast(item.url, item.title)
+            // can.user.toast(item.url, item.title)
         })
     })
 
