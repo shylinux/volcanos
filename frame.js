@@ -42,6 +42,43 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
     _merge: function(can, sub) { can.core.Item(sub, function(key, value) {
         if (sub.hasOwnProperty(key)) { can.onengine[key] = value }
     }); return true },
+    river: {
+        "main": {name: "main", storm: {
+            "dream": {name: "dream", index: [
+                "web.space",
+                "web.dream",
+                "web.code.docker.container",
+                "web.code.tmux.session",
+            ]},
+            "main": {name: "main", index: [
+                "web.code.inner",
+                "web.code.git.status",
+                "web.code.git.total",
+            ]},
+            "task": {name: "task", index: [
+                "web.team.plan",
+                "web.wiki.draw.draw",
+                "web.wiki.word",
+            ]},
+            "relay": {name: "relay", index: [
+                "aaa.totp.get",
+                "web.route",
+            ]},
+            "性能": {name: "性能", index: [
+                "web.code.pprof",
+                "web.code.bench",
+                "web.favor",
+                "web.cache",
+                "web.share",
+            ]},
+            "docker": {name: "docker", index: [
+                "web.code.docker.image",
+                "web.code.docker.container",
+                "web.code.docker.command",
+            ]},
+        }},
+    },
+
     search: function(event, can, msg, pane, cmds, cb) { var chain = cmds[1]
         var sub, mod = can, key, fun = can; can.core.List(chain.split("."), function(value, index, array) {
             fun && (sub = mod, mod = fun, key = value, fun = mod[value])
