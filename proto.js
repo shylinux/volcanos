@@ -92,9 +92,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                 Option: function(key, val) {
                     if (typeof key == "object") { can.core.Item(key, msg.Option) }
                     if (val == undefined) { return msg && msg[key] && msg[key][0] || msg._msg && msg._msg.Option(key) || "" }
-                    msg.option = msg.option || [], can.core.List(msg.option, function(k) {
-                        if (k == key) {return k}
-                    }).length > 0 || msg.option.push(key)
+                    msg.option = msg.option || [], can.core.List(msg.option, function(k) { if (k == key) {return k} }).length > 0 || msg.option.push(key)
                     msg[key] = can.core.List(arguments).slice(1)
                     return val
                 },
@@ -114,7 +112,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                     });
 
                     return can.core.List(msg[max], function(value, index, array) { var one = {}, res;
-                        can.core.List(msg.append, function(key) { one[key] = msg[key][index]||"" })
+                        can.core.List(msg.append, function(key) { one[key] = (msg[key][index]||"").trim() })
                         return typeof cb == "function" && (res = cb(one, index, array)) && res != undefined && res || one
                     })
                 }),

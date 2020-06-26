@@ -201,7 +201,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                         }
 
                         // 解析参数
-                        cmds = cmds && cmds.length > 0? cmds: can.page.Select(can, option, "input.args,select.args", function(item) {
+                        cmds = cmds && cmds.length > 0? cmds: can.page.Select(can, option, "textarea.args,input.args,select.args", function(item) {
                             return item.name && item.value || ""
                         }); for (var i = cmds.length-1; i >= 0; i--) {
                             if (!cmds[i]) { cmds.pop() } else { break }

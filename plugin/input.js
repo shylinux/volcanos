@@ -4,10 +4,6 @@ Volcanos("onimport", {help: "导入数据", list: [],
 })
 Volcanos("onaction", {help: "控件交互", list: [],
     onchange: function(event, can) {
-        can.run(event)
-        // if (can.Conf("auto") == "true") {
-        //     can.run(event)
-        // }
     },
     onclick: function(event, can) {
         switch (can.Conf("type")) {
@@ -18,21 +14,26 @@ Volcanos("onaction", {help: "控件交互", list: [],
     },
     onkeydown: function(event, can) {
         switch (event.key) {
-            case "Enter": can.run(event, [], function() {}); break
+            case "Enter":
+                if (event.target.tagName == "INPUT") {
+                    can.run(event)
+                    break
+                }
+                event.stopPropagation()
+                event.preventDefault()
+                break
             case "b": if (!event.ctrlKey) { return }; can.CloneInput(); break
             case "m": if (!event.ctrlKey) { return }; can.CloneField(); break
             default: return
         }
-        event.stopPropagation()
-        event.preventDefault()
     },
     onkeyup: function(event, can) {
         switch (event.key) {
             case "Enter":
-                can.run(event, [], function() {})
                 event.stopPropagation()
                 event.preventDefault()
                 break
+            default: return
         }
     },
 })
