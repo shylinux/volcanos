@@ -4,6 +4,9 @@ Volcanos("onimport", {help: "导入数据", list: [],
 })
 Volcanos("onaction", {help: "控件交互", list: [],
     onchange: function(event, can) {
+        if (event.target.tagName == "SELECT") {
+            can.run(event)
+        }
     },
     onclick: function(event, can) {
         switch (can.Conf("type")) {

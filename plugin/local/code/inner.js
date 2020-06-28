@@ -317,7 +317,11 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         line: function(can, line) { return can.page.Format("img", "/share/local/"+line) }
     },
     jpg: {
-        line: function(can, line) { return can.page.Format("img", "/share/local/"+line) }
+        show: function(can, line) {
+            can.page.Append(can, can.ui.display, can.core.List(can._msg.result, function(line) {
+                return {img: "/share/local/"+line}
+            }))
+        }
     },
     m4v: {
         line: function(can, line) { var auto = true, loop = true, total = 0
@@ -376,6 +380,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
 
     _remote: function(event, can, key, arg, cb) { can.ui.display.innerHTML = "", can.ui.profile.innerHTML = ""
         var p = can.onsyntax[can.parse]; can.display = p && p.profile && can.ui.profile || can.ui.display
+        if (p && p.show) { p.show(can); return }
 
         can.page.Modify(can, can.display, {innerHTML: "", style: {display: "none"}})
         var msg = can.request(event); msg.Option("content", can.onexport.content(can))

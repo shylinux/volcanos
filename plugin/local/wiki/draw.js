@@ -18,7 +18,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.last = null
 
         // 加载绘图
-        var code = can.page.AppendBoard(can, can.ui.content, msg.Result()||can.onexport.file(event, can))
+        var code = can.page.AppendBoard(can, can.ui.content, msg.Result()||can.onexport.file(can))
         can.page.Select(can, can.ui.content, "svg", function(svg) { can.svg = can.group = svg 
             can.onimport.block(can, svg), can.onimport.group(can, svg).click()
             can.page.Select(can, svg, "*", function(item, index) {
@@ -858,7 +858,7 @@ Volcanos("onexport", {help: "导出数据", list: ["group", "target", "zone", "t
         return ['<svg vertion="1.1" xmlns="https://www.w3.org/2000/svg" text-anchor="middle" dominant-baseline="middle"'].concat(
             svg? can.core.List(["count", "width", "height", "font-size", "stroke-width", "stroke", "fill"], function(item) {
                 return svg.Value(item)? ' ' + item + '="' + svg.Value(item) + '"': ""
-            }): []).concat(['>', svg? svg.innerHTML: "", "</svg>"]).join("")
+            }): [" width=600 height=200 "]).concat(['>', svg? svg.innerHTML: "", "</svg>"]).join("")
     },
 })
 

@@ -9,6 +9,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 })
             }, ondblclick: function(event) {
                 can.page.Modify(can, event.target, {contenteditable: true})
+            }, onclick: function(event) {
+                if (key == "path") {
+                    can.run(event, [can.Option("path", value)])
+                }
             }}
         })
     },

@@ -2,6 +2,9 @@ fieldset.feel div.action {
     clear:none;
 }
 
+fieldset.feel div.output {
+    min-height:200px;
+}
 fieldset.feel div.output div.content {
     max-height:200px;
     overflow:auto;
