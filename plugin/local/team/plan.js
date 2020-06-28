@@ -234,7 +234,6 @@ Volcanos("onaction", {help: "组件交互", list: ["统计", "添加", "详情",
                 {name: "type", select: [["type"].concat(msg[msg.append[0]]), function(event, value) {
 
                 }]},
-
                 {name: "name", type: "input", onclick: function(event) {
                     can.onfigure.key.onclick(event, can, {name: "name", zone: ui.zone.value, type: ui.type.value}, event.target)
                 }, autocomplete: "off"},
@@ -246,6 +245,7 @@ Volcanos("onaction", {help: "组件交互", list: ["统计", "添加", "详情",
             ], function(event, button, data, list) {
                 can.run(event, ["action", "insert"].concat(list), function(msg) {
                     can.onappend.toast(can, "添加成功")
+                    can.run({})
                 }, true)
                 return true
             })
@@ -309,7 +309,7 @@ Volcanos("onaction", {help: "组件交互", list: ["统计", "添加", "详情",
         can.onaction.pluginTask(event, can, can.task)
     },
     "完成": function(event, can, key) {
-        can.onaction.modifyTask(event, can, task, "status", "finish", can.task.status)
+        can.onaction.modifyTask(event, can, can.task, "status", "finish", can.task.status)
     },
 })
 Volcanos("ondetail", {help: "菜单交互", list: ["prepare", "process", "finish", "cancel"],
