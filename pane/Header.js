@@ -18,8 +18,11 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
                 {username: "username", name: "用户"},
                 {password: "password", name: "密码"},
                 {button: [["登录", function(event) {
+                    can.user.Cookie(can, "sessid", "")
                     can.run({}, ["login", ui["用户"].value, ui["密码"].value], function(msg) {
-                        if (msg.Result()) { can.page.Remove(can, ui.first); return init() }
+                        if (can.user.Cookie(can, "sessid")||msg.Option("user.name")||msg.Result()) {
+                            can.page.Remove(can, ui.first); return init()
+                        }
                         can.user.alert("用户或密码错误")
                     })
                 }], ["扫码", function(event) {
@@ -95,7 +98,8 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             if (location.protocol == "chrome-extension:") {
                 ui.River.click()
             } else {
-                ui.River.click(), ui.Footer.click(), ui.Storm.click()
+                // ui.River.click(), ui.Footer.click(), ui.Storm.click()
+                ui.River.click(), ui.Footer.click()
             }
 
             typeof cb == "function" && cb()
