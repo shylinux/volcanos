@@ -265,7 +265,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             }
 
             var args = can.base.Obj(meta.args, []); can.core.Next(can.base.Obj(meta.inputs, []), add)
-            var count = 0; function run(event, cmds, cb, silent) { return sub.run(event, cmds, function(msg) {
+            var count = 0; function run(event, cmds, cb, silent) { return sub.run(event, cmds||[], function(msg) {
                 sub.Status("ncmd", sub._history.length+"/"+count++)
                 if (silent) { typeof cb == "function" && cb(msg); return }
 
@@ -278,8 +278,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                     _option: option, _action: action, _output: output,
                 }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf()), table._msg = msg
                     table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function() {}, output)
-                    table.run = function(event, cmds, cb, silent) { cmds = cmds || []
-                        var last = sub._history[sub._history.length-1]; !can.core.Eq(last, cmds) && !silent && sub._history.push(cmds)
+                    table.run = function(event, cmds, cb, silent) {
                         return run(event, cmds, cb, silent)
                     }
 

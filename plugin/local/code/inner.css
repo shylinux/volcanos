@@ -91,6 +91,7 @@ fieldset.editor>div.output textarea.editor {
     background-color:#00000000; color:#00000000;
     caret-color:yellow;
     display:none;
+    min-width:480px;
 }
 fieldset.editor>div.output textarea.editor.normal {
     caret-color:#00000000;
@@ -107,6 +108,6 @@ fieldset.editor>div.output textarea.command {
     border:solid 1px red;
     border-left:solid 3px green;
     z-index:200;
-    min-width:240px;
+    min-width:480px;
 }
 
