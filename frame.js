@@ -208,7 +208,11 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                     _target: can.onappend.input(sub, option, item.type, item, args[index]),
                     _option: option, _action: action, _output: output,
                     CloneInput: function() { add(item, function() {}, index)._target.focus() },
-                    CloneField: function() { can.onappend._init(can, meta, list, function(sub) {
+                    CloneField: function() {
+                        meta.args = can.page.Select(can, option, "textarea.args,input.args,select.args", function(item) {
+                            return item.value || ""
+                        })
+                        can.onappend._init(can, meta, list, function(sub) {
                         cb(sub), sub.Timer(10, function() {
                             for (var k in sub._inputs) { sub._inputs[k]._target.focus(); break }
                         })
