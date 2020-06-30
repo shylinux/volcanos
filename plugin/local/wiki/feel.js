@@ -82,7 +82,7 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
 })
 
 Volcanos("onaction", {help: "组件菜单", list: ["", "上传", "收藏"],
-    "上传": function(event, can) { can.onappend.upload(can) },
+    "上传": function(event, can) { can.user.upload(event, can) },
     "收藏": function(event, can) {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             chrome.tabs.sendMessage(tabs[0].id, { action: "copy" }, function (response) {

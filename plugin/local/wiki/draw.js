@@ -536,7 +536,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除",
     "保存": function(event, can, key) { var msg = can.request(event)
         msg.Option("content", can.onexport.file(can, can.svg))
         can.run(event, ["action", key, can.Option("path")], function() {
-            can.user.toast("保存成功")
+            can.user.toast(can, "保存成功")
         }, true)
     },
     "清空": function(event, can) {
@@ -731,7 +731,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", "清空", "删除",
         }
     },
     _menu: function(event, can, target) { var figure = can.onaction._get(can, target)
-        can.onappend.carte(event, can.ondetail, figure.data.detail||can.ondetail.list, function(event, key, meta) {
+        can.user.carte(event, can.ondetail, figure.data.detail||can.ondetail.list, function(event, key, meta) {
             typeof cb == "function" && cb(event, can, figure, key, target)
         })
     },

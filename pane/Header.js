@@ -1,4 +1,25 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
+        document.body.onkeydown = function(event) { if (event.target != document.body) { return }
+            switch (event.key) {
+                case "n":
+                    can.run(event, ["search", "River.onaction.create"])
+                    break
+                case "m":
+                    can.run(event, ["search", "Storm.onaction.create"])
+                    break
+                case " ":
+                    can.search.focus()
+                    can.search.setSelectionRange(0, -1)
+                    break
+                default:
+                    return
+            }
+            event.stopPropagation()
+            event.preventDefault()
+        }
+        document.body.onkeyup = function(event) {
+            console.log(event)
+        }
     },
     demo: function(can, msg, cmd, cb) {
         msg.Echo("hello demo world")
@@ -14,23 +35,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             }, target)
         }
         can.run({}, ["check"], function(msg) { if (msg.Result()) { return init() }
-            var ui = can.user.input({}, can, [
-                {username: "username", name: "用户"},
-                {password: "password", name: "密码"},
-                {button: [["登录", function(event) {
-                    can.user.Cookie(can, "sessid", "")
-                    can.run({}, ["login", ui["用户"].value, ui["密码"].value], function(msg) {
-                        if (can.user.Cookie(can, "sessid")||msg.Option("user.name")||msg.Result()) {
-                            can.page.Remove(can, ui.first); return init()
-                        }
-                        can.user.alert("用户或密码错误")
-                    })
-                }], ["扫码", function(event) {
-                    // TODO
-                }]]},
-            ], function(event, button, data, list) {
-                // TODO
-            })
+            can.user.login(can, init)
         })
     },
     title: function(event, can, key) { var msg = can.request(event)
@@ -68,11 +73,11 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                 })
             })
 
-            can.page.Append(can, can._output, [{view: "search", list: [{type: "input", onkeydown: function(event) {
+            can.search = can.page.Append(can, can._output, [{view: "search", list: [{type: "input", onkeydown: function(event) {
                 switch (event.key) {
                     case "Enter": can.run(event, ["search", "Search.onimport.input", event.target.value]); break
                 }
-            }, }], }])
+            }, }], }]).input
 
             var height = document.body.offsetHeight
             var ui = can.page.Append(can, can._output, can.core.List(["Search", "River", "Storm", "Footer"], function(item) {
@@ -99,7 +104,7 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                 ui.River.click()
             } else {
                 // ui.River.click(), ui.Footer.click(), ui.Storm.click()
-                ui.River.click(), ui.Footer.click()
+                // ui.River.click(), ui.Footer.click()
             }
 
             typeof cb == "function" && cb()

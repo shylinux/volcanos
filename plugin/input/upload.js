@@ -31,7 +31,7 @@ Volcanos("onfigure", {help: "控件详情", list: [],
                 msg._progress = show
                 msg.upload = action.upload.files[0];
                 can.run(event, ["action", "upload"], function(msg) {
-                    can.user.toast("上传成功")
+                    can.user.toast(can, "上传成功")
                 }, true);
             })
     }},

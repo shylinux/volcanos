@@ -54,7 +54,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             }, ondblclick: function(event) {
                 can.onkeymap._remote(event, can, "运行")
             }, oncontextmenu: function(event) {
-                can.onappend.carte(can, null, ["保存", "运行"])
+                can.user.carte(can, null, ["保存", "运行"])
             }}]).first.click()
         }, true)
     },
@@ -102,7 +102,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         // plugin
         function init(p) { p.display && can.onkeymap._remote({}, can, "运行")
             typeof p.display == "object" && ( p.display.height && can.page.Modify(can, can.ui.display, {style: {
-                "max-height": p.display.height,
+                // "max-height": p.display.height,
             }}))
         }; var p = can.onsyntax[can.parse]; !p? can.run({}, ["action", "plug", can.Option("path"), can.Option("file")], function(msg) {
             p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()), can.onsyntax._init(can, can._msg), init(p)
@@ -316,8 +316,25 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
     png: {
         line: function(can, line) { return can.page.Format("img", "/share/local/"+line) }
     },
+    url: {
+        line: function(can, line) {
+            return {button: [line, function(event) {
+                can.page.Appends(can, can.ui.display, [{type: "iframe", data: {src: line}, style: {
+                    height: "600px", width: can.Conf("width")-80+"px",
+                }}])
+            }]}
+            // return {type: "iframe", data: {src: line}, style: {height: "200px", width: can.Conf("width")-80+"px"}}
+        }
+    },
+    svg: {
+        show: function(can) {
+            can.page.Append(can, can.ui.display, can.core.List(can._msg.result, function(line) {
+                return {type: "iframe", data: {src: "/share/local/"+line}, style: {width: can.Conf("width")-80+"px"}}
+            }))
+        }
+    },
     jpg: {
-        show: function(can, line) {
+        show: function(can) {
             can.page.Append(can, can.ui.display, can.core.List(can._msg.result, function(line) {
                 return {img: "/share/local/"+line}
             }))
@@ -339,20 +356,20 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             }
         },
     },
-    url: {
-        line: function(can, line) { var auto = true, loop = true, total = 0
-            function cb(event) { console.log(event) }
-            return {className: "preview", type: "video", style: {height: can.Conf("height")-160+"px", width: can.Conf("width")-160+"px"},
-                data: {src: line, controls: "controls", autoplay: auto, loop: loop},
-                oncontextmenu: cb, onplay: cb, onpause: cb, onended: cb,
-                onloadedmetadata: function(event) { total = event.timeStamp
-                    event.target.currentTime = can._msg.currentTime || 0
-                }, onloadeddata: cb, ontimeupdate: function(event) {
-                    can.Status("当前行", can.onexport.position(can, (can._msg.currentTime=event.target.currentTime)-1, event.target.duration))
-                },
-            }
-        },
-    },
+    // url: {
+    //     line: function(can, line) { var auto = true, loop = true, total = 0
+    //         function cb(event) { console.log(event) }
+    //         return {className: "preview", type: "video", style: {height: can.Conf("height")-160+"px", width: can.Conf("width")-160+"px"},
+    //             data: {src: line, controls: "controls", autoplay: auto, loop: loop},
+    //             oncontextmenu: cb, onplay: cb, onpause: cb, onended: cb,
+    //             onloadedmetadata: function(event) { total = event.timeStamp
+    //                 event.target.currentTime = can._msg.currentTime || 0
+    //             }, onloadeddata: cb, ontimeupdate: function(event) {
+    //                 can.Status("当前行", can.onexport.position(can, (can._msg.currentTime=event.target.currentTime)-1, event.target.duration))
+    //             },
+    //         }
+    //     },
+    // },
 })
 Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"], _init: function(can, mode) {
         can.page.Modify(can, can.ui.command, {style: {display: "none", width: can._target.offsetWidth-20+"px"}})
@@ -601,11 +618,11 @@ Volcanos("onaction", {help: "控件交互", list: [
             }, true)
 
         }, function() {
-            can.onappend.toast(can, "执行成功")
+            can.user.toast(can, "执行成功")
         })
     },
     "项目": function(event, can) { can.onlayout.project(can) },
-    "上传": function(event, can) { can.onappend.upload(can) },
+    "上传": function(event, can) { can.user.upload(event, can) },
     "搜索": function(event, can) { can.onkeymap._remote(event, can, "搜索", ["action", "find", "vim.history", "", "id", "type", "name", "text"]) },
     "记录": function(event, can) { var sub = can.request(event)
         can.core.Item(can.Option(), sub.Option)

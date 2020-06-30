@@ -4,7 +4,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         ])
         can.table = can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line) {
             return {text: [value, "td"], oncontextmenu: function(event) {
-                can.onappend.carte(can, can.ondetail, can.ondetail.list, function(ev, cmd, meta) {
+                can.user.carte(can, can.ondetail, can.ondetail.list, function(ev, cmd, meta) {
                     var cb = meta[cmd]; cb && cb(event, can, cmd, value, key, index, line)
                 })
             }, ondblclick: function(event) {
@@ -55,7 +55,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "正常", 
 
     "保存": function(event, can, cmd) {
         can.run(event, ["action", cmd, can.Option("path"), can.onexport.file(can)], function(msg) {
-            can.user.toast("保存成功")
+            can.user.toast(can, "保存成功")
         }, true)
     },
     "正常": function(event, can, cmd) {

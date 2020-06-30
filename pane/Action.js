@@ -12,7 +12,7 @@ Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"]
             value.pod||"", value.group||"", value.index, JSON.stringify(can.core.Item(sub.Option(), function(key, value) { return value })),
             JSON.stringify(sub.Option())
         ])
-        can.onappend.share(can, msg, list)
+        can.user.share(can, msg, list)
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) { var key = "action";
@@ -37,12 +37,12 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                     // 插件回调
                     return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
                         can.run(msg._event, ["search", "Footer.onaction.ncmd"]);
-                        can.onappend.toast(can, "执行成功", value.name, 2000);
+                        can.user.toast(can, "执行成功", value.name, 2000);
                         typeof cb == "function" && cb(msg)
                     }, silent)
                 }
                 sub._target.oncontextmenu = function(event) {
-                    can.onappend.carte(can, can.ondetail, can.ondetail.list, function(event, item, meta) {
+                    can.user.carte(can, can.ondetail, can.ondetail.list, function(event, item, meta) {
                         // 菜单命令
                         meta[item] && meta[item](event, can, value, sub)
                     })

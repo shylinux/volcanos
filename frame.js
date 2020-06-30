@@ -105,6 +105,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 can.core.Item(river.storm, function(key, value) {
                     msg.Push("key", key)
                     msg.Push("name", value.name)
+                    msg.Push("count", (value.index||value.action).length)
                 })
                 typeof cb == "function" && cb(msg)
                 return true
@@ -199,6 +200,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
 
             meta.detail = meta.feature["detail"] || {}
             sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field)
+            sub.onappend._status(sub, status)
 
             // 添加控件
             function add(item, next, index) {
@@ -332,7 +334,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
     },
     _detail: function(can, msg, list, target) {
         can.ondetail && can.ondetail.list && can.ondetail.list.length > 0 && (target.oncontextmenu = function(event) {
-            can.onappend.carte(can, can.ondetail||{}, list, function(ev, item, meta) {
+            can.user.carte(can, can.ondetail||{}, list, function(ev, item, meta) {
                 (can.ondetail[item] || can.onaction[item] || can.onkeymap && can.onkeymap._remote)(event, can, item)
             })
         })
@@ -355,7 +357,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
     },
     menu: function(can, msg, value) {
         can.ondetail && can.ondetail.list && can.ondetail.list.length > 0 && (can._target.oncontextmenu = function(event) {
-            can.onappend.carte(can, can.ondetail||{}, msg["_detail"] || can.Conf("detail"), function(ev, item, meta) {
+            can.user.carte(can, can.ondetail||{}, msg["_detail"] || can.Conf("detail"), function(ev, item, meta) {
                 (can.ondetail[item]||can.onaction[item])(event, can, value, item)
             })
         })
@@ -450,7 +452,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                     run(event, "编辑", value)
                 })
             }, oncontextmenu: function(event) {
-                can.onappend.carte(can, can.ondetail||{}, msg["_detail"] || can.Conf("detail") || can.ondetail.list, function(event, item, meta) {
+                can.user.carte(can, can.ondetail||{}, msg["_detail"] || can.Conf("detail") || can.ondetail.list, function(event, item, meta) {
                     switch (item) {
                         case "编辑":
                             can.onappend.modify(can, event.target, function(event, value, old) {
@@ -469,124 +471,6 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         msg.result && can.page.AppendBoard(can, target, can.page.Display(msg.Result()))
     },
 
-    carte: function(can, meta, list, cb) { meta = meta || can.ondetail, list = list && list.length > 0? list: meta.list; if (list.length == 0) { return }
-        can._carte = can._carte || can.page.Append(can, can._target, [{view: "carte", onmouseleave: function(event) {
-            can.page.Modify(can, can._carte, {style: {display: "none"}})
-        }}]).last
-
-        meta = meta||can.ondetail||{}, cb = cb||function(ev, item, meta) {
-            var cb = can.ondetail[item] || can.onaction[item] || can.onkeymap&&can.onkeymap._remote
-            cb && cb(event, can, item)
-        }
-
-        can.page.Appends(can, can._carte, can.core.List(list, function(item) {
-            return {view: ["item"], list: [typeof item == "string"? {text: [item], click: function(event) {
-                typeof cb == "function" && cb(event, item, meta)
-            }}: item.args? {text: [item.name], click: function(event) {
-                can.user.input(event, can, item.args, function(event, cmd, form, list) {
-                    var msg = can.Event(event)
-                    can.core.Item(form, function(key, value) {msg.Option(key, value)})
-                    cmd == "提交" && typeof cb == "function" && cb(event, item.name, meta)
-                    return true
-                })
-            }}: {select: [item, function(event) {
-                typeof cb == "function" && cb(event, event.target.value, meta)
-            }], value: src[item[0]]||""}]}
-        }))
-
-
-        var ls = can._follow.split(".")
-
-        var left = (ls.length > 2) && can.run({}, ["search", can._follow.split(".")[1]+".onexport.left"]) || 0
-        var top = (ls.length == 3) && can.run({}, ["search", can._follow.split(".")[1]+".onexport.top"]) || 0
-        var top = (ls.length > 3)? event.y: top
-        var pos = {position: "absolute", display: "block", left: event.x-left, top: event.y-top}
-        // if (document.body.clientWidth - event.x < 60) {
-        //     var pos = {display: "block", right: event.x, top: event.y}
-        // }
-        can.page.Modify(can, can._carte, {style: pos})
-        console.log("carte ", can._carte.offsetLeft, "output", can._carte.parentNode.offsetLeft)
-
-        event.stopPropagation()
-        event.preventDefault()
-    },
-    toast: function(can, text, title, duration) {
-        var meta = typeof text == "object"? text: {text: text, title: title, duration: duration}
-        can._toast = can._toast || can.page.Append(can, can._target, [{view: "toast", onmouseleave: function(event) {
-            can.page.Modify(can, can._toast, {style: {display: "none"}})
-        }}]).last
-
-        var ui = can.page.Appends(can, can._toast, [
-            {text: [meta.title||"", "div", "title"]},
-            typeof meta.text == "object"? meta.text: {text: [meta.text||"执行成功", "div", "content"]},
-            {view: ["button"], list: meta.button},
-            {text: ["", "div", "duration"]},
-        ])
-
-        var width = meta.width||200, height = meta.height||100
-        var pos = {position: "absolute", display: "block",
-            width: width, bottom: 100,
-            left: document.body.clientWidth/2-width/2,
-        }
-        can.page.Modify(can, can._toast, {style: pos})
-
-        can.Timer({value: 1000, length: (meta.duration||3000)/1000}, function(event, interval, index) {
-            if (index > 2) {
-                ui.duration.innerHTML = index+"s..."
-            }
-        }, function() {
-            can.page.Modify(can, can._toast, {style: {display: "none"}})
-        })
-        ui.Close = function() {
-            can.page.Modify(can, can._toast, {style: {display: "none"}})
-        }
-        return ui
-    },
-    share: function(can, msg, cmd) {
-        can.run(msg._event, cmd||["action", "share"], function(msg) {
-            var src = can.user.Share(can, {_path: "/share/"+msg.Result()}, true)
-            var ui = can.onappend.toast(can, {title: can.page.Format("a", src, msg.Result()), text: can.page.Format("img", src+"/share"),
-                width: 300, height: 300, duration: 100000, button: [{button: ["确定", function(event) {
-                    can.page.Modify(can, can._toast, {style: {display: "none"}})
-            }]}] })
-        })
-    },
-
-    upload: function(can) { var begin = new Date()
-        can._upload = can._upload || can.page.Append(can, can._target, [{view: "upload", list: [{view: "action"}, {view: "output"}]}])
-
-        function show(event, value, total, loaded) {
-            var now = new Date(); can.page.Appends(can, can._upload.output, [
-                {view: ["progress"], style: {height: "10px", border: "solid 2px red"}, list: [{
-                    view: ["progress"], style: {height: "10px", width: value + "%", background: "red"},  
-                }]},
-                {text: [value+"%", "div"], style: {"float": "right"}},
-                {text: [can.base.Duration(now - begin), "div"], style: {"float": "left"}},
-                {text: [can.base.Size(loaded)+"/"+can.base.Size(total), "div"], style: {"text-align": "center"}},
-            ])
-        }
-
-        var action = can.page.AppendAction(can, can._upload.action, [
-            {type: "input", data: {name: "upload", type: "file", onchange: function(event) {
-                var file = action.upload.files[0]
-                show(event, 0, file.size, 0)
-            }}, style: {width: "200px"}}, "上传", "关闭"], function(event, value, cmd) {
-                if (action.upload.files.length == 0) {return action.upload.focus()}
-                if (value == "关闭") {can._upload.stick = false; return can.page.Remove(can, can._upload.output.parentNode)}
-
-                var msg = can.request(event)
-                can.core.Item(can.Option(), msg.Option)
-
-                // 上传文件
-                begin = new Date()
-                msg._progress = show
-                msg.upload = action.upload.files[0]
-                can.run(event, ["action", "upload"], function(msg) {
-                    can.onappend.toast(can, "上传成功")
-                }, true)
-            })
-        action.upload.click()
-    },
     modify: function(can, target, cb) { var back = target.innerHTML
         var ui = can.page.Appends(can, target, [{type: "input", value: back, onkeydown: function(event) {
             switch (event.key) {
@@ -606,9 +490,9 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
     },
     daemon: function(can, name) {
         can.misc.WSS(can, "", {name: name, type: "chrome"}, function(event, msg) {
-            if (msg.Option("_handle")) {return can.onappend.toast(can, msg.result.join(""))}
+            if (msg.Option("_handle")) {return can.user.toast(can, msg.result.join(""))}
 
-            can.onappend.toast(can, msg.detail.join(" ")); switch (msg.detail[0]) {
+            can.user.toast(can, msg.detail.join(" ")); switch (msg.detail[0]) {
                 case "pwd": msg.Echo("hello world"); break
                 default:
                     can.run(event, ["search"].concat(msg.detail), function(msg) {
@@ -617,7 +501,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
 
                 msg.Reply(msg)
             }
-        }, function() {can.user.toast("wss connect", "iceberg")})
+        }, function() {can.user.toast(can, "wss connect", "iceberg")})
     },
 }, [], function(can) {})
 Volcanos("onlayout", { _init: function(can, meta, list, cb, target) {

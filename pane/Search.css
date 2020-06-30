@@ -4,9 +4,13 @@ fieldset.Search {
     left:120px;
     top:40px;
     background:black;
+    z-index:102;
+}
+fieldset.Search div.output div.content:hover {
+    max-height:400px;
 }
 fieldset.Search div.output div.content {
-    max-width:1000px;
+    max-height:200px;
     overflow:auto;
 }
 fieldset.Search div.output div.display {

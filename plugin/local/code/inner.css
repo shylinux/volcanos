@@ -71,7 +71,7 @@ fieldset.editor>div.output div.content>pre.item span.string {
 }
 fieldset.editor>div.output pre.display {
     padding:6px; border:solid 1px red;
-    max-height:80px; overflow:auto;
+    max-height:120px; overflow:auto;
     position:sticky; bottom:0;
     display:none;
     clear:both;
@@ -79,7 +79,7 @@ fieldset.editor>div.output pre.display {
 }
 fieldset.editor>div.output pre.display:hover {
     background-color:black;
-    max-height:360px;
+    max-height:640px;
     z-index:10;
 }
 

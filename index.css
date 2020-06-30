@@ -135,7 +135,11 @@ fieldset>div.output>div.profile>div.item:hover {
 }
 fieldset>div.output>pre.display {
     position:sticky; bottom:0;
+    max-height:120px;
     clear:both;
+}
+fieldset>div.output>pre.display:hover {
+    max-height:640px;
 }
 
 fieldset div.code {
@@ -185,10 +189,11 @@ fieldset table td.select {
 }
 
 div.carte {
+    color:cyan;
     background:black;
     border:solid 2px red;
-    position:absolute;
-    z-index:10;
+    position:fixed;
+    z-index:100;
 }
 div.carte div.item {
     padding:0 5px;
@@ -200,11 +205,11 @@ div.carte div.item:hover {
 }
 
 div.toast {
+    color:yellow;
     background:black;
     border:solid 2px red;
-    position:absolute;
+    position:fixed;
     padding:5px;
-    color:yellow;
     z-index:100;
 }
 div.toast div.title {
@@ -220,14 +225,12 @@ div.toast div.duration {
 }
 
 div.upload {
+    color:yellow;
     background:black;
     border:solid 2px red;
-    position:absolute;
+    position:fixed;
     padding:5px;
-    color:yellow;
     z-index:100;
-    left:20px;
-    top:20px;
 }
 div.upload div.item {
     float:left;

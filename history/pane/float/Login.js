@@ -53,11 +53,11 @@ Volcanos("onaction", {help: "组件交互", list: [],
                         can.Hide(), can.onaction.check(event, can, cb, "check", target)
                         return
                     }
-                    can.user.toast("用户或密码错误")
+                    can.user.toast(can, "用户或密码错误")
                 })
             }]},
             {button: ["扫码登录", function(event, cmd) {
-                can.user.toast({title: "请用微信扫码("+can._share+")", list: [{img: [can.user.Share(can, {
+                can.user.toast(can, {title: "请用微信扫码("+can._share+")", list: [{img: [can.user.Share(can, {
                     path: "/share/"+can._share+"/value",
                 }, true)]}]})
             }]},

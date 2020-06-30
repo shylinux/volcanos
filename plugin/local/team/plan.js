@@ -73,7 +73,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                     can.onaction.pluginTask(event, can, task)
                 },
                 oncontextmenu: function(event) { var target = event.target
-                    can.onappend.carte(can, can.ondetail, can.ondetail.list, function(event, item) {
+                    can.user.carte(can, can.ondetail, can.ondetail.list, function(event, item) {
                         can.onaction.modifyTask(event, can, task, "status", item)
                     })
                 },
@@ -91,7 +91,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 })
             },
             oncontextmenu: function(event) { var target = event.target
-                can.onappend.carte(can, can.ondetail, ["编辑"].concat(can.ondetail.list), function(event, item, meta) {
+                can.user.carte(can, can.ondetail, ["编辑"].concat(can.ondetail.list), function(event, item, meta) {
                     switch (item) {
                         case "编辑":
                             can.onappend.modify(can, target, function(ev, value, old) {
@@ -244,7 +244,7 @@ Volcanos("onaction", {help: "组件交互", list: ["统计", "添加", "详情",
                 {name: "end_time", type: "input", value: can.base.Time(can.base.TimeAdd(now, (now.getHours()+1)/24)), onclick: date},
             ], function(event, button, data, list) {
                 can.run(event, ["action", "insert"].concat(list), function(msg) {
-                    can.onappend.toast(can, "添加成功")
+                    can.user.toast(can, "添加成功")
                     can.run({})
                 }, true)
                 return true
@@ -255,7 +255,7 @@ Volcanos("onaction", {help: "组件交互", list: ["统计", "添加", "详情",
         var msg = can.request(event); msg.Option(task)
         can.run(event, ["action", "modify", key, value, task[key]], function(msg) {
             task[key] = value, can.onimport._profile(can, can._msg, task)
-            can.onappend.toast(can, "修改成功")
+            can.user.toast(can, "修改成功")
         }, true)
     },
     pluginTask: function(event, can, task, key) {
