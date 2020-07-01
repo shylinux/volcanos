@@ -21,7 +21,7 @@ Volcanos("onaction", {help: "交互操作", list: ["创建", "刷新"], _init: f
 })
 Volcanos("ondetail", {help: "交互菜单", list: ["添加工具", "重命名", "共享", "删除"],
     "添加工具": function(event, can, value) {
-        can.run(event, ["search", "Search.onimport.select", "", "", "command"], function(list) {
+        can.run(event, ["search", "Search.onimport.select", "command", "", ""], function(list) {
             var args = []; can.core.List(list, function(item) {
                 args = args.concat([item[0], item[5], item[4], ""])
             })

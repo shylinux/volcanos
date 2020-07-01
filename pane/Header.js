@@ -56,7 +56,7 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
         can.run(msg._event, [], function(msg) { can._output.innerHTML = ""
             can.Conf("username", msg.Option("user.nick")||msg.Option("user.name"))
 
-            can.core.List(msg.result||["github.com/shylinux/contexts"], function(title) {
+            can.user.isMobile || can.core.List(msg.result||["github.com/shylinux/contexts"], function(title) {
                 can.page.Append(can, can._output, [{view: ["title", "div", title],
                     click: function(event) { can.onaction["title"](event, can, "title") },
                 }])
@@ -73,11 +73,11 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                 })
             })
 
-            can.search = can.page.Append(can, can._output, [{view: "search", list: [{type: "input", onkeydown: function(event) {
+            can.user.isMobile || (can.search = can.page.Append(can, can._output, [{view: "search", list: [{type: "input", onkeydown: function(event) {
                 switch (event.key) {
-                    case "Enter": can.run(event, ["search", "Search.onimport.input", event.target.value]); break
+                    case "Enter": can.run(event, ["search", "Search.onimport.input", "*", event.target.value]); break
                 }
-            }, }], }]).input
+            }, }], }]).input)
 
             var height = document.body.offsetHeight
             var ui = can.page.Append(can, can._output, can.core.List(["Search", "River", "Storm", "Footer"], function(item) {
@@ -105,6 +105,9 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             } else {
                 // ui.River.click(), ui.Footer.click(), ui.Storm.click()
                 // ui.River.click(), ui.Footer.click()
+            }
+            if (can.user.isMobile) {
+                ui.River.click(), ui.Footer.click(), ui.Storm.click()
             }
 
             typeof cb == "function" && cb()

@@ -42,18 +42,24 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
         if (sub.hasOwnProperty(key)) { can.onengine[key] = value }
     }); return true },
     river: {
-        "main": {name: "main", storm: {
+        "product": {name: "产品群", storm: {
+            "office": {name: "office", index: [
+                "web.wiki.draw.draw",
+                "web.team.plan",
+                "web.wiki.word",
+                "web.wiki.data",
+                "web.wiki.feel",
+            ]},
+            "chrome": {name: "chrome", index: [
+                "web.code.chrome.chrome",
+                "web.code.chrome.bookmark",
+            ]},
+        }},
+        "project": {name: "研发群", storm: {
             "inner": {name: "inner", index: [
                 "web.code.inner",
                 "web.code.git.status",
                 "web.code.git.total",
-            ]},
-            "pprof": {name: "pprof", index: [
-                "web.code.pprof",
-                "web.code.bench",
-                "web.favor",
-                "web.cache",
-                "web.share",
             ]},
             "relay": {name: "relay", index: [
                 "aaa.totp.get",
@@ -63,22 +69,24 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 "web.code.docker.container",
                 "web.code.tmux.session",
             ]},
-            "office": {name: "office", index: [
-                "web.team.plan",
-                "web.wiki.feel",
-                "web.wiki.data",
-                "web.wiki.word",
-                "web.wiki.draw.draw",
+            "tmux": {name: "tmux", index: [
+                "web.code.tmux.text",
+                "web.code.tmux.buffer",
+                "web.code.tmux.session",
+            ]},
+        }},
+        "profile": {name: "测试群", storm: {
+            "pprof": {name: "pprof", index: [
+                "web.code.pprof",
+                "web.code.bench",
+                "web.favor",
+                "web.cache",
+                "web.share",
             ]},
             "docker": {name: "docker", index: [
                 "web.code.docker.image",
                 "web.code.docker.container",
                 "web.code.docker.command",
-            ]},
-            "tmux": {name: "tmux", index: [
-                "web.code.tmux.text",
-                "web.code.tmux.buffer",
-                "web.code.tmux.session",
             ]},
         }},
     },
@@ -117,6 +125,9 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                     if (storm.index) {
                         can.misc.Run(event, can, {names: pane._name}, [river.name, storm.name, "order"].concat(storm.index), cb)
                         return true
+                    }
+                    if (location.pathname == "/share") {
+                        return false
                     }
 
                     can.core.List(storm.action, function(value) {
@@ -193,7 +204,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             can.page.ClassList.add(can, field, meta.feature.style||"")
 
             can.onappend._legend(sub, legend)
-            if (can.user.Search(can, "share") && can.user.Search(can, "river") && can.user.Search(can, "storm")) {
+            if (can.user.Search(can, "share") && can.user.Search(can, "title")) {
                 can.page.Select(can, field, "legend", function(item) { can.page.Remove(can, item) })
             }
             sub.onaction && can.onappend._action(sub, sub._action, sub.onaction.list)
@@ -527,7 +538,7 @@ Volcanos("onlayout", { _init: function(can, meta, list, cb, target) {
             can.page.Select(can, field, "div.output", function(output) {
                 var border = output.offsetHeight - output.clientHeight
                 can.page.Modify(can, output, { style: {
-                    height: height-border*2-20+"px",
+                    height: height-border*2-40+"px",
                 } })
             })
         })

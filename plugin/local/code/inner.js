@@ -314,7 +314,12 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
     },
 
     png: {
-        line: function(can, line) { return can.page.Format("img", "/share/local/"+line) }
+        display: true,
+        show: function(can) {
+            can.page.Append(can, can.ui.display, can.core.List(can._msg.result, function(line) {
+                return {img: "/share/local/"+line, height: 400}
+            }))
+        }
     },
     url: {
         line: function(can, line) {
@@ -327,6 +332,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         }
     },
     svg: {
+        display: true,
         show: function(can) {
             can.page.Append(can, can.ui.display, can.core.List(can._msg.result, function(line) {
                 return {type: "iframe", data: {src: "/share/local/"+line}, style: {width: can.Conf("width")-80+"px"}}
@@ -334,9 +340,10 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         }
     },
     jpg: {
+        display: true,
         show: function(can) {
             can.page.Append(can, can.ui.display, can.core.List(can._msg.result, function(line) {
-                return {img: "/share/local/"+line}
+                return {img: "/share/local/"+line, height: 400}
             }))
         }
     },

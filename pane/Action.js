@@ -9,7 +9,7 @@ Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"]
     "共享": function(event, can, value, sub) { var msg = sub.request(event)
         var list = [can.Conf("river"), can.Conf("storm"), "share", value.name, value.help]
         list = list.concat([
-            value.pod||"", value.group||"", value.index, JSON.stringify(can.core.Item(sub.Option(), function(key, value) { return value })),
+            value.pod||can.user.Search(can, "pod")||"", value.group||"", value.index, JSON.stringify(can.core.Item(sub.Option(), function(key, value) { return value })),
             JSON.stringify(sub.Option())
         ])
         can.user.share(can, msg, list)

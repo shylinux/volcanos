@@ -23,7 +23,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["添加用户", "重命名", 
         can.onexport._init(can, msg, list, cb, target)
     },
     "添加用户": function(event, can, river, button) {
-        can.run(event, ["search", "Search.onimport.select", "", "", "user"], function(list) {
+        can.run(event, ["search", "Search.onimport.select", "user", "", ""], function(list) {
             var args = []; can.core.List(list, function(item) {
                 args = args.concat([item[4]])
             })

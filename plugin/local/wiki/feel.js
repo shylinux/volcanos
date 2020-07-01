@@ -63,6 +63,7 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
         return {img: path, height: can.height}
     },
     jpg: function(can, path) { return can.onfigure.image(can, path) },
+    png: function(can, path) { return can.onfigure.image(can, path) },
     qrc: function(can, path) { return can.onfigure.image(can, path) },
 
     video: function(can, path) { var auto = true, loop = true, total = 0

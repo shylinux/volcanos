@@ -7,7 +7,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
         can.ui = can.page.Append(can, can._output, [{view: "content"}, {view: "display"}])
         can.page.Modify(can, can._target, {style: {display: "block"}})
 
-        can.page.Select(can, can._action, "input[name=word]", function(item) { item.value = cmd[0] })
+        can.page.Select(can, can._action, "input[name=word]", function(item) { item.value = cmd[1] })
         can.run({}, cmd, function(msg) {
             can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line) {
                 return {text: [value, "td"], onclick: function(event) {
@@ -28,8 +28,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
     },
 
     select: function(can, msg, cmd, cb) { can._output.innerHTML = ""
-        function search(word) { cmd[0] = word
-            can.run({}, [cmd.join(";")], function(msg) { can.ui.content.innerHTML = ""
+        function search(word) { cmd[1] = word
+            can.run({}, cmd, function(msg) { can.ui.content.innerHTML = ""
                 can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line) {
                     return {text: [value, "td"], onclick: function(event) {
                         can.Status("index", index)
@@ -64,7 +64,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
         ])
         can.page.Modify(can, can._target, {style: {display: "block"}})
         can.ui.input.focus()
-        search(cmd[0])
+        search(cmd[1])
     },
 })
 Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"], _init: function(can, msg, list, cb, target) {
