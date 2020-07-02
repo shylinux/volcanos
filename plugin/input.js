@@ -20,7 +20,6 @@ Volcanos("onaction", {help: "控件交互", list: [],
             case "Enter":
                 if (event.target.tagName == "INPUT") {
                     can.run(event)
-                    break
                 }
                 event.stopPropagation()
                 event.preventDefault()

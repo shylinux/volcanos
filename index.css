@@ -85,6 +85,7 @@ fieldset>div.action>div.item {
 fieldset>div.action>div.item>select {
     color:cyan;
     background:black;
+    margin:3px 0;
 }
 fieldset>div.action>div.item>input {
     color:cyan;
