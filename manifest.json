@@ -2,9 +2,14 @@
     "manifest_version": 2,
     "name": "volcanos",
     "version": "0.0.1",
+    "icons": {
+        "16": "favicon.png",
+        "48": "favicon.png",
+        "128": "favicon.png"
+    },
     "background": {"page": "/chrome/chrome.html"},
     "browser_action": {
-        "default_icon": "/favicon.ico",
+        "default_icon": "/favicon.png",
         "default_popup": "/chrome/popup.html"
     },
     "content_scripts": [
@@ -25,6 +30,7 @@
         "cookies",
         "bookmarks",
         "notifications",
+        "contextMenus",
         "*://localhost/*",
         "*://localhost:9020/*"
     ]

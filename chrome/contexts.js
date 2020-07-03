@@ -1,4 +1,6 @@
 var can = Volcanos("chrome", {
+    video: function(can) {
+    },
 }, [], function(can) {
     can.user = user
     can.page = page

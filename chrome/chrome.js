@@ -61,5 +61,16 @@ var can = Volcanos("chrome", {
     chrome.history.onVisited.addListener(function(item) {
         can.run({}, ["history", item.id, item.title, item.url])
     })
+    chrome.contextMenus.create({
+        title: "favor",
+        onclick: function(event) {
+            chrome.tabs.query({ active: true}, function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, { action: "copy" }, function (response) {
+                    console.log(response)
+                    can.run({}, ["history", "id", response.title, response.src])
+                })
+            })
+        },
+    })
 })
 
