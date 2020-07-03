@@ -208,13 +208,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }]).table
     },
 }, ["/plugin/local/team/plan.css"])
-Volcanos("onaction", {help: "组件交互", list: ["统计", "添加", "详情",  "",
+Volcanos("onaction", {help: "组件交互", list: ["导出", "导入", "统计", "详情",  "",
         ["level", "all", "l1", "l2", "l3", "l4", "l5"],
         ["status", "all", "prepare", "process", "cancel", "finish"],
         ["score", "all", "s1", "s2", "s3", "s4", "s5"],
         ["view", "", "name", "text", "level", "score"],
-        "", "启动", "运行", "完成",
-        "", "导出", "导入",
+        "", "添加", "启动", "运行", "完成",
     ],
     insertTask: function(event, can, now) { now = now || new Date()
         can.require([

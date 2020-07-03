@@ -3,8 +3,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], _merge: function(can, sub)
     }); return true },
 
     date: {onclick: function(event, can, item, target) {
-        can._figure && can.page.Remove(can, can._figure.fieldset)
-        can._figure = can.onappend.field(can, can._target, "input date", {})
+
         // 设置输入
         function set(now) {
             target.value = can.base.Time(now); 
@@ -12,11 +11,9 @@ Volcanos("onfigure", {help: "控件详情", list: [], _merge: function(can, sub)
         }
 
         // 添加插件
-        var figure = can._figure
+        var figure = can.onappend.field(can, document.body, "input date", {})
         figure.table = can.page.Append(can, figure.output, [{type: "table"}]).first
-        // can.page.Modify(can, figure.fieldset, {style: {top: target.offsetTop+20, left: target.offsetLeft}})
-        var offset = can.page.offset(can._target)
-        can.page.Modify(can, figure.fieldset, {style: {top: event.clientY-offset.Top+60, left: event.clientX-offset.Left+60}})
+        can.page.Modify(can, figure.fieldset, {style: {top: event.clientY+10, left: event.clientX}})
         can.page.Remove(can, figure.legend)
 
         // 添加控件
@@ -41,7 +38,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], _merge: function(can, sub)
                 case "关闭": can.page.Remove(can, figure.fieldset); break;
                 case "今天": now = new Date(); set(show(now)); break;
                 case "随机": now.setDate((Math.random() * 100 - 50) + now.getDate()); set(show(now)); break;
-                case "关闭": can.page.Remove(can, figure.first); delete(can.figure);
+                case "关闭": can.page.Remove(can, figure.first);
                 case "前一年": now.setFullYear(now.getFullYear()-1); show(now); break;
                 case "后一年": now.setFullYear(now.getFullYear()+1); show(now); break;
                 case "上一月": now.setMonth(now.getMonth()-1); show(now); break;

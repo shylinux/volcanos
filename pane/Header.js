@@ -100,13 +100,12 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                     },
                 }]}
             }));
+
             if (location.protocol == "chrome-extension:") {
                 ui.River.click()
-            } else {
-                // ui.River.click(), ui.Footer.click(), ui.Storm.click()
-                // ui.River.click(), ui.Footer.click()
-            }
-            if (can.user.isMobile) {
+            } else if (can.user.Search(can, "pod")) {
+                ui.River.click(), ui.Footer.click(), ui.Storm.click()
+            } else if (can.user.isMobile) {
                 ui.River.click(), ui.Footer.click(), ui.Storm.click()
             }
 

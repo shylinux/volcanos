@@ -1,4 +1,5 @@
 fieldset.input.date {
+    position:fixed;
     background-color:black;
     z-index:100;
 }
