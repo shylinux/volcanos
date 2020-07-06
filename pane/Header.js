@@ -1,4 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
+        return
         document.body.onkeydown = function(event) { if (event.target != document.body) { return }
             switch (event.key) {
                 case "n":

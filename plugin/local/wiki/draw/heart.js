@@ -1,6 +1,6 @@
 Volcanos("heart", {help: "心形", list: [],
-    data: {name: "path",
-        size: {},
+    data: {name: "path", size: {},
+        copy: ["d", "cmd", "name", "meta", "tt", "xx", "yy", "fill"],
         x: function(event, can, value, cmd, target) {
             var tt = JSON.parse(target.Value("tt")||'{"tx":0, "ty":0}')
             if (value != undefined) {
@@ -19,8 +19,7 @@ Volcanos("heart", {help: "心形", list: [],
             }
             return target.Val("yy")+tt.ty
         },
-        copy: ["d", "cmd", "name", "meta", "tt", "xx", "yy", "fill"],
-    }, // <circle cx="25" cy="75" r="20"/>
+    }, // <heart cx="25" cy="75" r="20"/>
     draw: function(event, can, point) {if (point.length < 2) {return}
 
         var p0 = point[0], p1 = point[1], p2 = point[2];
@@ -41,31 +40,22 @@ Volcanos("heart", {help: "心形", list: [],
         }
 
         var data = {
-            cmd: "pwd",
             name: "heart", d: d.join(" "),
             meta: JSON.stringify(point),
             tt: JSON.stringify({tx: 0, ty: 0}),
             xx: p0.x, yy:p1.y,
         }
 
-        // can._tmp && can.page.Remove(can, can._tmp) && delete(can._tmp)
-        // can._tmp = can.onaction.push(event, can, data, "path", can.group||can.svg)
-        // event.type == "click" && point.length == 3 && (can.point = [], can._tmp = null);
-        return event.type == "click" && point.length == 3 && (can.point = []), data;
+        return event.type == "click" && point.length == 3 && (can.point = []), data
     },
-    text: function(event, can, data, target) {
+    text: function(can, data, target) {
         data.x = target.Val("cx")
         data.y = target.Val("cy")
         return data
     },
-    show: function(event, can, value, target) {
-        return ": (" + value.Val("cx") + "," + value.Val("cy") + ")"
-            + " > (" + parseInt(value.Val("r")) + ")"
+    show: function(can, target) {
+        return ": (" + target.Val("cx") + "," + target.Val("cy") + ")"
+            + " > (" + target.Val("r") + ")"
     },
-    // run: function(event, can, value, cmd, target) {
-    //     event.type == "click" && can.Run(event, ["action", "执行", target.Value("cmd")], function(msg) {
-    //         can.user.toast(msg.Result())
-    //     }, true)
-    // },
 })
 

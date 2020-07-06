@@ -390,6 +390,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             }), can.onkeymap[item]._engine = engine
         }), can.onkeymap._mode(can, mode||"normal")
     },
+    _merge: function(can, value) { return true },
     _mode: function(can, value) { can.Action("mode", can.mode = value)
         can.page.Modify(can, can.ui.editor, {className: "editor "+can.mode, style: {display: "none"}})
         can.page.Modify(can, can.ui.command, {className: "command "+can.mode, style: {display: "none"}})

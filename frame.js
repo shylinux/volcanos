@@ -37,6 +37,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 pane.onaction && pane.onaction._init(pane, msg, msg.option||[], cb, target)
             })
         }, target) })
+        can.onkeypop._init(can)
     },
     _merge: function(can, sub) { can.core.Item(sub, function(key, value) {
         if (sub.hasOwnProperty(key)) { can.onengine[key] = value }
@@ -336,7 +337,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 typeof item == "string"? /*按键*/ can.onappend.input(can, action, "input", {type: "button", value: item, onclick: function(event) {
                     var cb = can.onaction[item] ||  can.onaction["_engine"] || can.onkeymap && can.onkeymap._remote
                     cb? cb(event, can, item): can.run(event, ["action", item], function(msg) {}, true)
-                }}): item.length > 0? /*列表*/ can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), name: item[0], onchange: function(event) {
+                }}): item.length > 0? /*列表*/ can.onappend.input(can, action, "input", {type: "select", values: item.slice(1), title: item[0], name: item[0], onchange: function(event) {
                     var which = item[event.target.selectedIndex+1]
                     var cb = can.onaction[which]
                     cb && cb(event, can, which)
@@ -545,4 +546,32 @@ Volcanos("onlayout", { _init: function(can, meta, list, cb, target) {
         typeof cb == "function" && cb()
     },
 })
-
+Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
+    document.body.onkeydown = function(event) { if (event.target != document.body) { return }
+        if (can.onkeypop.action && can.onkeypop.action.onimport) {
+            can.onkeypop.action.onimport.keydown(event, can.onkeypop.action, event.key)
+            return
+        }
+        switch (event.key) {
+            case "n":
+                can.run(event, ["search", "River.onaction.create"])
+                break
+            case "m":
+                can.run(event, ["search", "Storm.onaction.create"])
+                break
+            case " ":
+                can.search.focus()
+                can.search.setSelectionRange(0, -1)
+                break
+            default:
+                return
+        }
+        event.stopPropagation()
+        event.preventDefault()
+    }
+    document.body.onkeyup = function(event) {
+        console.log(event)
+    }
+},
+    action: null,
+})
