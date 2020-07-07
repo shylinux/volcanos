@@ -136,11 +136,12 @@ fieldset>div.output>div.profile>div.item:hover {
 }
 fieldset>div.output>pre.display {
     position:sticky; bottom:0;
-    max-height:120px;
+    /* max-height:120px; */
+    max-height:400px;
     clear:both;
 }
 fieldset>div.output>pre.display:hover {
-    max-height:640px;
+    /* max-height:640px; */
 }
 
 fieldset div.code {

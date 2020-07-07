@@ -31,7 +31,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             can.onimport.project(can, can.Option("path"))
             can.onsyntax._init(can, msg)
             can.onkeymap._init(can)
-            can.onlayout._init(can)
         })
         return typeof cb == "function" && cb(msg)
     },
@@ -629,7 +628,9 @@ Volcanos("onaction", {help: "控件交互", list: [
             can.user.toast(can, "执行成功")
         })
     },
-    "项目": function(event, can) { can.onlayout.project(can) },
+    "项目": function(event, can) { var hide = can.ui.project.style.display == "none"
+        can.page.Modify(can, can.ui.project, {style: {display: hide? "": "none"}})
+    },
     "上传": function(event, can) { can.user.upload(event, can) },
     "搜索": function(event, can) { can.onkeymap._remote(event, can, "搜索", ["action", "find", "vim.history", "", "id", "type", "name", "text"]) },
     "记录": function(event, can) { var sub = can.request(event)
@@ -665,14 +666,6 @@ Volcanos("ondetail", {help: "菜单交互", list: ["保存", "运行", "提交",
     },
     "追加行": function(event, can, msg) {
         can.onaction.appendLine(can)
-    },
-})
-Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
-        can.onlayout.project(can)
-        can.onlayout.project(can)
-    },
-    project: function(can) { var hide = can.ui.project.style.display == "none"
-        can.page.Modify(can, can.ui.project, {style: {display: hide? "": "none"}})
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["输入法", "输入值", "文件名", "解析器", "当前行", "ncmd"],

@@ -318,7 +318,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
     _legend: function(can, legend) {
         legend && (legend.onclick = function(event) { var msg = can.request(event)
             can.core.List(["share", "pod"], function(key) { var value = can.user.Search(can, key)
-                value != undefined && msg.Option(key, can.user.Search(key))
+                value != undefined && msg.Option(key, can.user.Search(can, key))
             })
             can.core.List(["River", "Storm", "Action"], function(item) {
                 can.run(event, ["search", item+".onexport.key"])
