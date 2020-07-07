@@ -575,3 +575,22 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
 },
     action: null,
 })
+Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
+},
+    show: function(can, target, time) { time = time || {value: 100, length: 30}
+        can.page.Modify(can, target, {style: {opacity: 0}})
+        can.Timer(time, function(event, value, index) {
+            console.log(arguments)
+            can.page.Modify(can, target, {style: {opacity: (index+1)/time.length}})
+        }, function() {
+        })
+    },
+    hide: function(can, target, time) { time = time || {value: 100, length: 30}
+        can.page.Modify(can, target, {style: {opacity: 1}})
+        can.Timer(time, function(event, value, index) {
+            console.log(arguments)
+            can.page.Modify(can, target, {style: {opacity: 1-(index+1)/time.length}})
+        }, function() {
+        })
+    },
+})

@@ -1,6 +1,6 @@
 Volcanos("heart", {help: "心形", list: [],
     data: {name: "path", size: {},
-        copy: ["d", "cmd", "name", "meta", "tt", "xx", "yy", "fill"],
+        copy: ["d", "name", "meta", "tt", "xx", "yy"],
         x: function(event, can, value, cmd, target) {
             var tt = JSON.parse(target.Value("tt")||'{"tx":0, "ty":0}')
             if (value != undefined) {
@@ -54,8 +54,7 @@ Volcanos("heart", {help: "心形", list: [],
         return data
     },
     show: function(can, target) {
-        return ": (" + target.Val("cx") + "," + target.Val("cy") + ")"
-            + " > (" + target.Val("r") + ")"
+        return "heart " + target.Value("tt")
     },
 })
 

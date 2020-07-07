@@ -2,6 +2,9 @@ fieldset.draw div.action {
     clear:none;
 }
 fieldset.draw div.output div.project {
+    min-width:60px;
+    max-width:120px;
+    overflow:auto;
 }
 fieldset.draw div.output div.project div.item.select {
     background-color:red; border:solid 2px yellow;

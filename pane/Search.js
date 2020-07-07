@@ -13,7 +13,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
                 return {text: [value, "td"], onclick: function(event) {
                     can.Status("index", index)
                     can.Status("value", value)
-                    can.run(event, [line.type, line.name, line.text], function(msg) {
+                    can.run(event, ["render", line.type, line.name, line.text], function(msg) {
                         can.ui.display.innerHTML = ""
                         can.onappend.table(can, can.ui.display, "table", msg)
                         can.onappend.board(can, can.ui.display, "board", msg)

@@ -154,7 +154,6 @@ fieldset div.code {
     border:solid 3px green;
     /* max-height:640px; */
 }
-
 fieldset table {
     font-size:14px;
     cursor:pointer;
@@ -189,22 +188,6 @@ fieldset table td.select {
     background-color:red;
 }
 
-div.carte {
-    color:cyan;
-    background:black;
-    border:solid 2px red;
-    position:fixed;
-    z-index:100;
-}
-div.carte div.item {
-    padding:0 5px;
-}
-div.carte div.item:hover {
-    background:red;
-    border:solid 2px yellow;
-    cursor:pointer;
-}
-
 div.toast {
     color:yellow;
     background:black;
@@ -223,6 +206,22 @@ div.toast div.content {
 div.toast div.duration {
     font-size:14px;
     color:gray;
+}
+
+div.carte {
+    color:cyan;
+    background:black;
+    border:solid 2px red;
+    position:fixed;
+    z-index:100;
+}
+div.carte div.item {
+    padding:0 5px;
+}
+div.carte div.item:hover {
+    background:red;
+    border:solid 2px yellow;
+    cursor:pointer;
 }
 
 div.upload {
@@ -251,3 +250,4 @@ fieldset.input.date {
 fieldset.input.key {
     z-index:101;
 }
+

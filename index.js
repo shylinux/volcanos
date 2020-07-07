@@ -1,4 +1,4 @@
-Volcanos({name: "demo", volcano: "/frame.js", iceberg: "/chat/", intshell: "plug.sh",
+Volcanos({name: "chat", volcano: "/frame.js", iceberg: "/chat/", intshell: "plug.sh",
     libs: ["/lib/base", "/lib/core", "/lib/misc", "/lib/page", "/lib/user"], panes: [
         {name: "Header", help: "标题栏", pos: "head", state: ["time", "username"]},
         {name: "River",  help: "群聊组", pos: "left"},
