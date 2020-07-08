@@ -27,6 +27,33 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
         })
     },
 
+    active: function(can, msg, cmd, cb) { can._output.innerHTML = ""
+        function search(word) { cmd[1] = word
+            var ev = {}; var res = can.request(ev); res.Copy(msg)
+            can.run(ev, cmd, function(res) { can.ui.content.innerHTML = ""
+                can.onappend.table(can, can.ui.content, "table", res, function(value, key, index, line) {
+                    can.Status("count", index+1)
+                    return {text: [value, "td"], onclick: function(event) {
+                        typeof cb == "function" && cb(line)
+                        can.Status("index", index)
+                        can.Status("value", value)
+                    }}
+                })
+            })
+        }
+
+        can.ui = can.page.Append(can, can._output, [
+            {input: ["word", function(event) {
+                if (event.key == "Enter") {
+                    search(event.target.value)
+                }
+            }], value: cmd[1]},
+            {view: "content"},
+        ])
+        can.page.Modify(can, can._target, {style: {display: "block"}})
+        can.ui.input.focus()
+        search(cmd[1])
+    },
     select: function(can, msg, cmd, cb) { can._output.innerHTML = ""
         function search(word) { cmd[1] = word
             can.run({}, cmd, function(msg) { can.ui.content.innerHTML = ""
@@ -79,7 +106,7 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
     "清空": function(event, can, key) {
         can._output.innerHTML = ""
     },
-    "完成": function(event, can, key) { can.cb() },
+    "完成": function(event, can, key) { can.cb && can.cb() },
 })
 Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"],
     "共享": function(event, can, value, sub) { var msg = sub.request(event)

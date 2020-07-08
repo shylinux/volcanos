@@ -1,6 +1,6 @@
 fieldset.Search {
     display:none;
-    position:absolute;
+    position:fixed;
     left:120px;
     top:40px;
     background:black;
