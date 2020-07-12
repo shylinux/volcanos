@@ -13,6 +13,9 @@ fieldset.editor>div.action>div.file.select {
     background-color:green;
 }
 
+fieldset.editor>div.output {
+    max-height:560px; overflow:auto;
+}
 fieldset.editor>div.output>div.project {
     max-height:400px; overflow:auto;
     max-width:120px;
@@ -47,7 +50,7 @@ fieldset.editor>div.output div.content {
     font-size:16px; font-family:monospace;
     border-left:solid 2px red;
     min-height:200px;
-    max-width:200px;
+    overflow:auto;
     float:left;
 }
 fieldset.editor>div.output div.content>pre.item {
@@ -55,6 +58,10 @@ fieldset.editor>div.output div.content>pre.item {
     padding:0; margin:0;
     padding-left:10px;
     min-width:120px;
+}
+fieldset.editor>div.output div.content>div.item.select {
+    background-color:red;
+    border:solid 1px yellow;
 }
 fieldset.editor>div.output div.content>pre.item span.comment {
     color:cyan; background-color:blue;

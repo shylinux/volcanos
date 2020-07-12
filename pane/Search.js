@@ -28,7 +28,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
     },
 
     active: function(can, msg, cmd, cb) { can._output.innerHTML = ""
-        function search(word) { cmd[1] = word
+        function search(word) { cmd[1] = word || ""
             var ev = {}; var res = can.request(ev); res.Copy(msg)
             can.run(ev, cmd, function(res) { can.ui.content.innerHTML = ""
                 can.onappend.table(can, can.ui.content, "table", res, function(value, key, index, line) {
@@ -47,7 +47,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
                 if (event.key == "Enter") {
                     search(event.target.value)
                 }
-            }], value: cmd[1]},
+            }], value: cmd[1]||""},
             {view: "content"},
         ])
         can.page.Modify(can, can._target, {style: {display: "block"}})

@@ -8,6 +8,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return typeof cb == "function" && cb(msg)
     },
     field: function(can, item, target) { var meta = can.base.Obj(item.meta)
+        meta.width = can.Conf("width")
+        meta.height = can.Conf("height")
         can.onappend._init(can, meta, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
             sub.run = function(event, cmds, cb, silent) {
                 can.run(event, (cmds[0] == "search"? []: ["action", "story", item.type, item.name, item.text]).concat(cmds), cb, true)

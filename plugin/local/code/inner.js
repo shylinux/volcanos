@@ -7,7 +7,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             {view: "project"}, {view: "profile"},
 
             {view: "holdon", list: [
-                {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-240+"px"}},
+                {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-260+"px"}},
             ]},
 
             {view: ["editor", "textarea"], onkeydown: function(event) {
@@ -58,7 +58,20 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                 can.onkeymap._remote(event, can, "运行")
             }, oncontextmenu: function(event) {
                 can.user.carte(can, null, ["保存", "运行"])
-            }}]).first.click()
+            }, draggable: true,
+                ondragstart: function(event) { var target = event.target; can.drop = function(event, tab) { td.append(target)
+                    can.onaction.modifyTask(event, can, task, "begin_time", time, task.begin_time)
+                } },
+                ondragover: function(event) { event.preventDefault()
+                    can.page.Select(can, can.ui.content, "td", function(item) {
+                        can.page.ClassList.del(can, item, "over")
+                    }), can.page.ClassList.add(can, event.target, "over")
+                },
+                ondrop: function(event) { event.preventDefault()
+                    can.drop(event, event.target)
+                },
+
+            }]).first.click()
         }, true)
     },
     project: function(can, path) { can.Option({path: path}), can.ui.project.innerHTML = ""
@@ -644,7 +657,11 @@ Volcanos("onaction", {help: "控件交互", list: [
         can.page.Remove(can, ls[ls.length-1]), can.max--
     },
     selectLine: function(can, target) { if (target !== 0 && !target) { return }
-        can.page.Select(can, can.ui.content, "pre.item", function(item, index) { if (item != target && index != target) { return }
+        can.page.Select(can, can.ui.content, "pre.item", function(item, index) {
+            can.page.ClassList.del(can, item, "select")
+            if (item != target && index != target) { return }
+            can.page.ClassList.add(can, item, "select")
+
             target = item, can.Status("当前行", can.onexport.position(can, index))
             can.page.Select(can, can.ui.preview, "div.item", function(item, i) {
                 can.page.ClassList[index==i? "add": "del"](can, item, "select")
