@@ -80,6 +80,7 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
     },
     m4v: function(can, path) { return can.onfigure.video(can, path) },
     mp4: function(can, path) { return can.onfigure.video(can, path) },
+    mov: function(can, path) { return can.onfigure.video(can, path) },
 })
 
 Volcanos("onaction", {help: "组件菜单", list: ["", "上传", "收藏"],

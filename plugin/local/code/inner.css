@@ -59,9 +59,9 @@ fieldset.editor>div.output div.content>pre.item {
     padding-left:10px;
     min-width:120px;
 }
-fieldset.editor>div.output div.content>div.item.select {
-    background-color:red;
-    border:solid 1px yellow;
+fieldset.editor>div.output div.content>pre.item.select {
+    /* background-color:red; */
+    border:solid 1px red;
 }
 fieldset.editor>div.output div.content>pre.item span.comment {
     color:cyan; background-color:blue;

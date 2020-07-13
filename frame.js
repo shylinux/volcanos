@@ -327,7 +327,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             // can.core.Item(can.Option(), function(key, value) { args[key] = value })
             //
 
-            can.user.locals(can, args)
+            location.protocol == "chrome:" && can.user.locals(can, args)
             location.href = can.user.Share(can, args, true)
         })
     },

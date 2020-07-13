@@ -108,11 +108,11 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                 },
                 Table: shy("遍历数据", function(cb) { if (!msg.append || !msg.append.length || !msg[msg.append[0]]) { return }
                     var max = "", len = 0; can.core.List(msg.append, function(key, index) {
-                        if (msg[key].length > len) { max = key, len = msg[key].length }
+                        if (msg[key] && msg[key].length > len) { max = key, len = msg[key].length }
                     });
 
                     return can.core.List(msg[max], function(value, index, array) { var one = {}, res;
-                        can.core.List(msg.append, function(key) { one[key] = (msg[key][index]||"").trim() })
+                        can.core.List(msg.append, function(key) { one[key] = (msg[key]&&msg[key][index]||"").trim() })
                         return typeof cb == "function" && (res = cb(one, index, array)) && res != undefined && res || one
                     })
                 }),
