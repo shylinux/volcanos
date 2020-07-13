@@ -12,6 +12,9 @@ fieldset.editor>div.action>div.file:hover {
 fieldset.editor>div.action>div.file.select {
     background-color:green;
 }
+fieldset.editor>form.option div.item input.args[name=line] {
+    width:40px;
+}
 
 fieldset.editor>div.output {
     max-height:560px; overflow:auto;
@@ -93,14 +96,8 @@ fieldset.editor>div.output pre.display:hover {
 }
 fieldset.editor>div.output div.search {
     padding:6px; border:solid 1px red;
-    max-height:120px; overflow:auto;
-    position:sticky; bottom:0;
+    height:120px; overflow:auto;
     clear:both;
-    margin:0;
-}
-fieldset.editor>div.output div.search:hover {
-    background-color:black;
-    z-index:10;
 }
 fieldset.editor>div.output div.holdon {
     max-height:400px; overflow:auto;

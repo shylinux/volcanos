@@ -4,8 +4,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         // can.page.Modify(can, target, {style: {"max-height": height-160+"px"}})
 
         can.onappend.table(can, target, "table", msg), can.ui = can.page.Append(can, target, [
-            {view: "search", style: {display: "none"}},
-            {view: "project"}, {view: "profile"},
+            {view: "project", style: {display: "none"}},
+            {view: "profile"},
 
             {view: "holdon", list: [
                 {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-260+"px"}},
@@ -26,6 +26,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                 can.onkeymap.parse(event, can, "command")
             }},
             {type: "code", list: [{view: ["display", "pre"]}]},
+            {view: "search", style: {display: "none"}},
         ])
 
         can.history = [{
@@ -429,6 +430,8 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         },
     },
     man2: {link: "man3"},
+    man1: {link: "man3"},
+    man8: {link: "man3"},
 
     png: {
         display: true,
@@ -685,7 +688,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     },
 })
 Volcanos("onaction", {help: "控件交互", list: [
-        "搜索",
+        "项目", "搜索",
         // "运行", "收藏",
 
         // "", "项目", "上传", "", "保存", "运行",
@@ -738,11 +741,15 @@ Volcanos("onaction", {help: "控件交互", list: [
             var str = s.baseNode.data
             var begin = str.indexOf(s.toString())
             var end = begin+s.toString().length
+            s = s.toString()
             for (var i = begin; i >= 0; i--) {
-                if (!str[i].match(/[a-zA-Z0-9.]/) || i <= 0) {
+                if (!str[i].match(/[a-zA-Z0-9.]/)) {
                     s = str.slice(i+1, end)
                     break
                 }
+            }
+            if (s.indexOf(".") == 0) {
+                s = s.slice(1)
             }
             if (s.indexOf("kit.") == 0) {
                 s = s.replace("kit.", "toolkits.")
@@ -761,14 +768,16 @@ Volcanos("onaction", {help: "控件交互", list: [
         can.onaction.deleteLine(can, target.nextSibling)
         return target
     },
-    searchLine: function(event, can, value) { can.ui.search.innerHTML = ""
+    searchLine: function(event, can, value) { can.ui.search.innerHTML = "", value = value.trim()
         can.page.Modify(can, can.ui.search, {style: {display: ""}})
         var ui = can.page.Append(can, can.ui.search, [{view: "action", list: [
             {input: ["word", function(event) {
                 if (event.key == "Enter") {
                     can.onaction.searchLine(event, can, ui.word.value)
                 }
-            }], value: value||"main"},
+            }], onfocus: function(event) {
+                event.target.setSelectionRange(0, -1)
+            }, value: value},
             {button: ["搜索", function(event) {
                 can.onaction.searchLine(event, can, ui.word.value)
             }]},
@@ -786,8 +795,9 @@ Volcanos("onaction", {help: "控件交互", list: [
         value && can.run(event, ["action", "search", can.parse, value, ""], function(msg) {
             can.onappend.table(can, can.ui.search, "table", msg, function(value, key, index, line) {
                 value = value.replace("<", "&lt;").replace(">", "&gt;")
+                value = value.replace("./", "")
                 return {text: [value, "td"], onclick: function(event) {
-                    line.line && can.onimport.tabview(can, can.Option("path"), line.file, parseInt(line.line))
+                    line.line && can.onimport.tabview(can, can.Option("path"), line.file.replace("./", ""), parseInt(line.line))
                 }}
             })
             can.page.Select(can, can.ui.search, "tr", function(item, index) {
@@ -817,7 +827,7 @@ Volcanos("onaction", {help: "控件交互", list: [
     "上传": function(event, can) { can.user.upload(event, can) },
     "搜索": function(event, can) { var hide = can.ui.search.style.display == "none"
         can.page.Modify(can, can.ui.search, {style: {display: hide? "": "none"}})
-        hide && can.onaction.searchLine(event, can, can.Option("file"))
+        hide && can.onaction.searchLine(event, can, "")
     },
     "记录": function(event, can) { var sub = can.request(event)
         can.core.Item(can.Option(), sub.Option)
