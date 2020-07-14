@@ -35,13 +35,17 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 can.user.title(can.user.Search(can, "title"))
                 var pane = can[meta.main.name], msg = can.request({})
                 pane.onaction && pane.onaction._init(pane, msg, msg.option||[], cb, target)
+                can.page.Modify(can, document.body, {className: can.user.Search(can, "topic")||"white"})
             })
+            can.onkeypop._init(can)
         }, target) })
-        can.onkeypop._init(can)
     },
     _merge: function(can, sub) { can.core.Item(sub, function(key, value) {
         if (sub.hasOwnProperty(key)) { can.onengine[key] = value }
     }); return true },
+    _topic: function(can) {
+    },
+
     river: {
         "product": {name: "产品群", storm: {
             "office": {name: "office", index: [
@@ -108,7 +112,9 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                         msg.Push("name", value.name)
                     })
                 }
-                break
+                if (cmds.length != 1) {
+                    break
+                }
             case "Storm":
                 var river = can.onengine.river[cmds[0]]; if (!river) { break }
                 can.core.Item(river.storm, function(key, value) {
@@ -530,7 +536,20 @@ Volcanos("onlayout", { _init: function(can, meta, list, cb, target) {
             height -= field.offsetHeight
         })
 
-        can.page.Select(can, target, ["fieldset.left", "fieldset.middle", "fieldset.right"], function(field) {
+        can.page.Select(can, target, ["fieldset.middle"], function(field, index) {
+            var border = field.offsetHeight - field.clientHeight
+            can.page.Modify(can, field, { style: {
+                height: height-border*2+"px",
+            } })
+            can.page.Select(can, field, "div.output", function(output) {
+                var border = output.offsetHeight - output.clientHeight
+                can.page.Modify(can, output, { style: {
+                    height: height-border*2-14+"px",
+                } })
+            })
+        })
+
+        can.page.Select(can, target, ["fieldset.left", "fieldset.right"], function(field, index) {
             var border = field.offsetHeight - field.clientHeight
             can.page.Modify(can, field, { style: {
                 height: height-border*2+"px",

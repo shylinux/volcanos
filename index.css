@@ -252,3 +252,157 @@ fieldset.input.key {
     z-index:101;
 }
 
+
+body.white {
+    padding:0;
+    margin:0;
+    background:gray;
+    background-color:#0dabda;
+}
+body.white fieldset.plugin {
+    margin:0;
+    border:0;
+    border-top:solid 2px #CCCCFF;
+    background-color:white;
+    color:black;
+}
+body.white fieldset.plugin.Header {
+    background-color:#2f3638;
+    border:solid 2px #1f2224;
+    color:white;
+}
+body.white fieldset.plugin.Footer {
+    margin:0;
+    border:0;
+    border:solid 2px #1f2224;
+    background-color:#1f2224;
+    color:white;
+}
+body.white fieldset.plugin.Header input {
+    color:white;
+    background:white;
+    border:2px solid #c4c7ce;
+    border-radius:10px 10px 10px 10px;
+}
+body.white fieldset.plugin.River {
+    border:solid 2px #1f2224;
+    background-color:#1f2224;
+    color:white;
+}
+body.white fieldset.plugin.River>div.output div.item.select {
+    background-color:black;
+    border:solid 2px black;
+    color:white;
+}
+body.white fieldset.plugin.River>div.output div.item:hover {
+    background-color:black;
+    border:solid 2px black;
+    color:white;
+}
+body.white fieldset.plugin.River>div.output div.subitem.select {
+    background-color:black;
+    border:solid 2px black;
+    color:white;
+}
+body.white fieldset.plugin.River>div.output div.subitem:hover {
+    background-color:black;
+    border:solid 2px black;
+    color:white;
+}
+body.white fieldset.plugin.Storm {
+    border:solid 10px #1f2224;
+    background-color:#1f2224;
+    color:white;
+}
+body.white fieldset.plugin.Storm>div.output>div.item.select {
+    background-color:black;
+    border:solid 2px black;
+    color:white;
+}
+body.white fieldset.plugin.Storm>div.output>div.item:hover {
+    background-color:black;
+    border:solid 2px black;
+    color:white;
+}
+
+body.white fieldset.Action {
+    /* background-color:black; */
+    background-color:#0dabda;
+}
+body.white fieldset.Action fieldset.plugin {
+    border:0;
+    border-top:solid 2px #CCCCFF;
+    background-color:white;
+    color:black;
+}
+body.white fieldset.Action fieldset.plugin:hover {
+    border-top:solid 2px #6666FF;
+}
+body.white fieldset.Action fieldset.plugin legend {
+    border-top:solid black 2px;
+    border-radius:10px 10px 10px 10px;
+    border:2px solid #99CCFF;
+    background-color:#99CCFF;
+    background-color:#339999;
+    padding:0 20px;
+    color:white;
+}
+body.white fieldset.Action fieldset.plugin legend:hover {
+    background-color:#6ee4e4;
+}
+body.white fieldset.Action fieldset.plugin div.output {
+    color:black;
+}
+
+body.white fieldset.plugin div.item input[type=text] {
+    color:white;
+    background:0;
+    border:2px solid #c4c7ce;
+    border-radius:8px 8px 8px 8px;
+    color:black;
+}
+body.white fieldset.plugin div.item input[type=button] {
+    background-color:cyan;
+    color:white;
+    background-color:#FF9900;
+    border:2px solid #FF9900;
+    padding:0 20px;
+    border-radius:10px 10px 10px 10px;
+}
+body.white fieldset.plugin div.item input[type=button]:hover {
+    background-color:#FFCC33;
+    border:2px solid #FFCC33;
+}
+body.white fieldset.plugin div.item select {
+    margin-top:2px;
+    background-color:cyan;
+    color:white;
+    background-color:#99CC66;
+    border:2px solid #99CC66;
+    padding:0 20px;
+    border-radius:10px 10px 10px 10px;
+}
+body.white fieldset.plugin div.item select:hover {
+}
+body.white fieldset.plugin table {
+    background:gray;
+    border:0;
+}
+body.white fieldset.plugin table tr {
+    background-color:gray;
+}
+body.white fieldset.plugin table tr:hover {
+    background:gray;
+}
+body.white fieldset.plugin table th {
+    background-color:#99CCFF;
+    color:black;
+}
+body.white fieldset.plugin table td {
+    background-color:white;
+    color:black;
+    border:0;
+}
+body.white fieldset.plugin table td:hover {
+    background-color:lightgray;
+}

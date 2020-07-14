@@ -18,10 +18,12 @@ fieldset.editor>form.option div.item input.args[name=line] {
 
 fieldset.editor>div.output {
     max-height:560px; overflow:auto;
+    background-color:black;
 }
 fieldset.editor>div.output>div.project {
     max-height:400px; overflow:auto;
     max-width:120px;
+    color:white;
 }
 fieldset.editor>div.output>div.project div.item {
     cursor:pointer;
@@ -41,6 +43,7 @@ fieldset.editor>div.output div.preview {
 fieldset.editor>div.output div.preview>div.item {
     text-align:right; padding:0 4px; margin:0;
     height:20px; border:solid 1px black;
+    color:white;
 }
 fieldset.editor>div.output div.preview>div.item:hover {
     background-color:green;
@@ -61,6 +64,7 @@ fieldset.editor>div.output div.content>pre.item {
     padding:0; margin:0;
     padding-left:10px;
     min-width:120px;
+    color:white;
 }
 fieldset.editor>div.output div.content>pre.item.select {
     /* background-color:red; */

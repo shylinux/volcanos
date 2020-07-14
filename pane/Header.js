@@ -108,6 +108,8 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                 ui.River.click(), ui.Footer.click(), ui.Storm.click()
             } else if (can.user.isMobile) {
                 ui.River.click(), ui.Footer.click(), ui.Storm.click()
+            } else {
+                ui.Storm.click()
             }
 
             typeof cb == "function" && cb()

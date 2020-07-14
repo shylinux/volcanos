@@ -76,6 +76,8 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             }
         }); select && select.click() })
     },
-    key: function(can, msg) { msg.Option("storm", can.Conf("storm")) },
+    key: function(can, msg) {
+        // msg.Option("storm", can.Conf("storm"))
+    },
 })
 
