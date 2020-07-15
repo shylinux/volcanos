@@ -732,7 +732,17 @@ Volcanos("onaction", {help: "组件菜单", list: ["", "项目", "保存", "",
     },
 })
 Volcanos("ondetail", {help: "组件详情", list: ["复制", "标签", "编辑", "删除"],
-    "删除": function(event, can) { event.target != can.svg && can.page.Remove(can, event.target) },
+    "删除": function(event, can) { if (event.target == can.svg) { return }
+        can.core.List(event.target.Value("ship"), function(value) {
+            can.page.Select(can, can.svg, "."+value.pid, function(item) {
+                can.page.Remove(can, item)
+            })
+        })
+        can.page.Select(can, can.svg, "."+event.target.Value("text"), function(item) {
+            can.page.Remove(can, item)
+        })
+        can.page.Remove(can, event.target)
+    },
     "编辑": function(event, can) { var target = event.target
         var figure = can.onfigure._get(can, target)
         can.user.input(event, can, can.core.List(["x", "y"].concat(figure.data.copy||[]), function(item) {

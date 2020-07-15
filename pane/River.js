@@ -48,6 +48,9 @@ Volcanos("onaction", {help: "控件交互", list: ["创建", "刷新"], _init: f
 Volcanos("ondetail", {help: "菜单交互", list: ["添加用户", "重命名", "共享", "删除"], _init: function(can, msg, list, cb, target) {
         can.onexport._init(can, msg, list, cb, target)
     },
+    _show: function(event, can) {
+
+    },
     "添加用户": function(event, can, river, button) {
         can.run(event, ["search", "Search.onimport.select", "user", "", ""], function(list) {
             var args = []; can.core.List(list, function(item) {
