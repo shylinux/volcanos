@@ -91,6 +91,14 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         }, true)
     },
     project: function(can, path) { can.Option({path: path}), can.ui.project.innerHTML = ""
+        can.run({}, ["action", "project", path+"/"], function(res) {
+            can.onappend.tree(can, can.ui.project, res, function(event, value) {
+                value.path.indexOf(can.Option("path")) == 0 && (value.path = value.path.slice(can.Option("path").length+1))
+                value.path.endsWith("/")? can.onimport.project(can, can.base.Path(can.Option("path"), value.path)):
+                    can.onimport.tabview(can, can.Option("path"), value.path)
+            })
+        }, true)
+        return
         can.run({}, ["action", "project", path+"/"], function(res) { res.Table(function(value) {
             value.path = value.path.slice(can.Option("path").length+1)
 
@@ -777,7 +785,7 @@ Volcanos("onaction", {help: "控件交互", list: [
                 }
             }], onfocus: function(event) {
                 event.target.setSelectionRange(0, -1)
-            }, value: value},
+            }, value: value||"main"},
             {button: ["搜索", function(event) {
                 can.onaction.searchLine(event, can, ui.word.value)
             }]},
@@ -794,6 +802,7 @@ Volcanos("onaction", {help: "控件交互", list: [
         var msg = can.request(event); msg.Option("_path", can.Option("path"))
         value && can.run(event, ["action", "search", can.parse, value, ""], function(msg) {
             can.onappend.table(can, can.ui.search, "table", msg, function(value, key, index, line) {
+                can.Status("npos", index+1)
                 value = value.replace("<", "&lt;").replace(">", "&gt;")
                 value = value.replace("./", "")
                 return {text: [value, "td"], onclick: function(event) {
@@ -866,7 +875,7 @@ Volcanos("ondetail", {help: "菜单交互", list: [
         can.onaction.appendLine(can)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: ["输入法", "输入值", "文件名", "解析器", "当前行", "ncmd"],
+Volcanos("onexport", {help: "导出数据", list: ["输入法", "输入值", "文件名", "解析器", "当前行", "ncmd", "npos"],
     content: function(can) {
         return can.page.Select(can, can._output, "div.content>pre.item", function(item) {
             return can.current == item? can.editor.value: item.innerText

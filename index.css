@@ -254,80 +254,69 @@ fieldset.input.key {
 
 
 body.white {
-    padding:0;
-    margin:0;
-    background:gray;
+    margin:0; padding:0;
     background-color:#0dabda;
 }
 body.white fieldset.plugin {
-    margin:0;
-    border:0;
+    margin:0; border:0;
     border-top:solid 2px #CCCCFF;
     background-color:white;
     color:black;
 }
-body.white fieldset.plugin.Header {
+
+body.white fieldset.Header {
+    border:solid 2px #1f2224;
     background-color:#2f3638;
-    border:solid 2px #1f2224;
     color:white;
 }
-body.white fieldset.plugin.Footer {
-    margin:0;
-    border:0;
-    border:solid 2px #1f2224;
-    background-color:#1f2224;
-    color:white;
-}
-body.white fieldset.plugin.Header input {
-    color:white;
-    background:white;
+body.white fieldset.Header input {
     border:2px solid #c4c7ce;
     border-radius:10px 10px 10px 10px;
+    background-color:white;
+    color:white;
 }
-body.white fieldset.plugin.River {
+body.white fieldset.Footer {
     border:solid 2px #1f2224;
     background-color:#1f2224;
     color:white;
 }
-body.white fieldset.plugin.River>div.output div.item.select {
-    background-color:black;
-    border:solid 2px black;
+body.white fieldset.River {
+    border:solid 2px #1f2224;
+    background-color:#1f2224;
     color:white;
 }
-body.white fieldset.plugin.River>div.output div.item:hover {
+body.white fieldset.River>div.output div.item:hover {
     background-color:black;
     border:solid 2px black;
-    color:white;
 }
-body.white fieldset.plugin.River>div.output div.subitem.select {
+body.white fieldset.River>div.output div.item.select {
     background-color:black;
     border:solid 2px black;
-    color:white;
 }
-body.white fieldset.plugin.River>div.output div.subitem:hover {
+body.white fieldset.River>div.output div.subitem:hover {
     background-color:black;
     border:solid 2px black;
-    color:white;
 }
-body.white fieldset.plugin.Storm {
+body.white fieldset.River>div.output div.subitem.select {
+    background-color:black;
+    border:solid 2px black;
+}
+body.white fieldset.Storm {
     border:solid 10px #1f2224;
     background-color:#1f2224;
     color:white;
 }
-body.white fieldset.plugin.Storm>div.output>div.item.select {
+body.white fieldset.Storm>div.output>div.item:hover {
     background-color:black;
     border:solid 2px black;
-    color:white;
 }
-body.white fieldset.plugin.Storm>div.output>div.item:hover {
+body.white fieldset.Storm>div.output>div.item.select {
     background-color:black;
     border:solid 2px black;
-    color:white;
 }
-
 body.white fieldset.Action {
-    /* background-color:black; */
     background-color:#0dabda;
+    border-top:0;
 }
 body.white fieldset.Action fieldset.plugin {
     border:0;
@@ -339,69 +328,71 @@ body.white fieldset.Action fieldset.plugin:hover {
     border-top:solid 2px #6666FF;
 }
 body.white fieldset.Action fieldset.plugin legend {
-    border-top:solid black 2px;
+    padding:2px 20px;
     border-radius:10px 10px 10px 10px;
     border:2px solid #99CCFF;
-    background-color:#99CCFF;
     background-color:#339999;
-    padding:0 20px;
     color:white;
 }
 body.white fieldset.Action fieldset.plugin legend:hover {
     background-color:#6ee4e4;
 }
-body.white fieldset.Action fieldset.plugin div.output {
+body.white fieldset.Action fieldset.plugin div.output{
     color:black;
 }
-
+body.white fieldset.Action fieldset.plugin div.item input[type=button] {
+    letter-spacing:4px;
+}
 body.white fieldset.plugin div.item input[type=text] {
-    color:white;
-    background:0;
     border:2px solid #c4c7ce;
     border-radius:8px 8px 8px 8px;
+    background-color:white;
     color:black;
 }
-body.white fieldset.plugin div.item input[type=button] {
+body.white fieldset.plugin div.item input[type=text]:hover {
     background-color:cyan;
-    color:white;
-    background-color:#FF9900;
-    border:2px solid #FF9900;
+}
+body.white fieldset.plugin div.item input[type=button] {
     padding:0 20px;
     border-radius:10px 10px 10px 10px;
+    border:2px solid #FF9900;
+    background-color:#FF9900;
+    color:white;
 }
 body.white fieldset.plugin div.item input[type=button]:hover {
-    background-color:#FFCC33;
+    border-radius:10px 10px 10px 10px;
     border:2px solid #FFCC33;
+    background-color:#FFCC33;
 }
 body.white fieldset.plugin div.item select {
-    margin-top:2px;
-    background-color:cyan;
-    color:white;
-    background-color:#99CC66;
-    border:2px solid #99CC66;
     padding:0 20px;
+    margin-top:2px;
     border-radius:10px 10px 10px 10px;
+    border:2px solid #99CC66;
+    background-color:#99CC66;
+    color:white;
 }
 body.white fieldset.plugin div.item select:hover {
 }
 body.white fieldset.plugin table {
-    background:gray;
+    background:#9fb5bb;
     border:0;
 }
 body.white fieldset.plugin table tr {
     background-color:gray;
 }
 body.white fieldset.plugin table tr:hover {
-    background:gray;
+    background-color:gray;
 }
 body.white fieldset.plugin table th {
+    padding:4px;
     background-color:#99CCFF;
     color:black;
 }
 body.white fieldset.plugin table td {
+    padding:4px;
     background-color:white;
     color:black;
-    border:0;
 }
 body.white fieldset.plugin table td:hover {
     background-color:lightgray;

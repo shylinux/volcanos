@@ -6,9 +6,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
             return can.page.Modify(can, list, {style: {display: hide? "": "none"}})
         }
 
-        can.run(event, [river], function(msg) { var which = 0
+        can.run({}, [river, "storm"], function(msg) { var which = 0
             list = can.page.Append(can, can._output, [{view: "sublist", list: msg.Table(function(value, index) {
-                river == can.user.Search(can, "river") && value.name == can.user.Search(can, "storm") && (which = index)
+                river == can.user.Search(can, "river") && value.key == can.user.Search(can, "storm") && (which = index)
                 return {text: [value.name, "div", "subitem"], onclick: function(event) {
                     var msg = can.request(event)
                     msg.Option("river", can.Conf("river", river))
@@ -19,9 +19,15 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
                         can.page.ClassList.del(can, item, "select")
                     })
                     can.page.ClassList.add(can, event.target, "select")
+                }, oncontextmenu: function(event) {
+                    can.user.carte(can, {}, ["添加工具", "删除"], function(ev, item, meta) {
+                        item == "删除" && can.run(event, [can.Conf("river"), value.key, "storm", "action", "remove"], function(msg) {
+                            can.user.Search(can, {"river": can.Conf("river")})
+                        }) || can.ondetail[item](event, can, value)
+                    })
                 }}
             })}]).sublist
-            list.children[which].click()
+            which < list.children.length && list.children[which].click()
             event.target.nextSibling && can._output.insertBefore(list, event.target.nextSibling)
             can.sublist[river] = list
         })
@@ -45,8 +51,26 @@ Volcanos("onaction", {help: "控件交互", list: ["创建", "刷新"], _init: f
         can.user.Search(can, {"river": can.Conf("river")})
     },
 })
-Volcanos("ondetail", {help: "菜单交互", list: ["添加用户", "重命名", "共享", "删除"], _init: function(can, msg, list, cb, target) {
+Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加用户", "重命名", "共享", "删除"], _init: function(can, msg, list, cb, target) {
         can.onexport._init(can, msg, list, cb, target)
+    },
+    "添加工具": function(event, can, value) {
+        can.run(event, ["search", "Search.onimport.select", "command", "", ""], function(list) {
+            var args = []; can.core.List(list, function(item) {
+                args = args.concat([item[0], item[5], item[4], ""])
+            })
+            can.run(event, [can.Conf("river"), can.Conf("storm"), "storm", "action", "tool"].concat(args), function(msg) {
+                can.user.Search(can, {"river": can.Conf("river"), "storm": can.Conf("storm")})
+            })
+        })
+    },
+    "添加应用": function(event, can, river, button) {
+        can.user.input(event, can, [["type", "public", "protected", "private"], "name", "text"], function(event, button, meta, list) {
+            can.run(event, [can.Conf("river"), "storm", "action", "create"].concat(list), function(msg) {
+                can.user.Search(can, {"river": can.Conf("river"), "storm": msg.Result()})
+            })
+            return true
+        })
     },
     "添加用户": function(event, can, river, button) {
         can.run(event, ["search", "Search.onimport.select", "user", "", ""], function(list) {

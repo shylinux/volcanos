@@ -95,7 +95,6 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
             ]},
         }},
     },
-
     search: function(event, can, msg, pane, cmds, cb) { var chain = cmds[1]
         var sub, mod = can, key, fun = can; can.core.List(chain.split("."), function(value, index, array) {
             fun && (sub = mod, mod = fun, key = value, fun = mod[value])
@@ -112,7 +111,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                         msg.Push("name", value.name)
                     })
                 }
-                if (cmds.length != 1) {
+                if (cmds.length != 1 && cmds[1] != "storm") {
                     break
                 }
             case "Storm":
@@ -376,6 +375,19 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             },
         }])
         return ui.item.Meta = item, ui.item
+    },
+    tree: function(can, target, msg, cb) {
+        var list = {}; msg.Table(function(value) {
+            can.core.List(value.path.split("/"), function(item, index, array) {
+                var last = array.slice(0, index).join("/")
+                var name = array.slice(0, index+1).join("/")
+                list[name] || (list[name] = can.page.Append(can, list[last]||target, [{text: [item, "div", "item"], style: {"margin-left": "10px"}, onclick: function(event) {
+                    var hide = list[name].style.display=="none"
+                    can.page.Modify(can, list[name], {style: {display: hide? "": "none"}})
+                    !hide && typeof cb == "function" && cb(event, value)
+                }}, {view: "list", style: {"margin-left": "10px", display: "none"}}]).last)
+            })
+        })
     },
     menu: function(can, msg, value) {
         can.ondetail && can.ondetail.list && can.ondetail.list.length > 0 && (can._target.oncontextmenu = function(event) {

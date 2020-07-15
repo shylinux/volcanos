@@ -25,6 +25,10 @@ fieldset.editor>div.output>div.project {
     max-width:120px;
     color:white;
 }
+fieldset.editor>div.output>div.project div.item0 {
+}
+fieldset.editor>div.output>div.project div.list0 {
+}
 fieldset.editor>div.output>div.project div.item {
     cursor:pointer;
 }
