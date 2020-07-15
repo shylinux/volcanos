@@ -119,11 +119,15 @@ fieldset>div.output>div.project {
     float:left;
     /* position:fixed; */
 }
-fieldset>div.output>div.project>div.item {
+fieldset>div.output>div.project div.item {
+    margin-left:10px;
     clear:both;
 }
-fieldset>div.output>div.project>div.item:hover {
+fieldset>div.output>div.project div.item:hover {
     border:solid 1px red;
+}
+fieldset>div.output>div.project div.list {
+    margin-left:10px;
 }
 fieldset>div.output>pre.profile {
     float:right;

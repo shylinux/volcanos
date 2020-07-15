@@ -8,7 +8,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             {view: "profile"},
 
             {view: "holdon", list: [
-                {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-260+"px"}},
+                {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-280+"px"}},
             ]},
 
             {view: ["editor", "textarea"], onkeydown: function(event) {
@@ -90,29 +90,12 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             can.onaction.selectLine(can, line||1)
         }, true)
     },
-    project: function(can, path) { can.Option({path: path}), can.ui.project.innerHTML = ""
-        can.run({}, ["action", "project", path+"/"], function(res) {
-            can.onappend.tree(can, can.ui.project, res, function(event, value) {
-                value.path.indexOf(can.Option("path")) == 0 && (value.path = value.path.slice(can.Option("path").length+1))
-                value.path.endsWith("/")? can.onimport.project(can, can.base.Path(can.Option("path"), value.path)):
-                    can.onimport.tabview(can, can.Option("path"), value.path)
+    project: function(can, path) { can.Option({path: path})
+        can.run({}, [path+"/"], function(msg) { can.ui.project.innerHTML = ""
+            can.onappend.tree(can, msg, can.ui.project, function(event, value) {
+                can.onimport.tabview(can, can.Option("path"), value.path)
             })
         }, true)
-        return
-        can.run({}, ["action", "project", path+"/"], function(res) { res.Table(function(value) {
-            value.path = value.path.slice(can.Option("path").length+1)
-
-            var title = can.core.List(["time", "size"], function(item) { return item + ": " + value[item] }).join("\n")
-            can.page.Append(can, can.ui.project, [{text: [value.path, "div", "item"], title: title,
-                onclick: function(event) {
-                    value.path.endsWith("/")? can.onimport.project(can, can.base.Path(can.Option("path"), value.path)):
-                        can.onimport.tabview(can, can.Option("path"), value.path)
-                },
-                ondblclick: function(event) {
-                    can.onkeymap._remote(event, can, "运行", ["action", "运行", path, value.path])
-                },
-            }])
-        }) }, true)
     },
 }, ["/plugin/local/code/inner.css"])
 Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"], _init: function(can, msg) { can._msg = msg
@@ -183,6 +166,63 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             "endif": "keyword",
         },
     },
+    c: {link: "h"},
+    h: {
+        split: {
+            space: " ",
+            operator: "{[(.:,;!|<>)]}",
+        },
+        prefix: {
+            "//": "comment",
+            "/*": "comment",
+            "*": "comment",
+        },
+        keyword: {
+            "#include": "keyword",
+            "#define": "keyword",
+            "#ifndef": "keyword",
+            "#ifdef": "keyword",
+            "#else": "keyword",
+            "#endif": "keyword",
+
+            "typedef": "keyword",
+
+            "if": "keyword",
+            "else": "keyword",
+            "for": "keyword",
+            "while": "keyword",
+            "do": "keyword",
+            "range": "keyword",
+            "break": "keyword",
+            "continue": "keyword",
+            "switch": "keyword",
+            "case": "keyword",
+            "default": "keyword",
+
+            "return": "keyword",
+
+            "union": "datatype",
+            "struct": "datatype",
+            "extern": "datatype",
+            "unsigned": "datatype",
+            "static": "datatype",
+            "double": "datatype",
+            "const": "datatype",
+            "void": "datatype",
+            "long": "datatype",
+            "char": "datatype",
+            "int": "datatype",
+
+            "sizeof": "function",
+            "assert": "function",
+            "zmalloc": "function",
+
+            "NULL": "string",
+            "0": "string",
+            "1": "string",
+            "-1": "string",
+        },
+    },
     sh: {
         prefix: {"#": "comment"},
         suffix: {"\x7B": "comment"},
@@ -217,19 +257,19 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             "go": "function",
         },
     },
-    vim: {
-        prefix: {"\"": "comment"},
-        keyword: {
-            highlight: "keyword",
-            syntax: "keyword",
-        },
-    },
     shy: {
         prefix: {"#": "comment"},
         profile: true,
         keyword: {
             "chapter": "keyword",
             "label": "keyword",
+        },
+    },
+    vim: {
+        prefix: {"\"": "comment"},
+        keyword: {
+            highlight: "keyword",
+            syntax: "keyword",
         },
     },
     mod: {
@@ -363,63 +403,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             return array[index-2]=="can"&&array[index-1]=="."&&(libs[value]||libs[value.text])? {keyword: "function", text: value.text||value}: value
         },
     },
-    h: {
-        split: {
-            space: " ",
-            operator: "{[(.:,;!|<>)]}",
-        },
-        prefix: {
-            "//": "comment",
-            "/*": "comment",
-            "*": "comment",
-        },
-        keyword: {
-            "#include": "keyword",
-            "#define": "keyword",
-            "#ifndef": "keyword",
-            "#ifdef": "keyword",
-            "#else": "keyword",
-            "#endif": "keyword",
-
-            "typedef": "keyword",
-
-            "if": "keyword",
-            "else": "keyword",
-            "for": "keyword",
-            "while": "keyword",
-            "do": "keyword",
-            "range": "keyword",
-            "break": "keyword",
-            "continue": "keyword",
-            "switch": "keyword",
-            "case": "keyword",
-            "default": "keyword",
-
-            "return": "keyword",
-
-            "union": "datatype",
-            "struct": "datatype",
-            "extern": "datatype",
-            "unsigned": "datatype",
-            "static": "datatype",
-            "double": "datatype",
-            "const": "datatype",
-            "void": "datatype",
-            "long": "datatype",
-            "char": "datatype",
-            "int": "datatype",
-
-            "sizeof": "function",
-            "assert": "function",
-            "zmalloc": "function",
-
-            "NULL": "string",
-            "0": "string",
-            "1": "string",
-            "-1": "string",
-        },
-    },
-    c: {link: "h"},
+    json: {link: "js"},
     man3: {
         split: {
         },
@@ -441,14 +425,6 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
     man1: {link: "man3"},
     man8: {link: "man3"},
 
-    png: {
-        display: true,
-        show: function(can) {
-            can.page.Append(can, can.ui.display, can.core.List(can._msg.result, function(line) {
-                return {img: "/share/local/"+line, height: 400}
-            }))
-        }
-    },
     url: {
         line: function(can, line) {
             return {button: [line, function(event) {
@@ -464,6 +440,14 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         show: function(can) {
             can.page.Append(can, can.ui.display, can.core.List(can._msg.result, function(line) {
                 return {type: "iframe", data: {src: "/share/local/"+line}, style: {width: can.Conf("width")-80+"px"}}
+            }))
+        }
+    },
+    png: {
+        display: true,
+        show: function(can) {
+            can.page.Append(can, can.ui.display, can.core.List(can._msg.result, function(line) {
+                return {img: "/share/local/"+line, height: 400}
             }))
         }
     },

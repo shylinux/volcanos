@@ -376,16 +376,16 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         }])
         return ui.item.Meta = item, ui.item
     },
-    tree: function(can, target, msg, cb) {
+    tree: function(can, msg, target, cb) {
         var list = {}; msg.Table(function(value) {
             can.core.List(value.path.split("/"), function(item, index, array) {
                 var last = array.slice(0, index).join("/")
                 var name = array.slice(0, index+1).join("/")
-                list[name] || (list[name] = can.page.Append(can, list[last]||target, [{text: [item, "div", "item"], style: {"margin-left": "10px"}, onclick: function(event) {
-                    var hide = list[name].style.display=="none"
+                list[name] || (list[name] = can.page.Append(can, list[last]||target, [{view: ["item", "div", item+(index==array.length-1?"":"/")], onclick: function(event) {
+                    var hide = list[name].style.display == "none"
                     can.page.Modify(can, list[name], {style: {display: hide? "": "none"}})
-                    !hide && typeof cb == "function" && cb(event, value)
-                }}, {view: "list", style: {"margin-left": "10px", display: "none"}}]).last)
+                    index == array.length - 1 && typeof cb == "function" && cb(event, value)
+                }}, {view: "list", style: {display: "none"}}]).last)
             })
         })
     },
