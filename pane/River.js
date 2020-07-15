@@ -71,8 +71,6 @@ Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加用户
             })
             return true
         })
-    _show: function(event, can) {
-
     },
     "添加用户": function(event, can, river, button) {
         can.run(event, ["search", "Search.onimport.select", "user", "", ""], function(list) {
