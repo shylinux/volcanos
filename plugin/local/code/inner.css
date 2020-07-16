@@ -106,6 +106,10 @@ fieldset.editor>div.output div.search {
     height:120px; overflow:auto;
     clear:both;
 }
+fieldset.editor>div.output div.search td>div {
+    max-height:100px;
+    overflow:hidden;
+}
 fieldset.editor>div.output div.holdon {
     max-height:400px; overflow:auto;
 }

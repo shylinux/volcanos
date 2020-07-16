@@ -177,8 +177,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
 
         // 添加插件
         var sub = Volcanos(meta.name, { _help: meta.name, _follow: can._follow+"."+meta.name,
+            _legend: legend, _option: option, _action: action, _output: output, _status: status,
             _target: field, _inputs: {}, _outputs: [], _history: [],
-            _option: option, _action: action, _output: output,
             Option: function(key, value) {
                 if (typeof key == "object") { return sub.core.Item(key, sub.Option), key }
                 if (key == undefined) { value = {}
@@ -611,7 +611,6 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
     show: function(can, target, time) { time = time || {value: 100, length: 30}
         can.page.Modify(can, target, {style: {opacity: 0}})
         can.Timer(time, function(event, value, index) {
-            console.log(arguments)
             can.page.Modify(can, target, {style: {opacity: (index+1)/time.length}})
         }, function() {
         })

@@ -41,7 +41,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             can.onimport.project(can, can.Option("path"))
             can.onsyntax._init(can, msg)
             can.onkeymap._init(can)
-            can.onaction.selectLine(can, parseInt(msg.Option("line")))
         })
         return typeof cb == "function" && cb(msg)
     },
@@ -58,17 +57,23 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         var push = {path: path, file: file, line: line}
         !can.core.Eq(can.history[can.history.length-1], push) && can.history.push(push)
 
-        can.Option({path: path, file: file, line: line||1})
-        if (can.tabview[path+file]) {
-            can.onsyntax._init(can, can.tabview[path+file])
-            can.onaction.selectLine(can, line||1)
-            return
+        function show() {
+            if (can._msg) {
+                can._msg.Option("line", can.Option("line"))
+            }
+
+            can._msg = can.tabview[path+file]
+            can.file = file, can.parse = can.base.Ext(file), can.max = 0
+            can.Option({path: path, file: file, line: line||parseInt(can._msg.Option("line"))})
+            can.onsyntax._init(can, can._msg)
         }
-        can.run({}, [path, file], function(msg) {
-            msg.Option({path: can.Option("path"), file:  can.Option("file")})
+        if (can.tabview[path+file]) { return show() }
+
+        can.run({}, ["action", "render", can.base.Ext(file), file, path], function(msg) {
+            can.tabview[path+file] = msg
+            msg.Option({path: path, file: file, line: line})
             can.page.Append(can, can._action, [{view: ["file", "div", file], onclick: function(event) {
-                can.onsyntax._init(can, can.tabview[path+file] = msg)
-                can.Option({path: path, file: file, line: line||1})
+                can.onimport.tabview(can, path, file)
             }, ondblclick: function(event) {
                 can.onkeymap._remote(event, can, "运行")
             }, oncontextmenu: function(event) {
@@ -87,11 +92,12 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                 },
 
             }]).first.click()
-            can.onaction.selectLine(can, line||1)
         }, true)
     },
     project: function(can, path) { can.Option({path: path})
-        can.run({}, [path+"/"], function(msg) { can.ui.project.innerHTML = ""
+        var msg = can.request({})
+        msg.Option("dir_deep", "true")
+        can.run(msg._event, ["action", "render", "dir", "", path+"/"], function(msg) { can.ui.project.innerHTML = ""
             can.onappend.tree(can, msg, can.ui.project, function(event, value) {
                 can.onimport.tabview(can, can.Option("path"), value.path)
             })
@@ -116,9 +122,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         }); if (cache) { return }
 
         // remote
-        can.parse = can.base.Ext(can.file), can.max = 0, can.core.List(can.ls = msg.Result().split("\n"), function(item) {
-            can.onaction.appendLine(can, item)
-        })
+        can.parse = can.base.Ext(can.file), can.max = 0
 
         // status
         can.Status("文件名", can.file), can.Status("解析器", can.parse)
@@ -129,7 +133,11 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             typeof p.display == "object" && ( p.display.height && can.page.Modify(can, can.ui.display, {style: {
                 // "max-height": p.display.height,
             }}))
-        }; var p = can.onsyntax[can.parse]; !p? can.run({}, ["action", "plug", can.Option("path"), can.Option("file")], function(msg) {
+            can.core.List(can.ls = msg.Result().split("\n"), function(item) {
+                can.onaction.appendLine(can, item)
+            })
+            can.onaction.selectLine(can, can.Option("line")||1)
+        }; var p = can.onsyntax[can.parse]; !p? can.run({}, ["action", "plugin", can.parse, can.Option("file"), can.Option("path")], function(msg) {
             p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()), can.onsyntax._init(can, can._msg), init(p)
         }, true): init(p)
     },
@@ -166,97 +174,6 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             "endif": "keyword",
         },
     },
-    c: {link: "h"},
-    h: {
-        split: {
-            space: " ",
-            operator: "{[(.:,;!|<>)]}",
-        },
-        prefix: {
-            "//": "comment",
-            "/*": "comment",
-            "*": "comment",
-        },
-        keyword: {
-            "#include": "keyword",
-            "#define": "keyword",
-            "#ifndef": "keyword",
-            "#ifdef": "keyword",
-            "#else": "keyword",
-            "#endif": "keyword",
-
-            "typedef": "keyword",
-
-            "if": "keyword",
-            "else": "keyword",
-            "for": "keyword",
-            "while": "keyword",
-            "do": "keyword",
-            "range": "keyword",
-            "break": "keyword",
-            "continue": "keyword",
-            "switch": "keyword",
-            "case": "keyword",
-            "default": "keyword",
-
-            "return": "keyword",
-
-            "union": "datatype",
-            "struct": "datatype",
-            "extern": "datatype",
-            "unsigned": "datatype",
-            "static": "datatype",
-            "double": "datatype",
-            "const": "datatype",
-            "void": "datatype",
-            "long": "datatype",
-            "char": "datatype",
-            "int": "datatype",
-
-            "sizeof": "function",
-            "assert": "function",
-            "zmalloc": "function",
-
-            "NULL": "string",
-            "0": "string",
-            "1": "string",
-            "-1": "string",
-        },
-    },
-    sh: {
-        prefix: {"#": "comment"},
-        suffix: {"\x7B": "comment"},
-        keyword: {
-            "export": "keyword",
-            "source": "keyword",
-            "require": "keyword",
-
-            "if": "keyword",
-            "then": "keyword",
-            "fi": "keyword",
-            "for": "keyword",
-            "do": "keyword",
-            "done": "keyword",
-
-            "local": "keyword",
-            "echo": "keyword",
-            "kill": "keyword",
-            "let": "keyword",
-            "cd": "keyword",
-
-            "xargs": "function",
-            "date": "function",
-            "find": "function",
-            "grep": "function",
-            "sed": "function",
-            "awk": "function",
-            "pwd": "function",
-            "ps": "function",
-            "ls": "function",
-            "rm": "function",
-            "go": "function",
-        },
-    },
     shy: {
         prefix: {"#": "comment"},
         profile: true,
@@ -272,158 +189,20 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             syntax: "keyword",
         },
     },
-    mod: {
-        prefix: {"#": "comment"},
-        keyword: {
-            "module": "keyword",
-            "require": "keyword",
-            "replace": "keyword",
-            "=>": "keyword",
-        },
+    json: {link: "js"},
+    css: {
+        suffix: {"{": "comment"},
     },
-    go: {
-        split: {
-            space: " \t",
-            operator: "{[(&.:,;!|<>)]}",
-        },
-        prefix: {"//": "comment"},
-        keyword: {
-            "package": "keyword",
-            "import": "keyword",
-            "const": "keyword",
-            "func": "keyword",
-            "var": "keyword",
-            "type": "keyword",
-            "struct": "keyword",
-            "interface": "keyword",
-
-            "if": "keyword",
-            "else": "keyword",
-            "for": "keyword",
-            "range": "keyword",
-            "break": "keyword",
-            "continue": "keyword",
-            "switch": "keyword",
-            "case": "keyword",
-            "default": "keyword",
-            "fallthrough": "keyword",
-
-            "defer": "keyword",
-            "go": "keyword",
-            "select": "keyword",
-            "return": "keyword",
-
-            "map": "datatype",
-            "chan": "datatype",
-            "string": "datatype",
-            "error": "datatype",
-            "bool": "datatype",
-            "byte": "datatype",
-            "int": "datatype",
-            "int64": "datatype",
-            "float64": "datatype",
-
-            "len": "function",
-            "cap": "function",
-            "copy": "function",
-            "append": "function",
-
-            "nil": "string",
-
-            "m": "function",
-            "msg": "function",
-        },
-    },
-    godoc: {link: "go"},
-    js: {
+    html: {
         split: {
             space: " ",
-            operator: "{[(.:,;!|)]}",
-        },
-        prefix: {"//": "comment"},
-        keyword: {
-            "var": "keyword",
-            "new": "keyword",
-            "delete": "keyword",
-            "typeof": "keyword",
-            "function": "keyword",
-
-            "if": "keyword",
-            "else": "keyword",
-            "for": "keyword",
-            "while": "keyword",
-            "break": "keyword",
-            "continue": "keyword",
-            "switch": "keyword",
-            "case": "keyword",
-            "default": "keyword",
-            "return": "keyword",
-
-            "window": "function",
-            "console": "function",
-            "document": "function",
-            "arguments": "function",
-            "event": "function",
-            "Date": "function",
-            "JSON": "function",
-
-            "0": "string",
-            "1": "string",
-            "10": "string",
-            "-1": "string",
-            "true": "string",
-            "false": "string",
-            "undefined": "string",
-            "null": "string",
-
-            "__proto__": "function",
-            "setTimeout": "function",
-            "createElement": "function",
-            "appendChild": "function",
-            "removeChild": "function",
-            "parentNode": "function",
-            "childNodes": "function",
-
-            "Volcanos": "function",
-            "request": "function",
-            "require": "function",
-
-            "cb": "function",
-            "cbs": "function",
-            "shy": "function",
-            "can": "function",
-            "sub": "function",
-            "msg": "function",
-            "res": "function",
-            "pane": "function",
-            "plugin": "function",
-        },
-        word: function(value, index, array) {
-            var libs = {base: true, core: true, misc: true, page: true, user: true}
-            return array[index-2]=="can"&&array[index-1]=="."&&(libs[value]||libs[value.text])? {keyword: "function", text: value.text||value}: value
-        },
-    },
-    json: {link: "js"},
-    man3: {
-        split: {
-        },
-        prefix: {
-            "NAME": "comment",
-            "LIBRARY": "comment",
-            "SYNOPSIS": "comment",
-            "DESCRIPTION": "comment",
-            "STANDARDS": "comment",
-            "SEE ALSO": "comment",
-            "HISTORY": "comment",
-            "BUGS": "comment",
-
+            operator: "<>",
         },
         keyword: {
+            "head": "keyword",
+            "body": "keyword",
         },
     },
-    man2: {link: "man3"},
-    man1: {link: "man3"},
-    man8: {link: "man3"},
 
     url: {
         line: function(can, line) {
@@ -789,7 +568,7 @@ Volcanos("onaction", {help: "控件交互", list: [
                 can.Status("npos", index+1)
                 value = value.replace("<", "&lt;").replace(">", "&gt;")
                 value = value.replace("./", "")
-                return {text: [value, "td"], onclick: function(event) {
+                return {text: ["", "td"], list: [{text: [value, "div"]}], onclick: function(event) {
                     line.line && can.onimport.tabview(can, can.Option("path"), line.file.replace("./", ""), parseInt(line.line))
                 }}
             })

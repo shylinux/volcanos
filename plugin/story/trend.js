@@ -1,45 +1,51 @@
 Volcanos("onimport", {help: "导入数据", list: [],
-    _init: function(can, msg, list, cb, target) { can._output.innerHTML = "";
+    _init: function(can, msg, list, cb, target) { can._output.innerHTML = ""
         if (msg.Option("_display") == "table") {
-            var table = can.page.AppendTable(can, can._output, msg, msg.append, function(event, value, key, index, tr, td) {
-                can.page.Select(can, can._option, "input.args", function(input) { if (input.name == key) { var data = input.dataset || {}
-                    input.value = value
-                    if (data.action == "auto") {
-                        can.run(event, [], function(msg) {})
-                    }
-                } })
-            })
-            return typeof cb == "function" && cb(msg);
+            can.onappend.table(can, can._target, "table", msg)
+            return typeof cb == "function" && cb(msg)
         }
+        can.ui = can.page.Append(can, can._output, [{view: "content"}, {view: "display"}])
 
-
-        can.ui = can.page.Append(can, target, [{view: "action"}, {view: "output"}, {view: "status"}, {view: "total"}, {
-            view: "display", style: {position: "absolute", "white-space": "pre", color: "yellow"}, onclick: function(event) {
-                can.page.ClassList.add(can, can.ui.display, "hidden")
-            },
-        }])
-        can.data = msg.Table()
-        can.page.ClassList.add(can, can.ui.total, "status")
-
-        return
-        can.sub = can.Output(can, {}, "/plugin/local/wiki/draw", can.request({}), function() {
-            can.Action("width", 600)
-            can.onaction["编辑"]({}, can)
-            can.onaction["股价图"]({}, can)
-        }, can.ui.output, can.ui.action, can._option, can.ui.status)
+        can.onappend._init(can, {name: "draw", help: "绘图", inputs: [
+                {type: "text", name: "path", value: "hi.svg"},
+                {type: "button", name: "查看", value: "auto"},
+            ], index: "web.wiki.draw.draw", feature: {display: "/plugin/local/wiki/draw.js"}}
+        , Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
+            can.page.Modify(can, sub._legend, {style: {display: "none"}})
+            can.page.Modify(can, sub._option, {style: {display: "none"}})
+            can.page.Modify(can, sub._action, {style: {display: "none"}})
+            can.page.Modify(can, sub._status, {style: {display: "none"}})
+            sub.run = function(event, cmds, cb, silent) {
+                typeof cb == "function" && cb(can.request(event))
+                can.Timer(100, function() {
+                    can.sub = sub._outputs[0]
+                    can.msg = msg, can.data = msg.Table()
+                    can.Action("height", "400")
+                    can.Action("speed", "100")
+                    can.onaction["股价图"](event, can)
+                })
+            }
+        }, can.ui.content)
     },
 })
-Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", "股价图", "趋势", "比例", ["width", "200", "400", "600", "800", "1000"], ["height", "200", "400", "600"], "表格"],
-    "编辑": function(event, can, value, cmd, target) {
-        can.page.ClassList.neg(can, can.ui.action, "hidden")
-        can.page.ClassList.neg(can, can.ui.status, "hidden")
+Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", "股价图", "趋势图", "数据源"], ["height", "100", "200", "400", "600"], ["speed", "10", "50", "100"]],
+    "编辑": function(event, can) {
+        var hide = can.sub._action.style.display == "none"
+        can.page.Modify(can, can.sub._action, {style: {display: hide? "": "none"}})
+        can.page.Modify(can, can.sub._status, {style: {display: hide? "": "none"}})
     },
-    "清空": function(event, can, value, cmd, target) {
+    "清空": function(event, can) {
         can.sub.svg.innerHTML = ""
     },
-    "股价图": function(event, can, value, cmd, target) {var sub = can.sub, data = can.data;
-        if (!can.list) {
-            var count = 0, add = 0, del = 0, max = 0
+    view: function(event, can, cmd, value) {
+        can.onaction[value](event, can)
+    },
+    height: function(event, can, cmd) {
+        can.onaction[can.Action("view")](event, can)
+    },
+
+    "股价图": function(event, can) { var sub = can.sub, data = can.data
+        if (!can.list) { var count = 0, add = 0, del = 0, max = 0
             can.max = 0, can.rest = 0, can.list = can.core.List(data, function(value, index) {
                 var line = {};
                 line.note = value[can.msg.append[4]]
@@ -63,19 +69,11 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", "股价�
                 }
                 return line
             })
-
-            var begin = new Date(data[0].date)
-            var end = new Date(data[data.length-1].date)
-            var avg = parseInt((add + del) / (end - begin) * 1000 * 3600 * 24)
-            can.page.AppendStatus(can, can.ui.total, ["from", "days", "count", "avg", "max", "add", "del", "rest"], {
-                from: can.base.Time(begin).split(" ")[0], days: can.base.Duration(end-begin),
-                count: count, avg: avg, max: max, add: add, del: del, rest: can.rest,
-            })
         }
 
         var space = 10
         var view = parseInt(can.Action("height"))
-        var max = parseInt(can.Action("width"))
+        var max = parseInt(can.Conf("width"))-100
         var step = parseInt(max / can.list.length)||2
 
         var width = can.list.length * step + space * 2
@@ -84,52 +82,50 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", "股价�
         var height  = view + space * 2
         sub.svg.Val("height", height)
 
-        can.core.List(can.list, function(line, index) {
-            sub.onimport.draw({}, sub, {
-                shape: "line", point: [
-                    {x: space/2+step*index+step/4, y: space/2+view-line.min/can.max*view},
-                    {x: space/2+step*index+step/4, y: space/2+view-line.max/can.max*view},
-                ], style: line.begin < line.close? {
-                    "stroke-width": 1, "stroke": "white",
-                }: {
-                    "stroke-width": 1, "stroke": "black",
-                },
-            })
+        sub.svg.innerHTML = ""
+        can.ui.display.innerHTML = ""
 
-            var one = line.begin < line.close? sub.onimport.draw({}, sub, {
-                shape: "rect", point: [
-                    {x: space/2+step*index, y: space/2+view-line.begin/can.max*view},
-                    {x: space/2+step*index+step/2, y: space/2+view-line.close/can.max*view},
-                ], style: {
-                    "rx": 0, "ry": 0,
-                    "stroke-width": 1, "stroke": "white", "fill": "white",
-                },
-            }): sub.onimport.draw({}, sub, {
-                shape: "rect", point: [
-                    {x: space/2+step*index, y: space/2+view-line.close/can.max*view},
-                    {x: space/2+step*index+step/2, y: space/2+view-line.begin/can.max*view},
-                ], style: {
-                    "rx": 0, "ry": 0,
-                    "stroke-width": 1, "stroke": "black", "fill": "black",
-                },
-            })
+        var i = 0; can.core.Next(can.list, function(line, next) {
+            (function() { var index = i++
+                sub.onimport.draw({}, sub, {
+                    shape: "line", point: [
+                        {x: space/2+step*index+step/4, y: space/2+view-line.min/can.max*view},
+                        {x: space/2+step*index+step/4, y: space/2+view-line.max/can.max*view},
+                    ], style: line.begin < line.close? {
+                        "stroke-width": 1, "stroke": "white",
+                    }: {
+                        "stroke-width": 1, "stroke": "black",
+                    },
+                })
 
-            one.onmouseover = function(event) {
-                can.page.ClassList.del(can, can.ui.display, "hidden")
-                can.ui.display.style.left = event.clientX+space/2+"px"
-                can.ui.display.style.top = event.clientY+space/2+"px"
+                var one = line.begin < line.close? sub.onimport.draw({}, sub, {
+                    shape: "rect", point: [
+                        {x: space/2+step*index, y: space/2+view-line.begin/can.max*view},
+                        {x: space/2+step*index+step/2, y: space/2+view-line.close/can.max*view},
+                    ], style: {
+                        "rx": 0, "ry": 0,
+                        "stroke-width": 1, "stroke": "white", "fill": "white",
+                    },
+                }): sub.onimport.draw({}, sub, {
+                    shape: "rect", point: [
+                        {x: space/2+step*index, y: space/2+view-line.close/can.max*view},
+                        {x: space/2+step*index+step/2, y: space/2+view-line.begin/can.max*view},
+                    ], style: {
+                        "rx": 0, "ry": 0,
+                        "stroke-width": 1, "stroke": "black", "fill": "black",
+                    },
+                })
 
-                var msg = can.Event(event);
-                msg.Push(line, ["date", "note", "begin", "add", "del", "close"], "detail")
-                can.ui.display.innerHTML = ""
-                can.page.AppendTable(can, can.ui.display, msg, msg.append)
-            }
+                one.onmouseover = function(event) { can.Status(line) }
+
+                can.Timer(parseInt(can.Action("speed")), next)
+            })()
         })
     },
-    "趋势": function(event, can, value, cmd, target) {var sub = can.sub, data = can.data;
+    "趋势图": function(event, can, value, cmd, target) {var sub = can.sub, data = can.data;
         var space = 10
         var view = parseInt(can.Action("height"))
-        var max = parseInt(can.Action("width"))
+        var max = parseInt(can.Conf("width"))-100
         var step = parseInt(max / can.list.length)||2
 
         var width = can.list.length * step + space * 2
@@ -149,6 +145,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", "股价�
 
         sub.svg.Val("height", height+space*2)
 
+        sub.svg.innerHTML = ""
         can.core.List(can.msg.append, function(key, which) {
             var y = (space*2+view)*(which+1)
             sub.onimport.draw({}, sub, {
@@ -163,12 +160,12 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", "股价�
                 },
             })
 
-            can.core.List(data, function(value, index) {
+            can.core.List(data, function(line, index) {
                 var one = sub.onimport.draw({}, sub, {
                     shape: "rect",
                     point: [
                         {x: space+step*index, y: y},
-                        {x: space+step*index+step/4, y: y-parseInt(value[key])/(max[key]||1)*view}
+                        {x: space+step*index+step/4, y: y-parseInt(line[key])/(max[key]||1)*view}
                     ],
                     style: {
                         "rx": 0, "ry": 0,
@@ -176,30 +173,15 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", "股价�
                     },
                 })
 
-                one.onmouseover = function(event) {
-                    can.page.ClassList.del(can, can.ui.display, "hidden")
-                    can.ui.display.style.left = event.clientX+space/2+"px"
-                    can.ui.display.style.top = event.clientY+space/2+"px"
-
-                    var msg = can.Event(event);
-                    msg.Push(value, can.core.Item(value, function(key) {
-                        return msg[key] = [], key
-                    }), "detail")
-                    can.ui.display.innerHTML = ""
-                    can.page.AppendTable(can, can.ui.display, msg, msg.append)
-                }
+                one.onmouseover = function(event) { can.Status(line) }
             })
         })
     },
-    "表格": function(event, can, value, cmd, target) {var sub = can.sub, data = can.data;
-        if (!can.ui.table) {
-            can.ui.table = can.page.AppendTable(can, can.target, can.msg, can.msg.append)
-            can.ui.table.style.clear = "both"
-            return
-        }
-        can.page.ClassList.neg(can, can.ui.table, "hidden")
+    "数据源": function(event, can) {
+        can.ui.display.innerHTML = ""
+        can.onappend.table(can, can.ui.display, "table", can._msg)
     },
 })
 Volcanos("onchoice", {help: "组件交互", list: []})
 Volcanos("ondetail", {help: "组件详情", list: []})
-Volcanos("onexport", {help: "导出数据", list: []})
+Volcanos("onexport", {help: "导出数据", list: ["date", "begin", "add", "del", "close", "note"]})
