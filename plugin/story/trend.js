@@ -20,15 +20,16 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 can.Timer(100, function() {
                     can.sub = sub._outputs[0]
                     can.msg = msg, can.data = msg.Table()
-                    can.Action("height", "400")
-                    can.Action("speed", "100")
+                    var action = can.Conf("action")
+                    can.Action("height", parseInt(action && action.height ||"400"))
+                    can.Action("speed", parseInt(action && action.speed ||"100"))
                     can.onaction["股价图"](event, can)
                 })
             }
         }, can.ui.content)
     },
 })
-Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", "股价图", "趋势图", "数据源"], ["height", "100", "200", "400", "600"], ["speed", "10", "50", "100"]],
+Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", "股价图", "趋势图", "数据源"], ["height", "100", "200", "400", "600"], ["speed", "10", "20", "50", "100"]],
     "编辑": function(event, can) {
         var hide = can.sub._action.style.display == "none"
         can.page.Modify(can, can.sub._action, {style: {display: hide? "": "none"}})
@@ -45,8 +46,9 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
     },
 
     "股价图": function(event, can) { var sub = can.sub, data = can.data
-        if (!can.list) { var count = 0, add = 0, del = 0, max = 0
+        if (!can.list) { var count = 0, add = 0, del = 0, max = 0, begin = ""
             can.max = 0, can.rest = 0, can.list = can.core.List(data, function(value, index) {
+                if (index == 0) { begin = value.date }
                 var line = {};
                 line.note = value[can.msg.append[4]]
                 line.date = value[can.msg.append[0]]
@@ -69,6 +71,9 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
                 }
                 return line
             })
+            can.Status("from", begin)
+            can.Status("commit", count)
+            can.Status("total", add+del)
         }
 
         var space = 10
@@ -184,4 +189,4 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
 })
 Volcanos("onchoice", {help: "组件交互", list: []})
 Volcanos("ondetail", {help: "组件详情", list: []})
-Volcanos("onexport", {help: "导出数据", list: ["date", "begin", "add", "del", "close", "note"]})
+Volcanos("onexport", {help: "导出数据", list: ["from", "commit", "total", "date", "begin", "add", "del", "close", "note"]})

@@ -63,6 +63,7 @@ fieldset.editor>div.output div.content {
     float:left;
 }
 fieldset.editor>div.output div.content>pre.item {
+    text-align:left;
     height:20px; border:solid 1px black;
     padding:0; margin:0;
     padding-left:10px;

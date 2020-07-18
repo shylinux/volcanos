@@ -40,8 +40,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 "fill": "purple",
                 "shape": "rect",
                 "grid": "10",
-                "go": "auto",
                 "go": "manual",
+                "go": "auto",
             }, function(key, value) {
                 can.svg.Value(key, can.Action(key, can.svg.Value(key)||value))
             })

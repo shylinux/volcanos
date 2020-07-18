@@ -22,8 +22,11 @@ Volcanos("onimport", {help: "导入数据", list: [],
                     can.msg = msg, can.data = msg.Table()
                     can.Action("height", "400")
                     can.Action("speed", "100")
+                    can.Action("scale", "1")
+                    can.sub.svg.Value("transform", "scale("+can.Action("scale")+")")
                     can.onaction["横向"](event, can)
 
+                    return
                     can.Timer(100, function() {
                         can.core.Next(["base", "base/mdb", "base/log", "base/gdb", "base/ctx", "base/cli", "LICENSE"], function(value, next) {
                             can._tree[value].view.scrollIntoView()
@@ -36,7 +39,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         }, can.ui.content)
     },
 })
-Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", "横向", "纵向"], ["height", "100", "200", "400", "600"], ["speed", "10", "50", "100"]],
+Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", "横向", "纵向"], ["height", "100", "200", "400", "600"], ["speed", "10", "50", "100"], ["scale", "0.2", "0.5", "1", "2", "5"]],
     "编辑": function(event, can) {
         var hide = can.sub._action.style.display == "none"
         can.page.Modify(can, can.sub._action, {style: {display: hide? "": "none"}})
@@ -49,6 +52,10 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
         can.onaction[value](event, can)
     },
     height: function(event, can, cmd) {
+        can.onaction[can.Action("view")](event, can)
+    },
+    scale: function(event, can, cmd) {
+        can.sub.svg.Value("transform", "scale("+can.Action("scale")+")")
         can.onaction[can.Action("view")](event, can)
     },
 
@@ -77,7 +84,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
         })
         return tree.height = height
     },
-    _draw: function(can, tree, x, y) { var sub = can.sub, name = tree.name || can.Option("name")
+    _draw: function(can, tree, x, y) { var sub = can.sub, name = tree.name || can.Option("name") || "."
         tree.view = sub.onimport.draw({}, sub, {
             shape: "text", point: [{x: x, y: y+tree.height*30/2}], style: {inner: name, "text-anchor": "start", "stroke-width": 1, fill: "yellow"},
         })
@@ -109,10 +116,6 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
             }
 
             sub.onimport.draw({}, sub, {
-                // shape: "line", point: [
-                //     {x: x+name.length*16-10, y: y+tree.height*30/2},
-                //     {x: x+name.length*16+40, y: y+offset+item.height*30/2},
-                // ], style: {inner: name, "text-anchor": "start", stroke: "cyan", "stroke-width": 1},
                 shape: "path", point: [], style: {
                     fill: "none",
                     stroke: "cyan", "stroke-width": 1, d: line(
