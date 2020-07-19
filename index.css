@@ -18,6 +18,19 @@ div.hidden {
     display:none;
 }
 
+input[type=text] {
+    background-color:cyan;
+    color:black;
+}
+input[type=button] {
+    background:black;
+    color:cyan;
+}
+select {
+    background:black;
+    color:cyan;
+}
+
 fieldset>form.option {
     padding:0 5px;
 }
@@ -59,17 +72,6 @@ fieldset>form.option>div.item textarea.args {
     width:300px;
     height:50px;
 }
-fieldset>form.option>div.item.text>input {
-    background-color:cyan;
-}
-fieldset>form.option>div.item.button>input {
-    background:black;
-    color:cyan;
-}
-fieldset>form.option>div.item.select>select {
-    background:black;
-    color:cyan;
-}
 fieldset>form.option>div.item.textarea {
     margin-top:4px;
     clear:both;
@@ -81,18 +83,6 @@ fieldset>div.action {
 fieldset>div.action>div.item {
     float:left;
     margin:2px 0;
-}
-fieldset>div.action>div.item>select {
-    color:cyan;
-    background:black;
-    /* margin:3px 0; */
-}
-fieldset>div.action>div.item>input {
-    color:cyan;
-    background:black;
-}
-fieldset>div.action>div.item>input:hover {
-    background:gray;
 }
 fieldset>div.action>div.item.space {
     width:10px;
@@ -159,37 +149,37 @@ fieldset div.code {
     border:solid 3px green;
     /* max-height:640px; */
 }
-fieldset table {
+table {
     font-size:14px;
     cursor:pointer;
     border:solid 1px green;
     overflow: auto;
 }
-fieldset table tr:hover {
+table tr:hover {
     background-color:#0fbd45;
 }
-fieldset table tr.select {
+table tr.select {
     background-color:#0fbd45;
 }
-fieldset table tr.over {
+table tr.over {
     background:red;
 }
-fieldset table th {
+table th {
     font-family:monospace;
     background-color:#0fbd45;
     cursor:pointer;
     padding: 0 6px;
 }
-fieldset table td {
+table td {
     max-width:1200px;
     font-family:monospace;
     padding: 0 6px;
     white-space: pre;
 }
-fieldset table td:hover {
+table td:hover {
     background-color:red;
 }
-fieldset table td.select {
+table td.select {
     background-color:red;
 }
 
@@ -261,19 +251,53 @@ body.white {
     margin:0; padding:0;
     background-color:#0dabda;
 }
+body.white input[type=text] {
+    border:2px solid #c4c7ce;
+    border-radius:8px 8px 8px 8px;
+    background-color:white;
+    color:black;
+}
+body.white input[type=text]:hover {
+    background-color:cyan;
+}
+body.white input[type=button] {
+    padding:0 20px;
+    border-radius:10px 10px 10px 10px;
+    border:2px solid #FF9900;
+    background-color:#FF9900;
+    color:white;
+}
+body.white input[type=button]:hover {
+    border-radius:10px 10px 10px 10px;
+    border:2px solid #FFCC33;
+    background-color:#FFCC33;
+}
+body.white select {
+    padding:0 20px;
+    margin-top:2px;
+    border-radius:10px 10px 10px 10px;
+    border:2px solid #99CC66;
+    background-color:#99CC66;
+    color:white;
+}
+body.white select:hover {
+}
+
+body.white fieldset {
+    color:black;
+}
 body.white fieldset.plugin {
     margin:0; border:0;
     border-top:solid 2px #CCCCFF;
     background-color:white;
     color:black;
 }
-
 body.white fieldset.Header {
     border:solid 2px #1f2224;
     background-color:#2f3638;
     color:white;
 }
-body.white fieldset.Header input {
+body.white fieldset.Header input[type=text] {
     border:2px solid #c4c7ce;
     border-radius:10px 10px 10px 10px;
     background-color:white;
@@ -347,37 +371,6 @@ body.white fieldset.Action fieldset.plugin div.output{
 body.white fieldset.Action fieldset.plugin div.item input[type=button] {
     letter-spacing:4px;
 }
-body.white fieldset.plugin div.item input[type=text] {
-    border:2px solid #c4c7ce;
-    border-radius:8px 8px 8px 8px;
-    background-color:white;
-    color:black;
-}
-body.white fieldset.plugin div.item input[type=text]:hover {
-    background-color:cyan;
-}
-body.white fieldset.plugin div.item input[type=button] {
-    padding:0 20px;
-    border-radius:10px 10px 10px 10px;
-    border:2px solid #FF9900;
-    background-color:#FF9900;
-    color:white;
-}
-body.white fieldset.plugin div.item input[type=button]:hover {
-    border-radius:10px 10px 10px 10px;
-    border:2px solid #FFCC33;
-    background-color:#FFCC33;
-}
-body.white fieldset.plugin div.item select {
-    padding:0 20px;
-    margin-top:2px;
-    border-radius:10px 10px 10px 10px;
-    border:2px solid #99CC66;
-    background-color:#99CC66;
-    color:white;
-}
-body.white fieldset.plugin div.item select:hover {
-}
 body.white fieldset.plugin table {
     background:#9fb5bb;
     border:0;
@@ -401,3 +394,4 @@ body.white fieldset.plugin table td {
 body.white fieldset.plugin table td:hover {
     background-color:lightgray;
 }
+

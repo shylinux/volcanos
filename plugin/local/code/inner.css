@@ -21,6 +21,7 @@ fieldset.editor>div.output {
     background-color:black;
 }
 fieldset.editor>div.output>div.project {
+    text-align:left;
     max-height:400px; overflow:auto;
     max-width:120px;
     color:white;
@@ -68,6 +69,7 @@ fieldset.editor>div.output div.content>pre.item {
     padding:0; margin:0;
     padding-left:10px;
     min-width:120px;
+    background-color:black;
     color:white;
 }
 fieldset.editor>div.output div.content>pre.item.select {
@@ -103,9 +105,11 @@ fieldset.editor>div.output pre.display:hover {
     z-index:10;
 }
 fieldset.editor>div.output div.search {
+    text-align:left;
     padding:6px; border:solid 1px red;
     height:120px; overflow:auto;
     clear:both;
+    color:white;
 }
 fieldset.editor>div.output div.search td>div {
     max-height:100px;

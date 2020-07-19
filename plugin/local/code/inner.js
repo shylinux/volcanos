@@ -8,7 +8,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             {view: "profile"},
 
             {view: "holdon", list: [
-                {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-280+"px"}},
+                {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-100+"px"}},
             ]},
 
             {view: ["editor", "textarea"], onkeydown: function(event) {
@@ -595,6 +595,7 @@ Volcanos("onaction", {help: "控件交互", list: [
     },
     "项目": function(event, can) { var hide = can.ui.project.style.display == "none"
         can.page.Modify(can, can.ui.project, {style: {display: hide? "": "none"}})
+        can.page.Modify(can, can.ui.content, {style: {"max-width": can.Conf("width")-(hide? 240: 100)+"px"}})
     },
     "上传": function(event, can) { can.user.upload(event, can) },
     "搜索": function(event, can) { var hide = can.ui.search.style.display == "none"

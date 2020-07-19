@@ -1,22 +1,22 @@
 fieldset.word h2.story {
     clear:both;
 }
+fieldset.word h3.story {
+    clear:both;
+}
 fieldset.word p.story {
     white-space:pre;
 }
-fieldset.word ul.story {
-}
 fieldset.word svg.story {
-    display:block;
-    float:left;
+    display:block; float:left;
 }
 fieldset.word fieldset.story {
-    float:left; clear:both;
+    clear:both; float:left;
 }
 fieldset.word fieldset.story:hover {
     border:solid 1px red;
 }
-fieldset code.story {
+fieldset.word code.story {
     display:block; border:solid 3px green;
     color:white; background-color:#272822;
     font-size:14px; font-family:monospace;
@@ -26,49 +26,62 @@ fieldset code.story {
 }
 
 div.show {
-    position:absolute;
-    left:0; top:0;
+    position:absolute; top:0;
+}
+div.show>div.control {
     background-color:aliceblue;
+}
+div.show>div.project {
+    background-color:aliceblue;
+    position:absolute;
+    padding:10px;
+    z-index:10;
+}
+div.show>div.project div.item {
+    cursor:pointer;
+}
+div.show>div.project div.item:hover {
+    background-color:white;
+}
+div.show>div.content {
+    background-color:aliceblue;
+    text-align:center;
+    padding:20px;
 
 }
-div.show div.control {
-}
-div.show div.content {
-    text-align:center;
-}
-div.show div.content h2 {
-    clear:both;
-    text-align:center;
-}
-div.show div.content h3 {
-    clear:both;
-    text-align:center;
-}
-div.show div.content ul {
-    text-align:left;
-}
-div.show div.content div.page.first {
-    text-align:center;
-}
-div.show div.content div.page {
-    margin-top:30px;
-    display:none;
-}
-div.show div.content div.page.show {
-    display:block;
-    background-color:aliceblue;
-}
-div.show div.content div.page h1 {
+div.show>div.content h1 {
     margin-top:100px;
     font-size:60px;
 }
-div.show div.content div.page ul li.H2 {
+div.show>div.content h2 {
+    clear:both;
+}
+div.show>div.content h3 {
+    clear:both;
+}
+div.show>div.content ul {
+    text-align:left;
+}
+div.show>div.content div.page.first {
+}
+div.show>div.content div.page.first ul {
+    text-align:center;
+}
+div.show>div.content div.page {
+    margin-top:30px;
+    display:none;
+}
+div.show>div.content div.page.show {
+    background-color:aliceblue;
+    display:block;
+}
+div.show>div.content div.page ul li.H2 {
     font-size:24px;
 }
-div.show div.content div.page ul li.H3 {
+div.show>div.content div.page ul li.H3 {
     font-size:16px;
 }
-div.show code.story {
+div.show>div.content div.page code.story {
     display:block; border:solid 3px green;
     color:white; background-color:#272822;
     font-size:14px; font-family:monospace;
@@ -76,4 +89,3 @@ div.show code.story {
     padding:10px; white-space:pre;
     clear:both;
 }
-
