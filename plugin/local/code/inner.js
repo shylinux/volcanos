@@ -75,7 +75,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             can.page.Append(can, can._action, [{view: ["file", "div", file], onclick: function(event) {
                 can.onimport.tabview(can, path, file)
             }, ondblclick: function(event) {
-                can.onkeymap._remote(event, can, "运行")
+                can.onkeymap._remote(event, can, "运行", ["action", "engine", can.parse, can.Option("file"), can.Option("path")])
             }, oncontextmenu: function(event) {
                 can.user.carte(can, null, ["保存", "运行"])
             }, draggable: true,
