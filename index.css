@@ -284,7 +284,7 @@ body.white select:hover {
 }
 
 body.white fieldset {
-    color:black;
+    /* color:black; */
 }
 body.white fieldset.plugin {
     margin:0; border:0;
