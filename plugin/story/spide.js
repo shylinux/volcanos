@@ -17,7 +17,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             can.page.Modify(can, sub._status, {style: {display: "none"}})
             sub.run = function(event, cmds, cb, silent) {
                 typeof cb == "function" && cb(can.request(event))
-                can.Timer(100, function() {
+                can.Timer(1000, function() {
                     can.sub = sub._outputs[0]
                     can.msg = msg, can.data = msg.Table()
                     can.Action("height", "400")

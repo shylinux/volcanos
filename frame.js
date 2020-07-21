@@ -539,6 +539,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
     },
 }, [], function(can) {})
 Volcanos("onlayout", { _init: function(can, meta, list, cb, target) {
+        if (can.user.Search(can, "share")) { return typeof cb == "function" && cb() }
         var width = can._width, height = can._height
 
         can.page.Select(can, target, "fieldset.head", function(field) {
