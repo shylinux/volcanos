@@ -56,6 +56,9 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
 Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) {
         can.run(msg._event, [], function(msg) { can._output.innerHTML = ""
             can.Conf("username", msg.Option("user.nick")||msg.Option("user.name"))
+            if (can.Conf("username").length > 10) {
+                can.Conf("username", can.Conf("username").slice(0, 10))
+            }
 
             can.user.isMobile || can.core.List(msg.result||["github.com/shylinux/contexts"], function(title) {
                 can.page.Append(can, can._output, [{view: ["title", "div", title],
