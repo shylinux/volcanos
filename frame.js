@@ -247,6 +247,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                     }
 
                     input.run = function(event, cmds, cb, silent) { var msg = sub.request(event)
+                        sub.core.Item(sub.Conf("option"), msg.Option)
+
                         // 控件回调
                         switch (item.name) {
                         case "打开":
