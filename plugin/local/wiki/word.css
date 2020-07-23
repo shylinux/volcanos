@@ -1,10 +1,10 @@
-fieldset.word h2.story {
+fieldset h2.story {
     clear:both;
 }
-fieldset.word h3.story {
+fieldset h3.story {
     clear:both;
 }
-fieldset.word p.story {
+fieldset p.story {
     white-space:pre;
 }
 fieldset.word svg.story {
@@ -27,6 +27,10 @@ fieldset.word code.story {
 
 div.show {
     position:absolute; top:0;
+    color:black;
+}
+div.show table {
+    color:black;
 }
 div.show>div.control {
     background-color:aliceblue;

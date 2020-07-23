@@ -220,7 +220,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             sub.onappend._status(sub, status)
 
             // 添加控件
-            function add(item, next, index) {
+            var index = -1
+            function add(item, next) { item._input == "text" && index++
                 return sub._inputs[item.name] = Volcanos(item.name, { _help: item.name, _follow: can._follow+"."+meta.name+"."+item.name,
                     _target: can.onappend.input(sub, option, item.type, item, args[index]),
                     _option: option, _action: action, _output: output,

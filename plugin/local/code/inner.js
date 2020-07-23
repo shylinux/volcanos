@@ -8,7 +8,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             {view: "profile"},
 
             {view: "holdon", list: [
-                {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-120+"px"}},
+                {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-160+"px"}},
             ]},
 
             {view: ["editor", "textarea"], onkeydown: function(event) {
