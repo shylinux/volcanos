@@ -138,7 +138,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             })
             can.onaction.selectLine(can, can.Option("line")||1)
         }; var p = can.onsyntax[can.parse]; !p? can.run({}, ["action", "plugin", can.parse, can.Option("file"), can.Option("path")], function(msg) {
-            p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()), can.onsyntax._init(can, can._msg), init(p)
+            p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()), can.onsyntax._init(can, can._msg)
         }, true): init(p)
     },
     parse: function(can, line) { var p = can.onsyntax[can.parse]; if (!p) { return }

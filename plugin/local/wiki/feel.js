@@ -13,7 +13,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }}
         })
 
-        var list = msg.Table(), begin = 0, limit = 3; function page() {
+        var list = msg.Table()||[], begin = 0, limit = 3; function page() {
             can.ctrl.offset.innerHTML = begin+"-"+(begin+limit)
             can.onimport.page(can, list, begin, limit)
         }

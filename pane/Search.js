@@ -55,9 +55,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
         search(cmd[1])
     },
     select: function(can, msg, cmd, cb) { can._output.innerHTML = ""
-        function search(word) { cmd[1] = word
+        function search(word, cb) { cmd[1] = word
             can.run({}, cmd, function(msg) { can.ui.content.innerHTML = ""
                 can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line) {
+                    can.Status("count", index+1)
                     return {text: [value, "td"], onclick: function(event) {
                         can.Status("index", index)
                         can.Status("value", value)
@@ -67,6 +68,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
                         }}])
                     }}
                 })
+                typeof cb == "function" && cb(msg)
             })
         }
 
@@ -79,13 +81,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
             can.onaction.close(can)
         }, can.ui = can.page.Append(can, can._output, [
             {input: ["word", function(event) {
-                if (event.key == "Enter") { search(event.target.value)
-                    var list = can.page.Select(can, can.ui.content, "tr")
-                    if (list.length == 2) {
-                        list[1].firstChild.click()
-                        event.target.setSelectionRange(0, -1)
+                if (event.key == "Enter") { search(event.target.value, function(msg) {
+                    var list = can.page.Select(can, can.ui.content, "tr"); if (list.length == 2) {
+                        list[1].firstChild.click(); event.target.setSelectionRange(0, -1)
                     }
-                }
+                }) }
             }]},
             {view: "content"}, {view: "display", list: [{type: "table", list: [{th: ["pod", "ctx", "cmd", "type", "name", "text"]}]}]},
         ])

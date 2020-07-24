@@ -37,7 +37,11 @@ Volcanos("onaction", {help: "控件交互", list: ["创建", "刷新"], _init: f
         can.onexport._init(can, msg, list, cb, target)
     },
     create: function(can) {
-        can.user.input(event, can, [["type", "public", "protected", "private"], "name", "text"], function(event, button, meta, list) {
+        can.user.input(event, can, [
+            ["类型", "public", "protected", "private"],
+            {_input: "text", name: "名称", value: "hi"},
+            {_input: "text", name: "简介", value: "hello"},
+        ], function(event, button, meta, list) {
             can.run(event, ["action", "create"].concat(list), function(msg) {
                 can.user.Search(can, {"river": msg.Result()})
             })
@@ -65,7 +69,11 @@ Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加用户
         })
     },
     "添加应用": function(event, can, river, button) {
-        can.user.input(event, can, [["type", "public", "protected", "private"], "name", "text"], function(event, button, meta, list) {
+        can.user.input(event, can, [
+            ["类型", "public", "protected", "private"],
+            {_input: "text", name: "名称", value: "hi"},
+            {_input: "text", name: "简介", value: "hello"},
+        ], function(event, button, meta, list) {
             can.run(event, [can.Conf("river"), "storm", "action", "create"].concat(list), function(msg) {
                 can.user.Search(can, {"river": can.Conf("river"), "storm": msg.Result()})
             })
