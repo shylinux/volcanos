@@ -8,7 +8,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
         can.page.Modify(can, can._target, {style: {display: "block"}})
 
         can.page.Select(can, can._action, "input[name=word]", function(item) { item.value = cmd[1] })
-        can.run({}, cmd, function(msg) {
+        var msg = can.request({})
+        can.run(msg._event, ["search", "River.onexport.key"])
+
+        can.run(msg._event, cmd, function(msg) {
             can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line) {
                 return {text: [value, "td"], onclick: function(event) {
                     can.Status("index", index)

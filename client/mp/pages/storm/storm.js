@@ -34,18 +34,18 @@ Page({
     ondetail: function(event, data, index) {
         data = data || event.target.dataset, index = index||data.index||0
         console.log("detail", "storm", index)
-        app.jumps("action/action", {river: data.river||this.data.river, storm: this.data.msg.key[index]})
+        app.jumps("action/action", {river: data.river||this.data.river, storm: this.data.msg.key[index], title: this.data.options.title+"."+this.data.msg.name[index]})
     },
 
 
-    onLoad: function (options) {
+    onLoad: function (options) { this.data.options = options
         console.log("page", "storm", options)
         app.conf.sessid = options.sessid || app.conf.sessid
+        app.title(options.title)
         this.data.river = options.river
         this.onaction({}, options, "刷新")
     },
     onReady: function () {},
-    onShow: function (args) {},
     onHide: function () {},
     onUnload: function () {},
     onPullDownRefresh: function () {

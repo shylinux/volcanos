@@ -36,7 +36,7 @@ Page({
     ondetail: function(event, data, index) {
         data = data || event.target.dataset, index = index||data.index||0
         console.log("detail", "river", index)
-        app.jumps("storm/storm", {river: this.data.msg.key[index]})
+        app.jumps("storm/storm", {river: this.data.msg.key[index], title: this.data.msg.name[index]})
     },
 
     onLoad: function (options) {

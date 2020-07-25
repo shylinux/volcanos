@@ -11,6 +11,9 @@ Page({
         "扫码": function(event, page, data, name) {
             // app.jumps("scans/scans")
             app.scans(function(res) {
+                res["sess.river"] = page.data.river
+                res["sess.storm"] = page.data.storm
+                app.request("mp/login/scan", res)
                 page.onaction(event, res, res.name)
             })
         },
@@ -51,9 +54,36 @@ Page({
         "共享": function(event, page, data, name) {
         },
     },
+    plugin: {
+        paste: function(page, data) {
+            wx.getClipboardData({success: function(res) {
+                var cmds = [page.data.river, page.data.storm, data.order]
+                cmds = cmds.concat(["insert", "paste", "", res.data])
+                app.request("action", {cmds: cmds}, function(msg) {
+
+                })
+            }})
+        },
+        qrcode: function(page) {
+            app.scans(function(res) {
+                res["sess.river"] = page.data.river
+                res["sess.storm"] = page.data.storm
+                app.request("mp/login/scan", res)
+            })
+        },
+        location: function(page, data) {
+            app.location({success: function(res) {
+                var cmds = [page.data.river, page.data.storm, data.order]
+                cmds = cmds.concat(["insert", "location", res.name, res.address, res.longitude*100000, res.latitude*100000])
+                app.request("action", {cmds: cmds}, function(msg) {
+
+                })
+            }})
+        },
+    },
     onaction: function(event, data, name) {
-        data = data || event.target.dataset, name = name || data.name
         console.log("action", "river", name)
+        data = data || event.target.dataset, name = name || data.name
         this.action[name](event, this, data)
     },
     onfigure: {
@@ -205,7 +235,13 @@ Page({
             return figure.click(event, page, data, data.input.name, field)
         }
 
-        switch (data.input.cb) {
+        switch (data.input.name) {
+            case "添加":
+                var p = page.plugin[data.field.index]
+                if (typeof p == "function") { return p(page, data) }
+        }
+
+        switch (data.input.value) {
             case "Last":
                 // 恢复命令
                 page.data.his[data.order].pop()
@@ -241,6 +277,7 @@ Page({
         this.data.river = options.river
         this.data.storm = options.storm
 
+        app.title(options.title)
         var data = app.data[options.river+options.storm]
         if (data) {return this.setData({res: this.data.res = data})}
         this.onaction({}, {}, "刷新")
