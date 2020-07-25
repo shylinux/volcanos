@@ -3,7 +3,7 @@ const app = getApp()
 
 Page({
     data: {
-        action: ["扫码", "刷新", "登录"],
+        action: ["扫码", "刷新", "登录", "授权"],
         msg: {append: ["key", "name"]},
     },
     action: {
@@ -20,6 +20,11 @@ Page({
         "登录": function(event, page, data, name) {
             app.conf.sessid = "", app.usercode(function() {
                 page.onaction(event, data, "刷新")
+            })
+        },
+        "授权": function(event, page, data, name) {
+            app.userinfo(function(res) {
+                page.onaction(event, res, res.name)
             })
         },
     },

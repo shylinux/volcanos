@@ -83,7 +83,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加用户
     "添加用户": function(event, can, river, button) {
         can.run(event, ["search", "Search.onimport.select", "user", "", ""], function(list) {
             var args = []; can.core.List(list, function(item) {
-                args = args.concat([item[4]])
+                args = args.concat([item[5]])
             })
             can.run(event, [can.Conf("river"), "action", "user"].concat(args), function(msg) {
                 can.user.Search(can, {"river": can.Conf("river")})
