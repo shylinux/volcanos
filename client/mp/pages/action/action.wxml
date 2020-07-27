@@ -41,4 +41,5 @@
             <view class="output" wx:elif="{{field.msg.result}}"><text wx:for="{{field.msg.result}}" wx:key="name">{{item}}</text></view>
         </view>
     </view>
+    <web-view src="https://shylinux.com/chat/mp"></web-view>
 </view>
