@@ -84,7 +84,7 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             }, }], }]).input)
 
             var height = document.body.offsetHeight
-            var ui = can.page.Append(can, can._output, can.core.List(["Search", "River", "Storm", "Footer", "black", "white"], function(item) {
+            var ui = can.page.Append(can, can._output, can.core.List(["Search", "River", "Footer"], function(item) {
                 return {view: "item", list: [{type: "input", data: {name: item, type: "button", value: item.toLowerCase()},
                     onclick: function(event) {
                         if (item == "white") {
@@ -116,11 +116,9 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             if (location.protocol == "chrome-extension:") {
                 ui.River.click()
             } else if (can.user.Search(can, "pod")) {
-                ui.River.click(), ui.Footer.click(), ui.Storm.click()
+                ui.River.click(), ui.Footer.click()
             } else if (can.user.isMobile) {
-                ui.River.click(), ui.Footer.click(), ui.Storm.click()
-            } else {
-                ui.Storm.click()
+                ui.River.click(), ui.Footer.click()
             }
 
             typeof cb == "function" && cb()
