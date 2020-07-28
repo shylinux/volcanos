@@ -9,6 +9,15 @@ Volcanos("onaction", {help: "控件交互", list: [],
         }
     },
     onclick: function(event, can) {
+        if (can.Conf("name") == "添加") {
+            setTimeout(async () => {
+                const text = await navigator.clipboard.readText();
+                console.log(text);
+                can.run(event, ["action", "insert", "paste", "", text], function() {})
+            }, 20)
+            return
+        }
+
         switch (can.Conf("type")) {
             case "button":
                 can.run(event, [], function() {})
