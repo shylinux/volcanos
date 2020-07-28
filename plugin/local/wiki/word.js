@@ -9,6 +9,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
         return typeof cb == "function" && cb(msg)
     },
+    iframe: function(can, list, target) { var meta = can.base.Obj(list.meta)
+        can.page.Modify(can, target, {width: can.Conf("width")-200})
+    },
     premenu: function(can, list, target) { var meta = can.base.Obj(list.meta)
         can.page.Select(can, can._output, "h2.story, h3.story", function(item) {
             can.page.Append(can, target, [{text: [item.innerHTML, "li", item.tagName]}])

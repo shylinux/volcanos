@@ -7,16 +7,19 @@ fieldset h3.story {
 fieldset p.story {
     white-space:pre;
 }
-fieldset.word svg.story {
+fieldset br.story {
+    clear:both;
+}
+fieldset svg.story {
     display:block; float:left;
 }
-fieldset.word fieldset.story {
+fieldset fieldset.story {
     clear:both; float:left;
 }
-fieldset.word fieldset.story:hover {
+fieldset fieldset.story:hover {
     border:solid 1px red;
 }
-fieldset.word code.story {
+fieldset code.story {
     display:block; border:solid 3px green;
     color:white; background-color:#272822;
     font-size:14px; font-family:monospace;

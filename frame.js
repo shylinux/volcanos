@@ -35,7 +35,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 can.user.title(can.user.Search(can, "title"))
                 var pane = can[meta.main.name], msg = can.request({})
                 pane.onaction && pane.onaction._init(pane, msg, msg.option||[], cb, target)
-                can.page.Modify(can, document.body, {className: can.user.Search(can, "topic")||"white"})
+                can.page.Modify(can, document.body, {className: can.user.Search(can, "topic")||(can.user.Search(can, "pod")? "black": "white")})
             })
             can.onkeypop._init(can)
         }, target) })

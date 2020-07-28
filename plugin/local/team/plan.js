@@ -10,7 +10,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.page.Select(can, can.ui.content, "div.item.id"+can.user.Searchs(can, "id"), function(item) {
                 item.click()
             })
-            can.onaction.view({}, can, "view", can.user.Searchs(can, "view")||"")
+            can.onaction.view({}, can, "view", can.user.Searchs(can, "view")||"text")
         })
     },
     _stat: function(can, msg) {

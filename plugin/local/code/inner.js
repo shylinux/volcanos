@@ -182,13 +182,6 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             "label": "keyword",
         },
     },
-    vim: {
-        prefix: {"\"": "comment"},
-        keyword: {
-            highlight: "keyword",
-            syntax: "keyword",
-        },
-    },
     json: {link: "js"},
     css: {
         suffix: {"{": "comment"},
