@@ -1,4 +1,12 @@
 <import src="../../app.wxml"/>
 
 <template is="action" data="{{action}}"></template>
-<template is="list-name" data="{{msg}}"></template>
+
+<view class="output">
+    <view class="item" wx:for="{{river}}" wx:key="name">
+        <view class="item" bindtap="ondetail" data-item="{{item}}">{{item.name}}</view>
+        <view class="list" wx:if="{{!item.hidetool}}">
+            <view class="item" bindtap="onchange" wx:for="{{item.tool}}" wx:key="name" data-item="{{item}}">{{item.name}}</view>
+        </view>
+    </view>
+</view>

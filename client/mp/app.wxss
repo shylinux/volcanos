@@ -38,11 +38,20 @@ view.option view.select picker view {
 view.output {
     clear:both;
 }
-view.output>view.item {
+view.output view.item {
     text-align:center;
     font-size:18px;
     padding:10px;
     border:solid 1px green;
+}
+view.output view.list view.item {
+    background-color:darkgray;
+    margin-left:20px;
+}
+view.output view.code {
+    margin-left:10px;
+    padding:10px;
+    border-left:solid 2px cyan;
 }
 
 view.title {

@@ -4,8 +4,8 @@ const app = getApp()
 Page({
     data: {
         action: ["扫码", "清屏", "刷新", "串行", "并行", "共享"],
+        river: "", storm: "", title: "",
         res: [], his: {}, inputs: {},
-        river: "", storm: "",
     },
     action: {
         "扫码": function(event, page, data, name) {
@@ -19,7 +19,9 @@ Page({
         },
         "刷新": function(event, page, data, name) {
             var list = []; app.data[page.data.river+page.data.storm] = page.data.res = list
+            wx.showLoading()
             app.request("action", {cmds: [page.data.river, page.data.storm]}, function(msg) {
+                wx.hideLoading()
                 msg.Table(function(line, index) {
                     page.data.his[index] = []
                     line.inputs = JSON.parse(line.inputs)
@@ -204,7 +206,9 @@ Page({
             if (cmds[i] === "") {cmds.pop()} else {break}
         }
 
+        wx.showLoading()
         app.request("action", {cmds: cmds}, function(msg) {
+            wx.hideLoading()
             page.data.res[order].msg = msg
             page.setData({res: page.data.res})
             typeof cb == "function" && cb(msg)
@@ -276,8 +280,9 @@ Page({
         app.conf.sessid = options.sessid || app.conf.sessid
         this.data.river = options.river
         this.data.storm = options.storm
-
+        this.data.title = options.title
         app.title(options.title)
+
         var data = app.data[options.river+options.storm]
         if (data) {return this.setData({res: this.data.res = data})}
         this.onaction({}, {}, "刷新")
@@ -293,11 +298,9 @@ Page({
     onShareAppMessage: function (res) {
         console.log(res)
         return {
-            title: "some",
-            path: "pages/action/action?river="+this.data.river+"&storm="+this.data.storm,
-            success: function(res) {
-                console.log(res)
-            },
+            title: this.data.title,
+            path: "pages/action/action?river="+this.data.river+"&storm="+this.data.storm+"&title="+this.data.title,
+            success: function(res) { console.log(res) },
         }
     }
 })

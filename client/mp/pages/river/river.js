@@ -4,7 +4,7 @@ const app = getApp()
 Page({
     data: {
         action: ["扫码", "刷新", "登录", "授权"],
-        msg: {append: ["key", "name"]},
+        river: {},
     },
     action: {
         "扫码": function(event, page, data, name) {
@@ -13,8 +13,13 @@ Page({
             })
         },
         "刷新": function(event, page, data, name) {
+            wx.showLoading()
             app.request("river", {}, function(msg) {
-                page.setData({msg: msg}), msg.nRow() == 1 && page.ondetail(event, data, 0)
+                wx.hideLoading()
+                var river = {}; msg.Table(function(value) {
+                    river[value.key] = value
+                })
+                page.setData({river: river})
             })
         },
         "登录": function(event, page, data, name) {
@@ -33,10 +38,30 @@ Page({
         console.log("action", "river", name)
         this.action[name](event, this, data)
     },
-    ondetail: function(event, data, index) {
-        data = data || event.target.dataset, index = index||data.index||0
-        console.log("detail", "river", index)
-        app.jumps("storm/storm", {river: this.data.msg.key[index], title: this.data.msg.name[index]})
+    ondetail: function(event, data) { var page = this
+        data = data || event.target.dataset.item
+
+        console.log("detail", "river", data)
+        var river = page.data.river[data.key]
+        if (river.tool) {
+            river.hidetool = !river.hidetool
+            page.setData({river: page.data.river})
+            return
+        }
+
+        wx.showLoading()
+        app.request("storm", {cmds: [data.key]}, function(msg) {
+            wx.hideLoading()
+            river.tool = {}; msg.Table(function(value) {
+                river.tool[value.key] = value
+                value.river = data
+            })
+            page.setData({river: page.data.river})
+        })
+    },
+    onchange: function(event, data) { var page = this
+        data = data || event.target.dataset.item
+        app.jumps("action/action", {river: data.river.key, storm: data.key, title: data.river.name+"."+data.name})
     },
 
     onLoad: function (options) {
