@@ -25,15 +25,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                     can.Action("scale", "1")
                     can.sub.svg.Value("transform", "scale("+can.Action("scale")+")")
                     can.onaction["横向"](event, can)
-
-                    return
-                    can.Timer(100, function() {
-                        can.core.Next(["base", "base/mdb", "base/log", "base/gdb", "base/ctx", "base/cli", "LICENSE"], function(value, next) {
-                            can._tree[value].view.scrollIntoView()
-                            can._tree[value].view.onclick()
-                            can.Timer(500, next)
-                        })
-                    })
+                    sub.Action("go", "run")
                 })
             }
         }, can.ui.content)
@@ -66,7 +58,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
                 var name = array.slice(0, index+1).join("/")
                 list[last] = list[last] || {name: last, list: []}
                 if (!item || list[name]) { return }
-                list[last].list.push(list[name] = {hide: true, name: item+(index==array.length-1? "": "/"), last: last, list: []})
+                list[last].list.push(list[name] = {hide: true, file: value.path, name: item+(index==array.length-1? "": "/"), last: last, list: []})
             })
         })
         return list
@@ -84,14 +76,34 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
         })
         return tree.height = height
     },
-    _draw: function(can, tree, x, y) { var sub = can.sub, name = tree.name || can.Option("name") || "."
+    _draw: function(can, tree, x, y) { var sub = can.sub, name = tree.name || can.Option("path") || "."
         tree.view = sub.onimport.draw({}, sub, {
             shape: "text", point: [{x: x, y: y+tree.height*30/2}], style: {inner: name, "text-anchor": "start", "stroke-width": 1, fill: "yellow"},
         })
+        if (x+name.length*16 > can.width) {
+            can.width = x+name.length*20
+        }
         tree.view.onclick = function(event) {
+            if (!name.endsWith("/")) {
+                if (!tree.tags) { tree.tags = true
+                    console.log(tree)
+                    can.run(event, [can.Option("path"), tree.file], function(msg) {
+                        msg.Table(function(value) {
+                            tree.list.push({name: value.name, last: tree, list: []})
+                        })
+
+                        sub.svg.innerHTML = ""
+                        tree.hide = !tree.hide
+                        can.onaction["横向"](event, can)
+                    }, true)
+                    return
+                }
+            }
+
             sub.svg.innerHTML = ""
             tree.hide = !tree.hide
             can.onaction["横向"](event, can)
+
             if (!event) {return}
             event.stopPropagation()
             event.preventDefault()
@@ -130,10 +142,12 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
     },
 
     "横向": function(event, can) { var sub = can.sub
+        can.width = 0
         can._tree = can._tree || can.onaction._tree(can, can._msg)
         can.onaction._height(can, can._tree[""])
         sub.svg.Val("height", can._tree[""].height*30)
         can.onaction._draw(can, can._tree[""], 0, 0)
+        sub.svg.Val("width", can.width)
     },
     "纵向": function(event, can) {
     },
