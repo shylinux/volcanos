@@ -184,6 +184,9 @@ table td:hover {
 table td.select {
     background-color:red;
 }
+table td input {
+    margin-left:4px;
+}
 
 div.toast {
     color:yellow;

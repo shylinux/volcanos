@@ -472,6 +472,13 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             }
             return {type: "td", inner: value, click: function(event) {
                 var target = event.target; if (target.tagName == "INPUT" && target.type == "button") {
+                    switch (target.value) {
+                        case "复制":
+                            navigator.clipboard.writeText(line.text).then(function() {
+                                can.user.toast(can, "复制成功", "paste")
+                            })
+                            return
+                    }
                     return run(event, event.target.value, value)
                 }
                 can.page.Select(can, can._option, "input.args", function(input) { if (input.name == key) { var data = input.dataset || {}
