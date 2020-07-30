@@ -235,7 +235,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                             for (var k in sub._inputs) { sub._inputs[k]._target.focus(); break }
                         })
                     }, target) },
-                }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js"]), function(input) {
+                }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js"]), function(input) { input.sup = sub
                     input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target)
 
                     if (location.protocol == "chrome-extension:") {
@@ -264,7 +264,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                             }
                             break
                         default:
-                            msg.Option("_action", item.name)
+                            cmds && cmds[0] == "action" || msg.Option("_action", item.name||item.value)
                         }
 
                         // 解析参数
@@ -310,6 +310,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                             if (!cmds[i]) { cmds.pop() } else { break }
                         }
 
+                        var last = sub._history[sub._history.length-1]; !can.core.Eq(last, cmds) && cmds[0] != "action" && sub._history.push(cmds)
                         return run(event, cmds, cb, silent)
                     }
 

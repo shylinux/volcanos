@@ -10,6 +10,17 @@ Volcanos("onaction", {help: "控件交互", list: [],
     },
     onclick: function(event, can) {
         if (can.Conf("name") == "添加") {
+            can.user.input(event, can, can.sup.Conf("feature").insert,function(event, button, data, list) {
+                var args = ["action", "insert"]; can.core.Item(data, function(key, value) {
+                    key && value && args.push(key, value)
+                })
+                can.run(event, args, function(msg) {
+                    can.user.toast(can, "添加成功")
+                })
+                return true
+            })
+            return
+
             navigator.clipboard.readText().then(function(text) {
                 console.log(text)
                 can.run(event, ["action", "insert", "paste", "", text], function() {})
