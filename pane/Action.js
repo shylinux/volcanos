@@ -37,7 +37,7 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                     // 插件回调
                     return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
                         can.run(msg._event, ["search", "Footer.onaction.ncmd"]);
-                        can.user.toast(can, "执行成功", value.name, 2000);
+                        can.user.toast(can, "执行成功", value.name, 1000);
                         typeof cb == "function" && cb(msg)
                     }, silent)
                 }

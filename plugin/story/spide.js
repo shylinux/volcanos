@@ -84,29 +84,46 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
             can.width = x+name.length*20
         }
         tree.view.onclick = function(event) {
-            if (!name.endsWith("/")) {
-                if (!tree.tags) { tree.tags = true
-                    console.log(tree)
-                    can.run(event, [can.Option("path"), tree.file], function(msg) {
-                        msg.Table(function(value) {
-                            tree.list.push({name: value.name, last: tree, list: []})
-                        })
-
-                        sub.svg.innerHTML = ""
-                        tree.hide = !tree.hide
-                        can.onaction["横向"](event, can)
-                    }, true)
-                    return
-                }
+            if (name.endsWith("/") || tree.tags) {
+                sub.svg.innerHTML = ""
+                tree.hide = !tree.hide
+                can.onaction["横向"](event, can)
+                return
             }
 
-            sub.svg.innerHTML = ""
-            tree.hide = !tree.hide
-            can.onaction["横向"](event, can)
+            if (tree.name.endsWith("go") ||
+            tree.name.endsWith("c") ||
+            tree.name.endsWith("h")) {
+                can.run(event, [can.Option("path"), tree.file], function(msg) {
+                    msg.Table(function(value) { tree.tags = true
+                        tree.list.push({type: "tags", file: value.file, line: value.line, name: value.name, last: tree, list: []})
+                    })
 
-            if (!event) {return}
-            event.stopPropagation()
-            event.preventDefault()
+                    sub.svg.innerHTML = ""
+                    tree.hide = !tree.hide
+                    can.onaction["横向"](event, can)
+                }, true)
+                return
+            }
+
+            tree.inner = can.onappend._init(can, {name: "inner", help: "源码", inputs: [
+                {type: "text", name: "path", value: can.Option("path")},
+                {type: "text", name: "file", value: tree.file},
+                {type: "text", name: "line", value: tree.line},
+                {type: "button", name: "查看", value: "auto"},
+            ], index: "web.code.inner", feature: {
+                display: "/plugin/local/code/inner.js", style: "editor", width: 800, height: 600,
+                action: ["关闭"],
+            }}, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
+                sub.run = function(event, cmds, cb, silent) {
+                    can.run(event, ["inner"].concat(cmds), cb, true)
+                }
+            }, document.body)
+
+            can.page.Modify(can, tree.inner._target, {style: {position: "fixed",
+                left: event.x-(event.x>600? 400: 100),
+                top: event.y-(event.y>600? 400: 0),
+            }})
         }
         tree.view.onmouseenter = function(event) {
             can.page.Remove(can, can.pos)
