@@ -47,6 +47,38 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
     },
 
     river: {
+        "serivce": {name: "运营群", storm: {
+            "wx": {name: "wx",  action: [
+                {name: "微信公众号", help: "wx", inputs: [
+                    {type: "text", name: "path", value: "icebergs/misc/wx/wx.shy"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
+            ]},
+            "mp": {name: "mp",  action: [
+                {name: "微信小程序", help: "mp", inputs: [
+                    {type: "text", name: "path", value: "icebergs/misc/mp/mp.shy"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
+            ]},
+            "lark": {name: "lark",  action: [
+                {name: "飞书机器人", help: "lark", inputs: [
+                    {type: "text", name: "path", value: "icebergs/misc/lark/lark.shy"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js", style: "word"}},
+            ]},
+            "share": {name: "share",  action: [
+                {name: "contexts", help: "shylinux/contexts", inputs: [
+                    {type: "text", name: "path", value: "learning/speak/20200724.shy"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js", style: "word"}},
+            ]},
+            // "company": {name: "company",  action: [
+            //     {name: "公司", help: "company", inputs: [
+            //         {type: "text", name: "path", value: "learning/社会/管理/company.shy"},
+            //         {type: "button", name: "查看", value: "auto"},
+            //     ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
+            // ]},
+        }},
         "product": {name: "产品群", storm: {
             "office": {name: "office", index: [
                 "web.wiki.feel",
@@ -58,6 +90,42 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
             "chrome": {name: "chrome", index: [
                 "web.code.chrome.chrome",
                 "web.code.chrome.bookmark",
+            ]},
+            "english": {name: "english",  action: [
+                {name: "english", help: "英汉", inputs: [
+                    {type: "text", name: "word", value: "hi"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.alpha.find", feature: {}},
+                {name: "chinese", help: "汉英", inputs: [
+                    {type: "text", name: "word", value: "你好"},
+                    {type: "text", name: "method", value: "line"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.alpha.find", feature: {}},
+                {name: "wubi", help: "五笔", inputs: [
+                    {type: "text", name: "word", value: "wqvb"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.code.input.find", feature: {}},
+                {name: "wubi", help: "五笔", inputs: [
+                    {type: "text", name: "word", value: "你好"},
+                    {type: "text", name: "method", value: "line"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.code.input.find", feature: {}},
+            ]},
+            "context": {name: "context",  action: [
+                {name: "knowledge", help: "智库", inputs: [
+                    {type: "text", name: "path", value: "learning/", action: "auto"},
+                    {type: "button", name: "查看", value: "auto"},
+                    {type: "button", name: "返回"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
+                {name: "index", help: "索引", inputs: [
+                    {type: "text", name: "path", value: "learning/index.shy", action: "auto"},
+                    {type: "button", name: "查看", value: "auto"},
+                    {type: "button", name: "返回"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
+                {name: "context", help: "编程", inputs: [
+                    {type: "text", name: "path", value: "learning/自然/编程/hi.shy"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
             ]},
         }},
         "project": {name: "研发群", storm: {
@@ -79,6 +147,60 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 "web.code.tmux.buffer",
                 "web.code.tmux.session",
             ]},
+            "vim": {name: "vim",  action: [
+                {name: "git", help: "git", inputs: [
+                    {type: "text", name: "path", value: "icebergs/misc/git/git.shy"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
+                {name: "vim", help: "vim", inputs: [
+                    {type: "text", name: "path", value: "icebergs/misc/vim/vim.shy"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
+            ]},
+            "html": {name: "html",  action: [
+                {name: "spide", help: "爬虫", inputs: [
+                    {type: "text", name: "name", value: "icebergs"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.code.git.spide", feature: {display: "/plugin/story/spide.js"}},
+                {name: "trend", help: "趋势", inputs: [
+                    {type: "text", name: "name", value: "icebergs"},
+                    {type: "text", name: "begin_time", value: "@date"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.code.git.trend", feature: {display: "/plugin/story/trend.js"}},
+                {name: "draw", help: "绘图", inputs: [
+                    {type: "text", name: "path", value: "hi.svg"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.draw.draw", feature: {display: "/plugin/local/wiki/draw.js"}},
+                {name: "HTML5", help: "网页", inputs: [
+                    {type: "text", name: "path", value: "icebergs/misc/chrome/chrome.shy"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
+            ]},
+            "nginx": {name: "nginx",  action: [
+                {name: "nginx", help: "代理", inputs: [
+                    {type: "text", name: "path", value: "nginx-story/src/main.shy"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
+            ]},
+            "golang": {name: "golang",  action: [
+                {name: "golang", help: "编程", inputs: [
+                    {type: "text", name: "path", value: "golang-story/src/main.shy"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
+            ]},
+            "redis": {name: "redis",  action: [
+                {name: "redis", help: "缓存", inputs: [
+                    {type: "text", name: "path", value: "redis-story/src/main.shy", action: "auto"},
+                    {type: "button", name: "查看", value: "auto"},
+                    {type: "button", name: "返回"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
+            ]},
+            "context": {name: "context",  action: [
+                {name: "context", help: "编程", inputs: [
+                    {type: "text", name: "path", value: "learning/自然/编程/context.shy"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
+            ]},
         }},
         "profile": {name: "测试群", storm: {
             "pprof": {name: "pprof", index: [
@@ -92,6 +214,14 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 "web.code.docker.image",
                 "web.code.docker.container",
                 "web.code.docker.command",
+            ]},
+        }},
+        "operate": {name: "运维群", storm: {
+            "os": {name: "os",  action: [
+                {name: "操作系统", help: "os", inputs: [
+                    {type: "text", name: "path", value: "learning/自然/编程/system.shy"},
+                    {type: "button", name: "查看", value: "auto"},
+                ], index: "web.wiki.word", feature: {display: "/plugin/local/wiki/word.js"}},
             ]},
         }},
     },
@@ -235,7 +365,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                             for (var k in sub._inputs) { sub._inputs[k]._target.focus(); break }
                         })
                     }, target) },
-                }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js"]), function(input) {
+                }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js"]), function(input) { input.sup = sub
                     input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target)
 
                     if (location.protocol == "chrome-extension:") {
@@ -264,7 +394,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                             }
                             break
                         default:
-                            msg.Option("_action", item.name)
+                            cmds && cmds[0] == "action" || msg.Option("_action", item.name||item.value)
                         }
 
                         // 解析参数
@@ -310,6 +440,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                             if (!cmds[i]) { cmds.pop() } else { break }
                         }
 
+                        var last = sub._history[sub._history.length-1]; !can.core.Eq(last, cmds) && cmds[0] != "action" && sub._history.push(cmds)
                         return run(event, cmds, cb, silent)
                     }
 
@@ -421,8 +552,11 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             case "select":
                 item.values = typeof item.values == "string"? item.values.split(" "): item.values
                 if (!item.values && item.value) {
-                    item.values = item.value.split("|")
+                    item.values = item.value.split("|") 
                     item.value = item.values[0]
+                    if (item.values[0] == "day") {
+                        item.value = item.values[1]
+                    }
                 }
                 input.type = "select", input.list = item.values.map(function(value) {
                     return {type: "option", value: value, inner: value}
@@ -455,7 +589,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         item.type == "text" && !target.placeholder && (target.placeholder = item.name || "")
         item.type == "text" && !target.title && (target.title = target.placeholder)
         // item.type == "button" && item.action == "auto" && can.run && can.run({})
-        // item.type == "select" && (target.value = item.value || item.values[item.index||0])
+        item.type == "select" && item.value && (target.value = item.value)
         return target
     },
     table: function(can, target, type, msg, cb) {
@@ -464,7 +598,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 var msg = can.request(event)
                 msg.Option(can.Option()), msg.Option(line)
                 var cb = can.onaction[item] || can.onaction["运行"]
-                cb? cb(event, can, item): can.run(event, ["action", item, key, value.trim()], function(res) {
+                cb? cb(event, can, item): can.run(event, ["action", item, key=="value"? line.key: key, value.trim()], function(res) {
                     can.ui.display.innerHTML = ""
                     can.onappend.table(can, can.ui.display, "table", res)
                     can.onappend.board(can, can.ui.display, "board", res)
@@ -472,6 +606,13 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             }
             return {type: "td", inner: value, click: function(event) {
                 var target = event.target; if (target.tagName == "INPUT" && target.type == "button") {
+                    switch (target.value) {
+                        case "复制":
+                            navigator.clipboard.writeText(line.text).then(function() {
+                                can.user.toast(can, "复制成功", "paste")
+                            })
+                            return
+                    }
                     return run(event, event.target.value, value)
                 }
                 can.page.Select(can, can._option, "input.args", function(input) { if (input.name == key) { var data = input.dataset || {}

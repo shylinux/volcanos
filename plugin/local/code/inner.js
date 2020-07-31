@@ -1,4 +1,9 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) { target.innerHTML = ""
+        var feature = can.Conf("feature")
+        can.onaction.list = feature.action || can.onaction.list
+        can.Conf("height", feature.height || can.Conf("height"))
+        can.Conf("width", feature.width || can.Conf("width"))
+
         if (can.Conf("height") < 600) { can.Conf("height", 600) }
         can.onimport._share(can); var width = can.Conf("width"), height = can.Conf("height")
         // can.page.Modify(can, target, {style: {"max-height": height-160+"px"}})
@@ -8,7 +13,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             {view: "profile"},
 
             {view: "holdon", list: [
-                {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-160+"px"}},
+                {view: "preview"},
+                {view: "content", style: {"max-width": can.Conf("width")-(feature.width?0:120)+"px"}},
             ]},
 
             {view: ["editor", "textarea"], onkeydown: function(event) {
@@ -573,6 +579,9 @@ Volcanos("onaction", {help: "控件交互", list: [
         }, true)
     },
 
+    "关闭": function(event, can, msg) {
+        can.page.Remove(can, can._target.parentNode)
+    },
     "串行": function(event, can, msg) {
         can.core.Next(can.page.Select(can, can._action, "div.file", function(item) {
             return item.innerHTML

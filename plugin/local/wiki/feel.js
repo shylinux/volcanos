@@ -42,7 +42,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.rate = can.ctrl.rate.value = 1
         limit = can.ctrl.limit.value = parseInt(msg.Option("limit"))||1
-        can.height = can.ctrl.height.value = parseInt(msg.Option("height"))||400
+        can.height = can.ctrl.height.value = parseInt(msg.Option("height"))||200
         can.Option("path") != "最近/" && can.onimport.page(can, list, begin, limit)
     },
     page: function(can, list, begin, limit) { can.ui.display.innerHTML = ""
@@ -62,6 +62,7 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
     image: function(can, path) {
         return {img: path, height: can.height}
     },
+    jpeg: function(can, path) { return can.onfigure.image(can, path) },
     jpg: function(can, path) { return can.onfigure.image(can, path) },
     png: function(can, path) { return can.onfigure.image(can, path) },
     qrc: function(can, path) { return can.onfigure.image(can, path) },
