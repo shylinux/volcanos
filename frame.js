@@ -49,11 +49,11 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
     river: {
         "product": {name: "产品群", storm: {
             "office": {name: "office", index: [
+                "web.wiki.feel",
                 "web.wiki.draw.draw",
                 "web.team.plan",
                 "web.wiki.word",
                 "web.wiki.data",
-                "web.wiki.feel",
             ]},
             "chrome": {name: "chrome", index: [
                 "web.code.chrome.chrome",

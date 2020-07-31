@@ -2,7 +2,6 @@ Volcanos({name: "demo", volcano: "/frame.js", iceberg: "http://localhost:9020/ch
     libs: ["/lib/base", "/lib/core", "/lib/misc", "/lib/page", "/lib/user"], panes: [
         {name: "Header", help: "标题栏", pos: "head", state: ["time", "username"]},
         {name: "River",  help: "群聊组", pos: "left"},
-        {name: "Storm",  help: "应用流", pos: "right"},
         {name: "Action", help: "工作台", pos: "middle"},
         {name: "Search", help: "搜索框", pos: "float"},
         {name: "Footer", help: "状态条", pos: "foot", state: ["ncmd" ]},
