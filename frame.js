@@ -465,7 +465,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 var msg = can.request(event)
                 msg.Option(can.Option()), msg.Option(line)
                 var cb = can.onaction[item] || can.onaction["运行"]
-                cb? cb(event, can, item): can.run(event, ["action", item, key, value.trim()], function(res) {
+                cb? cb(event, can, item): can.run(event, ["action", item, key=="value"? line.key: key, value.trim()], function(res) {
                     can.ui.display.innerHTML = ""
                     can.onappend.table(can, can.ui.display, "table", res)
                     can.onappend.board(can, can.ui.display, "board", res)

@@ -1,3 +1,7 @@
+fieldset li.H2 {
+    font-weight:bold;
+    font-size:20px;
+}
 fieldset h2.story {
     clear:both;
 }
