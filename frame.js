@@ -552,8 +552,11 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             case "select":
                 item.values = typeof item.values == "string"? item.values.split(" "): item.values
                 if (!item.values && item.value) {
-                    item.values = item.value.split("|")
+                    item.values = item.value.split("|") 
                     item.value = item.values[0]
+                    if (item.values[0] == "day") {
+                        item.value = item.values[1]
+                    }
                 }
                 input.type = "select", input.list = item.values.map(function(value) {
                     return {type: "option", value: value, inner: value}
@@ -586,7 +589,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         item.type == "text" && !target.placeholder && (target.placeholder = item.name || "")
         item.type == "text" && !target.title && (target.title = target.placeholder)
         // item.type == "button" && item.action == "auto" && can.run && can.run({})
-        // item.type == "select" && (target.value = item.value || item.values[item.index||0])
+        item.type == "select" && item.value && (target.value = item.value)
         return target
     },
     table: function(can, target, type, msg, cb) {

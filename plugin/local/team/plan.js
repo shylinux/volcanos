@@ -130,7 +130,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
 
         var head = ["hour"].concat(["周日", "周一", "周二", "周三", "周四", "周五", "周六"]);
-        var list = [0]; for (var i = 6; i < 24; i++) { list.push(i) }
+        var list = [0]; for (var i = 6; i < 24; i++) { list.push(can.base.Number(i, 2)) }
 
         function set(week, hour) { return can.base.Time(can.base.TimeAdd(begin_time, week-begin_time.getDay()+hour/24)) }
         var table = can.page.Append(can, can.ui.content, [{type: "table", list: 
