@@ -39,7 +39,7 @@ Volcanos("onaction", {help: "控件交互", list: ["创建", "刷新"], _init: f
     create: function(can) {
         can.user.input(event, can, [
             ["类型", "public", "protected", "private"],
-            {_input: "text", name: "名称", value: "hi"},
+            {_input: "text", name: "群名", value: "hi"},
             {_input: "text", name: "简介", value: "hello"},
         ], function(event, button, meta, list) {
             can.run(event, ["action", "create"].concat(list), function(msg) {

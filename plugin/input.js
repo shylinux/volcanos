@@ -20,12 +20,6 @@ Volcanos("onaction", {help: "控件交互", list: [],
                 return true
             })
             return
-
-            navigator.clipboard.readText().then(function(text) {
-                console.log(text)
-                can.run(event, ["action", "insert", "paste", "", text], function() {})
-            })
-            return
         }
 
         switch (can.Conf("type")) {

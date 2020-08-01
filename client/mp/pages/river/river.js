@@ -7,12 +7,12 @@ Page({
         river: {},
     },
     action: {
-        "扫码": function(event, page, data, name) {
+        "扫码": function(event, page, data) {
             app.scans(function(res) {
                 page.onaction(event, res, res.name)
             })
         },
-        "刷新": function(event, page, data, name) {
+        "刷新": function(event, page, data) {
             wx.showLoading()
             app.request("river", {}, function(msg) {
                 wx.hideLoading()
@@ -22,14 +22,14 @@ Page({
                 page.setData({river: river})
             })
         },
-        "登录": function(event, page, data, name) {
-            app.conf.sessid = "", app.usercode(function() {
+        "登录": function(event, page, data) { app.conf.sessid = "", 
+            app.usercode(function() {
                 page.onaction(event, data, "刷新")
             })
         },
-        "授权": function(event, page, data, name) {
+        "授权": function(event, page, data) {
             app.userinfo(function(res) {
-                page.onaction(event, res, res.name)
+                page.onaction(event, data, "刷新")
             })
         },
     },
@@ -40,8 +40,8 @@ Page({
     },
     ondetail: function(event, data) { var page = this
         data = data || event.target.dataset.item
-
         console.log("detail", "river", data)
+
         var river = page.data.river[data.key]
         if (river.tool) {
             river.hidetool = !river.hidetool

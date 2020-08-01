@@ -11,6 +11,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 item.click()
             })
             can.onaction.view({}, can, "view", can.user.Searchs(can, "view")||"text")
+            can.page.Modify(can, can._action, {style: {display: "none"}})
         })
     },
     _stat: function(can, msg) {
@@ -48,7 +49,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             ])
         })
     },
-    _task: function(can, msg, time, list, view) { return {text: ["", "td"],
+    _task: function(can, msg, time, list, view) {
+        return {text: ["", "td"],
         ondragover: function(event) { event.preventDefault()
             can.page.Select(can, can.ui.content, "td", function(item) {
                 can.page.ClassList.del(can, item, "over")
@@ -58,7 +60,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.drop(event, event.target, time)
         },
         ondblclick: function(event) {
-            can.onaction.insertTask(event, can, new Date(time))
+            can.onaction.insertTask(event, can, can.base.Time(new Date(time)))
         },
         list: can.core.List(list, function(task) { return typeof task == "string"? {view: ["date", "div", task]}:
             {view: [can.onexport.style(can, task), "div", can.onexport[can.Action("view")||view||"name"](can, task)],
@@ -77,14 +79,35 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                         can.onaction.modifyTask(event, can, task, "status", item)
                     })
                 },
+                _init: function(target) {
+                    can._option._task && can._option._task.id == task.id && target.click()
+                },
             }
         }),
     } },
     _profile: function(can, msg, task) { can.ui.profile.innerHTML = ""
-        can.task = task, can.Status(task)
+        can._option._task = can.task = task, can.Status(task)
 
         can.page.Append(can, can.ui.profile, [{th: ["key", "value"]}])
+
+        task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) {
+            task["extra."+key] = value
+        }) && delete(task.extra)
+
         can.core.Item(task, function(key, value) { can.page.Append(can, can.ui.profile, [{td: [key, value],
+            onclick: function(event) {
+                if (event.target.type == "button") { var name = event.target.value||event.target.name
+                    var cb = can.onaction[name];
+                    if (typeof cb == "function") {
+                        cb(event, can, name)
+                    } else {
+                        var msg = can.request(event); can.core.Item(can.task, msg.Option)
+                        can.run(event, ["action", name], function(msg) {
+                            can.run({})
+                        }, true)
+                    }
+                }
+            },
             ondblclick: function(event) {
                 can.onappend.modify(can, event.target, function(ev, value, old) {
                     can.onaction.modifyTask(event, can, task, key, value)
@@ -113,7 +136,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
 
         var head = ["hour", "task"]
-        var list = [0]; for (var i = 6; i < 24; i++) { list.push(i) }
+        var list = [0]; for (var i = 7; i < 23; i++) { list.push(can.base.Number(i, 2)) }
 
         function set(hour) { return can.base.Time(can.base.TimeAdd(begin_time, hour/24)) }
         var table = can.page.Append(can, can.ui.content, [{type: "table", list: 
@@ -124,13 +147,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }]).table
     },
     week: function(can, msg) { var begin_time = new Date(can.base.Time(can.Option("begin_time")))
-        function key(time) { return time.getDay()+" "+time.getHours() }
+        function key(time) { return time.getDay()+" "+can.base.Number(time.getHours(), 2) }
         var hash = {}; msg.Table(function(value) {
             var k = key(new Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value])
         })
 
         var head = ["hour"].concat(["周日", "周一", "周二", "周三", "周四", "周五", "周六"]);
-        var list = [0]; for (var i = 6; i < 24; i++) { list.push(can.base.Number(i, 2)) }
+        var list = [0]; for (var i = 7; i < 23; i++) { list.push(can.base.Number(i, 2)) }
 
         function set(week, hour) { return can.base.Time(can.base.TimeAdd(begin_time, week-begin_time.getDay()+hour/24)) }
         var table = can.page.Append(can, can.ui.content, [{type: "table", list: 
@@ -167,21 +190,21 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }]).table
     },
     year: function(can, msg) { var begin_time = new Date(can.base.Time(can.Option("begin_time")))
-        function key(time) { return can.base.Time(time, "%y-%m") }
+        function key(time) { return can.base.Time(time, "%y-%m ")+time.getDay() }
         var hash = {}; msg.Table(function(value) {
             var k = key(new Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value])
         })
 
-        var head = ["month", "task"]
+        var head = ["month"].concat(["周日", "周一", "周二", "周三", "周四", "周五", "周六"]);
         var list = [0]; for (var i = 1; i < 13; i++) { list.push(i) }
 
-        function set(month) { return begin_time.getFullYear()+"-"+can.base.Number(month, 2) }
+        function set(month, weekday) { return begin_time.getFullYear()+"-"+can.base.Number(month, 2)+" "+weekday }
         var table = can.page.Append(can, can.ui.content, [{type: "table", list: 
             can.core.List(list, function(date, row) {
                 if (row == 0) { return {type: "tr", list: can.core.List(head, function(head) { return {text: [head, "th"]} })} }
                 return {type: "tr", list: can.core.List(head, function(head, col) {
                     if (col == 0) { return {text: [row+"", "td"]} }
-                    return can.onimport._task(can, msg, set(row)+can.base.Time(begin_time, "-%d %H:%M:%S"), hash[set(row)], "text")
+                    return can.onimport._task(can, msg, set(row, col-1)+can.base.Time(begin_time, "-%d %H:%M:%S"), hash[set(row, col-1)], "text")
                 })}
             })
         }]).table
@@ -208,53 +231,36 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }]).table
     },
 }, ["/plugin/local/team/plan.css"])
-Volcanos("onaction", {help: "组件交互", list: ["导出", "导入", "统计", "详情",  "",
-        ["level", "all", "l1", "l2", "l3", "l4", "l5"],
-        ["status", "all", "prepare", "process", "cancel", "finish"],
-        ["score", "all", "s1", "s2", "s3", "s4", "s5"],
+Volcanos("onaction", {help: "组件交互", list: [
+        // ["level", "all", "l1", "l2", "l3", "l4", "l5"],
+        // ["status", "all", "prepare", "process", "cancel", "finish"],
+        // ["score", "all", "s1", "s2", "s3", "s4", "s5"],
         ["view", "", "name", "text", "level", "score"],
-        "", "添加", "启动", "运行", "完成",
     ],
-    insertTask: function(event, can, now) { now = now || new Date()
-        can.require([
-            "/plugin/input/key",
-            "/plugin/input/date",
-        ]); function date(event) {
-            can.onfigure.date.onclick(event, can, {}, event.target)
-        }
-
-        can.run(event, ["action", "plugin"], function(msg) {
-            var ui = can.user.input(event, can, [
-                {name: "zone", select: [["zone"].concat(msg.append), function(event, value) {
-                    can.page.Appends(can, ui.type, can.core.List(msg[value], function(item) {
-                        return {type: "option", value: item, inner: item}
-                    }))
-                }]},
-                {name: "type", select: [["type"].concat(msg[msg.append[0]]), function(event, value) {
-
-                }]},
-                {name: "name", type: "input", onclick: function(event) {
-                    can.onfigure.key.onclick(event, can, {name: "name", zone: ui.zone.value, type: ui.type.value}, event.target)
-                }, autocomplete: "off"},
-                {name: "text", type: "input", onclick: function(event) {
-                    can.onfigure.key.onclick(event, can, {name: "text", zone: ui.zone.value, type: ui.type.value}, event.target)
-                }, autocomplete: "off"},
-                {name: "begin_time", type: "input", value: can.base.Time(can.base.TimeAdd(now, now.getHours()/24)), onclick: date},
-                {name: "end_time", type: "input", value: can.base.Time(can.base.TimeAdd(now, (now.getHours()+1)/24)), onclick: date},
-            ], function(event, button, data, list) {
-                can.run(event, ["action", "insert"].concat(list), function(msg) {
-                    can.user.toast(can, "添加成功")
-                    can.run({})
-                }, true)
-                return true
+    insertTask: function(event, can, time) {
+        can.user.input(event, can, can.Conf("feature").insert, function(event, button, data, list) {
+            var args = ["action", "insert"]; can.core.Item(data, function(key, value) {
+                if (key == "begin_time") {
+                    value = value || time
+                }
+                if (key == "close_time") {
+                    value = value || time
+                }
+                key && value && args.push(key, value)
             })
-        }, true)
+            can.run(event, args, function(msg) {
+                can.user.toast(can, "添加成功")
+                can.run({})
+            }, true)
+            return true
+        })
     },
     modifyTask: function(event, can, task, key, value) {
         var msg = can.request(event); msg.Option(task)
         can.run(event, ["action", "modify", key, value, task[key]], function(msg) {
             task[key] = value, can.onimport._profile(can, can._msg, task)
             can.user.toast(can, "修改成功")
+            can.run({})
         }, true)
     },
     pluginTask: function(event, can, task, key) {
@@ -295,17 +301,57 @@ Volcanos("onaction", {help: "组件交互", list: ["导出", "导入", "统计",
     "统计": function(event, can, key) {
         can.page.Modify(can, can.ui.project, {style: {display: can.ui.project.style.display=="none"? "table": "none"}})
     },
-    "添加": function(event, can, key) {
-        can.onaction.insertTask(event, can)
-    },
     "详情": function(event, can, key) {
         can.page.Modify(can, can.ui.profile, {style: {display: can.ui.profile.style.display=="none"? "table": "none"}})
     },
     "启动": function(event, can, key) {
-        can.onaction.modifyTask(event, can, task, "status", "process", can.task.status)
+        can.onaction.modifyTask(event, can, can.task, "status", "process", can.task.status)
     },
     "运行": function(event, can, key) {
         can.onaction.pluginTask(event, can, can.task)
+    },
+    "插件": function(event, can, key) {
+        can.task["extra.cmds"] || can.user.input(event, can, ["extra.cmds", "extra.args"], function(event, button, data, list) {
+            var msg = can.request(event)
+            can.core.Item(can.task, msg.Option)
+            can.run(event, ["action", "modify", "extra.cmds", list[0]], function(msg) {
+                var msg = can.request({})
+                can.core.Item(can.task, msg.Option)
+                can.run(msg._event, ["action", "modify", "extra.args", list[1]], function(msg) {
+                    can.run({})
+                }, true)
+            }, true)
+        })
+        can.task["extra.cmds"] && can.run(event, ["action", "command", can.task["extra.cmds"]], function(msg) {
+            msg.Table(function(item) {
+                var feature = can.base.Obj(item.meta)
+                feature.width = 400
+                feature.height = 400
+                var plugin = can.onappend._init(can, {name: item.name, help: item.help, inputs: can.base.Obj(item.list, [ 
+                    {type: "text", name: "path", value: "hi.svg"},
+                    {type: "button", name: "查看", value: "auto"},
+                ]), index: can.task["extra.cmds"], args: can.base.Obj(can.task["extra.args"]), feature: feature}, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
+                    sub.run = function(event, cmds, cb, silent) {
+                        can.run(event, ["action", "command", can.task["extra.cmds"]].concat(cmds), function(msg) {
+                            typeof cb == "function" && cb(msg)
+                        }, true)
+                    }
+
+                    can.page.Modify(can, sub._target, {style: {position: "fixed",
+                        left: event.x-(event.x>400? 400: 100),
+                        top: event.y-(event.y>400? 400: 0),
+                    }})
+                    can.Timer(100, function() {
+                        can.page.Append(can, sub._option, [{view: "item button", list: [{button: ["关闭", function(event) {
+                            can.page.Remove(can, sub._target)
+                        }] }] }])
+                    })
+                }, document.body)
+            })
+        }, true)
+    },
+    "开始": function(event, can, key) {
+        can.onaction.modifyTask(event, can, can.task, "status", "process", can.task.status)
     },
     "完成": function(event, can, key) {
         can.onaction.modifyTask(event, can, can.task, "status", "finish", can.task.status)

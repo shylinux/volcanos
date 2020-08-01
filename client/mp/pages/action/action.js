@@ -3,7 +3,7 @@ const app = getApp()
 
 Page({
     data: {
-        action: ["扫码", "清屏", "刷新", "串行", "并行", "共享"],
+        action: ["扫码", "刷新", "清屏", "串行", "并行"],
         river: "", storm: "", title: "",
         res: [], his: {}, inputs: {},
     },
@@ -30,6 +30,14 @@ Page({
                         line.inputs = [{_input: "text"}, {_input: "button", value: "执行"}]
                     }
                     list.push(line), line.inputs.forEach(function(input) {
+                        input.action = input.action || input.value
+                        input.value == "auto" && (input.value = "")
+                        if (input.value && input.value.startsWith("@")) {
+                            input.value = ""
+                        }
+                        if (input._input == "select") {
+                            input.values = input.values || input.value && input.value.split("|")
+                        }
                         input._input == "button" && input.action == "auto" && page.run(event, index)
                     })
                 })
@@ -53,145 +61,11 @@ Page({
             })
             page.setData({res: page.data.res})
         },
-        "共享": function(event, page, data, name) {
-        },
-    },
-    plugin: {
-        paste: function(page, data) {
-            wx.getClipboardData({success: function(res) {
-                var cmds = [page.data.river, page.data.storm, data.order]
-                cmds = cmds.concat(["insert", "paste", "", res.data])
-                app.request("action", {cmds: cmds}, function(msg) {
-
-                })
-            }})
-        },
-        qrcode: function(page) {
-            app.scans(function(res) {
-                res["sess.river"] = page.data.river
-                res["sess.storm"] = page.data.storm
-                app.request("mp/login/scan", res)
-            })
-        },
-        location: function(page, data) {
-            app.location({success: function(res) {
-                var cmds = [page.data.river, page.data.storm, data.order]
-                cmds = cmds.concat(["insert", "location", res.name, res.address, res.longitude*100000, res.latitude*100000])
-                app.request("action", {cmds: cmds}, function(msg) {
-
-                })
-            }})
-        },
     },
     onaction: function(event, data, name) {
-        console.log("action", "river", name)
         data = data || event.target.dataset, name = name || data.name
+        console.log("action", "action", name)
         this.action[name](event, this, data)
-    },
-    onfigure: {
-        location: {click: function(event, page, data, cmd, field) {
-            wx.chooseLocation({success: function(res) {
-                if (data.input._input != "button") {
-                    field.inputs[data.index].value = res.name
-                    page.setData({res: page.data.res})
-                }
-                page.run(event, data.order, ["action", "device", "location", res.name, res.address, "latitude", res.latitude*100000, "longitude", res.longitude*100000])
-            }})
-        }},
-        battery: {click: function(event, page, data, cmd, field) {
-            wx.getBatteryInfo({success: function(res) {
-                if (data.input._input != "button") {
-                    field.inputs[data.index].value = res.level
-                    page.setData({res: page.data.res})
-                }
-                page.run(event, data.order, ["action", "device", "battery", res.level, res.isCharging])
-            }})
-        }},
-        paste: {click: function(event, page, data, cmd, field) {
-            wx.getClipboardData({success: function(res) {
-                if (data.input._input != "button") {
-                    field.inputs[data.index].value = res.data
-                    page.setData({res: page.data.res})
-                }
-                page.run(event, data.order, ["action", "device", "paste", res.data, res.data])
-            }})
-        }},
-        scan: {click: function(event, page, data, cmd, field) {
-            app.scans(function(res) {
-                if (data.input._input != "button") {
-                    field.inputs[data.index].value = res.text || res.name 
-                    page.setData({res: page.data.res})
-                }
-                page.run(event, data.order, ["action", "device", res.type||"spide", res.name||"", res.text||"", JSON.stringify(res.extra||"")])
-            })
-        }},
-        album: {click: function(event, page, data, cmd, field) {
-            wx.chooseImage({success: function(res) {
-                console.log(res)
-                const tempFilePaths = res.tempFilePaths
-                wx.uploadFile({
-                    url: app.conf.serve+"/mp/login/upload",
-                    filePath: tempFilePaths[0],
-                    name: 'upload', formData: {'user': 'test'},
-                    success: function(msg) {
-                        console.log(msg)
-                        if (data.input._input != "button") {
-                            field.inputs[data.index].value = msg.data
-                            page.setData({res: page.data.res})
-                        }
-                    },
-                    fail: function(res) {
-                        console.log(res)
-                    },
-                })
-            }})
-        }},
-        finger: {click: function(event, page, data, cmd, field) {
-            wx.startSoterAuthentication({
-                requestAuthModes: ['fingerPrint'], authContent: '请用指纹解锁',
-                challenge: '123456', success(res) {
-                    console.log(res)
-                    res = JSON.parse(res.resultJSON)
-                    if (data.input._input != "button") {
-                        field.inputs[data.index].value = res.cpu_id
-                        page.setData({res: page.data.res})
-                    }
-                    page.run(event, data.order, ["action", "device", "finger", res.uid, res.cpu_id, "counter", res.counter, "raw", res.raw])
-                }
-            })
-        }},
-        wifi: {click: function(event, page, data, cmd, field) {
-            wx.getConnectedWifi({success: function(res) {
-                console.log(res)
-                if (data.input._input != "button") {
-                    field.inputs[data.index].value = res.wifi.SSID
-                    page.setData({res: page.data.res})
-                }
-                page.run(event, data.order, ["action", "device", "wifi", res.wifi.SSID, res.wifi.signalStrength])
-            }})
-        }},
-        wifiConn: {click: function(event, page, data, cmd, field) {
-            wx.connectWifi({
-                SSID: data.SSID, password: data.password,
-                success: function(res) {
-                    console.log(res)
-                },
-                fail: function(res) {
-                    console.log(res)
-                },
-            })
-        }},
-        vibrate: {click: function(event, page, data, cmd, field) {
-            wx.vibrateShort()
-        }},
-        key: {click: function(event, page, data, cmd, field) {
-            page.run(event, data.order, ["action", "input", data.input.name, data.input.value])
-        }},
-        share: {click: function(event, page, data, cmd, field) {
-            wx.showShareMenu({
-                  withShareTicket: true
-            })
-        }},
     },
 
     run: function(event, order, cmd, cb) {var page = this, field = page.data.res[order]
@@ -207,7 +81,7 @@ Page({
         }
 
         wx.showLoading()
-        app.request("action", {cmds: cmds}, function(msg) {
+        app.request("action?="+field.name, {cmds: cmds}, function(msg) {
             wx.hideLoading()
             page.data.res[order].msg = msg
             page.setData({res: page.data.res})
@@ -233,16 +107,19 @@ Page({
 
     onClick: function(event) {var page = this, data = event.target.dataset
         var field = page.data.res[data.order]
-            // 输入补全
-        var figure = data && data.input && page.onfigure[data.input.cb||data.input.figure||data.input.name]
-        if (figure) {
-            return figure.click(event, page, data, data.input.name, field)
-        }
 
         switch (data.input.name) {
             case "添加":
-                var p = page.plugin[data.field.index]
-                if (typeof p == "function") { return p(page, data) }
+                app.data.field = field
+                app.data.insertCB = function(res) {
+                    var list = ["action", "insert"];
+                    kit.Item(res, function(key, value) {
+                        key && value && list.push(key, value)
+                    })
+                    page.run(event, data.order, list)
+                }
+                app.jumps("insert/insert", {river: page.data.river, storm: page.data.storm, title: field.name, field: field})
+                return
         }
 
         switch (data.input.value) {
@@ -284,7 +161,7 @@ Page({
         app.title(options.title)
 
         var data = app.data[options.river+options.storm]
-        if (data) {return this.setData({res: this.data.res = data})}
+        if (data) { return this.setData({res: this.data.res = data}) }
         this.onaction({}, {}, "刷新")
     },
     onReady: function () {},
@@ -296,11 +173,38 @@ Page({
     },
     onReachBottom: function () {},
     onShareAppMessage: function (res) {
-        console.log(res)
+        console.log("action", "share", res)
         return {
             title: this.data.title,
             path: "pages/action/action?river="+this.data.river+"&storm="+this.data.storm+"&title="+this.data.title,
-            success: function(res) { console.log(res) },
         }
-    }
+    },
+
+    plugin: {
+        paste: function(page, data) {
+            wx.getClipboardData({success: function(res) {
+                var cmds = [page.data.river, page.data.storm, data.order]
+                cmds = cmds.concat(["insert", "paste", "", res.data])
+                app.request("action", {cmds: cmds}, function(msg) {
+
+                })
+            }})
+        },
+        qrcode: function(page) {
+            app.scans(function(res) {
+                res["sess.river"] = page.data.river
+                res["sess.storm"] = page.data.storm
+                app.request("mp/login/scan", res)
+            })
+        },
+        location: function(page, data) {
+            app.location({success: function(res) {
+                var cmds = [page.data.river, page.data.storm, data.order]
+                cmds = cmds.concat(["insert", "location", res.name, res.address, res.longitude*100000, res.latitude*100000])
+                app.request("action", {cmds: cmds}, function(msg) {
+
+                })
+            }})
+        },
+    },
 })

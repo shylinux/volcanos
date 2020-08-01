@@ -1,11 +1,8 @@
 {
   "pages": [
     "pages/river/river",
-    "pages/storm/storm",
     "pages/action/action",
-    "pages/active/active",
-    "pages/favor/favor",
-    "pages/scans/scans"
+    "pages/insert/insert"
   ],
   "window": {
     "backgroundColor": "#000",

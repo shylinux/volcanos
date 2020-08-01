@@ -6,8 +6,8 @@ Volcanos("onfigure", {help: "控件详情", list: [], _merge: function(can, sub)
 
         // 设置输入
         function set(now) {
-            target.value = can.base.Time(now); 
-            item.action == "auto" && can.run({});
+            target.value = can.base.Time(now)
+            item.action == "auto" && can.run({})
         }
 
         // 添加插件
@@ -58,7 +58,10 @@ Volcanos("onfigure", {help: "控件详情", list: [], _merge: function(can, sub)
             can.page.Appends(can, figure.table, [{type: "tr", list: can.core.List(["日", "一", "二", "三", "四", "五", "六"], function(day) {return {text: [day, "th"]}})}])
             var tr; function add(day, type) {if (day.getDay() == 0) {tr = can.page.Append(can, figure.table, [{type: "tr"}]).tr}
                 can.page.Append(can, tr, [{text: [day.getDate(), "td", can.base.Time(day).split(" ")[0] == can.base.Time(now).split(" ")[0]? "select": type],
-                    dataset: {date: day.getTime()}, click: function(event) {set(now = new Date(parseInt(event.target.dataset.date)))},
+                    dataset: {date: day.getTime()}, click: function(event) {
+                        set(now = new Date(parseInt(event.target.dataset.date)))
+                        can.page.Remove(can, figure.fieldset)
+                    },
                 }])
             }
 

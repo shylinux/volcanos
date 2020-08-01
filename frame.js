@@ -365,7 +365,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                             for (var k in sub._inputs) { sub._inputs[k]._target.focus(); break }
                         })
                     }, target) },
-                }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js"]), function(input) { input.sup = sub
+                }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js", "frame.js"]), function(input) { input.sup = sub
                     input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target)
 
                     if (location.protocol == "chrome-extension:") {
@@ -599,9 +599,11 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 msg.Option(can.Option()), msg.Option(line)
                 var cb = can.onaction[item] || can.onaction["运行"]
                 cb? cb(event, can, item): can.run(event, ["action", item, key=="value"? line.key: key, value.trim()], function(res) {
-                    can.ui.display.innerHTML = ""
-                    can.onappend.table(can, can.ui.display, "table", res)
-                    can.onappend.board(can, can.ui.display, "board", res)
+                    can.run({}, null, function() {
+                        can.ui.display.innerHTML = ""
+                        can.onappend.table(can, can.ui.display, "table", res)
+                        can.onappend.board(can, can.ui.display, "board", res)
+                    })
                 }, true)
             }
             return {type: "td", inner: value, click: function(event) {

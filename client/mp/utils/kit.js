@@ -26,5 +26,10 @@ module.exports = {
         }
         return typeof cbs == "function" && cbs(res), res
     },
+    Item: function(list, cb, cbs) {
+        for (var k in list) {
+            cb(k, list[k])
+        }
+    },
 }
 

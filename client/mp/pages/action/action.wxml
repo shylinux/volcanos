@@ -5,8 +5,8 @@
 <view class="output">
     <view class="field" wx:for="{{res}}" wx:key="name" wx:for-index="order" wx:for-item="field">
         <view class="title"><text>{{field.name}}({{field.help}})</text></view>
-        <!-- 参数 -->
         <view class="option">
+            <!-- 参数 -->
             <view class="item {{item._input}}" wx:for="{{field.inputs}}" wx:key="name">
                 <!-- 文本 -->
                 <input wx:if="{{item._input == 'text'}}" type="text" value="{{item.value}}" placeholder="{{item.name}}"
@@ -16,6 +16,7 @@
                 <textarea wx:elif="{{item._input == 'textarea'}}" value="{{item.value}}" placeholder="{{item.name}}"
                     bindtap="onClick" bindinput="onInput" data-field="{{field}}" data-order="{{order}}" data-index="{{index}}" data-input="{{item}}"></textarea>
 
+                <!-- 列表 -->
                 <picker wx:elif="{{item._input == 'select'}}" bindchange="onChange" value="{{item.index||0}}" range="{{item.values}}"
                     data-field="{{field}}" data-order="{{order}}" data-index="{{index}}" data-input="{{item}}">
                     <view>{{item.values[item.index||0]}}</view>

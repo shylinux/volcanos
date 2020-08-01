@@ -1,0 +1,26 @@
+<import src="../../app.wxml"/>
+<template is="action" data="{{action}}"></template>
+
+<view class="output">
+    <view class="item" wx:for="{{insert}}" wx:key="name">
+        <!-- 文本 -->
+        <input wx:if="{{item._input == 'text'}}" type="text" value="{{item.value}}" placeholder="{{item.name}}"
+            bindtap="onClick" bindinput="onInput" bindconfirm="onEnter" data-index="{{index}}" data-input="{{item}}"/>
+
+        <!-- 文本 -->
+        <textarea wx:elif="{{item._input == 'textarea'}}" value="{{item.value}}" placeholder="{{item.name}}"
+            bindtap="onClick" bindinput="onInput" data-index="{{index}}" data-input="{{item}}"></textarea>
+
+        <!-- 列表 -->
+        <picker wx:elif="{{item._input == 'select'}}" bindchange="onChange" value="{{item.index||0}}" range="{{item.values}}"
+            data-index="{{index}}" data-input="{{item}}">
+            <view>{{item.values[item.index||0]}}</view>
+        </picker>
+
+        <!-- 按钮 -->
+        <button wx:elif="{{item._input == 'button'}}" size="mini" bindtap="onClick" data-index="{{index}}" data-input="{{item}}">{{item.name||item.value}}</button>
+    </view>
+    <button bindtap="onConfirm">提交</button>
+    <button bindtap="onCancel">取消</button>
+</view>
+
