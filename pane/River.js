@@ -20,10 +20,27 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
                     })
                     can.page.ClassList.add(can, event.target, "select")
                 }, oncontextmenu: function(event) {
-                    can.user.carte(can, {}, ["添加工具", "删除"], function(ev, item, meta) {
-                        item == "删除" && can.run(event, [can.Conf("river"), value.key, "storm", "action", "remove"], function(msg) {
-                            can.user.Search(can, {"river": can.Conf("river")})
-                        }) || can.ondetail[item](event, can, value)
+                    can.user.carte(can, {}, ["添加工具", "保存", "删除"], function(ev, item, meta) {
+                        switch (item) {
+                            case "保存":
+                                var list = can.page.Select(can, document.body, "fieldset.Action>div.output>fieldset.plugin>form.option", function(item) {
+                                    return JSON.stringify(can.page.Select(can, item, 'input[type="text"],select', function(item) {
+                                        return item.value||""
+                                    }))
+                                })
+
+                                can.run(event, [can.Conf("river"), value.key, "storm", "action", "save"].concat(list), function(msg) {
+                                    can.user.toast(can, "保存成功", "storm")
+                                })
+                                break
+                            case "删除":
+                                can.run(event, [can.Conf("river"), value.key, "storm", "action", "remove"], function(msg) {
+                                    can.user.Search(can, {"river": can.Conf("river")})
+                                }) || can.ondetail[item](event, can, value)
+                                break
+                            default:
+                                can.ondetail[item](event, can, item)
+                        }
                     })
                 }}
             })}]).sublist
