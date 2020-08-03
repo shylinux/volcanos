@@ -9,9 +9,12 @@ Volcanos("onaction", {help: "控件交互", list: [],
         }
     },
     onclick: function(event, can) {
-        if (can.Conf("name") == "添加") {
-            can.user.input(event, can, can.sup.Conf("feature").insert,function(event, button, data, list) {
-                var args = ["action", "insert"]; can.core.Item(data, function(key, value) {
+        var feature = can.sup.Conf("feature")
+        var input = feature && feature[can.Conf("name")]
+
+        if (input) {
+            can.user.input(event, can, input,function(event, button, data, list) {
+                var args = ["action", can.Conf("name")]; can.core.Item(data, function(key, value) {
                     key && value && args.push(key, value)
                 })
                 can.run(event, args, function(msg) {
