@@ -1,5 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [],
-    _init: function(can, meta, list, cb, output, action, option, field) {
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, output, action, option, field) {
     },
 })
 Volcanos("onaction", {help: "控件交互", list: [],
@@ -27,7 +26,10 @@ Volcanos("onaction", {help: "控件交互", list: [],
 
         switch (can.Conf("type")) {
             case "button":
-                can.run(event, [], function() {})
+                var toast = can.user.toast(can, "执行中...", can.sup._help, 100000)
+                can.run(event, [], function(msg) {
+                    toast.Close()
+                })
                 break
         }
     },

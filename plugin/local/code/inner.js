@@ -77,7 +77,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
 
         can.run({}, ["action", "render", can.base.Ext(file), file, path], function(msg) {
             can.tabview[path+file] = msg
-            msg.Option({path: path, file: file, line: line})
+            msg.Option({path: path, file: file, line: line||1})
             can.page.Append(can, can._action, [{view: ["file", "div", file], onclick: function(event) {
                 can.onimport.tabview(can, path, file)
             }, ondblclick: function(event) {

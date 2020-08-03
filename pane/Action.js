@@ -4,6 +4,29 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
         can.onexport._init(can, msg, list, cb, target)
     },
+
+    add_plugin: function(can, river, storm, value) {
+        value.name && can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
+            sub.run = function(event, cmds, cb, silent) { var msg = can.request(event)
+                can.Conf("active", sub.Option())
+                can.Conf("action", value.name)
+                can.Conf("current", sub)
+                // 插件回调
+                return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
+                    can.run(msg._event, ["search", "Footer.onaction.ncmd"]);
+                    can.user.toast(can, "执行成功", value.name, 1000);
+                    typeof cb == "function" && cb(msg)
+                }, silent)
+            }
+            sub._target.oncontextmenu = function(event) {
+                can.user.carte(can, can.ondetail, can.ondetail.list, function(event, item, meta) {
+                    // 菜单命令
+                    meta[item] && meta[item](event, can, value, sub)
+                })
+            }
+        }, can._output);
+
+    },
 })
 Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"],
     "共享": function(event, can, value, sub) { var msg = sub.request(event)
@@ -21,34 +44,25 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
         var position = can.Conf(key, msg.Option(key, can.Cache(river+"."+storm, can._output)||""));
         if (position) { can._output.scrollTo(0, position-1); return }
 
-        msg.Clear("option"), can.run(msg._event, [river, storm], function(sup) { can._output.innerHTML = ""; sup.Table(function(value, index, array) {
-            value.inputs = can.base.Obj(value.inputs||"[]", []), value.inputs.length == 0 && (value.inputs = [
-                {type: "text", name: "name", action: "auto"},
-                {type: "button", name: "查看", action: "auto"},
-                {type: "button", name: "返回"},
-            ]);
-            value.width = can._target.offsetWidth
-            value.height = can._target.offsetHeight
-            value.name && can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
-                sub.run = function(event, cmds, cb, silent) { var msg = can.request(event)
-                    can.Conf("active", sub.Option())
-                    can.Conf("action", value.name)
-                    can.Conf("current", sub)
-                    // 插件回调
-                    return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
-                        can.run(msg._event, ["search", "Footer.onaction.ncmd"]);
-                        can.user.toast(can, "执行成功", value.name, 1000);
-                        typeof cb == "function" && cb(msg)
-                    }, silent)
-                }
-                sub._target.oncontextmenu = function(event) {
-                    can.user.carte(can, can.ondetail, can.ondetail.list, function(event, item, meta) {
-                        // 菜单命令
-                        meta[item] && meta[item](event, can, value, sub)
+        msg.Clear("option"), can.run(msg._event, [river, storm], function(sup) { can._output.innerHTML = "";
+            can.core.Next(sup.Table(), function(value, next) {
+                // value.inputs = can.base.Obj(value.inputs||"[]", [])
+                // value.args = typeof value.args == "string"? value.args.split(","): value.args
+                value.inputs = can.base.Obj(value.inputs||"[]", [])
+                value.height = can._target.offsetHeight
+                value.width = can._target.offsetWidth
+
+                if (value.inputs.length == 0) {
+                    can.run({}, [river, storm, "action", "command", value.index], function(msg) {
+                        value.inputs = can.base.Obj(msg.list&&msg.list[0]||"[]", [])
+                        value.feature = can.base.Obj(msg.meta&&msg.meta[0]||"{}", {})
+                        can.onaction.add_plugin(can, river, storm, value), next()
                     })
+                    return
                 }
-            }, can._output);
-        }) })
+                can.onaction.add_plugin(can, river, storm, value), next()
+            })
+        })
     },
     key: function(can, msg) { msg.Option("active", can.Conf("action"))
         can.core.Item(can.Conf("active"), msg.Option)

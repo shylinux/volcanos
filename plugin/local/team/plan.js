@@ -49,8 +49,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             ])
         })
     },
-    _task: function(can, msg, time, list, view) {
-        return {text: ["", "td"],
+    _task: function(can, msg, time, list, view) { return {text: ["", "td"],
         ondragover: function(event) { event.preventDefault()
             can.page.Select(can, can.ui.content, "td", function(item) {
                 can.page.ClassList.del(can, item, "over")
@@ -79,7 +78,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                         can.onaction.modifyTask(event, can, task, "status", item)
                     })
                 },
-                _init: function(target) {
+                _init: function(target) { can.task || target.click()
                     can._option._task && can._option._task.id == task.id && target.click()
                 },
             }

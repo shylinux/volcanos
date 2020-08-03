@@ -64,6 +64,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
         return list
     },
     _height: function(can, tree) {
+        if (!tree) { return }
         if (tree.hide) { return tree.height = 1 }
 
         if (tree.list.length == 0) {

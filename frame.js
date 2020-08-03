@@ -365,7 +365,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                             for (var k in sub._inputs) { sub._inputs[k]._target.focus(); break }
                         })
                     }, target) },
-                }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js", "frame.js"]), function(input) { input.sup = sub
+                }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js", "/frame.js"]), function(input) { input.sup = sub
                     input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target)
 
                     if (location.protocol == "chrome-extension:") {
@@ -393,6 +393,9 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                                 })
                             }
                             break
+                        case "清空":
+                            sub._output.innerHTML = ""
+                            return typeof cb == "function" && cb(can.request(event))
                         default:
                             cmds && cmds[0] == "action" || msg.Option("_action", item.name||item.value)
                         }
@@ -422,7 +425,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             var args = can.base.Obj(meta.args, []); can.core.Next(can.base.Obj(meta.inputs, []), add)
             var count = 0; function run(event, cmds, cb, silent) { return sub.run(event, cmds||[], function(msg) {
                 sub.Status("ncmd", sub._history.length+"/"+count++)
-                if (silent) { typeof cb == "function" && cb(msg); return }
+                typeof cb == "function" && cb(msg)
+                if (silent) { return }
 
                 // 添加组件
                 var display = (msg.Option("_plugin")||msg.Option("_display")||meta.feature.plugin||meta.feature.display||"table.js")

@@ -147,7 +147,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                     }
                     if (i >= msg.append.length) {msg.append.push(key)}
                     msg[key] = msg[key] || []
-                    msg[key].push(""+value+"")
+                    msg[key].push(""+(typeof value == "object"? JSON.stringify(value): value)+"")
                     return msg
                 },
                 Echo: shy("输出响应", function(res) {msg.result = msg.result || []
