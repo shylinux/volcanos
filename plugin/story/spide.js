@@ -23,6 +23,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                     can.Action("height", "400")
                     can.Action("speed", "100")
                     can.Action("scale", "1")
+                    can.Action("stroke-width", "1")
                     can.sub.svg.Value("transform", "scale("+can.Action("scale")+")")
                     can.onaction["横向"](event, can)
                     sub.Action("go", "run")
@@ -31,7 +32,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
         }, can.ui.content)
     },
 })
-Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", "横向", "纵向"], ["height", "100", "200", "400", "600"], ["speed", "10", "50", "100"], ["scale", "0.2", "0.5", "1", "2", "5"]],
+Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", "纵向"], ["scale", "0.2", "0.5", "1", "2", "5"]],
     "编辑": function(event, can) {
         var hide = can.sub._action.style.display == "none"
         can.page.Modify(can, can.sub._action, {style: {display: hide? "": "none"}})
@@ -53,7 +54,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
 
     _tree: function(can, msg) { var list = {}
         msg.Table(function(value, index) {
-            can.core.List(value.path.split("/"), function(item, index, array) {
+            value.path && can.core.List(value.path.split("/"), function(item, index, array) {
                 var last = array.slice(0, index).join("/") || ""
                 var name = array.slice(0, index+1).join("/")
                 list[last] = list[last] || {name: last, list: []}
