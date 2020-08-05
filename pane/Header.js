@@ -124,5 +124,8 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             typeof cb == "function" && cb()
         })
     },
-    time: function(event, can, key, target) { target.innerHTML = can.base.Time().split(" ")[1] },
+    time: function(event, can, key, target) {
+        var list = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
+        target.innerHTML = list[(new Date()).getDay()]+" "+can.base.Time().split(" ")[1]
+    },
 })

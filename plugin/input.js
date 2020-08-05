@@ -18,7 +18,8 @@ Volcanos("onaction", {help: "控件交互", list: [],
                 })
                 can.run(event, args, function(msg) {
                     can.user.toast(can, "添加成功")
-                })
+                    can.run(event)
+                }, true)
                 return true
             })
             return

@@ -1,5 +1,6 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { can._target.innerHTML = ""
-        can._name = "plan", can.ui = can.page.Append(can, can._target, [
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+        if (!msg.append || !msg.append[0] || !msg[msg.append[0]]) { return }
+        can._name = "plan", can.ui = can.page.Appends(can, can._target, [
             {view: ["project", "table"], style: {display: can.user.Searchs(can, "project")||"none"}},
             {view: ["content", "table"]},
             {view: ["profile", "table"]},
@@ -355,8 +356,6 @@ Volcanos("onaction", {help: "组件交互", list: [
     "完成": function(event, can, key) {
         can.onaction.modifyTask(event, can, can.task, "status", "finish", can.task.status)
     },
-})
-Volcanos("ondetail", {help: "菜单交互", list: ["prepare", "process", "finish", "cancel"],
 })
 Volcanos("onexport", {help: "导出数据", list: ["count", "begin_time", "zone", "id", "type", "name"],
     name: function(can, task) {

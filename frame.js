@@ -516,7 +516,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
     },
     tree: function(can, msg, target, cb) {
         var list = {}; msg.Table(function(value) {
-            can.core.List(value.path.split("/"), function(item, index, array) {
+            value.path && can.core.List(value.path.split("/"), function(item, index, array) {
                 var last = array.slice(0, index).join("/")
                 var name = array.slice(0, index+1).join("/")
                 list[name] || (list[name] = can.page.Append(can, list[last]||target, [{view: ["item", "div", item+(index==array.length-1?"":"/")], onclick: function(event) {

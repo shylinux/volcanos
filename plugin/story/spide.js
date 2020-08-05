@@ -164,6 +164,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
         can.width = 0
         can._tree = can._tree || can.onaction._tree(can, can._msg)
         can.onaction._height(can, can._tree[""])
+        if (!can._tree[""]) { return }
         sub.svg.Val("height", can._tree[""].height*30)
         can.onaction._draw(can, can._tree[""], 0, 0)
         sub.svg.Val("width", can.width)
