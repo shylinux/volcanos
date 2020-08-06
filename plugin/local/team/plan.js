@@ -153,7 +153,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
 
         var head = ["hour"].concat(["周日", "周一", "周二", "周三", "周四", "周五", "周六"]);
-        var list = [0]; for (var i = 7; i < 23; i++) { list.push(can.base.Number(i, 2)) }
+        var list = [0]; for (var i = 7; i < 24; i++) { list.push(can.base.Number(i, 2)) }
+        for (var i = 0; i < 7; i++) { list.push(can.base.Number(i, 2)) }
 
         function set(week, hour) { return can.base.Time(can.base.TimeAdd(begin_time, week-begin_time.getDay()+hour/24)) }
         var table = can.page.Append(can, can.ui.content, [{type: "table", list: 
@@ -182,9 +183,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.core.List(list, function(date, row) {
                 if (row == 0) { return {type: "tr", list: can.core.List(head, function(head) { return {text: [head, "th"]} })} }
                 return {type: "tr", list: can.core.List(head, function(head, col) {
-                    var day = can.base.TimeAdd(last, (row-1)*7+col+1);
+                    var day = can.base.TimeAdd(last, (row-1)*7+col+1)
                     var list = [day.getDate()+""].concat(hash[key(day)]||[])
-                    return can.onimport._task(can, msg, key(day)+can.base.Time(" %H:%M:%S"), list)
+                    return can.onimport._task(can, msg, key(day)+can.base.Time(null, " %H:%M:%S"), list)
                 })}
             })
         }]).table
@@ -238,7 +239,7 @@ Volcanos("onaction", {help: "组件交互", list: [
         ["view", "", "name", "text", "level", "score"],
     ],
     insertTask: function(event, can, time) {
-        can.user.input(event, can, can.Conf("feature").insert, function(event, button, data, list) {
+        can.user.input(event, can, can.Conf("feature")["添加"], function(event, button, data, list) {
             var args = ["action", "insert"]; can.core.Item(data, function(key, value) {
                 if (key == "begin_time") {
                     value = value || time
