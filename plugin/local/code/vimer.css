@@ -1,0 +1,28 @@
+
+fieldset.editor>div.output textarea.editor {
+    position:absolute; padding:0; margin:0;
+    font-size:16px; font-family:monospace;
+    padding-left:12px;
+
+    background-color:#00000000; color:#00000000;
+    caret-color:yellow;
+    display:none;
+    min-width:480px;
+}
+fieldset.editor>div.output textarea.editor.normal {
+    caret-color:#00000000;
+}
+fieldset.editor>div.output textarea.command {
+    clear:both;
+    padding:0; margin:0;
+    font-size:16px; font-family:monospace;
+    padding-left:12px;
+
+    background-color:black; color:white;
+    caret-color:red;
+
+    border:solid 1px red;
+    border-left:solid 3px green;
+    z-index:200;
+    min-width:480px;
+}

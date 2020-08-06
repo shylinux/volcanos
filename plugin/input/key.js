@@ -4,7 +4,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], _merge: function(can, sub)
 
     key: {onclick: function(event, can, item, target) {
         function run() { var msg = can.request(event); msg.Option(item)
-            can.run(event, ["action", "input", item.name, target.value], function(msg) {
+            can.run(event, ["action", "inputs", item.name, target.value], function(msg) {
                 if (!msg.append) { return }
 
                 var figure = can.onappend.field(can, document.body, "input key", {})

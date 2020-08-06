@@ -348,6 +348,9 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             meta.detail = meta.feature["detail"] || {}
             sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field)
             sub.onappend._status(sub, status)
+            // sub.Conf("height", meta.height || sub.Conf("height"))
+            // sub.Conf("width", meta.width || sub.Conf("width"))
+
 
             // 添加控件
             var index = -1
@@ -371,10 +374,6 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                     if (location.protocol == "chrome-extension:") {
                         var p = sub.user.Cookie(can, item.name)
                         item.type != "button" && p != undefined && (input._target.value = p)
-                    }
-                    if (can.user.Search(can, "active") == meta.name || can.user.Search(can, "title") == meta.name) {
-                        var p = sub.user.Search(can, item.name)
-                        p != undefined && (input._target.value = p)
                     }
 
                     input.run = function(event, cmds, cb, silent) { var msg = sub.request(event)
@@ -435,8 +434,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                 var table = Volcanos(display, { _help: display, _follow: can._follow+"."+meta.name+"."+display,
                     _target: output, Option: sub.Option, Action: sub.Action, Status: sub.Status,
                     _option: option, _action: action, _output: output,
+                    _fields: field,
                 }, Volcanos.meta.libs.concat(["/frame.js", display]), function(table) { table.Conf(sub.Conf()), table._msg = msg
-                    table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function() {}, output)
                     table.run = function(event, cmds, cb, silent) {
                         cmds = cmds? cmds: sub.page.Select(sub, option, "textarea.args,input.args,select.args", function(item) {
                             return item.name && item.value || ""
@@ -448,11 +447,13 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
                         return run(event, cmds, cb, silent)
                     }
 
-                    // 交互控件
-                    can.onappend._action(table, action)
-                    can.onappend._detail(table, msg, msg["_detail"] || sub.Conf("detail"), output)
-                    can.onappend._status(table, status)
-                    sub.Status("ncmd", sub._history.length+"/"+count)
+                    table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function() {
+                        // 交互控件
+                        can.onappend._action(table, action, meta._action)
+                        can.onappend._detail(table, msg, msg["_detail"] || sub.Conf("detail"), output)
+                        can.onappend._status(table, status)
+                        sub.Status("ncmd", sub._history.length+"/"+count)
+                    }, output)
                 }); sub._outputs.push(table)
             }, silent) }
         }); cb(sub)

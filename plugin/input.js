@@ -25,6 +25,13 @@ Volcanos("onaction", {help: "控件交互", list: [],
             return
         }
 
+        var sub = can.sup && can.sup._outputs && can.sup._outputs[0]
+        var cb = sub && sub.onaction[can.Conf("name")]
+        if (typeof cb == "function") {
+            cb(event, sub, can.Conf("name"))
+            return
+        }
+
         switch (can.Conf("type")) {
             case "button":
                 var toast = can.user.toast(can, "执行中...", can.sup._help, 100000)

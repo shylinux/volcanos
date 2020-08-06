@@ -6,6 +6,13 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
     },
 
     add_plugin: function(can, river, storm, value) {
+        if (can.user.Search(can, "river") == river && can.user.Search(can, "storm") == storm && can.user.Search(can, "active") == value.name) {
+            value.args = can.core.List(value.inputs, function(item) {
+                if (item._input == "text" || item._input == "select") {
+                    return can.user.Search(can, item.name) || item.value
+                }
+            })
+        }
         value.name && can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
             sub.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                 can.Conf("active", sub.Option())
@@ -13,8 +20,8 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                 can.Conf("current", sub)
                 // 插件回调
                 return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
-                    can.run(msg._event, ["search", "Footer.onaction.ncmd"]);
-                    can.user.toast(can, "执行成功", value.name, 1000);
+                    can.run(msg._event, ["search", "Footer.onaction.ncmd"])
+                    can.user.toast(can, "执行成功", value.name, 1000)
                     typeof cb == "function" && cb(msg)
                 }, silent)
             }
@@ -24,8 +31,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                     meta[item] && meta[item](event, can, value, sub)
                 })
             }
-        }, can._output);
-
+        }, can._output)
     },
 })
 Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"],
@@ -38,13 +44,13 @@ Volcanos("ondetail", {help: "交互菜单", list: ["共享", "更名", "删除"]
         can.user.share(can, msg, list)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) { var key = "action";
-        can.Cache(can.Conf("river")+"."+can.Conf("storm"), can._output, can._output.scrollTop+1);
+Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) { var key = "action"
+        can.Cache(can.Conf("river")+"."+can.Conf("storm"), can._output, can._output.scrollTop+1)
         var river = can.Conf("river", msg.Option("river")), storm = can.Conf("storm", msg.Option("storm")||"main")
-        var position = can.Conf(key, msg.Option(key, can.Cache(river+"."+storm, can._output)||""));
+        var position = can.Conf(key, msg.Option(key, can.Cache(river+"."+storm, can._output)||""))
         if (position) { can._output.scrollTo(0, position-1); return }
 
-        msg.Clear("option"), can.run(msg._event, [river, storm], function(sup) { can._output.innerHTML = "";
+        msg.Clear("option"), can.run(msg._event, [river, storm], function(sup) { can._output.innerHTML = ""
             can.core.Next(sup.Table(), function(value, next) {
                 // value.inputs = can.base.Obj(value.inputs||"[]", [])
                 // value.args = typeof value.args == "string"? value.args.split(","): value.args

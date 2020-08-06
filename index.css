@@ -119,15 +119,6 @@ fieldset>div.output>div.project div.item:hover {
 fieldset>div.output>div.project div.list {
     margin-left:10px;
 }
-fieldset>div.output>pre.profile {
-    float:right;
-}
-fieldset>div.output>div.profile>div.item {
-    clear:both;
-}
-fieldset>div.output>div.profile>div.item:hover {
-    border:solid 1px red;
-}
 fieldset>div.output>pre.display {
     position:sticky; bottom:0;
     /* max-height:120px; */
