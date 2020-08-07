@@ -1,19 +1,18 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        if (!msg.append || !msg.append[0] || !msg[msg.append[0]]) { return }
-        can._name = "plan", can.ui = can.page.Appends(can, can._target, [
+        can.ui = can.page.Appends(can, can._target, [
             {view: ["project", "table"], style: {display: can.user.Searchs(can, "project")||"none"}},
             {view: ["content", "table"]},
             {view: ["profile", "table"]},
             {view: ["display", "pre"]},
         ])
 
-        can.onimport[can.Option("scale")](can, msg), can.Timer(10, function() { can.onimport._stat(can, msg)
-            can.page.Select(can, can.ui.content, "div.item.id"+can.user.Searchs(can, "id"), function(item) {
-                item.click()
-            })
-            can.onaction.view({}, can, "view", can.user.Searchs(can, "view")||"text")
-            can.page.Modify(can, can._action, {style: {display: "none"}})
-        })
+        can.onimport[can.Option("scale")](can, msg)
+        typeof cb == "function" && cb()
+
+        can.onaction.view({}, can, "view", can.user.Searchs(can, "view")||"text")
+        can.page.Select(can, can.ui.content, "div.item.id"+can.user.Searchs(can, "id"), function(item) {
+            item.click()
+        }), can.page.Modify(can, can._action, {style: {display: "none"}})
     },
     _stat: function(can, msg) {
         var stat = {
@@ -154,7 +153,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         var head = ["hour"].concat(["周日", "周一", "周二", "周三", "周四", "周五", "周六"]);
         var list = [0]; for (var i = 7; i < 24; i++) { list.push(can.base.Number(i, 2)) }
-        for (var i = 0; i < 7; i++) { list.push(can.base.Number(i, 2)) }
 
         function set(week, hour) { return can.base.Time(can.base.TimeAdd(begin_time, week-begin_time.getDay()+hour/24)) }
         var table = can.page.Append(can, can.ui.content, [{type: "table", list: 
@@ -233,9 +231,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 }, ["/plugin/local/team/plan.css"])
 Volcanos("onaction", {help: "组件交互", list: [
-        // ["level", "all", "l1", "l2", "l3", "l4", "l5"],
-        // ["status", "all", "prepare", "process", "cancel", "finish"],
-        // ["score", "all", "s1", "s2", "s3", "s4", "s5"],
+        ["level", "all", "l1", "l2", "l3", "l4", "l5"],
+        ["status", "all", "prepare", "process", "cancel", "finish"],
+        ["score", "all", "s1", "s2", "s3", "s4", "s5"],
         ["view", "", "name", "text", "level", "score"],
     ],
     insertTask: function(event, can, time) {
@@ -294,19 +292,22 @@ Volcanos("onaction", {help: "组件交互", list: [
     level: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
     status: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
     score: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
-
     view: function(event, can, key, value) { can.ui.content.innerHTML = ""
         can.Action(key, value), can.onimport[can.Option("scale")](can, can._msg)
     },
 
     "统计": function(event, can, key) {
         can.page.Modify(can, can.ui.project, {style: {display: can.ui.project.style.display=="none"? "table": "none"}})
+        can.onimport._stat(can, msg)
     },
     "详情": function(event, can, key) {
         can.page.Modify(can, can.ui.profile, {style: {display: can.ui.profile.style.display=="none"? "table": "none"}})
     },
     "启动": function(event, can, key) {
         can.onaction.modifyTask(event, can, can.task, "status", "process", can.task.status)
+    },
+    "筛选": function(event, can, key) {
+        can.page.Modify(can, can._action, {style: {display: can._action.style.display=="none"? "block": "none"}})
     },
     "运行": function(event, can, key) {
         can.onaction.pluginTask(event, can, can.task)

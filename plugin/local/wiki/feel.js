@@ -1,71 +1,39 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb) {
-        can._target.innerHTML = "", can.ui = can.page.Append(can, can._target, [
-            {view: "content"}, {view: "control"}, {view: "display"},
-        ])
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+        can.page.Modify(can, can._action, {style: {display: "none"}})
+        typeof cb == "function" && cb()
+        can.list = msg.Table()||[]
 
-        can.table = can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line) {
-            return {text: [value, "td"], onclick: function(event) {
-                if (line.path.endsWith("/")) {
-                    can.run(event, [can.Option("path", line.path)])
-                } else {
-                    can.onimport.file(can, line.path)
-                }
-            }}
-        })
-
-        var list = msg.Table()||[], begin = 0, limit = 3; function page() {
-            can.ctrl.offset.innerHTML = begin+"-"+(begin+limit)
-            can.onimport.page(can, list, begin, limit)
-        }
-        can.ctrl = can.page.Append(can, can.ui.control, [
-            {button: ["clear", function() {
-                can.ui.display.innerHTML = ""
-            }]},
-            {select: [["height", 100, 200, 400, 600, 800], function(event, value) {
-                can.height = parseInt(value), page()
-            }]},
-            {select: [["rate", 0.1, 0.2, 0.5, 1, 2, 3, 5, 10], function(event, value) {
-                can.rate = value, page()
-            }]},
-            {button: ["prev", function() {
-                begin > 0 && (begin -= limit, can.onimport.page(can, list, begin, limit))
-            }]},
-            {text: [begin+"-"+(begin+limit)], name: "offset"},
-            {button: ["next", function() {
-                begin < msg[msg.append[0]].length && (begin += limit, page())
-            }]},
-            {select: [["limit", 1, 3, 6, 9, 12, 15], function(event, value) {
-                limit = parseInt(value), page()
-            }]},
-            {text: [list.length]},
-        ])
-
-        can.rate = can.ctrl.rate.value = 1
-        limit = can.ctrl.limit.value = parseInt(msg.Option("limit"))||1
-        can.height = can.ctrl.height.value = parseInt(msg.Option("height"))||200
-        can.Option("path") != "最近/" && can.onimport.page(can, list, begin, limit)
+        can.begin = 0
+        can.Action("倍速", 1)
+        can.Action("数量", can.limit = parseInt(msg.Option("limit"))||3)
+        can.Action("高度", can.height = parseInt(msg.Option("height"))||200)
+        can.Option("path") != "最近/" && can.onimport.page(can, can.list, can.begin, can.limit)
     },
-    page: function(can, list, begin, limit) { can.ui.display.innerHTML = ""
+    page: function(can, list, begin, limit) { can._target.innerHTML = ""
         for (var i = begin; i < begin+limit; i++) { list[i] && can.onimport.file(can, list[i].path) }
+        can.Status("begin", begin), can.Status("limit", limit), can.Status("total", can.list.length)
     },
-    file: function(can, item) {
+    file: function(can, path) { can.Status("文件", path)
         var p = location.href.startsWith("http")? "": "http://localhost:9020"
-        item = item.startsWith("http")? item: p+can.base.Path("/share/local", " "+(can._msg.Option("prefix")||""), item)
+        path = path.startsWith("http")? path: p+can.base.Path("/share/local", " "+(can._msg.Option("prefix")||""), path)
 
-        var ls = item.split("/")
+        var ls = path.split("/")
         var ls = ls[ls.length-1].split(".")
         var ext = ls[ls.length-1].toLowerCase()
-        ext && can.page.Append(can, can.ui.display, [can.onfigure[ext](can, item)])
+        ext && can.page.Append(can, can._target, [can.onfigure[ext](can, path)])
     },
 }, ["/plugin/local/wiki/feel.css"])
 Volcanos("onfigure", {help: "组件菜单", list: [],
-    image: function(can, path) {
-        return {img: path, height: can.height}
-    },
-    jpeg: function(can, path) { return can.onfigure.image(can, path) },
-    jpg: function(can, path) { return can.onfigure.image(can, path) },
-    png: function(can, path) { return can.onfigure.image(can, path) },
     qrc: function(can, path) { return can.onfigure.image(can, path) },
+    png: function(can, path) { return can.onfigure.image(can, path) },
+    jpg: function(can, path) { return can.onfigure.image(can, path) },
+    jpeg: function(can, path) { return can.onfigure.image(can, path) },
+    image: function(can, path) { return {img: path, height: can.height, onclick: function(event) {
+            can.Status("文件", path)
+        }, _init: function(target) {
+            can.Status("文件", path)
+        }
+    } },
 
     video: function(can, path) { var auto = true, loop = true, total = 0
         function cb(event) { console.log(event) }
@@ -75,7 +43,7 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
             onloadedmetadata: function(event) { total = event.timeStamp
                 event.target.currentTime = can._msg.currentTime || 0
             }, onloadeddata: cb, ontimeupdate: function(event) {
-                can.Status("当前行", can.onexport.position(can, (can._msg.currentTime=event.target.currentTime)-1, event.target.duration))
+                can.Status("position", can.onexport.position(can, (can._msg.currentTime=event.target.currentTime)-1, event.target.duration))
             },
         }
     },
@@ -83,8 +51,11 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
     mp4: function(can, path) { return can.onfigure.video(can, path) },
     mov: function(can, path) { return can.onfigure.video(can, path) },
 })
-
-Volcanos("onaction", {help: "组件菜单", list: ["", "上传", "收藏"],
+Volcanos("onaction", {help: "组件菜单", list: [
+        ["数量", 1, 3, 6, 9, 12, 15],
+        ["高度", 100, 200, 400, 600, 800],
+        ["倍速", 0.1, 0.2, 0.5, 1, 2, 3, 5, 10],
+    ],
     "上传": function(event, can) { can.user.upload(event, can) },
     "收藏": function(event, can) {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -97,8 +68,29 @@ Volcanos("onaction", {help: "组件菜单", list: ["", "上传", "收藏"],
             })
         })
     },
+    "清空": function(event, can) { 
+        can._target.innerHTML = ""
+    },
+    "参数": function(event, can) { 
+        can.page.Modify(can, can._action, {style: {display: can._action.style.display=="none"? "block": "none"}})
+    },
+    "上一页": function(event, can, key, value) { 
+        can.begin > 0 && (can.begin -= can.limit, can.onimport.page(can, can.list, can.begin, can.limit))
+    },
+    "下一页": function(event, can, key, value) { 
+        can.begin + can.limit < can.list.length && (can.begin += can.limit, can.onimport.page(can, can.list, can.begin, can.limit))
+    },
+    "数量": function(event, can, key, value) { 
+        can.limit = parseInt(value), can.onimport.page(can, can.list, can.begin, can.limit)
+    },
+    "高度": function(event, can, key, value) { 
+        can.height = parseInt(value), can.onimport.page(can, can.list, can.begin, can.limit)
+    },
+    "倍速": function(event, can, key, value) { 
+        can.rate = parseInt(value), can.onimport.page(can, can.list, can.begin, can.limit)
+    },
 })
-Volcanos("onexport", {help: "导出数据", list: ["当前行"],
+Volcanos("onexport", {help: "导出数据", list: ["begin", "limit", "total", "position", "文件"],
     position: function(can, index, total) { total = total || can.max
         return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+"/"+parseInt(total)
     },

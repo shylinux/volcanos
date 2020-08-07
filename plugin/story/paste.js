@@ -8,8 +8,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 })
 Volcanos("onaction", {help: "控件交互", list: [],
-    onclick: function(event, can) {
-        can.run(event, [], function() {})
+    "添加": function(event, can) {
     },
 })
 Volcanos("ondetail", {help: "控件交互", list: ["编辑", "删除"],

@@ -27,6 +27,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 })
             }
         }, can.ui.content)
+        return typeof cb == "function" && cb(msg)
     },
 })
 Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", "股价图", "趋势图", "数据源"], ["height", "100", "200", "400", "600"], ["speed", "10", "20", "50", "100"]],

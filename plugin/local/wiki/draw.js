@@ -14,7 +14,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.current = null
 
         // 加载绘图
-        var code = can.page.AppendBoard(can, can.ui.content, msg.Result()||can.onexport.file(can))
+        var code = can.page.AppendBoard(can, can.ui.content, msg.Result()||can.onexport.content(can))
         can.page.Select(can, can.ui.content, "svg", function(svg) { can.svg = can.group = svg 
             can.onimport.block(can, svg), can.onimport.group(can, svg).click()
             can.page.Select(can, svg, "*", function(item, index) {
@@ -108,6 +108,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             return list.reverse().join(".")
         }
         target.ondblclick = function(event) {
+            if (can.Action("go") == "run") { return }
             can.ondetail["标签"](event, can)
             event.stopPropagation()
             event.preventDefault()
@@ -765,26 +766,8 @@ Volcanos("onaction", {help: "组件菜单", list: [
     },
 })
 Volcanos("ondetail", {help: "组件详情", list: ["复制", "标签", "编辑", "删除"],
-    "删除": function(event, can) { if (event.target == can.svg) { return }
-        can.core.List(event.target.Value("ship"), function(value) {
-            can.page.Select(can, can.svg, "."+value.pid, function(item) {
-                can.page.Remove(can, item)
-            })
-        })
-        can.page.Select(can, can.svg, "."+event.target.Value("text"), function(item) {
-            can.page.Remove(can, item)
-        })
-        can.page.Remove(can, event.target)
-    },
-    "编辑": function(event, can) { var target = event.target
-        var figure = can.onfigure._get(can, target)
-        can.user.input(event, can, can.core.List(["x", "y", "transform", "translate_x", "translate_y"].concat(figure.data.copy||[]), function(item) {
-            return {_input: "text", name: item, value: target.Value(item)}
-        }), function(event, cmd, meta, list) {
-            can.core.Item(meta, function(key, value) {
-                target.Value(key, value)
-            })
-        })
+    "复制": function(event, can) {
+        can.onfigure._copy(event, can, event.target)
     },
     "标签": function(event, can) { var target = event.target
         var def = target.Value("text"); can.page.Select(can, can.svg, "."+target.Value("text"), function(item) {
@@ -805,8 +788,26 @@ Volcanos("ondetail", {help: "组件详情", list: ["复制", "标签", "编辑",
             target.Value("text", obj.Value("pid"))
         }, def)
     },
-    "复制": function(event, can) {
-        can.onfigure._copy(event, can, event.target)
+    "编辑": function(event, can) { var target = event.target
+        var figure = can.onfigure._get(can, target)
+        can.user.input(event, can, can.core.List(["x", "y", "transform", "translate_x", "translate_y"].concat(figure.data.copy||[]), function(item) {
+            return {_input: "text", name: item, value: target.Value(item)}
+        }), function(event, cmd, meta, list) {
+            can.core.Item(meta, function(key, value) {
+                target.Value(key, value)
+            })
+        })
+    },
+    "删除": function(event, can) { if (event.target == can.svg) { return }
+        can.core.List(event.target.Value("ship"), function(value) {
+            can.page.Select(can, can.svg, "."+value.pid, function(item) {
+                can.page.Remove(can, item)
+            })
+        })
+        can.page.Select(can, can.svg, "."+event.target.Value("text"), function(item) {
+            can.page.Remove(can, item)
+        })
+        can.page.Remove(can, event.target)
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["坐标", "分组", "图形", "按键"],

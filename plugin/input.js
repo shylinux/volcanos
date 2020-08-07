@@ -9,10 +9,8 @@ Volcanos("onaction", {help: "控件交互", list: [],
     },
     onclick: function(event, can) {
         var feature = can.sup.Conf("feature")
-        var input = feature && feature[can.Conf("name")]
-
-        if (input) {
-            can.user.input(event, can, input,function(event, button, data, list) {
+        var input = feature && feature[can.Conf("name")]; if (input) {
+            return can.user.input(event, can, input,function(event, button, data, list) {
                 var args = ["action", can.Conf("name")]; can.core.Item(data, function(key, value) {
                     key && value && args.push(key, value)
                 })
@@ -22,22 +20,16 @@ Volcanos("onaction", {help: "控件交互", list: [],
                 }, true)
                 return true
             })
-            return
         }
 
         var sub = can.sup && can.sup._outputs && can.sup._outputs[0]
-        var cb = sub && sub.onaction[can.Conf("name")]
-        if (typeof cb == "function") {
-            cb(event, sub, can.Conf("name"))
-            return
-        }
+        var cb = sub && sub.onaction && sub.onaction[can.Conf("name")]
+        if (typeof cb == "function") { return cb(event, sub, can.Conf("name")) }
 
         switch (can.Conf("type")) {
             case "button":
                 var toast = can.user.toast(can, "执行中...", can.sup._help, 100000)
-                can.run(event, [], function(msg) {
-                    toast.Close()
-                })
+                can.run(event, [], function(msg) { toast.Close() })
                 break
         }
     },
