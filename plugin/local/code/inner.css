@@ -54,6 +54,7 @@ fieldset.editor>div.output div.content {
     border-left:solid 2px red;
     min-height:20px;
     min-width:200px;
+    max-width:800px;
     overflow:auto;
     float:left;
 }

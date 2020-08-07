@@ -26,6 +26,14 @@ Volcanos("onaction", {help: "控件交互", list: [],
         var cb = sub && sub.onaction && sub.onaction[can.Conf("name")]
         if (typeof cb == "function") { return cb(event, sub, can.Conf("name")) }
 
+        if (can.Conf("name") == "粘贴") {
+            navigator.clipboard.readText().then(function(text) {
+                can.user.toast(can, "复制成功", "paste")
+                can.run(event, ["action", "insert", "text", text])
+            })
+            return
+        }
+
         switch (can.Conf("type")) {
             case "button":
                 var toast = can.user.toast(can, "执行中...", can.sup._help, 100000)

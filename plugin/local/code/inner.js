@@ -2,7 +2,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         can.ui = can.page.Appends(can, target, [
             {view: "project", style: {display: "none"}},
             {view: "profile", list: [
-                {view: "preview"}, {view: "content"}
+                {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-120+"px"}}
             ]},
             {view: ["display", "pre"]},
 
@@ -129,22 +129,13 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         return p.line? p.line(can, line): line
     },
 
-    svg: {
-        display: true,
-        show: function(can) {
-            can.page.Append(can, can.ui.display, can.core.List(can._msg.result, function(line) {
-                return {type: "iframe", data: {src: "/share/local/"+line}, style: {width: can.Conf("width")-80+"px"}}
-            }))
-        }
-    },
     png: {
-        display: true,
-        show: function(can) {
-            can.page.Append(can, can.ui.display, can.core.List(can._msg.result, function(line) {
-                return {img: "/share/local/"+line, height: 400}
-            }))
-        }
-    },
+        line: function(can, line) {
+            can.page.Append(can, can.ui.display, [{img: "/share/local/"+line, height: 400}])
+            can.page.Modify(can, can.ui.display, {style: {display: "block"}})
+            return line
+        },
+    }, qrc: {link: "png"}, svg: {link: "png"},
     url: {
         line: function(can, line) {
             return {button: [line, function(event) {
