@@ -1,10 +1,11 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { can._output.innerHTML = ""
         can.onappend.table(can, target, "table", msg), can.ui = can.page.Append(can, target, [
-            {view: "project", style: {display: "none"}}, {view: "profile"},
-            {view: "preview"}, {view: "content", onmouseenter: function(event) {
+            {view: "project", style: {display: "none"}},
+            {view: "content", onmouseenter: function(event) {
                 can.onkeypop.action = can
             }}, {view: "display"},
         ])
+        can.page.Modify(can, can._action, {style: {display: "none"}})
 
         // 交互数据
         can.point = [], can.keys = []
@@ -40,8 +41,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 "fill": "purple",
                 "shape": "rect",
                 "grid": "10",
-                "go": "manual",
-                "go": "auto",
+                "go": "run",
             }, function(key, value) {
                 can.svg.Value(key, can.Action(key, can.svg.Value(key)||value))
             })
@@ -173,7 +173,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.core.List(can.keys, function(key) {
             if (!list) {
                 // 查找失败
-                return can.keys = [], can.Status("keys", can.keys)
+                return can.keys = [], can.Status("按键", can.keys)
             }
 
             // 查找递进
@@ -183,7 +183,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         if (!list || !list.list) {
             // 等待输入
-            return can.Status("keys", can.keys+"("+can.core.Item(list).join(",")+")")
+            return can.Status("按键", can.keys+"("+can.core.Item(list).join(",")+")")
         }
 
         function call(cmds) {
@@ -192,7 +192,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         // 执行命令
         call(prefix.concat(list.list))
-        return can.keys = [], can.Status("keys", can.keys)
+        return can.keys = [], can.Status("按键", can.keys)
     },
 }, ["plugin/local/wiki/draw.css"])
 Volcanos("onfigure", {help: "图形绘制", list: [],
@@ -546,7 +546,7 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         },
     },
 }, ["/plugin/local/wiki/draw/heart.js"])
-Volcanos("onaction", {help: "组件菜单", list: ["", "项目", "保存", "",
+Volcanos("onaction", {help: "组件菜单", list: [
         ["grid", 1, 2, 3, 4, 5, 10, 20],
         ["stroke-width", 1, 2, 3, 4, 5],
         ["font-size", 12, 16, 18, 24, 32],
@@ -556,14 +556,18 @@ Volcanos("onaction", {help: "组件菜单", list: ["", "项目", "保存", "",
         {text: [" a:", "div", "item"]}, ["mode", "translate", "draw", "resize", "delete"],
         {text: [" s:", "div", "item"]}, ["shape", "block", "rect", "text", "line", "path", "circle", "ellipse", "heart"],
     ],
+    "编辑": function(event, can, key) { can.Action("go", "auto") },
+    "保存": function(event, can, key) {
+        var msg = can.request(event); msg.Option("content", can.onexport.content(can, can.svg))
+        can.run(event, ["action", key, can.Option("path"), can.Option("file")], function() {
+            can.user.toast(can, "保存成功")
+        }, true)
+    },
     "项目": function(event, can, key) {
         can.page.Modify(can, can.ui.project, {style: {display: can.ui.project.style.display=="none"? "block": "none"}})
     },
-    "保存": function(event, can, key) { var msg = can.request(event)
-        msg.Option("content", can.onexport.file(can, can.svg))
-        can.run(event, ["action", key, can.Option("path")], function() {
-            can.user.toast(can, "保存成功")
-        }, true)
+    "变参": function(event, can, key) {
+        can.page.Modify(can, can._action, {style: {display: can._action.style.display=="none"? "": "none"}})
     },
     "清空": function(event, can) {
         can.group.innerHTML = "", can.point = [], can.keys = [], delete(can.temp)
@@ -700,14 +704,9 @@ Volcanos("onaction", {help: "组件菜单", list: ["", "项目", "保存", "",
         return point
     },
     _show: function(can, target) { var figure = can.onfigure._get(can, target)
-        can.Status("group", target.Groups())
-        can.Status("target", target.tagName + " " + (
+        can.Status("分组", target.Groups() || can.group.Value("class") )
+        can.Status("图形", target.tagName + " " + (
             figure? figure.show(can, target): ""))
-        if (target.Value) {
-            can.Status("zone", target.Value("zone"))
-            can.Status("type", target.Value("type"))
-            can.Status("name", target.Value("name"))
-        }
     },
     _auto: function(can, target, pos) {
         if (target.tagName == "text") {
@@ -749,8 +748,8 @@ Volcanos("onaction", {help: "组件菜单", list: ["", "项目", "保存", "",
     },
     onmousemove: function(event, can) {
         var point = can.onaction._point(event, can)
-        can.Status("point", point.x+","+point.y)
-        if (can.Action("go") == "run") { return }
+        can.Status("坐标", point.x+","+point.y)
+        if (can.Action("go") == "run") { return can.page.Modify(can, event.target, {style: {cursor: ""}}) }
 
         var pos = can.page.Prepos(event, event.target)
         if (can.Action("go") == "auto" && can.point.length == 0) {
@@ -810,8 +809,8 @@ Volcanos("ondetail", {help: "组件详情", list: ["复制", "标签", "编辑",
         can.onfigure._copy(event, can, event.target)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: ["point", "group", "target", "zone", "type", "name", "keys"],
-    file: function(can, svg) {
+Volcanos("onexport", {help: "导出数据", list: ["坐标", "分组", "图形", "按键"],
+    content: function(can, svg) {
         return ['<svg vertion="1.1" xmlns="https://www.w3.org/2000/svg" text-anchor="middle" dominant-baseline="middle"'].concat(
             svg? can.core.List([
                 "count", "width", "height", "font-size", "stroke-width", "stroke", "fill",

@@ -3,7 +3,7 @@ const app = getApp()
 
 Page({
     data: {
-        action: ["扫码", "刷新", "登录", "授权"],
+        action: ["扫码", "刷新", "登录"],
         river: {},
     },
     action: {
@@ -22,12 +22,7 @@ Page({
                 page.setData({river: river})
             })
         },
-        "登录": function(event, page, data) { app.conf.sessid = "", 
-            app.usercode(function() {
-                page.onaction(event, data, "刷新")
-            })
-        },
-        "授权": function(event, page, data) {
+        "登录": function(event, page, data) { app.conf.sessid = "",
             app.userinfo(function(res) {
                 page.onaction(event, data, "刷新")
             })
@@ -64,10 +59,12 @@ Page({
         app.jumps("action/action", {river: data.river.key, storm: data.key, title: data.river.name+"."+data.name})
     },
 
-    onLoad: function (options) {
+    onLoad: function (options) { var page = this
         console.log("page", "river", options)
         app.conf.sessid = options.sessid || app.conf.sessid
-        this.onaction({}, options, "刷新")
+        app.usercode(function() {
+            page.onaction({}, options, "刷新")
+        })
     },
     onReady: function () {},
     onShow: function () {},

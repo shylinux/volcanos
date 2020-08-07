@@ -52,7 +52,7 @@ fieldset.editor>div.output div.preview>div.item.select {
 fieldset.editor>div.output div.content {
     font-size:16px; font-family:monospace;
     border-left:solid 2px red;
-    min-height:200px;
+    min-height:20px;
     min-width:200px;
     overflow:auto;
     float:left;
@@ -67,7 +67,8 @@ fieldset.editor>div.output div.content>pre.item {
     color:white;
 }
 fieldset.editor>div.output div.content>pre.item.select {
-    border:solid 1px red;
+    /* border:solid 1px red; */
+    border-right:0px;
 }
 fieldset.editor>div.output div.content>pre.item span.comment {
     color:cyan; background-color:blue;

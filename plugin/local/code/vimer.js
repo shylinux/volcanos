@@ -1,32 +1,31 @@
-Volcanos("onimport", {help: "导入数据", list: [],
-    _init: function(can, msg, list, cb, target) {
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.require(["/plugin/local/code/inner.js"], function(can) {
             can.onimport._init(can, msg, list, function() {
+                // can.page.Modify(can, can._option, {style: {display: "none"}})
+                var ui = can.page.Append(can, can._target, [
+                    {view: ["editor", "input"], "rows": "1", onkeydown: function(event) {
+                        can.onkeymap.parse(event, can, "insert"), can.Timer(10, function() {
+                            can.onaction.modifyLine(can, can.current, can.editor.value)
+                        })
+                    }, onblur: function(event) {
+                        can.onaction.modifyLine(can, can.current, can.editor.value)
+                    }, onclick: function(event) {
+
+                    }, ondblclick: function(event) {
+                        can.onkeymap._mode(can, "insert")
+                    }},
+                    {view: ["command", "input"], onkeydown: function(event) {
+                        can.onkeymap.parse(event, can, "command")
+                    }},
+                ])
+                can.ui.editor = ui.editor
+                can.ui.command = ui.command
+                can.onkeymap._init(can, "normal")
                 typeof cb == "function" && cb()
             }, target)
         })
-        return
-        /*
-            {view: ["editor", "textarea"], onkeydown: function(event) {
-                can.onkeymap.parse(event, can, "insert"), can.Timer(10, function() {
-                    can.onaction.modifyLine(can, can.current, can.editor.value)
-                })
-            }, onblur: function(event) {
-                can.onaction.modifyLine(can, can.current, can.editor.value)
-            }, onclick: function(event) {
-
-            }, ondblclick: function(event) {
-                can.onkeymap._mode(can, "insert")
-            }},
-            {view: ["command", "textarea"], onkeydown: function(event) {
-                can.onkeymap.parse(event, can, "command")
-            }},
-            */
     },
 }, ["/plugin/local/code/vimer.css"])
-
-Volcanos("onaction", {help: "交互操作", list: [],
-})
 Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"], _init: function(can, mode) {
         can.page.Modify(can, can.ui.command, {style: {display: "none", width: can._target.offsetWidth-20+"px"}})
 
@@ -39,21 +38,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             }), can.onkeymap[item]._engine = engine
         }), can.onkeymap._mode(can, mode||"normal")
     },
-    deleteLine: function(can, target) { can.page.Remove(can, target)
-        var ls = can.page.Select(can, can.ui.preview, "div.item")
-        can.page.Remove(can, ls[ls.length-1]), can.max--
-    },
-    insertLine: function(can, target, value, before) { var line = can.onaction.appendLine(can, value)
-        can.ui.content.insertBefore(line, before && target || target.nextSibling)
-        return line
-    },
-    mergeLine: function(can, target) { if (!target) {return}
-        can.onaction.modifyLine(can, target, target.innerHTML + target.nextSibling.innerHTML)
-        can.onaction.deleteLine(can, target.nextSibling)
-        return target
-    },
-    _merge: function(can, value) { return true },
-    _mode: function(can, value) { can.Action("mode", can.mode = value)
+    _mode: function(can, value) { can.Status("输入法", can.mode = value)
         can.page.Modify(can, can.ui.editor, {className: "editor "+can.mode, style: {display: "none"}})
         can.page.Modify(can, can.ui.command, {className: "command "+can.mode, style: {display: "none"}})
         return value
@@ -62,33 +47,28 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         can.page.Modify(can, can.ui.command, {value: "", style: {display: "block"}})
         can.ui.command.focus()
     },
-    _normal: function(can) { can.onkeymap._mode(can, "normal") },
-    _insert: function(can) {
-        can.onkeymap._mode(can, "insert")
-        can.page.Modify(can, can.ui.editor, {className: "editor "+can.mode, style: {display: ""}})
+    _normal: function(can) { can.onkeymap._mode(can, "normal")
+        can.page.Modify(can, can.ui.editor, {style: {display: "block"}})
+        can.ui.editor.focus()
+    },
+    _insert: function(can) { can.onkeymap._mode(can, "insert")
+        can.page.Modify(can, can.ui.editor, {style: {display: "block"}})
+        can.ui.editor.focus()
     },
 
-    _remote: function(event, can, key, arg, cb) { can.ui.display.innerHTML = "", can.ui.profile.innerHTML = ""
-        var p = can.onsyntax[can.parse]; can.display = p && p.profile && can.ui.profile || can.ui.display
-        if (p && p.show) { p.show(can); return }
-
-        can.page.Modify(can, can.display, {innerHTML: "", style: {display: "none"}})
+    _remote: function(event, can, key, arg, cb) {
+        can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "none"}})
         var msg = can.request(event); msg.Option("content", can.onexport.content(can))
         can.run(event, arg||["action", key, can.Option("path"), can.Option("file")], cb||function(msg) {
-            (msg.Result() || msg.append && msg.append.length > 0) && can.page.Modify(can, can.display, {innerHTML: "", style: {display: "block"}})
-            can.onappend.table(can, can.display, "table", msg)
-            can.onappend.board(can, can.display, "board", msg)
+            (msg.Result() || msg.append && msg.append.length > 0) && can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "block"}})
+            can.onappend.table(can, can.ui.display, "table", msg)
+            can.onappend.board(can, can.ui.display, "board", msg)
         }, true)
     },
     _engine: {
-        w: function(event, can) { can.onkeymap._remote(event, can, "保存") },
-        e: function(event, can, line, ls) {
-            can.onimport.tabview(can, can.Option("path"), ls[1])
-        },
-        r: function(event, can) { can.onkeymap._remote(event, can, "运行") },
-
-        commit: function(event, can) { can.onkeymap._remote(event, can, "提交") },
-        history: function(event, can) { can.onkeymap._remote(event, can, "历史") },
+        e: function(event, can, line, ls) { can.onimport.tabview(can, can.Option("path"), ls[1]) },
+        w: function(event, can) { can.onaction["保存"](event, can, "保存") },
+        r: function(event, can) { can.onaction["运行"](event, can, "运行") },
     },
 
     parse: function(event, can, mode) {
@@ -188,23 +168,23 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             can.editor.setSelectionRange(-1, -1)
         },
         o: function(event, can) { can.onkeymap._insert(can)
-            can.onaction.insertLine(can, can.current).click()
+            can.onkeymap.insertLine(can, can.current).click()
         },
         O: function(event, can) { can.onkeymap._insert(can)
-            can.onaction.insertLine(can, can.current, "", true).click()
+            can.onkeymap.insertLine(can, can.current, "", true).click()
         },
 
         yy: function(event, can) { can.last = can.current.innerText },
         dd: function(event, can) { can.last = can.current.innerText
             var next = can.current.nextSibling || can.current.previousSibling
-            can.onaction.deleteLine(can, can.current)
+            can.onkeymap.deleteLine(can, can.current)
             next.click()
         },
         p: function(event, can) {
-            can.onaction.insertLine(can, can.current, can.last).click()
+            can.onkeymap.insertLine(can, can.current, can.last).click()
         },
         P: function(event, can) {
-            can.onaction.insertLine(can, can.current, can.last, true).click()
+            can.onkeymap.insertLine(can, can.current, can.last, true).click()
         },
     },
     insert: {
@@ -214,10 +194,11 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         },
         Enter: function(event, can) {
             can.onkeymap.insert.Escape(event, can)
-            can.onaction.insertLine(can, can.current, "", event.shiftKey).click()
+            can.onkeymap.insertLine(can, can.current, "", event.shiftKey).click()
+            can.onkeymap._insert(can)
         },
         Backspace: function(event, can) { if (can.editor.selectionStart > 0) { return }
-            can.onaction.mergeLine(can, can.current.previousSibling).click()
+            can.onkeymap.mergeLine(can, can.current.previousSibling).click()
             event.stopPropagation(), event.preventDefault()
         },
         ArrowDown: function(event, can) {
@@ -231,23 +212,18 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             can.onkeymap.insert.Escape(event, can)
         },
     },
-})
-Volcanos("ondetail", {help: "菜单交互", list: [
-// "保存", "运行", "提交", "记录", "删除行", "合并行", "插入行", "添加行", "追加行",
-    ],
-    "删除行": function(event, can, msg) {
-        can.onaction.deleteLine(can, can.current)
+
+    insertLine: function(can, target, value, before) { var line = can.onaction.appendLine(can, value)
+        can.ui.content.insertBefore(line, before && target || target.nextSibling)
+        return line
     },
-    "合并行": function(event, can, msg) {
-        can.onaction.mergeLine(can, can.current)
+    deleteLine: function(can, target) { can.page.Remove(can, target)
+        var ls = can.page.Select(can, can.ui.preview, "div.item")
+        can.page.Remove(can, ls[ls.length-1]), can.max--
     },
-    "插入行": function(event, can, msg) {
-        can.onaction.insertLine(can, can.current, "", true)
-    },
-    "添加行": function(event, can, msg) {
-        can.onaction.insertLine(can, can.current)
-    },
-    "追加行": function(event, can, msg) {
-        can.onaction.appendLine(can)
+    mergeLine: function(can, target) { if (!target) {return}
+        can.onaction.modifyLine(can, target, target.innerHTML + target.nextSibling.innerHTML)
+        can.onkeymap.deleteLine(can, target.nextSibling)
+        return target
     },
 })

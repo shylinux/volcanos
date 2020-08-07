@@ -38,8 +38,8 @@
             </table>
 
             <!-- 文本 -->
-            <view class="output" wx:if="{{field.msg.result && field.feature && field.feature.display == 'inner'}}"><rich-text wx:for="{{field.msg.result}}" wx:key="name" nodes="{{item}}"></rich-text></view>
-            <view class="code" wx:elif="{{field.msg.result}}"><text wx:for="{{field.msg.result}}" wx:key="name">{{item}}</text></view>
+            <view class="output"><rich-text wx:for="{{field.msg.result}}" wx:key="name" nodes="{{item}}"></rich-text></view>
+            <!-- <view class="code" wx:elif="{{field.msg.result}}"><text wx:for="{{field.msg.result}}" wx:key="name">{{item}}</text></view> -->
         </view>
     </view>
 </view>

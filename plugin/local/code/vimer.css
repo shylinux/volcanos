@@ -1,18 +1,18 @@
 
-fieldset.editor>div.output textarea.editor {
+fieldset.editor>div.output input.editor {
     position:absolute; padding:0; margin:0;
     font-size:16px; font-family:monospace;
-    padding-left:12px;
+    padding-left:9px;
 
     background-color:#00000000; color:#00000000;
     caret-color:yellow;
-    display:none;
     min-width:480px;
+    display:none;
 }
-fieldset.editor>div.output textarea.editor.normal {
+fieldset.editor>div.output input.editor.normal {
     caret-color:#00000000;
 }
-fieldset.editor>div.output textarea.command {
+fieldset.editor>div.output input.command {
     clear:both;
     padding:0; margin:0;
     font-size:16px; font-family:monospace;

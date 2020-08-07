@@ -339,10 +339,6 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             meta.feature = can.base.Obj(meta.feature, {})
             can.page.ClassList.add(can, field, meta.feature.style||"")
 
-            can.onappend._legend(sub, legend)
-            if (can.user.Search(can, "share") && can.user.Search(can, "title")) {
-                can.page.Select(can, field, "legend", function(item) { can.page.Remove(can, item) })
-            }
             sub.onaction && can.onappend._action(sub, sub._action, sub.onaction.list)
 
             meta.detail = meta.feature["detail"] || {}

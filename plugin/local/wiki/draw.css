@@ -1,14 +1,12 @@
-fieldset.draw div.action {
-    clear:none;
+fieldset.drawer div.output div.project {
+    min-width:80px; max-width:240px; overflow:auto;
 }
-fieldset.draw div.output div.project {
-    min-width:60px;
-    max-width:120px;
-    overflow:auto;
-}
-fieldset.draw div.output div.project div.item.select {
+fieldset.drawer div.output div.project div.item:hover {
     background-color:red; border:solid 2px yellow;
 }
-fieldset.draw div.output svg {
+fieldset.drawer div.output div.project div.item.select {
+    background-color:red; border:solid 2px yellow;
+}
+fieldset.drawer div.output svg {
     border: 1px solid red;
 }
