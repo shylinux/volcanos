@@ -2,7 +2,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         can.ui = can.page.Appends(can, target, [
             {view: "project", style: {display: "none"}},
             {view: "profile", list: [
-                {view: "preview"}, {view: "content", style: {"max-width": can.Conf("width")-120+"px"}}
+                {view: "preview"}, {view: "content"}
             ]},
             {view: ["display", "pre"]},
 
@@ -53,7 +53,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
 
             var width = can._target.offsetWidth - can.ui.project.offsetWidth - can.ui.preview.offsetWidth - 40
             can.Status("当前行", can.onexport.position(can, parseInt(can.Option("line")))-1)
-            can.page.Modify(can, can.ui.content, {style: {"max-width": width+"px"}})
+            // can.page.Modify(can, can.ui.content, {style: {"max-width": width+"px"}})
         }
         if (can.tabview[path+file]) { return show() }
 
@@ -192,7 +192,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
     "项目": function(event, can) { var hide = can.ui.project.style.display == "none"
         can.page.Modify(can, can.ui.project, {style: {display: hide? "": "none"}})
         var width = can._target.offsetWidth - can.ui.project.offsetWidth - can.ui.preview.offsetWidth - 120
-        can.page.Modify(can, can.ui.content, {style: {"max-width": hide? width+"px": ""}})
+        // can.page.Modify(can, can.ui.content, {style: {"max-width": hide? width+"px": ""}})
         hide && can.onimport.project(can, can.Option("path"))
         can.onaction.selectLine(can, can.current)
     },
