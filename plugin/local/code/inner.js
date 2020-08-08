@@ -27,6 +27,11 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             ]}, {view: "tags"}, ]},
         ])
 
+        if (can.Conf("content")) {
+            msg = can.request({})
+            msg.result = [can.Conf("content")]
+        }
+
         can.tabview = {}, can.history = []
         can.tabview[can.Option("path")+can.Option("file")] = msg
         msg.Option({path: can.Option("path"), file: can.Option("file"), line: can.Option("line")||1})
@@ -95,7 +100,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
 
             can.Status("文件名", can.file), can.Status("解析器", can.parse)
             can.Status("当前行", can.onexport.position(can, 0))
-            can.Status("输入法", "normal")
+            can.Status("模式", "normal")
         }
 
         // plugin
@@ -163,6 +168,20 @@ Volcanos("onaction", {help: "控件交互", list: [],
         last && can.onimport.tabview(can, last.path, last.file, last.line)
     },
     "运行": function(event, can) {
+        if (can.ui.editor) {
+            var msg = can.request(event); msg.Option("content", can.onexport.content(can))
+            can.run(event, ["action", "save", can.parse, can.Option("file"), can.Option("path")], function(msg) {
+                can.user.toast(can, "保存成功")
+                can.run({}, ["action", "engine", can.parse, can.Option("file"), can.Option("path")], function(msg) {
+                    (msg.Result() || msg.append && msg.append.length > 0) && can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "block"}})
+                    can.onappend.table(can, can.ui.display, "table", msg)
+                    can.onappend.board(can, can.ui.display, "board", msg)
+                    can.user.toast(can, "运行成功")
+                }, true)
+            }, true)
+            return
+        }
+
         can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "none"}})
         can.run(event, ["action", "engine", can.parse, can.Option("file"), can.Option("path")], function(msg) {
             (msg.Result() || msg.append && msg.append.length > 0) && can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "block"}})
@@ -175,6 +194,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
         var width = can._target.offsetWidth - can.ui.project.offsetWidth - can.ui.preview.offsetWidth - 120
         can.page.Modify(can, can.ui.content, {style: {"max-width": hide? width+"px": ""}})
         hide && can.onimport.project(can, can.Option("path"))
+        can.onaction.selectLine(can, can.current)
     },
     "搜索": function(event, can) { var hide = can.ui.search.style.display == "none"
         can.page.Modify(can, can.ui.search, {style: {display: hide? "": "none"}})
@@ -186,8 +206,11 @@ Volcanos("onaction", {help: "控件交互", list: [],
             can.onaction.selectLine(can, index)
         }}])
         var line = can.page.Append(can, can.ui.content, [{view: ["item", "pre", ""], onclick: function(event) {
+            can.onkeymap && can.onkeymap._init(can, "insert")
             can.onaction.selectLine(can, line)
             can.ui.editor && can.ui.editor.focus()
+            can.editor && can.editor.setSelectionRange(event.offsetX/10, event.offsetX/10)
+
         }, ondblclick: function(event) {
             var s = document.getSelection()
             var str = s.baseNode.data
@@ -232,7 +255,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
 
         can.ui.editor && can.page.Modify(can, can.ui.editor, {className: "editor "+can.mode, value: can.current.innerText, style: {
             height: target.offsetHeight, width: target.offsetWidth,
-            left: target.offsetLeft, top: target.offsetTop,
+            left: target.offsetLeft, top: target.offsetTop - target.parentNode.parentNode.scrollTop,
             display: "block",
         }})
 
@@ -263,7 +286,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
         }, true)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: ["输入法", "文件名", "解析器", "当前行", "标签数"],
+Volcanos("onexport", {help: "导出数据", list: ["模式", "按键", "文件名", "解析器", "当前行", "标签数"],
     position: function(can, index, total) { total = total || can.max
         return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+"/"+parseInt(total)
     },

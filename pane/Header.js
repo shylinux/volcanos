@@ -1,30 +1,4 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
-        return
-        document.body.onkeydown = function(event) { if (event.target != document.body) { return }
-            switch (event.key) {
-                case "n":
-                    can.run(event, ["search", "River.onaction.create"])
-                    break
-                case "m":
-                    can.run(event, ["search", "Storm.onaction.create"])
-                    break
-                case " ":
-                    can.search.focus()
-                    can.search.setSelectionRange(0, -1)
-                    break
-                default:
-                    return
-            }
-            event.stopPropagation()
-            event.preventDefault()
-        }
-        document.body.onkeyup = function(event) {
-            console.log(event)
-        }
-    },
-    demo: function(can, msg, cmd, cb) {
-        msg.Echo("hello demo world")
-        cb(msg)
     },
 })
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {

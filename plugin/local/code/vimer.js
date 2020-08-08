@@ -10,9 +10,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                     }, onblur: function(event) {
                         can.onaction.modifyLine(can, can.current, can.editor.value)
                     }, onclick: function(event) {
-
-                    }, ondblclick: function(event) {
-                        can.onkeymap._mode(can, "insert")
+                        can.onkeymap._insert(can)
                     }},
                     {view: ["command", "input"], onkeydown: function(event) {
                         can.onkeymap.parse(event, can, "command")
@@ -20,7 +18,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 ])
                 can.ui.editor = ui.editor
                 can.ui.command = ui.command
-                can.onkeymap._init(can, "normal")
+                can.onkeymap._init(can, "insert")
                 typeof cb == "function" && cb()
             }, target)
         })
@@ -38,7 +36,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             }), can.onkeymap[item]._engine = engine
         }), can.onkeymap._mode(can, mode||"normal")
     },
-    _mode: function(can, value) { can.Status("输入法", can.mode = value)
+    _mode: function(can, value) { can.Status("模式", can.mode = value)
         can.page.Modify(can, can.ui.editor, {className: "editor "+can.mode, style: {display: "none"}})
         can.page.Modify(can, can.ui.command, {className: "command "+can.mode, style: {display: "none"}})
         return value
@@ -74,14 +72,16 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     parse: function(event, can, mode) {
         event.key.length == 1 && can.history.push(event.key); if (can.mode != mode) {
             event.stopPropagation(), event.preventDefault()
-        }; can.mode != "command" && can.Status("输入值", can.history.join())
+        }; can.mode != "command" && can.Status("按键", can.history.join(""))
 
         for (var pre = 0; pre < can.history.length; pre++) {
             if ("0" <= can.history[pre] && can.history[pre] <= "9") { continue } break
         }; can.count = parseInt(can.history.slice(0, pre).join(""))||1
 
         function repeat(cb, count) {
-            for (var i = 1; i <= count; i++) { if (cb(event, can, count)) { break } }; can.history = []
+            for (var i = 1; i <= count; i++) { if (cb(event, can, count)) { break } }
+            can.history.length > 0 && (can.lastcmd = can.history), can.history = []
+            can.Status("按键", can.history.join(""))
         }
 
         var p = can.onsyntax[can.parse]
@@ -97,7 +97,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     },
     command: {
         Escape: function(event, can) { can.onkeymap._normal(can)
-            can.current.click()
+            can.onaction.selectLine(can, can.current)
         },
         Enter: function(event, can) { var line = can.ui.command.value; var ls = can.core.Split(line, " ", ",", {simple: true})
             var cb = can.onkeymap._engine[ls[0]]; typeof cb == "function"? cb(event, can, line, ls):
@@ -110,16 +110,22 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     },
     normal: {
         ":": function(event, can) { can.onkeymap._command(can) },
+        ".": function(event, can) {
+            can.history = can.lastcmd
+            can.onkeymap.parse({key: ""}, can, "normal")
+        },
 
         h: function(event, can) {
-            can.editor.setSelectionRange(can.editor.selectionStart-1, can.editor.selectionStart-1)
+            can.editor.setSelectionnRange(can.editor.selectionStart-1, can.editor.selectionStart-1)
         },
         l: function(event, can) {
             can.editor.setSelectionRange(can.editor.selectionStart+1, can.editor.selectionStart+1)
         },
-        j: function(event, can) { can.onaction.selectLine(can, can.current.nextSibling)
+        j: function(event, can) {
+            can.onaction.selectLine(can, can.current.nextSibling)
             var pos = can.current.offsetTop-can._target.scrollTop; if (pos > 22*15) {
                 can._target.scrollBy(0, 22)
+                can.onaction.selectLine(can, can.current)
             }
         },
         k: function(event, can) { can.onaction.selectLine(can, can.current.previousSibling)
@@ -129,17 +135,19 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         },
 
         gg: function(event, can, count) { count = count || 1
-            can.onaction.selectLine(can, count - 1)
+            can.onaction.selectLine(can, count)
             can.current.scrollIntoView()
             can._target.scrollBy(0, -22*5)
+            can.onaction.selectLine(can, count)
             return true
         },
-        G: function(event, can, count) { count = count || can.max
-            can.onaction.selectLine(can, count - 1)
+        G: function(event, can, count) { count = count > 1? count: can.max
+            can.onaction.selectLine(can, count)
             can.current.scrollIntoView()
             if (count - can.max < -5) {
                 can._target.scrollBy(0, -22*5)
             }
+            can.onaction.selectLine(can, count)
             return true
         },
         zt: function(event, can, count) { count = count || 2
@@ -168,23 +176,25 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             can.editor.setSelectionRange(-1, -1)
         },
         o: function(event, can) { can.onkeymap._insert(can)
-            can.onkeymap.insertLine(can, can.current).click()
+            can.onaction.selectLine(can, can.onkeymap.insertLine(can, can.current))
         },
         O: function(event, can) { can.onkeymap._insert(can)
-            can.onkeymap.insertLine(can, can.current, "", true).click()
+            can.onaction.selectLine(can, can.onkeymap.insertLine(can, can.current, "", true))
         },
 
         yy: function(event, can) { can.last = can.current.innerText },
         dd: function(event, can) { can.last = can.current.innerText
             var next = can.current.nextSibling || can.current.previousSibling
             can.onkeymap.deleteLine(can, can.current)
-            next.click()
+            can.onaction.selectLine(can, next)
         },
         p: function(event, can) {
-            can.onkeymap.insertLine(can, can.current, can.last).click()
+            can.onkeymap.insertLine(can, can.current, can.last)
+            can.onaction.selectLine(can, can.current.nextSibling)
         },
         P: function(event, can) {
-            can.onkeymap.insertLine(can, can.current, can.last, true).click()
+            can.onkeymap.insertLine(can, can.current, can.last, true)
+            can.onaction.selectLine(can, can.current.previousSibling)
         },
     },
     insert: {
@@ -193,12 +203,14 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             event.stopPropagation(), event.preventDefault()
         },
         Enter: function(event, can) {
-            can.onkeymap.insert.Escape(event, can)
-            can.onkeymap.insertLine(can, can.current, "", event.shiftKey).click()
-            can.onkeymap._insert(can)
+            var before = can.editor.value.slice(0, event.target.selectionEnd)
+            var left = can.editor.value.slice(event.target.selectionEnd)
+            left && can.onaction.modifyLine(can, can.current, before)
+            can.onaction.selectLine(can, can.onkeymap.insertLine(can, can.current, left))
+            can.editor && can.editor.setSelectionRange(0, 0)
         },
         Backspace: function(event, can) { if (can.editor.selectionStart > 0) { return }
-            can.onkeymap.mergeLine(can, can.current.previousSibling).click()
+            can.onkeymap.mergeLine(can, can.current.previousSibling)
             event.stopPropagation(), event.preventDefault()
         },
         ArrowDown: function(event, can) {
@@ -214,7 +226,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     },
 
     insertLine: function(can, target, value, before) { var line = can.onaction.appendLine(can, value)
-        can.ui.content.insertBefore(line, before && target || target.nextSibling)
+        can.ui.content.insertBefore(line, before || target && target.nextSibling)
         return line
     },
     deleteLine: function(can, target) { can.page.Remove(can, target)
@@ -222,8 +234,11 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         can.page.Remove(can, ls[ls.length-1]), can.max--
     },
     mergeLine: function(can, target) { if (!target) {return}
-        can.onaction.modifyLine(can, target, target.innerHTML + target.nextSibling.innerHTML)
+        var before = target.innerText 
+        can.onaction.modifyLine(can, target, before + target.nextSibling.innerText)
         can.onkeymap.deleteLine(can, target.nextSibling)
+        can.onaction.selectLine(can, target)
+        can.ui.editor.setSelectionRange(before.length, before.length)
         return target
     },
 })

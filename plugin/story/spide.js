@@ -113,11 +113,15 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
                 {type: "text", name: "file", value: tree.file},
                 {type: "text", name: "line", value: tree.line},
                 {type: "button", name: "查看", value: "auto"},
+                {type: "button", name: "关闭"},
             ], index: "web.code.inner", feature: {
                 display: "/plugin/local/code/inner.js", style: "editor", width: 800, height: 600,
-                action: ["关闭"],
             }}, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
-                sub.run = function(event, cmds, cb, silent) {
+                sub.run = function(event, cmds, cb, silent) { var msg = can.request(event)
+                    if (msg.Option("_action") == "关闭") {
+                        can.page.Remove(can, tree.inner._target)
+                        return
+                    }
                     can.run(event, ["inner"].concat(cmds), cb, true)
                 }
             }, document.body)

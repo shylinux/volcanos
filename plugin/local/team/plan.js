@@ -108,7 +108,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 }
             },
             ondblclick: function(event) {
-                can.onappend.modify(can, event.target, function(ev, value, old) {
+                can.onmotion.modify(can, event.target, function(ev, value, old) {
                     can.onaction.modifyTask(event, can, task, key, value)
                 })
             },
@@ -116,7 +116,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 can.user.carte(can, can.ondetail, ["编辑"].concat(can.ondetail.list), function(event, item, meta) {
                     switch (item) {
                         case "编辑":
-                            can.onappend.modify(can, target, function(ev, value, old) {
+                            can.onmotion.modify(can, target, function(ev, value, old) {
                                 can.onaction.modifyTask(event, can, task, key, value)
                             })
                             break

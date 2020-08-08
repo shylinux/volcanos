@@ -1,4 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
+        typeof cb == "function" && cb()
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
@@ -14,6 +15,12 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
             })
         }
         value.name && can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
+            sub._legend.onclick = function(event) {
+                var opt = {pod: can.user.Search(can, "pod"), river: river, storm: storm, active: value.name}
+                can.core.Item(sub.Option(), function(key, value) { opt[key] = value })
+                location.href = can.user.Share(can, opt, true)
+
+            }
             sub.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                 can.Conf("active", sub.Option())
                 can.Conf("action", value.name)
@@ -52,8 +59,6 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
 
         msg.Clear("option"), can.run(msg._event, [river, storm], function(sup) { can._output.innerHTML = ""
             can.core.Next(sup.Table(), function(value, next) {
-                // value.inputs = can.base.Obj(value.inputs||"[]", [])
-                // value.args = typeof value.args == "string"? value.args.split(","): value.args
                 value.inputs = can.base.Obj(value.inputs||"[]", [])
                 value.height = can._target.offsetHeight
                 value.width = can._target.offsetWidth

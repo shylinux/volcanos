@@ -14,6 +14,7 @@ Volcanos({name: "chat", volcano: "/frame.js", iceberg: "/chat/", intshell: "plug
         "/plugin/local/team/plan.js",
         "/plugin/local/wiki/draw.js",
         "/plugin/local/wiki/word.js",
+        "/plugin/local/code/vimer.js",
         "/plugin/local/code/inner.js",
     ],
 })

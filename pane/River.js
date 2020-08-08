@@ -1,4 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
+        typeof cb == "function" && cb()
         can.sublist = {}
     },
     storm: function(event, can, river) {
@@ -17,8 +18,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
 
                     can.page.Select(can, can._output, "div.subitem.select", function(item) {
                         can.page.ClassList.del(can, item, "select")
-                    })
-                    can.page.ClassList.add(can, event.target, "select")
+                    }), can.page.ClassList.add(can, event.target, "select")
                 }, oncontextmenu: function(event) {
                     can.user.carte(can, {}, ["添加工具", "保存", "删除"], function(ev, item, meta) {
                         switch (item) {
@@ -85,6 +85,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加设备
             })
         })
     },
+
     "添加应用": function(event, can, river, button) {
         can.user.input(event, can, [
             ["类型", "public", "protected", "private"],

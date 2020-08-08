@@ -11,6 +11,11 @@ fieldset h3.story {
 fieldset p.story {
     white-space:pre;
 }
+fieldset p.story.shell {
+    padding:4px;
+    border-left:solid 4px blue;
+    background-color:#c2daef;
+}
 fieldset br.story {
     clear:both;
 }
