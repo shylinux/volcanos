@@ -9,6 +9,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
                 can.run(msg._event, ["search", "Footer.onaction._init"])
             }, target)
         }
+        if (location.protocol == "file:") { return init() }
         can.run({}, ["check"], function(msg) { if (msg.Result()) { return init() }
             can.user.login(can, init)
         })
@@ -25,6 +26,37 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             can.user.Cookie(can, "sessid", "")
             can.user.reload(true)
         }
+    },
+    pack: function(event, can, key) {
+        var msg = can.request(event)
+        can.core.Item(Volcanos.meta.pack, function(key, msg) {
+            delete(msg._event), delete(msg._can)
+        })
+        msg.Option("content", JSON.stringify(Volcanos.meta.pack))
+        can.run(event, ["pack"], function(msg) {
+            can.user.toast(can, "保存成功")
+        })
+    },
+    white: function(event, can, key) {
+        can.page.Modify(can, document.body, {className: key})
+    },
+    black: function(event, can, key) {
+        can.page.Modify(can, document.body, {className: key})
+    },
+    Footer: function(event, can, key) {
+        can.page.Select(can, document.body, "fieldset.Action", function(item) {
+            if (item.style.height) {
+                height = document.body.offsetHeight
+                can.page.Select(can, item, "div.output")[0].style.height = ""
+                item.style.height = ""
+            } else {
+                can.page.Select(can, item, "div.output")[0].style.height = height-100+"px"
+                item.style.height = height-88+"px"
+            }
+        }) 
+        can.page.Select(can, document.body, "fieldset."+key, function(item) {
+            can.page.Modify(can, item, {style: {display: item.style.display == "none"? "block": "none"}})
+        })
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) {
@@ -58,27 +90,12 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             }, }], }]).input)
 
             var height = document.body.offsetHeight
-            var ui = can.page.Append(can, can._output, can.core.List(["Search", "River", "Footer"], function(item) {
+            var ui = can.page.Append(can, can._output, can.core.List(["Search", "River", "Footer", "pack"], function(item) {
                 return {view: "item", list: [{type: "input", data: {name: item, type: "button", value: item.toLowerCase()},
                     onclick: function(event) {
-                        if (item == "white") {
-                            can.page.Modify(can, document.body, {className: item})
-                            return
+                        var cb = can.onaction[item]; if (typeof cb == "function") {
+                            return cb(event, can, item)
                         }
-                        if (item == "black") {
-                            can.page.Modify(can, document.body, {className: item})
-                            return
-                        }
-                        if (item == "Footer") { can.page.Select(can, document.body, "fieldset.Action", function(item) {
-                            if (item.style.height) {
-                                height = document.body.offsetHeight
-                                can.page.Select(can, item, "div.output")[0].style.height = ""
-                                item.style.height = ""
-                            } else {
-                                can.page.Select(can, item, "div.output")[0].style.height = height-100+"px"
-                                item.style.height = height-88+"px"
-                            }
-                        }) }
 
                         can.page.Select(can, document.body, "fieldset."+item, function(item) {
                             can.page.Modify(can, item, {style: {display: item.style.display == "none"? "block": "none"}})

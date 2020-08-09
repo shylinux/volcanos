@@ -5,7 +5,7 @@ Volcanos({name: "chat", volcano: "/frame.js", iceberg: "/chat/", intshell: "plug
         {name: "Action", help: "工作台", pos: "middle"},
         {name: "Search", help: "搜索框", pos: "float"},
         {name: "Footer", help: "状态条", pos: "foot", state: ["ncmd" ]},
-    ], main: {name: "Header", engine: "remote", list: ["/publish/order.js"]}, plugin: [
+    ], main: {name: "Header", engine: "remote", list: ["publish/order.js"]}, plugin: [
         "/plugin/state.js",
         "/plugin/table.js",
         "/plugin/input.js",

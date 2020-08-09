@@ -10,7 +10,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
             }, target)
         }, function() {
             can.onlayout._init(can, meta, list, function() {
-                can.require(meta.main.list, function(can) {
+                can.require(location.protocol == "file:"? []: meta.main.list, function(can) {
                     can.onkeypop._init(can)
                     can.onengine._topic(can)
                     can.onengine._daemon(can, can.user.title())
@@ -31,6 +31,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
         can.page.Modify(can, can._target, {className: can.user.Search(can, "topic")||(can.user.Search(can, "pod")? "black": "white")})
     },
     _daemon: function(can, name) {
+        return
         can.misc.WSS(can, "", {name: name, type: "chrome"}, function(event, msg) {
             if (msg.Option("_handle")) { return can.user.toast(can, msg.result.join("")) }
             can.user.toast(can, msg.detail.join(" "))
@@ -57,8 +58,20 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
     },
     remote: function(event, can, msg, pane, cmds, cb) {
         if (can.onengine.engine(event, can, msg, pane, cmds, cb)) { return }
+
+        var res = Volcanos.meta.pack[pane._name+","+cmds.join(",")]
+        if (res) {
+            res = can.request(event, res)
+            delete(msg._event), delete(msg._can)
+            return typeof cb == "function" && cb(res)
+        }
+
         if (location.protocol == "file:") { typeof cb == "function" && cb(msg); return }
-        can.misc.Run(event, can, {names: pane._name}, cmds, cb)
+        can.misc.Run(event, can, {names: pane._name}, cmds, function(msg) {
+            delete(msg._event), delete(msg._can)
+            Volcanos.meta.pack[pane._name+","+cmds.join(",")] = msg
+            typeof cb == "function" && cb(msg)
+        })
     },
     engine: function(event, can, msg, pane, cmds, cb) { if (!can.onengine) { return false }
         switch (pane._name) {
