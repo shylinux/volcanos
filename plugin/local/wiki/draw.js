@@ -195,7 +195,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         call(prefix.concat(list.list))
         return can.keys = [], can.Status("按键", can.keys)
     },
-}, ["plugin/local/wiki/draw.css"])
+}, ["/plugin/local/wiki/draw.css"])
 Volcanos("onfigure", {help: "图形绘制", list: [],
     _get: function(can, item, name) {
         return can.onfigure[name]||can.onfigure[item.getAttribute("name")]||can.onfigure[item.tagName]

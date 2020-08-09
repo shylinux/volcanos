@@ -1,5 +1,5 @@
 Volcanos({name: "chat", volcano: "/frame.js", iceberg: "/chat/", intshell: "plug.sh",
-    libs: ["/lib/base", "/lib/core", "/lib/misc", "/lib/page", "/lib/user"], panes: [
+    libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], panes: [
         {name: "Header", help: "标题栏", pos: "head", state: ["time", "username"]},
         {name: "River",  help: "群聊组", pos: "left"},
         {name: "Action", help: "工作台", pos: "middle"},
@@ -9,8 +9,8 @@ Volcanos({name: "chat", volcano: "/frame.js", iceberg: "/chat/", intshell: "plug
         "/plugin/state.js",
         "/plugin/table.js",
         "/plugin/input.js",
-        "/plugin/input/key",
-        "/plugin/input/date",
+        "/plugin/input/key.js",
+        "/plugin/input/date.js",
         "/plugin/local/team/plan.js",
         "/plugin/local/wiki/draw.js",
         "/plugin/local/wiki/word.js",

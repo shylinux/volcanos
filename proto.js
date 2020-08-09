@@ -1,3 +1,4 @@
+var _can_name = ""
 function shy(help, meta, list, cb) {
     var index = -1, value = "", type = "string", args = arguments; function next(check) {
         if (++index >= args.length) {return false}
@@ -12,9 +13,6 @@ function shy(help, meta, list, cb) {
     return cb
 }
 var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
-    volcano: false, config: true,
-    require: true, cache: false, frame: false,
-    request: true, search: true,
 }, libs: []}, [], function(name, can, libs, cb) { var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == "object") { var Config = name
         meta.volcano = Config.volcano, meta.libs = Config.libs
@@ -53,7 +51,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                 return // 加载完成
             }
 
-            meta.debug["require"] && console.debug(can._root, can._name, "require", libs[0]); if (meta.cache[libs[0]]) {
+            if (meta.cache[libs[0]]) {
                 can._load(libs[0], each), can.require(libs.slice(1), cb, each)
                 return // 缓存加载
             }
@@ -162,7 +160,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
         Conf: shy("配置器", function(key, value, cb) { if (key == undefined) { return conf }
             if (typeof key == "object") { conf = key; return conf }
             typeof cb == "function" && (conf_cb[key] = cb)
-            if (value != undefined) {var old = conf[key], res; meta.debug["config"] && console.debug(can._root, can._name, "config", key, value, old)
+            if (value != undefined) {var old = conf[key], res;
                 conf[key] = conf_cb[key] && (res = conf_cb[key](value, old, key)) != undefined && res || value
             }
             return conf[key] || ""
@@ -206,6 +204,11 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
             return timer
         }),
     })
+
+    if (_can_name) {
+        meta.cache[_can_name] = meta.cache[_can_name] || []
+        meta.cache[_can_name].push(can)
+    }
     return can.require(libs, cb), can
 })
 

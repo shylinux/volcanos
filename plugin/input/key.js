@@ -1,7 +1,4 @@
-Volcanos("onfigure", {help: "控件详情", list: [], _merge: function(can, sub) { can.core.Item(sub, function(key, value) {
-        if (sub.hasOwnProperty(key)) { can.onfigure[key] = value }
-    }); return true },
-
+Volcanos("onfigure", {help: "控件详情", list: [], 
     key: {onclick: function(event, can, item, target) {
         function run() { var msg = can.request(event); msg.Option(item)
             can.run(event, ["action", "inputs", item.name, target.value], function(msg) {

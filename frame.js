@@ -21,7 +21,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
         })
     },
     _merge: function(can, sub) {
-        can.core.Item(sub, function(key, value) {
+        can.core && can.core.Item(sub, function(key, value) {
             if (sub.hasOwnProperty(key)) { can.onengine[key] = value }
         })
         return true
@@ -285,7 +285,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             sub.page.ClassList.add(sub, field, meta.feature.style||"")
             meta.detail = meta.feature["detail"] || {}
 
-            sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field)
+            sub.onimport && sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field)
 
             meta.inputs && sub.onappend._option(sub, meta, list, cb)
             sub.onaction && sub.onappend._action(sub, sub._action, sub.onaction.list)
@@ -472,8 +472,8 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         item.value == "auto" && (item.value = "")
         item.action == "auto" && (input.dataset.action = "auto")
         var target = can.page.Append(can, option, [{view: ["item "+item.type], list: [item.position && {text: item.name+": "}, input]}])[item.name]
-        item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["/plugin/input/"+item.figure], function(can) {
-            can.core.Item(can.onfigure[item.figure], function(key, value) { if (key.startsWith("on")) {
+        item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["/plugin/input/"+item.figure+".js"], function(can) {
+            can.onfigure && can.core.Item(can.onfigure[item.figure], function(key, value) { if (key.startsWith("on")) {
                 target[key] = function(event) { value(event, can, item, target) }
             } })
             target.type != "button" && (target.value = "")
