@@ -59,14 +59,18 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
     remote: function(event, can, msg, pane, cmds, cb) {
         if (can.onengine.engine(event, can, msg, pane, cmds, cb)) { return }
 
-        var res = Volcanos.meta.pack[pane._name+","+cmds.join(",")]
-        if (res) {
-            res = can.request(event, res)
-            delete(msg._event), delete(msg._can)
-            return typeof cb == "function" && cb(res)
+        if (location.protocol == "file:") {
+            var res = Volcanos.meta.pack[pane._name+","+cmds.join(",")]
+            if (res) {
+                res = can.request(event, res)
+                delete(msg._event), delete(msg._can)
+                return typeof cb == "function" && cb(res)
+            }
+
+            typeof cb == "function" && cb(msg)
+            return
         }
 
-        if (location.protocol == "file:") { typeof cb == "function" && cb(msg); return }
         can.misc.Run(event, can, {names: pane._name}, cmds, function(msg) {
             delete(msg._event), delete(msg._can)
             Volcanos.meta.pack[pane._name+","+cmds.join(",")] = msg
