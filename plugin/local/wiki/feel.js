@@ -9,7 +9,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.Option("path") != "最近/" && can.onimport.page(can, can._msg.Table(), can.begin, can.limit)
     },
     page: function(can, list, begin, limit) { can._target.innerHTML = ""
-        for (var i = begin; i < begin+limit; i++) { list[i] && can.onimport.file(can, list[i].path) }
+        if (!list || list.length == 0) { return }
+        for (var i = begin; i < begin+limit; i++) { list && list[i] && can.onimport.file(can, list[i].path) }
         can.Status("begin", begin), can.Status("limit", limit), can.Status("total", can._msg.Table().length)
     },
     file: function(can, path) { can.Status("文件", path)

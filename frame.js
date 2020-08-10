@@ -104,6 +104,10 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 var action = storm && storm.action && storm.action[cmds[2]]
                 if (!storm) { break } if (cmds.length == 2) {
                     if (storm.index) {
+                        if (Volcanos.meta.webpack == true) {
+                            typeof cb == "function" && cb(msg)
+                            return true
+                        }
                         can.misc.Run(event, can, {names: pane._name}, [river.name, storm.name, "order"].concat(storm.index), cb)
                         return true
                     }
