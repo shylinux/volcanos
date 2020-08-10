@@ -10,7 +10,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
             }, target)
         }, function() {
             can.onlayout._init(can, meta, list, function() {
-                can.require(location.protocol == "file:"? []: meta.main.list, function(can) {
+                can.require(Volcanos.meta.webpack? []: meta.main.list, function(can) {
                     can.onkeypop._init(can)
                     can.onengine._topic(can)
                     can.onengine._daemon(can, can.user.title())
@@ -59,7 +59,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
     remote: function(event, can, msg, pane, cmds, cb) {
         if (can.onengine.engine(event, can, msg, pane, cmds, cb)) { return }
 
-        if (location.protocol == "file:") {
+        if (Volcanos.meta.webpack == true || location.protocol == "file:") {
             var res = Volcanos.meta.pack[pane._name+","+cmds.join(",")]
             if (res) {
                 res = can.request(event, res)
