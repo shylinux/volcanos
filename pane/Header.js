@@ -32,9 +32,10 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         can.core.Item(Volcanos.meta.pack, function(key, msg) {
             delete(msg._event), delete(msg._can)
         })
+        var toast = can.user.toast(can, "打包中...", "webpack", 1000000)
         msg.Option("content", JSON.stringify(Volcanos.meta.pack))
         can.run(event, ["pack"], function(msg) {
-            can.user.toast(can, "保存成功")
+            toast.Close(), can.user.toast(can, "打包成功", "webpack")
         })
     },
     white: function(event, can, key) {

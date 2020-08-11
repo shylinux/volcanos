@@ -1,7 +1,7 @@
 // volcanos: 前端 火山架 我看不行
 // FMS: a fieldset manager system
 
-Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
+Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta, list, cb, target) {
         can.core.Next(meta.panes, function(item, next) {
             can.onappend._init(can, item, meta.libs.concat(item.list), function(pane) { pane.Conf(item)
                 pane.run = function(event, cmds, cb) {
@@ -9,15 +9,15 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
                 }, can[item.name] = pane, next()
             }, target)
         }, function() {
-            can.onlayout._init(can, meta, list, function() {
-                can.require(Volcanos.meta.webpack? []: meta.main.list, function(can) {
-                    can.onkeypop._init(can)
-                    can.onengine._topic(can)
-                    can.onengine._daemon(can, can.user.title())
-                    var pane = can[meta.main.name], msg = can.request({})
-                    pane.onaction && pane.onaction._init(pane, msg, msg.option||[], cb, target)
-                })
-            }, target)
+            can.onlayout._init(can, meta, list, function() {}, target)
+            can.onengine._daemon(can, can.user.title())
+            can.onengine._topic(can)
+            can.onkeypop._init(can)
+
+            can.require(Volcanos.meta.webpack? []: meta.main.list, function(can) {
+                var pane = can[meta.main.name], msg = can.request({})
+                pane.onaction && pane.onaction._init(pane, msg, msg.option||[], cb, target)
+            })
         })
     },
     _merge: function(can, sub) {
@@ -243,7 +243,7 @@ Volcanos("onengine", { _init: function(can, meta, list, cb, target) {
         }},
     },
 })
-Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { meta.name = meta.name.split(" ")[0]
+Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) { meta.name = meta.name.split(" ")[0]
         field = field || can.onappend.field(can, target, meta.type||"plugin", meta).first
         var legend = can.page.Select(can, field, "legend")[0]
         var option = can.page.Select(can, field, "form.option")[0]
@@ -384,6 +384,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
             var display = (msg.Option("_plugin")||msg.Option("_display")||meta.feature.plugin||meta.feature.display||"table.js")
             display.indexOf("/") == 0 || (display = "/plugin/"+display)
 
+            display.endsWith(".js") || (display += ".js")
             var table = Volcanos(display, { _help: display, _follow: can._follow+"."+display,
                 _target: can._output, _option: can._option, _action: can._action, _output: can._output, _status: can._status,
                 _fields: can._target, Option: can.Option, Action: can.Action, Status: can.Status,
@@ -566,7 +567,7 @@ Volcanos("onappend", { _init: function(can, meta, list, cb, target, field) { met
         msg.result && can.page.AppendBoard(can, target, can.page.Display(msg.Result()))
     },
 }, [], function(can) {})
-Volcanos("onlayout", { _init: function(can, meta, list, cb, target) {
+Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, meta, list, cb, target) {
         if (can.user.Search(can, "share")) { return typeof cb == "function" && cb() }
         var width = can._width, height = can._height
 
@@ -630,10 +631,8 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
         event.preventDefault()
     }
     document.body.onkeyup = function(event) {
-        console.log(event)
     }
-},
-    action: null,
+}, action: null,
 })
 Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
     },

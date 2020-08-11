@@ -4,8 +4,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.begin = 0
         can.Action("倍速", can.rate = 1)
-        can.Action("数量", can.limit = parseInt(msg.Option("limit"))||3)
-        can.Action("高度", can.height = parseInt(msg.Option("height"))||200)
+        can.Action("数量", can.limit = parseInt(msg.Option("limit"))||6)
+        can.Action("高度", can.height = parseInt(msg.Option("height"))||100)
         can.Option("path") != "最近/" && can.onimport.page(can, can._msg.Table(), can.begin, can.limit)
     },
     page: function(can, list, begin, limit) { can._target.innerHTML = ""
@@ -90,7 +90,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
         can.rate = parseInt(value), can.onimport.page(can, can._msg.Table(), can.begin, can.limit)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: ["begin", "limit", "total", "position", "文件"],
+Volcanos("onexport", {help: "导出数据", list: ["total", "begin", "limit", "position", "文件"],
     position: function(can, index, total) { total = total || can.max
         return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+"/"+parseInt(total)
     },

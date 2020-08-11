@@ -1,4 +1,3 @@
-var _can_name = ""
 function shy(help, meta, list, cb) {
     var index = -1, value = "", type = "string", args = arguments; function next(check) {
         if (++index >= args.length) {return false}
@@ -12,6 +11,7 @@ function shy(help, meta, list, cb) {
     cb.list = next("object") || []
     return cb
 }
+var _can_name = ""
 var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
 }, libs: [], pack: {}}, [], function(name, can, libs, cb) { var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == "object") { var Config = name
@@ -176,13 +176,11 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                 }
 
                 cache[name] = {node: temp, data: data}
-                console.log(can._root, can._name, "save", name, cache[name])
                 return name
             }
 
             output.innerHTML = ""
             var list = cache[name]; if (!list) {return}
-            console.log(can._root, can._name, "load", name, cache[name])
 
             // 读缓存
             while (list.node.childNodes.length>0) {

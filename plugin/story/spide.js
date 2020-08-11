@@ -24,7 +24,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                     can.Action("speed", "100")
                     can.Action("scale", "1")
                     can.Action("stroke-width", "1")
-                    can.sub.svg.Value("transform", "scale("+can.Action("scale")+")")
+                    can.sub.svg.Value("transform", "scale("+(can.Action("scale")||1)+")")
                     can.onaction["横向"](event, can)
                     sub.Action("go", "run")
                 })

@@ -3,7 +3,7 @@ fieldset.feel div.action {
 }
 
 fieldset.feel div.output {
-    min-height:200px;
+    min-height:100px;
 }
 fieldset.feel div.output div.content {
     max-height:200px;
