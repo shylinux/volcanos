@@ -1,8 +1,23 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
-        typeof cb == "function" && cb()
-        can.sublist = {}
     },
-    storm: function(event, can, river) {
+    river: function(can) { var key = "river"
+        var main = can.user.Search(can, key) || "研发群"
+        can.sublist = {}
+        can.run({}, [], function(sup) { can._output.innerHTML = ""; var select; sup.Table(function(value, index, array) {
+            var view = can.onappend.item(can, can._output, "item", value, function(event, item) { var msg = can.request(event, {_msg: sup})
+                can.onimport.storm(can, value.key)
+                return
+                // 左键点击
+                msg.Option(key, can.Conf(key, value.key)), can.run(event, ["search", "Storm.onaction._init"])
+            }, function(event) {
+                // 右键点击
+                can.onappend.menu(can, msg, value)
+            })
+
+            if (index == 0 || [value.key, value.name].indexOf(main) > -1) { select = view }
+        }); select && select.click(), typeof cb == "function" && cb(sup) })
+    },
+    storm: function(can, river) {
         var list = can.sublist[river]; if (list) { var hide = list.style.display == "none"
             return can.page.Modify(can, list, {style: {display: hide? "": "none"}})
         }
@@ -51,7 +66,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
     },
 })
 Volcanos("onaction", {help: "控件交互", list: ["创建", "刷新"], _init: function(can, msg, list, cb, target) {
-        can.onexport._init(can, msg, list, cb, target)
+        can.onimport.river(can)
     },
     create: function(can) {
         can.user.input(event, can, [
@@ -142,24 +157,5 @@ Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加设备
         })
     },
 })
-Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) { var key = "river"
-        can.run({}, [], function(sup) { can._output.innerHTML = ""; var select; sup.Table(function(value, index, array) {
-            var view = can.onappend.item(can, can._output, "item", value, function(event, item) { var msg = can.request(event, {_msg: sup})
-                can.onimport.storm(event, can, value.key)
-                return
-                // 左键点击
-                msg.Option(key, can.Conf(key, value.key)), can.run(event, ["search", "Storm.onaction._init"])
-            }, function(event) {
-                // 右键点击
-                can.onappend.menu(can, msg, value)
-            })
-
-            if (index == 0 || [value.key, value.name].indexOf(can.user.Search(can, key)) > -1) { select = view }
-        }); select && select.click(), typeof cb == "function" && cb(sup) })
-    },
-    key: function(can, msg) {
-        msg.Option("river", can.Conf("river"))
-        msg.Option("storm", can.Conf("storm"))
-    },
-})
+Volcanos("onexport", {help: "导出数据", list: []})
 

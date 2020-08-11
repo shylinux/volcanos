@@ -48,7 +48,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             can._msg = can.tabview[path+file]
 
             can.Option({path: path, file: file, line: line||parseInt(can._msg.Option("line"))})
-            can.file = file, can.parse = can.base.Ext(file), can.max = 0
+            can.file = file, can.parse = can.base.Ext(file||path), can.max = 0
             can.onsyntax._init(can, can._msg)
 
             var width = can._target.offsetWidth - can.ui.project.offsetWidth - can.ui.preview.offsetWidth - 40
@@ -57,7 +57,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         }
         if (can.tabview[path+file]) { return show() }
 
-        can.run({}, ["action", "render", can.base.Ext(file), file, path], function(msg) {
+        can.run({}, ["action", "render", can.base.Ext(file||path), file, path], function(msg) {
             msg.Option({path: path, file: file, line: line||1})
             can.tabview[path+file] = msg
 
