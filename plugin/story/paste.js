@@ -20,4 +20,3 @@ Volcanos("ondetail", {help: "控件交互", list: ["编辑", "删除"],
     },
 })
 
-

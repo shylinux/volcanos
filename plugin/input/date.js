@@ -79,3 +79,4 @@ Volcanos("onfigure", {help: "控件详情", list: [], _merge: function(can, sub)
         }; set(show(now));
     }},
 }, ["/plugin/input/date.css"])
+

@@ -1,6 +1,5 @@
 // volcanos: 前端 火山架 我看不行
 // FMS: a fieldset manager system
-
 Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta, list, cb, target) {
         can.core.Next(meta.panes, function(item, next) {
             can.onappend._init(can, item, meta.libs.concat(item.list), function(pane) { pane.Conf(item)
@@ -75,6 +74,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             delete(msg._event), delete(msg._can)
             Volcanos.meta.pack[pane._name+","+cmds.join(",")] = msg
             typeof cb == "function" && cb(msg)
+            delete(msg.sessid)
         })
     },
     engine: function(event, can, msg, pane, cmds, cb) { if (!can.onengine) { return false }
@@ -194,6 +194,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "HTML5", help: "浏览器", index: "web.wiki.word", args: ["usr/icebergs/misc/chrome/chrome.shy"]},
             ]},
             "linux": {name: "linux",  action: [
+                {name: "ES", help: "搜索", index: "web.wiki.word", args: ["usr/learning/自然/编程/es.shy"]},
                 {name: "linux", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/src/main.shy"]},
             ]},
             "nginx": {name: "nginx",  action: [
@@ -329,7 +330,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                             break
                         case "返回":
                             can._history.pop(); var his = can._history.pop(); if (his) {
-                                can.page.Select(can, option, "input.args", function(item, index) {
+                                can.page.Select(can, can._option, "input.args", function(item, index) {
                                     item.value = his[index] || ""
                                 })
                             }

@@ -95,3 +95,4 @@ Volcanos("onexport", {help: "导出数据", list: ["total", "begin", "limit", "p
         return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+"/"+parseInt(total)
     },
 })
+

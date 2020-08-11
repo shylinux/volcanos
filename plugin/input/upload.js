@@ -36,3 +36,4 @@ Volcanos("onfigure", {help: "控件详情", list: [],
             })
     }},
 })
+

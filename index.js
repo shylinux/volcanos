@@ -1,3 +1,4 @@
+_can_name = ""
 Volcanos({name: "chat", volcano: "/frame.js", iceberg: "/chat/", intshell: "plug.sh",
     libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], panes: [
         {name: "Header", help: "标题栏", pos: "head", state: ["time", "username"]},

@@ -33,6 +33,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             delete(msg._event), delete(msg._can)
         })
         var toast = can.user.toast(can, "打包中...", "webpack", 1000000)
+        msg.Option("name", "demo")
         msg.Option("content", JSON.stringify(Volcanos.meta.pack))
         can.run(event, ["pack"], function(msg) {
             toast.Close(), can.user.toast(can, "打包成功", "webpack")
@@ -121,3 +122,4 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
         target.innerHTML = list[(new Date()).getDay()]+" "+can.base.Time().split(" ")[1]
     },
 })
+

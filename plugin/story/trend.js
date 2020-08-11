@@ -188,6 +188,5 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
         can.onappend.table(can, can.ui.display, "table", can._msg)
     },
 })
-Volcanos("onchoice", {help: "组件交互", list: []})
-Volcanos("ondetail", {help: "组件详情", list: []})
 Volcanos("onexport", {help: "导出数据", list: ["from", "commit", "total", "date", "begin", "add", "del", "close", "note"]})
+
