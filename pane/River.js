@@ -11,7 +11,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
                 msg.Option(key, can.Conf(key, value.key)), can.run(event, ["search", "Storm.onaction._init"])
             }, function(event) {
                 // 右键点击
-                can.onappend.menu(can, msg, value)
+                can.onappend.menu(can, sup, value)
             })
 
             if (index == 0 || [value.key, value.name].indexOf(main) > -1) { select = view }

@@ -16,7 +16,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     },
     title: function(event, can, key) { var msg = can.request(event)
         can.core.List(["share", "pod"], function(key) { var value = can.user.Search(can, key)
-            value != undefined && msg.Option(key, can.user.Search(key))
+            value != undefined && msg.Option(key, can.user.Search(can, key))
         })
         var args = {}; can.core.List(msg.option, function(key) { args[key] = msg.Option(key) })
         location.href = can.user.Share(can, args, true)

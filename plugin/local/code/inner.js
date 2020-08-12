@@ -38,7 +38,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         can.onimport.tabview(can, can.Option("path"), can.Option("file"), can.Option("line"))
         return typeof cb == "function" && cb(msg)
     },
-
     tabview: function(can, path, file, line) {
         var push = {path: path, file: file, line: line}
         !can.core.Eq(can.history[can.history.length-1], push) && can.history.push(push)
@@ -133,7 +132,6 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         })
         return p.line? p.line(can, line): line
     },
-
     png: {
         line: function(can, line) {
             can.page.Append(can, can.ui.display, [{img: "/share/local/"+line, height: 400}])
@@ -201,13 +199,13 @@ Volcanos("onaction", {help: "控件交互", list: [],
         hide && can.onaction.searchLine(event, can, "")
     },
 
-    appendLine: function(can, value) { var index = can.max++
-        can.page.Append(can, can.ui.preview, [{view: ["item", "div", index+1], onclick: function(event) {
+    appendLine: function(can, value) { var index = ++can.max
+        can.page.Append(can, can.ui.preview, [{view: ["item", "div", index], onclick: function(event) {
             can.onaction.selectLine(can, index)
         }}])
         var line = can.page.Append(can, can.ui.content, [{view: ["item", "pre", ""], onclick: function(event) {
             can.onkeymap && can.onkeymap._init(can, "insert")
-            can.onaction.selectLine(can, line)
+            can.onaction.selectLine(can, index)
             can.ui.editor && can.ui.editor.focus()
             can.editor && can.editor.setSelectionRange(event.offsetX/10, event.offsetX/10)
 
