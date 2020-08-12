@@ -180,7 +180,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         }},
         "project": {name: "研发群", storm: {
             "studio": {name: "studio", action: [
-                {name: "vimer", help: "编辑器", index: "web.code.vimer"},
+                {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
                 {name: "paste", help: "粘贴板", index: "web.code.tmux.text"},
                 {name: "favor", help: "收藏夹", index: "web.wiki.word", args: ["usr/learning/favor.shy"]},
                 {name: "total", help: "代码统计", index: "web.code.git.total"},

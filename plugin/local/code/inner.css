@@ -15,7 +15,6 @@ fieldset.editor>form.option div.item input.args[name=line] {
 
 fieldset.editor>div.output {
     background-color:black;
-    min-width:800px;
 }
 fieldset.editor>div.output div.project {
     text-align:left;

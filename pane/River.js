@@ -1,11 +1,11 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
+        can.sublist = {}
     },
     river: function(can) { var key = "river"
         var main = can.user.Search(can, key) || "研发群"
-        can.sublist = {}
         can.run({}, [], function(sup) { can._output.innerHTML = ""; var select; sup.Table(function(value, index, array) {
             var view = can.onappend.item(can, can._output, "item", value, function(event, item) { var msg = can.request(event, {_msg: sup})
-                can.onimport.storm(can, value.key)
+                can.onimport.storm(event, can, value.key)
                 return
                 // 左键点击
                 msg.Option(key, can.Conf(key, value.key)), can.run(event, ["search", "Storm.onaction._init"])
@@ -17,7 +17,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
             if (index == 0 || [value.key, value.name].indexOf(main) > -1) { select = view }
         }); select && select.click(), typeof cb == "function" && cb(sup) })
     },
-    storm: function(can, river) {
+    storm: function(event, can, river) {
         var list = can.sublist[river]; if (list) { var hide = list.style.display == "none"
             return can.page.Modify(can, list, {style: {display: hide? "": "none"}})
         }
