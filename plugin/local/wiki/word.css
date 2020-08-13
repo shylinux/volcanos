@@ -1,3 +1,7 @@
+fieldset>form.option>div.item input.args[name=cmd] {
+    width:300px;
+}
+
 fieldset li.H2 {
     font-weight:bold;
     font-size:20px;
