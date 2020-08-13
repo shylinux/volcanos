@@ -306,6 +306,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }, [Volcanos.meta.volcano].concat(list), function(sub) { cb(sub)
             meta.feature = sub.base.Obj(meta.feature, {})
             sub.page.ClassList.add(sub, field, meta.feature.style||"")
+            sub.page.ClassList.add(sub, field, meta.style||"")
             meta.detail = meta.feature["detail"] || {}
 
             sub.onimport && sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field)
@@ -317,7 +318,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         return sub
     },
     _option: function(can, meta, list, cb) { var index = -1, args = can.base.Obj(meta.args, [])
-        function add(item, next) { item._input == "text" && index++
+        function add(item, next) { item._input != "button" && index++
             return can._inputs[item.name] = Volcanos(item.name, { _help: item.name, _follow: can._follow+"."+item.name,
                 _target: can.onappend.input(can, can._option, item.type, item, args[index]),
                 _option: can._option, _action: can._action, _output: can._output,
@@ -476,6 +477,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                         item.value = item.values[1]
                     }
                 }
+                item.value = value || item.value
                 input.type = "select", input.list = item.values.map(function(value) {
                     return {type: "option", value: value, inner: value}
                 })
@@ -483,6 +485,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 break
             case "textarea":
                 input.type = "textarea"
+                // item.value = JSON.stringify(can.Conf("content")) || item.value
+                item.value = can.Conf("content") || item.value
                 // no break
             case "password":
                 // no break

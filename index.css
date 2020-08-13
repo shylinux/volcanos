@@ -391,3 +391,9 @@ body.white fieldset.plugin table td:hover {
     background-color:lightgray;
 }
 
+fieldset.command>form.option>div.item input.args {
+    width:300px;
+}
+fieldset.command>form.option>div.item textarea {
+    height:160px;
+}

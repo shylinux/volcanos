@@ -9,6 +9,16 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
         return typeof cb == "function" && cb(msg)
     },
+    spark: function(can, list, target) {
+        can.page.Select(can, target, "span", function(item) {
+            item.title = "点击复制"
+            item.onclick = function(event) {
+                navigator.clipboard.writeText(item.innerText).then(function() {
+                    can.user.toast(can, "复制成功", "paste")
+                })
+            }
+        })
+    },
     iframe: function(can, list, target) { var meta = can.base.Obj(list.meta)
         can.page.Modify(can, target, {width: can.Conf("width")-200})
     },
