@@ -44,6 +44,9 @@ Volcanos("onaction", {help: "控件交互", list: [],
     onkeydown: function(event, can) {
         switch (event.key) {
             case "Enter":
+                if (event.target.tagName == "TEXTAREA") {
+                    break
+                }
                 if (event.target.tagName == "INPUT") {
                     can.run(event)
                 }

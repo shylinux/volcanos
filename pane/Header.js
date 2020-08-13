@@ -61,7 +61,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         })
     },
 })
-Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos("onexport", {help: "导出数据", list: ["River", "Footer", "pack"], _init: function(can, msg, list, cb, target) {
         can.run(msg._event, [], function(msg) { can._output.innerHTML = ""
             can.Conf("username", msg.Option("user.nick")||msg.Option("user.name"))
             if (can.Conf("username").length > 10) {
@@ -85,14 +85,14 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                 })
             })
 
-            can.user.isMobile || (can.search = can.page.Append(can, can._output, [{view: "search", list: [{type: "input", onkeydown: function(event) {
+            can.user.isMobile || (can.search = can.page.Append(can, can._output, [{view: "search", list: [{type: "input", data: {placeholder: "search"}, onkeydown: function(event) {
                 switch (event.key) {
                     case "Enter": can.run(event, ["search", "Search.onimport.input", "*", event.target.value]); break
                 }
             }, }], }]).input)
 
             var height = document.body.offsetHeight
-            var ui = can.page.Append(can, can._output, can.core.List(["Search", "River", "Footer", "pack"], function(item) {
+            var ui = can.page.Append(can, can._output, can.core.List(can.onexport.list, function(item) {
                 return {view: "item", list: [{type: "input", data: {name: item, type: "button", value: item.toLowerCase()},
                     onclick: function(event) {
                         var cb = can.onaction[item]; if (typeof cb == "function") {

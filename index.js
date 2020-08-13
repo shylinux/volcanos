@@ -1,11 +1,11 @@
 _can_name = ""
-Volcanos({name: "chat", volcano: "/frame.js", iceberg: "/chat/", intshell: "plug.sh",
+Volcanos({name: "chat", volcano: "/frame.js", iceberg: "/chat/",
     libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], panes: [
         {name: "Header", help: "标题栏", pos: "head", state: ["time", "username"]},
+        {name: "Search", help: "搜索框", pos: "float"},
         {name: "River",  help: "群聊组", pos: "left"},
         {name: "Action", help: "工作台", pos: "middle"},
-        {name: "Search", help: "搜索框", pos: "float"},
-        {name: "Footer", help: "状态条", pos: "foot", state: ["ncmd" ]},
+        {name: "Footer", help: "状态条", pos: "foot", state: ["ncmd"]},
     ], main: {name: "Header", engine: "remote", list: ["publish/order.js"]}, plugin: [
         "/plugin/state.js",
         "/plugin/table.js",

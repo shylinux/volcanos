@@ -182,9 +182,9 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "studio": {name: "studio", action: [
                 {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
                 {name: "paste", help: "粘贴板", index: "web.code.tmux.text"},
-                {name: "favor", help: "收藏夹", index: "web.wiki.word", args: ["usr/learning/favor.shy"]},
-                {name: "total", help: "代码统计", index: "web.code.git.total"},
+                {name: "contexts", help: "上下文", index: "web.wiki.word", args: ["src/main.shy"]},
                 {name: "status", help: "代码状态", index: "web.code.git.status"},
+                {name: "total", help: "代码统计", index: "web.code.git.total"},
             ]},
             "cli": {name: "cli",  action: [
                 {name: "tmux", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/tmux/tmux.shy"]},
@@ -196,7 +196,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "HTML5", help: "浏览器", index: "web.wiki.word", args: ["usr/icebergs/misc/chrome/chrome.shy"]},
             ]},
             "linux": {name: "linux",  action: [
-                {name: "ES", help: "搜索", index: "web.wiki.word", args: ["usr/learning/自然/编程/es.shy"]},
                 {name: "linux", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/src/main.shy"]},
             ]},
             "nginx": {name: "nginx",  action: [

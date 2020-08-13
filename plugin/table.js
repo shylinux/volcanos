@@ -4,6 +4,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         ])
         can.onappend.table(can, can.ui.content, "table", msg)
         can.onappend.board(can, can.ui.display, "board", msg)
+        var refresh = msg.Option("_refresh") || can.Conf("feature")["_refresh"] 
+        refresh && can.Timer(refresh, function() {
+            can.run({})
+        })
         return typeof cb == "function" && cb(msg)
     },
 })
