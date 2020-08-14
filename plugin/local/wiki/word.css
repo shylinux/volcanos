@@ -32,7 +32,7 @@ fieldset svg.story {
     display:block; float:left;
 }
 fieldset fieldset.story {
-    clear:both; float:left;
+    margin:10px; clear:both; float:left;
 }
 fieldset fieldset.story:hover {
     border:solid 1px red;
