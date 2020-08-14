@@ -536,6 +536,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                             can.core.Item(line, msg.Option)
                             can.run(event, ["action", target.value].concat(list), function(msg) {
                                 can.user.toast(can, target.value+"成功", "paste")
+                                can.run({})
                             }, true)
                             return true
                         })
