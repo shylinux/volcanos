@@ -520,12 +520,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 var msg = can.request(event)
                 msg.Option(can.Option()), msg.Option(line)
                 var cb = can.onaction[item] || can.onaction["运行"]
+                var toast = can.user.toast(can, item+"中...", item, 1000000)
                 cb? cb(event, can, item): can.run(event, ["action", item, key=="value"? line.key: key, value.trim()], function(res) {
-                    can.run({}, null, function() {
-                        can.ui.display.innerHTML = ""
-                        can.onappend.table(can, can.ui.display, "table", res)
-                        can.onappend.board(can, can.ui.display, "board", res)
-                    })
+                    toast.Close(), can.user.toast(can, item+"成功")
+                    can.run({})
                 }, true)
             }
             return {type: "td", inner: value, click: function(event) {
