@@ -11,6 +11,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
         var feature = can.sup.Conf("feature")
         var input = feature && feature[can.Conf("name")]; if (input) {
             return can.user.input(event, can, input,function(event, button, data, list) {
+                var msg = can.request(event); can.core.Item(can.sup.Option(), msg.Option)
                 var args = ["action", can.Conf("name")]; can.core.Item(data, function(key, value) {
                     key && value && args.push(key, value)
                 })

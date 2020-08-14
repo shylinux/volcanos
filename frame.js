@@ -530,6 +530,18 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             }
             return {type: "td", inner: value, click: function(event) {
                 var target = event.target; if (target.tagName == "INPUT" && target.type == "button") {
+                    if (can.Conf("feature")[target.value]) {
+                        can.user.input(event, can, can.Conf("feature")[target.value], function(event, button, data, list) {
+                            var msg = can.request(event); can.core.Item(can.Option(), msg.Option)
+                            can.core.Item(line, msg.Option)
+                            can.run(event, ["action", target.value].concat(list), function(msg) {
+                                can.user.toast(can, target.value+"成功", "paste")
+                            }, true)
+                            return true
+                        })
+                        return
+                    }
+
                     switch (target.value) {
                         case "复制":
                             navigator.clipboard.writeText(line.text).then(function() {

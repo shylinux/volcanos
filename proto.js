@@ -33,6 +33,8 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
     var conf = {}, conf_cb = {}, cache = {}
     can = can || {}, list.push(can) && (can.__proto__ = {_name: name, _root: "volcano", _create_time: new Date(), _load: function(name, cb) {
             for (var cache = meta.cache[name] || []; meta.index < list.length; meta.index++) {
+                if (name == "/plugin/input/date.css" && cache.length > 0) { continue }
+                if (name == "/lib/base.js" && cache.length > 0) { continue }
                 if (list[meta.index] == can) { continue }
                 cache.push(list[meta.index])
                 // 加载缓存
