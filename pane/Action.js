@@ -66,6 +66,7 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                 if (value.inputs.length == 0) {
                     can.run({}, [river, storm, "action", "command", value.index], function(msg) {
                         value.inputs = can.base.Obj(msg.list&&msg.list[0]||"[]", [])
+                        // value.feature = value.feature||can.base.Obj(msg.meta&&msg.meta[0]||"{}", {})
                         value.feature = can.base.Obj(msg.meta&&msg.meta[0]||"{}", {})
                         can.onaction.add_plugin(can, river, storm, value), next()
                     })

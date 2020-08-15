@@ -177,6 +177,14 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "tmux", help: "粘贴", index: "web.code.tmux.text"},
                 {name: "study", help: "学习", index: "web.wiki.word", args: ["usr/learning/study.shy"]},
             ]},
+            "chrome": {name: "chrome",  action: [
+                {name: "feel", help: "网页爬虫", index: "web.wiki.feel", args: ["spide/"], feature: {
+                    display: "/plugin/local/wiki/feel.js",
+                    height: 200, limit: 3,
+                }},
+                {name: "cached", help: "爬虫缓存", index: "web.code.chrome.cached", args: []},
+                {name: "spided", help: "网页爬虫", index: "web.code.chrome.spided", args: location && location.protocol && location.protocol=="chrome-extension:"? ["1", "", "spide"]: ["1"]},
+            ]},
         }},
         "project": {name: "研发群", storm: {
             "studio": {name: "studio", action: [
@@ -187,9 +195,9 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "total", help: "代码统计", index: "web.code.git.total"},
             ]},
             "cli": {name: "cli",  action: [
-                {name: "tmux", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/tmux/tmux.shy"]},
-                {name: "git", help: "代码库", index: "web.wiki.word", args: ["usr/icebergs/misc/git/git.shy"]},
                 {name: "vim", help: "编辑器", index: "web.wiki.word", args: ["usr/icebergs/misc/vim/vim.shy"]},
+                {name: "git", help: "代码库", index: "web.wiki.word", args: ["usr/icebergs/misc/git/git.shy"]},
+                {name: "tmux", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/tmux/tmux.shy"]},
                 {name: "zsh", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/zsh/zsh.shy"]},
             ]},
             "web": {name: "web",  action: [

@@ -21,6 +21,22 @@ var can = Volcanos("chrome", {
             return
         }
 
+        delete(msg._can)
+        delete(msg._event)
+        if (cmd[1] == "") {
+            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                cmd[1] = tabs[0].id
+                chrome.tabs.sendMessage(parseInt(cmd[1]), msg, function (res) {
+                    msg.Copy(res), typeof cb == "function" && cb(msg)
+                })
+            })
+        } else {
+            chrome.tabs.sendMessage(parseInt(cmd[1]), msg, function (res) {
+                msg.Copy(res), typeof cb == "function" && cb(msg)
+            })
+        }
+        return
+
         // 新建标签
         chrome.tabs.create({windowId: parseInt(cmd[0]), url: cmd[1], selected: false}, function() {
             can.chrome(msg, [cmd[0]], cb)
@@ -44,13 +60,17 @@ var can = Volcanos("chrome", {
     can.misc.WSS(can, "ws://localhost:9020/space/", {name: "chrome", type: "chrome"}, function(event, msg) {
         if (msg.Option("_handle")) { return can.user.toast(msg.result.join("")) }
 
-        can.user.toast(msg.detail.join(" "))
-        switch (msg.detail[0]) {
-            case "space": can._share = msg.detail[2]; break
-            case "pwd": msg.Echo("hello world"); break
-            default: (can[msg.detail[0]]||can.chrome[msg.detail[0]])(msg, msg.detail.slice(1), function(msg) {
-                msg.Reply(msg)
-            }); return
+        // can.user.toast(msg.detail.join(" "))
+        try {
+            switch (msg.detail[0]) {
+                case "space": can._share = msg.detail[2]; break
+                case "pwd": msg.Echo("hello world"); break
+                default: (can[msg.detail[0]]||can.chrome[msg.detail[0]])(msg, msg.detail.slice(1), function(msg) {
+                    msg.Reply(msg)
+                }); return
+            }
+        } catch (e) {
+            can.user.toast(e)
         }
         msg.Reply(msg)
     }, function() {can.user.toast("wss connect", "iceberg")})

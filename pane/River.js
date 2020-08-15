@@ -2,7 +2,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
         can.sublist = {}
     },
     river: function(can) { var key = "river"
-        var main = can.user.Search(can, key) || "研发群"
+        can._main_river = can.user.Search(can, "river") || location.protocol == "chrome-extension:"? "product": "project"
+        can._main_storm = can.user.Search(can, "storm") || location.protocol == "chrome-extension:"? "chrome": "studio"
+
         can.run({}, [], function(sup) { can._output.innerHTML = ""; var select; sup.Table(function(value, index, array) {
             var view = can.onappend.item(can, can._output, "item", value, function(event, item) { var msg = can.request(event, {_msg: sup})
                 can.onimport.storm(event, can, value.key)
@@ -14,7 +16,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
                 can.onappend.menu(can, sup, value)
             })
 
-            if (index == 0 || [value.key, value.name].indexOf(main) > -1) { select = view }
+            if (index == 0 || [value.key, value.name].indexOf(can._main_river) > -1) { select = view }
         }); select && select.click(), typeof cb == "function" && cb(sup) })
     },
     storm: function(event, can, river) {
@@ -24,7 +26,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
 
         can.run({}, [river, "storm"], function(msg) { var which = 0
             list = can.page.Append(can, can._output, [{view: "sublist", list: msg.Table(function(value, index) {
-                river == can.user.Search(can, "river") && value.key == can.user.Search(can, "storm") && (which = index)
+                river == can._main_river && value.key == can._main_storm && (which = index)
                 return {text: [value.name, "div", "subitem"], onclick: function(event) {
                     var msg = can.request(event)
                     msg.Option("river", can.Conf("river", river))

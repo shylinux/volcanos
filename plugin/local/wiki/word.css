@@ -1,3 +1,9 @@
+fieldset ul.story[data-type=premenu] {
+    cursor:pointer;
+}
+fieldset ul.story[data-type=premenu] li:hover {
+    background:cyan;
+}
 fieldset li.H2 {
     font-weight:bold;
     font-size:20px;

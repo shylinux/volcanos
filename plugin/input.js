@@ -23,7 +23,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
             })
         }
 
-        var sub = can.sup && can.sup._outputs && can.sup._outputs[0]
+        var sub = can.sup && can.sup._outputs && can.sup._outputs[can.sup._outputs.length-1]
         var cb = sub && sub.onaction && sub.onaction[can.Conf("name")]
         if (typeof cb == "function") { return cb(event, sub, can.Conf("name")) }
 

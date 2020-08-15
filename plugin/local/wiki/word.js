@@ -24,7 +24,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     premenu: function(can, list, target) { var meta = can.base.Obj(list.meta)
         can.page.Select(can, can._output, "h2.story, h3.story", function(item) {
-            can.page.Append(can, target, [{text: [item.innerHTML, "li", item.tagName]}])
+            var ui = can.page.Append(can, target, [{text: [item.innerHTML, "li", item.tagName], onclick: function() {
+                item.scrollIntoView()
+            }}])
+            item.onclick = function(event) {
+                ui.first.scrollIntoView()
+            }
         })
     },
     field: function(can, item, target) { var meta = can.base.Obj(item.meta)
