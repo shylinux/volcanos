@@ -92,7 +92,7 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             }, }], }]).input)
 
             var height = document.body.offsetHeight
-            var ui = can.page.Append(can, can._output, can.core.List(can.user.isMobile || can.user.isExtension? ["River"]: [], function(item) {
+            var ui = can.page.Append(can, can._output, can.core.List(can.user.isMobile || can.user.isExtension? ["River"]: ["pack"], function(item) {
                 return {view: "item", list: [{type: "input", data: {name: item, type: "button", value: item.toLowerCase()},
                     onclick: function(event) {
                         var cb = can.onaction[item]; if (typeof cb == "function") {
