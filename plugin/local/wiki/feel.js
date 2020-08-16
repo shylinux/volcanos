@@ -48,7 +48,7 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
     } },
 
     video: function(can, path) { var auto = true, loop = true, total = 0
-        function cb(event) { console.log(event) }
+        function cb(event) { }
         return {className: "preview", type: "video", style: {height: can.height},
             data: {src: path, controls: "controls", autoplay: auto, loop: loop, playbackRate: can.rate},
             oncontextmenu: cb, onplay: cb, onpause: cb, onended: cb,

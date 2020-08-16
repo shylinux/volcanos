@@ -8,6 +8,12 @@ Volcanos("onaction", {help: "控件交互", list: [],
         }
     },
     onclick: function(event, can) {
+        // 前端回调
+        var sub = can.sup && can.sup._outputs && can.sup._outputs[can.sup._outputs.length-1]
+        var cb = sub && sub.onaction && sub.onaction[can.Conf("name")]
+        if (typeof cb == "function") { return cb(event, sub, can.Conf("name")) }
+
+        // 后端回调
         var feature = can.sup.Conf("feature")
         var input = feature && feature[can.Conf("name")]; if (input) {
             return can.user.input(event, can, input,function(event, button, data, list) {
@@ -23,10 +29,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
             })
         }
 
-        var sub = can.sup && can.sup._outputs && can.sup._outputs[can.sup._outputs.length-1]
-        var cb = sub && sub.onaction && sub.onaction[can.Conf("name")]
-        if (typeof cb == "function") { return cb(event, sub, can.Conf("name")) }
-
+        // 后端回调
         if (can.Conf("name") == "粘贴") {
             navigator.clipboard.readText().then(function(text) {
                 can.user.toast(can, "复制成功", "paste")
@@ -35,11 +38,10 @@ Volcanos("onaction", {help: "控件交互", list: [],
             return
         }
 
-        switch (can.Conf("type")) {
-            case "button":
-                var toast = can.user.toast(can, "执行中...", can.sup._help, 100000)
-                can.run(event, [], function(msg) { toast.Close() })
-                break
+        // 通用回调
+        if (can.Conf("type") == "button") {
+            var toast = can.user.toast(can, "执行中...", can.sup._help, 100000)
+            can.run(event, [], function(msg) { toast.Close() })
         }
     },
     onkeydown: function(event, can) {

@@ -2,7 +2,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.require(["/plugin/local/code/inner.js"], function(can) {
             can.onimport._init(can, msg, list, function() {
                 // can.page.Modify(can, can._option, {style: {display: "none"}})
-                var ui = can.page.Append(can, can._target, [
+                var ui = can.page.Append(can, can.ui.profile, [
                     {view: ["editor", "input"], "rows": "1", onkeydown: function(event) {
                         can.onkeymap.parse(event, can, "insert"), can.Timer(10, function() {
                             can.onaction.modifyLine(can, can.current, can.editor.value)
