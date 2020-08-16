@@ -2,8 +2,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
         can.sublist = {}
     },
     river: function(can) { var key = "river"
-        can._main_river = can.user.Search(can, "river") || location.protocol == "chrome-extension:"? "product": "project"
-        can._main_storm = can.user.Search(can, "storm") || location.protocol == "chrome-extension:"? "chrome": "studio"
+        can._main_river = can.user.Search(can, "river") || (can.user.isMobile? "product": "project")
+        can._main_storm = can.user.Search(can, "storm") || (can.user.isMobile? "office": "studio")
+
+        can._main_river = can.user.Search(can, "river") || (can.user.isExtension? "product": "project")
+        can._main_storm = can.user.Search(can, "storm") || (can.user.isExtension? "chrome": "studio")
 
         can.run({}, [], function(sup) { can._output.innerHTML = ""; var select; sup.Table(function(value, index, array) {
             var view = can.onappend.item(can, can._output, "item", value, function(event, item) { var msg = can.request(event, {_msg: sup})
