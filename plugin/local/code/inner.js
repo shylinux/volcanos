@@ -50,7 +50,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             can.file = file, can.parse = can.base.Ext(file||path), can.max = 0
             can.onsyntax._init(can, can._msg)
 
-            var width = can._target.offsetWidth - can.ui.project.offsetWidth - can.ui.preview.offsetWidth - 60
+            var width = can._target.offsetWidth - can.ui.project.offsetWidth - can.ui.preview.offsetWidth - 30
             can.Status("当前行", can.onexport.position(can, parseInt(can.Option("line")))-1)
             can.page.Modify(can, can.ui.content, {style: {"max-width": width+"px"}})
         }

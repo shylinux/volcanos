@@ -92,7 +92,7 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             }, }], }]).input)
 
             var height = document.body.offsetHeight
-            var ui = can.page.Append(can, can._output, can.core.List(["River", "Footer", "pack"], function(item) {
+            var ui = can.page.Append(can, can._output, can.core.List(can.user.isMobile || can.user.isExtension? ["River"]: [], function(item) {
                 return {view: "item", list: [{type: "input", data: {name: item, type: "button", value: item.toLowerCase()},
                     onclick: function(event) {
                         var cb = can.onaction[item]; if (typeof cb == "function") {
@@ -106,12 +106,14 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                 }]}
             }));
 
-            if (location.protocol == "chrome-extension:") {
-                ui.River.click()
+            if (can.user.isExtension) {
+                ui.River && ui.River.click()
             } else if (can.user.Search(can, "pod")) {
-                ui.River.click(), ui.Footer.click()
+                can.onaction.Footer({}, can)
+                ui.River && ui.River.click()
             } else if (can.user.isMobile) {
-                ui.River.click(), ui.Footer.click()
+                can.onaction.Footer({}, can)
+                ui.River && ui.River.click()
             }
 
             typeof cb == "function" && cb()

@@ -12,9 +12,18 @@ var can = Volcanos("chrome", {
             msg.Push("link", item.src)
         })
         can.page.Select(can, document.body, "img", function(item) {
+            var ls = item.src.split("?")
+            var ls = ls[0].split("/")
+
             msg.Push("time", can.base.Time())
             msg.Push("type", "img")
-            msg.Push("name", "img")
+
+            if (item.src.startsWith("data:image")) {
+                msg.Push("name", item.src.slice(item.src.length-20))
+            } else {
+                msg.Push("name", ls[ls.length-1]||"image.jpg")
+            }
+
             msg.Push("text", item.src)
             msg.Push("link", item.src)
         })
