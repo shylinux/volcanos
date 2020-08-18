@@ -234,17 +234,11 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             ]},
         }},
         "operate": {name: "运维群", storm: {
-            "docker": {name: "docker", index: [
-                "web.code.docker.image",
-                "web.code.docker.container",
-                "web.code.docker.command",
-            ]},
             "relay": {name: "relay", index: [
                 "aaa.totp.get",
                 "web.route",
                 "web.space",
                 "web.dream",
-                "web.code.docker.container",
                 "web.code.tmux.session",
             ]},
             "os": {name: "os",  action: [
