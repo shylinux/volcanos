@@ -45,6 +45,11 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     black: function(event, can, key) {
         can.page.Modify(can, document.body, {className: key})
     },
+    River: function(event, can, key) {
+        can.page.Select(can, document.body, "fieldset.River", function(item) {
+            can.page.Modify(can, item, {style: {display: item.style.display == "none"? "block": "none"}})
+        })
+    },
     Footer: function(event, can, key) {
         can.page.Select(can, document.body, "fieldset.Action", function(item) {
             if (item.style.height) {
@@ -98,22 +103,18 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
                         var cb = can.onaction[item]; if (typeof cb == "function") {
                             return cb(event, can, item)
                         }
-
-                        can.page.Select(can, document.body, "fieldset."+item, function(item) {
-                            can.page.Modify(can, item, {style: {display: item.style.display == "none"? "block": "none"}})
-                        })
                     },
                 }]}
             }));
 
             if (can.user.isExtension) {
-                ui.River && ui.River.click()
-            } else if (can.user.Search(can, "pod")) {
-                can.onaction.Footer({}, can)
-                ui.River && ui.River.click()
+                can.onaction.River({}, can)
             } else if (can.user.isMobile) {
+                can.onaction.River({}, can)
                 can.onaction.Footer({}, can)
-                ui.River && ui.River.click()
+            } else if (can.user.Search(can, "pod")) {
+                can.onaction.River({}, can)
+                can.onaction.Footer({}, can)
             }
 
             typeof cb == "function" && cb()
