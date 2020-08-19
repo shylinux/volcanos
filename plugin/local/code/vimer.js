@@ -19,6 +19,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 can.ui.editor = ui.editor
                 can.ui.command = ui.command
                 can.onkeymap._init(can, "insert")
+                can.ui.profile.onscroll = function(event) { var target = can.current
+                    can.ui.editor && can.page.Modify(can, can.ui.editor, {className: "editor "+can.mode, value: target.innerText, style: {
+                        height: target.offsetHeight, width: target.offsetWidth,
+                        left: target.offsetLeft, top: target.offsetTop - target.parentNode.parentNode.scrollTop,
+                        display: "block",
+                    }})
+                }
                 typeof cb == "function" && cb()
             }, target)
         })

@@ -32,6 +32,9 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             msg.result = [can.Conf("content")]
         }
 
+        can.user.isMobile || can.page.Modify(can, can.ui.content, {style: {"min-width": document.body.innerWidth-200+"px"}})
+        can.user.isMobile || can.page.Modify(can, can.ui.profile, {style: {"min-width": document.body.innerWidth-100+"px"}})
+
         can.tabview = {}, can.history = []
         can.tabview[can.Option("path")+can.Option("file")] = msg
         msg.Option({path: can.Option("path"), file: can.Option("file"), line: can.Option("line")||1})
