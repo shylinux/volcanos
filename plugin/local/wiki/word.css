@@ -4,6 +4,34 @@ fieldset ul.story[data-type=premenu] {
 fieldset ul.story[data-type=premenu] li:hover {
     background:cyan;
 }
+fieldset div.story[data-name=shell] {
+    padding:4px;
+    border-left:solid 4px blue;
+    background-color:#c2daef;
+}
+fieldset div.story[data-name=shell] span:hover {
+    background-color:white;
+    cursor:copy;
+}
+fieldset div.story[data-name=mysql] {
+    padding:4px;
+    border-left:solid 4px #0083ff;
+    background-color:#ccdae6;
+}
+fieldset div.story[data-name=mysql] span:hover {
+    background-color:white;
+    cursor:copy;
+}
+fieldset p.story[data-name=inner] {
+    padding:4px;
+    border-left:solid 4px #0083ff;
+    background-color:#ccdae6;
+}
+fieldset p.story[data-name=inner]:hover {
+    cursor:copy;
+}
+
+
 fieldset li.H2 {
     font-weight:bold;
     font-size:20px;
@@ -16,15 +44,6 @@ fieldset h3.story {
 }
 fieldset p.story {
     white-space:pre;
-}
-fieldset div.story[data-name=shell] {
-    padding:4px;
-    border-left:solid 4px blue;
-    background-color:#c2daef;
-}
-fieldset div.story[data-name=shell] span:hover {
-    background-color:white;
-    cursor:copy;
 }
 fieldset p.story.shell {
     padding:4px;
