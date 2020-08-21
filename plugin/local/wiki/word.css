@@ -22,6 +22,15 @@ fieldset div.story[data-name=mysql] span:hover {
     background-color:white;
     cursor:copy;
 }
+fieldset div.story[data-name=redis] {
+    padding:4px;
+    border-left:solid 4px #0083ff;
+    background-color:#ccdae6;
+}
+fieldset div.story[data-name=redis] span:hover {
+    background-color:white;
+    cursor:copy;
+}
 fieldset p.story[data-name=inner] {
     padding:4px;
     border-left:solid 4px #0083ff;

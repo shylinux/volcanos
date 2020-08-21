@@ -511,6 +511,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
         item.type == "textarea" && can.page.Append(can, option, [{type: "br"}])
         item.type == "text" && !target.placeholder && (target.placeholder = item.name || "")
+        item.type == "textarea" && !target.placeholder && (target.placeholder = item.name || "")
         item.type == "text" && !target.title && (target.title = target.placeholder)
         // item.type == "button" && item.action == "auto" && can.run && can.run({})
         item.type == "select" && item.value && (target.value = item.value)

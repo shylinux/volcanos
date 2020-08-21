@@ -10,10 +10,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
 
         can.run({}, [], function(sup) { can._output.innerHTML = ""; var select; sup.Table(function(value, index, array) {
             var view = can.onappend.item(can, can._output, "item", value, function(event, item) { var msg = can.request(event, {_msg: sup})
-                can.onimport.storm(event, can, value.key)
-                return
                 // 左键点击
-                msg.Option(key, can.Conf(key, value.key)), can.run(event, ["search", "Storm.onaction._init"])
+                can.onimport.storm(event, can, value.key)
             }, function(event) {
                 // 右键点击
                 can.onappend.menu(can, sup, value)
@@ -31,15 +29,18 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
             list = can.page.Append(can, can._output, [{view: "sublist", list: msg.Table(function(value, index) {
                 river == can._main_river && value.key == can._main_storm && (which = index)
                 return {text: [value.name, "div", "subitem"], onclick: function(event) {
+                    // 左键点击
                     var msg = can.request(event)
                     msg.Option("river", can.Conf("river", river))
                     msg.Option("storm", can.Conf("storm", value.key))
                     can.run(event, ["search", "Action.onaction._init"])
 
+                    value.name != "main" && can.user.title(value.name)
                     can.page.Select(can, can._output, "div.subitem.select", function(item) {
                         can.page.ClassList.del(can, item, "select")
                     }), can.page.ClassList.add(can, event.target, "select")
                 }, oncontextmenu: function(event) {
+                    // 右键点击
                     can.user.carte(can, {}, ["添加工具", "保存", "删除"], function(ev, item, meta) {
                         switch (item) {
                             case "保存":

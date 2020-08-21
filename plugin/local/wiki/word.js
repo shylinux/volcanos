@@ -13,7 +13,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         if (list["name"] == "inner") {
             target.title = "点击复制"
             target.onclick = function(event) {
-                navigator.clipboard.writeText(item.innerText).then(function() {
+                navigator.clipboard.writeText(target.innerText).then(function() {
                     can.user.toast(can, "复制成功", "paste")
                 })
             }
