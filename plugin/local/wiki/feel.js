@@ -6,7 +6,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can._msg = msg
         can.path = can.request({}), can.list = []
-        msg.Table(function(value) { value.path.endsWith("/")? can.path.Push(value): can.list.push(value) })
+        msg.Table(function(value) {
+            if (value.path.startsWith("/local")) { return }
+            value.path.endsWith("/")? can.path.Push(value): can.list.push(value)
+        })
         can.onappend.table(can, can.ui.project, "table", can.path)
 
         can.page.Modify(can, can._action, {style: {display: "none"}})
@@ -42,6 +45,14 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
     jpeg: function(can, path) { return can.onfigure.image(can, path) },
     image: function(can, path) { return {img: path, height: can.height, onclick: function(event) {
             can.Status("文件", path)
+            can.page.Append(can, document.body, [{img: path, style: {
+                position: "fixed", left: 0, top: 40,
+                height: window.innerHeight-40,
+            }, onclick: function(event) {
+                can.page.Remove(can, event.target)
+            }, }])
+        }, onmouseover: function(event) {
+            // can.Status("文件", path)
         }, _init: function(target) {
             can.Status("文件", path)
         }
@@ -72,6 +83,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
         ["倍速", 0.1, 0.2, 0.5, 1, 2, 3, 5, 10],
     ],
     "上传": function(event, can) { can.user.upload(event, can) },
+    "下载": function(event, can) { can.user.download(can, can.Status("文件")) },
     "收藏": function(event, can) {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             chrome.tabs.sendMessage(tabs[0].id, { action: "copy" }, function (response) {
