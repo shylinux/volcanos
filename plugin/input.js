@@ -13,6 +13,10 @@ Volcanos("onaction", {help: "控件交互", list: [],
         var cb = sub && sub.onaction && sub.onaction[can.Conf("name")]
         if (typeof cb == "function") { return cb(event, sub, can.Conf("name")) }
 
+        // 通用回调
+        var cb = can.onaction[can.Conf("name")]
+        if (can.sup && typeof cb == "function") { return cb(event, can.sup, can.Conf("name")) }
+
         // 后端回调
         var feature = can.sup.Conf("feature")
         var input = feature && feature[can.Conf("name")]; if (input) {
@@ -27,15 +31,6 @@ Volcanos("onaction", {help: "控件交互", list: [],
                 }, true)
                 return true
             })
-        }
-
-        // 后端回调
-        if (can.Conf("name") == "粘贴") {
-            navigator.clipboard.readText().then(function(text) {
-                can.user.toast(can, "复制成功", "paste")
-                can.run(event, ["action", "insert", "text", text])
-            })
-            return
         }
 
         // 通用回调
@@ -70,5 +65,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
             default: return
         }
     },
+
+    "上传": function(event, can) { can.user.upload(event, can) },
 })
 
