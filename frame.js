@@ -188,7 +188,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         }},
         "project": {name: "研发群", storm: {
             "studio": {name: "studio", action: [
-                {name: "dir", help: "文件", index: "nfs.dir", args: ["usr/publish/", "time size path link"]},
+                {name: "dir", help: "文件夹", index: "nfs.dir", args: ["usr/publish/", "time size path link"]},
                 {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
                 {name: "status", help: "代码状态", index: "web.code.git.status"},
                 {name: "total", help: "代码统计", index: "web.code.git.total"},
