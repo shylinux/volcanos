@@ -36,7 +36,9 @@ Volcanos("onaction", {help: "控件交互", list: [],
         // 通用回调
         if (can.Conf("type") == "button") {
             var toast = can.user.toast(can, "执行中...", can.sup._help, 100000)
-            can.run(event, [], function(msg) { toast.Close() })
+            can.run(event, [], function(msg) {
+                toast.Close()
+            })
         }
     },
     onkeydown: function(event, can) {

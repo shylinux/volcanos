@@ -96,6 +96,11 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
                     msg[key] = can.core.List(arguments).slice(1)
                     return val
                 },
+                Append: function(key, val) {
+                    if (typeof key == "object") { can.core.Item(key, msg.Append) }
+                    if (val == undefined) { return msg && msg[key] && msg[key][0] || msg._msg && msg._msg.Append(key) || "" }
+                    return val
+                },
                 Copy: function(res) { if (!res) { return msg }
                     res.result && (msg.result = (msg.result||[]).concat(res.result))
                     res.append && (msg.append = res.append) && res.append.forEach(function(item) {

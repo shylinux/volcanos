@@ -193,10 +193,19 @@ div.toast div.title {
 }
 div.toast div.content {
     text-align:center;
+    white-space:pre;
 }
 div.toast div.duration {
     font-size:14px;
     color:gray;
+}
+div.toast div.progress {
+    border:solid 2px green;
+    height:10px;
+}
+div.toast div.progress div.current {
+    background:red;
+    height:10px;
 }
 
 div.carte {

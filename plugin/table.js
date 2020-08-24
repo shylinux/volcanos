@@ -1,4 +1,16 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { can._output.innerHTML = "";
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+        if (msg.Option("_progress")) {
+            can.page.Select(can, can._output, "td", function(td) {
+                if (td.innerText == msg.Option("name")) {
+                    can.page.Modify(can, td, {style: {
+                        "background-color": "green",
+                    }})
+                }
+            })
+            return
+        }
+
+        can._output.innerHTML = ""
         can.ui = can.page.Append(can, can._target, [
             {view: ["content", "div"]}, {view: ["display", "pre"]},
         ])

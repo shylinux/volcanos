@@ -22,14 +22,32 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
 
             }
             sub.run = function(event, cmds, cb, silent) { var msg = can.request(event)
+                var _action = msg.Option("_action")
                 can.Conf("active", sub.Option())
                 can.Conf("action", value.name)
                 can.Conf("current", sub)
                 // 插件回调
                 return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
                     can.run(msg._event, ["search", "Footer.onaction.ncmd"])
-                    can.user.toast(can, "执行成功", value.name, 1000)
                     typeof cb == "function" && cb(msg)
+                    if (msg.Option("_progress")) {
+                        if (msg.Append("count") != msg.Append("total")) {
+                            can.user.toast(can, {
+                                text: "执行进度: "+msg.Append("count")+"/"+msg.Append("total")+"\n"+msg.Append("name"),
+                                title: value.name,
+                                duration: 1100,
+                                progress: parseInt(msg.Append("count"))*100/parseInt(msg.Append("total")),
+                            })
+                            can.Timer(1000, function() {
+                                var res = can.request({})
+                                res.Option("_action", _action)
+                                res.Option("_progress", msg.Option("_progress"))
+                                sub.run(res._event, cmds, cb, silent)
+                            })
+                            return
+                        }
+                    }
+                    can.user.toast(can, "执行成功", value.name, 400)
                 }, silent)
             }
             sub._target.oncontextmenu = function(event) {
