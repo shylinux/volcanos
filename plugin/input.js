@@ -42,6 +42,10 @@ Volcanos("onaction", {help: "控件交互", list: [],
         }
     },
     onkeydown: function(event, can) {
+        event.key !== " " && can.page.Select(can, document.body, "div.char."+event.key, function(item) {
+            can.page.Modify(can, item, {style: {height: item.offsetHeight+100+"px"}})
+        })
+
         switch (event.key) {
             case "Enter":
                 if (event.target.tagName == "TEXTAREA") {

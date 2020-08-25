@@ -13,9 +13,11 @@ Volcanos("onfigure", {help: "控件详情", list: [],
                     {button: ["关闭", function(event) { can.page.Remove(can, figure.fieldset) }]},
                 ])
 
-                can.page.AppendTable(can, figure.output, msg, msg.append, function(event, value, key, index, tr, td) {
-                    target.value = value; msg.Option("_refresh") && run()
-                    can.page.Remove(can, figure.fieldset) 
+                can.page.AppendTable(can, figure.output, msg, msg.append, function(value, key, index, line) {
+                    return {type: "td", inner: value, onclick: function() {
+                        target.value = value; msg.Option("_refresh") && run()
+                        can.page.Remove(can, figure.fieldset) 
+                    }}
                 })
             }, true)
         }

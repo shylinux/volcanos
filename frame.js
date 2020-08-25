@@ -188,8 +188,8 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         }},
         "project": {name: "研发群", storm: {
             "studio": {name: "studio", action: [
-                {name: "dir", help: "文件夹", index: "nfs.dir", args: ["usr/publish/", "time size path link"]},
                 {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
+                {name: "dir", help: "文件夹", index: "nfs.dir", args: ["usr/publish/", "time size path link"]},
                 {name: "status", help: "代码状态", index: "web.code.git.status"},
                 {name: "total", help: "代码统计", index: "web.code.git.total"},
                 {name: "paste", help: "粘贴板", index: "web.code.tmux.text"},
@@ -283,7 +283,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             Option: function(key, value) {
                 if (typeof key == "object") { return sub.core.Item(key, sub.Option), key }
                 if (key == undefined) { value = {}
-                    sub.page.Select(sub, option, "select.args,input.args", function(item) {
+                    sub.page.Select(sub, option, "select.args,input.args,textarea.args", function(item) {
                         value[item.name] = item.value
                     })
                     return value
@@ -629,27 +629,33 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, meta,
     },
 })
 Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
+    var list = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    var ui = can.page.Append(can, document.body, [{view: "high", list: can.core.List(list, function(c, i) {
+        return {view: "char "+c, style: {position: "absolute", "bottom": "0", 
+            left: document.body.clientWidth/list.length*i+"px",
+            width: document.body.clientWidth/list.length+"px",
+            height: "10px",
+            background: "red",
+        }}
+    })}])
+
+    can.Timer({interval: 100}, function() {
+        can.page.Select(can, ui.high, "div.char", function(item) {
+            item.offsetHeight > 0 && can.page.Modify(can, item, {style: {height: item.offsetHeight-4+"px"}})
+        })
+    })
+
     document.body.onkeydown = function(event) { if (event.target != document.body) { return }
+        event.key !== " " && can.page.Select(can, ui.high, "div.char."+event.key, function(item) {
+            can.page.Modify(can, item, {style: {height: item.offsetHeight+500+"px"}})
+        })
         if (can.onkeypop.action && can.onkeypop.action.onimport) {
             can.onkeypop.action.onimport.keydown(event, can.onkeypop.action, event.key)
             return
         }
-        switch (event.key) {
-            case "n":
-                can.run(event, ["search", "River.onaction.create"])
-                break
-            case "m":
-                can.run(event, ["search", "Storm.onaction.create"])
-                break
-            case " ":
-                can.search.focus()
-                can.search.setSelectionRange(0, -1)
-                break
-            default:
-                return
-        }
         event.stopPropagation()
         event.preventDefault()
+        console.log(event)
     }
     document.body.onkeyup = function(event) {
     }

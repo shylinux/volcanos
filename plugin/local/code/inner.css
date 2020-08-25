@@ -1,6 +1,7 @@
 fieldset.editor>div.action>div.file {
     border:solid 2px red; padding:2px;
     float:left; margin:2px 0;
+    background-color:#211515;
     cursor:pointer;
 }
 fieldset.editor>div.action>div.file.over {
@@ -17,9 +18,9 @@ fieldset.editor>div.output {
     background-color:black;
 }
 fieldset.editor>div.output div.project {
-    text-align:left;
     max-height:400px; overflow:auto;
-    max-width:160px;
+    max-width:180px; text-align:left;
+    font-size:14px; font-family:monospace;
     color:white;
 }
 fieldset.editor>div.output div.project div.item {
@@ -52,7 +53,7 @@ fieldset.editor>div.output div.content {
     font-size:16px; font-family:monospace;
     border-left:solid 2px red;
     min-height:20px;
-    min-width:400px;
+    min-width:800px;
     max-width:1000px;
     overflow:auto;
     float:left;

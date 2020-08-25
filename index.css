@@ -9,6 +9,7 @@ fieldset {
 }
 legend {
     margin-left:10px;
+    box-shadow: 4px 4px 20px 4px #626bd0;
 }
 legend:hover {
     cursor:pointer;
@@ -129,24 +130,11 @@ fieldset>div.output>pre.display:hover {
     /* max-height:640px; */
 }
 
-fieldset div.code {
-    color:white;
-    font-size:14px;
-    font-family:monospace;
-    background-color:#343a34f2;
-    white-space:pre;
-    padding:10px;
-    overflow:auto;
-    border:solid 3px green;
-    text-align:left;
-    /* max-height:640px; */
-}
 table {
-    font-size:14px;
-    cursor:pointer;
-    border:solid 1px green;
-    overflow: auto;
-    text-align:left;
+    border:0; white-space: pre;
+    font-size:14px; font-family:monospace;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    cursor:pointer; overflow: auto;
 }
 table tr:hover {
     background-color:#0fbd45;
@@ -158,16 +146,13 @@ table tr.over {
     background:red;
 }
 table th {
-    font-family:monospace;
     background-color:#0fbd45;
-    cursor:pointer;
     padding: 0 10px;
+    cursor:pointer;
 }
 table td {
     max-width:1200px;
-    font-family:monospace;
     padding: 0 10px;
-    white-space: pre;
 }
 table td:hover {
     background-color:red;
@@ -177,6 +162,16 @@ table td.select {
 }
 table td input {
     margin-left:4px;
+}
+
+div.code {
+    box-shadow: 4px 4px 20px 4px #626bd0;
+    font-size:14px; font-family:monospace;
+    color:white; background-color:#343a34f2;
+    padding:10px; border:solid 3px green;
+    text-align:left; white-space:pre;
+    overflow:auto;
+    /* max-height:640px; */
 }
 
 div.toast {
@@ -251,17 +246,16 @@ fieldset.input.key {
     z-index:101;
 }
 
-
 body.white {
     margin:0; padding:0;
     background-color:#0dabda;
 }
 body.white input[type=text] {
-    border:2px solid #c4c7ce;
-    border-radius:8px 8px 8px 8px;
-    background-color:white;
-    color:black;
+    border:2px solid #14a58e;
+    border-radius:6px 6px 6px 6px;
+    color:black; background-color:white;
     box-shadow: 4px 4px 10px 1px #626bd0;
+    padding: 0 4px;
 }
 body.white input[type=text]:hover {
     background-color:cyan;
@@ -272,7 +266,6 @@ body.white input[type=button] {
     border:2px solid #FF9900;
     background-color:#FF9900;
     color:white;
-    box-shadow: 4px 4px 10px 1px #626bd0;
 }
 body.white input[type=button]:hover {
     border-radius:10px 10px 10px 10px;
@@ -367,21 +360,27 @@ body.white fieldset.Action fieldset.plugin legend {
     color:white; background-color:#339999;
     padding:2px 20px; border:2px solid #99CCFF;
     border-radius:10px 10px 10px 10px;
-    box-shadow: 4px 4px 20px 4px #626bd0;
 }
 body.white fieldset.Action fieldset.plugin legend:hover {
     background-color:#6ee4e4;
 }
 body.white fieldset.Action fieldset.plugin div.output{
     color:black;
+    padding:10px;
 }
 body.white fieldset.Action fieldset.plugin div.item input[type=button] {
     letter-spacing:4px;
 }
-body.white fieldset.plugin table {
-    border:0;
-    color:black; background-color:white;
+body.white fieldset.Action fieldset.plugin div.item input {
     box-shadow: 4px 4px 10px 1px #626bd0;
+}
+body.white fieldset.Action fieldset.plugin div.item select {
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    margin-top:-2px;
+}
+
+body.white fieldset.plugin table {
+    color:black; background-color:white;
 }
 body.white fieldset.plugin table tr {
     background-color:#e1f1ff;
@@ -405,4 +404,10 @@ fieldset.command>form.option>div.item input.args {
 }
 fieldset.command>form.option>div.item textarea {
     height:160px;
+}
+
+fieldset.max>form.option>div.item textarea.args {
+    background-color:cyan;
+    width:500px;
+    height:120px;
 }
