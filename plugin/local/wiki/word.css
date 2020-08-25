@@ -8,10 +8,12 @@ fieldset div.story[data-name=shell] {
     padding:4px;
     border-left:solid 4px blue;
     background-color:#c2daef;
+    box-shadow: 4px 4px 10px 1px #626bd0;
 }
 fieldset div.story[data-name=shell] span:hover {
     background-color:white;
     cursor:copy;
+    box-shadow: 4px 4px 10px 1px #626bd0;
 }
 fieldset div.story[data-name=mysql] {
     padding:4px;
@@ -40,6 +42,17 @@ fieldset p.story[data-name=inner]:hover {
     cursor:copy;
 }
 
+fieldset fieldset.story {
+    margin:10px; clear:both; float:left;
+    border:0;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+}
+fieldset fieldset.story div.output{
+    padding:10px
+}
+fieldset fieldset.story:hover {
+    /* border:solid 1px red; */
+}
 
 fieldset li.H2 {
     font-weight:bold;
@@ -64,12 +77,6 @@ fieldset br.story {
 }
 fieldset svg.story {
     display:block; float:left;
-}
-fieldset fieldset.story {
-    margin:10px; clear:both; float:left;
-}
-fieldset fieldset.story:hover {
-    border:solid 1px red;
 }
 fieldset code.story {
     display:block; border:solid 3px green;

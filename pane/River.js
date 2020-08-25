@@ -1,3 +1,4 @@
+const RIVER = "river", STORM = "storm"
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
         can.sublist = {}
     },
@@ -90,7 +91,7 @@ Volcanos("onaction", {help: "控件交互", list: ["创建", "刷新"], _init: f
         can.onaction.create(can)
     },
     "刷新": function(event, can) {
-        can.user.Search(can, {"river": can.Conf("river")})
+        can.user.Search(can, {river: can.Conf(RIVER), storm: can.Conf(STORM)})
     },
 })
 Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加设备", "添加用户", "重命名", "共享", "删除"], _init: function(can, msg, list, cb, target) {

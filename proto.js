@@ -10,10 +10,9 @@ function shy(help, meta, list, cb) {
     cb.meta = next("object") || {}
     cb.list = next("object") || []
     return cb
-}
-var _can_name = ""
-var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, debug: {
-}, libs: [], pack: {}}, [], function(name, can, libs, cb) { var meta = arguments.callee.meta, list = arguments.callee.list
+}; var _can_name = ""
+var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: []}, [], function(name, can, libs, cb) {
+    var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == "object") { var Config = name
         meta.volcano = Config.volcano, meta.libs = Config.libs
         var Preload = Config.libs; Config.panes.forEach(function(pane) {

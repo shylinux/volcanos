@@ -14,7 +14,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.current = null
 
         // 加载绘图
-        var code = can.page.AppendBoard(can, can.ui.content, msg.Result()||can.onexport.content(can))
+        var code = can.onappend.board(can, can.ui.content, "board", msg, msg.Result()||can.onexport.content(can))
         can.page.Select(can, can.ui.content, "svg", function(svg) { can.svg = can.group = svg 
             can.onimport.block(can, svg), can.onimport.group(can, svg).click()
             can.page.Select(can, svg, "*", function(item, index) {

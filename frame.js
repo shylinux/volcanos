@@ -519,7 +519,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         return target
     },
     table: function(can, target, type, msg, cb) {
-        var table = can.page.AppendTables(can, target, msg, msg.append, cb || function(value, key, index, line) {
+        var table = can.page.AppendTable(can, target, msg, msg.append, cb || function(value, key, index, line) {
             function run(event, item, value) {
                 var msg = can.request(event)
                 msg.Option(can.Option()), msg.Option(line)
@@ -584,8 +584,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
         return table
     },
-    board: function(can, target, type, msg) {
-        msg.result && can.page.AppendBoard(can, target, can.page.Display(msg.Result()))
+    board: function(can, target, type, msg, text) { text = text || can.page.Display(msg.Result())
+        return text && can.page.Append(can, target, [{view: ["code", "div", text]}]).code
     },
 }, [], function(can) {})
 Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, meta, list, cb, target) {

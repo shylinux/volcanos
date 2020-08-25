@@ -261,6 +261,7 @@ body.white input[type=text] {
     border-radius:8px 8px 8px 8px;
     background-color:white;
     color:black;
+    box-shadow: 4px 4px 10px 1px #626bd0;
 }
 body.white input[type=text]:hover {
     background-color:cyan;
@@ -271,6 +272,7 @@ body.white input[type=button] {
     border:2px solid #FF9900;
     background-color:#FF9900;
     color:white;
+    box-shadow: 4px 4px 10px 1px #626bd0;
 }
 body.white input[type=button]:hover {
     border-radius:10px 10px 10px 10px;
@@ -352,20 +354,20 @@ body.white fieldset.Action {
     border-top:0;
 }
 body.white fieldset.Action fieldset.plugin {
-    border:0;
-    border-top:solid 2px #CCCCFF;
-    background-color:white;
-    color:black;
+    color:black; background-color:white;
+    border:0; border-top:solid 2px #CCCCFF;
+    box-shadow: 4px 4px 10px 4px #626bd0;
+    margin:8px 8px;
 }
 body.white fieldset.Action fieldset.plugin:hover {
     border-top:solid 2px #6666FF;
 }
 body.white fieldset.Action fieldset.plugin legend {
-    padding:2px 20px;
+    font-size:16px; font-family:monospace;
+    color:white; background-color:#339999;
+    padding:2px 20px; border:2px solid #99CCFF;
     border-radius:10px 10px 10px 10px;
-    border:2px solid #99CCFF;
-    background-color:#339999;
-    color:white;
+    box-shadow: 4px 4px 20px 4px #626bd0;
 }
 body.white fieldset.Action fieldset.plugin legend:hover {
     background-color:#6ee4e4;
@@ -377,27 +379,25 @@ body.white fieldset.Action fieldset.plugin div.item input[type=button] {
     letter-spacing:4px;
 }
 body.white fieldset.plugin table {
-    background:#9fb5bb;
     border:0;
+    color:black; background-color:white;
+    box-shadow: 4px 4px 10px 1px #626bd0;
 }
 body.white fieldset.plugin table tr {
-    background-color:gray;
+    background-color:#e1f1ff;
 }
 body.white fieldset.plugin table tr:hover {
-    background-color:gray;
+    background-color:#99CCFF;
 }
 body.white fieldset.plugin table th {
     padding:4px;
     background-color:#99CCFF;
-    color:black;
 }
 body.white fieldset.plugin table td {
     padding:4px;
-    background-color:white;
-    color:black;
 }
 body.white fieldset.plugin table td:hover {
-    background-color:lightgray;
+    background-color:#98ecd4;
 }
 
 fieldset.command>form.option>div.item input.args {
