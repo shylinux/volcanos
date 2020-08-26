@@ -638,7 +638,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
         }}
     })}])
     var iu = can.page.Append(can, document.body, [{view: "nice", style: {position: "fixed", top: 40, width: document.body.clientWidth, height: 40}}])
-    can.Timer({interval: 1000}, function() {
+    can.Timer({interval: 100}, function() {
         can.page.Select(can, ui.high, "div.char", function(item) {
             item.offsetHeight > 0 && can.page.Modify(can, item, {style: {
                 height: item.offsetHeight-item.offsetHeight/200-1+"px",
@@ -647,6 +647,27 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
         can.page.Select(can, document.body, "div.nice", function(item) {
             can.page.Modify(can, item, {style: {
                 width: item.offsetWidth-1, left: (document.body.clientWidth-item.offsetWidth-1)/2,
+            }})
+        })
+    })
+
+    var count = 0, add = true
+    can.Timer({interval: 100}, function() {
+        if (add) {
+            count++
+            if (count > 100) {
+                add = false
+            }
+        } else {
+            count--
+            if (count < 0) {
+                add = true
+            }
+        }
+
+        can.page.Select(can, document.body, "fieldset.Action fieldset", function(item) {
+            can.page.Modify(can, item, {style: {
+                "box-shadow": "40px 10px 10px "+(count/10+1)+"px #626bd0",
             }})
         })
     })
