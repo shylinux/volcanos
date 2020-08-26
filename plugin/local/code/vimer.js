@@ -4,6 +4,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 // can.page.Modify(can, can._option, {style: {display: "none"}})
                 var ui = can.page.Append(can, can.ui.profile, [
                     {view: ["editor", "input"], "rows": "1", onkeydown: function(event) {
+                        can.onkeypop.show(event, can)
                         can.onkeymap.parse(event, can, "insert"), can.Timer(10, function() {
                             can.onaction.modifyLine(can, can.current, can.editor.value)
                         })

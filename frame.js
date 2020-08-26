@@ -629,38 +629,128 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, meta,
     },
 })
 Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
-    var list = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    var list = ['q', 'a', 'z', 'w', 's', 'x', 'e', 'd', 'c', 'r', 'f', 'v', 't', 'g', 'b', 'y', 'h', 'n', 'u', 'j', 'm', 'i', 'k', 'o', 'l', 'p'];
     var ui = can.page.Append(can, document.body, [{view: "high", list: can.core.List(list, function(c, i) {
-        return {view: "char "+c, style: {position: "absolute", "bottom": "0", 
+        return {view: "char "+c, style: {position: "fixed", "bottom": "0", 
             left: document.body.clientWidth/list.length*i+"px",
             width: document.body.clientWidth/list.length+"px",
-            height: "10px",
-            background: "red",
+            height: "10px", background: "red",
         }}
     })}])
-
+    var iu = can.page.Append(can, document.body, [{view: "nice", style: {position: "fixed", top: 40, width: document.body.clientWidth, height: 40}}])
     can.Timer({interval: 1000}, function() {
         can.page.Select(can, ui.high, "div.char", function(item) {
-            item.offsetHeight > 0 && can.page.Modify(can, item, {style: {height: item.offsetHeight-1+"px"}})
+            item.offsetHeight > 0 && can.page.Modify(can, item, {style: {
+                height: item.offsetHeight-item.offsetHeight/200-1+"px",
+            }})
+        })
+        can.page.Select(can, document.body, "div.nice", function(item) {
+            can.page.Modify(can, item, {style: {
+                width: item.offsetWidth-1, left: (document.body.clientWidth-item.offsetWidth-1)/2,
+            }})
         })
     })
 
     document.body.onkeydown = function(event) { if (event.target != document.body) { return }
-        event.key !== " " && can.page.Select(can, ui.high, "div.char."+event.key, function(item) {
-            can.page.Modify(can, item, {style: {height: item.offsetHeight+500+"px"}})
-        })
         if (can.onkeypop.action && can.onkeypop.action.onimport) {
             can.onkeypop.action.onimport.keydown(event, can.onkeypop.action, event.key)
             return
         }
+        switch (event.key) {
+            case " ":
+            default:
+                return
+        }
         event.stopPropagation()
         event.preventDefault()
-        console.log(event)
     }
     document.body.onkeyup = function(event) {
     }
-}, action: null,
-})
+}, action: null, show: function(event, can) {
+    var key = event.key, map = {
+        "~": "q",
+        "`": "q",
+        "1": "q",
+        "2": "w",
+        "3": "e",
+        "4": "r",
+        "5": "t",
+        "6": "y",
+        "7": "u",
+        "8": "i",
+        "9": "o",
+        "0": "p",
+        "-": "o",
+        "=": "p",
+        "[": "i",
+        "]": "o",
+        "\\": "p",
+        ";": "k",
+        "'": "l",
+        ",": "k",
+        ".": "l",
+        "/": "p",
+    }; key = map[key]||key
+
+    var some = 0.8
+    key >= 'a' && key <= 'z' && can.page.Select(can, document.body, "div.char."+key, function(item) {
+        can.page.Modify(can, item, {style: {
+            background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
+            height: item.offsetHeight+100+"px",
+        }})
+    })
+    key >= 'a' && key <= 'z' && can.page.Select(can, document.body, "div.nice", function(item) {
+        can.page.Modify(can, item, {style: {
+            background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
+            width: item.offsetWidth+10, left: (document.body.clientWidth-item.offsetWidth-10)/2,
+        }})
+    })
+
+    switch (event.key) {
+        case " ":
+            can.page.Select(can, document.body, "div.char", function(item) {
+                can.page.Modify(can, item, {style: {
+                    background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
+                    height: item.offsetHeight+100+"px",
+                }})
+            })
+            can.page.Select(can, document.body, "div.nice", function(item) {
+                can.page.Modify(can, item, {style: {
+                    background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
+                    width: item.offsetWidth+100, left: (document.body.clientWidth-item.offsetWidth-100)/2,
+                }})
+            })
+            break
+        case "Backspace":
+            event.key !== " " && can.page.Select(can, document.body, "div.char", function(item) {
+                can.page.Modify(can, item, {style: {
+                    background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
+                    height: "100px",
+                }})
+            })
+            can.page.Select(can, document.body, "div.nice", function(item) {
+                can.page.Modify(can, item, {style: {
+                    background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
+                    width: 300, left: (document.body.clientWidth-300)/2,
+                }})
+            })
+            break
+        case "Enter":
+            event.key !== " " && can.page.Select(can, document.body, "div.char", function(item) {
+                can.page.Modify(can, item, {style: {
+                    background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
+                    height: "100px",
+                }})
+            })
+            can.page.Select(can, document.body, "div.nice", function(item) {
+                can.page.Modify(can, item, {style: {
+                    background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
+                    width: 600, left: (document.body.clientWidth-600)/2,
+                }})
+            })
+            break
+    }
+}})
 Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
     },
     modify: function(can, target, cb) { var back = target.innerHTML
