@@ -639,9 +639,9 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
         }}
     })}])
 
-    can.Timer({interval: 100}, function() {
+    can.Timer({interval: 1000}, function() {
         can.page.Select(can, ui.high, "div.char", function(item) {
-            item.offsetHeight > 0 && can.page.Modify(can, item, {style: {height: item.offsetHeight-4+"px"}})
+            item.offsetHeight > 0 && can.page.Modify(can, item, {style: {height: item.offsetHeight-1+"px"}})
         })
     })
 

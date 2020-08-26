@@ -43,11 +43,23 @@ Volcanos("onaction", {help: "控件交互", list: [],
     },
     onkeydown: function(event, can) {
         event.key !== " " && can.page.Select(can, document.body, "div.char."+event.key, function(item) {
-            can.page.Modify(can, item, {style: {height: item.offsetHeight+100+"px"}})
+            can.page.Modify(can, item, {style: {background: "rgb("
+                +parseInt(Math.random()*255)+","
+                +parseInt(Math.random()*255)+","
+                +parseInt(Math.random()*255)+")",
+                height: item.offsetHeight+100+"px"}})
         })
 
         switch (event.key) {
+            case " ":
+                can.page.Select(can, document.body, "div.char", function(item) {
+                    can.page.Modify(can, item, {style: {height: item.offsetHeight+100+"px"}})
+                })
+                break
             case "Enter":
+                event.key !== " " && can.page.Select(can, document.body, "div.char", function(item) {
+                    can.page.Modify(can, item, {style: {height: 0+"px"}})
+                })
                 if (event.target.tagName == "TEXTAREA") {
                     break
                 }
