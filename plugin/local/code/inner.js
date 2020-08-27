@@ -169,20 +169,6 @@ Volcanos("onaction", {help: "控件交互", list: [],
         last && can.onimport.tabview(can, last.path, last.file, last.line)
     },
     "运行": function(event, can) {
-        if (can.ui.editor) {
-            var msg = can.request(event); msg.Option("content", can.onexport.content(can))
-            can.run(event, ["action", "save", can.parse, can.Option("file"), can.Option("path")], function(msg) {
-                can.user.toast(can, "保存成功")
-                can.run({}, ["action", "engine", can.parse, can.Option("file"), can.Option("path")], function(msg) {
-                    (msg.Result() || msg.append && msg.append.length > 0) && can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "block"}})
-                    can.onappend.table(can, can.ui.display, "table", msg)
-                    can.onappend.board(can, can.ui.display, "board", msg)
-                    can.user.toast(can, "运行成功")
-                }, true)
-            }, true)
-            return
-        }
-
         can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "none"}})
         can.run(event, ["action", "engine", can.parse, can.Option("file"), can.Option("path")], function(msg) {
             (msg.Result() || msg.append && msg.append.length > 0) && can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "block"}})

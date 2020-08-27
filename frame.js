@@ -163,18 +163,18 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 "web.wiki.data",
                 "web.wiki.word",
             ]},
-            "english": {name: "english",  action: [
+            "english": {name: "英汉 english",  action: [
                 {name: "english", help: "英汉", index: "web.wiki.alpha.find", args: ["hi"]},
                 {name: "chinese", help: "汉英", index: "web.wiki.alpha.find", args: ["你好", "line"]},
                 {name: "wubi", help: "五笔", index: "web.code.input.find", args: ["wqvb"]},
                 {name: "wubi", help: "五笔", index: "web.code.input.find", args: ["你好", "line"]},
             ]},
-            "learning": {name: "learning",  action: [
+            "learning": {name: "学习 learning",  action: [
                 {name: "golang", help: "编程", index: "web.wiki.word", args: ["usr/golang-story/src/main.shy"]},
                 {name: "tmux", help: "粘贴", index: "web.code.tmux.text"},
                 {name: "study", help: "学习", index: "web.wiki.word", args: ["usr/learning/study.shy"]},
             ]},
-            "chrome": {name: "chrome",  action: [
+            "chrome": {name: "爬虫 chrome",  action: [
                 {name: "feel", help: "网页爬虫", index: "web.wiki.feel", args: ["spide/"], feature: {
                     display: "/plugin/local/wiki/feel.js",
                     height: 200, limit: 3,
@@ -182,7 +182,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "cached", help: "爬虫缓存", index: "web.code.chrome.cached", args: []},
                 {name: "spided", help: "网页爬虫", index: "web.code.chrome.spided", args: location && location.protocol && location.protocol=="chrome-extension:"? ["1", "", "spide"]: ["1"]},
             ]},
-            "context": {name: "context",  action: [
+            "context": {name: "理念 context",  action: [
                 {name: "context", help: "编程", index: "web.wiki.word", args: ["usr/learning/社会/管理/context.shy"]},
             ]},
         }},
@@ -509,7 +509,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             can.onfigure && can.core.Item(can.onfigure[item.figure], function(key, value) { if (key.startsWith("on")) {
                 target[key] = function(event) { value(event, can, item, target) }
             } })
-            target.type != "button" && (target.value = "")
+            target.type != "button" && target.value.startsWith("@") && (target.value = "")
         })
 
         item.type == "textarea" && can.page.Append(can, option, [{type: "br"}])
