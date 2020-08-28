@@ -523,47 +523,37 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     table: function(can, target, type, msg, cb) {
         var table = can.page.AppendTable(can, target, msg, msg.append, cb || function(value, key, index, line) {
             function run(event, item, value) {
-                var msg = can.request(event)
-                msg.Option(can.Option()), msg.Option(line)
-                var cb = can.onaction[item] || can.onaction["运行"]
+                var msg = can.request(event); msg.Option(can.Option()), msg.Option(line)
                 var toast = can.user.toast(can, item+"中...", item, 1000000)
+
+                var cb = can.onaction[item] || can.onaction["运行"]
                 cb? cb(event, can, item): can.run(event, ["action", item, key=="value"? line.key: key, value.trim()], function(res) {
-                    toast.Close(), can.user.toast(can, item+"成功")
-                    can.run({})
+                    toast.Close(), can.user.toast(can, item+"成功"), can.run({})
                 }, true)
             }
             return {type: "td", inner: value, click: function(event) {
                 var target = event.target; if (target.tagName == "INPUT" && target.type == "button") {
                     if (can.Conf("feature")[target.value]) {
+                        // 输入参数
                         can.user.input(event, can, can.Conf("feature")[target.value], function(event, button, data, list) {
-                            var msg = can.request(event); can.core.Item(can.Option(), msg.Option)
-                            can.core.Item(line, msg.Option)
+                            var msg = can.request(event); msg.Option(can.Option()), msg.Option(line)
+
                             can.run(event, ["action", target.value].concat(list), function(msg) {
-                                can.user.toast(can, target.value+"成功", "paste")
-                                can.run({})
+                                can.user.toast(can, target.value+"成功"), can.run({})
                             }, true)
                             return true
                         })
                         return
                     }
-
-                    switch (target.value) {
-                        case "复制":
-                            navigator.clipboard.writeText(line.text).then(function() {
-                                can.user.toast(can, "复制成功", "paste")
-                            })
-                            return
-                    }
                     return run(event, event.target.value, value)
                 }
+
                 can.page.Select(can, can._option, "input.args", function(input) { if (input.name == key) { var data = input.dataset || {}
+                    // 补全参数
                     input.value = value, typeof cb == "function" && cb(event, value); if (data.action == "auto") {
-                        var sub = can.request(event)
-                        can.core.Item(can.Option(), sub.Option)
+                        var msg = can.request(event); msg.Option(can.Option()), msg.Option(line)
                         sub.Option("_action", msg.Option("_action"))
-                        can.run(event, can.page.Select(can, can._option, "input.args", function(item) {
-                            return item.name && item.value || ""
-                        }))
+                        can.run(event)
                     }
                 } })
             }, ondblclick: function(event) {
