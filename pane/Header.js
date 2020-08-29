@@ -112,6 +112,7 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             } else if (can.user.isMobile) {
                 can.onaction.River({}, can)
                 can.onaction.Footer({}, can)
+            } else if (can.user.Search(can, "topic") == "white") {
             } else if (can.user.Search(can, "pod")) {
                 can.onaction.River({}, can)
                 can.onaction.Footer({}, can)

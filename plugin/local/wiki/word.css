@@ -1,45 +1,39 @@
+body fieldset p.story[data-name=inner] {
+    padding:4px;
+    background-color:#4b6c8a;
+    border-left:solid 4px blue;
+}
+body fieldset p.story[data-name=inner]:hover {
+    cursor:copy;
+}
+body fieldset div.story[data-type=spark] {
+    padding:4px;
+    background-color:#2169a9;
+    border-left:solid 4px blue;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+}
+body fieldset div.story[data-type=spark] span:hover {
+    background-color:#c10c8a;
+    cursor:copy;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+}
+
+body.white fieldset p.story[data-name=inner] {
+    background-color:#bad8f7;
+    border-left:solid 4px blue;
+}
+body.white fieldset div.story[data-type=spark] {
+    background-color:#c2daef;
+}
+body.white fieldset div.story[data-type=spark] span:hover {
+    background-color:white;
+}
+
 fieldset ul.story[data-type=premenu] {
     cursor:pointer;
 }
 fieldset ul.story[data-type=premenu] li:hover {
     background:cyan;
-}
-fieldset div.story[data-name=shell] {
-    padding:4px;
-    border-left:solid 4px blue;
-    background-color:#c2daef;
-    box-shadow: 4px 4px 10px 1px #626bd0;
-}
-fieldset div.story[data-name=shell] span:hover {
-    background-color:white;
-    cursor:copy;
-    box-shadow: 4px 4px 10px 1px #626bd0;
-}
-fieldset div.story[data-name=mysql] {
-    padding:4px;
-    border-left:solid 4px #0083ff;
-    background-color:#ccdae6;
-}
-fieldset div.story[data-name=mysql] span:hover {
-    background-color:white;
-    cursor:copy;
-}
-fieldset div.story[data-name=redis] {
-    padding:4px;
-    border-left:solid 4px #0083ff;
-    background-color:#ccdae6;
-}
-fieldset div.story[data-name=redis] span:hover {
-    background-color:white;
-    cursor:copy;
-}
-fieldset p.story[data-name=inner] {
-    padding:4px;
-    border-left:solid 4px #0083ff;
-    background-color:#ccdae6;
-}
-fieldset p.story[data-name=inner]:hover {
-    cursor:copy;
 }
 
 fieldset fieldset.story {
@@ -47,21 +41,24 @@ fieldset fieldset.story {
     border:0;
     box-shadow: 4px 4px 10px 1px #626bd0;
 }
-fieldset fieldset.story div.output{
-    padding:10px
-}
 fieldset fieldset.story:hover {
     /* border:solid 1px red; */
 }
-
-fieldset li.H2 {
-    font-weight:bold;
-    font-size:20px;
+fieldset fieldset.story div.output{
+    padding:10px
 }
+
 fieldset h2.story {
     clear:both;
 }
 fieldset h3.story {
+    clear:both;
+}
+fieldset li.H2 {
+    font-weight:bold;
+    font-size:20px;
+}
+fieldset br.story {
     clear:both;
 }
 fieldset p.story {
@@ -71,9 +68,6 @@ fieldset p.story.shell {
     padding:4px;
     border-left:solid 4px blue;
     background-color:#c2daef;
-}
-fieldset br.story {
-    clear:both;
 }
 fieldset svg.story {
     display:block; float:left;
