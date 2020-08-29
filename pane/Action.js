@@ -27,6 +27,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                 can.Conf("action", value.name)
                 can.Conf("current", sub)
                 // 插件回调
+                //
                 return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
                     can.run(msg._event, ["search", "Footer.onaction.ncmd"])
                     typeof cb == "function" && cb(msg)

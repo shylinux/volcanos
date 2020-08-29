@@ -331,6 +331,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 CloneField: function() { can.Clone() },
             }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js", "/frame.js"]), function(input) { input.sup = can
                 input.run = function(event, cmds, cb, silent) { var msg = can.request(event)
+                    can.onkeypop.show({key: meta.name[0]}, can)
                     switch (item.name) {
                         case "打开":
                         case "查看":
@@ -629,15 +630,15 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
             height: "10px", background: "red",
         }}
     })}])
-    var iu = can.page.Append(can, document.body, [{view: "nice", style: {position: "fixed", top: 40, width: document.body.clientWidth, height: 40}}])
+    var iu = can.page.Append(can, document.body, [{view: "nice", style: {position: "fixed", top: 40, width: 0, height: 40}}])
     can.Timer({interval: 100}, function() {
         can.page.Select(can, ui.high, "div.char", function(item) {
-            item.offsetHeight > 0 && can.page.Modify(can, item, {style: {
+            item.offsetHeight > -2 && can.page.Modify(can, item, {style: {
                 height: item.offsetHeight-item.offsetHeight/200-1+"px",
             }})
         })
         can.page.Select(can, document.body, "div.nice", function(item) {
-            can.page.Modify(can, item, {style: {
+            item.offsetWidth > -2 && can.page.Modify(can, item, {style: {
                 width: item.offsetWidth-1, left: (document.body.clientWidth-item.offsetWidth-1)/2,
             }})
         })
@@ -705,17 +706,18 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
         "/": "p",
     }; key = map[key]||key
 
+    key = key >= 'a' && key <= 'z'? key: 'a' + parseInt(Math.random()*26)
     var some = 0.8
-    key >= 'a' && key <= 'z' && can.page.Select(can, document.body, "div.char."+key, function(item) {
+    can.page.Select(can, document.body, "div.char."+key, function(item) {
         can.page.Modify(can, item, {style: {
             background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
             height: item.offsetHeight+100+"px",
         }})
     })
-    key >= 'a' && key <= 'z' && can.page.Select(can, document.body, "div.nice", function(item) {
+    can.page.Select(can, document.body, "div.nice", function(item) {
         can.page.Modify(can, item, {style: {
             background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
-            width: item.offsetWidth+10, left: (document.body.clientWidth-item.offsetWidth-10)/2,
+            width: item.offsetWidth<document.body.clientWidth? item.offsetWidth+100: item.offsetWidth+10, left: (document.body.clientWidth-item.offsetWidth-10)/2,
         }})
     })
 
