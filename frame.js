@@ -188,10 +188,8 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         }},
         "project": {name: "研发群", storm: {
             "studio": {name: "研发 studio", action: [
-                {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
-                {name: "dir", help: "文件夹", index: "nfs.dir", args: ["usr/install/", "time size path link"]},
-                {name: "dir", help: "文件夹", index: "nfs.dir", args: ["usr/publish/", "time size path link"]},
                 {name: "pod", help: "路由器", index: "web.route"},
+                {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
                 {name: "status", help: "代码状态", index: "web.code.git.status"},
                 {name: "total", help: "代码统计", index: "web.code.git.total"},
                 {name: "paste", help: "粘贴板", index: "web.code.tmux.text"},
@@ -207,6 +205,10 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "HTML5", help: "浏览器", index: "web.wiki.word", args: ["usr/icebergs/misc/chrome/chrome.shy"]},
             ]},
             "linux": {name: "系统 linux",  action: [
+                {name: "android", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/android/android.shy"]},
+                {name: "context", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/context/context.shy"]},
+                {name: "ubuntu", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/ubuntu/ubuntu.shy"]},
+                {name: "centos", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/centos/centos.shy"]},
                 {name: "linux", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/src/main.shy"]},
             ]},
             "nginx": {name: "代理 nginx",  action: [
@@ -219,8 +221,8 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "redis", help: "缓存", index: "web.wiki.word", args: ["usr/redis-story/src/main.shy"]},
             ]},
             "mysql": {name: "数据 mysql",  action: [
-                {name: "mysql", help: "数据存储", index: "web.wiki.word", args: ["usr/mysql-story/src/main.shy"]},
                 {name: "es", help: "搜索引擎", index: "web.wiki.word", args: ["usr/icebergs/misc/es/es.shy"]},
+                {name: "mysql", help: "数据存储", index: "web.wiki.word", args: ["usr/mysql-story/src/main.shy"]},
             ]},
             "context": {name: "环境 context",  action: [
                 {name: "think", help: "智库", index: "web.wiki.word", args: ["usr/learning/"]},

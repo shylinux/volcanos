@@ -18,6 +18,9 @@ legend:hover {
 div.hidden {
     display:none;
 }
+h1 {
+    margin:0;
+}
 
 input[type=text] {
     background-color:cyan;
