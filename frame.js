@@ -207,6 +207,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "linux": {name: "系统 linux",  action: [
                 {name: "android", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/android/android.shy"]},
                 {name: "context", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/context/context.shy"]},
+                {name: "alpine", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/alpine/alpine.shy"]},
                 {name: "ubuntu", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/ubuntu/ubuntu.shy"]},
                 {name: "centos", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/centos/centos.shy"]},
                 {name: "linux", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/src/main.shy"]},
