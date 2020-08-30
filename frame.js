@@ -556,7 +556,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     // 补全参数
                     input.value = value, typeof cb == "function" && cb(event, value); if (data.action == "auto") {
                         var msg = can.request(event); msg.Option(can.Option()), msg.Option(line)
-                        sub.Option("_action", msg.Option("_action"))
+                        can.Option("_action", msg.Option("_action"))
                         can.run(event)
                     }
                 } })
