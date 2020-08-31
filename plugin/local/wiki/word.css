@@ -48,6 +48,9 @@ fieldset fieldset.story div.output{
     padding:10px
 }
 
+fieldset h1.story {
+    clear:both;
+}
 fieldset h2.story {
     clear:both;
 }
