@@ -1,6 +1,9 @@
 Volcanos("onfigure", {help: "控件详情", list: [], 
     key: {onclick: function(event, can, item, target) {
         function run() { var msg = can.request(event); msg.Option(item)
+            can.page.Select(can, event.target.parentNode.parentNode.parentNode, "input", function(item) {
+                msg.Option(item.name, item.value)
+            })
             can.run(event, ["action", "inputs", item.name, target.value], function(msg) {
                 if (!msg.append) { return }
 
