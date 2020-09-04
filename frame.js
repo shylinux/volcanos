@@ -510,11 +510,20 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         item.value == "auto" && (item.value = "")
         item.action == "auto" && (input.dataset.action = "auto")
         var target = can.page.Append(can, option, [{view: ["item "+item.type], list: [item.position && {text: item.name+": "}, input]}])[item.name]
-        item.figure && item.figure.indexOf("@") == 0 && (item.figure = item.figure.slice(1)) && can.require(["/plugin/input/"+item.figure+".js"], function(can) {
+
+        var pval = ""
+        if (item.figure.indexOf("@") == 0) {
+            var pkey = item.figure.slice(1).split("=")[0]
+            if (item.figure.indexOf("=") > 0) {
+                var pval = item.figure.slice(1).split("=")[1]
+            }
+        }
+
+        item.figure && item.figure.indexOf("@") == 0 && (item.figure = pkey) && can.require(["/plugin/input/"+pkey+".js"], function(can) {
             can.onfigure && can.core.Item(can.onfigure[item.figure], function(key, value) { if (key.startsWith("on")) {
                 target[key] = function(event) { value(event, can, item, target) }
             } })
-            target.type != "button" && target.value.startsWith("@") && (target.value = "")
+            target.type != "button" && target.value.startsWith("@") && (target.value = pval)
         })
 
         item.type == "textarea" && can.page.Append(can, option, [{type: "br"}])
