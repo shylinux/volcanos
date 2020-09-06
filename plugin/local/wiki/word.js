@@ -13,18 +13,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         if (list["name"] == "inner") {
             target.title = "点击复制"
             target.onclick = function(event) {
-                navigator.clipboard.writeText(target.innerText).then(function() {
-                    can.user.toast(can, "复制成功", "paste")
-                })
+                can.user.copy(can, target.innerText)
             }
             return
         }
         can.page.Select(can, target, "span", function(item) {
             item.title = "点击复制"
             item.onclick = function(event) {
-                navigator.clipboard.writeText(item.innerText).then(function() {
-                    can.user.toast(can, "复制成功", "paste")
-                })
+                can.user.copy(can, item.innerText)
             }
         })
     },
