@@ -19,14 +19,15 @@ body fieldset div.story[data-type=spark] span:hover {
 }
 
 body.white fieldset p.story[data-name=inner] {
-    background-color:#bad8f7;
+    /* background-color:#bad8f7; */
     border-left:solid 4px blue;
 }
 body.white fieldset div.story[data-type=spark] {
-    background-color:#c2daef;
+    /* background-color:#c2daef; */
 }
 body.white fieldset div.story[data-type=spark] span:hover {
-    background-color:white;
+    background-color:blue;
+    /* background-color:white; */
 }
 
 fieldset ul.story[data-type=premenu] {
