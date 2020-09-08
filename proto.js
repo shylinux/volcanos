@@ -199,12 +199,12 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: 
         }),
         Timer: shy("定时器, value, [1,2,3,4], {value, length}", function(interval, cb, cbs) { interval = typeof interval == "object"? interval || []: [interval]
             var timer = {stop: false}
-            function loop(event, i) {if (timer.stop || i >= interval.length && interval.length >= 0) {return typeof cbs == "function" && cbs(event, interval)}
-                return typeof cb == "function" && cb(event, interval.value||interval[i], i, interval)?
-                    typeof cbs == "function" && cbs(event, interval):
-                        setTimeout(function() {loop(event, i+1)}, interval.value||interval[i+1])
+            function loop(timer, i) {if (timer.stop || i >= interval.length && interval.length >= 0) {return typeof cbs == "function" && cbs(timer, interval)}
+                return typeof cb == "function" && cb(timer, interval.value||interval[i], i, interval)?
+                    typeof cbs == "function" && cbs(timer, interval):
+                        setTimeout(function() {loop(timer, i+1)}, interval.value||interval[i+1])
             }
-            setTimeout(function(event) {loop(event, 0)}, interval.value||interval[0])
+            setTimeout(function() {loop(timer, 0)}, interval.value||interval[0])
             return timer
         }),
     })

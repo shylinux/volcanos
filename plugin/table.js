@@ -13,7 +13,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         // 自动刷新
         var refresh = msg.Option("_refresh") || can.Conf("feature")["_refresh"] 
-        refresh && can.Timer(refresh, function() { can.run({}) })
+        var i = 0; refresh && can.Timer(refresh, function(timer) {
+            if (i > 100) { timer.stop = true} else { can.run({}) }
+        })
 
         // 展示数据
         can.ui = can.page.Appends(can, can._target, [

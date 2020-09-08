@@ -183,7 +183,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "spided", help: "网页爬虫", index: "web.code.chrome.spided", args: location && location.protocol && location.protocol=="chrome-extension:"? ["1", "", "spide"]: ["1"]},
             ]},
             "context": {name: "理念 context",  action: [
-                {name: "context", help: "编程", index: "web.wiki.word", args: ["usr/learning/社会/管理/context.shy"]},
+                {name: "contexts", help: "上下文", index: "web.wiki.word", args: ["src/task.shy"]},
             ]},
         }},
         "project": {name: "研发群", storm: {
@@ -222,7 +222,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "redis", help: "缓存", index: "web.wiki.word", args: ["usr/redis-story/src/main.shy"]},
             ]},
             "mysql": {name: "数据 mysql",  action: [
-                {name: "es", help: "搜索引擎", index: "web.wiki.word", args: ["usr/icebergs/misc/es/es.shy"]},
                 {name: "mysql", help: "数据存储", index: "web.wiki.word", args: ["usr/mysql-story/src/main.shy"]},
             ]},
             "context": {name: "环境 context",  action: [
