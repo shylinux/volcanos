@@ -289,7 +289,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 if (typeof key == "object") { return sub.core.Item(key, sub.Option), key }
                 if (key == undefined) { value = {}
                     sub.page.Select(sub, option, "select.args,input.args,textarea.args", function(item) {
-                        value[item.name] = item.value
+                        item.name && item.value && (value[item.name] = item.value)
                     })
                     return value
                 }
@@ -333,28 +333,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 CloneInput: function() { add(item, function() {})._target.focus() },
                 CloneField: function() { can.Clone() },
             }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js", "/frame.js"]), function(input) { input.sup = can
-                input.run = function(event, cmds, cb, silent) { var msg = can.request(event)
-                    var prefix = []; can.onkeypop.show({key: meta.name[0]}, can)
-                    switch (item.name) {
-                        case "打开":
-                        case "查看":
-                            break
-                        case "返回":
-                            can._history.pop(); var his = can._history.pop(); if (his) {
-                                can.page.Select(can, can._option, "input.args", function(item, index) {
-                                    item.value = his[index] || ""
-                                })
-                            }
-                            break
-                        case "清空":
-                            can._output.innerHTML = ""
-                            return typeof cb == "function" && cb(can.request(event))
-                        default:
-                            cmds && cmds[0] == "action" || prefix.push(item.name||item.value)
-                    }
-
-                    msg.Option(can.Conf("option"))
-                    return can.onappend._output(can, meta, event, prefix.concat(can.Pack(cmds)), cb, silent)
+                input.run = function(event, cmds, cb, silent) {
+                    var msg = can.request(event); msg.Option(can.Conf("option"))
+                    return can.onappend._output(can, meta, event, can.Pack(cmds), cb, silent)
                 }
 
                 input.onimport && input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target)
@@ -401,7 +382,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 _target: can._output, _option: can._option, _action: can._action, _output: can._output, _status: can._status,
                 _fields: can._target, Option: can.Option, Action: can.Action, Status: can.Status,
             }, Volcanos.meta.libs.concat([display, "/frame.js"]), function(table) { table.Conf(can.Conf()), table._msg = msg
-                table.run = function(event, cmds, cb, silent) { var msg = can.request(event)
+                table.sup = can, table.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                     can.core.Item(can.Conf("option"), msg.Option)
                     return can.onappend._output(can, meta, event, can.Pack(cmds), cb, silent)
                 }
@@ -534,63 +515,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         return target
     },
     table: function(can, target, type, msg, cb) {
-        var table = can.page.AppendTable(can, target, msg, msg.append, cb || function(value, key, index, line) {
-            function run(event, item, value) {
-                var msg = can.request(event); msg.Option(can.Option()), msg.Option(line)
-                var toast = can.user.toast(can, item+"中...", item, 1000000)
-
-                var cb = can.onaction[item] || can.onaction["运行"]
-                cb? cb(event, can, item): can.run(event, ["action", item, key=="value"? line.key: key, value.trim()], function(res) {
-                    toast.Close(), can.user.toast(can, item+"成功"), can.run({})
-                }, true)
-            }
-            return {type: "td", inner: value, click: function(event) {
-                var target = event.target; if (target.tagName == "INPUT" && target.type == "button") {
-                    if (can.Conf("feature")[target.value]) {
-                        // 输入参数
-                        can.user.input(event, can, can.Conf("feature")[target.value], function(event, button, data, list) {
-                            var msg = can.request(event); msg.Option(can.Option()), msg.Option(line), msg.Option(data)
-                            var args = ["action", target.value]; can.core.Item(data, function(key, value) {
-                                key && value && args.push(key, value)
-                            })
-
-                            can.run(event, args, function(msg) {
-                                can.user.toast(can, target.value+"成功"), can.run({})
-                            }, true)
-                            return true
-                        })
-                        return
-                    }
-                    return run(event, event.target.value, value)
-                }
-
-                can.page.Select(can, can._option, "input.args", function(input) { if (input.name == key) { var data = input.dataset || {}
-                    // 补全参数
-                    input.value = value, typeof cb == "function" && cb(event, value); if (data.action == "auto") {
-                        var msg = can.request(event); msg.Option(can.Option()), msg.Option(line)
-                        can.Option("_action", msg.Option("_action"))
-                        can.run(event)
-                    }
-                } })
-            }, ondblclick: function(event) {
-                can.onmotion.modify(can, event.target, function(event, value, old) {
-                    run(event, "编辑", value)
-                })
-            }, oncontextmenu: function(event) {
-                can.user.carte(can, can.ondetail||{}, msg["_detail"] || can.Conf("detail") || can.ondetail.list, function(event, item, meta) {
-                    switch (item) {
-                        case "编辑":
-                            can.onmotion.modify(can, event.target, function(event, value, old) {
-                                run(event, "编辑", value)
-                            })
-                            break
-                        default:
-                            run(event, item, value)
-                    }
-                })
-            }, }
-        })
-        return table
+        return can.page.AppendTable(can, target, msg, msg.append, cb)
     },
     board: function(can, target, type, msg, text) { text = text || can.page.Display(msg.Result())
         return text && can.page.Append(can, target, [{view: ["code", "div", text]}]).code

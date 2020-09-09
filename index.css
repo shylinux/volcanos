@@ -270,6 +270,12 @@ body.white input[type=button] {
     background-color:#FF9900;
     color:white;
 }
+body.white table input[type=button][value=结束] {
+    background:red;
+}
+body.white table input[type=button][value=启动] {
+    background:#52ce78;
+}
 body.white input[type=button]:hover {
     border-radius:10px 10px 10px 10px;
     border:2px solid #FFCC33;
@@ -376,6 +382,9 @@ body.white fieldset.Action fieldset.plugin div.item input[type=button] {
 }
 body.white fieldset.Action fieldset.plugin div.item input {
     box-shadow: 4px 4px 10px 1px #626bd0;
+}
+body.white fieldset.Action fieldset.plugin div.item input[name=cmd] {
+    width:160px;
 }
 body.white fieldset.Action fieldset.plugin div.item select {
     box-shadow: 4px 4px 10px 1px #626bd0;

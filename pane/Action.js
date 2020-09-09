@@ -6,6 +6,25 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         can.onexport._init(can, msg, list, cb, target)
     },
 
+    _progress: function(can, msg) {
+        if (msg.Option("_progress")) {
+            if (msg.Append("count") != msg.Append("total")) {
+                can.user.toast(can, {
+                    text: "执行进度: "+msg.Append("count")+"/"+msg.Append("total")+"\n"+msg.Append("name"),
+                    title: value.name,
+                    duration: 1100,
+                    progress: parseInt(msg.Append("count"))*100/parseInt(msg.Append("total")),
+                })
+                can.Timer(1000, function() {
+                    var res = can.request({})
+                    res.Option("_action", _action)
+                    res.Option("_progress", msg.Option("_progress"))
+                    sub.run(res._event, cmds, cb, silent)
+                })
+                return
+            }
+        }
+    },
     add_plugin: function(can, river, storm, value) {
         if (can.user.Search(can, "river") == river && can.user.Search(can, "storm") == storm && can.user.Search(can, "active") == value.name) {
             value.args = can.core.List(value.inputs, function(item) {
@@ -19,36 +38,18 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                 var opt = {pod: can.user.Search(can, "pod"), river: river, storm: storm, active: value.name}
                 can.core.Item(sub.Option(), function(key, value) { opt[key] = value })
                 location.href = can.user.Share(can, opt, true)
-
             }
-            sub.run = function(event, cmds, cb, silent) { var msg = can.request(event)
-                var _action = msg.Option("_action")
+            sub.run = function(event, cmds, cb, silent) { var msg = can.request(event); cmds = cmds || []
                 can.Conf("active", sub.Option())
                 can.Conf("action", value.name)
                 can.Conf("current", sub)
                 // 插件回调
-                //
+                var toast = can.user.toast(can, "执行中...", value.name)
                 return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
+                    toast.Close(), can.user.toast(can, "执行成功", value.name, 400)
                     can.run(msg._event, ["search", "Footer.onaction.ncmd"])
+                    can.onaction._progress(can, msg)
                     typeof cb == "function" && cb(msg)
-                    if (msg.Option("_progress")) {
-                        if (msg.Append("count") != msg.Append("total")) {
-                            can.user.toast(can, {
-                                text: "执行进度: "+msg.Append("count")+"/"+msg.Append("total")+"\n"+msg.Append("name"),
-                                title: value.name,
-                                duration: 1100,
-                                progress: parseInt(msg.Append("count"))*100/parseInt(msg.Append("total")),
-                            })
-                            can.Timer(1000, function() {
-                                var res = can.request({})
-                                res.Option("_action", _action)
-                                res.Option("_progress", msg.Option("_progress"))
-                                sub.run(res._event, cmds, cb, silent)
-                            })
-                            return
-                        }
-                    }
-                    can.user.toast(can, "执行成功", value.name, 400)
                 }, silent)
             }
             sub._target.oncontextmenu = function(event) {

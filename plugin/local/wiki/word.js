@@ -9,6 +9,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
         return typeof cb == "function" && cb(msg)
     },
+    table: function(can, list, target) {
+        can.page.Select(can, target, "td", function(item) {
+            item.title = "点击复制"
+            item.onclick = function(event) {
+                can.user.copy(can, item.innerText)
+            }
+        })
+    },
     spark: function(can, list, target) {
         if (list["name"] == "inner") {
             target.title = "点击复制"
