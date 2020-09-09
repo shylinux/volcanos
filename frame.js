@@ -188,7 +188,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         }},
         "project": {name: "研发群", storm: {
             "studio": {name: "研发 studio", action: [
-                {name: "pod", help: "路由器", index: "web.route"},
+                {name: "route", help: "路由器", index: "web.route"},
                 {name: "inner", help: "编辑器", index: "web.code.inner", args: ["src/", "main.go"]},
                 {name: "status", help: "代码状态", index: "web.code.git.status"},
                 {name: "total", help: "代码统计", index: "web.code.git.total"},
@@ -334,7 +334,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 CloneField: function() { can.Clone() },
             }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js", "/frame.js"]), function(input) { input.sup = can
                 input.run = function(event, cmds, cb, silent) { var msg = can.request(event)
-                    can.onkeypop.show({key: meta.name[0]}, can)
+                    var prefix = []; can.onkeypop.show({key: meta.name[0]}, can)
                     switch (item.name) {
                         case "打开":
                         case "查看":
@@ -350,11 +350,11 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                             can._output.innerHTML = ""
                             return typeof cb == "function" && cb(can.request(event))
                         default:
-                            cmds && cmds[0] == "action" || msg.Option("_action", item.name||item.value)
+                            cmds && cmds[0] == "action" || prefix.push(item.name||item.value)
                     }
 
-                    can.core.Item(can.Conf("option"), msg.Option)
-                    return can.onappend._output(can, meta, event, can.Pack(cmds), cb, silent)
+                    msg.Option(can.Conf("option"))
+                    return can.onappend._output(can, meta, event, prefix.concat(can.Pack(cmds)), cb, silent)
                 }
 
                 input.onimport && input.onimport._init(input, input.Conf(item), item.list||[], function() {}, input._target)
@@ -393,7 +393,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             typeof cb == "function" && cb(msg)
             if (silent) { return }
 
-            var display = (msg.Option("_plugin")||msg.Option("_display")||meta.feature.plugin||meta.feature.display||"table.js")
+            var display = (msg.Option("_display")||meta.feature.display||"table.js")
             display.indexOf("/") == 0 || (display = "/plugin/"+display)
 
             display.endsWith(".js") || (display += ".js")
@@ -549,9 +549,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     if (can.Conf("feature")[target.value]) {
                         // 输入参数
                         can.user.input(event, can, can.Conf("feature")[target.value], function(event, button, data, list) {
-                            var msg = can.request(event); msg.Option(can.Option()), msg.Option(line)
+                            var msg = can.request(event); msg.Option(can.Option()), msg.Option(line), msg.Option(data)
+                            var args = ["action", target.value]; can.core.Item(data, function(key, value) {
+                                key && value && args.push(key, value)
+                            })
 
-                            can.run(event, ["action", target.value].concat(list), function(msg) {
+                            can.run(event, args, function(msg) {
                                 can.user.toast(can, target.value+"成功"), can.run({})
                             }, true)
                             return true

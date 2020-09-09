@@ -24,6 +24,7 @@ body.white fieldset p.story[data-name=inner] {
 }
 body.white fieldset div.story[data-type=spark] {
     /* background-color:#c2daef; */
+    clear:both;
 }
 body.white fieldset div.story[data-type=spark] span:hover {
     background-color:blue;

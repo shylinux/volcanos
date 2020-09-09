@@ -3,43 +3,34 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
 })
 Volcanos("onaction", {help: "控件交互", list: [],
     onchange: function(event, can) {
-        if (event.target.tagName == "SELECT") {
-            can.run(event)
-        }
+        if (event.target.tagName == "SELECT") { can.run(event) }
     },
-    onclick: function(event, can) {
+    onclick: function(event, can) { var name = can.Conf("name")
+        var msg = can.sup.request(event)
         // 前端回调
         var sub = can.sup && can.sup._outputs && can.sup._outputs[can.sup._outputs.length-1]
-        var cb = sub && sub.onaction && sub.onaction[can.Conf("name")]
-        if (typeof cb == "function") { return cb(event, sub, can.Conf("name")) }
+        var cb = sub && sub.onaction && sub.onaction[name]
+        if (typeof cb == "function") { return cb(event, sub, name) }
 
         // 通用回调
-        var cb = can.onaction[can.Conf("name")]
-        if (can.sup && typeof cb == "function") { return cb(event, can.sup, can.Conf("name")) }
+        var cb = can.onaction[name]
+        if (can.sup && typeof cb == "function") { return cb(event, can.sup, name) }
 
         // 后端回调
         var feature = can.sup.Conf("feature")
-        var input = feature && feature[can.Conf("name")]; if (input) {
+        var input = feature && feature[name]; if (input) {
             return can.user.input(event, can, input,function(event, button, data, list) {
-                var msg = can.request(event); can.core.Item(can.sup.Option(), msg.Option)
-                var args = ["action", can.Conf("name")]; can.core.Item(data, function(key, value) {
+                var msg = can.request(event); msg.Option(can.sup.Option())
+                var args = ["action", name]; can.core.Item(data, function(key, value) {
                     key && value && args.push(key, value)
                 })
-                can.run(event, args, function(msg) {
-                    can.user.toast(can, "添加成功")
-                    can.run(event)
-                }, true)
+                can.run(event, args, function(msg) { can.run(event) }, true)
                 return true
             })
         }
 
         // 通用回调
-        if (can.Conf("type") == "button") {
-            var toast = can.user.toast(can, "执行中...", can.sup._help, 100000)
-            can.run(event, [], function(msg) {
-                toast.Close()
-            })
-        }
+        if (can.Conf("type") == "button") { can.run(event) }
     },
     onkeydown: function(event, can) {
         can.onkeypop.show(event, can)
