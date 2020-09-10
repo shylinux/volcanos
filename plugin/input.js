@@ -2,7 +2,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
 })
 Volcanos("onaction", {help: "控件交互", list: [],
+    "关闭": function(event, can) { can.page.Remove(can, can.sup._target) },
     "上传": function(event, can) { can.user.upload(event, can) },
+    "刷新": function(event, can) { can.run(event) },
     "查看": function(event, can) { can.run(event) },
     "返回": function(event, can) {
         can.sup._history.pop(); var his = can.sup._history.pop(); if (his) {
@@ -15,6 +17,10 @@ Volcanos("onaction", {help: "控件交互", list: [],
 
     onchange: function(event, can) {
         if (event.target.tagName == "SELECT") { can.run(event) }
+    },
+    ondblclick: function(event, can) {
+        if (can.Conf("type") == "textarea") { event.target.setSelectionRange(0, -1) }
+        if (can.Conf("type") == "text") { event.target.setSelectionRange(0, -1) }
     },
     onclick: function(event, can) { var msg = can.sup.request(event)
         // 插件回调
@@ -37,7 +43,6 @@ Volcanos("onaction", {help: "控件交互", list: [],
 
         // 通用回调
         if (can.Conf("type") == "button") { can.run(event, [name].concat(can.sup.Pack())) }
-        if (event.target.tagName == "INPUT") { event.target.setSelectionRange(0, -1) }
     },
     onkeydown: function(event, can) {
         can.onkeypop.show(event, can)

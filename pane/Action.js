@@ -6,24 +6,25 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         can.onexport._init(can, msg, list, cb, target)
     },
 
-    _progress: function(can, msg) {
-        if (msg.Option("_progress")) {
-            if (msg.Append("count") != msg.Append("total")) {
-                can.user.toast(can, {
-                    text: "执行进度: "+msg.Append("count")+"/"+msg.Append("total")+"\n"+msg.Append("name"),
-                    title: value.name,
-                    duration: 1100,
-                    progress: parseInt(msg.Append("count"))*100/parseInt(msg.Append("total")),
-                })
-                can.Timer(1000, function() {
-                    var res = can.request({})
-                    res.Option("_action", _action)
-                    res.Option("_progress", msg.Option("_progress"))
-                    sub.run(res._event, cmds, cb, silent)
-                })
-                return
-            }
+    _process: function(can, sub, conf, msg, cmds, cb, silent) {
+        var p = can.onaction[msg.Option("_process")]
+        typeof p == "function"? p(can, sub, conf, msg, cmds, cb, silent): typeof cb == "function" && cb(msg)
+        can.run(msg._event, ["search", "Footer.onaction.ncmd"])
+    },
+    _progress: function(can, sub, conf, msg, cmds, cb, silent) {
+        if (msg.Append("size") != "" && msg.Append("size") == msg.Append("total")) {
+            return typeof cb == "function" && cb(msg)
         }
+        can.user.toast(can, {
+            width: 400,
+            title: conf.name+" "+msg.Append("step")+"% ", duration: 1100,
+            text: "执行进度: "+can.base.Size(msg.Append("size")||0)+"/"+can.base.Size(msg.Append("total")||"1000")+"\n"+msg.Append("name"),
+            progress: parseInt(msg.Append("step")),
+        })
+        can.Timer(1000, function() {
+            var res = sub.request({})
+            sub.run(res._event, cmds, cb, silent)
+        })
     },
     add_plugin: function(can, river, storm, value) {
         if (can.user.Search(can, "river") == river && can.user.Search(can, "storm") == storm && can.user.Search(can, "active") == value.name) {
@@ -44,12 +45,9 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                 can.Conf("action", value.name)
                 can.Conf("current", sub)
                 // 插件回调
-                var toast = can.user.toast(can, "执行中...", value.name)
                 return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
-                    toast.Close(), can.user.toast(can, "执行成功", value.name, 400)
-                    can.run(msg._event, ["search", "Footer.onaction.ncmd"])
-                    can.onaction._progress(can, msg)
-                    typeof cb == "function" && cb(msg)
+                    // return typeof cb == "function" && cb(msg)
+                    can.onaction._process(can, sub, value, msg, cmds, cb, silent)
                 }, silent)
             }
             sub._target.oncontextmenu = function(event) {

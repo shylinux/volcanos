@@ -15,14 +15,15 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return typeof cb == "function" && cb(msg)
     },
     _process: function(can, msg) {
-        return
         var process = msg.Option("_process") || can.Conf("feature")["_process"] 
         var cb = can.onaction[process]; typeof cb == "function" && cb(can, msg)
+        return
         if (can.onimport._progress(can, msg)) {
             return true
         }; can.onimport._refresh(can, msg)
     },
     _progress: function(can, msg) {
+        return
         var progress = msg.Option("_progress") || can.Conf("feature")["_progress"] 
         if (progress) {
             can.page.Select(can, can._output, "td", function(td) {
@@ -42,7 +43,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _table: function(can, value, key, index, line, array) {
         return {type: "td", inner: value, click: function(event) {
             var target = event.target; if (target.tagName == "INPUT" && target.type == "button") {
-                var msg = can.sup.request(event); msg.Option(line)
+                var msg = can.sup.request(event); msg.Option(can.Option()), msg.Option(line)
                 var cb = can.onaction[target.value]; return typeof cb == "function"? cb(event, can, target.value): 
                     can.sup.onaction.input(event, can.sup, target.value, function(msg) { can.run({}) })
             }
@@ -51,7 +52,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             })
 
         }, ondblclick: function(event) {
-            can.onmotion.modify(can, event.target, function(event, value, old) {
+            can.onmotion[value.indexOf("\n") >= 0 || event.ctrlKey? "modifys": "modify"](can, event.target, function(event, value, old) {
+                var msg = can.sup.request(event); msg.Option(can.Option()), msg.Option(line)
+                if (key == "value") { key = line.key }
                 can.run(event, ["action", "编辑", key, value], function(msg) { can.run({}) }, true)
             })
         }, onmouseover: function(event) {

@@ -189,17 +189,16 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         "project": {name: "研发群", storm: {
             "studio": {name: "研发 studio", action: [
                 {name: "route", help: "路由器", index: "web.route"},
-                {name: "shell", help: "命令行", index: "ssh.listen"},
                 {name: "inner", help: "编辑器", index: "web.code.inner", args: ["src/", "main.go"]},
-                {name: "status", help: "代码状态", index: "web.code.git.status"},
-                {name: "total", help: "代码统计", index: "web.code.git.total"},
-                {name: "paste", help: "粘贴板", index: "web.code.tmux.text"},
+                {name: "repos", help: "代码库", index: "web.code.git.status"},
+                {name: "total", help: "统计量", index: "web.code.git.total"},
                 {name: "contexts", help: "上下文", index: "web.wiki.word", args: ["src/main.shy"]},
             ]},
             "cli": {name: "命令 cli",  action: [
-                {name: "vim", help: "编辑器", index: "web.wiki.word", args: ["usr/icebergs/misc/vim/vim.shy"]},
-                {name: "git", help: "代码库", index: "web.wiki.word", args: ["usr/icebergs/misc/git/git.shy"]},
+                {name: "ssh", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/base/ssh/ssh.shy"]},
                 {name: "tmux", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/tmux/tmux.shy"]},
+                {name: "git", help: "代码库", index: "web.wiki.word", args: ["usr/icebergs/misc/git/git.shy"]},
+                {name: "vim", help: "编辑器", index: "web.wiki.word", args: ["usr/icebergs/misc/vim/vim.shy"]},
                 {name: "zsh", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/zsh/zsh.shy"]},
             ]},
             "web": {name: "网页 web",  action: [
@@ -709,6 +708,24 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
 }})
 Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
     },
+    modifys: function(can, target, cb) { var back = target.innerHTML
+        var ui = can.page.Appends(can, target, [{type: "textarea", value: back, style: {height: "80px"}, onkeydown: function(event) {
+            switch (event.key) {
+                case "Enter":
+                    if (event.ctrlKey) { target.innerHTML = event.target.value
+                        if (event.target.value != back) {
+                            cb(event, event.target.value, back)
+                        }
+                    }
+                    break
+                case "Escape":
+                    td.innerHTML = back
+                    break
+            }
+        }, onkeyup: function(event) {
+
+        }}]); ui.first.focus(), ui.first.setSelectionRange(0, -1)
+    },
     modify: function(can, target, cb) { var back = target.innerHTML
         var ui = can.page.Appends(can, target, [{type: "input", value: back, onkeydown: function(event) {
             switch (event.key) {
@@ -724,7 +741,7 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
             }
         }, onkeyup: function(event) {
 
-        }}]); ui.input.focus(), ui.input.setSelectionRange(0, -1)
+        }}]); ui.first.focus(), ui.first.setSelectionRange(0, -1)
     },
     show: function(can, target, time, cb) { time = time || {value: 100, length: 30}
         can.page.Modify(can, target, {style: {opacity: 0}})

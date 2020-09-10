@@ -1,3 +1,6 @@
+body.white fieldset.plugin.editor {
+    background-color:#173d4000;
+}
 fieldset.editor>div.action>div.file {
     border:solid 2px red; padding:2px;
     float:left; margin:2px 0;
@@ -15,7 +18,7 @@ fieldset.editor>form.option div.item input.args[name=line] {
 }
 
 fieldset.editor>div.output {
-    background-color:black;
+    background-color:#173d40cc;
 }
 fieldset.editor>div.output div.project {
     max-height:400px; overflow:auto;
@@ -39,7 +42,8 @@ fieldset.editor>div.output div.preview {
 }
 fieldset.editor>div.output div.preview>div.item {
     text-align:right; padding:0 4px; margin:0;
-    height:20px; border:solid 1px black;
+    height:20px;
+    border:solid 1px #173d4000;
     color:white;
 }
 fieldset.editor>div.output div.preview>div.item:hover {
@@ -59,11 +63,10 @@ fieldset.editor>div.output div.content {
     float:left;
 }
 fieldset.editor>div.output div.content>pre.item {
-    text-align:left;
-    height:20px; border:solid 1px black;
+    text-align:left; height:20px;
+    border:solid 1px #173d4000;
     padding:0; margin:0;
     padding-left:10px;
-    background-color:black;
     color:white;
 }
 fieldset.editor>div.output div.content>pre.item.select {
