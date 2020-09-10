@@ -11,6 +11,7 @@ body fieldset div.story[data-type=spark] {
     background-color:#2169a9;
     border-left:solid 4px blue;
     box-shadow: 4px 4px 10px 1px #626bd0;
+    color:white;
 }
 body fieldset div.story[data-type=spark] span:hover {
     background-color:#c10c8a;
