@@ -189,6 +189,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         "project": {name: "研发群", storm: {
             "studio": {name: "研发 studio", action: [
                 {name: "route", help: "路由器", index: "web.route"},
+                {name: "shell", help: "命令行", index: "ssh.listen"},
                 {name: "inner", help: "编辑器", index: "web.code.inner", args: ["src/", "main.go"]},
                 {name: "status", help: "代码状态", index: "web.code.git.status"},
                 {name: "total", help: "代码统计", index: "web.code.git.total"},
