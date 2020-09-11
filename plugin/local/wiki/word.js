@@ -41,7 +41,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 item.scrollIntoView()
             }}])
             item.onclick = function(event) {
-                ui.first.scrollIntoView()
+                // ui.first.scrollIntoView()
             }
         })
     },
