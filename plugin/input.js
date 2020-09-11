@@ -4,6 +4,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 Volcanos("onaction", {help: "控件交互", list: [],
     "关闭": function(event, can) { can.page.Remove(can, can.sup._target) },
     "上传": function(event, can) { can.user.upload(event, can) },
+    "执行": function(event, can) { can.run(event) },
     "刷新": function(event, can) { can.run(event) },
     "查看": function(event, can) { can.run(event) },
     "返回": function(event, can) {

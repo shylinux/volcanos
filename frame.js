@@ -195,11 +195,12 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "contexts", help: "上下文", index: "web.wiki.word", args: ["src/main.shy"]},
             ]},
             "cli": {name: "命令 cli",  action: [
+                {name: "bash", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/zsh/bash.shy"]},
+                {name: "zsh", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/zsh/zsh.shy"]},
                 {name: "ssh", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/base/ssh/ssh.shy"]},
                 {name: "tmux", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/tmux/tmux.shy"]},
                 {name: "git", help: "代码库", index: "web.wiki.word", args: ["usr/icebergs/misc/git/git.shy"]},
                 {name: "vim", help: "编辑器", index: "web.wiki.word", args: ["usr/icebergs/misc/vim/vim.shy"]},
-                {name: "zsh", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/zsh/zsh.shy"]},
             ]},
             "web": {name: "网页 web",  action: [
                 {name: "HTML5", help: "浏览器", index: "web.wiki.word", args: ["usr/icebergs/misc/chrome/chrome.shy"]},
