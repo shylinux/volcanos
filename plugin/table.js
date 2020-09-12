@@ -3,9 +3,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             return typeof cb == "function" && cb(msg)
         }
 
-        can.ui = can.page.Appends(can, target, [
-            {view: ["content", "div"]}, {view: ["display", "pre"]},
-        ])
+        can.ui = can.page.Appends(can, target, [can.onimport._control(can, msg)].concat([
+            {view: ["content", "div"]},
+            {view: ["display", "pre"]},
+        ]))
         can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line, array) {
             return can.onimport._table(can, value, key, index, line, array)
         })
@@ -14,31 +15,48 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._board(can, msg)
         return typeof cb == "function" && cb(msg)
     },
-    _process: function(can, msg) {
-        var process = msg.Option("_process") || can.Conf("feature")["_process"] 
-        var cb = can.onaction[process]; typeof cb == "function" && cb(can, msg)
-        return
-        if (can.onimport._progress(can, msg)) {
-            return true
-        }; can.onimport._refresh(can, msg)
-    },
-    _progress: function(can, msg) {
-        return
-        var progress = msg.Option("_progress") || can.Conf("feature")["_progress"] 
-        if (progress) {
-            can.page.Select(can, can._output, "td", function(td) {
-                if (td.innerText == msg.Option("name")) {
-                    can.page.Modify(can, td, {style: {"background-color": "green"}})
+    _control: function(can, msg) {
+        return msg.Option("_control") == "page" && {view: ["control", "div"], list: [
+            {button: ["上一页", function(event) {
+                if (can.ui["cache.begin"].value == "") {
+                    can.ui["cache.begin"].value = msg.Option("cache.count") - can.ui["cache.limit"].value
                 }
-            })
-            return true
-        }
-    },
-    _refresh: function(can, msg) {
-        var refresh = msg.Option("_refresh") || can.Conf("feature")["_refresh"] 
-        can.Timer({interval: 500, length: parseInt(refresh)}, function(timer) {
-            can.run({})
-        })
+                can.ui["cache.begin"].value = can.ui["cache.begin"].value - can.ui["cache.limit"].value 
+                if (can.ui["cache.begin"].value < 0) { can.ui["cache.begin"].value = 0}
+                can.run(event)
+            }]},
+
+            {input: ["cache.begin", function(event) {
+                event.key == "Enter" && can.run(event)
+            }], style: {width: 50}, _init: function(item) {
+                item.value = msg.Option("cache.begin")
+            }, data: {"className": "args"}},
+
+            {select: [["cache.limit", 10, 30, 100, 1000], function(event) {
+                can.run(event)
+            }], _init: function(item) {
+                item.value = msg.Option("cache.limit")
+            }, data: {"className": "args"}},
+
+            {button: ["下一页", function(event) {
+                can.ui["cache.begin"].value = parseInt(can.ui["cache.begin"].value||parseInt(m.Option("cache.count"))-parseInt(can.ui["cache.limit"].value)) + parseInt(can.ui["cache.limit"].value)
+                if (can.ui["cache.begin"].value != "" && parseInt(can.ui["cache.begin"].value) < parseInt(msg.Option("cache.count"))) { can.ui["cache.begin"].value = msg.Option("cache.count") }
+                can.run(event)
+            }]},
+
+            {select: [["cache.field"].concat(msg["append"]||can.core.Split(msg.Option("fields"), {simple: true})), function(event) {
+                can.run(event)
+            }], _init: function(item) {
+                item.value = msg.Option("cache.field") || item.value
+            }, data: {"className": "args"}},
+
+
+            {input: ["cache.value", function(event) {
+                event.key == "Enter" && can.run(event)
+            }], style: {width: 50}, _init: function(item) {
+                item.value = msg.Option("cache.value")
+            }, data: {"className": "args"}},
+        ]}
     },
     _table: function(can, value, key, index, line, array) {
         return {type: "td", inner: value, click: function(event) {
@@ -65,6 +83,32 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Select(can, can.ui.display, ".story", function(item) { var data = item.dataset
             var cb = can.onimport[data.type]; typeof cb == "function" && cb(can, data, item)
             can.page.Modify(can, item, {style: can.base.Obj(data.style)})
+        })
+    },
+    _process: function(can, msg) {
+        var process = msg.Option("_process") || can.Conf("feature")["_process"] 
+        var cb = can.onaction[process]; typeof cb == "function" && cb(can, msg)
+        return
+        if (can.onimport._progress(can, msg)) {
+            return true
+        }; can.onimport._refresh(can, msg)
+    },
+    _progress: function(can, msg) {
+        return
+        var progress = msg.Option("_progress") || can.Conf("feature")["_progress"] 
+        if (progress) {
+            can.page.Select(can, can._output, "td", function(td) {
+                if (td.innerText == msg.Option("name")) {
+                    can.page.Modify(can, td, {style: {"background-color": "green"}})
+                }
+            })
+            return true
+        }
+    },
+    _refresh: function(can, msg) {
+        var refresh = msg.Option("_refresh") || can.Conf("feature")["_refresh"] 
+        can.Timer({interval: 500, length: parseInt(refresh)}, function(timer) {
+            can.run({})
         })
     },
 

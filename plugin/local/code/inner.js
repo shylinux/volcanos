@@ -56,6 +56,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             var width = can._target.offsetWidth - can.ui.project.offsetWidth - can.ui.preview.offsetWidth - 30
             can.Status("当前行", can.onexport.position(can, parseInt(can.Option("line")))-1)
             can.page.Modify(can, can.ui.content, {style: {"max-width": width+"px"}})
+            can.page.Modify(can, can.ui.profile, {style: {width: width+60+"px"}})
         }
         if (can.tabview[path+file]) { return show() }
 
