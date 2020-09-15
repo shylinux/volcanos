@@ -108,28 +108,12 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
                 return
             }
 
-            tree.inner = can.onappend._init(can, {name: "inner", help: "源码", inputs: [
-                {type: "text", name: "path", value: can.Option("path")},
-                {type: "text", name: "file", value: tree.file},
-                {type: "text", name: "line", value: tree.line},
-                {type: "button", name: "查看", value: "auto"},
-                {type: "button", name: "关闭"},
-            ], index: "web.code.inner", feature: {
-                display: "/plugin/local/code/inner.js", style: "editor", width: 800, height: 600,
-            }}, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
-                sub.run = function(event, cmds, cb, silent) { var msg = can.request(event)
-                    if (msg.Option("_action") == "关闭") {
-                        can.page.Remove(can, tree.inner._target)
-                        return
-                    }
-                    can.run(event, ["inner"].concat(cmds), cb, true)
-                }
-            }, document.body)
-
-            can.page.Modify(can, tree.inner._target, {style: {position: "fixed",
+            can.onaction._show(can, [can.Option("path"), tree.file, tree.line], {
+                position: "fixed",
                 left: event.x-(event.x>600? 400: 100),
                 top: event.y-(event.y>600? 400: 0),
-            }})
+                width: 600, height: 600,
+            })
         }
         tree.view.onmouseenter = function(event) {
             can.page.Remove(can, can.pos)
@@ -163,6 +147,90 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
             offset += item.height*30
         })
     },
+    _resize: function(can, layout) {
+        can.page.Modify(can, can._target, {style: layout})
+        can.page.Select(can, can._output, "div.profile", function(item) {
+            can.page.Modify(can, item, {style: {
+                "max-height": layout.height,
+                "width": layout.width,
+            }})
+        })
+        can.page.Select(can, can._output, "div.content", function(item) {
+            can.page.Modify(can, item, {style: {
+                "max-width": layout.width - 120,
+            }})
+        })
+    },
+    _show: function(can, args, layout) {
+        can.onappend.plugin(can, {index: "web.code.inner", args: args, _action: ["最大", "上下", "左右", "复制", "重围", "关闭"], width: layout.width, height: layout.height}, function(sub, value) {
+            can.onaction._resize(sub, layout)
+
+            var begin
+            sub._target.onmousedown = function(event) {
+                begin = {left: layout.left, top: layout.top, x: event.x, y: event.y}
+                console.log(begin)
+            }
+            sub._target.onmousemove = function(event) {
+                if (event.target == sub._target && begin) {
+                    layout.left= begin.left + event.x - begin.x 
+                    layout.top= begin.top + event.y - begin.y
+                    sub.page.Modify(sub, sub._target, {style: {left: layout.left, top: layout.top}})
+                    console.log(layout)
+                }
+            }
+            sub._target.onmouseup = function(event) {
+                begin = null
+            }
+
+            sub.run = function(event, cmds, cb, silent) {
+                switch (cmds[1]) {
+                    case "复制":
+                        can.onaction._show(can, args, {
+                            position: "fixed",
+                            left: layout.left+100, top: layout.top+100,
+                            width: layout.width, height: layout.height,
+                        })
+                        break
+                    case "重围":
+                        can.onaction._resize(sub, layout)
+                        break
+                    case "上下":
+                        layout.height = layout.height/2-20
+                        can.onaction._resize(sub, layout)
+
+                        can.onaction._show(can, args, {
+                            position: "fixed",
+                            left: layout.left, top: layout.top+layout.height+70,
+                            width: layout.width, height: layout.height,
+                        })
+                        break
+                    case "左右":
+                        layout.width = layout.width/2
+                        can.onaction._resize(sub, layout)
+
+                        can.onaction._show(can, args, {
+                            position: "fixed",
+                            left: layout.left+layout.width+10, top: layout.top,
+                            width: layout.width-10, height: layout.height,
+                        })
+                        break
+                    case "最大":
+                        layout.left = 0, layout.top = 0
+                        layout.width = window.innerWidth-40
+                        layout.height = window.innerHeight-60
+                        can.onaction._resize(sub, layout)
+                        break
+                    case "关闭":
+                        can.page.Remove(can, sub._target)
+                        break
+                    default:
+                        can.run(event, ["inner"].concat(cmds), function(msg) {
+                            cb(msg), can.onaction._resize(sub, layout)
+                        }, true)
+                }
+            }
+        })
+    },
 
     "横向": function(event, can) { var sub = can.sub
         can.width = 0
@@ -176,7 +244,4 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
     "纵向": function(event, can) {
     },
 })
-Volcanos("onchoice", {help: "组件交互", list: []})
-Volcanos("ondetail", {help: "组件详情", list: []})
-Volcanos("onexport", {help: "导出数据", list: ["date", "begin", "add", "del", "close", "note"]})
 

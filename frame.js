@@ -323,7 +323,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             sub.onimport && sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field)
 
             meta.inputs && sub.onappend._option(sub, meta, list, cb)
-            sub.onaction && sub.onappend._action(sub, sub._action, sub.onaction.list)
+            sub.onaction && sub.onappend._action(sub, sub._action, meta.button || sub.onaction.list)
             sub.onexport && sub.onappend._status(sub, sub._status, sub.onexport.list)
         })
         return sub
@@ -527,6 +527,19 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     board: function(can, target, type, msg, text) { text = text || can.page.Display(msg.Result())
         return text && can.page.Append(can, target, [{view: ["code", "div", text]}]).code
+    },
+
+    plugin: function(can, value, cb, target) { value = value || {}
+        can.run({}, ["action", "command", value.index], function(msg) {
+            value.name = value.name || msg.name && msg.name[0] || "plugin"
+            value.help = value.help || msg.help && msg.help[0] || "plugin"
+            value.inputs = can.base.Obj(msg.list && msg.list[0] || "[]", [])
+            value.feature = can.base.Obj(msg.meta && msg.meta[0] || "{}", {})
+
+            var plugin = can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
+                typeof cb == "function" && cb(sub, value)
+            }, target || document.body)
+        }, true)
     },
 }, [], function(can) {})
 Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, meta, list, cb, target) {

@@ -1,4 +1,6 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) {
+        can.Conf("content") && (msg = can.request({}), msg.result = [can.Conf("content")])
+
         can.ui = can.page.Appends(can, target, [
             {view: "project", style: {display: "none"}},
             {view: "profile", list: [
@@ -27,13 +29,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             ]}, {view: "tags"}, ]},
         ])
 
-        if (can.Conf("content")) {
-            msg = can.request({})
-            msg.result = [can.Conf("content")]
-        }
-
-        can.user.isMobile || can.page.Modify(can, can.ui.content, {style: {"min-width": document.body.innerWidth-200+"px"}})
-        can.user.isMobile || can.page.Modify(can, can.ui.profile, {style: {"min-width": document.body.innerWidth-100+"px"}})
 
         can.tabview = {}, can.history = []
         can.tabview[can.Option("path")+can.Option("file")] = msg
@@ -169,14 +164,6 @@ Volcanos("onaction", {help: "控件交互", list: [],
         var last = can.history.pop(); last = can.history.pop()
         last && can.onimport.tabview(can, last.path, last.file, last.line)
     },
-    "运行": function(event, can) {
-        can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "none"}})
-        can.run(event, ["action", "engine", can.parse, can.Option("file"), can.Option("path")], function(msg) {
-            (msg.Result() || msg.append && msg.append.length > 0) && can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "block"}})
-            can.onappend.table(can, can.ui.display, "table", msg)
-            can.onappend.board(can, can.ui.display, "board", msg)
-        }, true)
-    },
     "项目": function(event, can) { var hide = can.ui.project.style.display == "none"
         can.page.Modify(can, can.ui.project, {style: {display: hide? "": "none"}})
         var width = can._target.offsetWidth - can.ui.project.offsetWidth - can.ui.preview.offsetWidth - 120
@@ -187,6 +174,14 @@ Volcanos("onaction", {help: "控件交互", list: [],
     "搜索": function(event, can) { var hide = can.ui.search.style.display == "none"
         can.page.Modify(can, can.ui.search, {style: {display: hide? "": "none"}})
         hide && can.onaction.searchLine(event, can, "")
+    },
+    "运行": function(event, can) {
+        can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "none"}})
+        can.run(event, ["action", "engine", can.parse, can.Option("file"), can.Option("path")], function(msg) {
+            (msg.Result() || msg.append && msg.append.length > 0) && can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "block"}})
+            can.onappend.table(can, can.ui.display, "table", msg)
+            can.onappend.board(can, can.ui.display, "board", msg)
+        }, true)
     },
 
     appendLine: function(can, value) { var index = ++can.max
