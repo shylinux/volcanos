@@ -162,37 +162,21 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
         })
     },
     _show: function(can, args, layout) {
-        can.onappend.plugin(can, {index: "web.code.inner", args: args, _action: ["最大", "上下", "左右", "复制", "重围", "关闭"], width: layout.width, height: layout.height}, function(sub, value) {
+        can.onappend.plugin(can, {index: "web.code.inner", args: args, _action: ["最大", "上下", "左右", "复制", "关闭"], width: layout.width, height: layout.height}, function(sub, value) {
+            can.onmotion.move(sub, sub._target, layout)
             can.onaction._resize(sub, layout)
-
-            var begin
-            sub._target.onmousedown = function(event) {
-                begin = {left: layout.left, top: layout.top, x: event.x, y: event.y}
-                console.log(begin)
-            }
-            sub._target.onmousemove = function(event) {
-                if (event.target == sub._target && begin) {
-                    layout.left= begin.left + event.x - begin.x 
-                    layout.top= begin.top + event.y - begin.y
-                    sub.page.Modify(sub, sub._target, {style: {left: layout.left, top: layout.top}})
-                    console.log(layout)
-                }
-            }
-            sub._target.onmouseup = function(event) {
-                begin = null
-            }
 
             sub.run = function(event, cmds, cb, silent) {
                 switch (cmds[1]) {
+                    case "关闭":
+                        can.page.Remove(can, sub._target)
+                        break
                     case "复制":
                         can.onaction._show(can, args, {
                             position: "fixed",
                             left: layout.left+100, top: layout.top+100,
                             width: layout.width, height: layout.height,
                         })
-                        break
-                    case "重围":
-                        can.onaction._resize(sub, layout)
                         break
                     case "上下":
                         layout.height = layout.height/2-20
@@ -210,8 +194,8 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
 
                         can.onaction._show(can, args, {
                             position: "fixed",
-                            left: layout.left+layout.width+10, top: layout.top,
-                            width: layout.width-10, height: layout.height,
+                            left: layout.left+layout.width, top: layout.top,
+                            width: layout.width, height: layout.height,
                         })
                         break
                     case "最大":
@@ -220,12 +204,11 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
                         layout.height = window.innerHeight-60
                         can.onaction._resize(sub, layout)
                         break
-                    case "关闭":
-                        can.page.Remove(can, sub._target)
-                        break
                     default:
                         can.run(event, ["inner"].concat(cmds), function(msg) {
-                            cb(msg), can.onaction._resize(sub, layout)
+                            cb(msg), can.Timer(10, function() {
+                                can.onaction._resize(sub, layout)
+                            })
                         }, true)
                 }
             }

@@ -48,10 +48,12 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             can.file = file, can.parse = can.base.Ext(file||path), can.max = 0
             can.onsyntax._init(can, can._msg)
 
-            var width = can._target.offsetWidth - can.ui.project.offsetWidth - can.ui.preview.offsetWidth - 30
-            can.Status("当前行", can.onexport.position(can, parseInt(can.Option("line")))-1)
-            can.page.Modify(can, can.ui.content, {style: {"max-width": width+"px"}})
-            can.page.Modify(can, can.ui.profile, {style: {width: width+60+"px"}})
+            can.onaction._resize(can, true)
+
+            can.Status("文件名", can.file), can.Status("解析器", can.parse)
+            can.Status("当前行", can.onexport.position(can, 0))
+            can.Status("模式", "normal")
+
         }
         if (can.tabview[path+file]) { return show() }
 
@@ -64,12 +66,12 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             }}]).first).click()
         }, true)
     },
-    project: function(can, path) { can.Option({path: path})
+    project: function(can, path, cb) { can.Option({path: path})
         var msg = can.request({}); msg.Option("dir_deep", "true")
         can.run(msg._event, ["action", "render", "dir", "", path+"/"], function(msg) { can.ui.project.innerHTML = ""
             can.onappend.tree(can, msg, can.ui.project, function(event, value) {
                 can.onimport.tabview(can, can.Option("path"), value.path)
-            })
+            }), typeof cb == "function" && cb()
         }, true)
     },
 }, ["/plugin/local/code/inner.css"])
@@ -164,11 +166,11 @@ Volcanos("onaction", {help: "控件交互", list: [],
         var last = can.history.pop(); last = can.history.pop()
         last && can.onimport.tabview(can, last.path, last.file, last.line)
     },
-    "项目": function(event, can) { var hide = can.ui.project.style.display == "none"
-        can.page.Modify(can, can.ui.project, {style: {display: hide? "": "none"}})
-        var width = can._target.offsetWidth - can.ui.project.offsetWidth - can.ui.preview.offsetWidth - 120
-        // can.page.Modify(can, can.ui.content, {style: {"max-width": hide? width+"px": ""}})
-        hide && can.onimport.project(can, can.Option("path"))
+    "项目": function(event, can) {
+        var hide = can.ui.project.style.display == "none"
+       can.onimport.project(can, can.Option("path"), function() {
+            can.onaction._resize(can, hide)
+        })
         can.onaction.selectLine(can, can.current)
     },
     "搜索": function(event, can) { var hide = can.ui.search.style.display == "none"
@@ -182,6 +184,15 @@ Volcanos("onaction", {help: "控件交互", list: [],
             can.onappend.table(can, can.ui.display, "table", msg)
             can.onappend.board(can, can.ui.display, "board", msg)
         }, true)
+    },
+    _resize: function(can, hide) {
+        can.page.Modify(can, can.ui.project, {style: {display: hide? "": "none"}})
+        can.Timer(10, function() {
+            var width = can._target.offsetWidth - (hide? can.ui.project.offsetWidth: 0) - 30
+            can.page.Modify(can, can.ui.profile, {style: {width: width}})
+            width -= can.ui.preview.offsetWidth + 20
+            can.page.Modify(can, can.ui.content, {style: {"max-width": width}})
+        })
     },
 
     appendLine: function(can, value) { var index = ++can.max

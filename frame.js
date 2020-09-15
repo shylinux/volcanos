@@ -538,6 +538,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
             var plugin = can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
                 typeof cb == "function" && cb(sub, value)
+                sub.page.Remove(sub, sub._legend)
             }, target || document.body)
         }, true)
     },
@@ -777,6 +778,22 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
             can.page.Modify(can, target, {style: {opacity: 1-(index+1)/time.length}})
         }, function() {
         })
+    },
+
+    move: function(can, target, layout) { var begin
+        target.onmousedown = function(event) {
+            begin = {left: layout.left, top: layout.top, x: event.x, y: event.y}
+        }
+        target.onmousemove = function(event) {
+            if (event.target == target && begin) {
+                layout.top = begin.top + event.y - begin.y
+                layout.left = begin.left + event.x - begin.x 
+                can.page.Modify(can, target, {style: {left: layout.left, top: layout.top}})
+            }
+        }
+        target.onmouseup = function(event) {
+            begin = null
+        }
     },
 })
 
