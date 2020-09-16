@@ -7,7 +7,9 @@ Volcanos("onfigure", {help: "控件详情", list: [],
                 can._figure && can.page.Remove(can, can._figure.fieldset)
                 can._figure = can.onappend.field(can, document.body, "input key", {})
 
-                can.page.Modify(can, can._figure.fieldset, {style: {top: event.clientY+10, left: event.clientX}})
+                var layout = {top: event.clientY+10, left: event.clientX}
+                can.onmotion.move(can, can._figure.fieldset, layout)
+                can.page.Modify(can, can._figure.fieldset, {style: layout})
                 can.page.Remove(can, can._figure.legend)
 
                 can.page.Append(can, can._figure.action, [
@@ -25,5 +27,5 @@ Volcanos("onfigure", {help: "控件详情", list: [],
         }
         run()
     }},
-})
+}, ["/plugin/input/key.css"])
 

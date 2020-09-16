@@ -52,32 +52,30 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: 
                 return // 加载完成
             }
 
-            if (meta.cache[libs[0]]) {
-                can._load(libs[0], each), can.require(libs.slice(1), cb, each)
+            var source = !libs[0].endsWith("/") && (libs[0].indexOf(".") == -1? libs[0]+".js": libs[0]) || libs[0]
+            var target = source.endsWith(".css")? (can._head||document.head): (can._body||document.body)
+
+            if (meta.cache[source]) {
+                can._load(source, each), can.require(libs.slice(1), cb, each)
                 return // 缓存加载
             }
-
-            var target = libs[0].endsWith(".css")? (can._head||document.head): (can._body||document.body)
-            var source = !libs[0].endsWith("/") && (libs[0].indexOf(".") == -1? libs[0]+".js": libs[0]) || libs[0]
 
             if (source.endsWith(".js")) { var script = document.createElement("script")
                 if (can.user && source.indexOf("publish") == 0) {
                     source += "?pod="+(can.user.Search(can, "pod")||"")
-                    libs[0] = source
                 }
                 if (can.user && source.indexOf("/publish") == 0) {
                     source += "?pod="+(can.user.Search(can, "pod")||"")
-                    libs[0] = source
                 }
                 script.src = source, script.onload = function() {
-                    can._load(libs[0], each), can.require(libs.slice(1), cb, each)
+                    can._load(source, each), can.require(libs.slice(1), cb, each)
                 } // 加载脚本
                 target.appendChild(script)
 
             } else if (source.endsWith(".css")) { var style = document.createElement("link")
                 style.rel = "stylesheet", style.type = "text/css"
                 style.href = source; style.onload = function() {
-                    can._load(libs[0], each), can.require(libs.slice(1), cb, each)
+                    can._load(source, each), can.require(libs.slice(1), cb, each)
                 } // 加载样式
                 target.appendChild(style)
             }

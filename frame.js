@@ -783,16 +783,13 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
     move: function(can, target, layout) { var begin
         target.onmousedown = function(event) {
             begin = {left: layout.left, top: layout.top, x: event.x, y: event.y}
-        }
+        }, target.onmouseup = function(event) { begin = null }
+
         target.onmousemove = function(event) {
-            if (event.target == target && begin) {
-                layout.top = begin.top + event.y - begin.y
-                layout.left = begin.left + event.x - begin.x 
-                can.page.Modify(can, target, {style: {left: layout.left, top: layout.top}})
-            }
-        }
-        target.onmouseup = function(event) {
-            begin = null
+            if (!begin || !event.ctrlKey) { return }
+            layout.top = begin.top + event.y - begin.y
+            layout.left = begin.left + event.x - begin.x 
+            can.page.Modify(can, target, {style: {left: layout.left, top: layout.top}})
         }
     },
 })
