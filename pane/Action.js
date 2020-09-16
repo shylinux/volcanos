@@ -12,17 +12,24 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         can.run(msg._event, ["search", "Footer.onaction.ncmd"])
     },
     _progress: function(can, sub, conf, msg, cmds, cb, silent) {
-        if (msg.Append("size") != "" && msg.Append("size") == msg.Append("total")) {
+        var size = msg.Append("size") || msg.Append("count")
+        if (size != "" && size == msg.Append("total")) {
             return typeof cb == "function" && cb(msg)
         }
         can.user.toast(can, {
             width: 400,
             title: conf.name+" "+msg.Append("step")+"% ", duration: 1100,
-            text: "执行进度: "+can.base.Size(msg.Append("size")||0)+"/"+can.base.Size(msg.Append("total")||"1000")+"\n"+msg.Append("name"),
+            text: "执行进度: "+can.base.Size(size||0)+"/"+can.base.Size(msg.Append("total")||"1000")+"\n"+msg.Append("name"),
             progress: parseInt(msg.Append("step")),
+        })
+        can.page.Select(can, sub._output, "td", function(td) {
+            if (td.innerText == msg.Option("name")) {
+                can.page.ClassList.add(can, td, "done")
+            }
         })
         can.Timer(1000, function() {
             var res = sub.request({})
+            res.Option("_progress", msg.Option("_progress"))
             sub.run(res._event, cmds, cb, silent)
         })
     },

@@ -87,14 +87,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _process: function(can, msg) {
         var process = msg.Option("_process") || can.Conf("feature")["_process"] 
-        var cb = can.onaction[process]; typeof cb == "function" && cb(can, msg)
-        return
-        if (can.onimport._progress(can, msg)) {
-            return true
-        }; can.onimport._refresh(can, msg)
+        var cb = can.onaction[process]; return typeof cb == "function" && cb(can, msg)
     },
     _progress: function(can, msg) {
-        return
         var progress = msg.Option("_progress") || can.Conf("feature")["_progress"] 
         if (progress) {
             can.page.Select(can, can._output, "td", function(td) {
@@ -102,6 +97,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                     can.page.Modify(can, td, {style: {"background-color": "green"}})
                 }
             })
+            // can.Timer(1000, function() { can.run() })
             return true
         }
     },
