@@ -10,7 +10,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             if (value.path.startsWith("/local")) { return }
             value.path.endsWith("/")? can.path.Push(value): can.list.push(value)
         })
-        can.onappend.table(can, can.ui.project, "table", can.path)
+        can.onappend.table(can, can.ui.project, "table", can.path, function(value, key, index, line, array) {
+            return {type: "td", inner: value, click: function(event) {
+                // can.Option(key, value) && can.run(event)
+            can.sup.onaction.change(event, can.sup, key, value, function(msg) {
+                can.run(event)
+            })
+            }}
+        })
 
         can.page.Modify(can, can._action, {style: {display: "none"}})
         typeof cb == "function" && cb()

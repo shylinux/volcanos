@@ -31,7 +31,6 @@
         "bookmarks",
         "notifications",
         "contextMenus",
-        "*://localhost/*",
-        "*://localhost:9020/*"
+        "http://localhost:9020/*"
     ]
 }
