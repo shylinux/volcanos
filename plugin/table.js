@@ -87,19 +87,19 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _process: function(can, msg) {
         var process = msg.Option("_process") || can.Conf("feature")["_process"] 
-        var cb = can.onaction[process]; return typeof cb == "function" && cb(can, msg)
+        var cb = can.onimport[process]; return typeof cb == "function" && cb(can, msg)
     },
-    _progress: function(can, msg) {
-        var progress = msg.Option("_progress") || can.Conf("feature")["_progress"] 
-        if (progress) {
-            can.page.Select(can, can._output, "td", function(td) {
-                if (td.innerText == msg.Option("name")) {
-                    can.page.Modify(can, td, {style: {"background-color": "green"}})
+    _field: function(can, msg) {
+        msg.Table(function(value) {
+            value.inputs = can.base.Obj(msg.list&&msg.list[0]||"[]", [])
+            value.feature = can.base.Obj(msg.meta&&msg.meta[0]||"{}", {})
+            value.name && can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
+                sub.run = function(event, cmds, cb, silent) {
+                    can.run(event, msg["_prefix"].concat(cmds), cb, true)
                 }
-            })
-            // can.Timer(1000, function() { can.run() })
-            return true
-        }
+            }, can._output)
+        })
+        return true
     },
     _refresh: function(can, msg) {
         var refresh = msg.Option("_refresh") || can.Conf("feature")["_refresh"] 
