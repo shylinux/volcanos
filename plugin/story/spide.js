@@ -109,10 +109,9 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
             }
 
             can.onaction._show(can, [can.Option("path"), tree.file, tree.line], {
-                position: "fixed",
+                position: "fixed", width: 800, height: 600,
                 left: event.x-(event.x>600? 400: 100),
                 top: event.y-(event.y>600? 400: 0),
-                width: 600, height: 600,
             })
         }
         tree.view.onmouseenter = function(event) {
@@ -148,21 +147,29 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
         })
     },
     _resize: function(can, layout) {
+        can.Conf("width", layout.width)
+        can.Conf("height", layout.height)
         can.page.Modify(can, can._target, {style: layout})
         can.page.Select(can, can._output, "div.profile", function(item) {
             can.page.Modify(can, item, {style: {
-                "max-height": layout.height,
+                "max-height": layout.height-60,
                 "width": layout.width,
             }})
         })
         can.page.Select(can, can._output, "div.content", function(item) {
             can.page.Modify(can, item, {style: {
-                "max-width": layout.width - 120,
+                "max-width": layout.width - 100,
+            }})
+        })
+        can.page.Select(can, can._output, "div.search", function(item) {
+            can.page.Modify(can, item, {style: {
+                position: "absolute", bottom: 0,
+                width: layout.width,
             }})
         })
     },
     _show: function(can, args, layout) {
-        can.onappend.plugin(can, {index: "web.code.inner", args: args, _action: ["最大", "上下", "左右", "复制", "关闭"], width: layout.width, height: layout.height}, function(sub, value) {
+        can.onappend.plugin(can, {index: "web.code.inner", args: args, _action: ["最大", "分屏", "复制", "关闭"], width: layout.width, height: layout.height}, function(sub, value) {
             can.onmotion.move(sub, sub._target, layout)
             can.onaction._resize(sub, layout)
 
@@ -178,28 +185,38 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
                             width: layout.width, height: layout.height,
                         })
                         break
-                    case "上下":
-                        layout.height = layout.height/2-20
-                        can.onaction._resize(sub, layout)
+                    case "分屏":
+                        if (event.ctrlKey) {
+                            layout.height = layout.height/2
+                            can.onaction._resize(sub, layout)
 
-                        can.onaction._show(can, args, {
-                            position: "fixed",
-                            left: layout.left, top: layout.top+layout.height+70,
-                            width: layout.width, height: layout.height,
-                        })
-                        break
-                    case "左右":
+                            can.onaction._show(can, args, {
+                                position: "fixed",
+                                left: layout.left, top: layout.top+layout.height+10,
+                                width: layout.width, height: layout.height,
+                            })
+                            break
+                        }
+
                         layout.width = layout.width/2
                         can.onaction._resize(sub, layout)
 
                         can.onaction._show(can, args, {
                             position: "fixed",
-                            left: layout.left+layout.width, top: layout.top,
+                            left: layout.left+layout.width+10, top: layout.top,
                             width: layout.width, height: layout.height,
                         })
                         break
                     case "最大":
-                        layout.left = 0, layout.top = 0
+                        if (event.ctrlKey) {
+                            layout.left = 0, layout.top = 40
+                            layout.width = window.innerWidth/2
+                            layout.height = window.innerHeight/2
+                            can.onaction._resize(sub, layout)
+                            break
+                        }
+
+                        layout.left = 0, layout.top = 40
                         layout.width = window.innerWidth-40
                         layout.height = window.innerHeight-60
                         can.onaction._resize(sub, layout)

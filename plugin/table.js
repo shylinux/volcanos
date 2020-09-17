@@ -63,7 +63,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             var target = event.target; if (target.tagName == "INPUT" && target.type == "button") {
                 var msg = can.sup.request(event); msg.Option(can.Option()), msg.Option(line)
                 var cb = can.onaction[target.value]; return typeof cb == "function"? cb(event, can, target.value): 
-                    can.sup.onaction.input(event, can.sup, target.value, function(msg) { can.run({}) })
+                    can.sup.onaction.input(event, can.sup, target.value, function(msg) {
+                        if (can.onimport._process(can, msg)) {
+                            return typeof cb == "function" && cb(msg)
+                        }
+                        can.run({})
+                    })
             }
             can.sup.onaction.change(event, can.sup, key, value, function(msg) {
                 can.run(event)
@@ -95,7 +100,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             value.feature = can.base.Obj(msg.meta&&msg.meta[0]||"{}", {})
             value.name && can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
                 sub.run = function(event, cmds, cb, silent) {
-                    can.run(event, msg["_prefix"].concat(cmds), cb, true)
+                    can.run(event, (msg["_prefix"]||[]).concat(cmds), cb, true)
                 }
             }, can._output)
         })
