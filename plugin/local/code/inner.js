@@ -2,10 +2,12 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         can.Conf("content") && (msg = can.request({}), msg.result = [can.Conf("content")])
 
         can.ui = can.page.Appends(can, target, [
-            {view: "project", style: {display: "none"}},
+            {view: "project", style: {
+                display: "none", "max-height": window.innerHeight-300,
+            }},
             {view: "profile", list: [
                 {view: "preview"}, {view: "content"}
-            ]},
+            ], style: {"max-height": window.innerHeight-300}},
             {view: ["display", "pre"]},
 
             {view: "search", style: {display: "none"}, list: [{view: "action", list: [
@@ -48,7 +50,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             can.file = file, can.parse = can.base.Ext(file||path), can.max = 0
             can.onsyntax._init(can, can._msg)
 
-            // can.onaction._resize(can, can.ui.project.style.display != "none")
+            can.onaction._resize(can, can.ui.project.style.display != "none")
             can.Status("文件名", can.file), can.Status("解析器", can.parse)
             can.Status("当前行", can.onexport.position(can, 0))
             can.Status("模式", "normal")
@@ -187,7 +189,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
     },
     _resize: function(can, hide) {
         can.Timer(10, function() {
-            var width = ((parseInt(can.Conf("width"))-120)||can._target.offsetWidth) - (hide? can.ui.project.offsetWidth+10: 0)
+            var width = ((parseInt(can.Conf("width"))-60)||can._target.offsetWidth) - (hide? can.ui.project.offsetWidth+10: 0)
             can.page.Modify(can, can.ui.profile, {style: {width: width}})
             width -= can.ui.preview.offsetWidth + 20
             can.page.Modify(can, can.ui.content, {style: {"max-width": width}})
@@ -199,7 +201,10 @@ Volcanos("onaction", {help: "控件交互", list: [],
             can.onaction.selectLine(can, index)
         }, ondblclick: function(event) {
             can.user.input(event, can, [{_input: "text", name: "topic", value: "@key"}, "name"], function(event, button, meta, list) {
-                can.run(event, ["favor", "topic", meta.topic, "type", can.parse, "name", meta.name, "text", value, "file", can.file, "line", index], function(msg) {
+                can.run(event, ["favor", "topic", meta.topic||"some",
+                    "type", can.parse, "name", meta.name||"some", "text", value,
+                    "path", can.Option("path"), "file", can.Option("file"), "line", can.Option("line"),
+                ], function(msg) {
                     can.user.toast(can, "收藏成功")
                 }, true)
                 return true

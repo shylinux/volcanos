@@ -1,10 +1,6 @@
-body.white fieldset.plugin.editor {
-    background-color:#173d4000;
-}
 fieldset.editor>div.action>div.file {
     border:solid 2px red; padding:2px;
     float:left; margin:2px 0;
-    /* background-color:#211515; */
     cursor:pointer;
 }
 fieldset.editor>div.action>div.file.over {
@@ -25,8 +21,8 @@ fieldset.editor>div.output {
     background-color:#173d40ab;
 }
 fieldset.editor>div.output div.project {
-    max-height:400px; overflow:auto;
-    max-width:180px; text-align:left;
+    max-width:180px; overflow:auto;
+    text-align:left; padding-right:20px;
     font-size:14px; font-family:monospace;
     color:white;
 }
@@ -38,8 +34,7 @@ fieldset.editor>div.output div.project div.item:hover {
 }
 
 fieldset.editor>div.output div.profile {
-    min-height:400px;
-    max-height:600px; overflow:auto;
+    min-height:200px; overflow:auto;
 }
 fieldset.editor>div.output div.preview {
     font-family:monospace;
@@ -62,7 +57,6 @@ fieldset.editor>div.output div.content {
     font-size:16px; font-family:monospace;
     border-left:solid 2px red;
     min-height:20px;
-    /* min-width:800px; */
     max-width:1000px;
     overflow:auto;
     float:left;
@@ -75,7 +69,6 @@ fieldset.editor>div.output div.content>pre.item {
     color:white;
 }
 fieldset.editor>div.output div.content>pre.item.select {
-    /* border:solid 1px red; */
     border-right:0px;
 }
 fieldset.editor>div.output div.content>pre.item span.comment {
@@ -108,13 +101,13 @@ fieldset.editor>div.output pre.display:hover {
 }
 
 fieldset.editor>div.output div.search {
-    /* position:relative; top:-200px; */
-    height:220px; overflow:auto;
-    background-color:#060627ab;
-    text-align:left;
+    background-color:#060627ab; color:white;
     padding:6px; border:solid 1px red;
     clear:both;
-    color:white;
+}
+fieldset.editor>div.output div.search div.tags {
+    height:220px; overflow:auto;
+    text-align:left;
 }
 fieldset.editor>div.output div.search td>div {
     max-height:100px;

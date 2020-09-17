@@ -304,6 +304,10 @@ body.white fieldset.plugin {
     background-color:white;
     color:black;
 }
+body.white fieldset.editor {
+    background:#0b2c54ab;
+    color:white;
+}
 body.white fieldset.Header {
     border:solid 2px #1f2224;
     background-color:#2f3638;
