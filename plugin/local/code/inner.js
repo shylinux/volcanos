@@ -189,7 +189,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
     },
     _resize: function(can, hide) {
         can.Timer(10, function() {
-            var width = ((parseInt(can.Conf("width"))-60)||can._target.offsetWidth) - (hide? can.ui.project.offsetWidth+10: 0)
+            var width = ((parseInt(can.Conf("width"))-30)||can._target.offsetWidth) - (hide? can.ui.project.offsetWidth+10: 0)
             can.page.Modify(can, can.ui.profile, {style: {width: width}})
             width -= can.ui.preview.offsetWidth + 20
             can.page.Modify(can, can.ui.content, {style: {"max-width": width}})

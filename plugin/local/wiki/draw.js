@@ -546,7 +546,7 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
                 + " + (" + target.Val("width") + "," + target.Val("height") + ")"
         },
     },
-}, ["/plugin/local/wiki/draw/heart.js"])
+}, [])
 Volcanos("onaction", {help: "组件菜单", list: [
         ["grid", 1, 2, 3, 4, 5, 10, 20],
         ["stroke-width", 1, 2, 3, 4, 5],

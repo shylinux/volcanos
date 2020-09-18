@@ -147,8 +147,6 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
         })
     },
     _resize: function(can, layout) {
-        can.Conf("width", layout.width)
-        can.Conf("height", layout.height)
         can.page.Modify(can, can._target, {style: layout})
         can.page.Select(can, can._output, "div.profile", function(item) {
             can.page.Modify(can, item, {style: {
@@ -224,7 +222,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
                     default:
                         can.run(event, ["inner"].concat(cmds), function(msg) {
                             cb(msg), can.Timer(10, function() {
-                                can.onaction._resize(sub, layout)
+                                // can.onaction._resize(sub, layout)
                             })
                         }, true)
                 }
