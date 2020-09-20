@@ -179,8 +179,8 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                     display: "/plugin/local/wiki/feel.js",
                     height: 200, limit: 3,
                 }},
-                {name: "cached", help: "爬虫缓存", index: "web.code.chrome.cached", args: []},
-                {name: "spided", help: "网页爬虫", index: "web.code.chrome.spided", args: location && location.protocol && location.protocol=="chrome-extension:"? ["1", "", "spide"]: ["1"]},
+                {name: "cached", help: "爬虫缓存", index: "web.code.chrome.cache", args: []},
+                {name: "spided", help: "网页爬虫", index: "web.code.chrome.spide", args: location && location.protocol && location.protocol=="chrome-extension:"? ["1", "", "spide"]: ["1"]},
             ]},
             "context": {name: "理念 context",  action: [
                 {name: "contexts", help: "上下文", index: "web.wiki.word", args: ["src/task.shy"]},
@@ -268,14 +268,14 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var sub = Volcanos(meta.name, { _help: meta.name, _follow: can._follow+"."+meta.name,
             _legend: legend, _option: option, _action: action, _output: output, _status: status,
             _target: field, _inputs: {}, _outputs: [], _history: [],
-            Pack: function(cmds) {
+            Pack: function(cmds, slient) {
                 cmds = cmds && cmds.length > 0? cmds: sub.page.Select(sub, sub._option, "textarea.args,input.args,select.args", function(item) {
                     return item.name && item.value || ""
                 }); for (var i = cmds.length-1; i >= 0; i--) {
                     if (!cmds[i]) { cmds.pop() } else { break }
                 }
 
-                var last = sub._history[sub._history.length-1]; !sub.core.Eq(last, cmds) && cmds[0] != "action" && sub._history.push(cmds)
+                var last = sub._history[sub._history.length-1]; !sub.core.Eq(last, cmds) && cmds[0] != "action" && !slient && sub._history.push(cmds)
                 return cmds
             },
             Clone: function() {
@@ -392,7 +392,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             }, Volcanos.meta.libs.concat([display, "/frame.js"]), function(table) { table.Conf(can.Conf()), table._msg = msg
                 table.sup = can, table.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                     can.core.Item(can.Conf("option"), msg.Option)
-                    return can.onappend._output(can, meta, event, can.Pack(cmds), cb, silent)
+                    return can.onappend._output(can, meta, event, can.Pack(cmds, silent), cb, silent)
                 }
 
                 table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function() {
