@@ -34,7 +34,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
         var feature = can.sup.Conf("feature")
         var input = feature && feature[name]; if (input) {
             return can.sup.onaction.input(event, can.sup, name, function(msg) {
-                can.run({})
+                // can.run({})
             })
         }
 
