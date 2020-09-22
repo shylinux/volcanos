@@ -26,7 +26,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
             return can.page.Modify(can, list, {style: {display: hide? "": "none"}})
         }
 
-        can.run({}, [river, STORM], function(msg) { var which = 0
+        can.run({}, [river], function(msg) { var which = 0
             list = can.page.Append(can, can._output, [{view: "sublist", list: msg.Table(function(value, index) {
                 river == can._main_river && value.key == can._main_storm && (which = index)
                 return {text: [value.name, "div", "subitem"], onclick: function(event) {
@@ -81,18 +81,14 @@ Volcanos("onaction", {help: "控件交互", list: ["创建", "刷新"], _init: f
             {_input: "text", name: "群名", value: "hi"},
             {_input: "text", name: "简介", value: "hello"},
         ], function(event, button, meta, list) {
-            can.run(event, ["action", "create"].concat(list), function(msg) {
-                can.user.Search(can, {river: msg.Result()})
+            can.run(event, ["action", "create"].concat(["type", list[0], "name", list[1], "text", list[2]]), function(msg) {
+                // can.user.Search(can, {river: msg.Result()})
             })
             return true
         })
     },
-    "创建": function(event, can) {
-        can.onaction.create(can)
-    },
-    "刷新": function(event, can) {
-        can.user.Search(can, {river: can.Conf(RIVER), storm: can.Conf(STORM)})
-    },
+    "创建": function(event, can) { can.onaction.create(can) },
+    "刷新": function(event, can) { can.user.Search(can, {river: can.Conf(RIVER), storm: can.Conf(STORM)}) },
 })
 Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加设备", "添加用户", "重命名", "共享", "删除"], _init: function(can, msg, list, cb, target) {
         can.onexport._init(can, msg, list, cb, target)
@@ -159,8 +155,8 @@ Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加设备
 
     },
     "删除": function(event, can, river, button) {
-        can.run(event, [river.key, "action", "remove"], function(msg) {
-            can.user.Search(can, {})
+        can.run(event, ["remove", "hash", river.key], function(msg) {
+            // can.user.Search(can, {})
         })
     },
 })
