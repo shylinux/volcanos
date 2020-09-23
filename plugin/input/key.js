@@ -1,4 +1,10 @@
-Volcanos("onfigure", {help: "控件详情", list: [], 
+Volcanos("onfigure", {help: "控件详情", list: [], _init: function(can, item, target, cb) {
+        can.core.Item(can.onfigure.key, function(key, value) { if (key.startsWith("on")) {
+            target[key] = function(event) {
+                cb(event), value(event, can, item, target)
+            }
+        } })
+    },
     key: {onclick: function(event, can, item, target) {
         function run() { var msg = can.request(event); msg.Option(can.Option())
             can.run(event, ["action", "inputs", item.name, target.value], function(msg) {

@@ -82,17 +82,17 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             case "River":
                 if (cmds.length == 0) {
                     can.core.Item(can.onengine.river, function(key, value) {
-                        msg.Push("key", key)
+                        msg.Push("hash", key)
                         msg.Push("name", value.name)
                     })
                 }
-                if (cmds.length != 1 && cmds[1] != "storm") {
+                if (cmds.length != 1 && cmds[1] != "tool") {
                     break
                 }
             case "Storm":
                 var river = can.onengine.river[cmds[0]]; if (!river) { break }
                 can.core.Item(river.storm, function(key, value) {
-                    msg.Push("key", key)
+                    msg.Push("hash", key)
                     msg.Push("name", value.name)
                     msg.Push("count", (value.index||value.action).length)
                 })
