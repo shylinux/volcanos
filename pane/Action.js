@@ -84,7 +84,8 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
 
         msg.Clear("option"), can.run(msg._event, [river, storm], function(sup) { can._output.innerHTML = ""
             can.core.Next(sup.Table(), function(value, next) {
-                value.inputs = can.base.Obj(value.inputs||"[]", [])
+                value.feature = can.base.Obj(value.feature||value.meta||"{}", [])
+                value.inputs = can.base.Obj(value.inputs||value.list||"[]", [])
                 value.height = can._target.offsetHeight
                 value.width = can._target.offsetWidth
 

@@ -42,7 +42,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
                     }), can.page.ClassList.add(can, event.target, "select")
                 }, oncontextmenu: function(event) {
                     // 右键点击
-                    can.user.carte(can, {}, ["添加工具", "重命名", "保存", "删除应用"], function(ev, item, meta) {
+                    can.user.carte(can, {}, ["添加工具", "重命名", "保存参数", "删除应用"], function(ev, item, meta) {
                         switch (item) {
                             case "重命名":
                                 can.user.input(event, can, ["name"], function(event, button, meta, list) {
@@ -51,17 +51,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
                                         can.user.Search(can, {river: can.Conf(RIVER), storm: can.Conf(STORM)})
                                     })
                                     return true
-                                })
-                                break
-                            case "保存":
-                                var list = can.page.Select(can, document.body, "fieldset.Action>div.output>fieldset.plugin>form.option", function(item) {
-                                    return JSON.stringify(can.page.Select(can, item, 'input[type="text"],select', function(item) {
-                                        return item.value||""
-                                    }))
-                                })
-
-                                can.run(event, [can.Conf(RIVER), storm.hash, STORM, "action", "save"].concat(list), function(msg) {
-                                    can.user.toast(can, "保存成功", STORM)
                                 })
                                 break
                             default:
@@ -106,6 +95,20 @@ Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加设备
             }, function() {
                 can.user.Search(can, {river: can.Conf(RIVER), storm: can.Conf(STORM)})
             })
+        })
+    },
+    "保存参数": function(event, can, button, storm) {
+        var list = can.page.Select(can, document.body, "fieldset.Action>div.output>fieldset.plugin>form.option", function(item) {
+            return JSON.stringify(can.page.Select(can, item, 'args', function(item) {
+                return item.value||""
+            }))
+            can.run(event, [can.Conf(RIVER), "tool", "action", "modify", storm.hash, STORM].concat(list), function(msg) {
+                can.user.toast(can, "保存成功", STORM)
+            })
+        })
+
+        can.run(event, [can.Conf(RIVER), storm.hash, STORM, "action", "save"].concat(list), function(msg) {
+            can.user.toast(can, "保存成功", STORM)
         })
     },
     "删除应用": function(event, can, button, storm) {
