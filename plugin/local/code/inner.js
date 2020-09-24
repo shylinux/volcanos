@@ -287,7 +287,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
             })
             can.page.Select(can, can.ui.tags, "tr", function(item, index) {
                 index == 1 && can.page.Select(can, item, "td", function(item, index) {
-                    index == 0 && item.click()
+                    index == 0 && item.innerText && item.click()
                 })
             })
         }, true)

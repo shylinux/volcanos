@@ -627,6 +627,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
         })
     })
 
+
     document.body.onkeydown = function(event) { if (event.target != document.body) { return }
         if (can.onkeypop.action && can.onkeypop.action.onimport) {
             can.onkeypop.action.onimport.keydown(event, can.onkeypop.action, event.key)
@@ -634,6 +635,32 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
         }
         switch (event.key) {
             case " ":
+                break
+            case "g":
+                can.page.Select(can, document.body, "fieldset.Action>div.output", function(item) {
+                    item.scrollBy(0, -10000)
+                })
+                break
+            case "j":
+                can.page.Select(can, document.body, "fieldset.Action>div.output", function(item) {
+                    item.scrollBy(0, 30)
+                })
+                break
+            case "f":
+                can.page.Select(can, document.body, "fieldset.Action>div.output", function(item) {
+                    item.scrollBy(0, 300)
+                })
+                break
+            case "e":
+                can.page.Select(can, document.body, "fieldset.Action>div.output", function(item) {
+                    item.scrollBy(0, -30)
+                })
+                break
+            case "k":
+                can.page.Select(can, document.body, "fieldset.Action>div.output", function(item) {
+                    item.scrollBy(0, -30)
+                })
+                break
             default:
                 return
         }
