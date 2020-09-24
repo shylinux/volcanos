@@ -108,23 +108,18 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                             typeof cb == "function" && cb(msg)
                             return true
                         }
-                        can.misc.Run(event, can, {names: pane._name}, [river.name, storm.name, "order"].concat(storm.index), cb)
+                        can.misc.Run(event, can, {names: pane._name}, ["action", "command"].concat(storm.index), cb)
                         return true
                     }
-                    if (location.pathname == "/share") {
-                        return false
-                    }
+                    if (location.pathname == "/share") { return false }
 
                     can.core.List(storm.action, function(value) {
                         msg.Push("name", value.name||"")
                         msg.Push("help", value.help||"")
-                        msg.Push("pod", value.pod||"")
-                        msg.Push("group", value.group||"")
-                        msg.Push("index", value.index||"")
-                        msg.Push("args", value.args||"[]")
-                        msg.Push("action", value.action||value.index||"")
                         msg.Push("inputs", JSON.stringify(value.inputs||[]))
                         msg.Push("feature", JSON.stringify(value.feature||{}))
+                        msg.Push("index", value.index||"")
+                        msg.Push("args", value.args||"[]")
                     })
                     typeof cb == "function" && cb(msg)
                 } else if (action && action.engine) {
@@ -316,11 +311,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             },
         }, [Volcanos.meta.volcano].concat(list), function(sub) { cb(sub)
             meta.feature = sub.base.Obj(meta.feature, {})
-            sub.page.ClassList.add(sub, field, meta.feature.style||"")
-            sub.page.ClassList.add(sub, field, meta.style||"")
-            meta.detail = meta.feature["detail"] || {}
-
+            sub.page.ClassList.add(sub, field, meta.style||meta.feature.style||"")
             sub.onimport && sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field)
+
+            // meta.detail = meta.feature["detail"] || {}
 
             meta.inputs && sub.onappend._option(sub, meta, list, cb)
             sub.onaction && sub.onappend._action(sub, sub._action, meta.button || sub.onaction.list)

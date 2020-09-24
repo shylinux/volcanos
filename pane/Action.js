@@ -34,6 +34,10 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         })
     },
     add_plugin: function(can, river, storm, value) {
+        value.action = value.id || value.index
+        value.height = can._target.offsetHeight
+        value.width = can._target.offsetWidth
+
         if (can.user.Search(can, "river") == river && can.user.Search(can, "storm") == storm && can.user.Search(can, "active") == value.name) {
             value.args = can.core.List(value.inputs, function(item) {
                 if (item._input == "text" || item._input == "select") {
@@ -41,7 +45,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                 }
             })
         }
-        value.name && can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
+        can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
             sub._legend.onclick = function(event) {
                 var opt = {pod: can.user.Search(can, "pod"), river: river, storm: storm, active: value.name}
                 can.core.Item(sub.Option(), function(key, value) { opt[key] = value })
@@ -86,18 +90,16 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
             can.core.Next(sup.Table(), function(value, next) {
                 value.feature = can.base.Obj(value.feature||value.meta||"{}", [])
                 value.inputs = can.base.Obj(value.inputs||value.list||"[]", [])
-                value.height = can._target.offsetHeight
-                value.width = can._target.offsetWidth
-
-                if (value.inputs.length == 0) {
-                    can.run({}, ["action", "command", value.index], function(msg) {
-                        value.inputs = can.base.Obj(msg.list&&msg.list[0]||"[]", [])
-                        value.feature = can.base.Obj(msg.meta&&msg.meta[0]||"{}", {})
-                        can.onaction.add_plugin(can, river, storm, value), next()
-                    })
+                if (value.inputs.length > 0) {
+                    can.onaction.add_plugin(can, river, storm, value), next()
                     return
                 }
-                can.onaction.add_plugin(can, river, storm, value), next()
+
+                can.run({}, ["action", "command", value.index], function(msg) {
+                    value.feature = can.base.Obj(msg.meta&&msg.meta[0]||"{}", {})
+                    value.inputs = can.base.Obj(msg.list&&msg.list[0]||"[]", [])
+                    can.onaction.add_plugin(can, river, storm, value), next()
+                })
             })
         })
     },
