@@ -182,7 +182,7 @@ div.code {
 
 div.toast {
     color:yellow;
-    background:black;
+    background:#0e3369b3;
     border:solid 2px red;
     position:fixed;
     padding:5px;
@@ -190,7 +190,7 @@ div.toast {
 }
 div.toast div.title {
     font-size:14px;
-    color:gray;
+    color:#cae850;
 }
 div.toast div.content {
     text-align:center;
@@ -406,6 +406,9 @@ body.white fieldset.plugin table tr {
 }
 body.white fieldset.plugin table tr:hover {
     background-color:#99CCFF;
+}
+body.white fieldset.plugin table tr.select {
+    background-color:#0fbd45;
 }
 body.white fieldset.plugin table th {
     padding:4px;

@@ -1,34 +1,29 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { can._target.innerHTML = ""
-        can.ui = can.page.Append(can, can._target, [
-            {view: "project"},
-            {view: "profile", style: {clear: "both"}},
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+        can.ui = can.page.Appends(can, can._target, [
+            {view: "project"}, {view: "profile", style: {clear: "both"}},
         ])
 
-        can._msg = msg
         can.path = can.request({}), can.list = []
-        msg.Table(function(value) {
-            if (value.path.startsWith("/local")) { return }
+        msg.Table(function(value) { if (value.path.startsWith("/local")) { return }
             value.path.endsWith("/")? can.path.Push(value): can.list.push(value)
         })
+
         can.onappend.table(can, can.ui.project, "table", can.path, function(value, key, index, line, array) {
             return {type: "td", inner: value, click: function(event) {
-                // can.Option(key, value) && can.run(event)
-            can.sup.onaction.change(event, can.sup, key, value, function(msg) {
-                can.run(event)
-            })
+                can.sup.onaction.change(event, can.sup, key, value, function(msg) {
+                    can.run(event)
+                })
             }}
         })
 
+        var feature = can.Conf("feature") || {}
         can.page.Modify(can, can._action, {style: {display: "none"}})
         typeof cb == "function" && cb()
 
-        var feature = can.Conf("feature") || {}
-
-        can.begin = 0
         can.Action("倍速", can.rate = 1)
-        can.Action("数量", can.limit = parseInt(feature["limit"]||msg.Option("limit"))||6)
-        can.Action("高度", can.height = parseInt(feature["height"]||msg.Option("height"))||100)
-        can.Option("path") != "最近/" && can.onimport.page(can, can.list, can.begin, can.limit)
+        can.Action("数量", can.limit = parseInt(msg.Option("limit"))||feature["limit"]||6)
+        can.Action("高度", can.height = parseInt(msg.Option("height"))||feature["height"]||100)
+        can.Option("path") != "最近/" && can.onimport.page(can, can.list, can.begin = 0, can.limit)
     },
     page: function(can, list, begin, limit) { can.ui.profile.innerHTML = ""
         if (!list || list.length == 0) { return }
@@ -59,7 +54,7 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
                 can.page.Remove(can, event.target)
             }, }])
         }, onmouseover: function(event) {
-            // can.Status("文件", path)
+            can.user.toast(can, path, "image")
         }, _init: function(target) {
             can.Status("文件", path)
         }
@@ -90,29 +85,16 @@ Volcanos("onaction", {help: "组件菜单", list: [
         ["倍速", 0.1, 0.2, 0.5, 1, 2, 3, 5, 10],
     ],
     "上传": function(event, can) { can.user.upload(event, can) },
-    "下载": function(event, can) { can.user.download(can, can.Status("文件")) },
-    "收藏": function(event, can) {
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, { action: "copy" }, function (response) {
-                can.onimport.file(can, response.src)
-                var msg = can.request(event); msg.Option(can.Option())
-                can.run(event, ["action", "spide", "mp4", response.title, response.src, "poster", response.poster], function(msg) {
-
-                }, true)
-            })
-        })
-    },
-    "清空": function(event, can) { 
-        can._target.innerHTML = ""
-    },
-    "参数": function(event, can) { 
-        can.page.Modify(can, can._action, {style: {display: can._action.style.display=="none"? "block": "none"}})
-    },
     "上一页": function(event, can, key, value) { 
         can.begin > 0 && (can.begin -= can.limit, can.onimport.page(can, can.list, can.begin, can.limit))
     },
     "下一页": function(event, can, key, value) { 
         can.begin + can.limit < can.list.length && (can.begin += can.limit, can.onimport.page(can, can.list, can.begin, can.limit))
+    },
+    "下载": function(event, can) { can.user.download(can, can.Status("文件")) },
+
+    "参数": function(event, can) { 
+        can.page.Modify(can, can._action, {style: {display: can._action.style.display=="none"? "block": "none"}})
     },
     "数量": function(event, can, key, value) { 
         can.limit = parseInt(value), can.onimport.page(can, can.list, can.begin, can.limit)
@@ -124,7 +106,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
         can.rate = parseInt(value), can.onimport.page(can, can.list, can.begin, can.limit)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: ["total", "begin", "limit", "position", "文件"],
+Volcanos("onexport", {help: "导出数据", list: ["begin", "limit", "total", "position", "文件"],
     position: function(can, index, total) { total = total || can.max
         return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+"/"+parseInt(total)
     },

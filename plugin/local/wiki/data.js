@@ -1,5 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb) {
-        can._target.innerHTML = "", can.ui = can.page.Append(can, can._target, [
+        can.ui = can.page.Appends(can, can._target, [
             {view: "content"}, {view: "display"},
         ])
         can.table = can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line) {
@@ -15,6 +15,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 }
             }}
         })
+        can.onexport.list = msg.append
+        typeof cb == "function" && cb()
     },
 })
 Volcanos("onfigure", {help: "组件菜单", list: [],
@@ -36,11 +38,10 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
         }
     },
 })
-Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "正常", "块选", "反选", "多选", "拖动", "编辑"], "求和", "最大", "最小", "平均"],
+Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "全选", "块选", "反选", "多选", "拖动", "编辑"], "求和", "最大", "最小", "平均"],
     _engine: function(event, can, cmd) {
-        var mul = "tr" + (can.Action("mode") == "正常"? "": ".select")
-        var method = can.onfigure[cmd]
-        var res = {}
+        var mul = "tr" + (can.Action("mode") == "全选"? "": ".select")
+        var method = can.onfigure[cmd], res = {}
 
 
         can.page.Select(can, can.ui.content, mul, function(tr, nrow, rows) {
@@ -48,9 +49,10 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "正常", 
                 method && method(event, can, res, td, ncol, cols, rows, nrow)
             })
         })
-        can.page.Append(can, can.ui.display, [{type: "table", list: [{type: "tr", list: can.core.Item(res, function(key, value) {
-            return {text: [value, "td"]}
-        }).concat([{text: [cmd, "td"]}]) }] }])
+
+        can.core.Item(res, function(key, value) {
+            can.Status(can._msg.append[key], value||"")
+        })
     },
 
     "保存": function(event, can, cmd) {
@@ -58,7 +60,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "正常", 
             can.user.toast(can, "保存成功")
         }, true)
     },
-    "正常": function(event, can, cmd) {
+    "全选": function(event, can, cmd) {
         cmd && can.Action("mode", cmd)
         can.page.Select(can, can.ui.content, "tr", function(item) {
             can.page.ClassList.del(can, item, "over")
@@ -94,7 +96,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "正常", 
         })
     },
     "拖动": function(event, can, cmd) {
-        can.onaction["正常"](event, can, cmd)
+        can.onaction["全选"](event, can, cmd)
         can.page.Select(can, can.ui.content, "tr", function(item) {
             item.setAttribute("draggable", true)
             item.ondragstart = function(event) { can.drag = item }
