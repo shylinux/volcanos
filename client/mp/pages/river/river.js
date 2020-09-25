@@ -17,7 +17,7 @@ Page({
             app.request("river", {}, function(msg) {
                 wx.hideLoading()
                 var river = {}; msg.Table(function(value) {
-                    river[value.key] = value
+                    river[value.hash] = value
                 })
                 page.setData({river: river})
             })
@@ -37,7 +37,7 @@ Page({
         data = data || event.target.dataset.item
         console.log("detail", "river", data)
 
-        var river = page.data.river[data.key]
+        var river = page.data.river[data.hash]
         if (river.tool) {
             river.hidetool = !river.hidetool
             page.setData({river: page.data.river})
@@ -45,10 +45,10 @@ Page({
         }
 
         wx.showLoading()
-        app.request("storm", {cmds: [data.key]}, function(msg) {
+        app.request("river", {cmds: [data.hash, "tool"]}, function(msg) {
             wx.hideLoading()
             river.tool = {}; msg.Table(function(value) {
-                river.tool[value.key] = value
+                river.tool[value.hash] = value
                 value.river = data
             })
             page.setData({river: page.data.river})
@@ -56,7 +56,7 @@ Page({
     },
     onchange: function(event, data) { var page = this
         data = data || event.target.dataset.item
-        app.jumps("action/action", {river: data.river.key, storm: data.key, title: data.river.name+"."+data.name})
+        app.jumps("action/action", {river: data.river.hash, storm: data.hash, title: data.river.name+"."+data.name})
     },
 
     onLoad: function (options) { var page = this

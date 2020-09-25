@@ -23,9 +23,10 @@ Page({
             app.request("action", {cmds: [page.data.river, page.data.storm]}, function(msg) {
                 wx.hideLoading()
                 msg.Table(function(line, index) {
+                    line.name = line.name.split(" ")[0]
                     page.data.his[index] = []
-                    line.inputs = JSON.parse(line.inputs)
-                    line.feature = JSON.parse(line.feature)
+                    line.inputs = JSON.parse(line.list)
+                    line.feature = JSON.parse(line.meta)
                     if (!line.inputs || line.inputs.length === 0) {
                         line.inputs = [{_input: "text"}, {_input: "button", value: "执行"}]
                     }
@@ -69,7 +70,7 @@ Page({
     },
 
     run: function(event, order, cmd, cb) {var page = this, field = page.data.res[order]
-        var cmds = [page.data.river, page.data.storm, order]
+        var cmds = [page.data.river, page.data.storm, field.id || field.key]
         cmds = cmds.concat(cmd||kit.List(field.inputs, function(input) {
             if (["text", "textarea", "select"].indexOf(input._input) > -1) {
                 return input.value || ""
@@ -108,18 +109,19 @@ Page({
     onClick: function(event) {var page = this, data = event.target.dataset
         var field = page.data.res[data.order]
 
-        switch (data.input.name) {
-            case "添加":
-                app.data.field = field
-                app.data.insertCB = function(res) {
-                    var list = ["action", "insert"];
+        if (field.feature[data.input.name]) {
+            app.data.insert = {
+                field: field, input: data.input,
+                data: {}, list: field.feature[data.input.name], cb: function(res) {
+                    var list = ["action", data.input.name]
                     kit.Item(res, function(key, value) {
                         key && value && list.push(key, value)
                     })
                     page.run(event, data.order, list)
                 }
-                app.jumps("insert/insert", {river: page.data.river, storm: page.data.storm, title: field.name, field: field})
-                return
+            }
+            app.jumps("insert/insert", {river: page.data.river, storm: page.data.storm, title: field.name})
+            return
         }
 
         switch (data.input.value) {
@@ -178,33 +180,5 @@ Page({
             title: this.data.title,
             path: "pages/action/action?river="+this.data.river+"&storm="+this.data.storm+"&title="+this.data.title,
         }
-    },
-
-    plugin: {
-        paste: function(page, data) {
-            wx.getClipboardData({success: function(res) {
-                var cmds = [page.data.river, page.data.storm, data.order]
-                cmds = cmds.concat(["insert", "paste", "", res.data])
-                app.request("action", {cmds: cmds}, function(msg) {
-
-                })
-            }})
-        },
-        qrcode: function(page) {
-            app.scans(function(res) {
-                res["sess.river"] = page.data.river
-                res["sess.storm"] = page.data.storm
-                app.request("mp/login/scan", res)
-            })
-        },
-        location: function(page, data) {
-            app.location({success: function(res) {
-                var cmds = [page.data.river, page.data.storm, data.order]
-                cmds = cmds.concat(["insert", "location", res.name, res.address, res.longitude*100000, res.latitude*100000])
-                app.request("action", {cmds: cmds}, function(msg) {
-
-                })
-            }})
-        },
     },
 })
