@@ -24,25 +24,29 @@ Page({
     },
 
     onInput: function(event) {var page = this, data = event.target.dataset
-        app.data.insert[data.input.name] = event.detail.value
+        app.data.insert[data.index].value = event.detail.value
     },
     onFocus: function(event) {},
-    onConfirm: function (event) {
-        console.log(app.data.insert)
-        app.data.insertCB(app.data.insert)
+    onConfirm: function (event) { var page = this
+        kit.List(page.data.insert, function(item) {
+            app.data.insert.data[item.name] = item.value
+        })
+        app.data.insert.cb(app.data.insert.data)
         wx.navigateBack()
     },
     onLoad: function (options) {
-        app.data.insert = {}
-        this.data.field = app.data.field
-        this.data.field = app.data.field
-        this.data.insert = app.data.field.feature.insert
-        console.log("page", "insert", options)
-        kit.List(this.data.insert, function(item) {
+        this.data.insert = app.data.insert.list
+
+        var p = app.data.insert.input.action
+        if (p.startsWith("@")) {
+            var cb = this.plugin[p.slice(1,-1)]; cb && cb(this)
+        }
+        kit.List(app.data.insert.list, function(item) {
             item.action = item.action || item.value
             item.value && item.value.startsWith("@") && (item.value = "")
-            app.data.insert[item.name] = item.value
+            app.data.insert.data[item.name] = item.value
         })
+        console.log("page", "insert", options)
         app.title(options.title)
         this.setData(this.data)
     },
@@ -52,4 +56,24 @@ Page({
     onUnload: function () {},
     onPullDownRefresh: function () {},
     onReachBottom: function () {},
+
+    plugin: {
+        scan: function(page) { app.scans(function(res) {
+            kit.List(page.data.insert, function(item) {
+                res[item.name] && (item.value = res[item.name])
+            }), page.setData(page.data)
+        }) },
+        paste: function(page, data) { wx.getClipboardData({success: function(res) {
+            kit.List(page.data.insert, function(item) {
+                res[item.name] && (item.value = res[item.name])
+            }), page.setData(page.data)
+        }}) },
+        location: function(page, data) { app.location({success: function(res) {
+            res.latitude = parseInt(res.latitude * 100000)
+            res.longitude = parseInt(res.longitude * 100000)
+            kit.List(page.data.insert, function(item) {
+                res[item.name] && (item.value = res[item.name])
+            }), page.setData(page.data)
+        }}) },
+    },
 })

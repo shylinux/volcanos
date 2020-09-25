@@ -1,8 +1,8 @@
 const kit = require("utils/kit.js")
 
 App({
-    data: {}, conf: {serve: "https://shylinux.com/chat", space: "mac"},
-    // data: {}, conf: {serve: "https://shylinux.com/chat", space: ""},
+    // data: {}, conf: {serve: "https://shylinux.com/chat", space: "mac"},
+    data: {}, conf: {serve: "https://shylinux.com/chat", space: ""},
     request: function(cmd, data, cb) { var app = this; data.sessid = app.conf.sessid, data.pod = app.conf.space
         wx.request({method: "POST", url: app.conf.serve+"/"+cmd, data: data, success: function(res) { var msg = res.data
             if (res.statusCode == 401) { return app.usercode(function() {app.request(cmd, data, cb)}) }
