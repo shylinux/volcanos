@@ -132,23 +132,23 @@ Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加设备
     },
     "添加设备": function(event, can, value) {
         can.run(event, ["search", "Search.onimport.select", "space", "", ""], function(list) {
-            var args = []; can.core.List(list, function(item) {
-                args = args.concat([item[4]])
-            })
-            var toast = can.user.toast(can, "执行中...", "添加设备", 100000)
-            can.run(event, [can.Conf(RIVER), "action", "node"].concat(args), function(msg) {
-                toast.Close(), can.user.toast(can, "执行完成...", "添加设备", 1000)
-                // can.user.Search(can, {river: can.Conf(RIVER)})
+            can.core.Next(list, function(item, next) {
+                can.run({}, [can.Conf(RIVER), "node", "action", "insert", "type", item[3], "name", item[4]], function(msg) {
+                    // can.user.Search(can, {river: can.Conf(RIVER)})
+                    next()
+                })
+            }, function() {
             })
         })
     },
     "添加用户": function(event, can, river, button) {
         can.run(event, ["search", "Search.onimport.select", "user", "", ""], function(list) {
-            var args = []; can.core.List(list, function(item) {
-                args = args.concat([item[5]])
-            })
-            can.run(event, [can.Conf(RIVER), "action", "user"].concat(args), function(msg) {
-                // can.user.Search(can, {river: can.Conf(RIVER)})
+            can.core.Next(list, function(item, next) {
+                can.run({}, [can.Conf(RIVER), "user", "action", "insert", "username", item[5]], function(msg) {
+                    // can.user.Search(can, {river: can.Conf(RIVER)})
+                    next()
+                })
+            }, function() {
             })
         })
     },
