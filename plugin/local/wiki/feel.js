@@ -23,9 +23,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.Action("倍速", can.rate = 1)
         can.Action("数量", can.limit = parseInt(msg.Option("limit"))||feature["limit"]||6)
         can.Action("高度", can.height = parseInt(msg.Option("height"))||feature["height"]||100)
-        can.Option("path") != "最近/" && can.onimport.page(can, can.list, can.begin = 0, can.limit)
+        can.Option("path") != "最近/" && can.onimport._page(can, can.list, can.begin = 0, can.limit)
     },
-    page: function(can, list, begin, limit) { can.ui.profile.innerHTML = ""
+    _page: function(can, list, begin, limit) { can.ui.profile.innerHTML = ""
         if (!list || list.length == 0) { return }
         for (var i = begin; i < begin+limit; i++) { list && list[i] && can.onimport.file(can, list[i].path) }
         can.Status("begin", begin), can.Status("limit", limit), can.Status("total", can.list.length)
@@ -86,10 +86,10 @@ Volcanos("onaction", {help: "组件菜单", list: [
     ],
     "上传": function(event, can) { can.user.upload(event, can) },
     "上一页": function(event, can, key, value) { 
-        can.begin > 0 && (can.begin -= can.limit, can.onimport.page(can, can.list, can.begin, can.limit))
+        can.begin > 0 && (can.begin -= can.limit, can.onimport._page(can, can.list, can.begin, can.limit))
     },
     "下一页": function(event, can, key, value) { 
-        can.begin + can.limit < can.list.length && (can.begin += can.limit, can.onimport.page(can, can.list, can.begin, can.limit))
+        can.begin + can.limit < can.list.length && (can.begin += can.limit, can.onimport._page(can, can.list, can.begin, can.limit))
     },
     "下载": function(event, can) { can.user.download(can, can.Status("文件")) },
 
@@ -97,13 +97,13 @@ Volcanos("onaction", {help: "组件菜单", list: [
         can.page.Modify(can, can._action, {style: {display: can._action.style.display=="none"? "block": "none"}})
     },
     "数量": function(event, can, key, value) { 
-        can.limit = parseInt(value), can.onimport.page(can, can.list, can.begin, can.limit)
+        can.limit = parseInt(value), can.onimport._page(can, can.list, can.begin, can.limit)
     },
     "高度": function(event, can, key, value) { 
-        can.height = parseInt(value), can.onimport.page(can, can.list, can.begin, can.limit)
+        can.height = parseInt(value), can.onimport._page(can, can.list, can.begin, can.limit)
     },
     "倍速": function(event, can, key, value) { 
-        can.rate = parseInt(value), can.onimport.page(can, can.list, can.begin, can.limit)
+        can.rate = parseInt(value), can.onimport._page(can, can.list, can.begin, can.limit)
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["begin", "limit", "total", "position", "文件"],
