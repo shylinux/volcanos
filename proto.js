@@ -167,6 +167,13 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: 
             if (value != undefined) {var old = conf[key], res;
                 conf[key] = conf_cb[key] && (res = conf_cb[key](value, old, key)) != undefined && res || value
             }
+            if (conf[key] == undefined && key.indexOf(".") > 0) {
+                var p = conf, ls = key.split(".")
+                while (p && ls.length > 0) {
+                    p = p[ls[0]], ls = ls.slice(1)
+                }
+                return p
+            }
             return conf[key] || ""
         }),
         Cache: shy("缓存器", function(name, output, data) {

@@ -59,11 +59,19 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         ]}
     },
     _table: function(can, value, key, index, line, array) {
-        return {type: "td", inner: value, click: function(event) {
-            var target = event.target; if (target.tagName == "INPUT" && target.type == "button") {
-                var msg = can.sup.request(event); msg.Option(can.Option()), msg.Option(line)
-                var cb = can.onaction[target.value]; return typeof cb == "function"? cb(event, can, target.value): 
-                    can.sup.onaction.input(event, can.sup, target.value, function(msg) {
+        return {type: "td", inner: value, click: function(event) { var target = event.target
+            if (target.tagName == "INPUT" && target.type == "button") { var msg = can.sup.request(event)
+                msg.Option(can.Option()); if (key == "value") {
+                    can.core.List(array, function(item, index) {
+                        msg.Option(item.key, item.value)
+                    })
+                } else {
+                    msg.Option(line)
+                }
+
+                var cb = can.onaction[target.name]; return typeof cb == "function"? cb(event, can, target.name): 
+                    can.sup.onaction.input(event, can.sup, target.name, function(msg) {
+                        can.user.toast(can, msg.Result())
                         if (can.onimport._process(can, msg)) {
                             return typeof cb == "function" && cb(msg)
                         }
@@ -93,6 +101,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _process: function(can, msg) {
         var process = msg.Option("_process") || can.Conf("feature")["_process"] 
         var cb = can.onimport[process]; return typeof cb == "function" && cb(can, msg)
+    },
+    _inner: function(can, msg) {
+        can.onappend.board(can, can.ui.display, "board", msg)
+        can.onimport._board(can, msg)
+        return true
     },
     _field: function(can, msg) {
         msg.Table(function(value) {
