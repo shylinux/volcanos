@@ -10,7 +10,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         }, function() {
             can.onlayout._init(can, meta, list, function() {}, target)
             can.onengine._daemon(can, can.user.title())
-            can.onengine._topic(can)
             can.onkeypop._init(can)
 
             can.require(Volcanos.meta.webpack? []: meta.main.list, function(can) {
@@ -24,10 +23,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             if (sub.hasOwnProperty(key)) { can.onengine[key] = value }
         })
         return true
-    },
-    _topic: function(can) {
-        can.user.title(can.user.Search(can, "title"))
-        can.page.Modify(can, can._target, {className: can.user.Search(can, "topic")||(can.user.Search(can, "pod")? "black": "white")})
     },
     _daemon: function(can, name) {
         return
@@ -457,9 +452,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         item.cb = item.cb || item.value || ""
 
         var input = {type: "input", name: item.name, data: item, dataset: {}}
+        item.value == "auto" && (item.value = "", item.action = "auto")
+        item.action == "auto" && (input.dataset.action = "auto")
+
         switch (item.type = item.type || item._type || item._input || "text") {
             case "upfile": item.type = "file"; break
-            case "button": item.value = item.name || item.value || "查看"; break
+            case "button": item.value = item.value || can.Conf("feature.trans."+item.name) || item.name || "查看"; break
             case "select":
                 item.values = typeof item.values == "string"? item.values.split(" "): item.values
                 if (!item.values && item.value) {
@@ -489,8 +487,6 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 break
         }
 
-        item.value == "auto" && (item.value = "")
-        item.action == "auto" && (input.dataset.action = "auto")
         var target = can.page.Append(can, option, [{view: ["item "+item.type], list: [item.position && {text: item.name+": "}, input]}])[item.name]
 
         var pval = ""

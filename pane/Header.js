@@ -9,6 +9,10 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             }, target)
         }) }
 
+        can.user.title(can.user.Search(can, "title"))
+        can.page.Modify(can, document.body, {className:
+            can.user.Search(can, "topic") || (can.user.Search(can, "pod") || can.base.isNight() ? "black": "white")})
+
         location.protocol == "file:"? init(): can.run({}, ["check"], function(msg) {
             msg.Result()? init(): can.user.login(can, init)
         })

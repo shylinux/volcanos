@@ -10,7 +10,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                 key && value && args.push(key, value)
             })
 
-            var sub = can._outputs && can._outputs[can._outputs.length-1]
+            var sub = can._outputs && can._outputs[can._outputs.length-1] || can
 
             sub.run(event, args, function(msg) {
                 typeof cb == "function" && cb(msg)

@@ -9,7 +9,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
     "查看": function(event, can) { can.run(event) },
     "返回": function(event, can) {
         can.sup._history.pop(); var his = can.sup._history.pop(); if (his) {
-            can.page.Select(can, can._option, "input.args", function(item, index) {
+            can.page.Select(can, can._option, "input.args,select.args", function(item, index) {
                 item.value = his[index] || ""
             })
         }

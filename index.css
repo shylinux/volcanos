@@ -276,6 +276,9 @@ body.white input[type=button] {
 body.white table input[type=button][value=结束] {
     background:red;
 }
+body.white table input[type=button][value=停止] {
+    background:red;
+}
 body.white table input[type=button][value=启动] {
     background:#52ce78;
 }
