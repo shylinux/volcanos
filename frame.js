@@ -148,7 +148,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         "product": {name: "产品群", storm: {
             "office": {name: "办公 office", index: [
                 "web.wiki.feel",
-                "web.wiki.draw.draw",
+                "web.wiki.draw",
                 "web.team.plan",
                 "web.wiki.data",
                 "web.wiki.word",

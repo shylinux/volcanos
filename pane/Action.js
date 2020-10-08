@@ -33,8 +33,8 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
             sub.run(res._event, cmds, cb, silent)
         })
     },
-    add_plugin: function(can, river, storm, value) {
-        value.action = value.id || value.index
+    add_plugin: function(can, river, storm, value) { value.name = value.name.split(" ")[0]
+        value.action = value.id || value.index || value.key+"."+value.name
         value.height = can._target.offsetHeight
         value.width = can._target.offsetWidth
 
