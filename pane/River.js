@@ -42,7 +42,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
                     }), can.page.ClassList.add(can, event.target, "select")
                 }, oncontextmenu: function(event) {
                     // 右键点击
-                    can.user.carte(can, {}, ["添加工具", "重命名", "保存参数", "删除应用"], function(ev, item, meta) {
+                    can.user.carte(can, {}, ["添加工具", "重命名", "保存参数", "共享应用", "删除应用"], function(ev, item, meta) {
                         switch (item) {
                             case "重命名":
                                 can.user.input(event, can, ["name"], function(event, button, meta, list) {
@@ -83,7 +83,7 @@ Volcanos("onaction", {help: "控件交互", list: ["创建", "刷新"], _init: f
     "创建": function(event, can) { can.onaction.create(can) },
     "刷新": function(event, can) { can.user.Search(can, {river: can.Conf(RIVER), storm: can.Conf(STORM)}) },
 })
-Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加设备", "添加用户", "重命名", "共享", "删除群组"], _init: function(can, msg, list, cb, target) {
+Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加设备", "添加用户", "重命名", "共享群组", "删除群组"], _init: function(can, msg, list, cb, target) {
         can.onexport._init(can, msg, list, cb, target)
     },
     "添加工具": function(event, can, button, storm) {
@@ -109,6 +109,18 @@ Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加设备
 
         can.run(event, [can.Conf(RIVER), storm.hash, STORM, "action", "save"].concat(list), function(msg) {
             can.user.toast(can, "保存成功", STORM)
+        })
+    },
+    "共享应用": function(event, can, button, storm) {
+        can.user.input(event, can, [
+            {_input: "text", name: "username", value: "@key=hi"},
+            {_input: "text", name: "userrole", value: "@key=void"},
+            {_input: "text", name: "title", value: storm.name},
+        ], function(event, button, meta, list) {
+            var msg = can.request(event)
+            can.user.share(can, msg, [can.Conf(RIVER), "action", "share",
+                "username", meta.username, "userrole", meta.userrole, "title", meta.title, "storm", storm.hash])
+            return true
         })
     },
     "删除应用": function(event, can, button, storm) {
@@ -161,10 +173,11 @@ Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加设备
             return true
         })
     },
-    "共享": function(event, can, value) {
+    "共享群组": function(event, can, value) {
         can.user.input(event, can, ["name"], function(event, button, meta, list) {
             var msg = can.request(event)
-            can.user.share(can, msg, [value.hash, "action", "share", meta.name])
+            msg.Option()
+            can.user.share(can, msg, [value.hash, "action", "share", "name", meta.name])
             return true
         })
 

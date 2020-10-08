@@ -48,7 +48,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
 
     "股价图": function(event, can) { var sub = can.sub, data = can.data
         if (!can.list) { var count = 0, add = 0, del = 0, max = 0, begin = ""
-            can.max = 0, can.rest = 0, can.list = can.core.List(data, function(value, index) {
+            can.max = 0, can.min = 0, can.rest = 0, can.list = can.core.List(data, function(value, index) {
                 if (index == 0) { begin = value.date }
                 var line = {};
                 line.note = value[can.msg.append[4]]
@@ -67,9 +67,8 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
                 if (line.max - line.min > max) {
                     max = line.max - line.min
                 }
-                if (line.max > can.max) {
-                    can.max = line.max
-                }
+                if (line.max > can.max) { can.max = line.max }
+                if (line.min < can.min) { can.min = line.min }
                 return line
             })
             can.Status("from", begin)
@@ -91,12 +90,13 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
         sub.svg.innerHTML = ""
         can.ui.display.innerHTML = ""
 
+        function compute(y) { return (y - can.min)/(can.max - can.min)*view }
         var i = 0; can.core.Next(can.list, function(line, next) {
             (function() { var index = i++
                 sub.onimport.draw({}, sub, {
                     shape: "line", point: [
-                        {x: space/2+step*index+step/4, y: space/2+view-line.min/can.max*view},
-                        {x: space/2+step*index+step/4, y: space/2+view-line.max/can.max*view},
+                        {x: space/2+step*index+step/4, y: space/2+view-compute(line.min)},
+                        {x: space/2+step*index+step/4, y: space/2+view-compute(line.max)},
                     ], style: line.begin < line.close? {
                         "stroke-width": 1, "stroke": "white",
                     }: {
@@ -106,19 +106,17 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
 
                 var one = line.begin < line.close? sub.onimport.draw({}, sub, {
                     shape: "rect", point: [
-                        {x: space/2+step*index, y: space/2+view-line.begin/can.max*view},
-                        {x: space/2+step*index+step/2, y: space/2+view-line.close/can.max*view},
+                        {x: space/2+step*index, y: space/2+view-compute(line.begin)},
+                        {x: space/2+step*index+step/2, y: space/2+view-compute(line.close)},
                     ], style: {
-                        "rx": 0, "ry": 0,
-                        "stroke-width": 1, "stroke": "white", "fill": "white",
+                        "rx": 0, "ry": 0, "stroke-width": 1, "stroke": "white", "fill": "white",
                     },
                 }): sub.onimport.draw({}, sub, {
                     shape: "rect", point: [
-                        {x: space/2+step*index, y: space/2+view-line.close/can.max*view},
-                        {x: space/2+step*index+step/2, y: space/2+view-line.begin/can.max*view},
+                        {x: space/2+step*index, y: space/2+view-compute(line.close)},
+                        {x: space/2+step*index+step/2, y: space/2+view-compute(line.begin)},
                     ], style: {
-                        "rx": 0, "ry": 0,
-                        "stroke-width": 1, "stroke": "black", "fill": "black",
+                        "rx": 0, "ry": 0, "stroke-width": 1, "stroke": "black", "fill": "black",
                     },
                 })
 
