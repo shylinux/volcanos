@@ -137,8 +137,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return true
     },
     _refresh: function(can, msg) {
-        var refresh = msg.Option("_refresh") || can.Conf("feature")["_refresh"] 
-        can.Timer({interval: 500, length: parseInt(refresh)}, function(timer) {
+        can.Timer(500, function(timer) {
             can.run({})
         })
     },

@@ -234,7 +234,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         }},
         "operate": {name: "运维群", storm: {
             "relay": {name: "relay", index: [
-                "aaa.totp.get",
+                "aaa.totp",
                 "web.route",
                 "web.space",
                 "web.dream",
