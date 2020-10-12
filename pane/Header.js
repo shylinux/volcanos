@@ -124,6 +124,12 @@ Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, 
     },
     time: function(event, can, key, target) {
         target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
+
+        if (can.user.Search(can, "pod")) { return }
+        if (can.user.Search(can, "topic")) { return }
+        var h = parseInt(can.base.Time(null, "%H"))
+        var topic = h < 7 || h > 17? "black": "white"
+        can.onaction[topic]({}, can, topic)
     },
 })
 

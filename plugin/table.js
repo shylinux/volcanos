@@ -88,7 +88,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.onmotion[value.indexOf("\n") >= 0 || event.ctrlKey? "modifys": "modify"](can, event.target, function(event, value, old) {
                 var msg = can.sup.request(event); msg.Option(can.Option()), msg.Option(line)
                 if (key == "value") { key = line.key }
-                can.run(event, ["action", "编辑", key, value], function(msg) { can.run({}) }, true)
+                can.run(event, ["action", "modify", key, value], function(msg) { can.run({}) }, true)
             })
         }, onmouseover: function(event) {
             can.user.toast(can, index+1+"/"+array.length)
