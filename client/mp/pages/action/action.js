@@ -33,6 +33,7 @@ Page({
                     list.push(line), line.inputs.forEach(function(input) {
                         input.action = input.action || input.value
                         input.value == "auto" && (input.value = "")
+                        input.value = input.value || kit.Value(line, "feature.trans."+input.name)
                         if (input.value && input.value.startsWith("@")) {
                             input.value = ""
                         }
@@ -124,8 +125,8 @@ Page({
             return
         }
 
-        switch (data.input.value) {
-            case "Last":
+        switch (data.input.name) {
+            case "返回":
                 // 恢复命令
                 page.data.his[data.order].pop()
                 var line = page.data.his[data.order].pop()

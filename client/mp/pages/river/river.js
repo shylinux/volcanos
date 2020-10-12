@@ -7,11 +7,17 @@ Page({
         river: {},
     },
     action: {
-        "扫码": function(event, page, data) {
-            app.scans(function(res) {
-                page.onaction(event, res, res.name)
-            })
-        },
+        "扫码": function(event, page, data) { app.scans(function(res) {
+            switch (res.type) {
+                case "url":
+                    app.request("mp/login/scan", res, function(msg) {
+                        page.onaction({}, {}, "刷新")
+                    })
+                    break
+                default:
+                    res.name && page.onaction(event, res, res.name)
+            }
+        }) },
         "刷新": function(event, page, data) {
             wx.showLoading()
             app.request("river", {}, function(msg) {

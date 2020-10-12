@@ -41,6 +41,7 @@ Page({
         if (p.startsWith("@")) {
             var cb = this.plugin[p.slice(1,-1)]; cb && cb(this)
         }
+        var cb = this.plugin[p]; cb && cb(this)
         kit.List(app.data.insert.list, function(item) {
             item.action = item.action || item.value
             item.value && item.value.startsWith("@") && (item.value = "")

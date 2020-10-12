@@ -31,5 +31,12 @@ module.exports = {
             cb(k, list[k])
         }
     },
+    Value: function(item, key) {
+        var p = item, ls = key.split(".")
+        while (p && ls.length > 0) {
+            p = p[ls[0]], ls = ls.slice(1)
+        }
+        return p
+    },
 }
 

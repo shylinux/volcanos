@@ -74,44 +74,55 @@ App({
         wx.scanCode({success: function(res) { console.log("scan", res)
             try {
                 var value = JSON.parse(res.result)
-                switch (value.type) {
-                    case "share":
-                        switch (value.name) {
-                            case "invite":
-                                app.userinfo(function(userInfo) {
-                                    app.modal("接受邀请", value.name, function(res) {
-                                        res.confirm && app.request("mp/login/auth", value, function(msg) {
-                                            app.toast("回执成功")
-                                        })
+            } catch(e) {
+                try {
+                    var value = {"type": "url", "text": res.result}
+                    var ls = res.result.split("?"); if (ls.length > 1) { ls = ls[1].split("&")
+                        for (var i = 0; i < ls.length; i++) { var vs = ls[i].split("=")
+                            value[vs[0]] = decodeURIComponent(vs[1])
+                        }
+                    }
+                } catch(e) {
+                    typeof cb == "function" && cb({type: "", text: res.result})
+                    return
+                }
+            }
+
+            switch (value.type) {
+                case "share":
+                    switch (value.name) {
+                        case "invite":
+                            app.userinfo(function(userInfo) {
+                                app.modal("接受邀请", value.name, function(res) {
+                                    res.confirm && app.request("mp/login/auth", value, function(msg) {
+                                        app.toast("回执成功")
                                     })
                                 })
-                                break
-                        }
-                        break
+                            })
+                            break
+                    }
+                    break
 
-                    case "login":
-                        app.userinfo(function(userInfo) {
-                            app.modal("授权登录", value.name, function(res) {
-                                res.confirm && app.request("mp/login/auth", value, function(msg) {
-                                    app.toast("授权成功")
-                                })
+                case "login":
+                    app.userinfo(function(userInfo) {
+                        app.modal("授权登录", value.name, function(res) {
+                            res.confirm && app.request("mp/login/auth", value, function(msg) {
+                                app.toast("授权成功")
                             })
                         })
-                        break
-                    case "active":
-                        app.userinfo(function(userInfo) {
-                            app.modal("授权登录", value.name, function(res) {
-                                res.confirm && app.request("mp/login/auth", value, function(msg) {
-                                    app.toast("授权成功")
-                                })
+                    })
+                    break
+                case "active":
+                    app.userinfo(function(userInfo) {
+                        app.modal("授权登录", value.name, function(res) {
+                            res.confirm && app.request("mp/login/auth", value, function(msg) {
+                                app.toast("授权成功")
                             })
                         })
-                        break
-                    default:
-                        typeof cb == "function" && cb(value)
-                }
-            } catch(e) {
-                typeof cb == "function" && cb({type: "", text: res.result})
+                    })
+                    break
+                default:
+                    typeof cb == "function" && cb(value)
             }
         }})
     },

@@ -23,7 +23,7 @@
                 </picker>
 
                 <!-- 按钮 -->
-                <button wx:elif="{{item._input == 'button'}}" size="mini" bindtap="onClick" data-field="{{field}}" data-order="{{order}}" data-index="{{index}}" data-input="{{item}}">{{item.name||item.value}}</button>
+                <button wx:elif="{{item._input == 'button'}}" size="mini" bindtap="onClick" data-field="{{field}}" data-order="{{order}}" data-index="{{index}}" data-input="{{item}}">{{item.value||item.name}}</button>
             </view>
         </view>
 
