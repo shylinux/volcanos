@@ -86,16 +86,31 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     } },
     _profile: function(can, msg, task) { can.ui.profile.innerHTML = ""
         can._option._task = can.task = task, can.Status(task)
-
         can.page.Append(can, can.ui.profile, [{th: ["key", "value"]}])
-
         task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) {
             task["extra."+key] = value
         }) && delete(task.extra)
+        can.ui.display.innerHTML = ""
+        can.onappend.plugin(can, {index: task["extra.ctx"]+"."+task["extra.cmd"]}, function(sub) {
+            sub.run = function(event, cmds, cb, silent) {
+                can.run(event, ["action", "command", "run", task["extra.ctx"]+"."+task["extra.cmd"]].concat(cmds), function(msg) {
+                    typeof cb == "function" && cb(msg)
+                }, true)
+            }
+        }, can.ui.display)
 
         can.core.Item(task, function(key, value) { can.page.Append(can, can.ui.profile, [{td: [key, value],
             onclick: function(event) {
-                if (event.target.type == "button") { var name = event.target.value||event.target.name
+                if (event.target.type == "button") { var name = event.target.name
+                    // 交互回调
+                    var feature = can.sup.Conf("feature")
+                    var input = feature && feature[name]; if (input) {
+                        var msg = can.request(event); can.core.Item(can.task, msg.Option)
+                        return can.sup.onaction.input(event, can.sup, name, function(msg) {
+                            // can.run({})
+                        })
+                    }
+
                     var cb = can.onaction[name];
                     if (typeof cb == "function") {
                         cb(event, can, name)
