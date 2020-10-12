@@ -105,15 +105,19 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         var cb = can.onimport[process]; return typeof cb == "function" && cb(can, msg)
     },
     _follow: function(can, msg) {
-        if (msg.Result() == "stop") { return }
-        can.onappend.board(can, can._target, "board", msg)
+        if (msg.Result() == "stop") { return can.user.toast(can, msg.Option("cache.action")+" done!")}
+        can.ui || (can.ui = can.page.Appends(can, can._target, [{view: ["content", "div"]}]))
+        can.page.ClassList.add(can, can.ui.content, "code")
+        can.page.Modify(can, can.ui.content, {style: {"max-height": 400}})
+        can.page.Append(can, can.ui.content, [{text: msg.Result()}])
+        can.ui.content.scrollBy(0, 1000)
 
         can.Timer(100, function() {
             var sub = can.request({})
-            sub.Option("cache.limit", msg.Option("cache.limit"))
-            sub.Option("cache.begin", msg.Option("cache.begin"))
             sub.Option("cache.hash", msg.Option("cache.hash"))
-            can.run(sub._event, [msg.Option("cache.button")], function(msg) {
+            sub.Option("cache.begin", msg.Option("cache.begin"))
+            sub.Option("cache.limit", msg.Option("cache.limit"))
+            can.run(sub._event, [msg.Option("cache.action")], function(msg) {
                 can.onimport._follow(can, msg)
             }, true)
         })

@@ -26,7 +26,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
     },
     _daemon: function(can, name) {
         return
-        can.misc.WSS(can, "", {name: name, type: "chrome"}, function(event, msg) {
+        can.misc.WSS(can, "", {type: "chrome", name: name}, function(event, msg) {
             if (msg.Option("_handle")) { return can.user.toast(can, msg.result.join("")) }
             can.user.toast(can, msg.detail.join(" "))
 
@@ -55,14 +55,11 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
 
         if (Volcanos.meta.webpack == true || location.protocol == "file:") {
             var res = Volcanos.meta.pack[pane._name+","+cmds.join(",")]
-            if (res) {
-                res = can.request(event, res)
+            if (res) { res = can.request(event, res)
                 delete(msg._event), delete(msg._can)
                 return typeof cb == "function" && cb(res)
             }
-
-            typeof cb == "function" && cb(msg)
-            return
+            return typeof cb == "function" && cb(msg)
         }
 
         can.misc.Run(event, can, {names: pane._name}, cmds, function(msg) {
@@ -75,21 +72,14 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
     engine: function(event, can, msg, pane, cmds, cb) { if (!can.onengine) { return false }
         switch (pane._name) {
             case "River":
-                if (cmds.length == 0) {
-                    can.core.Item(can.onengine.river, function(key, value) {
-                        msg.Push("hash", key)
-                        msg.Push("name", value.name)
-                    })
-                }
-                if (cmds.length != 1 && cmds[1] != "tool") {
-                    break
-                }
+                cmds.length == 0 && can.core.Item(can.onengine.river, function(key, value) {
+                    msg.Push("hash", key), msg.Push("name", value.name)
+                })
+                if (cmds.length != 1 && cmds[1] != "tool") { break }
             case "Storm":
                 var river = can.onengine.river[cmds[0]]; if (!river) { break }
                 can.core.Item(river.storm, function(key, value) {
-                    msg.Push("hash", key)
-                    msg.Push("name", value.name)
-                    msg.Push("count", (value.index||value.action).length)
+                    msg.Push("hash", key), msg.Push("name", value.name)
                 })
                 typeof cb == "function" && cb(msg)
                 return true
@@ -99,14 +89,10 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 var action = storm && storm.action && storm.action[cmds[2]]
                 if (!storm) { break } if (cmds.length == 2) {
                     if (storm.index) {
-                        if (Volcanos.meta.webpack == true) {
-                            typeof cb == "function" && cb(msg)
-                            return true
-                        }
+                        if (Volcanos.meta.webpack == true) { typeof cb == "function" && cb(msg); return true }
                         can.misc.Run(event, can, {names: pane._name}, ["action", "command"].concat(storm.index), cb)
                         return true
                     }
-                    if (location.pathname == "/share") { return false }
 
                     can.core.List(storm.action, function(value) {
                         msg.Push("name", value.name||"")
@@ -117,16 +103,8 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                         msg.Push("args", value.args||"[]")
                     })
                     typeof cb == "function" && cb(msg)
-                } else if (action && action.engine) {
-                    action.engine(event, can, msg, pane, cmds, cb)
-                } else if (action) {
-                    msg.Option("group", action.group)
-                    msg.Option("index", action.index)
-                    return false
-                } else {
-                    return false
+                    return true
                 }
-                return true
         }
         return false
     },
@@ -270,7 +248,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             },
             Clone: function() {
                 meta.args = sub.page.Select(sub, sub._option, "textarea.args,input.args,select.args", function(item) {
-                    return item.value || ""
+                    return item.name && item.value || ""
                 })
                 sub.onappend._init(sub, meta, list, function(sub) {
                     cb(sub), sub.Timer(10, function() {
@@ -281,7 +259,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             Option: function(key, value) {
                 if (typeof key == "object") { return sub.core.Item(key, sub.Option), key }
                 if (key == undefined) { value = {}
-                    sub.page.Select(sub, option, "select.args,input.args,textarea.args", function(item) {
+                    sub.page.Select(sub, option, "textarea.args,input.args,select.args", function(item) {
                         item.name && item.value && (value[item.name] = item.value)
                     })
                     return value
@@ -309,8 +287,6 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             sub.page.ClassList.add(sub, field, meta.style||meta.feature.style||"")
             sub.onimport && sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field)
 
-            // meta.detail = meta.feature["detail"] || {}
-
             meta.inputs && sub.onappend._option(sub, meta, list, cb)
             sub.onaction && sub.onappend._action(sub, sub._action, meta.button || sub.onaction.list)
             sub.onexport && sub.onappend._status(sub, sub._status, sub.onexport.list)
@@ -324,7 +300,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 _option: can._option, _action: can._action, _output: can._output,
                 CloneInput: function() { add(item, function() {})._target.focus() },
                 CloneField: function() { can.Clone() },
-            }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js", "/frame.js"]), function(input) { input.sup = can
+            }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js", Volcanos.meta.volcano]), function(input) { input.sup = can
                 input.run = function(event, cmds, cb, silent) {
                     var msg = can.request(event); msg.Option(can.Conf("option"))
                     return can.onappend._output(can, meta, event, can.Pack(cmds), cb, silent)

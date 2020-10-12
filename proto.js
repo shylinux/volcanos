@@ -11,7 +11,7 @@ function shy(help, meta, list, cb) {
     cb.list = next("object") || []
     return cb
 }; var _can_name = ""
-var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: []}, [], function(name, can, libs, cb) {
+var Volcanos = shy("火山架", {libs: [], pack: {}, order: 1, cache: {}, index: 1}, [], function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == "object") { var Config = name
         meta.volcano = Config.volcano, meta.libs = Config.libs
@@ -30,7 +30,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: 
     }
 
     var conf = {}, conf_cb = {}, cache = {}
-    can = can || {}, list.push(can) && (can.__proto__ = {_name: name, _root: "volcano", _create_time: new Date(), _load: function(name, cb) {
+    can = can || {}, list.push(can) && (can.__proto__ = {_name: name, _create_time: new Date(), _load: function(name, cb) {
             for (var cache = meta.cache[name] || []; meta.index < list.length; meta.index++) {
                 if (name == "/plugin/input/date.css" && cache.length > 0) { continue }
                 if (name == "/lib/base.js" && cache.length > 0) { continue }
@@ -48,7 +48,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: 
             meta.cache[name] = cache
         },
         require: function(libs, cb, each) { if (!libs || libs.length == 0) {
-                typeof cb == "function" && setTimeout(function() {cb(can)}, 10)
+                typeof cb == "function" && setTimeout(function() { cb(can) }, 10)
                 return // 加载完成
             }
 
@@ -82,33 +82,32 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: 
         },
         request: function(event, msg, proto) { event = event || {}
             if (!msg && event._msg) { return event._msg }
+
             var ls = (can._name||can._help).split("/")
             event._pane = ls[ls.length-1]
+
             event._msg = msg = msg || {}, msg._event = event, msg._can = can
             msg.__proto__ = proto || { _name: meta.order++, _create_time: new Date(),
                 Option: function(key, val) {
+                    if (key == undefined) { return msg && msg.option || [] }
                     if (typeof key == "object") { can.core.Item(key, msg.Option) }
-                    if (val == undefined) { return msg && msg[key] && msg[key][0] || msg._msg && msg._msg.Option(key) || "" }
+                    if (val == undefined) { return msg && msg[key] && msg[key][0] || ""}
                     msg.option = msg.option || [], can.core.List(msg.option, function(k) { if (k == key) {return k} }).length > 0 || msg.option.push(key)
                     msg[key] = can.core.List(arguments).slice(1)
                     return val
                 },
                 Append: function(key, val) {
+                    if (key == undefined) { return msg && msg.append || [] }
                     if (typeof key == "object") { can.core.Item(key, msg.Append) }
-                    if (val == undefined) { return msg && msg[key] && msg[key][0] || msg._msg && msg._msg.Append(key) || "" }
+                    if (val == undefined) { return msg && msg[key] && msg[key][0] || ""}
+                    msg.append = msg.append || [], can.core.List(msg.append, function(k) { if (k == key) {return k} }).length > 0 || msg.append.push(key)
+                    msg[key] = can.core.List(arguments).slice(1)
                     return val
                 },
-                Copy: function(res) { if (!res) { return msg }
-                    res.result && (msg.result = (msg.result||[]).concat(res.result))
-                    res.append && (msg.append = res.append) && res.append.forEach(function(item) {
-                        res[item] && (msg[item] = (msg[item]||[]).concat(res[item]))
-                    })
-                    res.option && (msg.option = res.option) && res.option.forEach(function(item) {
-                        res[item] && (msg[item] = res[item])
-                    })
-                    return msg
+                Result: function(cb) {
+                    return msg.result && msg.result.join("") || ""
                 },
-                Table: shy("遍历数据", function(cb) { if (!msg.append || !msg.append.length || !msg[msg.append[0]]) { return }
+                Table: function(cb) { if (!msg.append || !msg.append.length || !msg[msg.append[0]]) { return }
                     var max = "", len = 0; can.core.List(msg.append, function(key, index) {
                         if (msg[key] && msg[key].length > len) { max = key, len = msg[key].length }
                     })
@@ -117,10 +116,7 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: 
                         can.core.List(msg.append, function(key) { one[key] = (msg[key]&&msg[key][index]||"").trim() })
                         return typeof cb == "function" && (res = cb(one, index, array)) && res != undefined && res || one
                     })
-                }),
-                Result: shy("遍历数据", function(cb) {
-                    return msg.result && msg.result.join("") || ""
-                }),
+                },
                 Clear: function(key) {
                     switch (key) {
                         case "append":
@@ -132,7 +128,17 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: 
                             msg[key] = []
                     }
                 },
-                Push: function(key, value, detail) {msg.append = msg.append || []
+                Copy: function(res) { if (!res) { return msg }
+                    res.result && (msg.result = (msg.result||[]).concat(res.result))
+                    res.append && (msg.append = res.append) && res.append.forEach(function(item) {
+                        res[item] && (msg[item] = (msg[item]||[]).concat(res[item]))
+                    })
+                    res.option && (msg.option = res.option) && res.option.forEach(function(item) {
+                        res[item] && (msg[item] = res[item])
+                    })
+                    return msg
+                },
+                Push: function(key, value, detail) { msg.append = msg.append || []
                     if (typeof key == "object") {
                         value = value || can.core.Item(key)
                         can.core.List(value, function(item) {
@@ -152,19 +158,20 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: 
                     msg[key].push(""+(typeof value == "object"? JSON.stringify(value): value)+"")
                     return msg
                 },
-                Echo: shy("输出响应", function(res) {msg.result = msg.result || []
+                Echo: function(res) {msg.result = msg.result || []
                     msg._hand = true
                     for (var i = 0; i < arguments.length; i++) {msg.result.push(arguments[i])}
                     return msg
-                }),
+                },
             }
             return msg
         },
 
-        Conf: shy("配置器", function(key, value, cb) { if (key == undefined) { return conf }
+        Conf: function(key, value, cb) {
+            if (key == undefined) { return conf }
             if (typeof key == "object") { conf = key; return conf }
             typeof cb == "function" && (conf_cb[key] = cb)
-            if (value != undefined) {var old = conf[key], res;
+            if (value != undefined) { var old = conf[key], res;
                 conf[key] = conf_cb[key] && (res = conf_cb[key](value, old, key)) != undefined && res || value
             }
             if (conf[key] == undefined && key.indexOf(".") > 0) {
@@ -175,8 +182,8 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: 
                 return p
             }
             return conf[key] || ""
-        }),
-        Cache: shy("缓存器", function(name, output, data) {
+        },
+        Cache: function(name, output, data) {
             if (data) { if (output.children.length == 0) { return }
                 // 写缓存
                 var temp = document.createDocumentFragment()
@@ -201,15 +208,17 @@ var Volcanos = shy("火山架", {cache: {}, index: 1, order: 1, pack: {}, libs: 
             }
             delete(cache[name])
             return list.data
-        }),
-        Timer: shy("定时器, value, [1,2,3,4], {value, length}", function(interval, cb, cbs) { interval = typeof interval == "object"? interval || []: [interval]
-            var timer = {stop: false}
-            function loop(timer, i) {if (timer.stop || i >= interval.length && interval.length >= 0) {return typeof cbs == "function" && cbs(timer, interval)}
+        },
+        Timer: shy("定时器, value, [1,2,3,4], {value, length}", function(interval, cb, cbs) {
+            interval = typeof interval == "object"? interval || []: [interval]
+            var timer = {stop: false}; function loop(timer, i) {
+                if (timer.stop || i >= interval.length && interval.length >= 0) {
+                    return typeof cbs == "function" && cbs(timer, interval)
+                }
                 return typeof cb == "function" && cb(timer, interval.value||interval[i], i, interval)?
-                    typeof cbs == "function" && cbs(timer, interval):
-                        setTimeout(function() {loop(timer, i+1)}, interval.value||interval[i+1])
+                    typeof cbs == "function" && cbs(timer, interval): setTimeout(function() { loop(timer, i+1) }, interval.value||interval[i+1])
             }
-            setTimeout(function() {loop(timer, 0)}, interval.value||interval[0])
+            setTimeout(function() { loop(timer, 0) }, interval.value||interval[0])
             return timer
         }),
     })
