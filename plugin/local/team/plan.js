@@ -86,19 +86,23 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }),
     } },
     _profile: function(can, msg, task) { can.ui.profile.innerHTML = ""
-        can._option._task = can.task = task, can.Status(task)
         can.page.Append(can, can.ui.profile, [{th: ["key", "value"]}])
         task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) {
             task["extra."+key] = value
         }) && delete(task.extra)
-        can.ui.display.innerHTML = ""
-        can.onappend.plugin(can, {height: can.Conf("height"), width: can.Conf("width"), index: task["extra.ctx"]+"."+task["extra.cmd"], args: task["extra.arg"]}, function(sub) {
-            sub.run = function(event, cmds, cb, silent) {
-                can.run(event, ["action", "command", "run", task["extra.ctx"]+"."+task["extra.cmd"]].concat(cmds), function(msg) {
-                    typeof cb == "function" && cb(msg)
-                }, true)
-            }
-        }, can.ui.display)
+
+        can.task && can.Cache(can.task.id, can.ui.display, can.task.id)
+        can._option._task = can.task = task, can.Status(task)
+
+        if (!can.Cache(task.id, can.ui.display)) {
+            can.onappend.plugin(can, {height: can.Conf("height"), width: can.Conf("width"), index: task["extra.ctx"]+"."+task["extra.cmd"], args: task["extra.arg"]}, function(sub) {
+                sub.run = function(event, cmds, cb, silent) {
+                    can.run(event, ["action", "command", "run", task["extra.ctx"]+"."+task["extra.cmd"]].concat(cmds), function(msg) {
+                        typeof cb == "function" && cb(msg)
+                    }, true)
+                }
+            }, can.ui.display)
+        }
 
         can.core.Item(task, function(key, value) { can.page.Append(can, can.ui.profile, [{td: [key, value],
             onclick: function(event) {
