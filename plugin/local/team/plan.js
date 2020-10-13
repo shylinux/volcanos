@@ -91,7 +91,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             task["extra."+key] = value
         }) && delete(task.extra)
         can.ui.display.innerHTML = ""
-        can.onappend.plugin(can, {index: task["extra.ctx"]+"."+task["extra.cmd"]}, function(sub) {
+        can.onappend.plugin(can, {height: can.Conf("height"), width: can.Conf("width"), index: task["extra.ctx"]+"."+task["extra.cmd"], args: task["extra.arg"]}, function(sub) {
             sub.run = function(event, cmds, cb, silent) {
                 can.run(event, ["action", "command", "run", task["extra.ctx"]+"."+task["extra.cmd"]].concat(cmds), function(msg) {
                     typeof cb == "function" && cb(msg)
@@ -252,7 +252,7 @@ Volcanos("onaction", {help: "组件交互", list: [
         ["view", "", "name", "text", "level", "score"],
     ],
     insertTask: function(event, can, time) {
-        can.user.input(event, can, can.Conf("feature")["添加"], function(event, button, data, list) {
+        can.user.input(event, can, can.Conf("feature")["insert"], function(event, button, data, list) {
             var args = ["action", "insert"]; can.core.Item(data, function(key, value) {
                 if (key == "begin_time") {
                     value = value || time
