@@ -50,7 +50,17 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
 
             {input: ["cache.value", function(event) {
-                event.key == "Enter" && can.run(event)
+                if (event.key == "Enter") {
+                    can.page.Select(can, can.ui.content, "tr", function(tr, index) {
+                        if (event.target.value == "" && can.page.Modify(can, tr, {style: {"display": ""}})) { return }
+                        index > 0 && can.page.Modify(can, tr, {style: {"display": "none"}})
+                        can.page.Select(can, tr, "td", function(td, index) {
+                            if (td.innerText.indexOf(event.target.value) > -1) {
+                                can.page.Modify(can, tr, {style: {"display": ""}})
+                            }
+                        })
+                    })
+                }
             }], style: {width: 50}, _init: function(item) {
                 item.value = msg.Option("cache.value")
             }, data: {"className": "args"}},
