@@ -53,7 +53,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }),
     } },
     _profile: function(can, msg, task) {
-        task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) { task["extra."+key] = value }) && delete(task.extra)
+        task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) { task["extra."+key] = value }), delete(task.extra)
 
         can.task && can.Cache(can.task.id, can.ui.display, can.task.id)
         can.Status(can.task = task); can.Cache(task.id, can.ui.display) || task["extra.cmd"] && can.onappend.plugin(can, {
