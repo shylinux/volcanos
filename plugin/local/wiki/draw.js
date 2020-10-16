@@ -558,9 +558,9 @@ Volcanos("onaction", {help: "组件菜单", list: [
         {text: [" s:", "div", "item"]}, ["shape", "block", "rect", "text", "line", "path", "circle", "ellipse", "heart"],
     ],
     "编辑": function(event, can, key) { can.Action("go", "auto") },
-    "保存": function(event, can, key) {
+    "save": function(event, can, key) {
         var msg = can.request(event); msg.Option("content", can.onexport.content(can, can.svg))
-        can.run(event, ["action", key, can.Option("path"), can.Option("file")], function() {
+        can.run(event, ["action", "save", can.Option("path"), can.Option("file")], function() {
             can.user.toast(can, "保存成功")
         }, true)
     },

@@ -127,8 +127,8 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "office": {name: "办公 office", index: [
                 "web.wiki.feel",
                 "web.wiki.draw",
-                "web.team.plan",
                 "web.wiki.data",
+                "web.team.plan",
                 "web.wiki.word",
             ]},
             "english": {name: "英汉 english",  action: [

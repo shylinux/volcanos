@@ -118,7 +118,18 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         }, ondblclick: function(event) {
             can.onmotion[value.indexOf("\n") >= 0 || event.ctrlKey? "modifys": "modify"](can, event.target, function(event, value, old) {
-                var msg = can.sup.request(event); msg.Option(can.Option()), msg.Option(line)
+                var msg = can.sup.request(event); msg.Option(can.Option())
+                if (can._msg.Option("modify.hold") == "true") {
+                    if (can._msg.append.length == 2 && can._msg.append[0] == "key" && can._msg.append[1] == "value") {
+                        can.core.List(can._msg.key, function(key, index) {
+                            msg.Option(key, can._msg.value[index])
+                        })
+                    }
+                    can.run(event, ["action", "modify"])
+                    return
+                }
+
+                msg.Option(line)
                 if (key == "value") { key = line.key }
                 can.run(event, ["action", "modify", key, value], function(msg) { can.run({}) }, true)
             })
