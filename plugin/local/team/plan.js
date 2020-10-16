@@ -165,7 +165,7 @@ Volcanos("onaction", {help: "组件交互", list: [
                 if (key == "close_time") { value = value || time }
                 key && value && args.push(key, value)
             })
-            can.run(event, args, function(msg) { can.run({}) }, true)
+            can.run(event, args, function(msg) { })
             return true
         })
     },
@@ -183,16 +183,15 @@ Volcanos("onaction", {help: "组件交互", list: [
                 can.page.ClassList.del(can, item, "hidden")
                 count++
             })
-            can.Status("count", count)
-            return
+        } else {
+            can.page.Select(can, can.ui.content, "div.item", function(item) {
+                can.page.ClassList.add(can, item, "hidden")
+            })
+            can.page.Select(can, can.ui.content, "div."+value, function(item) {
+                can.page.ClassList.del(can, item, "hidden")
+                count++
+            })
         }
-        can.page.Select(can, can.ui.content, "div.item", function(item) {
-            can.page.ClassList.add(can, item, "hidden")
-        })
-        can.page.Select(can, can.ui.content, "div."+value, function(item) {
-            can.page.ClassList.del(can, item, "hidden")
-            count++
-        })
         can.Status("count", count)
         can.Action(key, value)
     },

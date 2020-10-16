@@ -7,9 +7,31 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             {view: ["display", "pre"]},
         ]))
 
+        var cmd = "", arg = ""
         can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line, array) {
+            if (key == "key") {
+                switch (value) {
+                    case "extra.cmd": cmd += line.value; break
+                    case "extra.ctx": cmd = line.value + "." + cmd; break
+                    case "extra.arg": arg = line.value; break
+                }
+            }
             return can.onimport._table(can, value, key, index, line, array)
         })
+
+        cmd && can.onappend.plugin(can, {
+            height: can.Conf("height"), width: can.Conf("width"), index: cmd, args: arg,
+        }, function(sub) {
+            sub.run = function(event, cmds, cb, silent) {
+                var msg = can.request(event); can.core.List(msg["key"], function(key, index) {
+                    msg.Option("list."+key, msg["value"][index])
+                })
+                can.run(event, ["action", "command", "run", cmd].concat(cmds), function(msg) {
+                    typeof cb == "function" && cb(msg)
+                }, true)
+            }
+        }, can.ui.display)
+
 
         can.onappend.board(can, can.ui.display, "board", msg)
         can.onimport._board(can, msg)
