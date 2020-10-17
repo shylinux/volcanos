@@ -1,7 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb) {
-        can.ui = can.page.Appends(can, can._target, [
-            {view: "content"}, {view: "display"},
-        ])
+        can.ui = can.page.Appends(can, can._target, [{view: "content"}, {view: "display"}])
+
         can.table = can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line) {
             return {text: [value, "td"], oncontextmenu: function(event) {
                 can.user.carte(can, can.ondetail, can.ondetail.list, function(ev, cmd, meta) {
@@ -10,13 +9,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }, ondblclick: function(event) {
                 can.page.Modify(can, event.target, {contenteditable: true})
             }, onclick: function(event) {
-                if (key == "path") {
-                    can.run(event, [can.Option("path", value)])
-                }
+                if (key == "path") { can.run(event, [can.Option("path", value)]) }
             }}
         })
+
         can.onexport.list = msg.append
         typeof cb == "function" && cb()
+        can.onaction._compute(event, can)
     },
 })
 Volcanos("onfigure", {help: "组件菜单", list: [],
@@ -38,11 +37,10 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
         }
     },
 })
-Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "全选", "块选", "反选", "多选", "拖动", "编辑"], "求和", "最大", "最小", "平均"],
-    _engine: function(event, can, cmd) {
+Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "全选", "块选", "反选", "多选", "拖动", "编辑"], ["some", "求和", "最大", "最小", "平均"]],
+    _compute: function(event, can) {
         var mul = "tr" + (can.Action("mode") == "全选"? "": ".select")
-        var method = can.onfigure[cmd], res = {}
-
+        var method = can.onfigure[can.Action("some")], res = {}
 
         can.page.Select(can, can.ui.content, mul, function(tr, nrow, rows) {
             (mul != "tr" || nrow > 0) && can.page.Select(can, tr, "td", function(td, ncol, cols) {
@@ -70,12 +68,14 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "全选", 
             item.onmouseenter = null
             item.onclick = null
         })
+        can.onaction._compute(event, can)
     },
     "块选": function(event, can, cmd) {
         cmd && can.Action("mode", cmd)
         can.page.Select(can, can.ui.content, "tr", function(item) {
             item.onmouseenter = function() {
                 can.page.ClassList.add(can, item, "select")
+                can.onaction._compute(event, can)
             }
         })
     },
@@ -84,6 +84,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "全选", 
         can.page.Select(can, can.ui.content, "tr", function(item) {
             item.onmouseenter = function() {
                 can.page.ClassList.del(can, item, "select")
+                can.onaction._compute(event, can)
             }
         })
     },
@@ -92,6 +93,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "全选", 
         can.page.Select(can, can.ui.content, "tr", function(item) {
             item.onclick = function() {
                 can.page.ClassList.neg(can, item, "select")
+                can.onaction._compute(event, can)
             }
         })
     },

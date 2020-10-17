@@ -9,11 +9,29 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         typeof cb == "function" && cb()
         can.onimport[can.Option("scale")](can, msg)
         can.page.Modify(can, can._action, {style: {display: "none"}})
+
+        var begin = can.onimport.date("2020-10-10 10:10:10")
+    },
+    date: function(t) { var now = new Date()
+        if (t && typeof t == "string") { var ls = t.split(" ")
+            var vs = ls[0].split("-")
+            now.setFullYear(parseInt(vs[0]))
+            now.setMonth(parseInt(vs[1]))
+            now.setDate(parseInt(vs[2]))
+
+            var vs = ls[1].split(":")
+            now.setHours(parseInt(vs[0]))
+            now.setMinutes(parseInt(vs[1]))
+            now.setSeconds(parseInt(vs[2]))
+        } else if (t) {
+            now = t
+        }
+        return now
     },
     _show: function(can, msg, head, list, key, set, get) {
-        var begin_time = new Date(can.base.Time(can.Option("begin_time")))
+        var begin_time = can.onimport.date(can.base.Time(can.Option("begin_time")))
         var hash = {}; msg.Table(function(value, index) {
-            var k = key(new Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value])
+            var k = key(can.onimport.date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value])
             can.Status("count", index+1)
         })
 
@@ -38,7 +56,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             event.preventDefault()
         },
         ondblclick: function(event) { var now = can.base.Time()
-            can.onaction.insertTask(event, can, can.base.Time(new Date(time+now.slice(time.length))))
+            can.onaction.insertTask(event, can, can.base.Time(can.onimport.date(time+now.slice(time.length))))
         },
         list: can.core.List(list, function(task) { return typeof task == "string"? {view: ["date", "div", task]}:
             {view: [can.onexport.style(can, task), "div", can.onexport[view||can.Action("view")||"text"](can, task)],
@@ -136,7 +154,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._show(can, msg, head, list, key, set, get)
     },
     long: function(can, msg) {
-        var begin_time = new Date(can.base.Time(can.Option("begin_time")))
+        var begin_time = can.onimport.date(can.base.Time(can.Option("begin_time")))
         var begin = begin_time.getFullYear() - 5
 
         var head = ["month"]; for (var i = 0; i < 10; i++) { head.push(begin+i) }

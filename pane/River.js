@@ -98,16 +98,14 @@ Volcanos("ondetail", {help: "菜单交互", list: ["添加应用", "添加设备
         })
     },
     "保存参数": function(event, can, button, storm) {
-        var list = can.page.Select(can, document.body, "fieldset.Action>div.output>fieldset.plugin>form.option", function(item) {
-            return JSON.stringify(can.page.Select(can, item, 'args', function(item) {
-                return item.value||""
-            }))
-            can.run(event, [can.Conf(RIVER), "tool", "action", "modify", storm.hash, STORM].concat(list), function(msg) {
-                can.user.toast(can, "保存成功", STORM)
-            })
-        })
+        can.core.Next(can.page.Select(can, document.body, "fieldset.Action>div.output>fieldset.plugin>form.option"), function(item, next) {
+            var list = can.page.Select(can, item, '.args', function(item) { return item.value||"" })
 
-        can.run(event, [can.Conf(RIVER), storm.hash, STORM, "action", "save"].concat(list), function(msg) {
+            var msg = can.request({}); msg.Option("hash", storm.hash), msg.Option("id", item.dataset.id)
+            can.run(msg._event, [can.Conf(RIVER), "tool", "action", "modify", "arg", JSON.stringify(list)], function(msg) {
+                next()
+            })
+        }, function() {
             can.user.toast(can, "保存成功", STORM)
         })
     },

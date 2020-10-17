@@ -56,18 +56,9 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     },
     Footer: function(event, can, key) {
         can.page.Select(can, document.body, "fieldset.Action", function(item) {
-            if (item.style.height) {
-                height = document.body.offsetHeight
-                can.page.Select(can, item, "div.output")[0].style.height = ""
-                item.style.height = ""
-            } else {
-                can.page.Select(can, item, "div.output")[0].style.height = height-100+"px"
-                item.style.height = height-88+"px"
-            }
+            can.page.Select(can, item, "div.output")[0].style.height = ""
+            item.style.height = ""
         }) 
-        can.page.Select(can, document.body, "fieldset."+key, function(item) {
-            can.page.Modify(can, item, {style: {display: item.style.display == "none"? "block": "none"}})
-        })
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) {

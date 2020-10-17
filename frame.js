@@ -231,6 +231,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var action = can.page.Select(can, field, "div.action")[0]
         var output = can.page.Select(can, field, "div.output")[0]
         var status = can.page.Select(can, field, "div.status")[0]
+        option.dataset.id = meta.id
 
         // 添加插件
         var sub = Volcanos(meta.name, { _help: meta.name, _follow: can._follow+"."+meta.name,
