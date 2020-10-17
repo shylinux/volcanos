@@ -16,7 +16,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         if (t && typeof t == "string") { var ls = t.split(" ")
             var vs = ls[0].split("-")
             now.setFullYear(parseInt(vs[0]))
-            now.setMonth(parseInt(vs[1]))
+            now.setMonth(parseInt(vs[1])-1)
             now.setDate(parseInt(vs[2]))
 
             var vs = ls[1].split(":")

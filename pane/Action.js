@@ -38,13 +38,6 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         value.height = can._target.offsetHeight
         value.width = can._target.offsetWidth
 
-        if (can.user.Search(can, "river") == river && can.user.Search(can, "storm") == storm && can.user.Search(can, "active") == value.name) {
-            value.args = can.core.List(value.inputs, function(item) {
-                if (item._input == "text" || item._input == "select") {
-                    return can.user.Search(can, item.name) || item.value
-                }
-            })
-        }
         can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
             sub._legend.onclick = function(event) {
                 var opt = {pod: can.user.Search(can, "pod"), river: river, storm: storm, active: value.name}

@@ -294,7 +294,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
         return sub
     },
-    _option: function(can, meta, list, cb) { var index = -1, args = can.base.Obj(meta.args, [])
+    _option: function(can, meta, list, cb) { var index = -1, args = can.base.Obj(meta.arg||meta.args, [])
         function add(item, next) { item._input != "button" && index++
             return can._inputs[item.name] = Volcanos(item.name, { _help: item.name, _follow: can._follow+"."+item.name,
                 _target: can.onappend.input(can, can._option, item.type, item, args[index]),
