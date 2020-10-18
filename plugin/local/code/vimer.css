@@ -9,8 +9,16 @@ fieldset.editor>div.output input.editor {
     min-width:480px;
     display:none;
 }
+fieldset.editor>div.output input.editor.insert {
+    caret-color:yellow;
+    display:block;
+}
 fieldset.editor>div.output input.editor.normal {
-    caret-color:#00000000;
+    caret-color:blue;
+    display:block;
+}
+fieldset.editor>div.output input.editor.command {
+    display:none;
 }
 fieldset.editor>div.output input.command {
     clear:both;
@@ -25,4 +33,11 @@ fieldset.editor>div.output input.command {
     border-left:solid 3px green;
     z-index:200;
     min-width:480px;
+    display:block;
+}
+fieldset.editor>div.output input.command.normal {
+    display:none;
+}
+fieldset.editor>div.output input.command.insert {
+    display:none;
 }

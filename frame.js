@@ -158,7 +158,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "studio": {name: "研发 studio", action: [
                 {name: "route", help: "路由器", index: "web.route"},
                 {name: "tmux", help: "命令行", index: "web.code.tmux.session"},
-                {name: "inner", help: "编辑器", index: "web.code.inner", args: ["src/", "main.go"]},
+                {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
                 {name: "repos", help: "代码库", index: "web.code.git.status"},
                 {name: "total", help: "统计量", index: "web.code.git.total"},
                 {name: "plan", help: "任务表", index: "web.team.plan"},

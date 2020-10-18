@@ -136,7 +136,7 @@ fieldset>div.output>pre.display:hover {
 table {
     border:0; white-space: pre;
     font-size:14px; font-family:monospace;
-    box-shadow: 4px 4px 10px 1px #626bd0;
+    /* box-shadow: 4px 4px 10px 1px #626bd0; */
     cursor:pointer; overflow: auto;
 }
 table tr:hover {
