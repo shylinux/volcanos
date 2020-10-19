@@ -14,10 +14,10 @@ fieldset.editor>form.option div.item input.args[name=line] {
     width:40px;
 }
 
-body.white fieldset.plugin.editor table {
+body.white fieldset.editor div.output table {
     background:#0b2c5400;
 }
-body.white fieldset.plugin.editor table tr {
+body.white fieldset.editor div.output table tr {
     background:#0b2c5400;
 }
 fieldset.editor>div.output {
