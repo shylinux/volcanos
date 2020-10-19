@@ -2,7 +2,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         can.ui = can.page.Appends(can, target, [
             {type: "table", list: [{type: "tr", list: [
                     {type: "td", list: [{view: "project", style: {"max-height": window.innerHeight-300, display: "none"}} ]},
-                    {type: "td", list: [{view: "profile", style: {"max-height": window.innerHeight-300}, list: [
+                    {type: "td", list: [{view: "profile", style: {"max-height": window.innerHeight-300, "min-width": window.innerWidth-300}, list: [
                         {view: ["content", "table"]},
                     ]} ], onscroll: function(event) {
                     }},
