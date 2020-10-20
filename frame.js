@@ -158,7 +158,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "studio": {name: "研发 studio", action: [
                 {name: "route", help: "路由器", index: "web.route"},
                 {name: "tmux", help: "命令行", index: "web.code.tmux.session"},
-                {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
+                {name: "vimer", help: "编辑器", index: "web.code.inner", args: ["src/", "main.go"]},
                 {name: "repos", help: "代码库", index: "web.code.git.status"},
                 {name: "total", help: "统计量", index: "web.code.git.total"},
                 {name: "plan", help: "任务表", index: "web.team.plan"},
@@ -393,12 +393,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }])
         return ui.item.Meta = item, ui.item
     },
-    tree: function(can, msg, target, cb) {
+    tree: function(can, msg, field, split, target, cb) {
         var list = {}; msg.Table(function(value) {
-            value.path && can.core.List(value.path.split("/"), function(item, index, array) {
-                var last = array.slice(0, index).join("/")
-                var name = array.slice(0, index+1).join("/")
-                list[name] || (list[name] = can.page.Append(can, list[last]||target, [{view: ["item", "div", item+(index==array.length-1?"":"/")], onclick: function(event) {
+            value[field] && can.core.List(value[field].split(split), function(item, index, array) {
+                var last = array.slice(0, index).join(split)
+                var name = array.slice(0, index+1).join(split)
+                list[name] || (list[name] = can.page.Append(can, list[last]||target, [{view: ["item", "div", item+(index==array.length-1?"":split)], onclick: function(event) {
                     var hide = list[name].style.display == "none"
                     can.page.Modify(can, list[name], {style: {display: hide? "": "none"}})
                     index == array.length - 1 && typeof cb == "function" && cb(event, value)

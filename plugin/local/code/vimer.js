@@ -7,6 +7,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                         can.Timer(1, function() {
                             can.current.text(can.ui.editor.value)
                         })
+                    }, onfocus: function(event) {
+                        can.current.scroll(-1000, 0)
                     }, onblur: function(event) {
                         can.current.text(can.ui.editor.value)
                     }, onclick: function(event) {
@@ -15,16 +17,49 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                     {view: ["command", "input"], onkeydown: function(event) {
                         can.onkeymap.parse(event, can, "command")
                     }},
-                ])
+                ]); can.core.Copy(can.ui, ui, "editor", "command"), can.onkeymap._init(can, "insert")
 
-                can.ui.editor = ui.editor
-                can.ui.command = ui.command
-                can.onkeymap._init(can, "insert")
+                var ui = can.page.Append(can, target, [
+                    {view: "display", style: {display: "none"}, list: [{view: "action", list: [
+                        {button: ["关闭", function(event) {
+                            can.page.Modify(can, can.ui.display, {style: {display: "none"}})
+                        } ]},
+                    ]}, 
+                        {view: "output", style: {"max-height": "200"}},
+                    ]},
+                ]); can.core.Copy(can.ui, ui, "display", "output")
+
                 typeof cb == "function" && cb()
             }, target)
         })
     },
 }, ["/plugin/local/code/vimer.css"])
+Volcanos("onaction", {help: "控件交互", list: [],
+    _merge: function(can, sub) { for (var k in sub) {
+        can.onaction.hasOwnProperty(k) || (can.onaction[k] = sub[k])
+    }; return true },
+
+    save: function(event, can) {
+        var msg = can.request(event); msg.Option("content", can.onexport.content(can))
+        can.run(event, ["action", "save", can.parse, can.Option("file"), can.Option("path")], function(msg) {
+            can.user.toast(can, "保存成功")
+        }, true)
+    },
+    "编辑": function(event, can) { can.onkeymap && can.onkeymap._insert(can) },
+    "刷新": function(event, can) {
+        can.run(event, [can.Option("path"), can.Option("file")])
+    },
+    "运行": function(event, can) {
+        can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "none"}})
+        can.run(event, ["action", "engine", can.parse, can.Option("file"), can.Option("path")], function(msg) {
+            (msg.Result() || msg.append && msg.append.length > 0) && can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "block"}})
+            can.onappend.table(can, can.ui.display, "table", msg)
+            can.onappend.board(can, can.ui.display, "board", msg)
+        }, true)
+    },
+
+
+})
 Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"], _init: function(can, mode) {
         can.history = []
         can.core.List(can.onkeymap.list, function(item) { var engine = {}
@@ -55,10 +90,12 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     },
 
     _remote: function(event, can, key, arg, cb) {
-        can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "none"}})
+        can.page.Modify(can, can.ui.display, {style: {display: "none"}})
         var msg = can.request(event); msg.Option("content", can.onexport.content(can))
-        can.run(event, arg||["action", key, can.Option("path"), can.Option("file")], cb||function(msg) {
-            (msg.Result() || msg.append && msg.append.length > 0) && can.page.Modify(can, can.ui.display, {innerHTML: "", style: {display: "block"}})
+        can.run(event, arg||["action", key, can.parse, can.Option("file"), can.Option("path")], cb||function(msg) {
+            can.page.Modify(can, can.ui.display, {style: {display: "block"}})
+
+            can.ui.output.innerHTML = ""
             can.onappend.table(can, can.ui.output, "table", msg, function(value, key, index) {
                 return {text: [value, "td"]}
             })
@@ -67,7 +104,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     },
     _engine: {
         e: function(event, can, line, ls) { can.onimport.tabview(can, can.Option("path"), ls[1]) },
-        w: function(event, can) { can.onaction["保存"](event, can, "保存") },
+        w: function(event, can) { can.onaction["save"](event, can, "save") },
         r: function(event, can) { can.onaction["运行"](event, can, "运行") },
     },
 
@@ -120,11 +157,17 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             can.onkeymap.parse({key: ""}, can, "normal")
         },
 
+        H: function(event, can) {
+            can.ui.editor.setSelectionRange(0, 0)
+        },
         h: function(event, can) {
-            can.ui.editor.setSelectionnRange(can.ui.editor.selectionStart-1, can.ui.editor.selectionStart-1)
+            can.ui.editor.setSelectionRange(can.ui.editor.selectionStart-1, can.ui.editor.selectionStart-1)
         },
         l: function(event, can) {
             can.ui.editor.setSelectionRange(can.ui.editor.selectionStart+1, can.ui.editor.selectionStart+1)
+        },
+        L: function(event, can) {
+            can.ui.editor.setSelectionRange(-1, -1)
         },
         j: function(event, can) {
             can.onaction.selectLine(can, can.current.next())
@@ -239,14 +282,29 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         },
     },
 
+    selectLine: function(can, line, item) {
+        can.page.Modify(can, can.ui.editor, {className: "editor "+can.mode, value: item.innerText, style: {
+            height: item.offsetHeight, width: item.offsetWidth,
+            left: item.offsetLeft, top: item.offsetTop,
+        }})
+        can.page.Modify(can, can.ui.command, {className: "command "+can.mode, value: item.innerText, style: {
+            height: item.offsetHeight, width: item.offsetWidth,
+            left: item.offsetLeft, top: item.offsetTop + can.ui.profile.offsetHeight-100,
+        }})
+
+        can.ui.editor.focus()
+        can.ui.editor.setSelectionRange(0, 0)
+        can.onkeymap._mode(can, "insert")
+        // can.ui.editor.setSelectionRange(event.offsetX/10, event.offsetX/10)
+    },
     insertLine: function(can, value, before) {
         var line = can.onaction.appendLine(can, value)
         before && can.ui.content.insertBefore(line, before)
         can.onaction.rerankLine(can)
         return line
     },
-    deleteLine: function(can, target) {
-        can.page.Remove(can, target)
+    deleteLine: function(can, line) {
+        can.page.Remove(can, line)
         can.onaction.rerankLine(can)
     },
 })
