@@ -8,7 +8,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             value.path.endsWith("/")? can.path.Push(value): can.list.push(value)
         })
 
-        can.onappend.table(can, can.ui.project, "table", can.path, function(value, key, index, line, array) {
+        can.onappend.table(can, can.path, can.ui.project, "table", function(value, key, index, line, array) {
             return {type: "td", inner: value, click: function(event) {
                 can.sup.onaction.change(event, can.sup, key, value, function(msg) {
                     can.run(event)

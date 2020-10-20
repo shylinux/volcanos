@@ -1,6 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { target.innerHTML = ""
         if (msg.Option("_display") == "table") {
-            return can.onappend.table(can, target, "table", msg)
+            return can.onappend.table(can, msg, target, "table")
         } target.innerHTML = msg.Result()
 
         can.page.Select(can, target, ".story", function(item) { var data = item.dataset

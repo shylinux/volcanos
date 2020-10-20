@@ -42,7 +42,15 @@ var Volcanos = shy("火山架", {libs: [], pack: {}, order: 1, cache: {}, index:
             for (var i = 0; i < cache.length; i++) {
                 if (can[cache[i]._name] && can[cache[i]._name]._merge && can[cache[i]._name]._merge(can, cache[i])) { continue }
                 if (typeof cb == "function" && cb(can, name, cache[i])) { continue}
-                can[cache[i]._name] = cache[i]
+                if (can[cache[i]._name]) {
+                    for (var k in cache[i]) {
+                        can[cache[i]._name].hasOwnProperty(k) || (can[cache[i]._name][k] = cache[i][k])
+                    }
+                } else {
+                    can[cache[i]._name] = cache[i]
+                }
+
+
                 // 加载索引
             }
             meta.cache[name] = cache

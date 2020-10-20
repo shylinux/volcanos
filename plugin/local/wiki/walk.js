@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
         if (!msg.result || msg.result.length == 0) {
-            var table = can.page.AppendTable(can, output, msg, msg.append);
+            var table = can.page.AppendTable(can, msg, output, msg.append);
             table.onclick = function(event) {switch (event.target.tagName) {
                 case "TD":
                     can.onimport.which(event, table, msg.append, function(index, key) {

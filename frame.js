@@ -158,7 +158,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "studio": {name: "研发 studio", action: [
                 {name: "route", help: "路由器", index: "web.route"},
                 {name: "tmux", help: "命令行", index: "web.code.tmux.session"},
-                {name: "vimer", help: "编辑器", index: "web.code.inner", args: ["src/", "main.go"]},
+                {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
                 {name: "repos", help: "代码库", index: "web.code.git.status"},
                 {name: "total", help: "统计量", index: "web.code.git.total"},
                 {name: "plan", help: "任务表", index: "web.team.plan"},
@@ -489,10 +489,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         item.type == "select" && item.value && (target.value = item.value)
         return target
     },
-    table: function(can, target, type, msg, cb) {
-        return can.page.AppendTable(can, target, msg, msg.append, cb)
+    table: function(can, msg, target, type, cb) {
+        return can.page.AppendTable(can, msg, target, msg.append, cb)
     },
-    board: function(can, target, type, msg, text) { text = text || can.page.Display(msg.Result())
+    board: function(can, msg, target, type, text) { text = text || can.page.Display(msg.Result())
         return text && can.page.Append(can, target, [{view: ["code", "div", text]}]).code
     },
 

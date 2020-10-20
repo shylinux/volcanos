@@ -8,7 +8,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         ]))
 
         var cmd = "", arg = ""
-        can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line, array) {
+        can.onappend.table(can, msg, can.ui.content, "table", function(value, key, index, line, array) {
             if (key == "key") {
                 switch (value) {
                     case "extra.cmd": cmd += line.value; break
@@ -33,7 +33,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, can.ui.display)
 
 
-        can.onappend.board(can, can.ui.display, "board", msg)
+        can.onappend.board(can, msg, can.ui.display, "board")
         can.onimport._board(can, msg)
         return typeof cb == "function" && cb(msg)
     },
@@ -167,7 +167,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return true
     },
     _inner: function(can, msg) {
-        can.onappend.board(can, can.ui.display, "board", msg)
+        can.onappend.board(can, msg, can.ui.display, "board")
         can.onimport._board(can, msg)
         return true
     },

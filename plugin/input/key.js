@@ -23,7 +23,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], _init: function(can, item,
                     {button: ["关闭", function(event) { can.page.Remove(can, can._figure.fieldset) }]},
                 ])
 
-                can.page.AppendTable(can, can._figure.output, msg, msg.append, function(value, key, index, line) {
+                can.page.AppendTable(can, msg, can._figure.output, msg.append, function(value, key, index, line) {
                     return {type: "td", inner: value, onclick: function() {
                         target.value = value; msg.Option("_refresh") && run()
                         can.page.Remove(can, can._figure.fieldset) 

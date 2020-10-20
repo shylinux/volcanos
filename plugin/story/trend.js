@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, msg, list, cb, target) { can._output.innerHTML = ""
         if (msg.Option("_display") == "table") {
-            can.onappend.table(can, can._target, "table", msg)
+            can.onappend.table(can, msg, can._target, "table")
             return typeof cb == "function" && cb(msg)
         }
         can.ui = can.page.Append(can, can._output, [{view: "content"}, {view: "display"}])
@@ -183,7 +183,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
     },
     "数据源": function(event, can) {
         can.ui.display.innerHTML = ""
-        can.onappend.table(can, can.ui.display, "table", can._msg)
+        can.onappend.table(can, can._msg, can.ui.display, "table")
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["from", "commit", "total", "date", "begin", "add", "del", "close", "note"]})

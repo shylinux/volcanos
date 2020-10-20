@@ -12,21 +12,21 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
         can.run(msg._event, ["search", "River.onexport.key"])
 
         can.run(msg._event, cmd, function(msg) {
-            can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line) {
+            can.onappend.table(can, msg, can.ui.content, "table", function(value, key, index, line) {
                 return {text: [value, "td"], onclick: function(event) {
                     can.Status("index", index)
                     can.Status("value", value)
                     can.run(event, ["render", line.type, line.name, line.text], function(msg) {
                         can.ui.display.innerHTML = ""
-                        can.onappend.table(can, can.ui.display, "table", msg)
-                        can.onappend.board(can, can.ui.display, "board", msg)
+                        can.onappend.table(can, msg, can.ui.display, "table")
+                        can.onappend.board(can, msg, can.ui.display, "board")
                     })
                 }}
                 ca.run(event, [""])
             })
 
             can.Status("count", msg.append && msg.append[0] && msg[msg.append[0]].length || 0)
-            can.onappend.board(can, can.ui.content, "board", msg)
+            can.onappend.board(can, msg, can.ui.content, "board")
         })
     },
 
@@ -34,7 +34,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
         function search(word) { cmd[1] = word || ""
             var ev = {}; var res = can.request(ev); res.Copy(msg)
             can.run(ev, cmd, function(res) { can.ui.content.innerHTML = ""
-                can.onappend.table(can, can.ui.content, "table", res, function(value, key, index, line) {
+                can.onappend.table(can, res, can.ui.content, "table", function(value, key, index, line) {
                     can.Status("count", index+1)
                     return {text: [value, "td"], onclick: function(event) {
                         typeof cb == "function" && cb(line)
@@ -60,7 +60,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
     select: function(can, msg, cmd, cb) { can._output.innerHTML = ""
         function search(word, cb) { cmd[1] = word
             can.run({}, cmd, function(msg) { can.ui.content.innerHTML = ""
-                can.onappend.table(can, can.ui.content, "table", msg, function(value, key, index, line) {
+                can.onappend.table(can, msg, can.ui.content, "table", function(value, key, index, line) {
                     can.Status("count", index+1)
                     return {text: [value, "td"], onclick: function(event) {
                         can.Status("index", index)
