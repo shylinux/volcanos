@@ -300,10 +300,6 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             height: item.offsetHeight, width: item.offsetWidth,
             left: item.offsetLeft, top: item.offsetTop + can.ui.profile.offsetHeight-100,
         }})
-
-        can.ui.editor.focus()
-        // can.ui.editor.setSelectionRange(0, 0)
-        // can.ui.editor.setSelectionRange(event.offsetX/10, event.offsetX/10)
     },
     insertLine: function(can, value, before) {
         var line = can.onaction.appendLine(can, value)

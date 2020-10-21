@@ -171,6 +171,9 @@ Volcanos("onaction", {help: "控件交互", list: [],
         }, onclick: function(event) {
             can.onkeymap && can.onkeymap._mode(can, "insert")
             can.onaction.selectLine(can, ui.tr)
+            can.onkeymap && can.ui.editor.focus()
+            // can.ui.editor.setSelectionRange(0, 0)
+            // can.ui.editor.setSelectionRange(event.offsetX/10, event.offsetX/10)
 
         }, ondblclick: function(event) {
             var str = ui.text.innerText

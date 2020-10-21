@@ -124,12 +124,14 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             ]},
         }},
         "product": {name: "产品群", storm: {
-            "office": {name: "办公 office", index: [
-                "web.wiki.feel",
-                "web.wiki.draw",
-                "web.wiki.data",
-                "web.team.plan",
-                "web.wiki.word",
+            "office": {name: "办公 office",  action: [
+                {name: "feel", help: "影音", index: "web.wiki.feel"},
+                {name: "draw", help: "绘图", index: "web.wiki.draw"},
+                {name: "data", help: "数据", index: "web.wiki.data"},
+                {name: "plan", help: "计划", index: "web.team.plan"},
+                {name: "think", help: "智库", index: "web.wiki.word", args: ["usr/learning/"]},
+                {name: "index", help: "索引", index: "web.wiki.word", args: ["usr/learning/index.shy"]},
+                {name: "context", help: "编程", index: "web.wiki.word", args: ["usr/learning/自然/编程/context.shy"]},
             ]},
             "english": {name: "英汉 english",  action: [
                 {name: "english", help: "英汉", index: "web.wiki.alpha.alpha", args: ["word", "hi"]},
@@ -195,19 +197,12 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "mysql": {name: "数据 mysql",  action: [
                 {name: "mysql", help: "数据存储", index: "web.wiki.word", args: ["usr/mysql-story/src/main.shy"]},
             ]},
-            "context": {name: "环境 context",  action: [
-                {name: "think", help: "智库", index: "web.wiki.word", args: ["usr/learning/"]},
-                {name: "index", help: "索引", index: "web.wiki.word", args: ["usr/learning/index.shy"]},
-                {name: "context", help: "编程", index: "web.wiki.word", args: ["usr/learning/自然/编程/context.shy"]},
-            ]},
         }},
         "profile": {name: "测试群", storm: {
             "pprof": {name: "pprof", index: [
-                "web.code.pprof",
                 "web.code.bench",
-                "web.favor",
-                "web.cache",
-                "web.share",
+                "web.code.pprof",
+                "web.code.favor",
             ]},
         }},
         "operate": {name: "运维群", storm: {
