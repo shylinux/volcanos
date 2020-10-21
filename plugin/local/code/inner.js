@@ -62,6 +62,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
     project: function(can, path, cb) { can.Option({path: path})
         var msg = can.request({}); msg.Option("dir_root", path), msg.Option("dir_deep", "true")
         can.run(msg._event, ["action", "dir", "./"], function(msg) { can.ui.project.innerHTML = ""
+            can.Status("文件数", msg.path.length)
             can.onappend.tree(can, msg, "path", "/", can.ui.project, function(event, value) {
                 can.onimport.tabview(can, can.Option("path"), value.path)
             }), typeof cb == "function" && cb()
@@ -272,7 +273,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
         }, true)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: ["解析器", "文件名", "当前行", "跳转数", "标签数"],
+Volcanos("onexport", {help: "导出数据", list: ["文件数", "解析器", "文件名", "当前行", "跳转数", "标签数"],
     position: function(can, index, total) { total = total || can.max
         return (parseInt(index))+"/"+parseInt(total)+" = "+parseInt((index)*100/total)+"%"
     },
