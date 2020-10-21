@@ -105,7 +105,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
     day: function(can, msg) {
         var head = ["hour", "task"]
-        var list = [0]; for (var i = 0; i < 24; i++) { list.push(can.base.Number(i, 2)) }
+        var list = [0]; for (var i = 7; i < 24; i++) { list.push(can.base.Number(i, 2)) }
         function key(time) { return can.base.Number(time.getHours(), 2) }
 
         function set(begin_time, col, row) { return can.base.Time(begin_time, "%y-%m-%d ")+list[row] }
@@ -114,7 +114,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     week: function(can, msg) {
         var head = ["hour"].concat(["周日", "周一", "周二", "周三", "周四", "周五", "周六"])
-        var list = [0]; for (var i = 0; i < 24; i++) { list.push(can.base.Number(i, 2)) }
+        var list = [0]; for (var i = 7; i < 24; i++) { list.push(can.base.Number(i, 2)) }
         function key(time) { return time.getDay()+" "+can.base.Number(time.getHours(), 2) }
 
         function set(begin_time, col, row) { return can.base.Time(can.base.TimeAdd(begin_time, -begin_time.getDay()+col-1), "%y-%m-%d ")+list[row] }

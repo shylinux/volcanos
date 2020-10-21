@@ -185,7 +185,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _refresh: function(can, msg) {
         can.Timer(500, function(timer) {
-            can.run({})
+            var sub = can.request({})
+            sub.Option("_count", parseInt(msg.Option("_count"))-1)
+            can.run(sub._event)
         })
     },
 
