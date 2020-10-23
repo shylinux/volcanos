@@ -59,19 +59,19 @@ Page({
     onReachBottom: function () {},
 
     plugin: {
-        scan: function(page) { app.scans(function(res) {
+        getLocation: function(page, data) { app.location({success: function(res) {
+            res.latitude = parseInt(res.latitude * 100000)
+            res.longitude = parseInt(res.longitude * 100000)
+            kit.List(page.data.insert, function(item) {
+                res[item.name] && (item.value = res[item.name])
+            }), page.setData(page.data)
+        }}) },
+        scanQRCode: function(page) { app.scans(function(res) {
             kit.List(page.data.insert, function(item) {
                 res[item.name] && (item.value = res[item.name])
             }), page.setData(page.data)
         }) },
         paste: function(page, data) { wx.getClipboardData({success: function(res) {
-            kit.List(page.data.insert, function(item) {
-                res[item.name] && (item.value = res[item.name])
-            }), page.setData(page.data)
-        }}) },
-        location: function(page, data) { app.location({success: function(res) {
-            res.latitude = parseInt(res.latitude * 100000)
-            res.longitude = parseInt(res.longitude * 100000)
             kit.List(page.data.insert, function(item) {
                 res[item.name] && (item.value = res[item.name])
             }), page.setData(page.data)

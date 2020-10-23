@@ -42,21 +42,21 @@ App({
         wx.downloadFile({url: app.conf.serve+"/"+cmd, data: data, success: cb})
     },
     usercode: function(cb) { var app = this
-        wx.login({success: function(res) { app.request("mp/login/code", {code: res.code}, function(msg) {
+        wx.login({success: function(res) { app.request("mp/login/sess", {code: res.code}, function(msg) {
             wx.setStorage({key: "sessid", data: msg.Result()})
             app.conf.sessid = msg.Result(), typeof cb == "function" && cb()
         })}})
     },
     userinfo: function(cb) { var app = this
         if (app.conf.userInfo) {
-            app.request("mp/login/info", app.conf.userInfo, function(msg) {
+            app.request("mp/login/user", app.conf.userInfo, function(msg) {
                 typeof cb == "function" && cb(app.conf.userInfo)
             })
             return
         }
         app.usercode(function() {
             wx.getSetting({ success: function(res) { res.authSetting['scope.userInfo'] && wx.getUserInfo({success: function(res) {
-                app.request("mp/login/info", res.userInfo, function(msg) { app.conf.userInfo = res.userInfo
+                app.request("mp/login/user", res.userInfo, function(msg) { app.conf.userInfo = res.userInfo
                     typeof cb == "function" && cb(res.userInfo)
                 })
             }})}})
