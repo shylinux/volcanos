@@ -343,7 +343,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             typeof cb == "function" && cb(msg)
             if (silent) { return }
 
-            var display = (msg.Option("_display")||meta.feature.display||"table.js")
+            var display = meta.feature.display || "table.js"
             display.indexOf("/") == 0 || (display = "/plugin/"+display)
 
             display.endsWith(".js") || (display += ".js")

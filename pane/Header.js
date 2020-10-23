@@ -1,4 +1,30 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
+        can.user.isWeiXin && can.onimport.weixin(can)
+    },
+    weixin: function(can) { can.run({}, ["action", "wx"], function(msg) {
+        can.require(["https://res.wx.qq.com/open/js/jweixin-1.6.0.js"], function(can) {
+            can.user.agent = { __proto__: can.user.agent,
+                getLocation: function(cb) { wx.getLocation({type: "gcj02", success: function (res) {
+                    typeof cb == "function" && cb({latitude: parseInt(res.latitude*100000), longitude: parseInt(res.longitude*100000) })
+                } }) },
+                openLocation: function(msg) { wx.openLocation({
+                    latitude: parseInt(msg.Option("latitude"))/100000,
+                    longitude: parseInt(msg.Option("longitude"))/100000,
+                    name: msg.Option("name"), address: msg.Option("text"),
+                    scale: msg.Option("scale")||14, infoUrl: msg.Option("link"),
+                }) },
+                scanQRCode: function(cb) { wx.scanQRCode({ needResult: cb? 1: 0, scanType: ["qrCode","barCode"], success: function (res) {
+                    typeof cb == "function" && cb(can.user.scan(res.resultStr))
+                } }) },
+                chooseImage: function(cb, count) { wx.chooseImage({count: count||9, sizeType: ['original', 'compressed'], sourceType: ['album', 'camera'], success: function (res) {
+                    typeof cb == "function" && cb(res.localIds)
+                } }) },
+            }
+            wx.config({debug: msg.Option("debug") == "true", jsApiList: can.core.Item(can.user.agent),
+                nonceStr: msg.Option("noncestr"), timestamp: msg.Option("timestamp"),
+                appId: msg.Option("appid"), signature: msg.Option("signature"),
+            })
+        }) })
     },
 })
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {

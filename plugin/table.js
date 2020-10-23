@@ -94,14 +94,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _table: function(can, value, key, index, line, array) {
         return {type: "td", inner: value, click: function(event) { var target = event.target
-            if (target.tagName == "INPUT" && target.type == "button") { var msg = can.sup.request(event)
-                msg.Option(can.Option()); if (key == "value") {
-                    can.core.List(array, function(item, index) {
-                        msg.Option(item.key, item.value)
-                    })
-                } else {
-                    msg.Option(line)
-                }
+            if (target.tagName == "INPUT" && target.type == "button") { var msg = can.sup.request(event); msg.Option(can.Option())
+                key == "value"? can.core.List(array, function(item, index) { msg.Option(item.key, item.value) }): msg.Option(line)
 
                 var cb = can.onaction[target.name]; return typeof cb == "function"? cb(event, can, target.name): 
                     can.sup.onaction.input(event, can.sup, target.name, function(msg) {
@@ -206,6 +200,25 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 })
 Volcanos("onaction", {help: "控件交互", list: [],
+    getLocation: function(event, can, cmd) { var msg = can.request(can)
+        can.user.agent.getLocation(function(res) {
+            var arg = []; can.core.Item(res, function(key, value) { arg.push(key, value) })
+            can.run(event, ["action", cmd].concat(arg))
+        })
+    },
+    openLocation: function(event, can) { var msg = can.request(can)
+        can.user.agent.openLocation(msg)
+    },
+    scanQRCode0: function(event, can) { var msg = can.request(can)
+        can.user.agent.scanQRCode()
+    },
+    scanQRCode: function(event, can, cmd) { var msg = can.request(can)
+        can.user.agent.scanQRCode(function(res) {
+            var arg = []; can.core.Item(res, function(key, value) { arg.push(key, value) })
+            can.run(event, ["action", cmd].concat(arg))
+        })
+    },
+
     "清空": function(event, can, name) { can._output.innerHTML = "" },
     "结束": function(event, can, name) { can.user.confirm("确定结束?") && can.run(event, ["action", name], function(msg) {
         can.run({})

@@ -20,14 +20,14 @@ Volcanos("onaction", {help: "控件交互", list: [],
         if (event.target.tagName == "SELECT") { can.run(event) }
     },
     ondblclick: function(event, can) {
-        if (can.Conf("type") == "textarea") { event.target.setSelectionRange(0, -1) }
         if (can.Conf("type") == "text") { event.target.setSelectionRange(0, -1) }
+        if (can.Conf("type") == "textarea") { event.target.setSelectionRange(0, -1) }
     },
     onclick: function(event, can) { var msg = can.sup.request(event)
         // 插件回调
-        var name = can.Conf("name")
+        var name = can.Conf("name"), action = can.Conf("action")
         var sub = can.sup._outputs && can.sup._outputs[can.sup._outputs.length-1]
-        var cb = sub && sub.onaction && sub.onaction[name]
+        var cb = sub && sub.onaction && (sub.onaction[action] || sub.onaction[name])
         if (typeof cb == "function") { return cb(event, sub, name) }
 
         // 交互回调
@@ -39,7 +39,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
         }
 
         // 控件回调
-        var cb = can.onaction[name]
+        var cb = can.onaction[action] || can.onaction[name]
         if (typeof cb == "function") { return cb(event, can, name) }
 
         // 通用回调

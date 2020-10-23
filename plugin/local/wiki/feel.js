@@ -84,6 +84,11 @@ Volcanos("onaction", {help: "组件菜单", list: [
         ["高度", 100, 200, 400, 600, 800],
         ["倍速", 0.1, 0.2, 0.5, 1, 2, 3, 5, 10],
     ],
+    chooseImage: function(event, can) { var msg = can.request(event)
+        can.user.agent.chooseImage(function(list) { can.core.List(list, function(item) {
+            can.page.Append(can, can._output, [{img: item, height: 200}])
+        }) })
+    },
     upload: function(event, can) { can.user.upload(event, can) },
     "上一页": function(event, can, key, value) { 
         can.begin > 0 && (can.begin -= can.limit, can.onimport._page(can, can.list, can.begin, can.limit))

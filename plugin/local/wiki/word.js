@@ -1,6 +1,12 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { target.innerHTML = ""
         if (msg.Option("_display") == "table") {
-            return can.onappend.table(can, msg, target, "table")
+            return can.onappend.table(can, msg, target, "table", function(value, key) {
+                return {text: [value, "td"], onclick: function(event) {
+                    can.sup.onaction.change(event, can.sup, key, value, function(msg) {
+                        can.run(event)
+                    })
+                }}
+            })
         } target.innerHTML = msg.Result()
 
         can.page.Select(can, target, ".story", function(item) { var data = item.dataset
