@@ -100,6 +100,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 var cb = can.onaction[target.name]; return typeof cb == "function"? cb(event, can, target.name): 
                     can.sup.onaction.input(event, can.sup, target.name, function(msg) {
                         can.user.toast(can, msg.Result())
+
                         if (can.onimport._process(can, msg)) {
                             return typeof cb == "function" && cb(msg)
                         }
@@ -142,7 +143,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         var cb = can.onimport[process]; return typeof cb == "function" && cb(can, msg)
     },
     _follow: function(can, msg) {
-        if (msg.Result() == "stop") { return can.user.toast(can, msg.Option("cache.action")+" done!")}
+        if (msg.Option("cache.status") == "stop") { return can.user.toast(can, msg.Option("cache.action")+" done!")}
         can.ui || (can.ui = can.page.Appends(can, can._target, [{view: ["content", "div"]}]))
         can.page.ClassList.add(can, can.ui.content, "code")
         can.page.Modify(can, can.ui.content, {style: {"max-height": 400}})
