@@ -9,17 +9,21 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
         can._main_river = can.user.Search(can, RIVER) || (can.user.isExtension? "product": "project")
         can._main_storm = can.user.Search(can, STORM) || (can.user.isExtension? "chrome": "studio")
 
-        can.run({}, [], function(sup) { can._output.innerHTML = ""; var select; sup.Table(function(value, index, array) {
-            var view = can.onappend.item(can, can._output, "item", value, function(event, item) { var msg = can.request(event, {_msg: sup})
-                // 左键点击
-                can.onimport.storm(event, can, value.hash)
-            }, function(event) {
-                // 右键点击
-                can.onappend.menu(can, sup, value)
-            })
+        can.run({}, [], function(sup) {
+            can._output.innerHTML = ""; var select;
+            sup.Table(function(value, index, array) {
+                var view = can.onappend.item(can, can._output, "item", value, function(event, item) { var msg = can.request(event, {_msg: sup})
+                    // 左键点击
+                    can.onimport.storm(event, can, value.hash)
+                }, function(event) {
+                    // 右键点击
+                    can.onappend.menu(can, sup, value)
+                })
 
-            if (index == 0 || [value.hash, value.name].indexOf(can._main_river) > -1) { select = view }
-        }); select && select.click(), typeof cb == "function" && cb(sup) })
+                if (index == 0 || [value.hash, value.name].indexOf(can._main_river) > -1) { select = view }
+            });
+            select && select.click(), typeof cb == "function" && cb(sup)
+        })
     },
     storm: function(event, can, river) {
         var list = can.sublist[river]; if (list) { var hide = list.style.display == "none"
