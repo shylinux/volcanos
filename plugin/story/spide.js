@@ -1,10 +1,17 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, msg, list, cb, target) { can._output.innerHTML = ""
         if (msg.Option("_display") == "table") {
-            can.onappend.table(can, msg, can._target, "table")
+            can.onappend.table(can, msg, can._target, "table", function(value, key) {
+                return {text: [value, "td"], click: function(event) {
+                    can.sup.onaction.change(event, can.sup, key, value, function(msg) {
+                        can.run(event)
+                    })
+                }}
+            })
             return typeof cb == "function" && cb(msg)
         }
         can.ui = can.page.Append(can, can._output, [{view: "content"}, {view: "display"}])
+        can.dir_root = msg.Option("dir_root")
 
         can.onappend._init(can, {name: "draw", help: "绘图", inputs: [
                 {type: "text", name: "path", value: "hi.svg"},
@@ -78,7 +85,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
         })
         return tree.height = height
     },
-    _draw: function(can, tree, x, y) { var sub = can.sub, name = tree.name || can.Option("path") || "."
+    _draw: function(can, tree, x, y) { var sub = can.sub, name = tree.name || can.Option("name") || "."
         tree.view = sub.onimport.draw({}, sub, {
             shape: "text", point: [{x: x, y: y+tree.height*30/2}], style: {inner: name, "text-anchor": "start", "stroke-width": 1, fill: "yellow"},
         })
@@ -96,7 +103,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
             if (tree.name.endsWith("go") ||
             tree.name.endsWith("c") ||
             tree.name.endsWith("h")) {
-                can.run(event, [can.Option("path"), tree.file], function(msg) {
+                can.run(event, [can.Option("name"), tree.file], function(msg) {
                     msg.Table(function(value) { tree.tags = true
                         tree.list.push({type: "tags", file: value.file, line: value.line, name: value.name, last: tree, list: []})
                     })
@@ -108,7 +115,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
                 return
             }
 
-            can.onaction._show(can, [can.Option("path"), tree.file, tree.line], {
+            can.onaction._show(can, [can.dir_root, tree.file, tree.line], {
                 position: "fixed", width: 800, height: 600,
                 left: event.x-(event.x>600? 400: 100),
                 top: event.y-(event.y>600? 400: 0),
