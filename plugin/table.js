@@ -32,7 +32,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         }, can.ui.display)
 
-
         can.onappend.board(can, msg, can.ui.display, "board")
         can.onimport._board(can, msg)
         return typeof cb == "function" && cb(msg)
@@ -97,6 +96,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             if (target.tagName == "INPUT" && target.type == "button") { var msg = can.sup.request(event); msg.Option(can.Option())
                 key == "value"? can.core.List(array, function(item, index) { msg.Option(item.key, item.value) }): msg.Option(line)
 
+                var msg = can.request(event)
+                msg.Option("action", target.name)
                 var cb = can.onaction[target.name]; return typeof cb == "function"? cb(event, can, target.name): 
                     can.sup.onaction.input(event, can.sup, target.name, function(msg) {
                         can.user.toast(can, msg.Result())
@@ -162,9 +163,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return true
     },
     _inner: function(can, msg) {
+        can.onappend.table(can, msg, can.ui.display, "table", function(value, key, index, line, array) {
+            return can.onimport._table(can, value, key, index, line, array)
+        })
+
         can.onappend.board(can, msg, can.ui.display, "board")
         can.onimport._board(can, msg)
         return true
+
     },
     _field: function(can, msg) {
         msg.Table(function(value) {

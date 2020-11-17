@@ -7,6 +7,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], _init: function(can, item,
     },
     key: {onclick: function(event, can, item, target) {
         function run() { var msg = can.request(event); msg.Option(can.Option())
+            msg.Option("action", item._action)
             can.run(event, ["action", "inputs", item.name, target.value], function(msg) {
                 if (!msg.append) { return }
 
