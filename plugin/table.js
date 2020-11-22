@@ -163,12 +163,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return true
     },
     _inner: function(can, msg) {
-        can.onappend.table(can, msg, can.ui.display, "table", function(value, key, index, line, array) {
+        can.onappend.table(can, msg, can._output, "table", function(value, key, index, line, array) {
             return can.onimport._table(can, value, key, index, line, array)
         })
 
-        can.onappend.board(can, msg, can.ui.display, "board")
-        can.onimport._board(can, msg)
+        can.onappend.board(can, msg, can._output, "board")
+        // can.onimport._board(can, msg)
         return true
 
     },
