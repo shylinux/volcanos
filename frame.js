@@ -178,17 +178,17 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "HTML5", help: "浏览器", index: "web.wiki.word", args: ["usr/icebergs/misc/chrome/chrome.shy"]},
             ]},
             "linux": {name: "系统 linux",  action: [
-                {name: "centos", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/centos/centos.shy"]},
-                // {name: "ubuntu", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/ubuntu/ubuntu.shy"]},
-                // {name: "alpine", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/alpine/alpine.shy"]},
-                // {name: "android", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/android/android.shy"]},
-                // {name: "context", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/context/context.shy"]},
+                {name: "idc", help: "平台", index: "web.wiki.word", args: ["usr/linux-story/idc/idc.shy"]},
+                {name: "iso", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/iso.shy"]},
+                {name: "iot", help: "设备", index: "web.wiki.word", args: ["usr/linux-story/iot/iot.shy"]},
                 {name: "linux", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/src/main.shy"]},
             ]},
             "nginx": {name: "代理 nginx",  action: [
                 {name: "nginx", help: "代理", index: "web.wiki.word", args: ["usr/nginx-story/src/main.shy"]},
             ]},
             "golang": {name: "编程 golang",  action: [
+                {name: "grafana", help: "可视化", index: "web.wiki.word", args: ["usr/golang-story/src/grafana/grafana.shy"]},
+                {name: "gogs", help: "代码库", index: "web.wiki.word", args: ["usr/golang-story/src/gogs/gogs.shy"]},
                 {name: "golang", help: "编程", index: "web.wiki.word", args: ["usr/golang-story/src/main.shy"]},
             ]},
             "redis": {name: "缓存 redis",  action: [
