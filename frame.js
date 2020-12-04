@@ -1,8 +1,6 @@
-// volcanos: 前端 火山架 我看不行
-// FMS: a fieldset manager system
 Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta, list, cb, target) {
         can.core.Next(meta.panes, function(item, next) {
-            can.onappend._init(can, item, meta.libs.concat(item.list), function(pane) { pane.Conf(item)
+            can.onappend._init(can, item, meta.libs.concat(item.list), function(pane) {
                 pane.run = function(event, cmds, cb) {
                     return (can.onengine[cmds[0]]||can.onengine[meta.main.engine])(event, can, pane.request(event), pane, cmds, cb)
                 }, can[item.name] = pane, next()
@@ -18,14 +16,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             })
         })
     },
-    _merge: function(can, sub) {
-        can.core && can.core.Item(sub, function(key, value) {
-            if (sub.hasOwnProperty(key)) { can.onengine[key] = value }
-        })
-        return true
-    },
-    _daemon: function(can, name) {
-        return
+    _daemon: function(can, name) { return
         can.misc.WSS(can, "", {type: "chrome", name: name}, function(event, msg) {
             if (msg.Option("_handle")) { return can.user.toast(can, msg.result.join("")) }
             can.user.toast(can, msg.detail.join(" "))
@@ -219,7 +210,8 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         }},
     },
 })
-Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) { meta.name = meta.name.split(" ")[0]
+Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) {
+        meta.name = meta.name.split(" ")[0]
         field = field || can.onappend.field(can, target, meta.type||"plugin", meta).first
         var legend = can.page.Select(can, field, "legend")[0]
         var option = can.page.Select(can, field, "form.option")[0]
@@ -281,13 +273,13 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }, [Volcanos.meta.volcano].concat(list), function(sub) { cb(sub)
             meta.feature = sub.base.Obj(meta.feature, {})
             sub.page.ClassList.add(sub, field, meta.style||meta.feature.style||"")
-            sub.onimport && sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field)
+            // sub.onimport && sub.onimport._init(sub, sub.Conf(meta), list, function() {}, field)
 
             meta.inputs && sub.onappend._option(sub, meta, list, cb)
             sub.onaction && sub.onappend._action(sub, sub._action, meta.button || sub.onaction.list)
             sub.onexport && sub.onappend._status(sub, sub._status, sub.onexport.list)
         })
-        return sub
+        return sub.Conf(meta), sub
     },
     _option: function(can, meta, list, cb) { var index = -1, args = can.base.Obj(meta.arg||meta.args, [])
         function add(item, next) { item._input != "button" && index++

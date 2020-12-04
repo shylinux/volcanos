@@ -1,7 +1,57 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
-        can.user.isWeiXin && can.onimport.weixin(can)
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+        can._output.innerHTML = ""
+        can.onimport._title(can, msg)
+        can.onimport._state(can, msg)
+        can.onimport._search(can, msg)
+        can.onimport._agent(can, msg)
+        typeof cb == "function" && cb()
     },
-    weixin: function(can) { can.run({}, ["action", "wx"], function(msg) {
+    _title: function(can, msg) {
+        can.user.title(can.user.Search(can, "title") || can.user.Search(can, "pod"))
+        can.user.isMobile || can.core.List(msg.result||["github.com/shylinux/contexts"], function(title) {
+            can.page.Append(can, can._output, [{view: ["title", "div", title],
+                click: function(event) { can.onaction["title"](event, can, "title") },
+            }])
+        })
+    },
+    _search: function(can, msg) {
+        can.user.isMobile || (can.search = can.page.Append(can, can._output, [{view: "search", list: [{type: "input", data: {placeholder: "search"}, onkeydown: function(event) {
+            switch (event.key) {
+                case "Enter": can.run(event, ["search", "Search.onimport.input", "*", event.target.value]); break
+            }
+        }, }], }]).input)
+
+        var ui = can.page.Append(can, can._output, can.core.List(can.user.isMobile || can.user.isExtension || can.user.Search(can, "pod")? ["River"]: ["pack"], function(item) {
+            return {view: "item", list: [{type: "input", data: {type: "button", name: item, value: item.toLowerCase()}, onclick: function(event) {
+                var cb = can.onaction[item]; typeof cb == "function" && cb(event, can, item)
+            }, }]}
+        }))
+    },
+    _state: function(can, msg) {
+        can.core.List(can.Conf("state")||["time", USERNAME], function(item) {
+            can.page.Append(can, can._output, [{view: ["state "+item, "div", can.Conf(item)],
+                click: function(event) { can.onaction[item](event, can, item) },
+                _init: function(target) {
+                    item == "time" && can.core.Timer({interval: 1000, length: -1}, function(event) {
+                        can.onimport.time(can, target)
+                    })
+                },
+            }])
+        })
+    },
+    _agent: function(can, msg) {
+        if (can.user.isExtension) {
+            can.onaction.River({}, can)
+        } else if (can.user.isMobile) {
+            can.onaction.River({}, can)
+            can.onaction.Footer({}, can)
+        } else if (can.user.Search(can, "pod")) {
+            can.onaction.River({}, can)
+            can.onaction.Footer({}, can)
+        }
+        can.user.isWeiXin && can.onimport._weixin(can)
+    },
+    _weixin: function(can, msg) { can.run({}, ["action", "wx"], function(msg) {
         can.require(["https://res.wx.qq.com/open/js/jweixin-1.6.0.js"], function(can) {
             can.user.agent = { __proto__: can.user.agent,
                 getLocation: function(cb) { wx.getLocation({type: "gcj02", success: function (res) {
@@ -26,18 +76,33 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
             })
         }) })
     },
+
+    time: function(can, target) {
+        target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
+
+        if (can.user.Search(can, "topic")) { return }
+        if (can.user.Search(can, "pod")) { return }
+
+        var h = parseInt(can.base.Time(null, "%H"))
+        var topic = h<7 || h>17? "black": "white"
+        can.onaction[topic]({}, can, topic)
+    },
 })
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
         function init() { can.run({}, [], function(msg) {
-            can.onexport._init(can, msg, msg.append, function() {
+            const USERNAME = "username"
+            can.Conf(USERNAME, msg.Option("user.nick")||msg.Option("user.name"))
+            can.Conf(USERNAME).length > 10 && can.Conf(USERNAME, can.Conf(USERNAME).slice(0, 10))
+
+            can.onimport._init(can, msg, msg.append, function() {
                 can.run({}, ["search", "River.onaction._init"])
                 can.run({}, ["search", "Footer.onaction._init"])
             }, target)
         }) }
 
-        can.user.title(can.user.Search(can, "title"))
-        can.page.Modify(can, document.body, {className:
-            can.user.Search(can, "topic") || (can.user.Search(can, "pod") || can.base.isNight() ? "black": "white")})
+        can.page.Modify(can, target, {
+            className: can.user.Search(can, "topic") || (can.user.Search(can, "pod") || can.base.isNight() ? "black": "white"),
+        })
 
         location.protocol == "file:"? init(): can.run({}, ["check"], function(msg) {
             msg.Result()? init(): can.user.login(can, init)
@@ -49,17 +114,18 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         })
         location.href = can.user.Share(can, args, true)
     },
-    white: function(event, can, key) {
-        can.page.Modify(can, document.body, {className: key})
-    },
-    black: function(event, can, key) {
-        can.page.Modify(can, document.body, {className: key})
-    },
     username: function(event, can, key) {
         if (can.user.confirm("logout?")) {
             can.user.Cookie(can, "sessid", "")
             can.user.reload(true)
         }
+    },
+
+    white: function(event, can, key) {
+        can.page.Modify(can, document.body, {className: key})
+    },
+    black: function(event, can, key) {
+        can.page.Modify(can, document.body, {className: key})
     },
     pack: function(event, can, key) {
         can.core.Item(Volcanos.meta.pack, function(key, msg) {
@@ -87,66 +153,5 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         }) 
     },
 })
-Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) {
-        const USERNAME = "username"
-        can.Conf(USERNAME, msg.Option("user.nick")||msg.Option("user.name"))
-        can.Conf(USERNAME).length > 10 && can.Conf(USERNAME, can.Conf(USERNAME).slice(0, 10))
-        can._output.innerHTML = ""
-
-        // 标题
-        can.user.title(can.user.Search(can, "pod"))
-        can.user.isMobile || can.core.List(msg.result||["github.com/shylinux/contexts"], function(title) {
-            can.page.Append(can, can._output, [{view: ["title", "div", title],
-                click: function(event) { can.onaction["title"](event, can, "title") },
-            }])
-        })
-
-        // 状态
-        can.core.List(can.Conf("state")||["time", USERNAME], function(item) {
-            can.page.Append(can, can._output, [{view: ["state "+item, "div", can.Conf(item)],
-                click: function(event) { can.onaction[item](event, can, item) },
-            }])
-        })
-        can.page.Select(can, can._output, "div.state.time", function(item) {
-            can.timer = can.Timer({interval: 1000, length: -1}, function(event) {
-                can.onexport.time(event, can, "time", item)
-            })
-        })
-
-        // 搜索
-        can.user.isMobile || (can.search = can.page.Append(can, can._output, [{view: "search", list: [{type: "input", data: {placeholder: "search"}, onkeydown: function(event) {
-            switch (event.key) {
-                case "Enter": can.run(event, ["search", "Search.onimport.input", "*", event.target.value]); break
-            }
-        }, }], }]).input)
-
-        var ui = can.page.Append(can, can._output, can.core.List(can.user.isMobile || can.user.isExtension || can.user.Search(can, "pod")? ["River"]: ["pack"], function(item) {
-            return {view: "item", list: [{type: "input", data: {type: "button", name: item, value: item.toLowerCase()}, onclick: function(event) {
-                var cb = can.onaction[item]; typeof cb == "function" && cb(event, can, item)
-            }, }]}
-        }))
-
-        // 场景
-        if (can.user.isExtension) {
-            can.onaction.River({}, can)
-        } else if (can.user.isMobile) {
-            can.onaction.River({}, can)
-            can.onaction.Footer({}, can)
-        } else if (can.user.Search(can, "pod")) {
-            can.onaction.River({}, can)
-            can.onaction.Footer({}, can)
-        }
-
-        typeof cb == "function" && cb()
-    },
-    time: function(event, can, key, target) {
-        target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
-
-        if (can.user.Search(can, "pod")) { return }
-        if (can.user.Search(can, "topic")) { return }
-        var h = parseInt(can.base.Time(null, "%H"))
-        var topic = h < 7 || h > 17? "black": "white"
-        can.onaction[topic]({}, can, topic)
-    },
-})
+Volcanos("onexport", {help: "导出数据", list: []})
 
