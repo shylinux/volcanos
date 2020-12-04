@@ -16,6 +16,7 @@ var Volcanos = shy("火山架", {libs: [], pack: {}, order: 1, cache: {}, index:
     if (typeof name == "object") { var Config = name
         meta.volcano = Config.volcano, meta.libs = Config.libs
         var Preload = Config.libs; Config.panes.forEach(function(pane) {
+            pane.type= "pane"
             pane.list = pane.list || ["/pane/"+pane.name+".css", "/pane/"+pane.name+".js"]
             Preload = Preload.concat(pane.list)
         }); Preload = Preload.concat(Config.plugin)
@@ -88,14 +89,19 @@ var Volcanos = shy("火山架", {libs: [], pack: {}, order: 1, cache: {}, index:
                 target.appendChild(style)
             }
         },
-        request: function(event, msg, proto) { event = event || {}
-            if (!msg && event._msg) { return event._msg }
+        request: function(event, option) { event = event || {}
+            if (event._msg) {
+                can.core.Item(option, function(key, value) {
+                    msg.Option(key, value)
+                })
+                return event._msg
+            }
 
             var ls = (can._name||can._help).split("/")
             event._pane = ls[ls.length-1]
 
-            event._msg = msg = msg || {}, msg._event = event, msg._can = can
-            msg.__proto__ = proto || { _name: meta.order++, _create_time: new Date(),
+            var msg = {}; event._msg = msg, msg._event = event, msg._can = can
+            msg.__proto__ = { _name: meta.order++, _create_time: new Date(),
                 Option: function(key, val) {
                     if (key == undefined) { return msg && msg.option || [] }
                     if (typeof key == "object") { can.core.Item(key, msg.Option) }
@@ -172,6 +178,9 @@ var Volcanos = shy("火山架", {libs: [], pack: {}, order: 1, cache: {}, index:
                     return msg
                 },
             }
+            can.core.Item(option, function(key, value) {
+                msg.Option(key, value)
+            })
             return msg
         },
 

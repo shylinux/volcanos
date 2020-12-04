@@ -6,6 +6,7 @@ body {
 fieldset {
     color:cyan;
     padding:2px;
+    margin:0; border:0;
 }
 legend {
     margin-left:10px;
@@ -300,6 +301,9 @@ body.white select:hover {
 
 body.white fieldset {
     /* color:black; */
+}
+body.white fieldset.pane {
+    margin:0; border:0;
 }
 body.white fieldset.plugin {
     margin:0; border:0;

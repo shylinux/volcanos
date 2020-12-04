@@ -57,16 +57,23 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
         can.ui.input.focus()
         search(cmd[1])
     },
+
     select: function(can, msg, cmd, cb) { can._output.innerHTML = ""
+        var fields = (msg.Option("fields")||"pod,ctx,cmd,type,name,text").split(",")
+
         function search(word, cb) { cmd[1] = word
-            can.run({}, cmd, function(msg) { can.ui.content.innerHTML = ""
+            var msg = can.request({})
+            msg.Option("fields", fields.join(","))
+            can.run(msg._event, cmd, function(msg) { can.ui.content.innerHTML = ""
                 can.onappend.table(can, msg, can.ui.content, "table", function(value, key, index, line) {
                     can.Status("count", index+1)
                     return {text: [value, "td"], onclick: function(event) {
                         can.Status("index", index)
                         can.Status("value", value)
 
-                        can.page.Append(can, can.ui.table, [{td: [line.pod, line.ctx, line.cmd, line.type, line.name, line.text], data: {index: index}, onclick: function(event) {
+                        can.page.Append(can, can.ui.table, [{td: can.core.List(fields, function(item) {
+                            return line[item]
+                        }), data: {index: index}, onclick: function(event) {
                             can.page.Remove(can, event.target.parentNode)
                         }}])
                     }}
@@ -77,9 +84,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
 
         can.cb = function() {
             typeof cb == "function" && cb(can.page.Select(can, can.ui.display, "tr", function(tr) {
-                return can.page.Select(can, tr, "td", function(td) {
-                    return td.innerHTML
-                })
+                return can.page.Select(can, tr, "td", function(td) { return td.innerHTML })
             }).slice(1))
             can.onaction.close(can)
         }, can.ui = can.page.Append(can, can._output, [
@@ -90,7 +95,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
                     }
                 }) }
             }]},
-            {view: "content"}, {view: "display", list: [{type: "table", list: [{th: ["pod", "ctx", "cmd", "type", "name", "text"]}]}]},
+            {view: "content"}, {view: "display", list: [{type: "table", list: [{th: fields}]}]},
         ])
         can.page.Modify(can, can._target, {style: {display: "block"}})
         can.ui.input.focus()

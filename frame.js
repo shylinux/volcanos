@@ -53,6 +53,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             return typeof cb == "function" && cb(msg)
         }
 
+        pane.run(event, ["search", "Footer.onimport.ncmd"])
         can.misc.Run(event, can, {names: pane._name}, cmds, function(msg) {
             delete(msg._event), delete(msg._can)
             Volcanos.meta.pack[pane._name+","+cmds.join(",")] = msg
@@ -212,15 +213,16 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
 })
 Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) {
         meta.name = meta.name.split(" ")[0]
-        field = field || can.onappend.field(can, target, meta.type||"plugin", meta).first
+        field = field || can.onappend.field(can, target, meta.type, meta).first
         var legend = can.page.Select(can, field, "legend")[0]
         var option = can.page.Select(can, field, "form.option")[0]
         var action = can.page.Select(can, field, "div.action")[0]
         var output = can.page.Select(can, field, "div.output")[0]
         var status = can.page.Select(can, field, "div.status")[0]
-        option.dataset.id = meta.id
+        meta.id && (option.dataset.id = meta.id)
 
         // 添加插件
+        list = Volcanos.meta.libs.concat(list)
         var sub = Volcanos(meta.name, { _help: meta.name, _follow: can._follow+"."+meta.name,
             _legend: legend, _option: option, _action: action, _output: output, _status: status,
             _target: field, _inputs: {}, _outputs: [], _history: [],
@@ -778,6 +780,16 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
                 can.page.Modify(can, target, {style: {left: layout.left, top: layout.top}})
             }
         }
+    },
+
+    toggle: function(can, msg, list, cb, target) {
+        can.page.Toggle(can, target)
+    },
+    autosize: function(can, msg, list, cb, target) {
+        can.page.Select(can, target, "div.output", function(item, index) {
+            index == 0 && (item.style.height = "")
+        })
+        target.style.height = ""
     },
 })
 
