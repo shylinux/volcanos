@@ -40,7 +40,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _merge: function(can, sub)
                     ]},
                 ]); can.core.Copy(can.ui, ui, "display", "output", "cmd")
 
-                typeof cb == "function" && cb()
+                typeof cb == "function" && cb(msg)
                 can.keylist = [], can.onkeymap._init(can, "insert")
             }, target)
         })

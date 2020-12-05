@@ -165,7 +165,7 @@ Volcanos("onaction", {help: "控件交互", list: ["演示"],
                     "z-index": 10,
                 }})
             }, })
-            can.onmotion.show(can, page, {value: 10, length: 20}, next)
+            can.onmotion.show(can, {value: 10, length: 20}, next, page)
         })
     },
     flash: function(can) {
@@ -186,7 +186,7 @@ Volcanos("onaction", {help: "控件交互", list: ["演示"],
                 can.onaction.show(can, index)
                 can.ui["布局"].value = "开讲"
             }, })
-            can.onmotion.show(can, page, {value: 10, length: 20}, next)
+            can.onmotion.show(can, {value: 10, length: 20}, next, page)
         })
     },
     spring: function(can) {
@@ -210,7 +210,7 @@ Volcanos("onaction", {help: "控件交互", list: ["演示"],
                     "z-index": 10,
                 }})
             }, })
-            can.onmotion.show(can, page, {value: 10, length: 20}, next)
+            can.onmotion.show(can, {value: 10, length: 20}, next, page)
         })
     },
 

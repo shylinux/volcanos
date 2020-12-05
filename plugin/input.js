@@ -1,7 +1,16 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf, list, cb, target) {
     },
 })
-Volcanos("onaction", {help: "控件交互", list: [],
+Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta, list, cb, target) {
+        can.core.Item(can.onaction, function(key, value) {
+            can._target && key.indexOf("on") == 0 && (can._target[key] = can._target[key] || function(event) {
+                value(event, can)
+            })
+        }) , typeof cb == "function" && cb()
+        // 自动执行
+        meta.type == "button" && meta.action == "auto" && can._target.click()
+    },
+
     "关闭": function(event, can) { can.page.Remove(can, can.sup._target) },
     "上传": function(event, can) { can.user.upload(event, can) },
     "执行": function(event, can) { can.run(event) },
@@ -70,4 +79,5 @@ Volcanos("onaction", {help: "控件交互", list: [],
         }
     },
 })
+Volcanos("onexport", {help: "导出数据", list: []})
 

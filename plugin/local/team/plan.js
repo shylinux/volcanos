@@ -6,7 +6,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             {view: ["display", "pre"]},
         ])
 
-        typeof cb == "function" && cb()
+        typeof cb == "function" && cb(msg)
         can.onimport[can.Option("scale")](can, msg)
         can.page.Modify(can, can._action, {style: {display: "none"}})
 

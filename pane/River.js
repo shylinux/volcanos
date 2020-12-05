@@ -1,16 +1,16 @@
-const RIVER = "river", STORM = "storm"
+(function() { const RIVER = "river", STORM = "storm", POD = "pod"
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        can._main_river = can.user.Search(can, RIVER) || (can.user.isMobile || can.user.isExtension? "product": "project")
-        can._main_storm = can.user.Search(can, STORM) || (can.user.isMobile || can.user.isExtension? "office": "studio")
+        can._main_river = can.user.Search(can, RIVER) || (can.user.isMobile||can.user.isExtension? "product": "project")
+        can._main_storm = can.user.Search(can, STORM) || (can.user.isMobile||can.user.isExtension? "office": "studio")
 
-        target.innerHTML = "", can.sublist = {}
+        can.onmotion.clear(can), can.sublist = {}
         var select; msg.Table(function(value, index, array) {
             var view = can.onappend.item(can, target, "item", value, function(event, item) {
                 // 左键点击
                 can.onaction.storm(event, can, value.hash)
             }, function(event) {
                 // 右键点击
-                can.user.carte(can, {}, can.ondetail.list, function(ev, item, meta) {
+                can.user.carte(can, can.ondetail, can.ondetail.list, function(ev, item, meta) {
                     can.ondetail[item](event, can, item, value.hash)
                 })
             })
@@ -36,23 +36,21 @@ Volcanos("onaction", {help: "控件交互", list: ["创建", "刷新"], _init: f
                 return {text: [storm.name, "div", "subitem"], onclick: function(event) {
                     // 左键点击
                     can.onaction.action(event, can, river, storm.hash)
-                    can.user.title(can.user.Search(can, "pod") || storm.name)
+                    can.user.title(can.user.Search(can, POD) || storm.name)
                 }, oncontextmenu: function(event) {
                     // 右键点击
-                    can.user.carte(can, {}, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"], function(ev, item, meta) {
+                    can.user.carte(can, can.ondetail, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"], function(ev, item, meta) {
                         can.ondetail[item](event, can, item, storm.hash, river)
                     })
                 }}
-            }) }]).sublist, select < list.children.length && list.children[select].click()
+            }) }]).sublist, list.children.length > 0 && list.children[select].click()
 
             event.target.nextSibling && can._output.insertBefore(list, event.target.nextSibling)
             can.sublist[river] = list
         })
     },
     action: function(event, can, river, storm) {
-        var msg = can.request(event)
-        msg.Option(RIVER, can.Conf(RIVER, river))
-        msg.Option(STORM, can.Conf(STORM, storm))
+        var msg = can.request(event, {river: can.Conf(RIVER, river), storm: can.Conf(STORM, storm)})
         can.run(event, ["search", "Action.onaction._init"])
 
         can.page.Select(can, can._output, "div.subitem.select", function(item) {
@@ -169,4 +167,4 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
     },
 })
 Volcanos("onexport", {help: "导出数据", list: []})
-
+})()

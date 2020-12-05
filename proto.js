@@ -31,7 +31,7 @@ var Volcanos = shy("火山架", {libs: [], pack: {}, order: 1, cache: {}, index:
     }
 
     var conf = {}, conf_cb = {}, cache = {}
-    can = can || {}, list.push(can) && (can.__proto__ = {_name: name, _create_time: new Date(), _load: function(name, cb) {
+    can = can || {}, list.push(can) && (can.__proto__ = {__proto__: Volcanos.meta, _name: name, _create_time: new Date(), _load: function(name, cb) {
             for (var cache = meta.cache[name] || []; meta.index < list.length; meta.index++) {
                 if (name == "/plugin/input/date.css" && cache.length > 0) { continue }
                 if (name == "/lib/base.js" && cache.length > 0) { continue }
@@ -92,7 +92,7 @@ var Volcanos = shy("火山架", {libs: [], pack: {}, order: 1, cache: {}, index:
         request: function(event, option) { event = event || {}
             if (event._msg) {
                 can.core.Item(option, function(key, value) {
-                    msg.Option(key, value)
+                    event._msg.Option(key, value)
                 })
                 return event._msg
             }

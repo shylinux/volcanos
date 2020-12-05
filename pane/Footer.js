@@ -1,5 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        target.innerHTML = ""
+        can.onmotion.clear(can)
         can.onimport._title(can, msg, target)
         can.onimport._state(can, msg, target)
         typeof cb == "function" && cb(msg)

@@ -231,3 +231,4 @@ Volcanos("onaction", {help: "控件交互", list: [],
         can.run({})
     }, true) },
 })
+Volcanos("onexport", {help: "导出数据", list: []})
