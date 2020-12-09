@@ -277,17 +277,17 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 return cmds
             },
         }, Volcanos.meta.libs.concat(list.concat([Volcanos.meta.volcano])), function(sub) { sub.Conf(meta)
-            typeof cb == "function" && cb(sub)
             meta.feature = sub.base.Obj(meta.feature, {})
             sub.page.ClassList.add(sub, field, meta.style||meta.feature.style||"")
 
+            typeof cb == "function" && cb(sub)
             meta.inputs && sub.onappend._option(sub, meta, list, cb)
         })
         return sub
     },
     _option: function(can, meta, list, cb) { var index = -1, args = can.base.Obj(meta.arg||meta.args, [])
         function add(item, next) { item._input != "button" && index++
-            return can._inputs[item.name] = Volcanos(item.name, { _help: item.name, _follow: can._follow+"."+item.name,
+            can._inputs[item.name] = Volcanos(item.name, { _help: item.name, _follow: can._follow+"."+item.name,
                 _target: can.onappend.input(can, can._option, item.type, item, args[index]),
                 _option: can._option, _action: can._action, _output: can._output,
                 CloneInput: function() { add(item)._target.focus() },
@@ -333,22 +333,22 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             display.indexOf("/") == 0 || (display = "/plugin/"+display)
             display.endsWith(".js") || (display += ".js")
 
-            var table = Volcanos(display, { _help: display, _follow: can._follow+"."+display,
+            can._outputs.push(Volcanos(display, { _help: display, _follow: can._follow+"."+display,
+                _target: can._output, _fields: can._target,
                 _option: can._option, _action: can._action, _output: can._output, _status: can._status,
-                _target: can._output, _fields: can._target, Option: can.Option, Action: can.Action, Status: can.Status,
+                Option: can.Option, Action: can.Action, Status: can.Status,
             }, Volcanos.meta.libs.concat([display, Volcanos.meta.volcano]), function(table) {
-                table.Conf(can.Conf()), table.sup = can, table._msg = msg
-                table.run = function(event, cmds, cb, silent) {
+                table.Conf(can.Conf()), table.sup = can, table.run = function(event, cmds, cb, silent) {
                     var msg = can.request(event, can.Conf("option"))
                     return can.onappend._output(can, meta, event, can.Pack(cmds, silent), cb, silent)
-                }
+                }, table._msg = msg
 
                 table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function(msg) {
                     table.onaction && table.onappend._action(table, table._action, msg._action||meta._action||table.onaction.list)
                     table.ondetail && table.onappend._detail(table, table._output, msg._detail||meta._detail||table.ondetail.list)
                     table.onexport && table.onappend._status(table, table._status, msg._export||meta._export||table.onexport.list)
                 }, can._output)
-            }); can._outputs.push(table)
+            }))
         }, silent)
     },
     _detail: function(can, target, list) {
@@ -431,7 +431,6 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 break
             case "textarea":
                 input.type = "textarea"
-                // item.value = JSON.stringify(can.Conf("content")) || item.value
                 item.value = can.Conf("content") || item.value
                 // no break
             case "password":
@@ -444,28 +443,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }
 
         var target = can.page.Append(can, option, [{view: ["item "+item.type], list: [item.position && {text: item.name+": "}, input]}])[item.name]
-
-        var pval = ""
-        if (item.figure.indexOf("@") == 0) {
-            var pkey = item.figure.slice(1).split("=")[0]
-            if (item.figure.indexOf("=") > 0) {
-                var pval = item.figure.slice(1).split("=")[1]
-            }
-        }
-
-        item.figure && item.figure.indexOf("@") == 0 && (item.figure = pkey) && can.require(["/plugin/input/"+pkey+".js"], function(can) {
-            can.onfigure && can.core.Item(can.onfigure[item.figure], function(key, value) { if (key.startsWith("on")) {
-                target[key] = function(event) { value(event, can, item, target) }
-            } })
-            target.type != "button" && target.value.startsWith("@") && (target.value = pval)
-        })
-
         item.type == "textarea" && can.page.Append(can, option, [{type: "br"}])
-        item.type == "text" && !target.placeholder && (target.placeholder = item.name || "")
-        item.type == "textarea" && !target.placeholder && (target.placeholder = item.name || "")
-        item.type == "text" && !target.title && (target.title = target.placeholder)
-        // item.type == "button" && item.action == "auto" && can.run && can.run({})
-        item.type == "select" && item.value && (target.value = item.value)
         return target
     },
     table: function(can, msg, target, type, cb) {

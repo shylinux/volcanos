@@ -155,8 +155,9 @@ table th {
     cursor:pointer;
 }
 table td {
+    overflow:auto;
     max-width:1200px;
-    padding: 0 10px;
+    padding:0 10px;
 }
 table td.done {
     background-color:green;

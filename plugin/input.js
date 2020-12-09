@@ -3,12 +3,32 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 })
 Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta, list, cb, target) {
         can.core.Item(can.onaction, function(key, value) {
-            can._target && key.indexOf("on") == 0 && (can._target[key] = can._target[key] || function(event) {
+            key.indexOf("on") == 0 && (can._target[key] = can._target[key] || function(event) {
                 value(event, can)
             })
         }) , typeof cb == "function" && cb()
-        // 自动执行
-        meta.type == "button" && meta.action == "auto" && can._target.click()
+
+        switch (meta.type) {
+            case "textarea": !target.placeholder && (target.placeholder = meta.name || ""); break
+            case "text":
+                !target.placeholder && (target.placeholder = meta.name || "")
+                !target.title && (target.title = target.placeholder)
+                break
+            case "button": meta.action == "auto" && can._target.click(); break
+            case "select": meta.value && (target.value = meta.value); break
+        }
+
+        if (meta.figure.indexOf("@") == 0) {
+            var ls = meta.figure.slice(1).split("=")
+            var pkey = ls[0], pval = ls[1]||""
+
+            target.type != "button" && target.value.startsWith("@") && (target.value = pval)
+            can.require(["/plugin/input/"+pkey+".js"], function(can) {
+                can.onfigure && can.core.Item(can.onfigure[pkey], function(key, value) { if (key.startsWith("on")) {
+                    target[key] = function(event) { value(event, can, meta, target) }
+                } })
+            })
+        }
     },
 
     "关闭": function(event, can) { can.page.Remove(can, can.sup._target) },
