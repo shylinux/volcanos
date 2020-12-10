@@ -11,14 +11,12 @@ function shy(help, meta, list, cb) {
     cb.list = next("object") || []
     return cb
 }; var _can_name = ""
-var Volcanos = shy("火山架", {libs: [], pack: {}, order: 1, cache: {}, index: 1}, [], function(name, can, libs, cb) {
+var Volcanos = shy("火山架", {libs: [], cache: {}, index: 1}, [], function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == "object") { var Config = name
         meta.volcano = Config.volcano, meta.libs = Config.libs
         var Preload = Config.libs; Config.panes.forEach(function(pane) {
-            pane.type= "pane"
-            pane.list = pane.list || ["/pane/"+pane.name+".css", "/pane/"+pane.name+".js"]
-            Preload = Preload.concat(pane.list)
+            Preload = Preload.concat(pane.list = pane.list || ["/pane/"+pane.name+".css", "/pane/"+pane.name+".js"])
         }); Preload = Preload.concat(Config.plugin)
 
         name = Config.name, can = { _follow: Config.name,
@@ -26,11 +24,12 @@ var Volcanos = shy("火山架", {libs: [], pack: {}, order: 1, cache: {}, index:
             _target: document.body, _head: document.head, _body: document.body,
         }, libs = Preload.concat(Config.volcano), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), [], function(msg) {
+                console.log(can)
             }, can._target)
         }
     }
 
-    var conf = {}, conf_cb = {}, cache = {}
+    var conf = {}, conf_cb = {}
     can = can || {}, list.push(can) && (can.__proto__ = {__proto__: Volcanos.meta, _name: name, _create_time: new Date(), _load: function(name, cb) {
             for (var cache = meta.cache[name] || []; meta.index < list.length; meta.index++) {
                 if (name == "/plugin/input/date.css" && cache.length > 0) { continue }
@@ -91,97 +90,16 @@ var Volcanos = shy("火山架", {libs: [], pack: {}, order: 1, cache: {}, index:
         },
         request: function(event, option) { event = event || {}
             if (event._msg) {
-                can.core.Item(option, function(key, value) {
-                    event._msg.Option(key, value)
-                })
+                can.core.Item(option, event._msg.Option)
                 return event._msg
             }
 
             var ls = (can._name||can._help).split("/")
             event._pane = ls[ls.length-1]
 
-            var msg = {}; event._msg = msg, msg._event = event, msg._can = can
-            msg.__proto__ = { _name: meta.order++, _create_time: new Date(),
-                Option: function(key, val) {
-                    if (key == undefined) { return msg && msg.option || [] }
-                    if (typeof key == "object") { can.core.Item(key, msg.Option) }
-                    if (val == undefined) { return msg && msg[key] && msg[key][0] || ""}
-                    msg.option = msg.option || [], can.core.List(msg.option, function(k) { if (k == key) {return k} }).length > 0 || msg.option.push(key)
-                    msg[key] = can.core.List(arguments).slice(1)
-                    return val
-                },
-                Append: function(key, val) {
-                    if (key == undefined) { return msg && msg.append || [] }
-                    if (typeof key == "object") { can.core.Item(key, msg.Append) }
-                    if (val == undefined) { return msg && msg[key] && msg[key][0] || ""}
-                    msg.append = msg.append || [], can.core.List(msg.append, function(k) { if (k == key) {return k} }).length > 0 || msg.append.push(key)
-                    msg[key] = can.core.List(arguments).slice(1)
-                    return val
-                },
-                Result: function(cb) {
-                    return msg.result && msg.result.join("") || ""
-                },
-                Table: function(cb) { if (!msg.append || !msg.append.length || !msg[msg.append[0]]) { return }
-                    var max = "", len = 0; can.core.List(msg.append, function(key, index) {
-                        if (msg[key] && msg[key].length > len) { max = key, len = msg[key].length }
-                    })
-
-                    return can.core.List(msg[max], function(value, index, array) { var one = {}, res
-                        can.core.List(msg.append, function(key) { one[key] = (msg[key]&&msg[key][index]||"").trim() })
-                        return typeof cb == "function" && (res = cb(one, index, array)) && res != undefined && res || one
-                    })
-                },
-                Clear: function(key) {
-                    switch (key) {
-                        case "append":
-                        case "option":
-                            can.core.List(msg[key], function(item) {
-                                delete(msg[item])
-                            })
-                        default:
-                            msg[key] = []
-                    }
-                },
-                Copy: function(res) { if (!res) { return msg }
-                    res.result && (msg.result = (msg.result||[]).concat(res.result))
-                    res.append && (msg.append = res.append) && res.append.forEach(function(item) {
-                        res[item] && (msg[item] = (msg[item]||[]).concat(res[item]))
-                    })
-                    res.option && (msg.option = res.option) && res.option.forEach(function(item) {
-                        res[item] && (msg[item] = res[item])
-                    })
-                    return msg
-                },
-                Push: function(key, value, detail) { msg.append = msg.append || []
-                    if (typeof key == "object") {
-                        value = value || can.core.Item(key)
-                        can.core.List(value, function(item) {
-                            detail? msg.Push("key", item).Push("value", key[item]||""):
-                                msg.Push(item, key[item]||"")
-                        })
-                        return
-                    }
-
-                    for (var i = 0; i < msg.append.length; i++) {
-                        if (msg.append[i] == key) {
-                            break
-                        }
-                    }
-                    if (i >= msg.append.length) {msg.append.push(key)}
-                    msg[key] = msg[key] || []
-                    msg[key].push(""+(typeof value == "object"? JSON.stringify(value): value)+"")
-                    return msg
-                },
-                Echo: function(res) {msg.result = msg.result || []
-                    msg._hand = true
-                    for (var i = 0; i < arguments.length; i++) {msg.result.push(arguments[i])}
-                    return msg
-                },
-            }
-            can.core.Item(option, function(key, value) {
-                msg.Option(key, value)
-            })
-            return msg
+            var msg = can.misc.Message(event, can)
+            can.core.Item(option, msg.Option)
+            return event._msg = msg
         },
 
         Conf: function(key, value, cb) {
@@ -200,44 +118,6 @@ var Volcanos = shy("火山架", {libs: [], pack: {}, order: 1, cache: {}, index:
             }
             return conf[key] || ""
         },
-        Cache: function(name, output, data) {
-            if (data) { if (output.children.length == 0) { return }
-                // 写缓存
-                var temp = document.createDocumentFragment()
-                while (output.childNodes.length>0) {
-                    var item = output.childNodes[0]
-                    item.parentNode.removeChild(item)
-                    temp.appendChild(item)
-                }
-
-                cache[name] = {node: temp, data: data}
-                return name
-            }
-
-            output.innerHTML = ""
-            var list = cache[name]; if (!list) {return}
-
-            // 读缓存
-            while (list.node.childNodes.length>0) {
-                var item = list.node.childNodes[0]
-                item.parentNode.removeChild(item)
-                output.appendChild(item)
-            }
-            delete(cache[name])
-            return list.data
-        },
-        Timer: shy("定时器, value, [1,2,3,4], {value, length}", function(interval, cb, cbs) {
-            interval = typeof interval == "object"? interval || []: [interval]
-            var timer = {stop: false}; function loop(timer, i) {
-                if (timer.stop || i >= interval.length && interval.length >= 0) {
-                    return typeof cbs == "function" && cbs(timer, interval)
-                }
-                return typeof cb == "function" && cb(timer, interval.value||interval[i], i, interval)?
-                    typeof cbs == "function" && cbs(timer, interval): setTimeout(function() { loop(timer, i+1) }, interval.value||interval[i+1])
-            }
-            setTimeout(function() { loop(timer, 0) }, interval.value||interval[0])
-            return timer
-        }),
     })
 
     if (_can_name) {

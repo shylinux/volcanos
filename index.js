@@ -1,5 +1,5 @@
 _can_name = ""
-Volcanos({name: "chat", volcano: "/frame.js", iceberg: "/chat/",
+Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
     libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], panes: [
         {name: "Header", help: "标题栏", pos: "head", state: ["time", "username"]},
         {name: "Search", help: "搜索框", pos: "float"},
@@ -8,8 +8,8 @@ Volcanos({name: "chat", volcano: "/frame.js", iceberg: "/chat/",
         {name: "Footer", help: "状态条", pos: "foot", state: ["ncmd"]},
     ], main: {name: "Header", engine: "remote", list: ["publish/order.js"]}, plugin: [
         "/plugin/state.js",
-        "/plugin/table.js",
         "/plugin/input.js",
+        "/plugin/table.js",
         "/plugin/input/key.js",
         "/plugin/input/date.js",
         "/plugin/local/team/plan.js",

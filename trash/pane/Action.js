@@ -21,8 +21,8 @@ Volcanos("onimport", {help: "导入数据", list: [],
     },
     storm: function(event, can, value, cmd, field) {if (value == "update") {return}
         // 保存界面
-        can.Cache(can.Conf("river")+"."+can.Conf("storm"), can.output, "some");
-        if (can.Cache(can.Conf("river", can.Conf("temp_river"))+"."+can.Conf("storm", value), can.output)) {
+        can.page.Cache(can.Conf("river")+"."+can.Conf("storm"), can.output, "some");
+        if (can.page.Cache(can.Conf("river", can.Conf("temp_river"))+"."+can.Conf("storm", value), can.output)) {
             // 恢复界面
             return
         }

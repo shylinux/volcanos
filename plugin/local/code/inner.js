@@ -62,7 +62,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
     project: function(can, path, cb) { can.Option({path: path})
         var msg = can.request({}); msg.Option("dir_root", path), msg.Option("dir_deep", "true")
         can.run(msg._event, ["action", "dir", "./"], function(msg) { can.ui.project.innerHTML = ""
-            can.Status("文件数", msg.path.length)
+            msg.path && can.Status("文件数", msg.path.length)
             can.onappend.tree(can, msg, "path", "/", can.ui.project, function(event, value) {
                 can.onimport.tabview(can, can.Option("path"), value.path)
             }), typeof cb == "function" && cb()
@@ -75,7 +75,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         })
 
         // caches save
-        can.core.List(["content"], function(item) { can.Cache(can.file+item, can.ui[item], {
+        can.core.List(["content"], function(item) { can.page.Cache(can.file+item, can.ui[item], {
             scrollTop: can.ui.profile.parentNode.scrollTop,
             current: can.current,
             max: can.max,
@@ -87,7 +87,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
 
         // caches load
         var cache = false; can.core.List(["content"], function(item) {
-            var p = can.Cache(can.file+item, can.ui[item]); if (p != undefined) { cache = true
+            var p = can.page.Cache(can.file+item, can.ui[item]); if (p != undefined) { cache = true
                 can.ui.profile.parentNode.scrollTo(0, p.scrollTop)
                 can.onaction.selectLine(can, p.current.line)
                 can.max = p.max

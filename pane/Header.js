@@ -85,6 +85,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
         function init() { can.run({}, [], function(msg) { can.Conf(USERNAME, msg.Option("user.nick")||msg.Option("user.name"))
             can.onimport._init(can, msg, list, function(msg) {
+                typeof cb == "function" && cb(msg)
                 can.run({}, ["search", "River.onaction._init"])
                 can.run({}, ["search", "Footer.onaction._init"])
             }, can._output)
@@ -97,7 +98,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         var args = {}; can.core.List([POD, TOPIC, TITLE], function(key) {
             var value = can.user.Search(can, key); value && (args[key] = value)
         })
-        can.user.jumps(can, can.user.Share(can, args, true))
+        can.user.jumps(can.user.Share(can, args, true))
     },
     username: function(event, can) { can.user.logout(can) },
 

@@ -233,7 +233,7 @@ var can = Volcanos("chat", {
                 })
 
                 for (var i = args.length-1; i >= 0; i--) {if (args[i] == "") {args = args.slice(0, i)} else {break}}
-                show && plugin.Timer(1000, function() {show && plugin.user.toast(can.base.Format(args||["running..."]), meta.name, -1)});
+                show && can.core.Timer(1000, function() {show && plugin.user.toast(can.base.Format(args||["running..."]), meta.name, -1)});
                 run(event, args, function(msg) {if (silent) {return typeof cb == "function" && cb(msg)}
                     plugin.msg = msg, plugin.Show(feature.display || "table", msg, cb)
                     show = false, plugin.user.toast();

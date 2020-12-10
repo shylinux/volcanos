@@ -1,40 +1,22 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        if (can.onimport._process(can, msg)) {
-            return typeof cb == "function" && cb(msg)
-        }
+        if (can.onimport._process(can, msg)) { return typeof cb == "function" && cb(can, msg) }
+
         can.ui = can.page.Appends(can, target, [can.onimport._control(can, msg)].concat([
-            {view: ["content", "div"]},
-            {view: ["display", "pre"]},
+            {view: ["content", "div"]}, {view: ["display", "pre"]},
         ]))
 
-        var cmd = "", arg = ""
         can.onappend.table(can, msg, can.ui.content, "table", function(value, key, index, line, array) {
-            if (key == "key") {
-                switch (value) {
-                    case "extra.cmd": cmd += line.value; break
-                    case "extra.ctx": cmd = line.value + "." + cmd; break
-                    case "extra.arg": arg = line.value; break
-                }
-            }
             return can.onimport._table(can, value, key, index, line, array)
         })
 
-        cmd && can.onappend.plugin(can, {
-            height: can.Conf("height"), width: can.Conf("width"), index: cmd, args: arg,
-        }, function(sub) {
-            sub.run = function(event, cmds, cb, silent) {
-                var msg = can.request(event); can.core.List(msg["key"], function(key, index) {
-                    msg.Option("list."+key, msg["value"][index])
-                })
-                can.run(event, ["action", "command", "run", cmd].concat(cmds), function(msg) {
-                    typeof cb == "function" && cb(msg)
-                }, true)
-            }
-        }, can.ui.display)
-
         can.onappend.board(can, msg, can.ui.display, "board")
         can.onimport._board(can, msg)
-        return typeof cb == "function" && cb(msg)
+
+        typeof cb == "function" && cb(msg)
+    },
+    _control: function(can, msg) {
+        var cb = can.onimport[msg.Option("_control")]
+        return typeof cb == "function" && cb(can, msg)
     },
     _page: function(can, msg) {
         return {view: ["control", "div"], list: [
@@ -87,10 +69,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }, data: {"className": "args"}},
         ]}
     },
-    _control: function(can, msg) {
-        var cb = can.onimport[msg.Option("_control")]
-        return typeof cb == "function" && cb(can, msg)
-    },
     _table: function(can, value, key, index, line, array) {
         return {type: "td", inner: value, click: function(event) { var target = event.target
             if (target.tagName == "INPUT" && target.type == "button") { var msg = can.sup.request(event); msg.Option(can.Option())
@@ -139,9 +117,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.page.Modify(can, item, {style: can.base.Obj(data.style)})
         })
     },
+
     _process: function(can, msg) {
-        var process = msg.Option("_process") || can.Conf("feature")["_process"] 
-        var cb = can.onimport[process]; return typeof cb == "function" && cb(can, msg)
+        var cb = can.onimport[msg.Option("_process") || can.Conf("feature._process")]
+        return typeof cb == "function" && cb(can, msg)
     },
     _follow: function(can, msg) {
         if (msg.Option("cache.status") == "stop") { return can.user.toast(can, msg.Option("cache.action")+" done!")}
@@ -151,7 +130,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Append(can, can.ui.content, [{text: msg.Result()}])
         can.ui.content.scrollBy(0, 1000)
 
-        can.Timer(100, function() {
+        can.core.Timer(100, function() {
             var sub = can.request({})
             sub.Option("cache.hash", msg.Option("cache.hash"))
             sub.Option("cache.begin", msg.Option("cache.begin"))
@@ -170,26 +149,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onappend.board(can, msg, can._output, "board")
         // can.onimport._board(can, msg)
         return true
-
-    },
-    _field: function(can, msg) {
-        msg.Table(function(value) {
-            value.inputs = can.base.Obj(msg.list&&msg.list[0]||"[]", [])
-            value.feature = can.base.Obj(msg.meta&&msg.meta[0]||"{}", {})
-            value.name && can.onappend._init(can, value, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
-                sub.run = function(event, cmds, cb, silent) {
-                    can.run(event, (msg["_prefix"]||[]).concat(cmds), cb, true)
-                }
-            }, can._output)
-        })
-        return true
-    },
-    _refresh: function(can, msg) {
-        can.Timer(500, function(timer) {
-            var sub = can.request({})
-            sub.Option("_count", parseInt(msg.Option("_count"))-1)
-            can.run(sub._event)
-        })
     },
 
     spark: function(can, list, target) {
@@ -206,29 +165,5 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
 })
-Volcanos("onaction", {help: "控件交互", list: [],
-    getLocation: function(event, can, cmd) { var msg = can.request(can)
-        can.user.agent.getLocation(function(res) {
-            var arg = []; can.core.Item(res, function(key, value) { arg.push(key, value) })
-            can.run(event, ["action", cmd].concat(arg))
-        })
-    },
-    openLocation: function(event, can) { var msg = can.request(can)
-        can.user.agent.openLocation(msg)
-    },
-    scanQRCode0: function(event, can) { var msg = can.request(can)
-        can.user.agent.scanQRCode()
-    },
-    scanQRCode: function(event, can, cmd) { var msg = can.request(can)
-        can.user.agent.scanQRCode(function(res) {
-            var arg = []; can.core.Item(res, function(key, value) { arg.push(key, value) })
-            can.run(event, ["action", cmd].concat(arg))
-        })
-    },
-
-    "清空": function(event, can, name) { can._output.innerHTML = "" },
-    "结束": function(event, can, name) { can.user.confirm("确定结束?") && can.run(event, ["action", name], function(msg) {
-        can.run({})
-    }, true) },
-})
+Volcanos("onaction", {help: "控件交互", list: []})
 Volcanos("onexport", {help: "导出数据", list: []})

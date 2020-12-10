@@ -12,26 +12,27 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 can.onimport._plugin(can, target, river, storm, value), next()
             }): (can.onimport._plugin(can, target, river, storm, value), next())
         })
-        return typeof cb == "function" && cb(msg)
+        typeof cb == "function" && cb(msg)
     },
     _plugin: function(can, target, river, storm, value) { value.name = value.name.split(" ")[0]
         value.action = value.id || value.index || value.key+"."+value.name
         value.width = can._target.offsetWidth
         value.type = "plugin"
 
+        // 添加插件
         can.onappend._init(can, value, ["/plugin/state.js"], function(plugin) {
             plugin.run = function(event, cmds, cb, silent) { var msg = plugin.request(event); cmds = cmds || []
-                return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
-                    return typeof cb == "function" && cb(msg)
+                can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
+                    typeof cb == "function" && cb(msg)
                 }, silent)
             }
         }, target)
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
-        can.Cache(can.Conf(RIVER)+"."+can.Conf(STORM), can._output, can._output.scrollTop+1)
+        can.page.Cache(can.Conf(RIVER)+"."+can.Conf(STORM), can._output, can._output.scrollTop+1)
         var river = can.Conf(RIVER, msg.Option(RIVER)), storm = can.Conf(STORM, msg.Option(STORM))
-        var position = can.Conf(ACTION, msg.Option(ACTION, can.Cache(river+"."+storm, can._output)||""))
+        var position = can.Conf(ACTION, msg.Option(ACTION, can.page.Cache(river+"."+storm, can._output)||""))
         if (position) { can._output.scrollTo(0, position-1); return }
 
         can.run({}, [river, storm], function(msg) {

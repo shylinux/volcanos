@@ -29,8 +29,6 @@ fieldset.Header>div.output>div.item {
     cursor:pointer;
     float:left;
 }
-
-
 fieldset.Header>div.output>div.state {
     cursor:pointer;
     margin-right:5px;
@@ -40,3 +38,14 @@ fieldset.Header>div.output>div.state:hover {
     background-color:red;
 }
 
+body.white fieldset.Header {
+    border:solid 2px #1f2224;
+    background-color:#2f3638;
+    color:white;
+}
+body.white fieldset.Header input[type=text] {
+    border:2px solid #c4c7ce;
+    border-radius:10px 10px 10px 10px;
+    background-color:white;
+    color:white;
+}

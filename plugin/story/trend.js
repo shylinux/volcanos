@@ -23,7 +23,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             can.page.Modify(can, sub._status, {style: {display: "none"}})
             sub.run = function(event, cmds, cb, silent) {
                 typeof cb == "function" && cb(can.request(event))
-                can.Timer(100, function() {
+                can.core.Timer(100, function() {
                     can.sub = sub._outputs[0]
                     can.msg = msg, can.data = msg.Table()
                     var action = can.Conf("action")
@@ -128,7 +128,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
 
                 one.onmouseover = function(event) { can.Status(line) }
 
-                can.Timer(parseInt(can.Action("speed")), next)
+                can.core.Timer(parseInt(can.Action("speed")), next)
             })()
         })
     },

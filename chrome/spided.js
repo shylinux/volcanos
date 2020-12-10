@@ -5,7 +5,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onappend.table(can, msg, can.ui.content, "table")
         can.onappend.board(can, msg,can.ui.display, "board")
         var refresh = msg.Option("_refresh") || can.Conf("feature")["_refresh"] 
-        refresh && can.Timer(refresh, function() {
+        refresh && can.core.Timer(refresh, function() {
             can.run({})
         })
         return typeof cb == "function" && cb(msg)

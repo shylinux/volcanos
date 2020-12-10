@@ -882,7 +882,7 @@ Volcanos("ondetail", {help: "组件详情", list: ["标签", "编辑", "复制",
         }
 
         var list = ["red", "green", "yellow", "blue"]
-        target._timer = can.Timer({value: 500, length: -1}, function() {
+        target._timer = can.core.Timer({value: 500, length: -1}, function() {
             target.Value("fill", list[parseInt(Math.random()*list.length%list.length)])
         })
     },
@@ -893,7 +893,7 @@ Volcanos("ondetail", {help: "组件详情", list: ["标签", "编辑", "复制",
             return
         }
 
-        target._timer = can.Timer({value: 500, length: -1}, function(event) {
+        target._timer = can.core.Timer({value: 500, length: -1}, function(event) {
             can.onaction._run({type: "click", target: target}, can, target)
         })
     },

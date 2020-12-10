@@ -12,7 +12,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                     return {text: meta[item]||"", className: item, click: function(event) {can.Export(event, meta[item], item)}};
                 })}])
 
-                can.timer = can.Timer({interval: 1000, length: -1}, function(event) {
+                can.timer = can.core.Timer({interval: 1000, length: -1}, function(event) {
                     can.onimport.time(event, can, can.base.Time().split(" ")[1], "time")
                 })
             })

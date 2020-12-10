@@ -13,3 +13,9 @@ fieldset.Footer>div.output div.state {
     margin-right:5px;
     float:right;
 }
+
+body.white fieldset.Footer {
+    border:solid 2px #1f2224;
+    background-color:#1f2224;
+    color:white;
+}

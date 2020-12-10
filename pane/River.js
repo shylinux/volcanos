@@ -30,10 +30,10 @@ Volcanos("onaction", {help: "控件交互", list: ["创建", "刷新"], _init: f
         var list = can.sublist[river]; if (list) { return can.page.Toggle(can, list) }
 
         can.run({}, [river, "tool"], function(msg) {
-            var select = 0; list = can.page.Append(can, can._output, [{view: "sublist", list: msg.Table(function(storm, index) {
+            var select = 0; list = can.page.Append(can, can._output, [{view: "list", list: msg.Table(function(storm, index) {
                 river == can._main_river && storm.hash == can._main_storm && (select = index)
 
-                return {text: [storm.name, "div", "subitem"], onclick: function(event) {
+                return {text: [storm.name, "div", "item"], onclick: function(event) {
                     // 左键点击
                     can.onaction.action(event, can, river, storm.hash)
                     can.user.title(can.user.Search(can, POD) || storm.name)
@@ -43,7 +43,7 @@ Volcanos("onaction", {help: "控件交互", list: ["创建", "刷新"], _init: f
                         can.ondetail[item](event, can, item, storm.hash, river)
                     })
                 }}
-            }) }]).sublist, list.children.length > 0 && list.children[select].click()
+            }) }]).first, list.children.length > 0 && list.children[select].click()
 
             event.target.nextSibling && can._output.insertBefore(list, event.target.nextSibling)
             can.sublist[river] = list
@@ -53,7 +53,7 @@ Volcanos("onaction", {help: "控件交互", list: ["创建", "刷新"], _init: f
         var msg = can.request(event, {river: can.Conf(RIVER, river), storm: can.Conf(STORM, storm)})
         can.run(event, ["search", "Action.onaction._init"])
 
-        can.page.Select(can, can._output, "div.subitem.select", function(item) {
+        can.page.Select(can, can._output, "div.item.select", function(item) {
             can.page.ClassList.del(can, item, "select")
         }), can.page.ClassList.add(can, event.target, "select")
     },

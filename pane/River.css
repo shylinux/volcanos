@@ -20,17 +20,28 @@ fieldset.River>div.output div.item.select {
     background-color:red;
     border:ridge 2px yellow;
 }
-fieldset.River>div.output div.sublist {
+fieldset.River>div.output div.list {
     margin-left:20px;
 }
-fieldset.River>div.output div.subitem {
+
+body.white fieldset.River {
+    border:solid 2px #1f2224;
+    background-color:#1f2224;
+    color:white;
 }
-fieldset.River>div.output div.subitem:hover {
-    cursor:pointer;
-    background-color:red;
-    border:ridge 2px yellow;
+body.white fieldset.River>div.output div.item:hover {
+    background-color:black;
+    border:solid 2px black;
 }
-fieldset.River>div.output div.subitem.select {
-    background-color:red;
-    border:ridge 2px yellow;
+body.white fieldset.River>div.output div.item.select {
+    background-color:black;
+    border:solid 2px black;
+}
+body.white fieldset.River>div.output div.subitem:hover {
+    background-color:black;
+    border:solid 2px black;
+}
+body.white fieldset.River>div.output div.subitem.select {
+    background-color:black;
+    border:solid 2px black;
 }

@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf, list, cb, target) {
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
     },
 })
 Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta, list, cb, target) {
@@ -38,7 +38,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
     "查看": function(event, can) { can.run(event) },
     "返回": function(event, can) {
         can.sup._history.pop(); var his = can.sup._history.pop(); if (his) {
-            can.page.Select(can, can._option, "input.args,select.args", function(item, index) {
+            can.page.Select(can, can._option, "textarea.args,input.args,select.args", function(item, index) {
                 item.value = his[index] || ""
             })
         }
@@ -46,7 +46,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
     },
 
     onchange: function(event, can) {
-        if (event.target.tagName == "SELECT") { can.run(event) }
+        if (can.Conf("type") == "select") { can.run(event) }
     },
     ondblclick: function(event, can) {
         if (can.Conf("type") == "text") { event.target.setSelectionRange(0, -1) }
@@ -71,31 +71,32 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
         var cb = can.onaction[action] || can.onaction[name]
         if (typeof cb == "function") { return cb(event, can, name) }
 
+        // 组件回调
+        var cb = can.sup.onaction[action] || can.sup.onaction[name]
+        if (typeof cb == "function") { return cb(event, can, name) }
+
         // 通用回调
         if (can.Conf("type") == "button") { can.run(event, [name].concat(can.sup.Pack())) }
     },
     onkeydown: function(event, can) {
-        can.onkeypop.show(event, can)
         switch (event.key) {
             case "Enter":
-                if (event.target.tagName == "INPUT") { event.target.setSelectionRange(0, -1), can.run(event) }
-                if (event.target.tagName == "TEXTAREA") { break }
+                if (can.Conf("type") == "text") { event.target.setSelectionRange(0, -1), can.run(event) }
+                if (can.Conf("type") == "textarea") { break }
                 event.stopPropagation()
                 event.preventDefault()
                 break
-            case "b": if (!event.ctrlKey) { return }; can.CloneInput(); break
-            case "m": if (!event.ctrlKey) { return }; can.CloneField(); break
-            default: return
+            case "b": if (!event.ctrlKey) { break }; can.CloneInput(); break
+            case "m": if (!event.ctrlKey) { break }; can.CloneField(); break
         }
     },
     onkeyup: function(event, can) {
         switch (event.key) {
             case "Enter":
-                if (event.target.tagName == "TEXTAREA") { break }
+                if (can.Conf("type") == "textarea") { break }
                 event.stopPropagation()
                 event.preventDefault()
                 break
-            default: return
         }
     },
 })

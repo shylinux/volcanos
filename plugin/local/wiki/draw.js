@@ -32,7 +32,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         })
 
-        can.Timer(10, function() {
+        can.core.Timer(10, function() {
             // 默认参数
             can.core.Item({
                 "font-size": "24",

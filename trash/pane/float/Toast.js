@@ -27,7 +27,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             if (text.duration == -1) {return {toast: toast}}
 
             var begin = can.base.Time().split(" ")[1]
-            timer = can.Timer({value: 1000, length: text.duration > 0? text.duration/1000: text.duration}, function(t, i) {
+            timer = can.core.Timer({value: 1000, length: text.duration > 0? text.duration/1000: text.duration}, function(t, i) {
                 if (i < 10) {return}
                 if (i > 10000) {return true}
                 toast.tick.innerHTML = can.base.Duration(i*t) + " after " + begin

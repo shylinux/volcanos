@@ -24,7 +24,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
             can.page.Modify(can, sub._status, {style: {display: "none"}})
             sub.run = function(event, cmds, cb, silent) {
                 typeof cb == "function" && cb(can.request(event))
-                can.Timer(1000, function() {
+                can.core.Timer(1000, function() {
                     can.sub = sub._outputs[0]
                     can.msg = msg, can.data = msg.Table()
                     can.Action("height", "400")
@@ -228,7 +228,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
                         break
                     default:
                         can.run(event, ["inner"].concat(cmds), function(msg) {
-                            cb(msg), can.Timer(10, function() {
+                            cb(msg), can.core.Timer(10, function() {
                                 // can.onaction._resize(sub, layout)
                             })
                         }, true)

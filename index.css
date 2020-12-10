@@ -1,26 +1,18 @@
 body {
+    margin:0; padding:0;
     background:black;
-    padding:0;
-    margin:0;
 }
 fieldset {
+    margin:0; border:0; padding:2px;
     color:cyan;
-    padding:2px;
-    margin:0; border:0;
 }
 legend {
     margin-left:10px;
-    box-shadow: 4px 4px 20px 4px #626bd0;
+    box-shadow:4px 4px 20px 4px #626bd0;
 }
 legend:hover {
     cursor:pointer;
     background:red;
-}
-div.hidden {
-    display:none;
-}
-h1 {
-    margin:0;
 }
 
 input[type=text] {
@@ -34,6 +26,58 @@ input[type=button] {
 select {
     background:black;
     color:cyan;
+}
+
+table {
+    border:0; white-space: pre;
+    font-size:14px; font-family:monospace;
+    cursor:pointer; overflow: auto;
+}
+table tr:hover {
+    background-color:#0fbd45;
+}
+table tr.select {
+    background-color:#0fbd45;
+}
+table tr.over {
+    background:red;
+}
+table th {
+    background-color:#0fbd45;
+    padding: 0 10px;
+    cursor:pointer;
+}
+table td {
+    overflow:auto;
+    max-width:1200px;
+    padding:0 10px;
+}
+table td.done {
+    background-color:green;
+}
+table td:hover {
+    background-color:red;
+}
+table td.select {
+    background-color:red;
+}
+table td input {
+    margin-left:4px;
+}
+
+h1 {
+    margin:0;
+}
+div.code {
+    box-shadow: 4px 4px 20px 4px #626bd0;
+    font-size:14px; font-family:monospace;
+    color:white; background-color:#343a34f2;
+    padding:10px; border:solid 3px green;
+    text-align:left; white-space:pre;
+    overflow:auto;
+}
+div.hidden {
+    display:none;
 }
 
 fieldset>form.option {
@@ -82,9 +126,6 @@ fieldset>form.option>div.item.textarea {
     clear:both;
 }
 
-fieldset>div.action {
-    /* clear:none; */
-}
 fieldset>div.action>div.item {
     float:left;
     margin:2px 0;
@@ -134,52 +175,19 @@ fieldset>div.output>pre.display:hover {
     /* max-height:640px; */
 }
 
-table {
-    border:0; white-space: pre;
-    font-size:14px; font-family:monospace;
-    /* box-shadow: 4px 4px 10px 1px #626bd0; */
-    cursor:pointer; overflow: auto;
+fieldset.input {
+    background-color:black;
+    position:fixed;
+    left:0; top:0;
 }
-table tr:hover {
-    background-color:#0fbd45;
+fieldset.input {
+    z-index:99;
 }
-table tr.select {
-    background-color:#0fbd45;
+fieldset.input.date {
+    z-index:101;
 }
-table tr.over {
-    background:red;
-}
-table th {
-    background-color:#0fbd45;
-    padding: 0 10px;
-    cursor:pointer;
-}
-table td {
-    overflow:auto;
-    max-width:1200px;
-    padding:0 10px;
-}
-table td.done {
-    background-color:green;
-}
-table td:hover {
-    background-color:red;
-}
-table td.select {
-    background-color:red;
-}
-table td input {
-    margin-left:4px;
-}
-
-div.code {
-    box-shadow: 4px 4px 20px 4px #626bd0;
-    font-size:14px; font-family:monospace;
-    color:white; background-color:#343a34f2;
-    padding:10px; border:solid 3px green;
-    text-align:left; white-space:pre;
-    overflow:auto;
-    /* max-height:640px; */
+fieldset.input.key {
+    z-index:101;
 }
 
 div.toast {
@@ -239,21 +247,6 @@ div.upload div.item {
     float:left;
 }
 
-fieldset.input {
-    background-color:black;
-    position:fixed;
-    left:0; top:0;
-}
-fieldset.input {
-    z-index:99;
-}
-fieldset.input.date {
-    z-index:101;
-}
-fieldset.input.key {
-    z-index:101;
-}
-
 body.white {
     margin:0; padding:0;
     background-color:#0dabda;
@@ -275,15 +268,6 @@ body.white input[type=button] {
     background-color:#FF9900;
     color:white;
 }
-body.white table input[type=button][value=结束] {
-    background:red;
-}
-body.white table input[type=button][value=停止] {
-    background:red;
-}
-body.white table input[type=button][value=启动] {
-    background:#52ce78;
-}
 body.white input[type=button]:hover {
     border-radius:10px 10px 10px 10px;
     border:2px solid #FFCC33;
@@ -299,6 +283,15 @@ body.white select {
 }
 body.white select:hover {
 }
+body.white table input[type=button][value=结束] {
+    background:red;
+}
+body.white table input[type=button][value=停止] {
+    background:red;
+}
+body.white table input[type=button][value=启动] {
+    background:#52ce78;
+}
 
 body.white fieldset {
     /* color:black; */
@@ -312,100 +305,6 @@ body.white fieldset.plugin {
     background-color:white;
     color:black;
 }
-body.white fieldset.editor {
-    background:#0b2c54ab;
-    color:white;
-}
-body.white fieldset.Header {
-    border:solid 2px #1f2224;
-    background-color:#2f3638;
-    color:white;
-}
-body.white fieldset.Header input[type=text] {
-    border:2px solid #c4c7ce;
-    border-radius:10px 10px 10px 10px;
-    background-color:white;
-    color:white;
-}
-body.white fieldset.Footer {
-    border:solid 2px #1f2224;
-    background-color:#1f2224;
-    color:white;
-}
-body.white fieldset.River {
-    border:solid 2px #1f2224;
-    background-color:#1f2224;
-    color:white;
-}
-body.white fieldset.River>div.output div.item:hover {
-    background-color:black;
-    border:solid 2px black;
-}
-body.white fieldset.River>div.output div.item.select {
-    background-color:black;
-    border:solid 2px black;
-}
-body.white fieldset.River>div.output div.subitem:hover {
-    background-color:black;
-    border:solid 2px black;
-}
-body.white fieldset.River>div.output div.subitem.select {
-    background-color:black;
-    border:solid 2px black;
-}
-body.white fieldset.Storm {
-    border:solid 10px #1f2224;
-    background-color:#1f2224;
-    color:white;
-}
-body.white fieldset.Storm>div.output>div.item:hover {
-    background-color:black;
-    border:solid 2px black;
-}
-body.white fieldset.Storm>div.output>div.item.select {
-    background-color:black;
-    border:solid 2px black;
-}
-body.white fieldset.Action {
-    background-color:#0dabda;
-    border-top:0;
-}
-body.white fieldset.Action fieldset.plugin {
-    color:black; background-color:white;
-    border:0; border-top:solid 2px #CCCCFF;
-    box-shadow: 4px 4px 10px 4px #626bd0;
-    margin:8px 8px;
-}
-body.white fieldset.Action fieldset.plugin:hover {
-    border-top:solid 2px #6666FF;
-}
-body.white fieldset.Action fieldset.plugin legend {
-    font-size:16px; font-family:monospace;
-    color:white; background-color:#339999;
-    padding:2px 20px; border:2px solid #99CCFF;
-    border-radius:10px 10px 10px 10px;
-}
-body.white fieldset.Action fieldset.plugin legend:hover {
-    background-color:#6ee4e4;
-}
-body.white fieldset.Action fieldset.plugin div.output{
-    color:black;
-    padding:10px;
-}
-body.white fieldset.Action fieldset.plugin div.item input[type=button] {
-    letter-spacing:4px;
-}
-body.white fieldset.Action fieldset.plugin div.item input {
-    box-shadow: 4px 4px 10px 1px #626bd0;
-}
-body.white fieldset.Action fieldset.plugin div.item input[name=cmd] {
-    width:160px;
-}
-body.white fieldset.Action fieldset.plugin div.item select {
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    margin-top:-2px;
-}
-
 body.white fieldset.plugin table {
     color:black; background-color:white;
 }
@@ -428,6 +327,10 @@ body.white fieldset.plugin table td {
 body.white fieldset.plugin table td:hover {
     background-color:#98ecd4;
 }
+body.white fieldset.editor {
+    background:#0b2c54ab;
+    color:white;
+}
 
 fieldset.command>form.option>div.item input.args {
     width:300px;
@@ -435,7 +338,6 @@ fieldset.command>form.option>div.item input.args {
 fieldset.command>form.option>div.item textarea {
     height:160px;
 }
-
 fieldset.max>form.option>div.item textarea.args {
     background-color:cyan;
     width:500px;

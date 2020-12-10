@@ -6,7 +6,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _merge: function(can, sub)
                 var ui = can.page.Append(can, can.ui.profile, [
                     {view: ["editor", "input"], onkeydown: function(event) {
                         can.onkeymap.parse(event, can, "insert")
-                        can.Timer(1, function() {
+                        can.core.Timer(1, function() {
                             can.current.text(can.ui.editor.value)
                         })
                     }, onfocus: function(event) {

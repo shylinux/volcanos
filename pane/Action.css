@@ -23,3 +23,44 @@ fieldset.Action fieldset.plugin div.output {
     margin:5px;
     color:white;
 }
+
+body.white fieldset.Action {
+    background-color:#0dabda;
+    border-top:0;
+}
+body.white fieldset.Action fieldset.plugin {
+    color:black; background-color:white;
+    border:0; border-top:solid 2px #CCCCFF;
+    box-shadow: 4px 4px 10px 4px #626bd0;
+    margin:8px 8px;
+}
+body.white fieldset.Action fieldset.plugin:hover {
+    border-top:solid 2px #6666FF;
+}
+body.white fieldset.Action fieldset.plugin legend {
+    font-size:16px; font-family:monospace;
+    color:white; background-color:#339999;
+    padding:2px 20px; border:2px solid #99CCFF;
+    border-radius:10px 10px 10px 10px;
+}
+body.white fieldset.Action fieldset.plugin legend:hover {
+    background-color:#6ee4e4;
+}
+body.white fieldset.Action fieldset.plugin div.output{
+    color:black;
+    padding:10px;
+}
+body.white fieldset.Action fieldset.plugin div.item input[type=button] {
+    letter-spacing:4px;
+}
+body.white fieldset.Action fieldset.plugin div.item input {
+    box-shadow: 4px 4px 10px 1px #626bd0;
+}
+body.white fieldset.Action fieldset.plugin div.item input[name=cmd] {
+    width:160px;
+}
+body.white fieldset.Action fieldset.plugin div.item select {
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    margin-top:-2px;
+}
+
