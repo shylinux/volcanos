@@ -1,6 +1,7 @@
 fieldset.Action {
     min-width:160px;
     min-height:160px;
+    background:#051625;
 }
 fieldset.Action>div.output {
     overflow:auto;
