@@ -269,6 +269,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 _option: can._option, _action: can._action, _output: can._output,
                 CloneInput: function() { add(item)._target.focus() },
                 CloneField: function() { can.Clone() },
+                Option: can.Option,
             }, Volcanos.meta.libs.concat([item.display||"/plugin/input.js", Volcanos.meta.volcano]), function(input) {
                 input.Conf(item), input.sup = can
                 input.run = function(event, cmds, cb, silent) {
@@ -304,10 +305,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
 
         can.run(event, cmds||[], function(msg) {
+            if (can.onimport._process(can, msg, cmds, cb)) { return }
+
             typeof cb == "function" && cb(msg)
             if (silent) { return }
-
-            if (can.onimport._process(can, msg)) { return }
 
             var display = meta.feature.display || "table.js"
             display.indexOf("/") == 0 || (display = "/plugin/"+display)

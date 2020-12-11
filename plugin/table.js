@@ -71,20 +71,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _table: function(can, value, key, index, line, array) {
         return {type: "td", inner: value, click: function(event) { var target = event.target
-            if (target.tagName == "INPUT" && target.type == "button") { var msg = can.sup.request(event); msg.Option(can.Option())
+            if (target.tagName == "INPUT" && target.type == "button") {
+                var msg = can.sup.request(event, can.Option())
                 key == "value"? can.core.List(array, function(item, index) { msg.Option(item.key, item.value) }): msg.Option(line)
 
-                var msg = can.request(event)
-                msg.Option("action", target.name)
-                var cb = can.onaction[target.name]; return typeof cb == "function"? cb(event, can, target.name): 
-                    can.sup.onaction.input(event, can.sup, target.name, function(msg) {
-                        can.user.toast(can, msg.Result())
-
-                        if (can.onimport._process(can, msg)) {
-                            return typeof cb == "function" && cb(msg)
-                        }
-                        can.run({})
-                    })
+                var cb = can.onaction[msg.Option("action", target.name)]
+                typeof cb == "function"? cb(event, can, target.name): can.sup.onaction.input(event, can.sup, target.name, function(msg) {
+                    can.onimport._process(can, msg) || can.run({})
+                })
             } else {
                 can.sup.onaction.change(event, can.sup, key, value, function(msg) {
                     can.run(event)

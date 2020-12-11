@@ -82,9 +82,8 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
         switch (event.key) {
             case "Enter":
                 if (can.Conf("type") == "text") { event.target.setSelectionRange(0, -1), can.run(event) }
-                if (can.Conf("type") == "textarea") { break }
-                event.stopPropagation()
-                event.preventDefault()
+                if (can.Conf("type") == "textarea") { if (!event.ctrlKey) { break }; can.run(event) }
+                event.stopPropagation(), event.preventDefault()
                 break
             case "b": if (!event.ctrlKey) { break }; can.CloneInput(); break
             case "m": if (!event.ctrlKey) { break }; can.CloneField(); break
@@ -94,8 +93,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
         switch (event.key) {
             case "Enter":
                 if (can.Conf("type") == "textarea") { break }
-                event.stopPropagation()
-                event.preventDefault()
+                event.stopPropagation(), event.preventDefault()
                 break
         }
     },
