@@ -17,6 +17,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
 
+    keys: function(can, msg, list, cb, target) {
+        can.page.Select(can, target, "span.keys", function(item) {
+            item.innerHTML = list[0]||""
+        })
+        typeof cb == "function" && cb(msg)
+    },
     ncmd: function(can, msg, list, cb, target) {
         can.page.Select(can, target, "span.ncmd", function(item) {
             item.innerHTML = can.Conf("ncmd", parseInt(can.Conf("ncmd")||"0")+1+"")+""

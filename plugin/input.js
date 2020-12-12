@@ -78,7 +78,8 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
         // 通用回调
         if (can.Conf("type") == "button") { can.run(event, [name].concat(can.sup.Pack())) }
     },
-    onkeydown: function(event, can) {
+    onkeydown: function(event, can) { var target = event.target
+        can.onkeypop.input(event, can, target)
         switch (event.key) {
             case "Enter":
                 if (can.Conf("type") == "text") { event.target.setSelectionRange(0, -1), can.run(event) }

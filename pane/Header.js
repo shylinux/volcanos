@@ -17,8 +17,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _search: function(can, msg, target) {
         can.user.isMobile || (can.search = can.page.Append(can, target, [{view: "search", list: [{type: "input", data: {placeholder: "search"}, onkeydown: function(event) {
+            can.onkeypop.input(event, can)
+
             switch (event.key) {
-                case "Enter": can.run(event, ["search", "Search.onimport.input", "*", event.target.value]); break
+                case "Enter": can.run(event, ["search", "Search.onimport.select", "*", event.target.value]); break
             }
         }, }], }]).input)
 

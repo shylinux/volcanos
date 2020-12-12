@@ -17,6 +17,7 @@ var Volcanos = shy("火山架", {libs: [], cache: {}, index: 1}, [], function(na
         meta.volcano = Config.volcano, meta.libs = Config.libs
         var Preload = Config.libs; Config.panes.forEach(function(pane) {
             Preload = Preload.concat(pane.list = pane.list || ["/pane/"+pane.name+".css", "/pane/"+pane.name+".js"])
+            Preload = Preload.concat(pane.list = pane.list || ["/pane/"+pane.name+".js"])
         }); Preload = Preload.concat(Config.plugin)
 
         name = Config.name, can = { _follow: Config.name,
@@ -24,7 +25,7 @@ var Volcanos = shy("火山架", {libs: [], cache: {}, index: 1}, [], function(na
             _target: document.body, _head: document.head, _body: document.body,
         }, libs = Preload.concat(Config.volcano), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), [], function(msg) {
-                console.log(can)
+                can.base.Log(can)
             }, can._target)
         }
     }

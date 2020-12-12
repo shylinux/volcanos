@@ -1,6 +1,8 @@
 Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta, list, cb, target) {
         can.core.Next(meta.panes, function(item, next) { item.type = "pane"
             can.onappend._init(can, item, item.list, function(pane) {
+                pane.Status = function(key, value) { pane.run({}, ["search", "Footer.onimport."+key, value]) }
+
                 pane.onaction && pane.onappend._action(pane, pane._action, item._action||pane.onaction.list)
                 pane.run = function(event, cmds, cb, silent) { var msg = pane.request(event); cmds = cmds || []
                     return (can.onengine[cmds[0]]||can.onengine[meta.main.engine])(event, can, msg, pane, cmds, function(msg) {
@@ -8,17 +10,12 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                     })
                 }, can[item.name] = pane, next()
             }, target)
-        }, function() {
-            can.onlayout._init(can, meta, list, function() {
-                can.onkeypop._init(can)
-            }, target)
-
+        }, function() { can.onlayout._init(can, target)
             can.require(meta.main.list, function(can) {
                 var pane = can[meta.main.name], msg = can.request({})
+                pane.onkeypop._init(pane, target), pane.onmotion._init(pane)
                 pane.onengine._daemon(pane, pane.user.title())
-                pane.onaction._init(pane, msg, [], function(msg) {
-                    typeof cb == "function" && cb(msg)
-                }, pane._target)
+                pane.onaction._init(pane, msg, [], cb, pane._target)
             })
         })
     },
@@ -447,8 +444,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }, true)
     },
 }, [], function(can) {})
-Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, meta, list, cb, target) {
-        if (can.user.Search(can, "share")) { return typeof cb == "function" && cb() }
+Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, target) {
+        if (can.user.Search(can, "share")) { return }
         var width = can._width, height = can._height
 
         can.page.Select(can, target, "fieldset.head", function(field) {
@@ -484,251 +481,158 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, meta,
                 } })
             })
         })
-        typeof cb == "function" && cb()
     },
 })
-Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can) {
-    var list = ['q', 'a', 'z', 'w', 's', 'x', 'e', 'd', 'c', 'r', 'f', 'v', 't', 'g', 'b', 'y', 'h', 'n', 'u', 'j', 'm', 'i', 'k', 'o', 'l', 'p'];
-    var ui = can.page.Append(can, document.body, [{view: "high", list: can.core.List(list, function(c, i) {
-        return {view: "char "+c, style: {position: "fixed", "bottom": "0", 
-            left: document.body.clientWidth/list.length*i+"px",
-            width: document.body.clientWidth/list.length+"px",
-            height: "10px", background: "red",
-        }}
-    })}])
-    var iu = can.page.Append(can, document.body, [{view: "nice", style: {position: "fixed", top: 40, width: 0, height: 40}}])
-    can.core.Timer({interval: 100}, function() {
-        can.page.Select(can, ui.high, "div.char", function(item) {
-            item.offsetHeight > -2 && can.page.Modify(can, item, {style: {
-                height: item.offsetHeight-item.offsetHeight/200-1+"px",
-            }})
+Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, target) {
+        can.core.Item(can.onkeypop._mode, function(item, value) { var engine = {}
+            can.core.Item(value, function(key, cb) { var map = engine
+                for (var i = key.length-1; i > -1; i--) {
+                    map = map[key[i]] = i == 0? cb: (map[key[i]]||{})
+                }
+            }), can.onkeypop._engine[item] = engine
         })
-        can.page.Select(can, document.body, "div.nice", function(item) {
-            item.offsetWidth > -2 && can.page.Modify(can, item, {style: {
-                width: item.offsetWidth-1, left: (document.body.clientWidth-item.offsetWidth-1)/2,
-            }})
-        })
-    })
 
-    var count = 0, add = true
-    can.core.Timer({interval: 100}, function() {
-        if (add) {
-            count++
-            if (count > 100) {
-                add = false
-            }
-        } else {
-            count--
-            if (count < 0) {
-                add = true
-            }
+        target.onkeydown = function(event) { if (event.target != target) { return }
+            can.page.Select(can, target, "fieldset.Action>div.output", function(item) {
+                target._keys = can.onkeypop._parse(event, can, item, "normal", target._keys||[])
+            })
         }
-
-        can.page.Select(can, document.body, "fieldset.Action fieldset", function(item) {
-            can.page.Modify(can, item, {style: {
-                "box-shadow": "40px 10px 10px "+(count/10+1)+"px #626bd0",
-            }})
-        })
-    })
-
-
-    document.body.onkeydown = function(event) { if (event.target != document.body) { return }
-        if (can.onkeypop.action && can.onkeypop.action.onimport) {
-            can.onkeypop.action.onimport.keydown(event, can.onkeypop.action, event.key)
-            return
+        target.onkeyup = function(event) {
         }
-        switch (event.key) {
-            case " ":
-                break
-            case "g":
-                can.page.Select(can, document.body, "fieldset.Action>div.output", function(item) {
-                    item.scrollBy(0, -10000)
-                })
-                break
-            case "j":
-                can.page.Select(can, document.body, "fieldset.Action>div.output", function(item) {
-                    item.scrollBy(0, 30)
-                })
-                break
-            case "f":
-                can.page.Select(can, document.body, "fieldset.Action>div.output", function(item) {
-                    item.scrollBy(0, 300)
-                })
-                break
-            case "e":
-                can.page.Select(can, document.body, "fieldset.Action>div.output", function(item) {
-                    item.scrollBy(0, -30)
-                })
-                break
-            case "k":
-                can.page.Select(can, document.body, "fieldset.Action>div.output", function(item) {
-                    item.scrollBy(0, -30)
-                })
-                break
-            default:
-                return
-        }
-        event.stopPropagation()
-        event.preventDefault()
-    }
-    document.body.onkeyup = function(event) {
-    }
-},
-    oninput: function(event, can, local) {var target = event.target
-        if (event.ctrlKey) {
-            if (typeof local == "function" && local(event)) {
-                event.stopPropagation()
-                event.preventDefault()
-                return true
-            }
-
-            var his = target.History || []
-            var pos = target.Current || -1
-            switch (event.key) {
-                case "p":
-                    pos = (pos-1+his.length+1) % (his.length+1)
-                    target.value = pos < his.length? his[pos]: ""
-                    target.Current = pos
-                    break
-                case "n":
-                    pos = (pos+1) % (his.length+1)
-                    target.value = pos < his.length? his[pos]: ""
-                    target.Current = pos
-                    break
-                case "a":
-                case "e":
-                case "f":
-                case "b":
-                    break
-                case "h":
-                    can.page.DelText(target, target.selectionStart-1, target.selectionStart)
-                    break
-                case "d":
-                    can.page.DelText(target, 0, target.selectionStart)
-                    break
-                case "k":
-                    can.page.DelText(target, target.selectionStart)
-                    break
-                case "u":
-                    can.page.DelText(target, 0, target.selectionEnd)
-                    break
-                case "w":
-                    var start = target.selectionStart-2
-                    var end = target.selectionEnd-1
-                    for (var i = start; i >= 0; i--) {
-                        if (target.value[end] == " " && target.value[i] != " ") {
-                            break
-                        }
-                        if (target.value[end] != " " && target.value[i] == " ") {
-                            break
-                        }
-                    }
-                    can.page.DelText(target, i+1, end-i)
-                    break
-                default:
-                    return false
-            }
-        } else {
-            switch (event.key) {
-                case " ":
-                    event.stopPropagation()
-                    return true
-                default:
-                    return false
-            }
-        }
-
-        event.stopPropagation()
-        event.preventDefault()
-        return true
     },
-    action: null, show: function(event, can) {
-    var key = event.key, map = {
-        "~": "q",
-        "`": "q",
-        "1": "q",
-        "2": "w",
-        "3": "e",
-        "4": "r",
-        "5": "t",
-        "6": "y",
-        "7": "u",
-        "8": "i",
-        "9": "o",
-        "0": "p",
-        "-": "o",
-        "=": "p",
-        "[": "i",
-        "]": "o",
-        "\\": "p",
-        ";": "k",
-        "'": "l",
-        ",": "k",
-        ".": "l",
-        "/": "p",
-    }; key = map[key]||key
+    _parse: function(event, can, target, mode, list) {
+        event.key.length == 1 && list.push(event.key)
+        can.Status && can.Status("keys", list.join(""))
 
-    key = key >= 'a' && key <= 'z'? key: 'a' + parseInt(Math.random()*26)
-    var some = 0.8
-    can.page.Select(can, document.body, "div.char."+key, function(item) {
-        can.page.Modify(can, item, {style: {
-            background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
-            height: item.offsetHeight+100+"px",
-        }})
-    })
-    can.page.Select(can, document.body, "div.nice", function(item) {
-        can.page.Modify(can, item, {style: {
-            background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
-            width: item.offsetWidth<document.body.clientWidth? item.offsetWidth+100: item.offsetWidth+10, left: (document.body.clientWidth-item.offsetWidth-10)/2,
-        }})
-    })
+        for (var pre = 0; pre < list.length; pre++) {
+            if ("0" <= list[pre] && list[pre] <= "9") { continue } break
+        }; var count = parseInt(list.slice(0, pre).join(""))||1
 
-    switch (event.key) {
-        case " ":
-            can.page.Select(can, document.body, "div.char", function(item) {
-                can.page.Modify(can, item, {style: {
-                    background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
-                    height: item.offsetHeight+100+"px",
-                }})
-            })
-            can.page.Select(can, document.body, "div.nice", function(item) {
-                can.page.Modify(can, item, {style: {
-                    background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
-                    width: item.offsetWidth+100, left: (document.body.clientWidth-item.offsetWidth-100)/2,
-                }})
-            })
-            break
-        case "Backspace":
-            event.key !== " " && can.page.Select(can, document.body, "div.char", function(item) {
-                can.page.Modify(can, item, {style: {
-                    background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
-                    height: "100px",
-                }})
-            })
-            can.page.Select(can, document.body, "div.nice", function(item) {
-                can.page.Modify(can, item, {style: {
-                    background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
-                    width: 300, left: (document.body.clientWidth-300)/2,
-                }})
-            })
-            break
-        case "Enter":
-            event.key !== " " && can.page.Select(can, document.body, "div.char", function(item) {
-                can.page.Modify(can, item, {style: {
-                    background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
-                    height: "100px",
-                }})
-            })
-            can.page.Select(can, document.body, "div.nice", function(item) {
-                can.page.Modify(can, item, {style: {
-                    background: "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+some+")",
-                    width: 600, left: (document.body.clientWidth-600)/2,
-                }})
-            })
-            break
-    }
-}})
+        function repeat(cb, count) { list = []
+            for (var i = 1; i <= count; i++) { if (cb(event, can, target, count)) { break } }
+            event.stopPropagation(), event.preventDefault()
+            can.Status && can.Status("keys", list.join(""))
+        }
+
+        var map = can.onkeypop._mode[mode]
+        var cb = map && map[event.key.toLowerCase()]; if (typeof cb == "function" && event.key.length > 1) {
+            repeat(cb, count); return list
+        }
+
+        var map = can.onkeypop._engine[mode]; for (var i = list.length-1; i > pre-1; i--) {
+            var cb = map[list[i]]; switch (typeof cb) {
+                case "function": repeat(cb, count); return list
+                case "object": map = cb; continue
+                case "string": 
+                default: return list
+            }
+        }
+        return list
+    },
+    _mode: {
+        normal: {
+            j: function(event, can, target) { target.scrollBy(0, 30) },
+            k: function(event, can, target) { target.scrollBy(0, -30) },
+            hello: function(event, can, target) { can.base.Log("nice") },
+
+            " ": function(event, can, target) {
+                can.page.Select(can, document.body, "fieldset.pane.Header div.search input", function(target) {
+                    target.focus()
+                })
+            },
+            enter: function(event, can, target) { can.base.Log("enter") },
+            escape: function(event, can, target) {
+                can.run(event, ["search", "Search.onaction.hide"])
+                can.base.Log("enter")
+            },
+        },
+        insert: {
+            escape: function(event, can, target) {
+                target.blur()
+            },
+            jk: function(event, can, target) {
+                can.page.DelText(target, target.selectionStart-1, target.selectionStart)
+                target.blur()
+            },
+            enter: function(event, can, target) {
+                var his = target._history || []
+                his.push(target.value)
+
+                can.base.Log("input", target, his)
+                target.setSelectionRange(0, -1)
+                target._current = his.length
+                target._history = his
+            },
+        },
+        insert_ctrl: {
+            p: function(event, can, target) {
+                var his = target._history||[]
+                var pos = target._current||0
+
+                pos = --pos % (his.length+1)
+                if (pos < 0) { pos = his.length}
+                target.value = his[pos]||""
+                can.base.Log(pos, his)
+
+                target._current = pos
+            },
+            n: function(event, can, target) {
+                var his = target._history||[]
+                var pos = target._current||0
+
+                pos = ++pos % (his.length+1)
+                target.value = his[pos]||""
+                can.base.Log(pos, his)
+
+                target._current = pos
+            },
+
+            u: function(event, can, target) {
+                can.page.DelText(target, 0, target.selectionEnd)
+            },
+            k: function(event, can, target) {
+                can.page.DelText(target, target.selectionStart)
+            },
+            h: function(event, can, target) {
+                can.page.DelText(target, target.selectionStart-1, target.selectionStart)
+            },
+            d: function(event, can, target) {
+                can.page.DelText(target, 0, target.selectionStart)
+            },
+            w: function(event, can, target) {
+                var start = target.selectionStart-2
+                var end = target.selectionEnd-1
+                for (var i = start; i >= 0; i--) {
+                    if (target.value[end] == " " && target.value[i] != " ") {
+                        break
+                    }
+                    if (target.value[end] != " " && target.value[i] == " ") {
+                        break
+                    }
+                }
+                can.page.DelText(target, i+1, end-i)
+            },
+        },
+    }, _engine: {},
+
+    input: function(event, can, local) { var target = event.target
+        target._keys = can.onkeypop._parse(event, can, target, event.ctrlKey? "insert_ctrl": "insert", target._keys||[])
+        if (target._keys.length == 0)  { event.stopPropagation(), event.preventDefault() }
+    },
+})
 Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
+        var count = 0, add = true
+        can.user.isMobile || can.core.Timer({interval: 100}, function() {
+            add? count++: count--
+            count < 0 && (add = true)
+            count > 100 && (add = false)
+
+            can.page.Select(can, document.body, "fieldset.story", function(item) {
+                can.page.Modify(can, item, {style: {
+                    "box-shadow": "40px 10px 10px "+(count/10+1)+"px #626bd0",
+                }})
+            })
+        })
     },
     modifys: function(can, target, cb) { var back = target.innerHTML
         var ui = can.page.Appends(can, target, [{type: "textarea", value: back, style: {height: "80px"}, onkeydown: function(event) {
