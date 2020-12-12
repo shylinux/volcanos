@@ -21,6 +21,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         // 添加插件
         can.onappend._init(can, value, ["/plugin/state.js"], function(plugin) {
+            can._plugins = (can._plugins||[]).concat([plugin])
             plugin.run = function(event, cmds, cb, silent) { var msg = plugin.request(event); cmds = cmds || []
                 can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
                     typeof cb == "function" && cb(msg)
