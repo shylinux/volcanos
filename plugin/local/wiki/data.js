@@ -14,7 +14,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
 
         can.onexport.list = msg.append
-        typeof cb == "function" && cb()
+        typeof cb == "function" && cb(msg)
         can.onaction._compute(event, can)
     },
 })

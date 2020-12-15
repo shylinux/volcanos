@@ -18,7 +18,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         var feature = can.Conf("feature") || {}
         can.page.Modify(can, can._action, {style: {display: "none"}})
-        typeof cb == "function" && cb()
+        typeof cb == "function" && cb(msg)
 
         can.Action("倍速", can.rate = 1)
         can.Action("数量", can.limit = parseInt(msg.Option("limit"))||feature["limit"]||6)
