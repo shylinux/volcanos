@@ -20,8 +20,8 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
         }); Preload = Preload.concat(Config.plugin)
 
         // 根模块
-        meta.libs = Config.libs, meta.volcano = Config.volcano
-        name = Config.name, can = { _follow: Config.name,
+        meta.volcano = Config.volcano, meta.libs = Config.libs
+        name = Config.name, can = {_follow: Config.name,
             _target: document.body, _width: window.innerWidth, _height: window.innerHeight,
         }, libs = Preload.concat(Config.volcano), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panes, function(msg) {

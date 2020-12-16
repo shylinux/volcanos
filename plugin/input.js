@@ -31,6 +31,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
         }
     },
 
+    "upload": function(event, can) { can.user.upload(event, can) },
     "关闭": function(event, can) { can.page.Remove(can, can.sup._target) },
     "上传": function(event, can) { can.user.upload(event, can) },
     "执行": function(event, can) { can.run(event) },
