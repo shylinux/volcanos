@@ -19,18 +19,3 @@ fieldset.Action fieldset.plugin legend {
 fieldset.Action fieldset.plugin legend:hover {
     background:red;
 }
-
-body.white fieldset.Action {
-    background-color:#0dabda;
-}
-body.white fieldset.Action fieldset.plugin {
-    background-color:white; color:black;
-}
-body.white fieldset.Action fieldset.plugin legend {
-    background-color:#339999; color:white;
-    border-radius:10px 10px 10px 10px;
-}
-body.white fieldset.Action fieldset.plugin legend:hover {
-    background-color:#6ee4e4;
-}
-

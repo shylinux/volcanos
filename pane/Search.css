@@ -1,25 +1,16 @@
 fieldset.Search {
     display:none;
     position:fixed;
-    left:120px;
-    top:40px;
+    top:32px; left:160px;
     background:black;
-    z-index:102;
-}
-fieldset.Search div.output div.content:hover {
-    max-height:400px;
+    z-index:10;
 }
 fieldset.Search div.output div.content {
     max-height:200px;
     overflow:auto;
 }
 fieldset.Search div.output div.display {
-    position:sticky;
     max-height:200px;
-    max-width:1000px;
     overflow:auto;
-}
-fieldset.Search div.output div.display:hover {
-    max-height:400px;
 }
 
