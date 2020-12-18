@@ -1,0 +1,45 @@
+<import src="../../app.wxml"/>
+
+<template is="action" data="{{action}}"></template>
+
+<view class="output">
+    <view class="field" wx:for="{{res}}" wx:key="name" wx:for-index="order" wx:for-item="field">
+        <view class="title"><text>{{field.name}}({{field.help}})</text></view>
+        <view class="option">
+            <!-- 参数 -->
+            <view class="item {{item._input}}" wx:for="{{field.inputs}}" wx:key="name">
+                <!-- 文本 -->
+                <input wx:if="{{item._input == 'text'}}" type="text" value="{{item.value}}" placeholder="{{item.name}}"
+                    bindtap="onClick" bindinput="onInput" bindconfirm="onEnter" data-order="{{order}}" data-index="{{index}}" data-input="{{item}}"/>
+
+                <!-- 文本 -->
+                <textarea wx:elif="{{item._input == 'textarea'}}" value="{{item.value}}" placeholder="{{item.name}}"
+                    bindtap="onClick" bindinput="onInput" data-field="{{field}}" data-order="{{order}}" data-index="{{index}}" data-input="{{item}}"></textarea>
+
+                <!-- 列表 -->
+                <picker wx:elif="{{item._input == 'select'}}" bindchange="onChange" value="{{item.index||0}}" range="{{item.values}}"
+                    data-field="{{field}}" data-order="{{order}}" data-index="{{index}}" data-input="{{item}}">
+                    <view>{{item.values[item.index||0]}}</view>
+                </picker>
+
+                <!-- 按钮 -->
+                <button wx:elif="{{item._input == 'button'}}" size="mini" bindtap="onClick" data-field="{{field}}" data-order="{{order}}" data-index="{{index}}" data-input="{{item}}">{{item.value||item.name}}</button>
+            </view>
+        </view>
+
+        <!-- 输出 -->
+        <view class="output">
+            <!-- 表格 -->
+            <table wx:if="{{field.msg}}">
+                <tr><th wx:for="{{field.msg.append}}" wx:key="name">{{item}}</th></tr>
+                <tr wx:for="{{field.msg._index}}" wx:key="name" wx:for-index="line">
+                    <td wx:for="{{field.msg.append}}" bindtap="onWhich" data-value="{{field.msg[item][line]}}" data-index="{{line}}" data-field="{{item}}" data-order="{{order}}">{{field.msg[item][line]}}</td>
+                </tr>
+            </table>
+
+            <!-- 文本 -->
+            <view class="output"><rich-text wx:for="{{field.msg.result}}" wx:key="name" nodes="{{item}}"></rich-text></view>
+            <!-- <view class="code" wx:elif="{{field.msg.result}}"><text wx:for="{{field.msg.result}}" wx:key="name">{{item}}</text></view> -->
+        </view>
+    </view>
+</view>

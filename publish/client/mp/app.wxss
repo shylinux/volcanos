@@ -1,0 +1,84 @@
+page {
+    color:white;
+    font-size:14px;
+    font-family:monospace;
+    background-color:#272822;
+    white-space:pre;
+}
+
+view.action>view.item {
+    float:left;
+}
+view.option>view.item {
+    padding:0;
+    border: 0;
+    float:left;
+}
+view.option input {
+    width:80px;
+    margin:2px;
+    padding:2px;
+    border:solid 1px green;
+}
+view.option view.textarea {
+    clear:both;
+    width:calc(100% - 2px);
+    border:solid 1px green;
+}
+view.option view.select {
+    border:solid 1px green;
+    float:left;
+    /* width:40px; */
+    padding:6px;
+}
+view.option view.select picker {
+}
+view.option view.select picker view {
+}
+view.output {
+    clear:both;
+}
+view.output view.item {
+    text-align:center;
+    font-size:18px;
+    padding:10px;
+    border:solid 1px green;
+}
+view.output view.list view.item {
+    background-color:darkgray;
+    margin-left:20px;
+}
+view.output view.code {
+    margin-left:10px;
+    padding:10px;
+    border-left:solid 2px cyan;
+}
+
+view.title {
+    margin-top:20px;
+    margin-bottom:10px;
+    font-weight:bold;
+    font-size:18px;
+}
+view.field {
+}
+
+table {
+}
+tr {
+    display:flex;
+    justify-content:space-between;
+}
+th {
+    padding:5px;
+    width:100%;
+    text-align:center;
+    border:solid 1px red;
+}
+td {
+    padding:5px;
+    width:100%;
+    text-align:center;
+    border:solid 1px green;
+}
+
