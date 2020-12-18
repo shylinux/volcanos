@@ -9,6 +9,8 @@ fieldset.Action>div.output {
 
 fieldset.Action fieldset.plugin {
     margin:5px;
+    background-color:#113c4a;
+    box-shadow: 4px 4px 10px 4px #626bd0;
 }
 fieldset.Action fieldset.plugin:hover {
     border-color:red;

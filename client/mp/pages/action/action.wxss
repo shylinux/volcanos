@@ -1,6 +1,0 @@
-view.option view.item {
-    padding:0;
-}
-view.option view.item.select {
-    padding:3px;
-}

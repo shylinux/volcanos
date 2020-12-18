@@ -1,3 +1,60 @@
+body.mobile fieldset.Header.head {
+    position:fixed;
+    width:-webkit-fill-available;
+    height:48px; font-size:24px;
+    background-color:#000000b8;
+    z-index:10;
+}
+body.mobile fieldset.Footer.foot {
+    position:fixed; bottom:0px;
+    width:-webkit-fill-available;
+    height:64px; font-size:24px;
+    background-color:#000000b8;
+    z-index:10;
+}
+body.mobile fieldset.Action fieldset>form.option {
+    padding:0 5px;
+    height:36px;
+    min-width:640px;
+}
+body.mobile fieldset.Action {
+    padding-top:48px;
+}
+body.mobile fieldset.River {
+    font-size:24px;
+    min-width:240px;
+    position:fixed;
+    z-index:10;
+    background-color:#243950bf;
+    top:56px;
+}
+body.mobile input {
+    font-size:18px;
+}
+body.mobile select {
+    font-size:18px;
+}
+
+fieldset.River>div.output div.list {
+    margin-left:8px;
+    padding-left:5px;
+}
+fieldset.River>div.output div.item {
+    border-left:solid 3px #00ffae;
+}
+fieldset.River>div.output div.list div.item {
+    border-left:solid 3px #ccdc4c;
+    background-color:#181d15;
+}
+fieldset.River>div.output div.list div.item:hover {
+    cursor:pointer;
+    background-color:#2e515f;
+}
+fieldset.River>div.output div.list div.item.select {
+    border-left:solid 3px #ccdc4c;
+    background-color:#2e515f;
+}
+
 body {
     margin:0; padding:0;
     background:black;
@@ -32,6 +89,7 @@ table {
     border:0; white-space: pre;
     font-size:14px; font-family:monospace;
     cursor:pointer; overflow: auto;
+    background:#04272f;
 }
 table tr:hover {
     background-color:#0fbd45;
@@ -178,7 +236,6 @@ fieldset>div.output>pre.display:hover {
 fieldset.input {
     background-color:black;
     position:fixed;
-    left:0; top:0;
 }
 fieldset.input {
     z-index:99;
@@ -190,10 +247,32 @@ fieldset.input.key {
     z-index:101;
 }
 
+fieldset.Header>div.output>div.menus {
+    margin-left:5px;
+    cursor:pointer;
+    float:left;
+}
+fieldset.Header>div.output>div.menus:hover {
+    background:gray;
+}
+div.menu {
+    position:absolute;
+    background:#295b61;
+    color:white;
+    padding:4px;
+}
+div.menu div.item {
+    padding:3px 12px;
+    cursor:pointer;
+}
+div.menu div.item:hover {
+    background:red;
+}
+
 div.toast {
     color:yellow;
     background:#0e3369b3;
-    border:solid 2px red;
+    border:solid 2px #0c8e4c;
     position:fixed;
     padding:5px;
     z-index:100;
@@ -343,3 +422,4 @@ fieldset.max>form.option>div.item textarea.args {
     width:500px;
     height:120px;
 }
+

@@ -224,6 +224,11 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
                         layout.left = 0, layout.top = 40
                         layout.width = window.innerWidth-40
                         layout.height = window.innerHeight-60
+                        if (can.user.isMobile) {
+                            if (window.innerWidth > window.innerHeight) {
+                                layout.top = 0
+                            }
+                        }
                         can.onaction._resize(sub, layout)
                         break
                     default:
@@ -233,6 +238,11 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "横向", 
                             })
                         }, true)
                 }
+            }
+            if (can.user.isMobile) {
+                can.core.Timer(100, function() {
+                    sub.run({}, ["some", "最大"])
+                })
             }
         })
     },

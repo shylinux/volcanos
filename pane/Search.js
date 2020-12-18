@@ -31,7 +31,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         var fields = (msg.Option("fields")||"pod,ctx,cmd,type,name,text").split(",")
 
         function search(word, cb) { cmd[1] = word
-            if (word == "" &&  can.list[0] && can.list[0].type == "fieldset") {
+            if (word == "" && can.list && can.list[0] && can.list[0].type == "fieldset") {
                 can.page.Select(can, document.body, "fieldset.pane.Action fieldset.plugin>legend", function(item) {
                     if (item.innerHTML == can.list[0].name) {
                         var cb = can.page.Select(can, item.parentNode, "input.args")[0]
@@ -69,7 +69,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.ui = can.page.Append(can, can._output, [
             {input: ["word", function(event) { var target = event.target
-                can.onkeypop.input(event, can, target)
+                can.onkeypop.input(event, can)
                 if (event.key == "Escape") {
                     can.onmotion.hide(can)
                 }

@@ -9,39 +9,18 @@ fieldset.River>div.output {
     padding:0;
 }
 fieldset.River>div.output div.item {
-    padding-left:6px;
+    padding:3px 16px;
 }
 fieldset.River>div.output div.item:hover {
     cursor:pointer;
-    background-color:red;
-    border:ridge 2px yellow;
+    background-color:#2e515f;
 }
 fieldset.River>div.output div.item.select {
-    background-color:red;
-    border:ridge 2px yellow;
-}
-fieldset.River>div.output div.list {
-    margin-left:20px;
+    background-color:#2e515f;
 }
 
 body.white fieldset.River {
     border:solid 2px #1f2224;
     background-color:#1f2224;
     color:white;
-}
-body.white fieldset.River>div.output div.item:hover {
-    background-color:black;
-    border:solid 2px black;
-}
-body.white fieldset.River>div.output div.item.select {
-    background-color:black;
-    border:solid 2px black;
-}
-body.white fieldset.River>div.output div.subitem:hover {
-    background-color:black;
-    border:solid 2px black;
-}
-body.white fieldset.River>div.output div.subitem.select {
-    background-color:black;
-    border:solid 2px black;
 }

@@ -11,23 +11,28 @@ function shy(help, meta, list, cb) {
     cb.list = next("object") || []
     return cb
 }; var _can_name = ""
-var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, libs, cb) {
+var Volcanos = shy("火山架", {cache: {}, libs: [], _target: document.body}, [], function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
-    if (typeof name == "object") { var Config = name
+    if (typeof name == "object") { var Config = name; _can_name = ""
+        meta.libs = Config.libs, meta.volcano = Config.volcano
+
         // 预加载
         var Preload = Config.libs; Config.panes.forEach(function(pane) {
             Preload = Preload.concat(pane.list = pane.list || ["/pane/"+pane.name+".css", "/pane/"+pane.name+".js"])
         }); Preload = Preload.concat(Config.plugin)
 
         // 根模块
-        meta.volcano = Config.volcano, meta.libs = Config.libs
         name = Config.name, can = {_follow: Config.name,
-            _target: document.body, _width: window.innerWidth, _height: window.innerHeight,
+            _width: window.innerWidth, _height: window.innerHeight,
         }, libs = Preload.concat(Config.volcano), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panes, function(msg) {
-                can.base.Log(can)
+                can.base.Log(name, "run", window.can = can)
+                document.body.onresize = function(event) {
+                    can.onlayout._init(can, can._target, window.innerWidth, window.innerHeight)
+                }, can.onlayout._init(can, can._target, window.innerWidth, window.innerHeight-8)
             }, can._target)
         }
+
     }
 
     list.push(can = can || {}), can.__proto__ = {__proto__: Volcanos.meta, _name: name, _load: function(name, cb) {
@@ -38,8 +43,8 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
 
             // 加载模块
             for (var i = 0; i < cache.length; i++) { var sub = cache[i]
+                if (typeof cb == "function" && cb(can, name, sub)) { continue }
                 if (can[sub._name] && can[sub._name]._merge && can[sub._name]._merge(can, sub)) { continue }
-                if (typeof cb == "function" && cb(can, name, sub)) { continue}
                 if (can[sub._name]) {
                     for (var k in sub) {
                         can[sub._name].hasOwnProperty(k) || (can[sub._name][k] = sub[k])
@@ -55,29 +60,13 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
             }
 
             var source = !libs[0].endsWith("/") && (libs[0].indexOf(".") == -1? libs[0]+".js": libs[0]) || libs[0]
-            var target = source.endsWith(".css")? (can._head||document.head): (can._body||document.body)
-
-            if (meta.cache[source]) {
-                can._load(source, each), can.require(libs.slice(1), cb, each)
-                return // 加载缓存
+            if (source.indexOf("/publish") == 0 && can.base && can.user) {
+                source = can.base.URLMerge(source, "pod", can.user.Search(can, "pod")||"")
             }
 
-            if (source.endsWith(".css")) { var style = document.createElement("link")
-                style.rel = "stylesheet", style.type = "text/css"
-                style.href = source; style.onload = function() {
-                    can._load(source, each), can.require(libs.slice(1), cb, each)
-                } // 加载样式
-                target.appendChild(style)
-
-            } else if (source.endsWith(".js")) { var script = document.createElement("script")
-                if (source.indexOf("/publish") == 0 && can.user) {
-                    source += "?pod="+(can.user.Search(can, "pod")||"")
-                }
-                script.src = source, script.onload = function() {
-                    can._load(source, each), can.require(libs.slice(1), cb, each)
-                } // 加载脚本
-                target.appendChild(script)
-            }
+            // 请求模块
+            function next() { can._load(source, each), can.require(libs.slice(1), cb, each) }
+            meta.cache[source]? next(): meta._load(source, next)
         },
         request: function(event, option) { event = event || {}
             event._msg = event._msg || can.misc.Message(event, can)
@@ -86,17 +75,7 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
         },
 
         Conf: function(key, value) {
-            if (key == undefined) { return can._conf }
-            if (typeof key == "object") { can._conf = key; return can._conf }
-            can._conf[key] = value == undefined? can._conf[key]: value
-
-            if (can._conf[key] == undefined && key.indexOf(".") > 0) {
-                var p = can._conf, ls = key.split("."); while (p && ls.length > 0) {
-                    p = p[ls[0]], ls = ls.slice(1)
-                }
-                return p
-            }
-            return can._conf[key]
+            return can.core.Value(can._conf, key, value)
         }, _conf: {},
     }
 
@@ -106,4 +85,18 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
     }
     return can.require(libs, cb), can
 })
-
+Volcanos.meta._load = function(url, cb) {
+    switch (url.split("?")[0].split(".").pop().toLowerCase()) {
+        case "css":
+            var item = document.createElement("link")
+            item.rel = "stylesheet", item.type = "text/css"
+            item.href = url; item.onload = cb
+            document.head.appendChild(item)
+            return item
+        case "js":
+            var item = document.createElement("script")
+            item.src = url, item.onload = cb
+            document.body.appendChild(item)
+            return item
+    }
+}

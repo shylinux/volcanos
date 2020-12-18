@@ -3,7 +3,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.table = can.onappend.table(can, msg, can.ui.content, "table", function(value, key, index, line) {
             return {text: [value, "td"], oncontextmenu: function(event) {
-                can.user.carte(can, can.ondetail, can.ondetail.list, function(ev, cmd, meta) {
+                can.user.carte(event, can, can.ondetail, can.ondetail.list, function(ev, cmd, meta) {
                     var cb = meta[cmd]; cb && cb(event, can, cmd, value, key, index, line)
                 })
             }, ondblclick: function(event) {

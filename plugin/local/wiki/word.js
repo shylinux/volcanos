@@ -93,7 +93,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }
     },
 }, ["/plugin/local/wiki/word.css"])
-Volcanos("onaction", {help: "控件交互", list: ["演示"],
+Volcanos("onaction", {help: "控件交互", list: [],
     show: function(can, which) {
         can.page.Select(can, can.ui.content, "div.page.show", function(page) {
             can.page.ClassList.del(can, page, "show")

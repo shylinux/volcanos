@@ -11,8 +11,7 @@ fieldset.Header>div.output>div.title {
     float:left;
 }
 fieldset.Header>div.output>div.title:hover {
-    background-color:red;
-    border:ridge 2px yellow;
+    background-color:#2e515f;
 }
 fieldset.Header>div.output>div.search {
     margin-left:20px;
@@ -35,7 +34,7 @@ fieldset.Header>div.output>div.state {
     float:right;
 }
 fieldset.Header>div.output>div.state:hover {
-    background-color:red;
+    background-color:#2e515f;
 }
 
 body.white fieldset.Header {

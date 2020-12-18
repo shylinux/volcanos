@@ -5,7 +5,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         typeof cb == "function" && cb(msg)
     },
     _title: function(can, msg, target) {
-        can.core.List(msg.result, function(title) {
+        can.user.isMobile || can.core.List(msg.result, function(title) {
             can.page.Append(can, target, [{view: ["title", "div", title]}])
         })
     },

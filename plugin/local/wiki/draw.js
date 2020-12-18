@@ -54,7 +54,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 can.Action(key, target.Value(key)||can.Action(key))
             }), can.onmotion.show(can, 10, null, target)
         }, function(event) {
-            can.user.carte(can, can.onaction||{}, ["隐藏", "显示", "添加", "删除", "清空"], function(ev, item, meta) {
+            can.user.carte(event, can, can.onaction||{}, ["隐藏", "显示", "添加", "删除", "清空"], function(ev, item, meta) {
                 switch (item) {
                     case "显示":
                         can.page.Select(can, can.ui.content, "g."+name, function(item) {

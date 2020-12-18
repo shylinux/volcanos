@@ -1,10 +1,19 @@
-Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) { if (!msg.cmds) { return }
+Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) {
+        var width = can.Conf("width"), height = can.Conf("height")
+
         can.ui = can.page.Appends(can, target, [
             {type: "table", list: [{type: "tr", list: [
-                {type: "td", list: [{view: "project", style: {"max-height": window.innerHeight-480, display: "none"}} ]},
-                {type: "td", list: [{view: "profile", style: {"max-height": window.innerHeight-480}, list: [
+                {type: "td", list: [{view: "project", style: {"max-height": height-480, display: "none"}} ]},
+                {type: "td", list: [{view: "profile", style: {"max-height": height-480}, list: [
                     {view: ["content", "table"]},
-                ]}], style: {"min-width": parseInt(can.Conf("width"))-120, "max-width": parseInt(can.Conf("width"))-60}},
+                ]}], style: {"min-width": width-120, "max-width": width-60}, _init: function(item) {
+                    can.onlayout.resize(function(width, height) {
+                        width = can.Conf("width", width), height = can.Conf("height", height)
+                        can.page.Modify(can, item, {style: {
+                            "min-width": width-120, "max-width": width-60,
+                        }})
+                    })
+                }},
             ]}, ]},
             {view: "search", style: {display: "none"}, list: [{view: "action", list: [
                     {input: ["word", function(event) {
@@ -60,7 +69,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         }, true)
     },
     project: function(can, path, cb) { can.Option({path: path})
-        var msg = can.request({}); msg.Option("dir_root", path), msg.Option("dir_deep", "true")
+        var msg = can.request({}, {dir_root: path, dir_deep: true})
         can.run(msg._event, ["action", "dir", "./"], function(msg) { can.ui.project.innerHTML = ""
             msg.path && can.Status("文件数", msg.path.length)
             can.onappend.tree(can, msg, "path", "/", can.ui.project, function(event, value) {

@@ -1,5 +1,8 @@
 (function() { const RIVER = "river", STORM = "storm", ACTION = "action"
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+        can._target.ontouchstart = function(event) {
+            can.run({}, ["search", "River.onmotion.hidden"])
+        }
         var river = can.Conf(RIVER), storm = can.Conf(STORM)
         can.onmotion.clear(can), can.core.Next(msg.Table(), function(value, next) {
             value.feature = can.base.Obj(value.feature||value.meta||"{}", {})
@@ -28,6 +31,27 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 }, silent)
             }
         }, target)
+    },
+})
+Volcanos("onengine", {help: "解析引擎", list: [],
+    engine: function(event, can, msg, pane, cmds, cb) {
+        var river = can.onengine.river[cmds[0]]
+        var storm = river && river.storm[cmds[1]]
+        if (!storm || cmds.length != 2) { return false }
+
+        if (storm.index) {
+            can.misc.Run(event, can, {names: pane._name}, ["action", "command"].concat(storm.index), cb)
+        } else {
+            can.core.List(storm.action, function(value) {
+                msg.Push("name", value.name||"")
+                msg.Push("help", value.help||"")
+                msg.Push("inputs", JSON.stringify(value.inputs||[]))
+                msg.Push("feature", JSON.stringify(value.feature||{}))
+                msg.Push("index", value.index||"")
+                msg.Push("args", value.args||"[]")
+            }), typeof cb == "function" && cb(msg)
+        }
+        return true
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
