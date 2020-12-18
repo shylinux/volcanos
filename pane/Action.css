@@ -1,69 +1,36 @@
 fieldset.Action {
     min-width:160px;
-    min-height:160px;
-    background:#051625;
+    background-color:#051625;
+    color:white;
 }
-fieldset.Action>div.output {
-    overflow:auto;
-}
-
 fieldset.Action fieldset.plugin {
-    margin:5px;
+    box-shadow:2px 2px 10px 4px #626bd0;
     background-color:#113c4a;
-    box-shadow: 4px 4px 10px 4px #626bd0;
+    margin:8px; padding:4px;
 }
 fieldset.Action fieldset.plugin:hover {
-    border-color:red;
+    box-shadow:4px 4px 12px 6px #626bd0;
 }
 fieldset.Action fieldset.plugin legend {
-    border:ridge 2px cyan;
-    margin-top:5px;
+    background-color:#477182; color:white;
+    font-size:16px; font-family:monospace;
+    margin-top:4px 5px; padding:2px 20px;
 }
-fieldset.Action fieldset.plugin form.option div.item {
-    margin:2px;
-}
-fieldset.Action fieldset.plugin div.output {
-    margin:5px;
-    color:white;
+fieldset.Action fieldset.plugin legend:hover {
+    background:red;
 }
 
 body.white fieldset.Action {
     background-color:#0dabda;
-    border-top:0;
 }
 body.white fieldset.Action fieldset.plugin {
-    color:black; background-color:white;
-    border:0; border-top:solid 2px #CCCCFF;
-    box-shadow: 4px 4px 10px 4px #626bd0;
-    margin:8px 8px;
-}
-body.white fieldset.Action fieldset.plugin:hover {
-    border-top:solid 2px #6666FF;
+    background-color:white; color:black;
 }
 body.white fieldset.Action fieldset.plugin legend {
-    font-size:16px; font-family:monospace;
-    color:white; background-color:#339999;
-    padding:2px 20px; border:2px solid #99CCFF;
+    background-color:#339999; color:white;
     border-radius:10px 10px 10px 10px;
 }
 body.white fieldset.Action fieldset.plugin legend:hover {
     background-color:#6ee4e4;
-}
-body.white fieldset.Action fieldset.plugin div.output{
-    color:black;
-    padding:10px;
-}
-body.white fieldset.Action fieldset.plugin div.item input[type=button] {
-    letter-spacing:4px;
-}
-body.white fieldset.Action fieldset.plugin div.item input {
-    box-shadow: 4px 4px 10px 1px #626bd0;
-}
-body.white fieldset.Action fieldset.plugin div.item input[name=cmd] {
-    width:160px;
-}
-body.white fieldset.Action fieldset.plugin div.item select {
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    margin-top:-2px;
 }
 

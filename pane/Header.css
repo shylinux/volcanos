@@ -1,21 +1,20 @@
 fieldset.Header {
-    height:32px;
-    clear:both;
+    height:32px; padding:0 5px;
 }
-fieldset.Header>div {
-    margin:7px 0;
-}
-fieldset.Header>div.output>div.title {
-    margin-left:5px;
+fieldset.Header>div.output>div {
+    height:22px; padding:5px;
     cursor:pointer;
-    float:left;
 }
-fieldset.Header>div.output>div.title:hover {
+fieldset.Header>div.output>div:hover {
+    border-bottom:solid 2px red;
     background-color:#2e515f;
 }
-fieldset.Header>div.output>div.search {
-    margin-left:20px;
+
+fieldset.Header>div.output>div.title {
     float:left;
+}
+fieldset.Header>div.output>div.search {
+    float:left; margin-left:20px;
 }
 fieldset.Header>div.output>div.search>input {
     width:120px;
@@ -23,28 +22,10 @@ fieldset.Header>div.output>div.search>input {
 fieldset.Header>div.output>div.search>input:focus {
     width:240px;
 }
-fieldset.Header>div.output>div.item {
-    margin-left:5px;
-    cursor:pointer;
-    float:left;
+fieldset.Header>div.output>div.menus {
+    float:left; margin-left:5px;
 }
 fieldset.Header>div.output>div.state {
-    cursor:pointer;
-    margin-right:5px;
     float:right;
 }
-fieldset.Header>div.output>div.state:hover {
-    background-color:#2e515f;
-}
 
-body.white fieldset.Header {
-    border:solid 2px #1f2224;
-    background-color:#2f3638;
-    color:white;
-}
-body.white fieldset.Header input[type=text] {
-    border:2px solid #c4c7ce;
-    border-radius:10px 10px 10px 10px;
-    background-color:white;
-    color:white;
-}

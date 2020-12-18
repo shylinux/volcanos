@@ -12,124 +12,93 @@ body.mobile fieldset.Footer.foot {
     background-color:#000000b8;
     z-index:10;
 }
-body.mobile fieldset.Action fieldset>form.option {
-    padding:0 5px;
-    height:36px;
-    min-width:640px;
+body.mobile fieldset.River {
+    background-color:#243950bf;
+    position:fixed; top:48px;
+    min-width:240px;
+    font-size:24px;
+    z-index:10;
 }
 body.mobile fieldset.Action {
     padding-top:48px;
 }
-body.mobile fieldset.River {
-    font-size:24px;
-    min-width:240px;
-    position:fixed;
-    z-index:10;
-    background-color:#243950bf;
-    top:56px;
-}
-body.mobile input {
-    font-size:18px;
-}
 body.mobile select {
     font-size:18px;
 }
-
-fieldset.River>div.output div.list {
-    margin-left:8px;
-    padding-left:5px;
-}
-fieldset.River>div.output div.item {
-    border-left:solid 3px #00ffae;
-}
-fieldset.River>div.output div.list div.item {
-    border-left:solid 3px #ccdc4c;
-    background-color:#073540;
-}
-fieldset.River>div.output div.list div.item:hover {
-    cursor:pointer;
-    background-color:#2e515f;
-}
-fieldset.River>div.output div.list div.item.select {
-    border-left:solid 3px #ccdc4c;
-    background-color:#2e515f;
+body.mobile input {
+    font-size:18px;
 }
 
 body {
     margin:0; padding:0;
     background:black;
+    color:cyan;
 }
 fieldset {
-    margin:0; border:0; padding:2px;
-    color:cyan;
+    margin:0; border:0; padding:0;
 }
 legend {
-    margin-left:10px;
     box-shadow:4px 4px 20px 4px #626bd0;
 }
-legend:hover {
-    cursor:pointer;
-    background:red;
-}
 
-input[type=text] {
-    background-color:cyan;
-    color:black;
-}
 input[type=button] {
-    background:black;
-    color:cyan;
+    background-color:black; color:cyan;
+    letter-spacing:4px;
+    padding-left:10px;
+}
+input[type=button]:hover {
+    background-color:gray; color:cyan;
+}
+input[type=text] {
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    background-color:cyan; color:black;
+    padding: 0 4px;
+}
+input[type=text]:hover {
+    background-color:white;
+}
+input[name=cmd] {
+    width:160px;
 }
 select {
-    background:black;
-    color:cyan;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    background-color:black; color:cyan;
+    padding:0 10px;
 }
 
 table {
-    border:0; white-space: pre;
+    border:0; white-space:pre;
     font-size:14px; font-family:monospace;
     cursor:pointer; overflow: auto;
+}
+table tr {
     background:#04272f;
 }
 table tr:hover {
     background-color:#0fbd45;
 }
-table tr.select {
-    background-color:#0fbd45;
-}
-table tr.over {
-    background:red;
-}
 table th {
     background-color:#0fbd45;
-    padding: 0 10px;
-    cursor:pointer;
+    padding:2px 6px;
+}
+table th:hover {
+    background-color:red;
 }
 table td {
-    overflow:auto;
-    max-width:1200px;
-    padding:0 10px;
-}
-table td.done {
-    background-color:green;
+    max-width:1200px; overflow:auto;
+    padding:2px 6px;
 }
 table td:hover {
     background-color:red;
-}
-table td.select {
-    background-color:red;
-}
-table td input {
-    margin-left:4px;
 }
 
 h1 {
     margin:0;
 }
 div.code {
-    box-shadow: 4px 4px 20px 4px #626bd0;
+    background-color:#343a34f2; color:white;
     font-size:14px; font-family:monospace;
-    color:white; background-color:#343a34f2;
+    box-shadow: 4px 4px 20px 4px #626bd0;
     padding:10px; border:solid 3px green;
     text-align:left; white-space:pre;
     overflow:auto;
@@ -138,18 +107,8 @@ div.hidden {
     display:none;
 }
 
-fieldset>form.option {
-    padding:0 5px;
-}
-fieldset>form.option>br {
-    clear:both;
-}
 fieldset>form.option>div.item {
-    margin-right:3px;
-    float:left;
-}
-fieldset>form.option>div.item label {
-    margin-right:3px;
+    float:left; margin-right:3px;
 }
 fieldset>form.option>div.item input.args.char {
     width:20px;
@@ -161,8 +120,7 @@ fieldset>form.option>div.item input.args {
     width:80px;
 }
 fieldset>form.option>div.item input.args.cmd {
-    background-color:black;
-    color:white;
+    background-color:black; color:white;
     width:160px;
 }
 fieldset>form.option>div.item input.args.long {
@@ -175,9 +133,8 @@ fieldset>form.option>div.item input.opts {
     width:80px;
 }
 fieldset>form.option>div.item textarea.args {
+    width:500px; height:50px;
     background-color:cyan;
-    width:500px;
-    height:50px;
 }
 fieldset>form.option>div.item.textarea {
     margin-top:4px;
@@ -185,76 +142,51 @@ fieldset>form.option>div.item.textarea {
 }
 
 fieldset>div.action>div.item {
-    float:left;
-    margin:2px 0;
+    float:left; margin:2px 0;
 }
 fieldset>div.action>div.item.space {
     width:10px;
 }
 fieldset>div.status>div.item {
-    float:left;
-    padding:4px;
+    float:left; padding:4px;
 }
 fieldset>div.status>div.item>label {
-    font-size:10px;
-    color:gray;
+    font-size:10px; color:gray;
 }
 
 fieldset>div.output {
-    margin-top:4px;
-    clear:both;
-    overflow:auto;
+    clear:both; overflow:auto;
     position:relative;
 }
 fieldset>div.output div.code a {
     color:yellow;
 }
-fieldset>div.output>div.project {
+fieldset>div.output div.project {
     float:left;
-    /* position:fixed; */
 }
-fieldset>div.output>div.project div.item {
+fieldset>div.output div.project div.item {
+    padding:2px 10px; text-align:left;
+    clear:both; cursor:pointer;
+}
+fieldset>div.output div.project div.item:hover {
+    background:red;
+}
+fieldset>div.output div.project div.list {
     margin-left:10px;
-    clear:both;
-}
-fieldset>div.output>div.project div.item:hover {
-    border:solid 1px red;
-}
-fieldset>div.output>div.project div.list {
-    margin-left:10px;
-}
-fieldset>div.output>pre.display {
-    position:sticky; bottom:0;
-    /* max-height:120px; */
-    max-height:400px;
-    clear:both;
-}
-fieldset>div.output>pre.display:hover {
-    /* max-height:640px; */
 }
 
 fieldset.input {
-    background-color:black;
+    background-color:#30a7a93d;
     position:fixed;
-}
-fieldset.input {
-    z-index:99;
-}
-fieldset.input.date {
-    z-index:101;
+    z-index:9;
 }
 fieldset.input.key {
-    z-index:101;
+    z-index:10;
+}
+fieldset.input.date {
+    z-index:11;
 }
 
-fieldset.Header>div.output>div.menus {
-    margin-left:5px;
-    cursor:pointer;
-    float:left;
-}
-fieldset.Header>div.output>div.menus:hover {
-    background:gray;
-}
 div.menu {
     position:absolute;
     background:#295b61;
@@ -268,11 +200,34 @@ div.menu div.item {
 div.menu div.item:hover {
     background:red;
 }
+div.carte {
+    color:cyan;
+    background:black;
+    border:solid 2px red;
+    position:fixed;
+    z-index:100;
+}
+div.carte div.item {
+    padding:0 5px;
+}
+div.carte div.item:hover {
+    background:red;
+    border:solid 2px yellow;
+    cursor:pointer;
+}
+
+div.upload {
+    background:black; color:yellow;
+    position:fixed;
+    padding:5px;
+    z-index:100;
+}
+div.upload div.item {
+    float:left;
+}
 
 div.toast {
-    color:yellow;
-    background:#0e3369b3;
-    border:solid 2px #0c8e4c;
+    background:#0e3369b3; color:yellow;
     position:fixed;
     padding:5px;
     z-index:100;
@@ -298,70 +253,55 @@ div.toast div.progress div.current {
     height:10px;
 }
 
-div.carte {
-    color:cyan;
-    background:black;
-    border:solid 2px red;
-    position:fixed;
-    z-index:100;
-}
-div.carte div.item {
-    padding:0 5px;
-}
-div.carte div.item:hover {
-    background:red;
-    border:solid 2px yellow;
-    cursor:pointer;
-}
-
-div.upload {
-    color:yellow;
-    background:black;
-    border:solid 2px red;
-    position:fixed;
-    padding:5px;
-    z-index:100;
-}
-div.upload div.item {
-    float:left;
-}
-
 body.white {
-    margin:0; padding:0;
-    background-color:#0dabda;
+    background-color:#2f3638;
+    color:white;
+}
+body.white input[type=button] {
+    background-color:#FF9900; color:white;
+    border-radius:10px 10px 10px 10px;
+    border:2px solid #FF9900;
+}
+body.white input[type=button]:hover {
+    background-color:#FFCC33;
+    border:2px solid #FFCC33;
 }
 body.white input[type=text] {
-    border:2px solid #14a58e;
+    background-color:white; color:black;
     border-radius:6px 6px 6px 6px;
-    color:black; background-color:white;
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    padding: 0 4px;
+    border:2px solid #14a58e;
+
 }
 body.white input[type=text]:hover {
     background-color:cyan;
 }
-body.white input[type=button] {
-    padding:0 20px;
-    border-radius:10px 10px 10px 10px;
-    border:2px solid #FF9900;
-    background-color:#FF9900;
-    color:white;
-}
-body.white input[type=button]:hover {
-    border-radius:10px 10px 10px 10px;
-    border:2px solid #FFCC33;
-    background-color:#FFCC33;
-}
 body.white select {
-    padding:0 10px;
-    margin-top:2px;
+    background-color:#99CC66; color:white;
     border-radius:10px 10px 10px 10px;
     border:2px solid #99CC66;
-    background-color:#99CC66;
-    color:white;
 }
-body.white select:hover {
+
+body.white fieldset.plugin table {
+    background-color:white; color:black;
 }
+body.white fieldset.plugin table tr {
+    background-color:#e1f1ff;
+}
+body.white fieldset.plugin table tr:hover {
+    background-color:#99CCFF;
+}
+body.white fieldset.plugin table th {
+    background-color:#99CCFF;
+}
+body.white fieldset.plugin table th:hover {
+    background-color:#98ecd4;
+}
+body.white fieldset.plugin table td {
+}
+body.white fieldset.plugin table td:hover {
+    background-color:#98ecd4;
+}
+
 body.white table input[type=button][value=结束] {
     background:red;
 }
@@ -370,56 +310,5 @@ body.white table input[type=button][value=停止] {
 }
 body.white table input[type=button][value=启动] {
     background:#52ce78;
-}
-
-body.white fieldset {
-    /* color:black; */
-}
-body.white fieldset.pane {
-    margin:0; border:0;
-}
-body.white fieldset.plugin {
-    margin:0; border:0;
-    border-top:solid 2px #CCCCFF;
-    background-color:white;
-    color:black;
-}
-body.white fieldset.plugin table {
-    color:black; background-color:white;
-}
-body.white fieldset.plugin table tr {
-    background-color:#e1f1ff;
-}
-body.white fieldset.plugin table tr:hover {
-    background-color:#99CCFF;
-}
-body.white fieldset.plugin table tr.select {
-    background-color:#0fbd45;
-}
-body.white fieldset.plugin table th {
-    padding:4px;
-    background-color:#99CCFF;
-}
-body.white fieldset.plugin table td {
-    padding:4px;
-}
-body.white fieldset.plugin table td:hover {
-    background-color:#98ecd4;
-}
-body.white fieldset.editor {
-    background:#0b2c54ab;
-    color:white;
-}
-
-fieldset.command>form.option>div.item input.args {
-    width:300px;
-}
-fieldset.command>form.option>div.item textarea {
-    height:160px;
-}
-fieldset.max>form.option>div.item textarea.args {
-    background-color:cyan;
-    width:500px;
-    height:120px;
 }
 

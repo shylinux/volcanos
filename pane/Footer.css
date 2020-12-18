@@ -1,21 +1,20 @@
 fieldset.Footer {
-    height:32px;
+    height:32px; padding:0 5px;
     clear:both;
 }
-fieldset.Footer>div {
-    margin:7px 0;
+fieldset.Footer>div.output>div {
+    height:22px; padding:5px;
+    cursor:pointer;
 }
+fieldset.Footer>div.output>div:hover {
+    border-bottom:solid 2px red;
+    background-color:#2e515f;
+}
+
 fieldset.Footer>div.output div.title {
-    margin-left:5px;
     float:left;
 }
 fieldset.Footer>div.output div.state {
-    margin-right:5px;
     float:right;
 }
 
-body.white fieldset.Footer {
-    border:solid 2px #1f2224;
-    background-color:#1f2224;
-    color:white;
-}
