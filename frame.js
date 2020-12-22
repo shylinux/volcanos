@@ -27,6 +27,15 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         })
     },
 
+    listen: shy("", {}, [], function(can, name, cb) {
+        arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
+    }),
+    trigger: function(can, msg, name) {
+        can.core.List(can.onengine.listen.meta[name], function(cb) {
+            can.core.CallFunc(cb, {"msg": msg})
+        })
+    },
+
     search: function(event, can, msg, pane, cmds, cb) {
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split("."), function(value) {
             fun && (sub = mod, mod = fun, fun = mod[value], key = value)
@@ -96,6 +105,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "studio": {name: "研发 studio", action: [
                 {name: "route", help: "路由器", index: "web.route"},
                 {name: "tmux", help: "命令行", index: "web.code.tmux.session"},
+                {name: "inner", help: "编辑器", index: "web.code.inner", args: ["src/", "main.go"]},
                 {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
                 {name: "repos", help: "代码库", index: "web.code.git.status"},
                 {name: "total", help: "统计量", index: "web.code.git.total"},

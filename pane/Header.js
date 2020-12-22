@@ -90,8 +90,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }) })
     },
 
-    time: function(can, target) { target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
-        can._topic || can.user.Search(can, TOPIC) || can.user.Search(can, POD) || can.user.topic(can, can.base.isNight()? "black": "white")
+    topic: function(can, topic) { 
+        can.user.topic(can, topic || can._topic || can.user.Search(can, TOPIC) || can.user.Search(can, POD) || (can.base.isNight()? "black": "white"))
+    },
+    time: function(can, target) {
+        can.onimport.topic(can)
+        target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
     },
 })
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
@@ -99,13 +103,15 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             can.onimport._init(can, msg, list, function(msg) {
                 typeof cb == "function" && cb(msg)
                 can.run({}, ["search", "River.onaction._init"])
+                can.run({}, ["search", "Action.onaction._init"])
                 can.run({}, ["search", "Footer.onaction._init"])
             }, can._output)
         }) }
 
-        can.user.topic(can, can.user.Search(can, TOPIC) || (can.user.Search(can, POD)||can.base.isNight() ? "black": "white"))
+        can.onimport.topic(can)
         can.user.isLocalFile? init(): can.run({}, ["check"], function(msg) { msg.Result()? init(): can.user.login(can, init) })
     },
+
     title: function(event, can) {
         var args = {}; can.core.List([POD, TOPIC, TITLE], function(key) {
             var value = can.user.Search(can, key); value && (args[key] = value)

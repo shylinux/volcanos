@@ -55,13 +55,16 @@ Volcanos("onengine", {help: "解析引擎", list: [],
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
-        can.page.Cache(can.Conf(RIVER)+"."+can.Conf(STORM), can._output, can._output.scrollTop+1)
-        var river = can.Conf(RIVER, msg.Option(RIVER)), storm = can.Conf(STORM, msg.Option(STORM))
-        var position = can.Conf(ACTION, msg.Option(ACTION, can.page.Cache(river+"."+storm, can._output)||""))
-        if (position) { can._output.scrollTo(0, position-1); return }
+        can.onengine.listen(can, "storm.select", function(msg, river, storm) {
+            can.page.Cache(can.Conf(RIVER)+"."+can.Conf(STORM), can._output, can._output.scrollTop+1)
+            can.Conf(RIVER, river), can.Conf(STORM, storm)
 
-        can.run({}, [river, storm], function(msg) {
-            can.onimport._init(can, msg, list, cb, can._output)
+            var position = can.page.Cache(river+"."+storm, can._output)
+            if (position) { can._output.scrollTo(0, position-1); return }
+
+            can.run({}, [river, storm], function(msg) {
+                can.onimport._init(can, msg, list, cb, can._output)
+            })
         })
     },
 })
