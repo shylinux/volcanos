@@ -1,8 +1,12 @@
 fieldset.input.date {
-    position:fixed;
     background-color:black;
+    position:fixed;
     z-index:100;
 }
-fieldset.input.date div.action>hr{
+fieldset.input.date div.action>hr {
     clear:both;
+}
+fieldset.input.date div.output table {
+    text-align:center;
+    width:260px;
 }

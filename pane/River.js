@@ -3,6 +3,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._main_river = can.user.Search(can, RIVER) || (can.user.isMobile||can.user.isExtension? "product": "project")
         can._main_storm = can.user.Search(can, STORM) || (can.user.isMobile||can.user.isExtension? "office": "studio")
 
+        can.run({}, ["search", "Header.onimport.menu", ["操作", "添加"]], function(event, item) {
+            var cb = can.ondetail[item]; typeof cb == "function" && cb(event, can, item, can.Conf(RIVER), can.Conf(STORM))
+        })
+
         can.onmotion.clear(can), can.sublist = {}
         var select; msg.Table(function(value, index, array) {
             var view = can.onappend.item(can, target, "item", value, function(event, item) {

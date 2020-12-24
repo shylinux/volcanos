@@ -94,8 +94,26 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.user.topic(can, topic || can._topic || can.user.Search(can, TOPIC) || can.user.Search(can, POD) || (can.base.isNight()? "black": "white"))
     },
     time: function(can, target) {
-        can.onimport.topic(can)
         target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
+        can.onimport.topic(can)
+    },
+
+    menu: function(can, cmds, cb) {
+        can.core.List(cmds, function(item) {
+            if (typeof item == "string") {
+                can.page.Append(can, can._output, [{view: ["menus", "div", item], onclick: function(event) {
+                    typeof cb == "function" && cb(event, item)
+                }}])
+            } else if (item.length > 0) {
+                can.page.Append(can, can._output, [{view: ["menus", "div", item[0]], onclick: function(event) {
+                    var ui = can.user.carte(event, can, can.onaction, item.slice(1), cb)
+                    can.page.Modify(can, ui.first, {style: {top: can._target.offsetHeight}, className: "menu"})
+                }}])
+
+            } else if (typeof item == "object") {
+
+            }
+        })
     },
 })
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
