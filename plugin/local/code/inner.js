@@ -1,19 +1,17 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) {
-        var width = can.Conf("width"), height = can.Conf("height")
+        var list = []; can.onengine.listen(can, "resize", function(width, height) {
+            can.Conf({width: width, height: height}), can.core.Delay(list, 100, function() {
+                can.onimport._init(can, msg, list, cb, target)
+            })
+        })
 
+        var width = can.Conf("width"), height = can.Conf("height")
         can.ui = can.page.Appends(can, target, [
             {type: "table", list: [{type: "tr", list: [
-                {type: "td", list: [{view: "project", style: {"max-height": height-480, display: "none"}} ]},
-                {type: "td", list: [{view: "profile", style: {"max-height": height-480}, list: [
+                {type: "td", list: [{view: "project", style: {"max-height": height-240, display: "none"}} ]},
+                {type: "td", list: [{view: "profile", style: {"max-height": height-240}, list: [
                     {view: ["content", "table"]},
-                ]}], style: {"min-width": width-120, "max-width": width-60}, _init: function(item) {
-                    can.onlayout.resize(function(width, height) {
-                        width = can.Conf("width", width), height = can.Conf("height", height)
-                        can.page.Modify(can, item, {style: {
-                            "min-width": width-120, "max-width": width-60,
-                        }})
-                    })
-                }},
+                ]}], style: {"min-width": width-60, "max-width": width-30}},
             ]}, ]},
             {view: "search", style: {display: "none"}, list: [{view: "action", list: [
                     {input: ["word", function(event) {

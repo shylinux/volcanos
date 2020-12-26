@@ -1,49 +1,39 @@
-var can = Volcanos("chrome", {
-    chrome: function(msg, cmd, cb) {
-        if (cmd.length == 0) {
-            // 窗口列表
+Volcanos("chrome", {
+    chrome: function(can, msg, cmds, cb) {
+        if (cmds.length == 0) { // 窗口列表
             chrome.windows.getAll(function(wins) {
-                can.core.List(wins, function(win) {win.wid = win.id
+                can.core.List(wins, function(win) { win.wid = win.id
                     msg.Push(win, ["wid", "state", "left", "top", "width", "height"])
                 })
                 typeof cb == "function" && cb(msg)
             })
             return
         }
-        if (cmd.length == 1) {
-            // 标签列表
-            chrome.tabs.getAllInWindow(parseInt(cmd[0]), function(tabs) {
-                can.core.List(tabs, function(tab) {tab.tid = tab.id
+        if (cmds.length == 1) { // 标签列表
+            chrome.tabs.getAllInWindow(parseInt(cmds[0]), function(tabs) {
+                can.core.List(tabs, function(tab) { tab.tid = tab.id
                     msg.Push(tab, ["tid", "active", "width", "height", "index", "title", "url"])
                 })
                 typeof cb == "function" && cb(msg)
             })
             return
         }
-
-        delete(msg._can)
-        delete(msg._event)
-        if (cmd[1] == "") {
-            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                cmd[1] = tabs[0].id
-                chrome.tabs.sendMessage(parseInt(cmd[1]), msg, function (res) {
+        if (cmds[1] == "") { // 当前标签
+            chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
+                cmds[1] = tabs[0].id
+                chrome.tabs.sendMessage(parseInt(cmds[1]), msg, function(res) {
                     msg.Copy(res), typeof cb == "function" && cb(msg)
                 })
             })
-        } else {
-            chrome.tabs.sendMessage(parseInt(cmd[1]), msg, function (res) {
-                msg.Copy(res), typeof cb == "function" && cb(msg)
-            })
+            return
         }
-        return
 
-        // 新建标签
-        chrome.tabs.create({windowId: parseInt(cmd[0]), url: cmd[1], selected: false}, function() {
-            can.chrome(msg, [cmd[0]], cb)
+        chrome.tabs.sendMessage(parseInt(cmds[1]), msg, function(res) {
+            msg.Copy(res), typeof cb == "function" && cb(msg)
         })
     },
-    bookmark: function(msg, cmd, cb) {
-        chrome.bookmarks.getSubTree(cmd[0]||"0", function(labs) {
+    bookmark: function(msg, cmds, cb) {
+        chrome.bookmarks.getSubTree(cmds[0]||"0", function(labs) {
             for (var i = 0; i < labs.length; i++) {labs[i].pid = labs[i].parentId
                 msg.Push("time", can.base.Time(labs[i].dateAdded))
                 msg.Push(labs[i], ["pid", "id", "index", "title", "url"])
@@ -52,45 +42,33 @@ var can = Volcanos("chrome", {
             typeof cb == "function" && cb(msg)
         })
     },
-}, ["/lib/base", "/lib/core", "/lib/misc", "/lib/page", "/lib/user"], function(can) {can.Conf({iceberg: "http://localhost:9020/"})
+}, ["/lib/base", "/lib/core", "/lib/misc", "/lib/page", "/lib/user"], function(can) {
+    can.Conf({iceberg: "http://localhost:9020/"})
     can.user.toast = function(message, title) {chrome.notifications.create(null, {
-        message: message, title: title||"volcanos", iconUrl: "/favicon.ico", type: "basic",
+        message: message, title: title||can._name, iconUrl: "/favicon.ico", type: "basic",
     })},
 
-    can.misc.WSS(can, "ws://localhost:9020/space/", {name: "chrome", type: "chrome"}, function(event, msg) {
-        if (msg.Option("_handle")) { return can.user.toast(msg.result.join("")) }
+    can.misc.WSS(can, {type: "chrome", name: "chrome"}, function(event, msg, cmd, arg) {
+        can.core.CallFunc(can.core.Value(can, cmd), {can: can, msg: msg, cmds: arg, cb: function() {
+            msg.Reply()
+        }})
+    })
 
-        // can.user.toast(msg.detail.join(" "))
-        try {
-            switch (msg.detail[0]) {
-                case "space": can._share = msg.detail[2]; break
-                case "pwd": msg.Echo("hello world"); break
-                default: (can[msg.detail[0]]||can.chrome[msg.detail[0]])(msg, msg.detail.slice(1), function(msg) {
-                    msg.Reply(msg)
-                }); return
-            }
-        } catch (e) {
-            can.user.toast(e)
-        }
-        msg.Reply(msg)
-    }, function() {can.user.toast("wss connect", "iceberg")})
-
-    can.run = function(event, cmd, cb, silent) { var msg = can.request(event)
-        can.misc.Run(event, can, {names: "code/chrome/crx"}, cmd, cb)
+    can.run = function(event, cmds, cb, silent) { var msg = can.request(event)
+        can.misc.Run(event, can, {names: "code/chrome/crx"}, cmds, cb)
     },
     chrome.history.onVisited.addListener(function(item) {
         can.run({}, ["history", item.id, item.title, item.url])
     })
-    chrome.contextMenus.create({
-        title: "favor",
-        onclick: function(event) {
-            chrome.tabs.query({ active: true}, function (tabs) {
-                chrome.tabs.sendMessage(tabs[0].id, { action: "copy" }, function (response) {
-                    console.log(response)
-                    can.run({}, ["history", "id", response.title, response.src])
-                })
+
+    chrome.contextMenus.create({title: "favor", onclick: function(event) {
+        chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
+            var msg = can.request(event); msg.detail = ["chrome", "", "", "favor"]
+            chrome.tabs.sendMessage(tabs[0].id, msg, function(res) {
+                return
+                can.run({}, ["history", "id", response.title, response.src])
             })
-        },
-    })
+        })
+    }, })
 })
 

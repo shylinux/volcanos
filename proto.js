@@ -22,14 +22,13 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
         }); Preload = Preload.concat(Config.plugin)
 
         // 根模块
-        name = Config.name, can = {_follow: Config.name,
-            _target: document.body, _width: window.innerWidth, _height: window.innerHeight,
-        }, libs = Preload.concat(Config.volcano), cb = function(can) {
+        name = Config.name, can = {_follow: Config.name, _target: document.body}
+        libs = Preload.concat(Config.volcano), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panes, function(msg) {
                 can.base.Log(name, "run", window.can = can)
-                document.body.onresize = function(event) {
-                    can.onlayout._init(can, can._target, window.innerWidth, window.innerHeight)
-                }, can.onlayout._init(can, can._target, window.innerWidth, window.innerHeight-8)
+                var list = []; document.body.onresize = function(event) { can.core.Delay(list, 100, function() {
+                    can.onlayout._init(can, can._target, can._width = window.innerWidth, can._height = window.innerHeight)
+                }) }, document.body.onresize()
             }, can._target)
         }
     }

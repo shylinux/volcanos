@@ -5,6 +5,9 @@ body.mobile fieldset.Header.head {
     background-color:#000000b8;
     z-index:10;
 }
+body.mobile fieldset.Header.head>div.output {
+    height:48px;
+}
 body.mobile fieldset.Footer.foot {
     position:fixed; bottom:0px;
     width:-webkit-fill-available;
@@ -27,6 +30,9 @@ body.mobile select {
 }
 body.mobile input {
     font-size:18px;
+}
+body.mobile div.carte {
+    font-size:24px;
 }
 
 body {
@@ -89,6 +95,9 @@ table td {
     padding:2px 6px;
 }
 table td:hover {
+    background-color:red;
+}
+table td.select {
     background-color:red;
 }
 
@@ -178,20 +187,21 @@ fieldset>div.output div.project div.list {
 fieldset.input {
     background-color:#30a7a93d;
     position:fixed;
-    z-index:9;
+    z-index:100;
 }
 fieldset.input.key {
-    z-index:10;
+    z-index:90;
 }
 fieldset.input.date {
-    z-index:11;
+    z-index:80;
 }
 
 div.carte {
-    position:absolute;
+    position:fixed;
     background:#295b61;
     color:white;
     padding:4px;
+    z-index:100;
 }
 div.carte div.item {
     padding:3px 12px;
@@ -238,6 +248,9 @@ div.toast div.progress div.current {
     height:10px;
 }
 
+body.black a {
+    color:yellow;
+}
 body.white {
     background-color:#2f3638;
     color:white;

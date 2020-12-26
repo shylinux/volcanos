@@ -1,4 +1,4 @@
-var can = Volcanos("chrome", {
+Volcanos("chrome", {
     spide: function(can, msg) {
         can.page.Select(can, document.body, "video", function(item) {
             var p = can.page.Select(can, document.body, "p.title")[0]
@@ -28,29 +28,10 @@ var can = Volcanos("chrome", {
             msg.Push("link", item.src)
         })
     },
-}, [], function(can) {
-    can.user = user
-    can.page = page
-    can.misc = misc
-    can.core = core
-    can.base = base
-
-    chrome.extension.onMessage.addListener( function (msg, sender, cb) { var action = can[msg.detail[3]||"spide"]
-        msg = can.request({}, msg)
-        delete(msg._event)
-        delete(msg._can)
-        typeof action == "function" && action(can, msg) || typeof cb == "function" && cb(msg)
-    })
-    return
-
-    chrome.extension.onMessage.addListener( function (request, sender, sendResponse) {
-        var title = can.page.Select(can, document.body, "p.title", function(item) {
-            return item.innerText
-        }).join("-")
-        can.page.Select(can, document.body, "video", function(item) {
-            sendResponse({poster: item.poster, src: item.src, title: title})
-            console.log(item)
-        })
+}, [], function(can) { can._load("chrome")
+    chrome.extension.onMessage.addListener(function(req, sender, cb) {
+        var msg = can.request(); can.core.List(req.option, function(key) { msg.Option(key, req[key][0]) })
+        can.core.CallFunc(can.core.Value(can, req.detail[3]||"spide"), {can: can, msg: msg, cmds: req.detail.slice(4), cb: cb})
     })
 })
 

@@ -1,5 +1,10 @@
-Volcanos("onimport", {help: "导入数据", list: [],
-    _init: function(can, msg, list, cb, target) { can._output.innerHTML = ""
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { can._output.innerHTML = ""
+        var list = []; can.onengine.listen(can, "resize", function(width, height) {
+            can.Conf({width: width, height: height}), can.core.Delay(list, 100, function() {
+                can.onimport._init(can, msg, list, cb, target)
+            })
+        })
+
         if (msg.Option("_display") == "table") {
             can.onappend.table(can, msg, can._target, "table", function(value, key) {
                 return {text: [value, "td"], click: function(event) {
@@ -84,7 +89,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
 
         var space = 10
         var view = parseInt(can.Action("height"))
-        var max = parseInt(can.Conf("width"))-100
+        var max = parseInt(can.Conf("width"))-120
         var step = parseInt(max / can.list.length)||2
 
         var width = can.list.length * step + space * 2
@@ -135,7 +140,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
     "趋势图": function(event, can, value, cmd, target) {var sub = can.sub, data = can.data;
         var space = 10
         var view = parseInt(can.Action("height"))
-        var max = parseInt(can.Conf("width"))-100
+        var max = parseInt(can.Conf("width"))-120
         var step = parseInt(max / can.list.length)||2
 
         var width = can.list.length * step + space * 2

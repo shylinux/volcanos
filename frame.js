@@ -35,6 +35,8 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
     },
 
     search: function(event, can, msg, pane, cmds, cb) {
+        can.base.Log(can._name, "search", cmds)
+
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split("."), function(value) {
             fun && (sub = mod, mod = fun, fun = mod[value], key = value)
         }); if (!sub || !mod || !fun) { can.base.Warn("not found", cmds[1]); return }
@@ -101,9 +103,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         }},
         "project": {name: "研发群", storm: {
             "studio": {name: "研发 studio", action: [
-                {name: "route", help: "路由器", index: "web.route"},
-                {name: "tmux", help: "命令行", index: "web.code.tmux.session"},
-                {name: "inner", help: "编辑器", index: "web.code.inner", args: ["src/", "main.go"]},
                 {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
                 {name: "repos", help: "代码库", index: "web.code.git.status"},
                 {name: "total", help: "统计量", index: "web.code.git.total"},
@@ -420,27 +419,24 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         })
 
         can.page.Select(can, target, ["fieldset.left", "fieldset.right"], function(field, index) {
-            var border = field.offsetHeight - field.clientHeight
-            can.page.Modify(can, field, {style: {height: height-4}})
+            can.page.Modify(can, field, {style: {height: height}})
 
             can.page.Select(can, field, "div.output", function(output) {
-                var border = output.offsetHeight - output.clientHeight
-                can.page.Modify(can, output, {style: {height: height-26}})
+                can.page.Modify(can, output, {style: {height: height-32}})
             })
-
             width -= field.offsetWidth
         })
+
+        can.onengine.trigger(can, can.request(event, {width: width, height: height}), "resize")
 
         can.Action._width = width, can.Action._height = height
 
         if (can.user.isMobile) { return }
         can.page.Select(can, target, ["fieldset.middle"], function(field, index) {
-            var border = field.offsetHeight - field.clientHeight
-            can.page.Modify(can, field, {style: {height: height-border*2}})
+            can.page.Modify(can, field, {style: {height: height}})
         })
         can.page.Select(can, target, ["fieldset.middle>div.output"], function(output) {
-            var border = output.offsetHeight - output.clientHeight
-            can.page.Modify(can, output, {style: {height: height-border*2-14}})
+            can.page.Modify(can, output, {style: {height: height}})
         })
 
         can.core.List(can.onlayout.resize.list, function(item) {
@@ -498,10 +494,14 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
     },
     _mode: {
         normal: {
-            j: function(event, can, target) { target.scrollBy(0, 30) },
+            j: function(event, can, target) { target.scrollBy(0, event.ctrlKey? 300: 30) },
             k: function(event, can, target) { target.scrollBy(0, -30) },
+
             b: function(event, can, target) { can.run(event, ["search", "Header.onaction.black"]) },
             w: function(event, can, target) { can.run(event, ["search", "Header.onaction.white"]) },
+
+            s: function(event, can, target) { can.run(event, ["search", "River.ondetail.添加应用"]) },
+            t: function(event, can, target) { can.run(event, ["search", "River.ondetail.添加工具"]) },
 
             " ": function(event, can, target) {
                 can.page.Select(can, document.body, "fieldset.pane.Header div.search input", function(target) {
