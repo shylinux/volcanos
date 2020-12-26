@@ -6,14 +6,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.Status("count", index+1)
 
             return {text: [value, "td"], onclick: function(event) {
-                if (line.type == "fieldset") {
-                    can.page.Select(can, document.body, "fieldset.pane.Action fieldset.plugin>legend", function(item) {
-                        if (item.innerHTML == line.name) {
-                            var cb = can.page.Select(can, item.parentNode, "input.args")[0]
-                            can.onmotion.hide(can)
-                            cb && cb.focus()
-                        }
-                    })
+                if (typeof line.text == "function") {
+                    can.onmotion.hide(can)
+                    line.text()
+                    return
                 }
 
                 can.page.Append(can, can.ui.table, [{td: can.core.List(fields, function(item) {
@@ -27,40 +23,21 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
 
-    select: function(can, msg, cmd, cb) { can.onmotion.clear(can)
+    select: function(can, msg, cmds, cb) { can.onmotion.clear(can)
         var fields = (msg.Option("fields")||"pod,ctx,cmd,type,name,text").split(",")
 
-        function search(word, cb) { cmd[1] = word
-            if (word == "" && can.list && can.list[0] && can.list[0].type == "fieldset") {
-                can.page.Select(can, document.body, "fieldset.pane.Action fieldset.plugin>legend", function(item) {
-                    if (item.innerHTML == can.list[0].name) {
-                        var cb = can.page.Select(can, item.parentNode, "input.args")[0]
-                        can.onmotion.hide(can)
-                        cb && cb.focus()
-                    }
-                })
+        function search(word, cb) { cmds[1] = word
+            if (word == "" && can.list && can.list[0] && typeof can.list[0].text == "function") {
+                can.onmotion.hide(can)
+                can.list[0].text()
                 return
             }
 
-            var msg = can.request({}, {fields: fields.join(",")})
-            can.page.Select(can, document.body, "fieldset.pane.Action fieldset.plugin>legend", function(item) {
-                if (item.innerHTML.indexOf(word) == -1) { return }
+            var msg = can.request({}, {fields: fields.join(","), word: cmds})
+            can.onengine.trigger(can, msg, "search")
 
-                can.core.List(fields, function(key) {
-                    switch (key) {
-                        case "type":
-                            msg.Push(key, "fieldset")
-                            break
-                        case "name":
-                            msg.Push(key, item.innerHTML)
-                            break
-                        default:
-                            msg.Push(key, "")
-                    }
-                })
-            })
             can.onmotion.clear(can, can.ui.content)
-            can.run(msg._event, cmd, function(msg) {
+            can.run(msg._event, cmds, function(msg) {
                 can.list = msg.Table()
                 can.onimport._table(can, msg, fields, search)
                 typeof cb == "function" && cb(msg)
@@ -90,7 +67,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.onmotion.show(can)
         can.ui.input.focus()
-        search(cmd[1])
+        search(cmds[1])
     },
 })
 Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"], _init: function(can, msg, list, cb, target) {

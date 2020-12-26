@@ -1,13 +1,11 @@
 Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta, list, cb, target) {
         can.core.Next(list, function(item, next) { item.type = "pane"
             can.onappend._init(can, item, item.list, function(pane) {
-                pane.Status = function(key, value) { pane.run({}, ["search", "Footer.onimport."+key, value]) }
-
+                pane.Status = pane.Status || function(key, value) { pane.run({}, ["search", "Footer.onimport."+key, value]) }
                 pane.onaction && pane.onappend._action(pane, pane._action, item.action||pane.onaction.list)
+
                 pane.run = function(event, cmds, cb, silent) { var msg = pane.request(event); cmds = cmds || []
-                    return (can.onengine[cmds[0]]||can.onengine[meta.main.engine]||can.onengine.remote)(event, can, msg, pane, cmds, function(msg) {
-                        typeof cb == "function" && cb(msg)
-                    })
+                    return (can.onengine[cmds[0]]||can.onengine[meta.main.engine]||can.onengine.remote)(event, can, msg, pane, cmds, cb)
                 }, can[item.name] = pane, next()
             }, target)
         }, function() {

@@ -66,6 +66,33 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                 can.onimport._init(can, msg, list, cb, can._output)
             })
         })
+        can.onengine.listen(can, "search", function(msg, word) {
+            if (word[0] != "*" && word[0] != "fieldset") { return }
+
+            var fields = (msg.Option("fields")||"pod,ctx,cmd,type,name,text").split(",")
+            can.page.Select(can, can._output, "fieldset.plugin>legend", function(item) {
+                if (item.innerHTML.indexOf(word[1]) == -1) { return }
+
+                can.core.List(fields, function(key) {
+                    switch (key) {
+                        case "type":
+                            msg.Push(key, "fieldset")
+                            break
+                        case "name":
+                            msg.Push(key, item.innerHTML)
+                            break
+                        case "text":
+                            msg.Push(key, function() {
+                                var input = can.page.Select(can, item.parentNode, "input.args")[0]
+                                input && input.focus()
+                            })
+                            break
+                        default:
+                            msg.Push(key, "")
+                    }
+                })
+            })
+        })
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [],

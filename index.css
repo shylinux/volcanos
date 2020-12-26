@@ -187,33 +187,18 @@ fieldset.input.date {
     z-index:11;
 }
 
-div.menu {
+div.carte {
     position:absolute;
     background:#295b61;
     color:white;
     padding:4px;
 }
-div.menu div.item {
+div.carte div.item {
     padding:3px 12px;
     cursor:pointer;
 }
-div.menu div.item:hover {
-    background:red;
-}
-div.carte {
-    color:cyan;
-    background:black;
-    border:solid 2px red;
-    position:fixed;
-    z-index:100;
-}
-div.carte div.item {
-    padding:0 5px;
-}
 div.carte div.item:hover {
     background:red;
-    border:solid 2px yellow;
-    cursor:pointer;
 }
 
 div.upload {

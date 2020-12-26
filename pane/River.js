@@ -3,7 +3,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._main_river = can.user.Search(can, RIVER) || (can.user.isMobile||can.user.isExtension? "product": "project")
         can._main_storm = can.user.Search(can, STORM) || (can.user.isMobile||can.user.isExtension? "office": "studio")
 
-        can.run({}, ["search", "Header.onimport.menu", ["操作", "添加"]], function(event, item) {
+        can.run({}, ["search", "Header.onimport.menu", ["群组", "添加用户", "添加设备", "添加应用"], ["应用", "添加工具"]], function(event, item) {
             var cb = can.ondetail[item]; typeof cb == "function" && cb(event, can, item, can.Conf(RIVER), can.Conf(STORM))
         })
 
@@ -16,7 +16,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 // 右键点击
                 var ui = can.user.carte(event, can, can.ondetail, can.ondetail.list, function(ev, item, meta) {
                     can.ondetail[item](event, can, item, value.hash)
-                }); can.page.Modify(can, ui.first, {style: {left: can._target.offsetWidth}, className: "menu"})
+                }); can.page.Modify(can, ui.first, {style: {left: can._target.offsetWidth}})
             })
 
             if (index == 0 || [value.hash, value.name].indexOf(can._main_river) > -1) { select = view }
@@ -58,7 +58,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
                     // 右键点击
                     var ui = can.user.carte(event, can, can.ondetail, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"], function(ev, item, meta) {
                         can.ondetail[item](event, can, item, storm.hash, river)
-                    }); can.page.Modify(can, ui.first, {style: {left: can._target.offsetWidth}, className: "menu"})
+                    }); can.page.Modify(can, ui.first, {style: {left: can._target.offsetWidth}})
                 }}
             }) }]).first, list.children.length > 0 && list.children[select].click()
 

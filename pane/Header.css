@@ -29,3 +29,12 @@ fieldset.Header>div.output>div.state {
     float:right;
 }
 
+fieldset.Header>div.output div.menu {
+    height:22px; padding:5px;
+    cursor:pointer;
+    float:left;
+}
+fieldset.Header>div.output div.menu:hover {
+    border-bottom:solid 2px red;
+    background-color:#2e515f;
+}

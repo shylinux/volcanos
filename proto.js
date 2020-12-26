@@ -11,10 +11,10 @@ function shy(help, meta, list, cb) {
     cb.list = next("object") || []
     return cb
 }; var _can_name = ""
-var Volcanos = shy("火山架", {cache: {}, libs: [], _target: document.body}, [], function(name, can, libs, cb) {
+var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == "object") { var Config = name; _can_name = ""
-        meta.libs = Config.libs, meta.volcano = Config.volcano
+        meta.volcano = Config.volcano, meta.libs = Config.libs
 
         // 预加载
         var Preload = Config.libs; Config.panes.forEach(function(pane) {
@@ -23,7 +23,7 @@ var Volcanos = shy("火山架", {cache: {}, libs: [], _target: document.body}, [
 
         // 根模块
         name = Config.name, can = {_follow: Config.name,
-            _width: window.innerWidth, _height: window.innerHeight,
+            _target: document.body, _width: window.innerWidth, _height: window.innerHeight,
         }, libs = Preload.concat(Config.volcano), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panes, function(msg) {
                 can.base.Log(name, "run", window.can = can)
@@ -32,7 +32,6 @@ var Volcanos = shy("火山架", {cache: {}, libs: [], _target: document.body}, [
                 }, can.onlayout._init(can, can._target, window.innerWidth, window.innerHeight-8)
             }, can._target)
         }
-
     }
 
     list.push(can = can || {}), can.__proto__ = {__proto__: Volcanos.meta, _name: name, _load: function(name, cb) {
