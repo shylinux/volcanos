@@ -93,12 +93,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.menu = can.page.Append(can, target, [{view: ["menu", "some"], style: {float: "left"}}]).first
     },
 
-    topic: function(can, topic) { topic && (can._topic = topic)
-        can.user.topic(can, can._topic || can.user.Search(can, TOPIC) || can.user.Search(can, POD) || (can.base.isNight()? "black": "white"))
-    },
     time: function(can, target) {
         target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
-        can.onimport.topic(can)
+        can.onlayout.topic(can)
     },
 
     menu: function(can, cmds, cb) {
@@ -131,7 +128,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             }, can._output)
         }) }
 
-        can.onimport.topic(can)
+        can.onlayout.topic(can)
         can.user.isLocalFile? init(): can.run({}, ["check"], function(msg) { msg.Result()? init(): can.user.login(can, init) })
     },
 
@@ -171,9 +168,9 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         var ui = can.user.carte(event, can, can.onaction, ["pack", "white", "black", "print"])
         can.page.Modify(can, ui.first, {style: {top: can._target.offsetHeight}})
     },
-    black: function(event, can, button) { can.onimport.topic(can, button) },
-    white: function(event, can, button) { can.onimport.topic(can, button) },
-    print: function(event, can, button) { can.onimport.topic(can, "white print") },
+    black: function(event, can, button) { can.onlayout.topic(can, button) },
+    white: function(event, can, button) { can.onlayout.topic(can, button) },
+    print: function(event, can, button) { can.onlayout.topic(can, "white print") },
 
     River: function(can) { can.run({}, ["search", "River.onmotion.toggle"]) },
     Footer: function(can) { can.run({}, ["search", "River.onmotion.autosize"]) },

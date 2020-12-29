@@ -35,8 +35,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
     },
 
     search: function(event, can, msg, pane, cmds, cb) {
-        can.base.Log(can._name, "search", cmds)
-
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split("."), function(value) {
             fun && (sub = mod, mod = fun, fun = mod[value], key = value)
         }); if (!sub || !mod || !fun) { can.base.Warn("not found", cmds[1]); return }
@@ -96,9 +94,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 }},
                 {name: "cached", help: "爬虫缓存", index: "web.code.chrome.cache", args: []},
                 {name: "spided", help: "网页爬虫", index: "web.code.chrome.spide", args: location && location.protocol && location.protocol=="chrome-extension:"? ["1", "", "spide"]: ["1"]},
-            ]},
-            "context": {name: "理念 context",  action: [
-                {name: "contexts", help: "上下文", index: "web.wiki.word", args: ["src/task.shy"]},
             ]},
         }},
         "project": {name: "研发群", storm: {
@@ -421,18 +416,15 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 
         can.page.Select(can, target, ["fieldset.left", "fieldset.right"], function(field, index) {
             can.page.Modify(can, field, {style: {height: height}})
+            width -= field.offsetWidth
 
             can.page.Select(can, field, "div.output", function(output) {
                 can.page.Modify(can, output, {style: {height: height-32}})
             })
-            width -= field.offsetWidth
         })
 
+        if (can.user.isMobile || can.user.Search(can, "share")) { return }
         can.onengine.trigger(can, can.request(event, {width: width, height: height}), "resize")
-
-        can.Action._width = width, can.Action._height = height
-
-        if (can.user.isMobile || can.user.Search(can, "pod") || can.user.Search(can, "share")) { return }
 
         can.page.Select(can, target, ["fieldset.middle"], function(field, index) {
             can.page.Modify(can, field, {style: {height: height}})
@@ -440,12 +432,11 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         can.page.Select(can, target, ["fieldset.middle>div.output"], function(output) {
             can.page.Modify(can, output, {style: {height: height}})
         })
-
-        can.core.List(can.onlayout.resize.list, function(item) {
-            item(width, height)
-        })
     },
     resize: shy("", {}, [], function(cb) { arguments.callee.list.push(cb) }),
+    topic: function(can, topic) { topic && (can._topic = topic)
+        can.user.topic(can, can._topic || can.user.Search(can, "topic") || ((can.user.Search(can, "pod")||can.base.isNight())? "black": "white"))
+    },
 })
 Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, target) {
         can.core.Item(can.onkeypop._mode, function(item, value) { var engine = {}

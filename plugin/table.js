@@ -148,13 +148,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     spark: function(can, list, target) {
         if (list["name"] == "inner") {
             target.title = "点击复制", target.onclick = function(event) {
-                can.user.copy(can, target.innerText)
+                can.user.copy(event, can, target.innerText)
             }
             return
         }
         can.page.Select(can, target, "span", function(item) {
             item.title = "点击复制", item.onclick = function(event) {
-                can.user.copy(can, item.innerText)
+                can.user.copy(event, can, item.innerText)
             }
         })
     },
