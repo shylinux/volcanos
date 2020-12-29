@@ -166,7 +166,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
     "保存参数": function(event, can, button, river, storm) {
         can.run(event, ["search", "Action.onexport.args"], function(item, next) {
             var msg = can.request({}, {hash: storm, id: item.dataset.id})
-            can.run({}, [river, "tool", "action", "modify", "arg", item.dataset.args], function(msg) {
+            can.run(msg._event, [river, "tool", "action", "modify", "arg", item.dataset.args], function(msg) {
                 next()
             })
         })

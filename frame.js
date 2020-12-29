@@ -157,6 +157,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 "web.code.tmux.session",
             ]},
             "os": {name: "os",  action: [
+                {name: "文件系统", help: "fs", index: "nfs.dir", args: ["", "time,size,path,link"]},
                 {name: "操作系统", help: "os", index: "web.wiki.word", args: ["usr/learning/自然/编程/system.shy"]},
             ]},
         }},
@@ -431,7 +432,8 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 
         can.Action._width = width, can.Action._height = height
 
-        if (can.user.isMobile) { return }
+        if (can.user.isMobile || can.user.Search(can, "pod") || can.user.Search(can, "share")) { return }
+
         can.page.Select(can, target, ["fieldset.middle"], function(field, index) {
             can.page.Modify(can, field, {style: {height: height}})
         })
@@ -589,8 +591,10 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
     },
 })
 Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
+        if ((can.user.Search(can, "topic")||"").indexOf("print") > -1) { return }
+
         var count = 0, add = true
-        can.user.isMobile || can.core.Timer({interval: 100}, function() {
+        can.user.isMobile || can.user.Search(can, "share") || can.core.Timer({interval: 100}, function() {
             add? count++: count--
             count < 0 && (add = true)
             count > 100 && (add = false)

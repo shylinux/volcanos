@@ -323,3 +323,29 @@ body.white table input[type=button][value=停止] {
 body.white table input[type=button][value=启动] {
     background:#52ce78;
 }
+
+body.print {
+    background-color:white;
+    color:black;
+}
+body.print legend {
+    box-shadow:0px 0px 0px 0px #626bd0;
+}
+body.print input[type=text] {
+    box-shadow:0px 0px 0px 0px #626bd0;
+}
+body.print select {
+    box-shadow:0px 0px 0px 0px #626bd0;
+}
+body.print fieldset.Action {
+    background-color:white;
+}
+body.print fieldset.Action fieldset.plugin {
+    padding-left:40px;
+}
+body.print fieldset.Action fieldset.plugin>legend {
+    display:none;
+}
+body.print fieldset.Action fieldset.plugin>form.option {
+    display:none;
+}

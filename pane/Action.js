@@ -21,6 +21,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         // 添加插件
         value.width = parseInt(can.Conf("width")), value.height = parseInt(can.Conf("height"))
         can.onappend._init(can, value, ["/plugin/state.js"], function(plugin) {
+            plugin._option.dataset.id = value.id
             can._plugins = (can._plugins||[]).concat([plugin])
             plugin.run = function(event, cmds, cb, silent) { var msg = plugin.request(event); cmds = cmds || []
                 can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
@@ -55,6 +56,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         var share = can.user.Search(can, "share"); if (share) {
             can.run({}, ["_share", share], function(msg) {
                 can.user.title(msg.Option("title"))
+                can.user.topic(can, can.user.Search(can, "topic")||msg.Option("topic")||"white print")
                 can.Conf(RIVER, "_share"), can.Conf(STORM, share)
                 can.onimport._init(can, msg, [], cb, can._output)
             })
