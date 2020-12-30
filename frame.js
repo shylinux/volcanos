@@ -426,10 +426,10 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         if (can.user.isMobile || can.user.Search(can, "share")) { return }
         can.onengine.trigger(can, can.request(event, {width: width, height: height}), "resize")
 
-        can.page.Select(can, target, ["fieldset.middle"], function(field, index) {
+        can.page.Select(can, target, ["fieldset.main"], function(field, index) {
             can.page.Modify(can, field, {style: {height: height}})
         })
-        can.page.Select(can, target, ["fieldset.middle>div.output"], function(output) {
+        can.page.Select(can, target, ["fieldset.main>div.output"], function(output) {
             can.page.Modify(can, output, {style: {height: height}})
         })
     },
@@ -586,6 +586,8 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
 
         var count = 0, add = true
         can.user.isMobile || can.user.Search(can, "share") || can.core.Timer({interval: 100}, function() {
+            if (document.body.className.indexOf("print") > -1) { return }
+
             add? count++: count--
             count < 0 && (add = true)
             count > 100 && (add = false)

@@ -337,6 +337,9 @@ body.print input[type=text] {
 body.print select {
     box-shadow:0px 0px 0px 0px #626bd0;
 }
+body.print div.code {
+    background-color:white;
+}
 body.print fieldset.Action {
     background-color:white;
 }
@@ -344,8 +347,11 @@ body.print fieldset.Action fieldset.plugin {
     padding-left:40px;
 }
 body.print fieldset.Action fieldset.plugin>legend {
-    display:none;
+    /* display:none; */
 }
 body.print fieldset.Action fieldset.plugin>form.option {
-    display:none;
+    /* display:none; */
+}
+body.print fieldset.River>div.output div.list div.item {
+    background-color:white;
 }

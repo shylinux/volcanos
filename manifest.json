@@ -3,9 +3,7 @@
     "name": "volcanos",
     "version": "0.0.1",
     "background": {"page": "/publish/chrome/chrome.html"},
-    "browser_action": {
-        "default_popup": "/publish/chrome/popup.html"
-    },
+    "browser_action": {"default_popup": "/publish/chrome/popup.html"},
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
@@ -24,8 +22,8 @@
         "history",
         "cookies",
         "bookmarks",
-        "notifications",
         "contextMenus",
+        "notifications",
         "http://localhost:9020/*"
     ]
 }
