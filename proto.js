@@ -26,7 +26,7 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
         libs = Preload.concat(Config.volcano), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panes, function(msg) {
                 can.base.Log(name, "run", window.can = can)
-                var list = []; document.body.onresize = function(event) { can.core.Delay(list, 100, function() {
+                var list = []; document.body.onresize = function() { can.core.Delay(list, 100, function() {
                     can.onlayout._init(can, can._target, can._width = window.innerWidth, can._height = window.innerHeight)
                 }) }, document.body.onresize()
             }, can._target)
@@ -43,12 +43,8 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
             for (var i = 0; i < cache.length; i++) { var sub = cache[i]
                 if (typeof cb == "function" && cb(can, name, sub)) { continue }
                 if (can[sub._name] && can[sub._name]._merge && can[sub._name]._merge(can, sub)) { continue }
-                if (can[sub._name]) {
-                    for (var k in sub) {
-                        can[sub._name].hasOwnProperty(k) || (can[sub._name][k] = sub[k])
-                    }
-                } else {
-                    can[sub._name] = sub
+                !can[sub._name] && (can[sub._name] = {}); for (var k in sub) {
+                    can[sub._name].hasOwnProperty(k) || (can[sub._name][k] = sub[k])
                 }
             }
         },
