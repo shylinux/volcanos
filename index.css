@@ -295,7 +295,6 @@ body.white fieldset.Action fieldset.plugin legend:hover {
 }
 
 body.white fieldset.plugin table {
-    /* background-color:white; */
     color:black;
 }
 body.white fieldset.plugin table tr {

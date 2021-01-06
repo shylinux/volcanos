@@ -19,12 +19,16 @@ fieldset.editor {
 fieldset.editor>div.output {
     background-color:#173d40ab;
 }
+fieldset.editor>div.output>table>tr {
+    background-color:#99CCFF00;
+}
 fieldset.editor>div.output>table>tr:hover {
     background-color:#99CCFF00;
 }
 fieldset.editor>div.output>table>tr>td {
     padding:0; overflow:auto;
     vertical-align:top;
+    background-color:#99CCFF00;
 }
 fieldset.editor>div.output>table>tr>td:hover {
     background-color:#99CCFF00;
@@ -42,6 +46,9 @@ fieldset.editor>div.output div.profile {
 
 fieldset.editor>div.output table.content {
     font-size:16px; font-family:monospace;
+}
+fieldset.editor>div.output table.content tr {
+    background-color:#99CCFF00;
 }
 fieldset.editor>div.output table.content tr.select td.line {
     background-color:red;
