@@ -138,7 +138,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         }) }
 
         can.onlayout.topic(can)
-        can.user.isLocalFile? init(): can.run({}, ["check"], function(msg) { msg.Result()? init(): can.user.login(can, init) })
+        can.user.isLocalFile? init(): can.run({}, ["check"], function(msg) { msg.Result()? init(): msg.Option("sso")? can.user.jumps(msg.Option("sso")): can.user.login(can, init) })
     },
 
     title: function(event, can) {
