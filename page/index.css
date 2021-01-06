@@ -1,0 +1,358 @@
+body.mobile fieldset.Header.head {
+    position:fixed;
+    width:-webkit-fill-available;
+    height:48px; font-size:24px;
+    background-color:#000000b8;
+    z-index:10;
+}
+body.mobile fieldset.Header.head>div.output {
+    height:48px;
+}
+body.mobile fieldset.Footer.foot {
+    position:fixed; bottom:0px;
+    width:-webkit-fill-available;
+    height:64px; font-size:24px;
+    background-color:#000000b8;
+    z-index:10;
+}
+body.mobile fieldset.River {
+    background-color:#243950bf;
+    position:fixed; top:48px;
+    min-width:240px;
+    font-size:24px;
+    z-index:10;
+}
+body.mobile fieldset.Action {
+    padding-top:48px;
+}
+body.mobile select {
+    font-size:18px;
+}
+body.mobile input {
+    font-size:18px;
+}
+body.mobile div.carte {
+    font-size:24px;
+}
+
+body {
+    margin:0; padding:0;
+    background:black;
+    color:cyan;
+}
+fieldset {
+    margin:0; border:0; padding:0;
+}
+legend {
+    box-shadow:4px 4px 20px 4px #626bd0;
+}
+
+input[type=button] {
+    background-color:black; color:cyan;
+    letter-spacing:4px;
+    padding-left:10px;
+}
+input[type=button]:hover {
+    background-color:gray; color:cyan;
+}
+input[type=text] {
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    background-color:cyan; color:black;
+    padding: 0 4px;
+}
+input[type=text]:hover {
+    background-color:white;
+}
+input[name=cmd] {
+    width:160px;
+}
+select {
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    background-color:black; color:cyan;
+    padding:0 10px;
+}
+
+table {
+    border:0; white-space:pre;
+    font-size:14px; font-family:monospace;
+    cursor:pointer; overflow: auto;
+}
+table tr {
+    background:#04272f85;
+}
+table tr:hover {
+    background-color:#0fbd45;
+}
+table th {
+    background-color:#0fbd45;
+    padding:2px 6px;
+}
+table th:hover {
+    background-color:red;
+}
+table td {
+    max-width:1200px; overflow:auto;
+    padding:2px 6px;
+}
+table td:hover {
+    background-color:red;
+}
+table td.select {
+    background-color:red;
+}
+
+h1 {
+    margin:0;
+}
+div.code {
+    background-color:#343a34c4; color:white;
+    font-size:14px; font-family:monospace;
+    box-shadow: 4px 4px 20px 4px #626bd0;
+    padding:10px; border:solid 3px green;
+    text-align:left; white-space:pre;
+    overflow:auto;
+}
+div.hidden {
+    display:none;
+}
+
+fieldset>form.option>div.item {
+    float:left; margin-right:3px;
+}
+fieldset>form.option>div.item input.args.char {
+    width:20px;
+}
+fieldset>form.option>div.item input.args.tiny {
+    width:40px;
+}
+fieldset>form.option>div.item input.args {
+    width:80px;
+}
+fieldset>form.option>div.item input.args.cmd {
+    background-color:black; color:white;
+    width:160px;
+}
+fieldset>form.option>div.item input.args.long {
+    width:240px;
+}
+fieldset>form.option>div.item input.args.full {
+    width:480px;
+}
+fieldset>form.option>div.item input.opts {
+    width:80px;
+}
+fieldset>form.option>div.item textarea.args {
+    width:500px; height:50px;
+    background-color:cyan;
+}
+fieldset>form.option>div.item.textarea {
+    margin-top:4px;
+    clear:both;
+}
+
+fieldset>div.action>div.item {
+    float:left; margin:2px 0;
+}
+fieldset>div.action>div.item.space {
+    width:10px;
+}
+fieldset>div.status>div.item {
+    float:left; padding:4px;
+}
+fieldset>div.status>div.item>label {
+    font-size:10px; color:gray;
+}
+
+fieldset>div.output {
+    clear:both; overflow:auto;
+    position:relative;
+}
+fieldset>div.output div.code a {
+    color:yellow;
+}
+fieldset>div.output div.project {
+    float:left;
+}
+fieldset>div.output div.project div.item {
+    padding:2px 10px; text-align:left;
+    clear:both; cursor:pointer;
+}
+fieldset>div.output div.project div.item:hover {
+    background:red;
+}
+fieldset>div.output div.project div.list {
+    margin-left:10px;
+}
+
+fieldset.input {
+    background-color:#30a7a93d;
+    position:fixed;
+    z-index:100;
+}
+fieldset.input.key {
+    z-index:90;
+}
+fieldset.input.date {
+    z-index:80;
+}
+
+div.carte {
+    position:fixed;
+    background:#295b61;
+    color:white;
+    padding:4px;
+    z-index:100;
+}
+div.carte div.item {
+    padding:3px 12px;
+    cursor:pointer;
+}
+div.carte div.item:hover {
+    background:red;
+}
+
+div.upload {
+    background:black; color:yellow;
+    position:fixed;
+    padding:5px;
+    z-index:100;
+}
+div.upload div.item {
+    float:left;
+}
+
+div.toast {
+    background:#0e3369b3; color:yellow;
+    position:fixed;
+    padding:5px;
+    z-index:100;
+}
+div.toast div.title {
+    font-size:14px;
+    color:#cae850;
+}
+div.toast div.content {
+    text-align:center;
+    white-space:pre;
+}
+div.toast div.duration {
+    font-size:14px;
+    color:gray;
+}
+div.toast div.progress {
+    border:solid 2px green;
+    height:10px;
+}
+div.toast div.progress div.current {
+    background:red;
+    height:10px;
+}
+
+body.black a {
+    color:yellow;
+}
+body.white {
+    background-color:#2f3638;
+    color:white;
+}
+body.white input[type=button] {
+    background-color:#FF9900; color:white;
+    border-radius:10px 10px 10px 10px;
+    border:2px solid #FF9900;
+}
+body.white input[type=button]:hover {
+    background-color:#FFCC33;
+    border:2px solid #FFCC33;
+}
+body.white input[type=text] {
+    background-color:white; color:black;
+    border-radius:6px 6px 6px 6px;
+    border:2px solid #14a58e;
+
+}
+body.white input[type=text]:hover {
+    background-color:cyan;
+}
+body.white select {
+    background-color:#99CC66; color:white;
+    border-radius:10px 10px 10px 10px;
+    border:2px solid #99CC66;
+}
+
+body.white fieldset.Action {
+    background-color:#81b3c1c9;
+}
+body.white fieldset.Action fieldset.plugin {
+    background-color:#ffffff9c;
+    color:black;
+}
+body.white fieldset.Action fieldset.plugin legend {
+    background-color:#339999; color:white;
+    border-radius:10px 10px 10px 10px;
+}
+body.white fieldset.Action fieldset.plugin legend:hover {
+    background-color:#6ee4e4;
+}
+
+body.white fieldset.plugin table {
+    color:black;
+}
+body.white fieldset.plugin table tr {
+    background-color:#e1f1ff6b;
+}
+body.white fieldset.plugin table tr:hover {
+    background-color:#99CCFF;
+}
+body.white fieldset.plugin table th {
+    background-color:#99CCFF;
+}
+body.white fieldset.plugin table th:hover {
+    background-color:#98ecd4;
+}
+body.white fieldset.plugin table td {
+}
+body.white fieldset.plugin table td:hover {
+    background-color:#98ecd4;
+}
+
+body.white table input[type=button][value=结束] {
+    background:red;
+}
+body.white table input[type=button][value=停止] {
+    background:red;
+}
+body.white table input[type=button][value=启动] {
+    background:#52ce78;
+}
+
+body.print {
+    background-color:white;
+    color:black;
+}
+body.print legend {
+    box-shadow:0px 0px 0px 0px #626bd0;
+}
+body.print input[type=text] {
+    box-shadow:0px 0px 0px 0px #626bd0;
+}
+body.print select {
+    box-shadow:0px 0px 0px 0px #626bd0;
+}
+body.print div.code {
+    background-color:white;
+}
+body.print fieldset.Action {
+    background-color:white;
+}
+body.print fieldset.Action fieldset.plugin {
+    padding-left:40px;
+}
+body.print fieldset.Action fieldset.plugin>legend {
+    /* display:none; */
+}
+body.print fieldset.Action fieldset.plugin>form.option {
+    /* display:none; */
+}
+body.print fieldset.River>div.output div.list div.item {
+    background-color:white;
+}
