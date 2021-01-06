@@ -4,7 +4,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._main_storm = can.user.Search(can, STORM) || (can.user.isMobile? "office": can.user.isExtension? "chrome": "studio")
 
         can.run({}, ["search", "Header.onimport.menu",
-            ["添加", "创建群组", "添加用户", "添加设备", "添加应用", "添加工具"],
+            ["添加", "创建群组", "添加用户", "添加应用", "添加工具", "添加设备"],
+            ["访问", "访问用户", "访问应用", "访问工具", "访问设备", "访问研发"],
             ["共享", "共享群组", "共享应用", "共享工具"],
         ], function(event, item) {
             var cb = can.ondetail[item]; typeof cb == "function" && cb(event, can, item, can.Conf(RIVER), can.Conf(STORM))
@@ -42,6 +43,32 @@ Volcanos("onengine", {help: "解析引擎", list: [], engine: function(event, ca
 Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, list, cb, target) {
         can.run({}, [], function(msg) {
             can.onimport._init(can, msg, list, cb, can._output)
+        })
+        can.onengine.listen(can, "search", function(msg, word) {
+            if (word[0] != "*" && word[0] != "storm") { return }
+
+            var fields = (msg.Option("fields")||"pod,ctx,cmd,type,name,text").split(",")
+            can.core.Item(can.onengine.river, function(river, value) {
+                can.core.Item(value.storm, function(storm, item) {
+                    if (word[1] != "" && word[1] != storm && word[1] != item.name) { return }
+
+                    can.core.List(fields, function(key) {
+                        switch (key) {
+                            case "ctx": msg.Push(key, "web.chat"); break
+                            case "cmd": msg.Push(key, "storm"); break
+                            case "type": msg.Push(key, river); break
+                            case "name": msg.Push(key, storm); break
+                            case "text":
+                                // msg.Push(key, can.user.MergeURL(can, {river: river, storm: storm}))
+                                // break
+                                msg.Push(key, shy("跳转", function() {
+                                    can.onaction.action(msg._event, can, river, storm)
+                                })); break
+                            default: msg.Push(key, "")
+                        }
+                    })
+                })
+            })
         })
     },
     storm: function(event, can, river) {
@@ -184,6 +211,22 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         can.run(event, [river, "tool", "action", "remove"], function(msg) {
             can.user.Search(can, {river: river})
         })
+    },
+
+    "访问用户": function(event, can, button, river, storm) {
+        can.user.select(event, can, "user", "time,type,name,text")
+    },
+    "访问应用": function(event, can, button, river, storm) {
+        can.user.select(event, can, "storm", "type,name,text")
+    },
+    "访问工具": function(event, can, button, river, storm) {
+        can.user.select(event, can, "plugin", "type,name,text")
+    },
+    "访问设备": function(event, can, button, river, storm) {
+        can.user.select(event, can, "space", "time,type,name,text")
+    },
+    "访问研发": function(event, can, button, river, storm) {
+        can.user.select(event, can, "github", "time,type,name,text")
     },
 })
 Volcanos("onexport", {help: "导出数据", list: []})

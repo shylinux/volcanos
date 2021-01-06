@@ -93,7 +93,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         })
 
         can.onengine.listen(can, "search", function(msg, word) {
-            if (word[0] != "*" && word[0] != "fieldset") { return }
+            if (word[0] != "*" && word[0] != "plugin") { return }
 
             var fields = (msg.Option("fields")||"pod,ctx,cmd,type,name,text").split(",")
             can.page.Select(can, can._output, "fieldset.plugin>legend", function(item) {
@@ -103,7 +103,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                     switch (key) {
                         case "ctx": msg.Push(key, "web.chat"); break
                         case "cmd": msg.Push(key, "action"); break
-                        case "type": msg.Push(key, "fieldset"); break
+                        case "type": msg.Push(key, "plugin"); break
                         case "name": msg.Push(key, item.innerHTML); break
                         case "text":
                             msg.Push(key, shy("跳转", function() {

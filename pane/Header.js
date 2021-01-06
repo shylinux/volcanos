@@ -131,6 +131,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             can.onimport._init(can, msg, list, function(msg) {
                 typeof cb == "function" && cb(msg)
                 can.run({}, ["search", "River.onaction._init"])
+                can.run({}, ["search", "Search.onaction._init"])
                 can.run({}, ["search", "Action.onaction._init"])
                 can.run({}, ["search", "Footer.onaction._init"])
             }, can._output)
@@ -144,7 +145,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         var args = {}; can.core.List([POD, TOPIC, TITLE], function(key) {
             var value = can.user.Search(can, key); value && (args[key] = value)
         })
-        can.user.jumps(can.user.Share(can, args, true))
+        can.user.jumps(can.user.MergeURL(can, args, true))
     },
     username: function(event, can) {
         var ui = can.user.carte(event, can, can.onaction, ["logout"])

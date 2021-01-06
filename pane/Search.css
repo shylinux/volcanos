@@ -1,19 +1,24 @@
 fieldset.Search {
+    position:fixed; top:32px; left:160px;
+    background:#041a258a;
+    padding:10px;
     display:none;
-    position:fixed;
-    top:32px; left:160px;
-    background:black;
     z-index:10;
 }
-fieldset.Search input.word{
-    width:320px;
+fieldset.Search input.word {
+    width:-webkit-fill-available;
 }
 fieldset.Search div.output div.content {
     max-height:400px;
     overflow:auto;
 }
+fieldset.Search div.output div.content a {
+    color:yellow;
+}
+fieldset.Search div.output div.content table {
+    min-width:400px;
+}
 fieldset.Search div.output div.display {
     max-height:200px;
     overflow:auto;
 }
-

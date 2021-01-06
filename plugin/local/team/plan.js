@@ -88,7 +88,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, can.ui.display)
 
         can.page.Appends(can, can.ui.profile, [{th: ["key", "value"]}])
-        can.core.Item(task, function(key, value) { can.page.Append(can, can.ui.profile, [{td: [key, key == "pod"? ('<a href="'+can.user.Share(can, {pod: value})+'" target="_blank">'+value+'</a>'): value],
+        can.core.Item(task, function(key, value) { can.page.Append(can, can.ui.profile, [{td: [key, key == "pod"? ('<a href="'+can.user.MergeURL(can, {pod: value})+'" target="_blank">'+value+'</a>'): value],
             onclick: function(event) { if (event.target.type == "button") { var name = event.target.name
                 var cb = can.onaction[name]; if (typeof cb == "function") { return cb(event, can, name) }
 
