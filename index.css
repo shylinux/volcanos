@@ -78,7 +78,7 @@ table {
     cursor:pointer; overflow: auto;
 }
 table tr {
-    background:#04272f;
+    background:#04272f85;
 }
 table tr:hover {
     background-color:#0fbd45;
@@ -105,7 +105,7 @@ h1 {
     margin:0;
 }
 div.code {
-    background-color:#343a34f2; color:white;
+    background-color:#343a34c4; color:white;
     font-size:14px; font-family:monospace;
     box-shadow: 4px 4px 20px 4px #626bd0;
     padding:10px; border:solid 3px green;
@@ -280,10 +280,11 @@ body.white select {
 }
 
 body.white fieldset.Action {
-    background-color:#0dabda;
+    background-color:#81b3c1c9;
 }
 body.white fieldset.Action fieldset.plugin {
-    background-color:white; color:black;
+    background-color:#ffffff9c;
+    color:black;
 }
 body.white fieldset.Action fieldset.plugin legend {
     background-color:#339999; color:white;
@@ -294,10 +295,11 @@ body.white fieldset.Action fieldset.plugin legend:hover {
 }
 
 body.white fieldset.plugin table {
-    background-color:white; color:black;
+    /* background-color:white; */
+    color:black;
 }
 body.white fieldset.plugin table tr {
-    background-color:#e1f1ff;
+    background-color:#e1f1ff6b;
 }
 body.white fieldset.plugin table tr:hover {
     background-color:#99CCFF;

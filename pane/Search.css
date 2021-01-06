@@ -5,8 +5,11 @@ fieldset.Search {
     background:black;
     z-index:10;
 }
+fieldset.Search input.word{
+    width:320px;
+}
 fieldset.Search div.output div.content {
-    max-height:200px;
+    max-height:400px;
     overflow:auto;
 }
 fieldset.Search div.output div.display {

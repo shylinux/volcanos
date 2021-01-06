@@ -101,17 +101,15 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
 
                 can.core.List(fields, function(key) {
                     switch (key) {
-                        case "type":
-                            msg.Push(key, "fieldset")
-                            break
-                        case "name":
-                            msg.Push(key, item.innerHTML)
-                            break
+                        case "ctx": msg.Push(key, "web.chat"); break
+                        case "cmd": msg.Push(key, "action"); break
+                        case "type": msg.Push(key, "fieldset"); break
+                        case "name": msg.Push(key, item.innerHTML); break
                         case "text":
-                            msg.Push(key, function() {
+                            msg.Push(key, shy("跳转", function() {
                                 var input = can.page.Select(can, item.parentNode, "input.args")[0]
                                 input && input.focus()
-                            })
+                            }))
                             break
                         default:
                             msg.Push(key, "")

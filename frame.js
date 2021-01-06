@@ -613,7 +613,10 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
         can.page.Modify(can, target, {style: {opacity: 1}})
         can.core.Timer(time, function(event, value, index) {
             can.page.Modify(can, target, {style: {opacity: 1-(index+1)/time.length}})
-        }, cb)
+        }, function() {
+            can.page.Modify(can, target, {style: {display: "none"}})
+            typeof cb == "function" && cb
+        })
     },
     clear: function(can, target) {
         can.page.Modify(can, target||can._output, "")

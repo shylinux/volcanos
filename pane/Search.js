@@ -5,7 +5,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onappend.table(can, msg, can.ui.content, "table", function(value, key, index, line) {
             can.Status("count", index+1)
 
-            return {text: [value, "td"], onclick: function(event) {
+            return {text: [key == "text" && typeof line.text == "function" && line.text.help || value, "td"], onclick: function(event) {
                 if (typeof line.text == "function") {
                     can.onmotion.hide(can)
                     line.text()

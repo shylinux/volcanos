@@ -8,6 +8,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             "white": "白色主题",
             "black": "黑色主题",
             "print": "打印主题",
+            "background": "背景图片",
             "logout": "退出",
         }
         can.onmotion.clear(can)
@@ -16,7 +17,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._search(can, msg, target)
         can.onimport._agent(can, msg, target)
         can.onimport._menu(can, msg, target)
+        can.onimport._background(can, msg, target)
         typeof cb == "function" && cb(msg)
+    },
+    _background: function(can, msg, target) { if (!msg.Option("background")) { return }
+        can.page.Modify(can, document.body, {style: {background: 'url("'+msg.Option("background")+'")'}})
+        can.page.Select(can, document.body, "fieldset.pane.Action", function(item) {
+            can.page.Modify(can, item, {style: {background: 'url("'+msg.Option("background")+'")'}})
+        })
     },
     _title: function(can, msg, target) {
         can.user.title(can.user.Search(can, TITLE) || can.user.Search(can, POD))
@@ -165,12 +173,17 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
 
     river: function(event, can) { can.run(event, ["search", "River.onmotion.toggle"]) },
     setting: function(event, can) {
-        var ui = can.user.carte(event, can, can.onaction, ["pack", "white", "black", "print"])
+        var ui = can.user.carte(event, can, can.onaction, ["pack", "white", "black", "print", "background"])
         can.page.Modify(can, ui.first, {style: {top: can._target.offsetHeight}})
     },
     black: function(event, can, button) { can.onlayout.topic(can, button) },
     white: function(event, can, button) { can.onlayout.topic(can, button) },
     print: function(event, can, button) { can.onlayout.topic(can, "white print") },
+    background: function(event, can, button) { can.user.input(event, can, ["url"], function(ev, button, data, list) {
+        can.run(event, ["action", "background", list[0]], function(msg) {
+            can.onimport._background(can, msg)
+        })
+    }) },
 
     River: function(can) { can.run({}, ["search", "River.onmotion.toggle"]) },
     Footer: function(can) { can.run({}, ["search", "River.onmotion.autosize"]) },
