@@ -44,6 +44,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 
             can.onappend._init(can, value, ["/plugin/state.js"], function(sub) {
                 sub.run = function(event, cmds, cb, silent) {
+                    var res = can.request(event)
+                    can.core.Item(can.Option(), function(key, value) {
+                        res.Option(key) || res.Option(key, value)
+                    })
                     can.run(event, (msg["_prefix"]||[]).concat(cmds), cb, true)
                 }
             }, can._output)

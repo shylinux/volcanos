@@ -30,6 +30,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         }, target)
     },
+    _share: function(can, msg, share, cb) {
+        can.user.title(msg.Option("title"))
+        can.user.topic(can, can.user.Search(can, "topic")||msg.Option("topic")||"white print")
+        can.Conf(RIVER, "_share"), can.Conf(STORM, share)
+        can.onimport._init(can, msg, [], cb, can._output)
+    },
 })
 Volcanos("onengine", {help: "解析引擎", list: [],
     engine: function(event, can, msg, pane, cmds, cb) {
@@ -55,10 +61,13 @@ Volcanos("onengine", {help: "解析引擎", list: [],
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
         var share = can.user.Search(can, "share"); if (share) {
             can.run({}, ["_share", share], function(msg) {
-                can.user.title(msg.Option("title"))
-                can.user.topic(can, can.user.Search(can, "topic")||msg.Option("topic")||"white print")
-                can.Conf(RIVER, "_share"), can.Conf(STORM, share)
-                can.onimport._init(can, msg, [], cb, can._output)
+                if (msg.append && msg[msg.append[0]]) {
+                    can.onimport._share(can, msg, share, cb)
+                    return
+                }
+                can.onengine.engine({}, can, msg, can, [msg.Option("sess.river"), msg.Option("sess.storm")], function(msg) {
+                    can.onimport._share(can, msg, share, cb)
+                })
             })
         }
 

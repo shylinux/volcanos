@@ -187,13 +187,13 @@ fieldset>div.output div.project div.list {
 fieldset.input {
     background-color:#30a7a93d;
     position:fixed;
-    z-index:100;
+    z-index:50;
 }
 fieldset.input.key {
-    z-index:90;
+    z-index:60;
 }
 fieldset.input.date {
-    z-index:80;
+    z-index:70;
 }
 
 div.carte {
@@ -215,7 +215,7 @@ div.upload {
     background:black; color:yellow;
     position:fixed;
     padding:5px;
-    z-index:100;
+    z-index:50;
 }
 div.upload div.item {
     float:left;
@@ -225,7 +225,7 @@ div.toast {
     background:#0e3369b3; color:yellow;
     position:fixed;
     padding:5px;
-    z-index:100;
+    z-index:20;
 }
 div.toast div.title {
     font-size:14px;

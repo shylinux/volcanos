@@ -1,5 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        can.require(["/plugin/github.com/Tencent/vConsole/dist/vconsole.min.js"], function(can) {
+        can.require(["/require/github.com/Tencent/vConsole/dist/vconsole.min.js"], function(can) {
             var v = new VConsole();
             console.log(v);
         })

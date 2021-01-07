@@ -11,7 +11,7 @@ Volcanos("onfigure", {help: "控件详情", list: [],
         china_chart.on('click', function (params) {
             target.value = params.name;
         });
-    // , ["plugin/github.com/shylinux/echarts/echarts.js","plugin/github.com/shylinux/echarts/china.js"])
+    // , ["require/github.com/shylinux/echarts/echarts.js","require/github.com/shylinux/echarts/china.js"])
     }},
 })
 

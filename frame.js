@@ -48,7 +48,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
     remote: function(event, can, msg, pane, cmds, cb) {
         if (pane.onengine.engine(event, can, msg, pane, cmds, cb)) { return }
         can.misc.Run(event, can, {names: pane._name}, cmds, cb)
-        pane.run(event, ["search", "Footer.onimport.ncmd"])
+        // pane.run(event, ["search", "Footer.onimport.ncmd"])
     }, engine: function(event, can, msg, pane, cmds, cb) { return false },
 
     river: {
@@ -144,11 +144,12 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             ]},
         }},
         "operate": {name: "运维群", storm: {
+            "web": {name: "web", index: [
+                "route", "serve", "space", "dream",
+                "spide", "share", "cache", "story",
+            ]},
             "relay": {name: "relay", index: [
                 "aaa.totp",
-                "web.route",
-                "web.space",
-                "web.dream",
                 "web.code.tmux.session",
             ]},
             "os": {name: "os",  action: [
