@@ -124,7 +124,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "nginx": {name: "代理 nginx",  action: [
                 {name: "nginx", help: "代理", index: "web.wiki.word", args: ["usr/nginx-story/src/main.shy"]},
             ]},
-            "golang": {name: "编程 golang",  action: [
+            "context": {name: "编程 context",  action: [
                 {name: "grafana", help: "可视化", index: "web.wiki.word", args: ["usr/golang-story/src/grafana/grafana.shy"]},
                 {name: "gogs", help: "代码库", index: "web.wiki.word", args: ["usr/golang-story/src/gogs/gogs.shy"]},
                 {name: "golang", help: "编程", index: "web.wiki.word", args: ["usr/golang-story/src/main.shy"]},
@@ -144,17 +144,20 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             ]},
         }},
         "operate": {name: "运维群", storm: {
-            "web": {name: "web", index: [
+            "cli": {name: "系统 cli", index: [
+                "system", "daemon", "python", "output",
+                "runtime", "process",
+            ]},
+            "web": {name: "网络 web", index: [
                 "route", "serve", "space", "dream",
                 "spide", "share", "cache", "story",
             ]},
-            "relay": {name: "relay", index: [
-                "aaa.totp",
-                "web.code.tmux.session",
+            "ssh": {name: "脚本 ssh", index: [
+                "aaa.totp", "web.code.tmux.session",
+                "connect", "session", "service", "channel",
             ]},
-            "os": {name: "os",  action: [
-                {name: "文件系统", help: "fs", index: "nfs.dir", args: ["", "time,size,path,link"]},
-                {name: "操作系统", help: "os", index: "web.wiki.word", args: ["usr/learning/自然/编程/system.shy"]},
+            "nfs": {name: "文件 nfs", index: [
+                "dir", "file",
             ]},
         }},
     },

@@ -19,6 +19,8 @@ fieldset.River>div.output div.list {
 fieldset.River>div.output div.list div.item {
     border-left:solid 3px #ccdc4c;
     background-color:#073540b5;
+    font-family:monospace;
+    font-size:14px;
 }
 fieldset.River>div.output div.list div.item:hover {
     background-color:#2e515f;

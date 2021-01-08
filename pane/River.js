@@ -61,8 +61,8 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
                             case "text":
                                 // msg.Push(key, can.user.MergeURL(can, {river: river, storm: storm}))
                                 // break
-                                msg.Push(key, shy("跳转", function() {
-                                    can.onaction.action(msg._event, can, river, storm)
+                                msg.Push(key, shy("跳转", function(event) {
+                                    can.onaction.action(event, can, river, storm)
                                 })); break
                             default: msg.Push(key, "")
                         }

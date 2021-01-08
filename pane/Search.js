@@ -17,7 +17,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.Status("count", index+1)
             return {text: [key == "text" && typeof line.text == "function" && line.text.help || value, "td"], onclick: function(event) {
                 if (typeof line.text == "function") {
-                    return can.onmotion.hide(can), line.text()
+                    return can.onmotion.hide(can), line.text(event)
                 }
 
                 can.page.Append(can, can.ui.table, [{td: can.core.List(fields, function(item) {
@@ -46,7 +46,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.ui.word.setSelectionRange(0, -1)
     },
 
-    select: function(can, msg, cmds, cb) {
+    select: function(can, msg, cmds, cb) { can.ui.word.value = cmds[1]
         var fields = (cmds[2]||msg.Option("fields")||"pod,ctx,cmd,type,name,text").split(",")
         can.page.Appends(can, can.ui.table, [{th: fields}]), can.cb = function() {
             typeof cb == "function" && cb(can.onexport.select(can)), can.onmotion.hide(can)
@@ -81,7 +81,7 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
 })
 Volcanos("onexport", {help: "导出数据", list: ["selected", "count"],
     select: function(can) {
-        can.page.Select(can, can.ui.display, "tr", function(tr) {
+        return can.page.Select(can, can.ui.display, "tr", function(tr) {
             return can.page.Select(can, tr, "td", function(td) { return td.innerHTML })
         }).slice(1)
     },

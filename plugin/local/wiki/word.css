@@ -7,11 +7,10 @@ body fieldset p.story[data-name=inner]:hover {
     cursor:copy;
 }
 body fieldset div.story[data-type=spark] {
-    padding:4px;
-    background-color:#2169a9;
-    border-left:solid 4px blue;
+    background-color:#2169a9; color:white;
     box-shadow: 4px 4px 10px 1px #626bd0;
-    color:white;
+    border-left:solid 4px blue;
+    padding:4px; margin:8px 0;
 }
 body fieldset div.story[data-type=spark] span:hover {
     background-color:#c10c8a;
