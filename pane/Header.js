@@ -98,7 +98,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 var cb = can.onaction[item]; typeof cb == "function" && cb(event, can, item)
             }}
         }))
-        can.menu = can.page.Append(can, target, [{view: ["menu", "some"], style: {float: "left"}}]).first
     },
 
     time: function(can, target) {
@@ -106,24 +105,23 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onlayout.topic(can)
     },
 
-    menu: function(can, cmds, cb) {
-        can.onmotion.clear(can, can.menu)
-        can.core.List(cmds, function(item) {
+    menu: function(can, cmds, cb) { // type item...
+        can.page.Append(can, can._output, [{type: cmds[0], list: can.core.List(cmds.slice(1), function(item) {
             if (typeof item == "string") {
-                can.page.Append(can, can.menu, [{view: ["menu", "div", item], onclick: function(event) {
+                return {view: ["menu", "div", item], onclick: function(event) {
                     typeof cb == "function" && cb(event, item)
-                }}])
+                }}
 
             } else if (item.length > 0) {
-                can.page.Append(can, can.menu, [{view: ["menu", "div", item[0]], onclick: function(event) {
+                return {view: ["menu", "div", item[0]], onclick: function(event) {
                     var ui = can.user.carte(event, can, can.onaction, item.slice(1), cb)
                     can.page.Modify(can, ui.first, {style: {top: can._target.offsetHeight}})
-                }}])
+                }}
 
             } else if (typeof item == "object") {
-                can.page.Append(can, can.menu, [item])
+                return item
             }
-        })
+        }) }])
     },
 })
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {

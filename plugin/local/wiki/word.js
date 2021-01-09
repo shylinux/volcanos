@@ -1,4 +1,11 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { target.innerHTML = ""
+        var list = []; can.onengine.listen(can, "resize", function(width, height) {
+            can.Conf({width: width, height: height}), can.core.Delay(list, 100, function() {
+                can.onimport._init(can, msg, list, cb, target)
+            })
+        })
+        can.page.Modify(can, can._target, {style: {"max-width": can.Conf("width")}})
+
         if (msg.Option("_display") == "table") {
             return can.onappend.table(can, msg, target, "table", function(value, key) {
                 return {text: [value, "td"], onclick: function(event) {

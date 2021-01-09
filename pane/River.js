@@ -3,10 +3,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._main_river = can.user.Search(can, RIVER) || (can.user.isMobile||can.user.isExtension? "product": "project")
         can._main_storm = can.user.Search(can, STORM) || (can.user.isMobile? "office": can.user.isExtension? "chrome": "studio")
 
-        can.run({}, ["search", "Header.onimport.menu",
-            ["添加", "创建群组", "添加用户", "添加应用", "添加工具", "添加设备"],
-            ["访问", "访问用户", "访问应用", "访问工具", "访问设备", "访问研发"],
-            ["共享", "共享群组", "共享应用", "共享工具"],
+        can.run({}, ["search", "Header.onimport.menu", "river",
+            ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备"],
+            ["访问", "访问研发", "访问应用", "访问工具", "访问用户", "访问设备"],
+            ["共享", "共享群组", "共享应用", "共享工具", "共享用户", "共享设备"],
         ], function(event, item) {
             var cb = can.ondetail[item]; typeof cb == "function" && cb(event, can, item, can.Conf(RIVER), can.Conf(STORM))
         })
@@ -44,6 +44,14 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         can.run({}, [], function(msg) {
             can.onimport._init(can, msg, list, cb, can._output)
         })
+
+        can.onengine.listen(can, "action.touch", function() {
+            can.page.Select(can, document.body, "div.carte", function(item) {
+                can.page.Remove(can, item)
+            })
+
+        })
+
         can.onengine.listen(can, "search", function(msg, word) {
             if (word[0] != "*" && word[0] != "storm") { return }
 

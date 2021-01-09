@@ -17,13 +17,13 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
         meta.volcano = Config.volcano, meta.libs = Config.libs
 
         // 预加载
-        var Preload = Config.libs; Config.panes.forEach(function(pane) {
+        var Preload = []; Config.panes.forEach(function(pane) {
             Preload = Preload.concat(pane.list = pane.list || ["/pane/"+pane.name+".css", "/pane/"+pane.name+".js"])
         }); Preload = Preload.concat(Config.plugin)
 
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: document.body}
-        libs = Preload.concat(Config.volcano), cb = function(can) {
+        libs = Preload.concat(Config.main.list, Config.libs), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panes, function(msg) {
                 can.base.Log(name, "run", window.can = can)
                 var list = []; document.body.onresize = function() { can.core.Delay(list, 100, function() {

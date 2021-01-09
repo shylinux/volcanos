@@ -1,3 +1,4 @@
+ var _can_name = "/frame.js"
 Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta, list, cb, target) {
         can.core.Next(list, function(item, next) { item.type = "pane"
             can.onappend._init(can, item, item.list, function(pane) {
@@ -9,12 +10,10 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 }, can[item.name] = pane, next()
             }, target)
         }, function() {
-            can.require(meta.main.list, function(can) {
-                var pane = can[meta.main.name], msg = can.request({})
-                pane.onkeypop._init(pane, target), pane.onmotion._init(pane)
-                pane.onaction._init(pane, msg, [], cb, pane._target)
-                pane.onengine._daemon(pane, pane.user.title())
-            })
+            var pane = can[meta.main.name], msg = can.request({})
+            pane.onkeypop._init(pane, target), pane.onmotion._init(pane)
+            pane.onaction._init(pane, msg, [], cb, pane._target)
+            pane.onengine._daemon(pane, pane.user.title())
         })
     },
     _daemon: function(can, name, cb) {
@@ -679,8 +678,7 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
             begin = {x: event.x, y: event.y, left: layout.left, top: layout.top, width: layout.width, height: layout.height}
         }, target.onmouseup = function(event) { begin = null }
 
-        target.onmousemove = function(event) {
-            if (!begin || !event.ctrlKey) { return }
+        target.onmousemove = function(event) { if (!begin || !event.ctrlKey) { return }
             if (event.shiftKey) {
                 layout.width = layout.width + event.x - begin.x 
                 layout.height = layout.height + event.y - begin.y
@@ -691,6 +689,15 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
                 can.page.Modify(can, target, {style: {left: layout.left, top: layout.top}})
             }
         }
+    },
+    select: function(can, target, name, which) {
+        can.page.Select(can, target, name, function(item, index) {
+            if (item == which || which == index) {
+                can.page.ClassList.add(can, item, "select")
+            } else {
+                can.page.ClassList.del(can, item, "select")
+            }
+        })
     },
 })
 

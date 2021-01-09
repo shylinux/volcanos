@@ -4,6 +4,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                 can.onimport._init(can, msg, list, cb, target)
             })
         })
+        can.page.Modify(can, can._target, {style: {"max-width": can.Conf("width")}})
 
         var width = can.Conf("width"), height = can.Conf("height")
         can.ui = can.page.Appends(can, target, [

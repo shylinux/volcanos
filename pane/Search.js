@@ -56,6 +56,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.onimport._word(can, msg, cmds, fields)
         }
 
+        can.page.Select(can, document.body, "fieldset.pane.Header", function(item) {
+            can.page.Modify(can, can._target, {style: {top: item.offsetHeight}})
+        })
+        can.page.Select(can, document.body, "fieldset.pane.River", function(item) {
+            can.page.Modify(can, can._target, {style: {left: item.offsetWidth}})
+        })
+
         can.onmotion.show(can), can.ui.input.focus()
         can.onimport._word(can, msg, cmds, fields)
     },
