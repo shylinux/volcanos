@@ -1,5 +1,6 @@
 fieldset.Header {
     height:32px; padding:0 5px;
+    z-index:1;
 }
 fieldset.Header>div.output>div {
     height:22px; padding:5px;

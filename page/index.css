@@ -43,6 +43,11 @@ body {
 fieldset {
     margin:0; border:0; padding:0;
 }
+fieldset.plugin {
+    box-shadow:2px 2px 10px 4px #626bd0;
+    background-color:#061c3c9e;
+    margin:10px; padding:10px;
+}
 legend {
     box-shadow:4px 4px 20px 4px #626bd0;
 }
@@ -184,6 +189,9 @@ fieldset>div.output div.project div.list {
     margin-left:10px;
 }
 
+body>fieldset.input {
+    position:fixed; left:0; top:32px;
+}
 fieldset.input {
     background-color:#30a7a93d;
     position:fixed;
@@ -252,7 +260,7 @@ body.black a {
     color:yellow;
 }
 body.white {
-    background-color:#2f3638;
+    background-color:#052238bf;
     color:white;
 }
 body.white input[type=button] {
@@ -280,11 +288,11 @@ body.white select {
 }
 
 body.white fieldset.Action {
-    background-color:#81b3c1c9;
+    background-color:#a2dceab3;
+    color:black;
 }
 body.white fieldset.Action fieldset.plugin {
     background-color:#ffffff9c;
-    color:black;
 }
 body.white fieldset.Action fieldset.plugin legend {
     background-color:#339999; color:white;
@@ -294,6 +302,9 @@ body.white fieldset.Action fieldset.plugin legend:hover {
     background-color:#6ee4e4;
 }
 
+body.white fieldset.plugin {
+    background-color:#d0dfe49e;
+}
 body.white fieldset.plugin table {
     color:black;
 }
@@ -313,6 +324,9 @@ body.white fieldset.plugin table td {
 }
 body.white fieldset.plugin table td:hover {
     background-color:#98ecd4;
+}
+body.white fieldset.story {
+    background-color:#7c8ea5ab;
 }
 
 body.white table input[type=button][value=结束] {

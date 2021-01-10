@@ -22,7 +22,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onappend._init(can, value, ["/plugin/state.js"], function(plugin) {
             plugin._option.dataset.id = value.action, value.target = plugin._target
             plugin.run = function(event, cmds, cb, silent) { var msg = plugin.request(event); cmds = cmds || []
-                can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
+                return can.run(event, can.onengine[cmds[0]]? cmds: [river, storm, value.action].concat(cmds), function(msg) {
                     typeof cb == "function" && cb(msg)
                 }, silent)
             }

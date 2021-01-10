@@ -1,6 +1,6 @@
 fieldset.Action {
-    background-color:#051625; color:white;
     min-width:160px;
+    background-color:#a2dceab3;
 }
 fieldset.Action div.action {
     display:none;
@@ -53,18 +53,13 @@ fieldset.Action div.output.free fieldset.plugin.select {
     display:block;
 }
 
-fieldset.Action div.output fieldset.plugin {
-    box-shadow:2px 2px 10px 4px #626bd0;
-    background-color:#113c4a9e;
-    margin:10px; padding:10px;
-}
 fieldset.Action div.output fieldset.plugin:hover {
     box-shadow:4px 4px 12px 6px #626bd0;
 }
 fieldset.Action div.output fieldset.plugin legend {
-    background-color:#477182; color:white;
     font-size:16px; font-family:monospace;
     margin-top:4px 5px; padding:2px 20px;
+    background-color:#0c739cd9;
 }
 fieldset.Action div.output fieldset.plugin legend:hover {
     background:red;

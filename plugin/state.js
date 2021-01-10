@@ -70,11 +70,11 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         }): can.run(event, ["action", name], function(msg) { typeof cb == "function" && cb(msg) }, true)
     },
     change: function(event, can, name, value, cb) {
-        can.page.Select(can, can._option, "input.args", function(input) { if (input.name == name) { var data = input.dataset || {}
-            if (value != input.value) { input.value = value;
-                data.action == "auto" && typeof cb == "function" && cb()
+        can.page.Select(can, can._option, "input.args", function(input) {
+            if (input.name == name && value != input.value) { input.value = value;
+                var data = input.dataset || {}; data.action == "auto" && can.run(event)
             }
-        } })
+        })
     },
 
     getLocation: function(event, can, cmd) { var msg = can.request(can)

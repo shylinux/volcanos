@@ -237,5 +237,8 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         can.user.select(event, can, "github", "time,type,name,text")
     },
 })
-Volcanos("onexport", {help: "导出数据", list: []})
+Volcanos("onexport", {help: "导出数据", list: [],
+    width: function(can) { return can._target.offsetWidth },
+    height: function(can) { return can._target.offsetHeight },
+})
 })()

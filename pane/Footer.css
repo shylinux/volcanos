@@ -2,6 +2,10 @@ fieldset.Footer {
     height:32px; padding:0 5px;
     clear:both;
 }
+fieldset.Footer div.toast {
+    position:static;
+    float:left;
+}
 fieldset.Footer>div.output>div {
     height:22px; padding:5px;
     cursor:pointer;

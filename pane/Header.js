@@ -8,7 +8,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             "white": "白色主题",
             "black": "黑色主题",
             "print": "打印主题",
-            "background": "背景图片",
+            "background": "清除背景",
             "logout": "退出",
         }
         can.onmotion.clear(can)
@@ -21,10 +21,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         typeof cb == "function" && cb(msg)
     },
     _background: function(can, msg, target) { if (!msg.Option("background")) { return }
-        can.page.Modify(can, document.body, {style: {background: 'url("'+msg.Option("background")+'")'}})
-        can.page.Select(can, document.body, "fieldset.pane.Action", function(item) {
-            can.page.Modify(can, item, {style: {background: 'url("'+msg.Option("background")+'")'}})
-        })
+        if (msg.Option("background") == "void") {
+            can.page.Modify(can, document.body, {style: {background: ''}})
+        } else {
+            can.page.Modify(can, document.body, {style: {background: 'url("'+msg.Option("background")+'")'}})
+        }
     },
     _title: function(can, msg, target) {
         can.user.title(can.user.Search(can, TITLE) || can.user.Search(can, POD))
@@ -104,6 +105,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
         can.onlayout.topic(can)
     },
+    background: function(event, can, url) {
+        can.run(event, ["action", "background", url], function(msg) {
+            can.onimport._background(can, msg)
+        })
+    },
 
     menu: function(can, cmds, cb) { // type item...
         can.page.Append(can, can._output, [{type: cmds[0], list: can.core.List(cmds.slice(1), function(item) {
@@ -178,14 +184,15 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     black: function(event, can, button) { can.onlayout.topic(can, button) },
     white: function(event, can, button) { can.onlayout.topic(can, button) },
     print: function(event, can, button) { can.onlayout.topic(can, "white print") },
-    background: function(event, can, button) { can.user.input(event, can, ["url"], function(ev, button, data, list) {
-        can.run(event, ["action", "background", list[0]], function(msg) {
-            can.onimport._background(can, msg)
-        })
-    }) },
+    background: function(event, can, button) {
+        can.onimport.background(event, can, "void")
+    },
 
     River: function(can) { can.run({}, ["search", "River.onmotion.toggle"]) },
     Footer: function(can) { can.run({}, ["search", "River.onmotion.autosize"]) },
 })
-Volcanos("onexport", {help: "导出数据", list: []})
+Volcanos("onexport", {help: "导出数据", list: [],
+    height: function(can) { return can._target.offsetHeight },
+})
+
 })()

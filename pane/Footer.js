@@ -1,6 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.onmotion.clear(can)
         can.onimport._title(can, msg, target)
+        can.onimport._toast(can, msg, target)
         can.onimport._state(can, msg, target)
         typeof cb == "function" && cb(msg)
     },
@@ -8,6 +9,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.user.isMobile || can.core.List(msg.result, function(title) {
             can.page.Append(can, target, [{view: ["title", "div", title]}])
         })
+    },
+    _toast: function(can, msg, target) {
+        can.toast = can.page.Append(can, target, [{view: ["toast", "div", ""]}]).first
     },
     _state: function(can, msg, target) {
         can.core.List(can.Conf("state"), function(item) {
@@ -17,6 +21,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
 
+    toast: function(can, msg, text) {
+        can.page.Modify(can, can.toast, {innerHTML: text})
+    },
     keys: function(can, msg, list, cb, target) {
         can.page.Select(can, target, "span.keys", function(item) {
             item.innerHTML = list[0]||""
@@ -36,5 +43,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         })
     },
 })
-Volcanos("onexport", {help: "导出数据", list: []})
+Volcanos("onexport", {help: "导出数据", list: [],
+    height: function(can) { return can._target.offsetHeight },
+})
 
