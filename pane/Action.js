@@ -27,8 +27,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 }, silent)
             }
 
+            can.page.Modify(can, plugin._target, {style: {"max-width": value.width}})
+            can.onengine.listen(can, "action.resize", function(width, height) {
+                can.page.Modify(can, plugin._target, {style: {"max-width": value.width = width}})
+            })
+
             can._plugins = (can._plugins||[]).concat([plugin])
-            can.onmotion.move(can, plugin._target, {width: plugin.Conf("width"), height: plugin.Conf("height")})
             can.page.Append(can, can._action, [{view: ["item", "div", value.name], onclick: function(event) {
                 can.onmotion.select(can, can._output, "fieldset.plugin", value.target)
                 can.onmotion.select(can, can._action, "div.item", event.target)
@@ -97,9 +101,9 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         })
 
         can._target.ontouchstart = function(event) { can.onengine.trigger(can, {}, "action.touch") }
-        can.Conf({width: can._output.offsetWidth-34, height: window.innerHeight})
-        can.onengine.listen(can, "resize", function(width, height) {
-            can.Conf({width: width-6, height: height})
+        can.Conf({width: can._output.offsetWidth-33, height: window.innerHeight})
+        can.onengine.listen(can, "resize", function(width, height) { can.Conf({width: width, height: height})
+            can.onengine.trigger(can, can.request({}, {width: width, height: height}), "action.resize")
         })
 
         can.onengine.listen(can, "search", function(msg, word) {

@@ -2,10 +2,10 @@ fieldset.Action {
     min-width:160px;
     background-color:#a2dceab3;
 }
-fieldset.Action div.action {
+fieldset.Action>div.action {
     display:none;
 }
-fieldset.Action div.action.tabs {
+fieldset.Action>div.action.tabs {
     width:-webkit-fill-available;
     background-color:#159cc7b0;
     display:block; height:28px;
@@ -13,15 +13,15 @@ fieldset.Action div.action.tabs {
     position:absolute;
     z-index:10;
 }
-fieldset.Action div.action div.item {
+fieldset.Action>div.action div.item {
     padding:4px; margin:0;
 }
-fieldset.Action div.action div.item:hover {
+fieldset.Action>div.action div.item:hover {
     border-bottom:solid 2px red;
     background-color:#2e515f;
     cursor:pointer;
 }
-fieldset.Action div.action div.item.select {
+fieldset.Action>div.action div.item.select {
     border-bottom:solid 2px red;
     background-color:#2e515f;
 }

@@ -4,10 +4,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             value.path.endsWith("/")? can.path.Push(value): can.list.push(value)
         })
 
-        can.onlayout.display(can, target)
-        can.onappend.table(can, can.path, can.ui.content, "table", function(value, key, index, line, array) {
+        can.ui = can.onlayout.display(can, target)
+        can.onappend.table(can, can.path, can.ui.content, "table", function(value, key) {
             return {type: "td", inner: value, onclick: function(event) {
-                can.sup.onaction.change(event, can.sup, key, value)
+                can.sup.onaction.change(event, can.sup, key, value, function(msg) {
+                    can.onimport._init(can, msg, list, cb, target)
+                })
             }}
         })
 
@@ -15,7 +17,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Modify(can, can._action, {style: {display: "none"}})
         typeof cb == "function" && cb(msg)
 
-        can.Action("倍速", can.rate = 1)
+        can.Action("倍速", can.rate = parseInt(msg.Option("rate"))||feature["rate"]||1)
         can.Action("起始", can.begin = parseInt(msg.Option("begin"))||feature["begin"]||0)
         can.Action("数量", can.limit = parseInt(msg.Option("limit"))||feature["limit"]||6)
         can.Action("高度", can.height = parseInt(msg.Option("height"))||feature["height"]||100)
@@ -33,7 +35,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return path
     },
     file: function(can, path, index) { path = can.onimport._file(can, path, index)
-        var cb = can.onfigure[can.base.Ext(path)]; can.Status("文件", path)
+        var cb = can.onfigure[can.base.Ext(path)]; can.Status("file", path)
         typeof cb == "function" && can.page.Append(can, can.ui.display, [cb(can, path, index)])
     },
 }, ["/plugin/local/wiki/feel.css"])
@@ -61,20 +63,21 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
                 var order = index; function show(order) {
                     path = can.onimport._file(can, can.list[order].path)
                     sub.page.Appends(sub, sub._output, [{img: path, height: height-55}])
-                    sub.core.Timer(100, function() { sub.Status("位置", order+1+"/"+can.list.length), sub.Status("文件", path) })
+                    sub.core.Timer(100, function() { sub.Status("位置", order+1+"/"+can.list.length), sub.Status("file", path) })
                 }; show(order)
 
-                sub.onappend._action(sub, ["关闭", "上一个", "设置背景", "下一个"], sub._action, {
+                sub.onappend._action(sub, ["关闭", "下载", "上一个", "下一个", "设置背景"], sub._action, {
                     "关闭": function(event) { sub.page.Remove(sub, sub._target) },
+                    "下载": function(event) { can.user.download(can, path) },
                     "上一个": function(event) { order > 0? show(--order): show(order = can.list.length-1) },
+                    "下一个": function(event) { order < can.list.length-1? show(++order): show(order = 0) },
                     "设置背景": function(event) { var msg = can.request(event, {url: can.onimport._file(can, can.list[order].path)})
                         sub.run(event, ["search", "Header.onimport.background"])
                     },
-                    "下一个": function(event) { order < can.list.length-1? show(++order): show(order = 0) },
-                }), sub.onappend._status(can, ["文件"], sub._status)
+                })
             }, document.body)
-        }, _init: function(target) { can.Status("文件", path) },
-        onmouseover: function(event) { can.Status("文件", path) },
+        }, _init: function(target) { can.Status("file", path) },
+        onmouseover: function(event) { can.Status("file", path) },
     } },
 
     video: function(can, path) { var auto = true, loop = true, total = 0
@@ -82,13 +85,11 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
         return {className: "preview", type: "video", style: {height: can.height},
             data: {src: path, controls: "controls", autoplay: auto, loop: loop, playbackRate: can.rate},
             oncontextmenu: cb, onplay: cb, onpause: cb, onended: cb,
-            onmouseover: function(event) {
-                can.Status("文件", path)
-            },
+            onmouseover: function(event) { can.Status("file", path) },
             onloadedmetadata: function(event) { total = event.timeStamp
                 event.target.currentTime = can._msg.currentTime || 0
             }, onloadeddata: cb, ontimeupdate: function(event) {
-                can.Status("文件") == path && can.Status("position", can.onexport.position(can, (can._msg.currentTime=event.target.currentTime)-1, event.target.duration))
+                can.Status("file") == path && can.Status("position", can.onexport.position(can, (can._msg.currentTime=event.target.currentTime)-1, event.target.duration))
             },
         }
     },
@@ -113,10 +114,9 @@ Volcanos("onaction", {help: "组件菜单", list: [
     "下一页": function(event, can, key, value) { 
         can.begin + can.limit < can.list.length && (can.begin += can.limit, can.onimport._page(can, can.list, can.begin, can.limit))
     },
-    "下载": function(event, can) { can.user.download(can, can.Status("文件")) },
 
     "参数": function(event, can) { 
-        can.page.Modify(can, can._action, {style: {display: can._action.style.display=="none"? "block": "none"}})
+        can.page.Toggle(can, can._action)
     },
     "数量": function(event, can, key, value) { 
         can.limit = parseInt(value), can.onimport._page(can, can.list, can.begin, can.limit)
@@ -128,7 +128,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
         can.rate = parseInt(value), can.onimport._page(can, can.list, can.begin, can.limit)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: ["begin", "limit", "total", "position", "文件"],
+Volcanos("onexport", {help: "导出数据", list: ["begin", "limit", "total", "position", "file"],
     position: function(can, index, total) { total = total || can.max
         return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+"/"+parseInt(total)
     },

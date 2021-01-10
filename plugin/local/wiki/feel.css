@@ -5,8 +5,14 @@ fieldset.feel div.action {
 fieldset.feel div.output {
     min-height:100px;
 }
-fieldset.feel div.output div.content {
-    max-height:200px;
-    overflow:auto;
+fieldset.feel div.output img {
+    display:block;
+    float:left;
 }
-
+fieldset.feel div.output video {
+    display:block;
+    float:left;
+}
+fieldset.feel div.output {
+    min-height:100px;
+}

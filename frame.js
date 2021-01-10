@@ -462,8 +462,8 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
             ]}
         ]}] }])
     },
-    display: function(can, target) {
-        can.ui = can.page.Appends(can, target, [{type: "table", list: [
+    display: function(can, target) { target = target || can._target
+        return can.page.Appends(can, target, [{type: "table", list: [
             {type: "tr", list: [{view: "content"}]},
             {type: "tr", list: [{view: "display"}]},
         ]}])
