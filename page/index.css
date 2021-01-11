@@ -190,17 +190,17 @@ fieldset>div.output div.project div.list {
 }
 
 body>fieldset.input {
-    position:fixed; left:0; top:32px;
+    position:fixed; top:32px;
 }
-fieldset.input {
+body>fieldset.input {
     background-color:#30a7a93d;
     position:fixed;
     z-index:50;
 }
-fieldset.input.key {
+body>fieldset.input.key {
     z-index:60;
 }
-fieldset.input.date {
+body>fieldset.input.date {
     z-index:70;
 }
 

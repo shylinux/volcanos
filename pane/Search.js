@@ -77,7 +77,7 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
     choice: function(event, can, index) {
         if (can.list && can.list[index]) { can.onmotion.hide(can)
             if (typeof can.list[index].text == "function") {
-                can.list[index].text()
+                can.list[index].text(event)
             } else if (can.list[index].text.indexOf("http") == 0) {
                 can.user.open(can.list[index].text)
             }

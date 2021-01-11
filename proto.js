@@ -54,9 +54,6 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
             }
 
             var source = !libs[0].endsWith("/") && (libs[0].indexOf(".") == -1? libs[0]+".js": libs[0]) || libs[0]
-            if (source.indexOf("/publish") == 0 && can.base && can.user) {
-                source = can.base.URLMerge(source, "pod", can.user.Search(can, "pod")||"")
-            }
 
             // 请求模块
             function next() { can._load(source, each), can.require(libs.slice(1), cb, each) }

@@ -18,6 +18,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._agent(can, msg, target)
         can.onimport._menu(can, msg, target)
         can.onimport._background(can, msg, target)
+        // can.onengine._daemon(can, can.user.title())
         typeof cb == "function" && cb(msg)
     },
     _background: function(can, msg, target) { if (!msg.Option("background")) { return }
@@ -133,11 +134,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
         function init() { can.run({}, [], function(msg) { can.Conf(USERNAME, msg.Option("user.nick")||msg.Option("user.name"))
             can.onimport._init(can, msg, list, function(msg) {
-                typeof cb == "function" && cb(msg)
-                can.run({}, ["search", "River.onaction._init"])
                 can.run({}, ["search", "Search.onaction._init"])
                 can.run({}, ["search", "Action.onaction._init"])
+                can.run({}, ["search", "River.onaction._init"])
                 can.run({}, ["search", "Footer.onaction._init"])
+                typeof cb == "function" && cb(msg)
             }, can._output)
         }) }
 

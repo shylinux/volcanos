@@ -32,7 +32,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     _refresh: function(can, msg) {
         can.core.Timer(500, function(timer) {
             var sub = can.request({}, {_count: parseInt(msg.Option("_count"))-1})
-            can.run(sub._event)
+            can.onappend._output(can, can.Conf(), {}, can.Pack())
         })
     },
     _field: function(can, msg) {
@@ -58,8 +58,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
     },
     input: function(event, can, name, cb) { var feature = can.Conf("feature")
+        var msg = can.request(event, can.Option())
         feature[name]? can.user.input(event, can, feature[name], function(ev, button, data, list) {
-            var msg = can.request(event, can.Option())
             var args = ["action", name]; can.core.Item(data, function(key, value) {
                 key && value && args.push(key, value)
             })

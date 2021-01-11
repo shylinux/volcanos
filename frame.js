@@ -13,7 +13,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             var pane = can[meta.main.name], msg = can.request({})
             pane.onkeypop._init(pane, target), pane.onmotion._init(pane)
             pane.onaction._init(pane, msg, [], cb, pane._target)
-            pane.onengine._daemon(pane, pane.user.title())
         })
     },
     _daemon: function(can, name, cb) {
@@ -99,7 +98,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "studio": {name: "研发 studio", action: [
                 {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
                 {name: "repos", help: "代码库", index: "web.code.git.status"},
-                {name: "total", help: "统计量", index: "web.code.git.total"},
                 {name: "plan", help: "任务表", index: "web.team.plan"},
                 {name: "contexts", help: "上下文", index: "web.wiki.word", args: ["src/main.shy"]},
             ]},

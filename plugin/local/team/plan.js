@@ -74,7 +74,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) { task["extra."+key] = value }), delete(task.extra)
 
         can.task && can.page.Cache(can.task.id, can.ui.display, can.task.id)
-        can.Status(can.task = task); can.page.Cache(task.id, can.ui.display) || task["extra.cmd"] && can.onappend.plugin(can, {
+        can.task = task
+        var info = {}; can.core.List(can.onexport.list, function(key) { info[key] = task[key] })
+        can.Status(info); can.page.Cache(task.id, can.ui.display) || task["extra.cmd"] && can.onappend.plugin(can, {
             height: can.Conf("height"), width: can.Conf("width"), index: task["extra.ctx"]+"."+task["extra.cmd"], args: task["extra.arg"],
         }, function(sub) {
             sub.run = function(event, cmds, cb, silent) {
