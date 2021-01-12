@@ -156,10 +156,10 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
 })
 Volcanos("onexport", {help: "导出数据", list: [],
     args: function(can, msg, list, cb, target) {
-        can.page.Select(can, target, "fieldset.plugin>form.option"), function(item, next) {
+        can.core.Next(can.page.Select(can, target, "fieldset.plugin>form.option"), function(item, next) {
             var list = can.page.Select(can, item, '.args', function(item) { return item.value||"" })
             item.dataset.args = JSON.stringify(list), cb(item, next)
-        }
+        })
     },
 })
 })()

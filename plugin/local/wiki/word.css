@@ -1,3 +1,16 @@
+body fieldset.plugin.word h1:hover {
+    background:green;
+    cursor:pointer;
+}
+body fieldset.plugin.word h2:hover {
+    background:green;
+    cursor:pointer;
+}
+body fieldset.plugin.word h3:hover {
+    background:green;
+    cursor:pointer;
+}
+
 body fieldset p.story[data-name=inner] {
     padding:4px;
     background-color:#4b6c8a;

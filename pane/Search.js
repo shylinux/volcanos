@@ -19,7 +19,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 if (event.shiftKey) { var msg = can.request(event, line)
                     can.onappend.plugin(can, {index: line.ctx+"."+line.cmd}, function(story, meta) {
                         story.run = function(event, cmds, cb, silent) {
-                            can.run(event, ["command", "run", meta.index].concat(cmds), function(msg) {
+                            can.run(event, ["plugin", "run", meta.index].concat(cmds), function(msg) {
                                 typeof cb == "function" && cb(msg)
                             })
                         }
@@ -27,7 +27,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                     return
                 }
                 if (line.ctx == "web.chat" && line.cmd == "/search") {
-                    can.onimport.select(can, msg, [line.type, line.name, line.text], can.cb)
+                    can.onimport.select(can, can.request(), [line.type, line.name, line.text], can.cb)
                     return
                 }
                 if (typeof line.text == "function") {
