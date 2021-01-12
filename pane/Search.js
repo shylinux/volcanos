@@ -16,6 +16,20 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         var table = can.onappend.table(can, msg, can.ui.content, "table", function(value, key, index, line) {
             can.Status("count", index+1)
             return {text: [key == "text" && typeof line.text == "function" && line.text.help || value, "td"], onclick: function(event) {
+                if (event.shiftKey) { var msg = can.request(event, line)
+                    can.onappend.plugin(can, {index: line.ctx+"."+line.cmd}, function(story, meta) {
+                        story.run = function(event, cmds, cb, silent) {
+                            can.run(event, ["command", "run", meta.index].concat(cmds), function(msg) {
+                                typeof cb == "function" && cb(msg)
+                            })
+                        }
+                    }, can.ui.display)
+                    return
+                }
+                if (line.ctx == "web.chat" && line.cmd == "/search") {
+                    can.onimport.select(can, msg, [line.type, line.name, line.text], can.cb)
+                    return
+                }
                 if (typeof line.text == "function") {
                     return can.onmotion.hide(can), line.text(event)
                 }
@@ -71,7 +85,7 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
         can.onimport._init(can, msg, list, cb, can._output)
     },
     "关闭": function(event, can) { can.onmotion.hide(can) },
-    "清空": function(event, can) { can.onmotion.clear(can, can.ui.table) },
+    "清空": function(event, can) { can.onmotion.clear(can, can.ui.table),  can.onmotion.clear(can, can.ui.display) },
     "完成": function(event, can) { typeof can.cb == "function" && can.cb() },
 
     choice: function(event, can, index) {

@@ -9,7 +9,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
         }) , typeof cb == "function" && cb()
 
         switch (meta.type) {
-            case "textarea": !target.placeholder && (target.placeholder = meta.name || ""); break
+            case "textarea":
             case "text":
                 !target.placeholder && (target.placeholder = meta.name || "")
                 !target.title && (target.title = target.placeholder)

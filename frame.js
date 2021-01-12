@@ -372,6 +372,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 break
             case "textarea":
                 input.type = "textarea"
+                item.style.width = can.Conf(["feature", "textarea", item.name, "width"].join(".")) || can.Conf(["feature", "textarea", "width"].join(".")) || item.style.width
+                item.style.height = can.Conf(["feature", "textarea", item.name, "height"].join(".")) || can.Conf(["feature", "textarea", "height"].join(".")) || item.style.height
                 item.value = can.Conf("content") || item.value
                 // no break
             case "password":
