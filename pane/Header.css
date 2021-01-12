@@ -39,6 +39,6 @@ fieldset.Header>div.output div.menu:hover {
     border-bottom:solid 2px red;
     background-color:#2e515f;
 }
-fieldset.Header>div.status div.menu {
+fieldset.Header>div.status {
     display:none;
 }
