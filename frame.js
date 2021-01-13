@@ -428,7 +428,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
             })
         })
 
-        if (can.user.isMobile || can.user.Search(can, "share")) { return }
+        if (can.user.isMobile) { return }
         can.onengine.trigger(can, can.request(event, {width: width, height: height}), "resize")
 
         can.page.Select(can, target, ["fieldset.main"], function(field, index) {
@@ -444,26 +444,35 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
     },
 
     profile: function(can, target) {
-        can.ui = can.page.Append(can, target, [{type: "table", list: [{type: "tr", list: [
-            {type: "td", list: [{view: ["project", "div", "project"]}]},
-            {type: "td", list: [{type: "tr", list: [{type: "table", list: [
-                {type: "td", list: [{view: ["content", "div", "content"]}]},
-                {type: "td", list: [{view: ["profile", "div", "profile"]}]},
-            ]}]}, {type: "tr", list: [
-                {type: "td", list: [{view: ["display", "div", "display"]}]}
-            ]}]}
+        return can.page.Append(can, target, [{view: ["void", "table"], list: [{type: "tr", list: [
+            {type: "td", list: [{view: ["project"]}]},
+            {type: "td", list: [
+                {view: ["void", "table"], list: [
+                    {type: "tr", list: [{view: ["void", "table"], list: [
+                        {type: "tr", list: [
+                            {type: "td", list: [{view: ["content"]}]},
+                            {type: "td", list: [{view: ["profile"]}]},
+                        ]}
+                    ]}]},
+                    {type: "tr", list: [
+                        {type: "td", list: [{view: ["display"]}]}
+                    ]}
+                ]}
+            ]}
         ]}] }])
     },
     project: function(can, target) {
-        can.ui = can.page.Append(can, target, [{type: "table", list: [{type: "tr", list: [
+        can.ui = can.page.Append(can, target, [{view: ["void", "table"], list: [{type: "tr", list: [
             {type: "td", list: [{view: "project"}]}, {type: "td", list: [
-                {type: "tr", list: [{view: "content"}]},
-                {type: "tr", list: [{view: "display"}]},
+                {view: ["void", "table"], list: [
+                    {type: "tr", list: [{view: "content"}]},
+                    {type: "tr", list: [{view: "display"}]},
+                ]}
             ]}
         ]}] }])
     },
     display: function(can, target) { target = target || can._target
-        return can.page.Appends(can, target, [{type: "table", list: [
+        return can.page.Appends(can, target, [{view: ["void", "table"], list: [
             {type: "tr", list: [{view: "content"}]},
             {type: "tr", list: [{view: "display"}]},
         ]}])

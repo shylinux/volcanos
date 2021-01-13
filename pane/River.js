@@ -5,7 +5,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.run({}, ["search", "Header.onimport.menu", "river",
             ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备"],
-            ["访问", "访问研发", "访问应用", "访问工具", "访问用户", "访问设备"],
+            ["访问", "访问研发", "访问应用", "访问工具", "访问用户", "访问设备", "访问任务"],
             ["共享", "共享群组", "共享应用", "共享工具", "共享用户", "共享设备"],
         ], function(event, item) {
             var cb = can.ondetail[item]; typeof cb == "function" && cb(event, can, item, can.Conf(RIVER), can.Conf(STORM))
@@ -221,8 +221,8 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         })
     },
 
-    "访问用户": function(event, can, button, river, storm) {
-        can.user.select(event, can, "user", "time,type,name,text")
+    "访问研发": function(event, can, button, river, storm) {
+        can.user.select(event, can, "github", "time,type,name,text")
     },
     "访问应用": function(event, can, button, river, storm) {
         can.user.select(event, can, "storm", "type,name,text")
@@ -230,11 +230,15 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
     "访问工具": function(event, can, button, river, storm) {
         can.user.select(event, can, "plugin", "type,name,text")
     },
+    "访问用户": function(event, can, button, river, storm) {
+        can.user.select(event, can, "user", "time,type,name,text")
+    },
     "访问设备": function(event, can, button, river, storm) {
         can.user.select(event, can, "space", "time,type,name,text")
     },
-    "访问研发": function(event, can, button, river, storm) {
-        can.user.select(event, can, "github", "time,type,name,text")
+    "访问任务": function(event, can, button, river, storm) {
+        var msg = can.request(event, {index: "web.team.task"})
+        can.user.select(event, can, "task", "time,type,name,text")
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [],

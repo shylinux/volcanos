@@ -65,7 +65,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
         var input = feature && feature[name]; if (input) {
             return can.sup.onaction.input(event, can.sup, name, function(msg) {
                 if (can.sup._outputs && can.sup._outputs.length > 0) { var i = can.sup._outputs.length - 1
-                    can.sup._outputs[i].onimport._process(can.sup._outputs[i], msg)
+                    can.sup._outputs[i].onimport._process && can.sup._outputs[i].onimport._process(can.sup._outputs[i], msg)
                     return
                 }; can.sup.onimport._process(can.sup, msg)
             })

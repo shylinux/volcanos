@@ -77,6 +77,25 @@ select {
     padding:0 10px;
 }
 
+table.void>tr {
+    margin:0;border:0;padding:0;
+}
+table.void>tr>th {
+    margin:0;border:0;padding:0;
+}
+table.void>tr>td {
+    margin:0;border:0;padding:0;
+}
+table.void>tr:hover {
+    background-color:#0fbd4500;
+}
+table.void>tr>th:hover {
+    background-color:#0fbd4500;
+}
+table.void>tr>td:hover {
+    background-color:#0fbd4500;
+}
+
 table {
     border:0; white-space:pre;
     font-size:14px; font-family:monospace;
