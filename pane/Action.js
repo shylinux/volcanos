@@ -100,10 +100,10 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
             can.core.CallFunc(can.onaction[key], {event: event, can: can, key: key})
         })
 
-        can._target.ontouchstart = function(event) { can.onengine.trigger(can, {}, "action.touch") }
+        can._target.ontouchstart = function(event) { can.onengine.trigger(can, "action.touch", {}) }
         can.Conf({width: can._output.offsetWidth-33, height: window.innerHeight})
         can.onengine.listen(can, "resize", function(width, height) { can.Conf({width: width, height: height})
-            can.onengine.trigger(can, can.request({}, {width: width, height: height}), "action.resize")
+            can.onengine.trigger(can, "action.resize", can.request({}, {width: width, height: height}))
         })
 
         can.onengine.listen(can, "search", function(msg, word) {

@@ -106,7 +106,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     },
     action: function(event, can, river, storm) {
         var msg = can.request(event, {river: can.Conf(RIVER, river), storm: can.Conf(STORM, storm)})
-        can.onengine.trigger(can, msg, "storm.select")
+        can.onengine.trigger(can, "storm.select", msg)
 
         can.page.Select(can, can._output, "div.item.select", function(item) {
             can.page.ClassList.del(can, item, "select")

@@ -11,7 +11,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             }, target)
         }, function() {
             var pane = can[meta.main.name], msg = can.request({})
-            pane.onkeypop._init(pane, target), pane.onmotion._init(pane)
+            pane.onmotion._init(pane, target), pane.onkeypop._init(pane, target)
             pane.onaction._init(pane, msg, [], cb, pane._target)
         })
     },
@@ -23,15 +23,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         })
     },
 
-    listen: shy("", {}, [], function(can, name, cb) {
-        arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
-    }),
-    trigger: function(can, msg, name) {
-        can.core.List(can.onengine.listen.meta[name], function(cb) {
-            can.core.CallFunc(cb, {"msg": msg})
-        })
-    },
-
     search: function(event, can, msg, pane, cmds, cb) {
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split("."), function(value) {
             fun && (sub = mod, mod = fun, fun = mod[value], key = value)
@@ -39,7 +30,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
 
         return can.core.CallFunc(fun, {
             "event": event, "can": sub, "msg": msg,
-            "cmd": key, "button": key, "cmds": cmds.slice(2),
+            "button": key, "cmd": key, "cmds": cmds.slice(2),
             "list": cmds.slice(2), "cb": cb, "target": sub._target,
         }, mod)
     },
@@ -48,6 +39,15 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         can.misc.Run(event, can, {names: pane._name}, cmds, cb)
         // pane.run(event, ["search", "Footer.onimport.ncmd"])
     }, engine: function(event, can, msg, pane, cmds, cb) { return false },
+
+    listen: shy("", {}, [], function(can, name, cb) {
+        arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
+    }),
+    trigger: function(can, name, msg) {
+        can.core.List(can.onengine.listen.meta[name], function(cb) {
+            can.core.CallFunc(cb, {msg: msg})
+        })
+    },
 
     river: {
         "serivce": {name: "运营群", storm: {
@@ -396,6 +396,19 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         return text && can.page.Append(can, target, [{view: ["code", "div", text]}]).code
     },
 
+    figure: function(can, meta, key, target) {
+        if (key.indexOf("@") != 0) { return }
+        var list = can.core.Split(key, "@=", "@=", {simple: true})
+        var pkey = list[0], pval = list[1]||""
+
+        can.page.Modify(can, target, {autocomplete: "off"})
+        target.type != "button" && target.value.startsWith("@") && (target.value = pval||"")
+        pkey && can.require(["/plugin/input/"+pkey+".js"], function(can) {
+            can.onfigure && can.core.Item(can.onfigure[pkey], function(key, cb) { if (key.startsWith("on")) {
+                target[key] = function(event) { cb(event, can, meta, target) }
+            } })
+        })
+    },
     plugin: function(can, meta, cb, target) { meta = meta || {}
         can.run({}, ["action", "command", meta.index], function(msg) {
             meta.feature = can.base.Obj(msg.meta&&msg.meta[0] || "{}", {})
@@ -429,7 +442,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         })
 
         if (can.user.isMobile) { return }
-        can.onengine.trigger(can, can.request(event, {width: width, height: height}), "resize")
+        can.onengine.trigger(can, "resize", can.request(event, {width: width, height: height}))
 
         can.page.Select(can, target, ["fieldset.main"], function(field, index) {
             can.page.Modify(can, field, {style: {height: height}})
@@ -441,6 +454,12 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
     resize: shy("", {}, [], function(cb) { arguments.callee.list.push(cb) }),
     topic: function(can, topic) { topic && (can._topic = topic)
         can.user.topic(can, can._topic || can.user.Search(can, "topic") || ((can.user.Search(can, "pod")||can.base.isNight())? "black": "white"))
+    },
+    figure: function(can, ui, event) {
+        var layout = {top: event.clientY+10, left: event.clientX}
+        can.page.Modify(can, ui.fieldset, {style: layout})
+        can.onmotion.move(can, ui.fieldset, layout)
+        can.page.Remove(can, ui.legend)
     },
 
     profile: function(can, target) {
@@ -621,18 +640,18 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
         if (target._keys.length == 0)  { event.stopPropagation(), event.preventDefault() }
     },
 })
-Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can) {
+Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, target) {
         if ((can.user.Search(can, "topic")||"").indexOf("print") > -1) { return }
 
         var count = 0, add = true
         can.user.isMobile || can.user.Search(can, "share") || can.core.Timer({interval: 100}, function() {
-            if (document.body.className.indexOf("print") > -1) { return }
+            if (target.className.indexOf("print") > -1) { return }
 
             add? count++: count--
             count < 0 && (add = true)
             count > 100 && (add = false)
 
-            can.page.Select(can, document.body, "fieldset.story", function(item) {
+            can.page.Select(can, target, "fieldset.story", function(item) {
                 can.page.Modify(can, item, {style: {
                     "box-shadow": "40px 10px 10px "+(count/10+1)+"px #626bd0",
                 }})

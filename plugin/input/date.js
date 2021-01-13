@@ -1,4 +1,4 @@
-Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, item, target) { target = target || event.target
+Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, item, target) {
 
     // 设置输入
     function set(now) {
@@ -7,10 +7,10 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
     }
 
     // 添加插件
+    can._figure && can.page.Remove(can, can._figure.fieldset)
     var figure = can.onappend.field(can, document.body, "input date", {})
+    can._figure = figure; can.onlayout.figure(can, figure, event)
     figure.table = can.page.Append(can, figure.output, [{type: "table"}]).first
-    can.page.Modify(can, figure.fieldset, {style: {top: event.clientY+10, left: event.clientX}})
-    can.page.Remove(can, figure.legend)
 
     // 添加控件
     var now = target.value? new Date(target.value): new Date()
@@ -19,7 +19,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
         "关闭", {type: "hr", style: {margin: 0}},
         "上一月", ["year"].concat(can.core.List(now.getFullYear() - 20, now.getFullYear() + 20)),
         ["month"].concat(can.core.List(1, 13)), "下一月", {view: ["", "br"]},
-    ], function(event, value, cmd) {can.stick = true
+    ], function(event, value, cmd) { can.stick = true
         // 设置时间
         switch (cmd) {
             case "year": now.setFullYear(parseInt(value)), show(now); return
@@ -73,6 +73,5 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
         for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) {add(day, "next")}
         return now
     }; show(now)
-    return figure
 }} }, ["/plugin/input/date.css"])
 

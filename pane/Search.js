@@ -1,34 +1,33 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        can.ui = can.onlayout.profile(can, can._output)
-        can.ui.table = can.page.Append(can, can.ui.display, [{type: "table"}]).first
+        can.ui = can.page.Append(can, can._output, [
+            {input: ["word", function(event) { can.onkeypop.input(event, can)
+                if (event.key == "Escape") { can.onmotion.hide(can) }
 
-        can.ui.word = can.page.Append(can, can._action, [{input: ["word", function(event) { can.onkeypop.input(event, can)
-            if (event.key == "Escape") { can.onmotion.hide(can) }
-
-            if (event.key == "Enter") { event.stopPropagation(), event.preventDefault()
-                if (event.ctrlKey && can.onaction.choice(event, can, 0)) { return }
-                can.input(event, event.target.value)
-            }
-        }]}]).first
-
+                if (event.key == "Enter") { event.stopPropagation(), event.preventDefault()
+                    if (event.ctrlKey && can.onaction.choice(event, can, 0)) { return }
+                    can.input(event, event.target.value)
+                }
+            }]},
+            {view: "content"}, {view: "display", list: [{type: "table"}]},
+        ])
         typeof cb == "function" && cb(msg)
     },
     _table: function(can, msg, fields) { can.onmotion.clear(can, can.ui.content)
-        var table = can.onappend.table(can, msg, can.ui.content, "table", function(value, key, index, line) { can.Status("count", index+1)
+        var table = can.onappend.table(can, msg, can.ui.content, "table", function(value, key, index, line) {
+            can.Status("count", index+1)
             return {text: [key == "text" && typeof line.text == "function" && line.text.help || value, "td"], onclick: function(event) {
-                // if (event.shiftKey) {
-                    can.onappend.plugin(can, {index: msg.Option("index")||line.ctx+"."+line.cmd, arg: [line.type, line.name]}, function(story, meta) {
+                if (event.shiftKey) { var msg = can.request(event, line)
+                    can.onappend.plugin(can, {index: line.ctx+"."+line.cmd}, function(story, meta) {
                         story.run = function(event, cmds, cb, silent) {
-                            can.run(event, ["action", "command", "run", meta.index].concat(cmds), function(msg) {
+                            can.run(event, ["command", "run", meta.index].concat(cmds), function(msg) {
                                 typeof cb == "function" && cb(msg)
                             })
                         }
-                    }, can.ui.profile)
-                    can.onmotion.clear(can, can.ui.profile)
-                    // return
-                // }
+                    }, can.ui.display)
+                    return
+                }
                 if (line.ctx == "web.chat" && line.cmd == "/search") {
-                    can.onimport.select(can, can.request(), [line.type, line.name, line.text], can.cb)
+                    can.onimport.select(can, msg, [line.type, line.name, line.text], can.cb)
                     return
                 }
                 if (typeof line.text == "function") {
@@ -51,11 +50,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Modify(can, can.ui.table, {style: {width: table.offsetWidth}})
     },
     _word: function(can, msg, cmds, fields) {
-        can.request(msg._event, {fields: fields.join(","), word: cmds})
-        can.onengine.trigger(can, msg, "search")
+        var msg = can.request({}, {fields: fields.join(","), word: cmds})
+        can.onengine.trigger(can, "search", msg)
 
         can.onmotion.clear(can, can.ui.content)
-        can.onmotion.clear(can, can.ui.profile)
         can.run(msg._event, cmds, function(msg) { can.list = msg.Table()
             can.onimport._table(can, msg, fields)
         })
@@ -79,7 +77,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.page.Modify(can, can._target, {style: {left: item.offsetWidth}})
         })
 
-        can.onmotion.show(can), can.ui.word.focus()
+        can.onmotion.show(can), can.ui.input.focus()
         can.onimport._word(can, msg, cmds, fields)
     },
 })

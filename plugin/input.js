@@ -18,17 +18,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
             case "select": meta.value && (target.value = meta.value); break
         }
 
-        if (meta.figure.indexOf("@") == 0) {
-            var ls = meta.figure.slice(1).split("=")
-            var pkey = ls[0], pval = ls[1]||""
-
-            target.type != "button" && target.value.startsWith("@") && (target.value = pval)
-            can.require(["/plugin/input/"+pkey+".js"], function(can) {
-                can.onfigure && can.core.Item(can.onfigure[pkey], function(key, value) { if (key.startsWith("on")) {
-                    target[key] = function(event) { value(event, can, meta, target) }
-                } })
-            })
-        }
+        can.onappend.figure(can, meta, meta.figure, target)
     },
 
     "upload": function(event, can) { can.user.upload(event, can) },
