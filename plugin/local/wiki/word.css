@@ -23,7 +23,7 @@ body fieldset div.story[data-type=spark] {
     background-color:#2169a9; color:white;
     box-shadow: 4px 4px 10px 1px #626bd0;
     border-left:solid 4px blue;
-    padding:4px; margin:8px 0;
+    padding:4px 10px; margin:10px;
 }
 body fieldset div.story[data-type=spark] span:hover {
     background-color:#c10c8a;
@@ -55,12 +55,6 @@ fieldset fieldset.story {
     margin:10px; clear:both; float:left;
     border:0;
     box-shadow: 4px 4px 10px 1px #626bd0;
-}
-fieldset fieldset.story:hover {
-    /* border:solid 1px red; */
-}
-fieldset fieldset.story div.output{
-    padding:10px
 }
 
 fieldset h1.story {

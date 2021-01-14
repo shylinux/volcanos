@@ -1,5 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { can._output.innerHTML = ""
-        can.onappend.table(can, msg, target, "table"), can.ui = can.page.Append(can, target, [
+        can.onappend.table(can, msg, target, "content"), can.ui = can.page.Append(can, target, [
             {view: "project", style: {display: "none"}},
             {view: "content", onmouseenter: function(event) {
                 can.onkeypop.action = can
@@ -14,7 +14,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.current = null
 
         // 加载绘图
-        var code = can.onappend.board(can, msg, can.ui.content, "board", msg.Result()||can.onexport.content(can))
+        var code = can.onappend.board(can, msg, can.ui.content, "content", msg.Result()||can.onexport.content(can))
         can.page.Select(can, can.ui.content, "svg", function(svg) { can.svg = can.group = svg 
             can.onimport.block(can, svg), can.onimport.group(can, svg).click()
             can.page.Select(can, svg, "*", function(item, index) {
@@ -603,8 +603,8 @@ Volcanos("onaction", {help: "组件菜单", list: [
     _mode: {
         run: function(event, can) { var target = event.target
             event.type == "click" && target.Value("type") && can.run(event, ["action", "run", target.Value("zone"), target.Value("type"), target.Value("name"), target.Value("text")], function(msg) {
-                can.onappend.table(can, msg, can.ui.display, "table")
-                can.onappend.board(can, msg, can.ui.display, "board")
+                can.onappend.table(can, msg, can.ui.display, "content")
+                can.onappend.board(can, msg, can.ui.display, "content")
             }, true)
         },
         translate: function(event, can, point) {

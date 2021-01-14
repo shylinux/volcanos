@@ -13,7 +13,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         typeof cb == "function" && cb(msg)
     },
     _table: function(can, msg, fields) { can.onmotion.clear(can, can.ui.content)
-        var table = can.onappend.table(can, msg, can.ui.content, "table", function(value, key, index, line) {
+        var table = can.onappend.table(can, msg, can.ui.content, "content", function(value, key, index, line) {
             can.Status("count", index+1)
             return {text: [key == "text" && typeof line.text == "function" && line.text.help || value, "td"], onclick: function(event) {
                 if (event.shiftKey) { var msg = can.request(event, line)

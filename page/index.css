@@ -50,6 +50,7 @@ fieldset.plugin {
 }
 legend {
     box-shadow:4px 4px 20px 4px #626bd0;
+    cursor:pointer;
 }
 
 input[type=button] {
@@ -76,6 +77,9 @@ select {
     background-color:black; color:cyan;
     padding:0 10px;
 }
+option {
+    font-family:monospace;
+}
 
 table.void>tr {
     margin:0;border:0;padding:0;
@@ -86,47 +90,52 @@ table.void>tr>th {
 table.void>tr>td {
     margin:0;border:0;padding:0;
 }
-table.void>tr:hover {
-    background-color:#0fbd4500;
-}
-table.void>tr>th:hover {
-    background-color:#0fbd4500;
-}
-table.void>tr>td:hover {
-    background-color:#0fbd4500;
-}
 
 table {
     border:0; white-space:pre;
     font-size:14px; font-family:monospace;
     cursor:pointer; overflow: auto;
+    width:-webkit-fill-available;
 }
 table tr {
     background:#04272f85;
-}
-table tr:hover {
-    background-color:#0fbd45;
 }
 table th {
     background-color:#0fbd45;
     padding:2px 6px;
 }
-table th:hover {
-    background-color:red;
-}
 table td {
     max-width:1200px; overflow:auto;
     padding:2px 6px;
-}
-table td:hover {
-    background-color:red;
 }
 table td.select {
     background-color:red;
 }
 
+table.content tr:hover {
+    background-color:green;
+}
+table.content th:hover {
+    background-color:red;
+}
+table.content td:hover {
+    background-color:red;
+}
+
 h1 {
     margin:0;
+}
+h1:hover {
+    background:green;
+    cursor:pointer;
+}
+h2:hover {
+    background:green;
+    cursor:pointer;
+}
+h3:hover {
+    background:green;
+    cursor:pointer;
 }
 div.code {
     background-color:#343a34c4; color:white;
@@ -306,6 +315,32 @@ body.white select {
     border:2px solid #99CC66;
 }
 
+body.white table {
+    color:black;
+}
+body.white table tr {
+    background-color:#e1f1ff6b;
+}
+body.white table th {
+    background-color:#99CCFF;
+}
+body.white table.content tr:hover {
+    background-color:green;
+}
+body.white table input[type=button][value=结束] {
+    background:red;
+}
+body.white table input[type=button][value=停止] {
+    background:red;
+}
+body.white table input[type=button][value=启动] {
+    background:#52ce78;
+}
+
+body.white fieldset.story {
+    background-color:#7c8ea5ab;
+}
+
 body.white fieldset.Action {
     background-color:#a2dceab3;
     color:black;
@@ -319,43 +354,6 @@ body.white fieldset.Action fieldset.plugin legend {
 }
 body.white fieldset.Action fieldset.plugin legend:hover {
     background-color:#6ee4e4;
-}
-
-body.white fieldset.plugin {
-    background-color:#d0dfe49e;
-}
-body.white fieldset.plugin table {
-    color:black;
-}
-body.white fieldset.plugin table tr {
-    background-color:#e1f1ff6b;
-}
-body.white fieldset.plugin table tr:hover {
-    background-color:#99CCFF;
-}
-body.white fieldset.plugin table th {
-    background-color:#99CCFF;
-}
-body.white fieldset.plugin table th:hover {
-    background-color:#98ecd4;
-}
-body.white fieldset.plugin table td {
-}
-body.white fieldset.plugin table td:hover {
-    background-color:#98ecd4;
-}
-body.white fieldset.story {
-    background-color:#7c8ea5ab;
-}
-
-body.white table input[type=button][value=结束] {
-    background:red;
-}
-body.white table input[type=button][value=停止] {
-    background:red;
-}
-body.white table input[type=button][value=启动] {
-    background:#52ce78;
 }
 
 body.print {

@@ -1,15 +1,16 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         if (can.onimport._process(can, msg)) { return typeof cb == "function" && cb(can, msg) }
 
-        can.ui = can.page.Appends(can, target, [can.onimport._control(can, msg)].concat([
-            {view: ["content", "div"]}, {view: ["display", "pre"]},
-        ]))
+        can.ui = can.onlayout.display(can)
+        // can.ui = can.page.Appends(can, target, [can.onimport._control(can, msg)].concat([
+        //     {view: ["content", "div"]}, {view: ["display", "pre"]},
+        // ]))
 
-        can.onappend.table(can, msg, can.ui.content, "table", function(value, key, index, line, array) {
+        can.onappend.table(can, msg, can.ui.content, "content", function(value, key, index, line, array) {
             return can.onimport._table(can, value, key, index, line, array)
         })
 
-        can.onappend.board(can, msg, can.ui.display, "board")
+        can.onappend.board(can, msg, can.ui.display, "content")
         can.onimport._board(can, msg)
 
         typeof cb == "function" && cb(msg)
@@ -136,11 +137,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return true
     },
     _inner: function(can, msg) {
-        can.onappend.table(can, msg, can._output, "table", function(value, key, index, line, array) {
+        can.onappend.table(can, msg, can._output, "content", function(value, key, index, line, array) {
             return can.onimport._table(can, value, key, index, line, array)
         })
 
-        can.onappend.board(can, msg, can._output, "board")
+        can.onappend.board(can, msg, can._output, "content")
         // can.onimport._board(can, msg)
         return true
     },

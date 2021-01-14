@@ -390,10 +390,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         return target
     },
     table: function(can, msg, target, type, cb) {
-        return can.page.AppendTable(can, msg, target, msg.append, cb)
+        var table = can.page.AppendTable(can, msg, target, msg.append, cb)
+        table && can.page.Modify(can, table, {className: type||"content"})
+        return table
     },
     board: function(can, msg, target, type, text) { text = text || can.page.Display(msg.Result())
-        return text && can.page.Append(can, target, [{view: ["code", "div", text]}]).code
+        return text && can.page.Append(can, target, [{view: ["code "+(type||""), "div", text]}]).code
     },
 
     figure: function(can, meta, key, target) {
@@ -462,7 +464,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         can.page.Remove(can, ui.legend)
     },
 
-    profile: function(can, target) {
+    profile: function(can, target) { target = target || can._target
         return can.page.Append(can, target, [{view: ["void", "table"], list: [{type: "tr", list: [
             {type: "td", list: [{view: ["project"]}]},
             {type: "td", list: [
@@ -677,11 +679,30 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
             typeof cb == "function" && cb
         })
     },
+
     clear: function(can, target) {
         can.page.Modify(can, target||can._output, "")
     },
+    hidden: function(can, target) {
+        can.page.Modify(can, target, {style: {display: "none"}})
+    },
+    toggle: function(can, target) {
+        can.page.Toggle(can, target)
+    },
+    select: function(can, target, name, which) {
+        can.page.Select(can, target, name, function(item, index) {
+            if (item == which || which == index) {
+                can.page.ClassList.add(can, item, "select")
+            } else {
+                can.page.ClassList.del(can, item, "select")
+            }
+        })
+    },
     modify: function(can, target, cb) { var back = target.innerHTML
-        var ui = can.page.Appends(can, target, [{type: "input", value: back, onkeydown: function(event) {
+        if (back.length > 120 || back.indexOf("\n") > -1) {
+            return can.onmotion.modifys(can, target, cb)
+        }
+        var ui = can.page.Appends(can, target, [{type: "input", value: back, style: {width: target.offsetWidth > 400? 400: target.offsetWidth-20}, onkeydown: function(event) {
             switch (event.key) {
                 case "Enter":
                     target.innerHTML = event.target.value
@@ -698,7 +719,7 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
         }}]); ui.first.focus(), ui.first.setSelectionRange(0, -1)
     },
     modifys: function(can, target, cb) { var back = target.innerHTML
-        var ui = can.page.Appends(can, target, [{type: "textarea", value: back, style: {height: "80px"}, onkeydown: function(event) {
+        var ui = can.page.Appends(can, target, [{type: "textarea", value: back, style: {height: "80px", width: target.offsetWidth > 400? 400: target.offsetWidth-20}, onkeydown: function(event) {
             switch (event.key) {
                 case "Enter":
                     if (event.ctrlKey) {
@@ -723,12 +744,6 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
         typeof cb == "function" && cb(msg)
     },
 
-    hidden: function(can, msg, list, cb, target) {
-        can.page.Modify(can, target, {style: {display: "none"}})
-    },
-    toggle: function(can, msg, list, cb, target) {
-        can.page.Toggle(can, target)
-    },
     move: function(can, target, layout) { var begin
         target.onmousedown = function(event) {
             begin = {x: event.x, y: event.y, left: layout.left, top: layout.top, width: layout.width, height: layout.height}
@@ -745,15 +760,6 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
                 can.page.Modify(can, target, {style: {left: layout.left, top: layout.top}})
             }
         }
-    },
-    select: function(can, target, name, which) {
-        can.page.Select(can, target, name, function(item, index) {
-            if (item == which || which == index) {
-                can.page.ClassList.add(can, item, "select")
-            } else {
-                can.page.ClassList.del(can, item, "select")
-            }
-        })
     },
 })
 

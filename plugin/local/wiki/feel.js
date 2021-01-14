@@ -5,7 +5,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
 
         can.ui = can.onlayout.display(can, target)
-        can.onappend.table(can, can.path, can.ui.content, "table", function(value, key) {
+        can.onappend.table(can, can.path, can.ui.content, "content", function(value, key) {
             return {type: "td", inner: value, onclick: function(event) {
                 can.sup.onaction.change(event, can.sup, key, value, function(msg) {
                     can.onimport._init(can, msg, list, cb, target)

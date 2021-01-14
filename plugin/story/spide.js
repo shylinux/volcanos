@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [],
     _init: function(can, msg, list, cb, target) { can._output.innerHTML = ""
         if (msg.Option("_display") == "table") {
-            can.onappend.table(can, msg, can._target, "table", function(value, key) {
+            can.onappend.table(can, msg, can._target, "content", function(value, key) {
                 return {text: [value, "td"], click: function(event) {
                     can.sup.onaction.change(event, can.sup, key, value, function(msg) {
                         can.run(event)

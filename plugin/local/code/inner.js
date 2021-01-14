@@ -269,7 +269,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
             toast.Close()
 
             can.ui.tags.innerHTML = ""
-            can.onappend.table(can, msg, can.ui.tags, "table", function(value, key, index, line) { can.Status("标签数", index+1)
+            can.onappend.table(can, msg, can.ui.tags, "content", function(value, key, index, line) { can.Status("标签数", index+1)
                 value = value.replace("<", "&lt;").replace(">", "&gt;"), value = value.replace("./", "")
                 return {text: ["", "td"], list: [{text: [value, "div"]}], onclick: function(event) {
                     line.line && can.onimport.tabview(can, can.Option("path"), line.file.replace("./", ""), parseInt(line.line), function() {

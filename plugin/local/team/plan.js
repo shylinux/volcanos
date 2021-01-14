@@ -1,49 +1,24 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        can.ui = can.page.Appends(can, can._target, [
-            {view: ["project", "table"]},
-            {view: ["content", "table"]},
-            {view: ["profile", "table"]},
-            {view: ["display", "pre"]},
-        ])
-
+        can.onmotion.clear(can, target)
+        can.ui = can.onlayout.profile(can)
         typeof cb == "function" && cb(msg)
-        can.onimport[can.Option("scale")](can, msg)
-        can.page.Modify(can, can._action, {style: {display: "none"}})
-
-        var begin = can.onimport.date("2020-10-10 10:10:10")
+        can.onmotion.hidden(can, can._action)
+        can.onimport[can.Option("scale")||"week"](can, msg)
     },
-    date: function(t) { var now = new Date()
-        if (t && typeof t == "string") { var ls = t.split(" ")
-            var vs = ls[0].split("-")
-            now.setFullYear(parseInt(vs[0]))
-            now.setMonth(parseInt(vs[1])-1)
-            now.setDate(parseInt(vs[2]))
-
-            var vs = ls[1].split(":")
-            now.setHours(parseInt(vs[0]))
-            now.setMinutes(parseInt(vs[1]))
-            now.setSeconds(parseInt(vs[2]))
-        } else if (t) {
-            now = t
-        }
-        return now
-    },
-    _show: function(can, msg, head, list, key, set, get) {
-        var begin_time = can.onimport.date(can.base.Time(can.Option("begin_time")))
+    _show: function(can, msg, head, list, key, get, set) {
+        var begin_time = can.base.Date(can.base.Time(can.Option("begin_time")))
         var hash = {}; msg.Table(function(value, index) {
-            var k = key(can.onimport.date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value])
+            var k = key(can.base.Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value])
             can.Status("count", index+1)
         })
 
-        var table = can.page.Append(can, can.ui.content, [{type: "table", list: 
-            can.core.List(list, function(hour, row) {
-                if (row == 0) { return {type: "tr", list: can.core.List(head, function(week) { return {text: [week, "th"]} })} }
-                return {type: "tr", list: can.core.List(head, function(week, col) {
-                    if (col == 0) { return {text: [hour, "td"]} }
-                    return can.onimport._task(can, msg, set(begin_time, col, row), get(begin_time, col, row, hash))
-                })}
-            })
-        }]).table
+        can.page.Append(can, can.ui.content, [{view: ["content", "table"], list: can.core.List(list, function(hour, row) {
+            if (row == 0) { return {type: "tr", list: can.core.List(head, function(week) { return {text: [week, "th"]} })} }
+            return {type: "tr", list: can.core.List(head, function(week, col) {
+                if (col == 0) { return {text: [hour, "td"]} }
+                return can.onimport._task(can, msg, set(begin_time, col, row), get(begin_time, col, row, hash))
+            })}
+        }) }])
     },
     _task: function(can, msg, time, list, view) { return {text: ["", "td"],
         ondrop: function(event) {
@@ -56,7 +31,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             event.preventDefault()
         },
         ondblclick: function(event) { var now = can.base.Time()
-            can.onaction.insertTask(event, can, can.base.Time(can.onimport.date(time+now.slice(time.length))))
+            can.onaction.insertTask(event, can, can.base.Time(can.base.Date(time+now.slice(time.length))))
         },
         list: can.core.List(list, function(task) { return typeof task == "string"? {view: ["date", "div", task]}:
             {view: [can.onexport.style(can, task), "div", can.onexport[view||can.Action("view")||"text"](can, task)],
@@ -89,8 +64,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         }, can.ui.display)
 
-        can.page.Appends(can, can.ui.profile, [{th: ["key", "value"]}])
-        can.core.Item(task, function(key, value) { can.page.Append(can, can.ui.profile, [{td: [key, key == "pod"? ('<a href="'+can.user.MergeURL(can, {pod: value})+'" target="_blank">'+value+'</a>'): value],
+        var table = can.page.Appends(can, can.ui.profile, [{view: ["content", "table"], list: [{th: ["key", "value"]}]}]).first
+        can.core.Item(task, function(key, value) { can.page.Append(can, table, [{td: [key, key == "pod"? ('<a href="'+can.user.MergeURL(can, {pod: value})+'" target="_blank">'+value+'</a>'): value],
             onclick: function(event) { if (event.target.type == "button") { var name = event.target.name
                 var cb = can.onaction[name]; if (typeof cb == "function") { return cb(event, can, name) }
 
@@ -108,68 +83,73 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     day: function(can, msg) {
         var head = ["hour", "task"]
         var list = [0]; for (var i = 7; i < 24; i++) { list.push(can.base.Number(i, 2)) }
-        function key(time) { return can.base.Number(time.getHours(), 2) }
 
-        function set(begin_time, col, row) { return can.base.Time(begin_time, "%y-%m-%d ")+list[row] }
+        function key(time) { return can.base.Number(time.getHours(), 2) }
         function get(begin_time, col, row, hash) { return hash[list[row]] }
-        can.onimport._show(can, msg, head, list, key, set, get)
+        function set(begin_time, col, row) { return can.base.Time(begin_time, "%y-%m-%d ")+list[row] }
+
+        can.onimport._show(can, msg, head, list, key, get, set)
     },
     week: function(can, msg) {
         var head = ["hour"].concat(["周日", "周一", "周二", "周三", "周四", "周五", "周六"])
         var list = [0]; for (var i = 7; i < 24; i++) { list.push(can.base.Number(i, 2)) }
-        function key(time) { return time.getDay()+" "+can.base.Number(time.getHours(), 2) }
 
-        function set(begin_time, col, row) { return can.base.Time(can.base.TimeAdd(begin_time, -begin_time.getDay()+col-1), "%y-%m-%d ")+list[row] }
+        function key(time) { return time.getDay()+" "+can.base.Number(time.getHours(), 2) }
         function get(begin_time, col, row, hash) { return hash[col-1+" "+list[row]] }
-        can.onimport._show(can, msg, head, list, key, set, get)
+        function set(begin_time, col, row) { return can.base.Time(can.base.TimeAdd(begin_time, -begin_time.getDay()+col-1), "%y-%m-%d ")+list[row] }
+
+        can.onimport._show(can, msg, head, list, key, get, set)
     },
     month: function(can, msg) {
         var head = ["order"].concat(["周日", "周一", "周二", "周三", "周四", "周五", "周六"])
         var list = [0]; for (var i = 1; i < 6; i++) { list.push(i) }
-        function key(time) { return can.base.Time(time, "%y-%m-%d") }
 
-        function set(begin_time, col, row) {
-            var begin = can.base.TimeAdd(begin_time, -(begin_time.getDate()-1))
-            var last = can.base.TimeAdd(begin_time, -(begin_time.getDate()-1)-begin.getDay())
-            var day = can.base.TimeAdd(last, (row-1)*7+col)
-            return key(day)
-        }
+        function key(time) { return can.base.Time(time, "%y-%m-%d") }
         function get(begin_time, col, row, hash) {
             var begin = can.base.TimeAdd(begin_time, -(begin_time.getDate()-1))
             var last = can.base.TimeAdd(begin_time, -(begin_time.getDate()-1)-begin.getDay())
             var day = can.base.TimeAdd(last, (row-1)*7+col)
             return [day.getDate()+""].concat(hash[key(day)]||[])
         }
-        can.onimport._show(can, msg, head, list, key, set, get)
+        function set(begin_time, col, row) {
+            var begin = can.base.TimeAdd(begin_time, -(begin_time.getDate()-1))
+            var last = can.base.TimeAdd(begin_time, -(begin_time.getDate()-1)-begin.getDay())
+            var day = can.base.TimeAdd(last, (row-1)*7+col)
+            return key(day)
+        }
+
+        can.onimport._show(can, msg, head, list, key, get, set)
     },
     year: function(can, msg) {
         var head = ["month"].concat(["周日", "周一", "周二", "周三", "周四", "周五", "周六"]);
         var list = [0]; for (var i = 1; i < 13; i++) { list.push(i) }
-        function key(time) { return can.base.Time(time, "%y-%m ")+time.getDay() }
 
-        function set(begin_time, col, row) {
-            return begin_time.getFullYear()+"-"+can.base.Number(list[row], 2)
-        }
+        function key(time) { return can.base.Time(time, "%y-%m ")+time.getDay() }
         function get(begin_time, col, row, hash) {
             return hash[begin_time.getFullYear()+"-"+can.base.Number(row, 2)+" "+(col-1)]
         }
-        can.onimport._show(can, msg, head, list, key, set, get)
+        function set(begin_time, col, row) {
+            return begin_time.getFullYear()+"-"+can.base.Number(list[row], 2)
+        }
+
+        can.onimport._show(can, msg, head, list, key, get, set)
     },
     long: function(can, msg) {
-        var begin_time = can.onimport.date(can.base.Time(can.Option("begin_time")))
+        var begin_time = can.base.Date(can.base.Time(can.Option("begin_time")))
         var begin = begin_time.getFullYear() - 5
 
         var head = ["month"]; for (var i = 0; i < 10; i++) { head.push(begin+i) }
         var list = [0]; for (var i = 1; i < 13; i++) { list.push(i) }
-        function key(time) { return can.base.Time(time, "%y-%m") }
 
-        function set(begin_time, col, row) {
-            return begin+col-1+"-"+can.base.Number(row, 2)
-        }
+        function key(time) { return can.base.Time(time, "%y-%m") }
         function get(begin_time, col, row, hash) {
             return hash[begin+col-1+"-"+can.base.Number(row, 2)]
         }
-        can.onimport._show(can, msg, head, list, key, set, get)
+        function set(begin_time, col, row) {
+            return begin+col-1+"-"+can.base.Number(row, 2)
+        }
+
+        can.onimport._show(can, msg, head, list, key, get, set)
     },
 }, ["/plugin/local/team/plan.css"])
 Volcanos("onaction", {help: "组件交互", list: [

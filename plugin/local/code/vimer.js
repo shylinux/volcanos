@@ -98,10 +98,10 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             toast.Close()
 
             can.ui.output.innerHTML = ""
-            can.onappend.table(can, msg, can.ui.output, "table", function(value, key, index) {
+            can.onappend.table(can, msg, can.ui.output, "content", function(value, key, index) {
                 return {text: [value, "td"]}
             })
-            can.onappend.board(can, msg, can.ui.output, "board")
+            can.onappend.board(can, msg, can.ui.output, "content")
         }, true)
     },
     _engine: {

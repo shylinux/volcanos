@@ -6,7 +6,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
 
         if (msg.Option("_display") == "table") {
-            can.onappend.table(can, msg, can._target, "table", function(value, key) {
+            can.onappend.table(can, msg, can._target, "content", function(value, key) {
                 return {text: [value, "td"], click: function(event) {
                     can.sup.onaction.change(event, can.sup, key, value, function(msg) {
                         can.run(event)
@@ -194,7 +194,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
     },
     "数据源": function(event, can) {
         can.ui.display.innerHTML = ""
-        can.onappend.table(can, can._msg, can.ui.display, "table")
+        can.onappend.table(can, can._msg, can.ui.display, "content")
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["from", "commit", "total", "date", "begin", "add", "del", "close", "note"]})
