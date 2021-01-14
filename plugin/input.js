@@ -18,7 +18,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
             case "select": meta.value && (target.value = meta.value); break
         }
 
-        can.onappend.figure(can, meta, meta.figure, target)
+        can.onappend.figure(can, meta, meta.value, target)
     },
 
     "upload": function(event, can) { can.user.upload(event, can) },

@@ -6,11 +6,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         //     {view: ["content", "div"]}, {view: ["display", "pre"]},
         // ]))
 
-        can.onappend.table(can, msg, can.ui.content, "content", function(value, key, index, line, array) {
+        can.onappend.table(can, "content", msg, function(value, key, index, line, array) {
             return can.onimport._table(can, value, key, index, line, array)
-        })
+        }, can.ui.content)
 
-        can.onappend.board(can, msg, can.ui.display, "content")
+        can.onappend.board(can, "content", msg.Result(), can.ui.display)
         can.onimport._board(can, msg)
 
         typeof cb == "function" && cb(msg)
@@ -137,11 +137,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return true
     },
     _inner: function(can, msg) {
-        can.onappend.table(can, msg, can._output, "content", function(value, key, index, line, array) {
+        can.onappend.table(can, "content", msg, function(value, key, index, line, array) {
             return can.onimport._table(can, value, key, index, line, array)
-        })
+        }, can._output)
 
-        can.onappend.board(can, msg, can._output, "content")
+        can.onappend.board(can, "content", msg.Result(), can._output)
         // can.onimport._board(can, msg)
         return true
     },

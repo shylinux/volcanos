@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb) {
         can.ui = can.page.Appends(can, can._target, [{view: "content"}, {view: "display"}])
 
-        can.table = can.onappend.table(can, msg, can.ui.content, "content", function(value, key, index, line) {
+        can.table = can.onappend.table(can, "content", msg, function(value, key, index, line) {
             return {text: [value, "td"], oncontextmenu: function(event) {
                 can.user.carte(event, can, can.ondetail, can.ondetail.list, function(ev, cmd, meta) {
                     var cb = meta[cmd]; cb && cb(event, can, cmd, value, key, index, line)
@@ -11,7 +11,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }, onclick: function(event) {
                 if (key == "path") { can.run(event, [can.Option("path", value)]) }
             }}
-        })
+        }, can.ui.content)
 
         can.onexport.list = msg.append
         typeof cb == "function" && cb(msg)

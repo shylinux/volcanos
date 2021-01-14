@@ -8,7 +8,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
 
     // 添加插件
     can._figure && can.page.Remove(can, can._figure.fieldset)
-    var figure = can.onappend.field(can, document.body, "input date", {})
+    var figure = can.onappend.field(can, "input date", {}, document.body)
     can._figure = figure; can.onlayout.figure(can, figure, event)
     figure.table = can.page.Append(can, figure.output, [{type: "table"}]).first
 

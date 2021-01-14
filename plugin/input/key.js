@@ -4,7 +4,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {onclick: function(ev
         if (!msg.append) { return }
 
         can._figure && can.page.Remove(can, can._figure.fieldset)
-        var figure = can.onappend.field(can, document.body, "input key", {})
+        var figure = can.onappend.field(can, "input key", {}, document.body)
         can._figure = figure; can.onlayout.figure(can, figure, event)
 
         can.onappend._action(can, [
@@ -12,12 +12,12 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {onclick: function(ev
             {button: ["关闭", function(event) { can.page.Remove(can, can._figure.fieldset) }]},
         ], can._figure.action)
 
-        can.onappend.table(can, msg, can._figure.output, "content", function(value, key, index, line) {
+        can.onappend.table(can, "content", msg, function(value, key, index, line) {
             return {type: "td", inner: value, onclick: function() {
                 target.value = value; msg.Option("_refresh") && run()
                 can.page.Remove(can, can._figure.fieldset) 
             }}
-        })
+        }, can._figure.output)
     }, true)
 }; run() }}, }, ["/plugin/input/key.css"])
 

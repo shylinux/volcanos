@@ -1,18 +1,18 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { can._output.innerHTML = ""
-        var list = []; can.onengine.listen(can, "resize", function(width, height) {
+        var list = []; can.onengine.listen(can, "action.resize", function(width, height) {
             can.Conf({width: width, height: height}), can.core.Delay(list, 100, function() {
                 can.onimport._init(can, msg, list, cb, target)
             })
         })
 
         if (msg.Option("_display") == "table") {
-            can.onappend.table(can, msg, can._target, "content", function(value, key) {
+            can.onappend.table(can, "content", msg, function(value, key) {
                 return {text: [value, "td"], click: function(event) {
                     can.sup.onaction.change(event, can.sup, key, value, function(msg) {
                         can.run(event)
                     })
                 }}
-            })
+            }, can._target)
             return typeof cb == "function" && cb(msg)
         }
         can.ui = can.page.Append(can, can._output, [{view: "content"}, {view: "display"}])
@@ -194,7 +194,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
     },
     "数据源": function(event, can) {
         can.ui.display.innerHTML = ""
-        can.onappend.table(can, can._msg, can.ui.display, "content")
+        can.onappend.table(can, "content", can._msg, null, can.ui.display)
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["from", "commit", "total", "date", "begin", "add", "del", "close", "note"]})

@@ -2,15 +2,15 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.ui = can.onlayout.display(can, target)
         can.ui.canvas = can.page.Append(can, can.ui.display, [{type: "canvas", width: 320, height: 240, style: {display: "none"}}]).first
 
-        can.onappend.table(can, msg, can.ui.content, "content", function(value, key, index, line, array) {
+        can.onappend.table(can, "content", msg, function(value, key, index, line, array) {
             return {text: [value, "td"], onclick: function(event) {
                 can.sup.onaction.change(event, can.sup, key, value, function(msg) {
                     can.run(event)
                 })
             }}
-        })
+        }, can.ui.content)
 
-        can.onappend.board(can, msg, can.ui.display, "content")
+        can.onappend.board(can, "content", msg.Result(), can.ui.display)
         typeof cb == "function" && cb(msg)
     },
 })

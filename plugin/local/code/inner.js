@@ -1,5 +1,5 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) {
-        var list = []; can.onengine.listen(can, "resize", function(width, height) {
+        var list = []; can.onengine.listen(can, "action.resize", function(width, height) {
             can.Conf({width: width, height: height}), can.core.Delay(list, 100, function() {
                 can.onimport._init(can, msg, list, cb, target)
             })
@@ -71,9 +71,9 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         var msg = can.request({}, {dir_root: path, dir_deep: true})
         can.run(msg._event, ["action", "dir", "./"], function(msg) { can.ui.project.innerHTML = ""
             msg.path && can.Status("文件数", msg.path.length)
-            can.onappend.tree(can, msg, "path", "/", can.ui.project, function(event, value) {
+            can.onappend.tree(can, msg.Table(), "path", "/", function(event, value) {
                 can.onimport.tabview(can, can.Option("path"), value.path)
-            }), typeof cb == "function" && cb()
+            }, can.ui.project), typeof cb == "function" && cb()
         }, true)
     },
 }, ["/plugin/local/code/inner.css"])
@@ -269,7 +269,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
             toast.Close()
 
             can.ui.tags.innerHTML = ""
-            can.onappend.table(can, msg, can.ui.tags, "content", function(value, key, index, line) { can.Status("标签数", index+1)
+            can.onappend.table(can, "content", msg, function(value, key, index, line) { can.Status("标签数", index+1)
                 value = value.replace("<", "&lt;").replace(">", "&gt;"), value = value.replace("./", "")
                 return {text: ["", "td"], list: [{text: [value, "div"]}], onclick: function(event) {
                     line.line && can.onimport.tabview(can, can.Option("path"), line.file.replace("./", ""), parseInt(line.line), function() {
@@ -277,7 +277,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
                         can.current.scroll(0, -pos)
                     })
                 }}
-            })
+            }, can.ui.tags)
         }, true)
     },
 })

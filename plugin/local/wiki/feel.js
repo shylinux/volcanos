@@ -5,13 +5,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
 
         can.ui = can.onlayout.display(can, target)
-        can.onappend.table(can, can.path, can.ui.content, "content", function(value, key) {
+        can.onappend.table(can, "content", can.path, function(value, key) {
             return {type: "td", inner: value, onclick: function(event) {
                 can.sup.onaction.change(event, can.sup, key, value, function(msg) {
                     can.onimport._init(can, msg, list, cb, target)
                 })
             }}
-        })
+        }, can.ui.content)
 
         var feature = can.Conf("feature") || {}
         can.page.Modify(can, can._action, {style: {display: "none"}})

@@ -13,7 +13,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.onmotion.clear(can), can.sublist = {}
         var select; msg.Table(function(value, index, array) {
-            var view = can.onappend.item(can, target, "item", value, function(event, item) {
+            var view = can.onappend.item(can, "item", value, function(event, item) {
                 // 左键点击
                 can.onaction.storm(event, can, value.hash)
             }, function(event) {
@@ -21,7 +21,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 var ui = can.user.carte(event, can, can.ondetail, can.ondetail.list, function(ev, item, meta) {
                     can.ondetail[item](event, can, item, value.hash)
                 }); can.page.Modify(can, ui.first, {style: {left: can._target.offsetWidth}})
-            })
+            }, target)
 
             if (index == 0 || [value.hash, value.name].indexOf(can._main_river) > -1) { select = view }
         }), select && select.click()
@@ -106,7 +106,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     },
     action: function(event, can, river, storm) {
         var msg = can.request(event, {river: can.Conf(RIVER, river), storm: can.Conf(STORM, storm)})
-        can.onengine.trigger(can, "storm.select", msg)
+        can.onengine.signal(can, "storm.select", msg)
 
         can.page.Select(can, can._output, "div.item.select", function(item) {
             can.page.ClassList.del(can, item, "select")

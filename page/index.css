@@ -151,6 +151,9 @@ div.hidden {
 fieldset>form.option>div.item {
     float:left; margin-right:3px;
 }
+fieldset>form.option>div.item label {
+    display:none;
+}
 fieldset>form.option>div.item input.args.char {
     width:20px;
 }

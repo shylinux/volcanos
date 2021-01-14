@@ -13,7 +13,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         typeof cb == "function" && cb(msg)
     },
     _table: function(can, msg, fields) { can.onmotion.clear(can, can.ui.content)
-        var table = can.onappend.table(can, msg, can.ui.content, "content", function(value, key, index, line) {
+        var table = can.onappend.table(can, "content", msg, function(value, key, index, line) {
             can.Status("count", index+1)
             return {text: [key == "text" && typeof line.text == "function" && line.text.help || value, "td"], onclick: function(event) {
                 if (event.shiftKey) { var msg = can.request(event, line)
@@ -42,7 +42,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 }}])
                 can.Status("selected", can.page.Select(can, can.ui.table, "tr").length-1)
             }}
-        })
+        }, can.ui.content)
 
         fields.indexOf("ctx") > -1 && can.page.RangeTable(can, table, [fields.indexOf("ctx"),
             fields.indexOf("cmd"), fields.indexOf("type"), fields.indexOf("name")])
@@ -51,7 +51,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _word: function(can, msg, cmds, fields) {
         var msg = can.request({}, {fields: fields.join(","), word: cmds})
-        can.onengine.trigger(can, "search", msg)
+        can.onengine.signal(can, "search", msg)
 
         can.onmotion.clear(can, can.ui.content)
         can.run(msg._event, cmds, function(msg) { can.list = msg.Table()
