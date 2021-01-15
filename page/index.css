@@ -236,6 +236,13 @@ body>fieldset.input.key {
 body>fieldset.input.date {
     z-index:70;
 }
+body>fieldset.input.date table {
+    text-align:center;
+    width:260px;
+}
+body>fieldset.input.date table td:hover {
+    background-color:red;
+}
 
 div.carte {
     position:fixed;

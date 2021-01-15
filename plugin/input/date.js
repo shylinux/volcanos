@@ -1,4 +1,4 @@
-Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, item, target) {
+Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, item, target, figure) {
 
     // 设置输入
     function set(now) {
@@ -6,10 +6,6 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
         item && item.action == "auto" && can.run({})
     }
 
-    // 添加插件
-    can._figure && can.page.Remove(can, can._figure.fieldset)
-    var figure = can.onappend.field(can, "input date", {}, document.body)
-    can._figure = figure; can.onlayout.figure(can, figure, event)
     figure.table = can.page.Append(can, figure.output, [{type: "table"}]).first
 
     // 添加控件
@@ -73,5 +69,5 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
         for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) {add(day, "next")}
         return now
     }; show(now)
-}} }, ["/plugin/input/date.css"])
+}} }, [])
 

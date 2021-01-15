@@ -2,8 +2,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         typeof cb == "function" && cb(msg)
         can.msg = msg, can.data = msg.Table()
         can.dir_root = msg.Option("dir_root")
-        can._tree = can.onimport._tree(can, msg)
         can.Action("scale", parseInt(msg.Option("scale")||"1"))
+        can._tree = can.onimport._tree(can, msg.Table(), "path", "/")
 
         can.onmotion.clear(can)
         can.onappend.plugins(can, {index: "web.wiki.draw"}, function(sub) {
@@ -23,20 +23,24 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
 
-    _tree: function(can, msg) { var list = {}
-        msg.Table(function(value, index) {
-            value.path && can.core.List(value.path.split("/"), function(item, index, array) {
-                var last = array.slice(0, index).join("/") || ""
-                var name = array.slice(0, index+1).join("/")
-                list[last] = list[last] || {name: last, list: []}
-                if (!item || list[name]) { return }
-                list[last].list.push(list[name] = {hide: true, file: value.path, name: item+(index==array.length-1? "": "/"), last: last, list: []})
+    _tree: function(can, list, field, split) {
+        var node = {}; can.core.List(list, function(item) {
+            item[field] && can.core.List(item[field].split(split), function(value, index, array) {
+                var last = array.slice(0, index).join(split) || "", name = array.slice(0, index+1).join(split)
+                if (!value || node[name]) { return }
+
+                node[last] = node[last] || {name: last, list: []}
+                node[last].list.push(node[name] = {
+                    name: value+(index==array.length-1? "": split),
+                    meta: item, list: [], last: last,
+                    file: item[field], hide: true,
+                })
             })
         })
-        return list
+        return node
     },
     _height: function(can, tree) {
-        if (!tree) { return }
+        if (!tree) { return 0 }
         if (tree.hide) { return tree.height = 1 }
         if (tree.list.length == 0) { return tree.height = 1 }
 
@@ -66,17 +70,16 @@ Volcanos("onaction", {help: "操作数据", list: ["编辑", ["view", "横向", 
     },
 
     _show: function(can, args, layout) {
-        can.page.Remove(can, can.inner), can.onappend.plugin(can, {
+        can.onappend.plugin(can, {
             index: "web.code.inner", args: args,
             _action: ["关闭", "最大", "分屏", "复制"],
             width: layout.width, height: layout.height,
-        }, function(sub) { can.inner = sub._target
+        }, function(sub) { can.page.Modify(can, sub._target, {style: layout})
             sub.run = function(event, cmds, cb, silent) {
                 can.run(event, ["action", "inner"].concat(cmds), function(msg) {
                     typeof cb == "function" && cb(msg)
                 }, true)
             }
-            can.page.Modify(can, sub._target, {style: layout})
         })
     },
     _draw: function(can, tree, x, y) { var sub = can.sub, name = tree.name || can.Option("name") || "."
@@ -151,8 +154,8 @@ Volcanos("onaction", {help: "操作数据", list: ["编辑", ["view", "横向", 
     },
     "横向": function(event, can) {
         if (!can._tree[""]) { return }
-
         can.onmotion.clear(can, can.sub.svg)
+
         can.onimport._height(can, can._tree[""])
         can.sub.svg.Val("height", can._tree[""].height*30)
         can.width = 0, can.onaction._draw(can, can._tree[""], 0, 0)

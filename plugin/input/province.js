@@ -1,17 +1,18 @@
 Volcanos("onfigure", {help: "控件详情", list: [],
-    province: {click: function(event, can, value, cmd, target, figure) {
-        figure.fieldset.style.left = "20px"
-        figure.fieldset.style.top = "200px"
+    province: {onclick: function(event, can, item, target, figure) {
+        can.onappend._action(can, [
+            {button: ["清空", function(event) { target.value = "" }]},
+            {button: ["关闭", function(event) { can.page.Remove(can, figure.fieldset) }]},
+        ], figure.action)
 
-        var china_chart = echarts.init(can.page.Append(can, figure.output, [{type: "div", style: {width: "600px", height: "400px"}}]).last);
-
-        var option = {geo: {map: 'china'}};
-        china_chart.setOption(option);
-
-        china_chart.on('click', function (params) {
-            target.value = params.name;
-        });
-    // , ["require/github.com/shylinux/echarts/echarts.js","require/github.com/shylinux/echarts/china.js"])
+        can.page.Modify(can, figure.fieldset, {style: {left: 120}})
+        can.require(["/require/github.com/shylinux/echarts/echarts.js","/require/github.com/shylinux/echarts/china.js"], function() {
+            var china_chart = echarts.init(can.page.Append(can, figure.output, [{type: "div", style: {width: "600px", height: "400px"}}]).first);
+            china_chart.setOption({geo: {map: 'china'}}), china_chart.on('click', function (params) {
+                target.value = params.name, msg.Option("_refresh") && run()
+                can.page.Remove(can, figure.fieldset) 
+            })
+        })
     }},
 })
 

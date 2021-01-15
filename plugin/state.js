@@ -30,48 +30,28 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         return true
     },
     _refresh: function(can, msg) {
-        can.core.Timer(500, function(timer) {
+        can.core.Timer(parseInt(msg.Option("_delay")||"500"), function() {
             var sub = can.request({}, {_count: parseInt(msg.Option("_count"))-1})
-            can.onappend._output(can, can.Conf(), {}, can.Pack())
+            can.onappend._output(can, can.Conf(), sub._event, can.Pack())
         })
     },
     _field: function(can, msg) {
-        msg.Table(function(value) {
-            value.feature = can.base.Obj(msg.meta&&msg.meta[0]||"{}", {})
-            value.inputs = can.base.Obj(msg.list&&msg.list[0]||"[]", [])
-            value.width = can._target.offsetWidth
-            value.type = "story"
-
-            can.onappend._init(can, value, ["/plugin/state.js"], function(sub) {
-                sub.run = function(event, cmds, cb, silent) {
-                    var res = can.request(event)
-                    can.core.Item(can.Option(), function(key, value) {
-                        res.Option(key) || res.Option(key, value)
-                    })
-                    can.run(event, (msg["_prefix"]||[]).concat(cmds), cb, true)
-                }
-            }, can._output)
+        can.onappend._plugin(can, msg, {}, function(sub, meta) {
+            sub.run = function(event, cmds, cb, silent) {
+                var res = can.request(event); can.core.Item(can.Option(), function(key, value) {
+                    res.Option(key) || res.Option(key, value)
+                })
+                can.run(event, (msg["_prefix"]||[]).concat(cmds), cb, true)
+            }
         })
         return true
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
     },
-    input: function(event, can, name, cb) { var feature = can.Conf("feature")
-        var msg = can.request(event, can.Option())
-        feature[name]? can.user.input(event, can, feature[name], function(ev, button, data, list) {
-            var args = ["action", name]; can.core.Item(data, function(key, value) {
-                key && value && args.push(key, value)
-            })
-
-            var sub = can._outputs && can._outputs[can._outputs.length-1] || can
-            sub.run(event, args, function(msg) { typeof cb == "function" && cb(msg) }, true)
-            return true
-        }): can.run(event, ["action", name], function(msg) { typeof cb == "function" && cb(msg) }, true)
-    },
     change: function(event, can, name, value, cb) {
         can.page.Select(can, can._option, "input.args", function(input) {
-            if (input.name == name && value != input.value) { input.value = value;
+            if (input.name == name && value != input.value) { input.value = value
                 var data = input.dataset || {}; data.action == "auto" && can.run(event, can.Pack(), cb)
             }
         })
