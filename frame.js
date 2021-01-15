@@ -248,13 +248,13 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 typeof item == "string"? /*按键*/ can.onappend.input(can, "input", {type: "button", value: item, onclick: function(event) {
                     var cb = meta[item] || meta["_engine"] || can.onkeymap && can.onkeymap._remote
                     typeof cb == "function"? cb(event, can, item): can.run(event, ["action", item], function(msg) {}, true)
-                }}, action): item.length > 0? /*列表*/ can.onappend.input(can, "input", {type: "select", name: item[0], values: item.slice(1), title: item[0], onchange: function(event) {
+                }}, "", action): item.length > 0? /*列表*/ can.onappend.input(can, "input", {type: "select", name: item[0], values: item.slice(1), title: item[0], onchange: function(event) {
                     var which = item[event.target.selectedIndex+1]
                     var cb = meta[which]
                     typeof cb == "function" && cb(event, can, which)
                     var cb = meta[item[0]]
                     typeof cb == "function" && cb(event, can, item[0], which)
-                }}, action): item.input? /*文本*/ can.page.Append(can, action, [{view: "item", list: [{type: "input", name: item.input[0], onkeydown: function(event) {
+                }}, "", action): item.input? /*文本*/ can.page.Append(can, action, [{view: "item", list: [{type: "input", name: item.input[0], onkeydown: function(event) {
                     item.input[1](event, can)
                 }}] }]): typeof item == "object" && /*其它*/ can.page.Append(can, action, [item])
         })
@@ -263,6 +263,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var msg = can.request(event); can.page.Select(can, can._output, "div.control .args", function(item) {
             item.name && item.value && msg.Option(item.name, item.value)
         })
+
+        if (cmds[0] == "action" && can.onaction[cmds[1]]) {
+            return can.onaction[cmds[1]](event, can)
+        }
 
         return can.run(event, cmds||[], function(msg) {
             if (can.onimport._process(can, msg, cmds, cb)) { return }
@@ -363,7 +367,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         return can.page.Append(can, target, [{view: ["item "+item.type], list: [{text: [name, "label"]}, {text: [": ", "label"]}, input]}])[item.name]
     },
     table: function(can, type, msg, cb, target) {
-        var table = can.page.AppendTable(can, msg, target, msg.append, cb)
+        var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value) {
+            return {text: [value, "td"]}
+        })
         table && can.page.Modify(can, table, {className: type||"content"})
         return table
     },
@@ -390,7 +396,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
             meta.name = meta.name || msg.name&&msg.name[0] || "story"
             meta.help = meta.help || msg.help&&msg.help[0] || "story"
-            meta.width = can._target.offsetWidth
+            meta.width = meta.width || can._target.offsetWidth
             meta.type = "story"
 
             can.onappend._init(can, meta, ["/plugin/state.js"], function(story) {
@@ -398,6 +404,15 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 story.page.Remove(story, story._legend)
             }, target || can._output)
         }, true)
+    },
+    plugins: function(can, meta, cb, target) {
+        can.onappend.plugin(can, meta, function(sub) {
+            sub.onmotion.hidden(sub, sub._legend)
+            sub.onmotion.hidden(sub, sub._option)
+            sub.onmotion.hidden(sub, sub._action)
+            sub.onmotion.hidden(sub, sub._status)
+            typeof cb == "function" && cb(sub)
+        }, target)
     },
 }, [], function(can) {})
 Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, target, width, height) {
@@ -434,6 +449,13 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         can.page.Remove(can, ui.legend)
     },
 
+    resize: function(can, name, cb) {
+        var list = []; can.onengine.listen(can, name, function(width, height) {
+            can.Conf({width: width, height: height}), can.core.Delay(list, 100, function() {
+                typeof cb == "function" && cb(event)
+            })
+        })
+    },
     profile: function(can, target) { target = target || can._target
         return can.page.Append(can, target, [{view: ["void", "table"], list: [{type: "tr", list: [
             {type: "td", list: [{view: ["project"]}]},
@@ -452,9 +474,9 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
             ]}
         ]}] }])
     },
-    project: function(can, target) {
-        can.ui = can.page.Append(can, target, [{view: ["void", "table"], list: [{type: "tr", list: [
-            {type: "td", list: [{view: "project"}]}, {type: "td", list: [
+    project: function(can, target) { target = target || can._target
+        return can.page.Append(can, target, [{view: ["void", "table"], list: [{type: "tr", list: [
+            {type: "td", list: [{view: "project", style: {display: "none"}}]}, {type: "td", list: [
                 {view: ["void", "table"], list: [
                     {type: "tr", list: [{view: "content"}]},
                     {type: "tr", list: [{view: "display"}]},

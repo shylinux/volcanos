@@ -1,11 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { can._output.innerHTML = ""
-        can.onappend.table(can, "content", msg, null, target), can.ui = can.page.Append(can, target, [
-            {view: "project", style: {display: "none"}},
-            {view: "content", onmouseenter: function(event) {
-                can.onkeypop.action = can
-            }}, {view: "display"},
-        ])
-        can.page.Modify(can, can._action, {style: {display: "none"}})
+        can.ui = can.onlayout.project(can)
+        can.onmotion.hidden(can, can._action)
 
         // 交互数据
         can.point = [], can.keys = []
@@ -14,7 +9,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.current = null
 
         // 加载绘图
-        var code = can.onappend.board(can, "content", msg.Result()||can.onexport.content(can), can.ui.content)
+        can.page.Modify(can, can.ui.content, msg.Result()||can.onexport.content(can))
         can.page.Select(can, can.ui.content, "svg", function(svg) { can.svg = can.group = svg 
             can.onimport.block(can, svg), can.onimport.group(can, svg).click()
             can.page.Select(can, svg, "*", function(item, index) {
@@ -119,7 +114,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     draw: function(event, can, value) {
         var figure = can.onfigure[value.shape]
         var data = figure.draw(event, can, value.point, value.style)
-        can.core.Item(value.style, function(key, value) {data[key] = value})
+        can.core.Item(value.style, function(key, value) { data[key] = value })
         return can.onfigure._push(can, data, value.shape, can.group||can.svg)
     },
     keydown: function(event, can, value) {

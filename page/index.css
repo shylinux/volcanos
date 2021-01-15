@@ -191,6 +191,9 @@ fieldset>div.action>div.item {
 fieldset>div.action>div.item.space {
     width:10px;
 }
+fieldset>div.action>div.item label {
+    display:none;
+}
 fieldset>div.status>div.item {
     float:left; padding:4px;
 }

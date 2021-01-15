@@ -100,5 +100,57 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
     "结束": function(event, can, name) { can.user.confirm("确定结束?") && can.run(event, ["action", name], function(msg) {
         can.run({})
     }, true) },
+
+    "关闭": function(event, can) {
+        can.page.Remove(can, can._target)
+    },
+    "复制": function(event, can) {
+        can.onaction._show(can, args, {
+            position: "fixed",
+            left: layout.left+100, top: layout.top+100,
+            width: layout.width, height: layout.height,
+        })
+    },
+    "分屏": function(event, can) {
+        if (event.ctrlKey) {
+            layout.height = layout.height/2
+            can.onaction._resize(sub, layout)
+
+            can.onaction._show(can, args, {
+                position: "fixed",
+                left: layout.left, top: layout.top+layout.height+10,
+                width: layout.width, height: layout.height,
+            })
+            return
+        }
+
+        layout.width = layout.width/2
+        can.onaction._resize(sub, layout)
+
+        can.onaction._show(can, args, {
+            position: "fixed",
+            left: layout.left+layout.width+10, top: layout.top,
+            width: layout.width, height: layout.height,
+        })
+    },
+    "最大": function(event, can) {
+        if (event.ctrlKey) {
+            layout.left = 0, layout.top = 40
+            layout.width = window.innerWidth/2
+            layout.height = window.innerHeight/2
+            can.onaction._resize(sub, layout)
+            return
+        }
+
+        layout.left = 0, layout.top = 40
+        layout.width = window.innerWidth-40
+        layout.height = window.innerHeight-60
+        if (can.user.isMobile) {
+            if (window.innerWidth > window.innerHeight) {
+                layout.top = 0
+            }
+        }
+        can.onaction._resize(sub, layout)
+    },
 })
 Volcanos("onexport", {help: "导出数据", list: []})
