@@ -9,4 +9,5 @@ fieldset.drawer div.output div.project div.item.select {
 }
 fieldset.drawer div.output div.content svg {
     background-color:#1b5b738c;
+    min-width:400px;
 }
