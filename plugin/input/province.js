@@ -1,8 +1,8 @@
 Volcanos("onfigure", {help: "控件详情", list: [],
     province: {onclick: function(event, can, item, target, figure) {
         can.onappend._action(can, [
-            {button: ["清空", function(event) { target.value = "" }]},
-            {button: ["关闭", function(event) { can.page.Remove(can, figure.fieldset) }]},
+            {type: "button", name: "清空", onclick: function(event) { target.value = "" }},
+            {type: "button", name: "关闭", onclick: function(event) { can.page.Remove(can, figure.fieldset) }},
         ], figure.action)
 
         can.page.Modify(can, figure.fieldset, {style: {left: 120}})

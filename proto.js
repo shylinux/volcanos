@@ -14,7 +14,7 @@ function shy(help, meta, list, cb) {
 var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == "object") { var Config = name; _can_name = ""
-        meta.volcano = Config.volcano, meta.libs = Config.libs
+        meta.libs = Config.libs, meta.volcano = Config.volcano
 
         // 预加载
         var Preload = []; Config.panes.forEach(function(pane) {

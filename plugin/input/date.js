@@ -10,10 +10,10 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
 
     // 添加控件
     var now = target.value? new Date(target.value): new Date()
-    var control = can.page.AppendAction(can, figure.action, ["今天",
+    var control = can.page.AppendAction(can, figure.action, ["关闭",
         ["hour"].concat(can.core.List(24)), ["minute"].concat(can.core.List(0, 60, 5)), ["second"].concat(can.core.List(0, 60, 5)), {view: ["", "br"]},
-        "关闭", {type: "hr", style: {margin: 0}},
-        "上一月", ["year"].concat(can.core.List(now.getFullYear() - 20, now.getFullYear() + 20)),
+        "今天", {type: "hr", style: {margin: 0}},
+        "上一月", ["year"].concat(can.core.List(now.getFullYear() - 10, now.getFullYear() + 10)),
         ["month"].concat(can.core.List(1, 13)), "下一月", {view: ["", "br"]},
     ], function(event, value, cmd) { can.stick = true
         // 设置时间
