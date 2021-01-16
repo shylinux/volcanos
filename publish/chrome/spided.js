@@ -2,8 +2,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.ui = can.page.Append(can, can._target, [
             {view: ["content", "div"]}, {view: ["display", "pre"]},
         ])
-        can.onappend.table(can, "content", msg, null, can.ui.content)
-        can.onappend.board(can, "content", msg.Result(), can.ui.display)
+        can.onappend.table(can, msg, null, can.ui.content)
+        can.onappend.board(can, msg.Result(), can.ui.display)
         var refresh = msg.Option("_refresh") || can.Conf("feature")["_refresh"] 
         refresh && can.core.Timer(refresh, function() {
             can.run({})

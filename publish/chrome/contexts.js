@@ -31,7 +31,7 @@ Volcanos("chrome", {
 }, [], function(can) { can._load("chrome")
     chrome.extension.onMessage.addListener(function(req, sender, cb) {
         var msg = can.request(); can.core.List(req.option, function(key) { msg.Option(key, req[key][0]) })
-        can.core.CallFunc(can.core.Value(can, req.detail[3]||"spide"), {can: can, msg: msg, cmds: req.detail.slice(4), cb: cb})
+        can.core.CallFunc([can, req.detail[3]||"spide"], {can: can, msg: msg, cmds: req.detail.slice(4), cb: cb})
     })
 })
 

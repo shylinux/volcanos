@@ -49,7 +49,7 @@ Volcanos("chrome", {
     })},
 
     can.misc.WSS(can, {type: "chrome", name: "chrome"}, function(event, msg, cmd, arg) {
-        can.core.CallFunc(can.core.Value(can, cmd), {can: can, msg: msg, cmds: arg, cb: function() {
+        can.core.CallFunc([can, cmd], {can: can, msg: msg, cmds: arg, cb: function() {
             msg.Reply()
         }})
     })

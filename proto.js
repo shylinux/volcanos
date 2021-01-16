@@ -17,7 +17,7 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
         meta.libs = Config.libs, meta.volcano = Config.volcano
 
         // 预加载
-        var Preload = []; Config.panes.forEach(function(pane) {
+        var Preload = [Config.volcano]; Config.panes.forEach(function(pane) {
             Preload = Preload.concat(pane.list = pane.list || ["/pane/"+pane.name+".css", "/pane/"+pane.name+".js"])
         }); Preload = Preload.concat(Config.plugin)
 
@@ -32,7 +32,7 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
         }
     }
 
-    list.push(can = can || {}), can.__proto__ = {__proto__: Volcanos.meta, _name: name, _load: function(name, cb) {
+    can = can || {}, can.__proto__ = {__proto__: Volcanos.meta, _name: name, _load: function(name, cb) {
             // 加载缓存
             var cache = meta.cache[name] || []; for (list.reverse(); list.length > 0; list) {
                 var sub = list.pop(); sub != can && cache.push(sub)
@@ -72,6 +72,8 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
     if (_can_name) {
         meta.cache[_can_name] = meta.cache[_can_name] || []
         meta.cache[_can_name].push(can)
+    } else {
+        list.push(can)
     }
     return can.require(libs, cb), can
 })

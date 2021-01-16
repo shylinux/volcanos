@@ -293,8 +293,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
                 can.run(event, cmds, function(msg) {
                     var sub = can.core.Value(can, "_outputs.-1")
-                    if (can.core.CallFunc("onimport._process", [sub, msg, cmds, cb], sub)) { return }
-                    if (can.core.CallFunc("onimport._process", [can, msg, cmds, cb], can)) { return }
+                    if (can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
+                    if (can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
                     typeof cb == "function" && cb(msg)
                 }, silent)
                 return true
@@ -304,8 +304,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
         return can.run(event, cmds||[], function(msg) {
             var sub = can.core.Value(can, "_outputs.-1")
-            if (can.core.CallFunc("onimport._process", [sub, msg, cmds, cb], sub)) { return }
-            if (can.core.CallFunc("onimport._process", [can, msg, cmds, cb], can)) { return }
+            if (can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
+            if (can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
             typeof cb == "function" && cb(msg)
             if (silent) { return }
 
@@ -381,21 +381,6 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         item.action == "auto" && (input.dataset.action = "auto")
 
         switch (item.type = item.type||item._input||"text") {
-            case "upfile": item.type = "file"; break
-            case "button": 
-                item.value = item.value||item.name||"查看";
-                break
-            case "select": input.type = "select"
-                item.values = typeof item.values == "string"? item.values.split(" "): item.values
-                if (!item.values && item.value) {
-                    item.values = item.value.split("|") , item.value = item.values[0]
-                    if (item.values[0] == "day") { item.value = item.values[1] }
-                }
-
-                item.value = value || item.value, input.list = item.values.map(function(value) {
-                    return {type: "option", value: value, inner: value}
-                }), item.className || can.page.ClassList.add(can, item, "args")
-                break
             case "textarea": input.type = "textarea"
                 item.style.width = item.style.width || can.Conf(["feature", "textarea", item.name, "width"].join(".")) || can.Conf(["feature", "textarea", "width"].join(".")) || 400
                 item.style.height = item.style.height || can.Conf(["feature", "textarea", item.name, "height"].join(".")) || can.Conf(["feature", "textarea", "height"].join(".")) || 30
@@ -403,31 +388,42 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             case "password":
                 // no break
             case "text":
+                item.autocomplete = "off"
                 item.value = value || item.value || ""
                 item.className || can.page.ClassList.add(can, item, "args")
-                item.autocomplete = "off"
                 break
+            case "select": input.type = "select"
+                item.values = typeof item.values == "string"? can.core.Split(item.values): item.values
+                if (!item.values && item.value) {
+                    item.values = can.core.Split(item.value), item.value = item.values[0]
+                    if (item.values[0] == "day") { item.value = item.values[1] }
+                }
+
+                item.value = value||item.value, input.list = item.values.map(function(value) {
+                    return {type: "option", value: value, inner: value}
+                }), item.className || can.page.ClassList.add(can, item, "args")
+                break
+            case "button": item.value = value||item.value||item.name||"查看"; break
+            case "upfile": item.type = "file"; break
         }
 
-        return can.page.Append(can, target, [{view: ["item "+item.type], list: [{text: [name, "label"]}, {text: [": ", "label"]}, input]}])[item.name]
+        return can.page.Append(can, target, [{view: ["item "+item.type], list: [input]}])[item.name]
     },
-    table: function(can, type, msg, cb, target) {
+    table: function(can, msg, cb, target) {
         var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value) {
             return {text: [value, "td"]}
-        })
-        table && can.page.Modify(can, table, {className: type||"content"})
+        }); table && can.page.Modify(can, table, {className: "content"})
         return table
     },
-    board: function(can, type, text, target) { text = can.page.Display(text || "")
-        return text && can.page.Append(can, target, [{view: ["code "+(type||""), "div", text]}]).code
+    board: function(can, text, target) { text = can.page.Display(text || "")
+        return text && can.page.Append(can, target, [{view: ["code", "div", text]}]).code
     },
 
     figure: function(can, meta, key, target) {
         if (key.indexOf("@") != 0) { return }
-        var list = can.core.Split(key, "@=", "@=", {simple: true})
+        var list = can.core.Split(key, "@=", "@=")
         var pkey = list[0], pval = list[1]||""
 
-        can.page.Modify(can, target, {autocomplete: "off"})
         target.type != "button" && target.value.startsWith("@") && (target.value = pval||"")
 
         pkey && can.require(["/plugin/input/"+pkey+".js"], function(can) {
@@ -442,24 +438,24 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             } })
         })
     },
-    _plugin: function(can, msg, meta, cb, target) {
-        meta.feature = can.base.Obj(msg.meta&&msg.meta[0] || "{}", {})
-        meta.inputs = can.base.Obj(msg.list&&msg.list[0] || "[]", [])
+    _plugin: function(can, value, meta, cb, target) {
+        meta.feature = can.base.Obj(value.meta||"{}", {})
+        meta.inputs = can.base.Obj(value.list||"[]", [])
 
-        meta.name = meta.name || msg.name&&msg.name[0] || "story"
-        meta.help = meta.help || msg.help&&msg.help[0] || "story"
-        meta.width = meta.width || can.Conf("width")
-        meta.type = "story"
+        meta.name = meta.name||value.name||"story"
+        meta.help = meta.help||value.help||"story"
+        meta.width = meta.width||can.Conf("width")
+        meta.type = meta.type||"story"
 
         can.onappend._init(can, meta, ["/plugin/state.js"], function(sub) {
             typeof cb == "function" && cb(sub, meta)
             sub.page.Remove(sub, sub._legend)
-        }, target || can._output)
+        }, target||can._output)
     },
     plugin: function(can, meta, cb, target) { meta = meta || {}
-        can.run({}, ["action", "command", meta.index], function(msg) {
-            can.onappend._plugin(can, msg, meta, cb, target)
-        }, true)
+        can.run({}, ["action", "command", meta.index], function(msg) { msg.Table(function(value) {
+            can.onappend._plugin(can, value, meta, cb, target)
+        }) }, true)
     },
     plugins: function(can, meta, cb, target) {
         can.onappend.plugin(can, meta, function(sub) {
@@ -493,7 +489,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         can.page.Select(can, target, ["fieldset.main>div.output"], function(output) {
             can.page.Modify(can, output, {style: {height: height}})
         })
-        can.onengine.signal(can, "resize", can.request(event, {width: width, height: height}))
+        can.onengine.signal(can, "resize", can.request({}, {width: width, height: height}))
     },
     topic: function(can, topic) { topic && (can._topic = topic)
         can.user.topic(can, can._topic || can.user.Search(can, "topic") || ((can.user.Search(can, "pod")||can.base.isNight())? "black": "white"))

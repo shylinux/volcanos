@@ -118,7 +118,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         p = can.onsyntax[p.link] || p
 
         function wrap(type, str) { return type? '<span class="'+type+'">'+str+'</span>': str }
-        p.keyword && (line = can.core.List(can.core.Split(line, p.split && p.split.space || " ", p.split && p.split.operator || "{[(|)]}"), function(item, index, array) {
+        p.keyword && (line = can.core.List(can.core.Split(line, p.split && p.split.space || " ", p.split && p.split.operator || "{[(|)]}", {detail: true}), function(item, index, array) {
             item = typeof item == "object"? item: {text: item}, p.word && (item = p.word(item, index, array))
             var text = item.text; var key = item.keyword||p.keyword[text]
 
@@ -269,7 +269,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
             toast.Close()
 
             can.ui.tags.innerHTML = ""
-            can.onappend.table(can, "content", msg, function(value, key, index, line) { can.Status("标签数", index+1)
+            can.onappend.table(can, msg, function(value, key, index, line) { can.Status("标签数", index+1)
                 value = value.replace("<", "&lt;").replace(">", "&gt;"), value = value.replace("./", "")
                 return {text: ["", "td"], list: [{text: [value, "div"]}], onclick: function(event) {
                     line.line && can.onimport.tabview(can, can.Option("path"), line.file.replace("./", ""), parseInt(line.line), function() {

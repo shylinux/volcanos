@@ -7,7 +7,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Modify(can, can._target, {style: {"max-width": can.Conf("width")}})
 
         if (msg.Option("_display") == "table") {
-            return can.onappend.table(can, "content", msg, function(value, key) {
+            return can.onappend.table(can, msg, function(value, key) {
                 return {text: [value, "td"], onclick: function(event) {
                     can.sup.onaction.change(event, can.sup, key, value, function(msg) {
                         can.run(event)

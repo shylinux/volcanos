@@ -598,8 +598,8 @@ Volcanos("onaction", {help: "组件菜单", list: [
     _mode: {
         run: function(event, can) { var target = event.target
             event.type == "click" && target.Value("type") && can.run(event, ["action", "run", target.Value("zone"), target.Value("type"), target.Value("name"), target.Value("text")], function(msg) {
-                can.onappend.table(can, "content", msg, function() {}, can.ui.display)
-                can.onappend.board(can, "content", msg.Result(), can.ui.display)
+                can.onappend.table(can, msg, function() {}, can.ui.display)
+                can.onappend.board(can, msg.Result(), can.ui.display)
             }, true)
         },
         translate: function(event, can, point) {

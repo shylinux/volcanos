@@ -39,9 +39,10 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
     onkeydown: function(event, can) { var target = event.target
         can.onkeypop.input(event, can, target); switch (event.key) {
             case "Enter":
-                if (can.Conf("type") == "text") { event.target.setSelectionRange(0, -1), can.run(event) }
-                if (can.Conf("type") == "textarea") { if (event.ctrlKey) { break } can.run(event) }
-                event.stopPropagation(), event.preventDefault(); break
+                switch (can.Conf("type")) {
+                    case "textarea": if (!event.ctrlKey) { return }
+                    case "text": event.target.setSelectionRange(0, -1); break
+                }; can.run(event), event.stopPropagation(), event.preventDefault(); break
             case "b": if (event.ctrlKey) { can.CloneInput() } break
             case "m": if (event.ctrlKey) { can.CloneField() } break
         }

@@ -7,11 +7,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         typeof cb == "function" && cb(msg)
 
         can.page.Append(can, can.ui.content, [can.onimport._control(can, msg)])
-        can.onappend.table(can, "content", msg, function(value, key, index, line, array) {
+        can.onappend.table(can, msg, function(value, key, index, line, array) {
             return can.onimport._table(can, value, key, index, line, array)
         }, can.ui.content)
 
-        can.onappend.board(can, "content", msg.Result(), can.ui.display)
+        can.onappend.board(can, msg.Result(), can.ui.display)
         can.onimport._board(can, msg)
     },
     _table: function(can, value, key, index, line, array) {
@@ -72,11 +72,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return true
     },
     _inner: function(can, msg) {
-        can.onappend.table(can, "content", msg, function(value, key, index, line, array) {
+        can.onappend.table(can, msg, function(value, key, index, line, array) {
             return can.onimport._table(can, value, key, index, line, array)
         }, can.ui.display)
 
-        can.onappend.board(can, "content", msg.Result(), can.ui.display)
+        can.onappend.board(can, msg.Result(), can.ui.display)
         can.onimport._board(can, msg)
         return true
     },
@@ -112,7 +112,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 can.run(event)
             }]},
 
-            {select: [["cache.field"].concat(msg["append"]||can.core.Split(msg.Option("fields"), {simple: true})), function(event) {
+            {select: [["cache.field"].concat(msg["append"]||can.core.Split(msg.Option("fields"))), function(event) {
                 can.run(event)
             }], _init: function(item) {
                 item.value = msg.Option("cache.field") || item.value

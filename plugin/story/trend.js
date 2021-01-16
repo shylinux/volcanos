@@ -151,7 +151,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
     },
     "数据源": function(event, can) {
         can.onmotion.clear(can, can.sub.ui.display)
-        can.onappend.table(can, "content", can.msg, null, can.sub.ui.display)
+        can.onappend.table(can, can.msg, null, can.sub.ui.display)
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["from", "commit", "total", "date", "begin", "add", "del", "close", "note"]})

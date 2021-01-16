@@ -98,10 +98,10 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             toast.Close()
 
             can.ui.output.innerHTML = ""
-            can.onappend.table(can, "content", msg, function(value, key, index) {
+            can.onappend.table(can, msg, function(value, key, index) {
                 return {text: [value, "td"]}
             }, can.ui.output)
-            can.onappend.board(can, "content", msg.Result(), can.ui.output)
+            can.onappend.board(can, msg.Result(), can.ui.output)
         }, true)
     },
     _engine: {
@@ -142,7 +142,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             can.page.Modify(can, can.ui.command, {style: {display: "none"}, value: ""})
             can.onkeymap._normal(can)
         },
-        Enter: function(event, can) { var line = can.ui.command.value || can.ui.cmd.value ; var ls = can.core.Split(line, " ", ",", {simple: true})
+        Enter: function(event, can) { var line = can.ui.command.value || can.ui.cmd.value ; var ls = can.core.Split(line, " ", ",")
             var cb = can.onkeymap._engine[ls[0]]; typeof cb == "function"? cb(event, can, line, ls):
                 can.onkeymap._remote(event, can, line, ["action", "command"].concat(ls))
 

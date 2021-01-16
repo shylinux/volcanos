@@ -1,8 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf, list, cb, target) {
     },
     _process: function(can, msg, cmds, cb, silent) {
-        var action = can.onimport[msg.Option("_process") || can.Conf("feature._process")]
-        return typeof action == "function" && action(can, msg, cmds, cb, silent)
+        return can.core.CallFunc([can.onimport, msg.Option("_process")], [can, msg, cmds, cb, silent])
     },
     _progress: function(can, msg, cmds, cb, silent) {
         var size = msg.Append("size") || msg.Append("count")
