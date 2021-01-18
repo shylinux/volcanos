@@ -150,7 +150,7 @@ div.hidden {
 
 fieldset>form.option>div.item {
     float:left; margin-right:3px;
-    height:25px; vertical-align:middle;
+    min-height:25px; vertical-align:middle;
 }
 fieldset>form.option>div.item label {
     display:none;

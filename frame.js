@@ -403,7 +403,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     return {type: "option", value: value, inner: value}
                 }), item.className || can.page.ClassList.add(can, item, "args")
                 break
-            case "button": item.value = value||item.value||item.name||"查看"; break
+            case "button": item.value = item.value||item.name||"查看"; break
             case "upfile": item.type = "file"; break
         }
 
