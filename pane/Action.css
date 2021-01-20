@@ -26,9 +26,10 @@ fieldset.Action>div.action div.item.select {
     background-color:#2e515f;
 }
 
+fieldset.Action div.output {
+}
 fieldset.Action div.output.tabs {
-    margin:28px 10px;
-    padding-bottom:28px;
+    margin-top:28px;
 }
 fieldset.Action div.output.flow fieldset.plugin {
     float:left;

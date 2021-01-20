@@ -36,6 +36,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }])
         })
     },
+    _daemon: function(can, name, cb) {
+        can.misc.WSS(can, {type: "chrome", name: name}, cb||function(event, msg, cmd, arg) {
+            msg && can.run(event, ["search"].concat(msg["detail"]||[]), function(msg) {
+                msg.Reply()
+            })
+        })
+    },
     _state: function(can, msg, target) {
         can.core.List(can.Conf(STATE)||["time", USERNAME], function(item) {
             can.page.Append(can, target, [{view: ["state "+item, "div", can.Conf(item)],

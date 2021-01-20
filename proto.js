@@ -52,21 +52,16 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
                 return // 加载完成
             }
 
-            var source = !libs[0].endsWith("/") && (libs[0].indexOf(".") == -1? libs[0]+".js": libs[0]) || libs[0]
-
             // 请求模块
-            function next() { can._load(source, each), can.require(libs.slice(1), cb, each) }
-            meta.cache[source]? next(): meta._load(source, next)
+            function next() { can._load(libs[0], each), can.require(libs.slice(1), cb, each) }
+            meta.cache[libs[0]]? next(): meta._load(libs[0], next)
         },
         request: function(event, option) { event = event || {}
             event._msg = event._msg || can.misc.Message(event, can)
             can.core.Item(option, event._msg.Option)
             return event._msg
         },
-
-        Conf: function(key, value) {
-            return can.core.Value(can._conf, key, value)
-        }, _conf: {},
+        Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},
     }
 
     if (_can_name) {

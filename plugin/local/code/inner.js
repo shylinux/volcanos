@@ -149,7 +149,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
             // can.onimport.project(can, can.Option("path"))
         })
     },
-    search: function(event, can) {
+    searchShow: function(event, can) {
         can.page.Toggle(can, can.ui.search, function() {
             // can.onaction.searchLine(event, can, "")
         })
@@ -259,6 +259,9 @@ Volcanos("onaction", {help: "控件交互", list: [],
 
             can.onkeymap && can.onkeymap.selectLine(can, line, item)
         })
+
+        var pos = can.current.offset()-can.current.line.offsetTop
+        can.current.scroll(0, -pos)
     },
     searchLine: function(event, can, value) { value = value.trim()
         can.page.Modify(can, can.ui.search, {style: {display: ""}})
@@ -273,8 +276,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
                 value = value.replace("<", "&lt;").replace(">", "&gt;"), value = value.replace("./", "")
                 return {text: ["", "td"], list: [{text: [value, "div"]}], onclick: function(event) {
                     line.line && can.onimport.tabview(can, can.Option("path"), line.file.replace("./", ""), parseInt(line.line), function() {
-                        var pos = can.current.offset()-can.current.line.offsetTop
-                        can.current.scroll(0, -pos)
+                        can.onaction.selectLine(can, parseInt(line.line))
                     })
                 }}
             }, can.ui.tags)

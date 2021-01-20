@@ -47,6 +47,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _merge: function(can, sub)
     },
 }, ["/plugin/local/code/vimer.css"])
 Volcanos("onaction", {help: "控件交互", list: [],
+    _engine: function(event, can, key, arg, cb) {
+        can.onkeymap._remote(event, can, key)
+    },
     save: function(event, can) {
         var msg = can.request(event); msg.Option("content", can.onexport.content(can))
         can.run(event, ["action", "save", can.parse, can.Option("file"), can.Option("path")], function(msg) {
