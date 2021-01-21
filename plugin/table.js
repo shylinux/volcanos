@@ -1,6 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        if (can.onimport._process(can, msg)) { return typeof cb == "function" && cb(can, msg) }
         if (can.sup.onimport._process(can.sup, msg)) { return typeof cb == "function" && cb(can, msg) }
+        if (can.onimport._process(can, msg)) { return typeof cb == "function" && cb(can, msg) }
 
         can.onmotion.clear(can)
         can.ui = can.onlayout.display(can)
@@ -50,6 +50,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         })
     },
+
     _process: function(can, msg) {
         var cb = can.onimport[msg.Option("_process")]
         return typeof cb == "function" && cb(can, msg)
@@ -136,7 +137,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }, data: {"className": "args"}},
         ]}
     },
-
 })
 Volcanos("onaction", {help: "控件交互", list: []})
 Volcanos("onexport", {help: "导出数据", list: []})

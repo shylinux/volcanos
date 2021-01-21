@@ -260,8 +260,10 @@ Volcanos("onaction", {help: "控件交互", list: [],
             can.onkeymap && can.onkeymap.selectLine(can, line, item)
         })
 
-        var pos = can.current.offset()-can.current.line.offsetTop
-        can.current.scroll(0, -pos)
+        if (can.current) {
+            var pos = can.current.offset()-can.current.line.offsetTop
+            can.current.scroll(0, -pos)
+        }
     },
     searchLine: function(event, can, value) { value = value.trim()
         can.page.Modify(can, can.ui.search, {style: {display: ""}})

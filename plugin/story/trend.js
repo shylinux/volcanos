@@ -6,7 +6,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.onmotion.clear(can)
         can.onappend.plugins(can, {index: "web.wiki.draw"}, function(sub) {
-            sub.run = function(event, cmds, cb, silent) {
+            sub.run = function(event, cmds, cb) {
                 typeof cb == "function" && cb(sub.request())
 
                 can.core.Timer(100, function() { can.sub = sub._outputs[0]

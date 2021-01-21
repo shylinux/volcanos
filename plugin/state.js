@@ -5,15 +5,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
     _progress: function(can, msg, cmds, cb, silent) {
         var size = msg.Append("size") || msg.Append("count")
-        if (size != "" && size == msg.Append("total")) {
-            return false
-        }
+        if (size != "" && size == msg.Append("total")) { return false }
 
         can.user.toast(can, {
             title: can._name+" "+msg.Append("step")+"% ", duration: 1100,
             text: "执行进度: "+can.base.Size(size||0)+"/"+can.base.Size(msg.Append("total")||"1000")+"\n"+msg.Append("name"),
-            progress: parseInt(msg.Append("step")),
-            width: 400,
+            progress: parseInt(msg.Append("step")), width: 400,
         })
 
         can.page.Select(can, can._output, "td", function(td) {
@@ -33,16 +30,17 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
             var sub = can.request({}, {_count: parseInt(msg.Option("_count"))-1})
             can.onappend._output(can, can.Conf(), sub._event, can.Pack())
         })
+        return true
     },
     _field: function(can, msg) {
-        can.onappend._plugin(can, msg, {}, function(sub, meta) {
+        msg.Table(function(item) { can.onappend._plugin(can, item, {}, function(sub, meta) {
             sub.run = function(event, cmds, cb, silent) {
                 var res = can.request(event); can.core.Item(can.Option(), function(key, value) {
                     res.Option(key) || res.Option(key, value)
                 })
                 can.run(event, (msg["_prefix"]||[]).concat(cmds), cb, true)
             }
-        })
+        }) })
         return true
     },
 })

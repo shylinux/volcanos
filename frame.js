@@ -285,7 +285,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     if (can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
                     if (can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
                     typeof cb == "function" && cb(msg)
-                }, silent)
+                })
                 return true
             })
             return
@@ -398,10 +398,11 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
         return can.page.Append(can, target, [{view: ["item "+item.type], list: [input]}])[item.name]
     },
-    table: function(can, msg, cb, target) {
+    table: function(can, msg, cb, target, list) {
         var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value) {
             return {text: [value, "td"]}
         }); table && can.page.Modify(can, table, {className: "content"})
+        list && can.page.RangeTable(can, table, list)
         return table
     },
     board: function(can, text, target) { text = can.page.Display(text || "")
@@ -413,7 +414,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var list = can.core.Split(key, "@=", "@=")
         var pkey = list[0], pval = list[1]||""
 
-        target.type != "button" && target.value.startsWith("@") && (target.value = pval||"")
+        target.type != "button" && target.value && target.value.startsWith("@") && (target.value = pval||"")
 
         pkey && can.require(["/plugin/input/"+pkey+".js"], function(can) {
             can.onfigure && can.core.Item(can.onfigure[pkey], function(key, cb) { if (key.startsWith("on")) {
@@ -489,6 +490,9 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         can.page.Modify(can, ui.fieldset, {style: layout})
         can.onmotion.move(can, ui.fieldset, layout)
         can.page.Remove(can, ui.legend)
+    },
+    background: function(can, url, target) { target = target || document.body
+        can.page.Modify(can, target, {style: {background: url == "" || url == "void"? "": 'url("'+url+'")'}})
     },
 
     resize: function(can, name, cb) {

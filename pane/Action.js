@@ -12,8 +12,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         })
     },
     _plugin: function(can, river, storm, sub, item) {
-        sub.run = function(event, cmds, cb) { var msg = sub.request(event); cmds = cmds || []
-            return can.run(event, [river, storm, item.id||item.index||item.key+"."+item.name].concat(cmds), function(msg) {
+        sub.run = function(event, cmds, cb) { var msg = sub.request(event)
+            return can.run(event, (can.onengine[cmds[0]]? []: [river, storm, item.id||item.index||item.key+"."+item.name]).concat(cmds), function(msg) {
                 typeof cb == "function" && cb(msg)
             })
         }, can._plugins = (can._plugins||[]).concat([sub])
@@ -70,9 +70,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         })
 
         can.onengine.listen(can, "search", function(msg, word) {
-            if (word[0] == "*" || word[0] == "plugin") {
-                can.onexport.plugin(can, msg)
-            }
+            if (word[0] == "*" || word[0] == "plugin") { can.onexport.plugin(can, msg) }
         })
 
         can._target.ontouchstart = function(event) {
@@ -86,9 +84,23 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
 
         can.run({}, ["search", "Header.onimport.menu", "action",
             ["布局", "默认布局", "流动布局", "网格布局", "标签布局", "自由布局"],
-        ], function(event, key) {
-            can.core.CallFunc([can.onaction, key], {event: event, can: can, key: key})
-        })
+        ], function(event, key) { can.onaction._layout(can, key) })
+    },
+    _layout: function(can, key) {
+        var trans = {
+            "默认布局": "auto",
+            "流动布局": "flow",
+            "网格布局": "grid",
+            "标签布局": "tabs",
+            "自由布局": "free",
+        }
+        can.page.Modify(can, can._action, {className: "action "+trans[key]})
+        can.page.Modify(can, can._output, {className: "output "+trans[key]})
+
+        if (key == "标签布局") {
+            can.onmotion.select(can, can._output, "fieldset.plugin", 0)
+            can.onmotion.select(can, can._action, "div.item", 0)
+        }
     },
     _select: function(can, msg, river, storm) {
         function key(name) { return can.Conf("river")+"."+can.Conf("storm")+"."+name}
@@ -108,29 +120,6 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                 can.run(msg._event, ["search", "River.ondetail.添加工具"])
             }
         })
-    },
-
-    "默认布局": function(event, can) {
-        can.page.Modify(can, can._action, {className: "action auto"})
-        can.page.Modify(can, can._output, {className: "output auto"})
-    },
-    "流动布局": function(event, can) {
-        can.page.Modify(can, can._action, {className: "action flow"})
-        can.page.Modify(can, can._output, {className: "output flow"})
-    },
-    "网格布局": function(event, can) {
-        can.page.Modify(can, can._action, {className: "action grid"})
-        can.page.Modify(can, can._output, {className: "output grid"})
-    },
-    "标签布局": function(event, can) {
-        can.page.Modify(can, can._action, {className: "action tabs"})
-        can.page.Modify(can, can._output, {className: "output tabs"})
-        can.onmotion.select(can, can._output, "fieldset.plugin", 0)
-        can.onmotion.select(can, can._action, "div.item", 0)
-    },
-    "自由布局": function(event, can) {
-        can.page.Modify(can, can._action, {className: "action free"})
-        can.page.Modify(can, can._output, {className: "output free"})
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [],

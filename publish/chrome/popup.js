@@ -1,10 +1,10 @@
-Volcanos({name: "demo", volcano: "/frame.js", iceberg: "http://localhost:9020/chat/", intshell: "plug.sh",
-    libs: ["/lib/base", "/lib/core", "/lib/misc", "/lib/page", "/lib/user"], panes: [
+Volcanos({name: "demo", iceberg: "http://localhost:9020/chat/", volcano: "/frame.js",
+    libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], panes: [
         {name: "Header", help: "标题栏", pos: "head", state: ["time", "username"]},
-        {name: "River",  help: "群聊组", pos: "left"},
+        {name: "Search", help: "搜索框", pos: "auto"},
+        {name: "River",  help: "群聊组", pos: "left", action: ["创建", "刷新"]},
         {name: "Action", help: "工作台", pos: "main"},
-        {name: "Search", help: "搜索框", pos: "float"},
-        {name: "Footer", help: "状态条", pos: "foot", state: ["ncmd" ]},
+        {name: "Footer", help: "状态条", pos: "foot", state: ["ncmd"]},
     ], main: {name: "Header", engine: "remote", list: ["/publish/order.js"]}, plugin: [
         "/plugin/state.js", "/plugin/input.js", "/plugin/table.js",
     ],

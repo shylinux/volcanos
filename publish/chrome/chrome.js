@@ -18,19 +18,18 @@ Volcanos("chrome", {
             })
             return
         }
+
         if (cmds[1] == "") { // 当前标签
-            chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
-                cmds[1] = tabs[0].id
+            chrome.tabs.query({currentWindow: true, active: true}, function(tabs) { cmds[1] = tabs[0].id
                 chrome.tabs.sendMessage(parseInt(cmds[1]), msg, function(res) {
                     msg.Copy(res), typeof cb == "function" && cb(msg)
                 })
             })
-            return
+        } else {
+            chrome.tabs.sendMessage(parseInt(cmds[1]), msg, function(res) {
+                msg.Copy(res), typeof cb == "function" && cb(msg)
+            })
         }
-
-        chrome.tabs.sendMessage(parseInt(cmds[1]), msg, function(res) {
-            msg.Copy(res), typeof cb == "function" && cb(msg)
-        })
     },
     bookmark: function(msg, cmds, cb) {
         chrome.bookmarks.getSubTree(cmds[0]||"0", function(labs) {
@@ -42,7 +41,7 @@ Volcanos("chrome", {
             typeof cb == "function" && cb(msg)
         })
     },
-}, ["/lib/base", "/lib/core", "/lib/misc", "/lib/page", "/lib/user"], function(can) {
+}, ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], function(can) {
     can.Conf({iceberg: "http://localhost:9020/"})
     can.user.toast = function(message, title) {chrome.notifications.create(null, {
         message: message, title: title||can._name, iconUrl: "/favicon.ico", type: "basic",

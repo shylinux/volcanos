@@ -1,32 +1,21 @@
-(function() { const RIVER = "river", STORM = "storm", POD = "pod"
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        can._main_river = can.user.Search(can, RIVER) || (can.user.isMobile||can.user.isExtension? "product": "project")
-        can._main_storm = can.user.Search(can, STORM) || (can.user.isMobile? "office": can.user.isExtension? "chrome": "studio")
-
-        can.run({}, ["search", "Header.onimport.menu", "river",
-            ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备"],
-            ["访问", "访问研发", "访问应用", "访问工具", "访问用户", "访问设备", "访问任务"],
-            ["共享", "共享群组", "共享应用", "共享工具", "共享用户", "共享设备"],
-        ], function(event, item) {
-            var cb = can.ondetail[item]; typeof cb == "function" && cb(event, can, item, can.Conf(RIVER), can.Conf(STORM))
-        })
+        can._main_river = can.user.Search(can, "river") || (can.user.isMobile||can.user.isExtension? "product": "project")
+        can._main_storm = can.user.Search(can, "storm") || (can.user.isMobile? "office": can.user.isExtension? "chrome": "studio")
 
         can.onmotion.clear(can), can.sublist = {}
         var select; msg.Table(function(value, index, array) {
             var view = can.onappend.item(can, "item", value, function(event, item) {
-                // 左键点击
+                // 左键选中
                 can.onaction.storm(event, can, value.hash)
             }, function(event) {
-                // 右键点击
-                var ui = can.user.carte(event, can, can.ondetail, can.ondetail.list, function(ev, item, meta) {
+                // 右键菜单
+                can.user.carte(event, can, can.ondetail, can.ondetail.list, function(ev, item, meta) {
                     can.ondetail[item](event, can, item, value.hash)
-                }); can.page.Modify(can, ui.first, {style: {left: can._target.offsetWidth}})
+                }, {style: {left: can._target.offsetWidth}})
             }, target)
 
             if (index == 0 || [value.hash, value.name].indexOf(can._main_river) > -1) { select = view }
-        }), select && select.click()
-
-        typeof cb == "function" && cb(msg)
+        }), select && select.click(), typeof cb == "function" && cb(msg)
     },
 })
 Volcanos("onengine", {help: "解析引擎", list: [], engine: function(event, can, msg, pane, cmds, cb) {
@@ -41,42 +30,24 @@ Volcanos("onengine", {help: "解析引擎", list: [], engine: function(event, ca
     },
 })
 Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, list, cb, target) {
-        can.run({}, [], function(msg) {
-            can.onimport._init(can, msg, list, cb, can._output)
+        can.run({}, [], function(msg) { can.onimport._init(can, msg, list, cb, can._output) })
+
+        can.onengine.listen(can, "search", function(msg, word) {
+            if (word[0] == "*" || word[0] == "storm") { can.onexport.storm(can, msg) }
         })
 
         can.onengine.listen(can, "action.touch", function() {
             can.page.Select(can, document.body, "div.carte", function(item) {
                 can.page.Remove(can, item)
             })
-
         })
 
-        can.onengine.listen(can, "search", function(msg, word) {
-            if (word[0] != "*" && word[0] != "storm") { return }
-
-            var fields = (msg.Option("fields")||"pod,ctx,cmd,type,name,text").split(",")
-            can.core.Item(can.onengine.river, function(river, value) {
-                can.core.Item(value.storm, function(storm, item) {
-                    if (word[1] != "" && word[1] != storm && word[1] != item.name) { return }
-
-                    can.core.List(fields, function(key) {
-                        switch (key) {
-                            case "ctx": msg.Push(key, "web.chat"); break
-                            case "cmd": msg.Push(key, "storm"); break
-                            case "type": msg.Push(key, river); break
-                            case "name": msg.Push(key, storm); break
-                            case "text":
-                                // msg.Push(key, can.user.MergeURL(can, {river: river, storm: storm}))
-                                // break
-                                msg.Push(key, shy("跳转", function(event) {
-                                    can.onaction.action(event, can, river, storm)
-                                })); break
-                            default: msg.Push(key, "")
-                        }
-                    })
-                })
-            })
+        can.run({}, ["search", "Header.onimport.menu", "river",
+            ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备"],
+            ["访问", "访问研发", "访问应用", "访问工具", "访问用户", "访问设备", "访问任务"],
+            ["共享", "共享群组", "共享应用", "共享工具", "共享用户", "共享设备"],
+        ], function(event, item) {
+            can.core.CallFunc([can.ondetail, item], [event, can, item, can.Conf("river"), can.Conf("storm")])
         })
     },
     storm: function(event, can, river) {
@@ -89,14 +60,15 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
                 return {text: [storm.name, "div", "item"], onclick: function(event) {
                     // 左键点击
                     can.onaction.action(event, can, river, storm.hash)
-                    can.user.title(can.user.Search(can, POD) || storm.name)
+                    can.user.title(can.user.Search(can, "pod") || storm.name)
                 }, oncontextmenu: function(event) {
                     can.onaction.action(event, can, river, storm.hash)
-                    can.user.title(can.user.Search(can, POD) || storm.name)
+                    can.user.title(can.user.Search(can, "pod") || storm.name)
+
                     // 右键点击
-                    var ui = can.user.carte(event, can, can.ondetail, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"], function(ev, item, meta) {
+                    can.user.carte(event, can, can.ondetail, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"], function(ev, item, meta) {
                         can.ondetail[item](event, can, item, river, storm.hash)
-                    }); can.page.Modify(can, ui.first, {style: {left: can._target.offsetWidth}})
+                    }, {style: {left: can._target.offsetWidth}})
                 }}
             }) }]).first, list.children.length > 0 && list.children[select].click()
 
@@ -105,8 +77,9 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         })
     },
     action: function(event, can, river, storm) {
-        var msg = can.request(event, {river: can.Conf(RIVER, river), storm: can.Conf(STORM, storm)})
-        can.onengine.signal(can, "storm.select", msg)
+        can.onengine.signal(can, "storm.select", can.request(event, {
+            river: can.Conf("river", river), storm: can.Conf("storm", storm),
+        }))
 
         can.page.Select(can, can._output, "div.item.select", function(item) {
             can.page.ClassList.del(can, item, "select")
@@ -125,7 +98,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     },
 
     "创建": function(event, can) { can.onaction.create(event, can) },
-    "刷新": function(event, can) { can.user.Search(can, {river: can.Conf(RIVER), storm: can.Conf(STORM)}) },
+    "刷新": function(event, can) { can.user.Search(can, {river: can.Conf("river"), storm: can.Conf("storm")}) },
 })
 Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户", "添加设备", "添加应用", "重命名群组", "删除群组"],
     "创建群组": function(event, can) { can.onaction.create(event, can) },
@@ -244,5 +217,28 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
 Volcanos("onexport", {help: "导出数据", list: [],
     width: function(can) { return can._target.offsetWidth },
     height: function(can) { return can._target.offsetHeight },
+    storm: function(can, msg) {
+        var fields = (msg.Option("fields")||"pod,ctx,cmd,type,name,text").split(",")
+        can.core.Item(can.onengine.river, function(river, value) {
+            can.core.Item(value.storm, function(storm, item) {
+                if (word[1] != "" && word[1] != storm && word[1] != item.name) { return }
+
+                can.core.List(fields, function(key) {
+                    switch (key) {
+                        case "ctx": msg.Push(key, "web.chat"); break
+                        case "cmd": msg.Push(key, "storm"); break
+                        case "type": msg.Push(key, river); break
+                        case "name": msg.Push(key, storm); break
+                        case "text":
+                            // msg.Push(key, can.user.MergeURL(can, {river: river, storm: storm}))
+                            // break
+                            msg.Push(key, shy("跳转", function(event) {
+                                can.onaction.action(event, can, river, storm)
+                            })); break
+                        default: msg.Push(key, "")
+                    }
+                })
+            })
+        })
+    },
 })
-})()

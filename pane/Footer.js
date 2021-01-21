@@ -14,27 +14,20 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.toast = can.page.Append(can, target, [{view: ["toast", "div", ""]}]).first
     },
     _state: function(can, msg, target) {
-        can.core.List(can.Conf("state"), function(item) {
-            can.page.Append(can, target, [{view: ["state "+item, "div", can.Conf(item)],
-                list: [{text: item}, {text: ": "}, {text: [can.Conf(item)||"", "span", item]}],
-            }])
+        can.core.List(can.Conf("state")|["ncmd"], function(item) {
+            can.page.Append(can, target, [{view: ["state "+item, "div", can.Conf(item)], list: [
+                {text: [item, "label"]}, {text: [": ", "label"]}, {text: [can.Conf(item)||"", "span", item]},
+            ]}])
         })
     },
 
     toast: function(can, msg, text) {
-        can.page.Modify(can, can.toast, {innerHTML: text})
+        can.page.Modify(can, can.toast, text)
     },
-    keys: function(can, msg, list, cb, target) {
-        can.page.Select(can, target, "span.keys", function(item) {
-            item.innerHTML = list[0]||""
-        })
-        typeof cb == "function" && cb(msg)
-    },
-    ncmd: function(can, msg, list, cb, target) {
+    ncmd: function(can, target) {
         can.page.Select(can, target, "span.ncmd", function(item) {
             item.innerHTML = can.Conf("ncmd", parseInt(can.Conf("ncmd")||"0")+1+"")+""
         })
-        typeof cb == "function" && cb(msg)
     },
 })
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
