@@ -19,13 +19,13 @@ body fieldset p.story[data-name=inner] {
 body fieldset p.story[data-name=inner]:hover {
     cursor:copy;
 }
-body fieldset div.story[data-type=spark] {
+body div.story[data-type=spark] {
     background-color:#2169a9; color:white;
     box-shadow: 4px 4px 10px 1px #626bd0;
     border-left:solid 4px blue;
     padding:4px 10px; margin:10px 0px;
 }
-body fieldset div.story[data-type=spark] span:hover {
+body div.story[data-type=spark] span:hover {
     background-color:#c10c8a;
     cursor:copy;
     box-shadow: 4px 4px 10px 1px #626bd0;

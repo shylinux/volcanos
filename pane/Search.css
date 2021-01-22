@@ -6,6 +6,10 @@ fieldset.Search {
 fieldset.Search input.word {
     width:-webkit-fill-available;
 }
+fieldset.Search div.output {
+    max-height:600px;
+    overflow:auto;
+}
 fieldset.Search div.output div.content {
     max-height:400px;
     overflow:auto;

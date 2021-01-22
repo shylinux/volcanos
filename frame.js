@@ -218,10 +218,11 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
     },
     _option: function(can, meta, option) { var index = -1, args = can.base.Obj(meta.args||meta.arg, [])
+        meta.option = can.base.Obj(meta.option||"{}", {})
         function add(item, next) { item._input != "button" && item.type != "button" && index++
             Volcanos(item.name, {_follow: can._follow+"."+item.name,
                 _option: can._option, _action: can._action, _output: can._output, _status: can._status,
-                _target: can.onappend.input(can, item, args[index], option),
+                _target: can.onappend.input(can, item, args[index]||meta.option[item.name], option),
                 Option: can.Option, Action: can.Action, Status: can.Status,
                 CloneInput: function() { add(item)._target.focus() },
                 CloneField: function() { can.Clone() },
@@ -312,8 +313,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     return can.onappend._output(can, meta, event, can.Pack(cmds, silent), cb, silent)
                 }, can._outputs.push(table), table._msg = msg
 
-                can.page.Modify(can, can._action, ""), can.page.Modify(can, can._status, "")
                 table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function(msg) {
+                    can.page.Modify(can, can._action, ""), can.page.Modify(can, can._status, "")
                     table.onaction && table.onappend._action(table, msg._action||meta._action||table.onaction.list)
                     table.ondetail && table.onappend._detail(table, msg._detail||meta._detail||table.ondetail.list)
                     table.onexport && table.onappend._status(table, msg._export||meta._export||table.onexport.list)
@@ -423,6 +424,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     var figure = can.onappend.field(can, "input "+pkey, {}, document.body)
                     can._figure = figure; can.onlayout.figure(can, figure, event)
 
+                    meta.run = meta.run||can.run
                     cb(event, can, meta, target, figure)
                 }
             } })

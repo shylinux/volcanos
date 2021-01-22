@@ -70,7 +70,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         })
 
         can.onengine.listen(can, "search", function(msg, word) {
-            if (word[0] == "*" || word[0] == "plugin") { can.onexport.plugin(can, msg) }
+            if (word[0] == "*" || word[0] == "plugin") { can.onexport.plugin(can, msg, word) }
         })
 
         can._target.ontouchstart = function(event) {
@@ -129,7 +129,7 @@ Volcanos("onexport", {help: "导出数据", list: [],
             item.dataset.args = JSON.stringify(list), cb(item, next)
         })
     },
-    plugin: function(can, msg) {
+    plugin: function(can, msg, word) {
         var fields = (msg.Option("fields")||"pod,ctx,cmd,type,name,text").split(",")
         can.page.Select(can, can._output, "fieldset.plugin>legend", function(item) {
             if (item.innerHTML.indexOf(word[1]) == -1) { return }

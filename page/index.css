@@ -281,6 +281,7 @@ div.upload div.item {
 div.toast {
     background:#0e3369b3; color:yellow;
     position:fixed;
+    overflow:auto;
     padding:5px;
     z-index:20;
 }
@@ -407,4 +408,8 @@ body.print fieldset.Action fieldset.plugin>form.option {
 }
 body.print fieldset.River>div.output div.list div.item {
     background-color:white;
+}
+
+div.story {
+    text-align:left;
 }

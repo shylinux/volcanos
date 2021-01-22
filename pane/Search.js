@@ -10,12 +10,16 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }]},
             {view: "content"}, {view: ["display", "table"]}, {view: "preview"},
         ]), typeof cb == "function" && cb(msg)
+
+        var header = can.run({}, ["search", "Header.onexport.height"])||0
+        var footer = can.run({}, ["search", "Footer.onexport.height"])||0
+        can.page.Modify(can, can._output, {style: {"max-height": window.innerHeight-header-footer-64}})
     },
     _table: function(can, msg, fields) { can.onmotion.clear(can, can.ui.content)
         can.onappend.table(can, msg, function(value, key, index, line) { can.Status("count", index+1)
             return {text: [key == "text" && typeof line.text == "function" && line.text.help || value, "td"], onclick: function(event) {
-                if (event.shiftKey) { var msg = can.request(event, line)
-                    return can.onappend.plugin(can, {index: line.ctx+"."+line.cmd}, function(sub) {
+                if (event.shiftKey) { event.stopPropagation(), event.preventDefault()
+                    return can.onappend.plugin(can, {index: line.ctx? line.ctx+"."+line.cmd: msg.Option("index"), option: line}, function(sub, meta) {
                         sub.run = function(event, cmds, cb) {
                             can.run(event, ["action", "command", "run", meta.index].concat(cmds), function(msg) {
                                 typeof cb == "function" && cb(msg)
@@ -42,7 +46,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
     },
     _word: function(can, msg, cmds, fields) {
-        msg = can.request({}, {fields: fields.join(","), word: cmds})
+        msg = can.request({}, {fields: fields.join(","), word: cmds, index: msg.Option("index")})
         can.onengine.signal(can, "search", msg)
 
         can.run(msg._event, cmds, function(msg) { can.list = msg.Table()
@@ -76,7 +80,7 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
         can.onimport._init(can, msg, list, cb, can._output)
     },
     "关闭": function(event, can) { can.onmotion.hide(can) },
-    "清空": function(event, can) { can.onmotion.clear(can, can.ui.display),  can.onmotion.clear(can, can.ui.display) },
+    "清空": function(event, can) { can.onmotion.clear(can, can.ui.display),  can.onmotion.clear(can, can.ui.preview) },
     "完成": function(event, can) { typeof can.cb == "function" && can.cb() },
 
     select: function(event, can, index) {
