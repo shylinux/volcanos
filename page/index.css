@@ -239,11 +239,12 @@ fieldset>div.output div.project div.list {
 
 body>fieldset.input {
     position:fixed; top:32px;
-}
-body>fieldset.input {
-    background-color:#30a7a93d;
+    background-color:#0d4142a6;
     position:fixed;
     z-index:50;
+}
+body>fieldset.input div.output {
+    max-height:400px;
 }
 body>fieldset.input.key {
     z-index:60;

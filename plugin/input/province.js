@@ -5,11 +5,12 @@ Volcanos("onfigure", {help: "控件详情", list: [], province: {onclick: functi
             "清空": function(event) { target.value = "" },
         })
 
-        can.page.Modify(can, figure.fieldset, {style: {left: 120}})
         var china_chart = echarts.init(can.page.Append(can, figure.output, [{type: "div", style: {width: "600px", height: "400px"}}]).first);
         china_chart.setOption({geo: {map: 'china'}}), china_chart.on('click', function (params) {
             target.value = params.name, can.page.Remove(can, figure.fieldset) 
         })
+
+        can.onlayout.figure(can, figure, event)
     })
 }}, })
 

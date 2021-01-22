@@ -14,6 +14,8 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {onclick: function(ev
                 can.page.Remove(can, figure.fieldset) 
             }}
         }, figure.output)
+
+        can.onlayout.figure(can, figure, event)
     }, true)
 }; run() }}, }, [])
 

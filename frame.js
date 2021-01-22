@@ -488,11 +488,19 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
     topic: function(can, topic) { topic && (can._topic = topic)
         can.user.topic(can, can._topic || can.user.Search(can, "topic") || ((can.user.Search(can, "pod")||can.base.isNight())? "black": "white"))
     },
-    figure: function(can, ui, event) {
+    figure: function(can, ui, event) { var p = ui.fieldset
         var layout = {top: event.clientY+10, left: event.clientX}
-        can.page.Modify(can, ui.fieldset, {style: layout})
-        can.onmotion.move(can, ui.fieldset, layout)
+        can.page.Modify(can, p, {style: layout})
+
+        can.onmotion.move(can, p, layout)
         can.page.Remove(can, ui.legend)
+
+        var left = p.offsetLeft
+        if (p.offsetLeft+p.offsetWidth > window.innerWidth) {
+            left = window.innerWidth - p.offsetWidth
+        }
+        if (left < 120) { left = 120 }
+        can.page.Modify(can, p, {style: {left: left}})
     },
     background: function(can, url, target) { target = target || document.body
         can.page.Modify(can, target, {style: {background: url == "" || url == "void"? "": 'url("'+url+'")'}})
