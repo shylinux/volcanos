@@ -97,7 +97,7 @@ table {
     cursor:pointer; overflow: auto;
 }
 table tr {
-    background:#04272f85;
+    background-color:#04272f45;
 }
 table th {
     background-color:#0fbd45;
@@ -109,6 +109,12 @@ table td {
 }
 table td.select {
     background-color:red;
+}
+table td.select {
+    background-color:red;
+}
+table td.done {
+    background-color:green;
 }
 
 table.content tr:hover {
@@ -341,7 +347,7 @@ body.white table {
     color:black;
 }
 body.white table tr {
-    background-color:#e1f1ff6b;
+    background-color:#e1f1ff1f;
 }
 body.white table th {
     background-color:#99CCFF;
@@ -360,15 +366,20 @@ body.white table input[type=button][value=启动] {
 }
 
 body.white fieldset.story {
-    background-color:#7c8ea5ab;
+    /* background-color:#7c8ea5ab; */
 }
 
 body.white fieldset.Action {
-    background-color:#a2dceab3;
     color:black;
 }
+body.white fieldset.Action>div.action {
+    color:white;
+}
+body.white fieldset.Action>div.action div.item {
+    height:21px;
+}
 body.white fieldset.Action fieldset.plugin {
-    background-color:#ffffff9c;
+    background-color:#ffffff78;
 }
 body.white fieldset.Action fieldset.plugin legend {
     background-color:#339999; color:white;

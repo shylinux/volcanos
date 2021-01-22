@@ -1,6 +1,6 @@
 fieldset.Action {
+    background-color:#7299a28c;
     min-width:160px;
-    background-color:#a2dceab3;
 }
 fieldset.Action>div.action {
     display:none;
@@ -35,11 +35,11 @@ fieldset.Action div.output.flow fieldset.plugin {
     float:left;
 }
 fieldset.Action div.output.grid fieldset.plugin {
-    width:240px; height:240px; overflow:auto;
+    width:480px; height:320px; overflow:auto;
     float:left;
 }
 fieldset.Action div.output.grid fieldset.plugin>div.output {
-    width:240px; height:240px; overflow:auto;
+    width:480px; height:320px; overflow:auto;
 }
 fieldset.Action div.output.tabs fieldset.plugin {
     display:none; position:absolute;

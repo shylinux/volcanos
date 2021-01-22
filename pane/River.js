@@ -43,9 +43,9 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         })
 
         can.run({}, ["search", "Header.onimport.menu", "river",
-            ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备"],
-            ["访问", "访问研发", "访问应用", "访问工具", "访问用户", "访问设备", "访问任务"],
-            ["共享", "共享群组", "共享应用", "共享工具", "邀请用户", "邀请设备"],
+            ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备", "创建空间"],
+            ["访问", "内部系统", "访问应用", "访问工具", "访问用户", "访问设备", "访问任务"],
+            ["共享", "共享群组", "共享应用", "共享工具", "共享用户", "邀请设备"],
         ], function(event, item) {
             can.core.CallFunc([can.ondetail, item], [event, can, item, can.Conf("river"), can.Conf("storm")])
         })
@@ -113,15 +113,15 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         })
     },
     "添加用户": function(event, can, button, river) {
-        can.user.select(event, can, "user", "pod,name,text", function(item, next) {
-            can.run({}, [river, "user", "action", "insert", "username", item[2]], function(msg) {
+        can.user.select(event, can, "user", "usernick,username", function(item, next) {
+            can.run({}, [river, "user", "action", "insert", "username", item[0]], function(msg) {
                 next()
             })
         })
     },
     "添加设备": function(event, can, button, river) {
-        can.user.select(event, can, "space", "pod,type,name,text", function(item, next) {
-            can.run({}, [river, "node", "action", "insert", "type", item[1], "name", item[2]], function(msg) {
+        can.user.select(event, can, "space", "type,name,text", function(item, next) {
+            can.run({}, [river, "node", "action", "insert", "type", item[0], "name", item[1]], function(msg) {
                 next()
             })
         })
@@ -163,8 +163,8 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         })
     },
     "添加工具": function(event, can, button, river, storm) {
-        can.user.select(event, can, "command", "pod,name,text", function(item, next) {
-            can.run({}, [river, "tool", "action", "insert", "hash", storm].concat(["pod", item[0], "ctx", item[2], "cmd", item[1]]), function(msg) {
+        can.user.select(event, can, "command", "context,command", function(item, next) {
+            can.run({}, [river, "tool", "action", "insert", "hash", storm].concat(["pod", "", "ctx", item[0], "cmd", item[1]]), function(msg) {
                 next()
             })
         }, function() {
@@ -194,13 +194,15 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         })
     },
 
-    "访问研发": function(event, can, button, river, storm) {
+    "内部系统": function(event, can, button, river, storm) {
         can.user.select(event, can, "github", "time,type,name,text")
     },
     "访问应用": function(event, can, button, river, storm) {
+        var msg = can.request(event, {sort: ","})
         can.user.select(event, can, "storm", "type,name,text")
     },
     "访问工具": function(event, can, button, river, storm) {
+        var msg = can.request(event, {sort: ","})
         can.user.select(event, can, "plugin", "type,name,text")
     },
     "访问用户": function(event, can, button, river, storm) {
@@ -213,8 +215,14 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         var msg = can.request(event, {index: "web.team.task"})
         can.user.select(event, can, "task", "time,zone,id,type,name,text")
     },
-    "邀请用户": function(event, can, button, river, storm) {
-        can.user.toast(can, "what", "邀请用户")
+
+    "共享用户": function(event, can, button, river, storm) {
+        can.user.input(event, can, [
+            {_input: "text", name: "name", value: river},
+        ], function(event, button, meta, list) {
+            can.user.share(can, can.request(event), [river, "action", "share", "type", "login"])
+            return true
+        })
     },
     "邀请设备": function(event, can, button, river, storm) {
         can.run(event, ["action", "invite"], function(msg) {
@@ -226,12 +234,29 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
             })
         })
     },
+
+    "创建空间": function(event, can, button, river, storm) {
+        can.user.input(event, {__proto__: can, run: function(event, cmds, cb, silent) {
+            var msg = can.request(event, {action: "start"})
+            can.run(event, cmds, cb, silent)
+        }}, [
+            {_input: "text", name: "name", value: "@key"},
+            {_input: "text", name: "repos", value: "@key"},
+            {_input: "text", name: "template", value: "@key"},
+        ], function(event, button, data, list, args) {
+            can.run(event, ["action", "start"].concat(args), function(msg) {
+                can.user.open(can.user.MergeURL(can, {pod: msg.Option("name")}))
+                can.user.toast(can, can.user.MergeURL(can, {pod: msg.Option("name")}))
+            })
+            return true
+        })
+    },
 })
 Volcanos("onexport", {help: "导出数据", list: [],
     width: function(can) { return can._target.offsetWidth },
     height: function(can) { return can._target.offsetHeight },
     storm: function(can, msg, word) {
-        var fields = (msg.Option("fields")||"pod,ctx,cmd,type,name,text").split(",")
+        var fields = (msg.Option("fields")||"ctx,cmd,type,name,text").split(",")
         can.core.Item(can.onengine.river, function(river, value) {
             can.core.Item(value.storm, function(storm, item) {
                 if (word[1] != "" && word[1] != storm && word[1] != item.name) { return }

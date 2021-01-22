@@ -282,6 +282,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     key && value && cmds.push(key, value)
                 })
 
+                var msg = can.request(event, can.Option())
                 can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")
                     if (can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
                     if (can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
@@ -446,7 +447,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     plugin: function(can, meta, cb, target) { meta = meta || {}
         meta.inputs && meta.inputs.length > 0? can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, cb, target):
-            can.run({}, ["action", "command", meta.index||item.ctx+"."+item.cmd], function(msg) { msg.Table(function(value) {
+            can.run({}, ["action", "command", meta.index||meta.ctx+"."+meta.cmd], function(msg) { msg.Table(function(value) {
                 can.onappend._plugin(can, value, meta, cb, target)
             }) }, true)
     },
@@ -555,8 +556,6 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
         }
     },
     _parse: function(event, can, mode, list, target) { list.push(event.key)
-        can.Status && can.Status("keys", list.join(""))
-
         for (var pre = 0; pre < list.length; pre++) {
             if ("0" <= list[pre] && list[pre] <= "9") { continue } break
         }; var count = parseInt(list.slice(0, pre).join(""))||1
@@ -564,7 +563,6 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
         function repeat(cb, count) { list = []
             for (var i = 1; i <= count; i++) { if (cb(event, can, target, count)) { break } }
             event.stopPropagation(), event.preventDefault()
-            can.Status && can.Status("keys", list.join(""))
         }
 
         var map = can.onkeypop._mode[mode]

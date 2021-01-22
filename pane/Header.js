@@ -33,9 +33,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.page.Append(can, target, [{view: ["state "+item, "div", can.Conf(item)], onclick: function(event) {
                 can.core.CallFunc([can.onaction, item], [event, can, item])
             }, _init: function(target) {
-                item == "time" && can.core.Timer({interval: 1000, length: -1}, function() {
-                    can.onimport.time(can, target)
-                }) && can.onappend.figure(can, {}, "@date", target)
+                item == "time" && can.onimport._time(can, target)
             }}])
         })
     },
@@ -101,6 +99,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             })
         }) })
     },
+    _time: function(can, target) {
+        can.core.Timer({interval: 1000, length: -1}, function() {
+            can.onimport.time(can, target)
+        })
+        can.onappend.figure(can, {style: {left: "", right: "0", top: can._target.offsetHeight}}, "@date", target)
+    },
 
     time: function(can, target) { can.onlayout.topic(can)
         target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
@@ -133,13 +137,19 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         function init() { can.run({}, [], function(msg) {
             can.Conf("username", msg.Option("user.nick")||msg.Option("user.name"))
             can.onimport._init(can, msg, list, function(msg) {
-                can.run({}, ["search", "Search.onaction._init"])
-                can.run({}, ["search", "Action.onaction._init"])
-                can.run({}, ["search", "River.onaction._init"])
-                can.run({}, ["search", "Footer.onaction._init"])
+                can.run(msg._event, ["search", "Search.onaction._init"])
+                can.run(msg._event, ["search", "Action.onaction._init"])
+                can.run(msg._event, ["search", "River.onaction._init"])
+                can.run(msg._event, ["search", "Footer.onaction._init"])
                 typeof cb == "function" && cb(msg)
             }, can._output)
+            can.page.Select(can, document.body, "fieldset.River", function(item) {
+                can.onmotion.toggle(can, item)
+            })
         }) }
+        can.page.Select(can, document.body, "fieldset.River", function(item) {
+            can.onmotion.hidden(can, item)
+        })
 
         can.onlayout.topic(can)
         can.user.isLocalFile? init(): can.run({}, ["check"], function(msg) {

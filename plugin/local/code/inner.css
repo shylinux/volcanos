@@ -17,7 +17,7 @@ fieldset.editor {
     background:#0b2c54ab;
 }
 fieldset.editor>div.output {
-    background-color:#173d40ab;
+    background-color:#173d4047;
 }
 fieldset.editor>div.output>table>tr {
     background-color:#99CCFF00;
@@ -87,6 +87,9 @@ fieldset.editor>div.output table.content td.text span.datatype {
 }
 fieldset.editor>div.output table.content td.text span.string {
     color:magenta;
+}
+body.white fieldset.editor>div.output table.content td.text span.string {
+    color:#a703a7;
 }
 
 fieldset.editor>div.output div.search {

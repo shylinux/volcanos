@@ -20,7 +20,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         })
 
         can.core.Timer(1000, function() {
-            var res = can.request({}, {_process: msg.Option("_progress")})
+            var res = can.request({}, {_progress: msg.Option("_progress")})
             return can.onappend._output(can, can.Conf(), res._event, can.Pack(cmds), cb, silent)
         })
         return true

@@ -1,4 +1,5 @@
 Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, item, target, figure) {
+    item.style && can.page.Modify(can, figure.fieldset, {style: item.style})
 
     // 设置输入
     function set(now) {

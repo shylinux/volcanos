@@ -1,7 +1,10 @@
 fieldset.Search {
-    background:#041a258a; padding:10px;
+    background:#041a25bd; padding:10px;
     position:fixed; z-index:20;
     display:none;
+}
+body.white fieldset.Search table {
+    color:white;
 }
 fieldset.Search input.word {
     width:-webkit-fill-available;

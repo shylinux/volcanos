@@ -130,7 +130,7 @@ Volcanos("onexport", {help: "导出数据", list: [],
         })
     },
     plugin: function(can, msg, word) {
-        var fields = (msg.Option("fields")||"pod,ctx,cmd,type,name,text").split(",")
+        var fields = (msg.Option("fields")||"ctx,cmd,type,name,text").split(",")
         can.page.Select(can, can._output, "fieldset.plugin>legend", function(item) {
             if (item.innerHTML.indexOf(word[1]) == -1) { return }
 

@@ -262,7 +262,9 @@ Volcanos("onaction", {help: "控件交互", list: [],
 
         if (can.current) {
             var pos = can.current.offset()-can.current.line.offsetTop
-            can.current.scroll(0, -pos)
+            if (pos > 0 || -pos > can._output.offsetHeight) {
+                can.current.scroll(0, -pos)
+            }
         }
     },
     searchLine: function(event, can, value) { value = value.trim()
