@@ -147,7 +147,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 "connect", "session", "service", "channel",
             ]},
             "nfs": {name: "文件 nfs", index: [
-                "dir", "file",
+                "nfs.dir", "nfs.file",
             ]},
         }},
     },
