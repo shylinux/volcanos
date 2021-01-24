@@ -24,3 +24,7 @@ fieldset.plan>div.output td.over {
 fieldset.plan>div.output td div.date {
     color:gray;
 }
+fieldset.plan>div.output div.project {
+    max-height:400px;
+    overflow:auto;
+}
