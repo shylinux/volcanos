@@ -1,0 +1,9 @@
+fieldset.input.date div.action div.space {
+    clear:both; width:0;
+}
+fieldset.input.date div.output td.last {
+    color:gray;
+}
+fieldset.input.date div.output td.next {
+    color:gray;
+}
