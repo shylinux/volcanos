@@ -6,12 +6,12 @@ fieldset.plan>div.output div.process {
     background-color:green;
     color:white;
 }
-fieldset.plan>div.output div.finish {
-    background-color:red;
-    color:white;
-}
 fieldset.plan>div.output div.cancel {
     background-color:yellow;
+    color:white;
+}
+fieldset.plan>div.output div.finish {
+    background-color:red;
     color:white;
 }
 

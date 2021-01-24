@@ -15,7 +15,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             pane.onaction._init(pane, msg, [], cb, pane._target)
         })
     },
-
     search: function(event, can, msg, pane, cmds, cb) {
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split("."), function(value) {
             fun && (sub = mod, mod = fun, fun = mod[value], key = value)
@@ -213,12 +212,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             meta.feature = sub.base.Obj(meta.feature, {})
             sub.page.ClassList.add(sub, field, meta.style||meta.feature.style||"")
 
-            meta.inputs && sub.onappend._option(sub, meta, sub._option)
             typeof cb == "function" && cb(sub)
+            meta.option = can.base.Obj(meta.option||"{}", {})
+            meta.inputs && sub.onappend._option(sub, meta, sub._option)
         }); return sub
     },
     _option: function(can, meta, option) { var index = -1, args = can.base.Obj(meta.args||meta.arg, [])
-        meta.option = can.base.Obj(meta.option||"{}", {})
         function add(item, next) { item._input != "button" && item.type != "button" && index++
             Volcanos(item.name, {_follow: can._follow+"."+item.name,
                 _option: can._option, _action: can._action, _output: can._output, _status: can._status,
@@ -277,7 +276,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }
 
         var feature = can.Conf("feature")
-        var input = cmds && cmds[0] == "action" && feature && feature[cmds[1]]; if (input) {
+        var input = cmds && cmds[0] == "action" && cmds.length == 2 && feature && feature[cmds[1]]; if (input) {
             can.user.input(event, can, input, function(ev, button, data, list) {
                 cmds = cmds.slice(0, 2), can.core.Item(data, function(key, value) {
                     key && value && cmds.push(key, value)
@@ -320,7 +319,6 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     table.onaction && table.onappend._action(table, msg._action||meta._action||table.onaction.list)
                     table.ondetail && table.onappend._detail(table, msg._detail||meta._detail||table.ondetail.list)
                     table.onexport && table.onappend._status(table, msg._export||meta._export||table.onexport.list)
-
                 }, can._output)
             })
         })

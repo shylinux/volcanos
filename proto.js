@@ -17,16 +17,13 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
         meta.libs = Config.libs, meta.volcano = Config.volcano
 
         // 预加载
-        var Preload = [Config.volcano]
-        for (var i = 0; i < Config.panes.length; i++) { var pane = Config.panes[i]
+        var Preload = [Config.volcano]; for (var i = 0; i < Config.panes.length; i++) { var pane = Config.panes[i]
             pane && (Preload = Preload.concat(pane.list = pane.list || ["/pane/"+pane.name+".css", "/pane/"+pane.name+".js"]))
-        }
-        Preload = Preload.concat(Config.plugin)
+        }; Preload = Preload.concat(Config.plugin)
 
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: document.body}
         libs = Preload.concat(Config.main.list, Config.libs), cb = function(can) {
-            window.can = can
             can.onengine._init(can, can.Conf(Config), Config.panes, function(msg) { can.base.Log(name, "run", can)
                 document.body.onresize = function() { can.onlayout._init(can, can._target) }
             }, can._target)
@@ -65,9 +62,7 @@ var Volcanos = shy("火山架", {libs: [], cache: {}}, [], function(name, can, l
             }); return event._msg
         },
         Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},
-    }
-
-    can = can || {}; for (var k in proto) { can[k] = proto[k] }
+    }; can = can || {}; for (var k in proto) { can.hasOwnProperty(k) || (can[k] = proto[k]) }
 
     if (_can_name) {
         meta.cache[_can_name] = meta.cache[_can_name] || []

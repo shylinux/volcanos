@@ -21,9 +21,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
 
-    toast: function(can, msg, text) {
-        can.page.Modify(can, can.toast, text)
-    },
+    toast: function(can, msg, text) { can.page.Modify(can, can.toast, text) },
     ncmd: function(can, target) {
         can.page.Select(can, target, "span.ncmd", function(item) {
             item.innerHTML = can.Conf("ncmd", parseInt(can.Conf("ncmd")||"0")+1+"")+""
@@ -31,9 +29,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 })
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
-        can.run({}, [], function(msg) {
-            can.onimport._init(can, msg, list, cb, can._output)
-        })
+        can.run({}, [], function(msg) { can.onimport._init(can, msg, list, cb, can._output) })
     },
 })
 Volcanos("onexport", {help: "导出数据", list: [],
