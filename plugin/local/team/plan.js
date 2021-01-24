@@ -5,7 +5,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onmotion.hidden(can, can._action)
         can.onimport[can.Option("scale")||"week"](can, msg)
     },
-    _show: function(can, msg, head, list, key, get, set) {
+    _content: function(can, msg, head, list, key, get, set) {
         var begin_time = can.base.Date(can.base.Time(can.Option("begin_time")))
         var hash = {}; msg.Table(function(value, index) {
             var k = key(can.base.Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value])
@@ -38,10 +38,17 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 draggable: time != undefined, ondragstart: function(event) { var target = event.target; can.drop = function(event, td, time) {
                     can.onaction.modifyTask(event, can, task, "begin_time", time+task.begin_time.slice(time.length), task.begin_time)
                     can.run()
-                } },
-                onclick: function(event) { can.onimport._profile(can, msg, task) },
-                _init: function(target) { can.task || target.click() },
-                title: can.onexport.title(can, task),
+                } }, title: can.onexport.title(can, task),
+
+                _init: function(target) {
+                    var item = can.onappend.item(can, "item", {nick: task.name+":"+task.text}, function() {
+                        can.onimport._profile(can, msg, task)
+                        can.core.Timer(10, function() { can.onmotion.select(can, can.ui.content, "td", target.parentNode) })
+                    }, function() {
+
+                    }, can.ui.project); can.task || item.click()
+                    target.onclick = function(event) { item.click() }
+                },
             }
         }),
     } },
@@ -66,11 +73,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         var table = can.page.Appends(can, can.ui.profile, [{view: ["content", "table"], list: [{th: ["key", "value"]}]}]).first
         can.core.Item(task, function(key, value) { can.page.Append(can, table, [{td: [key, key == "pod"? ('<a href="'+can.user.MergeURL(can, {pod: value})+'" target="_blank">'+value+'</a>'): value],
-            onclick: function(event) { if (event.target.type == "button") { var name = event.target.name
-                var cb = can.onaction[name]; if (typeof cb == "function") { return cb(event, can, name) }
-
-                var msg = can.request(event); can.core.Item(can.task, msg.Option)
-                can.sup.onaction.input(event, can.sup, name, function(msg) { can.run({}) })
+            onclick: function(event) { if (event.target.type == "button") {
+                var msg = can.request(event, can.task)
+                can.run(event, ["action", event.target.name])
             } },
             ondblclick: function(event) {
                 can.onmotion.modify(can, event.target, function(ev, value, old) {
@@ -88,7 +93,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         function get(begin_time, col, row, hash) { return hash[list[row]] }
         function set(begin_time, col, row) { return can.base.Time(begin_time, "%y-%m-%d ")+list[row] }
 
-        can.onimport._show(can, msg, head, list, key, get, set)
+        can.onimport._content(can, msg, head, list, key, get, set)
     },
     week: function(can, msg) {
         var head = ["hour"].concat(["周日", "周一", "周二", "周三", "周四", "周五", "周六"])
@@ -98,7 +103,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         function get(begin_time, col, row, hash) { return hash[col-1+" "+list[row]] }
         function set(begin_time, col, row) { return can.base.Time(can.base.TimeAdd(begin_time, -begin_time.getDay()+col-1), "%y-%m-%d ")+list[row] }
 
-        can.onimport._show(can, msg, head, list, key, get, set)
+        can.onimport._content(can, msg, head, list, key, get, set)
     },
     month: function(can, msg) {
         var head = ["order"].concat(["周日", "周一", "周二", "周三", "周四", "周五", "周六"])
@@ -118,21 +123,17 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             return key(day)
         }
 
-        can.onimport._show(can, msg, head, list, key, get, set)
+        can.onimport._content(can, msg, head, list, key, get, set)
     },
     year: function(can, msg) {
         var head = ["month"].concat(["周日", "周一", "周二", "周三", "周四", "周五", "周六"]);
         var list = [0]; for (var i = 1; i < 13; i++) { list.push(i) }
 
         function key(time) { return can.base.Time(time, "%y-%m ")+time.getDay() }
-        function get(begin_time, col, row, hash) {
-            return hash[begin_time.getFullYear()+"-"+can.base.Number(row, 2)+" "+(col-1)]
-        }
-        function set(begin_time, col, row) {
-            return begin_time.getFullYear()+"-"+can.base.Number(list[row], 2)
-        }
+        function get(begin_time, col, row, hash) { return hash[begin_time.getFullYear()+"-"+can.base.Number(row, 2)+" "+(col-1)] }
+        function set(begin_time, col, row) { return begin_time.getFullYear()+"-"+can.base.Number(list[row], 2) }
 
-        can.onimport._show(can, msg, head, list, key, get, set)
+        can.onimport._content(can, msg, head, list, key, get, set)
     },
     long: function(can, msg) {
         var begin_time = can.base.Date(can.base.Time(can.Option("begin_time")))
@@ -142,14 +143,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         var list = [0]; for (var i = 1; i < 13; i++) { list.push(i) }
 
         function key(time) { return can.base.Time(time, "%y-%m") }
-        function get(begin_time, col, row, hash) {
-            return hash[begin+col-1+"-"+can.base.Number(row, 2)]
-        }
-        function set(begin_time, col, row) {
-            return begin+col-1+"-"+can.base.Number(row, 2)
-        }
+        function get(begin_time, col, row, hash) { return hash[begin+col-1+"-"+can.base.Number(row, 2)] }
+        function set(begin_time, col, row) { return begin+col-1+"-"+can.base.Number(row, 2) }
 
-        can.onimport._show(can, msg, head, list, key, get, set)
+        can.onimport._content(can, msg, head, list, key, get, set)
     },
 }, ["/plugin/local/team/plan.css"])
 Volcanos("onaction", {help: "组件交互", list: [

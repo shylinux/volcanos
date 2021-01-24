@@ -111,23 +111,15 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         })
     },
     "最大": function(event, can) {
-        if (event.ctrlKey) {
-            layout.left = 0, layout.top = 40
-            layout.width = window.innerWidth/2
-            layout.height = window.innerHeight/2
-            can.onaction._resize(sub, layout)
-            return
-        }
+        can.page.Modify(can, can._target, {style: { margin: 0,
+            left: 0, top: 0, width: window.innerWidth, height: window.innerHeight
+        }})
 
-        layout.left = 0, layout.top = 40
-        layout.width = window.innerWidth-40
-        layout.height = window.innerHeight-60
-        if (can.user.isMobile) {
-            if (window.innerWidth > window.innerHeight) {
-                layout.top = 0
-            }
-        }
-        can.onaction._resize(sub, layout)
+        var sub = can.core.Value(can, "_outputs.-1")
+        var cb = can.core.Value(can, "_outputs.-1.onimport.resize")
+        sub && cb && can.core.CallFunc(cb, {can: sub,
+            width: window.innerWidth, height: window.innerHeight,
+        })
     },
 })
 Volcanos("onexport", {help: "导出数据", list: []})

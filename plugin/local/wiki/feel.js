@@ -1,6 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.path = can.request({}), can.list = []
-        msg.Table(function(value) { if (value.path.startsWith("/local")) { return }
+        msg.Table(function(value) { if (value.path.indexOf("/local") == 0) { return }
             value.path.endsWith("/")? can.path.Push(value): can.list.push(value)
         })
 
@@ -30,8 +30,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.Status("begin", begin), can.Status("limit", limit), can.Status("total", can.list.length)
     },
     _file: function(can, path, index) {
-        var p = location.href.startsWith("http")? "": "http://localhost:9020"
-        path = path.startsWith("http")? path: p+can.base.Path("/share/local", " "+(can._msg.Option("prefix")||""), path)
+        var p = location.href.indexOf("http") == 0? "": "http://localhost:9020"
+        path = path.indexOf("http") == 0? path: p+can.base.Path("/share/local", " "+(can._msg.Option("prefix")||""), path)
         return path
     },
     file: function(can, path, index) { path = can.onimport._file(can, path, index)

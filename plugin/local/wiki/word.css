@@ -51,7 +51,7 @@ fieldset ul.story[data-type=premenu] li:hover {
     background:cyan;
 }
 
-fieldset fieldset.story {
+fieldset.plugin.word fieldset.story {
     margin:10px; clear:both; float:left;
     border:0;
     box-shadow: 4px 4px 10px 1px #626bd0;

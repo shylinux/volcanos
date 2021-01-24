@@ -76,7 +76,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
             can.sublist[river] = list
         })
     },
-    action: function(event, can, river, storm) {
+    action: function(event, can, river, storm) { can.onlayout._init(can)
         can.onengine.signal(can, "storm.select", can.request(event, {
             river: can.Conf("river", river), storm: can.Conf("storm", storm),
         }))

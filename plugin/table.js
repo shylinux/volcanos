@@ -27,8 +27,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 var msg = can.sup.request(event, can.Option());
                 can.run(event, ["action", "modify", key == "value"? line.key: key, value], function(msg) { }, true)
             })
-        }, onmouseover: function(event) {
-            can.user.toast(can, index+1+"/"+array.length)
         }}
     },
     _board: function(can, msg) {

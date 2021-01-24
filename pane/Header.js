@@ -6,7 +6,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             "black": "黑色主题",
             "white": "白色主题",
             "print": "打印主题",
-            "void": "清除背景",
+            "clear": "清除背景",
             "pack": "打包页面",
             "logout": "退出",
         }
@@ -171,13 +171,13 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
 
     river: function(event, can) { can.run(event, ["search", "River.onmotion.toggle"]) },
     setting: function(event, can) {
-        var ui = can.user.carte(event, can, can.onaction, ["black", "white", "print", "void", "pack"])
+        var ui = can.user.carte(event, can, can.onaction, ["black", "white", "print", "clear", "pack"])
         can.page.Modify(can, ui.first, {style: {top: can._target.offsetHeight}})
     },
     black: function(event, can, button) { can.onlayout.topic(can, button) },
     white: function(event, can, button) { can.onlayout.topic(can, button) },
     print: function(event, can, button) { can.onlayout.topic(can, "white print") },
-    void: function(event, can, button) { can.onimport.background(event, can, button) },
+    clear: function(event, can, button) { can.onimport.background(event, can, button) },
     pack: function(event, can) {
         can.core.Item(Volcanos.meta.pack, function(key, msg) { delete(msg._event), delete(msg._can) })
         var msg = can.request(event, {name: "demo", content: JSON.stringify(Volcanos.meta.pack)})

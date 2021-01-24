@@ -296,7 +296,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
 
     selectLine: function(can, line, item) {
         can.page.Modify(can, can.ui.editor, {className: "editor "+can.mode, value: item.innerText, style: {
-            height: item.offsetHeight, width: can.Conf("width")-180,
+            height: item.offsetHeight,
             left: item.offsetLeft, top: item.offsetTop,
         }})
         can.page.Modify(can, can.ui.command, {className: "command "+can.mode, value: item.innerText, style: {

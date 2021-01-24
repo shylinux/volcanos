@@ -8,6 +8,7 @@ fieldset.editor>div.output input.editor {
     caret-color:yellow;
     min-width:480px;
     display:none;
+    width:-webkit-fill-available;
 }
 fieldset.editor>div.output input.editor.insert {
     caret-color:yellow;

@@ -18,9 +18,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             })
         }, can._plugins = (can._plugins||[]).concat([sub])
 
-        can.page.Modify(can, sub._target, {style: {"max-width": item.width}})
+        can.page.Modify(can, sub._output, {style: {"max-width": item.width-40}})
         can.onengine.listen(can, "action.resize", function(width, height) {
-            can.page.Modify(can, sub._target, {style: {"max-width": item.width = width}})
+            can.page.Modify(can, sub._output, {style: {"max-width": item.width = width-40}})
         })
 
         can.page.Append(can, can._action, [{view: ["item", "div", item.name], onclick: function(event) {
@@ -77,9 +77,12 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
             can.onengine.signal(can, "action.touch", can.request(event))
         }
 
-        can.Conf({width: can._output.offsetWidth-33, height: window.innerHeight})
-        can.onengine.listen(can, "resize", function(width, height) { can.Conf({width: width, height: height})
-            can.onengine.signal(can, "action.resize", can.request({}, {width: width, height: height}))
+        var list = []; can.onengine.listen(can, "resize", function(width, height) {
+            can.Conf({width: width, height: height}), can.core.Delay(list, 1000, function() {
+                can.onengine.signal(can, "action.resize", can.request({}, {
+                    width: can.Conf("width"), height: can.Conf("height"),
+                }))
+            })
         })
 
         can.run({}, ["search", "Header.onimport.menu", "action",

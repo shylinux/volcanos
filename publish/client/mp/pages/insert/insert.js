@@ -38,13 +38,13 @@ Page({
         this.data.insert = app.data.insert.list
 
         var p = app.data.insert.input.action
-        if (p.startsWith("@")) {
+        if (p.indexOf("@") == 0) {
             var cb = this.plugin[p.slice(1,-1)]; cb && cb(this)
         }
         var cb = this.plugin[p]; cb && cb(this)
         kit.List(app.data.insert.list, function(item) {
             item.action = item.action || item.value
-            item.value && item.value.startsWith("@") && (item.value = "")
+            item.value && item.value.indexOf("@") == 0 && (item.value = "")
             app.data.insert.data[item.name] = item.value
         })
         console.log("page", "insert", options)

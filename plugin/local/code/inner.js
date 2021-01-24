@@ -1,18 +1,20 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) {
-        var list = []; can.onengine.listen(can, "action.resize", function(width, height) {
-            can.Conf({width: width, height: height}), can.core.Delay(list, 100, function() {
-                can.onimport._init(can, msg, list, cb, target)
-            })
-        })
-        can.page.Modify(can, can._target, {style: {"max-width": can.Conf("width")}})
-
         var width = can.Conf("width"), height = can.Conf("height")
+        can.onimport.resize = function(can, width, height) {
+            can.Conf({width: width, height: height})
+            can.onimport._init(can, msg, list, cb, target)
+
+        }, can.onengine.listen(can, "action.resize", function(width, height) {
+            can.onimport.resize(can, width, height)
+        })
+
+
         can.ui = can.page.Appends(can, target, [
-            {type: "table", list: [{type: "tr", list: [
+            {view: ["void", "table"], list: [{type: "tr", list: [
                 {type: "td", list: [{view: "project", style: {"max-height": height-240, display: "none"}} ]},
                 {type: "td", list: [{view: "profile", style: {"max-height": height-240}, list: [
                     {view: ["content", "table"]},
-                ]}], style: {"min-width": width-60, "max-width": width-30}},
+                ]}], style: {"min-width": width-80}},
             ]}, ]},
             {view: "search", style: {display: "none"}, list: [{view: "action", list: [
                     {input: ["word", function(event) {
@@ -130,7 +132,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         }).join(""))
 
         p.prefix && can.core.Item(p.prefix, function(pre, type) {
-            if (line.trim().startsWith(pre)) { line = wrap(type, line) }
+            if (line.trim().indexOf(pre) == 0) { line = wrap(type, line) }
         })
         p.suffix && can.core.Item(p.suffix, function(pre, type) {
             if (line.endsWith(pre)) { line = wrap(type, line) }

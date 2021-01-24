@@ -34,7 +34,7 @@ Page({
                         input.action = input.action || input.value
                         input.value == "auto" && (input.value = "")
                         input.value = input.value || kit.Value(line, "feature.trans."+input.name)
-                        if (input.value && input.value.startsWith("@")) {
+                        if (input.value && input.value.indexOf("@") == 0) {
                             input.value = ""
                         }
                         if (input._input == "select") {

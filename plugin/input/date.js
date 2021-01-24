@@ -1,59 +1,46 @@
-Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, item, target, figure) {
-    item.style && can.page.Modify(can, figure.fieldset, {style: item.style})
-
-    // 设置输入
-    function set(now) {
-        target.value = can.base.Time(now)
+Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, item, target) {
+    function set(now) { target.value = can.base.Time(now), can.page.Remove(can, can._target)
         item && item.action == "auto" && can.run({})
     }
 
-    figure.table = can.page.Append(can, figure.output, [{type: "table"}]).first
-
     // 添加控件
     var now = target.value? new Date(target.value): new Date()
-    var control = can.page.AppendAction(can, figure.action, ["关闭",
-        ["hour"].concat(can.core.List(24)), ["minute"].concat(can.core.List(0, 60, 5)), ["second"].concat(can.core.List(0, 60, 5)), {view: ["", "br"]},
-        "今天", {type: "hr", style: {margin: 0}},
-        "上一月", ["year"].concat(can.core.List(now.getFullYear() - 10, now.getFullYear() + 10)),
-        ["month"].concat(can.core.List(1, 13)), "下一月", {view: ["", "br"]},
-    ], function(event, value, cmd) { can.stick = true
-        // 设置时间
-        switch (cmd) {
-            case "year": now.setFullYear(parseInt(value)), show(now); return
-            case "month": now.setMonth(parseInt(value)-1), show(now); return
-            case "hour": now.setHours(parseInt(value)), set(show(now)); return
-            case "minute": now.setMinutes(parseInt(value)), set(show(now)); return
-            case "second": now.setSeconds(parseInt(value)), set(show(now)); return
-        }
+    can.onappend._action(can, ["关闭",
+        ["hour"].concat(can.core.List(24)), ["minute"].concat(can.core.List(0, 60, 5)), ["second"].concat(can.core.List(0, 60, 5)),
+        "今天", "", "上一月", ["year"].concat(can.core.List(now.getFullYear() - 10, now.getFullYear() + 10)),
+        ["month"].concat(can.core.List(1, 13)), "下一月",
+    ], can._action, {
+        "关闭": function(event) { can.page.Remove(can, can._target) },
+        "hour": function(event, can, key, value) {  now.setHours(parseInt(value)), show(now) },
+        "minute": function(event, can, key, value) {  now.setMinutes(parseInt(value)), show(now) },
+        "second": function(event, can, key, value) {  now.setSeconds(parseInt(value)), show(now) },
+        "今天": function(event) {  now = new Date(), set(show(now)) },
 
-        // 设置日期
-        switch (value) {
-            case "关闭": can.page.Remove(can, figure.fieldset); break
-            case "今天": now = new Date(), set(show(now)); break
-            case "随机": now.setDate((Math.random() * 100 - 50) + now.getDate()), set(show(now)); break
-            case "关闭": can.page.Remove(can, figure.first)
-            case "前一年": now.setFullYear(now.getFullYear()-1), show(now); break
-            case "后一年": now.setFullYear(now.getFullYear()+1), show(now); break
-            case "上一月": now.setMonth(now.getMonth()-1), show(now); break
-            case "下一月": now.setMonth(now.getMonth()+1), show(now); break
-        }
+        "上一月": function(event) {  now.setMonth(now.getMonth()-1), show(now) },
+        "year": function(event, can, key, value) {  now.setFullYear(parseInt(value)), show(now) },
+        "month": function(event, can, key, value) {  now.setMonth(parseInt(value)-1), show(now) },
+        "下一月": function(event) {  now.setMonth(now.getMonth()+1), show(now) },
+
+        "随机": function(event) {  now.setDate((Math.random() * 100 - 50) + now.getDate()), show(now) },
+        "前一年": function(event) {  now.setFullYear(now.getFullYear()-1), show(now) },
+        "后一年": function(event) {  now.setFullYear(now.getFullYear()+1), show(now) },
     })
 
-    function show(now) {
+    can._table = can.page.Append(can, can._output, [{view: ["content", "table"]}]).first
+    var today = new Date(); function show(now) {
         // 设置控件
-        control.month.value = now.getMonth()+1
-        control.year.value = now.getFullYear()
-        control.hour.value = now.getHours()
-        control.minute.value = parseInt(now.getMinutes()/5)*5
-        control.second.value = parseInt(now.getSeconds()/5)*5
+        can.Action("month", now.getMonth()+1)
+        can.Action("year", now.getFullYear())
+        can.Action("hour", now.getHours())
+        can.Action("minute", parseInt(now.getMinutes()/5)*5)
+        can.Action("second", parseInt(now.getSeconds()/5)*5)
 
         // 设置组件
-        can.page.Appends(can, figure.table, [{type: "tr", list: can.core.List(["日", "一", "二", "三", "四", "五", "六"], function(day) {return {text: [day, "th"]}})}])
-        var tr; function add(day, type) {if (day.getDay() == 0) {tr = can.page.Append(can, figure.table, [{type: "tr"}]).tr}
-            can.page.Append(can, tr, [{text: [day.getDate(), "td", can.base.Time(day).split(" ")[0] == can.base.Time(now).split(" ")[0]? "select": type],
-                dataset: {date: day.getTime()}, click: function(event) {
+        can.page.Appends(can, can._table, [{th: ["日", "一", "二", "三", "四", "五", "六"]}])
+        var tr; function add(day, type) { if (day.getDay() == 0) { tr = can.page.Append(can, can._table, [{type: "tr"}]).last }
+            can.page.Append(can, tr, [{text: [day.getDate(), "td", can.base.Time(today, "%y-%m-%d") == can.base.Time(day, "%y-%m-%d")? "select": type],
+                dataset: {date: day.getTime()}, onclick: function(event) {
                     set(now = new Date(parseInt(event.target.dataset.date)))
-                    can.page.Remove(can, figure.fieldset)
                 },
             }])
         }
@@ -68,7 +55,8 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
         for (var day = new Date(head); day < one; day.setDate(day.getDate()+1)) {add(day, "last")}
         for (var day = new Date(one); day < end; day.setDate(day.getDate()+1)) {add(day, "main")}
         for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) {add(day, "next")}
-        return now
+
+        can.onlayout.figure(can, event); return now
     }; show(now)
-}} }, [])
+}} }, ["/plugin/input/date.css"])
 

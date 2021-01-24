@@ -43,10 +43,16 @@ body {
 fieldset {
     margin:0; border:0; padding:0;
 }
+fieldset.pane>legend {
+    display:none;
+}
 fieldset.plugin {
     box-shadow:2px 2px 10px 4px #626bd0;
     background-color:#061c3c9e;
     margin:10px; padding:10px;
+}
+fieldset.input>legend {
+    display:none;
 }
 legend {
     box-shadow:4px 4px 20px 4px #626bd0;
@@ -81,39 +87,29 @@ option {
     font-family:monospace;
 }
 
-table.void>tr {
-    margin:0;border:0;padding:0;
-}
-table.void>tr>th {
-    margin:0;border:0;padding:0;
-}
-table.void>tr>td {
-    margin:0;border:0;padding:0;
-}
-
-table {
+table.content {
     border:0; white-space:pre;
     font-size:14px; font-family:monospace;
     cursor:pointer; overflow: auto;
 }
-table tr {
+table.content tr {
     background-color:#04272f45;
 }
-table th {
+table.content th {
     background-color:#0fbd45;
     padding:2px 6px;
 }
-table td {
+table.content td {
     max-width:1200px; overflow:auto;
     padding:2px 6px;
 }
-table td.select {
+table.content td.select {
     background-color:red;
 }
-table td.select {
+table.content td.select {
     background-color:red;
 }
-table td.done {
+table.content td.done {
     background-color:green;
 }
 
@@ -143,7 +139,7 @@ h3:hover {
     cursor:pointer;
 }
 div.code {
-    background-color:#343a34c4; color:white;
+    background-color:#343a3445; color:white;
     font-size:14px; font-family:monospace;
     box-shadow: 4px 4px 20px 4px #626bd0;
     padding:10px; border:solid 3px green;
@@ -216,6 +212,26 @@ fieldset>div.status>div.item>label {
     font-size:10px; color:gray;
 }
 
+table.layout>tr {
+    margin:0;border:0;padding:0;
+}
+table.layout>tr>th {
+    margin:0;border:0;padding:0;
+}
+table.layout>tr>td {
+    margin:0;border:0;padding:0;
+}
+
+fieldset>div.output td.project {
+    background-color:#435f8c8c;
+}
+fieldset>div.output td.profile {
+    background-color:#71909c91;
+}
+fieldset>div.output tr.display {
+    background-color:#71909c91;
+}
+
 fieldset>div.output {
     clear:both; overflow:auto;
     position:relative;
@@ -231,7 +247,10 @@ fieldset>div.output div.project div.item {
     clear:both; cursor:pointer;
 }
 fieldset>div.output div.project div.item:hover {
-    background:red;
+    background-color:red;
+}
+fieldset>div.output div.project div.item.select {
+    background-color:red;
 }
 fieldset>div.output div.project div.list {
     margin-left:10px;

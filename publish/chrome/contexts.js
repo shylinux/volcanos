@@ -18,7 +18,7 @@ Volcanos("chrome", {
             msg.Push("time", can.base.Time())
             msg.Push("type", "img")
 
-            if (item.src.startsWith("data:image")) {
+            if (item.src.indexOf("data:image") == 0) {
                 msg.Push("name", item.src.slice(item.src.length-20))
             } else {
                 msg.Push("name", ls[ls.length-1]||"image.jpg")
