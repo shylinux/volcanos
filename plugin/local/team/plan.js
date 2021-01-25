@@ -53,14 +53,16 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) { task["extra."+key] = value }), delete(task.extra)
         var info = {}; can.core.List(can.onexport.list, function(key) { info[key] = task[key] }), can.Status(info)
 
+        function keys(task, key) { return [task.zone, task.id, key].join(".") }
+
         if (can.task) {
-            can.page.Cache(can.task.id+".profile", can.ui.profile, can.task.id)
-            can.page.Cache(can.task.id+".display", can.ui.display, can.task.id)
+            can.page.Cache(keys(can.task, "profile"), can.ui.profile, can.task.id)
+            can.page.Cache(keys(can.task, "display"), can.ui.display, can.task.id)
         }
 
         can.task = task
-        var profile = can.page.Cache(task.id+".profile", can.ui.profile)
-        var display = can.page.Cache(task.id+".display", can.ui.display)
+        var profile = can.page.Cache(keys(task, "profile"), can.ui.profile)
+        var display = can.page.Cache(keys(task, "display"), can.ui.display)
         if (profile || display) { return }
 
         var table = can.page.Appends(can, can.ui.profile, [{view: ["content", "table"], list: [{th: ["key", "value"]}]}]).first

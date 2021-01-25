@@ -44,8 +44,8 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
 
         can.run({}, ["search", "Header.onimport.menu", "river",
             ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备", "创建空间"],
-            ["访问", "内部系统", "访问应用", "访问工具", "访问用户", "访问设备", "访问任务"],
-            ["共享", "共享群组", "共享应用", "共享工具", "共享用户", "邀请设备"],
+            ["访问", "内部系统", "访问应用", "访问工具", "访问用户", "访问设备", "工作任务"],
+            ["共享", "共享群组", "共享应用", "共享工具", "共享用户", "共享设备"],
         ], function(event, item) {
             can.core.CallFunc([can.ondetail, item], [event, can, item, can.Conf("river"), can.Conf("storm")])
         })
@@ -211,7 +211,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
     "访问设备": function(event, can, button, river, storm) {
         can.user.select(event, can, "space", "time,type,name,text")
     },
-    "访问任务": function(event, can, button, river, storm) {
+    "工作任务": function(event, can, button, river, storm) {
         var msg = can.request(event, {index: "web.team.task"})
         can.user.select(event, can, "task", "time,zone,id,type,name,text")
     },
@@ -224,10 +224,10 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
             return true
         })
     },
-    "邀请设备": function(event, can, button, river, storm) {
+    "共享设备": function(event, can, button, river, storm) {
         can.run(event, ["action", "invite"], function(msg) {
             var toast = can.user.toast(can, {
-                text: msg.Result(), title: "邀请设备",
+                text: msg.Result(), title: "共享设备",
                 width: -100, duration: -1, button: [
                     {button: ["关闭", function() { toast.Close() }]},
                 ]

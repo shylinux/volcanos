@@ -10,13 +10,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }]},
             {view: "content"}, {view: ["display", "table"]}, {view: "preview"},
         ]), typeof cb == "function" && cb(msg)
+        can.page.ClassList.add(can, can.ui.display, "content")
 
         var header = can.run({}, ["search", "Header.onexport.height"])||0
         var footer = can.run({}, ["search", "Footer.onexport.height"])||0
         can.page.Modify(can, can._output, {style: {"max-height": window.innerHeight-header-footer-64}})
     },
     _table: function(can, msg, fields) { can.onmotion.clear(can, can.ui.content)
-        can.onappend.table(can, msg, function(value, key, index, line) { can.Status("count", index+1)
+        var table = can.onappend.table(can, msg, function(value, key, index, line) { can.Status("count", index+1)
             return {text: [key == "text" && typeof line.text == "function" && line.text.help || value, "td"], onclick: function(event) {
                 if (event.shiftKey) { event.stopPropagation(), event.preventDefault()
                     return can.onappend.plugin(can, {index: line.ctx? line.ctx+"."+line.cmd: msg.Option("index"), option: line}, function(sub, meta) {
@@ -36,6 +37,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, can.ui.content, can.core.List((msg.Option("sort")||"ctx,cmd,type,name,text").split(","), function(item) {
             return fields.indexOf(item)
         }))
+        can.page.Modify(can, can.ui.display, {style: {width: table.offsetWidth}})
     },
     _word: function(can, msg, cmds, fields) {
         msg = can.request({}, {word: cmds, fields: fields.join(","), sort: msg.Option("sort"), index: msg.Option("index")})

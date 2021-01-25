@@ -276,7 +276,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }
 
         var feature = can.Conf("feature")
-        var input = cmds && cmds[0] == "action" && cmds.length == 2 && feature && feature[cmds[1]]; if (input) {
+        var input = cmds && cmds[0] == "action" && cmds.length < 4 && feature && feature[cmds[1]]; if (input) {
             can.user.input(event, can, input, function(ev, button, data, list) {
                 cmds = cmds.slice(0, 2), can.core.Item(data, function(key, value) {
                     key && value && cmds.push(key, value)

@@ -78,6 +78,9 @@ input[type=text]:hover {
 input[name=cmd] {
     width:160px;
 }
+fieldset>form.option>div.item input.args[name=date] {
+    width:150px;
+}
 select {
     box-shadow: 4px 4px 10px 1px #626bd0;
     background-color:black; color:cyan;
