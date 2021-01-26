@@ -26,7 +26,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "list": cmds.slice(2), "cb": cb, "target": sub._target,
         }, mod)
     },
-    remote: function(event, can, msg, pane, cmds, cb) {
+    remote: function(event, can, msg, pane, cmds, cb) { msg.Option("_handle", "false")
         if (pane.onengine.engine(event, can, msg, pane, cmds, cb)) { return }
         can.misc.Run(event, can, {names: pane._name}, cmds, cb)
         pane.run(event, ["search", "Footer.onimport.ncmd"])
@@ -227,12 +227,15 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 CloneField: function() { can.Clone() },
             }, [item.display||"/plugin/input.js"].concat(Volcanos.meta.volcano, Volcanos.meta.libs), function(input) {
                 input.Conf(item), input.sup = can, input.run = function(event, cmds, cb, silent) {
+                    var msg = can.request(event)
                     var sub = can.core.Value(can, "_outputs.-1")
-                    if (sub && cmds && cmds[0] == "action" && sub.onaction[cmds[1]]) {
+                    if (msg.Option("_handle") != "true" && sub && cmds && cmds[0] == "action" && sub.onaction[cmds[1]]) {
+                        msg.Option("_handle", "true")
                         return sub.onaction[cmds[1]](event, sub)
                     }
 
-                    if (cmds && cmds[0] == "action" && input.onaction[cmds[1]]) {
+                    if (msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && input.onaction[cmds[1]]) {
+                        msg.Option("_handle", "true")
                         return input.onaction[cmds[1]](event, input)
                     }
 
@@ -276,13 +279,13 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }
 
         var feature = can.Conf("feature")
-        var input = cmds && cmds[0] == "action" && cmds.length < 4 && feature && feature[cmds[1]]; if (input) {
+        var input = msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && feature && feature[cmds[1]]; if (input) {
             can.user.input(event, can, input, function(ev, button, data, list) {
                 cmds = cmds.slice(0, 2), can.core.Item(data, function(key, value) {
                     key && value && cmds.push(key, value)
                 })
 
-                var msg = can.request(event, can.Option())
+                var msg = can.request(event, can.Option()); msg.Option("_handle", "true")
                 can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")
                     if (can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
                     if (can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
@@ -307,7 +310,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 Option: can.Option, Action: can.Action, Status: can.Status,
             }, [display].concat(Volcanos.meta.volcano, Volcanos.meta.libs), function(table) {
                 table.Conf(can.Conf()), table.sup = can, table.run = function(event, cmds, cb, silent) {
-                    if (cmds && cmds[0] == "action" && table.onaction[cmds[1]]) {
+                    var msg = can.request(event)
+                    if (msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && table.onaction[cmds[1]]) {
+                        msg.Option("_handle", "true")
                         return table.onaction[cmds[1]](event, table)
                     }
 

@@ -209,7 +209,7 @@ Volcanos("onaction", {help: "组件交互", list: [
         can.onimport[can.Option("scale")](can, can._msg)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: ["count", "begin_time", "zone", "id", "type", "name"],
+Volcanos("onexport", {help: "导出数据", list: ["count", "begin_time", "zone", "id", "type", "name", "text"],
     name: function(can, task) { return task.name },
     text: function(can, task) { return task.name+": "+(task.text||"") },
     level: function(can, task) { return "l-"+(task.level||3)+": "+(task.name||"") },
