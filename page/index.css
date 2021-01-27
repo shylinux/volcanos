@@ -103,7 +103,8 @@ table.content th {
     padding:2px 6px;
 }
 table.content td {
-    max-width:1200px; overflow:auto;
+    /* max-width:1200px; */
+    overflow:auto;
     padding:2px 6px;
 }
 table.content td.select {
@@ -215,6 +216,9 @@ fieldset>div.status>div.item>label {
     font-size:10px; color:gray;
 }
 
+table.layout>td {
+    vertical-align:top;
+}
 table.layout>tr {
     margin:0;border:0;padding:0;
 }

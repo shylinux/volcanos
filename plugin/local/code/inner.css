@@ -39,56 +39,60 @@ fieldset.editor>div.output div.project {
     font-size:14px; font-family:monospace;
     color:white;
 }
-fieldset.editor>div.output div.profile {
+fieldset.editor>div.output div.content {
+    overflow:auto;
     padding:0; margin:0;
-    position:relative;
+}
+fieldset.editor>div.output div.display {
+    display:none;
 }
 
-fieldset.editor>div.output table.content {
+fieldset.editor>div.output div.content {
     font-size:16px; font-family:monospace;
 }
-fieldset.editor>div.output table.content tr {
+fieldset.editor>div.output div.content tr {
     background-color:#99CCFF00;
 }
-fieldset.editor>div.output table.content tr.select td.line {
+fieldset.editor>div.output div.content tr.select td.line {
     background-color:red;
     border:solid 1px yellow;
 }
-fieldset.editor>div.output table.content td.line {
+fieldset.editor>div.output div.content td.line {
     text-align:right; margin:0;
     border-right:solid 2px red;
     padding:0 6px;
     color:white;
 }
-fieldset.editor>div.output table.content td.line:hover {
+fieldset.editor>div.output div.content td.line:hover {
     background-color:green;
 }
-fieldset.editor>div.output table.content td.text {
+fieldset.editor>div.output div.content td.text {
     text-align:left; height:20px;
     border:solid 1px #173d4000;
     padding:0; margin:0;
     padding-left:10px;
     color:white;
+    white-space:pre;
 }
-fieldset.editor>div.output table.content td.text:hover {
+fieldset.editor>div.output div.content td.text:hover {
     background-color:#06062700;
 }
-fieldset.editor>div.output table.content td.text span.comment {
+fieldset.editor>div.output div.content td.text span.comment {
     color:cyan; background-color:blue;
 }
-fieldset.editor>div.output table.content td.text span.keyword {
+fieldset.editor>div.output div.content td.text span.keyword {
     color:yellow; font-weight:bold;
 }
-fieldset.editor>div.output table.content td.text span.function {
+fieldset.editor>div.output div.content td.text span.function {
     color:cyan; font-weight:bold;
 }
-fieldset.editor>div.output table.content td.text span.datatype {
+fieldset.editor>div.output div.content td.text span.datatype {
     color:lightgreen; font-weight:bold;
 }
-fieldset.editor>div.output table.content td.text span.string {
+fieldset.editor>div.output div.content td.text span.string {
     color:magenta;
 }
-body.white fieldset.editor>div.output table.content td.text span.string {
+body.white fieldset.editor>div.output div.content td.text span.string {
     color:#a703a7;
 }
 
