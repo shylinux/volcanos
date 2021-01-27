@@ -1,24 +1,18 @@
-
-fieldset.editor>div.output input.editor {
+fieldset.editor>div.output input.current {
     position:absolute; padding:0; margin:0;
     font-size:16px; font-family:monospace;
     padding-left:9px;
 
     background-color:#00000000; color:#00000000;
-    caret-color:yellow;
-    min-width:480px;
-    display:none;
     width:-webkit-fill-available;
 }
-fieldset.editor>div.output input.editor.insert {
+fieldset.editor>div.output input.current.insert {
     caret-color:yellow;
-    display:block;
 }
-fieldset.editor>div.output input.editor.normal {
+fieldset.editor>div.output input.current.normal {
     caret-color:blue;
-    display:block;
 }
-fieldset.editor>div.output input.editor.command {
+fieldset.editor>div.output input.current.command {
     display:none;
 }
 
@@ -28,9 +22,9 @@ fieldset.editor>div.output input.command {
     background-color:black; color:white;
     caret-color:red;
 
-    min-width:480px;
     border:solid 1px red;
     border-left:solid 3px green;
+    width:-webkit-fill-available;
 }
 fieldset.editor>div.output input.command.normal {
     display:none;
@@ -41,19 +35,18 @@ fieldset.editor>div.output input.command.insert {
 
 fieldset.editor>div.output div.display {
     border:solid 2px greenyellow;
-    padding:6px;
-}
-fieldset.editor>div.output div.display div.action {
-    padding-left:6px;
-}
-fieldset.editor>div.output div.display div.output {
-    padding:0; border:0; overflow:auto;
-    color:white;
+    padding:10px;
 }
 fieldset.editor>div.output div.display input.cmd {
     font-size:16px; font-family:monospace;
     background-color:black; color:white;
-    min-width:480px;
+    min-width:480px; padding-left:5px;
+    margin-left:2px;
 }
-
+fieldset.editor>div.output div.display div.output {
+    overflow:auto;
+}
+fieldset.editor>div.output div.display div.output {
+    max-height:160px;
+}
 

@@ -91,6 +91,7 @@ option {
 }
 
 table.content {
+    width:-webkit-fill-available;
     border:0; white-space:pre;
     font-size:14px; font-family:monospace;
     cursor:pointer; overflow: auto;
@@ -216,16 +217,18 @@ fieldset>div.status>div.item>label {
     font-size:10px; color:gray;
 }
 
-table.layout>td {
+table.layout {
+    margin:0; border:0; padding:0;
+    border-spacing:0;
+}
+table.layout tr {
+    margin:0;border:0;padding:0;
+}
+table.layout td {
+    margin:0; border:0; padding:0;
     vertical-align:top;
 }
-table.layout>tr {
-    margin:0;border:0;padding:0;
-}
-table.layout>tr>th {
-    margin:0;border:0;padding:0;
-}
-table.layout>tr>td {
+table.layout th {
     margin:0;border:0;padding:0;
 }
 
@@ -236,7 +239,7 @@ fieldset>div.output td.profile {
     background-color:#71909c91;
 }
 fieldset>div.output tr.display {
-    background-color:#71909c91;
+    /* background-color:#71909c91; */
 }
 
 fieldset>div.output {

@@ -1,82 +1,48 @@
 fieldset.editor>form.option div.item input.args[name=line] {
     width:40px;
 }
-fieldset.editor>div.action>div.file {
+fieldset.editor>div.action div.file {
     border:solid 2px red; padding:2px;
-    float:left; margin:2px 0;
-    cursor:pointer;
+    float:left; cursor:pointer;
 }
-fieldset.editor>div.action>div.file.over {
+fieldset.editor>div.action div.file.over {
     background-color:blue;
 }
-fieldset.editor>div.action>div.file.select {
-    background-color:green; color:white;
+fieldset.editor>div.action div.file.select {
+    background-color:green;
 }
 
-fieldset.editor {
-    background:#0b2c54ab;
-}
 fieldset.editor>div.output {
-    background-color:#173d4047;
+    color:white;
 }
-fieldset.editor>div.output>table>tr {
-    background-color:#99CCFF00;
-}
-fieldset.editor>div.output>table>tr:hover {
-    background-color:#99CCFF00;
-}
-fieldset.editor>div.output>table>tr>td {
-    padding:0; overflow:auto;
-    vertical-align:top;
-    background-color:#99CCFF00;
-}
-fieldset.editor>div.output>table>tr>td:hover {
-    background-color:#99CCFF00;
-}
-
 fieldset.editor>div.output div.project {
     max-width:180px; overflow:auto;
     font-size:14px; font-family:monospace;
-    color:white;
 }
-fieldset.editor>div.output div.content {
-    overflow:auto;
-    padding:0; margin:0;
-}
-fieldset.editor>div.output div.display {
-    display:none;
-}
-
 fieldset.editor>div.output div.content {
     font-size:16px; font-family:monospace;
-}
-fieldset.editor>div.output div.content tr {
-    background-color:#99CCFF00;
-}
-fieldset.editor>div.output div.content tr.select td.line {
-    background-color:red;
-    border:solid 1px yellow;
-}
-fieldset.editor>div.output div.content td.line {
-    text-align:right; margin:0;
-    border-right:solid 2px red;
-    padding:0 6px;
+    position:relative;
+    overflow:auto;
     color:white;
+}
+
+fieldset.editor>div.output div.content tr.select td.line {
+    border:solid 1px yellow;
+    background-color:red;
 }
 fieldset.editor>div.output div.content td.line:hover {
     background-color:green;
 }
+fieldset.editor>div.output div.content td.line {
+    text-align:right; padding:0 6px;
+    border-right:solid 2px red;
+}
 fieldset.editor>div.output div.content td.text {
     text-align:left; height:20px;
-    border:solid 1px #173d4000;
-    padding:0; margin:0;
     padding-left:10px;
-    color:white;
     white-space:pre;
 }
-fieldset.editor>div.output div.content td.text:hover {
-    background-color:#06062700;
-}
+
 fieldset.editor>div.output div.content td.text span.comment {
     color:cyan; background-color:blue;
 }
@@ -92,29 +58,25 @@ fieldset.editor>div.output div.content td.text span.datatype {
 fieldset.editor>div.output div.content td.text span.string {
     color:magenta;
 }
-body.white fieldset.editor>div.output div.content td.text span.string {
-    color:#a703a7;
-}
 
 fieldset.editor>div.output div.search {
-    background-color:#060627ab; color:white;
     padding:6px; border:solid 1px red;
-    color:white;
 }
 fieldset.editor>div.output div.search div.tags {
     text-align:left; overflow:auto;
+}
+fieldset.editor>div.output div.search div.tags table {
+    width:-webkit-fill-available;
 }
 fieldset.editor>div.output div.search td>div {
     max-height:100px;
     overflow:hidden;
 }
 
-body.white fieldset.editor div.output table {
-    background:#0b2c5400; color:white;
+body.white fieldset.editor>div.output div.content {
+    background-color:#013b675c;
 }
-body.white fieldset.editor div.output table tr {
-    background:#0b2c5400;
+body.white fieldset.editor>div.output div.content td.text span.string {
+    color:#a703a7;
 }
-body.white fieldset.editor div.output div.search table {
-    background:#0b2c5400; color:white;
-}
+
