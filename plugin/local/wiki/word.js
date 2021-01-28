@@ -16,7 +16,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }, target)
         } target.innerHTML = msg.Result()
 
-        can.page.Select(can, target, ".story", function(item) { var data = item.dataset
+        can.page.Select(can, target, ".story", function(item) { var data = item.dataset||{}
             can.page.Modify(can, item, {style: can.base.Obj(data.style)})
             var cb = can.onimport[data.type]; typeof cb == "function" && cb(can, data, item)
         })
