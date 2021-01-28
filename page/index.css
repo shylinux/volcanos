@@ -90,6 +90,21 @@ option {
     font-family:monospace;
 }
 
+table.layout {
+    margin:0; border:0; padding:0;
+    border-spacing:0;
+}
+table.layout tr {
+    margin:0;border:0;padding:0;
+}
+table.layout td {
+    margin:0; border:0; padding:0;
+    vertical-align:top;
+}
+table.layout th {
+    margin:0;border:0;padding:0;
+}
+
 table.content {
     width:-webkit-fill-available;
     border:0; white-space:pre;
@@ -104,9 +119,8 @@ table.content th {
     padding:2px 6px;
 }
 table.content td {
-    /* max-width:1200px; */
-    overflow:auto;
     padding:2px 6px;
+    overflow:auto;
 }
 table.content td.select {
     background-color:red;
@@ -215,21 +229,6 @@ fieldset>div.status>div.item {
 }
 fieldset>div.status>div.item>label {
     font-size:10px; color:gray;
-}
-
-table.layout {
-    margin:0; border:0; padding:0;
-    border-spacing:0;
-}
-table.layout tr {
-    margin:0;border:0;padding:0;
-}
-table.layout td {
-    margin:0; border:0; padding:0;
-    vertical-align:top;
-}
-table.layout th {
-    margin:0;border:0;padding:0;
 }
 
 fieldset>div.output td.project {

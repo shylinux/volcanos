@@ -1,8 +1,9 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) {
         can.history = can.history || []
         can.onmotion.clear(can), can.ui = can.onlayout.profile(can)
-        can.page.Modify(can, can.ui.content, {style: {"max-height": can.Conf("height")-320}})
         can.page.Modify(can, can.ui.project, {style: {"max-height": can.Conf("height")-320}})
+        can.page.Modify(can, can.ui.content, {style: {"max-height": can.Conf("height")-320}})
+        can.page.Modify(can, can.ui.content, {style: {"min-width": can.Conf("width")-170}})
         can.page.Modify(can, can.ui.display, {style: {display: "none"}})
 
         msg.Option({path: can.Option("path"), file: can.Option("file"), line: can.Option("line")||1})
@@ -12,7 +13,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         can.onimport.project(can, msg.Option("path"))
         typeof cb == "function" && cb(msg)
 
-        can.onaction.project({}, can)
         var ui = can.page.Append(can, target, [
             {view: "search", style: {display: "none"}, list: [
                 {view: "action", list: [
