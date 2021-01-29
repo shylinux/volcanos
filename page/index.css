@@ -210,17 +210,17 @@ fieldset>form.option>div.item.textarea {
     clear:both;
 }
 
-fieldset>div.action>div.item {
+fieldset div.action>div.item {
     float:left; margin-right:3px;
     height:25px; vertical-align:middle;
 }
-fieldset>div.action>div.item.space {
+fieldset div.action>div.item.space {
     width:10px;
 }
-fieldset>div.action>div.item label {
+fieldset div.action>div.item label {
     display:none;
 }
-fieldset>div.action>div.item select {
+fieldset div.action>div.item select {
     height:25px; font-size:14px;
 }
 
@@ -231,6 +231,9 @@ fieldset>div.status>div.item>label {
     font-size:10px; color:gray;
 }
 
+fieldset div.output {
+    clear:both;
+}
 fieldset>div.output td.project {
     background-color:#435f8c8c;
 }

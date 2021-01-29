@@ -6,13 +6,25 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         can.page.Modify(can, can.ui.content, {style: {"min-width": can.Conf("width")-170}})
         can.page.Modify(can, can.ui.display, {style: {display: "none"}})
 
+        var ui = can.page.Append(can, can.ui.display, [
+            {view: "action"}, {view: "output"},
+        ]); can.ui.output = ui.output
+        can.onappend._action(can, ["关闭", "清空", "运行"], ui.action, {
+            "关闭": function(event) { can.onmotion.hidden(can, can.ui.display) },
+            "清空": function(event) { can.onmotion.clear(can, can.ui.output) },
+            "运行": function(event) { can.onaction["运行"](event, can) },
+        })
+
         msg.Option({path: can.Option("path"), file: can.Option("file"), line: can.Option("line")||1})
         can.tabview = can.tabview || {}, can.tabview[can.Option("path")+can.Option("file")] = msg
 
         can.onimport.tabview(can, msg.Option("path"), msg.Option("file"), msg.Option("line")||1)
         can.onimport.project(can, msg.Option("path"))
         typeof cb == "function" && cb(msg)
-
+        can.onimport._search(can, target)
+        can.onimport._favor(can, target)
+    },
+    _search: function(can, target) {
         var ui = can.page.Append(can, target, [
             {view: "search", style: {display: "none"}, list: [
                 {view: "action", list: [
@@ -21,15 +33,27 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                     }], value: "main", onfocus: function(event) { event.target.setSelectionRange(0, -1) }},
                     {button: ["搜索", function(event) { can.onaction.searchLine(event, can, ui.word.value) }]},
                     {button: ["返回", function(event) { can.onaction["返回"](event, can) }]},
-                    {button: ["关闭", function(event) { can.onaction.searchShow(event, can) }]},
+                    {button: ["关闭", function(event) { can.onaction["搜索"](event, can) }]},
                 ]},
                 {view: "tags", style: {"max-height": 160}},
             ]},
         ]); can.core.Copy(can.ui, ui, "search", "word", "tags")
     },
+    _favor: function(can, target) {
+        can.onappend.plugin(can, {index: "web.code.favor"}, function(sub) {
+            sub.run = function(event, cmds, cb) {
+                can.run(event, ["action", "favor"].concat(cmds), cb, true)
+            }, can.ui.favor = sub
+
+            sub.Select = function(line) {
+                line.path == can.Option("path") && can.onimport.tabview(can, line.path, line.file, line.line)
+            }
+            can.onmotion.hidden(sub, sub._target)
+        }, target)
+    },
     project: function(can, path) { can.Option({path: path})
         var msg = can.request({}, {dir_root: path, dir_deep: true})
-        can.run(msg._event, ["action", "dir", "./"], function(msg) {
+        can.run(msg._event, ["./"], function(msg) {
             can.onmotion.clear(can, can.ui.project)
             can.onappend.tree(can, msg.Table(), "path", "/", function(event, item) {
                 can.onimport.tabview(can, path, item.path)
@@ -42,10 +66,11 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             can._msg = can.tabview[path+file]
 
             can.Option({path: path, file: file, line: line||parseInt(can._msg.Option("line"))||1})
+            can._msg.Option("line", can.Option("line"))
             return can.onsyntax._init(can, can._msg), typeof cb == "function" && cb()
         }
 
-        can.run({}, ["action", "render", can.base.Ext(file||path), file, path], function(msg) {
+        can.run({}, [path, file], function(msg) {
             msg.Option({path: path, file: file, line: line||1})
             can.tabview[path+file] = msg
 
@@ -62,7 +87,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
 }, ["/plugin/local/code/inner.css"])
 Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"], _init: function(can, msg) {
         // caches save
-        can.file && can.core.List(["content", "profile", "display"], function(item) { can.page.Cache(can.file, can.ui[item], {
+        can.file && can.core.List(["content", "profile", "output"], function(item) { can.page.Cache(can.file, can.ui[item], {
             scrollTop: can.ui.content.scrollTop, current: can.current, max: can.max,
         }) })
 
@@ -72,9 +97,9 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
 
         // caches load
         can.onmotion.select(can, can._action, "div.file", msg._tab)
-        var cache = false; can.core.List(["content", "profile", "display"], function(item) {
+        var cache = false; can.core.List(["content", "profile", "output"], function(item) {
             var p = can.page.Cache(can.file, can.ui[item]); if (p != undefined && !cache) { cache = true
-                can.onaction.selectLine(can, p.current.line)
+                can.onaction.selectLine(can, parseInt(msg.Option("line")))
                 can.ui.content.scrollTo(0, p.scrollTop)
                 can.max = p.max
             }
@@ -116,14 +141,23 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         return p.line? p.line(can, line): line
     },
 })
-Volcanos("onaction", {help: "控件交互", list: [],
+Volcanos("onaction", {help: "控件交互", list: ["项目", "运行", "搜索"],
     "返回": function(event, can) {
         var last = can.history.pop(); last = can.history.pop()
         last && can.onimport.tabview(can, last.path, last.file, last.line)
         can.Status("跳转数", can.history.length)
     },
-    project: function(event, can) { can.onmotion.toggle(can, can.ui.project) },
-    searchShow: function(event, can) { can.onmotion.toggle(can, can.ui.search) },
+    "运行": function(event, can) {
+        var msg = can.request(event, {_toast: "运行中..."})
+        can.run(event, ["action", "engine", can.parse, can.Option("file"), can.Option("path")], function(msg) {
+            can.onappend.table(can, msg, function(value, key, index) { return {text: [value, "td"]} }, can.ui.output||can.ui.display)
+            can.onappend.board(can, msg.Result(), can.ui.output||can.ui.display)
+            can.page.Modify(can, can.ui.display, {style: {display: "block"}})
+        }, true)
+    },
+    "项目": function(event, can) { can.onmotion.toggle(can, can.ui.project) },
+    "搜索": function(event, can) { can.onmotion.toggle(can, can.ui.search) },
+    "收藏": function(event, can) { can.onmotion.toggle(can, can.ui.favor._target) },
 
     appendLine: function(can, value) {
         var ui = can.page.Append(can, can.ui.content, [{type: "tr", list: [
@@ -201,8 +235,8 @@ Volcanos("onaction", {help: "控件交互", list: [],
         can.page.Modify(can, can.ui.search, {style: {display: ""}})
         value = can.ui.word.value = value || can.ui.word.value || "main"
 
-        var toast = can.user.toast(can, "搜索中...", value, 1000000)
-        can.run(event, ["action", "search", can.parse, value, can.Option("path")], function(msg) { toast.Close()
+        var msg = can.request(event, {_toast: "搜索中..."})
+        can.run(event, ["action", "search", can.parse, value, can.Option("path")], function(msg) {
 
             can.onmotion.clear(can, can.ui.tags)
             can.onappend.table(can, msg, function(value, key, index, line) {
@@ -247,7 +281,8 @@ Volcanos("onaction", {help: "控件交互", list: [],
             {_input: "text", name: "name", value: "@key"},
         ], function(event, button, meta, list) {
             can.run(event, [
-                "favor", "topic", meta.topic||"some",
+                "action", "favor",
+                "action", "insert", "topic", meta.topic||"some",
                 "type", can.parse, "name", meta.name||"some", "text", value,
                 "path", can.Option("path"), "file", can.Option("file"), "line", can.Option("line"),
             ], function(msg) {

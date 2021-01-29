@@ -47,9 +47,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
     },
     change: function(event, can, name, value, cb) {
-        can.page.Select(can, can._option, "input.args", function(input) {
+        return can.page.Select(can, can._option, "input.args", function(input) {
             if (input.name == name && value != input.value) { input.value = value
                 var data = input.dataset || {}; data.action == "auto" && can.run(event, can.Pack(), cb)
+                return input
             }
         })
     },

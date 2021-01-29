@@ -529,9 +529,9 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
             {type: "td", list: [
                 {type: "tr", list: [{type: "tr", list: [
                     {view: ["content", "td"], list: [{view: ["content"]}]},
-                    {view: ["profile", "td"], list: [{view: ["profile"]}]},
+                    {view: ["profile", "td"], list: [{view: ["profile"], style: {display: "none"}}]},
                 ]}]},
-                {view: ["display", "tr"], list: [{view: ["display"]}]}
+                {view: ["display", "tr"], list: [{view: ["display"], style: {display: "none"}}]}
             ]}
         ] }])
     },
@@ -548,7 +548,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
     display: function(can, target) { target = target || can._target
         return can.page.Appends(can, target, [{view: ["layout", "table"], list: [
             {type: "tr", list: [{view: "content"}]},
-            {type: "tr", list: [{view: "display"}]},
+            {type: "tr", list: [{view: "display", style: {display: "none"}}]},
         ]}])
     },
 })

@@ -12,9 +12,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         })
     },
     _plugin: function(can, river, storm, sub, item) {
+
         sub.run = function(event, cmds, cb) { var msg = sub.request(event)
+            var toast = msg.Option("_toast") && can.user.toast(can, msg.Option("_toast"), "", 1000000)
             return can.run(event, (can.onengine[cmds[0]]? []: [river, storm, item.id||item.index||item.key+"."+item.name]).concat(cmds), function(msg) {
-                typeof cb == "function" && cb(msg)
+                toast && toast.Close(), typeof cb == "function" && cb(msg)
             })
         }, can._plugins = (can._plugins||[]).concat([sub])
 

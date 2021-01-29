@@ -20,7 +20,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 key == "value"? can.core.List(array, function(item, index) { msg.Option(item.key, item.value) }): msg.Option(line)
                 return can.run(event, ["action", target.name], function(msg) { can.run() }, true)
             }
-            can.sup.onaction.change(event, can.sup, key, value, function(msg) { can.onimport._init(can, msg) })
+
+            if (can.sup.onaction.change(event, can.sup, key, value, function(msg) { can.onimport._init(can, msg) }).length > 0) { return }
+
+            can.sup.Select && can.sup.Select(line)
 
         }, ondblclick: function(event) {
             can.onmotion.modify(can, event.target, function(event, value, old) {

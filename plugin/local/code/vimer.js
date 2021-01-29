@@ -28,12 +28,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _merge: function(can, sub)
                     }},
                 ]); can.core.Copy(can.ui, ui, "current", "command")
 
-                var ui = can.page.Append(can, can.ui.display, [
+                var ui = can.page.Appends(can, can.ui.display, [
                     {view: "action", list: [
                         {input: ["cmd", function(event) {
                             can.onkeymap.parse(event, can, "command")
                         }], value: "", onfocus: function(event) {
                             event.target.setSelectionRange(0, -1)
+                            can.onkeymap._command(can)
                         }},
                         {button: ["执行", function(event) {
                             can.onkeymap.command.Enter(event, can, can.ui.cmd.value)
@@ -86,8 +87,8 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     },
     _engine: {
         e: function(event, can, line, ls) { can.onimport.tabview(can, can.Option("path"), ls[1]) },
-        p: function(event, can) { can.onaction.project(event, can) },
-        q: function(event, can) { can.onaction.display(event, can) },
+        p: function(event, can) { can.onaction["项目"](event, can) },
+        q: function(event, can) { can.onmotion.hidden(can, can.ui.display) },
         w: function(event, can) { can.onaction.save(event, can) },
     },
 
@@ -121,17 +122,19 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         Escape: function(event, can) { can.onkeymap._normal(can) },
         Enter: function(event, can) { can.onmotion.hidden(can, can.ui.command)
             can.page.Modify(can, can.ui.display, {style: {display: "block"}})
+            var line = can.ui.command.value || can.ui.cmd.value
             can.ui.cmd.value = line, can.ui.cmd.focus()
             can.ui.cmd.setSelectionRange(0, -1)
+            can.ui.command.value = ""
 
             can.onmotion.clear(can, can.ui.output)
-            var line = can.ui.command.value || can.ui.cmd.value ; var ls = can.core.Split(line, " ", ",")
+            var ls = can.core.Split(line, " ", ",")
             var cb = can.onkeymap._engine[ls[0]]; if (typeof cb == "function") {
                 can.onmotion.hidden(can, can.ui.display)
                 can.onkeymap._normal(can)
                 cb(event, can, line, ls)
             } else {
-                can.onkeymap._remote(event, can, line, ["action", "command"].concat(ls))
+                can.onkeymap._remote(event, can, line, ["action", "command", "run"].concat(ls))
             }
         },
         jk: function(event, can) { can.keylist = can.keylist.slice(0, -1)
@@ -162,15 +165,9 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         },
         j: function(event, can) {
             can.onaction.selectLine(can, can.current.next())
-            // var pos = can.current.offset()+can.current.window()-can.ui.current.offsetTop; if (pos < 5*can.current.height()) {
-            //     can.current.scroll(0, can.current.height())
-            // }
         },
         k: function(event, can) {
             can.onaction.selectLine(can, can.current.prev())
-            // var pos = can.ui.current.offsetTop-can.current.offset(); if (pos < can.current.height()*5) {
-            //     can.current.scroll(0, -can.current.height())
-            // }
         },
 
         gg: function(event, can, count) { count = count || 1
@@ -291,14 +288,11 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         can.onaction.rerankLine(can)
     },
 })
-Volcanos("onaction", {help: "控件交互", list: [],
-    display: function(event, can) { can.onmotion.toggle(can, can.ui.display) },
-
-    save: function(event, can) {
-        var msg = can.request(event); msg.Option("content", can.onexport.content(can))
+Volcanos("onaction", {help: "控件交互", list: ["项目", "搜索", "收藏"],
+    save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
         can.run(event, ["action", "save", can.parse, can.Option("file"), can.Option("path")], function(msg) {
             can.user.toast(can, "保存成功")
         }, true)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: ["文件数", "模式", "按键", "解析器", "文件名", "当前行", "跳转数", "标签数"]})
+Volcanos("onexport", {help: "导出数据", list: ["文件数", "模式", "按键", "解析器", "文件名", "当前行", "跳转数"]})
