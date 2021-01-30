@@ -28,7 +28,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
     },
     remote: function(event, can, msg, pane, cmds, cb) { msg.Option("_handle", "false")
         if (pane.onengine.engine(event, can, msg, pane, cmds, cb)) { return }
-        can.misc.Run(event, can, {names: pane._name}, cmds, cb)
+        can.misc.Runs(event, can, {names: pane._name}, cmds, cb)
         pane.run(event, ["search", "Footer.onimport.ncmd"])
     }, engine: function(event, can, msg, pane, cmds, cb) { return false },
 
@@ -126,10 +126,20 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             ]},
         }},
         "profile": {name: "测试群", storm: {
-            "pprof": {name: "pprof", index: [
+            "auto": {name: "智能 auto", index: [
+                "web.code.autogen",
+                "web.code.compile",
+                "web.code.publish",
+            ]},
+            "code": {name: "性能 code", index: [
                 "web.code.bench",
                 "web.code.pprof",
                 "web.code.favor",
+            ]},
+            "pack": {name: "功能 pack", index: [
+                "web.code.webpack",
+                "web.code.binpack",
+                "web.code.install",
             ]},
         }},
         "operate": {name: "运维群", storm: {
@@ -445,6 +455,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         meta.name = meta.name||value.name||"story"
         meta.help = meta.help||value.help||"story"
         meta.width = meta.width||can.Conf("width")
+        meta.height = meta.width||can.Conf("height")
         meta.type = meta.type||"story"
 
         can.onappend._init(can, meta, ["/plugin/state.js"], function(sub) {
@@ -548,7 +559,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
     display: function(can, target) { target = target || can._target
         return can.page.Appends(can, target, [{view: ["layout", "table"], list: [
             {type: "tr", list: [{view: "content"}]},
-            {type: "tr", list: [{view: "display", style: {display: "none"}}]},
+            {type: "tr", list: [{view: "display"}]},
         ]}])
     },
 })
@@ -690,6 +701,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
 })
 Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, target) {
         if ((can.user.Search(can, "topic")||"").indexOf("print") > -1) { return }
+        return
 
         var count = 0, add = true
         can.user.isMobile || can.user.Search(can, "share") || can.core.Timer({interval: 100}, function() {

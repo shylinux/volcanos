@@ -5,7 +5,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
     _progress: function(can, msg, cmds, cb, silent) {
         var size = msg.Append("size") || msg.Append("count")
-        if (size != "" && size == msg.Append("total")) { return false }
+        if (size != "" && size == msg.Append("total")) { return true }
 
         can.user.toast(can, {
             title: can._name+" "+msg.Append("step")+"% ", duration: 1100,

@@ -7,9 +7,9 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {onclick: function(ev
             "清空": function(event) { target.value = "" },
         })
 
-        can.onappend.table(can, msg, function(value) {
+        can.onappend.table(can, msg, function(value, key, index, line) {
             return {text: [value, "td"], onclick: function() {
-                target.value = value, can.page.Remove(can, can._target) 
+                target.value = line[key], can.page.Remove(can, can._target) 
             }}
         }), can.Status("count", msg.Length())
         can.onlayout.figure(can, event)

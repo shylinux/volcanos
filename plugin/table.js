@@ -23,11 +23,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
             if (can.sup.onaction.change(event, can.sup, key, value, function(msg) { can.onimport._init(can, msg) }).length > 0) { return }
 
-            can.sup.Select && can.sup.Select(line)
-
         }, ondblclick: function(event) {
             can.onmotion.modify(can, event.target, function(event, value, old) {
-                var msg = can.sup.request(event, can.Option());
+                var msg = can.sup.request(event, can.Option()); msg = can.sup.request(event, line)
                 can.run(event, ["action", "modify", key == "value"? line.key: key, value], function(msg) { }, true)
             })
         }}
@@ -59,7 +57,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _follow: function(can, msg) {
         if (msg.Option("cache.status") == "stop") { return can.user.toast(can, msg.Option("cache.action")+" done!")}
 
-        can.page.Modify(can, can.ui.display, {className: "code", style: {"max-height": 400}})
+        can.page.Modify(can, can.ui.display, {className: "code", style: {"max-height": 400, "display": "block"}})
         can.page.Append(can, can.ui.display, [{text: msg.Result()}])
         can.ui.display.scrollBy(0, 1000)
 
@@ -80,6 +78,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.onappend.board(can, msg.Result(), can.ui.display)
         can.onimport._board(can, msg)
+        can.page.Modify(can, can.ui.display, {style: {display: "block"}})
         return true
     },
 

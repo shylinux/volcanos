@@ -43,8 +43,8 @@ Volcanos("onengine", {help: "解析引擎", list: [],
         var storm = river && river.storm[cmds[1]]
         if (!storm || cmds.length != 2) { return false }
 
-        if (storm.index) {
-            can.misc.Run(event, can, {names: pane._name}, ["action", "command"].concat(storm.index), cb)
+        if (storm.index) { cmds = ["action", "command"].concat(storm.index)
+            can.misc.Runs(event, can, {names: pane._name}, cmds, cb)
         } else {
             can.core.List(storm.action, function(value) {
                 msg.Push("name", value.name||"")

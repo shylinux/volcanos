@@ -52,7 +52,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
     _background: function(can, msg) {
-        can.onlayout.background(can, msg.Option("background"), document.body)
+        can.user.isLocalFile || can.onlayout.background(can, msg.Option("background"), document.body)
     },
     _agent: function(can, msg, target) {
         if (can.user.isMobile) {
@@ -179,12 +179,19 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     print: function(event, can, button) { can.onlayout.topic(can, "white print") },
     clear: function(event, can, button) { can.onimport.background(event, can, button) },
     pack: function(event, can) {
-        can.core.Item(Volcanos.meta.pack, function(key, msg) { delete(msg._event), delete(msg._can) })
-        var msg = can.request(event, {name: "demo", content: JSON.stringify(Volcanos.meta.pack)})
+        can.user.input(event, can, [
+            {_input: "text", name: "name", value: "demo"},
+        ], function(ev, button, meta, list) {
+            can.core.Item(Volcanos.meta.pack, function(key, msg) { 
+                can.core.List(["_event", "_can", "_xhr", "sessid", ""], function(key) { delete(msg[key]) })
+            })
+            var msg = can.request(event, {name: meta.name, content: JSON.stringify(Volcanos.meta.pack)})
 
-        var toast = can.user.toast(can, "打包中...", "webpack", 1000000)
-        can.run(event, ["pack"], function(msg) {
-            toast.Close(), can.user.toast(can, "打包成功", "webpack")
+            var toast = can.user.toast(can, "打包中...", "webpack", 1000000)
+            can.run(event, ["pack"], function(msg) {
+                toast.Close(), can.user.toast(can, "打包成功", "webpack")
+            })
+            return true
         })
     },
 

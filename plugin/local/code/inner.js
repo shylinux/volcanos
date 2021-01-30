@@ -42,12 +42,13 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
     _favor: function(can, target) {
         can.onappend.plugin(can, {index: "web.code.favor"}, function(sub) {
             sub.run = function(event, cmds, cb) {
+                var msg = can.request(event); if (cmds && cmds[0] == "action") { switch (cmds[1]) {
+                    case "inner": can.onimport.tabview(can, msg.Option("path"), msg.Option("file"), msg.Option("line")); return
+                } }
+
                 can.run(event, ["action", "favor"].concat(cmds), cb, true)
             }, can.ui.favor = sub
 
-            sub.Select = function(line) {
-                line.path == can.Option("path") && can.onimport.tabview(can, line.path, line.file, line.line)
-            }
             can.onmotion.hidden(sub, sub._target)
         }, target)
     },
@@ -165,7 +166,7 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "运行", "搜索"]
                 can.onaction.selectLine(can, ui.tr)
 
             }, ondblclick: function(event) {
-                can.onaction.favorLine(can)
+                can.onaction.favorLine(can, ui.text.innerText)
             }},
             {view: ["text", "td"], list: [can.onsyntax._parse(can, value)], onclick: function(event) {
                 can.onaction._selectLine(can, ui)
@@ -271,8 +272,6 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "运行", "搜索"]
     _selectLine: function(can, ui) {
         can.onkeymap && can.onkeymap._mode(can, "insert")
         can.onaction.selectLine(can, ui.tr)
-        can.onkeymap && can.ui.current.focus()
-        can.ui.current.setSelectionRange(event.offsetX/13, event.offsetX/13)
     },
 
     favorLine: function(can, value) {
@@ -280,10 +279,9 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "运行", "搜索"]
             {_input: "text", name: "topic", value: "@key"},
             {_input: "text", name: "name", value: "@key"},
         ], function(event, button, meta, list) {
-            can.run(event, [
-                "action", "favor",
+            can.run(event, ["action", "favor",
                 "action", "insert", "topic", meta.topic||"some",
-                "type", can.parse, "name", meta.name||"some", "text", value,
+                "type", can.parse, "name", meta.name||"some", "text", value||"",
                 "path", can.Option("path"), "file", can.Option("file"), "line", can.Option("line"),
             ], function(msg) {
                 can.user.toast(can, "收藏成功")
