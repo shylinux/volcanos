@@ -132,9 +132,9 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 "web.code.publish",
             ]},
             "code": {name: "性能 code", index: [
+                "web.code.favor",
                 "web.code.bench",
                 "web.code.pprof",
-                "web.code.favor",
             ]},
             "pack": {name: "功能 pack", index: [
                 "web.code.webpack",

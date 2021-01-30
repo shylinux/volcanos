@@ -1,5 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        can.path = can.request({}), can.list = []
+        can.path = can.request(), can.list = []
         msg.Table(function(value) { if (value.path.indexOf("/local") == 0) { return }
             value.path.endsWith("/")? can.path.Push(value): can.list.push(value)
         })
@@ -14,7 +14,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, can.ui.content)
 
         var feature = can.Conf("feature") || {}
-        can.page.Modify(can, can._action, {style: {display: "none"}})
+        can.onmotion.hidden(can, can._action)
         typeof cb == "function" && cb(msg)
 
         can.Action("倍速", can.rate = parseInt(msg.Option("rate"))||feature["rate"]||1)
@@ -46,7 +46,7 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
     jpeg: function(can, path, index) { return can.onfigure.image(can, path, index) },
     image: function(can, path, index) { return {img: path, height: can.height, onclick: function(event) {
             can.onappend._init(can, {}, [], function(sub) {
-                sub.run = function(event, cmds, cb, silent) {
+                sub.run = function(event, cmds, cb) {
                     return can.run(event, cmds, cb, true)
                 }
 
@@ -55,7 +55,10 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
                 var river = sub.run({}, ["search", "River.onexport.width"])
                 var height = window.innerHeight-header-footer
 
-                sub.page.Remove(sub, sub._legend), sub.page.Modify(sub, sub._target, {style: {
+                sub.page.Modify(sub, sub._output, {style: {
+                    "max-height": height,
+                }})
+                sub.page.Modify(sub, sub._target, {style: {
                     left: river, top: header, height: height, background: "#4eaad0c2",
                     margin: "0 10px", padding: "0 10px",
                 }})
