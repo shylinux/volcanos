@@ -8,14 +8,16 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 
             can.onappend.plugin(can, item, function(sub, meta) {
                 can.onimport._plugin(can, river, storm, sub, meta), next()
+                sub._option.dataset.id = item.id
             })
         })
     },
     _plugin: function(can, river, storm, sub, item) {
-
         sub.run = function(event, cmds, cb) { var msg = sub.request(event)
             var toast = msg.Option("_toast") && can.user.toast(can, msg.Option("_toast"), "", 1000000)
             return can.run(event, (can.onengine[cmds[0]]? []: [river, storm, item.id||item.index||item.key+"."+item.name]).concat(cmds), function(msg) {
+                console.log(sub)
+                console.log(item)
                 toast && toast.Close(), typeof cb == "function" && cb(msg)
             })
         }, can._plugins = (can._plugins||[]).concat([sub])
@@ -129,9 +131,9 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
 })
 Volcanos("onexport", {help: "导出数据", list: [],
     args: function(can, msg, list, cb, target) {
-        can.core.Next(can.page.Select(can, target, "fieldset.plugin>form.option"), function(item, next) {
+        can.core.Next(can.page.Select(can, target, "fieldset.plugin>form.option"), function(item, next, index, array) {
             var list = can.page.Select(can, item, '.args', function(item) { return item.value||"" })
-            item.dataset.args = JSON.stringify(list), cb(item, next)
+            item.dataset.args = JSON.stringify(list), cb(item, next, index, array)
         })
     },
     plugin: function(can, msg, word) {

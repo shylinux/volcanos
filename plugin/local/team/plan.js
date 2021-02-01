@@ -4,6 +4,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         typeof cb == "function" && cb(msg)
         can.onmotion.hidden(can, can._action)
         can.onimport[can.Option("scale")||"week"](can, msg)
+        can.page.Modify(can, can.ui.profile, {style: {display: "block"}})
     },
     _content: function(can, msg, head, list, key, get, set) {
         var hash = {}; msg.Table(function(value, index) {

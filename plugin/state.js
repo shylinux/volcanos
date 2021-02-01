@@ -54,6 +54,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
             }
         })
     },
+    upload: function(event, can) { can.user.upload(event, can) },
 
     getLocation: function(event, can, cmd) { var msg = can.request(can)
         can.user.agent.getLocation(function(res) {
@@ -74,6 +75,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         })
     },
 
+    "参数": function(event, can) { can.page.Toggle(can, can._action) },
     "清空": function(event, can, name) { can._output.innerHTML = "" },
     "结束": function(event, can, name) { can.user.confirm("确定结束?") && can.run(event, ["action", name], function(msg) {
         can.run({})

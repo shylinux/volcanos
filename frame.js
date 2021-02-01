@@ -380,6 +380,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     input: function(can, item, value, target) {
         switch (item.type) {
             case "space": return can.page.Append(can, target, [{view: "item space"}])
+            case "": return can.page.Append(can, target, [item])
         }
 
         var input = {type: "input", name: item.name, data: item, dataset: {}}
@@ -416,8 +417,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         return can.page.Append(can, target, [{view: ["item "+item.type], list: [input]}])[item.name]
     },
     table: function(can, msg, cb, target, list) {
-        var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value) {
-            return {text: [value, "td"]}
+        var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key) {
+            return {text: [value, "td"], onclick: function(event) {
+                can.sup.onaction.change(event, can.sup, key, value, function(msg) {
+                    can.onimport._init(can, msg, list, cb, can._output)
+                })
+            }}
         }); table && can.page.Modify(can, table, {className: "content"})
         list && can.page.RangeTable(can, table, list)
         return table
@@ -455,7 +460,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         meta.name = meta.name||value.name||"story"
         meta.help = meta.help||value.help||"story"
         meta.width = meta.width||can.Conf("width")
-        meta.height = meta.width||can.Conf("height")
+        meta.height = meta.height||can.Conf("height")
         meta.type = meta.type||"story"
 
         can.onappend._init(can, meta, ["/plugin/state.js"], function(sub) {
