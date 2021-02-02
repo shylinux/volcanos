@@ -6,10 +6,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.onmotion.clear(can)
         can.onappend.plugins(can, {index: "web.wiki.draw"}, function(sub) {
-            sub.run = function(event, cmds, cb) {
-                typeof cb == "function" && cb(sub.request())
-
+            sub.run = function(event, cmds, cb) { typeof cb == "function" && cb(sub.request())
                 can.core.Timer(100, function() { can.sub = sub._outputs[0]
+                    can.sub.onmotion.hidden(can.sub, can.sub.ui.project)
                     can.onaction[can.Action("view")](event, can)
                     can.onlayout.resize(can, "action.resize", function(event) {
                         can.onaction[can.Action("view")](event, can)
@@ -66,7 +65,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
 
         var space = 10
         var view = parseInt(can.Action("height"))
-        var max = parseInt(can.Conf("width"))-120
+        var max = parseInt(can.Conf("width"))-40
         var step = parseInt(max / can.list.length)||2
         can.onmotion.clear(can, sub.svg)
 

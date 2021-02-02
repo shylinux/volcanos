@@ -9,14 +9,15 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onappend.plugins(can, {index: "web.wiki.draw"}, function(sub) {
             sub.run = function(event, cmds, cb) {
                 typeof cb == "function" && cb(sub.request())
-
                 can.core.Timer(100, function() { can.sub = sub._outputs[0]
-                    can.sub.svg.Value("transform", "scale("+(can.Action("scale")||1)+")")
-                    sub.Action("go", "run")
+                    can.sub.require(["/plugin/local/wiki/draw/path.js"], function() {
+                        can.sub.svg.Value("transform", "scale("+(can.Action("scale")||1)+")")
+                        sub.Action("go", "run")
 
-                    can.onaction[can.Action("view")](event, can)
-                    can.onlayout.resize(can, "action.resize", function(event) {
                         can.onaction[can.Action("view")](event, can)
+                        can.onlayout.resize(can, "action.resize", function(event) {
+                            can.onaction[can.Action("view")](event, can)
+                        })
                     })
                 })
             }
