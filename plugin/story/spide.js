@@ -10,6 +10,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             sub.run = function(event, cmds, cb) {
                 typeof cb == "function" && cb(sub.request())
                 can.core.Timer(100, function() { can.sub = sub._outputs[0]
+                    can.sub.onmotion.hidden(can.sub, can.sub.ui.project)
                     can.sub.require(["/plugin/local/wiki/draw/path.js"], function() {
                         can.sub.svg.Value("transform", "scale("+(can.Action("scale")||1)+")")
                         sub.Action("go", "run")
