@@ -1,44 +1,47 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) { target.innerHTML = ""
-        var list = []; can.onengine.listen(can, "action.resize", function(width, height) {
-            can.Conf({width: width, height: height}), can.core.Delay(list, 100, function() {
-                can.onimport._init(can, msg, list, cb, target)
-            })
-        })
-        can.page.Modify(can, can._target, {style: {"max-width": can.Conf("width")}})
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+        can.onmotion.clear(can)
+        typeof cb == "function" && cb(msg)
+        if (msg.Length() > 0) { return can.onappend.table(can, msg) }
 
-        if (msg.Option("_display") == "table") {
-            return can.onappend.table(can, msg, function(value, key) {
-                return {text: [value, "td"], onclick: function(event) {
-                    can.sup.onaction.change(event, can.sup, key, value, function(msg) {
-                        can.run(event)
-                    })
-                }}
-            }, target)
-        } target.innerHTML = msg.Result()
-
+        can.page.Modify(can, target, msg.Result())
         can.page.Select(can, target, ".story", function(item) { var data = item.dataset||{}
+            can.core.CallFunc([can.onimport, data.type], [can, data, item])
             can.page.Modify(can, item, {style: can.base.Obj(data.style)})
-            var cb = can.onimport[data.type]; typeof cb == "function" && cb(can, data, item)
-        })
-        return typeof cb == "function" && cb(msg)
-    },
-    table: function(can, list, target) {
-        can.page.Select(can, target, "td", function(item) {
-            item.title = "点击复制"
-            item.onclick = function(event) {
-                can.user.copy(event, can, item.innerText)
-            }
         })
     },
-    spark: function(can, list, target) {
-        if (list["name"] == "inner") {
-            target.title = "点击复制"
-            target.onclick = function(event) {
+
+    premenu: function(can, list, target) { var meta = can.base.Obj(list.meta)
+        can.page.Select(can, can._output, "h2.story, h3.story", function(item) {
+            can.page.Append(can, target, [{text: [item.innerHTML, "li", item.tagName], onclick: function() {
+                item.scrollIntoView()
+            }}]), item.onclick = function(event) { target.scrollIntoView() }
+        })
+    },
+    spark: function(can, item, target) {
+        if (item["name"] == "inner") {
+            target.title = "点击复制", target.onclick = function(event) {
                 can.user.copy(event, can, target.innerText)
             }
             return
         }
         can.page.Select(can, target, "span", function(item) {
+            item.title = "点击复制", item.onclick = function(event) {
+                can.user.copy(event, can, item.innerText)
+            }
+        })
+    },
+    field: function(can, item, target) { var meta = can.base.Obj(item.meta)
+        meta.width = can.Conf("width"), meta.height = can.Conf("height")
+        can.onappend._init(can, meta, ["/plugin/state.js"], function(sub) {
+            sub.run = function(event, cmds, cb, silent) {
+                can.run(event, (cmds[0] == "search"? []: ["action", "story", item.type, item.name, item.text]).concat(cmds), cb, true)
+            }
+            delete(target.dataset.meta)
+        }, can._output, target)
+    },
+
+    table: function(can, list, target) {
+        can.page.Select(can, target, "td", function(item) {
             item.title = "点击复制"
             item.onclick = function(event) {
                 can.user.copy(event, can, item.innerText)
@@ -48,26 +51,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     iframe: function(can, list, target) { var meta = can.base.Obj(list.meta)
         can.page.Modify(can, target, {width: can.Conf("width")-200})
     },
-    premenu: function(can, list, target) { var meta = can.base.Obj(list.meta)
-        can.page.Select(can, can._output, "h2.story, h3.story", function(item) {
-            var ui = can.page.Append(can, target, [{text: [item.innerHTML, "li", item.tagName], onclick: function() {
-                item.scrollIntoView()
-            }}])
-            item.onclick = function(event) {
-                // ui.first.scrollIntoView()
-            }
-        })
-    },
-    field: function(can, item, target) { var meta = can.base.Obj(item.meta)
-        meta.width = can.Conf("width"), meta.height = can.Conf("height")
-        can.onappend._init(can, meta, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
-            sub.run = function(event, cmds, cb, silent) {
-                can.run(event, (cmds[0] == "search"? []: ["action", "story", item.type, item.name, item.text]).concat(cmds), cb, true)
-            }
-            delete(target.dataset.meta)
-        }, can._output, target)
-    },
-
     keydown: function(event, can, key) {
         switch (key) {
             case "g":
@@ -101,6 +84,70 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 }, ["/plugin/local/wiki/word.css"])
 Volcanos("onaction", {help: "控件交互", list: [],
+    "演示": function(event, can) {
+        var current = [], list = []
+        can.page.Select(can, can._output, ".story", function(item) {
+            switch (item.tagName) {
+                case "H1":
+                case "H2":
+                case "H3":
+                    list.push(current = [])
+                    break
+            }
+            current.push(item)
+        })
+
+        can.onappend._init(can, {type: "story word float"}, [], function(sub) {
+            sub.run = function(event, cmds, cb) { can.run(event, cmds, cb, true) }
+            sub.ui = sub.onlayout.profile(sub)
+
+            sub.onappend._action(sub, [
+                ["布局", "开讲", "快闪", "网格", "层叠"],
+                "大纲", "首页", "上一页",
+                ["菜单"].concat(can.page.Select(can, can._output, "h1,h2,h3", function(item) { return item.innerHTML })),
+                "下一页", "隐藏", "结束",
+            ], sub._action, {
+                "开讲": function(event) { sub.onaction.show(sub, 0) },
+                "网格": function(event) { sub.onaction.grid(sub) },
+                "快闪": function(event) { sub.onaction.flash(sub) },
+                "层叠": function(event) { sub.onaction.spring(sub) },
+
+                "大纲": function(event) { sub.page.Toggle(sub, sub.ui.project) },
+                "首页": function(event) { can.onaction.show(can, 0) },
+
+                "上一页": function(event) { can.onaction.prev(can) },
+                "菜单": function(event) { can.onaction.prev(can) },
+                "下一页": function(event) { can.onaction.next(can) },
+                "隐藏": function(event) { can.page.Toggle(can, sub.ui.content) },
+                "结束": function(event) { can.page.Remove(can, sub._target) },
+            })
+
+            can.page.Select(can, can._output, "h1.story,h2.story,h3.story", function(item) {
+                can.onappend.item(can, "item", {name: item.innerHTML}, function(event) {
+
+                }, function(event) {
+
+                }, sub.ui.project)
+            })
+
+            can.core.List(list, function(page, index) {
+                var items = can.core.List(page, function(item) {
+                    switch (item.tagName) {
+                        case "FIELDSET":
+                            return can.onappend._init(can, can.base.Obj(item.dataset.meta), ["/plugin/state.js"], function(sub) {
+                                sub.run = function(event, cmds, cb) {
+                                    can.run(event, (cmds[0] == "search"? []: ["action", "story", item.dataset.type, item.dataset.name, item.dataset.text]).concat(cmds), cb, true)
+                                }
+                            }, sub.ui.content)._target
+                        default: return item.cloneNode(true)
+                    }
+                })
+
+                sub.page.Append(sub, sub.ui.content, {view: "page "+(index==0?"show": "")+(index==0? " first": ""), list: items})
+            })
+        }, document.body)
+    },
+
     show: function(can, which) {
         can.page.Select(can, can.ui.content, "div.page.show", function(page) {
             can.page.ClassList.del(can, page, "show")
@@ -220,99 +267,8 @@ Volcanos("onaction", {help: "控件交互", list: [],
             can.onmotion.show(can, {value: 10, length: 20}, next, page)
         })
     },
-
-    "演示": function(event, can) {
-        can.onkeypop.action = can
-        var current = []; var list = []
-        can.page.Select(can, can._output, ".story", function(item) {
-            switch (item.tagName) {
-                case "H1":
-                case "H2":
-                case "H3":
-                    list.push(current = [])
-                    break
-            }
-            current.push(item)
-        })
-
-        can.ui && can.page.Remove(can, can.ui.show)
-        can.ui = can.page.Append(can, document.body, [{view: "show", style: {
-
-        },list: [{view: "control", list: [
-            {select: [["布局", "开讲", "快闪", "网格", "层叠"], function(event, value) {
-                switch (value) {
-                    case "开讲":
-                        can.onaction.show(can, 0)
-                        break
-                    case "网格":
-                        can.onaction.grid(can)
-                        break
-                    case "快闪":
-                        can.onaction.flash(can)
-                        break
-                    case "层叠":
-                        can.onaction.spring(can)
-                        break
-                }
-            }]},
-            {button: ["大纲", function(event) {
-                can.page.Toggle(can, can.ui.project)
-            }]},
-            {button: ["首页", function(event) {
-                can.onaction.show(can, 0)
-                can.onkeypop.action = can
-            }]},
-            {button: ["上一页", function(event) {
-                can.onaction.prev(can)
-                can.onkeypop.action = can
-            }]},
-            {select: [["menu"].concat(can.page.Select(can, can._output, "h1,h2,h3", function(item) { return item.innerHTML })), function(event, value) {
-                can.onaction.show(can, value)
-                can.onkeypop.action = can
-            }]},
-            {button: ["下一页", function(event) {
-                can.onaction.next(can)
-                can.onkeypop.action = can
-            }]},
-            {button: ["隐藏", function(event) {
-                can.page.Toggle(can, can.ui.content)
-                can.onkeypop.action = can
-            }]},
-            {button: ["结束", function(event) {
-                can.ui && can.page.Remove(can, can.ui.show)
-            }]},
-        ]}, {view: "project", style: {display: "none"}, list: can.page.Select(can, can._output, "h1.story,h2.story,h3.story", function(item) {
-            return {text: [item.innerHTML, "div", "item"], onclick: function(event) {
-                can.onaction.show(can, item.innerHTML)
-            }}
-        })}, {view: "content", style: {
-            width: document.body.offsetWidth-40+"px", height: document.body.offsetHeight-25+"px",
-        }, list: can.core.List(list, function(page, index) {
-            return {view: "page "+(index==0?"show": "")+(index==0? " first": ""), style: {
-                width: document.body.offsetWidth-40+"px",
-            }, list: can.core.List(page, function(item) {
-                switch (item.tagName) {
-                    case "FIELDSET":
-                        var field = document.createElement("fieldset"); can.page.Append(can, field, [
-                            {view: ["", "legend"]},
-                            {view: ["option", "form"]},
-                            {view: ["action", "div"]},
-                            {view: ["output", "div"]},
-                            {view: ["status", "div"]},
-                        ])
-                        var meta = can.base.Obj(item.dataset.meta)
-                        meta.width = document.body.offsetWidth, meta.height = document.body.offsetHeight
-                        can.onappend._init(can, meta, Volcanos.meta.libs.concat(["/plugin/state.js"]), function(sub) {
-                            sub.run = function(event, cmds, cb, silent) {
-                                can.run(event, (cmds[0] == "search"? []: ["action", "story", item.dataset.type, item.dataset.name, item.dataset.text]).concat(cmds), cb, true)
-                            }
-                        }, can._output, field)
-                        return field
-                    default:
-                        return item.cloneNode(true)
-                }
-            })}
-        })}, ] }])
-    },
 })
 
+Volcanos("onfigure", {help: "控件交互", list: [],
+
+})

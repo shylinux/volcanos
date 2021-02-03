@@ -1,5 +1,5 @@
 Volcanos("onfigure", {help: "图形绘制", list: [],
-    path: { //  <path d="M10 10 H 90 V 90 H 10 Z" fill="transparent" stroke="black"/>
+    path: { //  <path d="M10 10 H 90 V 90 H 10 Z" stroke="black" fill="transparent"/>
         data: {size: {}, copy: ["d", "name", "meta", "tt", "xx", "yy"],
             x: function(event, can, value, cmd, target) {
                 var tt = JSON.parse(target.Value("tt")||'{"tx":0, "ty":0}')
@@ -130,5 +130,5 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         },
         show: function(can, target) { return target.tagName + " " + target.Value("d") },
     },
-}, [])
+})
 

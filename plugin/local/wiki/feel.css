@@ -1,18 +1,14 @@
-fieldset.feel div.action {
-    clear:none;
-}
-
-fieldset.feel div.output {
-    min-height:100px;
-}
 fieldset.feel div.output img {
-    display:block;
-    float:left;
+    display:block; float:left;
 }
 fieldset.feel div.output video {
-    display:block;
-    float:left;
+    display:block; float:left;
 }
-fieldset.feel div.output {
-    min-height:100px;
+fieldset.feel.float>legend {
+    display:none;
+}
+fieldset.feel.float {
+    margin:0 10px; padding:0 10px;
+    background-color:#4eaad0c2;
+    position:absolute;
 }

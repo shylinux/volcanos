@@ -1,5 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb) {
-        can.ui = can.page.Appends(can, can._target, [{view: "content"}, {view: "display"}])
+        can.ui = can.onlayout.display(can)
+        typeof cb == "function" && cb(msg)
 
         can.table = can.onappend.table(can, msg, function(value, key, index, line) {
             return {text: [value, "td"], oncontextmenu: function(event) {
@@ -14,7 +15,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, can.ui.content)
 
         can.onexport.list = msg.append
-        typeof cb == "function" && cb(msg)
         can.onaction._compute(event, can)
     },
 })
@@ -58,6 +58,10 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "全选", 
             can.user.toast(can, "保存成功")
         }, true)
     },
+    some: function(event, can, cmd) {
+        can.onaction._compute(event, can)
+    },
+
     "全选": function(event, can, cmd) {
         cmd && can.Action("mode", cmd)
         can.page.Select(can, can.ui.content, "tr", function(item) {

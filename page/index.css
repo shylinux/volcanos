@@ -52,6 +52,12 @@ fieldset.plugin {
     margin:10px; padding:10px;
 }
 fieldset.input>legend {
+}
+fieldset.float {
+    position:absolute;
+    left:0; top:0;
+}
+fieldset.float>legend {
     display:none;
 }
 legend {
@@ -132,6 +138,9 @@ table.content td.done {
     background-color:green;
 }
 
+table.content tr.select {
+    background-color:green;
+}
 table.content tr:hover {
     background-color:green;
 }
@@ -252,7 +261,8 @@ fieldset>div.output div.code a {
     color:yellow;
 }
 fieldset>div.output div.project {
-    float:left;
+    min-width:80px; max-width:240px;
+    float:left; overflow:auto;
 }
 fieldset>div.output div.project div.item {
     padding:2px 10px; text-align:left;

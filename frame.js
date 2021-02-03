@@ -58,10 +58,10 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         }},
         "product": {name: "产品群", storm: {
             "office": {name: "办公 office",  action: [
-                {name: "feel", help: "影音", index: "web.wiki.feel"},
-                {name: "draw", help: "绘图", index: "web.wiki.draw"},
-                {name: "data", help: "数据", index: "web.wiki.data"},
-                {name: "plan", help: "计划", index: "web.team.plan"},
+                {name: "feel", help: "影音媒体", index: "web.wiki.feel"},
+                {name: "draw", help: "思维导图", index: "web.wiki.draw"},
+                {name: "data", help: "数据表格", index: "web.wiki.data"},
+                {name: "plan", help: "计划任务", index: "web.team.plan"},
                 {name: "think", help: "智库", index: "web.wiki.word", args: ["usr/learning/"]},
                 {name: "index", help: "索引", index: "web.wiki.word", args: ["usr/learning/index.shy"]},
                 {name: "context", help: "编程", index: "web.wiki.word", args: ["usr/learning/自然/编程/context.shy"]},
@@ -569,6 +569,21 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
     },
 })
 Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, target) {
+        can.onkeypop._build(can)
+        var focus = []; can.onengine.listen(can, "keymap.focus", function(cb) {
+            cb? focus.push(cb): focus.pop()
+            can.base.Log("---", cb)
+        })
+
+        target.onkeydown = function(event) {
+            if (focus.length > 0) { return focus[focus.length-1](event) }
+            if (event.target != target) { return }
+            can.page.Select(can, target, "fieldset.Action>div.output", function(item) {
+                target._keys = can.onkeypop._parse(event, can, "normal", target._keys||[], item)
+            })
+        }
+    },
+    _build: function(can) {
         can.core.Item(can.onkeypop._mode, function(item, value) { var engine = {}
             can.core.Item(value, function(key, cb) { var map = engine
                 for (var i = key.length-1; i > -1; i--) {
@@ -576,14 +591,9 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
                 }
             }), can.onkeypop._engine[item] = engine
         })
-
-        target.onkeydown = function(event) { if (event.target != target) { return }
-            can.page.Select(can, target, "fieldset.Action>div.output", function(item) {
-                target._keys = can.onkeypop._parse(event, can, "normal", target._keys||[], item)
-            })
-        }
     },
     _parse: function(event, can, mode, list, target) { list.push(event.key)
+        can.Status("按键", list.join(""))
         for (var pre = 0; pre < list.length; pre++) {
             if ("0" <= list[pre] && list[pre] <= "9") { continue } break
         }; var count = parseInt(list.slice(0, pre).join(""))||1
@@ -591,6 +601,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
         function repeat(cb, count) { list = []
             for (var i = 1; i <= count; i++) { if (cb(event, can, target, count)) { break } }
             event.stopPropagation(), event.preventDefault()
+            can.Status("按键", list.join(""))
         }
 
         var map = can.onkeypop._mode[mode]

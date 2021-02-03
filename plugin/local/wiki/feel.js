@@ -4,13 +4,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             value.path.endsWith("/")? can.path.Push(value): can.list.push(value)
         })
 
+        can.onmotion.hidden(can, can._action)
         can.ui = can.onlayout.display(can, target)
         can.onappend.table(can, can.path, null, can.ui.content)
-
-        var feature = can.Conf("feature") || {}
-        can.onmotion.hidden(can, can._action)
         typeof cb == "function" && cb(msg)
 
+        var feature = can.Conf("feature") || {}
         can.Action("倍速", can.rate = parseInt(msg.Option("rate"))||feature["rate"]||1)
         can.Action("起始", can.begin = parseInt(msg.Option("begin"))||feature["begin"]||0)
         can.Action("数量", can.limit = parseInt(msg.Option("limit"))||feature["limit"]||6)
@@ -18,7 +17,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.Option("path") != "最近/" && can.onimport._page(can, can.list, can.begin, can.limit)
     },
     _page: function(can, list, begin, limit) { can.onmotion.clear(can, can.ui.content)
-        if (!list || list.length == 0) { return }
         for (var i = begin; i < begin+limit; i++) { list && list[i] && can.onimport.file(can, list[i].path, i) }
         can.Status("begin", begin), can.Status("limit", limit), can.Status("total", can.list.length)
     },
@@ -31,12 +29,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 }, ["/plugin/local/wiki/feel.css"])
 Volcanos("onfigure", {help: "组件菜单", list: [],
-    qrc: function(can, path, index) { return can.onfigure.image(can, path, index) },
     png: function(can, path, index) { return can.onfigure.image(can, path, index) },
     jpg: function(can, path, index) { return can.onfigure.image(can, path, index) },
     jpeg: function(can, path, index) { return can.onfigure.image(can, path, index) },
     image: function(can, path, index) { return {img: path, height: can.height, onclick: function(event) {
-            can.onappend._init(can, {}, [], function(sub) {
+            can.onappend._init(can, {type: "story feel float"}, [], function(sub) {
                 sub.run = function(event, cmds, cb) { return can.run(event, cmds, cb, true) }
 
                 var header = sub.run({}, ["search", "Header.onexport.height"])
@@ -44,11 +41,8 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
                 var river = sub.run({}, ["search", "River.onexport.width"])
                 var height = window.innerHeight-header-footer
 
+                sub.page.Modify(sub, sub._target, {style: {left: river, top: header}})
                 sub.page.Modify(sub, sub._output, {style: {"max-height": height}})
-                sub.page.Modify(sub, sub._target, {style: {
-                    left: river, top: header, height: height, background: "#4eaad0c2",
-                    margin: "0 10px", padding: "0 10px",
-                }})
 
                 var order = index; function show(order) {
                     path = can.onimport._file(can, can.list[order].path)
@@ -71,7 +65,7 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
     } },
 
     video: function(can, path) { var auto = true, loop = true, total = 0; function cb(event) { }
-        return {className: "preview", type: "video", style: {height: can.height},
+        return {type: "video", style: {height: can.height}, className: "preview",
             data: {src: path, controls: "controls", autoplay: auto, loop: loop, playbackRate: can.rate},
             oncontextmenu: cb, onplay: cb, onpause: cb, onended: cb,
             onmouseover: function(event) { can.Status("file", path) },
@@ -82,8 +76,8 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
             },
         }
     },
-    m4v: function(can, path) { return can.onfigure.video(can, path) },
     mp4: function(can, path) { return can.onfigure.video(can, path) },
+    m4v: function(can, path) { return can.onfigure.video(can, path) },
     mov: function(can, path) { return can.onfigure.video(can, path) },
 })
 Volcanos("onaction", {help: "组件菜单", list: [

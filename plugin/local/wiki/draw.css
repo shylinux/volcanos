@@ -1,13 +1,3 @@
-fieldset.drawer div.output div.project {
-    min-width:80px; max-width:240px; overflow:auto;
-}
-fieldset.drawer div.output div.project div.item:hover {
-    background-color:red; border:solid 2px yellow;
-}
-fieldset.drawer div.output div.project div.item.select {
-    background-color:red; border:solid 2px yellow;
-}
 fieldset.drawer div.output div.content svg {
     background-color:#1b5b738c;
-    min-width:500px;
 }
