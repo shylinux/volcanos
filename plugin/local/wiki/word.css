@@ -7,7 +7,6 @@ fieldset.word h2.story {
 fieldset.word h3.story {
     clear:both;
 }
-
 fieldset.word h1:hover {
     background:green;
     cursor:pointer;
@@ -61,11 +60,6 @@ fieldset.word div.story[data-type=spark] span:hover {
 fieldset.word svg.story {
     display:block; float:left;
 }
-fieldset.word fieldset.story {
-    margin:10px; border:0;
-    clear:both; float:left;
-    box-shadow: 4px 4px 10px 1px #626bd0;
-}
 fieldset.word code.story {
     display:block; border:solid 3px green;
     color:white; background-color:#272822;
@@ -74,24 +68,40 @@ fieldset.word code.story {
     padding:10px; white-space:pre;
     clear:both;
 }
+fieldset.word fieldset.story {
+    margin:10px; border:0;
+    clear:both; float:left;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+}
 
 fieldset.word.float {
     width:-webkit-fill-available;
-    height:-webkit-fill-available;
     position:absolute; left:0; top:0;
     background-color:aliceblue;
     color:black;
 }
-fieldset.word.float div.project {
+fieldset.word.float>div.output {
     background-color:aliceblue;
+    overflow:auto;
+    padding:20px;
+}
+fieldset.word.float div.project {
+    background-color:#bad1e6a6;
     padding:10px;
 }
 fieldset.word.float div.content div.page {
+    background-color:aliceblue;
     margin-top:30px;
     display:none;
 }
 fieldset.word.float div.content div.page.select {
     display:block;
+}
+fieldset.word.float div.content.grid div.page {
+    float:left; display:block;
+    width:200px; height:200px;
+    overflow:auto; margin:10px;
+    background-color:#a4cbecb5;
 }
 
 fieldset.word.float h1 {
@@ -102,75 +112,5 @@ fieldset.word.float h2 {
 }
 fieldset.word.float h3 {
     text-align:center;
-}
-
-
-div.show>div.control {
-    background-color:aliceblue;
-}
-div.show>div.project div.item {
-    cursor:pointer;
-}
-div.show>div.project div.item:hover {
-    background-color:white;
-}
-div.show>div.content {
-    background-color:aliceblue;
-    text-align:center;
-    padding:20px;
-
-}
-div.show>div.content h1 {
-    margin-top:100px;
-    font-size:60px;
-}
-div.show>div.content h2 {
-    clear:both;
-}
-div.show>div.content h3 {
-    clear:both;
-}
-div.show>div.content ul {
-    text-align:left;
-}
-div.show>div.content div.page.first {
-}
-div.show>div.content div.page.first ul {
-    text-align:center;
-}
-div.show>div.content div.page {
-    margin-top:30px;
-    display:none;
-}
-div.show>div.content div.page.show {
-    background-color:aliceblue;
-    display:block;
-}
-div.show>div.content div.page ul li.H2 {
-    font-size:24px;
-}
-div.show>div.content div.page ul li.H3 {
-    font-size:16px;
-}
-div.show>div.content div.page code.story {
-    display:block; border:solid 3px green;
-    color:white; background-color:#272822;
-    font-size:14px; font-family:monospace;
-    max-height:640px; overflow:auto;
-    padding:10px; white-space:pre;
-    clear:both;
-}
-
-body.white fieldset.word p.story[data-name=inner] {
-    /* background-color:#bad8f7; */
-    border-left:solid 4px blue;
-}
-body.white fieldset.word div.story[data-type=spark] {
-    /* background-color:#c2daef; */
-    clear:both;
-}
-body.white fieldset.word div.story[data-type=spark] span:hover {
-    background-color:blue;
-    /* background-color:white; */
 }
 

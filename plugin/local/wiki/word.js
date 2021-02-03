@@ -7,20 +7,20 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Select(can, target, ".story", function(item) { var data = item.dataset||{}
             can.core.CallFunc([can.onimport, data.type], [can, data, item])
             can.page.Modify(can, item, {style: can.base.Obj(data.style)})
+            // delete(data.meta)
         })
     },
 
-    premenu: function(can, list, target) { var meta = can.base.Obj(list.meta)
+    premenu: function(can, data, target) {
         can.page.Select(can, can._output, "h2.story, h3.story", function(item) {
             can.page.Append(can, target, [{text: [item.innerHTML, "li", item.tagName], onclick: function() {
                 item.scrollIntoView()
-            }}]), item.onclick = function(event) {
-                target.scrollIntoView()
-            }
+            }}])
+            item.onclick = function(event) { target.scrollIntoView() }
         })
     },
-    spark: function(can, item, target) {
-        if (item["name"] == "inner") {
+    spark: function(can, data, target) {
+        if (data["name"] == "inner") {
             target.title = "点击复制", target.onclick = function(event) {
                 can.user.copy(event, can, target.innerText)
             }
@@ -32,61 +32,44 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         })
     },
-    field: function(can, item, target) { var meta = can.base.Obj(item.meta)
-        meta.width = can.Conf("width"), meta.height = can.Conf("height")
-        can.onappend._init(can, meta, ["/plugin/state.js"], function(sub) {
-            sub.run = function(event, cmds, cb, silent) {
-                can.run(event, (cmds[0] == "search"? []: ["action", "story", item.type, item.name, item.text]).concat(cmds), cb, true)
-            }
-            delete(target.dataset.meta)
-        }, can._output, target)
-    },
-
-    table: function(can, list, target) {
+    table: function(can, data, target) {
+        can.page.ClassList.add(can, target, "content")
         can.page.Select(can, target, "td", function(item) {
             item.title = "点击复制", item.onclick = function(event) {
                 can.user.copy(event, can, item.innerText)
             }
         })
     },
-    iframe: function(can, list, target) { var meta = can.base.Obj(list.meta)
+    field: function(can, data, target) { var meta = can.base.Obj(data.meta)
+        meta.width = can.Conf("width"), meta.height = can.Conf("height")
+        can.onappend._init(can, meta, ["/plugin/state.js"], function(sub) {
+            sub.run = function(event, cmds, cb, silent) {
+                can.run(event, (cmds[0] == "search"? []: ["action", "story", data.type, data.name, data.text]).concat(cmds), cb, true)
+            }
+        }, can._output, target)
+    },
+
+    iframe: function(can, data, target) { var meta = can.base.Obj(data.meta)
         can.page.Modify(can, target, {width: can.Conf("width")-200})
     },
-    keydown: function(event, can, key) {
-        switch (key) {
-            case "g":
-                can.ui["布局"].value = "网格"
-                can.onaction.grid(can)
-                break
-            case "f":
-                can.ui["布局"].value = "快闪"
-                can.onaction.flash(can)
-                break
-            case "s":
-                can.ui["布局"].value = "层叠"
-                can.onaction.spring(can)
-                break
-            case "n":
-            case "j":
-            case "ArrowRight":
-                can.onaction.next(can)
-                break
-            case "k":
-            case "p":
-            case "ArrowLeft":
-                can.onaction.prev(can)
-                break
-            case "t":
-                can.page.Toggle(can, can.ui.content)
-                break
-            case "q":
-                can.ui && can.page.Remove(can, can.ui.show)
-        }
-    },
 }, ["/plugin/local/wiki/word.css"])
+Volcanos("onkeypop", {help: "键盘交互", list: [],
+    _mode: {
+        normal: {
+            "n": function(event, can) { can.onaction.next(can.sub) },
+            "j": function(event, can) { can.onaction.next(can.sub) },
+            "ArrowRight": function(event, can) { can.onaction.next(can.sub) },
+            "ArrowLeft": function(event, can) { can.onaction.prev(can.sub) },
+            "k": function(event, can) { can.onaction.prev(can.sub) },
+            "p": function(event, can) { can.onaction.prev(can.sub) },
+
+            "q": function(event, can) { can.onaction["结束"](event, can.sub) },
+            "h": function(event, can) { can.onaction["隐藏"](event, can.sub) },
+        },
+    }, _engine: {},
+})
 Volcanos("onaction", {help: "控件交互", list: [],
-    "演示": function(event, can) {
-        var current = [], list = []
+    "演示": function(event, can) { var list = [], current = []
         can.page.Select(can, can._output, ".story", function(item) {
             switch (item.tagName) {
                 case "H1":
@@ -98,174 +81,90 @@ Volcanos("onaction", {help: "控件交互", list: [],
             current.push(item)
         })
 
-        can.onappend._init(can, {type: "story word float"}, [], function(sub) {
-            sub.ui = sub.page.Append(sub, sub._output, [{view: "project"}, {view: "content"}])
-            sub.run = function(event, cmds, cb) { can.run(event, cmds, cb, true) }
-
-            sub.onappend._action(sub, [
-                ["布局", "开讲", "快闪", "网格", "层叠"],
+        can.onappend._init(can, {type: "story word float"}, [], function(sub) { sub.sup = can
+            can.onappend._action(sub, [
+                ["布局", "开讲", "快闪", "网格"],
                 "大纲", "首页", "上一页",
-                ["菜单"].concat(can.page.Select(can, can._output, "h1,h2,h3", function(item) { return item.innerHTML })),
+                ["菜单"].concat(can.core.List(list, function(page) { return page[0].innerHTML })),
                 "下一页", "隐藏", "结束",
-            ], sub._action, {
-                "开讲": function(event) { sub.onaction.show(sub, 0) },
-                "网格": function(event) { sub.onaction.grid(sub) },
-                "快闪": function(event) { sub.onaction.flash(sub) },
-                "层叠": function(event) { sub.onaction.spring(sub) },
+            ], sub._action, can.onaction)
 
-                "大纲": function(event) { sub.page.Toggle(sub, sub.ui.project) },
+            can.sub = sub, can.onkeypop._build(can)
+            can.onengine.signal(can, "keymap.focus", can.request(event, {cb: function(event) {
+                can.keylist = can.onkeypop._parse(event, can, "normal", can.keylist)
+            }}))
 
-                "首页": function(event) { can.onaction.show(sub, 0) },
-                "上一页": function(event) { can.onaction.prev(sub, sub.ui.content) },
-                "菜单": function(event) { can.onaction.show(sub, event.target.selectedIndex) },
-                "下一页": function(event) { can.onaction.next(sub, sub.ui.content) },
-
-                "隐藏": function(event) { sub.page.Toggle(sub, sub._output) },
-                "结束": function(event) { sub.page.Remove(sub, sub._target) },
-            })
-
-            can.onmotion.hidden(can, sub.ui.project)
-            can.page.Select(can, can._output, "h1.story,h2.story,h3.story", function(item, index) {
-                can.onappend.item(can, "item", {name: item.innerHTML}, function(event) {
-                    can.onaction.show(sub, index) 
-                }, function(event) {
-
-                }, sub.ui.project)
-            })
-
+            sub.list = list
+            sub.page.Modify(sub, sub._output, {style: {"width": window.innerWidth-40}})
+            sub.page.Modify(sub, sub._output, {style: {"height": window.innerHeight-93}})
+            sub.ui = sub.page.Append(sub, sub._output, [{view: "project"}, {view: "content"}])
             can.core.List(list, function(page, index) {
-                var items = can.core.List(page, function(item) {
-                    switch (item.tagName) {
-                        case "FIELDSET":
-                            return can.onappend._init(can, can.base.Obj(item.dataset.meta), ["/plugin/state.js"], function(sub) {
-                                sub.run = function(event, cmds, cb) {
-                                    can.run(event, (cmds[0] == "search"? []: ["action", "story", item.dataset.type, item.dataset.name, item.dataset.text]).concat(cmds), cb, true)
-                                }
-                            }, sub.ui.content)._target
-                        default: return item.cloneNode(true)
-                    }
-                })
+                can.onappend.item(can, "item", {name: page[0].innerHTML}, function(event) {
+                    can.onaction.show(sub, index) 
+                }, function(event) {}, sub.ui.project)
 
-                sub.page.Append(sub, sub.ui.content, [{view: "page "+(index==0?"select": "")+(index==0? " first": ""), list: items}])
+                sub.page.Append(sub, sub.ui.content, [{view: "page"+(index==0? " first": ""), list: can.core.List(page, function(item) { var data = item.dataset||{}
+                    switch (data.type) {
+                        case "premenu": item = item.cloneNode(false); break
+                        case "field": item = can.onappend.field(can, "story", can.base.Obj(data.meta), sub.ui.content).first; break
+                        default: item = item.cloneNode(true)
+                    }
+                    return can.core.CallFunc([can.onimport, data.type], [can, data, item]), item
+                }), }])
+            }), can.onmotion.hidden(can, sub.ui.project)
+            can.onaction.show(sub, 0) 
+
+            sub.Status("from", can.base.Time(null, "%H:%M:%S"))
+            var from = new Date(); can.core.Timer({interval: 100}, function() { var now = new Date()
+                sub.Status("cost", can.base.Duration(now-from))
             })
         }, document.body)
     },
 
-    show: function(can, which) {
-        can.page.Select(can, can.ui.content, "div.page", function(page, index) {
-            if (index == which) {
-                can.page.ClassList.add(can, page, "select")
-                can.page.Select(can, page, "h1,h2,h3", function(item) {
-                    can.Action("菜单", item.innerHTML)
-                })
-            } else {
-                can.page.ClassList.del(can, page, "select")
-            }
-        })
-    },
-    next: function(can, target) {
-        can.page.Select(can, target, "div.page.select", function(page) {
-            if (page.nextSibling) {
-                can.page.ClassList.del(can, page, "select")
-                can.page.ClassList.add(can, page.nextSibling, "select")
+    "开讲": function(event, sub) { sub.sup.onaction.show(sub, 0) },
+    "快闪": function(event, sub) { sub.sup.onaction.flash(sub) },
+    "网格": function(event, sub) { sub.sup.onaction.grid(sub) },
 
-                can.page.Select(can, page.nextSibling, "h1,h2,h3", function(item) {
-                    can.Action("菜单", item.innerHTML)
-                })
-            } else {
-                can.user.toast(can, "end")
-            }
-        })
+    "大纲": function(event, sub) { sub.page.Toggle(sub, sub.ui.project) },
+    "首页": function(event, sub) { sub.sup.onaction.show(sub, 0) },
+    "上一页": function(event, sub) { sub.sup.onaction.prev(sub, sub.ui.content) },
+    "菜单": function(event, sub) { sub.sup.onaction.show(sub, event.target.selectedIndex) },
+    "下一页": function(event, sub) { sub.sup.onaction.next(sub, sub.ui.content) },
+    "隐藏": function(event, sub) { sub.page.Toggle(sub, sub._output) },
+    "结束": function(event, sub) { sub.page.Remove(sub, sub._target)
+        sub.onengine.signal(sub, "keymap.focus", sub.request(event, {cb: null}))
     },
-    prev: function(can, target) {
-        can.page.Select(can, target, "div.page.select", function(page) {
-            if (page.previousSibling) {
-                can.page.ClassList.del(can, page, "select")
-                can.page.ClassList.add(can, page.previousSibling, "select")
 
-                can.page.Select(can, page.previousSibling, "h1,h2,h3", function(item) {
-                    can.Action("菜单", item.innerHTML)
-                })
+    show: function(sub, which) { sub.page.Modify(sub, sub.ui.content, {className: "content"})
+        sub.page.Select(sub, sub.ui.content, "div.page", function(page, index) {
+            if (index == which || page == which) {
+                sub.page.Select(sub, page, "h1,h2,h3", function(item) { sub.Action("菜单", item.innerHTML) })
+                sub.onmotion.select(sub, sub.ui.project, "div.item", index)
+                sub.page.ClassList.add(sub, page, "select")
+                sub.Status("page", index+1+"/"+sub.list.length)
             } else {
-                can.user.toast(can, "end")
+                sub.page.ClassList.del(sub, page, "select")
             }
         })
     },
-    grid: function(can) {
-        can.page.Select(can, can.ui.content, "div.page.show", function(page) {
-            can.page.ClassList.del(can, page, "show")
-        })
-        can.core.Next(can.page.Select(can, can.ui.content, "div.page"), function(page, next, index) {
-            can.page.ClassList.add(can, page, "show"), can.page.Modify(can, page, {style: {
-                "position": "relative", "float": "left",
-                "margin-left": 0, "margin-top": 0,
-                "width": 200, "height": 200,
-                "border": "solid 2px red",
-                "overflow": "auto",
-            }, onclick: function(event) {
-                page.style.position == "absolute"? can.page.Modify(can, page, {style: {
-                    "position": "relative", "float": "left",
-                    "margin-left": 0, "margin-top": 0,
-                    "width": 200, "height": 200,
-                    "border": "solid 2px red",
-                    "overflow": "auto",
-                    "z-index": 0,
-                }}): can.page.Modify(can, page, {style: {
-                    "position": "absolute", "float": "none",
-                    "margin-left": 20, "margin-top": 40,
-                    "width": document.body.offsetWidth, "height": document.body.offsetHeight,
-                    "overflow": "auto",
-                    "border": "",
-                    "z-index": 10,
-                }})
-            }, })
-            can.onmotion.show(can, {value: 10, length: 20}, next, page)
+    next: function(sub) {
+        sub.page.Select(sub, sub.ui.content, "div.page.select", function(page) {
+            page.nextSibling? sub.sup.onaction.show(sub, page.nextSibling):
+                sub.user.toast(sub, "end")
         })
     },
-    flash: function(can) {
-        can.page.Select(can, can.ui.content, "div.page.show", function(page) {
-            can.page.ClassList.del(can, page, "show")
-        })
-        can.core.Next(can.page.Select(can, can.ui.content, "div.page"), function(page, next, index) {
-            can.page.ClassList.add(can, page, "show"), can.page.Modify(can, page, {style: {
-                "position": "absolute", "float": "none",
-                "margin-left": 20, "margin-top": 40,
-                "width": document.body.offsetWidth, "height": document.body.offsetHeight,
-                "border": "none",
-                "overflow": "auto",
-            }, ondblclick: function(event) {
-                can.onaction.show(can, index)
-                can.ui["布局"].value = "开讲"
-            }, onclick: function(event) {
-                can.onaction.show(can, index)
-                can.ui["布局"].value = "开讲"
-            }, })
-            can.onmotion.show(can, {value: 10, length: 20}, next, page)
+    prev: function(sub) {
+        sub.page.Select(sub, sub.ui.content, "div.page.select", function(page) {
+            page.previousSibling? sub.sup.onaction.show(sub, page.previousSibling):
+                sub.user.toast(sub, "end")
         })
     },
-    spring: function(can) {
-        can.page.Select(can, can.ui.content, "div.page.show", function(page) {
-            can.page.ClassList.del(can, page, "show")
-        })
-        can.core.Next(can.page.Select(can, can.ui.content, "div.page"), function(page, next, index) {
-            can.page.ClassList.add(can, page, "show"), can.page.Modify(can, page, {style: {
-                "position": "absolute", "float": "none",
-                "margin-left": 10*(index+1), "margin-top": 60*(index+1),
-                "height": document.body.offsetHeight,
-                "width": document.body.offsetWidth,
-                "border": "solid 2px red",
-                "overflow": "auto",
-            }, onclick: function(event) {
-                page.style["margin-left"] == "0px"? can.page.Modify(can, page, {style: {
-                    "margin-left": 10*(index+1), "margin-top": 60*(index+1),
-                    "z-index": 0,
-                }}): can.page.Modify(can, page, {style: {
-                    "margin-left": 0, "margin-top": 60*(index+1),
-                    "z-index": 10,
-                }})
-            }, })
-            can.onmotion.show(can, {value: 10, length: 20}, next, page)
+    flash: function(sub) {
+        sub.core.Next(sub.page.Select(sub, sub.ui.content, "div.page"), function(page, next) {
+            sub.core.Timer(500, function() { next() })
+            sub.sup.onaction.show(sub, page)
         })
     },
+    grid: function(sub) { sub.page.Modify(sub, sub.ui.content, {className: "content grid"}) },
 })
 

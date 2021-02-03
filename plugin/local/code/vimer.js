@@ -15,7 +15,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _merge: function(can, sub)
                     }, onblur: function(event) {
                         can.current.text(can.ui.current.value)
                     }, onfocus: function(event) {
-                        can._output.scrollBy(-1000, 0)
+                        can._output.scrollLeft += -1000
+
                         can.current.scroll(-1000, 0)
                     }, onclick: function(event) {
                         can.onkeymap._insert(can)
@@ -23,10 +24,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _merge: function(can, sub)
                     {view: ["command", "input"], onkeydown: function(event) {
                         can.onkeymap.parse(event, can, "command")
                     }, onfocus: function(event) {
-                        can._output.scrollBy(-1000, 0)
+                        can._output.scrollLeft += -1000
                         can.current.scroll(-1000, 0)
                     }},
-                ]); can.core.Copy(can.ui, ui, "current", "command")
+                ]); can.base.Copy(can.ui, ui, "current", "command")
 
                 var ui = can.page.Appends(can, can.ui.display, [
                     {view: "action", list: [
@@ -43,7 +44,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _merge: function(can, sub)
                             can.onmotion.hidden(can, can.ui.display)
                         } ]},
                     ]}, {view: "output"},
-                ]); can.core.Copy(can.ui, ui, "output", "cmd")
+                ]); can.base.Copy(can.ui, ui, "output", "cmd")
             }, target)
         })
     },

@@ -24,7 +24,7 @@ var Volcanos = shy("火山架", {pack: {}, libs: [], cache: {}}, [], function(na
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: document.body}
         libs = Preload.concat(Config.main.list, Config.libs), cb = function(can) {
-            can.onengine._init(can, can.Conf(Config), Config.panes, function(msg) { can.base.Log(name, "run", can)
+            can.onengine._init(can, can.Conf(Config), Config.panes, function(msg) { can.base.Log(can.user.title(), "run", can)
                 document.body.onresize = function() { can.onlayout._init(can, can._target) }
             }, can._target)
         }

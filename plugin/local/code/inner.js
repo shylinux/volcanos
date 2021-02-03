@@ -37,7 +37,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                 ]},
                 {view: "tags", style: {"max-height": 160}},
             ]},
-        ]); can.core.Copy(can.ui, ui, "search", "word", "tags")
+        ]); can.base.Copy(can.ui, ui, "search", "word", "tags")
     },
     _favor: function(can, target) {
         can.onappend.plugin(can, {index: "web.code.favor"}, function(sub) {
@@ -207,7 +207,11 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "运行", "搜索"]
 
         typeof line == "object" && can.page.Select(can, line, "td.text", function(item) {
             can.current = {
-                scroll: function(x, y) { return can.ui.content.scrollBy(x, y) },
+                scroll: function(x, y) {
+                    can.ui.content.scrollLeft += x
+                    can.ui.content.scrollTop += y
+                    // return can.ui.content.scrollBy(x, y)
+                },
                 window: function() { return can.ui.content.offsetHeight },
                 offset: function() { return can.ui.content.scrollTop },
 
@@ -219,7 +223,7 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "运行", "搜索"]
             }
 
             var push = {path: can.Option("path"), file: can.Option("file"), line: can.Option("line")}
-            can.core.Eq({path: push.path, file: push.file}, can.history[can.history.length-1]) || can.history.push(push)
+            can.base.Eq({path: push.path, file: push.file}, can.history[can.history.length-1]) || can.history.push(push)
             can.Status("跳转数", can.history.length)
         })
 

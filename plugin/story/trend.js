@@ -5,7 +5,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.Action("height", parseInt(msg.Option("height")||"400"))
 
         can.onmotion.clear(can)
-        can.onappend.plugins(can, {index: "web.wiki.draw"}, function(sub) {
+        can.onappend.plugins(can, {type: "inner draw drawer", index: "web.wiki.draw"}, function(sub) {
             sub.run = function(event, cmds, cb) { typeof cb == "function" && cb(sub.request())
                 can.core.Timer(100, function() { can.sub = sub._outputs[0]
                     can.sub.onmotion.hidden(can.sub, can.sub.ui.project)

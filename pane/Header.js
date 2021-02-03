@@ -100,7 +100,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }) })
     },
     _time: function(can, target) {
-        can.core.Timer({interval: 1000, length: -1}, function() {
+        can.core.Timer({interval: 1000}, function() {
             can.onimport.time(can, target)
         })
         can.onappend.figure(can, {style: {left: "", right: "0", top: can._target.offsetHeight}}, "@date", target)
@@ -188,7 +188,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             var msg = can.request(event, {name: meta.name, content: JSON.stringify(Volcanos.meta.pack)})
 
             var toast = can.user.toast(can, "打包中...", "webpack", 1000000)
-            can.run(event, ["pack"], function(msg) {
+            can.run(event, ["webpack"], function(msg) {
                 toast.Close(), can.user.toast(can, "打包成功", "webpack")
             })
             return true

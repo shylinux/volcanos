@@ -8,6 +8,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 
             can.onappend.plugin(can, item, function(sub, meta) {
                 can.onimport._plugin(can, river, storm, sub, meta), next()
+                sub._option.dataset = sub._option.dataset || {}
                 sub._option.dataset.id = item.id
             })
         })
@@ -16,8 +17,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         sub.run = function(event, cmds, cb) { var msg = sub.request(event)
             var toast = msg.Option("_toast") && can.user.toast(can, msg.Option("_toast"), "", 1000000)
             return can.run(event, (can.onengine[cmds[0]]? []: [river, storm, item.id||item.index||item.key+"."+item.name]).concat(cmds), function(msg) {
-                console.log(sub)
-                console.log(item)
                 toast && toast.Close(), typeof cb == "function" && cb(msg)
             })
         }, can._plugins = (can._plugins||[]).concat([sub])

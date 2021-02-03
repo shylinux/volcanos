@@ -31,7 +31,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         can.misc.Runs(event, can, {names: pane._name}, cmds, cb)
         pane.run(event, ["search", "Footer.onimport.ncmd"])
     }, engine: function(event, can, msg, pane, cmds, cb) { return false },
-
     listen: shy("事件回调", {}, [], function(can, name, cb) {
         arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
     }),
@@ -40,7 +39,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             can.core.CallFunc(cb, {msg: msg})
         })
     }),
-
     river: {
         "serivce": {name: "运营群", storm: {
             "wx": {name: "公众号 wx",  action: [
@@ -215,7 +213,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     if (!cmds[i]) { cmds.pop() } else { break }
                 }
 
-                var last = sub._history[sub._history.length-1]; !sub.core.Eq(last, cmds) && cmds[0] != "action" && !slient && sub._history.push(cmds)
+                var last = sub._history[sub._history.length-1]; !sub.base.Eq(last, cmds) && cmds[0] != "action" && !slient && sub._history.push(cmds)
                 return cmds
             },
         }, list.concat(Volcanos.meta.volcano, Volcanos.meta.libs), function(sub) { sub.Conf(meta)
@@ -569,12 +567,10 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
     },
 })
 Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, target) {
-        can.onkeypop._build(can)
         var focus = []; can.onengine.listen(can, "keymap.focus", function(cb) {
             cb? focus.push(cb): focus.pop()
-            can.base.Log("---", cb)
         })
-
+        can.onkeypop._build(can)
         target.onkeydown = function(event) {
             if (focus.length > 0) { return focus[focus.length-1](event) }
             if (event.target != target) { return }
@@ -592,7 +588,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
             }), can.onkeypop._engine[item] = engine
         })
     },
-    _parse: function(event, can, mode, list, target) { list.push(event.key)
+    _parse: function(event, can, mode, list, target) { list = list||[], list.push(event.key)
         can.Status("按键", list.join(""))
         for (var pre = 0; pre < list.length; pre++) {
             if ("0" <= list[pre] && list[pre] <= "9") { continue } break
@@ -605,6 +601,9 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
         }
 
         var map = can.onkeypop._mode[mode]
+        var cb = map && map[event.key]; if (typeof cb == "function" && event.key.length > 1) {
+            repeat(cb, count); return list
+        }
         var cb = map && map[event.key.toLowerCase()]; if (typeof cb == "function" && event.key.length > 1) {
             repeat(cb, count); return list
         }

@@ -112,7 +112,7 @@ table.layout th {
 }
 
 table.content {
-    width:-webkit-fill-available;
+    /* width:-webkit-fill-available; */
     border:0; white-space:pre;
     font-size:14px; font-family:monospace;
     cursor:pointer; overflow: auto;
