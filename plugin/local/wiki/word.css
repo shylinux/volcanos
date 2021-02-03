@@ -1,90 +1,72 @@
-body fieldset.plugin.word h1:hover {
-    background:green;
-    cursor:pointer;
-}
-body fieldset.plugin.word h2:hover {
-    background:green;
-    cursor:pointer;
-}
-body fieldset.plugin.word h3:hover {
-    background:green;
-    cursor:pointer;
-}
-
-body fieldset p.story[data-name=inner] {
-    padding:4px;
-    background-color:#4b6c8a;
-    border-left:solid 4px blue;
-}
-body fieldset p.story[data-name=inner]:hover {
-    cursor:copy;
-}
-body div.story[data-type=spark] {
-    background-color:#2169a9; color:white;
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    border-left:solid 4px blue;
-    padding:4px 10px; margin:10px 0px;
-}
-body div.story[data-type=spark] span:hover {
-    background-color:#c10c8a;
-    cursor:copy;
-    box-shadow: 4px 4px 10px 1px #626bd0;
-}
-
-body.white fieldset p.story[data-name=inner] {
-    /* background-color:#bad8f7; */
-    border-left:solid 4px blue;
-}
-body.white fieldset div.story[data-type=spark] {
-    /* background-color:#c2daef; */
+fieldset.word h1.story {
     clear:both;
 }
-body.white fieldset div.story[data-type=spark] span:hover {
-    background-color:blue;
-    /* background-color:white; */
+fieldset.word h2.story {
+    clear:both;
+}
+fieldset.word h3.story {
+    clear:both;
 }
 
-fieldset ul.story[data-type=premenu] {
+fieldset.word h1:hover {
+    background:green;
     cursor:pointer;
 }
-fieldset ul.story[data-type=premenu] li:hover {
+fieldset.word h2:hover {
+    background:green;
+    cursor:pointer;
+}
+fieldset.word h3:hover {
+    background:green;
+    cursor:pointer;
+}
+
+fieldset.word ul.story[data-type=premenu] {
+    cursor:pointer;
+}
+fieldset.word ul.story[data-type=premenu] li:hover {
     background:cyan;
 }
-
-fieldset.plugin.word fieldset.story {
-    margin:10px; clear:both; float:left;
-    border:0;
-    box-shadow: 4px 4px 10px 1px #626bd0;
-}
-
-fieldset h1.story {
-    clear:both;
-}
-fieldset h2.story {
-    clear:both;
-}
-fieldset h3.story {
-    clear:both;
-}
-fieldset li.H2 {
+fieldset.word li.H2 {
     font-weight:bold;
     font-size:20px;
 }
-fieldset br.story {
+fieldset.word br.story {
     clear:both;
 }
-fieldset p.story {
+
+fieldset.word p.story {
     white-space:pre;
 }
-fieldset p.story.shell {
-    padding:4px;
+fieldset.word p.story[data-name=inner] {
+    padding:4px 10px; margin:10px 0px;
+    background-color:#4b6c8a7a;
     border-left:solid 4px blue;
-    background-color:#c2daef;
 }
-fieldset svg.story {
+fieldset.word p.story[data-name=inner]:hover {
+    background-color:#c10c8a;
+    cursor:copy;
+}
+fieldset.word div.story[data-type=spark] {
+    background-color:#2169a9a6; color:white;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    padding:4px 10px; margin:10px 0px;
+    border-left:solid 4px blue;
+}
+fieldset.word div.story[data-type=spark] span:hover {
+    box-shadow: 4px 4px 10px 1px #29318e;
+    background-color:#c10c8a;
+    cursor:copy;
+}
+fieldset.word svg.story {
     display:block; float:left;
 }
-fieldset code.story {
+fieldset.word fieldset.story {
+    margin:10px; border:0;
+    clear:both; float:left;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+}
+fieldset.word code.story {
     display:block; border:solid 3px green;
     color:white; background-color:#272822;
     font-size:14px; font-family:monospace;
@@ -93,21 +75,38 @@ fieldset code.story {
     clear:both;
 }
 
-div.show {
-    position:absolute; top:0;
+fieldset.word.float {
+    width:-webkit-fill-available;
+    height:-webkit-fill-available;
+    position:absolute; left:0; top:0;
+    background-color:aliceblue;
     color:black;
 }
-div.show table {
-    color:black;
+fieldset.word.float div.project {
+    background-color:aliceblue;
+    padding:10px;
 }
+fieldset.word.float div.content div.page {
+    margin-top:30px;
+    display:none;
+}
+fieldset.word.float div.content div.page.select {
+    display:block;
+}
+
+fieldset.word.float h1 {
+    text-align:center;
+}
+fieldset.word.float h2 {
+    text-align:center;
+}
+fieldset.word.float h3 {
+    text-align:center;
+}
+
+
 div.show>div.control {
     background-color:aliceblue;
-}
-div.show>div.project {
-    background-color:aliceblue;
-    position:absolute;
-    padding:10px;
-    z-index:10;
 }
 div.show>div.project div.item {
     cursor:pointer;
@@ -161,3 +160,17 @@ div.show>div.content div.page code.story {
     padding:10px; white-space:pre;
     clear:both;
 }
+
+body.white fieldset.word p.story[data-name=inner] {
+    /* background-color:#bad8f7; */
+    border-left:solid 4px blue;
+}
+body.white fieldset.word div.story[data-type=spark] {
+    /* background-color:#c2daef; */
+    clear:both;
+}
+body.white fieldset.word div.story[data-type=spark] span:hover {
+    background-color:blue;
+    /* background-color:white; */
+}
+
