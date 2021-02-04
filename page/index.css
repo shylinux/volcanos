@@ -7,6 +7,12 @@ body.mobile.landscape fieldset.Footer.foot {
 body.mobile.landscape fieldset.Action.main {
     margin-top:0; margin-bottom:0;
 }
+body.mobile.landscape fieldset.Header.head div.state.time {
+    display:block;
+}
+body.mobile fieldset.Header.head div.state.time {
+    display:none;
+}
 body.mobile fieldset.Header.head {
     position:fixed; top:0;
     width:-webkit-fill-available;
@@ -186,7 +192,7 @@ div.hidden {
 
 fieldset>form.option>div.item {
     float:left; margin-right:3px;
-    min-height:25px; vertical-align:middle;
+    min-height:26px; vertical-align:middle;
 }
 fieldset>form.option>div.item label {
     display:none;
@@ -227,7 +233,7 @@ fieldset>form.option>div.item.textarea {
 
 fieldset div.action>div.item {
     float:left; margin-right:3px;
-    height:25px; vertical-align:middle;
+    height:28px; vertical-align:middle;
 }
 fieldset div.action>div.item.space {
     width:10px;

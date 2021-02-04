@@ -79,9 +79,9 @@ fieldset.word fieldset.story {
 
 fieldset.word.float {
     width:-webkit-fill-available;
-    position:absolute; left:0; top:0;
+    position:fixed; left:0; top:0;
     background-color:aliceblue;
-    color:black;
+    color:black; z-index:20;
 }
 fieldset.word.float>div.output {
     background-color:aliceblue;

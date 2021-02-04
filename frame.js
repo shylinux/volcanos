@@ -484,6 +484,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 }, [], function(can) {})
 Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
         var target = document.body, width = window.innerWidth, height = window.innerHeight
+        can.user.isMobile && can.page.ClassList.add(can, document.body, "mobile")
         can.user.isMobile && can.page.ClassList.set(can, document.body, "landscape", width > height)
 
         can.page.Select(can, target, ["fieldset.head", "fieldset.foot"], function(field) {

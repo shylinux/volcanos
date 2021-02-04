@@ -28,7 +28,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
     _state: function(can, msg, target) {
-        can.core.List(can.user.isMobile? ["username"]: can.Conf("state")||["time", "username"], function(item) {
+        can.core.List(can.Conf("state")||["time", "username"], function(item) {
             can.page.Append(can, target, [{view: ["state "+item, "div", (can.Conf(item)||"").slice(0, 8)], onclick: function(event) {
                 can.core.CallFunc([can.onaction, item], [event, can, item])
             }, _init: function(target) {
