@@ -14,7 +14,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._title(can, msg, target)
         can.onimport._state(can, msg, target)
         can.onimport._search(can, msg, target)
-        // can.onengine._daemon(can, can.user.title())
         can.onimport._background(can, msg, target)
         can.onimport._agent(can, msg, target)
         can.onimport._menu(can, msg, target)
@@ -29,8 +28,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
     _state: function(can, msg, target) {
-        can.core.List(can.Conf("state")||["time", "username"], function(item) {
-            can.page.Append(can, target, [{view: ["state "+item, "div", can.Conf(item)], onclick: function(event) {
+        can.core.List(can.user.isMobile? ["username"]: can.Conf("state")||["time", "username"], function(item) {
+            can.page.Append(can, target, [{view: ["state "+item, "div", (can.Conf(item)||"").slice(0, 8)], onclick: function(event) {
                 can.core.CallFunc([can.onaction, item], [event, can, item])
             }, _init: function(target) {
                 item == "time" && can.onimport._time(can, target)
@@ -76,7 +75,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
     _weixin: function(can, msg) { can.run({}, ["action", "wx"], function(msg) {
         can.require(["https://res.wx.qq.com/open/js/jweixin-1.6.0.js"], function(can) {
-            can.user.agent = { __proto__: can.user.agent,
+            wx.config({debug: msg.Option("debug") == "true", jsApiList: can.core.Item({
+                scanQRCode: function(cb) { wx.scanQRCode({needResult: cb? 1: 0, scanType: ["qrCode","barCode"], success: function (res) {
+                    typeof cb == "function" && cb(res.resultStr)
+                } }) },
                 getLocation: function(cb) { wx.getLocation({type: "gcj02", success: function (res) {
                     typeof cb == "function" && cb({latitude: parseInt(res.latitude*100000), longitude: parseInt(res.longitude*100000) })
                 } }) },
@@ -86,14 +88,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                     name: msg.Option("name"), address: msg.Option("text"),
                     scale: msg.Option("scale")||14, infoUrl: msg.Option("link"),
                 }) },
-                scanQRCode: function(cb) { wx.scanQRCode({ needResult: cb? 1: 0, scanType: ["qrCode","barCode"], success: function (res) {
-                    typeof cb == "function" && cb(can.user.scan(res.resultStr))
-                } }) },
                 chooseImage: function(cb, count) { wx.chooseImage({count: count||9, sizeType: ['original', 'compressed'], sourceType: ['album', 'camera'], success: function (res) {
                     typeof cb == "function" && cb(res.localIds)
                 } }) },
-            }
-            wx.config({debug: msg.Option("debug") == "true", jsApiList: can.core.Item(can.user.agent),
+            }, function(key, value) { return can.user.agent[key] = value, key }),
                 nonceStr: msg.Option("noncestr"), timestamp: msg.Option("timestamp"),
                 appId: msg.Option("appid"), signature: msg.Option("signature"),
             })

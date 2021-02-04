@@ -9,7 +9,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             can.onappend.plugin(can, item, function(sub, meta) {
                 can.onimport._plugin(can, river, storm, sub, meta), next()
                 sub._option.dataset = sub._option.dataset || {}
-                sub._option.dataset.id = item.id
+                item.id && (sub._option.dataset.id = item.id)
             })
         })
     },
@@ -23,7 +23,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 
         can.page.Modify(can, sub._output, {style: {"max-width": item.width-40}})
         can.onengine.listen(can, "action.resize", function(width, height) {
-            can.page.Modify(can, sub._output, {style: {"max-width": item.width = width-40}})
+            can.page.Modify(can, sub._output, {style: {"max-width": width-40}})
+            item.width = width
         })
 
         can.page.Append(can, can._action, [{view: ["item", "div", item.name], onclick: function(event) {

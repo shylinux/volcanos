@@ -42,7 +42,7 @@ fieldset.Action div.output.grid fieldset.plugin>div.output {
     width:480px; height:320px; overflow:auto;
 }
 fieldset.Action div.output.tabs fieldset.plugin {
-    display:none; position:absolute;
+    display:none;
 }
 fieldset.Action div.output.tabs fieldset.plugin.select {
     display:block;

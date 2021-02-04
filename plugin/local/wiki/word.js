@@ -7,7 +7,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Select(can, target, ".story", function(item) { var data = item.dataset||{}
             can.core.CallFunc([can.onimport, data.type], [can, data, item])
             can.page.Modify(can, item, {style: can.base.Obj(data.style)})
-            // delete(data.meta)
+            delete(data.meta)
         })
     },
 
@@ -40,12 +40,19 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         })
     },
-    field: function(can, data, target) { var meta = can.base.Obj(data.meta)
-        meta.width = can.Conf("width"), meta.height = can.Conf("height")
-        can.onappend._init(can, meta, ["/plugin/state.js"], function(sub) {
+    field: function(can, data, target) { var item = can.base.Obj(data.meta)
+        item.width = parseInt(can.Conf("width"))-20, item.height = parseInt(can.Conf("height"))
+        item.type = "story"
+        can.onappend._init(can, item, ["/plugin/state.js"], function(sub) {
             sub.run = function(event, cmds, cb, silent) {
-                can.run(event, (cmds[0] == "search"? []: ["action", "story", data.type, data.name, data.text]).concat(cmds), cb, true)
+                can.run(event, (cmds && cmds[0] == "search"? []: ["action", "story", data.type, data.name, data.text]).concat(cmds), cb, true)
             }
+
+            can.page.Modify(can, sub._output, {style: {"max-width": item.width-40}})
+            can.onengine.listen(can, "action.resize", function(width, height) {
+                can.page.Modify(can, sub._output, {style: {"max-width": width-60}})
+                sub.Conf("width", item.width = width-20)
+            })
         }, can._output, target)
     },
 

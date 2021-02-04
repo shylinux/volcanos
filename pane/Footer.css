@@ -18,6 +18,9 @@ fieldset.Footer>div.output>div:hover {
 fieldset.Footer>div.output div.title {
     float:left;
 }
+fieldset.Footer>div.output div.toast {
+    float:right;
+}
 fieldset.Footer>div.output div.state {
     float:right;
 }

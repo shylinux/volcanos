@@ -1,3 +1,6 @@
+fieldset.word a {
+    word-break:break-word;
+}
 fieldset.word h1.story {
     clear:both;
 }

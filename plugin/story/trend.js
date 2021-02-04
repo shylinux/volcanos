@@ -10,9 +10,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 can.core.Timer(100, function() { can.sub = sub._outputs[0]
                     can.sub.onmotion.hidden(can.sub, can.sub.ui.project)
                     can.onaction[can.Action("view")](event, can)
-                    can.onlayout.resize(can, "action.resize", function(event) {
-                        can.onaction[can.Action("view")](event, can)
-                    })
                 })
             }
         })
@@ -65,14 +62,14 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", 
 
         var space = 10
         var view = parseInt(can.Action("height"))
-        var max = parseInt(can.Conf("width"))-40
-        var step = parseInt(max / can.list.length)||2
+        var max = parseInt(can.Conf("width"))
+        var step = parseInt(max / (can.list.length+1))||2
         can.onmotion.clear(can, sub.svg)
 
         var width = can.list.length * step + space * 2
         var height  = view + space * 2
         sub.svg.Val("height", height)
-        sub.svg.Val("width", width)
+        sub.svg.Val("width", width-space*2+5)
 
         function compute(y) { return (y - can.min)/(can.max - can.min)*view }
         can.core.Next(can.list, function(line, next, index) {

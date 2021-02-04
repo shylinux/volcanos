@@ -282,8 +282,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             item.name && item.value && msg.Option(item.name, item.value)
         })
 
-        if (cmds && cmds[0] == "action" && can.onaction[cmds[1]]) {
-            return can.onaction[cmds[1]](event, can)
+        if (msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && can.onaction[cmds[1]]) {
+            return can.onaction[cmds[1]](event, can, cmds[1])
         }
 
         var feature = can.Conf("feature")
@@ -414,19 +414,19 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
         return can.page.Append(can, target, [{view: ["item "+item.type], list: [input]}])[item.name]
     },
-    table: function(can, msg, cb, target, list) {
+    table: function(can, msg, cb, target, sort) {
         var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key) {
             return {text: [value, "td"], onclick: function(event) {
                 can.sup.onaction.change(event, can.sup, key, value, function(msg) {
-                    can.onimport._init(can, msg, list, cb, can._output)
+                    can.onimport._init(can, msg, [], cb, can._output)
                 })
             }}
         }); table && can.page.Modify(can, table, {className: "content"})
-        list && can.page.RangeTable(can, table, list)
+        sort && can.page.RangeTable(can, table, sort)
         return table
     },
     board: function(can, text, target) { text = can.page.Display(text || "")
-        return text && can.page.Append(can, target, [{view: ["code", "div", text]}]).code
+        return text && can.page.Append(can, target||can._output, [{view: ["code", "div", text]}]).code
     },
 
     figure: function(can, meta, key, target) {
@@ -484,28 +484,32 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 }, [], function(can) {})
 Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
         var target = document.body, width = window.innerWidth, height = window.innerHeight
+        can.user.isMobile && can.page.ClassList.set(can, document.body, "landscape", width > height)
 
         can.page.Select(can, target, ["fieldset.head", "fieldset.foot"], function(field) {
-            can.page.Modify(can, field, {style: {display: can.user.isMobile && width > height? "none": ""}})
             height -= field.offsetHeight
         })
 
-        can.page.Select(can, target, ["fieldset.left", "fieldset.right"], function(field, index) {
+        can.page.Select(can, target, "fieldset.left", function(field, index) {
             can.page.Modify(can, field, {style: {height: height}})
             width -= field.offsetWidth
+        })
+        can.page.Select(can, target, "fieldset.left>div.output", function(output) {
+            can.page.Modify(can, output, {style: {height: height-32}})
+        })
 
-            can.page.Select(can, field, "div.output", function(output) {
-                can.page.Modify(can, output, {style: {height: height-32}})
+        if (can.user.isMobile) {
+            can.page.Select(can, target, "fieldset.main", function(field, index) {
+                can.user.isMobile && can.page.Modify(can, field, {style: {"padding-top": width > height? "0px": ""}})
             })
-        })
-
-        if (can.user.isMobile) { return }
-        can.page.Select(can, target, ["fieldset.main"], function(field, index) {
-            can.page.Modify(can, field, {style: {height: height}})
-        })
-        can.page.Select(can, target, ["fieldset.main>div.output"], function(output) {
-            can.page.Modify(can, output, {style: {height: height}})
-        })
+        } else {
+            can.page.Select(can, target, "fieldset.main", function(field, index) {
+                can.page.Modify(can, field, {style: {height: height}})
+            })
+            can.page.Select(can, target, "fieldset.main>div.output", function(output) {
+                can.page.Modify(can, output, {style: {height: height}})
+            })
+        }
         can.onengine.signal(can, "resize", can.request({}, {width: width, height: height}))
     },
     topic: function(can, topic) { topic && (can._topic = topic)

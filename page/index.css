@@ -1,29 +1,35 @@
+body.mobile.landscape fieldset.Header.head {
+    position:unset;
+}
+body.mobile.landscape fieldset.Footer.foot {
+    position:unset;
+}
+body.mobile.landscape fieldset.Action.main {
+    margin-top:0; margin-bottom:0;
+}
 body.mobile fieldset.Header.head {
-    position:fixed;
+    position:fixed; top:0;
     width:-webkit-fill-available;
     height:48px; font-size:24px;
     background-color:#000000b8;
     z-index:10;
 }
-body.mobile fieldset.Header.head>div.output {
-    height:48px;
-}
 body.mobile fieldset.Footer.foot {
-    position:fixed; bottom:0px;
+    position:fixed; bottom:0;
     width:-webkit-fill-available;
     height:64px; font-size:24px;
     background-color:#000000b8;
+    display:none;
     z-index:10;
 }
-body.mobile fieldset.River {
-    background-color:#243950bf;
+body.mobile fieldset.River.left {
     position:fixed; top:48px;
-    min-width:240px;
-    font-size:24px;
+    background-color:#243950bf;
+    min-width:240px; font-size:24px;
     z-index:10;
 }
-body.mobile fieldset.Action {
-    padding-top:48px;
+body.mobile fieldset.Action.main {
+    margin-top:48px; margin-bottom:64px;
 }
 body.mobile select {
     font-size:18px;

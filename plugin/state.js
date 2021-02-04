@@ -56,73 +56,31 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
     },
     upload: function(event, can) { can.user.upload(event, can) },
 
+    scanQRCode: function(event, can, cmd) {
+        can.user.agent.scanQRCode(function(text) { var cmds = ["action", cmd]
+            can.core.Item(can.base.parseJSON(text), function(key, value) { cmds.push(key, value) })
+            can.run(event, cmds, function(msg) { can.user.toast(can, "添加成功"), can.run() }, true)
+        })
+    },
+    scanQRCode0: function(event, can) { can.user.agent.scanQRCode() },
+    getClipboardData: function(event, can, cmd) {
+        navigator.clipboard.readText().then(text => { var cmds = ["action", cmd]
+            can.core.Item(can.base.parseJSON(text), function(key, value) { cmds.push(key, value) })
+            can.run(event, cmds, function(msg) { can.user.toast(can, text, "添加成功"), can.run() }, true)
+        }).catch((err) => { can.base.Log(err) })
+    },
     getLocation: function(event, can, cmd) { var msg = can.request(can)
         can.user.agent.getLocation(function(res) {
             var arg = []; can.core.Item(res, function(key, value) { arg.push(key, value) })
-            can.run(event, ["action", cmd].concat(arg))
+            can.run(event, ["action", cmd].concat(arg), function(msg) {
+                can.user.toast(can, "添加成功")
+            }, true)
         })
     },
-    openLocation: function(event, can) { var msg = can.request(can)
-        can.user.agent.openLocation(msg)
-    },
-    scanQRCode0: function(event, can) { var msg = can.request(can)
-        can.user.agent.scanQRCode()
-    },
-    scanQRCode: function(event, can, cmd) { var msg = can.request(can)
-        can.user.agent.scanQRCode(function(res) {
-            var arg = []; can.core.Item(res, function(key, value) { arg.push(key, value) })
-            can.run(event, ["action", cmd].concat(arg))
-        })
-    },
+    openLocation: function(event, can) { can.user.agent.openLocation(can.request(event)) },
 
     "参数": function(event, can) { can.page.Toggle(can, can._action) },
-    "清空": function(event, can, name) { can._output.innerHTML = "" },
-    "结束": function(event, can, name) { can.user.confirm("确定结束?") && can.run(event, ["action", name], function(msg) {
-        can.run({})
-    }, true) },
-
-    "关闭": function(event, can) {
-        can.page.Remove(can, can._target)
-    },
-    "复制": function(event, can) {
-        can.onaction._show(can, args, {
-            position: "fixed",
-            left: layout.left+100, top: layout.top+100,
-            width: layout.width, height: layout.height,
-        })
-    },
-    "分屏": function(event, can) {
-        if (event.ctrlKey) {
-            layout.height = layout.height/2
-            can.onaction._resize(sub, layout)
-
-            can.onaction._show(can, args, {
-                position: "fixed",
-                left: layout.left, top: layout.top+layout.height+10,
-                width: layout.width, height: layout.height,
-            })
-            return
-        }
-
-        layout.width = layout.width/2
-        can.onaction._resize(sub, layout)
-
-        can.onaction._show(can, args, {
-            position: "fixed",
-            left: layout.left+layout.width+10, top: layout.top,
-            width: layout.width, height: layout.height,
-        })
-    },
-    "最大": function(event, can) {
-        can.page.Modify(can, can._target, {style: { margin: 0,
-            left: 0, top: 0, width: window.innerWidth, height: window.innerHeight
-        }})
-
-        var sub = can.core.Value(can, "_outputs.-1")
-        var cb = can.core.Value(can, "_outputs.-1.onimport.resize")
-        sub && cb && can.core.CallFunc(cb, {can: sub,
-            width: window.innerWidth, height: window.innerHeight,
-        })
-    },
+    "关闭": function(event, can) { can.page.Remove(can, can._target) },
+    "清空": function(event, can, name) { can.onmotion.clear(can, can._output) },
 })
 Volcanos("onexport", {help: "导出数据", list: []})

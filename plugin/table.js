@@ -3,15 +3,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         if (can.onimport._process(can, msg)) { return typeof cb == "function" && cb(can, msg) }
 
         can.onmotion.clear(can)
-        can.ui = can.onlayout.display(can)
         typeof cb == "function" && cb(msg)
 
-        can.page.Append(can, can.ui.content, [can.onimport._control(can, msg)])
+        can.page.Append(can, target, [can.onimport._control(can, msg)])
         can.onappend.table(can, msg, function(value, key, index, line, array) {
             return can.onimport._table(can, value, key, index, line, array)
-        }, can.ui.content)
+        })
 
-        can.onappend.board(can, msg.Result(), can.ui.display)
+        can.onappend.board(can, msg.Result())
         can.onimport._board(can, msg)
     },
     _table: function(can, value, key, index, line, array) {
@@ -57,9 +56,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _follow: function(can, msg) {
         if (msg.Option("cache.status") == "stop") { return can.user.toast(can, msg.Option("cache.action")+" done!")}
 
-        can.page.Modify(can, can.ui.display, {className: "code", style: {"max-height": 400, "display": "block"}})
-        can.page.Append(can, can.ui.display, [{text: msg.Result()}])
-        can.ui.display.scrollBy(0, 1000)
+        can.page.Modify(can, can._output, {className: "code", style: {"max-height": 400, "display": "block"}})
+        can.page.Append(can, can._output, [{text: msg.Result()}])
+        can._output.scrollBy(0, 1000)
 
         can.core.Timer(100, function() { var sub = can.request({})
             sub.Option("cache.hash", msg.Option("cache.hash"))
@@ -74,11 +73,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _inner: function(can, msg) {
         can.onappend.table(can, msg, function(value, key, index, line, array) {
             return can.onimport._table(can, value, key, index, line, array)
-        }, can.ui.display)
+        }, can._output)
 
-        can.onappend.board(can, msg.Result(), can.ui.display)
+        can.onappend.board(can, msg.Result(), can._output)
         can.onimport._board(can, msg)
-        can.page.Modify(can, can.ui.display, {style: {display: "block"}})
+        can.page.Modify(can, can._output, {style: {display: "block"}})
         return true
     },
 
@@ -122,7 +121,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
             {input: ["cache.value", function(event) {
                 if (event.key == "Enter") {
-                    can.page.Select(can, can.ui.content, "tr", function(tr, index) {
+                    can.page.Select(can, can._output, "tr", function(tr, index) {
                         if (event.target.value == "") { can.page.Modify(can, tr, {style: {"display": ""}}); return }
                         index > 0 && can.page.Modify(can, tr, {style: {"display": "none"}})
                         can.page.Select(can, tr, "td", function(td, index) {
