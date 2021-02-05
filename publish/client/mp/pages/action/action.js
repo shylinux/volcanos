@@ -3,48 +3,49 @@ const app = getApp()
 
 Page({
     data: {
-        action: ["扫码", "刷新", "清屏", "串行", "并行"],
         river: "", storm: "", title: "",
+        action: ["刷新", "扫码", "清屏", "串行", "并行"],
         res: [], his: {}, inputs: {},
     },
     action: {
-        "扫码": function(event, page, data, name) {
-            // app.jumps("scans/scans")
-            app.scans(function(res) {
-                res["sess.river"] = page.data.river
-                res["sess.storm"] = page.data.storm
-                app.request("mp/login/scan", res)
-                page.onaction(event, res, res.name)
-            })
-        },
-        "刷新": function(event, page, data, name) {
-            var list = []; app.data[page.data.river+page.data.storm] = page.data.res = list
+        "刷新": function(event, page) { var list = []
+            app.data[page.data.river+page.data.storm] = page.data.res = list
+
             wx.showLoading()
-            app.request("action", {cmds: [page.data.river, page.data.storm]}, function(msg) {
-                wx.hideLoading()
-                msg.Table(function(line, index) {
-                    line.name = line.name.split(" ")[0]
-                    page.data.his[index] = []
-                    line.inputs = JSON.parse(line.list)
+            app.request("action", {cmds: [page.data.river, page.data.storm]}, function(msg) { wx.hideLoading()
+                msg.Table(function(line, index) { list.push(line)
                     line.feature = JSON.parse(line.meta)
+                    line.inputs = JSON.parse(line.list)
+                    line.name = line.name.split(" ")[0]
+
                     if (!line.inputs || line.inputs.length === 0) {
                         line.inputs = [{_input: "text"}, {_input: "button", value: "执行"}]
                     }
-                    list.push(line), line.inputs.forEach(function(input) {
-                        input.action = input.action || input.value
+
+                    line.inputs.forEach(function(input) { input.action = input.action || input.value
+                        input.value = kit.Value(line, "feature.trans."+input.name) || input.value
                         input.value == "auto" && (input.value = "")
-                        input.value = input.value || kit.Value(line, "feature.trans."+input.name)
+
                         if (input.value && input.value.indexOf("@") == 0) {
-                            input.value = ""
+                            input.action = input.value.slice(1), input.value = ""
                         }
                         if (input._input == "select") {
-                            input.values = input.values || input.value && input.value.split("|")
+                            input.values = input.values || input.value && kit.Split(input.value)
                         }
                         input._input == "button" && input.action == "auto" && page.run(event, index)
                     })
-                })
-                page.setData({res: list})
+                }), page.data.his = [], page.setData({res: list})
             })
+        },
+        "扫码": function(event, page) { app.scans(function(res) {
+            switch (res.type) {
+                case "button": res.name && page.onaction(event, res); break
+                default: return false
+            } return true
+        }) },
+        "清屏": function(event, page) {
+            kit.List(page.data.res, function(field, index) { delete(field.msg) })
+            page.setData({res: page.data.res})
         },
         "串行": function(event, page, data, name) {
             function cb(i) {
@@ -57,17 +58,10 @@ Page({
                 page.run(event, index)
             })
         },
-        "清屏": function(event, page, data, name) {
-            kit.List(page.data.res, function(field, index) {
-                delete(field.msg)
-            })
-            page.setData({res: page.data.res})
-        },
     },
-    onaction: function(event, data, name) {
-        data = data || event.target.dataset, name = name || data.name
-        console.log("action", "action", name)
-        this.action[name](event, this, data)
+    onaction: function(event, data) { data = data || event.target.dataset
+        console.log("action", "river", data.name)
+        this.action[data.name](event, this)
     },
 
     run: function(event, order, cmd, cb) {var page = this, field = page.data.res[order]
@@ -157,7 +151,6 @@ Page({
 
     onLoad: function (options) {
         console.log("page", "action", options)
-        app.conf.sessid = options.sessid || app.conf.sessid
         this.data.river = options.river
         this.data.storm = options.storm
         this.data.title = options.title
@@ -165,20 +158,16 @@ Page({
 
         var data = app.data[options.river+options.storm]
         if (data) { return this.setData({res: this.data.res = data}) }
-        this.onaction({}, {}, "刷新")
+        this.onaction({}, {name: "刷新"})
     },
     onReady: function () {},
     onShow: function () {},
     onHide: function () {},
     onUnload: function () {},
-    onPullDownRefresh: function () {
-        this.onaction({}, {}, "刷新")
-    },
     onReachBottom: function () {},
+    onPullDownRefresh: function () { this.onaction({}, {name: "刷新"}) },
     onShareAppMessage: function (res) {
-        console.log("action", "share", res)
-        return {
-            title: this.data.title,
+        return { title: this.data.title,
             path: "pages/action/action?river="+this.data.river+"&storm="+this.data.storm+"&title="+this.data.title,
         }
     },

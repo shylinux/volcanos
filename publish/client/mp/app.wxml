@@ -1,13 +1,8 @@
 <template name="action">
 <view class="action">
-    <view class="item" wx:for="{{action}}" wx:key="name">
+    <view class="item" wx:for="{{action}}" wx:key="index">
         <button size="mini" bindtap="onaction" data-name="{{item}}">{{item}}</button>
     </view>
 </view>
 </template>
 
-<template name="list-name">
-<view class="output" wx:if="{{msg.name}}">
-    <view class="item" wx:for="{{msg.name}}" wx:key="name" bindtap="ondetail" data-name="{{item}}" data-index="{{index}}">{{item}}</view>
-</view>
-</template>
