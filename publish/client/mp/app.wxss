@@ -1,14 +1,27 @@
 page {
-    color:white;
-    font-size:14px;
-    font-family:monospace;
-    background-color:#272822;
+    color:white; background-color:#272822;
+    font-size:14px; font-family:monospace;
     white-space:pre;
 }
 
 view.action>view.item {
     float:left;
 }
+view.output {
+    clear:both;
+}
+view.output view.item {
+    text-align:center;
+    font-size:18px;
+    padding:10px;
+    border:solid 1px green;
+}
+view.output view.list view.item {
+    background-color:darkgray;
+    margin-left:20px;
+}
+
+
 view.option>view.item {
     padding:0;
     border: 0;
@@ -31,23 +44,6 @@ view.option view.select {
     /* width:40px; */
     padding:6px;
 }
-view.option view.select picker {
-}
-view.option view.select picker view {
-}
-view.output {
-    clear:both;
-}
-view.output view.item {
-    text-align:center;
-    font-size:18px;
-    padding:10px;
-    border:solid 1px green;
-}
-view.output view.list view.item {
-    background-color:darkgray;
-    margin-left:20px;
-}
 view.output view.code {
     margin-left:10px;
     padding:10px;
@@ -60,11 +56,7 @@ view.title {
     font-weight:bold;
     font-size:18px;
 }
-view.field {
-}
 
-table {
-}
 tr {
     display:flex;
     justify-content:space-between;

@@ -2,20 +2,20 @@ const kit = require("../../utils/kit.js")
 const app = getApp()
 
 Page({
+    name: "action",
     data: {
         river: "", storm: "", title: "",
         action: ["刷新", "扫码", "清屏", "串行", "并行"],
-        res: [], his: {}, inputs: {},
+        list: [], back: [],
     },
     action: {
         "刷新": function(event, page) { var list = []
-            app.data[page.data.river+page.data.storm] = page.data.res = list
-
-            wx.showLoading()
-            app.request("action", {cmds: [page.data.river, page.data.storm]}, function(msg) { wx.hideLoading()
-                msg.Table(function(line, index) { list.push(line)
-                    line.feature = JSON.parse(line.meta)
-                    line.inputs = JSON.parse(line.list)
+            app.data[page.data.river+page.data.storm] = page.data.list = list, page.data.back = []
+            app.requests("action", {cmds: [page.data.river, page.data.storm]}, function(msg) {
+                msg.Table(function(line, index) {
+                    list.push(line), page.data.back.push([])
+                    line.feature = kit.parseJSON(line.meta, {})
+                    line.inputs = kit.parseJSON(line.list,[])
                     line.name = line.name.split(" ")[0]
 
                     if (!line.inputs || line.inputs.length === 0) {
@@ -30,121 +30,134 @@ Page({
                             input.action = input.value.slice(1), input.value = ""
                         }
                         if (input._input == "select") {
-                            input.values = input.values || input.value && kit.Split(input.value)
+                            input.values = input.values || kit.Split(input.value)
                         }
-                        input._input == "button" && input.action == "auto" && page.run(event, index)
+
+                        input._input == "button" && input.action == "auto" && kit.Timer(100, function() { page.run(event, index) })
                     })
-                }), page.data.his = [], page.setData({res: list})
+                }), page.setData({list: list})
             })
         },
-        "扫码": function(event, page) { app.scans(function(res) {
-            switch (res.type) {
-                case "button": res.name && page.onaction(event, res); break
-                default: return false
-            } return true
-        }) },
+        "扫码": function(event, page) {
+            app.scans(function(res) {
+                switch (res.type) {
+                    case "button": res.name && page.onaction(event, res); break
+                    default: return false
+                } return true
+            }) 
+        },
         "清屏": function(event, page) {
-            kit.List(page.data.res, function(field, index) { delete(field.msg) })
-            page.setData({res: page.data.res})
+            kit.List(page.data.list, function(item) { delete(item.msg) })
+            page.setData({list: page.data.list})
         },
-        "串行": function(event, page, data, name) {
+        "串行": function(event, page) {
             function cb(i) {
-                page.run(event, i, null, function() {i < page.data.res.length - 1&& cb(i+1)})
-            }
-            cb(0)
+                page.run(event, i, null, function() { i < page.data.list.length - 1 && cb(i+1) })
+            }; cb(0)
         },
-        "并行": function(event, page, data, name) {
-            kit.List(page.data.res, function(field, index) {
-                page.run(event, index)
-            })
+        "并行": function(event, page) {
+            kit.List(page.data.list, function(item, index) { page.run(event, index) })
         },
     },
     onaction: function(event, data) { data = data || event.target.dataset
-        console.log("action", "river", data.name)
+        console.log("action", this.name, data.name)
         this.action[data.name](event, this)
     },
 
-    run: function(event, order, cmd, cb) {var page = this, field = page.data.res[order]
-        var cmds = [page.data.river, page.data.storm, field.id || field.key]
-        cmds = cmds.concat(cmd||kit.List(field.inputs, function(input) {
-            if (["text", "textarea", "select"].indexOf(input._input) > -1) {
-                return input.value || ""
-            }
-        }))
+    run: function(event, order, cmd, cb) { var page = this, field = page.data.list[order]
+        var cmds = [page.data.river, page.data.storm, field.id||field.key]; if (!cmd) {
+            var cmd = kit.List(field.inputs, function(input) { if (input._input != "button") { return input.value } })
+            page.data.back[order].push(cmd)
+        }; cmds = cmds.concat(cmd)
 
-        for (var i = cmds.length-1; i > 0; i--) {
-            if (cmds[i] === "") {cmds.pop()} else {break}
-        }
+        for (var i = cmds.length-1; i > 0; i--) { if (cmds[i] === "") { cmds.pop() } else { break } }
 
-        wx.showLoading()
-        app.request("action?="+field.name, {cmds: cmds}, function(msg) {
-            wx.hideLoading()
-            page.data.res[order].msg = msg
-            page.setData({res: page.data.res})
+        var option = event._option||{}; option.cmds = cmds
+        app.requests("action?="+field.name, option, function(msg) {
+            field.msg = msg, page.setData({list: page.data.list})
             typeof cb == "function" && cb(msg)
         })
     },
+    plugin: {
+        scanQRCode: function(event, order, page, cmd) { app.scans(function(res) {
+            page.run(event, order, kit.Simple("action", cmd, res), function(msg) {
+                app.toast("添加成功"), page.run(event, order)
+            })
+            return true
+        }) },
+        getClipboardData: function(event, order, page, cmd) { wx.getClipboardData({success: function(res) {
+            page.run(event, order, kit.Simple("action", cmd, kit.parseJSON(res.data)), function() {
+                app.toast("添加成功"), page.run(event, order)
+            })
+        }}) },
+        getLocation: function(event, order, page, cmd) { app.location({success: function(res) {
+            res.latitude = parseInt(res.latitude * 100000)
+            res.longitude = parseInt(res.longitude * 100000)
+            page.run(event, order, kit.Simple("action", cmd, res), function() {
+                app.toast("添加成功"), page.run(event, order)
+            })
+        }}) },
+    },
 
-    onBlur: function(event) {var page = this, data = event.target.dataset
+    onInput: function(event) { var page = this, data = event.target.dataset
+        page.data.list[data.order].inputs[data.index].value = event.detail.value
     },
-    onFocus: function(event) {},
-    onInput: function(event) {var page = this, data = event.target.dataset
-        page.data.res[data.order].inputs[data.index].value = event.detail.value
-        page.setData({res: page.data.res})
-    },
-    onChange: function(event) {var page = this, data = event.target.dataset
-        page.data.res[data.order].inputs[data.index].index = parseInt(event.detail.value)
-        page.data.res[data.order].inputs[data.index].value = data.input.values[parseInt(event.detail.value)]
-        page.setData({res: page.data.res})
-    },
-    onEnter: function(event) {var page = this, data = event.target.dataset
-        page.data.res[data.order].inputs[data.index].value = event.detail.value
+    onChange: function(event) { var page = this, data = event.target.dataset
+        var input = page.data.list[data.order].inputs[data.index]
+        input.value = input.values[parseInt(event.detail.value)]
     },
 
-    onClick: function(event) {var page = this, data = event.target.dataset
-        var field = page.data.res[data.order]
+    onClick: function(event) { var page = this, data = event.target.dataset
+        var field = page.data.list[data.order]
+        var input = field.inputs[data.index]
 
-        if (field.feature[data.input.name]) {
-            app.data.insert = {
-                field: field, input: data.input,
-                data: {}, list: field.feature[data.input.name], cb: function(res) {
-                    var list = ["action", data.input.name]
-                    kit.Item(res, function(key, value) {
-                        key && value && list.push(key, value)
-                    })
-                    page.run(event, data.order, list)
-                }
-            }
+        if (field.feature[input.name]) {
+            app.data.insert = {field: field, input: input, cb: function(res) {
+                page.run(event, data.order, kit.Simple("action", input.name, res))
+            }}
             app.jumps("insert/insert", {river: page.data.river, storm: page.data.storm, title: field.name})
             return
         }
 
-        switch (data.input.name) {
-            case "返回":
-                // 恢复命令
-                page.data.his[data.order].pop()
-                var line = page.data.his[data.order].pop()
+        switch (input.name) {
+            case "返回": // 恢复命令
+                page.data.back[data.order].pop(); var line = page.data.back[data.order].pop()
                 kit.List(field.inputs, function(input, index) {
-                    input.value = line && line[index] || ""
+                    if (input._input != "button") { input.value = line&&line[index] || "" }
                 })
+            case "查看": // 执行命令
+                page.run(event, data.order)
+                break
             default:
-                // 执行命令
-                page.data.his[data.order].push(kit.List(field.inputs, function(input) {
-                    return input.value
-                })) && page.run(event, data.order)
+                var cb = page.plugin[input.name]; if (typeof cb == "function") {
+                    cb(event, data.order, page, input.name)
+                } else {
+                    var arg = kit.List(field.inputs, function(input) { if (input._input != "button") { return input.value } })
+                    page.run(event, data.order, ["action", input.name].concat(arg))
+                }
         }
     },
-    onWhich: function(event) {var page = this, data = event.target.dataset
-        var field = page.data.res[data.order]
-        field.inputs.forEach(function(input, index) {
-            if (input.name == data.field) {
-                // 导入参数
-                page.data.res[data.order].inputs[index].value = data.value
-                page.setData({res: page.data.res})
-                // 执行命令
-                input.action == "auto" && page.data.his[data.order].push(kit.List(field.inputs, function(input) {
-                    return input.value
-                })) && page.run(event, data.order)
+    onWhich: function(event) { var page = this, data = event.currentTarget.dataset
+        var field = page.data.list[data.order]; if (!field) { return }
+
+        var input = data.input && data.input[0]; if (input && input.type == "button") { var option = {}
+            kit.List(field.inputs, function(input) { input._input != "button" && (option[input.name] = input.value) })
+            if (field.msg.append[0] == "key" && field.msg.append[1] == "value") {
+                kit.List(field.msg.key, function(key, index) { option[key] = field.msg.value[index] })
+            } else {
+                kit.List(field.msg.append, function(key) { option[key] = field.msg[key][data.index] })
+            }
+            event._option = option
+
+            var cb = page.plugin[input.name]
+            return typeof cb == "function"? cb(event, page, data, input):
+                page.run(event, data.order, ["action", input.name])
+        }
+
+        field.inputs.forEach(function(inputs, index) {
+            if (inputs.name == data.key) { inputs.value = data.value
+                page.setData({list: page.data.list})
+                inputs.action == "auto" && page.run(event, data.order)
             }
         })
     },
@@ -157,7 +170,7 @@ Page({
         app.title(options.title)
 
         var data = app.data[options.river+options.storm]
-        if (data) { return this.setData({res: this.data.res = data}) }
+        if (data) { return this.setData({list: this.data.list = data}) }
         this.onaction({}, {name: "刷新"})
     },
     onReady: function () {},

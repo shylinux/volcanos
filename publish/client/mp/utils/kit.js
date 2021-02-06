@@ -1,3 +1,17 @@
+function shy(help, meta, list, cb) {
+    var index = 0, args = arguments; function next(check) {
+        if (index < args.length && (!check || check == typeof args[index])) {
+            return args[index++]
+        }
+    }
+
+    cb = args[args.length-1] || function() {}
+    cb.help = next("string") || ""
+    cb.meta = next("object") || {}
+    cb.list = next("object") || []
+    return cb
+}; var _can_name = ""
+
 module.exports = {
     Number: function(d, n) {var res = [];
         while (d > 0) {res.push(d % 10); d = parseInt(d / 10); n--}
@@ -27,9 +41,7 @@ module.exports = {
         return typeof cbs == "function" && cbs(res), res
     },
     Item: function(list, cb, cbs) {
-        for (var k in list) {
-            cb(k, list[k])
-        }
+        for (var k in list) { cb(k, list[k]) }
     },
     Value: function(data, key, value) {
         if (data == undefined) { return }
@@ -46,8 +58,35 @@ module.exports = {
             p = p[ls[0]], ls = ls.slice(1)
         }; return p
     },
+    Simple: function() { var res = []
+        for (var i = 0; i < arguments.length; i++) {
+            var arg = arguments[i]; switch (typeof arguments[i]) {
+                case "number": res.push(arg); break
+                case "string": res.push(arg); break
+                case "object":
+                    if (arg.length > 0) {
+                        res = res.concat(arg)
+                    } else {
+                        for (var k in arg) { res.push(k, arg[k]) }
+                    }
+            }
+        }
+        return res
+    },
 
-    Split: function(str) { if (!str || !str.length) { return [] }
+    Timer: shy("定时器, value, [1,2,3,4], {value, length}", function(interval, cb, cbs) {
+        interval = typeof interval == "object"? interval || []: [interval]
+        var timer = {stop: false}; function loop(timer, i) {
+            if (timer.stop || i >= interval.length && interval.length >= 0) {
+                return typeof cbs == "function" && cbs(timer, interval)
+            }
+            return typeof cb == "function" && cb(timer, interval.interval||interval[i], i, interval)?
+                typeof cbs == "function" && cbs(timer, interval): setTimeout(function() { loop(timer, i+1) }, interval.interval||interval[i+1])
+        }
+        setTimeout(function() { loop(timer, 0) }, interval.interval||interval[0])
+        return timer
+    }),
+    Split: shy("分词器", function(str) { if (!str || !str.length) { return [] }
         var opt = {detail: false}, arg = []; for (var i = 1; i < arguments.length; i++) {
             typeof arguments[i] == "object"? opt = arguments[i]: arg.push(arguments[i])
         }
@@ -78,7 +117,7 @@ module.exports = {
                 if (left == "") {
                     left = list[i], space = false, begin = i+1
                 } else if (left == list[i]) {
-                    res.push({text: list.slice(begin, i), type: "string", left: left, right: left})
+                    opt.detail? res.push({text: list.slice(begin, i), type: "string", left: left, right: left}): res.push(list.slice(begin, i))
                     left = "", space = true, begin = i+1
                 }
             } else if (sups[list[i]]) {
@@ -109,8 +148,9 @@ module.exports = {
             res.push(list.slice(begin))
         }
         return res
-    },
-    parseJSON: function(str) { var res
+    }),
+    parseJSON: shy("解析器", function(str, def) { var res
+        if (!str) { return def||{} }
         if (typeof str == "object") { return str }
         if (str.indexOf("http") == 0) { var ls = str.split("?")
             res = {type: "link", name: "", text: str}
@@ -127,6 +167,6 @@ module.exports = {
             res = {type: "text", text: str}
         }
         return res
-    },
+    }),
 }
 

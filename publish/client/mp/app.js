@@ -2,12 +2,17 @@ const kit = require("utils/kit.js")
 
 App({
     data: {}, conf: {serve: "https://shylinux.com/chat", space: ""},
+    requests: function(cmd, data, cb) { wx.showLoading()
+        this.request(cmd, data, function(msg) { wx.hideLoading()
+            typeof cb == "function" && cb(msg)
+        })
+    },
     request: function(cmd, data, cb) { var app = this; data.sessid = app.conf.sessid, data.pod = app.conf.space
         wx.request({method: "POST", url: app.conf.serve+"/"+cmd, data: data, success: function(res) { var msg = res.data
             if (res.statusCode == 401) { return app.usercode(function() { app.request(cmd, data, cb) }) }
             console.log("POST", cmd, msg)
 
-            msg.__proto__ = {
+            var proto = {
                 Result: function() { return msg.result && msg.result.length > 0 && msg.result.join("") || "" },
                 Length: function() { var max = 0; if (!msg.append) { return max }
                     for (var i = 0; i < msg.append.length; i++) {
@@ -21,9 +26,36 @@ App({
                         res.push(line)
                     }; return res
                 },
-            }
+                Data: function(item, index) {
+                    var text = msg[item]&&msg[item][index]||""
+                    var list = kit.Split(text, " ", "<=/>")
 
-            var index = []; for (var i = 0; i < msg.Length(); i++) { index.push(i) }; msg._index = index
+                    var res = [], data = {_type: "text", _text: text}
+                    for (var i = 0; i < list.length; i++) {
+                        if (list[i] == "<") { data = {}
+                            if (list[i] == "/") { i++ } else { res.push(data) }
+                            data._type = list[i+1]
+                            data._text = text
+                            if (data._type == "div") { break }
+                        }
+
+                        if (list[i] == ">") {
+
+                        } else if (list[i+1] == "=") {
+                            data[list[i]] = list[i+2]
+                            i += 2
+                        } else {
+                            data[list[i]] = list[i]
+                        }
+                    }
+                    return res.length == 0? [data]: res
+                },
+            }; for (var k in proto) { msg[k] = proto[k] }
+
+            msg._index = []; for (var i = 0; i < msg.Length(); i++) { msg._index.push(i) }
+            msg._view = {}, msg["append"] && kit.List(msg["append"], function(k) { msg._view[k] = {}
+                for (var i in msg[k]) { msg._view[k][i] = msg.Data(k, i) }
+            })
             typeof cb == "function" && cb(msg)
         }})
     },
@@ -56,7 +88,7 @@ App({
         console.log("jump", next), wx.navigateTo({url: next, success: cb})
     },
     scans: function(cb) { var app = this
-        wx.scanCode({success: function(res) { var data = kit.parseJSON(res)
+        wx.scanCode({success: function(res) { var data = kit.parseJSON(res.result)
             if (typeof cb == "function" && cb(data)) { return }
 
             switch (data.type) {
@@ -69,7 +101,7 @@ App({
                         })
                     })
                     break
-                default: app.request("mp/login/scan", res)
+                default: app.request("mp/login/scan", data)
             }
         }})
     },

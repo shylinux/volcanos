@@ -1,8 +1,42 @@
 <template name="action">
 <view class="action">
     <view class="item" wx:for="{{action}}" wx:key="index">
-        <button size="mini" bindtap="onaction" data-name="{{item}}">{{item}}</button>
+        <button bindtap="onaction" data-name="{{item}}" size="mini">{{item}}</button>
     </view>
 </view>
+</template>
+
+<template name="list">
+<view class="output">
+    <view class="item" wx:for="{{list}}" wx:key="index">
+        <view bindtap="ondetail" class="item" data-index="{{index}}">{{item.name}}</view>
+        <view class="list" wx:if="{{item._show}}">
+            <view bindtap="onchange" class="item" wx:for="{{item.list}}" wx:for-index="i" wx:key="i"
+                data-i="{{i}}" data-index="{{index}}">{{item.name}}</view>
+        </view>
+    </view>
+</view>
+</template>
+
+<template name="table">
+<table wx:if="{{msg}}">
+    <tr><th wx:for="{{msg.append}}" wx:key="index">{{item}}</th></tr>
+    <tr wx:for="{{msg._index}}" wx:key="index" wx:for-index="line">
+        <td bindtap="onWhich" wx:for="{{msg.append}}" wx:key="index"
+            data-value="{{msg[item][line]}}" data-key="{{item}}" data-index="{{line}}" data-order="{{order}}" data-input="{{msg._view[item][line]}}"
+            >
+            <view bindtap="onWhich" wx:for="{{msg._view[item][line]}}" wx:key="index">
+                <template bindtap="onWhich" is="input" data="{{input: item}}"></template>
+            </view>
+        </td>
+    </tr>
+</table>
+</template>
+
+<template name="input">
+    <view bindtap="onWhich" wx:if="{{input._type == 'text'}}">{{input._text}}</view>
+    <rich-text bindtap="onWhich" wx:if="{{input._type == 'div'}}" nodes="{{input._text}}"></rich-text>
+    <image bindtap="onWhich" wx:if="{{input._type == 'img'}}" mode="aspectFit" src="{{input.src}}"></image>
+    <button bindtap="onWhich" wx:if="{{input._type == 'input' && input.type == 'button'}}" size="mini">{{input.value||input.name}}</button>
 </template>
 
