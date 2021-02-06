@@ -3,9 +3,7 @@ const kit = require("utils/kit.js")
 App({
     data: {}, conf: {serve: "https://shylinux.com/chat", space: ""},
     requests: function(cmd, data, cb) { wx.showLoading()
-        this.request(cmd, data, function(msg) { wx.hideLoading()
-            typeof cb == "function" && cb(msg)
-        })
+        this.request(cmd, data, function(msg) { wx.hideLoading(), typeof cb == "function" && cb(msg) })
     },
     request: function(cmd, data, cb) { var app = this; data.sessid = app.conf.sessid, data.pod = app.conf.space
         wx.request({method: "POST", url: app.conf.serve+"/"+cmd, data: data, success: function(res) { var msg = res.data
@@ -62,6 +60,7 @@ App({
     download: function(cmd, data, cb) { var app = this; data.sessid = app.conf.sessid
         wx.downloadFile({url: app.conf.serve+"/"+cmd, data: data, success: cb})
     },
+
     usercode: function(cb) { var app = this
         wx.login({success: function(res) { app.request("mp/login/sess", {code: res.code}, function(msg) {
             wx.setStorage({key: "sessid", data: app.conf.sessid = msg.Result()})
@@ -80,6 +79,9 @@ App({
         }}) })
     },
     location: function(arg) { wx.chooseLocation(arg) },
+    clipboard: function(cb) { wx.getClipboardData({success: function(res) {
+        typeof cb == "function" && cb(kit.parseJSON(res.data))
+    }}) },
 
     title: function(title) { wx.setNavigationBarTitle({title: title, success: function() {}})},
     modal: function(title, content, cb) { wx.showModal({title: title||"", content: content||"", success: cb})},

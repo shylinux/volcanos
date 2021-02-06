@@ -63,7 +63,6 @@ Page({
         console.log("action", this.name, data.name)
         this.action[data.name](event, this)
     },
-
     run: function(event, order, cmd, cb) { var page = this, field = page.data.list[order]
         var cmds = [page.data.river, page.data.storm, field.id||field.key]; if (!cmd) {
             var cmd = kit.List(field.inputs, function(input) { if (input._input != "button") { return input.value } })
@@ -85,11 +84,11 @@ Page({
             })
             return true
         }) },
-        getClipboardData: function(event, order, page, cmd) { wx.getClipboardData({success: function(res) {
-            page.run(event, order, kit.Simple("action", cmd, kit.parseJSON(res.data)), function() {
+        getClipboardData: function(event, order, page, cmd) { app.clipboard(function(res) {
+            page.run(event, order, kit.Simple("action", cmd, res), function() {
                 app.toast("添加成功"), page.run(event, order)
             })
-        }}) },
+        }) },
         getLocation: function(event, order, page, cmd) { app.location({success: function(res) {
             res.latitude = parseInt(res.latitude * 100000)
             res.longitude = parseInt(res.longitude * 100000)
@@ -106,7 +105,6 @@ Page({
         var input = page.data.list[data.order].inputs[data.index]
         input.value = input.values[parseInt(event.detail.value)]
     },
-
     onClick: function(event) { var page = this, data = event.target.dataset
         var field = page.data.list[data.order]
         var input = field.inputs[data.index]

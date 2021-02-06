@@ -11,7 +11,6 @@ function shy(help, meta, list, cb) {
     cb.list = next("object") || []
     return cb
 }; var _can_name = ""
-
 module.exports = {
     Number: function(d, n) {var res = [];
         while (d > 0) {res.push(d % 10); d = parseInt(d / 10); n--}
