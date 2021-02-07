@@ -26,22 +26,21 @@ App({
                 },
                 Data: function(item, index) {
                     var text = msg[item]&&msg[item][index]||""
-                    var list = kit.Split(text, " ", "<=/>")
+                    var data = {_type: "text", _text: text}
+                    if (text.indexOf("<") != 0) { return [data] }
 
-                    var res = [], data = {_type: "text", _text: text}
+                    var res = [], list = kit.Split(text, " ", "<=/>")
                     for (var i = 0; i < list.length; i++) {
                         if (list[i] == "<") { data = {}
                             if (list[i] == "/") { i++ } else { res.push(data) }
-                            data._type = list[i+1]
-                            data._text = text
-                            if (data._type == "div") { break }
+                            data._type = list[i+1], data._text = text, i++
+                            continue
+                        } else if (list[i] == ">") {
+                            continue
                         }
 
-                        if (list[i] == ">") {
-
-                        } else if (list[i+1] == "=") {
-                            data[list[i]] = list[i+2]
-                            i += 2
+                        if (list[i+1] == "=") {
+                            data[list[i]] = list[i+2], i += 2
                         } else {
                             data[list[i]] = list[i]
                         }
@@ -78,10 +77,6 @@ App({
             }})
         }}) })
     },
-    location: function(arg) { wx.chooseLocation(arg) },
-    clipboard: function(cb) { wx.getClipboardData({success: function(res) {
-        typeof cb == "function" && cb(kit.parseJSON(res.data))
-    }}) },
 
     title: function(title) { wx.setNavigationBarTitle({title: title, success: function() {}})},
     modal: function(title, content, cb) { wx.showModal({title: title||"", content: content||"", success: cb})},
@@ -107,6 +102,16 @@ App({
             }
         }})
     },
+    clipboard: function(cb) { wx.getClipboardData({success: function(res) {
+        typeof cb == "function" && cb(kit.parseJSON(res.data))
+    }}) },
+    location: function(cb) { wx.chooseLocation({success: function(res) {
+        typeof cb == "function" && cb({
+            name: res.name, text: res.address,
+            latitude: parseInt(res.latitude * 100000),
+            longitude: parseInt(res.longitude * 100000),
+        })
+    }}) },
 
     onLaunch: function() {
         this.conf.sessid = wx.getStorageSync("sessid")

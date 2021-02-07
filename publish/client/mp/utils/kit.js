@@ -12,6 +12,22 @@ function shy(help, meta, list, cb) {
     return cb
 }; var _can_name = ""
 module.exports = {
+    EQ: function(obj, other) {
+        if (typeof obj != typeof other) { return false }
+
+        if (typeof obj == "object") {
+            if (obj.length != other.length) { return false }
+            for (var i = 0; i < obj.length; i++) {
+                if (!this.EQ(obj[i], other[i])) { return false }
+            }
+
+            for (var k in obj) {
+                if (!this.EQ(obj[k], other[k])) { return false }
+            }
+            return true
+        }
+        return obj === other
+    },
     Number: function(d, n) {var res = [];
         while (d > 0) {res.push(d % 10); d = parseInt(d / 10); n--}
         while (n > 0) {res.push("0"); n--}
@@ -27,7 +43,7 @@ module.exports = {
         fmt = fmt.replace("%S", Number(now.getSeconds(), 2))
         return fmt
     },
-    Args: function(url, args) {var list = []
+    Args: function(url, args) { var list = []
         for (var k in args) {
             list.push(encodeURIComponent(k)+"="+encodeURIComponent(args[k]))
         }

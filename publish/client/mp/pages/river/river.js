@@ -44,8 +44,8 @@ Page({
         app.jumps("action/action", {river: item.hash, storm: tool.hash, title: item.name+"."+tool.name})
     },
 
-    onLoad: function (options) { this.onaction({}, {name: "刷新"}) },
     onReady: function () {},
+    onLoad: function (options) { this.onaction({}, {name: "刷新"}) },
     onShow: function () {},
     onHide: function () {},
     onUnload: function () {},

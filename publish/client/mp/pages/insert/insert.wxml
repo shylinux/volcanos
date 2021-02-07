@@ -2,17 +2,17 @@
 <template is="action" data="{{action}}"></template>
 
 <view class="output">
-    <view class="item" wx:for="{{insert}}" wx:key="index">
+    <view class="item" wx:for="{{list}}" wx:key="index">
         <!-- 文本 -->
-        <textarea wx:if="{{item._input == 'textarea'}}" value="{{item.value}}" placeholder="{{item.name}}"
+        <textarea wx:if="{{item._input == 'textarea'}}" placeholder="{{item.name}}" value="{{item.value}}"
             bindinput="onInput" data-index="{{index}}"></textarea>
 
         <!-- 文本 -->
-        <input wx:elif="{{item._input == 'text'}}" type="text" value="{{item.value}}" placeholder="{{item.name}}"
+        <input wx:elif="{{item._input == 'text'}}" placeholder="{{item.name}}" value="{{item.value}}" type="text"
             bindinput="onInput" data-index="{{index}}"/>
 
         <!-- 列表 -->
-        <picker wx:elif="{{item._input == 'select'}}" value="{{item.index||0}}" range="{{item.values}}"
+        <picker wx:elif="{{item._input == 'select'}}" range="{{item.values}}" value="{{item.index||0}}"
             bindchange="onChange" data-index="{{index}}">
             <view>{{item.values[item.index||0]}}</view>
         </picker>

@@ -1,39 +1,4 @@
 <import src="../../app.wxml"/>
 <template is="action" data="{{action}}"></template>
+<template is="field" data="{{list}}"></template>
 
-<view class="output">
-    <view class="field" wx:for="{{list}}" wx:key="index" wx:for-index="order" wx:for-item="field">
-        <view class="title"><text>{{field.name}}({{field.help}})</text></view>
-        <view class="option">
-            <!-- 参数 -->
-            <view class="item {{item._input}}" wx:for="{{field.inputs}}" wx:key="name">
-                <!-- 文本 -->
-                <textarea wx:if="{{item._input == 'textarea'}}" value="{{item.value}}" placeholder="{{item.name}}"
-                    bindinput="onInput" data-index="{{index}}" data-order="{{order}}"></textarea>
-
-                <!-- 文本 -->
-                <input wx:elif="{{item._input == 'text'}}" type="text" value="{{item.value}}" placeholder="{{item.name}}"
-                    bindinput="onInput" data-index="{{index}}" data-order="{{order}}"/>
-
-                <!-- 列表 -->
-                <picker wx:elif="{{item._input == 'select'}}" value="{{item.index||0}}" range="{{item.values}}"
-                    bindchange="onChange" data-index="{{index}}" data-order="{{order}}">
-                    <view>{{item.values[item.index||0]}}</view>
-                </picker>
-
-                <!-- 按钮 -->
-                <button wx:elif="{{item._input == 'button'}}" size="mini"
-                    bindtap="onClick" data-index="{{index}}" data-order="{{order}}">{{item.value||item.name}}</button>
-            </view>
-        </view>
-
-        <!-- 输出 -->
-        <view class="output">
-            <!-- 表格 -->
-            <template is="table" data="{{msg: field.msg, order: order}}"></template>
-
-            <!-- 文本 -->
-            <view class="code"><rich-text wx:for="{{field.msg.result}}" wx:key="index" nodes="{{item}}"></rich-text></view>
-        </view>
-    </view>
-</view>

@@ -18,15 +18,51 @@
 </view>
 </template>
 
+<template name="field">
+<view class="output">
+    <view class="field" wx:for="{{list}}" wx:for-index="order" wx:for-item="field" wx:key="index">
+        <view class="title"><text>{{field.name}}({{field.help}})</text></view>
+        <view class="option"> <!-- 参数 -->
+            <view class="item {{item._input}}" wx:for="{{field.inputs}}" wx:key="name">
+                <!-- 文本 -->
+                <textarea wx:if="{{item._input == 'textarea'}}" placeholder="{{item.name}}" value="{{item.value}}"
+                    bindinput="onInput" data-index="{{index}}" data-order="{{order}}"></textarea>
+
+                <!-- 文本 -->
+                <input wx:elif="{{item._input == 'text'}}" placeholder="{{item.name}}" value="{{item.value}}" type="text"
+                    bindinput="onInput" data-index="{{index}}" data-order="{{order}}"/>
+
+                <!-- 列表 -->
+                <picker wx:elif="{{item._input == 'select'}}" range="{{item.values}}" value="{{item.index||0}}"
+                    bindchange="onChange" data-index="{{index}}" data-order="{{order}}">
+                    <view>{{item.values[item.index||0]}}</view>
+                </picker>
+
+                <!-- 按钮 -->
+                <button wx:elif="{{item._input == 'button'}}" size="mini"
+                    bindtap="onClick" data-index="{{index}}" data-order="{{order}}">{{item.value||item.name}}</button>
+            </view>
+        </view>
+
+        <view class="output"> <!-- 输出 -->
+            <!-- 表格 -->
+            <template is="table" data="{{order: order, msg: field.msg}}"></template>
+
+            <!-- 文本 -->
+            <view class="code"><rich-text wx:for="{{field.msg.result}}" wx:key="index" nodes="{{item}}"></rich-text></view>
+        </view>
+    </view>
+</view>
+</template>
+
 <template name="table">
 <table wx:if="{{msg}}">
     <tr><th wx:for="{{msg.append}}" wx:key="index">{{item}}</th></tr>
-    <tr wx:for="{{msg._index}}" wx:key="index" wx:for-index="line">
-        <td bindtap="onWhich" wx:for="{{msg.append}}" wx:key="index"
-            data-value="{{msg[item][line]}}" data-key="{{item}}" data-index="{{line}}" data-order="{{order}}" data-input="{{msg._view[item][line]}}"
-            >
-            <view bindtap="onWhich" wx:for="{{msg._view[item][line]}}" wx:key="index">
-                <template bindtap="onWhich" is="input" data="{{input: item}}"></template>
+    <tr wx:for="{{msg._index}}" wx:key="index">
+        <td wx:for="{{msg.append}}" wx:for-index="i" wx:key="index">
+            <view class="which" bindtap="onWhich" wx:for="{{msg._view[item][index]}}" wx:for-item="input" wx:for-index="i" wx:key="i"
+                data-input="{{input}}" data-value="{{input._text}}" data-key="{{item}}" data-index="{{index}}" data-order="{{order}}">
+                <template data="{{input}}" is="input"></template>
             </view>
         </td>
     </tr>
