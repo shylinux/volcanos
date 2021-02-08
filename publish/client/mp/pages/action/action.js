@@ -148,6 +148,8 @@ Page({
                 app.toast("添加成功"), page.run(event, order)
             })
         }) },
+        upload: function() {
+        },
         getLocation: function(event, page, order, cmd) { app.location(function(res) {
             page.run(event, order, kit.Simple("action", cmd, res), function() {
                 app.toast("添加成功"), page.run(event, order)
