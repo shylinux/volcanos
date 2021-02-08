@@ -109,7 +109,6 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         ], function(event, button, meta, list) {
             var msg = can.request(event)
             can.user.share(can, msg, [river, "action", "share", "type", "river", "name", meta.name])
-            return true
         })
     },
     "添加用户": function(event, can, button, river) {
@@ -159,7 +158,6 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
             can.user.share(can, msg, [river, "action", "share", "type", "storm", "name", meta.name,
                 "storm", storm,
             ])
-            return true
         })
     },
     "添加工具": function(event, can, button, river, storm) {
@@ -222,7 +220,6 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
             {_input: "text", name: "name", value: river},
         ], function(event, button, meta, list) {
             can.user.share(can, can.request(event), [river, "action", "share", "type", "login"])
-            return true
         })
     },
     "共享设备": function(event, can, button, river, storm) {
@@ -249,7 +246,6 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
                 can.user.open(can.user.MergeURL(can, {pod: msg.Option("name")}))
                 can.user.toast(can, can.user.MergeURL(can, {pod: msg.Option("name")}))
             })
-            return true
         })
     },
 })

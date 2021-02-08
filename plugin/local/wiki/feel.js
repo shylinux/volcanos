@@ -50,13 +50,16 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
                     sub.Status("位置", order+1+"/"+can.list.length), sub.Status("file", path)
                 }; show(order)
 
-                sub.onappend._action(sub, ["关闭", "下载", "上一个", "下一个", "设置背景"], sub._action, {
+                sub.onappend._action(sub, ["关闭", "下载", "上一个", "下一个", "设置背景", "复制链接"], sub._action, {
                     "关闭": function(event) { sub.page.Remove(sub, sub._target) },
                     "下载": function(event) { can.user.download(can, path) },
                     "上一个": function(event) { order > 0? show(--order): can.user.toast(can, "已经是第一张啦!") },
                     "下一个": function(event) { order < can.list.length-1? show(++order): can.user.toast(can, "已经是最后一张啦!") },
                     "设置背景": function(event) { var msg = can.request(event, {url: can.onimport._file(can, can.list[order].path)})
                         sub.run(event, ["search", "Header.onimport.background"])
+                    },
+                    "复制链接": function(event) {
+                        can.user.copy(event, can, can.user.MergeURL(can, {_path: path}, true))
                     },
                 })
             }, document.body)

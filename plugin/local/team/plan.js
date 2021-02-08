@@ -171,7 +171,6 @@ Volcanos("onaction", {help: "组件交互", list: [
                 if (key == "close_time") { value = value || time }
                 key && value && args.push(key, value)
             }), can.run(event, args)
-            return true
         })
     },
     modifyTask: function(event, can, task, key, value) {

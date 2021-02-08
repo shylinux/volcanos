@@ -299,7 +299,6 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     if (can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
                     typeof cb == "function" && cb(msg)
                 })
-                return true
             })
             return
         }
@@ -430,7 +429,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
 
     figure: function(can, meta, key, target) {
-        if (key.indexOf("@") != 0) { return }
+        if (!key || key.indexOf("@") != 0) { return }
         var list = can.core.Split(key, "@=", "@=")
         var pkey = list[0], pval = list[1]||""
 

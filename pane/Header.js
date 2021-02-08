@@ -80,7 +80,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                     typeof cb == "function" && cb(res.resultStr)
                 } }) },
                 getLocation: function(cb) { wx.getLocation({type: "gcj02", success: function (res) {
-                    typeof cb == "function" && cb({latitude: parseInt(res.latitude*100000), longitude: parseInt(res.longitude*100000) })
+                    typeof cb == "function" && cb({type: "gcj02", name: "当前位置", text: "当前位置", latitude: parseInt(res.latitude*100000), longitude: parseInt(res.longitude*100000) })
                 } }) },
                 openLocation: function(msg) { wx.openLocation({
                     latitude: parseInt(msg.Option("latitude"))/100000,
@@ -189,7 +189,6 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             can.run(event, ["webpack"], function(msg) {
                 toast.Close(), can.user.toast(can, "打包成功", "webpack")
             })
-            return true
         })
     },
 

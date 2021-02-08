@@ -291,7 +291,6 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "运行", "搜索"]
             ], function(msg) {
                 can.user.toast(can, "收藏成功")
             }, true)
-            return true
         })
     },
 })

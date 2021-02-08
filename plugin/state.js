@@ -70,11 +70,13 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         }).catch((err) => { can.base.Log(err) })
     },
     getLocation: function(event, can, cmd) { var msg = can.request(can)
-        can.user.agent.getLocation(function(res) {
-            var arg = []; can.core.Item(res, function(key, value) { arg.push(key, value) })
-            can.run(event, ["action", cmd].concat(arg), function(msg) {
-                can.user.toast(can, "添加成功")
-            }, true)
+        can.user.agent.getLocation(function(res) { can.request(event, res)
+            can.user.input(event, can, ["type", "name", "text", "latitude", "longitude"], function(ev, button, data, list, arg) {
+                can.core.Item(res, function(key, value) { arg.push(key, value) })
+                can.run(event, ["action", cmd].concat(arg), function(msg) {
+                    can.user.toast(can, "添加成功"), can.run()
+                }, true)
+            })
         })
     },
     openLocation: function(event, can) { can.user.agent.openLocation(can.request(event)) },
