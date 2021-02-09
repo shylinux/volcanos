@@ -761,7 +761,7 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
         can.page.Modify(can, target||can._output, "")
     },
     hidden: function(can, target) {
-        can.page.Modify(can, target, {style: {display: "none"}})
+        can.page.Modify(can, target||can._target, {style: {display: "none"}})
     },
     toggle: function(can, target) {
         can.page.Toggle(can, target)

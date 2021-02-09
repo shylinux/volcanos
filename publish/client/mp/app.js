@@ -18,6 +18,14 @@ App({
                     }; return max
                 },
                 Table: function(cb) { var res = []
+                    if (msg.append && msg.append[0] == "key" && msg.append[1] == "value") {
+                        var line = {}; kit.List(msg.key, function(key, index) {
+                            line[key] = msg.value[index]
+                        })
+                        typeof cb == "function" && cb(line, 0, 1)
+                        return res.push(line), res
+                    }
+
                     for (var i = 0; i < msg.Length(); i++) { var line = {}
                         for (var k in msg.append) { line[msg.append[k]] = msg[msg.append[k]][i] }
                         typeof cb == "function" && cb(line, i, msg.Length())
@@ -107,9 +115,9 @@ App({
     }}) },
     location: function(cb) { wx.chooseLocation({success: function(res) {
         typeof cb == "function" && cb({
-            name: res.name, text: res.address,
-            latitude: parseInt(res.latitude * 100000),
+            type: "gcj02", name: res.name, text: res.address,
             longitude: parseInt(res.longitude * 100000),
+            latitude: parseInt(res.latitude * 100000),
         })
     }}) },
 
