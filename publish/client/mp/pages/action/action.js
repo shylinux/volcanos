@@ -148,13 +148,48 @@ Page({
                 app.toast("添加成功"), page.run(event, order)
             })
         }) },
-        upload: function() {
+        startLocalServiceDiscovery: function(event, page, order, cmd) {
+            wx.onLocalServiceFound(function(res) {
+                console.log(res)
+            })
+
+            wx.showLoading()
+            wx.startLocalServiceDiscovery({
+                serviceType: '_http._tcp.',
+                success: function(res) {
+                    wx.hideLoading()
+                    console.log(res)
+                },
+            })
         },
+
         getLocation: function(event, page, order, cmd) { app.location(function(res) {
             page.run(event, order, kit.Simple("action", cmd, res), function() {
                 app.toast("添加成功"), page.run(event, order)
             })
         }) },
+        chooseLocation: function(event, page, order, cmd) {
+            wx.chooseLocation({success: function(res) { res.text = res.address, delete(res.address)
+                page.run(event, order, kit.Simple("action", cmd, res), function() {
+                    app.toast("添加成功"), page.run(event, order)
+                })
+            }})
+        },
+
+        getWifiList: function(event, page, order, cmd) {
+            wx.onGetWifiList(function(res) {
+                console.log(res)
+            })
+
+            wx.getWifiList(function(res) {
+                console.log(res)
+            })
+        },
+        openLocation: function(event, page, order, cmd) {
+            var list = page.data.list[order].msg.Table()
+            var data = list[event.currentTarget.dataset.index]||list[0]
+            wx.openLocation({name: data.name, address: data.text, latitude: parseInt(data.latitude)/100000.0, longitude: parseInt(data.longitude)/100000.0})
+        },
     },
 
     onReady: function () {},
