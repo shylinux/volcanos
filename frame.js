@@ -492,7 +492,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
 
         can.page.Select(can, target, "fieldset.left", function(field, index) {
             can.page.Modify(can, field, {style: {height: height}})
-            width -= field.offsetWidth
+            can.user.isMobile || (width -= field.offsetWidth)
         })
         can.page.Select(can, target, "fieldset.left>div.output", function(output) {
             can.page.Modify(can, output, {style: {height: height-32}})
@@ -761,10 +761,10 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
         can.page.Modify(can, target||can._output, "")
     },
     hidden: function(can, target) {
-        can.page.Modify(can, target, {style: {display: "none"}})
+        can.page.Modify(can, target||can._target, {style: {display: "none"}})
     },
     toggle: function(can, target) {
-        can.page.Toggle(can, target)
+        can.page.Toggle(can, target||can._target)
     },
     select: function(can, target, name, which) {
         can.page.Select(can, target, name, function(item, index) {

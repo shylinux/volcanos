@@ -1,3 +1,7 @@
+fieldset.word>form.option>div.item.text input {
+    width:200px;
+}
+
 fieldset.word a {
     word-break:break-word;
 }

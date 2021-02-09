@@ -37,6 +37,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         })
 
         can.onengine.listen(can, "action.touch", function() {
+            can.user.isMobile && can.onmotion.hidden(can)
             can.page.Select(can, document.body, "div.carte", function(item) {
                 can.page.Remove(can, item)
             })

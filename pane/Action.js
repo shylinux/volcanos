@@ -136,6 +136,12 @@ Volcanos("onexport", {help: "导出数据", list: [],
             item.dataset.args = JSON.stringify(list), cb(item, next, index, array)
         })
     },
+    size: function(can, msg) {
+        msg.Option("top", can._target.offsetTop)
+        msg.Option("left", can._target.offsetLeft)
+        msg.Option("width", can._target.offsetWidth)
+        msg.Option("height", can._target.offsetHeight)
+    },
     plugin: function(can, msg, word) {
         var fields = (msg.Option("fields")||"ctx,cmd,type,name,text").split(",")
         can.page.Select(can, can._output, "fieldset.plugin>legend", function(item) {

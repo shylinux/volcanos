@@ -32,7 +32,11 @@ body.mobile fieldset.River.left {
     position:fixed; top:48px;
     background-color:#243950bf;
     min-width:240px; font-size:24px;
+    /* width:-webkit-fill-available; */
     z-index:10;
+}
+body.mobile fieldset.River>div.output div.list div.item {
+    font-size:24px;
 }
 body.mobile fieldset.Action.main {
     margin-top:48px; margin-bottom:64px;
@@ -67,7 +71,7 @@ fieldset.input>legend {
 }
 fieldset.float {
     position:absolute;
-    left:0; top:0;
+    background-color:#023531cf;
 }
 fieldset.float>legend {
     display:none;
