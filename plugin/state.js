@@ -60,14 +60,24 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         can.user.agent.scanQRCode(function(text) { var cmds = ["action", cmd]
             can.core.Item(can.base.parseJSON(text), function(key, value) { cmds.push(key, value) })
             can.run(event, cmds, function(msg) { can.user.toast(can, "添加成功"), can.run() }, true)
-        })
+        }, can)
     },
     scanQRCode0: function(event, can) { can.user.agent.scanQRCode() },
     getClipboardData: function(event, can, cmd) {
-        navigator.clipboard.readText().then(text => { var cmds = ["action", cmd]
-            can.core.Item(can.base.parseJSON(text), function(key, value) { cmds.push(key, value) })
-            can.run(event, cmds, function(msg) { can.user.toast(can, text, "添加成功"), can.run() }, true)
-        }).catch((err) => { can.base.Log(err) })
+        if (navigator.clipboard) {
+            navigator.clipboard.readText().then(text => {
+                can.run(event, can.base.Simple("action", cmd, can.base.parseJSON(text)), function(msg) {
+                    can.user.toast(can, text, "添加成功"), can.run()
+                }, true)
+            }).catch((err) => { can.base.Log(err) })
+            return
+        } else {
+            can.user.input(event, can, [{_input: "textarea"}], function(ev, button, data, list, args) {
+                can.run(event, can.base.Simple("action", cmd, can.base.parseJSON(list[0])), function(msg) {
+                    can.user.toast(can, list[0], "添加成功"), can.run()
+                }, true)
+            })
+        }
     },
     getLocation: function(event, can, cmd) { var msg = can.request(can)
         can.user.agent.getLocation(function(res) { can.request(event, res)

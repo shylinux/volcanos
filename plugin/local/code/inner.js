@@ -47,7 +47,14 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                     case "inner": can.onimport.tabview(can, msg.Option("path"), msg.Option("file"), msg.Option("line")); return
                 } }
 
-                can.run(event, ["action", "favor"].concat(cmds), cb, true)
+                can.run(event, ["action", "favor"].concat(cmds), function(msg) {
+                    typeof cb == "function" && cb(msg)
+                    can.core.Timer(10, function() {
+                        can.onappend._action(sub, ["关闭"], sub._action, {
+                            "关闭": function(event) { can.onmotion.hidden(sub, sub._target) },
+                        })
+                    })
+                }, true)
             }, can.ui.favor = sub
 
             can.onmotion.hidden(sub, sub._target)

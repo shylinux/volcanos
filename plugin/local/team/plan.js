@@ -76,7 +76,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             },
             onclick: function(event) { if (event.target.type == "button") {
                 var msg = can.request(event, can.task)
-                can.run(event, ["action", event.target.name])
+                can.run(event, ["action", event.target.name], function(msg) {
+                    can.run()
+                }, true)
             } },
         }]) })
 
@@ -84,14 +86,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             index: task["extra.ctx"]+"."+task["extra.cmd"], args: task["extra.arg"],
         }, function(sub, meta) {
             sub.run = function(event, cmds, cb) {
-                var msg = can.request(event); can.core.Item(can.task, function(key, value) {
-                    msg.Option("task."+key, value)
-                })
+                var msg = can.request(event, {"task.zone": task.zone, "task.id": task.id})
                 can.run(event, ["action", "command", "run", meta.index].concat(cmds), function(msg) {
                     typeof cb == "function" && cb(msg)
                 }, true)
             }
         }, can.ui.display)
+        can.page.Modify(can, can.ui.display, {style: {display: "block"}})
+        // can.onmotion.show(can, can.ui.display)
     },
 
     day: function(can, msg) {

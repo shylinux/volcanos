@@ -1,52 +1,59 @@
-Volcanos("onimport", {help: "导入数据", list: [], _merge: function(can, sub) {
-        can.onimport.inner_init = sub._init
-    }, _init: function(can, msg, list, cb, target) {
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.require(["/plugin/local/code/inner.js"], function(can) {
             can.onimport.inner_init(can, msg, list, function() {
+                can.onimport._input(can), can.onimport._output(can)
                 can.keylist = [], can.onkeymap._init(can, "insert")
                 typeof cb == "function" && cb(msg)
-
-                var ui = can.page.Append(can, can.ui.content.parentNode, [
-                    {view: ["current", "input"], onkeydown: function(event) {
-                        can.onkeymap.parse(event, can, "insert")
-                        can.core.Timer(10, function() {
-                            can.current.text(can.ui.current.value)
-                        })
-                    }, onblur: function(event) {
-                        can.current.text(can.ui.current.value)
-                    }, onfocus: function(event) {
-                        can._output.scrollLeft += -1000
-
-                        can.current.scroll(-1000, 0)
-                    }, onclick: function(event) {
-                        can.onkeymap._insert(can)
-                    }},
-                    {view: ["command", "input"], onkeydown: function(event) {
-                        can.onkeymap.parse(event, can, "command")
-                    }, onfocus: function(event) {
-                        can._output.scrollLeft += -1000
-                        can.current.scroll(-1000, 0)
-                    }},
-                ]); can.base.Copy(can.ui, ui, "current", "command")
-
-                var ui = can.page.Appends(can, can.ui.display, [
-                    {view: "action", list: [
-                        {input: ["cmd", function(event) {
-                            can.onkeymap.parse(event, can, "command")
-                        }], value: "", onfocus: function(event) {
-                            event.target.setSelectionRange(0, -1)
-                            can.onkeymap._command(can)
-                        }},
-                        {button: ["执行", function(event) {
-                            can.onkeymap.command.Enter(event, can, can.ui.cmd.value)
-                        }]},
-                        {button: ["关闭", function(event) {
-                            can.onmotion.hidden(can, can.ui.display)
-                        } ]},
-                    ]}, {view: "output"},
-                ]); can.base.Copy(can.ui, ui, "output", "cmd")
             }, target)
+        }, function(can, name, sub) {
+            sub._name == "onimport" && (can.onimport.inner_init = sub._init)
         })
+    },
+    _input: function(can) {
+        var ui = can.page.Append(can, can.ui.content.parentNode, [
+            {view: ["current", "input"], onkeydown: function(event) {
+                can.onkeymap.parse(event, can, "insert")
+                can.core.Timer(10, function() {
+                    can.current.text(can.ui.current.value)
+                })
+            }, onblur: function(event) {
+                can.current.text(can.ui.current.value)
+            }, onfocus: function(event) {
+                can._output.scrollLeft += -1000
+
+                can.current.scroll(-1000, 0)
+            }, onclick: function(event) {
+                can.onkeymap._insert(can)
+            }},
+
+            {view: ["command", "input"], onkeydown: function(event) {
+                can.onkeymap.parse(event, can, "command")
+            }, onfocus: function(event) {
+                can._output.scrollLeft += -1000
+                can.current.scroll(-1000, 0)
+            }},
+        ]); can.base.Copy(can.ui, ui, "current", "command")
+    },
+    _output: function(can) {
+        var ui = can.page.Appends(can, can.ui.display, [
+            {view: "action", list: [
+                {input: ["cmd", function(event) {
+                    can.onkeymap.parse(event, can, "command")
+                }], value: "", onfocus: function(event) {
+                    event.target.setSelectionRange(0, -1)
+                    can.onkeymap._command(can)
+                }},
+                {button: ["执行", function(event) {
+                    can.onkeymap.command.Enter(event, can, can.ui.cmd.value)
+                }]},
+                {button: ["清空", function(event) {
+                    can.onmotion.clear(can, ui.output)
+                } ]},
+                {button: ["关闭", function(event) {
+                    can.onmotion.hidden(can, can.ui.display)
+                } ]},
+            ]}, {view: "output"},
+        ]); can.base.Copy(can.ui, ui, "output", "cmd")
     },
 }, ["/plugin/local/code/vimer.css"])
 Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"], _init: function(can, mode) {
