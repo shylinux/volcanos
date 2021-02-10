@@ -1,29 +1,35 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) {
-        can.history = can.history || []
         can.onmotion.clear(can), can.ui = can.onlayout.profile(can)
-        var height = can.Conf("height")-320; height < 240 && (height = 240)
-        can.page.Modify(can, can.ui.project, {style: {"max-height": height}})
-        can.page.Modify(can, can.ui.content, {style: {"max-height": height}})
-        can.page.Modify(can, can.ui.content, {style: {"min-width": can.Conf("width")-170}})
-        can.page.Modify(can, can.ui.display, {style: {display: "none"}})
+        can.onimport._content(can, target)
+        can.onimport._output(can, target)
+        can.onimport._search(can, target)
+        can.onimport._favor(can, target)
 
-        var ui = can.page.Append(can, can.ui.display, [
-            {view: "action"}, {view: "output"},
-        ]); can.ui.output = ui.output
-        can.onappend._action(can, ["关闭", "清空", "运行"], ui.action, {
-            "关闭": function(event) { can.onmotion.hidden(can, can.ui.display) },
-            "清空": function(event) { can.onmotion.clear(can, can.ui.output) },
-            "运行": function(event) { can.onaction["运行"](event, can) },
-        })
-
+        can.history = can.history || []
         msg.Option({path: can.Option("path"), file: can.Option("file"), line: can.Option("line")||1})
         can.tabview = can.tabview || {}, can.tabview[can.Option("path")+can.Option("file")] = msg
 
         can.onimport.tabview(can, msg.Option("path"), msg.Option("file"), msg.Option("line")||1)
         can.onimport.project(can, msg.Option("path"))
         typeof cb == "function" && cb(msg)
-        can.onimport._search(can, target)
-        can.onimport._favor(can, target)
+    },
+    _content: function(can, target) {
+        var height = can.Conf("height")-320; height < 240 && (height = 240)
+        can.page.Modify(can, can.ui.project, {style: {"max-height": height}})
+        can.page.Modify(can, can.ui.content, {style: {"max-height": height}})
+        can.page.Modify(can, can.ui.content, {style: {"min-width": can.Conf("width")-170}})
+        can.page.Modify(can, can.ui.display, {style: {display: "none"}})
+    },
+    _output: function(can, target) {
+        var ui = can.page.Append(can, can.ui.display, [
+            {view: "action"}, {view: "output"},
+        ]); can.ui.output = ui.output
+
+        can.onappend._action(can, ["关闭", "清空", "运行"], ui.action, {
+            "关闭": function(event) { can.onmotion.hidden(can, can.ui.display) },
+            "清空": function(event) { can.onmotion.clear(can, can.ui.output) },
+            "运行": function(event) { can.onaction["运行"](event, can) },
+        })
     },
     _search: function(can, target) {
         var ui = can.page.Append(can, target, [
@@ -60,6 +66,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             can.onmotion.hidden(sub, sub._target)
         }, target)
     },
+
     project: function(can, path) { can.Option({path: path})
         var msg = can.request({}, {dir_root: path, dir_deep: true})
         can.run(msg._event, ["./"], function(msg) {
@@ -156,6 +163,13 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "运行", "搜索"]
         last && can.onimport.tabview(can, last.path, last.file, last.line)
         can.Status("跳转数", can.history.length)
     },
+    "项目": function(event, can) {
+        var width = can.Conf("width")-(can.onmotion.toggle(can, can.ui.project)? 170: 0)
+
+        can.page.Modify(can, can.ui.content, {style: {"min-width": width}})
+    },
+    "搜索": function(event, can) { can.onmotion.toggle(can, can.ui.search) },
+    "收藏": function(event, can) { can.onmotion.toggle(can, can.ui.favor._target) },
     "运行": function(event, can) {
         var msg = can.request(event, {_toast: "运行中..."})
         can.run(event, ["action", "engine", can.parse, can.Option("file"), can.Option("path")], function(msg) {
@@ -164,9 +178,6 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "运行", "搜索"]
             can.page.Modify(can, can.ui.display, {style: {display: "block"}})
         }, true)
     },
-    "项目": function(event, can) { can.onmotion.toggle(can, can.ui.project) },
-    "搜索": function(event, can) { can.onmotion.toggle(can, can.ui.search) },
-    "收藏": function(event, can) { can.onmotion.toggle(can, can.ui.favor._target) },
 
     appendLine: function(can, value) {
         var ui = can.page.Append(can, can.ui.content, [{type: "tr", list: [

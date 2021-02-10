@@ -26,7 +26,8 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "list": cmds.slice(2), "cb": cb, "target": sub._target,
         }, mod)
     },
-    remote: function(event, can, msg, pane, cmds, cb) { msg.Option("_handle", "false")
+    remote: function(event, can, msg, pane, cmds, cb) {
+        delete(msg._handle), delete(msg._toast)
         if (pane.onengine.engine(event, can, msg, pane, cmds, cb)) { return }
         can.misc.Runs(event, can, {names: pane._name}, cmds, cb)
         pane.run(event, ["search", "Footer.onimport.ncmd"])
@@ -219,6 +220,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }, list.concat(Volcanos.meta.volcano, Volcanos.meta.libs), function(sub) { sub.Conf(meta)
             meta.feature = sub.base.Obj(meta.feature, {})
             sub.page.ClassList.add(sub, field, meta.style||meta.feature.style||"")
+            sub.page.ClassList.add(sub, field, meta.index? meta.index.split(".").pop(): meta.name)
 
             typeof cb == "function" && cb(sub)
             meta.option = can.base.Obj(meta.option||"{}", {})
@@ -764,7 +766,7 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
         can.page.Modify(can, target||can._target, {style: {display: "none"}})
     },
     toggle: function(can, target) {
-        can.page.Toggle(can, target||can._target)
+        return can.page.Toggle(can, target||can._target)
     },
     select: function(can, target, name, which) {
         can.page.Select(can, target, name, function(item, index) {
