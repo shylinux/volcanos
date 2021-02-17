@@ -1,17 +1,14 @@
 body.mobile.landscape fieldset.Header.head {
     position:unset;
 }
+body.mobile.landscape fieldset.Header.head div.state.time {
+    display:block;
+}
 body.mobile.landscape fieldset.Footer.foot {
     position:unset;
 }
 body.mobile.landscape fieldset.Action.main {
     margin-top:0; margin-bottom:0;
-}
-body.mobile.landscape fieldset.Header.head div.state.time {
-    display:block;
-}
-body.mobile fieldset.Header.head div.state.time {
-    display:none;
 }
 body.mobile fieldset.Header.head {
     position:fixed; top:0;
@@ -19,6 +16,9 @@ body.mobile fieldset.Header.head {
     height:48px; font-size:24px;
     background-color:#000000b8;
     z-index:10;
+}
+body.mobile fieldset.Header.head div.state.time {
+    display:none;
 }
 body.mobile fieldset.Footer.foot {
     position:fixed; bottom:0;
@@ -41,10 +41,10 @@ body.mobile fieldset.River>div.output div.list div.item {
 body.mobile fieldset.Action.main {
     margin-top:48px; margin-bottom:64px;
 }
-body.mobile select {
+body.mobile input {
     font-size:18px;
 }
-body.mobile input {
+body.mobile select {
     font-size:18px;
 }
 body.mobile div.carte {
@@ -55,6 +55,10 @@ body {
     margin:0; padding:0;
     background:black;
     color:cyan;
+}
+legend {
+    box-shadow:4px 4px 20px 4px #626bd0;
+    cursor:pointer;
 }
 fieldset {
     margin:0; border:0; padding:0;
@@ -67,8 +71,6 @@ fieldset.plugin {
     background-color:#061c3c9e;
     margin:10px; padding:10px;
 }
-fieldset.input>legend {
-}
 fieldset.float {
     position:absolute;
     background-color:#023531cf;
@@ -76,18 +78,12 @@ fieldset.float {
 fieldset.float>legend {
     display:none;
 }
-legend {
-    box-shadow:4px 4px 20px 4px #626bd0;
-    cursor:pointer;
-}
 
-input[type=button] {
-    background-color:black; color:cyan;
-    letter-spacing:4px;
-    padding-left:10px;
+input[name=cmd] {
+    width:160px;
 }
-input[type=button]:hover {
-    background-color:gray; color:cyan;
+input[name=date] {
+    width:150px;
 }
 input[type=text] {
     box-shadow: 4px 4px 10px 1px #626bd0;
@@ -97,11 +93,13 @@ input[type=text] {
 input[type=text]:hover {
     background-color:white;
 }
-input[name=cmd] {
-    width:160px;
+input[type=button] {
+    background-color:black; color:cyan;
+    letter-spacing:4px;
+    padding-left:10px;
 }
-fieldset>form.option>div.item input.args[name=date] {
-    width:150px;
+input[type=button]:hover {
+    background-color:gray; color:cyan;
 }
 select {
     box-shadow: 4px 4px 10px 1px #626bd0;
@@ -190,8 +188,76 @@ div.code {
     text-align:left; white-space:pre;
     overflow:auto;
 }
+div.story {
+    text-align:left;
+}
 div.hidden {
     display:none;
+}
+
+div.toast {
+    background:#0e3369b3; color:yellow;
+    position:fixed;
+    overflow:auto;
+    padding:5px;
+    z-index:100;
+}
+div.toast div.title {
+    font-size:14px;
+    color:#cae850;
+}
+div.toast div.content {
+    text-align:center;
+    white-space:pre;
+}
+div.toast div.duration {
+    font-size:14px;
+    color:gray;
+}
+div.toast div.progress {
+    border:solid 2px green;
+    height:10px;
+}
+div.toast div.progress div.current {
+    background:red;
+    height:10px;
+}
+
+div.carte {
+    position:fixed;
+    background:#295b61;
+    color:white;
+    padding:4px;
+    z-index:100;
+}
+div.carte div.item {
+    padding:3px 12px;
+    cursor:pointer;
+}
+div.carte div.item:hover {
+    background:red;
+}
+
+div.upload {
+    background:black; color:yellow;
+    position:fixed;
+    padding:5px;
+    z-index:50;
+}
+div.upload div.item {
+    float:left;
+}
+
+div.story[data-type=spark] {
+    background-color:#2169a9a6; color:white;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    padding:4px 10px; margin:10px 0px;
+    border-left:solid 4px blue;
+}
+div.story[data-type=spark] span:hover {
+    box-shadow: 4px 4px 10px 1px #29318e;
+    background-color:#c10c8a;
+    cursor:copy;
 }
 
 fieldset>form.option>div.item {
@@ -265,9 +331,6 @@ fieldset>div.output td.project {
 fieldset>div.output td.profile {
     background-color:#71909c91;
 }
-fieldset>div.output tr.display {
-    /* background-color:#71909c91; */
-}
 
 fieldset>div.output {
     clear:both; overflow:auto;
@@ -316,59 +379,6 @@ body>fieldset.input.date table {
 }
 body>fieldset.input.date table td:hover {
     background-color:red;
-}
-
-div.carte {
-    position:fixed;
-    background:#295b61;
-    color:white;
-    padding:4px;
-    z-index:100;
-}
-div.carte div.item {
-    padding:3px 12px;
-    cursor:pointer;
-}
-div.carte div.item:hover {
-    background:red;
-}
-
-div.upload {
-    background:black; color:yellow;
-    position:fixed;
-    padding:5px;
-    z-index:50;
-}
-div.upload div.item {
-    float:left;
-}
-
-div.toast {
-    background:#0e3369b3; color:yellow;
-    position:fixed;
-    overflow:auto;
-    padding:5px;
-    z-index:100;
-}
-div.toast div.title {
-    font-size:14px;
-    color:#cae850;
-}
-div.toast div.content {
-    text-align:center;
-    white-space:pre;
-}
-div.toast div.duration {
-    font-size:14px;
-    color:gray;
-}
-div.toast div.progress {
-    border:solid 2px green;
-    height:10px;
-}
-div.toast div.progress div.current {
-    background:red;
-    height:10px;
 }
 
 body.black a {
@@ -424,10 +434,6 @@ body.white table input[type=button][value=启动] {
     background:#52ce78;
 }
 
-body.white fieldset.story {
-    /* background-color:#7c8ea5ab; */
-}
-
 body.white fieldset.Action {
     color:black;
 }
@@ -470,16 +476,6 @@ body.print fieldset.Action {
 body.print fieldset.Action fieldset.plugin {
     padding-left:40px;
 }
-body.print fieldset.Action fieldset.plugin>legend {
-    /* display:none; */
-}
-body.print fieldset.Action fieldset.plugin>form.option {
-    /* display:none; */
-}
 body.print fieldset.River>div.output div.list div.item {
     background-color:white;
-}
-
-div.story {
-    text-align:left;
 }

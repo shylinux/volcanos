@@ -53,17 +53,6 @@ fieldset.word p.story[data-name=inner]:hover {
     background-color:#c10c8a;
     cursor:copy;
 }
-fieldset.word div.story[data-type=spark] {
-    background-color:#2169a9a6; color:white;
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    padding:4px 10px; margin:10px 0px;
-    border-left:solid 4px blue;
-}
-fieldset.word div.story[data-type=spark] span:hover {
-    box-shadow: 4px 4px 10px 1px #29318e;
-    background-color:#c10c8a;
-    cursor:copy;
-}
 fieldset.word svg.story {
     display:block; float:left;
 }

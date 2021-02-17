@@ -11,18 +11,16 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
     _toast: function(can, msg, target) {
-        can.toast = can.page.Append(can, target, [{view: ["toast", "div", ""], onclick: function(event) {
-            var ui = can.onappend.field(can, "story float", {}, document.body)
+        can.toast = can.page.Append(can, target, [{view: "toast", onclick: function(event) {
+            var ui = can.onappend.field(can, "story toast float", {}, document.body)
             can.run({}, ["search", "Action.onexport.size"], function(msg, top, left, width, height) {
+                can.page.Modify(can, ui.output, {style: {"max-width": width, "max-height": height-28}})
                 can.page.Modify(can, ui.first, {style: {top: top, left: left}})
             } )
 
             can.onappend._action(can, ["关闭", "刷新"], ui.action, {
                 "关闭": function(event) { can.page.Remove(can, ui.first) },
-                "刷新": function(event) { 
-                    can.page.Remove(can, ui.first)
-                    can.toast.click()
-                },
+                "刷新": function(event) { can.page.Remove(can, ui.first), can.toast.click() },
             })
             can.onappend.table(can, can._toast, function(value) {
                 return {text: [value, "td"], onclick: function(event) {
@@ -39,9 +37,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
 
-    toast: function(can, msg, text, time, fileline) { can._toast = can._toast || can.request()
-        can.page.Modify(can, can.toast, time.split(" ").pop()+" "+text)
-        can._toast.Push({time: time, fileline: fileline, text: text})
+    toast: function(can, msg, title, content, fileline, time) { can._toast = can._toast || can.request()
+        can.page.Modify(can, can.toast, [time.split(" ").pop(), title, content].join(" "))
+        can._toast.Push({time: time, fileline: fileline, title: title, content: content})
     },
     ncmd: function(can, target) {
         can.page.Select(can, target, "span.ncmd", function(item) {

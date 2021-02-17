@@ -12,7 +12,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {onclick: function(ev
                 target.value = line[key], can.page.Remove(can, can._target) 
             }}
         }), can.Status("count", msg.Length())
-        can.onlayout.figure(can, event)
+        can.onlayout.figure(event, can)
     })
 }}})
 

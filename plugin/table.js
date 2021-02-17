@@ -11,7 +11,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
 
         can.onappend.board(can, msg.Result())
-        can.onimport._board(can, msg)
+        can.onmotion.story(can, can._output)
     },
     _table: function(can, value, key, index, line, array) {
         return {text: [value, "td"], onclick: function(event) { var target = event.target
@@ -28,25 +28,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 can.run(event, ["action", "modify", key == "value"? line.key: key, value], function(msg) { }, true)
             })
         }}
-    },
-    _board: function(can, msg) {
-        can.page.Select(can, can._output, ".story", function(item) { var data = item.dataset
-            can.page.Modify(can, item, {style: can.base.Obj(data.style)})
-            can.core.CallFunc(can.onimport[data.type], [can, data, item])
-        })
-    },
-    spark: function(can, list, target) {
-        if (list["name"] == "inner") {
-            target.title = "点击复制", target.onclick = function(event) {
-                can.user.copy(event, can, target.innerText)
-            }
-            return
-        }
-        can.page.Select(can, target, "span", function(item) {
-            item.title = "点击复制", item.onclick = function(event) {
-                can.user.copy(event, can, item.innerText)
-            }
-        })
     },
 
     _process: function(can, msg) {
@@ -76,7 +57,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, can._output)
 
         can.onappend.board(can, msg.Result(), can._output)
-        can.onimport._board(can, msg)
+        can.onmotion.story(can, can._output)
         can.page.Modify(can, can._output, {style: {display: "block"}})
         return true
     },

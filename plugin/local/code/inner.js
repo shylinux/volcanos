@@ -25,10 +25,10 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
             {view: "action"}, {view: "output"},
         ]); can.ui.output = ui.output
 
-        can.onappend._action(can, ["关闭", "清空", "运行"], ui.action, {
-            "关闭": function(event) { can.onmotion.hidden(can, can.ui.display) },
-            "清空": function(event) { can.onmotion.clear(can, can.ui.output) },
+        can.onappend._action(can, ["运行", "清空", "关闭"], ui.action, {
             "运行": function(event) { can.onaction["运行"](event, can) },
+            "清空": function(event) { can.onmotion.clear(can, can.ui.output) },
+            "关闭": function(event) { can.onmotion.hidden(can, can.ui.display) },
         })
     },
     _search: function(can, target) {
@@ -157,7 +157,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         return p.line? p.line(can, line): line
     },
 })
-Volcanos("onaction", {help: "控件交互", list: ["项目", "运行", "搜索"],
+Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏", "搜索", "运行"],
     "返回": function(event, can) {
         var last = can.history.pop(); last = can.history.pop()
         last && can.onimport.tabview(can, last.path, last.file, last.line)
@@ -165,15 +165,13 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "运行", "搜索"]
     },
     "项目": function(event, can) {
         var width = can.Conf("width")-(can.onmotion.toggle(can, can.ui.project)? 170: 0)
-
         can.page.Modify(can, can.ui.content, {style: {"min-width": width}})
     },
-    "搜索": function(event, can) { can.onmotion.toggle(can, can.ui.search) },
     "收藏": function(event, can) { can.onmotion.toggle(can, can.ui.favor._target) },
-    "运行": function(event, can) {
-        var msg = can.request(event, {_toast: "运行中..."})
+    "搜索": function(event, can) { can.onmotion.toggle(can, can.ui.search) },
+    "运行": function(event, can) { var msg = can.request(event, {_toast: "运行中..."})
         can.run(event, ["action", "engine", can.parse, can.Option("file"), can.Option("path")], function(msg) {
-            can.onappend.table(can, msg, function(value, key, index) { return {text: [value, "td"]} }, can.ui.output||can.ui.display)
+            can.onappend.table(can, msg, null, can.ui.output||can.ui.display)
             can.onappend.board(can, msg.Result(), can.ui.output||can.ui.display)
             can.page.Modify(can, can.ui.display, {style: {display: "block"}})
         }, true)

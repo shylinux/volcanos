@@ -11,10 +11,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             {view: "content"}, {view: ["display", "table"]}, {view: "preview"},
         ]), typeof cb == "function" && cb(msg)
         can.page.ClassList.add(can, can.ui.display, "content")
-
-        var header = can.run({}, ["search", "Header.onexport.height"])||0
-        var footer = can.run({}, ["search", "Footer.onexport.height"])||0
-        can.page.Modify(can, can._output, {style: {"max-height": window.innerHeight-header-footer-64}})
     },
     _table: function(can, msg, fields) { can.onmotion.clear(can, can.ui.content)
         var table = can.onappend.table(can, msg, function(value, key, index, line) { can.Status("count", index+1)
@@ -55,19 +51,17 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             typeof cb == "function" && cb(can.onexport.select(can)), can.onmotion.hide(can)
         }
 
-        can.run({}, ["search", "Header.onexport.height"], function(res) {
-            can.page.Modify(can, can._target, {style: {top: res}})
-        })
-        can.run({}, ["search", "River.onexport.width"], function(res) {
-            can.page.Modify(can, can._target, {style: {left: res}})
-        })
-
         can.input = function(event, word) { cmds[1] = word
             can.onimport._word(can, msg, cmds, fields)
         }
 
         can.onmotion.show(can), can.ui.input.focus()
         can.onimport._word(can, msg, cmds, fields)
+
+        can.run({}, ["search", "Action.onexport.size"], function(msg, top, left, width, height) {
+            can.page.Modify(can, can._output, {style: {"max-width": width, "max-height": height-75}})
+            can.page.Modify(can, can._target, {style: {top: top, left: left}})
+        } )
     },
 })
 Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"], _init: function(can, msg, list, cb, target) {

@@ -9,7 +9,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], province: {onclick: functi
         china_chart.setOption({geo: {map: 'china'}}), china_chart.on('click', function (params) {
             target.value = params.name, can.page.Remove(can, can._target) 
         }), can.Status("count", 34)
-        can.onlayout.figure(can, event)
+        can.onlayout.figure(event, can)
     })
 }}, })
 

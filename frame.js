@@ -517,7 +517,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
     topic: function(can, topic) { topic && (can._topic = topic)
         can.user.topic(can, can._topic || can.user.Search(can, "topic") || ((can.user.Search(can, "pod")||can.base.isNight())? "black": "white"))
     },
-    figure: function(can, event) { var p = can._target
+    figure: function(event, can, target) { var p = target||can._target
         var layout = {left: event.clientX, top: event.clientY+10}
         can.page.Modify(can, p, {style: layout})
         can.onmotion.move(can, p, layout)
@@ -759,6 +759,26 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
         })
     },
 
+    story: function(can, target) {
+        can.page.Select(can, target, ".story", function(target) { var data = target.dataset
+            can.page.Modify(can, target, {style: can.base.Obj(data.style)})
+
+            switch (data.type) {
+                case "spark":
+                    if (data["name"] == "inner") {
+                        target.title = "点击复制", target.onclick = function(event) {
+                            can.user.copy(event, can, target.innerText)
+                        }
+                    } else {
+                        can.page.Select(can, target, "span", function(item) {
+                            item.title = "点击复制", item.onclick = function(event) {
+                                can.user.copy(event, can, item.innerText)
+                            }
+                        })
+                    }
+            }
+        })
+    },
     clear: function(can, target) {
         can.page.Modify(can, target||can._output, "")
     },
