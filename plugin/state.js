@@ -8,9 +8,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         if (size != "" && size == msg.Append("total")) { return true }
 
         can.user.toast(can, {
-            title: can._name+" "+msg.Append("step")+"% ", duration: 1100,
-            text: "执行进度: "+can.base.Size(size||0)+"/"+can.base.Size(msg.Append("total")||"1000")+"\n"+msg.Append("name"),
-            progress: parseInt(msg.Append("step")), width: 400,
+            title: can._name+" "+msg.Append("step")+"% ", width: 400,
+            content: "执行进度: "+can.base.Size(size||0)+"/"+can.base.Size(msg.Append("total")||"1000")+"\n"+msg.Append("name"),
+            duration: 1100, progress: parseInt(msg.Append("step")),
         })
 
         can.page.Select(can, can._output, "td", function(td) {

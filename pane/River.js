@@ -180,9 +180,9 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         })
     },
     "重命名应用": function(event, can, button, river, storm) {
-        can.user.input(event, can, ["name"], function(event, button, meta, list) {
-            var msg = can.request(event, {hash: storm})
-            can.run(event, [river, "tool", "action", "modify", "name", meta.name], function(msg) {
+        var msg = can.request(event, {hash: storm})
+        can.user.input(event, can, ["name"], function(ev, button, meta, list, args) {
+            can.run(event, [river, "tool", "action", "modify"].concat(args), function(msg) {
                 can.user.Search(can, {river: river, storm: storm})
             })
         })
@@ -226,10 +226,8 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
     "共享设备": function(event, can, button, river, storm) {
         can.run(event, ["action", "invite"], function(msg) {
             var toast = can.user.toast(can, {
-                text: msg.Result(), title: "共享设备",
-                width: -100, duration: -1, button: [
-                    {button: ["关闭", function() { toast.Close() }]},
-                ]
+                title: "共享设备", content: msg.Result(),
+                width: -100, duration: -1, button: ["关闭"],
             })
         })
     },

@@ -161,7 +161,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
     },
 })
 Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) {
-        meta.name = meta.name || "", meta.name = meta.name.split(" ")[0]
+        meta.name = meta.name || "", meta.name = meta.name.split(" ")[0].split(".").pop()
         field = field || can.onappend.field(can, meta.type, meta, target).first
         var legend = can.page.Select(can, field, "legend")[0]
         var option = can.page.Select(can, field, "form.option")[0]
@@ -328,6 +328,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     return can.onappend._output(can, meta, event, can.Pack(cmds, silent), cb, silent)
                 }, can._outputs.push(table), table._msg = msg
 
+                if (table.onimport._require) { var ls = display.split("/"); ls.pop()
+                    can.require(can.core.List(table.onimport._require, function(item) {
+                        return ls.join("/")+"/"+item
+                    }))
+                }
+
                 table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function(msg) {
                     can.page.Modify(can, can._action, ""), can.page.Modify(can, can._status, "")
                     table.onaction && table.onappend._action(table, msg._action||meta._action||table.onaction.list)
@@ -416,17 +422,37 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         return can.page.Append(can, target, [{view: ["item "+item.type], list: [input]}])[item.name]
     },
     table: function(can, msg, cb, target, sort) {
-        var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key) {
-            return {text: [value, "td"], onclick: function(event) {
+        var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
+            if (key == "value") { key = line.key, line = {}
+                can.core.List(array, function(item, index) { line[item.key] = item.value })
+            }
+
+            return {type: "td", inner: value, onclick: function(event) { var target = event.target
+                if (target.tagName == "INPUT" && target.type == "button") {
+                    var msg = can.sup.request(event, can.Option(), line)
+                    return can.run(event, ["action", target.name], function(msg) { can.run() }, true)
+                }
+
                 can.sup.onaction.change(event, can.sup, key, value, function(msg) {
                     can.onimport._init(can, msg, [], cb, can._output)
                 })
+            }, ondblclick: function(event) { var target = event.target
+                can.onmotion.modify(can, target, function(event, value, old) {
+                    var msg = can.sup.request(event, can.Option(), line)
+                    can.run(event, ["action", "modify", key, value], function(msg) {
+                        can.user.toast(can, "修改成功")
+                    }, true)
+                })
             }}
         }); table && can.page.Modify(can, table, {className: "content"})
-        sort && can.page.RangeTable(can, table, sort)
-        return table
+
+        can.page.Select(can, table, "input[type=button]", function(button) {
+            button.value = can.user.trans(can, button.value)
+        })
+
+        return sort && can.page.RangeTable(can, table, sort), table
     },
-    board: function(can, text, target) { text = can.page.Display(text || "")
+    board: function(can, text, target) { text = can.page.Display(text||"")
         return text && can.page.Append(can, target||can._output, [{view: ["code", "div", text]}]).code
     },
 
@@ -759,18 +785,21 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
         })
     },
 
+    clear: function(can, target) {
+        can.page.Modify(can, target||can._output, "")
+    },
     story: function(can, target) {
-        can.page.Select(can, target, ".story", function(target) { var data = target.dataset
-            can.page.Modify(can, target, {style: can.base.Obj(data.style)})
+        can.page.Select(can, target||can._output, ".story", function(story) { var data = story.dataset
+            can.page.Modify(can, story, {style: can.base.Obj(data.style)})
 
             switch (data.type) {
                 case "spark":
                     if (data["name"] == "inner") {
-                        target.title = "点击复制", target.onclick = function(event) {
-                            can.user.copy(event, can, target.innerText)
+                        story.title = "点击复制", story.onclick = function(event) {
+                            can.user.copy(event, can, story.innerText)
                         }
                     } else {
-                        can.page.Select(can, target, "span", function(item) {
+                        can.page.Select(can, story, "span", function(item) {
                             item.title = "点击复制", item.onclick = function(event) {
                                 can.user.copy(event, can, item.innerText)
                             }
@@ -779,9 +808,7 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
             }
         })
     },
-    clear: function(can, target) {
-        can.page.Modify(can, target||can._output, "")
-    },
+
     hidden: function(can, target) {
         can.page.Modify(can, target||can._target, {style: {display: "none"}})
     },

@@ -50,6 +50,12 @@ var Volcanos = shy("火山架", {pack: {}, libs: [], cache: {}}, [], function(na
                 return // 加载完成
             }
 
+            if (libs && libs[0][0] != "/") {
+                can._require = can._require||[], can._require.push(libs[0])
+                can.require(libs.slice(1), cb, each) 
+                return
+            }
+
             // 请求模块
             function next() { can._load(libs[0], each), can.require(libs.slice(1), cb, each) }
             meta.cache[libs[0]]? next(): meta._load(libs[0], next)
@@ -70,6 +76,7 @@ var Volcanos = shy("火山架", {pack: {}, libs: [], cache: {}}, [], function(na
     } else {
         list.push(can)
     }
+
     return can.require(libs, cb), can
 })
 Volcanos.meta._load = function(url, cb) {
