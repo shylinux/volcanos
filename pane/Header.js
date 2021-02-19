@@ -175,7 +175,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     black: function(event, can, button) { can.onlayout.topic(can, button) },
     white: function(event, can, button) { can.onlayout.topic(can, button) },
     print: function(event, can, button) { can.onlayout.topic(can, "white print") },
-    clear: function(event, can, button) { can.onimport.background(event, can, button) },
+    clear: function(event, can, button) { can.onimport.background(event, can, "") },
     pack: function(event, can) {
         can.user.input(event, can, [
             {_input: "text", name: "name", value: "demo"},
