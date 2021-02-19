@@ -92,8 +92,9 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         can.run({}, ["search", "Header.onimport.menu", "action",
             ["布局", "默认布局", "流动布局", "网格布局", "标签布局", "自由布局"],
         ], function(event, key) { can.onaction._layout(can, key) })
+        can.onaction._layout(can, can.user.Search(can, "layout"))
     },
-    _layout: function(can, key) {
+    _layout: function(can, key) { if (!key) { return }
         var trans = {
             "默认布局": "auto",
             "流动布局": "flow",
@@ -101,8 +102,10 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
             "标签布局": "tabs",
             "自由布局": "free",
         }
-        can.page.Modify(can, can._action, {className: "action "+trans[key]})
-        can.page.Modify(can, can._output, {className: "output "+trans[key]})
+
+        key = trans[key]||key, can.Conf("layout", key)
+        can.page.Modify(can, can._action, {className: "action "+key})
+        can.page.Modify(can, can._output, {className: "output "+key})
 
         if (key == "标签布局") {
             can.onmotion.select(can, can._output, "fieldset.plugin", 0)
@@ -142,6 +145,7 @@ Volcanos("onexport", {help: "导出数据", list: [],
         msg.Option("width", can._target.offsetWidth)
         msg.Option("height", can._target.offsetHeight)
     },
+    layout: function(can, msg) { return can.Conf("layout") },
     plugin: function(can, msg, word) {
         var fields = (msg.Option("fields")||"ctx,cmd,type,name,text").split(",")
         can.page.Select(can, can._output, "fieldset.plugin>legend", function(item) {

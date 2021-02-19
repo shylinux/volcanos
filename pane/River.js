@@ -99,7 +99,13 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     },
 
     "创建": function(event, can) { can.onaction.create(event, can) },
-    "刷新": function(event, can) { can.user.Search(can, {river: can.Conf("river"), storm: can.Conf("storm")}) },
+    "刷新": function(event, can) {
+        can.user.Search(can, {
+            river: can.Conf("river"), storm: can.Conf("storm"),
+            topic: can.run(event, ["search", "Header.onexport.topic"]),
+            layout: can.run(event, ["search", "Action.onexport.layout"]),
+        })
+    },
 })
 Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户", "添加设备", "添加应用", "重命名群组", "删除群组"],
     "创建群组": function(event, can) { can.onaction.create(event, can) },

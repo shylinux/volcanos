@@ -358,6 +358,10 @@ fieldset>div.output div.project div.list {
     margin-left:10px;
 }
 
+body>fieldset.input td {
+    word-break:keep-all;
+}
+
 body>fieldset.input {
     position:fixed; top:32px;
     background-color:#0d4142a6;

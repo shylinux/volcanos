@@ -8,6 +8,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             "print": "打印主题",
             "clear": "清除背景",
             "pack": "打包页面",
+            "usernick": "昵称",
             "logout": "退出",
         }
         can.onmotion.clear(can)
@@ -98,10 +99,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }) })
     },
     _time: function(can, target) {
-        can.core.Timer({interval: 1000}, function() {
-            can.onimport.time(can, target)
-        })
-        can.onappend.figure(can, {style: {left: "", right: "0", top: can._target.offsetHeight}}, "@date", target)
+        can.core.Timer({interval: 1000}, function() { can.onimport.time(can, target) })
+        can.onappend.figure(can, {style: {left: "", right: "0", top: can._target.offsetHeight, "min-width": 310}}, "@date", target)
     },
 
     time: function(can, target) { can.onlayout.topic(can)
@@ -156,14 +155,21 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     },
 
     title: function(event, can) {
-        var args = {}; can.core.List(["pod", "topic", "title"], function(key) {
+        var args = {}; can.core.List(["pod", "title", "topic", "layout"], function(key) {
             var value = can.user.Search(can, key); value && (args[key] = value)
         })
         can.user.jumps(can.user.MergeURL(can, args, true))
     },
     username: function(event, can) {
-        var ui = can.user.carte(event, can, can.onaction, ["logout"])
+        var ui = can.user.carte(event, can, can.onaction, ["usernick", "logout"])
         can.page.Modify(can, ui.first, {style: {top: can._target.offsetHeight}})
+    },
+    usernick: function(event, can) {
+        can.user.input(event, can, ["usernick"], function(ev, button, data, list, args) {
+            can.run(event, ["usernick", list[0]], function(msg) {
+                can.user.toast(can, "修改成功")
+            }, true)
+        })
     },
     logout: function(event, can) { can.user.logout(can) },
 
@@ -197,4 +203,5 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
 })
 Volcanos("onexport", {help: "导出数据", list: [],
     height: function(can) { return can._target.offsetHeight },
+    topic: function(can) { return can._topic },
 })
