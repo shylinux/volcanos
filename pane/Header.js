@@ -165,9 +165,11 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         can.page.Modify(can, ui.first, {style: {top: can._target.offsetHeight}})
     },
     usernick: function(event, can) {
-        can.user.input(event, can, ["usernick"], function(ev, button, data, list, args) {
+        can.user.input(event, can, [{_input: "text", name: "usernick", value: can.Conf("username")}], function(ev, button, data, list, args) {
             can.run(event, ["usernick", list[0]], function(msg) {
-                can.user.toast(can, "修改成功")
+                can.page.Select(can, can._output, "div.username", function(item) {
+                    can.page.Modify(can, item, can.Conf("username", list[0]))
+                }), can.user.toast(can, "修改成功")
             }, true)
         })
     },
