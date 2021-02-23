@@ -233,7 +233,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         can.run(event, ["action", "invite"], function(msg) {
             var toast = can.user.toast(can, {
                 title: "共享设备", content: msg.Result(),
-                width: -100, duration: -1, button: ["关闭"],
+                button: ["close"], duration: -1, width: -100,
             })
         })
     },

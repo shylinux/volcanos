@@ -125,7 +125,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             ]},
         }},
         "profile": {name: "测试群", storm: {
-            "auto": {name: "智能 auto", index: [
+            "auto": {name: "功能 auto", index: [
                 "web.code.publish",
                 "web.code.compile",
                 "web.code.autogen",
@@ -134,11 +134,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 "web.code.favor",
                 "web.code.bench",
                 "web.code.pprof",
-            ]},
-            "pack": {name: "功能 pack", index: [
-                "web.code.webpack",
-                "web.code.binpack",
-                "web.code.install",
             ]},
         }},
         "operate": {name: "运维群", storm: {
