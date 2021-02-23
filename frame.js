@@ -126,9 +126,9 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         }},
         "profile": {name: "测试群", storm: {
             "auto": {name: "智能 auto", index: [
-                "web.code.autogen",
-                "web.code.compile",
                 "web.code.publish",
+                "web.code.compile",
+                "web.code.autogen",
             ]},
             "code": {name: "性能 code", index: [
                 "web.code.favor",
