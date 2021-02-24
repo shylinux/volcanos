@@ -40,6 +40,10 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             can.core.CallFunc(cb, {msg: msg})
         })
     }),
+    _merge: function(can, sub) {
+        typeof sub._init == "function" && can.core && sub._init(can, sub)
+        for (var k in sub["river"]) { can.onengine["river"] = sub["river"]; break }
+    },
     river: {
         "serivce": {name: "运营群", storm: {
             "wx": {name: "公众号 wx",  action: [

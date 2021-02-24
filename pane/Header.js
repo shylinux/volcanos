@@ -148,6 +148,11 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             can.onmotion.hidden(can, item)
         })
 
+        can.onengine.listen(can, "storm.select", function(msg, river, storm) {
+            can.Conf("river", river), can.Conf("storm", storm)
+        })
+
+
         can.onlayout.topic(can)
         can.user.isLocalFile? init(): can.run({}, ["check"], function(msg) {
             msg.Result()? init(): msg.Option("sso")? can.user.jumps(msg.Option("sso")): can.user.login(can, init)
@@ -191,7 +196,10 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             can.core.Item(Volcanos.meta.pack, function(key, msg) { 
                 can.core.List(["_event", "_can", "_xhr", "sessid", ""], function(key) { delete(msg[key]) })
             })
-            var msg = can.request(event, {name: meta.name, content: JSON.stringify(Volcanos.meta.pack)})
+            var msg = can.request(event, {
+                name: meta.name, content: JSON.stringify(Volcanos.meta.pack),
+                river: can.Conf("river"), storm: can.Conf("storm"),
+            })
 
             var toast = can.user.toast(can, "打包中...", "webpack", 1000000)
             can.run(event, ["webpack"], function(msg) {

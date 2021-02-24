@@ -1,6 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        can._main_river = can.user.Search(can, "river") || (can.user.isMobile||can.user.isExtension? "product": "project")
-        can._main_storm = can.user.Search(can, "storm") || (can.user.isMobile? "office": can.user.isExtension? "chrome": "studio")
+        can._main_river = can.user.Search(can, "river") || Volcanos.meta.args.river || (can.user.isMobile||can.user.isExtension? "product": "project")
+        can._main_storm = can.user.Search(can, "storm") || Volcanos.meta.args.storm || (can.user.isMobile? "office": can.user.isExtension? "chrome": "studio")
 
         can.onmotion.clear(can), can.sublist = {}
         var select; msg.Table(function(value, index, array) {

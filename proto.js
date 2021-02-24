@@ -11,7 +11,7 @@ function shy(help, meta, list, cb) {
     cb.list = next("object") || []
     return cb
 }; var _can_name = ""
-var Volcanos = shy("火山架", {pack: {}, libs: [], cache: {}}, [], function(name, can, libs, cb) {
+var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}}, [], function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == "object") { var Config = name; _can_name = ""
         meta.libs = Config.libs, meta.volcano = Config.volcano
@@ -23,7 +23,7 @@ var Volcanos = shy("火山架", {pack: {}, libs: [], cache: {}}, [], function(na
 
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: document.body}
-        libs = Preload.concat(Config.main.list, Config.libs), cb = function(can) {
+        libs = Preload.concat(Config.libs, Config.main.list), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panes, function(msg) { can.base.Log(can.user.title(), "run", can)
                 document.body.onresize = function() { can.onlayout._init(can, can._target) }
             }, can._target)
