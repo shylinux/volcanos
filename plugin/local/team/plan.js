@@ -68,7 +68,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         var table = can.page.Appends(can, can.ui.profile, [{view: ["content", "table"], list: [{th: ["key", "value"]}]}]).first
         can.core.Item(task, function(key, value) { can.page.Append(can, table, [{
-            td: [key, key == "pod"? can.page.Format("a", can.user.MergeURL(can, {pod: value}), value): value],
+            td: [key, key == "pod" && value != ""? can.page.Format("a", can.user.MergeURL(can, {pod: value}), value): value],
             ondblclick: function(event) {
                 can.onmotion.modify(can, event.target, function(ev, value, old) {
                     can.onaction.modifyTask(event, can, task, key, value)
