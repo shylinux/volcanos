@@ -43,6 +43,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         }) })
         return true
     },
+    _open: function(can, msg) {
+        can.user.open(msg.Option("_arg"))
+        return true
+    },
 })
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
     },

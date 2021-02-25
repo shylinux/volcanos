@@ -129,15 +129,11 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             ]},
         }},
         "profile": {name: "测试群", storm: {
-            "auto": {name: "功能 auto", index: [
-                "web.code.publish",
-                "web.code.compile",
-                "web.code.autogen",
+            "release": {name: "发布 release", index: [
+                "web.code.publish", "web.code.compile", "web.code.autogen",
             ]},
-            "code": {name: "性能 code", index: [
-                "web.code.favor",
-                "web.code.bench",
-                "web.code.pprof",
+            "research": {name: "测试 research", index: [
+                "web.code.favor", "web.code.bench", "web.code.pprof",
             ]},
         }},
         "operate": {name: "运维群", storm: {
@@ -154,7 +150,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 "connect", "session", "service", "channel",
             ]},
             "nfs": {name: "文件 nfs", index: [
-                "nfs.dir", "nfs.file",
+                "nfs.cat", "nfs.dir", "nfs.tail", "nfs.trash",
             ]},
         }},
     },
@@ -452,7 +448,14 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         return sort && can.page.RangeTable(can, table, sort), table
     },
     board: function(can, text, target) { text = can.page.Display(text||"")
-        return text && can.page.Append(can, target||can._output, [{view: ["code", "div", text]}]).code
+        var code = text && can.page.Append(can, target||can._output, [{view: ["code", "div", text]}]).code
+        can.page.Select(can, code, "input[type=button]", function(target) {
+            target.onclick = function(event) {
+                var msg = can.sup.request(event, can.Option())
+                return can.run(event, ["action", target.name], function(msg) { can.run() }, true)
+            }
+        })
+        return code
     },
 
     figure: function(can, meta, key, target) {
