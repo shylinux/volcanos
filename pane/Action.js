@@ -88,8 +88,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                 }))
             })
         })
-
-        can.run({}, ["search", "Header.onimport.menu", "action",
+        !can.user.isMobile && can.run({}, ["search", "Header.onimport.menu", "action",
             ["布局", "默认布局", "流动布局", "网格布局", "标签布局", "自由布局"],
         ], function(event, key) { can.onaction._layout(can, key) })
         can.onaction._layout(can, can.user.Search(can, "layout"))

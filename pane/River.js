@@ -45,7 +45,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
 
         can.run({}, ["search", "Header.onimport.menu", "river",
             ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备", "创建空间"],
-            ["访问", "内部系统", "访问应用", "访问工具", "访问用户", "访问设备", "工作任务"],
+            !can.user.isMobile && ["访问", "内部系统", "访问应用", "访问工具", "访问用户", "访问设备", "工作任务"],
             ["共享", "共享群组", "共享应用", "共享工具", "共享用户", "共享设备"],
         ], function(event, item) {
             can.core.CallFunc([can.ondetail, item], [event, can, item, can.Conf("river"), can.Conf("storm")])

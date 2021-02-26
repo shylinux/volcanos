@@ -67,7 +67,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.user.isWeiXin && can.onimport._weixin(can)
     },
     _menu: function(can, msg, target) {
-        can.page.Append(can, target, can.core.List(can.user.isMobile || can.user.isExtension || can.user.Search(can, "pod")? ["river", "setting"]: ["setting"], function(item) {
+        can.page.Append(can, target, can.core.List(can.user.isMobile || can.user.isExtension || can.user.Search(can, "pod")? ["river"]: ["setting"], function(item) {
             return {view: ["menus", "div", item], onclick: function(event) {
                 can.core.CallFunc([can.onaction, item], [event, can, item])
             }}
@@ -113,7 +113,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     menu: function(can, cmds, cb) { // type item...
         return can.page.Append(can, can._output, [{type: cmds[0], list: can.core.List(cmds.slice(1), function(item) {
-            if (typeof item == "string") {
+            if (!item) {
+
+            } else if (typeof item == "string") {
                 return {view: ["menu", "div", item], onclick: function(event) {
                     typeof cb == "function" && cb(event, item)
                 }}
