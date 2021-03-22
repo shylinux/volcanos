@@ -33,7 +33,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, can.ui.content, can.core.List((msg.Option("sort")||"ctx,cmd,type,name,text").split(","), function(item) {
             return fields.indexOf(item)
         }))
-        can.page.Modify(can, can.ui.display, {style: {width: table.offsetWidth}})
+        table && can.page.Modify(can, can.ui.display, {style: {width: table.offsetWidth}})
     },
     _word: function(can, msg, cmds, fields) {
         msg = can.request({}, {word: cmds, fields: fields.join(","), sort: msg.Option("sort"), index: msg.Option("index")})

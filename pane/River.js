@@ -248,7 +248,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
             {_input: "text", name: "template", value: "@key"},
         ], function(event, button, data, list, args) {
             can.run(event, ["action", "start"].concat(args), function(msg) {
-                can.user.open(can.user.MergeURL(can, {pod: msg.Option("name")}))
+                can.user.open(can.user.MergeURL(can, {pod: can.core.Keys(can.user.Search(can, "pod"), msg.Option("name"))}))
                 can.user.toast(can, can.user.MergeURL(can, {pod: msg.Option("name")}))
             })
         })
