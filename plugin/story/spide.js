@@ -48,7 +48,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
         return tree.height = height
     },
-})
+}, ["/plugin/story/spide.css"])
 Volcanos("onaction", {help: "操作数据", list: ["编辑", ["view", "横向", "纵向"], ["scale", "0.2", "0.5", "1", "2", "5"]],
     "编辑": function(event, can) {
         can.onmotion.toggle(can, can.sub._action)
@@ -72,7 +72,8 @@ Volcanos("onaction", {help: "操作数据", list: ["编辑", ["view", "横向", 
         can.onappend.plugin(can, {
             index: "web.code.inner", args: args,
             _action: ["关闭", "最大", "分屏", "复制"],
-            width: layout.width, height: layout.height,
+            width: layout.width,
+            // height: layout.height,
         }, function(sub) { can.page.Modify(can, sub._target, {style: layout})
             sub.run = function(event, cmds, cb, silent) {
                 can.run(event, ["action", "inner"].concat(cmds), function(msg) {

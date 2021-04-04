@@ -7,7 +7,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Select(can, target, ".story", function(item) { var data = item.dataset||{}
             can.core.CallFunc([can.onimport, data.type], [can, data, item])
             can.page.Modify(can, item, {style: can.base.Obj(data.style)})
-            delete(data.meta)
+            // delete(data.meta)
         })
     },
 
@@ -89,6 +89,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
         })
 
         can.onappend._init(can, {type: "story word float"}, [], function(sub) { sub.sup = can
+            can.page.Modify(can, sub._target, {style: {"background": document.body.style.background}})
             can.onappend._action(sub, [
                 ["布局", "开讲", "快闪", "网格"],
                 "大纲", "首页", "上一页",

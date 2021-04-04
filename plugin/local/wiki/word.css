@@ -74,10 +74,12 @@ fieldset.word.float {
     width:-webkit-fill-available;
     position:fixed; left:0; top:0;
     background-color:aliceblue;
+    background-color:aliceblue;
     color:black; z-index:20;
 }
 fieldset.word.float>div.output {
     background-color:aliceblue;
+    background-color:#f0f8ff80;
     overflow:auto;
     padding:20px;
 }
@@ -87,6 +89,7 @@ fieldset.word.float div.project {
 }
 fieldset.word.float div.content div.page {
     background-color:aliceblue;
+    background-color:#194c79d4;
     margin-top:30px;
     display:none;
 }

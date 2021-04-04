@@ -67,7 +67,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "plan", help: "计划任务", index: "web.team.plan"},
                 {name: "think", help: "智库", index: "web.wiki.word", args: ["usr/learning/"]},
                 {name: "index", help: "索引", index: "web.wiki.word", args: ["usr/learning/index.shy"]},
-                {name: "context", help: "编程", index: "web.wiki.word", args: ["usr/learning/自然/编程/context.shy"]},
+                {name: "context", help: "编程", index: "web.wiki.word", args: ["usr/learning/自然/编程/index.shy"]},
             ]},
             "english": {name: "英汉 english",  action: [
                 {name: "english", help: "英汉", index: "web.wiki.alpha.alpha", args: ["word", "hi"]},
