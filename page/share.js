@@ -1,5 +1,5 @@
 Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
-    libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], panes: [
+    libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], panels: [
         {name: "Action", help: "工作台", pos: "main"},
     ], main: {name: "Action", engine: "remote", list: ["/publish/order.js"]}, plugin: [
         "/plugin/state.js",

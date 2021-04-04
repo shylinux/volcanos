@@ -18,7 +18,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }), select && select.click(), typeof cb == "function" && cb(msg)
     },
 })
-Volcanos("onengine", {help: "解析引擎", list: [], engine: function(event, can, msg, pane, cmds, cb) {
+Volcanos("onengine", {help: "解析引擎", list: [], engine: function(event, can, msg, panel, cmds, cb) {
         cmds.length == 0 && can.core.Item(can.onengine.river, function(key, value) {
             msg.Push({hash: key, name: value.name})
         }); if (cmds.length != 1 && cmds[1] != "tool") { return false }

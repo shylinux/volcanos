@@ -1,21 +1,21 @@
  var _can_name = "/frame.js"
 Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta, list, cb, target) {
-        can.core.Next(list, function(item, next) { item.type = "pane"
-            can.onappend._init(can, item, item.list, function(pane) {
-                pane.onaction && pane.onappend._action(pane, item.action||pane.onaction.list)
-                pane.Status = pane.Status || function(key, value) { pane.run({}, ["search", "Footer.onimport."+key, value]) }
+        can.core.Next(list, function(item, next) { item.type = "panel"
+            can.onappend._init(can, item, item.list, function(panel) {
+                panel.onaction && panel.onappend._action(panel, item.action||panel.onaction.list)
+                panel.Status = panel.Status || function(key, value) { panel.run({}, ["search", "Footer.onimport."+key, value]) }
 
-                pane.run = function(event, cmds, cb) { var msg = pane.request(event); cmds = cmds || []
-                    return (can.onengine[cmds[0]]||can.onengine[meta.main.engine]||can.onengine.remote)(event, can, msg, pane, cmds, cb)
-                }, can[item.name] = pane, next()
+                panel.run = function(event, cmds, cb) { var msg = panel.request(event); cmds = cmds || []
+                    return (can.onengine[cmds[0]]||can.onengine[meta.main.engine]||can.onengine.remote)(event, can, msg, panel, cmds, cb)
+                }, can[item.name] = panel, next()
             }, target)
         }, function() {
-            var pane = can[meta.main.name], msg = can.request()
-            pane.onmotion._init(pane, target), pane.onkeypop._init(pane, target)
-            pane.onaction._init(pane, msg, [], cb, pane._target)
+            var panel = can[meta.main.name], msg = can.request()
+            panel.onmotion._init(panel, target), panel.onkeypop._init(panel, target)
+            panel.onaction._init(panel, msg, [], cb, panel._target)
         })
     },
-    search: function(event, can, msg, pane, cmds, cb) {
+    search: function(event, can, msg, panel, cmds, cb) {
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split("."), function(value) {
             fun && (sub = mod, mod = fun, fun = mod[value], key = value)
         }); if (!sub || !mod || !fun) { can.base.Warn("not found", cmds[1]); return }
@@ -26,12 +26,12 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "list": cmds.slice(2), "cb": cb, "target": sub._target,
         }, mod)
     },
-    remote: function(event, can, msg, pane, cmds, cb) {
+    remote: function(event, can, msg, panel, cmds, cb) {
         delete(msg._handle), delete(msg._toast)
-        if (pane.onengine.engine(event, can, msg, pane, cmds, cb)) { return }
-        can.misc.Runs(event, can, {names: pane._name}, cmds, cb)
-        pane.run(event, ["search", "Footer.onimport.ncmd"])
-    }, engine: function(event, can, msg, pane, cmds, cb) { return false },
+        if (panel.onengine.engine(event, can, msg, panel, cmds, cb)) { return }
+        can.misc.Runs(event, can, {names: panel._name}, cmds, cb)
+        panel.run(event, ["search", "Footer.onimport.ncmd"])
+    }, engine: function(event, can, msg, panel, cmds, cb) { return false },
     listen: shy("事件回调", {}, [], function(can, name, cb) {
         arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
     }),
@@ -664,7 +664,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
             t: function(event, can, target) { can.run(event, ["search", "River.ondetail.添加工具"]) },
 
             " ": function(event, can, target) {
-                can.page.Select(can, document.body, "fieldset.pane.Header div.search input", function(target) {
+                can.page.Select(can, document.body, "fieldset.panel.Header div.search input", function(target) {
                     target.focus()
                 })
             },

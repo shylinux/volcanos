@@ -63,7 +63,7 @@ legend {
 fieldset {
     margin:0; border:0; padding:0;
 }
-fieldset.pane>legend {
+fieldset.panel>legend {
     display:none;
 }
 fieldset.plugin {

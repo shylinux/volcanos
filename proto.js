@@ -17,14 +17,14 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}}, [], f
         meta.libs = Config.libs, meta.volcano = Config.volcano
 
         // 预加载
-        var Preload = [Config.volcano]; for (var i = 0; i < Config.panes.length; i++) { var pane = Config.panes[i]
-            pane && (Preload = Preload.concat(pane.list = pane.list || ["/pane/"+pane.name+".css", "/pane/"+pane.name+".js"]))
+        var Preload = [Config.volcano]; for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
+            panel && (Preload = Preload.concat(panel.list = panel.list || ["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
         }; Preload = Preload.concat(Config.plugin)
 
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: document.body}
         libs = Preload.concat(Config.libs, Config.main.list), cb = function(can) {
-            can.onengine._init(can, can.Conf(Config), Config.panes, function(msg) { can.base.Log(can.user.title(), "run", can)
+            can.onengine._init(can, can.Conf(Config), Config.panels, function(msg) { can.base.Log(can.user.title(), "run", can)
                 document.body.onresize = function() { can.onlayout._init(can, can._target) }
             }, can._target)
         }

@@ -40,13 +40,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
     },
 })
 Volcanos("onengine", {help: "解析引擎", list: [],
-    engine: function(event, can, msg, pane, cmds, cb) {
+    engine: function(event, can, msg, panel, cmds, cb) {
         var river = can.onengine.river[cmds[0]]
         var storm = river && river.storm[cmds[1]]
         if (!storm || cmds.length != 2) { return false }
 
         if (storm.index) { cmds = ["action", "command"].concat(storm.index)
-            can.misc.Runs(event, can, {names: pane._name}, cmds, cb)
+            can.misc.Runs(event, can, {names: panel._name}, cmds, cb)
         } else {
             can.core.List(storm.action, function(value) {
                 msg.Push("name", value.name||"")
