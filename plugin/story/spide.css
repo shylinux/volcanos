@@ -1,3 +1,7 @@
-fieldset.inner.editor div.output {
-    background-color:black;
+fieldset.float.inner.editor {
+    /* background-color:#332f1ecf; */
+}
+fieldset.float.inner.editor div.output {
+    background-color:#332f1ecf;
+    max-width:800px;
 }

@@ -1,19 +1,20 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        typeof cb == "function" && cb(msg)
-        can.msg = msg, can.data = msg.Table()
-        can.dir_root = msg.Option("dir_root")
-        can.Action("scale", parseInt(msg.Option("scale")||"1"))
-        can._tree = can.onimport._tree(can, msg.Table(), "path", "/")
-
         can.onmotion.clear(can)
-        can.onappend.plugins(can, {type: "inner", index: "web.wiki.draw"}, function(sub) {
-            sub.run = function(event, cmds, cb) {
+        typeof cb == "function" && cb(msg)
+        if (msg.Option("branch")) { return can.onappend.table(can, msg) }
+
+        can.dir_root = msg.Option("dir_root")
+        can._tree = can.onimport._tree(can, msg.Table(), "path", "/")
+        can._tree[""].name = can.dir_root.split("/").pop()
+
+        can.size = 30, can.margin = 30
+        can.onappend.plugins(can, {index: "web.wiki.draw"}, function(sub) {
+            sub.run = function(event, cmds, cb) { sub.Action("go", "run")
                 typeof cb == "function" && cb(sub.request())
-                can.core.Timer(100, function() { can.sub = sub._outputs[0]
-                    can.sub.onmotion.hidden(can.sub, can.sub.ui.project)
-                    can.sub.require(["/plugin/local/wiki/draw/path.js"], function() {
-                        can.sub.svg.Value("transform", "scale("+(can.Action("scale")||1)+")")
-                        sub.Action("go", "run")
+
+                can.core.Timer(100, function() { can.draw = sub._outputs[0]
+                    can.draw.onmotion.hidden(can.draw, can.draw.ui.project)
+                    can.draw.require(["/plugin/local/wiki/draw/path.js"], function() {
 
                         can.onaction[can.Action("view")](event, can)
                     })
@@ -28,7 +29,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 var last = array.slice(0, index).join(split) || "", name = array.slice(0, index+1).join(split)
                 if (!value || node[name]) { return }
 
-                node[last] = node[last] || {name: last, list: []}
+                node[last] = node[last] || {name: last, meta: {}, list: []}
                 node[last].list.push(node[name] = {
                     name: value+(index==array.length-1? "": split),
                     meta: item, list: [], last: last,
@@ -49,88 +50,43 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return tree.height = height
     },
 }, ["/plugin/story/spide.css"])
-Volcanos("onaction", {help: "操作数据", list: ["编辑", ["view", "横向", "纵向"], ["scale", "0.2", "0.5", "1", "2", "5"]],
+Volcanos("onaction", {help: "用户操作", list: ["编辑", ["view", "横向", "纵向"]],
     "编辑": function(event, can) {
-        can.onmotion.toggle(can, can.sub._action)
-        can.onmotion.toggle(can, can.sub._status)
+        can.onmotion.toggle(can, can.draw._action)
+        can.onmotion.toggle(can, can.draw._status)
     },
-    "清空": function(event, can) {
-        can.onmotion.clear(can, can.sub.svg)
+    "横向": function(event, can) {
+        can.onmotion.clear(can, can.draw.svg)
+
+        can.onimport._height(can, can._tree[""])
+        can.draw.svg.Val("height", can._tree[""].height*can.size+2*can.margin)
+        can.width = 0, can.onaction._draw(can, can._tree[""], can.margin, can.margin)
+        can.draw.svg.Val("width", can.width+can.margin)
+        can.base.Log(can)
     },
-    view: function(event, can, cmd, key) {
-        can.onaction[key](event, can)
-    },
-    height: function(event, can) {
-        can.onaction[can.Action("view")](event, can)
-    },
-    scale: function(event, can) {
-        can.sub.svg.Value("transform", "scale("+(can.Action("scale")||"1")+")")
-        can.onaction[can.Action("view")](event, can)
+    "纵向": function(event, can) {
+        can.onmotion.clear(can, can.draw.svg)
     },
 
-    _show: function(can, args, layout) {
-        can.onappend.plugin(can, {
-            index: "web.code.inner", args: args,
-            _action: ["关闭", "最大", "分屏", "复制"],
-            width: layout.width,
-            // height: layout.height,
-        }, function(sub) { can.page.Modify(can, sub._target, {style: layout})
-            sub.run = function(event, cmds, cb, silent) {
-                can.run(event, ["action", "inner"].concat(cmds), function(msg) {
-                    typeof cb == "function" && cb(msg)
-                }, true)
-            }
-        })
-    },
-    _draw: function(can, tree, x, y) { var sub = can.sub, name = tree.name || can.Option("name") || "."
-        if (x+name.length*16 > can.width) { can.width = x+name.length*20 }
-
-        tree.view = sub.onimport.draw({}, sub, {
+    _draw: function(can, tree, x, y) { tree.x = x, tree.y = y
+        var color = tree.meta&&tree.meta.color||"yellow"
+        tree.view = can.draw.onimport.draw({}, can.draw, {
             shape: "text", point: [
-                {x: x, y: y+tree.height*30/2}
+                {x: x, y: y+tree.height*can.size/2}
             ], style: {
-                "stroke-width": 1, "fill": "yellow", "text-anchor": "start", inner: name,
+                "stroke-width": 1, "stroke": color,
+                "fill": color, "text-anchor": "start", inner: tree.name,
             },
         })
 
-        tree.view.onclick = function(event) {
-            if (name.endsWith("/") || tree.tags) {
-                tree.hide = !tree.hide
-                can.onaction[can.Action("view")](event, can)
-                return
+        tree.width = tree.view.Val("textLength")
+        if (x+tree.width > can.width) { can.width = x+tree.width }
+
+        can.core.Item(can.ondetail, function(key, value) {
+            if (key.indexOf("on") == 0 && typeof value == "function") {
+                tree.view[key] = function(event) { value(event, can, tree) }
             }
-
-            if (tree.name.endsWith("go") || tree.name.endsWith("c") || tree.name.endsWith("h")) {
-                can.run(event, [can.Option("name"), tree.file], function(msg) {
-                    msg.Table(function(value) { tree.tags = true
-                        tree.list.push({type: "tags", file: value.file, line: value.line, name: value.name, last: tree, list: []})
-                    })
-
-                    tree.hide = !tree.hide
-                    can.onaction[can.Action("view")](event, can)
-                }, true)
-                return
-            }
-
-            var width = 720, height = 400
-            can.onaction._show(can, [can.dir_root, tree.file, tree.line], {
-                position: "fixed", width: width, height: height+240,
-                left: event.x+width>window.innerWidth? window.innerWidth-width: event.x,
-                top: event.y+height+120>window.innerHeight? window.innerHeight-height-120: event.y,
-            })
-        }
-        tree.view.onmouseenter = function(event) {
-            can.page.Remove(can, can.pos)
-            can.pos = sub.onimport.draw({}, sub, {
-                shape: "rect", point: [
-                    {x: x, y: y+tree.height*30/2-15},
-                    {x: x+name.length*16, y: y+tree.height*30/2+15},
-                ], style: {
-                    "stroke": "red", "stroke-width": 1, "fill": "none",
-                },
-            })
-            event.stopPropagation(), event.preventDefault()
-        }
+        })
 
         if (tree.hide) { return }
 
@@ -139,29 +95,58 @@ Volcanos("onaction", {help: "操作数据", list: ["编辑", ["view", "横向", 
         }
 
         var offset = 0; can.core.List(tree.list, function(item) {
-            sub.onimport.draw({}, sub, {
+            can.draw.onimport.draw({}, can.draw, {
                 shape: "path", point: [], style: {
                     "stroke-width": 1, "stroke": "cyan", "fill": "none", d: line(
-                        {x: x+name.length*16-10, y: y+tree.height*30/2},
-                        {x: x+name.length*16+40, y: y+offset+item.height*30/2}
+                        {x: x+tree.width+can.margin/8, y: y+tree.height*can.size/2},
+                        {x: x+tree.width+can.margin*2-2*can.margin/8, y: y+offset+item.height*can.size/2}
                     ), 
                 },
             })
 
-            can.onaction._draw(can, item, x+name.length*20+20, y+offset)
-            offset += item.height*30
+            can.onaction._draw(can, item, x+tree.width+2*can.margin, y+offset)
+            offset += item.height*can.size
         })
     },
-    "横向": function(event, can) {
-        if (!can._tree[""]) { return }
-        can.onmotion.clear(can, can.sub.svg)
-
-        can.onimport._height(can, can._tree[""])
-        can.sub.svg.Val("height", can._tree[""].height*30)
-        can.width = 0, can.onaction._draw(can, can._tree[""], 0, 0)
-        can.sub.svg.Val("width", can.width)
+})
+Volcanos("ondetail", {help: "用户交互", list: [],
+    onmouseenter: function(event, can, tree) { var y = tree.y+tree.height*can.size/2
+        can.page.Remove(can, can.pos), can.pos = can.draw.onimport.draw({}, can.draw, {
+            shape: "rect", point: [
+                {x: tree.x-can.margin/4, y: y-can.size/2},
+                {x: tree.x+tree.width+can.margin/8, y: y+can.size/2},
+            ], style: {
+                "stroke": "red", "stroke-width": 2, "fill": "none",
+            },
+        }), event.stopPropagation(), event.preventDefault()
     },
-    "纵向": function(event, can) {
+    onclick: function(event, can, tree) {
+        if (tree.name.endsWith("/") || tree.tags) {
+            tree.hide = !tree.hide, can.onaction[can.Action("view")](event, can)
+            return
+        }
+
+        if (tree.name.endsWith(".go") || tree.name.endsWith(".c") || tree.name.endsWith(".h")) {
+            can.run(event, [can.Option("name"), tree.file], function(msg) {
+                msg.Table(function(value) { tree.tags = true
+                    tree.list.push({type: "tags", file: value.file, line: value.line, name: value.name, last: tree, list: []})
+                })
+
+                tree.hide = !tree.hide, can.onaction[can.Action("view")](event, can)
+            }, true)
+            return
+        }
+
+        can.ondetail._show(event, can, [can.dir_root, tree.file, tree.line])
+    },
+
+    _show: function(event, can, args) {
+        can.onappend.plugin(can, {type: "float", index: "web.code.inner", args: args, _action: ["关闭"]}, function(sub) {
+            can.page.Modify(can, sub._target, {style: {position: "fixed"}})
+            sub.run = function(event, cmds, cb) {
+                can.run(event, ["action", "inner"].concat(cmds), cb, true)
+                can.onlayout.figure(event, sub, sub._target)
+            }
+        })
     },
 })
-

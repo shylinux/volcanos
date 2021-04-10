@@ -234,7 +234,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 input.Conf(item), input.sup = can, input.run = function(event, cmds, cb, silent) {
                     var msg = can.request(event)
                     var sub = can.core.Value(can, "_outputs.-1")
-                    if (msg.Option("_handle") != "true" && sub && cmds && cmds[0] == "action" && sub.onaction[cmds[1]]) {
+                    if (msg.Option("_handle") != "true" && sub && cmds && cmds[0] == "action" && sub.onaction && sub.onaction[cmds[1]]) {
                         msg.Option("_handle", "true")
                         return sub.onaction[cmds[1]](event, sub)
                     }
@@ -323,7 +323,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     return can.onappend._output(can, meta, event, can.Pack(cmds, silent), cb, silent)
                 }, can._outputs.push(table), table._msg = msg
 
-                if (table.onimport._require) { var ls = display.split("/"); ls.pop()
+                if (table.onimport && table.onimport._require) { var ls = display.split("/"); ls.pop()
                     can.require(can.core.List(table.onimport._require, function(item) {
                         return ls.join("/")+"/"+item
                     }))
