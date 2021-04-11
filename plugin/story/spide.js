@@ -15,7 +15,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 can.core.Timer(100, function() { can.draw = sub._outputs[0]
                     can.draw.onmotion.hidden(can.draw, can.draw.ui.project)
                     can.draw.require(["/plugin/local/wiki/draw/path.js"], function() {
-
                         can.onaction[can.Action("view")](event, can)
                     })
                 })

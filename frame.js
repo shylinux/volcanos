@@ -186,7 +186,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 }); return value
             },
             Status: function(key, value) {
-                if (typeof key == "object") { return sub.core.Item(key, sub.Status), key }
+                if (typeof key == "object") {
+                    value? sub.core.List(value, function(k) { sub.Status(k, key[k]) }): sub.core.Item(key, sub.Status)
+                    return key
+                }
                 sub.page.Select(sub, status, "div."+key+">span", function(item) {
                     return value == undefined? (value = item.innerHTML): (item.innerHTML = value)
                 }).length == 0 && value != undefined && sub.page.Append(sub, status, [{view: "item "+key, list: [

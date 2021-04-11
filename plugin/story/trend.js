@@ -1,154 +1,170 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        typeof cb == "function" && cb(msg)
-        can.msg = msg, can.data = msg.Table()
-        can.Action("speed", parseInt(msg.Option("speed")||"100"))
-        can.Action("height", parseInt(msg.Option("height")||"400"))
-
         can.onmotion.clear(can)
-        can.onappend.plugins(can, {type: "inner", index: "web.wiki.draw"}, function(sub) {
-            sub.run = function(event, cmds, cb) { typeof cb == "function" && cb(sub.request())
-                can.core.Timer(100, function() { can.sub = sub._outputs[0]
-                    can.sub.onmotion.hidden(can.sub, can.sub.ui.project)
+        typeof cb == "function" && cb(msg)
+        if (msg.Option("branch")) { return can.onappend.table(can, msg) }
+
+        can.msg = msg, can.data = msg.Table(), can.onimport._sum(can)
+        can.Action("height", parseInt(msg.Option("height")||"400"))
+        can.Action("speed", parseInt(msg.Option("speed")||"100"))
+
+        can.onappend.plugins(can, {index: "web.wiki.draw"}, function(sub) {
+            sub.run = function(event, cmds, cb) { sub.Action("go", "run")
+                typeof cb == "function" && cb(sub.request())
+
+                can.core.Timer(100, function() { can.draw = sub._outputs[0]
+                    can.draw.onmotion.hidden(can.draw, can.draw.ui.project)
                     can.onaction[can.Action("view")](event, can)
                 })
             }
         })
     },
+    _sum: function(can, ) {
+        var begin = "", count = 0, rest = 0, add = 0, del = 0, max = 0
+        can.max = 0, can.min = 0, can.list = can.core.List(can.data, function(value, index) {
+            var line = {
+                date: value[can.msg.append[0]],
+                text: value[can.msg.append[4]],
+                add: parseInt(value[can.msg.append[1]]),
+                del: parseInt(value[can.msg.append[2]]),
+            }
+
+            line.begin = rest
+            line.max = rest + line.add
+            line.min = rest - line.del
+            line.close = rest + line.add - line.del
+
+            begin = begin || value.date, count++
+            rest = line.close, add += line.add, del += line.del
+
+            if (line.max - line.min > max) { max = line.max - line.min }
+            if (line.max > can.max) { can.max = line.max }
+            if (line.min < can.min) { can.min = line.min }
+            return line
+        })
+        can.Status({"from": begin, "commit": count, "total": add+del, "max": max})
+    },
 })
-Volcanos("onaction", {help: "组件菜单", list: ["编辑", "清空", ["view", "股价图", "趋势图", "数据源"], ["height", "100", "200", "400", "600"], ["speed", "10", "20", "50", "100"]],
+Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600"], ["speed", "10", "20", "50", "100"]],
     "编辑": function(event, can) {
-        can.onmotion.toggle(can, can.sub._action)
-        can.onmotion.toggle(can, can.sub._status)
+        can.onmotion.toggle(can, can.draw._action)
+        can.onmotion.toggle(can, can.draw._status)
     },
-    "清空": function(event, can) {
-        can.onmotion.clear(can, can.sub.svg)
-    },
-    view: function(event, can, cmd, key) {
-        can.onaction[key](event, can)
-    },
-    height: function(event, can, key) {
-        can.onaction[can.Action("view")](event, can)
-    },
-
-    "股价图": function(event, can) { var sub = can.sub, data = can.data
-        if (!can.list) { var begin = "", count = 0, rest = 0, add = 0, del = 0, max = 0
-            can.max = 0, can.min = 0, can.list = can.core.List(data, function(value, index) {
-                var line = {
-                    note: value[can.msg.append[4]],
-                    date: value[can.msg.append[0]],
-                    add: parseInt(value[can.msg.append[1]]),
-                    del: parseInt(value[can.msg.append[2]]),
-                }
-
-                line.begin = rest
-                line.max = rest + line.add
-                line.min = rest - line.del
-                line.close = rest + line.add - line.del
-
-                begin = begin || value.date, count++
-                rest = line.close, add += line.add, del += line.del
-                if (line.max - line.min > max) {
-                    max = line.max - line.min
-                }
-                if (line.max > can.max) { can.max = line.max }
-                if (line.min < can.min) { can.min = line.min }
-                return line
-            })
-            can.Status("from", begin)
-            can.Status("commit", count)
-            can.Status("total", add+del)
-            can.Status("max", max)
-        }
-
+    "趋势图": function(event, can) {
         var space = 10
         var view = parseInt(can.Action("height"))
-        var max = parseInt(can.Conf("width"))
+        var max = parseInt(can.Conf("width"))-2*space
         var step = parseInt(max / (can.list.length+1))||2
-        can.onmotion.clear(can, sub.svg)
 
-        var width = can.list.length * step + space * 2
         var height  = view + space * 2
-        sub.svg.Val("height", height)
-        sub.svg.Val("width", width-space*2+5)
+        var width = can.list.length * step + space * 2
+        can.draw.svg.Val("width", width-space*2+5)
+        can.draw.svg.Val("height", height)
 
-        function compute(y) { return (y - can.min)/(can.max - can.min)*view }
-        can.core.Next(can.list, function(line, next, index) {
-            sub.onimport.draw({}, sub, {
+        function scale(y) { return (y - can.min)/(can.max - can.min)*view }
+
+        can.onmotion.clear(can, can.draw.svg)
+        can.core.Next(can.list, function(line, next, index) { can.Status(line, ["date", "text", "add", "del"])
+            can.draw.onimport.draw({}, can.draw, {
                 shape: "line", point: [
-                    {x: space/2+step*index+step/4, y: space/2+view-compute(line.min)},
-                    {x: space/2+step*index+step/4, y: space/2+view-compute(line.max)},
+                    {x: space/2+step*index+step/4, y: space/2+view-scale(line.min)},
+                    {x: space/2+step*index+step/4, y: space/2+view-scale(line.max)},
                 ], style: {
                     "stroke-width": 1, "stroke": line.begin < line.close? "white": "black",
                 },
             })
 
-            var one = sub.onimport.draw({}, sub, line.begin < line.close? {
+            line.view = can.draw.onimport.draw({}, can.draw, line.begin < line.close? {
                 shape: "rect", point: [
-                    {x: space/2+step*index, y: space/2+view-compute(line.begin)},
-                    {x: space/2+step*index+step/2, y: space/2+view-compute(line.close)},
+                    {x: space/2+step*index, y: space/2+view-scale(line.begin)},
+                    {x: space/2+step*index+step/2, y: space/2+view-scale(line.close)},
                 ], style: {
                     "stroke-width": 1, "stroke": "white", "fill": "white", "rx": 0, "ry": 0,
                 },
             }: {
                 shape: "rect", point: [
-                    {x: space/2+step*index, y: space/2+view-compute(line.close)},
-                    {x: space/2+step*index+step/2, y: space/2+view-compute(line.begin)},
+                    {x: space/2+step*index, y: space/2+view-scale(line.close)},
+                    {x: space/2+step*index+step/2, y: space/2+view-scale(line.begin)},
                 ], style: {
-                    "rx": 0, "ry": 0, "stroke-width": 1, "stroke": "black", "fill": "black",
+                    "stroke-width": 1, "stroke": "black", "fill": "black", "rx": 0, "ry": 0, 
                 },
-            }); one.onmouseover = function(event) { can.Status(line) }
+            })
 
+            can.core.Item(can.ondetail, function(key, value) {
+                if (key.indexOf("on") == 0 && typeof value == "function") {
+                    line.view[key] = function(event) { value(event, can, line) }
+                }
+            })
             can.core.Timer(parseInt(can.Action("speed")), next)
         })
     },
-    "趋势图": function(event, can, value, cmd, target) { var sub = can.sub, data = can.data
+    "柱状图": function(event, can) {
         var space = 10
         var view = parseInt(can.Action("height"))
-        var max = parseInt(can.Conf("width"))-120
+        var max = parseInt(can.Conf("width"))-2*space
         var step = parseInt(max / can.list.length)||2
-        can.onmotion.clear(can, sub.svg)
 
         var max = {}
-        var height = 0
-        can.core.List(can.msg.append, function(key, which) {
-            height += view + space * 2
+        var height = 0; can.core.List(can.msg.append, function(key, which) {
+            height += view + 2*space
 
-            max[key] = 0, can.core.List(data, function(value, index) {
+            max[key] = 0, can.core.List(can.data, function(value, index) {
                 if ((parseInt(value[key])||0) > max[key]) {
                     max[key] = parseInt(value[key])||0
                 }
             })
         })
 
-        var width = can.list.length * step + space * 2
-        sub.svg.Val("height", height+space*2)
-        sub.svg.Val("width", width)
+        var width = can.list.length*step + 2*space
+        can.draw.svg.Val("height", height+2*space)
+        can.draw.svg.Val("width", width)
 
+        can.onmotion.clear(can, can.draw.svg)
         can.core.List(can.msg.append, function(key, which) { var y = (space*2+view)*(which+1)
-            sub.onimport.draw({}, sub, {
+            can.draw.onimport.draw({}, can.draw, {
                 shape: "text", point: [
                     {x: width/2, y: y+space},
                 ], style: {
-                    "font-size": 20, "stroke-width": 0, "fill": "red", inner: key, 
+                    "font-size": 20, 
+                    "stroke-width": 0, "stroke": "red", "fill": "red", inner: key, 
                 },
             })
 
-            can.core.List(data, function(line, index) {
-                var one = sub.onimport.draw({}, sub, {
+            can.core.Next(can.data, function(line, next, index) {
+                line.view = can.draw.onimport.draw({}, can.draw, {
                     shape: "rect", point: [
                         {x: space+step*index, y: y},
                         {x: space+step*index+step/4, y: y-parseInt(line[key])/(max[key]||1)*view}
                     ], style: {
                         "stroke-width": 1, "stroke": "white", "fill": "white", "rx": 0, "ry": 0,
                     },
-                }); one.onmouseover = function(event) { can.Status(line) }
+                })
+
+                can.core.Item(can.ondetail, function(key, value) {
+                    if (key.indexOf("on") == 0 && typeof value == "function") {
+                        line.view[key] = function(event) { value(event, can, line) }
+                    }
+                })
+                can.core.Timer(parseInt(can.Action("speed")), next)
             })
         })
     },
     "数据源": function(event, can) {
-        can.onmotion.clear(can, can.sub.ui.display)
-        can.onappend.table(can, can.msg, null, can.sub.ui.display)
+        can.onmotion.clear(can, can.draw.ui.display)
+        can.onappend.table(can, can.msg, null, can.draw.ui.display)
+        can.onmotion.show(can, can.draw.ui.display)
+    },
+
+    height: function(event, can) {
+        can.onaction[can.Action("view")](event, can)
+    },
+    speed: function(event, can) {
+        can.onaction[can.Action("view")](event, can)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: ["from", "commit", "total", "date", "begin", "add", "del", "close", "note"]})
+Volcanos("ondetail", {help: "用户交互", list: [],
+    onmouseenter: function(event, can, line) {
+        can.Status(line, ["date", "text", "add", "del"])
+    },
+})
+Volcanos("onexport", {help: "导出数据", list: []})
 
