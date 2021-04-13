@@ -32,6 +32,7 @@ fieldset.word ul.story[data-type=premenu] {
 }
 fieldset.word ul.story[data-type=premenu] li:hover {
     background:cyan;
+    color:blue;
 }
 fieldset.word li.H2 {
     font-weight:bold;

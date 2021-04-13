@@ -286,6 +286,9 @@ fieldset>form.option>div.item input.args.long {
 fieldset>form.option>div.item input.args.full {
     width:480px;
 }
+fieldset>form.option>div.item input.args[name=url] {
+    width:320px;
+}
 fieldset>form.option>div.item input.opts {
     width:80px;
 }
