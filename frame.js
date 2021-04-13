@@ -334,9 +334,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
                 table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function(msg) {
                     can.page.Modify(can, can._action, ""), can.page.Modify(can, can._status, "")
-                    table.onaction && table.onappend._action(table, msg._action||meta._action||table.onaction.list)
-                    table.ondetail && table.onappend._detail(table, msg._detail||meta._detail||table.ondetail.list)
-                    table.onexport && table.onappend._status(table, msg._export||meta._export||table.onexport.list)
+                    table.onaction && table.onappend._action(table, can.base.Obj(msg.Option("_action"), meta._action||table.onaction.list))
+                    table.ondetail && table.onappend._detail(table, can.base.Obj(msg.Option("_detail"), meta._detail||table.ondetail.list))
+                    table.onexport && table.onappend._status(table, can.base.Obj(msg.Option("_status"), meta._export||table.onexport.list))
                 }, can._output)
             })
         })
@@ -421,8 +421,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     table: function(can, msg, cb, target, sort) {
         var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
-            if (key == "value") { key = line.key, line = {}
-                can.core.List(array, function(item, index) { line[item.key] = item.value })
+            if (key == "value") { key = line.key||line.name, line = {}
+                can.core.List(array, function(item, index) { line[item.key||line.name] = item.value })
             }
 
             return {type: "td", inner: value, onclick: function(event) { var target = event.target

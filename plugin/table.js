@@ -7,25 +7,25 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.page.Append(can, target, [can.onimport._control(can, msg)])
         can.onappend.table(can, msg, function(value, key, index, line, array) {
-            return can.onimport._table(can, value, key, index, line, array)
+            return can.onimport._table(can, value, key, index, line, array, cb)
         })
 
         can.onappend.board(can, msg.Result())
         can.onmotion.story(can, can._output)
     },
-    _table: function(can, value, key, index, line, array) {
+    _table: function(can, value, key, index, line, array, cb) {
         return {text: [value, "td"], onclick: function(event) { var target = event.target
             if (target.tagName == "INPUT" && target.type == "button") { var msg = can.sup.request(event, can.Option())
                 key == "value"? can.core.List(array, function(item, index) { msg.Option(item.key, item.value) }): msg.Option(line)
                 return can.run(event, ["action", target.name], function(msg) { can.run() }, true)
             }
 
-            if (can.sup.onaction.change(event, can.sup, key, value, function(msg) { can.onimport._init(can, msg) }).length > 0) { return }
+            if (can.sup.onaction.change(event, can.sup, key, value, function(msg) { can.onimport._init(can, msg, [], cb) }).length > 0) { return }
 
         }, ondblclick: function(event) {
             can.onmotion.modify(can, event.target, function(event, value, old) {
                 var msg = can.sup.request(event, can.Option()); msg = can.sup.request(event, line)
-                can.run(event, ["action", "modify", key == "value"? line.key: key, value], function(msg) { }, true)
+                can.run(event, ["action", "modify", key == "value"? line.key||line.name: key, value], function(msg) { }, true)
             })
         }}
     },
