@@ -121,6 +121,13 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             }
         }); if (cache) { return }
 
+        switch (can.parse) {
+            case "png": 
+            case "jpg": 
+                can.page.Append(can, can.ui.content, [{img: can.base.Path("/share/local", can.file)+"?"+can.user.Search(can, "pod")}])
+                return
+        }
+
         function init(p) { can.max = 0
             can.core.List(can.ls = msg.Result().split("\n"), function(item) {
                 can.onaction.appendLine(can, item)

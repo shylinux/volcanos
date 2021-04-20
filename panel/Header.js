@@ -14,15 +14,15 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onmotion.clear(can)
         can.onimport._title(can, msg, target)
         can.onimport._state(can, msg, target)
-        can.onimport._search(can, msg, target)
         can.onimport._background(can, msg, target)
+        can.onimport._search(can, msg, target)
         can.onimport._agent(can, msg, target)
         can.onimport._menu(can, msg, target)
         typeof cb == "function" && cb(msg)
     },
     _title: function(can, msg, target) {
-        can.user.title(can.user.Search(can, "title") || can.user.Search(can, "pod"))
-        can.user.isMobile || can.core.List(msg.result||["github.com/shylinux/contexts"], function(item) {
+        can.user.title(can.user.Search(can, "title")||can.user.Search(can, "pod"))
+        !can.user.isMobile && can.core.List(msg.result||["github.com/shylinux/contexts"], function(item) {
             can.page.Append(can, target, [{view: ["title", "div", item], onclick: function(event) {
                 can.onaction.title(event, can)
             }}])
