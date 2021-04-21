@@ -1,6 +1,9 @@
 fieldset.Header {
     height:32px; padding:0 5px;
-    z-index:1;
+    z-index:1000;
+}
+fieldset.Header>div.output {
+    z-index:1000;
 }
 fieldset.Header>div.output>div {
     height:22px; padding:5px;
@@ -20,8 +23,8 @@ fieldset.Header>div.output>div.search {
 fieldset.Header>div.output>div.search>input {
     width:120px;
 }
-fieldset.Header>div.output>div.search>input:focus {
-    width:240px;
+fieldset.Header>div.output>div.search>input:hover {
+    /* width:240px; */
 }
 fieldset.Header>div.output>div.menus {
     float:left; margin-left:5px;

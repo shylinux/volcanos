@@ -152,6 +152,9 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "nfs": {name: "文件 nfs", index: [
                 "nfs.cat", "nfs.dir", "nfs.tail", "nfs.trash",
             ]},
+            "aaa": {name: "权限 aaa", index: [
+                "user", "sess", "role",
+            ]},
         }},
     },
 })
@@ -891,6 +894,21 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
                 can.page.Modify(can, target, {style: {left: layout.left, top: layout.top}})
             }
         }
+    },
+
+    downward: function(can, target, top, speed) {
+        var begin = target.offsetTop
+        var space = (top - begin) / 30
+        can.core.Timer({interval: speed||10, length: 30}, function() {
+            can.page.Modify(can, target, {style: {top: begin+=space}})
+        })
+    },
+    resize: function(can, target, width, speed) {
+        var begin = target.offsetWidth
+        var space = (width - begin) / 30
+        can.core.Timer({interval: speed||10, length: 30}, function() {
+            can.page.Modify(can, target, {style: {width: begin+=space}})
+        })
     },
 })
 

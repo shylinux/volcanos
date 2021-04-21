@@ -11,6 +11,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
                 sub._option.dataset = sub._option.dataset || {}
                 item.id && (sub._option.dataset.id = item.id)
             })
+        }, function() {
+            can.onaction._layout(can, can.Conf("layout")||can.user.Search(can, "layout"))
         })
     },
     _plugin: function(can, river, storm, sub, item) {
@@ -91,7 +93,6 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         !can.user.isMobile && can.run({}, ["search", "Header.onimport.menu", "action",
             ["布局", "默认布局", "流动布局", "网格布局", "标签布局", "自由布局"],
         ], function(event, key) { can.onaction._layout(can, key) })
-        can.onaction._layout(can, can.user.Search(can, "layout"))
     },
     _layout: function(can, key) { if (!key) { return }
         var trans = {
@@ -106,7 +107,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         can.page.Modify(can, can._action, {className: "action "+key})
         can.page.Modify(can, can._output, {className: "output "+key})
 
-        if (key == "标签布局") {
+        if (key == "tabs") {
             can.onmotion.select(can, can._output, "fieldset.plugin", 0)
             can.onmotion.select(can, can._action, "div.item", 0)
         }

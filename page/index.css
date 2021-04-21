@@ -228,7 +228,7 @@ div.carte {
     background:#295b61;
     color:white;
     padding:4px;
-    z-index:100;
+    z-index:10;
 }
 div.carte div.item {
     padding:3px 12px;
@@ -306,7 +306,8 @@ fieldset>form.option>div.item.textarea {
 
 fieldset div.action>div.item {
     float:left; margin-right:3px;
-    height:28px; vertical-align:middle;
+    /* height:28px; */
+    vertical-align:middle;
 }
 fieldset div.action>div.item.space {
     width:10px;
