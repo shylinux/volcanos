@@ -24,6 +24,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Modify(can, can._output, {onmouseover: function(event) {
             can.menu && can.page.Remove(can, can.menu.first)
         }})
+
+        can.core.Timer(1000, function() {
+            can.onimport._daemon(can, msg, target)
+        })
     },
     _title: function(can, msg, target) {
         can.user.title(can.user.Search(can, "title")||can.user.Search(can, "pod"))
@@ -80,9 +84,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             })
     },
 
-    _daemon: function(can, name, cb) {
-        can.misc.WSS(can, {type: "chrome", name: name}, cb||function(event, msg, cmd, arg) {
-            msg && can.run(event, ["search"].concat(msg["detail"]||[]), function(msg) {
+    _daemon: function(can, msg, target) {
+        can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")}, function(event, msg, cmd, arg) { if (!msg) { return }
+            can.run(event, ["search"].concat(msg["detail"]||[]), function(msg) {
                 msg.Reply()
             })
         })

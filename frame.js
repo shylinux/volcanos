@@ -18,7 +18,11 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
     search: function(event, can, msg, panel, cmds, cb) {
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split("."), function(value) {
             fun && (sub = mod, mod = fun, fun = mod[value], key = value)
-        }); if (!sub || !mod || !fun) { can.base.Warn("not found", cmds[1]); return }
+        }); if (!sub || !mod || !fun) {
+            can.base.Warn("not found", cmds[1])
+            cb(msg.Echo("warn: ", "not found: ", cmds[1]))
+            return
+        }
 
         return can.core.CallFunc(fun, {
             "event": event, "can": sub, "msg": msg,
