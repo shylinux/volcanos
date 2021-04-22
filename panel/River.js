@@ -14,8 +14,16 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 }, {style: {left: can._target.offsetWidth}})
             }, target)
 
+            can.page.Modify(can, view, {onmouseenter: function(event) {
+                can.onaction.carte(event, can, can.ondetail.list)
+            }})
+
             if (index == 0 || [value.hash, value.name].indexOf(can._main_river) > -1) { select = view }
         }), select && select.click(), typeof cb == "function" && cb(msg)
+
+        can.page.Modify(can, can._output, {onmouseover: function(event) {
+            can.menu && can.page.Remove(can, can.menu.first)
+        }})
     },
 })
 Volcanos("onengine", {help: "解析引擎", list: [], engine: function(event, can, msg, panel, cmds, cb) {
@@ -70,6 +78,10 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
                     can.user.carte(event, can, can.ondetail, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"], function(ev, item, meta) {
                         can.ondetail[item](event, can, item, river, storm.hash)
                     }, {style: {left: can._target.offsetWidth}})
+                }, _init: function(view) {
+                    can.page.Modify(can, view, {onmouseenter: function(event) {
+                        can.onaction.carte(event, can, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"])
+                    }})
                 }}
             }) }]).first, list.children.length > 0 && list.children[select].click()
 
@@ -96,6 +108,13 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
                 can.user.Search(can, {river: msg.Result()})
             })
         })
+    },
+    carte: function(event, can, list, cb) {
+        can.menu && can.page.Remove(can, can.menu.first)
+        can.menu = can.user.carte(event, can, can.ondetail, list, cb)
+        can.page.Modify(can, can.menu.first, {style: {left: can._target.offsetWidth, top:  event.target.offsetTop+60-can._output.scrollTop}})
+
+        // can.onmotion.downward(can, can.menu.first, can._target.offsetHeight, 10-list.length)
     },
 
     "创建": function(event, can) { can.onaction.create(event, can) },
