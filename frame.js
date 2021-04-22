@@ -156,8 +156,12 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             "nfs": {name: "文件 nfs", index: [
                 "nfs.cat", "nfs.dir", "nfs.tail", "nfs.trash",
             ]},
+
             "aaa": {name: "权限 aaa", index: [
-                "user", "sess", "role",
+                "user", "sess", "role", "totp",
+            ]},
+            "ctx": {name: "模块 ctx", index: [
+                "context", "command", "config",
             ]},
         }},
     },

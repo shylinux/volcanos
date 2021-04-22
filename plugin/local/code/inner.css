@@ -86,3 +86,13 @@ body.white fieldset.editor>div.output div.content td.text span.string {
 body.white fieldset.editor>div.output div.content tr {
     background-color:#e1f1ff00;
 }
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select:none;
+    user-select: none;
+}

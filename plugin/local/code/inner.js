@@ -186,7 +186,7 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏", "搜索",
 
     appendLine: function(can, value) {
         var ui = can.page.Append(can, can.ui.content, [{type: "tr", list: [
-            {view: ["line", "td", ++can.max], onclick: function(event) {
+            {view: ["line unselectable", "td", ++can.max], onclick: function(event) {
                 can.onaction.selectLine(can, ui.tr)
 
             }, ondblclick: function(event) {

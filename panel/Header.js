@@ -85,7 +85,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 
     _daemon: function(can, msg, target) {
-        can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")}, function(event, msg, cmd, arg) { if (!msg) { return }
+        can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")||""}, function(event, msg, cmd, arg) { if (!msg) { return }
             can.run(event, ["search"].concat(msg["detail"]||[]), function(msg) {
                 msg.Reply()
             })
