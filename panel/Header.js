@@ -174,6 +174,11 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
 
         can.onlayout.topic(can)
         can.user.isLocalFile? init(): can.run({}, ["check"], function(msg) {
+            if (msg.Option("type") == "apply" && msg.Option("name") == "") {
+                if (can.user.confirm("auth "+msg.Option("text"))) {
+                    can.run(event, ["action", "auth", "share", can.user.Search(can, "share")])
+                }
+            }
             msg.Result()? init(): msg.Option("sso")? can.user.jumps(msg.Option("sso")): can.user.login(can, init)
         })
     },
