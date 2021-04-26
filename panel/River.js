@@ -14,16 +14,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 }, {style: {left: can._target.offsetWidth}})
             }, target)
 
-            can.page.Modify(can, view, {onmouseenter: function(event) {
-                can.onaction.carte(event, can, can.ondetail.list)
-            }})
-
             if (index == 0 || [value.hash, value.name].indexOf(can._main_river) > -1) { select = view }
         }), select && select.click(), typeof cb == "function" && cb(msg)
-
-        can.page.Modify(can, can._output, {onmouseover: function(event) {
-            can.menu && can.page.Remove(can, can.menu.first)
-        }})
     },
 })
 Volcanos("onengine", {help: "解析引擎", list: [], engine: function(event, can, msg, panel, cmds, cb) {
@@ -78,10 +70,6 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
                     can.user.carte(event, can, can.ondetail, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"], function(ev, item, meta) {
                         can.ondetail[item](event, can, item, river, storm.hash)
                     }, {style: {left: can._target.offsetWidth}})
-                }, _init: function(view) {
-                    can.page.Modify(can, view, {onmouseenter: function(event) {
-                        can.onaction.carte(event, can, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"])
-                    }})
                 }}
             }) }]).first, list.children.length > 0 && list.children[select].click()
 

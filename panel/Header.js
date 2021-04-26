@@ -229,8 +229,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     carte: function(event, can, list, cb) {
         can.menu && can.page.Remove(can, can.menu.first)
         can.menu = can.user.carte(event, can, can.onaction, list, cb)
-        can.page.Modify(can, can.menu.first, {style: {top: -list.length*15, left: event.target.offsetLeft}})
-        can.onmotion.downward(can, can.menu.first, can._target.offsetHeight, 2)
+        can.page.Modify(can, can.menu.first, {style: {top: can._target.offsetHeight, left: event.target.offsetLeft}})
     },
 
     River: function(can) { can.run({}, ["search", "River.onmotion.toggle"]) },
