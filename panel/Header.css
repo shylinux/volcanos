@@ -1,10 +1,10 @@
 fieldset.Header {
     height:32px; padding:0 5px;
     overflow:hidden;
-    z-index:1000;
+    z-index:10;
 }
 fieldset.Header>div.output {
-    z-index:1000;
+    z-index:10;
 }
 fieldset.Header>div.output>div {
     height:22px; padding:5px;
