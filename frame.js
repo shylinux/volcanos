@@ -918,5 +918,19 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
             can.page.Modify(can, target, {style: {width: begin+=space}})
         })
     },
+
+    autosize: function(can, target, max, min) {
+        can.page.Modify(can, target, {
+            onfocus: function(event) {
+                can.onmotion.resize(can, target, max, 10)
+            }, onmouseenter: function(event) {
+                can.onmotion.resize(can, target, max, 10)
+            }, onmouseleave: function(event) {
+                can.onmotion.resize(can, target, min, 5)
+            }, onblur: function(event) {
+                can.onmotion.resize(can, target, min, 5)
+            },
+        })
+    }
 })
 

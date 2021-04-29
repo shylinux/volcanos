@@ -23,7 +23,7 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}}, [], f
 
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: document.body}
-        libs = Preload.concat(Config.libs, Config.main.list), cb = function(can) {
+        libs = Preload.concat(Config.main.list, Config.libs), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panels, function(msg) { can.base.Log(can.user.title(), "run", can)
                 document.body.onresize = function() { can.onlayout._init(can, can._target) }
             }, can._target)
@@ -50,7 +50,7 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}}, [], f
                 return // 加载完成
             }
 
-            if (libs && libs[0][0] != "/" && libs[0].indexOf("http") == -1) {
+            if (libs && libs[0] && libs[0][0] != "/" && libs[0].indexOf("http") == -1) {
                 can._require = can._require||[], can._require.push(libs[0])
                 can.require(libs.slice(1), cb, each) 
                 return

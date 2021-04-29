@@ -1,4 +1,12 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+        if (can.user.Search(can, "grant")) {
+            if (can.user.confirm("grant "+can.user.Search(can, "grant"))) {
+                can.run(event, ["action", "grant", "space", can.user.Search(can, "grant")])
+            }
+            can.user.Search(can, "grant", "")
+            return
+        }
+
         can._trans = {
             "river": "菜单",
             "search": "搜索",
@@ -14,11 +22,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             "usernick": "修改昵称",
             "logout": "退出登录",
         }
+
         can.onmotion.clear(can)
         can.onimport._title(can, msg, target)
         can.onimport._state(can, msg, target)
-        can.onimport._background(can, msg, target)
         can.onimport._search(can, msg, target)
+        can.onimport._background(can, msg, target)
+        // can.onimport._daemon(can, msg, target)
         can.onimport._agent(can, msg, target)
         can.onimport._menu(can, msg, target)
 
@@ -26,10 +36,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Modify(can, can._output, {onmouseover: function(event) {
             can.menu && can.page.Remove(can, can.menu.first)
         }})
-
-        can.core.Timer(1000, function() {
-            can.onimport._daemon(can, msg, target)
-        })
     },
     _title: function(can, msg, target) {
         can.user.title(can.user.Search(can, "title")||can.user.Search(can, "pod"))
@@ -48,24 +54,23 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }}])
         })
     },
-    _background: function(can, msg) {
-        !can.user.isLocalFile && can.onlayout.background(can, msg.Option("background"), document.body)
-    },
     _search: function(can, msg, target) {
-        !can.user.isMobile && (can.search = can.page.Append(can, target, [{view: "search", list: [{type: "input", data: {placeholder: "search"}, onkeydown: function(event) {
+        var ui = can.page.Append(can, target, [{view: "search", list: [{type: "input", data: {placeholder: "search"}, onkeydown: function(event) {
             can.onkeypop.input(event, can); switch (event.key) {
                 case "Enter": can.run(event, ["search", "Search.onimport.select", "*", event.target.value]); break
             }
-        }, onfocus: function(event) {
-            can.onmotion.resize(can, event.target, 240, 10)
-        }, onmouseenter: function(event) {
-            can.onmotion.resize(can, event.target, 240, 10)
-        }, onmouseleave: function(event) {
-            can.onmotion.resize(can, event.target, 120, 5)
-        }, onblur: function(event) {
-            can.onmotion.resize(can, event.target, 120, 5)
-        },
-        }] }]).input)
+        }}] }]); can.onmotion.autosize(can, ui.input, 240, 120)
+        can.user.isMobile && can.page.Modify(can, ui.first, {style: {float: "right"}})
+    },
+    _background: function(can, msg) {
+        !can.user.isLocalFile && can.onlayout.background(can, msg.Option("background"), document.body)
+    },
+    _daemon: function(can, msg, target) {
+        can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")||""}, function(event, msg, cmd, arg) { if (!msg) { return }
+            can.run(event, ["search"].concat(msg["detail"]||[]), function(msg) {
+                msg.Reply()
+            })
+        })
     },
     _agent: function(can, msg, target) {
         if (can.user.isMobile) {
@@ -81,39 +86,34 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _menu: function(can, msg, target) {
         can.onimport.menu(can, can.user.isMobile||can.user.isExtension||can.user.Search(can, "pod")? ["header", "river"]:
-            ["header", ["setting", "black", "white", "print", "clear", "pack"]], function(event, item) {
+            ["header", ["setting", "black", "white", "print", "pack"]], function(event, item) {
                 can.core.CallFunc([can.onaction, item], [event, can, item])
             })
     },
 
-    _daemon: function(can, msg, target) {
-        can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")||""}, function(event, msg, cmd, arg) { if (!msg) { return }
-            can.run(event, ["search"].concat(msg["detail"]||[]), function(msg) {
-                msg.Reply()
-            })
-        })
-    },
     _weixin: function(can, msg) { can.run({}, ["action", "agent"], function(msg) {
-        can.require(["https://res.wx.qq.com/open/js/jweixin-1.6.0.js"], function(can) {
-            wx.config({debug: msg.Option("debug") == "true", jsApiList: can.core.Item({
-                scanQRCode: function(cb) { wx.scanQRCode({needResult: cb? 1: 0, scanType: ["qrCode","barCode"], success: function (res) {
-                    typeof cb == "function" && cb(res.resultStr)
-                } }) },
-                getLocation: function(cb) { wx.getLocation({type: "gcj02", success: function (res) {
-                    typeof cb == "function" && cb({type: "gcj02", name: "当前位置", text: "当前位置", latitude: parseInt(res.latitude*100000), longitude: parseInt(res.longitude*100000) })
-                } }) },
-                openLocation: function(msg) { wx.openLocation({
-                    latitude: parseInt(msg.Option("latitude"))/100000,
-                    longitude: parseInt(msg.Option("longitude"))/100000,
-                    name: msg.Option("name"), address: msg.Option("text"),
-                    scale: msg.Option("scale")||14, infoUrl: msg.Option("link"),
-                }) },
-                chooseImage: function(cb, count) { wx.chooseImage({count: count||9, sizeType: ['original', 'compressed'], sourceType: ['album', 'camera'], success: function (res) {
-                    typeof cb == "function" && cb(res.localIds)
-                } }) },
-            }, function(key, value) { return can.user.agent[key] = value, key }),
-                nonceStr: msg.Option("noncestr"), timestamp: msg.Option("timestamp"),
+        can.require(can.base.Obj(msg.Option("script")), function(can) {
+            wx.config({debug: msg.Option("debug") == "true",
                 appId: msg.Option("appid"), signature: msg.Option("signature"),
+                nonceStr: msg.Option("noncestr"), timestamp: msg.Option("timestamp"),
+
+                jsApiList: can.core.Item({
+                    scanQRCode: function(cb) { wx.scanQRCode({needResult: cb? 1: 0, scanType: ["qrCode","barCode"], success: function (res) {
+                        typeof cb == "function" && cb(res.resultStr)
+                    } }) },
+                    getLocation: function(cb) { wx.getLocation({type: "gcj02", success: function (res) {
+                        typeof cb == "function" && cb({type: "gcj02", name: "当前位置", text: "当前位置", latitude: parseInt(res.latitude*100000), longitude: parseInt(res.longitude*100000) })
+                    } }) },
+                    openLocation: function(msg) { wx.openLocation({
+                        latitude: parseInt(msg.Option("latitude"))/100000,
+                        longitude: parseInt(msg.Option("longitude"))/100000,
+                        name: msg.Option("name"), address: msg.Option("text"),
+                        scale: msg.Option("scale")||14, infoUrl: msg.Option("link"),
+                    }) },
+                    chooseImage: function(cb, count) { wx.chooseImage({count: count||9, sizeType: ['original', 'compressed'], sourceType: ['album', 'camera'], success: function (res) {
+                        typeof cb == "function" && cb(res.localIds)
+                    } }) },
+                }, function(key, value) { return can.user.agent[key] = value, key }),
             })
         }) })
     },
@@ -125,16 +125,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     time: function(can, target) { can.onlayout.topic(can)
         target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
     },
-    background: function(event, can, url) {
-        can.run(event, ["action", "background", url], function(msg) {
-            can.onimport._background(can, msg)
-        })
-    },
     menu: function(can, cmds, cb) { // type item...
         return can.page.Append(can, can._output, [{type: cmds[0], list: can.core.List(cmds.slice(1), function(item) {
-            if (!item) {
-
-            } else if (typeof item == "string") {
+            if (typeof item == "string") {
                 return {view: ["menu", "div", item], onclick: function(event) {
                     typeof cb == "function" && cb(event, item)
                 }}
@@ -149,19 +142,25 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         }) }]).first
     },
+    background: function(event, can, url) {
+        can.run(event, ["action", "background", url], function(msg) {
+            can.onimport._background(can, msg)
+        })
+    },
 })
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
         function init() { can.run({}, [], function(msg) {
             can.Conf("username", msg.Option("user.nick")||msg.Option("user.name"))
+
             can.onimport._init(can, msg, list, function(msg) {
                 can.onengine.listen(can, "storm.select", function(msg, river, storm) {
                     can.Conf("river", river), can.Conf("storm", storm)
                 })
 
-                can.run(msg._event, ["search", "Search.onaction._init"])
+                can.run(msg._event, ["search", "Footer.onaction._init"])
                 can.run(msg._event, ["search", "Action.onaction._init"])
                 can.run(msg._event, ["search", "River.onaction._init"])
-                can.run(msg._event, ["search", "Footer.onaction._init"])
+                can.run(msg._event, ["search", "Search.onaction._init"])
                 typeof cb == "function" && cb(msg)
             }, can._output)
 
@@ -175,13 +174,6 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
 
         can.onlayout.topic(can)
         can.user.isLocalFile? init(): can.run({}, ["check"], function(msg) {
-            if (can.user.Search(can, "auth")) {
-                if (can.user.confirm("auth "+can.user.Search(can, "auth"))) {
-                    can.run(event, ["action", "auth", "space", can.user.Search(can, "auth")])
-                }
-                can.user.Search(can, "auth", "")
-                return
-            }
             msg.Result()? init(): msg.Option("sso")? can.user.jumps(msg.Option("sso")): can.user.login(can, init)
         })
     },
@@ -192,28 +184,16 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         })
         can.user.jumps(can.user.MergeURL(can, args, true))
     },
-    username: function(event, can) {
-        can.onaction.carte(event, can, ["shareuser", "usernick", "logout"])
+    carte: function(event, can, list, cb) {
+        can.menu && can.page.Remove(can, can.menu.first)
+        can.menu = can.user.carte(event, can, can.onaction, list, cb)
+        can.page.Modify(can, can.menu.first, {style: {top: can._target.offsetHeight, left: event.target.offsetLeft}})
+        return can.menu
     },
-    shareuser: function(event, can) {
-        can.user.share(can, can.request(event), ["action", "share", "type", "login"])
-    },
-    usernick: function(event, can) {
-        can.user.input(event, can, [{_input: "text", name: "usernick", value: can.Conf("username")}], function(ev, button, data, list, args) {
-            can.run(event, ["usernick", list[0]], function(msg) {
-                can.page.Select(can, can._output, "div.username", function(item) {
-                    can.page.Modify(can, item, can.Conf("username", list[0]))
-                }), can.user.toast(can, "修改成功")
-            }, true)
-        })
-    },
-    logout: function(event, can) { can.user.logout(can) },
-
     river: function(event, can) { can.onaction.River(can) },
     black: function(event, can, button) { can.onlayout.topic(can, button) },
     white: function(event, can, button) { can.onlayout.topic(can, button) },
     print: function(event, can, button) { can.onlayout.topic(can, "white print") },
-    clear: function(event, can, button) { can.onimport.background(event, can, "") },
     pack: function(event, can) {
         can.user.input(event, can, [
             {_input: "text", name: "name", value: "demo"},
@@ -232,11 +212,25 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             })
         })
     },
-    carte: function(event, can, list, cb) {
-        can.menu && can.page.Remove(can, can.menu.first)
-        can.menu = can.user.carte(event, can, can.onaction, list, cb)
-        can.page.Modify(can, can.menu.first, {style: {top: can._target.offsetHeight, left: event.target.offsetLeft}})
+
+    username: function(event, can) {
+        can.onaction.carte(event, can, ["shareuser", "usernick", "clear", "logout"])
+        can.onlayout.figure(event, can, can.menu.first)
     },
+    shareuser: function(event, can) {
+        can.user.share(can, can.request(event), ["action", "share", "type", "login"])
+    },
+    usernick: function(event, can) {
+        can.user.input(event, can, [{_input: "text", name: "usernick", value: can.Conf("username")}], function(ev, button, data, list, args) {
+            can.run(event, ["usernick", list[0]], function(msg) {
+                can.page.Select(can, can._output, "div.username", function(item) {
+                    can.page.Modify(can, item, can.Conf("username", list[0]))
+                }), can.user.toast(can, "修改成功")
+            }, true)
+        })
+    },
+    clear: function(event, can, button) { can.onimport.background(event, can, "") },
+    logout: function(event, can) { can.user.logout(can) },
 
     River: function(can) { can.run({}, ["search", "River.onmotion.toggle"]) },
     Footer: function(can) { can.run({}, ["search", "River.onmotion.autosize"]) },
