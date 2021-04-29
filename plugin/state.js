@@ -62,7 +62,14 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
 
     scanQRCode: function(event, can, cmd) {
         can.user.agent.scanQRCode(function(text) { var cmds = ["action", cmd]
-            can.core.Item(can.base.parseJSON(text), function(key, value) { cmds.push(key, value) })
+            var data = can.base.parseJSON(text)
+            can.core.Item(data, function(key, value) { cmds.push(key, value) })
+            if (data["auth"]) {
+                if (can.user.confirm("auth "+data["auth"])) {
+                    can.run(event, ["action", "auth", "space", data["auth"]])
+                }
+                return
+            }
             can.run(event, cmds, function(msg) { can.user.toast(can, "添加成功"), can.run() }, true)
         }, can)
     },

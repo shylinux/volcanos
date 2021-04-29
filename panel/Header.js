@@ -10,6 +10,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             "clear": "清除背景",
             "pack": "打包页面",
 
+            "shareuser": "共享用户",
             "usernick": "修改昵称",
             "logout": "退出登录",
         }
@@ -178,7 +179,8 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
                 if (can.user.confirm("auth "+can.user.Search(can, "auth"))) {
                     can.run(event, ["action", "auth", "space", can.user.Search(can, "auth")])
                 }
-                debugger
+                can.user.Search(can, "auth", "")
+                return
             }
             msg.Result()? init(): msg.Option("sso")? can.user.jumps(msg.Option("sso")): can.user.login(can, init)
         })
@@ -191,7 +193,10 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         can.user.jumps(can.user.MergeURL(can, args, true))
     },
     username: function(event, can) {
-        can.onaction.carte(event, can, ["usernick", "logout"])
+        can.onaction.carte(event, can, ["shareuser", "usernick", "logout"])
+    },
+    shareuser: function(event, can) {
+        can.user.share(can, can.request(event), ["action", "share", "type", "login"])
     },
     usernick: function(event, can) {
         can.user.input(event, can, [{_input: "text", name: "usernick", value: can.Conf("username")}], function(ev, button, data, list, args) {

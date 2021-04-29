@@ -50,7 +50,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         can.run({}, ["search", "Header.onimport.menu", "river",
             ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备", "创建空间"],
             !can.user.isMobile && ["访问", "内部系统", "访问应用", "访问工具", "访问用户", "访问设备", "工作任务"],
-            ["共享", "共享群组", "共享应用", "共享工具", "共享用户", "共享设备"],
+            ["共享", "共享群组", "共享应用", "共享工具", "共享设备"],
         ], function(event, item) {
             can.core.CallFunc([can.ondetail, item], [event, can, item, can.Conf("river"), can.Conf("storm")])
         })
@@ -233,13 +233,6 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         can.user.select(event, can, "task", "time,zone,id,type,name,text")
     },
 
-    "共享用户": function(event, can, button, river, storm) {
-        can.user.input(event, can, [
-            {_input: "text", name: "name", value: river},
-        ], function(event, button, meta, list) {
-            can.user.share(can, can.request(event), [river, "action", "share", "type", "login"])
-        })
-    },
     "共享设备": function(event, can, button, river, storm) {
         can.run(event, ["action", "invite"], function(msg) {
             var toast = can.user.toast(can, {
