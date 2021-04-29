@@ -174,8 +174,8 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
 
         can.onlayout.topic(can)
         can.user.isLocalFile? init(): can.run({}, ["check"], function(msg) {
-            if (msg.Option("type") == "apply" && msg.Option("name") == "") {
-                if (can.user.confirm("auth "+msg.Option("text"))) {
+            if (msg.Option("type") == "apply" && msg.Option("username") == "") {
+                if (can.user.confirm("auth "+msg.Option("name"))) {
                     can.run(event, ["action", "auth", "share", can.user.Search(can, "share")])
                 }
             }

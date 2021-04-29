@@ -50,7 +50,7 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}}, [], f
                 return // 加载完成
             }
 
-            if (libs && libs[0][0] != "/") {
+            if (libs && libs[0][0] != "/" && libs[0].indexOf("http") == -1) {
                 can._require = can._require||[], can._require.push(libs[0])
                 can.require(libs.slice(1), cb, each) 
                 return

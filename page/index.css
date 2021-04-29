@@ -202,6 +202,9 @@ div.toast {
     padding:5px;
     z-index:100;
 }
+div.toast a {
+    color:yellow;
+}
 div.toast div.title {
     font-size:14px;
     color:#cae850;
