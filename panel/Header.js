@@ -46,7 +46,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
     _state: function(can, msg, target) {
-        can.core.List(can.Conf("state")||["time", "username"], function(item) {
+        can.core.List(can.base.Obj(msg.Option("state"), can.Conf("state")||["time", "username"]), function(item) {
+            if (item == "avatar") {
+                can.page.Append(can, target, [{view: ["state "+item], list: [{img: can.Conf(item), onmouseenter: function(event) {
+                    can.onaction.carte(event, can, [can.page.Format("img", can.Conf(item), 160)])
+                }}]}])
+                return
+            }
+
             can.page.Append(can, target, [{view: ["state "+item, "div", (can.Conf(item)||"").slice(0, 10)], onmouseenter: function(event) {
                 can.core.CallFunc([can.onaction, item], [event, can, item])
             }, _init: function(target) {
@@ -61,6 +68,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         }}] }]); can.onmotion.autosize(can, ui.input, 240, 120)
         can.user.isMobile && can.page.Modify(can, ui.first, {style: {float: "right"}})
+    },
+    _avatar: function(can, msg) {
+        !can.user.isLocalFile && can.page.Modify(can, "div.output div.state.avatar>img", {src: can.Conf("avatar", msg.Option("avatar"))})
     },
     _background: function(can, msg) {
         !can.user.isLocalFile && can.onlayout.background(can, msg.Option("background"), document.body)
@@ -142,6 +152,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         }) }]).first
     },
+    avatar: function(event, can, url) {
+        can.run(event, ["action", "avatar", url], function(msg) {
+            can.onimport._avatar(can, msg)
+        })
+    },
     background: function(event, can, url) {
         can.run(event, ["action", "background", url], function(msg) {
             can.onimport._background(can, msg)
@@ -151,6 +166,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
         function init() { can.run({}, [], function(msg) {
             can.Conf("username", msg.Option("user.nick")||msg.Option("user.name"))
+            can.Conf("background", msg.Option("background"))
+            can.Conf("avatar", msg.Option("avatar"))
 
             can.onimport._init(can, msg, list, function(msg) {
                 can.onengine.listen(can, "storm.select", function(msg, river, storm) {

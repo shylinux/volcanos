@@ -33,6 +33,9 @@ fieldset.Header>div.output>div.menus {
 fieldset.Header>div.output>div.state {
     float:right;
 }
+fieldset.Header>div.output>div.state.avatar>img {
+    height:22px;
+}
 
 fieldset.Header>div.output div.menu {
     height:21px; padding:5px;

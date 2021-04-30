@@ -232,7 +232,7 @@ div.carte {
     color:white;
     padding:4px;
     z-index:10;
-    min-width:120px;
+    min-width:80px;
 }
 div.carte div.item {
     padding:3px 12px;
