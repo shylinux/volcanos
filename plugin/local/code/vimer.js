@@ -3,7 +3,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.onimport.inner_init(can, msg, list, function() {
                 can.onimport._input(can), can.onimport._output(can)
                 can.keylist = [], can.onkeymap._init(can, "insert")
-                typeof cb == "function" && cb(msg)
+                can.base.isFunc(cb) && cb(msg)
             }, target)
         }, function(can, name, sub) {
             sub._name == "onimport" && (can.onimport.inner_init = sub._init)
@@ -116,12 +116,12 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         }
 
         var p = can.onsyntax[can.parse]
-        var cb = (p && p.keymap || can.onkeymap[can.mode])[event.key]; if (typeof cb == "function") {
+        var cb = (p && p.keymap || can.onkeymap[can.mode])[event.key]; if (can.base.isFunc(cb)) {
             return repeat(cb, can.count)
         }
 
         var map = can.onkeymap[can.mode]._engine; for (var i = can.keylist.length-1; i > pre-1; i--) {
-            var cb = map[can.keylist[i]]; if (typeof cb == "function") {
+            var cb = map[can.keylist[i]]; if (can.base.isFunc(cb)) {
                 return repeat(cb, can.count)
             }; if (typeof cb == "object") { map = cb; continue }; break
         }
@@ -137,7 +137,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
 
             can.onmotion.clear(can, can.ui.output)
             var ls = can.core.Split(line, " ", ",")
-            var cb = can.onkeymap._engine[ls[0]]; if (typeof cb == "function") {
+            var cb = can.onkeymap._engine[ls[0]]; if (can.base.isFunc(cb)) {
                 can.onmotion.hidden(can, can.ui.display)
                 can.onkeymap._normal(can)
                 cb(event, can, line, ls)

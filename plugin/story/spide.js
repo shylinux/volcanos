@@ -1,16 +1,17 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.onmotion.clear(can)
-        typeof cb == "function" && cb(msg)
+        can.base.isFunc(cb) && cb(msg)
         if (msg.Option("branch")) { return can.onappend.table(can, msg) }
 
         can.dir_root = msg.Option("dir_root")
         can._tree = can.onimport._tree(can, msg.Table(), "path", "/")
+        if (!can._tree[""]) { return }
         can._tree[""].name = can.dir_root.split("/").pop()
 
         can.size = 30, can.margin = 30
         can.onappend.plugins(can, {index: "web.wiki.draw"}, function(sub) {
             sub.run = function(event, cmds, cb) { sub.Action("go", "run")
-                typeof cb == "function" && cb(sub.request())
+                can.base.isFunc(cb) && cb(sub.request())
 
                 can.core.Timer(100, function() { can.draw = sub._outputs[0]
                     can.draw.onmotion.hidden(can.draw, can.draw.ui.project)
@@ -82,7 +83,7 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", ["view", "横向", 
         if (x+tree.width > can.width) { can.width = x+tree.width }
 
         can.core.Item(can.ondetail, function(key, value) {
-            if (key.indexOf("on") == 0 && typeof value == "function") {
+            if (key.indexOf("on") == 0 && can.base.isFunc(value)) {
                 tree.view[key] = function(event) { value(event, can, tree) }
             }
         })

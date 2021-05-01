@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.onmotion.clear(can, target)
         can.ui = can.onlayout.profile(can)
-        typeof cb == "function" && cb(msg)
+        can.base.isFunc(cb) && cb(msg)
         can.onmotion.hidden(can, can._action)
         can.onimport[can.Option("scale")||"week"](can, msg)
         can.page.Modify(can, can.ui.profile, {style: {display: "block"}})
@@ -88,7 +88,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             sub.run = function(event, cmds, cb) {
                 var msg = can.request(event, {"task.zone": task.zone, "task.id": task.id})
                 can.run(event, ["action", "command", "run", meta.index].concat(cmds), function(msg) {
-                    typeof cb == "function" && cb(msg)
+                    can.base.isFunc(cb) && cb(msg)
                 }, true)
             }
         }, can.ui.display)

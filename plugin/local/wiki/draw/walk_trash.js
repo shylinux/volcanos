@@ -14,7 +14,7 @@ Volcanos("onimport", {help: "导入数据", list: [],
                 case "TR":
                 case "TABLE":
             }}
-            return typeof cb == "function" && cb(msg), table;
+            return can.base.isFunc(cb) && cb(msg), table;
         }
 
         // can.page.Append(can, action, [{type: "script", src: "https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts.js"}]);

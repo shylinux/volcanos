@@ -1,6 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.onmotion.clear(can)
-        typeof cb == "function" && cb(msg)
+        can.base.isFunc(cb) && cb(msg)
         if (msg.Length() > 0) { return can.onappend.table(can, msg) }
 
         can.page.Modify(can, target, msg.Result())

@@ -11,7 +11,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, can.ui.content)
 
         can.onappend.board(can, msg.Result(), can.ui.display)
-        typeof cb == "function" && cb(msg)
+        can.base.isFunc(cb) && cb(msg)
     },
 })
 Volcanos("onaction", {help: "操作数据", list: [], _init: function(can, msg, list, cb, target) {

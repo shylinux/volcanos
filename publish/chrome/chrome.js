@@ -5,7 +5,7 @@ Volcanos("chrome", {
                 can.core.List(wins, function(win) { win.wid = win.id
                     msg.Push(win, ["wid", "state", "left", "top", "width", "height"])
                 })
-                typeof cb == "function" && cb(msg)
+                can.base.isFunc(cb) && cb(msg)
             })
             return
         }
@@ -14,7 +14,7 @@ Volcanos("chrome", {
                 can.core.List(tabs, function(tab) { tab.tid = tab.id
                     msg.Push(tab, ["tid", "active", "width", "height", "index", "title", "url"])
                 })
-                typeof cb == "function" && cb(msg)
+                can.base.isFunc(cb) && cb(msg)
             })
             return
         }
@@ -22,12 +22,12 @@ Volcanos("chrome", {
         if (cmds[1] == "") { // 当前标签
             chrome.tabs.query({currentWindow: true, active: true}, function(tabs) { cmds[1] = tabs[0].id
                 chrome.tabs.sendMessage(parseInt(cmds[1]), msg, function(res) {
-                    msg.Copy(res), typeof cb == "function" && cb(msg)
+                    msg.Copy(res), can.base.isFunc(cb) && cb(msg)
                 })
             })
         } else {
             chrome.tabs.sendMessage(parseInt(cmds[1]), msg, function(res) {
-                msg.Copy(res), typeof cb == "function" && cb(msg)
+                msg.Copy(res), can.base.isFunc(cb) && cb(msg)
             })
         }
     },
@@ -38,7 +38,7 @@ Volcanos("chrome", {
                 msg.Push(labs[i], ["pid", "id", "index", "title", "url"])
                 labs = labs.concat(labs[i].children||[])
             }
-            typeof cb == "function" && cb(msg)
+            can.base.isFunc(cb) && cb(msg)
         })
     },
 }, ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], function(can) {

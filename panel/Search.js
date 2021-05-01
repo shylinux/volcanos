@@ -9,17 +9,17 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 }
             }]},
             {view: "content"}, {view: ["display", "table"]}, {view: "preview"},
-        ]), typeof cb == "function" && cb(msg)
+        ]), can.base.isFunc(cb) && cb(msg)
         can.page.ClassList.add(can, can.ui.display, "content")
     },
     _table: function(can, msg, fields) { can.onmotion.clear(can, can.ui.content)
         var table = can.onappend.table(can, msg, function(value, key, index, line) { can.Status("count", index+1)
-            return {text: [key == "text" && typeof line.text == "function" && line.text.help || value, "td"], onclick: function(event) {
+            return {text: [key == "text" && can.base.isFunc(line.text) && line.text.help || value, "td"], onclick: function(event) {
                 if (event.shiftKey) { event.stopPropagation(), event.preventDefault()
                     return can.onappend.plugin(can, {index: line.ctx? line.ctx+"."+line.cmd: msg.Option("index"), option: line}, function(sub, meta) {
                         sub.run = function(event, cmds, cb) { var msg = can.request(event, line)
                             can.run(event, ["action", "command", "run", meta.index].concat(cmds), function(msg) {
-                                typeof cb == "function" && cb(msg)
+                                can.base.isFunc(cb) && cb(msg)
                             })
                         }
                     }, can.ui.preview)
@@ -48,7 +48,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     select: function(can, msg, cmds, cb) { can.ui.word.value = cmds[1]
         var fields = (cmds[2]||msg.Option("fields")||"ctx,cmd,type,name,text").split(",")
         can.page.Appends(can, can.ui.display, [{th: fields}]), can.cb = function() {
-            typeof cb == "function" && cb(can.onexport.select(can)), can.onmotion.hide(can)
+            can.base.isFunc(cb) && cb(can.onexport.select(can)), can.onmotion.hide(can)
         }
 
         can.input = function(event, word) { cmds[1] = word
@@ -69,12 +69,12 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
     },
     "关闭": function(event, can) { can.onmotion.hide(can) },
     "清空": function(event, can) { can.onmotion.clear(can, can.ui.display),  can.onmotion.clear(can, can.ui.preview) },
-    "完成": function(event, can) { typeof can.cb == "function" && can.cb() },
+    "完成": function(event, can) { can.base.isFunc(can.cb) && can.cb() },
 
     select: function(event, can, index) {
         if (can.list && can.list[index]) {
             var text = can.list[index].text || ""
-            if (typeof text == "function") {
+            if (can.base.isFunc(text)) {
                 can.list[index].text(event)
             } else { var line = can.list[index]
                 var fields = can.page.Select(can, can.ui.display, "th", function(item) { return item.innerText })

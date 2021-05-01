@@ -3,7 +3,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._title(can, msg, target)
         can.onimport._toast(can, msg, target)
         can.onimport._state(can, msg, target)
-        typeof cb == "function" && cb(msg)
+        can.base.isFunc(cb) && cb(msg)
     },
     _title: function(can, msg, target) {
         can.user.isMobile || can.core.List(msg.result, function(title) {

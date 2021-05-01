@@ -1,6 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb) {
         can.ui = can.onlayout.display(can)
-        typeof cb == "function" && cb(msg)
+        can.base.isFunc(cb) && cb(msg)
 
         can.table = can.onappend.table(can, msg, function(value, key, index, line) {
             return {text: [value, "td"], oncontextmenu: function(event) {

@@ -7,7 +7,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onmotion.hidden(can, can._action)
         can.ui = can.onlayout.display(can, target)
         can.onappend.table(can, can.path, null, can.ui.content)
-        typeof cb == "function" && cb(msg)
+        can.base.isFunc(cb) && cb(msg)
 
         var feature = can.Conf("feature") || {}
         can.Action("倍速", can.rate = parseInt(msg.Option("rate"))||feature["rate"]||1)
@@ -25,7 +25,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     file: function(can, path, index) { path = can.onimport._file(can, path, index)
         var cb = can.onfigure[can.base.Ext(path)]; can.Status("file", path)
-        typeof cb == "function" && can.page.Append(can, can.ui.content, [cb(can, path, index)])
+        can.base.isFunc(cb) && can.page.Append(can, can.ui.content, [cb(can, path, index)])
     },
 }, ["/plugin/local/wiki/feel.css"])
 Volcanos("onfigure", {help: "组件菜单", list: [],

@@ -213,7 +213,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 })
                 can.onappend._init(can, meta, list, function(sub) {
                     can.core.Timer(10, function() { for (var k in sub._inputs) { sub._inputs[k]._target.focus(); break } })
-                    typeof cb == "function" && cb(sub)
+                    can.base.isFunc(cb) && cb(sub)
                 }, target)
             },
             Pack: function(cmds, slient) {
@@ -231,7 +231,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             sub.page.ClassList.add(sub, field, meta.style||meta.feature.style||"")
             sub.page.ClassList.add(sub, field, meta.index? meta.index.split(".").pop(): meta.name)
 
-            typeof cb == "function" && cb(sub)
+            can.base.isFunc(cb) && cb(sub)
             meta.option = can.base.Obj(meta.option||"{}", {})
             meta.inputs && sub.onappend._option(sub, meta, sub._option)
         }); return sub
@@ -308,7 +308,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")
                     if (can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
                     if (can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
-                    typeof cb == "function" && cb(msg)
+                    can.base.isFunc(cb) && cb(msg)
                 })
             })
             return
@@ -317,7 +317,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")
             if (can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
             if (can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
-            typeof cb == "function" && cb(msg)
+            can.base.isFunc(cb) && cb(msg)
             if (silent) { return }
 
             var display = msg.Option("_display") || meta.display || meta.feature.display || "/plugin/table.js"
@@ -380,7 +380,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split)
 
                 node[name] || (node[name] = can.page.Append(can, node[last], [{view: ["item", "div", value+(index==array.length-1?"":split)], onclick: function(event) {
-                    index < array.length - 1? can.onmotion.toggle(can, node[name]): typeof cb == "function" && cb(event, item)
+                    index < array.length - 1? can.onmotion.toggle(can, node[name]): can.base.isFunc(cb) && cb(event, item)
                 }}, {view: "list", style: {display: "none"}}]).last)
             })
         }); return node
@@ -506,7 +506,13 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
         can.onappend._init(can, meta, ["/plugin/state.js"], function(sub) {
             meta.type == "story" && sub.page.Remove(sub, sub._legend)
-            typeof cb == "function" && cb(sub, meta)
+            can.base.isFunc(cb) && cb(sub, meta)
+            sub._legend.onclick = function(event) {
+                var list = can.page.Select(can, sub._option, '.args', function(item) { return item.value||"" })
+                can.user.share(can, can.request(event), ["action", "share", "type", "field",
+                    "text", JSON.stringify(list),
+                    "river", meta.ctx||meta.key||"", "storm", meta.index||meta.cmd||meta.name])
+            }
         }, target||can._output)
     },
     plugin: function(can, meta, cb, target) { meta = meta || {}
@@ -521,7 +527,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             sub.onmotion.hidden(sub, sub._option)
             sub.onmotion.hidden(sub, sub._action)
             sub.onmotion.hidden(sub, sub._status)
-            typeof cb == "function" && cb(sub)
+            can.base.isFunc(cb) && cb(sub)
         }, target)
     },
 }, [], function(can) {})
@@ -577,7 +583,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
     resize: function(can, name, cb) {
         var list = []; can.onengine.listen(can, name, function(width, height) {
             can.Conf({width: width, height: height}), can.core.Delay(list, 100, function() {
-                typeof cb == "function" && cb(event)
+                can.base.isFunc(cb) && cb(event)
             })
         })
     },
@@ -649,10 +655,10 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
         }
 
         var map = can.onkeypop._mode[mode]
-        var cb = map && map[event.key]; if (typeof cb == "function" && event.key.length > 1) {
+        var cb = map && map[event.key]; if (can.base.isFunc(cb) && event.key.length > 1) {
             repeat(cb, count); return list
         }
-        var cb = map && map[event.key.toLowerCase()]; if (typeof cb == "function" && event.key.length > 1) {
+        var cb = map && map[event.key.toLowerCase()]; if (can.base.isFunc(cb) && event.key.length > 1) {
             repeat(cb, count); return list
         }
 
@@ -797,7 +803,7 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
             can.page.Modify(can, target, {style: {opacity: 1-(index+1)/time.length}})
         }, function() {
             can.page.Modify(can, target, {style: {display: "none"}})
-            typeof cb == "function" && cb
+            can.base.isFunc(cb) && cb()
         })
     },
 
@@ -883,7 +889,7 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
         can.page.Select(can, target, "div.output", function(item, index) {
             index == 0 && (item.style.height = "")
         }), target.style.height = ""
-        typeof cb == "function" && cb(msg)
+        can.base.isFunc(cb) && cb(msg)
     },
 
     move: function(can, target, layout) { var begin

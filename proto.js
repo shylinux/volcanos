@@ -64,8 +64,13 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}}, [], f
             event._msg = event._msg || can.misc.Message(event, can)
 
             can.core.List(arguments, function(option, index) {
-                index > 0 && can.core.Item(typeof option == "function"? option(): option, event._msg.Option)
+                index > 0 && can.core.Item(can.base.isFunc(option)? option(): option, event._msg.Option)
             }); return event._msg
+        },
+        const: function() {
+            can.core.List(arguments, function(v) {
+                can["_"+v.toUpperCase()] = v
+            })
         },
         Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},
     }; can = can || {}; for (var k in proto) { can.hasOwnProperty(k) || (can[k] = proto[k]) }

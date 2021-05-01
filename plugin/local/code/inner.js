@@ -11,7 +11,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
 
         can.onimport.tabview(can, msg.Option("path"), msg.Option("file"), msg.Option("line")||1)
         can.onimport.project(can, msg.Option("path"))
-        typeof cb == "function" && cb(msg)
+        can.base.isFunc(cb) && cb(msg)
     },
     _content: function(can, target) {
         var height = can.Conf("height")-320; height < 240 && (height = 240)
@@ -54,7 +54,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                 } }
 
                 can.run(event, ["action", "favor"].concat(cmds), function(msg) {
-                    typeof cb == "function" && cb(msg)
+                    can.base.isFunc(cb) && cb(msg)
                     can.core.Timer(10, function() {
                         can.onappend._action(sub, ["关闭"], sub._action, {
                             "关闭": function(event) { can.onmotion.hidden(sub, sub._target) },
@@ -83,7 +83,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
 
             can.Option({path: path, file: file, line: line||parseInt(can._msg.Option("line"))||1})
             can._msg.Option("line", can.Option("line"))
-            return can.onsyntax._init(can, can._msg), typeof cb == "function" && cb()
+            return can.onsyntax._init(can, can._msg), can.base.isFunc(cb) && cb()
         }
 
         can.run({}, [path, file], function(msg) {

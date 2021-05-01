@@ -51,9 +51,9 @@ module.exports = {
     },
     List: function(list, cb, cbs) {var res = [], val;
         for (var i = 0; i < list.length; i++) {
-            typeof cb == "function"? (val = cb(list[i], i, list)) != undefined && res.push(val): res.push(list[i])
+            can.base.isFunc(cb)? (val = cb(list[i], i, list)) != undefined && res.push(val): res.push(list[i])
         }
-        return typeof cbs == "function" && cbs(res), res
+        return can.base.isFunc(cbs) && cbs(res), res
     },
     Item: function(list, cb, cbs) {
         for (var k in list) { cb(k, list[k]) }
@@ -93,10 +93,10 @@ module.exports = {
         interval = typeof interval == "object"? interval || []: [interval]
         var timer = {stop: false}; function loop(timer, i) {
             if (timer.stop || i >= interval.length && interval.length >= 0) {
-                return typeof cbs == "function" && cbs(timer, interval)
+                return can.base.isFunc(cbs) && cbs(timer, interval)
             }
-            return typeof cb == "function" && cb(timer, interval.interval||interval[i], i, interval)?
-                typeof cbs == "function" && cbs(timer, interval): setTimeout(function() { loop(timer, i+1) }, interval.interval||interval[i+1])
+            return can.base.isFunc(cb) && cb(timer, interval.interval||interval[i], i, interval)?
+                can.base.isFunc(cbs) && cbs(timer, interval): setTimeout(function() { loop(timer, i+1) }, interval.interval||interval[i+1])
         }
         setTimeout(function() { loop(timer, 0) }, interval.interval||interval[0])
         return timer

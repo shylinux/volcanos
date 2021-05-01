@@ -3,7 +3,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onkeypop._build(can)
         can.onmotion.hidden(can, can._action)
         can.ui = can.onlayout.profile(can)
-        typeof cb == "function" && cb(msg)
+        can.base.isFunc(cb) && cb(msg)
 
         // 交互数据
         can.svg = null, can.group = null
@@ -50,7 +50,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
             var figure = can.onfigure._get(can, target)
             key = figure && figure.data && figure.data.size && figure.data.size[key] || key
-            if (figure && figure.data && typeof figure.data[key] == "function") {
+            if (figure && figure.data && can.base.isFunc(figure.data[key])) {
                 return figure.data[key](can, value, key, target)
             }
 

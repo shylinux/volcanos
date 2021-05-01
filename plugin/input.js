@@ -2,7 +2,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta,
     },
 })
 Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta, list, cb, target) {
-        typeof cb == "function" && cb(); switch (meta.type) {
+        can.base.isFunc(cb) && cb(); switch (meta.type) {
             case "textarea":
             case "text":
                 !target.placeholder && (target.placeholder = can.user.trans(can, meta.name) || "")

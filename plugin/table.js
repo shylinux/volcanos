@@ -1,9 +1,9 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        if (can.sup.onimport._process(can.sup, msg)) { return typeof cb == "function" && cb(can, msg) }
-        if (can.onimport._process(can, msg)) { return typeof cb == "function" && cb(can, msg) }
+        if (can.sup.onimport._process(can.sup, msg)) { return can.base.isFunc(cb) && cb(can, msg) }
+        if (can.onimport._process(can, msg)) { return can.base.isFunc(cb) && cb(can, msg) }
 
         can.onmotion.clear(can)
-        typeof cb == "function" && cb(msg)
+        can.base.isFunc(cb) && cb(msg)
 
         can.page.Append(can, target, [can.onimport._control(can, msg)])
         can.onappend.table(can, msg, function(value, key, index, line, array) {
@@ -32,7 +32,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
     _process: function(can, msg) {
         var cb = can.onimport[msg.Option("_process")]
-        return typeof cb == "function" && cb(can, msg)
+        return can.base.isFunc(cb) && cb(can, msg)
     },
     _follow: function(can, msg) {
         if (msg.Option("cache.status") == "stop") { return can.user.toast(can, msg.Option("cache.action")+" done!")}
@@ -64,7 +64,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
     _control: function(can, msg) {
         var cb = can.onimport[msg.Option("_control")]
-        return typeof cb == "function" && cb(can, msg)
+        return can.base.isFunc(cb) && cb(can, msg)
     },
     _page: function(can, msg) { var ui = {}
         return {view: ["control", "div"], list: [
