@@ -105,8 +105,6 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         can.menu && can.page.Remove(can, can.menu.first)
         can.menu = can.user.carte(event, can, can.ondetail, list, cb)
         can.page.Modify(can, can.menu.first, {style: {left: can._target.offsetWidth, top:  event.target.offsetTop+60-can._output.scrollTop}})
-
-        // can.onmotion.downward(can, can.menu.first, can._target.offsetHeight, 10-list.length)
     },
 
     "创建": function(event, can) { can.onaction.create(event, can) },
