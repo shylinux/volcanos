@@ -31,9 +31,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 
     _process: function(can, msg) {
-        var cb = can.onimport[msg.Option("_process")]
-        return can.base.isFunc(cb) && cb(can, msg)
+        return can.core.CallFunc([can.onimport, msg.Option("_process")], [can, msg])
     },
+
     _follow: function(can, msg) {
         if (msg.Option("cache.status") == "stop") { return can.user.toast(can, msg.Option("cache.action")+" done!")}
 

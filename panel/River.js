@@ -1,4 +1,17 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+        can.base.isFunc(cb) && cb(msg)
+        can.onmotion.clear(can), can.sublist = {}
+        if (msg.Option("sess.river") == "_share") { return can.onmotion.hide(can) }
+
+        can.onimport._main(can, msg)
+        can.onimport._menu(can, msg)
+
+        var select; msg.Table(function(value, index, array) {
+            var item = can.onimport._river(can, value)
+            if (index == 0 || [value.hash, value.name].indexOf(can._main_river) > -1) { select = item }
+        }), select && select.click()
+    },
+    _main: function(can, msg) {
         can._main_river = "project", can._main_storm = "studio"
         if (can.user.isExtension) { can._main_river = "product", can._main_storm = "chrome" }
         if (can.user.isMobile) { can._main_river = "product", can._main_storm = "office" }
@@ -7,26 +20,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._main_river = can.user.Search(can, can._RIVER) || msg.Option("sess.river") || Volcanos.meta.args.river || can._main_river
         can._main_storm = can.user.Search(can, can._STORM) || msg.Option("sess.storm") || Volcanos.meta.args.storm || can._main_storm
         can._main_title = can.user.Search(can, can._TITLE) || msg.Option("sess.title") || Volcanos.meta.args.title || can.user.Search(can, "pod") || can._main_title
-
-        can.base.isFunc(cb) && cb(msg)
-        can.onmotion.clear(can), can.sublist = {}
-        if (msg.Option("sess.river") == "_share") { return can.onmotion.hide(can) }
-        can.onimport._menu(can)
-        var select; msg.Table(function(value, index, array) {
-            var view = can.onappend.item(can, "item", value, function(event, item) {
-                // 左键选中
-                can.onaction.storm(event, can, value.hash)
-            }, function(event) {
-                // 右键菜单
-                can.user.carte(event, can, can.ondetail, can.ondetail.list, function(ev, item, meta) {
-                    can.ondetail[item](event, can, item, value.hash)
-                }, {style: {left: can._target.offsetWidth}})
-            }, target)
-
-            if (index == 0 || [value.hash, value.name].indexOf(can._main_river) > -1) { select = view }
-        }), select && select.click()
     },
-    _menu: function(can) {
+    _menu: function(can, msg) {
         can.run({}, [can._SEARCH, "Header.onimport.menu", can._RIVER,
             ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备", "创建空间"],
             !can.user.isMobile && ["访问", "内部系统", "访问应用", "访问工具", "访问用户", "访问设备", "工作任务"],
@@ -34,6 +29,29 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         ], function(event, item) {
             can.core.CallFunc([can.ondetail, item], [event, can, item, can.Conf(can._RIVER), can.Conf(can._STORM)])
         })
+
+        can.page.Modify(can, can._output, {onmouseover: function(event) {
+            can.menu && can.page.Remove(can, can.menu.first)
+        }})
+    },
+
+    _river: function(can, value) {
+        var item = can.onappend.item(can, "item", value, function(event, item) {
+            // 左键选中
+            can.onaction.storm(event, can, value.hash)
+        }, function(event) {
+            // 右键菜单
+            can.user.carte(event, can, can.ondetail, can.ondetail.list, function(ev, item, meta) {
+                can.ondetail[item](event, can, item, value.hash)
+            }, {style: {left: can._target.offsetWidth}})
+        }, can._output)
+
+        can.page.Modify(can, item, {onmouseenter: function(event) {
+            can.menu = can.user.carte(event, can, can.ondetail, can.ondetail.list, function(ev, item, meta) {
+                can.ondetail[item](event, can, item, value.hash)
+            }, {style: {left: can._target.offsetWidth}})
+        }})
+        return item
     },
 })
 Volcanos("onengine", {help: "解析引擎", list: [], engine: function(event, can, msg, panel, cmds, cb) {

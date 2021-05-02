@@ -116,7 +116,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
             "自由布局": "free",
         }
 
-        key = trans[key]||key, can.Conf(LAYOUT, key)
+        key = trans[key]||key, can.Conf(can._LAYOUT, key)
         can.page.Modify(can, can._action, {className: "action "+key})
         can.page.Modify(can, can._output, {className: "output "+key})
 
@@ -158,7 +158,7 @@ Volcanos("onexport", {help: "导出数据", list: [],
         msg.Option(can._WIDTH, can._target.offsetWidth)
         msg.Option(can._HEIGHT, can._target.offsetHeight)
     },
-    layout: function(can, msg) { return can.Conf(LAYOUT) },
+    layout: function(can, msg) { return can.Conf(can._LAYOUT) },
     plugin: function(can, msg, word) {
         var fields = (msg.Option(can._FIELDS)||"ctx,cmd,type,name,text").split(",")
         can.page.Select(can, can._output, "fieldset.plugin>legend", function(item) {

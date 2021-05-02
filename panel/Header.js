@@ -28,7 +28,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._state(can, msg, target)
         can.onimport._search(can, msg, target)
         can.onimport._background(can, msg, target)
-        // can.onimport._daemon(can, msg, target)
+        can.onimport._daemon(can, msg, target)
         can.onimport._agent(can, msg, target)
         can.onimport._menu(can, msg, target)
 
@@ -73,13 +73,22 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         !can.user.isLocalFile && can.page.Modify(can, "div.output div.state.avatar>img", {src: can.Conf(can._AVATAR, msg.Option(can._AVATAR))})
     },
     _background: function(can, msg) {
-        !can.user.isLocalFile && can.onlayout.background(can, msg.Option(can._BACKGROUND), document.body)
+        if (can.user.isLocalFile) { return }
+        if (can.user.isExtension) { return }
+        can.onlayout.background(can, msg.Option(can._BACKGROUND), document.body)
     },
     _daemon: function(can, msg, target) {
         can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")||""}, function(event, msg, cmd, arg) { if (!msg) { return }
-            can.run(event, [can._SEARCH].concat(msg["detail"]||[]), function(msg) {
-                msg.Reply()
-            })
+            switch (cmd) {
+                case "pwd":
+                    can.base.Log(msg)
+                    msg.Reply()
+                    break
+                default:
+                    can.run(event, [can._SEARCH].concat(msg["detail"]||[]), function(msg) {
+                        msg.Reply()
+                    })
+            }
         })
     },
     _agent: function(can, msg, target) {
@@ -233,6 +242,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             var toast = can.user.toast(can, "打包中...", "webpack", 1000000)
             can.run(event, ["webpack"], function(msg) {
                 toast.Close(), can.user.toast(can, "打包成功", "webpack")
+                can.user.download(can, "/share/local/"+msg.Result(), name+".html")
             })
         })
     },

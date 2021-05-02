@@ -13,7 +13,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             var panel = can[meta.main.name], msg = can.request()
             panel.onmotion._init(panel, target), panel.onkeypop._init(panel, target)
             panel.onaction._init(panel, msg, [], cb, panel._target)
-        })
+        }), can.ondaemon._init(can)
     },
     search: function(event, can, msg, panel, cmds, cb) {
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split("."), function(value) {
@@ -33,7 +33,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
     remote: function(event, can, msg, panel, cmds, cb) {
         delete(msg._handle), delete(msg._toast)
         if (panel.onengine.engine(event, can, msg, panel, cmds, cb)) { return }
-        can.misc.Runs(event, can, {names: panel._name}, cmds, cb)
+        can.misc.Runs(event, can, {names: panel._name, daemon: can._daemon}, cmds, cb)
         panel.run(event, ["search", "Footer.onimport.ncmd"])
     }, engine: function(event, can, msg, panel, cmds, cb) { return false },
     listen: shy("事件回调", {}, [], function(can, name, cb) {
@@ -164,6 +164,30 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 "context", "command", "config",
             ]},
         }},
+    },
+})
+Volcanos("ondaemon", {help: "解析引擎", list: [], _init: function(can) {
+        can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")||""}, function(event, msg, cmd, arg) { if (!msg) { return }
+            if (can.base.isFunc(can.ondaemon[cmd])) {
+                can.core.CallFunc(can.ondaemon[cmd], {
+                    "can": can, "msg": msg,
+                    "cmd": cmd, "arg": arg,
+                    "cb": function() { msg.Reply() },
+                })
+            } else {
+                can.onengine.search({}, can, msg, can, ["search", cmd].concat(arg), function() {
+                    msg.Reply()
+                })
+            }
+        })
+    },
+    toast: function(can, msg, arg) { arg[0] = can
+        can._toast && can._toast.Close()
+        can._toast = can.core.CallFunc(can.user.toast, arg)
+    },
+    pwd: function(can, msg, arg) {
+        can.base.Log(msg)
+        can._daemon = arg[0]
     },
 })
 Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) {
@@ -317,7 +341,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")
             if (can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
             if (can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
-            can.base.isFunc(cb) && cb(msg)
+            if (can.base.isFunc(cb) && cb(msg)) { return }
             if (silent) { return }
 
             var display = msg.Option("_display") || meta.display || meta.feature.display || "/plugin/table.js"
@@ -504,14 +528,50 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         meta.height = meta.height||can.Conf("height")
         meta.type = meta.type||"story"
 
+        can.page.Modify(can, can._output, {
+            onmouseover: function(event) {
+                Volcanos.meta.data.menu && can.page.Remove(can, Volcanos.meta.data.menu.first)
+            },
+        })
+
         can.onappend._init(can, meta, ["/plugin/state.js"], function(sub) {
             meta.type == "story" && sub.page.Remove(sub, sub._legend)
             can.base.isFunc(cb) && cb(sub, meta)
+            can.page.Modify(sub, sub._legend, {
+                onmouseenter: function(event) {
+                    Volcanos.meta.data.menu && can.page.Remove(can, Volcanos.meta.data.menu.first)
+                    Volcanos.meta.data.menu = can.user.carte(event, can, {
+                        "保存参数": function(event) {
+                            var msg = can.request(event, {river: can.Conf("river"), storm: can.Conf("storm"), id: meta.id})
+                            can.run(event, ["action", "modify", "arg", JSON.stringify(sub.Pack([], true))], function(msg) {
+                                can.user.toast(can, "保存成功")
+                            })
+                        },
+                        "清空参数": function(event) {
+                            can.page.Select(can, sub._option, '.args', function(item) { return item.value = "" })
+                        },
+                        "共享工具": function(event) {
+                            can.user.input(event, can, ["name"], function(event, button, data, list, args) {
+                                can.user.share(can, can.request(event), ["action", "share", "type", "field",
+                                    "name", list[0], "text", JSON.stringify(sub.Pack([], true)),
+                                    "river", meta.ctx||meta.key||"", "storm", meta.index||meta.cmd||meta.name])
+                            })
+                        },
+                        "刷新结果": function(event) {
+                            sub.onappend._output(sub, meta, {}, sub.Pack([], true))
+                        },
+                        "清空结果": function(event) {
+                            sub.onmotion.clear(sub, sub._output)
+                        },
+                    }, ["保存参数", "清空参数", "共享工具", "刷新结果", "清空结果"])
+
+                    can.page.Modify(can, Volcanos.meta.data.menu.first, {style: {
+                        left: event.target.offsetLeft+can.run(event, ["search", "River.onexport.width"]),
+                        top: event.target.offsetTop-can._output.scrollTop+event.target.offsetHeight+can.run(event, ["search", "Header.onexport.height"]),
+                    }})
+                },
+            })
             sub._legend.onclick = function(event) {
-                var list = can.page.Select(can, sub._option, '.args', function(item) { return item.value||"" })
-                can.user.share(can, can.request(event), ["action", "share", "type", "field",
-                    "text", JSON.stringify(list),
-                    "river", meta.ctx||meta.key||"", "storm", meta.index||meta.cmd||meta.name])
             }
         }, target||can._output)
     },

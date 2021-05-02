@@ -3,6 +3,20 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     _process: function(can, msg, cmds, cb, silent) {
         return can.core.CallFunc([can.onimport, msg.Option("_process")], [can, msg, cmds, cb, silent])
     },
+    _hold: function(can, msg) {
+        return true
+    },
+    _back: function(can) {
+        can._history.pop(); for (var his = can._history.pop(); his; his = can._history.pop()) {
+            if (his[0] == "action") { continue }
+            can.page.Select(can, can._option, "textarea.args,input.args,select.args", function(item, index) {
+                item.value = his[index]||""
+            }), can.onappend._output(can, can.Conf(), {}, can.Pack([]))
+            break
+        }
+        return true
+    },
+
     _progress: function(can, msg, cmds, cb, silent) {
         var size = msg.Append("size") || msg.Append("count")
         if (size != "" && size == msg.Append("total")) { return true }

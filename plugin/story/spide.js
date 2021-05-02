@@ -62,7 +62,6 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", ["view", "横向", 
         can.draw.svg.Val("height", can._tree[""].height*can.size+2*can.margin)
         can.width = 0, can.onaction._draw(can, can._tree[""], can.margin, can.margin)
         can.draw.svg.Val("width", can.width+can.margin)
-        can.base.Log(can)
     },
     "纵向": function(event, can) {
         can.onmotion.clear(can, can.draw.svg)

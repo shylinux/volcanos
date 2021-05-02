@@ -17,14 +17,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
     "执行": function(event, can) { can.run(event) },
     "刷新": function(event, can) { can.run(event) },
     "查看": function(event, can) { can.run(event) },
-    "返回": function(event, can) {
-        can.sup._history.pop(); for (var his = can.sup._history.pop(); his; his = can.sup._history.pop()) {
-            if (his[0] == "action") { continue }
-            can.page.Select(can, can._option, "textarea.args,input.args,select.args", function(item, index) {
-                item.value = his[index] || ""
-            }), can.run(event); break
-        }
-    },
+    "返回": function(event, can) { can.sup.onimport._back(can.sup) },
 
     onchange: function(event, can) {
         if (can.Conf("type") == "select") { can.run(event) }
