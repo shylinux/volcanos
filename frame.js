@@ -1,4 +1,4 @@
- var _can_name = "/frame.js"
+var _can_name = "/frame.js"
 Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta, list, cb, target) {
         can.core.Next(list, function(item, next) { item.type = "panel"
             can.onappend._init(can, item, item.list, function(panel) {
@@ -20,7 +20,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             fun && (sub = mod, mod = fun, fun = mod[value], key = value)
         }); if (!sub || !mod || !fun) {
             can.base.Warn("not found", cmds[1])
-            cb(msg.Echo("warn: ", "not found: ", cmds[1]))
+            can.base.isFunc(cb) && cb(msg.Echo("warn: ", "not found: ", cmds[1]))
             return
         }
 
@@ -264,7 +264,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         function add(item, next) { item._input != "button" && item.type != "button" && index++
             Volcanos(item.name, {_follow: can._follow+"."+item.name,
                 _option: can._option, _action: can._action, _output: can._output, _status: can._status,
-                _target: can.onappend.input(can, item, args[index]||meta.option[item.name], option),
+                // _target: can.onappend.input(can, item, args[index]||meta.option[item.name], option),
+                _target: can.onappend.input(can, item, args[index], option),
                 Option: can.Option, Action: can.Action, Status: can.Status,
                 CloneInput: function() { add(item)._target.focus() },
                 CloneField: function() { can.Clone() },
@@ -339,6 +340,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }
 
         return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")
+            can._msg = msg
             if (can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
             if (can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
             if (can.base.isFunc(cb) && cb(msg)) { return }
@@ -536,43 +538,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
         can.onappend._init(can, meta, ["/plugin/state.js"], function(sub) {
             meta.type == "story" && sub.page.Remove(sub, sub._legend)
-            can.base.isFunc(cb) && cb(sub, meta)
-            can.page.Modify(sub, sub._legend, {
-                onmouseenter: function(event) {
-                    Volcanos.meta.data.menu && can.page.Remove(can, Volcanos.meta.data.menu.first)
-                    Volcanos.meta.data.menu = can.user.carte(event, can, {
-                        "保存参数": function(event) {
-                            var msg = can.request(event, {river: can.Conf("river"), storm: can.Conf("storm"), id: meta.id})
-                            can.run(event, ["action", "modify", "arg", JSON.stringify(sub.Pack([], true))], function(msg) {
-                                can.user.toast(can, "保存成功")
-                            })
-                        },
-                        "清空参数": function(event) {
-                            can.page.Select(can, sub._option, '.args', function(item) { return item.value = "" })
-                        },
-                        "共享工具": function(event) {
-                            can.user.input(event, can, ["name"], function(event, button, data, list, args) {
-                                can.user.share(can, can.request(event), ["action", "share", "type", "field",
-                                    "name", list[0], "text", JSON.stringify(sub.Pack([], true)),
-                                    "river", meta.ctx||meta.key||"", "storm", meta.index||meta.cmd||meta.name])
-                            })
-                        },
-                        "刷新结果": function(event) {
-                            sub.onappend._output(sub, meta, {}, sub.Pack([], true))
-                        },
-                        "清空结果": function(event) {
-                            sub.onmotion.clear(sub, sub._output)
-                        },
-                    }, ["保存参数", "清空参数", "共享工具", "刷新结果", "清空结果"])
-
-                    can.page.Modify(can, Volcanos.meta.data.menu.first, {style: {
-                        left: event.target.offsetLeft+can.run(event, ["search", "River.onexport.width"]),
-                        top: event.target.offsetTop-can._output.scrollTop+event.target.offsetHeight+can.run(event, ["search", "Header.onexport.height"]),
-                    }})
-                },
-            })
-            sub._legend.onclick = function(event) {
-            }
+            sub.base.isFunc(cb) && cb(sub, meta)
         }, target||can._output)
     },
     plugin: function(can, meta, cb, target) { meta = meta || {}
@@ -638,7 +604,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
             top = window.innerHeight - p.offsetHeight
         } if (top < 32) { top = 32 }
 
-        can.page.Modify(can, p, {style: {left: left, top: top}})
+        can.page.Modify(can, p, {style: {left: can.user.isMobile? 30: left, top: top+30}})
     },
     resize: function(can, name, cb) {
         var list = []; can.onengine.listen(can, name, function(width, height) {

@@ -34,6 +34,18 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             can.onmotion.select(can, can._output, "fieldset.plugin", sub._target)
             can.onmotion.select(can, can._action, "div.item", event.target)
         }}])
+
+        sub.page.Modify(sub, sub._legend, {
+            onmouseenter: function(event) {
+                Volcanos.meta.data.menu && sub.page.Remove(sub, Volcanos.meta.data.menu.first)
+                Volcanos.meta.data.menu = sub.user.carte(event, sub, sub.onaction, sub.onaction.list)
+
+                sub.page.Modify(sub, Volcanos.meta.data.menu.first, {style: {
+                    left: event.target.offsetLeft+can.run(event, ["search", "River.onexport.width"]),
+                    top: event.target.offsetTop-can._output.scrollTop+event.target.offsetHeight+can.run(event, ["search", "Header.onexport.height"]),
+                }})
+            },
+        })
     },
     _share: function(can, msg, share) {
         can.Conf(can._WIDTH, window.innerWidth)
@@ -42,11 +54,21 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         can.user.title(can.user.Search(can, can._TITLE)||msg.Option(can._TITLE))
         can.Conf(can._RIVER, "_share"), can.Conf(can._STORM, share)
         can.onimport._init(can, msg)
+        can.onaction._layout(can, "flow")
     },
     _menu: function(can) {
         !can.user.isMobile && can.run({}, [can._SEARCH, "Header.onimport.menu", can._ACTION,
             ["布局", "默认布局", "流动布局", "网格布局", "标签布局", "自由布局"],
         ], function(event, key) { can.onaction._layout(can, key) })
+    },
+
+    height: function(can, height) {
+        can.page.Modify(can, can._target, {style: {
+            height: can.Conf(can._HEIGHT, height),
+        }})
+        can.page.Modify(can, can._output, {style: {
+            height: can.Conf(can._HEIGHT, height-(can.Conf(can._LAYOUT)=="tabs"? 28: 10)),
+        }})
     },
 })
 Volcanos("onengine", {help: "解析引擎", list: [],
@@ -74,7 +96,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         can.const(
             "output", "fields",
             "search", "action", "share", "river", "storm",
-            "title", "topic", "layout", "width", "height",
+            "title", "topic", "layout", "width", "height", "top", "left",
             "plugin",
         )
 
@@ -124,6 +146,11 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
             can.onmotion.select(can, can._output, "fieldset.plugin", 0)
             can.onmotion.select(can, can._action, "div.item", 0)
         }
+
+
+        var header = can.get("Header", "height")
+        var footer = can.get("Footer", "height")
+        can.set("Action", "height", window.innerHeight-header-footer)
     },
     _select: function(can, msg, river, storm) {
         function key(name) { return can.Conf(can._RIVER)+"."+can.Conf(can._STORM)+"."+name}
@@ -153,8 +180,8 @@ Volcanos("onexport", {help: "导出数据", list: [],
         })
     },
     size: function(can, msg) {
-        msg.Option("top", can._target.offsetTop)
-        msg.Option("left", can._target.offsetLeft)
+        msg.Option(can._TOP, can._target.offsetTop)
+        msg.Option(can._LEFT, can._target.offsetLeft)
         msg.Option(can._WIDTH, can._target.offsetWidth)
         msg.Option(can._HEIGHT, can._target.offsetHeight)
     },

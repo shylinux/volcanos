@@ -224,9 +224,28 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         return can.menu
     },
     river: function(event, can) { can.onaction.River(can) },
-    black: function(event, can, button) { can.onlayout.topic(can, button) },
-    white: function(event, can, button) { can.onlayout.topic(can, button) },
-    print: function(event, can, button) { can.onlayout.topic(can, "white print") },
+    black: function(event, can, button) {
+        can.onlayout.topic(can, button)
+
+        var header = can.get("Header", "height")
+        var footer = can.get("Footer", "height")
+        can.set("River", "height", window.innerHeight-header-footer)
+        can.set("Action", "height", window.innerHeight-header-footer)
+    },
+    white: function(event, can, button) {
+        can.onlayout.topic(can, button)
+
+        var header = can.get("Header", "height")
+        var footer = can.get("Footer", "height")
+        can.set("River", "height", window.innerHeight-header-footer)
+        can.set("Action", "height", window.innerHeight-header-footer)
+    },
+    print: function(event, can, button) {
+        can.onlayout.topic(can, "white print")
+
+        can.set("River", "height", -1)
+        can.set("Action", "height", -1)
+    },
     pack: function(event, can) {
         can.user.input(event, can, [
             {_input: "text", name: "name", value: "demo"},
@@ -253,6 +272,9 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     },
     shareuser: function(event, can) {
         can.user.share(can, can.request(event), [can._ACTION, can._SHARE, "type", "login"])
+    },
+    share: function(event, can, arg) {
+        can.user.share(can, can.request(event), [can._ACTION, can._SHARE].concat(arg))
     },
     usernick: function(event, can) {
         can.user.input(event, can, [{_input: "text", name: "usernick", value: can.Conf(can._USERNAME)}], function(ev, button, data, list, args) {

@@ -53,6 +53,15 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }})
         return item
     },
+
+    height: function(can, height) {
+        can.page.Modify(can, can._target, {style: {
+            height: can.Conf(can._HEIGHT, height),
+        }})
+        can.page.Modify(can, can._output, {style: {
+            height: can.Conf(can._HEIGHT, height-10),
+        }})
+    },
 })
 Volcanos("onengine", {help: "解析引擎", list: [], engine: function(event, can, msg, panel, cmds, cb) {
         cmds.length == 0 && can.core.Item(can.onengine.river, function(key, value) {

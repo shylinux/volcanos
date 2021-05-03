@@ -43,6 +43,7 @@ fieldset.Action div.output.grid fieldset.plugin>div.output {
 }
 fieldset.Action div.output.tabs fieldset.plugin {
     display:none;
+    float:left;
 }
 fieldset.Action div.output.tabs fieldset.plugin.select {
     display:block;

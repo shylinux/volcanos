@@ -93,6 +93,12 @@ input[type=text] {
 input[type=text]:hover {
     background-color:white;
 }
+td>input[type=button][name=remove] {
+    background-color:red;
+}
+td>input[type=button][name=create] {
+    background-color:blue;
+}
 input[type=button] {
     background-color:black; color:cyan;
     letter-spacing:4px;
@@ -339,6 +345,9 @@ fieldset>div.output td.project {
 fieldset>div.output td.profile {
     background-color:#71909c91;
 }
+fieldset>div.output td.profile div.profile {
+    overflow:auto;
+}
 
 fieldset>div.output {
     clear:both; overflow:auto;
@@ -348,7 +357,7 @@ fieldset>div.output div.code a {
     color:yellow;
 }
 fieldset>div.output div.project {
-    min-width:80px; max-width:240px;
+    min-width:88px; max-width:240px;
     float:left; overflow:auto;
 }
 fieldset>div.output div.project div.item {
@@ -399,6 +408,12 @@ body.black a {
 body.white {
     background-color:#052238bf;
     color:white;
+}
+body.white td>input[type=button][name=remove] {
+    background-color:red;
+}
+body.white td>input[type=button][name=create] {
+    background-color:blue;
 }
 body.white input[type=button] {
     background-color:#FF9900; color:white;
@@ -467,6 +482,18 @@ body.white fieldset.Action fieldset.plugin legend:hover {
 }
 
 body.print {
+    background-color:white;
+    color:black;
+}
+body.print fieldset.Header {
+    background-color:white;
+    color:black;
+}
+body.print fieldset.River {
+    background-color:white;
+    color:black;
+}
+body.print fieldset.Footer {
     background-color:white;
     color:black;
 }

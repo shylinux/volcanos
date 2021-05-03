@@ -3,6 +3,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     _process: function(can, msg, cmds, cb, silent) {
         return can.core.CallFunc([can.onimport, msg.Option("_process")], [can, msg, cmds, cb, silent])
     },
+    _refresh: function(can, msg) {
+        can.core.Timer(parseInt(msg.Option("_delay")||"500"), function() {
+            var sub = can.request({}, {_count: parseInt(msg.Option("_count"))-1})
+            can.onappend._output(can, can.Conf(), sub._event, can.Pack())
+        })
+        return true
+    },
     _hold: function(can, msg) {
         return true
     },
@@ -39,13 +46,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         })
         return true
     },
-    _refresh: function(can, msg) {
-        can.core.Timer(parseInt(msg.Option("_delay")||"500"), function() {
-            var sub = can.request({}, {_count: parseInt(msg.Option("_count"))-1})
-            can.onappend._output(can, can.Conf(), sub._event, can.Pack())
-        })
-        return true
-    },
     _field: function(can, msg) {
         msg.Table(function(item) { can.onappend._plugin(can, item, {}, function(sub, meta) {
             sub.run = function(event, cmds, cb, silent) {
@@ -62,12 +62,54 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         return true
     },
 })
-Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos("onaction", {help: "交互操作", list: ["保存参数", "清空参数", "共享工具", "刷新数据", "复制数据", "下载数据", "清空数据"], _init: function(can, msg, list, cb, target) {
     },
+    "保存参数": function(event, can) { var meta = can.Conf()
+        var msg = can.request(event, {river: can.Conf("river"), storm: can.Conf("storm"), id: meta.id})
+        can.run(event, ["action", "modify", "arg", JSON.stringify(can.Pack([], true))], function(msg) {
+            can.user.toast(can, "保存成功")
+        })
+    },
+    "清空参数": function(event, can) {
+        can.page.Select(can, can._option, '.args', function(item) { return item.value = "" })
+    },
+    "共享工具": function(event, can) { var meta = can.Conf()
+        can.user.input(event, can, [{name: "name", value: meta.name}], function(event, button, data, list, args) {
+            var msg = can.request(event, {arg: [
+                "type", "field",
+                "name", list[0], "text", JSON.stringify(can.Pack([], true)),
+                "river", meta.ctx||meta.key||"", "storm", meta.index||meta.cmd||meta.name,
+            ]})
+            can.run(event, ["search", "Header.onaction.share"])
+        })
+    },
+    "刷新数据": function(event, can) { var meta = can.Conf()
+        can.onappend._output(can, meta, {}, can.Pack([], true))
+    },
+    "复制数据": function(event, can) { var meta = can.Conf(), msg = can._msg
+        var res = [msg.append && msg.append.join(",")]; msg.Table(function(line, index, array) {
+            res.push(can.core.Item(line, function(key, value) { return value }).join(","))
+        })
+
+        res.length > 1 && can.user.copy(event, can, res.join("\n"))
+        msg.result && can.user.copy(event, can, msg.Result())
+    },
+    "下载数据": function(event, can) { var meta = can.Conf(), msg = can._msg
+        var res = [msg.append && msg.append.join(",")]; msg.Table(function(line, index, array) {
+            res.push(can.core.Item(line, function(key, value) { return value }).join(","))
+        })
+
+        res.length > 1 && can.user.download(can, URL.createObjectURL(new Blob([res.join("\n")])), meta.name+".csv")
+        msg.result && can.user.download(can, URL.createObjectURL(new Blob([msg.Result()])), meta.name+".txt")
+    },
+    "清空数据": function(event, can) {
+        can.onmotion.clear(can, can._output)
+    },
+
     change: function(event, can, name, value, cb) {
         return can.page.Select(can, can._option, "input.args", function(input) {
             if (input.name == name && value != input.value) { input.value = value
-                var data = input.dataset || {}; data.action == "auto" && can.run(event, can.Pack(), cb)
+                var data = input.dataset || {}; data.action == "auto" && can.onappend._output(can, can.Conf(), event, can.Pack(), cb)
                 return input
             }
         })

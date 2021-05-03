@@ -4,7 +4,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 if (event.key == "Escape") { can.onmotion.hide(can) }
 
                 if (event.key == "Enter") { event.stopPropagation(), event.preventDefault()
-                    if (event.ctrlKey && can.onaction.select(event, can, 0)) { return }
+                    if (event.ctrlKey) {
+                        can.type == "*"? can.onimport._plugin(can, can.list[0]): can.onaction.select(event, can, 0)
+                        return
+                    }
+                    if (event.shiftKey) { return can.onaction["完成"](event, can) }
                     can.input(event, event.target.value)
                 }
             }]},
@@ -12,37 +16,32 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         ]), can.base.isFunc(cb) && cb(msg)
         can.page.ClassList.add(can, can.ui.display, "content")
     },
+    _plugin: function(can, line) {
+        can.onappend.plugin(can, {index: line.ctx&&line.cmd!="command"? line.ctx+"."+line.cmd: line.text+"."+line.name||msg.Option("index"), option: line}, function(sub, meta) {
+            sub.run = function(event, cmds, cb) { var msg = can.request(event, line)
+                can.run(event, ["action", "command", "run", meta.index].concat(cmds), function(msg) {
+                    can.base.isFunc(cb) && cb(msg)
+                })
+            }
+        }, can.ui.preview)
+    },
     _table: function(can, msg, fields) { can.onmotion.clear(can, can.ui.content)
         var table = can.onappend.table(can, msg, function(value, key, index, line) { can.Status("count", index+1)
             return {text: [key == "text" && can.base.isFunc(line.text) && line.text.help || value, "td"], onclick: function(event) {
-                if (event.shiftKey) { event.stopPropagation(), event.preventDefault()
-                    return can.onappend.plugin(can, {index: line.ctx? line.ctx+"."+line.cmd: msg.Option("index"), option: line}, function(sub, meta) {
-                        sub.run = function(event, cmds, cb) { var msg = can.request(event, line)
-                            can.run(event, ["action", "command", "run", meta.index].concat(cmds), function(msg) {
-                                can.base.isFunc(cb) && cb(msg)
-                            })
-                        }
-                    }, can.ui.preview)
-                }
-
-                if (line.ctx == "web.chat" && line.cmd == "/search") {
-                    return can.onimport.select(can, msg, [line.type, line.name, line.text], can.cb)
-                }
-                if (can.onaction.select(event, can, index)) { return }
+                can.type == "*" || event.shiftKey? can.onimport._plugin(can, line): can.onaction.select(event, can, index)
+                event.stopPropagation(), event.preventDefault()
             }}
         }, can.ui.content, can.core.List((msg.Option("sort")||"ctx,cmd,type,name,text").split(","), function(item) {
             return fields.indexOf(item)
-        }))
-        table && can.page.Modify(can, can.ui.display, {style: {width: table.offsetWidth}})
+        })); table && can.page.Modify(can, can.ui.display, {style: {width: table.offsetWidth}})
     },
-    _word: function(can, msg, cmds, fields) {
-        msg = can.request({}, {word: cmds, fields: fields.join(","), sort: msg.Option("sort"), index: msg.Option("index")})
+    _word: function(can, msg, cmds, fields) { can.type = cmds[0]
+        msg.Option({word: cmds, fields: fields.join(","), sort: msg.Option("sort"), index: msg.Option("index")})
         can.onengine.signal(can, "search", msg)
 
         can.run(msg._event, cmds, function(msg) { can.list = msg.Table()
             can.onimport._table(can, msg, fields)
-        })
-        can.ui.word.setSelectionRange(0, -1)
+        }), can.ui.word.setSelectionRange(0, -1)
     },
 
     select: function(can, msg, cmds, cb) { can.ui.word.value = cmds[1]
@@ -51,14 +50,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.base.isFunc(cb) && cb(can.onexport.select(can)), can.onmotion.hide(can)
         }
 
-        can.input = function(event, word) { cmds[1] = word
+        can.input = function(event, word) { cmds[1] = word||cmds[1]
             can.onimport._word(can, msg, cmds, fields)
-        }
+        }, can.onimport._word(can, msg, cmds, fields)
 
         can.onmotion.show(can), can.ui.input.focus()
-        can.onimport._word(can, msg, cmds, fields)
 
-        can.run({}, ["search", "Action.onexport.size"], function(msg, top, left, width, height) {
+        can.search(["Action.onexport.size"], function(msg, top, left, width, height) {
             can.page.Modify(can, can._output, {style: {"max-width": width, "max-height": height-75}})
             can.page.Modify(can, can._target, {style: {top: top, left: left}})
         } )
@@ -72,6 +70,11 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
     "完成": function(event, can) { can.base.isFunc(can.cb) && can.cb() },
 
     select: function(event, can, index) {
+
+        if (line.ctx == "web.chat" && line.cmd == "/search") {
+            return can.onimport.select(can, msg, [line.type, line.name, line.text], can.cb)
+        }
+
         if (can.list && can.list[index]) {
             var text = can.list[index].text || ""
             if (can.base.isFunc(text)) {
