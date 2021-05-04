@@ -46,7 +46,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }, {style: {left: can._target.offsetWidth}})
         }, can._output)
 
-        can.page.Modify(can, item, {onmouseenter: function(event) {
+        !can.user.isMobile && can.page.Modify(can, item, {onmouseenter: function(event) {
             can.menu = can.user.carte(event, can, can.ondetail, can.ondetail.list, function(ev, item, meta) {
                 can.ondetail[item](event, can, item, value.hash)
             }, {style: {left: can._target.offsetWidth}})

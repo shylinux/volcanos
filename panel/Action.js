@@ -42,7 +42,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 
                 sub.page.Modify(sub, Volcanos.meta.data.menu.first, {style: {
                     left: event.target.offsetLeft+can.run(event, ["search", "River.onexport.width"]),
-                    top: event.target.offsetTop-can._output.scrollTop+event.target.offsetHeight+can.run(event, ["search", "Header.onexport.height"]),
+                    top: event.target.offsetTop-(can.user.isMobile? can._target.parentNode.parentNode.scrollTop: can._output.scrollTop)+event.target.offsetHeight+can.run(event, ["search", "Header.onexport.height"]),
                 }})
             },
         })

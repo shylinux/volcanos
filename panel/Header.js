@@ -267,8 +267,9 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     },
 
     username: function(event, can) {
-        can.onaction.carte(event, can, ["shareuser", "usernick", "clear", "logout"])
-        can.onlayout.figure(event, can, can.menu.first)
+        var ui = can.onaction.carte(event, can, ["shareuser", "usernick", "clear", "logout"])
+
+        can.user.isMobile && can.page.Modify(can, ui.first, {style: {left: 320}})
     },
     shareuser: function(event, can) {
         can.user.share(can, can.request(event), [can._ACTION, can._SHARE, "type", "login"])
