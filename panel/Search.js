@@ -71,9 +71,9 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
 
     select: function(event, can, index) {
 
-        if (line.ctx == "web.chat" && line.cmd == "/search") {
-            return can.onimport.select(can, msg, [line.type, line.name, line.text], can.cb)
-        }
+        // if (line.ctx == "web.chat" && line.cmd == "/search") {
+        //     return can.onimport.select(can, msg, [line.type, line.name, line.text], can.cb)
+        // }
 
         if (can.list && can.list[index]) {
             var text = can.list[index].text || ""
