@@ -29,7 +29,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         var table = can.onappend.table(can, msg, function(value, key, index, line) { can.Status("count", index+1)
             return {text: [key == "text" && can.base.isFunc(line.text) && line.text.help || value, "td"], onclick: function(event) {
                 can.type == "*" || event.shiftKey? can.onimport._plugin(can, line): can.onaction.select(event, can, index)
-                event.stopPropagation(), event.preventDefault()
             }}
         }, can.ui.content, can.core.List((msg.Option("sort")||"ctx,cmd,type,name,text").split(","), function(item) {
             return fields.indexOf(item)
