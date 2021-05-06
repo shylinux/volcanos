@@ -28,7 +28,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._state(can, msg, target)
         can.onimport._search(can, msg, target)
         can.onimport._background(can, msg, target)
-        can.onimport._daemon(can, msg, target)
         can.onimport._agent(can, msg, target)
         can.onimport._menu(can, msg, target)
 
@@ -76,20 +75,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         if (can.user.isLocalFile) { return }
         if (can.user.isExtension) { return }
         can.onlayout.background(can, msg.Option(can._BACKGROUND), document.body)
-    },
-    _daemon: function(can, msg, target) {
-        can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")||""}, function(event, msg, cmd, arg) { if (!msg) { return }
-            switch (cmd) {
-                case "pwd":
-                    can.base.Log(msg)
-                    msg.Reply()
-                    break
-                default:
-                    can.run(event, [can._SEARCH].concat(msg["detail"]||[]), function(msg) {
-                        msg.Reply()
-                    })
-            }
-        })
     },
     _agent: function(can, msg, target) {
         if (can.user.isMobile) {
@@ -248,7 +233,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     },
     pack: function(event, can) {
         can.user.input(event, can, [
-            {_input: "text", name: "name", value: "demo"},
+            {name: "name", value: can.user.title()},
         ], function(ev, button, meta, list) {
             can.core.Item(Volcanos.meta.pack, function(key, msg) { 
                 can.core.List(["_event", "_can", "_xhr", "sessid", ""], function(key) { delete(msg[key]) })

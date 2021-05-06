@@ -164,7 +164,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         return p.line? p.line(can, line): line
     },
 })
-Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏", "搜索", "运行"],
+Volcanos("onaction", {help: "控件交互", list: ["项目"],
     "返回": function(event, can) {
         var last = can.history.pop(); last = can.history.pop()
         last && can.onimport.tabview(can, last.path, last.file, last.line)

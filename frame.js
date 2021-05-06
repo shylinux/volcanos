@@ -167,6 +167,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
     },
 })
 Volcanos("ondaemon", {help: "解析引擎", list: [], _init: function(can) {
+        if (can.user.isLocalFile) { return }
         can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")||""}, function(event, msg, cmd, arg) { if (!msg) { return }
             if (can.base.isFunc(can.ondaemon[cmd])) {
                 can.core.CallFunc(can.ondaemon[cmd], {
