@@ -344,7 +344,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             can._msg = msg
             if (can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
             if (can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
-            if (can.base.isFunc(cb) && cb(msg)) { return }
+            if (can.base.isFunc(cb) && can.core.CallFunc(cb, {can: can, msg: msg})) { return }
             if (silent) { return }
 
             var display = msg.Option("_display") || meta.display || meta.feature.display || "/plugin/table.js"

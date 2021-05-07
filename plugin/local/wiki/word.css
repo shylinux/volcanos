@@ -114,3 +114,7 @@ fieldset.word.float h3 {
     text-align:center;
 }
 
+fieldset.word video.story {
+    max-height:320px;
+}
+

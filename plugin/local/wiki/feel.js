@@ -1,6 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        can.path = can.request(), can.list = []
-        msg.Table(function(value) { if (value.path.indexOf("/local") == 0) { return }
+        can.path = can.request(), can.list = [], msg.Table(function(value) {
             value.path.endsWith("/")? can.path.Push(value): can.list.push(value)
         })
 
@@ -9,19 +8,20 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onappend.table(can, can.path, null, can.ui.content)
         can.base.isFunc(cb) && cb(msg)
 
-        var feature = can.Conf("feature") || {}
-        can.Action("倍速", can.rate = parseInt(msg.Option("rate"))||feature["rate"]||1)
-        can.Action("起始", can.begin = parseInt(msg.Option("begin"))||feature["begin"]||0)
-        can.Action("数量", can.limit = parseInt(msg.Option("limit"))||feature["limit"]||6)
-        can.Action("高度", can.height = parseInt(msg.Option("height"))||feature["height"]||100)
-        can.Option("path") != "最近/" && can.onimport._page(can, can.list, can.begin, can.limit)
+        can.Action("rate", msg.Option("rate")||"1")
+        can.Action("begin", msg.Option("begin")||"0")
+        can.Action("limit", msg.Option("limit")||"6")
+        can.Action("height", msg.Option("height")||"100")
+        can.Option("path") != "最近/" && can.onimport._page(can, can.list)
     },
     _page: function(can, list, begin, limit) { can.onmotion.clear(can, can.ui.content)
+        begin = parseInt(begin||can.Action("begin"))
+        limit = parseInt(limit||can.Action("limit"))
         for (var i = begin; i < begin+limit; i++) { list && list[i] && can.onimport.file(can, list[i].path, i) }
-        can.Status("begin", begin), can.Status("limit", limit), can.Status("total", can.list.length)
+        can.Status({begin: begin, limit: limit, total: can.list.length})
     },
     _file: function(can, path, index) { var p = location.href.indexOf("http") == 0? "": "http://localhost:9020"
-        return path.indexOf("http") == 0? path: p+can.base.Path("/share/local", " "+(can._msg.Option("prefix")||""), path)
+        return path.indexOf("http") == 0? path: p+can.base.Path("/share/local", can._msg.Option("dir_root")||"", path)
     },
     file: function(can, path, index) { path = can.onimport._file(can, path, index)
         var cb = can.onfigure[can.base.Ext(path)]; can.Status("file", path)
@@ -32,47 +32,15 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
     png: function(can, path, index) { return can.onfigure.image(can, path, index) },
     jpg: function(can, path, index) { return can.onfigure.image(can, path, index) },
     jpeg: function(can, path, index) { return can.onfigure.image(can, path, index) },
-    image: function(can, path, index) { return {img: path, height: can.height, onclick: function(event) {
-            can.onappend._init(can, {type: "story feel float"}, [], function(sub) {
-                sub.run = function(event, cmds, cb) { return can.run(event, cmds, cb, true) }
-
-                var header = sub.run({}, ["search", "Header.onexport.height"])
-                var footer = sub.run({}, ["search", "Footer.onexport.height"])
-                var river = sub.run({}, ["search", "River.onexport.width"])
-                var height = window.innerHeight-header-footer
-
-                sub.page.Modify(sub, sub._target, {style: {left: river, top: header}})
-                sub.page.Modify(sub, sub._output, {style: {"max-height": height}})
-
-                var order = index; function show(order) {
-                    path = can.onimport._file(can, can.list[order].path)
-                    sub.page.Appends(sub, sub._output, [{img: path, height: height-55}])
-                    sub.Status("位置", order+1+"/"+can.list.length), sub.Status("file", path)
-                }; show(order)
-
-                sub.onappend._action(sub, ["关闭", "下载", "上一个", "下一个", "设置头像", "设置背景", "复制链接"], sub._action, {
-                    "关闭": function(event) { sub.page.Remove(sub, sub._target) },
-                    "下载": function(event) { can.user.download(can, path) },
-                    "上一个": function(event) { order > 0? show(--order): can.user.toast(can, "已经是第一张啦!") },
-                    "下一个": function(event) { order < can.list.length-1? show(++order): can.user.toast(can, "已经是最后一张啦!") },
-                    "设置头像": function(event) { var msg = can.request(event, {url: can.onimport._file(can, can.list[order].path)})
-                        sub.run(event, ["search", "Header.onimport.avatar"])
-                    },
-                    "设置背景": function(event) { var msg = can.request(event, {url: can.onimport._file(can, can.list[order].path)})
-                        sub.run(event, ["search", "Header.onimport.background"])
-                    },
-                    "复制链接": function(event) {
-                        can.user.copy(event, can, can.user.MergeURL(can, {_path: path}, true))
-                    },
-                })
-            }, document.body)
+    image: function(can, path, index) { return {img: path, height: can.Action("height"), onclick: function(event) {
+            can.ondetail._init(can, index)
         }, _init: function(target) { can.Status("file", path) },
         onmouseover: function(event) { can.Status("file", path) },
     } },
 
     video: function(can, path) { var auto = true, loop = true, total = 0; function cb(event) { }
-        return {type: "video", style: {height: can.height}, className: "preview",
-            data: {src: path, controls: "controls", autoplay: auto, loop: loop, playbackRate: can.rate},
+        return {type: "video", style: {height: parseInt(can.Action("height"))}, className: "preview",
+            data: {src: path, controls: "controls", autoplay: auto, loop: loop, playbackRate: parseFloat(can.Action("rate"))},
             oncontextmenu: cb, onplay: cb, onpause: cb, onended: cb,
             onmouseover: function(event) { can.Status("file", path) },
             onloadedmetadata: function(event) { total = event.timeStamp
@@ -87,31 +55,68 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
     mov: function(can, path) { return can.onfigure.video(can, path) },
 })
 Volcanos("onaction", {help: "组件菜单", list: [
-        ["数量", 1, 3, 6, 9, 12, 15],
-        ["高度", 100, 200, 400, 600, 800],
-        ["倍速", 0.1, 0.2, 0.5, 1, 2, 3, 5, 10],
+        ["limit", 1, 3, 6, 9, 12, 15],
+        ["begin", 0],
+        ["height", 100, 200, 400, 600, 800],
+        ["rate", 0.1, 0.2, 0.5, 1, 2, 3, 5, 10],
     ],
-    "上一页": function(event, can, key, value) { 
-        can.begin > 0 && (can.begin -= can.limit, can.onimport._page(can, can.list, can.begin, can.limit))
+    "上一页": function(event, can, key, value) { var begin = parseInt(can.Action("begin"))
+        begin > 0 && (can.Action("begin", begin - parseInt(can.Action("limit"))), can.onimport._page(can, can.list))
     },
-    "下一页": function(event, can, key, value) { 
-        can.begin + can.limit < can.list.length && (can.begin += can.limit, can.onimport._page(can, can.list, can.begin, can.limit))
+    "下一页": function(event, can, key, value) { var begin = parseInt(can.Action("begin"))
+        begin + parseInt(can.Action("limit")) < can.list.length && (can.Action("begin", begin + parseInt(can.Action("limit")), can.onimport._page(can, can.list)))
     },
 
-    "数量": function(event, can, key, value) { 
-        can.limit = parseInt(value), can.onimport._page(can, can.list, can.begin, can.limit)
+    "rate": function(event, can, key, value) { 
+        can.Action("rate", value), can.onimport._page(can, can.list)
     },
-    "高度": function(event, can, key, value) { 
-        can.height = parseInt(value), can.onimport._page(can, can.list, can.begin, can.limit)
+    "begin": function(event, can, key, value) { 
+        can.Action("begin", value), can.onimport._page(can, can.list)
     },
-    "倍速": function(event, can, key, value) { 
-        can.rate = parseInt(value), can.onimport._page(can, can.list, can.begin, can.limit)
+    "limit": function(event, can, key, value) { 
+        can.Action("limit", value), can.onimport._page(can, can.list)
+    },
+    "height": function(event, can, key, value) { 
+        can.Action("height", value), can.onimport._page(can, can.list)
     },
 
     chooseImage: function(event, can) { var msg = can.request(event)
         can.user.agent.chooseImage(function(list) { can.core.List(list, function(item) {
             can.page.Append(can, can._output, [{img: item, height: 200}])
         }) })
+    },
+})
+Volcanos("ondetail", {help: "组件菜单", list: ["关闭", "下载", "上一个", "下一个", "设置头像", "设置背景", "复制链接"], _init: function(can, index) {
+        can.onappend._init(can, {type: "story feel float"}, [], function(sub) {
+            sub.run = function(event, cmds, cb) { return can.run(event, cmds, cb, true) }
+            can.sub = sub
+
+            sub.search(["Action.onexport.size"], function(msg, left, top, width, height) {
+                sub.page.Modify(sub, sub._target, {style: {left: left, top: top}})
+                sub.page.Modify(sub, sub._output, {style: {"max-width": width, "max-height": height}})
+
+                can.order = index, can.show = function(order) {
+                    path = can.onimport._file(can, can.list[order].path)
+                    sub.page.Appends(sub, sub._output, [{img: path, style: {"max-width": width-40, "max-height": height-55}}])
+                    sub.Status("begin", order+1+"/"+can.list.length), sub.Status("file", path)
+                }, can.show(can.order)
+            })
+
+            sub.onappend._action(can, can.ondetail.list, sub._action, can.ondetail)
+        }, document.body)
+    },
+    "关闭": function(event, can) { can.page.Remove(can, can.sub._target) },
+    "下载": function(event, can) { can.user.download(can, path = can.onimport._file(can, can.list[can.order].path)) },
+    "上一个": function(event, can) { can.order > 0? can.show(--can.order): can.user.toast(can, "已经是第一张啦!") },
+    "下一个": function(event, can) { can.order < can.list.length-1? can.show(++can.order): can.user.toast(can, "已经是最后一张啦!") },
+    "设置头像": function(event, can) { var msg = can.request(event, {url: can.onimport._file(can, can.list[can.order].path)})
+        can.run(event, ["search", "Header.onimport.avatar"])
+    },
+    "设置背景": function(event, can) { var msg = can.request(event, {url: can.onimport._file(can, can.list[can.order].path)})
+        can.run(event, ["search", "Header.onimport.background"])
+    },
+    "复制链接": function(event, can) {
+        can.user.copy(event, can, can.user.MergeURL(can, {_path: path}, true))
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["begin", "limit", "total", "position", "file"],
