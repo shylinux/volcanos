@@ -193,6 +193,7 @@ div.code {
     padding:10px; border:solid 3px green;
     text-align:left; white-space:pre;
     overflow:auto;
+    clear:both;
 }
 div.story {
     text-align:left;

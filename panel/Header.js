@@ -65,7 +65,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.onkeypop.input(event, can); switch (event.key) {
                 case "Enter": can.run(event, [can._SEARCH, "Search.onimport.select", "*", event.target.value]); break
             }
-        }}] }]); can.onmotion.autosize(can, ui.input, 240, 120)
+        }}] }])
+        // ; can.onmotion.autosize(can, ui.input, 240, 120)
         can.user.isMobile && can.page.Modify(can, ui.first, {style: {float: "right"}})
     },
     _avatar: function(can, msg) {
@@ -275,7 +276,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     logout: function(event, can) { can.user.logout(can) },
 
     River: function(can) { can.run({}, [can._SEARCH, "River.onmotion.toggle"]) },
-    Footer: function(can) { can.run({}, [can._SEARCH, "River.onmotion.autosize"]) },
+    Footer: function(can) { can.run({}, [can._SEARCH, "River.onmotion.toggle"]) },
 })
 Volcanos("onexport", {help: "导出数据", list: [],
     height: function(can) { return can._target.offsetHeight },
