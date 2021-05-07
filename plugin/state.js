@@ -21,6 +21,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
             }), can.onappend._output(can, can.Conf(), {}, can.Pack([]))
             break
         }
+        if (!his) {
+            can.onappend._output(can, can.Conf(), {}, can.Pack([]))
+        }
         return true
     },
 
