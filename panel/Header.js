@@ -276,7 +276,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     logout: function(event, can) { can.user.logout(can) },
 
     River: function(can) { can.run({}, [can._SEARCH, "River.onmotion.toggle"]) },
-    Footer: function(can) { can.run({}, [can._SEARCH, "River.onmotion.toggle"]) },
+    Footer: function(can) { can.run({}, [can._SEARCH, "Footer.onmotion.toggle"]) },
 })
 Volcanos("onexport", {help: "导出数据", list: [],
     height: function(can) { return can._target.offsetHeight },

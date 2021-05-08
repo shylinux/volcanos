@@ -136,15 +136,19 @@ Volcanos("ondetail", {help: "用户交互", list: [],
             return
         }
 
-        can.ondetail._show(event, can, [can.dir_root, tree.file, tree.line])
+        can.ondetail.plugin(event, can, [can.dir_root, tree.file, tree.line])
     },
 
-    _show: function(event, can, args) {
+    plugin: function(event, can, args) {
         can.onappend.plugin(can, {type: "float", index: "web.code.inner", args: args, _action: ["关闭"]}, function(sub) {
-            can.page.Modify(can, sub._target, {style: {position: "fixed"}})
             sub.run = function(event, cmds, cb) {
                 can.run(event, ["action", "inner"].concat(cmds), cb, true)
                 can.onlayout.figure(event, sub, sub._target)
+
+                can.search(["Action.onexport.size"], function(msg, left, top, width, height) { left = left||0
+                    can.page.Modify(can, sub._target, {style: {position: "fixed", left: left}})
+                    can.page.Modify(can, sub._output, {style: {"max-width": width}})
+                })
             }
         })
     },

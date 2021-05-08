@@ -1,7 +1,8 @@
 fieldset.float.inner.editor {
     /* background-color:#332f1ecf; */
+    z-index:10;
 }
 fieldset.float.inner.editor div.output {
     background-color:#332f1ecf;
-    max-width:800px;
+    /* max-width:800px; */
 }
