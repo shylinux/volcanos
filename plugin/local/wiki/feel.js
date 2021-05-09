@@ -104,10 +104,10 @@ Volcanos("ondetail", {help: "组件菜单", list: ["关闭", "下载", "上一�
     "上一个": function(event, can) { can.order > 0? can.show(--can.order): can.user.toast(can, "已经是第一张啦!") },
     "下一个": function(event, can) { can.order < can.list.length-1? can.show(++can.order): can.user.toast(can, "已经是最后一张啦!") },
     "设置头像": function(event, can) { var msg = can.request(event, {url: can.onimport._file(can, can.list[can.order].path)})
-        can.run(event, ["search", "Header.onimport.avatar"])
+        can.run(event, ["search", "Header.onimport.avatar"], null, true)
     },
     "设置背景": function(event, can) { var msg = can.request(event, {url: can.onimport._file(can, can.list[can.order].path)})
-        can.run(event, ["search", "Header.onimport.background"])
+        can.run(event, ["search", "Header.onimport.background"], null, true)
     },
     "复制链接": function(event, can) {
         can.user.copy(event, can, can.user.MergeURL(can, {_path: can.onimport._file(can, can.list[can.order].path)}, true))

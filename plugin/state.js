@@ -10,9 +10,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         })
         return true
     },
-    _hold: function(can, msg) {
-        return true
-    },
+    _hold: function(can, msg) { return true },
     _back: function(can) {
         can._history.pop(); for (var his = can._history.pop(); his; his = can._history.pop()) {
             if (his[0] == "action") { continue }
@@ -21,9 +19,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
             }), can.onappend._output(can, can.Conf(), {}, can.Pack([]))
             break
         }
-        if (!his) {
-            can.onappend._output(can, can.Conf(), {}, can.Pack([]))
-        }
+        !his && can.onappend._output(can, can.Conf(), {}, can.Pack([]))
         return true
     },
 

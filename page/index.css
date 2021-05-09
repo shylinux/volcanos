@@ -238,7 +238,7 @@ div.carte {
     background:#295b61;
     color:white;
     padding:4px;
-    z-index:10;
+    z-index:30;
     min-width:80px;
 }
 div.carte div.item {

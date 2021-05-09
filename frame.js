@@ -670,7 +670,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
         })
     },
     _parse: function(event, can, mode, list, target) { list = list||[], list.push(event.key)
-        can.Status("按键", list.join(""))
+        // can.Status("按键", list.join(""))
         for (var pre = 0; pre < list.length; pre++) {
             if ("0" <= list[pre] && list[pre] <= "9") { continue } break
         }; var count = parseInt(list.slice(0, pre).join(""))||1
@@ -678,7 +678,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
         function repeat(cb, count) { list = []
             for (var i = 1; i <= count; i++) { if (cb(event, can, target, count)) { break } }
             event.stopPropagation(), event.preventDefault()
-            can.Status("按键", list.join(""))
+            // can.Status("按键", list.join(""))
         }
 
         var map = can.onkeypop._mode[mode]

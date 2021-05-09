@@ -84,7 +84,8 @@ var Volcanos = shy("火山架", {args: {}, data: {}, pack: {}, libs: [], cache: 
         },
         search: function(cmds, cb) { can.run({}, ["search"].concat(cmds), cb, true) },
         Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},
-    }; can = can || {}; for (var k in proto) { can.hasOwnProperty(k) || (can[k] = proto[k]) }
+    // }; can = can || {}; for (var k in proto) { can.hasOwnProperty(k) || (can[k] = proto[k]) }
+    }; can = can || {}; can.__proto__ = proto
 
     if (_can_name) {
         meta.cache[_can_name] = meta.cache[_can_name] || []

@@ -76,6 +76,9 @@ fieldset.editor>div.output div.search td>div {
     overflow:hidden;
 }
 
+body.white fieldset.editor>div.output div.project {
+    color:#a2dad2;
+}
 body.white fieldset.editor>div.output div.content {
     background-color:#013b675c;
 }
