@@ -65,9 +65,9 @@ Volcanos("onaction", {help: "交互操作", list: ["保存参数", "清空参数
     },
     "保存参数": function(event, can) { var meta = can.Conf()
         var msg = can.request(event, {river: can.Conf("river"), storm: can.Conf("storm"), id: meta.id})
-        can.run(event, ["action", "modify", "arg", JSON.stringify(can.Pack([], true))], function(msg) {
+        can.run(event, ["search", "River.ondetail.保存参数"], function(msg) {
             can.user.toast(can, "保存成功")
-        })
+        }, true)
     },
     "清空参数": function(event, can) {
         can.page.Select(can, can._option, '.args', function(item) { return item.value = "" })

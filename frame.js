@@ -126,7 +126,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 {name: "golang", help: "编程", index: "web.wiki.word", args: ["usr/golang-story/src/main.shy"]},
             ]},
             "redis": {name: "缓存 redis",  action: [
-                {name: "redis", help: "缓存", index: "web.wiki.word", args: ["usr/redis-story/main.shy"]},
+                {name: "redis", help: "缓存", index: "web.wiki.word", args: ["usr/redis-story/src/main.shy"]},
             ]},
             "mysql": {name: "数据 mysql",  action: [
                 {name: "mysql", help: "数据存储", index: "web.wiki.word", args: ["usr/mysql-story/src/main.shy"]},

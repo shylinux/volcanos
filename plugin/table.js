@@ -115,6 +115,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _grow: function(can, str) {
         if (can.page.Select(can, can._output, "div.code", function(div) {
+            can.page.Modify(can, div, {style: {"max-height": 400}})
             can.page.Append(can, div, [{text: [str]}])
             div.scrollBy(0, 10000)
             return true
