@@ -113,6 +113,16 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }, data: {"className": "args"}},
         ]}
     },
+    _grow: function(can, str) {
+        if (can.page.Select(can, can._output, "div.code", function(div) {
+            can.page.Append(can, div, [{text: [str]}])
+            div.scrollBy(0, 10000)
+            return true
+        }).length == 0) {
+            can.onappend.board(can, str)
+        }
+        // can.onmotion.story(can, can._output)
+    },
 })
 Volcanos("onaction", {help: "控件交互", list: []})
 Volcanos("onexport", {help: "导出数据", list: []})

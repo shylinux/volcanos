@@ -33,7 +33,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
     remote: function(event, can, msg, panel, cmds, cb) {
         delete(msg._handle), delete(msg._toast)
         if (panel.onengine.engine(event, can, msg, panel, cmds, cb)) { return }
-        can.misc.Runs(event, can, {names: panel._name, daemon: can._daemon}, cmds, cb)
+        can.misc.Runs(event, can, {names: panel._name, daemon: can._daemon+"."+msg._daemon}, cmds, cb)
         panel.run(event, ["search", "Footer.onimport.ncmd"])
     }, engine: function(event, can, msg, panel, cmds, cb) { return false },
     listen: shy("事件回调", {}, [], function(can, name, cb) {
@@ -141,6 +141,9 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
             ]},
         }},
         "operate": {name: "运维群", storm: {
+            "ctx": {name: "模块 ctx", index: [
+                "context", "command", "config",
+            ]},
             "cli": {name: "系统 cli", index: [
                 "system", "daemon", "python", "output",
                 "runtime", "process",
@@ -149,19 +152,16 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 "route", "serve", "space", "dream",
                 "spide", "share", "cache", "story",
             ]},
-            "ssh": {name: "脚本 ssh", index: [
-                "aaa.totp", "web.code.tmux.session",
-                "connect", "session", "service", "channel",
-            ]},
-            "nfs": {name: "文件 nfs", index: [
-                "nfs.cat", "nfs.dir", "nfs.tail", "nfs.trash",
-            ]},
-
             "aaa": {name: "权限 aaa", index: [
                 "user", "sess", "role", "totp",
             ]},
-            "ctx": {name: "模块 ctx", index: [
-                "context", "command", "config",
+
+            "nfs": {name: "文件 nfs", index: [
+                "nfs.cat", "nfs.dir", "nfs.tail", "nfs.trash",
+            ]},
+            "ssh": {name: "脚本 ssh", index: [
+                "aaa.totp", "web.code.tmux.session",
+                "connect", "session", "service", "channel",
             ]},
         }},
     },
@@ -182,9 +182,17 @@ Volcanos("ondaemon", {help: "解析引擎", list: [], _init: function(can) {
             }
         })
     },
+    _list: [{}],
     toast: function(can, msg, arg) { arg[0] = can
         can._toast && can._toast.Close()
         can._toast = can.core.CallFunc(can.user.toast, arg)
+    },
+    grow: function(can, msg, arg) {
+        var sub = can.ondaemon._list[msg.Option("_target")]
+        if (!sub._outputs || !sub._outputs.length) { return }
+
+        var out = sub._outputs[sub._outputs.length-1]
+        out.onimport._grow(out, arg.join(""))
     },
     pwd: function(can, msg, arg) {
         can.base.Log(msg)
@@ -322,6 +330,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         if (msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && can.onaction[cmds[1]]) {
             return can.onaction[cmds[1]](event, can, cmds[1])
         }
+
+        can._daemon == undefined && (can._daemon = can.ondaemon._list.push(can)-1)
+        msg._daemon = msg._daemon||can._daemon
 
         var feature = can.Conf("feature")
         var input = msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && feature && feature[cmds[1]]; if (input) {
@@ -496,6 +507,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 return can.run(event, ["action", target.name], function(msg) { can.run() }, true)
             }
         })
+        code && code.scrollBy(0, 10000)
         return code
     },
 

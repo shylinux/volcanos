@@ -194,6 +194,7 @@ div.code {
     text-align:left; white-space:pre;
     overflow:auto;
     clear:both;
+    max-height:400px;
 }
 div.story {
     text-align:left;
