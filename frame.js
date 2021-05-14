@@ -3,17 +3,21 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         can.core.Next(list, function(item, next) { item.type = "panel"
             can.onappend._init(can, item, item.list, function(panel) {
                 panel.onaction && panel.onappend._action(panel, item.action||panel.onaction.list)
-                panel.Status = panel.Status || function(key, value) { panel.run({}, ["search", "Footer.onimport."+key, value]) }
+                panel.Status = panel.Status || function(key, value) { panel.search({}, ["Footer.onimport."+key, value]) }
 
                 panel.run = function(event, cmds, cb) { var msg = panel.request(event); cmds = cmds || []
                     return (can.onengine[cmds[0]]||can.onengine[meta.main.engine]||can.onengine.remote)(event, can, msg, panel, cmds, cb)
                 }, can[item.name] = panel, next()
+
+                panel.page.Modify(panel, panel._output, {onmouseover: function(event) { 
+                    Volcanos.meta.data.menu && panel.page.Remove(panel, Volcanos.meta.data.menu.first)
+                }})
             }, target)
         }, function() {
             var panel = can[meta.main.name], msg = can.request()
             panel.onmotion._init(panel, target), panel.onkeypop._init(panel, target)
             panel.onaction._init(panel, msg, [], cb, panel._target)
-        }), can.ondaemon._init(can)
+        })
     },
     search: function(event, can, msg, panel, cmds, cb) {
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split("."), function(value) {
@@ -34,7 +38,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         delete(msg._handle), delete(msg._toast)
         if (panel.onengine.engine(event, can, msg, panel, cmds, cb)) { return }
         can.misc.Runs(event, can, {names: panel._name, daemon: can._daemon+"."+msg._daemon}, cmds, cb)
-        panel.run(event, ["search", "Footer.onimport.ncmd"])
+        panel.search(event, ["Footer.onimport.ncmd"])
     }, engine: function(event, can, msg, panel, cmds, cb) { return false },
     listen: shy("事件回调", {}, [], function(can, name, cb) {
         arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
@@ -267,6 +271,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             can.base.isFunc(cb) && cb(sub)
             meta.option = can.base.Obj(meta.option||"{}", {})
             meta.inputs && sub.onappend._option(sub, meta, sub._option)
+
+            sub.page.Modify(sub, sub._legend, {
+                onmouseenter: function(event) { sub.user.carte(event, sub, sub.onaction, sub.onaction.list) },
+            })
         }); return sub
     },
     _option: function(can, meta, option) { var index = -1, args = can.base.Obj(meta.args||meta.arg, [])
@@ -405,7 +413,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
     },
 
-    item: function(can, type, item, cb, cbs, target) {
+    item: function(can, type, item, cb, cbs, target) { target = target||can._output
         var ui = can.page.Append(can, target, [{view: [type, "div", item.nick||item.name],
             onclick: function(event) { cb(event, ui.first)
                 can.onmotion.select(can, target, "div."+type, ui.first)
@@ -527,6 +535,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                         }, can._figure = sub
 
                         meta.style && sub.page.Modify(sub, sub._target, {style: meta.style})
+
+                        var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight
+                        var left = event.clientX, top = event.clientY
+                        if (left+sub._target.offsetWidth>window.innerWidth) { left = window.innerWidth - sub._target.offsetWidth }
+                        can.page.Modify(can, sub._target, {style: {left: left, top: top}})
+
                         cb(event, sub, meta, target)
                     }, document.body)
                 }
@@ -542,12 +556,6 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         meta.width = meta.width||can.Conf("width")
         meta.height = meta.height||can.Conf("height")
         meta.type = meta.type||"story"
-
-        can.page.Modify(can, can._output, {
-            onmouseover: function(event) {
-                Volcanos.meta.data.menu && can.page.Remove(can, Volcanos.meta.data.menu.first)
-            },
-        })
 
         can.onappend._init(can, meta, ["/plugin/state.js"], function(sub) {
             meta.type == "story" && sub.page.Remove(sub, sub._legend)
@@ -716,11 +724,11 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
             j: function(event, can, target) { target.scrollBy(0, event.ctrlKey? 300: 30) },
             k: function(event, can, target) { target.scrollBy(0, -30) },
 
-            b: function(event, can, target) { can.run(event, ["search", "Header.onaction.black"]) },
-            w: function(event, can, target) { can.run(event, ["search", "Header.onaction.white"]) },
+            b: function(event, can, target) { can.search(event, ["Header.onaction.black"]) },
+            w: function(event, can, target) { can.search(event, ["Header.onaction.white"]) },
 
-            s: function(event, can, target) { can.run(event, ["search", "River.ondetail.添加应用"]) },
-            t: function(event, can, target) { can.run(event, ["search", "River.ondetail.添加工具"]) },
+            s: function(event, can, target) { can.search(event, ["River.ondetail.添加应用"]) },
+            t: function(event, can, target) { can.search(event, ["River.ondetail.添加工具"]) },
 
             " ": function(event, can, target) {
                 can.page.Select(can, document.body, "fieldset.panel.Header div.search input", function(target) {
@@ -729,7 +737,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
             },
             enter: function(event, can, target) { can.base.Log("enter") },
             escape: function(event, can, target) {
-                can.run(event, ["search", "Search.onaction.hide"])
+                can.search(event, ["Search.onaction.hide"])
                 can.base.Log("enter")
             },
         },

@@ -22,7 +22,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._main_title = can.user.Search(can, can._TITLE) || msg.Option("sess.title") || Volcanos.meta.args.title || can.user.Search(can, "pod") || can._main_title
     },
     _menu: function(can, msg) {
-        can.run({}, [can._SEARCH, "Header.onimport.menu", can._RIVER,
+        can.search({}, ["Header.onimport.menu", can._RIVER,
             ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备", "创建空间"],
             !can.user.isMobile && ["访问", "内部系统", "访问应用", "访问工具", "访问用户", "访问设备", "工作任务"],
             ["共享", "共享群组", "共享应用", "共享工具", "共享主机"],
@@ -35,21 +35,21 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }})
     },
 
-    _river: function(can, value) {
-        var item = can.onappend.item(can, "item", value, function(event, item) {
+    _river: function(can, meta) {
+        var item = can.onappend.item(can, "item", meta, function(event) {
             // 左键选中
-            can.onaction.storm(event, can, value.hash)
+            can.onaction.storm(event, can, meta.hash)
         }, function(event) {
             // 右键菜单
-            can.user.carte(event, can, can.ondetail, can.ondetail.list, function(ev, item, meta) {
-                can.ondetail[item](event, can, item, value.hash)
-            }, {style: {left: can._target.offsetWidth}})
-        }, can._output)
+            can.onaction.carte(event, can, can.ondetail.list, function(ev, button, module) {
+                module[button](event, can, button, meta.hash)
+            })
+        })
 
         !can.user.isMobile && can.page.Modify(can, item, {onmouseenter: function(event) {
-            can.menu = can.user.carte(event, can, can.ondetail, can.ondetail.list, function(ev, item, meta) {
-                can.ondetail[item](event, can, item, value.hash)
-            }, {style: {left: can._target.offsetWidth}})
+            can.onaction.carte(event, can, can.ondetail.list, function(ev, button, module) {
+                module[button](event, can, item, meta.hash)
+            })
         }})
         return item
     },
@@ -76,19 +76,16 @@ Volcanos("onengine", {help: "解析引擎", list: [], engine: function(event, ca
 })
 Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, list, cb, target) {
         can.const(
-            "search", "title", "river", "storm",
+            "title", "river", "storm",
         )
         can.run({}, [], function(msg) { can.onimport._init(can, msg, list, cb, can._output) })
 
-        can.onengine.listen(can, can._SEARCH, function(msg, word) {
+        can.onengine.listen(can, "search", function(msg, word) {
             if (word[0] == "*" || word[0] == can._STORM) { can.onexport.storm(can, msg, word) }
         })
 
         can.onengine.listen(can, "action.touch", function() {
             can.user.isMobile && can.onmotion.hidden(can)
-            can.page.Select(can, document.body, "div.carte", function(item) {
-                can.page.Remove(can, item)
-            })
         })
     },
     storm: function(event, can, river) {
@@ -107,9 +104,9 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
                     can.user.title(can._main_title || storm.name)
 
                     // 右键点击
-                    can.user.carte(event, can, can.ondetail, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"], function(ev, item, meta) {
-                        can.ondetail[item](event, can, item, river, storm.hash)
-                    }, {style: {left: can._target.offsetWidth}})
+                    can.onaction.carte(event, can, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"], function(ev, button, module) {
+                        module[button](event, can, button, river, storm.hash)
+                    })
                 }}
             }) }]).first, list.children.length > 0 && list.children[select].click()
 
@@ -138,17 +135,18 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         })
     },
     carte: function(event, can, list, cb) {
-        can.menu && can.page.Remove(can, can.menu.first)
-        can.menu = can.user.carte(event, can, can.ondetail, list, cb)
-        can.page.Modify(can, can.menu.first, {style: {left: can._target.offsetWidth, top:  event.target.offsetTop+60-can._output.scrollTop}})
+        var ui = can.user.carte(event, can, can.ondetail, list, cb)
+        can.page.Modify(can, ui.first, {style: {
+            left: event.clientX-event.offsetX+event.target.offsetWidth-3, top: event.clientY-event.offsetY,
+        }})
     },
 
     "创建": function(event, can) { can.onaction.create(event, can) },
     "刷新": function(event, can) {
         can.user.Search(can, {
             river: can.Conf(can._RIVER), storm: can.Conf(can._STORM),
-            topic: can.run(event, [can._SEARCH, "Header.onexport.topic"]),
-            layout: can.run(event, [can._SEARCH, "Action.onexport.layout"]),
+            topic: can.search(event, ["Header.onexport.topic"]),
+            layout: can.search(event, ["Action.onexport.layout"]),
         })
     },
 })
@@ -222,7 +220,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         })
     },
     "保存参数": function(event, can, button, river, storm) {
-        can.run(event, [can._SEARCH, "Action.onexport.args"], function(item, next, index, array) {
+        can.search(event, ["Action.onexport.args"], function(item, next, index, array) {
             var msg = can.request({}, {hash: storm, id: item.dataset.id})
             can.run(msg._event, [river, "tool", "action", "modify", "arg", item.dataset.args], function(msg) {
                 can.user.toast(can, "保存"+(index+1)+"/"+array.length)

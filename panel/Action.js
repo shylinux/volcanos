@@ -34,18 +34,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             can.onmotion.select(can, can._output, "fieldset.plugin", sub._target)
             can.onmotion.select(can, can._action, "div.item", event.target)
         }}])
-
-        sub.page.Modify(sub, sub._legend, {
-            onmouseenter: function(event) {
-                Volcanos.meta.data.menu && sub.page.Remove(sub, Volcanos.meta.data.menu.first)
-                Volcanos.meta.data.menu = sub.user.carte(event, sub, sub.onaction, sub.onaction.list)
-
-                sub.page.Modify(sub, Volcanos.meta.data.menu.first, {style: {
-                    left: event.target.offsetLeft+can.run(event, ["search", "River.onexport.width"]),
-                    top: event.target.offsetTop-(can.user.isMobile? can._target.parentNode.parentNode.scrollTop: can._output.scrollTop)+event.target.offsetHeight+can.run(event, ["search", "Header.onexport.height"]),
-                }})
-            },
-        })
     },
     _share: function(can, msg, share) {
         can.Conf(can._WIDTH, window.innerWidth)
@@ -57,7 +45,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         can.onaction._layout(can, "flow")
     },
     _menu: function(can) {
-        !can.user.isMobile && can.run({}, [can._SEARCH, "Header.onimport.menu", can._ACTION,
+        !can.user.isMobile && can.search({}, ["Header.onimport.menu", can._ACTION,
             ["布局", "默认布局", "流动布局", "网格布局", "标签布局", "自由布局"],
         ], function(event, key) { can.onaction._layout(can, key) })
     },
@@ -95,8 +83,8 @@ Volcanos("onengine", {help: "解析引擎", list: [],
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
         can.const(
             "output", "fields",
-            "search", "action", "share", "river", "storm",
-            "title", "topic", "layout", "width", "height", "top", "left",
+            "action", "share", "river", "storm",
+            "title", "topic", "layout", "width", "height", "top", "left", "scroll",
             "plugin",
         )
 
@@ -112,7 +100,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
             can.onaction._select(can, msg, river, storm)
         })
 
-        can.onengine.listen(can, can._SEARCH, function(msg, word) {
+        can.onengine.listen(can, "search", function(msg, word) {
             if (word[0] == "*" || word[0] == can._PLUGIN) { can.onexport.plugin(can, msg, word) }
         })
 
@@ -167,7 +155,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                 can.onimport._init(can, msg)
             } else {
                 var msg = can.request({}, {river: river, storm: storm})
-                can.run(msg._event, [can._SEARCH, "River.ondetail.添加工具"])
+                can.search(msg._event, ["River.ondetail.添加工具"])
             }
         })
     },
@@ -184,6 +172,7 @@ Volcanos("onexport", {help: "导出数据", list: [],
         msg.Option(can._LEFT, can._target.offsetLeft)
         msg.Option(can._WIDTH, can._target.offsetWidth)
         msg.Option(can._HEIGHT, can._target.offsetHeight)
+        msg.Option(can._SCROLL, can.user.isMobile? can._target.parentNode.parentNode.scrollTop: can._output.scrollTop)
     },
     layout: function(can, msg) { return can.Conf(can._LAYOUT) },
     plugin: function(can, msg, word) {

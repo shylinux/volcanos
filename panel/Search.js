@@ -29,7 +29,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.onimport._word(can, msg, cmds, fields)
         }, can.onimport._word(can, msg, cmds, fields)
 
-        can.search(["Action.onexport.size"], function(msg, top, left, width, height) {
+        can.search(event, ["Action.onexport.size"], function(msg, top, left, width, height) {
             can.page.Modify(can, can._output, {style: {"max-width": width, "max-height": height-75}})
             can.page.Modify(can, can._target, {style: {top: top, left: left}})
         } )
@@ -91,18 +91,6 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
                     can.base.isFunc(cb) && cb(msg)
                 })
             }
-
-            sub.page.Modify(sub, sub._legend, {
-                onmouseenter: function(event) {
-                    Volcanos.meta.data.menu && sub.page.Remove(sub, Volcanos.meta.data.menu.first)
-                    Volcanos.meta.data.menu = sub.user.carte(event, sub, can.ondetail, can.ondetail.list)
-
-                    sub.page.Modify(sub, Volcanos.meta.data.menu.first, {style: {
-                        left: event.target.offsetLeft+can.run(event, ["search", "River.onexport.width"])+10,
-                        top: event.target.offsetTop-(can.user.isMobile? can._target.parentNode.parentNode.scrollTop: can._output.scrollTop)+event.target.offsetHeight+can.run(event, ["search", "Header.onexport.height"])+32,
-                    }})
-                },
-            })
         }, can.ui.preview)
     },
 })

@@ -65,7 +65,7 @@ Volcanos("onaction", {help: "交互操作", list: ["保存参数", "清空参数
     },
     "保存参数": function(event, can) { var meta = can.Conf()
         var msg = can.request(event, {river: can.Conf("river"), storm: can.Conf("storm"), id: meta.id})
-        can.run(event, ["search", "River.ondetail.保存参数"], function(msg) {
+        can.search(event, ["River.ondetail.保存参数"], function(msg) {
             can.user.toast(can, "保存成功")
         }, true)
     },
@@ -79,7 +79,7 @@ Volcanos("onaction", {help: "交互操作", list: ["保存参数", "清空参数
                 "name", list[0], "text", JSON.stringify(can.Pack([], true)),
                 "river", meta.ctx||meta.key||"", "storm", meta.index||meta.cmd||meta.name,
             ]})
-            can.run(event, ["search", "Header.onaction.share"])
+            can.search(event, ["Header.onaction.share"])
         })
     },
     "刷新数据": function(event, can) { var meta = can.Conf()

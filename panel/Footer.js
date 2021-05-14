@@ -13,7 +13,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _toast: function(can, msg, target) {
         can.toast = can.page.Append(can, target, [{view: "toast", onclick: function(event) {
             var ui = can.onappend.field(can, "story toast float", {}, document.body)
-            can.run({}, ["search", "Action.onexport.size"], function(msg, top, left, width, height) {
+            can.search({}, ["Action.onexport.size"], function(msg, top, left, width, height) {
                 can.page.Modify(can, ui.output, {style: {"max-width": width, "max-height": height-28}})
                 can.page.Modify(can, ui.first, {style: {top: top, left: left}})
             } )

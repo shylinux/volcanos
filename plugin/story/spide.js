@@ -145,7 +145,7 @@ Volcanos("ondetail", {help: "用户交互", list: [],
                 can.run(event, ["action", "inner"].concat(cmds), cb, true)
                 can.onlayout.figure(event, sub, sub._target)
 
-                can.search(["Action.onexport.size"], function(msg, left, top, width, height) { left = left||0
+                can.search(event, ["Action.onexport.size"], function(msg, left, top, width, height) { left = left||0
                     can.page.Modify(can, sub._target, {style: {position: "fixed", left: left, top: 120}})
                     can.page.Modify(can, sub._output, {style: {"max-width": width}})
                 })

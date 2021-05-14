@@ -175,4 +175,10 @@ Volcanos("onaction", {help: "控件交互", list: [],
     },
     grid: function(sub) { sub.page.Modify(sub, sub.ui.content, {className: "content grid"}) },
 })
+Volcanos("ondetail", {help: "交互操作", list: ["删除"], _init: function(can, msg, list, cb, target) {
+    },
+    "删除": function(event, sub) {
+        sub.page.Remove(sub, sub._target)
+    },
+})
 
