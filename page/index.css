@@ -16,9 +16,18 @@ body.mobile.landscape fieldset.Action.main {
 body.mobile fieldset.Header.head {
     position:fixed; top:0;
     width:-webkit-fill-available;
-    height:48px; font-size:24px;
+    height:2em; font-size:24px;
     background-color:#000000b8;
     z-index:10;
+}
+body.mobile fieldset.Header.head div.output {
+    height:2em;
+}
+body.mobile fieldset.Header>div.output>div {
+    height:1.5em;
+}
+body.mobile fieldset.Header>div.output div.menu {
+    height:1.5em;
 }
 body.mobile fieldset.Header.head div.state.time {
     display:none;

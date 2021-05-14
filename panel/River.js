@@ -86,6 +86,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
 
         can.onengine.listen(can, "action.touch", function() {
             can.user.isMobile && can.onmotion.hidden(can)
+            Volcanos.meta.data.menu && can.page.Remove(can, Volcanos.meta.data.menu.first)
         })
     },
     storm: function(event, can, river) {
