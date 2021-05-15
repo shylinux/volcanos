@@ -105,7 +105,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._figure(event, can, can.point = can.point.concat(point))
     },
     onmousemove: function(event, can) { var point = can.onimport._point(event, can)
-        can.page.Prepos(event, event.target)
+        can.onmotion.Prepos(event, event.target)
         if (can.Action("go") == "run") { return can.page.Modify(can, event.target, {style: {cursor: ""}}) }
         if (can.Action("go") == "auto") { can.onaction._auto(can, event.target) }
         can.onimport._figure(event, can, can.point.concat(point))
@@ -213,8 +213,8 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         },
         grid: function(event, can, point) { var target = event.target
             if (target == can.svg) { return }
-            var p = point[point.length-1], pos = can.page.Prepos(event, target)
-            target.Val && can.page.Anchor(event, target, pos, p)
+            var p = point[point.length-1], pos = can.onmotion.Prepos(event, target)
+            target.Val && can.onmotion.Anchor(event, target, pos, p)
             return p.target = target, p.anchor = pos, point
         },
         draw: function(event, can, point) { if (point.length < 2) { return }
@@ -327,7 +327,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
             can.user.toast(can, "保存成功")
         }, true)
     },
-    "项目": function(event, can) { can.page.Toggle(can, can.ui.project) },
+    "项目": function(event, can) { can.onmotion.Toggle(can, can.ui.project) },
     "显示": function(event, can) { can.onmotion.show(can, {value: 100, length: 10}, null, can.group) },
     "隐藏": function(event, can) { can.onmotion.hide(can, {value: 100, length: 10}, null, can.group) },
     "添加": function(event, can) {
@@ -359,7 +359,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
 
     _auto: function(can, target) {
         if (can.point.length > 0) { return }
-        var pos = can.page.Prepos(event, event.target)
+        var pos = can.onmotion.Prepos(event, event.target)
         if (target.tagName == "text") {
 
         } else if (target == can.svg) {
@@ -406,7 +406,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
                                 return ship.pid && (ship.target = can.page.Select(can, can.svg, "."+ship.pid)[0]) && ship
                             })
                         }
-                    }), pos: can.page.Prepos(event, target)}
+                    }), pos: can.onmotion.Prepos(event, target)}
                 }
                 return
             }
@@ -415,12 +415,12 @@ Volcanos("onaction", {help: "组件菜单", list: [
             }
 
             can.core.List(can.current.begin, function(item) { var figure = can.onfigure._get(can, item.target)
-                can.page.Resizes(event, item.target, item, point[0], point[1], can.current.pos)
+                can.onmotion.Resizes(event, item.target, item, point[0], point[1], can.current.pos)
                 can.page.Select(can, can.svg, "."+item.target.Value("text"), function(text) {
                     text.Value(figure.text(can, {}, item.target))
                 })
                 can.core.List(item.ship, function(ship) {
-                    var p = can.page.Anchor(event, item.target, ship.anchor, {}) 
+                    var p = can.onmotion.Anchor(event, item.target, ship.anchor, {}) 
                     if (ship.which == 0) {
                         ship.target.Val("x1", p.x)
                         ship.target.Val("y1", p.y)

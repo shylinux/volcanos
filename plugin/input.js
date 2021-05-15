@@ -13,7 +13,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
         }
     },
 
-    "upload": function(event, can) { can.user.upload(event, can) },
+    upload: function(event, can) { can.user.upload(event, can) },
     "执行": function(event, can) { can.run(event) },
     "刷新": function(event, can) { can.run(event) },
     "查看": function(event, can) { can.run(event) },

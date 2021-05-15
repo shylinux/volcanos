@@ -86,9 +86,8 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         can.ui.current.focus()
     },
 
-    _remote: function(event, can, key, arg, cb) {
-        var toast = can.user.toast(can, "执行中...", key, 1000000)
-        can.run(event, arg||["action", key, can.parse, can.Option("file"), can.Option("path")], cb||function(msg) { toast.Close()
+    _remote: function(event, can, key, arg, cb) { can.request(event, {_toast: "执行中..."})
+        can.run(event, arg||["action", key, can.parse, can.Option("file"), can.Option("path")], cb||function(msg) {
             can.onappend.table(can, msg, function(value, key, index) { return {text: [value, "td"]} }, can.ui.output)
             can.onappend.board(can, msg.Result(), can.ui.output)
         }, true)
@@ -273,7 +272,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             can.ui.current.setSelectionRange(can.ui.current.selectionStart, can.ui.current.selectionEnd)
         },
         jk: function(event, can) {
-            can.page.DelText(can.ui.current, can.ui.current.selectionStart-1, 1)
+            can.onkeypop.DelText(can.ui.current, can.ui.current.selectionStart-1, 1)
             can.onkeymap.insert.Escape(event, can)
         },
     },

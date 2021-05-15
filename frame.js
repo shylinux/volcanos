@@ -1,5 +1,5 @@
 var _can_name = "/frame.js"
-Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta, list, cb, target) {
+Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta, list, cb, target) {
         can.core.Next(list, function(item, next) { item.type = "panel"
             can.onappend._init(can, item, item.list, function(panel) {
                 panel.onaction && panel.onappend._action(panel, item.action||panel.onaction.list)
@@ -8,10 +8,6 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
                 panel.run = function(event, cmds, cb) { var msg = panel.request(event); cmds = cmds || []
                     return (can.onengine[cmds[0]]||can.onengine[meta.main.engine]||can.onengine.remote)(event, can, msg, panel, cmds, cb)
                 }, can[item.name] = panel, next()
-
-                panel.page.Modify(panel, panel._output, {onmouseover: function(event) { 
-                    Volcanos.meta.data.menu && panel.page.Remove(panel, Volcanos.meta.data.menu.first)
-                }})
             }, target)
         }, function() {
             var panel = can[meta.main.name], msg = can.request()
@@ -23,7 +19,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split("."), function(value) {
             fun && (sub = mod, mod = fun, fun = mod[value], key = value)
         }); if (!sub || !mod || !fun) {
-            can.base.Warn("not found", cmds[1])
+            can.misc.Warn("not found", cmds[1])
             can.base.isFunc(cb) && cb(msg.Echo("warn: ", "not found: ", cmds[1]))
             return
         }
@@ -37,7 +33,18 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
     remote: function(event, can, msg, panel, cmds, cb) {
         delete(msg._handle), delete(msg._toast)
         if (panel.onengine.engine(event, can, msg, panel, cmds, cb)) { return }
-        can.misc.Runs(event, can, {names: panel._name, daemon: can._daemon+"."+msg._daemon}, cmds, cb)
+
+        var key = panel._name+"."+cmds.join(",")
+        if (can.user.isLocalFile) { var msg = can.request(event); msg.Clear("append")
+            var res = Volcanos.meta.pack[key]; res? msg.Copy(res): can.user.toast(can, "缺失数据")
+            return typeof cb == "function" && cb(msg)
+        }
+
+        can.misc.Run(event, can, {names: (can.Conf("iceberg")||"/chat/")+panel._name, daemon: can._daemon+"."+msg._daemon}, cmds, function(msg) {
+            Volcanos.meta.pack[key] = msg
+            can.base.isFunc(cb) && cb(msg)
+        })
+
         panel.search(event, ["Footer.onimport.ncmd"])
     }, engine: function(event, can, msg, panel, cmds, cb) { return false },
     listen: shy("事件回调", {}, [], function(can, name, cb) {
@@ -170,7 +177,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _init: function(can, meta,
         }},
     },
 })
-Volcanos("ondaemon", {help: "解析引擎", list: [], _init: function(can) {
+Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can) {
         if (can.user.isLocalFile) { return }
         can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")||""}, function(event, msg, cmd, arg) { if (!msg) { return }
             if (can.base.isFunc(can.ondaemon[cmd])) {
@@ -188,8 +195,8 @@ Volcanos("ondaemon", {help: "解析引擎", list: [], _init: function(can) {
     },
     _list: [{}],
     toast: function(can, msg, arg) { arg[0] = can
-        can._toast && can._toast.Close()
-        can._toast = can.core.CallFunc(can.user.toast, arg)
+        Volcanos.meta.float.toast && can.page.Remove(can, Volcanos.meta.float.toast._target)
+        Volcanos.meta.float.toast = can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg})
     },
     grow: function(can, msg, arg) {
         var sub = can.ondaemon._list[msg.Option("_target")]
@@ -199,7 +206,7 @@ Volcanos("ondaemon", {help: "解析引擎", list: [], _init: function(can) {
         out.onimport._grow(out, arg.join(""))
     },
     pwd: function(can, msg, arg) {
-        can.base.Log(msg)
+        can.misc.Log(msg)
         can._daemon = arg[0]
     },
 })
@@ -324,11 +331,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 can.core.CallFunc(meta[which], [event, can, which])
                 can.core.CallFunc(meta[item[0]], [event, can, item[0], which])
 
-            }}: item.input? /*文本*/ {type: "input", name: item.input[0], onkeydown: function(event) {
-                can.core.CallFunc(item.input[1], [event, can])
-
-            }}: typeof item == "object" && /*其它*/ item
+            }}: /*其它*/ item
         , "", action)})
+        return meta
     },
     _output: function(can, meta, event, cmds, cb, silent) {
         var msg = can.request(event); can.page.Select(can, can._output, "div.control .args", function(item) {
@@ -472,6 +477,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 break
             case "button": item.value = item.value||item.name||"查看"; break
             case "upfile": item.type = "file"; break
+            case "upload": item.type = "file", input.name = "upload"; break
         }
 
         return can.page.Append(can, target, [{view: ["item "+item.type], list: [input]}])[item.name]
@@ -520,31 +526,23 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
 
     figure: function(can, meta, key, target) {
-        if (!key || key.indexOf("@") != 0) { return }
+        if (!key || key[0] != "@") { return }
         var list = can.core.Split(key, "@=", "@=")
         var pkey = list[0], pval = list[1]||""
 
-        target.type != "button" && target.value && target.value.indexOf("@") == 0 && (target.value = pval||"")
-        pkey && can.require(["/plugin/input/"+pkey+".js"], function(can) {
-            can.onfigure && can.core.Item(can.onfigure[pkey], function(key, cb) { if (key.indexOf("on") == 0) {
-                target[key] = function(event) { can._figure && can.page.Remove(can, can._figure._target)
-                    can.onappend._init(can, {type: "input", name: pkey, pos: "float"}, [], function(sub) {
-                        sub.Conf(meta), sub.run = function(event, cmds, cb) {
-                            var msg = sub.request(event, can.Option());
-                            (meta.run||can.run)(event, cmds, cb, true)
-                        }, can._figure = sub
+        target.type != "button" && (target.value = pval||""), can.require(["/plugin/input/"+pkey+".js"], function(can) {
+            can.core.Item(can.onfigure[pkey], function(key, cb) { if (key.indexOf("on") == 0) { target[key] = function(event) {
+                can.onappend._init(can, {type: "input", name: pkey, pos: "float"}, [], function(sub) {
+                    sub.run = function(event, cmds, cb) {
+                        var msg = sub.request(event, can.Option());
+                        (meta.run||can.run)(event, cmds, cb, true)
+                    }, sub.Conf(meta)
 
-                        meta.style && sub.page.Modify(sub, sub._target, {style: meta.style})
-
-                        var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight
-                        var left = event.clientX, top = event.clientY
-                        if (left+sub._target.offsetWidth>window.innerWidth) { left = window.innerWidth - sub._target.offsetWidth }
-                        can.page.Modify(can, sub._target, {style: {left: left, top: top}})
-
-                        cb(event, sub, meta, target)
-                    }, document.body)
-                }
-            } })
+                    Volcanos.meta.float.input && can.page.Remove(can, Volcanos.meta.float.input._target), Volcanos.meta.float.input = sub
+                    meta.style && sub.page.Modify(sub, sub._target, {style: meta.style})
+                    cb(event, sub, meta, target)
+                }, document.body)
+            } } })
         })
     },
     _plugin: function(can, value, meta, cb, target) {
@@ -612,20 +610,15 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
     topic: function(can, topic) { topic && (can._topic = topic)
         can.user.topic(can, can._topic || can.user.Search(can, "topic") || ((can.user.Search(can, "pod")||can.base.isNight())? "black": "white"))
     },
-    figure: function(event, can, target) { var p = target||can._target
-        var layout = {left: event.clientX, top: event.clientY+10}
-        can.page.Modify(can, p, {style: layout})
-        can.onmotion.move(can, p, layout)
+    figure: function(event, can, target) { target = target||can._target
+        if (!event.target) { return }
+        var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight
+        if (left+target.offsetWidth>window.innerWidth) { left = window.innerWidth - target.offsetWidth }
+        if (top+target.offsetHeight>window.innerHeight) { top = window.innerHeight - target.offsetHeight }
 
-        var left = p.offsetLeft; if (p.offsetLeft+p.offsetWidth > window.innerWidth) {
-            left = window.innerWidth - p.offsetWidth
-        } if (left < 120) { left = 120 }
-
-        var top = p.offsetTop; if (p.offsetTop+p.offsetHeight > window.innerHeight) {
-            top = window.innerHeight - p.offsetHeight
-        } if (top < 32) { top = 32 }
-
-        can.page.Modify(can, p, {style: {left: can.user.isMobile? 30: left, top: top+30}})
+        var layout = {left: left, top: top}
+        can.page.Modify(can, target, {style: layout})
+        can.onmotion.move(can, target, layout)
     },
     resize: function(can, name, cb) {
         var list = []; can.onengine.listen(can, name, function(width, height) {
@@ -667,155 +660,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can) {
         ]}])
     },
 })
-Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, target) {
-        var focus = []; can.onengine.listen(can, "keymap.focus", function(cb) {
-            cb? focus.push(cb): focus.pop()
-        })
-        can.onkeypop._build(can)
-        target.onkeydown = function(event) {
-            if (focus.length > 0) { return focus[focus.length-1](event) }
-            if (event.target != target) { return }
-            can.page.Select(can, target, "fieldset.Action>div.output", function(item) {
-                target._keys = can.onkeypop._parse(event, can, "normal", target._keys||[], item)
-            })
-        }
-    },
-    _build: function(can) {
-        can.core.Item(can.onkeypop._mode, function(item, value) { var engine = {}
-            can.core.Item(value, function(key, cb) { var map = engine
-                for (var i = key.length-1; i > -1; i--) {
-                    map = map[key[i]] = i == 0? cb: (map[key[i]]||{})
-                }
-            }), can.onkeypop._engine[item] = engine
-        })
-    },
-    _parse: function(event, can, mode, list, target) { list = list||[], list.push(event.key)
-        // can.Status("按键", list.join(""))
-        for (var pre = 0; pre < list.length; pre++) {
-            if ("0" <= list[pre] && list[pre] <= "9") { continue } break
-        }; var count = parseInt(list.slice(0, pre).join(""))||1
-
-        function repeat(cb, count) { list = []
-            for (var i = 1; i <= count; i++) { if (cb(event, can, target, count)) { break } }
-            event.stopPropagation(), event.preventDefault()
-            // can.Status("按键", list.join(""))
-        }
-
-        var map = can.onkeypop._mode[mode]
-        var cb = map && map[event.key]; if (can.base.isFunc(cb) && event.key.length > 1) {
-            repeat(cb, count); return list
-        }
-        var cb = map && map[event.key.toLowerCase()]; if (can.base.isFunc(cb) && event.key.length > 1) {
-            repeat(cb, count); return list
-        }
-
-        var map = can.onkeypop._engine[mode]; for (var i = list.length-1; i > pre-1; i--) {
-            var cb = map[list[i]]; switch (typeof cb) {
-                case "function": repeat(cb, count); return list
-                case "object": map = cb; continue
-                case "string": 
-                default: return list
-            }
-        }
-        return list
-    },
-    _mode: {
-        normal: {
-            j: function(event, can, target) { target.scrollBy(0, event.ctrlKey? 300: 30) },
-            k: function(event, can, target) { target.scrollBy(0, -30) },
-
-            b: function(event, can, target) { can.search(event, ["Header.onaction.black"]) },
-            w: function(event, can, target) { can.search(event, ["Header.onaction.white"]) },
-
-            s: function(event, can, target) { can.search(event, ["River.ondetail.添加应用"]) },
-            t: function(event, can, target) { can.search(event, ["River.ondetail.添加工具"]) },
-
-            " ": function(event, can, target) {
-                can.page.Select(can, document.body, "fieldset.panel.Header div.search input", function(target) {
-                    target.focus()
-                })
-            },
-            enter: function(event, can, target) { can.base.Log("enter") },
-            escape: function(event, can, target) {
-                can.search(event, ["Search.onaction.hide"])
-                can.base.Log("enter")
-            },
-        },
-        insert: {
-            escape: function(event, can, target) {
-                target.blur()
-            },
-            jk: function(event, can, target) {
-                can.page.DelText(target, target.selectionStart-1, target.selectionStart)
-                target.blur()
-            },
-            enter: function(event, can, target) {
-                var his = target._history || []
-                his.push(target.value)
-
-                can.base.Log("input", target, his)
-                target.setSelectionRange(0, -1)
-                target._current = his.length
-                target._history = his
-            },
-        },
-        insert_ctrl: {
-            p: function(event, can, target) {
-                var his = target._history||[]
-                var pos = target._current||0
-
-                pos = --pos % (his.length+1)
-                if (pos < 0) { pos = his.length}
-                target.value = his[pos]||""
-                can.base.Log(pos, his)
-
-                target._current = pos
-            },
-            n: function(event, can, target) {
-                var his = target._history||[]
-                var pos = target._current||0
-
-                pos = ++pos % (his.length+1)
-                target.value = his[pos]||""
-                can.base.Log(pos, his)
-
-                target._current = pos
-            },
-
-            u: function(event, can, target) {
-                can.page.DelText(target, 0, target.selectionEnd)
-            },
-            k: function(event, can, target) {
-                can.page.DelText(target, target.selectionStart)
-            },
-            h: function(event, can, target) {
-                can.page.DelText(target, target.selectionStart-1, target.selectionStart)
-            },
-            d: function(event, can, target) {
-                can.page.DelText(target, 0, target.selectionStart)
-            },
-            w: function(event, can, target) {
-                var start = target.selectionStart-2
-                var end = target.selectionEnd-1
-                for (var i = start; i >= 0; i--) {
-                    if (target.value[end] == " " && target.value[i] != " ") {
-                        break
-                    }
-                    if (target.value[end] != " " && target.value[i] == " ") {
-                        break
-                    }
-                }
-                can.page.DelText(target, i+1, end-i)
-            },
-        },
-    }, _engine: {},
-
-    input: function(event, can) { var target = event.target
-        target._keys = can.onkeypop._parse(event, can, event.ctrlKey? "insert_ctrl": "insert", target._keys||[], target)
-        if (target._keys.length == 0)  { event.stopPropagation(), event.preventDefault() }
-    },
-})
-Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, target) {
+Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, target) {
         if ((can.user.Search(can, "topic")||"").indexOf("print") > -1) { return }
         return
 
@@ -854,6 +699,10 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
         })
     },
 
+    focus: function(can, target) {
+        target.setSelectionRange(0, -1)
+        target.focus()
+    },
     clear: function(can, target) {
         can.page.Modify(can, target||can._output, "")
     },
@@ -882,7 +731,7 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
         can.page.Modify(can, target||can._target, {style: {display: "none"}})
     },
     toggle: function(can, target) {
-        return can.page.Toggle(can, target||can._target)
+        return can.onmotion.Toggle(can, target||can._target)
     },
     select: function(can, target, name, which) {
         can.page.Select(can, target, name, function(item, index) {
@@ -971,7 +820,6 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
             can.page.Modify(can, target, {style: {width: begin+=space}})
         })
     },
-
     autosize: function(can, target, max, min) {
         can.page.Modify(can, target, {
             onfocus: function(event) {
@@ -984,6 +832,325 @@ Volcanos("onmotion", {help: "动态交互", list: [], _init: function(can, targe
                 can.onmotion.resize(can, target, min, 5)
             },
         })
-    }
+    },
+
+    EnableDrop: function(can, parent, search, target) {
+        return can.page.Modify(can, target, { draggable: true,
+            ondragstart: function(event) { var target = event.target; can.drop = function(event, tab) {
+                parent.insertBefore(target, tab)
+                can.page.Select(can, parent, search, function(item) {
+                    can.page.ClassList.del(can, item, "over")
+                })
+            } },
+            ondragover: function(event) { event.preventDefault()
+                can.page.Select(can, parent, search, function(item) {
+                    can.page.ClassList.del(can, item, "over")
+                }), can.page.ClassList.add(can, event.target, "over")
+            },
+            ondrop: function(event) { event.preventDefault()
+                can.drop(event, event.target)
+            },
+        })
+    },
+    Resizes: function(event, item, begin, p0, p1, pos) {
+        switch (pos) {
+            case 5:
+                item.Value("x", begin.x + p1.x - p0.x)
+                item.Value("y", begin.y + p1.y - p0.y)
+                return
+        }
+
+        switch (pos) {
+            case 1:
+            case 2:
+            case 3:
+                item.Value("y", begin.y + p1.y - p0.y)
+                item.Value("height", begin.height - p1.y + p0.y)
+                break
+        }
+        switch (pos) {
+            case 1:
+            case 4:
+            case 7:
+                item.Value("x", begin.x + p1.x - p0.x)
+                item.Value("width", begin.width - p1.x + p0.x)
+                break
+        }
+        switch (pos) {
+            case 3:
+            case 6:
+            case 9:
+                item.Value("width", begin.width + p1.x - p0.x)
+                break
+        }
+        switch (pos) {
+            case 7:
+            case 8:
+            case 9:
+                item.Value("height", begin.height + p1.y - p0.y)
+                break
+        }
+    },
+    Resize: function(event, item, begin, pos) {
+        switch (pos) {
+            case 5:
+                item.style.left = begin.left + event.clientX - begin.x + "px"
+                item.style.top = begin.top + event.clientY - begin.y + "px"
+                return
+        }
+
+        switch (pos) {
+            case 1:
+            case 2:
+            case 3:
+                item.style.top = begin.top + event.clientY - begin.y + "px"
+                item.style.height = begin.height - event.clientY + begin.y + "px"
+                break
+        }
+        switch (pos) {
+            case 1:
+            case 4:
+            case 7:
+                item.style.left = begin.left + event.clientX - begin.x + "px"
+                item.style.width = begin.width - event.clientX + begin.x + "px"
+                break
+        }
+        switch (pos) {
+            case 3:
+            case 6:
+            case 9:
+                item.style.width = begin.width + event.clientX - begin.x + "px"
+                break
+        }
+        switch (pos) {
+            case 7:
+            case 8:
+            case 9:
+                item.style.height = begin.height + event.clientY - begin.y + "px"
+                break
+        }
+    },
+    Anchor: function(event, target, pos, point) {
+        switch (pos) {
+            case 1:
+            case 2:
+            case 3:
+                point.y = target.Val("y")
+                break
+            case 4:
+            case 5:
+            case 6:
+                point.y = target.Val("y") + target.Val("height") / 2
+                break
+            case 7:
+            case 8:
+            case 9:
+                point.y = target.Val("y") + target.Val("height")
+                break
+        }
+
+        switch (pos) {
+            case 1:
+            case 4:
+            case 7:
+                point.x = target.Val("x")
+                break
+            case 2:
+            case 5:
+            case 8:
+                point.x = target.Val("x") + target.Val("width") / 2
+                break
+            case 3:
+            case 6:
+            case 9:
+                point.x = target.Val("x") + target.Val("width")
+                break
+        }
+        return point
+    },
+    Prepos: function(event, item, p, q) {
+        var max = 20
+        p = p || item.getBoundingClientRect()
+        q = q || {x: event.clientX, y: event.clientY}
+
+        var pos = 5
+        var y = (q.y - p.y) / p.height
+        if (y < 0.2 && q.y - p.y < max) {
+            pos -= 3
+        } else if (y > 0.8 && q.y - p.y - p.height > -max) {
+            pos += 3
+        }
+        var x = (q.x - p.x) / p.width
+        if (x < 0.2 && q.x - p.x < max) {
+            pos -= 1
+        } else if (x > 0.8 && q.x - p.x - p.width > -max) {
+            pos += 1
+        }
+
+        var cursor = [
+            "nw-resize", "n-resize", "ne-resize",
+            "w-resize", "move", "e-resize",
+            "sw-resize", "s-resize", "se-resize",
+        ]
+        item.style.cursor = cursor[pos-1]
+        return pos
+    },
+    Toggle: function(can, target, show, hide) { var status = target.style.display == "none"
+        can.page.Modify(can, target, {style: {display: status? "": "none"}})
+        status? typeof show == "function" && show(): typeof hide == "function" && hide()
+        return status
+    },
+})
+Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, target) {
+        var focus = []; can.onengine.listen(can, "keymap.focus", function(cb) {
+            cb? focus.push(cb): focus.pop()
+        })
+        can.onkeypop._build(can)
+        target.onkeydown = function(event) {
+            if (focus.length > 0) { return focus[focus.length-1](event) }
+            if (event.target != target) { return }
+            can.page.Select(can, target, "fieldset.Action>div.output", function(item) {
+                target._keys = can.onkeypop._parse(event, can, "normal", target._keys||[], item)
+            })
+        }
+    },
+    _build: function(can) {
+        can.core.Item(can.onkeypop._mode, function(item, value) { var engine = {}
+            can.core.Item(value, function(key, cb) { var map = engine
+                for (var i = key.length-1; i > -1; i--) {
+                    map = map[key[i]] = i == 0? cb: (map[key[i]]||{})
+                }
+            }), can.onkeypop._engine[item] = engine
+        })
+    },
+    _parse: function(event, can, mode, list, target) { list = list||[], list.push(event.key)
+        // can.Status("按键", list.join(""))
+        for (var pre = 0; pre < list.length; pre++) {
+            if ("0" <= list[pre] && list[pre] <= "9") { continue } break
+        }; var count = parseInt(list.slice(0, pre).join(""))||1
+
+        function repeat(cb, count) { list = []
+            for (var i = 1; i <= count; i++) { if (cb(event, can, target, count)) { break } }
+            event.stopPropagation(), event.preventDefault()
+            // can.Status("按键", list.join(""))
+        }
+
+        var map = can.onkeypop._mode[mode]
+        var cb = map && map[event.key]; if (can.base.isFunc(cb) && event.key.length > 1) {
+            repeat(cb, count); return list
+        }
+        var cb = map && map[event.key.toLowerCase()]; if (can.base.isFunc(cb) && event.key.length > 1) {
+            repeat(cb, count); return list
+        }
+
+        var map = can.onkeypop._engine[mode]; for (var i = list.length-1; i > pre-1; i--) {
+            var cb = map[list[i]]; switch (typeof cb) {
+                case "function": repeat(cb, count); return list
+                case "object": map = cb; continue
+                case "string": 
+                default: return list
+            }
+        }
+        return list
+    },
+    _mode: {
+        normal: {
+            j: function(event, can, target) { target.scrollBy(0, event.ctrlKey? 300: 30) },
+            k: function(event, can, target) { target.scrollBy(0, -30) },
+
+            b: function(event, can, target) { can.search(event, ["Header.onaction.black"]) },
+            w: function(event, can, target) { can.search(event, ["Header.onaction.white"]) },
+
+            s: function(event, can, target) { can.search(event, ["River.ondetail.添加应用"]) },
+            t: function(event, can, target) { can.search(event, ["River.ondetail.添加工具"]) },
+
+            " ": function(event, can, target) {
+                can.page.Select(can, document.body, "fieldset.panel.Header div.search input", function(target) {
+                    target.focus()
+                })
+            },
+            enter: function(event, can, target) { can.misc.Log("enter") },
+            escape: function(event, can, target) {
+                can.search(event, ["Search.onaction.hide"])
+                can.misc.Log("enter")
+            },
+        },
+        insert: {
+            escape: function(event, can, target) {
+                target.blur()
+            },
+            jk: function(event, can, target) {
+                can.onkeypop.DelText(target, target.selectionStart-1, target.selectionStart)
+                target.blur()
+            },
+            enter: function(event, can, target) {
+                var his = target._history || []
+                his.push(target.value)
+
+                can.misc.Log("input", target, his)
+                target.setSelectionRange(0, -1)
+                target._current = his.length
+                target._history = his
+            },
+        },
+        insert_ctrl: {
+            p: function(event, can, target) {
+                var his = target._history||[]
+                var pos = target._current||0
+
+                pos = --pos % (his.length+1)
+                if (pos < 0) { pos = his.length}
+                target.value = his[pos]||""
+                can.misc.Log(pos, his)
+
+                target._current = pos
+            },
+            n: function(event, can, target) {
+                var his = target._history||[]
+                var pos = target._current||0
+
+                pos = ++pos % (his.length+1)
+                target.value = his[pos]||""
+                can.misc.Log(pos, his)
+
+                target._current = pos
+            },
+
+            u: function(event, can, target) {
+                can.onkeypop.DelText(target, 0, target.selectionEnd)
+            },
+            k: function(event, can, target) {
+                can.onkeypop.DelText(target, target.selectionStart)
+            },
+            h: function(event, can, target) {
+                can.onkeypop.DelText(target, target.selectionStart-1, target.selectionStart)
+            },
+            d: function(event, can, target) {
+                can.onkeypop.DelText(target, 0, target.selectionStart)
+            },
+            w: function(event, can, target) {
+                var start = target.selectionStart-2
+                var end = target.selectionEnd-1
+                for (var i = start; i >= 0; i--) {
+                    if (target.value[end] == " " && target.value[i] != " ") {
+                        break
+                    }
+                    if (target.value[end] != " " && target.value[i] == " ") {
+                        break
+                    }
+                }
+                can.onkeypop.DelText(target, i+1, end-i)
+            },
+        },
+    }, _engine: {},
+
+    DelText: function(target, start, count) {
+        target.value = target.value.substring(0, start)+target.value.substring(start+(count||target.value.length), target.value.length)
+        target.setSelectionRange(start, start)
+    },
+    input: function(event, can) { var target = event.target
+        target._keys = can.onkeypop._parse(event, can, event.ctrlKey? "insert_ctrl": "insert", target._keys||[], target)
+        if (target._keys.length == 0)  { event.stopPropagation(), event.preventDefault() }
+    },
 })
 

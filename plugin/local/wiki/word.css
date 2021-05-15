@@ -5,28 +5,6 @@ fieldset.word>form.option>div.item.text input {
 fieldset.word a {
     word-break:break-word;
 }
-fieldset.word h1.story {
-    clear:both;
-}
-fieldset.word h2.story {
-    clear:both;
-}
-fieldset.word h3.story {
-    clear:both;
-}
-fieldset.word h1:hover {
-    background:green;
-    cursor:pointer;
-}
-fieldset.word h2:hover {
-    background:green;
-    cursor:pointer;
-}
-fieldset.word h3:hover {
-    background:green;
-    cursor:pointer;
-}
-
 fieldset.word ul.story[data-type=premenu] {
     cursor:pointer;
 }

@@ -19,7 +19,6 @@ fieldset.Action>div.action div.item {
 fieldset.Action>div.action div.item:hover {
     border-bottom:solid 2px red;
     background-color:#2e515f;
-    cursor:pointer;
 }
 fieldset.Action>div.action div.item.select {
     border-bottom:solid 2px red;

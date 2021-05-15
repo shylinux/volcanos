@@ -4,7 +4,6 @@ fieldset.River {
 fieldset.River>div.output div.item {
     border-left:solid 3px #00ffae;
     padding:3px 16px;
-    cursor:pointer;
 }
 fieldset.River>div.output div.item:hover {
     background-color:#2e515f;

@@ -15,12 +15,17 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         }, function() {
             can.onaction._layout(can, can.Conf(can._LAYOUT)||can.user.Search(can, can._LAYOUT))
         })
+
+        can.page.Modify(can, can._output, {onmouseover: function(event) { 
+            Volcanos.meta.float.carte && can.page.Remove(can, Volcanos.meta.float.carte._target)
+            // Volcanos.meta.float.input && can.page.Remove(can, Volcanos.meta.float.input._target)
+        }})
     },
     _plugin: function(can, river, storm, sub, item) {
         sub.run = function(event, cmds, cb) { var msg = sub.request(event)
             var toast = msg.Option("_toast") && can.user.toast(can, msg.Option("_toast"), "", 1000000)
             return can.run(event, (can.onengine[cmds[0]]? []: [river, storm, item.id||item.index||item.key+"."+item.name]).concat(cmds), function(msg) {
-                toast && toast.Close(), can.base.isFunc(cb) && cb(msg)
+                toast && toast.close(), can.base.isFunc(cb) && cb(msg)
             })
         }, can._plugins = (can._plugins||[]).concat([sub])
 
@@ -66,7 +71,7 @@ Volcanos("onengine", {help: "解析引擎", list: [],
         if (!storm || cmds.length != 2) { return false }
 
         if (storm.index) { cmds = [can._ACTION, "command"].concat(storm.index)
-            can.misc.Runs(event, can, {names: can._name}, cmds, cb)
+            can.run(event, cmds, cb)
         } else {
             can.core.List(storm.action, function(value) {
                 msg.Push("name", value.name||"")

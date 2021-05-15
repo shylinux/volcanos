@@ -98,8 +98,8 @@ Volcanos("onaction", {help: "交互操作", list: ["保存参数", "清空参数
             res.push(can.core.Item(line, function(key, value) { return value }).join(","))
         })
 
-        res.length > 1 && can.user.download(can, URL.createObjectURL(new Blob([res.join("\n")])), meta.name+".csv")
-        msg.result && can.user.download(can, URL.createObjectURL(new Blob([msg.Result()])), meta.name+".txt")
+        res.length > 1 && can.user.downloads(can, res.join("\n"), meta.name+".csv")
+        msg.result && can.user.downloads(can, msg.Result(), meta.name+".txt")
     },
     "清空数据": function(event, can) {
         can.onmotion.clear(can, can._output)
@@ -135,10 +135,10 @@ Volcanos("onaction", {help: "交互操作", list: ["保存参数", "清空参数
                 can.run(event, can.base.Simple("action", cmd, can.base.parseJSON(text)), function(msg) {
                     can.user.toast(can, text, "添加成功"), can.run()
                 }, true)
-            }).catch((err) => { can.base.Log(err) })
+            }).catch((err) => { can.misc.Log(err) })
             return
         } else {
-            can.user.input(event, can, [{_input: "textarea"}], function(ev, button, data, list, args) {
+            can.user.input(event, can, [{type: "textarea"}], function(ev, button, data, list, args) {
                 can.run(event, can.base.Simple("action", cmd, can.base.parseJSON(list[0])), function(msg) {
                     can.user.toast(can, list[0], "添加成功"), can.run()
                 }, true)
@@ -157,7 +157,7 @@ Volcanos("onaction", {help: "交互操作", list: ["保存参数", "清空参数
     },
     openLocation: function(event, can) { can.user.agent.openLocation(can.request(event)) },
 
-    "参数": function(event, can) { can.page.Toggle(can, can._action) },
+    "参数": function(event, can) { can.onmotion.Toggle(can, can._action) },
     "关闭": function(event, can) { can.page.Remove(can, can._target) },
     "清空": function(event, can, name) { can.onmotion.clear(can, can._output) },
 })

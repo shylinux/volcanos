@@ -24,7 +24,7 @@ Volcanos("onaction", {help: "操作数据", list: [], _init: function(can, msg, 
             video.srcObject = stream, video.play()
             can.ui.video = video
         }, function(error) {
-            can.base.Log("open camera", error)
+            can.misc.Log("open camera", error)
         })
     },
     snapshot: function(event, can) {

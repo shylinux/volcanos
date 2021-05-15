@@ -95,7 +95,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                     can.onimport.tabview(can, path, file, "", cb)
                 }, _init: function(item) {
                     can.core.Timer(10, function() { item.click() })
-                    can.page.EnableDrop(can, can._action, "div.file", item)
+                    can.onmotion.EnableDrop(can, can._action, "div.file", item)
                 }}
             ]).last
         }, true)
@@ -264,7 +264,7 @@ Volcanos("onaction", {help: "控件交互", list: ["项目"],
         can.page.Modify(can, can.ui.search, {style: {display: ""}})
         value = can.ui.word.value = value || can.ui.word.value || "main"
 
-        var msg = can.request(event, {_toast: "搜索中..."})
+        can.request(event, {_toast: "搜索中..."})
         can.run(event, ["action", "search", can.parse, value, can.Option("path")], function(msg) {
 
             can.onmotion.clear(can, can.ui.tags)
@@ -304,8 +304,8 @@ Volcanos("onaction", {help: "控件交互", list: ["项目"],
 
     favorLine: function(can, value) {
         can.user.input(event, can, [
-            {_input: "text", name: "topic", value: "@key"},
-            {_input: "text", name: "name", value: "@key"},
+            {name: "topic", value: "@key"},
+            {name: "name", value: "@key"},
         ], function(event, button, meta, list) {
             can.run(event, ["action", "favor",
                 "action", "insert", "topic", meta.topic||"some",

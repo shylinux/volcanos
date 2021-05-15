@@ -1,4 +1,5 @@
 a {
+
     color:yellow;
 }
 body.mobile.landscape fieldset.Header.head {
@@ -62,6 +63,9 @@ body.mobile select {
 body.mobile div.carte {
     font-size:24px;
 }
+body.mobile div.input.login input {
+    font-size:24px
+}
 
 body {
     margin:0; padding:0;
@@ -105,24 +109,26 @@ input[type=text] {
 input[type=text]:hover {
     background-color:white;
 }
+input[type=button] {
+    background-color:black; color:cyan;
+    letter-spacing:4px;
+    padding-left:10px;
+    cursor:pointer;
+}
+input[type=button]:hover {
+    background-color:gray; color:cyan;
+}
 td>input[type=button][name=remove] {
     background-color:red;
 }
 td>input[type=button][name=create] {
     background-color:blue;
 }
-input[type=button] {
-    background-color:black; color:cyan;
-    letter-spacing:4px;
-    padding-left:10px;
-}
-input[type=button]:hover {
-    background-color:gray; color:cyan;
-}
 select {
     box-shadow: 4px 4px 10px 1px #626bd0;
     background-color:black; color:cyan;
     padding:0 10px;
+    cursor:pointer;
 }
 option {
     font-family:monospace;
@@ -147,7 +153,7 @@ table.content {
     /* width:-webkit-fill-available; */
     border:0; white-space:pre;
     font-size:14px; font-family:monospace;
-    cursor:pointer; overflow: auto;
+    overflow: auto;
 }
 table.content tr {
     background-color:#04272f45;
@@ -185,6 +191,13 @@ table.content td:hover {
 
 h1 {
     margin:0;
+    clear:both;
+}
+h2 {
+    clear:both;
+}
+h2 {
+    clear:both;
 }
 h1:hover {
     background:green;
@@ -196,6 +209,9 @@ h2:hover {
 }
 h3:hover {
     background:green;
+    cursor:pointer;
+}
+div.item {
     cursor:pointer;
 }
 div.code {
@@ -216,33 +232,37 @@ div.hidden {
 
 div.toast {
     background:#0e3369b3; color:yellow;
-    position:fixed;
-    overflow:auto;
-    padding:5px;
-    z-index:100;
+    position:fixed; z-index:100;
+    padding:5px; overflow:auto;
 }
 div.toast a {
     color:yellow;
 }
 div.toast div.title {
-    font-size:14px;
-    color:#cae850;
+    color:#cae850; font-size:14px;
+    cursor:copy;
+    float:left;
+}
+div.toast div.duration {
+    color:gray; font-size:14px;
+    float:right;
+    cursor:pointer;
 }
 div.toast div.content {
     text-align:center;
     white-space:pre;
+    clear:both;
 }
-div.toast div.duration {
-    font-size:14px;
-    color:gray;
+div.toast div.action div.item {
+    float:left;
 }
 div.toast div.progress {
-    border:solid 2px green;
-    height:10px;
+    height:10px; border:solid 2px green;
+    margin-left:-2px;
+    clear:both;
 }
 div.toast div.progress div.current {
-    background:red;
-    height:10px;
+    height:10px; background:red;
 }
 
 div.carte {
@@ -255,10 +275,23 @@ div.carte {
 }
 div.carte div.item {
     padding:3px 12px;
-    cursor:pointer;
 }
 div.carte div.item:hover {
     background:red;
+}
+div.input {
+    position:fixed;
+    background-color:#0d4142a6;
+    z-index:50;
+}
+div.input div.item {
+    float:left;
+}
+div.input.login {
+    padding:10px;
+}
+div.input.login input {
+    font-size:18px
 }
 
 div.upload {
@@ -269,6 +302,26 @@ div.upload {
 }
 div.upload div.item {
     float:left;
+}
+div.upload div.output {
+    border:solid 1px red;
+    clear:both;
+}
+div.upload div.progress {
+    width:0; height:10px;
+    background:red;
+}
+div.upload div.status div.cost {
+    float:left;
+}
+div.upload div.status div.show {
+    float:right;
+}
+div.upload div.status div.size {
+    text-align:center;
+}
+div.upload input[type=file] {
+    width: 240px;
 }
 
 div.story[data-type=spark] {
@@ -388,6 +441,9 @@ fieldset>div.output div.project div.list {
     margin-left:10px;
 }
 
+body>fieldset.input table {
+    color:white;
+}
 body>fieldset.input td {
     word-break:keep-all;
 }

@@ -32,6 +32,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._menu(can, msg, target)
 
         can.base.isFunc(cb) && cb(msg)
+
+        can.page.Modify(can, can._output, {onmouseover: function(event) { 
+            Volcanos.meta.float.carte && can.page.Remove(can, Volcanos.meta.float.carte._target)
+            Volcanos.meta.float.input && can.page.Remove(can, Volcanos.meta.float.input._target)
+        }})
     },
     _title: function(can, msg, target) {
         can.user.title(can.user.Search(can, can._TITLE)||can.user.Search(can, "pod"))
@@ -122,7 +127,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
     _time: function(can, target) {
         can.core.Timer({interval: 1000}, function() { can.onimport.time(can, target) })
-        can.onappend.figure(can, {style: {left: "", right: "0", top: can._target.offsetHeight, "min-width": 310}}, "@date", target)
+        can.onappend.figure(can, {style: {"min-width": 306}}, "@date", target)
+        target.onmouseenter = function(event) { target.click()
+            can.core.Timer(10, function() {
+                can.onlayout.figure(event, can, Volcanos.meta.float.input._target)
+            })
+        }
     },
     time: function(can, target) { can.onlayout.topic(can)
         target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
@@ -201,7 +211,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         })
         can.user.jumps(can.user.MergeURL(can, args, true))
     },
-    carte: function(event, can, list, cb) { can.user.carte(event, can, can.onaction, list) },
+    carte: function(event, can, list, cb) { can.user.carte(event, can, can.onaction, list, cb) },
     river: function(event, can) { can.onaction.River(can) },
     black: function(event, can, button) {
         can.onlayout.topic(can, button)
@@ -239,7 +249,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
 
             var toast = can.user.toast(can, "打包中...", "webpack", 1000000)
             can.run(event, ["webpack"], function(msg) {
-                toast.Close(), can.user.toast(can, "打包成功", "webpack")
+                toast.close(), can.user.toast(can, "打包成功", "webpack")
                 can.user.download(can, "/share/local/"+msg.Result(), name+".html")
             })
         })
@@ -255,7 +265,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
         can.user.share(can, can.request(event), [can._ACTION, can._SHARE].concat(arg))
     },
     usernick: function(event, can) {
-        can.user.input(event, can, [{_input: "text", name: "usernick", value: can.Conf(can._USERNAME)}], function(ev, button, data, list, args) {
+        can.user.input(event, can, [{name: "usernick", value: can.Conf(can._USERNAME)}], function(ev, button, data, list, args) {
             can.run(event, ["usernick", list[0]], function(msg) {
                 can.page.Select(can, can._output, "div.username", function(item) {
                     can.page.Modify(can, item, can.Conf(can._USERNAME, list[0]))
