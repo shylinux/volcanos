@@ -63,8 +63,11 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}, float:
         request: function(event, option) { event = event || {}
             event._msg = event._msg || can.misc.Message(event, can)
 
-            can.core.List(arguments, function(option, index) {
-                index > 0 && can.core.Item(can.base.isFunc(option)? option(): option, event._msg.Option)
+            can.core.List(arguments, function(option, index) { if (index == 0) { return } 
+                can.base.isFunc(option.Option)? can.core.List(option.Option(), function(key) {
+                    event._msg.Option(key, option.Option(key))
+                }): can.core.Item(can.base.isFunc(option)? option(): option, event._msg.Option)
+
             }); return event._msg
         },
         const: function() {

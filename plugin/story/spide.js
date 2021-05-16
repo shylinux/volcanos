@@ -142,13 +142,25 @@ Volcanos("ondetail", {help: "用户交互", list: [],
     plugin: function(event, can, args) {
         can.onappend.plugin(can, {type: "float", index: "web.code.inner", args: args, _action: ["关闭"]}, function(sub) {
             sub.run = function(event, cmds, cb) {
-                can.run(event, ["action", "inner"].concat(cmds), cb, true)
-                can.onlayout.figure(event, sub, sub._target)
+                can.run(event, ["action", "inner"].concat(cmds), function(msg) {
+                    can.search(event, ["Action.onexport.size"], function(msg, left, top, width, height) { left = left||0
+                        var top = 120; if (can.user.isMobile) {
+                            if (can.user.isLandscape) {
+                                sub.Conf("height", window.innerHeight+240), top = 0
+                            } else {
+                                sub.Conf("height", window.innerHeight+160), top = 48
+                            }
+                        } else {
+                            sub.Conf("height", height+120)
+                        }
+                        // can.misc.Debug(sub.Conf("height"), cmds)
 
-                can.search(event, ["Action.onexport.size"], function(msg, left, top, width, height) { left = left||0
-                    can.page.Modify(can, sub._target, {style: {position: "fixed", left: left, top: can.user.isMobile&&can.user.isLandscape? 0: 120}})
-                    can.page.Modify(can, sub._output, {style: {"max-width": width}})
-                })
+                        can.page.Modify(can, sub._target, {style: {position: "fixed", left: left+20, top: top}})
+                        can.page.Modify(can, sub._output, {style: {"max-width": width-40}})
+                        can.base.isFunc(cb) && cb(msg)
+                    })
+                }, true)
+
             }
         })
     },

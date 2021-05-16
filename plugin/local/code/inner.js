@@ -17,7 +17,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         var height = can.Conf("height")-320; height < 240 && (height = 240)
         can.page.Modify(can, can.ui.project, {style: {"max-height": height}})
         can.page.Modify(can, can.ui.content, {style: {"max-height": height}})
-        // can.page.Modify(can, can.ui.content, {style: {"min-width": can.Conf("width")-170}})
         can.page.Modify(can, can.ui.display, {style: {display: "none"}})
     },
     _output: function(can, target) {

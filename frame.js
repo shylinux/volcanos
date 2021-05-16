@@ -19,7 +19,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split("."), function(value) {
             fun && (sub = mod, mod = fun, fun = mod[value], key = value)
         }); if (!sub || !mod || !fun) {
-            can.misc.Warn("not found", cmds[1])
+            can.misc.Warn("not found", cmds)
             can.base.isFunc(cb) && cb(msg.Echo("warn: ", "not found: ", cmds[1]))
             return
         }
@@ -40,7 +40,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
             return typeof cb == "function" && cb(msg)
         }
 
-        can.misc.Run(event, can, {names: (can.Conf("iceberg")||"/chat/")+panel._name, daemon: can._daemon+"."+msg._daemon}, cmds, function(msg) {
+        can.misc.Run(event, can, {names: (can.Conf("iceberg")||"/chat/")+panel._name, daemon: can.ondaemon._list[0]+"."+msg._daemon}, cmds, function(msg) {
             Volcanos.meta.pack[key] = msg
             can.base.isFunc(cb) && cb(msg)
         })
@@ -193,7 +193,7 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can) {
             }
         })
     },
-    _list: [{}],
+    _list: [""],
     toast: function(can, msg, arg) { arg[0] = can
         Volcanos.meta.float.toast && can.page.Remove(can, Volcanos.meta.float.toast._target)
         Volcanos.meta.float.toast = can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg})
@@ -206,8 +206,7 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can) {
         out.onimport._grow(out, arg.join(""))
     },
     pwd: function(can, msg, arg) {
-        can.misc.Log(msg)
-        can._daemon = arg[0]
+        can.ondaemon._list[0] = arg[0]
     },
 })
 Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) {

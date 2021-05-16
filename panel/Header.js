@@ -140,12 +140,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     menu: function(can, cmds, cb) { // type item...
         return can.page.Append(can, can._output, [{type: cmds[0], list: can.core.List(cmds.slice(1), function(item) {
             if (typeof item == "string") {
-                return {view: ["menu", "div", item], onclick: function(event) {
+                return {view: ["menu", "div", can.user.trans(can, item)], onclick: function(event) {
                     can.base.isFunc(cb) && cb(event, item)
                 }}
 
             } else if (item.length > 0) {
-                return {view: ["menu", "div", item[0]], onmouseenter: function(event) {
+                return {view: ["menu", "div", can.user.trans(can, item[0])], onmouseenter: function(event) {
                     can.onaction.carte(event, can, item.slice(1), cb)
                 }}
 

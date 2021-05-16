@@ -65,6 +65,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             // 左键点击
             can.onaction.action(event, can, river, meta.hash)
             can.user.title(can._main_title || meta.name)
+
+            can.onmotion.select(can, event.target.parentNode, "div.item", event.target)
         }, onmouseenter: function(event) {
             can.onaction.carte(event, can, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"], function(event, button, module) {
                 module[button](event, can, button, river, meta.hash)
@@ -151,7 +153,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     carte: function(event, can, list, cb) {
         var carte = can.user.carte(event, can, can.ondetail, list, cb)
         can.page.Modify(can, carte._target, {style: {
-            left: event.clientX-event.offsetX+event.target.offsetWidth-3, top: event.clientY-event.offsetY,
+            left: event.clientX-event.offsetX+event.target.offsetWidth-3,
         }})
     },
 
