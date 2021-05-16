@@ -11,7 +11,7 @@ function shy(help, meta, list, cb) {
     cb.list = next("object") || []
     return cb
 }; var _can_name = ""
-var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}, float: {}}, [], function(name, can, libs, cb) {
+var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}}, [], function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == "object") { var Config = name; _can_name = ""
         meta.libs = Config.libs, meta.volcano = Config.volcano
@@ -24,9 +24,7 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}, float:
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: document.body}
         libs = Preload.concat(Config.main.list, Config.libs), cb = function(can) {
-            can.onengine._init(can, can.Conf(Config), Config.panels, function(msg) { can.misc.Log(can.user.title(), "run", can)
-                document.body.onresize = function() { can.onlayout._init(can, can._target) }
-            }, can._target)
+            can.onengine._init(can, can.Conf(Config), Config.panels, function(msg) {}, can._target)
         }
     }
 
@@ -50,12 +48,6 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}, float:
                 return // 加载完成
             }
 
-            if (libs && libs[0] && libs[0][0] != "/" && libs[0].indexOf("http") == -1) {
-                can._require = can._require||[], can._require.push(libs[0])
-                can.require(libs.slice(1), cb, each) 
-                return
-            }
-
             // 请求模块
             function next() { can._load(libs[0], each), can.require(libs.slice(1), cb, each) }
             meta.cache[libs[0]]? next(): meta._load(libs[0], next)
@@ -70,33 +62,26 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}, float:
 
             }); return event._msg
         },
-        const: function() {
-            can.core.List(arguments, function(v) {
-                can["_"+v.toUpperCase()] = v
-            })
+
+        get: function(name, key) { var event = {}
+            return can.search(event, [name+".onexport."+key])
         },
-        get: function(target, field) {
-            return can.search({}, [target+".onexport."+field])
+        set: function(name, key, value) { var event = {}
+            var msg = can.request(event); msg.Option(key, value)
+            return can.search(event, [name+".onimport."+key])
         },
-        set: function(target, field, value) { var event = {}
-            var msg = can.request(event, {}); msg.Option(field, value)
-            return can.search(event, [target+".onimport."+field])
-        },
-        cmd: function(target, field) {
-            return can.search({}, [target+".onaction."+field])
-        },
-        search: function(event, cmds, cb) { can.run && can.run(event, ["search"].concat(cmds), cb, true) },
+        search: function(event, cmds, cb) { can.run && can.run(event, ["_search"].concat(cmds), cb, true) },
+
+        const: function() { can.core.List(arguments, function(v) { can["_"+v.toUpperCase()] = v }) },
         Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},
-    // }; can = can || {}; for (var k in proto) { can.hasOwnProperty(k) || (can[k] = proto[k]) }
     }; can = can || {}; can.__proto__ = proto
 
-    if (_can_name) {
+    if (_can_name) { // 加入缓存
         meta.cache[_can_name] = meta.cache[_can_name] || []
         meta.cache[_can_name].push(can)
-    } else {
+    } else { // 加入队列
         list.push(can)
     }
-
     return can.require(libs, cb), can
 })
 Volcanos.meta._load = function(url, cb) {

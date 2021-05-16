@@ -16,10 +16,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             can.onaction._layout(can, can.Conf(can._LAYOUT)||can.user.Search(can, can._LAYOUT))
         })
 
-        can.page.Modify(can, can._output, {onmouseover: function(event) { 
-            Volcanos.meta.float.carte && can.page.Remove(can, Volcanos.meta.float.carte._target)
-            // Volcanos.meta.float.input && can.page.Remove(can, Volcanos.meta.float.input._target)
-        }})
+        can.onmotion.float.auto(can, can._output, "carte")
     },
     _plugin: function(can, river, storm, sub, item) {
         sub.run = function(event, cmds, cb) { var msg = sub.request(event)

@@ -13,10 +13,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         select && select.click()
 
-        can.page.Modify(can, can._output, {onmouseover: function(event) { 
-            Volcanos.meta.float.carte && can.page.Remove(can, Volcanos.meta.float.carte._target)
-            Volcanos.meta.float.input && can.page.Remove(can, Volcanos.meta.float.input._target)
-        }})
+        can.onlayout._init(can)
+        can.onmotion.float.auto(can, can._output, "carte", "input")
     },
     _main: function(can, msg) {
         can._main_river = "project", can._main_storm = "studio"
@@ -114,7 +112,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
 
         can.onengine.listen(can, "action.touch", function() {
             can.user.isMobile && can.onmotion.hidden(can)
-            Volcanos.meta.float.carte && can.page.Remove(can, Volcanos.meta.float.carte._target)
+            can.onmotion.float.del(can, "carte")
         })
     },
     storm: function(event, can, river) {
@@ -130,7 +128,8 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
             can.sublist[river] = list
         })
     },
-    action: function(event, can, river, storm) { can.onlayout._init(can)
+    action: function(event, can, river, storm) {
+        // can.onlayout._init(can)
         can.onengine.signal(can, "storm.select", can.request(event, {
             river: can.Conf(can._RIVER, river), storm: can.Conf(can._STORM, storm),
         }))

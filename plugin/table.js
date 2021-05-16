@@ -7,7 +7,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.base.isFunc(cb) && cb(msg)
         can.onappend.board(can, msg.Result())
-        can.onmotion.story(can, can._output)
+        can.onmotion.story.auto(can, can._output)
     },
     _table: function(can, value, key, index, line, array, cb) {
         return {text: [value, "td"], onclick: function(event) { var target = event.target
@@ -53,7 +53,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, can._output)
 
         can.onappend.board(can, msg.Result(), can._output)
-        can.onmotion.story(can, can._output)
+        can.onmotion.story.auto(can, can._output)
         can.page.Modify(can, can._output, {style: {display: "block"}})
         return true
     },
@@ -122,7 +122,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }).length == 0) {
             can.onappend.board(can, str)
         }
-        // can.onmotion.story(can, can._output)
+        // can.onmotion.story.auto(can, can._output)
     },
 })
 Volcanos("onaction", {help: "控件交互", list: []})

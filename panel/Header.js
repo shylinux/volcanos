@@ -33,15 +33,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.base.isFunc(cb) && cb(msg)
 
-        can.page.Modify(can, can._output, {onmouseover: function(event) { 
-            Volcanos.meta.float.carte && can.page.Remove(can, Volcanos.meta.float.carte._target)
-            Volcanos.meta.float.input && can.page.Remove(can, Volcanos.meta.float.input._target)
-        }})
+        can.onmotion.float.auto(can, can._output, "carte", "input")
     },
     _title: function(can, msg, target) {
         can.user.title(can.user.Search(can, can._TITLE)||can.user.Search(can, "pod"))
         !can.user.isMobile && can.core.List(msg.result||["github.com/shylinux/contexts"], function(item) {
-            can.page.Append(can, target, [{view: [can._TITLE, "div", item], onclick: function(event) {
+            can.page.Append(can, target, [{view: [can._TITLE, "div", item], title: "返回主页", onclick: function(event) {
                 can.onaction.title(event, can)
             }}])
         })
@@ -128,9 +125,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _time: function(can, target) {
         can.core.Timer({interval: 1000}, function() { can.onimport.time(can, target) })
         can.onappend.figure(can, {style: {"min-width": 306}}, "@date", target)
+
         target.onmouseenter = function(event) { target.click()
             can.core.Timer(10, function() {
-                can.onlayout.figure(event, can, Volcanos.meta.float.input._target)
+                // can.onlayout.figure(event, can, Volcanos.meta.float.input._target)
             })
         }
     },
