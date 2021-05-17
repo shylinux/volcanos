@@ -1,12 +1,4 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        const GRANT = "grant"; if (can.user.Search(can, GRANT)) {
-            if (can.user.confirm(GRANT+" "+can.user.Search(can, GRANT))) {
-                can.run(event, [can._ACTION, GRANT, "space", can.user.Search(can, GRANT)])
-            }
-            can.user.Search(can, GRANT, "")
-            return
-        }
-
         can._trans = {
             "river": "菜单",
             "search": "搜索",
@@ -24,16 +16,37 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }
 
         can.onmotion.clear(can)
+        can.onimport._agent(can, msg, target)
+        can.onimport._grant(can, msg, target)
         can.onimport._title(can, msg, target)
         can.onimport._state(can, msg, target)
         can.onimport._search(can, msg, target)
         can.onimport._background(can, msg, target)
-        can.onimport._agent(can, msg, target)
         can.onimport._menu(can, msg, target)
 
-        can.base.isFunc(cb) && cb(msg)
-
         can.onmotion.float.auto(can, can._output, "carte", "input")
+        can.base.isFunc(cb) && cb(msg)
+    },
+    _agent: function(can, msg, target) {
+        if (can.user.isMobile) {
+            can.onaction.River(can)
+            can.onaction.Footer(can)
+        } else if (can.user.isExtension) {
+            can.onaction.River(can)
+        } else if (can.user.Search(can, "pod")) {
+            can.onaction.River(can)
+            can.onaction.Footer(can)
+        }
+        can.user.isWeiXin && can.onimport._weixin(can)
+    },
+    _grant: function() {
+        const GRANT = "grant"; if (can.user.Search(can, GRANT)) {
+            if (can.user.confirm(GRANT+" "+can.user.Search(can, GRANT))) {
+                can.run(event, [can._ACTION, GRANT, "space", can.user.Search(can, GRANT)])
+            }
+            can.user.Search(can, GRANT, "")
+            return true
+        }
     },
     _title: function(can, msg, target) {
         can.user.title(can.user.Search(can, can._TITLE)||can.user.Search(can, "pod"))
@@ -68,25 +81,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         // ; can.onmotion.autosize(can, ui.input, 240, 120)
         can.user.isMobile && can.page.Modify(can, ui.first, {style: {float: "right"}})
     },
-    _avatar: function(can, msg) {
-        !can.user.isLocalFile && can.page.Modify(can, "div.output div.state.avatar>img", {src: can.Conf(can._AVATAR, msg.Option(can._AVATAR))})
-    },
     _background: function(can, msg) {
         if (can.user.isLocalFile) { return }
         if (can.user.isExtension) { return }
         can.onlayout.background(can, msg.Option(can._BACKGROUND), document.body)
-    },
-    _agent: function(can, msg, target) {
-        if (can.user.isMobile) {
-            can.onaction.River(can)
-            can.onaction.Footer(can)
-        } else if (can.user.isExtension) {
-            can.onaction.River(can)
-        } else if (can.user.Search(can, "pod")) {
-            can.onaction.River(can)
-            can.onaction.Footer(can)
-        }
-        can.user.isWeiXin && can.onimport._weixin(can)
     },
     _menu: function(can, msg, target) {
         can.onimport.menu(can, can.user.isMobile||can.user.isExtension||can.user.Search(can, "pod")? ["header", can._RIVER]:
@@ -121,17 +119,18 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             })
         }) })
     },
-
+    _avatar: function(can, msg) {
+        !can.user.isLocalFile && can.page.Modify(can, "div.output div.state.avatar>img", {src: can.Conf(can._AVATAR, msg.Option(can._AVATAR))})
+    },
     _time: function(can, target) {
         can.core.Timer({interval: 1000}, function() { can.onimport.time(can, target) })
-        can.onappend.figure(can, {style: {"min-width": 306}}, "@date", target)
-
-        target.onmouseenter = function(event) { target.click()
-            can.core.Timer(10, function() {
-                // can.onlayout.figure(event, can, Volcanos.meta.float.input._target)
+        can.onappend.figure(can, {style: {"min-width": 306}}, "@date", function(sub) {
+            can.search({}, ["Action.onexport.size"], function(msg, top) {
+                can.page.Modify(can, sub._target, {style: {top: top, left: window.innerWidth-sub._target.offsetWidth}})
             })
-        }
+        }, target), target.onmouseenter = function() { target.click() }
     },
+
     time: function(can, target) { can.onlayout.topic(can)
         target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
     },

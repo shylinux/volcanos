@@ -1,6 +1,6 @@
-Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, item, target) {
+Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, meta, cb, target) {
     function set(now) { target.value = can.base.Time(now), can.page.Remove(can, can._target)
-        item && item.action == "auto" && can.run({})
+        meta && meta.action == "auto" && can.run({})
     }
 
     // 添加控件
@@ -56,7 +56,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
         for (var day = new Date(one); day < end; day.setDate(day.getDate()+1)) {add(day, "main")}
         for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) {add(day, "next")}
 
-        return can.onlayout.figure(event, can), now
+        return can.onlayout.figure(event, can), cb(can), now
     }; show(now)
 }} }, ["/plugin/input/date.css"])
 

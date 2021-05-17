@@ -1,5 +1,5 @@
-Volcanos("onfigure", {help: "控件详情", list: [], key: {onclick: function(event, can, item, target) {
-    can.run(event, ["action", "inputs", item.name, target.value], function(msg) {
+Volcanos("onfigure", {help: "控件详情", list: [], key: {onclick: function(event, can, meta, cb, target) {
+    can.run(event, ["action", "inputs", meta.name, target.value], function(msg) {
         if (msg.Length() == 0) { return can.page.Remove(can, can._target) }
 
         can.onappend._action(can, ["关闭", "清空"], can._action, {

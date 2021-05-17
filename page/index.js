@@ -112,9 +112,6 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
             ]},
         }},
         "operate": {name: "运维群", storm: {
-            "ctx": {name: "模块 ctx", index: [
-                "context", "command", "config",
-            ]},
             "cli": {name: "系统 cli", index: [
                 "system", "daemon", "python", "output",
                 "runtime", "process",
@@ -123,10 +120,6 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
                 "route", "serve", "space", "dream",
                 "spide", "share", "cache", "story",
             ]},
-            "aaa": {name: "权限 aaa", index: [
-                "user", "sess", "role", "totp",
-            ]},
-
             "nfs": {name: "文件 nfs", index: [
                 "nfs.cat", "nfs.dir", "nfs.tail", "nfs.trash",
             ]},

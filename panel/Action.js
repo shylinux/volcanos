@@ -62,7 +62,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
     },
 })
 Volcanos("onengine", {help: "解析引擎", list: [],
-    engine: function(event, page, msg, can, cmds, cb) {
+    _engine: function(event, page, msg, can, cmds, cb) {
         var river = can.onengine.river[cmds[0]]
         var storm = river && river.storm[cmds[1]]
         if (!storm || cmds.length != 2) { return false }
@@ -92,7 +92,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
 
         var share = can.user.Search(can, can._SHARE); if (share) {
             can.run({}, ["_share", share], function(msg) { msg.Length()>0? can.onimport._share(can, msg, share):
-                can.onengine.engine({}, can, msg, can, [msg.Option("sess.river"), msg.Option("sess.storm")], function(msg) {
+                can.onengine._engine({}, can, msg, can, [msg.Option("sess.river"), msg.Option("sess.storm")], function(msg) {
                     can.onimport._share(can, msg, share)
                 })
             })
@@ -136,7 +136,11 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
             can.onmotion.select(can, can._output, "fieldset.plugin", 0)
             can.onmotion.select(can, can._action, "div.item", 0)
         }
-
+        if (key == "free") {
+            can.page.Select(can, can._target, "div.output>fieldset.plugin", function(item, index) {
+                can.onmotion.move(can, item, {left: 10*index, top: 10*index})
+            })
+        }
 
         var header = can.get("Header", "height")
         var footer = can.get("Footer", "height")

@@ -89,7 +89,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }})
     },
 })
-Volcanos("onengine", {help: "解析引擎", list: [], engine: function(event, can, msg, panel, cmds, cb) {
+Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, can, msg, panel, cmds, cb) {
         cmds.length == 0 && can.core.Item(can.onengine.river, function(key, value) {
             msg.Push({hash: key, name: value.name})
         }); if (cmds.length != 1 && cmds[1] != "tool") { return false }
@@ -153,6 +153,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         var carte = can.user.carte(event, can, can.ondetail, list, cb)
         can.page.Modify(can, carte._target, {style: {
             left: event.clientX-event.offsetX+event.target.offsetWidth-3,
+            top: carte._target.offsetTop-event.target.offsetHeight,
         }})
     },
 

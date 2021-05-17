@@ -45,7 +45,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         item.type = "story"
         can.onappend._init(can, item, ["/plugin/state.js"], function(sub) {
             sub.run = function(event, cmds, cb, silent) {
-                can.run(event, (cmds && cmds[0] == "search"? []: ["action", "story", data.type, data.name, data.text]).concat(cmds), cb, true)
+                can.run(event, (cmds && cmds[0] == "_search"? []: ["action", "story", data.type, data.name, data.text]).concat(cmds), cb, true)
             }
 
             can.page.Modify(can, sub._output, {style: {"max-width": item.width-40}})

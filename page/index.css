@@ -161,6 +161,7 @@ table.content tr {
 table.content th {
     background-color:#0fbd45;
     padding:2px 6px;
+    cursor:pointer;
 }
 table.content td {
     padding:2px 6px;

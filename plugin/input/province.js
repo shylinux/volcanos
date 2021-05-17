@@ -1,4 +1,4 @@
-Volcanos("onfigure", {help: "控件详情", list: [], province: {onclick: function(event, can, item, target) {
+Volcanos("onfigure", {help: "控件详情", list: [], province: {onclick: function(event, can, meta, cb, target) {
     can.require(["/require/github.com/shylinux/echarts/echarts.js","/require/github.com/shylinux/echarts/china.js"], function() {
         can.onappend._action(can, ["关闭", "清空"], can._action, {
             "关闭": function(event) { can.page.Remove(can, can._target) },

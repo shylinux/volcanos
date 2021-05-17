@@ -86,7 +86,7 @@ Volcanos("ondetail", {help: "组件菜单", list: ["关闭", "下载", "上一�
         can.onappend._init(can, {type: "story feel float"}, [], function(sub) { can.sub = sub
             sub.run = function(event, cmds, cb) { return can.run(event, cmds, cb, true) }
 
-            sub.search(["Action.onexport.size"], function(msg, left, top, width, height) {
+            sub.search({}, ["Action.onexport.size"], function(msg, left, top, width, height) {
                 sub.page.Modify(sub, sub._target, {style: {left: left, top: top}})
                 sub.page.Modify(sub, sub._output, {style: {"max-width": width, "max-height": height}})
                 sub.onappend._action(can, can.ondetail.list, sub._action, can.ondetail)
