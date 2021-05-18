@@ -144,19 +144,20 @@ Volcanos("ondetail", {help: "用户交互", list: [],
             sub.run = function(event, cmds, cb) {
                 can.run(event, ["action", "inner"].concat(cmds), function(msg) {
                     can.search(event, ["Action.onexport.size"], function(msg, left, top, width, height) { left = left||0
-                        var top = 120; if (can.user.isMobile) {
+                        var top = 120, margin = 20; if (can.user.isMobile) { margin = 0
                             if (can.user.isLandscape) {
-                                sub.Conf("height", window.innerHeight+240), top = 0
+                                sub.Conf("height", window.innerHeight+200)
+                                top = 24
                             } else {
-                                sub.Conf("height", window.innerHeight+160), top = 48
+                                sub.Conf("height", window.innerHeight+140)
+                                top = 48
                             }
                         } else {
                             sub.Conf("height", height+120)
                         }
-                        // can.misc.Debug(sub.Conf("height"), cmds)
 
-                        can.page.Modify(can, sub._target, {style: {position: "fixed", left: left+20, top: top}})
-                        can.page.Modify(can, sub._output, {style: {"max-width": width-40}})
+                        can.page.Modify(can, sub._target, {style: {position: "fixed", left: left+margin, top: top}})
+                        can.page.Modify(can, sub._output, {style: {"max-width": width-margin*2}})
                         can.base.isFunc(cb) && cb(msg)
                     })
                 }, true)
