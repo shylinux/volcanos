@@ -173,8 +173,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         can.user.input(event, can, [
             {name: "name", value: river},
         ], function(event, button, meta, list) {
-            var msg = can.request(event)
-            can.user.share(can, msg, [river, "action", "share", "type", can._RIVER, "name", meta.name])
+            can.user.share(can, can.request(event), [river, "action", "share", "type", can._RIVER, "name", meta.name])
         })
     },
     "添加用户": function(event, can, button, river) {
@@ -284,8 +283,8 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
     "共享主机": function(event, can, button, river, storm) {
         can.run(event, ["action", "invite"], function(msg) {
             can.user.toast(can, {
-                title: "共享主机", content: msg.Result(),
-                button: ["close"], duration: -1, width: -100,
+                title: "共享主机", duration: -1, width: -100,
+                content: msg.Result(), action: ["close"],
             })
         })
     },

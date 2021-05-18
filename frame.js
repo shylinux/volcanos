@@ -14,6 +14,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
         }, function() { can.onlayout.topic(can)
             can.misc.Log(can.user.title(), "run", can)
             can.base.Copy(can.onengine.river, can.Conf("river"))
+            can.onmotion._init(can, target), can.onkeypop._init(can, target)
             can.onengine.signal(can, "onmain", can.request())
         })
     },
@@ -477,9 +478,11 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
     topic: function(can, topic) { topic && (can._topic = topic)
         can.user.topic(can, can._topic || can.user.Search(can, "topic") || ((can.user.Search(can, "pod")||can.base.isNight())? "black": "white"))
     },
-    figure: function(event, can, target) { target = target||can._target
-        if (!event.target) { return }
-        var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight
+    figure: function(event, can, target, right) { target = target||can._target; if (!event || !event.target) { return }
+        var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight; if (right) {
+            var left = event.clientX-event.offsetX+event.target.offsetWidth, top = event.clientY-event.offsetY
+        }
+
         if (left+target.offsetWidth>window.innerWidth) { left = window.innerWidth - target.offsetWidth }
         if (top+target.offsetHeight>window.innerHeight) { top = window.innerHeight - target.offsetHeight }
 
@@ -555,6 +558,11 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
     float: {
         _hash: {},
         del: function(can, key) {
+            if (key == "carte") {
+                can.page.Select(can, document.body, "div.carte", function(item) {
+                    can.page.Remove(can, item)
+                })
+            }
             this._hash[key] && can.page.Remove(can, this._hash[key]._target)
         },
         add: function(can, key, value) {

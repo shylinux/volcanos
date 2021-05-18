@@ -61,7 +61,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         return true
     },
 })
-Volcanos("onaction", {help: "交互操作", list: ["保存参数", "清空参数", "共享工具", "刷新数据", "复制数据", "下载数据", "清空数据"], _init: function(can, msg, list, cb, target) {
+Volcanos("onaction", {help: "交互操作", list: [
+        "保存参数", "清空参数", "共享工具", "删除工具", "刷新数据", "清空数据", [
+            "其它", "复制数据", "下载数据", [
+                "其它",  "复制数据", "下载数据",
+            ], [
+                "其它",  "复制数据", "下载数据",
+            ],
+        ]], _init: function(can, msg, list, cb, target) {
     },
     "保存参数": function(event, can) { var meta = can.Conf()
         var msg = can.request(event, {river: can.Conf("river"), storm: can.Conf("storm"), id: meta.id})
@@ -73,7 +80,7 @@ Volcanos("onaction", {help: "交互操作", list: ["保存参数", "清空参数
         can.page.Select(can, can._option, '.args', function(item) { return item.value = "" })
     },
     "共享工具": function(event, can) { var meta = can.Conf()
-        can.user.input(event, can, [{name: "name", value: meta.name}], function(event, button, data, list, args) {
+        var ui = can.user.input(event, can, [{name: "name", value: meta.name}], function(event, button, data, list, args) {
             var msg = can.request(event, {arg: [
                 "type", "field",
                 "name", list[0], "text", JSON.stringify(can.Pack([], true)),
@@ -81,6 +88,10 @@ Volcanos("onaction", {help: "交互操作", list: ["保存参数", "清空参数
             ]})
             can.search(event, ["Header.onaction.share"])
         })
+        can.onlayout.figure(event, can, ui._target, true)
+    },
+    "删除工具": function(event, can) {
+        can.page.Remove(can, can._target)
     },
     "刷新数据": function(event, can) { var meta = can.Conf()
         can.onappend._output(can, meta, {}, can.Pack([], true))

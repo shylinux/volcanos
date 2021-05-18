@@ -39,6 +39,7 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
         can.base.isFunc(cb) && cb()
     },
     onlogin: function(can, msg) {
+        can.onappend._action(can, can.Conf("action")||can.onaction.list)
         can.ui = can.page.Append(can, can._output, [
             {input: ["word", function(event) { can.onkeypop.input(event, can)
                 if (event.key == "Escape") { can.onmotion.hide(can) }
