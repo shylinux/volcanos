@@ -101,20 +101,20 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, c
     },
 })
 Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, list, cb, target) {
-        can.const(
-            "title", "river", "storm",
-        )
-        can.run({}, [], function(msg) { can.onimport._init(can, msg, list, cb, can._output) })
-
-        can.onengine.listen(can, "search", function(msg, word) {
-            if (word[0] == "*" || word[0] == can._STORM) { can.onexport.storm(can, msg, word) }
-        })
-
-        can.onengine.listen(can, "action.touch", function() {
-            can.user.isMobile && can.onmotion.hidden(can)
-            can.onmotion.float.del(can, "carte")
-        })
+        can.base.isFunc(cb) && cb()
     },
+    _const: ["title", "river", "storm"],
+    onlogin: function(can, msg) {
+        can.onappend._action(can, can.Conf("action")||can.onaction.list)
+        can.run({}, [], function(msg) { can.onimport._init(can, msg, [], null, can._output) })
+    },
+    onsearch: function(can, msg, word) {
+        if (word[0] == "*" || word[0] == can._STORM) { can.onexport.storm(can, msg, word) }
+    },
+    onaction_touch: function(can, msg) {
+        can.user.isMobile && can.onmotion.hidden(can)
+    },
+
     storm: function(event, can, river) {
         var list = can.sublist[river]; if (list) { return can.onmotion.Toggle(can, list) }
 
@@ -130,7 +130,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     },
     action: function(event, can, river, storm) {
         // can.onlayout._init(can)
-        can.onengine.signal(can, "storm.select", can.request(event, {
+        can.onengine.signal(can, "onstorm_select", can.request(event, {
             river: can.Conf(can._RIVER, river), storm: can.Conf(can._STORM, storm),
         }))
 

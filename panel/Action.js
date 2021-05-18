@@ -47,7 +47,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         can.onaction._layout(can, "flow")
     },
     _menu: function(can) {
-        !can.user.isMobile && can.search({}, ["Header.onimport.menu", can._ACTION,
+        if (can.user.isMobile) { return }
+        can._menu && can.page.Remove(can, can._menu)
+        can._menu = can.search({}, ["Header.onimport.menu", can._ACTION,
             ["布局", "默认布局", "流动布局", "网格布局", "标签布局", "自由布局"],
         ], function(event, key) { can.onaction._layout(can, key) })
     },
@@ -83,31 +85,12 @@ Volcanos("onengine", {help: "解析引擎", list: [],
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
-        can.const(
-            "output", "fields",
-            "action", "share", "river", "storm",
-            "title", "topic", "layout", "width", "height", "top", "left", "scroll",
-            "plugin",
-        )
-
         var share = can.user.Search(can, can._SHARE); if (share) {
             can.run({}, ["_share", share], function(msg) { msg.Length()>0? can.onimport._share(can, msg, share):
                 can.onengine._engine({}, can, msg, can, [msg.Option("sess.river"), msg.Option("sess.storm")], function(msg) {
                     can.onimport._share(can, msg, share)
                 })
             })
-        }
-
-        can.onengine.listen(can, "storm.select", function(msg, river, storm) {
-            can.onaction._select(can, msg, river, storm)
-        })
-
-        can.onengine.listen(can, "search", function(msg, word) {
-            if (word[0] == "*" || word[0] == can._PLUGIN) { can.onexport.plugin(can, msg, word) }
-        })
-
-        can._target.ontouchstart = function(event) {
-            can.onengine.signal(can, "action.touch", can.request(event))
         }
 
         var list = []; can.onengine.listen(can, "resize", function(width, height) {
@@ -117,6 +100,26 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
                 }))
             })
         })
+
+        can._target.ontouchstart = function(event) {
+            can.onengine.signal(can, "onaction_touch", can.request(event))
+            can.onmotion.float.del(can, "carte")
+        }
+
+        can.base.isFunc(cb) && cb()
+    },
+    _const: [
+        "output", "fields",
+        "action", "share", "river", "storm",
+        "title", "topic", "layout", "width", "height", "top", "left", "scroll",
+        "plugin",
+    ],
+
+    onsearch: function(can, msg, word) {
+        if (word[0] == "*" || word[0] == can._PLUGIN) { can.onexport.plugin(can, msg, word) }
+    },
+    onstorm_select: function(can, msg, river, storm) {
+        can.onaction._select(can, msg, river, storm)
         can.onimport._menu(can)
     },
     _layout: function(can, key) { if (!key) { return }

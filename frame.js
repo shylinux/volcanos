@@ -2,18 +2,19 @@ var _can_name = "/frame.js"
 Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta, list, cb, target) {
         can.core.Next(list, function(item, next) { item.type = "panel"
             can.onappend._init(can, item, item.list, function(panel) {
-                panel.onaction && panel.onappend._action(panel, item.action||panel.onaction.list)
-                panel.Status = panel.Status || function(key, value) { panel.set("Footer", key, value) }
-
                 panel.run = function(event, cmds, cb) { var msg = panel.request(event); cmds = cmds || []
                     return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, panel, cmds, cb)
-                }, can[item.name] = panel, next()
+                }, can[item.name] = panel
+
+                can.core.Item(panel.onaction, function(key, item) { if (key.indexOf("on") == 0) {
+                    can.onengine.listen(can, key, function(msg) { can.core.CallFunc(item, {can: panel, msg: msg}) })
+                } }), panel.const(panel.onaction._const||[]), panel._trans = panel.onaction._trans
+                panel.onaction._init(panel, item, item.list, next, panel._target)
             }, target)
-        }, function() { can.base.Copy(can.onengine.river, can.Conf("river"))
-            var panel = can[meta.main.name]; panel.onaction._init(panel, can.request(), [], function(msg) { cb(msg)
-                panel.onmotion._init(panel, target), panel.onkeypop._init(panel, target)
-                can.misc.Log(can.user.title(), "run", can)
-            }, panel._target)
+        }, function() { can.onlayout.topic(can)
+            can.misc.Log(can.user.title(), "run", can)
+            can.base.Copy(can.onengine.river, can.Conf("river"))
+            can.onengine.signal(can, "onmain", can.request())
         })
     },
     _search: function(event, can, msg, panel, cmds, cb) {
@@ -49,6 +50,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
         arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
     }),
     signal: shy("触发事件", function(can, name, msg) { msg = msg || can.request()
+        can.misc.Log("signal", name, msg)
         can.core.List(can.onengine.listen.meta[name], function(cb) {
             can.core.CallFunc(cb, {msg: msg})
         })

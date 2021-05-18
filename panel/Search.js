@@ -10,7 +10,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _word: function(can, msg, cmds, fields) { can.type = cmds[0]
         var sub = can.request({}, {word: cmds, fields: fields.join(","), sort: msg.Option("sort"), index: msg.Option("index")})
-        can.onengine.signal(can, "search", sub)
+        can.onengine.signal(can, "onsearch", sub)
 
         can.run(sub._event, cmds, function(sub) { can.list = sub.Table()
             can.onimport._init(can, sub, fields)
@@ -35,7 +35,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         } )
     },
 })
-Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"], _init: function(can, msg, list, cb, target) {
+Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"], _init: function(can, meta, list, cb, target) {
+        can.base.isFunc(cb) && cb()
+    },
+    onlogin: function(can, msg) {
         can.ui = can.page.Append(can, can._output, [
             {input: ["word", function(event) { can.onkeypop.input(event, can)
                 if (event.key == "Escape") { can.onmotion.hide(can) }
@@ -50,7 +53,7 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
                 }
             }]},
             {view: "content"}, {view: ["display", "table"]}, {view: "preview"},
-        ]), can.base.isFunc(cb) && cb(msg)
+        ])
     },
     "关闭": function(event, can) { can.onmotion.hide(can) },
     "清空": function(event, can) { can.onmotion.clear(can, can.ui.preview) },
