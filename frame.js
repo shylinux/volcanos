@@ -14,7 +14,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
         }, function() { can.onlayout.topic(can)
             can.misc.Log(can.user.title(), "run", can)
             can.base.Copy(can.onengine.river, can.Conf("river"))
-            can.onmotion._init(can, target), can.onkeypop._init(can, target)
+            can.ondaemon._init(can), can.onmotion._init(can, target), can.onkeypop._init(can, target)
             can.onengine.signal(can, "onmain", can.request())
         })
     },
@@ -61,7 +61,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
     },
 })
 Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name) { if (can.user.isLocalFile) { return }
-        can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")||name}, function(event, msg, cmd, arg) { if (!msg) { return }
+        can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")||name||""}, function(event, msg, cmd, arg) { if (!msg) { return }
             can.base.isFunc(can.ondaemon[cmd])? can.core.CallFunc(can.ondaemon[cmd], {
                 "can": can, "msg": msg, "cmd": cmd, "arg": arg, "cb": function() { msg.Reply() },
             }): can.onengine._search({}, can, msg, can, ["_search", cmd].concat(arg), function() {
@@ -69,7 +69,9 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
             })
         })
     }, _list: [""],
-    pwd: function(can, msg, arg) { can.ondaemon._list[0] = arg[0] },
+    pwd: function(can, msg, arg) { 
+        can.ondaemon._list[0] = arg[0]
+    },
     grow: function(can, msg, arg) {
         var sub = can.ondaemon._list[msg.Option("_target")]
         if (!sub || !sub._outputs || !sub._outputs.length) { return }

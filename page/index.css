@@ -398,6 +398,7 @@ fieldset div.action>div.item select {
 
 fieldset>div.status>div.item {
     float:left; padding:4px;
+    height:18px;
 }
 fieldset>div.status>div.item>label {
     font-size:10px; color:gray;

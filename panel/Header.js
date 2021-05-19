@@ -175,7 +175,6 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
         function init() { can.run({}, [], function(msg) {
             can.onimport._init(can, msg, [], function(msg) {
                 can.onengine.signal(can, "onlogin", msg)
-                can.ondaemon._init(can)
             }, can._output)
 
             can.search({}, ["River.onmotion.toggle"])
