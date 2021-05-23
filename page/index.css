@@ -285,6 +285,12 @@ div.input {
     background-color:#0d4142a6;
     z-index:50;
 }
+div.input textarea {
+    width:145px;
+    padding:4px;
+    margin:2px;
+    height:45px;
+}
 div.input div.item {
     float:left;
 }
@@ -443,6 +449,9 @@ fieldset>div.output div.project div.list {
     margin-left:10px;
 }
 
+body>fieldset.float table {
+    color:white;
+}
 body>fieldset.input table {
     color:white;
 }

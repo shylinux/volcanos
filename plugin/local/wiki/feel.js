@@ -6,6 +6,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.base.isFunc(cb) && cb(msg)
         can.ui = can.onlayout.display(can, target)
         can.onappend.table(can, can.path, null, can.ui.content)
+        can.dir_root = msg.Option("dir_root")
 
         can.Action("height", msg.Option("height")||"100")
         can.Action("limit", msg.Option("limit")||"6")
@@ -16,7 +17,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport.page(can, can.list)
     },
     _file: function(can, path, index) { var p = location.href.indexOf("http") == 0? "": "http://localhost:9020"
-        return path.indexOf("http") == 0? path: p+can.base.Path("/share/local", can._msg.Option("dir_root")||"", path)
+        return path.indexOf("http") == 0? path: p+can.base.Path("/share/local", can.dir_root||"", path)
     },
     file: function(can, path, index) { path = can.onimport._file(can, path, index)
         var cb = can.onfigure[can.base.Ext(path)]; can.Status("file", path)

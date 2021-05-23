@@ -9,11 +9,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })); table && can.page.Modify(can, can.ui.display, {style: {width: table.offsetWidth}})
     },
     _word: function(can, msg, cmds, fields) { can.type = cmds[0]
-        var sub = can.request({}, {word: cmds, fields: fields.join(","), sort: msg.Option("sort"), index: msg.Option("index")})
-        can.onengine.signal(can, "onsearch", sub)
+        var res = can.request({}, {word: cmds, fields: fields.join(","), sort: msg.Option("sort"), index: msg.Option("index")})
+        can.onengine.signal(can, "onsearch", res)
 
-        can.run(sub._event, cmds, function(sub) { can.list = sub.Table()
-            can.onimport._init(can, sub, fields)
+        can.run(res._event, cmds, function(res) { can.list = res.Table()
+            can.onimport._init(can, res, fields)
         }), can.ui.word.setSelectionRange(0, -1)
 
         can.onmotion.show(can), can.ui.input.focus()
@@ -60,48 +60,30 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
     "清空": function(event, can) { can.onmotion.clear(can, can.ui.preview) },
     "完成": function(event, can) { can.base.isFunc(can.cb) && can.cb() },
 
-    select: function(event, can, index) {
+    select: function(event, can, index) { var line = can.list[index]
+        if (can.base.isFunc(line.text)) { return can.onmotion.hide(can), line.text(event) }
 
-        // if (line.ctx == "web.chat" && line.cmd == "/search") {
-        //     return can.onimport.select(can, msg, [line.type, line.name, line.text], can.cb)
-        // }
-
-        if (can.list && can.list[index]) {
-            var text = can.list[index].text || ""
-            if (can.base.isFunc(text)) {
-                can.list[index].text(event)
-            } else { var line = can.list[index]
-                var fields = can.page.Select(can, can.ui.display, "th", function(item) { return item.innerText })
-                can.page.Append(can, can.ui.display, [{td: can.core.List(fields, function(item) {
-                    return line[item]
-                }), data: {index: index}, onclick: function(event) {
-                    can.page.Remove(can, event.target.parentNode)
-                    can.Status("selected", can.page.Select(can, can.ui.display, "tr").length-1)
-                }}]), can.Status("selected", can.page.Select(can, can.ui.display, "tr").length-1)
-                return false
-            }
-            can.onmotion.hide(can)
-            return true
+        if (line.ctx == "web.chat" && line.cmd == "/search") {
+            return can.onimport.select(can, msg, [line.type, line.name, line.text], can.cb)
         }
-        return false
+
+        var fields = can.page.Select(can, can.ui.display, "th", function(item) { return item.innerText })
+        can.page.Append(can, can.ui.display, [{td: can.core.List(fields, function(item) {
+            return line[item]
+        }), data: {index: index}, onclick: function(event) { can.page.Remove(can, event.target.parentNode)
+            can.Status("selected", can.page.Select(can, can.ui.display, "tr").length-1)
+        }}]), can.Status("selected", can.page.Select(can, can.ui.display, "tr").length-1)
     },
 
     plugin: function(event, can, index) { var line = can.list[index]
-        var cmd = line.cmd == "command"? can.core.Keys(line.text, line.name): can.core.Keys(line.ctx, line.cmd)
+        if (can.base.isFunc(line.text)) { return can.onmotion.hide(can), line.text(event) }
 
-        can.onappend.plugin(can, {type: "plugin", index: cmd||msg.Option("index"), option: line}, function(sub, meta) {
+        var cmd = line.cmd == "command"? can.core.Keys(line.text, line.name): can.core.Keys(line.ctx, line.cmd)
+        can.onappend.plugin(can, {type: "plugin", index: cmd||msg.Option("index")}, function(sub, meta) {
             sub.run = function(event, cmds, cb) { var msg = can.request(event, line)
-                can.run(event, ["action", "command", "run", meta.index].concat(cmds), function(msg) {
-                    can.base.isFunc(cb) && cb(msg)
-                })
+                can.run(event, ["action", "command", "run", meta.index].concat(cmds), cb)
             }
         }, can.ui.preview)
-    },
-})
-Volcanos("ondetail", {help: "交互操作", list: ["删除"], _init: function(can, msg, list, cb, target) {
-    },
-    "删除": function(event, sub) {
-        sub.page.Remove(sub, sub._target)
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["selected", "count"],

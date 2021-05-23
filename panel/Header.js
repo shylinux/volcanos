@@ -27,18 +27,18 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }
         can.user.isWeiXin && can.onimport._weixin(can)
     },
-    _grant: function(can, msg, target) { const GRANT = "grant"
+    _grant: function(can, msg, target) { const GRANT = "grant", SPACE = "space"
         if (can.user.Search(can, GRANT)) {
             if (can.user.confirm(GRANT+" "+can.user.Search(can, GRANT))) {
-                can.run(event, [can._ACTION, GRANT, "space", can.user.Search(can, GRANT)])
+                can.run(event, [can._ACTION, GRANT, SPACE, can.user.Search(can, GRANT)])
             }
             can.user.Search(can, GRANT, "")
         }
     },
-    _title: function(can, msg, target) {
-        can.user.title(can.user.Search(can, can._TITLE)||can.user.Search(can, "pod"))
+    _title: function(can, msg, target) { const TITLE = "title"
+        can.user.title(can.user.Search(can, TITLE)||can.user.Search(can, "pod"))
         !can.user.isMobile && can.core.List(msg.result||["github.com/shylinux/contexts"], function(item) {
-            can.page.Append(can, target, [{view: [can._TITLE, "div", item], title: "返回主页", onclick: function(event) {
+            can.page.Append(can, target, [{view: [TITLE, "div", item], title: "返回主页", onclick: function(event) {
                 can.onaction.title(event, can)
             }}])
         })
@@ -200,19 +200,11 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     river: function(event, can) { can.onaction.River(can) },
     black: function(event, can, button) {
         can.onlayout.topic(can, button)
-
-        var header = can.get("Header", "height")
-        var footer = can.get("Footer", "height")
-        can.set("River", "height", window.innerHeight-header-footer)
-        can.set("Action", "height", window.innerHeight-header-footer)
+        can.onlayout._init(can)
     },
     white: function(event, can, button) {
         can.onlayout.topic(can, button)
-
-        var header = can.get("Header", "height")
-        var footer = can.get("Footer", "height")
-        can.set("River", "height", window.innerHeight-header-footer)
-        can.set("Action", "height", window.innerHeight-header-footer)
+        can.onlayout._init(can)
     },
     print: function(event, can, button) {
         can.onlayout.topic(can, "white print")
