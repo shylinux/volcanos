@@ -82,10 +82,7 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
     },
     grow: function(can, msg, arg) {
         var sub = can.ondaemon._list[msg.Option("_target")]
-        if (!sub || !sub._outputs || !sub._outputs.length) { return }
-
-        var out = sub._outputs[sub._outputs.length-1]
-        out.onimport._grow(out, arg.join(""))
+        sub.onimport._grow(sub, arg.join(""))
     },
     toast: function(can, msg, arg) {
         can.onmotion.float.add(can, "float", can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}))
@@ -166,7 +163,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     _option: function(can, meta, option) { var index = -1, args = can.base.Obj(meta.args||meta.arg, [])
         function add(item, next) { item._input != "button" && item.type != "button" && index++
-            Volcanos(item.name, {_follow: can.core.Keys(can._follow, item.name), _target: can.onappend.input(can, item, args[index], option),
+            return Volcanos(item.name, {_follow: can.core.Keys(can._follow, item.name), _target: can.onappend.input(can, item, args[index], option),
                 _option: can._option, _action: can._action, _output: can._output, _status: can._status,
                 Option: can.Option, Action: can.Action, Status: can.Status,
                 CloneInput: function() { add(item)._target.focus() }, CloneField: function() { can.Clone() },
@@ -174,6 +171,11 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 input.Conf(item), input.sup = can, input.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                     if (msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && input.onaction[cmds[1]]) {
                         return msg.Option("_handle", "true"), can.core.CallFunc(input.onaction[cmds[1]], {event: event, can: input, msg: msg})
+                    }
+
+                    var table = can.core.Value(can, "_outputs.-1")
+                    if (msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && table.onaction[cmds[1]]) {
+                        return msg.Option("_handle", "true"), can.core.CallFunc(table.onaction[cmds[1]], {event: event, can: table, msg: msg})
                     }
 
                     return can.onappend._output(can, meta, event, can.Pack(cmds, silent), cb, silent)
@@ -210,14 +212,16 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
 
         if (msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && can.onaction[cmds[1]]) {
-            return can.onaction[cmds[1]](event, can, cmds[1])
+            return msg.Option("_handle", "true"), can.core.CallFunc(can.onaction[cmds[1]], {event: event, can: can, msg: msg})
         }
 
         var feature = can.Conf("feature")
         var input = msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && feature && feature[cmds[1]]; if (input) {
             can.user.input(event, can, input, function(ev, button, data, list, args) {
                 var msg = can.request(event, {_handle: "true"}, can.Option())
-                can.onappend._output(can, meta, event, cmds.slice(0, 2).concat(args), cb, true)
+                can.onappend._output(can, meta, event, cmds.slice(0, 2).concat(args), function(msg) {
+                    can.onappend._output(can, meta, event, can.Pack(), cb)
+                }, true)
             })
             return
         }
@@ -330,9 +334,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 can.core.List(array, function(item, index) { line[item.key||line.name] = item.value })
             }
 
-            return {type: "td", inner: value, onclick: function(event) { var target = event.target
-                if (target.tagName == "INPUT" && target.type == "button") {
-                    var msg = can.sup.request(event, can.Option(), line)
+            return {text: [value, "td"], onclick: function(event) { var target = event.target
+                if (target.tagName == "INPUT" && target.type == "button") { var msg = can.sup.request(event, can.Option())
+                    key == "value"? can.core.List(array, function(item, index) { msg.Option(item.key, item.value) }): msg.Option(line)
                     return can.run(event, ["action", target.name], function(msg) { can.run() }, true)
                 }
 
@@ -340,11 +344,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     can.onimport._init(can, msg, [], cb, can._output)
                 })
             }, ondblclick: function(event) { var target = event.target
-                can.onmotion.modify(can, target, function(event, value, old) {
-                    var msg = can.sup.request(event, can.Option(), line)
-                    can.run(event, ["action", "modify", key, value], function(msg) {
-                        can.user.toast(can, "修改成功")
-                    }, true)
+                can.onmotion.modify(can, target, function(event, value, old) { var msg = can.sup.request(event, can.Option())
+                    key == "value"? can.core.List(array, function(item, index) { msg.Option(item.key, item.value) }): msg.Option(line)
+                    can.run(event, ["action", "modify", key == "value"? line.key||line.name: key, value], function(msg) { can.run() }, true)
                 })
             }}
         }); table && can.page.Modify(can, table, {className: "content"})
