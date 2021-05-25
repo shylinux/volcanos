@@ -60,7 +60,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
         can.base.isFunc(cb) && cb(msg)
     },
-    onmain: function(can, msg) {
+    onlogin: function(can, msg) {
         can.run({}, [], function(msg) { can.onimport._init(can, msg, [], null, can._output) })
     },
 })
