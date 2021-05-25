@@ -229,8 +229,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         can._daemon == undefined && (can._daemon = can.ondaemon._list.push(can)-1), msg._daemon = msg._daemon||can._daemon
 
         return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")||{}; can._msg = msg, sub._msg = msg
-            if (can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
-            if (can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
+            if (msg._can == can && can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
+            if (msg._can == can && can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
             if (can.base.isFunc(cb) && can.core.CallFunc(cb, {can: can, msg: msg})) { return }
             if (silent) { return }
 

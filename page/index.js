@@ -92,8 +92,6 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
                 {name: "nginx", help: "代理", index: "web.wiki.word", args: ["usr/nginx-story/src/main.shy"]},
             ]},
             "context": {name: "编程 context",  action: [
-                {name: "grafana", help: "可视化", index: "web.wiki.word", args: ["usr/golang-story/src/grafana/grafana.shy"]},
-                {name: "gogs", help: "代码库", index: "web.wiki.word", args: ["usr/golang-story/src/gogs/gogs.shy"]},
                 {name: "golang", help: "编程", index: "web.wiki.word", args: ["usr/golang-story/src/main.shy"]},
             ]},
             "redis": {name: "缓存 redis",  action: [
@@ -112,9 +110,6 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
             ]},
         }},
         "operate": {name: "运维群", storm: {
-            "aaa": {name: "权限 aaa", index: [
-                "user",
-            ]},
             "cli": {name: "系统 cli", index: [
                 "system", "daemon", "python", "output",
                 "runtime", "process",
@@ -122,6 +117,9 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
             "web": {name: "网络 web", index: [
                 "route", "serve", "space", "dream",
                 "spide", "share", "cache", "story",
+            ]},
+            "aaa": {name: "权限 aaa", index: [
+                "user", "sess", "role",
             ]},
             "nfs": {name: "文件 nfs", index: [
                 "nfs.cat", "nfs.dir", "nfs.tail", "nfs.trash",

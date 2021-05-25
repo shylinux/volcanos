@@ -21,12 +21,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         return true
     },
     _inner: function(can, msg) {
-        can.onappend.table(can, msg, function(value, key, index, line, array) {
-            return can.onimport._table(can, value, key, index, line, array)
-        }, can._output)
-
-        can.onappend.board(can, msg.Result(), can._output)
-        can.onmotion.story.auto(can, can._output)
+        can.onappend.table(can, msg)
+        can.onappend.board(can, msg.Result())
+        can.onmotion.story.auto(can)
         can.page.Modify(can, can._output, {style: {display: "block"}})
         return true
     },
