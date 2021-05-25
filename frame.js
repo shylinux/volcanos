@@ -1033,4 +1033,4 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
         if (target._keys.length == 0)  { event.stopPropagation(), event.preventDefault() }
     },
 })
-
+var _can_name = ""

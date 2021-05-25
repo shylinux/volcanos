@@ -122,6 +122,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     },
 
     create: function(event, can) {
+        can.user.trans(can, {type: "类型", name: "群名", text: "简介"})
         can.user.input(event, can, [
             {name: "type", values: ["public", "protected", "private"]},
             {name: "name", value: "hi"}, {type: "textarea", name: "text", value: "hello"},
@@ -164,12 +165,12 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         })
     },
     "添加应用": function(event, can, button, river) {
+        can.user.trans(can, {type: "类型", name: "名称", text: "简介"})
         can.user.input(event, can, [
-            ["类型", "public", "protected", "private"],
-            {name: "名称", value: "hi"},
-            {name: "简介", value: "hello"},
-        ], function(event, button, meta, list) {
-            can.run({}, [river, "tool", can._ACTION, "create"].concat(["type", list[0], "name", list[1], "text", list[2]]), function(msg) {
+            {name: "type", values: ["public", "protected", "private"]},
+            {name: "name", value: "hi"}, {name: "text", value: "hello"},
+        ], function(event, button, meta, list, args) {
+            can.run({}, [river, "tool", can._ACTION, "create"].concat(args), function(msg) {
                 can.user.Search(can, {river: river, storm: msg.Result()})
             })
         })

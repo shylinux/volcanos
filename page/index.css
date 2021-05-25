@@ -240,9 +240,9 @@ div.toast a {
     color:yellow;
 }
 div.toast div.title {
+    float:left; word-break:break-all;
     color:#cae850; font-size:14px;
     cursor:copy;
-    float:left;
 }
 div.toast div.duration {
     color:gray; font-size:14px;
@@ -286,10 +286,9 @@ div.input {
     z-index:50;
 }
 div.input textarea {
-    width:145px;
-    padding:4px;
-    margin:2px;
-    height:45px;
+    background-color:cyan;
+    margin:2px; padding:4px;
+    width:145px; height:45px;
 }
 div.input div.item {
     float:left;

@@ -17,13 +17,13 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}}, [], f
         meta.libs = Config.libs, meta.volcano = Config.volcano
 
         // 预加载
-        var Preload = [Config.volcano]; for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
+        var Preload = []; for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
             panel && (Preload = Preload.concat(panel.list = panel.list || ["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
         }; Preload = Preload.concat(Config.plugin)
 
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: document.body}
-        libs = Preload.concat(Config.main.list, Config.libs), cb = function(can) {
+        libs = Preload.concat(Config.main.list, Config.libs, Config.volcano), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panels, function(msg) {}, can._target)
         }
     }
@@ -47,6 +47,7 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}}, [], f
                 typeof cb == "function" && setTimeout(function() { cb(can) }, 10)
                 return // 加载完成
             }
+            libs[0] = libs[0].toLowerCase()
 
             // 请求模块
             function next() { can._load(libs[0], each), can.require(libs.slice(1), cb, each) }
