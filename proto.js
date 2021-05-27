@@ -77,7 +77,7 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}}, [], f
         Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},
     }; can = can || {}; can.__proto__ = proto
 
-    if (_can_name) { // 加入缓存
+    if (_can_name && location.search.indexOf("debug=true") == -1) { // 加入缓存
         meta.cache[_can_name] = meta.cache[_can_name] || []
         meta.cache[_can_name].push(can)
     } else { // 加入队列

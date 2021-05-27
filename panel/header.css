@@ -22,7 +22,7 @@ fieldset.Header>div.output>div.search {
     float:left; margin-left:20px;
 }
 fieldset.Header>div.output>div.search>input {
-    width:120px;
+    width:120px; background-color:cyan;
 }
 fieldset.Header>div.output>div.search>input:hover {
     /* width:240px; */
@@ -48,4 +48,8 @@ fieldset.Header>div.output div.menu:hover {
 }
 fieldset.Header>div.status {
     display:none;
+}
+
+body.print fieldset.Header>div.output>div.search>input {
+    width:120px; background-color:white;
 }

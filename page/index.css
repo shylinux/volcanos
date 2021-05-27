@@ -1,7 +1,3 @@
-a {
-
-    color:yellow;
-}
 body.mobile.landscape fieldset.Header.head {
     position:unset;
 }
@@ -67,6 +63,10 @@ body.mobile div.input.login input {
     font-size:24px
 }
 
+a {
+
+    color:yellow;
+}
 body {
     margin:0; padding:0;
     background:black;
@@ -486,9 +486,6 @@ body>fieldset.input.date table td:hover {
     background-color:red;
 }
 
-body.black a {
-    color:yellow;
-}
 body.white {
     background-color:#052238bf;
     color:white;
@@ -568,6 +565,10 @@ body.white fieldset.Action fieldset.plugin legend:hover {
 body.print {
     background-color:white;
     color:black;
+}
+body.print a {
+    color:blue;
+
 }
 body.print fieldset.Header {
     background-color:white;
