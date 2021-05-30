@@ -118,13 +118,12 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
                 "spide", "share", "cache", "story",
             ]},
             "aaa": {name: "权限 aaa", index: [
-                "user", "sess", "role",
+                "user", "sess", "role", "totp",
             ]},
             "nfs": {name: "文件 nfs", index: [
                 "nfs.cat", "nfs.dir", "nfs.tail", "nfs.trash",
             ]},
             "ssh": {name: "脚本 ssh", index: [
-                "aaa.totp", "web.code.tmux.session",
                 "connect", "session", "service", "channel",
             ]},
         }},

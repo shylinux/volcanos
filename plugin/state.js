@@ -2,6 +2,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
     _process: function(can, msg) { return can.core.CallFunc([can.onimport, msg.Option("_process")], [can, msg]) },
 
+    _rewrite: function(can, msg, _arg) { can.Option(msg._arg[0], msg._arg[1])
+        can.onappend._output(can, can.Conf(), {}, can.Pack())
+        return true
+    },
     _refresh: function(can, msg) {
         can.core.Timer(parseInt(msg.Option("_delay")||"500"), function() {
             var sub = can.request({}, {_count: parseInt(msg.Option("_count"))-1})

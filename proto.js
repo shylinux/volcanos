@@ -38,6 +38,7 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}}, [], f
             for (var i = 0; i < cache.length; i++) { var sub = cache[i]
                 if (typeof cb == "function" && cb(can, name, sub)) { continue }
                 if (can[sub._name] && can[sub._name]._merge && can[sub._name]._merge(can, sub)) { continue }
+                if (sub._name == "onkeypop") { can[sub._name] = sub; continue }
                 !can[sub._name] && (can[sub._name] = {}); for (var k in sub) {
                     can[sub._name].hasOwnProperty(k) || (can[sub._name][k] = sub[k])
                 }
