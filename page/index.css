@@ -363,6 +363,10 @@ fieldset>form.option>div.item input.args.tiny {
 fieldset>form.option>div.item input.args {
     width:82px; height:21px; font-size:16px;
 }
+fieldset>form.option>div.item input[name=cmd] {
+    background-color:black; color:white;
+    width:160px;
+}
 fieldset>form.option>div.item input.args.cmd {
     background-color:black; color:white;
     width:160px;
@@ -602,4 +606,8 @@ body.print fieldset.Action fieldset.plugin {
 }
 body.print fieldset.River>div.output div.list div.item {
     background-color:white;
+}
+body.print fieldset.River>div.output div.item.select {
+    background-color:white;
+    border:solid 2px red;
 }

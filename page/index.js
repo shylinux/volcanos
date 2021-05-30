@@ -111,8 +111,7 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
         }},
         "operate": {name: "运维群", storm: {
             "cli": {name: "系统 cli", index: [
-                "system", "daemon", "python", "output",
-                "runtime", "process",
+                "qrcode", "daemon", "system", "runtime",
             ]},
             "web": {name: "网络 web", index: [
                 "route", "serve", "space", "dream",
