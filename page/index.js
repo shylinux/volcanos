@@ -113,15 +113,14 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
             "cli": {name: "系统 cli", index: [
                 "qrcode", "daemon", "system", "runtime",
             ]},
-            "web": {name: "网络 web", index: [
-                "route", "serve", "space", "dream",
-                "spide", "share", "cache", "story",
+            "web": {name: "应用 web", index: [
+                "spide", "route", "share", "dream",
             ]},
             "aaa": {name: "权限 aaa", index: [
                 "user", "sess", "role", "totp",
             ]},
             "nfs": {name: "文件 nfs", index: [
-                "nfs.cat", "nfs.dir", "nfs.tail", "nfs.trash",
+                "cat", "dir", "tail", "trash",
             ]},
             "ssh": {name: "脚本 ssh", index: [
                 "connect", "session", "service", "channel",
