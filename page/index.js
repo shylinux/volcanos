@@ -124,6 +124,7 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
             ]},
             "ssh": {name: "脚本 ssh", index: [
                 "connect", "session", "service", "channel",
+                "source", "screen",
             ]},
         }},
     },
