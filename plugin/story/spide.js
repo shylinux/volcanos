@@ -156,7 +156,9 @@ Volcanos("ondetail", {help: "用户交互", list: [],
                             sub.Conf("height", height+120)
                         }
 
-                        can.page.Modify(can, sub._target, {style: {position: "fixed", left: left+margin, top: top}})
+                        var layout = {position: "fixed", left: left+margin, top: top}
+                        can.onmotion.move(can, sub._target, layout)
+                        can.page.Modify(can, sub._target, {style: layout})
                         can.page.Modify(can, sub._output, {style: {"max-width": width-margin*2}})
                         can.base.isFunc(cb) && cb(msg)
                     })
