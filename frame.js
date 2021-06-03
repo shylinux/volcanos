@@ -486,7 +486,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         }
 
         if (left+target.offsetWidth>window.innerWidth) { left = window.innerWidth - target.offsetWidth }
-        if (top+target.offsetHeight>window.innerHeight) { top = window.innerHeight - target.offsetHeight }
+        if (top+target.offsetHeight>window.innerHeight-100) { top = window.innerHeight - target.offsetHeight - 100 }
 
         var layout = {left: left, top: top}
         can.page.Modify(can, target, {style: layout})

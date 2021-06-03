@@ -101,6 +101,9 @@ input[name=cmd] {
 input[name=date] {
     width:150px;
 }
+input[name=text] {
+    width:160px;
+}
 input[type=text] {
     box-shadow: 4px 4px 10px 1px #626bd0;
     background-color:cyan; color:black;
