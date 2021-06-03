@@ -357,8 +357,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
         return sort && can.page.RangeTable(can, table, sort), table
     },
-    board: function(can, text, target) { text = can.page.Color(text||"")
-        var code = text && can.page.Append(can, target||can._output, [{view: ["code", "div", text]}]).code
+    board: function(can, text, target) {
+        // text = text.replace(/</g, "&lt;"), text = text.replace(/>/g, "&gt;"), text = can.page.Color(text||"")
+        text = can.page.Color(text||"")
+        var code = text && can.page.Append(can, target||can._output, [{text: [text, "div", "code"]}]).code
         can.page.Select(can, code, "input[type=button]", function(target) {
             target.onclick = function(event) {
                 var msg = can.sup.request(event, can.Option())
