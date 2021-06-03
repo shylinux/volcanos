@@ -14,7 +14,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         return true
     },
     _field: function(can, msg) {
-        msg.Table(function(item) { can.onappend._plugin(can, item, {}, function(sub, meta) {
+        msg.Table(function(item) { can.onappend._plugin(can, item, {arg: can.base.Obj(msg.Option("arg"), [])}, function(sub, meta) {
             sub.run = function(event, cmds, cb, silent) {
                 var res = can.request(event); can.core.Item(can.Option(), function(key, value) {
                     res.Option(key) || res.Option(key, value)

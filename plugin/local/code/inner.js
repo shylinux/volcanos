@@ -163,7 +163,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         return p.line? p.line(can, line): line
     },
 })
-Volcanos("onaction", {help: "控件交互", list: ["项目"],
+Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏"],
     "返回": function(event, can) {
         var last = can.history.pop(); last = can.history.pop()
         last && can.onimport.tabview(can, last.path, last.file, last.line)
@@ -308,7 +308,7 @@ Volcanos("onaction", {help: "控件交互", list: ["项目"],
         ], function(event, button, meta, list) {
             can.run(event, ["action", "favor",
                 "action", "insert", "topic", meta.topic||"some",
-                "type", can.parse, "name", meta.name||"some", "text", value||"",
+                "type", can.parse, "name", meta.name||"some", "text", (value||"").trimRight(),
                 "path", can.Option("path"), "file", can.Option("file"), "line", can.Option("line"),
             ], function(msg) {
                 can.user.toast(can, "收藏成功")
