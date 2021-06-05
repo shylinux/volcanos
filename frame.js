@@ -229,8 +229,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         can._daemon == undefined && (can._daemon = can.ondaemon._list.push(can)-1), msg._daemon = msg._daemon||can._daemon
 
         return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")||{}; can._msg = msg, sub._msg = msg
-            if (msg._can == can && can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
-            if (msg._can == can && can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
+            var process = msg._can == can || msg._can == sub
+            if (process && can.core.CallFunc([sub, "onimport._process"], [sub, msg, cmds, cb])) { return }
+            if (process && can.core.CallFunc([can, "onimport._process"], [can, msg, cmds, cb])) { return }
             if (can.base.isFunc(cb) && can.core.CallFunc(cb, {can: can, msg: msg})) { return }
             if (silent) { return }
 
@@ -248,6 +249,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     return can.onappend._output(can, meta, event, can.Pack(cmds, silent), cb, silent)
                 }, can._outputs.push(table), table._msg = msg
 
+                table._display = display
                 table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function(msg) {
                     can.page.Modify(can, can._action, ""), can.page.Modify(can, can._status, "")
                     table.onaction && table.onappend._action(table, can.base.Obj(msg.Option("_action"), meta._action||table.onaction.list))
@@ -369,6 +371,11 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
         code && code.scrollBy(0, 10000)
         return code
+    },
+    style: function(can, cb) {
+        can.require([can._display.replace(/.js$/, ".css")], function() {
+            can.base.isFunc(cb) && cb()
+        })
     },
 
     figure: function(can, meta, key, cb, target) {

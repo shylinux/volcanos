@@ -28,8 +28,7 @@ var Volcanos = shy("火山架", {args: {}, pack: {}, libs: [], cache: {}}, [], f
         }
     }
 
-    var proto = {_name: name, _load: function(name, cb) {
-            // 加载缓存
+    var proto = {_name: name, _load: function(name, cb) { // 加载缓存
             var cache = meta.cache[name] || []; for (list.reverse(); list.length > 0; list) {
                 var sub = list.pop(); sub != can && cache.push(sub)
             }; meta.cache[name] = cache

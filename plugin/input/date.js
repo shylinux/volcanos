@@ -11,9 +11,9 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
         ["month"].concat(can.core.List(1, 13)), "下一月",
     ], can._action, {
         "关闭": function(event) { can.page.Remove(can, can._target) },
-        "hour": function(event, can, key, value) {  now.setHours(parseInt(value)), show(now) },
-        "minute": function(event, can, key, value) {  now.setMinutes(parseInt(value)), show(now) },
-        "second": function(event, can, key, value) {  now.setSeconds(parseInt(value)), show(now) },
+        "hour": function(event, can, key, value) {  now.setHours(parseInt(value)||0), show(now) },
+        "minute": function(event, can, key, value) {  now.setMinutes(parseInt(value)||0), show(now) },
+        "second": function(event, can, key, value) {  now.setSeconds(parseInt(value)||0), show(now) },
         "今天": function(event) {  now = new Date(), set(show(now)) },
 
         "上一月": function(event) {  now.setMonth(now.getMonth()-1), show(now) },

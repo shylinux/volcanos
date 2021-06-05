@@ -168,7 +168,7 @@ Volcanos("onaction", {help: "组件交互", list: [
         ["score", "all", "s1", "s2", "s3", "s4", "s5"],
         ["view", "", "name", "text", "level", "score"],
     ],
-    insertTask: function(event, can, time) {
+    insertTask: function(event, can, time) { var msg = can.sup.request(event, {begin_time: time})
         can.user.input(event, can, can.Conf("feature.insert"), function(event, button, data, list) {
             var args = ["action", "insert"]; can.core.Item(data, function(key, value) {
                 if (key == "begin_time") { value = value || time }

@@ -71,10 +71,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         can.base.isFunc(cb) && cb()
     },
     _const: ["title", "river", "storm", "action"],
-    _trans: {
-        create: "创建", refresh: "刷新",
-        "public": "公开群", "protected": "内部群", "private": "私有群",
-    },
+    _trans: {create: "创建", refresh: "刷新"},
     onlogin: function(can, msg) {
         can.onappend._action(can, can.Conf("action")||can.onaction.list)
         can.run({}, [], function(msg) { can.onimport._init(can, msg, [], null, can._output) })
@@ -122,10 +119,10 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     },
 
     create: function(event, can) {
-        can.user.trans(can, {type: "类型", name: "群名", text: "简介"})
+        can.user.trans(can, {"public": "公开群", "protected": "内部群", "private": "私有群"})
         can.user.input(event, can, [
-            {name: "type", values: ["public", "protected", "private"]},
-            {name: "name", value: "hi"}, {type: "textarea", name: "text", value: "hello"},
+            {name: "type", values: ["public", "protected", "private"], _trans: "类型"},
+            {name: "name", value: "hi", _trans: "群名"}, {type: "textarea", name: "text", value: "hello", _trans: "简介"},
         ], function(event, button, meta, list, args) {
             can.run(event, [can._ACTION, "create"].concat(args), function(msg) {
                 can.user.Search(can, {river: msg.Result()})
@@ -145,7 +142,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
 
     "共享群组": function(event, can, button, river) {
         can.user.input(event, can, [
-            {name: "name", value: river},
+            {name: "name", value: river, _trans: "标题"},
         ], function(event, button, meta, list) {
             can.user.share(can, can.request(event), [river, can._ACTION, "share", "type", can._RIVER, "name", meta.name])
         })
@@ -165,10 +162,10 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         })
     },
     "添加应用": function(event, can, button, river) {
-        can.user.trans(can, {type: "类型", name: "名称", text: "简介"})
+        can.user.trans(can, {"public": "公开应用", "protected": "群组应用", "private": "个人应用"})
         can.user.input(event, can, [
-            {name: "type", values: ["public", "protected", "private"]},
-            {name: "name", value: "hi"}, {name: "text", value: "hello"},
+            {name: "type", values: ["public", "protected", "private"], _trans: "类型"},
+            {name: "name", value: "hi", _trans: "名称"}, {type: "textarea", name: "text", value: "hello", _trans: "简介"},
         ], function(event, button, meta, list, args) {
             can.run({}, [river, "tool", can._ACTION, "create"].concat(args), function(msg) {
                 can.user.Search(can, {river: river, storm: msg.Result()})
@@ -191,7 +188,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
 
     "共享应用": function(event, can, button, river, storm) {
         can.user.input(event, can, [
-            {name: "name", value: storm},
+            {name: "name", value: storm, _trans: "标题"},
         ], function(event, button, meta, list) {
             var msg = can.request(event)
             can.user.share(can, msg, [river, can._ACTION, "share", "type", can._STORM, "name", meta.name,
