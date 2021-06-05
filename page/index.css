@@ -366,6 +366,9 @@ fieldset>form.option>div.item input.args.tiny {
 fieldset>form.option>div.item input.args {
     width:82px; height:21px; font-size:16px;
 }
+fieldset>form.option>div.item input[name=text] {
+    width:240px;
+}
 fieldset>form.option>div.item input[name=cmd] {
     background-color:black; color:white;
     width:160px;
