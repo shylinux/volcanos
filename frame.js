@@ -220,7 +220,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             can.user.input(event, can, input, function(ev, button, data, list, args) {
                 var msg = can.request(event, {_handle: "true"}, can.Option())
                 can.onappend._output(can, meta, event, cmds.slice(0, 2).concat(args), function(msg) {
-                    can.onappend._output(can, meta, event, can.Pack(), cb)
+                    can.onappend._output(can, meta, {}, can.Pack(), cb)
                 }, true)
             })
             return
