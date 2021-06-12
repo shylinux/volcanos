@@ -155,7 +155,13 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         }).join(""))
 
         p.prefix && can.core.Item(p.prefix, function(pre, type) {
-            if (line.trim().indexOf(pre) == 0) { line = wrap(type, line) }
+            if (line.trim().indexOf(pre) == 0) {
+                line = wrap(type, line)
+            } else {
+                var ls = line.split(pre); if (ls.length > 1) {
+                    line = ls[0] + wrap(type, pre + ls[1])
+                }
+            }
         })
         p.suffix && can.core.Item(p.suffix, function(pre, type) {
             if (line.endsWith(pre)) { line = wrap(type, line) }
