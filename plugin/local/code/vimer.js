@@ -283,7 +283,8 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             left: line.offsetLeft, top: line.offsetTop-can.current.offset()-2,
             height: line.offsetHeight, width: line.offsetWidth
         }})
-        can.ui.current.focus(), can.ui.current.setSelectionRange(event.offsetX/13, event.offsetX/13)
+        // can.ui.current.focus()
+        can.ui.current.setSelectionRange(event.offsetX/13, event.offsetX/13)
         can.page.Modify(can, can.ui.command, {className: "command "+can.mode})
     },
     insertLine: function(can, value, before) {
