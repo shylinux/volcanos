@@ -195,7 +195,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         can.core.List(list, function(item) { can.onappend.input(can, item == ""? /*空白*/ {type: "space"}:
             typeof item == "string"? /*按键*/ {type: "button", value: item, onclick: function(event) {
                 var cb = meta[item]||meta["_engine"]
-                cb? can.core.CallFunc(cb, [event, can, item]): can.run(event, ["action",item])
+                cb? can.core.CallFunc(cb, [event, can, item]): can.run(event, ["action",item].concat(can.sup.Pack()))
 
             }}: item.length > 0? /*列表*/ {type: "select", name: item[0], values: item.slice(1), onchange: function(event) {
                 var which = item[event.target.selectedIndex+1]
