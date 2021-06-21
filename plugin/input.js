@@ -24,6 +24,9 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
     },
 
     onkeydown: function(event, can) { var target = event.target
+        switch (can.Conf("type")) {
+            case "textarea": if (!event.ctrlKey) { return }
+        }
         can.onkeypop.input(event, can, target); switch (event.key) {
             case "Enter":
                 switch (can.Conf("type")) {
