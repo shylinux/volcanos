@@ -981,7 +981,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
                 var his = target._history || []
                 his.push(target.value)
 
-                can.misc.Log("input", target, his)
+                // can.misc.Log("input", target, his)
                 target.setSelectionRange(0, -1)
                 target._current = his.length
                 target._history = his
