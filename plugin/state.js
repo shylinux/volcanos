@@ -62,13 +62,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [
-        "保存参数", "清空参数", "共享工具", "删除工具", "刷新数据", "清空数据", [
-            "其它", "复制数据", "下载数据", [
-                "其它",  "复制数据", "下载数据",
-            ], [
-                "其它",  "复制数据", "下载数据",
-            ],
-        ]], _init: function(can, msg, list, cb, target) {
+        "保存参数", "清空参数", "共享工具", "删除工具", "刷新数据", "清空数据", ["其它 ->", "复制数据", "下载数据"],
+        ], _init: function(can, msg, list, cb, target) {
     },
     "保存参数": function(event, can) { var meta = can.Conf()
         var msg = can.request(event, {river: can.Conf("river"), storm: can.Conf("storm"), id: meta.id})

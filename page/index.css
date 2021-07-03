@@ -373,6 +373,21 @@ fieldset>form.option>div.item input[name=cmd] {
     background-color:black; color:white;
     width:160px;
 }
+fieldset>form.option>div.item input[name=id] {
+    width:48px;
+}
+fieldset>form.option>div.item input[name=ID] {
+    width:48px;
+}
+fieldset>form.option>div.item input[name=limit] {
+    width:48px;
+}
+fieldset>form.option>div.item input[name=offset] {
+    width:48px;
+}
+fieldset>form.option>div.item input[name=offend] {
+    width:48px;
+}
 fieldset>form.option>div.item input.args.cmd {
     background-color:black; color:white;
     width:160px;

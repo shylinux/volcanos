@@ -154,7 +154,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             sub.page.ClassList.add(sub, field, meta.index? meta.index.split(".").pop(): meta.name)
 
             sub.page.Modify(sub, sub._legend, {
-                onmouseenter: function(event) { sub.user.carte(event, sub, sub.onaction, sub.onaction.list) },
+                onmouseenter: function(event) {
+                    sub.user.carte(event, sub, sub.onaction, sub.onaction.list)
+                },
             })
 
             meta.inputs && sub.onappend._option(sub, meta, sub._option)
