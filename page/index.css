@@ -350,6 +350,12 @@ div.story[data-type=spark] span:hover {
     cursor:copy;
 }
 
+fieldset>form.option {
+    float:left;
+}
+fieldset>div.action {
+    float:left;
+}
 fieldset>form.option>div.item {
     float:left; margin-right:3px;
     min-height:25px; vertical-align:middle;
@@ -471,6 +477,7 @@ fieldset>div.output div.project div.item {
 fieldset>div.output div.project div.item:hover {
     background-color:red;
 }
+
 fieldset>div.output div.project div.item.select {
     background-color:red;
 }

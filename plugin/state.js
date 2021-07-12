@@ -1,6 +1,9 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf, list, cb, target) {
     },
-    _process: function(can, msg) { return can.core.CallFunc([can.onimport, msg.Option("_process")], [can, msg]) },
+    _process: function(can, msg) {
+        msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, can.base.Obj(msg.OptionStatus()))
+        return can.core.CallFunc([can.onimport, msg.OptionProcess()], [can, msg])
+    },
 
     _rewrite: function(can, msg, _arg) { can.Option(msg._arg[0], msg._arg[1])
         can.onappend._output(can, can.Conf(), {}, can.Pack())
@@ -62,8 +65,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [
-        "保存参数", "清空参数", "共享工具", "删除工具", "刷新数据", "清空数据", ["其它 ->", "复制数据", "下载数据"],
+        "保存参数", "清空参数", "共享工具", "刷新数据", ["其它 ->", "删除工具", "清空数据", "复制数据", "下载数据"],
         ], _init: function(can, msg, list, cb, target) {
+    },
+    _engine: function(event, can, button) {
+        can.onappend._output(can, can.Conf(), event, ["action", button].concat(can.Pack([], true)))
     },
     "保存参数": function(event, can) { var meta = can.Conf()
         var msg = can.request(event, {river: can.Conf("river"), storm: can.Conf("storm"), id: meta.id})

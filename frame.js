@@ -155,7 +155,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
             sub.page.Modify(sub, sub._legend, {
                 onmouseenter: function(event) {
-                    sub.user.carte(event, sub, sub.onaction, sub.onaction.list)
+                    sub.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["所有 ->"].concat(can.core.Item(meta.feature.trans))]))
                 },
             })
 
@@ -562,6 +562,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
     },
     clear: function(can, target) {
         can.page.Modify(can, target||can._output, "")
+        return true
     },
     focus: function(can, target) {
         target.setSelectionRange(0, -1), target.focus()
