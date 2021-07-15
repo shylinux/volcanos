@@ -65,7 +65,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [
-        "保存参数", "清空参数", "共享工具", "刷新数据", ["其它 ->", "删除工具", "清空数据", "复制数据", "下载数据"],
+        "保存参数", "清空参数", "共享工具", "刷新数据", ["其它 ->", "删除工具", "清空数据", "复制数据", "下载数据", "摄像头"],
         ], _init: function(can, msg, list, cb, target) {
     },
     _engine: function(event, can, button) {
@@ -115,6 +115,31 @@ Volcanos("onaction", {help: "交互操作", list: [
     },
     "清空数据": function(event, can) {
         can.onmotion.clear(can, can._output)
+    },
+    "摄像头": function(event, can) {
+        var constraints = {audio: false, video: {width: 200, height: 200}}
+        var ui = can.page.Append(can, can._output, [{view: "action"}, {view: "capture", list: [{type: "video", _init: function(item) {
+            navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+                item.srcObject = stream, item.onloadedmetadata = function(e) {
+                    item.play()
+                }, ui.stream = stream
+            }).catch(function(err) { console.log(err.name + ": " + err.message); })
+        }}]}])
+
+        can.onappend._action(can, ["关闭", "抓拍"], ui.action, {
+            "抓拍": function(event) {
+                var canvas = can.page.Append(can, ui.capture, [{type: "canvas", width: ui.video.offsetWidth, height: ui.video.offsetHeight}]).first
+                canvas.getContext("2d").drawImage(ui.video, 0, 0)
+                can.page.Append(can, ui.capture, [{img: canvas.toDataURL('image/png'), style: {width: ui.video.offsetWidth, height: ui.video.offsetHeight}}])
+                can.page.Remove(can, canvas)
+            },
+            "关闭": function(event) {
+                can.core.List(ui.stream.getTracks(), function(track) { track.stop() })
+                can.page.Remove(can, ui.action)
+                can.page.Remove(can, ui.video)
+                can.page.Remove(can, ui.capture)
+            },
+        })
     },
 
     change: function(event, can, name, value, cb) {
