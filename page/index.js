@@ -73,11 +73,9 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
             ]},
             "cli": {name: "命令 cli",  action: [
                 {name: "bash", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/bash/bash.shy"]},
-                {name: "tmux", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/tmux/tmux.shy"]},
                 {name: "git", help: "代码库", index: "web.wiki.word", args: ["usr/icebergs/misc/git/git.shy"]},
                 {name: "vim", help: "编辑器", index: "web.wiki.word", args: ["usr/icebergs/misc/vim/vim.shy"]},
-                {name: "ssh", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/base/ssh/ssh.shy"]},
-                {name: "zsh", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/bash/zsh.shy"]},
+                {name: "tmux", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/tmux/tmux.shy"]},
             ]},
             "web": {name: "网页 web",  action: [
                 {name: "HTML5", help: "浏览器", index: "web.wiki.word", args: ["usr/icebergs/misc/chrome/chrome.shy"]},
