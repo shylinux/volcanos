@@ -163,9 +163,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             can.base.isFunc(cb) && cb(sub)
         }); return sub
     },
-    _option: function(can, meta, option) { var index = -1, args = can.base.Obj(meta.args||meta.arg, [])
+    _option: function(can, meta, option) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
         function add(item, next) { item._input != "button" && item.type != "button" && index++
-            return Volcanos(item.name, {_follow: can.core.Keys(can._follow, item.name), _target: can.onappend.input(can, item, args[index], option),
+            return Volcanos(item.name, {_follow: can.core.Keys(can._follow, item.name), _target: can.onappend.input(can, item, args[index]||opts[item.name], option),
                 _option: can._option, _action: can._action, _output: can._output, _status: can._status,
                 Option: can.Option, Action: can.Action, Status: can.Status,
                 CloneInput: function() { add(item)._target.focus() }, CloneField: function() { can.Clone() },

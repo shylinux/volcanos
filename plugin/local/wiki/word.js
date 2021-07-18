@@ -41,7 +41,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
     field: function(can, data, target) { var item = can.base.Obj(data.meta)
-        item.width = parseInt(can.Conf("width")), item.height = parseInt(can.Conf("height"))
+        item.width = parseInt(can.Conf("width")||window.innerWidth-20), item.height = parseInt(can.Conf("height")||window.innerHeight)
         item.type = "story"
         can.onappend._init(can, item, ["/plugin/state.js"], function(sub) {
             sub.run = function(event, cmds, cb, silent) {

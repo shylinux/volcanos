@@ -66,7 +66,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [
-        "保存参数", "清空参数", "共享工具", "刷新数据", ["其它 ->", "删除工具", "清空数据", "复制数据", "下载数据", "摄像头"],
+        "保存参数", "清空参数", "共享工具", "生成链接", "刷新数据", ["其它 ->", "删除工具", "清空数据", "复制数据", "下载数据", "摄像头"],
         ], _init: function(can, msg, list, cb, target) {
     },
     _engine: function(event, can, button) {
@@ -91,6 +91,11 @@ Volcanos("onaction", {help: "交互操作", list: [
             can.search(event, ["Header.onaction.share"])
         })
         can.onlayout.figure(event, can, ui._target, true)
+    },
+    "生成链接": function(event, can) { var meta = can.Conf()
+        var args = can.Option(); args._path = "/chat/cmd/"+meta.index
+        var msg = can.request(event, {link: can.user.MergeURL(can, args)})
+        can.search(event, ["Header.onaction.share"])
     },
     "删除工具": function(event, can) {
         can.page.Remove(can, can._target)

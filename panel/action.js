@@ -89,6 +89,13 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         "plugin",
     ],
     onmain: function(can, msg) {
+        var cmds = location.pathname.split("/").slice(1)
+        if (cmds[0] == "cmd") {
+            can.onappend.plugin(can, {index: cmds[1]}, function(sub, meta) {
+                sub.run = function(event, cmds, cb) {}
+            })
+        }
+
         can.onimport._share(can, can.user.Search(can, can._SHARE))
     },
     onresize: function(can, msg, width, height) { var args = {width: width, height: height} 
