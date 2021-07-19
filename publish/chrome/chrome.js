@@ -1,4 +1,9 @@
 Volcanos("chrome", {
+    pwd: function(can, msg, cmds, cb) {
+        console.log(cmds)
+
+        cb()
+    },
     chrome: function(can, msg, cmds, cb) {
         if (cmds.length == 0) { // 窗口列表
             chrome.windows.getAll(function(wins) {
@@ -42,22 +47,18 @@ Volcanos("chrome", {
         })
     },
 }, ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], function(can) {
-    can.Conf({iceberg: "http://localhost:9020/"})
+    can.run = function(event, cmds, cb, silent) { var msg = can.request(event)
+        can.misc.Run(event, can, {names: "http://localhost:9020/code/chrome/"+cmds[0]}, cmds.slice(1), cb)
+    },
+    chrome.history.onVisited.addListener(function(item) {
+        can.run({}, ["sync", "link", item.title, item.url])
+    })
+
     can.user.toast = function(message, title) {chrome.notifications.create(null, {
         message: message, title: title||can._name, iconUrl: "/favicon.ico", type: "basic",
     })},
-
     can.misc.WSS(can, {type: "chrome", name: "chrome"}, function(event, msg, cmd, arg) {
-        can.core.CallFunc([can, cmd], {can: can, msg: msg, cmds: arg, cb: function() {
-            msg.Reply()
-        }})
-    })
-
-    can.run = function(event, cmds, cb, silent) { var msg = can.request(event)
-        can.misc.Run(event, can, {names: "code/chrome/crx"}, cmds, cb)
-    },
-    chrome.history.onVisited.addListener(function(item) {
-        can.run({}, ["history", item.id, item.title, item.url])
+        can.core.CallFunc([can, cmd], {can: can, msg: msg, cmds: arg, cb: function() { msg.Reply() }})
     })
 
     chrome.contextMenus.create({title: "favor", onclick: function(event) {
