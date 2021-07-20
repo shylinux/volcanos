@@ -1,7 +1,6 @@
 Volcanos("chrome", {
     pwd: function(can, msg, cmds, cb) {
         console.log(cmds)
-
         cb()
     },
     chrome: function(can, msg, cmds, cb) {

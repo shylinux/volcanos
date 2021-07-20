@@ -1,4 +1,10 @@
 Volcanos("chrome", {
+    pwd: function(can, msg, arg, cb) {
+        msg.Push("hi", "hello")
+        msg.Echo("hello")
+        console.log(arg)
+        cb()
+    },
     spide: function(can, msg) {
         can.page.Select(can, document.body, "video", function(item) {
             var p = can.page.Select(can, document.body, "p.title")[0]
@@ -31,7 +37,9 @@ Volcanos("chrome", {
 }, [], function(can) { can._load("chrome")
     chrome.extension.onMessage.addListener(function(req, sender, cb) {
         var msg = can.request(); can.core.List(req.option, function(key) { msg.Option(key, req[key][0]) })
-        can.core.CallFunc([can, req.detail[3]||"spide"], [can, msg, req.detail.slice(4), cb])
+        can.core.CallFunc([can, req.detail[3]||"spide"], {can: can, msg: msg, arg: req.detail.slice(4), cb: function() {
+            delete(msg._event), delete(msg._can), cb(msg)
+        }})
     })
 })
 
