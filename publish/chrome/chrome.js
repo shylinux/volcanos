@@ -46,7 +46,7 @@ Volcanos("chrome", {
         })
     },
 }, ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], function(can) {
-    can.run = function(event, cmds, cb, silent) { var msg = can.request(event)
+    can.run = function(event, cmds, cb) { var msg = can.request(event)
         can.misc.Run(event, can, {names: "http://localhost:9020/code/chrome/"+cmds[0]}, cmds.slice(1), cb)
     },
     chrome.history.onVisited.addListener(function(item) {
@@ -58,6 +58,13 @@ Volcanos("chrome", {
     })},
     can.misc.WSS(can, {type: "chrome", name: "chrome"}, function(event, msg, cmd, arg) {
         can.core.CallFunc([can, cmd], {can: can, msg: msg, cmds: arg, cb: function() { msg.Reply() }})
+    })
+
+    chrome.runtime.onMessage.addListener(function(req, sender, cb) {
+        var msg = can.request(); can.core.List(req.option, function(key) { msg.Option(key, req[key][0]) })
+        can.run(msg._event, req.detail||[], function(msg) {
+            cb(msg)
+        })
     })
 
     chrome.contextMenus.create({title: "favor", onclick: function(event) {

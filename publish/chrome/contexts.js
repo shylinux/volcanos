@@ -34,12 +34,21 @@ Volcanos("chrome", {
             msg.Push("link", item.src)
         })
     },
-}, [], function(can) { can._load("chrome")
+}, [], function(can) { can._load("/frame.js")
     chrome.extension.onMessage.addListener(function(req, sender, cb) {
         var msg = can.request(); can.core.List(req.option, function(key) { msg.Option(key, req[key][0]) })
         can.core.CallFunc([can, req.detail[3]||"spide"], {can: can, msg: msg, arg: req.detail.slice(4), cb: function() {
             delete(msg._event), delete(msg._can), cb(msg)
         }})
     })
+
+    can.run = function(event, cmds, cb) { var msg = can.request(event); msg.detail = ["page"].concat(cmds)
+        chrome.runtime.sendMessage(msg, function(res) {
+            can.base.isFunc(cb) && cb(msg.Copy(res))
+        })
+    }
+    can.onappend.plugin(can, {index: "cli.system"}, function(msg) {
+
+    }, document.body)
 })
 
