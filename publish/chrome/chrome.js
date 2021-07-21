@@ -31,7 +31,7 @@ Volcanos("chrome", {
             })
         } else {
             chrome.tabs.sendMessage(parseInt(cmds[1]), msg, function(res) {
-                msg.Copy(res), can.base.isFunc(cb) && cb(msg)
+                can.base.isFunc(cb) && cb(msg.Copy(res))
             })
         }
     },
@@ -61,10 +61,10 @@ Volcanos("chrome", {
     })
 
     chrome.runtime.onMessage.addListener(function(req, sender, cb) {
-        var msg = can.request(); can.core.List(req.option, function(key) { msg.Option(key, req[key][0]) })
-        can.run(msg._event, req.detail||[], function(msg) {
-            cb(msg)
-        })
+        var msg = can.request({}, {tid: sender.tab.id, url: sender.url})
+        can.core.List(req.option, function(key) { msg.Option(key, req[key][0]) })
+        can.run(msg._event, req.detail||[], cb)
+        return true
     })
 
     chrome.contextMenus.create({title: "favor", onclick: function(event) {

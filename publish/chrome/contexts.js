@@ -47,8 +47,16 @@ Volcanos("chrome", {
             can.base.isFunc(cb) && cb(msg.Copy(res))
         })
     }
-    can.onappend.plugin(can, {index: "cli.system"}, function(msg) {
 
+    can.require(["https://shylinux.com/page/index.css"])
+    can.onappend.plugin(can, {index: "web.spide"}, function(sub, meta) {
+        can.page.Modify(can, sub._target, {style: {
+            position: "absolute", "z-index": "100", "top": "400px",
+            background: "radial-gradient(black, transparent)",
+        }})
+        sub.run = function(event, cmds, cb) {
+            can.run(event, ["action", "command", "run", meta.index].concat(cmds), cb)
+        }
     }, document.body)
 })
 

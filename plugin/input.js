@@ -1,3 +1,4 @@
+var _can_name = "/plugin/input.js"
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
     },
 })
@@ -39,4 +40,4 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
     },
 })
 Volcanos("onexport", {help: "导出数据", list: []})
-
+var _can_name = ""

@@ -1,3 +1,4 @@
+var _can_name = "/plugin/table.js"
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
         can.onappend.table(can, msg)
@@ -19,3 +20,4 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 })
 Volcanos("onaction", {help: "控件交互", list: []})
 Volcanos("onexport", {help: "导出数据", list: []})
+var _can_name = ""

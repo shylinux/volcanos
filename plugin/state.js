@@ -1,3 +1,4 @@
+var _can_name = "/plugin/state.js"
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf, list, cb, target) {
     },
     _process: function(can, msg) {
@@ -205,3 +206,4 @@ Volcanos("onaction", {help: "交互操作", list: [
     "清空": function(event, can, name) { can.onmotion.clear(can, can._output) },
 })
 Volcanos("onexport", {help: "导出数据", list: []})
+var _can_name = ""
