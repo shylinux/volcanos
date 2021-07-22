@@ -8,11 +8,12 @@
     <script>
         Volcanos({name: "cmd", iceberg: "/chat/", volcano: "/frame.js",
             libs: [
-                "https://shylinux.com/lib/base.js",
-                "https://shylinux.com/lib/core.js",
-                "https://shylinux.com/lib/misc.js",
-                "https://shylinux.com/lib/page.js",
-                "https://shylinux.com/lib/user.js",
+                "http://localhost:9020/lib/base.js",
+                "http://localhost:9020/lib/core.js",
+                "http://localhost:9020/lib/misc.js",
+                "http://localhost:9020/lib/page.js",
+                "http://localhost:9020/lib/user.js",
+                "http://localhost:9020/page/index.css",
             ],
             _init: function(can) {
                 can.onappend.plugin(can, {name: "system", help: "命令",  inputs: [
