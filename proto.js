@@ -105,3 +105,20 @@ Volcanos.meta._load = function(url, cb) {
             return item
     }
 }
+
+var kit = {
+    MDB_TIME: "time",
+    MDB_TYPE: "type",
+    MDB_NAME: "name",
+    MDB_TEXT: "text",
+    MDB_LINK: "link",
+}
+var ctx = {
+    CONTEXT: "context",
+    COMMAND: "command",
+    ACTION: "action",
+    CONFIG: "config",
+}
+var cli = {
+    RUN: "run",
+}

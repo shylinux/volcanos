@@ -57,11 +57,18 @@ Volcanos("chrome", {
         message: message, title: title||can._name, iconUrl: "/favicon.ico", type: "basic",
     })},
     can.misc.WSS(can, {type: "chrome", name: "chrome"}, function(event, msg, cmd, arg) {
+        if (msg.Option("_target")) { msg.detail = ["", "", ""].concat(msg.detail)
+            chrome.tabs.sendMessage(parseInt(msg.Option("_target")), msg, function(res) {
+                msg.Copy(res), msg.Reply()
+            })
+            return
+        }
         can.core.CallFunc([can, cmd], {can: can, msg: msg, cmds: arg, cb: function() { msg.Reply() }})
     })
 
     chrome.runtime.onMessage.addListener(function(req, sender, cb) {
         var msg = can.request({}, {tid: sender.tab.id, url: sender.url})
+        msg._daemon = "chrome."+sender.tab.id
         can.core.List(req.option, function(key) { msg.Option(key, req[key][0]) })
         can.run(msg._event, req.detail||[], cb)
         return true

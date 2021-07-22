@@ -5,33 +5,35 @@ Volcanos("chrome", {
         console.log(arg)
         cb()
     },
-    spide: function(can, msg) {
+    spide: function(can, msg) { var has = {}
         can.page.Select(can, document.body, "video", function(item) {
+            if (!item.src || has[item.src]) { return } has[item.src] = true
             var p = can.page.Select(can, document.body, "p.title")[0]
-
             var ls = item.src.split("?")
             var ls = ls[0].split(".")
-            msg.Push("time", can.base.Time())
-            msg.Push("type", "video")
-            msg.Push("name", (p && p.innerText || "video")+"."+ls[ls.length-1])
-            msg.Push("text", item.src)
-            msg.Push("link", item.src)
+            msg.Push(kit.MDB_TIME, can.base.Time())
+            msg.Push(kit.MDB_TYPE, "video")
+            msg.Push(kit.MDB_NAME, (p && p.innerText || "video")+"."+ls[ls.length-1])
+            msg.Push(kit.MDB_TEXT, item.src)
+            msg.Push(kit.MDB_LINK, item.src)
         })
+
         can.page.Select(can, document.body, "img", function(item) {
+            if (!item.src || has[item.src]) { return } has[item.src] = true
             var ls = item.src.split("?")
             var ls = ls[0].split("/")
 
-            msg.Push("time", can.base.Time())
-            msg.Push("type", "img")
+            msg.Push(kit.MDB_TIME, can.base.Time())
+            msg.Push(kit.MDB_TYPE, "img")
 
             if (item.src.indexOf("data:image") == 0) {
-                msg.Push("name", item.src.slice(item.src.length-20))
+                msg.Push(kit.MDB_NAME, item.src.slice(item.src.length-20))
             } else {
-                msg.Push("name", ls[ls.length-1]||"image.jpg")
+                msg.Push(kit.MDB_NAME, ls[ls.length-1]||"image.jpg")
             }
 
-            msg.Push("text", item.src)
-            msg.Push("link", item.src)
+            msg.Push(kit.MDB_TEXT, item.src)
+            msg.Push(kit.MDB_LINK, item.src)
         })
     },
     field: function(can, msg, arg) { can.require(["https://shylinux.com/page/index.css"])
@@ -56,7 +58,7 @@ Volcanos("chrome", {
             }, sub._legend.onclick()
 
             sub.run = function(event, cmds, cb) {
-                can.run(event, ["action", "command", "run", meta.index].concat(cmds), cb)
+                can.run(event, [ctx.ACTION, ctx.COMMAND, cli.RUN, meta.index].concat(cmds), cb)
             }
         }, document.body)
     },
@@ -68,10 +70,10 @@ Volcanos("chrome", {
         }})
     })
 
-    can.run = function(event, cmds, cb) { var msg = can.request(event); msg.detail = ["page"].concat(cmds)
+    can.run = function(event, cmds, cb) { var msg = can.request(event, {hostname: location.hostname}); msg.detail = ["page"].concat(cmds)
         chrome.runtime.sendMessage(msg, function(res) { can.base.isFunc(cb) && cb(msg.Copy(res)) })
     }
-    can.run({}, ["action", "command", "get"], function(msg) {
+    can.run({}, [ctx.ACTION, ctx.COMMAND, "get"], function(msg) {
         msg.result && msg.result[0] && can.field(can, msg, msg.result)
     })
 })
