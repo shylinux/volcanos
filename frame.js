@@ -215,7 +215,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
 
         if (msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && can.onaction[cmds[1]]) {
-            return msg.Option("_handle", "true"), can.core.CallFunc(can.onaction[cmds[1]], {event: event, can: can, msg: msg})
+            return msg.Option("_handle", "true"), can.core.CallFunc(can.onaction[cmds[1]], {event: event, can: can, msg: msg, cmd: cmds[1]})
         }
 
         var feature = can.Conf("feature")
