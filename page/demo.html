@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>volcanos</title>
+</head>
+<body>
+    <script src="/proto.js"></script>
+    <script>
+        Volcanos({name: "cmd", iceberg: "/chat/", volcano: "/frame.js",
+            libs: [
+                "https://shylinux.com/lib/base.js",
+                "https://shylinux.com/lib/core.js",
+                "https://shylinux.com/lib/misc.js",
+                "https://shylinux.com/lib/page.js",
+                "https://shylinux.com/lib/user.js",
+            ],
+            _init: function(can) {
+                can.onappend.plugin(can, {name: "system", help: "命令",  inputs: [
+                    {type: "text", name: "cmd"},
+                    {type: "button", name: "执行"},
+                ]}, function(sub, meta) {
+                    sub.run = function(event, cmds, cb) {
+                        can.run(event, ["action", "run", "cli.system"].concat(cmds), cb)
+                    }
+                }, document.body)
+            },
+        })
+    </script>
+</body>
+
