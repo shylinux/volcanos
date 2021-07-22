@@ -403,8 +403,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
     },
     _plugin: function(can, value, meta, cb, target) {
-        meta.feature = can.base.Obj(value.meta||"{}", meta.feature)||{}
-        meta.inputs =can.base.Obj(value.list||"[]",  meta.inputs)||[]
+        meta.feature = can.base.Obj(value.meta, meta.feature||{})
+        meta.inputs = can.base.Obj(value.list,  meta.inputs||[])
 
         meta.name = meta.name||value.name||"story"
         meta.help = meta.help||value.help||"story"
