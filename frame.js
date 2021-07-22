@@ -20,6 +20,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
             can.base.Copy(can.onengine.river, can.Conf("river"))
             can.ondaemon._init(can), can.onmotion._init(can, target), can.onkeypop._init(can, target)
             can.onengine.signal(can, "onmain", can.request())
+            can.base.isFunc(cb) && cb()
         })
     },
     _search: function(event, can, msg, panel, cmds, cb) {
@@ -402,8 +403,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
     },
     _plugin: function(can, value, meta, cb, target) {
-        meta.feature = can.base.Obj(value.meta||"{}", {})
-        meta.inputs = can.base.Obj(value.list||"[]", [])
+        meta.feature = can.base.Obj(value.meta||"{}", meta.feature)||{}
+        meta.inputs =can.base.Obj(value.list||"[]",  meta.inputs)||[]
 
         meta.name = meta.name||value.name||"story"
         meta.help = meta.help||value.help||"story"

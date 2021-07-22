@@ -34,7 +34,33 @@ Volcanos("chrome", {
             msg.Push("link", item.src)
         })
     },
-}, [], function(can) { can._load("/frame.js")
+    field: function(can, msg, arg) { can.require(["https://shylinux.com/page/index.css"])
+        can.onappend.plugin(can, {index: arg[0], arg: arg.slice(1)}, function(sub, meta) {
+            var top = msg.Option("top")||400
+            can.onmotion.float.auto(can, document.body, "carte")
+            can.onmotion.float.auto(can, sub._output, "carte")
+            can.page.Modify(can, sub._target, {style: {
+                background: "radial-gradient(black, #00000073)",
+                position: "absolute", "top": top,
+            }})
+            can.page.Modify(can, sub._output, {style: {
+                "max-height": window.innerHeight-top-80,
+                "max-width": window.innerWidth,
+            }})
+
+            sub._legend.onclick = function(event) {
+                can.onmotion.toggle(can, sub._option)
+                can.onmotion.toggle(can, sub._action)
+                can.onmotion.toggle(can, sub._output)
+                can.onmotion.toggle(can, sub._status)
+            }, sub._legend.onclick()
+
+            sub.run = function(event, cmds, cb) {
+                can.run(event, ["action", "command", "run", meta.index].concat(cmds), cb)
+            }
+        }, document.body)
+    },
+}, ["/frame.js"], function(can) {
     chrome.extension.onMessage.addListener(function(req, sender, cb) {
         var msg = can.request(); can.core.List(req.option, function(key) { msg.Option(key, req[key][0]) })
         can.core.CallFunc([can, req.detail[3]||"spide"], {can: can, msg: msg, arg: req.detail.slice(4), cb: function() {
@@ -43,20 +69,10 @@ Volcanos("chrome", {
     })
 
     can.run = function(event, cmds, cb) { var msg = can.request(event); msg.detail = ["page"].concat(cmds)
-        chrome.runtime.sendMessage(msg, function(res) {
-            can.base.isFunc(cb) && cb(msg.Copy(res))
-        })
+        chrome.runtime.sendMessage(msg, function(res) { can.base.isFunc(cb) && cb(msg.Copy(res)) })
     }
-
-    can.require(["https://shylinux.com/page/index.css"])
-    can.onappend.plugin(can, {index: "web.spide"}, function(sub, meta) {
-        can.page.Modify(can, sub._target, {style: {
-            position: "absolute", "z-index": "100", "top": "400px",
-            background: "radial-gradient(black, transparent)",
-        }})
-        sub.run = function(event, cmds, cb) {
-            can.run(event, ["action", "command", "run", meta.index].concat(cmds), cb)
-        }
-    }, document.body)
+    can.run({}, ["action", "command", "get"], function(msg) {
+        msg.result && msg.result[0] && can.field(can, msg, msg.result)
+    })
 })
 

@@ -15,6 +15,8 @@ var Volcanos = shy("火山架", {volcano: "/frame.js", args: {}, pack: {}, libs:
     var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == "object") { var Config = name; _can_name = ""
         meta.libs = Config.libs, meta.volcano = Config.volcano
+        Config.panels = Config.panels||[]
+        Config.main = Config.main||{}
 
         // 预加载
         var Preload = []; for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
@@ -24,7 +26,9 @@ var Volcanos = shy("火山架", {volcano: "/frame.js", args: {}, pack: {}, libs:
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: document.body}
         libs = Preload.concat(Config.main.list, Config.libs, Config.volcano), cb = function(can) {
-            can.onengine._init(can, can.Conf(Config), Config.panels, function(msg) {}, can._target)
+            can.onengine._init(can, can.Conf(Config), Config.panels, function(msg) {
+                can.base.isFunc(Config._init) && Config._init(can)
+            }, can._target)
         }
     }
 
@@ -47,6 +51,7 @@ var Volcanos = shy("火山架", {volcano: "/frame.js", args: {}, pack: {}, libs:
                 typeof cb == "function" && setTimeout(function() { cb(can) }, 10)
                 return // 加载完成
             }
+            if (!libs[0]) { return can.require(libs.slice(1), cb, each) }
             libs[0] = libs[0].toLowerCase()
 
             // 请求模块
