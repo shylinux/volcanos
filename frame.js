@@ -83,7 +83,7 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
     },
     grow: function(can, msg, arg) {
         var sub = can.ondaemon._list[msg.Option("_target")]
-        sub.onimport._grow(sub, arg.join(""))
+        sub.onimport._grow(sub, can.page.Color(arg.join("")))
     },
     toast: function(can, msg, arg) {
         can.onmotion.float.add(can, "float", can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}))
@@ -139,14 +139,14 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     can.base.isFunc(cb) && cb(sub)
                 }, target)
             },
-            Pack: function(cmds, slient) {
+            Pack: function(cmds, silent) {
                 cmds = cmds && cmds.length > 0? cmds: sub.page.Select(sub, option, "textarea.args,input.args,select.args", function(item) {
                     return item.name && item.value || ""
                 }); for (var i = cmds.length-1; i >= 0; i--) {
                     if (!cmds[i]) { cmds.pop() } else { break }
                 }
 
-                var last = sub._history[sub._history.length-1]; !sub.base.Eq(last, cmds) && cmds[0] != "action" && !slient && sub._history.push(cmds)
+                var last = sub._history[sub._history.length-1]; !sub.base.Eq(last, cmds) && cmds[0] != "action" && !silent && sub._history.push(cmds)
                 return cmds
             },
         }, list.concat(Volcanos.meta.volcano, Volcanos.meta.libs), function(sub) { sub.Conf(meta)
@@ -299,9 +299,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             case "": return can.page.Append(can, target, [item])
         }
 
+
+        var title = can.Conf(["feature", "title", item.name].join("."))||""
         var input = {type: "input", name: item.name, data: item, dataset: {}}
         item.value == "auto" && (item.value = "", item.action = "auto")
         item.action == "auto" && (input.dataset.action = "auto")
+        title && (input.title = title)
 
         switch (item.type = item.type||item._input||"text") {
             case "textarea": input.type = "textarea"

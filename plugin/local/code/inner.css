@@ -58,6 +58,9 @@ fieldset.editor>div.output div.content td.text span.function {
 fieldset.editor>div.output div.content td.text span.datatype {
     color:lightgreen; font-weight:bold;
 }
+fieldset.editor>div.output div.content td.text span.constant {
+    color:magenta;
+}
 fieldset.editor>div.output div.content td.text span.string {
     color:magenta;
 }

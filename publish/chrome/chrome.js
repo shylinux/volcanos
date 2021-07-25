@@ -68,7 +68,7 @@ Volcanos("chrome", {
 
     chrome.runtime.onMessage.addListener(function(req, sender, cb) {
         var msg = can.request({}, {tid: sender.tab.id, url: sender.url})
-        msg._daemon = "chrome."+sender.tab.id
+        msg.__daemon = "chrome."+sender.tab.id
         can.core.List(req.option, function(key) { msg.Option(key, req[key][0]) })
         can.run(msg._event, req.detail||[], cb)
         return true

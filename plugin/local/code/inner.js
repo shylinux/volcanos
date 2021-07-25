@@ -309,11 +309,11 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏"],
 
     favorLine: function(can, value) {
         can.user.input(event, can, [
-            {name: "topic", value: "@key"},
-            {name: "name", value: "@key"},
+            {name: "zone", value: "@key=some"},
+            {name: "name", value: "@key=some"},
         ], function(event, button, meta, list) {
             can.run(event, ["action", "favor",
-                "action", "insert", "topic", meta.topic||"some",
+                "action", "insert", "zone", meta.zone||"some",
                 "type", can.parse, "name", meta.name||"some", "text", (value||"").trimRight(),
                 "path", can.Option("path"), "file", can.Option("file"), "line", can.Option("line"),
             ], function(msg) {
