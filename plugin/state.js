@@ -39,7 +39,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     _hold: function(can, msg) { return true },
     _back: function(can) {
         can._history.pop(); for (var his = can._history.pop(); his; his = can._history.pop()) {
-            if (his[0] == "action") { continue }
+            if (his[0] == ctx.ACTION) { continue }
             can.page.Select(can, can._option, "textarea.args,input.args,select.args", function(item, index) {
                 item.value = his[index]||""
             }), can.onappend._output(can, can.Conf(), {}, can.Pack())
@@ -71,7 +71,7 @@ Volcanos("onaction", {help: "交互操作", list: [
         ], _init: function(can, msg, list, cb, target) {
     },
     _engine: function(event, can, button) {
-        can.onappend._output(can, can.Conf(), event, ["action", button].concat(can.Pack([], true)))
+        can.onappend._output(can, can.Conf(), event, [ctx.ACTION, button].concat(can.Pack([], true)))
     },
     "保存参数": function(event, can) { var meta = can.Conf()
         var msg = can.request(event, {river: can.Conf("river"), storm: can.Conf("storm"), id: meta.id})
@@ -85,8 +85,8 @@ Volcanos("onaction", {help: "交互操作", list: [
     "共享工具": function(event, can) { var meta = can.Conf()
         var ui = can.user.input(event, can, [{name: "name", value: meta.name}], function(event, button, data, list, args) {
             var msg = can.request(event, {arg: [
-                "type", "field",
-                "name", list[0], "text", JSON.stringify(can.Pack([], true)),
+                kit.MDB_TYPE, "field",
+                kit.MDB_NAME, list[0], kit.MDB_TEXT, JSON.stringify(can.Pack([], true)),
                 "river", meta.ctx||meta.key||"", "storm", meta.index||meta.cmd||meta.name,
             ]})
             can.search(event, ["Header.onaction.share"])
@@ -125,7 +125,7 @@ Volcanos("onaction", {help: "交互操作", list: [
     },
     "摄像头": function(event, can) {
         var constraints = {audio: false, video: {width: 200, height: 200}}
-        var ui = can.page.Append(can, can._output, [{view: "action"}, {view: "capture", list: [{type: "video", _init: function(item) {
+        var ui = can.page.Append(can, can._output, [{view: ctx.ACTION}, {view: "capture", list: [{type: "video", _init: function(item) {
             navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
                 item.srcObject = stream, item.onloadedmetadata = function(e) {
                     item.play()
@@ -157,44 +157,45 @@ Volcanos("onaction", {help: "交互操作", list: [
             }
         })
     },
-    upload: function(event, can) { can.user.upload(event, can) },
+    upload: function(event, can) {
+        can.user.upload(event, can)
+    },
 
     scanQRCode: function(event, can, cmd) {
-        can.user.agent.scanQRCode(function(text) { var cmds = ["action", cmd]
+        can.user.agent.scanQRCode(function(text) { var cmds = [ctx.ACTION, cmd]
             var data = can.base.parseJSON(text)
             can.core.Item(data, function(key, value) { cmds.push(key, value) })
             if (data["auth"]) {
                 if (can.user.confirm("auth "+data["auth"])) {
-                    can.run(event, ["action", "auth", "space", data["auth"]])
+                    can.run(event, [ctx.ACTION, "auth", "space", data["auth"]])
                 }
                 return
             }
-            can.run(event, cmds, function(msg) { can.user.toast(can, "添加成功"), can.run() }, true)
+            can.run(event, cmds, function(msg) { can.user.toast(can, "添加成功"), can.Update() }, true)
         }, can)
     },
     scanQRCode0: function(event, can) { can.user.agent.scanQRCode() },
     getClipboardData: function(event, can, cmd) {
         if (navigator.clipboard) {
             navigator.clipboard.readText().then(text => {
-                can.run(event, can.base.Simple("action", cmd, can.base.parseJSON(text)), function(msg) {
-                    can.user.toast(can, text, "添加成功"), can.run()
+                can.run(event, can.base.Simple(ctx.ACTION, cmd, can.base.parseJSON(text)), function(msg) {
+                    can.user.toast(can, text, "添加成功"), can.Update()
                 }, true)
             }).catch((err) => { can.misc.Log(err) })
-            return
         } else {
             can.user.input(event, can, [{type: "textarea"}], function(ev, button, data, list, args) {
-                can.run(event, can.base.Simple("action", cmd, can.base.parseJSON(list[0])), function(msg) {
-                    can.user.toast(can, list[0], "添加成功"), can.run()
+                can.run(event, can.base.Simple(ctx.ACTION, cmd, can.base.parseJSON(list[0])), function(msg) {
+                    can.user.toast(can, list[0], "添加成功"), can.Update()
                 }, true)
             })
         }
     },
     getLocation: function(event, can, cmd) { var msg = can.request(can)
         can.user.agent.getLocation(function(res) { can.request(event, res)
-            can.user.input(event, can, ["type", "name", "text", "latitude", "longitude"], function(ev, button, data, list, arg) {
+            can.user.input(event, can, [kit.MDB_TYPE, kit.MDB_NAME, kit.MDB_TEXT, "latitude", "longitude"], function(ev, button, data, list, arg) {
                 can.core.Item(res, function(key, value) { arg.push(key, value) })
-                can.run(event, ["action", cmd].concat(arg), function(msg) {
-                    can.user.toast(can, "添加成功"), can.run()
+                can.run(event, [ctx.ACTION, cmd].concat(arg), function(msg) {
+                    can.user.toast(can, "添加成功"), can.Update()
                 }, true)
             })
         })

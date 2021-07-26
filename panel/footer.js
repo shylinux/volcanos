@@ -26,7 +26,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             var commands = can.base.Obj(line.commands)
             commands.length > 2 && can.onappend.plugin(can, {index: commands[2]}, function(sub) {
                 sub.run = function(event, cmds, cb) {
-                    can.run(event, ["action", "command", "run", commands[2]].concat(cmds), cb)
+                    can.run(event, [ctx.ACTION, cli.RUN, commands[2]].concat(cmds), cb)
                 }
 
                 can.search({}, ["Action.onexport.size"], function(msg, top, left, width, height) {

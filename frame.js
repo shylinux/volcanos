@@ -113,6 +113,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     value == undefined? (value = item.value): (item.value = value)
                 }); return value
             },
+            Update: function() {
+                sub.onappend._output(sub, sub.Conf(), {}, sub.Pack())
+            },
             Action: function(key, value) {
                 if (typeof key == "object") { return sub.core.Item(key, sub.Action), key }
                 sub.page.Select(sub, action, "textarea[name="+key+"],"+"input[name="+key+"],"+"select[name="+key+"]", function(item) {
