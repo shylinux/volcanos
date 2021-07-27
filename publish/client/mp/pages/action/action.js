@@ -23,7 +23,7 @@ Page({
                     }
 
                     line.inputs.forEach(function(input) { input.action = input.action || input.value
-                        input.value = kit.Value(line, "feature.trans."+input.name) || input.value
+                        input.value = kit.Value(line, "feature._trans."+input.name) || input.value
                         input.value == "auto" && (input.value = "")
 
                         if (input.value && input.value.indexOf("@") == 0) {

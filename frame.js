@@ -159,7 +159,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
             sub.page.Modify(sub, sub._legend, {
                 onmouseenter: function(event) {
-                    sub.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["所有 ->"].concat(can.core.Item(meta.feature.trans))]))
+                    sub.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["所有 ->"].concat(can.core.Item(meta.feature._trans))]))
                 },
             })
 
