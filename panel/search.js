@@ -81,7 +81,7 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
         var cmd = line.cmd == "command"? can.core.Keys(line.text, line.name): can.core.Keys(line.ctx, line.cmd)
         can.onappend.plugin(can, {type: "plugin", index: cmd||msg.Option("index")}, function(sub, meta) {
             sub.run = function(event, cmds, cb) { var msg = can.request(event, line)
-                can.run(event, ["action", "command", "run", meta.index].concat(cmds), cb)
+                can.run(event, [ctx.ACTION, cli.RUN, meta.index].concat(cmds), cb)
             }
         }, can.ui.preview)
     },
