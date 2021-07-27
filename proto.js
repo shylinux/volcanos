@@ -113,6 +113,8 @@ var kit = {
     MDB_TEXT: "text",
     MDB_LINK: "link",
 }
+var ice = {
+}
 var ctx = {
     CONTEXT: "context",
     COMMAND: "command",
@@ -121,4 +123,7 @@ var ctx = {
 }
 var cli = {
     RUN: "run",
+}
+var mdb = {
+    MODIFY: "modify",
 }

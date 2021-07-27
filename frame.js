@@ -343,12 +343,19 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
             if (key == "value") { key = line.key||line.name, line = {}
                 can.core.List(array, function(item, index) { line[item.key||line.name] = item.value })
+                if (key == "extra.cmd") {
+                    can.onappend.plugin(can, {ctx: line["extra.ctx"], cmd: line["extra.cmd"], arg: line["extra.arg"]}, function(sub) {
+                        sub.run = function(event, cmds, cb) {
+                            can.run(event, [ctx.ACTION, cli.RUN].concat(cmds), cb, true)
+                        }
+                    }, target)
+                }
             }
 
             return {text: [value, "td"], onclick: function(event) { var target = event.target
                 if (target.tagName == "INPUT" && target.type == "button") { var msg = can.sup.request(event, can.Option())
                     key == "value"? can.core.List(array, function(item, index) { msg.Option(item.key, item.value) }): msg.Option(line)
-                    return can.run(event, ["action", target.name], function(msg) { can.run() }, true)
+                    return can.run(event, [ctx.ACTION, target.name], function(msg) { can.run() }, true)
                 }
 
                 can.sup.onaction.change(event, can.sup, key, value, function(msg) {
@@ -357,7 +364,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             }, ondblclick: function(event) { var target = event.target
                 can.onmotion.modify(can, target, function(event, value, old) { var msg = can.sup.request(event, can.Option())
                     key == "value"? can.core.List(array, function(item, index) { msg.Option(item.key, item.value) }): msg.Option(line)
-                    can.run(event, ["action", "modify", key == "value"? line.key||line.name: key, value], function(msg) { can.run() }, true)
+                    can.run(event, [ctx.ACTION, mdb.MODIFY, key == "value"? line.key||line.name: key, value], function(msg) { can.run() }, true)
                 })
             }}
         }); table && can.page.Modify(can, table, {className: "content"})
