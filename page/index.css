@@ -301,10 +301,12 @@ div.input {
     z-index:50;
 }
 div.input textarea {
-    border-radius:6px;
-    border:2px solid #14a58e;
-    width:144px; height:60px;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    border:2px inset #14a58e;
+    width:145px; height:60px;
+    background-color: cyan;
     padding:4px;
+
 }
 div.input div.item {
     float:left;
@@ -552,6 +554,10 @@ body.white input[type=text] {
 }
 body.white input[type=text]:hover {
     background-color:cyan;
+}
+body.white div.input textarea {
+    border-radius:6px;
+    border:2px solid #14a58e;
 }
 body.white select {
     background-color:#99CC66; color:white;
