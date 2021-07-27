@@ -21,7 +21,7 @@
                     {type: "button", name: "执行"},
                 ]}, function(sub, meta) {
                     sub.run = function(event, cmds, cb) {
-                        can.run(event, ["action", "run", "cli.system"].concat(cmds), cb)
+                        can.run(event, [ctx.ACTION, "run", "cli.system"].concat(cmds), cb)
                     }
                 }, document.body)
             },

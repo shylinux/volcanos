@@ -78,7 +78,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             },
             onclick: function(event) { if (event.target.type == "button") {
                 var msg = can.request(event, can.task)
-                can.run(event, ["action", event.target.name], function(msg) {
+                can.run(event, [ctx.ACTION, event.target.name], function(msg) {
                     can.run()
                 }, true)
             } },
@@ -89,7 +89,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, function(sub, meta) {
             sub.run = function(event, cmds, cb) {
                 var msg = can.request(event, {"task.zone": task.zone, "task.id": task.id})
-                can.run(event, ["action", "command", "run", meta.index].concat(cmds), function(msg) {
+                can.run(event, [ctx.ACTION, "command", "run", meta.index].concat(cmds), function(msg) {
                     can.base.isFunc(cb) && cb(msg)
                 }, true)
             }
@@ -170,7 +170,7 @@ Volcanos("onaction", {help: "组件交互", list: [
     ],
     insertTask: function(event, can, time) { var msg = can.sup.request(event, {begin_time: time})
         can.user.input(event, can, can.Conf("feature.insert"), function(event, button, data, list) {
-            var args = ["action", "insert"]; can.core.Item(data, function(key, value) {
+            var args = [ctx.ACTION, "insert"]; can.core.Item(data, function(key, value) {
                 if (key == "begin_time") { value = value || time }
                 if (key == "close_time") { value = value || time }
                 key && value && args.push(key, value)
@@ -179,7 +179,7 @@ Volcanos("onaction", {help: "组件交互", list: [
     },
     modifyTask: function(event, can, task, key, value) {
         var msg = can.request(event, task)
-        can.run(event, ["action", "modify", key, value, task[key]], function(msg) {
+        can.run(event, [ctx.ACTION, "modify", key, value, task[key]], function(msg) {
             task[key] = value, can.onimport._profile(can, task)
             can.user.toast(can, "修改成功")
         }, true)

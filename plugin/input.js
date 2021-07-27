@@ -25,7 +25,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
         if (can.Conf("type") == "text") { event.target.setSelectionRange(0, -1) }
     },
     onclick: function(event, can) {
-        if (can.Conf("type") == "button") { can.run(event, ["action", can.Conf("name")].concat(can.sup.Pack())) }
+        if (can.Conf("type") == "button") { can.run(event, [ctx.ACTION, can.Conf("name")].concat(can.sup.Pack())) }
     },
 
     onkeydown: function(event, can) { var target = event.target

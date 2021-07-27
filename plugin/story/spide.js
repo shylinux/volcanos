@@ -142,7 +142,7 @@ Volcanos("ondetail", {help: "用户交互", list: [],
     plugin: function(event, can, args) {
         can.onappend.plugin(can, {type: "float", index: "web.code.inner", args: args, _action: ["关闭"]}, function(sub) {
             sub.run = function(event, cmds, cb) {
-                can.run(event, ["action", "inner"].concat(cmds), function(msg) {
+                can.run(event, [ctx.ACTION, "inner"].concat(cmds), function(msg) {
                     can.search(event, ["Action.onexport.size"], function(msg, left, top, width, height) { left = left||0
                         var top = 120, margin = 20; if (can.user.isMobile) { margin = 0
                             if (can.user.isLandscape) {

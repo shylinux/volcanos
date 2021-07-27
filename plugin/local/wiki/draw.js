@@ -323,7 +323,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
     "编辑": function(event, can, key) { can.Action("go", "auto") },
     "save": function(event, can, key) {
         var msg = can.request(event, {content: can.onexport.content(can, can.svg)})
-        can.run(event, ["action", "save", can.Option("path"), can.Option("file")], function(msg) {
+        can.run(event, [ctx.ACTION, "save", can.Option("path"), can.Option("file")], function(msg) {
             can.user.toast(can, "保存成功")
         }, true)
     },
@@ -433,7 +433,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
             })
         },
         run: function(event, can) { var target = event.target
-            event.type == "click" && target.Value("type") && can.run(event, ["action", "run", target.Value("zone"), target.Value("type"), target.Value("name"), target.Value("text")], function(msg) {
+            event.type == "click" && target.Value("type") && can.run(event, [ctx.ACTION, "run", target.Value("zone"), target.Value("type"), target.Value("name"), target.Value("text")], function(msg) {
                 can.onappend.table(can, msg, function() {}, can.ui.display)
                 can.onappend.board(can, msg.Result(), can.ui.display)
             }, true)

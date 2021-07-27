@@ -149,7 +149,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     if (!cmds[i]) { cmds.pop() } else { break }
                 }
 
-                var last = sub._history[sub._history.length-1]; !sub.base.Eq(last, cmds) && cmds[0] != "action" && !silent && sub._history.push(cmds)
+                var last = sub._history[sub._history.length-1]; !sub.base.Eq(last, cmds) && cmds[0] != ctx.ACTION && !silent && sub._history.push(cmds)
                 return cmds
             },
         }, list.concat(Volcanos.meta.volcano, Volcanos.meta.libs), function(sub) { sub.Conf(meta)
@@ -175,12 +175,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 CloneInput: function() { add(item)._target.focus() }, CloneField: function() { can.Clone() },
             }, [item.display||"/plugin/input.js"].concat(Volcanos.meta.volcano, Volcanos.meta.libs), function(input) {
                 input.Conf(item), input.sup = can, input.run = function(event, cmds, cb, silent) { var msg = can.request(event)
-                    if (msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && input.onaction[cmds[1]]) {
+                    if (msg.Option("_handle") != "true" && cmds && cmds[0] == ctx.ACTION && input.onaction[cmds[1]]) {
                         return msg.Option("_handle", "true"), can.core.CallFunc(input.onaction[cmds[1]], {event: event, can: input, msg: msg})
                     }
 
                     var table = can.core.Value(can, "_outputs.-1")
-                    if (msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && table.onaction[cmds[1]]) {
+                    if (msg.Option("_handle") != "true" && cmds && cmds[0] == ctx.ACTION && table.onaction[cmds[1]]) {
                         return msg.Option("_handle", "true"), can.core.CallFunc(table.onaction[cmds[1]], {event: event, can: table, msg: msg})
                     }
 
@@ -201,7 +201,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         can.core.List(list, function(item) { can.onappend.input(can, item == ""? /*空白*/ {type: "space"}:
             typeof item == "string"? /*按键*/ {type: "button", value: item, onclick: function(event) {
                 var cb = meta[item]||meta["_engine"]
-                cb? can.core.CallFunc(cb, [event, can, item]): can.run(event, ["action",item].concat(can.sup.Pack()))
+                cb? can.core.CallFunc(cb, [event, can, item]): can.run(event, [ctx.ACTION,item].concat(can.sup.Pack()))
 
             }}: item.length > 0? /*列表*/ {type: "select", name: item[0], values: item.slice(1), onchange: function(event) {
                 var which = item[event.target.selectedIndex+1]
@@ -217,12 +217,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             item.name && item.value && msg.Option(item.name, item.value)
         })
 
-        if (msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && can.onaction[cmds[1]]) {
+        if (msg.Option("_handle") != "true" && cmds && cmds[0] == ctx.ACTION && can.onaction[cmds[1]]) {
             return msg.Option("_handle", "true"), can.core.CallFunc(can.onaction[cmds[1]], {event: event, can: can, msg: msg, cmd: cmds[1]})
         }
 
         var feature = can.Conf("feature")
-        var input = msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && feature && feature[cmds[1]]; if (input) {
+        var input = msg.Option("_handle") != "true" && cmds && cmds[0] == ctx.ACTION && feature && feature[cmds[1]]; if (input) {
             can.user.input(event, can, input, function(ev, button, data, list, args) {
                 var msg = can.request(event, {_handle: "true"}, can.Option())
                 can.onappend._output(can, meta, event, cmds.slice(0, 2).concat(args), function(msg) {
@@ -248,7 +248,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 Option: can.Option, Action: can.Action, Status: can.Status,
             }, [display].concat(Volcanos.meta.volcano, Volcanos.meta.libs), function(table) {
                 table.Conf(can.Conf()), table.sup = can, table.run = function(event, cmds, cb, silent) { var msg = can.request(event)
-                    if (msg.Option("_handle") != "true" && cmds && cmds[0] == "action" && table.onaction[cmds[1]]) {
+                    if (msg.Option("_handle") != "true" && cmds && cmds[0] == ctx.ACTION && table.onaction[cmds[1]]) {
                         return msg.Option("_handle", "true"), can.core.CallFunc(table.onaction[cmds[1]], {event: event, can: table, msg: msg})
                     }
 
@@ -345,8 +345,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 can.core.List(array, function(item, index) { line[item.key||line.name] = item.value })
                 if (key == "extra.cmd") {
                     can.onappend.plugin(can, {ctx: line["extra.ctx"], cmd: line["extra.cmd"], arg: line["extra.arg"]}, function(sub) {
-                        sub.run = function(event, cmds, cb) {
-                            can.run(event, [ctx.ACTION, cli.RUN].concat(cmds), cb, true)
+                        sub.run = function(event, cmds, cb) { var msg = can.request(event, can.Option(), line)
+                            can.run(event, (cmds[0] == "_search"? []: [ctx.ACTION, cli.RUN]).concat(cmds), function(msg) {
+                                cb(msg)
+                            }, true)
                         }
                     }, target)
                 }
@@ -382,7 +384,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         can.page.Select(can, code, "input[type=button]", function(target) {
             target.onclick = function(event) {
                 var msg = can.sup.request(event, can.Option())
-                return can.run(event, ["action", target.name], function(msg) { can.run() }, true)
+                return can.run(event, [ctx.ACTION, target.name], function(msg) { can.run() }, true)
             }
         })
         code && code.scrollBy(0, 10000)
@@ -432,7 +434,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     plugin: function(can, meta, cb, target) { meta = meta || {}
         meta.inputs && meta.inputs.length > 0? can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, cb, target):
-            can.run({}, ["action", "command", meta.index||can.core.Keys(meta.ctx, meta.cmd)], function(msg) { msg.Table(function(value) {
+            can.run({}, [ctx.ACTION, "command", meta.index||can.core.Keys(meta.ctx, meta.cmd)], function(msg) { msg.Table(function(value) {
                 can.onappend._plugin(can, value, meta, cb, target)
             }) }, true)
     },

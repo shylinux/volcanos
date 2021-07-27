@@ -87,6 +87,12 @@ fieldset.plugin {
     background-color:#061c3c9e;
     margin:10px; padding:10px;
 }
+fieldset.plugin>div.status {
+    border-top:1px solid darkcyan;
+}
+fieldset.story>div.status {
+    border-top:1px solid darkcyan;
+}
 fieldset.float {
     position:absolute;
     background-color:#023531cf;
@@ -357,9 +363,6 @@ fieldset>form.option {
 }
 fieldset>div.action {
     float:left;
-}
-fieldset>div.status {
-    border-top:1px solid darkcyan;
 }
 fieldset>form.option>div.item {
     float:left; margin-right:3px;

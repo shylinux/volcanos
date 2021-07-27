@@ -141,7 +141,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
                 can.onkeymap._normal(can)
                 cb(event, can, line, ls)
             } else {
-                can.onkeymap._remote(event, can, line, ["action", "engine"].concat(ls))
+                can.onkeymap._remote(event, can, line, [ctx.ACTION, "engine"].concat(ls))
             }
         },
         jk: function(event, can) { can.keylist = can.keylist.slice(0, -1)
@@ -299,7 +299,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
 })
 Volcanos("onaction", {help: "控件交互", list: ["项目"],
     save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
-        can.run(event, ["action", "save", can.parse, can.Option("file"), can.Option("path")], function(msg) {
+        can.run(event, [ctx.ACTION, "save", can.parse, can.Option("file"), can.Option("path")], function(msg) {
             can.user.toast(can, "保存成功")
         }, true)
     },

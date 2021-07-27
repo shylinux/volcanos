@@ -52,7 +52,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                     case "inner": can.onimport.tabview(can, msg.Option("path"), msg.Option("file"), msg.Option("line")); return
                 } }
 
-                can.run(event, ["action", "favor"].concat(cmds), function(msg) {
+                can.run(event, [ctx.ACTION, "favor"].concat(cmds), function(msg) {
                     can.base.isFunc(cb) && cb(msg)
                     can.core.Timer(10, function() {
                         can.onappend._action(sub, ["关闭"], sub._action, {
@@ -134,7 +134,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         }
 
         // plugin
-        var p = can.onsyntax[can.parse]; !p? can.run({}, ["action", "plugin", can.parse, msg.Option("file"), msg.Option("path")], function(msg) {
+        var p = can.onsyntax[can.parse]; !p? can.run({}, [ctx.ACTION, "plugin", can.parse, msg.Option("file"), msg.Option("path")], function(msg) {
             init(p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()))
         }, true): init(p)
     },
@@ -182,7 +182,7 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏"],
     "收藏": function(event, can) { can.onmotion.toggle(can, can.ui.favor._target) },
     "搜索": function(event, can) { can.onmotion.toggle(can, can.ui.search) },
     "运行": function(event, can) { var msg = can.request(event, {_toast: "运行中..."})
-        can.run(event, ["action", "engine", can.parse, can.Option("file"), can.Option("path")], function(msg) {
+        can.run(event, [ctx.ACTION, "engine", can.parse, can.Option("file"), can.Option("path")], function(msg) {
             can.onappend.table(can, msg, null, can.ui.output||can.ui.display)
             can.onappend.board(can, msg.Result(), can.ui.output||can.ui.display)
             can.page.Modify(can, can.ui.display, {style: {display: "block"}})
@@ -270,7 +270,7 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏"],
         value = can.ui.word.value = value || can.ui.word.value || "main"
 
         can.request(event, {_toast: "搜索中..."})
-        can.run(event, ["action", "search", can.parse, value, can.Option("path")], function(msg) {
+        can.run(event, [ctx.ACTION, "search", can.parse, value, can.Option("path")], function(msg) {
 
             can.onmotion.clear(can, can.ui.tags)
             can.onappend.table(can, msg, function(value, key, index, line) {
@@ -312,8 +312,8 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏"],
             {name: "zone", value: "@key=some"},
             {name: "name", value: "@key=some"},
         ], function(event, button, meta, list) {
-            can.run(event, ["action", "favor",
-                "action", "insert", "zone", meta.zone||"some",
+            can.run(event, [ctx.ACTION, "favor",
+                ctx.ACTION, "insert", "zone", meta.zone||"some",
                 "type", can.parse, "name", meta.name||"some", "text", (value||"").trimRight(),
                 "path", can.Option("path"), "file", can.Option("file"), "line", can.Option("line"),
             ], function(msg) {

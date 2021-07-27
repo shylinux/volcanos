@@ -94,7 +94,7 @@ Volcanos("onaction", {help: "交互操作", list: [
         can.onlayout.figure(event, can, ui._target, true)
     },
     "生成链接": function(event, can) { var meta = can.Conf()
-        var args = can.Option(); args._path = "/chat/cmd/"+meta.index
+        var args = can.Option(); args._path = "/chat/cmd/"+(meta.index||can.core.Keys(meta.ctx, meta.cmd))
         var msg = can.request(event, {link: can.user.MergeURL(can, args)})
         can.search(event, ["Header.onaction.share"])
     },
