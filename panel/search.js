@@ -20,7 +20,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 
     select: function(can, msg, cmds, cb) { can.ui.word.value = cmds[1]
-        var fields = (cmds[2]||msg.Option("fields")||"ctx,cmd,type,name,text").split(",")
+        var fields = (cmds[2]||msg.Option(ice.MSG_FIELDS)||"ctx,cmd,type,name,text").split(",")
         can.page.Appends(can, can.ui.display, [{th: fields}]), can.cb = function() {
             can.base.isFunc(cb) && cb(can.onexport.select(can)), can.onmotion.hide(can)
         }

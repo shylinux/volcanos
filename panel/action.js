@@ -61,7 +61,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, p
         var storm = river && river.storm[cmds[1]]
         if (!storm || cmds.length != 2) { return false }
 
-        if (storm.index) { cmds = [can._ACTION, "command"].concat(storm.index)
+        if (storm.index) { cmds = [can._ACTION, ctx.COMMAND].concat(storm.index)
             can.run(event, cmds, cb)
         } else {
             can.core.List(storm.action, function(value) {
@@ -90,7 +90,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
     ],
     onmain: function(can, msg) {
         var cmds = location.pathname.split("/").slice(1)
-        if (cmds[0] == "cmd") {
+        if (cmds[0] == cli.CMD) {
             can.onappend.plugin(can, {index: cmds[1]}, function(sub, meta) {
                 sub.run = function(event, cmds, cb) {}
             })

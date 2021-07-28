@@ -14,8 +14,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _state: function(can, msg, target) { const STATE = "state"
         can.core.List(can.base.Obj(msg.Option(STATE), can.Conf(STATE)||["ncmd"]), function(item) {
-            can.page.Append(can, target, [{view: [STATE+" "+item, "div", can.Conf(item)], list: [
-                {text: [item, "label"]}, {text: [": ", "label"]}, {text: [can.Conf(item)||"", "span", item]},
+            can.page.Append(can, target, [{view: [STATE+" "+item, html.DIV, can.Conf(item)], list: [
+                {text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", html.SPAN, item]},
             ], onclick: function(event) {
                 can.show = can.show? (can.page.Remove(can, can.show), null): can.onimport._cmd(can)
             }}])
@@ -52,7 +52,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     ncmd: function(can, msg, time, follow, commands) { const NCMD = "ncmd"; can._cmds = can._cmds || can.request()
         can._cmds.Push({time: time, follow: follow, commands: commands})
-        can.page.Select(can, can._output, can.core.Keys("span", NCMD), function(item) {
+        can.page.Select(can, can._output, can.core.Keys(html.SPAN, NCMD), function(item) {
             item.innerHTML = can.Conf(NCMD, parseInt(can.Conf(NCMD)||"0")+1+"")+""
         })
     },

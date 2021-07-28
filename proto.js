@@ -4,6 +4,7 @@ const kit = {
     MDB_NAME: "name",
     MDB_TEXT: "text",
     MDB_LINK: "link",
+    MDB_VALUE: "value",
 
     MDB_HASH: "hash",
     MDB_LIST: "list",
@@ -58,6 +59,9 @@ const mdb = {
     HASH: "hash",
     LIST: "list",
 }
+const ssh = {
+    SCRIPT: "script",
+}
 const nfs = {
     DIR: "dir",
 }
@@ -98,6 +102,7 @@ const chat = {
     USER: "user",
     TOOL: "tool",
     NODE: "node",
+    HEADER: "header",
 }
 const team = {
     TASK: "task",
@@ -111,7 +116,17 @@ const mall = {
 const html = {
     DIV: "div",
     IMG: "img",
+    CODE: "code",
+    SPAN: "span",
+    LABEL: "label",
+    BUTTON: "button",
+    LEGEND: "legend",
     TEXTAREA: "textarea",
+    SELECT: "select",
+    OPTION: "option",
+    INPUT: "input",
+    TEXT: "text",
+    FILE: "file",
 
     ITEM: "item",
     LIST: "list",
@@ -211,13 +226,13 @@ var Volcanos = shy("火山架", {volcano: "/frame.js", args: {}, pack: {}, libs:
 Volcanos.meta._load = function(url, cb) {
     switch (url.split("?")[0].split(".").pop().toLowerCase()) {
         case "css":
-            var item = document.createElement("link")
+            var item = document.createElement(kit.MDB_LINK)
             item.rel = "stylesheet", item.type = "text/css"
             item.href = url; item.onload = cb
             document.head.appendChild(item)
             return item
         case "js":
-            var item = document.createElement("script")
+            var item = document.createElement(ssh.SCRIPT)
             item.src = url, item.onload = cb
             document.body.appendChild(item)
             return item
