@@ -4,10 +4,17 @@ const kit = {
     MDB_NAME: "name",
     MDB_TEXT: "text",
     MDB_LINK: "link",
+
+    MDB_HASH: "hash",
+    MDB_LIST: "list",
 }
 const ice = {
     MSG_USERNAME: "user.name",
     MSG_USERNICK: "user.nick",
+    MSG_TITLE: "sess.title",
+    MSG_RIVER: "sess.river",
+    MSG_STORM: "sess.storm",
+    MSG_FIELDS: "fields",
 }
 
 const ctx = {
@@ -18,6 +25,15 @@ const ctx = {
 }
 const cli = {
     RUN: "run",
+    POD: "pod",
+    CTX: "ctx",
+    CMD: "cmd",
+    ARG: "arg",
+
+    OPEN: "open",
+    CLOSE: "close",
+    START: "start",
+    STOP: "stop",
 }
 const web = {
     SPACE: "space",
@@ -30,9 +46,17 @@ const aaa = {
 
     LOGIN: "login",
     LOGOUT: "logout",
+    INVITE: "invite",
 }
 const mdb = {
+    CREATE: "create",
+    INSERT: "insert",
     MODIFY: "modify",
+    REMOVE: "remove",
+    PLUGIN: "plugin",
+
+    HASH: "hash",
+    LIST: "list",
 }
 const nfs = {
     DIR: "dir",
@@ -58,12 +82,22 @@ const wiki = {
     SHELL: "shell",
 }
 const chat = {
+    TITLE: "title",
     RIVER: "river",
     STORM: "storm",
+    FIELD: "field",
 
     AGENT: "agent",
     SHARE: "share",
     GRANT: "grant",
+
+    PUBLIC: "public",
+    PROTECTED: "protected",
+    PRIVATE: "private",
+
+    USER: "user",
+    TOOL: "tool",
+    NODE: "node",
 }
 const team = {
     TASK: "task",
@@ -74,6 +108,14 @@ const mall = {
     SALARY: "salary",
 }
 
+const html = {
+    DIV: "div",
+    IMG: "img",
+    TEXTAREA: "textarea",
+
+    ITEM: "item",
+    LIST: "list",
+}
 function shy(help, meta, list, cb) {
     var index = 0, args = arguments; function next(check) {
         if (index < args.length && (!check || check == typeof args[index])) {
