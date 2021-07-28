@@ -1,3 +1,79 @@
+const kit = {
+    MDB_TIME: "time",
+    MDB_TYPE: "type",
+    MDB_NAME: "name",
+    MDB_TEXT: "text",
+    MDB_LINK: "link",
+}
+const ice = {
+    MSG_USERNAME: "user.name",
+    MSG_USERNICK: "user.nick",
+}
+
+const ctx = {
+    CONTEXT: "context",
+    COMMAND: "command",
+    ACTION: "action",
+    CONFIG: "config",
+}
+const cli = {
+    RUN: "run",
+}
+const web = {
+    SPACE: "space",
+}
+const aaa = {
+    USERNAME: "username",
+    USERNICK: "usernick",
+    AVATAR: "avatar",
+    BACKGROUND: "background",
+
+    LOGIN: "login",
+    LOGOUT: "logout",
+}
+const mdb = {
+    MODIFY: "modify",
+}
+const nfs = {
+    DIR: "dir",
+}
+const tcp = {
+    HOST: "host",
+}
+
+const code = {
+    WEBPACK: "webpack",
+}
+const wiki = {
+    TITLE: "title",
+    BRIEF: "brief",
+    REFER: "refer",
+    SPARK: "spark",
+
+    CHART: "chart",
+    IMAGE: "image",
+    VIDEO: "video",
+
+    FIELD: "field",
+    SHELL: "shell",
+}
+const chat = {
+    RIVER: "river",
+    STORM: "storm",
+
+    AGENT: "agent",
+    SHARE: "share",
+    GRANT: "grant",
+}
+const team = {
+    TASK: "task",
+    PLAN: "plan",
+}
+const mall = {
+    ASSET: "asset",
+    SALARY: "salary",
+}
+
 function shy(help, meta, list, cb) {
     var index = 0, args = arguments; function next(check) {
         if (index < args.length && (!check || check == typeof args[index])) {
@@ -104,26 +180,4 @@ Volcanos.meta._load = function(url, cb) {
             document.body.appendChild(item)
             return item
     }
-}
-
-var kit = {
-    MDB_TIME: "time",
-    MDB_TYPE: "type",
-    MDB_NAME: "name",
-    MDB_TEXT: "text",
-    MDB_LINK: "link",
-}
-var ice = {
-}
-var ctx = {
-    CONTEXT: "context",
-    COMMAND: "command",
-    ACTION: "action",
-    CONFIG: "config",
-}
-var cli = {
-    RUN: "run",
-}
-var mdb = {
-    MODIFY: "modify",
 }
