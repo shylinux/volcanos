@@ -6,7 +6,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         return can.core.CallFunc([can.onimport, msg.OptionProcess()], [can, msg])
     },
 
-    _rewrite: function(can, msg, _arg) { can.Option(msg._arg[0], msg._arg[1])
+    _location: function(can, msg) {
+        location.href = msg._arg[0]
+    },
+    _rewrite: function(can, msg) { can.Option(msg._arg[0], msg._arg[1])
         can.onappend._output(can, can.Conf(), {}, can.Pack())
         return true
     },

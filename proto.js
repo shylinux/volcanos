@@ -152,7 +152,7 @@ var Volcanos = shy("火山架", {volcano: "/frame.js", args: {}, pack: {}, libs:
         Config.main = Config.main||{}
 
         // 预加载
-        var Preload = []; for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
+        var Preload = Config.preload||[]; for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
             panel && (Preload = Preload.concat(panel.list = panel.list || ["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
         }; Preload = Preload.concat(Config.plugin)
 
@@ -237,4 +237,25 @@ Volcanos.meta._load = function(url, cb) {
             document.body.appendChild(item)
             return item
     }
+}
+
+function app(name, tool) {
+    Volcanos({name: name, iceberg: "/chat/", volcano: "/frame.js", preload: ["/page/can.css"],
+        libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
+        panels: [{name: "cmd", help: "工作台", pos: "main", tool: tool}], main: {name: "Header", list: []}, plugin: [
+            "/plugin/state.js",
+            "/plugin/input.js",
+            "/plugin/table.js",
+            "/plugin/input/key.js",
+            "/plugin/input/date.js",
+            "/plugin/story/trend.js",
+            "/plugin/story/spide.js",
+            "/plugin/local/code/inner.js",
+            "/plugin/local/code/vimer.js",
+            "/plugin/local/wiki/draw/path.js",
+            "/plugin/local/wiki/draw.js",
+            "/plugin/local/wiki/word.js",
+            "/plugin/local/team/plan.js",
+        ],
+    })
 }
