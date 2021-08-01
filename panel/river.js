@@ -35,6 +35,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.onaction.storm(event, can, meta.hash)
 
         }, onmouseenter: function(event) {
+            if (can.user.isMobile) { return }
             can.onaction.carte(event, can, can.ondetail.list, function(event, button, module) {
                 module[button](event, can, button, meta.hash)
             })
@@ -48,6 +49,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.user.title(can._main_title || meta.name)
 
         }, onmouseenter: function(event) {
+            if (can.user.isMobile) { return }
             can.onaction.carte(event, can, ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"], function(event, button, module) {
                 module[button](event, can, button, river, meta.hash)
             })
