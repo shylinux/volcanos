@@ -50,7 +50,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
             time: can.base.Time(null, "%H:%M:%S"), follow: panel._follow, msg: msg, commands: cmds,
         })._event, ["Footer.onimport.ncmd"])
 
-        can.misc.Run(event, can, {names: (can.Conf("iceberg")||"/chat/")+panel._name, daemon: can.ondaemon._list[0]+"."+msg._daemon}, cmds, function(msg) {
+        can.misc.Run(event, can, {names: msg.Option("_names")||((can.Conf("iceberg")||"/chat/")+panel._name), daemon: can.ondaemon._list[0]+"."+msg._daemon}, cmds, function(msg) {
             Volcanos.meta.pack[key] = msg, delete(msg._handle), delete(msg._toast)
             can.base.isFunc(cb) && cb(msg)
         })
