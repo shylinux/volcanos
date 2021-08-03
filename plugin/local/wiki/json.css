@@ -1,0 +1,12 @@
+div.node {
+    border:solid 1px #0000000d;
+    border-left:dashed 1px lightblue;
+    margin-left:5px;
+    padding-left:15px;
+    font-size:14px;
+    font-family:monospace;
+    cursor:pointer;
+}
+div.node:hover {
+    border:solid 1px red;
+}
