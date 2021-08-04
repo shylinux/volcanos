@@ -1,17 +1,17 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb) {
-        can.onmotion.clear(can)
-        can.onimport.data(can, can.base.Obj(msg.Result(), "{}"), can._output)
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.base.isFunc(cb) && cb(msg)
+        can.onimport.show(can, can.base.Obj(msg.Result(), "{}"), target)
     },
-    data: function(can, data, target) {
+    show: function(can, data, target) {
         function show(data, target, index, total) { var list
             switch (typeof data) {
                 case "object":
+                    function toggle(list) {
+                        list && can.onmotion.toggle(can, list)
+                    }
                     function wrap(begin, end, add, cb) {
                         can.page.Append(can, target, [{text: begin}])
-                        add && can.page.Append(can, target, [{text: ["...", "span", "nonce"], onclick: function(event) {
-                            list && can.onmotion.toggle(can, list)
-                        }}]), cb()
+                        add && can.page.Append(can, target, [{text: ["...", "span", "nonce"], onclick: function(event) { toggle(list) }}]), cb()
                         can.page.Append(can, target, [{text: end}])
                     }
                     function _node() {
@@ -28,15 +28,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                     // 对象
                     var length = can.core.Item(data).length, count = 0
                     wrap("{", "}", length > 0, function() { can.core.Item(data, function(key, value) { var node = _node()
-                        can.page.Append(can, node, [{text: ['"'+key+'"', "span", "key"], onclick: function(event) {
-                            sub && can.onmotion.toggle(can, sub)
-                        }}, {text: ': '}])
+                        can.page.Append(can, node, [{text: ['"'+key+'"', "span", "key"], onclick: function(event) { toggle(sub) }}, {text: ': '}])
                         var sub = show(value, node, count++, length)
                     }) }); break
                 case "string": /* 字串 */ can.page.Append(can, target, [{text: ['"'+data+'"', "span", "string"]}]); break
                 default: /* 其它 */ can.page.Append(can, target, [{text: [''+data+'', "span", "const"]}])
             }
-
             (index < total-1) && can.page.Append(can, target, [{text: ","}])
             return list
         }; show(data, can.page.Append(can, target, [{view: "node"}]).node, 0, 0)

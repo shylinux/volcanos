@@ -635,8 +635,8 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
         },
     },
 
-    hidden: function(can, target) {
-        can.page.Modify(can, target||can._target, {style: {display: "none"}})
+    hidden: function(can, target, show) {
+        can.page.Modify(can, target||can._target, {style: {display: show? "": "none"}})
     },
     toggle: function(can, target) {
         return can.onmotion.Toggle(can, target||can._target)

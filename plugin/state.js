@@ -7,6 +7,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
 
     _location: function(can, msg) {
+        // can.user.open(msg._arg[0])
         location.href = msg._arg[0]
     },
     _rewrite: function(can, msg) { can.Option(msg._arg[0], msg._arg[1])
@@ -17,6 +18,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         can.core.Timer(parseInt(msg.Option("_delay")||"500"), function() {
             var sub = can.request({}, {_count: parseInt(msg.Option("_count"))-1})
             can.onappend._output(can, can.Conf(), sub._event, can.Pack())
+        })
+        return true
+    },
+    _display: function(can, msg) {
+        Volcanos("some", {}, [msg.Option("_display")].concat(Volcanos.meta.volcano, Volcanos.meta.libs), function(sub) {
+            sub.onimport._init(sub, msg, [], function() {}, can._output)
         })
         return true
     },

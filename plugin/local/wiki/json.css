@@ -1,25 +1,25 @@
-fieldset.plugin.json div.output div.node div.node {
+fieldset.plugin div.output div.node div.node {
     border:solid 1px #0000000d;
     border-left:dashed 1px lightblue;
     margin-left:5px; padding-left:15px;
     font-size:14px; font-family:monospace;
     cursor:pointer;
 }
-fieldset.plugin.json div.output div.node div.node:hover {
+fieldset.plugin div.output div.node div.node:hover {
     border:solid 1px red;
 }
-fieldset.plugin.json div.output div.node span.nonce {
+fieldset.plugin div.output div.node span.nonce {
     font-size:12px; font-family:auto;
     color:lightblue;
     cursor:pointer;
 }
-fieldset.plugin.json div.output div.node span.key {
+fieldset.plugin div.output div.node span.key {
     color:yellow;
 }
-fieldset.plugin.json div.output div.node span.string {
+fieldset.plugin div.output div.node span.string {
     color:magenta;
 }
-fieldset.plugin.json div.output div.node span.const {
-    color:blue;
+fieldset.plugin div.output div.node span.const {
+    color:cyan;
 }
 
