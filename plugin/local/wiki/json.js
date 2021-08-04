@@ -1,17 +1,15 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+        can.onimport.show(can, can.base.Obj(msg.Result(), {}), target)
         can.base.isFunc(cb) && cb(msg)
-        can.onimport.show(can, can.base.Obj(msg.Result(), "{}"), target)
     },
     show: function(can, data, target) {
         function show(data, target, index, total) { var list
             switch (typeof data) {
                 case "object":
-                    function toggle(list) {
-                        list && can.onmotion.toggle(can, list)
-                    }
+                    function toggle(list) { list && can.onmotion.toggle(can, list) }
                     function wrap(begin, end, add, cb) {
                         can.page.Append(can, target, [{text: begin}])
-                        add && can.page.Append(can, target, [{text: ["...", "span", "nonce"], onclick: function(event) { toggle(list) }}]), cb()
+                        add && can.page.Append(can, target, [{text: ["...", "span", "nonce"]}]), cb()
                         can.page.Append(can, target, [{text: end}])
                     }
                     function _node() {
@@ -42,12 +40,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 Volcanos("onaction", {help: "组件菜单", list: ["全部展开", "全部折叠"],
     "全部展开": function(event, can) {
         can.page.Select(can, can._output, "div.list div.list", function(list) {
-            can.page.Modify(can, list, {style: {display: "block"}})
+            can.onmotion.hidden(can, list, true)
         })
     },
     "全部折叠": function(event, can) {
         can.page.Select(can, can._output, "div.list div.list", function(list) {
-            can.page.Modify(can, list, {style: {display: "none"}})
+            can.onmotion.hidden(can, list)
         })
     },
 })

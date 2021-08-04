@@ -1,8 +1,8 @@
-pack/
+*.swp
+*.swo
 can.js
 can.css
 cache.js
 cache.css
 .DS_Store
-*.swp
-*.swo
+pack/
