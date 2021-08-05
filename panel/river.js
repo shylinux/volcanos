@@ -138,7 +138,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         })
     },
 })
-Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户", "添加设备", "添加应用", "重命名群组", "删除群组"],
+Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户", "添加应用", "添加设备", "重命名群组", "删除群组"],
     "创建群组": function(event, can) { can.onaction.create(event, can) },
 
     "共享群组": function(event, can, button, river) {
