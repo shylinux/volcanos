@@ -96,7 +96,8 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
             })
         }
 
-        can.onimport._share(can, can.user.Search(can, can._SHARE))
+        var ls = location.pathname.split("/")
+        can.onimport._share(can, can.user.Search(can, can._SHARE) || ls[1]=="share" && ls[2])
     },
     onresize: function(can, msg, width, height) { var args = {width: width, height: height} 
         can.Conf(args), can.onengine.signal(can, "onaction_resize", can.request({}, args))

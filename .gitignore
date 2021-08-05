@@ -1,7 +1,7 @@
 *.swp
 *.swo
-can.js
-can.css
+cmd.js
+cmd.css
 cache.js
 cache.css
 .DS_Store

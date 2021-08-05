@@ -131,6 +131,7 @@ const html = {
     ITEM: "item",
     LIST: "list",
 }
+
 function shy(help, meta, list, cb) {
     var index = 0, args = arguments; function next(check) {
         if (index < args.length && (!check || check == typeof args[index])) {
@@ -238,11 +239,10 @@ Volcanos.meta._load = function(url, cb) {
             return item
     }
 }
-
-function app(name, tool) {
-    Volcanos({name: name, iceberg: "/chat/", volcano: "/frame.js", preload: ["/page/can.css"],
+function cmd(tool) {
+    Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js", preload: [],
         libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
-        panels: [{name: "cmd", help: "工作台", pos: "main", tool: tool}], main: {name: "Header", list: []}, plugin: [
+        panels: [{name: "cmd", help: "工作台", pos: "main", tool: tool}], main: {name: "cmd", list: []}, plugin: [
             "/plugin/state.js",
             "/plugin/input.js",
             "/plugin/table.js",
