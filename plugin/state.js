@@ -97,7 +97,8 @@ Volcanos("onaction", {help: "交互操作", list: [
             var msg = can.request(event, {arg: [
                 kit.MDB_TYPE, "field",
                 kit.MDB_NAME, list[0], kit.MDB_TEXT, JSON.stringify(can.Pack([], true)),
-                "river", meta.ctx||meta.key||"", "storm", meta.index||meta.cmd||meta.name,
+                // "river", meta.ctx||meta.key||"", "storm", meta.index||meta.cmd||meta.name,
+                "storm", meta.index,
             ]})
             can.search(event, ["Header.onaction.share"])
         })

@@ -6,6 +6,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         function show(data, target, index, total) { var list
             switch (typeof data) {
                 case "object":
+                    if (data == null) {
+                        return can.page.Append(can, list, [{text: "null"}]).node
+                        return
+                    }
                     function toggle(list) { list && can.onmotion.toggle(can, list) }
                     function wrap(begin, end, add, cb) {
                         can.page.Append(can, target, [{text: begin}])

@@ -10,9 +10,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _word: function(can, msg, cmds, fields) { can.type = cmds[0]
         var res = can.request({}, {word: cmds, fields: fields.join(","), sort: msg.Option("sort"), index: msg.Option("index")})
-        can.onengine.signal(can, "onsearch", res)
 
-        can.run(res._event, cmds, function(res) { can.list = res.Table()
+        can.onengine.signal(can, "onsearch", res)
+        can.run(res._event, cmds, function(res) {
+            can.list = res.Table()
             can.onimport._init(can, res, fields)
         }), can.ui.word.setSelectionRange(0, -1)
 

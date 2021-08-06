@@ -94,6 +94,7 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
             ]},
             "redis": {name: "缓存 redis",  action: [
                 {name: "redis", help: "缓存", index: "web.wiki.word", args: ["usr/redis-story/src/main.shy"]},
+                {name: "kafka", help: "队列", index: "web.wiki.word", args: ["usr/redis-story/src/kafka/kafka.shy"]},
             ]},
             "mysql": {name: "数据 mysql",  action: [
                 {name: "mysql", help: "数据存储", index: "web.wiki.word", args: ["usr/mysql-story/src/main.shy"]},
