@@ -190,7 +190,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     },
 
     title: function(event, can) {
-        var args = {}; can.core.List([cli.POD, chat.TITLE, "topic", "layout"], function(key) {
+        var args = {}; can.core.List([chat.TITLE, "topic", "layout"], function(key) {
             var value = can.user.Search(can, key); value && (args[key] = value)
         })
         can.user.jumps(can.user.MergeURL(can, args, true))

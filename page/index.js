@@ -98,6 +98,7 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
             ]},
             "mysql": {name: "数据 mysql",  action: [
                 {name: "mysql", help: "数据存储", index: "web.wiki.word", args: ["usr/mysql-story/src/main.shy"]},
+                {name: "clickhouse", help: "数据存储", index: "web.wiki.word", args: ["usr/mysql-story/src/clickhouse/clickhouse.shy"]},
             ]},
         }},
         "profile": {name: "测试群", storm: {
