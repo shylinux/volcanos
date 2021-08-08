@@ -11,13 +11,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         location.href = msg._arg[0]
     },
     _rewrite: function(can, msg) { can.Option(msg._arg[0], msg._arg[1])
-        can.onappend._output(can, can.Conf(), {}, can.Pack())
+        can.Update()
         return true
     },
     _refresh: function(can, msg) {
         can.core.Timer(parseInt(msg.Option("_delay")||"500"), function() {
             var sub = can.request({}, {_count: parseInt(msg.Option("_count"))-1})
-            can.onappend._output(can, can.Conf(), sub._event, can.Pack())
+            can.Update()
         })
         return true
     },
@@ -52,10 +52,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
             if (his[0] == ctx.ACTION) { continue }
             can.page.Select(can, can._option, "textarea.args,input.args,select.args", function(item, index) {
                 item.value = his[index]||""
-            }), can.onappend._output(can, can.Conf(), {}, can.Pack())
+            }), can.Update()
             break
         }
-        !his && can.onappend._output(can, can.Conf(), {}, can.Pack())
+        !his && can.Update()
         return true
     },
 
@@ -77,11 +77,23 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [
-        "共享工具", "保存参数", "清空参数", "刷新数据", ["其它 ->", "生成链接", "复制数据", "下载数据", "清空数据", "删除工具", "摄像头"],
+        "共享工具", "保存参数", "清空参数", "刷新数据", ["其它 ->", "全屏", "生成链接", "复制数据", "下载数据", "清空数据", "删除工具", "摄像头"],
         ], _init: function(can, msg, list, cb, target) {
     },
     _engine: function(event, can, button) {
-        can.onappend._output(can, can.Conf(), event, [ctx.ACTION, button].concat(can.Pack([], true)))
+        can.Update(event, [ctx.ACTION, button].concat(can.Input([], true)))
+    },
+    "共享工具": function(event, can) { var meta = can.Conf()
+        var ui = can.user.input(event, can, [{name: "name", value: meta.name}], function(event, button, data, list, args) {
+            var msg = can.request(event, {arg: [
+                kit.MDB_TYPE, "field",
+                kit.MDB_NAME, list[0], kit.MDB_TEXT, JSON.stringify(can.Input([], true)),
+                // "river", meta.ctx||meta.key||"", "storm", meta.index||meta.cmd||meta.name,
+                "storm", meta.index,
+            ]})
+            can.search(event, ["Header.onaction.share"])
+        })
+        can.onlayout.figure(event, can, ui._target, true)
     },
     "保存参数": function(event, can) { var meta = can.Conf()
         var msg = can.request(event, {river: can.Conf("river"), storm: can.Conf("storm"), id: meta.id})
@@ -92,29 +104,20 @@ Volcanos("onaction", {help: "交互操作", list: [
     "清空参数": function(event, can) {
         can.page.Select(can, can._option, '.args', function(item) { return item.value = "" })
     },
-    "共享工具": function(event, can) { var meta = can.Conf()
-        var ui = can.user.input(event, can, [{name: "name", value: meta.name}], function(event, button, data, list, args) {
-            var msg = can.request(event, {arg: [
-                kit.MDB_TYPE, "field",
-                kit.MDB_NAME, list[0], kit.MDB_TEXT, JSON.stringify(can.Pack([], true)),
-                // "river", meta.ctx||meta.key||"", "storm", meta.index||meta.cmd||meta.name,
-                "storm", meta.index,
-            ]})
-            can.search(event, ["Header.onaction.share"])
-        })
-        can.onlayout.figure(event, can, ui._target, true)
+    "刷新数据": function(event, can) {
+        can.Update({}, can.Input([], true))
     },
+    "全屏": function(event, can) {
+        if (can.page.ClassList.neg(can, can._target, "fixed")) {
+
+        }
+    },
+
     "生成链接": function(event, can) { var meta = can.Conf()
         var args = can.Option(); args._path = "/chat/cmd/"+(meta.index||can.core.Keys(meta.ctx, meta.cmd))
         args._path == "/chat/cmd/web.wiki.word" && (args = {_path: "/chat/cmd/"+args.path})
         var msg = can.request(event, {link: can.user.MergeURL(can, args)})
         can.search(event, ["Header.onaction.share"])
-    },
-    "删除工具": function(event, can) {
-        can.page.Remove(can, can._target)
-    },
-    "刷新数据": function(event, can) { var meta = can.Conf()
-        can.onappend._output(can, meta, {}, can.Pack([], true))
     },
     "复制数据": function(event, can) { var meta = can.Conf(), msg = can._msg
         var res = [msg.append && msg.append.join(",")]; msg.Table(function(line, index, array) {
@@ -134,6 +137,9 @@ Volcanos("onaction", {help: "交互操作", list: [
     },
     "清空数据": function(event, can) {
         can.onmotion.clear(can, can._output)
+    },
+    "删除工具": function(event, can) {
+        can.page.Remove(can, can._target)
     },
     "摄像头": function(event, can) {
         var constraints = {audio: false, video: {width: 200, height: 200}}
@@ -164,7 +170,7 @@ Volcanos("onaction", {help: "交互操作", list: [
     change: function(event, can, name, value, cb) {
         return can.page.Select(can, can._option, "input.args", function(input) {
             if (input.name == name && value != input.value) { input.value = value
-                var data = input.dataset || {}; data.action == "auto" && can.onappend._output(can, can.Conf(), event, can.Pack(), cb)
+                var data = input.dataset || {}; data.action == "auto" && can.Update(event, can.Input(), cb)
                 return input
             }
         })
@@ -215,8 +221,8 @@ Volcanos("onaction", {help: "交互操作", list: [
     openLocation: function(event, can) { can.user.agent.openLocation(can.request(event)) },
 
     "参数": function(event, can) { can.onmotion.Toggle(can, can._action) },
-    "关闭": function(event, can) { can.page.Remove(can, can._target) },
     "清空": function(event, can, name) { can.onmotion.clear(can, can._output) },
+    "关闭": function(event, can) { can.page.Remove(can, can._target) },
 })
 Volcanos("onexport", {help: "导出数据", list: []})
 var _can_name = ""

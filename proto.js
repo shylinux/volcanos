@@ -86,14 +86,9 @@ const wiki = {
     SHELL: "shell",
 }
 const chat = {
-    TITLE: "title",
     RIVER: "river",
     STORM: "storm",
     FIELD: "field",
-
-    AGENT: "agent",
-    SHARE: "share",
-    GRANT: "grant",
 
     PUBLIC: "public",
     PROTECTED: "protected",
@@ -102,7 +97,16 @@ const chat = {
     USER: "user",
     TOOL: "tool",
     NODE: "node",
+
     HEADER: "header",
+    TOPIC: "topic",
+    TITLE: "title",
+    MENUS: "menus",
+    TRANS: "trans",
+    AGENT: "agent",
+    CHECK: "check",
+    SHARE: "share",
+    GRANT: "grant",
 }
 const team = {
     TASK: "task",
@@ -166,7 +170,7 @@ var Volcanos = shy("火山架", {volcano: "/frame.js", args: {}, pack: {}, libs:
         }
     }
 
-    var proto = {_name: name, _load: function(name, cb) { // 加载缓存
+    var proto = {__proto__: meta, _name: name, _load: function(name, cb) { // 加载缓存
             var cache = meta.cache[name] || []; for (list.reverse(); list.length > 0; list) {
                 var sub = list.pop(); sub != can && cache.push(sub)
             }; meta.cache[name] = cache

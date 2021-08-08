@@ -11,7 +11,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             })
         }, function() {
             can.onaction.layout(can, can.user.Search(can, can._LAYOUT)||can.Conf(can._LAYOUT))
-            !can.user.isMobile && can.onimport._menu(can)
+            !can.user.isMobile && can.onimport._menu(can, msg)
         })
 
         can.onmotion.float.auto(can, can._output, "carte")
@@ -38,7 +38,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         meta.id && (sub._option.dataset.id = meta.id)
         sub._target.Meta = meta
     },
-    _menu: function(can) {
+    _menu: function(can, msg) {
         can._menu && can.page.Remove(can, can._menu)
         can._menu = can.search({}, ["Header.onimport.menu", can._ACTION,
             ["布局", "默认布局", "流动布局", "网格布局", "标签布局", "自由布局"],

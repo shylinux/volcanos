@@ -297,7 +297,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         can.onaction.rerankLine(can)
     },
 })
-Volcanos("onaction", {help: "控件交互", list: ["项目"],
+Volcanos("onaction", {help: "控件交互", list: ["项目", "autogen"],
     save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
         can.run(event, [ctx.ACTION, "save", can.parse, can.Option("file"), can.Option("path")], function(msg) {
             can.user.toast(can, "保存成功")

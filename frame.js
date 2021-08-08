@@ -14,6 +14,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
                     can.onengine.listen(can, key, function(msg) { can.core.CallFunc(item, {can: panel, msg: msg}) })
                 } }), panel.const(panel.onaction._const||[]), panel._trans = panel.onaction._trans
                 panel.onaction._init(panel, item, item.list, next, panel._target)
+                can.onmotion.float.auto(can, panel._output, "carte", "input")
             }, target)
         }, function() { can.onlayout.topic(can)
             can.misc.Log(can.user.title(), cli.RUN, can)
@@ -114,8 +115,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     value == undefined? (value = item.value): (item.value = value)
                 }); return value
             },
-            Update: function() {
-                sub.onappend._output(sub, sub.Conf(), {}, sub.Pack())
+            Update: function(event, cmds, cb, silent) {
+                sub.onappend._output(sub, sub.Conf(), event||{}, cmds||sub.Input(), cb, silent)
             },
             Action: function(key, value) {
                 if (typeof key == "object") { return sub.core.Item(key, sub.Action), key }
@@ -143,7 +144,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     can.base.isFunc(cb) && cb(sub)
                 }, target)
             },
-            Pack: function(cmds, silent) {
+            Input: function(cmds, silent) {
                 cmds = cmds && cmds.length > 0? cmds: sub.page.Select(sub, option, "textarea.args,input.args,select.args", function(item) {
                     return item.name && item.value || ""
                 }); for (var i = cmds.length-1; i >= 0; i--) {
@@ -185,7 +186,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                         return msg.Option("_handle", "true"), can.core.CallFunc(table.onaction[cmds[1]], {event: event, can: table, msg: msg})
                     }
 
-                    return can.onappend._output(can, meta, event, can.Pack(cmds, silent), cb, silent)
+                    return can.Update(event, can.Input(cmds, silent), cb, silent)
                 }, can._inputs[item.name] = input
 
                 can.core.Item(input.onaction, function(key, value) {
@@ -202,7 +203,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         can.core.List(list, function(item) { can.onappend.input(can, item == ""? /*空白*/ {type: "space"}:
             typeof item == "string"? /*按键*/ {type: html.BUTTON, value: item, onclick: function(event) {
                 var cb = meta[item]||meta["_engine"]
-                cb? can.core.CallFunc(cb, [event, can, item]): can.run(event, [ctx.ACTION,item].concat(can.sup.Pack()))
+                cb? can.core.CallFunc(cb, [event, can, item]): can.run(event, [ctx.ACTION,item].concat(can.sup.Input()))
 
             }}: item.length > 0? /*列表*/ {type: "select", name: item[0], values: item.slice(1), onchange: function(event) {
                 var which = item[event.target.selectedIndex+1]
@@ -226,8 +227,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var input = msg.Option("_handle") != "true" && cmds && cmds[0] == ctx.ACTION && feature && feature[cmds[1]]; if (input) {
             can.user.input(event, can, input, function(ev, button, data, list, args) {
                 var msg = can.request(event, {_handle: "true"}, can.Option())
-                can.onappend._output(can, meta, event, cmds.slice(0, 2).concat(args), function(msg) {
-                    can.onappend._output(can, meta, {}, can.Pack(), cb)
+                can.Update(event, cmds.slice(0, 2).concat(args), function(msg) {
+                    can.Update({}, can.Input(), cb)
                 }, true)
             })
             return
@@ -253,7 +254,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                         return msg.Option("_handle", "true"), can.core.CallFunc(table.onaction[cmds[1]], {event: event, can: table, msg: msg})
                     }
 
-                    return can.onappend._output(can, meta, event, can.Pack(cmds, silent), cb, silent)
+                    return can.Update(event, can.Input(cmds, silent), cb, silent)
                 }, can._outputs.push(table), table._msg = msg
 
                 table._display = display
@@ -305,7 +306,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
 
         var title = can.Conf(["feature", "title", item.name].join("."))||""
-        var input = {type: html.INPUT, name: item.name, data: item, dataset: {}}
+        var input = {type: html.INPUT, name: item.name, data: item, dataset: {}, _init: item._init, style: item.style}
         item.value == "auto" && (item.value = "", item.action = "auto")
         item.action == "auto" && (input.dataset.action = "auto")
         title && (input.title = title)
@@ -457,21 +458,44 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
     float: function(can, msg, cb) {
         var ui = can.onappend.field(can, "story toast float", {}, document.body)
+        ui.close = function() { can.page.Remove(can, ui.first), can.onengine.signal(can, "keymap.focus") }
+        can.onmotion.float.auto(can, ui.output, "carte", "input")
 
         can.search({}, ["Action.onexport.size"], function(msg, top, left, width, height) {
             can.page.Modify(can, ui.output, {style: {"max-width": width, "max-height": height-28}})
             can.page.Modify(can, ui.first, {style: {top: top, left: left}})
         })
 
-        can.onappend._action(can, ["关闭", "刷新"], ui.action, {
-            "关闭": function(event) { can.page.Remove(can, ui.first) },
-            "刷新": function(event) { can.page.Remove(can, ui.first), can.toast.click() },
+
+        can.onappend._action(can, ["关闭", "刷新", {input: "text", placeholder: "filter", style: {position: ""}, _init: function(input) {
+            can.onengine.signal(can, "keymap.focus", can.request({}, {cb: function(event) {
+                if (event.target.tagName == "INPUT") { return }
+                if (event.key == "Escape") { ui.close(); return }
+                if (event.key == " ") { input.focus()
+                    event.stopPropagation(), event.preventDefault()
+                }
+            }}))
+        }, onkeydown: function(event) {
+            can.onkeypop.input(event, can)
+            if (event.key != "Enter") { return }
+            event.target.setSelectionRange(0, -1)
+            can.page.Select(can, ui.output, "tr", function(tr, index) { if (index == 0) { return }
+                can.page.Modify(can, tr, {style: {display: "none"}})
+                can.page.Select(can, tr, "td", function(td) {
+                    if (td.innerText.indexOf(event.target.value) > -1) {
+                        can.page.Modify(can, tr, {style: {display: ""}})
+                    }
+                })
+            })
+        }}], ui.action, { "关闭": ui.close,
+            "刷新": function(event) { ui.close(), can.toast.click() },
         })
         can.onappend.table(can, msg, function(value, key, index, line, list) {
             return {text: [value, "td"], onclick: function(event) {
                 can.base.isFunc(cb) && cb(value, key, index, line, list)
             }}
         }, ui.output)
+        can.onappend.board(can, msg.Result(), ui.output)
         return ui
     },
 }, [], function(can) {})
@@ -655,7 +679,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
         if (back.length > 120 || back.indexOf("\n") > -1) {
             return can.onmotion.modifys(can, target, cb)
         }
-        var ui = can.page.Appends(can, target, [{type: html.INPUT, value: back, style: {width: target.offsetWidth > 400? 400: target.offsetWidth-20}, onkeydown: function(event) {
+        var ui = can.page.Appends(can, target, [{type: html.INPUT, value: target.innerText, style: {width: target.offsetWidth > 400? 400: target.offsetWidth-20}, onkeydown: function(event) {
             switch (event.key) {
                 case "Enter":
                     target.innerHTML = event.target.value
@@ -924,15 +948,13 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
         return status
     },
 })
-Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, target) {
-        var focus = []; can.onengine.listen(can, "keymap.focus", function(cb) {
-            cb? focus.push(cb): focus.pop()
-        })
+Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
+        var focus = can.onkeypop._focus
+        // can.onengine.listen(can, "keymap.focus", function(cb) { cb? focus.push(cb): focus.pop() })
+        can.onengine.listen(can, "keymap.focus", function(cb) { cb? focus.push(cb): can.onkeypop._focus.length = 0 })
         can.onkeypop._build(can)
-        target.onkeydown = function(event) {
-            if (focus.length > 0) { return focus[focus.length-1](event) }
-            if (event.target != target) { return }
-            can.page.Select(can, target, "fieldset.Action>div.output", function(item) {
+        target.onkeydown = function(event) { if (focus.length > 0) { return focus[focus.length-1](event) }
+            event.target == target && can.page.Select(can, target, "fieldset.Action>div.output", function(item) {
                 target._keys = can.onkeypop._parse(event, can, "normal", target._keys||[], item)
             })
         }
@@ -947,7 +969,6 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
         })
     },
     _parse: function(event, can, mode, list, target) { list = list||[], list.push(event.key)
-        // can.Status("按键", list.join(""))
         for (var pre = 0; pre < list.length; pre++) {
             if ("0" <= list[pre] && list[pre] <= "9") { continue } break
         }; var count = parseInt(list.slice(0, pre).join(""))||1
@@ -955,7 +976,6 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
         function repeat(cb, count) { list = []
             for (var i = 1; i <= count; i++) { if (cb(event, can, target, count)) { break } }
             event.stopPropagation(), event.preventDefault()
-            // can.Status("按键", list.join(""))
         }
 
         var map = can.onkeypop._mode[mode]
@@ -987,6 +1007,11 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
             s: function(event, can, target) { can.search(event, ["River.ondetail.添加应用"]) },
             t: function(event, can, target) { can.search(event, ["River.ondetail.添加工具"]) },
 
+            ":": function(event, can, target) {
+                can.page.Select(can, document.body, "fieldset.panel.Footer input.cmd", function(target) {
+                    target.focus()
+                })
+            },
             " ": function(event, can, target) {
                 can.page.Select(can, document.body, "fieldset.panel.Header div.search input", function(target) {
                     target.focus()
@@ -994,6 +1019,12 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
             },
             enter: function(event, can, target) { can.misc.Log("enter") },
             escape: function(event, can, target) {
+                can.page.Select(can, document.body, "fieldset.float", function(item) {
+                    can.page.Remove(can, item)
+                })
+                can.page.Select(can, document.body, "fieldset.auto", function(item) {
+                    can.onmotion.hidden(can, item)
+                })
                 can.search(event, ["Search.onaction.hide"])
                 can.misc.Log("enter")
             },
@@ -1010,7 +1041,6 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _init: function(can, targe
                 var his = target._history || []
                 his.push(target.value)
 
-                // can.misc.Log("input", target, his)
                 target.setSelectionRange(0, -1)
                 target._current = his.length
                 target._history = his

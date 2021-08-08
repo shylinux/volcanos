@@ -111,6 +111,7 @@ input[name=text] {
     width:160px;
 }
 input[type=text] {
+    height:21px; font-size:16px;
     box-shadow: 4px 4px 10px 1px #626bd0;
     background-color:cyan; color:black;
     padding: 0 4px;
@@ -295,7 +296,7 @@ div.carte div.item {
 div.carte div.item:hover {
     background:red;
 }
-div.input {
+body>div.input {
     position:fixed;
     background-color:#0d4142a6;
     z-index:50;
@@ -303,7 +304,7 @@ div.input {
 div.input textarea {
     box-shadow: 4px 4px 10px 1px #626bd0;
     border:2px inset #14a58e;
-    width:145px; height:60px;
+    width:165px; height:60px;
     background-color: cyan;
     padding:4px;
 

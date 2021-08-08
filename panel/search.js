@@ -11,6 +11,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _word: function(can, msg, cmds, fields) { can.type = cmds[0]
         var res = can.request({}, {word: cmds, fields: fields.join(","), sort: msg.Option("sort"), index: msg.Option("index")})
 
+        if (cmds[1] == "clear") { can.onaction["清空"]({}, can); return }
         can.onengine.signal(can, "onsearch", res)
         can.run(res._event, cmds, function(res) {
             can.list = res.Table()

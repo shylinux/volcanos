@@ -107,6 +107,7 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
             ]},
             "research": {name: "测试 research", index: [
                 "web.code.favor", "web.code.bench", "web.code.pprof",
+                "web.code.case",
             ]},
         }},
         "operate": {name: "运维群", storm: {

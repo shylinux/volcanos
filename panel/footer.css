@@ -6,6 +6,9 @@ fieldset.Footer div.toast {
     position:static;
     float:left;
 }
+fieldset.Footer>div.output {
+    height:32px; overflow:hidden;
+}
 fieldset.Footer>div.output>div {
     height:22px; padding:5px;
     cursor:pointer;
@@ -25,3 +28,10 @@ fieldset.Footer>div.output div.state {
     float:right;
 }
 
+fieldset.Footer>div.output input[name=cmd] {
+    background-color:black; color:white;
+    width:120px; height:25px;
+}
+fieldset.Footer>div.output input[name=cmd]:focus {
+    width:320px;
+}

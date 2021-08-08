@@ -10,7 +10,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
     },
 
     "执行": function(event, can) {
-        var title = can.sup._name+" "+can.sup.Pack([], true)
+        var title = can.sup._name+" "+can.sup.Input([], true)
         var toast = can.user.toast(can, "执行中...", title, -1)
         can.run(event, [], function() { toast.close(), can.user.toast(can, "执行成功...", title) })
     },
@@ -25,7 +25,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
         if (can.Conf("type") == "text") { event.target.setSelectionRange(0, -1) }
     },
     onclick: function(event, can) {
-        if (can.Conf("type") == "button") { can.run(event, [ctx.ACTION, can.Conf("name")].concat(can.sup.Pack())) }
+        if (can.Conf("type") == "button") { can.run(event, [ctx.ACTION, can.Conf("name")].concat(can.sup.Input())) }
     },
 
     onkeydown: function(event, can) { var target = event.target
