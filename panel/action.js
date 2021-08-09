@@ -39,6 +39,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         sub._target.Meta = meta
     },
     _menu: function(can, msg) {
+        if (can.user.isMobile || can.user.Search(can, cli.POD)) {
+            return
+        }
         can._menu && can.page.Remove(can, can._menu)
         can._menu = can.search({}, ["Header.onimport.menu", can._ACTION,
             ["布局", "默认布局", "流动布局", "网格布局", "标签布局", "自由布局"],

@@ -24,14 +24,17 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.core.CallFunc([can.ondetail, item], [event, can, item, can.Conf(chat.RIVER), can.Conf(chat.STORM)])
         })
     },
+    _carte: function(can, list, river, storm) {
+        (!can.user.isMobile && !can.user.Search(can, cli.POD)) && can.onaction.carte(event, can, list, function(event, button, module) {
+            module[button](event, can, button, river, storm)
+        })
+    },
     _river: function(can, meta, cb) {
         return {text: [meta.name, html.DIV, html.ITEM], onclick: function(event) {
             can.onaction.storm(event, can, meta.hash)
 
         }, onmouseenter: function(event) {
-            !can.user.isMobile && can.onaction.carte(event, can, can.ondetail.list, function(event, button, module) {
-                module[button](event, can, button, meta.hash)
-            })
+            can.onimport._carte(can, can.ondetail.list, meta.hash)
         }, _init: function(target) { cb(target)
             can.river_list[meta.hash] = target
         }}
@@ -42,9 +45,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.user.title(can._main_title || meta.name)
 
         }, onmouseenter: function(event) {
-            !can.user.isMobile && can.onaction.carte(event, can, can.ondetail.sublist, function(event, button, module) {
-                module[button](event, can, button, river, meta.hash)
-            })
+            can.onimport._carte(can, can.ondetail.sublist, river, meta.hash)
         }, _init: function(target) {
             can.storm_list[can.core.Keys(river, meta.hash)] = target
         }}

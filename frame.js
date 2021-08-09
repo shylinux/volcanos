@@ -372,7 +372,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
                     if (item.name == key) { return {name: key, value: "@"+pkey+"="+value} }
                 })[0]||{name: key, value: "@key="+value}
-                can.onmotion.modify(can, target, function(event, value, old) { var msg = can.sup.request(event, can.Option())
+                can.onmotion.modifys(can, target, function(event, value, old) { var msg = can.sup.request(event, can.Option())
                     key == kit.MDB_VALUE? can.core.List(array, function(item, index) { msg.Option(item.key, item.value) }): msg.Option(line)
                     can.run(event, [ctx.ACTION, mdb.MODIFY, key == kit.MDB_VALUE? line.key||line.name: key, value], function(msg) { can.run() }, true)
                 }, item)
@@ -675,11 +675,13 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
             }
         })
     },
-    modify: function(can, target, cb, item) { var back = target.innerHTML
+    modify: function(can, target, cb, item) { var back = target.innerHTML, text = target.innerText
         if (back.length > 120 || back.indexOf("\n") > -1) {
             return can.onmotion.modifys(can, target, cb)
         }
-        var ui = can.page.Appends(can, target, [{type: html.INPUT, value: target.innerText, style: {width: target.offsetWidth > 400? 400: target.offsetWidth-20}, onkeydown: function(event) {
+        var ui = can.page.Appends(can, target, [{type: html.INPUT, value: target.innerText, style: {
+            width: target.offsetWidth > 400? 400: target.offsetWidth-20,
+        }, onkeydown: function(event) {
             switch (event.key) {
                 case "Enter":
                     target.innerHTML = event.target.value
@@ -695,11 +697,14 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
             }
         }, _init: function(target) {
             item && can.onappend.figure(can, item, item.value, function() {
-            }, target)
+
+            }, target), target.value = text
         }}]); ui.first.focus(), ui.first.setSelectionRange(0, -1)
     },
     modifys: function(can, target, cb) { var back = target.innerHTML
-        var ui = can.page.Appends(can, target, [{type: html.TEXTAREA, value: back, style: {height: "80px", width: target.offsetWidth > 400? 400: target.offsetWidth-20}, onkeydown: function(event) {
+        var ui = can.page.Appends(can, target, [{type: html.TEXTAREA, value: target.innerText, style: {
+            width: target.offsetWidth > 400? 400: target.offsetWidth-20, height: target.offsetHeight < 60? 60: target.offsetHeight-20,
+        }, onkeydown: function(event) {
             switch (event.key) {
                 case "Enter":
                     if (event.ctrlKey) {
