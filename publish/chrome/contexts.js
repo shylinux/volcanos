@@ -5,7 +5,12 @@ Volcanos("chrome", {
         console.log(arg)
         cb()
     },
-    spide: function(can, msg) { var has = {}
+    style: function(can, msg, arg) {
+        can.page.Select(can, document.body, arg[0], function(target) {
+            can.page.Modify(can, target, can.base.Obj(arg[1]))
+        })
+    },
+    spide: function(can, msg, arg) { var has = {}
         can.page.Select(can, document.body, "video", function(item) {
             if (!item.src || has[item.src]) { return } has[item.src] = true
             var p = can.page.Select(can, document.body, "p.title")[0]
@@ -36,15 +41,14 @@ Volcanos("chrome", {
             msg.Push(kit.MDB_LINK, item.src)
         })
     },
-    field: function(can, msg, arg) { can.require(["https://shylinux.com/page/index.css"])
+    field: function(can, msg, arg) {
+        // can.require(["https://shylinux.com/page/index.css"])
+        can.require(["http://localhost:9020/page/field.css"])
         can.onappend.plugin(can, {index: arg[0], arg: arg.slice(1)}, function(sub, meta) {
             var top = msg.Option("top")||400
-            can.onmotion.float.auto(can, document.body, "carte")
             can.onmotion.float.auto(can, sub._output, "carte")
-            can.page.Modify(can, sub._target, {style: {
-                background: "radial-gradient(black, #00000073)",
-                position: "absolute", "top": top,
-            }})
+            can.onmotion.float.auto(can, document.body, "carte")
+            can.page.Modify(can, sub._target, {style: {"top": top}})
             can.page.Modify(can, sub._output, {style: {
                 "max-height": window.innerHeight-top-80,
                 "max-width": window.innerWidth,
@@ -58,8 +62,14 @@ Volcanos("chrome", {
             }, sub._legend.onclick()
 
             sub.run = function(event, cmds, cb) {
-                can.run(event, [ctx.ACTION, ctx.COMMAND, cli.RUN, meta.index].concat(cmds), cb)
+                can.run(event, [ctx.ACTION, cli.RUN, meta.index].concat(cmds), cb)
             }
+            can.onmotion.move(can, sub._target, {})
+
+            msg.Option("selection") && (document.body.ondblclick = function(event) {
+                sub.Option(msg.Option("selection"), window.getSelection())
+                sub.Update()
+            })
         }, document.body)
     },
 }, ["/frame.js"], function(can) {
@@ -73,7 +83,7 @@ Volcanos("chrome", {
     can.run = function(event, cmds, cb) { var msg = can.request(event, {hostname: location.hostname}); msg.detail = ["page"].concat(cmds)
         chrome.runtime.sendMessage(msg, function(res) { can.base.isFunc(cb) && cb(msg.Copy(res)) })
     }
-    can.run({}, [ctx.ACTION, ctx.COMMAND, "get"], function(msg) {
+    can.run({}, [ctx.ACTION, ctx.COMMAND], function(msg) {
         msg.result && msg.result[0] && can.field(can, msg, msg.result)
     })
 })

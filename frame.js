@@ -744,7 +744,6 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
         })
     },
     move: function(can, target, layout) { var begin
-
         target.onmousedown = function(event) {
             layout.width = target.offsetWidth
             layout.height = target.offsetHeight

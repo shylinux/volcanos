@@ -50,7 +50,7 @@ Volcanos("chrome", {
         can.misc.Run(event, can, {names: "http://localhost:9020/code/chrome/"+cmds[0]}, cmds.slice(1), cb)
     },
     chrome.history.onVisited.addListener(function(item) {
-        can.run({}, ["sync", "link", item.title, item.url])
+        can.run({}, ["sync", kit.MDB_TYPE, "link", kit.MDB_NAME, item.title, kit.MDB_TEXT, item.url, "tid", item.id])
     })
 
     can.user.toast = function(message, title) {chrome.notifications.create(null, {
