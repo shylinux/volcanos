@@ -74,14 +74,11 @@ Volcanos("chrome", {
         return true
     })
 
-    chrome.contextMenus.create({title: "favor", onclick: function(event) {
+    chrome.contextMenus.create({title: "field", onclick: function(event) {
         chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
-            var msg = can.request(event); msg.detail = ["chrome", "", "", "favor"]
-            chrome.tabs.sendMessage(tabs[0].id, msg, function(res) {
-                return
-                can.run({}, ["history", "id", response.title, response.src])
-            })
+            var msg = can.request(event); msg.detail = ["chrome", "", "", "order"]
+            chrome.tabs.sendMessage(tabs[0].id, msg)
         })
-    }, })
+    }})
 })
 

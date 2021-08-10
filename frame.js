@@ -203,7 +203,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         can.core.List(list, function(item) { can.onappend.input(can, item == ""? /*空白*/ {type: "space"}:
             typeof item == "string"? /*按键*/ {type: html.BUTTON, value: item, onclick: function(event) {
                 var cb = meta[item]||meta["_engine"]
-                cb? can.core.CallFunc(cb, [event, can, item]): can.run(event, [ctx.ACTION,item].concat(can.sup.Input()))
+                cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION,item].concat(can.sup.Input()))
 
             }}: item.length > 0? /*列表*/ {type: "select", name: item[0], values: item.slice(1), onchange: function(event) {
                 var which = item[event.target.selectedIndex+1]
