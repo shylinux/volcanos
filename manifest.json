@@ -3,7 +3,7 @@
     "name": "volcanos", "version": "0.0.1",
     "background": {"page": "/publish/chrome/chrome.html"},
     "browser_action": {"default_popup": "/publish/chrome/popup.html"},
-    "content_scripts": [{"matches": ["<all_urls>"],
+    "content_scripts": [{"matches": ["<all_urls>"], "css": ["/publish/chrome/contexts.css"],
         "js": ["/proto.js", "/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js",
             "/plugin/state.js", "/plugin/input.js", "/plugin/table.js",
             "/frame.js", "/publish/chrome/contexts.js"

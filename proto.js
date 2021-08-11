@@ -1,10 +1,16 @@
 const kit = {
+    MDB_ID: "id",
+    MDB_KEY: "key",
     MDB_TIME: "time",
+    MDB_ZONE: "zone",
     MDB_TYPE: "type",
     MDB_NAME: "name",
     MDB_TEXT: "text",
+
     MDB_LINK: "link",
     MDB_VALUE: "value",
+    MDB_INDEX: "index",
+    MDB_ARGS: "args",
 
     MDB_HASH: "hash",
     MDB_LIST: "list",
@@ -123,6 +129,7 @@ const html = {
     CODE: "code",
     SPAN: "span",
     LABEL: "label",
+    VIDEO: "video",
     BUTTON: "button",
     LEGEND: "legend",
     TEXTAREA: "textarea",
