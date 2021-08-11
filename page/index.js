@@ -69,7 +69,7 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
                 {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
                 {name: "repos", help: "代码库", index: "web.code.git.status"},
                 {name: "plan", help: "任务表", index: "web.team.plan"},
-                {name: "contexts", help: "上下文", index: "web.wiki.word", args: ["src/main.shy"]},
+                {name: "ctx", help: "上下文", index: "web.wiki.word", args: ["src/main.shy"]},
             ]},
             "cli": {name: "命令 cli",  action: [
                 {name: "bash", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/bash/bash.shy"]},
