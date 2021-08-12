@@ -385,7 +385,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
         return sort && can.page.RangeTable(can, table, sort), table
     },
-    board: function(can, text, target) {
+    board: function(can, text, target) { text && text.Result && (text = text.Result())
         // text = text.replace(/</g, "&lt;"), text = text.replace(/>/g, "&gt;"), text = can.page.Color(text||"")
         text = can.page.Color(text||"")
         var code = text && can.page.Append(can, target||can._output, [{text: [text, html.DIV, html.CODE]}]).code
@@ -448,6 +448,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     plugins: function(can, meta, cb, target) {
         can.onappend.plugin(can, meta, function(sub) {
+            can.page.Modify(can, sub._target, {style: {margin: 0}})
             sub.onmotion.hidden(sub, sub._legend)
             sub.onmotion.hidden(sub, sub._option)
             sub.onmotion.hidden(sub, sub._action)

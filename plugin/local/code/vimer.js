@@ -135,7 +135,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
             can.ui.command.value = ""
 
             can.onmotion.clear(can, can.ui.output)
-            var ls = can.core.Split(line, " ", ",")
+            var ls = can.core.Split(line+" ", " ", ",")
             var cb = can.onkeymap._engine[ls[0]]; if (can.base.isFunc(cb)) {
                 can.onmotion.hidden(can, can.ui.display)
                 can.onkeymap._normal(can)
