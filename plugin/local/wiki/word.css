@@ -43,6 +43,9 @@ fieldset.word code.story {
     padding:10px; white-space:pre;
     clear:both;
 }
+fieldset.word fieldset.story:hover {
+    box-shadow: 12px 12px 12px 6px #5764efd1;
+}
 fieldset.word fieldset.story {
     margin:10px; border:0;
     clear:both; float:left;
