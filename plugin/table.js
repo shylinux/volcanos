@@ -2,7 +2,7 @@ var _can_name = "/plugin/table.js"
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
         can.onappend.table(can, msg)
-        can.onappend.board(can, msg.Result())
+        can.onappend.board(can, msg)
         can.onmotion.story.auto(can, target)
     },
 
