@@ -35,7 +35,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _title: function(can, msg, target) { const TITLE = chat.TITLE
         can.user.title(can.user.Search(can, TITLE)||can.user.Search(can, cli.POD))
-        !can.user.isMobile && can.core.List(msg.result||["github.com/shylinux/contexts"], function(item) {
+        !can.user.isMobile && can.core.List(msg.result||["shylinux.com/x/contexts"], function(item) {
             can.page.Append(can, target, [{view: [TITLE, html.DIV, item], title: "返回主页", onclick: function(event) {
                 can.onaction.title(event, can)
             }}])
