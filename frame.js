@@ -200,7 +200,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }; can.core.Next(can.base.Obj(meta.inputs, []), add)
     },
     _action: function(can, list, action, meta) { action = action || can._action, meta = meta || can.onaction
-        can.core.List(list, function(item) { can.onappend.input(can, item == ""? /*空白*/ {type: "space"}:
+        can.core.List(list||can.onaction.list, function(item) { can.onappend.input(can, item == ""? /*空白*/ {type: "space"}:
             typeof item == "string"? /*按键*/ {type: html.BUTTON, value: item, onclick: function(event) {
                 var cb = meta[item]||meta["_engine"]
                 cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION,item].concat(can.sup.Input()))
