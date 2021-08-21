@@ -1,3 +1,25 @@
 fieldset.div div.output td {
     vertical-align:top;
 }
+fieldset.div div.output fieldset.left>fieldset {
+    float:left; overflow:auto;
+}
+fieldset.panel.cmd.main fieldset.div {
+    padding:0;
+    margin:0;
+}
+fieldset.panel.cmd.main fieldset.div>legend {
+    display: none;
+}
+fieldset.panel.cmd.main fieldset.div>form.option {
+    display: none;
+}
+fieldset.panel.cmd.main fieldset.div>div.action {
+    display: none;
+}
+fieldset.panel.cmd.main fieldset.div div.project {
+    display: none;
+}
+fieldset.panel.cmd.main fieldset.div div.profile {
+    display: none;
+}

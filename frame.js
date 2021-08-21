@@ -293,8 +293,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }); return node
     },
     field: function(can, type, item, target) { type = type || html.INPUT, item = item || {}
+        var name = (item.nick||item.name||"").split(" ")[0]
         return can.page.Append(can, target||can._output, [{view: [(type||"")+" "+(item.name||"")+" "+(item.pos||""), "fieldset"], list: [
-            {text: [(item.nick||item.name||"").split(" ")[0]+"("+(item.help||"").split(" ")[0]+")", html.LEGEND]},
+            name && {text: [name+"("+(item.help||"").split(" ")[0]+")", html.LEGEND]},
             {view: ["option", "form"]}, {view: ["action"]}, {view: ["output"]}, {view: ["status"]},
         ]}])
     },
