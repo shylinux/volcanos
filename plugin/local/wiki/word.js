@@ -48,9 +48,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 can.run(event, (cmds && can.onengine[cmds[0]]? []: [ctx.ACTION, "story", data.type, data.name, data.text]).concat(cmds), cb, true)
             }
 
-            can.page.Modify(can, sub._output, {style: {"max-width": item.width}})
+            sub.Conf("width", item.width=can.Conf("width")-20)
             can.onengine.listen(can, "onaction_resize", function(width, height) {
-                can.page.Modify(can, sub._output, {style: {"max-width": sub.Conf("width", item.width=width-60)}})
+                can.page.Modify(can, sub._output, {style: {"max-width": sub.Conf("width", item.width=width-80)}})
             })
         }, can._output, target)
     },

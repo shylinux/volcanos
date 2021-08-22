@@ -51,99 +51,90 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
     },
     "趋势图": function(event, can) {
         var space = 10
-        var view = parseInt(can.Action("height"))
-        var max = parseInt(can.Conf("width"))-2*space
-        var step = parseInt(max / (can.list.length+1))||2
-
-        var height  = view + space * 2
-        var width = can.list.length * step + space * 2
-        can.draw.svg.Val("width", width-space*2+5)
-        can.draw.svg.Val("height", height)
-
-        function scale(y) { return (y - can.min)/(can.max - can.min)*view }
+        var width = parseInt(can.Conf("width"))
+        var height = parseInt(can.Action("height"))
+        var step = parseInt((width-2*space) / can.list.length)
 
         can.onmotion.clear(can, can.draw.svg)
+        can.draw.svg.Val("height", height)
+        can.draw.svg.Val("width", width)
+
+        function scale(y) { return (y - can.min)/(can.max - can.min)*(height-2*space) }
+        function order(index, x, y) { return {x: space+step*index+x, y: height-space-scale(y)} }
+
         can.core.Next(can.list, function(line, next, index) { can.Status(line, ["date", "text", "add", "del"])
             can.draw.onimport.draw({}, can.draw, {
                 shape: "line", point: [
-                    {x: space/2+step*index+step/4, y: space/2+view-scale(line.min)},
-                    {x: space/2+step*index+step/4, y: space/2+view-scale(line.max)},
+                    order(index, step/2, line.min), order(index, step/2, line.max),
                 ], style: {
                     "stroke-width": 1, "stroke": line.begin < line.close? "white": "black",
                 },
             })
 
-            line.view = can.draw.onimport.draw({}, can.draw, line.begin < line.close? {
+            can.draw.onimport.draw({}, can.draw, {
                 shape: "rect", point: [
-                    {x: space/2+step*index, y: space/2+view-scale(line.begin)},
-                    {x: space/2+step*index+step/2, y: space/2+view-scale(line.close)},
-                ], style: {
-                    "stroke-width": 1, "stroke": "white", "fill": "white", "rx": 0, "ry": 0,
-                },
-            }: {
-                shape: "rect", point: [
-                    {x: space/2+step*index, y: space/2+view-scale(line.close)},
-                    {x: space/2+step*index+step/2, y: space/2+view-scale(line.begin)},
-                ], style: {
-                    "stroke-width": 1, "stroke": "black", "fill": "black", "rx": 0, "ry": 0, 
+                    order(index, step/4, line.close), order(index, step/4*3, line.begin),
+                ], style: can.base.Copy({"stroke-width": 1, "rx": 0, "ry": 0}, line.begin < line.close? {
+                    "stroke": "white", "fill": "white",
+                }: {
+                    "stroke": "black", "fill": "black",
+                }),
+                _init: function(view) {
+                    can.core.Item(can.ondetail, function(key, value) {
+                        if (key.indexOf("on") == 0 && can.base.isFunc(value)) {
+                            view[key] = function(event) { value(event, can, line) }
+                        }
+                    })
                 },
             })
 
-            can.core.Item(can.ondetail, function(key, value) {
-                if (key.indexOf("on") == 0 && can.base.isFunc(value)) {
-                    line.view[key] = function(event) { value(event, can, line) }
-                }
-            })
             can.core.Timer(parseInt(can.Action("speed")), next)
         })
     },
     "柱状图": function(event, can) {
-        var space = 10
-        var view = parseInt(can.Action("height"))
-        var max = parseInt(can.Conf("width"))-2*space
-        var step = parseInt(max / can.list.length)||2
-
-        var max = {}
-        var height = 0; can.core.List(can.msg.append, function(key, which) {
-            height += view + 2*space
-
-            max[key] = 0, can.core.List(can.data, function(value, index) {
-                if ((parseInt(value[key])||0) > max[key]) {
-                    max[key] = parseInt(value[key])||0
+        var max = {}, min = {}
+        can.core.List(can.msg.append, function(key, which) {
+            can.core.List(can.data, function(value, index) {
+                var v = parseInt(value[key])||0; if (index == 0) {
+                    max[key] = v, min[key] = v
+                    return
                 }
+                if (v > max[key]) { max[key] = v }
+                if (v < min[key]) { min[key] = v }
             })
         })
 
-        var width = can.list.length*step + 2*space
-        can.draw.svg.Val("height", height+2*space)
-        can.draw.svg.Val("width", width)
+        var space = 10
+        var width = parseInt(can.Conf("width"))
+        var height = parseInt(can.Action("height"))
+        var step = parseInt((width-2*space) / can.list.length)
 
         can.onmotion.clear(can, can.draw.svg)
-        can.core.List(can.msg.append, function(key, which) { var y = (space*2+view)*(which+1)
-            can.draw.onimport.draw({}, can.draw, {
-                shape: "text", point: [
-                    {x: width/2, y: y+space},
-                ], style: {
-                    "font-size": 20, 
-                    "stroke-width": 0, "stroke": "red", "fill": "red", inner: key, 
-                },
-            })
+        can.draw.svg.Val("height", height)
+        can.draw.svg.Val("width", width)
 
-            can.core.Next(can.data, function(line, next, index) {
-                line.view = can.draw.onimport.draw({}, can.draw, {
+        function scale(key, y) { return (y - min[key])/(max[key] - min[key])*(height-2*space) }
+        function order(index, key, x, y) { return {x: space+step*index+x, y: space+scale(key, y)} }
+
+        var width = (step-4)/can.msg.append.length
+        can.core.List(can.msg.append, function(key, which) {
+            max[key] != min[key] && can.core.Next(can.data, function(line, next, index) {
+                var y = scale(key, parseFloat(line[key]))
+                y && can.draw.onimport.draw({}, can.draw, {
                     shape: "rect", point: [
-                        {x: space+step*index, y: y},
-                        {x: space+step*index+step/4, y: y-parseInt(line[key])/(max[key]||1)*view}
+                        order(index, key, width*which+2, 0), order(index, key, width*which+2+width, y),
                     ], style: {
                         "stroke-width": 1, "stroke": "white", "fill": "white", "rx": 0, "ry": 0,
                     },
+                    _init: function(view) {
+                        can.core.Item(can.ondetail, function(key, value) {
+                            if (key.indexOf("on") == 0 && can.base.isFunc(value)) {
+                                view[key] = function(event) { value(event, can, line) }
+                            }
+                        })
+                    },
                 })
 
-                can.core.Item(can.ondetail, function(key, value) {
-                    if (key.indexOf("on") == 0 && can.base.isFunc(value)) {
-                        line.view[key] = function(event) { value(event, can, line) }
-                    }
-                })
                 can.core.Timer(parseInt(can.Action("speed")), next)
             })
         })

@@ -214,11 +214,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         , "", action)})
         return meta
     },
-    _output: function(can, meta, event, cmds, cb, silent) {
-        var msg = can.request(event); can.page.Select(can, can._output, "div.control .args", function(item) {
-            item.name && item.value && msg.Option(item.name, item.value)
-        })
-
+    _output: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event)
         if (msg.Option("_handle") != "true" && cmds && cmds[0] == ctx.ACTION && can.onaction[cmds[1]]) {
             return msg.Option("_handle", "true"), can.core.CallFunc(can.onaction[cmds[1]], {event: event, can: can, msg: msg, cmd: cmds[1]})
         }

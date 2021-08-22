@@ -231,7 +231,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
         can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, kit.MDB_TYPE, aaa.LOGIN])
     },
     share: function(event, can, arg) {
-        can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(arg))
+        can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(arg||[]))
     },
     usernick: function(event, can) {
         can.user.input(event, can, [{name: aaa.USERNICK, value: can.Conf(aaa.USERNAME)}], function(ev, button, data, list, args) {

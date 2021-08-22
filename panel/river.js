@@ -210,9 +210,9 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
     "保存参数": function(event, can, button, river, storm) {
         can.search(event, ["Action.onexport.args"], function(item, next, index, array) {
             var msg = can.request({}, {hash: storm, id: item.dataset.id})
+            var toast = can.user.toast(can, (index+1)+"/"+array.length, "保存参数", 10000, (index+1)/array.length)
             can.run(msg._event, [river, chat.TOOL, ctx.ACTION, mdb.MODIFY, cli.ARG, item.dataset.args], function(msg) {
-                can.user.toast(can, (index+1)+"/"+array.length, "保存参数", 10000, (index+1)/array.length)
-                next()
+                toast.close(), next()
             })
         })
     },
