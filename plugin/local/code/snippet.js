@@ -4,7 +4,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.onappend.plugins(can, {index: "web.code.vimer"}, function(sub) {
                 sub.run = function(event, cmds, cb) { var res = can.request(event)
                     if (cmds[1] == "plugin") {
-                        can.run(event, ["action", "vimer"].concat(cmds), cb, true)
+                        can.run(event, can.misc.Concat(["action", "vimer"], cmds), cb, true)
                         return
                     }
                     if (cmds[1] == "main.go") { res.Echo(msg.Option("content"))

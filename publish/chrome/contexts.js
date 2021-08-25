@@ -68,7 +68,7 @@ Volcanos("chrome", {
             }, msg.Option("selection")||sub._legend.onclick()
 
             sub.run = function(event, cmds, cb) { if (cmds[0] == "_search") { return }
-                can.run(event, [ctx.ACTION, cli.RUN, meta.index].concat(cmds), cb)
+                can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, meta.index], cmds), cb)
             }
             can.onmotion.move(can, sub._target, {})
 
@@ -95,7 +95,7 @@ Volcanos("chrome", {
     })
 
     can.run = function(event, cmds, cb) { if (cmds[0] == "_search") { return }
-        var msg = can.request(event, {hostname: location.hostname}); msg.detail = ["page"].concat(cmds)
+        var msg = can.request(event, {hostname: location.hostname}); msg.detail = can.misc.Concat(["page"], cmds)
         chrome.runtime.sendMessage(msg, function(res) { can.base.isFunc(cb) && cb(msg.Copy(res)) })
     }
     can.run({}, [ctx.ACTION, ctx.COMMAND], function(msg) {

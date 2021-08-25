@@ -17,12 +17,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 {text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", html.SPAN, item]},
             ], onclick: function(event) {
                 can.show = can.show? (can.page.Remove(can, can.show), null): can.onaction._cmd(can)
+                can.page.Modify(can, can.show, {style: {left: "", top: "", right: 0, bottom: 32}})
             }}])
         })
     },
     _toast: function(can, msg, target) {
         can.toast = can.page.Append(can, target, [{view: "toast", onclick: function(event) {
             can.show = can.show? (can.page.Remove(can, can.show), null): can.onappend.float(can, can._toast).first
+            can.page.Modify(can, can.show, {style: {left: "", top: "", right: 0, bottom: 32}})
         }}]).first
     },
     _cli: function(can, msg, target) {
@@ -73,7 +75,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             can.search({}, ["Action.onexport.size"], function(msg, top, left, width, height) {
                 can.onappend.plugin(can, {index: commands[0], args: commands.slice(1), width: width, height: height-100}, function(sub) {
                     sub.run = function(event, cmds, cb) {
-                        can.run(event, [ctx.ACTION, cli.RUN, commands[0]].concat(cmds), cb)
+                        can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, commands[0]], cmds), cb)
                     }
 
                     can.page.Modify(can, sub._output, {style: {"max-width": width}})

@@ -17,7 +17,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
     _plugin: function(can, index, args, next) {
         can.onappend.plugin(can, {type: "plugin", index: index, args: args, opts: can.user.Search(), width: window.innerWidth}, function(sub, meta) {
             sub.run = function(event, cmds, cb) {
-                can.run(event, (can.onengine[cmds[0]]? []: [ctx.ACTION, "run", index]).concat(cmds), cb)
+                can.run(event, can.misc.Concat([ctx.ACTION, "run", index], cmds), cb)
             }
             // can.onmotion.hidden(can, sub._legend)
             can.user.title(meta.name)

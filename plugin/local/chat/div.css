@@ -1,7 +1,7 @@
 fieldset.div div.output td {
     vertical-align:top;
 }
-fieldset.div div.output fieldset.left>fieldset {
+fieldset.div div.output fieldset.float>fieldset {
     float:left; overflow:auto;
 }
 fieldset.panel.cmd.main fieldset.div {

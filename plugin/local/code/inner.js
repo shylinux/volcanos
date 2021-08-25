@@ -52,7 +52,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                     case "inner": can.onimport.tabview(can, msg.Option("path"), msg.Option("file"), msg.Option("line")); return
                 } }
 
-                can.run(event, [ctx.ACTION, "favor"].concat(cmds), function(msg) {
+                can.run(event, can.misc.Concat([ctx.ACTION, "favor"], cmds), function(msg) {
                     can.base.isFunc(cb) && cb(msg)
                     can.core.Timer(10, function() {
                         can.onappend._action(sub, ["关闭"], sub._action, {

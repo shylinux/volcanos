@@ -656,3 +656,7 @@ body.print fieldset.River>div.output div.item.select {
     background-color:white;
     border:solid 2px red;
 }
+
+div.output fieldset.left>fieldset {
+    float:left; overflow:auto;
+}

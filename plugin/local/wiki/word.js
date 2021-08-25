@@ -45,13 +45,19 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         item.type = "story"
         can.onappend._init(can, item, ["/plugin/state.js"], function(sub) {
             sub.run = function(event, cmds, cb, silent) {
-                can.run(event, (cmds && can.onengine[cmds[0]]? []: [ctx.ACTION, "story", data.type, data.name, data.text]).concat(cmds), cb, true)
+                can.run(event, can.misc.Concat([ctx.ACTION, "story", data.type, data.name, data.text], cmds), cb, true)
             }
 
             sub.Conf("width", item.width=can.Conf("width")-20)
             can.onengine.listen(can, "onaction_resize", function(width, height) {
                 can.page.Modify(can, sub._output, {style: {"max-width": sub.Conf("width", item.width=width-80)}})
             })
+            if (can.core.Value(item, "auto.cmd")) {
+                can.core.Timer(100, function() {
+                    var msg = sub.request({}, can.core.Value(item, "opts")); msg.Option("_handle", "true")
+                    sub.Update(msg._event, [ctx.ACTION, can.core.Value(item, "auto.cmd")])
+                })
+            }
         }, can._output, target)
     },
 

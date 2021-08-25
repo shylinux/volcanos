@@ -346,7 +346,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 can.core.List(array, function(item, index) { line[item.key||line.name] = item.value })
                 key == "extra.cmd" && can.onappend.plugin(can, {ctx: line["extra.ctx"], cmd: line["extra.cmd"], arg: line["extra.arg"]}, function(sub) {
                     sub.run = function(event, cmds, cb) { var msg = can.request(event, can.Option(), line)
-                        can.run(event, (cmds[0] == "_search"? []: [ctx.ACTION, cli.RUN]).concat(cmds), function(msg) {
+                        can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN], cmds), function(msg) {
                             can.base.isFunc(cb) && cb(msg)
                         }, true)
                     }

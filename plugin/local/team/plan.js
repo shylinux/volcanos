@@ -86,7 +86,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         task["extra.cmd"] && can.onappend.plugin(can, {ctx: task["extra.ctx"], cmd: task["extra.cmd"], arg: task["extra.arg"]}, function(sub, meta) {
             sub.run = function(event, cmds, cb) { var msg = can.request(event, {"task.zone": task.zone, "task.id": task.id})
-                can.run(event, (cmds[0] == "_search"? []: [ctx.ACTION, cli.RUN]).concat(cmds), function(msg) {
+                can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN], cmds), function(msg) {
                     can.base.isFunc(cb) && cb(msg)
                 }, true)
             }

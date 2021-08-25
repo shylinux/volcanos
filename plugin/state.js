@@ -23,6 +23,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
     _display: function(can, msg) {
         Volcanos("some", {}, [msg.Option("_display")].concat(Volcanos.meta.volcano, Volcanos.meta.libs), function(sub) {
+            sub.Conf(can.Conf()), sub.run = can.run
+            sub._option = can._option
+            sub._action = can._action
             sub.onimport._init(sub, msg, [], function() {}, can._output)
         })
         return true

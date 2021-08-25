@@ -19,6 +19,7 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
         "/plugin/local/wiki/draw.js",
         "/plugin/local/wiki/word.js",
         "/plugin/local/team/plan.js",
+        "/plugin/local/chat/div.js",
     ], river: {
         "serivce": {name: "运营群", storm: {
             "wx": {name: "公众号 wx",  action: [
