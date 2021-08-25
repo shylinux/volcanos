@@ -657,6 +657,6 @@ body.print fieldset.River>div.output div.item.select {
     border:solid 2px red;
 }
 
-div.output fieldset.left>fieldset {
+div.output fieldset.span>fieldset {
     float:left; overflow:auto;
 }

@@ -30,9 +30,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         }}])
 
         can.page.Modify(can, sub._output, {style: {"max-width": meta.width}})
-        can.onengine.listen(can, "onaction_resize", function(width, height) {
-            can.page.Modify(can, sub._output, {style: {"max-width": meta.width = width-40}})
-        })
 
         sub._option.dataset = sub._option.dataset || {}
         meta.id && (sub._option.dataset.id = meta.id)
@@ -102,9 +99,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         var ls = location.pathname.split("/")
         can.onimport._share(can, can.user.Search(can, can._SHARE) || ls[1]=="share" && ls[2])
     },
-    onresize: function(can, msg, width, height) { var args = {width: width, height: height} 
-        can.Conf(args), can.onengine.signal(can, "onaction_resize", can.request({}, args))
-    },
+    onresize: function(can, msg, width, height) { can.Conf({width: width, height: height}) },
     onsearch: function(can, msg, word) {
         if (word[0] == "*" || word[0] == can._PLUGIN) { can.onexport.plugin(can, msg, word) }
     },

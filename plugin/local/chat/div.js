@@ -44,13 +44,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }
 
         ui.item._add = function(data) {
-            if (node.meta.style == "left") { width = width * node.list.length }
+            if (node.meta.style == "span") { width = width * node.list.length }
             node.list.push(data)
-            if (node.meta.style == "left") { width = width / node.list.length }
+            if (node.meta.style == "span") { width = width / node.list.length }
             can.onmotion.clear(can, ui.list), can.onmotion.clear(can, ui.list._fieldset)
             can.core.List(node.list, function(node) { can.onimport._item(can, node, ui.list, width) })
         }
-        if (node.meta.style == "left") { width = width / node.list.length }
+        if (node.meta.style == "span") { width = width / node.list.length }
         can.core.List(node.list, function(node) { can.onimport._item(can, node, ui.list, width) })
         return ui.item
     },
