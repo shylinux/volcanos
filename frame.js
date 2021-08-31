@@ -279,7 +279,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     tree: function(can, list, field, split, cb, target, node) {
         node = node || {"": target}; can.core.List(list, function(item) {
-            item[field] && can.core.List(item[field].split(split), function(value, index, array) {
+            item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }
                 var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split)
 
                 node[name] || (node[name] = can.page.Append(can, node[last], [{view: ["item", html.DIV, value+(index==array.length-1?"":split)], onclick: function(event) {
