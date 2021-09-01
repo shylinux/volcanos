@@ -1,6 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        can.onmotion.clear(can)
-        can.base.isFunc(cb) && cb(msg)
+        can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
         if (msg.Length() > 0) { return can.onappend.table(can, msg) }
 
         can.page.Modify(can, target, msg.Result())
@@ -9,6 +8,31 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.page.Modify(can, item, {style: can.base.Obj(data.style)})
             // delete(data.meta)
         })
+
+        if (location.pathname.indexOf("/chat/cmd") == 0) {
+            can.page.ClassList.add(can, can._fields, "cmd")
+            can.page.Modify(can, can._output, {style: {height: window.innerHeight}})
+            can.page.Modify(can, can.sup._navmenu, {style: {height: window.innerHeight}})
+            can.sup._navmenu && can.Conf("width", can.Conf("width")-can.sup._navmenu.offsetWidth+30)
+        } else {
+            can.sup._navmenu && can.Conf("width", can.Conf("width")-can.sup._navmenu.offsetWidth-20)
+        }
+    },
+    navmenu: function(can, data, target) { var nav = can.sup._navmenu
+        nav = nav || can.page.Append(can, can._fields, [{view: "navmenu"}]).first
+        can.sup._navmenu = nav, can._fields.insertBefore(nav, can._output)
+        can.onmotion.clear(can, nav)
+
+        can.onappend.list(can, can.base.Obj(data.data), function(event, item) {
+            if (!item.meta.link || item.meta.link == can.Option("path")) { return }
+
+            can.page.Cache(can.Option("path"), can._output, "some")
+            can.Option("path", item.meta.link)
+            var some = can.page.Cache(can.Option("path"), can._output)
+
+            if (!some) { can.sup.Update(event, [item.meta.link]) }
+            return true
+        }, nav)
     },
 
     premenu: function(can, data, target) {

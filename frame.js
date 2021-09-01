@@ -270,6 +270,13 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
     },
 
+    list: function(can, root, cb, target) {
+        can.core.List(root.list, function(item) {
+            var ui = can.page.Append(can, target, [{view: ["item", "div", item.meta.name], onclick: function(event) {
+                can.base.isFunc(cb) && cb(event, item) || can.onmotion.toggle(can, ui.list)
+            }}, {view: "list"}]); can.onappend.list(can, item, cb, ui.list)
+        })
+    },
     item: function(can, type, item, cb, cbs, target) { target = target||can._output
         var ui = can.page.Append(can, target, [{view: [type, html.DIV, item.nick||item.name],
             onclick: function(event) { cb(event, ui.first)

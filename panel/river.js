@@ -135,7 +135,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
     sublist: ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"],
     menus: [chat.RIVER,
         ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备", "创建空间"],
-        ["共享", "共享群组", "共享应用", "共享工具", "共享主机"],
+        ["共享", "共享群组", "共享应用", "共享工具", "共享主机", "访问空间"],
     ],
 
     "创建群组": function(event, can) { can.onaction.create(event, can) },
@@ -245,7 +245,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
     "访问用户": function(event, can, button, river, storm) {
         can.user.select(event, can, chat.USER, "time,type,name,text")
     },
-    "访问设备": function(event, can, button, river, storm) {
+    "访问空间": function(event, can, button, river, storm) {
         can.user.select(event, can, web.SPACE, "time,type,name,text")
     },
     "工作任务": function(event, can, button, river, storm) {

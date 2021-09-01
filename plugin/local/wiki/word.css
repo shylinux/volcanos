@@ -99,3 +99,58 @@ fieldset.word video.story {
     max-height:320px;
 }
 
+fieldset.word div.navmenu {
+    clear:both;
+    float:left;
+    min-width:120px;
+    background-color:inherit;
+    margin-right:10px;
+}
+fieldset.word div.navmenu>div.item {
+    font-weight:bold;
+    font-size:24px;
+    padding:4px 10px;
+}
+fieldset.word div.navmenu>div.list>div.item {
+    font-weight:bold;
+    font-size:18px;
+}
+fieldset.word div.navmenu div.item {
+    font-family:cursive;
+    padding:4px 10px;
+}
+fieldset.word div.navmenu div.list {
+    margin-left:20px;
+}
+fieldset.word div.navmenu div.item:hover {
+    cursor:pointer;
+    background-color:red;
+}
+fieldset.word>div.output {
+    clear:none;
+    float:left;
+}
+fieldset.word>div.status {
+    clear:both;
+}
+
+fieldset.word.cmd {
+    padding:0;
+    margin:0;
+}
+fieldset.word.cmd>legend {
+    display:none;
+}
+fieldset.word.cmd>form.option {
+    display:none;
+}
+fieldset.word.cmd>div.action {
+    display:none;
+}
+fieldset.word.cmd>div.status {
+    display:none;
+}
+
+fieldset.word ul[data-type=endmenu] {
+    clear:both;
+}
