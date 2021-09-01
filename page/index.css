@@ -47,6 +47,9 @@ body.mobile fieldset.River.left {
 body.mobile fieldset.River>div.output div.list div.item {
     font-size:24px;
 }
+body.mobile fieldset.Action.main.cmd {
+    margin-top:0; margin-bottom:0;
+}
 body.mobile fieldset.Action.main {
     margin-top:48px; margin-bottom:64px;
 }

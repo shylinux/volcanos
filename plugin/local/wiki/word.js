@@ -32,6 +32,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.page.Cache(can.Option("path"), can._output, "some")
             can.Option("path", item.meta.link)
             var some = can.page.Cache(can.Option("path"), can._output)
+            can.user.title(item.meta.name)
 
             if (!some) { can.sup.Update(event, [item.meta.link]) }
             return true
