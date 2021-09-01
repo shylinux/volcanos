@@ -11,9 +11,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         if (location.pathname.indexOf("/chat/cmd") == 0) {
             can.page.ClassList.add(can, can._fields, "cmd")
-            can.page.Modify(can, can._output, {style: {height: window.innerHeight}})
             can.page.Modify(can, can.sup._navmenu, {style: {height: window.innerHeight}})
-            can.sup._navmenu && can.Conf("width", can.Conf("width")-can.sup._navmenu.offsetWidth+30)
+            if (can.sup._navmenu) {
+                can.Conf("width", can.Conf("width")-can.sup._navmenu.offsetWidth+30)
+                can.page.Modify(can, can._output, {style: {"max-width": can.Conf("width")}})
+                can.page.Modify(can, can._output, {style: {height: window.innerHeight}})
+            }
         } else {
             can.sup._navmenu && can.Conf("width", can.Conf("width")-can.sup._navmenu.offsetWidth-20)
         }
