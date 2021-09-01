@@ -150,6 +150,9 @@ fieldset.word.cmd>div.action {
 fieldset.word.cmd>div.status {
     display:none;
 }
+fieldset.word.cmd>div.navmenu {
+    overflow:auto;
+}
 
 fieldset.word ul[data-type=endmenu] {
     clear:both;
