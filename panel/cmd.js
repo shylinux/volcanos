@@ -15,7 +15,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         can.page.ClassList.add(can, can._target, "Action")
     },
     _plugin: function(can, index, args, next) {
-        can.onappend.plugin(can, {type: "plugin", index: index, args: args, opts: can.user.Search(), width: window.innerWidth}, function(sub, meta) {
+        can.onappend.plugin(can, {type: "plugin", index: index, args: args, opts: can.user.Search(), height: window.innerHeight, width: window.innerWidth}, function(sub, meta) {
             sub.run = function(event, cmds, cb) {
                 can.run(event, can.misc.Concat([ctx.ACTION, "run", index], cmds), cb)
             }

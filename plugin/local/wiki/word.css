@@ -91,6 +91,29 @@ fieldset.word fieldset.story:hover {
     box-shadow: 12px 12px 12px 6px #5764efd1;
 }
 
+div.story[data-type=json] div.item {
+    margin-left:10px;
+    padding-left:10px;
+    border:solid 1px #ff000000;
+    border-left:dashed 1px gray;
+}
+div.story[data-type=json] div.item:hover {
+    border:solid 1px red;
+}
+div.story[data-type=json] span.key {
+    color:brown;
+}
+div.story[data-type=json] span.str {
+    color:magenta;
+}
+div.story[data-type=json] span.value {
+    cursor:copy;
+}
+div.story[data-type=json] span.toggle {
+    cursor:pointer;
+    color:gray;
+}
+
 fieldset.word.float {
     width:-webkit-fill-available;
     position:fixed; left:0; top:0;

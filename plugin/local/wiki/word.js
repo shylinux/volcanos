@@ -61,11 +61,20 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
     table: function(can, data, target) {
+        can.page.OrderTable(can, target)
         can.page.ClassList.add(can, target, "content")
         can.page.Select(can, target, "td", function(item) {
             item.title = "点击复制", item.onclick = function(event) {
                 can.user.copy(event, can, item.innerText)
             }
+        })
+    },
+    json: function(can, data, target) {
+        can.page.Select(can, target, "span.toggle", function(item) {
+            item.onclick = function(event) { can.onmotion.toggle(can, item.nextSibling) }
+        })
+        can.page.Select(can, target, "span.value", function(item) {
+            item.onclick = function(event) { can.user.copy(event, can, item.innerText) }
         })
     },
     field: function(can, data, target) { var item = can.base.Obj(data.meta)
