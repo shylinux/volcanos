@@ -13,7 +13,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.page.ClassList.add(can, can._fields, "cmd")
             can.page.Modify(can, can.sup._navmenu, {style: {height: window.innerHeight}})
             if (can.sup._navmenu) {
-                can.Conf("width", can.Conf("width")-can.sup._navmenu.offsetWidth+30)
+                can.Conf("width", can.Conf("width")-can.sup._navmenu.offsetWidth-10)
                 can.page.Modify(can, can._output, {style: {"max-width": can.Conf("width")}})
                 can.page.Modify(can, can._output, {style: {height: window.innerHeight}})
             }

@@ -21,11 +21,8 @@ fieldset.Header>div.output>div.title {
 fieldset.Header>div.output>div.search {
     float:left; margin-left:20px;
 }
-fieldset.Header>div.output>div.search>input:hover {
-    /* width:240px; */
-}
-fieldset.Header>div.output>div.menus {
-    float:left; margin-left:5px;
+fieldset.Header>div.output>div.search>input {
+    height:25px; margin-top:-5px;
 }
 fieldset.Header>div.output>div.state {
     float:right;
@@ -42,9 +39,6 @@ fieldset.Header>div.output div.menu {
 fieldset.Header>div.output div.menu:hover {
     border-bottom:solid 2px red;
     background-color:#2e515f;
-}
-fieldset.Header>div.status {
-    display:none;
 }
 
 body.black fieldset.Header>div.output>div.search>input {

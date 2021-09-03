@@ -125,12 +125,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return can.page.Append(can, can._output, [{type: cmds[0], list: can.core.List(cmds.slice(1), function(item) {
             if (typeof item == "string") {
                 return {view: ["menu", html.DIV, can.user.trans(can, item)], onclick: function(event) {
-                    can.base.isFunc(cb) && cb(event, item)
+                    can.base.isFunc(cb) && cb(event, item, cmds)
                 }}
 
             } else if (item.length > 0) {
                 return {view: ["menu", html.DIV, can.user.trans(can, item[0])], onmouseenter: function(event) {
-                    can.onaction.carte(event, can, item.slice(1), cb)
+                    can.onaction.carte(event, can, item.slice(1), function(event, button) {
+                        can.base.isFunc(cb) && cb(event, button, item)
+                    })
                 }}
 
             } else if (typeof item == "object") {
@@ -155,6 +157,12 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     _trans: {
         "river": "菜单",
         "search": "搜索",
+
+        "help": "文档",
+        "tutor": "入门简介",
+        "manual": "使用手册",
+        "program": "编程手册",
+        "refer": "参考手册",
 
         "setting": "设置",
         "black": "黑色主题",
@@ -190,6 +198,11 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     },
     carte: function(event, can, list, cb) { can.user.carte(event, can, can.onaction, list, cb) },
     river: function(event, can) { can.onaction.River(can) },
+    tutor: function(event, can) { can.user.open("/chat/cmd/src/help/tutor.shy") },
+    manual: function(event, can) { can.user.open("/chat/cmd/src/help/manual.shy") },
+    program: function(event, can) { can.user.open("/chat/cmd/src/help/program.shy") },
+    refer: function(event, can) { can.user.open("/chat/cmd/src/help/refer.shy") },
+
     black: function(event, can, button) {
         can.onlayout.topic(can, button)
         can.onlayout._init(can)

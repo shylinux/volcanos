@@ -1,5 +1,38 @@
-fieldset.word>form.option>div.item.text input {
-    width:200px;
+fieldset.word>div.output {
+    clear:none;
+    float:left;
+}
+fieldset.word>div.output fieldset.span>fieldset {
+    float:left; overflow:auto;
+}
+
+fieldset.word>div.navmenu {
+    clear:both;
+    float:left;
+    min-width:120px;
+    background-color:inherit;
+    margin-right:10px;
+    overflow:auto;
+}
+fieldset.word>div.navmenu>div.item {
+    font-weight:bold;
+    font-size:24px;
+    padding:4px 10px;
+}
+fieldset.word>div.navmenu>div.list>div.item {
+    font-weight:bold;
+    font-size:18px;
+}
+fieldset.word>div.navmenu div.item {
+    font-family:cursive;
+    padding:4px 10px;
+}
+fieldset.word>div.navmenu div.item:hover {
+    cursor:pointer;
+    background-color:red;
+}
+fieldset.word>div.navmenu div.list {
+    margin-left:20px;
 }
 
 fieldset.word a {
@@ -12,7 +45,10 @@ fieldset.word ul.story[data-type=premenu] li:hover {
     background:cyan;
     color:blue;
 }
-fieldset.word li.H2 {
+fieldset.word ul.story[data-type=endmenu] {
+    clear:both;
+}
+fieldset.word ul.story li.H2 {
     font-weight:bold;
     font-size:20px;
 }
@@ -43,13 +79,16 @@ fieldset.word code.story {
     padding:10px; white-space:pre;
     clear:both;
 }
-fieldset.word fieldset.story:hover {
-    box-shadow: 12px 12px 12px 6px #5764efd1;
+fieldset.word video.story {
+    max-height:320px;
 }
 fieldset.word fieldset.story {
     margin:10px; border:0;
     clear:both; float:left;
     box-shadow: 4px 4px 10px 1px #626bd0;
+}
+fieldset.word fieldset.story:hover {
+    box-shadow: 12px 12px 12px 6px #5764efd1;
 }
 
 fieldset.word.float {
@@ -95,65 +134,13 @@ fieldset.word.float h3 {
     text-align:center;
 }
 
-fieldset.word video.story {
-    max-height:320px;
+fieldset.panel.cmd fieldset.word>form.option {
+    display:none;
+}
+fieldset.panel.cmd fieldset.word>div.action {
+    display:none;
+}
+fieldset.panel.cmd fieldset.word>div.status {
+    display:none;
 }
 
-fieldset.word div.navmenu {
-    clear:both;
-    float:left;
-    min-width:120px;
-    background-color:inherit;
-    margin-right:10px;
-}
-fieldset.word div.navmenu>div.item {
-    font-weight:bold;
-    font-size:24px;
-    padding:4px 10px;
-}
-fieldset.word div.navmenu>div.list>div.item {
-    font-weight:bold;
-    font-size:18px;
-}
-fieldset.word div.navmenu div.item {
-    font-family:cursive;
-    padding:4px 10px;
-}
-fieldset.word div.navmenu div.list {
-    margin-left:20px;
-}
-fieldset.word div.navmenu div.item:hover {
-    cursor:pointer;
-    background-color:red;
-}
-fieldset.word>div.output {
-    clear:none;
-    float:left;
-}
-fieldset.word>div.status {
-    clear:both;
-}
-
-fieldset.word.cmd {
-    padding:0;
-    margin:0;
-}
-fieldset.word.cmd>legend {
-    display:none;
-}
-fieldset.word.cmd>form.option {
-    display:none;
-}
-fieldset.word.cmd>div.action {
-    display:none;
-}
-fieldset.word.cmd>div.status {
-    display:none;
-}
-fieldset.word.cmd>div.navmenu {
-    overflow:auto;
-}
-
-fieldset.word ul[data-type=endmenu] {
-    clear:both;
-}

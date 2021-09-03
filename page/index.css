@@ -1,80 +1,167 @@
-body.mobile.landscape fieldset.Header.head {
-    position:unset;
-}
-body.mobile.landscape fieldset.Header.head div.state.time {
-    display:block;
-}
-body.mobile.landscape fieldset.Footer.foot {
-    position:unset;
-}
-body.mobile.landscape fieldset.Action.main {
-    margin-top:0; margin-bottom:0;
-}
-body.mobile fieldset.Header.head {
-    position:fixed; top:0;
-    width:-webkit-fill-available;
-    height:2em; font-size:24px;
-    background-color:#000000b8;
-    z-index:10;
-}
-body.mobile fieldset.Header.head div.output {
-    height:2em;
-}
-body.mobile fieldset.Header>div.output>div {
-    height:1.5em;
-}
-body.mobile fieldset.Header>div.output div.menu {
-    height:1.5em;
-}
-body.mobile fieldset.Header.head div.state.time {
-    display:none;
-}
-body.mobile fieldset.Footer.foot {
-    position:fixed; bottom:0;
-    width:-webkit-fill-available;
-    height:64px; font-size:24px;
-    background-color:#000000b8;
-    display:none;
-    z-index:10;
-}
-body.mobile fieldset.River.left {
-    position:fixed; top:48px;
-    background-color:#243950bf;
-    min-width:240px; font-size:24px;
-    /* width:-webkit-fill-available; */
-    z-index:10;
-}
-body.mobile fieldset.River>div.output div.list div.item {
-    font-size:24px;
-}
-body.mobile fieldset.Action.main.cmd {
-    margin-top:0; margin-bottom:0;
-}
-body.mobile fieldset.Action.main {
-    margin-top:48px; margin-bottom:64px;
-}
-body.mobile input {
-    font-size:18px;
-}
-body.mobile select {
-    font-size:18px;
-}
-body.mobile div.carte {
-    font-size:24px;
-}
-body.mobile div.input.login input {
-    font-size:24px
-}
-
-a {
-
-    color:yellow;
-}
 body {
     margin:0; padding:0;
     background:black;
     color:cyan;
 }
+a {
+    color:yellow;
+}
+h1, h2, h3 {
+    clear:both;
+}
+h1:hover, h2:hover, h3:hover {
+    background:green;
+    cursor:pointer;
+}
+div.item {
+    cursor:pointer;
+}
+div.code {
+    background-color:#343a3445; color:white;
+    font-size:14px; font-family:monospace;
+    box-shadow: 4px 4px 20px 4px #626bd0;
+    padding:10px; border:solid 3px green;
+    text-align:left; white-space:pre;
+    overflow:auto; clear:both;
+}
+div.hidden {
+    display:none;
+}
+div.story {
+    text-align:left;
+}
+div.story[data-type=spark] {
+    background-color:#2169a9a6; color:white;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    padding:4px 10px; margin:10px 0px;
+    border-left:solid 4px blue;
+}
+div.story[data-type=spark] span:hover {
+    box-shadow: 4px 4px 10px 1px #29318e;
+    background-color:#c10c8a;
+    cursor:copy;
+}
+
+select {
+    height:25px; font-size:14px;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    background-color:black; color:cyan;
+    padding:0 10px;
+    cursor:pointer;
+}
+option {
+    font-family:monospace;
+}
+
+input[type=button] {
+    background-color:black; color:cyan;
+    letter-spacing:4px;
+    padding-left:10px;
+    cursor:pointer;
+}
+input[type=button]:hover {
+    background-color:gray; color:cyan;
+}
+input[type=password] {
+    width:82px; height:21px; font-size:16px;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    background-color:cyan; color:black;
+    padding: 0 4px;
+}
+input[type=text] {
+    width:82px; height:21px; font-size:16px;
+    box-shadow:4px 4px 10px 1px #626bd0;
+    background-color:cyan; color:black;
+    padding:0 4px;
+}
+input[type=text]:hover {
+    background-color:white;
+}
+input[name=date] {
+    width:150px;
+}
+input[name=path] {
+    width:160px;
+}
+input[name=line] {
+    width:40px;
+}
+input[name=text] {
+    width:160px;
+}
+input[name=url] {
+    width:320px;
+}
+input[name=cmd] {
+    background-color:black; color:white;
+    width:240px;
+}
+input[name=cmd]:hover {
+    background-color:white; color:black;
+}
+textarea {
+    width:400px; height:60px;
+    background-color:cyan;
+}
+
+table.layout {
+    margin:0; border:0; padding:0;
+    border-spacing:0;
+}
+table.layout tr {
+    margin:0; border:0; padding:0;
+}
+table.layout td {
+    margin:0; border:0; padding:0;
+    vertical-align:top;
+}
+table.layout th {
+    margin:0; border:0; padding:0;
+}
+
+table.content {
+    border:0; white-space:pre;
+    font-size:14px; font-family:monospace;
+    overflow: auto;
+}
+table.content tr {
+    background-color:#04272f45;
+}
+table.content tr.select {
+    background-color:green;
+}
+table.content tr:hover {
+    background-color:green;
+}
+table.content th {
+    background-color:#0fbd45;
+    padding:2px 6px;
+    cursor:pointer;
+}
+table.content th:hover {
+    background-color:red;
+}
+table.content td {
+    padding:2px 6px;
+    overflow:auto;
+}
+table.content td.done {
+    background-color:green;
+}
+table.content td.select {
+    background-color:red;
+}
+table.content td:hover {
+    background-color:red;
+}
+
+td>input[type=button][name=remove] {
+    background-color:red;
+}
+td>input[type=button][name=create] {
+    background-color:blue;
+}
+
 legend {
     box-shadow:4px 4px 20px 4px #626bd0;
     cursor:pointer;
@@ -82,6 +169,103 @@ legend {
 fieldset {
     margin:0; border:0; padding:0;
 }
+fieldset>form.option {
+    float:left;
+}
+fieldset>form.option>div.item {
+    float:left; margin-right:3px;
+    min-height:25px; vertical-align:middle;
+}
+fieldset>form.option>div.item>label {
+    display:none;
+}
+fieldset>form.option>div.item input.args.char {
+    width:20px;
+}
+fieldset>form.option>div.item input.args.tiny {
+    width:40px;
+}
+fieldset>form.option>div.item input.args.long {
+    width:240px;
+}
+fieldset>form.option>div.item input.args.full {
+    width:480px;
+}
+fieldset>form.option>div.item input.args[name=ID] {
+    width:48px;
+}
+fieldset>form.option>div.item input.args[name=id] {
+    width:48px;
+}
+fieldset>form.option>div.item input.args[name=limit] {
+    width:48px;
+}
+fieldset>form.option>div.item input.args[name=offset] {
+    width:48px;
+}
+fieldset>form.option>div.item input.args[name=offend] {
+    width:48px;
+}
+fieldset>form.option>div.item.textarea {
+    clear:both; margin-top:4px;
+}
+
+fieldset>div.action {
+    float:left;
+}
+fieldset>div.action>div.item {
+    float:left; margin-right:3px;
+    vertical-align:middle;
+}
+fieldset>div.action>div.item.space {
+    width:10px;
+}
+fieldset div.action>div.item>label {
+    display:none;
+}
+fieldset>div.status {
+    clear:both;
+}
+fieldset>div.status>div.item {
+    float:left; padding:4px;
+    height:18px;
+}
+fieldset>div.status>div.item>label {
+    font-size:10px; color:#504242e0;
+}
+
+fieldset>div.output {
+    clear:both; overflow:auto;
+    position:relative;
+}
+fieldset>div.output div.project {
+    min-width:88px; max-width:240px;
+    float:left; overflow:auto;
+}
+fieldset>div.output div.project div.item {
+    padding:2px 10px; text-align:left;
+    clear:both; cursor:pointer;
+    white-space:pre;
+}
+fieldset>div.output div.project div.item.select {
+    background-color:red;
+}
+fieldset>div.output div.project div.item:hover {
+    background-color:red;
+}
+fieldset>div.output div.project div.list {
+    margin-left:10px;
+}
+fieldset>div.output td.project {
+    background-color:#435f8c8c;
+}
+fieldset>div.output td.profile {
+    background-color:#71909c91;
+}
+fieldset>div.output td.profile div.profile {
+    overflow:auto;
+}
+
 fieldset.panel>legend {
     display:none;
 }
@@ -97,421 +281,15 @@ fieldset.story>div.status {
     border-top:1px solid darkcyan;
 }
 fieldset.float {
-    position:absolute;
     background-color:#023531cf;
+    position:absolute;
 }
 fieldset.float>legend {
     display:none;
 }
-
-input[name=cmd] {
-    width:160px;
-}
-input[name=date] {
-    width:150px;
-}
-input[name=text] {
-    width:160px;
-}
-input[type=text] {
-    height:21px; font-size:16px;
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    background-color:cyan; color:black;
-    padding: 0 4px;
-}
-input[type=password] {
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    background-color:cyan; color:black;
-    padding: 0 4px;
-}
-input[type=text]:hover {
-    background-color:white;
-}
-input[type=button] {
-    background-color:black; color:cyan;
-    letter-spacing:4px;
-    padding-left:10px;
-    cursor:pointer;
-}
-input[type=button]:hover {
-    background-color:gray; color:cyan;
-}
-td>input[type=button][name=remove] {
-    background-color:red;
-
-}
-td>input[type=button][name=create] {
-    background-color:blue;
-}
-select {
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    background-color:black; color:cyan;
-    padding:0 10px;
-    cursor:pointer;
-}
-option {
-    font-family:monospace;
-}
-
-table.layout {
-    margin:0; border:0; padding:0;
-    border-spacing:0;
-}
-table.layout tr {
-    margin:0;border:0;padding:0;
-}
-table.layout td {
-    margin:0; border:0; padding:0;
-    vertical-align:top;
-}
-table.layout th {
-    margin:0;border:0;padding:0;
-}
-
-table.content {
-    /* width:-webkit-fill-available; */
-    border:0; white-space:pre;
-    font-size:14px; font-family:monospace;
-    overflow: auto;
-}
-table.content tr {
-    background-color:#04272f45;
-}
-table.content th {
-    background-color:#0fbd45;
-    padding:2px 6px;
-    cursor:pointer;
-}
-table.content td {
-    padding:2px 6px;
-    overflow:auto;
-}
-table.content td.select {
-    background-color:red;
-}
-table.content td.select {
-    background-color:red;
-}
-table.content td.done {
-    background-color:green;
-}
-
-table.content tr.select {
-    background-color:green;
-}
-table.content tr:hover {
-    background-color:green;
-}
-table.content th:hover {
-    background-color:red;
-}
-table.content td:hover {
-    background-color:red;
-}
-
-h1 {
-    margin:0;
-    clear:both;
-}
-h2 {
-    clear:both;
-}
-h3 {
-    clear:both;
-}
-h1:hover {
-    background:green;
-    cursor:pointer;
-}
-h2:hover {
-    background:green;
-    cursor:pointer;
-}
-h3:hover {
-    background:green;
-    cursor:pointer;
-}
-div.item {
-    cursor:pointer;
-}
-div.code {
-    background-color:#343a3445; color:white;
-    font-size:14px; font-family:monospace;
-    box-shadow: 4px 4px 20px 4px #626bd0;
-    padding:10px; border:solid 3px green;
-    text-align:left; white-space:pre;
-    overflow:auto;
-    clear:both;
-}
-div.story {
-    text-align:left;
-}
-div.hidden {
-    display:none;
-}
-
-div.toast {
-    background:#0e3369b3; color:yellow;
-    position:fixed; z-index:100;
-    padding:5px; overflow:auto;
-}
-div.toast a {
-    color:yellow;
-}
-div.toast div.title {
-    float:left; word-break:break-all;
-    color:#cae850; font-size:14px;
-    cursor:copy;
-}
-div.toast div.duration {
-    color:gray; font-size:14px;
-    float:right;
-    cursor:pointer;
-}
-div.toast div.content {
-    text-align:center;
-    white-space:pre;
-    clear:both;
-}
-div.toast div.action div.item {
-    float:left;
-}
-div.toast div.progress {
-    height:10px; border:solid 2px green;
-    margin-left:-2px;
-    clear:both;
-}
-div.toast div.progress div.current {
-    height:10px; background:red;
-}
-
-div.carte {
-    position:fixed;
-    background:#295b61;
-    color:white;
-    padding:4px;
-    z-index:30;
-    min-width:80px;
-}
-div.carte div.item {
-    padding:3px 12px;
-}
-div.carte div.item:hover {
-    background:red;
-}
-body>div.input {
-    position:fixed;
-    background-color:#0d4142a6;
-    z-index:50;
-}
-div.input textarea {
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    border:2px inset #14a58e;
-    width:165px; height:60px;
-    background-color: cyan;
-    padding:4px;
-
-}
-div.input div.item {
-    float:left;
-}
-div.input.login {
-    padding:10px;
-}
-div.input.login input {
-    font-size:18px
-}
-
-div.upload {
-    background:black; color:yellow;
-    position:fixed;
-    padding:5px;
-    z-index:50;
-}
-div.upload div.item {
-    float:left;
-}
-div.upload div.output {
-    border:solid 1px red;
-    clear:both;
-}
-div.upload div.progress {
-    width:0; height:10px;
-    background:red;
-}
-div.upload div.status div.cost {
-    float:left;
-}
-div.upload div.status div.show {
-    float:right;
-}
-div.upload div.status div.size {
-    text-align:center;
-}
-div.upload input[type=file] {
-    width: 240px;
-}
-
-div.story[data-type=spark] {
-    background-color:#2169a9a6; color:white;
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    padding:4px 10px; margin:10px 0px;
-    border-left:solid 4px blue;
-}
-div.story[data-type=spark] span:hover {
-    box-shadow: 4px 4px 10px 1px #29318e;
-    background-color:#c10c8a;
-    cursor:copy;
-}
-
-fieldset>form.option {
-    float:left;
-}
-fieldset>div.action {
-    float:left;
-}
-fieldset>form.option>div.item {
-    float:left; margin-right:3px;
-    min-height:25px; vertical-align:middle;
-}
-fieldset>form.option>div.item label {
-    display:none;
-}
-fieldset>form.option>div.item input.args.char {
-    width:20px;
-}
-fieldset>form.option>div.item input.args.tiny {
-    width:40px;
-}
-fieldset>form.option>div.item input.args {
-    width:82px; height:21px; font-size:16px;
-}
-fieldset>form.option>div.item input[name=path]:hover {
-    width:240px;
-}
-fieldset>form.option>div.item input[name=text] {
-    width:240px;
-}
-fieldset>form.option>div.item input[name=cmd] {
-    background-color:black; color:white;
-    width:160px;
-}
-fieldset>form.option>div.item input[name=id] {
-    width:48px;
-}
-fieldset>form.option>div.item input[name=ID] {
-    width:48px;
-}
-fieldset>form.option>div.item input[name=limit] {
-    width:48px;
-}
-fieldset>form.option>div.item input[name=offset] {
-    width:48px;
-}
-fieldset>form.option>div.item input[name=offend] {
-    width:48px;
-}
-fieldset>form.option>div.item input.args.cmd {
-    background-color:black; color:white;
-    width:160px;
-}
-fieldset>form.option>div.item input.args.long {
-    width:240px;
-}
-fieldset>form.option>div.item input.args.full {
-    width:480px;
-}
-fieldset>form.option>div.item input.args[name=url] {
-    width:320px;
-}
-fieldset>form.option>div.item input.opts {
-    width:80px;
-}
-fieldset>form.option>div.item select.args {
-    height:25px; font-size:14px;
-}
-fieldset>form.option>div.item textarea.args {
-    width:500px; height:50px;
-    background-color:cyan;
-}
-fieldset>form.option>div.item.textarea {
-    margin-top:4px;
-    clear:both;
-}
-
-fieldset div.action>div.item {
-    float:left; margin-right:3px;
-    /* height:28px; */
-    vertical-align:middle;
-}
-fieldset div.action>div.item.space {
-    width:10px;
-}
-fieldset div.action>div.item label {
-    display:none;
-}
-fieldset div.action>div.item select {
-    height:25px; font-size:14px;
-}
-
-fieldset>div.status>div.item {
-    float:left; padding:4px;
-    height:18px;
-}
-fieldset>div.status>div.item>label {
-    font-size:10px; color:#504242e0;
-}
-
-fieldset div.output {
-    clear:both;
-}
-fieldset>div.output td.project {
-    background-color:#435f8c8c;
-}
-fieldset>div.output td.profile {
-    background-color:#71909c91;
-}
-fieldset>div.output td.profile div.profile {
-    overflow:auto;
-}
-
-fieldset>div.output {
-    clear:both; overflow:auto;
-    position:relative;
-}
-fieldset>div.output div.code a {
-    color:yellow;
-}
-fieldset>div.output div.project {
-    min-width:88px; max-width:240px;
-    float:left; overflow:auto;
-}
-fieldset>div.output div.project div.item {
-    padding:2px 10px; text-align:left;
-    clear:both; cursor:pointer;
-    white-space:pre;
-}
-fieldset>div.output div.project div.item:hover {
-    background-color:red;
-}
-
-fieldset>div.output div.project div.item.select {
-    background-color:red;
-}
-fieldset>div.output div.project div.list {
-    margin-left:10px;
-}
-
-body>fieldset.float table {
+fieldset.float table {
     color:white;
 }
-body>fieldset.input table {
-    color:white;
-}
-body>fieldset.input td {
-    word-break:keep-all;
-}
-
 body>fieldset.input {
     position:fixed; top:32px;
     background-color:#0d4142a6;
@@ -520,6 +298,12 @@ body>fieldset.input {
 }
 body>fieldset.input div.output {
     max-height:400px;
+}
+body>fieldset.input table {
+    color:white;
+}
+body>fieldset.input td {
+    word-break:keep-all;
 }
 body>fieldset.input.key {
     z-index:60;
@@ -535,15 +319,129 @@ body>fieldset.input.date table td:hover {
     background-color:red;
 }
 
+body>div.toast {
+    background:#0e3369b3; color:yellow;
+    position:fixed; z-index:100;
+    padding:5px; overflow:auto;
+}
+body>div.toast a {
+    color:yellow;
+}
+body>div.toast div.title {
+    float:left; word-break:break-all;
+    color:#cae850; font-size:14px;
+    cursor:copy;
+}
+body>div.toast div.duration {
+    color:gray; font-size:14px;
+    float:right;
+    cursor:pointer;
+}
+body>div.toast div.content {
+    text-align:center;
+    white-space:pre;
+    clear:both;
+}
+body>div.toast div.action div.item {
+    float:left;
+}
+body>div.toast div.progress {
+    height:10px; border:solid 2px green;
+    margin-left:-2px;
+    clear:both;
+}
+body>div.toast div.progress div.current {
+    height:10px; background:red;
+}
+
+body>div.carte {
+    position:fixed;
+    background:#295b61;
+    color:white;
+    padding:4px;
+    z-index:30;
+    min-width:80px;
+}
+body>div.carte div.item {
+    padding:3px 12px;
+}
+body>div.carte div.item:hover {
+    background:red;
+}
+body>div.input {
+    position:fixed;
+    background-color:#0d4142a6;
+    z-index:50;
+}
+body>div.input input[type=text] {
+    width:171px;
+}
+body>div.input input[type=password] {
+    width:171px;
+}
+body>div.input textarea {
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    border:2px inset #14a58e;
+    width:171px; height:60px;
+    background-color: cyan;
+    padding:4px;
+}
+body>div.input div.item {
+    float:left;
+}
+body>div.input.login {
+    padding:10px;
+}
+body>div.input.login input {
+    font-size:18px
+}
+
+body>div.upload {
+    background:black; color:yellow;
+    position:fixed;
+    padding:5px;
+    z-index:50;
+}
+body>div.upload div.item {
+    float:left;
+}
+body>div.upload div.output {
+    border:solid 1px red;
+    clear:both;
+}
+body>div.upload div.progress {
+    width:0; height:10px;
+    background:red;
+}
+body>div.upload div.status div.cost {
+    float:left;
+}
+body>div.upload div.status div.show {
+    float:right;
+}
+body>div.upload div.status div.size {
+    text-align:center;
+}
+body>div.upload input[type=file] {
+    width: 240px;
+}
+
 body.white {
     background-color:#052238bf;
     color:white;
 }
-body.white td>input[type=button][name=remove] {
-    background-color:red;
+body.white select {
+    background-color:#99CC66; color:white;
+    border-radius:10px 10px 10px 10px;
+    border:2px solid #99CC66;
 }
-body.white td>input[type=button][name=create] {
-    background-color:blue;
+body.white input[type=text] {
+    background-color:white; color:black;
+    border-radius:6px 6px 6px 6px;
+    border:2px solid #14a58e;
+}
+body.white input[type=text]:hover {
+    background-color:cyan;
 }
 body.white input[type=button] {
     background-color:#FF9900; color:white;
@@ -554,22 +452,11 @@ body.white input[type=button]:hover {
     background-color:#FFCC33;
     border:2px solid #FFCC33;
 }
-body.white input[type=text] {
-    background-color:white; color:black;
-    border-radius:6px 6px 6px 6px;
-    border:2px solid #14a58e;
+body.white td>input[type=button][name=remove] {
+    background-color:red;
 }
-body.white input[type=text]:hover {
-    background-color:cyan;
-}
-body.white div.input textarea {
-    border-radius:6px;
-    border:2px solid #14a58e;
-}
-body.white select {
-    background-color:#99CC66; color:white;
-    border-radius:10px 10px 10px 10px;
-    border:2px solid #99CC66;
+body.white td>input[type=button][name=create] {
+    background-color:blue;
 }
 
 body.white table {
@@ -613,6 +500,10 @@ body.white fieldset.Action fieldset.plugin legend {
 body.white fieldset.Action fieldset.plugin legend:hover {
     background-color:#6ee4e4;
 }
+body.white>div.input textarea {
+    border-radius:6px;
+    border:2px solid #14a58e;
+}
 
 body.print {
     background-color:white;
@@ -620,7 +511,18 @@ body.print {
 }
 body.print a {
     color:blue;
-
+}
+body.print select {
+    box-shadow:0px 0px 0px 0px #626bd0;
+}
+body.print input[type=text] {
+    box-shadow:0px 0px 0px 0px #626bd0;
+}
+body.print div.code {
+    background-color:white;
+}
+body.print legend {
+    box-shadow:0px 0px 0px 0px #626bd0;
 }
 body.print fieldset.Header {
     background-color:white;
@@ -630,28 +532,6 @@ body.print fieldset.River {
     background-color:white;
     color:black;
 }
-body.print fieldset.Footer {
-    background-color:white;
-    color:black;
-}
-body.print legend {
-    box-shadow:0px 0px 0px 0px #626bd0;
-}
-body.print input[type=text] {
-    box-shadow:0px 0px 0px 0px #626bd0;
-}
-body.print select {
-    box-shadow:0px 0px 0px 0px #626bd0;
-}
-body.print div.code {
-    background-color:white;
-}
-body.print fieldset.Action {
-    background-color:white;
-}
-body.print fieldset.Action fieldset.plugin {
-    padding-left:40px;
-}
 body.print fieldset.River>div.output div.list div.item {
     background-color:white;
 }
@@ -659,7 +539,82 @@ body.print fieldset.River>div.output div.item.select {
     background-color:white;
     border:solid 2px red;
 }
-
-div.output fieldset.span>fieldset {
-    float:left; overflow:auto;
+body.print fieldset.Action {
+    background-color:white;
 }
+body.print fieldset.Action fieldset.plugin {
+    padding-left:40px;
+}
+body.print fieldset.Footer {
+    background-color:white;
+    color:black;
+}
+
+body.mobile select {
+    font-size:18px;
+}
+body.mobile input {
+    font-size:18px;
+}
+body.mobile fieldset.Header.head {
+    position:fixed; top:0;
+    width:-webkit-fill-available;
+    height:2em; font-size:24px;
+    background-color:#000000b8;
+    z-index:10;
+}
+body.mobile fieldset.Header.head div.output {
+    height:2em;
+}
+body.mobile fieldset.Header>div.output>div {
+    height:1.5em;
+}
+body.mobile fieldset.Header>div.output div.menu {
+    height:1.5em;
+}
+body.mobile fieldset.Header.head div.state.time {
+    display:none;
+}
+body.mobile fieldset.River.left {
+    position:fixed; top:48px;
+    background-color:#243950bf;
+    min-width:240px; font-size:24px;
+    /* width:-webkit-fill-available; */
+    z-index:10;
+}
+body.mobile fieldset.River>div.output div.list div.item {
+    font-size:24px;
+}
+body.mobile fieldset.Action.main.cmd {
+    margin-top:0; margin-bottom:0;
+}
+body.mobile fieldset.Action.main {
+    margin-top:48px; margin-bottom:64px;
+}
+body.mobile fieldset.Footer.foot {
+    position:fixed; bottom:0;
+    width:-webkit-fill-available;
+    height:64px; font-size:24px;
+    background-color:#000000b8;
+    display:none;
+    z-index:10;
+}
+body.mobile.landscape fieldset.Header.head {
+    position:unset;
+}
+body.mobile.landscape fieldset.Header.head div.state.time {
+    display:block;
+}
+body.mobile.landscape fieldset.Action.main {
+    margin-top:0; margin-bottom:0;
+}
+body.mobile.landscape fieldset.Footer.foot {
+    position:unset;
+}
+body.mobile>div.carte {
+    font-size:24px;
+}
+body.mobile>div.input.login input {
+    font-size:24px
+}
+

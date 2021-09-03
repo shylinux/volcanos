@@ -325,7 +325,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
     "编辑": function(event, can, key) { can.Action("go", "auto") },
     "save": function(event, can, key) {
         var msg = can.request(event, {content: can.onexport.content(can, can.svg)})
-        can.run(event, [ctx.ACTION, "save", can.Option("path"), can.Option("file")], function(msg) {
+        can.run(event, [ctx.ACTION, "save", can.Option("path")], function(msg) {
             can.user.toast(can, "保存成功")
         }, true)
     },

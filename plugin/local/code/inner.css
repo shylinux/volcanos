@@ -1,6 +1,3 @@
-fieldset.editor>form.option div.item input.args[name=line] {
-    width:40px;
-}
 fieldset.editor>div.action div.file {
     border:solid 2px red; padding:2px;
     float:left; cursor:pointer;

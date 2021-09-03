@@ -44,7 +44,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
     _inner: function(can, msg) {
         can.onappend.table(can, msg)
-        can.onappend.board(can, msg.Result())
+        can.onappend.board(can, msg)
         can.onmotion.story.auto(can)
         can.page.Modify(can, can._output, {style: {display: "block"}})
         return true
@@ -80,8 +80,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [
-        "共享工具", "保存参数", "清空参数", "刷新数据", ["其它 ->", "全屏", "生成链接", "复制数据", "下载数据", "清空数据", "删除工具", "摄像头"],
-        ], _init: function(can, msg, list, cb, target) {
+        "共享工具", "生成链接", "保存参数", "清空参数", "刷新数据", [
+            "其它 ->", "复制数据", "下载数据", "清空数据", "删除工具", "摄像头",
+        ],
+    ], _init: function(can, msg, list, cb, target) {
     },
     _engine: function(event, can, button) {
         can.Update(event, [ctx.ACTION, button].concat(can.Input([], true)))

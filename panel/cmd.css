@@ -1,0 +1,6 @@
+fieldset.panel.cmd>div.output>fieldset.plugin>legend {
+    display:none;
+}
+fieldset.panel.cmd>div.output>fieldset.plugin {
+    margin:0; padding:0;
+}

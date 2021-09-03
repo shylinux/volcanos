@@ -42,7 +42,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         can._menu && can.page.Remove(can, can._menu)
         can._menu = can.search({}, ["Header.onimport.menu", can._ACTION,
             ["布局", "默认布局", "流动布局", "网格布局", "标签布局", "自由布局"],
-        ], function(event, layout) { can.onaction.layout(can, layout) })
+            ["help", "tutor", "manual", "program", "refer"],
+        ], function(event, button, list) {
+            if (list[0] == "help") {
+                can.user.open("/chat/cmd/src/help/"+button+".shy")
+            } else {
+                can.onaction.layout(can, button)
+            }
+        })
     },
     _share: function(can, share) {
         share && can.run({}, ["_share", share], function(msg) {

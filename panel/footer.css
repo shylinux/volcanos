@@ -2,10 +2,6 @@ fieldset.Footer {
     height:32px; padding:0 5px;
     clear:both;
 }
-fieldset.Footer div.toast {
-    position:static;
-    float:left;
-}
 fieldset.Footer>div.output {
     height:32px; overflow:hidden;
 }
@@ -23,13 +19,13 @@ fieldset.Footer>div.output div.title {
 }
 fieldset.Footer>div.output div.toast {
     float:right;
+    background-color:darkcyan;
 }
 fieldset.Footer>div.output div.state {
     float:right;
 }
 
 fieldset.Footer>div.output input[name=cmd] {
-    background-color:black; color:white;
     width:120px; height:25px;
 }
 fieldset.Footer>div.output input[name=cmd]:focus {

@@ -660,7 +660,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
         auto: function(can, target) { var that = this
             can.page.Select(can, target||can._output, ".story", function(item) { var meta = item.dataset
                 can.page.Modify(can, item, {style: can.base.Obj(meta.style)})
-                can.core.CallFunc(that._hash[meta.type], [can, meta, target])
+                can.core.CallFunc(that._hash[meta.type], [can, meta, target||can._output])
             })
         },
     },
