@@ -113,6 +113,7 @@ const chat = {
     CHECK: "check",
     SHARE: "share",
     GRANT: "grant",
+    CMD_MARGIN: 53,
 }
 const team = {
     TASK: "task",
@@ -133,6 +134,7 @@ const html = {
     BUTTON: "button",
     LEGEND: "legend",
     TEXTAREA: "textarea",
+    FIELDSET: "fieldset",
     SELECT: "select",
     OPTION: "option",
     INPUT: "input",

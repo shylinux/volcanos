@@ -94,7 +94,7 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
 Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) {
         meta.name = meta.name || "", meta.name = meta.name.split(" ")[0].split(".").pop()
         field = field || can.onappend.field(can, meta.type, meta, target).first
-        var legend = can.page.Select(can, field, "legend")[0]
+        var legend = can.page.Select(can, field, ".legend")[0]||can.page.Select(can, field, "legend")[0]
         var option = can.page.Select(can, field, "form.option")[0]
         var action = can.page.Select(can, field, "div.action")[0]
         var output = can.page.Select(can, field, "div.output")[0]
@@ -297,8 +297,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     field: function(can, type, item, target) { type = type || html.INPUT, item = item || {}
         var name = (item.nick||item.name||"").split(" ")[0]
-        return can.page.Append(can, target||can._output, [{view: [(type||"")+" "+(item.name||"")+" "+(item.pos||""), "fieldset"], list: [
-            name && {text: [name+"("+(item.help||"").split(" ")[0]+")", html.LEGEND]},
+        var title = item.help? name+"("+item.help.split(" ")[0]+")": name
+        return can.page.Append(can, target||can._output, [{view: [(type||"")+" "+(item.name||"")+" "+(item.pos||""), html.FIELDSET], list: [
+            name && {text: [title, html.LEGEND]},
+            can.user.isCmd && type == "plugin" && {view: [html.LEGEND, html.DIV, title]},
             {view: ["option", "form"]}, {view: ["action"]}, {view: ["output"]}, {view: ["status"]},
         ]}])
     },

@@ -4,7 +4,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         if (msg.Option("branch")) { return can.onappend.table(can, msg) }
 
         can.msg = msg, can.data = msg.Table(), can.onimport._sum(can)
-        can.Action("height", parseInt(msg.Option("height")||can.user.isMobile&&can.user.isLandscape? "200": "400"))
+        can.Action("height", msg.Option("height")||can.user.isCmd? "max": can.user.isMobile&&can.user.isLandscape? "200": "400")
         can.Action("speed", parseInt(msg.Option("speed")||"100"))
 
         can.onappend.plugins(can, {index: "web.wiki.draw"}, function(sub) {
@@ -44,15 +44,17 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.Status({"from": begin, "commit": count, "total": add+del, "max": max})
     },
 })
-Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600", "800"], ["speed", "10", "20", "50", "100"]],
+Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600", "800", "max"], ["speed", "10", "20", "50", "100"]],
     "编辑": function(event, can) {
         can.onmotion.toggle(can, can.draw._action)
         can.onmotion.toggle(can, can.draw._status)
     },
-    "趋势图": function(event, can) {
+    "趋势图": function(event, can) { var height = can.Action("height")
+        if (height == "max") { height = can.Conf("height") - chat.CMD_MARGIN }
+        height = parseInt(height)
+
         var space = 10
         var width = parseInt(can.Conf("width"))
-        var height = parseInt(can.Action("height"))
         var step = parseInt((width-2*space) / can.list.length)
 
         can.onmotion.clear(can, can.draw.svg)
