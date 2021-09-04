@@ -158,10 +158,11 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
         "river": "菜单",
         "search": "搜索",
 
-        "help": "文档",
+        "help": "帮助",
         "tutor": "入门简介",
         "manual": "使用手册",
-        "program": "编程手册",
+        "service": "服务手册",
+        "devops": "编程手册",
         "refer": "参考手册",
 
         "setting": "设置",

@@ -47,6 +47,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             item.onclick = function(event) { target.scrollIntoView() }
         })
     },
+    title: function(can, data, target) {
+        can.user.isCmd && can.user.title(data.text)
+    },
     spark: function(can, data, target) {
         if (data["name"] == "inner") {
             target.title = "点击复制", target.onclick = function(event) {

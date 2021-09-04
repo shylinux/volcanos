@@ -44,7 +44,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.Status({"from": begin, "commit": count, "total": add+del, "max": max})
     },
 })
-Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600"], ["speed", "10", "20", "50", "100"]],
+Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600", "800"], ["speed", "10", "20", "50", "100"]],
     "编辑": function(event, can) {
         can.onmotion.toggle(can, can.draw._action)
         can.onmotion.toggle(can, can.draw._status)
