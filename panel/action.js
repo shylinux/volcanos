@@ -40,12 +40,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             return
         }
         can._menu && can.page.Remove(can, can._menu)
-        can._menu = can.search({}, ["Header.onimport.menu", can._ACTION,
-            // ["布局", "默认布局", "流动布局", "网格布局", "标签布局", "自由布局"],
-            ["help", "tutor", "manual", "service", "devops", "refer"],
-        ], function(event, button, list) {
+        can._menu = can.search({}, ["Header.onimport.menu", can._ACTION].concat(
+            can.base.Obj(msg.Option("menus"), [
+                // ["布局", "默认布局", "流动布局", "网格布局", "标签布局", "自由布局"],
+                ["help", "tutor", "manual", "service", "devops", "refer"],
+            ])
+        ), function(event, button, list) {
             if (list[0] == "help") {
-                can.user.open("/chat/cmd/src/help/"+button+".shy")
+                can.user.open("/help/"+button+".shy")
             } else {
                 can.onaction.layout(can, button)
             }
@@ -184,9 +186,16 @@ Volcanos("onexport", {help: "导出数据", list: [],
                 type: can._PLUGIN, name: item.innerHTML, text: shy("跳转", function(event) {
                     var input = can.page.Select(can, item.parentNode, "input.args")[0]
                     input && input.focus()
-                }),
-                context: meta.ctx||meta.key||"", command: meta.index||meta.cmd||meta.name, argument: JSON.stringify(list),
-            }; can.core.List(fields, function(key) { msg.Push(key, data[key]||"") })
+                }), argument: JSON.stringify(list),
+            }
+            if (meta.index) {
+                data.context = "", data.command = meta.index
+            } else if (meta.cmd) {
+                data.context = meta.ctx, data.command = meta.cmd
+            } else {
+                return
+            }
+            can.core.List(fields, function(key) { msg.Push(key, data[key]||"") })
         })
     },
 })

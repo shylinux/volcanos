@@ -27,14 +27,17 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onmotion.clear(can, nav)
 
         can.onappend.list(can, can.base.Obj(data.data), function(event, item) {
-            if (!item.meta.link || item.meta.link == can.Option("path")) { return }
+            var link = item.meta.link, cmd = link.split("/").pop()
+
+            if (can.onaction[cmd]) { return can.onaction[cmd](event, can) }
+            if (!link || link == can.Option("path")) { return }
 
             can.page.Cache(can.Option("path"), can._output, "some")
-            can.Option("path", item.meta.link)
+            can.Option("path", link)
             var some = can.page.Cache(can.Option("path"), can._output)
             can.user.title(item.meta.name)
 
-            if (!some) { can.sup.Update(event, [item.meta.link]) }
+            if (!some) { can.sup.Update(event, [link]) }
             return true
         }, nav)
     },
@@ -121,6 +124,10 @@ Volcanos("onkeypop", {help: "键盘交互", list: [],
     }, _engine: {},
 })
 Volcanos("onaction", {help: "控件交互", list: [],
+    home: function(event, can) {
+        location.href = "/"
+    },
+
     "演示": function(event, can) { var list = [], current = []
         can.page.Select(can, can._output, ".story", function(item) {
             switch (item.tagName) {
