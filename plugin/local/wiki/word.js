@@ -9,7 +9,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             // delete(data.meta)
         })
 
-        if (location.pathname.indexOf("/chat/cmd") == 0) {
+        if (can.user.isCmd) {
             can.page.ClassList.add(can, can._fields, "cmd")
             can.page.Modify(can, can.sup._navmenu, {style: {height: window.innerHeight}})
             if (can.sup._navmenu) {

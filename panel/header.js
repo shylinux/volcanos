@@ -199,10 +199,6 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     },
     carte: function(event, can, list, cb) { can.user.carte(event, can, can.onaction, list, cb) },
     river: function(event, can) { can.onaction.River(can) },
-    tutor: function(event, can) { can.user.open("/chat/cmd/src/help/tutor.shy") },
-    manual: function(event, can) { can.user.open("/chat/cmd/src/help/manual.shy") },
-    program: function(event, can) { can.user.open("/chat/cmd/src/help/program.shy") },
-    refer: function(event, can) { can.user.open("/chat/cmd/src/help/refer.shy") },
 
     black: function(event, can, button) {
         can.onlayout.topic(can, button)

@@ -1,3 +1,6 @@
+fieldset.word>div.legend {
+    display:none;
+}
 fieldset.word>div.output {
     clear:none;
     float:left;

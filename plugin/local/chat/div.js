@@ -20,7 +20,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.onmotion.hidden(can, can._action)
             width = can.Conf("width"), height = can.Conf("height")
         }
-        if (location.pathname.indexOf("/chat/cmd") == 0) {
+        if (can.user.isCmd) {
             width = window.innerWidth, height = window.innerHeight
             can.page.Modify(can, can._output, {style: {width: width, height: height}})
         }
