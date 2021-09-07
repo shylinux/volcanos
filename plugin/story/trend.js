@@ -4,7 +4,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         if (msg.Option("branch")) { return can.onappend.table(can, msg) }
 
         can.msg = msg, can.data = msg.Table(), can.onimport._sum(can)
-        can.Action("height", msg.Option("height")||can.user.isCmd? "max": can.user.isMobile&&can.user.isLandscape? "200": "400")
+        can.Action("height", msg.Option("height")||can.user.mod.isCmd? "max": can.user.isMobile&&can.user.isLandscape? "200": "400")
         can.Action("speed", parseInt(msg.Option("speed")||"100"))
 
         can.onappend.plugins(can, {index: "web.wiki.draw"}, function(sub) {

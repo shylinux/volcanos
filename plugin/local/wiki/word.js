@@ -9,7 +9,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             // delete(data.meta)
         })
 
-        if (can.user.isCmd) {
+        if (can.user.mod.isCmd) {
             can.page.ClassList.add(can, can._fields, "cmd")
             can.page.Modify(can, can.sup._navmenu, {style: {height: window.innerHeight}})
             if (can.sup._navmenu) {
@@ -18,7 +18,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 can.page.Modify(can, can._output, {style: {height: window.innerHeight}})
             }
         } else {
-            can.sup._navmenu && can.Conf("width", can.Conf("width")-can.sup._navmenu.offsetWidth-20)
+            if (can.sup._navmenu) {
+                can.Conf("width", can.Conf("width")-can.sup._navmenu.offsetWidth-20)
+                can.page.Modify(can, can.sup._navmenu, {style: {height: window.innerHeight-240}})
+                can.page.Modify(can, can._output, {style: {height: window.innerHeight-240}})
+            }
         }
     },
     navmenu: function(can, data, target) { var nav = can.sup._navmenu
@@ -29,6 +33,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onappend.list(can, can.base.Obj(data.data), function(event, item) {
             var link = item.meta.link, cmd = link.split("/").pop()
 
+            can.onmotion.select(can, nav, "div.item", event.target)
             if (can.onaction[cmd]) { return can.onaction[cmd](event, can) }
             if (!link || link == can.Option("path")) { return }
 
@@ -51,7 +56,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
     title: function(can, data, target) {
-        can.user.isCmd && can.user.title(data.text)
+        can.user.mod.isCmd && can.user.title(data.text)
     },
     spark: function(can, data, target) {
         if (data["name"] == "inner") {

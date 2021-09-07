@@ -43,6 +43,7 @@ const cli = {
     STOP: "stop",
 }
 const web = {
+    SHARE: "share",
     SPACE: "space",
 }
 const aaa = {

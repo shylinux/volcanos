@@ -40,10 +40,7 @@ fieldset.Header>div.output div.menu:hover {
     border-bottom:solid 2px red;
     background-color:#2e515f;
 }
+fieldset.Header>div.output input[type=text] {
+    border-radius:0;
+}
 
-body.black fieldset.Header>div.output>div.search>input {
-    width:120px; background-color:cyan;
-}
-body.print fieldset.Header>div.output>div.search>input {
-    width:120px; background-color:white;
-}

@@ -58,7 +58,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
     _search: function(can, msg, target) { const SEARCH = "search"
-        var ui = can.page.Append(can, target, [{view: SEARCH, list: [{type: html.INPUT, data: {placeholder: SEARCH}, onkeydown: function(event) {
+        var ui = can.page.Append(can, target, [{view: SEARCH, list: [{type: "input", data: {type: "text", placeholder: SEARCH}, onkeydown: function(event) {
             can.onkeypop.input(event, can); switch (event.key) {
                 case "Enter": can.search(event, ["Search.onimport.select", "*", event.target.value]); break
             }

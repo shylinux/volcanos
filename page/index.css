@@ -437,16 +437,16 @@ body.white select {
 }
 body.white input[type=text] {
     background-color:white; color:black;
-    border-radius:6px 6px 6px 6px;
     border:2px solid #14a58e;
+    border-radius:6px;
 }
 body.white input[type=text]:hover {
     background-color:cyan;
 }
 body.white input[type=button] {
     background-color:#FF9900; color:white;
-    border-radius:10px 10px 10px 10px;
     border:2px solid #FF9900;
+    border-radius:10px;
 }
 body.white input[type=button]:hover {
     background-color:#FFCC33;

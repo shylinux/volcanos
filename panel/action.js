@@ -59,7 +59,16 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             can.user.title(can.user.Search(can, can._TITLE)||msg.Option(can._TITLE))
             can.onaction.layout(can, "auto")
 
-            can.Conf({width: window.innerWidth, height: window.innerHeight})
+            if (msg["index"].length == 1) { can.user.mod.isCmd = true
+                can.page.ClassList.add(can, can._target, "cmd")
+                can.require(["/panel/cmd.css"])
+                can.page.Select(can, document.body, "fieldset.panel", function(item) {
+                    item != can._target && can.onmotion.hidden(can, item)
+                })
+                can.Conf({width: window.innerWidth+40, height: window.innerHeight})
+            } else {
+                can.Conf({width: window.innerWidth, height: window.innerHeight})
+            }
             can.Conf(can._RIVER, "_share"), can.Conf(can._STORM, share)
             can.onimport._init(can, msg)
         })
@@ -105,8 +114,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
             })
         }
 
-        var ls = location.pathname.split("/")
-        can.onimport._share(can, can.user.Search(can, can._SHARE) || ls[1]=="share" && ls[2])
+        can.onimport._share(can, can.user.Search(can, web.SHARE))
     },
     onresize: function(can, msg, width, height) { can.Conf({width: width, height: height}) },
     onsearch: function(can, msg, word) {

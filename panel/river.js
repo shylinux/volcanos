@@ -131,7 +131,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         })
     },
 })
-Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户", "添加应用", "添加设备", "重命名群组", "删除群组"],
+Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加应用", "添加设备", "重命名群组", "删除群组"],
     sublist: ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"],
     menus: [chat.RIVER,
         ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备", "创建空间"],
@@ -246,6 +246,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
         can.user.select(event, can, chat.USER, "time,type,name,text")
     },
     "访问空间": function(event, can, button, river, storm) {
+        var msg = can.request(event, {river: river})
         can.user.select(event, can, web.SPACE, "time,type,name,text")
     },
     "工作任务": function(event, can, button, river, storm) {
@@ -279,7 +280,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加用户
             {name: "repos", value: "@key"},
             {name: "template", value: "@key"},
         ], function(event, button, data, list, args) {
-            can.run(event, [ctx.ACTION, cli.START].concat(args), function(msg) {
+            can.run(event, [ctx.ACTION, cli.START].concat(args, chat.RIVER, river), function(msg) {
                 var link = can.user.MergeURL(can, {_path: "/chat/pod/"+can.core.Keys(can.user.Search(can, cli.POD), msg.Option(kit.MDB_NAME))})
                 can.user.toast(can, link), can.user.open(link)
             })

@@ -300,7 +300,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var title = item.help? name+"("+item.help.split(" ")[0]+")": name
         return can.page.Append(can, target||can._output, [{view: [(type||"")+" "+(item.name||"")+" "+(item.pos||""), html.FIELDSET], list: [
             name && {text: [title, html.LEGEND]},
-            can.user.isCmd && type == "plugin" && {view: [html.LEGEND, html.DIV, title]},
+            can.user.mod.isCmd && type == "plugin" && {view: [html.LEGEND, html.DIV, title]},
             {view: ["option", "form"]}, {view: ["action"]}, {view: ["output"]}, {view: ["status"]},
         ]}])
     },

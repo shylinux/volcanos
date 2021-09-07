@@ -30,6 +30,9 @@ fieldset.word>div.navmenu div.item {
     font-family:cursive;
     padding:4px 10px;
 }
+fieldset.word>div.navmenu div.item.select {
+    background-color:red;
+}
 fieldset.word>div.navmenu div.item:hover {
     cursor:pointer;
     background-color:red;
