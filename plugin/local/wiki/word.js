@@ -29,6 +29,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         nav = nav || can.page.Append(can, can._fields, [{view: "navmenu"}]).first
         can.sup._navmenu = nav, can._fields.insertBefore(nav, can._output)
         can.onmotion.clear(can, nav)
+        can.page.Modify(can, can._output, {style: {float: "left", clear: "none"}})
 
         can.onappend.list(can, can.base.Obj(data.data), function(event, item) {
             var link = item.meta.link, cmd = link.split("/").pop()

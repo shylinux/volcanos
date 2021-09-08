@@ -283,6 +283,7 @@ fieldset.story>div.status {
 fieldset.float {
     background-color:#023531cf;
     position:absolute;
+    z-index:30;
 }
 fieldset.float>legend {
     display:none;

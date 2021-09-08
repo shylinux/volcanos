@@ -54,6 +54,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 
         can.misc.Run(event, can, {names: msg.Option("_names")||panel._names||((can.Conf("iceberg")||"/chat/")+panel._name), daemon: can.ondaemon._list[0]+"."+msg._daemon}, cmds, function(msg) {
             Volcanos.meta.pack[key] = msg, delete(msg._handle), delete(msg._toast)
+            if (msg.result && msg.result[0] == "warn: ") { can.user.toast(can, msg.Result(), "", 10000); return }
             can.base.isFunc(cb) && cb(msg)
         })
     },
