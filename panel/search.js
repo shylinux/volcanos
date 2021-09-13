@@ -1,12 +1,16 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.onmotion.clear(can, can.ui.content)
-        var table = can.onappend.table(can, msg, function(value, key, index, line) { can.Status("count", index+1)
+        var table = can.onappend.table(can, msg, function(value, key, index, line, array) { can.Status("count", index+1)
             return {text: [key == "text" && can.base.isFunc(line.text) && line.text.help || value, "td"], onclick: function(event) {
                 can.onaction[can.type == "*"||event.ctrlKey? "plugin": "select"](event, can, index) 
             }}
         }, can.ui.content, can.core.List((msg.Option("sort")||"ctx,cmd,type,name,text").split(","), function(item) {
             return list.indexOf(item)
         })); table && can.page.Modify(can, can.ui.display, {style: {width: table.offsetWidth}})
+
+        if (msg.Length() == 1) {
+            can.page.Select(can, table, "td")[0].click()
+        }
     },
     _word: function(can, msg, cmds, fields) { can.type = cmds[0]
         var res = can.request({}, {word: cmds, fields: fields.join(","), sort: msg.Option("sort"), index: msg.Option("index"), river: msg.Option("river")})
@@ -57,6 +61,7 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
             }]},
             {view: "content"}, {view: ["display", "table"]}, {view: "preview"},
         ])
+        can.page.ClassList.add(can, can.ui.display, "content")
     },
     "关闭": function(event, can) { can.onmotion.hide(can) },
     "清空": function(event, can) { can.onmotion.clear(can, can.ui.preview) },
@@ -82,6 +87,9 @@ Volcanos("onaction", {help: "交互操作", list: ["关闭", "清空", "完成"]
 
         var cmd = line.cmd == "command"? can.core.Keys(line.text, line.name): can.core.Keys(line.ctx, line.cmd)
         can.onappend.plugin(can, {type: "plugin", index: cmd||msg.Option("index")}, function(sub, meta) {
+            can.search({}, "Action.onexport.size", function(msg, width) {
+                sub.Conf("width", width-60)
+            })
             sub.run = function(event, cmds, cb) { var msg = can.request(event, line)
                 can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, meta.index], cmds), cb)
             }
