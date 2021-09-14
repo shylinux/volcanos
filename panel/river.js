@@ -52,11 +52,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 })
 Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, can, msg, panel, cmds, cb) {
-        cmds.length == 0 && can.core.Item(can.onengine.river, function(key, value) {
+        var list = can.onengine._river||can.onengine.river
+        cmds.length == 0 && can.core.Item(list, function(key, value) {
             msg.Push({hash: key, name: value.name}) // 群组列表
         }); if (cmds.length != 1 && cmds[1] != chat.TOOL) { return false }
 
-        var river = can.onengine.river[cmds[0]]; if (!river) { return false }
+        var river = list[cmds[0]]; if (!river) { return false }
         can.core.Item(river.storm, function(key, value) {
             msg.Push({hash: key, name: value.name}) // 应用列表
         }), can.base.isFunc(cb) && cb(msg); return true

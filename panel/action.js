@@ -75,7 +75,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
     },
 })
 Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, page, msg, can, cmds, cb) {
-        var river = can.onengine.river[cmds[0]]
+        var list = can.onengine._river||can.onengine.river
+        var river = list[cmds[0]]
         var storm = river && river.storm[cmds[1]]
         if (!storm || cmds.length != 2) { return false }
 

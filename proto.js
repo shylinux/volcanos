@@ -167,13 +167,14 @@ var Volcanos = shy("火山架", {volcano: "/frame.js", args: {}, pack: {}, libs:
         Config.main = Config.main||{}
 
         // 预加载
-        var Preload = Config.preload||[]; for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
+        var Preload = (Config.preload||[]).concat(Config.main.list)
+        for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
             panel && (Preload = Preload.concat(panel.list = panel.list || ["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
         }; Preload = Preload.concat(Config.plugin)
 
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: document.body}
-        libs = Preload.concat(Config.main.list, Config.libs, Config.volcano), cb = function(can) {
+        libs = Preload.concat(Config.libs, Config.volcano), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panels, function(msg) {
                 can.base.isFunc(Config._init) && Config._init(can)
             }, can._target)

@@ -1011,7 +1011,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
     _mode: {
         normal: {
             j: function(event, can, target) { target.scrollBy(0, event.ctrlKey? 300: 30) },
-            k: function(event, can, target) { target.scrollBy(0, -30) },
+            k: function(event, can, target) { target.scrollBy(0, event.ctrlKey? -300: -30) },
 
             b: function(event, can, target) { can.search(event, ["Header.onaction.black"]) },
             w: function(event, can, target) { can.search(event, ["Header.onaction.white"]) },
