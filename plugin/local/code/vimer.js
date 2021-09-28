@@ -43,7 +43,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                     event.target.setSelectionRange(0, -1)
                     can.onkeymap._command(can)
                 }},
-                {button: ["执行", function(event) {
+                {button: ["run", function(event) {
                     can.onkeymap.command.Enter(event, can, can.ui.cmd.value)
                 }]},
                 {button: ["清空", function(event) {

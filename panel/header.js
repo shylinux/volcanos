@@ -44,7 +44,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _state: function(can, msg, target) { const STATE = "state"
         can.core.List(can.base.Obj(can.Conf(STATE)||msg.Option(STATE), [kit.MDB_TIME, aaa.USERNAME]), function(item) {
             if (item == aaa.AVATAR) {
-                can.page.Append(can, target, [{view: [STATE+" "+item], list: [{img: can.Conf(item)}], onmouseenter: function(event) {
+                can.page.Append(can, target, [{view: [STATE+" "+item], list: [{img: can.Conf(item)||" "}], onmouseenter: function(event) {
                     can.onaction.carte(event, can, [can.page.Format(html.IMG, can.Conf(item), 160)])
                 }}])
                 return
@@ -119,7 +119,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 
     time: function(can, target) { can.onlayout.topic(can)
-        target.innerHTML = can.base.Time(null, "%w %H:%M:%S")
+        target.innerHTML = can.user.time(can, null, "%w %H:%M:%S")
     },
     menu: function(can, cmds, cb) {
         return can.page.Append(can, can._output, [{type: cmds[0], list: can.core.List(cmds.slice(1), function(item) {
@@ -157,6 +157,9 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     _trans: {
         "river": "菜单",
         "search": "搜索",
+
+        "create": "创建",
+        "share": "共享",
 
         "help": "帮助",
         "tutor": "入门简介",
@@ -235,7 +238,13 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     },
 
     username: function(event, can) {
-        can.onaction.carte(event, can, ["shareuser", aaa.USERNICK, "clear", aaa.LOGOUT])
+        can.onaction.carte(event, can, ["shareuser", aaa.USERNICK, "clear", aaa.LOGOUT, "english", "chinese"])
+    },
+    english: function(event, can) {
+        can.user.Search(can, "language", "en")
+    },
+    chinese: function(event, can) {
+        can.user.Search(can, "language", "zh")
     },
     shareuser: function(event, can) {
         can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, kit.MDB_TYPE, aaa.LOGIN])
@@ -252,7 +261,10 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
             }, true)
         })
     },
-    clear: function(event, can, button) { can.onimport.background(event, can, "") },
+    clear: function(event, can, button) {
+        can.onimport.background(event, can, "")
+        can.onimport.avatar(event, can, "")
+    },
     logout: function(event, can) { can.user.logout(can) },
 
     River: function(can) { can.search({}, ["River.onmotion.toggle"]) },

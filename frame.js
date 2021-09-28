@@ -298,7 +298,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     field: function(can, type, item, target) { type = type || html.INPUT, item = item || {}
         var name = (item.nick||item.name||"").split(" ")[0]
-        var title = item.help? name+"("+item.help.split(" ")[0]+")": name
+        var title = !item.help || can.user.language(can) == "en"? name: name+"("+item.help.split(" ")[0]+")"
         return can.page.Append(can, target||can._output, [{view: [(type||"")+" "+(item.name||"")+" "+(item.pos||""), html.FIELDSET], list: [
             name && {text: [title, html.LEGEND]},
             can.user.mod.isCmd && type == "plugin" && {view: [html.LEGEND, html.DIV, title]},
@@ -343,7 +343,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     return {type: html.OPTION, value: value, inner: value}
                 }), item.className || can.page.ClassList.add(can, item, "args")
                 break
-            case "button": item.value = item.value||item.name||"查看"; break
+            case "button": item.value = item.value||item.name||"list"; break
             case "upfile": item.type = html.FILE; break
             case "upload": item.type = html.FILE, input.name = "upload"; break
         }
@@ -475,7 +475,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
 
 
-        can.onappend._action(can, ["关闭", "刷新", {input: "text", placeholder: "filter", style: {position: ""}, _init: function(input) {
+        can.onappend._action(can, ["close", "refresh", {input: "text", placeholder: "filter", style: {position: ""}, _init: function(input) {
             can.onengine.signal(can, "keymap.focus", can.request({}, {cb: function(event) {
                 if (event.target.tagName == "INPUT") { return }
                 if (event.key == "Escape") { ui.close(); return }
@@ -495,8 +495,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     }
                 })
             })
-        }}], ui.action, { "关闭": ui.close,
-            "刷新": function(event) { ui.close(), can.toast.click() },
+        }}], ui.action, { "close": ui.close,
+            "refresh": function(event) { ui.close(), can.toast.click() },
         })
         can.onappend.table(can, msg, function(value, key, index, line, list) {
             return {text: [value, "td"], onclick: function(event) {
@@ -543,6 +543,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
     },
     topic: function(can, topic) { topic && (can._topic = topic)
         can.user.topic(can, can._topic || can.user.Search(can, "topic") || ((can.user.Search(can, cli.POD)||can.base.isNight())? "black": "white"))
+        can.page.ClassList.add(can, document.body, can.user.language(can))
     },
     figure: function(event, can, target, right) { target = target||can._target; if (!event || !event.target) { return }
         var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight; if (right) {

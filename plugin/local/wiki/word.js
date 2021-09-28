@@ -134,7 +134,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
         location.href = "/"
     },
 
-    "演示": function(event, can) { var list = [], current = []
+    "play": function(event, can) { var list = [], current = []
         can.page.Select(can, can._output, ".story", function(item) {
             switch (item.tagName) {
                 case "H1":

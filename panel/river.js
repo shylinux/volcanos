@@ -54,12 +54,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, can, msg, panel, cmds, cb) {
         var list = can.onengine._river||can.onengine.river
         cmds.length == 0 && can.core.Item(list, function(key, value) {
-            msg.Push({hash: key, name: value.name}) // 群组列表
+            msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) // 群组列表
         }); if (cmds.length != 1 && cmds[1] != chat.TOOL) { return false }
 
         var river = list[cmds[0]]; if (!river) { return false }
         can.core.Item(river.storm, function(key, value) {
-            msg.Push({hash: key, name: value.name}) // 应用列表
+            msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) // 应用列表
         }), can.base.isFunc(cb) && cb(msg); return true
     },
 })
@@ -135,8 +135,8 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
 Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加应用", "添加设备", "重命名群组", "删除群组"],
     sublist: ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"],
     menus: [chat.RIVER,
-        ["添加", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备", "创建空间"],
-        ["共享", "共享群组", "共享应用", "共享工具", "共享主机", "访问空间"],
+        ["create", "创建群组", "添加应用", "添加工具", "添加用户", "添加设备", "创建空间"],
+        ["share", "共享群组", "共享应用", "共享工具", "共享主机", "访问空间"],
     ],
 
     "创建群组": function(event, can) { can.onaction.create(event, can) },

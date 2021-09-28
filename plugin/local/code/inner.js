@@ -38,7 +38,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                         event.key == "Enter" && can.onaction.searchLine(event, can, ui.word.value)
                     }], value: "main", onfocus: function(event) { event.target.setSelectionRange(0, -1) }},
                     {button: ["搜索", function(event) { can.onaction.searchLine(event, can, ui.word.value) }]},
-                    {button: ["返回", function(event) { can.onaction["返回"](event, can) }]},
+                    {button: ["back", function(event) { can.onaction["back"](event, can) }]},
                     {button: ["关闭", function(event) { can.onaction["搜索"](event, can) }]},
                 ]},
                 {view: "tags", style: {"max-height": 160}},
@@ -170,7 +170,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
     },
 })
 Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏"],
-    "返回": function(event, can) {
+    "back": function(event, can) {
         var last = can.history.pop(); last = can.history.pop()
         last && can.onimport.tabview(can, last.path, last.file, last.line)
         can.Status("跳转数", can.history.length)

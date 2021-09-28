@@ -58,6 +58,10 @@ input[type=button] {
     letter-spacing:4px;
     padding-left:10px;
     cursor:pointer;
+    font-family:monospace;
+}
+body.en input[type=button] {
+    letter-spacing:2px;
 }
 input[type=button]:hover {
     background-color:gray; color:cyan;

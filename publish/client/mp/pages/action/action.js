@@ -97,14 +97,14 @@ Page({
         }
 
         switch (input.name) {
-            case "返回": // 恢复命令
+            case "back": // 恢复命令
                 page.data.back[data.order].pop(); var line = page.data.back[data.order].pop()
                 kit.List(field.inputs, function(input, index) {
                     if (input._input != "button") { input.value = line&&line[index] || "" }
                 })
-            case "执行": // 执行命令
+            case "run": // 执行命令
             case "刷新": // 执行命令
-            case "查看": page.run(event, data.order); break
+            case "list": page.run(event, data.order); break
             default:
                 var cb = page.plugin[input.name]; can.base.isFunc(cb)? cb(event, page, data.order, input.name):
                     page.run(event, data.order, ["action", input.name].concat(kit.List(field.inputs, function(input) {

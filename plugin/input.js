@@ -9,14 +9,14 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
         }
     },
 
-    "执行": function(event, can) {
+    "run": function(event, can) {
         var title = can.sup._name+" "+can.sup.Input([], true)
         var toast = can.user.toast(can, "执行中...", title, -1)
         can.run(event, [], function() { toast.close(), can.user.toast(can, "执行成功...", title) })
     },
-    "刷新": function(event, can) { can.run(event) },
-    "查看": function(event, can) { can.run(event) },
-    "返回": function(event, can) { can.sup.onimport._back(can.sup) },
+    "refresh": function(event, can) { can.run(event) },
+    "list": function(event, can) { can.run(event) },
+    "back": function(event, can) { can.sup.onimport._back(can.sup) },
 
     onchange: function(event, can) {
         if (can.Conf("type") == "select") { can.run(event) }
