@@ -183,7 +183,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     }
 
                     var table = can.core.Value(can, "_outputs.-1")
-                    if (msg.Option("_handle") != "true" && cmds && cmds[0] == ctx.ACTION && table.onaction[cmds[1]]) {
+                    if (msg.Option("_handle") != "true" && cmds && cmds[0] == ctx.ACTION && table && table.onaction[cmds[1]]) {
                         return msg.Option("_handle", "true"), can.core.CallFunc(table.onaction[cmds[1]], {event: event, can: table, msg: msg})
                     }
 
