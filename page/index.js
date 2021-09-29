@@ -69,14 +69,14 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
                 {name: "plan", help: "任务表", index: "web.team.plan"},
                 {name: "ctx", help: "上下文", index: "web.wiki.word", args: ["src/main.shy"]},
             ]},
+            web: {name: "网页 web",  action: [
+                {name: "HTML5", help: "浏览器", index: "web.wiki.word", args: ["usr/icebergs/misc/chrome/chrome.shy"]},
+            ]},
             cli: {name: "命令 cli",  action: [
                 {name: "bash", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/bash/bash.shy"]},
                 {name: "git", help: "代码库", index: "web.wiki.word", args: ["usr/icebergs/misc/git/git.shy"]},
                 {name: "vim", help: "编辑器", index: "web.wiki.word", args: ["usr/icebergs/misc/vim/vim.shy"]},
                 {name: "tmux", help: "命令行", index: "web.wiki.word", args: ["usr/icebergs/misc/tmux/tmux.shy"]},
-            ]},
-            web: {name: "网页 web",  action: [
-                {name: "HTML5", help: "浏览器", index: "web.wiki.word", args: ["usr/icebergs/misc/chrome/chrome.shy"]},
             ]},
             linux: {name: "系统 linux",  action: [
                 {name: "idc", help: "平台", index: "web.wiki.word", args: ["usr/linux-story/idc/idc.shy"]},

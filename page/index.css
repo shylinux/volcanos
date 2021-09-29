@@ -35,6 +35,8 @@ div.story[data-type=spark] {
     box-shadow: 4px 4px 10px 1px #626bd0;
     padding:4px 10px; margin:10px 0px;
     border-left:solid 4px blue;
+    white-space:pre;
+    cursor:copy;
 }
 div.story[data-type=spark] span:hover {
     box-shadow: 4px 4px 10px 1px #29318e;
