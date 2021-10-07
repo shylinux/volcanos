@@ -82,6 +82,7 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
                 {name: "idc", help: "平台", index: "web.wiki.word", args: ["usr/linux-story/idc/idc.shy"]},
                 {name: "iso", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/iso/iso.shy"]},
                 {name: "iot", help: "设备", index: "web.wiki.word", args: ["usr/linux-story/iot/iot.shy"]},
+                {name: "cli", help: "命令", index: "web.wiki.word", args: ["usr/linux-story/cli/cli.shy"]},
                 {name: "linux", help: "系统", index: "web.wiki.word", args: ["usr/linux-story/src/main.shy"]},
             ]},
             nginx: {name: "代理 nginx",  action: [
@@ -94,7 +95,7 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
                 {name: "redis", help: "缓存", index: "web.wiki.word", args: ["usr/redis-story/src/main.shy"]},
                 {name: "kafka", help: "队列", index: "web.wiki.word", args: ["usr/redis-story/src/kafka/kafka.shy"]},
             ]},
-            mysql: {name: "数据 mysql",  action: [
+            mysql: {name: "存储 mysql",  action: [
                 {name: "mysql", help: "数据存储", index: "web.wiki.word", args: ["usr/mysql-story/src/main.shy"]},
                 {name: "clickhouse", help: "数据存储", index: "web.wiki.word", args: ["usr/mysql-story/src/clickhouse/clickhouse.shy"]},
             ]},
@@ -109,14 +110,14 @@ Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
             ]},
         }},
         operate: {name: "运维群", storm: {
-            cli: {name: "系统 cli", index: [
-                "qrcode", "daemon", "system", "runtime",
+            aaa: {name: "权限 aaa", index: [
+                "user", "sess", "role", "totp",
             ]},
             web: {name: "应用 web", index: [
                 "spide", "route", "share", "dream",
             ]},
-            aaa: {name: "权限 aaa", index: [
-                "user", "sess", "role", "totp",
+            cli: {name: "系统 cli", index: [
+                "qrcode", "daemon", "system", "runtime",
             ]},
             nfs: {name: "文件 nfs", index: [
                 "cat", "dir", "tail", "trash",

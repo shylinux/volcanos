@@ -237,7 +237,7 @@ fieldset>div.status>div.item {
     height:18px;
 }
 fieldset>div.status>div.item>label {
-    font-size:10px; color:#504242e0;
+    font-size:10px; color:#bdb8b8e0;
 }
 
 fieldset>div.output {
@@ -486,6 +486,10 @@ body.white table input[type=button][value=停止] {
 }
 body.white table input[type=button][value=启动] {
     background:#52ce78;
+}
+
+body.white fieldset>div.status>div.item>label {
+    font-size:10px; color:#504242e0;
 }
 
 body.white fieldset.Action {

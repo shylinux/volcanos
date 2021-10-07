@@ -173,6 +173,12 @@ Volcanos("onaction", {help: "交互操作", list: [
         })
     },
 
+    next: function(event, can) {
+        can.Update(event, [ctx.ACTION, "next", can.Status("total")||0, can.Option("limit"), can.Option("offend")])
+    },
+    prev: function(event, can) {
+        can.Update(event, [ctx.ACTION, "prev", can.Status("total")||0, can.Option("limit"), can.Option("offend")])
+    },
     change: function(event, can, name, value, cb) {
         return can.page.Select(can, can._option, "input.args", function(input) {
             if (input.name == name && value != input.value) { input.value = value
