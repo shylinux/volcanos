@@ -277,7 +277,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加应用
             var msg = can.request(event, {action: cli.START})
             can.run(event, cmds, cb, silent)
         }}, [
-            {name: "name", value: "@key"},
+            {name: "name", value: "@key=hi"},
             {name: "repos", value: "@key"},
             {name: "template", value: "@key"},
         ], function(event, button, data, list, args) {
