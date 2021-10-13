@@ -111,11 +111,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _time: function(can, target) {
         can.core.Timer({interval: 500}, function() { can.onimport.time(can, target) })
-        can.onappend.figure(can, {style: {"min-width": 306}}, "@date", function(sub) {
+        can.onappend.figure(can, {style: {"min-width": 306}, action: "date"}, target, function(sub) {
             can.search({}, ["Action.onexport.size"], function(msg, top) {
                 can.page.Modify(can, sub._target, {style: {top: top, left: window.innerWidth-sub._target.offsetWidth}})
             })
-        }, target), target.onmouseenter = function() { target.click() }
+        }), target.onmouseenter = function() { target.click() }
     },
 
     time: function(can, target) { can.onlayout.topic(can)
@@ -187,7 +187,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
         // 登录检查
         can.user.isLocalFile? init(): can.run({}, [chat.CHECK], function(msg) {
             can.Conf(aaa.USERNAME, msg.Option(ice.MSG_USERNAME))? init():
-                msg.Option("sso")? can.user.jumps(msg.Option("sso")): can.user.login(can, init)
+                msg.Option("sso")? can.user.jumps(msg.Option("sso")): can.user.login(can, init, msg.Option("login"))
         })
     },
     onstorm_select: function(can, msg, river, storm) {

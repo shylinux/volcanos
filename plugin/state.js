@@ -182,7 +182,7 @@ Volcanos("onaction", {help: "交互操作", list: [
     change: function(event, can, name, value, cb) {
         return can.page.Select(can, can._option, "input.args", function(input) {
             if (input.name == name && value != input.value) { input.value = value
-                var data = input.dataset || {}; data.action == "auto" && can.Update(event, can.Input(), cb)
+                var data = input.dataset || {}; can.Update(event, can.Input(), cb)
                 return input
             }
         })

@@ -489,7 +489,7 @@ body.white table input[type=button][value=启动] {
 }
 
 body.white fieldset>div.status>div.item>label {
-    font-size:10px; color:#504242e0;
+    font-size:10px; color:#cefbfbe0;
 }
 
 body.white fieldset.Action {

@@ -194,7 +194,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     key.indexOf("on") == 0 && !input._target[key] && (input._target[key] = function(event) {
                         value(event, input)
                     })
-                }), can.onappend.figure(input, item, item.value, function() {}, input._target)
+                }), can.onappend.figure(input, item, input._target)
 
                 can.core.CallFunc([input.onaction, "_init"], [input, item, [], next, input._target])
             })
@@ -311,44 +311,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             case "": return can.page.Append(can, target, [item])
         }
 
-
-        var title = can.Conf(["feature", "title", item.name].join("."))||""
-        var input = {type: html.INPUT, name: item.name, data: item, dataset: {}, _init: item._init, style: item.style}
-        item.value == "auto" && (item.value = "", item.action = "auto")
-        item.action == "auto" && (input.dataset.action = "auto")
-        title && (input.title = title)
-
-        var br = []
-        switch (item.type = item.type||item._input||html.TEXT) {
-            case "textarea": input.type = html.TEXTAREA; item.style = item.style||{}
-                item.style.width = item.style.width || can.Conf(["feature", html.TEXTAREA, item.name, "width"].join(".")) || can.Conf(["feature", html.TEXTAREA, "width"].join(".")) || 400
-                item.style.height = item.style.height || can.Conf(["feature", html.TEXTAREA, item.name, "height"].join(".")) || can.Conf(["feature", html.TEXTAREA, "height"].join(".")) || 30
-                br.push({type: "br"})
-                // no break
-            case "password":
-                // no break
-            case "text":
-                item.autocomplete = "off"
-                item.value = value || item.value || ""
-                item.className || can.page.ClassList.add(can, item, "args")
-                break
-            case "select": input.type = html.SELECT
-                item.values = typeof item.values == "string"? can.core.Split(item.values): item.values
-                if (!item.values && item.value) {
-                    item.values = can.core.Split(item.value), item.value = item.values[0]
-                    if (item.values[0] == "day") { item.value = item.values[1] }
-                }
-
-                item.value = value||item.value, input.list = item.values.map(function(value) {
-                    return {type: html.OPTION, value: value, inner: value}
-                }), item.className || can.page.ClassList.add(can, item, "args")
-                break
-            case "button": item.value = item.value||item.name||"list"; break
-            case "upfile": item.type = html.FILE; break
-            case "upload": item.type = html.FILE, input.name = "upload"; break
-        }
-
-        return can.page.Append(can, target, [{view: ["item "+item.type], list: [input]}].concat(br))[item.name]
+        var input = can.page.input(can, item, value)
+        var br = input.type == html.TEXTAREA? [{type: "br"}]: []
+        var title = can.Conf(["feature", "title", item.name].join("."))||""; title && (input.title = title)
+        return can.page.Append(can, target, ([{view: ["item "+item.type], list: [input]}]).concat(br))[item.name]
     },
     table: function(can, msg, cb, target, sort) {
         var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
@@ -411,25 +377,22 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
     },
 
-    figure: function(can, meta, key, cb, target) {
-        if (!key || key[0] != "@") { return }
-        var list = can.core.Split(key, "@=", "@=")
-        var pkey = list[0], pval = list[1]||""
+    figure: function(can, meta, target, cb) { if (target.type == html.BUTTON) { return }
+        var input = meta.action||"key"; can.require(["/plugin/input/"+input+".js"], function(can) {
+            can.core.Item(can.onfigure[input], function(key, on) { if (key.indexOf("on") != 0) { return }
+                target[key] = function(event) {
+                    can.onappend._init(can, {type: html.INPUT, name: input, pos: "float"}, [], function(sub) {
+                        sub.Conf(meta), sub.run = function(event, cmds, cb) {
+                            var msg = sub.request(event, can.Option());
+                            (meta.run||can.run)(event, cmds, cb, true)
+                        }
 
-        target.type != html.BUTTON && (target.value = pval||""), can.require(["/plugin/input/"+pkey+".js"], function(can) {
-            can.core.Item(can.onfigure[pkey], function(key, on) { if (key.indexOf("on") == 0) { target[key] = function(event) {
-                can.onappend._init(can, {type: html.INPUT, name: pkey, pos: "float"}, [], function(sub) {
-                    sub.run = function(event, cmds, cb) {
-                        var msg = sub.request(event, can.Option());
-                        (meta.run||can.run)(event, cmds, cb, true)
-                    }, sub.Conf(meta)
-
-                    can.onmotion.float.add(can, "input", sub)
-
-                    meta.style && sub.page.Modify(sub, sub._target, {style: meta.style})
-                    on(event, sub, meta, cb, target)
-                }, document.body)
-            } } })
+                        meta.style && sub.page.Modify(sub, sub._target, {style: meta.style})
+                        can.onmotion.float.add(can, "input", sub)
+                        on(event, sub, meta, cb, target)
+                    }, document.body)
+                }
+            })
         })
     },
     _plugin: function(can, value, meta, cb, target) {
@@ -705,9 +668,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
                     can.onkeypop.input(event, can)
             }
         }, _init: function(target) {
-            item && can.onappend.figure(can, item, item.value, function() {
-
-            }, target), target.value = text
+            item && can.onappend.figure(can, item, target), target.value = text
         }}]); ui.first.focus(), ui.first.setSelectionRange(0, -1)
     },
     modifys: function(can, target, cb) { var back = target.innerHTML
