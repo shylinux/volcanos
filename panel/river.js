@@ -277,9 +277,9 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加应用
             var msg = can.request(event, {action: cli.START})
             can.run(event, cmds, cb, silent)
         }}, [
-            {name: "name", value: "@key=hi"},
-            {name: "repos", value: "@key"},
-            {name: "template", value: "@key"},
+            {name: "name", value: "hi", action: "key"},
+            {name: "repos", action: "key"},
+            {name: "template", action: "key"},
         ], function(event, button, data, list, args) {
             can.run(event, [ctx.ACTION, cli.START].concat(args, chat.RIVER, river), function(msg) {
                 var link = can.user.MergeURL(can, {_path: "/chat/pod/"+can.core.Keys(can.user.Search(can, cli.POD), msg.Option(kit.MDB_NAME))})

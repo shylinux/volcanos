@@ -377,7 +377,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
     },
 
-    figure: function(can, meta, target, cb) { if (target.type == html.BUTTON) { return }
+    figure: function(can, meta, target, cb) {
+        if (meta.type == html.BUTTON) { return }
+        if (meta.type == html.SELECT) { return }
         var input = meta.action||"key"; can.require(["/plugin/input/"+input+".js"], function(can) {
             can.core.Item(can.onfigure[input], function(key, on) { if (key.indexOf("on") != 0) { return }
                 target[key] = function(event) {

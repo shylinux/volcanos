@@ -68,12 +68,12 @@ body.en input[type=button] {
 input[type=button]:hover {
     background-color:gray; color:cyan;
 }
-input[type=password] {
-    width:82px; height:21px; font-size:16px;
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    background-color:cyan; color:black;
-    padding: 0 4px;
-}
+/* input[type=password] { */
+/*     width:82px; height:21px; font-size:16px; */
+/*     box-shadow: 4px 4px 10px 1px #626bd0; */
+/*     background-color:cyan; color:black; */
+/*     padding: 0 4px; */
+/* } */
 input[type=text] {
     width:82px; height:21px; font-size:16px;
     box-shadow:4px 4px 10px 1px #626bd0;
@@ -383,7 +383,10 @@ body>div.input {
 body>div.input input[type=text] {
     width:171px;
 }
-body>div.input input[type=password] {
+body>div.input input[name=username] {
+    width:171px;
+}
+body>div.input input[name=password] {
     width:171px;
 }
 body>div.input textarea {
@@ -400,7 +403,7 @@ body>div.input.login {
     padding:10px;
 }
 body>div.input.login input {
-    font-size:18px
+    font-size:18px;
 }
 
 body>div.upload {
