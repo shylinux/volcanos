@@ -25,7 +25,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
     _search: function(event, can, msg, panel, cmds, cb) {
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split("."), function(value) {
             fun && (sub = mod, mod = fun, fun = mod[value], key = value)
-        }); if (!sub || !mod || !fun) { can.misc.warn("not found", cmds)
+        }); if (!sub || !mod || !fun) { can.misc.Warn("not found", cmds)
             return can.base.isFunc(cb) && cb(msg.Echo("warn: ", "not found: ", cmds))
         }
 
