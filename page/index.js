@@ -1,5 +1,4 @@
-Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js",
-    libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], panels: [
+Volcanos({name: "chat", panels: [
         {name: "Header", help: "标题栏", pos: "head", state: ["time", "username", "avatar"]},
         {name: "Search", help: "搜索框", pos: "auto"},
         {name: "River",  help: "群聊组", pos: "left", action: ["create", "refresh"]},

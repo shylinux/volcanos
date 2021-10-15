@@ -48,8 +48,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Modify(can, can.toast, [time.split(" ").pop(), title, content].join(" "))
         can._toast.Push({time: time, fileline: fileline, title: title, content: content})
     },
-    ncmd: function(can, msg, time, follow, commands) { const NCMD = "ncmd"; can._cmds = can._cmds || can.request()
-        can._cmds.Push({time: time, follow: follow, commands: commands})
+    ncmd: function(can, msg, follow, cmds) { const NCMD = "ncmd"; can._cmds = can._cmds || can.request()
+        can._cmds.Push({time: can.base.Time(), follow: follow, cmds: cmds})
         can.page.Select(can, can._output, can.core.Keys(html.SPAN, NCMD), function(item) {
             item.innerHTML = can.Conf(NCMD, parseInt(can.Conf(NCMD)||"0")+1+"")+""
         })
@@ -64,18 +64,18 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
 
     _cmd: function(can) {
         return can.onappend.float(can, can._cmds, function(value, key, index, line, list) {
-            var commands = can.base.Obj(line.commands); switch (line.follow) {
-                case "chat.Action": commands = commands.slice(2); break
-                case "chat.Footer": commands = commands.slice(2); break
+            var cmds = can.base.Obj(line.cmds); switch (line.follow) {
+                case "chat.Action": cmds = cmds.slice(2); break
+                case "chat.Footer": cmds = cmds.slice(2); break
             }
-            switch (commands[0]) {
-                case "web.wiki.word": commands = commands.slice(5); break
+            switch (cmds[0]) {
+                case "web.wiki.word": cmds = cmds.slice(5); break
             }
 
             can.search({}, ["Action.onexport.size"], function(msg, top, left, width, height) {
-                can.onappend.plugin(can, {index: commands[0], args: commands.slice(1), width: width, height: height-100}, function(sub) {
+                can.onappend.plugin(can, {index: cmds[0], args: cmds.slice(1), width: width, height: height-100}, function(sub) {
                     sub.run = function(event, cmds, cb) {
-                        can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, commands[0]], cmds), cb)
+                        can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, cmds[0]], cmds), cb)
                     }
 
                     can.page.Modify(can, sub._output, {style: {"max-width": width}})

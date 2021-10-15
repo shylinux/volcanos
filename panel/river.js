@@ -52,7 +52,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 })
 Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, can, msg, panel, cmds, cb) {
-        var list = can.onengine._river||can.onengine.river
+        var list = can._root.river
         cmds.length == 0 && can.core.Item(list, function(key, value) {
             msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) // 群组列表
         }); if (cmds.length != 1 && cmds[1] != chat.TOOL) { return false }
@@ -292,7 +292,7 @@ Volcanos("onexport", {help: "导出数据", list: [],
     width: function(can) { return can._target.offsetWidth },
     storm: function(can, msg, word) {
         var fields = (msg.Option(ice.MSG_FIELDS)||"ctx,cmd,type,name,text").split(",")
-        can.core.Item(can.onengine.river, function(river, value) {
+        can.core.Item(can._root.river, function(river, value) {
             can.core.Item(value.storm, function(storm, item) {
                 if (word[1] != "" && word[1] != storm && word[1] != item.name) { return }
 

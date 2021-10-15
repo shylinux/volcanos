@@ -6,6 +6,7 @@ const kit = {
     MDB_TYPE: "type",
     MDB_NAME: "name",
     MDB_TEXT: "text",
+    MDB_HELP: "help",
 
     MDB_LINK: "link",
     MDB_VALUE: "value",
@@ -49,8 +50,8 @@ const web = {
 const aaa = {
     USERNAME: "username",
     USERNICK: "usernick",
-    AVATAR: "avatar",
     BACKGROUND: "background",
+    AVATAR: "avatar",
 
     LOGIN: "login",
     LOGOUT: "logout",
@@ -58,9 +59,9 @@ const aaa = {
 }
 const mdb = {
     CREATE: "create",
+    REMOVE: "remove",
     INSERT: "insert",
     MODIFY: "modify",
-    REMOVE: "remove",
     PLUGIN: "plugin",
 
     HASH: "hash",
@@ -105,6 +106,14 @@ const chat = {
     TOOL: "tool",
     NODE: "node",
 
+    LAYOUT: "layout",
+    OUTPUT: "output",
+    SCROLL: "scroll",
+    HEIGHT: "height",
+    WIDTH: "width",
+    TOP: "top",
+    LEFT: "left",
+
     HEADER: "header",
     TOPIC: "topic",
     TITLE: "title",
@@ -147,8 +156,8 @@ const html = {
 }
 
 function shy(help, meta, list, cb) {
-    var index = 0, args = arguments; function next(check) {
-        if (index < args.length && (!check || check == typeof args[index])) {
+    var index = 0, args = arguments; function next(type) {
+        if (index < args.length && (!type || type == typeof args[index])) {
             return args[index++]
         }
     }
@@ -159,12 +168,10 @@ function shy(help, meta, list, cb) {
     cb.list = next("object") || []
     return cb
 }; var _can_name = ""
-var Volcanos = shy("火山架", {volcano: "/frame.js", args: {}, pack: {}, libs: [], cache: {}}, [], function(name, can, libs, cb) {
+var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: {}, pack: {}, libs: [], cache: {}}, function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
-    if (typeof name == "object") { var Config = name; _can_name = ""
-        meta.libs = Config.libs, meta.volcano = Config.volcano
-        Config.panels = Config.panels||[]
-        Config.main = Config.main||{}
+    if (typeof name == "object") { var Config = name; Config.panels = Config.panels||[], Config.main = Config.main||{}
+        meta.libs = ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"]
 
         // 预加载
         var Preload = (Config.preload||[]).concat(Config.main.list)
@@ -173,16 +180,14 @@ var Volcanos = shy("火山架", {volcano: "/frame.js", args: {}, pack: {}, libs:
         }; Preload = Preload.concat(Config.plugin)
 
         // 根模块
-        name = Config.name, can = {_follow: Config.name, _target: document.body}
-        libs = Preload.concat(Config.libs, Config.volcano), cb = function(can) {
-            can.onengine._init(can, can.Conf(Config), Config.panels, function(msg) {
-                can.base.isFunc(Config._init) && Config._init(can)
-            }, can._target)
-        }
+        name = Config.name, can = {_follow: Config.name, _target: Config.target||document.body}
+        libs = Preload.concat(Config.libs||meta.libs, Config.volcano||meta.volcano), cb = function(can) {
+            can.onengine._init(can, can.Conf(Config), Config.panels, Config._init, can._target)
+        }, _can_name = "", can._root = can
     }
 
-    var proto = {__proto__: meta, _name: name, _load: function(name, cb) { // 加载缓存
-            var cache = meta.cache[name] || []; for (list.reverse(); list.length > 0; list) {
+    can = can||{}, can.__proto__ = {__proto__: meta, _name: name, _load: function(name, cb) { // 加载缓存
+            var cache = meta.cache[name]||[]; for (list.reverse(); list.length > 0; list) {
                 var sub = list.pop(); sub != can && cache.push(sub)
             }; meta.cache[name] = cache
 
@@ -207,37 +212,29 @@ var Volcanos = shy("火山架", {volcano: "/frame.js", args: {}, pack: {}, libs:
             function next() { can._load(libs[0], each), can.require(libs.slice(1), cb, each) }
             meta.cache[libs[0]]? next(): meta._load(libs[0], next)
         },
-        request: function(event, option) { event = event || {}
-            event._msg = event._msg || can.misc.Message(event, can)
+        request: function(event, option) { event = event||{}
+            var msg = event._msg||can.misc.Message(event, can); event._msg = msg
+            function set(key, value) { msg[key] == undefined && msg.Option(key, value) }
 
-            function set(key, value) {
-                if (event._msg[key] == undefined) {
-                    event._msg.Option(key, value)
-                }
-            }
             can.core.List(arguments, function(option, index) { if (index == 0) { return } 
                 can.base.isFunc(option.Option)? can.core.List(option.Option(), function(key) {
                     set(key, option.Option(key))
                 }): can.core.Item(can.base.isFunc(option)? option(): option, set)
-
-            }); return event._msg
+            }); return msg
         },
 
-        get: function(name, key) { var event = {}
-            return can.search(event, [name+".onexport."+key])
+        set: function(name, key, value) {
+            var msg = can.request({}); msg.Option(key, value)
+            return can.search(msg._event, [name+".onimport."+key])
         },
-        set: function(name, key, value) { var event = {}
-            var msg = can.request(event); msg.Option(key, value)
-            return can.search(event, [name+".onimport."+key])
-        },
+        get: function(name, key) { return can.search({}, [name+".onexport."+key]) },
         search: function(event, cmds, cb) { return can.run && can.run(event, ["_search"].concat(cmds), cb, true) },
 
-        const: function(list) { can.core.List(typeof list == "object"? list: arguments, function(v) { can["_"+v.toUpperCase()] = v }) },
         Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},
-    }; can = can || {}; can.__proto__ = proto
+    }
 
-    if (_can_name && location.search.indexOf("debug=true") == -1) { // 加入缓存
-        meta.cache[_can_name] = meta.cache[_can_name] || []
+    if (_can_name) { // 加入缓存
+        meta.cache[_can_name] = meta.cache[_can_name]||[]
         meta.cache[_can_name].push(can)
     } else { // 加入队列
         list.push(can)
@@ -249,20 +246,20 @@ Volcanos.meta._load = function(url, cb) {
         case "css":
             var item = document.createElement(kit.MDB_LINK)
             item.rel = "stylesheet", item.type = "text/css"
-            item.href = url; item.onload = cb
-            document.head.appendChild(item)
-            return item
+            item.onload = cb, item.href = url
+            break
         case "js":
             var item = document.createElement(ssh.SCRIPT)
-            item.src = url, item.onload = cb
-            document.body.appendChild(item)
-            return item
+            item.onload = cb, item.src = url
+            break
+        default: return
     }
+    return document.body.appendChild(item), item
 }
 function cmd(tool) {
-    Volcanos({name: "chat", iceberg: "/chat/", volcano: "/frame.js", preload: [],
-        libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
-        panels: [{name: "cmd", help: "工作台", pos: "main", tool: tool}], main: {name: "cmd", list: []}, plugin: [
+    Volcanos({name: "chat", panels: [
+        {name: "cmd", help: "工作台", pos: "main", tool: tool},
+    ], main: {name: "cmd", list: []}, plugin: [
             "/plugin/state.js",
             "/plugin/input.js",
             "/plugin/table.js",
