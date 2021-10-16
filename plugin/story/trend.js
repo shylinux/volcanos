@@ -7,7 +7,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.Action("height", msg.Option("height")||can.user.mod.isCmd? "max": can.user.isMobile&&can.user.isLandscape? "200": "400")
         can.Action("speed", parseInt(msg.Option("speed")||"100"))
 
-        can.onappend.plugins(can, {index: "web.wiki.draw"}, function(sub) {
+        can.onappend.plugin(can, {index: "web.wiki.draw", style: "output"}, function(sub) {
             sub.run = function(event, cmds, cb) { sub.Action("go", "run")
                 can.base.isFunc(cb) && cb(sub.request())
 

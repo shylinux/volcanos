@@ -17,7 +17,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         can.onmotion.float.auto(can, can._output, "carte")
     },
     _plugin: function(can, river, storm, sub, meta) {
-        sub.run = function(event, cmds, cb) { var msg = sub.request(event); cmds = cmds || [];
+        sub.run = function(event, cmds, cb) { var msg = sub.request(event); cmds = cmds||[]
             var toast = msg.Option("_toast") && can.user.toast(can, msg.Option("_toast"), "", -1)
             return can.run(event, can.misc.Concat([river, storm, meta.id||meta.index||can.core.Keys(meta.key, meta.name)], cmds), function(msg) {
                 toast && toast.close(), can.base.isFunc(cb) && cb(msg)

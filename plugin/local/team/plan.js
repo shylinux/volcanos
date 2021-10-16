@@ -24,7 +24,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _task: function(can, msg, list, time, view) { return {text: ["", "td"],
         ondblclick: function(event) {
-            can.onaction.insertTask(event, can, time+can.base.Time().slice(time.length))
+            can.onaction.insertTask(event, can, time+can.base.Time(null, "%y-%m-%d %H:%M:%S").slice(time.length))
         },
         ondrop: function(event) { event.preventDefault()
             can.drop(event, event.target, time)

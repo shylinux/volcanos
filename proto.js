@@ -17,12 +17,27 @@ const kit = {
     MDB_LIST: "list",
 }
 const ice = {
+    SP: " ",
+    PT: ".",
+    NL: "\n",
+
+    TRUE: "true",
+
     MSG_USERNAME: "user.name",
     MSG_USERNICK: "user.nick",
     MSG_TITLE: "sess.title",
     MSG_RIVER: "sess.river",
     MSG_STORM: "sess.storm",
     MSG_FIELDS: "fields",
+
+    MSG_APPEND: "append",
+
+    MSG_TARGET: "_target",
+
+    MSG_ACTION: "_action",
+    MSG_STATUS: "_status",
+    MSG_HANDLE: "_handle",
+    MSG_DISPLAY: "_display",
 }
 
 const ctx = {
@@ -94,6 +109,18 @@ const wiki = {
     SHELL: "shell",
 }
 const chat = {
+    LIB: "lib",
+    PAGE: "page",
+    PANEL: "panel",
+    PLUGIN: "plugin",
+
+    STORY: "story",
+    CARTE: "carte",
+    INPUT: "input",
+    FLOAT: "float",
+
+    ONMAIN: "onmain",
+
     RIVER: "river",
     STORM: "storm",
     FIELD: "field",
@@ -135,24 +162,44 @@ const mall = {
 }
 
 const html = {
+    FIELDSET: "fieldset",
+    LEGEND: "legend",
+    OPTION: "option",
+    ACTION: "action",
+    OUTPUT: "output",
+    STATUS: "status",
+
+    FORM_OPTION: "form.option",
+    DIV_ACTION: "div.action",
+    DIV_OUTPUT: "div.output",
+    DIV_STATUS: "div.status",
+
+    INPUT: "input", TEXT: "text",
+    TEXTAREA: "textarea",
+    SELECT: "select",
+    BUTTON: "button",
+    SPACE: "space",
+    BR: "br",
+    TD: "td",
+
+    INPUT_ARGS: ".args",
+
     DIV: "div",
     IMG: "img",
     CODE: "code",
     SPAN: "span",
     LABEL: "label",
     VIDEO: "video",
-    BUTTON: "button",
-    LEGEND: "legend",
-    TEXTAREA: "textarea",
-    FIELDSET: "fieldset",
-    SELECT: "select",
-    OPTION: "option",
-    INPUT: "input",
-    TEXT: "text",
     FILE: "file",
+    FORM: "form",
 
     ITEM: "item",
     LIST: "list",
+}
+const lang = {
+    STRING: "string",
+    OBJECT: "object",
+    FUNCTION: "function",
 }
 
 function shy(help, meta, list, cb) {
@@ -163,14 +210,14 @@ function shy(help, meta, list, cb) {
     }
 
     cb = args[args.length-1] || function() {}
-    cb.help = next("string") || ""
-    cb.meta = next("object") || {}
-    cb.list = next("object") || []
+    cb.help = next(lang.STRING) || ""
+    cb.meta = next(lang.OBJECT) || {}
+    cb.list = next(lang.OBJECT) || []
     return cb
 }; var _can_name = ""
 var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: {}, pack: {}, libs: [], cache: {}}, function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
-    if (typeof name == "object") { var Config = name; Config.panels = Config.panels||[], Config.main = Config.main||{}
+    if (typeof name == lang.OBJECT) { var Config = name; Config.panels = Config.panels||[], Config.main = Config.main||{}
         meta.libs = ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"]
 
         // 预加载
@@ -193,7 +240,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 
             // 加载模块
             for (var i = 0; i < cache.length; i++) { var sub = cache[i]
-                if (typeof cb == "function" && cb(can, name, sub)) { continue }
+                if (typeof cb == lang.FUNCTION && cb(can, name, sub)) { continue }
                 if (can[sub._name] && can[sub._name]._merge && can[sub._name]._merge(can, sub)) { continue }
                 if (sub._name == "onkeypop") { can[sub._name] = sub; continue }
                 !can[sub._name] && (can[sub._name] = {}); for (var k in sub) {
@@ -202,7 +249,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
             }
         },
         require: function(libs, cb, each) { if (!libs || libs.length == 0) {
-                typeof cb == "function" && setTimeout(function() { cb(can) }, 10)
+                typeof cb == lang.FUNCTION && setTimeout(function() { cb(can) }, 10)
                 return // 加载完成
             }
             if (!libs[0]) { return can.require(libs.slice(1), cb, each) }
@@ -225,9 +272,9 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 
         set: function(name, key, value) {
             var msg = can.request({}); msg.Option(key, value)
-            return can.search(msg._event, [name+".onimport."+key])
+            return can.search(msg._event, [can.base.Keys(name, "onimport", key)])
         },
-        get: function(name, key) { return can.search({}, [name+".onexport."+key]) },
+        get: function(name, key) { return can.search({}, [can.base.Keys(name, "onexport", key)]) },
         search: function(event, cmds, cb) { return can.run && can.run(event, ["_search"].concat(cmds), cb, true) },
 
         Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},
@@ -242,19 +289,17 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
     return can.require(libs, cb), can
 })
 Volcanos.meta._load = function(url, cb) {
-    switch (url.split("?")[0].split(".").pop().toLowerCase()) {
+    switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
         case "css":
             var item = document.createElement(kit.MDB_LINK)
             item.rel = "stylesheet", item.type = "text/css"
             item.onload = cb, item.href = url
-            break
+            return document.head.appendChild(item), item
         case "js":
             var item = document.createElement(ssh.SCRIPT)
             item.onload = cb, item.src = url
-            break
-        default: return
+            return document.body.appendChild(item), item
     }
-    return document.body.appendChild(item), item
 }
 function cmd(tool) {
     Volcanos({name: "chat", panels: [

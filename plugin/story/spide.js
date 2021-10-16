@@ -9,7 +9,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._tree[""].name = can.dir_root.split("/").pop()
 
         can.size = 30, can.margin = 30
-        can.onappend.plugins(can, {index: "web.wiki.draw"}, function(sub) {
+        can.onappend.plugin(can, {index: "web.wiki.draw", style: "output"}, function(sub) {
             sub.run = function(event, cmds, cb) { sub.Action("go", "run")
                 can.base.isFunc(cb) && cb(sub.request())
 

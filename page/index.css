@@ -286,6 +286,21 @@ fieldset.plugin>div.status {
 fieldset.story>div.status {
     border-top:1px solid darkcyan;
 }
+fieldset.output {
+    margin:0; padding:0;
+}
+fieldset.output>legend {
+    display:none;
+}
+fieldset.output>form.option {
+    display:none;
+}
+fieldset.output>div.action {
+    display:none;
+}
+fieldset.output>div.status {
+    display:none;
+}
 fieldset.float {
     background-color:#023531cf;
     position:absolute;
