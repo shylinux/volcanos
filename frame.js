@@ -119,7 +119,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     can.base.isFunc(cb) && cb(sub)
                 }, target)
             },
-        }, list.concat(Volcanos.meta.libs, Volcanos.meta.volcano), function(sub) { sub.Conf(meta)
+        }, list, function(sub) { sub.Conf(meta)
             meta.feature = sub.base.Obj(meta.feature, {})
             sub.page.ClassList.add(sub, field, meta.style||meta.feature.style||"")
             sub.page.ClassList.add(sub, field, meta.index? meta.index.split(ice.PT).pop(): meta.name)
@@ -139,7 +139,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 _option: can._option, _action: can._action, _output: can._output, _status: can._status,
                 Option: can.Option, Action: can.Action, Status: can.Status,
                 CloneInput: function() { add(item)._target.focus() }, CloneField: function() { can.Clone() },
-            }, ([item.display||"/plugin/input.js"]).concat(Volcanos.meta.libs, Volcanos.meta.volcano), function(input) { input.Conf(item)
+            }, [item.display||"/plugin/input.js"], function(input) { input.Conf(item)
                 input.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                     if (msg.RunAction(event, input, cmds)) { return }
                     if (msg.RunAction(event, can.core.Value(can, "_outputs.-1"), cmds)) { return }
@@ -192,7 +192,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             Volcanos(display, {_follow: can.core.Keys(can._follow, display), _display: display, _target: can._output, _fields: can._target,
                 _option: can._option, _action: can._action, _output: can._output, _status: can._status,
                 Option: can.Option, Action: can.Action, Status: can.Status,
-            }, [display].concat(Volcanos.meta.libs, Volcanos.meta.volcano), function(table) { table.Conf(can.Conf())
+            }, [display], function(table) { table.Conf(can.Conf())
                 table.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                     if (msg.RunAction(event, table, cmds)) { return }
                     return can.Update(event, can.Input(cmds, silent), cb, silent)

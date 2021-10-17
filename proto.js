@@ -286,6 +286,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
     } else { // 加入队列
         list.push(can)
     }
+    if (can._follow) { libs = libs.concat(meta.libs, meta.volcano) }
     return can.require(libs, cb), can
 })
 Volcanos.meta._load = function(url, cb) {
