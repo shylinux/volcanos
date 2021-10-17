@@ -6,14 +6,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._toast(can, msg, target)
         can.base.isFunc(cb) && cb(msg)
     },
-    _title: function(can, msg, target) { const TITLE = chat.TITLE
+    _title: function(can, msg, target) {
         !can.user.isMobile && can.core.List(msg.result, function(item) {
-            can.page.Append(can, target, [{view: [TITLE, html.DIV, item], title: "联系站长"}])
+            can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "联系站长"}])
         })
     },
-    _state: function(can, msg, target) { const STATE = "state"
-        can.core.List(can.base.Obj(can.Conf(STATE)||msg.Option(STATE), ["ncmd"]), function(item) {
-            can.page.Append(can, target, [{view: [STATE+" "+item, html.DIV, can.Conf(item)], list: [
+    _state: function(can, msg, target) {
+        can.core.List(can.base.Obj(msg.Option(chat.STATE)||can.Conf(chat.STATE), ["ncmd"]), function(item) {
+            can.page.Append(can, target, [{view: [can.base.join([chat.STATE, item]), html.DIV, can.Conf(item)], list: [
                 {text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", html.SPAN, item]},
             ], onclick: function(event) {
                 can.show = can.show? (can.page.Remove(can, can.show), null): can.onaction._cmd(can)
@@ -22,7 +22,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
     _toast: function(can, msg, target) {
-        can.toast = can.page.Append(can, target, [{view: "toast", onclick: function(event) {
+        can.toast = can.page.Append(can, target, [{view: chat.TOAST, onclick: function(event) {
             can.show = can.show? (can.page.Remove(can, can.show), null): can.onappend.float(can, can._toast).first
             can.page.Modify(can, can.show, {style: {left: "", top: "", right: 0, bottom: 32}})
         }}]).first
@@ -31,10 +31,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Append(can, target, [{input: ["cmd", function(event) {
             can.onkeypop.input(event, can); if (event.key != "Enter") { return }
             switch (event.target.value) {
-            case "close": can.cli && can.cli.close(); break
-            case "clear": can.cli && can.cli.close(); break
+            case cli.CLOSE: can.cli && can.cli.close(); break
+            case cli.CLEAR: can.cli && can.cli.close(); break
             default:
-                can.run(event, [cli.RUN].concat(can.core.Split(event.target.value+" ")), function(msg) {
+                can.run(event, [cli.RUN].concat(can.core.Split(event.target.value, ice.SP)), function(msg) {
                     can.cli && can.cli.close()
                     can.cli = can.onappend.float(can, msg, function(value, key, index, line, list) {
 
@@ -44,8 +44,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }]}])
     },
 
-    toast: function(can, msg, title, content, fileline, time) { can._toast = can._toast || can.request()
-        can.page.Modify(can, can.toast, [time.split(" ").pop(), title, content].join(" "))
+    toast: function(can, msg, title, content, fileline, time) { can._toast = can._toast||can.request()
+        can.page.Modify(can, can.toast, [time.split(ice.SP).pop(), title, content].join(ice.SP))
         can._toast.Push({time: time, fileline: fileline, title: title, content: content})
     },
     ncmd: function(can, msg, follow, cmds) { const NCMD = "ncmd"; can._cmds = can._cmds || can.request()
@@ -73,15 +73,15 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             }
 
             can.search({}, ["Action.onexport.size"], function(msg, top, left, width, height) {
-                can.onappend.plugin(can, {index: cmds[0], args: cmds.slice(1), width: width, height: height-100}, function(sub) {
+                can.onappend.plugin(can, {index: cmds[0], args: cmds.slice(1), height: height-100, width: width}, function(sub) {
                     sub.run = function(event, cmds, cb) {
                         can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, cmds[0]], cmds), cb)
                     }
 
-                    can.page.Modify(can, sub._output, {style: {"max-width": width}})
                     can.page.Modify(can, sub._target, {style: {top: top+100, left: left}})
-                    can.page.Modify(can, sub._legend, {style: {display: "block"}})
-                    can.page.ClassList.add(can, sub._target, "float")
+                    can.page.Modify(can, sub._legend, {style: {display: html.BLOCK}})
+                    can.page.Modify(can, sub._output, {style: {"max-width": width}})
+                    can.page.ClassList.add(can, sub._target, chat.FLOAT)
                 }, document.body)
             })
         }).first

@@ -1,16 +1,16 @@
 Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, meta, cb, target) {
     function set(now) { target.value = can.base.Time(now), can.page.Remove(can, can._target)
-        meta && meta.action == "auto" && can.run({})
+        meta && meta.action == ice.AUTO && can.run({})
     }
 
     // 添加控件
     var now = target.value? new Date(target.value): new Date()
-    can.onappend._action(can, ["关闭",
+    can.onappend._action(can, [cli.CLOSE,
         ["hour"].concat(can.core.List(24)), ["minute"].concat(can.core.List(0, 60, 5)), ["second"].concat(can.core.List(0, 60, 5)),
         "今天", "", "上一月", ["year"].concat(can.core.List(now.getFullYear() - 10, now.getFullYear() + 10)),
         ["month"].concat(can.core.List(1, 13)), "下一月",
     ], can._action, {
-        "关闭": function(event) { can.page.Remove(can, can._target) },
+        close: function(event) { can.page.Remove(can, can._target) },
         "hour": function(event, can, key, value) {  now.setHours(parseInt(value)||0), show(now) },
         "minute": function(event, can, key, value) {  now.setMinutes(parseInt(value)||0), show(now) },
         "second": function(event, can, key, value) {  now.setSeconds(parseInt(value)||0), show(now) },
@@ -26,7 +26,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
         "后一年": function(event) {  now.setFullYear(now.getFullYear()+1), show(now) },
     })
 
-    can._table = can.page.Append(can, can._output, [{view: ["content", "table"]}]).first
+    can._table = can.page.Append(can, can._output, [{view: [chat.CONTENT, html.TABLE]}]).first
     var today = new Date(); function show(now) {
         // 设置控件
         can.Action("month", now.getMonth()+1)
@@ -37,8 +37,8 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
 
         // 设置组件
         can.page.Appends(can, can._table, [{th: ["日", "一", "二", "三", "四", "五", "六"]}])
-        var tr; function add(day, type) { if (day.getDay() == 0) { tr = can.page.Append(can, can._table, [{type: "tr"}]).last }
-            can.page.Append(can, tr, [{text: [day.getDate(), "td", can.base.Time(today, "%y-%m-%d") == can.base.Time(day, "%y-%m-%d")? "select": type],
+        var tr; function add(day, type) { if (day.getDay() == 0) { tr = can.page.Append(can, can._table, [{type: html.TR}]).last }
+            can.page.Append(can, tr, [{text: [day.getDate(), html.TD, can.base.Time(today, "%y-%m-%d") == can.base.Time(day, "%y-%m-%d")? html.SELECT: type],
                 dataset: {date: day.getTime()}, onclick: function(event) {
                     set(now = new Date(parseInt(event.target.dataset.date)))
                 },

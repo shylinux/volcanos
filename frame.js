@@ -1,4 +1,3 @@
-_can_name = "/frame.js"
 Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta, list, cb, target) {
         can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]
             return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb)
@@ -15,6 +14,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
                 } }), panel.onaction._init(panel, item, item.list, next, panel._target)
 
                 can.onmotion.float.auto(can, panel._output)
+                panel.onkeypop._build(panel)
             }, target)
         }, function() { can.misc.Log(can.user.title(), cli.RUN, can)
             can.ondaemon._init(can), can.onmotion._init(can, target), can.onkeypop._init(can, target)
@@ -308,7 +308,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var input = meta.action||kit.MDB_KEY; input != "auto" && can.require(["/plugin/input/"+input+".js"], function(can) {
             can.core.Item(can.onfigure[input], function(key, on) { if (key.indexOf("on") != 0) { return }
                 target[key] = function(event) {
-                    can.onappend._init(can, {type: html.INPUT, name: input, pos: html.FLOAT}, [], function(sub) { sub.Conf(meta)
+                    can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT}, [], function(sub) { sub.Conf(meta)
                         sub.run = function(event, cmds, cb) { var msg = sub.request(event, can.Option());
                             (meta.run||can.run)(event, cmds, cb, true)
                         }
@@ -619,10 +619,9 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
     },
 })
 Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
-        var focus = can.onkeypop._focus
+        var focus = can.onkeypop._focus; can.onkeypop._build(can)
         // can.onengine.listen(can, "keymap.focus", function(cb) { cb? focus.push(cb): focus.pop() })
         can.onengine.listen(can, "keymap.focus", function(cb) { cb? focus.push(cb): can.onkeypop._focus.length = 0 })
-        can.onkeypop._build(can)
         target.onkeydown = function(event) { if (focus.length > 0) { return focus[focus.length-1](event) }
             event.target == target && can.page.Select(can, target, "fieldset.Action>div.output", function(item) {
                 target._keys = can.onkeypop._parse(event, can, "normal", target._keys||[], item)
@@ -649,9 +648,6 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
         }
 
         var map = can.onkeypop._mode[mode]
-        var cb = map && map[event.key]; if (can.base.isFunc(cb) && event.key.length > 1) {
-            repeat(cb, count); return list
-        }
         var cb = map && map[event.key.toLowerCase()]; if (can.base.isFunc(cb) && event.key.length > 1) {
             repeat(cb, count); return list
         }
@@ -776,4 +772,3 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
         target.setSelectionRange(start, start)
     },
 })
-_can_name = ""

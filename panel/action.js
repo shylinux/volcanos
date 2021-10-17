@@ -1,10 +1,9 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) {
         var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM)
-        can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) {
-            item.width = parseInt(can.Conf(chat.WIDTH))-40, item.height = parseInt(can.Conf(chat.HEIGHT))-40
+        can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN
+            item.height = parseInt(can.Conf(chat.HEIGHT))-40, item.width = parseInt(can.Conf(chat.WIDTH))-40
             item.feature = can.base.Obj(item.feature||item.meta)
             item.inputs = can.base.Obj(item.inputs||item.list)
-            item.type = mdb.PLUGIN
 
             can.onappend.plugin(can, item, function(sub, meta) {
                 can.onimport._plugin(can, river, storm, sub, meta), next()
@@ -14,7 +13,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             !can.user.isMobile && can.onimport._menu(can, msg)
         })
 
-        can.onmotion.float.auto(can, can._output, "carte")
+        can.onmotion.float.auto(can, can._output, chat.CARTE)
     },
     _plugin: function(can, river, storm, sub, meta) {
         sub.run = function(event, cmds, cb) { var msg = sub.request(event); cmds = cmds||[]
@@ -24,21 +23,20 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             })
         }, can._plugins = (can._plugins||[]).concat([sub])
 
-        can.page.Append(can, can._action, [{view: ["item", "div", meta.name], onclick: function(event) {
+        can.page.Append(can, can._action, [{view: [html.ITEM, html.DIV, meta.name], onclick: function(event) {
             can.onmotion.select(can, can._output, "fieldset.plugin", sub._target)
             can.onmotion.select(can, can._action, "div.item", event.target)
         }}])
 
         can.page.Modify(can, sub._output, {style: {"max-width": meta.width}})
 
-        sub._option.dataset = sub._option.dataset || {}
+        sub._option.dataset = sub._option.dataset||{}
         meta.id && (sub._option.dataset.id = meta.id)
         sub._target.Meta = meta
     },
     _menu: function(can, msg) {
-        if (can.user.isMobile || can.user.Search(can, cli.POD)) {
-            return
-        }
+        if (can.user.isMobile || can.user.Search(can, cli.POD)) { return }
+
         can._menu && can.page.Remove(can, can._menu)
         can._menu = can.search({}, ["Header.onimport.menu", ctx.ACTION].concat(
             can.base.Obj(msg.Option("menus"), [
@@ -46,28 +44,23 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
                 ["help", "tutor", "manual", "service", "devops", "refer"],
             ])
         ), function(event, button, list) {
-            if (list[0] == "help") {
-                can.user.open("/help/"+button+".shy")
-            } else {
-                can.onaction.layout(can, button)
-            }
+            list[0] == "help"? can.user.open("/help/"+button+".shy"): can.onaction.layout(can, button)
         })
     },
     _share: function(can, share) {
         share && can.run({}, ["_share", share], function(msg) {
-            can.user.topic(can, can.user.Search(can, chat.TOPIC)||msg.Option(chat.TOPIC)||"white")
+            can.user.topic(can, can.user.Search(can, chat.TOPIC)||msg.Option(chat.TOPIC))
             can.user.title(can.user.Search(can, chat.TITLE)||msg.Option(chat.TITLE))
             can.onaction.layout(can, "auto")
 
-            if (msg["index"].length == 1) { can.user.mod.isCmd = true
-                can.page.ClassList.add(can, can._target, "cmd")
-                can.require(["/panel/cmd.css"])
+            if (msg[kit.MDB_INDEX].length == 1) { can.require(["/panel/cmd.css"])
+                can.user.mod.isCmd = true, can.page.ClassList.add(can, can._target, "cmd")
                 can.page.Select(can, document.body, "fieldset.panel", function(item) {
                     item != can._target && can.onmotion.hidden(can, item)
                 })
-                can.Conf({width: window.innerWidth+40, height: window.innerHeight})
+                can.Conf({height: window.innerHeight, width: window.innerWidth+40})
             } else {
-                can.Conf({width: window.innerWidth, height: window.innerHeight})
+                can.Conf({height: window.innerHeight, width: window.innerWidth})
             }
             can.Conf(chat.RIVER, "_share"), can.Conf(chat.STORM, share)
             can.onimport._init(can, msg)
@@ -102,13 +95,9 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         can.base.isFunc(cb) && cb()
     },
     onmain: function(can, msg) {
-        var cmds = location.pathname.split("/").slice(1)
-        if (cmds[0] == cli.CMD) {
-            can.onappend.plugin(can, {index: cmds[1]}, function(sub, meta) {
-                sub.run = function(event, cmds, cb) {}
-            })
+        var cmds = location.pathname.split("/").slice(1); if (cmds[0] == cli.CMD) {
+            can.onappend.plugin(can, {index: cmds[1]}, function(sub) { sub.run = function(event, cmds, cb) {} })
         }
-
         can.onimport._share(can, can.user.Search(can, web.SHARE))
     },
     onsize: function(can, msg, width, height) { can.Conf({width: width, height: height}) },

@@ -17,9 +17,8 @@ const kit = {
     MDB_LIST: "list",
 }
 const ice = {
-    SP: " ",
-    PT: ".",
-    NL: "\n",
+    SP: " ", PT: ".", NL: "\n",
+    POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
 
     TRUE: "true",
 
@@ -28,59 +27,55 @@ const ice = {
     MSG_TITLE: "sess.title",
     MSG_RIVER: "sess.river",
     MSG_STORM: "sess.storm",
+    MSG_TOAST: "sess.toast",
     MSG_FIELDS: "fields",
+    MSG_SESSID: "sessid",
 
     MSG_APPEND: "append",
 
     MSG_TARGET: "_target",
+    MSG_HANDLE: "_handle",
 
     MSG_ACTION: "_action",
     MSG_STATUS: "_status",
-    MSG_HANDLE: "_handle",
     MSG_DISPLAY: "_display",
+    MSG_PROCESS: "_process",
+
+	PROCESS_AGAIN: "_again",
+
+    AUTO: "auto",
 }
 
 const ctx = {
-    CONTEXT: "context",
-    COMMAND: "command",
+    CONTEXT: "context", COMMAND: "command", CONFIG: "config",
     ACTION: "action",
-    CONFIG: "config",
 }
 const cli = {
     RUN: "run",
-    POD: "pod",
-    CTX: "ctx",
-    CMD: "cmd",
-    ARG: "arg",
-
-    OPEN: "open",
-    CLOSE: "close",
-    START: "start",
-    STOP: "stop",
+    POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
+    OPEN: "open", CLOSE: "close", START: "start", STOP: "stop",
+    CLEAR: "clear",
+    DONE: "done",
 }
 const web = {
     SHARE: "share",
     SPACE: "space",
 }
 const aaa = {
-    USERNAME: "username",
-    USERNICK: "usernick",
-    BACKGROUND: "background",
-    AVATAR: "avatar",
+    USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
 
-    LOGIN: "login",
-    LOGOUT: "logout",
-    INVITE: "invite",
+    LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
+
+    LOGIN: "login", LOGOUT: "logout", INVITE: "invite",
 }
 const mdb = {
-    CREATE: "create",
-    REMOVE: "remove",
-    INSERT: "insert",
-    MODIFY: "modify",
+    CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete",
+    MODIFY: "modify", SELECT: "select",
     PLUGIN: "plugin",
+    SEARCH: "search",
+    INPUTS: "inputs",
 
-    HASH: "hash",
-    LIST: "list",
+    META: "meta", HASH: "hash", LIST: "list",
 }
 const ssh = {
     SCRIPT: "script",
@@ -96,70 +91,30 @@ const code = {
     WEBPACK: "webpack",
 }
 const wiki = {
-    TITLE: "title",
-    BRIEF: "brief",
-    REFER: "refer",
-    SPARK: "spark",
-
-    CHART: "chart",
-    IMAGE: "image",
-    VIDEO: "video",
-
-    FIELD: "field",
-    SHELL: "shell",
+    TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
+    ORDER: "order", TABLE: "table", CHART: "chart", IMAGE: "image", VIDEO: "video",
+    FIELD: "field", SHELL: "shell", LOCAL: "local", PARSE: "parse",
 }
 const chat = {
-    LIB: "lib",
-    PAGE: "page",
-    PANEL: "panel",
-    PLUGIN: "plugin",
+    LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin",
+    STORY: "story", CARTE: "carte", INPUT: "input", FLOAT: "float",
+    HEAD: "head", AUTO: "auto", LEFT: "left", MAIN: "main", FOOT: "foot",
+    SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top",
 
-    STORY: "story",
-    CARTE: "carte",
-    INPUT: "input",
-    FLOAT: "float",
+    LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile",
 
-    LAYOUT: "layout",
-    PROJECT: "project",
-    CONTENT: "content",
-    DISPLAY: "display",
-    PROFILE: "profile",
+    PUBLIC: "public", PROTECTED: "protected", PRIVATE: "private",
+    USER: "user", TOOL: "tool", NODE: "node",
 
-    HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot",
+    HEADER: "header", FOOTER: "footer",
+    ONMAIN: "onmain", ONSIZE: "onsize", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
 
-    SCROLL: "scroll",
-    HEIGHT: "height",
-    WIDTH: "width",
-    TOP: "top",
-    LEFT: "left",
+    RIVER: "river", STORM: "storm", FIELD: "field", TOAST: "toast",
+    TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print",
 
-    USER: "user",
-    TOOL: "tool",
-    NODE: "node",
-
-    PUBLIC: "public",
-    PROTECTED: "protected",
-    PRIVATE: "private",
-
-    HEADER: "header",
-    ONMAIN: "onmain",
-    ONSIZE: "onsize",
-
-    RIVER: "river",
-    STORM: "storm",
-    FIELD: "field",
-
-    TOPIC: "topic",
-    BLACK: "black",
-    WHITE: "white",
-
-    TITLE: "title",
-    MENUS: "menus",
-    TRANS: "trans",
-    AGENT: "agent",
-    CHECK: "check",
-    SHARE: "share",
-    GRANT: "grant",
+    AGENT: "agent", CHECK: "check", GRANT: "grant", SHARE: "share",
+    TITLE: "title", STATE: "state", MENUS: "menus", TRANS: "trans",
+    SSO: "sso",
     CMD_MARGIN: 53,
 }
 const team = {
@@ -172,44 +127,28 @@ const mall = {
 }
 
 const html = {
-    FIELDSET: "fieldset",
-    LEGEND: "legend",
-    OPTION: "option",
-    ACTION: "action",
-    OUTPUT: "output",
-    STATUS: "status",
+    FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
+    FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
 
-    FORM_OPTION: "form.option",
-    DIV_ACTION: "div.action",
-    DIV_OUTPUT: "div.output",
-    DIV_STATUS: "div.status",
-
-    INPUT: "input", INPUT_ARGS: ".args",
-    TEXT: "text", TEXTAREA: "textarea",
-    SELECT: "select",
-    BUTTON: "button",
-    SPACE: "space",
+    INPUT: "input", INPUT_ARGS: ".args", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
+    SPACE: "space", BLOCK: "block", NONE: "none",
     BR: "br",
 
     TABLE: "table", TR: "tr", TH: "th", TD: "td",
     DIV: "div",
     IMG: "img",
-    CODE: "code",
     SPAN: "span",
-    NONE: "none",
-    BLOCK: "block",
+    CODE: "code",
     LABEL: "label",
     VIDEO: "video",
 
-    FORM: "form",
-    FILE: "file",
-    LIST: "list",
-    ITEM: "item",
+    FORM: "form", FILE: "file",
+    LIST: "list", ITEM: "item", MENU: "menu",
 }
 const lang = {
-    STRING: "string",
-    OBJECT: "object",
-    FUNCTION: "function",
+    STRING: "string", OBJECT: "object", FUNCTION: "function",
+
+    ENTER: "Enter",
 }
 
 function shy(help, meta, list, cb) {
@@ -219,26 +158,24 @@ function shy(help, meta, list, cb) {
         }
     }
 
-    cb = args[args.length-1] || function() {}
-    cb.help = next(lang.STRING) || ""
-    cb.meta = next(lang.OBJECT) || {}
-    cb.list = next(lang.OBJECT) || []
+    cb = args[args.length-1]||function() {}
+    cb.help = next(lang.STRING)||""
+    cb.meta = next(lang.OBJECT)|| {}
+    cb.list = next(lang.OBJECT)||[]
     return cb
 }; var _can_name = ""
 var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: {}, pack: {}, libs: [], cache: {}}, function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == lang.OBJECT) { var Config = name; Config.panels = Config.panels||[], Config.main = Config.main||{}
-        meta.libs = ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"]
+        libs = [], meta.libs = ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"]
 
         // 预加载
-        var Preload = Config.preload||[]
         for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
-            panel && (Preload = Preload.concat(panel.list = panel.list || ["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
-        }; Preload = Preload.concat(Config.plugin, Config.main.list)
+            panel && (libs = libs.concat(panel.list = panel.list||["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
+        }; libs = libs.concat(Config.plugin, Config.main.list)
 
         // 根模块
-        name = Config.name, can = {_follow: Config.name, _target: Config.target||document.body}
-        libs = Preload.concat(meta.libs, meta.volcano), cb = function(can) {
+        name = Config.name, can = {_follow: Config.name, _target: Config.target||document.body}, cb = function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panels, Config._init, can._target)
         }, _can_name = "", can._root = can
     }
@@ -251,8 +188,6 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
             // 加载模块
             for (var i = 0; i < cache.length; i++) { var sub = cache[i]
                 if (typeof cb == lang.FUNCTION && cb(can, name, sub)) { continue }
-                if (can[sub._name] && can[sub._name]._merge && can[sub._name]._merge(can, sub)) { continue }
-                if (sub._name == "onkeypop") { can[sub._name] = sub; continue }
                 !can[sub._name] && (can[sub._name] = {}); for (var k in sub) {
                     can[sub._name].hasOwnProperty(k) || (can[sub._name][k] = sub[k])
                 }
@@ -271,7 +206,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         },
         request: function(event, option) { event = event||{}
             var msg = event._msg||can.misc.Message(event, can); event._msg = msg
-            function set(key, value) { msg[key] == undefined && msg.Option(key, value) }
+            function set(key, value) { can.base.isUndefined(msg[key]) && msg.Option(key, value) }
 
             can.core.List(arguments, function(option, index) { if (index == 0) { return } 
                 can.base.isFunc(option.Option)? can.core.List(option.Option(), function(key) {
@@ -280,8 +215,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
             }); return msg
         },
 
-        set: function(name, key, value) {
-            var msg = can.request({}); msg.Option(key, value)
+        set: function(name, key, value) { var msg = can.request({}); msg.Option(key, value)
             return can.search(msg._event, [can.base.Keys(name, "onimport", key)])
         },
         get: function(name, key) { return can.search({}, [can.base.Keys(name, "onexport", key)]) },
@@ -291,8 +225,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
     }
 
     if (_can_name) { // 加入缓存
-        meta.cache[_can_name] = meta.cache[_can_name]||[]
-        meta.cache[_can_name].push(can)
+        meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can)
     } else { // 加入队列
         list.push(can)
     }
@@ -314,7 +247,7 @@ Volcanos.meta._load = function(url, cb) {
 }
 function cmd(tool) {
     Volcanos({name: "chat", panels: [
-        {name: "cmd", help: "工作台", pos: "main", tool: tool},
+        {name: "cmd", help: "工作台", pos: chat.MAIN, tool: tool},
     ], main: {name: "cmd", list: []}, plugin: [
             "/plugin/state.js",
             "/plugin/input.js",
