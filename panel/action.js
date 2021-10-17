@@ -111,18 +111,18 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
 
         can.onimport._share(can, can.user.Search(can, web.SHARE))
     },
-    onresize: function(can, msg, width, height) { can.Conf({width: width, height: height}) },
+    onsize: function(can, msg, width, height) { can.Conf({width: width, height: height}) },
     onsearch: function(can, msg, word) {
         if (word[0] == "*" || word[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, word) }
     },
     onstorm_select: function(can, msg, river, storm) { can.onlayout._init(can)
         function key(name) { return can.core.Keys(can.Conf(chat.RIVER), can.Conf(chat.STORM), name) }
-        can.page.Cache(key(ctx.ACTION), can._action, can._output.scrollTop+1)
-        can.page.Cache(key(chat.OUTPUT), can._output, can._output.scrollTop+1)
+        can.page.Cache(key(html.ACTION), can._action, can._output.scrollTop+1)
+        can.page.Cache(key(html.OUTPUT), can._output, can._output.scrollTop+1)
 
         can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) // 转场
-        var position = can.page.Cache(key(ctx.ACTION), can._action)
-        var position = can.page.Cache(key(chat.OUTPUT), can._output)
+        var position = can.page.Cache(key(html.ACTION), can._action)
+        var position = can.page.Cache(key(html.OUTPUT), can._output)
         if (position) { can._output.scrollTo(0, position-1); return }
 
         can.run({}, [river, storm], function(msg) {

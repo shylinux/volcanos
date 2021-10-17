@@ -91,7 +91,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     },
     storm: function(event, can, river) { can.sublist = can.sublist||{}
         can.onmotion.select(can, can._output, "div.item", can.river_list[river])
-        var list = can.sublist[river]; if (list) { return can.onmotion.Toggle(can, list) }
+        var list = can.sublist[river]; if (list) { return can.onmotion.toggle(can, list) }
 
         can.run({}, [river, chat.TOOL], function(msg) {
             var select = 0; list = can.page.Append(can, can._output, [{view: "list", list: msg.Table(function(item, index) {

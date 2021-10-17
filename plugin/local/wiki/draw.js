@@ -107,7 +107,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._figure(event, can, can.point = can.point.concat(point))
     },
     onmousemove: function(event, can) { var point = can.onimport._point(event, can)
-        can.onmotion.Prepos(event, event.target)
+        can.onaction.Prepos(event, event.target)
         if (can.Action("go") == "run") { return can.page.Modify(can, event.target, {style: {cursor: ""}}) }
         if (can.Action("go") == "auto") { can.onaction._auto(can, event.target) }
         can.onimport._figure(event, can, can.point.concat(point))
@@ -215,8 +215,8 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         },
         grid: function(event, can, point) { var target = event.target
             if (target == can.svg) { return }
-            var p = point[point.length-1], pos = can.onmotion.Prepos(event, target)
-            target.Val && can.onmotion.Anchor(event, target, pos, p)
+            var p = point[point.length-1], pos = can.onaction.Prepos(event, target)
+            target.Val && can.onaction.Anchor(event, target, pos, p)
             return p.target = target, p.anchor = pos, point
         },
         draw: function(event, can, point) { if (point.length < 2) { return }
@@ -329,7 +329,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
             can.user.toast(can, "保存成功")
         }, true)
     },
-    "项目": function(event, can) { can.onmotion.Toggle(can, can.ui.project) },
+    "项目": function(event, can) { can.onmotion.toggle(can, can.ui.project) },
     "显示": function(event, can) { can.onmotion.show(can, {value: 100, length: 10}, null, can.group) },
     "隐藏": function(event, can) { can.onmotion.hide(can, {value: 100, length: 10}, null, can.group) },
     "添加": function(event, can) {
@@ -361,7 +361,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
 
     _auto: function(can, target) {
         if (can.point.length > 0) { return }
-        var pos = can.onmotion.Prepos(event, event.target)
+        var pos = can.onaction.Prepos(event, event.target)
         if (target.tagName == "text") {
 
         } else if (target == can.svg) {
@@ -408,7 +408,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
                                 return ship.pid && (ship.target = can.page.Select(can, can.svg, "."+ship.pid)[0]) && ship
                             })
                         }
-                    }), pos: can.onmotion.Prepos(event, target)}
+                    }), pos: can.onaction.Prepos(event, target)}
                 }
                 return
             }
@@ -417,12 +417,12 @@ Volcanos("onaction", {help: "组件菜单", list: [
             }
 
             can.core.List(can.current.begin, function(item) { var figure = can.onfigure._get(can, item.target)
-                can.onmotion.Resizes(event, item.target, item, point[0], point[1], can.current.pos)
+                can.onaction.Resizes(event, item.target, item, point[0], point[1], can.current.pos)
                 can.page.Select(can, can.svg, "."+item.target.Value("text"), function(text) {
                     text.Value(figure.text(can, {}, item.target))
                 })
                 can.core.List(item.ship, function(ship) {
-                    var p = can.onmotion.Anchor(event, item.target, ship.anchor, {}) 
+                    var p = can.onaction.Anchor(event, item.target, ship.anchor, {}) 
                     if (ship.which == 0) {
                         ship.target.Val("x1", p.x)
                         ship.target.Val("y1", p.y)
@@ -440,6 +440,110 @@ Volcanos("onaction", {help: "组件菜单", list: [
                 can.onappend.board(can, msg.Result(), can.ui.display)
             }, true)
         },
+    },
+    Resizes: function(event, item, begin, p0, p1, pos) {
+        switch (pos) {
+            case 5:
+                item.Value("x", begin.x + p1.x - p0.x)
+                item.Value("y", begin.y + p1.y - p0.y)
+                return
+        }
+
+        switch (pos) {
+            case 1:
+            case 2:
+            case 3:
+                item.Value("y", begin.y + p1.y - p0.y)
+                item.Value("height", begin.height - p1.y + p0.y)
+                break
+        }
+        switch (pos) {
+            case 1:
+            case 4:
+            case 7:
+                item.Value("x", begin.x + p1.x - p0.x)
+                item.Value("width", begin.width - p1.x + p0.x)
+                break
+        }
+        switch (pos) {
+            case 3:
+            case 6:
+            case 9:
+                item.Value("width", begin.width + p1.x - p0.x)
+                break
+        }
+        switch (pos) {
+            case 7:
+            case 8:
+            case 9:
+                item.Value("height", begin.height + p1.y - p0.y)
+                break
+        }
+    },
+    Anchor: function(event, target, pos, point) {
+        switch (pos) {
+            case 1:
+            case 2:
+            case 3:
+                point.y = target.Val("y")
+                break
+            case 4:
+            case 5:
+            case 6:
+                point.y = target.Val("y") + target.Val("height") / 2
+                break
+            case 7:
+            case 8:
+            case 9:
+                point.y = target.Val("y") + target.Val("height")
+                break
+        }
+
+        switch (pos) {
+            case 1:
+            case 4:
+            case 7:
+                point.x = target.Val("x")
+                break
+            case 2:
+            case 5:
+            case 8:
+                point.x = target.Val("x") + target.Val("width") / 2
+                break
+            case 3:
+            case 6:
+            case 9:
+                point.x = target.Val("x") + target.Val("width")
+                break
+        }
+        return point
+    },
+    Prepos: function(event, item, p, q) {
+        var max = 20
+        p = p || item.getBoundingClientRect()
+        q = q || {x: event.clientX, y: event.clientY}
+
+        var pos = 5
+        var y = (q.y - p.y) / p.height
+        if (y < 0.2 && q.y - p.y < max) {
+            pos -= 3
+        } else if (y > 0.8 && q.y - p.y - p.height > -max) {
+            pos += 3
+        }
+        var x = (q.x - p.x) / p.width
+        if (x < 0.2 && q.x - p.x < max) {
+            pos -= 1
+        } else if (x > 0.8 && q.x - p.x - p.width > -max) {
+            pos += 1
+        }
+
+        var cursor = [
+            "nw-resize", "n-resize", "ne-resize",
+            "w-resize", "move", "e-resize",
+            "sw-resize", "s-resize", "se-resize",
+        ]
+        item.style.cursor = cursor[pos-1]
+        return pos
     },
 })
 Volcanos("ondetail", {help: "组件详情", list: ["复制", "标签", "编辑", "删除"],
@@ -466,7 +570,7 @@ Volcanos("ondetail", {help: "组件详情", list: ["复制", "标签", "编辑",
     "编辑": function(event, can) { var target = event.target
         var figure = can.onfigure._get(can, target)
         can.user.input(event, can, can.core.List(["x", "y"].concat(figure.data.copy||[]), function(item) {
-            return {_input: "text", name: item, value: target.Value(item)}
+            return {type: "text", name: item, value: target.Value(item)}
         }), function(event, cmd, meta, list) {
             can.core.Item(meta, function(key, value) {
                 target.Value(key, value)

@@ -119,30 +119,40 @@ const chat = {
     INPUT: "input",
     FLOAT: "float",
 
-    ONMAIN: "onmain",
-
-    RIVER: "river",
-    STORM: "storm",
-    FIELD: "field",
-
-    PUBLIC: "public",
-    PROTECTED: "protected",
-    PRIVATE: "private",
-
-    USER: "user",
-    TOOL: "tool",
-    NODE: "node",
-
     LAYOUT: "layout",
-    OUTPUT: "output",
+    PROJECT: "project",
+    CONTENT: "content",
+    DISPLAY: "display",
+    PROFILE: "profile",
+
+    HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot",
+
     SCROLL: "scroll",
     HEIGHT: "height",
     WIDTH: "width",
     TOP: "top",
     LEFT: "left",
 
+    USER: "user",
+    TOOL: "tool",
+    NODE: "node",
+
+    PUBLIC: "public",
+    PROTECTED: "protected",
+    PRIVATE: "private",
+
     HEADER: "header",
+    ONMAIN: "onmain",
+    ONSIZE: "onsize",
+
+    RIVER: "river",
+    STORM: "storm",
+    FIELD: "field",
+
     TOPIC: "topic",
+    BLACK: "black",
+    WHITE: "white",
+
     TITLE: "title",
     MENUS: "menus",
     TRANS: "trans",
@@ -174,27 +184,27 @@ const html = {
     DIV_OUTPUT: "div.output",
     DIV_STATUS: "div.status",
 
-    INPUT: "input", TEXT: "text",
-    TEXTAREA: "textarea",
+    INPUT: "input", INPUT_ARGS: ".args",
+    TEXT: "text", TEXTAREA: "textarea",
     SELECT: "select",
     BUTTON: "button",
     SPACE: "space",
     BR: "br",
-    TD: "td",
 
-    INPUT_ARGS: ".args",
-
+    TABLE: "table", TR: "tr", TH: "th", TD: "td",
     DIV: "div",
     IMG: "img",
     CODE: "code",
     SPAN: "span",
+    NONE: "none",
+    BLOCK: "block",
     LABEL: "label",
     VIDEO: "video",
-    FILE: "file",
-    FORM: "form",
 
-    ITEM: "item",
+    FORM: "form",
+    FILE: "file",
     LIST: "list",
+    ITEM: "item",
 }
 const lang = {
     STRING: "string",
@@ -221,14 +231,14 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         meta.libs = ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"]
 
         // 预加载
-        var Preload = (Config.preload||[]).concat(Config.main.list)
+        var Preload = Config.preload||[]
         for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
             panel && (Preload = Preload.concat(panel.list = panel.list || ["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
-        }; Preload = Preload.concat(Config.plugin)
+        }; Preload = Preload.concat(Config.plugin, Config.main.list)
 
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: Config.target||document.body}
-        libs = Preload.concat(Config.libs||meta.libs, Config.volcano||meta.volcano), cb = function(can) {
+        libs = Preload.concat(meta.libs, meta.volcano), cb = function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panels, Config._init, can._target)
         }, _can_name = "", can._root = can
     }
@@ -311,8 +321,8 @@ function cmd(tool) {
             "/plugin/table.js",
             "/plugin/input/key.js",
             "/plugin/input/date.js",
-            "/plugin/story/trend.js",
             "/plugin/story/spide.js",
+            "/plugin/story/trend.js",
             "/plugin/local/code/inner.js",
             "/plugin/local/code/vimer.js",
             "/plugin/local/wiki/draw/path.js",

@@ -232,9 +232,9 @@ Volcanos("onaction", {help: "交互操作", list: [
     },
     openLocation: function(event, can) { can.user.agent.openLocation(can.request(event)) },
 
-    "参数": function(event, can) { can.onmotion.Toggle(can, can._action) },
-    "清空": function(event, can, name) { can.onmotion.clear(can, can._output) },
-    "关闭": function(event, can) { can.page.Remove(can, can._target) },
+    "参数": function(event, can) { can.onmotion.toggle(can, can._action) },
+    clear: function(event, can, name) { can.onmotion.clear(can, can._output) },
+    close: function(event, can) { can.page.Remove(can, can._target) },
 })
 Volcanos("onexport", {help: "导出数据", list: []})
 var _can_name = ""

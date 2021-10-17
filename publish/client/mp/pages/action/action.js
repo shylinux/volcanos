@@ -19,7 +19,7 @@ Page({
                     line.name = line.name.split(" ")[0]
 
                     if (!line.inputs || line.inputs.length === 0) {
-                        line.inputs = [{_input: "text"}, {_input: "button", value: "执行"}]
+                        line.inputs = [{type: "text"}, {type: "button", value: "执行"}]
                     }
 
                     line.inputs.forEach(function(input) { input.action = input.action || input.value
@@ -29,11 +29,11 @@ Page({
                         if (input.value && input.value.indexOf("@") == 0) {
                             input.action = input.value.slice(1), input.value = ""
                         }
-                        if (input._input == "select") {
+                        if (input.type == "select") {
                             input.values = input.values || kit.Split(input.value)
                         }
 
-                        input._input == "button" && input.action == "auto" && kit.Timer(100, function() { page.run(event, index) })
+                        input.type == "button" && input.action == "auto" && kit.Timer(100, function() { page.run(event, index) })
                     })
                 }), page.setData({list: list})
             })
@@ -65,7 +65,7 @@ Page({
     },
     run: function(event, order, cmd, cb) { var page = this, field = page.data.list[order]
         var cmds = [page.data.river, page.data.storm, field.id||field.key]; if (!cmd) {
-            var cmd = kit.List(field.inputs, function(input) { if (input._input != "button") { return input.value } })
+            var cmd = kit.List(field.inputs, function(input) { if (input.type != "button") { return input.value } })
             kit.EQ(page.data.back[page.data.back.length-1], cmd) || page.data.back[order].push(cmd)
         }; cmds = cmds.concat(cmd)
 
@@ -100,7 +100,7 @@ Page({
             case "back": // 恢复命令
                 page.data.back[data.order].pop(); var line = page.data.back[data.order].pop()
                 kit.List(field.inputs, function(input, index) {
-                    if (input._input != "button") { input.value = line&&line[index] || "" }
+                    if (input.type != "button") { input.value = line&&line[index] || "" }
                 })
             case "run": // 执行命令
             case "刷新": // 执行命令
@@ -108,7 +108,7 @@ Page({
             default:
                 var cb = page.plugin[input.name]; can.base.isFunc(cb)? cb(event, page, data.order, input.name):
                     page.run(event, data.order, ["action", input.name].concat(kit.List(field.inputs, function(input) {
-                        if (input._input != "button") { return input.value }
+                        if (input.type != "button") { return input.value }
                     })))
         }
     },
@@ -116,7 +116,7 @@ Page({
         var field = page.data.list[data.order]; if (!field) { return }
 
         var input = data.input; if (input && input.type == "button") { var option = {}
-            kit.List(field.inputs, function(input) { input._input != "button" && (option[input.name] = input.value) })
+            kit.List(field.inputs, function(input) { input.type != "button" && (option[input.name] = input.value) })
             if (field.msg.append[0] == "key" && field.msg.append[1] == "value") {
                 kit.List(field.msg.key, function(key, index) { option[key] = field.msg.value[index] })
             } else {

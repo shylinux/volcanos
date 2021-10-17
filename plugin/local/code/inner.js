@@ -94,7 +94,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                     can.onimport.tabview(can, path, file, "", cb)
                 }, _init: function(item) {
                     can.core.Timer(10, function() { item.click() })
-                    can.onmotion.EnableDrop(can, can._action, "div.file", item)
+                    can.onaction.EnableDrop(can, can._action, "div.file", item)
                 }}
             ]).last
         }, true)
@@ -319,6 +319,24 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏"],
             ], function(msg) {
                 can.user.toast(can, "收藏成功")
             }, true)
+        })
+    },
+    EnableDrop: function(can, parent, search, target) {
+        return can.page.Modify(can, target, { draggable: true,
+            ondragstart: function(event) { var target = event.target; can.drop = function(event, tab) {
+                parent.insertBefore(target, tab)
+                can.page.Select(can, parent, search, function(item) {
+                    can.page.ClassList.del(can, item, "over")
+                })
+            } },
+            ondragover: function(event) { event.preventDefault()
+                can.page.Select(can, parent, search, function(item) {
+                    can.page.ClassList.del(can, item, "over")
+                }), can.page.ClassList.add(can, event.target, "over")
+            },
+            ondrop: function(event) { event.preventDefault()
+                can.drop(event, event.target)
+            },
         })
     },
 })

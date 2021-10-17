@@ -64,7 +64,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         }}] }])
         can.user.isMobile && can.page.Modify(can, ui.first, {style: {float: "right"}})
-        // can.onmotion.autosize(can, ui.input, 240, 120)
     },
     _background: function(can, msg) {
         if (can.user.isLocalFile) { return }
