@@ -32,7 +32,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
                     case html.TEXT: event.target.setSelectionRange(0, -1); break
                 }; can.run(event), event.stopPropagation(), event.preventDefault(); break
             case "b": if (event.ctrlKey) { can.CloneInput() } break
-            case "m": if (event.ctrlKey) { can.CloneField() } break
+            case "m": if (event.ctrlKey) { can.CloneField(), event.stopPropagation(), event.preventDefault() } break
         }
     },
 })

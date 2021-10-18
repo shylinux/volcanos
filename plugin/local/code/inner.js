@@ -123,7 +123,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         switch (can.parse) {
             case "png": 
             case "jpg": 
-                can.page.Append(can, can.ui.content, [{img: can.base.Path("/share/local", can.file)+"?"+can.user.Search(can, "pod")}])
+                can.page.Append(can, can.ui.content, [{img: can.base.Path("/share/local", can.file)+"?"+can.user.Search(can, ice.POD)}])
                 return
         }
 

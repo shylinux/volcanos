@@ -15,14 +15,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.base.isFunc(cb) && cb(msg)
     },
     _agent: function(can, msg, target) {
-        if (can.user.isMobile) {
+        if (can.user.mod.isPod) {
+            can.onaction.River(can)
+            can.onaction.Footer(can)
+        } else if (can.user.isMobile) {
             can.onaction.River(can)
             can.onaction.Footer(can)
         } else if (can.user.isExtension) {
             can.onaction.River(can)
-        } else if (can.user.Search(can, ice.POD)) {
-            can.onaction.River(can)
-            can.onaction.Footer(can)
         }
         can.user.isWeiXin && can.onimport._weixin(can)
     },
@@ -35,7 +35,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }
     },
     _title: function(can, msg, target) {
-        can.user.title(can.user.Search(can, chat.TITLE)||can.user.Search(can, cli.POD))
+        can.user.title(can.user.Search(can, chat.TITLE)||can.user.Search(can, ice.POD))
         !can.user.isMobile && can.core.List(msg.result||["shylinux.com/x/contexts"], function(item) {
             can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "返回主页", onclick: function(event) {
                 can.onaction.title(event, can)
@@ -79,7 +79,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _menus: function(can, msg, target) {
         var menus = can.base.Obj(msg.Option(chat.MENUS)||can.Conf(chat.MENUS), [chat.HEADER, ["setting", chat.BLACK, chat.WHITE, chat.PRINT]])
-        can.onimport.menu(can, can.user.isMobile||can.user.isExtension||can.user.Search(can, cli.POD)? [chat.HEADER, chat.RIVER]: menus, function(event, item) {
+        can.onimport.menu(can, can.user.mod.isPod||can.user.isMobile||can.user.isExtension? [chat.HEADER, chat.RIVER]: menus, function(event, item) {
             can.core.CallFunc(can.onaction[item]||function(event, can) {
                 can.run(event, [item], function(msg) { can.user.toast(can, "执行成功", can.user.trans(can, item)) })
             }, {event: event, can: can, button: item})

@@ -115,8 +115,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             Clone: function() {
                 meta.args = sub.page.SelectArgs(sub, option, "")
                 can.onappend._init(can, meta, list, function(sub) {
-                    can.core.Timer(10, function() { for (var k in sub._inputs) { sub._inputs[k]._target.focus(); break } })
-                    can.base.isFunc(cb) && cb(sub)
+                    can.core.Timer(10, function() { for (var k in sub._inputs) { can.onmotion.focus(can, sub._inputs[k]._target); break } })
+                    can.base.isFunc(cb) && cb(sub, true)
                 }, target)
             },
         }, list, function(sub) { sub.Conf(meta), meta.feature = sub.base.Obj(meta.feature, {})
@@ -133,11 +133,11 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     _option: function(can, meta, option) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
         function add(item, next) { item.type != html.BUTTON && index++
-            Volcanos(item.name, {_follow: can.core.Keys(can._follow, item.name),
+            return Volcanos(item.name, {_follow: can.core.Keys(can._follow, item.name),
                 _target: can.onappend.input(can, item, args[index]||opts[item.name], option),
                 _option: can._option, _action: can._action, _output: can._output, _status: can._status,
                 Option: can.Option, Action: can.Action, Status: can.Status,
-                CloneInput: function() { add(item)._target.focus() }, CloneField: function() { can.Clone() },
+                CloneInput: function() { can.onmotion.focus(can, add(item)._target) }, CloneField: function() { can.Clone() },
             }, [item.display||"/plugin/input.js"], function(input) { input.Conf(item)
                 input.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                     if (msg.RunAction(event, input, cmds)) { return }
@@ -338,8 +338,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         meta.help = value.help||meta.help||html.STORY
         meta.type = meta.type||html.STORY
 
-        can.onappend._init(can, meta, ["/plugin/state.js"], function(sub) {
-            sub.base.isFunc(cb) && cb(sub, meta)
+        can.onappend._init(can, meta, ["/plugin/state.js"], function(sub, skip) {
+            sub.base.isFunc(cb) && cb(sub, meta, skip)
         }, target||can._output)
     },
 
@@ -419,7 +419,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         can.onengine.signal(can, chat.ONSIZE, can.request({}, {width: width, height: height}))
     },
     topic: function(can, topic) { topic && (can._topic = topic)
-        can.user.topic(can, can._topic || can.user.Search(can, chat.TOPIC) || ((can.user.Search(can, cli.POD)||can.base.isNight())? chat.BLACK: chat.WHITE))
+        can.user.topic(can, can._topic || can.user.Search(can, chat.TOPIC) || ((can.base.isNight()||can.user.mod.isPod)? chat.BLACK: chat.WHITE))
         can.page.ClassList.add(can, document.body, can.user.language(can))
     },
     background: function(can, url, target) {

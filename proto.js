@@ -40,6 +40,7 @@ const ice = {
     MSG_STATUS: "_status",
     MSG_DISPLAY: "_display",
     MSG_PROCESS: "_process",
+    MSG_PREFIX: "_prefix",
 
 	PROCESS_AGAIN: "_again",
 
@@ -51,11 +52,10 @@ const ctx = {
     ACTION: "action",
 }
 const cli = {
-    RUN: "run",
-    POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
-    OPEN: "open", CLOSE: "close", START: "start", STOP: "stop",
-    CLEAR: "clear",
-    DONE: "done",
+    RUN: "run", DONE: "done",
+    OPEN: "open", CLOSE: "close",
+    START: "start", STOP: "stop",
+    CLEAR: "clear", REFRESH: "refresh",
 }
 const web = {
     SHARE: "share",
@@ -63,17 +63,13 @@ const web = {
 }
 const aaa = {
     USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
-
     LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
-
     LOGIN: "login", LOGOUT: "logout", INVITE: "invite",
 }
 const mdb = {
+    PLUGIN: "plugin", RENDER: "render", SEARCH: "search", INPUTS: "inputs",
     CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete",
     MODIFY: "modify", SELECT: "select",
-    PLUGIN: "plugin",
-    SEARCH: "search",
-    INPUTS: "inputs",
 
     META: "meta", HASH: "hash", LIST: "list",
 }

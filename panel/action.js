@@ -5,8 +5,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             item.feature = can.base.Obj(item.feature||item.meta)
             item.inputs = can.base.Obj(item.inputs||item.list)
 
-            can.onappend.plugin(can, item, function(sub, meta) {
-                can.onimport._plugin(can, river, storm, sub, meta), next()
+            can.onappend.plugin(can, item, function(sub, meta, skip) {
+                can.onimport._plugin(can, river, storm, sub, meta), skip || next()
             })
         }, function() {
             can.onaction.layout(can, can.user.Search(can, chat.LAYOUT)||can.Conf(chat.LAYOUT))
@@ -35,7 +35,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
         sub._target.Meta = meta
     },
     _menu: function(can, msg) {
-        if (can.user.isMobile || can.user.Search(can, cli.POD)) { return }
+        if (can.user.mod.isPod||can.user.isMobile) { return }
 
         can._menu && can.page.Remove(can, can._menu)
         can._menu = can.search({}, ["Header.onimport.menu", ctx.ACTION].concat(
@@ -95,7 +95,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         can.base.isFunc(cb) && cb()
     },
     onmain: function(can, msg) {
-        var cmds = location.pathname.split("/").slice(1); if (cmds[0] == cli.CMD) {
+        var cmds = location.pathname.split("/").slice(1); if (cmds[0] == ice.CMD) {
             can.onappend.plugin(can, {index: cmds[1]}, function(sub) { sub.run = function(event, cmds, cb) {} })
         }
         can.onimport._share(can, can.user.Search(can, web.SHARE))
