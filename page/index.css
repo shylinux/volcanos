@@ -303,6 +303,7 @@ fieldset.output>div.status {
 }
 fieldset.float {
     background-color:#023531cf;
+    margin:0px; padding:0px;
     position:absolute;
     z-index:30;
 }

@@ -136,7 +136,7 @@ Volcanos("ondetail", {help: "用户交互", list: [],
     },
 
     plugin: function(event, can, args) {
-        can.onappend.plugin(can, {type: chat.FLOAT, index: "web.code.inner", args: args, _action: [cli.CLOSE]}, function(sub) {
+        can.onappend.plugin(can, {type: chat.PLUGIN, index: "web.code.inner", style: chat.FLOAT, args: args, _action: [cli.CLOSE]}, function(sub) {
             sub.run = function(event, cmds, cb) {
                 can.run(event, can.misc.Concat([ctx.ACTION, "inner"], cmds), function(msg) {
                     msg.Option(ice.MSG_ACTION, cli.CLOSE)

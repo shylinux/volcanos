@@ -1,7 +1,7 @@
-fieldset.editor>div.output td.content {
+fieldset.inner>div.output td.content {
     position:relative;
 }
-fieldset.editor>div.output input.current {
+fieldset.inner>div.output input.current {
     position:absolute; padding:0; margin:0;
     font-size:16px; font-family:monospace;
     padding-left:9px;
@@ -9,17 +9,17 @@ fieldset.editor>div.output input.current {
     background-color:#00000000; color:#00000000;
     width:-webkit-fill-available;
 }
-fieldset.editor>div.output input.current.insert {
+fieldset.inner>div.output input.current.insert {
     caret-color:yellow;
 }
-fieldset.editor>div.output input.current.normal {
+fieldset.inner>div.output input.current.normal {
     caret-color:blue;
 }
-fieldset.editor>div.output input.current.command {
+fieldset.inner>div.output input.current.command {
     display:none;
 }
 
-fieldset.editor>div.output input.command {
+fieldset.inner>div.output input.command {
     font-size:16px; font-family:monospace;
     background-color:black; color:white;
     caret-color:red;
@@ -29,27 +29,27 @@ fieldset.editor>div.output input.command {
     width:-webkit-fill-available;
     margin:0; padding:0 12px;
 }
-fieldset.editor>div.output input.command.normal {
+fieldset.inner>div.output input.command.normal {
     display:none;
 }
-fieldset.editor>div.output input.command.insert {
+fieldset.inner>div.output input.command.insert {
     display:none;
 }
 
-fieldset.editor>div.output div.display {
+fieldset.inner>div.output div.display {
     border:solid 1px greenyellow;
     padding:10px;
 }
-fieldset.editor>div.output div.display input.cmd {
+fieldset.inner>div.output div.display input.cmd {
     font-size:16px; font-family:monospace;
     background-color:black; color:white;
     min-width:480px; padding-left:5px;
     margin-left:2px;
 }
-fieldset.editor>div.output div.display div.output {
+fieldset.inner>div.output div.display div.output {
     overflow:auto;
 }
-fieldset.editor>div.output div.display div.output {
+fieldset.inner>div.output div.display div.output {
     max-height:160px;
 }
 
