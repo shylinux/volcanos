@@ -10,6 +10,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._state(can, msg, target)
         can.onimport._search(can, msg, target)
         can.onimport._background(can, msg, target)
+        can.onimport._avatar(can, msg, target)
         can.onimport._menus(can, msg, target)
         can.base.isFunc(cb) && cb(msg)
     },
@@ -43,8 +44,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _state: function(can, msg, target) {
         can.core.List(can.base.Obj(msg.Option(chat.STATE)||can.Conf(chat.STATE), [kit.MDB_TIME, aaa.USERNAME]), function(item) {
-            if (item == aaa.AVATAR) {
-                can.page.Append(can, target, [{view: can.base.join([chat.STATE, item]), list: [{img: can.Conf(item)||ice.SP}], onmouseenter: function(event) {
+            if (item == aaa.AVATAR ) {
+                if (can.user.isExtension || can.user.isLocalFile) { return }
+                can.page.Append(can, target, [{view: can.base.join([chat.STATE, item]), list: [{img: ice.SP}], onmouseenter: function(event) {
                     can.onaction.carte(event, can, [can.page.Format(html.IMG, can.Conf(item), 160)])
                 }}])
                 return
@@ -67,7 +69,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _background: function(can, msg) {
         if (can.user.isExtension || can.user.isLocalFile) { return }
-        can.onlayout.background(can, msg.Option(aaa.BACKGROUND), document.body)
+        // can.onlayout.background(can, msg.Option(aaa.BACKGROUND), document.body)
+        can.onlayout.background(can, "/share/local/background", document.body)
+    },
+    _avatar: function(can, msg) {
+        if (can.user.isExtension || can.user.isLocalFile) { return }
+        // can.page.Modify(can, "div.output div.state.avatar>img", {src: can.Conf(aaa.AVATAR, msg.Option(aaa.AVATAR))})
+        can.page.Modify(can, "div.output div.state.avatar>img", {src: "/share/local/avatar"})
     },
     _menus: function(can, msg, target) {
         var menus = can.base.Obj(msg.Option(chat.MENUS)||can.Conf(chat.MENUS), [chat.HEADER, ["setting", chat.BLACK, chat.WHITE, chat.PRINT]])
@@ -103,9 +111,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 }, function(key, value) { return can.user.agent[key] = value, key }),
             })
         }) })
-    },
-    _avatar: function(can, msg) {
-        can.page.Modify(can, "div.output div.state.avatar>img", {src: can.Conf(aaa.AVATAR, msg.Option(aaa.AVATAR))})
     },
     _time: function(can, target) {
         can.core.Timer({interval: 500}, function() { can.onimport.time(can, target) })
@@ -171,7 +176,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
         "print": "打印主题",
 
         "shareuser": "共享用户",
-        "language": "语言",
+        "language": "语言地区",
         "chinese": "中文",
         "clear": "清除背景",
     },
@@ -253,3 +258,4 @@ Volcanos("onexport", {help: "导出数据", list: [],
     height: function(can) { return can._target.offsetHeight },
     topic: function(can) { return can._topic },
 })
+

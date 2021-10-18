@@ -1,5 +1,5 @@
 Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, meta, cb, target) {
-    function set(now) { target.value = can.base.Time(now), can.page.Remove(can, can._target)
+    function set(now) { target.value = can.user.time(can, now), can.page.Remove(can, can._target)
         meta && meta.action == ice.AUTO && can.run({})
     }
 
@@ -56,7 +56,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
         for (var day = new Date(one); day < end; day.setDate(day.getDate()+1)) {add(day, "main")}
         for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) {add(day, "next")}
 
-        return can.onlayout.figure(event, can), cb(can), now
+        return can.onlayout.figure(event, can), can.base.isFunc(cb) && cb(can), now
     }; show(now)
 }} }, ["/plugin/input/date.css"])
 

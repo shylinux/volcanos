@@ -183,7 +183,7 @@ Volcanos("ondetail", {help: "菜单交互", list: ["共享群组", "添加应用
     },
     "删除群组": function(event, can, button, river) {
         var msg = can.request(event, {hash: river})
-        can.run(event, [mdb.REMOVE], function(msg) {
+        can.run(event, [ctx.ACTION, mdb.REMOVE], function(msg) {
             can.user.Search(can, {})
         })
     },
@@ -305,3 +305,4 @@ Volcanos("onexport", {help: "导出数据", list: [],
         })
     },
 })
+
