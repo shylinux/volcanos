@@ -10,7 +10,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })), select && select.click()
     },
     _main: function(can, msg) { can._main_river = "project", can._main_storm = "studio"
-        if (can.user.isExtension) { can._main_river = "product", can._main_storm = "chrome" }
+        if (can.user.isExtension) { var args = Volcanos.meta.args
+            can._main_river = args.river||"product", can._main_storm = args.storm||"chrome"
+        }
         if (can.user.isMobile) { can._main_river = "product", can._main_storm = "office" }
         if (can.user.isWeiXin) { can._main_river = "service", can._main_storm = "wx" }
 
@@ -74,6 +76,10 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     onsearch: function(can, msg, word) {
         if (word[0] == "*" || word[0] == chat.STORM) { can.onexport.storm(can, msg, word) }
     },
+    onstorm_select: function(can, msg, river, storm) {
+        var args = {river: river, storm: river}
+        if (can.user.isExtension) { localStorage.setItem("args", JSON.stringify(args)) }
+    },
     onaction_touch: function(can, msg) {
         can.onmotion.float.del(can, chat.CARTE)
         can.user.isMobile && can.onmotion.hidden(can)
@@ -125,11 +131,13 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         })
     },
     refresh: function(event, can) {
-        can.user.Search(can, {
+        var args = {
             river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM),
             topic: can.search(event, ["Header.onexport.topic"]),
             layout: can.search(event, ["Action.onexport.layout"]),
-        })
+        }
+        if (can.user.isExtension) { localStorage.setItem("args", JSON.stringify(args)) }
+        can.user.Search(can, args)
     },
 })
 Volcanos("ondetail", {help: "菜单交互",

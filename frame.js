@@ -4,6 +4,8 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
             return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb)
         }, can.river = can.Conf(chat.RIVER)||{}
 
+        if (can.user.isExtension) { Volcanos.meta.args = JSON.parse(localStorage.getItem("args"))||{} }
+
         can.core.Next(list, function(item, next) { item.type = chat.PANEL
             can.onappend._init(can, item, item.list, function(panel) {
                 panel.run = function(event, cmds, cb) { var msg = panel.request(event); cmds = cmds||[]
