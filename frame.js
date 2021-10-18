@@ -1,3 +1,4 @@
+_can_name = "/frame.js"
 Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta, list, cb, target) {
         can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]
             return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb)
@@ -772,3 +773,4 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
         target.setSelectionRange(start, start)
     },
 })
+_can_name = ""
