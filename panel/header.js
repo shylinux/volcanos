@@ -70,12 +70,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _background: function(can, msg) {
         if (can.user.isExtension || can.user.isLocalFile) { return }
         // can.onlayout.background(can, msg.Option(aaa.BACKGROUND), document.body)
-        can.onlayout.background(can, "/share/local/background", document.body)
+        msg.Option(aaa.BACKGROUND) && can.onlayout.background(can, "/share/local/background", document.body)
     },
     _avatar: function(can, msg) {
         if (can.user.isExtension || can.user.isLocalFile) { return }
         // can.page.Modify(can, "div.output div.state.avatar>img", {src: can.Conf(aaa.AVATAR, msg.Option(aaa.AVATAR))})
-        can.page.Modify(can, "div.output div.state.avatar>img", {src: "/share/local/avatar"})
+        msg.Option(aaa.AVATAR) && can.page.Modify(can, "div.output div.state.avatar>img", {src: "/share/local/avatar"})
     },
     _menus: function(can, msg, target) {
         var menus = can.base.Obj(msg.Option(chat.MENUS)||can.Conf(chat.MENUS), [chat.HEADER, ["setting", chat.BLACK, chat.WHITE, chat.PRINT]])
