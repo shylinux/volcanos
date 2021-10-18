@@ -1,13 +1,12 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        can.onmotion.clear(can)
-        can.base.isFunc(cb) && cb(msg)
+        can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
         if (msg.Option("branch")) { return can.onappend.table(can, msg) }
 
         can.msg = msg, can.data = msg.Table(), can.onimport._sum(can)
-        can.Action("height", msg.Option("height")||can.user.mod.isCmd? "max": can.user.isMobile&&can.user.isLandscape? "200": "400")
+        can.Action(chat.HEIGHT, msg.Option(chat.HEIGHT)||can.user.mod.isCmd? "max": can.user.isMobile&&can.user.isLandscape? "200": "400")
         can.Action("speed", parseInt(msg.Option("speed")||"100"))
 
-        can.onappend.plugin(can, {index: "web.wiki.draw", style: "output"}, function(sub) {
+        can.onappend.plugin(can, {index: "web.wiki.draw", style: chat.OUTPUT}, function(sub) {
             sub.run = function(event, cmds, cb) { sub.Action("go", "run")
                 can.base.isFunc(cb) && cb(sub.request())
 
@@ -49,17 +48,16 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
         can.onmotion.toggle(can, can.draw._action)
         can.onmotion.toggle(can, can.draw._status)
     },
-    "趋势图": function(event, can) { var height = can.Action("height")
-        if (height == "max") { height = can.Conf("height") - chat.CMD_MARGIN }
+    "趋势图": function(event, can) { var height = can.Action(chat.HEIGHT)
+        if (height == "max") { height = can.Conf(chat.HEIGHT) - chat.CMD_MARGIN }
         height = parseInt(height)
 
-        var space = 10
-        var width = parseInt(can.Conf("width"))
+        var space = 10, width = parseInt(can.Conf(chat.WIDTH))
         var step = parseInt((width-2*space) / can.list.length)
 
         can.onmotion.clear(can, can.draw.svg)
-        can.draw.svg.Val("height", height)
-        can.draw.svg.Val("width", width)
+        can.draw.svg.Val(chat.HEIGHT, height)
+        can.draw.svg.Val(chat.WIDTH, width)
 
         function scale(y) { return (y - can.min)/(can.max - can.min)*(height-2*space) }
         function order(index, x, y) { return {x: space+step*index+x, y: height-space-scale(y)} }
@@ -69,7 +67,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
                 shape: "line", point: [
                     order(index, step/2, line.min), order(index, step/2, line.max),
                 ], style: {
-                    "stroke-width": 1, "stroke": line.begin < line.close? "white": "black",
+                    "stroke-width": 1, "stroke": line.begin < line.close? chat.WHITE: chat.BLACK,
                 },
             })
 
@@ -77,15 +75,13 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
                 shape: "rect", point: [
                     order(index, step/4, line.close), order(index, step/4*3, line.begin),
                 ], style: can.base.Copy({"stroke-width": 1, "rx": 0, "ry": 0}, line.begin < line.close? {
-                    "stroke": "white", "fill": "white",
+                    "stroke": chat.WHITE, "fill": chat.WHITE,
                 }: {
-                    "stroke": "black", "fill": "black",
+                    "stroke": chat.BLACK, "fill": chat.BLACK,
                 }),
                 _init: function(view) {
-                    can.core.Item(can.ondetail, function(key, value) {
-                        if (key.indexOf("on") == 0 && can.base.isFunc(value)) {
-                            view[key] = function(event) { value(event, can, line) }
-                        }
+                    can.core.ItemCB(can.ondetail, function(key, cb) {
+                        view[key] = function(event) { cb(event, can, line) }
                     })
                 },
             })
@@ -106,14 +102,13 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
             })
         })
 
-        var space = 10
-        var width = parseInt(can.Conf("width"))
-        var height = parseInt(can.Action("height"))
+        var height = parseInt(can.Action(chat.HEIGHT))
+        var space = 10, width = parseInt(can.Conf(chat.WIDTH))
         var step = parseInt((width-2*space) / can.list.length)
 
         can.onmotion.clear(can, can.draw.svg)
-        can.draw.svg.Val("height", height)
-        can.draw.svg.Val("width", width)
+        can.draw.svg.Val(chat.HEIGHT, height)
+        can.draw.svg.Val(chat.WIDTH, width)
 
         function scale(key, y) { return (y - min[key])/(max[key] - min[key])*(height-2*space) }
         function order(index, key, x, y) { return {x: space+step*index+x, y: space+scale(key, y)} }
@@ -126,13 +121,11 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
                     shape: "rect", point: [
                         order(index, key, width*which+2, 0), order(index, key, width*which+2+width, y),
                     ], style: {
-                        "stroke-width": 1, "stroke": "white", "fill": "white", "rx": 0, "ry": 0,
+                        "stroke-width": 1, "stroke": chat.WHITE, "fill": chat.WHITE, "rx": 0, "ry": 0,
                     },
                     _init: function(view) {
-                        can.core.Item(can.ondetail, function(key, value) {
-                            if (key.indexOf("on") == 0 && can.base.isFunc(value)) {
-                                view[key] = function(event) { value(event, can, line) }
-                            }
+                        can.core.ItemCB(can.ondetail, function(key, cb) {
+                            view[key] = function(event) { cb(event, can, line) }
                         })
                     },
                 })

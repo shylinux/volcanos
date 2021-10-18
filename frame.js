@@ -9,9 +9,9 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
                     return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, panel, cmds, cb)
                 }, can[item.name] = panel, panel._root = can, panel._trans = panel.onaction._trans
 
-                can.core.Item(panel.onaction, function(key, cb) { if (key.indexOf("on") == 0) {
+                can.core.ItemCB(panel.onaction, function(key, cb) {
                     can.onengine.listen(can, key, function(msg) { can.core.CallFunc(cb, {can: panel, msg: msg}) })
-                } }), panel.onaction._init(panel, item, item.list, next, panel._target)
+                }), panel.onaction._init(panel, item, item.list, next, panel._target)
 
                 can.onmotion.float.auto(can, panel._output)
                 panel.onkeypop._build(panel)
@@ -145,9 +145,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     return can.Update(event, can.Input(cmds, silent), cb, silent)
                 }, can._inputs[item.name] = input, input.sup = can
 
-                can.core.Item(input.onaction, function(key, cb) { if (key.indexOf("on") == 0) {
+                can.core.ItemCB(input.onaction, function(key, cb) {
                     input._target[key] = function(event) { cb(event, input) }
-                } }), can.core.CallFunc([input.onaction, "_init"], [input, item, [], next, input._target])
+                }), can.core.CallFunc([input.onaction, "_init"], [input, item, [], next, input._target])
 
                 can.onappend.figure(input, item, input._target)
             })
@@ -306,7 +306,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
     figure: function(can, meta, target, cb) { if ([html.BUTTON, html.SELECT].indexOf(meta.type) > -1) { return }
         var input = meta.action||kit.MDB_KEY; input != "auto" && can.require(["/plugin/input/"+input+".js"], function(can) {
-            can.core.Item(can.onfigure[input], function(key, on) { if (key.indexOf("on") != 0) { return }
+            can.core.ItemCB(can.onfigure[input], function(key, on) {
                 target[key] = function(event) {
                     can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT}, [], function(sub) { sub.Conf(meta)
                         sub.run = function(event, cmds, cb) { var msg = sub.request(event, can.Option());

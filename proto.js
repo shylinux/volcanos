@@ -96,7 +96,7 @@ const wiki = {
     FIELD: "field", SHELL: "shell", LOCAL: "local", PARSE: "parse",
 }
 const chat = {
-    LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin",
+    LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", OUTPUT: "output",
     STORY: "story", CARTE: "carte", INPUT: "input", FLOAT: "float",
     HEAD: "head", AUTO: "auto", LEFT: "left", MAIN: "main", FOOT: "foot",
     SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top",

@@ -14,8 +14,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Modify(can, can.ui.content, msg.Result()||can.onexport.content(can))
         can.page.Select(can, can.ui.content, "svg", function(svg) {
             can.svg = can.group = svg, can.onimport._group(can, svg).click()
-            can.core.Item(can.onimport, function(key, value) {
-                key.indexOf("on") == 0 && (svg[key] = function(event) { value(event, can) })
+            can.core.ItemCB(can.onimport, function(key, cb) {
+                svg[key] = function(event) { cb(event, can) }
             })
             can.page.Select(can, svg, "*", function(item, index) {
                 item.tagName == "g"? can.onimport._group(can, item): can.onimport._block(can, item)

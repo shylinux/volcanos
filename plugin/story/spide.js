@@ -1,6 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        can.onmotion.clear(can)
-        can.base.isFunc(cb) && cb(msg)
+        can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
         if (msg.Option("branch")) { return can.onappend.table(can, msg) }
 
         can.dir_root = msg.Option("dir_root")
@@ -9,7 +8,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._tree[""].name = can.dir_root.split("/").pop()
 
         can.size = 30, can.margin = 30
-        can.onappend.plugin(can, {index: "web.wiki.draw", style: "output"}, function(sub) {
+        can.onappend.plugin(can, {index: "web.wiki.draw", style: chat.OUTPUT}, function(sub) {
             sub.run = function(event, cmds, cb) { sub.Action("go", "run")
                 can.base.isFunc(cb) && cb(sub.request())
 
@@ -39,10 +38,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
         return node
     },
-    _height: function(can, tree) {
-        if (!tree) { return 0 }
-        if (tree.hide) { return tree.height = 1 }
+    _height: function(can, tree) { if (!tree) { return 0 }
         if (tree.list.length == 0) { return tree.height = 1 }
+        if (tree.hide) { return tree.height = 1 }
 
         var height = 0; can.core.List(tree.list, function(item) {
             height += can.onimport._height(can, item)
@@ -59,9 +57,9 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", ["view", "横向", 
         can.onmotion.clear(can, can.draw.svg)
 
         can.onimport._height(can, can._tree[""])
-        can.draw.svg.Val("height", can._tree[""].height*can.size+2*can.margin)
+        can.draw.svg.Val(chat.HEIGHT, can._tree[""].height*can.size+2*can.margin)
         can.width = 0, can.onaction._draw(can, can._tree[""], can.margin, can.margin)
-        can.draw.svg.Val("width", can.width+can.margin)
+        can.draw.svg.Val(chat.WIDTH, can.width+can.margin)
     },
     "纵向": function(event, can) {
         can.onmotion.clear(can, can.draw.svg)
@@ -81,10 +79,8 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", ["view", "横向", 
         tree.width = tree.view.Val("textLength")
         if (x+tree.width > can.width) { can.width = x+tree.width }
 
-        can.core.Item(can.ondetail, function(key, value) {
-            if (key.indexOf("on") == 0 && can.base.isFunc(value)) {
-                tree.view[key] = function(event) { value(event, can, tree) }
-            }
+        can.core.ItemCB(can.ondetail, function(key, cb) {
+            tree.view[key] = function(event) { cb(event, can, tree) }
         })
 
         if (tree.hide) { return }
@@ -140,21 +136,19 @@ Volcanos("ondetail", {help: "用户交互", list: [],
     },
 
     plugin: function(event, can, args) {
-        can.onappend.plugin(can, {type: "float", index: "web.code.inner", args: args, _action: ["关闭"]}, function(sub) {
+        can.onappend.plugin(can, {type: chat.FLOAT, index: "web.code.inner", args: args, _action: [cli.CLOSE]}, function(sub) {
             sub.run = function(event, cmds, cb) {
                 can.run(event, can.misc.Concat([ctx.ACTION, "inner"], cmds), function(msg) {
-                    msg.Option(ice.MSG_ACTION, "close")
+                    msg.Option(ice.MSG_ACTION, cli.CLOSE)
                     can.search(event, ["Action.onexport.size"], function(msg, left, top, width, height) { left = left||0
                         var top = 120, margin = 20; if (can.user.isMobile) { margin = 0
                             if (can.user.isLandscape) {
-                                sub.Conf("height", window.innerHeight+200)
-                                top = 24
+                                sub.Conf(chat.HEIGHT, window.innerHeight+200), top = 24
                             } else {
-                                sub.Conf("height", window.innerHeight+140)
-                                top = 48
+                                sub.Conf(chat.HEIGHT, window.innerHeight+140), top = 48
                             }
                         } else {
-                            sub.Conf("height", height+120)
+                            sub.Conf(chat.HEIGHT, height+120)
                         }
 
                         var layout = {position: "fixed", left: left+margin, top: top}
