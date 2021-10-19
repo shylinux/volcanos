@@ -161,11 +161,17 @@ table.content td:hover {
     background-color:red;
 }
 
+td>input[type=button][name=create] {
+    background-color:blue;
+}
 td>input[type=button][name=remove] {
     background-color:red;
 }
-td>input[type=button][name=create] {
+td>input[type=button][name=start] {
     background-color:blue;
+}
+td>input[type=button][name=stop] {
+    background-color:red;
 }
 
 legend {
