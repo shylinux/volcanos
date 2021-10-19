@@ -78,7 +78,7 @@ Volcanos("onaction", {help: "交互操作", list: [
         var ui = can.user.input(event, can, [{name: chat.TITLE, value: meta.name}], function(ev, button, data, list) {
             var msg = can.request(event, {arg: [kit.MDB_TYPE, chat.FIELD,
                 kit.MDB_NAME, meta.index, kit.MDB_TEXT, JSON.stringify(can.Input([], true)),
-                chat.RIVER, can.Conf(chat.RIVER), chat.STORM, can.Conf(chat.STORM), chat.TITLE, list[0],
+                chat.TITLE, list[0], chat.RIVER, can.Conf(chat.RIVER), chat.STORM, can.Conf(chat.STORM),
             ]})
             can.search(event, ["Header.onaction.share"])
         }); can.onlayout.figure(event, can, ui._target, true)

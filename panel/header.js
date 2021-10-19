@@ -240,7 +240,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     usernick: function(event, can) {
         can.user.input(event, can, [{name: aaa.USERNICK, value: can.Conf(aaa.USERNAME)}], function(ev, button, data, list, args) {
             can.run(event, [aaa.USERNICK, list[0]], function(msg) {
-                can.page.Select(can, can._output, can.base.Keys(html.DIV, aaa.USERNAME), function(item) {
+                can.page.Select(can, can._output, can.core.Keys(html.DIV, aaa.USERNAME), function(item) {
                     can.page.Modify(can, item, can.Conf(aaa.USERNAME, list[0]))
                 }), can.user.toast(can, "修改成功")
             }, true)

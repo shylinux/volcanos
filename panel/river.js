@@ -174,7 +174,7 @@ Volcanos("ondetail", {help: "菜单交互",
     "共享工具": function(event, can, button, river, storm) {
         can.user.select(event, can, mdb.PLUGIN, "name,context,command,argument", function(item, next) {
             can.user.share(can, can.request(event), [river, ctx.ACTION, chat.SHARE, kit.MDB_TYPE, chat.FIELD,
-                kit.MDB_NAME, item[0], kit.MDB_TEXT, item[3], chat.RIVER, item[1], chat.STORM, item[2],
+                kit.MDB_NAME, item[2], kit.MDB_TEXT, item[3], chat.TITLE, item[0], chat.RIVER, river, chat.STORM, storm,
             ])
         })
     },
