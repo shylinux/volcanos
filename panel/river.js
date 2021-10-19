@@ -16,7 +16,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         if (can.user.isMobile) { can._main_river = "product", can._main_storm = "office" }
         if (can.user.isWeiXin) { can._main_river = "service", can._main_storm = "wx" }
 
-        can._main_title = can.user.Search(can, chat.TITLE)||msg.Option(ice.MSG_TITLE)||Volcanos.meta.args.title||can.user.mod.isPod||can._main_title
+        can._main_title = can.user.Search(can, chat.TITLE)||msg.Option(ice.MSG_TITLE)||Volcanos.meta.args.title||can.user.Search(can, ice.POD)||can._main_title
         can._main_river = can.user.Search(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||Volcanos.meta.args.river||can._main_river
         can._main_storm = can.user.Search(can, chat.STORM)||msg.Option(ice.MSG_STORM)||Volcanos.meta.args.storm||can._main_storm
     },

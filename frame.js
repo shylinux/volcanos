@@ -317,7 +317,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                         }
 
                         meta.style && sub.page.Modify(sub, sub._target, {style: meta.style})
-                        can.onmotion.float.add(can, "input", sub)
+                        can.onmotion.float.add(can, chat.INPUT, sub)
                         on(event, sub, meta, cb, target)
                     }, document.body)
                 }
@@ -437,6 +437,9 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         if (top+target.offsetHeight>window.innerHeight-100) { top = window.innerHeight - target.offsetHeight - 100 }
 
         var layout = {left: left, top: top}
+        if (layout.left < 0) { layout.left = 0 }
+        if (layout.top < 0) { layout.top = 0 }
+
         can.page.Modify(can, target, {style: layout})
         can.onmotion.move(can, target, layout)
     },
