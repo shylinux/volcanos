@@ -1,4 +1,4 @@
-const kit = {
+var kit = {
     MDB_ID: "id",
     MDB_KEY: "key",
     MDB_TIME: "time",
@@ -16,7 +16,7 @@ const kit = {
     MDB_HASH: "hash",
     MDB_LIST: "list",
 }
-const ice = {
+var ice = {
     SP: " ", PT: ".", NL: "\n",
     POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
 
@@ -47,51 +47,51 @@ const ice = {
     AUTO: "auto",
 }
 
-const ctx = {
+var ctx = {
     CONTEXT: "context", COMMAND: "command", CONFIG: "config",
     ACTION: "action",
 }
-const cli = {
+var cli = {
     RUN: "run", DONE: "done",
     OPEN: "open", CLOSE: "close",
     START: "start", STOP: "stop",
     CLEAR: "clear", REFRESH: "refresh",
 }
-const web = {
+var web = {
     SHARE: "share",
     SPACE: "space",
 }
-const aaa = {
+var aaa = {
     USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
     LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
     LOGIN: "login", LOGOUT: "logout", INVITE: "invite",
 }
-const mdb = {
+var mdb = {
     PLUGIN: "plugin", RENDER: "render", SEARCH: "search", INPUTS: "inputs",
     CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete",
     MODIFY: "modify", SELECT: "select",
 
     META: "meta", HASH: "hash", LIST: "list",
 }
-const ssh = {
+var ssh = {
     SCRIPT: "script",
 }
-const nfs = {
+var nfs = {
     DIR: "dir",
 }
-const tcp = {
+var tcp = {
     HOST: "host",
 }
 
-const code = {
+var code = {
     WEBPACK: "webpack",
 }
-const wiki = {
+var wiki = {
     TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
     ORDER: "order", TABLE: "table", CHART: "chart", IMAGE: "image", VIDEO: "video",
     FIELD: "field", SHELL: "shell", LOCAL: "local", PARSE: "parse",
 }
-const chat = {
+var chat = {
     LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", OUTPUT: "output",
     STORY: "story", CARTE: "carte", INPUT: "input", FLOAT: "float",
     HEAD: "head", AUTO: "auto", LEFT: "left", MAIN: "main", FOOT: "foot",
@@ -113,16 +113,16 @@ const chat = {
     SSO: "sso",
     CMD_MARGIN: 53,
 }
-const team = {
+var team = {
     TASK: "task",
     PLAN: "plan",
 }
-const mall = {
+var mall = {
     ASSET: "asset",
     SALARY: "salary",
 }
 
-const html = {
+var html = {
     FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
     FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
 
@@ -141,7 +141,7 @@ const html = {
     FORM: "form", FILE: "file",
     LIST: "list", ITEM: "item", MENU: "menu",
 }
-const lang = {
+var lang = {
     STRING: "string", OBJECT: "object", FUNCTION: "function",
     ENTER: "Enter",
 }
@@ -174,7 +174,8 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         }, _can_name = "", can._root = can
     }
 
-    can = can||{}, can.__proto__ = {__proto__: meta, _name: name, _load: function(name, cb) { // 加载缓存
+    can = can||{}
+    var proto = {__proto__: meta, _name: name, _load: function(name, cb) { // 加载缓存
             var cache = meta.cache[name]||[]; for (list.reverse(); list.length > 0; list) {
                 var sub = list.pop(); sub != can && cache.push(sub)
             }; meta.cache[name] = cache
@@ -218,6 +219,12 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},
     }
 
+    if (navigator.userAgent.indexOf("MSIE") > -1) {
+        for (var k in proto) { can[k] = proto[k] }
+    } else {
+        can.__proto__ = proto
+    }
+
     if (_can_name) { // 加入缓存
         meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can)
     } else { // 加入队列
@@ -232,7 +239,7 @@ Volcanos.meta._load = function(url, cb) {
             var item = document.createElement(kit.MDB_LINK)
             item.rel = "stylesheet", item.type = "text/css"
             item.onload = cb, item.href = url
-            return document.head.appendChild(item), item
+            return (document.head||document.body).appendChild(item), item
         case "js":
             var item = document.createElement(ssh.SCRIPT)
             item.onload = cb, item.src = url

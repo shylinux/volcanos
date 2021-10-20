@@ -1,6 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.path = can.request(), can.list = [], msg.Table(function(value) {
-            value.path.endsWith("/")? can.path.Push(value): can.list.push(value)
+            value.path.lastIndexOf("/")==value.path.length-1? can.path.Push(value): can.list.push(value)
         })
 
         can.base.isFunc(cb) && cb(msg)

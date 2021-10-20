@@ -459,7 +459,9 @@ body>div.upload input[type=file] {
 }
 
 body.white {
-    background-color:#052238bf;
+    /* background-color:rgba(68,92,106,0.7); */
+    background-color:rgba(5,34,56,0.75);
+    /* background-color:#052238bf; */
     color:white;
 }
 body.white select {

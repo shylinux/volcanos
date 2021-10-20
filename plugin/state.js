@@ -180,11 +180,11 @@ Volcanos("onaction", {help: "交互操作", list: [
     scanQRCode0: function(event, can) { can.user.agent.scanQRCode() },
     getClipboardData: function(event, can, cmd) {
         if (navigator.clipboard) {
-            navigator.clipboard.readText().then(text => {
+            navigator.clipboard.readText().then(function(text) {
                 can.run(event, can.base.Simple(ctx.ACTION, cmd, can.base.parseJSON(text)), function(msg) {
                     can.user.toast(can, text, "添加成功"), can.Update()
                 }, true)
-            }).catch((err) => { can.misc.Log(err) })
+            }).catch(function(err) { can.misc.Log(err) })
         } else {
             can.user.input(event, can, [{type: "textarea"}], function(ev, button, data, list, args) {
                 can.run(event, can.base.Simple(ctx.ACTION, cmd, can.base.parseJSON(list[0])), function(msg) {

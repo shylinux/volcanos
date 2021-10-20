@@ -17,7 +17,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         })
     },
-    _sum: function(can, ) {
+    _sum: function(can) {
         var begin = "", count = 0, rest = 0, add = 0, del = 0, max = 0
         can.max = 0, can.min = 0, can.list = can.core.List(can.data, function(value, index) {
             var line = {

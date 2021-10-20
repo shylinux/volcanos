@@ -48,7 +48,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Modify(can, can.toast, [time.split(ice.SP).pop(), title, content].join(ice.SP))
         can._toast.Push({time: time, fileline: fileline, title: title, content: content})
     },
-    ncmd: function(can, msg, follow, cmds) { const NCMD = "ncmd"; can._cmds = can._cmds || can.request()
+    ncmd: function(can, msg, follow, cmds) { var NCMD = "ncmd"; can._cmds = can._cmds || can.request()
         can._cmds.Push({time: can.base.Time(), follow: follow, cmds: cmds})
         can.page.Select(can, can._output, can.core.Keys(html.SPAN, NCMD), function(item) {
             item.innerHTML = can.Conf(NCMD, parseInt(can.Conf(NCMD)||"0")+1+"")+""

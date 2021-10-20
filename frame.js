@@ -10,7 +10,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
             can.onappend._init(can, item, item.list, function(panel) {
                 panel.run = function(event, cmds, cb) { var msg = panel.request(event); cmds = cmds||[]
                     return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, panel, cmds, cb)
-                }, can[item.name] = panel, panel._root = can, panel._trans = panel.onaction._trans
+                }, can[item.name] = panel, panel._root = can, panel._trans = panel.onaction && panel.onaction._trans||{}
 
                 can.core.ItemCB(panel.onaction, function(key, cb) {
                     can.onengine.listen(can, key, function(msg) { can.core.CallFunc(cb, {can: panel, msg: msg}) })
@@ -41,7 +41,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
     _engine: function(event, can, msg, panel, cmds, cb) { return false },
     _remote: function(event, can, msg, panel, cmds, cb) {
         if (panel.onengine._engine(event, can, msg, panel, cmds, cb)) { return }
-        can.search({follow: panel._follow, msg, cmds}, ["Footer.onimport.ncmd"])
+        can.search({follow: panel._follow, msg: msg, cmds: cmds}, ["Footer.onimport.ncmd"])
 
         var key = can.core.Keys(panel._name, cmds.join(","))
         if (can.user.isLocalFile) { var msg = can.request(event); msg.Clear(ice.MSG_APPEND)
