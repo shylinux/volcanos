@@ -110,6 +110,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                     } }) },
                 }, function(key, value) { return can.user.agent[key] = value, key }),
             })
+            wx.ready(function() {
+                can.misc.Log("ready")
+            })
+            wx.error(function(err) {
+                can.misc.Log("what", err)
+            })
         }) })
     },
     _time: function(can, target) {
