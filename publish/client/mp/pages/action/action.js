@@ -106,7 +106,7 @@ Page({
             case "刷新": // 执行命令
             case "list": page.run(event, data.order); break
             default:
-                var cb = page.plugin[input.name]; can.base.isFunc(cb)? cb(event, page, data.order, input.name):
+                var cb = page.plugin[input.name]; typeof cb == "function"? cb(event, page, data.order, input.name):
                     page.run(event, data.order, ["action", input.name].concat(kit.List(field.inputs, function(input) {
                         if (input.type != "button") { return input.value }
                     })))
@@ -124,7 +124,7 @@ Page({
             }
             event._option = option
 
-            var cb = page.plugin[input.name]; can.base.isFunc(cb)? cb(event, page, data.order, input.name):
+            var cb = page.plugin[input.name]; typeof cb == "function"? cb(event, page, data.order, input.name):
                 page.run(event, data.order, ["action", input.name])
             return
         }

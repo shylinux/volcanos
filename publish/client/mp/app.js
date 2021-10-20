@@ -3,7 +3,7 @@ const kit = require("utils/kit.js")
 App({
     data: {}, conf: {serve: "https://shylinux.com/chat", space: ""},
     requests: function(cmd, data, cb) { wx.showLoading()
-        this.request(cmd, data, function(msg) { wx.hideLoading(), can.base.isFunc(cb) && cb(msg) })
+        this.request(cmd, data, function(msg) { wx.hideLoading(), typeof cb == "function" && cb(msg) })
     },
     request: function(cmd, data, cb) { var app = this; data.sessid = app.conf.sessid, data.pod = app.conf.space
         wx.request({method: "POST", url: app.conf.serve+"/"+cmd, data: data, success: function(res) { var msg = res.data
@@ -22,7 +22,7 @@ App({
                         var line = {}; kit.List(msg.key, function(key, index) {
                             line[key] = msg.value[index]
                         })
-                        can.base.isFunc(cb) && cb(line, 0, 1)
+                        typeof cb == "function" && cb(line, 0, 1)
                         return res.push(line), res
                     }
 

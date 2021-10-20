@@ -143,10 +143,8 @@ const html = {
 }
 const lang = {
     STRING: "string", OBJECT: "object", FUNCTION: "function",
-
     ENTER: "Enter",
 }
-
 function shy(help, meta, list, cb) {
     var index = 0, args = arguments; function next(type) {
         if (index < args.length && (!type || type == typeof args[index])) {

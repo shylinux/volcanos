@@ -1,16 +1,20 @@
+const lang = {
+    STRING: "string", OBJECT: "object", FUNCTION: "function",
+    ENTER: "Enter",
+}
 function shy(help, meta, list, cb) {
-    var index = 0, args = arguments; function next(check) {
-        if (index < args.length && (!check || check == typeof args[index])) {
+    var index = 0, args = arguments; function next(type) {
+        if (index < args.length && (!type || type == typeof args[index])) {
             return args[index++]
         }
     }
 
-    cb = args[args.length-1] || function() {}
-    cb.help = next("string") || ""
-    cb.meta = next("object") || {}
-    cb.list = next("object") || []
+    cb = args[args.length-1]||function() {}
+    cb.help = next(lang.STRING)||""
+    cb.meta = next(lang.OBJECT)|| {}
+    cb.list = next(lang.OBJECT)||[]
     return cb
-}; var _can_name = ""
+}
 module.exports = {
     EQ: function(obj, other) {
         if (typeof obj != typeof other) { return false }
@@ -51,9 +55,9 @@ module.exports = {
     },
     List: function(list, cb, cbs) {var res = [], val;
         for (var i = 0; i < list.length; i++) {
-            can.base.isFunc(cb)? (val = cb(list[i], i, list)) != undefined && res.push(val): res.push(list[i])
+            typeof cb == "function"? (val = cb(list[i], i, list)) != undefined && res.push(val): res.push(list[i])
         }
-        return can.base.isFunc(cbs) && cbs(res), res
+        return typeof cbs == "function"  && cbs(res), res
     },
     Item: function(list, cb, cbs) {
         for (var k in list) { cb(k, list[k]) }
@@ -93,10 +97,10 @@ module.exports = {
         interval = typeof interval == "object"? interval || []: [interval]
         var timer = {stop: false}; function loop(timer, i) {
             if (timer.stop || i >= interval.length && interval.length >= 0) {
-                return can.base.isFunc(cbs) && cbs(timer, interval)
+                return typeof cbs == "function" && cbs(timer, interval)
             }
-            return can.base.isFunc(cb) && cb(timer, interval.interval||interval[i], i, interval)?
-                can.base.isFunc(cbs) && cbs(timer, interval): setTimeout(function() { loop(timer, i+1) }, interval.interval||interval[i+1])
+            return typeof cb == "function" && cb(timer, interval.interval||interval[i], i, interval)?
+                typeof cbs == "function" && cbs(timer, interval): setTimeout(function() { loop(timer, i+1) }, interval.interval||interval[i+1])
         }
         setTimeout(function() { loop(timer, 0) }, interval.interval||interval[0])
         return timer
