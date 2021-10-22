@@ -1,9 +1,9 @@
-Volcanos({name: "demo", iceberg: "http://localhost:9020/chat/", panels: [
-        {name: "Header", help: "标题栏", pos: "head", state: ["time", "username"]},
-        {name: "Search", help: "搜索框", pos: "auto"},
-        {name: "River",  help: "群聊组", pos: "left", action: ["create", "refresh"]},
-        {name: "Action", help: "工作台", pos: "main"},
-        {name: "Footer", help: "状态条", pos: "foot", state: ["ncmd"]},
+Volcanos({name: "popup", iceberg: "http://localhost:9020/chat/", panels: [
+        {name: "Header", help: "标题栏", pos: chat.HEAD, state: ["time", "username", "avatar"]},
+        {name: "Search", help: "搜索框", pos: chat.AUTO},
+        {name: "River",  help: "群聊组", pos: chat.LEFT, action: ["create", "refresh"]},
+        {name: "Action", help: "工作台", pos: chat.MAIN},
+        {name: "Footer", help: "状态条", pos: chat.FOOT, state: ["ncmd"]},
     ], main: {name: "Header", list: ["/publish/order.js"]}, plugin: [
         "/plugin/state.js", "/plugin/input.js", "/plugin/table.js",
     ], river: {
