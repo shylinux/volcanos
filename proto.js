@@ -166,7 +166,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         // 预加载
         for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
             panel && (libs = libs.concat(panel.list = panel.list||["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
-        }; libs = libs.concat(Config.plugin, Config.main.list)
+        }; libs = libs.concat(Config.plugin, Config.main.list, meta.volcano)
 
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: Config.target||document.body}, cb = function(can) {
