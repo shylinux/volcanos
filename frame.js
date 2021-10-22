@@ -1,4 +1,3 @@
-_can_name = "/frame.js"
 Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta, list, cb, target) {
         can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]
             return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb)
@@ -628,7 +627,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
         var focus = can.onkeypop._focus; can.onkeypop._build(can)
         // can.onengine.listen(can, "keymap.focus", function(cb) { cb? focus.push(cb): focus.pop() })
         can.onengine.listen(can, "keymap.focus", function(cb) { cb? focus.push(cb): can.onkeypop._focus.length = 0 })
-        target.onkeydown = function(event) { if (focus.length > 0) { return focus[focus.length-1](event) }
+        document.body.onkeydown = function(event) { if (focus.length > 0) { return focus[focus.length-1](event) }
             event.target == target && can.page.Select(can, target, "fieldset.Action>div.output", function(item) {
                 target._keys = can.onkeypop._parse(event, can, "normal", target._keys||[], item)
             })
@@ -778,4 +777,3 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
         target.setSelectionRange(start, start)
     },
 })
-_can_name = ""
