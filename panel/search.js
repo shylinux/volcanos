@@ -85,7 +85,7 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
     plugin: function(event, can, index) { var line = can.list[index]
         if (can.base.isFunc(line.text)) { return can.onmotion.hide(can), line.text(event) }
 
-        var cmd = line.cmd == "command"? can.core.Keys(line.text, line.name): can.core.Keys(line.ctx, line.cmd)
+        var cmd = line.cmd == "command"? can.core.Keys(line.type, line.name.split(" ")[0]): can.core.Keys(line.ctx, line.cmd)
         can.onappend.plugin(can, {type: chat.PLUGIN, index: cmd||msg.Option(kit.MDB_INDEX)}, function(sub, meta) {
             can.search({}, "Action.onexport.size", function(msg, width) { sub.Conf(chat.WIDTH, width-60) })
 
