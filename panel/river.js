@@ -25,7 +25,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.core.CallFunc([can.ondetail, button], [event, can, button, can.Conf(chat.RIVER), can.Conf(chat.STORM)])
         })
     },
-    _carte: function(can, list, river, storm) { if (can.user.mod.isPod||can.user.isMobile) { return }
+    _carte: function(can, list, river, storm) { if (can.user.isMobile) { return }
         can.onaction.carte(event, can, list, function(event, button, module) {
             module[button](event, can, button, river, storm)
         })
@@ -58,7 +58,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, c
         var list = can._root.river
         cmds.length == 0 && can.core.Item(list, function(key, value) {
             msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) // 群组列表
-        }); if (cmds.length != 1 && cmds[1] != chat.TOOL) { return false }
+        }); if (cmds.length != 1 && cmds[1] != chat.STORM) { return false }
 
         var river = list[cmds[0]]; if (!river) { return false }
         can.core.Item(river.storm, function(key, value) {
@@ -76,15 +76,14 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     onsearch: function(can, msg, word) {
         if (word[0] == "*" || word[0] == chat.STORM) { can.onexport.storm(can, msg, word) }
     },
-    onstorm_select: function(can, msg, river, storm) {
-        var args = {river: river, storm: storm}
+    onstorm_select: function(can, msg, river, storm) { var args = {river: river, storm: storm}
         if (can.user.isExtension) { localStorage.setItem("args", JSON.stringify(args)) }
     },
     onaction_touch: function(can, msg) {
         can.onmotion.float.del(can, chat.CARTE)
         can.user.isMobile && can.onmotion.hidden(can)
     },
-    onaction_notool: function(can, msg, river, storm) {
+    onaction_nostorm: function(can, msg, river, storm) {
         can.ondetail["添加工具"](msg._event, can, "添加工具", river, storm)
     },
 
@@ -99,7 +98,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         can.onmotion.select(can, can._output, "div.item", can.river_list[river])
         var list = can.sublist[river]; if (list) { return can.onmotion.toggle(can, list) }
 
-        can.run({}, [river, chat.TOOL], function(msg) {
+        can.run({}, [river, chat.STORM], function(msg) {
             var select = 0; list = can.page.Append(can, can._output, [{view: html.LIST, list: msg.Table(function(item, index) {
                 river == can._main_river && item.hash == can._main_storm && (select = index)
                 return can.onimport._storm(can, item, river)
@@ -131,10 +130,8 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         })
     },
     refresh: function(event, can) {
-        var args = {
-            river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM),
-            topic: can.search(event, ["Header.onexport.topic"]),
-            layout: can.search(event, ["Action.onexport.layout"]),
+        var args = {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM),
+            topic: can.get("Header", "topic"), layout: can.get("Action", "layout"),
         }
         if (can.user.isExtension) { localStorage.setItem("args", JSON.stringify(args)) }
         can.user.Search(can, args)
@@ -164,7 +161,7 @@ Volcanos("ondetail", {help: "菜单交互",
     },
     "添加工具": function(event, can, button, river, storm) {
         can.user.select(event, can, ctx.COMMAND, "context,command", function(item, next) {
-            can.run({}, [river, chat.TOOL, ctx.ACTION, mdb.INSERT, kit.MDB_HASH, storm].concat([ice.POD, "", ice.CTX, item[0], ice.CMD, item[1]]), function(msg) {
+            can.run({}, [river, chat.STORM, ctx.ACTION, mdb.INSERT, kit.MDB_HASH, storm].concat([ice.POD, "", ice.CTX, item[0], ice.CMD, item[1]]), function(msg) {
                 next()
             })
         }, function() {
@@ -229,20 +226,20 @@ Volcanos("ondetail", {help: "菜单交互",
         can.search(event, ["Action.onexport.args"], function(item, next, index, array) {
             var msg = can.request({}, {hash: storm, id: item.dataset.id})
             var toast = can.user.toast(can, (index+1)+"/"+array.length, "保存参数", 10000, (index+1)/array.length)
-            can.run(msg._event, [river, chat.TOOL, ctx.ACTION, mdb.MODIFY, ice.ARG, item.dataset.args], function(msg) {
+            can.run(msg._event, [river, chat.STORM, ctx.ACTION, mdb.MODIFY, ice.ARG, item.dataset.args], function(msg) {
                 toast.close(), next()
             })
         })
     },
     "重命名应用": function(event, can, button, river, storm) {
         can.user.input(event, can, [kit.MDB_NAME], function(ev, button, meta, list, args) {
-            can.run(can.request(event, {hash: storm})._event, [river, chat.TOOL, ctx.ACTION, mdb.MODIFY].concat(args), function(msg) {
+            can.run(can.request(event, {hash: storm})._event, [river, chat.STORM, ctx.ACTION, mdb.MODIFY].concat(args), function(msg) {
                 can.user.Search(can, {river: river, storm: storm})
             })
         })
     },
     "删除应用": function(event, can, button, river, storm) {
-        can.run(can.request(event, {hash: storm})._event, [river, chat.TOOL, ctx.ACTION, mdb.REMOVE], function(msg) {
+        can.run(can.request(event, {hash: storm})._event, [river, chat.STORM, ctx.ACTION, mdb.REMOVE], function(msg) {
             can.user.Search(can, {river: river})
         })
     },
@@ -254,7 +251,7 @@ Volcanos("ondetail", {help: "菜单交互",
             {name: kit.MDB_TYPE, values: [chat.PUBLIC, chat.PROTECTED, chat.PRIVATE], _trans: "类型"},
             {name: kit.MDB_NAME, value: "hi", _trans: "名称"}, {name: kit.MDB_TEXT, value: "hello", _trans: "简介"},
         ], function(event, button, meta, list, args) {
-            can.run({}, [river, chat.TOOL, ctx.ACTION, mdb.CREATE].concat(args), function(msg) {
+            can.run({}, [river, chat.STORM, ctx.ACTION, mdb.CREATE].concat(args), function(msg) {
                 can.user.Search(can, {river: river, storm: msg.Result()})
             })
         })

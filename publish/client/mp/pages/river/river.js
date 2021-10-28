@@ -35,13 +35,13 @@ Page({
             return page.setData({list: page.data.list})
         }
 
-        app.requests(page.name, {cmds: [item.hash, "tool"]}, function(msg) {
+        app.requests(page.name, {cmds: [item.hash, "storm"]}, function(msg) {
             item.list = msg.Table(), page.setData({list: page.data.list})
         })
     },
     onchange: function(event, data) { data = data || event.target.dataset
-        var item = this.data.list[data.index]; var tool = item.list[data.i]
-        app.jumps("action/action", {river: item.hash, storm: tool.hash, title: item.name+"."+tool.name})
+        var item = this.data.list[data.index]; var storm = item.list[data.i]
+        app.jumps("action/action", {river: item.hash, storm: storm.hash, title: item.name+"."+storm.name})
     },
 
     onReady: function () {},

@@ -10,23 +10,26 @@ fieldset.Footer>div.output>div {
     cursor:pointer;
 }
 fieldset.Footer>div.output>div:hover {
-    border-bottom:solid 2px red;
+    border-top:solid 2px red;
     background-color:#2e515f;
 }
 
 fieldset.Footer>div.output div.title {
     float:left;
 }
-fieldset.Footer>div.output div.toast {
-    float:right;
-    background-color:darkcyan;
-}
 fieldset.Footer>div.output div.state {
     float:right;
+}
+fieldset.Footer>div.output div.toast {
+    float:right; background-color:darkcyan;
+}
+fieldset.Footer>div.output div.cmd {
+    float:left; padding:0px;
 }
 
 fieldset.Footer>div.output input[name=cmd] {
     width:120px; height:25px;
+    border-radius:0;
 }
 fieldset.Footer>div.output input[name=cmd]:focus {
     width:320px;

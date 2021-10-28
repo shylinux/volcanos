@@ -41,7 +41,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
     _engine: function(event, can, msg, panel, cmds, cb) { return false },
     _remote: function(event, can, msg, panel, cmds, cb) {
         if (panel.onengine._engine(event, can, msg, panel, cmds, cb)) { return }
-        can.search({follow: panel._follow, msg: msg, cmds: cmds}, ["Footer.onimport.ncmd"])
+        can.onengine.signal(can, "onremote", can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
 
         var key = can.core.Keys(panel._name, cmds.join(","))
         if (can.user.isLocalFile) { var msg = can.request(event); msg.Clear(ice.MSG_APPEND)
@@ -193,7 +193,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
             Volcanos(display, {_follow: can.core.Keys(can._follow, display), _display: display, _target: can._output, _fields: can._target,
                 _option: can._option, _action: can._action, _output: can._output, _status: can._status,
-                Option: can.Option, Action: can.Action, Status: can.Status,
+                Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
             }, [display], function(table) { table.Conf(can.Conf())
                 table.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                     if (msg.RunAction(event, table, cmds)) { return }
@@ -250,7 +250,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             {view: [html.OPTION, html.FORM]}, {view: [html.ACTION]}, {view: [html.OUTPUT]}, {view: [html.STATUS]},
         ]}])
     },
-    input: function(can, item, value, target) {
+    input: function(can, item, value, target, style) {
         switch (item.type) {
             case "": return can.page.Append(can, target, [item])
             case html.SPACE: return can.page.Append(can, target, [{view: can.base.join([html.ITEM, html.SPACE])}])
@@ -259,7 +259,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var input = can.page.input(can, item, value)
         var br = input.type == html.TEXTAREA? [{type: html.BR}]: []
         var title = can.Conf(["feature", chat.TITLE, item.name].join(ice.PT))||""; title && (input.title = title)
-        return can.page.Append(can, target, ([{view: [can.base.join([html.ITEM, item.type])], list: [input]}]).concat(br))[item.name]
+        return can.page.Append(can, target, ([{view: style||can.base.join([html.ITEM, item.type]), list: [input]}]).concat(br))[item.name]
     },
     table: function(can, msg, cb, target, sort) {
         var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
@@ -281,6 +281,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     return can.run(event, [ctx.ACTION, target.name], function(msg) { can.run() }, true)
                 }
 
+                if (key == "hash" && can.user.mod.isDiv) {
+                    can.user.jumps("/chat/div/"+value)
+                    return
+                }
                 can.sup.onaction.change(event, can.sup, key, value)
             }, ondblclick: function(event) { if ([kit.MDB_KEY].indexOf(key) > -1) { return }
                 var item = can.core.List(can.Conf("feature.insert"), function(item) {
@@ -429,7 +433,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         can.page.Modify(can, target||document.body, {style: {background: url == "" || url == "void"? "": 'url("'+url+'")'}})
     },
     figure: function(event, can, target, right) { target = target||can._target; if (!event || !event.target) { return }
-        var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight; if (right) {
+        var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight-5; if (right) {
             var left = event.clientX-event.offsetX+event.target.offsetWidth, top = event.clientY-event.offsetY
         }
 

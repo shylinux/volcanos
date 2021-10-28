@@ -1,5 +1,5 @@
 Volcanos({name: "chat", panels: [
-        {name: "Header", help: "标题栏", pos: chat.HEAD, state: ["time", "username", "avatar"]},
+        {name: "Header", help: "标题栏", pos: chat.HEAD, state: ["time", "usernick", "avatar"]},
         {name: "Search", help: "搜索框", pos: chat.AUTO},
         {name: "River",  help: "群聊组", pos: chat.LEFT, action: ["create", "refresh"]},
         {name: "Action", help: "工作台", pos: chat.MAIN},

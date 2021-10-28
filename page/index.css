@@ -62,9 +62,6 @@ input[type=button] {
     cursor:pointer;
     font-family:monospace;
 }
-body.en input[type=button] {
-    letter-spacing:2px;
-}
 input[type=button]:hover {
     background-color:gray; color:cyan;
 }
@@ -311,7 +308,6 @@ fieldset.float {
     background-color:#023531cf;
     margin:0px; padding:0px;
     position:absolute;
-    z-index:30;
 }
 fieldset.float>legend {
     display:none;
@@ -323,7 +319,6 @@ body>fieldset.input {
     position:fixed; top:32px;
     background-color:#0d4142a6;
     position:fixed;
-    z-index:50;
 }
 body>fieldset.input div.output {
     max-height:400px;
@@ -335,10 +330,8 @@ body>fieldset.input td {
     word-break:keep-all;
 }
 body>fieldset.input.key {
-    z-index:60;
 }
 body>fieldset.input.date {
-    z-index:70;
 }
 body>fieldset.input.date table {
     text-align:center;
@@ -350,7 +343,7 @@ body>fieldset.input.date table td:hover {
 
 body>div.toast {
     background:#0e3369b3; color:yellow;
-    position:fixed; z-index:100;
+    position:fixed;
     padding:5px; overflow:auto;
 }
 body>div.toast a {
@@ -388,7 +381,6 @@ body>div.carte {
     background:#295b61;
     color:white;
     padding:4px;
-    z-index:30;
     min-width:80px;
 }
 body>div.carte div.item {
@@ -400,7 +392,6 @@ body>div.carte div.item:hover {
 body>div.input {
     position:fixed;
     background-color:#0d4142a6;
-    z-index:50;
 }
 body>div.input input[type=text] {
     width:171px;
@@ -432,7 +423,6 @@ body>div.upload {
     background:black; color:yellow;
     position:fixed;
     padding:5px;
-    z-index:50;
 }
 body>div.upload div.item {
     float:left;
@@ -491,6 +481,13 @@ body.white td>input[type=button][name=remove] {
 }
 body.white td>input[type=button][name=create] {
     background-color:blue;
+}
+body.white input[name=cmd] {
+    background-color:black; color:white;
+    width:240px;
+}
+body.white input[name=cmd]:hover {
+    background-color:white; color:black;
 }
 
 body.white table {
@@ -599,7 +596,6 @@ body.mobile fieldset.Header.head {
     width:-webkit-fill-available;
     height:2em; font-size:24px;
     background-color:#000000b8;
-    z-index:10;
 }
 body.mobile fieldset.Header.head div.output {
     height:2em;
@@ -618,7 +614,6 @@ body.mobile fieldset.River.left {
     background-color:#243950bf;
     min-width:240px; font-size:24px;
     /* width:-webkit-fill-available; */
-    z-index:10;
 }
 body.mobile fieldset.River>div.output div.list div.item {
     font-size:24px;
@@ -635,7 +630,6 @@ body.mobile fieldset.Footer.foot {
     height:64px; font-size:24px;
     background-color:#000000b8;
     display:none;
-    z-index:10;
 }
 body.mobile.landscape fieldset.Header.head {
     position:unset;
@@ -654,5 +648,8 @@ body.mobile>div.carte {
 }
 body.mobile>div.input.login input {
     font-size:24px
+}
+body.en input[type=button] {
+    letter-spacing:2px;
 }
 

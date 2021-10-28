@@ -121,7 +121,7 @@ fieldset.word.float {
     position:fixed; left:0; top:0;
     background-color:aliceblue;
     background-color:aliceblue;
-    color:black; z-index:20;
+    color:black;
 }
 fieldset.word.float>div.output {
     background-color:aliceblue;

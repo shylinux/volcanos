@@ -1,4 +1,8 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, target) {
+        if (!can.base.endWith(can.Option("path"), "/")) {
+            can.Option("file", can.Option("path").split("/").pop())
+            can.Option("path", can.base.trimSuffix(can.Option("path"), can.Option("file")))
+        }
         can.onmotion.clear(can), can.ui = can.onlayout.profile(can)
         can.onimport._content(can, target)
         can.onimport._output(can, target)

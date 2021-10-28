@@ -1,7 +1,7 @@
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
-    can.onmotion.float.auto(can, can._output, chat.CARTE)
-    can.base.isFunc(cb) && cb()
-},
+        can.onmotion.float.auto(can, can._output, chat.CARTE)
+        can.base.isFunc(cb) && cb()
+    },
     onmain: function(can) { can._names = location.pathname
         var msg = can.request({}, {_names: location.pathname})
         can.Conf(chat.TOOL)? can.core.Next(can.Conf(chat.TOOL), function(line, next) {

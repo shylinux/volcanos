@@ -47,8 +47,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             list[0] == "help"? can.user.open("/help/"+button+".shy"): can.onaction.layout(can, button)
         })
     },
-    _share: function(can, share) {
-        share && can.run({}, ["_share", share], function(msg) {
+    _share: function(can, share) { if (!share) { return }
+        can.run({}, ["_share", share], function(msg) {
             can.user.topic(can, can.user.Search(can, chat.TOPIC)||msg.Option(chat.TOPIC))
             can.user.title(can.user.Search(can, chat.TITLE)||msg.Option(chat.TITLE))
             can.onaction.layout(can, "auto")
@@ -94,12 +94,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         }
         can.base.isFunc(cb) && cb()
     },
-    onmain: function(can, msg) {
-        var cmds = location.pathname.split("/").slice(1); if (cmds[0] == ice.CMD) {
-            can.onappend.plugin(can, {index: cmds[1]}, function(sub) { sub.run = function(event, cmds, cb) {} })
-        }
-        can.onimport._share(can, can.user.Search(can, web.SHARE))
-    },
+    onmain: function(can, msg) { can.onimport._share(can, can.user.Search(can, web.SHARE)) },
     onsize: function(can, msg, width, height) { can.Conf({width: width, height: height}) },
     onsearch: function(can, msg, word) {
         if (word[0] == "*" || word[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, word) }
@@ -116,7 +111,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
 
         can.run({}, [river, storm], function(msg) {
             if (msg.Length() == 0) { // 添加工具
-                can.onengine.signal(can, "onaction_notool", can.request({}, {river: river, storm: storm}))
+                can.onengine.signal(can, "onaction_nostorm", can.request({}, {river: river, storm: storm}))
             } else {
                 can.onimport._init(can, msg)
             }

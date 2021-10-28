@@ -143,7 +143,7 @@ var html = {
 }
 var lang = {
     STRING: "string", OBJECT: "object", FUNCTION: "function",
-    ENTER: "Enter",
+    ESCAPE: "Escape", ENTER: "Enter",
 }
 function shy(help, meta, list, cb) {
     var index = 0, args = arguments; function next(type) {
@@ -213,7 +213,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         set: function(name, key, value) { var msg = can.request({}); msg.Option(key, value)
             return can.search(msg._event, [can.core.Keys(name, "onimport", key)])
         },
-        get: function(name, key) { return can.search({}, [can.core.Keys(name, "onexport", key)]) },
+        get: function(name, key, cb) { return can.search({}, [can.core.Keys(name, "onexport", key)], cb) },
         search: function(event, cmds, cb) { return can.run && can.run(event, ["_search"].concat(cmds), cb, true) },
 
         Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},

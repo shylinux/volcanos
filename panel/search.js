@@ -14,17 +14,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         var cb = can.onaction[cmds[1]]; if (cb) { cb({}, can); return }
 
         var res = can.request({}, {
-            word: cmds,
-            fields: fields.join(","),
-            sort: msg.Option("sort"),
-            index: msg.Option("index"),
-            river: msg.Option("river"),
+            word: cmds, fields: fields.join(","), sort: msg.Option("sort"),
+            river: msg.Option(chat.RIVER), index: msg.Option("index"),
         })
 
         can.onengine.signal(can, chat.ONSEARCH, res)
         can.run(res._event, cmds, function(res) { can.onimport._init(can, res, fields) })
-        can.onmotion.show(can), can.ui.input.focus()
-        can.ui.word.setSelectionRange(0, -1)
+        can.onmotion.show(can), can.ui.input.focus(), can.ui.word.setSelectionRange(0, -1)
     },
 
     select: function(can, msg, cmds, cb) { can.ui.word.value = cmds[1]
@@ -37,10 +33,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.onimport._word(can, msg, cmds, fields)
         }, can.onimport._word(can, msg, cmds, fields)
 
-        can.search(event, ["Action.onexport.size"], function(msg, top, left, width, height) {
+        can.get("Action", "size", function(msg, top, left, width, height) {
             can.page.Modify(can, can._output, {style: {"max-width": width, "max-height": height-75}})
             can.page.Modify(can, can._target, {style: {top: top, left: left}})
-        } )
+        })
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DONE], _init: function(can, meta, list, cb, target) {
@@ -50,9 +46,9 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
         can.onappend._action(can, can.Conf(html.ACTION)||can.onaction.list)
         can.ui = can.page.Append(can, can._output, [
             {input: ["word", function(event) { can.onkeypop.input(event, can)
-                if (event.key == "Escape") { can.onmotion.hide(can) }
+                if (event.key == lang.ESCAPE) { can.onmotion.hide(can) }
 
-                if (event.key == "Enter") { event.stopPropagation(), event.preventDefault()
+                if (event.key == lang.ENTER) { event.stopPropagation(), event.preventDefault()
                     if (event.shiftKey) { var first = can.page.Select(can, can.ui.content, html.TR)[1]
                         return can.onaction[can.type == "*"? chat.PLUGIN: html.SELECT](event, can, first.dataset.index)
                     }
@@ -60,12 +56,14 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
                     can.input(event, event.target.value)
                 }
             }]},
-            {view: chat.CONTENT}, {view: [chat.DISPLAY, html.TABLE]}, {view: chat.PROFILE},
+            {view: chat.CONTENT}, {view: html.STATUS}, {view: [chat.DISPLAY, html.TABLE]},{view: chat.PROFILE},
         ]), can.page.ClassList.add(can, can.ui.display, chat.CONTENT)
     },
-    close: function(event, can) { can.onmotion.hide(can) },
+    onopensearch: function(can, msg, type, word) { can.onimport.select(can, msg, [type, word]) },
+
     clear: function(event, can) { can.onmotion.clear(can, can.ui.profile) },
     done: function(event, can) { can.base.isFunc(can.cb) && can.cb() },
+    close: function(event, can) { can.onmotion.hide(can) },
 
     select: function(event, can, index) { var line = can.list[index]
         if (can.base.isFunc(line.text)) { return can.onmotion.hide(can), line.text(event) }
@@ -85,12 +83,12 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
     plugin: function(event, can, index) { var line = can.list[index]
         if (can.base.isFunc(line.text)) { return can.onmotion.hide(can), line.text(event) }
 
-        var cmd = line.cmd == "command"? can.core.Keys(line.type, line.name.split(" ")[0]): can.core.Keys(line.ctx, line.cmd)
+        var cmd = line.cmd == ctx.COMMAND? can.core.Keys(line.type, line.name.split(" ")[0]): can.core.Keys(line.ctx, line.cmd)
         can.onappend.plugin(can, {type: chat.PLUGIN, index: cmd||msg.Option(kit.MDB_INDEX)}, function(sub, meta) {
-            can.search({}, "Action.onexport.size", function(msg, width) { sub.Conf(chat.WIDTH, width-60) })
+            can.get("Action", "size", function(msg, width) { sub.Conf(chat.WIDTH, width-60) })
 
             sub.run = function(event, cmds, cb) { var msg = can.request(event, line)
-                can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, meta.index], cmds), cb)
+                can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, meta.index], cmds), cb, true)
             }
         }, can.ui.profile)
     },

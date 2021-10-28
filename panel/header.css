@@ -1,10 +1,9 @@
 fieldset.Header {
     height:32px; padding:0 5px;
     overflow:hidden;
-    z-index:10;
 }
 fieldset.Header>div.output {
-    z-index:10;
+    height:32px; overflow:hidden;
 }
 fieldset.Header>div.output>div {
     height:22px; padding:5px;
@@ -18,17 +17,18 @@ fieldset.Header>div.output>div:hover {
 fieldset.Header>div.output>div.title {
     float:left;
 }
-fieldset.Header>div.output>div.search {
-    float:left; margin-left:20px;
-}
-fieldset.Header>div.output>div.search>input {
-    height:25px; margin-top:-5px;
-}
 fieldset.Header>div.output>div.state {
     float:right;
 }
 fieldset.Header>div.output>div.state.avatar>img {
     height:1.4em;
+}
+fieldset.Header>div.output>div.search {
+    float:left; margin-left:20px;
+}
+fieldset.Header>div.output>div.search>input {
+    height:25px; margin-top:-5px;
+    border-radius:0;
 }
 
 fieldset.Header>div.output div.menu {
@@ -40,7 +40,3 @@ fieldset.Header>div.output div.menu:hover {
     border-bottom:solid 2px red;
     background-color:#2e515f;
 }
-fieldset.Header>div.output input[type=text] {
-    border-radius:0;
-}
-

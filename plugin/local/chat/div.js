@@ -1,33 +1,33 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         var meta = {}; msg.Table(function(value) { meta[value.key] = value.value })
-        can._meta = can.base.Obj(meta.text, {meta: {name: meta.name}, list: []})
+        can._meta = can.base.Obj(meta.text, {meta: {name: meta.name||"hi"}, list: []})
         can.base.isFunc(cb) && cb(msg)
 
-        can.ui = can.page.Appends(can, target, [{view: ["layout", "table"], list: [{type: "tr", list: [
-            {type: "td", list: [{view: "project"}]},
-            {type: "td", list: [{view: "display"}]},
-            {type: "td", list: [{view: "profile"}]},
+        can.ui = can.page.Appends(can, target, [{view: ["layout", html.TABLE], list: [{type: html.TR, list: [
+            {type: html.TD, list: [{view: "project"}]},
+            {type: html.TD, list: [{view: "display"}]},
+            {type: html.TD, list: [{view: "profile"}]},
         ]}] }]), can.ui.project._fieldset = can.ui.display
 
         can.onimport._item(can, can._meta, can.ui.project, can.onimport._size(can)).click()
     },
     _size: function(can) {
-        var width = can.Conf("width")-260, height = can.Conf("height")-100
+        var width = can.Conf(chat.WIDTH)-260, height = can.Conf(chat.HEIGHT)-100
         if (can.Conf("auto.cmd")) {
+            width = can.Conf(chat.WIDTH), height = can.Conf(chat.HEIGHT)
             can.onmotion.hidden(can, can.ui.project)
             can.onmotion.hidden(can, can.ui.profile)
             can.onmotion.hidden(can, can._option)
             can.onmotion.hidden(can, can._action)
-            width = can.Conf("width"), height = can.Conf("height")
         }
-        if (can.user.mod.isCmd) {
+        if (can.user.mod.isCmd || can.user.mod.isDiv) {
             width = window.innerWidth, height = window.innerHeight
             can.page.Modify(can, can._output, {style: {width: width, height: height}})
         }
         return width
     },
-    _item: function(can, node, target, width) { width = node.meta.width||width
-        var ui = can.page.Append(can, target, [{view: ["item", "div", node.meta.name||"some"]}, {view: ["list"]}])
+    _item: function(can, node, target, width) { width = width||node.meta.width
+        var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, node.meta.name||"hi"]}, {view: [html.LIST]}])
         ui.list._fieldset = can.onimport._field(can, node.meta, target._fieldset, width)
 
         var msg = can.request({}); msg.Push(node.meta, "", true)
@@ -65,6 +65,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 feature: can.base.Obj(msg.Append("meta")), 
                 inputs: can.base.Obj(msg.Append("list")),
                 args: meta.args,
+                name: meta.name,
             }, size), ["/plugin/state.js"], function(sub) {
                 can.page.Modify(can, sub._output,  {style: size})
                 sub.run = function(event, cmds, cb) {
