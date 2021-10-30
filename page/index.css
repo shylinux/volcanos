@@ -382,6 +382,7 @@ body>div.carte {
     color:white;
     padding:4px;
     min-width:80px;
+    z-index:0;
 }
 body>div.carte div.item {
     padding:3px 12px;
@@ -392,6 +393,7 @@ body>div.carte div.item:hover {
 body>div.input {
     position:fixed;
     background-color:#0d4142a6;
+    z-index:0;
 }
 body>div.input input[type=text] {
     width:171px;

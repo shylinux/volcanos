@@ -157,7 +157,7 @@ function shy(help, meta, list, cb) {
     cb.meta = next(lang.OBJECT)|| {}
     cb.list = next(lang.OBJECT)||[]
     return cb
-}; var _can_name = ""
+}; var _can_name = "", _can_path = ""
 var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: {}, pack: {}, libs: [], cache: {}}, function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == lang.OBJECT) { var Config = name; Config.panels = Config.panels||[], Config.main = Config.main||{}
@@ -192,7 +192,6 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
                 typeof cb == lang.FUNCTION && setTimeout(function() { cb(can) }, 10)
                 return // 加载完成
             }
-            if (!libs[0]) { return can.require(libs.slice(1), cb, each) }
             libs[0] = libs[0].toLowerCase()
 
             // 请求模块
@@ -201,7 +200,10 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         },
         request: function(event, option) { event = event||{}
             var msg = event._msg||can.misc.Message(event, can); event._msg = msg
-            function set(key, value) { can.base.isUndefined(msg[key]) && msg.Option(key, value) }
+            function set(key, value) {
+                can.misc.Log(key, msg.Option(key))
+                msg.Option(key) || msg.Option(key, value)
+            }
 
             can.core.List(arguments, function(option, index) { if (index == 0) { return } 
                 can.base.isFunc(option.Option)? can.core.List(option.Option(), function(key) {
@@ -231,9 +233,18 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         list.push(can)
     }
     if (can._follow) { libs = libs.concat(meta.libs, meta.volcano) }
+    if (libs && libs.length > 0) {
+        for (var i = 0; i < libs.length; i++) {
+            if (libs[i] == "") {
+                libs[i] = _can_path.replace(".js", ".css")
+            } else if (libs[i][0] != "/") {
+                libs[i] = _can_path.slice(0, _can_path.lastIndexOf("/")+1)+libs[i]
+            }
+        }
+    }
     return can.require(libs, cb), can
 })
-Volcanos.meta._load = function(url, cb) {
+Volcanos.meta._load = function(url, cb) { _can_path = url
     switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
         case "css":
             var item = document.createElement(kit.MDB_LINK)

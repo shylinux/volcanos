@@ -83,7 +83,7 @@ fieldset.contexts div.code {
 
 body>div.toast {
     background:#0e3369b3; color:yellow;
-    position:fixed; z-index:100;
+    position:fixed;
     padding:5px; overflow:auto;
 }
 body>div.toast a {
@@ -121,7 +121,6 @@ body>div.carte {
     background:#295b61;
     color:white;
     padding:4px;
-    z-index:30;
     min-width:80px;
 }
 body>div.carte div.item {
@@ -134,7 +133,6 @@ body>div.carte div.item:hover {
 body>div.input {
     position:fixed;
     background-color:#0d4142a6;
-    z-index:50;
 }
 body>div.input textarea {
     box-shadow: 4px 4px 10px 1px #626bd0;

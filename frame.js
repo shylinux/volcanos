@@ -271,7 +271,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             if (key == "extra.cmd") {
                 can.onappend.plugin(can, {ctx: line["extra.ctx"], cmd: line["extra.cmd"], arg: line["extra.arg"]}, function(sub) {
                     sub.run = function(event, cmds, cb) { var msg = can.request(event, line, can.Option())
-                        can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN], cmds), cb, true)
+                        can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, can.core.Keys(line["extra.ctx"], line["extra.cmd"])], cmds), cb, true)
                     }
                 }, target)
             }
