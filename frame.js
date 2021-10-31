@@ -328,25 +328,26 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             })
         })
     },
-    plugin: function(can, meta, cb, target) { meta = meta||{}
+    plugin: function(can, meta, cb, target) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)
         meta.inputs && meta.inputs.length > 0? can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, cb, target):
-            can.run({}, [ctx.ACTION, ctx.COMMAND, meta.index||can.core.Keys(meta.ctx, meta.cmd)], function(msg) { msg.Table(function(value) {
+            can.run({}, [ctx.ACTION, ctx.COMMAND, meta.index], function(msg) { msg.Table(function(value) {
                 can.onappend._plugin(can, value, meta, cb, target)
             }) }, true)
     },
     _plugin: function(can, value, meta, cb, target) {
-        meta.feature = can.base.Obj(value.meta, meta.feature||{})
-        meta.inputs = can.base.Obj(value.list,  meta.inputs||[])
+        meta.feature = meta.feature||can.base.Obj(value.meta, {})
+        meta.inputs = meta.inputs||can.base.Obj(value.list, [])
 
         meta.height = meta.height||can.Conf(html.HEIGHT)
         meta.width = meta.width||can.Conf(html.WIDTH)
 
-        meta.name = value.name||meta.name||html.STORY
-        meta.help = value.help||meta.help||html.STORY
-        meta.type = meta.type||html.STORY
+        meta.name = meta.name||value.name||chat.PLUGIN
+        meta.help = meta.help||value.help||chat.PLUGIN
+        meta.type = meta.type||chat.PLUGIN
 
         can.onappend._init(can, meta, ["/plugin/state.js"], function(sub, skip) {
-            sub.base.isFunc(cb) && cb(sub, meta, skip)
+            sub.run = function(event, cmds, cb) { can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, meta.index], cmds), cb) }
+            can.base.isFunc(cb) && cb(sub, meta, skip)
         }, target||can._output)
     },
 

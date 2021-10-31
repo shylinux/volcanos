@@ -79,8 +79,8 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, p
             can.core.List(storm.action, function(value) {
                 msg.Push("name", value.name||"")
                 msg.Push("help", value.help||"")
-                msg.Push("inputs", JSON.stringify(value.inputs||[]))
-                msg.Push("feature", JSON.stringify(value.feature||{}))
+                msg.Push("inputs", JSON.stringify(value.inputs))
+                msg.Push("feature", JSON.stringify(value.feature))
                 msg.Push("index", value.index||"")
                 msg.Push("args", value.args||"[]")
             }), can.base.isFunc(cb) && cb(msg)

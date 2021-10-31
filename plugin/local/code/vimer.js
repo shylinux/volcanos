@@ -55,7 +55,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             ]}, {view: "output"},
         ]); can.base.Copy(can.ui, ui, "output", "cmd")
     },
-}, ["/plugin/local/code/vimer.css"])
+}, [""])
 Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"], _init: function(can, mode) {
         can.core.List(can.onkeymap.list, function(item) { var engine = {}
             can.core.Item(can.onkeymap[item], function(key, cb) { var map = engine

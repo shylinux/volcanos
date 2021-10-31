@@ -286,6 +286,9 @@ fieldset.plugin {
 fieldset.plugin>div.status {
     border-top:1px solid darkcyan;
 }
+fieldset.story>legend {
+    display:none;
+}
 fieldset.story>div.status {
     border-top:1px solid darkcyan;
 }

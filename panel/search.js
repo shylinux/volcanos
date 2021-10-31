@@ -9,6 +9,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })); table && can.page.Modify(can, can.ui.display, {style: {width: table.offsetWidth}})
 
         msg.Length() == 1 && can.page.Select(can, table, html.TD)[0].click()
+
+        can.get("Action", "size", function(msg, height) {
+            can.page.Modify(can, can.ui.profile, {"max-height": height-table.offsetHeight})
+        })
     },
     _word: function(can, msg, cmds, fields) { can.type = cmds[0]
         var cb = can.onaction[cmds[1]]; if (cb) { cb({}, can); return }
@@ -34,7 +38,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, can.onimport._word(can, msg, cmds, fields)
 
         can.get("Action", "size", function(msg, top, left, width, height) {
-            can.page.Modify(can, can._output, {style: {"max-width": width, "max-height": height-75}})
+            can.page.Modify(can, can._output, {style: {"max-width": width}})
             can.page.Modify(can, can._target, {style: {top: top, left: left}})
         })
     },

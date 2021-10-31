@@ -17,7 +17,7 @@ var kit = {
     MDB_LIST: "list",
 }
 var ice = {
-    SP: " ", PT: ".", NL: "\n",
+    SP: " ", PS: "/", PT: ".", NL: "\n",
     POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
 
     TRUE: "true",
@@ -78,6 +78,9 @@ var ssh = {
 }
 var nfs = {
     DIR: "dir",
+    PATH: "path",
+    FILE: "file",
+    LINE: "line",
 }
 var tcp = {
     HOST: "host",
@@ -85,6 +88,8 @@ var tcp = {
 
 var code = {
     WEBPACK: "webpack",
+    INNER: "inner",
+    FAVOR: "favor",
 }
 var wiki = {
     TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
@@ -273,7 +278,6 @@ function cmd(tool) {
             "/plugin/local/wiki/draw/path.js",
             "/plugin/local/wiki/draw.js",
             "/plugin/local/wiki/word.js",
-            "/plugin/local/team/plan.js",
         ],
     })
 }

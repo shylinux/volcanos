@@ -28,6 +28,5 @@ fieldset.Search div.output div.display {
     overflow:auto;
 }
 fieldset.Search div.output div.profile {
-    max-height:400px;
     overflow:auto;
 }
