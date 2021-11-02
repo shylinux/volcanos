@@ -152,7 +152,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
 
         // 登录检查
         can.user.isLocalFile? init(): can.run({}, [chat.CHECK], function(msg) {
-            can.Conf(aaa.USERNICK, msg.Option(ice.MSG_USERNICK))? init():
+            can.Conf(aaa.USERNICK, msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))? init():
                 msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)):
                     can.user.login(can, init, msg.Option(aaa.LOGIN))
         })
