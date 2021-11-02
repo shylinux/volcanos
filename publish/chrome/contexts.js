@@ -1,4 +1,6 @@
+setTimeout(function() {
 Volcanos("chrome", {
+    _follow: "chrome",
     pwd: function(can, msg, arg) {
         msg.Push("hi", "hello")
         msg.Echo("hello")
@@ -87,7 +89,7 @@ Volcanos("chrome", {
         }, document.body)
     },
     Option: function() { return [] },
-}, ["/frame.js"], function(can) {
+}, [], function(can) {
     chrome.extension.onMessage.addListener(function(req, sender, cb) { var msg = can.request(); msg.Copy(req); can.misc.Log(req.detail, msg)
         can.core.CallFunc([can, req.detail[3]||"spide"], {can: can, msg: msg, arg: req.detail.slice(4), cb: function() {
             delete(msg._event), delete(msg._can), cb(msg)
@@ -102,4 +104,4 @@ Volcanos("chrome", {
         msg.result && msg.result[0] && can.field(can, msg, msg.result)
     })
 })
-
+}, 100)

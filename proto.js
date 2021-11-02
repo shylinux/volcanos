@@ -167,11 +167,12 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
     var meta = arguments.callee.meta, list = arguments.callee.list
     if (typeof name == lang.OBJECT) { var Config = name; Config.panels = Config.panels||[], Config.main = Config.main||{}
         libs = [], meta.libs = ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"]
+        meta.iceberg = Config.iceberg||meta.iceberg
 
         // 预加载
         for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
             panel && (libs = libs.concat(panel.list = panel.list||["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
-        }; libs = libs.concat(Config.plugin, Config.main.list, meta.volcano)
+        }; libs = libs.concat(Config.plugin, Config.main.list)
 
         // 根模块
         name = Config.name, can = {_follow: Config.name, _target: Config.target||document.body}, cb = function(can) {
@@ -239,7 +240,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         for (var i = 0; i < libs.length; i++) {
             if (libs[i] == "") {
                 libs[i] = _can_path.replace(".js", ".css")
-            } else if (libs[i][0] != "/") {
+            } else if (libs[i][0] != "/" && libs[i].indexOf("http") != 0) {
                 libs[i] = _can_path.slice(0, _can_path.lastIndexOf("/")+1)+libs[i]
             }
         }

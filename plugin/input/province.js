@@ -1,5 +1,5 @@
 Volcanos("onfigure", {help: "控件详情", list: [], province: {onclick: function(event, can, meta, cb, target) {
-    can.require(["/require/github.com/shylinux/echarts/echarts.js", "/require/github.com/shylinux/echarts/china.js"], function() {
+    can.require(["/require/shylinux.com/x/echarts/echarts.js", "/require/shylinux.com/x/echarts/china.js"], function() {
         can.onappend._action(can, [cli.CLOSE, cli.CLEAR], can._action, {
             close: function(event) { can.page.Remove(can, can._target) },
             clear: function(event) { target.value = "" },

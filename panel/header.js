@@ -63,10 +63,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }}, "", target, "title search").parentNode
         can.user.isMobile && can.page.Modify(can, ui, {style: {float: "right"}})
     },
-    _background: function(can, msg) { if (can.user.isLocalFile) { return }
+    _background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
         msg.Option(aaa.BACKGROUND) && can.onlayout.background(can, "/share/local/background", document.body)
     },
-    _avatar: function(can, msg) { if (can.user.isLocalFile) { return }
+    _avatar: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
         msg.Option(aaa.AVATAR) && can.page.Modify(can, "div.output div.state.avatar>img", {src: "/share/local/avatar"})
     },
     _menus: function(can, msg, target) {
@@ -89,10 +89,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     time: function(can, target) { can.onlayout.topic(can)
         target.innerHTML = can.user.time(can, null, "%w %H:%M:%S")
     },
-    background: function(event, can, url) { if (can.user.isLocalFile) { return }
+    background: function(event, can, url) { if (can.user.isExtension || can.user.isLocalFile) { return }
         can.run(event, [ctx.ACTION, aaa.BACKGROUND, url], function(msg) { can.onimport._background(can, msg) })
     },
-    avatar: function(event, can, url) { if (can.user.isLocalFile) { return }
+    avatar: function(event, can, url) { if (can.user.isExtension || can.user.isLocalFile) { return }
         can.run(event, [ctx.ACTION, aaa.AVATAR, url], function(msg) { can.onimport._avatar(can, msg) })
     },
     menu: function(can, cmds, cb) {
