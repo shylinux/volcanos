@@ -205,10 +205,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         },
         request: function(event, option) { event = event||{}
             var msg = event._msg||can.misc.Message(event, can); event._msg = msg
-            function set(key, value) {
-                can.misc.Log(key, msg.Option(key))
-                msg.Option(key) || msg.Option(key, value)
-            }
+            function set(key, value) { msg.Option(key) || msg.Option(key, value) }
 
             can.core.List(arguments, function(option, index) { if (index == 0) { return } 
                 can.base.isFunc(option.Option)? can.core.List(option.Option(), function(key) {
