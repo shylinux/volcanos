@@ -5,7 +5,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.dir_root = msg.Option("dir_root")
         can._tree = can.onimport._tree(can, msg.Table(), "path", "/")
         if (!can._tree[""]) { return }
-        can._tree[""].name = can.dir_root.split("/").pop()
+        can._tree[""].name = can.dir_root.split("/").slice(-2)[0]
 
         can.size = 30, can.margin = 30
         can.onappend.plugin(can, {index: "web.wiki.draw", style: chat.OUTPUT}, function(sub) {
