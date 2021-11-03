@@ -17,7 +17,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
                 }), panel.onaction._init(panel, item, item.list, next, panel._target)
 
                 can.onmotion.float.auto(can, panel._output)
-                panel.onkeypop._build(panel)
+                // panel.onkeypop._build(panel)
             }, target)
         }, function() { can.misc.Log(can.user.title(), cli.RUN, can)
             can.ondaemon._init(can), can.onmotion._init(can, target), can.onkeypop._init(can, target)
@@ -174,7 +174,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     _output: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event)
         if (msg.RunAction(event, can, cmds)) { return }
 
-        if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) {
+        if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { can.request(event, {action: cmds[1]})
             return can.user.input(event, can, meta.feature[cmds[1]], function(ev, button, data, list, args) { var msg = can.request(event, {_handle: ice.TRUE}, can.Option())
                 can.Update(event, cmds.slice(0, 2).concat(args), function(msg) { can.Update({}, can.Input(), cb) }, true)
             })
@@ -631,12 +631,9 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 })
 Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
         var focus = can.onkeypop._focus; can.onkeypop._build(can)
-        // can.onengine.listen(can, "keymap.focus", function(cb) { cb? focus.push(cb): focus.pop() })
         can.onengine.listen(can, "keymap.focus", function(cb) { cb? focus.push(cb): can.onkeypop._focus.length = 0 })
         document.body.onkeydown = function(event) { if (focus.length > 0) { return focus[focus.length-1](event) }
-            event.target == target && can.page.Select(can, target, "fieldset.Action>div.output", function(item) {
-                target._keys = can.onkeypop._parse(event, can, "normal", target._keys||[], item)
-            })
+            event.target == target && (target._keys = can.onkeypop._parse(event, can, "normal", target._keys||[], target))
         }
     },
     _build: function(can) {
