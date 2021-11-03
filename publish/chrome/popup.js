@@ -1,11 +1,25 @@
 Volcanos({name: "popup", iceberg: "http://localhost:9020/chat/", panels: [
         {name: "Header", help: "标题栏", pos: chat.HEAD, state: ["time", "username", "avatar"]},
-        {name: "Search", help: "搜索框", pos: chat.AUTO},
         {name: "River",  help: "群聊组", pos: chat.LEFT, action: ["create", "refresh"]},
         {name: "Action", help: "工作台", pos: chat.MAIN},
+        {name: "Search", help: "搜索框", pos: chat.AUTO},
         {name: "Footer", help: "状态条", pos: chat.FOOT, state: ["ncmd"]},
     ], main: {name: "Header", list: ["/publish/order.js"]}, plugin: [
-        "/plugin/state.js", "/plugin/input.js", "/plugin/table.js",
+        "/plugin/state.js",
+        "/plugin/input.js",
+        "/plugin/table.js",
+        "/plugin/input/key.js",
+        "/plugin/input/date.js",
+        "/plugin/story/spide.js",
+        "/plugin/story/trend.js",
+        "/plugin/local/code/inner.js",
+        "/plugin/local/code/vimer.js",
+        "/plugin/local/wiki/draw/path.js",
+        "/plugin/local/wiki/draw.js",
+        "/plugin/local/wiki/word.js",
+        "/plugin/local/chat/div.js",
+        "/plugin/local/team/plan.js",
+        "/plugin/input/province.js",
     ], river: {
         serivce: {name: "运营群", storm: {
             wx: {name: "公众号 wx",  action: [
