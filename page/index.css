@@ -287,7 +287,9 @@ fieldset.plugin>div.status {
     border-top:1px solid darkcyan;
 }
 fieldset.story>legend {
-    display:none;
+    display:block;
+    padding:2px 20px;
+    letter-spacing:4px;
 }
 fieldset.story>div.status {
     border-top:1px solid darkcyan;

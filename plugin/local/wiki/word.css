@@ -40,9 +40,6 @@ fieldset.word>div.navmenu div.list {
 fieldset.word a {
     word-break:break-word;
 }
-fieldset.word fieldset.story>legend {
-    display:block;
-}
 fieldset.word ul.story[data-type=premenu] {
     cursor:pointer;
 }

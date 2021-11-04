@@ -17,7 +17,7 @@ var kit = {
     MDB_LIST: "list",
 }
 var ice = {
-    SP: " ", PS: "/", PT: ".", NL: "\n",
+    SP: " ", PS: "/", PT: ".", FS: ",", NL: "\n",
     POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
 
     TRUE: "true",
@@ -56,6 +56,9 @@ var cli = {
     OPEN: "open", CLOSE: "close",
     START: "start", STOP: "stop",
     CLEAR: "clear", REFRESH: "refresh",
+
+    YELLOW: "yellow", CYAN: "cyan",
+    RED: "red",
 }
 var web = {
     SHARE: "share",
@@ -77,19 +80,17 @@ var ssh = {
     SCRIPT: "script",
 }
 var nfs = {
-    DIR: "dir",
-    PATH: "path",
-    FILE: "file",
-    LINE: "line",
+    PATH: "path", FILE: "file", LINE: "line",
+    DIR: "dir", CAT: "cat",
+    DIR_ROOT: "dir_root",
 }
 var tcp = {
-    HOST: "host",
+    HOST: "host", PORT: "port",
 }
 
 var code = {
     WEBPACK: "webpack",
-    INNER: "inner",
-    FAVOR: "favor",
+    VIMER: "vimer", INNER: "inner", FAVOR: "favor",
 }
 var wiki = {
     TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
@@ -97,34 +98,31 @@ var wiki = {
     FIELD: "field", SHELL: "shell", LOCAL: "local", PARSE: "parse",
 }
 var chat = {
-    LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", OUTPUT: "output",
-    STORY: "story", CARTE: "carte", INPUT: "input", FLOAT: "float",
-    HEAD: "head", AUTO: "auto", LEFT: "left", MAIN: "main", FOOT: "foot",
-    SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top",
-
+    LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", STORY: "story",
+    CARTE: "carte", INPUT: "input", FLOAT: "float", OUTPUT: "output",
+    HEAD: "head", LEFT: "left", MAIN: "main", AUTO: "auto", FOOT: "foot",
     LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile",
-
-    PUBLIC: "public", PROTECTED: "protected", PRIVATE: "private",
-    USER: "user", TOOL: "tool", NODE: "node",
+    SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top",
 
     HEADER: "header", FOOTER: "footer",
     ONMAIN: "onmain", ONSIZE: "onsize", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
 
-    RIVER: "river", STORM: "storm", FIELD: "field", TOAST: "toast",
-    TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print",
+    TITLE: "title", TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print",
+    SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field", TOAST: "toast",
+    PUBLIC: "public", PROTECTED: "protected", PRIVATE: "private",
+    USER: "user", TOOL: "tool", NODE: "node",
 
-    AGENT: "agent", CHECK: "check", GRANT: "grant", SHARE: "share",
-    TITLE: "title", STATE: "state", MENUS: "menus", TRANS: "trans",
+    AGENT: "agent", CHECK: "check", GRANT: "grant",
+    STATE: "state", MENUS: "menus", TRANS: "trans",
+
     SSO: "sso",
     CMD_MARGIN: 53,
 }
 var team = {
-    TASK: "task",
-    PLAN: "plan",
+    TASK: "task", PLAN: "plan",
 }
 var mall = {
-    ASSET: "asset",
-    SALARY: "salary",
+    ASSET: "asset", SALARY: "salary",
 }
 
 var html = {
@@ -133,15 +131,9 @@ var html = {
 
     INPUT: "input", INPUT_ARGS: ".args", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
     SPACE: "space", BLOCK: "block", NONE: "none",
-    BR: "br",
 
-    TABLE: "table", TR: "tr", TH: "th", TD: "td",
-    DIV: "div",
-    IMG: "img",
-    SPAN: "span",
-    CODE: "code",
-    LABEL: "label",
-    VIDEO: "video",
+    TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br",
+    DIV: "div", IMG: "img", CODE: "code", SPAN: "span", LABEL: "label", VIDEO: "video",
 
     FORM: "form", FILE: "file",
     LIST: "list", ITEM: "item", MENU: "menu",
@@ -218,7 +210,13 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         set: function(name, key, value) { var msg = can.request({}); msg.Option(key, value)
             return can.search(msg._event, [can.core.Keys(name, "onimport", key)])
         },
-        get: function(name, key, cb) { return can.search({}, [can.core.Keys(name, "onexport", key)], cb) },
+        get: function(name, key, cb) {
+            if (can.user.mod.isCmd && name == "Action" && key == "size") {
+                var msg = can.request({}, {left: 0, top: 0, width: window.innerWidth, height: window.innerHeight})
+                return can.core.CallFunc(cb, {msg: msg})
+            }
+            return can.search({}, [can.core.Keys(name, "onexport", key)], cb)
+        },
         search: function(event, cmds, cb) { return can.run && can.run(event, ["_search"].concat(cmds), cb, true) },
 
         Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},

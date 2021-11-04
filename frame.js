@@ -241,7 +241,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             })
         }); return node
     },
-    field: function(can, type, item, target) { type = type||html.INPUT, item = item||{}
+    field: function(can, type, item, target) { type = type||html.PLUGIN, item = item||{}
         var name = (item.nick||item.name||"").split(ice.SP)[0]
         var title = !item.help || can.user.language(can) == "en"? name: name+"("+item.help.split(ice.SP)[0]+")"
         return can.page.Append(can, target||can._output, [{view: [can.base.join([type||"", item.name||"", item.pos||""]), html.FIELDSET], list: [

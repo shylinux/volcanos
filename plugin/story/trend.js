@@ -7,11 +7,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.Action(chat.HEIGHT, msg.Option(chat.HEIGHT)||can.user.mod.isCmd? "max": can.user.isMobile&&can.user.isLandscape? "200": "400")
         can.Action("speed", parseInt(msg.Option("speed")||"100"))
 
-        can.onappend.plugin(can, {index: "web.wiki.draw", style: chat.OUTPUT}, function(sub) {
+        can.onappend.plugin(can, {type: chat.OUTPUT, index: "web.wiki.draw"}, function(sub) {
             sub.run = function(event, cmds, cb) { sub.Action("go", "run")
                 can.base.isFunc(cb) && cb(sub.request())
 
-                can.core.Timer(100, function() { can.draw = sub._outputs[0]
+                can.core.Timer300ms(function() { can.draw = sub._outputs[0]
                     can.draw.onmotion.hidden(can.draw, can.draw.ui.project)
                     can.onaction[can.Action("view")](event, can)
                 })
