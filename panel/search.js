@@ -38,7 +38,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, can.onimport._word(can, msg, cmds, fields)
 
         can.get("Action", "size", function(msg, top, left, width, height) {
-            can.page.Modify(can, can._output, {style: {"max-width": width}})
+            can.page.Modify(can, can._output, {style: {"max-width": width, "max-height": height-40}})
             can.page.Modify(can, can._target, {style: {top: top, left: left}})
         })
     },
