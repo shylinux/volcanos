@@ -200,10 +200,13 @@ Volcanos("ondetail", {help: "用户交互", list: [],
                 can.run(event, can.misc.Concat([ctx.ACTION, "inner"], cmds), function(msg) {
                     msg.Option(ice.MSG_ACTION, cli.CLOSE)
                     can.get("Action", "size", function(left, top, width, height) { left = left||0
+                        if (height > window.innerHeight) { height = window.innerHeight }
                         var top = 120, margin = 20; if (can.user.isMobile) { margin = 0
-                            if (can.user.isLandscape) {
+                            if (can.user.isLandscape()) {
+                                height += (can.user.mod.isCmd? -20: 200)
                                 top = 24, sub.Conf(chat.HEIGHT, height-top)
                             } else {
+                                height += (can.user.mod.isCmd? -80: 200)
                                 top = 48, sub.Conf(chat.HEIGHT, height-top)
                             }
                         } else {

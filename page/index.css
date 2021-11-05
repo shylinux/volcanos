@@ -180,6 +180,7 @@ fieldset {
 }
 fieldset>form.option {
     float:left;
+    display:contents;
 }
 fieldset>form.option>div.item {
     float:left; margin-right:3px;

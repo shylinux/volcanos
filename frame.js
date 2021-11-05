@@ -413,7 +413,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 
         can.page.Select(can, target, can.core.Keys(html.FIELDSET, chat.MAIN), function(field, index) {
             if (can.user.isMobile) {
-                can.page.Modify(can, field, {style: {"padding-top": can.user.isLandscape? "0px": ""}})
+                can.page.Modify(can, field, {style: {"padding-top": can.user.isLandscape()? "0px": ""}})
             } else {
                 height -= can.page.Select(can, field, can.core.Keys(html.DIV, html.ACTION))[0].offsetHeight
 
