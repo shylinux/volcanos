@@ -173,7 +173,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
     }
 
     can = can||{}
-    var proto = {__proto__: meta, _name: name, _load: function(name, cb) { // 加载缓存
+    var proto = {__proto__: meta, _path: _can_path, _name: name, _load: function(name, cb) { // 加载缓存
             var cache = meta.cache[name]||[]; for (list.reverse(); list.length > 0; list) {
                 var sub = list.pop(); sub != can && cache.push(sub)
             }; meta.cache[name] = cache
