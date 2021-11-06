@@ -210,6 +210,7 @@ Volcanos("ondetail", {help: "用户交互", list: [],
                                 top = 48, sub.Conf(chat.HEIGHT, height-top)
                             }
                         } else {
+                            height += (can.user.mod.isCmd? 0: 300)
                             sub.Conf(chat.HEIGHT, height-top)
                         }
 

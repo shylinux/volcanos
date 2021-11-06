@@ -660,8 +660,8 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
             repeat(cb, count); return list
         }
 
-        var map = can.onkeypop._engine[mode]; for (var i = list.length-1; i > pre-1; i--) {
-            var cb = map[list[i]]; switch (typeof cb) {
+        var map = can.onkeypop._engine[mode]||{}; for (var i = list.length-1; i > pre-1; i--) {
+            var cb = map[list[i]]||{}; switch (typeof cb) {
                 case lang.FUNCION: repeat(cb, count); return list
                 case lang.OBJECT: map = cb; continue
                 case lang.STRING: 
