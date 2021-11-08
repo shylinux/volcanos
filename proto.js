@@ -98,11 +98,11 @@ var wiki = {
     FIELD: "field", SHELL: "shell", LOCAL: "local", PARSE: "parse",
 }
 var chat = {
-    LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", STORY: "story",
-    CARTE: "carte", INPUT: "input", FLOAT: "float", OUTPUT: "output",
+    LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", STORY: "story", FLOAT: "float", CONTEXTS: "contexts",
+    CARTE: "carte", INPUT: "input", OUTPUT: "output",
     HEAD: "head", LEFT: "left", MAIN: "main", AUTO: "auto", FOOT: "foot",
     LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile",
-    SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top",
+    SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
 
     HEADER: "header", FOOTER: "footer",
     ONMAIN: "onmain", ONSIZE: "onsize", ONLOGIN: "onlogin", ONSEARCH: "onsearch",

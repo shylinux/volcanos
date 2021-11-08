@@ -16,33 +16,6 @@ fieldset.contexts form.option div.item {
     float:left; margin-right:3px;
     min-height:25px; vertical-align:middle;
 }
-fieldset.contexts input[type=button] {
-    background-color:#FF9900; color:white;
-    border-radius:10px 10px 10px 10px;
-    border:2px solid #FF9900;
-}
-fieldset.contexts input[type=button]:hover {
-    background-color:#FFCC33;
-    border:2px solid #FFCC33;
-}
-fieldset.contexts input[type=text] {
-    background-color:white; color:black;
-    border-radius:6px 6px 6px 6px;
-    border:2px solid #14a58e;
-}
-fieldset.contexts input[type=text]:hover {
-    background-color:cyan;
-}
-fieldset.contexts div.input textarea {
-    border-radius:6px;
-    border:2px solid #14a58e;
-}
-fieldset.contexts select {
-    background-color:#99CC66; color:white;
-    border-radius:10px 10px 10px 10px;
-    border:2px solid #99CC66;
-}
-
 fieldset.contexts div.output {
     clear:both;
     overflow:auto;
@@ -56,23 +29,38 @@ fieldset.contexts div.status div.item>label {
     /* color:#504242e0; */
 }
 
-fieldset.contexts table {
-    color:white;
-    border:0; white-space:pre;
+fieldset.contexts select {
+    height:25px; font-size:14px;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    background-color:black; color:cyan;
+    padding:0 10px;
+    cursor:pointer;
 }
-fieldset.contexts table tr {
-    background-color:#e1f1ff1f;
+fieldset.contexts option {
+    font-family:monospace;
 }
-fieldset.contexts table th {
-    background-color:#99CCFF;
+fieldset.contexts textarea {
+    width:400px; height:60px;
+    background-color:cyan;
+}
+fieldset.contexts input[type=button] {
+    background-color:black; color:cyan;
+    letter-spacing:4px;
+    padding-left:10px;
+    cursor:pointer;
+    font-family:monospace;
+}
+fieldset.contexts input[type=button]:hover {
+    background-color:gray; color:cyan;
+}
+fieldset.contexts input[type=text] {
+    width:82px; height:21px; font-size:16px;
+    box-shadow:4px 4px 10px 1px #626bd0;
+    background-color:cyan; color:black;
     padding:0 4px;
 }
-fieldset.contexts table td {
-    text-align:left;
-    padding:0 4px;
-}
-fieldset.contexts table.content tr:hover {
-    background-color:green;
+fieldset.contexts input[type=text]:hover {
+    background-color:white;
 }
 fieldset.contexts div.code {
     background-color:#343a3445; color:white;
@@ -84,10 +72,49 @@ fieldset.contexts div.code {
     clear:both;
 }
 
+
+table.content {
+    border:0; white-space:pre;
+    font-size:14px; font-family:monospace;
+    text-align:left;
+    overflow: auto;
+}
+table.content tr {
+    background-color:#04272f45;
+}
+table.content tr.select {
+    background-color:green;
+}
+table.content tr:hover {
+    background-color:green;
+}
+table.content th {
+    background-color:#0fbd45;
+    padding:2px 6px;
+    cursor:pointer;
+}
+table.content th:hover {
+    background-color:red;
+}
+table.content td {
+    padding:2px 6px;
+    overflow:auto;
+}
+table.content td.done {
+    background-color:green;
+}
+table.content td.select {
+    background-color:red;
+}
+table.content td:hover {
+    background-color:red;
+}
+
 body>div.toast {
     background:#0e3369b3; color:yellow;
     position:fixed;
     padding:5px; overflow:auto;
+    z-index:10;
 }
 body>div.toast a {
     color:yellow;
@@ -125,6 +152,7 @@ body>div.carte {
     color:white;
     padding:4px;
     min-width:80px;
+    z-index:10;
 }
 body>div.carte div.item {
     padding:3px 12px;
@@ -132,19 +160,44 @@ body>div.carte div.item {
 body>div.carte div.item:hover {
     background:red;
 }
-
 body>div.input {
     position:fixed;
     background-color:#0d4142a6;
+    z-index:10;
+}
+body>div.input input[type=text] {
+    width:171px;
+}
+body>div.input input[name=username] {
+    width:171px;
+}
+body>div.input input[name=password] {
+    width:171px;
 }
 body>div.input textarea {
     box-shadow: 4px 4px 10px 1px #626bd0;
     border:2px inset #14a58e;
-    width:165px; height:60px;
+    width:171px; height:60px;
     background-color: cyan;
     padding:4px;
-
 }
 body>div.input div.item {
     float:left;
+}
+body>div.input.login {
+    padding:10px;
+}
+body>div.input.login input {
+    font-size:18px;
+}
+
+div.input input[type=button] {
+    background-color:black; color:cyan;
+    letter-spacing:4px;
+    padding-left:10px;
+    cursor:pointer;
+    font-family:monospace;
+}
+div.input input[type=button]:hover {
+    background-color:gray; color:cyan;
 }

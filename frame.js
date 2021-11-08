@@ -589,11 +589,11 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
         }}])
     },
 
-    move: function(can, target, layout) { var begin
+    move: function(can, target, layout, cb) { var begin
         target.onmousedown = function(event) {
             layout.height = target.offsetHeight, layout.width = target.offsetWidth
             layout.left = target.offsetLeft, layout.top = target.offsetTop
-            begin = can.base.Copy({}, layout)
+            begin = can.base.Copy({x: event.x, y: event.y}, layout)
         }, target.onmouseup = function(event) { begin = null }
 
         target.onmousemove = function(event) { if (!begin || !event.ctrlKey) { return }
@@ -606,8 +606,10 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
                 layout.left = begin.left + event.x - begin.x 
                 can.page.Modify(can, target, {style: {left: layout.left, top: layout.top}})
             }
+            can.base.isFunc(cb) && cb(target)
             event.stopPropagation(), event.preventDefault()
         }
+        can.base.isFunc(cb) && cb(target)
     },
     show: function(can, time, cb, target) { target = target||can._target
         time = can.base.isObject(time)? time: {value: 10, length: time||20}

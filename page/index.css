@@ -54,6 +54,10 @@ select {
 option {
     font-family:monospace;
 }
+textarea {
+    width:400px; height:60px;
+    background-color:cyan;
+}
 
 input[type=button] {
     background-color:black; color:cyan;
@@ -101,10 +105,6 @@ input[name=cmd] {
 }
 input[name=cmd]:hover {
     background-color:white; color:black;
-}
-textarea {
-    width:400px; height:60px;
-    background-color:cyan;
 }
 
 table.layout {
