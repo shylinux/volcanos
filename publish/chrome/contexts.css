@@ -2,6 +2,9 @@ fieldset.contexts {
     color:white;
     position:fixed;
     background:radial-gradient(black, #00000073);
+    top:100px;
+    left:100px;
+    z-index:10;
 }
 fieldset.contexts legend {
     text-align:left;

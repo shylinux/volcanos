@@ -1,51 +1,36 @@
-Volcanos("chrome", {
-    pwd: function(can, msg, cmds, cb) {
-        console.log(cmds)
-        cb()
+Volcanos({
+    pwd: function(can, msg, arg) {
+        msg.Push("hi", "hello")
+        msg.Echo("hello")
     },
-    chrome: function(can, msg, cmds, cb) {
-        if (cmds.length == 0) { // 窗口列表
+    chrome: function(can, msg, arg, cb) {
+        if (arg.length == 0) { // 窗口列表
             chrome.windows.getAll(function(wins) {
                 can.core.List(wins, function(win) { win.wid = win.id
                     msg.Push(win, ["wid", "state", "left", "top", "width", "height"])
                 })
                 can.base.isFunc(cb) && cb(msg)
             })
-            return
-        }
-        if (cmds.length == 1) { // 标签列表
-            chrome.tabs.getAllInWindow(parseInt(cmds[0]), function(tabs) {
+        } else if (arg.length == 1) { // 标签列表
+            chrome.tabs.getAllInWindow(parseInt(arg[0]), function(tabs) {
                 can.core.List(tabs, function(tab) { tab.tid = tab.id
                     msg.Push(tab, ["tid", "active", "width", "height", "index", "title", "url"])
                 })
                 can.base.isFunc(cb) && cb(msg)
             })
-            return
-        }
-
-        if (cmds[1] == "") { // 当前标签
-            chrome.tabs.query({currentWindow: true, active: true}, function(tabs) { cmds[1] = tabs[0].id
-                chrome.tabs.sendMessage(parseInt(cmds[1]), msg, function(res) {
-                    msg.Copy(res), can.base.isFunc(cb) && cb(msg)
+        } else if (arg[1] == "") { // 当前标签
+            chrome.tabs.query({currentWindow: true, active: true}, function(tabs) { arg[1] = tabs[0].id
+                chrome.tabs.sendMessage(parseInt(arg[1]), msg, function(res) {
+                    can.base.isFunc(cb) && cb(msg.Copy(res))
                 })
             })
         } else {
-            chrome.tabs.sendMessage(parseInt(cmds[1]), msg, function(res) {
+            chrome.tabs.sendMessage(parseInt(arg[1]), msg, function(res) {
                 can.base.isFunc(cb) && cb(msg.Copy(res))
             })
         }
     },
-    bookmark: function(msg, cmds, cb) {
-        chrome.bookmarks.getSubTree(cmds[0]||"0", function(labs) {
-            for (var i = 0; i < labs.length; i++) {labs[i].pid = labs[i].parentId
-                msg.Push("time", can.base.Time(labs[i].dateAdded))
-                msg.Push(labs[i], ["pid", "id", "index", "title", "url"])
-                labs = labs.concat(labs[i].children||[])
-            }
-            can.base.isFunc(cb) && cb(msg)
-        })
-    },
-}, ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"], function(can) {
+}, function(can) {
     can.run = function(event, cmds, cb) { var msg = can.request(event)
         can.misc.Run(event, can, {names: "http://localhost:9020/code/chrome/"+cmds[0]}, cmds.slice(1), cb)
     },
@@ -53,7 +38,7 @@ Volcanos("chrome", {
         can.run({}, ["sync", kit.MDB_TYPE, "link", kit.MDB_NAME, item.title, kit.MDB_TEXT, item.url, "tid", item.id])
     })
 
-    can.user.toast = function(message, title) {chrome.notifications.create(null, {
+    can.user.toast = function(can, message, title) { chrome.notifications.create(null, {
         message: message, title: title||can._name, iconUrl: "/favicon.ico", type: "basic",
     })},
     can.misc.WSS(can, {type: "chrome", name: "chrome"}, function(event, msg, cmd, arg) {
@@ -63,7 +48,7 @@ Volcanos("chrome", {
             })
             return
         }
-        can.core.CallFunc([can, cmd], {can: can, msg: msg, cmds: arg, cb: function() { msg.Reply() }})
+        can.core.CallFunc([can, cmd], {can: can, msg: msg, arg: arg, cb: function() { msg.Reply() }})
     })
 
     chrome.runtime.onMessage.addListener(function(req, sender, cb) {

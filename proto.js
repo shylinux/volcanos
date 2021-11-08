@@ -167,9 +167,10 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         }; libs = libs.concat(Config.plugin, Config.main.list)
 
         // 根模块
-        name = Config.name, can = {_follow: Config.name, _target: Config.target||document.body}, cb = function(can) {
+        _can_name = "", name = Config.name||"chat", cb = can||function(can) {
             can.onengine._init(can, can.Conf(Config), Config.panels, Config._init, can._target)
-        }, _can_name = "", can._root = can
+        }, can = {_follow: name, _target: Config.target||document.body}, can._root = can
+        for (var k in Config) { can[k] = Config[k] }
     }
 
     can = can||{}
@@ -190,6 +191,9 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
                 typeof cb == lang.FUNCTION && setTimeout(function() { cb(can) }, 10)
                 return // 加载完成
             }
+
+            if (!libs[0]) { return can.require(libs.slice(1), cb, each) }
+
             libs[0] = libs[0].toLowerCase()
 
             // 请求模块
@@ -236,7 +240,9 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
     if (can._follow) { libs = libs.concat(meta.libs, meta.volcano) }
     if (libs && libs.length > 0) {
         for (var i = 0; i < libs.length; i++) {
-            if (libs[i] == "") {
+            if (libs[i] == undefined) {
+
+            } else if (libs[i] == "") {
                 libs[i] = _can_path.replace(".js", ".css")
             } else if (libs[i][0] != "/" && libs[i].indexOf("http") != 0) {
                 libs[i] = _can_path.slice(0, _can_path.lastIndexOf("/")+1)+libs[i]
