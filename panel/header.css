@@ -1,6 +1,7 @@
 fieldset.Header {
     height:32px; padding:0 5px;
     overflow:hidden;
+    z-index:10;
 }
 fieldset.Header>div.output {
     height:32px; overflow:hidden;

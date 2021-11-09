@@ -595,9 +595,14 @@ body.print fieldset.Footer {
 
 body.mobile select {
     font-size:18px;
+    margin-top:5px;
 }
 body.mobile input {
     font-size:18px;
+}
+body.mobile input[type=text] {
+    margin-top:5px;
+    height:26px;
 }
 body.mobile fieldset.Header.head {
     position:fixed; top:0;
