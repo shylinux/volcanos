@@ -257,7 +257,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }
 
         var input = can.page.input(can, item, value)
-        var br = input.type == html.TEXTAREA? [{type: html.BR}]: []
+        var br = input.type == html.TEXTAREA? [{type: html.BR, style: {clear: "both"}}]: []
         var title = can.Conf(["feature", chat.TITLE, item.name].join(ice.PT))||""; title && (input.title = title)
         return can.page.Append(can, target, ([{view: style||can.base.join([html.ITEM, item.type]), list: [input]}]).concat(br))[item.name]
     },
