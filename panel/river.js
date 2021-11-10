@@ -191,7 +191,7 @@ Volcanos("ondetail", {help: "菜单交互",
             })
         })
     },
-    "创建空间": function(event, can, button, river, storm) {
+    "创建空间": function(event, can, button, river, storm) { can.request(event, {action: button})
         can.user.input(event, can, [{name: "name", value: "hi"}, {name: "repos"}, {name: "template"}], function(event, button, data, list, args) {
             can.run(event, [ctx.ACTION, cli.START].concat(args, chat.RIVER, river), function(msg) {
                 var link = can.user.MergeURL(can, {_path: "/chat/pod/"+can.core.Keys(can.user.Search(can, ice.POD), msg.Option(kit.MDB_NAME))})
