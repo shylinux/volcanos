@@ -122,10 +122,6 @@ Volcanos({name: "chat", panels: [
             nfs: {name: "文件 nfs", index: [
                 "cat", "dir", "tail", "trash",
             ]},
-            ssh: {name: "脚本 ssh", index: [
-                "connect", "session", "service", "channel",
-                "source", "screen",
-            ]},
         }},
     },
 })

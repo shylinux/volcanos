@@ -549,13 +549,13 @@ Volcanos("onaction", {help: "组件菜单", list: [
 Volcanos("ondetail", {help: "组件详情", list: ["复制", "标签", "编辑", "删除"],
     "复制": function(event, can) { can.onfigure._copy(event, can, event.target) },
     "标签": function(event, can) { var target = event.target
-        var def = target.Value("text"); can.page.Select(can, can.svg, "."+target.Value("text"), function(item) {
+        var def = target.Value("text"); def && can.page.Select(can, can.svg, ice.PT+def, function(item) {
             def = item.Value("inner")
         })
         can.user.prompt("文字", function(text) {
-            if (target.tagName == "text") {return target.innerHTML = text}
+            if (target.tagName == "text") { return target.innerHTML = text }
 
-            if (can.page.Select(can, can.svg, "."+target.Value("text"), function(item) {
+            if (def && can.page.Select(can, can.svg, ice.PT+def, function(item) {
                 item.Value("inner", text)
             }).length > 0) {
                 return

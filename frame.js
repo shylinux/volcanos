@@ -150,9 +150,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
                 can.core.ItemCB(input.onaction, function(key, cb) {
                     input._target[key] = function(event) { cb(event, input) }
-                }), can.core.CallFunc([input.onaction, "_init"], [input, item, [], next, input._target])
+                }), can.core.CallFunc([input.onaction, "_init"], [input, item, [], next, input._target]);
 
-                can.onappend.figure(input, item, input._target)
+                (item.action||meta.feature["inputs"]) && can.onappend.figure(input, item, input._target)
             })
         }; can.core.Next(can.base.Obj(meta.inputs, []), add)
     },
@@ -208,7 +208,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             })
         })
     },
-    _status: function(can, list, status) { status = status||can._status
+    _status: function(can, list, status) { status = status||can._status, can.onmotion.clear(can, status)
         can.core.List(list, function(item) { item = can.base.isObject(item)? item: {name: item}
             can.page.Append(can, status, [{view: can.base.join([html.ITEM, item.name]), title: item.name, list: [
                 {text: [item.name, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value||"")+"", html.SPAN, item.name]},

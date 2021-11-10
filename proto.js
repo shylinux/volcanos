@@ -10,6 +10,7 @@ var kit = {
 
     MDB_LINK: "link",
     MDB_VALUE: "value",
+    MDB_COUNT: "count",
     MDB_INDEX: "index",
     MDB_ARGS: "args",
 

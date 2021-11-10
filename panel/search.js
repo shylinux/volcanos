@@ -10,6 +10,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         msg.Length() == 1 && can.page.Select(can, table, html.TD)[0].click()
 
+        can.onappend._status(can, can.base.Obj(msg.Option("_status"), []).concat({name: "selected", value: "0"}))
         can.get("Action", "size", function(msg, height) {
             can.page.Modify(can, can.ui.profile, {"max-height": height-table.offsetHeight})
         })
@@ -80,8 +81,8 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
         can.page.Append(can, can.ui.display, [{td: can.core.List(fields, function(item) {
             return line[item]
         }), data: {index: index}, onclick: function(event) { can.page.Remove(can, event.target.parentNode)
-            can.Status(kit.MDB_COUNT, can.page.Select(can, can.ui.display, html.TR).length-1)
-        }}]), can.Status(kit.MDB_COUNT, can.page.Select(can, can.ui.display, html.TR).length-1)
+            can.Status("selected", can.page.Select(can, can.ui.display, html.TR).length-1)
+        }}]), can.Status("selected", can.page.Select(can, can.ui.display, html.TR).length-1)
     },
 
     plugin: function(event, can, index) { var line = can.list[index]
@@ -97,7 +98,7 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
         }, can.ui.profile)
     },
 })
-Volcanos("onexport", {help: "导出数据", list: [kit.MDB_COUNT, kit.MDB_TOTAL],
+Volcanos("onexport", {help: "导出数据", list: [],
     select: function(can) {
         return can.page.Select(can, can.ui.display, html.TR, function(tr) {
             return can.page.Select(can, tr, html.TD, function(td) { return td.innerHTML })
