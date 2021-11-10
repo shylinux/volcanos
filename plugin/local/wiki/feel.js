@@ -83,7 +83,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
         }) })
     },
 })
-Volcanos("ondetail", {help: "组件菜单", list: ["关闭", "下载", "上一个", "下一个", "设置头像", "设置背景", "复制链接"], _init: function(can, index) {
+Volcanos("ondetail", {help: "组件菜单", list: ["关闭", "下载", "删除", "上一个", "下一个", "设置头像", "设置背景", "复制链接"], _init: function(can, index) {
         can.onappend._init(can, {type: "story feel float"}, [], function(sub) { can.sub = sub
             sub.run = function(event, cmds, cb) { return can.run(event, cmds, cb, true) }
 
@@ -102,6 +102,9 @@ Volcanos("ondetail", {help: "组件菜单", list: ["关闭", "下载", "上一�
     },
     "关闭": function(event, can) { can.page.Remove(can, can.sub._target) },
     "下载": function(event, can) { can.user.download(can, path = can.onimport._file(can, can.list[can.order].path)) },
+    "删除": function(event, can) {
+        can.run(event, [ctx.ACTION, mdb.REMOVE, can.Status("file")], function(msg) { can.user.toast(can, "删除成功")})
+    },
     "上一个": function(event, can) { can.order > 0? can.show(--can.order): can.user.toast(can, "已经是第一张啦!") },
     "下一个": function(event, can) { can.order < can.list.length-1? can.show(++can.order): can.user.toast(can, "已经是最后一张啦!") },
     "设置头像": function(event, can) { var msg = can.request(event, {url: can.onimport._file(can, can.list[can.order].path)})
