@@ -261,7 +261,7 @@ Volcanos.meta._load = function(url, cb) { _can_path = url
             return (document.head||document.body).appendChild(item), item
         case "js":
             var item = document.createElement(ssh.SCRIPT)
-            item.onload = cb, item.src = url
+            item.onload = cb, item.onerror = cb, item.src = url
             return document.body.appendChild(item), item
     }
 }

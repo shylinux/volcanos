@@ -86,6 +86,9 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
     toast: function(can, msg, arg) {
         can.onmotion.float.add(can, chat.FLOAT, can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}))
     },
+    confirm: function(can, msg, arg) { 
+        if (can.user.confirm(arg[0])) { msg.Echo("true") }
+    },
 })
 Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) {
         meta.name = meta.name||"", meta.name = meta.name.split(ice.SP)[0].split(ice.PT).pop()
@@ -194,7 +197,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             Volcanos(display, {_follow: can.core.Keys(can._follow, display), _display: display, _target: can._output, _fields: can._target,
                 _option: can._option, _action: can._action, _output: can._output, _status: can._status,
                 Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
-            }, [display], function(table) { table.Conf(can.Conf())
+            }, [display, "/plugin/table.js"], function(table) { table.Conf(can.Conf())
                 table.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                     if (msg.RunAction(event, table, cmds)) { return }
                     return can.Update(event, can.Input(cmds, silent), cb, silent)

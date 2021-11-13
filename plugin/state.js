@@ -75,7 +75,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 
 })
 Volcanos("onaction", {help: "交互操作", list: [
-        "共享工具", "生成链接", "保存参数", "清空参数", "刷新数据", [
+        "共享工具", "生成链接", "生成脚本", "保存参数", "清空参数", "刷新数据", [
             "其它 ->", "复制数据", "下载数据", "清空数据", "删除工具", "摄像头",
         ],
     ], _init: function(can, msg, list, cb, target) {},
@@ -97,6 +97,15 @@ Volcanos("onaction", {help: "交互操作", list: [
         args._path.indexOf("/cmd/web.wiki.word") > -1 && (args = {_path: pre+args.path})
         var msg = can.request(event, {link: can.user.MergeURL(can, args)})
         can.search(event, ["Header.onaction.share"])
+    },
+    "生成脚本": function(event, can, button) { var conf = can.Conf()
+        var ui = can.user.toast(can, {title: button, duration: -1, width: -300,
+            content: '<div class="story" data-type="spark", data-name="shell">'+'<span>'+
+            "export ctx_dev=http://9.134.115.203:9020; ctx_temp=$(mktemp); curl -fsSL $ctx_dev -o $ctx_temp;"+
+            " source $ctx_temp "+(conf.index||"")+ice.SP+can.Input("", true).join(ice.SP)+
+            '</span>'+'</div>', action: [cli.CLOSE],
+        })
+        can.onmotion.story.auto(can, ui._target)
     },
     "保存参数": function(event, can) { var meta = can.Conf()
         var msg = can.request(event, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), id: meta.id})
