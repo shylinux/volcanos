@@ -101,7 +101,7 @@ Volcanos("onaction", {help: "交互操作", list: [
     "生成脚本": function(event, can, button) { var conf = can.Conf()
         var ui = can.user.toast(can, {title: button, duration: -1, width: -300,
             content: '<div class="story" data-type="spark", data-name="shell">'+'<span>'+
-            "export ctx_dev=http://9.134.115.203:9020; ctx_temp=$(mktemp); curl -fsSL $ctx_dev -o $ctx_temp;"+
+            "export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -fsSL $ctx_dev -o $ctx_temp;"+
             " source $ctx_temp "+(conf.index||"")+ice.SP+can.Input("", true).join(ice.SP)+
             '</span>'+'</div>', action: [cli.CLOSE],
         })
