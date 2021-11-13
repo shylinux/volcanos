@@ -1,5 +1,6 @@
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, list, cb, target) {
         can.onmotion.float.auto(can, can._output, chat.CARTE)
+        can.onmotion.float.auto(can, window, chat.CARTE)
         can.base.isFunc(cb) && cb()
     },
     onmain: function(can) { can._names = location.pathname

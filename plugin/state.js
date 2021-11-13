@@ -99,11 +99,16 @@ Volcanos("onaction", {help: "交互操作", list: [
         can.search(event, ["Header.onaction.share"])
     },
     "生成脚本": function(event, can, button) { var conf = can.Conf()
-        var ui = can.user.toast(can, {title: button, duration: -1, width: -300,
-            content: '<div class="story" data-type="spark", data-name="shell">'+'<span>'+
+        var args = (conf.index||"")+ice.SP+can.Input("", true).join(ice.SP)
+        var list = [
             "export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -fsSL $ctx_dev -o $ctx_temp;"+
-            " source $ctx_temp "+(conf.index||"")+ice.SP+can.Input("", true).join(ice.SP)+
-            '</span>'+'</div>', action: [cli.CLOSE],
+            " source $ctx_temp "+args, "ish_sys_dev_run_command "+args,
+            "ish_sys_dev_run_action", "ish_sys_dev_run_source",
+        ]
+        var ui = can.user.toast(can, {title: button, duration: -1, width: -300,
+            content: '<div class="story" data-type="spark", data-name="shell">'+
+                '<label>$ </label>'+'<span>'+list.join("</span><br/><label>$ </label><span>")+'</span>'+'</div>',
+            action: [cli.CLOSE],
         })
         can.onmotion.story.auto(can, ui._target)
     },

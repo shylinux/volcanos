@@ -267,6 +267,7 @@ Volcanos.meta._load = function(url, cb) { _can_path = url
 }
 function cmd(tool) {
     Volcanos({name: "chat", panels: [
+        {name: "Header", help: "标题栏", pos: "hidden", state: ["time", "usernick", "avatar"]},
         {name: "cmd", help: "工作台", pos: chat.MAIN, tool: tool},
     ], main: {name: "cmd", list: []}, plugin: [
             "/plugin/state.js",

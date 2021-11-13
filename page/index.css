@@ -44,6 +44,9 @@ div.story[data-type=spark] span:hover {
     cursor:copy;
 }
 
+.hidden {
+    display:none;
+}
 select {
     height:25px; font-size:14px;
     box-shadow: 4px 4px 10px 1px #626bd0;
