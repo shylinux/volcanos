@@ -3,10 +3,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._meta = can.base.Obj(meta.text, {meta: {name: meta.name||"hi"}, list: []})
         can.base.isFunc(cb) && cb(msg)
 
-        can.ui = can.page.Appends(can, target, [{view: ["layout", html.TABLE], list: [{type: html.TR, list: [
-            {type: html.TD, list: [{view: "project"}]},
-            {type: html.TD, list: [{view: "display"}]},
-            {type: html.TD, list: [{view: "profile"}]},
+        can.ui = can.page.Appends(can, target, [{view: [chat.LAYOUT, html.TABLE], list: [{type: html.TR, list: [
+            {type: html.TD, list: [{view: chat.PROJECT}]},
+            {type: html.TD, list: [{view: chat.DISPLAY}]},
+            {type: html.TD, list: [{view: chat.PROFILE}]},
         ]}] }]), can.ui.project._fieldset = can.ui.display
 
         can.onimport._item(can, can._meta, can.ui.project, can.onimport._size(can)).click()
@@ -35,7 +35,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.onmotion.select(can, can.ui.project, "div.item", ui.item)
             can.current = ui.item, can.onmotion.clear(can, can.ui.profile)
             can.onappend.table(can, msg, function(value, key, index, line, array) {
-                return {text: [value, "td"], ondblclick: function(event) {
+                return {text: [value, html.TD], ondblclick: function(event) {
                     key == "value" && can.onmotion.modifys(can, event.target, function(event, value, old) {
                         node.meta[line.key] = value
                     })
@@ -44,19 +44,19 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }
 
         ui.item._add = function(data) {
-            if (node.meta.style == "span") { width = width * node.list.length }
+            if (node.meta.style == html.SPAN) { width = width * node.list.length }
             node.list.push(data)
-            if (node.meta.style == "span") { width = width / node.list.length }
+            if (node.meta.style == html.SPAN) { width = width / node.list.length }
             can.onmotion.clear(can, ui.list), can.onmotion.clear(can, ui.list._fieldset)
             can.core.List(node.list, function(node) { can.onimport._item(can, node, ui.list, width) })
         }
-        if (node.meta.style == "span") { width = width / node.list.length }
+        if (node.meta.style == html.SPAN) { width = width / node.list.length }
         can.core.List(node.list, function(node) { can.onimport._item(can, node, ui.list, width) })
         return ui.item
     },
     _field: function(can, meta, target, width) {
         var size = {width: width, height: meta.height}
-        var field = can.onappend.field(can, "layout", {}, target).fieldset
+        var field = can.onappend.field(can, chat.LAYOUT, {}, target).fieldset
         can.page.ClassList.add(can, field, meta.style)
         can.page.Modify(can, field, {style: size})
 
@@ -83,12 +83,13 @@ Volcanos("onaction", {help: "操作数据", list: [],
         })
     },
     "保存": function(event, can) { var msg = can.request(event, can.Option())
-        can.run(event, [mdb.MODIFY, "text", JSON.stringify(can._meta)], function(msg) {
+        can.run(event, [mdb.MODIFY, kit.MDB_TEXT, JSON.stringify(can._meta)], function(msg) {
             can.user.toast(can, "保存成功")
         }, true)
     },
     "预览": function(event, can) {
-        can.run(event, [ctx.ACTION, "生成链接"], function() {}, true)
+        can.request(event, {link: can.user.MergeURL(can, {_path: "/chat/div/"+can.Option("hash")})})
+        can.search(event, ["Header.onaction.share"])
     },
 })
 Volcanos("onexport", {help: "导出数据", list: []})
