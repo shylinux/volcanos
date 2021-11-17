@@ -81,7 +81,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             } },
             ondblclick: function(event) { can.onmotion.modify(can, event.target, function(ev, value, old) {
                 can.onaction.modifyTask(event, can, task, key, value)
-            }) },
+            }, {name: key, action: key.indexOf("time") > 0? "date": "key"}) },
         }]) }), can.onimport._display(can, task)
     },
     _display: function(can, task) { if (!task["extra.cmd"]) { return }

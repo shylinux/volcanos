@@ -3,7 +3,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         can.onmotion.float.auto(can, window, chat.CARTE)
         can.base.isFunc(cb) && cb()
     },
-    onmain: function(can) { can._names = location.pathname
+    onlogin: function(can) { can._names = location.pathname
         var msg = can.request({})
         can.Conf(chat.TOOL)? can.core.Next(can.Conf(chat.TOOL), function(item, next) {
             can.core.Timer(500, function() {

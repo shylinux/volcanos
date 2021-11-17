@@ -58,8 +58,9 @@ var cli = {
     START: "start", STOP: "stop",
     CLEAR: "clear", REFRESH: "refresh",
 
-    YELLOW: "yellow", CYAN: "cyan",
-    RED: "red",
+    RED: "red", GREEN: "green", BLUE: "blue",
+    YELLOW: "yellow", CYAN: "cyan", MAGENTA: "magenta",
+    WHITE: "white", BLACK: "black",
 }
 var web = {
     SHARE: "share",

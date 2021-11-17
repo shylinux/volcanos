@@ -83,6 +83,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, p
                 msg.Push("feature", JSON.stringify(value.feature))
                 msg.Push("index", value.index||"")
                 msg.Push("args", value.args||"[]")
+                msg.Push("_action", value._action||"")
             }), can.base.isFunc(cb) && cb(msg)
         }
         return true

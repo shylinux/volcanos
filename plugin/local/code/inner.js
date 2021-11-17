@@ -3,7 +3,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         can.ui = can.onlayout.profile(can)
         can.onimport._content(can, target)
         can.onimport._output(can, target)
-        can.onimport._favor(can, target)
+        // can.onimport._favor(can, target)
         // can.onimport._search(can, target)
 
         can.history = can.history||[]

@@ -8,19 +8,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._tree[""].name = can.dir_root.split(ice.PS).slice(-2)[0]
 
         can.size = 30, can.margin = 30
-        can.onappend.plugin(can, {type: chat.OUTPUT, index: "web.wiki.draw"}, function(sub) {
-            sub.run = function(event, cmds, cb) { sub.Action("go", "run")
-                can.base.isFunc(cb) && cb(sub.request())
-
-                can.core.Timer300ms(function() { can.draw = sub._outputs[0]
-                    can.draw.onmotion.hidden(can.draw, can.draw.ui.project)
-                    can.draw.require(["/plugin/local/wiki/draw/path.js"], function() {
-                        var p = can.sup.view||can.Action("view"); 
-                        can.Action("view", p)
-                        can.onaction[p](event, can, p)
-                    })
-                })
-            }
+        can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
+            can.onimport._show(can, msg), can.onmotion.hidden(can, can.ui.project)
+            var p = can.Action("view", can.sup.view||can.Action("view"))
+            can.onaction[p](event, can, p)
         })
     },
 
@@ -50,7 +41,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _width: function(can, tree) { if (!tree) { return 0 }
         if (tree.list.length == 0 || tree.hide) {
-            tree.view = can.draw.onimport.draw({}, can.draw, {
+            tree.view = can.onimport.draw({}, can, {
                 shape: "text", point: [{x: 0, y: 0}], style: {
                     "stroke-width": 1, "text-anchor": "middle", inner: tree.name,
                 },
@@ -66,31 +57,31 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 }, [""])
 Volcanos("onaction", {help: "用户操作", list: ["编辑", ["view", "横向", "纵向"]],
     "编辑": function(event, can) {
-        can.onmotion.toggle(can, can.draw._action)
-        can.onmotion.toggle(can, can.draw._status)
+        can.onmotion.toggle(can, can._action)
+        can.onmotion.toggle(can, can._status)
     },
     "横向": function(event, can, button) {
         can.sup.view = button
-        can.onmotion.clear(can, can.draw.svg)
+        can.onmotion.clear(can, can.svg)
         can.onimport._height(can, can._tree[""])
 
-        can.draw.svg.Val(chat.HEIGHT, can._tree[""].height*can.size+2*can.margin)
+        can.svg.Val(chat.HEIGHT, can._tree[""].height*can.size+2*can.margin)
         can.width = 0, can.onaction._draw(can, can._tree[""], can.margin, can.margin)
-        can.draw.svg.Val(chat.WIDTH, can.width+can.margin)
+        can.svg.Val(chat.WIDTH, can.width+can.margin)
     },
     "纵向": function(event, can, button) {
         can.sup.view = button
         can.onimport._width(can, can._tree[""])
-        can.onmotion.clear(can, can.draw.svg)
+        can.onmotion.clear(can, can.svg)
 
-        can.draw.svg.Val(chat.WIDTH, can._tree[""].width+2*can.margin)
-        can.draw.svg.Value("font-family", "monospace")
+        can.svg.Val(chat.WIDTH, can._tree[""].width+2*can.margin)
+        can.svg.Value("font-family", "monospace")
         can.height = 0, can.onaction._draw_vertical(can, can._tree[""], can.margin, can.margin+can.size)
-        can.draw.svg.Val(chat.HEIGHT, can.height+can.margin)
+        can.svg.Val(chat.HEIGHT, can.height+can.margin)
     },
     _draw_vertical: function(can, tree, x, y) { tree.x = x, tree.y = y
         var color = tree.meta&&tree.meta.color||cli.YELLOW
-        tree.view = can.draw.onimport.draw({}, can.draw, {
+        tree.view = can.onimport.draw({}, can, {
             shape: "text", point: [
                 {x: x+tree.width/2, y: y}
             ], style: {
@@ -111,7 +102,7 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", ["view", "横向", 
         }
 
         var offset = 0; can.core.List(tree.list, function(item) {
-            can.draw.onimport.draw({}, can.draw, {
+            can.onimport.draw({}, can, {
                 shape: "path", point: [], style: {
                     "stroke-width": 1, "stroke": cli.CYAN, "fill": html.NONE, d: line(
                         {x: x+tree.width/2, y: y+tree.height-can.margin/2},
@@ -127,7 +118,7 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", ["view", "横向", 
 
     _draw: function(can, tree, x, y) { tree.x = x, tree.y = y
         var color = tree.meta&&tree.meta.color||cli.YELLOW
-        tree.view = can.draw.onimport.draw({}, can.draw, {
+        tree.view = can.onimport.draw({}, can, {
             shape: "text", point: [
                 {x: x, y: y+tree.height*can.size/2}
             ], style: {
@@ -149,7 +140,7 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", ["view", "横向", 
         }
 
         var offset = 0; can.core.List(tree.list, function(item) {
-            can.draw.onimport.draw({}, can.draw, {
+            can.onimport.draw({}, can, {
                 shape: "path", point: [], style: {
                     "stroke-width": 1, "stroke": cli.CYAN, "fill": html.NONE, d: line(
                         {x: x+tree.width+can.margin/8, y: y+tree.height*can.size/2},
@@ -165,7 +156,7 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", ["view", "横向", 
 })
 Volcanos("ondetail", {help: "用户交互", list: [],
     onmouseenter: function(event, can, tree) { var y = tree.y+tree.height*can.size/2
-        can.page.Remove(can, can.pos), can.pos = can.draw.onimport.draw({}, can.draw, {
+        can.page.Remove(can, can.pos), can.pos = can.onimport.draw({}, can, {
             shape: "rect", point: [
                 {x: tree.x-can.margin/4, y: y-can.size/2},
                 {x: tree.x+tree.width+can.margin/8, y: y+can.size/2},

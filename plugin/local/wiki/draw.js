@@ -2,13 +2,18 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onmotion.clear(can)
         can.onkeypop._build(can)
         can.onmotion.hidden(can, can._action)
-        can.ui = can.onlayout.profile(can)
         can.base.isFunc(cb) && cb(msg)
 
         // 交互数据
         can.svg = null, can.group = null
-        can.point = [], can.temp = null , can.current = null
+        can.temp = null , can.current = null
         can.keylist = []
+
+        can.onimport._show(can, msg)
+    },
+    _show: function(can, msg) {
+        can.ui = can.onlayout.profile(can)
+        can.point = []
 
         // 加载绘图
         can.page.Modify(can, can.ui.content, msg.Result()||can.onexport.content(can))
@@ -94,6 +99,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         var data = figure.draw(event, can, value.point, value.style)
         can.core.Item(value.style, function(key, value) { data[key] = value })
         var item = can.onfigure._push(can, data, value.shape, can.group||can.svg)
+        can.core.ItemCB(value, function(key, cb) { item[key] = cb })
         value._init && value._init(item)
         return item
     },
@@ -600,7 +606,7 @@ Volcanos("onexport", {help: "导出数据", list: ["分组", "图形", "坐标"]
                 "stroke-width", "stroke", "fill", "font-size",
             ], function(item) {
                 return svg.Value(item)? ' ' + item + '="' + svg.Value(item) + '"': ""
-            }): [" width=600 height=200 "]).concat(['>', svg? svg.innerHTML: "", "</svg>"]).join("")
+            }): [" width="+(can.Conf(chat.WIDTH)||600)+" height="+((can.Conf(chat.HEIGHT)||440)-40)]).concat(['>', svg? svg.innerHTML: "", "</svg>"]).join("")
     },
 })
 

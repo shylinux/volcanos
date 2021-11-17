@@ -7,15 +7,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.Action(chat.HEIGHT, msg.Option(chat.HEIGHT)||can.user.mod.isCmd? "max": can.user.isMobile&&can.user.isLandscape()? "200": "400")
         can.Action("speed", parseInt(msg.Option("speed")||"100"))
 
-        can.onappend.plugin(can, {type: chat.OUTPUT, index: "web.wiki.draw"}, function(sub) {
-            sub.run = function(event, cmds, cb) { sub.Action("go", "run")
-                can.base.isFunc(cb) && cb(sub.request())
-
-                can.core.Timer300ms(function() { can.draw = sub._outputs[0]
-                    can.draw.onmotion.hidden(can.draw, can.draw.ui.project)
-                    can.onaction[can.Action("view")](event, can)
-                })
-            }
+        can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
+            can.onimport._show(can, msg), can.onmotion.hidden(can, can.ui.project)
+            can.onaction[can.Action("view")](event, can)
         })
     },
     _sum: function(can) {
@@ -46,8 +40,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 })
 Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600", "800", "max"], ["speed", "10", "20", "50", "100"]],
     "编辑": function(event, can) {
-        can.onmotion.toggle(can, can.draw._action)
-        can.onmotion.toggle(can, can.draw._status)
+        can.onmotion.toggle(can, can._action)
+        can.onmotion.toggle(can, can._status)
     },
     "趋势图": function(event, can) { var height = can.Action(chat.HEIGHT)
         if (height == "max") { height = can.Conf(chat.HEIGHT) - chat.CMD_MARGIN }
@@ -56,15 +50,15 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
         var space = 10, width = parseInt(can.Conf(chat.WIDTH))
         var step = parseInt((width-2*space) / can.list.length)
 
-        can.onmotion.clear(can, can.draw.svg)
-        can.draw.svg.Val(chat.HEIGHT, height)
-        can.draw.svg.Val(chat.WIDTH, width)
+        can.onmotion.clear(can, can.svg)
+        can.svg.Val(chat.HEIGHT, height)
+        can.svg.Val(chat.WIDTH, width)
 
         function scale(y) { return (y - can.min)/(can.max - can.min)*(height-2*space) }
         function order(index, x, y) { return {x: space+step*index+x, y: height-space-scale(y)} }
 
         can.core.Next(can.list, function(line, next, index) { can.Status(line, ["date", "text", "add", "del"])
-            can.draw.onimport.draw({}, can.draw, {
+            can.onimport.draw({}, can, {
                 shape: "line", point: [
                     order(index, step/2, line.min), order(index, step/2, line.max),
                 ], style: {
@@ -72,7 +66,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
                 },
             })
 
-            can.draw.onimport.draw({}, can.draw, {
+            can.onimport.draw({}, can, {
                 shape: "rect", point: [
                     order(index, step/4, line.close), order(index, step/4*3, line.begin),
                 ], style: can.base.Copy({"stroke-width": 1, "rx": 0, "ry": 0}, line.begin < line.close? {
@@ -107,9 +101,9 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
         var space = 10, width = parseInt(can.Conf(chat.WIDTH))
         var step = parseInt((width-2*space) / can.list.length)
 
-        can.onmotion.clear(can, can.draw.svg)
-        can.draw.svg.Val(chat.HEIGHT, height)
-        can.draw.svg.Val(chat.WIDTH, width)
+        can.onmotion.clear(can, can.svg)
+        can.svg.Val(chat.HEIGHT, height)
+        can.svg.Val(chat.WIDTH, width)
 
         function scale(key, y) { return (y - min[key])/(max[key] - min[key])*(height-2*space) }
         function order(index, key, x, y) { return {x: space+step*index+x, y: space+scale(key, y)} }
@@ -118,7 +112,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
         can.core.List(can.msg.append, function(key, which) {
             max[key] != min[key] && can.core.Next(can.data, function(line, next, index) {
                 var y = scale(key, parseFloat(line[key]))
-                y && can.draw.onimport.draw({}, can.draw, {
+                y && can.onimport.draw({}, can, {
                     shape: "rect", point: [
                         order(index, key, width*which+2, 0), order(index, key, width*which+2+width, y),
                     ], style: {
@@ -136,9 +130,9 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
         })
     },
     "数据源": function(event, can) {
-        can.onmotion.clear(can, can.draw.ui.display)
-        can.onappend.table(can, can.msg, null, can.draw.ui.display)
-        can.onmotion.show(can, can.draw.ui.display)
+        can.onmotion.clear(can, can.ui.display)
+        can.onappend.table(can, can.msg, null, can.ui.display)
+        can.onmotion.show(can, can.ui.display)
     },
 
     height: function(event, can) {

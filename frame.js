@@ -205,7 +205,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
                 table.onimport && table.onimport._init && table.onimport._init(table, msg, msg.result||[], function(msg) {
                     can.page.Modify(can, can._action, ""), can.page.Modify(can, can._status, "")
-                    table.onaction && table.onappend._action(table, can.base.Obj(msg.Option(ice.MSG_ACTION), table.onaction.list))
+                    table.onaction && table.onappend._action(table, can.base.Obj(msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), table.onaction.list))
                     table.onexport && table.onappend._status(table, can.base.Obj(msg.Option(ice.MSG_STATUS), table.onexport.list))
                 }, can._output)
             })

@@ -64,7 +64,7 @@ Volcanos({name: "chat", panels: [
         }},
         project: {name: "研发群", storm: {
             studio: {name: "研发 studio", action: [
-                {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"]},
+                {name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"], _action: ["autogen", "compile", "binpack"]},
                 {name: "repos", help: "代码库", index: "web.code.git.status"},
                 {name: "plan", help: "任务表", index: "web.team.plan"},
                 {name: "ctx", help: "上下文", index: "web.wiki.word", args: ["src/main.shy"]},
