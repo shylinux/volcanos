@@ -27,7 +27,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }, onmouseenter: function(event) { can.base.isFunc(cb) && cb(event)} }) }
 
         var total = 0; msg.Table(function(value) { total += parseInt(value[field]) })
-        var color = [cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.MAGENTA, cli.WHITE, cli.BLACK]
+        var color = [cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.WHITE, cli.BLACK]
         var begin = 0; msg["color"] = [], msg["weight"] = [], msg.Table(function(value, index) { var span = parseInt(value[field])/total*360
             var p = index==which? pos(x, y, margin, begin+span/2): [x, y]; index == which && can.Status(value)
             var c = color[index%color.length]; pie(p[0], p[1], r, begin, span, c, function(event) {

@@ -34,7 +34,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             case cli.CLEAR: can.cli && can.cli.close(); break
             case cli.CLOSE: can.cli && can.cli.close(); break
             default:
-                can.run(event, [cli.RUN].concat(can.core.Split(event.target.value, ice.SP)), function(msg) {
+                can.run(event, [ice.RUN].concat(can.core.Split(event.target.value, ice.SP)), function(msg) {
                     can.cli && can.cli.close()
                     can.cli = can.onappend.float(can, msg, function(value, key, index, line, list) {
 
@@ -75,7 +75,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
             can.get("Action", "size", function(msg, top, left, width, height) {
                 can.onappend.plugin(can, {index: cmds[0], args: cmds.slice(1), height: height-100, width: width}, function(sub) {
                     sub.run = function(event, cmd, cb) {
-                        can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, cmds[0]], cmd), cb)
+                        can.run(event, can.misc.Concat([ctx.ACTION, ice.RUN, cmds[0]], cmd), cb)
                     }
 
                     can.page.Modify(can, sub._target, {style: {top: top+100, left: left}})

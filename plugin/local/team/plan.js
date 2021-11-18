@@ -87,7 +87,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _display: function(can, task) { if (!task["extra.cmd"]) { return }
         can.onappend.plugin(can, {type: "story", ctx: task["extra.ctx"], cmd: task["extra.cmd"], arg: task["extra.arg"]}, function(sub, meta) {
             sub.run = function(event, cmds, cb) { var msg = can.request(event, {"task.zone": task.zone, "task.id": task.id})
-                can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, task["zone"], task["id"]], cmds), cb, true)
+                can.run(event, can.misc.Concat([ctx.ACTION, ice.RUN, task["zone"], task["id"]], cmds), cb, true)
             }
         }, can.ui.display)
         can.page.Modify(can, can.ui.display, {style: {display: "block"}})

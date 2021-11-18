@@ -20,23 +20,25 @@ var kit = {
 var ice = {
     SP: " ", PS: "/", PT: ".", FS: ",", NL: "\n",
     POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
+    RUN: "run", RES: "res", ERR: "err",
 
-    TRUE: "true",
-    SUCCESS: "success",
-    FAILURE: "failure",
-    PROCESS: "process",
+    TRUE: "true", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
+
+    AUTO: "auto",
+    COPY: "copy", SHOW: "show", HIDE: "hide", MODE: "mode", SHIP: "ship",
 
     MSG_USERNAME: "user.name",
     MSG_USERNICK: "user.nick",
     MSG_TITLE: "sess.title",
+    MSG_TOPIC: "sess.topic",
     MSG_RIVER: "sess.river",
     MSG_STORM: "sess.storm",
     MSG_TOAST: "sess.toast",
     MSG_FIELDS: "fields",
     MSG_SESSID: "sessid",
-
     MSG_APPEND: "append",
 
+    MSG_SOURCE: "_source",
     MSG_TARGET: "_target",
     MSG_HANDLE: "_handle",
 
@@ -44,30 +46,21 @@ var ice = {
     MSG_STATUS: "_status",
     MSG_DISPLAY: "_display",
     MSG_PROCESS: "_process",
-    MSG_PREFIX: "_prefix",
-
 	PROCESS_AGAIN: "_again",
-
-    AUTO: "auto",
-    SHOW: "show",
-    HIDE: "hide",
-    COPY: "copy",
-    SHIP: "ship",
-    MODE: "mode",
+    MSG_PREFIX: "_prefix",
 }
 
 var ctx = {
-    CONTEXT: "context", COMMAND: "command", CONFIG: "config",
-    ACTION: "action",
+    CONTEXT: "context", COMMAND: "command", ACTION: "action", CONFIG: "config",
 }
 var cli = {
-    RUN: "run", DONE: "done",
-    OPEN: "open", CLOSE: "close",
+    DONE: "done",
     START: "start", STOP: "stop",
+    OPEN: "open", CLOSE: "close",
     CLEAR: "clear", REFRESH: "refresh",
 
     RED: "red", GREEN: "green", BLUE: "blue",
-    YELLOW: "yellow", CYAN: "cyan", MAGENTA: "magenta",
+    YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple",
     WHITE: "white", BLACK: "black",
 }
 var web = {
@@ -99,8 +92,8 @@ var tcp = {
 }
 
 var code = {
-    WEBPACK: "webpack",
     VIMER: "vimer", INNER: "inner", FAVOR: "favor",
+    WEBPACK: "webpack",
 }
 var wiki = {
     TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
@@ -140,18 +133,16 @@ var html = {
     FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
 
     INPUT: "input", INPUT_ARGS: ".args", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
-    SPACE: "space", BLOCK: "block", NONE: "none",
+    FORM: "form", FILE: "file", SPACE: "space", CLICK: "click",
 
     TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br",
-    DIV: "div", IMG: "img", CODE: "code", SPAN: "span", LABEL: "label", VIDEO: "video",
+    DIV: "div", IMG: "img", CODE: "code", SPAN: "span", VIDEO: "video",
+    SVG: "svg", G: "g", X: "x", Y: "y", R: "r",
+    LABEL: "label", INNER: "inner",
 
-    FORM: "form", FILE: "file",
-    LIST: "list", ITEM: "item", MENU: "menu",
-    SVG: "svg",
-    CLASS: "class",
-    CLICK: "click",
-
+    CLASS: "class", BLOCK: "block", NONE: "none",
     STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
+    LIST: "list", ITEM: "item", MENU: "menu",
 }
 var lang = {
     STRING: "string", OBJECT: "object", FUNCTION: "function",

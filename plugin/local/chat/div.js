@@ -69,7 +69,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }, size), ["/plugin/state.js"], function(sub) {
                 can.page.Modify(can, sub._output,  {style: size})
                 sub.run = function(event, cmds, cb) {
-                    can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, meta.index], cmds), cb, true)
+                    can.run(event, can.misc.Concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
                 }
             }, target, field)
         }, true)

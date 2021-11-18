@@ -93,7 +93,7 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
             can.get("Action", "size", function(msg, width) { sub.Conf(chat.WIDTH, width-60) })
 
             sub.run = function(event, cmds, cb) { var msg = can.request(event, line)
-                can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, meta.index], cmds), cb, true)
+                can.run(event, can.misc.Concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
             }
         }, can.ui.profile)
     },

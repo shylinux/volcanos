@@ -22,7 +22,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 Volcanos("onaction", {help: "操作数据", list: [], _init: function(can, msg, list, cb, target) {
     },
     run: function(event, can, msg) {
-        can.run(event, [ctx.ACTION, cli.RUN, "go", "hi.go", can.sub.onexport.content(can.sub)], function(msg) {
+        can.run(event, [ctx.ACTION, ice.RUN, "go", "hi.go", can.sub.onexport.content(can.sub)], function(msg) {
             can.onappend.board(can, msg)
         }, true)
     },

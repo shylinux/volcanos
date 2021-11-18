@@ -34,7 +34,7 @@ setTimeout(function() { Volcanos({
             can.onmotion.float.auto(can, sub._target, chat.CARTE)
 
             sub.run = function(event, cmds, cb) {
-                can.run(event, can.misc.Concat([ctx.ACTION, cli.RUN, meta.index], cmds), cb)
+                can.run(event, can.misc.Concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb)
             }
 
             msg.Option("selection") && (can.onengine.listen(can, "onselection", function() {
