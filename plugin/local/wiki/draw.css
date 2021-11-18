@@ -3,4 +3,6 @@ fieldset.draw div.output div.content svg {
 }
 fieldset.draw div.output {
     background-color:#1b5b738c;
+    font-size:20px;
+    font-family:monospace;
 }

@@ -22,6 +22,9 @@ var ice = {
     POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
 
     TRUE: "true",
+    SUCCESS: "success",
+    FAILURE: "failure",
+    PROCESS: "process",
 
     MSG_USERNAME: "user.name",
     MSG_USERNICK: "user.nick",
@@ -46,6 +49,11 @@ var ice = {
 	PROCESS_AGAIN: "_again",
 
     AUTO: "auto",
+    SHOW: "show",
+    HIDE: "hide",
+    COPY: "copy",
+    SHIP: "ship",
+    MODE: "mode",
 }
 
 var ctx = {
@@ -139,6 +147,11 @@ var html = {
 
     FORM: "form", FILE: "file",
     LIST: "list", ITEM: "item", MENU: "menu",
+    SVG: "svg",
+    CLASS: "class",
+    CLICK: "click",
+
+    STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
 }
 var lang = {
     STRING: "string", OBJECT: "object", FUNCTION: "function",

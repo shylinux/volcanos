@@ -33,7 +33,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             var c = color[index%color.length]; pie(p[0], p[1], r, begin, span, c, function(event) {
                 can.onmotion.clear(can, can.svg), can.onimport._draw(can, msg, field, x, y, r, margin, index)
             }), begin += span, msg.Push("color", '<span style="background-color:'+c+'">     </span>')
-            msg.Push("weight", parseInt(parseInt(value[field])*10000/total)/100)
+            msg.Push("weight", parseInt(parseInt(value[field])*10000/total)/100+"%")
         })
     },
 })

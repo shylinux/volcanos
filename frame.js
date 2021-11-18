@@ -230,7 +230,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var ui = can.page.Append(can, target, [{view: [type, html.DIV, item.nick||item.name],
             onclick: function(event) { cb(event, ui.first)
                 can.onmotion.select(can, target, can.core.Keys(html.DIV, type), ui.first)
-            }, oncontextmenu: function(event) { cbs(event, ui.first) },
+            }, onmouseenter: function(event) { cbs(event, ui.first) },
         }]); return ui.first
     },
     tree: function(can, list, field, split, cb, target, node) {
@@ -615,7 +615,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
         can.base.isFunc(cb) && cb(target)
     },
     show: function(can, time, cb, target) { target = target||can._target
-        time = can.base.isObject(time)? time: {value: 10, length: time||20}
+        time = can.base.isObject(time)? time: {interval: 100, length: time||20}
 
         can.page.Modify(can, target, {style: {opacity: 0, display: html.BLOCK}})
         can.core.Timer(time, function(event, value, index) {

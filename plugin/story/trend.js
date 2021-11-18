@@ -8,6 +8,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.Action("speed", parseInt(msg.Option("speed")||"100"))
 
         can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
+            can.page.ClassList.add(can, can._fields, "draw")
             can.onimport._show(can, msg), can.onmotion.hidden(can, can.ui.project)
             can.onaction[can.Action("view")](event, can)
         })

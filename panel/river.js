@@ -88,11 +88,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     },
 
     carte: function(event, can, list, cb) {
-        var carte = can.user.carte(event, can, can.ondetail, list, cb)
-        can.page.Modify(can, carte._target, {style: {
-            left: event.clientX-event.offsetX+event.target.offsetWidth-3,
-            top: carte._target.offsetTop-event.target.offsetHeight,
-        }})
+        can.user.cartes(event, can, can.ondetail, list, cb)
     },
     storm: function(event, can, river) { can.sublist = can.sublist||{}
         can.onmotion.select(can, can._output, "div.item", can.river_list[river])

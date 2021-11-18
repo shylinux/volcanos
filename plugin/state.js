@@ -167,6 +167,7 @@ Volcanos("onaction", {help: "交互操作", list: [
     },
 
     "参数": function(event, can) { can.onmotion.toggle(can, can._action) },
+    actions: function(event, can) { can.onmotion.toggle(can, can._action) },
     clear: function(event, can, name) { can.onmotion.clear(can, can._output) },
     close: function(event, can) { can.page.Remove(can, can._target) },
     upload: function(event, can) { can.user.upload(event, can) },
