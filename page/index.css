@@ -110,6 +110,45 @@ input[name=cmd]:hover {
     background-color:white; color:black;
 }
 
+table.layout td.content {
+    position:relative;
+}
+
+table.layout div.toggle>div {
+    display: table-cell;
+    vertical-align: middle;
+    height:95px;
+    color:white;
+}
+table.layout div.toggle {
+    position:absolute; top:20%;
+    background:#e1aeae45;
+    height:100px;
+}
+table.layout div.toggle.display>div {
+    height:20px; width:100px;
+    text-align:center;
+    color:white;
+}
+table.layout div.toggle.display {
+    margin-top:-10px;
+    height:10px; width:100px;
+    position:sticky; left:20%;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+}
+table.layout div.toggle.project {
+    left:0px;
+    min-width:10px;
+    border-top-right-radius:10px;
+    border-bottom-right-radius:10px;
+}
+table.layout div.toggle.profile {
+    right:0px;
+    min-width:10px;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+}
 table.layout {
     margin:0; border:0; padding:0;
     border-spacing:0;

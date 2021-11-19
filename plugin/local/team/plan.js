@@ -165,7 +165,7 @@ Volcanos("onaction", {help: "组件交互", list: [
     ],
     insertTask: function(event, can, time) { var msg = can.sup.request(event, {begin_time: time})
         can.user.input(event, can, can.Conf("feature.insert"), function(event, button, data, list) {
-            can.run(event, can.base.Simple(ctx.ACTION, mdb.INSERT, "begin_time", time, data), true)
+            can.run(event, can.base.Simple(ctx.ACTION, mdb.INSERT, data, "begin_time", time), true)
         })
     },
     modifyTask: function(event, can, task, key, value) { var msg = can.request(event, task)

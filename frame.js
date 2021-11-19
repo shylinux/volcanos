@@ -469,12 +469,29 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         ]}] }])
     },
     profile: function(can, target) { target = target||can._output
+        var gt = "&#10095;", lt = "&#10094;"
+        var down = "&#709;", up = "&#708;"
         return can.page.Append(can, target, [{view: [chat.LAYOUT, html.TABLE], list: [
-            {view: [chat.PROJECT, html.TD], list: [{view: [chat.PROJECT]}]},
+            {view: [chat.PROJECT, html.TD], list: [
+                {view: [chat.PROJECT]},
+            ]},
             {type: html.TD, list: [
                 {type: html.TR, list: [{type: html.TR, list: [
-                    {view: [chat.CONTENT, html.TD], list: [{view: [chat.CONTENT]}]},
-                    {view: [chat.PROFILE, html.TD], list: [{view: [chat.PROFILE], style: {display: html.NONE}}]},
+                    {view: [chat.CONTENT, html.TD], list: [
+                        {view: [chat.CONTENT]},
+                        {view: ["toggle project"], list: [{text: [gt, "div"]}], onclick: function(event) {
+                            event.target.innerHTML = can.onmotion.toggle(can, can.ui.project)? lt: gt
+                        }},
+                        {view: ["toggle profile"], list: [{text: [lt, "div"]}], onclick: function(event) {
+                            event.target.innerHTML = can.onmotion.toggle(can, can.ui.profile)? gt: lt
+                        }},
+                        {view: ["toggle display"], list: [{text: [down, "div"]}], onclick: function(event) {
+                            event.target.innerHTML = can.onmotion.toggle(can, can.ui.display)? down: up
+                        }},
+                    ]},
+                    {view: [chat.PROFILE, html.TD], list: [
+                        {view: [chat.PROFILE], style: {display: html.NONE}},
+                    ]},
                 ]}]},
                 {view: [chat.DISPLAY, html.TR], list: [{view: [chat.DISPLAY], style: {display: html.NONE}}]}
             ]}

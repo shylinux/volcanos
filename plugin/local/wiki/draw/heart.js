@@ -20,7 +20,7 @@ Volcanos("heart", {help: "心形", list: [],
             return target.Val("yy")+tt.ty
         },
     }, // <heart cx="25" cy="75" r="20"/>
-    draw: function(event, can, point) {if (point.length < 2) {return}
+    draw: function(event, can, point) { if (point.length < 2) {return}
 
         var p0 = point[0], p1 = point[1], p2 = point[2];
         pl = {x: 2*p0.x - p1.x, y:2*p0.y-p1.y}

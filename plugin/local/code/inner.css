@@ -12,6 +12,9 @@ fieldset.inner>div.action div.file.select {
 fieldset.inner>div.output {
     color:white;
 }
+fieldset.inner div.output div.toggle {
+    display:none;
+}
 fieldset.inner>div.output div.project {
     font-size:14px; font-family:monospace;
     max-width:180px; overflow:auto;

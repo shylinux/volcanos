@@ -1,7 +1,7 @@
 Volcanos("onfigure", {help: "图形绘制", list: [],
-    path: { //  <path d="M10 10 H 90 V 90 H 10 Z" stroke="black" fill="transparent"/>
-        data: {size: {}, copy: ["d", "name", "meta", "tt", "xx", "yy"],
-            x: function(event, can, value, cmd, target) {
+    path: { //  <path d="M10 10 H 90 V 90 H 10 Z"/>
+        data: {size: {}, copy: ["d", "tt", "xx", "yy"],
+            x: function(can, value, cmd, target) {
                 var tt = JSON.parse(target.Value("tt")||'{"tx":0, "ty":0}')
                 if (value != undefined) {
                     tt.tx = value-target.Val("xx")
@@ -10,7 +10,7 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
                 }
                 return target.Val("xx")+tt.tx
             },
-            y: function(event, can, value, cmd, target) {
+            y: function(can, value, cmd, target) {
                 var tt = JSON.parse(target.Value("tt")||'{"tx":0, "ty":0}')
                 if (value != undefined) {
                     tt.ty = value-target.Val("yy")
@@ -23,7 +23,7 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         draw: function(event, can, point, style) {
             if (style && style.d) { return style }
             if (point.length == 1) { can._temp = {} }
-            if (point.length < 2) {return}
+            if (point.length < 2) { return }
 
             if (can.keys && can.keys.length > 0) { var k;
                 k = can._temp[point.length-1] = can.keys[0]
