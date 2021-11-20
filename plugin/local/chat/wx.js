@@ -22,11 +22,7 @@ Volcanos("onaction", {source: function(can, msg) {
                 } }) },
             }, function(key, value) { return can.user.agent[key] = value, key }),
         })
-        wx.ready(function() {
-            can.misc.Log("ready")
-        })
-        wx.error(function(err) {
-            can.misc.Log("what", err)
-        })
+        wx.error(function(err) { can.user.toast(err, "wx load") })
+        wx.ready(function() { can.misc.Log("ready") })
     })
 }})

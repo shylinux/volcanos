@@ -107,6 +107,7 @@ var chat = {
     HEAD: "head", LEFT: "left", MAIN: "main", AUTO: "auto", FOOT: "foot",
     LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile",
     SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
+    OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 
     HEADER: "header", FOOTER: "footer",
     ONMAIN: "onmain", ONSIZE: "onsize", ONLOGIN: "onlogin", ONSEARCH: "onsearch",

@@ -198,13 +198,14 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     },
     shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, kit.MDB_TYPE, aaa.LOGIN]) },
     setnick: function(event, can) {
-        can.user.input(event, can, [{name: aaa.USERNICK, value: can.Conf(aaa.USERNICK)}], function(ev, button, data, list, args) {
+        var ui = can.user.input(event, can, [{name: aaa.USERNICK, value: can.Conf(aaa.USERNICK)}], function(ev, button, data, list, args) {
             can.run(event, [aaa.USERNICK, list[0]], function(msg) {
                 can.page.Select(can, can._output, can.core.Keys(html.DIV, aaa.USERNICK), function(item) {
                     can.page.Modify(can, item, can.Conf(aaa.USERNICK, list[0]))
                 }), can.user.toast(can, "修改成功")
             }, true)
         })
+        can.user.isMobile && can.page.Modify(can, ui._target, {style: {top: 40, right: 0, left: ""}})
     },
     chinese: function(event, can) { can.user.Search(can, aaa.LANGUAGE, "zh") },
     english: function(event, can) { can.user.Search(can, aaa.LANGUAGE, "en") },
