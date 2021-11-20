@@ -32,9 +32,10 @@ div.story {
 }
 div.story[data-type=spark] {
     background-color:#2169a9a6; color:white;
-    box-shadow: 4px 4px 10px 1px #626bd0;
+    box-shadow:4px 4px 10px 1px #626bd0;
     padding:4px 10px; margin:10px 0px;
     border-left:solid 4px blue;
+    font-family:monospace;
     white-space:pre;
     cursor:copy;
 }

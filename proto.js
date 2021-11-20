@@ -84,6 +84,7 @@ var ssh = {
 }
 var nfs = {
     PATH: "path", FILE: "file", LINE: "line",
+    TRASH: "trash",
     DIR: "dir", CAT: "cat",
     DIR_ROOT: "dir_root",
 }
@@ -134,6 +135,7 @@ var html = {
 
     INPUT: "input", INPUT_ARGS: ".args", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
     FORM: "form", FILE: "file", SPACE: "space", CLICK: "click",
+    SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
 
     TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br",
     DIV: "div", IMG: "img", CODE: "code", SPAN: "span", VIDEO: "video",
