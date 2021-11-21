@@ -221,6 +221,15 @@ legend {
 fieldset {
     margin:0; border:0; padding:0;
 }
+fieldset>div.legend {
+    float:left; padding:0 10px; margin-right:3px;
+    height:25px; font-size:18px;
+    background-color:darkcyan;
+    cursor:pointer;
+}
+fieldset>div.legend {
+    background-color:honeydew;
+}
 fieldset>form.option {
     float:left;
     display:contents;

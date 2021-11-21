@@ -130,7 +130,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             sub.page.ClassList.add(sub, field, meta.style||meta.feature.style||"")
 
             sub.page.Modify(sub, sub._legend, {onmouseenter: function(event) {
-                sub.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["所有 ->"].concat(can.core.Item(meta.feature._trans))]))
+                sub.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["所有 ->"].concat(can.core.Item(meta.feature._trans))], ["close"]))
             }})
 
             meta.inputs && sub.onappend._option(sub, meta, sub._option)
@@ -157,7 +157,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
                 (item.action||meta.feature["inputs"]) && can.onappend.figure(input, item, input._target)
             })
-        }; can.core.Next(can.base.Obj(meta.inputs, []), add)
+        }; can.core.Next(can.base.Obj(meta.inputs, []).concat(meta.type == chat.FLOAT? [{type: html.BUTTON, name: cli.CLOSE}]: []), add)
     },
     _action: function(can, list, action, meta) { action = action||can._action, meta = meta||can.onaction
         can.core.List(list||can.onaction.list, function(item) { can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
@@ -249,7 +249,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var title = !item.help || can.user.language(can) == "en"? name: name+"("+item.help.split(ice.SP)[0]+")"
         return can.page.Append(can, target||can._output, [{view: [can.base.join([type||"", item.name||"", item.pos||""]), html.FIELDSET], list: [
             name && {text: [title, html.LEGEND]},
-            can.user.mod.isCmd && type == chat.PLUGIN && {view: [html.LEGEND, html.DIV, title]},
+            (can.user.mod.isCmd && type == chat.PLUGIN || type == chat.FLOAT) && {view: [html.LEGEND, html.DIV, title]},
             {view: [html.OPTION, html.FORM]}, {view: [html.ACTION]}, {view: [html.OUTPUT]}, {view: [html.STATUS]},
         ]}])
     },

@@ -24,7 +24,7 @@ var ice = {
 
     TRUE: "true", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
 
-    AUTO: "auto",
+    AUTO: "auto", VIEW: "view",
     COPY: "copy", SHOW: "show", HIDE: "hide", MODE: "mode", SHIP: "ship",
 
     MSG_USERNAME: "user.name",
@@ -60,7 +60,7 @@ var cli = {
     CLEAR: "clear", REFRESH: "refresh",
 
     RED: "red", GREEN: "green", BLUE: "blue",
-    YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple",
+    YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta",
     WHITE: "white", BLACK: "black",
 }
 var web = {
@@ -130,6 +130,9 @@ var mall = {
     ASSET: "asset", SALARY: "salary",
 }
 
+var svg = {
+    M: "M", Q: "Q", T: "T",
+}
 var html = {
     FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
     FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
@@ -140,7 +143,7 @@ var html = {
 
     TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br",
     DIV: "div", IMG: "img", CODE: "code", SPAN: "span", VIDEO: "video",
-    SVG: "svg", G: "g", X: "x", Y: "y", R: "r",
+    SVG: "svg", G: "g", X: "x", Y: "y", R: "r", RECT: "rect",
     LABEL: "label", INNER: "inner",
 
     CLASS: "class", BLOCK: "block", NONE: "none",
@@ -202,12 +205,12 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
             }
 
             if (!libs[0]) { return can.require(libs.slice(1), cb, each) }
-
             libs[0] = libs[0].toLowerCase()
 
             // 请求模块
-            function next() { can._load(libs[0], each), can.require(libs.slice(1), cb, each) }
-            meta.cache[libs[0]]? next(): meta._load(libs[0], next)
+            var name = libs[0].split("?")[0]
+            function next() { can._load(name, each), can.require(libs.slice(1), cb, each) }
+            meta.cache[name]? next(): (_can_path = libs[0], meta._load(name, next))
         },
         request: function(event, option) { event = event||{}
             var msg = event._msg||can.misc.Message(event, can); event._msg = msg
@@ -260,7 +263,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
     }
     return can.require(libs, cb), can
 })
-Volcanos.meta._load = function(url, cb) { _can_path = url
+Volcanos.meta._load = function(url, cb) {
     switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
         case "css":
             var item = document.createElement(kit.MDB_LINK)

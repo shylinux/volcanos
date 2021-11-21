@@ -109,7 +109,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         var figure = can.onfigure[value.shape]
         var data = figure.draw(event, can, value.point, value.style)
         can.core.Item(value.style, function(key, value) { data[key] = value })
-        var item = can.onfigure._push(can, value.shape, data, can.group||can.svg)
+        var item = can.onfigure._push(can, figure.data.name||value.shape, data, can.group||can.svg)
         can.core.ItemCB(value, function(key, cb) { item[key] = cb })
         can.onimport._block(can, item), can.onfigure._pid(can, item)
         return value._init && value._init(item), item

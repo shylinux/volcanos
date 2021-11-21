@@ -1,5 +1,23 @@
 Volcanos("onfigure", {help: "图形绘制", list: [],
-    path: { //  <path d="M10 10 H 90 V 90 H 10 Z"/>
+    path2v: { // <path d="M x0,y0 Q x2,y2 x3,y3 T x1,y1"/>
+        data: {name: "path", size: {}, copy: []},
+        draw: function(event, can, point) {
+            function line(p0, p1) { return can.base.joins([
+                svg.M, [p0.x, p0.y], svg.Q, [p0.x, p0.y+(p1.y-p0.y)/3], [(p0.x+p1.x)/2, (p0.y+p1.y)/2], svg.T, [p1.x, p1.y]
+            ]) }
+            return {fill: html.NONE, d: line(point[0], point[1])}
+        },
+    },
+    path2h: { // <path d="M x0,y0 Q x2,y2 x3,y3 T x1,y1"/>
+        data: {name: "path", size: {}, copy: []},
+        draw: function(event, can, point) {
+            function line(p0, p1) { return can.base.joins([
+                svg.M, [p0.x, p0.y], svg.Q, [p0.x+(p1.x-p0.x)/3, p0.y], [(p0.x+p1.x)/2, (p0.y+p1.y)/2], svg.T, [p1.x, p1.y]
+            ]) }
+            return {fill: html.NONE, d: line(point[0], point[1])}
+        },
+    },
+    path: { // <path d="M10 10 H 90 V 90 H 10 Z"/>
         data: {size: {}, copy: ["d", "tt", "xx", "yy"],
             x: function(can, value, cmd, target) {
                 var tt = JSON.parse(target.Value("tt")||'{"tx":0, "ty":0}')
