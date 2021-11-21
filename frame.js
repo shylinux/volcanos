@@ -61,7 +61,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
         arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
     }),
     signal: shy("触发事件", function(can, name, msg) { msg = msg||can.request()
-        can.misc.Log("signal", name, msg)
+        name == "onremote"? can.misc.Log("signal", name, msg.Option("_msg")): can.misc.Log("signal", name, msg)
         can.core.List(can.onengine.listen.meta[name], function(cb) {
             can.core.CallFunc(cb, {msg: msg})
         })

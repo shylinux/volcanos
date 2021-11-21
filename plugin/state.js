@@ -98,6 +98,7 @@ Volcanos("onaction", {help: "交互操作", list: [
 
         var msg = can.request(event, {link: can.user.MergeURL(can, args)})
         can.search(event, ["Header.onaction.share"])
+        can.user.copy(event, can, msg.Option("link"))
     },
     "生成脚本": function(event, can, button) { var conf = can.Conf()
         var args = can.Input("", true).join(ice.SP); var list = [

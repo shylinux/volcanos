@@ -6,7 +6,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._tree = can.onimport._tree(can, msg.Table(), can._args.field, can._args.split)
         if (!can._tree[""]) { return }
         can.dir_root = msg.Option(nfs.DIR_ROOT)||can._args.root
-        can._tree[""].name = can.dir_root.split(can._args.split).slice(-2)[0]
+        can._tree[""].name = can.dir_root.split(ice.PS).slice(-2)[0]
 
         can.size = 30, can.margin = 30
         can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
@@ -155,10 +155,8 @@ Volcanos("ondetail", {help: "用户交互", list: [],
     plugin: function(can, index, args, prefix) {
         can.onappend.plugin(can, {type: chat.FLOAT, index: index, args: args}, function(sub) {
             sub.run = function(event, cmds, cb) {
-                can.run(event, can.misc.Concat(prefix, cmds), function(msg) {
-                    can.ondetail.figure(can, sub, msg, cb)
-                }, true)
-            }
+                can.run(event, can.misc.Concat(prefix, cmds), cb, true)
+            }, can.ondetail.figure(can, sub)
         })
     },
     figure: function(can, sub, msg, cb) {

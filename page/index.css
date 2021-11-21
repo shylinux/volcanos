@@ -227,9 +227,6 @@ fieldset>div.legend {
     background-color:darkcyan;
     cursor:pointer;
 }
-fieldset>div.legend {
-    background-color:honeydew;
-}
 fieldset>form.option {
     float:left;
     display:contents;
@@ -572,6 +569,9 @@ body.white table input[type=button][value=启动] {
     background:#52ce78;
 }
 
+body.white fieldset>div.legend {
+    background-color:honeydew;
+}
 body.white fieldset>div.status>div.item>label {
     font-size:10px; color:#cefbfbe0;
 }
