@@ -634,7 +634,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
         can.base.isFunc(cb) && cb(target)
     },
     show: function(can, time, cb, target) { target = target||can._target
-        time = can.base.isObject(time)? time: {interval: 100, length: time||20}
+        time = can.base.isObject(time)? time: {interval: 10, length: time||30}
 
         can.page.Modify(can, target, {style: {opacity: 0, display: html.BLOCK}})
         can.core.Timer(time, function(event, value, index) {
