@@ -102,9 +102,8 @@ Volcanos("onaction", {help: "交互操作", list: [
     },
     "生成脚本": function(event, can, button) { var conf = can.Conf()
         var args = can.Input("", true).join(ice.SP); var list = [
-            "export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -fsSL $ctx_dev -o $ctx_temp;"+
-            " source $ctx_temp "+(conf.index||"")+ice.SP+args, "ish_sys_dev_run_command "+args,
-            "ish_sys_dev_run_action", "ish_sys_dev_run_source",
+            "export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -fsSL $ctx_dev -o $ctx_temp;"+" source $ctx_temp "+(conf.index||"")+ice.SP+args,
+            "ish_sys_dev_run_command "+args, "ish_sys_dev_run_action", "ish_sys_dev_run_source",
         ]
         var ui = can.user.toast(can, {title: button, duration: -1, width: -300,
             content: '<div class="story" data-type="spark", data-name="shell">'+
@@ -112,6 +111,7 @@ Volcanos("onaction", {help: "交互操作", list: [
             action: [cli.CLOSE],
         })
         can.onmotion.story.auto(can, ui._target)
+        can.user.copy(event, can, list[0])
     },
     "保存参数": function(event, can) { var meta = can.Conf()
         var msg = can.request(event, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), id: meta.id})
