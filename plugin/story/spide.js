@@ -3,10 +3,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         if (msg.Option("branch")) { return can.onappend.table(can, msg) }
 
         can._args = can.base.Copy({root: "root", field: nfs.PATH, split: ice.PS}, can.base.ParseURL(can._display))
+        can.dir_root = msg.Option(nfs.DIR_ROOT)||can._args.root||""
         can._tree = can.onimport._tree(can, msg.Table(), can._args.field, can._args.split)
         if (!can._tree[""]) { return }
-        can.dir_root = msg.Option(nfs.DIR_ROOT)||can._args.root
-        can._tree[""].name = can.dir_root.split(ice.PS).slice(-2)[0]
+        can._tree[""].name = can._args.root||can.dir_root.split(ice.PS).slice(-2)[0]
 
         can.size = 30, can.margin = 30
         can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
@@ -18,8 +18,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
 
     _tree: function(can, list, field, split) {
-        var node = {}; can.core.List(list, function(item) {
-            item[field] && can.core.List(item[field].split(split), function(value, index, array) {
+        var node = {}; can.core.List(list, function(item) { if (!item[field]) { return }
+            can.core.List(can.base.trimPrefix(item[field], can.dir_root+can._args.split).split(split), function(value, index, array) {
                 var last = array.slice(0, index).join(split)||"", name = array.slice(0, index+1).join(split)
                 if (!value || node[name]) { return }
 

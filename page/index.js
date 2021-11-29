@@ -102,7 +102,7 @@ Volcanos({name: "chat", panels: [
         }},
         profile: {name: "测试群", storm: {
             release: {name: "发布 release", index: [
-                "web.code.publish", "web.code.compile", "web.code.autogen",
+                "web.code.publish", "web.code.compile", "web.code.autogen", "web.code.git.server",
             ]},
             research: {name: "测试 research", index: [
                 "web.code.favor", "web.code.bench", "web.code.pprof",
@@ -111,7 +111,7 @@ Volcanos({name: "chat", panels: [
         }},
         operate: {name: "运维群", storm: {
             aaa: {name: "权限 aaa", index: [
-                "user", "sess", "role", "totp",
+                "user", "sess", "totp",
             ]},
             web: {name: "应用 web", index: [
                 "spide", "route", "share", "dream",
