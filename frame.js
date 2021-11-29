@@ -333,8 +333,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     plugin: function(can, meta, cb, target) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)
         var res = {}; function cbs(sub, meta, skip) { res.__proto__ = sub, cb(sub, meta, skip) }
-        meta.inputs && meta.inputs.length > 0? can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, cbs, target):
-            can.run({}, [ctx.ACTION, ctx.COMMAND, meta.index], function(msg) { msg.Table(function(value) {
+        (meta.meta || meta.inputs && meta.inputs.length > 0)? can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, cbs, target):
+            can.run(can.request({}, meta)._event, [ctx.ACTION, ctx.COMMAND, meta.index], function(msg) { msg.Table(function(value) {
                 can.onappend._plugin(can, value, meta, cbs, target)
             }) }, true)
         return res

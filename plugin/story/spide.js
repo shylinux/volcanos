@@ -68,7 +68,7 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", [ice.VIEW, "横向"
         can.sup.view = "横向", can.onmotion.clear(can, can.svg)
 
         can.svg.Val(chat.HEIGHT, can._tree[""].height*can.size+2*can.margin)
-        can.width = 0, can.onaction._draw(can, can._tree[""], can.margin, can.margin)
+        can.width = 0, can.onaction._draw_horizontal(can, can._tree[""], can.margin, can.margin)
         can.svg.Val(chat.WIDTH, can.width+can.margin)
     },
     "纵向": function(event, can) {
@@ -79,13 +79,16 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", [ice.VIEW, "横向"
         can.height = 0, can.onaction._draw_vertical(can, can._tree[""], can.margin, can.margin+can.size)
         can.svg.Val(chat.HEIGHT, can.height+can.margin)
     },
-    _draw_vertical: function(can, tree, x, y) { tree.x = x, tree.y = y
+    _draw: function(can, tree, x, y, style) {
         var color = can.onimport._color(can, tree)
         tree.view = can.onimport.draw({}, can, {
-            shape: html.TEXT, point: [{x: x+tree.width/2, y: y}], style: {
-                stroke: color, fill: color, "text-anchor": "middle", inner: tree.name,
-            },
+            shape: html.TEXT, point: [{x: x, y: y}], style: can.base.Copy({
+                stroke: color, fill: color, "text-anchor": "start", inner: tree.name||tree.file,
+            }, style),
         }), can.core.ItemCB(can.ondetail, tree.view, can, tree)
+    },
+    _draw_vertical: function(can, tree, x, y) { tree.x = x, tree.y = y
+        can.onaction._draw(can, tree, x+tree.width/2, y, {"text-anchor": "middle"})
 
         tree.height = can.size
         if (y+tree.height > can.height) { can.height = y+tree.height }
@@ -101,13 +104,8 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", [ice.VIEW, "横向"
             offset += item.width
         })
     },
-    _draw: function(can, tree, x, y) { tree.x = x, tree.y = y
-        var color = can.onimport._color(can, tree)
-        tree.view = can.onimport.draw({}, can, {
-            shape: html.TEXT, point: [{x: x, y: y+tree.height*can.size/2}], style: {
-                stroke: color, fill: color, "text-anchor": "start", inner: tree.name,
-            },
-        }), can.core.ItemCB(can.ondetail, tree.view, can, tree)
+    _draw_horizontal: function(can, tree, x, y) { tree.x = x, tree.y = y
+        can.onaction._draw(can, tree, x, y+tree.height*can.size/2, {"text-anchor": "start"})
 
         tree.width = tree.view.Val("textLength")
         if (x+tree.width > can.width) { can.width = x+tree.width }
@@ -119,7 +117,7 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", [ice.VIEW, "横向"
                 {x: x+tree.width+can.margin*2-2*can.margin/8, y: y+offset+item.height*can.size/2}
             ], style: {stroke: cli.CYAN}})
 
-            can.onaction._draw(can, item, x+tree.width+2*can.margin, y+offset)
+            can.onaction._draw_horizontal(can, item, x+tree.width+2*can.margin, y+offset)
             offset += item.height*can.size
         })
     },
@@ -138,23 +136,34 @@ Volcanos("ondetail", {help: "用户交互", list: [],
             return tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)](event, can)
         }
 
-        can.run(event, (can._args.prefix? [can._args.prefix]: []).concat([can.Option(kit.MDB_NAME)||"", tree.file||"", tree.name]), function(msg) {
+        for (var node = tree; node; node = node.last) {
+            can.request(event, node.meta)
+        }
+        can.request(event, can.Option())
+        can.run(event, can.base.Obj(can._args.prefix, []).concat([can.Option(kit.MDB_NAME)||"", tree.file||"", tree.name]), function(msg) {
             if (msg.Length() == 0) {
-                return can.ondetail.plugin(can, "web.code.inner", [can.dir_root, tree.file, tree.line], [ctx.ACTION, "inner"])
+                return can.ondetail.plugin(can, tree, {}, "web.code.inner", [can.dir_root, tree.file, tree.line], [ctx.ACTION, "inner"])
             }
             if (msg.Append(kit.MDB_INDEX)) { msg.Table(function(value) {
-                can.ondetail.plugin(can, value.index, [], [ctx.ACTION, ice.RUN, value.index])
+                can.ondetail.plugin(can, tree, value, value.index, [], [ctx.ACTION, ice.RUN, value.index])
             }); return }
 
-            msg.Table(function(value) { tree.tags = true
-                tree.list.push({type: "tags", file: value.file, line: value.line, name: value.name, last: tree, list: []})
+            msg.Table(function(item) { tree.tags = true
+                tree.list.push({
+                    type: "tags", name: item.name||item.file||item[msg.append[0]],
+                    meta: item, list: [], last: tree,
+                    file: item.file, line: item.line, hide: true,
+                })
             }), tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)](event, can)
         }, true)
     },
 
-    plugin: function(can, index, args, prefix) {
-        can.onappend.plugin(can, {type: chat.FLOAT, index: index, args: args}, function(sub) {
-            sub.run = function(event, cmds, cb) {
+    plugin: function(can, tree, value, index, args, prefix) {
+        for (var node = tree; node; node = node.last) {
+            can.base.Copy(value, node.meta)
+        }
+        can.onappend.plugin(can, can.base.Copy(value, {type: chat.FLOAT, index: index, args: args}), function(sub) {
+            sub.run = function(event, cmds, cb) { can.request(event, value, can.Option())
                 can.run(event, can.misc.Concat(prefix, cmds), cb, true)
             }, can.ondetail.figure(can, sub)
         })
