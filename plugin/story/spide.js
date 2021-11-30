@@ -1,12 +1,11 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
-        if (msg.Option("branch")) { return can.onappend.table(can, msg) }
 
-        can._args = can.base.Copy({root: "root", field: nfs.PATH, split: ice.PS}, can.base.ParseURL(can._display))
+        can._args = can.base.Copy({root: "ice", field: msg.append[0], split: ice.PS}, can.base.ParseURL(can._display))
         can.dir_root = msg.Option(nfs.DIR_ROOT)||can._args.root||""
         can._tree = can.onimport._tree(can, msg.Table(), can._args.field, can._args.split)
         if (!can._tree[""]) { return }
-        can._tree[""].name = can._args.root||can.dir_root.split(ice.PS).slice(-2)[0]
+        can._tree[""].name = can._args.root
 
         can.size = 30, can.margin = 30
         can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
@@ -26,7 +25,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 node[last] = node[last]||{name: last, meta: {}, list: []}
                 node[last].list.push(node[name] = {
                     name: value+(index==array.length-1? "": split),
-                    meta: item, list: [], last: last,
+                    meta: item, list: [], last: node[last],
                     file: item[field]||item.file, hide: true,
                 })
             })
@@ -139,7 +138,7 @@ Volcanos("ondetail", {help: "用户交互", list: [],
         for (var node = tree; node; node = node.last) {
             can.request(event, node.meta)
         }
-        can.request(event, can.Option())
+        var msg = can.request(event, can.Option())
         can.run(event, can.base.Obj(can._args.prefix, []).concat([can.Option(kit.MDB_NAME)||"", tree.file||"", tree.name]), function(msg) {
             if (msg.Length() == 0) {
                 return can.ondetail.plugin(can, tree, {}, "web.code.inner", [can.dir_root, tree.file, tree.line], [ctx.ACTION, "inner"])
@@ -148,13 +147,18 @@ Volcanos("ondetail", {help: "用户交互", list: [],
                 can.ondetail.plugin(can, tree, value, value.index, [], [ctx.ACTION, ice.RUN, value.index])
             }); return }
 
-            msg.Table(function(item) { tree.tags = true
-                tree.list.push({
+            tree.tags = true
+            if (msg.Option("split")) {
+                tree.list = can.onimport._tree(can, msg.Table(), msg.Option("field")||msg.append[0], msg.Option("split"))[""].list||[]
+                can.core.List(tree.list, function(item) { item.last = tree })
+            } else {
+                msg.Table(function(item) { tree.list.push({
                     type: "tags", name: item.name||item.file||item[msg.append[0]],
                     meta: item, list: [], last: tree,
                     file: item.file, line: item.line, hide: true,
-                })
-            }), tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)](event, can)
+                }) })
+            }
+            tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)](event, can)
         }, true)
     },
 
