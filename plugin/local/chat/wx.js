@@ -6,7 +6,7 @@ Volcanos("onaction", {source: function(can, msg) {
 
             jsApiList: can.core.Item({
                 scanQRCode: function(cb) { wx.scanQRCode({needResult: cb? 1: 0, scanType: ["qrCode","barCode"], success: function (res) {
-                    can.base.isFunc(cb) && cb(res.resultStr, can.base.parseJSON(res.resultStr))
+                    can.base.isFunc(cb) && cb(res.resultStr, can.base.ParseJSON(res.resultStr))
                 } }) },
                 getLocation: function(cb) { wx.getLocation({type: "gcj02", success: function (res) {
                     can.base.isFunc(cb) && cb({type: "gcj02", name: "当前位置", text: "当前位置", latitude: parseInt(res.latitude*100000), longitude: parseInt(res.longitude*100000) })

@@ -27,15 +27,15 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
     _grant: function(can, msg, target) {
-        if (can.user.Search(can, chat.GRANT)) {
-            if (can.user.confirm(chat.GRANT+ice.SP+can.user.Search(can, chat.GRANT))) {
-                can.run(event, [ctx.ACTION, chat.GRANT, web.SPACE, can.user.Search(can, chat.GRANT)])
+        if (can.misc.Search(can, chat.GRANT)) {
+            if (can.user.confirm(chat.GRANT+ice.SP+can.misc.Search(can, chat.GRANT))) {
+                can.run(event, [ctx.ACTION, chat.GRANT, web.SPACE, can.misc.Search(can, chat.GRANT)])
             }
-            can.user.Search(can, chat.GRANT, "")
+            can.misc.Search(can, chat.GRANT, "")
         }
     },
     _title: function(can, msg, target) {
-        can.user.title(can.user.Search(can, chat.TITLE)||can.user.Search(can, ice.POD))
+        can.user.title(can.misc.Search(can, chat.TITLE)||can.misc.Search(can, ice.POD))
         !can.user.isMobile && can.core.List(msg.result||["shylinux.com/x/contexts"], function(item) {
             can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "返回主页", onclick: function(event) {
                 can.onaction.title(event, can)
@@ -161,16 +161,16 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
 
     title: function(event, can) {
         var args = {}; can.core.List([chat.TITLE, chat.TOPIC, chat.LAYOUT], function(key) {
-            var value = can.user.Search(can, key); value && (args[key] = value)
+            var value = can.misc.Search(can, key); value && (args[key] = value)
         })
-        can.user.jumps(can.user.MergeURL(can, args, true))
+        can.user.jumps(can.misc.MergeURL(can, args, true))
     },
     river: function(event, can) { can.onaction.River(can) },
 
     black: function(event, can, button) { can.onlayout.topic(can, button), can.onlayout._init(can) },
     white: function(event, can, button) { can.onlayout.topic(can, button), can.onlayout._init(can) },
     print: function(event, can, button) { can.onlayout.topic(can, can.base.join([chat.WHITE, button]))
-        can.set("River", chat.HEIGHT, -1), can.set("Action", chat.HEIGHT, -1)
+        can.set("River", html.HEIGHT, -1), can.set("Action", html.HEIGHT, -1)
     },
     webpack: function(event, can) {
         can.user.input(event, can, [{name: kit.MDB_NAME, value: can.user.title()}], function(ev, button, meta, list) {
@@ -202,13 +202,13 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
             can.run(event, [aaa.USERNICK, list[0]], function(msg) {
                 can.page.Select(can, can._output, can.core.Keys(html.DIV, aaa.USERNICK), function(item) {
                     can.page.Modify(can, item, can.Conf(aaa.USERNICK, list[0]))
-                }), can.user.toast(can, "修改成功")
+                }), can.user.toastSuccess(can)
             }, true)
         })
         can.user.isMobile && can.page.Modify(can, ui._target, {style: {top: 40, right: 0, left: ""}})
     },
-    chinese: function(event, can) { can.user.Search(can, aaa.LANGUAGE, "zh") },
-    english: function(event, can) { can.user.Search(can, aaa.LANGUAGE, "en") },
+    chinese: function(event, can) { can.misc.Search(can, aaa.LANGUAGE, "zh") },
+    english: function(event, can) { can.misc.Search(can, aaa.LANGUAGE, "en") },
     clear: function(event, can) { can.onimport.background(event, can, ""), can.onimport.avatar(event, can, ""), can.user.reload(true) },
     logout: function(event, can) { can.user.logout(can) },
 

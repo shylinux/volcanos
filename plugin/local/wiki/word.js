@@ -32,7 +32,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.page.Modify(can, can._output, {style: {float: "left", clear: "none"}})
 
         can.onappend.list(can, can.base.Obj(data.data), function(event, item) {
-            var link = item.meta.link, cmd = link.split("/").pop()
+            var link = item.meta.link, cmd = link.split(ice.PS).pop()
 
             can.onmotion.select(can, nav, "div.item", event.target)
             if (can.onaction[cmd]) { return can.onaction[cmd](event, can) }
@@ -94,7 +94,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         item.type = chat.PLUGIN
         can.onappend._init(can, item, ["/plugin/state.js"], function(sub) {
             sub.run = function(event, cmds, cb, silent) {
-                can.run(event, can.misc.Concat([ctx.ACTION, "story", data.type, data.name, data.text], cmds), cb, true)
+                can.run(event, can.misc.concat([ctx.ACTION, "story", data.type, data.name, data.text], cmds), cb, true)
             }
 
             sub.Conf("width", item.width=can.Conf("width")-20)
@@ -131,7 +131,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [],
 })
 Volcanos("onaction", {help: "控件交互", list: [],
     home: function(event, can) {
-        location.href = "/"
+        location.href = ice.PS
     },
 
     "play": function(event, can) { var list = [], current = []
@@ -207,7 +207,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
                 sub.page.Select(sub, page, "h1,h2,h3", function(item) { sub.Action("菜单", item.innerHTML) })
                 sub.onmotion.select(sub, sub.ui.project, "div.item", index)
                 sub.page.ClassList.add(sub, page, "select")
-                sub.Status("page", index+1+"/"+sub.list.length)
+                sub.Status("page", index+1+ice.PS+sub.list.length)
             } else {
                 sub.page.ClassList.del(sub, page, "select")
             }

@@ -18,7 +18,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         can.page.ClassList.add(can, can._target, "Action")
     },
     _plugin: function(can, item, next) {
-        item.height = window.innerHeight, item.width = window.innerWidth, item.opts = can.user.Search()
+        item.height = window.innerHeight, item.width = window.innerWidth, item.opts = can.misc.Search()
         can.onappend.plugin(can, item, function(sub, meta) { can.user.title(meta.name), next() })
     },
 })

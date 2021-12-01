@@ -13,7 +13,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.svg = can.group = can.onimport._block(can, svg), can.onimport._group(can, svg).click()
             can.core.ItemCB(can.onaction, function(key, cb) { svg[key] = function(event) { cb(event, can) } })
             can.page.Select(can, svg, "*", function(item, index) { can.onimport._block(can, item)
-                item.tagName == html.G && item.Value(html.CLASS) && can.onimport._group(can, item)
+                item.tagName == svg.G && item.Value(html.CLASS) && can.onimport._group(can, item)
             })
         })
         // 默认参数
@@ -52,7 +52,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         target.Val = function(key, value) {
             return parseInt(target.Value(key, value == undefined? value: parseInt(value)||0))||0
         }
-        target.Value = function(key, value) { if (typeof key == undefined) { return }
+        target.Value = function(key, value) { if (can.base.isUndefined(key)) { return }
             if (can.base.isObject(key)) { can.core.Item(key, target.Value); return }
 
             var figure = can.onfigure._get(can, target)
@@ -71,12 +71,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 || target[key]&&target[key].baseVal&&target[key].baseVal.value || target[key]&&target[key].baseVal || ""
         }
         target.Group = function() { var item = target
-            while (item) { if ([html.SVG, html.G].indexOf(item.tagName) > -1) { return item }; item = item.parentNode }
+            while (item) { if ([html.SVG, svg.G].indexOf(item.tagName) > -1) { return item }; item = item.parentNode }
             return can.svg
         }
         target.Groups = function() { var item = target
             var list = []; while (item && item.tagName != html.SVG) {
-                item.tagName == html.G && item.Value(html.CLASS) && list.push(item.Value(html.CLASS))
+                item.tagName == svg.G && item.Value(html.CLASS) && list.push(item.Value(html.CLASS))
                 item = item.parentNode
             }
             return list.reverse().join(ice.PT)
@@ -93,7 +93,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }})
 
         var figure = can.onfigure._get(can, target)
-        list = (list||[]).concat(figure.data.copy, [html.X, html.Y, kit.MDB_INDEX, kit.MDB_ARGS])
+        list = (list||[]).concat(figure.data.copy, [svg.X, svg.Y, kit.MDB_INDEX, kit.MDB_ARGS])
         can.page.Append(can, can.ui.profile, [{type: html.TABLE, className: "content", list: [
             {th: [kit.MDB_KEY, kit.MDB_VALUE]}, {td: [kit.MDB_TYPE, target.tagName]}, {td: ["pid", target.Value("pid")]},
         ].concat(can.core.List(list, function(key) {
@@ -132,8 +132,8 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
     _copy: function(event, can, target) {
         var data = {}, figure = can.onfigure._get(can, target), size = figure.data.size
         can.core.List(figure.data.copy, function(item) { data[item] = target.Value(item) })
-        data[size.x||html.X] = target.Val(size.x||html.X)+10
-        data[size.y||html.Y] = target.Val(size.y||html.Y)+10
+        data[size.x||svg.X] = target.Val(size.x||svg.X)+10
+        data[size.y||svg.Y] = target.Val(size.y||svg.Y)+10
         return can.onfigure._push(can, target.tagName, data, can.group||can.svg)
     },
     _move: function(can, target, list) {
@@ -161,7 +161,7 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         show: function(can, target, figure) { return can.onexport._position(can, target, figure) }
     },
     circle: { // <circle r="20" cx="25" cy="75"/>
-        data: {points: 2, size: {height: html.R, width: html.R, x: "cx", y: "cy"}, copy: [html.R]},
+        data: {points: 2, size: {height: svg.R, width: svg.R, x: "cx", y: "cy"}, copy: [svg.R]},
         draw: function(event, can, point) { if (point.length < 2) { return }
             var p0 = point[0], p1 = point[1]
             return {r: parseInt(Math.sqrt(Math.pow(p0.x-p1.x, 2)+Math.pow(p0.y-p1.y, 2))), cx: p0.x, cy: p0.y}
@@ -175,7 +175,7 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         },
     },
     rect: { // <rect height="30" width="30" ry="10" rx="10" x="60" y="10"/>
-        data: {points: 2, ry: 4, rx: 4, size: {}, copy: [chat.HEIGHT, chat.WIDTH, "ry", "rx"]},
+        data: {points: 2, ry: 4, rx: 4, size: {}, copy: [html.HEIGHT, html.WIDTH, "ry", "rx"]},
         draw: function(event, can, point) { if (point.length < 2) { return }
             var p0 = point[0], p1 = point[1]
             return {
@@ -183,13 +183,13 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
                 x: p0.x > p1.x? p1.x: p0.x, y: p0.y > p1.y? p1.y: p0.y,
             }
         },
-        text: function(can, data, target) { return data.x = target.Val(html.X)+target.Val(chat.WIDTH)/2, data.y = target.Val(html.Y)+target.Val(chat.HEIGHT)/2, data },
+        text: function(can, data, target) { return data.x = target.Val(svg.X)+target.Val(html.WIDTH)/2, data.y = target.Val(svg.Y)+target.Val(html.HEIGHT)/2, data },
     },
     block: { // <rect height="30" width="30" ry="10" rx="10" x="60" y="10"/>
-        data: {points: 2, ry: 4, rx: 4, size: {}, copy: [chat.HEIGHT, chat.WIDTH, "ry", "rx"]},
+        data: {points: 2, ry: 4, rx: 4, size: {}, copy: [html.HEIGHT, html.WIDTH, "ry", "rx"]},
         draw: function(event, can, point) { if (point.length < 2) { return }
             this._temp && can.page.Remove(can, this._temp) && delete(this._temp)
-            this._temp = can.onfigure._push(can, html.G, {}, can.group||can.svg)
+            this._temp = can.onfigure._push(can, svg.G, {}, can.group||can.svg)
 
             var rect = can.onfigure._push(can, "rect", can.onfigure.rect.draw(event, can, point), this._temp)
             if (event.type == html.CLICK) {
@@ -277,7 +277,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
     save: function(event, can, button) {
         var msg = can.request(event, {content: can.onexport.content(can, can.svg)})
         can.run(event, [ctx.ACTION, button, can.Option(nfs.PATH)], function(msg) {
-            can.user.toast(can, ice.SUCCESS, button)
+            can.user.toastSuccess(can)
         }, true)
     },
 
@@ -287,7 +287,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
     hide: function(event, can) { can.onmotion.hide(can, {interval: 100, length: 10}, null, can.group) },
     create: function(event, can) {
         can.user.prompt("group", function(name) {
-            var group = document.createElementNS('http://www.w3.org/2000/svg', html.G)
+            var group = document.createElementNS('http://www.w3.org/2000/svg', svg.G)
             can.group.append(group), can.onimport._block(can, group)
             group.Value(html.CLASS, name), can.core.List([html.STROKE_WIDTH, html.STROKE, html.FILL, html.FONT_SIZE], function(name) {
                 group.Value(name, can.Action(name))
@@ -321,9 +321,9 @@ Volcanos("onaction", {help: "组件菜单", list: [
         resize: function(event, can, point, target) { target = target||event.target
             if (event.type == html.CLICK) {
                 if (point.length == 1) {
-                    can.current = {target: target, begin: can.core.List([target], function(item) { if (item.tagName == html.G) { return }
+                    can.current = {target: target, begin: can.core.List([target], function(item) { if (item.tagName == svg.G) { return }
                         return {
-                            height: item.Val(chat.HEIGHT), width: item.Val(chat.WIDTH), x: item.Val(html.X), y: item.Val(html.Y),
+                            height: item.Val(html.HEIGHT), width: item.Val(html.WIDTH), x: item.Val(svg.X), y: item.Val(svg.Y),
                             target: item, ship: can.core.List(item.Value(ice.SHIP), function(ship) {
                                 return ship.pid && (ship.target = can.page.Select(can, can.svg, ice.PT+ship.pid)[0]) && ship
                             })
@@ -416,7 +416,7 @@ Volcanos("ondetail", {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY,
         can.onmotion.clear(can, can.ui.display), can.svg.Value("pid", target.Value("pid"))
         var index = target.Value(kit.MDB_INDEX); index && can.onappend.plugin(can, {type: chat.STORY, index: index, args: target.Value(kit.MDB_ARGS)}, function(sub) {
             sub.Conf("height", can.Conf("height")-can.svg.Val("height")-52), sub.Conf("width", can.Conf("width"))
-            sub.run = function(event, cmds, cb) { can.run(event, can.misc.Concat([ice.RUN, index], cmds), cb, true) }
+            sub.run = function(event, cmds, cb) { can.run(event, can.misc.concat([ice.RUN, index], cmds), cb, true) }
             can.onmotion.hidden(can, sub._legend), can.onmotion.hidden(can, can.ui.display, true)
         }, can.ui.display)
     },
@@ -462,14 +462,14 @@ Volcanos("onexport", {help: "导出数据", list: ["group", "figure", "index", "
         can.Status("index", target.Value("index"))
     },
     _size: function(can, target, figure) { var size = figure.data.size||{}
-        return "<("+target.Val(size[chat.HEIGHT]||chat.HEIGHT)+ice.FS+target.Val(size[chat.WIDTH]||chat.WIDTH)+")"
+        return "<("+target.Val(size[html.HEIGHT]||html.HEIGHT)+ice.FS+target.Val(size[html.WIDTH]||html.WIDTH)+")"
     },
     _position: function(can, target, figure) { var size = figure.data.size||{}
-        return "@("+target.Val(size[html.X]||html.X)+ice.FS+target.Val(size[html.Y]||html.Y)+")"
+        return "@("+target.Val(size[svg.X]||svg.X)+ice.FS+target.Val(size[svg.Y]||svg.Y)+")"
     },
     _text: function(can, target, figure, data) { var size = figure.data.size||{}
         if (figure.text) { return figure.text(can, data, target) }
-        return data.x = target.Val(size[html.X]||html.X), data.y = target.Val(size[html.Y]||html.Y), data
+        return data.x = target.Val(size[svg.X]||svg.X), data.y = target.Val(size[svg.Y]||svg.Y), data
     },
     _point: function(event, can) {
         var p = can.svg.getBoundingClientRect()
@@ -481,9 +481,9 @@ Volcanos("onexport", {help: "导出数据", list: ["group", "figure", "index", "
 
     content: function(can, svg) {
         return ['<svg vertion="1.1" xmlns="https://www.w3.org/2000/svg" text-anchor="middle" dominant-baseline="middle"'].concat(
-            svg? can.core.List([chat.HEIGHT, chat.WIDTH, kit.MDB_COUNT, "pid", "grid", html.STROKE_WIDTH, html.STROKE, html.FILL, html.FONT_SIZE], function(item) {
+            svg? can.core.List([html.HEIGHT, html.WIDTH, kit.MDB_COUNT, "pid", "grid", html.STROKE_WIDTH, html.STROKE, html.FILL, html.FONT_SIZE], function(item) {
                 return svg.Value(item)? ice.SP + item + '="' + svg.Value(item) + '"': ""
-            }): [" height="+((can.Conf(chat.HEIGHT)||450)-50)+" width="+(can.Conf(chat.WIDTH)||600)]).concat(['>', svg? svg.innerHTML: "", "</svg>"]).join("")
+            }): [" height="+((can.Conf(html.HEIGHT)||450)-50)+" width="+(can.Conf(html.WIDTH)||600)]).concat(['>', svg? svg.innerHTML: "", "</svg>"]).join("")
     },
     cursor: function(event, can, item, show) {
         var p = item.getBoundingClientRect()
@@ -514,17 +514,17 @@ Volcanos("onexport", {help: "导出数据", list: ["group", "figure", "index", "
             case 1:
             case 2:
             case 3:
-                point.y = target.Val(html.Y)
+                point.y = target.Val(svg.Y)
                 break
             case 4:
             case 5:
             case 6:
-                point.y = target.Val(html.Y) + target.Val(chat.HEIGHT) / 2
+                point.y = target.Val(svg.Y) + target.Val(html.HEIGHT) / 2
                 break
             case 7:
             case 8:
             case 9:
-                point.y = target.Val(html.Y) + target.Val(chat.HEIGHT)
+                point.y = target.Val(svg.Y) + target.Val(html.HEIGHT)
                 break
         }
 
@@ -532,17 +532,17 @@ Volcanos("onexport", {help: "导出数据", list: ["group", "figure", "index", "
             case 1:
             case 4:
             case 7:
-                point.x = target.Val(html.X)
+                point.x = target.Val(svg.X)
                 break
             case 2:
             case 5:
             case 8:
-                point.x = target.Val(html.X) + target.Val(chat.WIDTH) / 2
+                point.x = target.Val(svg.X) + target.Val(html.WIDTH) / 2
                 break
             case 3:
             case 6:
             case 9:
-                point.x = target.Val(html.X) + target.Val(chat.WIDTH)
+                point.x = target.Val(svg.X) + target.Val(html.WIDTH)
                 break
         }
         return point
@@ -550,8 +550,8 @@ Volcanos("onexport", {help: "导出数据", list: ["group", "figure", "index", "
     resize: function(event, item, begin, p0, p1, pos) {
         switch (pos) {
             case 5:
-                item.Value(html.X, begin.x + p1.x - p0.x)
-                item.Value(html.Y, begin.y + p1.y - p0.y)
+                item.Value(svg.X, begin.x + p1.x - p0.x)
+                item.Value(svg.Y, begin.y + p1.y - p0.y)
                 return
         }
 
@@ -559,30 +559,30 @@ Volcanos("onexport", {help: "导出数据", list: ["group", "figure", "index", "
             case 1:
             case 2:
             case 3:
-                item.Value(html.Y, begin.y + p1.y - p0.y)
-                item.Value(chat.HEIGHT, begin.height - p1.y + p0.y)
+                item.Value(svg.Y, begin.y + p1.y - p0.y)
+                item.Value(html.HEIGHT, begin.height - p1.y + p0.y)
                 break
         }
         switch (pos) {
             case 1:
             case 4:
             case 7:
-                item.Value(html.X, begin.x + p1.x - p0.x)
-                item.Value(chat.WIDTH, begin.width - p1.x + p0.x)
+                item.Value(sve.X, begin.x + p1.x - p0.x)
+                item.Value(html.WIDTH, begin.width - p1.x + p0.x)
                 break
         }
         switch (pos) {
             case 3:
             case 6:
             case 9:
-                item.Value(chat.WIDTH, begin.width + p1.x - p0.x)
+                item.Value(html.WIDTH, begin.width + p1.x - p0.x)
                 break
         }
         switch (pos) {
             case 7:
             case 8:
             case 9:
-                item.Value(chat.HEIGHT, begin.height + p1.y - p0.y)
+                item.Value(html.HEIGHT, begin.height + p1.y - p0.y)
                 break
         }
     },

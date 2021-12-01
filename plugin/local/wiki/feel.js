@@ -1,6 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.path = can.request(), can.list = [], msg.Table(function(value) {
-            value.path.lastIndexOf("/")==value.path.length-1? can.path.Push(value): can.list.push(value)
+            value.path.lastIndexOf(ice.PS)==value.path.length-1? can.path.Push(value): can.list.push(value)
         })
 
         can.base.isFunc(cb) && cb(msg)
@@ -95,7 +95,7 @@ Volcanos("ondetail", {help: "组件菜单", list: ["关闭", "下载", "删除",
                 can.order = index, can.show = function(order) {
                     path = can.onimport._file(can, can.list[order].path)
                     sub.page.Appends(sub, sub._output, [{img: path, style: {"max-width": width-40, "max-height": height-55}}])
-                    sub.Status("begin", order+1+"/"+can.list.length), sub.Status("file", path)
+                    sub.Status("begin", order+1+ice.PS+can.list.length), sub.Status("file", path)
                 }, can.show(can.order)
             })
         }, document.body)
@@ -114,12 +114,12 @@ Volcanos("ondetail", {help: "组件菜单", list: ["关闭", "下载", "删除",
         can.search(event, ["Header.onimport.background"], null, true)
     },
     "复制链接": function(event, can) {
-        can.user.copy(event, can, can.user.MergeURL(can, {_path: can.onimport._file(can, can.list[can.order].path)}, true))
+        can.user.copy(event, can, can.misc.MergeURL(can, {_path: can.onimport._file(can, can.list[can.order].path)}, true))
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["begin", "limit", "total", "position", "file"],
     position: function(can, index, total) { total = total || can.max
-        return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+"/"+parseInt(total)
+        return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+ice.PS+parseInt(total)
     },
 })
 

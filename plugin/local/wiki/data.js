@@ -55,7 +55,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "全选", 
 
     "保存": function(event, can, cmd) {
         can.run(event, [ctx.ACTION, cmd, can.Option("path"), can.onexport.file(can)], function(msg) {
-            can.user.toast(can, "保存成功")
+            can.user.toastSuccess(can)
         }, true)
     },
     some: function(event, can, cmd) {

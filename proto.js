@@ -1,8 +1,8 @@
 var kit = {
     MDB_ID: "id",
     MDB_KEY: "key",
-    MDB_TIME: "time",
     MDB_ZONE: "zone",
+    MDB_TIME: "time",
     MDB_TYPE: "type",
     MDB_NAME: "name",
     MDB_TEXT: "text",
@@ -34,13 +34,19 @@ var ice = {
     MSG_RIVER: "sess.river",
     MSG_STORM: "sess.storm",
     MSG_TOAST: "sess.toast",
+
+    MSG_DETAIL: "detail",
+    MSG_OPTION: "option",
+    MSG_APPEND: "append",
+    MSG_RESULT: "result",
     MSG_FIELDS: "fields",
     MSG_SESSID: "sessid",
-    MSG_APPEND: "append",
 
     MSG_SOURCE: "_source",
     MSG_TARGET: "_target",
     MSG_HANDLE: "_handle",
+    MSG_DAEMON: "_daemon",
+    MSG_UPLOAD: "_upload",
 
     MSG_ACTION: "_action",
     MSG_STATUS: "_status",
@@ -54,9 +60,9 @@ var ctx = {
     CONTEXT: "context", COMMAND: "command", ACTION: "action", CONFIG: "config",
 }
 var cli = {
-    DONE: "done",
     START: "start", STOP: "stop",
     OPEN: "open", CLOSE: "close",
+    DONE: "done", ERROR: "error",
     CLEAR: "clear", REFRESH: "refresh",
 
     RED: "red", GREEN: "green", BLUE: "blue",
@@ -64,8 +70,7 @@ var cli = {
     WHITE: "white", BLACK: "black",
 }
 var web = {
-    SHARE: "share",
-    SPACE: "space",
+    SPACE: "space", SHARE: "share",
 }
 var aaa = {
     USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
@@ -84,8 +89,7 @@ var ssh = {
 }
 var nfs = {
     PATH: "path", FILE: "file", LINE: "line",
-    TRASH: "trash",
-    DIR: "dir", CAT: "cat",
+    DIR: "dir", CAT: "cat", TRASH: "trash",
     DIR_ROOT: "dir_root",
 }
 var tcp = {
@@ -104,13 +108,8 @@ var wiki = {
 var chat = {
     LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", STORY: "story", FLOAT: "float", CONTEXTS: "contexts",
     CARTE: "carte", INPUT: "input", OUTPUT: "output",
-    HEAD: "head", LEFT: "left", MAIN: "main", AUTO: "auto", FOOT: "foot",
-    LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile",
-    SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
     OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
-
-    HEADER: "header", FOOTER: "footer",
-    ONMAIN: "onmain", ONSIZE: "onsize", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
+    LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile",
 
     TITLE: "title", TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print",
     SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field", TOAST: "toast",
@@ -119,6 +118,12 @@ var chat = {
 
     AGENT: "agent", CHECK: "check", GRANT: "grant",
     STATE: "state", MENUS: "menus", TRANS: "trans",
+
+    ONMAIN: "onmain", ONSIZE: "onsize", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
+
+    HEAD: "head", LEFT: "left", MAIN: "main", AUTO: "auto", FOOT: "foot",
+    SCROLL: "scroll", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
+    HEADER: "header", FOOTER: "footer",
 
     SSO: "sso",
     CMD_MARGIN: 53,
@@ -131,27 +136,31 @@ var mall = {
 }
 
 var svg = {
+    G: "g", X: "x", Y: "y", R: "r", RECT: "rect",
     M: "M", Q: "Q", T: "T",
 }
 var html = {
     FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
     FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
 
+    UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
     INPUT: "input", INPUT_ARGS: ".args", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
     FORM: "form", FILE: "file", SPACE: "space", CLICK: "click",
+    DIV: "div", IMG: "img", CODE: "code", SPAN: "span", VIDEO: "video",
+    TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br",
+
     SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
 
-    TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br",
-    DIV: "div", IMG: "img", CODE: "code", SPAN: "span", VIDEO: "video",
-    SVG: "svg", G: "g", X: "x", Y: "y", R: "r", RECT: "rect",
-    LABEL: "label", INNER: "inner",
-
     CLASS: "class", BLOCK: "block", NONE: "none",
+    TITLE: "title", A: "a", LABEL: "label", INNER: "inner",
     STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
     LIST: "list", ITEM: "item", MENU: "menu",
+    SUBMIT: "submit", CANCEL: "cancel",
+    WSS: "wss", SVG: "svg",
 }
 var lang = {
-    STRING: "string", OBJECT: "object", FUNCTION: "function",
+    STRING: "string", NUMBER: "number",
+    OBJECT: "object", FUNCTION: "function",
     ESCAPE: "Escape", ENTER: "Enter",
 }
 function shy(help, meta, list, cb) {
@@ -256,8 +265,8 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 
             } else if (libs[i] == "") {
                 libs[i] = _can_path.replace(".js", ".css")
-            } else if (libs[i][0] != "/" && libs[i].indexOf("http") != 0) {
-                libs[i] = _can_path.slice(0, _can_path.lastIndexOf("/")+1)+libs[i]
+            } else if (libs[i][0] != ice.PS && libs[i].indexOf("http") != 0) {
+                libs[i] = _can_path.slice(0, _can_path.lastIndexOf(ice.PS)+1)+libs[i]
             }
         }
     }

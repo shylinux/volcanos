@@ -15,7 +15,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
         can.base.isFunc(cb) && cb(msg)
     },
     _content: function(can, target) {
-        var height = can.Conf(chat.HEIGHT)-(can.user.mod.isCmd? 54: 320); height < 240 && (height = 240)
+        var height = can.Conf(html.HEIGHT)-(can.user.mod.isCmd? 54: 320); height < 240 && (height = 240)
         can.page.Modify(can, can.ui.project, {style: {"max-height": height}})
         can.page.Modify(can, can.ui.content, {style: {"max-height": height}})
         can.page.Modify(can, can.ui.display, {style: {display: chat.NONE}})
@@ -36,7 +36,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, list, cb, 
                     case code.INNER: can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE), msg.Option(nfs.LINE)); return
                 } }
 
-                can.run(event, can.misc.Concat([ctx.ACTION, code.FAVOR], cmds), function(msg) {
+                can.run(event, can.misc.concat([ctx.ACTION, code.FAVOR], cmds), function(msg) {
                     can.base.isFunc(cb) && cb(msg), can.core.Timer(10, function() {
                         can.onappend._action(sub, [cli.CLOSE], sub._action, {
                             close: function(event) { can.onmotion.hidden(sub, sub._target) },
@@ -165,7 +165,7 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏"],
         can.Status("跳转数", can.history.length)
     },
     "项目": function(event, can) {
-        var width = can.Conf(chat.WIDTH)-(can.onmotion.toggle(can, can.ui.project)? 170: 0)
+        var width = can.Conf(html.WIDTH)-(can.onmotion.toggle(can, can.ui.project)? 170: 0)
     },
     "收藏": function(event, can) { can.onmotion.toggle(can, can.ui.favor._target) },
     "搜索": function(event, can) { can.onmotion.toggle(can, can.ui.search) },
@@ -304,7 +304,7 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏"],
                 kit.MDB_TYPE, can.parse, kit.MDB_NAME, meta.name||"", kit.MDB_TEXT, (value||"").trimRight(),
                 nfs.PATH, can.Option(nfs.PATH), nfs.FILE, can.Option(nfs.FILE), nfs.LINE, can.Option(nfs.LINE),
             ], function(msg) {
-                can.user.toast(can, "收藏成功")
+                can.user.toastSuccess(can)
             }, true)
         })
     },

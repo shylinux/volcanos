@@ -22,8 +22,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     _display: function(can, msg) {
         Volcanos("some", {}, [msg.Option(ice.MSG_DISPLAY)].concat(Volcanos.meta.libs, Volcanos.meta.volcano), function(sub) {
             sub.Conf(can.Conf()), sub.run = can.run
-            sub._option = can._option
-            sub._action = can._action
+            sub._option = can._option, sub._action = can._action
             sub.onimport._init(sub, msg, [], function() {}, can._output)
         })
         return true
@@ -31,8 +30,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     _field: function(can, msg) {
         msg.Table(function(item) { can.onappend._plugin(can, item, {arg: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
             var opt = can.base.Obj(item[ice.OPT], [])
-            sub.Conf("height", can.Conf("height"))
-            sub.Conf("width", can.Conf("width"))
+            sub.Conf(html.HEIGHT, can.Conf(html.HEIGHT))
+            sub.Conf(html.WIDTH, can.Conf(html.WIDTH))
             sub.run = function(event, cmds, cb, silent) {
                 var res = can.request(event, can.Option())
                 for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
@@ -70,9 +69,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
         }).length == 0) {
             can.onappend.board(can, str)
         }
-        // can.onmotion.story.auto(can, can._output)
     },
-
 })
 Volcanos("onaction", {help: "交互操作", list: [
         "共享工具", "生成链接", "生成脚本", "保存参数", "清空参数", "刷新数据", [
@@ -92,13 +89,12 @@ Volcanos("onaction", {help: "交互操作", list: [
         }); can.onlayout.figure(event, can, ui._target, true)
     },
     "生成链接": function(event, can) { var meta = can.Conf()
-        var pre = "/chat/cmd/"; if (can.user.mod.isPod) { pre = "/chat/pod/"+can.user.Search(can, ice.POD)+"/cmd/" }
+        var pre = "/chat/cmd/"; if (can.user.mod.isPod) { pre = "/chat/pod/"+can.misc.Search(can, ice.POD)+"/cmd/" }
         var args = can.Option(); args._path = pre+(meta.index||can.core.Keys(meta.ctx, meta.cmd))
         args._path.indexOf("/cmd/web.wiki.word") > -1 && (args = {_path: pre+args.path})
 
-        var msg = can.request(event, {link: can.user.MergeURL(can, args)})
+        var msg = can.request(event, {link: can.misc.MergeURL(can, args)})
         can.search(event, ["Header.onaction.share"])
-        can.user.copy(event, can, msg.Option("link"))
     },
     "生成脚本": function(event, can, button) { var conf = can.Conf()
         var args = can.Input("", true).join(ice.SP); var list = [
@@ -115,7 +111,7 @@ Volcanos("onaction", {help: "交互操作", list: [
     },
     "保存参数": function(event, can) { var meta = can.Conf()
         var msg = can.request(event, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), id: meta.id})
-        can.search(event, ["River.ondetail.保存参数"], function(msg) { can.user.toast(can, "保存成功") }, true)
+        can.search(event, ["River.ondetail.保存参数"], function(msg) { can.user.toastSuccess(can) }, true)
     },
     "清空参数": function(event, can) {
         can.page.SelectArgs(can, can._option, "", function(item) { return item.value = "" })
@@ -167,7 +163,6 @@ Volcanos("onaction", {help: "交互操作", list: [
         })
     },
 
-    "参数": function(event, can) { can.onmotion.toggle(can, can._action) },
     actions: function(event, can) { can.onmotion.toggle(can, can._action) },
     clear: function(event, can, name) { can.onmotion.clear(can, can._output) },
     close: function(event, can) { can.page.Remove(can, can._target) },
@@ -203,26 +198,26 @@ Volcanos("onaction", {help: "交互操作", list: [
         })
         var msg = can.request(event, {_handle: true, content: can.base.Format(list)})
         can.run(event, [button], function() {
-            can.user.toast(can, "添加成功")
+            can.user.toastSuccess(can)
         })
     },
     getClipboardData: function(event, can, button) {
         function add(text) {
-            can.run(event, can.base.Simple(ctx.ACTION, button, can.base.parseJSON(text)), function(msg) {
-                can.user.toast(can, text, "添加成功"), can.Update()
+            can.run(event, can.base.Simple(ctx.ACTION, button, can.base.ParseJSON(text)), function(msg) {
+                can.user.toastSuccess(can), can.Update()
             }, true)
         }
         if (navigator.clipboard) {
             navigator.clipboard.readText().then(add).catch(function(err) { can.misc.Log(err) })
         } else {
-            can.user.input(event, can, [{type: "textarea", name: "text"}], function(ev, button, data, list, args) { add(list[0]) })
+            can.user.input(event, can, [{type: html.TEXTAREA, name: kit.MDB_TEXT}], function(ev, button, data, list, args) { add(list[0]) })
         }
     },
     getLocation: function(event, can, button) {
         can.user.agent.getLocation(function(data) { can.request(event, data)
             can.user.input(event, can, [kit.MDB_TYPE, kit.MDB_NAME, kit.MDB_TEXT, "latitude", "longitude"], function(ev, bu, data, list, args) {
                 can.run(event, [ctx.ACTION, button].concat(can.base.Simple(args, data)), function(msg) {
-                    can.user.toast(can, "添加成功"), can.Update()
+                    can.user.toastSuccess(can), can.Update()
                 }, true)
             })
         })

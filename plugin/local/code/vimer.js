@@ -122,7 +122,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         var map = can.onkeymap[can.mode]._engine; for (var i = can.keylist.length-1; i > pre-1; i--) {
             var cb = map[can.keylist[i]]; if (can.base.isFunc(cb)) {
                 return repeat(cb, can.count)
-            }; if (typeof cb == "object") { map = cb; continue }; break
+            }; if (can.base.isObject(cb)) { map = cb; continue }; break
         }
     },
     command: {
@@ -300,7 +300,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
 Volcanos("onaction", {help: "控件交互", list: ["run"],
     save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
         can.run(event, [ctx.ACTION, "save", can.parse, can.Option("file"), can.Option("path")], function(msg) {
-            can.user.toast(can, "保存成功")
+            can.user.toastSuccess(can)
         }, true)
     },
 })

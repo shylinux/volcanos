@@ -5,7 +5,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     show: function(can, data, target) {
         function show(data, target, index, total) { var list
             switch (typeof data) {
-                case "object":
+                case lang.OBJECT:
                     if (data == null) {
                         return can.page.Append(can, list, [{text: "null"}]).node
                         return
@@ -33,7 +33,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                         can.page.Append(can, node, [{text: ['"'+key+'"', "span", "key"], onclick: function(event) { toggle(sub) }}, {text: ': '}])
                         var sub = show(value, node, count++, length)
                     }) }); break
-                case "string": /* 字串 */ can.page.Append(can, target, [{text: ['"'+data+'"', "span", "string"]}]); break
+                case lang.STRING: /* 字串 */ can.page.Append(can, target, [{text: ['"'+data+'"', "span", lang.STRING]}]); break
                 default: /* 其它 */ can.page.Append(can, target, [{text: [''+data+'', "span", "const"]}])
             }
             (index < total-1) && can.page.Append(can, target, [{text: ","}])

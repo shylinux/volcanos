@@ -13,7 +13,6 @@ fieldset.Search div.output {
     overflow:auto;
 }
 fieldset.Search div.output div.content {
-    max-height:400px;
     overflow:auto;
 }
 fieldset.Search div.output div.content a {

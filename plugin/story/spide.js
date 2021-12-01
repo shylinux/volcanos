@@ -66,17 +66,17 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", [ice.VIEW, "横向"
         can.onimport._height(can, can._tree[""])
         can.sup.view = "横向", can.onmotion.clear(can, can.svg)
 
-        can.svg.Val(chat.HEIGHT, can._tree[""].height*can.size+2*can.margin)
+        can.svg.Val(html.HEIGHT, can._tree[""].height*can.size+2*can.margin)
         can.width = 0, can.onaction._draw_horizontal(can, can._tree[""], can.margin, can.margin)
-        can.svg.Val(chat.WIDTH, can.width+can.margin)
+        can.svg.Val(html.WIDTH, can.width+can.margin)
     },
     "纵向": function(event, can) {
         can.onimport._width(can, can._tree[""])
         can.sup.view = "纵向", can.onmotion.clear(can, can.svg)
 
-        can.svg.Val(chat.WIDTH, can._tree[""].width+2*can.margin)
+        can.svg.Val(html.WIDTH, can._tree[""].width+2*can.margin)
         can.height = 0, can.onaction._draw_vertical(can, can._tree[""], can.margin, can.margin+can.size)
-        can.svg.Val(chat.HEIGHT, can.height+can.margin)
+        can.svg.Val(html.HEIGHT, can.height+can.margin)
     },
     _draw: function(can, tree, x, y, style) {
         var color = can.onimport._color(can, tree)
@@ -124,7 +124,7 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", [ice.VIEW, "横向"
 Volcanos("ondetail", {help: "用户交互", list: [],
     onmouseenter: function(event, can, tree) { var y = tree.y+tree.height*can.size/2
         can.page.Remove(can, can.pos), can.pos = can.onimport.draw({}, can, {
-            shape: html.RECT, point: [
+            shape: svg.RECT, point: [
                 {x: tree.x-can.margin/4, y: y-can.size/2},
                 {x: tree.x+tree.width+can.margin/8, y: y+can.size/2},
             ], style: {stroke: cli.RED, fill: html.NONE},
@@ -168,7 +168,7 @@ Volcanos("ondetail", {help: "用户交互", list: [],
         }
         can.onappend.plugin(can, can.base.Copy(value, {type: chat.FLOAT, index: index, args: args}), function(sub) {
             sub.run = function(event, cmds, cb) { can.request(event, value, can.Option())
-                can.run(event, can.misc.Concat(prefix, cmds), cb, true)
+                can.run(event, can.misc.concat(prefix, cmds), cb, true)
             }, can.ondetail.figure(can, sub)
         })
     },
@@ -178,14 +178,14 @@ Volcanos("ondetail", {help: "用户交互", list: [],
             var top = 120, margin = 20; if (can.user.isMobile) { margin = 0
                 if (can.user.isLandscape()) {
                     height += (can.user.mod.isCmd? -20: 200)
-                    top = 24, sub.Conf(chat.HEIGHT, height-top)
+                    top = 24, sub.Conf(html.HEIGHT, height-top)
                 } else {
                     height += (can.user.mod.isCmd? -80: 200)
-                    top = 48, sub.Conf(chat.HEIGHT, height-top)
+                    top = 48, sub.Conf(html.HEIGHT, height-top)
                 }
             } else {
                 height += (can.user.mod.isCmd? 0: 300)
-                sub.Conf(chat.HEIGHT, height-top)
+                sub.Conf(html.HEIGHT, height-top)
             }
 
             var layout = {position: "fixed", left: left+margin, top: top}

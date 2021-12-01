@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) {
         var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM)
         can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN
-            item.height = parseInt(can.Conf(chat.HEIGHT))-40, item.width = parseInt(can.Conf(chat.WIDTH))-40
+            item.height = parseInt(can.Conf(html.HEIGHT))-40, item.width = parseInt(can.Conf(html.WIDTH))-40
             item.feature = can.base.Obj(item.feature||item.meta)
             item.inputs = can.base.Obj(item.inputs||item.list)
 
@@ -9,7 +9,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
                 can.onimport._plugin(can, river, storm, sub, meta), skip || next()
             })
         }, function() {
-            can.onaction.layout(can, can.user.Search(can, chat.LAYOUT)||can.Conf(chat.LAYOUT))
+            can.onaction.layout(can, can.misc.Search(can, chat.LAYOUT)||can.Conf(chat.LAYOUT))
             !can.user.isMobile && can.onimport._menu(can, msg)
         })
 
@@ -18,7 +18,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
     _plugin: function(can, river, storm, sub, meta) {
         sub.run = function(event, cmds, cb) { var msg = sub.request(event); cmds = cmds||[]
             var toast = msg.Option("_toast") && can.user.toast(can, msg.Option("_toast"), "", -1)
-            return can.run(event, can.misc.Concat([river, storm, meta.id||meta.index||can.core.Keys(meta.key, meta.name)], cmds), function(msg) {
+            return can.run(event, can.misc.concat([river, storm, meta.id||meta.index||can.core.Keys(meta.key, meta.name)], cmds), function(msg) {
                 toast && toast.close(), can.base.isFunc(cb) && cb(msg)
             })
         }, can._plugins = (can._plugins||[]).concat([sub])
@@ -49,8 +49,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
     },
     _share: function(can, share) { if (!share) { return }
         can.run({}, ["_share", share], function(msg) {
-            can.user.topic(can, can.user.Search(can, chat.TOPIC)||msg.Option(chat.TOPIC))
-            can.user.title(can.user.Search(can, chat.TITLE)||msg.Option(chat.TITLE))
+            can.user.topic(can, can.misc.Search(can, chat.TOPIC)||msg.Option(chat.TOPIC))
+            can.user.title(can.misc.Search(can, chat.TITLE)||msg.Option(chat.TITLE))
             can.onaction.layout(can, "auto")
 
             if (msg[kit.MDB_INDEX].length == 1) { can.require(["/panel/cmd.css"])
@@ -95,7 +95,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         }
         can.base.isFunc(cb) && cb()
     },
-    onmain: function(can, msg) { can.onimport._share(can, can.user.Search(can, web.SHARE)) },
+    onmain: function(can, msg) { can.onimport._share(can, can.misc.Search(can, web.SHARE)) },
     onsize: function(can, msg, width, height) { can.Conf({width: width, height: height}) },
     onsearch: function(can, msg, word) {
         if (word[0] == "*" || word[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, word) }
@@ -157,8 +157,8 @@ Volcanos("onexport", {help: "导出数据", list: [],
     size: function(can, msg) {
         msg.Option(chat.TOP, can._target.offsetTop)
         msg.Option(chat.LEFT, can._target.offsetLeft)
-        msg.Option(chat.WIDTH, can._target.offsetWidth)
-        msg.Option(chat.HEIGHT, can._target.offsetHeight)
+        msg.Option(html.WIDTH, can._target.offsetWidth)
+        msg.Option(html.HEIGHT, can._target.offsetHeight)
         msg.Option(chat.SCROLL, can.user.isMobile? can._target.parentNode.parentNode.scrollTop: can._output.scrollTop)
     },
     layout: function(can, msg) { return can.Conf(chat.LAYOUT) },

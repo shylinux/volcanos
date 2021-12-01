@@ -34,7 +34,7 @@ setTimeout(function() { Volcanos({
             can.onmotion.float.auto(can, sub._target, chat.CARTE)
 
             sub.run = function(event, cmds, cb) {
-                can.run(event, can.misc.Concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb)
+                can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb)
             }
 
             msg.Option("selection") && (can.onengine.listen(can, "onselection", function() {
@@ -46,14 +46,14 @@ setTimeout(function() { Volcanos({
                 can.run(event, [chat.FIELD, mdb.MODIFY, chat.TOP, sub._target.offsetTop])
                 can.run(event, [chat.FIELD, mdb.MODIFY, chat.LEFT, sub._target.offsetLeft])
                 can.run(event, [chat.FIELD, mdb.MODIFY, "args", JSON.stringify(sub.Input([], true))])
-                can.user.toast(can, "保存成功")
+                can.user.toastSuccess(can)
             }
         }, document.body)
     },
     order: function(can, msg, arg) {
         var ui = can.user.input(event, can, ["index", "args", "selection", "left", "top"], function(event, button, data, list, args) {
             can.run(event, [chat.FIELD, mdb.INSERT, kit.MDB_ZONE, location.host].concat(args), function(res) {
-                can.user.toast(can, "添加成功")
+                can.user.toastSuccess(can)
             })
         }); can.page.Modify(can, ui._target, {style: {left: 200, top: 200}})
         can.page.ClassList.add(can, ui._target, chat.CONTEXTS)
@@ -98,7 +98,7 @@ setTimeout(function() { Volcanos({
     })
 
     can.run = function(event, cmds, cb) { if (cmds[0] == "_search") { return }
-        var msg = can.request(event, {host: location.host}); msg.detail = can.misc.Concat(["page"], cmds)
+        var msg = can.request(event, {host: location.host}); msg.detail = can.misc.concat(["page"], cmds)
         chrome.runtime.sendMessage(msg, function(res) { can.base.isFunc(cb) && cb(msg.Copy(res)) })
     }
     can.run({}, [ctx.ACTION, ctx.COMMAND], function(msg) {

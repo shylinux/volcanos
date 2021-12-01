@@ -16,7 +16,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 if (can.onaction[cmds[1]]) { return can.onaction[cmds[1]](can, from, to, event, cmds, cb) }
 
                 var msg = sub.request(event, {_pod: can.Option(from)})
-                can.run(event, can.misc.Concat([ctx.ACTION, ice.RUN, index], cmds), cb, true)
+                can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, index], cmds), cb, true)
             }
         })
     },

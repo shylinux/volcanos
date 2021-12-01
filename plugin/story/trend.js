@@ -4,7 +4,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onappend._status(can, ["from", "commit", "total", "max", "date", "text", "add", "del"])
 
         can.msg = msg, can.data = msg.Table(), can.onimport._sum(can)
-        can.Action(chat.HEIGHT, msg.Option(chat.HEIGHT)||can.user.mod.isCmd? "max": can.user.isMobile&&can.user.isLandscape()? "200": "400")
+        can.Action(html.HEIGHT, msg.Option(html.HEIGHT)||can.user.mod.isCmd? "max": can.user.isMobile&&can.user.isLandscape()? "200": "400")
         can.Action("speed", parseInt(msg.Option("speed")||"100"))
 
         can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
@@ -44,16 +44,16 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
         can.onmotion.toggle(can, can._action)
         can.onmotion.toggle(can, can._status)
     },
-    "趋势图": function(event, can) { var height = can.Action(chat.HEIGHT)
-        if (height == "max") { height = can.Conf(chat.HEIGHT) - chat.CMD_MARGIN }
+    "趋势图": function(event, can) { var height = can.Action(html.HEIGHT)
+        if (height == "max") { height = can.Conf(html.HEIGHT) - chat.CMD_MARGIN }
         height = parseInt(height)
 
-        var space = 10, width = parseInt(can.Conf(chat.WIDTH))
+        var space = 10, width = parseInt(can.Conf(html.WIDTH))
         var step = parseInt((width-2*space) / can.list.length)
 
         can.onmotion.clear(can, can.svg)
-        can.svg.Val(chat.HEIGHT, height)
-        can.svg.Val(chat.WIDTH, width)
+        can.svg.Val(html.HEIGHT, height)
+        can.svg.Val(html.WIDTH, width)
 
         function scale(y) { return (y - can.min)/(can.max - can.min)*(height-2*space) }
         function order(index, x, y) { return {x: space+step*index+x, y: height-space-scale(y)} }
@@ -98,13 +98,13 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
             })
         })
 
-        var height = parseInt(can.Action(chat.HEIGHT))
-        var space = 10, width = parseInt(can.Conf(chat.WIDTH))
+        var height = parseInt(can.Action(html.HEIGHT))
+        var space = 10, width = parseInt(can.Conf(html.WIDTH))
         var step = parseInt((width-2*space) / can.list.length)
 
         can.onmotion.clear(can, can.svg)
-        can.svg.Val(chat.HEIGHT, height)
-        can.svg.Val(chat.WIDTH, width)
+        can.svg.Val(html.HEIGHT, height)
+        can.svg.Val(html.WIDTH, width)
 
         function scale(key, y) { return (y - min[key])/(max[key] - min[key])*(height-2*space) }
         function order(index, key, x, y) { return {x: space+step*index+x, y: space+scale(key, y)} }

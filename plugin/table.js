@@ -2,7 +2,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onmotion.clear(can)
         can.onappend.table(can, msg)
         can.onappend.board(can, msg)
-        can.onmotion.story.auto(can, target)
+        can.onmotion.story.auto(can)
         can.base.isFunc(cb) && cb(msg)
     },
 

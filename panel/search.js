@@ -90,10 +90,15 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
 
         var cmd = line.cmd == ctx.COMMAND? can.core.Keys(line.type, line.name.split(" ")[0]): can.core.Keys(line.ctx, line.cmd)
         can.onappend.plugin(can, {type: chat.PLUGIN, index: cmd||msg.Option(kit.MDB_INDEX)}, function(sub, meta) {
-            can.get("Action", "size", function(msg, width) { sub.Conf(chat.WIDTH, width-60) })
+            can.get("Action", "size", function(msg, height, width) {
+                height -= can.ui.content.offsetHeight+204
+                can.page.Modify(can, sub._output, {style: {"max-height": height}})
+                sub.Conf(html.HEIGHT, height+28)
+                sub.Conf(html.WIDTH, width-60)
+            })
 
             sub.run = function(event, cmds, cb) { var msg = can.request(event, line)
-                can.run(event, can.misc.Concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
+                can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
             }
         }, can.ui.profile)
     },

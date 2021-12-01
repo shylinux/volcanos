@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
             can.onmotion.clear(can), can.onimport._show(can, msg)
-            var r = 200, margin = 20; can.svg.Val(chat.WIDTH, 2*(r+margin)), can.svg.Val(chat.HEIGHT, 2*(r+margin))
+            var r = 200, margin = 20; can.svg.Val(html.WIDTH, 2*(r+margin)), can.svg.Val(html.HEIGHT, 2*(r+margin))
             can.onimport._draw(can, msg, "value", r+margin, r+margin, r, margin, 0)
             can.onmotion.clear(can, can.ui.project), can.onappend.table(can, msg, null, can.ui.project)
             can.onmotion.hidden(can, can.ui.project, true)

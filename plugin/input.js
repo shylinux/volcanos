@@ -11,7 +11,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
     run: function(event, can) {
         var title = can.sup._name+ice.SP+can.sup.Input([], true)
         var toast = can.user.toast(can, "执行中...", title, -1)
-        can.run(event, [], function() { toast.close(), can.user.toast(can, "执行成功...", title) })
+        can.run(event, [], function() { toast.close(), can.user.toastSuccess(can) })
     },
     list: function(event, can) { can.run(event) },
     back: function(event, can) { can.sup.onimport._back(can.sup) },

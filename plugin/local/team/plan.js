@@ -75,7 +75,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) { task["extra."+key] = value }), delete(task.extra)
         var table = can.page.Appends(can, can.ui.profile, [{view: [chat.CONTENT, html.TABLE], list: [{th: ["key", "value"]}]}]).first
         can.core.Item(task, function(key, value) { key != "_target" && can.page.Append(can, table, [{
-            td: [key, key == "pod" && value != ""? can.page.Format("a", can.user.MergeURL(can, {pod: value}), value): value],
+            td: [key, key == "pod" && value != ""? can.page.Format("a", can.misc.MergeURL(can, {pod: value}), value): value],
             onclick: function(event) { if (event.target.type == "button") { var msg = can.request(event, can.sup.task)
                 can.run(event, [ctx.ACTION, event.target.name], function(msg) { can.Update() }, true)
             } },
@@ -87,7 +87,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _display: function(can, task) { if (!task["extra.cmd"]) { return }
         can.onappend.plugin(can, {type: "story", ctx: task["extra.ctx"], cmd: task["extra.cmd"], arg: task["extra.arg"]}, function(sub, meta) {
             sub.run = function(event, cmds, cb) { var msg = can.request(event, {"task.zone": task.zone, "task.id": task.id})
-                can.run(event, can.misc.Concat([ctx.ACTION, ice.RUN, task["zone"], task["id"]], cmds), cb, true)
+                can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, task["zone"], task["id"]], cmds), cb, true)
             }
         }, can.ui.display)
         can.page.Modify(can, can.ui.display, {style: {display: "block"}})

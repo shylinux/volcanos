@@ -68,7 +68,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
     }),
 })
 Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name) { if (can.user.isLocalFile) { return }
-        can.misc.WSS(can, {type: "chrome", name: can.user.Search(can, "daemon")||name||""}, function(event, msg, cmd, arg) { if (!msg) { return }
+        can.misc.WSS(can, {type: "chrome", name: can.misc.Search(can, "daemon")||name||""}, function(event, msg, cmd, arg) { if (!msg) { return }
             can.base.isFunc(can.ondaemon[cmd])? can.core.CallFunc(can.ondaemon[cmd], {
                 "can": can, "msg": msg, "cmd": cmd, "arg": arg, "cb": function() { msg.Reply() },
             }): can.onengine._search({}, can, msg, can, ["_search", cmd].concat(arg), function() {
@@ -274,7 +274,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             if (key == "extra.cmd") {
                 can.onappend.plugin(can, {ctx: line["extra.ctx"], cmd: line["extra.cmd"], arg: line["extra.arg"]}, function(sub) {
                     sub.run = function(event, cmds, cb) { var msg = can.request(event, line, can.Option())
-                        can.run(event, can.misc.Concat([ctx.ACTION, ice.RUN, can.core.Keys(line["extra.ctx"], line["extra.cmd"])], cmds), cb, true)
+                        can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, can.core.Keys(line["extra.ctx"], line["extra.cmd"])], cmds), cb, true)
                     }
                 }, target)
             }
@@ -351,7 +351,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         meta.type = meta.type||chat.PLUGIN
 
         can.onappend._init(can, meta, ["/plugin/state.js"], function(sub, skip) {
-            sub.run = function(event, cmds, cb) { can.run(event, can.misc.Concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb) }
+            sub.run = function(event, cmds, cb) { can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb) }
             can.base.isFunc(cb) && cb(sub, meta, skip)
         }, target||can._output)
     },
@@ -432,7 +432,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         can.onengine.signal(can, chat.ONSIZE, can.request({}, {width: width, height: height}))
     },
     topic: function(can, topic) { topic && (can._topic = topic)
-        can.user.topic(can, can._topic || can.user.Search(can, chat.TOPIC) || ((can.base.isNight()||can.user.mod.isPod)? chat.BLACK: chat.WHITE))
+        can.user.topic(can, can._topic || can.misc.Search(can, chat.TOPIC) || ((can.base.isNight()||can.user.mod.isPod)? chat.BLACK: chat.WHITE))
         can.page.ClassList.add(can, document.body, can.user.language(can))
     },
     background: function(can, url, target) {

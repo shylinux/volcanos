@@ -12,9 +12,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onimport._item(can, can._meta, can.ui.project, can.onimport._size(can)).click()
     },
     _size: function(can) {
-        var width = can.Conf(chat.WIDTH)-260, height = can.Conf(chat.HEIGHT)-100
+        var width = can.Conf(html.WIDTH)-260, height = can.Conf(html.HEIGHT)-100
         if (can.Conf("auto.cmd")) {
-            width = can.Conf(chat.WIDTH), height = can.Conf(chat.HEIGHT)
+            width = can.Conf(html.WIDTH), height = can.Conf(html.HEIGHT)
             can.onmotion.hidden(can, can.ui.project)
             can.onmotion.hidden(can, can.ui.profile)
             can.onmotion.hidden(can, can._option)
@@ -69,7 +69,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }, size), ["/plugin/state.js"], function(sub) {
                 can.page.Modify(can, sub._output,  {style: size})
                 sub.run = function(event, cmds, cb) {
-                    can.run(event, can.misc.Concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
+                    can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
                 }
             }, target, field)
         }, true)
@@ -84,11 +84,11 @@ Volcanos("onaction", {help: "操作数据", list: [],
     },
     "保存": function(event, can) { var msg = can.request(event, can.Option())
         can.run(event, [mdb.MODIFY, kit.MDB_TEXT, JSON.stringify(can._meta)], function(msg) {
-            can.user.toast(can, "保存成功")
+            can.user.toastSuccess(can)
         }, true)
     },
     "预览": function(event, can) {
-        can.request(event, {link: can.user.MergeURL(can, {_path: "/chat/div/"+can.Option("hash")})})
+        can.request(event, {link: can.misc.MergeURL(can, {_path: "/chat/div/"+can.Option("hash")})})
         can.search(event, ["Header.onaction.share"])
     },
 })
