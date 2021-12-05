@@ -20,7 +20,8 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
                 // panel.onkeypop._build(panel)
             }, target)
         }, function() { can.misc.Log(can.user.title(), ice.RUN, can)
-            can.ondaemon._init(can), can.onmotion._init(can, target), can.onkeypop._init(can, target)
+            can.require(["/frame.js"], null, function(can, name, sub) { can[name] = sub })
+            can.ondaemon._init(can), can.onmotion._init(can, target), can.onkeypop._init(can)
             can.onlayout.topic(can), can.onengine.signal(can, chat.ONMAIN, can.request())
             can.base.isFunc(cb) && cb()
         })
@@ -654,10 +655,14 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
     },
 })
 Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
-        var focus = can.onkeypop._focus; can.onkeypop._build(can)
-        can.onengine.listen(can, "keymap.focus", function(cb) { cb? focus.push(cb): can.onkeypop._focus.length = 0 })
-        document.body.onkeydown = function(event) { if (focus.length > 0) { return focus[focus.length-1](event) }
-            event.target == target && (target._keys = can.onkeypop._parse(event, can, "normal", target._keys||[], target))
+        document.body.onkeydown = function(event) { var msg = can.request(event)
+            msg.Option("model", "normal"); if (event.target.tagName == "INPUT") {
+                msg.Option("model", event.ctrlKey? "insert_ctrl": "insert")
+            }
+            if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
+            can.onengine.signal(can, "onkeydown", msg)
+            if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
+            can._keylist = can.onkeypop._parse(event, can, msg.Option("model"), can._keylist||[], can._output)
         }
     },
     _build: function(can) {
@@ -686,7 +691,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
 
         var map = can.onkeypop._engine[mode]||{}; for (var i = list.length-1; i > pre-1; i--) {
             var cb = map[list[i]]||{}; switch (typeof cb) {
-                case lang.FUNCION: repeat(cb, count); return list
+                case lang.FUNCTION: repeat(cb, count); return list
                 case lang.OBJECT: map = cb; continue
                 case lang.STRING: 
                 default: return list
@@ -695,38 +700,6 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
         return list
     },
     _mode: {
-        normal: {
-            j: function(event, can, target) { target.scrollBy(0, event.ctrlKey? 300: 30) },
-            k: function(event, can, target) { target.scrollBy(0, event.ctrlKey? -300: -30) },
-
-            b: function(event, can, target) { can.search(event, ["Header.onaction.black"]) },
-            w: function(event, can, target) { can.search(event, ["Header.onaction.white"]) },
-
-            s: function(event, can, target) { can.search(event, ["River.ondetail.添加应用"]) },
-            t: function(event, can, target) { can.search(event, ["River.ondetail.添加工具"]) },
-
-            ":": function(event, can, target) {
-                can.page.Select(can, document.body, "fieldset.panel.Footer input.cmd", function(target) {
-                    target.focus()
-                })
-            },
-            " ": function(event, can, target) {
-                can.page.Select(can, document.body, "fieldset.panel.Header div.search input", function(target) {
-                    target.focus()
-                })
-            },
-            enter: function(event, can, target) { can.misc.Log("enter") },
-            escape: function(event, can, target) {
-                can.page.Select(can, document.body, "fieldset.float", function(item) {
-                    can.page.Remove(can, item)
-                })
-                can.page.Select(can, document.body, "fieldset.auto", function(item) {
-                    can.onmotion.hidden(can, item)
-                })
-                can.search(event, ["Search.onaction.hide"])
-                can.misc.Log("enter")
-            },
-        },
         insert: {
             escape: function(event, can, target) {
                 target.blur()

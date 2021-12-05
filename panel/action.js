@@ -95,7 +95,10 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
         }
         can.base.isFunc(cb) && cb()
     },
-    onmain: function(can, msg) { can.onimport._share(can, can.misc.Search(can, web.SHARE)) },
+    onmain: function(can, msg) {
+        can.onimport._share(can, can.misc.Search(can, web.SHARE))
+        can.onkeypop._init(can)
+    },
     onsize: function(can, msg, width, height) { can.Conf({width: width, height: height}) },
     onsearch: function(can, msg, word) {
         if (word[0] == "*" || word[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, word) }
@@ -146,6 +149,42 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
 
         can.onlayout._init(can)
     },
+})
+Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
+        can.onkeypop._build(can), can.onengine.listen(can, "onkeydown", function(msg, model) {
+            can._keylist = can.onkeypop._parse(msg._event, can, model, can._keylist||[], can._output)
+        })
+    },
+    _mode: {
+        normal: {
+            j: function(event, can, target) { target.scrollBy(0, event.ctrlKey? 300: 30) },
+            k: function(event, can, target) { target.scrollBy(0, event.ctrlKey? -300: -30) },
+
+            b: function(event, can, target) { can.search(event, ["Header.onaction.black"]) },
+            w: function(event, can, target) { can.search(event, ["Header.onaction.white"]) },
+
+            s: function(event, can, target) { can.search(event, ["River.ondetail.添加应用"]) },
+            t: function(event, can, target) { can.search(event, ["River.ondetail.添加工具"]) },
+
+            ":": function(event, can, target) {
+                can.onengine.signal(can, "oncommandfocus")
+            },
+            " ": function(event, can, target) {
+                can.onengine.signal(can, "onsearchfocus")
+            },
+            enter: function(event, can, target) { can.misc.Log("enter") },
+            escape: function(event, can, target) {
+                can.page.Select(can, document.body, "fieldset.float,div.float", function(item) {
+                    can.page.Remove(can, item)
+                })
+                can.page.Select(can, document.body, "fieldset.auto", function(item) {
+                    can.onmotion.hidden(can, item)
+                })
+                can.search(event, ["Search.onaction.hide"])
+                can.misc.Log("enter")
+            },
+        },
+    }, _engine: {},
 })
 Volcanos("onexport", {help: "导出数据", list: [],
     args: function(can, msg, list, cb, target) {

@@ -158,6 +158,11 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
         })
     },
     onstorm_select: function(can, msg, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
+    onsearchfocus: function(can) {
+        can.page.Select(can, can._output, "div.search input", function(target) {
+            target.focus()
+        })
+    },
 
     title: function(event, can) {
         var args = {}; can.core.List([chat.TITLE, chat.TOPIC, chat.LAYOUT], function(key) {

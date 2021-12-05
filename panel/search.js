@@ -64,7 +64,7 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
             {view: chat.CONTENT}, {view: html.STATUS}, {view: [chat.DISPLAY, html.TABLE]},{view: chat.PROFILE},
         ]), can.page.ClassList.add(can, can.ui.display, chat.CONTENT)
     },
-    onopensearch: function(can, msg, type, word) { can.onimport.select(can, msg, [type, word]) },
+    onopensearch: function(can, msg, type, word) { can.onimport.select(can, msg, [type||"*", word||""]) },
 
     clear: function(event, can) { can.onmotion.clear(can, can.ui.profile) },
     done: function(event, can) { can.base.isFunc(can.cb) && can.cb() },

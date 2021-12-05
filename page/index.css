@@ -570,7 +570,7 @@ body.white table input[type=button][value=启动] {
 }
 
 body.white fieldset>div.legend {
-    background-color:honeydew;
+    /* background-color:honeydew; */
 }
 body.white fieldset>div.status>div.item>label {
     font-size:10px; color:#cefbfbe0;

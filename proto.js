@@ -195,16 +195,16 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
     }
 
     can = can||{}
-    var proto = {__proto__: meta, _path: _can_path, _name: name, _load: function(name, cb) { // 加载缓存
+    var proto = {__proto__: meta, _path: _can_path, _name: name, _load: function(name, each) { // 加载缓存
             var cache = meta.cache[name]||[]; for (list.reverse(); list.length > 0; list) {
                 var sub = list.pop(); sub != can && cache.push(sub)
             }; meta.cache[name] = cache
 
             // 加载模块
-            for (var i = 0; i < cache.length; i++) { var sub = cache[i]
-                if (typeof cb == lang.FUNCTION && cb(can, name, sub)) { continue }
-                !can[sub._name] && (can[sub._name] = {}); for (var k in sub) {
-                    can[sub._name].hasOwnProperty(k) || (can[sub._name][k] = sub[k])
+            for (var i = 0; i < cache.length; i++) { var sub = cache[i], name = sub._name
+                if (typeof each == lang.FUNCTION && each(can, name, sub)) { continue }
+                !can[name] && (can[name] = {}); for (var k in sub) {
+                    can[name].hasOwnProperty(k) || (can[name][k] = sub[k])
                 }
             }
         },

@@ -61,6 +61,11 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, 
     onlogin: function(can, msg) { can.run({}, [], function(msg) { can.onimport._init(can, msg, [], null, can._output) }) },
     onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
     ontoast: function(can, msg) { can.core.CallFunc(can.onimport.toast, {can: can, msg: msg}) },
+    oncommandfocus: function(can) { 
+        can.page.Select(can, can._output, "div.cmd input", function(target) {
+            target.focus()
+        })
+    },
 
     _cmd: function(can) {
         return can.onappend.float(can, can._cmds, function(value, key, index, line, list) {
