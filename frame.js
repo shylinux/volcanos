@@ -659,7 +659,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 })
 Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
         document.body.onkeydown = function(event) { var msg = can.request(event)
-            msg.Option("model", "normal"); if (event.target.tagName == "INPUT") {
+            msg.Option("model", "normal"); if (event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA") {
                 msg.Option("model", event.ctrlKey? "insert_ctrl": "insert")
                 return
             }
