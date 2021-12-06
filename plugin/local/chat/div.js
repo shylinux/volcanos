@@ -28,7 +28,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _item: function(can, node, target, width) { width = width||node.meta.width
         var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, node.meta.name||"hi"]}, {view: [html.LIST]}])
-        ui.list._fieldset = can.onimport._field(can, node.meta, target._fieldset, width)
+        ui.list._fieldset = can.onimport._plugin(can, node.meta, target._fieldset, width)
 
         var msg = can.request({}); msg.Push(node.meta, "", true)
         ui.item.onclick = function(event) {
@@ -54,7 +54,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.core.List(node.list, function(node) { can.onimport._item(can, node, ui.list, width) })
         return ui.item
     },
-    _field: function(can, meta, target, width) {
+    _plugin: function(can, meta, target, width) {
         var size = {width: width, height: meta.height}
         var field = can.onappend.field(can, chat.LAYOUT, {}, target).fieldset
         can.page.ClassList.add(can, field, meta.style)

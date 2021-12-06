@@ -24,6 +24,26 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
             can.ondaemon._init(can), can.onmotion._init(can, target), can.onkeypop._init(can)
             can.onlayout.topic(can), can.onengine.signal(can, chat.ONMAIN, can.request())
             can.base.isFunc(cb) && cb()
+
+            can.onengine.listen(can, "onsearch", function(msg, word) {
+                if (word[0] == "*" || word[0] == ctx.COMMAND) { var meta = can.onengine.plugin.meta
+                    var list = word[1] == ""? meta: meta[word[1]]? kit.Dict(word[1], meta[word[1]]): {}
+                    can.core.Item(list, function(name, command) {
+                        name = can.base.trimPrefix(name, "can.")
+                        can.core.List(msg.Option(ice.MSG_FIELDS).split(ice.FS), function(item) {
+                            msg.Push(item, kit.Dict(
+                                "ctx", "onengine",
+                                "cmd", "command",
+                                "type", "can",
+                                "name", name,
+                                "text", command.help,
+                                "context", "can",
+                                "command", name,
+                            )[item]||"")
+                        })
+                    })
+                }
+            })
         })
     },
     _search: function(event, can, msg, panel, cmds, cb) {
@@ -66,6 +86,22 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
         can.core.List(can.onengine.listen.meta[name], function(cb) {
             can.core.CallFunc(cb, {msg: msg})
         })
+    }),
+    plugin: shy("添加插件", {}, [], function(can, name, command) {
+        var type = html.TEXT; command.list = can.core.List(command.list, function(item) {
+            switch (typeof item) {
+                case lang.OBJECT: return type = item.type||type, item
+                case lang.STRING:
+                    switch (item) {
+                        case "list":
+                        case "back": return {type: type = html.BUTTON, name: item}
+                        case "name": return {type: type = html.TEXT, name: item}
+                        case "text": return {type: type = html.TEXTAREA, name: item}
+                        default: return {type: type, name: item}
+                    }
+            }
+        })
+        arguments.callee.meta[can.core.Keys("can", name)] = command
     }),
 })
 Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name) { if (can.user.isLocalFile) { return }
@@ -333,8 +369,15 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
     },
     plugin: function(can, meta, cb, target) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)
+        var p = can.onengine.plugin.meta[meta.index]
         var res = {}; function cbs(sub, meta, skip) { res.__proto__ = sub, cb(sub, meta, skip) }
         (meta.meta || meta.inputs && meta.inputs.length > 0)? can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, cbs, target):
+            p? can.onappend._plugin(can, {name: meta.index, help: p.help, meta: p.meta, list: p.list}, meta, function(sub, meta, skip) {
+                can.base.isFunc(cbs) && cbs(sub, meta, skip)
+                sub.run = function(event, cmds, cb) {
+                    can.core.CallFunc(p, {msg: can.request(event), cmds: cmds, cb: cb})
+                }
+            }, target):
             can.run(can.request({}, meta)._event, [ctx.ACTION, ctx.COMMAND, meta.index], function(msg) { msg.Table(function(value) {
                 can.onappend._plugin(can, value, meta, cbs, target)
             }) }, true)

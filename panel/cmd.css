@@ -8,6 +8,9 @@ fieldset.panel.cmd>div.output>fieldset.plugin>legend {
     display:none;
 }
 fieldset.panel.cmd>div.output>fieldset.plugin>div.legend {
+    display:none;
+}
+fieldset.panel.cmd>div.output>fieldset.plugin>div.legend {
     float:left; padding:0 10px; margin-right:3px;
     height:25px; font-size:18px;
     background-color:darkcyan;
@@ -18,4 +21,7 @@ fieldset.plugin>legend {
 }
 body.white fieldset.panel.cmd>div.output>fieldset.plugin>div.legend {
     background-color:honeydew;
+}
+fieldset.panel.cmd>div.output>fieldset.plugin>div.status {
+    display:none;
 }

@@ -67,6 +67,16 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, c
     },
 })
 Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, list, cb, target) {
+        can.onengine.plugin(can, "log", shy("日志", {}, ["text", "list", "back"], function(msg, cmds) {
+            console.log(cmds[0])
+            msg.Option(ice.MSG_DISPLAY, "/plugin/story/pie.js")
+        }))
+        can.onengine.plugin(can, "pie", shy("比例图", {}, ["list", "back"], function(msg, cmds) {
+            msg.Push("value", 200)
+            msg.Push("value", 300)
+            msg.Push("value", 400)
+            msg.Option(ice.MSG_DISPLAY, "/plugin/story/pie.js")
+        }))
         can.base.isFunc(cb) && cb()
     },
     onlogin: function(can, msg) {

@@ -2,6 +2,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
         if (msg.Option("branch")) { return can.onappend.table(can, msg) }
         can.onappend._status(can, ["from", "commit", "total", "max", "date", "text", "add", "del"])
+        can.Conf(html.HEIGHT, can.Conf(html.HEIGHT)||200)
 
         can.msg = msg, can.data = msg.Table(), can.onimport._sum(can)
         can.Action(html.HEIGHT, msg.Option(html.HEIGHT)||can.user.mod.isCmd? "max": can.user.isMobile&&can.user.isLandscape()? "200": "400")

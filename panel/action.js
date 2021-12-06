@@ -202,7 +202,7 @@ Volcanos("onexport", {help: "导出数据", list: [],
     },
     layout: function(can, msg) { return can.Conf(chat.LAYOUT) },
     plugin: function(can, msg, word) {
-        var fields = (msg.Option(ice.MSG_FIELDS)||"ctx,cmd,type,name,text").split(",")
+        var fields = msg.Option(ice.MSG_FIELDS).split(ice.FS)
         can.page.Select(can, can._output, "fieldset.plugin>legend", function(item) {
             if (item.innerHTML.indexOf(word[1]) == -1) { return }
 
