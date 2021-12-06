@@ -16,6 +16,11 @@ var kit = {
 
     MDB_HASH: "hash",
     MDB_LIST: "list",
+    Dict: function() { var res = {}
+        for (var i = 0; i < arguments.length; i += 2) {
+            res[arguments[i]] = arguments[i+1]
+        } return res
+    }
 }
 var ice = {
     SP: " ", PS: "/", PT: ".", FS: ",", NL: "\n",
@@ -121,12 +126,36 @@ var chat = {
 
     ONMAIN: "onmain", ONSIZE: "onsize", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
 
-    HEAD: "head", LEFT: "left", MAIN: "main", AUTO: "auto", FOOT: "foot",
+    HEAD: "head", LEFT: "left", MAIN: "main", AUTO: "auto", HIDE: "hide", FOOT: "foot",
     SCROLL: "scroll", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
     HEADER: "header", FOOTER: "footer",
 
-    SSO: "sso",
-    CMD_MARGIN: 53,
+    SSO: "sso", CMD_MARGIN: 53,
+
+    panel_list: [
+        {name: "Header", help: "标题栏", pos: "head", state: ["time", "usernick", "avatar"]},
+        {name: "River",  help: "群聊组", pos: "left", action: ["create", "refresh"]},
+        {name: "Action", help: "工作台", pos: "main"},
+        {name: "Search", help: "搜索框", pos: "auto"},
+        {name: "Footer", help: "状态条", pos: "foot", state: ["ncmd"]},
+    ],
+    plugin_list: [
+        "/plugin/state.js",
+        "/plugin/input.js",
+        "/plugin/table.js",
+        "/plugin/input/key.js",
+        "/plugin/input/date.js",
+        "/plugin/story/spide.js",
+        "/plugin/story/trend.js",
+        "/plugin/local/code/inner.js",
+        "/plugin/local/code/vimer.js",
+        "/plugin/local/wiki/draw/path.js",
+        "/plugin/local/wiki/draw.js",
+        "/plugin/local/wiki/word.js",
+        "/plugin/local/chat/div.js",
+        "/plugin/local/team/plan.js",
+        "/plugin/input/province.js",
+    ],
 }
 var team = {
     TASK: "task", PLAN: "plan",
@@ -148,6 +177,7 @@ var html = {
     FORM: "form", FILE: "file", SPACE: "space", CLICK: "click",
     DIV: "div", IMG: "img", CODE: "code", SPAN: "span", VIDEO: "video",
     TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br",
+    IFRAME: "iframe",
 
     SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
 
@@ -157,6 +187,8 @@ var html = {
     LIST: "list", ITEM: "item", MENU: "menu",
     SUBMIT: "submit", CANCEL: "cancel",
     WSS: "wss", SVG: "svg",
+    MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width",
+    MAX_HEIGHT: "max-height",
 }
 var lang = {
     STRING: "string", NUMBER: "number",
@@ -178,7 +210,8 @@ function shy(help, meta, list, cb) {
 }; var _can_name = "", _can_path = ""
 var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: {}, pack: {}, libs: [], cache: {}}, function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
-    if (typeof name == lang.OBJECT) { var Config = name; Config.panels = Config.panels||[], Config.main = Config.main||{}
+    if (typeof name == lang.OBJECT) { var Config = name; Config.panels = Config.panels||chat.panel_list, Config.main = Config.main||{name: "Header"}
+        Config.plugin = Config.plugin||chat.plugin_list
         libs = [], meta.libs = ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"]
         meta.iceberg = Config.iceberg||meta.iceberg
 
@@ -242,6 +275,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
             }
             return can.search({}, [can.core.Keys(name, "onexport", key)], cb)
         },
+        getActionSize: function(cb) { can.get("Action", "size", cb) },
         search: function(event, cmds, cb) { return can.run && can.run(event, ["_search"].concat(cmds), cb, true) },
 
         Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},
@@ -289,19 +323,5 @@ function cmd(tool) {
     Volcanos({name: "chat", panels: [
         {name: "Header", help: "标题栏", pos: "hidden", state: ["time", "usernick", "avatar"]},
         {name: "cmd", help: "工作台", pos: chat.MAIN, tool: tool},
-    ], main: {name: "cmd", list: []}, plugin: [
-            "/plugin/state.js",
-            "/plugin/input.js",
-            "/plugin/table.js",
-            "/plugin/input/key.js",
-            "/plugin/input/date.js",
-            "/plugin/story/spide.js",
-            "/plugin/story/trend.js",
-            "/plugin/local/code/inner.js",
-            "/plugin/local/code/vimer.js",
-            "/plugin/local/wiki/draw/path.js",
-            "/plugin/local/wiki/draw.js",
-            "/plugin/local/wiki/word.js",
-        ],
-    })
+    ]})
 }

@@ -39,6 +39,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         !can.user.isMobile && can.core.List(msg.result||["shylinux.com/x/contexts"], function(item) {
             can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "返回主页", onclick: function(event) {
                 can.onaction.title(event, can)
+            }, onmouseenter: function(event) {
+                var list = msg.Table()
+                can.user.carte(event, can, {}, can.core.List(list, function(item) { return item.name }), function(event, item, meta, index) {
+                    can.user.open(list[index].path)
+                })
             }}])
         })
     },

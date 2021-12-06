@@ -530,6 +530,9 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
                 can.page.Modify(can, item, {style: can.base.Obj(meta.style)})
                 can.core.CallFunc(that._hash[meta.type], [can, meta, target||can._output])
             })
+            can.page.Select(can, target||can._output, html.IFRAME, function(item) {
+                can.page.Modify(can, item, {style: {height: can.Conf(html.HEIGHT)-88, width: can.Conf(html.WIDTH)-30}})
+            })
         },
     },
     float: {_hash: {},
@@ -658,6 +661,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
         document.body.onkeydown = function(event) { var msg = can.request(event)
             msg.Option("model", "normal"); if (event.target.tagName == "INPUT") {
                 msg.Option("model", event.ctrlKey? "insert_ctrl": "insert")
+                return
             }
             if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
             can.onengine.signal(can, "onkeydown", msg)

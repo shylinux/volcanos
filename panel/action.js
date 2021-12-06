@@ -74,9 +74,9 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, p
         if (!storm || cmds.length != 2) { return false }
 
         if (storm.index) { cmds = [ctx.ACTION, ctx.COMMAND].concat(storm.index)
-            can.run(event, cmds, cb)
-        } else {
-            can.core.List(storm.action, function(value) {
+            can.run(event, cmds, cb) // 命令详情
+        } else { // 命令列表
+            can.core.List(storm.list, function(value) {
                 msg.Push("name", value.name||"")
                 msg.Push("help", value.help||"")
                 msg.Push("inputs", JSON.stringify(value.inputs))
