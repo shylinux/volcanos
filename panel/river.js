@@ -35,7 +35,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.onaction.storm(event, can, meta.hash)
 
         }, onmouseenter: function(event) {
-            if (can.onengine.river[meta.hash]) { return }
             can.onimport._carte(can, can.ondetail.list, meta.hash)
 
         }, _init: function(target) { cb(target)
@@ -48,7 +47,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             can.user.title(can._main_title||meta.name)
 
         }, onmouseenter: function(event) {
-            if (can.onengine.river[river]) { return }
             can.onimport._carte(can, can.ondetail.sublist, river, meta.hash)
 
         }, _init: function(target) {
