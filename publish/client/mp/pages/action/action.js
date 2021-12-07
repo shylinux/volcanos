@@ -74,7 +74,7 @@ Page({
         var option = event._option||{}; option.cmds = cmds
         app.requests("action?="+field.name, option, function(msg) {
             field.msg = msg, page.setData({list: page.data.list})
-            can.base.isFunc(cb) && cb(msg)
+            typeof cb == "function" && cb(msg)
         })
     },
     onInput: function(event) { var page = this, data = event.target.dataset
