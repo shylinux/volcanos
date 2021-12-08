@@ -576,6 +576,14 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
             can.page.Select(can, target||can._output, html.IFRAME, function(item) {
                 can.page.Modify(can, item, {style: {height: can.Conf(html.HEIGHT)-88, width: can.Conf(html.WIDTH)-30}})
             })
+            can.page.Select(can, target||can._output, html.SVG, function(item) {
+                item.oncontextmenu = function(event) {
+                    can.user.carte(event, can, {"导出": function(event, can, button) {
+
+                    }}, ["导出"])
+                }
+                // can.page.Modify(can, item, {style: {height: can.Conf(html.HEIGHT)-88, width: can.Conf(html.WIDTH)-30}})
+            })
         },
     },
     float: {_hash: {},

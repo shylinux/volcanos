@@ -57,7 +57,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return tree.meta&&tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW)
     },
 }, [""])
-Volcanos("onaction", {help: "用户操作", list: ["编辑", [ice.VIEW, "横向", "纵向"]],
+Volcanos("onaction", {help: "用户操作", list: ["编辑", [ice.VIEW, "横向", "纵向"], "生成图片"],
     "编辑": function(event, can) {
         can.onmotion.toggle(can, can._action)
         can.onmotion.toggle(can, can._status)
@@ -77,6 +77,9 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", [ice.VIEW, "横向"
         can.svg.Val(html.WIDTH, can._tree[""].width+2*can.margin)
         can.height = 0, can.onaction._draw_vertical(can, can._tree[""], can.margin, can.margin+can.size)
         can.svg.Val(html.HEIGHT, can.height+can.margin)
+    },
+    "生成图片": function(event, can) {
+        can.user.toPNG(can, "hi.png", can.svg.outerHTML, can.svg.Val(html.HEIGHT), can.svg.Val(html.WIDTH))
     },
     _draw: function(can, tree, x, y, style) {
         var color = can.onimport._color(can, tree)

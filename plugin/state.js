@@ -73,7 +73,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 })
 Volcanos("onaction", {help: "交互操作", list: [
         "共享工具", "生成链接", "生成脚本", "保存参数", "清空参数", "刷新数据", [
-            "其它 ->", "复制数据", "下载数据", "清空数据", "删除工具", "摄像头",
+            "其它 ->", "复制数据", "下载数据", "清空数据", "删除工具", "摄像头", "生成图片",
         ],
     ], _init: function(can, msg, list, cb, target) {},
     _engine: function(event, can, button) {
@@ -136,6 +136,9 @@ Volcanos("onaction", {help: "交互操作", list: [
     },
     "清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
     "删除工具": function(event, can) { can.page.Remove(can, can._target) },
+    "生成图片": function(event, can) {
+        can.user.toPNG(can, "hi.png", can._target.outerHTML, can.Conf(html.HEIGHT), can.Conf(html.WIDTH))
+    },
 
     "摄像头": function(event, can) {
         var constraints = {audio: false, video: {width: 200, height: 200}}

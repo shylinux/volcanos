@@ -109,6 +109,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }
         }, can._output, target)
     },
+    chart: function(can, data, target) {
+        target.oncontextmenu = function(event) {
+            var ui = can.user.carte(event, can, {"导出": function(event, can, button) {
+                can.user.toPNG(can, "hi.png", target.outerHTML, parseInt(target.getAttribute(html.HEIGHT)), parseInt(target.getAttribute(html.WIDTH)))
+            }}, ["导出"])
+            can.page.Modify(can, ui._target, {style: {left: event.clientX, top: event.clientY}})
+        }
+    },
 
     iframe: function(can, data, target) { var meta = can.base.Obj(data.meta)
         can.page.Modify(can, target, {width: can.Conf("width")-200})
