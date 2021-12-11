@@ -71,6 +71,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 can.user.copy(event, can, item.innerText)
             }
         })
+      can.page.Select(can, target, "a", function(item) {
+        can.page.Modify(can, item, {target: "_blank"})
+        if (item.innerText == "") {
+          item.innerText = item.href
+        }
+      })
     },
     table: function(can, data, target) {
         can.page.OrderTable(can, target)
