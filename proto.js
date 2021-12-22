@@ -136,8 +136,8 @@ var chat = {
         {name: "Header", help: "标题栏", pos: "head", state: ["time", "usernick", "avatar"]},
         {name: "River",  help: "群聊组", pos: "left", action: ["create", "refresh"]},
         {name: "Action", help: "工作台", pos: "main"},
-        {name: "Search", help: "搜索框", pos: "auto"},
         {name: "Footer", help: "状态条", pos: "foot", state: ["ncmd"]},
+        {name: "Search", help: "搜索框", pos: "auto"},
     ],
     plugin_list: [
         "/plugin/state.js",

@@ -62,7 +62,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     _profile: function(can, task) {
         function keys(task, key) { return [task.pod, task.zone, task.id, key].join(".") }
 
-        if (can.sup.task) { if (can.sup.task.id == task.id) { return }
+        if (can.sup.task) { if (can.sup.task.pod == task.pod && can.sup.task.id == task.id) { return }
             can.page.Cache(keys(can.sup.task, chat.PROFILE), can.ui.profile, can.sup.task.id)
             can.page.Cache(keys(can.sup.task, chat.DISPLAY), can.ui.display, can.sup.task.id)
         }
@@ -85,12 +85,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }]) }), can.onimport._display(can, task)
     },
     _display: function(can, task) { if (!task["extra.cmd"]) { return }
-        can.onappend.plugin(can, {type: "story", ctx: task["extra.ctx"], cmd: task["extra.cmd"], arg: task["extra.arg"]}, function(sub, meta) {
-            sub.run = function(event, cmds, cb) { var msg = can.request(event, {"task.zone": task.zone, "task.id": task.id})
-                can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, task["zone"], task["id"]], cmds), cb, true)
+        can.onappend.plugin(can, {type: chat.STORY, ctx: task["extra.ctx"], cmd: task["extra.cmd"], arg: task["extra.arg"]}, function(sub, meta) {
+            sub.run = function(event, cmds, cb) { var msg = can.request(event, kit.Dict("task.pod", task["pod"], "task.zone", task.zone, "task.id", task.id))
+              can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, task[kit.MDB_ZONE], task[kit.MDB_ID]], cmds), cb, true)
             }
         }, can.ui.display)
-        can.page.Modify(can, can.ui.display, {style: {display: "block"}})
+        can.page.Modify(can, can.ui.display, {style: {display: html.BLOCK}})
     },
 
     day: function(can, msg) {

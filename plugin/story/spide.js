@@ -1,5 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
+        if (msg.Length() == 0) { return }
 
         can._args = can.base.Copy({root: "ice", field: msg.append[0], split: ice.PS}, can.base.ParseURL(can._display))
         can.dir_root = msg.Option(nfs.DIR_ROOT)||can._args.root||""

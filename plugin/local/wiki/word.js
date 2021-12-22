@@ -174,6 +174,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
                 can.keylist = can.onkeypop._parse(event, can, "normal", can.keylist)
             }}))
 
+            sub.onappend._status(sub, ["page", "from", "cost"])
             sub.list = list
             sub.page.Modify(sub, sub._output, {style: {"width": window.innerWidth-40}})
             sub.page.Modify(sub, sub._output, {style: {"height": window.innerHeight-93}})
@@ -201,18 +202,18 @@ Volcanos("onaction", {help: "控件交互", list: [],
         }, document.body)
     },
 
-    "开讲": function(event, sub) { sub.sup.onaction.show(sub, 0) },
-    "快闪": function(event, sub) { sub.sup.onaction.flash(sub) },
-    "网格": function(event, sub) { sub.sup.onaction.grid(sub) },
+    "开讲": function(event, can) { can.sup.onaction.show(can, 0) },
+    "快闪": function(event, can) { can.sup.onaction.flash(can) },
+    "网格": function(event, can) { can.sup.onaction.grid(can) },
 
-    "大纲": function(event, sub) { sub.onmotion.toggle(sub, sub.ui.project) },
-    "首页": function(event, sub) { sub.sup.onaction.show(sub, 0) },
-    "上一页": function(event, sub) { sub.sup.onaction.prev(sub, sub.ui.content) },
-    "菜单": function(event, sub) { sub.sup.onaction.show(sub, event.target.selectedIndex) },
-    "下一页": function(event, sub) { sub.sup.onaction.next(sub, sub.ui.content) },
-    "隐藏": function(event, sub) { sub.onmotion.toggle(sub, sub._output) },
-    "结束": function(event, sub) { sub.page.Remove(sub, sub._target)
-        sub.onengine.signal(sub, "keymap.focus", sub.request(event, {cb: null}))
+    "大纲": function(event, can) { can.onmotion.toggle(can, can.ui.project) },
+    "首页": function(event, can) { can.sup.onaction.show(can, 0) },
+    "上一页": function(event, can) { can.sup.onaction.prev(can, can.ui.content) },
+    "菜单": function(event, can) { can.sup.onaction.show(can, event.target.selectedIndex) },
+    "下一页": function(event, can) { can.sup.onaction.next(can, can.ui.content) },
+    "隐藏": function(event, can) { can.onmotion.toggle(can, can._output) },
+    "结束": function(event, can) { can.page.Remove(can, can._target)
+        can.onengine.signal(can, "keymap.focus", can.request(event, {cb: null}))
     },
 
     show: function(sub, which) { sub.page.Modify(sub, sub.ui.content, {className: "content"})
