@@ -71,7 +71,9 @@ fieldset.contexts div.code {
     overflow:auto;
     clear:both;
 }
-
+div.input.contexts input {
+    color:black;
+}
 
 table.content {
     border:0; white-space:pre;

@@ -44,6 +44,7 @@ Volcanos({name: "chat", panels: [
                 }},
                 {name: "cached", help: "爬虫缓存", index: "web.code.chrome.cache", args: []},
                 {name: "spided", help: "网页爬虫", index: "web.code.chrome.spide", args: location && location.protocol && location.protocol=="chrome-extension:"? ["1", "", "spide"]: ["1"]},
+                {name: "modify", help: "编辑页面", index: "web.code.chrome.modify", args: []},
             ]},
         }},
         project: {name: "研发群", storm: {

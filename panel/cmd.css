@@ -13,9 +13,6 @@ fieldset.panel.cmd>div.output>fieldset.plugin>div.legend {
     background-color:darkcyan;
     cursor:pointer;
 }
-fieldset.plugin>legend {
-    display:none;
-}
 body.white fieldset.panel.cmd>div.output>fieldset.plugin>div.legend {
     background-color:honeydew;
 }

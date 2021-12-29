@@ -189,6 +189,7 @@ var html = {
     WSS: "wss", SVG: "svg",
     MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width",
     MAX_HEIGHT: "max-height",
+    CHROME: "chrome",
 }
 var lang = {
     STRING: "string", NUMBER: "number",
