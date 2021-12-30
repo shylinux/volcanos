@@ -184,7 +184,7 @@ var html = {
     CLASS: "class", BLOCK: "block", NONE: "none",
     TITLE: "title", A: "a", LABEL: "label", INNER: "inner",
     STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
-    LIST: "list", ITEM: "item", MENU: "menu",
+    LIST: "list", ITEM: "item", MENU: "menu", NODE: "node",
     SUBMIT: "submit", CANCEL: "cancel",
     WSS: "wss", SVG: "svg",
     MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width",
