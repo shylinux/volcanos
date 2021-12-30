@@ -99,7 +99,7 @@ Volcanos({name: "chat", panels: [
         }},
         operate: {name: "运维群", storm: {
             aaa: {name: "权限 aaa", index: [
-                "user", "sess", "totp",
+                "totp", "user", "sess", "role",
             ]},
             web: {name: "应用 web", index: [
                 "spide", "route", "share", "dream",
