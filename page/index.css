@@ -194,9 +194,9 @@ table.content th:hover {
 }
 table.content td {
     padding:2px 6px;
-    overflow:auto;
     max-width:800px;
-    white-space:break-spaces;
+    overflow:auto;
+    /* white-space:break-spaces; */
 }
 table.content td.done {
     background-color:green;
