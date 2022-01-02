@@ -35,13 +35,14 @@ Volcanos({
             can.core.CallFunc([can, cmd], {can: can, msg: msg, arg: arg, cb: function() { msg.Reply() }})
         })
         chrome.runtime.onMessage.addListener(function(req, sender, cb) {
-            var msg = can.request({}, {tid: sender.tab.id, url: sender.url}); msg.__daemon = can.core.Keys(html.CHROME, sender.tab.id)
+            var msg = can.request({}, {tid: sender.tab.id, url: sender.url})
             can.core.List(req.option, function(key) { msg.Option(key, req[key][0]) })
+            msg.__daemon = can.core.Keys(html.CHROME, sender.tab.id)
             can.run(msg._event, req.detail||[], cb)
             return true
         })
         chrome.history.onVisited.addListener(function(item) {
-            can.run({}, ["sync", kit.MDB_TYPE, "link", kit.MDB_NAME, item.title, kit.MDB_TEXT, item.url, "tid", item.id])
+            can.run({}, ["sync", mdb.TYPE, "link", mdb.NAME, item.title, mdb.LINK, item.url, "tid", item.id])
         })
     },
     _motion: function(can) {

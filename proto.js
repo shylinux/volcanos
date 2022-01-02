@@ -1,17 +1,19 @@
 var kit = {
     MDB_ID: "id",
     MDB_KEY: "key",
-    MDB_ZONE: "zone",
     MDB_TIME: "time",
+    MDB_ZONE: "zone",
     MDB_TYPE: "type",
     MDB_NAME: "name",
     MDB_TEXT: "text",
-    MDB_HELP: "help",
 
-    MDB_LINK: "link",
+    MDB_INDEX: "index",
     MDB_VALUE: "value",
     MDB_COUNT: "count",
-    MDB_INDEX: "index",
+
+    MDB_LINK: "link",
+    MDB_HELP: "help",
+
     MDB_ARGS: "args",
 
     MDB_HASH: "hash",
@@ -63,6 +65,7 @@ var ice = {
 
 var ctx = {
     CONTEXT: "context", COMMAND: "command", ACTION: "action", CONFIG: "config",
+    INDEX: "index", ARGS: "args",
 }
 var cli = {
     START: "start", STOP: "stop",
@@ -88,6 +91,27 @@ var mdb = {
     MODIFY: "modify", SELECT: "select",
 
     META: "meta", HASH: "hash", LIST: "list",
+
+    ID: "id",
+    KEY: "key",
+    TIME: "time",
+    ZONE: "zone",
+    TYPE: "type",
+    NAME: "name",
+    TEXT: "text",
+
+    LINK: "link",
+    SCAN: "scan",
+    SHOW: "show",
+    HELP: "help",
+
+    SHORT: "short",
+    FIELD: "field",
+    COUNT: "count",
+    LIMIT: "limit",
+    INDEX: "index",
+    VALUE: "value",
+    EXPIRE: "expire",
 }
 var ssh = {
     SCRIPT: "script",

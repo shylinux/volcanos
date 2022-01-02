@@ -1,48 +1,54 @@
-setTimeout(function() { Volcanos({
-    spide: function(can, msg, arg) { var has = {}
-        can.page.Select(can, document.body, html.VIDEO, function(item) {
-            if (!item.src || has[item.src]) { return } has[item.src] = true
-            var p = can.page.Select(can, document.body, "p.title")[0]
-            var ls = item.src.split("?")
-            var ls = ls[0].split(ice.PT)
+setTimeout(function() { Volcanos({Option: function() { return [] },
+    spide: function(can, msg, _target) {
+        if (!_target) {
+            msg.Push(mdb.TYPE, mdb.LINK)
+            msg.Push(mdb.NAME, document.title)
+            msg.Push(mdb.LINK, location.href)
+        }
 
-            msg.Push(kit.MDB_TIME, can.base.Time())
-            msg.Push(kit.MDB_TYPE, html.VIDEO)
-            msg.Push(kit.MDB_NAME, (p && p.innerText || html.VIDEO)+ice.PT+ls[ls.length-1])
-            msg.Push(kit.MDB_TEXT, item.src)
-            msg.Push(kit.MDB_LINK, item.src)
+        var has = {}; _target = _target||document.body
+        can.page.Select(can, _target, html.IFRAME, function(item) {
+            if (!item.src || has[item.src]) { return } has[item.src] = true
+
+            msg.Push(mdb.TYPE, html.IFRAME)
+            msg.Push(mdb.NAME, "")
+            msg.Push(mdb.LINK, item.src)
+
+            can.spide(can, msg, item.contentWindow.document.body)
+        })
+        can.page.Select(can, _target, html.VIDEO, function(item) {
+            if (!item.src || has[item.src]) { return } has[item.src] = true
+            var name = item.src.split("?")[0].split(ice.PT).pop()
+            var p = can.page.Select(can, _target, "p.title")[0]
+
+            msg.Push(mdb.TYPE, html.VIDEO)
+            msg.Push(mdb.NAME, (p && p.innerText || html.VIDEO)+ice.PT+name)
+            msg.Push(mdb.LINK, item.src)
         })
 
-        can.page.Select(can, document.body, html.IMG, function(item) {
+        can.page.Select(can, _target, html.IMG, function(item) {
             if (!item.src || has[item.src]) { return } has[item.src] = true
-            var ls = item.src.split("?")
-            var ls = ls[0].split(ice.PS)
+            var name = item.src.split("?")[0].split(ice.PS).pop()
 
-            msg.Push(kit.MDB_TIME, can.base.Time())
-            msg.Push(kit.MDB_TYPE, html.IMG)
+            msg.Push(mdb.TYPE, html.IMG)
             if (item.src.indexOf("data:image") == 0) {
-                msg.Push(kit.MDB_NAME, item.src.slice(item.src.length-20))
+                msg.Push(mdb.NAME, item.src.slice(item.src.length-20))
             } else {
-                msg.Push(kit.MDB_NAME, ls[ls.length-1]||"image.jpg")
+                msg.Push(mdb.NAME, name||"image.jpg")
             }
-            msg.Push(kit.MDB_TEXT, item.src)
-            msg.Push(kit.MDB_LINK, item.src)
+            msg.Push(mdb.LINK, item.src)
         })
     },
     change: function(can, msg, arg) {
-        if (arg.length > 1) {
-            can.page.Modify(can, arg[0], can.base.Obj(arg[1]))
-        }
-        if (arg.length > 0) {
-            can.page.Select(can, document.body, arg[0], function(item) {
-                msg.Push(kit.MDB_TEXT, item.outerHTML)
-            })
-        }
+        arg.length > 1 && can.page.Modify(can, arg[0], can.base.Obj(arg[1]))
+        arg.length > 0 && can.page.Select(can, document.body, arg[0], function(item) {
+            msg.Push(mdb.TEXT, item.outerHTML)
+        })
     },
     
     order: function(can, msg, arg) {
-        var ui = can.user.input(event, can, ["index", "args", "selection", "left", "top"], function(event, button, data, list, args) {
-            can.run(event, [chat.FIELD, mdb.INSERT, kit.MDB_ZONE, location.host].concat(args), function(res) {
+        var ui = can.user.input(event, can, [ctx.INDEX, ctx.ARGS, "selection", html.LEFT, html.TOP], function(event, button, data, list, args) {
+            can.run(event, [chat.FIELD, mdb.INSERT, mdb.ZONE, location.host].concat(args), function(res) {
                 can.user.toastSuccess(can)
             })
         }); can.page.Modify(can, ui._target, {style: {left: 200, top: 200}})
@@ -65,9 +71,8 @@ setTimeout(function() { Volcanos({
                 can.onmotion.toggle(can, sub._output)
                 can.onmotion.toggle(can, sub._status)
             }, msg.Option("selection")||sub._legend.onclick()
-            can.onmotion.float.auto(can, sub._target, chat.CARTE)
 
-            sub.run = function(event, cmds, cb) {
+            sub.run = function(event, cmds, cb) { if (msg.RunAction(event, can, cmds)) { return }
                 can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb)
             }
 
@@ -76,7 +81,7 @@ setTimeout(function() { Volcanos({
             }))
 
             sub.onaction["保存参数"] = function(event) {
-                can.request(event, {zone: location.host, id: msg.Option(kit.MDB_ID)})
+                can.request(event, {zone: location.host, id: msg.Option(mdb.ID)})
                 can.run(event, [chat.FIELD, mdb.MODIFY, chat.TOP, sub._target.offsetTop])
                 can.run(event, [chat.FIELD, mdb.MODIFY, chat.LEFT, sub._target.offsetLeft])
                 can.run(event, [chat.FIELD, mdb.MODIFY, "args", JSON.stringify(sub.Input([], true))])
@@ -92,17 +97,14 @@ setTimeout(function() { Volcanos({
         })
     },
 
-    Option: function() { return [] },
-    
     _daemon: function(can) {
         chrome.extension.onMessage.addListener(function(req, sender, cb) { var msg = can.request(); msg.Copy(req); can.misc.Log(req.detail, msg)
-            can.core.CallFunc([can, req.detail[3]||"spide"], {can: can, msg: msg, arg: req.detail.slice(4), cb: function() {
+            can.core.CallFunc([can, req.detail[3]||"spide"], {can: can, msg: msg, cmds: req.detail.slice(4), arg: req.detail.slice(4), cb: function() {
                 delete(msg._event), delete(msg._can), cb(msg)
             }})
         })
     },
-    _motion: function(can) {
-        can.onmotion.float.auto(can, document.body)
+    _motion: function(can) { can.onmotion.float.auto(can, document.body)
         document.body.ondblclick = function(event) { can.onengine.signal(can, "onselection") }
 
         can.run({}, [ctx.ACTION, ctx.COMMAND], function(msg) {

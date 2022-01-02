@@ -198,7 +198,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     _action: function(can, list, action, meta) { action = action||can._action, meta = meta||can.onaction
         can.core.List(list||can.onaction.list, function(item) { can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
-            can.base.isString(item)? /*按键*/ {type: html.BUTTON, value: item, onclick: function(event) {
+            can.base.isString(item)? /*按键*/ {type: html.BUTTON, value: can.user.trans(can, item), onclick: function(event) {
                 var cb = meta[item]||meta["_engine"]
                 cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
 
