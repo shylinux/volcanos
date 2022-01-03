@@ -28,10 +28,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _grant: function(can, msg, target) {
         if (can.misc.Search(can, chat.GRANT)) {
-            if (msg.Option(chat.GRANT) != "true") {
-                if (can.user.confirm(chat.GRANT+ice.SP+can.misc.Search(can, chat.GRANT))) {
-                    can.run(event, [ctx.ACTION, chat.GRANT, web.SPACE, can.misc.Search(can, chat.GRANT)])
-                }
+            if (can.user.confirm(chat.GRANT+ice.SP+can.misc.Search(can, chat.GRANT))) {
+                can.run(event, [ctx.ACTION, chat.GRANT, web.SPACE, can.misc.Search(can, chat.GRANT)])
             }
             can.misc.Search(can, chat.GRANT, "")
         }
@@ -151,9 +149,9 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     },
     onmain: function(can, msg) {
         function init() { can.run({}, [], function(msg) {
-            if (can.misc.Search(can, "sessid")) {
-              can.misc.Cookie(can, "sessid", can.misc.Search(can, "sessid"))
-              return can.misc.Search(can, "sessid", "") 
+            if (can.misc.Search(can, ice.MSG_SESSID)) {
+                can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID))
+                return can.misc.Search(can, ice.MSG_SESSID, "") 
             }
             can.base.Copy(can.onaction._trans, can.base.Obj(msg.Option(chat.TRANS), {}))
             can.onimport._init(can, msg, [], function(msg) { can.onengine.signal(can, chat.ONLOGIN, msg) }, can._output)
