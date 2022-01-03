@@ -151,6 +151,10 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     },
     onmain: function(can, msg) {
         function init() { can.run({}, [], function(msg) {
+            if (can.misc.Search(can, "sessid")) {
+              can.misc.Cookie(can, "sessid", can.misc.Search(can, "sessid"))
+              return can.misc.Search(can, "sessid", "") 
+            }
             can.base.Copy(can.onaction._trans, can.base.Obj(msg.Option(chat.TRANS), {}))
             can.onimport._init(can, msg, [], function(msg) { can.onengine.signal(can, chat.ONLOGIN, msg) }, can._output)
 
