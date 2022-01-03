@@ -28,8 +28,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _grant: function(can, msg, target) {
         if (can.misc.Search(can, chat.GRANT)) {
-            if (can.user.confirm(chat.GRANT+ice.SP+can.misc.Search(can, chat.GRANT))) {
-                can.run(event, [ctx.ACTION, chat.GRANT, web.SPACE, can.misc.Search(can, chat.GRANT)])
+            if (msg.Option(chat.GRANT) != "true") {
+                if (can.user.confirm(chat.GRANT+ice.SP+can.misc.Search(can, chat.GRANT))) {
+                    can.run(event, [ctx.ACTION, chat.GRANT, web.SPACE, can.misc.Search(can, chat.GRANT)])
+                }
             }
             can.misc.Search(can, chat.GRANT, "")
         }
