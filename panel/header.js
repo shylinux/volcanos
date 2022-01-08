@@ -149,15 +149,15 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     },
     onmain: function(can, msg) {
         function init() { can.run({}, [], function(msg) {
-            if (can.misc.Search(can, ice.MSG_SESSID)) {
-                can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID))
-                return can.misc.Search(can, ice.MSG_SESSID, "") 
-            }
             can.base.Copy(can.onaction._trans, can.base.Obj(msg.Option(chat.TRANS), {}))
             can.onimport._init(can, msg, [], function(msg) { can.onengine.signal(can, chat.ONLOGIN, msg) }, can._output)
 
             can.search({}, ["River.onmotion.toggle"])
         }) }; can.search({}, ["River.onmotion.hidden"])
+        if (can.misc.Search(can, ice.MSG_SESSID)) {
+            can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID))
+            return can.misc.Search(can, ice.MSG_SESSID, "") 
+        }
 
         // 登录检查
         can.user.isLocalFile? init(): can.run({}, [chat.CHECK], function(msg) {
