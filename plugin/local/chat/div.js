@@ -83,7 +83,7 @@ Volcanos("onaction", {help: "操作数据", list: [],
         })
     },
     "保存": function(event, can) { var msg = can.request(event, can.Option())
-        can.run(event, [mdb.MODIFY, kit.MDB_TEXT, JSON.stringify(can._meta)], function(msg) {
+        can.run(event, [mdb.MODIFY, mdb.TEXT, JSON.stringify(can._meta)], function(msg) {
             can.user.toastSuccess(can)
         }, true)
     },

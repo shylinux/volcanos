@@ -59,8 +59,11 @@ var ice = {
     MSG_STATUS: "_status",
     MSG_DISPLAY: "_display",
     MSG_PROCESS: "_process",
-	PROCESS_AGAIN: "_again",
+    PROCESS_AGAIN: "_again",
     MSG_PREFIX: "_prefix",
+
+    ErrWarn: "warn: ",
+    ErrNotFound: "not found: ",
 }
 
 var ctx = {
@@ -156,6 +159,7 @@ var chat = {
 
     SSO: "sso", CMD_MARGIN: 53,
 
+    libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
     panel_list: [
         {name: "Header", help: "标题栏", pos: "head", state: ["time", "usernick", "avatar"]},
         {name: "River",  help: "群聊组", pos: "left", action: ["create", "refresh"]},
@@ -235,13 +239,12 @@ function shy(help, meta, list, cb) {
 }; var _can_name = "", _can_path = ""
 var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: {}, pack: {}, libs: [], cache: {}}, function(name, can, libs, cb) {
     var meta = arguments.callee.meta, list = arguments.callee.list
-    if (typeof name == lang.OBJECT) { var Config = name; Config.panels = Config.panels||chat.panel_list, Config.main = Config.main||{name: "Header"}
-        Config.plugin = Config.plugin||chat.plugin_list
-        libs = [], meta.libs = ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"]
-        meta.iceberg = Config.iceberg||meta.iceberg
+    if (typeof name == lang.OBJECT) { var Config = name; Config.plugin = Config.plugin||chat.plugin_list
+        Config.panels = Config.panels||chat.panel_list, Config.main = Config.main||{name: "Header"}
+        meta.libs = chat.libs, meta.iceberg = Config.iceberg||meta.iceberg
 
         // 预加载
-        for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
+        libs = []; for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
             panel && (libs = libs.concat(panel.list = panel.list||["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
         }; libs = libs.concat(Config.plugin, Config.main.list)
 
@@ -334,7 +337,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 Volcanos.meta._load = function(url, cb) {
     switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
         case "css":
-            var item = document.createElement(kit.MDB_LINK)
+            var item = document.createElement(mdb.LINK)
             item.rel = "stylesheet", item.type = "text/css"
             item.onload = cb, item.href = url
             return (document.head||document.body).appendChild(item), item

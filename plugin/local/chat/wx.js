@@ -14,8 +14,8 @@ Volcanos("onaction", {source: function(can, msg) {
                 openLocation: function(msg) { wx.openLocation({
                     latitude: parseInt(msg.Option("latitude"))/100000,
                     longitude: parseInt(msg.Option("longitude"))/100000,
-                    name: msg.Option(kit.MDB_NAME), address: msg.Option(kit.MDB_TEXT),
-                    scale: msg.Option("scale")||14, infoUrl: msg.Option(kit.MDB_LINK),
+                    name: msg.Option(mdb.NAME), address: msg.Option(mdb.TEXT),
+                    scale: msg.Option("scale")||14, infoUrl: msg.Option(mdb.LINK),
                 }) },
                 chooseImage: function(cb, count) { wx.chooseImage({count: count||9, sizeType: ['original', 'compressed'], sourceType: ['album', 'camera'], success: function (res) {
                     can.base.isFunc(cb) && cb(res.localIds)

@@ -130,8 +130,8 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     create: function(event, can) {
         can.user.trans(can, {"public": "公开群", "protected": "内部群", "private": "私有群"})
         can.user.input(event, can, [
-            {name: kit.MDB_TYPE, values: [chat.PUBLIC, chat.PROTECTED, chat.PRIVATE], _trans: "类型"},
-            {name: kit.MDB_NAME, value: "hi", _trans: "群名"}, {name: kit.MDB_TEXT, value: "hello", _trans: "简介"},
+            {name: mdb.TYPE, values: [chat.PUBLIC, chat.PROTECTED, chat.PRIVATE], _trans: "类型"},
+            {name: mdb.NAME, value: "hi", _trans: "群名"}, {name: mdb.TEXT, value: "hello", _trans: "简介"},
         ], function(event, button, meta, list, args) {
             can.run(event, [ctx.ACTION, mdb.CREATE].concat(args), function(msg) {
                 can.misc.Search(can, {river: msg.Result()})
@@ -157,20 +157,20 @@ Volcanos("ondetail", {help: "菜单交互",
     "创建群组": function(event, can) { can.onaction.create(event, can) },
     "共享群组": function(event, can, button, river) {
         can.user.input(event, can, [{name: chat.TILTE, value: river, _trans: "标题"}], function(event, button, meta, list) {
-            can.user.share(can, can.request(event), [river, ctx.ACTION, chat.SHARE, kit.MDB_TYPE, chat.RIVER, kit.MDB_NAME, list[0]])
+            can.user.share(can, can.request(event), [river, ctx.ACTION, chat.SHARE, mdb.TYPE, chat.RIVER, mdb.NAME, list[0]])
         })
     },
     "添加应用": function(event, can, button, river) { can.ondetail.create(event, can, button, river) },
     "共享应用": function(event, can, button, river, storm) {
         can.user.input(event, can, [{name: chat.TILTE, value: storm, _trans: "标题"}], function(event, button, meta, list) {
-            can.user.share(can, can.request(event), [river, ctx.ACTION, chat.SHARE, kit.MDB_TYPE, chat.STORM, kit.MDB_NAME, list[0],
+            can.user.share(can, can.request(event), [river, ctx.ACTION, chat.SHARE, mdb.TYPE, chat.STORM, mdb.NAME, list[0],
                 chat.STORM, storm, chat.RIVER, river,
             ])
         })
     },
     "添加工具": function(event, can, button, river, storm) {
         can.user.select(event, can, ctx.COMMAND, "context,command", function(item, next) {
-            can.run({}, [river, chat.STORM, ctx.ACTION, mdb.INSERT, kit.MDB_HASH, storm].concat([ice.POD, "", ice.CTX, item[0], ice.CMD, item[1]]), function(msg) {
+            can.run({}, [river, chat.STORM, ctx.ACTION, mdb.INSERT, mdb.HASH, storm].concat([ice.POD, "", ice.CTX, item[0], ice.CMD, item[1]]), function(msg) {
                 next()
             })
         }, function() {
@@ -179,15 +179,15 @@ Volcanos("ondetail", {help: "菜单交互",
     },
     "共享工具": function(event, can, button, river, storm) {
         can.user.select(event, can, mdb.PLUGIN, "name,context,command,argument", function(item, next) {
-            can.user.share(can, can.request(event), [river, ctx.ACTION, chat.SHARE, kit.MDB_TYPE, chat.FIELD,
-                kit.MDB_NAME, item[2], kit.MDB_TEXT, item[3], chat.TITLE, item[0], chat.RIVER, river, chat.STORM, storm,
+            can.user.share(can, can.request(event), [river, ctx.ACTION, chat.SHARE, mdb.TYPE, chat.FIELD,
+                mdb.NAME, item[2], mdb.TEXT, item[3], chat.TITLE, item[0], chat.RIVER, river, chat.STORM, storm,
             ])
         })
     },
 
     "添加设备": function(event, can, button, river) {
         can.user.select(event, can, web.SPACE, "type,name,text", function(item, next) {
-            can.run({}, [river, chat.NODE, ctx.ACTION, mdb.INSERT, kit.MDB_TYPE, item[0], kit.MDB_NAME, item[1]], function(msg) {
+            can.run({}, [river, chat.NODE, ctx.ACTION, mdb.INSERT, mdb.TYPE, item[0], mdb.NAME, item[1]], function(msg) {
                 next()
             })
         })
@@ -203,7 +203,7 @@ Volcanos("ondetail", {help: "菜单交互",
     "创建空间": function(event, can, button, river, storm) { can.request(event, {action: button})
         can.user.input(event, can, [{name: "name", value: "hi"}, {name: "repos"}, {name: "template"}], function(event, button, data, list, args) {
             can.run(event, [ctx.ACTION, cli.START].concat(args, chat.RIVER, river), function(msg) {
-                var link = can.misc.MergeURL(can, {_path: "/chat/pod/"+can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(kit.MDB_NAME))})
+                var link = can.misc.MergeURL(can, {_path: "/chat/pod/"+can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME))})
                 can.user.toast(can, link), can.user.open(link)
             })
         })
@@ -221,8 +221,8 @@ Volcanos("ondetail", {help: "菜单交互",
         })
     },
     "重命名群组": function(event, can, button, river) {
-        can.user.input(event, can, [kit.MDB_NAME], function(event, button, meta, list) {
-            can.run(can.request(event, {hash: river})._event, [ctx.ACTION, mdb.MODIFY, kit.MDB_NAME, meta.name], function(msg) {
+        can.user.input(event, can, [mdb.NAME], function(event, button, meta, list) {
+            can.run(can.request(event, {hash: river})._event, [ctx.ACTION, mdb.MODIFY, mdb.NAME, meta.name], function(msg) {
                 can.misc.Search(can, {river: river})
             })
         })
@@ -241,7 +241,7 @@ Volcanos("ondetail", {help: "菜单交互",
         })
     },
     "重命名应用": function(event, can, button, river, storm) {
-        can.user.input(event, can, [kit.MDB_NAME], function(ev, button, meta, list, args) {
+        can.user.input(event, can, [mdb.NAME], function(ev, button, meta, list, args) {
             can.run(can.request(event, {hash: storm})._event, [river, chat.STORM, ctx.ACTION, mdb.MODIFY].concat(args), function(msg) {
                 can.misc.Search(can, {river: river, storm: storm})
             })
@@ -257,8 +257,8 @@ Volcanos("ondetail", {help: "菜单交互",
     create: function(event, can, button, river) {
         can.user.trans(can, {"public": "公开应用", "protected": "群组应用", "private": "个人应用"})
         can.user.input(event, can, [
-            {name: kit.MDB_TYPE, values: [chat.PUBLIC, chat.PROTECTED, chat.PRIVATE], _trans: "类型"},
-            {name: kit.MDB_NAME, value: "hi", _trans: "名称"}, {name: kit.MDB_TEXT, value: "hello", _trans: "简介"},
+            {name: mdb.TYPE, values: [chat.PUBLIC, chat.PROTECTED, chat.PRIVATE], _trans: "类型"},
+            {name: mdb.NAME, value: "hi", _trans: "名称"}, {name: mdb.TEXT, value: "hello", _trans: "简介"},
         ], function(event, button, meta, list, args) {
             can.run({}, [river, chat.STORM, ctx.ACTION, mdb.CREATE].concat(args), function(msg) {
                 can.misc.Search(can, {river: river, storm: msg.Result()})

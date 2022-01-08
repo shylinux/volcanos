@@ -14,7 +14,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {onclick: function(ev
                         show(msg)
                     }): can.page.Remove(can, can._target) 
                 }}
-            }), can.Status(kit.MDB_COUNT, msg.Length())
+            }), can.Status(mdb.COUNT, msg.Length())
         }
         show(msg), can.onlayout.figure(event, can)
     })

@@ -53,7 +53,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             can.user.title(can.misc.Search(can, chat.TITLE)||msg.Option(chat.TITLE))
             can.onaction.layout(can, "auto")
 
-            if (msg[kit.MDB_INDEX].length == 1) { can.require(["/panel/cmd.css"])
+            if (msg[mdb.INDEX].length == 1) { can.require(["/panel/cmd.css"])
                 can.user.mod.isCmd = true, can.page.ClassList.add(can, can._target, "cmd")
                 can.page.Select(can, document.body, "fieldset.panel", function(item) {
                     item != can._target && can.onmotion.hidden(can, item)

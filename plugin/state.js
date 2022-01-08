@@ -81,8 +81,8 @@ Volcanos("onaction", {help: "交互操作", list: [
     },
     "共享工具": function(event, can) { var meta = can.Conf()
         var ui = can.user.input(event, can, [{name: chat.TITLE, value: meta.name}], function(ev, button, data, list) {
-            var msg = can.request(event, {arg: [kit.MDB_TYPE, chat.FIELD,
-                kit.MDB_NAME, meta.index, kit.MDB_TEXT, JSON.stringify(can.Input([], true)),
+            var msg = can.request(event, {arg: [mdb.TYPE, chat.FIELD,
+                mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input([], true)),
                 chat.TITLE, list[0], chat.RIVER, can.Conf(chat.RIVER), chat.STORM, can.Conf(chat.STORM),
             ]})
             can.search(event, ["Header.onaction.share"])
@@ -213,12 +213,12 @@ Volcanos("onaction", {help: "交互操作", list: [
         if (navigator.clipboard) {
             navigator.clipboard.readText().then(add).catch(function(err) { can.misc.Log(err) })
         } else {
-            can.user.input(event, can, [{type: html.TEXTAREA, name: kit.MDB_TEXT}], function(ev, button, data, list, args) { add(list[0]) })
+            can.user.input(event, can, [{type: html.TEXTAREA, name: mdb.TEXT}], function(ev, button, data, list, args) { add(list[0]) })
         }
     },
     getLocation: function(event, can, button) {
         can.user.agent.getLocation(function(data) { can.request(event, data)
-            can.user.input(event, can, [kit.MDB_TYPE, kit.MDB_NAME, kit.MDB_TEXT, "latitude", "longitude"], function(ev, bu, data, list, args) {
+            can.user.input(event, can, [mdb.TYPE, mdb.NAME, mdb.TEXT, "latitude", "longitude"], function(ev, bu, data, list, args) {
                 can.run(event, [ctx.ACTION, button].concat(can.base.Simple(args, data)), function(msg) {
                     can.user.toastSuccess(can), can.Update()
                 }, true)

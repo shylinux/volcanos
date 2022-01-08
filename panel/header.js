@@ -42,13 +42,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
             }, onmouseenter: function(event) {
                 var list = msg.Table()
                 can.user.carte(event, can, {}, can.core.List(list, function(item) { return item.name }), function(event, item, meta, index) {
-                    can.user.open(list[index].path)
+                    event.shiftKey? can.user.open(list[index].path): can.user.jumps(list[index].path)
                 })
             }}])
         })
     },
     _state: function(can, msg, target) {
-        can.core.List(can.base.Obj(msg.Option(chat.STATE)||can.Conf(chat.STATE), [kit.MDB_TIME, aaa.USERNICK]), function(item) {
+        can.core.List(can.base.Obj(msg.Option(chat.STATE)||can.Conf(chat.STATE), [mdb.TIME, aaa.USERNICK]), function(item) {
             if (item == aaa.AVATAR ) { if (can.user.isLocalFile) { return }
                 can.page.Append(can, target, [{view: can.base.join([chat.STATE, item]), list: [{img: ice.SP}], onmouseenter: function(event) {
                     can.onaction.carte(event, can, [can.page.Format(html.IMG, "/share/local/avatar", 160)])
@@ -57,7 +57,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
             can.page.Append(can, target, [{view: [can.base.join([chat.STATE, item]), html.DIV, (can.Conf(item)||"").slice(0, 10)], onmouseenter: function(event) {
                 can.core.CallFunc([can.onaction, item], [event, can, item])
-            }, _init: function(target) { item == kit.MDB_TIME && can.onimport._time(can, target) }}])
+            }, _init: function(target) { item == mdb.TIME && can.onimport._time(can, target) }}])
         })
     },
     _search: function(can, msg, target) {
@@ -187,7 +187,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
         can.set("River", html.HEIGHT, -1), can.set("Action", html.HEIGHT, -1)
     },
     webpack: function(event, can) {
-        can.user.input(event, can, [{name: kit.MDB_NAME, value: can.user.title()}], function(ev, button, meta, list) {
+        can.user.input(event, can, [{name: mdb.NAME, value: can.user.title()}], function(ev, button, meta, list) {
             can.core.Item(Volcanos.meta.pack, function(key, msg) { 
                 can.core.List(["_event", "_can", "_xhr", ice.MSG_SESSID, ""], function(key) { delete(msg[key]) })
             })
@@ -210,7 +210,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     usernick: function(event, can) {
         can.onaction.carte(event, can, ["shareuser", "setnick", [aaa.LANGUAGE, aaa.CHINESE, aaa.ENGLISH], cli.CLEAR, aaa.LOGOUT])
     },
-    shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, kit.MDB_TYPE, aaa.LOGIN]) },
+    shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN]) },
     setnick: function(event, can) {
         var ui = can.user.input(event, can, [{name: aaa.USERNICK, value: can.Conf(aaa.USERNICK)}], function(ev, button, data, list, args) {
             can.run(event, [aaa.USERNICK, list[0]], function(msg) {

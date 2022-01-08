@@ -18,16 +18,16 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
     refresh: function(event, can) { can.run(event) },
 
     onclick: function(event, can) {
-        if (can.Conf(kit.MDB_TYPE) == html.BUTTON) { can.run(event, [ctx.ACTION, can.Conf(kit.MDB_NAME)].concat(can.sup.Input())) }
+        if (can.Conf(mdb.TYPE) == html.BUTTON) { can.run(event, [ctx.ACTION, can.Conf(mdb.NAME)].concat(can.sup.Input())) }
     },
     onchange: function(event, can) {
-        if (can.Conf(kit.MDB_TYPE) == html.SELECT) { can.run(event) }
+        if (can.Conf(mdb.TYPE) == html.SELECT) { can.run(event) }
     },
     onkeydown: function(event, can) {
-        if (can.Conf(kit.MDB_TYPE) == html.TEXTAREA) { if (!event.ctrlKey) { return } }
+        if (can.Conf(mdb.TYPE) == html.TEXTAREA) { if (!event.ctrlKey) { return } }
         can.onkeypop.input(event, can, event.target); switch (event.key) {
             case lang.ENTER:
-                switch (can.Conf(kit.MDB_TYPE)) {
+                switch (can.Conf(mdb.TYPE)) {
                     case html.TEXTAREA: if (!event.ctrlKey) { return }
                     case html.TEXT: event.target.setSelectionRange(0, -1); break
                 }; can.run(event), event.stopPropagation(), event.preventDefault(); break

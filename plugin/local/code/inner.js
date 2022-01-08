@@ -300,8 +300,8 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "收藏"],
             {name: "name", value: "hello"},
         ], function(event, button, meta, list) {
             can.run(event, [ctx.ACTION, code.FAVOR,
-                ctx.ACTION, mdb.INSERT, kit.MDB_ZONE, meta.zone||"",
-                kit.MDB_TYPE, can.parse, kit.MDB_NAME, meta.name||"", kit.MDB_TEXT, (value||"").trimRight(),
+                ctx.ACTION, mdb.INSERT, mdb.ZONE, meta.zone||"",
+                mdb.TYPE, can.parse, mdb.NAME, meta.name||"", mdb.TEXT, (value||"").trimRight(),
                 nfs.PATH, can.Option(nfs.PATH), nfs.FILE, can.Option(nfs.FILE), nfs.LINE, can.Option(nfs.LINE),
             ], function(msg) {
                 can.user.toastSuccess(can)

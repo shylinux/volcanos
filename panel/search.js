@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.list = msg.Table(), can.onmotion.clear(can, can.ui.content)
-        var table = can.onappend.table(can, msg, function(value, key, index, line, array) { can.Status(kit.MDB_TOTAL, index+1)
-            return {text: [key == kit.MDB_TEXT && can.base.isFunc(line.text) && line.text.help || value, html.TD], onclick: function(event) {
+        var table = can.onappend.table(can, msg, function(value, key, index, line, array) { can.Status(mdb.TOTAL, index+1)
+            return {text: [key == mdb.TEXT && can.base.isFunc(line.text) && line.text.help || value, html.TD], onclick: function(event) {
                 can.onaction[can.type == "*"||event.ctrlKey? chat.PLUGIN: mdb.SELECT](event, can, index) 
             }}
         }, can.ui.content, can.core.List((msg.Option("sort")||"ctx,cmd,type,name,text").split(ice.FS), function(item) {
@@ -88,7 +88,7 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
         if (can.base.isFunc(line.text)) { return can.onmotion.hide(can), line.text(event) }
 
         var cmd = line.cmd == ctx.COMMAND? can.core.Keys(line.type, line.name.split(ice.SP)[0]): can.core.Keys(line.ctx, line.cmd)
-        can.onappend.plugin(can, {type: chat.PLUGIN, index: cmd||msg.Option(kit.MDB_INDEX)}, function(sub, meta) {
+        can.onappend.plugin(can, {type: chat.PLUGIN, index: cmd||msg.Option(mdb.INDEX)}, function(sub, meta) {
             can.getActionSize(function(msg, height, width) { height -= can.ui.content.offsetHeight+204
                 can.page.Modify(can, sub._output, {style: kit.Dict(html.MAX_HEIGHT, height-26, html.MAX_WIDTH, width-40)})
                 sub.Conf(html.HEIGHT, height+28), sub.Conf(html.WIDTH, width-60)

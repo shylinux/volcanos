@@ -8,7 +8,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], province: {onclick: functi
         var china_chart = echarts.init(can.page.Append(can, can._output, [{type: html.DIVk, style: {width: "600px", height: "400px"}}]).first)
         china_chart.setOption({geo: {map: 'china'}}), china_chart.on('click', function (params) {
             target.value = params.name, can.page.Remove(can, can._target) 
-        }), can.Status(kit.MDB_COUNT, 34)
+        }), can.Status(mdb.COUNT, 34)
         can.onlayout.figure(event, can)
     })
 }}, })
