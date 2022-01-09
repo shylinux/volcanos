@@ -12,7 +12,7 @@ h1, h2, h3 {
 h1:hover, h2:hover, h3:hover {
     background:green; cursor:pointer;
 }
-div.hide {
+.hide {
     display:none;
 }
 div.item {
