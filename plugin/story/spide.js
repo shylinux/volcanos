@@ -1,4 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+        can.misc.Log("what------", can.Conf())
         can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
         if (msg.Length() == 0) { return }
 

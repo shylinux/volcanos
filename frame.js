@@ -245,6 +245,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         can.core.List(root.list, function(item) {
             var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.meta.name], onclick: function(event) {
                 can.base.isFunc(cb) && cb(event, item) || can.onmotion.toggle(can, ui.list)
+                can.onmotion.select(can, nav, "div.item", event.target)
             }}, {view: html.LIST}]); can.onappend.list(can, item, cb, ui.list)
         })
     },

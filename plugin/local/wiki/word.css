@@ -87,33 +87,10 @@ fieldset.word video.story {
 fieldset.word fieldset.story {
     margin:10px; border:0;
     clear:both; float:left;
-    box-shadow: 4px 4px 10px 1px #626bd0;
+    box-shadow:4px 4px 10px 1px #626bd0;
 }
 fieldset.word fieldset.story:hover {
-    box-shadow: 12px 12px 12px 6px #5764efd1;
-}
-
-div.story[data-type=json] div.item {
-    margin-left:10px;
-    padding-left:10px;
-    border:solid 1px #ff000000;
-    border-left:dashed 1px gray;
-}
-div.story[data-type=json] div.item:hover {
-    border:solid 1px red;
-}
-div.story[data-type=json] span.key {
-    color:brown;
-}
-div.story[data-type=json] span.str {
-    color:magenta;
-}
-div.story[data-type=json] span.value {
-    cursor:copy;
-}
-div.story[data-type=json] span.toggle {
-    cursor:pointer;
-    color:gray;
+    box-shadow:12px 12px 12px 6px #5764efd1;
 }
 
 fieldset.word.float {
@@ -128,8 +105,11 @@ fieldset.word.float>div.output {
     padding:20px;
 }
 fieldset.word.float div.project {
-    background-color:#bad1e6a6;
+    background:cornsilk;
+    left:0; top:25px;
+    position:fixed;
     padding:10px;
+    z-index:100;
 }
 fieldset.word.float div.content div.page {
     background-color:#194c79d4;
@@ -156,8 +136,13 @@ fieldset.word.float h3 {
     text-align:center;
 }
 fieldset.word.float div.status {
-    color:white;
     clear:none;
+}
+fieldset.word.float div.status label {
+    color:black;
+}
+fieldset.word.float div.status span {
+    color:black;
 }
 
 fieldset.panel.cmd fieldset.word>form.option {

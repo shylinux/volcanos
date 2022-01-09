@@ -16,17 +16,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
     _draw: function(can, msg, field, x, y, r, margin, which) {
-        function join(list) {
-            for (var i = 0; i < list.length; i++) { list[i] = list[i].join(ice.SP) }
-            return list.join(ice.FS)
-        }
         function pos(x, y, r, angle) { angle -= 90
             return [x + r * Math.cos(angle * Math.PI / 180), y + r * Math.sin(angle * Math.PI / 180)]
         }
         function pie(x, y, r, begin, span, color, cb) { can.onimport.draw({}, can, {shape: "path", style: {
-            "stroke-width": 1, stroke: color, fill: color, d: join([
-                ["M", x, y], ["L"].concat(pos(x, y, r, begin)), ["A", r, r, "0 0 1"].concat(pos(x, y, r, begin+span)), ["Z"]
-            ]),
+            "stroke-width": 1, stroke: color, fill: color, d: can.base.joins([
+                ["M", x, y], ["L"].concat(pos(x, y, r, begin)), ["A", r, r, "0", span>180? "1": "0", "1"].concat(pos(x, y, r, begin+span)), ["Z"]
+            ], ice.SP, ice.FS),
         }, onmouseenter: function(event) {
             can.base.isFunc(cb) && cb(event)
         } }) }

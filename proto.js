@@ -177,7 +177,7 @@ var html = {
     INPUT: "input", INPUT_ARGS: ".args", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
     FORM: "form", FILE: "file", SPACE: "space", CLICK: "click", SUBMIT: "submit", CANCEL: "cancel",
     DIV: "div", IMG: "img", CODE: "code", SPAN: "span", VIDEO: "video",
-    TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br",
+    TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li",
     A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
 
     CLASS: "class", BLOCK: "block", NONE: "none",
