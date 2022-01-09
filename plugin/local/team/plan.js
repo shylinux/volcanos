@@ -175,14 +175,14 @@ Volcanos("onaction", {help: "组件交互", list: [
     _filter: function(event, can, key, value) { var count = 0
         if (value == "all") {
             can.page.Select(can, can.ui.content, "div.item", function(item) {
-                can.page.ClassList.del(can, item, "hidden"), count++
+                can.page.ClassList.del(can, item, "hide"), count++
             })
         } else {
             can.page.Select(can, can.ui.content, "div.item", function(item) {
-                can.page.ClassList.add(can, item, "hidden")
+                can.page.ClassList.add(can, item, "hide")
             })
             can.page.Select(can, can.ui.content, "div."+value, function(item) {
-                can.page.ClassList.del(can, item, "hidden"), count++
+                can.page.ClassList.del(can, item, "hide"), count++
             })
         }
         can.Action(key, value), can.Status("count", count)

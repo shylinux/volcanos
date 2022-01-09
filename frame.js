@@ -31,14 +31,14 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 
         return can.core.CallFunc(fun, {
             "event": event, "can": sub, "msg": msg,
-            "button": key, "cmd": key, "cmds": cmds.slice(2),
+            "button": key, "cmd": key, "arg": cmds.slice(2), "cmds": cmds.slice(2),
             "list": cmds.slice(2), "cb": cb, "target": sub._target,
         }, mod)
     },
     _engine: function(event, can, msg, panel, cmds, cb) { return false },
     _remote: function(event, can, msg, panel, cmds, cb) {
         if (panel.onengine._engine(event, can, msg, panel, cmds, cb)) { return }
-        can.onengine.signal(can, "onremote", can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
+        can.onengine.signal(can, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
 
         var key = can.core.Keys(panel._name, cmds.join(ice.FS))
         if (can.user.isLocalFile) { var msg = can.request(event); msg.Clear(ice.MSG_APPEND)
@@ -58,7 +58,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
         arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
     }),
     signal: shy("触发事件", function(can, name, msg) { msg = msg||can.request()
-        name == "onremote"? can.misc.Log("signal", name, msg.Option("_msg")): can.misc.Log("signal", name, msg)
+        name == chat.ONREMOTE? can.misc.Log("signal", name, msg.Option("_msg")): can.misc.Log("signal", name, msg)
         can.core.List(can.onengine.listen.meta[name], function(cb) {
             can.core.CallFunc(cb, {msg: msg})
         })
@@ -69,10 +69,10 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
                 case lang.OBJECT: return type = item.type||type, item
                 case lang.STRING:
                     switch (item) {
-                        case "list":
-                        case "back": return {type: type = html.BUTTON, name: item}
-                        case "name": return {type: type = html.TEXT, name: item}
-                        case "text": return {type: type = html.TEXTAREA, name: item}
+                        case mdb.LIST:
+                        case cli.BACK: return {type: type = html.BUTTON, name: item}
+                        case mdb.NAME: return {type: type = html.TEXT, name: item}
+                        case mdb.TEXT: return {type: type = html.TEXTAREA, name: item}
                         default: return {type: type, name: item}
                     }
             }
@@ -88,15 +88,15 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
                 msg.Reply()
             })
         })
-        can.onengine.listen(can, "onsearch", function(msg, word) { var meta = can.onengine.plugin.meta
+        can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { var meta = can.onengine.plugin.meta
             if (word[0] != "*" && word[0] != ctx.COMMAND) { return }
             var list = word[1] == ""? meta: meta[word[1]]? kit.Dict(word[1], meta[word[1]]): {}
             can.core.Item(list, function(name, command) { name = can.base.trimPrefix(name, "can.")
                 can.core.List(msg.Option(ice.MSG_FIELDS).split(ice.FS), function(item) {
                     msg.Push(item, kit.Dict(
-                        "ctx", "onengine", "cmd", "command",
-                        "type", "can", "name", name, "text", command.help,
-                        "context", "can", "command", name,
+                        ice.CTX, "onengine", ice.CMD, "command",
+                        mdb.TYPE, "can", mdb.NAME, name, mdb.TEXT, command.help,
+                        ctx.CONTEXT, "can", ctx.COMMAND, name,
                     )[item]||"")
                 })
             })
@@ -113,7 +113,7 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
         can.onmotion.float.add(can, chat.FLOAT, can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}))
     },
     confirm: function(can, msg, arg) { 
-        if (can.user.confirm(arg[0])) { msg.Echo("true") }
+        if (can.user.confirm(arg[0])) { msg.Echo(ice.TRUE) }
     },
 })
 Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) {
@@ -306,7 +306,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     return can.run(event, [ctx.ACTION, target.name], function(msg) { can.run() }, true)
                 }
 
-                if (key == "hash" && can.user.mod.isDiv) {
+                if (key == mdb.HASH && can.user.mod.isDiv) {
                     can.user.jumps("/chat/div/"+value)
                     return
                 }
@@ -391,19 +391,19 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         can.onmotion.float.auto(can, ui.output, chat.CARTE, chat.INPUT)
 
         can.search({}, ["Action.onexport.size"], function(msg, top, left, width, height) {
-            can.page.Modify(can, ui.output, {style: {"max-width": width, "max-height": height-28}})
+            can.page.Modify(can, ui.output, {style: {"max-height": height-28, "max-width": width}})
             can.page.Modify(can, ui.first, {style: {top: top, left: left}})
         })
 
-        can.onappend._action(can, ["close", "refresh", {input: "text", placeholder: "filter", style: {position: ""}, _init: function(input) {
+        can.onappend._action(can, [cli.CLOSE, cli.REFRESH, {input: "text", placeholder: "filter", style: {position: ""}, _init: function(input) {
             can.onengine.signal(can, "keymap.focus", can.request({}, {cb: function(event) {
                 if (event.target.tagName == "INPUT") { return }
-                if (event.key == "Escape") { ui.close(); return }
-                if (event.key == " ") { input.focus(), event.stopPropagation(), event.preventDefault() }
+                if (event.key == lang.ESCAPE) { ui.close(); return }
+                if (event.key == ice.SP) { input.focus(), event.stopPropagation(), event.preventDefault() }
             }}))
         }, onkeydown: function(event) {
             can.onkeypop.input(event, can)
-            if (event.key != "Enter") { return }
+            if (event.key != lang.ENTER) { return }
             event.target.setSelectionRange(0, -1)
 
             can.page.Select(can, ui.output, html.TR, function(tr, index) { if (index == 0) { return }
@@ -414,7 +414,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     }
                 })
             })
-        }}], ui.action, { "close": ui.close,
+        }}], ui.action, {"close": ui.close,
             "refresh": function(event) { ui.close(), can.toast.click() },
         })
         can.onappend.table(can, msg, function(value, key, index, line, list) {
@@ -510,13 +510,13 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
                 {type: html.TR, list: [{type: html.TR, list: [
                     {view: [chat.CONTENT, html.TD], list: [
                         {view: [chat.CONTENT]},
-                        {view: ["toggle project"], list: [{text: [gt, "div"]}], onclick: function(event) {
+                        {view: ["toggle project"], list: [{text: [gt, html.DIV]}], onclick: function(event) {
                             event.target.innerHTML = can.onmotion.toggle(can, can.ui.project)? lt: gt
                         }},
-                        {view: ["toggle profile"], list: [{text: [lt, "div"]}], onclick: function(event) {
+                        {view: ["toggle profile"], list: [{text: [lt, html.DIV]}], onclick: function(event) {
                             event.target.innerHTML = can.onmotion.toggle(can, can.ui.profile)? gt: lt
                         }},
-                        {view: ["toggle display"], list: [{text: [down, "div"]}], onclick: function(event) {
+                        {view: ["toggle display"], list: [{text: [down, html.DIV]}], onclick: function(event) {
                             event.target.innerHTML = can.onmotion.toggle(can, can.ui.display)? down: up
                         }},
                     ]},
@@ -540,7 +540,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
     story: {
         _hash: {
             spark: function(can, meta, target) {
-                if (meta[mdb.NAME] == "inner") {
+                if (meta[mdb.NAME] == html.INNER) {
                     target.title = "点击复制", target.onclick = function(event) {
                         can.user.copy(event, can, target.innerText)
                     }
@@ -620,10 +620,10 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
             width: target.offsetWidth > 400? 400: target.offsetWidth-20,
         }, onkeydown: function(event) {
             switch (event.key) {
-                case "Enter": target.innerHTML = event.target.value
+                case lang.ENTER: target.innerHTML = event.target.value
                     event.target.value == back || cb(event, event.target.value, back)
                     break
-                case "Escape": target.innerHTML = back; break
+                case lang.ESCAPE: target.innerHTML = back; break
                 default: can.onkeypop.input(event, can)
             }
         }, _init: function(target) {
@@ -636,13 +636,13 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
             width: target.offsetWidth > 400? 400: target.offsetWidth-20, height: target.offsetHeight < 60? 60: target.offsetHeight-20,
         }, onkeydown: function(event) {
             switch (event.key) {
-                case "Enter":
+                case html.ENTER:
                     if (event.ctrlKey) {
                         target.innerHTML = event.target.value
                         event.target.value == back || cb(event, event.target.value, back)
                     }
                     break
-                case "Escape": target.innerHTML = back; break
+                case html.ESCAPE: target.innerHTML = back; break
                 default: can.onkeypop.input(event, can)
             }
         }, _init: function(target) {

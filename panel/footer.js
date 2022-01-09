@@ -44,27 +44,25 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }}, "", target, "title cmd")
     },
 
+    toast: function(can, msg, title, content, fileline, time) { can._toast = can._toast||can.request()
+        can.page.Modify(can, can.toast, [time.split(ice.SP).pop(), title, content].join(ice.SP))
+        can._toast.Push({time: time, fileline: fileline, title: title, content: content})
+    },
     ncmd: function(can, msg, _follow, _cmds) { var NCMD = "ncmd"; can._cmds = can._cmds||can.request()
         can._cmds.Push({time: can.base.Time(), follow: _follow, cmds: _cmds})
         can.page.Select(can, can._output, can.core.Keys(html.SPAN, NCMD), function(item) {
             item.innerHTML = can.Conf(NCMD, parseInt(can.Conf(NCMD)||"0")+1+"")+""
         })
     },
-    toast: function(can, msg, title, content, fileline, time) { can._toast = can._toast||can.request()
-        can.page.Modify(can, can.toast, [time.split(ice.SP).pop(), title, content].join(ice.SP))
-        can._toast.Push({time: time, fileline: fileline, title: title, content: content})
-    },
 })
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, msg, list, cb, target) {
         can.base.isFunc(cb) && cb(msg)
     },
     onlogin: function(can, msg) { can.run({}, [], function(msg) { can.onimport._init(can, msg, [], null, can._output) }) },
-    onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
     ontoast: function(can, msg) { can.core.CallFunc(can.onimport.toast, {can: can, msg: msg}) },
+    onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
     oncommandfocus: function(can) { 
-        can.page.Select(can, can._output, "div.cmd input", function(target) {
-            target.focus()
-        })
+        can.page.Select(can, can._output, "div.cmd input", function(target) { target.focus() })
     },
 
     _cmd: function(can) {

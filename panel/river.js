@@ -90,7 +90,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         if (word[0] == "*" || word[0] == chat.STORM) { can.onexport.storm(can, msg, word) }
     },
     onstorm_select: function(can, msg, river, storm) { var args = {river: river, storm: storm}
-        if (can.user.isExtension) { localStorage.setItem("args", JSON.stringify(args)) }
+        if (can.user.isExtension) { localStorage.setItem(ctx.ARGS, JSON.stringify(args)) }
     },
     onaction_touch: function(can, msg) {
         can.onmotion.float.del(can, chat.CARTE)
@@ -142,7 +142,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         var args = {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM),
             topic: can.get("Header", "topic"), layout: can.get("Action", "layout"),
         }
-        if (can.user.isExtension) { localStorage.setItem("args", JSON.stringify(args)) }
+        if (can.user.isExtension) { localStorage.setItem(ctx.ARGS, JSON.stringify(args)) }
         can.misc.Search(can, args)
     },
 })

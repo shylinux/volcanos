@@ -10,8 +10,10 @@ h1, h2, h3 {
     clear:both;
 }
 h1:hover, h2:hover, h3:hover {
-    background:green;
-    cursor:pointer;
+    background:green; cursor:pointer;
+}
+div.hide {
+    display:none;
 }
 div.item {
     cursor:pointer;
@@ -20,74 +22,58 @@ div.code {
     background-color:#343a3445; color:white;
     font-size:14px; font-family:monospace;
     box-shadow: 4px 4px 20px 4px #626bd0;
-    padding:10px; border:solid 3px green;
+    border:solid 3px green; padding:10px;
     text-align:left; white-space:pre;
-    overflow:auto; clear:both;
-}
-div.hidden {
-    display:none;
+    clear:both; overflow:auto;
 }
 div.story {
-    text-align:left;
-}
-p.story[data-type=brief] {
-  font-family:cursive;
-  font-weight:bolder;
-  font-size:20px;
+    text-align:left; white-space:pre;
 }
 div.story[data-type=spark] {
     background-color:#2169a9a6; color:white;
+    font-size:14px; font-family:monospace;
     box-shadow:4px 4px 10px 1px #626bd0;
-    padding:4px 10px; margin:10px 0px;
+    margin:10px 0px; padding:4px 10px;
     border-left:solid 4px blue;
-    font-family:monospace;
-    white-space:pre;
     cursor:copy;
 }
 div.story[data-type=spark] span:hover {
     box-shadow: 4px 4px 10px 1px #29318e;
     background-color:#c10c8a;
-    cursor:copy;
+}
+p.story[data-type=brief] {
+  font-size:20px; font-family:cursive; font-weight:bolder;
 }
 
-.hidden {
-    display:none;
-}
 select {
-    height:25px; font-size:14px;
-    box-shadow: 4px 4px 10px 1px #626bd0;
     background-color:black; color:cyan;
-    padding:0 10px;
+    font-size:14px; font-family:monospace;
+    box-shadow: 4px 4px 10px 1px #626bd0;
+    height:25px; padding:0 10px;
     cursor:pointer;
 }
 option {
     font-family:monospace;
 }
 textarea {
-    width:400px; height:60px;
     background-color:cyan;
+    width:400px; height:60px;
 }
-
 input[type=button] {
     background-color:black; color:cyan;
+    font-family:monospace;
     letter-spacing:4px;
     padding-left:10px;
     cursor:pointer;
-    font-family:monospace;
 }
 input[type=button]:hover {
     background-color:gray; color:cyan;
 }
-/* input[type=password] { */
-/*     width:82px; height:21px; font-size:16px; */
-/*     box-shadow: 4px 4px 10px 1px #626bd0; */
-/*     background-color:cyan; color:black; */
-/*     padding: 0 4px; */
-/* } */
 input[type=text] {
-    width:82px; height:21px; font-size:16px;
-    box-shadow:4px 4px 10px 1px #626bd0;
     background-color:cyan; color:black;
+    box-shadow:4px 4px 10px 1px #626bd0;
+    height:21px; width:82px;
+    font-size:16px;
     padding:0 4px;
 }
 input[type=text]:hover {
@@ -116,20 +102,33 @@ input[name=cmd]:hover {
     background-color:white; color:black;
 }
 
+table.layout {
+    margin:0; border:0; padding:0;
+    border-spacing:0;
+}
+table.layout tr {
+    margin:0; border:0; padding:0;
+}
+table.layout th {
+    margin:0; border:0; padding:0;
+}
+table.layout td {
+    margin:0; border:0; padding:0;
+    vertical-align:top;
+}
 table.layout td.content {
     position:relative;
 }
-
 table.layout div.toggle>div {
     display: table-cell;
     vertical-align: middle;
-    height:95px;
     color:white;
+    height:95px;
 }
 table.layout div.toggle {
-    position:absolute; top:20%;
     background:#e1aeae45;
-    height:100px;
+    height:100px; top:20%;
+    position:absolute;
 }
 table.layout div.toggle.display>div {
     height:20px; width:100px;
@@ -155,24 +154,10 @@ table.layout div.toggle.profile {
     border-top-left-radius:10px;
     border-bottom-left-radius:10px;
 }
-table.layout {
-    margin:0; border:0; padding:0;
-    border-spacing:0;
-}
-table.layout tr {
-    margin:0; border:0; padding:0;
-}
-table.layout td {
-    margin:0; border:0; padding:0;
-    vertical-align:top;
-}
-table.layout th {
-    margin:0; border:0; padding:0;
-}
 
 table.content {
-    border:0; white-space:pre;
     font-size:14px; font-family:monospace;
+    border:0; white-space:pre;
     overflow: auto;
 }
 table.content tr {
@@ -343,14 +328,6 @@ fieldset.plugin {
 fieldset.plugin>div.status {
     border-top:1px solid darkcyan;
 }
-fieldset.story>legend {
-    display:block;
-    padding:2px 20px;
-    letter-spacing:4px;
-}
-fieldset.story>div.status {
-    border-top:1px solid darkcyan;
-}
 fieldset.output {
     margin:0; padding:0;
 }
@@ -366,6 +343,14 @@ fieldset.output>div.action {
 fieldset.output>div.status {
     display:none;
 }
+fieldset.story>legend {
+    display:block;
+    padding:2px 20px;
+    letter-spacing:4px;
+}
+fieldset.story>div.status {
+    border-top:1px solid darkcyan;
+}
 fieldset.float {
     background-color:#023531cf;
     margin:0px; padding:0px;
@@ -377,10 +362,10 @@ fieldset.float>legend {
 fieldset.float table {
     color:white;
 }
+
 body>fieldset.input {
-    position:fixed; top:32px;
     background-color:#0d4142a6;
-    position:fixed;
+    position:fixed; top:32px;
 }
 body>fieldset.input div.output {
     max-height:400px;
@@ -405,8 +390,8 @@ body>fieldset.input.date table td:hover {
 
 body>div.toast {
     background:#0e3369b3; color:yellow;
-    position:fixed;
     padding:5px; overflow:auto;
+    position:fixed;
 }
 body>div.toast a {
     color:yellow;
@@ -513,23 +498,12 @@ body>div.upload input[type=file] {
 }
 
 body.white {
-    /* background-color:rgba(68,92,106,0.7); */
-    background-color:rgba(5,34,56,0.75);
-    /* background-color:#052238bf; */
-    color:white;
+    background-color:rgba(5,34,56,0.75); color:white;
 }
 body.white select {
     background-color:#99CC66; color:white;
     border-radius:10px 10px 10px 10px;
     border:2px solid #99CC66;
-}
-body.white input[type=text] {
-    background-color:white; color:black;
-    border:2px solid #14a58e;
-    border-radius:6px;
-}
-body.white input[type=text]:hover {
-    background-color:cyan;
 }
 body.white input[type=button] {
     background-color:#FF9900; color:white;
@@ -540,11 +514,13 @@ body.white input[type=button]:hover {
     background-color:#FFCC33;
     border:2px solid #FFCC33;
 }
-body.white td>input[type=button][name=remove] {
-    background-color:red;
+body.white input[type=text] {
+    background-color:white; color:black;
+    border:2px solid #14a58e;
+    border-radius:6px;
 }
-body.white td>input[type=button][name=create] {
-    background-color:blue;
+body.white input[type=text]:hover {
+    background-color:cyan;
 }
 body.white input[name=cmd] {
     background-color:black; color:white;
@@ -575,6 +551,12 @@ body.white table input[type=button][value=停止] {
 body.white table input[type=button][value=启动] {
     background:#52ce78;
 }
+body.white td>input[type=button][name=create] {
+    background-color:blue;
+}
+body.white td>input[type=button][name=remove] {
+    background-color:red;
+}
 
 body.white fieldset>div.legend {
     /* background-color:honeydew; */
@@ -582,7 +564,6 @@ body.white fieldset>div.legend {
 body.white fieldset>div.status>div.item>label {
     font-size:10px; color:#cefbfbe0;
 }
-
 body.white fieldset.Action {
     color:black;
 }

@@ -66,7 +66,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
                 case lang.ENTER: can.onengine.signal(can, "onopensearch", can.request(event, {type: "*", word: event.target.value}))
             }
         }}, "", target, "title search").parentNode
-        can.user.isMobile && can.page.Modify(can, ui, {style: {float: "right"}})
+        can.user.isMobile && can.page.Modify(can, ui, {style: {float: html.RIGHT}})
     },
     _background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
         msg.Option(aaa.BACKGROUND) && can.onlayout.background(can, "/share/local/background", document.body)
@@ -168,9 +168,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
     },
     onstorm_select: function(can, msg, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
     onsearchfocus: function(can) {
-        can.page.Select(can, can._output, "div.search input", function(target) {
-            target.focus()
-        })
+        can.page.Select(can, can._output, "div.search input", function(target) { target.focus() })
     },
 
     title: function(event, can) {

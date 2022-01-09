@@ -1,23 +1,4 @@
 var kit = {
-    MDB_ID: "id",
-    MDB_KEY: "key",
-    MDB_TIME: "time",
-    MDB_ZONE: "zone",
-    MDB_TYPE: "type",
-    MDB_NAME: "name",
-    MDB_TEXT: "text",
-
-    MDB_INDEX: "index",
-    MDB_VALUE: "value",
-    MDB_COUNT: "count",
-
-    MDB_LINK: "link",
-    MDB_HELP: "help",
-
-    MDB_ARGS: "args",
-
-    MDB_HASH: "hash",
-    MDB_LIST: "list",
     Dict: function() { var res = {}
         for (var i = 0; i < arguments.length; i += 2) {
             res[arguments[i]] = arguments[i+1]
@@ -29,18 +10,11 @@ var ice = {
     POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
     RUN: "run", RES: "res", ERR: "err",
 
-    TRUE: "true", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
+    OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
 
-    AUTO: "auto", VIEW: "view",
-    COPY: "copy", SHOW: "show", HIDE: "hide", MODE: "mode", SHIP: "ship",
-
-    MSG_USERNAME: "user.name",
-    MSG_USERNICK: "user.nick",
-    MSG_TITLE: "sess.title",
-    MSG_TOPIC: "sess.topic",
-    MSG_RIVER: "sess.river",
-    MSG_STORM: "sess.storm",
-    MSG_TOAST: "sess.toast",
+    AUTO: "auto", HELP: "help", HTTP: "http",
+    VIEW: "view", MODE: "mode", SHIP: "ship",
+    COPY: "copy", SHOW: "show", HIDE: "hide",
 
     MSG_DETAIL: "detail",
     MSG_OPTION: "option",
@@ -52,13 +26,23 @@ var ice = {
     MSG_SOURCE: "_source",
     MSG_TARGET: "_target",
     MSG_HANDLE: "_handle",
-    MSG_DAEMON: "_daemon",
     MSG_UPLOAD: "_upload",
-
+    MSG_DAEMON: "_daemon",
     MSG_ACTION: "_action",
     MSG_STATUS: "_status",
+
     MSG_DISPLAY: "_display",
     MSG_PROCESS: "_process",
+
+    MSG_USERNAME: "user.name",
+    MSG_USERNICK: "user.nick",
+
+    MSG_TITLE: "sess.title",
+    MSG_TOPIC: "sess.topic",
+    MSG_RIVER: "sess.river",
+    MSG_STORM: "sess.storm",
+    MSG_TOAST: "sess.toast",
+
     PROCESS_AGAIN: "_again",
     MSG_PREFIX: "_prefix",
 
@@ -68,13 +52,15 @@ var ice = {
 
 var ctx = {
     CONTEXT: "context", COMMAND: "command", ACTION: "action", CONFIG: "config",
+    INPUTS: "inputs", FEATURE: "feature",
     INDEX: "index", ARGS: "args",
 }
 var cli = {
-    START: "start", STOP: "stop",
     OPEN: "open", CLOSE: "close",
+    START: "start", STOP: "stop",
     DONE: "done", ERROR: "error",
     CLEAR: "clear", REFRESH: "refresh",
+    BACK: "back",
 
     RED: "red", GREEN: "green", BLUE: "blue",
     YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta",
@@ -95,31 +81,16 @@ var mdb = {
 
     META: "meta", HASH: "hash", LIST: "list",
 
-    ID: "id",
-    KEY: "key",
-    TIME: "time",
-    ZONE: "zone",
-    TYPE: "type",
-    NAME: "name",
-    TEXT: "text",
-
-    LINK: "link",
-    SCAN: "scan",
-    SHOW: "show",
-    HELP: "help",
-
-    SHORT: "short",
-    FIELD: "field",
-    COUNT: "count",
-    LIMIT: "limit",
-    INDEX: "index",
-    VALUE: "value",
-    EXPIRE: "expire",
+    ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text",
+    LINK: "link", SCAN: "scan", SHOW: "show", HELP: "help",
+    SHORT: "short", FIELD: "field", COUNT: "count", LIMIT: "limit",
+    INDEX: "index", VALUE: "value", EXTRA: "extra", EXPIRE: "expire",
 }
 var ssh = {
     SCRIPT: "script",
 }
 var nfs = {
+    HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
     PATH: "path", FILE: "file", LINE: "line",
     DIR: "dir", CAT: "cat", TRASH: "trash",
     DIR_ROOT: "dir_root",
@@ -138,9 +109,10 @@ var wiki = {
     FIELD: "field", SHELL: "shell", LOCAL: "local", PARSE: "parse",
 }
 var chat = {
-    LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", STORY: "story", FLOAT: "float", CONTEXTS: "contexts",
-    CARTE: "carte", INPUT: "input", OUTPUT: "output",
-    OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
+    LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", OUTPUT: "output",
+    TOAST: "toast", CARTE: "carte", INPUT: "input", UPLOAD: "upload",
+    STORY: "story", FLOAT: "float", CONTEXTS: "contexts",
+    LEGNED: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
     LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile",
 
     TITLE: "title", TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print",
@@ -151,7 +123,8 @@ var chat = {
     AGENT: "agent", CHECK: "check", GRANT: "grant",
     STATE: "state", MENUS: "menus", TRANS: "trans",
 
-    ONMAIN: "onmain", ONSIZE: "onsize", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
+    ONMAIN: "onmain", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
+    ONSIZE: "onsize", ONTOAST: "ontoast", ONREMOTE: "onremote",
 
     HEAD: "head", LEFT: "left", MAIN: "main", AUTO: "auto", HIDE: "hide", FOOT: "foot",
     SCROLL: "scroll", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
@@ -202,22 +175,19 @@ var html = {
 
     UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
     INPUT: "input", INPUT_ARGS: ".args", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
-    FORM: "form", FILE: "file", SPACE: "space", CLICK: "click",
+    FORM: "form", FILE: "file", SPACE: "space", CLICK: "click", SUBMIT: "submit", CANCEL: "cancel",
     DIV: "div", IMG: "img", CODE: "code", SPAN: "span", VIDEO: "video",
     TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br",
-    IFRAME: "iframe",
-
-    SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
+    A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
 
     CLASS: "class", BLOCK: "block", NONE: "none",
-    TITLE: "title", A: "a", LABEL: "label", INNER: "inner",
     STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
-    LIST: "list", ITEM: "item", MENU: "menu", NODE: "node",
-    SUBMIT: "submit", CANCEL: "cancel",
-    WSS: "wss", SVG: "svg",
+    SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
     MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width",
-    MAX_HEIGHT: "max-height",
-    CHROME: "chrome",
+
+    WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe", CHROME: "chrome",
+    LIST: "list", ITEM: "item", MENU: "menu", NODE: "node",
+    HIDE: "hide", SHOW: "show",
 }
 var lang = {
     STRING: "string", NUMBER: "number",
@@ -327,7 +297,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 
             } else if (libs[i] == "") {
                 libs[i] = _can_path.replace(".js", ".css")
-            } else if (libs[i][0] != ice.PS && libs[i].indexOf("http") != 0) {
+            } else if (libs[i][0] != ice.PS && libs[i].indexOf(ice.HTTP) != 0) {
                 libs[i] = _can_path.slice(0, _can_path.lastIndexOf(ice.PS)+1)+libs[i]
             }
         }
@@ -336,12 +306,12 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 })
 Volcanos.meta._load = function(url, cb) {
     switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
-        case "css":
+        case nfs.CSS:
             var item = document.createElement(mdb.LINK)
             item.rel = "stylesheet", item.type = "text/css"
             item.onload = cb, item.href = url
             return (document.head||document.body).appendChild(item), item
-        case "js":
+        case nfs.JS:
             var item = document.createElement(ssh.SCRIPT)
             item.onload = cb, item.onerror = cb, item.src = url
             return document.body.appendChild(item), item
@@ -349,7 +319,7 @@ Volcanos.meta._load = function(url, cb) {
 }
 function cmd(tool) {
     Volcanos({name: "chat", panels: [
-        {name: "Header", help: "标题栏", pos: "hidden", state: ["time", "usernick", "avatar"]},
+        {name: "Header", help: "标题栏", pos: "hide", state: ["time", "usernick", "avatar"]},
         {name: "cmd", help: "工作台", pos: chat.MAIN, tool: tool},
     ]})
 }
