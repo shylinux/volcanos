@@ -40,7 +40,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return (name || target == can.svg) && can.onappend.item(can, html.ITEM, {name: name||html.SVG}, function(event) { show(event)
             can.onaction.show(event, can)
         }, function(event) {
-            can.user.cartes(event, can, can.onaction, [ice.HIDE, ice.SHOW, mdb.CREATE, cli.CLEAR, mdb.REMOVE])
+            can.user.carteRight(event, can, can.onaction, [ice.HIDE, ice.SHOW, mdb.CREATE, cli.CLEAR, mdb.REMOVE])
         }, can.ui.project)
     },
     _block: function(can, target) {
@@ -286,7 +286,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
     show: function(event, can) { can.onmotion.show(can, {interval: 100, length: 10}, null, can.group) },
     hide: function(event, can) { can.onmotion.hide(can, {interval: 100, length: 10}, null, can.group) },
     create: function(event, can) {
-        can.user.prompt("group", function(name) {
+        can.user.prompt("group", "some", function(name) {
             var group = document.createElementNS('http://www.w3.org/2000/svg', svg.G)
             can.group.append(group), can.onimport._block(can, group)
             group.Value(html.CLASS, name), can.core.List([html.STROKE_WIDTH, html.STROKE, html.FILL, html.FONT_SIZE], function(name) {
@@ -425,7 +425,7 @@ Volcanos("ondetail", {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY,
         var def = target.Value(mdb.TEXT); def && can.page.Select(can, can.svg, ice.PT+def, function(item) {
             def = item.Value(html.INNER)
         })
-        can.user.prompt(html.LABEL, function(text) {
+        can.user.prompt(html.LABEL, def, function(text) {
             if (target.tagName == html.TEXT) { return target.innerHTML = text }
 
             if (def && can.page.Select(can, can.svg, ice.PT+def, function(item) {
@@ -438,7 +438,7 @@ Volcanos("ondetail", {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY,
             var data = can.onexport._text(can, target, figure, {inner: text})
             var item = can.onfigure._push(can, html.TEXT, data, target.Group())
             target.Value(mdb.TEXT, can.onfigure._pid(can, item))
-        }, def)
+        })
     },
     modify: function(event, can) { can.onimport._profile(can, event.target) },
     "delete": function(event, can) { var target = event.target

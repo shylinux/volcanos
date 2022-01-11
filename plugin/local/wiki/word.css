@@ -104,7 +104,7 @@ fieldset.word.float>div.output {
     overflow:auto;
     padding:20px;
 }
-fieldset.word.float div.project {
+fieldset.word.float>div.output>div.project {
     background:cornsilk;
     left:0; top:25px;
     position:fixed;
@@ -116,7 +116,7 @@ fieldset.word.float div.content div.page {
     margin-top:30px;
     display:none;
 }
-fieldset.word.float div.content div.page.select {
+fieldset.word.float div.content div.page.show {
     display:block;
 }
 fieldset.word.float div.content.grid div.page {

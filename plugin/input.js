@@ -1,6 +1,3 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, meta, list, cb, target) {
-    },
-})
 Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta, list, cb, target) {
         can.base.isFunc(cb) && cb(); switch (meta.type) {
             case html.SELECT: meta.value && (target.value = meta.value); break
@@ -23,18 +20,18 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
     onchange: function(event, can) {
         if (can.Conf(mdb.TYPE) == html.SELECT) { can.run(event) }
     },
-    onkeydown: function(event, can) {
+    onkeydown: function(event, can) { can.onkeypop.input(event, can, event.target)
         if (can.Conf(mdb.TYPE) == html.TEXTAREA) { if (!event.ctrlKey) { return } }
-        can.onkeypop.input(event, can, event.target); switch (event.key) {
-            case lang.ENTER:
-                switch (can.Conf(mdb.TYPE)) {
-                    case html.TEXTAREA: if (!event.ctrlKey) { return }
-                    case html.TEXT: event.target.setSelectionRange(0, -1); break
-                }; can.run(event), event.stopPropagation(), event.preventDefault(); break
-            case "b": if (event.ctrlKey) { can.CloneInput() } break
-            case "m": if (event.ctrlKey) { can.CloneField(), event.stopPropagation(), event.preventDefault() } break
-        }
+        if (event.key == lang.ENTER) {
+            can.run(event), event.target.setSelectionRange(0, -1)
+            event.stopPropagation(), event.preventDefault()
+        } if (!event.ctrlKey) { return }
+
+        switch (event.key) {
+            case "b": can.CloneInput(); break
+            case "m": can.CloneField(); break
+            default: return
+        } event.stopPropagation(), event.preventDefault()
     },
 })
-Volcanos("onexport", {help: "导出数据", list: []})
 

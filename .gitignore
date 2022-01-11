@@ -1,8 +1,8 @@
 *.swp
 *.swo
-cmd.js
-cmd.css
-cache.js
-cache.css
 .DS_Store
+page/can.js
+page/can.css
+page/cache.js
+page/cache.css
 pack/

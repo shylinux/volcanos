@@ -9,10 +9,16 @@ a {
 h1, h2, h3 {
     clear:both;
 }
+tr.show {
+    background:red;
+}
 h1:hover, h2:hover, h3:hover {
     background:green; cursor:pointer;
 }
 .hide {
+    display:none;
+}
+.hidden {
     display:none;
 }
 div.item {
@@ -35,7 +41,7 @@ div.story[data-type=spark] {
     box-shadow:4px 4px 10px 1px #626bd0;
     margin:10px 0px; padding:4px 10px;
     border-left:solid 4px blue;
-    cursor:copy;
+    overflow:auto; cursor:copy;
 }
 div.story[data-type=spark] span:hover {
     box-shadow: 4px 4px 10px 1px #29318e;

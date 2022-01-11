@@ -1,15 +1,9 @@
-Volcanos("onfigure", {help: "控件详情", list: [], province: {onclick: function(event, can, meta, cb, target) {
+Volcanos("onfigure", {help: "控件详情", list: [], province: {onclick: function(event, can, meta, cb, target) { cb(function(can, cbs) {
     can.require(["/require/shylinux.com/x/echarts/echarts.js", "/require/shylinux.com/x/echarts/china.js"], function() {
-        can.onappend._action(can, [cli.CLOSE, cli.CLEAR], can._action, {
-            close: function(event) { can.page.Remove(can, can._target) },
-            clear: function(event) { target.value = "" },
-        })
-
-        var china_chart = echarts.init(can.page.Append(can, can._output, [{type: html.DIVk, style: {width: "600px", height: "400px"}}]).first)
-        china_chart.setOption({geo: {map: 'china'}}), china_chart.on('click', function (params) {
-            target.value = params.name, can.page.Remove(can, can._target) 
-        }), can.Status(mdb.COUNT, 34)
-        can.onlayout.figure(event, can)
+        var china_chart = echarts.init(can.page.Append(can, can._output, [{type: html.DIV, style: {width: 600, height: 400}}]).first)
+        china_chart.setOption({geo: {map: 'china'}}), china_chart.on(html.CLICK, function (params) {
+            target.value = params.name, can.close()
+        }), can.Status(mdb.TOTAL, 34), can.onlayout.figure(event, can), can.base.isFunc(cbs) && cbs(can)
     })
-}}, })
+}) }}, })
 

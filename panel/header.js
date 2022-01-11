@@ -72,7 +72,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         msg.Option(aaa.BACKGROUND) && can.onlayout.background(can, "/share/local/background", document.body)
     },
     _avatar: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
-        msg.Option(aaa.AVATAR) && can.page.Modify(can, "div.output div.state.avatar>img", {src: "/share/local/avatar"})
+        msg.Option(aaa.AVATAR) && can.page.Modify(can, "div.state.avatar>img", {src: "/share/local/avatar"})
     },
     _menus: function(can, msg, target) {
         var menus = can.base.Obj(msg.Option(chat.MENUS)||can.Conf(chat.MENUS), [chat.HEADER, ["setting", chat.BLACK, chat.WHITE, chat.PRINT]])
@@ -87,7 +87,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.core.Timer({interval: 500}, function() { can.onimport.time(can, target) })
         can.onappend.figure(can, {action: "date", style: {"min-width": 306}}, target, function(sub) {
             can.get("Action", "size", function(msg, top) {
-                can.page.Modify(can, sub._target, {style: {top: top, left: window.innerWidth-sub._target.offsetWidth}})
+                can.page.Modify(can, sub._target, {style: {top: top, right: 0, left: null}})
             })
         }), target.onmouseenter = target.click
     },

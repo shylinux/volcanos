@@ -56,11 +56,10 @@ var ctx = {
     INDEX: "index", ARGS: "args",
 }
 var cli = {
-    OPEN: "open", CLOSE: "close",
-    START: "start", STOP: "stop",
-    DONE: "done", ERROR: "error",
+    CODE: "code", COST: "cost", FROM: "from", BACK: "back",
+    OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end",
+    START: "start", STOP: "stop", DONE: "done", ERROR: "error",
     CLEAR: "clear", REFRESH: "refresh",
-    BACK: "back",
 
     RED: "red", GREEN: "green", BLUE: "blue",
     YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta",
@@ -75,23 +74,26 @@ var aaa = {
     LOGIN: "login", LOGOUT: "logout", INVITE: "invite",
 }
 var mdb = {
-    PLUGIN: "plugin", RENDER: "render", SEARCH: "search", INPUTS: "inputs",
-    CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete",
-    MODIFY: "modify", SELECT: "select",
-
-    META: "meta", HASH: "hash", LIST: "list",
+    DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
 
     ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text",
     LINK: "link", SCAN: "scan", SHOW: "show", HELP: "help",
-    SHORT: "short", FIELD: "field", COUNT: "count", LIMIT: "limit",
-    INDEX: "index", VALUE: "value", EXTRA: "extra", EXPIRE: "expire",
+    SHORT: "short", FIELD: "field", TOTAL: "total", COUNT: "count", LIMIT: "limit",
+    INDEX: "index", VALUE: "value", EXTRA: "extra", ALIAS: "alias", EXPIRE: "expire",
+
+    CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete",
+    MODIFY: "modify", SELECT: "select",
+    INPUTS: "inputs", PRUNES: "prunes", EXPORT: "export", IMPORT: "import",
+
+    PLUGIN: "plugin", RENDER: "render", SEARCH: "search", ENGINE: "engine",
+    NEXT: "next", PREV: "prev", PAGE: "page", MAIN: "main",
 }
 var ssh = {
     SCRIPT: "script",
 }
 var nfs = {
     HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
-    PATH: "path", FILE: "file", LINE: "line",
+    PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
     DIR: "dir", CAT: "cat", TRASH: "trash",
     DIR_ROOT: "dir_root",
 }
@@ -107,11 +109,12 @@ var wiki = {
     TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
     ORDER: "order", TABLE: "table", CHART: "chart", IMAGE: "image", VIDEO: "video",
     FIELD: "field", SHELL: "shell", LOCAL: "local", PARSE: "parse",
+
+    NAVMENU: "navmenu", PREMENU: "premenu",
 }
 var chat = {
-    LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", OUTPUT: "output",
-    TOAST: "toast", CARTE: "carte", INPUT: "input", UPLOAD: "upload",
-    STORY: "story", FLOAT: "float", CONTEXTS: "contexts",
+    LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", OUTPUT: "output", INPUT: "input", UPLOAD: "upload",
+    STORY: "story", FLOAT: "float", CONTEXTS: "contexts", CARTE: "carte", TOAST: "toast",
     LEGNED: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
     LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile",
 
@@ -137,8 +140,8 @@ var chat = {
         {name: "Header", help: "标题栏", pos: "head", state: ["time", "usernick", "avatar"]},
         {name: "River",  help: "群聊组", pos: "left", action: ["create", "refresh"]},
         {name: "Action", help: "工作台", pos: "main"},
-        {name: "Footer", help: "状态条", pos: "foot", state: ["ncmd"]},
         {name: "Search", help: "搜索框", pos: "auto"},
+        {name: "Footer", help: "状态条", pos: "foot", state: ["ncmd"]},
     ],
     plugin_list: [
         "/plugin/state.js",
@@ -180,10 +183,11 @@ var html = {
     TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li",
     A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
 
-    CLASS: "class", BLOCK: "block", NONE: "none",
+    CLASS: "class", BLOCK: "block", NONE: "none", FLOAT: "float", CLEAR: "clear",
     STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
     SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
     MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width",
+    HIDDEN: "hidden", SELECT: "select",
 
     WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe", CHROME: "chrome",
     LIST: "list", ITEM: "item", MENU: "menu", NODE: "node",
@@ -192,7 +196,7 @@ var html = {
 var lang = {
     STRING: "string", NUMBER: "number",
     OBJECT: "object", FUNCTION: "function",
-    ESCAPE: "Escape", ENTER: "Enter",
+    ESCAPE: "Escape", ENTER: "Enter", TAB: "Tab",
 }
 function shy(help, meta, list, cb) {
     var index = 0, args = arguments; function next(type) {
@@ -317,9 +321,9 @@ Volcanos.meta._load = function(url, cb) {
             return document.body.appendChild(item), item
     }
 }
-function cmd(tool) {
+function can(tool) {
     Volcanos({name: "chat", panels: [
         {name: "Header", help: "标题栏", pos: "hide", state: ["time", "usernick", "avatar"]},
-        {name: "cmd", help: "工作台", pos: chat.MAIN, tool: tool},
+        {name: "Action", help: "工作台", pos: chat.MAIN, tool: tool},
     ]})
 }

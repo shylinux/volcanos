@@ -1,4 +1,4 @@
-Volcanos("onimport", {H6help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target) {
         can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
         if (msg.Length() > 0) { return can.onappend.table(can, msg) }
 
@@ -6,39 +6,32 @@ Volcanos("onimport", {H6help: "导入数据", list: [], _init: function(can, msg
         can.page.Select(can, target, ".story", function(item) { var data = item.dataset||{}
             can.core.CallFunc([can.onimport, data.type], [can, data, item])
             can.page.Modify(can, item, {style: can.base.Obj(data.style)})
-        }), can.onimport._navmenu(can)
-    },
-    _navmenu: function(can) { if (!can.sup._navmenu) { return }
-        if (can.user.mod.isCmd) { can.page.ClassList.add(can, can._fields, "cmd")
-            can.Conf(html.WIDTH, can.Conf(html.WIDTH)-can.sup._navmenu.offsetWidth-10)
-            can.page.Modify(can, can.sup._navmenu, {style: {height: window.innerHeight}})
-            can.page.Modify(can, can._output, {style: {"max-width": can.Conf(html.WIDTH)}})
-            can.page.Modify(can, can._output, {style: {height: window.innerHeight}})
-        } else {
-            can.Conf(html.WIDTH, can.Conf(html.WIDTH)-can.sup._navmenu.offsetWidth-20)
-            can.page.Modify(can, can.sup._navmenu, {style: {height: window.innerHeight-240}})
-            can.page.Modify(can, can._output, {style: {height: window.innerHeight-240}})
-        }
+        })
     },
     navmenu: function(can, data, target) { var nav = can.sup._navmenu
-        nav = nav||can.page.Append(can, can._fields, [{view: "navmenu"}]).first
+        nav = nav||can.page.Append(can, can._fields, [{view: wiki.NAVMENU}]).first
         can.onmotion.clear(can, nav), can._fields.insertBefore(nav, can._output)
-        can.sup._navmenu = nav
 
-        can.page.Modify(can, can._output, {style: {float: html.LEFT, clear: html.NONE}})
-
+        can.page.Modify(can, nav, {style: {height: can.Conf(html.HEIGHT)}})
         can.onappend.list(can, can.base.Obj(data.data), function(event, item) {
-            var link = item.meta.link, cmd = link.split(ice.PS).pop()
-            if (can.onaction[cmd]) { return can.onaction[cmd](event, can) }
-            if (!link || link == can.Option(nfs.PATH)) { return }
+            var link = item.meta.link, list = can.core.Split(item.meta.link)
+            if (can.core.Value(can, list[0])) { return can.core.CallFunc([can, list[0]], list.slice(1)) }
+            if (!link || link == can.Option(nfs.PATH)) { return false }
 
-            can.page.Cache(can.Option(nfs.PATH), can._output, "some")
-            can.Option(nfs.PATH, link)
-            var some = can.page.Cache(can.Option(nfs.PATH), can._output)
-            if (!some) { can.sup.Update(event, [link]) }
-            can.user.title(item.meta.name)
+            can.page.Cache(can.Option(nfs.PATH), can._output, can._output.scrollTop+1)
+            can.Option(nfs.PATH, link), can.user.mod.isCmd && can.user.title(item.meta.name)
+            var position = can.page.Cache(can.Option(nfs.PATH), can._output)
+            if (position) { can._output.scrollTo(0, position-1); return true }
+
+            can.sup.Update(event, [link])
             return true
-        }, nav)
+        }, nav), can.sup._navmenu = nav
+
+        can.Conf(html.WIDTH, can.Conf(html.WIDTH)-nav.offsetWidth-(can.user.mod.isCmd? 10: 20))
+        can.page.Modify(can, can._output, {style: kit.Dict(
+            html.HEIGHT, can.sup._navmenu.offsetHeight, html.MAX_WIDTH, can.Conf(html.WIDTH),
+            html.FLOAT, html.LEFT, html.CLEAR, html.NONE
+        )})
     },
     premenu: function(can, data, target) {
         can.page.Select(can, can._output, "h2.story, h3.story", function(item) {
@@ -51,54 +44,34 @@ Volcanos("onimport", {H6help: "导入数据", list: [], _init: function(can, msg
         can.user.mod.isCmd && can.user.title(data.text)
     },
     spark: function(can, data, target) {
-        if (data[mdb.NAME] == html.INNER) {
-            target.title = "点击复制", target.onclick = function(event) {
-                can.user.copy(event, can, target.innerText)
-            }
-            return
-        }
-        can.page.Select(can, target, html.SPAN, function(item) {
-            item.title = "点击复制", item.onclick = function(event) {
-                can.user.copy(event, can, item.innerText)
-            }
-        })
-        can.page.Select(can, target, html.A, function(item) {
-            if (item.innerText == "") { item.innerText = item.href }
-            can.page.Modify(can, item, {target: "_blank"})
-        })
+        if (data[mdb.NAME] == html.INNER) { return can.onmotion.copy(can, target) }
+        can.page.Select(can, target, html.A, function(item) { can.onmotion.link(can, item) })
+        can.page.Select(can, target, html.SPAN, function(item) { can.onmotion.copy(can, item) })
     },
     chart: function(can, data, target) {
         target.oncontextmenu = function(event) {
-            var ui = can.user.carte(event, can, kit.Dict(mdb.EXPORT, function(event, can, button) {
-                can.user.toPNG(can, can.user.prompt("file name", null, "hi.png"), target.outerHTML,
-                    parseInt(target.getAttribute(html.HEIGHT)), parseInt(target.getAttribute(html.WIDTH)))
+            can.user.carteClient(event, can, kit.Dict(mdb.EXPORT, function(event, can, button) {
+                can.user.toPNG(can, can.user.prompt("please input file name", "hi")+".png", target.outerHTML,
+                    parseInt(target.getAttribute(html.HEIGHT))||200, parseInt(target.getAttribute(html.WIDTH))||200)
             }), [mdb.EXPORT])
-            can.page.Modify(can, ui._target, {style: {left: event.clientX, top: event.clientY}})
         }
     },
     table: function(can, data, target) {
-        can.page.OrderTable(can, target)
-        can.page.ClassList.add(can, target, chat.CONTENT)
-        can.page.Select(can, target, html.TD, function(item) {
-            item.title = "点击复制", item.onclick = function(event) {
-                can.user.copy(event, can, item.innerText)
-            }
-        })
+        can.page.OrderTable(can, target), can.page.ClassList.add(can, target, chat.CONTENT)
+        can.page.Select(can, target, html.TD, function(item) { can.onmotion.copy(can, item) })
     },
     field: function(can, data, target, width) { var item = can.base.Obj(data.meta)
         can.onappend._init(can, item, ["/plugin/state.js"], function(sub) {
             sub.run = function(event, cmds, cb, silent) {
                 can.run(event, can.misc.concat([ctx.ACTION, chat.STORY, data.type, data.name, data.text], cmds), cb, true)
-            }
-            sub.Conf(html.WIDTH, item.width = (width||can.Conf(html.WIDTH))-20)
+            }, sub.Conf(html.WIDTH, item.width = (width||can.Conf(html.WIDTH))-20)
 
-            can.core.Value(item, "auto.cmd") && can.core.Timer(100, function() {
-                var msg = sub.request({}, can.core.Value(item, "opts")); msg.Option("_handle", "true")
+            can.core.Value(item, "auto.cmd") && can.core.Timer300ms(function() {
+                var msg = sub.request({}, can.core.Value(item, "opts")); msg.Option("_handle", ice.TRUE)
                 sub.Update(msg._event, [ctx.ACTION, can.core.Value(item, "auto.cmd")])
             })
         }, can._output, target)
     },
-
     iframe: function(can, data, target) { var meta = can.base.Obj(data.meta)
         can.page.Modify(can, target, {width: can.Conf(html.WIDTH)-200})
     },
@@ -106,15 +79,15 @@ Volcanos("onimport", {H6help: "导入数据", list: [], _init: function(can, msg
 Volcanos("onkeypop", {help: "键盘交互", list: [],
     _mode: {
         normal: {
-            "n": function(event, can) { can.onaction.next(can.sub) },
-            "j": function(event, can) { can.onaction.next(can.sub) },
-            "ArrowRight": function(event, can) { can.onaction.next(can.sub) },
-            "ArrowLeft": function(event, can) { can.onaction.prev(can.sub) },
-            "k": function(event, can) { can.onaction.prev(can.sub) },
-            "p": function(event, can) { can.onaction.prev(can.sub) },
+            "n": function(event, can) { can.ondetail.next(can.sub) },
+            "j": function(event, can) { can.ondetail.next(can.sub) },
+            "ArrowRight": function(event, can) { can.ondetail.next(can.sub) },
+            "ArrowLeft": function(event, can) { can.ondetail.prev(can.sub) },
+            "k": function(event, can) { can.ondetail.prev(can.sub) },
+            "p": function(event, can) { can.ondetail.prev(can.sub) },
 
-            "q": function(event, can) { can.onaction["结束"](event, can.sub) },
-            "h": function(event, can) { can.onaction["隐藏"](event, can.sub) },
+            "q": function(event, can) { can.ondetail["结束"](event, can.sub) },
+            "h": function(event, can) { can.ondetail["隐藏"](event, can.sub) },
         },
     }, _engine: {},
 })
@@ -136,7 +109,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
                 ["布局", "开讲", "快闪", "网格"], "大纲", "首页", "上一页",
                 ["菜单"].concat(can.core.List(list, function(page) { return page[0].innerHTML })),
                 "下一页", "隐藏", "结束",
-            ], sub._action, can.onaction)
+            ], sub._action, can.ondetail)
 
             can.onengine.signal(can, "keymap.focus", can.request(event, {cb: function(event) {
                 can.keylist = can.onkeypop._parse(event, can, "normal", can.keylist)
@@ -149,76 +122,72 @@ Volcanos("onaction", {help: "控件交互", list: [],
 
             can.core.List(sub.list = list, function(page, index) {
                 can.onappend.item(can, html.ITEM, {name: page[0].innerHTML}, function(event) {
-                    can.onaction.show(sub, index) 
+                    can.ondetail.show(sub, index) 
                 }, function(event) {}, sub.ui.project)
 
                 sub.page.Append(sub, sub.ui.content, [{view: "page"+(index==0? " first": ""), list: can.core.List(page, function(item) { var data = item.dataset||{}
                     switch (data.type) {
-                        case "premenu": item = item.cloneNode(false); break
+                        case wiki.PREMENU: item = item.cloneNode(false); break
                         case chat.FIELD: item = can.onappend.field(can, chat.STORY, can.base.Obj(data.meta), sub.ui.content).first; break
                         default: item = item.cloneNode(true)
                     }
                     return can.core.CallFunc([can.onimport, data.type], [sub, data, item, window.innerWidth-40]), item
                 }), }])
-            }), can.onmotion.hidden(can, sub.ui.project), can.onaction.show(sub, 0) 
+            }), can.onmotion.hidden(can, sub.ui.project), can.ondetail.show(sub, 0) 
 
-            sub.onappend._status(sub, ["page", "from", "cost"]), sub.Status("from", can.base.Time())
+            sub.onappend._status(sub, [mdb.PAGE, cli.FROM, cli.COST]), sub.Status(cli.FROM, can.base.Time())
             var from = new Date(); can.core.Timer({interval: 100}, function() { var now = new Date()
-                sub.Status("cost", can.base.Duration(now-from))
+                sub.Status(cli.COST, can.base.Duration(now-from))
             })
         }, document.body)
     },
 
-    "开讲": function(event, can) { can.sup.onaction.show(can, 0) },
-    "快闪": function(event, can) { can.sup.onaction.flash(can) },
-    "网格": function(event, can) { can.sup.onaction.grid(can) },
-
-    "大纲": function(event, can) { can.onmotion.toggle(can, can.ui.project) },
-    "首页": function(event, can) { can.sup.onaction.show(can, 0) },
-    "上一页": function(event, can) { can.sup.onaction.prev(can, can.ui.content) },
-    "菜单": function(event, can) { can.sup.onaction.show(can, event.target.selectedIndex) },
-    "下一页": function(event, can) { can.sup.onaction.next(can, can.ui.content) },
-    "隐藏": function(event, can) { can.onmotion.toggle(can, can._output) },
-    "结束": function(event, can) { can.page.Remove(can, can._target)
-        can.onengine.signal(can, "keymap.focus", can.request(event, {cb: null}))
+})
+Volcanos("ondetail", {help: "交互操作", list: ["删除"], _init: function(can, msg, list, cb, target) {
     },
-
     show: function(sub, which) { sub.page.Modify(sub, sub.ui.content, {className: chat.CONTENT})
         sub.page.Select(sub, sub.ui.content, "div.page", function(page, index) {
             if (index == which || page == which) {
                 sub.page.Select(sub, page, "h1,h2,h3", function(item) { sub.Action("菜单", item.innerHTML) })
                 sub.onmotion.select(sub, sub.ui.project, "div.item", index)
-                sub.Status("page", index+1+ice.PS+sub.list.length)
-                sub.page.ClassList.add(sub, page, "select")
+                sub.Status(mdb.PAGE, index+1+ice.PS+sub.list.length)
+                sub.page.ClassList.add(sub, page, html.SHOW)
             } else {
-                sub.page.ClassList.del(sub, page, "select")
+                sub.page.ClassList.del(sub, page, html.SHOW)
             }
         })
     },
     next: function(sub) {
-        sub.page.Select(sub, sub.ui.content, "div.page.select", function(page) {
-            page.nextSibling? sub.sup.onaction.show(sub, page.nextSibling):
+        sub.page.Select(sub, sub.ui.content, "div.page.show", function(page) {
+            page.nextSibling? sub.sup.ondetail.show(sub, page.nextSibling):
                 sub.user.toast(sub, "end")
         })
     },
     prev: function(sub) {
-        sub.page.Select(sub, sub.ui.content, "div.page.select", function(page) {
-            page.previousSibling? sub.sup.onaction.show(sub, page.previousSibling):
+        sub.page.Select(sub, sub.ui.content, "div.page.show", function(page) {
+            page.previousSibling? sub.sup.ondetail.show(sub, page.previousSibling):
                 sub.user.toast(sub, "end")
         })
     },
     flash: function(sub) {
         sub.core.Next(sub.page.Select(sub, sub.ui.content, "div.page"), function(page, next) {
             sub.core.Timer(500, function() { next() })
-            sub.sup.onaction.show(sub, page)
+            sub.sup.ondetail.show(sub, page)
         })
     },
     grid: function(sub) { sub.page.Modify(sub, sub.ui.content, {className: "content grid"}) },
-})
-Volcanos("ondetail", {help: "交互操作", list: ["删除"], _init: function(can, msg, list, cb, target) {
-    },
-    "删除": function(event, sub) {
-        sub.page.Remove(sub, sub._target)
-    },
+
+    "开讲": function(event, can) { can.sup.ondetail.show(can, 0) },
+    "快闪": function(event, can) { can.sup.ondetail.flash(can) },
+    "网格": function(event, can) { can.sup.ondetail.grid(can) },
+
+    "大纲": function(event, can) { can.onmotion.toggle(can, can.ui.project) },
+    "首页": function(event, can) { can.sup.ondetail.show(can, 0) },
+    "上一页": function(event, can) { can.sup.ondetail.prev(can, can.ui.content) },
+    "菜单": function(event, can) { can.sup.ondetail.show(can, event.target.selectedIndex) },
+    "下一页": function(event, can) { can.sup.ondetail.next(can, can.ui.content) },
+    "隐藏": function(event, can) { can.onmotion.toggle(can, can._output) },
+    "结束": function(event, can) { can.page.Remove(can, can._target) },
+    "删除": function(event, sub) { sub.page.Remove(sub, sub._target) },
 })
 

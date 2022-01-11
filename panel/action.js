@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) {
         var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM)
         can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN
-            item.height = parseInt(can.Conf(html.HEIGHT))-40, item.width = parseInt(can.Conf(html.WIDTH))-40
+            item.height = parseInt(can.Conf(html.HEIGHT))-240, item.width = parseInt(can.Conf(html.WIDTH))-40
             item.feature = can.base.Obj(item.feature||item.meta), item.inputs = can.base.Obj(item.inputs||item.list)
 
             can.onappend.plugin(can, item, function(sub, meta, skip) {
@@ -46,7 +46,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             can.user.title(can.misc.Search(can, chat.TITLE)||msg.Option(chat.TITLE))
             can.onaction.layout(can, "auto")
 
-            if (msg[mdb.INDEX].length == 1) { can.require(["/panel/cmd.css"])
+            if (msg[mdb.INDEX].length == 1) {
                 can.user.mod.isCmd = true, can.page.ClassList.add(can, can._target, "cmd")
                 can.page.Select(can, document.body, "fieldset.panel", function(item) {
                     item != can._target && can.onmotion.hidden(can, item)
@@ -61,6 +61,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
     },
 })
 Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, page, msg, can, cmds, cb) {
+        if (!can._root.river) { return false }
         var list = can._root.river; var river = list[cmds[0]]
         var storm = river && river.storm[cmds[1]]
         if (!storm || cmds.length != 2) { return false }
@@ -90,6 +91,22 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, msg, 
     onmain: function(can, msg) {
         can.onimport._share(can, can.misc.Search(can, web.SHARE))
         can.onkeypop._init(can)
+    },
+    onlogin: function(can) { if (!can.user.mod.isCmd) { return }
+        can.page.ClassList.add(can, can._target, "cmd")
+        can._names = location.pathname
+        can.Conf(chat.TOOL)? can.core.Next(can.Conf(chat.TOOL), function(item, next) {
+            can.core.Timer(500, function() { can.onaction._plugin(can, item, next) })
+
+        }): can.run(can.request()._event, [ctx.ACTION, ctx.COMMAND], function(msg) {
+            can.core.Next(msg.Table(), function(item, next) {
+                can.onaction._plugin(can, item, next)
+            })
+        })
+    },
+    _plugin: function(can, item, next) {
+        can.base.Copy(item, {height: window.innerHeight, width: window.innerWidth, opts: can.misc.Search(can)})
+        can.onappend.plugin(can, item, function(sub, meta) { can.user.title(meta.name), next() })
     },
     onstorm_select: function(can, msg, river, storm) { can.onlayout._init(can)
         function key(name) { return can.core.Keys(can.Conf(chat.RIVER), can.Conf(chat.STORM), name) }

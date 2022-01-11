@@ -186,23 +186,18 @@ Volcanos("onaction", {help: "交互操作", list: [
         can.Update(event, [ctx.ACTION, "prev", can.Status("total")||0, can.Option("limit"), can.Option("offend")])
     },
 
-    listTags: function(event, can, button) {
-        var list = []
-        can.core.List([
-            can.base, can.core, can.misc, can.page, can.user,
-            can.onengine, can.ondaemon,
-            can.onappend, can.onlayout,
-            can.onmotion, can.onkeypop,
+    listTags: function(event, can, button) { var list = []
+        can.core.List([can.base, can.core, can.misc, can.page, can.user,
+            can.onengine, can.ondaemon, can.onappend, can.onlayout, can.onmotion, can.onkeypop,
         ], function(lib) {
-            can.core.Item(lib, function(key, value) { if (!lib.hasOwnProperty(key)) { return }
-                if (key.indexOf("_") == 0) { return }
-                list.push({zone: lib._name, type: typeof value, name: key, text: can.base.isObject(value)? "": (value+"").split(ice.NL)[0], file: lib._path})
+            can.core.Item(lib, function(key, value) { if (key.indexOf("_") == 0 || !lib.hasOwnProperty(key)) { return }
+                list.push({zone: lib._name, type: typeof value, name: key, text: can.base.isObject(value)? "": (value+"").split(ice.NL)[0],
+                    path: "usr/volcanos/", file: lib._path, line: 1,
+                })
             })
         })
-        var msg = can.request(event, {_handle: true, content: can.base.Format(list)})
-        can.run(event, [button], function() {
-            can.user.toastSuccess(can)
-        })
+        var msg = can.request(event, {_handle: true, text: can.base.Format(list)})
+        can.run(event, [ctx.ACTION, button], function() { can.user.toastSuccess(can) })
     },
     getClipboardData: function(event, can, button) {
         function add(text) {

@@ -1,16 +1,13 @@
-Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, meta, cb, target) {
-    function set(now) { target.value = can.user.time(can, now), can.page.Remove(can, can._target)
-        meta && meta.action == ice.AUTO && can.run({})
-    }
+Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(event, can, meta, cb, target) { cb(function(can, cbs) {
+    function set(now) { target.value = can.user.time(can, now), can.close(), meta && meta.action == ice.AUTO && can.run({}) }
 
     // 添加控件
     var now = target.value? new Date(target.value): new Date()
-    can.onappend._action(can, [cli.CLOSE,
+    can.onmotion.clear(can, can._action), can.onappend._action(can, [cli.CLOSE,
         ["hour"].concat(can.core.List(24)), ["minute"].concat(can.core.List(0, 60, 5)), ["second"].concat(can.core.List(0, 60, 5)),
         "今天", "", "上一月", ["year"].concat(can.core.List(now.getFullYear() - 10, now.getFullYear() + 10)),
         ["month"].concat(can.core.List(1, 13)), "下一月",
-    ], can._action, {
-        close: function(event) { can.page.Remove(can, can._target) },
+    ], can._action, { close: function(event) { can.close() },
         "hour": function(event, can, key, value) {  now.setHours(parseInt(value)||0), show(now) },
         "minute": function(event, can, key, value) {  now.setMinutes(parseInt(value)||0), show(now) },
         "second": function(event, can, key, value) {  now.setSeconds(parseInt(value)||0), show(now) },
@@ -26,11 +23,12 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
         "后一年": function(event) {  now.setFullYear(now.getFullYear()+1), show(now) },
     })
 
-    can._table = can.page.Append(can, can._output, [{view: [chat.CONTENT, html.TABLE]}]).first
+    can.onmotion.clear(can, can._status)
+    can._table = can.page.Appends(can, can._output, [{view: [chat.CONTENT, html.TABLE]}]).first
     var today = new Date(); function show(now) {
         // 设置控件
-        can.Action("month", now.getMonth()+1)
         can.Action("year", now.getFullYear())
+        can.Action("month", now.getMonth()+1)
         can.Action("hour", now.getHours())
         can.Action("minute", parseInt(now.getMinutes()/5)*5)
         can.Action("second", parseInt(now.getSeconds()/5)*5)
@@ -52,11 +50,11 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
         var tail = new Date(end); tail.setDate(end.getDate()+7-end.getDay())
 
         // 时间序列
-        for (var day = new Date(head); day < one; day.setDate(day.getDate()+1)) {add(day, "last")}
-        for (var day = new Date(one); day < end; day.setDate(day.getDate()+1)) {add(day, "main")}
-        for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) {add(day, "next")}
+        for (var day = new Date(head); day < one; day.setDate(day.getDate()+1)) { add(day, mdb.PREV) }
+        for (var day = new Date(one); day < end; day.setDate(day.getDate()+1)) { add(day, mdb.MAIN) }
+        for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) { add(day, mdb.NEXT) }
 
-        return can.onlayout.figure(event, can), can.base.isFunc(cb) && cb(can), now
-    }; show(now)
-}} }, ["/plugin/input/date.css"])
+        return now
+    } show(now), can.onlayout.figure(event, can), can.base.isFunc(cbs) && cbs(can)
+})}} }, [""])
 

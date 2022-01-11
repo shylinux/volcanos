@@ -101,7 +101,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     },
 
     carte: function(event, can, list, cb) {
-        can.user.cartes(event, can, can.ondetail, list, cb)
+        can.user.carteRight(event, can, can.ondetail, list, cb)
     },
     storm: function(event, can, river) { can.sublist = can.sublist||{}
         can.onmotion.select(can, can._output, "div.item", can.river_list[river])
