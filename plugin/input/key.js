@@ -39,7 +39,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
             can.base.isFunc(cbs) && cbs(can)
         })
     }) },
-    onkeydown: function(event, can, meta, cb, target) {
+    onkeydown: function(event, can, meta, cb, target, last) {
         var msg = target._msg; msg && cb(function(can, cbs) {
             if (event.ctrlKey) { can.onfigure.key._select(event, can, target) } else {
                 target._index = 0, target._value = ""
@@ -61,7 +61,9 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
 
         if (event.ctrlKey && ["n", "p"].indexOf(event.key) > -1) {
             return event.stopPropagation(), event.preventDefault()
-        } can.onaction.onkeydown(event, can)
+        }
+        last(event, can)
+        // can.onaction && can.onaction.onkeydown && can.onaction.onkeydown(event, can)
     },
 }})
 

@@ -4,11 +4,10 @@
     "background": {"page": "/publish/chrome/chrome.html"},
     "browser_action": {"default_popup": "/publish/chrome/popup.html"},
     "content_scripts": [{"matches": ["<all_urls>"], "css": [
-        "/page/cache.css", "/publish/chrome/contexts.css"
-    ],
-        "js": ["/proto.js", "/publish/chrome/contexts.js", "/page/cache.js", "/frame.js"]}
-    ],
-    "permissions": [
+        "/page/can.css", "/publish/chrome/contexts.css"
+    ], "js": [
+        "/page/can.js", "/publish/chrome/contexts.js"
+    ]}], "permissions": [
         "tabs",
         "history",
         "cookies",

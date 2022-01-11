@@ -4,7 +4,6 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
             return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb)
         }
         if (can.user.isExtension) { Volcanos.meta.args = JSON.parse(localStorage.getItem(ctx.ARGS))||{} }
-
         can.core.Next(list, function(item, next) { item.type = chat.PANEL
             can.onappend._init(can, item, item.list, function(panel) {
                 panel.run = function(event, cmds, cb) { var msg = panel.request(event); cmds = cmds||[]
@@ -20,7 +19,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
             can.onlayout.topic(can), can.onmotion._init(can, target), can.onkeypop._init(can)
             can.ondaemon._init(can), can.onengine.signal(can, chat.ONMAIN, can.request())
             can.base.isFunc(cb) && cb()
-        })
+        }), can.onmotion.float.auto(can, document.body)
     },
     _search: function(event, can, msg, panel, cmds, cb) {
         var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split(ice.PT), function(value) {
@@ -189,7 +188,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }; can.core.Next(can.base.Obj(meta.inputs, can.core.Value(can, "onimport.list")).concat(meta.type == chat.FLOAT? [{type: html.BUTTON, name: cli.CLOSE}]: []), add)
     },
     _action: function(can, list, action, meta) { meta = meta||can.onaction, action = action||can._action, can.onmotion.clear(can, action)
-        can.core.List(can.base.Obj(list, can.core.Value(can, "onaction.list")), function(item) { can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
+        can.core.List(can.base.Obj(list, can.core.Value(can, "onaction.list")), function(item) { if (!item) { return } can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
             can.base.isString(item)? /*按键*/ {type: html.BUTTON, value: can.user.trans(can, item), onclick: function(event) {
                 var cb = meta[item]||meta["_engine"]
                 cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
@@ -372,7 +371,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
     figure: function(can, meta, target, cbs) { if ([html.BUTTON, html.SELECT].indexOf(meta.type) > -1) { return }
         var input = meta.action||mdb.KEY; input != ice.AUTO && can.require(["/plugin/input/"+input+".js"], function(can) {
-            can.core.ItemCB(can.onfigure[input], function(key, on) { target[key] = function(event) { on(event, can, meta, function(cb) {
+            can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]; target[key] = function(event) { on(event, can, meta, function(cb) {
                 can.sub? can.base.isFunc(cb) && cb(can.sub, cbs): can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT}, ["/plugin/input/"+input+".js"], function(sub) { sub.Conf(meta)
                     sub.run = function(event, cmds, cb) { var msg = sub.request(event, can.Option());
                         (meta.run||can.run)(event, cmds, cb, true)
@@ -387,7 +386,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                     meta.style && sub.page.Modify(sub, sub._target, {style: meta.style})
                     can.base.isFunc(cb) && cb(sub, cbs)
                 }, document.body)
-            }, target) } })
+            }, target, last) } })
         })
     },
     float: function(can, msg, cb) {
@@ -637,13 +636,13 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
             width: target.offsetWidth > 400? 400: target.offsetWidth-20, height: target.offsetHeight < 60? 60: target.offsetHeight-20,
         }, onkeydown: function(event) {
             switch (event.key) {
-                case html.ENTER:
+                case lang.ENTER:
                     if (event.ctrlKey) {
                         target.innerHTML = event.target.value
                         event.target.value == back || cb(event, event.target.value, back)
                     }
                     break
-                case html.ESCAPE: target.innerHTML = back; break
+                case lang.ESCAPE: target.innerHTML = back; break
                 default: can.onkeypop.input(event, can)
             }
         }, _init: function(target) {
