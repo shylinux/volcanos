@@ -188,7 +188,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         }; can.core.Next(can.base.Obj(meta.inputs, can.core.Value(can, "onimport.list")).concat(meta.type == chat.FLOAT? [{type: html.BUTTON, name: cli.CLOSE}]: []), add)
     },
     _action: function(can, list, action, meta) { meta = meta||can.onaction, action = action||can._action, can.onmotion.clear(can, action)
-        can.core.List(can.base.Obj(list, can.core.Value(can, "onaction.list")), function(item) { if (!item) { return } can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
+        can.core.List(can.base.Obj(list, can.core.Value(can, "onaction.list")), function(item) { if (item == undefined) { return } can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
             can.base.isString(item)? /*按键*/ {type: html.BUTTON, value: can.user.trans(can, item), onclick: function(event) {
                 var cb = meta[item]||meta["_engine"]
                 cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
@@ -218,8 +218,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
         return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")||{}; can._msg = msg, sub._msg = msg
             var process = msg._can == can || msg._can == sub
-            if (process && can.core.CallFunc([sub, "onimport._process"], {can: sub, msg: msg, cb: cb})) { return }
-            if (process && can.core.CallFunc([can, "onimport._process"], {can: can, msg: msg, cb: cb})) { return }
+            if (process && can.core.CallFunc([sub, "onimport._process"], {can: sub, msg: msg})) { return }
+            if (process && can.core.CallFunc([can, "onimport._process"], {can: can, msg: msg})) { return }
             if (can.base.isFunc(cb) && can.core.CallFunc(cb, {can: can, msg: msg})) { return }
             if (silent) { return }
 
