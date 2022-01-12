@@ -24,19 +24,18 @@ fieldset.Action>div.action div.item.select {
     background-color:#2e515f;
 }
 
-fieldset.Action div.output fieldset.plugin.fixed {
-    position:fixed;
-    left:0px;
-    top:0px;
-    margin:0px;
-    padding:0px;
-    background-color:black;
-    height: -webkit-fill-available;
-    width: -webkit-fill-available;
-    overflow: auto;
-    background-color: #061c3cd9;
-
+fieldset.Action div.output fieldset.plugin:hover {
+    box-shadow:4px 4px 12px 6px #626bd0;
 }
+fieldset.Action div.output fieldset.plugin legend {
+    font-size:16px; font-family:monospace;
+    margin-top:4px 5px; padding:2px 20px;
+    background-color:#0c739cd9;
+}
+fieldset.Action div.output fieldset.plugin legend:hover {
+    background:red;
+}
+
 fieldset.Action div.output.tabs {
     margin-top:28px;
 }
@@ -62,18 +61,6 @@ fieldset.Action div.output.free fieldset.plugin {
 }
 fieldset.Action div.output.free fieldset.plugin.select {
     display:block;
-}
-
-fieldset.Action div.output fieldset.plugin:hover {
-    box-shadow:4px 4px 12px 6px #626bd0;
-}
-fieldset.Action div.output fieldset.plugin legend {
-    font-size:16px; font-family:monospace;
-    margin-top:4px 5px; padding:2px 20px;
-    background-color:#0c739cd9;
-}
-fieldset.Action div.output fieldset.plugin legend:hover {
-    background:red;
 }
 
 fieldset.panel.cmd>div.legend {

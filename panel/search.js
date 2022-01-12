@@ -59,6 +59,13 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
                     if (event.ctrlKey) { return can.onaction[cli.DONE](event, can) }
                     can.input(event, event.target.value)
                 }
+                can.page.Select(can, can.ui.content, html.TR, function(tr, index) {
+                    if (index == 0) { return }
+                    var has = false; can.page.Select(can, tr, html.TD, function(td) {
+                        has = has || td.innerText.indexOf(event.target.value) > -1
+                    })
+                    can.page.ClassList.set(can, tr, html.HIDDEN, !has)
+                })
             }]},
             {view: chat.CONTENT}, {view: html.STATUS}, {view: [chat.DISPLAY, html.TABLE]},{view: chat.PROFILE},
         ]), can.page.ClassList.add(can, can.ui.display, chat.CONTENT)

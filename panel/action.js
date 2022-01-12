@@ -1,6 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) {
         var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM)
-        can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN
+        can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) {
             item.height = parseInt(can.Conf(html.HEIGHT))-can.Conf(html.MARGIN_Y)
             item.width = parseInt(can.Conf(html.WIDTH))-can.Conf(html.MARGIN_X)
             item.feature = can.base.Obj(item.feature||item.meta)
@@ -15,7 +15,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
     },
     _plugin: function(can, river, storm, sub, meta) { sub._target._meta = meta
         sub.run = function(event, cmds, cb) { var msg = sub.request(event)
-            return can.run(event, can.misc.concat([river, storm, meta.id||meta.index||can.core.Keys(meta.key, meta.name)], cmds||[]), cb)
+            return can.run(event, can.misc.concat([river, storm, meta.id||meta.index], cmds||[]), cb)
         }, can._plugins = (can._plugins||[]).concat([sub])
 
         meta.id && (sub._option.dataset = sub._option.dataset||{}, sub._option.dataset.id = meta.id)
@@ -133,7 +133,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
         })
     },
     onsearch: function(can, msg, word) {
-        if (word[0] == "*" || word[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, word) }
+        if (word[0] == mdb.FOREACH || word[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, word) }
     },
     onsize: function(can, msg, height, width) { can.Conf({height: height, width: width}) },
 
@@ -142,11 +142,10 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
         can.page.Modify(can, can._action, {className: chat.ACTION+ice.SP+button})
         can.page.Modify(can, can._output, {className: chat.OUTPUT+ice.SP+button})
 
-        if (button == "tabs" && !can.tabs) { can.tabs = true
+        if (button == "tabs") {
             can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)
             can.onmotion.select(can, can._action, html.DIV_ITEM, 0)
-        }
-        if (button == "free" && !can.free) { can.free = true
+        } else if (button == "free") {
             can.page.Select(can, can._target, html.DIV_OUTPUT+ice.GT+html.FIELDSET_PLUGIN, function(item, index) {
                 can.page.Modify(can, item, {style: {left: 40*index, top: 40*index}})
                 can.onmotion.move(can, item, {left: 40*index, top: 40*index})
@@ -168,25 +167,24 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
             b: function(event, can, target) { can.search(event, ["Header.onaction.black"]) },
             w: function(event, can, target) { can.search(event, ["Header.onaction.white"]) },
 
+            g: function(event, can, target) { can.search(event, ["River.ondetail.创建群组"]) },
             s: function(event, can, target) { can.search(event, ["River.ondetail.添加应用"]) },
             t: function(event, can, target) { can.search(event, ["River.ondetail.添加工具"]) },
 
-            ":": function(event, can, target) {
-                can.onengine.signal(can, "oncommandfocus")
-            },
             " ": function(event, can, target) {
                 can.onengine.signal(can, "onsearchfocus")
             },
+            ":": function(event, can, target) {
+                can.onengine.signal(can, "oncommandfocus")
+            },
             enter: function(event, can, target) { can.misc.Log("enter") },
             escape: function(event, can, target) {
-                can.page.Select(can, document.body, "fieldset.float,div.float", function(item) {
-                    can.page.Remove(can, item)
-                })
-                can.page.Select(can, document.body, "fieldset.auto", function(item) {
+                can.page.Select(can, document.body, html.FIELDSET_AUTO, function(item) {
                     can.onmotion.hidden(can, item)
                 })
-                can.search(event, ["Search.onaction.hide"])
-                can.misc.Log("enter")
+                can.page.Select(can, document.body, can.base.join([html.FIELDSET_FLOAT, html.DIV_FLOAT], ice.FS), function(item) {
+                    can.page.Remove(can, item)
+                })
             },
         },
     }, _engine: {},

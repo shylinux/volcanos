@@ -87,6 +87,8 @@ var mdb = {
 
     PLUGIN: "plugin", RENDER: "render", SEARCH: "search", ENGINE: "engine",
     NEXT: "next", PREV: "prev", PAGE: "page", MAIN: "main",
+
+    FOREACH: "*", RANDOMS: "%",
 }
 var ssh = {
     SCRIPT: "script",
@@ -176,11 +178,13 @@ var html = {
     FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
     FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
     FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story",
+    FIELDSET_FLOAT: "fieldset.float", FIELDSET_AUTO: "fieldset.auto",
     OPTION_ARGS: "select.args,input.args,textarea.args",
     INPUT_ARGS: "input.args,textarea.args",
+    DIV_ITEM: "div.item", DIV_FLOAT: "div.float",
 
     UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
-    INPUT: "input", INPUT_ARGS: ".args", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
+    INPUT: "input", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
     FORM: "form", FILE: "file", SPACE: "space", CLICK: "click", SUBMIT: "submit", CANCEL: "cancel",
     DIV: "div", IMG: "img", CODE: "code", SPAN: "span", VIDEO: "video",
     TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li",
