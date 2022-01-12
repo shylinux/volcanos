@@ -5,14 +5,14 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
         }
         if (can.user.isExtension) { Volcanos.meta.args = JSON.parse(localStorage.getItem(ctx.ARGS))||{} }
         can.core.Next(list, function(item, next) { item.type = chat.PANEL
-            can.onappend._init(can, item, item.list, function(panel) {
+            can.onappend._init(can, item, item.list, function(panel) { panel.Conf(item)
                 panel.run = function(event, cmds, cb) { var msg = panel.request(event); cmds = cmds||[]
                     return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, panel, cmds, cb)
                 }, can[item.name] = panel, panel._root = can, panel._trans = panel.onaction && panel.onaction._trans||{}
 
                 can.core.ItemCB(panel.onaction, function(key, cb) {
                     can.onengine.listen(can, key, function(msg) { can.core.CallFunc(cb, {can: panel, msg: msg}) })
-                }), panel.onaction._init(panel, item, item.list, next, panel._target)
+                }), can.core.CallFunc([panel.onaction, "_init"], {can: panel, cb: next, target: panel._target})
             }, target)
         }, function() { can.misc.Log(can.user.title(), ice.RUN, can)
             can.require([can.volcano], null, function(can, name, sub) { can[name] = sub })
@@ -165,7 +165,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             can.base.isFunc(cb) && cb(sub)
         }); return sub
     },
-    _option: function(can, meta, option, skip) { meta = meta||{}; var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
+    _option: function(can, meta, option, skip) { meta = meta||{}; var index = -1, args = can.base.Obj(meta.args||meta.arg||meta.opt, []), opts = can.base.Obj(meta.opts, {})
         function add(item, next) { item.type != html.BUTTON && index++
             return Volcanos(item.name, {_follow: can.core.Keys(can._follow, item.name),
                 _target: can.onappend.input(can, item, args[index]||opts[item.name], option||can._option),
@@ -425,10 +425,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
     },
 }, [], function(can) {})
 Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, target) { target = target||document.body
-        var list = []; document.body.onresize = function() {
-            can.core.Delay(list, 1000, function() { can.onlayout._init(can, target) })
-        }
-
+        // var list = []; document.body.onresize = function() {
+        //     can.core.Delay(list, 1000, function() { can.onlayout._init(can, target) })
+        // }
+        //
         var width = window.innerWidth, height = window.innerHeight
         can.page.Select(can, target, [can.core.Keys(html.FIELDSET, chat.HEAD), can.core.Keys(html.FIELDSET, chat.FOOT)], function(field) {
             height -= field.offsetHeight
@@ -447,10 +447,9 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
             if (can.user.isMobile) {
                 can.page.Modify(can, field, {style: {"padding-top": can.user.isLandscape()? "0px": ""}})
             } else {
-                height -= can.page.Select(can, field, can.core.Keys(html.DIV, html.ACTION))[0].offsetHeight
-
                 can.page.Modify(can, field, {style: {height: height}})
                 can.page.Select(can, target, "fieldset.main>div.output", function(output) {
+                    height -= can.page.Select(can, field, can.core.Keys(html.DIV, html.ACTION))[0].offsetHeight
                     can.page.Modify(can, output, {style: {height: height}})
                 })
             }
@@ -536,6 +535,11 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
     },
     clear: function(can, target) {
         return can.page.Modify(can, target||can._output, ""), true
+    },
+    share: function(event, can, input, args) {
+        return can.user.input(event, can, input, function(ev, button, data, list, _args) {
+            can.search(can.request(event, {args: [mdb.TYPE, chat.FIELD].concat(args||[], _args||[])})._event, ["Header.onaction.share"])
+        })
     },
     story: {
         _hash: {
@@ -661,6 +665,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
         }
     },
     move: function(can, target, layout, cb) { var begin
+        can.page.Modify(can, target, {style: layout})
         target.onmousedown = function(event) {
             layout.height = target.offsetHeight, layout.width = target.offsetWidth
             layout.left = target.offsetLeft, layout.top = target.offsetTop

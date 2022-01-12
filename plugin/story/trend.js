@@ -46,7 +46,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["编辑", ["view", "趋势图
         can.onmotion.toggle(can, can._status)
     },
     "趋势图": function(event, can) { var height = can.Action(html.HEIGHT)
-        if (height == "max") { height = can.Conf(html.HEIGHT) - chat.CMD_MARGIN }
+        if (height == "max") { height = can.Conf(html.HEIGHT) }
         height = parseInt(height)
 
         var space = 10, width = parseInt(can.Conf(html.WIDTH))

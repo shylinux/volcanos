@@ -6,7 +6,7 @@ var kit = {
     }
 }
 var ice = {
-    SP: " ", PS: "/", PT: ".", FS: ",", NL: "\n",
+    SP: " ", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
     POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
     RUN: "run", RES: "res", ERR: "err",
 
@@ -52,8 +52,8 @@ var ice = {
 
 var ctx = {
     CONTEXT: "context", COMMAND: "command", ACTION: "action", CONFIG: "config",
+    INDEX: "index", ARGS: "args", STYLE: "style",
     INPUTS: "inputs", FEATURE: "feature",
-    INDEX: "index", ARGS: "args",
 }
 var cli = {
     CODE: "code", COST: "cost", FROM: "from", BACK: "back",
@@ -133,7 +133,7 @@ var chat = {
     SCROLL: "scroll", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
     HEADER: "header", FOOTER: "footer",
 
-    SSO: "sso", CMD_MARGIN: 53,
+    SSO: "sso",
 
     libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
     panel_list: [
@@ -175,6 +175,9 @@ var svg = {
 var html = {
     FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
     FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
+    FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story",
+    OPTION_ARGS: "select.args,input.args,textarea.args",
+    INPUT_ARGS: "input.args,textarea.args",
 
     UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
     INPUT: "input", INPUT_ARGS: ".args", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
@@ -186,8 +189,10 @@ var html = {
     CLASS: "class", BLOCK: "block", NONE: "none", FLOAT: "float", CLEAR: "clear",
     STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
     SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
-    MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width",
+    MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
+    PLUGIN_MARGIN: 10, ACTION_HEIGHT: 26, ACTION_MARGIN: 200,
     HIDDEN: "hidden", SELECT: "select",
+    FIXED: "fixed",
 
     WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe", CHROME: "chrome",
     LIST: "list", ITEM: "item", MENU: "menu", NODE: "node",
@@ -267,20 +272,27 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
             }); return msg
         },
 
+        setHeaderMenu: function(list, cb) { can._menu && can.page.Remove(can, can._menu)
+            var msg = can.request({}, {trans: can.onaction._trans})
+            return can._menu = can.search(msg._event, ["Header.onimport.menu", can._name].concat(list), cb)
+        },
         set: function(name, key, value) { var msg = can.request({}); msg.Option(key, value)
             return can.search(msg._event, [can.core.Keys(name, "onimport", key)])
         },
         get: function(name, key, cb) {
-            if (can.user.mod.isCmd && name == "Action" && key == "size") {
-                var msg = can.request({}, {left: 0, top: 0, width: window.innerWidth, height: window.innerHeight})
-                return can.core.CallFunc(cb, {msg: msg})
-            }
             return can.search({}, [can.core.Keys(name, "onexport", key)], cb)
         },
-        getActionSize: function(cb) { can.get("Action", "size", cb) },
+        getHeader: function(key, cb) { return can.get("Header", key, cb) },
+        getAction: function(key, cb) { return can.get("Action", key, cb) },
+        getActionSize: function(cb) { return can.get("Action", "size", cb) },
         search: function(event, cmds, cb) { return can.run && can.run(event, ["_search"].concat(cmds), cb, true) },
 
-        Conf: function(key, value) { return can.core.Value(can._conf, key, value) }, _conf: {},
+        Conf: function(key, value) { var res = can._conf
+            for (var i = 0; i < arguments.length; i += 2) {
+                res = can.core.Value(can._conf, arguments[i], arguments[i+1])
+            }
+            return res
+        }, _conf: {},
     }
 
     if (navigator.userAgent.indexOf("MSIE") > -1) {

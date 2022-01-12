@@ -12,7 +12,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         nav = nav||can.page.Append(can, can._fields, [{view: wiki.NAVMENU}]).first
         can.onmotion.clear(can, nav), can._fields.insertBefore(nav, can._output)
 
-        can.page.Modify(can, nav, {style: {height: can.Conf(html.HEIGHT)}})
         can.onappend.list(can, can.base.Obj(data.data), function(event, item) {
             var link = item.meta.link, list = can.core.Split(item.meta.link)
             if (can.core.Value(can, list[0])) { return can.core.CallFunc([can, list[0]], list.slice(1)) }
@@ -27,11 +26,14 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
             return true
         }, nav), can.sup._navmenu = nav
 
-        can.Conf(html.WIDTH, can.Conf(html.WIDTH)-nav.offsetWidth-(can.user.mod.isCmd? 10: 20))
-        can.page.Modify(can, can._output, {style: kit.Dict(
-            html.HEIGHT, can.sup._navmenu.offsetHeight, html.MAX_WIDTH, can.Conf(html.WIDTH),
-            html.FLOAT, html.LEFT, html.CLEAR, html.NONE
-        )})
+        can.getActionSize(function(msg) { 
+            can.page.Modify(can, nav, {style: {height: can.Conf(html.HEIGHT)+(can.user.mod.isCmd? msg.Option(html.MARGIN_Y): 0)}})
+            can.Conf(html.WIDTH, can.Conf(html.WIDTH)-nav.offsetWidth-(can.user.mod.isCmd? 10: 20))
+            can.page.Modify(can, can._output, {style: kit.Dict(
+                html.HEIGHT, can.sup._navmenu.offsetHeight, html.MAX_WIDTH, can.Conf(html.WIDTH),
+                html.FLOAT, html.LEFT, html.CLEAR, html.NONE
+            )})
+        })
     },
     premenu: function(can, data, target) {
         can.page.Select(can, can._output, "h2.story, h3.story", function(item) {
@@ -64,7 +66,9 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         can.onappend._init(can, item, ["/plugin/state.js"], function(sub) {
             sub.run = function(event, cmds, cb, silent) {
                 can.run(event, can.misc.concat([ctx.ACTION, chat.STORY, data.type, data.name, data.text], cmds), cb, true)
-            }, sub.Conf(html.WIDTH, item.width = (width||can.Conf(html.WIDTH))-20)
+            }
+            sub.Conf(html.HEIGHT, can.Conf(html.HEIGHT))
+            sub.Conf(html.WIDTH, item.width = (width||can.Conf(html.WIDTH))-20)
 
             can.core.Value(item, "auto.cmd") && can.core.Timer300ms(function() {
                 var msg = sub.request({}, can.core.Value(item, "opts")); msg.Option("_handle", ice.TRUE)

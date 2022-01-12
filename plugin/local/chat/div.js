@@ -78,7 +78,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 }, ["/plugin/local/chat/div.css"])
 Volcanos("onaction", {help: "操作数据", list: [],
     "添加": function(event, can) {
-        can.user.input(event, can, ["name", "index", "args", "style", "width", "height"], function(event, button, data, list, args) {
+        can.user.input(event, can, [mdb.NAME, ctx.INDEX, ctx.ARGS, ctx.STYLE, html.HEIGHT, html.WIDTH], function(event, button, data, list, args) {
             can.current._add({meta: data, list: []})
         })
     },
@@ -88,8 +88,7 @@ Volcanos("onaction", {help: "操作数据", list: [],
         }, true)
     },
     "预览": function(event, can) {
-        can.request(event, {link: can.misc.MergeURL(can, {_path: "/chat/div/"+can.Option("hash")})})
-        can.search(event, ["Header.onaction.share"])
+        can.onmotion.share(event, can, [], [mdb.LINK, can.misc.MergeURL(can, {_path: "/chat/div/"+can.Option("hash")})])
     },
 })
 Volcanos("onexport", {help: "导出数据", list: []})

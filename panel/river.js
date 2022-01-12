@@ -21,7 +21,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._main_storm = can.misc.Search(can, chat.STORM)||msg.Option(ice.MSG_STORM)||Volcanos.meta.args.storm||can._main_storm
     },
     _menu: function(can, msg) { if (can.user.mod.isPod) { return }
-        can.search({}, ["Header.onimport.menu"].concat(can.base.Obj(msg.Option(chat.MENUS), can.ondetail.menus)), function(event, button) {
+        can.setHeaderMenu(can.base.Obj(msg.Option(chat.MENUS), can.ondetail.menus), function(event, button) {
             can.core.CallFunc([can.ondetail, button], [event, can, button, can.Conf(chat.RIVER), can.Conf(chat.STORM)])
         })
     },
@@ -66,7 +66,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, c
         }), can.base.isFunc(cb) && cb(msg); return true
     },
 })
-Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, cb, target) {
         can.onengine.plugin(can, "info", shy("信息", {}, ["text", "list", "back"], function(msg, cmds) {
             msg.Echo(JSON.stringify(can))
         }))
@@ -96,7 +96,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
         can.onmotion.float.del(can, chat.CARTE)
         can.user.isMobile && can.onmotion.hidden(can)
     },
-    onaction_nostorm: function(can, msg, river, storm) {
+    onaction_notool: function(can, msg, river, storm) {
         can.ondetail["添加工具"](msg._event, can, "添加工具", river, storm)
     },
 
@@ -140,7 +140,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, msg, 
     },
     refresh: function(event, can) {
         var args = {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM),
-            topic: can.get("Header", "topic"), layout: can.get("Action", "layout"),
+            topic: can.getHeader(chat.TOPIC), layout: can.getAction(chat.LAYOUT),
         }
         if (can.user.isExtension) { localStorage.setItem(ctx.ARGS, JSON.stringify(args)) }
         can.misc.Search(can, args)
@@ -156,17 +156,11 @@ Volcanos("ondetail", {help: "菜单交互",
 
     "创建群组": function(event, can) { can.onaction.create(event, can) },
     "共享群组": function(event, can, button, river) {
-        can.user.input(event, can, [{name: chat.TILTE, value: river, _trans: "标题"}], function(event, button, meta, list) {
-            can.user.share(can, can.request(event), [river, ctx.ACTION, chat.SHARE, mdb.TYPE, chat.RIVER, mdb.NAME, list[0]])
-        })
+        can.onmotion.share(event, can, [{name: chat.TITLE, value: river}], [mdb.TYPE, chat.RIVER])
     },
     "添加应用": function(event, can, button, river) { can.ondetail.create(event, can, button, river) },
     "共享应用": function(event, can, button, river, storm) {
-        can.user.input(event, can, [{name: chat.TILTE, value: storm, _trans: "标题"}], function(event, button, meta, list) {
-            can.user.share(can, can.request(event), [river, ctx.ACTION, chat.SHARE, mdb.TYPE, chat.STORM, mdb.NAME, list[0],
-                chat.STORM, storm, chat.RIVER, river,
-            ])
-        })
+        can.onmotion.share(event, can, [{name: chat.TITLE, value: storm}], [mdb.TYPE, chat.STORM])
     },
     "添加工具": function(event, can, button, river, storm) {
         can.user.select(event, can, ctx.COMMAND, "context,command", function(item, next) {
@@ -232,11 +226,12 @@ Volcanos("ondetail", {help: "菜单交互",
     },
 
     "保存参数": function(event, can, button, river, storm) {
-        can.search(event, ["Action.onexport.args"], function(item, next, index, array) {
-            var msg = can.request({}, {hash: storm, id: item.dataset.id})
-            var toast = can.user.toast(can, (index+1)+ice.PS+array.length, "保存参数", 10000, (index+1)/array.length)
+        can.getAction(ctx.ARGS, function(item, next, index, array) { var msg = can.request({}, {hash: storm, id: item.dataset.id})
+            var toast = can.user.toast(can, (index+1)+ice.PS+array.length, button, 10000, (index+1)*100/array.length)
             can.run(msg._event, [river, chat.STORM, ctx.ACTION, mdb.MODIFY, ice.ARG, item.dataset.args], function(msg) {
-                toast.close(), next()
+                can.core.Timer(200, function() {
+                    toast.close(), next(), index == array.length-1 && can.user.toastSuccess(can, button)
+                })
             })
         })
     },

@@ -43,7 +43,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         })
     },
 })
-Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DONE], _init: function(can, meta, list, cb, target) {
+Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DONE], _init: function(can, cb, target) {
         can.base.isFunc(cb) && cb()
     },
     onlogin: function(can, msg) {

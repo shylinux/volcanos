@@ -72,7 +72,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
     },
 })
 Volcanos("onaction", {help: "交互操作", list: [
-        "共享工具", "生成链接", "生成脚本", "保存参数", "清空参数", "刷新数据", [
+        "共享工具", "生成链接", "生成脚本", "清空参数", "刷新数据", [
             "其它 ->", "复制数据", "下载数据", "清空数据", "删除工具", "摄像头", "生成图片",
         ],
     ], _init: function(can, msg, list, cb, target) {},
@@ -80,21 +80,16 @@ Volcanos("onaction", {help: "交互操作", list: [
         can.Update(event, [ctx.ACTION, button].concat(can.Input([], true)))
     },
     "共享工具": function(event, can) { var meta = can.Conf()
-        var ui = can.user.input(event, can, [{name: chat.TITLE, value: meta.name}], function(ev, button, data, list) {
-            var msg = can.request(event, {arg: [mdb.TYPE, chat.FIELD,
-                mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input([], true)),
-                chat.TITLE, list[0], chat.RIVER, can.Conf(chat.RIVER), chat.STORM, can.Conf(chat.STORM),
-            ]})
-            can.search(event, ["Header.onaction.share"])
-        }); can.onlayout.figure(event, can, ui._target, true)
+        can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}], [
+            mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input([], true)),
+        ])
     },
     "生成链接": function(event, can) { var meta = can.Conf()
         var pre = "/chat/cmd/"; if (can.user.mod.isPod) { pre = "/chat/pod/"+can.misc.Search(can, ice.POD)+"/cmd/" }
         var args = can.Option(); args._path = pre+(meta.index||can.core.Keys(meta.ctx, meta.cmd))
         args._path.indexOf("/cmd/web.wiki.word") > -1 && (args = {_path: pre+args.path})
 
-        var msg = can.request(event, {link: can.misc.MergeURL(can, args)})
-        can.search(event, ["Header.onaction.share"])
+        can.onmotion.share(event, can, [], [mdb.LINK, can.misc.MergeURL(can, args)])
     },
     "生成脚本": function(event, can, button) { var conf = can.Conf()
         var args = can.Input("", true).join(ice.SP); var list = [
@@ -109,10 +104,7 @@ Volcanos("onaction", {help: "交互操作", list: [
         can.onmotion.story.auto(can, ui._target)
         can.user.copy(event, can, list[0])
     },
-    "保存参数": function(event, can) { var meta = can.Conf()
-        var msg = can.request(event, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), id: meta.id})
-        can.search(event, ["River.ondetail.保存参数"], function(msg) { can.user.toastSuccess(can) }, true)
-    },
+    "保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
     "清空参数": function(event, can) {
         can.page.SelectArgs(can, can._option, "", function(item) { return item.value = "" })
     },

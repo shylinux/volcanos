@@ -84,7 +84,7 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
                 can.request(event, {zone: location.host, id: msg.Option(mdb.ID)})
                 can.run(event, [chat.FIELD, mdb.MODIFY, chat.TOP, sub._target.offsetTop])
                 can.run(event, [chat.FIELD, mdb.MODIFY, chat.LEFT, sub._target.offsetLeft])
-                can.run(event, [chat.FIELD, mdb.MODIFY, "args", JSON.stringify(sub.Input([], true))])
+                can.run(event, [chat.FIELD, mdb.MODIFY, ctx.ARGS, JSON.stringify(sub.Input([], true))])
                 can.user.toastSuccess(can)
             }
         }, document.body)

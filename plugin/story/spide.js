@@ -178,25 +178,13 @@ Volcanos("ondetail", {help: "用户交互", list: [],
         })
     },
     figure: function(can, sub, msg, cb) {
-        can.get("Action", "size", function(left, top, width, height) { left = left||0
-            if (height > window.innerHeight) { height = window.innerHeight }
+        can.getActionSize(function(left, top, width, height) { left = left||0
             var top = 120, margin = 20; if (can.user.isMobile) { margin = 0
-                if (can.user.isLandscape()) {
-                    height += (can.user.mod.isCmd? -20: 200)
-                    top = 24, sub.Conf(html.HEIGHT, height-top)
-                } else {
-                    height += (can.user.mod.isCmd? -80: 200)
-                    top = 48, sub.Conf(html.HEIGHT, height-top)
-                }
-            } else {
-                height += (can.user.mod.isCmd? 0: 300)
-                sub.Conf(html.HEIGHT, height-top)
+                top = can.user.isLandscape()? 24: 48
             }
-
-            var layout = {position: "fixed", left: left+margin, top: top}
-            can.onmotion.move(can, sub._target, layout)
-            can.page.Modify(can, sub._target, {style: layout})
-            can.page.Modify(can, sub._output, {style: {"max-width": width-margin*2}})
+            can.onmotion.move(can, sub._target, {position: html.FIXED, left: left+margin, top: top})
+            can.page.style(can, sub._output, html.MAX_WIDTH, width-margin*2)
+            sub.Conf(html.HEIGHT, height-top-2*html.ACTION_HEIGHT)
             can.base.isFunc(cb) && cb(msg)
         })
     },

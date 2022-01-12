@@ -100,18 +100,19 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     avatar: function(event, can, url) { if (can.user.isExtension || can.user.isLocalFile) { return }
         can.run(event, [ctx.ACTION, aaa.AVATAR, url], function(msg) { can.onimport._avatar(can, msg) })
     },
-    menu: function(can, cmds, cb) {
+    menu: function(can, cmds, cb, trans) {
         return can.page.Append(can, can._output, [{type: cmds[0], list: can.core.List(cmds.slice(1), function(item) {
             if (can.base.isString(item)) {
-                return {view: [html.MENU, html.DIV, can.user.trans(can, item)], onclick: function(event) {
+                return {view: [html.MENU, html.DIV, can.user.trans(can, item, trans)], onclick: function(event) {
                     can.base.isFunc(cb) && cb(event, item, cmds)
                 }}
 
             } else if (can.base.isArray(item)) {
-                return {view: [html.MENU, html.DIV, can.user.trans(can, item[0])], onmouseenter: function(event) {
-                    can.onaction.carte(event, can, item.slice(1), function(event, button) {
-                        can.base.isFunc(cb) && cb(event, button, item)
-                    })
+                var list = can.core.List(item, function(value, index) { return can.user.trans(can, value, trans) })
+                return {view: [html.MENU, html.DIV, can.user.trans(can, list[0], trans)], onmouseenter: function(event) {
+                    can.onaction.carte(event, can, list.slice(1), function(event, button, meta, index) {
+                        can.base.isFunc(cb) && cb(event, item[index+1], item)
+                    }, trans)
                 }}
 
             } else if (can.base.isObject(item)) {
@@ -120,7 +121,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }) }]).first
     },
 })
-Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta, list, cb, target) {
+Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, target) {
         can.base.isFunc(cb) && cb()
     },
     _trans: {
@@ -128,13 +129,6 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
         "search": "搜索",
         "create": "创建",
         "share": "共享",
-
-        "help": "帮助",
-        "tutor": "入门简介",
-        "manual": "使用手册",
-        "service": "服务手册",
-        "devops": "编程手册",
-        "refer": "参考手册",
 
         "setting": "设置",
         "black": "黑色主题",
@@ -202,8 +196,11 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, meta,
         })
     },
 
-    carte: function(event, can, list, cb) { can.user.carte(event, can, can.onaction, list, cb) },
-    share: function(event, can, arg) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(arg||[])) },
+    carte: function(event, can, list, cb, trans) { can.user.carte(event, can, can.onaction, list, cb) },
+    share: function(event, can, args) {
+        can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[],
+            [chat.RIVER, can.Conf(chat.RIVER), chat.STORM, can.Conf(chat.STORM)]))
+    },
 
     usernick: function(event, can) {
         can.onaction.carte(event, can, ["shareuser", "setnick", [aaa.LANGUAGE, aaa.CHINESE, aaa.ENGLISH], cli.CLEAR, aaa.LOGOUT])
