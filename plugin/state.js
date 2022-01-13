@@ -80,7 +80,7 @@ Volcanos("onaction", {help: "交互操作", list: [
         can.Update(event, [ctx.ACTION, button].concat(can.Input([], true)))
     },
     "共享工具": function(event, can) { var meta = can.Conf()
-        can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}], [
+        can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.TOPIC, values: [cli.WHITE, cli.BLACK]}], [
             mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input([], true)),
         ])
     },

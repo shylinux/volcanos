@@ -94,6 +94,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     time: function(can, target) { can.onlayout.topic(can)
         target.innerHTML = can.user.time(can, null, "%w %H:%M:%S")
     },
+    topic: function(can, topic) { can.onlayout.topic(can, can._topic = topic) },
     background: function(event, can, url) { if (can.user.isExtension || can.user.isLocalFile) { return }
         can.run(event, [ctx.ACTION, aaa.BACKGROUND, url], function(msg) { can.onimport._background(can, msg) })
     },

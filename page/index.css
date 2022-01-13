@@ -280,6 +280,22 @@ fieldset>div.action>div.item.space {
 fieldset div.action>div.item>label {
     display:none;
 }
+fieldset>div.action>div.tabs {
+    float:left; padding:4px; margin:0;
+    cursor:pointer;
+}
+fieldset>div.action>div.tabs:hover {
+    border-bottom:solid 2px red;
+    background-color:#2e515f;
+}
+fieldset>div.action>div.tabs.over {
+    background-color:blue;
+}
+fieldset>div.action>div.tabs.select {
+    border-bottom:solid 2px red;
+    background-color:#2e515f;
+}
+
 fieldset>div.status {
     clear:both;
 }

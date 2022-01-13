@@ -60,17 +60,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         }),
     } },
     _profile: function(can, task) {
-        function keys(task, key) { return [task.pod, task.zone, task.id, key].join(".") }
-
-        if (can.sup.task) { if (can.sup.task.pod == task.pod && can.sup.task.id == task.id) { return }
-            can.page.Cache(keys(can.sup.task, chat.PROFILE), can.ui.profile, can.sup.task.id)
-            can.page.Cache(keys(can.sup.task, chat.DISPLAY), can.ui.display, can.sup.task.id)
-        }
-
-        can.sup.task = task, can.Status(task)
-        var profile = can.page.Cache(keys(task, "profile"), can.ui.profile)
-        var display = can.page.Cache(keys(task, "display"), can.ui.display)
-        if (profile || display) { return }
+        if (can.sup.task && can.sup.task.pod == task.pod && can.sup.task.id == task.id) { return }
+        if (can.onmotion.cache(can, function() { return can.sup.task = task, can.Status(task), [task.pod, task.zone, task.id].join(ice.PT) }, can.ui.profile, can.ui.display)) { return }
 
         task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) { task["extra."+key] = value }), delete(task.extra)
         var table = can.page.Appends(can, can.ui.profile, [{view: [chat.CONTENT, html.TABLE], list: [{th: ["key", "value"]}]}]).first

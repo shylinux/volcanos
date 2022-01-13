@@ -84,8 +84,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         return target
     },
     _profile: function(can, target, list) { can.Option("pid", can.onfigure._pid(can, target))
-        can.pid && can.page.Cache(can.pid, can.ui.profile, "some"), can.pid = target.Value("pid")
-        var cache = can.page.Cache(can.pid, can.ui.profile); if (cache) { return }
+        if (can.onmotion.cache(can, function() { return target.Value("pid") }, can.ui.profile)) { return }
 
         var action = can.page.Append(can, can.ui.profile, [{view: "action"}]).first
         can.onappend._action(can, can.ondetail.list, action, {_engine: function(event, can, button) {
@@ -410,8 +409,8 @@ Volcanos("ondetail", {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY,
     },
     run: function(event, can) { var target = event.target
         if (!target.Value("pid")) { can.onfigure._pid(can, target) }
-        can._pid && can.page.Cache(can._pid, can.ui.display, "some"), can._pid = target.Value("pid")
-        var cache = can.page.Cache(can._pid, can.ui.display); if (cache) { return }
+
+        if (can.onmotion.cache(can, function() { return target.Value("pid") }, can.ui.display)) { return }
 
         can.onmotion.clear(can, can.ui.display), can.svg.Value("pid", target.Value("pid"))
         var index = target.Value(mdb.INDEX); index && can.onappend.plugin(can, {type: chat.STORY, index: index, args: target.Value(ctx.ARGS)}, function(sub) {

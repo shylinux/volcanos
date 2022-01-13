@@ -3,25 +3,11 @@ fieldset.Action {
     min-width:160px;
 }
 fieldset.Action>div.action {
-    display:none;
-}
-fieldset.Action>div.action.tabs {
     width:-webkit-fill-available;
     background-color:#159cc7b0;
-    display:block; height:28px;
+    display:none; height:28px;
     padding:0; margin:0;
     position:absolute;
-}
-fieldset.Action>div.action div.item {
-    padding:4px; margin:0;
-}
-fieldset.Action>div.action div.item:hover {
-    border-bottom:solid 2px red;
-    background-color:#2e515f;
-}
-fieldset.Action>div.action div.item.select {
-    border-bottom:solid 2px red;
-    background-color:#2e515f;
 }
 
 fieldset.Action div.output fieldset.plugin:hover {
@@ -36,30 +22,32 @@ fieldset.Action div.output fieldset.plugin legend:hover {
     background:red;
 }
 
-fieldset.Action div.output.tabs {
+fieldset.Action.tabs>div.action {
+    display:block;
+}
+fieldset.Action.tabs>div.output {
     margin-top:28px;
 }
-fieldset.Action div.output.flow fieldset.plugin {
+fieldset.Action.flow>div.output fieldset.plugin {
     float:left;
 }
-fieldset.Action div.output.grid fieldset.plugin {
-    width:480px; height:320px; overflow:auto;
-    float:left;
+fieldset.Action.grid>div.output fieldset.plugin {
+    float:left; overflow:auto;
 }
-fieldset.Action div.output.grid fieldset.plugin>div.output {
-    width:480px; height:320px; overflow:auto;
+fieldset.Action.grid>div.output fieldset.plugin>div.output {
+    overflow:auto;
 }
-fieldset.Action div.output.tabs fieldset.plugin {
+fieldset.Action.tabs>div.output fieldset.plugin {
     display:none;
     float:left;
 }
-fieldset.Action div.output.tabs fieldset.plugin.select {
+fieldset.Action.tabs>div.output fieldset.plugin.select {
     display:block;
 }
-fieldset.Action div.output.free fieldset.plugin {
+fieldset.Action.free>div.output fieldset.plugin {
     position:absolute;
 }
-fieldset.Action div.output.free fieldset.plugin.select {
+fieldset.Action.free>div.output fieldset.plugin.select {
     display:block;
 }
 

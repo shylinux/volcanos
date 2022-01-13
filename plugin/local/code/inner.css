@@ -1,11 +1,10 @@
-fieldset.inner>div.action div.file {
+fieldset.inner>div.action div.tabs {
     border:solid 2px red; padding:2px;
-    float:left; cursor:pointer;
 }
-fieldset.inner>div.action div.file.over {
+fieldset.inner>div.action div.tabs.over {
     background-color:blue;
 }
-fieldset.inner>div.action div.file.select {
+fieldset.inner>div.action div.tabs.select {
     background-color:green;
 }
 
@@ -67,6 +66,9 @@ fieldset.inner>div.output div.content td.text span.string {
 
 fieldset.inner>div.output div.search {
     padding:6px; border:solid 1px red;
+    position:absolute;
+    background:#0d969f8a;
+    bottom:0;
 }
 fieldset.inner>div.output div.search div.tags {
     text-align:left; overflow:auto;
@@ -77,6 +79,11 @@ fieldset.inner>div.output div.search div.tags table {
 fieldset.inner>div.output div.search td>div {
     max-height:100px;
     overflow:hidden;
+}
+fieldset.inner div.output fieldset.story {
+    position:absolute;
+    bottom:0px;
+    background:#0d969f8a;
 }
 
 body.white fieldset.inner>div.output div.project {

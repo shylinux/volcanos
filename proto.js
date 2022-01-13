@@ -60,6 +60,8 @@ var cli = {
     OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end",
     START: "start", STOP: "stop", DONE: "done", ERROR: "error",
     CLEAR: "clear", REFRESH: "refresh",
+    EXEC: "exec",
+    MAIN: "main",
 
     RED: "red", GREEN: "green", BLUE: "blue",
     YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta",
@@ -113,6 +115,11 @@ var wiki = {
     FIELD: "field", SHELL: "shell", LOCAL: "local", PARSE: "parse",
 
     NAVMENU: "navmenu", PREMENU: "premenu",
+
+    ITEM: ".story",
+    H2: "h2.story",
+    H3: "h3.story",
+    DIV_PAGE: "div.page",
 }
 var chat = {
     LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", OUTPUT: "output", INPUT: "input", UPLOAD: "upload",
@@ -135,7 +142,13 @@ var chat = {
     SCROLL: "scroll", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
     HEADER: "header", FOOTER: "footer",
 
+    TABS: "tabs", DIV_TABS: "div.tabs",
+
     SSO: "sso",
+
+    PLUGIN_STATE_JS: "/plugin/state.js",
+    PLUGIN_INPUT_JS: "/plugin/input.js",
+    PLUGIN_TABLE_JS: "/plugin/table.js",
 
     libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
     panel_list: [
@@ -162,6 +175,14 @@ var chat = {
         "/plugin/local/team/plan.js",
         "/plugin/input/province.js",
     ],
+    ACTION_LAYOUT_FMT: `
+fieldset.Action.grid>div.output fieldset.plugin {
+    width:_width; height:_height;
+}
+fieldset.Action.grid>div.output fieldset.plugin>div.output {
+    width:_width; height:_height;
+}
+`,
 }
 var team = {
     TASK: "task", PLAN: "plan",
@@ -178,11 +199,16 @@ var html = {
     FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
     FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
     FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story",
-    FIELDSET_FLOAT: "fieldset.float", FIELDSET_AUTO: "fieldset.auto",
+
+    FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot",
+    FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main",
+    FIELDSET_AUTO: "fieldset.auto", FIELDSET_FLOAT: "fieldset.float",
+
     OPTION_ARGS: "select.args,input.args,textarea.args",
     INPUT_ARGS: "input.args,textarea.args",
     DIV_ITEM: "div.item", DIV_FLOAT: "div.float",
 
+    INPUT_BUTTON: "input[type=button]",
     UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
     INPUT: "input", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
     FORM: "form", FILE: "file", SPACE: "space", CLICK: "click", SUBMIT: "submit", CANCEL: "cancel",
@@ -190,17 +216,20 @@ var html = {
     TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li",
     A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
 
-    CLASS: "class", BLOCK: "block", NONE: "none", FLOAT: "float", CLEAR: "clear",
+    CLASS: "class", FLOAT: "float", CLEAR: "clear", BOTH: "both",
+    BACKGROUND: "background", SELECT: "select", HIDDEN: "hidden",
+    DISPLAY: "display", BLOCK: "block", NONE: "none",
     STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
     SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
     MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
     PLUGIN_MARGIN: 10, ACTION_HEIGHT: 26, ACTION_MARGIN: 200,
-    HIDDEN: "hidden", SELECT: "select",
+
     FIXED: "fixed",
 
     WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe", CHROME: "chrome",
     LIST: "list", ITEM: "item", MENU: "menu", NODE: "node",
     HIDE: "hide", SHOW: "show",
+    H1: "h1", H2: "h2", H3: "h3",
 }
 var lang = {
     STRING: "string", NUMBER: "number",
@@ -286,6 +315,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         get: function(name, key, cb) {
             return can.search({}, [can.core.Keys(name, "onexport", key)], cb)
         },
+        setHeader: function(key, value) { return can.set("Header", key, value) },
         getHeader: function(key, cb) { return can.get("Header", key, cb) },
         getAction: function(key, cb) { return can.get("Action", key, cb) },
         getActionSize: function(cb) { return can.get("Action", "size", cb) },
