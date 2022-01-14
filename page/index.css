@@ -290,6 +290,7 @@ fieldset>div.action>div.tabs:hover {
 }
 fieldset>div.action>div.tabs.over {
     background-color:blue;
+    color:blue;
 }
 fieldset>div.action>div.tabs.select {
     border-bottom:solid 2px red;

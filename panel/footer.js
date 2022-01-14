@@ -78,7 +78,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
             can.get("Action", "size", function(msg, top, left, width, height) {
                 can.onappend.plugin(can, {index: cmds[0], args: cmds.slice(1), height: height-100, width: width}, function(sub) {
                     sub.run = function(event, cmd, cb) {
-                        can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, cmds[0]], cmd), cb)
+                        can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, cmds[0]], cmd), cb)
                     }
 
                     can.page.Modify(can, sub._target, {style: {top: top+100, left: left}})

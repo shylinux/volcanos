@@ -73,7 +73,7 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
             }, msg.Option("selection")||sub._legend.onclick()
 
             sub.run = function(event, cmds, cb) { if (msg.RunAction(event, can, cmds)) { return }
-                can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb)
+                can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb)
             }
 
             msg.Option("selection") && (can.onengine.listen(can, "onselection", function() {
@@ -113,7 +113,7 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
     },
 }, function(can) {
     can.run = function(event, cmds, cb) { if (cmds[0] == "_search") { return }
-        var msg = can.request(event, {host: location.host}); msg.detail = can.misc.concat(["page"], cmds)
+        var msg = can.request(event, {host: location.host}); msg.detail = can.misc.concat(can, ["page"], cmds)
         chrome.runtime.sendMessage(msg, function(res) { can.base.isFunc(cb) && cb(msg.Copy(res)) })
     }, can._daemon(can), can._motion(can)
 }) }, 1)

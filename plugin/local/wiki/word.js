@@ -60,7 +60,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
     field: function(can, data, target, width) { var item = can.base.Obj(data.meta)
         can.onappend._init(can, item, [chat.PLUGIN_STATE_JS], function(sub) {
             sub.run = function(event, cmds, cb, silent) {
-                can.run(event, can.misc.concat([ctx.ACTION, chat.STORY, data.type, data.name, data.text], cmds), cb, true)
+                can.run(event, can.misc.concat(can, [ctx.ACTION, chat.STORY, data.type, data.name, data.text], cmds), cb, true)
             }
             sub.Conf(html.HEIGHT, can.Conf(html.HEIGHT))
             sub.Conf(html.WIDTH, item.width = (width||can.Conf(html.WIDTH))-20)

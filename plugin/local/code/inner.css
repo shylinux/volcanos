@@ -64,6 +64,28 @@ fieldset.inner>div.output div.content td.text span.string {
     color:magenta;
 }
 
+fieldset.inner>div.output>fieldset.toolkit>div.status>div.legend {
+    float:left; padding:4px; cursor:pointer;
+}
+fieldset.inner>div.output>fieldset.toolkit>div.status>div.legend.select {
+    background:green;
+}
+fieldset.inner>div.output>fieldset.toolkit>div.status>div.legend:hover {
+    background:green;
+}
+fieldset.inner>div.output>fieldset.toolkit>div.output>fieldset {
+    display:none; margin:0;padding:0;
+}
+fieldset.inner>div.output>fieldset.toolkit>div.output>fieldset>legend {
+    display:none;
+}
+fieldset.inner>div.output>fieldset.toolkit>div.output>fieldset>div.output {
+    height:260px;
+}
+fieldset.inner>div.output>fieldset.toolkit>div.output>fieldset.select {
+    display:block;
+}
+
 fieldset.inner>div.output div.search {
     padding:6px; border:solid 1px red;
     position:absolute;

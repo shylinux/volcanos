@@ -203,6 +203,7 @@ var html = {
     FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot",
     FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main",
     FIELDSET_AUTO: "fieldset.auto", FIELDSET_FLOAT: "fieldset.float",
+    DIV_LEGEND: "div.legend",
 
     OPTION_ARGS: "select.args,input.args,textarea.args",
     INPUT_ARGS: "input.args,textarea.args",

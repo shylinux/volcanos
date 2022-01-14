@@ -35,8 +35,16 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
         }, mod)
     },
     _engine: function(event, can, msg, panel, cmds, cb) { return false },
+    _plugin: function(event, can, msg, panel, cmds, cb) {
+        if (cmds[0] == ctx.ACTION && cmds[1] == ice.RUN && can.onengine.plugin.meta[cmds[2]]) {
+            can.core.CallFunc(can.onengine.plugin.meta[cmds[2]], {msg: msg, cmds: cmds.slice(3), cb: cb})
+            return true
+        }
+        return false
+    },
     _remote: function(event, can, msg, panel, cmds, cb) {
         if (panel.onengine._engine(event, can, msg, panel, cmds, cb)) { return }
+        if (panel.onengine._plugin(event, can, msg, panel, cmds, cb)) { return }
         can.onengine.signal(can, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
 
         var key = can.core.Keys(panel._name, cmds.join(ice.FS))
@@ -250,6 +258,35 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         })
     },
 
+    tabs: function(can, list, cb, cbs, action) { action = action||can._action
+        return can.page.Append(can, action, can.core.List(list, function(meta) {
+            return {text: [meta.name, html.DIV, chat.TABS], title: meta.text, onclick: function(event) {
+                can.base.isFunc(cb) && cb(event, meta)
+            }, _init: function(item) { const OVER = "over"
+                function close(item) { var next = item.nextSibling || item.previousSibling
+                    item._close(item) || can.page.Remove(can, item), next && next.click()
+                }
+                can.page.Modify(can, item, {draggable: true, _close: cbs,
+                    oncontextmenu: function(event) {
+                        can.user.carte(event, can, kit.Dict(
+                            cli.CLOSE, function(event) { close(item) },
+                            "close other", function(event) {
+                                can.page.Select(can, action, chat.DIV_TABS, function(_item) {
+                                    _item == item || close(_item)
+                                })
+                            },
+                            "close all", function(event) { can.page.Select(can, action, chat.DIV_TABS, close) },
+                        ), [cli.CLOSE, "close other", "close all"])
+                    },
+                    ondragstart: function(event) { var target = event.target; target.click()
+                        action._drop = function(event, before) { action.insertBefore(target, before) }
+                    },
+                    ondragover: function(event) { event.preventDefault(), action._drop(event, event.target) },
+                    ondrop: function(event) { event.preventDefault(), action._drop(event, event.target) },
+                })
+            }}
+        })).first
+    },
     list: function(can, root, cb, target) { target = target||can._output
         can.core.List(root.list, function(item) {
             var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.meta.name], onclick: function(event) {
@@ -306,7 +343,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             if (key == "extra.cmd") {
                 can.onappend.plugin(can, {ctx: line["extra.ctx"], cmd: line["extra.cmd"], arg: line["extra.arg"]}, function(sub) {
                     sub.run = function(event, cmds, cb) { var msg = can.request(event, line, can.Option())
-                        can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, can.core.Keys(line["extra.ctx"], line["extra.cmd"])], cmds), cb, true)
+                        can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, can.core.Keys(line["extra.ctx"], line["extra.cmd"])], cmds), cb, true)
                     }
                 }, target)
             }
@@ -353,7 +390,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         meta.type = meta.type||chat.PLUGIN
 
         can.onappend._init(can, meta, [chat.PLUGIN_STATE_JS], function(sub, skip) {
-            sub.run = function(event, cmds, cb) { can.run(event, can.misc.concat([ctx.ACTION, ice.RUN, meta.index], cmds), cb) }
+            sub.run = function(event, cmds, cb) { can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb) }
             can.base.isFunc(cb) && cb(sub, meta, skip)
         }, target||can._output)
     },

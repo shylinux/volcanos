@@ -415,7 +415,7 @@ Volcanos("ondetail", {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY,
         can.onmotion.clear(can, can.ui.display), can.svg.Value("pid", target.Value("pid"))
         var index = target.Value(mdb.INDEX); index && can.onappend.plugin(can, {type: chat.STORY, index: index, args: target.Value(ctx.ARGS)}, function(sub) {
             sub.Conf("height", can.Conf("height")-can.svg.Val("height")-52), sub.Conf("width", can.Conf("width"))
-            sub.run = function(event, cmds, cb) { can.run(event, can.misc.concat([ice.RUN, index], cmds), cb, true) }
+            sub.run = function(event, cmds, cb) { can.run(event, can.misc.concat(can, [ice.RUN, index], cmds), cb, true) }
             can.onmotion.hidden(can, sub._legend), can.onmotion.hidden(can, can.ui.display, true)
         }, can.ui.display)
     },
