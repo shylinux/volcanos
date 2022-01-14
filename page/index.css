@@ -51,6 +51,7 @@ p.story[data-type=brief] {
   font-size:20px; font-family:cursive; font-weight:bolder;
 }
 
+
 select {
     background-color:black; color:cyan;
     font-size:14px; font-family:monospace;
@@ -137,12 +138,13 @@ table.layout div.toggle {
     position:absolute;
 }
 table.layout div.toggle.display>div {
-    height:20px; width:100px;
+    height:10px; width:100px;
     text-align:center;
     color:white;
 }
 table.layout div.toggle.display {
-    margin-top:-10px;
+    overflow:hidden;
+    margin-top:-12px;
     height:10px; width:100px;
     position:sticky; left:20%;
     border-top-left-radius:10px;
@@ -303,6 +305,9 @@ fieldset>div.status {
 fieldset>div.status>div.item {
     float:left; padding:4px;
     height:18px;
+}
+fieldset>div.status>div.item:hover {
+    background:green;
 }
 fieldset>div.status>div.item>label {
     font-size:10px; color:#bdb8b8e0;

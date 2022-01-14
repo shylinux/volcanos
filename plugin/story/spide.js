@@ -110,7 +110,7 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", [ice.VIEW, "横向"
     _draw_horizontal: function(can, tree, x, y) { tree.x = x, tree.y = y
         can.onaction._draw(can, tree, x, y+tree.height*can.size/2, {"text-anchor": "start"})
 
-        tree.width = tree.view.Val("textLength")
+        tree.width = tree.view.Val("textLength")||(tree.name||"").length*10
         if (x+tree.width > can.width) { can.width = x+tree.width }
         if (tree.hide) { return }
 

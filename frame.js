@@ -36,6 +36,10 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
     },
     _engine: function(event, can, msg, panel, cmds, cb) { return false },
     _plugin: function(event, can, msg, panel, cmds, cb) {
+        if (can.onengine.plugin.meta[cmds[0]]) {
+            can.core.CallFunc(can.onengine.plugin.meta[cmds[0]], {msg: msg, cmds: cmds.slice(1), cb: cb})
+            return true
+        }
         if (cmds[0] == ctx.ACTION && cmds[1] == ice.RUN && can.onengine.plugin.meta[cmds[2]]) {
             can.core.CallFunc(can.onengine.plugin.meta[cmds[2]], {msg: msg, cmds: cmds.slice(3), cb: cb})
             return true
@@ -70,7 +74,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
             can.core.CallFunc(cb, {msg: msg})
         })
     }),
-    plugin: shy("添加插件", {}, [], function(can, name, command) {
+    plugin: shy("添加插件", {}, [], function(can, name, command) { name = can.base.trimPrefix(name, "can.")
         var type = html.TEXT; command.list = can.core.List(command.list, function(item) {
             switch (typeof item) {
                 case lang.OBJECT: return type = item.type||type, item
@@ -266,6 +270,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 function close(item) { var next = item.nextSibling || item.previousSibling
                     item._close(item) || can.page.Remove(can, item), next && next.click()
                 }
+                can.core.Timer(10, function() { item.click() })
                 can.page.Modify(can, item, {draggable: true, _close: cbs,
                     oncontextmenu: function(event) {
                         can.user.carte(event, can, kit.Dict(
@@ -534,7 +539,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
     profile: function(can, target) { target = target||can._output
         var gt = "&#10095;", lt = "&#10094;"
         var down = "&#709;", up = "&#708;"
-        return can.page.Append(can, target, [{view: [chat.LAYOUT, html.TABLE], list: [
+        var ui = can.page.Append(can, target, [{view: [chat.LAYOUT, html.TABLE], list: [
             {view: [chat.PROJECT, html.TD], list: [
                 {view: [chat.PROJECT]},
             ]},
@@ -544,12 +549,15 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
                         {view: [chat.CONTENT]},
                         {view: ["toggle project"], list: [{text: [gt, html.DIV]}], onclick: function(event) {
                             event.target.innerHTML = can.onmotion.toggle(can, can.ui.project)? lt: gt
+                            ui.project._show && ui.project._show(event)
                         }},
                         {view: ["toggle profile"], list: [{text: [lt, html.DIV]}], onclick: function(event) {
                             event.target.innerHTML = can.onmotion.toggle(can, can.ui.profile)? gt: lt
+                            ui.profile._show && ui.profile._show(event)
                         }},
                         {view: ["toggle display"], list: [{text: [down, html.DIV]}], onclick: function(event) {
                             event.target.innerHTML = can.onmotion.toggle(can, can.ui.display)? down: up
+                            ui.display._show && ui.display._show(event)
                         }},
                     ]},
                     {view: [chat.PROFILE, html.TD], list: [
@@ -558,7 +566,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
                 ]}]},
                 {view: [chat.DISPLAY, html.TR], list: [{view: [chat.DISPLAY], style: {display: html.NONE}}]}
             ]}
-        ] }])
+        ] }]); return ui
     },
 })
 Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, target) {

@@ -11,6 +11,7 @@ var ice = {
     RUN: "run", RES: "res", ERR: "err",
 
     OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
+    PWD: "./",
 
     AUTO: "auto", HELP: "help", HTTP: "http",
     VIEW: "view", MODE: "mode", SHIP: "ship",
@@ -100,6 +101,7 @@ var nfs = {
     PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
     DIR: "dir", CAT: "cat", TRASH: "trash",
     DIR_ROOT: "dir_root",
+    FIND: "find", GREP: "grep",
 }
 var tcp = {
     HOST: "host", PORT: "port",
@@ -223,7 +225,7 @@ var html = {
     STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
     SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
     MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
-    PLUGIN_MARGIN: 10, ACTION_HEIGHT: 26, ACTION_MARGIN: 200,
+    PLUGIN_MARGIN: 10, ACTION_HEIGHT: 27, ACTION_MARGIN: 200,
 
     FIXED: "fixed",
 
