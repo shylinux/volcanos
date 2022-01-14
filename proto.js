@@ -62,6 +62,7 @@ var cli = {
     START: "start", STOP: "stop", DONE: "done", ERROR: "error",
     CLEAR: "clear", REFRESH: "refresh",
     EXEC: "exec",
+    SHOW: "show",
     MAIN: "main",
 
     RED: "red", GREEN: "green", BLUE: "blue",

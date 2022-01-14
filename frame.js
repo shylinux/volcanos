@@ -537,32 +537,25 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         ]}] }])
     },
     profile: function(can, target) { target = target||can._output
-        var gt = "&#10095;", lt = "&#10094;"
-        var down = "&#709;", up = "&#708;"
+        var gt = "&#10095;", lt = "&#10094;", down = "&#709;", up = "&#708;"
+        function init(view) { return view._show && view._show(event, view.style.display == html.NONE), view }
+
         var ui = can.page.Append(can, target, [{view: [chat.LAYOUT, html.TABLE], list: [
-            {view: [chat.PROJECT, html.TD], list: [
-                {view: [chat.PROJECT]},
-            ]},
+            {view: [chat.PROJECT, html.TD], list: [{view: [chat.PROJECT]}]},
             {type: html.TD, list: [
                 {type: html.TR, list: [{type: html.TR, list: [
-                    {view: [chat.CONTENT, html.TD], list: [
-                        {view: [chat.CONTENT]},
+                    {view: [chat.CONTENT, html.TD], list: [{view: [chat.CONTENT]},
                         {view: ["toggle project"], list: [{text: [gt, html.DIV]}], onclick: function(event) {
-                            event.target.innerHTML = can.onmotion.toggle(can, can.ui.project)? lt: gt
-                            ui.project._show && ui.project._show(event)
+                            event.target.innerHTML = can.onmotion.toggle(can, init(ui.project))? lt: gt
                         }},
                         {view: ["toggle profile"], list: [{text: [lt, html.DIV]}], onclick: function(event) {
-                            event.target.innerHTML = can.onmotion.toggle(can, can.ui.profile)? gt: lt
-                            ui.profile._show && ui.profile._show(event)
+                            event.target.innerHTML = can.onmotion.toggle(can, init(ui.profile))? gt: lt
                         }},
                         {view: ["toggle display"], list: [{text: [down, html.DIV]}], onclick: function(event) {
-                            event.target.innerHTML = can.onmotion.toggle(can, can.ui.display)? down: up
-                            ui.display._show && ui.display._show(event)
+                            event.target.innerHTML = can.onmotion.toggle(can, init(ui.display))? down: up
                         }},
                     ]},
-                    {view: [chat.PROFILE, html.TD], list: [
-                        {view: [chat.PROFILE], style: {display: html.NONE}},
-                    ]},
+                    {view: [chat.PROFILE, html.TD], list: [{view: [chat.PROFILE], style: {display: html.NONE}}]},
                 ]}]},
                 {view: [chat.DISPLAY, html.TR], list: [{view: [chat.DISPLAY], style: {display: html.NONE}}]}
             ]}
