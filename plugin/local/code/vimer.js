@@ -101,7 +101,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
 
     parse: function(event, can, mode) {
         can.keylist.push(event.key); if (can.mode != mode) {
-            event.stopPropagation(), event.preventDefault()
+            can.onkeypop.prevent(event)
         }; can.mode == "normal" && can.Status("按键", can.keylist.join(""))
 
         for (var pre = 0; pre < can.keylist.length; pre++) {
@@ -130,9 +130,8 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         Enter: function(event, can) { can.onmotion.hidden(can, can.ui.command)
             can.page.Modify(can, can.ui.display, {style: {display: "block"}})
             var line = can.ui.command.value || can.ui.cmd.value
-            can.ui.cmd.value = line, can.ui.cmd.focus()
-            can.ui.cmd.setSelectionRange(0, -1)
-            can.ui.command.value = ""
+            can.ui.command.value = "", can.ui.cmd.value = line
+            can.onmotion.focus(can, can.ui.cmd)
 
             can.onmotion.clear(can, can.ui.output)
             var ls = can.core.Split(line+" ", " ", ",")
@@ -238,7 +237,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
     insert: {
         Escape: function(event, can) { can.onkeymap._normal(can)
             can.onaction.modifyLine(can, can.current, can.ui.current.value)
-            event.stopPropagation(), event.preventDefault()
+            can.onkeypop.prevent(event)
         },
         Enter: function(event, can) {
             var before = can.ui.current.value.slice(0, event.target.selectionEnd)
@@ -249,7 +248,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         },
         Backspace: function(event, can) {
             if (can.ui.current.selectionStart > 0) { return }
-            event.stopPropagation(), event.preventDefault()
+            can.onkeypop.prevent(event)
             if (!can.current.prev()) { return }
 
             var rest = can.current.text()

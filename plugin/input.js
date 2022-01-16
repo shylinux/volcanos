@@ -23,15 +23,15 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
     onkeydown: function(event, can) { can.onkeypop.input(event, can, event.target)
         if (can.Conf(mdb.TYPE) == html.TEXTAREA) { if (!event.ctrlKey) { return } }
         if (event.key == lang.ENTER) {
-            can.run(event), event.target.setSelectionRange(0, -1)
-            event.stopPropagation(), event.preventDefault()
+            can.run(event), can.onmotion.focus(can, event.target)
+            can.onkeypop.prevent(event)
         } if (!event.ctrlKey) { return }
 
         switch (event.key) {
             case "b": can.CloneInput(); break
             case "m": can.CloneField(); break
             default: return
-        } event.stopPropagation(), event.preventDefault()
+        } can.onkeypop.prevent(event)
     },
 })
 

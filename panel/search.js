@@ -52,7 +52,7 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
             {input: ["word", function(event) { can.onkeypop.input(event, can)
                 if (event.key == lang.ESCAPE) { can.onmotion.hide(can) }
 
-                if (event.key == lang.ENTER) { event.stopPropagation(), event.preventDefault()
+                if (event.key == lang.ENTER) { can.onkeypop.prevent(event)
                     if (event.shiftKey) { var first = can.page.Select(can, can.ui.content, html.TR)[1]
                         return can.onaction[can.type == "*"? chat.PLUGIN: html.SELECT](event, can, first.dataset.index)
                     }

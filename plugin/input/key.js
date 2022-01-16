@@ -9,6 +9,15 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
             }}
         })
     },
+    _show: function(can, meta, cbs, target) {
+        can.run(event, [ctx.ACTION, mdb.INPUTS, meta.name, target.value], function(msg) {
+            if (msg.Length() == 0) { return can.close() }
+            target._can && target._can.close(), target._can = can
+            can.onfigure.key._init(can, msg, target), can.Status(mdb.TOTAL, msg.Length())
+            target._msg = msg, can.base.isFunc(cbs) && cbs(can)
+        })
+
+    },
     _select: function(event, can, target) {
         function select(order) { if (order == 0) { target.value = target._value }
             var index = 0; return can.page.Select(can, can._output, html.TR, function(tr) {
@@ -31,27 +40,17 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
             default: target._index = 0, target._value = ""
         }
     },
-    onfocus: function(event, can, meta, cb, target) { cb(function(can, cbs) {
+    onfocus: function(event, can, meta, cb, target) { if (target._figure) { return } target._figure = {}; cb(function(can, cbs) {
         target._figure = can.onlayout.figure(event, can, can._target, false, {top: can.page.offsetTop(target)+target.offsetHeight, left: can.page.offsetLeft(target)})
-        can.run(event, [ctx.ACTION, mdb.INPUTS, meta.name, target.value], function(msg) {
-            if (msg.Length() == 0) { return can.close() }
-            target._msg = msg, can.onfigure.key._init(can, msg, target), can.Status(mdb.TOTAL, msg.Length())
-            can.base.isFunc(cbs) && cbs(can)
-        })
+        can.onfigure.key._show(can, meta, cbs, target)
     }) },
-    onblur: function(event, can, meta, cb, target) { cb(function(can, cbs) {
-        can.close()
-    }) },
-    onclick: function(event, can, meta, cb, target) { cb(function(can, cbs) {
-        can.run(event, [ctx.ACTION, mdb.INPUTS, meta.name, target.value], function(msg) {
-            if (msg.Length() == 0) { return can.close() }
-            can.onfigure.key._init(can, msg, target), can.Status(mdb.TOTAL, msg.Length())
-            target._msg = msg, target._figure = can.onlayout.figure(event, can)
-            can.base.isFunc(cbs) && cbs(can)
-        })
+    onblur: function(event, can, meta, cb, target) { delete(target._figure), target._can && target._can.close() },
+    onclick: function(event, can, meta, cb, target) { if (target._figure) { target._figure = can.onlayout.figure(event, can, can.core.Value(target, "_can._target")||{}); return } target._figure = {}; cb(function(can, cbs) {
+        target._figure = can.onlayout.figure(event, can)
+        can.onfigure.key._show(can, meta, cbs, target)
     }) },
     onkeydown: function(event, can, meta, cb, target, last) {
-        var msg = target._msg; msg && cb(function(can, cbs) {
+        if (target._figure) { can = target._can
             if (event.ctrlKey) { can.onfigure.key._select(event, can, target) } else {
                 target._index = 0, target._value = ""
                 switch (event.key) { case lang.ENTER: can.close(); return }
@@ -62,16 +61,20 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
                 })
             }
 
-            can.onlayout.figure(event, can, can._target, false, target._figure)
             var total = can.page.Select(can, can._output, html.TR, function(tr) {
                 if (!can.page.ClassList.has(can, tr, html.HIDDEN)) { return tr}
             }).length-1
+            if (total == 0) {
+                can.run(event, [ctx.ACTION, mdb.INPUTS, meta.name, target.value], function(msg) {
+                    can.onfigure.key._init(can, msg, target), can.Status(mdb.TOTAL, msg.Length())
+                    target._msg = msg
+                })
+            }
             can.Status(kit.Dict(mdb.TOTAL, total, mdb.INDEX, target._index))
-            can.base.isFunc(cbs) && cbs(can)
-        })
+        }
 
         if (event.ctrlKey && ["n", "p"].indexOf(event.key) > -1) {
-            return event.stopPropagation(), event.preventDefault()
+            return can.onkeypop.prevent(event)
         }
         switch (event.key) { case lang.ESCAPE: event.target.blur(); return }
         can.base.isFunc(last) && last(event, can)
