@@ -316,23 +316,20 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
             }); return msg
         },
 
-        setHeaderMenu: function(list, cb) { can._menu && can.page.Remove(can, can._menu)
-            var msg = can.request({}, {trans: can.onaction._trans})
-            return can._menu = can.search(msg._event, ["Header.onimport.menu", can._name].concat(list), cb)
+        get: function(name, key, cb) {
+            return can.search({}, [can.core.Keys(name, "onexport", key)], cb)
         },
         set: function(name, key, value) { var msg = can.request({}); msg.Option(key, value)
             return can.search(msg._event, [can.core.Keys(name, "onimport", key)])
         },
-        get: function(name, key, cb) {
-            return can.search({}, [can.core.Keys(name, "onexport", key)], cb)
+        setHeaderMenu: function(list, cb) { can._menu && can.page.Remove(can, can._menu)
+            var msg = can.request({}, {trans: can.onaction._trans})
+            return can._menu = can.search(msg._event, ["Header.onimport.menu", can._name].concat(list), cb)
         },
         setHeader: function(key, value) { return can.set("Header", key, value) },
         getHeader: function(key, cb) { return can.get("Header", key, cb) },
         getAction: function(key, cb) { return can.get("Action", key, cb) },
         getActionSize: function(cb) { return can.get("Action", "size", cb) },
-        openSearch: function(cmds, cb) {
-            return can.search({}, [can.core.Keys("Search", "onimport", "select")].concat(cmds||[]), cb)
-        },
         search: function(event, cmds, cb) { return can.run && can.run(event, ["_search"].concat(cmds), cb, true) },
 
         Conf: function(key, value) { var res = can._conf

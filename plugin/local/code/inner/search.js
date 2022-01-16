@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", _init: function(can, cb) { var history = []
+Volcanos("onimport", {help: "导入数据", _init: function(can, args, cb) { var history = []
     function show(msg, word) { if (!msg) { return } history.push(msg); var sub = msg._can; sub.Option("word", word||msg._word)
         sub.onmotion.clear(sub), sub.onappend.table(sub, msg, function(value, key, index, line) {
             return {text: ["", html.TD], list: [{text: [can.page.replace(can, value, ice.PWD, ""), html.DIV]}], onclick: function(event) {
