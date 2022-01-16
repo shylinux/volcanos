@@ -293,6 +293,12 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
             if (!libs[0]) { return can.require(libs.slice(1), cb, each) }
             libs[0] = libs[0].toLowerCase()
 
+            if (libs[0] == "") {
+                libs[0] = can._name.replace(".js", ".css")
+            } else if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) {
+                libs[0] = can._name.slice(0, can._name.lastIndexOf(ice.PS)+1)+libs[0]
+            }
+
             // 请求模块
             var name = libs[0].split("?")[0]
             function next() { can._load(name, each), can.require(libs.slice(1), cb, each) }
@@ -323,6 +329,9 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         getHeader: function(key, cb) { return can.get("Header", key, cb) },
         getAction: function(key, cb) { return can.get("Action", key, cb) },
         getActionSize: function(cb) { return can.get("Action", "size", cb) },
+        openSearch: function(cmds, cb) {
+            return can.search({}, [can.core.Keys("Search", "onimport", "select")].concat(cmds||[]), cb)
+        },
         search: function(event, cmds, cb) { return can.run && can.run(event, ["_search"].concat(cmds), cb, true) },
 
         Conf: function(key, value) { var res = can._conf
@@ -375,5 +384,6 @@ function can(tool) {
     Volcanos({name: "chat", panels: [
         {name: "Header", help: "标题栏", pos: "hide", state: ["time", "usernick", "avatar"]},
         {name: "Action", help: "工作台", pos: chat.MAIN, tool: tool},
+        {name: "Search", help: "搜索框", pos: "auto"},
     ]})
 }

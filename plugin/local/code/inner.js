@@ -1,212 +1,231 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target) {
-        can.onmotion.clear(can), can.ui = can.onlayout.profile(can)
+        can.tabview = can.tabview||{}, can.tabview[can.Option(nfs.PATH)+":"+can.Option(nfs.FILE)] = msg
+        can.history = can.history||[], can.toolkit = {}
+
+        can.onmotion.clear(can), can.onlayout.profile(can)
         can.onimport._project(can, can.ui.project)
-        can.onimport._content(can, can.ui.content)
         can.onimport._profile(can, can.ui.profile)
         can.onimport._display(can, can.ui.display)
-        can.onimport._search(can, target)
-        can.onimport._favor(can, target)
+        can.base.isFunc(cb) && cb(msg)
 
-        msg.Option({path: can.Option(nfs.PATH), file: can.Option(nfs.FILE), line: can.Option(nfs.LINE)||1})
-        can.tabview = can.tabview||{}, can.tabview[can.Option(nfs.PATH)+can.Option(nfs.FILE)] = msg
-        can.history = can.history||[]
-
-        can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE), msg.Option(nfs.LINE)||1, function() {
-            var repos = can.base.trimSuffix(can.base.trimPrefix(msg.Option(nfs.PATH), "usr/"), ice.PS)
-            can.onimport.toolkit(can, {index: "web.code.git.spide", args: [repos]})
-            can.onimport.toolkit(can, {index: "web.code.git.trend", args: [repos]})
-            can.onimport.toolkit(can, {index: "web.code.git.total", args: [repos]})
-            can.onimport.project(can, msg.Option(nfs.PATH))
-            can.onaction["工具"](event, can)
-            can.base.isFunc(cb) && cb(msg)
+        can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
+        can.onimport.project(can, can.Option(nfs.PATH), function() {
+            can.onimport._toolkit(can, can.ui.toolkit), can.core.Timer(100, function() {
+                can.core.Next(can.core.Split(msg.OptionOrSearch("tool")), function(item, next) {
+                    can.onimport.toolkit(can, {index: item}, next)
+                }, function() {
+                    can.core.Next(["inner/search.js", "inner/favor.js", "inner/sess.js"].reverse(), function(item, next) {
+                        can.require([item], function() {}, function(can, name, sub) { sub._init(can, next) })
+                    }, function() {
+                        can.core.List(can.core.Split(msg.OptionOrSearch("tabs")), function(item) {
+                            can.onimport.tabview(can, can.Option(nfs.PATH), item)
+                        })
+                    })
+                })
+            })
         })
+        var run = can.run; can.run = function(event, cmds, cb, silent) { var msg = can.request(event)
+            if (can.misc.runAction(can, msg, cmds, cb, kit.Dict(
+                ctx.INPUTS, function(cmds) {
+                    if (cmds[0] == nfs.FILE) {
+                        switch (msg.Option(mdb.TYPE)) {
+                            case ctx.INDEX:
+                                run(event, [ctx.ACTION, ctx.INPUTS, ctx.INDEX].concat(cmds.slice(1)), cb, silent)
+                                break
+                            default:
+                                can.core.List(can._file, function(item) {
+                                    if (!cmds[1] || item.path.indexOf(cmds[1])) {
+                                        msg.Push(nfs.FILE, item.path)
+                                    }
+                                })
+                                can.base.isFunc(cb) && cb(msg)
+                        }
+                        return
+                    }
+                    run(event, [ctx.ACTION, ctx.INPUTS].concat(cmds), cb, silent)
+                },
+            ))) { return }
+            run(event, cmds, cb, silent)
+        }
     },
     _project: function(can, target) {
-        target._show = function(event) { can.onimport._content(can) }
-    },
-    _content: function(can, target) { var height = can.Conf(html.HEIGHT)
-        if (can.user.mod.isCmd) {
-            can.page.style(can, can.ui.project, html.HEIGHT, height)
-            can.page.style(can, can.ui.content, html.HEIGHT, height)
-            can.page.style(can, can.ui.content, html.MAX_WIDTH, can.Conf(html.WIDTH)-can.ui.project.offsetWidth-33)
-            can.page.style(can, can._output, html.WIDTH, can.Conf(html.WIDTH))
-        } else {
-            can.page.style(can, can.ui.project, html.MAX_HEIGHT, height)
-            can.page.style(can, can.ui.content, html.MAX_HEIGHT, height)
-        }
+        target._toggle = function(event) { can.onmotion.toggle(can, target), can.onimport.layout(can) }
     },
     _profile: function(can, target) {
         var ui = can.page.Append(can, target, [{view: html.ACTION}, {view: html.OUTPUT}]); can.ui.profile_output = ui.output
-        var action = can.onappend._action(can, [cli.SHOW, cli.CLEAR, cli.CLOSE], ui.action, kit.Dict(
+        var action = can.onappend._action(can, [cli.SHOW, cli.CLEAR, mdb.PLUGIN, cli.CLOSE], ui.action, kit.Dict(
             cli.SHOW, function(event) { can.onaction["展示"](event, can) },
             cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
-            cli.CLOSE, function(event) { can.onmotion.hidden(can, target), can.onimport._content(can, target) },
+            cli.CLOSE, function(event) { can.onmotion.hidden(can, target), can.onimport.layout(can) },
+            mdb.PLUGIN, function(event) {
+                can.user.input(event, can, [ctx.INDEX], function(event, button, data, list, args) {
+                    can.onappend.plugin(can, data, function(sub) {
+                        sub.run = function(event, cmds, cb) {
+                            can.run(event, [ctx.ACTION, ice.RUN, data.index].concat(cmds), cb, true)
+                        }
+                    }, ui.output)
+                })
+            },
         ))
-        target._show = function(event, hidden) { action[hidden? cli.CLOSE: cli.SHOW](event) }
+        target._toggle = function(event, show) { action[show? cli.SHOW: cli.CLOSE](event) }
     },
-    _display: function(can, target) { can.ui.toolkit = can.onappend.field(can, "toolkit", {}, can._output)
-       var ui = can.page.Append(can, target, [{view: html.ACTION}, {view: html.OUTPUT}]); can.ui.display_output = ui.output
-        var action = can.onappend._action(can, [cli.EXEC, cli.CLEAR, cli.CLOSE], ui.action, kit.Dict(
+    _display: function(can, target) {
+        var ui = can.page.Append(can, target, [{view: html.ACTION}, {view: html.OUTPUT}]); can.ui.display_output = ui.output
+        var action = can.onappend._action(can, [cli.EXEC, cli.CLEAR, mdb.PLUGIN, cli.CLOSE], ui.action, kit.Dict(
             cli.EXEC, function(event) { can.onaction["执行"](event, can) },
             cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
-            cli.CLOSE, function(event) { can.onmotion.hidden(can, target), can.onimport._content(can, target) },
-        ))
-        target._show = function(event, hidden) { action[hidden? cli.CLOSE: cli.EXEC](event) }
-    },
-    _search: function(can, target) {
-        can.onengine.plugin(can, "can.code.inner.search", shy("搜索", {}, [
-            {type: html.TEXT, name: "word", value: cli.MAIN}, {type: html.BUTTON, name: nfs.FIND}, {type: html.BUTTON, name: cli.BACK},
-        ], function(msg, cmds, cb) { can.misc.runAction(can, msg, cmds, cb, kit.Dict(
-            nfs.FIND, function(cmds) { msg.Option(kit.Dict(ice.MSG_HANDLE, ice.TRUE, ice.MSG_FIELDS, "file,line,text"))
-                can.run(msg._event, [ctx.ACTION, mdb.SEARCH, can.parse, cmds[0], can.Option(nfs.PATH)], function(msg) { var sub = msg._can
-                    sub.Option("word", cmds[0]), can.page.style(can, sub._output, html.MAX_HEIGHT, 200)
-                    can.onmotion.hidden(can, can.ui.toolkit.fieldset, true), can.page.ClassList.has(sub, sub._target, html.SELECT) || sub._legend.click()
-                    sub.onmotion.clear(sub), sub.onappend.table(sub, msg, function(value, key, index, line) {
-                        return {text: ["", html.TD], list: [{text: [can.page.replace(can, value, ice.PWD, ""), html.DIV]}], onclick: function(event) {
-                            line.line && can.onimport.tabview(can, can.Option(nfs.PATH), line.file.replace(ice.PWD, ""), parseInt(line.line), function() {
-                                can.onaction.selectLine(can, line.line)
-                            })
-                        }}
-                    }, sub._output), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS)), can.Status("标签数", msg.Length())
-                }, true)
-            },
-        )) }))
-        can.onimport.toolkit(can, {index: "can.code.inner.search"}, function(sub) { can.ui.search = sub })
-    },
-    _favor: function(can, target) {
-        can.onimport.toolkit(can, {index: "web.code.favor"}, function(sub) {
-            sub.run = function(event, cmds, cb) { var msg = can.request(event)
-                if (can.misc.runAction(can, msg, cmds, cb, kit.Dict(
-                    code.INNER, function(cmds) {
-                        can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE), msg.Option(nfs.LINE))
-                    },
-                ))) { return }
-
-                can.run(event, can.misc.concat(can, [ctx.ACTION, code.FAVOR], cmds), function(msg) { var sub = msg._can
-                    sub.onmotion.clear(sub), sub.onappend.table(sub, msg, function(value, key, index, line) {
-                        if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) {
-                            if (key == mdb.VALUE) { key = line.key }
+            cli.CLOSE, function(event) { can.onmotion.hidden(can, target), can.onimport.layout(can) },
+            mdb.PLUGIN, function(event) {
+                can.user.input(event, can, [ctx.INDEX], function(event, button, data, list, args) {
+                    can.onappend.plugin(can, data, function(sub) {
+                        sub.run = function(event, cmds, cb) {
+                            can.run(event, [ctx.ACTION, ice.RUN, data.index].concat(cmds), cb, true)
                         }
-                        if (key != ctx.ACTION) { value = sub.page.replace(sub, value, ice.PWD, "") }
-
-                        return {text: ["", html.TD], list: [{text: [value, html.DIV]}], onclick: function(event) {
-                            if ([mdb.ZONE, mdb.ID].indexOf(key) > -1) { return sub.onaction.change(event, sub, key, value) }
-
-                            if (target.tagName == "INPUT" && target.type == html.BUTTON) { var msg = sub.sup.request(event, line, sub.Option())
-                                return sub.run(event, [ctx.ACTION, target.name], function(msg) { sub.run() }, true)
-                            }
-
-                            line.line && can.onimport.tabview(can, can.Option(nfs.PATH), line.file.replace(ice.PWD, ""), parseInt(line.line), function() {
-                                can.onaction.selectLine(can, line.line)
-                            })
-                        }}
-                    }, sub._output), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS)), can.Status("标签数", msg.Length())
-                }, true)
-            }
-        })
+                    }, ui.output)
+                })
+            },
+        ))
+        target._toggle = function(event, show) { action[show? cli.EXEC: cli.CLOSE](event) }
     },
+    _toolkit: function(can, target) {
+        can.ui.toolkit = can.onappend.field(can, "toolkit", {}, can._output)
+        can.ui.docker = can.page.Append(can, can._fields, [{view: "docker"}]).first
+        var repos = can.base.trimSuffix(can.base.trimPrefix(can.Option(nfs.PATH), "usr/"), ice.PS)
 
-    project: function(can, path) { can.Option({path: path})
-        var msg = can.request({}, {dir_root: path, dir_deep: true})
-        can.run(msg._event, [ice.PWD], function(msg) { can.onmotion.clear(can, can.ui.project)
-            can.onappend.tree(can, msg.Table(), nfs.PATH, ice.PS, function(event, item) {
-                can.onimport.tabview(can, path, item.path)
-            }, can.ui.project), can.Status("文件数", msg.Length())
+        can.run({}, [ctx.ACTION, ctx.COMMAND].concat([
+            "web.code.git.spide", "web.code.git.trend", "web.code.git.total",
+        ].reverse()), function(msg) {
+            can.core.Next(msg.Table(), function(item, next) {
+                item.args = can.base.getValid(item.args, [repos]), can.onimport.toolkit(can, item, next)
+            })
         }, true)
     },
-    tabview: function(can, path, file, line, cb) {
-        if (can.tabview[path+file]) {
-            can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE))
-            can._msg = can.tabview[path+file]
 
+    project: function(can, path, cb) { can.Option({path: path})
+        var msg = can.request({}, {dir_root: path, dir_deep: true})
+        can.run(msg._event, [ice.PWD], function(msg) { can.onmotion.clear(can, can.ui.project)
+            can.onappend.tree(can, can._file = msg.Table(), nfs.PATH, ice.PS, function(event, item) {
+                can.onimport.tabview(can, path, item.path)
+            }, can.ui.project), can.onimport.layout(can), can.Status("文件数", msg.Length())
+            can.base.isFunc(cb) && cb()
+        }, true)
+    },
+    tabview: function(can, path, file, line, cb) { var key = path+":"+file
+        if (can.tabview[key]) {
+            can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.tabview[key]
             can.Option({path: path, file: file, line: line||parseInt(can._msg.Option(nfs.LINE))||1})
-            return can.onsyntax._init(can, can._msg), can.base.isFunc(cb) && cb()
+            return can._msg.Option(can.Option()), can.onsyntax._init(can, can._msg, cb)
         }
 
-        can.run({}, [path, file], function(msg) { can.tabview[path+file] = msg
-            msg.Option({path: path, file: file, line: line||1})
+        if (line == ctx.INDEX) { var msg = can.request({}, {index: file})
+            can.tabview[key] = msg
             msg._tab = can.onappend.tabs(can, [{name: file.split(ice.PS).pop(), text: file}], function(event, meta) {
                 can.onimport.tabview(can, path, file, "", cb)
-            }, function(item) { delete(can.tabview[path+file]) })
+            }, function(item) { delete(can.tabview[key]) })
+            return
+        }
+
+
+        can.Option({path: path, file: file, line: line||1})
+        can.run({}, [path, file], function(msg) { can.tabview[key] = msg
+            msg._tab = can.onappend.tabs(can, [{name: file.split(ice.PS).pop(), text: file}], function(event, meta) {
+                can.onimport.tabview(can, path, file, "", cb)
+            }, function(item) { delete(can.tabview[key]) })
         }, true)
     },
     profile: function(can, msg) {
         if (msg) {
-            can.onappend.table(can, msg, null, can.ui.profile_output)
+            // can.onappend.table(can, msg, null, can.ui.profile_output)
             can.onappend.board(can, msg.Result(), can.ui.profile_output)
         }
-        can.page.style(can, can.ui.profile, html.DISPLAY, html.BLOCK)
-        can.page.style(can, can.ui.profile, html.HEIGHT, can.ui.content.offsetHeight)
+        can.page.style(can, can.ui.profile_output, html.WIDTH, (can.Conf(html.WIDTH)-can.ui.project.offsetWidth)/2)
+        can.onmotion.hidden(can, can.ui.profile, true), can.onimport.layout(can)
     },
     display: function(can, msg) {
         if (msg) {
-            can.onappend.table(can, msg, null, can.ui.output||can.ui.display)
-            can.onappend.board(can, msg.Result(), can.ui.output||can.ui.display)
+            // can.onappend.table(can, msg, null, can.ui.display_output)
+            can.onappend.board(can, msg.Result(), can.ui.display_output)
         }
-        can.page.style(can, can.ui.display, html.DISPLAY, html.BLOCK)
-        can.page.style(can, can.ui.output, html.HEIGHT, 200)
-        can.page.style(can, can.ui.content, html.HEIGHT, can.ui.project.offsetHeight-200-1*html.ACTION_HEIGHT)
-        can.page.style(can, can.ui.profile, html.HEIGHT, can.ui.content.offsetHeight)
+        can.page.style(can, can.ui.display_output, html.HEIGHT, 200)
+        can.onmotion.hidden(can, can.ui.display, true), can.onimport.layout(can)
     },
     toolkit: function(can, meta, cb) {
         can.onappend.plugin(can, meta, function(sub) {
             sub.run = function(event, cmds, cb, silent) {
                 can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
             }
-            sub.Conf(html.HEIGHT, 400), sub.Conf(html.WIDTH, can.Conf(html.WIDTH))
-            sub.page.style(sub, sub._output, html.MAX_WIDTH, can.Conf(html.WIDTH))
-            sub.page.style(sub, sub._output, html.MAX_HEIGHT, can.Conf(html.HEIGHT)-2*html.ACTION_HEIGHT)
 
-            can.ui.toolkit.status.appendChild(sub._legend)
-            sub._legend.onclick = function(event) {
-                if (can.page.ClassList.has(can, sub._target, html.SELECT)) {
+            sub.Conf(html.HEIGHT, can.Conf(html.HEIGHT)-4*html.ACTION_HEIGHT, html.WIDTH, can.Conf(html.WIDTH))
+            sub.page.style(sub, sub._output, html.MAX_HEIGHT, sub.Conf(html.HEIGHT))
+            sub.page.style(sub, sub._output, html.MAX_WIDTH, sub.Conf(html.WIDTH))
+
+            can.ui.toolkit.status.appendChild(sub._legend), sub._legend.onclick = function(event) {
+                if (can.page.Select(can, can.ui.toolkit.status, ice.PT+html.SELECT)[0] == event.target) {
                     can.page.ClassList.del(can, sub._target, html.SELECT)
                     return
                 }
-                can.onmotion.select(can, can.ui.toolkit.output, html.FIELDSET, sub._target)
                 can.onmotion.select(can, can.ui.toolkit.status, html.DIV_LEGEND, event.target)
+                can.onmotion.select(can, can.ui.toolkit.output, html.FIELDSET, sub._target)
             }
-            sub._legend.oncontextmenu = sub._legend.onmouseenter, sub._legend.onmouseenter = function() {}
             can.base.isFunc(cb) && cb(sub)
         }, can.ui.toolkit.output)
     },
+    layout: function(can) { var height = can.Conf(html.HEIGHT), width = can.Conf(html.WIDTH)
+        can.page.style(can, can.ui.content, can.user.mod.isCmd? html.HEIGHT: html.MAX_HEIGHT, height)
+        if (can.ui.project.style.display != html.NONE) {
+            can.page.style(can, can.ui.project, html.HEIGHT, can.ui.content.offsetHeight)
+        }
+        if (can.user.mod.isCmd) {
+            can.page.style(can, can.ui.content, html.HEIGHT, (can.ui.project.offsetHeight||height)-can.ui.display.offsetHeight)
+        }
+        can.page.style(can, can.ui.content, html.WIDTH, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth-25)
+        can.page.style(can, can.ui.profile_output, html.HEIGHT, can.ui.content.offsetHeight-html.ACTION_HEIGHT)
+    },
 }, [""])
-Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"], _init: function(can, msg) {
-        can._cache_list = can._cache_list||{}, can._cache_list[can.file] = {current: can.current, max: can.max}
-        if (can.onmotion.cache(can, function() { can.file = can.base.Path(msg.Option(nfs.PATH), msg.Option(nfs.FILE))
-            var p = can._cache_list[can.file]; if (p) { can.current = p.current, can.max = p.max }
+Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"], _init: function(can, msg, cb) {
+        if (can.onmotion.cache(can, function(cache_data) {
+            can.file && (cache_data[can.file] = {current: can.current, max: can.max})
+            can.file = can.base.Path(msg.Option(nfs.PATH), msg.Option(nfs.FILE))
+            var p = cache_data[can.file]; p && (can.current = p.current, can.max = p.max)
             can.parse = can.base.Ext(can.file), can.Status("模式", "normal")
             can.onmotion.select(can, can._action, chat.DIV_TABS, msg._tab)
             return can.file
         }, can.ui.content, can.ui.profile_output, can.ui.display_output)) {
-            return can.onaction.selectLine(can, parseInt(msg.Option(nfs.LINE)))
+            return can.onaction.selectLine(can, msg.Option(nfs.LINE)), can.base.isFunc(cb) && cb()
+        }
+        if (msg.Option(ctx.INDEX)) {
+            can.onappend.plugin(can, {index: msg.Option(ctx.INDEX)}, function(sub) {
+                sub.run = function(event, cmds, cb) {
+                    can.run(event, [ctx.ACTION, ice.RUN, msg.Option(ctx.INDEX)].concat(cmds), cb, true)
+                }
+            }, can.ui.content)
+            return
         }
 
         function init(p) { can.max = 0, can.core.List(can.ls = msg.Result().split(ice.NL), function(item) {
             can.onaction.appendLine(can, item)
-        }), can.onaction.selectLine(can, msg.Option(nfs.LINE)||1) }
+        }), can.onaction.selectLine(can, msg.Option(nfs.LINE)), can.base.isFunc(cb) && cb() }
 
         var p = can.onsyntax[can.parse]; !p? can.run({}, [ctx.ACTION, mdb.PLUGIN, can.parse, msg.Option(nfs.FILE), msg.Option(nfs.PATH)], function(msg) {
             init(p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()))
         }, true): init(p)
     },
     _parse: function(can, line) { line = can.page.replace(can, line||"")
-        var p = can.onsyntax[can.parse]; if (!p) { return line }
-        p = can.onsyntax[p.link]||p
-
         function wrap(type, str) { return type? '<span class="'+type+'">'+str+'</span>': str }
-        p.keyword && (line = can.core.List(can.core.Split(line, p.split&&p.split.space||ice.SP, p.split&&p.split.operator||"{[(|)]}", {detail: true}), function(item, index, array) {
-            item = can.base.isObject(item)? item: {text: item}, p.word && (item = p.word(item, index, array))
-            var text = item.text; var key = item.keyword||p.keyword[text]
+
+        var p = can.onsyntax[can.parse]; if (!p) { return line } p = can.onsyntax[p.link]||p, p.split = p.split||{}
+        p.keyword && (line = can.core.List(can.core.Split(line, p.split.space||ice.SP, p.split.operator||"{[(|)]}", {detail: true}), function(item, index, array) {
+            item = can.base.isObject(item)? item: {text: item}
+            var text = item.text; var type = item.keyword||p.keyword[text]
 
             switch (item.type) { case html.SPACE: return text
                 case lang.STRING: return wrap(lang.STRING, item.left+text+item.right)
-                default: return wrap(key, text)
+                default: return wrap(type, text)
             }
         }).join(""))
 
         p.prefix && can.core.Item(p.prefix, function(pre, type) {
-            if (line.trim().indexOf(pre) == 0) {
+            if (can.base.beginWith(line, pre)) {
                 line = wrap(type, line)
             } else {
                 var ls = line.split(pre); if (ls.length > 1) {
@@ -214,34 +233,43 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
                 }
             }
         })
-        p.suffix && can.core.Item(p.suffix, function(pre, type) {
-            if (line.endsWith(pre)) { line = wrap(type, line) }
+        p.suffix && can.core.Item(p.suffix, function(end, type) {
+            if (can.base.endWith(line, end)) { line = wrap(type, line) }
         })
-        return p.line? p.line(can, line): line
+        return line
     },
 })
-Volcanos("onaction", {help: "控件交互", list: ["项目", "工具"],
-    "项目": function(event, can) {
-        can.onmotion.toggle(can, can.ui.project)
-        can.onimport._content(can)
+Volcanos("onaction", {help: "控件交互", list: ["打开", "插件", "添加"],
+    "打开": function(event, can) {
+        can.user.input(event, can, [nfs.FILE], function(event, button, data, list, args) {
+            can.onimport.tabview(can, can.Option(nfs.PATH), data.file)
+        })
     },
-
-    "展示": function(event, can) { var msg = can.request(event, {_toast: "运行中..."})
-        can.onimport.profile(can)
+    "插件": function(event, can) {
+        can.user.input(event, can, [ctx.INDEX], function(event, button, data, list, args) {
+            can.onimport.tabview(can, can.Option(nfs.PATH), data.index, ctx.INDEX)
+        })
+    },
+    "添加": function(event, can) {
+        can.user.input(event, can, [ctx.INDEX], function(event, button, data, list, args) {
+            can.onimport.toolkit(can, data, function(sub) { can.toolkit[data.index] = data
+                sub._legend.click(), sub.page.Select(sub, sub._target, html.OPTION_ARGS)[0].focus()
+            })
+        })
+    },
+    "项目": function(event, can) { can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can) },
+    "展示": function(event, can) { can.onimport.profile(can)
         can.run(event, [ctx.ACTION, mdb.ENGINE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
             can.onimport.profile(can, msg)
         }, true)
     },
-    "执行": function(event, can) { var msg = can.request(event, {_toast: "运行中..."})
-        can.onimport.profile(can)
+    "执行": function(event, can) { can.onimport.display(can)
         can.run(event, [ctx.ACTION, mdb.ENGINE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
             can.onimport.display(can, msg)
         }, true)
     },
     "工具": function(event, can) { can.onmotion.toggle(can, can.ui.toolkit.fieldset) },
-
-    back: function(event, can) {
-        var last = can.history.pop(); last = can.history.pop()
+    back: function(event, can) { can.history.pop(); var last = can.history.pop()
         last && can.onimport.tabview(can, last.path, last.file, last.line)
         can.Status("跳转数", can.history.length)
     },
@@ -250,102 +278,65 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "工具"],
         var ui = can.page.Append(can, can.ui.content, [{type: html.TR, list: [
             {view: ["line unselectable", html.TD, ++can.max], onclick: function(event) {
                 can.onaction.selectLine(can, ui.tr)
-
             }, ondblclick: function(event) {
                 can.onaction.favorLine(can, ui.text.innerText)
             }},
+
             {view: [html.TEXT, html.TD], list: [can.onsyntax._parse(can, value)], onclick: function(event) {
-                can.onaction._selectLine(can, ui)
+                can.onaction.selectLine(can, ui.tr)
 
             }, ondblclick: function(event) {
-                can.onaction._searchLine(can, ui)
+                var s = document.getSelection().toString(), str = ui.text.innerText
+                var begin = str.indexOf(s), end = begin+s.length
+
+                for (var i = begin; i >= 0; i--) {
+                    if (str[i].match(/[a-zA-Z0-9_.]/)) { s = str.slice(i, end) } else { break }
+                }
+
+                if (s.indexOf("kit.") == 0) { s = s.replace("kit.", "toolkits.") }
+                if (s.indexOf(".") == 0) { s = s.slice(1) }
+                can.onaction.searchLine(event, can, s)
             }}
         ]}]); return ui.tr
     },
-    modifyLine: function(can, line, value) {
-        can.page.Select(can, can.ui.content, html.TR, function(item, index) {
-            if (item != line && index+1 != line) { return }
-
-            can.page.Select(can, item, "td.text", function(item) {
-                can.page.Appends(can, item, [can.onsyntax._parse(can, value)])
-            })
-        })
-    },
-    rerankLine: function(can, value) { can.max = 0
-        can.page.Select(can, can.ui.content, html.TR, function(item, index) {
-            can.max++, can.page.Select(can, item, "td.line", function(item) {
-                item.innerText = index+1
-            })
-        })
-    },
     selectLine: function(can, line) { if (!line) { return }
         can.page.Select(can, can.ui.content, html.TR, function(item, index) {
-            can.page.ClassList.del(can, item, html.SELECT)
-            if (item != line && index+1 != line) { return }
-            can.page.ClassList.add(can, item, html.SELECT)
-
-            line = item
-            can.Option(nfs.LINE, index+1)
-            can.Status("文件名", can.file)
-            can.Status("解析器", can.parse)
-            can.Status("当前行", can.onexport.position(can, index+1))
+            if (!can.page.ClassList.set(can, item, html.SELECT, item == line || index+1 == line)) { return }
+            line = item, can.Status(kit.Dict("文件名", can.file, "解析器", can.parse, "当前行", can.onexport.position(can, can.Option(nfs.LINE, index+1))))
         })
 
         can.base.isObject(line) && can.page.Select(can, line, "td.text", function(item) {
             can.current = {
-                scroll: function(x, y) {
-                    can.ui.content.scrollLeft += x
-                    can.ui.content.scrollTop += y
-                    // return can.ui.content.scrollBy(x, y)
-                },
+                scroll: function(x, y) { can.ui.content.scrollLeft += x, can.ui.content.scrollTop += y },
                 window: function() { return can.ui.content.offsetHeight },
                 offset: function() { return can.ui.content.scrollTop },
+                height: function() { return line.offsetHeight },
 
                 prev: function() { return line.previousSibling },
                 next: function() { return line.nextSibling },
                 line: line, text: function(text) {
                     return text != undefined && can.onaction.modifyLine(can, line, text), item.innerText
-                }, height: function() { return line.offsetHeight },
+                },
+            }
+
+            var offhead = 5, size = 20
+            var pos = can.current.line.offsetTop-can.current.offset(); if (pos < offhead*20) {
+                can.current.scroll(0, pos-offhead*size)
+            } else if (pos > can.current.window()/2) {
+                can.current.scroll(0, pos-can.current.window()/2)
             }
 
             var push = {path: can.Option(nfs.PATH), file: can.Option(nfs.FILE), line: can.Option(nfs.LINE)}
-            can.base.Eq({path: push.path, file: push.file}, can.history[can.history.length-1]) || can.history.push(push)
+            can.base.Eq({path: push.path, file: push.file, line: push.line}, can.history[can.history.length-1]) || can.history.push(push)
             can.Status("跳转数", can.history.length)
         })
 
-        if (can.current) { var offline = 5
-            var pos = can.current.line.offsetTop-can.current.offset()
-            if (pos > can.current.window()-offline*20) {
-                can.current.scroll(0, pos-can.current.window()+offline*20)
-            } else if (pos < offline*20) {
-                can.current.scroll(0, pos-offline*20)
-            }
-        } can.onkeymap && can.onkeymap.selectLine(can)
+        // can.onkeymap && can.onkeymap._mode(can, "insert")
+        // can.onkeymap && can.onkeymap.selectLine(can)
     },
     searchLine: function(event, can, value) { if (!can.ui.search) { return }
         can.ui.search.Update(event, [ctx.ACTION, nfs.FIND, value.trim()])
     },
-    _searchLine: function(can, ui) {
-        var s = document.getSelection().toString(), str = ui.text.innerText
-        var begin = str.indexOf(s), end = begin+s.length
-
-        for (var i = begin; i >= 0; i--) {
-            if (str[i].match(/[a-zA-Z0-9_.]/)) {
-                s = str.slice(i, end)
-            } else {
-                break
-            }
-        }
-
-        if (s.indexOf("kit.") == 0) { s = s.replace("kit.", "toolkits.") }
-        if (s.indexOf(".") == 0) { s = s.slice(1) }
-        can.onaction.searchLine(event, can, s)
-    },
-    _selectLine: function(can, ui) {
-        can.onkeymap && can.onkeymap._mode(can, "insert")
-        can.onaction.selectLine(can, ui.tr)
-    },
-
     favorLine: function(can, value) {
         can.user.input(event, can, [{name: "zone", value: "hi"}, {name: "name", value: "hello"}], function(event, button, meta, list) {
             can.run(event, [ctx.ACTION, code.FAVOR, ctx.ACTION, mdb.INSERT, mdb.ZONE, meta.zone||"",
@@ -356,7 +347,7 @@ Volcanos("onaction", {help: "控件交互", list: ["项目", "工具"],
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["文件数", "解析器", "文件名", "当前行", "跳转数", "标签数"],
-    position: function(can, index, total) { total = total || can.max
+    position: function(can, index, total) { total = total||can.max
         return (parseInt(index))+ice.PS+parseInt(total)+" = "+parseInt((index)*100/total)+"%"
     },
     content: function(can) {

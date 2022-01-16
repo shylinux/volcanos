@@ -303,6 +303,22 @@ Volcanos("onaction", {help: "控件交互", list: ["run"],
             can.user.toastSuccess(can)
         }, true)
     },
+    modifyLine: function(can, line, value) {
+        can.page.Select(can, can.ui.content, html.TR, function(item, index) {
+            if (item != line && index+1 != line) { return }
+
+            can.page.Select(can, item, "td.text", function(item) {
+                can.page.Appends(can, item, [can.onsyntax._parse(can, value)])
+            })
+        })
+    },
+    rerankLine: function(can, value) { can.max = 0
+        can.page.Select(can, can.ui.content, html.TR, function(item, index) {
+            can.max++, can.page.Select(can, item, "td.line", function(item) {
+                item.innerText = index+1
+            })
+        })
+    },
 })
 Volcanos("onexport", {help: "导出数据", list: ["文件数", "模式", "按键", "解析器", "文件名", "当前行", "跳转数"]})
 

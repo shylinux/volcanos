@@ -147,7 +147,7 @@ Volcanos("ondetail", {help: "交互操作", list: ["删除"], _init: function(ca
     show: function(sub, which) { sub.page.Modify(sub, sub.ui.content, {className: chat.CONTENT})
         sub.page.Select(sub, sub.ui.content, wiki.DIV_PAGE, function(page, index) {
             if (index == which || page == which) {
-                sub.page.Select(sub, page, can.page.Keys(html.H1, html.H2, html.H3), function(item) { sub.Action("菜单", item.innerHTML) })
+                sub.page.Select(sub, page, sub.page.Keys(html.H1, html.H2, html.H3), function(item) { sub.Action("菜单", item.innerHTML) })
                 sub.onmotion.select(sub, sub.ui.project, html.DIV_ITEM, index)
                 sub.Status(mdb.PAGE, index+1+ice.PS+sub.list.length)
                 sub.page.ClassList.add(sub, page, html.SHOW)
@@ -157,12 +157,12 @@ Volcanos("ondetail", {help: "交互操作", list: ["删除"], _init: function(ca
         })
     },
     next: function(sub) {
-        sub.page.Select(sub, sub.ui.content, can.core.Keys(wiki.DIV_PAGE, ice.SHOW), function(page) {
+        sub.page.Select(sub, sub.ui.content, sub.core.Keys(wiki.DIV_PAGE, ice.SHOW), function(page) {
             page.nextSibling? sub.sup.ondetail.show(sub, page.nextSibling): sub.user.toast(sub, cli.END)
         })
     },
     prev: function(sub) {
-        sub.page.Select(sub, sub.ui.content, can.core.Keys(wiki.DIV_PAGE, ice.SHOW), function(page) {
+        sub.page.Select(sub, sub.ui.content, sub.core.Keys(wiki.DIV_PAGE, ice.SHOW), function(page) {
             page.previousSibling? sub.sup.ondetail.show(sub, page.previousSibling): sub.user.toast(sub, cli.END)
         })
     },

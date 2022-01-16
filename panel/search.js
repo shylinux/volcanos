@@ -10,7 +10,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
         can.onappend._status(can, can.base.Obj(msg.Option("_status"), []).concat({name: "selected", value: "0"}))
         can.getActionSize(function(msg, height) {
-            can.page.Modify(can, can.ui.profile, kit.Dict(html.MAX_HEIGHT, height-table.offsetHeight))
+            can.page.Modify(can, can.ui.profile, kit.Dict(html.MAX_HEIGHT, height-(table&&table.offsetHeight||0)))
         })
         msg.Length() == 1 && can.page.Select(can, table, html.TD)[0].click()
     },

@@ -31,6 +31,17 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
             default: target._index = 0, target._value = ""
         }
     },
+    onfocus: function(event, can, meta, cb, target) { cb(function(can, cbs) {
+        target._figure = can.onlayout.figure(event, can, can._target, false, {top: can.page.offsetTop(target)+target.offsetHeight, left: can.page.offsetLeft(target)})
+        can.run(event, [ctx.ACTION, mdb.INPUTS, meta.name, target.value], function(msg) {
+            if (msg.Length() == 0) { return can.close() }
+            target._msg = msg, can.onfigure.key._init(can, msg, target), can.Status(mdb.TOTAL, msg.Length())
+            can.base.isFunc(cbs) && cbs(can)
+        })
+    }) },
+    onblur: function(event, can, meta, cb, target) { cb(function(can, cbs) {
+        can.close()
+    }) },
     onclick: function(event, can, meta, cb, target) { cb(function(can, cbs) {
         can.run(event, [ctx.ACTION, mdb.INPUTS, meta.name, target.value], function(msg) {
             if (msg.Length() == 0) { return can.close() }

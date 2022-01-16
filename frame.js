@@ -272,7 +272,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
                 }
                 can.core.Timer(10, function() { item.click() })
                 can.page.Modify(can, item, {draggable: true, _close: cbs,
-                    oncontextmenu: function(event) {
+                    onmouseenter: function(event) {
                         can.user.carte(event, can, kit.Dict(
                             cli.CLOSE, function(event) { close(item) },
                             "close other", function(event) {
@@ -503,21 +503,22 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         can.page.Modify(can, target||document.body, {style: {background: url == "" || url == "void"? "": 'url("'+url+'")'}})
     },
     figure: function(event, can, target, right, layout) { target = target||can._target
-        if (!layout) { if (!event || !event.target) { return }
-            var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight-5; if (right) {
-                var left = event.clientX-event.offsetX+event.target.offsetWidth, top = event.clientY-event.offsetY
-            }
-            if (left+target.offsetWidth>window.innerWidth) { left = window.innerWidth - target.offsetWidth }
-            if (top+target.offsetHeight>window.innerHeight-100) { top = window.innerHeight - target.offsetHeight - 100 }
+        if (layout) { return can.page.Modify(can, target, {style: layout}), can.onmotion.move(can, target, layout), layout }
 
-
-            layout = {left: left, top: top}
-            if (layout.left < 0) { layout.left = 0 }
-            if (layout.top < 0) { layout.top = 0 }
+        if (!event || !event.target) { return }
+        var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight-5; if (right) {
+            var left = event.clientX-event.offsetX+event.target.offsetWidth, top = event.clientY-event.offsetY
         }
-        can.page.Modify(can, target, {style: layout})
-        can.onmotion.move(can, target, layout)
-        return layout
+        layout = {left: left, top: top}
+        if (layout.top < 0) { layout.top = 0 }
+        if (layout.left < 0) { layout.left = 0 }
+        if (layout.left+target.offsetWidth>window.innerWidth) {
+            layout.right = 0, layout.left = ""
+        }
+        if (top+target.offsetHeight>window.innerHeight-100) {
+            layout.bottom = window.innerHeight - event.clientY+event.offsetY, layout.top = ""
+        }
+        return can.page.Modify(can, target, {style: layout}), can.onmotion.move(can, target, layout), layout
     },
 
     display: function(can, target) { target = target||can._target
@@ -538,7 +539,10 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
     },
     profile: function(can, target) { target = target||can._output
         var gt = "&#10095;", lt = "&#10094;", down = "&#709;", up = "&#708;"
-        function init(view) { return view._show && view._show(event, view.style.display == html.NONE), view }
+        function toggle(view) {
+            view._toggle? view._toggle(event, view.style.display == html.NONE): can.onmotion.toggle(can, view)
+            return view.style.display == html.NONE
+        }
 
         var ui = can.page.Append(can, target, [{view: [chat.LAYOUT, html.TABLE], list: [
             {view: [chat.PROJECT, html.TD], list: [{view: [chat.PROJECT]}]},
@@ -546,20 +550,20 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
                 {type: html.TR, list: [{type: html.TR, list: [
                     {view: [chat.CONTENT, html.TD], list: [{view: [chat.CONTENT]},
                         {view: ["toggle project"], list: [{text: [gt, html.DIV]}], onclick: function(event) {
-                            event.target.innerHTML = can.onmotion.toggle(can, init(ui.project))? lt: gt
+                            event.target.innerHTML = toggle(can.ui.project)? gt: lt
                         }},
                         {view: ["toggle profile"], list: [{text: [lt, html.DIV]}], onclick: function(event) {
-                            event.target.innerHTML = can.onmotion.toggle(can, init(ui.profile))? gt: lt
+                            event.target.innerHTML = toggle(can.ui.profile)? lt: gt
                         }},
-                        {view: ["toggle display"], list: [{text: [down, html.DIV]}], onclick: function(event) {
-                            event.target.innerHTML = can.onmotion.toggle(can, init(ui.display))? down: up
+                        {view: ["toggle display"], list: [{text: [up, html.DIV]}], onclick: function(event) {
+                            event.target.innerHTML = toggle(can.ui.display)? up: down
                         }},
                     ]},
                     {view: [chat.PROFILE, html.TD], list: [{view: [chat.PROFILE], style: {display: html.NONE}}]},
                 ]}]},
                 {view: [chat.DISPLAY, html.TR], list: [{view: [chat.DISPLAY], style: {display: html.NONE}}]}
             ]}
-        ] }]); return ui
+        ] }]); return can.ui = ui
     },
 })
 Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, target) {
@@ -633,7 +637,8 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
     },
     cache: function(can, next) { var list = can.base.Obj(can.core.List(arguments).slice(2), [can._output])
         can.core.List(list, function(item) { can.page.Cache(item._cache_key, item, item.scrollTop+1) })
-        return can.core.List(list, function(item) { var pos = can.page.Cache(item._cache_key = next(), item)
+        var key = next(can._cache_data = can._cache_data||{})
+        return can.core.List(list, function(item) { var pos = can.page.Cache(item._cache_key = key, item)
             if (pos) { item.scrollTo(0, pos-1); return item }
         }).length > 0
     },
