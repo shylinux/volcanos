@@ -64,6 +64,7 @@ var cli = {
     EXEC: "exec",
     SHOW: "show",
     MAIN: "main",
+    MAKE: "make",
 
     RED: "red", GREEN: "green", BLUE: "blue",
     YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta",
@@ -104,6 +105,7 @@ var nfs = {
     DIR_ROOT: "dir_root",
     FIND: "find", GREP: "grep",
     SAVE: "save", LOAD: "load",
+    TAGS: "tags",
 }
 var tcp = {
     HOST: "host", PORT: "port",
@@ -333,6 +335,8 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         getActionSize: function(cb) { return can.get("Action", "size", cb) },
         search: function(event, cmds, cb) { return can.run && can.run(event, ["_search"].concat(cmds), cb, true) },
 
+        ConfHeight: function(value) { return can.Conf(html.HEIGHT, value) },
+        ConfWidth: function(value) { return can.Conf(html.WIDTH, value) },
         Conf: function(key, value) { var res = can._conf
             for (var i = 0; i < arguments.length; i += 2) {
                 res = can.core.Value(can._conf, arguments[i], arguments[i+1])
