@@ -11,6 +11,10 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
         can.onimport.project(can, can.Option(nfs.PATH), function() {
             can.onimport._toolkit(can, can.ui.toolkit), can.onimport._session(can, msg), can.onimport._keydown(can)
+            can.core.Timer(10, function() {
+                can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)
+                can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)
+            })
         })
     },
     _project: function(can, target) {
@@ -68,7 +72,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         }, true)
     },
     tabview: function(can, path, file, line, cb) { var key = path+ice.DF+file
-        if (can.tabview[key]) { can.user.mod.isCmd && can.user.title(file)
+        if (can.tabview[key]) { can.user.mod.isCmd && can.user.title(path+file)
             can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.tabview[key]
             can.Option({path: path, file: file, line: line||can._msg.Option(nfs.LINE)||1})
             return can._msg.Option(can.Option()), can.onsyntax._init(can, can._msg, cb)
@@ -153,14 +157,21 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 }, [""])
 Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"], _init: function(can, msg, cb) {
         if (can.onmotion.cache(can, function(cache_data) {
-            can.file && (cache_data[can.file] = {current: can.current, max: can.max})
+            can.file && (cache_data[can.file] = {
+                current: can.current, max: can.max,
+                profile_display: can.ui.profile.style.display,
+                display_display: can.ui.display.style.display,
+            })
             can.file = can.base.Path(msg.Option(nfs.PATH), msg.Option(nfs.FILE))
             var p = cache_data[can.file]; p && (can.current = p.current, can.max = p.max)
+            can.page.Modify(can, can.ui.profile, {style: {display: p? p.profile_display: html.NONE}})
+            can.page.Modify(can, can.ui.display, {style: {display: p? p.display_display: html.NONE}})
             can.parse = can.base.Ext(can.file), can.Status("模式", "normal")
             can.onmotion.select(can, can._action, chat.DIV_TABS, msg._tab)
-            msg.Option(ctx.INDEX) && can.core.Timer(100, function() {
+            msg.Option(ctx.INDEX) && can.core.Timer(10, function() {
                 can.onmotion.focus(can, can.page.Select(can, can.ui.content, html.OPTION_ARGS)[0])
             })
+            can.onimport.layout(can)
             return can.file
         }, can.ui.content, can.ui.profile_output, can.ui.display_output)) {
             return can.onaction.selectLine(can, msg.Option(nfs.LINE)), can.base.isFunc(cb) && cb()
@@ -168,7 +179,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
 
         if (msg.Option(ctx.INDEX)) {
             can.onimport.plugin(can, {index: msg.Option(ctx.INDEX)}, can.ui.content, function(sub) {
-                can.core.Timer(100, function() {
+                can.core.Timer(10, function() {
                     can.onmotion.focus(can, can.page.Select(can, can.ui.content, html.OPTION_ARGS)[0])
                 }), can.base.isFunc(cb) && cb()
             })
@@ -183,9 +194,10 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             init(p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()))
         }, true): init(p)
     },
-    _parse: function(can, line) { line = can.page.replace(can, line||"")
-        function wrap(type, str) { return type? '<span class="'+type+'">'+str+'</span>': str }
+    _parse: function(can, line) { if (line.indexOf("<html") == 0) { return line }
+        line = can.page.replace(can, line||"")
 
+        function wrap(type, str) { return type? '<span class="'+type+'">'+str+'</span>': str }
         var p = can.onsyntax[can.parse]; if (!p) { return line } p = can.onsyntax[p.link]||p, p.split = p.split||{}
         p.keyword && (line = can.core.List(can.core.Split(line, p.split.space||ice.SP, p.split.operator||"{[(|)]}", {detail: true}), function(item, index, array) {
             item = can.base.isObject(item)? item: {text: item}
@@ -212,7 +224,6 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
         return line
     },
 })
-
 Volcanos("onkeypop", {help: "导入数据", _init: function(can, msg, cb, target) {
     },
     _mode: {
@@ -238,7 +249,7 @@ Volcanos("onkeypop", {help: "导入数据", _init: function(can, msg, cb, target
 })
 Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加", "插件", "扩展", "保存"],
     "搜索": function(event, can) {
-        can.user.input(event, can, [[ctx.ACTION, nfs.TAGS, nfs.GREP, cli.MAKE], mdb.NAME], function(event, button, data, list, args) {
+        can.user.input(event, can, [mdb.NAME, [ctx.ACTION, nfs.TAGS, nfs.GREP, cli.MAKE]], function(event, button, data, list, args) {
             can.ui.search.Update({}, [ctx.ACTION, data.action, data.name])
         })
     },
@@ -289,32 +300,23 @@ Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加",
             return can.onmotion.hidden(can, item), item
         }).length > 0) { return }
 
-        can.onmotion.hidden(can, can.ui.profile)
-        can.onmotion.hidden(can, can.ui.display)
+        if (can.ui.profile.style.display == "") {
+            can.onmotion.hidden(can, can.ui.profile)
+        } else if (can.ui.display.style.display == "") {
+            can.onmotion.hidden(can, can.ui.display)
+        } else {
+            can.onaction["全屏"](event, can)
+        }
         can.onimport.layout(can)
     },
     "全屏": function(event, can) {
-        if (can._action.style.display == html.NONE) {
-            can.onmotion.hidden(can, can._legend, true)
-            can.onmotion.hidden(can, can._option, true)
-            can.onmotion.hidden(can, can._action, true)
-            can.onmotion.hidden(can, can._status, true)
+        if (can.page.ClassList.neg(can, can._fields, "full")) {
+            can.onmotion.hidden(can, can.ui.project)
+            can.ConfHeight(window.innerHeight)
+        } else {
             can.onmotion.hidden(can, can.ui.project, true)
             can.ConfHeight(window.innerHeight-2*html.ACTION_HEIGHT)
-            can.onimport.layout(can)
-            return
         }
-        can.onaction["清屏"](event, can)
-        can.onaction["清屏"](event, can)
-        can.onaction["清屏"](event, can)
-        can.onaction["清屏"](event, can)
-
-        can.onmotion.hidden(can, can.ui.project)
-        can.onmotion.hidden(can, can._status)
-        can.onmotion.hidden(can, can._action)
-        can.onmotion.hidden(can, can._option)
-        can.onmotion.hidden(can, can._legend)
-        can.ConfHeight(window.innerHeight)
         can.onimport.layout(can)
     },
     back: function(event, can) { can.history.pop(); var last = can.history.pop()
@@ -322,9 +324,7 @@ Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加",
         can.Status("跳转数", can.history.length)
     },
 
-    scrollLine: function(can, count) { var size = 20
-        can.current.scroll(0, count*size)
-    },
+    scrollLine: function(can, count) { var size = 20; can.current.scroll(0, count*size) },
     appendLine: function(can, value) {
         var ui = can.page.Append(can, can.ui.content, [{type: html.TR, list: [
             {view: ["line unselectable", html.TD, ++can.max], onclick: function(event) {

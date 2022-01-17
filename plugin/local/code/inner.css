@@ -1,3 +1,15 @@
+fieldset.inner.full>div.legend {
+    display:none;
+}
+fieldset.inner.full>div.action {
+    display:none;
+}
+fieldset.inner.full>form.option {
+    display:none;
+}
+fieldset.inner.full>div.status {
+    display:none;
+}
 fieldset.inner>div.action {
     float:none; display:block;
     height:26px; overflow:auto;

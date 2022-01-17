@@ -516,8 +516,6 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight-5; if (right) {
             var left = event.clientX-event.offsetX+event.target.offsetWidth, top = event.clientY-event.offsetY
         }
-        if (!left) { left = window.innerWidth/2-target.offsetWidth/2 }
-        if (!top) { top = 32 }
 
         layout = {left: left, top: top}
         if (layout.top < 0) { layout.top = 0 }
@@ -579,7 +577,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, target) {
     },
     focus: function(can, target) { if (!target) { return }
-        target.setSelectionRange(0, -1), target.focus()
+        target.setSelectionRange && target.setSelectionRange(0, -1), target.focus()
     },
     clear: function(can, target) {
         return can.page.Modify(can, target||can._output, ""), true
