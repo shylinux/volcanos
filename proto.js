@@ -6,7 +6,7 @@ var kit = {
     }
 }
 var ice = {
-    SP: " ", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
+    SP: " ", PS: "/", PT: ".", DF: ":", FS: ",", NL: "\n", LT: "<", GT: ">",
     POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
     RUN: "run", RES: "res", ERR: "err",
 

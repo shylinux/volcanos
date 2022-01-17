@@ -1,5 +1,5 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target) {
-        can.tabview = can.tabview||{}, can.tabview[can.Option(nfs.PATH)+":"+can.Option(nfs.FILE)] = msg
+        can.tabview = can.tabview||{}, can.tabview[can.Option(nfs.PATH)+ice.DF+can.Option(nfs.FILE)] = msg
         can.history = can.history||[], can.toolkit = {}, can.plugins = {}
 
         can.onmotion.clear(can), can.onlayout.profile(can)
@@ -46,7 +46,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
     },
     _toolkit: function(can, target) {
         can.ui.toolkit = can.onappend.field(can, "toolkit", {}, can._output)
-        can.ui.docker = can.page.Append(can, can._fields, [{view: "docker"}]).first
     },
     _session: function(can, msg) { can.onimport.sess(can, "", function() { can.onimport.sess(can, {
         tool: can.core.Split(msg.OptionOrSearch("tool")).reverse(),
@@ -56,9 +55,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
     _keydown: function(can) {
         can.user.mod.isCmd && can.onengine.listen(can, chat.ONKEYDOWN, function(event) {
             var cb = can.onaction[kit.Dict(
+                "f", "打开", "t", "添加", "e", "扩展", "p", "插件",
                 "r", "执行", "v", "展示", "s", "保存",
-                "f", "打开", "t", "添加",
-                "e", "扩展", "p", "插件",
                 lang.ESCAPE, "清屏",
             )[event.key]]; can.base.isFunc(cb) && cb(event, can)
         })
@@ -73,7 +71,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
             can.base.isFunc(cb) && cb()
         }, true)
     },
-    tabview: function(can, path, file, line, cb) { var key = path+":"+file
+    tabview: function(can, path, file, line, cb) { var key = path+ice.DF+file
         if (can.tabview[key]) {
             can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.tabview[key]
             can.Option({path: path, file: file, line: line||can._msg.Option(nfs.LINE)||1})
@@ -87,8 +85,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         }
 
         can.Option({path: path, file: file, line: line||1})
-        line == ctx.INDEX? show(can.request({}, {index: file, line: line})):
-            can.run({}, [path, file], show, true)
+        line == ctx.INDEX? show(can.request({}, {index: file, line: line})): can.run({}, [path, file], show, true)
     },
     profile: function(can, msg) {
         if (msg) {
@@ -152,7 +149,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
             can.onimport.toolkit(can, {index: item}, function(sub) { can.toolkit[item] = sub, next() })
         }, function() {
             can.core.Next(sess.plug, function(item, next) { can.onimport.plug(can, item, next) }, function() {
-                can.core.Next(sess.tabs, function(item, next) { var ls = item.split(":")
+                can.core.Next(sess.tabs, function(item, next) { var ls = item.split(ice.DF)
                     can.onimport.tabview(can, ls[0], ls[1], ls[2], next)
                 }, cb)
             })
@@ -355,7 +352,7 @@ Volcanos("onexport", {help: "导出数据", list: ["文件数", "解析器", "�
             "tabs": can.onexport.tabs(can), "tool": can.onexport.tool(can), "plug": can.onexport.plug(can),
         }))
     },
-    tabs: function(can) { return can.core.Item(can.tabview, function(key, msg) { return key+":"+msg.Option(nfs.LINE) }) },
+    tabs: function(can) { return can.core.Item(can.tabview, function(key, msg) { return key+ice.DF+msg.Option(nfs.LINE) }) },
     tool: function(can) { return can.core.Item(can.toolkit) },
     plug: function(can) { return can.core.Item(can.plugins) },
     position: function(can, index, total) { total = total||can.max
