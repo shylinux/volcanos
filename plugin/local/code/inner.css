@@ -117,7 +117,7 @@ fieldset.inner>div.output fieldset.toolkit>div.output>fieldset>legend {
 }
 fieldset.inner>div.output fieldset.toolkit>div.status>legend {
     float:right; padding:4px; cursor:pointer;
-    padding:4px 4px; border-right:solid 2px red;
+    padding:4px 4px; border-left:solid 2px red;
     background:#0d969f8a;
 }
 fieldset.inner>div.output fieldset.toolkit>div.status>legend.select {
@@ -128,7 +128,7 @@ fieldset.inner>div.output fieldset.toolkit>div.status>legend:hover {
 }
 fieldset.inner>div.output fieldset.toolkit>div.status>div.legend {
     float:right; padding:4px; cursor:pointer;
-    padding:4px 4px; border-right:solid 2px red;
+    padding:4px 4px; border-left:solid 2px red;
     background:#0d969f8a;
 }
 fieldset.inner>div.output fieldset.toolkit>div.status>div.legend.select {
@@ -137,19 +137,27 @@ fieldset.inner>div.output fieldset.toolkit>div.status>div.legend.select {
 fieldset.inner>div.output fieldset.toolkit>div.status>div.legend:hover {
     background:green;
 }
-fieldset.inner>div.docker {
-    position:absolute;
-    right:0;
-    bottom:0;
+fieldset.inner>div.status div.legend {
+    float:right; cursor:pointer;
+    padding:4px 4px; border-left:solid 2px red;
+    background:#0d969f8a;
+    height:19px;
 }
-fieldset.inner>div.docker div.legend {
-    float:right; padding:4px; cursor:pointer;
-    padding:4px 4px; border-right:solid 2px red;
-}
-fieldset.inner>div.docker div.legend.select {
+fieldset.inner>div.status div.legend.select {
     background:green;
 }
-fieldset.inner>div.docker div.legend:hover {
+fieldset.inner>div.status div.legend:hover {
+    background:green;
+}
+fieldset.inner>div.status legend {
+    float:right; padding:4px; cursor:pointer;
+    padding:4px 4px; border-left:solid 2px red;
+    background:#0d969f8a;
+}
+fieldset.inner>div.status legend.select {
+    background:green;
+}
+fieldset.inner>div.status legend:hover {
     background:green;
 }
 

@@ -103,6 +103,7 @@ var nfs = {
     DIR: "dir", CAT: "cat", TRASH: "trash",
     DIR_ROOT: "dir_root",
     FIND: "find", GREP: "grep",
+    SAVE: "save", LOAD: "load",
 }
 var tcp = {
     HOST: "host", PORT: "port",

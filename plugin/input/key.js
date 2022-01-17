@@ -50,7 +50,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
         can.onfigure.key._show(can, meta, cbs, target)
     }) },
     onkeydown: function(event, can, meta, cb, target, last) {
-        if (target._figure) { can = target._can
+        if (target._figure) { if (!(can = target._can)) { return }
             if (event.ctrlKey) { can.onfigure.key._select(event, can, target) } else {
                 target._index = 0, target._value = ""
                 switch (event.key) { case lang.ENTER: can.close(); return }

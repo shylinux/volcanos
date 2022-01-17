@@ -17,8 +17,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, args, cb) { var
         },
         "last", function(cmds) { history.pop(), show(history.pop()) },
     )) }))
-can.onimport.toolkit(can, {index: "can.code.inner.search"}, function(sub) {
-    can.ui.search = sub, can.base.isFunc(cb) && cb()
-})
+    can.onimport.toolkit(can, {index: "can.code.inner.search"}, function(sub) {
+        can.ui.search = sub, can.base.isFunc(cb) && cb(sub)
+    })
 }})
 

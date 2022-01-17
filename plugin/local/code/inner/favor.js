@@ -25,8 +25,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, args, cb) {
                     }}
                 }, sub._output), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS)), can.Status("标签数", msg.Length())
             }, true)
-        }
-        can.base.isFunc(cb) && cb()
+        }, can.base.isFunc(cb) && cb(sub)
     })
 }})
 
