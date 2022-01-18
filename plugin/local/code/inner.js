@@ -88,19 +88,21 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         line == ctx.INDEX? show(can.request({}, {index: file, line: line})): can.run({}, [path, file], show, true)
     },
     profile: function(can, msg) {
-        if (msg) {
+        if (msg) { can.onmotion.clear(can, can.ui.profile_output)
             // can.onappend.table(can, msg, null, can.ui.profile_output)
             can.onappend.board(can, msg.Result(), can.ui.profile_output)
+            can.user.toastSuccess(can)
         }
-        can.page.style(can, can.ui.profile_output, html.WIDTH, (can.ConfWidth()-can.ui.project.offsetWidth)/2)
+        can.page.styleWidth(can, can.ui.profile_output, (can.ConfWidth()-can.ui.project.offsetWidth)/2)
         can.onmotion.hidden(can, can.ui.profile, true), can.onimport.layout(can)
     },
     display: function(can, msg) {
-        if (msg) {
+        if (msg) { can.onmotion.clear(can, can.ui.display_output)
             // can.onappend.table(can, msg, null, can.ui.display_output)
             can.onappend.board(can, msg.Result(), can.ui.display_output)
+            can.user.toastSuccess(can)
         }
-        can.page.style(can, can.ui.display_output, html.HEIGHT, can.ConfHeight()/4)
+        can.page.style(can, can.ui.display_output, html.MAX_HEIGHT, can.ConfHeight()/4)
         can.onmotion.hidden(can, can.ui.display, true), can.onimport.layout(can)
     },
     toolkit: function(can, meta, cb) {
@@ -134,13 +136,17 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
     layout: function(can) { var height = can.ConfHeight(), width = can.ConfWidth()
         can.page.style(can, can.ui.content, can.user.mod.isCmd? html.HEIGHT: html.MAX_HEIGHT, height)
         if (can.ui.project.style.display != html.NONE) {
-            can.page.style(can, can.ui.project, html.HEIGHT, can.ui.content.offsetHeight)
+            can.page.styleHeight(can, can.ui.project, can.ui.content.offsetHeight)
         }
         if (can.user.mod.isCmd) {
-            can.page.style(can, can.ui.content, html.HEIGHT, (can.ui.project.offsetHeight||height)-can.ui.display.offsetHeight)
+            can.page.styleHeight(can, can.ui.content, (can.ui.project.offsetHeight||height)-can.ui.display.offsetHeight)
         }
-        can.page.style(can, can.ui.content, html.WIDTH, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth-25)
-        can.page.style(can, can.ui.profile_output, html.HEIGHT, can.ui.content.offsetHeight-html.ACTION_HEIGHT)
+        can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth-25)
+        if (can.page.ClassList.has(can, can._fields, "full")) {
+            can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight)
+        } else {
+            can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight-html.ACTION_HEIGHT)
+        }
     },
     exts: function(can, url, cb) {
         can.require([url], function() {}, function(can, name, sub) { sub._init(can, can.base.ParseURL(sub._path), function(sub) {

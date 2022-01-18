@@ -1,15 +1,3 @@
-fieldset.inner.full>div.legend {
-    display:none;
-}
-fieldset.inner.full>div.action {
-    display:none;
-}
-fieldset.inner.full>form.option {
-    display:none;
-}
-fieldset.inner.full>div.status {
-    display:none;
-}
 fieldset.inner>div.action {
     float:none; display:block;
     height:26px; overflow:auto;
@@ -171,6 +159,28 @@ fieldset.inner>div.status legend.select {
 }
 fieldset.inner>div.status legend:hover {
     background:green;
+}
+
+fieldset.inner.full>div.legend {
+    display:none;
+}
+fieldset.inner.full>div.action {
+    display:none;
+}
+fieldset.inner.full>form.option {
+    display:none;
+}
+fieldset.inner.full>div.status {
+    display:none;
+}
+fieldset.inner.full>div.status {
+    display:none;
+}
+fieldset.inner.full>div.output div.profile>div.action {
+    display:none;
+}
+fieldset.inner.full>div.output div.display>div.action {
+    display:none;
 }
 
 body.white fieldset.inner>div.output div.project {
