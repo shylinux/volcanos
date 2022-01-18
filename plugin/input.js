@@ -20,18 +20,18 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
     onchange: function(event, can) {
         if (can.Conf(mdb.TYPE) == html.SELECT) { can.run(event) }
     },
-    onkeydown: function(event, can) { can.onkeypop.input(event, can, event.target)
+    onkeydown: function(event, can) { can.onkeymap.input(event, can, event.target)
         if (can.Conf(mdb.TYPE) == html.TEXTAREA) { if (!event.ctrlKey) { return } }
         if (event.key == lang.ENTER) {
             can.run(event), can.onmotion.focus(can, event.target)
-            can.onkeypop.prevent(event)
+            can.onkeymap.prevent(event)
         } if (!event.ctrlKey) { return }
 
         switch (event.key) {
             case "b": can.CloneInput(); break
             case "m": can.CloneField(); break
             default: return
-        } can.onkeypop.prevent(event)
+        } can.onkeymap.prevent(event)
     },
 })
 

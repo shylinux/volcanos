@@ -49,10 +49,10 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
     onlogin: function(can, msg) {
         can.onappend._action(can, can.Conf(html.ACTION)||can.onaction.list)
         can.ui = can.page.Append(can, can._output, [
-            {input: ["word", function(event) { can.onkeypop.input(event, can)
+            {input: ["word", function(event) { can.onkeymap.input(event, can)
                 if (event.key == lang.ESCAPE) { can.onmotion.hide(can) }
 
-                if (event.key == lang.ENTER) { can.onkeypop.prevent(event)
+                if (event.key == lang.ENTER) { can.onkeymap.prevent(event)
                     if (event.shiftKey) { var first = can.page.Select(can, can.ui.content, html.TR)[1]
                         return can.onaction[can.type == "*"? chat.PLUGIN: html.SELECT](event, can, first.dataset.index)
                     }

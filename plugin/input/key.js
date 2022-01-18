@@ -39,7 +39,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
         }
 
         if (event.ctrlKey && ["n", "p"].indexOf(event.key) > -1) {
-            return can.onkeypop.prevent(event)
+            return can.onkeymap.prevent(event)
         }
         switch (event.key) { case lang.ESCAPE: event.target.blur(); return }
         can.base.isFunc(last) && last(event, can)

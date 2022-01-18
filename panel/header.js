@@ -62,7 +62,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _search: function(can, msg, target) {
         var ui = can.onappend.input(can, {type: html.TEXT, name: mdb.SEARCH, onkeydown: function(event) {
-            can.onkeypop.input(event, can); switch (event.key) {
+            can.onkeymap.input(event, can); switch (event.key) {
                 case lang.ENTER: can.onengine.signal(can, "onopensearch", can.request(event, {type: "*", word: event.target.value}))
             }
         }}, "", target, "title search").parentNode

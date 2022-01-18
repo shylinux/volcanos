@@ -16,7 +16,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
             }, target)
         }, function() { can.misc.Log(can.user.title(), ice.RUN, can)
             can.require([can.volcano], null, function(can, name, sub) { can[name] = sub })
-            can.onlayout.topic(can), can.onmotion._init(can, target), can.onkeypop._init(can)
+            can.onlayout.topic(can), can.onmotion._init(can, target), can.onkeymap._init(can)
             can.ondaemon._init(can), can.onengine.signal(can, chat.ONMAIN, can.request())
             can.base.isFunc(cb) && cb()
         }), can.onmotion.float.auto(can, document.body)
@@ -448,9 +448,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             can.onengine.signal(can, "keymap.focus", can.request({}, {cb: function(event) {
                 if (event.target.tagName == "INPUT") { return }
                 if (event.key == lang.ESCAPE) { ui.close(); return }
-                if (event.key == ice.SP) { input.focus(), can.onkeypop.prevent(event) }
+                if (event.key == ice.SP) { input.focus(), can.onkeymap.prevent(event) }
             }}))
-        }, onkeydown: function(event) { can.onkeypop.input(event, can)
+        }, onkeydown: function(event) { can.onkeymap.input(event, can)
             if (event.key != lang.ENTER) { return }
             event.target.setSelectionRange(0, -1)
 
@@ -681,7 +681,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
                     event.target.value == back || cb(event, event.target.value, back)
                     break
                 case lang.ESCAPE: target.innerHTML = back; break
-                default: can.onkeypop.input(event, can)
+                default: can.onkeymap.input(event, can)
             }
         }, _init: function(target) {
             item && can.onappend.figure(can, item, target), target.value = text
@@ -700,7 +700,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
                     }
                     break
                 case lang.ESCAPE: target.innerHTML = back; break
-                default: can.onkeypop.input(event, can)
+                default: can.onkeymap.input(event, can)
             }
         }, _init: function(target) {
             item && can.onappend.figure(can, item, target)
@@ -736,7 +736,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
                 can.page.Modify(can, target, {style: {left: layout.left, top: layout.top}})
             }
             can.base.isFunc(cb) && cb(target)
-            can.onkeypop.prevent(event)
+            can.onkeymap.prevent(event)
         }
         can.base.isFunc(cb) && cb(target)
     },
@@ -775,12 +775,12 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
                 case "n":
                     var total = select(target._index)
                     select(target._index = ((target._index)+1) % total)
-                    can.onkeypop.prevent(event)
+                    can.onkeymap.prevent(event)
                     break
                 case "p":
                     var total = select(target._index)
                     select(target._index = (target._index-1) < 0? total-1: (target._index-1))
-                    can.onkeypop.prevent(event)
+                    can.onkeymap.prevent(event)
                     break
                 default: target._index = 0
             }
@@ -825,7 +825,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
         can.Status(kit.Dict(mdb.TOTAL, total, mdb.INDEX, target._index))
     },
 })
-Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
+Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
         document.body.onkeydown = function(event) { var msg = can.request(event)
             msg.Option("model", "normal"); if (event.target.tagName == "SELECT" || event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA") {
                 msg.Option("model", event.ctrlKey? "insert_ctrl": "insert")
@@ -835,16 +835,16 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
             if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
             can.onengine.signal(can, "onkeydown", msg)
             if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
-            can._keylist = can.onkeypop._parse(event, can, msg.Option("model"), can._keylist||[], can._output)
+            can._keylist = can.onkeymap._parse(event, can, msg.Option("model"), can._keylist||[], can._output)
         }
     },
     _build: function(can) {
-        can.core.Item(can.onkeypop._mode, function(item, value) { var engine = {}
+        can.core.Item(can.onkeymap._mode, function(item, value) { var engine = {}
             can.core.Item(value, function(key, cb) { var map = engine
                 for (var i = key.length-1; i > -1; i--) {
                     map = map[key[i]] = i == 0? cb: (map[key[i]]||{})
                 }
-            }), can.onkeypop._engine[item] = engine
+            }), can.onkeymap._engine[item] = engine
         })
     },
     _parse: function(event, can, mode, list, target) { list = list||[], list.push(event.key)
@@ -854,15 +854,15 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
 
         function repeat(cb, count) { list = []
             for (var i = 1; i <= count; i++) { if (cb(event, can, target, count)) { break } }
-            // can.onkeypop.prevent(event)
+            // can.onkeymap.prevent(event)
         }
 
-        var map = can.onkeypop._mode[mode]
+        var map = can.onkeymap._mode[mode]
         var cb = map && map[event.key.toLowerCase()]; if (can.base.isFunc(cb) && event.key.length > 1) {
             repeat(cb, count); return list
         }
 
-        var map = can.onkeypop._engine[mode]||{}; for (var i = list.length-1; i > pre-1; i--) {
+        var map = can.onkeymap._engine[mode]||{}; for (var i = list.length-1; i > pre-1; i--) {
             var cb = map[list[i]]||{}; switch (typeof cb) {
                 case lang.FUNCTION: repeat(cb, count); return list
                 case lang.OBJECT: map = cb; continue
@@ -878,7 +878,7 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
                 target.blur()
             },
             jk: function(event, can, target) {
-                can.onkeypop.DelText(target, target.selectionStart-1, target.selectionStart)
+                can.onkeymap.DelText(target, target.selectionStart-1, target.selectionStart)
                 target.blur()
             },
             enter: function(event, can, target) {
@@ -916,16 +916,16 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
             },
 
             u: function(event, can, target) {
-                can.onkeypop.DelText(target, 0, target.selectionEnd)
+                can.onkeymap.DelText(target, 0, target.selectionEnd)
             },
             k: function(event, can, target) {
-                can.onkeypop.DelText(target, target.selectionStart)
+                can.onkeymap.DelText(target, target.selectionStart)
             },
             h: function(event, can, target) {
-                can.onkeypop.DelText(target, target.selectionStart-1, target.selectionStart)
+                can.onkeymap.DelText(target, target.selectionStart-1, target.selectionStart)
             },
             d: function(event, can, target) {
-                can.onkeypop.DelText(target, 0, target.selectionStart)
+                can.onkeymap.DelText(target, 0, target.selectionStart)
             },
             w: function(event, can, target) {
                 var start = target.selectionStart-2
@@ -938,14 +938,14 @@ Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: functio
                         break
                     }
                 }
-                can.onkeypop.DelText(target, i+1, end-i)
+                can.onkeymap.DelText(target, i+1, end-i)
             },
         },
     }, _engine: {},
 
     input: function(event, can) { var target = event.target
-        target._keys = can.onkeypop._parse(event, can, event.ctrlKey? "insert_ctrl": mdb.INSERT, target._keys||[], target)
-        if (target._keys.length == 0 && target.tagName == "INPUT") { can.onkeypop.prevent(event) }
+        target._keys = can.onkeymap._parse(event, can, event.ctrlKey? "insert_ctrl": mdb.INSERT, target._keys||[], target)
+        if (target._keys.length == 0 && target.tagName == "INPUT") { can.onkeymap.prevent(event) }
     },
     DelText: function(target, start, count) {
         target.value = target.value.substring(0, start)+target.value.substring(start+(count||target.value.length), target.value.length)

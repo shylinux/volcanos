@@ -29,7 +29,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _cli: function(can, msg, target) {
         can.onappend.input(can, {type: html.TEXT, name: "cmd", onkeydown: function(event) {
-            can.onkeypop.input(event, can); if (event.key != lang.ENTER) { return }
+            can.onkeymap.input(event, can); if (event.key != lang.ENTER) { return }
             switch (event.target.value) {
             case cli.CLEAR: can.cli && can.cli.close(); break
             case cli.CLOSE: can.cli && can.cli.close(); break

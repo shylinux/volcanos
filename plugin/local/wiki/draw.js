@@ -1,7 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
         can.onmotion.clear(can), can.onmotion.hidden(can, can._action)
         can.onimport._show(can, msg), can.base.isFunc(cb) && cb(msg)
-        can.keylist = [], can.onkeypop._build(can)
+        can.keylist = [], can.onkeymap._build(can)
     },
     _show: function(can, msg) { can.point = []
         can.svg = null, can.group = null, can.temp = null, can.current = null
@@ -215,7 +215,7 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         show: function(can, target, figure) { return "<("+(target.Val("y2")-target.Val("y1"))+ice.FS+(target.Val("x2")-target.Val("x1"))+")"+can.onexport._position(can, target, figure) },
     },
 }, [])
-Volcanos("onkeypop", {help: "键盘交互", list: [],
+Volcanos("onkeymap", {help: "键盘交互", list: [],
     _mode: {
         normal: {
             gr: function(event, can) { can.Action("go", "run") },

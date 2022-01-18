@@ -9,7 +9,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
             can.onappend.plugin(can, item, function(sub, meta, skip) {
                 can.onimport._plugin(can, river, storm, sub, meta), skip || next()
             })
-        }, function() { can.onimport._menu(can, msg), can.onkeypop._init(can)
+        }, function() { can.onimport._menu(can, msg), can.onkeymap._init(can)
             can.onaction.layout(can, can.misc.SearchOrConf(can, chat.LAYOUT))
         })
     },
@@ -153,9 +153,9 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
         can.onlayout._init(can)
     },
 })
-Volcanos("onkeypop", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
-        can.onkeypop._build(can), can.onengine.listen(can, "onkeydown", function(msg, model) {
-            can._keylist = can.onkeypop._parse(msg._event, can, model, can._keylist||[], can._output)
+Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
+        can.onkeymap._build(can), can.onengine.listen(can, "onkeydown", function(msg, model) {
+            can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
         })
     },
     _mode: {

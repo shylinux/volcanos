@@ -127,7 +127,7 @@ var wiki = {
     H3: "h3.story",
     DIV_PAGE: "div.page",
 }
-var chat = {
+var chat = {ONIMPORT: "onimport", ONACTION: "onaction", ONKEYMAP: "onkeymap", ONEXPORT: "onexport",
     LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", OUTPUT: "output", INPUT: "input", UPLOAD: "upload",
     STORY: "story", FLOAT: "float", CONTEXTS: "contexts", CARTE: "carte", TOAST: "toast",
     LEGNED: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",

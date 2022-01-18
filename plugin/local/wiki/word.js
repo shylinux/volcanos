@@ -75,7 +75,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         can.page.Modify(can, target, {width: can.Conf(html.WIDTH)-200})
     },
 }, [""])
-Volcanos("onkeypop", {help: "键盘交互", list: [],
+Volcanos("onkeymap", {help: "键盘交互", list: [],
     _mode: {
         normal: {
             "n": function(event, can) { can.ondetail.next(can.sub) },
@@ -111,8 +111,8 @@ Volcanos("onaction", {help: "控件交互", list: [],
             ], sub._action, can.ondetail)
 
             can.onengine.signal(can, "keymap.focus", can.request(event, {cb: function(event) {
-                can.keylist = can.onkeypop._parse(event, can, "normal", can.keylist)
-            }})), can.onkeypop._build(can)
+                can.keylist = can.onkeymap._parse(event, can, "normal", can.keylist)
+            }})), can.onkeymap._build(can)
 
             sub.page.style(sub, sub._target, html.BACKGROUND, document.body.style.background)
             sub.page.style(sub, sub._output, html.HEIGHT, window.innerHeight-4*html.PLUGIN_MARGIN-2*html.ACTION_HEIGHT)

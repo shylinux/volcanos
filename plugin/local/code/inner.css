@@ -15,28 +15,23 @@ fieldset.inner>div.action div.tabs.select {
 fieldset.inner>div.output {
     color:white;
 }
-fieldset.inner table.layout div.toggle.project {
+fieldset.inner>div.output>table.layout div.toggle.project {
     min-width:15px; font-size:24px;
 }
-fieldset.inner table.layout div.toggle.profile {
+fieldset.inner>div.output>table.layout div.toggle.profile {
     min-width:15px; font-size:24px;
 }
-fieldset.inner table.layout div.toggle.display {
+fieldset.inner>div.output>table.layout div.toggle.display {
     height:15px; font-size:24px;
     margin-top:-17px;
-}
-fieldset.inner div.output div.toggle {
-    /* display:none; */
 }
 fieldset.inner>div.output div.project {
     font-size:14px; font-family:monospace;
     max-width:180px; overflow:auto;
 }
-fieldset.inner>div.output>table.layout div.content {
+fieldset.inner>div.output div.content {
     position:relative;
     padding-right:25px;
-}
-fieldset.inner>div.output div.content {
     font-size:16px; font-family:monospace;
     overflow:auto;
     color:white;
@@ -82,9 +77,6 @@ fieldset.inner>div.output div.content td.text span.constant {
 fieldset.inner>div.output div.content td.text span.string {
     color:magenta;
 }
-fieldset.inner>div.output div.display {
-    /* display:none; */
-}
 fieldset.inner>div.output div.display>div.action>div.item {
     float:left;
 }
@@ -107,7 +99,6 @@ fieldset.inner div.output fieldset.toolkit {
 }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset {
     display:none; margin:0;padding:0;
-    /* float:right; */
 }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select {
     display:block;

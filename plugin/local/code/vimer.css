@@ -1,51 +1,14 @@
-fieldset.inner>div.output td.content {
-    position:relative;
-}
-fieldset.inner>div.output input.current {
-    position:absolute; padding:0; margin:0;
-    font-size:16px; font-family:monospace;
-    padding-left:9px;
-
+fieldset.vimer>div.output input.current {
     background-color:#00000000; color:#00000000;
+    font-family:monospace; font-size:16px;
+    position:absolute; left:0;
+    margin:0; margin-top:-2px;
+    padding:0; padding-left:9px;
     width:-webkit-fill-available;
 }
-fieldset.inner>div.output input.current.insert {
+fieldset.vimer>div.output input.current.insert {
     caret-color:yellow;
 }
-fieldset.inner>div.output input.current.normal {
+fieldset.vimer>div.output input.current.normal {
     caret-color:blue;
 }
-fieldset.inner>div.output input.current.command {
-    display:none;
-}
-
-fieldset.inner>div.output input.command {
-    font-size:16px; font-family:monospace;
-    background-color:black; color:white;
-    caret-color:red;
-
-    border:solid 1px red;
-    border-left:solid 3px green;
-    width:-webkit-fill-available;
-    margin:0; padding:0 12px;
-}
-fieldset.inner>div.output input.command.normal {
-    display:none;
-}
-fieldset.inner>div.output input.command.insert {
-    display:none;
-}
-
-fieldset.inner>div.output div.display input.cmd {
-    font-size:16px; font-family:monospace;
-    background-color:black; color:white;
-    min-width:480px; padding-left:5px;
-    margin-left:2px;
-}
-fieldset.inner>div.output div.display div.output {
-    overflow:auto;
-}
-fieldset.inner>div.output div.display div.output {
-    /* max-height:160px; */
-}
-

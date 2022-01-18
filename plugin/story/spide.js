@@ -132,7 +132,7 @@ Volcanos("ondetail", {help: "用户交互", list: [],
                 {x: tree.x-can.margin/4, y: y-can.size/2},
                 {x: tree.x+tree.width+can.margin/8, y: y+can.size/2},
             ], style: {stroke: cli.RED, fill: html.NONE},
-        }), can.onkeypop.prevent(event)
+        }), can.onkeymap.prevent(event)
     },
     onclick: function(event, can, tree) {
         if (tree.list.length > 0 || tree.tags || tree.name.endsWith(can._args.split)) {

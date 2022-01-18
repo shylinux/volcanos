@@ -1,290 +1,143 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-        can.require(["/plugin/local/code/inner.js"], function(can) {
-            can.onimport.inner_init(can, msg, list, function() {
-                can.onimport._input(can), can.onimport._output(can)
-                can.keylist = [], can.onkeymap._init(can, "insert")
-                can.base.isFunc(cb) && cb(msg)
-            }, target)
-        }, function(can, name, sub) {
-            sub._name == "onimport" && (can.onimport.inner_init = sub._init)
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+        can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() {
+            can.onkeymap._build(can), can.onimport._input(can), can.onkeymap._normal(can), can.base.isFunc(cb) && cb(msg)
+        }, target) }, function(can, name, sub) {
+            name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
+            name == chat.ONKEYMAP && (can.base.Copy(can.onkeymap._mode, sub._mode))
         })
     },
     _input: function(can) {
-        var ui = can.page.Append(can, can.ui.content.parentNode, [
-            {view: ["current", "input"], onkeydown: function(event) {
-                can.onkeymap.parse(event, can, "insert")
-                can.core.Timer(10, function() {
-                    can.current.text(can.ui.current.value)
-                })
-            }, onblur: function(event) {
-                can.current.text(can.ui.current.value)
-            }, onfocus: function(event) {
-                can._output.scrollLeft += -1000
-
-                can.current.scroll(-1000, 0)
-            }, onclick: function(event) {
-                can.onkeymap._insert(can)
-            }},
-
-            {view: ["command", "input"], onkeydown: function(event) {
-                can.onkeymap.parse(event, can, "command")
-            }, onfocus: function(event) {
-                can._output.scrollLeft += -1000
-                can.current.scroll(-1000, 0)
-            }},
-        ]); can.base.Copy(can.ui, ui, "current", "command")
-    },
-    _output: function(can) {
-        var ui = can.page.Appends(can, can.ui.display, [
-            {view: "action", list: [
-                {input: ["cmd", function(event) {
-                    can.onkeymap.parse(event, can, "command")
-                }], value: "", onfocus: function(event) {
-                    event.target.setSelectionRange(0, -1)
-                    can.onkeymap._command(can)
-                }},
-                {button: ["run", function(event) {
-                    can.onkeymap.command.Enter(event, can, can.ui.cmd.value)
-                }]},
-                {button: ["清空", function(event) {
-                    can.onmotion.clear(can, ui.output)
-                } ]},
-                {button: ["关闭", function(event) {
-                    can.onmotion.hidden(can, can.ui.display)
-                } ]},
-            ]}, {view: "output"},
-        ]); can.base.Copy(can.ui, ui, "output", "cmd")
+        can.ui.current = can.page.Append(can, can.ui.content.parentNode, [
+            {view: ["current", html.INPUT], onkeydown: function(event) { if (event.metaKey) { return }
+                can._keylist = can.onkeymap._parse(event, can, can.mode, can._keylist, can.ui.current)
+                can.mode != "command" && can.core.Timer(10, function() { can.current.text(can.ui.current.value) })
+                can.mode == "normal" && can.onkeymap.prevent(event)
+            }, onclick: function(event) { can.onkeymap._insert(event, can) }},
+        ]).first
     },
 }, [""])
-Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"], _init: function(can, mode) {
-        can.core.List(can.onkeymap.list, function(item) { var engine = {}
-            can.core.Item(can.onkeymap[item], function(key, cb) { var map = engine
-                for (var i = key.length-1; i > -1; i--) {
-                    map = map[key[i]] = i == 0? cb: (map[key[i]]||{})
-                }
-            }), can.onkeymap[item]._engine = engine
-        }), can.onkeymap._mode(can, mode||"normal")
+Volcanos("onkeymap", {help: "键盘交互", list: [],
+    _model: function(can, value) { can.Status("模式", can.mode = value)
+        return can.page.Modify(can, can.ui.current, {className: "current"+ice.SP+can.mode}), value
     },
-    _mode: function(can, value) { can.Status("模式", can.mode = value)
-        can.page.Modify(can, can.ui.current, {className: "current "+can.mode})
-        can.page.Modify(can, can.ui.command, {className: "command "+can.mode})
-        return value
+    _command: function(can) { can.onkeymap._model(can, "command")
+        can.ui.current.blur()
     },
-    _command: function(can) { can.onkeymap._mode(can, "command")
-        if (can.ui.display.style.display == "none") {
-            can.page.Modify(can, can.ui.command, {style: {display: ""}})
-            can.ui.command.focus()
-        } else {
-            can.page.Modify(can, can.ui.display, {style: {display: "block"}})
-            can.ui.cmd.focus()
-        }
-    },
-    _normal: function(can) { can.onkeymap._mode(can, "normal")
+    _normal: function(can) { can.onkeymap._model(can, "normal")
         can.ui.current.focus()
     },
-    _insert: function(can) { can.onkeymap._mode(can, "insert")
-        can.ui.current.focus()
+    _insert: function(event, can) { can.onkeymap._model(can, "insert")
+        can.ui.current.focus(), can.onkeymap.prevent(event)
+        can.ui.content.scrollLeft -= 100
     },
 
-    _remote: function(event, can, key, arg, cb) { can.request(event, {_toast: "执行中..."})
-        can.run(event, arg||["action", key, can.parse, can.Option("file"), can.Option("path")], cb||function(msg) {
-            can.onappend.table(can, msg, function(value, key, index) { return {text: [value, "td"]} }, can.ui.output)
-            can.onappend.board(can, msg.Result(), can.ui.output)
+    _mode: {
+        normal: {
+            jk: function(event, can, target) { can.onkeymap._command(can) },
+            escape: function(event, can) { can.onkeymap._command(can) },
+
+            H: function(event, can, target) { can.onaction.cursorMove(can, target, 0, 0) },
+            h: function(event, can, target) { can.onaction.cursorMove(can, target, -1) },
+            l: function(event, can, target) { can.onaction.cursorMove(can, target, 1) },
+            L: function(event, can, target) { can.onaction.cursorMove(can, target, 0, -1) },
+            j: function(event, can) { can.onaction.selectLine(can, can.current.next()) },
+            k: function(event, can) { can.onaction.selectLine(can, can.current.prev()) },
+
+            gg: function(event, can, target, count) { return can.onaction.selectLine(can, count||1), true },
+            G: function(event, can, target, count) { return can.onaction.selectLine(can, count = count > 1? count: can.max), true },
+            zt: function(event, can, target, count) { count = count||2
+                var pos = can.current.offset()-target.offsetTop
+                can.current.scroll(0, -(pos+can.current.height()*count))
+                return true
+            },
+            zz: function(event, can, target, count) { count = count||5
+                var pos = can.current.offset()-target.offsetTop
+                can.current.scroll(0, -(pos+can.current.height()*count))
+                return true
+            },
+            zb: function(event, can, target, count) { count = count||3
+                var pos = can.current.offset()-target.offsetTop
+                can.current.scroll(0, -(pos+can.current.window()-can.current.height()*count))
+                return true
+            },
+
+            i: function(event, can) { can.onkeymap._insert(event, can) },
+            I: function(event, can, target) { can.onkeymap._insert(event, can)
+                can.onaction.cursorMove(can, target, 0, 0)
+            },
+            a: function(event, can, target) { can.onkeymap._insert(event, can)
+                can.onaction.cursorMove(can, target, 1)
+            },
+            A: function(event, can, target) { can.onkeymap._insert(event, can)
+                can.onaction.cursorMove(can, target, 0, -1)
+            },
+            o: function(event, can) { can.onkeymap._insert(event, can)
+                can.onaction.selectLine(can, can.onaction.insertLine(can, "", can.current.next()))
+                can.onkeymap._insert(event, can)
+            },
+            O: function(event, can) { can.onkeymap._insert(event, can)
+                can.onaction.selectLine(can, can.onaction.insertLine(can, "", can.current.line))
+                can.onkeymap._insert(event, can)
+            },
+
+            yy: function(event, can) { can._last_text = can.current.text() },
+            dd: function(event, can) { can._last_text = can.current.text()
+                var next = can.current.next()
+                can.onaction.deleteLine(can, can.current.line)
+                can.onaction.selectLine(can, next)
+            },
+            p: function(event, can) {
+                can.onaction.insertLine(can, can._last_text, can.current.next())
+            },
+            P: function(event, can) {
+                can.onaction.insertLine(can, can._last_text, can.current.line)
+            },
+        },
+        insert: {
+            jk: function(event, can, target) { can.onkeymap._normal(can)
+                can.onkeymap.DelText(target, target.selectionStart-1, 1)
+            },
+            escape: function(event, can) { can.onkeymap._normal(can) },
+            enter: function(event, can, target) {
+                var left = target.value.slice(event.target.selectionEnd)
+                can.current.text(target.value.slice(0, event.target.selectionEnd)||"")
+                can.onaction.selectLine(can, can.onaction.insertLine(can, left, can.current.next()))
+            },
+            backspace: function(event, can, target) {
+                if (target.selectionStart > 0) { return }
+                can.onkeymap.prevent(event)
+                if (!can.current.prev()) { return }
+
+                var rest = can.current.text()
+                can.onaction.selectLine(can, can.current.prev())
+                can.onaction.deleteLine(can, can.current.next())
+                var pos = can.current.text().length
+
+                can.ui.current.value = can.current.text()+rest
+                can.onaction.cursorMove(can, can.ui.current, 0, pos)
+            },
+            arrowdown: function(event, can) {
+                can.onaction.selectLine(can, can.current.next())
+            },
+            arrowup: function(event, can) {
+                can.onaction.selectLine(can, can.current.prev())
+            },
+        },
+    }, _engine: {},
+})
+Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE],
+    save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
+        can.run(event, [ctx.ACTION, nfs.SAVE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
+            can.user.toastSuccess(can)
         }, true)
     },
-    _engine: {
-        e: function(event, can, line, ls) { can.onimport.tabview(can, can.Option("path"), ls[1]) },
-        p: function(event, can) { can.onaction["项目"](event, can) },
-        q: function(event, can) { can.onmotion.hidden(can, can.ui.display) },
-        w: function(event, can) { can.onaction.save(event, can) },
-    },
 
-    parse: function(event, can, mode) {
-        can.keylist.push(event.key); if (can.mode != mode) {
-            can.onkeypop.prevent(event)
-        }; can.mode == "normal" && can.Status("按键", can.keylist.join(""))
-
-        for (var pre = 0; pre < can.keylist.length; pre++) {
-            if ("0" <= can.keylist[pre] && can.keylist[pre] <= "9") { continue } break
-        }; can.count = parseInt(can.keylist.slice(0, pre).join(""))||1
-
-        function repeat(cb, count) {
-            for (var i = 1; i <= count; i++) { if (cb(event, can, count)) { break } }
-            can.keylist.length > 0 && (can.lastcmd = can.keylist), can.keylist = []
-            can.Status("按键", can.keylist.join(""))
-        }
-
-        var p = can.onsyntax[can.parse]
-        var cb = (p && p.keymap || can.onkeymap[can.mode])[event.key]; if (can.base.isFunc(cb)) {
-            return repeat(cb, can.count)
-        }
-
-        var map = can.onkeymap[can.mode]._engine; for (var i = can.keylist.length-1; i > pre-1; i--) {
-            var cb = map[can.keylist[i]]; if (can.base.isFunc(cb)) {
-                return repeat(cb, can.count)
-            }; if (can.base.isObject(cb)) { map = cb; continue }; break
-        }
-    },
-    command: {
-        Escape: function(event, can) { can.onkeymap._normal(can) },
-        Enter: function(event, can) { can.onmotion.hidden(can, can.ui.command)
-            can.page.Modify(can, can.ui.display, {style: {display: "block"}})
-            var line = can.ui.command.value || can.ui.cmd.value
-            can.ui.command.value = "", can.ui.cmd.value = line
-            can.onmotion.focus(can, can.ui.cmd)
-
-            can.onmotion.clear(can, can.ui.output)
-            var ls = can.core.Split(line+" ", " ", ",")
-            var cb = can.onkeymap._engine[ls[0]]; if (can.base.isFunc(cb)) {
-                can.onmotion.hidden(can, can.ui.display)
-                can.onkeymap._normal(can)
-                cb(event, can, line, ls)
-            } else {
-                can.onkeymap._remote(event, can, line, [ctx.ACTION, "engine"].concat(ls))
-            }
-        },
-        jk: function(event, can) { can.keylist = can.keylist.slice(0, -1)
-            can.onkeymap.command.Enter(event, can)
-        },
-    },
-    normal: {
-        ":": function(event, can) {
-            can.onkeymap._command(can)
-            can.ui.command.value = ""
-        },
-        ".": function(event, can) {
-            can.keylist = can.lastcmd
-            can.onkeymap.parse({key: ""}, can, "normal")
-        },
-
-        H: function(event, can) {
-            can.ui.current.setSelectionRange(0, 0)
-        },
-        h: function(event, can) {
-            can.ui.current.setSelectionRange(can.ui.current.selectionStart-1, can.ui.current.selectionStart-1)
-        },
-        l: function(event, can) {
-            can.ui.current.setSelectionRange(can.ui.current.selectionStart+1, can.ui.current.selectionStart+1)
-        },
-        L: function(event, can) {
-            can.ui.current.setSelectionRange(-1, -1)
-        },
-        j: function(event, can) {
-            can.onaction.selectLine(can, can.current.next())
-        },
-        k: function(event, can) {
-            can.onaction.selectLine(can, can.current.prev())
-        },
-
-        gg: function(event, can, count) { count = count || 1
-            can.onaction.selectLine(can, count)
-            var pos = can.current.offset()-can.ui.current.offsetTop
-            can.current.scroll(0, -(pos+can.current.height()*5))
-            return true
-        },
-        G: function(event, can, count) { count = count > 1? count: can.max
-            can.onaction.selectLine(can, count)
-            var pos = can.current.offset()-can.ui.current.offsetTop
-            can.current.scroll(0, -(pos+can.current.height()*5))
-            return true
-        },
-        zt: function(event, can, count) { count = count || 2
-            var pos = can.current.offset()-can.ui.current.offsetTop
-            can.current.scroll(0, -(pos+can.current.height()*count))
-            return true
-        },
-        zz: function(event, can, count) { count = count || 5
-            var pos = can.current.offset()-can.ui.current.offsetTop
-            can.current.scroll(0, -(pos+can.current.height()*count))
-            return true
-        },
-        zb: function(event, can, count) { count = count || 3
-            var pos = can.current.offset()-can.ui.current.offsetTop
-            can.current.scroll(0, -(pos+can.current.window()-can.current.height()*count))
-            return true
-        },
-
-        i: function(event, can) { can.onkeymap._insert(can)
-        },
-        I: function(event, can) { can.onkeymap._insert(can)
-            can.ui.current.setSelectionRange(0, 0)
-        },
-        a: function(event, can) { can.onkeymap._insert(can)
-        },
-        A: function(event, can) { can.onkeymap._insert(can)
-            can.ui.current.setSelectionRange(-1, -1)
-        },
-        o: function(event, can) { can.onkeymap._insert(can)
-            can.onaction.selectLine(can, can.onkeymap.insertLine(can, "", can.current.next()))
-        },
-        O: function(event, can) { can.onkeymap._insert(can)
-            can.onaction.selectLine(can, can.onkeymap.insertLine(can, "", can.current.line))
-        },
-
-        yy: function(event, can) { can.last = can.current.text() },
-        dd: function(event, can) { can.last = can.current.text()
-            var next = can.current.next()
-            can.onkeymap.deleteLine(can, can.current.line)
-            can.onaction.selectLine(can, next)
-        },
-        p: function(event, can) {
-            can.onkeymap.insertLine(can, can.last, can.current.next())
-        },
-        P: function(event, can) {
-            can.onkeymap.insertLine(can, can.last, can.current.line)
-        },
-    },
-    insert: {
-        Escape: function(event, can) { can.onkeymap._normal(can)
-            can.onaction.modifyLine(can, can.current, can.ui.current.value)
-            can.onkeypop.prevent(event)
-        },
-        Enter: function(event, can) {
-            var before = can.ui.current.value.slice(0, event.target.selectionEnd)
-            var left = can.ui.current.value.slice(event.target.selectionEnd)
-            can.current.text(before||"")
-            can.onaction.selectLine(can, can.onkeymap.insertLine(can, left, can.current.next()))
-            can.ui.current && can.ui.current.setSelectionRange(0, 0)
-        },
-        Backspace: function(event, can) {
-            if (can.ui.current.selectionStart > 0) { return }
-            can.onkeypop.prevent(event)
-            if (!can.current.prev()) { return }
-
-            var rest = can.current.text()
-            can.onaction.selectLine(can, can.current.prev())
-            var pos = can.current.text().length
-
-            rest = can.current.text()+rest
-            can.ui.current.value = rest
-            can.current.text(rest)
-            can.ui.current.setSelectionRange(pos, pos)
-
-            can.onkeymap.deleteLine(can, can.current.next())
-        },
-        ArrowDown: function(event, can) {
-            can.onaction.selectLine(can, can.current.next())
-            can.ui.current.setSelectionRange(can.ui.current.selectionStart, can.ui.current.selectionEnd)
-        },
-        ArrowUp: function(event, can) {
-            can.onaction.selectLine(can, can.current.prev())
-            can.ui.current.setSelectionRange(can.ui.current.selectionStart, can.ui.current.selectionEnd)
-        },
-        jk: function(event, can) {
-            can.onkeypop.DelText(can.ui.current, can.ui.current.selectionStart-1, 1)
-            can.onkeymap.insert.Escape(event, can)
-        },
-    },
-
-    selectLine: function(can) { var line = can.current.line
-        can.page.Select(can, can.current.line, "td.text", function(item) { line = item })
-        can.page.Modify(can, can.ui.current, {className: "current "+can.mode, value: can.current.text(), style: {
-            left: line.offsetLeft, top: line.offsetTop-can.current.offset()-2,
-            height: line.offsetHeight, width: line.offsetWidth
-        }})
-        // can.ui.current.focus()
-        can.ui.current.setSelectionRange(event.offsetX/13, event.offsetX/13)
-        can.page.Modify(can, can.ui.command, {className: "command "+can.mode})
+    _selectLine: function(event, can) {
+        can.page.Select(can, can.current.line, "td.text", function(td) { can.current.line.appendChild(can.ui.current)
+            can.page.Modify(can, can.ui.current, {style: kit.Dict(html.LEFT, td.offsetLeft-1, html.WIDTH,td.offsetWidth-12), value: td.innerText})
+            can.ui.current.focus(), can.onaction.cursorMove(can, can.ui.current, 0, (event.offsetX)/13-1)
+            can.ui.content.scrollLeft -= td.offsetLeft
+        })
     },
     insertLine: function(can, value, before) {
         var line = can.onaction.appendLine(can, value)
@@ -295,17 +148,9 @@ Volcanos("onkeymap", {help: "键盘交互", list: ["command", "normal", "insert"
         can.page.Remove(can, line)
         can.onaction.rerankLine(can)
     },
-})
-Volcanos("onaction", {help: "控件交互", list: ["run"],
-    save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
-        can.run(event, [ctx.ACTION, "save", can.parse, can.Option("file"), can.Option("path")], function(msg) {
-            can.user.toastSuccess(can)
-        }, true)
-    },
     modifyLine: function(can, line, value) {
         can.page.Select(can, can.ui.content, html.TR, function(item, index) {
             if (item != line && index+1 != line) { return }
-
             can.page.Select(can, item, "td.text", function(item) {
                 can.page.Appends(can, item, [can.onsyntax._parse(can, value)])
             })
@@ -317,6 +162,10 @@ Volcanos("onaction", {help: "控件交互", list: ["run"],
                 item.innerText = index+1
             })
         })
+    },
+    cursorMove: function(can, target, count, begin) {
+        begin != undefined && target.setSelectionRange(begin, begin)
+        target.setSelectionRange(target.selectionStart+count, target.selectionStart+count)
     },
 })
 Volcanos("onexport", {help: "导出数据", list: ["文件数", "模式", "按键", "解析器", "文件名", "当前行", "跳转数"]})
