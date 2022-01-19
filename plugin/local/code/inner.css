@@ -87,7 +87,7 @@ fieldset.inner>div.output div.profile>div.output {
     clear:both; overflow:auto;
 }
 fieldset.inner>div.output div.display>div.output {
-    clear:both;
+    clear:both; overflow:auto;
 }
 fieldset.inner>div.output div.display {
     border:solid 1px greenyellow;

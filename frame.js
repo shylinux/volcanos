@@ -338,7 +338,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var input = can.page.input(can, item, value)
         var br = input.type == html.TEXTAREA? [{type: html.BR, style: {clear: html.BOTH}}]: []
         var title = can.Conf([ctx.FEATURE, chat.TITLE, item.name].join(ice.PT))||""; title && (input.title = title)
-        return can.page.Append(can, target, ([{view: style||can.base.join([html.ITEM, item.type]), list: [input]}]).concat(br))[item.name]
+        return can.page.Append(can, target, ([{view: style||can.base.join([html.ITEM, item.type]), onkeydown: function(event) {
+            item.type == "text" && can.onkeymap.input(event, can)
+        }, list: [input]}]).concat(br))[item.name]
     },
     table: function(can, msg, cb, target, sort) {
         var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
@@ -650,6 +652,9 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
             if (pos) { item.scrollTo(0, pos-1); return item }
         }).length > 0
     },
+    delay: function(can, cb) {
+        can.core.Timer(10, cb)
+    },
 
     hidden: function(can, target, show) {
         can.page.Modify(can, target||can._target, {style: {display: show? "": html.NONE}})
@@ -806,9 +811,9 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
                     var total = select(target._index)
                     select(target._index = (target._index-1) < 0? total-1: (target._index-1))
                     break
-                default: target._index = 0, target._value = ""
+                default: target._index = 0, target._value = ""; return
             }
-            return
+            return can.onkeymap.prevent(event)
         }
 
         target._index = 0, target._value = ""
@@ -826,140 +831,95 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
     },
 })
 Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
-        document.body.onkeydown = function(event) { var msg = can.request(event)
-            msg.Option("model", "normal"); if (event.target.tagName == "SELECT" || event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA") {
-                msg.Option("model", event.ctrlKey? "insert_ctrl": "insert")
-                return
-            }
-            if (event.metaKey) { return }
-            if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
-            can.onengine.signal(can, "onkeydown", msg)
-            if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
-            can._keylist = can.onkeymap._parse(event, can, msg.Option("model"), can._keylist||[], can._output)
+        can.onkeymap._build(can), document.body.onkeydown = function(event) { if (event.metaKey) { return }
+            if (event.target.tagName == "SELECT" || event.target.tagName == "INPUT" || event.target.tagName == "TEXTAREA") { return }
+            var msg = can.request(event, {"model": "normal"}); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
+            can.onengine.signal(can, "onkeydown", msg); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
+            can._keylist = can.onkeymap._parse(event, can, msg.Option("model"), can._keylist, can._output)
         }
     },
     _build: function(can) {
-        can.core.Item(can.onkeymap._mode, function(item, value) { var engine = {}
+        can.core.Item(can.onkeymap._mode, function(item, value) { var engine = {list: {}}
             can.core.Item(value, function(key, cb) { var map = engine
-                for (var i = key.length-1; i > -1; i--) {
-                    map = map[key[i]] = i == 0? cb: (map[key[i]]||{})
+                for (var i = 0; i < key.length; i++) {
+                    if (!map.list[key[i]]) { map.list[key[i]] = {list: {}} }
+                    map = map.list[key[i]]; if (i == key.length-1) { map.cb = cb }
                 }
             }), can.onkeymap._engine[item] = engine
         })
     },
-    _parse: function(event, can, mode, list, target) { list = list||[], list.push(event.key)
-        for (var pre = 0; pre < list.length; pre++) {
+    _parse: function(event, can, mode, list, target) { list = list||[]
+        if (["Control", "Shift"].indexOf(event.key) > -1) { return list }
+        list.push(event.key); for (var pre = 0; pre < list.length; pre++) {
             if ("0" <= list[pre] && list[pre] <= "9") { continue } break
         }; var count = parseInt(list.slice(0, pre).join(""))||1
 
-        function repeat(cb, count) { list = []
-            for (var i = 1; i <= count; i++) { if (cb(event, can, target, count)) { break } }
-            // can.onkeymap.prevent(event)
-        }
 
         var map = can.onkeymap._mode[mode]
-        var cb = map && map[event.key.toLowerCase()]; if (can.base.isFunc(cb) && event.key.length > 1) {
-            repeat(cb, count); return list
-        }
-        var map = can.onkeymap._mode[mode]
-        var cb = map && map[event.key]; if (can.base.isFunc(cb) && event.key.length > 1) {
-            repeat(cb, count); return list
-        }
+        function repeat(cb, count) { list = []; for (var i = 1; i <= count; i++) { if (cb(event, can, target, count)) { break } } }
+        var cb = map && map[event.key]; if (can.base.isFunc(cb) && event.key.length > 1) { repeat(cb, count); return list }
+        var cb = map && map[event.key.toLowerCase()]; if (can.base.isFunc(cb) && event.key.length > 1) { repeat(cb, count); return list }
 
-
-        var map = can.onkeymap._engine[mode]||{}; for (var i = list.length-1; i > pre-1; i--) {
-            var cb = map[list[i]]||{}; switch (typeof cb) {
-                case lang.FUNCTION: repeat(cb, count); return list
-                case lang.OBJECT: map = cb; continue
-                case lang.STRING: 
-                default: return list
-            }
+        can.misc.Log("keys", count, list)
+        var map = can.onkeymap._engine[mode]; if (!map) { return [] }
+        for (var i = pre; i < list.length; i++ ) {
+            var map = map.list[list[i]]; if (!map) { return [] }
+            if (i == list.length-1 && can.base.isFunc(map.cb)) { repeat(map.cb, count); return [] }
         }
         return list
     },
     _mode: {
         insert: {
-            escape: function(event, can, target) {
-                target.blur()
-            },
-            jk: function(event, can, target) {
-                can.onkeymap.DelText(target, target.selectionStart-1, target.selectionStart)
-                target.blur()
-            },
-            enter: function(event, can, target) {
-                var his = target._history || []
-                his.push(target.value)
-                if (event.target.tagName == "INPUT") {
-                    can.onmotion.focus(can, target)
-                }
-
-                target._current = his.length
-                target._history = his
+            jk: function(event, can, target) { target.blur(), can.onkeymap.deleteText(target, target.selectionStart-1, target.selectionStart) },
+            Escape: function(event, can, target) { target.blur() },
+            Enter: function(event, can, target) {
+                var his = target._history||[]; his.push(target.value)
+                event.target.tagName == "INPUT" && can.onmotion.focus(can, target)
+                target._history = his, target._current = his.length
             },
         },
         insert_ctrl: {
             p: function(event, can, target) {
-                var his = target._history||[]
-                var pos = target._current||0
-
-                pos = --pos % (his.length+1)
-                if (pos < 0) { pos = his.length}
-                target.value = his[pos]||""
-                can.misc.Log(pos, his)
-
-                target._current = pos
+                var his = target._history||[], pos = target._current||0
+                pos = --pos % (his.length+1); if (pos < 0) { pos = his.length }
+                target._current = pos, target.value = his[pos]||""
             },
             n: function(event, can, target) {
-                var his = target._history||[]
-                var pos = target._current||0
-
+                var his = target._history||[], pos = target._current||0
                 pos = ++pos % (his.length+1)
-                target.value = his[pos]||""
-                can.misc.Log(pos, his)
-
-                target._current = pos
+                target._current = pos, target.value = his[pos]||""
             },
 
-            u: function(event, can, target) {
-                can.onkeymap.DelText(target, 0, target.selectionEnd)
-            },
-            k: function(event, can, target) {
-                can.onkeymap.DelText(target, target.selectionStart)
-            },
-            h: function(event, can, target) {
-                can.onkeymap.DelText(target, target.selectionStart-1, target.selectionStart)
-            },
-            d: function(event, can, target) {
-                can.onkeymap.DelText(target, 0, target.selectionStart)
-            },
-            w: function(event, can, target) {
-                var start = target.selectionStart-2
-                var end = target.selectionEnd-1
+            u: function(event, can, target) { can.onkeymap.deleteText(target, 0, target.selectionEnd) },
+            k: function(event, can, target) { can.onkeymap.deleteText(target, target.selectionStart) },
+            h: function(event, can, target) { can.onkeymap.deleteText(target, target.selectionStart-1, 1) },
+            d: function(event, can, target) { can.onkeymap.deleteText(target, 0, target.selectionStart) },
+            w: function(event, can, target) { var start = target.selectionStart-2, end = target.selectionEnd-1
                 for (var i = start; i >= 0; i--) {
-                    if (target.value[end] == " " && target.value[i] != " ") {
-                        break
-                    }
-                    if (target.value[end] != " " && target.value[i] == " ") {
-                        break
-                    }
-                }
-                can.onkeymap.DelText(target, i+1, end-i)
+                    if (target.value[end] == ice.SP && target.value[i] != ice.SP) { break }
+                    if (target.value[end] != ice.SP && target.value[i] == ice.SP) { break }
+                } can.onkeymap.deleteText(target, i+1, end-i)
             },
         },
     }, _engine: {},
 
-    input: function(event, can) { var target = event.target
-        target._keys = can.onkeymap._parse(event, can, event.ctrlKey? "insert_ctrl": mdb.INSERT, target._keys||[], target)
-        if (target._keys.length == 0 && target.tagName == "INPUT") { can.onkeymap.prevent(event) }
+    input: function(event, can) { if (event.metakey) { return } var target = event.target
+        target._keys = can.onkeymap._parse(event, can, event.ctrlKey? "insert_ctrl": mdb.INSERT, target._keys, target)
     },
-    DelText: function(target, start, count) { var end = count? start+count: target.value.length
+    prevent: function(event) { event.stopPropagation(), event.preventDefault() },
+    deleteText: function(target, start, count) { var end = count? start+count: target.value.length
         var cut = target.value.slice(start, end)
         target.value = target.value.substring(0, start)+target.value.substring(end, target.value.length)
-        target.setSelectionRange(start, start)
-        return cut
+        return target.setSelectionRange(start, start), cut
     },
-    prevent: function(event) {
-        event.stopPropagation(), event.preventDefault() 
-    }
+    insertText: function(target, text) { var start = target.selectionStart
+        var before = target.value.slice(0, target.selectionStart)
+        var after = target.value.slice(target.selectionEnd)
+        target.value = before+text+after
+        return target.setSelectionRange(start+1, start+1)
+    },
+    cursorMove: function(can, target, count, begin) { begin != undefined && target.setSelectionRange(begin, begin)
+        target.setSelectionRange(target.selectionStart+count, target.selectionStart+count)
+    },
 })
 _can_name = ""

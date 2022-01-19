@@ -240,6 +240,7 @@ var html = {
     H1: "h1", H2: "h2", H3: "h3",
 }
 var lang = {
+    UNDEFINED: "undefined",
     STRING: "string", NUMBER: "number",
     OBJECT: "object", FUNCTION: "function",
     ESCAPE: "Escape", ENTER: "Enter", TAB: "Tab",
