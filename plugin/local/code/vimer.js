@@ -1,6 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
         can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() {
-            can.onkeymap._build(can), can.onimport._input(can), can.onkeymap._normal(can), can.base.isFunc(cb) && cb(msg)
+            can.onkeymap._build(can), can.onimport._input(can), can.onkeymap._command(can), can.base.isFunc(cb) && cb(msg)
         }, target) }, function(can, name, sub) {
             name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
             name == chat.ONKEYMAP && (can.base.Copy(can.onkeymap._mode, sub._mode))
@@ -10,7 +10,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.ui.current = can.page.Append(can, can.ui.content.parentNode, [
             {view: ["current", html.INPUT], onkeydown: function(event) { if (event.metaKey) { return }
                 can._keylist = can.onkeymap._parse(event, can, can.mode, can._keylist, can.ui.current)
-                can.mode != "command" && can.core.Timer(10, function() { can.current.text(can.ui.current.value) })
+                can.mode == "insert" && can.core.Timer(10, function() { can.current.text(can.ui.current.value) })
+                can.mode == "normal" && can.Status("按键", can._keylist.join(""))
                 can.mode == "normal" && can.onkeymap.prevent(event)
             }, onclick: function(event) { can.onkeymap._insert(event, can) }},
         ]).first
@@ -18,47 +19,42 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 }, [""])
 Volcanos("onkeymap", {help: "键盘交互", list: [],
     _model: function(can, value) { can.Status("模式", can.mode = value)
+        can.current && (can.ui.current.value = can.current.text())
         return can.page.Modify(can, can.ui.current, {className: "current"+ice.SP+can.mode}), value
     },
     _command: function(can) { can.onkeymap._model(can, "command")
         can.ui.current.blur()
     },
     _normal: function(can) { can.onkeymap._model(can, "normal")
-        can.ui.current.focus()
+        can.ui.current.focus(), can.ui.content.scrollLeft -= 10000
     },
     _insert: function(event, can) { can.onkeymap._model(can, "insert")
-        can.ui.current.focus(), can.onkeymap.prevent(event)
-        can.ui.content.scrollLeft -= 100
+        can.ui.current.focus(), can.ui.content.scrollLeft -= 10000
+        can.onkeymap.prevent(event)
     },
 
     _mode: {
         normal: {
-            jk: function(event, can, target) { can.onkeymap._command(can) },
             escape: function(event, can) { can.onkeymap._command(can) },
 
             H: function(event, can, target) { can.onaction.cursorMove(can, target, 0, 0) },
             h: function(event, can, target) { can.onaction.cursorMove(can, target, -1) },
             l: function(event, can, target) { can.onaction.cursorMove(can, target, 1) },
             L: function(event, can, target) { can.onaction.cursorMove(can, target, 0, -1) },
-            j: function(event, can) { can.onaction.selectLine(can, can.current.next()) },
-            k: function(event, can) { can.onaction.selectLine(can, can.current.prev()) },
+            j: function(event, can) { can.onaction.selectLine(event, can, can.current.next()) },
+            k: function(event, can) { can.onaction.selectLine(event, can, can.current.prev()) },
 
-            gg: function(event, can, target, count) { return can.onaction.selectLine(can, count||1), true },
-            G: function(event, can, target, count) { return can.onaction.selectLine(can, count = count > 1? count: can.max), true },
-            zt: function(event, can, target, count) { count = count||2
-                var pos = can.current.offset()-target.offsetTop
-                can.current.scroll(0, -(pos+can.current.height()*count))
-                return true
+            gg: function(event, can, target, count) { return can.onaction.selectLine(event, can, count||1), true },
+            G: function(event, can, target, count) { return can.onaction.selectLine(event, can, count = count>1? count: can.max), true },
+
+            zt: function(event, can, target, count) { 
+                return can.current.scroll(can.current.scroll()-(count>1? count: 3)), true
             },
-            zz: function(event, can, target, count) { count = count||5
-                var pos = can.current.offset()-target.offsetTop
-                can.current.scroll(0, -(pos+can.current.height()*count))
-                return true
+            zz: function(event, can, target, count) {
+                return can.current.scroll(can.current.scroll()-(count = count>1? count: can.current.window()/2)), true
             },
-            zb: function(event, can, target, count) { count = count||3
-                var pos = can.current.offset()-target.offsetTop
-                can.current.scroll(0, -(pos+can.current.window()-can.current.height()*count))
-                return true
+            zb: function(event, can, target, count) {
+                return can.current.scroll(can.current.scroll()-can.current.window()+(count>1? count: 5)), true
             },
 
             i: function(event, can) { can.onkeymap._insert(event, can) },
@@ -72,56 +68,44 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
                 can.onaction.cursorMove(can, target, 0, -1)
             },
             o: function(event, can) { can.onkeymap._insert(event, can)
-                can.onaction.selectLine(can, can.onaction.insertLine(can, "", can.current.next()))
-                can.onkeymap._insert(event, can)
+                can.onaction.selectLine(event, can, can.onaction.insertLine(can, "", can.current.next()))
             },
             O: function(event, can) { can.onkeymap._insert(event, can)
-                can.onaction.selectLine(can, can.onaction.insertLine(can, "", can.current.line))
-                can.onkeymap._insert(event, can)
+                can.onaction.selectLine(event, can, can.onaction.insertLine(can, "", can.current.line))
             },
 
             yy: function(event, can) { can._last_text = can.current.text() },
             dd: function(event, can) { can._last_text = can.current.text()
-                var next = can.current.next()
-                can.onaction.deleteLine(can, can.current.line)
-                can.onaction.selectLine(can, next)
+                var next = can.current.next(); can.onaction.deleteLine(can, can.current.line)
+                can.onaction.selectLine(event, can, next)
             },
-            p: function(event, can) {
-                can.onaction.insertLine(can, can._last_text, can.current.next())
-            },
-            P: function(event, can) {
-                can.onaction.insertLine(can, can._last_text, can.current.line)
-            },
+            p: function(event, can) { can.onaction.insertLine(can, can._last_text, can.current.next()) },
+            P: function(event, can) { can.onaction.insertLine(can, can._last_text, can.current.line) },
         },
         insert: {
-            jk: function(event, can, target) { can.onkeymap._normal(can)
+            jk: function(event, can, target) { can.onkeymap._normal(can),
                 can.onkeymap.DelText(target, target.selectionStart-1, 1)
+                can.current.text(can.ui.current.value)
             },
-            escape: function(event, can) { can.onkeymap._normal(can) },
-            enter: function(event, can, target) {
-                var left = target.value.slice(event.target.selectionEnd)
-                can.current.text(target.value.slice(0, event.target.selectionEnd)||"")
-                can.onaction.selectLine(can, can.onaction.insertLine(can, left, can.current.next()))
+            Escape: function(event, can) { can.onkeymap._normal(can) },
+            Enter: function(event, can, target) {
+                can.onaction.selectLine(event, can, can.onaction.insertLine(can, can.onkeymap.DelText(target, target.selectionEnd), can.current.next()))
             },
-            backspace: function(event, can, target) {
+            Backspace: function(event, can, target) {
                 if (target.selectionStart > 0) { return }
-                can.onkeymap.prevent(event)
                 if (!can.current.prev()) { return }
+                can.onkeymap.prevent(event)
 
                 var rest = can.current.text()
-                can.onaction.selectLine(can, can.current.prev())
+                can.onaction.selectLine(event, can, can.current.prev())
                 can.onaction.deleteLine(can, can.current.next())
                 var pos = can.current.text().length
 
                 can.ui.current.value = can.current.text()+rest
                 can.onaction.cursorMove(can, can.ui.current, 0, pos)
             },
-            arrowdown: function(event, can) {
-                can.onaction.selectLine(can, can.current.next())
-            },
-            arrowup: function(event, can) {
-                can.onaction.selectLine(can, can.current.prev())
-            },
+            ArrowDown: function(event, can) { can.onaction.selectLine(event, can, can.current.next()) },
+            ArrowUp: function(event, can) { can.onaction.selectLine(event, can, can.current.prev()) },
         },
     }, _engine: {},
 })
@@ -135,8 +119,10 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE],
     _selectLine: function(event, can) {
         can.page.Select(can, can.current.line, "td.text", function(td) { can.current.line.appendChild(can.ui.current)
             can.page.Modify(can, can.ui.current, {style: kit.Dict(html.LEFT, td.offsetLeft-1, html.WIDTH,td.offsetWidth-12), value: td.innerText})
-            can.ui.current.focus(), can.onaction.cursorMove(can, can.ui.current, 0, (event.offsetX)/13-1)
-            can.ui.content.scrollLeft -= td.offsetLeft
+            if (event) { if (can.mode == "command") { can.onkeymap._insert(event, can) }
+                can.ui.current.focus(), can.onaction.cursorMove(can, can.ui.current, 0, (event.offsetX)/13-1)
+                can.ui.content.scrollLeft -= td.offsetLeft
+            }
         })
     },
     insertLine: function(can, value, before) {

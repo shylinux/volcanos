@@ -861,6 +861,11 @@ Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: functio
         var cb = map && map[event.key.toLowerCase()]; if (can.base.isFunc(cb) && event.key.length > 1) {
             repeat(cb, count); return list
         }
+        var map = can.onkeymap._mode[mode]
+        var cb = map && map[event.key]; if (can.base.isFunc(cb) && event.key.length > 1) {
+            repeat(cb, count); return list
+        }
+
 
         var map = can.onkeymap._engine[mode]||{}; for (var i = list.length-1; i > pre-1; i--) {
             var cb = map[list[i]]||{}; switch (typeof cb) {
@@ -947,9 +952,11 @@ Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: functio
         target._keys = can.onkeymap._parse(event, can, event.ctrlKey? "insert_ctrl": mdb.INSERT, target._keys||[], target)
         if (target._keys.length == 0 && target.tagName == "INPUT") { can.onkeymap.prevent(event) }
     },
-    DelText: function(target, start, count) {
-        target.value = target.value.substring(0, start)+target.value.substring(start+(count||target.value.length), target.value.length)
+    DelText: function(target, start, count) { var end = count? start+count: target.value.length
+        var cut = target.value.slice(start, end)
+        target.value = target.value.substring(0, start)+target.value.substring(end, target.value.length)
         target.setSelectionRange(start, start)
+        return cut
     },
     prevent: function(event) {
         event.stopPropagation(), event.preventDefault() 
