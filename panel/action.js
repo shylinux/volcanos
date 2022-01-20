@@ -15,9 +15,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
     },
     _plugin: function(can, river, storm, sub, meta) { sub._target._meta = meta
         sub.run = function(event, cmds, cb) { var msg = sub.request(event)
-            if (msg.Option("_toast")) { var toast = can.user.toast(can, msg.Option("_toast"), "", -1) }
             return can.run(event, can.misc.concat(can, [river, storm, meta.id||meta.index], cmds), function(msg) {
-                toast && toast.close(), can.base.isFunc(cb) && cb(msg)
+                can.base.isFunc(cb) && cb(msg)
             })
 
         }, can._plugins = can.misc.concat(can, can._plugins, [sub])

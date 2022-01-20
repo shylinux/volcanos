@@ -230,7 +230,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
             if (can._daemon) { msg._daemon = can._daemon }
         }
 
+        if (msg.Option("_toast")) { var toast = can.user.toast(can, msg.Option("_toast"), "", -1) }
         return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")||{}; can._msg = msg, sub._msg = msg
+            toast && toast.close()
             var process = msg._can == can || msg._can == sub
             if (process && can.core.CallFunc([sub, "onimport._process"], {can: sub, msg: msg})) { return }
             if (process && can.core.CallFunc([can, "onimport._process"], {can: can, msg: msg})) { return }
@@ -653,7 +655,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
         }).length > 0
     },
     delay: function(can, cb) {
-        can.core.Timer(10, cb)
+        can.core.Timer(50, cb)
     },
 
     hidden: function(can, target, show) {

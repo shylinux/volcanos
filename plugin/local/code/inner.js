@@ -174,10 +174,10 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
             can.page.Modify(can, can.ui.profile, {style: {display: p? p.profile_display: html.NONE}})
             can.page.Modify(can, can.ui.display, {style: {display: p? p.display_display: html.NONE}})
             can.onmotion.select(can, can._action, chat.DIV_TABS, msg._tab)
-            msg.Option(ctx.INDEX) && can.core.Timer(10, function() {
-                can.onmotion.focus(can, can.page.Select(can, can.ui.content, html.OPTION_ARGS)[0])
+            can.onmotion.delay(can, function() { can.onimport.layout(can)
+                msg.Option(ctx.INDEX) && can.onmotion.focus(can, can.page.Select(can, can.ui.content, html.OPTION_ARGS)[0])
             })
-            return can.onimport.layout(can), can.file
+            return can.file
         }, can.ui.content, can.ui.profile_output, can.ui.display_output)) {
             return can.onaction.selectLine(null, can, msg.Option(nfs.LINE)), can.base.isFunc(cb) && cb()
         }
@@ -248,10 +248,10 @@ Volcanos("onkeymap", {help: "导入数据", _init: function(can, msg, cb, target
             v: function(event, can) { can.onaction["展示"](event, can) },
             s: function(event, can) { can.onaction["保存"](event, can) },
 
-            j: function(event, can) { can.onaction.scrollLine(can, 1) },
-            k: function(event, can) { can.onaction.scrollLine(can, -1) },
-            J: function(event, can) { can.onaction.scrollLine(can, 20) },
-            K: function(event, can) { can.onaction.scrollLine(can, -20) },
+            j: function(event, can) { can.current.scroll(1) },
+            k: function(event, can) { can.current.scroll(-1) },
+            J: function(event, can) { can.current.scroll(can.current.window()-3) },
+            K: function(event, can) { can.current.scroll(-can.current.window()+3) },
 
             i: function(event, can) { can.onkeymap._insert(event, can) },
             n: function(event, can) { can.onkeymap._normal(event, can) },
@@ -290,15 +290,14 @@ Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加",
     "保存": function(event, can) { can.onexport.sess(can), can.user.toastSuccess(can) },
     "项目": function(event, can) { can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can) },
     "工具": function(event, can) { can.onmotion.toggle(can, can.ui.toolkit.fieldset) },
-    "展示": function(event, can) { can.onimport.profile(can)
-        can.run(event, [ctx.ACTION, mdb.ENGINE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
-            can.onimport.profile(can, msg)
-        }, true)
-    },
-    "执行": function(event, can) { can.onimport.display(can)
-        can.request(event, {_toast: "执行中..."})
+    "执行": function(event, can) { can.onimport.display(can), can.request(event, {_toast: "执行中..."})
         can.run(event, [ctx.ACTION, mdb.ENGINE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
             can.onimport.display(can, msg)
+        }, true)
+    },
+    "展示": function(event, can) { can.onimport.profile(can), can.request(event, {_toast: "渲染中..."})
+        can.run(event, [ctx.ACTION, mdb.RENDER, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
+            can.onimport.profile(can, msg)
         }, true)
     },
     "清屏": function(event, can) {
@@ -365,17 +364,17 @@ Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加",
             }}
         ]}]); return ui.tr
     },
-    selectLine: function(event, can, line) { if (!line) { return }
-        can.page.Select(can, can.ui.content, html.TR, function(item, index) {
+    selectLine: function(event, can, line) { if (!line) { return parseInt(can.core.Value(can.page.Select(can, can.ui.content, [[[html.TR, html.SELECT], [html.TD, "line"]]])[0], "innerText")) }
+        can.page.Select(can, can.ui.content, html.TR, function(item, index, array) { if (line < 0 || line > array.length) { return }
             if (!can.page.ClassList.set(can, item, html.SELECT, item == line || index+1 == line)) { return }
             line = item, can.Status(kit.Dict("文件名", can.file, "解析器", can.parse, "当前行", can.onexport.position(can, can.Option(nfs.LINE, index+1))))
         })
 
         can.base.isObject(line) && can.page.Select(can, line, "td.text", function(item) {
             can.current = {
-                window: function() { return can.ui.content.offsetHeight/can.current.line.offsetHeight },
+                window: function() { return parseInt(can.ui.content.offsetHeight/can.current.line.offsetHeight) },
                 scroll: function(count) { if (count) { can.ui.content.scrollTop += count*can.current.line.offsetHeight }
-                    return (can.current.line.offsetTop-can.ui.content.scrollTop)/can.current.line.offsetHeight
+                    return parseInt((can.current.line.offsetTop-can.ui.content.scrollTop)/can.current.line.offsetHeight)
                 },
 
                 prev: function() { return line.previousSibling },
