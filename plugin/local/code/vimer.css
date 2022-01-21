@@ -5,6 +5,7 @@ fieldset.vimer>div.output input.current {
     margin:0; margin-top:-2px;
     padding:0; padding-left:9px;
     width:-webkit-fill-available;
+    tab-size:4;
 }
 fieldset.vimer>div.output input.current.insert {
     caret-color:yellow;

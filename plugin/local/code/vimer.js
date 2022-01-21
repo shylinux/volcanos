@@ -2,7 +2,15 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() {
             can.onkeymap._build(can), can.onimport._input(can), can.onkeymap._plugin({}, can), can.base.isFunc(cb) && cb(msg)
         }, target) }, function(can, name, sub) { name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
-            name == chat.ONKEYMAP && (can.base.Copy(can.onkeymap._mode, sub._mode))
+            if (name == chat.ONKEYMAP) {
+                can.base.Copy(can.onkeymap._mode, sub._mode)
+                can.core.Item(can.onkeymap._mode.normal, function(k, v) {
+                    if (!sub._mode.plugin[k]) { sub._mode.plugin[k] = v }
+                })
+                can.core.Item(sub._mode.plugin, function(k, v) {
+                    if (!can.onkeymap._mode.normal[k]) { can.onkeymap._mode.normal[k] = v }
+                })
+            }
         })
     },
     _input: function(can) {
@@ -80,9 +88,8 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
             P: function(event, can) { can.onaction.insertLine(can, can._last_text, can.current.line) },
 
             s: function(event, can) { can.onaction.save(event, can) },
-            ":": function(event, can) { can.onimport.toolkit(can, {index: "cli.system"}, function(sub) { can.toolkit["cli.system"] = sub.select() }) },
-            r: function(event, can) { can.onaction["执行"](event, can) },
-            v: function(event, can) { can.onaction["展示"](event, can) },
+            m: function(event, can) { can.onaction.autogen(event, can, "autogen") },
+            c: function(event, can) { can.onaction.compile(event, can, "compile") },
         },
         insert: {
             jk: function(event, can, target) { can.onkeymap._normal(event, can),
@@ -117,7 +124,32 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
         },
     }, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, "autogen", "compile", "binpack"],
+Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, "autogen", "compile", "binpack", "加载"],
+    "加载": function(event, can) {
+        var file = "/share/local/"+can.Option(nfs.PATH)+can.Option(nfs.FILE)
+        delete(Volcanos.meta.cache[file])
+        var script = `\n_can_name = "`+file+`"\n`+
+            can.onexport.content(can)+
+            `\n_can_name = ""\nconsole.log("once")`
+        eval(script)
+    },
+    autogen: function(event, can, button) { var meta = can.Conf(), msg = can.request(event, {_handle: ice.TRUE})
+        can.user.input(event, can, meta.feature[button], function(ev, btn, data, list, args) {
+            can.run(event, [ctx.ACTION, button].concat(args), function(msg) {
+                can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE))
+                can.onimport.project(can, can.Option(nfs.PATH))
+            }, true)
+        })
+    },
+    compile: function(event, can, button) { var msg = can.ui.search.request(event, {_handle: ice.TRUE, _toast: "编译中..."})
+        can.run(event, [ctx.ACTION, button], function(msg) {
+            if (msg.Length() == 0) { var toast = can.user.toast(can, "重启中...", "", -1)
+                can.core.Timer(3000, function() { toast.close(), can.onaction["展示"]({}, can) })
+            } else {
+                can.ui.search._show(msg)
+            }
+        }, true)
+    },
     save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
         can.run(event, [ctx.ACTION, nfs.SAVE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
             can.user.toastSuccess(can)

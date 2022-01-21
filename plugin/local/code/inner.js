@@ -1,6 +1,11 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target) {
+        can.onengine.plugin(can, "can.code.inner.plugin", shy("插件", {}, [{type: "button", name: "list", action: "auto"}, "back"], function(msg, cmds) {
+            msg.Echo("can.code.inner.plugin")
+            msg.result = msg.result.concat(cmds||[])
+        }))
+
         can.tabview = can.tabview||{}, can.tabview[can.Option(nfs.PATH)+ice.DF+can.Option(nfs.FILE)] = msg
-        can.history = can.history||[], can.toolkit = {}, can.extentions = {}
+        can.history = can.history||[], can.toolkit = {}, can.extentions = {}, can.profile_size = {}
 
         can.onmotion.clear(can), can.onlayout.profile(can)
         can.onimport._project(can, can.ui.project)
@@ -22,10 +27,16 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
     },
     _profile: function(can, target) {
         var ui = can.page.Append(can, target, [{view: html.ACTION}, {view: html.OUTPUT}]); can.ui.profile_output = ui.output
-        var action = can.onappend._action(can, [cli.SHOW, cli.CLEAR, mdb.PLUGIN, cli.CLOSE], ui.action, kit.Dict(
+        var action = can.onappend._action(can, [cli.SHOW, cli.CLEAR, mdb.PLUGIN, cli.CLOSE, "size"], ui.action, kit.Dict(
             cli.SHOW, function(event) { can.onaction["展示"](event, can) },
             cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
             cli.CLOSE, function(event) { can.onmotion.hidden(can, target), can.onimport.layout(can) },
+            "size", function(event) {
+                can.user.input(event, can, ["size"], function(event, button, data) {
+                    can.profile_size[can.Option(nfs.PATH)+":"+can.Option(nfs.FILE)] = can.ConfWidth()*parseInt(data.size)/100
+                    can.onaction["展示"](event, can)
+                })
+            },
             mdb.PLUGIN, function(event) {
                 can.user.input(event, can, [ctx.INDEX], function(event, button, data) {
                     can.onimport.plugin(can, data, ui.output)
@@ -88,20 +99,13 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         line == ctx.INDEX? show(can.request({}, {index: file, line: line})): can.run({}, [path, file], show, true)
     },
     profile: function(can, msg) {
-        if (msg) { can.onmotion.clear(can, can.ui.profile_output)
-            // can.onappend.table(can, msg, null, can.ui.profile_output)
-            can.onappend.board(can, msg.Result(), can.ui.profile_output)
-            can.user.toastSuccess(can)
-        }
-        can.page.styleWidth(can, can.ui.profile_output, (can.ConfWidth()-can.ui.project.offsetWidth)/2)
+        var width = can.profile_size[can.Option(nfs.PATH)+":"+can.Option(nfs.FILE)]||(can.ConfWidth()-can.ui.project.offsetWidth)/2
+        msg && can.onimport.process(can, msg, can.ui.profile_output, width-32)
+        can.page.styleWidth(can, can.ui.profile_output, width)
         can.onmotion.hidden(can, can.ui.profile, true), can.onimport.layout(can)
     },
     display: function(can, msg) {
-        if (msg) { can.onmotion.clear(can, can.ui.display_output)
-            // can.onappend.table(can, msg, null, can.ui.display_output)
-            can.onappend.board(can, msg.Result(), can.ui.display_output)
-            can.user.toastSuccess(can)
-        }
+        msg && can.onimport.process(can, msg, can.ui.display_output, can.ConfWidth())
         can.page.style(can, can.ui.display_output, html.MAX_HEIGHT, can.ConfHeight()/4)
         can.onmotion.hidden(can, can.ui.display, true), can.onimport.layout(can)
     },
@@ -125,6 +129,22 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
                 can.onmotion.focus(can, can.page.Select(can, sub._option, html.OPTION_ARGS)[0])
             }, can.base.isFunc(cb) && cb(sub)
         })
+    },
+    process: function(can, msg, target, width) {
+        can.user.toastSuccess(can)
+        can.onmotion.clear(can, target)
+        if (msg.Option("_process") == "_field") {
+            msg.Table(function(meta) { meta.display = msg.Option("_display")
+                // delete(Volcanos.meta.cache[meta.display])
+                can.onimport.plugin(can, meta, target, function(sub) {
+                    can.onmotion.focus(can, can.page.Select(can, sub._option, html.OPTION_ARGS)[0])
+                    width && sub.ConfWidth(width)
+                })
+            })
+        } else {
+            can.onappend.table(can, msg, null, target)
+            can.onappend.board(can, msg.Result(), target)
+        }
     },
     plugin: function(can, meta, target, cb) {
         can.onappend.plugin(can, meta, function(sub) {

@@ -58,6 +58,7 @@ fieldset.inner>div.output div.content td.text {
     text-align:left; height:20px;
     padding-left:10px;
     white-space:pre;
+    tab-size:4;
 }
 fieldset.inner>div.output div.content td.text span.comment {
     color:cyan; background-color:blue;
@@ -85,6 +86,12 @@ fieldset.inner>div.output div.profile>div.action>div.item {
 }
 fieldset.inner>div.output div.profile>div.output {
     clear:both; overflow:auto;
+}
+fieldset.inner>div.output div.profile>div.output>fieldset {
+    margin:0; padding:0;
+}
+fieldset.inner>div.output div.profile>div.output>fieldset>legend {
+    display:none;
 }
 fieldset.inner>div.output div.display>div.output {
     clear:both; overflow:auto;

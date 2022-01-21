@@ -60,7 +60,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
         var names = msg.Option("_names")||panel._names||((can.Conf("iceberg")||"/chat/")+panel._name)
         can.misc.Run(event, can, {names: names, daemon: can.core.Keys(can.ondaemon._list[0], msg._daemon)}, cmds, function(msg) {
             Volcanos.meta.pack[key] = msg, delete(msg._handle), delete(msg._toast)
-            if (msg.result && msg.result[0] == ice.ErrWarn) { can.user.toast(can, msg.Result(), "", 10000); return }
+            // if (msg.result && msg.result[0] == ice.ErrWarn) { can.user.toast(can, msg.Result(), "", 10000); return }
             can.base.isFunc(cb) && cb(msg)
         })
     },
@@ -234,9 +234,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")||{}; can._msg = msg, sub._msg = msg
             toast && toast.close()
             var process = msg._can == can || msg._can == sub
+            if (can.base.isFunc(cb)) { can.core.CallFunc(cb, {can: can, msg: msg});  return }
             if (process && can.core.CallFunc([sub, "onimport._process"], {can: sub, msg: msg})) { return }
             if (process && can.core.CallFunc([can, "onimport._process"], {can: can, msg: msg})) { return }
-            if (can.base.isFunc(cb) && can.core.CallFunc(cb, {can: can, msg: msg})) { return }
             if (silent) { return }
 
             can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)||meta.display||meta.feature.display)
@@ -246,12 +246,17 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         Volcanos(display, {_follow: can.core.Keys(can._follow, display), _display: display, _target: output, _fields: can._target,
             _option: can._option, _action: can._action, _output: can._output, _status: can._status, _legend: can._legend,
             Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
+            _inputs: {},
         }, [display, chat.PLUGIN_TABLE_JS], function(table) { table.Conf(can.Conf())
             table.run = function(event, cmds, cb, silent) { var msg = can.request(event)
                 if (msg.RunAction(event, table, cmds)) { return }
                 return can.Update(event, can.Input(cmds, silent), cb, silent)
             }, can._outputs.push(table), table.sup = can, table._msg = msg
 
+            if (msg.result && msg.result[0] == "can.code.inner.plugin" && table.onimport && table.onimport.list.length > 0) {
+                can.onmotion.clear(can, can._option)
+                can.onappend._option(can, {inputs: table.onimport.list, args: msg.result.slice(1)})
+            }
             table.onimport && can.core.CallFunc(table.onimport._init, {can: table, msg: msg, list: msg.result||msg.append||[], cb: function(msg) {
                 table.onappend._action(table, msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION))
                 table.onappend._status(table, msg.Option(ice.MSG_STATUS))
@@ -341,7 +346,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var br = input.type == html.TEXTAREA? [{type: html.BR, style: {clear: html.BOTH}}]: []
         var title = can.Conf([ctx.FEATURE, chat.TITLE, item.name].join(ice.PT))||""; title && (input.title = title)
         return can.page.Append(can, target, ([{view: style||can.base.join([html.ITEM, item.type]), onkeydown: function(event) {
-            item.type == "text" && can.onkeymap.input(event, can)
+            item.type == "text" && can.onkeymap.input(event, can), can.onmotion.selectField(event, can)
         }, list: [input]}]).concat(br))[item.name]
     },
     table: function(can, msg, cb, target, sort) {
@@ -767,6 +772,17 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
         })
     },
 
+    selectField: function(event, can) {
+        if (event.ctrlKey && event.key >= "0" && event.key <= "9") {
+            if (event.key == "0") { return can.onimport._back(can) }
+
+            can.page.Select(can, can._output, html.TR, function(tr, index) { if (index == event.key) {
+                var head = can.page.Select(can, can._output, html.TH, function(th, order) { return th.innerText })
+                can.page.Select(can, tr, html.TD, function(td, index) { can.Option(head[index], td.innerText) })
+                can.Update(event)
+            } })
+        }
+    },
     selectTable: function(event, can, target, cb) {
         if (event.ctrlKey) {
             function select(order) {

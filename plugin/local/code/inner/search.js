@@ -1,5 +1,6 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, args, cb) { var history = []; const SEARCH = "can.code.inner.search"
     function show(msg, word) { if (!msg) { return } history.push(msg); var sub = msg._can; sub.Option("word", word||msg._word)
+        !sub.page.ClassList.has(sub, sub._legend, "select") && can.ui.search.select()
         sub.onmotion.clear(sub), sub.onappend.table(sub, msg, function(value, key, index, line) {
             return {text: ["", html.TD], list: [{text: [can.page.replace(can, value, ice.PWD, ""), html.DIV]}], onclick: function(event) {
                 line.line && can.onimport.tabview(can, can.Option(nfs.PATH), line.file.replace(ice.PWD, ""), parseInt(line.line))
@@ -52,6 +53,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, args, cb) { var
     ))) { return } can.run(msg._event, cmds, function(msg) { show(msg) }, true) }))
     can.onimport.toolkit(can, {index: SEARCH}, function(sub) {
         can.ui.search = sub, can.base.isFunc(cb) && cb(sub)
+        can.ui.search._show = show
     })
 }})
 
