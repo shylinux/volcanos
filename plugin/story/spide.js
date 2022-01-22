@@ -170,8 +170,8 @@ Volcanos("ondetail", {help: "用户交互", list: [],
         for (var node = tree; node; node = node.last) {
             can.base.Copy(value, node.meta)
         }
-        can.onappend.plugin(can, can.base.Copy(value, {type: chat.FLOAT, index: index, args: args}), function(sub) {
-            sub.run = function(event, cmds, cb) { can.request(event, value, can.Option())
+        can.onappend.plugin(can, can.base.Copy({type: chat.FLOAT, index: index, args: args}, value), function(sub) {
+            sub.run = function(event, cmds, cb) { var msg = can.request(event)
                 can.run(event, can.misc.concat(can, prefix, cmds), cb, true)
             }, can.ondetail.figure(can, sub)
         })
