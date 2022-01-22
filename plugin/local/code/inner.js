@@ -4,6 +4,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
             msg.result = msg.result.concat(cmds||[])
         }))
 
+        var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
+        var files = can.core.Split(can.Option(nfs.FILE), ice.FS); can.Option(nfs.FILE, files[0])
         can.tabview = can.tabview||{}, can.tabview[can.Option(nfs.PATH)+ice.DF+can.Option(nfs.FILE)] = msg
         can.history = can.history||[], can.toolkit = {}, can.extentions = {}, can.profile_size = {}
 
@@ -14,11 +16,14 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         can.base.isFunc(cb) && cb(msg)
 
         can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
-        can.onimport.project(can, can.Option(nfs.PATH), function() {
+        can.onimport.project(can, paths, function() {
             can.onimport._toolkit(can, can.ui.toolkit), can.onimport._session(can, msg), can.onimport._keydown(can)
             can.onmotion.delay(can, function() {
                 can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)
                 can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)
+                can.core.Next(files.slice(1), function(file, next) {
+                    can.onimport.tabview(can, can.Option(nfs.PATH), file, can.Option(nfs.LINE), next)
+                }, function() { can.onimport.tabview(can, paths[0], files[0]) })
             })
         })
     },
@@ -73,14 +78,22 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         })
     },
 
-    project: function(can, path, cb) { can.Option({path: path})
-        var msg = can.request({}, {dir_root: path, dir_deep: true})
-        can.run(msg._event, [ice.PWD], function(msg) { can.onmotion.clear(can, can.ui.project)
-            can.onappend.tree(can, can._file = msg.Table(), nfs.PATH, ice.PS, function(event, item) {
-                can.onimport.tabview(can, path, item.path)
-            }, can.ui.project), can.onimport.layout(can), can.Status("文件数", msg.Length())
+    project: function(can, path, cb) { can.onmotion.clear(can, can.ui.project)
+        can.core.Next(path, function(path, next, index, array) {
+            var list = can.ui.project; if (array.length > 1) {
+                var ui = can.page.Append(can, can.ui.project, [{view: [html.ITEM, html.DIV, path], onclick: function(event) {
+                    can.onmotion.toggle(can, ui.list)
+                }}, {view: html.LIST}]); list = ui.list
+                if (index > 0) { ui.item.click() }
+            }
+            can.run(can.request({}, {dir_root: path, dir_deep: true})._event, [ice.PWD], function(msg) {
+                can.onappend.tree(can, can._file = msg.Table(), nfs.PATH, ice.PS, function(event, item) {
+                    can.onimport.tabview(can, path, item.path)
+                }, list), can.onimport.layout(can), can.Status("文件数", msg.Length()), next()
+            }, true)
+        }, function() {
             can.base.isFunc(cb) && cb()
-        }, true)
+        })
     },
     tabview: function(can, path, file, line, cb) { var key = path+ice.DF+file
         if (can.tabview[key]) { can.user.mod.isCmd && can.user.title(path+file)

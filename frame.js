@@ -521,7 +521,8 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
     figure: function(event, can, target, right, layout) { target = target||can._target
         if (layout) { return can.page.Modify(can, target, {style: layout}), can.onmotion.move(can, target, layout), layout }
 
-        if (!event || !event.target) { return }
+        if (!event || !event.target || !event.clientX) { return {} }
+
         var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight-5; if (right) {
             var left = event.clientX-event.offsetX+event.target.offsetWidth, top = event.clientY-event.offsetY
         }
@@ -774,6 +775,12 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 
     selectField: function(event, can) {
         if (event.ctrlKey && event.key >= "0" && event.key <= "9") {
+            if (event.shiftKey) {
+                can.page.Select(can, can._option, "input[type=button]", function(item, index) {
+                    index == event.key && (item.click())
+                })
+                return
+            }
             if (event.key == "0") { return can.onimport._back(can) }
 
             can.page.Select(can, can._output, html.TR, function(tr, index) { if (index == event.key) {

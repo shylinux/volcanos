@@ -144,7 +144,7 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, "autogen", "compile
     compile: function(event, can, button) { var msg = can.ui.search.request(event, {_handle: ice.TRUE, _toast: "编译中..."})
         can.run(event, [ctx.ACTION, button], function(msg) {
             if (msg.Length() == 0) { var toast = can.user.toast(can, "重启中...", "", -1)
-                can.core.Timer(3000, function() { toast.close(), can.onaction["展示"]({}, can) })
+                can.core.Timer(5000, function() { toast.close(), can.onaction["展示"]({}, can) })
             } else {
                 can.ui.search._show(msg)
             }

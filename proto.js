@@ -99,6 +99,7 @@ var ssh = {
     SCRIPT: "script",
 }
 var nfs = {
+    DEFS: "defs",
     HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
     PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
     DIR: "dir", CAT: "cat", TRASH: "trash",
