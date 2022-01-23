@@ -19,8 +19,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         can.onimport.project(can, paths, function() {
             can.onimport._toolkit(can, can.ui.toolkit), can.onimport._session(can, msg), can.onimport._keydown(can)
             can.onmotion.delay(can, function() {
-                can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)
-                can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)
                 can.core.Next(files.slice(1), function(file, next) {
                     can.onimport.tabview(can, can.Option(nfs.PATH), file, can.Option(nfs.LINE), next)
                 }, function() { can.onimport.tabview(can, paths[0], files[0]) })
@@ -162,7 +160,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
     plugin: function(can, meta, target, cb) {
         can.onappend.plugin(can, meta, function(sub) {
             sub.run = function(event, cmds, cb) {
-                can.run(event, [ctx.ACTION, ice.RUN, meta.index].concat(cmds), cb, true)
+                can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
             }, can.base.isFunc(cb) && cb(sub)
         }, target)
     },
@@ -181,6 +179,15 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         } else {
             can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight-html.ACTION_HEIGHT)
         }
+        can.page.Select(can, can.ui.profile_output, html.IFRAME, function(item) {
+            can.page.style(can, item, html.HEIGHT, can.ui.profile_output.offsetHeight-5,
+
+                "position", "absolute",
+                html.WIDTH, can.ui.profile_output.offsetWidth-5,
+                "margin-top", "-12px",
+                "margin-left", "-12px",
+            )
+        })
     },
     exts: function(can, url, cb) {
         can.require([url], function() {}, function(can, name, sub) { sub._init(can, can.base.ParseURL(sub._path), function(sub) {

@@ -124,7 +124,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
         },
     }, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, "autogen", "compile", "binpack", "加载"],
+Volcanos("onaction", {help: "控件交互", list: ["加载", nfs.SAVE, "autogen", "compile", "binpack"],
     "加载": function(event, can) {
         var file = "/share/local/"+can.Option(nfs.PATH)+can.Option(nfs.FILE)
         delete(Volcanos.meta.cache[file])
@@ -132,6 +132,11 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, "autogen", "compile
             can.onexport.content(can)+
             `\n_can_name = ""\nconsole.log("once")`
         eval(script)
+    },
+    save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
+        can.run(event, [ctx.ACTION, nfs.SAVE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
+            can.user.toastSuccess(can)
+        }, true)
     },
     autogen: function(event, can, button) { var meta = can.Conf(), msg = can.request(event, {_handle: ice.TRUE})
         can.user.input(event, can, meta.feature[button], function(ev, btn, data, list, args) {
@@ -148,11 +153,6 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, "autogen", "compile
             } else {
                 can.ui.search._show(msg)
             }
-        }, true)
-    },
-    save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
-        can.run(event, [ctx.ACTION, nfs.SAVE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
-            can.user.toastSuccess(can)
         }, true)
     },
 
