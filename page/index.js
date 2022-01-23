@@ -87,7 +87,10 @@ Volcanos({name: "chat", panels: [
         }},
         profile: {name: "测试群", storm: {
             website: {name: "定制 website", index: [
-                "web.chat.div", "web.chat.website",
+                "web.chat.website",
+                "web.chat.div",
+                "web.code.vimer",
+                "web.dream",
             ]},
             release: {name: "发布 release", index: [
                 "web.code.publish", "web.code.compile", "web.code.autogen", "web.code.git.server",

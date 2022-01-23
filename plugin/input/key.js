@@ -29,7 +29,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
         can.onfigure.key._show(can, meta, cbs, target)
     }) },
     onkeydown: function(event, can, meta, cb, target, last) {
-        if (target._figure) { if (!(can = target._can)) { return }
+        if (target._figure && target._can) { can = target._can
             switch (event.key) { case lang.ENTER: can.close(); return }
             can.onmotion.selectTableInput(event, can, target, function() {
                 can.run(event, [ctx.ACTION, mdb.INPUTS, meta.name, target.value], function(msg) {
