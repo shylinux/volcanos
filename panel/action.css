@@ -51,21 +51,12 @@ fieldset.Action.free>div.output fieldset.plugin.select {
     display:block;
 }
 
-fieldset.panel.cmd>div.legend {
-    display:none;
-}
 fieldset.panel.cmd>div.output>fieldset.plugin {
     margin:0; padding:0;
 }
 fieldset.panel.cmd>div.output>fieldset.plugin>legend {
-    display:none;
-}
-fieldset.panel.cmd>div.output>fieldset.plugin>div.legend {
     float:left; padding:0 10px; margin-right:3px;
     height:25px; font-size:18px;
     background-color:darkcyan;
     cursor:pointer;
-}
-body.white fieldset.panel.cmd>div.output>fieldset.plugin>div.legend {
-    background-color:honeydew;
 }

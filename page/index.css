@@ -1,3 +1,9 @@
+* {
+    tab-size:4;
+}
+textarea {
+    tab-size:2;
+}
 body {
     margin:0; padding:0;
     background:black;
@@ -64,6 +70,7 @@ option {
 textarea {
     background-color:cyan;
     width:400px; height:60px;
+    white-space:pre;
 }
 input[type=button] {
     background-color:black; color:cyan;
@@ -219,12 +226,6 @@ legend {
 }
 fieldset {
     margin:0; border:0; padding:0;
-}
-fieldset>div.legend {
-    float:left; padding:0 10px; margin-right:3px;
-    height:25px; font-size:18px;
-    background-color:darkcyan;
-    cursor:pointer;
 }
 fieldset>form.option {
     float:left;
@@ -384,7 +385,7 @@ fieldset.float {
     position:absolute;
 }
 fieldset.float>legend {
-    display:none;
+    float:left;
 }
 fieldset.float table {
     color:white;
@@ -406,6 +407,9 @@ body>fieldset.input td {
 body>fieldset.input.key {
 }
 body>fieldset.input.date {
+}
+body>fieldset.input.date legend {
+    display:none;
 }
 body>fieldset.input.date table {
     text-align:center;
@@ -585,9 +589,6 @@ body.white td>input[type=button][name=remove] {
     background-color:red;
 }
 
-body.white fieldset>div.legend {
-    /* background-color:honeydew; */
-}
 body.white fieldset>div.status>div.item>label {
     font-size:10px; color:#cefbfbe0;
 }

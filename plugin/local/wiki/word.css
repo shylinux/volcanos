@@ -1,6 +1,3 @@
-fieldset.word>div.legend {
-    display:none;
-}
 fieldset.word>div.output fieldset.span>fieldset {
     float:left; overflow:auto;
 }

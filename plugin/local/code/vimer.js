@@ -82,8 +82,8 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
             o: function(event, can) { can.onkeymap._insert(event, can), can.onaction.selectLine(event, can, can.onaction.insertLine(can, "", can.current.next())) },
             O: function(event, can) { can.onkeymap._insert(event, can), can.onaction.selectLine(event, can, can.onaction.insertLine(can, "", can.current.line)) },
 
-            yy: function(event, can) { can._last_text = can.current.text() },
-            dd: function(event, can) { can._last_text = can.current.text(), can.onaction.selectLine(event, can, can.onaction.deleteLine(can, can.current.line)) },
+            yy: function(event, can, target, count) { can._last_text = can.current.text() },
+            dd: function(event, can, target, count) { can._last_text = can.current.text(), can.onaction.selectLine(event, can, can.onaction.deleteLine(can, can.current.line)) },
             p: function(event, can) { can.onaction.insertLine(can, can._last_text, can.current.next()) },
             P: function(event, can) { can.onaction.insertLine(can, can._last_text, can.current.line) },
 
@@ -124,7 +124,10 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
         },
     }, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: ["加载", nfs.SAVE, "autogen", "compile", "binpack"],
+Volcanos("onaction", {help: "控件交互", list: ["加载", nfs.SAVE, "autogen", "compile", "binpack", "刷新"],
+    "刷新": function(event, can) {
+        can.onimport.tabview(can, "src/", "main.go", "", function() {}, true)
+    },
     "加载": function(event, can) {
         var file = "/share/local/"+can.Option(nfs.PATH)+can.Option(nfs.FILE)
         delete(Volcanos.meta.cache[file])

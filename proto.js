@@ -211,7 +211,6 @@ var html = {
     FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot",
     FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main",
     FIELDSET_AUTO: "fieldset.auto", FIELDSET_FLOAT: "fieldset.float",
-    DIV_LEGEND: "div.legend",
 
     OPTION_ARGS: "select.args,input.args,textarea.args",
     INPUT_ARGS: "input.args,textarea.args",
@@ -314,7 +313,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
             var msg = event._msg||can.misc.Message(event, can); event._msg = msg
             function set(key, value) { msg.Option(key) || value == "" || msg.Option(key, value) }
 
-            can.core.List(arguments, function(option, index) { if (index == 0) { return } 
+            can.core.List(arguments, function(option, index) { if (!option || index == 0) { return } 
                 can.base.isFunc(option.Option)? can.core.List(option.Option(), function(key) {
                     set(key, option.Option(key))
                 }): can.core.Item(can.base.isFunc(option)? option(): option, set)

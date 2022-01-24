@@ -72,6 +72,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         msg.Option(aaa.BACKGROUND) && can.onlayout.background(can, "/share/local/background", document.body)
     },
     _avatar: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
+        // can.page.Modify(can, "div.state.avatar>img", {src: "/share/local/avatar/"})
         msg.Option(aaa.AVATAR) && can.page.Modify(can, "div.state.avatar>img", {src: "/share/local/avatar"})
     },
     _menus: function(can, msg, target) {

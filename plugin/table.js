@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
         can.onmotion.clear(can)
         can.onappend.table(can, msg)
         can.onappend.board(can, msg)

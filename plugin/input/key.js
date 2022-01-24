@@ -38,7 +38,15 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
                 })
             }) 
         }
-        switch (event.key) { case lang.ESCAPE: event.target.blur(); return }
+        switch (event.key) {
+            case lang.ESCAPE: event.target.blur(); return
+            case lang.TAB: 
+                if (event.target.tagName == "TEXTAREA") {
+                    can.onkeymap.insertText(event.target, "\t")
+                    can.onkeymap.prevent(event)
+                    return
+                }
+        }
         can.base.isFunc(last) && last(event, can)
     },
 }})

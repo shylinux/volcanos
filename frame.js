@@ -331,9 +331,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var name = (item.nick||item.name||"").split(ice.SP)[0]
         var title = !item.help || can.user.language(can) == "en"? name: name+"("+item.help.split(ice.SP)[0]+")"
         return can.page.Append(can, target||can._output, [{view: [can.base.join([type||"", item.name||"", item.pos||""]), html.FIELDSET], list: [
-            name && {text: [title, html.LEGEND]},
-            (can.user.mod.isCmd && type == chat.PLUGIN || type == chat.FLOAT) && {view: [html.LEGEND, html.DIV, title]},
-            {view: [html.OPTION, html.FORM]}, {view: [html.ACTION]}, {view: [html.OUTPUT]}, {view: [html.STATUS]},
+            {text: [title, html.LEGEND]}, {view: [html.OPTION, html.FORM]}, {view: [html.ACTION]}, {view: [html.OUTPUT]}, {view: [html.STATUS]},
         ]}])
     },
     input: function(can, item, value, target, style) {
@@ -346,6 +344,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var br = input.type == html.TEXTAREA? [{type: html.BR, style: {clear: html.BOTH}}]: []
         var title = can.Conf([ctx.FEATURE, chat.TITLE, item.name].join(ice.PT))||""; title && (input.title = title)
         return can.page.Append(can, target, ([{view: style||can.base.join([html.ITEM, item.type]), onkeydown: function(event) {
+            item.type == "textarea" && event.key == "Tab" && can.onkeymap.insertText(event.target, "\t")
             item.type == "text" && can.onkeymap.input(event, can), can.onmotion.selectField(event, can)
         }, list: [input]}]).concat(br))[item.name]
     },

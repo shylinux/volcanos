@@ -91,7 +91,7 @@ fieldset.inner>div.output div.profile>div.output>fieldset {
     margin:0; padding:0;
 }
 fieldset.inner>div.output div.profile>div.output>fieldset>legend {
-    display:none;
+    float:left;
 }
 fieldset.inner>div.output div.display>div.output {
     clear:both; overflow:auto;
@@ -111,7 +111,7 @@ fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select {
     display:block;
 }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset>legend {
-    display:none;
+    float:left;
 }
 fieldset.inner>div.output fieldset.toolkit>div.status>legend {
     float:right; padding:4px; cursor:pointer;
@@ -124,28 +124,8 @@ fieldset.inner>div.output fieldset.toolkit>div.status>legend.select {
 fieldset.inner>div.output fieldset.toolkit>div.status>legend:hover {
     background:green;
 }
-fieldset.inner>div.output fieldset.toolkit>div.status>div.legend {
-    float:right; padding:4px; cursor:pointer;
-    padding:4px 4px; border-left:solid 2px red;
-    background:#0d969f8a;
-}
-fieldset.inner>div.output fieldset.toolkit>div.status>div.legend.select {
-    background:green;
-}
-fieldset.inner>div.output fieldset.toolkit>div.status>div.legend:hover {
-    background:green;
-}
-fieldset.inner>div.status div.legend {
-    float:right; cursor:pointer;
-    padding:4px 4px; border-left:solid 2px red;
-    background:#0d969f8a;
-    height:19px;
-}
-fieldset.inner>div.status div.legend.select {
-    background:green;
-}
-fieldset.inner>div.status div.legend:hover {
-    background:green;
+fieldset.inner>div.status {
+    height:26px; overflow:auto;
 }
 fieldset.inner>div.status legend {
     float:right; padding:4px; cursor:pointer;
@@ -159,7 +139,7 @@ fieldset.inner>div.status legend:hover {
     background:green;
 }
 
-fieldset.inner.full>div.legend {
+fieldset.inner.full>legend {
     display:none;
 }
 fieldset.inner.full>div.action {
