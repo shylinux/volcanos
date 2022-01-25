@@ -235,9 +235,9 @@ body.white table.content tr:hover { background-color:green; }
 body.white fieldset.Action fieldset.plugin legend:hover { background-color:#6ee4e4; }
 body.print fieldset.River>div.output div.item.select { background-color:white; border:solid 2px red; }
 
-body.mobile select { font-size:1.6rem; height:1.6em; }
+body.mobile select { font-size:1.4rem; height:1.4em; margin-top:3px; }
 body.mobile legend { font-size:2rem; }
-body.mobile input { font-size:1.6rem; }
+body.mobile input { font-size:1.2rem; }
 body.mobile input[type=text] { margin-top:5px; height:1.2em; }
 body.mobile fieldset.Header.head { width:-webkit-fill-available; }
 body.mobile fieldset.Header.head { background-color:#000000b8; font-size:2rem; height:2em; position:fixed; top:0; }
