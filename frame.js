@@ -13,6 +13,8 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
                 can.core.ItemCB(panel.onaction, function(key, cb) {
                     can.onengine.listen(can, key, function(msg) { can.core.CallFunc(cb, {can: panel, msg: msg}) })
                 }), can.core.CallFunc([panel.onaction, "_init"], {can: panel, cb: next, target: panel._target})
+                panel.Conf(can.core.Value(can._root, can.core.Keys(chat.RIVER, item.name)))
+                panel.Conf("style") && can.page.Modify(can, panel._target, {style: panel.Conf("style")})
             }, target)
         }, function() { can.misc.Log(can.user.title(), ice.RUN, can)
             can.require([can.volcano], null, function(can, name, sub) { can[name] = sub })
@@ -331,7 +333,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
         var name = (item.nick||item.name||"").split(ice.SP)[0]
         var title = !item.help || can.user.language(can) == "en"? name: name+"("+item.help.split(ice.SP)[0]+")"
         return can.page.Append(can, target||can._output, [{view: [can.base.join([type||"", item.name||"", item.pos||""]), html.FIELDSET], list: [
-            {text: [title, html.LEGEND]}, {view: [html.OPTION, html.FORM]}, {view: [html.ACTION]}, {view: [html.OUTPUT]}, {view: [html.STATUS]},
+            name && {text: [title, html.LEGEND]}, {view: [html.OPTION, html.FORM]}, {view: [html.ACTION]}, {view: [html.OUTPUT]}, {view: [html.STATUS]},
         ]}])
     },
     input: function(can, item, value, target, style) {
@@ -483,6 +485,21 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
         //     can.core.Delay(list, 1000, function() { can.onlayout._init(can, target) })
         // }
         //
+        if (can.page.Select(can, target, html.FIELDSET_MAIN+".page").length > 0) {
+            can.page.Select(can, target, html.FIELDSET_LEFT, function(field, index) {
+                can.page.Modify(can, field, {style: {height: ""}})
+                can.page.Select(can, target, [[html.FIELDSET_LEFT, html.DIV_OUTPUT]], function(output) {
+                    can.page.Modify(can, output, {style: {height: ""}})
+                })
+            })
+            can.page.Select(can, target, html.FIELDSET_MAIN, function(field, index) {
+                can.page.style(can, field, html.HEIGHT, "")
+                can.page.Select(can, target, [[html.FIELDSET_MAIN, html.DIV_OUTPUT]], function(output) {
+                    can.page.style(can, output, html.HEIGHT, "")
+                })
+            })
+            return
+        }
         var width = window.innerWidth, height = window.innerHeight
         can.page.Select(can, target, can.page.Keys(html.FIELDSET_HEAD, html.FIELDSET_FOOT), function(field) {
             height -= field.offsetHeight
@@ -500,7 +517,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
             if (can.user.isMobile) {
                 can.page.style(can, field, "padding-top", can.user.isLandscape()? "0px": "")
             } else {
-                can.page.style(can, field, html.HEIGHT, height)
+                can.page.style(can, field, html.HEIGHT, height, html.WIDTH, width-1)
                 can.page.Select(can, target, [[html.FIELDSET_MAIN, html.DIV_OUTPUT]], function(output) {
                     height -= can.page.Select(can, field, html.DIV_ACTION)[0].offsetHeight
                     can.page.style(can, output, html.HEIGHT, height)
@@ -662,6 +679,15 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
     delay: function(can, cb) {
         can.core.Timer(50, cb)
     },
+    toimage: function(event, can, name, target) {
+        can.user.input(event, can, [{name: "name", value: name}], function(ev, button, data) {
+            can.require(["https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"], function() {
+                html2canvas(target||can._target).then(function (canvas) {
+                    can.page.Create(can, html.A, {href: canvas.toDataURL("image/png"), download: data.name}).click()
+                })
+            })
+        })
+    },
 
     hidden: function(can, target, show) {
         can.page.Modify(can, target||can._target, {style: {display: show? "": html.NONE}})
@@ -771,6 +797,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
             can.base.isFunc(cb) && cb()
         })
     },
+
 
     selectField: function(event, can) {
         if (event.ctrlKey && event.key >= "0" && event.key <= "9") {

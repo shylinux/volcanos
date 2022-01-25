@@ -388,7 +388,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
         can.ondetail.label(event, can)
     },
 })
-Volcanos("ondetail", {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY, html.LABEL, mdb.MODIFY, mdb.DELETE],
+Volcanos("ondetail", {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY, html.LABEL, mdb.MODIFY, "toimage", mdb.DELETE],
     start: function(event, can) { var target = event.target
         var list = [target], dict = {}
         for (var i = 0; i < list.length; i++) { var ship = list[i].Value("ship")
@@ -440,6 +440,7 @@ Volcanos("ondetail", {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY,
         })
     },
     modify: function(event, can) { can.onimport._profile(can, event.target) },
+    toimage: function(event, can) { can.onmotion.toimage(event, can, can.Option(nfs.PATH).split("/").pop().split(".")[0], can.svg) },
     "delete": function(event, can) { var target = event.target
         if (target == can.svg) { return }
         can.core.List(target.Value(ice.SHIP), function(value) {

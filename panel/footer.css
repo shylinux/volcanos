@@ -1,36 +1,36 @@
 fieldset.Footer {
-    height:32px; padding:0 5px;
-    clear:both;
+	height:32px; padding:0 5px;
+	clear:both;
 }
 fieldset.Footer>div.output {
-    height:32px; overflow:hidden;
+	height:32px; overflow:hidden;
 }
 fieldset.Footer>div.output>div {
-    height:22px; padding:5px;
-    cursor:pointer;
+	height:22px; padding:5px;
+	cursor:pointer;
 }
 fieldset.Footer>div.output>div:hover {
-    border-top:solid 2px red;
-    background-color:#2e515f;
+	border-top:solid 2px red;
+	background-color:#2e515f;
 }
 
 fieldset.Footer>div.output div.title {
-    float:left;
+	float:left;
 }
 fieldset.Footer>div.output div.state {
-    float:right;
+	float:right;
 }
 fieldset.Footer>div.output div.toast {
-    float:right; background-color:darkcyan;
+	float:right; background-color:darkcyan;
 }
 fieldset.Footer>div.output div.cmd {
-    float:left; padding:0px;
+	float:left; padding:0px;
 }
 
 fieldset.Footer>div.output input[name=cmd] {
-    width:120px; height:25px;
-    border-radius:0;
+	width:120px; height:25px;
+	border-radius:0;
 }
 fieldset.Footer>div.output input[name=cmd]:focus {
-    width:320px;
+	width:320px;
 }

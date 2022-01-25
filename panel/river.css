@@ -1,31 +1,29 @@
 fieldset.River {
-    float:left; overflow:auto;
+	float:left; overflow:auto;
 }
 fieldset.River>div.output div.item {
-    border-left:solid 3px #00ffae;
-    padding:3px 16px;
+	border-left:solid 3px #00ffae;
+	padding:3px 16px;
 }
 fieldset.River>div.output div.item.select {
-    background-color:#2e515f;
+	background-color:#2e515f;
 }
 fieldset.River>div.output div.item:hover {
-    background-color:#2e515f;
+	background-color:#2e515f;
 }
 fieldset.River>div.output div.list {
-    margin-left:8px; padding-left:5px;
+	margin-left:8px; padding-left:5px;
 }
 fieldset.River>div.output div.list div.item {
-    border-left:solid 3px #ccdc4c;
-    background-color:#073540b5;
-    font-family:monospace;
-    font-size:14px;
+	border-left:solid 3px #ccdc4c;
+	background-color:#073540b5;
 }
 fieldset.River>div.output div.list div.item.select {
-    background-color:#2e515f;
+	background-color:#2e515f;
 }
 fieldset.River>div.output div.list div.item:hover {
-    background-color:#2e515f;
+	background-color:#2e515f;
 }
 body.mobile fieldset.River {
-    z-index:10;
+	z-index:10;
 }

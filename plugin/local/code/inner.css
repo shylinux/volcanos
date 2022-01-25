@@ -1,188 +1,190 @@
 fieldset.inner>div.action {
-    float:none; display:block;
-    height:26px; overflow:auto;
+	float:none; display:block;
+	height:26px; overflow:auto;
 }
 fieldset.inner>div.action div.tabs {
-    border:solid 2px red; padding:2px;
+	border:solid 2px red; padding:2px;
 }
 fieldset.inner>div.action div.tabs.over {
-    background-color:blue;
+	background-color:blue;
 }
 fieldset.inner>div.action div.tabs.select {
-    background-color:green;
+	background-color:green;
 }
 
 fieldset.inner>div.output {
-    color:white;
+	color:white;
 }
 fieldset.inner>div.output>table.layout div.toggle.project {
-    min-width:15px; font-size:24px;
+	min-width:15px; font-size:24px;
 }
 fieldset.inner>div.output>table.layout div.toggle.profile {
-    min-width:15px; font-size:24px;
+	min-width:15px; font-size:24px;
 }
 fieldset.inner>div.output>table.layout div.toggle.display {
-    height:15px; font-size:24px;
-    margin-top:-17px;
+	height:15px; font-size:24px;
+	margin-top:-17px;
 }
 fieldset.inner>div.output div.project {
-    font-size:14px; font-family:monospace;
-    max-width:180px; overflow:auto;
+	max-width:180px; overflow:auto;
 }
 fieldset.inner>div.output div.content {
-    position:relative;
-    padding-right:25px;
-    font-size:16px; font-family:monospace;
-    overflow:auto;
-    color:white;
+	position:relative;
+	padding-right:25px;
+	font-size:1.2em; font-family:monospace;
+	overflow:auto;
+	color:white;
 }
 fieldset.inner>div.output div.content table.layout {
-    width:-webkit-fill-available;
+	width:-webkit-fill-available;
 }
 fieldset.inner>div.output div.content tr.select {
-    background-color:#0000ff6b;
+	background-color:#0000ff6b;
 }
 fieldset.inner>div.output div.content tr.select td.line {
-    background-color:blue;
-    border:solid 1px red;
-    border-right:solid 2px red;
+	background-color:blue;
+	border:solid 1px red;
+	border-right:solid 2px red;
 }
 fieldset.inner>div.output div.content td.line:hover {
-    background-color:green;
+	background-color:green;
 }
 fieldset.inner>div.output div.content td.line {
-    text-align:right; padding:0 6px;
-    border-right:solid 2px red;
+	text-align:right; padding:0 6px;
+	border-right:solid 2px red;
 }
 fieldset.inner>div.output div.content td.text {
-    text-align:left; height:20px;
-    padding-left:10px;
-    white-space:pre;
-    tab-size:4;
+	text-align:left; height:20px;
+	padding-left:10px;
+	white-space:pre;
+	tab-size:4;
 }
 fieldset.inner>div.output div.content td.text span.comment {
-    color:cyan; background-color:blue;
+	color:cyan; background-color:blue;
 }
 fieldset.inner>div.output div.content td.text span.keyword {
-    color:yellow; font-weight:bold;
+	color:yellow; font-weight:bold;
 }
 fieldset.inner>div.output div.content td.text span.function {
-    color:cyan; font-weight:bold;
+	color:cyan; font-weight:bold;
 }
 fieldset.inner>div.output div.content td.text span.datatype {
-    color:lightgreen; font-weight:bold;
+	color:lightgreen; font-weight:bold;
 }
 fieldset.inner>div.output div.content td.text span.constant {
-    color:magenta;
+	color:magenta;
 }
 fieldset.inner>div.output div.content td.text span.string {
-    color:magenta;
+	color:magenta;
 }
 fieldset.inner>div.output div.display>div.action>div.item {
-    float:left;
+	float:left;
 }
 fieldset.inner>div.output div.profile>div.action>div.item {
-    float:left;
+	float:left;
 }
 fieldset.inner>div.output div.profile>div.output {
-    clear:both; overflow:auto;
+	clear:both; overflow:auto;
 }
 fieldset.inner>div.output div.profile>div.output>fieldset {
-    margin:0; padding:0;
+	margin:0; padding:0;
 }
 fieldset.inner>div.output div.profile>div.output>fieldset>legend {
-    float:left;
+	float:left;
 }
 fieldset.inner>div.output div.display>div.output {
-    clear:both; overflow:auto;
+	clear:both; overflow:auto;
 }
 fieldset.inner>div.output div.display {
-    border:solid 1px greenyellow;
+	border:solid 1px greenyellow;
 }
 
 fieldset.inner div.output fieldset.toolkit {
-    position:absolute;
-    bottom:0px; right:0px;
+	position:absolute;
+	bottom:0px; right:0px;
 }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset {
-    display:none; margin:0;padding:0;
+	display:none; margin:0;padding:0;
 }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select {
-    display:block;
+	display:block;
 }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset>legend {
-    float:left;
+	float:left;
+}
+fieldset.inner>div.output fieldset.toolkit>div.status {
+  height:32px; overflow:auto;
 }
 fieldset.inner>div.output fieldset.toolkit>div.status>legend {
-    float:right; padding:4px; cursor:pointer;
-    padding:4px 4px; border-left:solid 2px red;
-    background:#0d969f8a;
+	float:right; padding:4px; cursor:pointer;
+	padding:4px 4px; border-left:solid 2px red;
+	background:#0d969f8a;
 }
 fieldset.inner>div.output fieldset.toolkit>div.status>legend.select {
-    background:green;
+	background:green;
 }
 fieldset.inner>div.output fieldset.toolkit>div.status>legend:hover {
-    background:green;
+	background:green;
 }
 fieldset.inner>div.status {
-    height:26px; overflow:auto;
+	height:26px; overflow:auto;
 }
 fieldset.inner>div.status legend {
-    float:right; padding:4px; cursor:pointer;
-    padding:4px 4px; border-left:solid 2px red;
-    background:#0d969f8a;
+	float:right; padding:4px; cursor:pointer;
+	padding:4px 4px; border-left:solid 2px red;
+	background:#0d969f8a;
 }
 fieldset.inner>div.status legend.select {
-    background:green;
+	background:green;
 }
 fieldset.inner>div.status legend:hover {
-    background:green;
+	background:green;
 }
 
 fieldset.inner.full>legend {
-    display:none;
+	display:none;
 }
 fieldset.inner.full>div.action {
-    display:none;
+	display:none;
 }
 fieldset.inner.full>form.option {
-    display:none;
+	display:none;
 }
 fieldset.inner.full>div.status {
-    display:none;
+	display:none;
 }
 fieldset.inner.full>div.status {
-    display:none;
+	display:none;
 }
 fieldset.inner.full>div.output div.profile>div.action {
-    display:none;
+	display:none;
 }
 fieldset.inner.full>div.output div.display>div.action {
-    display:none;
+	display:none;
 }
 
 body.white fieldset.inner>div.output div.project {
-    color:#a2dad2;
+	color:#a2dad2;
 }
 body.white fieldset.inner>div.output div.content {
-    background-color:#013b675c;
+	background-color:#013b675c;
 }
 body.white fieldset.inner>div.output div.content tr {
-    background-color:#e1f1ff00;
+	background-color:#e1f1ff00;
 }
 body.white fieldset.inner>div.output div.content tr.select {
-    background-color:#0000ff6b;
+	background-color:#0000ff6b;
 }
 body.white fieldset.inner>div.output div.content td.text span.string {
-    color:#a703a7;
+	color:#a703a7;
 }
 
 .unselectable {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select:none;
-    user-select: none;
+	-webkit-touch-callout:none;
+	-webkit-user-select:none;
+	-khtml-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	-o-user-select:none;
+	user-select:none;
 }

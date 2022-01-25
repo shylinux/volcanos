@@ -21,11 +21,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         can._main_storm = can.misc.Search(can, chat.STORM)||msg.Option(ice.MSG_STORM)||Volcanos.meta.args.storm||can._main_storm
     },
     _menu: function(can, msg) { if (can.user.mod.isPod) { return }
-        can.setHeaderMenu(can.base.Obj(msg.Option(chat.MENUS), can.ondetail.menus), function(event, button) {
+        can.setHeaderMenu(can.base.Obj(msg.Option(chat.MENUS), can.Conf(chat.MENUS)||can.ondetail._menus), function(event, button) {
             can.core.CallFunc([can.ondetail, button], [event, can, button, can.Conf(chat.RIVER), can.Conf(chat.STORM)])
         })
     },
     _carte: function(can, list, river, storm) { if (can.user.isMobile) { return }
+        if (can.core.Value(can._root, can.core.Keys(chat.RIVER, river))) { return }
+
         can.onaction.carte(event, can, list, function(event, button, module) {
             module[button](event, can, button, river, storm)
         })
@@ -57,6 +59,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, can, msg, panel, cmds, cb) {
         var list = can._root.river
         cmds.length == 0 && can.core.Item(list, function(key, value) {
+            if (can.core.Item(value.storm).length == 0) { return }
             msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) // 群组列表
         }); if (cmds.length != 1 && cmds[1] != chat.STORM) { return false }
 
@@ -149,7 +152,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, cb, t
 Volcanos("ondetail", {help: "菜单交互",
     list: ["共享群组", "添加应用", "添加设备", "添加用户", "重命名群组", "删除群组"],
     sublist: ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"],
-    menus: [chat.RIVER,
+    _menus: [
         ["create", "创建群组", "添加应用", "添加工具", "添加设备", "创建空间"],
         ["share", "共享群组", "共享应用", "共享工具", "共享主机", "访问空间"],
     ],

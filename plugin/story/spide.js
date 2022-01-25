@@ -143,7 +143,7 @@ Volcanos("ondetail", {help: "用户交互", list: [],
             can.request(event, node.meta)
         }
         var msg = can.request(event, can.Option())
-        can.run(event, can.base.Obj(can._args.prefix, []).concat([can.Option(mdb.NAME)||"", tree.file||"", tree.name]), function(msg) {
+        can.run(event, can.base.Obj(can._args.prefix, []).concat([can.Option("repos")||"", tree.file||"", tree.name]), function(msg) {
             if (msg.Length() == 0) {
                 return can.ondetail.plugin(can, tree, {}, "web.code.inner", [can.dir_root, tree.file, tree.line], [ctx.ACTION, "inner"])
             }

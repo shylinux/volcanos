@@ -1,62 +1,64 @@
 fieldset.Action {
-    background-color:#7299a28c;
-    min-width:160px;
+	background-color:#7299a28c;
+	min-width:160px;
 }
 fieldset.Action>div.action {
-    width:-webkit-fill-available;
-    background-color:#159cc7b0;
-    display:none; height:28px;
-    padding:0; margin:0;
-    position:absolute;
+	/* width:-webkit-fill-available; */
+	background-color:#159cc7b0;
+	display:none; height:28px;
+	padding:0; margin:0;
+	position:absolute;
 }
 
 fieldset.Action div.output fieldset.plugin:hover {
-    box-shadow:4px 4px 12px 6px #626bd0;
+	box-shadow:4px 4px 12px 6px #626bd0;
 }
 fieldset.Action div.output fieldset.plugin legend {
-    font-size:16px; font-family:monospace;
-    margin-top:4px 5px; padding:2px 20px;
-    background-color:#0c739cd9;
+	margin-top:4px 5px; padding:2px 20px;
+	background-color:#0c739cd9;
 }
 fieldset.Action div.output fieldset.plugin legend:hover {
-    background:red;
+	background:red;
 }
 
 fieldset.Action.tabs>div.action {
-    display:block;
+	display:block;
 }
 fieldset.Action.tabs>div.output {
-    margin-top:28px;
+	margin-top:28px;
+}
+fieldset.Action.tabs>div.output>fieldset>legend {
+	display:none;
 }
 fieldset.Action.flow>div.output fieldset.plugin {
-    float:left;
+	float:left;
 }
 fieldset.Action.grid>div.output fieldset.plugin {
-    float:left; overflow:auto;
+	float:left; overflow:auto;
 }
 fieldset.Action.grid>div.output fieldset.plugin>div.output {
-    overflow:auto;
+	overflow:auto;
 }
 fieldset.Action.tabs>div.output fieldset.plugin {
-    display:none;
-    float:left;
+	display:none;
+	float:left;
 }
 fieldset.Action.tabs>div.output fieldset.plugin.select {
-    display:block;
+	display:block;
 }
 fieldset.Action.free>div.output fieldset.plugin {
-    position:absolute;
+	position:absolute;
 }
 fieldset.Action.free>div.output fieldset.plugin.select {
-    display:block;
+	display:block;
 }
 
 fieldset.panel.cmd>div.output>fieldset.plugin {
-    margin:0; padding:0;
+	margin:0; padding:0;
 }
 fieldset.panel.cmd>div.output>fieldset.plugin>legend {
-    float:left; padding:0 10px; margin-right:3px;
-    height:25px; font-size:18px;
-    background-color:darkcyan;
-    cursor:pointer;
+	float:left; padding:0 10px; margin-right:3px;
+	height:25px;
+	background-color:darkcyan;
+	cursor:pointer;
 }

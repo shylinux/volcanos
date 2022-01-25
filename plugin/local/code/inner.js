@@ -174,7 +174,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         }
 
         can.page.styleWidth(can, can.ui.profile_output, can.profile_size[can.onexport.keys(can)]||(width-can.ui.project.offsetWidth)/2)
-        can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth-25)
+        can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth-26)
 
         if (can.page.ClassList.has(can, can._fields, "full")) {
             can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight)
@@ -183,10 +183,11 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
         }
         can.page.Select(can, can.ui.profile_output, html.IFRAME, function(item) {
             can.page.style(can, item,
-                html.HEIGHT, can.ui.profile_output.offsetHeight-5,
+                html.HEIGHT, can.ui.profile_output.offsetHeight-4,
                 html.WIDTH, can.ui.profile_output.offsetWidth-5,
-                "margin-left", "-12px", "margin-top", "-12px",
+                "margin-left", "-10px", "margin-top", "-10px",
                 "position", "absolute",
+                "border", "0",
             )
         })
     },

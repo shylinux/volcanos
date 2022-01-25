@@ -1,25 +1,25 @@
 fieldset.div div.output td {
-    vertical-align:top;
+	vertical-align:top;
 }
 fieldset.div div.output fieldset.span>fieldset {
-    float:left; overflow:auto;
+	float:left; overflow:auto;
 }
 fieldset.panel.cmd.main fieldset.div {
-    padding:0;
-    margin:0;
+	padding:0;
+	margin:0;
 }
 fieldset.panel.cmd.main fieldset.div>legend {
-    display: none;
+	display:none;
 }
 fieldset.panel.cmd.main fieldset.div>form.option {
-    display: none;
+	display:none;
 }
 fieldset.panel.cmd.main fieldset.div>div.action {
-    display: none;
+	display:none;
 }
 fieldset.panel.cmd.main fieldset.div div.project {
-    display: none;
+	display:none;
 }
 fieldset.panel.cmd.main fieldset.div div.profile {
-    display: none;
+	display:none;
 }

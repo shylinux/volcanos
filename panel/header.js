@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
         can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNAME)||can.Conf(aaa.USERNICK))
 
         can.onmotion.clear(can)
@@ -36,11 +36,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
     },
     _title: function(can, msg, target) {
         can.user.title(can.misc.Search(can, chat.TITLE)||can.misc.Search(can, ice.POD))
-        !can.user.isMobile && can.core.List(msg.result||["shylinux.com/x/contexts"], function(item) {
+        !can.user.isMobile && can.core.List(can.base.getValid(msg.result, can.Conf(chat.TITLE)||["shylinux.com/x/contexts"]), function(item) {
             can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "返回主页", onclick: function(event) {
                 can.onaction.title(event, can)
-            }, onmouseenter: function(event) {
-                var list = msg.Table()
+            }, onmouseenter: function(event) { var list = msg.Table()
                 can.user.carte(event, can, {}, can.core.List(list, function(item) { return item.name }), function(event, item, meta, index) {
                     event.shiftKey? can.user.open(list[index].path): can.user.jumps(list[index].path)
                 })
@@ -76,8 +75,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
         msg.Option(aaa.AVATAR) && can.page.Modify(can, "div.state.avatar>img", {src: "/share/local/avatar"})
     },
     _menus: function(can, msg, target) {
-        var menus = can.base.Obj(msg.Option(chat.MENUS)||can.Conf(chat.MENUS), [chat.HEADER, ["setting", chat.BLACK, chat.WHITE, chat.PRINT]])
-        can.onimport.menu(can, can.user.mod.isPod||can.user.isMobile||can.user.isExtension? [chat.HEADER, chat.RIVER]: menus, function(event, button) {
+        can.setHeaderMenu(can.user.mod.isPod||can.user.isMobile||can.user.isExtension? [chat.RIVER]:
+            can.base.Obj(msg.Option(chat.MENUS)||can.Conf(chat.MENUS), can.onaction._menus), function(event, button) {
             can.core.CallFunc(can.onaction[button]||function(event, can) {
                 can.run(event, [button], function(msg) { can.user.toast(can, "执行成功", can.user.trans(can, button)) })
             }, {event: event, can: can, button: button})
@@ -126,6 +125,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, target) {
         can.base.isFunc(cb) && cb()
     },
+    _menus: [["setting", chat.BLACK, chat.WHITE, chat.PRINT, "webpack", "devpack", "toimage"]],
     _trans: {
         "river": "菜单",
         "search": "搜索",
@@ -136,6 +136,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
         "black": "黑色主题",
         "white": "白色主题",
         "print": "打印主题",
+        "toimage": "生成图片",
 
         "shareuser": "共享用户",
         "setnick": "设置昵称",
@@ -146,7 +147,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
     onmain: function(can, msg) {
         function init() { can.run({}, [], function(msg) {
             can.base.Copy(can.onaction._trans, can.base.Obj(msg.Option(chat.TRANS), {}))
-            can.onimport._init(can, msg, [], function(msg) { can.onengine.signal(can, chat.ONLOGIN, msg) }, can._output)
+            can.onimport._init(can, msg, function(msg) { can.onengine.signal(can, chat.ONLOGIN, msg) }, can._output)
 
             can.search({}, ["River.onmotion.toggle"])
         }) }; can.search({}, ["River.onmotion.hidden"])
@@ -197,6 +198,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
             })
         })
     },
+    toimage: function(event, can, button) { can.onmotion.toimage(event, can, document.title, document.body) },
 
     carte: function(event, can, list, cb, trans) { can.user.carte(event, can, can.onaction, list, cb) },
     share: function(event, can, args) {

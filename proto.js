@@ -340,6 +340,11 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
         ConfWidth: function(value) { return can.Conf(html.WIDTH, value) },
         Conf: function(key, value) { var res = can._conf
             for (var i = 0; i < arguments.length; i += 2) {
+                if (typeof key == lang.OBJECT) {
+                    res = can.core.Value(can._conf, arguments[i])
+                    i--
+                    return
+                }
                 res = can.core.Value(can._conf, arguments[i], arguments[i+1])
             }
             return res

@@ -1,15 +1,15 @@
 fieldset.vimer>div.output input.current {
-    background-color:#00000000; color:#00000000;
-    font-family:monospace; font-size:16px;
-    position:absolute; left:0;
-    margin:0; margin-top:-2px;
-    padding:0; padding-left:9px;
-    width:-webkit-fill-available;
-    tab-size:4;
+	background-color:#00000000; color:#00000000;
+	font-size:1.2em; font-family:monospace;
+	position:absolute; left:0;
+	margin:0; margin-top:-2px;
+	padding:0; padding-left:9px;
+	width:-webkit-fill-available;
+	tab-size:4;
 }
 fieldset.vimer>div.output input.current.insert {
-    caret-color:yellow;
+	caret-color:yellow;
 }
 fieldset.vimer>div.output input.current.normal {
-    caret-color:blue;
+	caret-color:blue;
 }

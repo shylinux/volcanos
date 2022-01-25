@@ -1,211 +1,211 @@
 fieldset.contexts {
-    color:white;
-    position:fixed;
-    background:radial-gradient(black, #00000073);
-    top:100px;
-    left:100px;
-    z-index:10;
+	color:white;
+	position:fixed;
+	background:radial-gradient(black, #00000073);
+	top:100px;
+	left:100px;
+	z-index:10;
 }
 fieldset.contexts legend {
-    text-align:left;
-    cursor:pointer;
+	text-align:left;
+	cursor:pointer;
 
-    background:radial-gradient(black, #00000073);
+	background:radial-gradient(black, #00000073);
 }
 fieldset.contexts form.option div.item {
-    float:left; margin-right:3px;
-    min-height:25px; vertical-align:middle;
+	float:left; margin-right:3px;
+	min-height:25px; vertical-align:middle;
 }
 fieldset.contexts div.output {
-    clear:both;
-    overflow:auto;
+	clear:both;
+	overflow:auto;
 }
 fieldset.contexts div.status div.item {
-    float:left; padding:4px;
-    height:18px;
+	float:left; padding:4px;
+	height:18px;
 }
 fieldset.contexts div.status div.item>label {
-    font-size:10px;
-    /* color:#504242e0; */
+	font-size:10px;
+	/* color:#504242e0; */
 }
 
 fieldset.contexts select {
-    height:25px; font-size:14px;
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    background-color:black; color:cyan;
-    padding:0 10px;
-    cursor:pointer;
+	height:25px; font-size:14px;
+	box-shadow:4px 4px 10px 1px #626bd0;
+	background-color:black; color:cyan;
+	padding:0 10px;
+	cursor:pointer;
 }
 fieldset.contexts option {
-    font-family:monospace;
+	font-family:monospace;
 }
 fieldset.contexts textarea {
-    width:400px; height:60px;
-    background-color:cyan;
+	width:400px; height:60px;
+	background-color:cyan;
 }
 fieldset.contexts input[type=button] {
-    background-color:black; color:cyan;
-    letter-spacing:4px;
-    padding-left:10px;
-    cursor:pointer;
-    font-family:monospace;
+	background-color:black; color:cyan;
+	letter-spacing:4px;
+	padding-left:10px;
+	cursor:pointer;
+	font-family:monospace;
 }
 fieldset.contexts input[type=button]:hover {
-    background-color:gray; color:cyan;
+	background-color:gray; color:cyan;
 }
 fieldset.contexts input[type=text] {
-    width:82px; height:21px; font-size:16px;
-    box-shadow:4px 4px 10px 1px #626bd0;
-    background-color:cyan; color:black;
-    padding:0 4px;
+	width:82px; height:21px; font-size:16px;
+	box-shadow:4px 4px 10px 1px #626bd0;
+	background-color:cyan; color:black;
+	padding:0 4px;
 }
 fieldset.contexts input[type=text]:hover {
-    background-color:white;
+	background-color:white;
 }
 fieldset.contexts table.content a {
-    color:white;
+	color:white;
 }
 fieldset.contexts table.content {
-    color:white;
+	color:white;
 }
 fieldset.contexts div.code {
-    background-color:#343a3445; color:white;
-    font-size:14px; font-family:monospace;
-    box-shadow: 4px 4px 20px 4px #626bd0;
-    padding:10px; border:solid 3px green;
-    text-align:left; white-space:pre;
-    overflow:auto;
-    clear:both;
+	background-color:#343a3445; color:white;
+	font-size:14px; font-family:monospace;
+	box-shadow:4px 4px 20px 4px #626bd0;
+	padding:10px; border:solid 3px green;
+	text-align:left; white-space:pre;
+	overflow:auto;
+	clear:both;
 }
 div.input.contexts input {
-    color:black;
+	color:black;
 }
 
 table.content {
-    border:0; white-space:pre;
-    font-size:14px; font-family:monospace;
-    text-align:left;
-    overflow: auto;
+	border:0; white-space:pre;
+	font-size:14px; font-family:monospace;
+	text-align:left;
+	overflow:auto;
 }
 table.content tr {
-    background-color:#04272f45;
+	background-color:#04272f45;
 }
 table.content tr.select {
-    background-color:green;
+	background-color:green;
 }
 table.content tr:hover {
-    background-color:green;
+	background-color:green;
 }
 table.content th {
-    background-color:#0fbd45;
-    padding:2px 6px;
-    cursor:pointer;
+	background-color:#0fbd45;
+	padding:2px 6px;
+	cursor:pointer;
 }
 table.content th:hover {
-    background-color:red;
+	background-color:red;
 }
 table.content td {
-    padding:2px 6px;
-    overflow:auto;
+	padding:2px 6px;
+	overflow:auto;
 }
 table.content td.done {
-    background-color:green;
+	background-color:green;
 }
 table.content td.select {
-    background-color:red;
+	background-color:red;
 }
 table.content td:hover {
-    background-color:red;
+	background-color:red;
 }
 
 body>div.toast {
-    background:#0e3369b3; color:yellow;
-    position:fixed;
-    padding:5px; overflow:auto;
-    z-index:10;
+	background:#0e3369b3; color:yellow;
+	position:fixed;
+	padding:5px; overflow:auto;
+	z-index:10;
 }
 body>div.toast a {
-    color:yellow;
+	color:yellow;
 }
 body>div.toast div.title {
-    float:left; word-break:break-all;
-    color:#cae850; font-size:14px;
-    cursor:copy;
+	float:left; word-break:break-all;
+	color:#cae850; font-size:14px;
+	cursor:copy;
 }
 body>div.toast div.duration {
-    color:gray; font-size:14px;
-    float:right;
-    cursor:pointer;
+	color:gray; font-size:14px;
+	float:right;
+	cursor:pointer;
 }
 body>div.toast div.content {
-    text-align:center;
-    white-space:pre;
-    clear:both;
+	text-align:center;
+	white-space:pre;
+	clear:both;
 }
 body>div.toast div.action div.item {
-    float:left;
+	float:left;
 }
 body>div.toast div.progress {
-    height:10px; border:solid 2px green;
-    margin-left:-2px;
-    clear:both;
+	height:10px; border:solid 2px green;
+	margin-left:-2px;
+	clear:both;
 }
 body>div.toast div.progress div.current {
-    height:10px; background:red;
+	height:10px; background:red;
 }
 
 body>div.carte {
-    position:fixed;
-    background:#295b61;
-    color:white;
-    padding:4px;
-    min-width:80px;
-    z-index:10;
+	position:fixed;
+	background:#295b61;
+	color:white;
+	padding:4px;
+	min-width:80px;
+	z-index:10;
 }
 body>div.carte div.item {
-    padding:3px 12px;
+	padding:3px 12px;
 }
 body>div.carte div.item:hover {
-    background:red;
+	background:red;
 }
 body>div.input {
-    position:fixed;
-    background-color:#0d4142a6;
-    z-index:10;
+	position:fixed;
+	background-color:#0d4142a6;
+	z-index:10;
 }
 body>div.input input[type=text] {
-    width:171px;
+	width:171px;
 }
 body>div.input input[name=username] {
-    width:171px;
+	width:171px;
 }
 body>div.input input[name=password] {
-    width:171px;
+	width:171px;
 }
 body>div.input textarea {
-    box-shadow: 4px 4px 10px 1px #626bd0;
-    border:2px inset #14a58e;
-    width:171px; height:60px;
-    background-color: cyan;
-    padding:4px;
+	box-shadow:4px 4px 10px 1px #626bd0;
+	border:2px inset #14a58e;
+	width:171px; height:60px;
+	background-color:cyan;
+	padding:4px;
 }
 body>div.input div.item {
-    float:left;
+	float:left;
 }
 body>div.input.login {
-    padding:10px;
+	padding:10px;
 }
 body>div.input.login input {
-    font-size:18px;
+	font-size:18px;
 }
 
 div.input input[type=button] {
-    background-color:black; color:cyan;
-    letter-spacing:4px;
-    padding-left:10px;
-    cursor:pointer;
-    font-family:monospace;
+	background-color:black; color:cyan;
+	letter-spacing:4px;
+	padding-left:10px;
+	cursor:pointer;
+	font-family:monospace;
 }
 div.input input[type=button]:hover {
-    background-color:gray; color:cyan;
+	background-color:gray; color:cyan;
 }
