@@ -24,7 +24,7 @@ div.story[data-type=spark] {
 select {
 	background-color:black; color:cyan;
 	box-shadow:4px 4px 10px 1px #626bd0;
-	height:25px; padding:0 10px;
+	height:1.7em; padding:0 10px;
 	cursor:pointer;
 }
 textarea { background-color:cyan; width:400px; height:60px; white-space:pre; }
@@ -32,7 +32,7 @@ input[type=button] { background-color:black; color:cyan; cursor:pointer; }
 input[type=text] {
 	background-color:cyan; color:black;
 	box-shadow:4px 4px 10px 1px #626bd0;
-	height:21px; width:82px;
+	height:1.4em; width:82px;
 	padding:0 4px;
 }
 input[name=date] { width:150px; }
@@ -238,7 +238,7 @@ body.print fieldset.River>div.output div.item.select { background-color:white; b
 body.mobile select { font-size:1.4rem; height:1.4em; margin-top:3px; }
 body.mobile legend { font-size:2rem; }
 body.mobile input { font-size:1.2rem; }
-body.mobile input[type=text] { margin-top:5px; height:1.2em; }
+body.mobile input[type=text] { margin-top:5px; height:1.4em; }
 body.mobile fieldset.Header.head { width:-webkit-fill-available; }
 body.mobile fieldset.Header.head { background-color:#000000b8; font-size:2rem; height:2em; position:fixed; top:0; }
 body.mobile fieldset.Header.head div.output { height:2em; }
