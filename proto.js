@@ -59,16 +59,11 @@ var cli = {
 	START: "start", STOP: "stop",
 	OPEN: "open", CLOSE: "close",
 	BEGIN: "begin", END: "end",
-	EXEC: "exec", CODE: "code",
-	DONE: "done",
-	COST: "cost",
-	FROM: "from", BACK: "back",
+
+	MAIN: "main", MAKE: "make", SHOW: "show",
+	EXEC: "exec", DONE: "done", CODE: "code", COST: "cost",
 	ERROR: "error", CLEAR: "clear", REFRESH: "refresh",
-
-
-	SHOW: "show",
-	MAIN: "main",
-	MAKE: "make",
+	FROM: "from", BACK: "back",
 
 	RED: "red", GREEN: "green", BLUE: "blue",
 	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta",
@@ -94,7 +89,7 @@ var mdb = {
 	MODIFY: "modify", SELECT: "select",
 	INPUTS: "inputs", PRUNES: "prunes", EXPORT: "export", IMPORT: "import",
 
-	PLUGIN: "plugin", RENDER: "render", SEARCH: "search", ENGINE: "engine",
+	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
 	NEXT: "next", PREV: "prev", PAGE: "page", MAIN: "main",
 
 	FOREACH: "*", RANDOMS: "%",
@@ -103,14 +98,11 @@ var ssh = {
 	SCRIPT: "script",
 }
 var nfs = {
-	DEFS: "defs",
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
-	DIR: "dir", CAT: "cat", TRASH: "trash",
+	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash",
 	DIR_ROOT: "dir_root",
-	FIND: "find", GREP: "grep",
-	SAVE: "save", LOAD: "load",
-	TAGS: "tags",
+	SAVE: "save", LOAD: "load", TAGS: "tags", FIND: "find", GREP: "grep",
 }
 var tcp = {
 	HOST: "host", PORT: "port",
