@@ -9,9 +9,9 @@ var ice = {
 	SP: " ", PS: "/", PT: ".", DF: ":", FS: ",", NL: "\n", LT: "<", GT: ">",
 	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
 	RUN: "run", RES: "res", ERR: "err",
+	PWD: "./",
 
 	OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
-	PWD: "./",
 
 	AUTO: "auto", HELP: "help", HTTP: "http",
 	VIEW: "view", MODE: "mode", SHIP: "ship",
@@ -53,15 +53,19 @@ var ice = {
 
 var ctx = {
 	CONTEXT: "context", COMMAND: "command", ACTION: "action", CONFIG: "config",
-	INDEX: "index", ARGS: "args", STYLE: "style",
-	INPUTS: "inputs", FEATURE: "feature",
+	INDEX: "index", ARGS: "args", STYLE: "style", INPUTS: "inputs", FEATURE: "feature",
 }
 var cli = {
-	CODE: "code", COST: "cost", FROM: "from", BACK: "back",
-	OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end",
-	START: "start", STOP: "stop", DONE: "done", ERROR: "error",
-	CLEAR: "clear", REFRESH: "refresh",
-	EXEC: "exec",
+	START: "start", STOP: "stop",
+	OPEN: "open", CLOSE: "close",
+	BEGIN: "begin", END: "end",
+	EXEC: "exec", CODE: "code",
+	DONE: "done",
+	COST: "cost",
+	FROM: "from", BACK: "back",
+	ERROR: "error", CLEAR: "clear", REFRESH: "refresh",
+
+
 	SHOW: "show",
 	MAIN: "main",
 	MAKE: "make",
