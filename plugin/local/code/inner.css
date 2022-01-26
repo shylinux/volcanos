@@ -1,6 +1,6 @@
 fieldset.inner>div.action {
 	float:none; display:block;
- 	overflow:auto;
+	height:1.65em; overflow:auto;
 }
 fieldset.inner>div.action div.tabs {
 	border:solid 2px red; padding:2px;
@@ -188,3 +188,4 @@ body.white fieldset.inner>div.output div.content td.text span.string {
 	-o-user-select:none;
 	user-select:none;
 }
+

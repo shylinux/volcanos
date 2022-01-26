@@ -98,7 +98,7 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
 					msg.Push(item, kit.Dict(
 						ice.CTX, "onengine", ice.CMD, "command",
 						mdb.TYPE, "can", mdb.NAME, name, mdb.TEXT, command.help,
-						ctx.CONTEXT, "can", ctx.COMMAND, name,
+						ctx.CONTEXT, "can", ctx.COMMAND, name
 					)[item]||"")
 				})
 			})
@@ -256,7 +256,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 									_item == item || close(_item)
 								})
 							},
-							"close all", function(event) { can.page.Select(can, action, html.DIV_TABS, close) },
+							"close all", function(event) { can.page.Select(can, action, html.DIV_TABS, close) }
 						), ["close tab", "close other", "close all"])
 					},
 					ondragstart: function(event) { var target = event.target; target.click()
@@ -357,7 +357,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 				return can.run(event, [ctx.ACTION, target.name], function(msg) { can.run() }, true)
 			}
 		})
-		return code.scrollBy(0, 10000), code
+		return (code.scrollBy && code.scrollBy(0, 10000)), code
 	},
 
 	_plugin: function(can, value, meta, cb, target) {
@@ -398,7 +398,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 					sub.onappend._action(sub, [cli.CLOSE, cli.CLEAR, cli.REFRESH], sub._action, kit.Dict(
 						cli.CLOSE, function(event) { sub.close() },
 						cli.CLEAR, function(event) { target.value = "" },
-						cli.REFRESH, function(event) { can.base.isFunc(cb) && cb(sub) },
+						cli.REFRESH, function(event) { can.base.isFunc(cb) && cb(sub) }
 					)), sub.onappend._status(sub, [mdb.TOTAL, mdb.INDEX])
 
 					meta.style && sub.page.Modify(sub, sub._target, {style: meta.style})
@@ -638,7 +638,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 		can.core.List(list, function(item) { can.page.Cache(item._cache_key, item, item.scrollTop+1) })
 		var key = next(can._cache_data = can._cache_data||{})
 		return can.core.List(list, function(item) { var pos = can.page.Cache(item._cache_key = key, item)
-			if (pos) { item.scrollTo(0, pos-1); return item }
+			if (pos) { item.scrollTo && item.scrollTo(0, pos-1); return item }
 		}).length > 0
 	},
 	delay: function(can, cb) {

@@ -44,7 +44,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 				can.user.input(event, can, [ctx.INDEX], function(event, button, data) {
 					can.onimport.plugin(can, data, ui.output)
 				})
-			},
+			}
 		))
 		target._toggle = function(event, show) { action[show? cli.SHOW: cli.CLOSE](event) }
 	},
@@ -58,7 +58,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 				can.user.input(event, can, [ctx.INDEX], function(event, button, data) {
 					can.onimport.plugin(can, data, ui.output)
 				})
-			},
+			}
 		))
 		target._toggle = function(event, show) { action[show? cli.EXEC: cli.CLOSE](event) }
 	},
@@ -187,7 +187,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 				html.WIDTH, can.ui.profile_output.offsetWidth-5,
 				"margin-left", "-10px", "margin-top", "-10px",
 				"position", "absolute",
-				"border", "0",
+				"border", "0"
 			)
 		})
 	},

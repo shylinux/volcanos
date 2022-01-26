@@ -176,14 +176,6 @@ var chat = {
 		"/plugin/local/team/plan.js",
 		"/plugin/input/province.js",
 	],
-	ACTION_LAYOUT_FMT: `
-fieldset.Action.grid>div.output fieldset.plugin {
-	width:_width; height:_height;
-}
-fieldset.Action.grid>div.output fieldset.plugin>div.output {
-	width:_width; height:_height;
-}
-`,
 }
 var team = {
 	TASK: "task", PLAN: "plan",
@@ -390,3 +382,4 @@ function can(tool) {
 		{name: "Search", help: "搜索框", pos: chat.AUTO},
 	]})
 }
+
