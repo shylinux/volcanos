@@ -56,7 +56,7 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
     },
     field: function(can, msg, arg) {
         can.onappend.plugin(can, {type: chat.CONTEXTS, index: arg[0], args: can.base.Obj(arg[1])}, function(sub, meta) {
-            var pos = {left: msg.Option(chat.LEFT), top: msg.Option(chat.TOP), right: msg.Option(chat.RIGHT), bottom: msg.Option(chat.BOTTOM)}
+            var pos = {left: msg.Option(html.LEFT), top: msg.Option(html.TOP), right: msg.Option(html.RIGHT), bottom: msg.Option(html.BOTTOM)}
             can.page.Modify(can, sub._target, {style: pos})
             can.onmotion.move(can, sub._target, pos, function(target) {
                 can.page.Modify(can, sub._output, {style: {
@@ -82,8 +82,8 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
 
             sub.onaction["保存参数"] = function(event) {
                 can.request(event, {zone: location.host, id: msg.Option(mdb.ID)})
-                can.run(event, [chat.FIELD, mdb.MODIFY, chat.TOP, sub._target.offsetTop])
-                can.run(event, [chat.FIELD, mdb.MODIFY, chat.LEFT, sub._target.offsetLeft])
+                can.run(event, [chat.FIELD, mdb.MODIFY, html.TOP, sub._target.offsetTop])
+                can.run(event, [chat.FIELD, mdb.MODIFY, html.LEFT, sub._target.offsetLeft])
                 can.run(event, [chat.FIELD, mdb.MODIFY, ctx.ARGS, JSON.stringify(sub.Input([], true))])
                 can.user.toastSuccess(can)
             }

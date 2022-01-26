@@ -1,6 +1,6 @@
 Volcanos({name: "chat", panels: [
 		{name: "Header", help: "标题栏", pos: chat.HEAD, state: ["time", "usernick", "avatar"]},
-		{name: "River",  help: "群聊组", pos: chat.LEFT, action: ["create", "refresh"]},
+		{name: "River",  help: "群聊组", pos: html.LEFT, action: ["create", "refresh"]},
 		{name: "Action", help: "工作台", pos: chat.MAIN},
 		{name: "Footer", help: "状态条", pos: chat.FOOT, state: ["ncmd"]},
 		{name: "Search", help: "搜索框", pos: chat.AUTO},

@@ -1,4 +1,4 @@
-Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta, list, cb, target) {
+Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta, cb, target) {
 		can.base.isFunc(cb) && cb(); switch (meta.type) {
 			case html.SELECT: meta.value && (target.value = meta.value); break
 			case html.BUTTON: meta.action == ice.AUTO && target.click(); break

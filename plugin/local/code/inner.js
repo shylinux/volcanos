@@ -146,7 +146,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.onmotion.clear(can, target)
 		if (msg.Option("_process") == "_field") {
 			msg.Table(function(meta) { meta.display = msg.Option("_display")
-				// delete(Volcanos.meta.cache[meta.display])
+				delete(Volcanos.meta.cache[meta.display])
 				can.onimport.plugin(can, meta, target, function(sub) {
 					can.onmotion.focus(can, can.page.Select(can, sub._option, html.OPTION_ARGS)[0])
 					width && sub.ConfWidth(width)
@@ -215,7 +215,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
 			var p = cache_data[can.file]; p && (can.current = p.current, can.max = p.max)
 			can.page.Modify(can, can.ui.profile, {style: {display: p? p.profile_display: html.NONE}})
 			can.page.Modify(can, can.ui.display, {style: {display: p? p.display_display: html.NONE}})
-			can.onmotion.select(can, can._action, chat.DIV_TABS, msg._tab)
+			can.onmotion.select(can, can._action, html.DIV_TABS, msg._tab)
 			can.onmotion.delay(can, function() { can.onimport.layout(can)
 				msg.Option(ctx.INDEX) && can.onmotion.focus(can, can.page.Select(can, can.ui.content, html.OPTION_ARGS)[0])
 			})

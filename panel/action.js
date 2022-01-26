@@ -23,9 +23,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 		meta.id && (sub._option.dataset = sub._option.dataset||{}, sub._option.dataset.id = meta.id)
 
 		can.page.Modify(can, sub._output, {style: kit.Dict(html.MAX_WIDTH, meta.width)})
-		can.page.Append(can, can._action, [{view: [chat.TABS, html.DIV, meta.name], onclick: function(event) {
+		can.page.Append(can, can._action, [{view: [html.TABS, html.DIV, meta.name], onclick: function(event) {
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
-			can.onmotion.select(can, can._action, chat.DIV_TABS, event.target)
+			can.onmotion.select(can, can._action, html.DIV_TABS, event.target)
 		}, onmouseenter: sub._legend.onmouseenter}])
 	},
 	_menu: function(can, msg) { if (can.user.mod.isPod||can.user.isMobile) { return }
@@ -154,7 +154,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 
 		if (button == "tabs") {
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)
-			can.onmotion.select(can, can._action, chat.DIV_TABS, 0)
+			can.onmotion.select(can, can._action, html.DIV_TABS, 0)
 		} else if (button == "free") {
 			can.page.Select(can, can._target, [[html.DIV_OUTPUT, html.FIELDSET_PLUGIN]], function(item, index) {
 				can.page.Modify(can, item, {style: {left: 40*index, top: 40*index}})
