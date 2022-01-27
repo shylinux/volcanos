@@ -6,7 +6,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 		if (can.user.isExtension) { Volcanos.meta.args = can.base.Obj(localStorage.getItem(ctx.ARGS), {}) }
 
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
-			can.onappend._init(can, can.base.Copy(item, can.core.Value(can._root, can.core.Keys(chat.RIVER, item.name))), item.list, function(panel) {
+			can.onappend._init(can, can.base.Copy(item, can.core.Value(can._root, [chat.RIVER, item.name])), item.list, function(panel) {
 				panel.run = function(event, cmds, cb) { var msg = panel.request(event); cmds = cmds||[]
 					return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, panel, cmds, cb)
 				}, can[item.name] = panel, panel._root = can, panel._trans = panel.onaction && panel.onaction._trans||{}
@@ -80,7 +80,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 	}),
 	listen: shy("监听事件", {}, [], function(can, name, cb) { arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb) }),
 	signal: shy("触发事件", function(can, name, msg) { msg = msg||can.request()
-		can.misc.Log("signal", name, name == chat.ONREMOTE? msg.Option("_msg"): msg
+		can.misc.Log("signal", name, name == chat.ONREMOTE? msg.Option("_msg"): msg)
 		can.core.List(can.onengine.listen.meta[name], function(cb) { can.core.CallFunc(cb, {event: msg._event, msg: msg}) })
 	}),
 })
@@ -308,8 +308,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 		var br = input.type == html.TEXTAREA? [{type: html.BR, style: {clear: html.BOTH}}]: []
 		var title = can.Conf([ctx.FEATURE, chat.TITLE, item.name].join(ice.PT))||""; title && (input.title = title)
 		return can.page.Append(can, target, ([{view: style||can.base.join([html.ITEM, item.type]), onkeydown: function(event) {
-			item.type == "textarea" && event.key == "Tab" && can.onkeymap.insertText(event.target, "\t")
-			item.type == "text" && can.onkeymap.input(event, can), can.onmotion.selectField(event, can)
+			item.type == html.TEXTAREA && event.key == lang.TAB  && can.onkeymap.insertText(event.target, "\t")
+			item.type == html.TEXT && can.onkeymap.input(event, can), can.onmotion.selectField(event, can)
 		}, list: [input]}]).concat(br))[item.name]
 	},
 	table: function(can, msg, cb, target, sort) {
@@ -324,25 +324,22 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 					sub.run = function(event, cmds, cb) { var msg = can.request(event, line, can.Option())
 						can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, can.core.Keys(line["extra.ctx"], line["extra.cmd"])], cmds), cb, true)
 					}
-				}, target)
+				}, target||can._output)
+			}
+
+			function run(cmds) { var msg = can.sup.request(event, line, can.Option())
+				return can.run(event, cmds, function(msg) { can.run() }, true)
 			}
 
 			return {text: [value, html.TD], onclick: function(event) { var target = event.target
-				if (target.tagName == "INPUT" && target.type == html.BUTTON) { var msg = can.sup.request(event, line, can.Option())
-					return can.run(event, [ctx.ACTION, target.name], function(msg) { can.run() }, true)
-				}
+				if (target.tagName == "INPUT" && target.type == html.BUTTON) { return run([ctx.ACTION, target.name]) }
 				if (key == mdb.HASH && can.user.mod.isDiv) { return can.user.jumps("/chat/div/"+value) }
 				can.sup.onaction.change(event, can.sup, key, value)
+
 			}, ondblclick: function(event) { if ([mdb.KEY].indexOf(key) > -1) { return }
-				var item = can.core.List(can.Conf("feature.insert"), function(item) {
-					if (item.name == key) { return item }
-				})[0]||{name: key, value: value}
-
+				var item = can.core.List(can.Conf("feature.insert"), function(item) { if (item.name == key) { return item } })[0]||{name: key, value: value}
 				item.run = function(event, cmds, cb) { can.run(can.request(event, line)._event, cmds, cb, true) }
-
-				can.onmotion.modifys(can, event.target, function(event, value, old) { var msg = can.sup.request(event, line, can.Option())
-					can.run(event, [ctx.ACTION, mdb.MODIFY, key, value], function(msg) { can.run() }, true)
-				}, item)
+				can.onmotion.modifys(can, event.target, function(event, value, old) { run([ctx.ACTION, mdb.MODIFY, key, value]) }, item)
 			}}
 		}); table && can.page.Modify(can, table, {className: chat.CONTENT})
 		return sort && can.page.RangeTable(can, table, sort), table
@@ -358,15 +355,15 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 	},
 
 	_plugin: function(can, value, meta, cb, target) {
-		meta.feature = meta.feature||can.base.Obj(value.meta, {})
-		meta.inputs = meta.inputs||can.base.Obj(value.list, [])
+		meta.feature = can.base.getValid(meta.feature, can.base.Obj(value.meta))||{}
+		meta.inputs = can.base.getValid(meta.inputs, can.base.Obj(value.list))||[]
 
 		meta.height = meta.height||can.Conf(html.HEIGHT)
 		meta.width = meta.width||can.Conf(html.WIDTH)
 
-		meta.name = meta.name||value.name||chat.PLUGIN
-		meta.help = meta.help||value.help||chat.PLUGIN
 		meta.type = meta.type||chat.PLUGIN
+		meta.name = meta.name||value.name
+		meta.help = meta.help||value.help
 
 		can.onappend._init(can, meta, [chat.PLUGIN_STATE_JS], function(sub, skip) {
 			sub.run = function(event, cmds, cb) { can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb) }
@@ -388,21 +385,17 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 		var input = meta.action||mdb.KEY; input != ice.AUTO && can.require(["/plugin/input/"+input+".js"], function(can) {
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]; target[key] = function(event) { on(event, can, meta, function(cb) {
 				can.sub? can.base.isFunc(cb) && cb(can.sub, cbs): can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT}, ["/plugin/input/"+input+".js"], function(sub) { sub.Conf(meta)
-					can.onmotion.hidden(can, sub._target)
 					sub.run = function(event, cmds, cb) { var msg = sub.request(event, can.Option()); (meta.run||can.run)(event, cmds, cb, true) }, can.sub = sub
-					sub.close = function() { sub.page.Remove(sub, sub._target), delete(can.sub) }
+					sub.close = function() { can.page.Remove(can, sub._target), delete(can.sub) }
 
-					sub.onappend._action(sub, [cli.CLOSE, cli.CLEAR, cli.REFRESH], sub._action, kit.Dict(
-						cli.CLOSE, function(event) { sub.close() },
+					can.onappend._action(sub, [cli.CLOSE, cli.CLEAR, cli.REFRESH], sub._action, kit.Dict(
+						cli.REFRESH, function(event) { can.base.isFunc(cb) && cb(sub) },
 						cli.CLEAR, function(event) { target.value = "" },
-						cli.REFRESH, function(event) { can.base.isFunc(cb) && cb(sub) }
-					)), sub.onappend._status(sub, [mdb.TOTAL, mdb.INDEX])
+						cli.CLOSE, function(event) { sub.close() },
+					)), can.onappend._status(sub, [mdb.TOTAL, mdb.INDEX])
 
-					meta.style && sub.page.Modify(sub, sub._target, {style: meta.style})
-					can.base.isFunc(cb) && cb(sub, function() {
-						can.onmotion.hidden(can, sub._target, true)
-						can.base.isFunc(cbs) && cbs(sub)
-					})
+					can.page.style(sub, sub._target, meta.style), can.onmotion.hidden(can, sub._target)
+					can.base.isFunc(cb) && cb(sub, function() { can.onmotion.hidden(can, sub._target, true), can.base.isFunc(cbs) && cbs(sub) })
 				}, document.body)
 			}, target, last) } })
 		})
@@ -441,27 +434,24 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 		}, ui.output), can.onappend.board(can, msg.Result(), ui.output)
 		return ui
 	},
-}, [], function(can) {})
+})
 Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, target) { target = target||document.body
-		// var list = []; document.body.onresize = function() {
-		//     can.core.Delay(list, 1000, function() { can.onlayout._init(can, target) })
-		// }
-		//
 		if (can.page.Select(can, target, html.FIELDSET_MAIN+".page").length > 0) {
 			can.page.Select(can, target, html.FIELDSET_LEFT, function(field, index) {
-				can.page.Modify(can, field, {style: {height: ""}})
+				can.page.styleHeight(can, field, "")
 				can.page.Select(can, target, [[html.FIELDSET_LEFT, html.DIV_OUTPUT]], function(output) {
-					can.page.Modify(can, output, {style: {height: ""}})
+					can.page.styleHeight(can, output, "")
 				})
 			})
 			can.page.Select(can, target, html.FIELDSET_MAIN, function(field, index) {
-				can.page.style(can, field, html.HEIGHT, "")
+				can.page.styleHeight(can, field, "")
 				can.page.Select(can, target, [[html.FIELDSET_MAIN, html.DIV_OUTPUT]], function(output) {
-					can.page.style(can, output, html.HEIGHT, "")
+					can.page.styleHeight(can, output, "")
 				})
 			})
 			return
 		}
+
 		var width = window.innerWidth, height = window.innerHeight
 		can.page.Select(can, target, can.page.Keys(html.FIELDSET_HEAD, html.FIELDSET_FOOT), function(field) {
 			height -= field.offsetHeight
@@ -469,22 +459,18 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 
 		can.page.Select(can, target, html.FIELDSET_LEFT, function(field, index) {
 			can.user.isMobile || (width -= field.offsetWidth)
-			can.page.Modify(can, field, {style: {height: height}})
+			can.page.styleHeight(can, field, height)
 			can.page.Select(can, target, [[html.FIELDSET_LEFT, html.DIV_OUTPUT]], function(output) {
-				can.page.Modify(can, output, {style: {height: height-32}})
+				can.page.styleHeight(can, output, height-html.ACTION_HEIGHT)
 			})
 		})
 
-		can.page.Select(can, target, html.FIELDSET_MAIN, function(field, index) {
-			if (can.user.isMobile) {
-				can.page.style(can, field, "padding-top", can.user.isLandscape()? "0px": "")
-			} else {
-				can.page.style(can, field, html.HEIGHT, height, html.WIDTH, width-1)
-				can.page.Select(can, target, [[html.FIELDSET_MAIN, html.DIV_OUTPUT]], function(output) {
-					height -= can.page.Select(can, field, html.DIV_ACTION)[0].offsetHeight
-					can.page.style(can, output, html.HEIGHT, height)
-				})
-			}
+		can.user.isMobile || can.page.Select(can, target, html.FIELDSET_MAIN, function(field, index) {
+			can.page.style(can, field, html.HEIGHT, height, html.WIDTH, width-1)
+			can.page.Select(can, target, [[html.FIELDSET_MAIN, html.DIV_OUTPUT]], function(output) {
+				height -= can.page.Select(can, field, html.DIV_ACTION)[0].offsetHeight
+				can.page.styleHeight(can, output, height)
+			})
 		})
 
 		can.onengine.signal(can, chat.ONSIZE, can.request({}, {width: width, height: height}))
@@ -497,8 +483,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 		can.page.Modify(can, target||document.body, {style: {background: url == "" || url == "void"? "": 'url("'+url+'")'}})
 	},
 	figure: function(event, can, target, right, layout) { target = target||can._target
-		if (layout) { return can.page.Modify(can, target, {style: layout}), can.onmotion.move(can, target, layout), layout }
-
+		if (layout) { return can.page.style(can, target, layout), can.onmotion.move(can, target, layout), layout }
 		if (!event || !event.target || !event.clientX) { return {} }
 
 		var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight-5; if (right) {
@@ -514,7 +499,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 		if (top+target.offsetHeight>window.innerHeight-100) {
 			layout.bottom = window.innerHeight - event.clientY+event.offsetY, layout.top = ""
 		}
-		return can.page.Modify(can, target, {style: layout}), can.onmotion.move(can, target, layout), layout
+		return can.page.style(can, target, layout), can.onmotion.move(can, target, layout), layout
 	},
 
 	display: function(can, target) { target = target||can._target
@@ -534,24 +519,24 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 		]}] }])
 	},
 	profile: function(can, target) { target = target||can._output
-		var gt = "&#10095;", lt = "&#10094;", down = "&#709;", up = "&#708;"
 		function toggle(view) {
 			view._toggle? view._toggle(event, view.style.display == html.NONE): can.onmotion.toggle(can, view)
 			return view.style.display == html.NONE
 		}
 
+		var gt = "&#10095;", lt = "&#10094;", down = "&#709;", up = "&#708;"
 		var ui = can.page.Append(can, target, [{view: [chat.LAYOUT, html.TABLE], list: [
 			{view: [chat.PROJECT, html.TD], list: [{view: [chat.PROJECT]}]},
 			{type: html.TD, list: [
 				{type: html.TR, list: [{type: html.TR, list: [
 					{view: [chat.CONTENT, html.TD], list: [{view: [chat.CONTENT]},
-						{view: ["toggle project"], list: [{text: [gt, html.DIV]}], onclick: function(event) {
+						{view: [[html.TOGGLE, chat.PROJECT]], list: [{text: [gt, html.DIV]}], onclick: function(event) {
 							event.target.innerHTML = toggle(can.ui.project)? gt: lt
 						}},
-						{view: ["toggle profile"], list: [{text: [lt, html.DIV]}], onclick: function(event) {
+						{view: [[html.TOGGLE, chat.PROFILE]], list: [{text: [lt, html.DIV]}], onclick: function(event) {
 							event.target.innerHTML = toggle(can.ui.profile)? lt: gt
 						}},
-						{view: ["toggle display"], list: [{text: [up, html.DIV]}], onclick: function(event) {
+						{view: [[html.TOGGLE, chat.DISPLAY]], list: [{text: [up, html.DIV]}], onclick: function(event) {
 							event.target.innerHTML = toggle(can.ui.display)? up: down
 						}},
 					]},

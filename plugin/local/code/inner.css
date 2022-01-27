@@ -1,6 +1,8 @@
 fieldset.inner>div.action {
-	float:none; display:block;
-	height:1.65em; overflow:auto;
+	float:none;
+ 	display:block;
+	/* height:1.65em; */
+ 	overflow:auto;
 }
 fieldset.inner>div.action div.tabs {
 	border:solid 2px red; padding:2px;
