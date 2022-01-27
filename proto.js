@@ -146,6 +146,14 @@ var chat = {
 
 	HEAD: "head", LEFT: "left", MAIN: "main", AUTO: "auto", HIDE: "hide", FOOT: "foot",
 	HEADER: "header", FOOTER: "footer",
+    ACTION_LAYOUT_FMT: `
+fieldset.Action.grid>div.output fieldset.plugin {
+    width:_width; height:_height;
+}
+fieldset.Action.grid>div.output fieldset.plugin>div.output {
+    width:_width; height:_height;
+}
+`,
 
 	PLUGIN_STATE_JS: "/plugin/state.js",
 	PLUGIN_INPUT_JS: "/plugin/input.js",

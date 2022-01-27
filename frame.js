@@ -32,8 +32,8 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 		}
 
 		return can.core.CallFunc(fun, {
-			"event": event, "can": sub, "msg": msg, "cmds": cmds.slice(2), "cb": cb, "target": sub._target,
-			"button": key, "cmd": key, "arg": cmds.slice(2), "list": cmds.slice(2),
+			event: event, can: sub, msg: msg, cmds: cmds.slice(2), cb: cb, target: sub._target,
+			button: key, cmd: key, arg: cmds.slice(2), list: cmds.slice(2),
 		}, mod)
 	},
 	_engine: function(event, can, msg, panel, cmds, cb) { return false },
@@ -80,14 +80,14 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 	}),
 	listen: shy("监听事件", {}, [], function(can, name, cb) { arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb) }),
 	signal: shy("触发事件", function(can, name, msg) { msg = msg||can.request()
-		name == chat.ONREMOTE? can.misc.Log("signal", name, msg.Option("_msg")): can.misc.Log("signal", name, msg)
+		can.misc.Log("signal", name, name == chat.ONREMOTE? msg.Option("_msg"): msg
 		can.core.List(can.onengine.listen.meta[name], function(cb) { can.core.CallFunc(cb, {event: msg._event, msg: msg}) })
 	}),
 })
 Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name) { if (can.user.isLocalFile) { return }
 		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, "daemon")||name||""}, function(event, msg, cmd, arg) { if (!msg) { return }
 			can.base.isFunc(can.ondaemon[cmd])? can.core.CallFunc(can.ondaemon[cmd], {
-				"can": can, "msg": msg, "cmd": cmd, "arg": arg, "cb": function() { msg.Reply() },
+				can: can, msg: msg, cmd: cmd, arg: arg, cb: function() { msg.Reply() },
 			}): can.onengine._search({}, can, msg, can, ["_search", cmd].concat(arg), function() { msg.Reply() })
 		})
 		can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { var meta = can.onengine.plugin.meta
@@ -173,12 +173,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 				can.core.ItemCB(input.onaction, function(key, cb) { input._target[key] = function(event) { cb(event, input) } })
 				can.core.ItemCB(item, function(key, cb) { input._target[key] = function(event) { cb(event, input) } })
 				skip? next(): can.core.CallFunc([input.onaction, "_init"], [input, item, next, input._target]);
-				(item.action||can.core.Value(meta, "feature.inputs")) && can.onappend.figure(input, item, input._target)
+				(item.action||can.core.Value(meta, [ctx.FEATURE, ctx.INPUTS])) && can.onappend.figure(input, item, input._target)
 			})
-		}; can.core.Next(can.base.Obj(meta.inputs, can.core.Value(can, "onimport.list")).concat(meta.type == chat.FLOAT? [{type: html.BUTTON, name: cli.CLOSE}]: []), add)
+		}; can.core.Next(can.base.Obj(meta.inputs, can.core.Value(can, [chat.ONIMPORT, mdb.LIST])).concat(meta.type == chat.FLOAT? [{type: html.BUTTON, name: cli.CLOSE}]: []), add)
 	},
 	_action: function(can, list, action, meta) { meta = meta||can.onaction, action = action||can._action, can.onmotion.clear(can, action)
-		return can.core.List(can.base.Obj(list, can.core.Value(can, "onaction.list")), function(item) { if (item == undefined) { return } can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
+		return can.core.List(can.base.Obj(list, can.core.Value(can, [chat.ONACTION, mdb.LIST])), function(item) { if (item == undefined) { return } can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
 			can.base.isString(item)? /*按键*/ {type: html.BUTTON, value: can.user.trans(can, item), onclick: function(event) {
 				var cb = meta[item]||meta["_engine"]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
 
@@ -205,8 +205,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 		return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")||{}; can._msg = msg, sub._msg = msg, toast && toast.close()
 			if (can.base.isFunc(cb)) { can.core.CallFunc(cb, {can: can, msg: msg}); return }
 			var process = msg._can == can || msg._can == sub
-			if (process && can.core.CallFunc([sub, "onimport._process"], {can: sub, msg: msg})) { return }
-			if (process && can.core.CallFunc([can, "onimport._process"], {can: can, msg: msg})) { return }
+			if (process && can.core.CallFunc([sub, chat.ONIMPORT, ice.MSG_PROCESS], {can: sub, msg: msg})) { return }
+			if (process && can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
 			!silent && can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)||meta.display||meta.feature.display)
 		})
 	},
@@ -224,7 +224,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: table.onimport.list})
 			}
 
-			table.onimport && can.core.CallFunc(table.onimport._init, {can: table, msg: msg, list: msg.result||msg.append||[], cb: function(msg) {
+			can.core.CallFunc([table, chat.ONIMPORT, "_init"], {can: table, msg: msg, list: msg.result||msg.append||[], cb: function(msg) {
 				table.onappend._action(table, msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION))
 				table.onappend._status(table, msg.Option(ice.MSG_STATUS))
 			}, target: output})
@@ -243,18 +243,15 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			return {text: [meta.name, html.DIV, html.TABS], title: meta.text, onclick: function(event) {
 				can.base.isFunc(cb) && cb(event, meta)
 			}, _init: function(item) { const OVER = "over"
-				function close(item) { var next = item.nextSibling || item.previousSibling
+				function close(item) { var next = item.nextSibling||item.previousSibling
 					item._close(item) || can.page.Remove(can, item), next && next.click()
 				}
-				can.core.Timer(10, function() { item.click() })
 				can.page.Modify(can, item, {draggable: true, _close: cbs,
 					onmouseenter: function(event) {
 						can.user.carte(event, can, kit.Dict(
 							"close tab", function(event) { close(item) },
 							"close other", function(event) {
-								can.page.Select(can, action, html.DIV_TABS, function(_item) {
-									_item == item || close(_item)
-								})
+								can.page.Select(can, action, html.DIV_TABS, function(_item) { _item == item || close(_item) })
 							},
 							"close all", function(event) { can.page.Select(can, action, html.DIV_TABS, close) }
 						), ["close tab", "close other", "close all"])
@@ -264,7 +261,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 					},
 					ondragover: function(event) { event.preventDefault(), action._drop(event, event.target) },
 					ondrop: function(event) { event.preventDefault(), action._drop(event, event.target) },
-				})
+				}), can.core.Timer(10, function() { item.click() })
 			}}
 		})).first
 	},
