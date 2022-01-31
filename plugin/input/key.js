@@ -20,10 +20,14 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
 	},
 	onfocus: function(event, can, meta, cb, target) { if (target._figure) { return } target._figure = {}; cb(function(can, cbs) {
 		target._figure = can.onlayout.figure(event, can, can._target, false, {top: can.page.offsetTop(target)+target.offsetHeight, left: can.page.offsetLeft(target)})
-		can.onfigure.key._show(can, meta, cbs, target)
-		can.onmotion.focus(can, target)
+		can.onfigure.key._show(can, meta, cbs, target), can.onmotion.focus(can, target)
+		target.click()
 	}) },
-	onblur: function(event, can, meta, cb, target) { delete(target._figure), target._can && target._can.close() },
+	onblur: function(event, can, meta, cb, target) {
+		can.core.Timer(100, function() {
+			delete(target._figure), target._can && target._can.close()
+		})
+	},
 	onclick: function(event, can, meta, cb, target) { if (target._figure) { target._figure = can.onlayout.figure(event, can, can.core.Value(target, "_can._target")||{}); return } target._figure = {}; cb(function(can, cbs) {
 		target._figure = can.onlayout.figure(event, can)
 		can.onfigure.key._show(can, meta, cbs, target)

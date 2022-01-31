@@ -88,6 +88,7 @@ var mdb = {
 	CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete",
 	MODIFY: "modify", SELECT: "select",
 	INPUTS: "inputs", PRUNES: "prunes", EXPORT: "export", IMPORT: "import",
+	UPLOAD: "upload",
 
 	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
 	NEXT: "next", PREV: "prev", PAGE: "page", MAIN: "main",
@@ -220,6 +221,7 @@ var html = {
 	CLASS: "class", FLOAT: "float", CLEAR: "clear", BOTH: "both",
 	BACKGROUND: "background", SELECT: "select", HIDDEN: "hidden",
 	DISPLAY: "display", BLOCK: "block", NONE: "none", FIXED: "fixed",
+	OPACITY: "opacity",
 	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
 	SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
 	MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",

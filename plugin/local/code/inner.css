@@ -1,9 +1,3 @@
-fieldset.inner>div.action {
-	float:none;
- 	display:block;
-	/* height:1.65em; */
- 	overflow:auto;
-}
 fieldset.inner>div.action div.tabs {
 	border:solid 2px red; padding:2px;
 }
@@ -33,7 +27,7 @@ fieldset.inner>div.output div.project {
 fieldset.inner>div.output div.content {
 	position:relative;
 	padding-right:25px;
-	font-size:1.2em; font-family:monospace;
+	font-size:1.2rem; font-family:monospace;
 	overflow:auto;
 	color:white;
 }
