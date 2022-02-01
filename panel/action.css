@@ -14,7 +14,8 @@ fieldset.Action div.output fieldset.plugin:hover {
 	box-shadow:4px 4px 12px 6px #626bd0;
 }
 fieldset.Action div.output fieldset.plugin legend {
-	margin-top:4px 5px; padding:2px 20px;
+	margin-top:4px 5px;
+ 	padding:0px 10px;
 	background-color:#0c739cd9;
 }
 fieldset.Action div.output fieldset.plugin legend:hover {

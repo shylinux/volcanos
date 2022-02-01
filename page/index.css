@@ -24,7 +24,7 @@ div.story[data-type=spark] {
 select {
 	background-color:black; color:cyan;
 	box-shadow:4px 4px 10px 1px #626bd0;
-	height:1.7rem; padding:0 10px;
+	height:1.92rem; padding:0 10px;
 	cursor:pointer;
 }
 textarea { background-color:cyan; width:400px; height:60px; white-space:pre; }
@@ -32,7 +32,7 @@ input[type=button] { background-color:black; color:cyan; cursor:pointer; }
 input[type=text] {
 	background-color:cyan; color:black;
 	box-shadow:4px 4px 10px 1px #626bd0;
-	height:1.4rem; width:82px;
+	height:1.65rem; width:82px;
 	padding:0 4px;
 }
 input[name=date] { width:150px; }
@@ -90,8 +90,8 @@ td>input[type=button][name=stop] { background-color:red; }
 
 legend { box-shadow:4px 4px 20px 4px #626bd0; cursor:pointer; }
 fieldset { margin:0; border:0; padding:0; }
-fieldset>form.option { float:left; display:contents; }
-fieldset>form.option>div.item { float:left; margin-right:3px; min-height:25px; vertical-align:middle; }
+fieldset>form.option { float:left; display:contents; font-size:1.1rem; }
+fieldset>form.option>div.item { float:left; margin-right:3px; height:2rem; min-height:25px; vertical-align:middle; }
 fieldset>form.option>div.item>label { display:none; }
 fieldset>form.option>div.item input.args.char { width:20px; }
 fieldset>form.option>div.item input.args.tiny { width:40px; }
@@ -104,8 +104,8 @@ fieldset>form.option>div.item input.args[name=offset] { width:48px; }
 fieldset>form.option>div.item input.args[name=offend] { width:48px; }
 fieldset>form.option>div.item.textarea { clear:both; margin-top:4px; }
 
-fieldset>div.action { float:left; display:contents; }
-fieldset>div.action>div.item { float:left; margin-right:3px; vertical-align:middle; }
+fieldset>div.action { float:left; display:contents; font-size:1.1rem; }
+fieldset>div.action>div.item { float:left; margin-right:3px; height:2rem; vertical-align:middle; }
 fieldset>div.action>div.item.space { width:10px; }
 fieldset div.action>div.item>label { display:none; }
 fieldset>div.action>div.tabs { float:left; margin:0; padding:4px; cursor:pointer; }
@@ -185,6 +185,7 @@ fieldset>div.status>div.item>label { font-size:0.6rem; color:#bdb8b8e0; }
 body>div.toast div.title { color:#cae850; }
 body>div.toast div.duration { color:gray; }
 
+.select { background-color:red; }
 div.item.select, div.item:hover { background-color:red; }
 div.tabs.select, div.tabs:hover { background-color:#2e515f; border-bottom:solid 2px red; }
 div.story[data-type=spark] span:hover { background-color:#c10c8a; box-shadow:4px 4px 10px 1px #29318e; }

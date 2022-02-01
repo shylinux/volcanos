@@ -109,7 +109,7 @@ fieldset.inner>div.output fieldset.toolkit>div.output>fieldset>legend {
 	float:left;
 }
 fieldset.inner>div.output fieldset.toolkit>div.status {
-  height:32px; overflow:auto;
+  /* height:32px; overflow:auto; */
 }
 fieldset.inner>div.output fieldset.toolkit>div.status>legend {
 	float:right; padding:4px; cursor:pointer;
@@ -125,10 +125,18 @@ fieldset.inner>div.output fieldset.toolkit>div.status>legend:hover {
 fieldset.inner>div.status {
 	height:26px; overflow:auto;
 }
-fieldset.inner>div.status legend {
-	float:right; padding:4px; cursor:pointer;
-	padding:4px 4px; border-left:solid 2px red;
+fieldset.Action fieldset.inner>div.status legend {
+	float:right;
+	font-size:1.1rem;
+ 	/* padding:4px; */
+ 	cursor:pointer;
+	/* padding:4px 4px; */
+ 	border-left:solid 2px red;
 	background:#0d969f8a;
+ 	padding:0px 10px;
+}
+fieldset.Action fieldset.inner>div.status legend.select {
+	background-color:red;
 }
 fieldset.inner>div.status legend.select {
 	background:green;
