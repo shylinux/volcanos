@@ -72,12 +72,17 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 	},
 })
 Volcanos("onaction", {help: "交互操作", list: [
-		"共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", "清空参数", "刷新数据", [
+		"共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", "清空参数", "刷新数据", "刷新页面", [
 			"其它 ->", "复制数据", "下载数据", "清空数据", "删除工具", "摄像头", "生成图片",
 		],
 	], _init: function(can, msg, list, cb, target) {},
 	_engine: function(event, can, button) {
 		can.Update(event, [ctx.ACTION, button].concat(can.Input([], true)))
+	},
+	"刷新页面": function(event, can) {
+		var sub = can.core.Value(can._outputs, "-1"), msg = sub._msg
+		can.core.CallFunc([sub, chat.ONIMPORT, "_init"], {can: sub, msg: msg, list: msg.result||msg.append||[], cb: function(msg) {
+		}, target: can._output})
 	},
 	"共享工具": function(event, can) { var meta = can.Conf()
 		can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.TOPIC, values: [cli.WHITE, cli.BLACK]}], [

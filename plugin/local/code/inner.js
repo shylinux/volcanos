@@ -159,7 +159,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 	},
 	plugin: function(can, meta, target, cb) {
 		can.onappend.plugin(can, meta, function(sub) {
-			sub.run = function(event, cmds, cb) {
+			sub.run = function(event, cmds, cb) { can.request(event, can.Option())
 				can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
 			}, can.base.isFunc(cb) && cb(sub)
 		}, target)
@@ -179,15 +179,14 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		if (can.page.ClassList.has(can, can._fields, "full")) {
 			can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight)
 		} else {
-			can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight-html.ACTION_HEIGHT)
+			can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight-html.ACTION_HEIGHT-2)
 		}
 		can.page.Select(can, can.ui.profile_output, html.IFRAME, function(item) {
 			can.page.style(can, item,
 				html.HEIGHT, can.ui.profile_output.offsetHeight-4,
 				html.WIDTH, can.ui.profile_output.offsetWidth-5,
 				"margin-left", "-10px", "margin-top", "-10px",
-				"position", "absolute",
-				"border", "0"
+				"position", "absolute", "border", "0"
 			)
 		})
 	},
@@ -279,17 +278,21 @@ Volcanos("onkeymap", {help: "导入数据", _init: function(can, msg, cb, target
 	_insert: function(event, can) {},
 	_mode: {
 		plugin: {
-			Escape: function(event, can) { can.onaction["清屏"](event, can) },
-			g: function(event, can) { can.onaction["搜索"](event, can) },
-			f: function(event, can) { can.onaction["打开"](event, can) },
-			t: function(event, can) { can.onaction["添加"](event, can) },
-			p: function(event, can) { can.onaction["插件"](event, can) },
-			e: function(event, can) { can.onaction["扩展"](event, can) },
+			Escape: function(event, can) { can.actions(event, "清屏") },
+			g: function(event, can) { can.actions(event, "搜索") },
+			f: function(event, can) { can.actions(event, "打开") },
+			t: function(event, can) { can.actions(event, "添加") },
+			p: function(event, can) { can.actions(event, "插件") },
+			e: function(event, can) { can.actions(event, "扩展") },
 
-			q: function(event, can) { can.onaction["全屏"](event, can) },
-			r: function(event, can) { can.onaction["执行"](event, can) },
-			v: function(event, can) { can.onaction["展示"](event, can) },
-			s: function(event, can) { can.onaction["保存"](event, can) },
+			m: function(event, can) { can.actions(event, "autogen") },
+			c: function(event, can) { can.actions(event, "compile") },
+			w: function(event, can) { can.actions(event, "website") },
+
+			r: function(event, can) { can.actions(event, "执行") },
+			v: function(event, can) { can.actions(event, "展示") },
+			// s: function(event, can) { can.actions(event, "保存") },
+			a: function(event, can) { can.actions(event, "全屏") },
 
 			j: function(event, can) { can.current.scroll(1) },
 			k: function(event, can) { can.current.scroll(-1) },

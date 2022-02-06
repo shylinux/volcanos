@@ -124,7 +124,8 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 		},
 	}, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: ["加载", nfs.SAVE, "autogen", "compile", "binpack", "刷新"],
+Volcanos("onaction", {help: "控件交互", list: ["autogen", "compile", "website"],
+	_trans: {website: "网页"},
 	"刷新": function(event, can) {
 		can.onimport.tabview(can, "src/", "main.go", "", function() {}, true)
 	},
@@ -149,7 +150,7 @@ Volcanos("onaction", {help: "控件交互", list: ["加载", nfs.SAVE, "autogen"
 			}, true)
 		})
 	},
-	compile: function(event, can, button) { var msg = can.ui.search.request(event, {_handle: ice.TRUE, _toast: "编译中..."})
+	compile: function(event, can, button) { var msg = can.ui.search.request(event, {_handle: ice.TRUE, _toast: "编译中..."}, can.Option())
 		can.run(event, [ctx.ACTION, button], function(msg) {
 			if (msg.Length() == 0) { var toast = can.user.toast(can, "重启中...", "", -1)
 				can.core.Timer(5000, function() { toast.close(), can.onaction["展示"]({}, can) })
@@ -157,6 +158,11 @@ Volcanos("onaction", {help: "控件交互", list: ["加载", nfs.SAVE, "autogen"
 				can.ui.search._show(msg)
 			}
 		}, true)
+	},
+	website: function(event, can, button) { can.request(event, {action: button})
+		can.user.input(event, can, [{name: nfs.FILE, value: "hi.txt"}], function(ev, btn, data, list, args) {
+			can.onimport.tabview(can, "src/", "website/"+list[0], "", function() {}, true)
+		})
 	},
 
 	_selectLine: function(event, can) {

@@ -14,7 +14,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
 	refresh: function(event, can) { can.run(event) },
 
 	onclick: function(event, can) {
-		if (can.Conf(mdb.TYPE) == html.BUTTON) { can.run(event, [ctx.ACTION, can.Conf(mdb.NAME)].concat(can.sup.Input())) }
+		can.Conf(mdb.TYPE) == html.BUTTON && can.run(event, [ctx.ACTION, can.Conf(mdb.NAME)].concat(can.sup.Input()))
 	},
 	onchange: function(event, can) {
 		if (can.Conf(mdb.TYPE) == html.SELECT) { can.run(event) }

@@ -86,7 +86,7 @@ fieldset.inner>div.output div.profile>div.output>fieldset {
 	margin:0; padding:0;
 }
 fieldset.inner>div.output div.profile>div.output>fieldset>legend {
-	float:left;
+	float:left; padding:0.3rem;
 }
 fieldset.inner>div.output div.display>div.output {
 	clear:both; overflow:auto;

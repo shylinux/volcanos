@@ -165,7 +165,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 				can.getActionSize(function(height, width) { var m = parseInt(data.m)||2, n = parseInt(data.n)||2
 					can.page.css(can.base.replaceAll(chat.ACTION_LAYOUT_FMT, "_width", (width-(4*m+1)*html.PLUGIN_MARGIN)/m+"px", "_height", (height-(4*n+1)*html.PLUGIN_MARGIN)/n+"px"))
 				})
-			}, true)
+			}, slient)
 		}
 		can.onlayout._init(can)
 	},
@@ -189,14 +189,16 @@ Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: functio
 
 			" ": function(event, can, target) {
 				can.onengine.signal(can, "onsearchfocus")
+				can.onkeymap.prevent(event)
 			},
 			":": function(event, can, target) {
 				can.onengine.signal(can, "oncommandfocus")
+				can.onkeymap.prevent(event)
 			},
 			enter: function(event, can, target) { can.misc.Log("enter") },
 			escape: function(event, can, target) {
 				can.page.Select(can, document.body, html.FIELDSET_AUTO, function(item) {
-					can.onmotion.hidden(can, item)
+					// can.onmotion.hidden(can, item)
 				})
 				can.page.Select(can, document.body, can.page.Keys(html.FIELDSET_FLOAT, html.DIV_FLOAT), function(item) {
 					can.page.Remove(can, item)

@@ -105,6 +105,7 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
 			sub.run = function(event, cmds, cb) { var msg = can.request(event)
 				can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
 			}
+			sub.Focus()
 		}, can.ui.profile)
 	},
 })

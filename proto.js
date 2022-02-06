@@ -73,6 +73,7 @@ var web = {
 	SPACE: "space", SHARE: "share",
 }
 var aaa = {
+	PASSWORD: "password",
 	USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite",
@@ -239,6 +240,8 @@ var lang = {
 	STRING: "string", NUMBER: "number",
 	OBJECT: "object", FUNCTION: "function",
 	ESCAPE: "Escape", ENTER: "Enter", TAB: "Tab",
+	CONTROL: "Control", SHIFT: "Shift",
+	PS: "/",
 }
 function shy(help, meta, list, cb) {
 	var index = 0, args = arguments; function next(type) {
@@ -313,6 +316,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 				}): can.core.Item(can.base.isFunc(option)? option(): option, set)
 			}); return msg
 		},
+		actions: function(event, button) { can.run(event, [ctx.ACTION, button], null, true) },
 
 		search: function(event, cmds, cb) {
 			if (cmds && typeof cmds == lang.OBJECT && cmds.length > 0 && typeof cmds[0] == lang.OBJECT && cmds[0].length > 0 ) {

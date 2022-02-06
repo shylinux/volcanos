@@ -13,15 +13,6 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.base.isFunc(cb) && cb(msg)
 	},
 	_agent: function(can, msg, target) {
-		if (can.user.mod.isPod) {
-			can.onaction.River(can)
-			can.onaction.Footer(can)
-		} else if (can.user.isMobile) {
-			can.onaction.River(can)
-			can.onaction.Footer(can)
-		} else if (can.user.isExtension) {
-			can.onaction.River(can)
-		}
 		can.run({}, [chat.AGENT], function(msg) { if (!msg.Option(ssh.SCRIPT)) { return }
 			can.require(can.base.Obj(msg.Option(ssh.SCRIPT)), function(can) { can.onaction.source(can, msg) })
 		})
@@ -75,7 +66,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		msg.Option(aaa.AVATAR) && can.page.Modify(can, "div.state.avatar>img", {src: "/share/local/avatar"})
 	},
 	_menus: function(can, msg, target) {
-		can.setHeaderMenu(can.user.mod.isPod||can.user.isMobile||can.user.isExtension? [chat.RIVER]:
+		can.setHeaderMenu(can.user.mod.isPod||can.user.isMobile||can.user.isExtension? []:
 			can.base.Obj(msg.Option(chat.MENUS)||can.Conf(chat.MENUS), can.onaction._menus), function(event, button) {
 				can.core.CallFunc(can.onaction[button]||function(event, can) {
 					can.run(event, [button], function(msg) { can.user.toast(can, "执行成功", can.user.trans(can, button)) })
@@ -125,9 +116,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, target) {
 		can.base.isFunc(cb) && cb()
 	},
-	_menus: [["setting", chat.BLACK, chat.WHITE, chat.PRINT, "webpack", "devpack", "toimage"]],
+	_menus: [["setting", chat.BLACK, chat.WHITE, chat.PRINT, "webpack", "devpack", "toimage", "refresh"]],
 	_trans: {
-		"river": "菜单",
 		"search": "搜索",
 		"create": "创建",
 		"share": "共享",
@@ -140,6 +130,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 
 		"shareuser": "共享用户",
 		"setnick": "设置昵称",
+		"password": "修改密码",
 		"language": "语言地区",
 		"chinese": "中文",
 		"clear": "清除背景",
@@ -148,9 +139,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 		function init() { can.run({}, [], function(msg) {
 			can.base.Copy(can.onaction._trans, can.base.Obj(msg.Option(chat.TRANS), {}))
 			can.onimport._init(can, msg, function(msg) { can.onengine.signal(can, chat.ONLOGIN, msg) }, can._output)
-
-			can.search({}, ["River.onmotion.toggle"])
-		}) }; can.search({}, ["River.onmotion.hidden"])
+		}) }
 		if (can.misc.Search(can, ice.MSG_SESSID)) {
 			can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID))
 			return can.misc.Search(can, ice.MSG_SESSID, "") 
@@ -174,7 +163,6 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 		})
 		can.user.jumps(can.misc.MergeURL(can, args, true))
 	},
-	river: function(event, can) { can.onaction.River(can) },
 
 	black: function(event, can, button) { can.onlayout.topic(can, button), can.onlayout._init(can) },
 	white: function(event, can, button) { can.onlayout.topic(can, button), can.onlayout._init(can) },
@@ -199,6 +187,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 		})
 	},
 	toimage: function(event, can, button) { can.onmotion.toimage(event, can, document.title, document.body) },
+	refresh: function(event, can, button) { can.onlayout._init(can) },
 
 	carte: function(event, can, list, cb, trans) { can.user.carte(event, can, can.onaction, list, cb) },
 	share: function(event, can, args) {
@@ -207,7 +196,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 	},
 
 	usernick: function(event, can) {
-		can.onaction.carte(event, can, ["shareuser", "setnick", [aaa.LANGUAGE, aaa.CHINESE, aaa.ENGLISH], cli.CLEAR, aaa.LOGOUT])
+		can.onaction.carte(event, can, ["shareuser", "setnick", "password", [aaa.LANGUAGE, aaa.CHINESE, aaa.ENGLISH], cli.CLEAR, aaa.LOGOUT])
 	},
 	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN]) },
 	setnick: function(event, can) {
@@ -220,13 +209,24 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 		})
 		can.user.isMobile && can.page.Modify(can, ui._target, {style: {top: 40, right: 0, left: ""}})
 	},
+	password: function(event, can) {
+		var ui = can.user.input(event, can, [{type: html.PASSWORD, action: ice.AUTO}, {type: html.PASSWORD, action: ice.AUTO}], function(ev, button, data, list, args) {
+			if (list[0] != list[1]) {
+				can.user.toast(can, "密码不一致")
+				ui.focus()
+				return true
+			}
+
+			can.run(event, [aaa.PASSWORD, list[0]], function(msg) {
+				can.user.toastSuccess(can)
+			}, true)
+		})
+		can.user.isMobile && can.page.Modify(can, ui._target, {style: {top: 40, right: 0, left: ""}})
+	},
 	chinese: function(event, can) { can.misc.Search(can, aaa.LANGUAGE, "zh") },
 	english: function(event, can) { can.misc.Search(can, aaa.LANGUAGE, "en") },
 	clear: function(event, can) { can.onimport.background(event, can, ""), can.onimport.avatar(event, can, ""), can.user.reload(true) },
 	logout: function(event, can) { can.user.logout(can) },
-
-	River: function(can) { can.search({}, ["River.onmotion.toggle"]) },
-	Footer: function(can) { can.search({}, ["Footer.onmotion.toggle"]) },
 })
 Volcanos("onexport", {help: "导出数据", list: [],
 	height: function(can) { return can._target.offsetHeight },

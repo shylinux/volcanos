@@ -69,6 +69,16 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, c
 	}), can.base.isFunc(cb) && cb(msg); return true
 }})
 Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, cb, target) {
+		if (can.user.mod.isWeb) {
+
+		} else if (can.user.mod.isPod) {
+			can.onmotion.hidden(can, can._target)
+		} else if (can.user.isExtension) {
+			can.onmotion.hidden(can, can._target)
+		} else if (can.user.isMobile) {
+			can.onmotion.hidden(can, can._target)
+		}
+
 		can.onengine.plugin(can, "info", shy("信息", {}, ["text", "list", "back"], function(msg, cmds) {
 			msg.Echo(JSON.stringify(can))
 		}))
@@ -198,6 +208,7 @@ Volcanos("ondetail", {help: "菜单交互",
 	},
 	"创建空间": function(event, can, button, river, storm) { can.request(event, {action: button})
 		can.user.input(event, can, [{name: "name", value: "hi"}, {name: "repos"}, {name: "template"}], function(event, button, data, list, args) {
+			can.request(event, {_toast: "创建中..."})
 			can.run(event, [ctx.ACTION, cli.START].concat(args, chat.RIVER, river), function(msg) {
 				var link = can.misc.MergeURL(can, {_path: "/chat/pod/"+can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME))})
 				can.user.toast(can, link), can.user.open(link)

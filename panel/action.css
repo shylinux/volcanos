@@ -59,7 +59,6 @@ fieldset.panel.cmd>div.output>fieldset.plugin {
 }
 fieldset.panel.cmd>div.output>fieldset.plugin>legend {
 	float:left; padding:0 10px; margin-right:3px;
-	height:25px;
 	background-color:darkcyan;
 	cursor:pointer;
 }

@@ -3,20 +3,21 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
 
 	// 添加控件
 	var now = target.value? new Date(target.value): new Date()
+	can._trans = {"today": "今天", "next": "下一月", "prev": "上一月"}
 	can.onmotion.clear(can, can._action), can.onappend._action(can, [cli.CLOSE,
 		["hour"].concat(can.core.List(24)), ["minute"].concat(can.core.List(0, 60, 5)), ["second"].concat(can.core.List(0, 60, 5)),
-		"今天", "", "上一月", ["year"].concat(can.core.List(now.getFullYear() - 10, now.getFullYear() + 10)),
-		["month"].concat(can.core.List(1, 13)), "下一月",
+		"today", "", "prev", ["year"].concat(can.core.List(now.getFullYear() - 10, now.getFullYear() + 10)),
+		["month"].concat(can.core.List(1, 13)), "next",
 	], can._action, { close: function(event) { can.close() },
 		"hour": function(event, can, key, value) {  now.setHours(parseInt(value)||0), show(now) },
 		"minute": function(event, can, key, value) {  now.setMinutes(parseInt(value)||0), show(now) },
 		"second": function(event, can, key, value) {  now.setSeconds(parseInt(value)||0), show(now) },
-		"今天": function(event) {  now = new Date(), set(show(now)) },
+		"today": function(event) {  now = new Date(), set(show(now)) },
 
-		"上一月": function(event) {  now.setMonth(now.getMonth()-1), show(now) },
+		"prev": function(event) {  now.setMonth(now.getMonth()-1), show(now) },
 		"year": function(event, can, key, value) {  now.setFullYear(parseInt(value)), show(now) },
 		"month": function(event, can, key, value) {  now.setMonth(parseInt(value)-1), show(now) },
-		"下一月": function(event) {  now.setMonth(now.getMonth()+1), show(now) },
+		"next": function(event) {  now.setMonth(now.getMonth()+1), show(now) },
 
 		"随机": function(event) {  now.setDate((Math.random() * 100 - 50) + now.getDate()), show(now) },
 		"前一年": function(event) {  now.setFullYear(now.getFullYear()-1), show(now) },

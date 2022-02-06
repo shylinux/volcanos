@@ -56,6 +56,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 	},
 })
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, target) {
+		if (can.user.mod.isPod) {
+			can.onmotion.hidden(can, can._target)
+		} else if (can.user.isMobile) {
+			can.onmotion.hidden(can, can._target)
+		} else if (can.user.isExtension) {
+			can.onmotion.hidden(can, can._target)
+		}
 		can.base.isFunc(cb) && cb()
 	},
 	onlogin: function(can, msg) { can.run({}, [], function(msg) { can.onimport._init(can, msg, [], null, can._output) }) },

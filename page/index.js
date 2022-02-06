@@ -49,10 +49,10 @@ Volcanos({name: "chat", panels: [
 	}},
 	project: {name: "研发群", storm: {
 		studio: {name: "研发 studio", list: [
-			{name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/", "main.go"], _action: ["autogen", "compile", "binpack"]},
+			{name: "vimer", help: "编辑器", index: "web.code.vimer"},
 			{name: "repos", help: "代码库", index: "web.code.git.status"},
 			{name: "plan", help: "任务表", index: "web.team.plan"},
-			{name: "ctx", help: "上下文", index: "web.wiki.word", args: ["src/main.shy"]},
+			{name: "ctx", help: "上下文", index: "web.wiki.word"},
 		]},
 		web: {name: "网页 web",  list: [
 			{name: "HTML5", help: "浏览器", index: "web.wiki.word", args: ["usr/icebergs/misc/chrome/chrome.shy"]},
