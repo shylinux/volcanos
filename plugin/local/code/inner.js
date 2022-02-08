@@ -305,7 +305,7 @@ Volcanos("onkeymap", {help: "导入数据", _init: function(can, msg, cb, target
 		},
 	}, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加", "插件", "扩展", "刷新"],
+Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加", "插件", "扩展"],
 	"刷新": function(event, can) {
 		can.onimport.tabview(can, "src/", "main.go", "", function() {}, skip)
 	},
