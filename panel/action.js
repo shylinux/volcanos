@@ -135,7 +135,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 		}
 
 		can.run({}, [river, storm], function(msg) { if (msg.Length() > 0) { return can.onimport._init(can, msg) }
-			can.onengine.signal(can, "onaction_notool", can.request({}, {river: river, storm: storm}))
+			river != "_share" && can.onengine.signal(can, "onaction_notool", can.request({}, {river: river, storm: storm}))
 		})
 	},
 	onsearch: function(can, msg, word) {

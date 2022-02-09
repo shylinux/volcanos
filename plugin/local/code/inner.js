@@ -65,7 +65,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 	_toolkit: function(can, target) {
 		can.ui.toolkit = can.onappend.field(can, "toolkit", {}, can._output)
 	},
-	_session: function(can, msg) { can.onimport.sess(can, "", function() { can.onimport.sess(can, {
+	_session: function(can, msg) { can.user.isMobile || can.onimport.sess(can, "", function() { can.onimport.sess(can, {
 		plug: can.core.Split(msg.OptionOrSearch("plug")).reverse(),
 		exts: can.core.Split(msg.OptionOrSearch("exts")).reverse(),
 		tabs: can.core.Split(msg.OptionOrSearch("tabs")),

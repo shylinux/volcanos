@@ -94,7 +94,7 @@ Volcanos("onaction", {help: "交互操作", list: [
 		var args = can.Option(); args._path = pre+(meta.index||can.core.Keys(meta.ctx, meta.cmd))
 		args._path.indexOf("/cmd/web.wiki.word") > -1 && (args = {_path: pre+args.path})
 
-		can.user.open(can.misc.MergeURL(can, args))
+		can.user.isWeiXin? can.user.jumps(can.misc.MergeURL(can, args)): can.user.open(can.misc.MergeURL(can, args))
 	},
 	"生成链接": function(event, can) { var meta = can.Conf()
 		var pre = "/chat/cmd/"; if (can.user.mod.isPod) { pre = "/chat/pod/"+can.misc.Search(can, ice.POD)+"/cmd/" }
