@@ -21,7 +21,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can._main_storm = can.misc.Search(can, chat.STORM)||msg.Option(ice.MSG_STORM)||Volcanos.meta.args.storm||can._main_storm
 	},
 	_menu: function(can, msg) { if (can.user.mod.isPod) { return }
-		can.setHeaderMenu(can.base.Obj(msg.Option(chat.MENUS), can.Conf(chat.MENUS)||can.ondetail._menus), function(event, button) {
+		var list = []; if (can.user.isMobile) { list.push("river") }
+		can.setHeaderMenu(list.concat(can.base.Obj(msg.Option(chat.MENUS), can.Conf(chat.MENUS)||can.ondetail._menus)), function(event, button) {
 			can.core.CallFunc([can.ondetail, button], [event, can, button, can.Conf(chat.RIVER), can.Conf(chat.STORM)])
 		})
 	},
@@ -94,6 +95,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, cb, t
 		}))
 		can.base.isFunc(cb) && cb()
 	},
+	_trans: {"river": "菜单"},
 	onlogin: function(can, msg) {
 		can.onappend._action(can, can.Conf(ctx.ACTION)||can.onaction.list)
 		can.run({}, [], function(msg) { can.onimport._init(can, msg, [], null, can._output) })
@@ -166,6 +168,7 @@ Volcanos("ondetail", {help: "菜单交互",
 		["share", "共享群组", "共享应用", "共享工具", "共享主机", "访问空间"],
 	],
 
+	"river": function(event, can) { can.onmotion.toggle(can, can._target) },
 	"创建群组": function(event, can) { can.onaction.create(event, can) },
 	"共享群组": function(event, can, button, river) {
 		can.onmotion.share(event, can, [{name: chat.TITLE, value: river}], [mdb.TYPE, chat.RIVER])
