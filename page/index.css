@@ -105,7 +105,7 @@ fieldset>form.option>div.item input.args[name=offend] { width:48px; }
 fieldset>form.option>div.item.textarea { clear:both; margin-top:4px; }
 
 fieldset>div.action { float:left; display:contents; }
-fieldset>div.action>div.item { float:left; margin-right:3px; }
+div.action>div.item { float:left; margin-right:3px; }
 fieldset>div.action>div.item.space { width:10px; }
 fieldset div.action>div.item>label { display:none; }
 fieldset>div.action>div.tabs { float:left; margin:0; padding:4px; cursor:pointer; }
