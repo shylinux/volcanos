@@ -27,7 +27,11 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
 		switch (event.key) {
 			case lang.SHIFT: break
 			case lang.CONTROL: break
-			case lang.ENTER: sub.close(); break
+			case lang.ENTER:
+				if (event.ctrlKey && can.page.tagis(html.TEXTAREA, target)) {
+					can.base.isFunc(last) && last(event, can)
+				}
+				sub && sub.close(); break
 			case lang.ESCAPE: event.target.blur(); break
 			case lang.PS: can.onfigure.key._show(event, sub, meta.name, null, target, target.value+ice.PS); break
 			case lang.TAB: 
@@ -36,7 +40,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
 					break
 				}
 			default:
-				can.onmotion.selectTableInput(event, sub, target, function() {
+				sub && can.onmotion.selectTableInput(event, sub, target, function() {
 					can.onfigure.key._show(event, sub, meta.name, null, target)
 				}), can.base.isFunc(last) && last(event, can)
 		}

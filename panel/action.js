@@ -26,7 +26,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 		can.page.Append(can, can._action, [{view: [html.TABS, html.DIV, meta.name], onclick: function(event) {
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
 			can.onmotion.select(can, can._action, html.DIV_TABS, event.target)
-		}, onmouseenter: sub._legend.onmouseenter}])
+		}, onmouseenter: sub._legend.onmouseenter, ondblclick: sub._legend.onclick}])
 	},
 	_menu: function(can, msg) { if (can.user.mod.isPod||can.user.isMobile) { return }
 		can.setHeaderMenu(can.base.Obj(msg.Option(chat.MENUS), can.Conf(chat.MENUS)||can.onaction._menus), function(event, button, list) {
