@@ -4,6 +4,10 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 			return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb)
 		}
 		if (can.user.isExtension) { Volcanos.meta.args = can.base.Obj(localStorage.getItem(ctx.ARGS), {}) }
+		if (can.misc.Search(can, ice.MSG_SESSID)) {
+			can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID))
+			return can.misc.Search(can, ice.MSG_SESSID, "") 
+		}
 
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
 			can.onappend._init(can, can.base.Copy(item, can.core.Value(can._root, [chat.RIVER, item.name])), item.list, function(panel) {

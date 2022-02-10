@@ -1,5 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
 		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() {
+			can.page.ClassList.add(can, can._fields, "inner")
 			can.onkeymap._build(can), can.onimport._input(can), can.onkeymap._plugin({}, can), can.base.isFunc(cb) && cb(msg)
 		}, target) }, function(can, name, sub) { name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
 			if (name == chat.ONKEYMAP) {
@@ -124,7 +125,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 		},
 	}, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: ["autogen", "compile", "website", "binpack"],
+Volcanos("onaction", {help: "控件交互", list: ["autogen", "compile", "website"],
 	_trans: {website: "网页"},
 	"刷新": function(event, can) {
 		can.onimport.tabview(can, "src/", "main.go", "", function() {}, true)

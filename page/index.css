@@ -241,7 +241,7 @@ body.white fieldset.Action fieldset.plugin legend:hover { background-color:#6ee4
 body.print fieldset.River>div.output div.item.select { background-color:white; border:solid 2px red; }
 
 body.mobile select { font-size:1.4rem; height:1.8rem; }
-body.mobile legend { font-size:2rem; }
+body.mobile legend { font-size:1.5rem; }
 body.mobile input { font-size:1.2rem; }
 body.mobile input[type=text] { height:1.6rem; }
 body.mobile fieldset.Header.head { width:-webkit-fill-available; }

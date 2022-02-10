@@ -9,9 +9,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 			can.onappend.plugin(can, item, function(sub, meta, skip) {
 				can.onimport._plugin(can, river, storm, sub, meta), skip || next()
 			})
-		}, function() { can.onimport._menu(can, msg), can.onkeymap._init(can)
-			can.onaction.onstorm_select(can, msg, river, storm)
-		})
+		}, function() { can.onimport._menu(can, msg), can.onkeymap._init(can) })
 	},
 	_plugin: function(can, river, storm, sub, meta) { sub._target._meta = meta
 		sub.run = function(event, cmds, cb) { var msg = sub.request(event)
@@ -37,16 +35,20 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 	_share: function(can, share) { share && can.run({}, ["_share", share], function(msg) {
 		can.user.title(msg.OptionOrSearch(chat.TITLE))
 		can.setHeader(chat.TOPIC, msg.OptionOrSearch(chat.TOPIC))
-		// can.page.Select(can, document.body, html.FIELDSET_PANEL, function(item) {
-		//     item != can._target && can.onmotion.hidden(can, item)
-		// })
+
+		if (msg.Length() == 1) {
+			can.search(event, ["Header.onmotion.hidden"])
+			can.search(event, ["Footer.onmotion.hidden"])
+			can.page.ClassList.add(can, can._target, "cmd")
+			can.Conf(html.HEIGHT, window.innerHeight)
+			can.Conf(html.WIDTH, window.innerWidth)
+		}
 
 		can.Conf(html.MARGIN_X, 0, html.MARGIN_Y, 2*html.ACTION_HEIGHT)
-		// can.page.ClassList.add(can, can._target, ice.CMD)
-		can.onlayout._init(can)
+		can.onlayout._init(can, document.body)
 
 		can.Conf(chat.RIVER, "_share", chat.STORM, share)
-		can.onimport._init(can, msg)
+		msg.Length() > 0 && can.onimport._init(can, msg)
 	}) },
 	_cmd: function(can, item, next) {
 		can.base.Copy(item, {
@@ -135,7 +137,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 		}
 
 		can.run({}, [river, storm], function(msg) { if (msg.Length() > 0) { return can.onimport._init(can, msg) }
-			river != "_share" && can.onengine.signal(can, "onaction_notool", can.request({}, {river: river, storm: storm}))
+			can.onengine.signal(can, "onaction_notool", can.request({}, {river: river, storm: storm}))
 		})
 	},
 	onsearch: function(can, msg, word) {

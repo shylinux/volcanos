@@ -127,6 +127,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 		"white": "白色主题",
 		"print": "打印主题",
 		"toimage": "生成图片",
+		"refresh": "刷新页面",
 
 		"shareuser": "共享用户",
 		"setnick": "设置昵称",
@@ -140,10 +141,6 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 			can.base.Copy(can.onaction._trans, can.base.Obj(msg.Option(chat.TRANS), {}))
 			can.onimport._init(can, msg, function(msg) { can.onengine.signal(can, chat.ONLOGIN, msg) }, can._output)
 		}) }
-		if (can.misc.Search(can, ice.MSG_SESSID)) {
-			can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID))
-			return can.misc.Search(can, ice.MSG_SESSID, "") 
-		}
 
 		// 登录检查
 		can.user.isLocalFile? init(): can.run({}, [chat.CHECK], function(msg) {
