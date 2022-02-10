@@ -1,6 +1,6 @@
 body { background-color:black; color:cyan; margin:0; padding:0; font-size:14px; }
 h1, h2, h3 { clear:both; }
-a { color:yellow; }
+/* a { color:yellow; } */
 
 .hide, .hidden { display:none; }
 tr.show { background-color:red; }
@@ -152,7 +152,7 @@ body>div.toast div.progress { height:10px; border:solid 2px green; margin-left:-
 body>div.toast div.progress div.current { height:10px; background-color:red; }
 body>div.toast div.action div.item { float:left; }
 
-body>div.carte { background-color:#295b61; color:white; min-width:80px; padding:4px; position:fixed; z-index:0; }
+body>div.carte { background-color:#295b61; color:white; min-width:80px; padding:4px; position:fixed; z-index:10; }
 body>div.carte div.item { padding:3px 12px; }
 body>div.input { background-color:#0d4142a6; position:fixed; z-index:0; }
 body>div.input div.item { float:left; }
@@ -181,7 +181,8 @@ body>div.upload input[type=file] { width:240px; }
 textarea { tab-size:2; }
 input, select, option, table.content, div.item, div.code, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
 legend { font-size:1.2rem; }
-fieldset>div.status>div.item>label { font-size:0.6rem; color:#bdb8b8e0; }
+/* fieldset>div.status>div.item>label { font-size:0.6rem; color:#bdb8b8e0; } */
+fieldset>div.status>div.item>label { font-size:0.6rem; }
 body>div.toast div.title { color:#cae850; }
 body>div.toast div.duration { color:gray; }
 
@@ -212,11 +213,13 @@ body.white table td>input[type=button][value=启动] { background-color:#52ce78;
 body.white table td>input[type=button][name=create] { background-color:blue; }
 body.white table td>input[type=button][name=remove] { background-color:red; }
 
-body.white fieldset>div.status>div.item>label { font-size:0.6rem; color:#cefbfbe0; }
+/* body.white fieldset>div.status>div.item>label { font-size:0.6rem; color:#cefbfbe0; } */
+body.white fieldset>div.status>div.item>label { font-size:0.6rem; }
 body.white fieldset.Action { color:black; }
 body.white fieldset.Action>div.action { color:white; }
 body.white fieldset.Action>div.action div.item { height:21px; }
 body.white fieldset.Action fieldset.plugin { background-color:#ffffff78; }
+body.white fieldset.Action fieldset.plugin.full { background-color:#ffffffff; }
 body.white fieldset.Action fieldset.plugin legend { background-color:#339999; color:white; border-radius:10px 10px 10px 10px; }
 body.white fieldset.input table { color:white; }
 body.white>div.input textarea { border:2px solid #14a58e; border-radius:6px; }

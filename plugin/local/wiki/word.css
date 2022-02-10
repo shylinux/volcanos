@@ -92,8 +92,14 @@ fieldset.word fieldset.story:hover {
 fieldset.word.float {
 	width:-webkit-fill-available;
 	position:fixed; left:0; top:0;
+	z-index:10;
+}
+body.white fieldset.word.float {
 	background-color:aliceblue;
 	color:black;
+}
+fieldset.word.float>div.action {
+	display:contents;
 }
 fieldset.word.float>div.output {
 	background-color:#f0f8ff80;
@@ -108,7 +114,7 @@ fieldset.word.float>div.output>div.project {
 	z-index:100;
 }
 fieldset.word.float div.content div.page {
-	background-color:#194c79d4;
+	/* background-color:#194c79d4; */
 	margin-top:30px;
 	display:none;
 }

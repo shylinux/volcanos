@@ -72,22 +72,23 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 	},
 })
 Volcanos("onaction", {help: "交互操作", list: [
-		"共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", "清空参数", "刷新数据", "刷新页面", [
-			"其它 ->", "复制数据", "下载数据", "清空数据", "删除工具", "摄像头", "生成图片",
+		"共享工具", "切换全屏", "打开链接", "生成链接", "生成图片", "生成脚本", "刷新数据", "刷新页面", [
+			"其它 ->", "清空参数", "复制数据", "下载数据", "清空数据", "删除工具", "摄像头",
 		],
 	], _init: function(can, msg, list, cb, target) {},
-	_engine: function(event, can, button) {
-		can.Update(event, [ctx.ACTION, button].concat(can.Input([], true)))
-	},
-	"刷新页面": function(event, can) {
-		var sub = can.core.Value(can._outputs, "-1"), msg = sub._msg
-		can.core.CallFunc([sub, chat.ONIMPORT, "_init"], {can: sub, msg: msg, list: msg.result||msg.append||[], cb: function(msg) {
-		}, target: can._output})
-	},
+	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input([], true))) },
+
 	"共享工具": function(event, can) { var meta = can.Conf()
 		can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.TOPIC, values: [cli.WHITE, cli.BLACK]}], [
 			mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input([], true)),
 		])
+	},
+	"切换全屏": function(event, can) {
+		if (can.page.ClassList.neg(can, can._target, "Full")) {
+			can.page.style(can, can._output, "height", window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT-2*html.PLUGIN_MARGIN, "min-width", window.innerWidth-2*html.PLUGIN_MARGIN)
+		} else {
+			can.page.style(can, can._output, "height", "", "min-width", "")
+		}
 	},
 	"打开链接": function(event, can) { var meta = can.Conf()
 		var pre = "/chat/cmd/"; if (can.user.mod.isPod) { pre = "/chat/pod/"+can.misc.Search(can, ice.POD)+"/cmd/" }
@@ -104,6 +105,11 @@ Volcanos("onaction", {help: "交互操作", list: [
 		can.user.copy(event, can, url)
 		can.onmotion.share(event, can, [], [mdb.LINK, url])
 	},
+	"生成图片": function(event, can) { can.onmotion.toimage(event, can, can._name) },
+	// "生成图片": function(event, can) {
+	//     can.user.toPNG(can, "hi.png", can._target.outerHTML, can.Conf(html.HEIGHT), can.Conf(html.WIDTH))
+	// },
+
 	"生成脚本": function(event, can, button) { var conf = can.Conf()
 		var args = can.Input("", true).join(ice.SP); var list = [
 			"export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -fsSL $ctx_dev -o $ctx_temp;"+" source $ctx_temp "+(conf.index||"")+ice.SP+args,
@@ -117,13 +123,17 @@ Volcanos("onaction", {help: "交互操作", list: [
 		can.onmotion.story.auto(can, ui._target)
 		can.user.copy(event, can, list[0])
 	},
-	"生成图片": function(event, can) { can.onmotion.toimage(event, can, can._name) },
+	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
+	"刷新页面": function(event, can) {
+		var sub = can.core.Value(can._outputs, "-1"), msg = sub._msg
+		can.core.CallFunc([sub, chat.ONIMPORT, "_init"], {can: sub, msg: msg, list: msg.result||msg.append||[], cb: function(msg) {
+		}, target: can._output})
+	},
 	"保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
+
 	"清空参数": function(event, can) {
 		can.page.SelectArgs(can, can._option, "", function(item) { return item.value = "" })
 	},
-	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
-
 	"复制数据": function(event, can) { var meta = can.Conf(), msg = can._msg
 		var res = [msg.append && msg.append.join(",")]; msg.Table(function(line, index, array) {
 			res.push(can.core.Item(line, function(key, value) { return value }).join(","))
@@ -142,10 +152,6 @@ Volcanos("onaction", {help: "交互操作", list: [
 	},
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
 	"删除工具": function(event, can) { can.page.Remove(can, can._target) },
-	// "生成图片": function(event, can) {
-	//     can.user.toPNG(can, "hi.png", can._target.outerHTML, can.Conf(html.HEIGHT), can.Conf(html.WIDTH))
-	// },
-
 	"摄像头": function(event, can) {
 		var constraints = {audio: false, video: {width: 200, height: 200}}
 		var ui = can.page.Append(can, can._output, [{view: ctx.ACTION}, {view: "capture", list: [{type: "video", _init: function(item) {

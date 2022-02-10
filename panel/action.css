@@ -10,6 +10,20 @@ fieldset.Action>div.action {
 	position:absolute;
 }
 
+fieldset.Action div.output fieldset.plugin.Full>legend {
+	float:left;
+}
+body.white fieldset.Action div.output fieldset.plugin.Full {
+	background-color:#cce0f4eb;
+}
+fieldset.Action div.output fieldset.plugin.Full {
+	position:fixed; left:0; top:0;
+	background-color:#073947f2;
+	overflow:auto;
+	margin:0;
+	z-index:1;
+}
+
 fieldset.Action div.output fieldset.plugin:hover {
 	box-shadow:4px 4px 12px 6px #626bd0;
 }
