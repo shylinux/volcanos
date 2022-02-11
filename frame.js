@@ -1,5 +1,9 @@
 _can_name = "/frame.js"
 Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta, list, cb, target) {
+
+	can.page.Select(can, document.body, "iframe", function(item) {
+		can.page.Remove(can, item)
+	})
 		can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]
 			return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb)
 		}
@@ -475,7 +479,10 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 		})
 
 		can.user.isMobile || can.page.Select(can, target, html.FIELDSET_MAIN, function(field, index) {
-			can.page.style(can, field, html.HEIGHT, height, html.WIDTH, width-1)
+			var scroll = 1
+			if (!can.user.isMobile && !can.user.isMacOSX) { scroll = 18 }
+
+			can.page.style(can, field, html.HEIGHT, height, html.WIDTH, width-scroll)
 			can.page.Select(can, target, [[html.FIELDSET_MAIN, html.DIV_OUTPUT]], function(output) {
 				height -= can.page.Select(can, field, html.DIV_ACTION)[0].offsetHeight
 				can.page.styleHeight(can, output, height)
@@ -505,8 +512,8 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 		if (layout.left+target.offsetWidth>window.innerWidth) {
 			layout.right = 0, layout.left = ""
 		}
-		if (top+target.offsetHeight>window.innerHeight-100) {
-			layout.bottom = window.innerHeight - event.clientY+event.offsetY, layout.top = ""
+		if (top+target.offsetHeight>window.innerHeight-32) {
+			layout.bottom = window.innerHeight - event.clientY+event.offsetY-(right? 32: 32), layout.top = ""
 			if (right) { layout.bottom -= target.offsetHeight }
 		}
 		return can.page.style(can, target, layout), can.onmotion.move(can, target, layout), layout

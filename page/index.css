@@ -131,12 +131,12 @@ fieldset.output>div.action { display:none; }
 fieldset.output>div.status { display:none; }
 fieldset.story>legend { display:block; padding:2px 20px; letter-spacing:4px; }
 fieldset.story>div.status { border-top:1px solid darkcyan; }
-fieldset.float { background-color:#023531cf; margin:0px; padding:0px; position:absolute; }
+fieldset.float { position:absolute; z-index:10; background-color:#023531cf; padding:0px; margin:0px; }
 fieldset.float>legend { float:left; }
 fieldset.float>div.action { display:block; float:none; height:2rem; overflow:auto; }
 fieldset.float table { color:white; }
 
-fieldset.input { background-color:#0d4142a6; position:fixed; top:32px; }
+fieldset.input { position:fixed; z-index:10; background-color:#0d4142a6; top:32px; }
 fieldset.input legend { display:none; }
 fieldset.input div.output { max-height:400px; }
 fieldset.input table { color:white; }
@@ -144,7 +144,7 @@ fieldset.input td { word-break:keep-all; }
 fieldset.input.date table { text-align:center; width:280px; }
 fieldset.input.date>div.action { height:4rem; }
 
-body>div.toast { background-color:#0e3369b3; color:yellow; padding:5px; overflow:auto; position:fixed; }
+body>div.toast { position:fixed; z-index:10; background-color:#0e3369b3; color:yellow; padding:5px; overflow:auto; }
 body>div.toast div.title { float:left; cursor:copy; word-break:break-all; }
 body>div.toast div.duration { float:right; cursor:pointer; }
 body>div.toast div.content { text-align:center; white-space:pre; clear:both; }
@@ -152,23 +152,17 @@ body>div.toast div.progress { height:10px; border:solid 2px green; margin-left:-
 body>div.toast div.progress div.current { height:10px; background-color:red; }
 body>div.toast div.action div.item { float:left; }
 
-body>div.carte { background-color:#295b61; color:white; min-width:80px; padding:4px; position:fixed; z-index:10; }
+body>div.carte { position:fixed; z-index:10; background-color:#295b61; color:white; padding:4px; min-width:80px; }
 body>div.carte div.item { padding:3px 12px; }
-body>div.input { background-color:#0d4142a6; position:fixed; z-index:0; }
+body>div.input { position:fixed; z-index:10; background-color:#0d4142a6; }
 body>div.input div.item { float:left; }
 body>div.input input[type=text] { width:171px; }
 body>div.input input[name=username] { width:171px; }
 body>div.input input[name=password] { width:171px; }
-body>div.input textarea {
-	box-shadow:4px 4px 10px 1px #626bd0;
-	border:2px inset #14a58e;
-	width:171px; height:60px;
-	background-color:cyan;
-	padding:4px;
-}
+body>div.input textarea { box-shadow:4px 4px 10px 1px #626bd0; border:2px inset #14a58e; width:171px; height:60px; background-color:cyan; padding:4px; }
 body>div.input.login { padding:10px; }
 
-body>div.upload { background-color:black; color:yellow; position:fixed; padding:5px; }
+body>div.upload { position:fixed; z-index:10; background-color:black; color:yellow; padding:5px; }
 body>div.upload div.item { float:left; }
 body>div.upload div.output { border:solid 1px red; clear:both; }
 body>div.upload div.progress { background-color:red; width:0; height:10px; }
