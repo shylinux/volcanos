@@ -125,19 +125,8 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 		},
 	}, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: ["autogen", "compile", "website"],
+Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.COMPILE, chat.WEBSITE],
 	_trans: {website: "网页"},
-	"刷新": function(event, can) {
-		can.onimport.tabview(can, "src/", "main.go", "", function() {}, true)
-	},
-	"加载": function(event, can) {
-		var file = "/share/local/"+can.Option(nfs.PATH)+can.Option(nfs.FILE)
-		delete(Volcanos.meta.cache[file])
-		// var script = `\n_can_name = "`+file+`"\n`+
-		// 	can.onexport.content(can)+
-		// 	`\n_can_name = ""\nconsole.log("once")`
-		// eval(script)
-	},
 	save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
 		can.run(event, [ctx.ACTION, nfs.SAVE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
 			can.user.toastSuccess(can)
@@ -164,6 +153,14 @@ Volcanos("onaction", {help: "控件交互", list: ["autogen", "compile", "websit
 		can.user.input(event, can, [{name: nfs.FILE, value: "hi.txt"}], function(ev, btn, data, list, args) {
 			can.onimport.tabview(can, "src/", "website/"+list[0], "", function() {}, true)
 		})
+	},
+	"加载": function(event, can) {
+		var file = "/share/local/"+can.Option(nfs.PATH)+can.Option(nfs.FILE)
+		delete(Volcanos.meta.cache[file])
+		// var script = `\n_can_name = "`+file+`"\n`+
+		// 	can.onexport.content(can)+
+		// 	`\n_can_name = ""\nconsole.log("once")`
+		// eval(script)
 	},
 
 	_selectLine: function(event, can) {

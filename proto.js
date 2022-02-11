@@ -112,7 +112,7 @@ var tcp = {
 
 var code = {
 	VIMER: "vimer", INNER: "inner", FAVOR: "favor",
-	WEBPACK: "webpack",
+	AUTOGEN: "autogen", COMPILE: "compile", BINPACK: "binpack", WEBPACK: "webpack",
 }
 var wiki = {
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
@@ -146,6 +146,7 @@ var chat = {
 	ONSIZE: "onsize", ONTOAST: "ontoast", ONREMOTE: "onremote",
 	ONKEYDOWN: "onkeydown",
 
+	WEBSITE: "website",
 	HEAD: "head", LEFT: "left", MAIN: "main", AUTO: "auto", HIDE: "hide", FOOT: "foot",
 	HEADER: "header", FOOTER: "footer",
     ACTION_LAYOUT_FMT: `
