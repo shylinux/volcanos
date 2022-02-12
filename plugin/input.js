@@ -4,19 +4,15 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
 			case html.BUTTON: meta.action == ice.AUTO && target.click(); break
 		}
 	},
-	run: function(event, can) {
-		var title = can.sup._name+ice.SP+can.sup.Input([], true)
-		var toast = can.user.toast(can, "执行中...", title, -1)
-		can.run(event, [], function() { toast.close(), can.user.toastSuccess(can) })
-	},
+	run: function(event, can) { can.run(event) },
 	list: function(event, can) { can.run(event) },
 	back: function(event, can) { can.sup.onimport._back(can.sup) },
 	refresh: function(event, can) { can.run(event) },
 
-	onclick: function(event, can) {
+	onclick: function(event, can) { can.sup.request(event, {_toast: "执行中..."})
 		can.Conf(mdb.TYPE) == html.BUTTON && can.run(event, [ctx.ACTION, can.Conf(mdb.NAME)].concat(can.sup.Input()))
 	},
-	onchange: function(event, can) {
+	onchange: function(event, can) { can.sup.request(event, {_toast: "执行中..."})
 		if (can.Conf(mdb.TYPE) == html.SELECT) { can.run(event) }
 	},
 	onkeydown: function(event, can) { can.onkeymap.input(event, can, event.target)

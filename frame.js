@@ -62,12 +62,14 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 			return can.base.isFunc(cb) && cb(msg)
 		}
 
-		if (msg.Option("_toast")) { var toast = can.user.toast(can, msg.Option("_toast"), "", -1) }
+		var toast; if (msg.Option("_toast")) { can.core.Timer(1000, function() {
+			toast = toast||can.user.toast(can, msg.Option("_toast"), msg._can._name, -1)
+		}) }
 		var names = msg.Option("_names")||panel._names||((can.Conf("iceberg")||"/chat/")+panel._name)
 		can.onengine.signal(can, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
 		can.misc.Run(event, can, {names: names, daemon: can.core.Keys(can.ondaemon._list[0], msg._daemon)}, cmds, function(msg) {
-			Volcanos.meta.pack[key] = msg, delete(msg._handle), delete(msg._toast), can.base.isFunc(cb) && cb(msg)
-			toast && toast.close()
+			Volcanos.meta.pack[key] = msg, delete(msg._handle), can.base.isFunc(cb) && cb(msg)
+			toast && toast.close(), toast = true, delete(msg._toast)
 		})
 	},
 

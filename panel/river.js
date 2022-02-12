@@ -171,7 +171,7 @@ Volcanos("ondetail", {help: "菜单交互",
 	sublist: ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"],
 	_menus: [
 		["create", "创建群组", "添加应用", "添加工具", "添加设备", "创建空间"],
-		["share", "共享群组", "共享应用", "共享工具", "共享主机", "访问空间"],
+		["share", "共享群组", "共享应用", "共享工具", "下载应用", "访问空间"],
 	],
 
 	"river": function(event, can) { can.onmotion.toggle(can, can._target), can.onlayout._init(can) },
@@ -207,10 +207,10 @@ Volcanos("ondetail", {help: "菜单交互",
 			})
 		})
 	},
-	"共享主机": function(event, can, button, river, storm) {
+	"下载应用": function(event, can, button, river, storm) {
 		can.run(event, [ctx.ACTION, aaa.INVITE], function(msg) {
 			can.user.toast(can, {
-				title: "共享主机", duration: -1, width: -300,
+				title: "下载应用", duration: -1, width: -300,
 				content: msg.Result(), action: [cli.CLOSE],
 			})
 		})
