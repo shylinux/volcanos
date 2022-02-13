@@ -15,6 +15,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.onimport._display(can, can.ui.display)
 		can.base.isFunc(cb) && cb(msg)
 
+		can.page.style(can, can.ui.project, html.MIN_HEIGHT, can.ConfHeight())
+		can.page.style(can, can.ui.content, html.MIN_HEIGHT, can.ConfHeight())
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
 		can.Conf("mode") == "simple"? can.onimport._simple(can): can.onimport.project(can, paths, function() {
 			can.onimport._toolkit(can, can.ui.toolkit), can.onimport._session(can, msg), can.onimport._keydown(can)

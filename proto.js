@@ -226,7 +226,7 @@ var html = {
 	OPACITY: "opacity",
 	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
 	SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
-	MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
+	MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
 	PLUGIN_MARGIN: 10, ACTION_HEIGHT: 29, ACTION_MARGIN: 200,
 	TOGGLE: "toggle",
 

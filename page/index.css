@@ -95,6 +95,8 @@ legend { box-shadow:4px 4px 20px 4px #626bd0; cursor:pointer; }
 fieldset { margin:0; border:0; padding:0; }
 fieldset>form.option { float:left; display:contents; }
 fieldset>form.option>div.item { float:left; margin-right:3px; }
+fieldset>form.option>div.item.select { background:none; }
+fieldset>form.option>div.item:hover { background:none; }
 fieldset>form.option>div.item>label { display:none; }
 fieldset>form.option>div.item input.args.char { width:20px; }
 fieldset>form.option>div.item input.args.tiny { width:40px; }
@@ -109,6 +111,8 @@ fieldset>form.option>div.item.textarea { clear:both; margin-top:4px; }
 
 fieldset>div.action { float:left; display:contents; }
 div.action>div.item { float:left; margin-right:3px; }
+fieldset>div.action>div.item.select { background:none; }
+fieldset>div.action>div.item:hover { background:none; }
 fieldset>div.action>div.item.space { width:10px; }
 fieldset div.action>div.item>label { display:none; }
 fieldset>div.action>div.tabs { float:left; margin:0; padding:4px; cursor:pointer; }
@@ -132,7 +136,7 @@ fieldset.story>legend { display:block; padding:2px 20px; }
 fieldset.story>div.status { border-top:1px solid darkcyan; }
 fieldset.float { position:absolute; z-index:10; background-color:#023531cf; padding:0px; margin:0px; }
 fieldset.float>legend { float:left; }
-fieldset.float>div.action { display:block; float:none; height:2rem; overflow:auto; }
+fieldset.float>div.action { display:block; float:none; height:2.3rem; overflow:auto; }
 fieldset.float table { color:white; }
 
 fieldset.output { margin:0; padding:0; }
@@ -243,10 +247,10 @@ body.white table.content tr:hover { background-color:green; }
 body.white fieldset.Action fieldset.plugin legend:hover { background-color:#6ee4e4; }
 body.print fieldset.River>div.output div.item.select { background-color:white; border:solid 2px red; }
 
-body.mobile select { font-size:1.4rem; height:1.8rem; }
-body.mobile legend { font-size:1.5rem; }
+body.mobile legend { font-size:1.4rem; }
 body.mobile input { font-size:1.2rem; }
-body.mobile input[type=text] { height:1.6rem; }
+body.mobile input[type=text] { height:2rem; padding-top:3px; }
+body.mobile select { font-size:1.4rem; height:2rem; margin-top:3px; }
 body.mobile fieldset.Header.head { width:-webkit-fill-available; }
 body.mobile fieldset.Header.head { background-color:#000000b8; font-size:2rem; height:3rem; position:fixed; top:0; }
 body.mobile fieldset.Header.head div.output { height:3rem; }
