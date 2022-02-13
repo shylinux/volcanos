@@ -116,7 +116,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, target) {
 		can.base.isFunc(cb) && cb()
 	},
-	_menus: [["setting", chat.BLACK, chat.WHITE, chat.PRINT, "webpack", "devpack", "toimage", "refresh"]],
+	_menus: [["setting", chat.BLACK, chat.WHITE, chat.PRINT, "webpack", "toimage"]],
 	_trans: {
 		"search": "搜索",
 		"create": "创建",
@@ -127,7 +127,6 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 		"white": "白色主题",
 		"print": "打印主题",
 		"toimage": "生成图片",
-		"refresh": "刷新页面",
 
 		"shareuser": "共享用户",
 		"setnick": "设置昵称",
@@ -184,7 +183,6 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 		})
 	},
 	toimage: function(event, can, button) { can.onmotion.toimage(event, can, document.title, document.body) },
-	refresh: function(event, can, button) { can.onlayout._init(can) },
 
 	carte: function(event, can, list, cb, trans) { can.user.carte(event, can, can.onaction, list, cb) },
 	share: function(event, can, args) {

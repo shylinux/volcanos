@@ -1,5 +1,5 @@
 fieldset.inner>div.action div.tabs {
-	border:solid 2px red; padding:2px;
+	border:solid 2px red; padding:2px; font-size:1.21rem;
 }
 fieldset.inner>div.action div.tabs.over {
 	background-color:blue;

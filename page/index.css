@@ -16,6 +16,9 @@ div.story { text-align:left; white-space:pre; }
 p.story {
 	clear:both;
 }
+div.story[data-type=spark][data-name=shell] {
+	clear:both;
+}
 div.story[data-type=spark] {
 	background-color:#2169a9a6; color:white;
 	box-shadow:4px 4px 10px 1px #626bd0;
