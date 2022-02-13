@@ -348,6 +348,9 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 				}
 				res = can.core.Value(can._conf, arguments[i], arguments[i+1])
 			}
+			if (res == undefined && key.indexOf("feature.") == -1) {
+				return can.Conf(can.core.Keys("feature", key))
+			}
 			return res
 		}, _conf: {},
 	}

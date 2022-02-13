@@ -56,8 +56,19 @@ fieldset.word br.story {
 }
 
 fieldset.word p.story {
-	white-space:pre;
+	/* white-space:pre; */
 }
+fieldset.word div.story[data-name=field]>div.menu {
+	float:left; width:120px;
+	overflow:auto;
+}
+fieldset.word div.story[data-name=field]>div.menu div.list {
+	padding-left:10px;
+}
+fieldset.word div.story[data-name=field]>div.list {
+	float:left;
+}
+
 fieldset.word p.story[data-name=inner] {
 	padding:4px 10px; margin:10px 0px;
 	background-color:#4b6c8a7a;

@@ -16,7 +16,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.base.isFunc(cb) && cb(msg)
 
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
-		can.onimport.project(can, paths, function() {
+		can.Conf("mode") == "simple"? can.onimport._simple(can): can.onimport.project(can, paths, function() {
 			can.onimport._toolkit(can, can.ui.toolkit), can.onimport._session(can, msg), can.onimport._keydown(can)
 			can.onmotion.delay(can, function() {
 				can.core.Next(files.slice(1), function(file, next) {
@@ -24,6 +24,10 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 				}, function() { can.onimport.tabview(can, paths[0], files[0]) })
 			})
 		})
+	},
+	_simple: function(can, target) {
+		can.Conf(html.HEIGHT, ""), can.ui.project._toggle()
+		can.page.ClassList.add(can, can._fields, "output")
 	},
 	_project: function(can, target) {
 		target._toggle = function(event) { can.onmotion.toggle(can, target), can.onimport.layout(can) }
@@ -165,6 +169,10 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		}, target)
 	},
 	layout: function(can) { var height = can.ConfHeight(), width = can.ConfWidth()
+		can.page.styleWidth(can, can.ui.profile_output, can.profile_size[can.onexport.keys(can)]||(width-can.ui.project.offsetWidth)/2)
+		can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth-26)
+
+		if (!height) { return }
 		can.page.style(can, can.ui.content, can.user.mod.isCmd? html.HEIGHT: html.MAX_HEIGHT, height)
 		if (can.ui.project.style.display != html.NONE) {
 			can.page.styleHeight(can, can.ui.project, can.ui.content.offsetHeight)
@@ -172,9 +180,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		if (can.user.mod.isCmd) {
 			can.page.styleHeight(can, can.ui.content, (can.ui.project.offsetHeight||height)-can.ui.display.offsetHeight)
 		}
-
-		can.page.styleWidth(can, can.ui.profile_output, can.profile_size[can.onexport.keys(can)]||(width-can.ui.project.offsetWidth)/2)
-		can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth-26)
 
 		if (can.page.ClassList.has(can, can._fields, "full")) {
 			can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight)

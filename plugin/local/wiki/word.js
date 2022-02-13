@@ -23,7 +23,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 
 		can.getActionSize(function(msg) { 
 			can.page.style(can, nav, html.HEIGHT, can.Conf(html.HEIGHT)+(can.user.mod.isCmd? msg.Option(html.MARGIN_Y): 0))
-			can.Conf(html.WIDTH, can.Conf(html.WIDTH)-nav.offsetWidth-(can.user.mod.isCmd? 10: 20))
+			can.Conf(html.WIDTH, can.Conf(html.WIDTH)-nav.offsetWidth-(can.user.mod.isCmd? 10: 20)-10)
 			can.page.Modify(can, can._output, {style: kit.Dict(
 				html.HEIGHT, can.sup._navmenu.offsetHeight, html.MAX_WIDTH, can.Conf(html.WIDTH),
 				html.FLOAT, html.LEFT, html.CLEAR, html.NONE
@@ -41,6 +41,47 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.user.mod.isCmd && target.tagName == "H1" && can.user.title(data.text)
 	},
 	spark: function(can, data, target) {
+		if (data[mdb.NAME] == chat.FIELD) {
+			function deep(text) { var d = 0
+				for (var i = 0; i < text.length; i++) {
+					switch (text[i]) {
+						case "\t": d += 4; break
+						case " ": d++; break
+						default: return d
+					}
+				}
+				return d
+			}
+			var list = []; can.core.List(target.innerText.split(ice.NL), function(line) { var _deep = deep(line)
+				while (list.length > 0) { if (_deep <= list[list.length-1]._deep) { list.pop() } else { break } }
+				var ls = can.core.Split(line), item = {_deep: _deep, meta: {index: ls[0], name: ls[1], args: ls.slice(2)}, list: []}
+				if (list.length > 0) { list[list.length-1].list.push(item) } list.push(item)
+			})
+
+			var first; function show(item, index, target, output) {
+				var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.meta.name||item.meta.index], onclick: function(event) {
+					if (ui.list.innerText) { return can.onmotion.toggle(can, ui.list) }
+					can.onmotion.select(can, view.menu, html.DIV_ITEM, event.target)
+					if (can.onmotion.cache(can, function() { return index }, output)) { return }
+					can.core.List(item.list, function(item) {
+						can.onappend.plugin(can, item.meta, function(sub) {
+							sub.run = function(event, cmds, cb, silent) {
+								can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, item.meta.index], cmds), cb, true)
+							}
+							sub.ConfWidth(item.meta.width = can.ConfWidth()-165)
+							sub.ConfHeight(item.meta.height = can.ConfHeight()-300)
+							can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth()-2*html.PLUGIN_MARGIN)
+							can.page.style(can, sub._status, html.MAX_WIDTH, sub.ConfWidth()-2*html.PLUGIN_MARGIN)
+						}, output)
+					})
+				}}, {view: html.LIST}])
+				can.core.List(item.list, function(item) { item.list.length > 0 && show(item, can.core.Keys(index, item.meta.index), ui.list, output) })
+				ui.list.innerText == "" && (first = first||ui.item)
+			}
+
+			var view = can.page.Appends(can, target, [{view: html.MENU}, {view: html.LIST}])
+			return show(list[0], list[0]._index, view.menu, view.list), first.click()
+		}
 		if (data[mdb.NAME] == html.INNER) { return can.onmotion.copy(can, target) }
 		can.page.Select(can, target, html.A, function(item) { can.onmotion.link(can, item) })
 		can.page.Select(can, target, html.SPAN, function(item) { can.onmotion.copy(can, item) })
@@ -62,8 +103,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 			sub.run = function(event, cmds, cb, silent) {
 				can.run(event, can.misc.concat(can, [ctx.ACTION, chat.STORY, data.type, data.name, data.text], cmds), cb, true)
 			}
-			sub.Conf(html.HEIGHT, can.Conf(html.HEIGHT))
-			sub.Conf(html.WIDTH, item.width = (width||can.Conf(html.WIDTH))-20)
+			sub.ConfHeight(can.ConfHeight())
+			sub.ConfWidth(item.width = (width||can.ConfWidth())-20)
 
 			can.core.Value(item, "auto.cmd") && can.core.Timer300ms(function() {
 				var msg = sub.request({}, can.core.Value(item, "opts")); msg.Option(ice.MSG_HANDLE, ice.TRUE)
@@ -90,7 +131,8 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 		},
 	}, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: [],
+Volcanos("onaction", {help: "控件交互", list: ["view"],
+	_trans: {view: "视图"},
 	play: function(event, can) { var list = [], current = []
 		can.page.Select(can, can._output, wiki.ITEM, function(item) {
 			switch (item.tagName) {
@@ -140,7 +182,13 @@ Volcanos("onaction", {help: "控件交互", list: [],
 			})
 		}, document.body)
 	},
-
+	view: function(event, can) {
+		if (can._height) {
+			can.page.styleHeight(can, can._target, can._height), can.page.styleHeight(can, can.sup._navmenu, can._height), delete(can._height)
+		} else { can._height = can.page.styleHeight(can, can._target)
+			can.page.styleHeight(can, can._target, ""), can.page.styleHeight(can, can.sup._navmenu, "")
+		}
+	},
 })
 Volcanos("ondetail", {help: "交互操作", list: ["删除"], _init: function(can, msg, list, cb, target) {
 	},
