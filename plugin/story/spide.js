@@ -178,13 +178,11 @@ Volcanos("ondetail", {help: "用户交互", list: [],
 	},
 	figure: function(can, sub, msg, cb) {
 		can.getActionSize(function(left, top, width, height) { left = left||0
-			var top = 120, margin = 20; if (can.user.isMobile) { margin = 0
-				top = can.user.isLandscape()? 24: 48
-			}
+			var top = 120; if (can.user.isMobile) { top = can.user.isLandscape()? 24: 48 }
 			if (height > window.innerHeight) { height = window.innerHeight-top }
-			can.onmotion.move(can, sub._target, {position: html.FIXED, left: left+margin, top: top})
+			can.onmotion.move(can, sub._target, {position: html.FIXED, left: left, top: top})
 			sub.ConfHeight(height-top-2*html.ACTION_HEIGHT), sub.ConfWidth(width)
-			can.page.style(can, sub._output, html.MAX_WIDTH, width)
+			can.page.style(can, sub._output, html.MAX_WIDTH)
 			can.base.isFunc(cb) && cb(msg)
 		})
 	},
