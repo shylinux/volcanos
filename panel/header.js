@@ -145,7 +145,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 		can.user.isLocalFile? init(): can.run({}, [chat.CHECK], function(msg) {
 			can.Conf(aaa.USERNICK, msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))? init():
 				msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)):
-				can.user.login(can, init, msg.Option(aaa.LOGIN))
+				can.user.login(can, init, msg.Option(aaa.LOGIN), msg.Option("login.dev"))
 		})
 	},
 	onstorm_select: function(can, msg, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },

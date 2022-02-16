@@ -1,17 +1,16 @@
 _can_name = "/frame.js"
 Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta, list, cb, target) {
-
-	can.page.Select(can, document.body, "iframe", function(item) {
-		can.page.Remove(can, item)
-	})
 		can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]
 			return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb)
 		}
-		if (can.user.isExtension) { Volcanos.meta.args = can.base.Obj(localStorage.getItem(ctx.ARGS), {}) }
+
 		if (can.misc.Search(can, ice.MSG_SESSID)) {
 			can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID))
 			return can.misc.Search(can, ice.MSG_SESSID, "") 
 		}
+
+		if (can.user.isExtension) { Volcanos.meta.args = can.base.Obj(localStorage.getItem(ctx.ARGS), {}) }
+		can.page.Select(can, target, html.IFRAME, function(item) { can.page.Remove(can, item) })
 
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
 			can.onappend._init(can, can.base.Copy(item, can.core.Value(can._root, [chat.RIVER, item.name])), item.list, function(panel) {
@@ -515,7 +514,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 			layout.right = 0, layout.left = ""
 		}
 		if (top+target.offsetHeight>window.innerHeight-32) {
-			layout.bottom = window.innerHeight - event.clientY+event.offsetY-(right? 32: 32), layout.top = ""
+			layout.bottom = window.innerHeight - event.clientY+event.offsetY, layout.top = ""
 			if (right) { layout.bottom -= target.offsetHeight }
 		}
 		return can.page.style(can, target, layout), can.onmotion.move(can, target, layout), layout

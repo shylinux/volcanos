@@ -137,7 +137,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 			sub.page.style(sub, sub._output, html.MAX_WIDTH, sub.ConfWidth())
 			sub.select = function() { return sub._legend.click(), sub }
 
-			var status = can.user.mod.isCmd? can._status: can.ui.toolkit.status
+			// var status = can.user.mod.isCmd? can._status: can.ui.toolkit.status
+			var status = can._status
 			status.appendChild(sub._legend), sub._legend.onclick = function(event) {
 				if (can.page.Select(can, status, ice.PT+html.SELECT)[0] == event.target) {
 					can.page.ClassList.del(can, event.target, html.SELECT)
