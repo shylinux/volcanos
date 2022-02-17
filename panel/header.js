@@ -171,8 +171,10 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 				can.core.List(["_event", "_can", "_xhr", ice.MSG_SESSID, ""], function(key) { delete(msg[key]) })
 			})
 			var msg = can.request(event, {
-				name: meta.name, content: JSON.stringify(Volcanos.meta.pack),
+				topic: can._topic, layout:  can.getAction(chat.LAYOUT),
 				river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM),
+				name: meta.name, content: JSON.stringify(Volcanos.meta.pack),
+				args: "name,topic,layout,river,storm",
 			})
 
 			var toast = can.user.toast(can, "打包中...", code.WEBPACK, 1000000)

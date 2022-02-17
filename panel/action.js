@@ -1,4 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) {
+		can.onaction.layout(can, can.misc.SearchOrConf(can, chat.LAYOUT)||Volcanos.meta.args.layout||"auto", true)
 		var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) {
 			item.height = can.Conf(html.HEIGHT)-can.Conf(html.MARGIN_Y)
@@ -132,7 +133,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 			return key
 		}, can._action, can._output)) {
 			var conf = can.core.Value(can._root, can.core.Keys(chat.RIVER, river, chat.STORM, storm))||{}
-			can.onaction.layout(can, conf.layout||can.misc.SearchOrConf(can, chat.LAYOUT)||"auto", true)
+			can.onaction.layout(can, conf.layout||can.misc.SearchOrConf(can, chat.LAYOUT)||Volcanos.meta.args.layout||"auto", true)
 			return
 		}
 
@@ -146,7 +147,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 	onsize: function(can, msg, height, width) { can.Conf({height: height, width: width}) },
 
 	help: function(can, button) { can.user.open("/help/"+button+".shy") },
-	layout: function(can, button, slient) {
+	layout: function(can, button, silent) {
 		if (button == "toimage") {
 			can.onmotion.toimage(event, can, document.title, can._output)
 			return
@@ -167,7 +168,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 				can.getActionSize(function(height, width) { var m = parseInt(data.m)||2, n = parseInt(data.n)||2
 					can.page.css(can.base.replaceAll(chat.ACTION_LAYOUT_FMT, "_width", (width-(4*m+1)*html.PLUGIN_MARGIN)/m+"px", "_height", (height-(4*n+1)*html.PLUGIN_MARGIN)/n+"px"))
 				})
-			}, slient)
+			}, silent)
 		}
 		can.onlayout._init(can)
 	},
