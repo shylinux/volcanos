@@ -155,7 +155,10 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 		can.page.ClassList.del(can, can._target, can.Conf(chat.LAYOUT))
 		can.page.ClassList.add(can, can._target, can.Conf(chat.LAYOUT, button))
 
-		if (button == "tabs") {
+		if (button == "auto") {
+			can.Conf(chat.LAYOUT, "")
+
+		} else if (button == "tabs") {
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)
 			can.onmotion.select(can, can._action, html.DIV_TABS, 0)
 		} else if (button == "free") {

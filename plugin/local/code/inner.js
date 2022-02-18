@@ -15,7 +15,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.onimport._display(can, can.ui.display)
 		can.base.isFunc(cb) && cb(msg)
 
-		if (can.page.ClassList.has(can, can._fields, chat.FLOAT)) {
+		if (can.page.ClassList.has(can, can._fields, chat.FLOAT) || can.page.ClassList.has(can, can._fields, chat.PLUGIN)) {
 			can.page.style(can, can.ui.project, html.MIN_HEIGHT, can.ConfHeight())
 			can.page.style(can, can.ui.content, html.MIN_HEIGHT, can.ConfHeight())
 		}

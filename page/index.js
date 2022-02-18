@@ -94,7 +94,7 @@ Volcanos({name: "chat", panels: [
 		]},
 		release: {name: "发布 release", index: [
 			"web.code.install", "web.code.upgrade", "web.code.publish", "web.code.compile", "web.code.autogen", "web.code.binpack", "web.code.webpack",
-			"web.code.git.server",
+			"web.code.git.status", "web.code.git.server",
 		]},
 		research: {name: "测试 research", index: [
 			"web.code.favor", "web.code.bench", "web.code.pprof",
