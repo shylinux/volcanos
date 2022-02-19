@@ -1,13 +1,14 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
+			var height = msg.Option(html.HEIGHT)||can.ConfHeight()
 			can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
 			can.onmotion.clear(can), can.onimport._show(can, msg)
-			var r = can.ConfHeight()/2-20, margin = 20; can.svg.Val(html.WIDTH, 2*(r+margin)), can.svg.Val(html.HEIGHT, 2*(r+margin))
+			var r = height/2-20, margin = 20; can.svg.Val(html.WIDTH, 2*(r+margin)), can.svg.Val(html.HEIGHT, 2*(r+margin))
 			can._args = can.base.Copy({field: "value"}, can.base.ParseURL(can._display))
 			can.onimport._draw(can, msg, can._args.field, r+margin, r+margin, r, margin, 0)
 			can.onmotion.clear(can, can.ui.project), can.onappend.table(can, msg, null, can.ui.project)
 			can.onmotion.hidden(can, can.ui.project, true)
-			var rest = can.ConfWidth()-can.ConfHeight()
+			var rest = can.ConfWidth()-height
 			can.page.Modify(can, can.ui.project, {style: {"max-width": rest}})
 			can.page.Select(can, can.ui.project, html.TR, function(tr, index) {
 				can.page.Modify(can, tr, {onmouseenter: function(event) {

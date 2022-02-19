@@ -31,7 +31,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 		msg.Table(function(item) { can.onappend._plugin(can, item, {arg: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
 			var opt = can.base.Obj(item[ice.OPT], [])
 			sub.Conf(html.HEIGHT, can.Conf(html.HEIGHT))
-			sub.Conf(html.WIDTH, can.Conf(html.WIDTH))
+			sub.Conf(html.WIDTH, can.Conf(html.WIDTH)-4*html.PLUGIN_MARGIN)
 			sub.run = function(event, cmds, cb, silent) {
 				var res = can.request(event, can.Option())
 				for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
@@ -73,7 +73,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 })
 Volcanos("onaction", {help: "交互操作", list: [
 		"共享工具", "切换全屏", "打开链接", "生成链接", "生成图片", "生成脚本", "刷新数据", "刷新页面", [
-			"其它", "清空参数", "复制数据", "下载数据", "清空数据", "删除工具", "摄像头",
+			"其它", "清空参数", "复制数据", "下载数据", "清空数据", "删除工具", "打包页面", "摄像头",
 		],
 	], _init: function(can, msg, list, cb, target) {},
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input([], true))) },
@@ -124,6 +124,7 @@ Volcanos("onaction", {help: "交互操作", list: [
 		can.user.copy(event, can, list[0])
 	},
 	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
+	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
 	"刷新页面": function(event, can) {
 		var sub = can.core.Value(can._outputs, "-1"), msg = sub._msg
 		can.core.CallFunc([sub, chat.ONIMPORT, "_init"], {can: sub, msg: msg, list: msg.result||msg.append||[], cb: function(msg) {

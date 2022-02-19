@@ -86,19 +86,6 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, cb, t
 			can.onmotion.hidden(can, can._target)
 		}
 
-		can.onengine.plugin(can, "info", shy("信息", {}, ["text", "list", "back"], function(msg, cmds) {
-			msg.Echo(JSON.stringify(can))
-		}))
-		can.onengine.plugin(can, "log", shy("日志", {}, ["text", "list", "back"], function(msg, cmds) {
-			console.log(cmds[0])
-			msg.Option(ice.MSG_DISPLAY, "/plugin/story/pie.js")
-		}))
-		can.onengine.plugin(can, "pie", shy("比例图", {}, ["list", "back"], function(msg, cmds) {
-			msg.Option(ice.MSG_DISPLAY, "/plugin/story/pie.js")
-			msg.Push("value", 200)
-			msg.Push("value", 300)
-			msg.Push("value", 400)
-		}))
 		can.base.isFunc(cb) && cb()
 	},
 	_trans: {"river": "菜单"},

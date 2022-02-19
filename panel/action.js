@@ -84,6 +84,21 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, p
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, target) {
 		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+2*html.ACTION_HEIGHT+html.ACTION_MARGIN)
 		can.Conf(html.MARGIN_X, 4*html.PLUGIN_MARGIN)
+
+		can.onengine.plugin(can, "info", shy("信息", {}, ["text", "list", "back"], function(msg, cmds) {
+			msg.Echo(JSON.stringify(can))
+		}))
+		can.onengine.plugin(can, "log", shy("日志", {}, ["text", "list", "back"], function(msg, cmds) {
+			console.log(cmds[0])
+		}))
+		can.onengine.plugin(can, "pie", shy("比例图", {}, ["list", "back"], function(msg, cmds) {
+			msg.Option(ice.MSG_DISPLAY, "/plugin/story/pie.js")
+			msg.Push("value", 200)
+			msg.Push("value", 300)
+			msg.Push("value", 400)
+		}))
+		can.onengine.plugin(can, "can.code.inner.plugin", shy("插件", {}, [{type: "button", name: "list", action: "auto"}, "back"], function(msg, cmds) {}))
+
 		target.ontouchstart = function(event) {
 			can.onengine.signal(can, "onaction_touch", can.request(event))
 		}, can.base.isFunc(cb) && cb()

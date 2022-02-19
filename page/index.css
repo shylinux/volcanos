@@ -127,16 +127,16 @@ fieldset>div.output td.project div.project div.item { padding:2px 10px; text-ali
 fieldset>div.output td.project div.project div.list { margin-left:10px; }
 fieldset>div.output td.profile { background-color:#71909c91; }
 fieldset>div.output td.profile div.profile { overflow:auto; }
-fieldset>div.status { clear:both; }
-fieldset>div.status>div.item { float:left; padding:4px; height:18px; }
+fieldset div.status { clear:both; }
+fieldset div.status>div.item { float:left; padding:4px; height:18px; }
 
 fieldset.panel>legend { display:none; }
 fieldset.plugin { margin:10px; padding:10px; background-color:#061c3c9e; box-shadow:2px 2px 10px 4px #626bd0; }
 fieldset.plugin>div.action { float:none; overflow:auto; }
-fieldset.plugin>div.status { border-top:1px solid darkcyan; }
+fieldset.plugin div.status { border-top:1px solid darkcyan; }
 
 fieldset.story>legend { display:block; padding:2px 20px; }
-fieldset.story>div.status { border-top:1px solid darkcyan; }
+fieldset.story div.status { border-top:1px solid darkcyan; }
 fieldset.float { position:absolute; z-index:10; background-color:#023531cf; padding:0px; margin:0px; }
 fieldset.float>legend { float:left; }
 fieldset.float>div.action { display:block; float:none; height:2.3rem; overflow:auto; }
@@ -146,7 +146,7 @@ fieldset.output { margin:0; padding:0; }
 fieldset.output>legend { display:none; }
 fieldset.output>form.option { display:none; }
 fieldset.output>div.action { display:none; }
-fieldset.output>div.status { display:none; }
+fieldset.output div.status { display:none; }
 fieldset.output div.toggle { display:none; }
 
 fieldset.input { position:fixed; z-index:10; background-color:#0d4142a6; top:32px; }
@@ -188,8 +188,8 @@ body>div.upload input[type=file] { width:240px; }
 textarea { tab-size:2; }
 input, select, option, table.content, div.item, div.code, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
 legend { font-size:1.2rem; }
-/* fieldset>div.status>div.item>label { font-size:0.6rem; color:#bdb8b8e0; } */
-fieldset>div.status>div.item>label { font-size:0.6rem; }
+/* fieldset div.status>div.item>label { font-size:0.6rem; color:#bdb8b8e0; } */
+fieldset div.status>div.item>label { font-size:0.6rem; }
 body>div.toast div.title { color:#cae850; }
 body>div.toast div.duration { color:gray; }
 
@@ -220,8 +220,8 @@ body.white table td>input[type=button][value=启动] { background-color:#52ce78;
 body.white table td>input[type=button][name=create] { background-color:blue; }
 body.white table td>input[type=button][name=remove] { background-color:red; }
 
-/* body.white fieldset>div.status>div.item>label { font-size:0.6rem; color:#cefbfbe0; } */
-body.white fieldset>div.status>div.item>label { font-size:0.6rem; }
+/* body.white fieldset div.status>div.item>label { font-size:0.6rem; color:#cefbfbe0; } */
+body.white fieldset div.status>div.item>label { font-size:0.6rem; }
 body.white fieldset.Action { color:black; }
 body.white fieldset.Action>div.action { color:white; }
 body.white fieldset.Action>div.action div.item { height:21px; }

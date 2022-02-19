@@ -1,8 +1,6 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target) {
-		can.onengine.plugin(can, "can.code.inner.plugin", shy("插件", {}, [{type: "button", name: "list", action: "auto"}, "back"], function(msg, cmds) {
-			msg.Echo("can.code.inner.plugin")
-			msg.result = msg.result.concat(cmds||[])
-		}))
+		if (!can.user.isMobile) { can.page.style(can, can._action, html.HEIGHT, "31", html.DISPLAY, "block") }
+		can.onengine.plugin(can, "can.code.inner.plugin", shy("插件", {}, [{type: "button", name: "list", action: "auto"}, "back"], function(msg, cmds) {}))
 
 		var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
 		var files = can.core.Split(can.Option(nfs.FILE), ice.FS); can.Option(nfs.FILE, files[0])
@@ -16,8 +14,10 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.base.isFunc(cb) && cb(msg)
 
 		if (can.page.ClassList.has(can, can._fields, chat.FLOAT) || can.page.ClassList.has(can, can._fields, chat.PLUGIN)) {
-			can.page.style(can, can.ui.project, html.MIN_HEIGHT, can.ConfHeight())
-			can.page.style(can, can.ui.content, html.MIN_HEIGHT, can.ConfHeight())
+			if (!can.user.mod.isCmd) {
+				can.page.style(can, can.ui.project, html.MIN_HEIGHT, can.ConfHeight())
+				can.page.style(can, can.ui.content, html.MIN_HEIGHT, can.ConfHeight())
+			}
 		}
 
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
@@ -32,42 +32,50 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 	},
 	_simple: function(can, target) {
 		can.Conf(html.HEIGHT, ""), can.ui.project._toggle()
-		can.page.ClassList.add(can, can._fields, "output")
+		can.page.ClassList.add(can, can._fields, chat.OUTPUT)
 	},
 	_project: function(can, target) {
 		target._toggle = function(event) { can.onmotion.toggle(can, target), can.onimport.layout(can) }
 	},
 	_profile: function(can, target) {
 		var ui = can.page.Append(can, target, [{view: html.ACTION}, {view: html.OUTPUT}]); can.ui.profile_output = ui.output
-		var action = can.onappend._action(can, [cli.SHOW, cli.CLEAR, mdb.PLUGIN, cli.CLOSE, "size"], ui.action, kit.Dict(
-			cli.SHOW, function(event) { can.onaction["展示"](event, can) },
-			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
+		var action = can.onappend._action(can, [], ui.action, kit.Dict(
 			cli.CLOSE, function(event) { can.onmotion.hidden(can, target), can.onimport.layout(can) },
-			"size", function(event) {
-				can.user.input(event, can, ["size"], function(event, button, data) {
-					can.profile_size[can.onexport.keys(can)] = can.ConfWidth()*parseInt(data.size)/100
-					can.onaction["展示"](event, can)
-				})
-			},
+			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
+			cli.SHOW, function(event) { can.onaction["展示"](event, can) },
+			"加载", function(event) { can.onaction["加载"](event, can), can.user.ToastSuccess(can) },
 			mdb.PLUGIN, function(event) {
 				can.user.input(event, can, [ctx.INDEX], function(event, button, data) {
 					can.onimport.plugin(can, data, ui.output)
 				})
-			}
+			},
+			html.WIDTH, function(event) {
+				can.user.input(event, can, [{name: html.WIDTH, value: 50}], function(event, button, data) {
+					can.profile_size[can.onexport.keys(can)] = can.ConfWidth()*parseInt(data.width)/100
+					can.onaction["展示"](event, can)
+				})
+			},
 		))
 		target._toggle = function(event, show) { action[show? cli.SHOW: cli.CLOSE](event) }
 	},
 	_display: function(can, target) {
-		var ui = can.page.Append(can, target, [{view: html.ACTION}, {view: html.OUTPUT}, {}]); can.ui.display_output = ui.output
-		var action = can.onappend._action(can, [cli.EXEC, cli.CLEAR, mdb.PLUGIN, cli.CLOSE], ui.action, kit.Dict(
-			cli.EXEC, function(event) { can.onaction["执行"](event, can) },
-			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
+		var ui = can.page.Append(can, target, [{view: html.ACTION}, {view: html.OUTPUT}, {view: html.STATUS}])
+		can.ui.display_output = ui.output, can.ui.display_status = ui.status
+		var action = can.onappend._action(can, [], ui.action, kit.Dict(
 			cli.CLOSE, function(event) { can.onmotion.hidden(can, target), can.onimport.layout(can) },
+			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
+			cli.EXEC, function(event) { can.onaction["执行"](event, can) },
 			mdb.PLUGIN, function(event) {
 				can.user.input(event, can, [ctx.INDEX], function(event, button, data) {
 					can.onimport.plugin(can, data, ui.output)
 				})
-			}
+			},
+			html.HEIGHT, function(event) {
+				can.user.input(event, can, [{name: html.HEIGHT, value: 50}], function(event, button, data) {
+					can.profile_size[can.onexport.keys(can)] = can.ConfHeight()*parseInt(data.height)/100
+					can.onaction["执行"](event, can)
+				})
+			},
 		))
 		target._toggle = function(event, show) { action[show? cli.EXEC: cli.CLOSE](event) }
 	},
@@ -125,8 +133,9 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.onmotion.hidden(can, can.ui.profile, true), can.onimport.layout(can)
 	},
 	display: function(can, msg) {
+		var height = can.profile_size[can.onexport.keys(can)]||{sh: can.ConfHeight()/2}[can.parse]||can.ConfHeight()/4
 		msg && can.onimport.process(can, msg, can.ui.display_output, can.ConfWidth())
-		can.page.style(can, can.ui.display_output, html.MAX_HEIGHT, can.ConfHeight()/4)
+		can.page.style(can, can.ui.display_output, html.MAX_HEIGHT, height)
 		can.onmotion.hidden(can, can.ui.display, true), can.onimport.layout(can)
 	},
 	toolkit: function(can, meta, cb) {
@@ -156,7 +165,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.onmotion.clear(can, target)
 		if (msg.Option("_process") == "_field") {
 			msg.Table(function(meta) { meta.display = msg.Option("_display")
-				delete(Volcanos.meta.cache[meta.display])
+				// delete(Volcanos.meta.cache[meta.display])
 				can.onimport.plugin(can, meta, target, function(sub) {
 					can.onmotion.focus(can, can.page.Select(can, sub._option, html.OPTION_ARGS)[0])
 					width && sub.ConfWidth(width)
@@ -184,7 +193,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 			can.page.styleHeight(can, can.ui.project, can.ui.content.offsetHeight)
 		}
 		if (can.user.mod.isCmd) {
-			can.page.styleHeight(can, can.ui.content, (can.ui.project.offsetHeight||height)-can.ui.display.offsetHeight)
+			can.page.styleHeight(can, can.ui.content, (can.ui.project.offsetHeight||height)
+				-can.ui.display.offsetHeight-(can.ui.display.style.display != html.NONE && can.ui.display_status.innerText? html.ACTION_HEIGHT: 0))
 		}
 
 		if (can.page.ClassList.has(can, can._fields, "full")) {
@@ -242,11 +252,15 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
 			})
 			return
 		}
-		can.onmotion.clear(can, can.ui.content)
 
+		can.onmotion.clear(can, can.ui.content)
 		function init(p) { can.max = 0, can.core.List(can.ls = msg.Result().split(ice.NL), function(item) {
 			can.onaction.appendLine(can, item)
-		}), can.onaction.selectLine(null, can, msg.Option(nfs.LINE)), can.base.isFunc(cb) && cb() }
+		}), can.onaction.selectLine(null, can, msg.Option(nfs.LINE)), can.base.isFunc(cb) && cb()
+			msg.Option(nfs.FILE).indexOf("website/") == 0 && can.onaction["展示"]({}, can)
+			p && p.render && can.onaction["展示"]({}, can)
+			p && p.engine && can.onaction["执行"]({}, can)
+		}
 
 		var p = can.onsyntax[can.parse]; !p? can.run({}, [ctx.ACTION, mdb.PLUGIN, can.parse, msg.Option(nfs.FILE), msg.Option(nfs.PATH)], function(msg) {
 			init(p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()))
@@ -317,9 +331,12 @@ Volcanos("onkeymap", {help: "导入数据", _init: function(can, msg, cb, target
 	}, _engine: {},
 })
 Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加", "插件", "扩展"],
-	"刷新": function(event, can) {
-		can.onimport.tabview(can, "src/", "main.go", "", function() {}, skip)
+	_trans: {width: "宽度", height: "高度", website: "网页"},
+	"加载": function(event, can) {
+		var file = "/require/shylinux.com/x/contexts/"+can.Option(nfs.PATH)+can.Option(nfs.FILE)
+		delete(Volcanos.meta.cache[file]), eval(`\n_can_name = "`+file+`"\n`+can.onexport.content(can)+`\n_can_name = ""\nconsole.log("once")`)
 	},
+	"刷新": function(event, can) { can.onimport.tabview(can, "src/", "main.go", "", function() {}, skip) },
 	"搜索": function(event, can) {
 		can.user.input(event, can, [mdb.NAME, [ctx.ACTION, nfs.TAGS, nfs.GREP, cli.MAKE]], function(event, button, data) {
 			can.ui.search.Update({}, [ctx.ACTION, data.action, data.name])
@@ -352,13 +369,15 @@ Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加",
 	"工具": function(event, can) { can.onmotion.toggle(can, can.ui.toolkit.fieldset) },
 	"执行": function(event, can) { can.onimport.display(can), can.request(event, {_toast: "执行中..."})
 		can.run(event, [ctx.ACTION, mdb.ENGINE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
-			can.onimport.display(can, msg)
+			can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.ui.display_status)
+			can.onimport.display(can, msg), can.onimport.layout(can) 
 		}, true)
 	},
 	"展示": function(event, can) { can.onimport.profile(can), can.request(event, {_toast: "渲染中..."})
 		if (can.Option(nfs.FILE).indexOf("website/") == 0) {
 			can.profile_size[can.onexport.keys(can)] = can.profile_size[can.onexport.keys(can)] || can.ConfWidth()*parseInt(70)/100
 		}
+		can.parse == "js" && can.onaction["加载"](event, can)
 		can.run(event, [ctx.ACTION, mdb.RENDER, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
 			can.onimport.profile(can, msg)
 		}, true)
@@ -490,7 +509,7 @@ Volcanos("onexport", {help: "导出数据", list: ["文件数", "解析器", "�
 		return (parseInt(index))+ice.PS+parseInt(total)+" = "+parseInt((index)*100/total)+"%"
 	},
 	content: function(can) {
-		return can.page.Select(can, can.ui.content, "td.text", function(item) { return item.innerText }).join(ice.NL)+ice.NL
+		return can.page.Select(can, can.ui.content, "td.text", function(item) { return item.innerText }).join(ice.NL)
 	},
 })
 

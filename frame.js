@@ -190,7 +190,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			})
 		}; can.core.Next(can.base.Obj(meta.inputs, can.core.Value(can, [chat.ONIMPORT, mdb.LIST])).concat(meta.type == chat.FLOAT? [{type: html.BUTTON, name: cli.CLOSE}]: []), add)
 	},
-	_action: function(can, list, action, meta) { meta = meta||can.onaction, action = action||can._action, can.onmotion.clear(can, action)
+	_action: function(can, list, action, meta) {
+		list = can.base.getValid(list, can.core.Item(meta))
+		meta = meta||can.onaction, action = action||can._action, can.onmotion.clear(can, action)
 		return can.core.List(can.base.Obj(list, can.core.Value(can, [chat.ONACTION, mdb.LIST])), function(item) { if (item == undefined) { return } can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
 			can.base.isString(item)? /*按键*/ {type: html.BUTTON, value: can.user.trans(can, item), onclick: function(event) {
 				var cb = meta[item]||meta["_engine"]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
@@ -212,6 +214,13 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 		if (can.base.isUndefined(msg._daemon)) {
 			can.base.isUndefined(can._daemon) && can.ondaemon._list[0] && (can._daemon = can.ondaemon._list.push(can)-1)
 			if (can._daemon) { msg._daemon = can._daemon }
+		}
+		if (meta.index.indexOf("can.") == 0) {
+			can.onengine._plugin(event, can, msg, can, can.misc.concat(can, [meta.index], cmds), function(msg) {
+				if (can.base.isFunc(cb)) { can.core.CallFunc(cb, {can: can, msg: msg}); return }
+				!silent && can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)||meta.display||meta.feature.display)
+			})
+			return
 		}
 
 		return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, "_outputs.-1")||{}; can._msg = msg, sub._msg = msg
@@ -341,6 +350,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			}
 
 			function run(cmds) { var msg = can.sup.request(event, line, can.Option())
+				return can.run(event, cmds, null, true)
 				return can.run(event, cmds, function(msg) { can.run() }, true)
 			}
 

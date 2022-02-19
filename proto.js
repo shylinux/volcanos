@@ -264,12 +264,13 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 		// 预加载
 		libs = []; for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
 			panel && (libs = libs.concat(panel.list = panel.list||["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
-		}; libs = libs.concat(Config.plugin, Config.main.list)
+		}; libs = libs.concat(Config.plugin, Config.main.list||[])
 
 		// 根模块
 		_can_name = "", name = Config.name||"chat", cb = can||function(can) {
 			can.onengine._init(can, can.Conf(Config), Config.panels, Config._init, can._target)
-		}, can = {_follow: name, _target: Config.target||document.body}, can._root = can
+		}
+		can = {_follow: name, _target: Config.target||meta.target}, can._root = can
 		for (var k in Config) { can[k] = Config[k] }
 	}
 
@@ -355,11 +356,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 		}, _conf: {},
 	}
 
-	can = can||{}; if (navigator.userAgent.indexOf("MSIE") > -1) {
-		for (var k in proto) { can[k] = proto[k] }
-	} else {
-		can.__proto__ = proto
-	}
+	can = can||{}, can.__proto__ = proto
 
 	if (_can_name) { // 加入缓存
 		meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can)
@@ -402,3 +399,29 @@ function can(tool) {
 	]})
 }
 
+try { if (global) {
+	global.kit = kit, global.ice = ice
+	global.ctx = ctx, global.cli = cli, global.web = web, global.aaa = aaa
+	global.mdb = mdb, global.ssh = ssh, global.nfs = nfs, global.tcp = tcp
+	global.code = code, global.wiki = wiki, global.chat = chat, global.team = team, global.mall = mall
+	global.svg = svg, global.html = html, global.lang = lang
+	global.shy = shy, global.Volcanos = Volcanos
+
+	Volcanos.meta._load = function(url, cb) { _can_name = url
+		switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
+			case nfs.JS: require(url), cb(Volcanos.meta.cache[_can_name]); break
+		}
+	}
+
+	Volcanos.meta._load(global.plugin, function(cache) {
+		Volcanos.meta.volcano = "./frame.js", Volcanos({libs: [
+			"./lib/base.js", "./lib/core.js", "./lib/misc.js", "./lib/page.js", // "./lib/user.js",
+		], panels: [], plugin: []}, function(can) { can.core.List(cache, function(item) { can[item._name] = item })
+			Volcanos.meta._load("./publish/client/nodejs/proto.js", function(cache) {
+				can.core.List(cache, function(item) { can.base.Copy(can[item._name]||{}, item) })
+				can.onimport._init(can, can.request(), function(msg) { console.log(ice.NL) }, null)
+			})
+		})
+	})
+} } catch (e) { console.log(e) }
+try { Volcanos.meta.target = document.body } catch (e) { }

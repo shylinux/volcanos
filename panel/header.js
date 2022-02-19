@@ -152,6 +152,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 	onsearchfocus: function(can) {
 		can.page.Select(can, can._output, "div.search input", function(target) { target.focus() })
 	},
+	onwebpack: function(can, msg) { can.onaction["webpack"](msg._event, can) },
 
 	title: function(event, can) {
 		var args = {}; can.core.List([chat.TITLE, chat.TOPIC, chat.LAYOUT], function(key) {

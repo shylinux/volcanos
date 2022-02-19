@@ -3,6 +3,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 			can.page.ClassList.add(can, can._fields, "inner")
 			can.onkeymap._build(can), can.onimport._input(can), can.onkeymap._plugin({}, can), can.base.isFunc(cb) && cb(msg)
 		}, target) }, function(can, name, sub) { name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
+			if (name == chat.ONACTION) { can._trans = can.base.Copy(can._trans||{}, sub._trans) }
 			if (name == chat.ONKEYMAP) {
 				can.base.Copy(can.onkeymap._mode, sub._mode)
 				can.core.Item(can.onkeymap._mode.normal, function(k, v) {
@@ -126,7 +127,6 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 	}, _engine: {},
 })
 Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.COMPILE, chat.WEBSITE],
-	_trans: {website: "网页"},
 	save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
 		can.run(event, [ctx.ACTION, nfs.SAVE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
 			can.user.toastSuccess(can)
@@ -153,14 +153,6 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 		can.user.input(event, can, [{name: nfs.FILE, value: "hi.txt"}], function(ev, btn, data, list, args) {
 			can.onimport.tabview(can, "src/", "website/"+list[0], "", function() {}, true)
 		})
-	},
-	"加载": function(event, can) {
-		var file = "/share/local/"+can.Option(nfs.PATH)+can.Option(nfs.FILE)
-		delete(Volcanos.meta.cache[file])
-		// var script = `\n_can_name = "`+file+`"\n`+
-		// 	can.onexport.content(can)+
-		// 	`\n_can_name = ""\nconsole.log("once")`
-		// eval(script)
 	},
 
 	_selectLine: function(event, can) {
