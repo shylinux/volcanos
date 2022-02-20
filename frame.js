@@ -94,8 +94,9 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 })
 Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name) { if (can.user.isLocalFile) { return }
 		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, "daemon")||name||""}, function(event, msg, cmd, arg) { if (!msg) { return }
+			var sub = can.ondaemon._list[msg.Option(ice.MSG_TARGET)]
 			can.base.isFunc(can.ondaemon[cmd])? can.core.CallFunc(can.ondaemon[cmd], {
-				can: can, msg: msg, cmd: cmd, arg: arg, cb: function() { msg.Reply() },
+				can: can, sub: sub, msg: msg, cmd: cmd, arg: arg, cb: function() { msg.Reply() },
 			}): can.onengine._search({}, can, msg, can, ["_search", cmd].concat(arg), function() { msg.Reply() })
 		})
 		can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { var meta = can.onengine.plugin.meta
@@ -113,10 +114,8 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
 		})
 	}, _list: [""],
 	pwd: function(can, msg, arg) { can.ondaemon._list[0] = arg[0] },
-	grow: function(can, msg, arg) {
-		var sub = can.ondaemon._list[msg.Option(ice.MSG_TARGET)]
-		sub.onimport._grow(sub, can.page.Color(arg.join("")))
-	},
+	refresh: function(can, msg, sub) { sub.Update() },
+	grow: function(can, msg, sub, arg) { can.onimport._grow(sub, can.page.Color(arg.join(""))) },
 	toast: function(can, msg, arg) { can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}) },
 	confirm: function(can, msg, arg) { if (can.user.confirm(arg[0])) { msg.Echo(ice.TRUE) } },
 })
