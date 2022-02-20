@@ -407,10 +407,12 @@ try { if (global) {
 	global.svg = svg, global.html = html, global.lang = lang
 	global.shy = shy, global.Volcanos = Volcanos
 
-	Volcanos.meta._load = function(url, cb) { _can_name = url
-		switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
-			case nfs.JS: require(url), cb(Volcanos.meta.cache[_can_name]); break
-		}
+	Volcanos.meta._load = function(url, cb) {
+		setTimeout(function() { if (Volcanos.meta.cache[url]) { return cb(Volcanos.meta.cache[url]) }
+			switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
+				case nfs.JS: require(_can_name = url), cb(Volcanos.meta.cache[url]); break
+			}
+		}, 100)
 	}
 
 	Volcanos.meta._load(global.plugin, function(cache) {
