@@ -129,6 +129,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.COMPILE, chat.WEBSITE],
 	save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
 		can.run(event, [ctx.ACTION, nfs.SAVE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
+			can.onimport.project(can, can.Option(nfs.PATH))
 			can.user.toastSuccess(can)
 		}, true)
 	},

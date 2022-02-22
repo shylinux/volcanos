@@ -349,6 +349,7 @@ Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加",
 	"打开": function(event, can) {
 		can.user.input(event, can, [nfs.FILE], function(event, button, data) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), data.file)
+			can.onimport.project(can, can.Option(nfs.PATH))
 		})
 	},
 	"添加": function(event, can) {
