@@ -1,3 +1,6 @@
+fieldset.inner.output.simple>legend {
+	display:block;
+}
 fieldset.inner>div.action div.tabs {
 	border:solid 2px red; padding:2px; font-size:1.21rem;
 }

@@ -1,23 +1,26 @@
-fieldset.plugin div.output div.item div.item {
+fieldset.plugin div.output.json div.item:hover {
+	background-color:#0000;
+}
+fieldset.plugin div.output.json div.item div.item {
 	border:solid 1px #0000000d;
 	border-left:dashed 1px lightblue;
 	margin-left:5px; padding-left:15px;
 	cursor:pointer;
 }
-fieldset.plugin div.output div.item div.item:hover {
+fieldset.plugin div.output.json div.item div.item:hover {
 	border:solid 1px red;
 }
-fieldset.plugin div.output div.item span.nonce {
-	color:lightblue;
+fieldset.plugin div.output.json div.item span.nonce {
+	color:#9cbeca4f;
 	cursor:pointer;
 }
-fieldset.plugin div.output div.item span.key {
+fieldset.plugin div.output.json div.item span.key {
 	color:yellow;
 }
-fieldset.plugin div.output div.item span.string {
+fieldset.plugin div.output.json div.item span.string {
 	color:magenta;
 }
-fieldset.plugin div.output div.item span.const {
+fieldset.plugin div.output.json div.item span.const {
 	color:cyan;
 }
 

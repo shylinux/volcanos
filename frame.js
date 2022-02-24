@@ -229,7 +229,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			!silent && can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)||meta.display||meta.feature.display)
 		})
 	},
-	_output: function(can, msg, display, output) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
+	_output: function(can, msg, display, output, action) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
 		Volcanos(display, {_follow: can.core.Keys(can._follow, display), _display: display, _target: output, _fields: can._target,
 			_option: can._option, _action: can._action, _output: can._output, _status: can._status, _legend: can._legend, _inputs: {},
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
@@ -237,7 +237,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			table.run = function(event, cmds, cb, silent) { var msg = can.request(event)
 				if (msg.RunAction(event, table, cmds)) { return }
 				return can.Update(event, can.Input(cmds, silent), cb, silent)
-			}, can._outputs.push(table), table.sup = can, table._msg = msg
+			}, can._outputs && can._outputs.push(table), table.sup = can, table._msg = msg
 
 			if (can.Conf(ctx.INDEX) == "can.code.inner.plugin" && table.onimport && table.onimport.list.length > 0) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: table.onimport.list})
@@ -245,8 +245,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
 			table._trans = can.base.Copy(table._trans||{}, can.core.Value(table, "onaction._trans"))
 			can.core.CallFunc([table, chat.ONIMPORT, "_init"], {can: table, msg: msg, list: msg.result||msg.append||[], cb: function(msg) {
-				table.onappend._action(table, msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION))
-				table.onappend._status(table, msg.Option(ice.MSG_STATUS))
+				action === false || table.onappend._action(table, msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), action)
+				action === false || table.onappend._status(table, msg.Option(ice.MSG_STATUS))
 			}, target: output})
 		})
 	},
@@ -307,7 +307,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
 				node[name] || (node[name] = can.page.Append(can, node[last], [{view: [html.ITEM, html.DIV, value+(index==array.length-1?"":split)], onclick: function(event) {
 					index < array.length - 1? can.onmotion.toggle(can, node[name]): can.base.isFunc(cb) && cb(event, item)
-				}}, {view: html.LIST, style: {display: html.NONE}}]).last)
+				}}, {view: html.LIST, style: {display: html.NONE}, _init: function(list) { item.expand && can.page.style(can, list, html.DISPLAY, html.BLOCK) }}]).last)
 			})
 		}); return node
 	},

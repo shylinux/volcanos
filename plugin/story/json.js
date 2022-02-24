@@ -1,6 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
-		can.onimport.show(can, can.base.Obj(msg.Result(), {}), target)
+		can.page.ClassList.add(can, target, "json")
+		can.onmotion.clear(can, target), can.base.isFunc(cb) && cb(msg)
+		can.onappend.table(can, msg), can.onimport.show(can, can.base.Obj(msg.Result(), {}), target)
 	},
 	show: function(can, data, target) {
 		function show(data, target, index, total) { var list

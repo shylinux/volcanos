@@ -1,5 +1,5 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target) {
-		if (!can.user.isMobile) { can.page.style(can, can._action, html.HEIGHT, "31", html.DISPLAY, "block") }
+		// if (!can.user.isMobile) { can.page.style(can, can._action, html.HEIGHT, "31", html.DISPLAY, "block") }
 		can.onengine.plugin(can, "can.code.inner.plugin", shy("插件", {}, [{type: "button", name: "list", action: "auto"}, "back"], function(msg, cmds) {}))
 
 		var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
@@ -12,13 +12,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.onimport._profile(can, can.ui.profile)
 		can.onimport._display(can, can.ui.display)
 		can.base.isFunc(cb) && cb(msg)
-
-		if (can.page.ClassList.has(can, can._fields, chat.FLOAT) || can.page.ClassList.has(can, can._fields, chat.PLUGIN)) {
-			if (!can.user.mod.isCmd) {
-				can.page.style(can, can.ui.project, html.MIN_HEIGHT, can.ConfHeight())
-				can.page.style(can, can.ui.content, html.MIN_HEIGHT, can.ConfHeight())
-			}
-		}
 
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
 		can.Conf("mode") == "simple"? can.onimport._simple(can): can.onimport.project(can, paths, function() {
@@ -33,6 +26,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 	_simple: function(can, target) {
 		can.Conf(html.HEIGHT, ""), can.ui.project._toggle()
 		can.page.ClassList.add(can, can._fields, chat.OUTPUT)
+		can.page.ClassList.add(can, can._fields, "simple")
 	},
 	_project: function(can, target) {
 		target._toggle = function(event) { can.onmotion.toggle(can, target), can.onimport.layout(can) }
@@ -104,14 +98,13 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 				}}, {view: html.LIST}]); list = ui.list
 				if (index > 0) { ui.item.click() }
 			}
-			can.run(can.request({}, {dir_root: path, dir_deep: true})._event, [ice.PWD], function(msg) {
-				can.onappend.tree(can, can._file = msg.Table(), nfs.PATH, ice.PS, function(event, item) {
+			can.run(can.request({}, {dir_root: path, dir_deep: true})._event, [ice.PWD], function(msg) { can._file = msg.Table()
+				can.core.List(can._file, function(item) { if (can.Option(nfs.FILE).indexOf(item.path) == 0) { item.expand = true } })
+				can.onappend.tree(can, can._file, nfs.PATH, ice.PS, function(event, item) {
 					can.onimport.tabview(can, path, item.path)
 				}, list), can.onimport.layout(can), can.Status("文件数", msg.Length()), next()
 			}, true)
-		}, function() {
-			can.base.isFunc(cb) && cb()
-		})
+		}, function() { can.base.isFunc(cb) && cb() })
 	},
 	tabview: function(can, path, file, line, cb, skip, skip2) { var key = can.onexport.keys(can, file, path)
 		if (!skip && can.tabview[key]) { can.user.mod.isCmd && can.user.title(path+file)
@@ -167,15 +160,15 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.onmotion.clear(can, target)
 		if (msg.Option("_process") == "_field") {
 			msg.Table(function(meta) { meta.display = msg.Option("_display")
-				// delete(Volcanos.meta.cache[meta.display])
-				can.onimport.plugin(can, meta, target, function(sub) {
+				can.onimport.plugin(can, meta, target, function(sub) { width && sub.ConfWidth(width)
 					can.onmotion.focus(can, can.page.Select(can, sub._option, html.OPTION_ARGS)[0])
-					width && sub.ConfWidth(width)
 				})
 			})
+		} else if (msg.Option("_display") != "") {
+			can.onappend._output(can, msg, msg.Option("_display"), target, false)
 		} else {
 			can.onappend.table(can, msg, null, target)
-			can.onappend.board(can, msg.Result(), target)
+			can.onappend.board(can, msg, target)
 		}
 	},
 	plugin: function(can, meta, target, cb) {
@@ -264,8 +257,14 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
 				p && p.render && can.onaction["展示"]({}, can)
 				p && p.engine && can.onaction["执行"]({}, can)
 			}
+			if (can.page.ClassList.has(can, can._fields, chat.FLOAT) || can.page.ClassList.has(can, can._fields, chat.PLUGIN)) {
+				if (!can.user.mod.isCmd) {
+					can.page.style(can, can.ui.project, html.MIN_HEIGHT, can.ConfHeight()-200)
+					can.page.style(can, can.ui.content, html.MIN_HEIGHT, can.ConfHeight()-200)
+				}
+			}
 		}
-
+		can.Conf("plug") && (can.onsyntax[can.parse] = can.Conf("plug"))
 		var p = can.onsyntax[can.parse]; !p? can.run({}, [ctx.ACTION, mdb.PLUGIN, can.parse, msg.Option(nfs.FILE), msg.Option(nfs.PATH)], function(msg) {
 			init(p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()))
 		}, true): init(p)
