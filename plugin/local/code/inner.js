@@ -2,7 +2,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		// if (!can.user.isMobile) { can.page.style(can, can._action, html.HEIGHT, "31", html.DISPLAY, "block") }
 		can.onengine.plugin(can, "can.code.inner.plugin", shy("插件", {}, [{type: "button", name: "list", action: "auto"}, "back"], function(msg, cmds) {
 			console.log("what")
-
 		}))
 
 		var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
@@ -15,6 +14,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.onimport._profile(can, can.ui.profile)
 		can.onimport._display(can, can.ui.display)
 		can.base.isFunc(cb) && cb(msg)
+		if (can.user.isMobile || !can.page.ClassList.has(can, can._fields, chat.PLUGIN)) { can.onmotion.hidden(can, can._action) }
 
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
 		can.Conf("mode") == "simple"? can.onimport._simple(can): can.onimport.project(can, paths, function() {
@@ -80,7 +80,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.ui.toolkit = can.onappend.field(can, "toolkit", {}, can._output)
 	},
 	_session: function(can, msg) {
-		if (can.user.isMobile || !can.page.ClassList.has(can, can._fields, chat.PLUGIN)) { return }
+		if (can.user.isMobile || !can.page.ClassList.has(can, can._fields, chat.PLUGIN)) { return can.onmotion.hidden(can, can._action) }
 		can.onimport.sess(can, "", function() { can.onimport.sess(can, {
 			plug: can.core.Split(msg.OptionOrSearch("plug")).reverse(),
 			exts: can.core.Split(msg.OptionOrSearch("exts")).reverse(),
