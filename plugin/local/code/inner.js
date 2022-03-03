@@ -1,5 +1,4 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target) {
-		// if (!can.user.isMobile) { can.page.style(can, can._action, html.HEIGHT, "31", html.DISPLAY, "block") }
 		can.onengine.plugin(can, "can.code.inner.plugin", shy("插件", {}, [{type: "button", name: "list", action: "auto"}, "back"], function(msg, cmds) {
 			console.log("what")
 		}))
@@ -262,11 +261,9 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
 				p && p.render && can.onaction["展示"]({}, can)
 				p && p.engine && can.onaction["执行"]({}, can)
 			}
-			if (can.page.ClassList.has(can, can._fields, chat.FLOAT) || can.page.ClassList.has(can, can._fields, chat.PLUGIN)) {
-				if (!can.user.mod.isCmd) {
-					can.page.style(can, can.ui.project, html.MIN_HEIGHT, can.ConfHeight()-200)
-					can.page.style(can, can.ui.content, html.MIN_HEIGHT, can.ConfHeight()-200)
-				}
+			if (!can.page.ClassList.has(can, can._fields, chat.STORY) && !can.user.mod.isCmd) {
+				can.page.style(can, can.ui.project, html.MIN_HEIGHT, can.ConfHeight()-200)
+				can.page.style(can, can.ui.content, html.MIN_HEIGHT, can.ConfHeight()-200)
 			}
 		}
 		can.Conf("plug") && (can.onsyntax[can.parse] = can.Conf("plug"))

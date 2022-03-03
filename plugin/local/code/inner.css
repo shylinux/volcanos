@@ -1,8 +1,19 @@
 fieldset.inner.output.simple>legend {
 	display:block;
 }
+fieldset.inner>form.option input[name=path] {
+	width:80px;
+}
+fieldset.inner>form.option input[name=file] {
+	width:160px;
+}
+fieldset.inner>div.action {
+	height:2rem;
+	overflow:hidden;
+	display:block;
+}
 fieldset.inner>div.action div.tabs {
-	border:solid 2px red; padding:2px; font-size:1.21rem;
+	border:solid 2px red; padding:2px; font-size:1rem;
 }
 fieldset.inner>div.action div.tabs.over {
 	background-color:blue;

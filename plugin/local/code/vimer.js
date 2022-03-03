@@ -151,7 +151,10 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 		}, true)
 	},
 	script: function(event, can, button) { var meta = can.Conf()
-		can.request(event, {_handle: ice.TRUE, text: `Volcanos("onimport", {help: "导入数据"})`})
+		can.request(event, {_handle: ice.TRUE, text: `Volcanos("onimport", {help: "导入数据", list:[], _init: function(can, msg, cb, target) {
+	msg.Echo("hello world")
+	can.onappend.board(can, msg)
+}})`})
 		can.user.input(event, can, meta.feature[button], function(ev, btn, data, list, args) {
 			can.run(event, [ctx.ACTION, button].concat(args), function(msg) {
 				can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE))
@@ -159,9 +162,21 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 			}, true)
 		})
 	},
-	website: function(event, can, button) { can.request(event, {action: button})
-		can.user.input(event, can, [{name: nfs.FILE, value: "hi.txt"}], function(ev, btn, data, list, args) {
-			can.onimport.tabview(can, "src/", "website/"+list[0], "", function() {}, true)
+	website: function(event, can, button) { var meta = can.Conf()
+		can.request(event, {_handle: ice.TRUE, text: `
+hi
+	he
+		cli.runtime
+		cli.system
+		hi/hi.sh
+		hi/hi.go
+		hi/hi.js
+`})
+		can.user.input(event, can, meta.feature[button], function(ev, btn, data, list, args) {
+			can.run(event, [ctx.ACTION, button].concat(args), function(msg) {
+				can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE))
+				can.onimport.project(can, can.Option(nfs.PATH))
+			}, true)
 		})
 	},
 
