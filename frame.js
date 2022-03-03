@@ -176,6 +176,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 				CloneInput: function() { can.onmotion.focus(can, add(item)._target) },
 			}, [item.display, chat.PLUGIN_INPUT_JS], function(input) { input.Conf(item)
 				input.run = function(event, cmds, cb, silent) { var msg = can.request(event)
+					if (item._cb) { return item._cb(event) }
 					if (msg.RunAction(event, can.core.Value(can, "_outputs.-1"), cmds)) { return }
 					if (msg.RunAction(event, input, cmds)) { return }
 					return can.Update(event, can.Input(cmds, silent), cb, silent)

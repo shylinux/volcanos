@@ -77,6 +77,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, p
 			msg.Push(ctx.INDEX, value.index||"")
 			msg.Push(ctx.ARGS, value.args||"[]")
 			msg.Push(ice.MSG_ACTION, value._action||"")
+			msg.Push("display", value.display||"")
 		}), can.base.isFunc(cb) && cb(msg)
 	}
 	return true

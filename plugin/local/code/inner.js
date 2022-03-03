@@ -40,7 +40,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 			cli.CLOSE, function(event) { can.onmotion.hidden(can, target), can.onimport.layout(can) },
 			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
 			cli.SHOW, function(event) { can.onaction["展示"](event, can) },
-			"加载", function(event) { can.onaction["加载"](event, can), can.user.ToastSuccess(can) },
+			"加载", function(event) { can.onaction["加载"](event, can), can.user.toastSuccess(can) },
 			mdb.PLUGIN, function(event) {
 				can.user.input(event, can, [ctx.INDEX], function(event, button, data) {
 					can.onimport.plugin(can, data, ui.output)
@@ -144,7 +144,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 			sub.page.style(sub, sub._output, html.MAX_HEIGHT, sub.ConfHeight())
 			sub.page.style(sub, sub._output, html.MAX_WIDTH, sub.ConfWidth())
 			sub.select = function() { return sub._legend.click(), sub }
-			sub.onappend._option(sub, [{type: html.BUTTON, name: "close"}])
 
 			can._status.appendChild(sub._legend), sub._legend.onclick = function(event) {
 				if (can.page.Select(can, can._status, ice.PT+html.SELECT)[0] == event.target) {
@@ -156,19 +155,22 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 				can.onmotion.select(can, can.ui.toolkit.output, html.FIELDSET, sub._target)
 				can.onmotion.focus(can, can.page.Select(can, sub._option, html.OPTION_ARGS)[0])
 			}, can.base.isFunc(cb) && cb(sub)
+			can.core.Timer(100, function() { can.onappend._option(sub, {inputs: [{type: html.BUTTON, name: cli.CLOSE, _cb: function() {
+				sub._legend.click()
+			}}]}) })
 		})
 	},
 	process: function(can, msg, target, width) {
 		can.user.toastSuccess(can)
 		can.onmotion.clear(can, target)
-		if (msg.Option("_process") == "_field") {
-			msg.Table(function(meta) { meta.display = msg.Option("_display")
+		if (msg.Option(ice.MSG_PROCESS) == "_field") {
+			msg.Table(function(meta) { meta.display = msg.Option(ice.MSG_DISPLAY)
 				can.onimport.plugin(can, meta, target, function(sub) { width && sub.ConfWidth(width)
 					can.onmotion.focus(can, can.page.Select(can, sub._option, html.OPTION_ARGS)[0])
 				})
 			})
-		} else if (msg.Option("_display") != "") {
-			can.onappend._output(can, msg, msg.Option("_display"), target, false)
+		} else if (msg.Option(ice.MSG_DISPLAY) != "") {
+			can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY), target, false)
 		} else {
 			can.onappend.table(can, msg, null, target)
 			can.onappend.board(can, msg, target)
@@ -339,7 +341,7 @@ Volcanos("onkeymap", {help: "导入数据", _init: function(can, msg, cb, target
 Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加", "插件", "扩展"],
 	_trans: {width: "宽度", height: "高度", website: "网页"},
 	"加载": function(event, can) {
-		var file = "/require/shylinux.com/x/contexts/"+can.Option(nfs.PATH)+can.Option(nfs.FILE)
+		var file = can.base.Path("/require/", can.Option(nfs.PATH), can.Option(nfs.FILE))
 		delete(Volcanos.meta.cache[file]), eval(`\n_can_name = "`+file+`"\n`+can.onexport.content(can)+`\n_can_name = ""\nconsole.log("once")`)
 	},
 	"刷新": function(event, can) { can.onimport.tabview(can, "src/", "main.go", "", function() {}, skip) },
