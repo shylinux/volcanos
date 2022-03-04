@@ -487,10 +487,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 			})
 		})
 
-		can.user.isMobile || can.page.Select(can, target, html.FIELDSET_MAIN, function(field, index) {
-			var scroll = 1
-			if (!can.user.isMobile && !can.user.isMacOSX) { scroll = 18 }
-
+		can.user.isMobile || can.page.Select(can, target, html.FIELDSET_MAIN, function(field, index) { var scroll = 1
 			can.page.style(can, field, html.HEIGHT, height, html.WIDTH, width-scroll)
 			can.page.Select(can, target, [[html.FIELDSET_MAIN, html.DIV_OUTPUT]], function(output) {
 				height -= can.page.Select(can, field, html.DIV_ACTION)[0].offsetHeight

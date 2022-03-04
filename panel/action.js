@@ -54,7 +54,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 	_cmd: function(can, item, next) {
 		can.base.Copy(item, {
 			height: can.Conf(html.HEIGHT)-can.Conf(html.MARGIN_Y)+(can.user.isWindows? 17: 0),
-			width: can.Conf(html.WIDTH)-can.Conf(html.MARGIN_X),
+			width: can.Conf(html.WIDTH),
 			opts: can.misc.Search(can),
 		})
 		can.onappend.plugin(can, item, function(sub, meta, skip) {
