@@ -399,7 +399,7 @@ function can(tool) {
 	]})
 }
 
-try { if (global) {
+try { if (typeof(global) == lang.OBJECT) {
 	global.kit = kit, global.ice = ice
 	global.ctx = ctx, global.cli = cli, global.web = web, global.aaa = aaa
 	global.mdb = mdb, global.ssh = ssh, global.nfs = nfs, global.tcp = tcp
@@ -425,5 +425,6 @@ try { if (global) {
 			})
 		})
 	})
+} else {
+	Volcanos.meta.target = document.body
 } } catch (e) { console.log(e) }
-try { Volcanos.meta.target = document.body } catch (e) { }

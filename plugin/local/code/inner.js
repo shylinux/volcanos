@@ -276,7 +276,7 @@ Volcanos("onsyntax", {help: "语法高亮", list: ["keyword", "prefix", "line"],
 
 		function wrap(type, str) { return type? '<span class="'+type+'">'+str+'</span>': str }
 		var p = can.onsyntax[can.parse]; if (!p) { return line } p = can.onsyntax[p.link]||p, p.split = p.split||{}
-		p.keyword && (line = can.core.List(can.core.Split(line, p.split.space||ice.SP, p.split.operator||"{[(|)]}", {detail: true}), function(item, index, array) {
+		p.keyword && (line = can.core.List(can.core.Split(line, p.split.space||"\t ", p.split.operator||"{[(.,:;!|<>)]}", {detail: true}), function(item, index, array) {
 			item = can.base.isObject(item)? item: {text: item}
 			var text = item.text; var type = item.keyword||p.keyword[text]
 
@@ -451,6 +451,12 @@ Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加",
 				can.onaction.searchLine(event, can, s)
 			}}
 		]}]); return ui.tr
+	},
+	_getLine: function(can, line) {
+		return can.page.Select(can, can.ui.content, html.TR, function(item, index, array) { if (item == line || index+1 == line) { return item } })[0]
+	},
+	_getLineno: function(can, line) {
+		return can.page.Select(can, can.ui.content, html.TR, function(item, index, array) { if (item == line || index+1 == line) { return index+1 } })[0]
 	},
 	selectLine: function(event, can, line) { if (!line) { return parseInt(can.core.Value(can.page.Select(can, can.ui.content, [[[html.TR, html.SELECT], [html.TD, "line"]]])[0], "innerText")) }
 		can.page.Select(can, can.ui.content, html.TR, function(item, index, array) { if (line < 0 || line > array.length) { return }

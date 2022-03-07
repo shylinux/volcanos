@@ -1,4 +1,5 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+		can.undo = [], can.redo = []
 		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() {
 			can.page.ClassList.add(can, can._fields, "inner")
 			can.onkeymap._build(can), can.onimport._input(can), can.onkeymap._plugin({}, can), can.base.isFunc(cb) && cb(msg)
@@ -64,6 +65,16 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 			ArrowDown: function(event, can) { can.onaction.selectLine(event, can, can.current.next()) },
 			ArrowUp: function(event, can) { can.onaction.selectLine(event, can, can.current.prev()) },
 
+			".": function(event, can, target) { var cb = can.redo.pop(); cb && cb() },
+			u: function(event, can, target) { var cb = can.undo.pop(); cb && cb() },
+			J: function(event, can, target) {
+				var next = can.current.next(); if (!next) { return }
+				var line = can.current.line, text = can.current.text()
+				var rest = can.page.Select(can, next, "td.text")[0].innerText
+				can.current.text(text.trimRight()+" "+rest.trimLeft()), can.onaction.deleteLine(can, next)
+
+				can.undo.push(function() { can.onaction.modifyLine(can, line, text), can.onaction.insertLine(can, rest, line.nextSibling) })
+			},
 			H: function(event, can, target) { can.onkeymap.cursorMove(can, target, 0, 0) },
 			h: function(event, can, target) { can.onkeymap.cursorMove(can, target, -1) },
 			l: function(event, can, target) { can.onkeymap.cursorMove(can, target, 1) },
@@ -81,13 +92,32 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 			I: function(event, can, target) { can.onkeymap._insert(event, can), can.onkeymap.cursorMove(can, target, 0, 0) },
 			a: function(event, can, target) { can.onkeymap._insert(event, can), can.onkeymap.cursorMove(can, target, 1) },
 			A: function(event, can, target) { can.onkeymap._insert(event, can), can.onkeymap.cursorMove(can, target, 0, -1) },
-			o: function(event, can) { can.onkeymap._insert(event, can), can.onaction.selectLine(event, can, can.onaction.insertLine(can, "", can.current.next())) },
-			O: function(event, can) { can.onkeymap._insert(event, can), can.onaction.selectLine(event, can, can.onaction.insertLine(can, "", can.current.line)) },
+			o: function(event, can) { var text = can.current.text()
+				text = text.substr(0, text.indexOf(text.trimLeft()))+(text.endsWith("{")?"\t":"")
+				can.onkeymap._insert(event, can), can.onaction.selectLine(event, can, can.onaction.insertLine(can, text, can.current.next()))
+				can.onkeymap.cursorMove(can, can.ui.current, 1000)
+			},
+			O: function(event, can) { var text = can.current.text()
+				text = text.substr(0, text.indexOf(text.trimLeft()))+(text.endsWith("}")?"\t":"")
+				can.onkeymap._insert(event, can), can.onaction.selectLine(event, can, can.onaction.insertLine(can, text, can.current.line))
+				can.onkeymap.cursorMove(can, can.ui.current, 1000)
+			},
 
 			yy: function(event, can, target, count) { can._last_text = can.current.text() },
-			dd: function(event, can, target, count) { can._last_text = can.current.text(), can.onaction.selectLine(event, can, can.onaction.deleteLine(can, can.current.line)) },
-			p: function(event, can) { can.onaction.insertLine(can, can._last_text, can.current.next()) },
-			P: function(event, can) { can.onaction.insertLine(can, can._last_text, can.current.line) },
+			dd: function(event, can, target, count) { var text = can.current.text(), line = can.onaction._getLineno(can, can.current.line)
+				can._last_text = can.current.text(), can.onaction.selectLine(event, can, can.onaction.deleteLine(can, can.current.line))
+				can.undo.push(function() { can.onaction.insertLine(can, text, line), can.onaction.selectLine(event, can, line) })
+				var callee = arguments.callee
+				can.redo.push(function() { callee(event, can, target, count) })
+			},
+			p: function(event, can) {
+				var line = can.onaction.insertLine(can, can._last_text, can.current.next())
+				can.undo.push(function() { can.onaction.deleteLine(can, line), can.onaction.selectLine(event, can, line-1) })
+			},
+			P: function(event, can) {
+				var line = can.onaction.insertLine(can, can._last_text, can.current.line)
+				can.undo.push(function() { can.onaction.deleteLine(can, line), can.onaction.selectLine(event, can, line+1) })
+			},
 
 			s: function(event, can) { can.onaction.save(event, can) },
 			m: function(event, can) { can.onaction.autogen(event, can, "autogen") },
@@ -105,8 +135,11 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 			},
 
 			Enter: function(event, can, target) {
-				var line = can.onaction.insertLine(can, can.onkeymap.deleteText(target, target.selectionEnd), can.current.next())
-				can.current.text(can.ui.current.value), can.onaction.selectLine(event, can, line)
+				var rest = can.onkeymap.deleteText(target, target.selectionEnd), text = can.ui.current.value
+				var indent = (text.substr(0, text.indexOf(text.trimLeft()))+(text.endsWith("}")?"\t":""))||(text.trimRight() == ""? text: "")
+				var line = can.onaction.insertLine(can, indent+rest.trimLeft(), can.current.next())
+				can.current.text(text.trimRight()||text), can.onaction.selectLine(event, can, line)
+				can.onkeymap.cursorMove(can, can.ui.current, indent.length, 0)
 			},
 			Backspace: function(event, can, target) {
 				if (target.selectionStart > 0) { return }
@@ -196,10 +229,10 @@ hi
 	},
 	insertLine: function(can, value, before) {
 		var line = can.onaction.appendLine(can, value)
-		before && can.ui.content.insertBefore(line, before)
-		return can.onaction.rerankLine(can), line
+		before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before))
+		return can.onaction.rerankLine(can), can.onaction._getLineno(can, line)
 	},
-	deleteLine: function(can, line) {
+	deleteLine: function(can, line) { line = can.onaction._getLine(can, line)
 		var next = line.nextSibling||line.previousSibling
 		can.page.Remove(can, line), can.onaction.rerankLine(can)
 		return next
