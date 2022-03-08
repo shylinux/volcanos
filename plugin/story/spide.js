@@ -80,7 +80,7 @@ Volcanos("onaction", {help: "用户操作", list: ["编辑", [ice.VIEW, "横向"
 		can.svg.Val(html.HEIGHT, can.height+can.margin)
 	},
 	"生成图片": function(event, can) {
-		can.user.toPNG(can, "hi.png", can.svg.outerHTML, can.svg.Val(html.HEIGHT), can.svg.Val(html.WIDTH))
+		can.onmotion.toimage(event, can, can._legend.innerText, can._output)
 	},
 	_draw: function(can, tree, x, y, style) {
 		var color = can.onimport._color(can, tree)

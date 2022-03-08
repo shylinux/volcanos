@@ -456,6 +456,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 		}, ui.output), can.onappend.board(can, msg.Result(), ui.output)
 		return ui
 	},
+
 })
 Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, target) { target = target||document.body
 		if (can.page.Select(can, target, html.FIELDSET_MAIN+".page").length > 0) {

@@ -189,7 +189,11 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		if (!height) { return }
 		can.page.style(can, can.ui.content, can.user.mod.isCmd? html.HEIGHT: html.MAX_HEIGHT, height)
 		if (can.ui.project.style.display != html.NONE) {
-			can.page.styleHeight(can, can.ui.project, can.ui.content.offsetHeight)
+			if (!can.user.mod.isCmd && can.ui.display.style.display != html.NONE) {
+				can.page.styleHeight(can, can.ui.project, can.ui.content.offsetHeight+can.ui.display.offsetHeight+html.ACTION_HEIGHT)
+			} else {
+				can.page.styleHeight(can, can.ui.project, can.ui.content.offsetHeight)
+			}
 		}
 		if (can.user.mod.isCmd) {
 			can.page.styleHeight(can, can.ui.content, (can.ui.project.offsetHeight||height)

@@ -12,10 +12,10 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
 			can.onfigure.key._init(can, msg, target), can.base.isFunc(cbs) && cbs(can, msg.Length() == 0)
 		})
 	},
-	onfocus: function(event, can, meta, cb, target) { if (target._figure) { return } target._figure = {}; cb(function(can, cbs) {
-		target._figure = can.onlayout.figure(event, can, can._target, false, {top: can.page.offsetTop(target)+target.offsetHeight, left: can.page.offsetLeft(target)})
-		can.onfigure.key._show(event, can, meta.name, cbs, target), can.onmotion.focus(can, target)
-	}) },
+	// onfocus: function(event, can, meta, cb, target) { if (target._figure) { return } target._figure = {}; cb(function(can, cbs) {
+	// 	target._figure = can.onlayout.figure(event, can, can._target, false, {top: can.page.offsetTop(target)+target.offsetHeight, left: can.page.offsetLeft(target)})
+	// 	can.onfigure.key._show(event, can, meta.name, cbs, target), can.onmotion.focus(can, target)
+	// }) },
 	onblur: function(event, can, meta, cb, target) {
 		can.onmotion.delay(can, function() { delete(target._figure), target._can && target._can.close() })
 	},

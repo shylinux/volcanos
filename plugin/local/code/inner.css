@@ -25,6 +25,9 @@ fieldset.inner>div.action div.tabs.select {
 fieldset.inner>div.output {
 	color:white;
 }
+fieldset.inner>div.output div.code {
+	height:-webkit-fill-available;
+}
 fieldset.inner>div.output>table.layout div.toggle.project {
 	min-width:15px; font-size:24px;
 }
