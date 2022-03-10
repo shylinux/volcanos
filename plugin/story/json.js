@@ -8,8 +8,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 			switch (typeof data) {
 				case lang.OBJECT:
 					if (data == null) {
-						return can.page.Append(can, list, [{text: "null"}]).item
-						return
+						list = can.page.Append(can, target, [{text: "null"}]).item
+						break
 					}
 					function wrap(begin, end, add, cb) {
 						can.page.Append(can, target, [{text: begin}])
