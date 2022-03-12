@@ -41,7 +41,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 			cli.SHOW, function(event) { can.onaction["展示"](event, can) },
 			"加载", function(event) { can.onaction["加载"](event, can), can.user.toastSuccess(can) },
 			mdb.PLUGIN, function(event) {
-				can.user.input(event, can, [ctx.INDEX], function(event, button, data) {
+				can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(event, button, data) {
 					can.onimport.plugin(can, data, ui.output)
 				})
 			},
@@ -62,7 +62,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
 			cli.EXEC, function(event) { can.onaction["执行"](event, can) },
 			mdb.PLUGIN, function(event) {
-				can.user.input(event, can, [ctx.INDEX], function(event, button, data) {
+				can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(event, button, data) {
 					can.onimport.plugin(can, data, ui.output)
 				})
 			},
@@ -465,7 +465,9 @@ Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加",
 	selectLine: function(event, can, line) { if (!line) { return parseInt(can.core.Value(can.page.Select(can, can.ui.content, [[[html.TR, html.SELECT], [html.TD, "line"]]])[0], "innerText")) }
 		can.page.Select(can, can.ui.content, html.TR, function(item, index, array) { if (line < 0 || line > array.length) { return }
 			if (!can.page.ClassList.set(can, item, html.SELECT, item == line || index+1 == line)) { return }
-			line = item, can.Status(kit.Dict("文件名", can.file, "解析器", can.parse, "当前行", can.onexport.position(can, can.Option(nfs.LINE, index+1))))
+			var ls = can.file.split(ice.PS)
+			if (ls.length > 4) { ls = [ls.slice(0, 2).join(ice.PS)+"/.../"+ls.slice(-2).join(ice.PS)] }
+			line = item, can.Status(kit.Dict("文件名", ls.join(ice.PS), "解析器", can.parse, "当前行", can.onexport.position(can, can.Option(nfs.LINE, index+1))))
 		})
 
 		can.base.isObject(line) && can.page.Select(can, line, "td.text", function(item) {

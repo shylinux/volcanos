@@ -206,7 +206,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); if (msg.RunAction(event, can, cmds)) { return }
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { can.request(event, {action: cmds[1]})
 			return can.user.input(event, can, meta.feature[cmds[1]], function(ev, button, data, list, args) { var msg = can.request(event, {_handle: ice.TRUE}, can.Option())
-				can.Update(event, cmds.slice(0, 2).concat(args), function(msg) { can.Update({}, can.Input(), cb) }, true)
+				can.Update(event, cmds.slice(0, 2).concat(args), cb, true)
 			})
 		}
 
@@ -308,6 +308,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
 				node[name] || (node[name] = can.page.Append(can, node[last], [{view: [html.ITEM, html.DIV, value+(index==array.length-1?"":split)], onclick: function(event) {
 					index < array.length - 1? can.onmotion.toggle(can, node[name]): can.base.isFunc(cb) && cb(event, item)
+					if (node[name].childElementCount == 2) { node[name].firstChild.click() }
 				}}, {view: html.LIST, style: {display: html.NONE}, _init: function(list) { item.expand && can.page.style(can, list, html.DISPLAY, html.BLOCK) }}]).last)
 			})
 		}); return node
@@ -349,7 +350,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			}
 
 			function run(cmds) { var msg = can.sup.request(event, line, can.Option())
-				return can.run(event, cmds, function(msg) { can.run() }, true)
+				return can.run(event, cmds, null, true)
 			}
 
 			return {text: [value, html.TD], onclick: function(event) { var target = event.target
