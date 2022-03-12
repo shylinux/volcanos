@@ -186,6 +186,7 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 	script: function(event, can, button) { var meta = can.Conf()
 		can.request(event, {_handle: ice.TRUE, text: `Volcanos("onimport", {help: "导入数据", list:[], _init: function(can, msg, cb, target) {
 	msg.Echo("hello world")
+	can.onappend.table(can, msg)
 	can.onappend.board(can, msg)
 }})`}, can.Option())
 		can.user.input(event, can, meta.feature[button], function(ev, btn, data, list, args) {
