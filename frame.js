@@ -206,7 +206,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); if (msg.RunAction(event, can, cmds)) { return }
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { can.request(event, {action: cmds[1]})
 			return can.user.input(event, can, meta.feature[cmds[1]], function(ev, button, data, list, args) { var msg = can.request(event, {_handle: ice.TRUE}, can.Option())
-				can.Update(event, cmds.slice(0, 2).concat(args), cb, true)
+				can.Update(event, cmds.slice(0, 2).concat(args), cb||function() { can.Update() }, true)
 			})
 		}
 

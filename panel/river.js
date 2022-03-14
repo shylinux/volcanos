@@ -65,13 +65,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 })
 Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, can, msg, panel, cmds, cb) {
 	var list = can._root.river
-	cmds.length == 0 && can.core.Item(list, function(key, value) {
+	cmds.length == 0 && can.core.ItemSort(list, "order", function(key, value) {
 		if (can.core.Item(value.storm).length == 0) { return }
 		msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) // 群组列表
 	}); if (cmds.length != 1 && cmds[1] != chat.STORM) { return false }
 
 	var river = list[cmds[0]]; if (!river) { return false }
-	can.core.Item(river.storm, function(key, value) {
+	can.core.ItemSort(river.storm, "order", function(key, value) {
 		msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) // 应用列表
 	}), can.base.isFunc(cb) && cb(msg); return true
 }})
