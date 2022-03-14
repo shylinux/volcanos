@@ -350,7 +350,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			}
 
 			function run(cmds) { var msg = can.sup.request(event, line, can.Option())
-				return can.run(event, cmds, null, true)
+				return can.run(event, cmds, function(msg) { can.Update() }, true)
 			}
 
 			return {text: [value, html.TD], onclick: function(event) { var target = event.target
