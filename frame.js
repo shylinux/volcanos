@@ -350,7 +350,14 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			}
 
 			function run(cmds) { var msg = can.sup.request(event, line, can.Option())
-				return can.run(event, cmds, function(msg) { can.Update() }, true)
+				return can.run(event, cmds, function(msg) {
+					if (can.core.CallFunc([can.sup, chat.ONIMPORT, ice.MSG_PROCESS], {can: can.sup, msg: msg})) { return }
+					if (msg.Result().length > 0) {
+						can.onappend.board(can, msg)
+					} else {
+						can.Update()
+					}
+				}, true)
 			}
 
 			return {text: [value, html.TD], onclick: function(event) { var target = event.target
