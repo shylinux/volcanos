@@ -51,6 +51,9 @@ fieldset.word ul.story li.H2 {
 	font-weight:bold;
 	font-size:2em;
 }
+fieldset.word ul.story {
+	font-family:monospace;
+}
 fieldset.word br.story {
 	clear:both;
 }

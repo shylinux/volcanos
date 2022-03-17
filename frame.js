@@ -507,7 +507,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 		can.onengine.signal(can, chat.ONSIZE, can.request({}, {width: width, height: height}))
 	},
 	topic: function(can, topic) { topic && (can._topic = topic)
-		can.user.topic(can, can._topic || can.misc.Search(can, chat.TOPIC) || Volcanos.meta.args.topic || ((can.base.isNight()||can.user.mod.isPod)? chat.BLACK: chat.WHITE))
+		can.user.topic(can, can._topic || can.misc.Search(can, chat.TOPIC) || Volcanos.meta.args.topic || (can.base.isNight()? chat.BLACK: chat.WHITE))
 		can.page.ClassList.add(can, document.body, can.user.language(can))
 	},
 	background: function(can, url, target) {
