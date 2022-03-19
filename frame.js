@@ -143,7 +143,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			Update: function(event, cmds, cb, silent) { sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input(), cb, silent); return true },
 			Focus: function() { can.page.Select(can, option, html.INPUT_ARGS, function(item, index) { index == 0 && item.focus() }) },
 			Input: function(cmds, silent) {
-				cmds = cmds && cmds.length > 0? cmds: can.page.SelectArgs(can, option, ""), cmds = can.base.trim(cmds)
+				cmds = cmds && cmds.length > 0? cmds: can.page.SelectArgs(can, option, "").concat(can.page.SelectArgs(can, action, "")), cmds = can.base.trim(cmds)
 				silent || cmds[0] == ctx.ACTION || can.base.Eq(sub._history[sub._history.length-1], cmds) || sub._history.push(cmds)
 				return cmds
 			},
@@ -191,8 +191,21 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 	},
 	_action: function(can, list, action, meta) {
 		list = can.base.getValid(list, can.core.Item(meta))
+		list = can.base.Obj(list, can.core.Value(can, [chat.ONACTION, mdb.LIST]))
 		meta = meta||can.onaction, action = action||can._action, can.onmotion.clear(can, action)
-		return can.core.List(can.base.Obj(list, can.core.Value(can, [chat.ONACTION, mdb.LIST])), function(item) { if (item == undefined) { return } can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
+		var _list = []
+		for (var i = 0; i < list.length; i++) {
+			switch (list[i]) {
+				case "page":
+					_list.push({type: "text", name: "limit", value: can._msg.Option("limit")})
+					_list.push({type: "text", name: "offend", value: can._msg.Option("offend")})
+					_list.push("prev", "next")
+					break
+				default:
+					_list.push(list[i])
+			}
+		}
+		return can.core.List(_list, function(item) { if (item == undefined) { return } can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
 			can.base.isString(item)? /*按键*/ {type: html.BUTTON, value: can.user.trans(can, item), onclick: function(event) {
 				var cb = meta[item]||meta["_engine"]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
 

@@ -8,6 +8,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 	_rewrite: function(can, msg) {
 		for (var i = 0; i < msg._arg.length; i += 2) {
 			can.Option(msg._arg[i], msg._arg[i+1])
+			can.Action(msg._arg[i], msg._arg[i+1])
 		}
 		can.Update()
 		return true
@@ -193,10 +194,10 @@ Volcanos("onaction", {help: "交互操作", list: [
 	},
 
 	next: function(event, can) {
-		can.Update(event, [ctx.ACTION, "next", can.Status("total")||0, can.Option("limit"), can.Option("offend")])
+		can.Update(event, [ctx.ACTION, "next", can.Status("total")||0, can.Option("limit")||can.Action("limit"), can.Option("offend")||can.Action("offend")])
 	},
 	prev: function(event, can) {
-		can.Update(event, [ctx.ACTION, "prev", can.Status("total")||0, can.Option("limit"), can.Option("offend")])
+		can.Update(event, [ctx.ACTION, "prev", can.Status("total")||0, can.Option("limit")||can.Action("limit"), can.Option("offend")||can.Action("offend")])
 	},
 
 	listTags: function(event, can, button) { var list = []
