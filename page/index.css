@@ -208,9 +208,9 @@ h1:hover, h2:hover, h3:hover { background-color:green; cursor:pointer; }
 input[type=button]:hover { background-color:gray; color:cyan; }
 input[type=text]:hover { background-color:white; }
 input[name=cmd]:hover { background-color:white; color:black; }
-table.content tr.select, table.content tr:hover { background-color:green; }
-table.content th:hover, table.content td.select, table.content td:hover { background-color:red; }
-body>fieldset.input.date table td:hover { background-color:red; }
+table.content tr.select, table.content tr:hover { background-color:black; }
+table.content th:hover, table.content td.select, table.content td:hover { background-color:deepskyblue; cursor:pointer; }
+body>fieldset.input.date table td:hover { background-color:blue; }
 
 body.white { background-color:rgba(5,34,56,0.75); color:white; }
 body.white select { background-color:#99CC66; color:white; border:2px solid #99CC66; border-radius:10px 10px 10px 10px; }
@@ -253,7 +253,8 @@ body.print fieldset.Footer { background-color:white; color:black; }
 body.white input[type=button]:hover { background-color:#FFCC33; border:2px solid #FFCC33; }
 body.white input[type=text]:hover { background-color:cyan; }
 body.white input[name=cmd]:hover { background-color:white; color:black; }
-body.white table.content tr:hover { background-color:green; }
+body.white table.content tr:hover { background-color:skyblue; }
+body.white table.content th:hover, body.white table.content td.select, body.white table.content td:hover { background-color:snow; }
 body.white fieldset.Action fieldset.plugin legend:hover { background-color:#6ee4e4; }
 body.print fieldset.River>div.output div.item.select { background-color:white; border:solid 2px red; }
 
