@@ -1,65 +1,19 @@
-fieldset.Action {
-	background-color:rgba(114, 153, 162, 0.54);
-	min-width:160px;
-}
-fieldset.Action>div.action {
-	/* width:-webkit-fill-available; */
-	background-color:#159cc7b0;
-	display:none; height:28px;
-	padding:0; margin:0;
-	position:absolute;
-}
+fieldset.Action { background-color:rgba(114, 153, 162, 0.54); min-width:160px; }
+fieldset.Action>div.action { background-color:#159cc7b0; padding:0; margin:0; height:28px; display:none; position:absolute; }
 
-fieldset.Action div.output fieldset.plugin.Full>legend {
-	float:left;
-}
-body.white fieldset.Action div.output fieldset.plugin.Full {
-	background-color:#cce0f4eb;
-}
-fieldset.Action div.output fieldset.plugin.Full {
-	position:fixed; left:0; top:0;
-	background-color:#073947f2;
-	overflow:auto;
-	margin:0;
-	z-index:1;
-}
+fieldset.Action.tabs>div.action { display:block; }
+fieldset.Action.tabs>div.output { margin-top:28px; }
+fieldset.Action.tabs>div.output>fieldset>legend { display:none; }
+fieldset.Action.tabs>div.output fieldset.plugin { display:none; float:left; }
+fieldset.Action.tabs>div.output fieldset.plugin.select { display:block; }
+fieldset.Action.grid>div.output fieldset.plugin { overflow:auto; float:left; }
+fieldset.Action.grid>div.output fieldset.plugin>div.output { overflow:auto; }
+fieldset.Action.free>div.output fieldset.plugin { position:absolute; }
+fieldset.Action.free>div.output fieldset.plugin.select { display:block; }
+fieldset.Action.flow>div.output fieldset.plugin { float:left; }
 
-fieldset.Action.tabs>div.action {
-	display:block;
-}
-fieldset.Action.tabs>div.output {
-	margin-top:28px;
-}
-fieldset.Action.tabs>div.output>fieldset>legend {
-	display:none;
-}
-fieldset.Action.flow>div.output fieldset.plugin {
-	float:left;
-}
-fieldset.Action.grid>div.output fieldset.plugin {
-	float:left; overflow:auto;
-}
-fieldset.Action.grid>div.output fieldset.plugin>div.output {
-	overflow:auto;
-}
-fieldset.Action.tabs>div.output fieldset.plugin {
-	display:none;
-	float:left;
-}
-fieldset.Action.tabs>div.output fieldset.plugin.select {
-	display:block;
-}
-fieldset.Action.free>div.output fieldset.plugin {
-	position:absolute;
-}
-fieldset.Action.free>div.output fieldset.plugin.select {
-	display:block;
-}
+fieldset.Action div.output fieldset.plugin.Full { background-color:#073947f2; padding:0; margin:0; position:fixed; left:0; top:0; overflow:auto; z-index:1; }
+fieldset.Action div.output fieldset.plugin.Full>legend { float:left; }
 
-fieldset.panel.cmd>div.output>fieldset.plugin {
-	margin:0; padding:0;
-}
-fieldset.panel.cmd>div.output>fieldset.plugin>legend {
-	float:left; padding:0 10px; margin-right:3px;
-	background-color:darkcyan;
-}
+fieldset.panel.cmd>div.output>fieldset.plugin { padding:0; margin:0; }
+fieldset.panel.cmd>div.output>fieldset.plugin>legend { background-color:darkcyan; padding:0 10px; margin-right:3px; float:left; }

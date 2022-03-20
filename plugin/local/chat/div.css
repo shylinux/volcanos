@@ -23,3 +23,6 @@ fieldset.panel.cmd.main fieldset.div div.project {
 fieldset.panel.cmd.main fieldset.div div.profile {
 	display:none;
 }
+fieldset.word>div.output fieldset.span>fieldset {
+	float:left; overflow:auto;
+}

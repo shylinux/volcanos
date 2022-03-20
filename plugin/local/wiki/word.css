@@ -1,176 +1,41 @@
-fieldset.word>div.output fieldset.span>fieldset {
-	float:left; overflow:auto;
-}
+fieldset.word>div.navmenu { background-color:inherit; overflow:auto; margin-right:10px; min-width:120px; clear:both; float:left; }
+fieldset.word>div.navmenu div.list { margin-left:20px; }
+fieldset.word>div.navmenu div.item { font-size:1.6em; font-weight:bold; font-family:cursive; padding:4px 10px; }
+fieldset.word>div.navmenu>div.item { font-size:2em; }
 
-fieldset.word>div.navmenu {
-	clear:both;
-	float:left;
-	min-width:120px;
-	background-color:inherit;
-	margin-right:10px;
-	overflow:auto;
-}
-fieldset.word>div.navmenu>div.item {
-	font-weight:bold;
-	font-size:2em;
-	padding:4px 10px;
-}
-fieldset.word>div.navmenu>div.list>div.item {
-	font-weight:bold;
-	font-size:1.6em;
-}
-fieldset.word>div.navmenu div.item {
-	font-family:cursive;
-	padding:4px 10px;
-}
-fieldset.word>div.navmenu div.item.select {
-	background-color:red;
-}
-fieldset.word>div.navmenu div.item:hover {
-	cursor:pointer;
-	background-color:red;
-}
-fieldset.word>div.navmenu div.list {
-	margin-left:20px;
-}
+fieldset.word a { word-break:break-word; }
+fieldset.word br.story { clear:both; }
+fieldset.word ul.story { font-family:monospace; }
+fieldset.word ul.story li.H2 { font-size:2em; font-weight:bold; }
+fieldset.word ul.story[data-type=premenu] { cursor:pointer; }
+fieldset.word ul.story[data-type=premenu] li:hover { background:cyan; color:blue; }
+fieldset.word ul.story[data-type=endmenu] { clear:both; }
+fieldset.word p.story[data-name=inner] { background-color:#4b6c8a7a; padding:4px 10px; border-left:solid 4px blue; margin:10px 0px; }
+fieldset.word p.story[data-name=inner]:hover { background-color:#c10c8a; cursor:copy; }
+fieldset.word svg.story { display:block; float:left; }
+fieldset.word video.story { max-height:320px; }
 
-fieldset.word a {
-	word-break:break-word;
-}
-fieldset.word ul.story[data-type=premenu] {
-	cursor:pointer;
-}
-fieldset.word ul.story[data-type=premenu] li:hover {
-	background:cyan;
-	color:blue;
-}
-fieldset.word ul.story[data-type=endmenu] {
-	clear:both;
-}
-fieldset.word ul.story li.H2 {
-	font-weight:bold;
-	font-size:2em;
-}
-fieldset.word ul.story {
-	font-family:monospace;
-}
-fieldset.word br.story {
-	clear:both;
-}
+fieldset.word.float { padding:0; margin:0; width:-webkit-fill-available; position:fixed; left:0; top:0; z-index:10; }
+fieldset.word.float>div.action { display:contents; }
+fieldset.word.float>div.output { background-color:#f0f8ff80; padding:20px; overflow:auto; }
+fieldset.word.float>div.output>div.project { background:cornsilk; padding:10px; position:fixed; left:0; top:25px; z-index:100; }
+fieldset.word.float div.content div.page { margin-top:30px; display:none; }
+fieldset.word.float div.content div.page.show { display:block; }
+fieldset.word.float div.content.grid div.page { background-color:#a4cbecb5; margin:10px; height:200px; width:200px; overflow:auto; display:block; float:left; }
+fieldset.word.float h1 { text-align:center; }
+fieldset.word.float h2 { text-align:center; }
+fieldset.word.float h3 { text-align:center; }
 
-fieldset.word p.story {
-	/* white-space:pre; */
-}
-fieldset.word div.story[data-name=field]>div.menu {
-	float:left; width:120px;
-	overflow:auto;
-}
-fieldset.word div.story[data-name=field]>div.menu div.list {
-	padding-left:10px;
-}
-fieldset.word div.story[data-name=field]>div.list {
-	float:left;
-}
+fieldset.panel.cmd fieldset.word>legend { display:none; }
+fieldset.panel.cmd fieldset.word>form.option { display:none; }
+fieldset.panel.cmd fieldset.word>div.action { display:none; }
+fieldset.panel.cmd fieldset.word>div.status { display:none; }
 
-fieldset.word p.story[data-name=inner] {
-	padding:4px 10px; margin:10px 0px;
-	background-color:#4b6c8a7a;
-	border-left:solid 4px blue;
-}
-fieldset.word p.story[data-name=inner]:hover {
-	background-color:#c10c8a;
-	cursor:copy;
-}
-fieldset.word svg.story {
-	display:block; float:left;
-}
-fieldset.word code.story {
-	display:block; border:solid 3px green;
-	color:white; background-color:#272822;
-	max-height:640px; overflow:auto;
-	padding:10px; white-space:pre;
-	clear:both;
-}
-fieldset.word video.story {
-	max-height:320px;
-}
-fieldset.word fieldset.story {
-	margin:10px; border:0;
-	clear:both; float:left;
-	box-shadow:4px 4px 10px 1px #626bd0;
-}
-fieldset.word fieldset.story:hover {
-	box-shadow:12px 12px 12px 6px #5764efd1;
-}
-
-fieldset.word.float {
-	width:-webkit-fill-available;
-	position:fixed; left:0; top:0;
-	z-index:10;
-}
-body.white fieldset.word.float {
-	background-color:aliceblue;
-	color:black;
-}
-fieldset.word.float>div.action {
-	display:contents;
-}
-fieldset.word.float>div.output {
-	background-color:#f0f8ff80;
-	overflow:auto;
-	padding:20px;
-}
-fieldset.word.float>div.output>div.project {
-	background:cornsilk;
-	left:0; top:25px;
-	position:fixed;
-	padding:10px;
-	z-index:100;
-}
-fieldset.word.float div.content div.page {
-	/* background-color:#194c79d4; */
-	margin-top:30px;
-	display:none;
-}
-fieldset.word.float div.content div.page.show {
-	display:block;
-}
-fieldset.word.float div.content.grid div.page {
-	float:left; display:block;
-	width:200px; height:200px;
-	overflow:auto; margin:10px;
-	background-color:#a4cbecb5;
-}
-
-fieldset.word.float h1 {
-	text-align:center;
-}
-fieldset.word.float h2 {
-	text-align:center;
-}
-fieldset.word.float h3 {
-	text-align:center;
-}
-fieldset.word.float div.status {
-	clear:none;
-}
-fieldset.word.float div.status label {
-	color:black;
-}
-fieldset.word.float div.status span {
-	color:black;
-}
-
-fieldset.panel.cmd fieldset.word>legend {
-	display:none;
-}
-fieldset.panel.cmd fieldset.word>form.option {
-	display:none;
-}
-fieldset.panel.cmd fieldset.word>div.action {
-	display:none;
-}
-fieldset.panel.cmd fieldset.word>div.status {
-	display:none;
+div.story[data-type=spark][data-name=shell] label {
+	-moz-user-select:none; /*火狐*/
+	-webkit-user-select:none; /*webkit浏览器*/
+	-ms-user-select:none; /*IE10*/
+	-khtml-user-select:none; /*早期浏览器*/
+	user-select:none;
 }
 

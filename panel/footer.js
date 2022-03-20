@@ -59,7 +59,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 		if (can.user.mod.isPod) {
 			can.onmotion.hidden(can, can._target)
 		} else if (can.user.isMobile) {
-			can.onmotion.hidden(can, can._target)
+			// can.onmotion.hidden(can, can._target)
 		} else if (can.user.isExtension) {
 			can.onmotion.hidden(can, can._target)
 		}

@@ -1,31 +1,4 @@
-fieldset.Search {
-	background:#041a25bd; padding:10px;
-	left:0px; top:26px;
-	position:fixed;
-	display:none;
-}
-body.white fieldset.Search table {
-	color:white;
-}
-fieldset.Search input.word {
-	width:-webkit-fill-available;
-}
-fieldset.Search div.output {
-	overflow:auto;
-}
-fieldset.Search div.output div.content {
-	overflow:auto;
-}
-fieldset.Search div.output div.content a {
-	color:yellow;
-}
-fieldset.Search div.output div.content table {
-	min-width:400px;
-}
-fieldset.Search div.output div.display {
-	max-height:200px;
-	overflow:auto;
-}
-fieldset.Search div.output div.profile {
-	overflow:auto;
-}
+fieldset.Search { background:#041a25bd; padding:10px; position:fixed; left:0px; top:26px; display:none; }
+fieldset.Search input.word { width:-webkit-fill-available; }
+fieldset.Search div.output div.content table { min-width:400px; }
+fieldset.Search div.output div.display { max-height:200px; }

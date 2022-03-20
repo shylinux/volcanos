@@ -86,7 +86,7 @@ Volcanos("onaction", {help: "交互操作", list: [
 	},
 	"切换全屏": function(event, can) {
 		if (can.page.ClassList.neg(can, can._target, "Full")) {
-			can.page.style(can, can._output, "height", window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT-2*html.PLUGIN_MARGIN, "min-width", window.innerWidth-2*html.PLUGIN_MARGIN)
+			can.page.style(can, can._output, "height", window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT, "min-width", window.innerWidth)
 		} else {
 			can.page.style(can, can._output, "height", "", "min-width", "")
 		}

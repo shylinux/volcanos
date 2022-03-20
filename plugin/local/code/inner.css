@@ -201,3 +201,6 @@ body.white fieldset.inner>div.output div.content td.text span.string {
 	user-select:none;
 }
 
+fieldset.inner.float div.output { background-color:#332f1ecf; }
+fieldset.inner.float div.status { color:white; }
+

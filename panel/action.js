@@ -105,7 +105,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 		}, can.base.isFunc(cb) && cb()
 	},
 	_menus: [
-		[chat.LAYOUT, "auto", "flow", "grid", "tabs", "free", "page", "toimage"],
+		[chat.LAYOUT, "auto", "tabs", "grid", "free", "flow", "page", "toimage"],
 		[ice.HELP, "tutor", "manual", "service", "devops", "refer"],
 	],
 	_trans: {
