@@ -12,15 +12,6 @@ fieldset.inner>div.action {
 	overflow:hidden;
 	display:block;
 }
-fieldset.inner>div.action div.tabs {
-	border:solid 2px red; padding:2px; font-size:1rem;
-}
-fieldset.inner>div.action div.tabs.over {
-	background-color:blue;
-}
-fieldset.inner>div.action div.tabs.select {
-	background-color:green;
-}
 
 fieldset.inner>div.output {
 	color:white;

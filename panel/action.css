@@ -24,18 +24,6 @@ fieldset.Action div.output fieldset.plugin.Full {
 	z-index:1;
 }
 
-fieldset.Action div.output fieldset.plugin:hover {
-	box-shadow:4px 4px 12px 6px #626bd0;
-}
-fieldset.Action div.output fieldset.plugin legend {
-	margin-top:4px 5px;
- 	padding:0px 10px;
-	background-color:#0c739cd9;
-}
-fieldset.Action div.output fieldset.plugin legend:hover {
-	background:red;
-}
-
 fieldset.Action.tabs>div.action {
 	display:block;
 }
@@ -74,5 +62,4 @@ fieldset.panel.cmd>div.output>fieldset.plugin {
 fieldset.panel.cmd>div.output>fieldset.plugin>legend {
 	float:left; padding:0 10px; margin-right:3px;
 	background-color:darkcyan;
-	cursor:pointer;
 }

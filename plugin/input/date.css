@@ -11,3 +11,8 @@ fieldset.input.date div.output td {
 	padding:2px 11px;
 }
 
+body>fieldset.input.date table td.select { background-color:blue; }
+body>fieldset.input.date table td:hover { background-color:blue; }
+
+fieldset.input.date table { text-align:center; width:280px; }
+fieldset.input.date>div.action { height:4rem; }
