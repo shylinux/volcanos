@@ -87,14 +87,14 @@ Volcanos("ondetail", {help: "组件菜单", list: ["关闭", "下载", "删除",
 		can.onappend._init(can, {type: "story feel float"}, [], function(sub) { can.sub = sub
 			sub.run = function(event, cmds, cb) { return can.run(event, cmds, cb, true) }
 
-			sub.search({}, ["Action.onexport.size"], function(msg, left, top, width, height) {
+			sub.getActionSize(function(msg, left, top, width, height) {
 				sub.page.Modify(sub, sub._target, {style: {left: left, top: top}})
 				sub.page.Modify(sub, sub._output, {style: {"max-width": width, "max-height": height}})
 				sub.onappend._action(can, can.ondetail.list, sub._action, can.ondetail)
 
 				can.order = index, can.show = function(order) {
 					path = can.onimport._file(can, can.list[order].path)
-					sub.page.Appends(sub, sub._output, [{img: path, style: {"max-width": width-40, "max-height": height-55}}])
+					sub.page.Appends(sub, sub._output, [{img: path, style: {"max-width": width, "max-height": height-2*html.ACTION_HEIGHT}}])
 					sub.Status("begin", order+1+ice.PS+can.list.length), sub.Status("file", path)
 				}, can.show(can.order)
 			})

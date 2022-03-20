@@ -1,14 +1,3 @@
-fieldset.draw div.output {
-	background-color:#1b5b738c;
-	font-size:20px;
-}
-fieldset.draw div.output div.content svg {
-	background-color:#1b5b738c;
-}
-fieldset.draw div.output div.profile div.action div.item {
-	float:left;
-}
-fieldset.draw div.output div.display {
-	max-height:400px;
-	overflow:auto;
-}
+fieldset.draw div.output { background-color:#1b5b738c; font-size:20px; }
+fieldset.draw div.output div.content svg { background-color:#1b5b738c; }
+fieldset.draw div.output div.display { max-height:400px; }

@@ -1,15 +1,4 @@
-fieldset.feel div.output img {
-	display:block; float:left;
-}
-fieldset.feel div.output video {
-	display:block; float:left;
-}
-fieldset.feel.float>legend {
-	display:none;
-}
-fieldset.feel.float {
-	margin:0 10px; padding:0 10px;
-	background-color:#4eaad0c2;
-	position:absolute;
-	top:26px;
-}
+fieldset.feel div.output img { display:block; float:left; }
+fieldset.feel div.output video { display:block; float:left; }
+fieldset.feel.float { background-color:#4eaad0c2; position:absolute; }
+fieldset.feel.float>legend { display:none; }

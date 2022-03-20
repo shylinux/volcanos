@@ -14,6 +14,7 @@ fieldset.word p.story[data-name=inner] { background-color:#4b6c8a7a; padding:4px
 fieldset.word p.story[data-name=inner]:hover { background-color:#c10c8a; cursor:copy; }
 fieldset.word svg.story { display:block; float:left; }
 fieldset.word video.story { max-height:320px; }
+fieldset.word fieldset.story { margin:10px; }
 
 fieldset.word.float { padding:0; margin:0; width:-webkit-fill-available; position:fixed; left:0; top:0; z-index:10; }
 fieldset.word.float>div.action { display:contents; }

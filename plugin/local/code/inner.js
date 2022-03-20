@@ -184,7 +184,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 	},
 	layout: function(can) { var height = can.ConfHeight()-(can.user.mod.isCmd && can.user.isWindows? 20: 0), width = can.ConfWidth()
 		can.page.styleWidth(can, can.ui.profile_output, can.profile_size[can.onexport.keys(can)]||(width-can.ui.project.offsetWidth)/2)
-		can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth-26)
+		can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
 
 		if (!height) { return }
 		can.page.style(can, can.ui.content, can.user.mod.isCmd? html.HEIGHT: html.MAX_HEIGHT, height)
@@ -196,8 +196,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 			}
 		}
 		if (can.user.mod.isCmd) {
-			can.page.styleHeight(can, can.ui.content, (can.ui.project.offsetHeight||height)
-				-can.ui.display.offsetHeight-(can.ui.display.style.display != html.NONE && can.ui.display_status.innerText? html.ACTION_HEIGHT: 0))
+			can.page.styleHeight(can, can.ui.content, (can.ui.project.offsetHeight||height)-can.ui.display.offsetHeight)
 		}
 
 		if (can.page.ClassList.has(can, can._fields, "full")) {
