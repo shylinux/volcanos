@@ -33,6 +33,7 @@ fieldset.inner>div.status legend.select { background:green; }
 fieldset.inner>div.status legend:hover { background:green; }
 
 fieldset.inner.output.simple>legend { display:block; }
+fieldset.inner.float legend { height:30px; }
 fieldset.inner.float div.output { background-color:#332f1ecf; }
 fieldset.inner.float div.status { color:white; }
 
