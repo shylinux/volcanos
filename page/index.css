@@ -164,6 +164,7 @@ body.mobile.landscape fieldset.Footer.foot { position:unset; }
 * { tab-size:4; }
 textarea { tab-size:2; }
 legend { font-size:1.2rem; }
+select, input { font-size:1.1rem; }
 table.content th, table.content td, div.item, div.tabs, div.code, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
 div.status>div.item>label { font-size:0.6rem; font-family:monospace; }
 svg { font-family:monospace; }
@@ -192,8 +193,8 @@ div.story[data-type=spark] span:hover { background-color:deepskyblue; box-shadow
 legend, select, textarea, input[type=text], div.code { box-shadow:4px 4px 20px 4px #626bd0; }
 
 /* hover */
-.select, div.item.select, div.item:hover, table.content th:hover, table.content td.select, table.content td:hover { background-color:steelblue; }
-div.tabs.select, div.tabs:hover, table.content tr.select, table.content tr:hover, h1:hover, h2:hover, h3:hover { background-color:cornflowerblue; }
+.select, div.item.select, div.item:hover, table.content th:hover, table.content td.select, table.content td:hover { background-color:cornflowerblue; }
+div.tabs.select, div.tabs:hover, table.content tr.select, table.content tr:hover, h1:hover, h2:hover, h3:hover { background-color:steelblue; }
 
 input[type=text]:hover { background-color:white; }
 input[name=cmd]:hover { background-color:white; color:black; }
@@ -203,7 +204,7 @@ body.white legend:hover { background-color:skyblue; }
 body.white input[type=text]:hover { background-color:cyan; }
 body.white input[name=cmd]:hover { background-color:white; color:black; }
 body.white input[type=button]:hover { background-color:#FFCC33; border:2px solid #FFCC33; }
-body.white table.content th:hover, body.white table.content td.select, body.white table.content td:hover { background-color:snow; }
-body.white table.content tr:hover { background-color:skyblue; }
+body.white table.content th:hover, body.white table.content td.select, body.white table.content td:hover { background-color:#6495ed63; }
+body.white table.content tr:hover { background-color:#4682b46b; }
 body.white div.item.select, body.white div.item:hover { background-color:steelblue; }
 
