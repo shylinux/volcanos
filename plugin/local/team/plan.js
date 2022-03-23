@@ -9,9 +9,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.base.isFunc(cb) && cb(msg)
 	},
 	_content: function(can, msg, head, list, key, get, set) {
-		var hash = {}; msg.Table(function(value, index) {
-			var k = key(can.base.Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value])
-		})
+		var hash = {}; msg.Table(function(value, index) { var k = key(can.base.Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value]) })
 
 		can.sup.task && (can.sup.task._target = null)
 		var begin_time = can.base.Date(can.Option("begin_time"))
@@ -22,6 +20,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 				return can.onimport._task(can, msg, get(begin_time, col, row, hash), set(begin_time, col, row))
 			})}
 		}) }])
+		if (msg.Length() == 0) { return }
 		can.core.Timer(10, function() { if (!can.sup.task) { return }
 			var target = can.sup.task._target||can.task._target
 			can.sup.task = null, target.click()

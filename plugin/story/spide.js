@@ -58,8 +58,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		return tree.meta&&tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW)
 	},
 }, [""])
-Volcanos("onaction", {help: "用户操作", list: ["编辑", [ice.VIEW, "横向", "纵向"], "生成图片"],
-	"编辑": function(event, can) {
+Volcanos("onaction", {help: "用户操作", list: ["edit", [ice.VIEW, "横向", "纵向"], "生成图片"],
+	"edit": function(event, can) {
 		can.onmotion.toggle(can, can._action)
 		can.onmotion.toggle(can, can._status)
 	},
