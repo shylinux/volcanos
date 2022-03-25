@@ -1,5 +1,9 @@
 fieldset.inner>form.option input[name=path] { width:80px; }
 fieldset.inner>form.option input[name=file] { width:160px; }
+fieldset.inner>div.action>div.tabs { background-color:#5c809c5c; }
+fieldset.inner>div.action>div.tabs:hover { background-color:#013b675c; }
+fieldset.inner>div.action>div.tabs.select { background-color:#013b675c; }
+
 fieldset.inner>div.output { color:white; }
 fieldset.inner>div.output>table.layout div.toggle.project { font-size:24px; min-width:15px; }
 fieldset.inner>div.output>table.layout div.toggle.profile { font-size:24px; min-width:15px; }

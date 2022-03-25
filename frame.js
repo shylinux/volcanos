@@ -385,7 +385,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			return {text: [value, html.TD], onclick: function(event) { var target = event.target
 				if (target.tagName == "INPUT" && target.type == html.BUTTON) { return run([ctx.ACTION, target.name]) }
 				if (key == mdb.HASH && can.user.mod.isDiv) { return can.user.jumps("/chat/div/"+value) }
-				can.sup.onaction.change(event, can.sup, key, value)
+				can.sup.onaction.change(event, can.sup, key, event.target.innerText)
 
 			}, ondblclick: function(event) { if ([mdb.KEY].indexOf(key) > -1) { return }
 				var item = can.core.List(can.Conf("feature.insert"), function(item) { if (item.name == key) { return item } })[0]||{name: key, value: value}

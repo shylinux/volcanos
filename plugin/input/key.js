@@ -3,6 +3,7 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, line) {
 			return {text: [value, html.TD], onclick: function(event) { target.value = line[key]
 				if (msg.Option(ice.MSG_PROCESS) != ice.PROCESS_AGAIN) { return can.close() }
+				target._hold = true
 				can.run(event, [ctx.ACTION, mdb.INPUTS, can.Conf(mdb.NAME), target.value], function(msg) { call(can, msg, target) })
 			}}
 		}), can.Status(mdb.TOTAL, msg.Length()), can.onmotion.hidden(can, can._target, msg.Length() > 0)
@@ -17,7 +18,8 @@ Volcanos("onfigure", {help: "控件详情", list: [], key: {
 	// 	can.onfigure.key._show(event, can, meta.name, cbs, target), can.onmotion.focus(can, target)
 	// }) },
 	onblur: function(event, can, meta, cb, target) {
-		can.onmotion.delay(can, function() { delete(target._figure), target._can && target._can.close() })
+		target._hold || can.onmotion.delay(can, function() { delete(target._figure), target._can && target._can.close() })
+		target._hold = false
 	},
 	onclick: function(event, can, meta, cb, target) { if (target._figure) { target._figure = can.onlayout.figure(event, can, can.core.Value(target, "_can._target")||{}); return } target._figure = {}; cb(function(can, cbs) {
 		target._figure = can.onlayout.figure(event, can)

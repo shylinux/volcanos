@@ -55,7 +55,7 @@ div.action>div.item.select { background:none; }
 div.action>div.item.space { width:10px; }
 div.output { position:relative; }
 div.output td.project { background-color:#435f8c8c; }
-div.output td.project div.project { min-width:88px; max-width:240px; }
+div.output td.project div.project { min-width:88px; max-width:360px; }
 div.output td.project div.project div.item { padding:2px 10px; }
 div.output td.project div.project div.list { margin-left:10px; }
 div.output td.profile { background-color:#71909c91; }
@@ -64,6 +64,7 @@ div.status>div.item { padding:4px; height:18px; }
 fieldset.Action>div.output>fieldset.plugin { background-color:#061c3c9e; padding:10px; margin:10px; }
 fieldset.plugin div.status { border-top:1px solid darkcyan; }
 fieldset.story div.status { border-top:1px solid darkcyan; }
+/* fieldset.story>legend { float:left; height:30px; } */
 fieldset.float { background-color:#023531cf; }
 /* fieldset.float>div.action { display:block; height:2.3rem; } */
 fieldset.float table { color:white; }
