@@ -3,6 +3,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.ui = can.onlayout.profile(can)
 		can.onmotion.hidden(can, can._action)
 		can.onimport[can.Option("scale")||"week"](can, msg)
+		can.page.Modify(can, can._output, {style: {"min-height": 452}})
 		can.page.Modify(can, can.ui.project, {style: {"max-height": can.ui.content.offsetHeight}})
 		can.page.Modify(can, can.ui.profile, {style: {"max-height": can.ui.content.offsetHeight}})
 		can.page.Modify(can, can.ui.profile, {style: {display: "block"}})

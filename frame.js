@@ -520,12 +520,12 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 			can.user.isMobile || (width -= field.offsetWidth)
 			can.page.styleHeight(can, field, height)
 			can.page.Select(can, target, [[html.FIELDSET_LEFT, html.DIV_OUTPUT]], function(output) {
-				can.page.styleHeight(can, output, height-html.ACTION_HEIGHT)
+				can.page.styleHeight(can, output, height-html.ACTION_HEIGHT-1)
 			})
 		})
 
-		can.user.isMobile || can.page.Select(can, target, html.FIELDSET_MAIN, function(field, index) { var scroll = 1
-			can.page.style(can, field, html.HEIGHT, height, html.WIDTH, width-scroll)
+		can.user.isMobile || can.page.Select(can, target, html.FIELDSET_MAIN, function(field, index) {
+			can.page.style(can, field, html.HEIGHT, height, html.WIDTH, width)
 			can.page.Select(can, target, [[html.FIELDSET_MAIN, html.DIV_OUTPUT]], function(output) {
 				height -= can.page.Select(can, field, html.DIV_ACTION)[0].offsetHeight
 				can.page.styleHeight(can, output, height)
