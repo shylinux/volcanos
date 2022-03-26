@@ -192,19 +192,25 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 	_action: function(can, list, action, meta) {
 		list = can.base.getValid(list, can.core.Item(meta))
 		list = can.base.Obj(list, can.core.Value(can, [chat.ONACTION, mdb.LIST]))
-		meta = meta||can.onaction, action = action||can._action, can.onmotion.clear(can, action)
-		var _list = []
-		for (var i = 0; i < list.length; i++) {
-			switch (list[i]) {
+		var _list = []; for (var i = 0; i < list.length; i++) {
+			switch (list[i]) { case "": break
 				case "page":
 					_list.push({type: "text", name: "limit", value: can._msg.Option("limit")})
 					_list.push({type: "text", name: "offend", value: can._msg.Option("offend")})
 					_list.push("prev", "next")
 					break
 				default:
-					_list.push(list[i])
+					var ls = can.core.Split(list[i], "\t \n", ":="); if (ls.length == 1) { _list.push(list[i]) } else {
+						var item = {name: ls[0]}; for (var j = 1; j < ls.length; j+=2) {
+							switch (ls[j]) {
+								case ":": item.type = ls[j+1]; break
+								case "=": item.value = ls[j+1]; break
+							}
+						}; _list.push(item)
+					}
 			}
 		}
+		meta = meta||can.onaction, action = action||can._action, can.onmotion.clear(can, action)
 		return can.core.List(_list, function(item) { if (item == undefined) { return } can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
 			can.base.isString(item)? /*按键*/ {type: html.BUTTON, value: can.user.trans(can, item), onclick: function(event) {
 				var cb = meta[item]||meta["_engine"]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
