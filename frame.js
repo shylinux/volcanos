@@ -193,7 +193,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 		list = can.base.getValid(list, can.core.Item(meta))
 		list = can.base.Obj(list, can.core.Value(can, [chat.ONACTION, mdb.LIST]))
 		var _list = []; for (var i = 0; i < list.length; i++) {
-			switch (list[i]) { case "": break
+			switch (list[i]) { case "": _list.push(""); break
 				case "page":
 					_list.push({type: "text", name: "limit", value: can._msg.Option("limit")})
 					_list.push({type: "text", name: "offend", value: can._msg.Option("offend")})
