@@ -39,7 +39,7 @@ div.code { background-color:#343a3445; color:white; padding:10px; border:solid 3
 div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:4px 10px; border-left:solid 4px blue; margin:10px 0px; }
 
 form.option>div.item { margin-right:3px; }
-form.option>div.item.select { background-color:none; }
+form.option>div.item.select { background-color:#0000; }
 form.option>div.item input.args.char { width:20px; }
 form.option>div.item input.args.tiny { width:40px; }
 form.option>div.item input.args.long { width:240px; }
@@ -137,10 +137,14 @@ body.print fieldset.Header, body.print fieldset.River, body.print fieldset.Actio
 body.print fieldset.River>div.output div.item.select { background-color:white; border:solid 2px red; }
 body.print fieldset.River>div.output div.list div.item { background-color:white; }
 
+body.mobile>div.input input[name=username] { width:264px; }
+body.mobile>div.input input[name=password] { width:264px; }
 body.mobile legend { font-size:1.6rem; }
 body.mobile input { font-size:1.4rem; }
-body.mobile input[type=text] { padding-top:3px; height:2.3rem; }
-body.mobile select { font-size:1.4rem; margin-top:3px; height:40px; }
+body.mobile textarea { font-size:1.2rem; }
+body.mobile input[type=text] { padding-top:3px; height:2.35rem; }
+body.mobile input[type=text] { padding-top:3px; height:2.47rem; }
+body.mobile select { font-size:1.4rem; margin-top:3px; height:42px; }
 body.mobile>div.carte { font-size:1.6rem; }
 body.mobile>div.carte div.item { font-size:1.6rem; }
 body.mobile>div.input.login input { font-size:1.4rem; }
@@ -150,8 +154,9 @@ body.mobile fieldset.Header.head div.output { height:3rem; }
 body.mobile fieldset.Header.head>div.output div.menu { height:2.6rem; }
 body.mobile fieldset.Header.head div.state.time { display:none; }
 body.mobile fieldset.River.left { background-color:#243950bf; font-size:2rem; min-width:240px; position:fixed; top:3rem; z-index:10; }
+body.mobile fieldset.River>div.output { width:320px; }
 body.mobile fieldset.River>div.output div.item { font-size:1.6rem; }
-body.mobile fieldset.Action.main { margin-top:3rem; }
+body.mobile fieldset.Action.main { margin-top:3rem; margin-bottom:3rem; }
 body.mobile fieldset.Action.main.cmd { margin-top:0; margin-bottom:0; }
 body.mobile fieldset.Footer.foot { width:-webkit-fill-available; }
 body.mobile fieldset.Footer.foot { background-color:#000000b8; font-size:1.6rem; height:3rem; position:fixed; bottom:0; }

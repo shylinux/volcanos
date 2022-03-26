@@ -63,3 +63,5 @@ body.white fieldset.inner>div.output div.content td.text span.string { color:#a7
 	user-select:none;
 }
 
+body.mobile fieldset.inner.float legend { height:42px; }
+body.mobile fieldset.inner>form.option input[name=file] { width:90px; }

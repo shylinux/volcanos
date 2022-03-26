@@ -8,6 +8,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.page.Modify(can, can.ui.profile, {style: {"max-height": can.ui.content.offsetHeight}})
 		can.page.Modify(can, can.ui.profile, {style: {display: "block"}})
 		can.base.isFunc(cb) && cb(msg)
+		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
 	},
 	_content: function(can, msg, head, list, key, get, set) {
 		var hash = {}; msg.Table(function(value, index) { var k = key(can.base.Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value]) })

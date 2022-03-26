@@ -517,10 +517,11 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 		})
 
 		can.page.Select(can, target, html.FIELDSET_LEFT, function(field, index) {
+			var offset = can.user.isMobile? 100: 0
 			can.user.isMobile || (width -= field.offsetWidth)
-			can.page.styleHeight(can, field, height)
+			can.page.styleHeight(can, field, height-offset)
 			can.page.Select(can, target, [[html.FIELDSET_LEFT, html.DIV_OUTPUT]], function(output) {
-				can.page.styleHeight(can, output, height-html.ACTION_HEIGHT-1)
+				can.page.styleHeight(can, output, height-html.ACTION_HEIGHT-1-offset)
 			})
 		})
 

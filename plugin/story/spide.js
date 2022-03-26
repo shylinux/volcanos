@@ -178,10 +178,10 @@ Volcanos("ondetail", {help: "用户交互", list: [],
 	},
 	figure: function(can, sub, msg, cb) {
 		can.getActionSize(function(left, top, width, height) { left = left||0
-			var top = 120; if (can.user.isMobile) { top = can.user.isLandscape()? 24: 48 }
-			if (height > window.innerHeight) { height = window.innerHeight-top }
+			var top = 120; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
+			sub.ConfHeight(height-top-html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0)), sub.ConfWidth(width)
+
 			can.onmotion.move(can, sub._target, {position: html.FIXED, left: left, top: top})
-			sub.ConfHeight(height-top-2*html.ACTION_HEIGHT), sub.ConfWidth(width)
 			can.page.style(can, sub._output, html.MAX_WIDTH)
 			can.base.isFunc(cb) && cb(msg)
 		})

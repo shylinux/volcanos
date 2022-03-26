@@ -21,7 +21,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 
 		meta.id && (sub._option.dataset = sub._option.dataset||{}, sub._option.dataset.id = meta.id)
 
-		can.page.Modify(can, sub._output, {style: kit.Dict(html.MAX_WIDTH, meta.width-20)})
+		can.page.Modify(can, sub._output, {style: kit.Dict(html.MAX_WIDTH, meta.width-(can.user.isWindows? 20: 0))})
 		can.page.Append(can, can._action, [{view: [html.TABS, html.DIV, meta.name], onclick: function(event) {
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
 			can.onmotion.select(can, can._action, html.DIV_TABS, event.target)
@@ -240,7 +240,9 @@ Volcanos("onexport", {help: "导出数据", list: [],
 		msg.Option(html.TOP, can._target.offsetTop)
 		msg.Option(html.LEFT, can._target.offsetLeft)
 		msg.Option(html.WIDTH, can._target.offsetWidth)
-		msg.Option(html.HEIGHT, can._target.offsetHeight-can._action.offsetHeight)
+		if (msg.Option(html.HEIGHT, can._target.offsetHeight-can._action.offsetHeight) > window.innerHeight) {
+			msg.Option(html.HEIGHT, window.innerHeight-2*html.ACTION_HEIGHT)
+		}
 		msg.Option(html.SCROLL, can.user.isMobile? can._target.parentNode.parentNode.scrollTop: can._output.scrollTop)
 		msg.Option(html.MARGIN_X, can.Conf(html.MARGIN_X))
 		msg.Option(html.MARGIN_Y, can.Conf(html.MARGIN_Y))

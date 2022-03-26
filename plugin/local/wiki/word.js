@@ -104,7 +104,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 				can.run(event, can.misc.concat(can, [ctx.ACTION, chat.STORY, data.type, data.name, data.text], cmds), cb, true)
 			}
 			sub.ConfHeight(can.ConfHeight())
-			sub.ConfWidth(item.width = (width||can.ConfWidth())-40)
+			sub.ConfWidth(item.width = (width||can.ConfWidth())-(can.user.isWindows? 40: 20))
 
 			can.core.Value(item, "auto.cmd") && can.core.Timer300ms(function() {
 				var msg = sub.request({}, can.core.Value(item, "opts")); msg.Option(ice.MSG_HANDLE, ice.TRUE)
