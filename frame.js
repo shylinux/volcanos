@@ -7,6 +7,9 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 			can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID))
 			return can.misc.Search(can, ice.MSG_SESSID, "") 
 		}
+		window.addEventListener("orientationchange", function(event) {
+			can.onengine.signal(can, "orientationchange")
+		})
 
 		if (can.user.isExtension) { Volcanos.meta.args = can.base.Obj(localStorage.getItem(ctx.ARGS), {}) }
 		can.page.Select(can, target, html.IFRAME, function(item) { can.page.Remove(can, item) })
@@ -362,9 +365,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			item.type == html.TEXT && can.onkeymap.input(event, can), can.onmotion.selectField(event, can)
 		}, list: [input]}]).concat(br))[item.name]
 	},
-	table: function(can, msg, cb, target, sort) { var isaction = false
+	table: function(can, msg, cb, target, sort) {
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
-			if (key == "action") { isaction = true }
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) {
 				if (key == mdb.VALUE) { key = line.key }
 				line = {}, can.core.List(array, function(item) { line[item.key] = item.value })
@@ -401,7 +403,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 				can.onmotion.modifys(can, event.target, function(event, value, old) { run([ctx.ACTION, mdb.MODIFY, key, value]) }, item)
 			}}
 		}); table && can.page.Modify(can, table, {className: chat.CONTENT})
-		if (isaction) { can.page.ClassList.add(can, table, "action") }
+		if (msg.append && msg.append[msg.append.length-1] == "action") { can.page.ClassList.add(can, table, "action") }
 		return sort && can.page.RangeTable(can, table, sort), table
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }
@@ -520,7 +522,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 		})
 
 		can.page.Select(can, target, html.FIELDSET_LEFT, function(field, index) {
-			var offset = can.user.isMobile? 100: 0
+			var offset = can.user.isMobile && !can.user.isLandscape()? 100: 0
 			can.user.isMobile || (width -= field.offsetWidth)
 			can.page.styleHeight(can, field, height-offset)
 			can.page.Select(can, target, [[html.FIELDSET_LEFT, html.DIV_OUTPUT]], function(output) {
@@ -559,7 +561,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 		if (layout.left+target.offsetWidth>window.innerWidth) {
 			layout.right = 0, layout.left = ""
 		}
-		if (top+target.offsetHeight>window.innerHeight-32) {
+		if (!(can.user.isMobile && can.user.isLandscape()) && top+target.offsetHeight>window.innerHeight-32) {
 			layout.bottom = window.innerHeight - event.clientY+event.offsetY, layout.top = ""
 			if (right) { layout.bottom -= target.offsetHeight }
 		}

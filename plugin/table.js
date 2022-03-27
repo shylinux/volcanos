@@ -4,6 +4,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.onappend.board(can, msg, target)
 		can.onmotion.story.auto(can)
 		can.base.isFunc(cb) && cb(msg)
+		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can._action)
 	},
 
 	_process: function(can, msg) {

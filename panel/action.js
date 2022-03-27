@@ -21,7 +21,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 
 		meta.id && (sub._option.dataset = sub._option.dataset||{}, sub._option.dataset.id = meta.id)
 
-		can.page.Modify(can, sub._output, {style: kit.Dict(html.MAX_WIDTH, meta.width-(can.user.isWindows? 20: 0))})
+		can.onengine.listen(can, "orientationchange", function(event) {
+			can.page.style(can, sub._output, html.MAX_WIDTH, meta.width-(can.user.isWindows? 20: 0))
+		})
+		can.page.style(can, sub._output, html.MAX_WIDTH, meta.width-(can.user.isWindows? 20: 0))
+
 		can.page.Append(can, can._action, [{view: [html.TABS, html.DIV, meta.name], onclick: function(event) {
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
 			can.onmotion.select(can, can._action, html.DIV_TABS, event.target)

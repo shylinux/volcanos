@@ -133,7 +133,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 		},
 	}, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: ["view"],
+Volcanos("onaction", {help: "控件交互", list: [],
 	_trans: {view: "视图"},
 	play: function(event, can) { var list = [], current = []
 		can.page.Select(can, can._output, wiki.ITEM, function(item) {

@@ -2,6 +2,11 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.onengine.plugin(can, "can.code.inner.plugin", shy("插件", {}, [{type: "button", name: "list", action: "auto"}, "back"], function(msg, cmds) {
 			console.log("what")
 		}))
+		can.onengine.listen(can, "orientationchange", function(event) {
+			if (can.user.mod.isCmd) { can.ConfHeight(window.innerHeight), can.ConfWidth(window.innerWidth) }
+			can.user.toast(can, can.ConfHeight()+"")
+			can.onimport.layout(can)
+		})
 
 		var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
 		var files = can.core.Split(can.Option(nfs.FILE), ice.FS); can.Option(nfs.FILE, files[0])
@@ -13,7 +18,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.onimport._profile(can, can.ui.profile)
 		can.onimport._display(can, can.ui.display)
 		can.base.isFunc(cb) && cb(msg)
-		if (can.user.isMobile || !can.page.ClassList.has(can, can._fields, chat.PLUGIN)) { can.onmotion.hidden(can, can._action) }
 
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
 		can.Conf("mode") == "simple"? can.onimport._simple(can): can.onimport.project(can, paths, function() {
@@ -80,7 +84,6 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.ui.toolkit = can.onappend.field(can, "toolkit", {}, can._output)
 	},
 	_session: function(can, msg) {
-		if (can.user.isMobile || !can.page.ClassList.has(can, can._fields, chat.PLUGIN)) { return can.onmotion.hidden(can, can._action) }
 		can.onimport.sess(can, "", function() { can.onimport.sess(can, {
 			plug: can.core.Split(msg.OptionOrSearch("plug")).reverse(),
 			exts: can.core.Split(msg.OptionOrSearch("exts")).reverse(),
@@ -188,6 +191,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 	layout: function(can) {
 		var height = can.ConfHeight()-(can.user.isMobile && can.user.mod.isCmd? (can.user.isLandscape()? 14: 54): 0)-(can.user.isWindows? 20: 0),
 			width = can.ConfWidth()-(can.user.isWindows && !can.user.mod.isCmd? 20: 0)+(can.user.isMobile && can.user.mod.isCmd && can.user.isLandscape()? 16: 0)
+		if (can.user.isMobile && can.user.isLandscape() && height < 200) { height = 200 }
 
 		can.page.styleWidth(can, can.ui.profile_output, can.profile_size[can.onexport.keys(can)]||(width-can.ui.project.offsetWidth)/2)
 		can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
