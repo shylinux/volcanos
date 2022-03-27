@@ -6,6 +6,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.page.Select(can, target, wiki.ITEM, function(item) { var data = item.dataset||{}
 			can.core.CallFunc([can.onimport, data.type], [can, data, item])
 			can.page.Modify(can, item, {style: can.base.Obj(data.style)})
+			can.page.style(can, item, html.MAX_WIDTH, can.ConfWidth()-(can.user.isWindows? 40: 30))
 		})
 	},
 	navmenu: function(can, data, target) { var nav = can.sup._navmenu
@@ -105,6 +106,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 			}
 			sub.ConfHeight(can.ConfHeight())
 			sub.ConfWidth(item.width = (width||can.ConfWidth())-(can.user.isWindows? 40: 20))
+			can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth())
 
 			can.core.Value(item, "auto.cmd") && can.core.Timer300ms(function() {
 				var msg = sub.request({}, can.core.Value(item, "opts")); msg.Option(ice.MSG_HANDLE, ice.TRUE)

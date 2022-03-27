@@ -58,6 +58,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 			opts: can.misc.Search(can),
 		})
 		can.onappend.plugin(can, item, function(sub, meta, skip) {
+			can.page.style(can, sub._output, html.MAX_WIDTH, window.innerWidth)
 			can.user.title(meta.name), skip || next()
 		})
 	},

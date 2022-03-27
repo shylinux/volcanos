@@ -170,7 +170,9 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 				})
 			})
 		} else if (msg.Option(ice.MSG_DISPLAY) != "") {
-			can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY), target, false)
+			can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY), target, false, function(msg) {
+				can.onimport.layout(can)
+			})
 		} else {
 			can.onappend.table(can, msg, null, target)
 			can.onappend.board(can, msg, target)
@@ -189,6 +191,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 
 		can.page.styleWidth(can, can.ui.profile_output, can.profile_size[can.onexport.keys(can)]||(width-can.ui.project.offsetWidth)/2)
 		can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
+		can.page.styleWidth(can, can.ui.display, width-can.ui.project.offsetWidth)
 
 		if (!height) { return }
 		can.page.style(can, can.ui.content, can.user.mod.isCmd? html.HEIGHT: html.MAX_HEIGHT, height)

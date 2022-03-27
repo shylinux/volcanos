@@ -257,7 +257,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			!silent && can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)||meta.display||meta.feature.display)
 		})
 	},
-	_output: function(can, msg, display, output, action) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
+	_output: function(can, msg, display, output, action, cb) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
 		Volcanos(display, {_follow: can.core.Keys(can._follow, display), _display: display, _target: output, _fields: can._target,
 			_option: can._option, _action: can._action, _output: can._output, _status: can._status, _legend: can._legend, _inputs: {},
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
@@ -275,7 +275,8 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			can.core.CallFunc([table, chat.ONIMPORT, "_init"], {can: table, msg: msg, list: msg.result||msg.append||[], cb: function(msg) {
 				action === false || table.onappend._action(table, msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), action)
 				action === false || table.onappend._status(table, msg.Option(ice.MSG_STATUS))
-			}, target: output})
+				can.base.isFunc(cb) && cb(msg)
+			}, target: output||can._output})
 		})
 	},
 	_status: function(can, list, status) { status = status||can._status, can.onmotion.clear(can, status)
@@ -361,8 +362,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			item.type == html.TEXT && can.onkeymap.input(event, can), can.onmotion.selectField(event, can)
 		}, list: [input]}]).concat(br))[item.name]
 	},
-	table: function(can, msg, cb, target, sort) {
+	table: function(can, msg, cb, target, sort) { var isaction = false
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
+			if (key == "action") { isaction = true }
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) {
 				if (key == mdb.VALUE) { key = line.key }
 				line = {}, can.core.List(array, function(item) { line[item.key] = item.value })
@@ -399,6 +401,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 				can.onmotion.modifys(can, event.target, function(event, value, old) { run([ctx.ACTION, mdb.MODIFY, key, value]) }, item)
 			}}
 		}); table && can.page.Modify(can, table, {className: chat.CONTENT})
+		if (isaction) { can.page.ClassList.add(can, table, "action") }
 		return sort && can.page.RangeTable(can, table, sort), table
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }
