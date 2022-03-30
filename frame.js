@@ -203,11 +203,15 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 					_list.push("prev", "next")
 					break
 				default:
-					var ls = can.core.Split(list[i], "\t \n", ":="); if (ls.length == 1) { _list.push(list[i]) } else {
+					if (can.base.isObject(list[i])) { _list.push(list[i]); break }
+					var ls = can.core.Split(list[i], "\t \n", ":=@"); if (ls.length == 1) { _list.push(list[i]) } else {
 						var item = {name: ls[0]}; for (var j = 1; j < ls.length; j+=2) {
 							switch (ls[j]) {
 								case ":": item.type = ls[j+1]; break
 								case "=": item.value = ls[j+1]; break
+                case "@": item.action = ls[j+1]; (function() {
+                  item._init = function(target) { can.onappend.figure(can, item, target) }
+                })(); break
 							}
 						}; _list.push(item)
 					}
@@ -784,6 +788,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 	},
 
 	selectField: function(event, can) {
+		if (event.key == "Enter") { return can.run(event) }
 		if (!event.ctrlKey || event.key < "0" || event.key > "9") { return }
 		if (event.shiftKey) {
 			return can.page.Select(can, can._option, "input[type=button]", function(item, index) {

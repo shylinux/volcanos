@@ -52,9 +52,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 	_open: function(can, msg) { can.user.open(msg.Option("_arg")); return true },
 	_hold: function(can, msg) { return true },
 	_back: function(can) {
-		can._history.pop(); for (var his = can._history.pop(); his; his = can._history.pop()) {
-			if (his[0] == ctx.ACTION) { continue }
-			can.page.SelectArgs(can, can._option, "", function(item, index) { item.value = his[index]||"" }), can.Update()
+		can._history.pop(); for (var his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
+			var index = 0
+			can.page.SelectArgs(can, can._option, "", function(item) { item.value = his[index++]||"" })
+			can.page.SelectArgs(can, can._action, "", function(item) { item.value = his[index++]||"" })
+			can.Update()
 			break
 		}
 		!his && can.Update()

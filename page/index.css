@@ -36,8 +36,11 @@ background-color:#7dc6d7eb;
 
 td>input[type=button][name=create] { background-color:blue; }
 td>input[type=button][name=remove] { background-color:red; }
-td>input[type=button][name=start] { background-color:blue; }
+td>input[type=button][name=start] { background-color:#52ce78; }
+td>input[type=button][name=open] { background-color:blue; }
 td>input[type=button][name=stop] { background-color:red; }
+td>input[type=button][name=delete] { background-color:red; }
+td>input[type=button][name=insert] { background-color:blue; }
 
 div.tabs { background-color:#00000038; color:white; padding:5px; margin:0 1px; }
 div.code { background-color:#343a3445; color:white; padding:10px; border:solid 3px green; }
@@ -130,11 +133,14 @@ body.white table.content { color:black; }
 body.white table.content tr { background-color:#e1f1ff1f; }
 body.white table.content th { background-color:#99CCFF; }
 
-body.white td>input[type=button][value=结束] { background-color:red; }
-body.white td>input[type=button][value=停止] { background-color:red; }
-body.white td>input[type=button][value=启动] { background-color:#52ce78; }
+body.white td>input[type=button][name=结束] { background-color:red; }
+body.white td>input[type=button][name=stop] { background-color:red; }
+body.white td>input[type=button][name=open] { background-color:blue; }
+body.white td>input[type=button][name=start] { background-color:#52ce78; }
 body.white td>input[type=button][name=create] { background-color:blue; }
 body.white td>input[type=button][name=remove] { background-color:red; }
+body.white td>input[type=button][name=insert] { background-color:blue; }
+body.white td>input[type=button][name=delete] { background-color:red; }
 
 body.print { background-color:white; color:black; }
 body.print legend, body.print select, body.print input[type=text] { box-shadow:0px 0px 0px 0px #626bd0; }
@@ -236,4 +242,4 @@ body.white input[type=button]:hover { background-color:#FFCC33; border:2px solid
 body.white table.content th:hover, body.white table.content td.select, body.white table.content td:hover { background-color:#6495ed63; }
 body.white table.content tr:hover { background-color:#4682b46b; }
 body.white div.item.select, body.white div.item:hover { background-color:steelblue; }
-
+body.white fieldset.float table { color:white; }

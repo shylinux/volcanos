@@ -1,9 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
 		can.onmotion.clear(can, target)
 		can.ui = can.onlayout.profile(can)
-		can.onmotion.hidden(can, can._action)
 		can.onimport[can.Option("scale")||"week"](can, msg)
-		// can.page.Modify(can, can._output, {style: {"min-height": 452}})
 		can.page.Modify(can, can.ui.project, {style: {"max-height": can.ui.content.offsetHeight}})
 		can.page.Modify(can, can.ui.profile, {style: {"max-height": can.ui.content.offsetHeight}})
 		can.page.Modify(can, can.ui.profile, {style: {display: "block"}})
@@ -150,6 +148,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 	},
 }, [""])
 Volcanos("onaction", {help: "组件交互", list: [
+		"insert", "export", "import",
 		["level", "all", "l1", "l2", "l3", "l4", "l5"],
 		["status", "all", "prepare", "process", "cancel", "finish"],
 		["score", "all", "s1", "s2", "s3", "s4", "s5"],
