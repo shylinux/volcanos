@@ -191,6 +191,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 	layout: function(can) {
 		var height = can.ConfHeight()-(can.user.isMobile && can.user.mod.isCmd? (can.user.isLandscape()? 14: 54): 0)-(can.user.isWindows? 20: 0),
 			width = can.ConfWidth()-(can.user.isWindows && !can.user.mod.isCmd? 20: 0)+(can.user.isMobile && can.user.mod.isCmd && can.user.isLandscape()? 16: 0)
+		if (!height || height > window.innerHeight) { height = window.innerHeight - 200 }
 		if (can.user.isMobile && can.user.isLandscape() && height < 200) { height = 200 }
 
 		can.page.styleWidth(can, can.ui.profile_output, can.profile_size[can.onexport.keys(can)]||(width-can.ui.project.offsetWidth)/2)

@@ -89,10 +89,15 @@ Volcanos("onaction", {help: "交互操作", list: [
 			mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input([], true)),
 		])
 	},
-	"切换全屏": function(event, can) {
+	"切换全屏": function(event, can) { var sub = can._outputs[can._outputs.length-1]
 		if (can.page.ClassList.neg(can, can._target, "Full")) {
-			can.page.style(can, can._output, "height", window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT, "min-width", window.innerWidth)
+			sub._height_bak = sub.ConfHeight(), sub._width_bak = sub.ConfWidth()
+			var height = window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT
+			can.page.style(can, can._output, "height", sub.ConfHeight(height), "min-width", sub.ConfWidth(window.innerWidth))
+			can.core.CallFunc([sub, "onimport.layout"], {can: sub})
 		} else {
+			sub.ConfHeight(sub._height_bak), sub.ConfWidth(sub._width_bak)
+			can.core.CallFunc([sub, "onimport.layout"], {can: sub})
 			can.page.style(can, can._output, "height", "", "min-width", "")
 		}
 	},

@@ -119,7 +119,10 @@ body.white fieldset.Action { color:black; }
 body.white fieldset.Action>div.action { color:white; }
 body.white fieldset.Action fieldset.plugin { background-color:#ffffff78; }
 body.white fieldset.Action fieldset.plugin.full { background-color:#ffffffff; }
-body.white fieldset.Action fieldset.plugin.Full { background-color:#cce0f4eb; }
+body.white fieldset.Action fieldset.plugin.Full { background-color:#cce0f4eb; color:white; }
+body.white fieldset.Action fieldset.story.Full { background-color:#cce0f4eb; color:white; }
+body.white fieldset.Action fieldset.plugin.Full table.content { color:white; }
+body.white fieldset.Action fieldset.story.Full table.content { color:white; }
 body.white fieldset.Search table { color:white; }
 body.white fieldset.word.float { background-color:aliceblue; color:black; }
 

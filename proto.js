@@ -334,6 +334,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 			var msg = can.request({}, {trans: can.onaction._trans})
 			return can._menu = can.search(msg._event, [["Header", chat.ONIMPORT, "menu"], can._name].concat(list), cb)
 		},
+		setRiver: function(key, value) { return can.set("River", key, value) },
 		setHeader: function(key, value) { return can.set("Header", key, value) },
 		getHeader: function(key, cb) { return can.get("Header", key, cb) },
 		getAction: function(key, cb) { return can.get("Action", key, cb) },

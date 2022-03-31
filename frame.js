@@ -234,6 +234,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			return can.user.input(event, can, meta.feature[cmds[1]], function(ev, button, data, list, args) { var msg = can.request(event, {_handle: ice.TRUE}, can.Option())
 				can.Update(event, cmds.slice(0, 2).concat(args), cb||function() {
 					if (can.core.CallFunc([can.sup, chat.ONIMPORT, ice.MSG_PROCESS], {can: can.sup, msg: msg})) { return }
+					if (can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
 					if (msg.Result().length > 0 || msg.Length() > 0) {
 						can.onappend.table(can, msg)
 						can.onappend.board(can, msg)

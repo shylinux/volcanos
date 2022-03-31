@@ -90,6 +90,11 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, p
 Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, target) {
 		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+2*html.ACTION_HEIGHT+html.ACTION_MARGIN)
 		can.Conf(html.MARGIN_X, 4*html.PLUGIN_MARGIN)
+		function toggle(view) { return !can.setRiver("display") }
+		var gt = "&#10095;", lt = "&#10094;", down = "&#709;", up = "&#708;"
+		can.page.Append(can, target, [{view: [[html.TOGGLE, chat.PROJECT]], list: [{text: [gt, html.DIV]}], onclick: function(event) {
+			event.target.innerHTML = toggle()? gt: lt
+		}}])
 
 		can.onengine.plugin(can, "info", shy("信息", {}, ["text", "list", "back"], function(msg, cmds) {
 			msg.Echo(JSON.stringify(can))

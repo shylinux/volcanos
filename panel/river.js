@@ -62,6 +62,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 			can.storm_list[can.core.Keys(river, meta.hash)] = target
 		}}
 	},
+	"display": function(event, can) {
+		var show = can.onmotion.toggle(can, can._target); can.onlayout._init(can)
+		return show
+	},
 })
 Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, can, msg, panel, cmds, cb) {
 	var list = can._root.river
