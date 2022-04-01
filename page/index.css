@@ -14,15 +14,17 @@ input[name=line] { width:40px; }
 input[name=text] { width:160px; }
 input[name=url] { width:320px; }
 
+fieldset.plugin.config form.option input[name=key] { width:240px; }
 table.layout { border-spacing:0; }
 table.layout td { vertical-align:top; }
 table.layout td.content { position:relative; }
-table.layout div.toggle { background-color:#e1aeae45; height:100px; top:20%; position:absolute; }
-table.layout div.toggle>div { color:white; height:95px; display:table-cell; vertical-align:middle; }
-table.layout div.toggle.project { left:0px; min-width:10px; border-top-right-radius:10px; border-bottom-right-radius:10px; }
-table.layout div.toggle.profile { right:0px; min-width:10px; border-top-left-radius:10px; border-bottom-left-radius:10px; }
-table.layout div.toggle.display { overflow:hidden; margin-top:-12px; height:10px; width:100px; position:sticky; left:20%; border-top-left-radius:10px; border-top-right-radius:10px; }
-table.layout div.toggle.display>div { color:white; text-align:center; height:10px; width:100px; }
+table.layout div.toggle { font-size:24px; background-color:#e1aeae45; position:absolute; }
+table.layout div.toggle>div { color:white; display:table-cell; }
+table.layout div.toggle.project { padding-top: 50px; height:100px; width:15px; top:20%; left:0px; border-top-right-radius:10px; border-bottom-right-radius:10px; }
+table.layout div.toggle.profile { padding-top: 50px; height:100px; width:15px; top:20%; right:0px; border-top-left-radius:10px; border-bottom-left-radius:10px; }
+table.layout div.toggle.display { overflow:hidden; margin-top:-17px; height:15px; width:100px; position:sticky; left:40%; border-top-left-radius:10px; border-top-right-radius:10px; }
+table.layout div.toggle.display>div { color:white; text-align:center; height:15px; width:100px; }
+fieldset.Action.cmd>div.toggle.project { display:none; }
 
 table.content tr { background-color:#04272f45; }
 table.content tr.show { background-color:red; }
@@ -99,6 +101,7 @@ body>div.carte { background-color:#295b61; color:white; padding:4px; min-width:8
 body>div.carte div.item { padding:3px 12px; }
 body>div.input { background-color:#0d4142a6; }
 body>div.input div.item { float:left; }
+body>div.input select { width:183px; }
 body>div.input input[type=text] { width:171px; }
 body>div.input input[name=username] { width:171px; }
 body>div.input input[name=password] { width:171px; }
@@ -246,3 +249,4 @@ body.white table.content th:hover, body.white table.content td.select, body.whit
 body.white table.content tr:hover { background-color:#4682b46b; }
 body.white div.item.select, body.white div.item:hover { background-color:steelblue; }
 body.white fieldset.float table { color:white; }
+

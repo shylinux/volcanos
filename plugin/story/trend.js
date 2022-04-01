@@ -5,7 +5,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.Conf(html.HEIGHT, can.Conf(html.HEIGHT)||200)
 
 		can.msg = msg, can.data = msg.Table(), can.onimport._sum(can)
-		can.Action(html.HEIGHT, msg.Option(html.HEIGHT)||"max")
+		can.Action(html.HEIGHT, msg.Option(html.HEIGHT)||"auto")
 		can.Action("speed", parseInt(msg.Option("speed")||"100"))
 
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
@@ -43,13 +43,13 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.onaction[can.Action("view")]({}, can)
 	},
 }, [""])
-Volcanos("onaction", {help: "组件菜单", list: ["edit", ["view", "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600", "800", "max"], ["speed", "10", "20", "50", "100"]],
+Volcanos("onaction", {help: "组件菜单", list: ["edit", ["view", "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600", "800", "auto"], ["speed", "10", "20", "50", "100"]],
 	"edit": function(event, can) {
 		can.onmotion.toggle(can, can._action)
 		can.onmotion.toggle(can, can._status)
 	},
 	"趋势图": function(event, can) { var height = can.Action(html.HEIGHT)
-		if (height == "max") {
+		if (height == "auto") {
 			height = can.Conf(html.HEIGHT)
 		}
 		height = parseInt(height)

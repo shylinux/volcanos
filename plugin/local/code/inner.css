@@ -5,10 +5,6 @@ fieldset.inner>div.action>div.tabs:hover { background-color:#013b675c; }
 fieldset.inner>div.action>div.tabs.select { background-color:#013b675c; }
 
 fieldset.inner>div.output { color:white; }
-fieldset.inner>div.output>table.layout div.toggle.project { font-size:24px; min-width:15px; }
-fieldset.inner>div.output>table.layout div.toggle.profile { font-size:24px; min-width:15px; }
-fieldset.inner>div.output>table.layout div.toggle.display { font-size:24px; height:15px; margin-top:-17px; }
-
 fieldset.inner>div.output div.content { color:white; font-size:1.2rem; font-family:monospace; position:relative; }
 fieldset.inner>div.output div.content tr.select { background-color:#0000ff6b; }
 fieldset.inner>div.output div.content tr.select td.line { background-color:blue; border:solid 1px red; border-right:solid 2px red; }
