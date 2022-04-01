@@ -1,8 +1,8 @@
 fieldset.inner>form.option input[name=path] { width:80px; }
 fieldset.inner>form.option input[name=file] { width:160px; }
-fieldset.inner>div.action>div.tabs { background-color:#5c809c5c; }
+fieldset.inner>div.action>div.tabs { background-color:#5c809c5c; height:18px; }
 fieldset.inner>div.action>div.tabs:hover { background-color:#013b675c; }
-fieldset.inner>div.action>div.tabs.select { background-color:#013b675c; }
+fieldset.inner>div.action>div.tabs.select { background-color:#013b675c; border-bottom:solid 2px #7999b2; font-size:1rem; height:19px; }
 
 fieldset.inner>div.output { color:white; }
 fieldset.inner>div.output div.content { color:white; font-size:1.2rem; font-family:monospace; position:relative; }

@@ -48,7 +48,7 @@ div.tabs { background-color:#00000038; color:white; padding:5px; margin:0 1px; }
 div.code { background-color:#343a3445; color:white; padding:10px; border:solid 3px green; }
 div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:4px 10px; border-left:solid 4px blue; margin:10px; }
 
-form.option>div.item { margin-right:3px; }
+body.mobile form.option>div.item { margin-right:0px; }
 form.option>div.item.select { background-color:#0000; }
 form.option>div.item input.args.char { width:20px; }
 form.option>div.item input.args.tiny { width:40px; }
@@ -122,8 +122,8 @@ body.white fieldset.Action { color:black; }
 body.white fieldset.Action>div.action { color:white; }
 body.white fieldset.Action fieldset.plugin { background-color:#ffffff78; }
 body.white fieldset.Action fieldset.plugin.full { background-color:#ffffffff; }
-body.white fieldset.Action fieldset.plugin.Full { background-color:#cce0f4eb; color:white; }
-body.white fieldset.Action fieldset.story.Full { background-color:#cce0f4eb; color:white; }
+body.white fieldset.Action fieldset.plugin.Full { background-color:#cce0f4eb; color:white; z-index:10; }
+body.white fieldset.Action fieldset.story.Full { background-color:#cce0f4eb; color:white; z-index:10; }
 body.white fieldset.Action fieldset.plugin.Full table.content { color:white; }
 body.white fieldset.Action fieldset.story.Full table.content { color:white; }
 body.white fieldset.Search table { color:white; }
