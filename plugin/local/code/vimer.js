@@ -159,7 +159,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 		},
 	}, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.COMPILE, "script", chat.WEBSITE],
+Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, "dream", code.AUTOGEN, code.COMPILE, "script", chat.WEBSITE],
 	save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
 		can.run(event, [ctx.ACTION, nfs.SAVE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
 			can.onimport.project(can, can.Option(nfs.PATH))
@@ -184,7 +184,7 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 		}, true)
 	},
 	script: function(event, can, button) { var meta = can.Conf()
-		can.request(event, {_handle: ice.TRUE, text: `Volcanos("onimport", {help: "导入数据", list:[], _init: function(can, msg, cb, target) {
+		can.request(event, {_handle: ice.TRUE, file: "hi/hi.js", text: `Volcanos("onimport", {help: "导入数据", list:[], _init: function(can, msg, cb, target) {
 	msg.Echo("hello world")
 	can.onappend.table(can, msg)
 	can.onappend.board(can, msg)
@@ -197,7 +197,7 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 		})
 	},
 	website: function(event, can, button) { var meta = can.Conf()
-		can.request(event, {_handle: ice.TRUE, text: `
+		can.request(event, {_handle: ice.TRUE, file: "hi.iml", text: `
 hi
 	he
 		cli.runtime
@@ -205,7 +205,7 @@ hi
 		hi/hi.sh
 		hi/hi.go
 		hi/hi.js
-`}, can.Option())
+`.trim()}, can.Option())
 		can.user.input(event, can, meta.feature[button], function(ev, btn, data, list, args) {
 			can.run(event, [ctx.ACTION, button].concat(args), function(msg) {
 				can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE))

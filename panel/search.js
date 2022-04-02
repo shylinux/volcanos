@@ -7,6 +7,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		}, can.ui.content, can.core.List((msg.Option("sort")||"ctx,cmd,type,name,text").split(ice.FS), function(item) {
 			return list.indexOf(item)
 		})); table && can.page.Modify(can, can.ui.display, {style: {width: table.offsetWidth}})
+		can.onmotion.story.auto(can)
 
 		can.onappend._status(can, can.base.Obj(msg.Option("_status"), []).concat({name: "selected", value: "0"}))
 		can.getActionSize(function(msg, height) {
@@ -93,6 +94,7 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
 	},
 
 	plugin: function(event, can, index) { var line = can.list[index]
+		if (line.ctx == "web.wiki" && line.cmd == "word") { return }
 		if (can.base.isFunc(line.text)) { return can.onmotion.hide(can), line.text(event) }
 
 		var cmd = line.cmd == ctx.COMMAND? can.core.Keys(line.type, line.name.split(ice.SP)[0]): can.core.Keys(line.ctx, line.cmd)

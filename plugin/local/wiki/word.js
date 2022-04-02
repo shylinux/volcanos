@@ -41,6 +41,13 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 	title: function(can, data, target) {
 		can.user.mod.isCmd && target.tagName == "H1" && can.user.title(data.text)
 	},
+	refer: function(can, data, target) {
+		can.page.Select(can, target, html.A, function(item) {
+			item.onclick = function(event) {
+				can.run(event, [ctx.ACTION, mdb.CREATE, mdb.TYPE, "refer", mdb.NAME, item.dataset.name, mdb.TEXT, item.href], null, true)
+			}
+		})
+	},
 	spark: function(can, data, target) {
 		if (data[mdb.NAME] == chat.FIELD) {
 			function deep(text) { var d = 0
@@ -85,7 +92,11 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		}
 		if (data[mdb.NAME] == html.INNER) { return can.onmotion.copy(can, target) }
 		can.page.Select(can, target, html.A, function(item) { can.onmotion.link(can, item) })
-		can.page.Select(can, target, html.SPAN, function(item) { can.onmotion.copy(can, item) })
+		can.page.Select(can, target, html.SPAN, function(item) {
+			can.onmotion.copy(can, item, "", function(event) {
+				can.run(event, [ctx.ACTION, mdb.CREATE, mdb.TYPE, "spark", mdb.NAME, "shell", mdb.TEXT, item.innerText], null, true)
+			})
+		})
 	},
 	chart: function(can, data, target) {
 		target.oncontextmenu = function(event) {

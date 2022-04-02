@@ -91,10 +91,12 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+2*html.ACTION_HEIGHT+html.ACTION_MARGIN)
 		can.Conf(html.MARGIN_X, 4*html.PLUGIN_MARGIN)
 
-		var gt = "&#10095;", lt = "&#10094;"; function toggle(view) { return !can.setRiver("display") }
-		can.page.Append(can, target, [{view: [[html.TOGGLE, chat.PROJECT]], list: [{text: [gt, html.DIV]}], onclick: function(event) {
-			event.target.innerHTML = toggle()? gt: lt
-		}}])
+		if (can.user.mod.isPod && !can.user.isMobile) {
+			var gt = "&#10095;", lt = "&#10094;"; function toggle(view) { return !can.setRiver("display") }
+			can.page.Append(can, target, [{view: [[html.TOGGLE, chat.PROJECT]], list: [{text: [gt, html.DIV]}], onclick: function(event) {
+				event.target.innerHTML = toggle()? gt: lt
+			}}])
+		}
 
 		can.onengine.plugin(can, "info", shy("信息", {}, ["text", "list", "back"], function(msg, cmds) {
 			msg.Echo(JSON.stringify(can))
@@ -168,7 +170,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 		})
 	},
 	onsearch: function(can, msg, word) {
-		if (word[0] == mdb.FOREACH || word[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, word) }
+		if (word[0] == mdb.PLUGIN || word[1] != "") { can.onexport.plugin(can, msg, word) }
 	},
 	onsize: function(can, msg, height, width) { can.Conf({height: height, width: width}) },
 

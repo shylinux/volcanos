@@ -56,6 +56,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 				case lang.ENTER: can.onengine.signal(can, "onopensearch", can.request(event, {type: "*", word: event.target.value}))
 			}
 		}}, "", target, "title search").parentNode
+		can.page.Append(can, target, [{type: "search", list: [{view: ["menu", "div", can.user.trans(can, "search")], onclick: function() {
+			can.onengine.signal(can, "onopensearch", can.request(event, {type: "*", word: ""}))
+		}}] }])
 		can.user.isMobile && can.page.Modify(can, ui, {style: {float: html.RIGHT}})
 	},
 	_background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
@@ -66,7 +69,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		msg.Option(aaa.AVATAR) && can.page.Modify(can, "div.state.avatar>img", {src: "/share/local/avatar"})
 	},
 	_menus: function(can, msg, target) {
-		can.setHeaderMenu(can.user.mod.isPod||can.user.isMobile||can.user.isExtension? []:
+		can.setHeaderMenu(can.user.mod.isPod||can.user.isExtension||can.user.isMobile? []:
 			can.base.Obj(msg.Option(chat.MENUS)||can.Conf(chat.MENUS), can.onaction._menus), function(event, button) {
 				can.core.CallFunc(can.onaction[button]||function(event, can) {
 					can.run(event, [button], function(msg) { can.user.toast(can, "执行成功", can.user.trans(can, button)) })
@@ -194,7 +197,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 	},
 
 	usernick: function(event, can) {
-		can.onaction.carte(event, can, ["shareuser", "setnick", "password", [aaa.LANGUAGE, aaa.CHINESE, aaa.ENGLISH], cli.CLEAR, aaa.LOGOUT])
+		can.user.mod.isPod || can.user.isExtension || can.user.isLocalFile || can.onaction.carte(event, can, ["shareuser", "setnick", "password", [aaa.LANGUAGE, aaa.CHINESE, aaa.ENGLISH], cli.CLEAR, aaa.LOGOUT])
 	},
 	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN]) },
 	setnick: function(event, can) {

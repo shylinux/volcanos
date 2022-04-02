@@ -1,3 +1,4 @@
+fieldset.story.inner>div.action { display:none; }
 fieldset.inner>form.option input[name=path] { width:80px; }
 fieldset.inner>form.option input[name=file] { width:160px; }
 fieldset.inner>div.action>div.tabs { background-color:#5c809c5c; height:18px; }

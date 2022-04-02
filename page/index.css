@@ -49,6 +49,7 @@ div.code { background-color:#343a3445; color:white; padding:10px; border:solid 3
 div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:4px 10px; border-left:solid 4px blue; margin:10px; }
 
 body.mobile form.option>div.item { margin-right:0px; }
+form.option>div.item { margin-right:0px; margin-right:5px; }
 form.option>div.item.select { background-color:#0000; }
 form.option>div.item input.args.char { width:20px; }
 form.option>div.item input.args.tiny { width:40px; }
@@ -99,13 +100,13 @@ body>div.toast div.progress div.current { background-color:red; height:10px; }
 
 body>div.carte { background-color:#295b61; color:white; padding:4px; min-width:80px; }
 body>div.carte div.item { padding:3px 12px; }
-body>div.input { background-color:#0d4142a6; }
+body>div.input { background-color:#0d4142a6; padding:5px; }
 body>div.input div.item { float:left; }
-body>div.input select { width:183px; }
-body>div.input input[type=text] { width:171px; }
+body>div.input select { width:183px; margin:5px; }
+body>div.input input[type=text] { width:171px; margin:5px; }
 body>div.input input[name=username] { width:171px; }
 body>div.input input[name=password] { width:171px; }
-body>div.input textarea { background-color:cyan; padding:4px; border:2px inset #14a58e; height:60px; width:171px; }
+body>div.input textarea { background-color:cyan; padding:4px; margin:5px; border:2px inset #14a58e; height:120px; width:171px; }
 body>div.input.login { padding:10px; }
 
 body>div.upload { background-color:black; color:yellow; padding:5px; }

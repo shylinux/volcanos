@@ -102,19 +102,17 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
 				can: can, sub: sub, msg: msg, cmd: cmd, arg: arg, cb: function() { msg.Reply() },
 			}): can.onengine._search({}, can, msg, can, ["_search", cmd].concat(arg), function() { msg.Reply() })
 		})
-		can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { var meta = can.onengine.plugin.meta
-			if (word[0] != mdb.FOREACH && word[0] != ctx.COMMAND) { return }
+		can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { if (word[0] == ctx.COMMAND || word[1] != "") { var meta = can.onengine.plugin.meta
 			var list = word[1] == ""? meta: meta[word[1]]? kit.Dict(word[1], meta[word[1]]): {}
 			can.core.Item(list, function(name, command) { name = can.base.trimPrefix(name, "can.")
 				can.core.List(msg.Option(ice.MSG_FIELDS).split(ice.FS), function(item) {
-					msg.Push(item, kit.Dict(
-						ice.CTX, "onengine", ice.CMD, "command",
+					msg.Push(item, kit.Dict(ice.CTX, "onengine", ice.CMD, "command",
 						mdb.TYPE, "can", mdb.NAME, name, mdb.TEXT, command.help,
 						ctx.CONTEXT, "can", ctx.COMMAND, name
 					)[item]||"")
 				})
 			})
-		})
+		} })
 	}, _list: [""],
 	pwd: function(can, msg, arg) { can.ondaemon._list[0] = arg[0] },
 	refresh: function(can, msg, sub) { sub.Update() },
@@ -166,7 +164,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			if (meta.msg) { var msg = sub.request(); msg.Copy(can.base.Obj(meta.msg)), sub.onappend._output(sub, msg, msg.Option(ice.MSG_DISPLAY)||meta.feature.display) }
 
 			can.page.Modify(can, sub._legend, kit.Dict(can.Conf("legend_event")||"onmouseenter", function(event) {
-				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["所有"].concat(can.core.Item(meta.feature._trans))], [cli.CLOSE]))
+				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["所有"].concat(can.core.Item(meta.feature._trans))]))
 			})), can.base.isFunc(cb) && cb(sub)
 		}); return sub
 	},
@@ -747,9 +745,10 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 		if (target.innerText == "") { target.innerText = target.href }
 		can.page.Modify(can, target, {target: "_blank"})
 	},
-	copy: function(can, target, text) {
+	copy: function(can, target, text, cb) {
 		target.title = "点击复制", target.onclick = function(event) {
 			can.user.copy(event, can, text||target.innerText)
+			can.base.isFunc(cb) && cb(event)
 		}
 	},
 	move: function(can, target, layout, cb) { var begin; layout = layout||{}
