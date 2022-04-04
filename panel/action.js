@@ -93,7 +93,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+2*html.ACTION_HEIGHT+html.ACTION_MARGIN)
 		can.Conf(html.MARGIN_X, 4*html.PLUGIN_MARGIN)
 
-		if (can.user.mod.isPod && !can.user.isMobile) {
+		if (can.user.mod.isPod || can.user.isMobile) {
 			var gt = "&#10095;", lt = "&#10094;"; function toggle(view) { return !can.setRiver("display") }
 			can.page.Append(can, target, [{view: [[html.TOGGLE, chat.PROJECT]], list: [{text: [gt, html.DIV]}], onclick: function(event) {
 				event.target.innerHTML = toggle()? gt: lt

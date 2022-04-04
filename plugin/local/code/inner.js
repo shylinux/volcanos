@@ -260,14 +260,14 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 
 		var height = can.ConfHeight()-(can.user.isMobile && can.user.mod.isCmd? (can.user.isLandscape()? 14: 54): 0)-(can.user.isWindows? 20: 0)
 		if (!height || height > window.innerHeight) { height = window.innerHeight - 200 }
-		if (can.user.isMobile && can.user.isLandscape() && height < 200) { height = 200 }
+		if (can.user.isMobile && can.user.isLandscape() && height < 200) { height = 400 }
 
 		var rest = can.ui.display.offsetHeight+can.ui._path.offsetHeight+can.ui._tabs.offsetHeight+5
 		if (can.user.mod.isCmd) { can.page.styleHeight(can, can.ui.project, height+2*html.ACTION_HEIGHT)
 			can.page.styleHeight(can, can.ui.content, (can.ui.project.offsetHeight||height)-rest)
 			can.page.styleHeight(can, can.ui.profile_output, can.ui.project.offsetHeight-html.ACTION_HEIGHT-2)
 		} else {
-			can.page.style(can, can.ui.content, can.user.mod.isCmd? html.HEIGHT: html.MAX_HEIGHT, height)
+			can.page.style(can, can.ui.content, can.user.mod.isCmd || can.user.isMobile? html.HEIGHT: html.MAX_HEIGHT, height)
 			can.page.styleHeight(can, can.ui.project, can.ui.content.offsetHeight+rest)
 			if (can.page.ClassList.has(can, can._fields, "full")) {
 				can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight)

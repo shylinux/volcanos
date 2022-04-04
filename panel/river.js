@@ -22,7 +22,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 	},
 	_menu: function(can, msg) {
 		if (can.user.mod.isPod) { return }
-		var list = []; if (can.user.isMobile) { list.push("river") }
+		var list = []
 		can.setHeaderMenu(list.concat(can.base.Obj(msg.Option(chat.MENUS), can.Conf(chat.MENUS)||can.ondetail._menus)), function(event, button) {
 			can.core.CallFunc([can.ondetail, button], [event, can, button, can.Conf(chat.RIVER), can.Conf(chat.STORM)])
 		})

@@ -93,6 +93,7 @@ Volcanos("onaction", {help: "交互操作", list: [
 		if (can.page.ClassList.neg(can, can._target, "Full")) {
 			sub._height_bak = sub.ConfHeight(), sub._width_bak = sub.ConfWidth()
 			var height = window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT
+			can.user.isMobile && (height -= 2*html.ACTION_HEIGHT)
 			can.page.style(can, can._output, "height", sub.ConfHeight(height), "min-width", sub.ConfWidth(window.innerWidth))
 			can.core.CallFunc([sub, "onimport.layout"], {can: sub})
 		} else {
