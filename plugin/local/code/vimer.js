@@ -18,12 +18,14 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 	},
 	_input: function(can) {
 		can.ui.current = can.page.Append(can, can.ui.content.parentNode, [
-			{view: ["current", html.INPUT], onkeydown: function(event) { if (event.metaKey) { return }
+			{view: ["current", html.INPUT], spellcheck: false, onkeydown: function(event) { if (event.metaKey) { return }
 				can.misc.Debug("key", event.key)
 				can._keylist = can.onkeymap._parse(event, can, can.mode+(event.ctrlKey? "_ctrl": ""), can._keylist, can.ui.current)
 				can.mode == "insert" && can.core.Timer(10, function() { can.current.text(can.ui.current.value) })
 				can.mode == "normal" && can.Status("按键", can._keylist.join(""))
 				can.mode == "normal" && can.onkeymap.prevent(event)
+			}, onfocus: function(event) {
+				can.page.styleWidth(can, can.ui.current, can.ui.content.style.width)
 			}, onclick: function(event) { can.onkeymap._insert(event, can) },
 				ondblclick: function(event) { var target = event.target
 					can.onaction.searchLine(event, can, target.value.slice(target.selectionStart, target.selectionEnd))

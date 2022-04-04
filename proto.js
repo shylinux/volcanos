@@ -13,9 +13,9 @@ var ice = {
 
 	OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
 
-	AUTO: "auto", HELP: "help", HTTP: "http",
-	VIEW: "view", MODE: "mode", SHIP: "ship",
-	COPY: "copy", SHOW: "show", HIDE: "hide",
+	AUTO: "auto", LIST: "list", BACK: "back", EXEC: "exec",
+	SHOW: "show", HIDE: "hide", HELP: "help", HTTP: "http",
+	VIEW: "view", MODE: "mode", SHIP: "ship", COPY: "copy",
 
 	MSG_DETAIL: "detail",
 	MSG_OPTION: "option",
@@ -92,7 +92,8 @@ var mdb = {
 	UPLOAD: "upload",
 
 	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
-	NEXT: "next", PREV: "prev", PAGE: "page", MAIN: "main",
+	PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
+	MAIN: "main",
 
 	FOREACH: "*", RANDOMS: "%",
 }

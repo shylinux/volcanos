@@ -1,15 +1,30 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
 		can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)||can.Conf(aaa.USERNICK))
 
+		can.onengine.plugin(can, "topic", shy("主题", {
+			"demo": function(can, msg, cmds) { can.onlayout.topic(can, cmds[0]) },
+		}, ["topic:select=white,black", "run:button", "demo:button"], function(msg, cmds) {
+			can.onlayout.topic(can, cmds[0])
+		}))
+
+		can.onlayout.topic(can, can.Conf("topic"))
+		if (can.user.mod.isCmd) {
+			can.onmotion.hidden(can, can._fields)
+			can.page.ClassList.add(can, document.body, "simple")
+		}
+
 		can.onmotion.clear(can)
 		can.onimport._agent(can, msg, target)
 		can.onimport._grant(can, msg, target)
-		can.onimport._title(can, msg, target)
-		can.onimport._state(can, msg, target)
-		can.onimport._search(can, msg, target)
-		can.onimport._background(can, msg, target)
-		can.onimport._avatar(can, msg, target)
-		can.onimport._menus(can, msg, target)
+		if (can.Conf("display") != "simple") {
+			can.onimport._title(can, msg, target)
+			can.onimport._state(can, msg, target)
+			can.onimport._search(can, msg, target)
+			can.onimport._background(can, msg, target)
+			can.onimport._avatar(can, msg, target)
+			can.onimport._menus(can, msg, target)
+
+		}
 		can.base.isFunc(cb) && cb(msg)
 	},
 	_agent: function(can, msg, target) {
@@ -61,7 +76,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		}}] }])
 		can.user.isMobile && can.page.Modify(can, ui, {style: {float: html.RIGHT}})
 	},
-	_background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
+	_background: function(can, msg) {
+		if (can.Conf("background") == "_") { return }
+		if (can.user.isExtension || can.user.isLocalFile) { return }
 		msg.Option(aaa.BACKGROUND) && can.onlayout.background(can, "/share/local/background", document.body)
 	},
 	_avatar: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }

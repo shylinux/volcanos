@@ -1,7 +1,7 @@
 fieldset.vimer>div.output input.current {
 	background-color:#00000000; color:#00000000; font-size:1em; font-family:monospace;
-	padding:0; padding-left:9px; margin:0; margin-top:-2px; position:absolute; left:0;
-	width:-webkit-fill-available;
+	padding:0; padding-left:11px; border:none; outline:none; margin:0; margin-top:-1px;
+ 	height:22px; position:absolute;
 }
-fieldset.vimer>div.output input.current.insert { caret-color:yellow; }
+fieldset.vimer>div.output input.current.insert { caret-color:black; }
 fieldset.vimer>div.output input.current.normal { caret-color:blue; }

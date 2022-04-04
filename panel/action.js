@@ -1,5 +1,4 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) {
-		can.onaction.layout(can, can.misc.SearchOrConf(can, chat.LAYOUT)||Volcanos.meta.args.layout||"auto", true)
 		var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) {
 			item.height = can.Conf(html.HEIGHT)-can.Conf(html.MARGIN_Y)
@@ -10,7 +9,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 			can.onappend.plugin(can, item, function(sub, meta, skip) {
 				can.onimport._plugin(can, river, storm, sub, meta), skip || next()
 			})
-		}, function() { can.onimport._menu(can, msg), can.onkeymap._init(can) })
+		}, function() {
+			can.onaction.layout(can, can.misc.SearchOrConf(can, chat.LAYOUT)||Volcanos.meta.args.layout||"auto", true)
+			can.onimport._menu(can, msg), can.onkeymap._init(can)
+		})
 	},
 	_plugin: function(can, river, storm, sub, meta) { sub._target._meta = meta
 		sub.run = function(event, cmds, cb) { var msg = sub.request(event)
@@ -98,14 +100,30 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 			}}])
 		}
 
+		can.onengine.plugin(can, "cookie", shy("提示", {}, ["text", "list", "back"], function(msg, cmds) {
+			can.core.Item(can.misc.Cookie(can), function(key, value) {
+				msg.Push("key", key)
+				msg.Push("value", value)
+			})
+		}))
+		can.onengine.plugin(can, "alert", shy("提示", {}, ["text", "list", "back"], function(msg, cmds) {
+			can.user.alert(cmds[0])
+		}))
 		can.onengine.plugin(can, "info", shy("信息", {}, ["text", "list", "back"], function(msg, cmds) {
-			msg.Echo(JSON.stringify(can))
+			msg.Echo("hello world")
 		}))
 		can.onengine.plugin(can, "log", shy("日志", {}, ["text", "list", "back"], function(msg, cmds) {
 			console.log(cmds[0])
 		}))
+
+		can.onengine.plugin(can, "nfs.save", shy("保存文件", {}, ["file=hi.txt", "text:textarea='hello world'", "save:button"], function(msg, cmds, cb) {
+			can.misc.runAction(can, msg, cmds, cb, kit.Dict(
+				"save", function(cmds) { can.user.downloads(can, cmds[1], cmds[0]) }
+			))
+		}))
+
 		can.onengine.plugin(can, "pie", shy("比例图", {}, ["list", "back"], function(msg, cmds) {
-			msg.Option(ice.MSG_DISPLAY, "/plugin/story/pie.js")
+			msg.DisplayStory("pie.js")
 			msg.Push("value", 200)
 			msg.Push("value", 300)
 			msg.Push("value", 400)

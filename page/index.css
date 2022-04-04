@@ -30,11 +30,8 @@ table.content tr { background-color:#04272f45; }
 table.content tr.show { background-color:red; }
 table.content th { background-color:#0fbd45; padding:2px 6px; }
 table.content td { padding:2px 6px; }
-table.content.action td:last-child, table.content.action th:last-child {
-background-color:#7dc6d7eb;
-	position:sticky;
-	right:0;
-}
+table.content tr:first-child { position:sticky; top:2px; }
+table.content.action td:last-child, table.content.action th:last-child { background-color:#7dc6d7eb; position:sticky; right:0; }
 
 td>input[type=button][name=create] { background-color:blue; }
 td>input[type=button][name=remove] { background-color:red; }
@@ -102,6 +99,7 @@ body>div.carte { background-color:#295b61; color:white; padding:4px; min-width:8
 body>div.carte div.item { padding:3px 12px; }
 body>div.input { background-color:#0d4142a6; padding:5px; }
 body>div.input div.item { float:left; }
+body>div.input tr td:first-child { text-align:center; }
 body>div.input select { width:183px; margin:5px; }
 body>div.input input[type=text] { width:171px; margin:5px; }
 body>div.input input[name=username] { width:171px; }
@@ -250,4 +248,103 @@ body.white table.content th:hover, body.white table.content td.select, body.whit
 body.white table.content tr:hover { background-color:#4682b46b; }
 body.white div.item.select, body.white div.item:hover { background-color:steelblue; }
 body.white fieldset.float table { color:white; }
+
+div.output.card div.item {
+	/* background-color:#48959a66; */
+	padding:10px; margin:10px; height:120px; float:left;
+	position:relative;
+	border:solid 1px #e7e7e7;
+}
+div.output.card div.item>div.title {
+	font-size:1.2rem; font-weight:bold;
+	padding:10px;
+ 	border-bottom: solid 1px #e7e7e7;
+}
+div.output.card div.item>div.content {
+	padding:10px;
+}
+div.output.card div.item>div.operate {
+	position:absolute;
+	bottom:10px;
+}
+
+body.simple { background-color:white; }
+body.simple fieldset.Header { border-bottom:solid 1px #e7e7e7; height:60px; display:block; }
+body.simple fieldset.River { border-right:solid 1px #e7e7e7; }
+body.simple fieldset.River>div.output { padding:10px 10px; width:200px; }
+body.simple fieldset.River>div.output div.item { color:black; padding:10px 40px; border-left:none; }
+body.simple fieldset.River>div.output div.item.select { background-color:white; }
+body.simple fieldset.River>div.output div.item:hover { background-color:#0152d9; color:white; }
+body.simple fieldset.River>div.output div.list div.item { background-color:white; color:black; border-left:none; }
+body.simple fieldset.River>div.output div.list div.item.select { background-color:#0152d9; color:white; }
+body.simple fieldset.River>div.output div.list div.item:hover { background-color:#0152d9; color:white; }
+
+body.simple fieldset.Action { background-color:white; }
+body.simple fieldset.Action>div.action { background:white; padding:10px; border-bottom: solid 1px red; height:38px; width:600px; }
+body.simple fieldset.Action>div.action div.tabs { padding:10px; margin:10px; }
+body.simple fieldset.Action.tabs>div.output { margin-top:58px; }
+body.simple fieldset.Action>div.output>fieldset.plugin { box-shadow:none; }
+body.simple fieldset.Action>div.output>fieldset.plugin>legend { display:none; }
+body.simple fieldset.Action>div.output>fieldset.plugin>form.option { display:none; }
+body.simple fieldset.Action>div.output>fieldset.plugin>div.action { display:none; }
+body.simple fieldset.Action>div.output>fieldset.plugin>div.status { display:none; }
+
+body.simple div.output.card div.item { min-width:240px; border-radius:5px; box-shadow:2px 2px 6px 1px gray; }
+body.simple div.output.card div.item:hover { background-color:white; box-shadow:5px 5px 10px 5px gray; }
+body.simple div.output.card div.item>div.title { border-bottom:solid 1px #e7e7e7; }
+body.white.simple div.output.card input[type=button]:hover { box-shadow:2px 2px 8px 2px gray; }
+body.white.simple div.output.card input[type=button] { box-shadow:2px 2px 6px 1px gray; }
+body.white.simple div.output.card input[type=button] { background-color:#0152d9; font-size:0.8rem; font-weight:100; padding:5px 10px; border:none; border-radius:5px; }
+
+body.white.simple>div.carte { background-color:white; color:black; border:solid 1px #e7e7e7; }
+body.white.simple>div.carte div.item { font-size:1rem; }
+body.white.simple>div.carte div.item:hover { background-color:#0152d9; color:white; }
+
+body.white.simple input[type=button] { background-color:#0152d9; border:none; border-radius:5px; height:31px; box-shadow:2px 2px 6px 1px gray; }
+body.white.simple fieldset.panel.cmd>div.output>fieldset.plugin>legend { background-color:white; color:black; border-radius:0px; }
+
+div.switch { color:#0d1bc2; width:12px; float:left; transform: rotate(90deg) translate(2px, 0px); }
+div.switch.open { transform: rotate(180deg) translate(-4px, 1px); }
+
+body fieldset.inner>div.output td.content>div.tabs { display:none; }
+body fieldset.inner>div.output td.content>div.path { display:none; }
+
+body.simple fieldset.inner>div.output td.content>div.tabs { background:#546E7A; padding:0px; height:38px; overflow:auto; display:block; }
+body.simple fieldset.inner>div.output td.content>div.tabs div.tabs { background:#B0BEC5; color:white; font-size:1rem; padding:10px; float:left; }
+body.simple fieldset.inner>div.output td.content>div.tabs div.tabs.select { background:#455A64; box-shadow:0px 0px 5px 1px grey; }
+body.simple fieldset.inner>div.output td.content>div.path {
+	background:#455A64; color:white; padding:4px 10px;
+	margin-bottom:4px; box-shadow:0px 0px 5px 1px #90A4AE;
+	clear:both; display:block;
+}
+
+body.simple fieldset.inner>div.output td.project div.project { width:240px; }
+body.simple fieldset.inner>div.output td.project div.project div.kind { color: white; font-size: 1.2rem; font-family: monospace; height:18px; }
+body.simple fieldset.inner>div.output td.project div.project div.kind:first-child { position:sticky; top:0 }
+body.simple fieldset.inner>div.output div.content { background-color:#263238; font-size:16px; }
+body.simple fieldset.inner>div.output div.toggle { display:none; }
+
+body.white.simple fieldset.inner>div.output div.project div.action div.item { float:left; width:auto; padding:unset; }
+body.white.simple fieldset.inner>div.output div.project { background:lightyellow; }
+body.white.simple fieldset.inner>div.output div.project div.item { color:black; font-size:16px; width:-webkit-fill-available; }
+body.white.simple fieldset.inner>div.output div.project div.item:hover { background:#e3e6f1; }
+body.white.simple fieldset.inner>div.output div.content { background-color:white; font-size:16px; }
+body.white.simple fieldset.inner>div.output div.content tr.select { background-color:white; }
+body.white.simple fieldset.inner>div.output div.content tr.select td.line { background-color:white; color:black; border:none; }
+body.white.simple fieldset.inner>div.output div.content tr.select td.text { border:solid 1px #e7e7e7; }
+body.white.simple fieldset.inner>div.output div.content td.line { background-color:white; color:#237893; padding-top:4px; border-right:none; }
+body.white.simple fieldset.inner>div.output div.content td.text { color:black; padding-top:2px; border:solid 1px white; }
+body.white.simple fieldset.inner>div.output div.content td.text span.string { color:#a31515; }
+body.white.simple fieldset.inner>div.output div.content td.text span.function { color:#795e26; }
+body.white.simple fieldset.inner>div.output div.content td.text span.keyword { color:blue; }
+body.white.simple td.content>div.content { background: white; box-shadow:0px 0px 5px 1px grey; }
+body.white.simple div.status { color:black; }
+
+body.white fieldset.inner>div.output td.content>div.tabs { background:#f3f3f3; }
+body.white fieldset.inner>div.output td.content>div.tabs div.tabs { background:#ececec; color:black; font-size:1rem; padding:10px; float:left; }
+body.white fieldset.inner>div.output td.content>div.tabs div.tabs.select { background: white; box-shadow:0px 0px 5px 1px grey; }
+body.white fieldset.inner>div.output td.content>div.path { background:white; color:black; box-shadow:0px 0px 5px 1px grey; }
+body.white.simple fieldset.plugin div.output.json div.item span { color:black; }
+body.white.simple fieldset.plugin div.output.json div.item span.key { color:blue; }
+body.simple fieldset.plugin div.output.json div.item span.string { color:magenta; }
 

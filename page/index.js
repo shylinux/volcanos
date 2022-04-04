@@ -19,6 +19,7 @@ Volcanos({name: "chat", panels: [
 			{name: "vimer", help: "编辑器", index: "web.code.vimer"},
 			{name: "repos", help: "代码库", index: "web.code.git.status"},
 			{name: "plan", help: "任务表", index: "web.team.plan"},
+			{name: "todo", help: "待办项", index: "web.team.todo"},
 			{name: "ctx", help: "上下文", index: "web.wiki.word"},
 		]},
 	}},
