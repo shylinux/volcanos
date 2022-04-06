@@ -1,13 +1,26 @@
 Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target) {
+
 		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
 		if (msg.Length() > 0) { return can.onappend.table(can, msg) }
 
 		can.page.Modify(can, target, msg.Result())
 		can.page.Select(can, target, wiki.ITEM, function(item) { var data = item.dataset||{}
-			can.core.CallFunc([can.onimport, data.type], [can, data, item])
 			can.page.Modify(can, item, {style: can.base.Obj(data.style)})
-			can.page.style(can, item, html.MAX_WIDTH, can.ConfWidth()-(can.user.isWindows? 40: 30))
+			can.core.CallFunc([can.onimport, data.type], [can, data, item])
+			// can.page.style(can, item, html.MAX_WIDTH, can.ConfWidth()-(can.user.isWindows? 40: 30))
 		})
+	},
+	image: function(can, data, target) {
+		can.page.style(can, target, html.MAX_HEIGHT, can.ConfHeight()/2, html.MAX_WIDTH, can.ConfWidth())
+
+		// if (can.user.isMobile) {
+			if (can.user.isLandscape()) {
+			} else{
+				can.page.style(can, target, html.MAX_HEIGHT, can.ConfHeight(), html.MAX_WIDTH, can.ConfWidth())
+			}
+		// 	return
+		// }
+		// can.page.style(can, target, html.MAX_HEIGHT, can.ConfHeight()/4)
 	},
 	navmenu: function(can, data, target) { var nav = can.sup._navmenu
 		nav = nav||can.page.Append(can, can._fields, [{view: wiki.NAVMENU}]).first
