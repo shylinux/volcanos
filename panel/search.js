@@ -94,6 +94,7 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
 	},
 
 	plugin: function(event, can, index) { var line = can.list[index]
+		if (event.target.tagName == "A") { return }
 		if (line.ctx == "web.wiki" && line.cmd == "word") { return }
 		if (can.base.isFunc(line.text)) { return can.onmotion.hide(can), line.text(event) }
 

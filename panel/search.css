@@ -2,3 +2,4 @@ fieldset.Search { background:#041a25bd; padding:10px; position:fixed; left:0px; 
 fieldset.Search input.word { width:-webkit-fill-available; }
 fieldset.Search div.output div.content table { min-width:400px; }
 fieldset.Search div.output div.display { max-height:200px; }
+fieldset.Search div.output a { color:yellow; }
