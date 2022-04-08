@@ -28,6 +28,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 				can.page.styleWidth(can, can.ui.current, can.ui.content.style.width)
 			}, onclick: function(event) { can.onkeymap._insert(event, can) },
 				ondblclick: function(event) { var target = event.target
+					return
 					can.onaction.searchLine(event, can, target.value.slice(target.selectionStart, target.selectionEnd))
 				},
 			},

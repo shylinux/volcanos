@@ -4,6 +4,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 		return can.core.CallFunc([can.onimport, msg.OptionProcess()], [can, msg])
 	},
 
+	_confirm: function(can, msg, _arg) { var sub = can.request({}, can.Option())
+		if (can.user.confirm(_arg)) { can.run(sub._event, [ctx.ACTION, "confirm"], function() {}, true) }
+	},
 	_location: function(can, msg) { location.href = msg._arg[0] },
 	_rewrite: function(can, msg) {
 		for (var i = 0; i < msg._arg.length; i += 2) {

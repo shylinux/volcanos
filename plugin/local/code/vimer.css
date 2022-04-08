@@ -4,4 +4,4 @@ fieldset.vimer>div.output input.current {
  	height:22px; position:absolute;
 }
 fieldset.vimer>div.output input.current.insert { caret-color:black; }
-fieldset.vimer>div.output input.current.normal { caret-color:blue; }
+fieldset.vimer>div.output input.current.normal { caret-color:lightgray; }
