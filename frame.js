@@ -27,7 +27,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 			}, target)
 		}, function() { can.misc.Log(can.user.title(), ice.RUN, can)
 			can.require([can.volcano], null, function(can, name, sub) { can[name] = sub })
-			can.ondaemon._init(can), can.onmotion._init(can, target), can.onkeymap._init(can)
+				can.onmotion._init(can, target), can.onkeymap._init(can)
 			can.onlayout.topic(can), can.onengine.signal(can, chat.ONMAIN, can.request())
 			can.onmotion.float.auto(can, target), can.base.isFunc(cb) && cb()
 		})
@@ -861,7 +861,17 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 	},
 })
 Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
-		can.onkeymap._build(can), document.body.onkeydown = function(event) { if (event.metaKey) { return }
+		can.onkeymap._build(can), document.body.onkeydown = function(event) {
+			if (event.metaKey) { if (window.webview) {
+				switch (event.key) {
+					case "q": window.terminate(); break
+					case "w": window.close(); break
+					case "r": location.reload(); break
+					case "f": can.onengine.signal(can, "onopensearch", can.request({}, {type: "*"})); break
+					case "[": history.back(); break
+					case "]": history.forward(); break
+				}
+			} return }
 			if (can.page.tagis([html.SELECT, html.INPUT, html.TEXTAREA], event.target)) { return }
 			var msg = can.request(event, {"model": "normal"}); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
 			can.onengine.signal(can, chat.ONKEYDOWN, msg); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }

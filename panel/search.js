@@ -14,6 +14,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 			can.page.Modify(can, can.ui.profile, kit.Dict(html.MAX_HEIGHT, height-(table&&table.offsetHeight||0)))
 		})
 		msg.Length() == 1 && can.page.Select(can, table, html.TD)[0].click()
+		can.page.Select(can, can._output, "A", function(item) {
+			item.onclick = function(event) { can.user.open(item.href), can.onkeymap.prevent(event) }
+		})
 	},
 	_word: function(can, msg, cmds, fields) { can.type = cmds[0]
 		var cb = can.onaction[cmds[1]]; if (cb) { cb({}, can); return }

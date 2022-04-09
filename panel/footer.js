@@ -5,6 +5,15 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.onimport._toast(can, msg, target)
 		can.onimport._cli(can, msg, target)
 		can.base.isFunc(cb) && cb(msg)
+
+		history.length > 2 && can.core.Timer(100, function() {
+			window.webview && can.setHeaderMenu(["后退"], function(event, button, list) {
+				switch (button) {
+					case "后退": history.back(); break
+				}
+				can.core.CallFunc([can.onaction, list[0]], [can, button])
+			})
+		})
 	},
 	_title: function(can, msg, target) {
 		!can.user.isMobile && can.core.List(msg.result, function(item) {

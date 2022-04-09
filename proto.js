@@ -400,6 +400,9 @@ function can(tool) {
 		{name: "Search", help: "搜索框", pos: chat.AUTO},
 	]})
 }
+function _can(tool) {
+	Volcanos({name: "chat", panels: [{name: "Action", help: "工作台", pos: chat.MAIN, tool: tool}]})
+}
 
 try { if (typeof(global) == lang.OBJECT) {
 	global.kit = kit, global.ice = ice
