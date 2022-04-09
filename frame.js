@@ -861,6 +861,13 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 	},
 })
 Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
+		document.body.onclick = function(event) {
+			if (window.webview) {
+				if (event.target.tagName == "A") {
+					window.open(event.target.href)
+				}
+			}
+		}
 		can.onkeymap._build(can), document.body.onkeydown = function(event) {
 			if (event.metaKey) { if (window.webview) {
 				switch (event.key) {
