@@ -6,16 +6,16 @@ var kit = {
 	}
 }
 var ice = {
-	SP: " ", PS: "/", PT: ".", DF: ":", FS: ",", NL: "\n", LT: "<", GT: ">",
-	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
-	RUN: "run", RES: "res", ERR: "err",
-	PWD: "./",
-
+	TB: "\t", SP: " ", DF: ":", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
 	OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
 
 	AUTO: "auto", LIST: "list", BACK: "back", EXEC: "exec",
 	SHOW: "show", HIDE: "hide", HELP: "help", HTTP: "http",
 	VIEW: "view", MODE: "mode", SHIP: "ship", COPY: "copy",
+
+	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", RES: "res",
+	RUN: "run", ERR: "err", OPT: "opt",
+	PWD: "./",
 
 	MSG_DETAIL: "detail",
 	MSG_OPTION: "option",
@@ -53,28 +53,30 @@ var ice = {
 
 var ctx = {
 	CONTEXT: "context", COMMAND: "command", ACTION: "action", CONFIG: "config",
-	INDEX: "index", ARGS: "args", STYLE: "style", INPUTS: "inputs", FEATURE: "feature",
+	STYLE: "style", INDEX: "index", ARGS: "args", INPUTS: "inputs", FEATURE: "feature",
+}
+var gdb = {
+	SIGNAL: "signal",
 }
 var cli = {
-	START: "start", STOP: "stop",
-	OPEN: "open", CLOSE: "close",
-	BEGIN: "begin", END: "end",
+	START: "start", STOP: "stop", OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end",
 
-	MAIN: "main", MAKE: "make", SHOW: "show",
-	EXEC: "exec", DONE: "done", CODE: "code", COST: "cost",
+	MAIN: "main", MAKE: "make",
+	EXEC: "exec", DONE: "done",
+	CODE: "code", COST: "cost", BACK: "back", FROM: "from",
 	ERROR: "error", CLEAR: "clear", REFRESH: "refresh",
-	FROM: "from", BACK: "back",
+	SHOW: "show",
+	DAEMON: "daemon",
 
 	RED: "red", GREEN: "green", BLUE: "blue",
 	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta",
 	WHITE: "white", BLACK: "black",
 }
 var web = {
-	SPACE: "space", SHARE: "share",
+	SHARE: "share", SPACE: "space",
 }
 var aaa = {
-	PASSWORD: "password",
-	USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
+	PASSWORD: "password", USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite",
 }

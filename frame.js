@@ -1,5 +1,4 @@
 Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta, list, cb, target) {
-		Volcanos.meta._load_time = can.base.Time()
 		can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]
 			return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb)
 		}
@@ -8,12 +7,21 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 			can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID))
 			return can.misc.Search(can, ice.MSG_SESSID, "") 
 		}
-		window.addEventListener("orientationchange", function(event) {
-			can.onengine.signal(can, "orientationchange")
-		})
 
-		if (can.user.isExtension) { Volcanos.meta.args = can.base.Obj(localStorage.getItem(ctx.ARGS), {}) }
 		can.page.Select(can, target, html.IFRAME, function(item) { can.page.Remove(can, item) })
+		if (can.user.isExtension) { Volcanos.meta.args = can.base.Obj(localStorage.getItem(ctx.ARGS), {}) }
+
+		can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { if (word[0] == ctx.COMMAND || word[1] != "") { var meta = can.onengine.plugin.meta
+			var list = word[1] == ""? meta: meta[word[1]]? kit.Dict(word[1], meta[word[1]]): {}
+			can.core.Item(list, function(name, command) { name = can.base.trimPrefix(name, "can.")
+				can.core.List(msg.Option(ice.MSG_FIELDS).split(ice.FS), function(item) {
+					msg.Push(item, kit.Dict(ice.CTX, "onengine", ice.CMD, "command",
+						mdb.TYPE, "can", mdb.NAME, name, mdb.TEXT, command.help,
+						ctx.CONTEXT, "can", ctx.COMMAND, name
+					)[item]||"")
+				})
+			})
+		} })
 
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
 			can.onappend._init(can, can.base.Copy(item, can.core.Value(can._root, [chat.RIVER, item.name])), item.list, function(panel) {
@@ -27,9 +35,8 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 			}, target)
 		}, function() { can.misc.Log(can.user.title(), ice.RUN, can)
 			can.require([can.volcano], null, function(can, name, sub) { can[name] = sub })
-				can.onmotion._init(can, target), can.onkeymap._init(can)
-			can.onlayout.topic(can), can.onengine.signal(can, chat.ONMAIN, can.request())
-			can.onmotion.float.auto(can, target), can.base.isFunc(cb) && cb()
+			can.onlayout.topic(can), can.onmotion._init(can, target), can.onkeymap._init(can)
+			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb()
 		})
 	},
 	_search: function(event, can, msg, panel, cmds, cb) {
@@ -83,41 +90,29 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 	plugin: shy("添加插件", {}, [], function(can, name, command) { name = can.base.trimPrefix(name, "can.")
 		var type = html.TEXT; command.list = can.core.List(command.list, function(item) {
 			switch (typeof item) {
-				case lang.OBJECT: return type = item.type||type, item
 				case lang.STRING: return can.core.SplitInput(item)
+				case lang.OBJECT: return type = item.type||type, item
 			}
 		}), arguments.callee.meta[can.core.Keys("can", name)] = command
 	}),
 	listen: shy("监听事件", {}, [], function(can, name, cb) { arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb) }),
 	signal: shy("触发事件", function(can, name, msg) { msg = msg||can.request()
-		can.misc.Log("signal", name, name == chat.ONREMOTE? msg.Option("_msg"): msg)
+		can.misc.Log(gdb.SIGNAL, name, name == chat.ONREMOTE? msg.Option("_msg"): msg)
 		can.core.List(can.onengine.listen.meta[name], function(cb) { can.core.CallFunc(cb, {event: msg._event, msg: msg}) })
 	}),
 })
 Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name) { if (can.user.isLocalFile) { return }
-		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, "daemon")||name||""}, function(event, msg, cmd, arg) { if (!msg) { return }
+		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, cli.DAEMON)||name||""}, function(event, msg, cmd, arg) { if (!msg) { return }
 			var sub = can.ondaemon._list[msg.Option(ice.MSG_TARGET)]
 			can.base.isFunc(can.ondaemon[cmd])? can.core.CallFunc(can.ondaemon[cmd], {
 				can: can, sub: sub, msg: msg, cmd: cmd, arg: arg, cb: function() { msg.Reply() },
 			}): can.onengine._search({}, can, msg, can, ["_search", cmd].concat(arg), function() { msg.Reply() })
 		})
-		can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { if (word[0] == ctx.COMMAND || word[1] != "") { var meta = can.onengine.plugin.meta
-			var list = word[1] == ""? meta: meta[word[1]]? kit.Dict(word[1], meta[word[1]]): {}
-			can.core.Item(list, function(name, command) { name = can.base.trimPrefix(name, "can.")
-				can.core.List(msg.Option(ice.MSG_FIELDS).split(ice.FS), function(item) {
-					msg.Push(item, kit.Dict(ice.CTX, "onengine", ice.CMD, "command",
-						mdb.TYPE, "can", mdb.NAME, name, mdb.TEXT, command.help,
-						ctx.CONTEXT, "can", ctx.COMMAND, name
-					)[item]||"")
-				})
-			})
-		} })
 	}, _list: [""],
-	pwd: function(can, msg, arg) { can.ondaemon._list[0] = arg[0] },
 	refresh: function(can, msg, sub) { sub.Update() },
+	pwd: function(can, msg, arg) { can.ondaemon._list[0] = arg[0] },
 	grow: function(can, msg, sub, arg) { can.onimport._grow(sub, can.page.Color(arg.join(""))) },
 	toast: function(can, msg, arg) { can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}) },
-	confirm: function(can, msg, arg) { if (can.user.confirm(arg[0])) { msg.Echo(ice.TRUE) } },
 })
 Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) {
 		meta.name = (meta.name||"").split(ice.SP)[0].split(ice.PT).pop()
@@ -628,6 +623,9 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 	},
 })
 Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, target) {
+		window.addEventListener("orientationchange", function(event) {
+			can.onengine.signal(can, "orientationchange")
+		}), can.onmotion.float.auto(can, target)
 	},
 	focus: function(can, target) { if (!target) { return }
 		target.setSelectionRange && target.setSelectionRange(0, -1), target.focus()
