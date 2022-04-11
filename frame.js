@@ -195,16 +195,18 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 					_list.push(mdb.PREV, mdb.NEXT)
 					break
 				default:
-					var item = can.core.SplitInput(list[i], html.BUTTON);
-					if (item.type == html.SELECT) {
-						item._init = function(target) {
-							target.value = item.value
-							target.onchange = function(event) { can.run(event) }
+					(function() {
+						var item = can.core.SplitInput(list[i], html.BUTTON);
+						if (item.type == html.SELECT) {
+							item._init = function(target) {
+								target.value = item.value||item.values[0]
+								target.onchange = function(event) { can.run(event) }
+							}
 						}
-					}
-					item.action && (function() {
-						item._init = function(target) { can.onappend.figure(can, item, target) }
-					})(), item.type == html.BUTTON? _list.push(list[i]): _list.push(item)
+						item.action && (function() {
+							item._init = function(target) { can.onappend.figure(can, item, target) }
+						})(), item.type == html.BUTTON? _list.push(list[i]): _list.push(item)
+					}) ()
 			}
 		}
 		meta = meta||can.onaction, action = action||can._action, can.onmotion.clear(can, action)
