@@ -11,7 +11,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
 		can.onappend._status(can, can.base.Obj(msg.Option("_status"), []).concat({name: "selected", value: "0"}))
 		can.getActionSize(function(msg, height) {
-			can.page.Modify(can, can.ui.profile, kit.Dict(html.MAX_HEIGHT, height-(table&&table.offsetHeight||0)))
+			can.page.Modify(can, can.ui.profile, kit.Dict(html.MAX_HEIGHT, can.base.Min(height-(table&&table.offsetHeight||0), height/2)))
 		})
 		msg.Length() == 1 && can.page.Select(can, table, html.TD)[0].click()
 		can.page.Select(can, can._output, "A", function(item) {
@@ -43,7 +43,9 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 
 		can.getActionSize(function(msg, top, left, width, height) {
 			can.page.Modify(can, can._target, {style: {top: top, left: left}})
-			can.page.Modify(can, can._output, {style: kit.Dict(html.MAX_HEIGHT, height-71, html.MAX_WIDTH, width)})
+			can.page.Modify(can, can._output, {style: kit.Dict(html.MAX_HEIGHT, height-71, html.MAX_WIDTH, width-2*html.PLUGIN_MARGIN)})
+			can.page.Modify(can, can.ui.content, {style: kit.Dict(html.MAX_WIDTH, width-2*html.PLUGIN_MARGIN)})
+			can.page.Modify(can, can.ui.display, {style: kit.Dict(html.MAX_WIDTH, width-2*html.PLUGIN_MARGIN)})
 		})
 	},
 })
@@ -103,7 +105,7 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
 
 		var cmd = line.cmd == ctx.COMMAND? can.core.Keys(line.type, line.name.split(ice.SP)[0]): can.core.Keys(line.ctx, line.cmd)
 		can.onappend.plugin(can, {type: chat.PLUGIN, index: cmd||msg.Option(mdb.INDEX)}, function(sub, meta) {
-			can.getActionSize(function(msg, height, width) { height -= can.ui.content.offsetHeight+204
+			can.getActionSize(function(msg, height, width) { height = can.base.Min(height - can.ui.content.offsetHeight+204, height/2)
 				can.page.Modify(can, sub._output, {style: kit.Dict(html.MAX_HEIGHT, height-26, html.MAX_WIDTH, width-40)})
 				sub.Conf(html.HEIGHT, height+28), sub.Conf(html.WIDTH, width-60)
 			})

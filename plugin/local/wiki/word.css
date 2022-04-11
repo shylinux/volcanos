@@ -23,7 +23,7 @@ fieldset.word.float { padding:0; margin:0; width:-webkit-fill-available; positio
 fieldset.word.float>div.action { display:contents; }
 fieldset.word.float>div.status { clear:none; }
 fieldset.word.float>div.output { background-color:#f0f8ff80; padding:20px; overflow:auto; }
-fieldset.word.float>div.output>div.project { background:cornsilk; padding:10px; position:fixed; left:0; top:25px; z-index:100; }
+fieldset.word.float>div.output>div.project { background:cornsilk; padding:10px; position:fixed; right:0; top:25px; z-index:100; }
 fieldset.word.float div.content div.page { margin-top:30px; display:none; }
 fieldset.word.float div.content div.page.show { display:block; }
 fieldset.word.float div.content.grid div.page { background-color:#a4cbecb5; margin:10px; height:200px; width:200px; overflow:auto; display:block; float:left; }
