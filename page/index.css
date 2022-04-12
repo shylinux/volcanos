@@ -30,8 +30,8 @@ table.content tr { background-color:#04272f45; }
 table.content tr.show { background-color:red; }
 table.content th { background-color:#0fbd45; padding:2px 6px; }
 table.content td { padding:2px 6px; }
-table.content tr:first-child { position:sticky; top:2px; }
 table.content.action td:last-child, table.content.action th:last-child { background-color:#7dc6d7eb; position:sticky; right:0; }
+table.content tr:first-child { position:sticky; top:2px; }
 
 td>input[type=button][name=create] { background-color:blue; }
 td>input[type=button][name=remove] { background-color:red; }
