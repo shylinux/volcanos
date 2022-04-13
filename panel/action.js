@@ -158,7 +158,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 	onmain: function(can) {
 		can.onimport._share(can, can.misc.Search(can, web.SHARE))
 	},
-	onlogin: function(can) { if (!can.user.mod.isCmd) { return }
+	onlogin: function(can) { if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return }
 		can.Conf(html.MARGIN_X, 0, html.MARGIN_Y, 2*html.ACTION_HEIGHT)
 		can.page.ClassList.add(can, can._target, ice.CMD)
 		can.onlayout._init(can)
