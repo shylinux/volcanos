@@ -32,7 +32,15 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 		return true
 	},
 	_field: function(can, msg) {
-		msg.Table(function(item) { can.onappend._plugin(can, item, {arg: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
+		msg.Table(function(item) { item.type = chat.STORY, can.onappend._plugin(can, item, {type: chat.STORY, arg: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
+			sub.Conf(can.base.Obj(item.conf))
+			if (sub.Conf("mode") == "simple") {
+				var msg = can.request()
+				msg.Echo(sub.Conf("result"))
+				sub.Conf(html.HEIGHT, can.Conf(html.HEIGHT)/2)
+				can.onappend._output(sub, msg, msg.Option(ice.MSG_DISPLAY)||sub.Conf("feature.display")||"/plugin/table.js")
+				return
+			}
 			var opt = can.base.Obj(item[ice.OPT], [])
 			sub.Conf(html.HEIGHT, can.Conf(html.HEIGHT))
 			sub.Conf(html.WIDTH, can.Conf(html.WIDTH)-4*html.PLUGIN_MARGIN)

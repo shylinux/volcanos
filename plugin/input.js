@@ -5,7 +5,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
 		}
 	},
 	run: function(event, can) { can.run(event) },
-	list: function(event, can) { can.run(event) },
+	list: function(event, can) { can.sup.Conf("mode") != "simple" && can.run(event) },
 	back: function(event, can) { can.sup.onimport._back(can.sup) },
 	refresh: function(event, can) { can.run(event) },
 

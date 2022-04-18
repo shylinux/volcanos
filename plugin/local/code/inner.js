@@ -2,6 +2,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.onengine.plugin(can, "can.code.inner.plugin", shy("插件", {}, [ice.LIST, ice.BACK], function(msg, cmds) {
 			console.log("what")
 		}))
+		can.Conf(can._args)
 
 		can.onengine.plugin(can, "can.code.inner.keymap", shy("按键", {}, ["mode", "key", ice.LIST, ice.BACK], function(msg, cmds) {
 			can.core.Item(can.onkeymap._mode, function(mode, value) {
@@ -43,22 +44,23 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.ui._path = can.page.insertBefore(can, [{view: "path"}], can.ui.content)
 		can.base.isFunc(cb) && cb(msg)
 
-		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
 		can.Conf("mode") == "simple"? can.onimport._simple(can): can.onimport.project(can, paths, function() {
 			can.onimport._toolkit(can, can.ui.toolkit), can.onimport._session(can, msg), can.onimport._keydown(can)
 			can.onmotion.delay(can, function() {
 				can.core.Next(files.slice(1), function(file, next) {
 					can.onimport.tabview(can, can.Option(nfs.PATH), file, can.Option(nfs.LINE), next)
-				// }, function() { can.onimport.tabview(can, paths[0], files[0]) })
 				})
 			})
 		})
+		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
 		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
 	},
 	_simple: function(can, target) {
+		can.tabview[can.onexport.keys(can)] = can._msg
 		can.Conf(html.HEIGHT, ""), can.ui.project._toggle()
 		can.page.ClassList.add(can, can._fields, chat.OUTPUT)
 		can.page.ClassList.add(can, can._fields, "simple")
+		can.onmotion.hidden(can, can.ui._tabs)
 	},
 	_project: function(can, target) {
 		target._toggle = function(event) { can.onmotion.toggle(can, target), can.onimport.layout(can) }
@@ -258,6 +260,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
 		can.page.styleWidth(can, can.ui.display, width-can.ui.project.offsetWidth)
 
+		if (!height && can.Conf("mode") == "simple") { return }
 		var height = can.ConfHeight()-(can.user.isMobile && can.user.mod.isCmd? (can.user.isLandscape()? 14: 54): 0)-(can.user.isWindows? 20: 0)
 		if (!height || height > window.innerHeight) { height = window.innerHeight - 200 }
 		if (can.user.isMobile && can.user.isLandscape() && height < 200) { height = 400 }

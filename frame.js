@@ -394,7 +394,9 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			function run(cmds) { var msg = can.sup.request(event, line, can.Option())
 				return can.run(event, cmds, function(msg) {
 					if (can.core.CallFunc([can.sup, chat.ONIMPORT, ice.MSG_PROCESS], {can: can.sup, msg: msg})) { return }
-					if (msg.Result().length > 0 || msg.Length() > 0) {
+					if (msg.Option(ice.MSG_DISPLAY) != "") {
+						can.onappend._output(can.sup, msg, msg.Option(ice.MSG_DISPLAY))
+					} else if (msg.Result().length > 0 || msg.Length() > 0) {
 						can.onappend.table(can, msg)
 						can.onappend.board(can, msg)
 					} else {
