@@ -139,20 +139,20 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		// 	})
 		// }} ]}, ])
 		var project = can.page.Append(can, can.ui.project, [
-			{view: "kind", inner: "projects", onclick: function(event) {
+			{view: "kind", inner: "source", onclick: function(event) {
 				can.onmotion.toggle(can, event.target.nextSibling)
-			}}, {view: "projects"},
-			{view: "kind", inner: "icebergs", onclick: function(event) {
+			}}, {view: "source"},
+			{view: "kind", inner: "module", onclick: function(event) {
 				can.onmotion.toggle(can, event.target.nextSibling)
-			}}, {view: "icebergs"},
-			{view: "kind", inner: "volcanos", onclick: function(event) {
+			}}, {view: "module"},
+			{view: "kind", inner: "plugin", onclick: function(event) {
 				can.onmotion.toggle(can, event.target.nextSibling)
-			}}, {view: "volcanos"},
+			}}, {view: "plugin"},
 		])
 
 		can.core.Next(path, function(path, next, index, array) {
-			var list = project.projects; if (array.length > 1) {
-				var ui = can.page.Append(can, project.projects, [{view: [html.ITEM, html.DIV, path], onclick: function(event) {
+			var list = project.source; if (array.length > 1) {
+				var ui = can.page.Append(can, project.source, [{view: [html.ITEM, html.DIV, path], onclick: function(event) {
 					can.onmotion.toggle(can, ui.list)
 				}}, {view: html.LIST}]); list = ui.list
 				if (index > 0) { ui.item.click() }
@@ -168,12 +168,12 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.run(can.request({}, {fields: "index"})._event, [ctx.ACTION, ctx.COMMAND, "search", "command"], function(msg) {
 			can.onappend.tree(can, msg.Table(), ctx.INDEX, ice.PT, function(event, item) {
 				can.onimport.tabview(can, can.Option(nfs.PATH), item.index, ctx.INDEX)
-			}, project.icebergs)
+			}, project.module)
 		})
 
 		can.onappend.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return {index: can.base.trimPrefix(key, "can.")} }), ctx.INDEX, ice.PT, function(event, item) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), "can."+item.index, ctx.INDEX)
-		}, project.volcanos)
+		}, project.plugin)
 	},
 	tabview: function(can, path, file, line, cb, skip, skip2) { var key = can.onexport.keys(can, file, path)
 		if (!skip && can.tabview[key]) { can.user.mod.isCmd && can.user.title(path+file)
