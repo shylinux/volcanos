@@ -187,7 +187,11 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 	print: function(event, can, button) { can.onlayout.topic(can, can.base.join([chat.WHITE, button]))
 		can.set("River", html.HEIGHT, -1), can.set("Action", html.HEIGHT, -1)
 	},
-	config: function(event, can) { can.run(event, [ctx.CONFIG], function(msg) { can.user.toast(can, "配置成功") }) },
+	config: function(event, can) {
+		can.user.input(event, can, [{name: nfs.FILE, value: "etc/local.shy"}], function(ev, button, meta, list, args) {
+			can.run(event, [ctx.CONFIG].concat(args), function(msg) { can.user.toast(can, "配置成功") })
+		})
+	},
 	webpack: function(event, can) {
 		can.user.input(event, can, [{name: mdb.NAME, value: can.user.title()}], function(ev, button, meta, list) {
 			can.core.Item(Volcanos.meta.pack, function(key, msg) { 
