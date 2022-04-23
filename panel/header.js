@@ -87,7 +87,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		msg.Option(aaa.AVATAR) && can.page.Modify(can, "div.state.avatar>img", {src: "/share/local/avatar"})
 	},
 	_menus: function(can, msg, target) {
-		can.setHeaderMenu(can.user.mod.isPod||can.user.isExtension||can.user.isMobile? [["发布", "local", "invite"]]:
+		can.setHeaderMenu(can.user.mod.isPod||can.user.isExtension||can.user.isMobile? [["发布", "config", "source", "invite"]]:
 			can.base.Obj(msg.Option(chat.MENUS)||can.Conf(chat.MENUS), can.onaction._menus), function(event, button) {
 				can.core.CallFunc(can.onaction[button]||function(event, can) {
 					can.run(event, [button], function(msg) { can.user.toast(can, "执行成功", can.user.trans(can, button)) })
@@ -187,8 +187,8 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 	print: function(event, can, button) { can.onlayout.topic(can, can.base.join([chat.WHITE, button]))
 		can.set("River", html.HEIGHT, -1), can.set("Action", html.HEIGHT, -1)
 	},
-	local: function(event, can) {
-		can.run(event, ["local"], function(msg) { can.user.toast(can, "配置成功") })
+	config: function(event, can) {
+		can.run(event, ["config"], function(msg) { can.user.toast(can, "配置成功") })
 	},
 	"invite": function(event, can, button, river, storm) {
 		can.run(event, [ctx.ACTION, aaa.INVITE], function(msg) {
