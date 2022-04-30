@@ -188,8 +188,8 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 		can.set("River", html.HEIGHT, -1), can.set("Action", html.HEIGHT, -1)
 	},
 	config: function(event, can) {
-		can.user.input(event, can, [{name: nfs.FILE, value: "etc/local.shy"}], function(ev, button, meta, list, args) {
-			can.run(event, [ctx.CONFIG].concat(args), function(msg) { can.user.toast(can, "配置成功") })
+		can.user.input(event, can, [{name: "scope", value: "etc/local.shy"}], function(ev, button, meta, list, args) {
+			can.run(event, [ctx.CONFIG].concat(args), function(msg) { can.user.jumps(msg.Result()) })
 		})
 	},
 	webpack: function(event, can) {

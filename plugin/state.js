@@ -8,6 +8,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 		if (can.user.confirm(_arg)) { can.run(sub._event, [ctx.ACTION, "confirm"], function() {}, true) }
 	},
 	_location: function(can, msg) { location.href = msg._arg[0] },
+	_replace: function(can, msg) { location.replace(msg._arg[0]) },
+	_history: function(can, msg) { history.back() },
 	_rewrite: function(can, msg) {
 		for (var i = 0; i < msg._arg.length; i += 2) {
 			can.Option(msg._arg[i], msg._arg[i+1])
