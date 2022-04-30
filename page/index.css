@@ -11,6 +11,8 @@ input[name=where] { width:320px; }
 input[name=date] { width:150px; }
 input[name=path] { width:160px; }
 input[name=line] { width:40px; }
+input[name=limit] { width:50px; }
+input[name=offend] { width:50px; }
 input[name=text] { width:160px; }
 input[name=url] { width:320px; }
 

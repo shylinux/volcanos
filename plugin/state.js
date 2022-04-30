@@ -218,10 +218,10 @@ Volcanos("onaction", {help: "交互操作", list: [
 	},
 
 	next: function(event, can) {
-		can.Update(event, [ctx.ACTION, "next", can.Status("total")||0, can.Option("limit")||can.Action("limit"), can.Option("offend")||can.Action("offend")])
+		can.Update(event, [ctx.ACTION, "next", can.Status("total")||0, can.Option("limit")||can.Action("limit")||"", can.Option("offend")||can.Action("offend")||""])
 	},
 	prev: function(event, can) {
-		can.Update(event, [ctx.ACTION, "prev", can.Status("total")||0, can.Option("limit")||can.Action("limit"), can.Option("offend")||can.Action("offend")])
+		can.Update(event, [ctx.ACTION, "prev", can.Status("total")||0, can.Option("limit")||can.Action("limit")||"", can.Option("offend")||can.Action("offend")||""])
 	},
 
 	listTags: function(event, can, button) { var list = []
