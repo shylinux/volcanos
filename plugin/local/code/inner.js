@@ -72,6 +72,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
 			cli.SHOW, function(event) { can.onaction["展示"](event, can) },
 			"加载", function(event) { can.onaction["加载"](event, can), can.user.toastSuccess(can) },
+			"链接", function(event) { can.user.open(can.base.Path("/chat/cmd/", can.Option(nfs.PATH), can.Option(nfs.FILE))) },
 			mdb.PLUGIN, function(event) {
 				can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(event, button, data) {
 					can.onimport.plugin(can, data, ui.output)

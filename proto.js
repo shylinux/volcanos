@@ -238,6 +238,20 @@ var html = {
 	DIV_ITEM: "div.item", DIV_FLOAT: "div.float",
 	TABS: "tabs", DIV_TABS: "div.tabs",
 	HIDE: "hide", SHOW: "show",
+
+	HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot",
+	TABS: "tabs", MENU: "menu",
+	LIST: "list", ITEM: "item",
+	PAGE: "page",
+	HIDE: "hide",
+	LAYOUT: "layout",
+	PLUGIN: "plugin",
+	DIV_PAGE: "div.page",
+	DIV_LIST: "div.list",
+	DIV_ITEM: "div.item",
+	DIV_LAYOUT_HEAD: "div.layout.head",
+	DIV_LAYOUT_LEFT: "div.layout.left",
+	DIV_LAYOUT_FOOT: "div.layout.foot",
 }
 var lang = {
 	UNDEFINED: "undefined",

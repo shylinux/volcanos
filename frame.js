@@ -98,7 +98,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 	listen: shy("监听事件", {}, [], function(can, name, cb) { arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb) }),
 	signal: shy("触发事件", function(can, name, msg) { msg = msg||can.request()
 		can.misc.Log(gdb.SIGNAL, name, name == chat.ONREMOTE? msg.Option("_msg"): msg)
-		can.core.List(can.onengine.listen.meta[name], function(cb) { can.core.CallFunc(cb, {event: msg._event, msg: msg}) })
+		return can.core.List(can.onengine.listen.meta[name], function(cb) { can.core.CallFunc(cb, {event: msg._event, msg: msg}) }).length
 	}),
 })
 Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name) { if (can.user.isLocalFile) { return }
@@ -417,6 +417,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			}}
 		}); table && can.page.Modify(can, table, {className: chat.CONTENT})
 		if (msg.append && msg.append[msg.append.length-1] == "action") { can.page.ClassList.add(can, table, "action") }
+		can._table = table, can.sup && (can.sup._table = table)
 		return sort && can.page.RangeTable(can, table, sort), table
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }
@@ -427,124 +428,6 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			}
 		})
 		return (code.scrollBy && code.scrollBy(0, 10000)), code
-	},
-	parse: function(can, list, target, type, data) { target = target||can._output, data = data || {}
-		if (!list) { return } else if (can.base.isArray(list)) {
-			return can.core.List(list, function(meta) { return can.onappend.parse(can, meta, target, type, data) })
-
-		} else if (can.base.isString(list)) {
-			var ls = can.core.Split(list, "", ":="); if (ls.length == 1) {
-				var meta = type? {type: type, name: ls[0]}: {type: ls[0]}
-			} else {
-				var meta = {name: ls[0]}; for (var i = 1; i < ls.length; i += 2) { switch (ls[i]) {
-					case ":": meta.type = ls[i+1]; break
-					case "=": meta.value = ls[i+1]; break
-				} }
-			}
-
-		} else if (can.base.isObject(list)) { var meta = list }
-
-		var item = {view: meta.type}, init; switch (meta.type) {
-			case "head": data = {}
-				init = function(target) {
-					data.head = target
-					can.page.ClassList.add(can, target, "layout")
-				}
-				break
-			case "left":
-				init = function(target) {
-					can.page.ClassList.add(can, target, "layout")
-					can.core.Timer(10, function() {
-						var height = target.parentNode.offsetHeight
-						can.page.Select(can, target.parentNode, "div.layout.head", function(item) {
-							height -= item.offsetHeight
-						})
-						can.page.Select(can, target.parentNode, "div.layout.foot", function(item) {
-							height -= item.offsetHeight
-						})
-						can.page.style(can, target, html.HEIGHT, height)
-					})
-				}
-				break
-			case "main":
-				init = function(target) {
-					data.main = target
-					var width = target.parentNode.offsetWidth
-					can.page.Select(can, target.parentNode, "div.layout.left", function(item) {
-						width -= item.offsetWidth+1
-					})
-					can.page.style(can, target, html.HEIGHT, height, html.WIDTH, width)
-
-					can.core.Timer(10, function() {
-						var height = target.parentNode.offsetHeight
-						can.page.Select(can, target.parentNode, "div.layout.head", function(item) {
-							height -= item.offsetHeight
-						})
-						can.page.Select(can, target.parentNode, "div.layout.foot", function(item) {
-							height -= item.offsetHeight
-						})
-						can.page.style(can, target, html.HEIGHT, height)
-					})
-				}
-				break
-			case "foot":
-				init = function(target) {
-					can.page.ClassList.add(can, target, "layout")
-				}
-				break
-			case "tabs":
-				var height = target.offsetHeight
-				item.list = [{view: "name"}, {view: "page", style: {width: 240}}], item._init = function(_target, ui) {
-					can.core.Timer(100, function() {
-						var height = target.offsetHeight
-						can.page.style(can, _target, html.HEIGHT, height-10)
-						can.page.style(can, ui.page, html.HEIGHT, height-10-(meta.style? 0: ui.name.offsetHeight))
-					})
-					can.page.Append(can, ui.page, [{view: "input", list: [{type: "input", onkeyup: function(event) {
-						can.page.Select(can, _target, ["div.page", html.DIV_ITEM], function(item) {
-							can.page.ClassList.set(can, item, "hide", item.innerText.indexOf(event.target.value) == -1)
-						})
-					}}]}])
-					can.core.List(meta.list, function(item, index) {
-						can.page.Append(can, ui.name, [{view: ["item", html.DIV, item.name||item], onclick: function(event) {
-							can.onmotion.select(can, _target, [["div.page", "div.list"]], index)
-							can.onmotion.select(can, ui.name, html.DIV_ITEM, index)
-							ui.page.scrollTo(0, 0)
-						}}])
-						can.page.Append(can, ui.page, [{view: ["item", html.DIV, item.name], onclick: function(event) {
-							can.page.ClassList.neg(can, event.target.nextSibling, html.SELECT)
-							can.onmotion.select(can, ui.name, html.DIV_ITEM, index)
-						}}, {view: ["list"], _init: function(target) { can.onappend.parse(can, item.list, target, "item", data) }}])
-					})
-					can.page.Select(can, ui.name, html.DIV_ITEM)[0].click()
-				}
-				break
-			case "plugin":
-				break
-			default:
-		}
-
-		item._init = item._init||function(target) { meta.list && can.onappend.parse(can, meta.list, target, type, data), can.base.isFunc(init) && init(target) }
-		if (can.base.isString(meta.style)) { item.className = meta.style }
-		if (can.base.isObject(meta.style)) { item.style = meta.style }
-		if (type == "item") {
-			can.page.Append(can, target, [{view: ["item", "div", meta.name||meta], onclick: function(event) {
-				switch (meta.type) {
-					case "plugin":
-						can.onappend.plugin(can, {index: meta.index}, function(sub) {
-							sub.ConfWidth(data.main.offsetWidth)
-							sub.run = function(event, cmds, cb, silent) {
-								can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
-							}
-						}, data.main)
-					default:
-						meta.list && can.onmotion.toggle(can, event.target.nextSibling)
-				}
-			}}])
-			if (!meta.list) { return }
-			item.view = "list"
-		}
-		return can.page.Append(can, target, [item]).first
 	},
 
 	_plugin: function(can, value, meta, cb, target) {

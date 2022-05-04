@@ -1,13 +1,14 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
 		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can._action)
-		can.onmotion.clear(can, target), can.base.isFunc(cb) && cb(msg)
 		var cbs = can.onimport[can._args["style"]]; if (can.base.isFunc(cbs)) {
 			can.page.ClassList.add(can, target, can._args["style"])
 			return cbs(can, msg, target)
 		}
+		can.onmotion.clear(can, target)
 		can.onappend.table(can, msg, null, target)
 		can.onappend.board(can, msg, target)
 		can.onmotion.story.auto(can, target)
+		can.base.isFunc(cb) && cb(msg)
 	},
 
 	_process: function(can, msg) {
