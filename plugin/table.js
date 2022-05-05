@@ -16,7 +16,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		return can.core.CallFunc([can.onimport, msg.Option(ice.MSG_PROCESS)], [can, msg])
 	},
 	card: function(can, msg, target) {
-		can.page.Append(can, target, msg.Table(function(value) {
+		can.page.Appends(can, target, msg.Table(function(value) {
 			return {view: "item", list: [
 				{view: ["title", "div", value.name]},
 				{view: ["content", "div", value.text]},
