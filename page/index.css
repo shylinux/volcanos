@@ -131,7 +131,7 @@ body.white fieldset.Action fieldset.story.Full { background-color:#cce0f4eb; col
 body.white fieldset.Action fieldset.plugin.Full table.content { color:white; }
 body.white fieldset.Action fieldset.story.Full table.content { color:white; }
 body.white fieldset.Search table { color:white; }
-body.white fieldset.word.float { background-color:aliceblue; color:black; }
+body.white fieldset.word.float { background-color:#3d5569; color:black; }
 
 body.white legend { border-radius:10px 10px 10px 10px; }
 body.white select { background-color:#99CC66; color:white; border:2px solid #99CC66; border-radius:10px 10px 10px 10px; }
@@ -249,9 +249,9 @@ body.white fieldset.float table { color:white; }
 body.mobile div.output div.code { font-size:12px; }
 body.mobile div.output.card div.item { height:160px; float:none; }
 body.mobile.landscape div.output.card div.item { width:auto; float:left; }
-div.output.card div.item { padding:10px; border:solid 1px #e7e7e7; margin:10px; height:120px; float:left; position:relative; }
+div.output.card div.item { padding:10px; border:solid 1px #e7e7e7; margin:10px; height:120px; width:240px; float:left; position:relative; }
 div.output.card div.item>div.title { font-size:1.2rem; font-weight:bold; padding:10px; border-bottom: solid 1px #e7e7e7; }
-div.output.card div.item>div.content { padding:10px; }
+div.output.card div.item>div.content { padding:10px; height:24px; }
 
 body.simple { background-color:white; }
 body.simple fieldset.Header { border-bottom:solid 1px #e7e7e7; height:60px; display:block; }

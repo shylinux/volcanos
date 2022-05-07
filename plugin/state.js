@@ -62,7 +62,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 		return true
 	},
 
-	_open: function(can, msg) { can.user.open(msg.Option("_arg")); return true },
+	_open: function(can, msg) {
+		can.user.open(msg.Option("_arg")), can.Update()
+		return true
+	},
 	_hold: function(can, msg) { return true },
 	_back: function(can) {
 		can._history.pop(); for (var his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }

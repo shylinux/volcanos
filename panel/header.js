@@ -87,7 +87,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		msg.Option(aaa.AVATAR) && can.page.Modify(can, "div.state.avatar>img", {src: "/share/local/avatar"})
 	},
 	_menus: function(can, msg, target) {
-		can.setHeaderMenu(can.user.mod.isPod||can.user.isExtension||can.user.isMobile? [ctx.CONFIG]:
+		can.setHeaderMenu(can.user.mod.isPod||can.user.isExtension||can.user.isMobile? [ctx.CONFIG, code.PUBLISH]:
 			can.base.Obj(msg.Option(chat.MENUS)||can.Conf(chat.MENUS), can.onaction._menus), function(event, button) {
 				can.core.CallFunc(can.onaction[button]||function(event, can) {
 					can.run(event, [button], function(msg) { can.user.toast(can, "执行成功", can.user.trans(can, button)) })
@@ -137,7 +137,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, target) {
 		can.base.isFunc(cb) && cb()
 	},
-	_menus: [["setting", chat.BLACK, chat.WHITE, chat.PRINT, "webpack", "toimage"]],
+	_menus: [["setting", chat.BLACK, chat.WHITE, chat.PRINT, "webpack", "toimage", ctx.CONFIG]],
 	_trans: {
 		"search": "搜索",
 		"create": "创建",
@@ -148,6 +148,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 		"white": "白色主题",
 		"print": "打印主题",
 		"toimage": "生成图片",
+		"config": "拉取配置",
 
 		"shareuser": "共享用户",
 		"setnick": "设置昵称",
@@ -189,7 +190,15 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 	},
 	config: function(event, can) {
 		can.user.input(event, can, [{name: "scope", value: "etc/local.shy"}], function(ev, button, meta, list, args) {
-			can.run(event, [ctx.CONFIG].concat(args), function(msg) { can.user.jumps(msg.Result()) })
+			can.run(event, [ctx.ACTION, ctx.CONFIG].concat(args), function(msg) { can.user.jumps(msg.Result()) })
+		})
+	},
+	publish: function(event, can) {
+		can.run(event, [ctx.ACTION, code.PUBLISH], function(msg) {
+			can.user.toast(can, {
+				title: "发布应用", duration: -1, width: -300,
+				content: msg.Result(), action: [cli.CLOSE],
+			})
 		})
 	},
 	webpack: function(event, can) {

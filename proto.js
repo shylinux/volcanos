@@ -115,7 +115,7 @@ var tcp = {
 
 var code = {
 	VIMER: "vimer", INNER: "inner", FAVOR: "favor",
-	AUTOGEN: "autogen", COMPILE: "compile", BINPACK: "binpack", WEBPACK: "webpack",
+	AUTOGEN: "autogen", COMPILE: "compile", BINPACK: "binpack", WEBPACK: "webpack", PUBLISH: "publish",
 }
 var wiki = {
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
