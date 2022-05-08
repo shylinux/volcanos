@@ -264,7 +264,7 @@ body.simple fieldset.River>div.output div.list div.item { background-color:white
 body.simple fieldset.River>div.output div.list div.item.select { background-color:#0152d9; color:white; }
 body.simple fieldset.River>div.output div.list div.item:hover { background-color:#0152d9; color:white; }
 
-body.simple fieldset.Action { background-color:white; }
+body.white.simple fieldset.Action { background-color:white; }
 body.simple fieldset.Action>div.action { background:white; padding:10px; border-bottom: solid 1px red; height:38px; width:600px; }
 body.simple fieldset.Action>div.action div.tabs { padding:10px; margin:10px; }
 body.simple fieldset.Action.tabs>div.output { margin-top:58px; }

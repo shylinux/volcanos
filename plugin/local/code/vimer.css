@@ -3,5 +3,31 @@ fieldset.vimer>div.output input.current {
 	padding:0; padding-left:11px; border:none; outline:none; margin:0; margin-top:-1px;
  	height:22px; position:absolute;
 }
+fieldset.vimer>div.output div.complete {
+	height:20px; position:absolute; left:32px; margin-top:20px;
+}
+fieldset.vimer>div.output div.complete div.pre {
+	font-size:1.1rem; margin-left:5px; float:left;
+	color:#f0f8ff00;
+}
+fieldset.vimer>div.output div.complete table {
+	background:lightblue; float:left;
+	max-height:200px;
+	display:block;
+	overflow:auto;
+}
+fieldset.vimer>div.output div.complete table.content th {
+	display:none;
+}
+fieldset.vimer>div.output div.complete table.content td {
+	font-size:1.1rem;
+}
 fieldset.vimer>div.output input.current.insert { caret-color:black; }
 fieldset.vimer>div.output input.current.normal { caret-color:lightgray; }
+
+body.simple fieldset.vimer>div.output div.complete div.pre {
+	font-size:1rem;
+}
+body.simple fieldset.vimer>div.output div.complete table.content td {
+	font-size:1rem;
+}

@@ -17,22 +17,25 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		})
 	},
 	_input: function(can) {
-		can.ui.current = can.page.Append(can, can.ui.content.parentNode, [
+		var ui = can.page.Append(can, can.ui.content.parentNode, [
 			{view: ["current", html.INPUT], spellcheck: false, onkeydown: function(event) { if (event.metaKey) { return }
 				can.misc.Debug("key", event.key)
 				can._keylist = can.onkeymap._parse(event, can, can.mode+(event.ctrlKey? "_ctrl": ""), can._keylist, can.ui.current)
 				can.mode == "insert" && can.core.Timer(10, function() { can.current.text(can.ui.current.value) })
 				can.mode == "normal" && can.Status("按键", can._keylist.join(""))
 				can.mode == "normal" && can.onkeymap.prevent(event)
-			}, onfocus: function(event) {
+			}, onkeyup: function(event) { can.onaction._complete(event, can, can.ui.complete)
+
+			}, onfocus: function(event) { can.onaction._complete(event, can, can.ui.complete)
 				can.page.styleWidth(can, can.ui.current, can.ui.content.style.width)
-			}, onclick: function(event) { can.onkeymap._insert(event, can) },
-				ondblclick: function(event) { var target = event.target
+			}, onclick: function(event) { can.onkeymap._insert(event, can)
+
+			}, ondblclick: function(event) { var target = event.target
 					return
 					can.onaction.searchLine(event, can, target.value.slice(target.selectionStart, target.selectionEnd))
 				},
-			},
-		]).first
+			}, {view: ["complete"]},
+		]); can.ui.current = ui.current, can.ui.complete = ui.complete
 	},
 }, [""])
 Volcanos("onkeymap", {help: "键盘交互", list: [],
@@ -177,6 +180,35 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, "dream", code.AUTOG
 			}, true)
 		})
 	},
+	_complete: function(event, can, target) {
+		var pre = event.target.value.slice(0, event.target.selectionStart)
+		var end = event.target.value.slice(event.target.selectionStart)
+		var key = can.core.Split(pre, "\t ", "\t ").pop()||""
+		var word = can.core.Split(key, "\t ", ".").pop()||""
+		key = can.base.trimSuffix(key, word)
+		key = can.base.trimSuffix(key, ".")
+
+		function update(target) { can.request(event, {pre: pre, end: end, key: key, word: word})
+			can.run(event, [ctx.ACTION, "complete"], function(msg) {
+				can.page.Appends(can, target, [{view: ["pre", html.DIV, pre]}])
+				can.onappend.table(can, msg, null, target)
+			}, true)
+		}
+		function select() {
+			return can.page.Select(can, target, html.TR, function(tr) {
+				if (!can.page.ClassList.set(can, tr, html.HIDE, can.page.Select(can, tr, html.TD, function(td) {
+					if (td.innerText.indexOf(word) > -1) { return td }
+				}).length == 0)) { return tr }
+			}).length > 0
+		}
+
+		switch (event.key) {
+			case "Enter": can.onmotion.clear(can, target); break
+			case ice.TB: update(target); break
+			case ice.SP: update(target); break
+			default: select() || update(target); break
+		}
+	},
 	compile: function(event, can, button) { var msg = can.ui.search.request(event, {_handle: ice.TRUE, _toast: "编译中..."}, can.Option())
 		can.run(event, [ctx.ACTION, button], function(msg) {
 			if (msg.Length() == 0) { var toast = can.user.toast(can, "重启中...", "", -1)
@@ -218,8 +250,9 @@ hi
 	},
 
 	_selectLine: function(event, can) {
-		can.page.Select(can, can.current.line, "td.text", function(td) { can.current.line.appendChild(can.ui.current)
-			can.page.Modify(can, can.ui.current, {style: kit.Dict(html.LEFT, td.offsetLeft-1, html.WIDTH,td.offsetWidth-12), value: td.innerText})
+		can.page.Select(can, can.current.line, "td.text", function(td) {
+			can.current.line.appendChild(can.ui.current), can.page.Modify(can, can.ui.current, {style: kit.Dict(html.LEFT, td.offsetLeft-1, html.WIDTH, td.offsetWidth-12), value: td.innerText})
+			can.current.line.appendChild(can.ui.complete), can.page.Modify(can, can.ui.complete, {style: kit.Dict(html.LEFT, td.offsetLeft-1, "margin-top", can.ui.current.offsetHeight+4)})
 			if (event) { if (can.mode == "plugin") { can.onkeymap._insert(event, can) }
 				can.ui.current.focus(), can.onkeymap.cursorMove(can, can.ui.current, 0, (event.offsetX)/13-1)
 				can.ui.content.scrollLeft -= 10000

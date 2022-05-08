@@ -59,8 +59,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 	}) },
 	_cmd: function(can, item, next) {
 		can.base.Copy(item, {
-			height: can.Conf(html.HEIGHT)-can.Conf(html.MARGIN_Y)+(can.user.isWindows? 17: 0),
-			width: can.Conf(html.WIDTH),
+			height: window.innerHeight-can.Conf(html.MARGIN_Y)+(can.user.isWindows? 17: 0),
+			width: window.innerWidth,
 			opts: can.misc.Search(can),
 		})
 		can.onappend.plugin(can, item, function(sub, meta, skip) {
@@ -99,6 +99,22 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 				event.target.innerHTML = toggle()? gt: lt
 			}}])
 		}
+
+		can.onengine.plugin(can, "parse", shy("解析", {
+			"show": function(can, msg, cmds) {
+				can.onmotion.hidden(can, can._legend)
+				can.onmotion.hidden(can, can._option)
+				can.onmotion.hidden(can, can._status)
+
+				can.ConfHeight(can.ConfHeight()+can.Conf(html.MARGIN_Y)-(can.user.isWindows? 17: 0))
+
+				can.onengine.listen(can, "menu", function(msg) { can.user.toast(can, msg.Option(html.ITEM)) })
+				can.onengine.listen(can, "高级配置", function(msg) { can.user.toast(can, msg.Option(html.ITEM)) })
+				can.onengine.listen(can, "h1", function(msg) { can.user.toast(can, "h1") })
+
+				can.onappend.parse(can, can.onappend._parse(can, cmds[0]))
+			},
+		}, ["text", "show:button@auto"], function(msg, cmds, cb) { can.run({}, cmds, cb, true) }))
 
 		can.onengine.plugin(can, "cookie", shy("提示", {}, ["text", "list", "back"], function(msg, cmds) {
 			can.core.Item(can.misc.Cookie(can), function(key, value) {
