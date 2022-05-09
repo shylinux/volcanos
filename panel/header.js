@@ -88,7 +88,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		msg.Option(aaa.AVATAR) && can.page.Modify(can, "div.state.avatar>img", {src: "/share/local/avatar"})
 	},
 	_menus: function(can, msg, target) {
-		can.setHeaderMenu(can.user.mod.isPod||can.user.isExtension||can.user.isMobile? [ctx.CONFIG, code.PUBLISH]:
+		can.setHeaderMenu(can.user.mod.isPod||can.user.isExtension||can.user.isMobile? [ctx.CONFIG]:
 			can.base.Obj(msg.Option(chat.MENUS)||can.Conf(chat.MENUS), can.onaction._menus), function(event, button) {
 				can.core.CallFunc(can.onaction[button]||function(event, can) {
 					can.run(event, [button], function(msg) { can.user.toast(can, "执行成功", can.user.trans(can, button)) })
@@ -194,14 +194,6 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 			can.run(event, [ctx.ACTION, ctx.CONFIG].concat(args), function(msg) { can.user.jumps(msg.Result()) })
 		})
 	},
-	publish: function(event, can) {
-		can.run(event, [ctx.ACTION, code.PUBLISH], function(msg) {
-			can.user.toast(can, {
-				title: "发布应用", duration: -1, width: -300,
-				content: msg.Result(), action: [cli.CLOSE],
-			})
-		})
-	},
 	webpack: function(event, can) {
 		can.user.input(event, can, [{name: mdb.NAME, value: can.user.title()}], function(ev, button, meta, list) {
 			can.core.Item(Volcanos.meta.pack, function(key, msg) { 
@@ -244,7 +236,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 		can.user.isMobile && can.page.Modify(can, ui._target, {style: {top: 40, right: 0, left: ""}})
 	},
 	password: function(event, can) {
-		var ui = can.user.input(event, can, [{type: html.PASSWORD, action: ice.AUTO}, {type: html.PASSWORD, action: ice.AUTO}], function(ev, button, data, list, args) {
+		var ui = can.user.input(event, can, [{name: html.PASSWORD, type: html.PASSWORD, action: ice.AUTO}, {name: html.PASSWORD, type: html.PASSWORD, action: ice.AUTO}], function(ev, button, data, list, args) {
 			if (list[0] != list[1]) {
 				can.user.toast(can, "密码不一致")
 				ui.focus()

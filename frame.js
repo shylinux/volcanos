@@ -616,7 +616,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
 		can.onappend._init(can, meta, [chat.PLUGIN_STATE_JS], function(sub, skip) {
 			sub._index = value.index||meta.index
-			sub.run = function(event, cmds, cb) { can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb) }
+			sub.run = function(event, cmds, cb) { can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, sub._index], cmds), cb) }
 			can.base.isFunc(cb) && cb(sub, meta, skip)
 		}, target||can._output)
 	},

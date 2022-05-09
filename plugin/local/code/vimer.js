@@ -165,7 +165,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 		},
 	}, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, "dream", code.AUTOGEN, code.COMPILE, "script", chat.WEBSITE],
+Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.COMPILE, "script", chat.WEBSITE, "dream", "publish"],
 	save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
 		can.run(event, [ctx.ACTION, nfs.SAVE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
 			can.onimport.project(can, can.Option(nfs.PATH))
@@ -179,6 +179,15 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, "dream", code.AUTOG
 				can.onimport.project(can, can.Option(nfs.PATH))
 			}, true)
 		})
+	},
+	compile: function(event, can, button) { var msg = can.ui.search.request(event, {_handle: ice.TRUE, _toast: "编译中..."}, can.Option())
+		can.run(event, [ctx.ACTION, button], function(msg) {
+			if (msg.Length() == 0) { var toast = can.user.toast(can, "重启中...", "", -1)
+				can.core.Timer(5000, function() { toast.close(), can.onaction["展示"]({}, can) })
+			} else {
+				can.ui.search._show(msg)
+			}
+		}, true)
 	},
 	_complete: function(event, can, target) {
 		var pre = event.target.value.slice(0, event.target.selectionStart)
@@ -209,17 +218,8 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, "dream", code.AUTOG
 			default: select() || update(target); break
 		}
 	},
-	compile: function(event, can, button) { var msg = can.ui.search.request(event, {_handle: ice.TRUE, _toast: "编译中..."}, can.Option())
-		can.run(event, [ctx.ACTION, button], function(msg) {
-			if (msg.Length() == 0) { var toast = can.user.toast(can, "重启中...", "", -1)
-				can.core.Timer(5000, function() { toast.close(), can.onaction["展示"]({}, can) })
-			} else {
-				can.ui.search._show(msg)
-			}
-		}, true)
-	},
 	script: function(event, can, button) { var meta = can.Conf()
-		can.request(event, {_handle: ice.TRUE, file: "hi/hi.js", text: `Volcanos("onimport", {help: "导入数据", list:[], _init: function(can, msg, cb, target) {
+		can.request(event, {_handle: ice.TRUE, action: button, file: "hi/hi.js", text: `Volcanos("onimport", {help: "导入数据", list:[], _init: function(can, msg, cb, target) {
 	msg.Echo("hello world")
 	can.onappend.table(can, msg)
 	can.onappend.board(can, msg)
@@ -232,20 +232,31 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, "dream", code.AUTOG
 		})
 	},
 	website: function(event, can, button) { var meta = can.Conf()
-		can.request(event, {_handle: ice.TRUE, file: "hi.iml", text: `
-hi
-	he
-		cli.runtime
-		cli.system
-		hi/hi.sh
-		hi/hi.go
-		hi/hi.js
+		can.request(event, {_handle: ice.TRUE, action: button, file: "hi.zml", text: `
+left
+	username
+	系统
+		命令 index cli.system
+		共享 index cli.qrcode
+	代码
+		趋势 index web.code.git.trend args icebergs action auto 
+		状态 index web.code.git.status args icebergs
+main
+	
 `.trim()}, can.Option())
 		can.user.input(event, can, meta.feature[button], function(ev, btn, data, list, args) {
 			can.run(event, [ctx.ACTION, button].concat(args), function(msg) {
 				can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE))
 				can.onimport.project(can, can.Option(nfs.PATH))
 			}, true)
+		})
+	},
+	publish: function(event, can, button) {
+		can.run(event, [ctx.ACTION, button], function(msg) {
+			can.user.toast(can, {
+				title: "发布应用", duration: -1, width: -300,
+				content: msg.Result(), action: [cli.CLOSE],
+			})
 		})
 	},
 

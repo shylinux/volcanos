@@ -92,6 +92,7 @@ body.simple fieldset.inner>div.output td.project div.project div.kind { color: w
 body.simple fieldset.inner>div.output td.project div.project div.kind:first-child { position:sticky; top:0 }
 body.simple fieldset.inner>div.output div.content { background-color:#263238; font-size:16px; }
 body.simple fieldset.inner>div.output div.toggle { display:none; }
+body.simple fieldset.inner>div.output div.toggle.profile { background-color:#664f4f45; display:block; }
 
 body.white.simple fieldset.inner>div.output div.project div.action div.item { float:left; width:auto; padding:unset; }
 body.white.simple fieldset.inner>div.output div.project { background:lightyellow; }
