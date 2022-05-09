@@ -13,6 +13,22 @@ fieldset.Header>div.output div.menu:hover { background-color:#2e515f; border-bot
 div.head {
 	background-color:#404040; padding:5px; height:42px; clear:both;
 }
+div.left div.username div {
+	color:white; text-align:center; padding:10px;
+}
+div.left div.username img {
+	padding:0 10px; width:100px;
+}
+div.head div.username img {
+	height:40px; float:left;
+}
+div.head div.username div {
+	padding:12px; float:left;
+}
+div.head div.username {
+	color:white; float:right;
+	padding-right:10px;
+}
 div.head div.menu {
 	color:white; cursor:pointer; padding:10px; float:left;
 }
@@ -20,6 +36,7 @@ div.head div.menu:hover {
 	background-color:#323232;
 }
 div.left {
+	width:120px;
 	background-color:#323232; overflow:auto; float:left;
 }
 div.left:hover {
@@ -27,12 +44,16 @@ div.left:hover {
 }
 div.left div.item {
 	background-color:#323232;
+	color:white; padding:5px 10px;
 }
 div.left div.item:hover {
 	background-color:#404040;
 }
 div.main {
 	background-color:#cccccc; height:180px; width:180px; overflow:auto; float:left;
+}
+div.main iframe {
+	border:0;
 }
 div.main fieldset.plugin {
 	background-color:#f8f8f8; padding:10px; margin:10px;
@@ -125,7 +146,7 @@ div.tabs div.page>div.list {
 div.tabs div.page>div.list.select {
 	background-color:#323232; display:block;
 }
-div.tabs div.list {
+div.left div.list {
 	padding-left:20px;
 }
 
@@ -139,7 +160,8 @@ div.tabs.left div.name div.item.select {
 	border-right:solid red 2px;
 }
 div.tabs.left div.page {
-	width:240px; clear:none; float:left;
+	width:-webkit-fill-available;
+ 	clear:none; float:left;
 }
 div.tabs.left div.page>div.item {
 	display:block;

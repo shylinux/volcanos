@@ -1,5 +1,6 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
 		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
+		can.onmotion.hidden(can, can._action)
 		if (msg.Option("branch")) { return can.onappend.table(can, msg) }
 		can.onappend._status(can, ["from", "commit", "total", "max", "date", "text", "add", "del"])
 		can.Conf(html.HEIGHT, can.Conf(html.HEIGHT)||200)

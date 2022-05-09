@@ -442,10 +442,11 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 				case html.MAIN:
 				case html.FOOT:
 				case html.TABS:
+				case "username":
 				case html.MENU: item.type = ls[0]; break
 				default: item.name = ls[0]; break
 			}
-			for (var i = 1; i < ls.length; i += 2) { item[ls[i]] = ls[i+1]
+			for (var i = 1; i < ls.length; i += 2) { can.core.Value(item, ls[i], ls[i+1])
 				if (ls[i] == ctx.INDEX) { item.type = item.type||html.PLUGIN }
 			}
 		})
@@ -471,13 +472,13 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 		} else if (can.base.isObject(list)) { var meta = list }
 
 		keys = can.core.Keys(keys, meta.name||meta.type) 
-		var item = {view: meta.type}, init; switch (meta.type) {
-			case html.HEAD: data = {}
+		var item = {view: meta.type}, init, subtype; switch (meta.type) {
+			case html.HEAD: subtype = "menu", data = {}
 				init = function(target) { data.head = target
 					can.page.ClassList.add(can, target, html.LAYOUT)
 				}
 				break
-			case html.LEFT:
+			case html.LEFT: subtype = "item"
 				init = function(target) {
 					can.page.ClassList.add(can, target, html.LAYOUT)
 					can.core.Timer(10, function() { var height = target.parentNode.offsetHeight
@@ -536,16 +537,22 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 					}), can.page.Select(can, ui.name, html.DIV_ITEM)[0].click()
 				}
 				break
+			case "username":
+				// item.inner = can.user.info.usernick
+				can.page.Append(can, target, [
+					can.base.Copy({view: ["username", "div"], onclick: function(event) {
+				}, list: [{view: ["some", html.DIV, can.user.info.usernick]}, {img: "/share/local/avatar"}]})])
+				return
 		}
 
 		item._init = item._init||function(target) {
-			meta.list && can.onappend.parse(can, meta.list, target, keys, data, type)
+			meta.list && can.onappend.parse(can, meta.list, target, keys, data, type||subtype)
 			can.base.isFunc(init) && init(target), can.base.isFunc(meta.init) && meta.init(target)
 		}
 		if (can.base.isString(meta.style)) { item.className = meta.style }
 		if (can.base.isObject(meta.style)) { item.style = meta.style }
 
-		if (meta.type == html.MENU) {
+		if ((meta.type||type) == html.MENU) {
 			can.page.Append(can, target, [can.base.Copy({view: [html.MENU, html.DIV, meta.name||meta], onclick: function(event) {
 				if (meta.list && meta.list.length > 0) { return }
 				can.onengine.signal(can, meta.name) || can.onengine.signal(can, html.MENU, can.request(event, {item: meta.name}))
@@ -556,7 +563,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			}})]).first
 			return
 		}
-		if (type == html.ITEM) { item.view = html.LIST
+		if ((type||subtype) == html.ITEM) { item.view = item.view||html.LIST
 			if (meta.action == "auto") {
 				meta.init = meta.init||function(item) { can.core.Timer(100, function() { item.click() }) }
 			}
@@ -565,10 +572,18 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 				switch (meta.type) {
 					case html.PLUGIN:
 						if (can.onmotion.cache(can, function() { return keys }, data.main)) { break }
-						can.onappend.plugin(can, {index: meta.index}, function(sub) {
+						if (can.base.Ext(meta.index) == "zml") {
+							can.page.Append(can, data.main, [{type: "iframe", src: "/chat/cmd/"+meta.index,
+								width: data.main.offsetWidth, height: data.main.offsetHeight,
+							}])
+							break
+						}
+
+						can.onappend.plugin(can, {index: meta.index, args: can.base.Obj(meta.args)}, function(sub) {
+							sub.ConfHeight(data.main.offsetHeight-160)
 							sub.run = function(event, cmds, cb, silent) {
 								can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth(data.main.offsetWidth-40))
-								can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), function(msg) {
+								can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, sub._index||meta.index], cmds), function(msg) {
 									cb(msg), can.core.Timer(10, function() {
 										can.page.style(can, sub._table, html.MAX_HEIGHT, data.main.offsetHeight-150)
 									})
@@ -590,6 +605,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 	_plugin: function(can, value, meta, cb, target) {
 		meta.feature = can.base.getValid(meta.feature, can.base.Obj(value.meta))||{}
 		meta.inputs = can.base.getValid(meta.inputs, can.base.Obj(value.list))||[]
+		meta.display = meta.display||value.display
 
 		meta.height = meta.height||can.Conf(html.HEIGHT)
 		meta.width = meta.width||can.Conf(html.WIDTH)
@@ -599,6 +615,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 		meta.help = meta.help||value.help
 
 		can.onappend._init(can, meta, [chat.PLUGIN_STATE_JS], function(sub, skip) {
+			sub._index = value.index||meta.index
 			sub.run = function(event, cmds, cb) { can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb) }
 			can.base.isFunc(cb) && cb(sub, meta, skip)
 		}, target||can._output)
