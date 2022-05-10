@@ -1,7 +1,7 @@
 body, fieldset, table, tr, th, td { padding:0; border:0; margin:0; }
 body { background-color:black; color:cyan; font-size:14px; font-family:sans-serif; }
 
-legend { background-color:#339999; color:white; padding:0px 10px; margin-top:4px 5px; }
+legend { background-color:#339999; color:white; padding:0px 20px; margin-top:4px 5px; }
 select { background-color:black; color:cyan; padding:0 10px; height:1.92rem; }
 textarea { background-color:cyan; height:60px; width:400px; }
 input[type=button] { background-color:black; color:cyan; }
@@ -78,7 +78,8 @@ div.status>div.item { padding:4px; height:18px; }
 fieldset.Action>div.output>fieldset.plugin { background-color:#061c3c9e; padding:10px; margin:10px; }
 fieldset.plugin div.status { border-top:1px solid darkcyan; }
 fieldset.story div.status { border-top:1px solid darkcyan; }
-/* fieldset.story>legend { float:left; height:30px; } */
+/* fieldset.story>legend { height:30px; margin-right:5px; float:left; } */
+fieldset.story>legend { padding:0 20px; margin:5px 0; }
 fieldset.float { background-color:#023531cf; }
 /* fieldset.float>div.action { display:block; height:2.3rem; } */
 fieldset.float table { color:white; }
