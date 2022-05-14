@@ -103,6 +103,7 @@ var ssh = {
 	SCRIPT: "script",
 }
 var nfs = {
+	ZML: "zml", IML: "iml",
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
 	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash",
@@ -111,6 +112,9 @@ var nfs = {
 }
 var tcp = {
 	HOST: "host", PORT: "port",
+}
+var lex = {
+	SPLIT: "split",
 }
 
 var code = {
@@ -199,8 +203,10 @@ var mall = {
 }
 
 var svg = {
-	G: "g", X: "x", Y: "y", R: "r", RECT: "rect",
+	G: "g", X: "x", Y: "y", R: "r", RX: "rx", RY: "ry",
+	LINE: "line", RECT: "rect", TEXT: "text",
 	M: "M", Q: "Q", T: "T",
+	PATH2V: "path2v", PATH2H: "path2h",
 }
 var html = {
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",

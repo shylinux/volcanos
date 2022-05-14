@@ -538,7 +538,6 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 				}
 				break
 			case "username":
-				// item.inner = can.user.info.usernick
 				can.page.Append(can, target, [
 					can.base.Copy({view: ["username", "div"], onclick: function(event) {
 				}, list: [{view: ["some", html.DIV, can.user.info.usernick]}, {img: "/share/local/avatar"}]})])
@@ -565,16 +564,37 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 		}
 		if ((type||subtype) == html.ITEM) { item.view = item.view||html.LIST
 			if (meta.action == "auto") {
-				meta.init = meta.init||function(item) { can.core.Timer(100, function() { item.click() }) }
+				meta.init = meta.init||function(item) { can.core.Timer(10, function() { item.click() }) }
 			}
+			if (decodeURIComponent(location.hash) == "#"+can.core.Keys(keys, item.name)) {
+				meta.init = meta.init||function(item) { can.core.Timer(30, function() { item.click() }) }
+			} 
 
 			var _item = can.page.Append(can, target, [can.base.Copy({view: [html.ITEM, html.DIV, meta.name||meta], onclick: function(event) {
+				location.hash = can.core.Keys(keys, item.name)
+
+				if (meta.action == "open") {
+					if (can.misc.Search(can, "pod")) {
+						can.user.open("/chat/pod/"+can.misc.Search(can, "pod")+"/cmd/"+meta.index)
+					} else {
+						can.user.open("/chat/cmd/"+meta.index)
+					}
+					return
+				}
+				if (meta.action == "push") {
+					if (can.misc.Search(can, "pod")) {
+						can.user.jumps("/chat/pod/"+can.misc.Search(can, "pod")+"/cmd/"+meta.index)
+					} else {
+						can.user.jumps("/chat/cmd/"+meta.index)
+					}
+					return
+				}
 				switch (meta.type) {
 					case html.PLUGIN:
 						if (can.onmotion.cache(can, function() { return keys }, data.main)) { break }
-						if (can.base.Ext(meta.index) == "zml") {
-							can.page.Append(can, data.main, [{type: "iframe", src: "/chat/cmd/"+meta.index,
-								width: data.main.offsetWidth, height: data.main.offsetHeight,
+						if (can.base.Ext(meta.index) == nfs.ZML || can.base.Ext(meta.index) == nfs.IML) {
+							can.page.Append(can, data.main, [{type: html.IFRAME, src: "/chat/cmd/"+meta.index,
+								height: data.main.offsetHeight, width: data.main.offsetWidth,
 							}])
 							break
 						}
@@ -605,6 +625,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 	_plugin: function(can, value, meta, cb, target) {
 		meta.feature = can.base.getValid(meta.feature, can.base.Obj(value.meta))||{}
 		meta.inputs = can.base.getValid(meta.inputs, can.base.Obj(value.list))||[]
+		meta.args = can.base.getValid(can.base.Obj(meta.args), can.base.Obj(meta.arg), can.base.Obj(value.args), can.base.Obj(value.arg))||[]
 		meta.display = meta.display||value.display
 
 		meta.height = meta.height||can.Conf(html.HEIGHT)

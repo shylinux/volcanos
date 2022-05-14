@@ -3,8 +3,12 @@ fieldset.vimer>div.output input.current {
 	padding:0; padding-left:11px; border:none; outline:none; margin:0; margin-top:-1px;
  	height:22px; position:absolute;
 }
+fieldset.vimer>div.output div.complete.insert {
+	display:block;
+}
 fieldset.vimer>div.output div.complete {
 	height:20px; position:absolute; left:32px; margin-top:20px;
+	display:none;
 }
 fieldset.vimer>div.output div.complete div.pre {
 	font-size:1.1rem; margin-left:5px; float:left;

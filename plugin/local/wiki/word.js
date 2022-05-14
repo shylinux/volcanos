@@ -114,8 +114,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 	chart: function(can, data, target) {
 		target.oncontextmenu = function(event) {
 			can.user.carteClient(event, can, kit.Dict(mdb.EXPORT, function(event, can, button) {
-				can.user.toPNG(can, can.user.prompt("please input file name", "hi")+".png", target.outerHTML,
-					parseInt(target.getAttribute(html.HEIGHT))||200, parseInt(target.getAttribute(html.WIDTH))||200)
+				can.onmotion.toimage(event, can, "hi.png", target)
 			}), [mdb.EXPORT])
 		}
 	},

@@ -1,28 +1,28 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
 		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
-		can.onmotion.hidden(can, can._action)
+		if (msg.Length() == 0) { return }
 		if (msg.Option("branch")) { return can.onappend.table(can, msg) }
-		can.onappend._status(can, ["from", "commit", "total", "max", "date", "text", "add", "del"])
-		can.Conf(html.HEIGHT, can.Conf(html.HEIGHT)||200)
 
-		can.msg = msg, can.data = msg.Table(), can.onimport._sum(can)
-		can.Action(html.HEIGHT, msg.Option(html.HEIGHT)||"auto")
+		can.onappend._status(can, ["from", "commit", "total", "max", "date", "text", "add", "del"])
+		can.data = msg.Table(), can.onimport._sum(can)
+		can.Action(html.HEIGHT, msg.Option(html.HEIGHT)||ice.AUTO)
 		can.Action("speed", parseInt(msg.Option("speed")||"100"))
 
+		can.onmotion.hidden(can, can._action)
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
 			can.page.ClassList.add(can, can._fields, "draw")
 			can.onimport._show(can, msg), can.onmotion.hidden(can, can.ui.project)
-			can.onaction[can.Action("view")](event, can)
+			can.onaction[can.Action(ice.VIEW)](event, can)
 		})
 	},
 	_sum: function(can) {
 		var begin = "", count = 0, rest = 0, add = 0, del = 0, max = 0
 		can.max = 0, can.min = 0, can.list = can.core.List(can.data, function(value, index) {
 			var line = {
-				date: value[can.msg.append[0]],
-				text: value[can.msg.append[4]],
-				add: parseInt(value[can.msg.append[1]]),
-				del: parseInt(value[can.msg.append[2]]),
+				date: value[can._msg.append[0]],
+				text: value[can._msg.append[4]],
+				add: parseInt(value[can._msg.append[1]]),
+				del: parseInt(value[can._msg.append[2]]),
 			}
 
 			line.begin = rest
@@ -40,19 +40,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		})
 		can.Status({"from": begin, "commit": count, "total": add+del, "max": max})
 	},
-	layout: function(can) {
-		can.onaction[can.Action("view")]({}, can)
-	},
 }, [""])
-Volcanos("onaction", {help: "组件菜单", list: ["edit", ["view", "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600", "800", "auto"], ["speed", "10", "20", "50", "100"]],
-	"edit": function(event, can) {
-		can.onmotion.toggle(can, can._action)
-		can.onmotion.toggle(can, can._status)
-	},
+Volcanos("onaction", {help: "组件菜单", list: ["edit", [ice.VIEW, "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600", "800", "auto"], ["speed", "10", "20", "50", "100"]],
+	"edit": function(event, can) { can.onmotion.toggle(can, can._action), can.onmotion.toggle(can, can._status) },
+
 	"趋势图": function(event, can) { var height = can.Action(html.HEIGHT)
-		if (height == "auto") {
-			height = can.Conf(html.HEIGHT)
-		}
+		if (height == ice.AUTO) { height = can.Conf(html.HEIGHT) }
 		height = parseInt(height)
 
 		var space = 10, width = parseInt(can.Conf(html.WIDTH))
@@ -65,36 +58,31 @@ Volcanos("onaction", {help: "组件菜单", list: ["edit", ["view", "趋势图",
 		function scale(y) { return (y - can.min)/(can.max - can.min)*(height-2*space) }
 		function order(index, x, y) { return {x: space+step*index+x, y: height-space-scale(y)} }
 
-		can.core.Next(can.list, function(line, next, index) { can.Status(line, ["date", "text", "add", "del"])
+		can.core.Next(can.list, function(line, next, index) {
 			can.onimport.draw({}, can, {
-				shape: "line", point: [
+				shape: svg.LINE, point: [
 					order(index, step/2, line.min), order(index, step/2, line.max),
-				], style: {
-					"stroke-width": 1, "stroke": line.begin < line.close? chat.WHITE: chat.BLACK,
-				},
+				], style: kit.Dict(html.STROKE_WIDTH, 1, html.STROKE, line.begin < line.close? chat.WHITE: chat.BLACK),
 			})
 
 			can.onimport.draw({}, can, {
-				shape: "rect", point: [
+				shape: svg.RECT, point: [
 					order(index, step/4, line.close), order(index, step/4*3, line.begin),
-				], style: can.base.Copy({"stroke-width": 1, "rx": 0, "ry": 0}, line.begin < line.close? {
-					"stroke": chat.WHITE, "fill": chat.WHITE,
-				}: {
-					"stroke": chat.BLACK, "fill": chat.BLACK,
-				}),
+				], style: can.base.Copy(kit.Dict(html.STROKE_WIDTH, 1, svg.RX, 0, svg.RY, 0), line.begin < line.close?
+					kit.Dict(html.STROKE, chat.WHITE, html.FILL, chat.WHITE): kit.Dict(html.STROKE, chat.BLACK, html.FILL, chat.BLACK)
+				),
 				_init: function(view) {
-					can.core.ItemCB(can.ondetail, function(key, cb) {
-						view[key] = function(event) { cb(event, can, line) }
-					})
+					can.core.ItemCB(can.ondetail, function(key, cb) { view[key] = function(event) { cb(event, can, line) } })
 				},
 			})
 
+			can.Status(line, ["date", "text", "add", "del"])
 			can.core.Timer(parseInt(can.Action("speed")), next)
 		})
 	},
 	"柱状图": function(event, can) {
 		var max = {}, min = {}
-		can.core.List(can.msg.append, function(key, which) {
+		can.core.List(can._msg.append, function(key, which) {
 			can.core.List(can.data, function(value, index) {
 				var v = parseInt(value[key])||0; if (index == 0) {
 					max[key] = v, min[key] = v
@@ -116,20 +104,16 @@ Volcanos("onaction", {help: "组件菜单", list: ["edit", ["view", "趋势图",
 		function scale(key, y) { return (y - min[key])/(max[key] - min[key])*(height-2*space) }
 		function order(index, key, x, y) { return {x: space+step*index+x, y: space+scale(key, y)} }
 
-		var width = (step-4)/can.msg.append.length
-		can.core.List(can.msg.append, function(key, which) {
+		var width = (step-4)/can._msg.append.length
+		can.core.List(can._msg.append, function(key, which) {
 			max[key] != min[key] && can.core.Next(can.data, function(line, next, index) {
 				var y = scale(key, parseFloat(line[key]))
 				y && can.onimport.draw({}, can, {
-					shape: "rect", point: [
+					shape: svg.RECT, point: [
 						order(index, key, width*which+2, 0), order(index, key, width*which+2+width, y),
-					], style: {
-						"stroke-width": 1, "stroke": chat.WHITE, "fill": chat.WHITE, "rx": 0, "ry": 0,
-					},
+					], style: kit.Dict(html.STROKE_WIDTH, 1, html.STROKE, cli.WHITE, html.FILL, cli.WHITE, svg.RX, 0, svg.RY, 0),
 					_init: function(view) {
-						can.core.ItemCB(can.ondetail, function(key, cb) {
-							view[key] = function(event) { cb(event, can, line) }
-						})
+						can.core.ItemCB(can.ondetail, function(key, cb) { view[key] = function(event) { cb(event, can, line) } })
 					},
 				})
 
@@ -139,21 +123,15 @@ Volcanos("onaction", {help: "组件菜单", list: ["edit", ["view", "趋势图",
 	},
 	"数据源": function(event, can) {
 		can.onmotion.clear(can, can.ui.display)
-		can.onappend.table(can, can.msg, null, can.ui.display)
+		can.onappend.table(can, can._msg, null, can.ui.display)
 		can.onmotion.show(can, can.ui.display)
 	},
 
-	height: function(event, can) {
-		can.onaction[can.Action("view")](event, can)
-	},
-	speed: function(event, can) {
-		can.onaction[can.Action("view")](event, can)
-	},
+	height: function(event, can) { can.onaction[can.Action(ice.VIEW)](event, can) },
+	speed: function(event, can) { can.onaction[can.Action(ice.VIEW)](event, can) },
 })
 Volcanos("ondetail", {help: "用户交互", list: [],
-	onmouseenter: function(event, can, line) {
-		can.Status(line, ["date", "text", "add", "del"])
-	},
+	onmouseenter: function(event, can, line) { can.Status(line, ["date", "text", "add", "del"]) },
 })
 Volcanos("onexport", {help: "导出数据", list: []})
 

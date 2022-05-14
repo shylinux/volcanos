@@ -5,10 +5,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can._args = can.base.Copy({root: "ice", field: msg.append[0], split: ice.PS}, can.base.ParseURL(can._display))
 		can.dir_root = msg.Option(nfs.DIR_ROOT)||can._args.root||""
 		can._tree = can.onimport._tree(can, msg.Table(), can._args.field, can._args.split)
-		if (!can._tree[""]) { return }
-		can._tree[""].name = can._args.root
+		if (!can._tree[""]) { return } can._tree[""].name = can._args.root
 
 		can.size = 30, can.margin = 30
+		can.onmotion.hidden(can, can._action)
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
 			can.page.ClassList.add(can, can._fields, "draw")
 			can.onimport._show(can, msg), can.onmotion.hidden(can, can.ui.project)
@@ -59,10 +59,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 	},
 }, [""])
 Volcanos("onaction", {help: "用户操作", list: ["edit", [ice.VIEW, "横向", "纵向"], "生成图片"],
-	"edit": function(event, can) {
-		can.onmotion.toggle(can, can._action)
-		can.onmotion.toggle(can, can._status)
-	},
+	"edit": function(event, can) { can.onmotion.toggle(can, can._action), can.onmotion.toggle(can, can._status) },
+
 	"横向": function(event, can) {
 		can.onimport._height(can, can._tree[""])
 		can.sup.view = "横向", can.onmotion.clear(can, can.svg)
@@ -98,7 +96,7 @@ Volcanos("onaction", {help: "用户操作", list: ["edit", [ice.VIEW, "横向", 
 		if (tree.hide) { return }
 
 		var offset = 0; can.core.List(tree.list, function(item) {
-			can.onimport.draw({}, can, {shape: "path2v", point: [
+			can.onimport.draw({}, can, {shape: svg.PATH2V, point: [
 				{x: x+tree.width/2, y: y+tree.height-can.margin/2},
 				{x: x+offset+item.width/2, y: y+tree.height+can.margin/2},
 			], style: {stroke: cli.CYAN}})
@@ -115,7 +113,7 @@ Volcanos("onaction", {help: "用户操作", list: ["edit", [ice.VIEW, "横向", 
 		if (tree.hide) { return }
 
 		var offset = 0; can.core.List(tree.list, function(item) {
-			can.onimport.draw({}, can, {shape: "path2h", point: [
+			can.onimport.draw({}, can, {shape: svg.PATH2H, point: [
 				{x: x+tree.width+can.margin/8, y: y+tree.height*can.size/2},
 				{x: x+tree.width+can.margin*2-2*can.margin/8, y: y+offset+item.height*can.size/2}
 			], style: {stroke: cli.CYAN}})
@@ -152,8 +150,8 @@ Volcanos("ondetail", {help: "用户交互", list: [],
 			}); return }
 
 			tree.tags = true
-			if (msg.Option("split")) {
-				tree.list = can.onimport._tree(can, msg.Table(), msg.Option("field")||msg.append[0], msg.Option("split"))[""].list||[]
+			if (msg.Option(lex.SPLIT)) {
+				tree.list = can.onimport._tree(can, msg.Table(), msg.Option(mdb.FIELD)||msg.append[0], msg.Option(lex.SPLIT))[""].list||[]
 				can.core.List(tree.list, function(item) { item.last = tree })
 			} else {
 				msg.Table(function(item) { tree.list.push({

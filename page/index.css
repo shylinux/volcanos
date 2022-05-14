@@ -90,6 +90,7 @@ fieldset.output div.status { display:none; }
 fieldset.output div.toggle { display:none; }
 
 fieldset.input { background-color:#0d4142a6; top:32px; }
+fieldset.input.key.float div.action { display:none; }
 fieldset.input div.output { max-height:400px; }
 fieldset.input table { color:white; }
 fieldset.input td { word-break:keep-all; }

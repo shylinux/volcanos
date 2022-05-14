@@ -58,7 +58,11 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.core.List(can.base.Obj(msg.Option(chat.STATE)||can.Conf(chat.STATE), [mdb.TIME, aaa.USERNICK]), function(item) {
 			if (item == aaa.AVATAR ) { if (can.user.isLocalFile) { return }
 				can.page.Append(can, target, [{view: can.base.join([chat.STATE, item]), list: [{img: ice.SP}], onmouseenter: function(event) {
-					can.onaction.carte(event, can, [can.page.Format(html.IMG, "/share/local/avatar", 160)])
+					if (msg.Option(aaa.AVATAR).indexOf("http") == 0) {
+						can.onaction.carte(event, can, [can.page.Format(html.IMG, msg.Option(aaa.AVATAR), 160)])
+					} else {
+						can.onaction.carte(event, can, [can.page.Format(html.IMG, "/share/local/avatar", 160)])
+					}
 				}}]); return
 			}
 
@@ -83,9 +87,12 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		if (can.user.isExtension || can.user.isLocalFile) { return }
 		msg.Option(aaa.BACKGROUND) && can.onlayout.background(can, "/share/local/background", document.body)
 	},
-	_avatar: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
-		// can.page.Modify(can, "div.state.avatar>img", {src: "/share/local/avatar/"})
-		msg.Option(aaa.AVATAR) && can.page.Modify(can, "div.state.avatar>img", {src: "/share/local/avatar"})
+	_avatar: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return } if (!msg.Option(aaa.AVATAR)) { return }
+		if (msg.Option(aaa.AVATAR).indexOf("http") == 0) {
+			can.page.Modify(can, "div.state.avatar>img", {src: msg.Option(aaa.AVATAR)})
+		} else {
+			can.page.Modify(can, "div.state.avatar>img", {src: "/share/local/avatar"})
+		}
 	},
 	_menus: function(can, msg, target) {
 		can.setHeaderMenu(can.user.mod.isPod||can.user.isExtension||can.user.isMobile? [ctx.CONFIG]:

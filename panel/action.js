@@ -125,6 +125,9 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 		can.onengine.plugin(can, "alert", shy("提示", {}, ["text", "list", "back"], function(msg, cmds) {
 			can.user.alert(cmds[0])
 		}))
+		can.onengine.plugin(can, "plugin", shy("插件", {}, ["text", "list", "back"], function(msg, cmds) {
+			msg.Echo("hello world")
+		}))
 		can.onengine.plugin(can, "info", shy("信息", {}, ["text", "list", "back"], function(msg, cmds) {
 			msg.Echo("hello world")
 		}))

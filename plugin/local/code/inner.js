@@ -276,7 +276,8 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		var rest = can.ui.display.offsetHeight+can.ui._path.offsetHeight+can.ui._tabs.offsetHeight+5
 		if (can.user.mod.isCmd) { can.page.styleHeight(can, can.ui.project, height+2*html.ACTION_HEIGHT)
 			can.page.styleHeight(can, can.ui.content, (can.ui.project.offsetHeight||height)-rest)
-			can.page.styleHeight(can, can.ui.profile_output, can.ui.project.offsetHeight-html.ACTION_HEIGHT-2)
+			can.page.styleHeight(can, can.ui.profile_output, (can.ui.project.offsetHeight||height)-rest+html.ACTION_HEIGHT+6)
+			// can.page.styleHeight(can, can.ui.profile_output, can.ui.project.offsetHeight-html.ACTION_HEIGHT-2)
 		} else {
 			can.page.style(can, can.ui.content, can.user.mod.isCmd || can.user.isMobile? html.HEIGHT: html.MAX_HEIGHT, height)
 			can.page.styleHeight(can, can.ui.project, can.ui.content.offsetHeight+rest)

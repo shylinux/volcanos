@@ -40,6 +40,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 }, [""])
 Volcanos("onkeymap", {help: "键盘交互", list: [],
 	_model: function(can, value) { can.Status("模式", can.mode = value)
+		can.page.Modify(can, can.ui.complete, {className: "complete"+ice.SP+can.mode}), value
 		return can.page.Modify(can, can.ui.current, {className: "current"+ice.SP+can.mode}), value
 	},
 	_plugin: function(event, can) { can.onkeymap._model(can, "plugin")
@@ -197,10 +198,20 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 		key = can.base.trimSuffix(key, word)
 		key = can.base.trimSuffix(key, ".")
 
-		function update(target) { can.request(event, {pre: pre, end: end, key: key, word: word})
+		function update(target) { can.request(event, {pre: pre, end: end, key: key, word: word, file: can.Option(nfs.FILE)})
 			can.run(event, [ctx.ACTION, "complete"], function(msg) {
 				can.page.Appends(can, target, [{view: ["pre", html.DIV, pre]}])
-				can.onappend.table(can, msg, null, target)
+				msg.Length() == 0 && pre == "" && can.core.List(can.core.Value(can.onsyntax[can.parse], "prepare.keyword"), function(k) {
+					msg.Push(mdb.NAME, k)
+				})
+				can.onappend.table(can, msg, function(value, key, index) {
+					return {text: [value, html.TD], onclick: function(event) {
+						var left = can.ui.current.value.slice(0, event.target.selectionStart)+value
+						can.ui.current.value = can.current.text(left+can.ui.current.value.slice(event.target.selectionEnd))
+						can.ui.current.setSelectionRange(left.length, left.length)
+						can.ui.current.focus(), can.ui.content.scrollBy(-10000, 0)
+					}}
+				}, target)
 			}, true)
 		}
 		function select() {

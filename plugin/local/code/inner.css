@@ -90,7 +90,7 @@ body.simple fieldset.inner>div.output td.project div.project { width:240px; }
 body.simple fieldset.inner>div.output td.project div.project div.kind { padding:10px; }
 body.simple fieldset.inner>div.output td.project div.project div.kind { color: white; font-size: 1.2rem; font-family: monospace; height:18px; }
 body.simple fieldset.inner>div.output td.project div.project div.kind:first-child { position:sticky; top:0 }
-body.simple fieldset.inner>div.output div.content { background-color:#263238; font-size:16px; }
+body.simple fieldset.inner>div.output div.content { background-color:#263238c2; font-size:16px; }
 body.simple fieldset.inner>div.output div.toggle { display:none; }
 body.simple fieldset.inner>div.output div.toggle.profile { background-color:#664f4f45; display:block; }
 
