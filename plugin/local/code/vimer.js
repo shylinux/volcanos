@@ -1,57 +1,45 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
-		can.undo = [], can.redo = []
-		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() {
-			can.page.ClassList.add(can, can._fields, "inner")
+		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() { can.undo = [], can.redo = []
 			can.onkeymap._build(can), can.onimport._input(can), can.onkeymap._plugin({}, can), can.base.isFunc(cb) && cb(msg)
+
 		}, target) }, function(can, name, sub) { name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
 			if (name == chat.ONACTION) { can._trans = can.base.Copy(can._trans||{}, sub._trans) }
-			if (name == chat.ONKEYMAP) {
-				can.base.Copy(can.onkeymap._mode, sub._mode)
-				can.core.Item(can.onkeymap._mode.normal, function(k, v) {
-					if (!sub._mode.plugin[k]) { sub._mode.plugin[k] = v }
-				})
-				can.core.Item(sub._mode.plugin, function(k, v) {
-					if (!can.onkeymap._mode.normal[k]) { can.onkeymap._mode.normal[k] = v }
-				})
+			if (name == chat.ONKEYMAP) { can.base.Copy(can.onkeymap._mode, sub._mode)
+				can.core.Item(can.onkeymap._mode.normal, function(k, v) { sub._mode.plugin[k] || (sub._mode.plugin[k] = v) })
+				can.core.Item(sub._mode.plugin, function(k, v) { can.onkeymap._mode.normal[k] || (can.onkeymap._mode.normal[k] = v) })
 			}
 		})
 	},
 	_input: function(can) {
 		var ui = can.page.Append(can, can.ui.content.parentNode, [
 			{view: ["current", html.INPUT], spellcheck: false, onkeydown: function(event) { if (event.metaKey) { return }
-				can.misc.Debug("key", event.key)
+				if (event.ctrlKey && can.onaction._complete(event, can)) { return }
 				can._keylist = can.onkeymap._parse(event, can, can.mode+(event.ctrlKey? "_ctrl": ""), can._keylist, can.ui.current)
 				can.mode == "insert" && can.core.Timer(10, function() { can.current.text(can.ui.current.value) })
 				can.mode == "normal" && can.Status("按键", can._keylist.join(""))
 				can.mode == "normal" && can.onkeymap.prevent(event)
-			}, onkeyup: function(event) { can.onaction._complete(event, can, can.ui.complete)
+			}, onkeyup: function(event) { can.onaction._complete(event, can)
 
-			}, onfocus: function(event) { can.onaction._complete(event, can, can.ui.complete)
-				can.page.styleWidth(can, can.ui.current, can.ui.content.style.width)
 			}, onclick: function(event) { can.onkeymap._insert(event, can)
 
-			}, ondblclick: function(event) { var target = event.target
-					return
-					can.onaction.searchLine(event, can, target.value.slice(target.selectionStart, target.selectionEnd))
-				},
-			}, {view: ["complete"]},
+			}}, {view: ["complete"]},
 		]); can.ui.current = ui.current, can.ui.complete = ui.complete
 	},
 }, [""])
 Volcanos("onkeymap", {help: "键盘交互", list: [],
 	_model: function(can, value) { can.Status("模式", can.mode = value)
-		can.page.Modify(can, can.ui.complete, {className: "complete"+ice.SP+can.mode}), value
-		return can.page.Modify(can, can.ui.current, {className: "current"+ice.SP+can.mode}), value
+		can.page.Modify(can, can.ui.current, {className: ["current", can.mode]}), value
+		can.page.Modify(can, can.ui.complete, {className: ["complete", can.mode]}), value
 	},
 	_plugin: function(event, can) { can.onkeymap._model(can, "plugin")
 		can.ui.current.blur()
 	},
 	_normal: function(event, can) { can.onkeymap._model(can, "normal")
-		can.ui.current.focus(), can.ui.content.scrollLeft -= 10000
+		can.ui.current.focus()
 	},
 	_insert: function(event, can) { can.onkeymap._model(can, "insert")
-		can.ui.current.focus(), can.ui.content.scrollLeft -= 10000
-		can.onkeymap.prevent(event)
+		can.ui.current.focus(), can.onkeymap.prevent(event)
+		can._keylist = []
 	},
 
 	_mode: {
@@ -78,8 +66,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 				var next = can.current.next(); if (!next) { return }
 				var line = can.current.line, text = can.current.text()
 				var rest = can.page.Select(can, next, "td.text")[0].innerText
-				can.current.text(text.trimRight()+" "+rest.trimLeft()), can.onaction.deleteLine(can, next)
-
+				can.current.text(text.trimRight()+ice.SP+rest.trimLeft()), can.onaction.deleteLine(can, next)
 				can.undo.push(function() { can.onaction.modifyLine(can, line, text), can.onaction.insertLine(can, rest, line.nextSibling) })
 			},
 			H: function(event, can, target) { can.onkeymap.cursorMove(can, target, 0, 0) },
@@ -131,24 +118,35 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 			c: function(event, can) { can.onaction.compile(event, can, "compile") },
 		},
 		insert: {
-			jk: function(event, can, target) { can.onkeymap._normal(event, can),
-					can.onkeymap.deleteText(target, target.selectionStart-1, 1)
+			jk: function(event, can, target) { can.onkeymap._normal(event, can)
+				can.onkeymap.deleteText(target, target.selectionStart-1, 1)
 				can.current.text(can.ui.current.value)
 			},
-			Escape: function(event, can) { can.onkeymap._normal(event, can) },
-			Tab: function(event, can) { 
+			Escape: function(event, can) {
+				if (event.key != "Escape") { return }
+				can.onkeymap._normal(event, can)
+			},
+			Tab: function(event, can) {
+				if (event.key != "Tab") { return }
 				can.onkeymap.insertText(can.ui.current, "\t")
 				can.onkeymap.prevent(event)
 			},
 
 			Enter: function(event, can, target) {
+				if (event.key != "Enter") { return }
 				var rest = can.onkeymap.deleteText(target, target.selectionEnd), text = can.ui.current.value
-				var indent = (text.substr(0, text.indexOf(text.trimLeft()))+(text.endsWith("}")?"\t":""))||(text.trimRight() == ""? text: "")
-				var line = can.onaction.insertLine(can, indent+rest.trimLeft(), can.current.next())
+				var left = text.substr(0, text.indexOf(text.trimLeft()))||(text.trimRight() == ""? text: "")
+				if (text.endsWith("{")) { can.onaction.insertLine(can, left+"}", can.current.next()), left += "\t" }
+				if (text.endsWith("[")) { can.onaction.insertLine(can, left+"]", can.current.next()), left += "\t" }
+				if (text.endsWith("(")) { can.onaction.insertLine(can, left+")", can.current.next()), left += "\t" }
+				if (text.endsWith("`") && can.base.count(text, "`")%2==1) { can.onaction.insertLine(can, left+"`", can.current.next()) }
+
+				var line = can.onaction.insertLine(can, left+rest.trimLeft(), can.current.next())
 				can.current.text(text.trimRight()||text), can.onaction.selectLine(event, can, line)
-				can.onkeymap.cursorMove(can, can.ui.current, indent.length, 0)
+				can.onkeymap.cursorMove(can, can.ui.current, left.length, 0)
 			},
 			Backspace: function(event, can, target) {
+				if (event.key != "Backspace") { return }
 				if (target.selectionStart > 0) { return }
 				if (!can.current.prev()) { return }
 				can.onkeymap.prevent(event)
@@ -161,123 +159,148 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 				can.ui.current.value = can.current.text()+rest
 				can.onkeymap.cursorMove(can, can.ui.current, 0, pos)
 			},
-			ArrowUp: function(event, can) { can.onaction.selectLine(event, can, can.current.prev()) },
-			ArrowDown: function(event, can) { can.onaction.selectLine(event, can, can.current.next()) },
+			ArrowUp: function(event, can) {
+				if (event.key != "ArrowUp") { return }
+				can.onaction.selectLine(event, can, can.current.prev())
+			},
+			ArrowDown: function(event, can) {
+				if (event.key != "ArrowDown") { return }
+				can.onaction.selectLine(event, can, can.current.next())
+			},
 		},
 	}, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.COMPILE, "script", chat.WEBSITE, "dream", "publish"],
-	save: function(event, can) { var msg = can.request(event, {content: can.onexport.content(can)})
-		can.run(event, [ctx.ACTION, nfs.SAVE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
-			can.onimport.project(can, can.Option(nfs.PATH))
-			can.user.toastSuccess(can)
-		}, true)
-	},
-	autogen: function(event, can, button) { var meta = can.Conf(), msg = can.request(event, {_handle: ice.TRUE})
-		can.user.input(event, can, meta.feature[button], function(ev, btn, data, list, args) {
-			can.run(event, [ctx.ACTION, button].concat(args), function(msg) {
-				can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE))
-				can.onimport.project(can, can.Option(nfs.PATH))
-			}, true)
+Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.COMPILE, nfs.SCRIPT, chat.WEBSITE, web.DREAM, code.PUBLISH],
+	_run: function(event, can, button, args, cb) {
+		can.runAction(event, button, args, cb||function(msg) {
+			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE))
+			can.onimport.project(can, can.Option(nfs.PATH)), can.user.toastSuccess(can, button)
 		})
 	},
-	compile: function(event, can, button) { var msg = can.ui.search.request(event, {_handle: ice.TRUE, _toast: "编译中..."}, can.Option())
-		can.run(event, [ctx.ACTION, button], function(msg) {
-			if (msg.Length() == 0) { var toast = can.user.toast(can, "重启中...", "", -1)
-				can.core.Timer(5000, function() { toast.close(), can.onaction["展示"]({}, can) })
-			} else {
-				can.ui.search._show(msg)
-			}
-		}, true)
-	},
-	_complete: function(event, can, target) {
-		var pre = event.target.value.slice(0, event.target.selectionStart)
-		var end = event.target.value.slice(event.target.selectionStart)
-		var key = can.core.Split(pre, "\t ", "\t ").pop()||""
-		var word = can.core.Split(key, "\t ", ".").pop()||""
-		key = can.base.trimSuffix(key, word)
-		key = can.base.trimSuffix(key, ".")
-
-		function update(target) { can.request(event, {pre: pre, end: end, key: key, word: word, file: can.Option(nfs.FILE)})
-			can.run(event, [ctx.ACTION, "complete"], function(msg) {
-				can.page.Appends(can, target, [{view: ["pre", html.DIV, pre]}])
-				msg.Length() == 0 && pre == "" && can.core.List(can.core.Value(can.onsyntax[can.parse], "prepare.keyword"), function(k) {
-					msg.Push(mdb.NAME, k)
-				})
-				can.onappend.table(can, msg, function(value, key, index) {
-					return {text: [value, html.TD], onclick: function(event) {
-						var left = can.ui.current.value.slice(0, event.target.selectionStart)+value
-						can.ui.current.value = can.current.text(left+can.ui.current.value.slice(event.target.selectionEnd))
-						can.ui.current.setSelectionRange(left.length, left.length)
-						can.ui.current.focus(), can.ui.content.scrollBy(-10000, 0)
-					}}
-				}, target)
-			}, true)
-		}
-		function select() {
-			return can.page.Select(can, target, html.TR, function(tr) {
-				if (!can.page.ClassList.set(can, tr, html.HIDE, can.page.Select(can, tr, html.TD, function(td) {
-					if (td.innerText.indexOf(word) > -1) { return td }
-				}).length == 0)) { return tr }
-			}).length > 0
-		}
-
-		switch (event.key) {
-			case "Enter": can.onmotion.clear(can, target); break
-			case ice.TB: update(target); break
-			case ice.SP: update(target); break
-			default: select() || update(target); break
-		}
-	},
-	script: function(event, can, button) { var meta = can.Conf()
-		can.request(event, {_handle: ice.TRUE, action: button, file: "hi/hi.js", text: `Volcanos("onimport", {help: "导入数据", list:[], _init: function(can, msg, cb, target) {
-	msg.Echo("hello world")
-	can.onappend.table(can, msg)
-	can.onappend.board(can, msg)
-}})`}, can.Option())
+	_runs: function(event, can, button) { var meta = can.Conf(); can.request(event, {action: button})
 		can.user.input(event, can, meta.feature[button], function(ev, btn, data, list, args) {
-			can.run(event, [ctx.ACTION, button].concat(args), function(msg) {
-				can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE))
-				can.onimport.project(can, can.Option(nfs.PATH))
-			}, true)
+			can.onaction._run(event, can, button, args)
 		})
 	},
-	website: function(event, can, button) { var meta = can.Conf()
-		can.request(event, {_handle: ice.TRUE, action: button, file: "hi.zml", text: `
-left
-	username
-	系统
-		命令 index cli.system
-		共享 index cli.qrcode
-	代码
-		趋势 index web.code.git.trend args icebergs action auto 
-		状态 index web.code.git.status args icebergs
-main
-	
-`.trim()}, can.Option())
-		can.user.input(event, can, meta.feature[button], function(ev, btn, data, list, args) {
-			can.run(event, [ctx.ACTION, button].concat(args), function(msg) {
-				can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE))
-				can.onimport.project(can, can.Option(nfs.PATH))
-			}, true)
+	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
+		can.runAction(event, nfs.SAVE, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function() {
+			can.user.toastSuccess(can, button)
 		})
+	},
+	autogen: function(event, can, button) { can.onaction._runs(event, can, button) },
+	compile: function(event, can, button) { var toast0 = can.user.toastProcess(can, "编译中...")
+		can.runAction(event, button, [], function(msg) { toast0.close()
+			if (msg.Length() == 0) { var toast1 = can.user.toastProcess(can, "重启中...")
+				can.core.Timer(3000, function() { toast1.close(), can.onaction["展示"]({}, can) })
+			} else { can.ui.search._show(msg) }
+		})
+	},
+	script: function(event, can, button) {
+		can.request(event, {file: "hi/hi.js"})
+		can.onaction._runs(event, can, button)
+	},
+	website: function(event, can, button) {
+		can.request(event, {file: "hi.zml"})
+		can.onaction._runs(event, can, button)
 	},
 	publish: function(event, can, button) {
-		can.run(event, [ctx.ACTION, button], function(msg) {
-			can.user.toast(can, {
-				title: "发布应用", duration: -1, width: -300,
-				content: msg.Result(), action: [cli.CLOSE],
+		can.runAction(event, button, [], function(msg) { can.user.toastConfirm(can, button, msg.Result()) })
+	},
+
+	listTags: function(event, can, button) { var list = []
+		can.core.Item(can.request(event), function(key, value) { if (key.indexOf("_") == 0) { return }
+			list.push({zone: "msg", type: typeof value, name: key, text: can.base.isObject(value)? "": (value+"").split(ice.NL)[0],
+				path: "usr/volcanos/", file: "lib/misc.js", line: 1,
 			})
 		})
+		can.core.List([can.base, can.core, can.misc, can.page, can.user, can.onengine, can.ondaemon, can.onappend, can.onlayout, can.onmotion, can.onkeymap], function(lib) {
+			can.core.Item(lib, function(key, value) { if (key.indexOf("_") == 0 || !lib.hasOwnProperty(key)) { return }
+				list.push({zone: lib._name, type: typeof value, name: key, text: can.base.isObject(value)? "": (value+"").split(ice.NL)[0],
+					path: "usr/volcanos/", file: lib._path, line: 1,
+				})
+			})
+		})
+		can.request(event, {text: can.base.Format(list)})
+		can.runAction(event, button)
+	},
+	_complete: function(event, can, target) { target = target||can.ui.complete
+		if (event == undefined || event.target == undefined || event.target.value == undefined) { return }
+		var pre = event.target.value.slice(0, event.target.selectionStart)
+		var end = event.target.value.slice(event.target.selectionStart)
+		var type = can.core.Split(pre).pop()||""
+		var name = can.core.Split(type, "", ice.PT).pop()||""
+		type = can.base.trimSuffix(type, name)
+		type = can.base.trimSuffix(type, ice.PT)
+		const PRE = "pre"
+
+		function update(target) { can.request(event, {pre: pre, end: end, type: type, name: name, file: can.Option(nfs.FILE)})
+			can.runAction(event, "complete", [], function(msg) { can.ui.complete._msg = msg
+				if (msg.Length() == 0 && can.base.Ext(can.Option(nfs.FILE)) == nfs.JS) {
+					can.core.Item(can.core.Value(window, type), function(k, v) { msg.Push(mdb.NAME, k)
+						try { msg.Push(mdb.TEXT, v) } catch (e) { msg.Push(mdb.TEXT, "") }
+					})
+				}
+				msg.Length() == 0 && pre.trim() == "" && can.core.Item(can.core.Value(can.onsyntax[can.parse], code.KEYWORD), function(k) {
+					msg.Push(mdb.NAME, k)
+				})
+				
+				can.page.Appends(can, target, [{view: [PRE, html.DIV, pre]}])
+				can.onappend.table(can, msg, function(value, key, index) { return {text: [value, html.TD], onclick: function(event) {
+					var left = can.ui.current.value.slice(0, event.target.selectionStart)+value
+					can.current.text(can.ui.current.value = left+can.ui.current.value.slice(event.target.selectionEnd))
+					can.ui.current.focus(), can.ui.content.scrollLeft -= 10000, can.ui.current.setSelectionRange(left.length, left.length)
+				}} }, target)
+			})
+		}
+
+		function filter() {
+			return can.page.Select(can, target, [html.TBODY,  html.TR], function(tr) {
+				if (!can.page.ClassList.set(can, tr, html.HIDE, can.page.Select(can, tr, html.TD, function(td) {
+					if (td.innerText.toLowerCase().indexOf(can.base.trimSuffix((name == ice.PT? type: name).toLowerCase(), "(")) == 0) { return td }
+				}).length == 0)) { return tr }
+			}).length > (name == ice.PT? 1: 0)
+		}
+
+		function select(index, total) { index = (index+(total+1))%(total+1)
+			if (index == total) { can.current.text(can.ui.current.value = can.ui.complete._msg.Option(PRE)) }
+			can.page.Select(can, target, [html.TBODY, "tr:not(.hide)"], function(tr, i) { if (can.page.ClassList.set(can, tr, html.SELECT, i == index)) {
+				can.current.text(can.ui.current.value = can.ui.complete._msg.Option(PRE)+can.page.Select(can, tr, html.TD)[0].innerText)
+			} })
+			return index
+		}
+
+		if (event.ctrlKey) {
+			if (event.type == "keyup") {
+				var total = can.page.Select(can, target, [html.TBODY, "tr:not(.hide)"]).length
+				switch (event.key) {
+					case "n": can.ui.complete._index = select(can.ui.complete._index+1, total); break
+					case "p": can.ui.complete._index = select(can.ui.complete._index-1, total); break
+					default: return false
+				}
+				return can.onkeymap.prevent(event)
+			}
+			return
+		}
+
+		can.current.line.appendChild(can.ui.complete), can.page.style(can, can.ui.complete, html.LEFT, can.ui.current.offsetLeft-1, html.MARGIN_TOP, can.ui.current.offsetHeight+4)
+		can.page.Select(can, target, "div.pre", function(item) { item.innerText = can.ui.complete._msg.Option(PRE)||pre })
+		if (pre == "") { return update(target) }
+
+		switch (event.key) {
+			case html.ENTER: update(target); break
+			case ice.TB: update(target); break
+			case ice.PT: update(target); break
+			case ice.SP: update(target); break
+			default: filter() || update(target); break
+		} can.ui.complete._index = -1
 	},
 
 	_selectLine: function(event, can) {
-		can.page.Select(can, can.current.line, "td.text", function(td) {
-			can.current.line.appendChild(can.ui.current), can.page.Modify(can, can.ui.current, {style: kit.Dict(html.LEFT, td.offsetLeft-1, html.WIDTH, td.offsetWidth-12), value: td.innerText})
-			can.current.line.appendChild(can.ui.complete), can.page.Modify(can, can.ui.complete, {style: kit.Dict(html.LEFT, td.offsetLeft-1, "margin-top", can.ui.current.offsetHeight+4)})
+		can.page.Select(can, can.current.line, "td.text", function(td) { can.ui.current.value = td.innerText
+			can.current.line.appendChild(can.ui.current), can.page.style(can, can.ui.current, html.LEFT, td.offsetLeft-1, html.WIDTH, can.ui.content.style.width)
 			if (event) { if (can.mode == "plugin") { can.onkeymap._insert(event, can) }
-				can.ui.current.focus(), can.onkeymap.cursorMove(can, can.ui.current, 0, (event.offsetX)/13-1)
-				can.ui.content.scrollLeft -= 10000
+				can.ui.current.focus(), can.ui.content.scrollLeft -= 10000
+				can.onkeymap.cursorMove(can, can.ui.current, 0, (event.offsetX)/12-1)
 			}
 		})
 	},

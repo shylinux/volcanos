@@ -1,6 +1,7 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
 		can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)||can.Conf(aaa.USERNICK))
 		can.user.info.usernick = can.Conf(aaa.USERNICK)
+		can.user.info.avatar = msg.Option(aaa.AVATAR)
 		can.ondaemon._init(can)
 
 		can.onengine.plugin(can, "topic", shy("主题", {

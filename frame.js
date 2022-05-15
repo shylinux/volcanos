@@ -429,29 +429,6 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 		})
 		return (code.scrollBy && code.scrollBy(0, 10000)), code
 	},
-
-	_parse: function(can, text) { var stack = [{_deep: -1, list: []}]
-		can.core.List(can.core.Split(text, ice.NL, ice.NL, ice.NL), function(line) { if (line == "") { return }
-			var deep = 0; for (var i = 0; i < line.length; i++) { if (line[i] == ice.SP) { deep++ } else if (line[i] == ice.TB) { deep += 4 } else { break } }
-			for (var i = stack.length-1; i > 0; i--) { if (deep <= stack[i]._deep) { stack.pop() } }
-
-			var item = {_deep: deep, list: []}; var list = stack[stack.length-1]; list.list.push(item); if (deep > list._deep) { stack.push(item) }
-			var ls = can.core.Split(line); switch (ls[0]) {
-				case html.HEAD:
-				case html.LEFT:
-				case html.MAIN:
-				case html.FOOT:
-				case html.TABS:
-				case "username":
-				case html.MENU: item.type = ls[0]; break
-				default: item.name = ls[0]; break
-			}
-			for (var i = 1; i < ls.length; i += 2) { can.core.Value(item, ls[i], ls[i+1])
-				if (ls[i] == ctx.INDEX) { item.type = item.type||html.PLUGIN }
-			}
-		})
-		return {type: "demo", style: {height: can.ConfHeight()||window.innerHeight}, list: stack[0].list}
-	},
 	parse: function(can, list, target, keys, data, type) { target = target||can._output, data = data||{}
 		if (!list) { return } else if (can.base.isArray(list)) {
 			return can.core.List(list, function(meta, index) {
@@ -540,7 +517,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			case "username":
 				can.page.Append(can, target, [
 					can.base.Copy({view: ["username", "div"], onclick: function(event) {
-				}, list: [{view: ["some", html.DIV, can.user.info.usernick]}, {img: "/share/local/avatar"}]})])
+				}, list: [{view: ["some", html.DIV, can.user.info.usernick]}, {img: can.user.info.avatar}]})])
 				return
 		}
 
@@ -564,10 +541,10 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 		}
 		if ((type||subtype) == html.ITEM) { item.view = item.view||html.LIST
 			if (meta.action == "auto") {
-				meta.init = meta.init||function(item) { can.core.Timer(10, function() { item.click() }) }
+				meta.init = meta.init||function(item) { can.core.Timer(100, function() { item.click() }) }
 			}
 			if (decodeURIComponent(location.hash) == "#"+can.core.Keys(keys, item.name)) {
-				meta.init = meta.init||function(item) { can.core.Timer(30, function() { item.click() }) }
+				meta.init = meta.init||function(item) { can.core.Timer(300, function() { item.click() }) }
 			} 
 
 			var _item = can.page.Append(can, target, [can.base.Copy({view: [html.ITEM, html.DIV, meta.name||meta], onclick: function(event) {
@@ -620,6 +597,28 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			if (!meta.list) { return }
 		}
 		return can.page.Append(can, target, [item]).first
+	},
+	_parse: function(can, text) { var stack = [{_deep: -1, list: []}]
+		can.core.List(can.core.Split(text, ice.NL, ice.NL, ice.NL), function(line) { if (line == "") { return }
+			var deep = 0; for (var i = 0; i < line.length; i++) { if (line[i] == ice.SP) { deep++ } else if (line[i] == ice.TB) { deep += 4 } else { break } }
+			for (var i = stack.length-1; i > 0; i--) { if (deep <= stack[i]._deep) { stack.pop() } }
+
+			var item = {_deep: deep, list: []}; var list = stack[stack.length-1]; list.list.push(item); if (deep > list._deep) { stack.push(item) }
+			var ls = can.core.Split(line); switch (ls[0]) {
+				case html.HEAD:
+				case html.LEFT:
+				case html.MAIN:
+				case html.FOOT:
+				case html.TABS:
+				case "username":
+				case html.MENU: item.type = ls[0]; break
+				default: item.name = ls[0]; break
+			}
+			for (var i = 1; i < ls.length; i += 2) { can.core.Value(item, ls[i], ls[i+1])
+				if (ls[i] == ctx.INDEX) { item.type = item.type||html.PLUGIN }
+			}
+		})
+		return {type: "demo", style: {height: can.ConfHeight()||window.innerHeight}, list: stack[0].list}
 	},
 
 	_plugin: function(can, value, meta, cb, target) {
@@ -1159,7 +1158,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: functio
 	input: function(event, can) { if (event.metakey) { return } var target = event.target
 		target._keys = can.onkeymap._parse(event, can, event.ctrlKey? "insert_ctrl": mdb.INSERT, target._keys, target)
 	},
-	prevent: function(event) { event.stopPropagation(), event.preventDefault() },
+	prevent: function(event) { event.stopPropagation(), event.preventDefault(); return true },
 	deleteText: function(target, start, count) { var end = count? start+count: target.value.length
 		var cut = target.value.slice(start, end)
 		target.value = target.value.substring(0, start)+target.value.substring(end, target.value.length)

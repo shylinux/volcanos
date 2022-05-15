@@ -74,6 +74,7 @@ var cli = {
 }
 var web = {
 	SHARE: "share", SPACE: "space",
+	DREAM: "dream",
 }
 var aaa = {
 	PASSWORD: "password", USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
@@ -109,6 +110,7 @@ var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash",
 	DIR_ROOT: "dir_root",
 	SAVE: "save", LOAD: "load", TAGS: "tags", FIND: "find", GREP: "grep",
+	SCRIPT: "script",
 }
 var tcp = {
 	HOST: "host", PORT: "port",
@@ -120,6 +122,7 @@ var lex = {
 var code = {
 	VIMER: "vimer", INNER: "inner", FAVOR: "favor",
 	AUTOGEN: "autogen", COMPILE: "compile", BINPACK: "binpack", WEBPACK: "webpack", PUBLISH: "publish",
+	KEYWORD: "keyword",
 }
 var wiki = {
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
@@ -225,7 +228,7 @@ var html = {
 	INPUT: "input", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
 	FORM: "form", FILE: "file", SPACE: "space", CLICK: "click", SUBMIT: "submit", CANCEL: "cancel",
 	DIV: "div", IMG: "img", CODE: "code", SPAN: "span", VIDEO: "video",
-	TABLE: "table", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li",
+	TABLE: "table", TBODY: "tbody", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li",
 	A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
 	H1: "h1", H2: "h2", H3: "h3",
 
@@ -235,7 +238,7 @@ var html = {
 	OPACITY: "opacity",
 	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
 	SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
-	MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
+	MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
 	PLUGIN_MARGIN: 10, ACTION_HEIGHT: 29, ACTION_MARGIN: 200,
 	TOGGLE: "toggle",
 
@@ -258,6 +261,8 @@ var html = {
 	DIV_LAYOUT_HEAD: "div.layout.head",
 	DIV_LAYOUT_LEFT: "div.layout.left",
 	DIV_LAYOUT_FOOT: "div.layout.foot",
+
+	ESCAPE: "Escape", ENTER: "Enter", TAB: "Tab",
 }
 var lang = {
 	UNDEFINED: "undefined",
@@ -362,6 +367,13 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 		getHeader: function(key, cb) { return can.get("Header", key, cb) },
 		getAction: function(key, cb) { return can.get("Action", key, cb) },
 		getActionSize: function(cb) { return can.get("Action", "size", cb) },
+
+		runAction: function(event, action, args, cb) {
+			can.request(event, {_handle: ice.TRUE}, can.Option())
+			can.run(event, can.misc.concat(can, [ctx.ACTION, action], args), cb||function(msg) {
+				can.user.toastSuccess(can, action)
+			}, true)
+		},
 
 		ConfHeight: function(value) { return can.Conf(html.HEIGHT, value) },
 		ConfWidth: function(value) { return can.Conf(html.WIDTH, value) },

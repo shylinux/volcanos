@@ -52,7 +52,12 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 				})
 			})
 		})
-		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
+		if (location.hash) {
+			can.onimport.tabview(can, can.Option(nfs.PATH), decodeURIComponent(location.hash).slice(1), 1)
+		} else {
+			can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
+		}
+
 		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
 	},
 	_simple: function(can, target) {
@@ -184,6 +189,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		}, project.plugin)
 	},
 	tabview: function(can, path, file, line, cb, skip, skip2) { var key = can.onexport.keys(can, file, path)
+		if (can.user.mod.isCmd) { location.hash = file }
 		if (!skip && can.tabview[key]) { can.user.mod.isCmd && can.user.title(path+file)
 			can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.tabview[key]
 			can.Option({path: path, file: file, line: line||can._msg.Option(nfs.LINE)||1})
@@ -273,12 +279,18 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		if (!height || height > window.innerHeight) { height = window.innerHeight - 200 }
 		if (can.user.isMobile && can.user.isLandscape() && height < 200) { height = 400 }
 
-		var rest = can.ui.display.offsetHeight+can.ui._path.offsetHeight+can.ui._tabs.offsetHeight+5
 		if (can.user.mod.isCmd) { can.page.styleHeight(can, can.ui.project, height+2*html.ACTION_HEIGHT)
-			can.page.styleHeight(can, can.ui.content, (can.ui.project.offsetHeight||height)-rest)
-			can.page.styleHeight(can, can.ui.profile_output, (can.ui.project.offsetHeight||height)-rest+html.ACTION_HEIGHT+6)
-			// can.page.styleHeight(can, can.ui.profile_output, can.ui.project.offsetHeight-html.ACTION_HEIGHT-2)
+			if (can.ui.project.offsetHeight) {
+				var rest = can.ui.display.offsetHeight+can.ui._path.offsetHeight+can.ui._tabs.offsetHeight+5
+				can.page.styleHeight(can, can.ui.content, can.ui.project.offsetHeight-rest)
+				can.page.styleHeight(can, can.ui.profile_output, can.ui.project.offsetHeight-rest+html.ACTION_HEIGHT+6)
+			} else {
+				var rest = can.ui.display.offsetHeight+5
+				can.page.styleHeight(can, can.ui.content, height-8)
+				can.page.styleHeight(can, can.ui.profile_output, height+html.ACTION_HEIGHT+6-8)
+			}
 		} else {
+			var rest = can.ui.display.offsetHeight+can.ui._path.offsetHeight+can.ui._tabs.offsetHeight+5
 			can.page.style(can, can.ui.content, can.user.mod.isCmd || can.user.isMobile? html.HEIGHT: html.MAX_HEIGHT, height)
 			can.page.styleHeight(can, can.ui.project, can.ui.content.offsetHeight+rest)
 			if (can.page.ClassList.has(can, can._fields, "full")) {
