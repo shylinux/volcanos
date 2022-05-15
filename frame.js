@@ -158,7 +158,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			if (meta.msg) { var msg = sub.request(); msg.Copy(can.base.Obj(meta.msg)), sub.onappend._output(sub, msg, msg.Option(ice.MSG_DISPLAY)||meta.feature.display) }
 
 			can.page.Modify(can, sub._legend, kit.Dict(can.Conf("legend_event")||"onmouseenter", function(event) {
-				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["所有"].concat(can.core.Item(meta.feature._trans))]))
+				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["所有"].concat(can.core.Item(meta.feature._trans))]), function(event, item, meta) {
+					var cb = can.core.Value(sub, ["_outputs.-1.onaction", item])
+					if (can.base.isFunc(cb)) { return cb(event, can.core.Value(sub, "_outputs.-1"), item) }
+					var cb = meta[item]||meta["_engine"]
+					if (can.base.isFunc(cb)) { return cb(event, sub, item) }
+				})
 			})), can.base.isFunc(cb) && cb(sub)
 		}); return sub
 	},
