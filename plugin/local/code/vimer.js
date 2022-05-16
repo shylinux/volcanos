@@ -224,9 +224,9 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 		can.runAction(event, button)
 	},
 	_complete: function(event, can, target) { target = target||can.ui.complete
-		if (event == undefined || event.target == undefined || event.target.value == undefined) { return }
-		var pre = event.target.value.slice(0, event.target.selectionStart)
-		var end = event.target.value.slice(event.target.selectionStart)
+		if (event == undefined) { return }
+		var pre = can.ui.current.value.slice(0, can.ui.current.selectionStart)
+		var end = can.ui.current.value.slice(can.ui.current.selectionStart)
 		var type = can.core.Split(pre).pop()||""
 		var name = can.core.Split(type, "", ice.PT).pop()||""
 		type = can.base.trimSuffix(type, name)
@@ -246,8 +246,8 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 				
 				can.page.Appends(can, target, [{view: [PRE, html.DIV, pre]}])
 				can.onappend.table(can, msg, function(value, key, index) { return {text: [value, html.TD], onclick: function(event) {
-					var left = can.ui.current.value.slice(0, event.target.selectionStart)+value
-					can.current.text(can.ui.current.value = left+can.ui.current.value.slice(event.target.selectionEnd))
+					var left = can.ui.current.value.slice(0, can.ui.current.selectionStart)+value
+					can.current.text(can.ui.current.value = left+can.ui.current.value.slice(can.ui.current.selectionEnd))
 					can.ui.current.focus(), can.ui.content.scrollLeft -= 10000, can.ui.current.setSelectionRange(left.length, left.length)
 				}} }, target)
 			})
@@ -298,7 +298,10 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 	_selectLine: function(event, can) {
 		can.page.Select(can, can.current.line, "td.text", function(td) { can.ui.current.value = td.innerText
 			can.current.line.appendChild(can.ui.current), can.page.style(can, can.ui.current, html.LEFT, td.offsetLeft-1, html.WIDTH, can.ui.content.style.width)
-			if (event) { if (can.mode == "plugin") { can.onkeymap._insert(event, can) }
+			if (event) {
+				if (event.type == "click" && can.mode != "insert") { can.onkeymap._insert(event, can)
+					can.core.Timer(10, function() { can.onaction._complete(event, can) })
+				}
 				can.ui.current.focus(), can.ui.content.scrollLeft -= 10000
 				can.onkeymap.cursorMove(can, can.ui.current, 0, (event.offsetX)/12-1)
 			}
