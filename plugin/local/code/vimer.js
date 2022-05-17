@@ -38,8 +38,9 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 		can.ui.current.focus()
 	},
 	_insert: function(event, can) { can.onkeymap._model(can, "insert")
-		can.ui.current.focus(), can.onkeymap.prevent(event)
-		can._keylist = []
+		can.ui.current.focus(), can.ui.content.scrollLeft -= 10000
+		can.onkeymap.prevent(event)
+		// can._keylist = []
 	},
 
 	_mode: {
@@ -233,12 +234,15 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 		type = can.base.trimSuffix(type, ice.PT)
 		const PRE = "pre"
 
-		function update(target) { can.request(event, {pre: pre, end: end, type: type, name: name, file: can.Option(nfs.FILE)})
+		function update(target) { can.request(event, {type: type, name: name, text: pre, file: can.Option(nfs.FILE)})
 			can.runAction(event, "complete", [], function(msg) { can.ui.complete._msg = msg
 				if (msg.Length() == 0 && can.base.Ext(can.Option(nfs.FILE)) == nfs.JS) {
-					can.core.Item(can.core.Value(window, type), function(k, v) { msg.Push(mdb.NAME, k)
+					msg.name = [], msg.type = [], msg.text = []
+					can.core.Item(can.core.Value(window, type), function(k, v) {
+						msg.Push(mdb.NAME, k), msg.Push(mdb.TYPE, typeof v)
 						try { msg.Push(mdb.TEXT, v) } catch (e) { msg.Push(mdb.TEXT, "") }
 					})
+					msg.append = [mdb.NAME, mdb.TYPE, mdb.TEXT]
 				}
 				msg.Length() == 0 && pre.trim() == "" && can.core.Item(can.core.Value(can.onsyntax[can.parse], code.KEYWORD), function(k) {
 					msg.Push(mdb.NAME, k)
@@ -288,9 +292,9 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 
 		switch (event.key) {
 			case html.ENTER: update(target); break
-			case ice.TB: update(target); break
-			case ice.PT: update(target); break
+			case html.TAB: update(target); break
 			case ice.SP: update(target); break
+			case ice.PT: update(target); break
 			default: filter() || update(target); break
 		} can.ui.complete._index = -1
 	},
