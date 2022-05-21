@@ -254,7 +254,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
 		if (can.base.isUndefined(msg._daemon)) {
 			can.base.isUndefined(can._daemon) && can.ondaemon._list[0] && (can._daemon = can.ondaemon._list.push(can)-1)
-			// if (can._daemon) { msg.Option(ice.MSG_DAEMON, can._daemon) }
+			if (can._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], can._daemon)) }
 		}
 		if (meta && meta.index && meta.index.indexOf("can.") == 0) {
 			can.onengine._plugin(event, can, msg, can, can.misc.concat(can, [meta.index], cmds), function(msg) {
