@@ -107,6 +107,7 @@ body>div.carte div.item { padding:3px 12px; }
 body>div.input { background-color:#0d4142a6; padding:5px; }
 body>div.input div.item { float:left; }
 body>div.input tr td:first-child { text-align:center; }
+body>div.input div.content { overflow:auto; max-height:200px; }
 body>div.input select { width:183px; margin:5px; }
 body>div.input input[type=text] { width:171px; margin:5px; }
 body>div.input input[name=username] { width:171px; }
