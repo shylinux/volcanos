@@ -385,7 +385,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			item.type == html.TEXT && can.onkeymap.input(event, can), can.onmotion.selectField(event, can)
 		}, list: [input]}]).concat(br))[item.name]
 	},
-	table: function(can, msg, cb, target, sort) {
+	table: function(can, msg, cb, target, sort) { if (msg.Length() == 0) { return }
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) {
 				if (key == mdb.VALUE) { key = line.key }
