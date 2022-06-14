@@ -84,7 +84,7 @@ body.simple fieldset.inner>div.output td.content>div.path {
 body.white fieldset.inner>div.output td.content>div.tabs { background:#f3f3f3; }
 body.white fieldset.inner>div.output td.content>div.tabs div.tabs { background:#ececec; color:black; font-size:1rem; padding:10px; float:left; }
 body.white fieldset.inner>div.output td.content>div.tabs div.tabs.select { background: white; box-shadow:0px 0px 5px 1px grey; }
-body.white fieldset.inner>div.output td.content>div.path { background:white; color:black; box-shadow:0px 0px 5px 1px grey; }
+body.white fieldset.inner>div.output td.content>div.path { background:white; color:black; font-family:monospace; box-shadow:0px 0px 5px 1px grey; }
 
 body.simple fieldset.inner>div.output td.project div.project { width:240px; }
 body.simple fieldset.inner>div.output td.project div.project div.kind { padding:10px; }
