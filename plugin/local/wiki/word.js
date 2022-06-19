@@ -57,6 +57,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 	refer: function(can, data, target) {
 		can.page.Select(can, target, html.A, function(item) {
 			item.onclick = function(event) {
+				can.request(event, kit.Dict(ice.MSG_HANDLE, ice.TRUE))
 				can.run(event, [ctx.ACTION, mdb.CREATE, mdb.TYPE, "refer", mdb.NAME, item.dataset.name, mdb.TEXT, item.href], null, true)
 			}
 		})
