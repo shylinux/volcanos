@@ -976,6 +976,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 	copy: function(can, target, text, cb) {
 		target.title = "点击复制", target.onclick = function(event) {
 			can.user.copy(event, can, text||target.innerText)
+			can.request(event, kit.Dict(ice.MSG_HANDLE, ice.TRUE))
 			can.base.isFunc(cb) && cb(event)
 		}
 	},
