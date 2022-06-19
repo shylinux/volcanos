@@ -31,8 +31,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.base.isFunc(cb) && cb(msg)
 	},
 	_agent: function(can, msg, target) {
-		can.run({}, [chat.AGENT], function(msg) { if (!msg.Option(ssh.SCRIPT)) { return }
-			can.require(can.base.Obj(msg.Option(ssh.SCRIPT)), function(can) { can.onaction.source(can, msg) })
+		can.run({}, [chat.AGENT], function(msg) { if (!msg.Option(nfs.SCRIPT)) { return }
+			can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) })
 		})
 	},
 	_grant: function(can, msg, target) {

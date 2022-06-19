@@ -6,7 +6,7 @@ var kit = {
 	}
 }
 var ice = {
-	TB: "\t", SP: " ", DF: ":", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
+	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
 	OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
 
 	AUTO: "auto", LIST: "list", BACK: "back", EXEC: "exec",
@@ -31,6 +31,7 @@ var ice = {
 	MSG_DAEMON: "_daemon",
 	MSG_ACTION: "_action",
 	MSG_STATUS: "_status",
+	MSG_PREFIX: "_prefix",
 
 	MSG_DISPLAY: "_display",
 	MSG_PROCESS: "_process",
@@ -45,41 +46,39 @@ var ice = {
 	MSG_TOAST: "sess.toast",
 
 	PROCESS_AGAIN: "_again",
-	MSG_PREFIX: "_prefix",
 
 	ErrWarn: "warn: ",
+	ErrNotLogin: "not login: ",
+	ErrNotRight: "not right: ",
 	ErrNotFound: "not found: ",
 }
 
 var ctx = {
-	CONTEXT: "context", COMMAND: "command", ACTION: "action", CONFIG: "config",
-	STYLE: "style", INDEX: "index", ARGS: "args", INPUTS: "inputs", FEATURE: "feature",
-}
-var gdb = {
-	SIGNAL: "signal",
+	CONTEXT: "context", COMMAND: "command", CONFIG: "config",
+	INDEX: "index", ARGS: "args", STYLE: "style", DISPLAY: "display", ACTION: "action",
+	INPUTS: "inputs", FEATURE: "feature",
 }
 var cli = {
-	START: "start", STOP: "stop", OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end",
-
-	MAIN: "main", MAKE: "make",
-	EXEC: "exec", DONE: "done",
-	CODE: "code", COST: "cost", BACK: "back", FROM: "from",
-	ERROR: "error", CLEAR: "clear", REFRESH: "refresh",
-	SHOW: "show",
 	DAEMON: "daemon",
+	START: "start", STOP: "stop", OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end",
 
 	RED: "red", GREEN: "green", BLUE: "blue",
 	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta",
 	WHITE: "white", BLACK: "black",
+
+	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done",
+	CODE: "code", COST: "cost", BACK: "back", FROM: "from",
+	ERROR: "error", CLEAR: "clear", REFRESH: "refresh",
+	SHOW: "show",
 }
-var web = {
-	SHARE: "share", SPACE: "space",
-	DREAM: "dream",
-}
-var aaa = {
-	PASSWORD: "password", USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
-	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
-	LOGIN: "login", LOGOUT: "logout", INVITE: "invite",
+var nfs = {
+	ZML: "zml", IML: "iml",
+	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
+	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
+	SAVE: "save", LOAD: "load", TAGS: "tags", FIND: "find", GREP: "grep",
+	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash",
+	DIR_ROOT: "dir_root",
+	SCRIPT: "script",
 }
 var mdb = {
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
@@ -100,20 +99,19 @@ var mdb = {
 
 	FOREACH: "*", RANDOMS: "%",
 }
-var ssh = {
-	SCRIPT: "script",
+var aaa = {
+	PASSWORD: "password", USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
+	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
+	LOGIN: "login", LOGOUT: "logout", INVITE: "invite",
 }
-var nfs = {
-	ZML: "zml", IML: "iml",
-	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
-	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
-	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash",
-	DIR_ROOT: "dir_root",
-	SAVE: "save", LOAD: "load", TAGS: "tags", FIND: "find", GREP: "grep",
-	SCRIPT: "script",
+var web = {
+	SPACE: "space", DREAM: "dream", SHARE: "share",
 }
 var tcp = {
 	HOST: "host", PORT: "port",
+}
+var gdb = {
+	SIGNAL: "signal",
 }
 var lex = {
 	SPLIT: "split",
@@ -422,7 +420,7 @@ Volcanos.meta._load = function(url, cb) {
 			item.href = url, item.onload = cb
 			return (document.head||document.body).appendChild(item), item
 		case nfs.JS:
-			var item = document.createElement(ssh.SCRIPT)
+			var item = document.createElement(nfs.SCRIPT)
 			item.src = url, item.onload = cb, item.onerror = cb
 			return document.body.appendChild(item), item
 	}
