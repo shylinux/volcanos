@@ -242,6 +242,7 @@ input[type=text]:hover { background-color:white; }
 input[name=cmd]:hover { background-color:white; color:black; }
 input[type=button]:hover { background-color:gray; color:cyan; }
 
+body.black a { color:yellow; }
 body.white legend:hover { background-color:skyblue; }
 body.white input[type=text]:hover { background-color:cyan; }
 body.white input[name=cmd]:hover { background-color:white; color:black; }
