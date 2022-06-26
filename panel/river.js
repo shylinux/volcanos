@@ -48,7 +48,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 	_storm: function(can, meta, river) {
 		return {text: [meta.name, html.DIV, html.ITEM], onclick: function(event) {
 			can.onaction.action(event, can, river, meta.hash)
-			can.user.title(can._main_title||meta.name)
+			// can.user.title(can._main_title||meta.name)
 
 		}, onmouseenter: function(event) {
 			can.onimport._carte(can, can.ondetail.sublist, river, meta.hash)

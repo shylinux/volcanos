@@ -33,7 +33,9 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 					can.onengine.listen(can, key, function(msg) { can.core.CallFunc(cb, {can: panel, msg: msg}) })
 				}), can.core.CallFunc([panel.onaction, "_init"], {can: panel, cb: next, target: panel._target})
 			}, target)
-		}, function() { can.misc.Log(can.user.title(), ice.RUN, can)
+		}, function() {
+			can.user.title(location.hostname)
+			can.misc.Log(can.user.title(), ice.RUN, can)
 			can.require([can.volcano], null, function(can, name, sub) { can[name] = sub })
 			can.onlayout.topic(can), can.onmotion._init(can, target), can.onkeymap._init(can)
 			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb()
