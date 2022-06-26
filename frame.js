@@ -115,6 +115,7 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
 		})
 	}, _list: [""],
 	refresh: function(can, msg, sub) { sub.Update() },
+	exit: function(can, msg, sub) { window.close() },
 	pwd: function(can, msg, arg) { can.ondaemon._list[0] = arg[0] },
 	grow: function(can, msg, sub, arg) { sub.onimport._grow(sub, can.page.Color(arg.join(""))) },
 	toast: function(can, msg, arg) { can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}) },
