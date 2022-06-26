@@ -1,4 +1,5 @@
 Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta, list, cb, target) {
+		can.user.title(can.misc.Search(can, chat.TITLE)||can.misc.Search(can, ice.POD)||location.host)
 		can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]
 			return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb)
 		}
@@ -33,9 +34,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 					can.onengine.listen(can, key, function(msg) { can.core.CallFunc(cb, {can: panel, msg: msg}) })
 				}), can.core.CallFunc([panel.onaction, "_init"], {can: panel, cb: next, target: panel._target})
 			}, target)
-		}, function() {
-			can.user.title(location.host)
-			can.misc.Log(can.user.title(), ice.RUN, can)
+		}, function() { can.misc.Log(can.user.title(), ice.RUN, can)
 			can.require([can.volcano], null, function(can, name, sub) { can[name] = sub })
 			can.onlayout.topic(can), can.onmotion._init(can, target), can.onkeymap._init(can)
 			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb()
@@ -108,7 +107,7 @@ Volcanos("onengine", {help: "搜索引擎", list: [], _init: function(can, meta,
 	}),
 })
 Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name) { if (can.user.isLocalFile) { return }
-		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, cli.DAEMON)||name||""}, function(event, msg, cmd, arg) { if (!msg) { return }
+		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, cli.DAEMON)||name||"", text: can.user.title()}, function(event, msg, cmd, arg) { if (!msg) { return }
 			var sub = can.ondaemon._list[msg.Option(ice.MSG_TARGET)]
 			can.base.isFunc(can.ondaemon[cmd])? can.core.CallFunc(can.ondaemon[cmd], {
 				can: can, sub: sub, msg: msg, cmd: cmd, arg: arg, cb: function() { msg.Reply() },
