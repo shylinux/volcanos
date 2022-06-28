@@ -13,7 +13,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, args, cb) {
 							}, true)
 						}, true)
 					})
-				},
+				}
 			))) { return }
 			can.run(event, [ctx.ACTION, ice.RUN, "web.code.template"].concat(cmds), function(msg) {
 				can.base.isFunc(cb) && cb(msg)

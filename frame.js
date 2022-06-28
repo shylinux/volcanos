@@ -114,8 +114,8 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
 			}): can.onengine._search({}, can, msg, can, ["_search", cmd].concat(arg), function() { msg.Reply() })
 		})
 	}, _list: [""],
-	refresh: function(can, msg, sub) { sub.Update() },
 	exit: function(can, msg, sub) { window.close() },
+	refresh: function(can, msg, sub) { sub.Update() },
 	pwd: function(can, msg, arg) { can.ondaemon._list[0] = arg[0] },
 	grow: function(can, msg, sub, arg) { sub.onimport._grow(sub, can.page.Color(arg.join(""))) },
 	toast: function(can, msg, arg) { can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}) },
@@ -681,7 +681,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 					can.onappend._action(sub, [cli.CLOSE, cli.CLEAR, cli.REFRESH], sub._action, kit.Dict(
 						cli.REFRESH, function(event) { can.base.isFunc(cb) && cb(sub) },
 						cli.CLEAR, function(event) { target.value = "" },
-						cli.CLOSE, function(event) { sub.close() },
+						cli.CLOSE, function(event) { sub.close() }
 					)), can.onappend._status(sub, [mdb.TOTAL, mdb.INDEX])
 
 					can.page.style(sub, sub._target, meta.style), can.onmotion.hidden(can, sub._target)

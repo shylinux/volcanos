@@ -95,7 +95,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 					can.profile_size[can.onexport.keys(can)] = can.ConfWidth()*parseInt(data.width)/100
 					can.onaction["展示"](event, can)
 				})
-			},
+			}
 		))
 		target._toggle = function(event, show) { action[show? cli.SHOW: cli.CLOSE](event) }
 	},
@@ -116,7 +116,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 					can.profile_size[can.onexport.keys(can)] = can.ConfHeight()*parseInt(data.height)/100
 					can.onaction["执行"](event, can)
 				})
-			},
+			}
 		))
 		target._toggle = function(event, show) { action[show? cli.EXEC: cli.CLOSE](event) }
 	},
@@ -448,7 +448,7 @@ Volcanos("onaction", {help: "控件交互", list: ["搜索", "打开", "添加",
 	_trans: {width: "宽度", height: "高度", website: "网页"},
 	"加载": function(event, can) {
 		var file = can.base.Path("/require/", can.Option(nfs.PATH), can.Option(nfs.FILE))
-		delete(Volcanos.meta.cache[file]), eval(`\n_can_name = "`+file+`"\n`+can.onexport.content(can)+`\n_can_name = ""\nconsole.log("once")`)
+		delete(Volcanos.meta.cache[file]), eval("\n_can_name = \""+file+"\"\n"+can.onexport.content(can)+"\n_can_name = \"\"\nconsole.log(\"once\")")
 	},
 	"刷新": function(event, can) { can.onimport.tabview(can, "src/", "main.go", "", function() {}, skip) },
 	"搜索": function(event, can) {
