@@ -251,6 +251,7 @@ var html = {
 
 	ESCAPE: "Escape", ENTER: "Enter", TAB: "Tab",
 	ONMOUSEENTER: "onmouseenter",
+	ORIENTATIONCHANGE: "orientationchange"
 }
 var lang = {
 	UNDEFINED: "undefined",
@@ -285,7 +286,11 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 		// 根模块
 		_can_name = "", name = Config.name||"chat", cb = can||function(can) {
 			can.onengine._init(can, can.Conf(Config), Config.panels, Config._init, can._target)
-		}, can = {_follow: name, _target: Config.target||meta.target}, can._root = can
+		}, can = {
+			_follow: name, _target: Config.target||meta.target,
+			_height: Config.height||window.innerHeight,
+			_width: Config.width||window.innerWidth,
+		}, can._root = can
 		for (var k in Config) { can[k] = Config[k] }
 	}
 

@@ -114,7 +114,7 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
 			}): can.onengine._search({}, can, msg, can, ["_search", cmd].concat(arg), function() { msg.Reply() })
 		})
 	}, _list: [""],
-	exit: function(can, msg, sub) { window.close() },
+	exit: function(can, msg, sub) { can.user.close() },
 	refresh: function(can, msg, sub) { sub.Update() },
 	pwd: function(can, msg, arg) { can.ondaemon._list[0] = arg[0] },
 	grow: function(can, msg, sub, arg) { sub.onimport._grow(sub, can.page.Color(arg.join(""))) },
@@ -131,7 +131,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
 		var sub = Volcanos(meta.name, {_follow: can.core.Keys(can._follow, meta.name), _target: field,
 			_legend: legend, _option: option, _action: action, _output: output, _status: status,
-			_inputs: {}, _outputs: [], _history: [],
+			_inputs: {}, _outputs: [], _history: [], _root: can._root,
 
 			Status: function(key, value) {
 				if (can.base.isObject(key)) { return can.core.Item(key, sub.Status), key }
@@ -629,7 +629,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 				if (ls[i] == ctx.INDEX) { item.type = item.type||html.PLUGIN }
 			}
 		})
-		return {type: "demo", style: {height: can.ConfHeight()||window.innerHeight}, list: stack[0].list}
+		return {type: "demo", style: {height: can.ConfHeight()||can._root._height}, list: stack[0].list}
 	},
 
 	_plugin: function(can, value, meta, cb, target) {
@@ -686,12 +686,12 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
 					can.page.style(sub, sub._target, meta.style), can.onmotion.hidden(can, sub._target)
 					can.base.isFunc(cb) && cb(sub, function(sub, hide) { can.onmotion.hidden(can, sub._target, !hide), can.base.isFunc(cbs) && cbs(sub) })
-				}, document.body)
+				}, can._root._target)
 			}, target, last) } })
 		})
 	},
 	float: function(can, msg, cb) {
-		var ui = can.onappend.field(can, "story toast float", {}, document.body)
+		var ui = can.onappend.field(can, "story toast float", {}, can._root._target)
 		ui.close = function() { can.page.Remove(can, ui.first) }
 
 		can.getActionSize(function(left, top, height, width) {
@@ -726,16 +726,14 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 	},
 
 })
-Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, target) { target = target||document.body
-		if (can.page.Select(can, target, html.FIELDSET_MAIN+".page").length > 0) {
-			can.page.Select(can, target, html.FIELDSET_LEFT, function(field, index) {
-				can.page.styleHeight(can, field, "")
+Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, target) { target = target||can._root._target
+		if (can.page.Select(can, target, can.core.Keys(html.FIELDSET_MAIN, "page")).length > 0) {
+			can.page.Select(can, target, html.FIELDSET_LEFT, function(field) { can.page.styleHeight(can, field, "")
 				can.page.Select(can, target, [[html.FIELDSET_LEFT, html.DIV_OUTPUT]], function(output) {
 					can.page.styleHeight(can, output, "")
 				})
 			})
-			can.page.Select(can, target, html.FIELDSET_MAIN, function(field, index) {
-				can.page.styleHeight(can, field, "")
+			can.page.Select(can, target, html.FIELDSET_MAIN, function(field) { can.page.styleHeight(can, field, "")
 				can.page.Select(can, target, [[html.FIELDSET_MAIN, html.DIV_OUTPUT]], function(output) {
 					can.page.styleHeight(can, output, "")
 				})
@@ -743,17 +741,17 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 			return
 		}
 
-		var width = window.innerWidth, height = window.innerHeight
+		var width = can._root._width, height = can._root._height
 		can.page.Select(can, target, can.page.Keys(html.FIELDSET_HEAD, html.FIELDSET_FOOT), function(field) {
 			height -= field.offsetHeight
 		})
 
+		var offset = can.user.isMobile && !can.user.isLandscape()? 100: 0
 		can.page.Select(can, target, html.FIELDSET_LEFT, function(field, index) {
-			var offset = can.user.isMobile && !can.user.isLandscape()? 100: 0
 			can.user.isMobile || (width -= field.offsetWidth)
 			can.page.styleHeight(can, field, height-offset)
 			can.page.Select(can, target, [[html.FIELDSET_LEFT, html.DIV_OUTPUT]], function(output) {
-				can.page.styleHeight(can, output, height-html.ACTION_HEIGHT-1-offset)
+				can.page.styleHeight(can, output, height-offset-html.ACTION_HEIGHT-1)
 			})
 		})
 
@@ -771,7 +769,7 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 		can.user.topic(can, can._topic || can.misc.Search(can, chat.TOPIC) || Volcanos.meta.args.topic || (can.base.isNight()? chat.BLACK: chat.WHITE))
 	},
 	background: function(can, url, target) {
-		can.page.style(can, target||document.body, html.BACKGROUND, url == "" || url == "void"? "": 'url("'+url+'")')
+		can.page.style(can, target||can._root._target, html.BACKGROUND, url == "" || url == "void"? "": 'url("'+url+'")')
 	},
 	figure: function(event, can, target, right, layout) { target = target||can._target
 		if (layout) { return can.page.style(can, target, layout), can.onmotion.move(can, target, layout), layout }
@@ -784,12 +782,12 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 		layout = {left: left, top: top}
 		if (layout.top < 0) { layout.top = 0 }
 		if (layout.left < 0) { layout.left = 0 }
-		if (layout.left+target.offsetWidth>window.innerWidth) {
-			layout.right = 0, layout.left = ""
-		}
-		if (!(can.user.isMobile && can.user.isLandscape()) && top+target.offsetHeight>window.innerHeight-32) {
-			layout.bottom = window.innerHeight - event.clientY+event.offsetY, layout.top = ""
+		if (layout.left+target.offsetWidth > can._root._width) { layout.right = 0, layout.left = "" }
+
+		if (!(can.user.isMobile && can.user.isLandscape()) && layout.top+target.offsetHeight > can._root._height-html.ACTION_HEIGHT) {
+			layout.bottom = can._root._height - event.clientY+event.offsetY, layout.top = ""
 			if (right) { layout.bottom -= target.offsetHeight }
+			if (layout.bottom < html.ACTION_HEIGHT) { layout.bottom = html.ACTION_HEIGHT }
 		}
 		return can.page.style(can, target, layout), can.onmotion.move(can, target, layout), layout
 	},
@@ -840,46 +838,12 @@ Volcanos("onlayout", {help: "页面布局", list: [], _init: function(can, targe
 	},
 })
 Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, target) {
-		window.addEventListener("orientationchange", function(event) {
-			can.onengine.signal(can, "orientationchange")
-		}), can.onmotion.float.auto(can, target)
-	},
-	focus: function(can, target) { if (!target) { return }
-		target.setSelectionRange && target.setSelectionRange(0, -1), target.focus()
-	},
-	share: function(event, can, input, args) {
-		return can.user.input(event, can, input, function(ev, button, data, list, _args) {
-			can.search(can.request(event, {args: [mdb.TYPE, chat.FIELD].concat(args||[], _args||[])})._event, [["Header", chat.ONACTION, web.SHARE]])
-		})
-	},
-	story: {
-		_hash: {
-			spark: function(can, meta, target) {
-				meta[mdb.NAME] == html.INNER? can.onmotion.copy(can, target): can.page.Select(can, target, html.SPAN, function(item) {
-					can.onmotion.copy(can, item)
-				})
-			},
-		},
-		auto: function(can, target) { var that = this
-			can.page.Select(can, target||can._output, ".story", function(item) { var meta = item.dataset
-				can.page.style(can, item, can.base.Obj(meta.style))
-				can.core.CallFunc(that._hash[meta.type], [can, meta, target||can._output])
-			})
-			can.page.Select(can, target||can._output, html.IFRAME, function(item) {
-				can.page.style(can, item, html.HEIGHT, can.Conf(html.HEIGHT)-88, html.WIDTH, can.Conf(html.WIDTH)-30)
-			})
-			can.page.Select(can, target||can._output, html.SVG, function(item) {
-				item.oncontextmenu = function(event) {
-					can.user.carte(event, can, kit.Dict(mdb.EXPORT, function(event, can, button) {
-
-					}), [mdb.EXPORT])
-				}
-			})
-		},
+		window.addEventListener(html.ORIENTATIONCHANGE, function(event) { can.onengine.signal(can, html.ORIENTATIONCHANGE) })
+		can.onmotion.float.auto(can, target)
 	},
 	float: {_hash: {},
 		del: function(can, key) {
-			key == chat.CARTE && can.page.Select(can, document.body, can.core.Keys(html.DIV, chat.CARTE), function(item) {
+			key == chat.CARTE && can.page.Select(can, can._root._target, can.core.Keys(html.DIV, chat.CARTE), function(item) {
 				can.page.Remove(can, item)
 			})
 			var last = this._hash[key]; if (!last) { return }
@@ -895,6 +859,37 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 			}})
 		},
 	},
+	story: {
+		_hash: {
+			spark: function(can, meta, target) {
+				meta[mdb.NAME] == html.INNER? can.onmotion.copy(can, target): can.page.Select(can, target, html.SPAN, function(item) {
+					can.onmotion.copy(can, item)
+				})
+			},
+		},
+		auto: function(can, target) { var that = this; target = target||can._output
+			can.page.Select(can, target, ".story", function(item) { var meta = item.dataset
+				can.page.style(can, item, can.base.Obj(meta.style))
+				can.core.CallFunc(that._hash[meta.type], [can, meta, target])
+			})
+			can.page.Select(can, target, html.IFRAME, function(item) {
+				can.page.style(can, item, html.HEIGHT, can.ConfHeight()-88, html.WIDTH, can.ConfWidth()-30)
+			})
+		},
+	},
+	copy: function(can, target, text, cb) {
+		target.title = "点击复制", target.onclick = function(event) {
+			can.user.copy(event, can, text||target.innerText)
+			can.request(event, kit.Dict(ice.MSG_HANDLE, ice.TRUE))
+			can.base.isFunc(cb) && cb(event)
+		}
+	},
+	link: function(can, target, text) {
+		if (target.innerText == "") { target.innerText = target.href }
+		can.page.Modify(can, target, {target: "_blank"})
+	},
+
+	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), true },
 	cache: function(can, next) { var list = can.base.Obj(can.core.List(arguments).slice(2), [can._output])
 		can.core.List(list, function(item) { can.page.Cache(item._cache_key, item, item.scrollTop+1) })
 		var key = next(can._cache_data = can._cache_data||{})
@@ -902,8 +897,15 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 			if (pos) { item.scrollTo && item.scrollTo(0, pos-1); return item }
 		}).length > 0
 	},
-	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), true },
 	delay: function(can, cb) { can.core.Timer(100, cb) },
+	focus: function(can, target) { if (!target) { return }
+		target.setSelectionRange && target.setSelectionRange(0, -1), target.focus()
+	},
+	share: function(event, can, input, args) {
+		return can.user.input(event, can, input, function(ev, button, data, list, _args) {
+			can.search(can.request(event, {args: [mdb.TYPE, chat.FIELD].concat(args||[], _args||[])})._event, [["Header", chat.ONACTION, web.SHARE]])
+		})
+	},
 
 	hidden: function(can, target, show) {
 		can.page.styleDisplay(can, target||can._target, show? "": html.NONE)
@@ -971,16 +973,19 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 		})
 	},
 
-	link: function(can, target, text) {
-		if (target.innerText == "") { target.innerText = target.href }
-		can.page.Modify(can, target, {target: "_blank"})
+	hide: function(can, time, cb, target) { target = target||can._target
+		time = can.base.isObject(time)? time: {value: 10, length: time||20}
+		can.page.style(can, target, html.OPACITY, 1)
+		can.core.Timer(time, function(event, value, index) {
+			can.page.style(can, target, html.OPACITY, 1-(index+1)/time.length)
+		}, function() { can.base.isFunc(cb) && cb(), can.page.style(can, target, html.DISPLAY, html.NONE) })
 	},
-	copy: function(can, target, text, cb) {
-		target.title = "点击复制", target.onclick = function(event) {
-			can.user.copy(event, can, text||target.innerText)
-			can.request(event, kit.Dict(ice.MSG_HANDLE, ice.TRUE))
-			can.base.isFunc(cb) && cb(event)
-		}
+	show: function(can, time, cb, target) { target = target||can._target
+		time = can.base.isObject(time)? time: {interval: 10, length: time||30}
+		can.page.style(can, target, html.OPACITY, 0, html.DISPLAY, html.BLOCK)
+		can.core.Timer(time, function(event, value, index) {
+			can.page.style(can, target, html.OPACITY, (index+1)/time.length)
+		}, cb)
 	},
 	move: function(can, target, layout, cb) { var begin; layout = layout||{}
 		can.page.style(can, target, layout), target.onmousedown = function(event) {
@@ -1002,20 +1007,6 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 			can.onkeymap.prevent(event), can.base.isFunc(cb) && cb(target, layout)
 		}
 		can.base.isFunc(cb) && cb(target, layout)
-	},
-	show: function(can, time, cb, target) { target = target||can._target
-		time = can.base.isObject(time)? time: {interval: 10, length: time||30}
-		can.page.style(can, target, html.OPACITY, 0, html.DISPLAY, html.BLOCK)
-		can.core.Timer(time, function(event, value, index) {
-			can.page.style(can, target, html.OPACITY, (index+1)/time.length)
-		}, cb)
-	},
-	hide: function(can, time, cb, target) { target = target||can._target
-		time = can.base.isObject(time)? time: {value: 10, length: time||20}
-		can.page.style(can, target, html.OPACITY, 1)
-		can.core.Timer(time, function(event, value, index) {
-			can.page.style(can, target, html.OPACITY, 1-(index+1)/time.length)
-		}, function() { can.base.isFunc(cb) && cb(), can.page.style(can, target, html.DISPLAY, html.NONE) })
 	},
 
 	selectField: function(event, can) {
@@ -1083,22 +1074,21 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
 		document.body.onclick = function(event) {
 			if (window.webview) {
-				if (event.target.tagName == "A") {
-					window.open(event.target.href)
-				}
+				if (event.target.tagName == "A") { can.user.open(event.target.href) }
 			}
 		}
 		can.onkeymap._build(can), document.body.onkeydown = function(event) {
 			if (event.metaKey) { if (window.webview) {
 				switch (event.key) {
 					case "q": window.terminate(); break
-					case "w": window.close(); break
+					case "w": can.user.close(); break
 					case "r": location.reload(); break
 					case "f": can.onengine.signal(can, "onopensearch", can.request({}, {type: "*"})); break
 					case "[": history.back(); break
 					case "]": history.forward(); break
 				}
 			} return }
+
 			if (can.page.tagis([html.SELECT, html.INPUT, html.TEXTAREA], event.target)) { return }
 			var msg = can.request(event, {"model": "normal"}); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
 			can.onengine.signal(can, chat.ONKEYDOWN, msg); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
