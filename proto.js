@@ -125,6 +125,7 @@ var wiki = {
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
 	ORDER: "order", TABLE: "table", CHART: "chart", IMAGE: "image", VIDEO: "video",
 	FIELD: "field", SHELL: "shell", LOCAL: "local", PARSE: "parse",
+	CONTENT: "content",
 
 	NAVMENU: "navmenu", PREMENU: "premenu",
 
@@ -225,7 +226,7 @@ var html = {
 	OPACITY: "opacity",
 	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
 	SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
-	MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
+	MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MIN_WIDTH: "min-width", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
 	PLUGIN_MARGIN: 10, ACTION_HEIGHT: 29, ACTION_MARGIN: 200,
 	TOGGLE: "toggle",
 
@@ -278,13 +279,13 @@ function shy(help, meta, list, cb) {
 var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: {}, pack: {}, libs: [], cache: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list
 	if (typeof name == lang.OBJECT) { var Config = name; Config.plugin = Config.plugin||chat.plugin_list
-		Config.panels = Config.panels||chat.panel_list, Config.main = Config.main||{name: "Header"}
+		Config.panels = Config.panels||chat.panel_list
 		meta.libs = Config.libs||chat.libs, meta.iceberg = Config.iceberg||meta.iceberg
 
 		// 预加载
 		libs = []; for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
 			panel && (libs = libs.concat(panel.list = panel.list||["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
-		}; libs = libs.concat(Config.plugin, Config.main.list||[])
+		}; libs = libs.concat(Config.plugin)
 
 		// 根模块
 		_can_name = "", name = Config.name||"chat", cb = can||function(can) {
@@ -330,7 +331,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 			function next() { can._load(name, each), can.require(libs.slice(1), cb, each) }
 			meta.cache[name]? next(): (_can_path = libs[0], meta._load(name, next))
 		},
-		request: function(event) { event = event||{}
+		request: function(event) { event = event||{}, event = event._event||event
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg
 			function set(key, value) { msg.Option(key) || value == "" || msg.Option(key, value) }
 
@@ -345,10 +346,10 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 		},
 
 		actions: function(event, button) { can.run(event, [ctx.ACTION, button], null, true) },
-		runAction: function(event, action, args, cb) { can.request(event, {_handle: ice.TRUE}, can.Option())
+		runAction: function(event, action, args, cb, silent) { can.request(event, {_handle: ice.TRUE}, can.Option())
 			can.run(event, can.misc.concat(can, [ctx.ACTION, action], args), cb||function(msg) {
 				can.user.toastSuccess(can, action)
-			}, true)
+			}, silent)
 		},
 
 		search: function(event, cmds, cb) {
@@ -359,11 +360,11 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 		},
 		get: function(name, key, cb) { return can.search({}, [can.core.Keys(name, chat.ONEXPORT, key)], cb) },
 		set: function(name, key, value) { var msg = can.request({}); msg.Option(key, value)
-			return can.search(msg._event, [[name, chat.ONIMPORT, key]])
+			return can.search(msg, [[name, chat.ONIMPORT, key]])
 		},
 		setHeaderMenu: function(list, cb) { can._menu && can.page.Remove(can, can._menu)
 			var msg = can.request({}, {trans: can.onaction._trans})
-			return can._menu = can.search(msg._event, [["Header", chat.ONIMPORT, "menu"], can._name].concat(list), cb)
+			return can._menu = can.search(msg, [["Header", chat.ONIMPORT, "menu"], can._name].concat(list), cb)
 		},
 		setHeader: function(key, value) { return can.set("Header", key, value) },
 		getHeader: function(key, cb) { return can.get("Header", key, cb) },

@@ -36,21 +36,21 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, args, cb) { var
 			show(msg)
 		},
 		nfs.TAGS, function(cmds) { msg.Option(kit.Dict(ice.MSG_HANDLE, ice.TRUE, ice.MSG_FIELDS, "file,line,text"))
-			can.run(msg._event, [ctx.ACTION, mdb.SEARCH, can.parse, cmds[0], can.Option(nfs.PATH)], function(msg) { var sub = msg._can
+			can.run(msg, [ctx.ACTION, mdb.SEARCH, can.parse, cmds[0], can.Option(nfs.PATH)], function(msg) { var sub = msg._can
 				can.page.style(can, sub._output, html.MAX_HEIGHT, can.ConfHeight()/4), show(msg, msg._word = cmds[0])
 				can.page.ClassList.has(sub, sub._target, html.SELECT) || sub._legend.click()
 				can.onmotion.focus(can, msg._can._inputs["word"]._target)
 			}, true)
 		},
 		nfs.GREP, function(cmds) { msg.Option(kit.Dict(ice.MSG_HANDLE, ice.TRUE, ice.MSG_FIELDS, "file,line,text", nfs.PATH, can.Option(nfs.PATH)))
-			can.run(msg._event, [ctx.ACTION, nfs.GREP, cmds[0]], function(msg) { var sub = msg._can
+			can.run(msg, [ctx.ACTION, nfs.GREP, cmds[0]], function(msg) { var sub = msg._can
 				can.page.style(can, sub._output, html.MAX_HEIGHT, can.ConfHeight()/4), show(msg, msg._word = cmds[0])
 				can.page.ClassList.has(sub, sub._target, html.SELECT) || sub._legend.click()
 				can.onmotion.focus(can, msg._can._inputs["word"]._target)
 			}, true)
 		},
 		"last", function(cmds) { history.pop(), show(history.pop()) },
-	))) { return } can.run(msg._event, cmds, function(msg) { show(msg) }, true) }))
+	))) { return } can.run(msg, cmds, function(msg) { show(msg) }, true) }))
 	can.onimport.toolkit(can, {index: SEARCH}, function(sub) {
 		can.ui.search = sub, can.base.isFunc(cb) && cb(sub)
 		can.ui.search._show = show

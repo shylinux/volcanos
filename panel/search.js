@@ -27,7 +27,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		})
 
 		can.onengine.signal(can, chat.ONSEARCH, res)
-		can.run(res._event, cmds, function(res) { can.onimport._init(can, res, fields) })
+		can.run(res, cmds, function(res) { can.onimport._init(can, res, fields) })
 		can.onmotion.show(can), can.onmotion.focus(can, can.ui.word)
 	},
 

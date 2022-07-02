@@ -7,10 +7,10 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 	_location: function(can, msg, _arg) { location.href = _arg; return true },
 	_replace: function(can, msg, _arg) { location.replace(_arg); return true },
 	_history: function(can, msg) { history.back(); return true },
-	_confirm: function(can, msg, _arg) { can.user.confirm(_arg) && can.runAction(can.request({}, msg)._event, "confirm"); return true },
+	_confirm: function(can, msg, _arg) { can.user.confirm(_arg) && can.runAction(can.request({}, msg), "confirm"); return true },
 	_refresh: function(can, msg) {
 		can.core.Timer(parseInt(msg.Option("_delay")||"500"), function() {
-			can.Update(can.request({}, {_count: parseInt(msg.Option("_count"))-1})._event)
+			can.Update(can.request({}, {_count: parseInt(msg.Option("_count"))-1}))
 		})
 		return true
 	},
@@ -90,23 +90,21 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 })
 Volcanos("onaction", {help: "交互操作", list: [
 		"刷新数据", "切换全屏", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", [
-			"其它", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除工具",
+			"其它", "刷新页面", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除工具",
 		],
 	], _init: function(can, msg, list, cb, target) {},
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input([], true))) },
 
 	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
 	"切换全屏": function(event, can) { var sub = can._outputs[can._outputs.length-1]
-		if (can.page.ClassList.neg(can, can._target, "Full")) {
-			sub._height_bak = sub.ConfHeight(), sub._width_bak = sub.ConfWidth()
-			var height = window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT
-			can.user.isMobile && (height -= 2*html.ACTION_HEIGHT)
+		if (can.page.ClassList.neg(can, can._target, "Full")) { sub._height_bak = sub.ConfHeight(), sub._width_bak = sub.ConfWidth()
+			var height = window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT; can.user.isMobile && (height -= 2*html.ACTION_HEIGHT)
 			can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight(height), html.MIN_WIDTH, sub.ConfWidth(window.innerWidth))
 			can.core.CallFunc([sub, "onimport.layout"], {can: sub})
 		} else {
 			sub.ConfHeight(sub._height_bak), sub.ConfWidth(sub._width_bak)
-			can.core.CallFunc([sub, "onimport.layout"], {can: sub})
 			can.page.style(can, can._output, html.HEIGHT, "", html.MIN_WIDTH, "")
+			can.core.CallFunc([sub, "onimport.layout"], {can: sub})
 		}
 	},
 	"共享工具": function(event, can) { var meta = can.Conf()
@@ -133,6 +131,9 @@ Volcanos("onaction", {help: "交互操作", list: [
 	},
 	"生成图片": function(event, can) { can.onmotion.toimage(event, can, can._name) },
 
+	"刷新页面": function(event, can) { var sub = can.core.Value(can._outputs, "-1")
+		can.core.CallFunc([sub, chat.ONIMPORT, "_init"], {can: sub, msg: sub._msg, cb: function(msg) {}, target: can._output})
+	},
 	"清空参数": function(event, can) { can.page.SelectArgs(can, can._option, "", function(item) { return item.value = "" }) },
 	"扩展参数": function(event, can) { can.onmotion.toggle(can, can._action) },
 	"复制数据": function(event, can) { can.user.copy(event, can, can.onexport.table(can)||can.onexport.board(can)) },
@@ -146,10 +147,6 @@ Volcanos("onaction", {help: "交互操作", list: [
 
 	"保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
 	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
-	"刷新页面": function(event, can) { var sub = can.core.Value(can._outputs, "-1"), msg = sub._msg
-		can.core.CallFunc([sub, chat.ONIMPORT, "_init"], {can: sub, msg: msg, list: msg.result||msg.append||[], cb: function(msg) {
-		}, target: can._output})
-	},
 
 	"摄像头": function(event, can) {
 		var constraints = {audio: false, video: {width: 200, height: 200}}
@@ -177,10 +174,12 @@ Volcanos("onaction", {help: "交互操作", list: [
 		})
 	},
 
-	actions: function(event, can) { can.onmotion.toggle(can, can._action) },
 	clear: function(event, can, name) { can.onmotion.clear(can, can._output) },
 	close: function(event, can) { can.page.Remove(can, can._target) },
 	upload: function(event, can) { can.user.upload(event, can) },
+	actions: function(event, can) { can.onmotion.toggle(can, can._action) },
+	next: function(event, can) { can.Update(event, [ctx.ACTION, mdb.NEXT, can.Status(mdb.TOTAL)||0, can.Option(mdb.LIMIT)||can.Action(mdb.LIMIT)||"", can.Option(mdb.OFFEND)||can.Action(mdb.OFFEND)||""]) },
+	prev: function(event, can) { can.Update(event, [ctx.ACTION, mdb.PREV, can.Status(mdb.TOTAL)||0, can.Option(mdb.LIMIT)||can.Action(mdb.LIMIT)||"", can.Option(mdb.OFFEND)||can.Action(mdb.OFFEND)||""]) },
 	change: function(event, can, name, value, cb) {
 		return can.page.SelectArgs(can, can._option, "", function(input) {
 			if (input.name == name && value != input.value) { input.value = value
@@ -190,36 +189,19 @@ Volcanos("onaction", {help: "交互操作", list: [
 		})
 	},
 
-	next: function(event, can) {
-		can.Update(event, [ctx.ACTION, "next", can.Status("total")||0, can.Option("limit")||can.Action("limit")||"", can.Option("offend")||can.Action("offend")||""])
-	},
-	prev: function(event, can) {
-		can.Update(event, [ctx.ACTION, "prev", can.Status("total")||0, can.Option("limit")||can.Action("limit")||"", can.Option("offend")||can.Action("offend")||""])
-	},
-
-	getClipboardData: function(event, can, button) {
-		function add(text) {
-			can.run(event, can.base.Simple(ctx.ACTION, button, can.base.ParseJSON(text)), function(msg) {
-				can.user.toastSuccess(can), can.Update()
-			}, true)
-		}
-		if (navigator.clipboard) {
-			navigator.clipboard.readText().then(add).catch(function(err) { can.misc.Log(err) })
-		} else {
-			can.user.input(event, can, [{type: html.TEXTAREA, name: mdb.TEXT}], function(ev, button, data, list, args) { add(list[0]) })
-		}
-	},
+	openLocation: function(event, can) { can.user.agent.openLocation(can.request(event)) },
 	getLocation: function(event, can, button) {
 		can.user.agent.getLocation(function(data) { can.request(event, data)
 			can.user.input(event, can, [mdb.TYPE, mdb.NAME, mdb.TEXT, "latitude", "longitude"], function(ev, bu, data, list, args) {
-				can.run(event, [ctx.ACTION, button].concat(can.base.Simple(args, data)), function(msg) {
-					can.user.toastSuccess(can), can.Update()
-				}, true)
+				can.run(event, [ctx.ACTION, button].concat(can.base.Simple(args, data)), function(msg) { can.user.toastSuccess(can, button) }, true)
 			})
 		})
 	},
-	openLocation: function(event, can) { can.user.agent.openLocation(can.request(event)) },
-
+	getClipboardData: function(event, can, button) {
+		function add(text) { can.run(event, can.base.Simple(ctx.ACTION, button, can.base.ParseJSON(text)), function(msg) { can.user.toastSuccess(can, button) }, true) }
+		navigator.clipboard? navigator.clipboard.readText().then(add).catch(function(err) { can.misc.Log(err) }):
+			can.user.input(event, can, [{type: html.TEXTAREA, name: mdb.TEXT}], function(ev, button, data, list, args) { add(list[0]) })
+	},
 })
 Volcanos("onexport", {help: "导出数据", list: [], 
 	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return }
@@ -228,7 +210,5 @@ Volcanos("onexport", {help: "导出数据", list: [],
 		})
 		return res.join(ice.NL)
 	},
-	board: function(can) { var msg = can._msg
-		return msg.Result()
-	},
+	board: function(can) { var msg = can._msg; return msg.Result() },
 })

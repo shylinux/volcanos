@@ -170,7 +170,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 				}}, {view: html.LIST}]); list = ui.list
 				if (index > 0) { ui.item.click() }
 			}
-			can.run(can.request({}, {dir_root: path, dir_deep: true})._event, [ice.PWD], function(msg) { can._file = msg.Table()
+			can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { can._file = msg.Table()
 				can.core.List(can._file, function(item) { if (can.Option(nfs.FILE).indexOf(item.path) == 0) { item.expand = true } })
 				can.onappend.tree(can, can._file, nfs.PATH, ice.PS, function(event, item) {
 					can.onimport.tabview(can, path, item.path)
@@ -178,7 +178,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 			}, true)
 		}, function() { can.base.isFunc(cb) && cb() })
 
-		can.run(can.request({}, {fields: "index"})._event, [ctx.ACTION, ctx.COMMAND, "search", "command"], function(msg) {
+		can.run(can.request({}, {fields: "index"}), [ctx.ACTION, ctx.COMMAND, "search", "command"], function(msg) {
 			can.onappend.tree(can, msg.Table(), ctx.INDEX, ice.PT, function(event, item) {
 				can.onimport.tabview(can, can.Option(nfs.PATH), item.index, ctx.INDEX)
 			}, project.module)

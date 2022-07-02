@@ -186,7 +186,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 		can.Conf(chat.TOOL)? can.core.Next(can.Conf(chat.TOOL), function(item, next) {
 			can.onimport._cmd(can, item, next)
 
-		}): can.run(can.request()._event, [ctx.ACTION, ctx.COMMAND], function(msg) {
+		}): can.run(can.request(), [ctx.ACTION, ctx.COMMAND], function(msg) {
 			can.core.Next(msg.Table(), function(item, next) {
 				can.onimport._cmd(can, item, next)
 			})

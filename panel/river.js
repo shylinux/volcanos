@@ -222,19 +222,19 @@ Volcanos("ondetail", {help: "菜单交互",
 	},
 	"重命名群组": function(event, can, button, river) {
 		can.user.input(event, can, [mdb.NAME], function(event, button, meta, list) {
-			can.run(can.request(event, {hash: river})._event, [ctx.ACTION, mdb.MODIFY, mdb.NAME, meta.name], function(msg) {
+			can.run(can.request(event, {hash: river}), [ctx.ACTION, mdb.MODIFY, mdb.NAME, meta.name], function(msg) {
 				can.misc.Search(can, {river: river})
 			})
 		})
 	},
 	"删除群组": function(event, can, button, river) {
-		can.run(can.request(event, {hash: river})._event, [ctx.ACTION, mdb.REMOVE], function(msg) { can.misc.Search(can, {}) })
+		can.run(can.request(event, {hash: river}), [ctx.ACTION, mdb.REMOVE], function(msg) { can.misc.Search(can, {}) })
 	},
 
 	"保存参数": function(event, can, button, river, storm) {
 		can.getAction(ctx.ARGS, function(item, next, index, array) { var msg = can.request({}, {hash: storm, id: item.dataset.id})
 			var toast = can.user.toast(can, (index+1)+ice.PS+array.length, button, 10000, (index+1)*100/array.length)
-			can.run(msg._event, [river, chat.STORM, ctx.ACTION, mdb.MODIFY, ice.ARG, item.dataset.args], function(msg) {
+			can.run(msg, [river, chat.STORM, ctx.ACTION, mdb.MODIFY, ice.ARG, item.dataset.args], function(msg) {
 				can.core.Timer(200, function() {
 					toast.close(), next(), index == array.length-1 && can.user.toastSuccess(can, button)
 				})
@@ -243,13 +243,13 @@ Volcanos("ondetail", {help: "菜单交互",
 	},
 	"重命名应用": function(event, can, button, river, storm) {
 		can.user.input(event, can, [mdb.NAME], function(ev, button, meta, list, args) {
-			can.run(can.request(event, {hash: storm})._event, [river, chat.STORM, ctx.ACTION, mdb.MODIFY].concat(args), function(msg) {
+			can.run(can.request(event, {hash: storm}), [river, chat.STORM, ctx.ACTION, mdb.MODIFY].concat(args), function(msg) {
 				can.misc.Search(can, {river: river, storm: storm})
 			})
 		})
 	},
 	"删除应用": function(event, can, button, river, storm) {
-		can.run(can.request(event, {hash: storm})._event, [river, chat.STORM, ctx.ACTION, mdb.REMOVE], function(msg) {
+		can.run(can.request(event, {hash: storm}), [river, chat.STORM, ctx.ACTION, mdb.REMOVE], function(msg) {
 			can.misc.Search(can, {river: river})
 		})
 	},

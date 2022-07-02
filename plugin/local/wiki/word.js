@@ -134,7 +134,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 
 			can.core.Value(item, "auto.cmd") && can.core.Timer300ms(function() {
 				var msg = sub.request({}, can.core.Value(item, "opts")); msg.Option(ice.MSG_HANDLE, ice.TRUE)
-				sub.Update(msg._event, [ctx.ACTION, can.core.Value(item, "auto.cmd")])
+				sub.Update(msg, [ctx.ACTION, can.core.Value(item, "auto.cmd")])
 			})
 		}, can._output, target)
 	},

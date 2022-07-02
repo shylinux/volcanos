@@ -198,6 +198,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 	_action: function(can, list, action, meta) {
 		list = can.base.getValid(list, can.core.Item(meta))
 		list = can.base.Obj(list, can.core.Value(can, [chat.ONACTION, mdb.LIST]))
+		if (!list) { return }
 		var _list = []; for (var i = 0; i < list.length; i++) {
 			switch (list[i]) { case "": _list.push(""); break
 				case mdb.PAGE:
@@ -220,7 +221,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 					}) ()
 			}
 		}
-		meta = meta||can.onaction, action = action||can._action, can.onmotion.clear(can, action)
+		meta = meta||can.onaction||{}, action = action||can._action, can.onmotion.clear(can, action)
 		return can.core.List(_list, function(item) { if (item == undefined) { return } can.onappend.input(can, item == ""? /*空白*/ {type: html.SPACE}:
 			can.base.isString(item)? /*按键*/ {type: html.BUTTON, value: can.user.trans(can, item), onclick: function(event) {
 				var cb = meta[item]||meta["_engine"]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
@@ -271,13 +272,13 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 			var process = msg._can == can || msg._can == sub
 			if (process && can.core.CallFunc([sub, chat.ONIMPORT, ice.MSG_PROCESS], {can: sub, msg: msg})) { return }
 			if (process && can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
-			!silent && can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)||meta.display||meta.feature.display)
+			!silent && can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)||meta.display||meta.feature.display, can._output, can._action)
 		})
 	},
 	_output: function(can, msg, display, output, action, cb) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
 		Volcanos(display, {_follow: can.core.Keys(can._follow, display), _display: display, _target: output, _fields: can._target,
 			_option: can._option, _action: can._action, _output: can._output, _status: can._status, _legend: can._legend, _inputs: {},
-			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
+			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status, _root: can._root,
 		}, [display, chat.PLUGIN_TABLE_JS], function(table) { table.Conf(can.Conf())
 			table.run = function(event, cmds, cb, silent) { var msg = can.request(event)
 				if (msg.RunAction(event, table, cmds)) { return }
@@ -423,7 +424,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 
 			}, ondblclick: function(event) { if ([mdb.KEY].indexOf(key) > -1) { return }
 				var item = can.core.List(can.Conf("feature.insert"), function(item) { if (item.name == key) { return item } })[0]||{name: key, value: value}
-				item.run = function(event, cmds, cb) { can.run(can.request(event, line)._event, cmds, cb, true) }
+				item.run = function(event, cmds, cb) { can.run(can.request(event, line), cmds, cb, true) }
 				can.onmotion.modifys(can, event.target, function(event, value, old) { run([ctx.ACTION, mdb.MODIFY, key, value]) }, item)
 			}}
 		}); table && can.page.Modify(can, table, {className: chat.CONTENT})
@@ -665,7 +666,7 @@ Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta,
 					}
 				}
 				can.base.isFunc(cbs) && cbs(sub, meta, skip)
-			}, target): /* 后端命令 */ can.run(can.request({}, meta)._event, [ctx.ACTION, ctx.COMMAND, meta.index], function(msg) { msg.Table(function(value) {
+			}, target): /* 后端命令 */ can.run(can.request({}, meta), [ctx.ACTION, ctx.COMMAND, meta.index], function(msg) { msg.Table(function(value) {
 				can.onappend._plugin(can, value, meta, cbs, target)
 			}) }, true)
 		return res
@@ -903,7 +904,7 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 	},
 	share: function(event, can, input, args) {
 		return can.user.input(event, can, input, function(ev, button, data, list, _args) {
-			can.search(can.request(event, {args: [mdb.TYPE, chat.FIELD].concat(args||[], _args||[])})._event, [["Header", chat.ONACTION, web.SHARE]])
+			can.search(can.request(event, {args: [mdb.TYPE, chat.FIELD].concat(args||[], _args||[])}), [["Header", chat.ONACTION, web.SHARE]])
 		})
 	},
 

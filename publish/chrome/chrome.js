@@ -38,7 +38,7 @@ Volcanos({
             var msg = can.request({}, {tid: sender.tab.id, url: sender.url})
             can.core.List(req.option, function(key) { msg.Option(key, req[key][0]) })
             msg.__daemon = can.core.Keys(html.CHROME, sender.tab.id)
-            can.run(msg._event, req.detail||[], cb)
+            can.run(msg, req.detail||[], cb)
             return true
         })
         chrome.history.onVisited.addListener(function(item) {
