@@ -29,4 +29,3 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, meta,
 		} can.onkeymap.prevent(event)
 	},
 })
-

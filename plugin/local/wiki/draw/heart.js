@@ -57,4 +57,3 @@ Volcanos("heart", {help: "心形", list: [],
         return "heart " + target.Value("tt")
     },
 })
-

@@ -58,4 +58,3 @@ Volcanos("onaction", {help: "组件菜单", list: ["展开", "折叠", "复制"]
 	},
 })
 Volcanos("onexport", {help: "导出数据", list: []})
-

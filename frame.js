@@ -117,7 +117,7 @@ Volcanos("ondaemon", {help: "推荐引擎", list: [], _init: function(can, name)
 	exit: function(can, msg, sub) { can.user.close() },
 	refresh: function(can, msg, sub) { sub.Update() },
 	pwd: function(can, msg, arg) { can.ondaemon._list[0] = arg[0] },
-	grow: function(can, msg, sub, arg) { sub.onimport._grow(sub, can.page.Color(arg.join(""))) },
+	grow: function(can, msg, sub, arg) { sub.onimport._grow(sub, msg, can.page.Color(arg.join(""))) },
 	toast: function(can, msg, arg) { can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}) },
 })
 Volcanos("onappend", {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) {
@@ -964,10 +964,14 @@ Volcanos("onmotion", {help: "动态特效", list: [], _init: function(can, targe
 		}}])
 	},
 	toimage: function(event, can, name, target) {
-		can.user.input(event, can, [{name: "name", value: name}], function(ev, button, data) {
-			can.require(["https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"], function() {
-				html2canvas(target||can._target).then(function (canvas) {
-					can.page.Create(can, html.A, {href: canvas.toDataURL("image/png"), download: data.name}).click()
+		can.require(["https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"], function() {
+			html2canvas(target||can._target).then(function (canvas) { var url = canvas.toDataURL("image/png")
+				var toast = can.user.toast(can, {content: {img: url, style: {"max-height": 240, display: "block"}}, duration: -1,
+					action: shy({}, [cli.CLOSE, "download"], function(event, button) {
+						can.user.input(event, can, [{name: "name", value: name}], function(ev, button, data) { toast.close()
+							can.page.Create(can, html.A, {href: url, download: data.name}).click()
+						})
+					}),
 				})
 			})
 		})
@@ -1175,4 +1179,4 @@ Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: functio
 	cursorMove: function(can, target, count, begin) { begin != undefined && target.setSelectionRange(begin, begin)
 		target.setSelectionRange(target.selectionStart+count, target.selectionStart+count)
 	},
-}); _can_name = ""
+})

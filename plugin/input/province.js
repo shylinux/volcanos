@@ -6,4 +6,3 @@ Volcanos("onfigure", {help: "控件详情", list: [], province: {onclick: functi
 		}), can.Status(mdb.TOTAL, 34), can.onlayout.figure(event, can), can.base.isFunc(cbs) && cbs(can)
 	})
 }) }}, })
-

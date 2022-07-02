@@ -134,4 +134,3 @@ Volcanos("ondetail", {help: "用户交互", list: [],
 	onmouseenter: function(event, can, line) { can.Status(line, ["date", "text", "add", "del"]) },
 })
 Volcanos("onexport", {help: "导出数据", list: []})
-

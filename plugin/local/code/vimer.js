@@ -205,7 +205,7 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 		can.onaction._runs(event, can, button)
 	},
 	publish: function(event, can, button) {
-		can.runAction(event, button, [], function(msg) { can.user.toastConfirm(can, button, msg.Result()) })
+		can.runAction(event, button, [], function(msg) { can.user.toastConfirm(can, msg.Result(), button) })
 	},
 
 	listTags: function(event, can, button) { var list = []
@@ -336,4 +336,3 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 	},
 })
 Volcanos("onexport", {help: "导出数据", list: ["文件数", "模式", "按键", "解析器", "文件名", "当前行", "跳转数"]})
-

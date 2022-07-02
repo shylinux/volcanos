@@ -242,12 +242,14 @@ var html = {
 	HIDE: "hide",
 	LAYOUT: "layout",
 	PLUGIN: "plugin",
+	DIV_CODE: "div.code",
 	DIV_PAGE: "div.page",
 	DIV_LIST: "div.list",
 	DIV_ITEM: "div.item",
 	DIV_LAYOUT_HEAD: "div.layout.head",
 	DIV_LAYOUT_LEFT: "div.layout.left",
 	DIV_LAYOUT_FOOT: "div.layout.foot",
+	TABLE_CONTENT: "table.content",
 
 	ESCAPE: "Escape", ENTER: "Enter", TAB: "Tab",
 	ONMOUSEENTER: "onmouseenter",
@@ -261,6 +263,7 @@ var lang = {
 	CONTROL: "Control", SHIFT: "Shift",
 	PS: "/",
 }
+
 function shy(help, meta, list, cb) {
 	var index = 0, args = arguments; function next(type) {
 		if (index < args.length && (!type || type == typeof args[index])) { return args[index++] }
@@ -286,12 +289,9 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 		// 根模块
 		_can_name = "", name = Config.name||"chat", cb = can||function(can) {
 			can.onengine._init(can, can.Conf(Config), Config.panels, Config._init, can._target)
-		}, can = {
-			_follow: name, _target: Config.target||meta.target,
-			_height: Config.height||window.innerHeight,
-			_width: Config.width||window.innerWidth,
-		}, can._root = can
+		}, can = {_follow: name, _target: Config.target||meta.target, _height: Config.height||window.innerHeight, _width: Config.width||window.innerWidth}
 		for (var k in Config) { can[k] = Config[k] }
+		can._root = can
 	}
 
 	var proto = {__proto__: meta, _path: _can_path, _name: name, _load: function(name, each) {
@@ -337,6 +337,8 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 			// 添加参数
 			can.core.List(arguments, function(option, index) { if (!option || index == 0) { return } 
 				can.base.isFunc(option.Option)? can.core.List(option.Option(), function(key) {
+					if (key.indexOf("user.") == 0) { return }
+					if (key.indexOf("_") == 0) { return }
 					set(key, option.Option(key))
 				}): can.core.Item(can.base.isFunc(option)? option(): option, set)
 			}); return msg
@@ -441,6 +443,7 @@ try { if (typeof(global) == lang.OBJECT) {
 		})
 	})
 } else {
+	Volcanos.meta.target = document.body
 	Volcanos.meta._load = function(url, cb) {
 		switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
 			case nfs.CSS:
@@ -454,5 +457,4 @@ try { if (typeof(global) == lang.OBJECT) {
 				return document.body.appendChild(item), item
 		}
 	}
-	Volcanos.meta.target = document.body
 } } catch (e) { console.log(e) }

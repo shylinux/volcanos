@@ -1,36 +1,28 @@
 Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf, list, cb, target) {},
 	_process: function(can, msg) {
 		msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, can.base.Obj(msg.OptionStatus()))
-		return can.core.CallFunc([can.onimport, msg.OptionProcess()], [can, msg])
+		return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, msg: msg})
 	},
 
-	_confirm: function(can, msg, _arg) { var sub = can.request({}, can.Option())
-		if (can.user.confirm(_arg)) { can.run(sub._event, [ctx.ACTION, "confirm"], function() {}, true) }
+	_location: function(can, msg, _arg) { location.href = _arg; return true },
+	_replace: function(can, msg, _arg) { location.replace(_arg); return true },
+	_history: function(can, msg) { history.back(); return true },
+	_confirm: function(can, msg, _arg) { can.user.confirm(_arg) && can.runAction(can.request({}, msg)._event, "confirm"); return true },
+	_refresh: function(can, msg) {
+		can.core.Timer(parseInt(msg.Option("_delay")||"500"), function() {
+			can.Update(can.request({}, {_count: parseInt(msg.Option("_count"))-1})._event)
+		})
+		return true
 	},
-	_location: function(can, msg) { location.href = msg._arg[0] },
-	_replace: function(can, msg) { location.replace(msg._arg[0]) },
-	_history: function(can, msg) { history.back() },
 	_rewrite: function(can, msg) {
 		for (var i = 0; i < msg._arg.length; i += 2) {
 			can.Option(msg._arg[i], msg._arg[i+1])
 			can.Action(msg._arg[i], msg._arg[i+1])
 		}
-		can.Update()
-		return true
-	},
-	_refresh: function(can, msg) {
-		can.core.Timer(parseInt(msg.Option("_delay")||"500"), function() {
-			var sub = can.request({}, {_count: parseInt(msg.Option("_count"))-1})
-			can.Update()
-		})
-		return true
+		return can.Update()
 	},
 	_display: function(can, msg) {
-		Volcanos("some", {}, [msg.Option(ice.MSG_DISPLAY)].concat(Volcanos.meta.libs, Volcanos.meta.volcano), function(sub) {
-			sub.Conf(can.Conf()), sub.run = can.run
-			sub._option = can._option, sub._action = can._action
-			sub.onimport._init(sub, msg, [], function() {}, can._output)
-		})
+		can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY))
 		return true
 	},
 	_field: function(can, msg) {
@@ -58,129 +50,107 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 		can.onappend.table(can, msg)
 		can.onappend.board(can, msg)
 		can.onmotion.story.auto(can)
-		can.page.Modify(can, can._output, {style: {display: html.BLOCK}})
+		can.page.style(can, can._output, "display", html.BLOCK)
 		return true
 	},
 
-	_open: function(can, msg) {
-		can.user.open(msg.Option("_arg")), can.Update()
-		return true
-	},
 	_hold: function(can, msg) { return true },
-	_back: function(can) {
-		can._history.pop(); for (var his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
+	_back: function(can) { can._history.pop()
+		for (var his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
 			var index = 0
 			can.page.SelectArgs(can, can._option, "", function(item) { item.value = his[index++]||"" })
 			can.page.SelectArgs(can, can._action, "", function(item) { item.value = his[index++]||"" })
-			can.Update()
-			break
+			can.Update(); break
 		}
 		!his && can.Update()
 		return true
 	},
-
-	_grow: function(can, str) {
-		if (can.page.Select(can, can._output, "div.code", function(div) {
-			can.page.Modify(can, div, {style: {"max-height": 400}})
-			can.page.Append(can, div, [{text: [str]}])
+	_rich: function(can, msg, _arg) {
+		if (can.page.Select(can, can._output, [html.TABLE_CONTENT, "tbody"], function(table) {
+			var head = can.page.Select(can, can._output, [html.TABLE_CONTENT, "th"], function(th) { return th.innerText })
+			can.page.Append(can, table, msg.Table(function(value) {
+				return {row: can.core.List(head, function(key) { return value[key] })}
+			}))
+			return true
+		}).length == 0) { can.onappend.table(can, msg) }
+		return true
+	},
+	_grow: function(can, msg, _arg) {
+		if (can.page.Select(can, can._output, html.DIV_CODE, function(div) {
+			can.page.style(can, div, html.MAX_HEIGHT, 400)
+			can.page.Append(can, div, [{text: _arg}])
 			div.scrollBy(0, 10000)
 			return true
-		}).length == 0) {
-			can.onappend.board(can, str)
-		}
+		}).length == 0) { can.onappend.board(can, _arg) }
+		return true
+	},
+	_open: function(can, msg, _arg) {
+		return can.user.open(_arg), can.Update()
 	},
 })
 Volcanos("onaction", {help: "交互操作", list: [
-		"共享工具", "刷新数据", "切换全屏", "打开链接", "生成链接", "生成图片", "生成脚本", [
-			"其它", "扩展参数", "清空参数", "复制数据", "下载数据", "清空数据", "删除工具",
+		"刷新数据", "切换全屏", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", [
+			"其它", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除工具",
 		],
 	], _init: function(can, msg, list, cb, target) {},
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input([], true))) },
 
-	"扩展参数": function(event, can) {
-		can.onmotion.toggle(can, can._action)
+	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
+	"切换全屏": function(event, can) { var sub = can._outputs[can._outputs.length-1]
+		if (can.page.ClassList.neg(can, can._target, "Full")) {
+			sub._height_bak = sub.ConfHeight(), sub._width_bak = sub.ConfWidth()
+			var height = window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT
+			can.user.isMobile && (height -= 2*html.ACTION_HEIGHT)
+			can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight(height), html.MIN_WIDTH, sub.ConfWidth(window.innerWidth))
+			can.core.CallFunc([sub, "onimport.layout"], {can: sub})
+		} else {
+			sub.ConfHeight(sub._height_bak), sub.ConfWidth(sub._width_bak)
+			can.core.CallFunc([sub, "onimport.layout"], {can: sub})
+			can.page.style(can, can._output, html.HEIGHT, "", html.MIN_WIDTH, "")
+		}
 	},
 	"共享工具": function(event, can) { var meta = can.Conf()
 		can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.TOPIC, values: [cli.WHITE, cli.BLACK]}], [
 			mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input([], true)),
 		])
 	},
-	"切换全屏": function(event, can) { var sub = can._outputs[can._outputs.length-1]
-		if (can.page.ClassList.neg(can, can._target, "Full")) {
-			sub._height_bak = sub.ConfHeight(), sub._width_bak = sub.ConfWidth()
-			var height = window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT
-			can.user.isMobile && (height -= 2*html.ACTION_HEIGHT)
-			can.page.style(can, can._output, "height", sub.ConfHeight(height), "min-width", sub.ConfWidth(window.innerWidth))
-			can.core.CallFunc([sub, "onimport.layout"], {can: sub})
-		} else {
-			sub.ConfHeight(sub._height_bak), sub.ConfWidth(sub._width_bak)
-			can.core.CallFunc([sub, "onimport.layout"], {can: sub})
-			can.page.style(can, can._output, "height", "", "min-width", "")
-		}
-	},
-	"打开链接": function(event, can) { var meta = can.Conf()
-		var pre = "/chat/cmd/"; if (can.user.mod.isPod) { pre = "/chat/pod/"+can.misc.Search(can, ice.POD)+"/cmd/" }
-		var args = can.Option(); args._path = pre+(meta.index||can.core.Keys(meta.ctx, meta.cmd))
-		args._path.indexOf("/cmd/web.wiki.word") > -1 && (args = {_path: pre+args.path})
-
+	"打开链接": function(event, can) { var meta = can.Conf(), args = can.Option()
+		args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == "web.wiki.word" && (args.cmd = args.path)
 		can.user.isWeiXin? can.user.jumps(can.misc.MergeURL(can, args)): can.user.open(can.misc.MergeURL(can, args))
 	},
-	"生成链接": function(event, can) { var meta = can.Conf()
-		var pre = "/chat/cmd/"; if (can.user.mod.isPod) { pre = "/chat/pod/"+can.misc.Search(can, ice.POD)+"/cmd/" }
-		var args = can.Option(); args._path = pre+(meta.index||can.core.Keys(meta.ctx, meta.cmd))
-		args._path.indexOf("/cmd/web.wiki.word") > -1 && (args = {_path: pre+args.path})
-		var url = can.misc.MergeURL(can, args)
-		can.user.copy(event, can, url)
-		can.onmotion.share(event, can, [], [mdb.LINK, url])
+	"生成链接": function(event, can) { var meta = can.Conf(), args = can.Option()
+		args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == "web.wiki.word" && (args.cmd = args.path)
+		can.onmotion.share(event, can, [], [mdb.LINK, can.user.copy(event, can, can.misc.MergeURL(can, args))])
 	},
-	"生成图片": function(event, can) { can.onmotion.toimage(event, can, can._name) },
-	// "生成图片": function(event, can) {
-	//     can.user.toPNG(can, "hi.png", can._target.outerHTML, can.Conf(html.HEIGHT), can.Conf(html.WIDTH))
-	// },
-
-	"生成脚本": function(event, can, button) { var conf = can.Conf()
-		var args = can.Input("", true).join(ice.SP); var list = [
-			"export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -fsSL $ctx_dev -o $ctx_temp;"+" source $ctx_temp "+(conf.index||"")+ice.SP+args,
+	"生成脚本": function(event, can) { var conf = can.Conf()
+		var args = can.Input("", true).join(ice.SP), list = [
+			"export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -o $ctx_temp -fsSL $ctx_dev;"+" source $ctx_temp "+(conf.index||"")+ice.SP+args,
 			"ish_sys_dev_run_command "+args, "ish_sys_dev_run_action", "ish_sys_dev_run_source",
 		]
-		var ui = can.user.toast(can, {title: button, duration: -1, width: -300,
-			content: '<div class="story" data-type="spark", data-name="shell">'+
-			'<label>$ </label>'+'<span>'+list.join("</span><br/><label>$ </label><span>")+'</span>'+'</div>',
-			action: [cli.CLOSE],
-		})
-		can.onmotion.story.auto(can, ui._target)
+		can.user.toastScript(can, '<div class="story" data-type="spark", data-name="shell">'+
+			'<label>$ </label>'+'<span>'+list.join("</span><br/><label>$ </label><span>")+'</span>'+'</div>', conf.index+ice.SP+args)
 		can.user.copy(event, can, list[0])
 	},
-	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
-	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
-	"刷新页面": function(event, can) {
-		var sub = can.core.Value(can._outputs, "-1"), msg = sub._msg
-		can.core.CallFunc([sub, chat.ONIMPORT, "_init"], {can: sub, msg: msg, list: msg.result||msg.append||[], cb: function(msg) {
-		}, target: can._output})
-	},
-	"保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
+	"生成图片": function(event, can) { can.onmotion.toimage(event, can, can._name) },
 
-	"清空参数": function(event, can) {
-		can.page.SelectArgs(can, can._option, "", function(item) { return item.value = "" })
-	},
-	"复制数据": function(event, can) { var meta = can.Conf(), msg = can._msg
-		var res = [msg.append && msg.append.join(",")]; msg.Table(function(line, index, array) {
-			res.push(can.core.Item(line, function(key, value) { return value }).join(","))
+	"清空参数": function(event, can) { can.page.SelectArgs(can, can._option, "", function(item) { return item.value = "" }) },
+	"扩展参数": function(event, can) { can.onmotion.toggle(can, can._action) },
+	"复制数据": function(event, can) { can.user.copy(event, can, can.onexport.table(can)||can.onexport.board(can)) },
+	"下载数据": function(event, can) { var meta = can.Conf()
+		can.user.input(event, can, [{name: "filename", value: meta.name}], function(ev, button, data, list) {
+			can.user.downloads(can, can.onexport.table(can), list[0]+".csv")||can.user.downloads(can, can.onexport.board(can), meta.name+".txt")
 		})
-
-		res.length > 1 && can.user.copy(event, can, res.join(ice.SP))
-		msg.result && can.user.copy(event, can, msg.Result())
-	},
-	"下载数据": function(event, can) { var meta = can.Conf(), msg = can._msg
-		var res = [msg.append && msg.append.join(",")]; msg.Table(function(line, index, array) {
-			res.push(can.core.Item(line, function(key, value) { return value }).join(","))
-		})
-
-		res.length > 1 && can.user.downloads(can, res.join("\n"), meta.name+".csv")
-		msg.result && can.user.downloads(can, msg.Result(), meta.name+".txt")
 	},
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
 	"删除工具": function(event, can) { can.page.Remove(can, can._target) },
+
+	"保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
+	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
+	"刷新页面": function(event, can) { var sub = can.core.Value(can._outputs, "-1"), msg = sub._msg
+		can.core.CallFunc([sub, chat.ONIMPORT, "_init"], {can: sub, msg: msg, list: msg.result||msg.append||[], cb: function(msg) {
+		}, target: can._output})
+	},
+
 	"摄像头": function(event, can) {
 		var constraints = {audio: false, video: {width: 200, height: 200}}
 		var ui = can.page.Append(can, can._output, [{view: ctx.ACTION}, {view: "capture", list: [{type: "video", _init: function(item) {
@@ -251,5 +221,14 @@ Volcanos("onaction", {help: "交互操作", list: [
 	openLocation: function(event, can) { can.user.agent.openLocation(can.request(event)) },
 
 })
-Volcanos("onexport", {help: "导出数据", list: []})
-
+Volcanos("onexport", {help: "导出数据", list: [], 
+	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return }
+		var res = [msg.append && msg.append.join(ice.FS)]; msg.Table(function(line, index, array) {
+			res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS))
+		})
+		return res.join(ice.NL)
+	},
+	board: function(can) { var msg = can._msg
+		return msg.Result()
+	},
+})

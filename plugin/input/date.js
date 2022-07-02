@@ -58,4 +58,3 @@ Volcanos("onfigure", {help: "控件详情", list: [], date: {onclick: function(e
 		return now
 	} show(now), can.onlayout.figure(event, can), can.base.isFunc(cbs) && cbs(can)
 })}} }, [""])
-

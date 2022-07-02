@@ -260,4 +260,3 @@ Volcanos("ondetail", {help: "交互操作", list: ["删除"], _init: function(ca
 	"结束": function(event, can) { can.page.Remove(can, can._target) },
 	"删除": function(event, sub) { sub.page.Remove(sub, sub._target) },
 })
-

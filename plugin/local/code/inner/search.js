@@ -56,4 +56,3 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, args, cb) { var
 		can.ui.search._show = show
 	})
 }})
-

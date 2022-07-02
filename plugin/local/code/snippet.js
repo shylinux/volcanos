@@ -29,4 +29,3 @@ Volcanos("onaction", {help: "操作数据", list: [], _init: function(can, msg, 
 })
 Volcanos("onexport", {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) {
 }})
-

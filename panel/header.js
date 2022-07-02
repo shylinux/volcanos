@@ -265,4 +265,3 @@ Volcanos("onexport", {help: "导出数据", list: [],
 	height: function(can) { return can._target.offsetHeight },
 	topic: function(can) { return can._topic },
 })
-

@@ -635,4 +635,3 @@ Volcanos("onexport", {help: "导出数据", list: ["文件数", "解析器", "�
 		return can.page.Select(can, can.ui.content, "td.text", function(item) { return item.innerText }).join(ice.NL)
 	},
 })
-

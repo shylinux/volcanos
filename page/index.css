@@ -102,6 +102,7 @@ body>div.toast div.duration { color:gray; float:right; }
 body>div.toast div.content { text-align:center; }
 body>div.toast div.progress { border:solid 2px green; margin-left:-2px; height:10px; clear:both; }
 body>div.toast div.progress div.current { background-color:red; height:10px; }
+body>div.toast div.action { display:block; }
 
 body>div.carte { background-color:#295b61; color:white; padding:4px; min-width:80px; }
 body>div.carte div.item { padding:3px 12px; }

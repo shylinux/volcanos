@@ -149,4 +149,3 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
         show: function(can, target) { return target.tagName + " " + target.Value("d") },
     },
 })
-

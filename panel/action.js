@@ -214,7 +214,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 	help: function(can, button) { can.user.open("/help/"+button+".shy") },
 	layout: function(can, button, silent) {
 		if (button == "toimage") {
-			can.onmotion.toimage(event, can, document.title, can._output)
+			can.onmotion.toimage(event, can, can.Conf(chat.STORM), can._output)
 			return
 		}
 		can.page.ClassList.del(can, can._target, can.Conf(chat.LAYOUT))
@@ -321,4 +321,3 @@ Volcanos("onexport", {help: "导出数据", list: [],
 		})
 	},
 })
-

@@ -28,4 +28,3 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, args, cb) {
 		}, can.base.isFunc(cb) && cb(sub)
 	})
 }})
-

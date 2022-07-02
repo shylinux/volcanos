@@ -185,4 +185,3 @@ Volcanos("ondetail", {help: "用户交互", list: [],
 		})
 	},
 })
-

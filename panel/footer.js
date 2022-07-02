@@ -110,4 +110,3 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 Volcanos("onexport", {help: "导出数据", list: [],
 	height: function(can) { return can._target.offsetHeight },
 })
-

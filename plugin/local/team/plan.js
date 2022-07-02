@@ -196,4 +196,3 @@ Volcanos("onexport", {help: "导出数据", list: ["count", "begin_time", "zone"
 	title: function(can, task) { return task.zone+": "+(task.type||"") },
 	style: function(can, task) { return ["item", task.status, "id"+task.id, "l"+(task.level||""), "s"+(task.score||"")].join(" ") },
 })
-
