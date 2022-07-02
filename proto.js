@@ -152,7 +152,7 @@ var chat = {
 
 	ONMAIN: "onmain", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
 	ONSIZE: "onsize", ONTOAST: "ontoast", ONREMOTE: "onremote",
-	ONKEYDOWN: "onkeydown",
+	ONKEYDOWN: "onkeydown", ONSTORM_SELECT: "onstorm_select",
 
 	HEAD: "head", LEFT: "left", MAIN: "main", AUTO: "auto", HIDE: "hide", FOOT: "foot",
 	HEADER: "header", FOOTER: "footer", WEBSITE: "website",
@@ -346,10 +346,10 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 		},
 
 		actions: function(event, button) { can.run(event, [ctx.ACTION, button], null, true) },
-		runAction: function(event, action, args, cb, silent) { can.request(event, {_handle: ice.TRUE}, can.Option())
+		runAction: function(event, action, args, cb) { can.request(event, {_handle: ice.TRUE}, can.Option())
 			can.run(event, can.misc.concat(can, [ctx.ACTION, action], args), cb||function(msg) {
 				can.user.toastSuccess(can, action)
-			}, silent)
+			}, true)
 		},
 
 		search: function(event, cmds, cb) {
