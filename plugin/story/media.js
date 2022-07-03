@@ -1,7 +1,7 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
 	can.base.isFunc(cb) && cb(msg)
 }})
-Volcanos("onaction", {help: "操作数据", list: ["打开屏幕", "打开摄像", "打开录音"],
+Volcanos(chat.ONACTION, {help: "操作数据", list: ["打开屏幕", "打开摄像", "打开录音"],
 	_action: function(can, cb) {
 		var ui = can.page.Append(can, can._output, [{view: html.ACTION}, {view: html.OUTPUT, list: [{type: html.VIDEO, style: {width: can.ConfWidth()}, _init: function(item) {
 			can.core.Timer(10, function() { cb(item, ui) })
@@ -46,4 +46,4 @@ Volcanos("onaction", {help: "操作数据", list: ["打开屏幕", "打开摄像
 		})
 	},
 })
-Volcanos("onexport", {help: "导出数据", list: []})
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: []})

@@ -60,8 +60,8 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
             can.page.Modify(can, sub._target, {style: pos})
             can.onmotion.move(can, sub._target, pos, function(target) {
                 can.page.Modify(can, sub._output, {style: {
-                    "max-height": window.innerHeight-target.offsetTop-80,
-                    "max-width": window.innerWidth-target.offsetLeft-20,
+                    "max-height": can._root._height-target.offsetTop-80,
+                    "max-width": can._root._width-target.offsetLeft-20,
                 }})
             })
 

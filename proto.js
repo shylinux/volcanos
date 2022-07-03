@@ -14,6 +14,7 @@ var ice = {
 
 	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", RES: "res",
 	RUN: "run", ERR: "err", OPT: "opt",
+	CAN: "can",
 	PWD: "./",
 
 	MSG_DETAIL: "detail",
@@ -137,9 +138,7 @@ var wiki = {
 var chat = {
 	LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", OUTPUT: "output", STORY: "story", FLOAT: "float",
 	TOAST: "toast", CARTE: "carte", INPUT: "input", UPLOAD: "upload", CONTEXTS: "contexts",
-	LEGNED: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile",
-	ONIMPORT: "onimport", ONACTION: "onaction", ONKEYMAP: "onkeymap", ONEXPORT: "onexport",
 
 	TITLE: "title", TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print",
 	SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field",
@@ -148,19 +147,8 @@ var chat = {
 
 	AGENT: "agent", CHECK: "check", GRANT: "grant",
 	STATE: "state", MENUS: "menus", TRANS: "trans",
-	SSO: "sso",
-
-	ONMAIN: "onmain", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
-	ONSIZE: "onsize", ONTOAST: "ontoast", ONREMOTE: "onremote",
-	ONKEYDOWN: "onkeydown", ONSTORM_SELECT: "onstorm_select",
-
-	HEAD: "head", LEFT: "left", MAIN: "main", AUTO: "auto", HIDE: "hide", FOOT: "foot",
-	HEADER: "header", FOOTER: "footer", WEBSITE: "website",
+	SSO: "sso", WEBSITE: "website",
 	ACTION_LAYOUT_FMT: " fieldset.Action.grid>div.output fieldset.plugin { width:_width; height:_height; } fieldset.Action.grid>div.output fieldset.plugin>div.output { width:_width; height:_height; } ",
-
-	PLUGIN_STATE_JS: "/plugin/state.js",
-	PLUGIN_INPUT_JS: "/plugin/input.js",
-	PLUGIN_TABLE_JS: "/plugin/table.js",
 
 	libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
 	panel_list: [
@@ -185,6 +173,20 @@ var chat = {
 		"/plugin/local/wiki/word.js",
 		"/plugin/local/team/plan.js",
 	],
+	PLUGIN_STATE_JS: "/plugin/state.js",
+	PLUGIN_INPUT_JS: "/plugin/input.js",
+	PLUGIN_TABLE_JS: "/plugin/table.js",
+
+	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
+	ONIMPORT: "onimport", ONSYNTAX: "onsyntax", ONACTION: "onaction", ONDETAIL: "ondetail", ONFIGURE: "onfigure", ONEXPORT: "onexport",
+
+	ONMAIN: "onmain", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
+	ONSIZE: "onsize", ONTOAST: "ontoast", ONREMOTE: "onremote",
+	ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
+	ONSTORM_SELECT: "onstorm_select", ONACTION_TOUCH: "onaction_touch", ONACTION_NOTOOL: "onaction_notool",
+
+	_INIT: "_init", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1",
+	_NAMES: "_names", _TOAST: "_toast",
 }
 var team = {
 	TASK: "task", PLAN: "plan",
@@ -200,18 +202,18 @@ var svg = {
 	PATH2V: "path2v", PATH2H: "path2h",
 }
 var html = {
+	// FIELDSET
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
 	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story",
-
 	FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot",
 	FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main",
 	FIELDSET_AUTO: "fieldset.auto", FIELDSET_FLOAT: "fieldset.float",
-
 	OPTION_ARGS: "select.args,input.args,textarea.args",
 	INPUT_ARGS: "input.args,textarea.args",
 	INPUT_BUTTON: "input[type=button]",
 
+	// HTML
 	UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
 	INPUT: "input", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
 	FORM: "form", FILE: "file", SPACE: "space", CLICK: "click", SUBMIT: "submit", CANCEL: "cancel",
@@ -219,7 +221,9 @@ var html = {
 	TABLE: "table", TBODY: "tbody", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li",
 	A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
 	H1: "h1", H2: "h2", H3: "h3",
+	WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe", CHROME: "chrome",
 
+	// CSS
 	CLASS: "class", FLOAT: "float", CLEAR: "clear", BOTH: "both",
 	BACKGROUND: "background", SELECT: "select", HIDDEN: "hidden",
 	DISPLAY: "display", BLOCK: "block", NONE: "none", FIXED: "fixed",
@@ -230,31 +234,26 @@ var html = {
 	PLUGIN_MARGIN: 10, ACTION_HEIGHT: 29, ACTION_MARGIN: 200,
 	TOGGLE: "toggle",
 
-	WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe", CHROME: "chrome",
-	LIST: "list", ITEM: "item", MENU: "menu", NODE: "node",
-	DIV_ITEM: "div.item", DIV_FLOAT: "div.float",
-	TABS: "tabs", DIV_TABS: "div.tabs",
-	HIDE: "hide", SHOW: "show",
-
-	HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot",
-	TABS: "tabs", MENU: "menu",
+	PAGE: "page", TABS: "tabs",
 	LIST: "list", ITEM: "item",
-	PAGE: "page",
-	HIDE: "hide",
-	LAYOUT: "layout",
-	PLUGIN: "plugin",
-	DIV_CODE: "div.code",
+	MENU: "menu", NODE: "node",
+	HIDE: "hide", SHOW: "show", AUTO: "auto",
+	HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot",
+	LAYOUT: "layout", PLUGIN: "plugin",
+
 	DIV_PAGE: "div.page",
+	DIV_TABS: "div.tabs",
 	DIV_LIST: "div.list",
 	DIV_ITEM: "div.item",
+	DIV_CODE: "div.code",
 	DIV_LAYOUT_HEAD: "div.layout.head",
 	DIV_LAYOUT_LEFT: "div.layout.left",
 	DIV_LAYOUT_FOOT: "div.layout.foot",
 	TABLE_CONTENT: "table.content",
+	DIV_FLOAT: "div.float",
 
 	ESCAPE: "Escape", ENTER: "Enter", TAB: "Tab",
-	ONMOUSEENTER: "onmouseenter",
-	ORIENTATIONCHANGE: "orientationchange"
+	_CSS: ".css", _JS: ".js",
 }
 var lang = {
 	UNDEFINED: "undefined",
@@ -265,31 +264,23 @@ var lang = {
 	PS: "/",
 }
 
-function shy(help, meta, list, cb) {
-	var index = 0, args = arguments; function next(type) {
-		if (index < args.length && (!type || type == typeof args[index])) { return args[index++] }
-	}
-
-	cb = args[args.length-1]||function() {}
-	cb.help = next(lang.STRING)||""
-	cb.meta = next(lang.OBJECT)||{}
-	cb.list = next(lang.OBJECT)||[]
-	return cb
+function shy(help, meta, list, cb) { var index = 0, args = arguments
+	function next(type) { if (index < args.length && (!type || type == typeof args[index])) { return args[index++] } }
+	return cb = args[args.length-1]||function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.OBJECT)||[], cb
 }; var _can_name = "", _can_path = ""
-var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: {}, pack: {}, libs: [], cache: {}}, function(name, can, libs, cb) {
+var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: {}, cache: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list
-	if (typeof name == lang.OBJECT) { var Config = name; Config.plugin = Config.plugin||chat.plugin_list
-		Config.panels = Config.panels||chat.panel_list
+	if (typeof name == lang.OBJECT) { var Config = name, panels = Config.panels||chat.panel_list
 		meta.libs = Config.libs||chat.libs, meta.iceberg = Config.iceberg||meta.iceberg
 
 		// 预加载
-		libs = []; for (var i = 0; i < Config.panels.length; i++) { var panel = Config.panels[i]
-			panel && (libs = libs.concat(panel.list = panel.list||["/panel/"+panel.name+".css", "/panel/"+panel.name+".js"]))
-		}; libs = libs.concat(Config.plugin)
+		libs = []; for (var i = 0; i < panels.length; i++) { var p = panels[i]
+			p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+html._CSS, "/panel/"+p.name+html._JS]))
+		}; libs = libs.concat(Config.plugin||chat.plugin_list)
 
 		// 根模块
-		_can_name = "", name = Config.name||"chat", cb = can||function(can) {
-			can.onengine._init(can, can.Conf(Config), Config.panels, Config._init, can._target)
+		_can_name = "", name = Config.name||ice.CAN, cb = can||function(can) {
+			can.onengine._init(can, can.Conf(Config), panels, Config._init, can._target)
 		}, can = {_follow: name, _target: Config.target||meta.target, _height: Config.height||window.innerHeight, _width: Config.width||window.innerWidth}
 		for (var k in Config) { can[k] = Config[k] }
 		can._root = can
@@ -319,7 +310,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 
 			if (libs[0] == "") {
 				// 样式地址
-				libs[0] = can._name.replace(".js", ".css")
+				libs[0] = can._name.replace(html._JS, html._CSS)
 			} else if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) {
 				// 相对地址
 				libs[0] = can._name.slice(0, can._name.lastIndexOf(ice.PS)+1)+libs[0]
@@ -356,7 +347,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 			if (cmds && typeof cmds == lang.OBJECT && cmds.length > 0 && typeof cmds[0] == lang.OBJECT && cmds[0].length > 0 ) {
 				cmds[0] = cmds[0].join(ice.PT)
 			}
-			return can.run && can.run(event, ["_search"].concat(cmds), cb, true)
+			return can.run && can.run(event, [chat._SEARCH].concat(cmds), cb, true)
 		},
 		get: function(name, key, cb) { return can.search({}, [can.core.Keys(name, chat.ONEXPORT, key)], cb) },
 		set: function(name, key, value) { var msg = can.request({}); msg.Option(key, value)
@@ -396,12 +387,12 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 	}
 
 	if (can._follow) { libs = libs.concat(meta.libs, meta.volcano) }
-	if (libs && libs.length > 0) {
+	if (libs && libs.length > 0) { // 解析参数
 		for (var i = 0; i < libs.length; i++) {
 			if (libs[i] == undefined) {
 
 			} else if (libs[i] == "") {
-				libs[i] = _can_path.replace(".js", ".css")
+				libs[i] = _can_path.replace(html._JS, html._CSS)
 			} else if (libs[i][0] != ice.PS && libs[i].indexOf(ice.HTTP) != 0) {
 				libs[i] = _can_path.slice(0, _can_path.lastIndexOf(ice.PS)+1)+libs[i]
 			}
@@ -410,14 +401,14 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", args: 
 	return can.require(libs, cb), can
 })
 function can(tool) {
-	Volcanos({name: "chat", panels: [
-		{name: "Header", help: "标题栏", pos: chat.HIDE, state: ["usernick"]},
-		{name: "Action", help: "工作台", pos: chat.MAIN, tool: tool},
-		{name: "Search", help: "搜索框", pos: chat.AUTO},
+	Volcanos({panels: [
+		{name: "Header", help: "标题栏", pos: html.HIDE, state: [aaa.USERNICK]},
+		{name: "Action", help: "工作台", pos: html.MAIN, tool: tool},
+		{name: "Search", help: "搜索框", pos: html.AUTO},
 	]})
 }
 
-try { if (typeof(global) == lang.OBJECT) {
+try { if (typeof(global) == lang.OBJECT) { // nodejs
 	global.kit = kit, global.ice = ice
 	global.ctx = ctx, global.cli = cli, global.web = web, global.aaa = aaa
 	global.mdb = mdb, global.ssh = ssh, global.nfs = nfs, global.tcp = tcp
@@ -443,7 +434,7 @@ try { if (typeof(global) == lang.OBJECT) {
 			})
 		})
 	})
-} else {
+} else { // browser
 	Volcanos.meta.target = document.body
 	Volcanos.meta._load = function(url, cb) {
 		switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {

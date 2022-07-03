@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 
 		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
 		if (msg.Length() > 0) { return can.onappend.table(can, msg) }
@@ -26,7 +26,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		nav = nav||can.page.Append(can, can._fields, [{view: wiki.NAVMENU}]).first
 		can.onmotion.clear(can, nav), can._fields.insertBefore(nav, can._output)
 
-		can.onappend.list(can, can.base.Obj(data.data), function(event, item) {
+		can.onimport.list(can, can.base.Obj(data.data), function(event, item) {
 			var link = item.meta.link, list = can.core.Split(item.meta.link)
 			if (can.core.Value(can, list[0])) { return can.core.CallFunc([can, list[0]], list.slice(1)) }
 			if (!link || link == can.Option(nfs.PATH)) { return false }
@@ -142,7 +142,7 @@ Volcanos("onimport", {help: "导入数据", _init: function(can, msg, cb, target
 		can.page.Modify(can, target, {width: can.Conf(html.WIDTH)-200})
 	},
 }, [""])
-Volcanos("onkeymap", {help: "键盘交互", list: [],
+Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [],
 	_mode: {
 		normal: {
 			"n": function(event, can) { can.ondetail.next(can.sub) },
@@ -157,7 +157,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 		},
 	}, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: [],
+Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 	_trans: {view: "视图"},
 	play: function(event, can) { var list = [], current = []
 		can.page.Select(can, can._output, wiki.ITEM, function(item) {
@@ -183,12 +183,12 @@ Volcanos("onaction", {help: "控件交互", list: [],
 			}})), can.onkeymap._build(can)
 
 			sub.page.style(sub, sub._target, html.BACKGROUND, document.body.style.background)
-			sub.page.style(sub, sub._output, html.HEIGHT, window.innerHeight-4*html.PLUGIN_MARGIN-2*html.ACTION_HEIGHT)
-			sub.page.style(sub, sub._output, html.WIDTH, window.innerWidth-4*html.PLUGIN_MARGIN)
+			sub.page.style(sub, sub._output, html.HEIGHT, can._root._height-4*html.PLUGIN_MARGIN-2*html.ACTION_HEIGHT)
+			sub.page.style(sub, sub._output, html.WIDTH, can._root._width-4*html.PLUGIN_MARGIN)
 
 			sub.ui = sub.page.Append(sub, sub._output, [{view: chat.PROJECT}, {view: chat.CONTENT}])
 			can.core.List(sub.list = list, function(page, index) {
-				can.onappend.item(can, html.ITEM, {name: page[0].innerHTML}, function(event) {
+				can.onimport.item(can, html.ITEM, {name: page[0].innerHTML}, function(event) {
 					can.ondetail.show(sub, index) 
 				}, function(event) {}, sub.ui.project)
 
@@ -198,7 +198,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
 						case chat.FIELD: item = can.onappend.field(can, chat.STORY, can.base.Obj(data.meta), sub.ui.content).first; break
 						default: item = item.cloneNode(true)
 					}
-					return can.core.CallFunc([can.onimport, data.type], [sub, data, item, window.innerWidth-4*html.PLUGIN_MARGIN]), item
+					return can.core.CallFunc([can.onimport, data.type], [sub, data, item, can._root._width-4*html.PLUGIN_MARGIN]), item
 				}), }])
 			}), can.onmotion.hidden(can, sub.ui.project), can.ondetail.show(sub, 0) 
 
@@ -216,7 +216,7 @@ Volcanos("onaction", {help: "控件交互", list: [],
 		}
 	},
 })
-Volcanos("ondetail", {help: "交互操作", list: ["删除"], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONDETAIL, {help: "交互操作", list: ["删除"], _init: function(can, msg, list, cb, target) {
 	},
 	show: function(sub, which) { sub.page.Modify(sub, sub.ui.content, {className: chat.CONTENT})
 		sub.page.Select(sub, sub.ui.content, wiki.DIV_PAGE, function(page, index) {

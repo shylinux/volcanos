@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
 		can.page.ClassList.add(can, target, "form")
 		msg.Push("type", "text")
 		msg.Push("name", "name")

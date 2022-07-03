@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
 		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
 		if (msg.Length() == 0) { return }
 		if (msg.Option("branch")) { return can.onappend.table(can, msg) }
@@ -41,7 +41,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.Status({"from": begin, "commit": count, "total": add+del, "max": max})
 	},
 }, [""])
-Volcanos("onaction", {help: "组件菜单", list: ["edit", [ice.VIEW, "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600", "800", "auto"], ["speed", "10", "20", "50", "100"]],
+Volcanos(chat.ONACTION, {help: "组件菜单", list: ["edit", [ice.VIEW, "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600", "800", "auto"], ["speed", "10", "20", "50", "100"]],
 	"edit": function(event, can) { can.onmotion.toggle(can, can._action), can.onmotion.toggle(can, can._status) },
 
 	"趋势图": function(event, can) { var height = can.Action(html.HEIGHT)
@@ -130,7 +130,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["edit", [ice.VIEW, "趋势图
 	height: function(event, can) { can.onaction[can.Action(ice.VIEW)](event, can) },
 	speed: function(event, can) { can.onaction[can.Action(ice.VIEW)](event, can) },
 })
-Volcanos("ondetail", {help: "用户交互", list: [],
+Volcanos(chat.ONDETAIL, {help: "用户交互", list: [],
 	onmouseenter: function(event, can, line) { can.Status(line, ["date", "text", "add", "del"]) },
 })
-Volcanos("onexport", {help: "导出数据", list: []})
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: []})

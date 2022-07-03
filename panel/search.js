@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
 		can.list = msg.Table(), can.onmotion.clear(can, can.ui.content)
 		var table = can.onappend.table(can, msg, function(value, key, index, line, array) { can.Status(mdb.TOTAL, index+1)
 			return {text: [key == mdb.TEXT && can.base.isFunc(line.text) && line.text.help || value, html.TD], onclick: function(event) {
@@ -49,7 +49,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		})
 	},
 })
-Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DONE], _init: function(can, cb, target) {
+Volcanos(chat.ONACTION, {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DONE], _init: function(can, cb, target) {
 		can.onmotion.hidden(can, can._target)
 		can.base.isFunc(cb) && cb()
 	},
@@ -117,7 +117,7 @@ Volcanos("onaction", {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DON
 		}, can.ui.profile)
 	},
 })
-Volcanos("onexport", {help: "导出数据", list: [],
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
 	select: function(can) {
 		return can.page.Select(can, can.ui.display, html.TR, function(tr) {
 			return can.page.Select(can, tr, html.TD, function(td) { return td.innerHTML })

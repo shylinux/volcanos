@@ -1,4 +1,4 @@
-Volcanos("onaction", {source: function(can, msg) {
+Volcanos(chat.ONACTION, {source: function(can, msg) {
 	can.require(["https://res.wx.qq.com/open/js/jweixin-1.6.0.js"], function(can) {
 		wx.config({debug: msg.Option("debug") == ice.TRUE,
 			appId: msg.Option("appid"), signature: msg.Option("signature"),

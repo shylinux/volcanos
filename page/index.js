@@ -1,9 +1,9 @@
 Volcanos({name: "chat", panels: [
-		{name: "Header", help: "标题栏", pos: chat.HEAD, state: ["time", "usernick", "avatar"]},
+		{name: "Header", help: "标题栏", pos: html.HEAD, state: ["time", "usernick", "avatar"]},
 		{name: "River",  help: "群聊组", pos: html.LEFT, action: ["create", "refresh"]},
-		{name: "Action", help: "工作台", pos: chat.MAIN},
-		{name: "Footer", help: "状态条", pos: chat.FOOT, state: ["ncmd"]},
-		{name: "Search", help: "搜索框", pos: chat.AUTO},
+		{name: "Action", help: "工作台", pos: html.MAIN},
+		{name: "Footer", help: "状态条", pos: html.FOOT, state: ["ncmd"]},
+		{name: "Search", help: "搜索框", pos: html.AUTO},
 	], main: {name: "Header", list: []}, river: {
 	product: {name: "产品群", storm: {
 		office: {name: "办公 office",  list: [

@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb) {
 		can.ui = can.onlayout.display(can)
 		can.base.isFunc(cb) && cb(msg)
 
@@ -18,7 +18,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.onaction._compute(event, can)
 	},
 })
-Volcanos("onfigure", {help: "组件菜单", list: [],
+Volcanos(chat.ONFIGURE, {help: "组件菜单", list: [],
 	"求和": function(event, can, res, td, index) {
 		res[index] = parseInt(td.innerText) + (res[index]||0);
 	},
@@ -37,7 +37,7 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
 		}
 	},
 })
-Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "全选", "块选", "反选", "多选", "拖动", "编辑"], ["some", "求和", "最大", "最小", "平均"]],
+Volcanos(chat.ONACTION, {help: "组件菜单", list: ["保存", ["mode", "全选", "块选", "反选", "多选", "拖动", "编辑"], ["some", "求和", "最大", "最小", "平均"]],
 	_compute: function(event, can) {
 		var mul = "tr" + (can.Action("mode") == "全选"? "": ".select")
 		var method = can.onfigure[can.Action("some")], res = {}
@@ -122,7 +122,7 @@ Volcanos("onaction", {help: "组件菜单", list: ["保存", ["mode", "全选", 
 		})
 	},
 })
-Volcanos("ondetail", {help: "组件详情", list: ["复制", "删除"],
+Volcanos(chat.ONDETAIL, {help: "组件详情", list: ["复制", "删除"],
 	"复制": function(event, can, cmd, value, key, index, line) {
 		var end = can.page.Append(can, can.table, [{type: "tr", list: can.core.List(can._msg.append, function(key) {
 			return {text: [line[key], "td"]}
@@ -133,7 +133,7 @@ Volcanos("ondetail", {help: "组件详情", list: ["复制", "删除"],
 		can.page.Remove(can, event.target.parentNode)
 	},
 })
-Volcanos("onexport", {help: "导出数据", list: [],
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
 	file: function(can) {
 		return can.page.Select(can, can.ui.content, "tr", function(tr) {
 			return can.page.Select(can, tr, "th,td", function(td) {return td.innerHTML}).join(",")

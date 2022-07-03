@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
 		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
 		if (msg.Length() == 0) { return }
 
@@ -58,7 +58,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		return tree.meta&&tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW)
 	},
 }, [""])
-Volcanos("onaction", {help: "用户操作", list: ["edit", [ice.VIEW, "横向", "纵向"], "生成图片"],
+Volcanos(chat.ONACTION, {help: "用户操作", list: ["edit", [ice.VIEW, "横向", "纵向"], "生成图片"],
 	"edit": function(event, can) { can.onmotion.toggle(can, can._action), can.onmotion.toggle(can, can._status) },
 
 	"横向": function(event, can) {
@@ -123,7 +123,7 @@ Volcanos("onaction", {help: "用户操作", list: ["edit", [ice.VIEW, "横向", 
 		})
 	},
 })
-Volcanos("ondetail", {help: "用户交互", list: [],
+Volcanos(chat.ONDETAIL, {help: "用户交互", list: [],
 	onmouseenter: function(event, can, tree) { var y = tree.y+tree.height*can.size/2
 		can.page.Remove(can, can.pos), can.pos = can.onimport.draw({}, can, {
 			shape: svg.RECT, point: [

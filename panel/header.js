@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
 		can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)||can.Conf(aaa.USERNICK))
 		can.user.info.usernick = can.Conf(aaa.USERNICK)
 		can.user.info.avatar = msg.Option(aaa.AVATAR)
@@ -142,7 +142,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		}) }]).first
 	},
 })
-Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, target) {
+Volcanos(chat.ONACTION, {help: "交互数据", list: [], _init: function(can, cb, target) {
 		can.base.isFunc(cb) && cb()
 	},
 	_menus: [["setting", chat.BLACK, chat.WHITE, chat.PRINT, "webpack", "toimage", ctx.CONFIG]],
@@ -261,7 +261,7 @@ Volcanos("onaction", {help: "交互数据", list: [], _init: function(can, cb, t
 	clear: function(event, can) { can.onimport.background(event, can, ""), can.onimport.avatar(event, can, ""), can.user.reload(true) },
 	logout: function(event, can) { can.user.logout(can) },
 })
-Volcanos("onexport", {help: "导出数据", list: [],
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
 	height: function(can) { return can._target.offsetHeight },
 	topic: function(can) { return can._topic },
 })

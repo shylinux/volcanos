@@ -1,10 +1,10 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf, list, cb, target) {},
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, meta, cb, target) {},
 	_process: function(can, msg) {
 		msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, can.base.Obj(msg.OptionStatus()))
 		return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, msg: msg})
 	},
 
-	_location: function(can, msg, _arg) { location.href = _arg; return true },
+	_location: function(can, msg, _arg) { can.user.jumps(_arg); return true },
 	_replace: function(can, msg, _arg) { location.replace(_arg); return true },
 	_history: function(can, msg) { history.back(); return true },
 	_confirm: function(can, msg, _arg) { can.user.confirm(_arg) && can.runAction(can.request({}, msg), "confirm"); return true },
@@ -16,24 +16,20 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 	},
 	_rewrite: function(can, msg) {
 		for (var i = 0; i < msg._arg.length; i += 2) {
-			can.Option(msg._arg[i], msg._arg[i+1])
-			can.Action(msg._arg[i], msg._arg[i+1])
+			can.Option(msg._arg[i], msg._arg[i+1]), can.Action(msg._arg[i], msg._arg[i+1])
 		}
 		return can.Update()
 	},
 	_display: function(can, msg) {
-		can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY))
-		return true
+		return can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)), true
 	},
 	_field: function(can, msg) {
 		msg.Table(function(item) { item.type = chat.STORY, can.onappend._plugin(can, item, {type: chat.STORY, arg: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
 			sub.Conf(can.base.Obj(item.conf))
 			if (sub.Conf("mode") == "simple") {
-				var msg = can.request()
-				msg.Echo(sub.Conf("result"))
+				var msg = can.request(); msg.Echo(sub.Conf("result"))
 				sub.Conf(html.HEIGHT, can.Conf(html.HEIGHT)/2)
-				can.onappend._output(sub, msg, msg.Option(ice.MSG_DISPLAY)||sub.Conf("feature.display")||"/plugin/table.js")
-				return
+				return can.onappend._output(sub, msg, msg.Option(ice.MSG_DISPLAY)||sub.Conf("feature.display"))
 			}
 			var opt = can.base.Obj(item[ice.OPT], [])
 			sub.Conf(html.HEIGHT, can.Conf(html.HEIGHT))
@@ -50,7 +46,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 		can.onappend.table(can, msg)
 		can.onappend.board(can, msg)
 		can.onmotion.story.auto(can)
-		can.page.style(can, can._output, "display", html.BLOCK)
+		can.page.style(can, can._output, html.DISPLAY, html.BLOCK)
 		return true
 	},
 
@@ -66,8 +62,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 		return true
 	},
 	_rich: function(can, msg, _arg) {
-		if (can.page.Select(can, can._output, [html.TABLE_CONTENT, "tbody"], function(table) {
-			var head = can.page.Select(can, can._output, [html.TABLE_CONTENT, "th"], function(th) { return th.innerText })
+		if (can.page.Select(can, can._output, [html.TABLE_CONTENT, html.TBODY], function(table) {
+			var head = can.page.Select(can, can._output, [html.TABLE_CONTENT, html.TH], function(th) { return th.innerText })
 			can.page.Append(can, table, msg.Table(function(value) {
 				return {row: can.core.List(head, function(key) { return value[key] })}
 			}))
@@ -88,7 +84,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, conf,
 		return can.user.open(_arg), can.Update()
 	},
 })
-Volcanos("onaction", {help: "交互操作", list: [
+Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		"刷新数据", "切换全屏", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", [
 			"其它", "刷新页面", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除工具",
 		],
@@ -98,14 +94,13 @@ Volcanos("onaction", {help: "交互操作", list: [
 	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
 	"切换全屏": function(event, can) { var sub = can._outputs[can._outputs.length-1]
 		if (can.page.ClassList.neg(can, can._target, "Full")) { sub._height_bak = sub.ConfHeight(), sub._width_bak = sub.ConfWidth()
-			var height = window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT; can.user.isMobile && (height -= 2*html.ACTION_HEIGHT)
-			can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight(height), html.MIN_WIDTH, sub.ConfWidth(window.innerWidth))
-			can.core.CallFunc([sub, "onimport.layout"], {can: sub})
+			var height = can._root._height-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT; can.user.isMobile && (height -= 2*html.ACTION_HEIGHT)
+			can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight(height), html.MIN_WIDTH, sub.ConfWidth(can._root._width))
 		} else {
 			sub.ConfHeight(sub._height_bak), sub.ConfWidth(sub._width_bak)
 			can.page.style(can, can._output, html.HEIGHT, "", html.MIN_WIDTH, "")
-			can.core.CallFunc([sub, "onimport.layout"], {can: sub})
 		}
+		can.core.CallFunc([sub, chat.ONIMPORT, html.LAYOUT], {can: sub})
 	},
 	"共享工具": function(event, can) { var meta = can.Conf()
 		can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.TOPIC, values: [cli.WHITE, cli.BLACK]}], [
@@ -203,7 +198,7 @@ Volcanos("onaction", {help: "交互操作", list: [
 			can.user.input(event, can, [{type: html.TEXTAREA, name: mdb.TEXT}], function(ev, button, data, list, args) { add(list[0]) })
 	},
 })
-Volcanos("onexport", {help: "导出数据", list: [], 
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: [], 
 	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return }
 		var res = [msg.append && msg.append.join(ice.FS)]; msg.Table(function(line, index, array) {
 			res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS))

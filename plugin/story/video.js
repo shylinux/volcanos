@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
 		can.onimport.select(can, msg)
 		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
 		can.onappend.table(can, msg), can.onappend.board(can, msg)
@@ -24,7 +24,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		]))
 	},
 })
-Volcanos("onaction", {help: "控件交互", list: [],
+Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 	next: function(event, can) { var msg = can._msg
 		msg.Table(function(line, index) {
 			if (line.link == location.href) {
@@ -44,4 +44,4 @@ Volcanos("onaction", {help: "控件交互", list: [],
 		})
 	},
 })
-Volcanos("onexport", {help: "导出数据", list: []})
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: []})

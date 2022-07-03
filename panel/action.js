@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg) {
 		var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) {
 			item.height = can.Conf(html.HEIGHT)-can.Conf(html.MARGIN_Y)
@@ -47,8 +47,8 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 			can.search(event, ["Header.onmotion.hidden"])
 			can.search(event, ["Footer.onmotion.hidden"])
 			can.page.ClassList.add(can, can._target, "cmd")
-			can.Conf(html.HEIGHT, window.innerHeight)
-			can.Conf(html.WIDTH, window.innerWidth)
+			can.Conf(html.HEIGHT, can._root._height)
+			can.Conf(html.WIDTH, can._root._width)
 		}
 
 		can.Conf(html.MARGIN_X, 0, html.MARGIN_Y, 2*html.ACTION_HEIGHT)
@@ -59,17 +59,17 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg) 
 	}) },
 	_cmd: function(can, item, next) {
 		can.base.Copy(item, {
-			height: window.innerHeight-can.Conf(html.MARGIN_Y)+(can.user.isWindows? 17: 0),
-			width: window.innerWidth,
+			height: can._root._height-can.Conf(html.MARGIN_Y)+(can.user.isWindows? 17: 0),
+			width: can._root._width,
 			opts: can.misc.Search(can),
 		})
 		can.onappend.plugin(can, item, function(sub, meta, skip) {
-			can.page.style(can, sub._output, html.MAX_WIDTH, window.innerWidth)
+			can.page.style(can, sub._output, html.MAX_WIDTH, can._root._width)
 			can.user.title(meta.name), skip || next()
 		})
 	},
 })
-Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, page, msg, can, cmds, cb) {
+Volcanos(chat.ONENGINE, {help: "解析引擎", list: [], _engine: function(event, page, msg, can, cmds, cb) {
 	var storm = can.core.Value(can._root, can.core.Keys(chat.RIVER, cmds[0], chat.STORM, cmds[1]))
 	if (!storm || cmds.length != 2) { return false }
 
@@ -89,7 +89,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, p
 	}
 	return true
 }})
-Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, target) {
+Volcanos(chat.ONACTION, {help: "交互操作", list: [], _init: function(can, cb, target) {
 		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+2*html.ACTION_HEIGHT+html.ACTION_MARGIN)
 		can.Conf(html.MARGIN_X, 4*html.PLUGIN_MARGIN)
 
@@ -102,17 +102,19 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 
 		can.onengine.plugin(can, "parse", shy("解析", {
 			"show": function(can, msg, cmds) {
-				can.onmotion.hidden(can, can._legend)
-				can.onmotion.hidden(can, can._option)
-				can.onmotion.hidden(can, can._status)
+				can.require(["/plugin/story/parse.js"], function() {
+					can.onmotion.hidden(can, can._legend)
+					can.onmotion.hidden(can, can._option)
+					can.onmotion.hidden(can, can._status)
 
-				can.ConfHeight(can.ConfHeight()+can.Conf(html.MARGIN_Y)-(can.user.isWindows? 17: 0))
+					can.ConfHeight(can.ConfHeight()+can.Conf(html.MARGIN_Y)-(can.user.isWindows? 17: 0))
 
-				can.onengine.listen(can, "menu", function(msg) { can.user.toast(can, msg.Option(html.ITEM)) })
-				can.onengine.listen(can, "高级配置", function(msg) { can.user.toast(can, msg.Option(html.ITEM)) })
-				can.onengine.listen(can, "h1", function(msg) { can.user.toast(can, "h1") })
+					can.onengine.listen(can, "menu", function(msg) { can.user.toast(can, msg.Option(html.ITEM)) })
+					can.onengine.listen(can, "高级配置", function(msg) { can.user.toast(can, msg.Option(html.ITEM)) })
+					can.onengine.listen(can, "h1", function(msg) { can.user.toast(can, "h1") })
 
-				can.onappend.parse(can, can.onappend._parse(can, cmds[0]))
+					can.onappend.parse(can, can.onappend._parse(can, cmds[0]))
+				})
 			},
 		}, ["text", "show:button@auto"], function(msg, cmds, cb) { can.run({}, cmds, cb, true) }))
 
@@ -150,7 +152,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 		can.onengine.plugin(can, "can.code.inner.plugin", shy("插件", {}, [{type: "button", name: "list", action: "auto"}, "back"], function(msg, cmds) {}))
 
 		target.ontouchstart = function(event) {
-			can.onengine.signal(can, "onaction_touch", can.request(event))
+			can.onengine.signal(can, chat.ONACTION_TOUCH, can.request(event))
 		}, can.base.isFunc(cb) && cb()
 	},
 	_menus: [
@@ -203,7 +205,7 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 		}
 
 		can.run({}, [river, storm], function(msg) { if (msg.Length() > 0) { return can.onimport._init(can, msg) }
-			can.onengine.signal(can, "onaction_notool", can.request({}, {river: river, storm: storm}))
+			can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm}))
 		})
 	},
 	onsearch: function(can, msg, word) {
@@ -241,8 +243,8 @@ Volcanos("onaction", {help: "交互操作", list: [], _init: function(can, cb, t
 		can.onlayout._init(can)
 	},
 })
-Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
-		can.onkeymap._build(can), can.onengine.listen(can, "onkeydown", function(msg, model) {
+Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
+		can.onkeymap._build(can), can.onengine.listen(can, chat.ONKEYDOWN, function(msg, model) {
 			can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
 		})
 	},
@@ -278,7 +280,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: [], _focus: [], _init: functio
 		},
 	}, _engine: {},
 })
-Volcanos("onexport", {help: "导出数据", list: [],
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
 	args: function(can, cb, target) {
 		can.core.Next(can.page.Select(can, target, [[html.FIELDSET_PLUGIN, html.FORM_OPTION]]), function(item, next, index, array) {
 			item.dataset.args = JSON.stringify(can.page.Select(can, item, html.OPTION_ARGS, function(item) { return item.value||"" }))
@@ -289,8 +291,8 @@ Volcanos("onexport", {help: "导出数据", list: [],
 		msg.Option(html.TOP, can._target.offsetTop)
 		msg.Option(html.LEFT, can._target.offsetLeft)
 		msg.Option(html.WIDTH, can._target.offsetWidth)
-		if (msg.Option(html.HEIGHT, can._target.offsetHeight-can._action.offsetHeight) > window.innerHeight) {
-			msg.Option(html.HEIGHT, window.innerHeight-2*html.ACTION_HEIGHT)
+		if (msg.Option(html.HEIGHT, can._target.offsetHeight-can._action.offsetHeight) > can._root._height) {
+			msg.Option(html.HEIGHT, can._root._height-2*html.ACTION_HEIGHT)
 		}
 		msg.Option(html.SCROLL, can.user.isMobile? can._target.parentNode.parentNode.scrollTop: can._output.scrollTop)
 		msg.Option(html.MARGIN_X, can.Conf(html.MARGIN_X))

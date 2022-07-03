@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
 		can.onmotion.clear(can), can.river_list = {}, can.storm_list = {}
 		can.onimport._main(can, msg), can.onimport._menu(can, msg)
 
@@ -52,7 +52,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		var show = can.onmotion.toggle(can, can._target); can.onlayout._init(can); return show
 	},
 })
-Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, can, msg, panel, cmds, cb) {
+Volcanos(chat.ONENGINE, {help: "解析引擎", list: [], _engine: function(event, can, msg, panel, cmds, cb) {
 	var list = can._root.river
 	cmds.length == 0 && can.core.ItemSort(list, "order", function(key, value) {
 		if (can.core.Item(value.storm).length == 0) { return }
@@ -64,7 +64,7 @@ Volcanos("onengine", {help: "解析引擎", list: [], _engine: function(event, c
 		msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) // 应用列表
 	}), can.base.isFunc(cb) && cb(msg); return true
 }})
-Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, cb, target) {
+Volcanos(chat.ONACTION, {help: "控件交互", list: [], _init: function(can, cb, target) {
 		can.onmotion.hidden(can, target), can.base.isFunc(cb) && cb()
 	},
 	onlogin: function(can, msg) {
@@ -131,7 +131,7 @@ Volcanos("onaction", {help: "控件交互", list: [], _init: function(can, cb, t
 		can.misc.Search(can, args)
 	},
 })
-Volcanos("ondetail", {help: "菜单交互",
+Volcanos(chat.ONDETAIL, {help: "菜单交互",
 	list: ["共享群组", "添加应用", "添加设备", "添加用户", "重命名群组", "删除群组"],
 	sublist: ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"],
 	_menus: [
@@ -230,7 +230,7 @@ Volcanos("ondetail", {help: "菜单交互",
 		})
 	},
 })
-Volcanos("onexport", {help: "导出数据", list: [],
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
 	width: function(can) { return can._target.offsetWidth },
 	storm: function(can, msg, word) {
 		var fields = (msg.Option(ice.MSG_FIELDS)||"ctx,cmd,type,name,text").split(",")

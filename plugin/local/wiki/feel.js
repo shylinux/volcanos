@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
 		can.path = can.request(), can.list = [], msg.Table(function(value) {
 			value.path.lastIndexOf(ice.PS)==value.path.length-1? can.path.Push(value): can.list.push(value)
 		})
@@ -29,7 +29,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.Status({begin: begin, limit: limit, total: can.list.length})
 	},
 }, ["/plugin/local/wiki/feel.css"])
-Volcanos("onfigure", {help: "组件菜单", list: [],
+Volcanos(chat.ONFIGURE, {help: "组件菜单", list: [],
 	png: function(can, path, index) { return can.onfigure.image(can, path, index) },
 	jpg: function(can, path, index) { return can.onfigure.image(can, path, index) },
 	jpeg: function(can, path, index) { return can.onfigure.image(can, path, index) },
@@ -55,7 +55,7 @@ Volcanos("onfigure", {help: "组件菜单", list: [],
 	m4v: function(can, path) { return can.onfigure.video(can, path) },
 	mov: function(can, path) { return can.onfigure.video(can, path) },
 })
-Volcanos("onaction", {help: "组件菜单", list: [
+Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		["height", 100, 200, 400, 600, 800],
 		["limit", 1, 3, 6, 9, 12, 15, 20, 30],
 		["rate", 0.1, 0.2, 0.5, 1, 2, 3, 5, 10],
@@ -83,7 +83,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
 		}) })
 	},
 })
-Volcanos("ondetail", {help: "组件菜单", list: ["关闭", "下载", "删除", "上一个", "下一个", "设置头像", "设置背景", "复制链接"], _init: function(can, index) {
+Volcanos(chat.ONDETAIL, {help: "组件菜单", list: ["关闭", "下载", "删除", "上一个", "下一个", "设置头像", "设置背景", "复制链接"], _init: function(can, index) {
 		can.onappend._init(can, {type: "story feel float"}, [], function(sub) { can.sub = sub
 			sub.run = function(event, cmds, cb) { return can.run(event, cmds, cb, true) }
 
@@ -117,7 +117,7 @@ Volcanos("ondetail", {help: "组件菜单", list: ["关闭", "下载", "删除",
 		can.user.copy(event, can, can.misc.MergeURL(can, {_path: can.onimport._file(can, can.list[can.order].path)}, true))
 	},
 })
-Volcanos("onexport", {help: "导出数据", list: ["begin", "limit", "total", "position", "file"],
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["begin", "limit", "total", "position", "file"],
 	position: function(can, index, total) { total = total || can.max
 		return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+ice.PS+parseInt(total)
 	},

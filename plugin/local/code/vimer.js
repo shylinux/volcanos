@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
 		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() { can.undo = [], can.redo = []
 			can.onkeymap._build(can), can.onimport._input(can), can.onkeymap._plugin({}, can), can.base.isFunc(cb) && cb(msg)
 
@@ -26,7 +26,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		]); can.ui.current = ui.current, can.ui.complete = ui.complete
 	},
 }, [""])
-Volcanos("onkeymap", {help: "键盘交互", list: [],
+Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [],
 	_model: function(can, value) { can.Status("模式", can.mode = value)
 		can.page.Modify(can, can.ui.current, {className: ["current", can.mode]}), value
 		can.page.Modify(can, can.ui.complete, {className: ["complete", can.mode]}), value
@@ -171,7 +171,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 		},
 	}, _engine: {},
 })
-Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.COMPILE, nfs.SCRIPT, chat.WEBSITE, web.DREAM, code.PUBLISH],
+Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.COMPILE, nfs.SCRIPT, chat.WEBSITE, web.DREAM, code.PUBLISH],
 	_run: function(event, can, button, args, cb) {
 		can.runAction(event, button, args, cb||function(msg) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE))
@@ -335,4 +335,4 @@ Volcanos("onaction", {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.
 		})
 	},
 })
-Volcanos("onexport", {help: "导出数据", list: ["文件数", "模式", "按键", "解析器", "文件名", "当前行", "跳转数"]})
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["文件数", "模式", "按键", "解析器", "文件名", "当前行", "跳转数"]})

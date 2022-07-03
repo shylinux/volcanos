@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
 		can.onmotion.clear(can, target)
 		can.ui = can.onlayout.profile(can)
 		can.onimport[can.Option("scale")||"week"](can, msg)
@@ -46,7 +46,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 					} }, draggable: time != undefined,
 
 					title: can.onexport.title(can, task), _init: function(target) {
-						var item = can.onappend.item(can, html.ITEM, {nick: task.name+":"+task.text}, function() {
+						var item = can.onimport.item(can, html.ITEM, {nick: task.name+":"+task.text}, function() {
 							can.core.Timer(10, function() { can.onmotion.select(can, can.ui.content, html.TD, target.parentNode) })
 							can.onimport._profile(can, task)
 						}, function() {
@@ -147,7 +147,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		can.onimport._content(can, msg, head, list, key, get, set)
 	},
 }, [""])
-Volcanos("onaction", {help: "组件交互", list: [
+Volcanos(chat.ONACTION, {help: "组件交互", list: [
 		"insert", "export", "import",
 		["level", "all", "l1", "l2", "l3", "l4", "l5"],
 		["status", "all", "prepare", "process", "cancel", "finish"],
@@ -188,7 +188,7 @@ Volcanos("onaction", {help: "组件交互", list: [
 		can.onimport[can.Option("scale")](can, can._msg)
 	},
 })
-Volcanos("onexport", {help: "导出数据", list: ["count", "begin_time", "zone", "id", "type", "name", "text"],
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["count", "begin_time", "zone", "id", "type", "name", "text"],
 	name: function(can, task) { return task.name },
 	text: function(can, task) { return task.name+": "+(task.text||"") },
 	level: function(can, task) { return "l-"+(task.level||3)+": "+(task.name||"") },

@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", _init: function(can, args, cb) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) {
 	can.onimport.toolkit(can, {index: "web.code.template"}, function(sub) {
 		sub.run = function(event, cmds, cb) { var msg = sub.request(event, can.Option())
 			if (can.misc.runAction(can, msg, cmds, cb, kit.Dict(

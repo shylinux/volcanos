@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", _init: function(can, args, cb) { var history = []; const SEARCH = "can.code.inner.search"
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) { var history = []; const SEARCH = "can.code.inner.search"
 	function show(msg, word) { if (!msg) { return } history.push(msg); var sub = msg._can; sub.Option("word", word||msg._word)
 		!sub.page.ClassList.has(sub, sub._legend, "select") && can.ui.search.select()
 		sub.onmotion.clear(sub), sub.onappend.table(sub, msg, function(value, key, index, line) {

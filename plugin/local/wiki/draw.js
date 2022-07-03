@@ -1,4 +1,4 @@
-Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
 		can.onmotion.clear(can), can.onmotion.hidden(can, can._action)
 		can.onimport._show(can, msg), can.base.isFunc(cb) && cb(msg)
 		can.keylist = [], can.onkeymap._build(can)
@@ -37,7 +37,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 				can.Action(key, target.Value(key)||can.Action(key))
 			})
 		}
-		return (name || target == can.svg) && can.onappend.item(can, html.ITEM, {name: name||html.SVG}, function(event) { show(event)
+		return (name || target == can.svg) && can.onimport.item(can, html.ITEM, {name: name||html.SVG}, function(event) { show(event)
 			can.onaction.show(event, can)
 		}, function(event) {
 			can.user.carteRight(event, can, can.onaction, [ice.HIDE, ice.SHOW, mdb.CREATE, cli.CLEAR, mdb.REMOVE])
@@ -114,7 +114,7 @@ Volcanos("onimport", {help: "导入数据", list: [], _init: function(can, msg, 
 		return value._init && value._init(item), item
 	},
 }, ["/plugin/local/wiki/draw.css"])
-Volcanos("onfigure", {help: "图形绘制", list: [],
+Volcanos(chat.ONFIGURE, {help: "图形绘制", list: [],
 	_get: function(can, item, name) {
 		return can.onfigure[name]||can.onfigure[item.getAttribute(mdb.NAME)]||can.onfigure[item.tagName]
 	},
@@ -215,7 +215,7 @@ Volcanos("onfigure", {help: "图形绘制", list: [],
 		show: function(can, target, figure) { return "<("+(target.Val("y2")-target.Val("y1"))+ice.FS+(target.Val("x2")-target.Val("x1"))+")"+can.onexport._position(can, target, figure) },
 	},
 }, [])
-Volcanos("onkeymap", {help: "键盘交互", list: [],
+Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [],
 	_mode: {
 		normal: {
 			gr: function(event, can) { can.Action("go", "run") },
@@ -251,7 +251,7 @@ Volcanos("onkeymap", {help: "键盘交互", list: [],
 		},
 	}, _engine: {},
 })
-Volcanos("onaction", {help: "组件菜单", list: [
+Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		["stroke-width", 1, 2, 3, 4, 5],
 		["stroke", cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE],
 		["fill", cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE, "#0000"],
@@ -388,7 +388,7 @@ Volcanos("onaction", {help: "组件菜单", list: [
 		can.ondetail.label(event, can)
 	},
 })
-Volcanos("ondetail", {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY, html.LABEL, mdb.MODIFY, "toimage", mdb.DELETE],
+Volcanos(chat.ONDETAIL, {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY, html.LABEL, mdb.MODIFY, "toimage", mdb.DELETE],
 	start: function(event, can) { var target = event.target
 		var list = [target], dict = {}
 		for (var i = 0; i < list.length; i++) { var ship = list[i].Value("ship")
@@ -454,7 +454,7 @@ Volcanos("ondetail", {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY,
 		can.page.Remove(can, target)
 	},
 })
-Volcanos("onexport", {help: "导出数据", list: ["group", "figure", "index", "pos"],
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["group", "figure", "index", "pos"],
 	_show: function(can, target) { var figure = can.onfigure._get(can, target)
 		function show() { return can.onexport._size(can, target, figure)+ice.SP+can.onexport._position(can, target, figure) }
 		can.Status("figure", target.tagName+":"+target.Value("pid")+ice.SP+(figure? (figure.show||show)(can, target, figure): ""))

@@ -1,4 +1,4 @@
-Volcanos("onfigure", {help: "控件详情", list: [], key: {
+Volcanos(chat.ONFIGURE, {help: "控件详情", list: [], key: {
 	_init: function(can, msg, target) { var call = arguments.callee; target._msg = msg
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, line) {
 			return {text: [value, html.TD], onclick: function(event) { target.value = line[key]
