@@ -115,6 +115,7 @@ Volcanos(chat.ONACTION, {help: "交互数据", list: [], _init: function(can, cb
 	oncommandfocus: function(can) { 
 		can.page.Select(can, can._output, "div.cmd input", function(target) { target.focus() })
 	},
+	onaction_cmd: function(can, msg) { can.onmotion.hidden(can) },
 
 	_cmd: function(can) {
 		return can.onimport.float(can, can._cmds, function(value, key, index, line, list) {

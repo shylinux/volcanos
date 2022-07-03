@@ -15,6 +15,9 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", list: [], _init: function(can, me
 					return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, panel, cmds, cb)
 				}, can[item.name] = panel, panel._root = can, panel._trans = panel.onaction && panel.onaction._trans||{}
 
+				can.core.Item(panel.onplugin, function(key, cmd) {
+					panel.onplugin.hasOwnProperty(key) && can.base.isFunc(cmd) && can.onengine.plugin(can, key, cmd)
+				})
 				can.core.ItemCB(panel.onaction, function(key, cb) {
 					can.onengine.listen(can, key, function(msg) { can.core.CallFunc(cb, {can: panel, msg: msg}) })
 				}), can.core.CallFunc([panel.onaction, chat._INIT], {can: panel, cb: next, target: panel._target})
@@ -48,19 +51,6 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", list: [], _init: function(can, me
 			button: key, cmd: key, arg: cmds.slice(2), list: cmds.slice(2),
 		}, mod)
 	},
-	_engine: function(event, can, msg, panel, cmds, cb) {
-		return false
-	},
-	_plugin: function(event, can, msg, panel, cmds, cb) {
-		if (cmds[0] == ctx.ACTION && cmds[1] == ice.RUN && can.onengine.plugin.meta[cmds[2]]) {
-			return can.core.CallFunc(can.onengine.plugin.meta[cmds[2]], {msg: msg, cmds: cmds.slice(3), cb: cb}), true
-		}
-		var p = can.onengine.plugin.meta[cmds[0]], n = 1; if (p) {
-			if (p.meta && p.meta[cmds[1]] && cmds[0] == ctx.ACTION) { n = 3 } else if (p.meta && p.meta[cmds[0]]) { n = 2 }
-			return can.core.CallFunc(p, {can: can, msg: msg, cmds: cmds.slice(n), cb: cb}), true
-		}
-		return false
-	},
 	_remote: function(event, can, msg, panel, cmds, cb) {
 		msg.option = can.core.List(msg.option, function(item) {
 			return {_toast: true, _handle: true}[item] && delete(msg[item])? undefined: item
@@ -84,6 +74,19 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", list: [], _init: function(can, me
 			Volcanos.meta.pack[key] = msg, delete(msg._handle), can.base.isFunc(cb) && cb(msg)
 			toast && toast.close(), toast = true, delete(msg._toast)
 		})
+	},
+	_engine: function(event, can, msg, panel, cmds, cb) {
+		return false
+	},
+	_plugin: function(event, can, msg, panel, cmds, cb) {
+		if (cmds[0] == ctx.ACTION && cmds[1] == ice.RUN && can.onengine.plugin.meta[cmds[2]]) {
+			return can.core.CallFunc(can.onengine.plugin.meta[cmds[2]], {can: panel, msg: msg, cmds: cmds.slice(3), cb: cb}), true
+		}
+		var p = can.onengine.plugin.meta[cmds[0]], n = 1; if (p) {
+			if (p.meta && p.meta[cmds[1]] && cmds[0] == ctx.ACTION) { n = 3 } else if (p.meta && p.meta[cmds[0]]) { n = 2 }
+			return can.core.CallFunc(p, {can: panel, msg: msg, cmds: cmds.slice(n), cb: cb}), true
+		}
+		return false
 	},
 
 	plugin: shy("添加插件", function(can, name, command) { name = can.base.trimPrefix(name, "can.")
@@ -151,7 +154,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 			},
 		}, list, function(sub) { sub.Conf(meta), meta.feature = can.base.Obj(meta.feature, {})
 			can.page.ClassList.add(can, field, meta.index? meta.index.split(ice.PT).pop(): meta.name)
-			var style = can.base.getValid(meta.style, meta.feature.style); switch (typeof style) {
+			var style = can.base.getValid(meta.style||meta.feature.style); switch (typeof style) {
 				case lang.STRING: can.page.ClassList.add(can, field, style); break
 				case lang.OBJECT: can.page.style(can, sub._target, style); break
 			}

@@ -148,7 +148,6 @@ var chat = {
 	AGENT: "agent", CHECK: "check", GRANT: "grant",
 	STATE: "state", MENUS: "menus", TRANS: "trans",
 	SSO: "sso", WEBSITE: "website",
-	ACTION_LAYOUT_FMT: " fieldset.Action.grid>div.output fieldset.plugin { width:_width; height:_height; } fieldset.Action.grid>div.output fieldset.plugin>div.output { width:_width; height:_height; } ",
 
 	libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
 	panel_list: [
@@ -179,11 +178,13 @@ var chat = {
 
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONSYNTAX: "onsyntax", ONACTION: "onaction", ONDETAIL: "ondetail", ONFIGURE: "onfigure", ONEXPORT: "onexport",
+	ONPLUGIN: "onplugin",
 
 	ONMAIN: "onmain", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
 	ONSIZE: "onsize", ONTOAST: "ontoast", ONREMOTE: "onremote",
 	ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
 	ONSTORM_SELECT: "onstorm_select", ONACTION_TOUCH: "onaction_touch", ONACTION_NOTOOL: "onaction_notool",
+	ONACTION_CMD: "onaction_cmd",
 
 	_INIT: "_init", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1",
 	_NAMES: "_names", _TOAST: "_toast",
@@ -296,7 +297,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 			for (var i = 0; i < cache.length; i++) { var sub = cache[i], name = sub._name
 				if (typeof each == lang.FUNCTION && each(can, name, sub)) { continue }
 				!can[name] && (can[name] = {}); for (var k in sub) {
-					can[name].hasOwnProperty(k) || (can[name][k] = sub[k])
+					can[name].hasOwnProperty(k) || !sub.hasOwnProperty(k) || (can[name][k] = sub[k])
 				}
 			}
 		},

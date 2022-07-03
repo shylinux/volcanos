@@ -6,7 +6,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 			return can.onimport._river(can, item, function(target) {
 				(index == 0 || item.hash == can._main_river) && (select = target)
 			})
-		})), select && select.click()
+		})), select && can.onmotion.delay(can, function() {
+			can.onlayout._init(can), select.click()
+		})
 	},
 	_main: function(can, msg) {
 		// if (can.user.isMobile) { can._main_river = "product", can._main_storm = "office" }
