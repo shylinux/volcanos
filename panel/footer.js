@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
 		can.onmotion.clear(can)
 		can.onimport._title(can, msg, target)
 		can.onimport._state(can, msg, target)
@@ -22,19 +22,19 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		})
 	},
 	_state: function(can, msg, target) {
-		can.core.List(can.base.Obj(msg.Option(chat.STATE)||can.Conf(chat.STATE), ["ncmd"]), function(item) {
+		can.core.List(can.base.Obj(msg.Option(chat.STATE)||can.Conf(chat.STATE), ["ncmd", "ntip"]), function(item) {
 			can.page.Append(can, target, [{view: [can.base.join([chat.STATE, item]), html.DIV, can.Conf(item)], list: [
 				{text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", html.SPAN, item]},
 			], onclick: function(event) {
-				can.show = can.show? (can.page.Remove(can, can.show), null): can.onaction._cmd(can)
-				can.page.Modify(can, can.show, {style: {left: "", top: "", right: 0, bottom: can.onexport.height(can)}})
+				can[item] = can[item]? (can.page.Remove(can, can[item]), null): can.onexport[item](can)
+				can.page.style(can, can.show, {left: "", top: "", right: 0, bottom: can.onexport.height(can)})
 			}}])
 		})
 	},
 	_toast: function(can, msg, target) {
-		can.toast = can.page.Append(can, target, [{view: chat.TOAST, onclick: function(event) {
-			can.show = can.show? (can.page.Remove(can, can.show), null): can.onimport.float(can, can._toast).first
-			can.page.Modify(can, can.show, {style: {left: "", top: "", right: 0, bottom: can.onexport.height(can)}})
+		can.toast = can.page.Append(can, target, [{view: chat.TOAST, onclick: function(event) { var item = "ntip"
+			can[item] = can[item]? (can.page.Remove(can, can[item]), null): can.onexport[item](can)
+			can.page.style(can, can.show, {left: "", top: "", right: 0, bottom: can.onexport.height(can)})
 		}}]).first
 	},
 	_cli: function(can, msg, target) {
@@ -45,25 +45,40 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 				case cli.CLOSE: can.cli && can.cli.close(); break
 				default:
 					can.run(event, [ice.RUN].concat(can.core.Split(event.target.value, ice.SP)), function(msg) {
-						can.cli && can.cli.close()
-						can.cli = can.onimport.float(can, msg, function(value, key, index, line, list) {
-
-						}), can.page.Modify(can, can.cli.first, {style: {bottom: can.onexport.height(can), top: ""}})
+						can.cli && can.cli.close(), can.cli = can.onexport.float(can, msg, function(value, key, index, line, list) {})
+						can.page.style(can, can.cli.first, "bottom", can.onexport.height(can), "top", "")
 					})
 			}
 		}}, "", target, "title cmd")
 	},
 
-	toast: function(can, msg, title, content, fileline, time) { can._toast = can._toast||can.request()
+	toast: function(can, msg, title, content, fileline, time) { can._tips = can._tips||can.request()
+		can._tips.Push({time: time, fileline: fileline, title: title, content: content})
+		can.onimport.count(can, "ntip")
 		can.page.Modify(can, can.toast, [time.split(ice.SP).pop(), title, content].join(ice.SP))
-		can._toast.Push({time: time, fileline: fileline, title: title, content: content})
 	},
-	ncmd: function(can, msg, _follow, _cmds) { var NCMD = "ncmd"; can._cmds = can._cmds||can.request()
-		can._cmds.Push({time: can.base.Time(), follow: _follow, cmds: _cmds})
-		can.page.Select(can, can._output, can.core.Keys(html.SPAN, NCMD), function(item) {
-			item.innerHTML = can.Conf(NCMD, parseInt(can.Conf(NCMD)||"0")+1+"")+""
+	count: function(can, name) {
+		can.page.Select(can, can._output, can.core.Keys(html.SPAN, name), function(item) {
+			item.innerHTML = can.Conf(name, parseInt(can.Conf(name)||"0")+1+"")+""
 		})
 	},
+	ncmd: function(can, msg, _follow, _cmds) { can._cmds = can._cmds||can.request()
+		can._cmds.Push({time: can.base.Time(), follow: _follow, cmds: _cmds})
+		can.onimport.count(can, "ncmd")
+	},
+})
+Volcanos(chat.ONACTION, {help: "交互数据", list: [], _init: function(can, cb, target) {
+		if (can.user.mod.isPod || can.user.isExtension) { can.onmotion.hidden(can, can._target) }
+		can.base.isFunc(cb) && cb()
+	},
+	onlogin: function(can, msg) { can.run({}, [], function(msg) { can.onimport._init(can, msg, null, can._output) }) },
+	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.toast, {can: can, msg: msg}) },
+	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
+	onaction_cmd: function(can, msg) { can.onmotion.hidden(can) },
+	oncommandfocus: function(can) { can.page.Select(can, can._output, "div.cmd input", function(target) { target.focus() }) },
+})
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
+	height: function(can) { return can._target.offsetHeight },
 	float: function(can, msg, cb) {
 		var ui = can.onappend.field(can, "story toast float", {}, can._root._target)
 		ui.close = function() { can.page.Remove(can, ui.first) }
@@ -98,27 +113,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		}, ui.output), can.onappend.board(can, msg.Result(), ui.output)
 		return ui
 	},
-})
-Volcanos(chat.ONACTION, {help: "交互数据", list: [], _init: function(can, cb, target) {
-		if (can.user.mod.isPod) {
-			can.onmotion.hidden(can, can._target)
-		} else if (can.user.isMobile) {
-			// can.onmotion.hidden(can, can._target)
-		} else if (can.user.isExtension) {
-			can.onmotion.hidden(can, can._target)
-		}
-		can.base.isFunc(cb) && cb()
+	ntip: function(can) {
+		return can.onexport.float(can, can._tips).first
 	},
-	onlogin: function(can, msg) { can.run({}, [], function(msg) { can.onimport._init(can, msg, [], null, can._output) }) },
-	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.toast, {can: can, msg: msg}) },
-	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
-	oncommandfocus: function(can) { 
-		can.page.Select(can, can._output, "div.cmd input", function(target) { target.focus() })
-	},
-	onaction_cmd: function(can, msg) { can.onmotion.hidden(can) },
-
-	_cmd: function(can) {
-		return can.onimport.float(can, can._cmds, function(value, key, index, line, list) {
+	ncmd: function(can) {
+		return can.onexport.float(can, can._cmds, function(value, key, index, line, list) {
 			var cmds = can.base.Obj(line.cmds); switch (line.follow) {
 				case "chat.Action": cmds = cmds.slice(2); break
 				case "chat.Footer": cmds = cmds.slice(2); break
@@ -133,15 +132,12 @@ Volcanos(chat.ONACTION, {help: "交互数据", list: [], _init: function(can, cb
 						can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, cmds[0]], cmd), cb)
 					}
 
-					can.page.Modify(can, sub._target, {style: {top: top+100, left: left}})
-					can.page.Modify(can, sub._legend, {style: {display: html.BLOCK}})
-					can.page.Modify(can, sub._output, {style: {"max-width": width}})
+					can.page.style(can, sub._target, {top: top+100, left: left})
+					can.page.style(can, sub._legend, {display: html.BLOCK})
+					can.page.style(can, sub._output, {"max-width": width})
 					can.page.ClassList.add(can, sub._target, chat.FLOAT)
-				}, document.body)
+				}, can._root._target)
 			})
 		}).first
 	},
-})
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
-	height: function(can) { return can._target.offsetHeight },
 })

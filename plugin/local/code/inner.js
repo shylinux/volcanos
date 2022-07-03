@@ -544,7 +544,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["搜索", "打开", "添�
 		}, true)
 	},
 	"清屏": function(event, can) {
-		if (can.page.Select(can, document.body, ".input.float", function(item) {
+		if (can.page.Select(can, can._root._target, ".input.float", function(item) {
 			return can.page.Remove(can, item)
 		}).length > 0) { return }
 

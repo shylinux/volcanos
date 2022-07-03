@@ -155,7 +155,7 @@ var chat = {
 		{name: "River",  help: "群聊组", pos: "left", action: ["create", "refresh"]},
 		{name: "Action", help: "工作台", pos: "main"},
 		{name: "Search", help: "搜索框", pos: "auto"},
-		{name: "Footer", help: "状态条", pos: "foot", state: ["ncmd"]},
+		{name: "Footer", help: "状态条", pos: "foot", state: ["ncmd", "ntip"]},
 	],
 	plugin_list: [
 		"/plugin/state.js",

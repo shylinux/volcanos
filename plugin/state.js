@@ -86,7 +86,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, me
 })
 Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		"刷新数据", "切换全屏", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", [
-			"其它", "刷新页面", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除工具",
+			"其它", "刷新页面", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除工具","摄像头",
 		],
 	], _init: function(can, msg, list, cb, target) {},
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input([], true))) },

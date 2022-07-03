@@ -8,7 +8,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		})
 	},
 	select: function(can, msg) {
-		msg.Clear(), can.page.Select(can, document.body, can.Option("tags"), function(a, index) {
+		msg.Clear(), can.page.Select(can, can._root._target, can.Option("tags"), function(a, index) {
 			msg.Push(mdb.INDEX, index)
 			msg.Push(mdb.NAME, a.innerText)
 			msg.Push(mdb.LINK, a.href)
@@ -33,7 +33,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 		})
 	},
 	play: function(event, can) {
-		can.page.SelectAll(can, document.body, html.VIDEO, function(video) {
+		can.page.SelectAll(can, can._root._target, html.VIDEO, function(video) {
 			video.playbackRate = parseFloat(can.Option("rate"))
 			video.currentTime = parseInt(can.Option("skip"))
 			video.ontimeupdate = function(event) {

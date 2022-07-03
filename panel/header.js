@@ -13,7 +13,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.onlayout.topic(can, can.Conf("topic"))
 		if (can.user.mod.isCmd) {
 			can.onmotion.hidden(can, can._fields)
-			can.page.ClassList.add(can, document.body, "simple")
+			can.page.ClassList.add(can, can._root._target, "simple")
 		}
 
 		can.onmotion.clear(can)
@@ -85,7 +85,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 	_background: function(can, msg) {
 		if (can.Conf("background") == "_") { return }
 		if (can.user.isExtension || can.user.isLocalFile) { return }
-		msg.Option(aaa.BACKGROUND) && can.onlayout.background(can, "/share/local/background", document.body)
+		msg.Option(aaa.BACKGROUND) && can.onlayout.background(can, "/share/local/background", can._root._target)
 	},
 	_avatar: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return } if (!msg.Option(aaa.AVATAR)) { return }
 		if (msg.Option(aaa.AVATAR).indexOf("http") == 0) {
@@ -221,7 +221,7 @@ Volcanos(chat.ONACTION, {help: "交互数据", list: [], _init: function(can, cb
 			})
 		})
 	},
-	toimage: function(event, can, button) { can.onmotion.toimage(event, can, document.title, document.body) },
+	toimage: function(event, can, button) { can.onmotion.toimage(event, can, document.title, can._root._target) },
 
 	carte: function(event, can, list, cb, trans) { can.user.carte(event, can, can.onaction, list, cb) },
 	share: function(event, can, args) {

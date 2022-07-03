@@ -182,7 +182,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 				can.keylist = can.onkeymap._parse(event, can, "normal", can.keylist)
 			}})), can.onkeymap._build(can)
 
-			sub.page.style(sub, sub._target, html.BACKGROUND, document.body.style.background)
+			sub.page.style(sub, sub._target, html.BACKGROUND, can._root._target.style.background)
 			sub.page.style(sub, sub._output, html.HEIGHT, can._root._height-4*html.PLUGIN_MARGIN-2*html.ACTION_HEIGHT)
 			sub.page.style(sub, sub._output, html.WIDTH, can._root._width-4*html.PLUGIN_MARGIN)
 
@@ -206,7 +206,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 			var from = new Date(); can.core.Timer({interval: 100}, function() { var now = new Date()
 				sub.Status(cli.COST, can.base.Duration(now-from))
 			})
-		}, document.body)
+		}, can._root._target)
 	},
 	view: function(event, can) {
 		if (can._height) {

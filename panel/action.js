@@ -159,7 +159,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [], _focus: [], _init: func
 			},
 			enter: function(event, can, target) { can.misc.Log("enter") },
 			escape: function(event, can, target) {
-				can.page.Select(can, document.body, can.page.Keys(html.FIELDSET_FLOAT, html.DIV_FLOAT), function(item) {
+				can.page.Select(can, can._root._target, can.page.Keys(html.FIELDSET_FLOAT, html.DIV_FLOAT), function(item) {
 					can.page.Remove(can, item)
 				})
 			},
