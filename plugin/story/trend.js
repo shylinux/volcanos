@@ -45,10 +45,10 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: ["edit", [ice.VIEW, "趋势
 	"edit": function(event, can) { can.onmotion.toggle(can, can._action), can.onmotion.toggle(can, can._status) },
 
 	"趋势图": function(event, can) { var height = can.Action(html.HEIGHT)
-		if (height == ice.AUTO) { height = can.Conf(html.HEIGHT) }
+		if (height == ice.AUTO) { height = can.ConfHeight() }
 		height = parseInt(height)
 
-		var space = 10, width = parseInt(can.Conf(html.WIDTH))
+		var space = 10, width = parseInt(can.ConfWidth())
 		var step = parseInt((width-2*space) / can.list.length)
 
 		can.onmotion.clear(can, can.svg)
@@ -94,7 +94,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: ["edit", [ice.VIEW, "趋势
 		})
 
 		var height = parseInt(can.Action(html.HEIGHT))
-		var space = 10, width = parseInt(can.Conf(html.WIDTH))
+		var space = 10, width = parseInt(can.ConfWidth())
 		var step = parseInt((width-2*space) / can.list.length)
 
 		can.onmotion.clear(can, can.svg)

@@ -355,7 +355,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 				item.run = function(event, cmds, cb) { can.run(can.request(event, line), cmds, cb, true) }
 				can.onmotion.modifys(can, event.target, function(event, value, old) { run([ctx.ACTION, mdb.MODIFY, key, value]) }, item)
 			}}
-		}); table && can.page.Modify(can, table, {className: chat.CONTENT})
+		}); table && can.page.styleClass(can, table, chat.CONTENT)
 		if (msg.append && msg.append[msg.append.length-1] == ctx.ACTION) { can.page.ClassList.add(can, table, ctx.ACTION) }
 		can._table = table, can.sup && (can.sup._table = table)
 		return sort && can.page.RangeTable(can, table, sort), table
@@ -376,8 +376,8 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 		meta.args = can.base.getValid(can.base.Obj(meta.args), can.base.Obj(meta.arg), can.base.Obj(value.args), can.base.Obj(value.arg))||[]
 		meta.display = meta.display||value.display
 
-		meta.height = meta.height||can.Conf(html.HEIGHT)
-		meta.width = meta.width||can.Conf(html.WIDTH)
+		meta.height = meta.height||can.ConfHeight()
+		meta.width = meta.width||can.ConfWidth()
 
 		meta.type = meta.type||chat.PLUGIN
 		meta.name = meta.name||value.name

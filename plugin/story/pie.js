@@ -9,7 +9,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 			can.onmotion.clear(can, can.ui.project), can.onappend.table(can, msg, null, can.ui.project)
 			can.onmotion.hidden(can, can.ui.project, true)
 			var rest = can.ConfWidth()-height
-			can.page.Modify(can, can.ui.project, {style: {"max-width": rest}})
+			can.page.style(can, can.ui.project, html.MAX_WIDTH, rest)
 			can.page.Select(can, can.ui.project, html.TR, function(tr, index) {
 				can.page.Modify(can, tr, {onmouseenter: function(event) {
 					can.onmotion.clear(can, can.svg), can.onimport._draw(can, msg, can._args.field, r+margin, r+margin, r, margin, index-1)

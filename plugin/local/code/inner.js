@@ -62,7 +62,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	_simple: function(can, target) {
 		can.tabview[can.onexport.keys(can)] = can._msg
-		can.Conf(html.HEIGHT, ""), can.ui.project._toggle()
+		can.ConfHeight(""), can.ui.project._toggle()
 		can.page.ClassList.add(can, can._fields, html.OUTPUT)
 		can.page.ClassList.add(can, can._fields, "simple")
 		can.onmotion.hidden(can, can.ui._tabs)
@@ -383,8 +383,8 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line
 			can.parse = can.base.Ext(can.file), can.Status("模式", "plugin")
 
 			var p = cache_data[can.file]; p && (can.current = p.current, can.max = p.max)
-			can.page.Modify(can, can.ui.profile, {style: {display: p? p.profile_display: html.NONE}})
-			can.page.Modify(can, can.ui.display, {style: {display: p? p.display_display: html.NONE}})
+			can.page.style(can, can.ui.profile, {display: p? p.profile_display: html.NONE})
+			can.page.style(can, can.ui.display, {display: p? p.display_display: html.NONE})
 			can.onmotion.select(can, can._action, html.DIV_TABS, msg._tab)
 			can.onmotion.select(can, can.ui._tabs, html.DIV_TABS, msg._tab)
 			can.onmotion.delay(can, function() { can.onimport.layout(can)
@@ -590,7 +590,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["搜索", "打开", "添�
 				can.onaction.favorLine(can, ui.text.innerText)
 			}},
 
-			{view: [html.TEXT, html.TD], list: [can.onsyntax._parse(can, value)], onclick: function(event) {
+			{view: [html.TEXT, html.TD], inner: can.onsyntax._parse(can, value), onclick: function(event) {
 				can.onaction.selectLine(event, can, ui.tr)
 
 			}, ondblclick: function(event) {

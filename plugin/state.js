@@ -28,12 +28,12 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, me
 			sub.Conf(can.base.Obj(item.conf))
 			if (sub.Conf("mode") == "simple") {
 				var msg = can.request(); msg.Echo(sub.Conf("result"))
-				sub.Conf(html.HEIGHT, can.Conf(html.HEIGHT)/2)
+				sub.ConfHeight(can.ConfHeight()/2)
 				return can.onappend._output(sub, msg, msg.Option(ice.MSG_DISPLAY)||sub.Conf("feature.display"))
 			}
 			var opt = can.base.Obj(item[ice.OPT], [])
-			sub.Conf(html.HEIGHT, can.Conf(html.HEIGHT))
-			sub.Conf(html.WIDTH, can.Conf(html.WIDTH)-4*html.PLUGIN_MARGIN)
+			sub.ConfHeight(can.ConfHeight())
+			sub.ConfWidth(can.ConfWidth()-4*html.PLUGIN_MARGIN)
 			sub.run = function(event, cmds, cb, silent) {
 				var res = can.request(event, can.Option())
 				for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }

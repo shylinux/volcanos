@@ -28,7 +28,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 			pid && can.page.Select(can, can.svg, ice.PT+pid, function(item) {
 				can.ondetail.run({target: item}, can), can.onimport._profile(can, item)
 			}) || can.onimport._profile(can, can.svg), can.onmotion.hidden(can, can.ui.profile)
-			can.page.Modify(can, can.ui.display, {style: {"min-height": 80, "max-height": can.Conf("height")-can.svg.Val("height")-52}})
+			can.page.style(can, can.ui.display, html.MIN_HEIGHT, 80, html.MAX_HEIGHT, can.ConfHeight()-can.svg.Val(html.HEIGHT)-52)
 		}) 
 	},
 	_group: function(can, target) { var name = target.Groups()
@@ -47,7 +47,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		target.oncontextmenu = function(event) {
 			var carte = can.user.carte(event, can, can.ondetail, null, function(ev, button, meta) {
 				meta[button](event, can, button)
-			}); can.page.Modify(can, carte._target, {style: {left: event.clientX, top: event.clientY}})
+			}); can.page.style(can, carte._target, {left: event.clientX, top: event.clientY})
 		}
 		target.Val = function(key, value) {
 			return parseInt(target.Value(key, value == undefined? value: parseInt(value)||0))||0
@@ -353,7 +353,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		if (target == can.svg) {
 			if (pos == 5) {
 				can.Action(ice.MODE, "draw"), can.Action("shape", html.BLOCK)
-				can.page.Modify(can, target, {style: {cursor: "crosshair"}})
+				can.page.style(can, target, {cursor: "crosshair"})
 			} else {
 				can.Action(ice.MODE, "resize")
 			}
@@ -483,7 +483,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["group", "figure", "index"
 		return ['<svg vertion="1.1" xmlns="https://www.w3.org/2000/svg" text-anchor="middle" dominant-baseline="middle"'].concat(
 			svg? can.core.List([html.HEIGHT, html.WIDTH, mdb.COUNT, "pid", "grid", html.STROKE_WIDTH, html.STROKE, html.FILL, html.FONT_SIZE], function(item) {
 				return svg.Value(item)? ice.SP + item + '="' + svg.Value(item) + '"': ""
-			}): [" height="+((can.Conf(html.HEIGHT)||450)-50)+" width="+(can.Conf(html.WIDTH)||600)]).concat(['>', svg? svg.innerHTML: "", "</svg>"]).join("")
+			}): [" height="+((can.ConfHeight()||450)-50)+" width="+(can.ConfWidth()||600)]).concat(['>', svg? svg.innerHTML: "", "</svg>"]).join("")
 	},
 	cursor: function(event, can, item, show) {
 		var p = item.getBoundingClientRect()

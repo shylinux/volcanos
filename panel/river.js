@@ -107,7 +107,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [], _init: function(can, cb
 		})
 	},
 	action: function(event, can, river, storm) {
-		can.page.Modify(can, can.sublist[river], {style: {display: html.BLOCK}})
+		can.page.style(can, can.sublist[river], {display: html.BLOCK})
 		can.onmotion.select(can, can._output, html.DIV_ITEM, can.river_list[river])
 		can.onmotion.select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], can.storm_list[can.core.Keys(river, storm)])
 

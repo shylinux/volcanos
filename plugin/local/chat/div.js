@@ -12,9 +12,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.onimport._item(can, can._meta, can.ui.project, can.onimport._size(can)).click()
 	},
 	_size: function(can) {
-		var width = can.Conf(html.WIDTH)-260, height = can.Conf(html.HEIGHT)-100
+		var width = can.ConfWidth()-260, height = can.ConfHeight()-100
 		if (can.Conf("auto.cmd")) {
-			width = can.Conf(html.WIDTH), height = can.Conf(html.HEIGHT)
+			width = can.ConfWidth(), height = can.ConfHeight()
 			can.onmotion.hidden(can, can.ui.project)
 			can.onmotion.hidden(can, can.ui.profile)
 			can.onmotion.hidden(can, can._option)
@@ -22,7 +22,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		}
 		if (can.user.mod.isCmd || can.user.mod.isDiv) {
 			width = can._root._width, height = can._root._height
-			can.page.Modify(can, can._output, {style: {width: width, height: height}})
+			can.page.style(can, can._output, {width: width, height: height})
 		}
 		return width
 	},
@@ -58,7 +58,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		var size = {width: width, height: meta.height}
 		var field = can.onappend.field(can, chat.LAYOUT, {}, target).fieldset
 		can.page.ClassList.add(can, field, meta.style)
-		can.page.Modify(can, field, {style: size})
+		can.page.style(can, field, size)
 
 		meta.index && can.run(event, [ctx.ACTION, ctx.COMMAND, meta.index], function(msg) {
 			can.onappend._init(can, can.base.Copy({
@@ -67,7 +67,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 				args: meta.args,
 				name: meta.name,
 			}, size), ["/plugin/state.js"], function(sub) {
-				can.page.Modify(can, sub._output,  {style: size})
+				can.page.style(can, sub._output, size)
 				sub.run = function(event, cmds, cb) {
 					can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
 				}

@@ -5,7 +5,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 		can.page.Modify(can, target, msg.Result())
 		can.page.Select(can, target, wiki.ITEM, function(item) { var data = item.dataset||{}
-			can.page.Modify(can, item, {style: can.base.Obj(data.style)})
+			can.page.style(can, item, can.base.Obj(data.style))
 			can.core.CallFunc([can.onimport, data.type], [can, data, item])
 			// can.page.style(can, item, html.MAX_WIDTH, can.ConfWidth()-(can.user.isWindows? 40: 30))
 		})
@@ -36,12 +36,12 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}, nav), can.sup._navmenu = nav
 
 		can.getActionSize(function(msg) { 
-			can.page.style(can, nav, html.HEIGHT, can.Conf(html.HEIGHT)+(can.user.mod.isCmd? msg.Option(html.MARGIN_Y): 0))
-			can.Conf(html.WIDTH, can.Conf(html.WIDTH)-nav.offsetWidth-(can.user.mod.isCmd? 10: 20)-10)
-			can.page.Modify(can, can._output, {style: kit.Dict(
-				html.HEIGHT, can.sup._navmenu.offsetHeight, html.MAX_WIDTH, can.Conf(html.WIDTH),
+			can.page.style(can, nav, html.HEIGHT, can.ConfHeight()+(can.user.mod.isCmd? msg.Option(html.MARGIN_Y): 0))
+			can.ConfWidth(can.ConfWidth()-nav.offsetWidth-(can.user.mod.isCmd? 10: 20)-10)
+			can.page.style(can, can._output,
+				html.HEIGHT, can.sup._navmenu.offsetHeight, html.MAX_WIDTH, can.ConfWidth(),
 				html.FLOAT, html.LEFT, html.CLEAR, html.NONE
-			)})
+			)
 		})
 	},
 	premenu: function(can, data, target) {
@@ -139,7 +139,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}, can._output, target)
 	},
 	iframe: function(can, data, target) { var meta = can.base.Obj(data.meta)
-		can.page.Modify(can, target, {width: can.Conf(html.WIDTH)-200})
+		can.page.Modify(can, target, {width: can.ConfWidth()-200})
 	},
 }, [""])
 Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [],
@@ -218,7 +218,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 })
 Volcanos(chat.ONDETAIL, {help: "交互操作", list: ["删除"], _init: function(can, msg, list, cb, target) {
 	},
-	show: function(sub, which) { sub.page.Modify(sub, sub.ui.content, {className: chat.CONTENT})
+	show: function(sub, which) { sub.page.styleClass(sub, sub.ui.content, chat.CONTENT)
 		sub.page.Select(sub, sub.ui.content, wiki.DIV_PAGE, function(page, index) {
 			if (index == which || page == which) {
 				sub.page.Select(sub, page, sub.page.Keys(html.H1, html.H2, html.H3), function(item) { sub.Action("菜单", item.innerHTML) })
@@ -245,7 +245,7 @@ Volcanos(chat.ONDETAIL, {help: "交互操作", list: ["删除"], _init: function
 			sub.sup.ondetail.show(sub, page), sub.core.Timer(500, function() { next() })
 		})
 	},
-	grid: function(sub) { sub.page.Modify(sub, sub.ui.content, {className: "content grid"}) },
+	grid: function(sub) { sub.page.styleClass(sub, sub.ui.content, "content grid") },
 
 	"开讲": function(event, can) { can.sup.ondetail.show(can, 0) },
 	"快闪": function(event, can) { can.sup.ondetail.flash(can) },

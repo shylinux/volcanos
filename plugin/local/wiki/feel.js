@@ -88,8 +88,8 @@ Volcanos(chat.ONDETAIL, {help: "组件菜单", list: ["关闭", "下载", "删�
 			sub.run = function(event, cmds, cb) { return can.run(event, cmds, cb, true) }
 
 			sub.getActionSize(function(msg, left, top, width, height) {
-				sub.page.Modify(sub, sub._target, {style: {left: left, top: top}})
-				sub.page.Modify(sub, sub._output, {style: {"max-width": width, "max-height": height}})
+				sub.page.style(sub, sub._target, {left: left, top: top})
+				sub.page.style(sub, sub._output, html.MAX_WIDTH, width, html.MAX_HEIGHT, height)
 				sub.onappend._action(can, can.ondetail.list, sub._action, can.ondetail)
 
 				can.order = index, can.show = function(order) {

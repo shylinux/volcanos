@@ -80,7 +80,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.page.Append(can, target, [{type: "search", list: [{view: ["menu", "div", can.user.trans(can, "search")], onclick: function() {
 			can.onengine.signal(can, "onopensearch", can.request(event, {type: "*", word: ""}))
 		}}] }])
-		can.user.isMobile && can.page.Modify(can, ui, {style: {float: html.RIGHT}})
+		can.user.isMobile && can.page.style(can, ui, {float: html.RIGHT})
 	},
 	_background: function(can, msg) {
 		if (can.Conf("background") == "_") { return }
@@ -107,7 +107,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.core.Timer({interval: 500}, function() { can.onimport.time(can, target) })
 		can.onappend.figure(can, {action: "date", style: {"min-width": 306}}, target, function(sub) {
 			can.get("Action", "size", function(msg, top) {
-				can.page.Modify(can, sub._target, {style: {top: top, right: 0, left: null}})
+				can.page.style(can, sub._target, {top: top, right: 0, left: null})
 			})
 		}), target.onmouseenter = target.click
 	},
@@ -241,7 +241,7 @@ Volcanos(chat.ONACTION, {help: "交互数据", list: [], _init: function(can, cb
 				}), can.user.toastSuccess(can)
 			}, true)
 		})
-		can.user.isMobile && can.page.Modify(can, ui._target, {style: {top: 40, right: 0, left: ""}})
+		can.user.isMobile && can.page.style(can, ui._target, {top: 40, right: 0, left: ""})
 	},
 	password: function(event, can) {
 		var ui = can.user.input(event, can, [{name: html.PASSWORD, type: html.PASSWORD, action: ice.AUTO}, {name: html.PASSWORD, type: html.PASSWORD, action: ice.AUTO}], function(ev, button, data, list, args) {
@@ -255,7 +255,7 @@ Volcanos(chat.ONACTION, {help: "交互数据", list: [], _init: function(can, cb
 				can.user.toastSuccess(can)
 			}, true)
 		})
-		can.user.isMobile && can.page.Modify(can, ui._target, {style: {top: 40, right: 0, left: ""}})
+		can.user.isMobile && can.page.style(can, ui._target, {top: 40, right: 0, left: ""})
 	},
 	chinese: function(event, can) { can.misc.Search(can, aaa.LANGUAGE, "zh") },
 	english: function(event, can) { can.misc.Search(can, aaa.LANGUAGE, "en") },

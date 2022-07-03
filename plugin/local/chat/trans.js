@@ -7,10 +7,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 	},
 	_plugin: function(can, index, pos, from, to) {
 		return can.onappend.plugin(can, {type: chat.STORY, index: index}, function(sub) {
-			can.page.Modify(can, sub._target, {style: {float: pos, clear: pos}})
-			sub.Conf(html.WIDTH, can.Conf(html.WIDTH)/2)
+			can.page.style(can, sub._target, {float: pos, clear: pos})
+			sub.ConfWidth(can.ConfWidth()/2)
 			sub._legend.innerHTML = can.Option(from)+ice.SP+index
-			can.page.Modify(can, sub._output, {style: {"max-width": can.Conf(html.WIDTH)/2}})
+			can.page.style(can, sub._output, "max-width", can.ConfWidth()/2)
 
 			sub.run = function(event, cmds, cb) {
 				if (can.onaction[cmds[1]]) { return can.onaction[cmds[1]](can, from, to, event, cmds, cb) }

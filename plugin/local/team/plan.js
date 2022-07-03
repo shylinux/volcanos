@@ -2,9 +2,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.onmotion.clear(can, target)
 		can.ui = can.onlayout.profile(can)
 		can.onimport[can.Option("scale")||"week"](can, msg)
-		can.page.Modify(can, can.ui.project, {style: {"max-height": can.ui.content.offsetHeight}})
-		can.page.Modify(can, can.ui.profile, {style: {"max-height": can.ui.content.offsetHeight}})
-		can.page.Modify(can, can.ui.profile, {style: {display: "block"}})
+		can.page.style(can, can.ui.project, html.MAX_HEIGHT, can.ui.content.offsetHeight)
+		can.page.style(can, can.ui.profile, html.MAX_HEIGHT, can.ui.content.offsetHeight)
+		can.page.style(can, can.ui.profile, {display: "block"})
 		can.base.isFunc(cb) && cb(msg)
 		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
 	},
@@ -80,7 +80,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 				can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, task[mdb.ZONE], task[mdb.ID]], cmds), cb, true)
 			}
 		}, can.ui.display)
-		can.page.Modify(can, can.ui.display, {style: {display: html.BLOCK}})
+		can.page.style(can, can.ui.display, {display: html.BLOCK})
 	},
 
 	day: function(can, msg) {

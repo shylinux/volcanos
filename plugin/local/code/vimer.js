@@ -28,8 +28,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 }, [""])
 Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [],
 	_model: function(can, value) { can.Status("模式", can.mode = value)
-		can.page.Modify(can, can.ui.current, {className: ["current", can.mode]}), value
-		can.page.Modify(can, can.ui.complete, {className: ["complete", can.mode]}), value
+		can.page.styleClass(can, can.ui.current, ["current", can.mode]), value
+		can.page.styleClass(can, can.ui.complete, ["complete", can.mode]), value
 	},
 	_plugin: function(event, can) { can.onkeymap._model(can, "plugin")
 		can.ui.current.blur()

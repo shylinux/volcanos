@@ -257,7 +257,7 @@ Volcanos(chat.ONLAYOUT, {help: "导出数据", list: [],
 	},
 	free: function(can) {
 		can.page.Select(can, can._target, [[html.DIV_OUTPUT, html.FIELDSET_PLUGIN]], function(item, index) {
-			can.page.Modify(can, item, {style: {left: 40*index, top: 40*index}})
+			can.page.style(can, item, {left: 40*index, top: 40*index})
 			can.onmotion.move(can, item, {left: 40*index, top: 40*index})
 		})
 	},

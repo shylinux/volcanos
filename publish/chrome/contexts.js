@@ -51,18 +51,18 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
             can.run(event, [chat.FIELD, mdb.INSERT, mdb.ZONE, location.host].concat(args), function(res) {
                 can.user.toastSuccess(can)
             })
-        }); can.page.Modify(can, ui._target, {style: {left: 200, top: 200}})
+        }); can.page.style(can, ui._target, {left: 200, top: 200})
         can.page.ClassList.add(can, ui._target, chat.CONTEXTS)
     },
     field: function(can, msg, arg) {
         can.onappend.plugin(can, {type: chat.CONTEXTS, index: arg[0], args: can.base.Obj(arg[1])}, function(sub, meta) {
             var pos = {left: msg.Option(html.LEFT), top: msg.Option(html.TOP), right: msg.Option(html.RIGHT), bottom: msg.Option(html.BOTTOM)}
-            can.page.Modify(can, sub._target, {style: pos})
+            can.page.style(can, sub._target, pos)
             can.onmotion.move(can, sub._target, pos, function(target) {
-                can.page.Modify(can, sub._output, {style: {
-                    "max-height": can._root._height-target.offsetTop-80,
-                    "max-width": can._root._width-target.offsetLeft-20,
-                }})
+				can.page.style(can, sub._output,
+					html.MAX_HEIGHT, can._root._height-target.offsetTop-80,
+					html.MAX_WIDTH, can._root._width-target.offsetLeft-20,
+				)
             })
 
             sub._legend.onclick = function(event) {
