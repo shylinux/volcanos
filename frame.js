@@ -174,7 +174,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 	},
 	_option: function(can, meta, option, skip) { meta = meta||{}; var index = -1, args = can.base.Obj(meta.args||meta.arg||meta.opt, []), opts = can.base.Obj(meta.opts, {})
 		function add(item, next) { item = can.base.isString(item)? {type: html.TEXT, name: item}: item, item.type != html.BUTTON && index++
-			return Volcanos(item.name, {_follow: can.core.Keys(can._follow, item.name),
+			return Volcanos(item.name, {_follow: can.core.Keys(can._follow, item.name), _root: can._root,
 				_target: can.onappend.input(can, item, args[index]||opts[item.name], option||can._option),
 				_option: option||can._option, _action: can._action, _output: can._output, _status: can._status,
 				Option: can.Option, Action: can.Action, Status: can.Status, CloneField: can.Clone,
@@ -409,6 +409,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]; target[key] = function(event) { on(event, can, meta, function(cb) {
 				if (target._can) { return can.base.isFunc(cb) && cb(target._can, cbs) }
 				can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT}, ["/plugin/input/"+input+html._JS], function(sub) { sub.Conf(meta)
+					sub._root = can._root
 					sub.run = function(event, cmds, cb) { var msg = sub.request(event, can.Option()); (meta.run||can.run)(event, cmds, cb, true) }
 					sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }, target._can = sub
 
@@ -420,7 +421,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 
 					can.page.style(sub, sub._target, meta.style), can.onmotion.hidden(can, sub._target)
 					can.base.isFunc(cb) && cb(sub, function(sub, hide) { can.onmotion.hidden(can, sub._target, !hide), can.base.isFunc(cbs) && cbs(sub) })
-				}, can._root._target)
+				}, document.body)
 			}, target, last) } })
 		})
 	},
@@ -739,35 +740,34 @@ Volcanos(chat.ONMOTION, {help: "动态特效", list: [], _init: function(can, ta
 			default: target._index = 0; return
 		} can.onkeymap.prevent(event)
 	},
-	selectTableInput: function(event, can, target, cb) {
-		if (target.value == "") { return cb() }
+	selectTableInput: function(event, can, target, cb) { if (target.value == "") { return cb() }
 		if (event.ctrlKey) {
-			function select(order) { if (order == 0) { target.value = target._value }
-				var index = 0; return can.page.Select(can, can._output, html.TR, function(tr) {
+			function select(order) {
+				var index = 0; return can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr) {
 					if (can.page.ClassList.has(can, tr, html.HIDDEN)) { return }
 					can.page.ClassList.del(can, tr, html.SELECT); if (order != index++) { return tr }
 					can.page.ClassList.add(can, tr, html.SELECT), can.page.Select(can, tr, html.TD, function(td, index) {
-						target._value = target._value||target.value, index == 0 && (target.value = td.innerText)
+						index == 0 && (target.value = td.innerText)
 					}); return tr
 				}).length
 			}
 			var total = select(target._index); switch (event.key) {
-				case "n": select(target._index = ((target._index)+1) % total); break
+				case "n": select(target._index = (target._index+1) % total - 1); break
 				case "p": select(target._index = (target._index-1) < 0? total-1: (target._index-1)); break
 				default: target._index = 0, target._value = ""; return
 			} return can.onkeymap.prevent(event)
 		}
 
-		target._index = 0, target._value = ""
-		can.page.Select(can, can._output, html.TR, function(tr, index) {
+		target._index = -1, target._value = target.value
+		can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr, index) {
 			var has = false; can.page.Select(can, tr, html.TD, function(td) {
 				has = has || td.innerText.indexOf(target.value)>-1
-			}), can.page.ClassList.set(can, tr, html.HIDDEN, !has && index != 0)
+			}), can.page.ClassList.set(can, tr, html.HIDDEN, !has)
 		})
 
-		var total = can.page.Select(can, can._output, html.TR, function(tr) {
-			if (!can.page.ClassList.has(can, tr, html.HIDDEN)) { return tr}
-		}).length-1; total == 0 && can.base.isFunc(cb) && cb()
+		var total = can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr) {
+			if (!can.page.ClassList.has(can, tr, html.HIDDEN)) { return tr }
+		}).length; total == 0 && can.base.isFunc(cb) && cb()
 		can.Status(kit.Dict(mdb.TOTAL, total, mdb.INDEX, target._index))
 	},
 })

@@ -9,23 +9,33 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", list: [], key: {
 		}), can.Status(mdb.TOTAL, msg.Length()), can.onmotion.hidden(can, can._target, msg.Length() > 0)
 	},
 	_show: function(event, can, name, cbs, target, value) {
-		can.run(event, [ctx.ACTION, mdb.INPUTS, name, value||target.value], function(msg) {
+		can.runAction(event, mdb.INPUTS, [name, value||target.value], function(msg) {
 			can.onfigure.key._init(can, msg, target), can.base.isFunc(cbs) && cbs(can, msg.Length() == 0)
 		})
 	},
-	// onfocus: function(event, can, meta, cb, target) { if (target._figure) { return } target._figure = {}; cb(function(can, cbs) {
-	// 	target._figure = can.onlayout.figure(event, can, can._target, false, {top: can.page.offsetTop(target)+target.offsetHeight, left: can.page.offsetLeft(target)})
-	// 	can.onfigure.key._show(event, can, meta.name, cbs, target), can.onmotion.focus(can, target)
-	// }) },
-	onblur: function(event, can, meta, cb, target) {
-		target._hold || can.onmotion.delay(can, function() { delete(target._figure), target._can && target._can.close() })
-		target._hold = false
+	onclick: function(event, can, meta, cb, target) {
+		if (target._figure) {
+			target._figure = can.onlayout.figure(event, can, can.core.Value(target, "_can._target")||{})
+			return
+		}
+
+		target._figure = {}; cb(function(can, cbs) { target._figure = can.onlayout.figure(event, can)
+			can.onfigure.key._show(event, can, meta.name, cbs, target), can.onmotion.focus(can, target)
+		})
 	},
-	onclick: function(event, can, meta, cb, target) { if (target._figure) { target._figure = can.onlayout.figure(event, can, can.core.Value(target, "_can._target")||{}); return } target._figure = {}; cb(function(can, cbs) {
-		target._figure = can.onlayout.figure(event, can)
-		can.onfigure.key._show(event, can, meta.name, cbs, target), can.onmotion.focus(can, target)
-	}) },
+	onkeyup: function(event, can, meta, cb, target, last) { var sub = target._can
+		sub && can.onmotion.selectTableInput(event, sub, target, function() {
+			can.onfigure.key._show(event, sub, meta.name, null, target)
+		}), can.base.isFunc(last) && last(event, can)
+	},
 	onkeydown: function(event, can, meta, cb, target, last) { var sub = target._can
+		if (event.ctrlKey) {
+			switch (event.key) {
+				case "n":
+				case "p":
+					return can.onkeymap.prevent(event)
+			}
+		}
 		switch (event.key) {
 			case lang.SHIFT: break
 			case lang.CONTROL: break
@@ -38,13 +48,21 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", list: [], key: {
 			case lang.PS: can.onfigure.key._show(event, sub, meta.name, null, target, target.value+ice.PS); break
 			case lang.TAB: 
 				if (can.page.tagis(html.TEXTAREA, target)) {
-					can.onkeymap.insertText(event.target, "\t"), can.onkeymap.prevent(event)
+					can.onkeymap.insertText(event.target, ice.TB), can.onkeymap.prevent(event)
 					break
 				}
 			default:
-				sub && can.onmotion.selectTableInput(event, sub, target, function() {
-					can.onfigure.key._show(event, sub, meta.name, null, target)
-				}), can.base.isFunc(last) && last(event, can)
+				// sub && can.onmotion.selectTableInput(event, sub, target, function() {
+				// 	can.onfigure.key._show(event, sub, meta.name, null, target)
+				// }),
+				can.base.isFunc(last) && last(event, can)
 		}
 	},
+	// onblur: function(event, can, meta, cb, target) {
+	// 	target._hold || can.onmotion.delay(can, function() { delete(target._figure), target._can && target._can.close() }), target._hold = false
+	// },
+	// onfocus: function(event, can, meta, cb, target) { if (target._figure) { return } target._figure = {}; cb(function(can, cbs) {
+	// 	target._figure = can.onlayout.figure(event, can, can._target, false, {top: can.page.offsetTop(target)+target.offsetHeight, left: can.page.offsetLeft(target)})
+	// 	can.onfigure.key._show(event, can, meta.name, cbs, target), can.onmotion.focus(can, target)
+	// }) },
 }})
