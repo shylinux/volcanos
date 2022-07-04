@@ -240,7 +240,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
 			can.core.Item(value.storm, function(storm, item) {
 				if (word[1] != "" && word[1] != storm && word[1] != item.name) { return }
 
-				var data = {ctx: "web.chat", cmd: chat.STORM,
+				var data = {ctx: "can", cmd: "Storm",
 					type: river, name: storm, text: shy("跳转", function(event) {
 						can.onaction.action(event, can, river, storm)
 					}),

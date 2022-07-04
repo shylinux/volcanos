@@ -29,7 +29,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 
 		can.onengine.signal(can, chat.ONSEARCH, res)
 		can.run(res, cmds, function(res) { can.onimport._init(can, res, fields) })
-		can.onmotion.show(can), can.onmotion.focus(can, can.ui.word)
+		can.onmotion.show(can), can.onmotion.delay(can, function() {
+			can.onmotion.focus(can, can.ui.word)
+		})
 	},
 
 	select: function(can, msg, cmds, cb) { can.ui.word.value = cmds[1]
@@ -45,12 +47,12 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.getActionSize(function(msg, top, left, width, height) {
 			can.page.style(can, can._target, {top: top, left: left})
 			can.page.style(can, can._output, html.MAX_HEIGHT, height-71, html.MAX_WIDTH, width-2*html.PLUGIN_MARGIN)
-			can.page.style(can, can.ui.content, html.MAX_HEIGHT, height/2, html.MAX_WIDTH, width-2*html.PLUGIN_MARGIN)
+			can.page.style(can, can.ui.content, html.MAX_WIDTH, width-2*html.PLUGIN_MARGIN)
 			can.page.style(can, can.ui.display, html.MAX_WIDTH, width-2*html.PLUGIN_MARGIN)
 		})
 	},
 })
-Volcanos(chat.ONACTION, {help: "交互操作", list: [cli.CLEAR, cli.CLOSE, cli.DONE], _init: function(can, cb, target) {
+Volcanos(chat.ONACTION, {help: "交互操作", list: [cli.CLOSE, cli.CLEAR, cli.DONE], _init: function(can, cb, target) {
 		can.onmotion.hidden(can, can._target), can.base.isFunc(cb) && cb()
 	},
 	onlogin: function(can, msg) {

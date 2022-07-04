@@ -72,7 +72,7 @@ var cli = {
 	SHOW: "show",
 }
 var nfs = {
-	ZML: "zml", IML: "iml",
+	ZML: "zml", IML: "iml", TXT: "txt",
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
 	SAVE: "save", LOAD: "load", TAGS: "tags", FIND: "find", GREP: "grep",
@@ -183,8 +183,8 @@ var chat = {
 	ONMAIN: "onmain", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
 	ONSIZE: "onsize", ONTOAST: "ontoast", ONREMOTE: "onremote",
 	ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
-	ONSTORM_SELECT: "onstorm_select", ONACTION_TOUCH: "onaction_touch", ONACTION_NOTOOL: "onaction_notool",
-	ONACTION_CMD: "onaction_cmd",
+	ONSTORM_SELECT: "onstorm_select", ONACTION_TOUCH: "onaction_touch", ONACTION_NOTOOL: "onaction_notool", ONACTION_CMD: "onaction_cmd",
+	ONOPENSEARCH: "onopensearch", ONSEARCHFOCUS: "onsearchfocus", ONCOMMANDFOCUS: "oncommandfocus",
 
 	_INIT: "_init", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1",
 	_NAMES: "_names", _TOAST: "_toast",

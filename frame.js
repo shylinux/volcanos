@@ -6,7 +6,7 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", list: [], _init: function(can, me
 		can.require([can.volcano], null, function(can, key, sub) { can[key] = sub })
 		can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]
 			return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb)
-		}, Volcanos.meta.args = can.user.args(can), can.onlayout.topic(can)
+		}, Volcanos.meta.args = can.user.args(can)
 		can.user.title(can.misc.Search(can, chat.TITLE)||can.misc.Search(can, ice.POD)||location.host)
 
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
@@ -23,7 +23,7 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", list: [], _init: function(can, me
 				}), can.core.CallFunc([panel.onaction, chat._INIT], {can: panel, cb: next, target: panel._target})
 			}, target)
 		}, function() { can.misc.Log(can.user.title(), ice.RUN, can)
-			can.onmotion._init(can, target), can.onkeymap._init(can)
+			can.onmotion._init(can, target), can.onkeymap._init(can), can.setHeader(chat.TOPIC)
 			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb()
 		})
 
@@ -258,7 +258,8 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 			if (can._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], can._daemon)) }
 		}
 
-		return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)||{}; can._msg = msg, sub._msg = msg
+		return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)||{};
+			(!cmds || cmds[0] != ctx.ACTION) && (can._msg = msg, sub._msg = msg)
 			if (can.base.isFunc(cb)) { can.core.CallFunc(cb, {can: can, msg: msg}); return }
 			var process = msg._can == can || msg._can == sub
 			if (process && can.core.CallFunc([sub, chat.ONIMPORT, ice.MSG_PROCESS], {can: sub, msg: msg})) { return }
@@ -267,6 +268,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 		})
 	},
 	_output: function(can, msg, display, output, action, cb) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
+		can._display = display
 		Volcanos(display, {_follow: can.core.Keys(can._follow, display), _target: output, _fields: can._target, _display: display,
 			_legend: can._legend, _option: can._option, _action: can._action, _output: can._output, _status: can._status, _root: can._root,
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
@@ -461,9 +463,6 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", list: [], _init: function(can, ta
 		})
 
 		can.onengine.signal(can, chat.ONSIZE, can.request({}, {width: width, height: height}))
-	},
-	topic: function(can, topic) { topic && (can._topic = topic)
-		can.user.topic(can, can._topic || can.misc.Search(can, chat.TOPIC) || Volcanos.meta.args.topic || (can.base.isNight()? chat.BLACK: chat.WHITE))
 	},
 	background: function(can, url, target) {
 		can.page.style(can, target||can._root._target, html.BACKGROUND, url == "" || url == "void"? "": 'url("'+url+'")')
@@ -666,7 +665,7 @@ Volcanos(chat.ONMOTION, {help: "动态特效", list: [], _init: function(can, ta
 				var toast = can.user.toast(can, {content: {img: url, style: {"max-height": 240, display: html.BLOCK}}, duration: -1,
 					action: shy({}, [cli.CLOSE, "download"], function(event, button) {
 						can.user.input(event, can, [{name: mdb.NAME, value: name}], function(ev, button, data) { toast.close()
-							can.page.Create(can, html.A, {href: url, download: data.name}).click()
+							can.page.Create(can, html.A, {href: url, download: data.name+".png"}).click()
 						})
 					}),
 				})
@@ -784,7 +783,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [], _focus: [], _init: func
 					case "q": window.terminate(); break
 					case "w": can.user.close(); break
 					case "r": can.user.reload(); break
-					case "f": can.onengine.signal(can, "onopensearch", can.request({}, {type: "*"})); break
+					case "f": can.onengine.signal(can, chat.ONOPENSEARCH, can.request({}, {type: "*"})); break
 					case "[": history.back(); break
 					case "]": history.forward(); break
 				}

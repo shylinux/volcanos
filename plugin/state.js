@@ -86,7 +86,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, me
 })
 Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		"刷新数据", "切换全屏", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", [
-			"其它", "刷新页面", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除工具","摄像头",
+			"其它", "刷新页面", "保存参数", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除工具","摄像头",
 		],
 	], _init: function(can, msg, list, cb, target) {},
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input([], true))) },
@@ -129,18 +129,18 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	"刷新页面": function(event, can) { var sub = can.core.Value(can._outputs, "-1")
 		can.core.CallFunc([sub, chat.ONIMPORT, "_init"], {can: sub, msg: sub._msg, cb: function(msg) {}, target: can._output})
 	},
+	"保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
 	"清空参数": function(event, can) { can.page.SelectArgs(can, can._option, "", function(item) { return item.value = "" }) },
 	"扩展参数": function(event, can) { can.onmotion.toggle(can, can._action) },
 	"复制数据": function(event, can) { can.user.copy(event, can, can.onexport.table(can)||can.onexport.board(can)) },
 	"下载数据": function(event, can) { var meta = can.Conf()
 		can.user.input(event, can, [{name: "filename", value: meta.name}], function(ev, button, data, list) {
-			can.user.downloads(can, can.onexport.table(can), list[0], "csv")||can.user.downloads(can, can.onexport.board(can), meta.name, "txt")
+			can.user.downloads(can, can.onexport.table(can), list[0], nfs.CSV)||can.user.downloads(can, can.onexport.board(can), meta.name, nfs.TXT)
 		})
 	},
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
 	"删除工具": function(event, can) { can.page.Remove(can, can._target) },
 
-	"保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
 	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
 
 	"摄像头": function(event, can) {

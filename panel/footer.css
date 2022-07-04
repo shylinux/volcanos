@@ -3,7 +3,7 @@ fieldset.Footer>div.output { height:32px; overflow:hidden; }
 fieldset.Footer>div.output>div { padding:5px; height:22px; cursor:pointer; }
 fieldset.Footer>div.output>div:hover { background-color:#2e515f; border-top:solid 2px red; }
 fieldset.Footer>div.output div.title { float:left; }
-fieldset.Footer>div.output div.state { float:right; }
+fieldset.Footer>div.output div.state { float:right; font-family:monospace; }
 fieldset.Footer>div.output div.toast { background-color:darkcyan; float:right; }
 fieldset.Footer>div.output div.cmd { padding:0px; float:left; }
 fieldset.Footer>div.output input[name=cmd] { height:25px; width:120px; border-radius:0; }
