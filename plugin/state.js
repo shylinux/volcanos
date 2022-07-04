@@ -134,7 +134,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	"复制数据": function(event, can) { can.user.copy(event, can, can.onexport.table(can)||can.onexport.board(can)) },
 	"下载数据": function(event, can) { var meta = can.Conf()
 		can.user.input(event, can, [{name: "filename", value: meta.name}], function(ev, button, data, list) {
-			can.user.downloads(can, can.onexport.table(can), list[0]+".csv")||can.user.downloads(can, can.onexport.board(can), meta.name+".txt")
+			can.user.downloads(can, can.onexport.table(can), list[0], "csv")||can.user.downloads(can, can.onexport.board(can), meta.name, "txt")
 		})
 	},
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },

@@ -16,7 +16,7 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", list: [], _init: function(can, me
 				}, can[item.name] = panel, panel._root = can, panel._trans = panel.onaction && panel.onaction._trans||{}
 
 				can.core.Item(panel.onplugin, function(key, cmd) {
-					panel.onplugin.hasOwnProperty(key) && can.base.isFunc(cmd) && can.onengine.plugin(can, key, cmd)
+					panel.onplugin.hasOwnProperty(key) && can.base.isFunc(cmd) && can.onengine.plugin(panel, key, cmd)
 				})
 				can.core.ItemCB(panel.onaction, function(key, cb) {
 					can.onengine.listen(can, key, function(msg) { can.core.CallFunc(cb, {can: panel, msg: msg}) })
@@ -84,7 +84,7 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", list: [], _init: function(can, me
 		}
 		var p = can.onengine.plugin.meta[cmds[0]], n = 1; if (p) {
 			if (p.meta && p.meta[cmds[1]] && cmds[0] == ctx.ACTION) { n = 3 } else if (p.meta && p.meta[cmds[0]]) { n = 2 }
-			return can.core.CallFunc(p, {can: panel, msg: msg, cmds: cmds.slice(n), cb: cb}), true
+			return can.core.CallFunc(p, {can: p.can||panel, msg: msg, cmds: cmds.slice(n), cb: cb}), true
 		}
 		return false
 	},
@@ -95,7 +95,7 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", list: [], _init: function(can, me
 				case lang.STRING: return can.core.SplitInput(item)
 				case lang.OBJECT: return type = item.type||type, item
 			}
-		}), arguments.callee.meta[can.core.Keys(ice.CAN, name)] = command
+		}), command.can = can, arguments.callee.meta[can.core.Keys(ice.CAN, name)] = command
 	}),
 	listen: shy("监听事件", function(can, name, cb) {
 		arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)

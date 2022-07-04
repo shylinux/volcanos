@@ -294,7 +294,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
 			if (item.innerHTML.indexOf(word[1]) == -1) { return }
 
 			var list = can.page.Select(can, item.nextSibling, html.OPTION_ARGS, function(item) { return item.value||"" })
-			var meta = item.parentNode._meta
+			var meta = item.parentNode._meta; if (!meta) { return }
 
 			var data = {ctx: "web.chat", cmd: ctx.ACTION,
 				type: mdb.PLUGIN, name: item.innerHTML, text: shy("跳转", function(event) {

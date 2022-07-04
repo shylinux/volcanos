@@ -361,6 +361,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 		setHeader: function(key, value) { return can.set("Header", key, value) },
 		getHeader: function(key, cb) { return can.get("Header", key, cb) },
 		setRiver: function(key, value) { return can.set("River", key, value) },
+		setAction: function(key, value) { return can.set("Action", key, value) },
 		getAction: function(key, cb) { return can.get("Action", key, cb) },
 		getActionSize: function(cb) { return can.get("Action", "size", cb) },
 
