@@ -77,7 +77,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [], _init: function(can, cb
 		})
 	},
 	onsearch: function(can, msg, word) {
-		if (word[0] == chat.STORM || word[1] != "") { can.onexport.storm(can, msg, word) }
+		if (word[0] == chat.STORM) { can.onexport.storm(can, msg, word) }
 	},
 	onstorm_select: function(can, msg, river, storm) {
 		if (can.user.isExtension) { localStorage.setItem(ctx.ARGS, JSON.stringify({river: river, storm: storm})) }

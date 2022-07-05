@@ -17,7 +17,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) { 
 			if (event.key == lang.ESCAPE) { event.target.blur() }
 		}},
 		{type: html.TEXT, name: "filter", value: "", onkeydown: function(event, can) {
-			can.onmotion.selectTableInput(event, can.sup, event.target)
+			can.onmotion.selectInputTable(event, can.sup, null, event.target)
 			if (event.key == lang.ENTER) { can.sup.Update(event, [ctx.ACTION, event.ctrlKey? nfs.GREP: nfs.TAGS, can.sup.Option("word")]) }
 			if (event.key == lang.ESCAPE) { event.target.blur() }
 		}},

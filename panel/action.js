@@ -131,7 +131,10 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [], _focus: [], _init: func
 			":": function(event, can, target) {
 				can.onengine.signal(can, chat.ONCOMMANDFOCUS), can.onkeymap.prevent(event)
 			},
-			escape: function(event, can, target) {
+			Enter: function(event, can, target) {
+				can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: ""}))
+			},
+			Escape: function(event, can, target) {
 				can.page.Select(can, can._root._target, can.page.Keys(html.FIELDSET_FLOAT, html.DIV_FLOAT), function(item) {
 					can.page.Remove(can, item)
 				})

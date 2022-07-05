@@ -59,6 +59,21 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [cli.CLOSE, cli.CLEAR, cli.
 		can.onappend._action(can, can.Conf(html.ACTION)||can.onaction.list)
 		can.ui = can.page.Append(can, can._output, [
 			{input: ["word", function(event) { can.onkeymap.input(event, can)
+				if (event.ctrlKey) {
+					if (event.key == "0") {
+						can.onaction.clear(event, can)
+					}
+					if ("1" <= event.key && event.key <= "9") {
+						can.page.Select(can, can.ui.content, [html.TBODY, html.TR], function(tr, index) {
+							if (index+1 == event.key) {
+								can.page.Select(can, tr, html.TD, function(td, index) {
+									index == 0 && td.click()
+								})
+							}
+						})
+						return
+					}
+				}
 				if (event.key == lang.ESCAPE) { return can.onmotion.hide(can) }
 
 				if (event.key == lang.ENTER) { can.onkeymap.prevent(event)

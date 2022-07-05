@@ -315,8 +315,16 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 		var br = input.type == html.TEXTAREA? [{type: html.BR, style: {clear: html.BOTH}}]: []
 		var title = can.Conf([ctx.FEATURE, chat.TITLE, item.name].join(ice.PT))||""; title && (input.title = title)
 		return can.page.Append(can, target, ([{view: style||can.base.join([html.ITEM, item.type]), onkeydown: function(event) {
-			item.type == html.TEXTAREA && event.key == lang.TAB  && can.onkeymap.insertText(event.target, ice.TB)
-			item.type == html.TEXT && can.onkeymap.input(event, can), can.onmotion.selectField(event, can)
+			switch (item.type) {
+				case html.TEXT:
+					switch (event.key) { case lang.ENTER: can.onkeymap.prevent(event); break }
+					can.onkeymap.input(event, can), can.onmotion.selectField(event, can)
+					break
+				case html.TEXTAREA:
+					switch (event.key) { case lang.TAB: can.onkeymap.insertText(event.target, ice.TB); can.onkeymap.prevent(event); break }
+					break
+			}
+
 		}, list: [input]}]).concat(br))[item.name]
 	},
 	table: function(can, msg, cb, target, sort) { if (msg.Length() == 0) { return }
@@ -405,23 +413,15 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 		return res
 	},
 	figure: function(can, meta, target, cbs) { if ([html.BUTTON, html.SELECT].indexOf(meta.type) > -1) { return }
-		var input = meta.action||mdb.KEY; input != ice.AUTO && can.require(["/plugin/input/"+input+html._JS], function(can) {
+		var input = meta.action||mdb.KEY; input != ice.AUTO && can.require(["/plugin/input/"+input+".js"], function(can) {
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]; target[key] = function(event) { on(event, can, meta, function(cb) {
 				if (target._can) { return can.base.isFunc(cb) && cb(target._can, cbs) }
-				can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT}, ["/plugin/input/"+input+html._JS], function(sub) { sub.Conf(meta)
-					sub._root = can._root
+				can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT}, ["/plugin/input/"+input+".js"], function(sub) { sub.Conf(meta)
 					sub.run = function(event, cmds, cb) { var msg = sub.request(event, can.Option()); (meta.run||can.run)(event, cmds, cb, true) }
-					sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }, target._can = sub
-
-					can.onappend._action(sub, [cli.CLOSE, cli.CLEAR, cli.REFRESH], sub._action, kit.Dict(
-						cli.REFRESH, function(event) { can.base.isFunc(cb) && cb(sub) },
-						cli.CLEAR, function(event) { target.value = "" },
-						cli.CLOSE, function(event) { sub.close() }
-					)), can.onappend._status(sub, [mdb.TOTAL, mdb.INDEX])
-
-					can.page.style(sub, sub._target, meta.style), can.onmotion.hidden(can, sub._target)
+					target._can = sub, sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }
+					can.page.style(sub, sub._target, meta.style), can.onlayout.figure(event, sub), can.onmotion.hidden(can, sub._target)
 					can.base.isFunc(cb) && cb(sub, function(sub, hide) { can.onmotion.hidden(can, sub._target, !hide), can.base.isFunc(cbs) && cbs(sub) })
-				}, document.body)
+				}, can._root._target)
 			}, target, last) } })
 		})
 	},
@@ -711,20 +711,50 @@ Volcanos(chat.ONMOTION, {help: "动态特效", list: [], _init: function(can, ta
 	},
 
 	selectField: function(event, can) {
-		if (event.key == "Enter") { return can.run(event) }
 		if (!event.ctrlKey || event.key < "0" || event.key > "9") { return }
-		if (event.shiftKey) {
-			return can.page.Select(can, can._option, "input[type=button]", function(item, index) {
-				index == event.key && (item.click())
-			})
-		}
 		if (event.key == "0") { return can.onimport._back(can) }
-
 		can.page.Select(can, can._output, html.TR, function(tr, index) { if (index == event.key) {
 			var head = can.page.Select(can, can._output, html.TH, function(th, order) { return th.innerText })
 			can.page.Select(can, tr, html.TD, function(td, index) { can.Option(head[index], td.innerText) })
 			can.Update(event)
 		} })
+	},
+	selectInputTable: function(event, can, cb, target) { if (target.value == "") { return cb() }
+		switch (event.key) {
+			case lang.SHIFT:
+			case lang.CONTROL:
+				return
+		}
+
+		if (event.ctrlKey) {
+			function select(order) { if (order == -1) { target.value = target._value }
+				var index = 0; return can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr) {
+					if (can.page.ClassList.has(can, tr, html.HIDDEN)) { return }
+					can.page.ClassList.del(can, tr, html.SELECT); if (order != index++) { return tr }
+					can.page.ClassList.add(can, tr, html.SELECT), can.page.Select(can, tr, html.TD, function(td, index) {
+						index == 0 && (target.value = td.innerText)
+					}); return tr
+				}).length
+			}
+			var total = select(target._index); switch (event.key) {
+				case "n": select(target._index = (target._index+2) % (total+1) - 1); break
+				case "p": select(target._index = (target._index+total+1) % (total+1) - 1); break
+				default: return
+			}
+			return can.Status(mdb.INDEX, target._index), can.onkeymap.prevent(event)
+		}
+
+		target._index = -1, target._value = target.value
+		can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr, index) {
+			var has = false; can.page.Select(can, tr, html.TD, function(td) {
+				has = has || td.innerText.indexOf(target.value)>-1
+			}), can.page.ClassList.set(can, tr, html.HIDDEN, !has)
+		})
+
+		var total = can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr) {
+			if (!can.page.ClassList.has(can, tr, html.HIDDEN)) { return tr }
+		}).length; total == 0 && can.base.isFunc(cb) && cb()
+		can.Status(kit.Dict(mdb.TOTAL, total, mdb.INDEX, target._index))
 	},
 	selectTable: function(event, can, target, cb) { if (!event.ctrlKey) { return }
 		function select(order) { var index = 0
@@ -739,36 +769,6 @@ Volcanos(chat.ONMOTION, {help: "动态特效", list: [], _init: function(can, ta
 			case "p": select(target._index = (target._index-1) < 0? total-1: (target._index-1)); break
 			default: target._index = 0; return
 		} can.onkeymap.prevent(event)
-	},
-	selectTableInput: function(event, can, target, cb) { if (target.value == "") { return cb() }
-		if (event.ctrlKey) {
-			function select(order) {
-				var index = 0; return can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr) {
-					if (can.page.ClassList.has(can, tr, html.HIDDEN)) { return }
-					can.page.ClassList.del(can, tr, html.SELECT); if (order != index++) { return tr }
-					can.page.ClassList.add(can, tr, html.SELECT), can.page.Select(can, tr, html.TD, function(td, index) {
-						index == 0 && (target.value = td.innerText)
-					}); return tr
-				}).length
-			}
-			var total = select(target._index); switch (event.key) {
-				case "n": select(target._index = (target._index+1) % total - 1); break
-				case "p": select(target._index = (target._index-1) < 0? total-1: (target._index-1)); break
-				default: target._index = 0, target._value = ""; return
-			} return can.onkeymap.prevent(event)
-		}
-
-		target._index = -1, target._value = target.value
-		can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr, index) {
-			var has = false; can.page.Select(can, tr, html.TD, function(td) {
-				has = has || td.innerText.indexOf(target.value)>-1
-			}), can.page.ClassList.set(can, tr, html.HIDDEN, !has)
-		})
-
-		var total = can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr) {
-			if (!can.page.ClassList.has(can, tr, html.HIDDEN)) { return tr }
-		}).length; total == 0 && can.base.isFunc(cb) && cb()
-		can.Status(kit.Dict(mdb.TOTAL, total, mdb.INDEX, target._index))
 	},
 })
 Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
