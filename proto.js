@@ -62,6 +62,7 @@ var cli = {
 	DAEMON: "daemon",
 	START: "start", STOP: "stop", OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end",
 
+	COLOR: "color",
 	RED: "red", GREEN: "green", BLUE: "blue",
 	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta",
 	WHITE: "white", BLACK: "black",
@@ -197,11 +198,11 @@ var mall = {
 }
 
 var svg = {
-	PID: "pid",
-	GROUP: "group",
+	GROUP: "group", PID: "pid",
 	SHAPE: "shape", TEXT: "text", RECT: "rect", LINE: "line", CIRCLE: "circle", ELLIPSE: "ellipse",
 	G: "g", X: "x", Y: "y", R: "r", RX: "rx", RY: "ry", CX: "cx", CY: "cy", X1: "x1", Y1: "y1", X2: "x2", Y2: "y2",
-	M: "M", Q: "Q", T: "T", PATH2V: "path2v", PATH2H: "path2h",
+	PATH: "path", PATH2V: "path2v", PATH2H: "path2h",
+	M: "M", Q: "Q", T: "T",
 }
 var html = {
 	// FIELDSET

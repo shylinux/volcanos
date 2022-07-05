@@ -44,7 +44,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.onengine.signal(can, chat.ONACTION_CMD)
 
 		can.onappend.plugin(can, can.base.Copy(item, {opts: can.misc.Search(can)}), function(sub, meta, skip) {
-			can.page.style(can, sub._output, html.MAX_WIDTH, can._root._width)
+			sub.ConfHeight(can.ConfHeight()-can.Conf(html.MARGIN_Y))
+			can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth())
 			can.user.title(meta.name), skip || next()
 		})
 	},
@@ -90,7 +91,7 @@ Volcanos(chat.ONPLUGIN, {help: "注册插件", list: [],
 				can.onappend.parse(can, can.onappend._parse(can, cmds[0]))
 			})
 		},
-	}, ["text", "show:button@auto"], function(can, msg, cmds, cb) { can.run({}, cmds, cb, true) }),
+	}, ["text", "show:button@auto"], function(can, msg, cmds, cb) { can._root.Action.run({}, cmds, cb, true) }),
 
 	"plugin": shy("插件", {}, ["text", "list", "back"], function(can, msg, cmds) {
 		msg.Echo("hello world")

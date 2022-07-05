@@ -3,16 +3,13 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		if (msg.Length() == 0) { return }
 		if (msg.Option("branch")) { return can.onappend.table(can, msg) }
 
-		can.onappend._status(can, ["from", "commit", "total", "max", "date", "text", "add", "del"])
 		can.data = msg.Table(), can.onimport._sum(can)
 		can.Action(html.HEIGHT, msg.Option(html.HEIGHT)||ice.AUTO)
-		can.Action("speed", parseInt(msg.Option("speed")||"100"))
+		can.Action(html.SPEED, parseInt(msg.Option(html.SPEED)||"100"))
 
-		can.onmotion.hidden(can, can._action)
+		can.page.ClassList.add(can, can._fields, "draw")
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
-			can.page.ClassList.add(can, can._fields, "draw")
-			can.onimport._show(can, msg), can.onmotion.hidden(can, can.ui.project)
-			can.onaction[can.Action(ice.VIEW)](event, can)
+			can.onimport.layout(can)
 		})
 	},
 	_sum: function(can) {
@@ -40,34 +37,41 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		})
 		can.Status({"from": begin, "commit": count, "total": add+del, "max": max})
 	},
-}, [""])
-Volcanos(chat.ONACTION, {help: "组件菜单", list: ["edit", [ice.VIEW, "趋势图", "柱状图", "数据源"], ["height", "100", "200", "400", "600", "800", "auto"], ["speed", "10", "20", "50", "100"]],
-	"edit": function(event, can) { can.onmotion.toggle(can, can._action), can.onmotion.toggle(can, can._status) },
-
-	"趋势图": function(event, can) { var height = can.Action(html.HEIGHT)
-		if (height == ice.AUTO) { height = can.ConfHeight() }
-		height = parseInt(height)
-
-		var space = 10, width = parseInt(can.ConfWidth())
+	_layout: function(can) {
+		var height = can.onexport.height(can)
+		var width = parseInt(can.ConfWidth()), space = 10
 		var step = parseInt((width-2*space) / can.list.length)
 
-		can.onmotion.clear(can, can.svg)
-		can.svg.Val(html.HEIGHT, height)
-		can.svg.Val(html.WIDTH, width)
+		can.onmotion.clear(can, can._output)
+		can.onimport._show(can, can._msg), can.onmotion.hidden(can, can.ui.project)
+		can.svg.Val(html.HEIGHT, height), can.svg.Val(html.WIDTH, width)
+		return {height: height, width: width, space: 10, step: step}
+	},
+	layout: function(can) {
+		can.onaction[can.Action(ice.VIEW)]({}, can)
+	},
+}, [""])
+Volcanos(chat.ONACTION, {help: "组件菜单", list: ["edit", 
+		[ice.VIEW, "趋势图", "柱状图", "数据源"],
+		[html.HEIGHT, "100", "200", "400", "600", "800", ice.AUTO],
+		[html.SPEED, "10", "20", "50", "100"]
+	],
+	"edit": function(event, can) { can.onmotion.toggle(can, can._action), can.onmotion.toggle(can, can._status) },
 
-		function scale(y) { return (y - can.min)/(can.max - can.min)*(height-2*space) }
-		function order(index, x, y) { return {x: space+step*index+x, y: height-space-scale(y)} }
+	"趋势图": function(event, can) { var args = can.onimport._layout(can)
+		function scale(y) { return (y - can.min)/(can.max - can.min)*(args.height-2*args.space) }
+		function order(index, x, y) { return {x: args.space+args.step*index+x, y: args.height-args.space-scale(y)} }
 
 		can.core.Next(can.list, function(line, next, index) {
 			can.onimport.draw({}, can, {
 				shape: svg.LINE, point: [
-					order(index, step/2, line.min), order(index, step/2, line.max),
+					order(index, args.step/2, line.min), order(index, args.step/2, line.max),
 				], style: kit.Dict(html.STROKE_WIDTH, 1, html.STROKE, line.begin < line.close? chat.WHITE: chat.BLACK),
 			})
 
 			can.onimport.draw({}, can, {
 				shape: svg.RECT, point: [
-					order(index, step/4, line.close), order(index, step/4*3, line.begin),
+					order(index, args.step/4, line.close), order(index, args.step/4*3, line.begin),
 				], style: can.base.Copy(kit.Dict(html.STROKE_WIDTH, 1, svg.RX, 0, svg.RY, 0), line.begin < line.close?
 					kit.Dict(html.STROKE, chat.WHITE, html.FILL, chat.WHITE): kit.Dict(html.STROKE, chat.BLACK, html.FILL, chat.BLACK)
 				),
@@ -77,60 +81,48 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: ["edit", [ice.VIEW, "趋势
 			})
 
 			can.Status(line, ["date", "text", "add", "del"])
-			can.core.Timer(parseInt(can.Action("speed")), next)
+			can.core.Timer(parseInt(can.Action(html.SPEED)), next)
 		})
 	},
-	"柱状图": function(event, can) {
-		var max = {}, min = {}
-		can.core.List(can._msg.append, function(key, which) {
+	"柱状图": function(event, can) { var args = can.onimport._layout(can)
+		var max = {}, min = {}; can.core.List(can._msg.append, function(key, which) {
 			can.core.List(can.data, function(value, index) {
 				var v = parseInt(value[key])||0; if (index == 0) {
-					max[key] = v, min[key] = v
-					return
+					return max[key] = v, min[key] = v
 				}
 				if (v > max[key]) { max[key] = v }
 				if (v < min[key]) { min[key] = v }
 			})
 		})
 
-		var height = parseInt(can.Action(html.HEIGHT))
-		var space = 10, width = parseInt(can.ConfWidth())
-		var step = parseInt((width-2*space) / can.list.length)
+		function scale(key, y) { return (y - min[key])/(max[key] - min[key])*(args.height-2*args.space) }
 
-		can.onmotion.clear(can, can.svg)
-		can.svg.Val(html.HEIGHT, height)
-		can.svg.Val(html.WIDTH, width)
-
-		function scale(key, y) { return (y - min[key])/(max[key] - min[key])*(height-2*space) }
-		function order(index, key, x, y) { return {x: space+step*index+x, y: space+scale(key, y)} }
-
-		var width = (step-4)/can._msg.append.length
-		can.core.List(can._msg.append, function(key, which) {
-			max[key] != min[key] && can.core.Next(can.data, function(line, next, index) {
-				var y = scale(key, parseFloat(line[key]))
-				y && can.onimport.draw({}, can, {
-					shape: svg.RECT, point: [
-						order(index, key, width*which+2, 0), order(index, key, width*which+2+width, y),
-					], style: kit.Dict(html.STROKE_WIDTH, 1, html.STROKE, cli.WHITE, html.FILL, cli.WHITE, svg.RX, 0, svg.RY, 0),
-					_init: function(view) {
-						can.core.ItemCB(can.ondetail, function(key, cb) { view[key] = function(event) { cb(event, can, line) } })
-					},
-				})
-
-				can.core.Timer(parseInt(can.Action("speed")), next)
-			})
+		var width = args.step/can._msg.append.length, which = 0
+		can.core.List(can._msg.append, function(key, which) { if (max[key] == min[key]) { return }
+			can.core.Next(can.data, function(line, next, index) { if (parseInt(line[key]) == 0) { return }
+				can.onimport.draw({}, can, {shape: svg.RECT, point: [
+					{x: args.space+args.step*index+width*which+2, y: args.height-args.space-scale(key, parseInt(line[key]))},
+					{x: args.space+args.step*index+width*(which+1)+2, y: args.height-args.space},
+				], style: kit.Dict(html.STROKE_WIDTH, 1, html.STROKE, cli.WHITE, html.FILL, cli.WHITE, svg.RX, 0, svg.RY, 0), _init: function(view) {
+					can.core.ItemCB(can.ondetail, function(key, cb) { view[key] = function(event) { cb(event, can, line) } })
+				}}), can.core.Timer(parseInt(can.Action(html.SPEED)), next)
+			}), which++
 		})
 	},
 	"数据源": function(event, can) {
-		can.onmotion.clear(can, can.ui.display)
-		can.onappend.table(can, can._msg, null, can.ui.display)
-		can.onmotion.show(can, can.ui.display)
+		can.onmotion.clear(can, can._output)
+		can.onappend.table(can, can._msg, null, can._output)
 	},
 
-	height: function(event, can) { can.onaction[can.Action(ice.VIEW)](event, can) },
-	speed: function(event, can) { can.onaction[can.Action(ice.VIEW)](event, can) },
+	height: function(event, can) { can.onimport.layout(can) },
+	speed: function(event, can) { can.onimport.layout(can) },
 })
 Volcanos(chat.ONDETAIL, {help: "用户交互", list: [],
-	onmouseenter: function(event, can, line) { can.Status(line, ["date", "text", "add", "del"]) },
+	onmouseenter: function(event, can, line) { can.Status(line, ["date", "note", "adds", "dels"]) },
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: []})
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["from", "commit", "total", "max", "date", "note", "adds", "dels"],
+	height: function(can) { var height = can.Action(html.HEIGHT)
+		if (height == ice.AUTO) { height = can.ConfHeight() }
+		return parseInt(height)
+	},
+})
