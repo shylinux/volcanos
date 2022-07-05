@@ -4,7 +4,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 			can.onappend.plugin(can, {index: "web.code.vimer", style: "full"}, function(sub) {
 				sub.run = function(event, cmds, cb) { var res = can.request(event)
 					if (cmds[1] == "plugin") {
-						can.run(event, can.misc.concat(can, ["action", "vimer"], cmds), cb, true)
+						can.runAction(event, "vimer", cmds, cb)
 						return
 					}
 					if (cmds[1] == "main.go") { res.Echo(msg.Option("content"))
@@ -22,9 +22,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 Volcanos(chat.ONACTION, {help: "操作数据", list: [], _init: function(can, msg, list, cb, target) {
 	},
 	run: function(event, can, msg) {
-		can.run(event, [ctx.ACTION, ice.RUN, "go", "hi.go", can.sub.onexport.content(can.sub)], function(msg) {
+		can.runAction(event, ice.RUN, ["go", "hi.go", can.sub.onexport.content(can.sub)], function(msg) {
 			can.onappend.board(can, msg)
-		}, true)
+		})
 	},
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据", list: [], _init: function(can, msg, list, cb, target) {

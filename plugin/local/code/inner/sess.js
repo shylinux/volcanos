@@ -3,10 +3,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) { 
 		sub.run = function(event, cmds, cb) { var msg = can.request(event)
 			if (can.misc.runAction(can, msg, cmds, cb, kit.Dict(
 				nfs.SAVE, function(cmds) {
-					can.run(event, [ctx.ACTION, ice.RUN, SESS].concat([ctx.ACTION, mdb.CREATE,
+					can.runActionCommand(event, SESS, [ctx.ACTION, mdb.CREATE,
 						"tool", JSON.stringify(can.onexport.tool(can)),
 						"tabs", JSON.stringify(can.onexport.tabs(can)),
-					]), cb, true)
+					], cb)
 				},
 				nfs.LOAD, function(cmds) {
 					can.onimport.sess(can, {
@@ -15,7 +15,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) { 
 					})
 				},
 			))) { return }
-			can.run(event, [ctx.ACTION, ice.RUN, SESS].concat(cmds), cb, true)
+			can.runActionCommand(event, SESS, cmds, cb)
 		}, can.base.isFunc(cb) && cb(sub)
 	})
 }})

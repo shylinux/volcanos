@@ -232,7 +232,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); if (msg.RunAction(event, can, cmds)) { return }
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { var msg = can.request(event, {action: cmds[1]})
 			if (can.base.isFunc(meta.feature[cmds[1]])) { return can.core.CallFunc(meta.feature[cmds[1]], {can: can, msg: msg, cmds: cmds.slice(2)}) }
-			return can.user.input(event, can, meta.feature[cmds[1]], function(ev, button, data, list, args) { var msg = can.request(event, {_handle: ice.TRUE}, can.Option())
+			return can.user.input(event, can, meta.feature[cmds[1]], function(args) { var msg = can.request(event, {_handle: ice.TRUE}, can.Option())
 				can.Update(event, cmds.slice(0, 2).concat(args), cb||function() {
 					if (can.core.CallFunc([can.sup, chat.ONIMPORT, ice.MSG_PROCESS], {can: can.sup, msg: msg})) { return }
 					if (can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
@@ -258,10 +258,10 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 			if (can._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], can._daemon)) }
 		}
 
-		return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)||{};
-			(!cmds || cmds[0] != ctx.ACTION) && (can._msg = msg, sub._msg = msg)
+		return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)||{}
+			if (!cmds || cmds[0] != ctx.ACTION) { can._msg = msg, sub._msg = msg }
 			if (can.base.isFunc(cb)) { can.core.CallFunc(cb, {can: can, msg: msg}); return }
-			var process = msg._can == can || msg._can == sub
+			var process = msg._can == can || msg._can == sub; msg._cmds = cmds
 			if (process && can.core.CallFunc([sub, chat.ONIMPORT, ice.MSG_PROCESS], {can: sub, msg: msg})) { return }
 			if (process && can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
 			!silent && can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)||meta.display||meta.feature.display, can._output, can._action)
@@ -337,7 +337,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 			if (key == "extra.cmd") {
 				can.onappend.plugin(can, {ctx: line["extra.ctx"], cmd: line["extra.cmd"], arg: line["extra.arg"]}, function(sub) {
 					sub.run = function(event, cmds, cb) { var msg = can.request(event, line, can.Option())
-						can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, can.core.Keys(line["extra.ctx"], line["extra.cmd"])], cmds), cb, true)
+						can.runActionCommand(event, can.core.Keys(line["extra.ctx"], line["extra.cmd"]), cmds, cb)
 					}
 				}, target||can._output)
 			}
@@ -374,7 +374,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 		var code = can.page.Append(can, target||can._output, [{text: [can.page.Color(text), html.DIV, html.CODE]}]).code
 		can.page.Select(can, code, html.INPUT_BUTTON, function(target) {
 			target.onclick = function(event) { var msg = can.sup.request(event, can.Option())
-				return can.run(event, [ctx.ACTION, target.name], function(msg) { can.run() }, true)
+				return can.runAction(event, target.name, [], function(msg) { can.run() })
 			}
 		})
 		return (code.scrollBy && code.scrollBy(0, 10000)), code
@@ -394,7 +394,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 		meta.help = meta.help||value.help
 
 		can.onappend._init(can, meta, [chat.PLUGIN_STATE_JS], function(sub, skip) { sub._index = value.index||meta.index
-			sub.run = function(event, cmds, cb) { can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, sub._index], cmds), cb) }
+			sub.run = function(event, cmds, cb) { can.runActionCommand(event, sub._index, cmds, cb) }
 			can.base.isFunc(cb) && cb(sub, meta, skip)
 		}, target||can._output)
 	},
@@ -598,9 +598,9 @@ Volcanos(chat.ONMOTION, {help: "动态特效", list: [], _init: function(can, ta
 	focus: function(can, target) { if (!target) { return }
 		target.setSelectionRange && target.setSelectionRange(0, -1), target.focus()
 	},
-	share: function(event, can, input, args) {
-		return can.user.input(event, can, input, function(ev, button, data, list, _args) {
-			can.search(can.request(event, {args: [mdb.TYPE, chat.FIELD].concat(args||[], _args||[])}), [["Header", chat.ONACTION, web.SHARE]])
+	share: function(event, can, input, args) { var _args = args
+		return can.user.input(event, can, input, function(args) {
+			can.search(can.request(event, {args: [mdb.TYPE, chat.FIELD].concat(_args||[], args||[])}), [["Header", chat.ONACTION, web.SHARE]])
 		})
 	},
 
@@ -665,8 +665,8 @@ Volcanos(chat.ONMOTION, {help: "动态特效", list: [], _init: function(can, ta
 			html2canvas(target||can._target).then(function (canvas) { var url = canvas.toDataURL("image/png")
 				var toast = can.user.toast(can, {content: {img: url, style: {"max-height": 240, display: html.BLOCK}}, duration: -1,
 					action: shy({}, [cli.CLOSE, "download"], function(event, button) {
-						can.user.input(event, can, [{name: mdb.NAME, value: name}], function(ev, button, data) { toast.close()
-							can.page.Create(can, html.A, {href: url, download: data.name+".png"}).click()
+						can.user.input(event, can, [{name: mdb.NAME, value: name}], function(list) { toast.close()
+							can.page.Create(can, html.A, {href: url, download: list[0]+".png"}).click()
 						})
 					}),
 				})

@@ -179,7 +179,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, co
 		})
 	},
 	_runs: function(event, can, button) { var meta = can.Conf(); can.request(event, {action: button})
-		can.user.input(event, can, meta.feature[button], function(ev, btn, data, list, args) {
+		can.user.input(event, can, meta.feature[button], function(args) {
 			can.onaction._run(event, can, button, args)
 		})
 	},

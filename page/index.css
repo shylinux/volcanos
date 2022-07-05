@@ -25,7 +25,7 @@ table.layout div.toggle { font-size:24px; background-color:#e1aeae45; position:a
 table.layout div.toggle>div { color:white; display:table-cell; }
 table.layout div.toggle.project { padding-top: 50px; height:100px; width:15px; top:20%; left:0px; border-top-right-radius:10px; border-bottom-right-radius:10px; }
 table.layout div.toggle.profile { padding-top: 50px; height:100px; width:15px; top:20%; right:0px; border-top-left-radius:10px; border-bottom-left-radius:10px; }
-table.layout div.toggle.display { overflow:hidden; margin-top:-17px; height:15px; width:100px; position:sticky; left:40%; border-top-left-radius:10px; border-top-right-radius:10px; }
+table.layout div.toggle.display { overflow:hidden; margin-top:-14px; height:15px; width:100px; position:sticky; left:40%; border-top-left-radius:10px; border-top-right-radius:10px; }
 table.layout div.toggle.display>div { color:white; text-align:center; height:15px; width:100px; }
 fieldset.Action.cmd>div.toggle.project { display:none; }
 
@@ -63,7 +63,7 @@ form.option>div.item input.args[name=offset] { width:48px; }
 form.option>div.item input.args[name=offend] { width:48px; }
 form.option>div.item.textarea { margin-top:4px; }
 
-div.action>div.item { margin-right:3px; }
+div.action>div.item { margin-right:3px; height:31px; }
 div.action>div.item.select { background:none; }
 div.action>div.item.space { width:10px; }
 div.output { position:relative; }
@@ -206,7 +206,7 @@ body.mobile.landscape fieldset.draw.trend div.action { display:block; }
 /* font */
 * { tab-size:4; }
 textarea { tab-size:2; }
-legend { font-size:1.2rem; }
+legend { font-size:1.2rem; height:31px; }
 select, input { font-size:1.1rem; }
 table.content th, table.content td, div.item, div.tabs, div.code, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
 div.status>div.item>label { font-size:0.6rem; font-family:monospace; }
@@ -289,6 +289,8 @@ body.white.simple div.output.card input[type=button] { box-shadow:2px 2px 6px 1p
 body.white.simple div.output.card input[type=button] { background-color:#0152d9; font-size:0.8rem; padding:5px 10px; border:none; border-radius:5px; }
 body.mobile.simple div.output.card div.item { width:-webkit-fill-available; }
 body.mobile.landscape.simple div.output.card div.item { width:auto; float:left; }
+
+body.simple fieldset.feel.float { top:0 }
 
 body.white.simple>div.carte { background-color:white; color:black; border:solid 1px #e7e7e7; }
 body.white.simple>div.carte div.item { font-size:1rem; }

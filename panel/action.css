@@ -15,14 +15,14 @@ fieldset.Action.flow>div.output fieldset.plugin { float:left; }
 fieldset.Action div.output fieldset.plugin.Full { background-color:#073947f2; padding:0; margin:0; position:fixed; left:0; top:0; overflow:auto; z-index:10; }
 fieldset.Action div.output fieldset.plugin.Full>legend { float:left; display:block; }
 fieldset.Action div.output fieldset.story.Full { background-color:#073947f2; padding:0; margin:0; position:fixed; left:0; top:0; overflow:auto; z-index:10; }
-fieldset.Action div.output fieldset.story.Full>legend { height:30px; float:left; }
+fieldset.Action div.output fieldset.story.Full>legend { margin:0px; float:left; }
 fieldset.Action>div.project.toggle {
 	background-color:cornsilk; opacity:0.4; color:teal; font-size: 28px; padding-top: 50px; height: 100px; width:20px; position: fixed; top: 30%;
 	border-top-right-radius:20px; border-bottom-right-radius:20px;
 }
 
 fieldset.panel.cmd>div.output>fieldset.plugin { padding:0; margin:0; }
-fieldset.panel.cmd>div.output>fieldset.plugin>legend { background-color:darkcyan; padding:0 10px; margin-right:3px; height:30px; float:left; }
+fieldset.panel.cmd>div.output>fieldset.plugin>legend { background-color:darkcyan; padding:0 10px; margin-right:3px; height:31px; float:left; }
 body.mobile fieldset.panel.cmd>div.output>fieldset.plugin>legend { height:42px; }
 
 div.output.form div.item {

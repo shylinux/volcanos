@@ -67,7 +67,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.core.Item(task, function(key, value) { key != "_target" && can.page.Append(can, table, [{
 			td: [key, key == "pod" && value != ""? can.page.Format("a", can.misc.MergeURL(can, {pod: value}), value): value],
 			onclick: function(event) { if (event.target.type == "button") { var msg = can.request(event, can.sup.task)
-				can.run(event, [ctx.ACTION, event.target.name], function(msg) { can.Update() }, true)
+				can.runAction(event, event.target.name, [], function(msg) { can.Update() })
 			} },
 			ondblclick: function(event) { can.onmotion.modify(can, event.target, function(ev, value, old) {
 				can.onaction.modifyTask(event, can, task, key, value)
@@ -77,7 +77,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 	_display: function(can, task) { if (!task["extra.cmd"]) { return }
 		can.onappend.plugin(can, {type: chat.STORY, ctx: task["extra.ctx"], cmd: task["extra.cmd"], arg: task["extra.arg"]}, function(sub, meta) {
 			sub.run = function(event, cmds, cb) { var msg = can.request(event, kit.Dict("task.pod", task["pod"], "task.zone", task.zone, "task.id", task.id))
-				can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, task[mdb.ZONE], task[mdb.ID]], cmds), cb, true)
+				can.runAction(event, ice.RUN, [task[mdb.ZONE], task[mdb.ID]].concat(cmds), cb)
 			}
 		}, can.ui.display)
 		can.page.style(can, can.ui.display, {display: html.BLOCK})
@@ -155,12 +155,12 @@ Volcanos(chat.ONACTION, {help: "组件交互", list: [
 		["view", "", "name", "text", "level", "score"],
 	],
 	insertTask: function(event, can, time) { var msg = can.sup.request(event, {begin_time: time})
-		can.user.input(event, can, can.Conf("feature.insert"), function(event, button, data, list) {
-			can.run(event, can.base.Simple(ctx.ACTION, mdb.INSERT, data, "begin_time", time), true)
+		can.user.input(event, can, can.Conf("feature.insert"), function(args) {
+			can.runAction(event, mdb.INSERT, args.concat("begin_time", time))
 		})
 	},
 	modifyTask: function(event, can, task, key, value) { var msg = can.request(event, task)
-		can.run(event, [ctx.ACTION, mdb.MODIFY, key, value, task[key]])
+		can.runAction(event, mdb.MODIFY, [key, value, task[key]])
 	},
 
 	_filter: function(event, can, key, value) { var count = 0

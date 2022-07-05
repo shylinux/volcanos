@@ -17,7 +17,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 				{view: [wiki.TITLE, html.DIV, value.name]},
 				{view: [wiki.CONTENT, html.DIV, value.text]},
 				{view: html.ACTION, inner: value.action, onclick: function(event) {
-					can.run(can.request(event, value), [ctx.ACTION, event.target.name])
+					can.runAction(can.request(event, value), event.target.name, [])
 				}},
 			]}
 		}))

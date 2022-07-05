@@ -12,23 +12,23 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.page.Select(can, can.ui.content, html.SVG, function(svg) {
 			can.svg = can.group = can.onimport._block(can, svg), can.onimport._group(can, svg).click()
 			can.core.ItemCB(can.onaction, function(key, cb) { svg[key] = function(event) { cb(event, can) } })
-			can.page.Select(can, svg, "*", function(item, index) { can.onimport._block(can, item)
+			can.page.Select(can, svg, mdb.FOREACH, function(item, index) { can.onimport._block(can, item)
 				item.tagName == svg.G && item.Value(html.CLASS) && can.onimport._group(can, item)
 			})
 		})
-		// 默认参数
-		can.core.Timer(10, function() {
-			can.core.Item({
-				"stroke-width": 2, stroke: cli.YELLOW, fill: cli.PURPLE,
-				"font-size": 24, "font-family": html.MONOSPACE,
-				go: ice.RUN, shape: "rect", grid: 10,
-			}, function(key, value) { can.svg.Value(key, can.Action(key, can.svg.Value(key)||value)) })
 
-			var pid = can.Option("pid")||can.svg.Value("pid"); can.onmotion.hidden(can, can.ui.profile, true)
-			pid && can.page.Select(can, can.svg, ice.PT+pid, function(item) {
-				can.ondetail.run({target: item}, can), can.onimport._profile(can, item)
-			}) || can.onimport._profile(can, can.svg), can.onmotion.hidden(can, can.ui.profile)
+		// 默认参数
+		can.onmotion.delay(can, function() {
+			can.core.Item(kit.Dict(
+				html.STROKE_WIDTH, 2, html.STROKE, cli.YELLOW, html.FILL, cli.PURPLE,
+				html.FONT_SIZE, 24, html.FONT_FAMILY, html.MONOSPACE,
+				"go", ice.RUN, svg.SHAPE, svg.RECT, "grid", 10,
+			), function(key, value) { can.svg.Value(key, can.Action(key, can.svg.Value(key)||value)) })
+
 			can.page.style(can, can.ui.display, html.MIN_HEIGHT, 80, html.MAX_HEIGHT, can.ConfHeight()-can.svg.Val(html.HEIGHT)-52)
+			var pid = can.Option(svg.PID)||can.svg.Value(svg.PID); pid && can.page.Select(can, can.svg, ice.PT+pid, function(item) {
+					can.onimport._profile(can, item), can.ondetail.run({target: item}, can)
+			}) || can.onimport._profile(can, can.svg)
 		}) 
 	},
 	_group: function(can, target) { var name = target.Groups()
@@ -38,7 +38,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 			})
 		}
 		return (name || target == can.svg) && can.onimport.item(can, html.ITEM, {name: name||html.SVG}, function(event) { show(event)
-			can.onaction.show(event, can)
+			can.onaction.show(event, can), can.Status(svg.GROUP, name||html.SVG)
 		}, function(event) {
 			can.user.carteRight(event, can, can.onaction, [ice.HIDE, ice.SHOW, mdb.CREATE, cli.CLEAR, mdb.REMOVE])
 		}, can.ui.project)
@@ -76,25 +76,24 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		}
 		target.Groups = function() { var item = target
 			var list = []; while (item && item.tagName != html.SVG) {
-				item.tagName == svg.G && item.Value(html.CLASS) && list.push(item.Value(html.CLASS))
-				item = item.parentNode
+				item.tagName == svg.G && item.Value(html.CLASS) && list.push(item.Value(html.CLASS)), item = item.parentNode
 			}
 			return list.reverse().join(ice.PT)
 		}
 		return target
 	},
-	_profile: function(can, target, list) { can.Option("pid", can.onfigure._pid(can, target))
-		if (can.onmotion.cache(can, function() { return target.Value("pid") }, can.ui.profile)) { return }
+	_profile: function(can, target, list) { can.Option(svg.PID, can.onfigure._pid(can, target))
+		if (can.onmotion.cache(can, function() { return target.Value(svg.PID) }, can.ui.profile)) { return }
 
-		var action = can.page.Append(can, can.ui.profile, [{view: "action"}]).first
-		can.onappend._action(can, can.ondetail.list, action, {_engine: function(event, can, button) {
+		var ui = can.page.Append(can, can.ui.profile, [html.ACTION, html.OUTPUT])
+		can.onappend._action(can, can.ondetail.list, ui.action, {_engine: function(event, can, button) {
 			can.ondetail[button]({target: target}, can, button)
 		}})
 
 		var figure = can.onfigure._get(can, target)
 		list = (list||[]).concat(figure.data.copy, [svg.X, svg.Y, mdb.INDEX, ctx.ARGS])
-		can.page.Append(can, can.ui.profile, [{type: html.TABLE, className: "content", list: [
-			{th: [mdb.KEY, mdb.VALUE]}, {td: [mdb.TYPE, target.tagName]}, {td: ["pid", target.Value("pid")]},
+		can.page.Append(can, ui.output, [{type: html.TABLE, className: html.CONTENT, list: [
+			{th: [mdb.KEY, mdb.VALUE]}, {td: [mdb.TYPE, target.tagName]}, {td: [svg.PID, target.Value(svg.PID)]},
 		].concat(can.core.List(list, function(key) {
 			return key = figure.data.size[key]||key, {td: [key, target.Value(key)], ondblclick: function(event) {
 				can.onmotion.modify(can, event.target, function(event, value, old) {
@@ -105,22 +104,20 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 
 	},
 	draw: function(event, can, value) {
-		var figure = can.onfigure[value.shape]
-		var data = figure.draw(event, can, value.point, value.style)
+		var figure = can.onfigure[value.shape], data = figure.draw(event, can, value.point, value.style)
 		can.core.Item(value.style, function(key, value) { data[key] = value })
 		var item = can.onfigure._push(can, figure.data.name||value.shape, data, can.group||can.svg)
 		can.core.ItemCB(value, function(key, cb) { item[key] = cb })
-		can.onimport._block(can, item), can.onfigure._pid(can, item)
-		return value._init && value._init(item), item
+		return can.onimport._block(can, item), can.onfigure._pid(can, item), value._init && value._init(item), item
 	},
-}, ["/plugin/local/wiki/draw.css"])
+}, [""])
 Volcanos(chat.ONFIGURE, {help: "图形绘制", list: [],
 	_get: function(can, item, name) {
 		return can.onfigure[name]||can.onfigure[item.getAttribute(mdb.NAME)]||can.onfigure[item.tagName]
 	},
-	_pid: function(can, item) { if (item.Value("pid")) { return item.Value("pid") }
+	_pid: function(can, item) { if (item.Value(svg.PID)) { return item.Value(svg.PID) }
 		var pid = "p"+can.svg.Val(mdb.COUNT, can.svg.Val(mdb.COUNT)+1)
-		item.Value(html.CLASS, (item.Value(html.CLASS)+ice.SP+item.Value("pid", pid)).trim())
+		item.Value(html.CLASS, (item.Value(html.CLASS)+ice.SP+item.Value(svg.PID, pid)).trim())
 		return pid
 	},
 	_push: function(can, type, data, target) {
@@ -140,9 +137,9 @@ Volcanos(chat.ONFIGURE, {help: "图形绘制", list: [],
 			ship.target = can.page.Select(can, can.svg, ice.PT+ship.pid)[0]
 			var p = can.onexport.anchor(target, ship.anchor, {}) 
 			if (ship.which == 1) {
-				ship.target.Val("x1", p.x), ship.target.Val("y1", p.y)
+				ship.target.Val(svg.X1, p.x), ship.target.Val(svg.Y1, p.y)
 			} else if (ship.which == 2) {
-				ship.target.Val("x2", p.x), ship.target.Val("y2", p.y)
+				ship.target.Val(svg.X2, p.x), ship.target.Val(svg.Y2, p.y)
 			}
 		})
 	},
@@ -160,21 +157,21 @@ Volcanos(chat.ONFIGURE, {help: "图形绘制", list: [],
 		show: function(can, target, figure) { return can.onexport._position(can, target, figure) }
 	},
 	circle: { // <circle r="20" cx="25" cy="75"/>
-		data: {points: 2, size: {height: svg.R, width: svg.R, x: "cx", y: "cy"}, copy: [svg.R]},
+		data: {points: 2, size: {height: svg.R, width: svg.R, x: svg.CX, y: svg.CY}, copy: [svg.R]},
 		draw: function(event, can, point) { if (point.length < 2) { return }
 			var p0 = point[0], p1 = point[1]
 			return {r: parseInt(Math.sqrt(Math.pow(p0.x-p1.x, 2)+Math.pow(p0.y-p1.y, 2))), cx: p0.x, cy: p0.y}
 		},
 	},
 	ellipse: { // <ellipse ry="5" rx="20" cx="75" cy="75"/>
-		data: {points: 2, size: {height: "ry", width: "rx", x: "cx", y: "cy"}, copy: ["ry", "rx"]},
+		data: {points: 2, size: {height: svg.RY, width: svg.RX, x: svg.CX, y: svg.CY}, copy: [svg.RY, svg.RX]},
 		draw: function(event, can, point) { if (point.length < 2) { return }
 			var p0 = point[0], p1 = point[1]
 			return {ry: Math.abs(p0.y - p1.y), rx: Math.abs(p0.x - p1.x), cx: p0.x, cy: p0.y}
 		},
 	},
 	rect: { // <rect height="30" width="30" ry="10" rx="10" x="60" y="10"/>
-		data: {points: 2, ry: 4, rx: 4, size: {}, copy: [html.HEIGHT, html.WIDTH, "ry", "rx"]},
+		data: {points: 2, ry: 4, rx: 4, size: {}, copy: [html.HEIGHT, html.WIDTH, svg.RY, svg.RX]},
 		draw: function(event, can, point) { if (point.length < 2) { return }
 			var p0 = point[0], p1 = point[1]
 			return {
@@ -185,12 +182,12 @@ Volcanos(chat.ONFIGURE, {help: "图形绘制", list: [],
 		text: function(can, data, target) { return data.x = target.Val(svg.X)+target.Val(html.WIDTH)/2, data.y = target.Val(svg.Y)+target.Val(html.HEIGHT)/2, data },
 	},
 	block: { // <rect height="30" width="30" ry="10" rx="10" x="60" y="10"/>
-		data: {points: 2, ry: 4, rx: 4, size: {}, copy: [html.HEIGHT, html.WIDTH, "ry", "rx"]},
+		data: {points: 2, ry: 4, rx: 4, size: {}, copy: [html.HEIGHT, html.WIDTH, svg.RY, svg.RX]},
 		draw: function(event, can, point) { if (point.length < 2) { return }
 			this._temp && can.page.Remove(can, this._temp) && delete(this._temp)
 			this._temp = can.onfigure._push(can, svg.G, {}, can.group||can.svg)
 
-			var rect = can.onfigure._push(can, "rect", can.onfigure.rect.draw(event, can, point), this._temp)
+			var rect = can.onfigure._push(can, svg.RECT, can.onfigure.rect.draw(event, can, point), this._temp)
 			if (event.type == html.CLICK) {
 				can.onfigure._pid(can, rect), delete(this._temp)
 			}
@@ -198,7 +195,7 @@ Volcanos(chat.ONFIGURE, {help: "图形绘制", list: [],
 		text: function(can, data, target) { can.onfigure.rect.text(can, data, target) },
 	},
 	line: { // <line x1="10" y1="50" x2="110" y2="150" xx="100" yy="100"/>
-		data: {points: 2, size: {x: "x1", y: "y1"}, copy: ["x1", "y1", "x2", "y2"]},
+		data: {points: 2, size: {x: svg.X1, y: svg.Y1}, copy: [svg.X1, svg.Y1, svg.X2, svg.Y2]},
 		grid: function(event, can, point) { var target = event.target
 			if (target == can.svg) { return }
 			var p = point[point.length-1], pos = can.onexport.cursor(event, can, target)
@@ -207,12 +204,12 @@ Volcanos(chat.ONFIGURE, {help: "图形绘制", list: [],
 		},
 		draw: function(event, can, point) { if (point.length < 2) { return }
 			var p0 = point[0], p1 = point[1], ship = []
-			p0.target && p0.target.Value && ship.push({pid: p0.target.Value("pid")})
-			p1.target && p1.target.Value && ship.push({pid: p1.target.Value("pid")})
+			p0.target && p0.target.Value && ship.push({pid: p0.target.Value(svg.PID)})
+			p1.target && p1.target.Value && ship.push({pid: p1.target.Value(svg.PID)})
 			return {x1: p0.x, y1: p0.y, x2: p1.x, y2: p1.y, ship: ship}
 		},
-		text: function(can, target, data) { return data.x = (target.Val("x1")+target.Val("x2"))/2, data.y = (target.Val("y1")+target.Val("y2"))/2, data },
-		show: function(can, target, figure) { return "<("+(target.Val("y2")-target.Val("y1"))+ice.FS+(target.Val("x2")-target.Val("x1"))+")"+can.onexport._position(can, target, figure) },
+		text: function(can, target, data) { return data.x = (target.Val(svg.X1)+target.Val(svg.X2))/2, data.y = (target.Val(svg.Y1)+target.Val(svg.Y2))/2, data },
+		show: function(can, target, figure) { return "<("+(target.Val(svg.Y2)-target.Val(svg.Y1))+ice.FS+(target.Val(svg.X2)-target.Val(svg.X1))+")"+can.onexport._position(can, target, figure) },
 	},
 }, [])
 Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [],
@@ -225,41 +222,41 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [],
 			ad: function(event, can) { can.Action("mode", "draw") },
 			ar: function(event, can) { can.Action("mode", "resize") },
 
-			st: function(event, can) { can.Action("shape", "text") },
-			sr: function(event, can) { can.Action("shape", "rect") },
-			sl: function(event, can) { can.Action("shape", "line") },
-			sc: function(event, can) { can.Action("shape", "circle") },
-			se: function(event, can) { can.Action("shape", "ellipse") },
+			st: function(event, can) { can.Action(svg.SHAPE, svg.TEXT) },
+			sr: function(event, can) { can.Action(svg.SHAPE, svg.RECT) },
+			sl: function(event, can) { can.Action(svg.SHAPE, svg.LINE) },
+			sc: function(event, can) { can.Action(svg.SHAPE, svg.CIRCLE) },
+			se: function(event, can) { can.Action(svg.SHAPE, svg.ELLIPSE) },
 
-			cr: function(event, can) { can.onaction._change(can, "stroke", "red") },
-			cb: function(event, can) { can.onaction._change(can, "stroke", "blue") },
-			cg: function(event, can) { can.onaction._change(can, "stroke", "green") },
-			cy: function(event, can) { can.onaction._change(can, "stroke", "yellow") },
-			cp: function(event, can) { can.onaction._change(can, "stroke", "purple") },
-			cc: function(event, can) { can.onaction._change(can, "stroke", "cyan") },
-			ch: function(event, can) { can.onaction._change(can, "stroke", "black") },
-			cw: function(event, can) { can.onaction._change(can, "stroke", "white") },
+			cr: function(event, can) { can.onaction._change(can, html.STROKE, cli.RED) },
+			cb: function(event, can) { can.onaction._change(can, html.STROKE, cli.BLUE) },
+			cg: function(event, can) { can.onaction._change(can, html.STROKE, cli.GREEN) },
+			cy: function(event, can) { can.onaction._change(can, html.STROKE, cli.YELLOW) },
+			cp: function(event, can) { can.onaction._change(can, html.STROKE, cli.PURPLE) },
+			cc: function(event, can) { can.onaction._change(can, html.STROKE, cli.CYAN) },
+			ch: function(event, can) { can.onaction._change(can, html.STROKE, cli.BLACK) },
+			cw: function(event, can) { can.onaction._change(can, html.STROKE, cli.WHITE) },
 
-			fr: function(event, can) { can.onaction._change(can, "fill", "red") },
-			fb: function(event, can) { can.onaction._change(can, "fill", "blue") },
-			fg: function(event, can) { can.onaction._change(can, "fill", "green") },
-			fy: function(event, can) { can.onaction._change(can, "fill", "yellow") },
-			fp: function(event, can) { can.onaction._change(can, "fill", "purple") },
-			fc: function(event, can) { can.onaction._change(can, "fill", "cyan") },
-			fh: function(event, can) { can.onaction._change(can, "fill", "black") },
-			fw: function(event, can) { can.onaction._change(can, "fill", "white") },
+			fr: function(event, can) { can.onaction._change(can, html.FILL, cli.RED) },
+			fb: function(event, can) { can.onaction._change(can, html.FILL, cli.BLUE) },
+			fg: function(event, can) { can.onaction._change(can, html.FILL, cli.GREEN) },
+			fy: function(event, can) { can.onaction._change(can, html.FILL, cli.YELLOW) },
+			fp: function(event, can) { can.onaction._change(can, html.FILL, cli.PURPLE) },
+			fc: function(event, can) { can.onaction._change(can, html.FILL, cli.CYAN) },
+			fh: function(event, can) { can.onaction._change(can, html.FILL, cli.BLACK) },
+			fw: function(event, can) { can.onaction._change(can, html.FILL, cli.WHITE) },
 		},
 	}, _engine: {},
 })
 Volcanos(chat.ONACTION, {help: "组件菜单", list: [
-		["stroke-width", 1, 2, 3, 4, 5],
-		["stroke", cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE],
-		["fill", cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE, "#0000"],
-		["font-size", 12, 16, 18, 24, 32],
+		[html.STROKE_WIDTH, 1, 2, 3, 4, 5],
+		[html.STROKE, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE],
+		[html.FILL, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE, "#0000"],
+		[html.FONT_SIZE, 12, 16, 18, 24, 32],
 
 		["go", ice.RUN, ice.AUTO, "manual"],
 		["mode", "draw", "resize"],
-		["shape", "text", "circle", "ellipse", "rect", "block", "line"],
+		[svg.SHAPE, svg.TEXT, svg.CIRCLE, svg.ELLIPSE, svg.RECT, svg.BLOCK, svg.LINE],
 		["grid", 1, 2, 3, 4, 5, 10, 20],
 	],
 	_change: function(can, key, value) { can.Action(key, value), can.group.Value(key, value) },
@@ -274,10 +271,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 
 	edit: function(event, can) { can.Action("go", can.Action("go") == ice.RUN? ice.AUTO: ice.RUN) },
 	save: function(event, can, button) {
-		var msg = can.request(event, {content: can.onexport.content(can, can.svg)})
-		can.run(event, [ctx.ACTION, button, can.Option(nfs.PATH)], function(msg) {
-			can.user.toastSuccess(can)
-		}, true)
+		can.runAction(can.request(event, {content: can.onexport.content(can, can.svg)}), button, [can.Option(nfs.PATH)])
 	},
 
 	project: function(event, can) { can.onmotion.toggle(can, can.ui.project) },
@@ -285,9 +279,8 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 	show: function(event, can) { can.onmotion.show(can, {interval: 100, length: 10}, null, can.group) },
 	hide: function(event, can) { can.onmotion.hide(can, {interval: 100, length: 10}, null, can.group) },
 	create: function(event, can) {
-		can.user.prompt("group", "some", function(name) {
-			var group = document.createElementNS('http://www.w3.org/2000/svg', svg.G)
-			can.group.append(group), can.onimport._block(can, group)
+		can.user.input(event, can, [svg.GROUP], function(list) { var name = list[0]
+			var group = document.createElementNS('http://www.w3.org/2000/svg', svg.G); can.group.append(group), can.onimport._block(can, group)
 			group.Value(html.CLASS, name), can.core.List([html.STROKE_WIDTH, html.STROKE, html.FILL, html.FONT_SIZE], function(name) {
 				group.Value(name, can.Action(name))
 			}), can.onimport._group(can, group).click()
@@ -302,8 +295,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 
 	_mode: {
 		draw: function(event, can, point) {
-			var shape = can.Action("shape")
-			var figure = can.onfigure[shape]
+			var shape = can.Action(svg.SHAPE), figure = can.onfigure[shape]
 			figure.grid && figure.grid(event, can, point)
 
 			var data = figure.draw && figure.draw(event, can, point)
@@ -320,7 +312,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		resize: function(event, can, point, target) { target = target||event.target
 			if (event.type == html.CLICK) {
 				if (point.length == 1) {
-					can.current = {target: target, begin: can.core.List([target], function(item) { if (item.tagName == svg.G) { return }
+					can.current = {target: target, begin: can.core.List([target], function(item) { if (can.page.tagis(svg.G, item)) { return }
 						return {
 							height: item.Val(html.HEIGHT), width: item.Val(html.WIDTH), x: item.Val(svg.X), y: item.Val(svg.Y),
 							target: item, ship: can.core.List(item.Value(ice.SHIP), function(ship) {
@@ -337,13 +329,10 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 				can.onexport.resize(event, item.target, item, point[0], point[1], can.current.pos)
 				can.page.Select(can, can.svg, ice.PT+item.target.Value(mdb.TEXT), function(text) {
 					text.Value(can.onexport._text(can, item.target, figure, {}))
-				})
-				can.onfigure._move(can, item.target, item.ship)
+				}), can.onfigure._move(can, item.target, item.ship)
 			})
 		},
-		run: function(event, can) {
-			can.onimport._profile(can, event.target)
-		},
+		run: function(event, can) { can.onimport._profile(can, event.target) },
 	},
 	_auto: function(can, target) {
 		if (can.point.length > 0) { return }
@@ -352,7 +341,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		var pos = can.onexport.cursor(event, can, event.target)
 		if (target == can.svg) {
 			if (pos == 5) {
-				can.Action(ice.MODE, "draw"), can.Action("shape", html.BLOCK)
+				can.Action(ice.MODE, "draw"), can.Action(svg.SHAPE, html.BLOCK)
 				can.page.style(can, target, {cursor: "crosshair"})
 			} else {
 				can.Action(ice.MODE, "resize")
@@ -361,7 +350,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 			switch (pos) {
 				case 5:
 				case 9: can.Action(ice.MODE, "resize"); break
-				default: can.Action(ice.MODE, "draw"), can.Action("shape", "line")
+				default: can.Action(ice.MODE, "draw"), can.Action(svg.SHAPE, svg.LINE)
 			}
 		}
 	},
@@ -384,11 +373,9 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		}
 		can.onaction._figure(event, can, can.point = can.point.concat(point))
 	},
-	ondblclick: function(event, can) {
-		can.ondetail.label(event, can)
-	},
+	ondblclick: function(event, can) { can.ondetail.label(event, can) },
 })
-Volcanos(chat.ONDETAIL, {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY, html.LABEL, mdb.MODIFY, "toimage", mdb.DELETE],
+Volcanos(chat.ONDETAIL, {help: "组件详情", list: [cli.START, ice.RUN, ice.COPY, html.LABEL, mdb.MODIFY, "toimage", mdb.REMOVE],
 	start: function(event, can) { var target = event.target
 		var list = [target], dict = {}
 		for (var i = 0; i < list.length; i++) { var ship = list[i].Value("ship")
@@ -408,30 +395,24 @@ Volcanos(chat.ONDETAIL, {help: "组件详情", list: [cli.START, ice.RUN, ice.CO
 		}) })
 	},
 	run: function(event, can) { var target = event.target
-		if (!target.Value("pid")) { can.onfigure._pid(can, target) }
+		if (!target.Value(svg.PID)) { can.onfigure._pid(can, target) }
+		if (can.onmotion.cache(can, function() { return target.Value(svg.PID) }, can.ui.display)) { return }
 
-		if (can.onmotion.cache(can, function() { return target.Value("pid") }, can.ui.display)) { return }
-
-		can.onmotion.clear(can, can.ui.display), can.svg.Value("pid", target.Value("pid"))
+		can.onmotion.clear(can, can.ui.display), can.svg.Value(svg.PID, target.Value(svg.PID))
 		var index = target.Value(mdb.INDEX); index && can.onappend.plugin(can, {type: chat.STORY, index: index, args: target.Value(ctx.ARGS)}, function(sub) {
-			sub.Conf("height", can.Conf("height")-can.svg.Val("height")-52), sub.Conf("width", can.Conf("width"))
-			sub.run = function(event, cmds, cb) { can.run(event, can.misc.concat(can, [ice.RUN, index], cmds), cb, true) }
+			sub.run = function(event, cmds, cb) { can.runActionCommand(event, index, cmds, cb) }
+			sub.ConfHeight(can.ConfHeight()-can.svg.Val(html.HEIGHT)-4*html.ACTION_HEIGHT), sub.ConfWidth(can.ConfWidth())
 			can.onmotion.hidden(can, sub._legend), can.onmotion.hidden(can, can.ui.display, true)
 		}, can.ui.display)
 	},
+	toimage: function(event, can) { can.onmotion.toimage(event, can, can.Option(nfs.PATH).split(ice.PS).pop().split(ice.PT)[0], can.svg) },
 	copy: function(event, can) { can.onfigure._copy(event, can, event.target) },
 	label: function(event, can) { var target = event.target
-		var def = target.Value(mdb.TEXT); def && can.page.Select(can, can.svg, ice.PT+def, function(item) {
-			def = item.Value(html.INNER)
-		})
-		can.user.prompt(html.LABEL, def, function(text) {
-			if (target.tagName == html.TEXT) { return target.innerHTML = text }
+		var def = target.Value(mdb.TEXT); def && can.page.Select(can, can.svg, ice.PT+def, function(item) { def = item.Value(html.INNER) })
 
-			if (def && can.page.Select(can, can.svg, ice.PT+def, function(item) {
-				item.Value(html.INNER, text)
-			}).length > 0) {
-				return
-			}
+		can.user.input(event, can, [{name: html.LABEL, value: def}], function(list) { var text = list[0]
+			if (target.tagName == html.TEXT) { return target.innerHTML = text }
+			if (def && can.page.Select(can, can.svg, ice.PT+def, function(item) { item.Value(html.INNER, text) }).length > 0) { return }
 
 			var figure = can.onfigure._get(can, target)
 			var data = can.onexport._text(can, target, figure, {inner: text})
@@ -440,8 +421,7 @@ Volcanos(chat.ONDETAIL, {help: "组件详情", list: [cli.START, ice.RUN, ice.CO
 		})
 	},
 	modify: function(event, can) { can.onimport._profile(can, event.target) },
-	toimage: function(event, can) { can.onmotion.toimage(event, can, can.Option(nfs.PATH).split("/").pop().split(".")[0], can.svg) },
-	"delete": function(event, can) { var target = event.target
+	remove: function(event, can) { var target = event.target
 		if (target == can.svg) { return }
 		can.core.List(target.Value(ice.SHIP), function(value) {
 			can.page.Select(can, can.svg, ice.PT+value.pid, function(item) {
@@ -450,15 +430,14 @@ Volcanos(chat.ONDETAIL, {help: "组件详情", list: [cli.START, ice.RUN, ice.CO
 		})
 		target.Value(mdb.TEXT) && can.page.Select(can, can.svg, ice.PT+target.Value(mdb.TEXT), function(item) {
 			can.page.Remove(can, item)
-		})
-		can.page.Remove(can, target)
+		}), can.page.Remove(can, target)
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["group", "figure", "index", "pos"],
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: [svg.GROUP, "figure", "index", "pos"],
 	_show: function(can, target) { var figure = can.onfigure._get(can, target)
 		function show() { return can.onexport._size(can, target, figure)+ice.SP+can.onexport._position(can, target, figure) }
-		can.Status("figure", target.tagName+":"+target.Value("pid")+ice.SP+(figure? (figure.show||show)(can, target, figure): ""))
-		can.Status("group", target.Groups()||can.group.Groups()||html.SVG)
+		can.Status("figure", target.tagName+":"+target.Value(svg.PID)+ice.SP+(figure? (figure.show||show)(can, target, figure): ""))
+		can.Status(svg.GROUP, target.Groups()||can.group.Groups()||html.SVG)
 		can.Status("index", target.Value("index"))
 	},
 	_size: function(can, target, figure) { var size = figure.data.size||{}
@@ -478,13 +457,13 @@ Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["group", "figure", "index"
 		point.y = point.y - point.y % parseInt(can.Action("grid"))
 		return can.Status("pos", point.x+ice.FS+point.y), point
 	},
-
 	content: function(can, svg) {
 		return ['<svg vertion="1.1" xmlns="https://www.w3.org/2000/svg" text-anchor="middle" dominant-baseline="middle"'].concat(
-			svg? can.core.List([html.HEIGHT, html.WIDTH, mdb.COUNT, "pid", "grid", html.STROKE_WIDTH, html.STROKE, html.FILL, html.FONT_SIZE], function(item) {
+			svg? can.core.List([html.HEIGHT, html.WIDTH, mdb.COUNT, svg.PID, "grid", html.STROKE_WIDTH, html.STROKE, html.FILL, html.FONT_SIZE], function(item) {
 				return svg.Value(item)? ice.SP + item + '="' + svg.Value(item) + '"': ""
 			}): [" height="+((can.ConfHeight()||450)-50)+" width="+(can.ConfWidth()||600)]).concat(['>', svg? svg.innerHTML: "", "</svg>"]).join("")
 	},
+
 	cursor: function(event, can, item, show) {
 		var p = item.getBoundingClientRect()
 		var q = {x: event.clientX, y: event.clientY}

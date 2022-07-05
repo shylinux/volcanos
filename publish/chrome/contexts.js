@@ -47,7 +47,7 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
     },
     
     order: function(can, msg, arg) {
-        var ui = can.user.input(event, can, [ctx.INDEX, ctx.ARGS, "selection", html.LEFT, html.TOP], function(event, button, data, list, args) {
+        var ui = can.user.input(event, can, [ctx.INDEX, ctx.ARGS, "selection", html.LEFT, html.TOP], function(args) {
             can.run(event, [chat.FIELD, mdb.INSERT, mdb.ZONE, location.host].concat(args), function(res) {
                 can.user.toastSuccess(can)
             })
@@ -73,7 +73,7 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
             }, msg.Option("selection")||sub._legend.onclick()
 
             sub.run = function(event, cmds, cb) { if (msg.RunAction(event, can, cmds)) { return }
-                can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb)
+                can.runActionCommand(event, meta.index, cmds, cb)
             }
 
             msg.Option("selection") && (can.onengine.listen(can, "onselection", function() {
@@ -107,7 +107,7 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
     _motion: function(can) { can.onmotion.float.auto(can, can._root._target)
         document.body.ondblclick = function(event) { can.onengine.signal(can, "onselection") }
 
-        can.run({}, [ctx.ACTION, ctx.COMMAND], function(msg) {
+        can.runAction({}, ctx.COMMAND, [], function(msg) {
             msg.result && msg.result[0] && can.field(can, msg, msg.result)
         })
     },

@@ -197,10 +197,11 @@ var mall = {
 }
 
 var svg = {
-	G: "g", X: "x", Y: "y", R: "r", RX: "rx", RY: "ry",
-	LINE: "line", RECT: "rect", TEXT: "text",
-	M: "M", Q: "Q", T: "T",
-	PATH2V: "path2v", PATH2H: "path2h",
+	PID: "pid",
+	GROUP: "group",
+	SHAPE: "shape", TEXT: "text", RECT: "rect", LINE: "line", CIRCLE: "circle", ELLIPSE: "ellipse",
+	G: "g", X: "x", Y: "y", R: "r", RX: "rx", RY: "ry", CX: "cx", CY: "cy", X1: "x1", Y1: "y1", X2: "x2", Y2: "y2",
+	M: "M", Q: "Q", T: "T", PATH2V: "path2v", PATH2H: "path2h",
 }
 var html = {
 	// FIELDSET
@@ -229,8 +230,9 @@ var html = {
 	BACKGROUND: "background", SELECT: "select", HIDDEN: "hidden",
 	DISPLAY: "display", BLOCK: "block", NONE: "none", FIXED: "fixed",
 	OPACITY: "opacity",
-	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", MONOSPACE: "monospace",
+	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", FONT_FAMILY: "font-family", MONOSPACE: "monospace",
 	SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
+	SPEED: "speed",
 	MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MIN_WIDTH: "min-width", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
 	PLUGIN_MARGIN: 10, ACTION_HEIGHT: 29, ACTION_MARGIN: 200,
 	TOGGLE: "toggle",
@@ -240,7 +242,7 @@ var html = {
 	MENU: "menu", NODE: "node",
 	HIDE: "hide", SHOW: "show", AUTO: "auto",
 	HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot",
-	LAYOUT: "layout", PLUGIN: "plugin",
+	PLUGIN: "plugin", LAYOUT: "layout", CONTENT: "content",
 
 	DIV_PAGE: "div.page",
 	DIV_TABS: "div.tabs",
@@ -337,7 +339,8 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 			}); return msg
 		},
 
-		actions: function(event, button) { can.run(event, [ctx.ACTION, button], null, true) },
+		actions: function(event, button) { can.runAction(event, button, []) },
+		runActionCommand: function(event, index, args, cb) { can.runAction(event, ice.RUN, [index].concat(args), cb) },
 		runAction: function(event, action, args, cb) { can.request(event, {_handle: ice.TRUE}, can.Option())
 			can.run(event, can.misc.concat(can, [ctx.ACTION, action], args), cb||function(msg) {
 				can.user.toastSuccess(can, action)

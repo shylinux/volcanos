@@ -58,7 +58,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.page.Select(can, target, html.A, function(item) {
 			item.onclick = function(event) {
 				can.request(event, kit.Dict(ice.MSG_HANDLE, ice.TRUE))
-				can.run(event, [ctx.ACTION, mdb.CREATE, mdb.TYPE, "refer", mdb.NAME, item.dataset.name, mdb.TEXT, item.href], null, true)
+				can.runAction(event, mdb.CREATE, [mdb.TYPE, "refer", mdb.NAME, item.dataset.name, mdb.TEXT, item.href])
 			}
 		})
 	},
@@ -88,7 +88,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 					can.core.List(item.list, function(item) {
 						can.onappend.plugin(can, item.meta, function(sub) {
 							sub.run = function(event, cmds, cb, silent) {
-								can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, item.meta.index], cmds), cb, true)
+								can.runActionCommand(event, item.meta.index, cmds, cb)
 							}
 							sub.ConfWidth(item.meta.width = can.ConfWidth()-165)
 							sub.ConfHeight(item.meta.height = can.ConfHeight()-300)
@@ -108,7 +108,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.page.Select(can, target, html.A, function(item) { can.onmotion.link(can, item) })
 		can.page.Select(can, target, html.SPAN, function(item) {
 			can.onmotion.copy(can, item, "", function(event) {
-				can.run(event, [ctx.ACTION, mdb.CREATE, mdb.TYPE, "spark", mdb.NAME, "shell", mdb.TEXT, item.innerText], null, true)
+				can.runAction(event, mdb.CREATE, [mdb.TYPE, "spark", mdb.NAME, "shell", mdb.TEXT, item.innerText])
 			})
 		})
 	},
@@ -126,7 +126,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	field: function(can, data, target, width) { var item = can.base.Obj(data.meta)
 		can.onappend._init(can, item, [chat.PLUGIN_STATE_JS], function(sub) {
 			sub.run = function(event, cmds, cb, silent) {
-				can.run(event, can.misc.concat(can, [ctx.ACTION, chat.STORY, data.type, data.name, data.text], cmds), cb, true)
+				can.runAction(event, chat.STORY, [data.type, data.name, data.text].concat(cmds), cb)
 			}
 			sub.ConfHeight(can.ConfHeight())
 			sub.ConfWidth(item.width = (width||can.ConfWidth())-(can.user.isWindows? 40: 20))

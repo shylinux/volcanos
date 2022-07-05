@@ -17,7 +17,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		}), can.onmotion.story.auto(can)
 
 		can.onappend._status(can, can.base.Obj(msg.Option(ice.MSG_STATUS), []).concat({name: "selected", value: "0"}))
-		msg.Length() == 1 && can.ui.display.innerHTML == "" && can.page.Select(can, table, html.TD)[0].click()
+		msg.Length() == 1 && can.ui.profile.innerHTML == "" && can.page.Select(can, table, html.TD)[0].click()
 	},
 	_word: function(can, msg, cmds, fields) { can.type = cmds[0]
 		var cb = can.onaction[cmds[1]]; if (cb) { cb({}, can); return }
@@ -121,7 +121,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [cli.CLOSE, cli.CLEAR, cli.
 			})
 
 			sub.run = function(event, cmds, cb) {
-				can.runAction(event, ice.RUN, [meta.index].concat(cmds), cb)
+				can.runActionCommand(event, meta.index, cmds, cb)
 			}, sub.Focus()
 		}, can.ui.profile)
 	},

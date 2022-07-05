@@ -7,7 +7,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) {
 				},
 			))) { return }
 
-			can.run(event, can.misc.concat(can, [ctx.ACTION, code.FAVOR], cmds), function(msg) { var sub = msg._can
+			can.runAction(event, code.FAVOR, cmds, function(msg) { var sub = msg._can
 				sub.onmotion.clear(sub), sub.onappend.table(sub, msg, function(value, key, index, line) {
 					if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) {
 						if (key == mdb.VALUE) { key = line.key }
@@ -18,13 +18,13 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) {
 						if ([mdb.ZONE, mdb.ID].indexOf(key) > -1) { return sub.onaction.change(event, sub, key, value) }
 
 						if (target.tagName == "INPUT" && target.type == html.BUTTON) { var msg = sub.request(event, line, sub.Option())
-							return sub.run(event, [ctx.ACTION, target.name], function(msg) { sub.run() }, true)
+							return sub.runAction(event, target.name, [], function(msg) { sub.run() })
 						}
 
 						line.line && can.onimport.tabview(can, line.path, line.file.replace(ice.PWD, ""), parseInt(line.line))
 					}}
 				}, sub._output), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS)), can.Status("标签数", msg.Length())
-			}, true)
+			})
 		}, can.base.isFunc(cb) && cb(sub)
 	})
 }})

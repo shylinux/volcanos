@@ -121,7 +121,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [], _init: function(can, cb
 		can.user.input(event, can, [
 			{name: mdb.TYPE, values: [chat.PUBLIC, chat.PROTECTED, chat.PRIVATE], _trans: "类型"},
 			{name: mdb.NAME, value: "hi", _trans: "群名"}, {name: mdb.TEXT, value: "hello", _trans: "简介"},
-		], function(event, button, meta, list, args) {
+		], function(args) {
 			can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })
 		})
 	},
@@ -171,7 +171,7 @@ Volcanos(chat.ONDETAIL, {help: "菜单交互",
 		can.runAction(event, aaa.INVITE, [], function(msg) { can.user.toastScript(can, msg.Result(), button) })
 	},
 	"创建空间": function(event, can, button, river, storm) { can.request(event, {action: button})
-		can.user.input(event, can, [{name: "name", value: "hi"}, {name: "repos"}, {name: "template"}], function(event, button, data, list, args) {
+		can.user.input(event, can, [{name: "name", value: "hi"}, {name: "repos"}, {name: "template"}], function(args) {
 			can.runAction(event, cli.START, args.concat(chat.RIVER, river), function(msg) {
 				var link = can.misc.MergeURL(can, {pod: can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME))})
 				can.user.toast(can, link), can.user.open(link)
@@ -188,8 +188,8 @@ Volcanos(chat.ONDETAIL, {help: "菜单交互",
 		})
 	},
 	"重命名群组": function(event, can, button, river) {
-		can.user.input(event, can, [mdb.NAME], function(event, button, meta, list) {
-			can.runAction(can.request(event, {hash: river}), mdb.MODIFY, [mdb.NAME, meta.name], function(msg) { can.misc.Search(can, {river: river}) })
+		can.user.input(event, can, [mdb.NAME], function(data) {
+			can.runAction(can.request(event, {hash: river}), mdb.MODIFY, [mdb.NAME, data.name], function(msg) { can.misc.Search(can, {river: river}) })
 		})
 	},
 	"删除群组": function(event, can, button, river) {
@@ -207,7 +207,7 @@ Volcanos(chat.ONDETAIL, {help: "菜单交互",
 		})
 	},
 	"重命名应用": function(event, can, button, river, storm) {
-		can.user.input(event, can, [mdb.NAME], function(ev, button, meta, list, args) {
+		can.user.input(event, can, [mdb.NAME], function(args) {
 			can.run(can.request(event, {hash: storm}), [river, chat.STORM, ctx.ACTION, mdb.MODIFY].concat(args), function(msg) {
 				can.misc.Search(can, {river: river, storm: storm})
 			})
@@ -225,7 +225,7 @@ Volcanos(chat.ONDETAIL, {help: "菜单交互",
 		can.user.input(event, can, [
 			{name: mdb.TYPE, values: [chat.PUBLIC, chat.PROTECTED, chat.PRIVATE], _trans: "类型"},
 			{name: mdb.NAME, value: "hi", _trans: "名称"}, {name: mdb.TEXT, value: "hello", _trans: "简介"},
-		], function(event, button, meta, list, args) {
+		], function(args) {
 			can.run({}, [river, chat.STORM, ctx.ACTION, mdb.CREATE].concat(args), function(msg) {
 				can.misc.Search(can, {river: river, storm: msg.Result()})
 			})

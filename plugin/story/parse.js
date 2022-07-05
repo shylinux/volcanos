@@ -137,11 +137,11 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [],
 							sub.ConfHeight(data.main.offsetHeight-160)
 							sub.run = function(event, cmds, cb, silent) {
 								can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth(data.main.offsetWidth-40))
-								can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, sub._index||meta.index], cmds), function(msg) {
+								can.runActionCommand(event, sub._index||meta.index, cmds, function(msg) {
 									cb(msg), can.core.Timer(10, function() {
 										can.page.style(can, sub._table, html.MAX_HEIGHT, data.main.offsetHeight-150)
 									})
-								}, true)
+								})
 							}
 						}, data.main)
 					default:

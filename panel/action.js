@@ -235,7 +235,7 @@ Volcanos(chat.ONLAYOUT, {help: "导出数据", list: [],
 	},
 	grid: function(can, silent) {
 		var ACTION_LAYOUT_FMT = " fieldset.Action.grid>div.output fieldset.plugin { width:_width; height:_height; } fieldset.Action.grid>div.output fieldset.plugin>div.output { width:_width; height:_height; } "
-		can.user.input(event, can, [{name: "m", value: 2}, {name: "n", value: 2}], function(event, button, data, list, args) {
+		can.user.input(event, can, [{name: "m", value: 2}, {name: "n", value: 2}], function(data) {
 			can.getActionSize(function(height, width) { var m = parseInt(data.m)||2, n = parseInt(data.n)||2
 				can.page.css(can.base.replaceAll(ACTION_LAYOUT_FMT, "_width", (width-(4*m+1)*html.PLUGIN_MARGIN)/m+"px", "_height", (height-(4*n+1)*html.PLUGIN_MARGIN)/n+"px"))
 			})

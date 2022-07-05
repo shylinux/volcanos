@@ -134,7 +134,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	"扩展参数": function(event, can) { can.onmotion.toggle(can, can._action) },
 	"复制数据": function(event, can) { can.user.copy(event, can, can.onexport.table(can)||can.onexport.board(can)) },
 	"下载数据": function(event, can) { var meta = can.Conf()
-		can.user.input(event, can, [{name: "filename", value: meta.name}], function(ev, button, data, list) {
+		can.user.input(event, can, [{name: "filename", value: meta.name}], function(list) {
 			can.user.downloads(can, can.onexport.table(can), list[0], nfs.CSV)||can.user.downloads(can, can.onexport.board(can), meta.name, nfs.TXT)
 		})
 	},
@@ -187,15 +187,15 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	openLocation: function(event, can) { can.user.agent.openLocation(can.request(event)) },
 	getLocation: function(event, can, button) {
 		can.user.agent.getLocation(function(data) { can.request(event, data)
-			can.user.input(event, can, [mdb.TYPE, mdb.NAME, mdb.TEXT, "latitude", "longitude"], function(ev, bu, data, list, args) {
-				can.run(event, [ctx.ACTION, button].concat(can.base.Simple(args, data)), function(msg) { can.user.toastSuccess(can, button) }, true)
+			can.user.input(event, can, [mdb.TYPE, mdb.NAME, mdb.TEXT, "latitude", "longitude"], function(args) {
+				can.runAction(event, button, args)
 			})
 		})
 	},
 	getClipboardData: function(event, can, button) {
-		function add(text) { can.run(event, can.base.Simple(ctx.ACTION, button, can.base.ParseJSON(text)), function(msg) { can.user.toastSuccess(can, button) }, true) }
+		function add(text) { can.runAction(event, button, [can.base.ParseJSON(text)]) }
 		navigator.clipboard? navigator.clipboard.readText().then(add).catch(function(err) { can.misc.Log(err) }):
-			can.user.input(event, can, [{type: html.TEXTAREA, name: mdb.TEXT}], function(ev, button, data, list, args) { add(list[0]) })
+			can.user.input(event, can, [{type: html.TEXTAREA, name: mdb.TEXT}], function(list) { add(list[0]) })
 	},
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据", list: [], 

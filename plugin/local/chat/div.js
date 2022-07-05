@@ -60,7 +60,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.page.ClassList.add(can, field, meta.style)
 		can.page.style(can, field, size)
 
-		meta.index && can.run(event, [ctx.ACTION, ctx.COMMAND, meta.index], function(msg) {
+		meta.index && can.runAction(event, ctx.COMMAND, [meta.index], function(msg) {
 			can.onappend._init(can, can.base.Copy({
 				feature: can.base.Obj(msg.Append("meta")), 
 				inputs: can.base.Obj(msg.Append("list")),
@@ -69,23 +69,21 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 			}, size), ["/plugin/state.js"], function(sub) {
 				can.page.style(can, sub._output, size)
 				sub.run = function(event, cmds, cb) {
-					can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
+					can.runActionCommand(event, meta.index, cmds, cb)
 				}
 			}, target, field)
-		}, true)
+		})
 		return field
 	}, 
 }, ["/plugin/local/chat/div.css"])
 Volcanos(chat.ONACTION, {help: "操作数据", list: [],
 	"添加": function(event, can) {
-		can.user.input(event, can, [mdb.NAME, ctx.INDEX, ctx.ARGS, ctx.STYLE, html.HEIGHT, html.WIDTH], function(event, button, data, list, args) {
+		can.user.input(event, can, [mdb.NAME, ctx.INDEX, ctx.ARGS, ctx.STYLE, html.HEIGHT, html.WIDTH], function(data) {
 			can.current._add({meta: data, list: []})
 		})
 	},
 	"保存": function(event, can) { var msg = can.request(event, can.Option())
-		can.run(event, [mdb.MODIFY, mdb.TEXT, JSON.stringify(can._meta)], function(msg) {
-			can.user.toastSuccess(can)
-		}, true)
+		can.runAction(event, mdb.MODIFY, [mdb.TEXT, JSON.stringify(can._meta)])
 	},
 	"预览": function(event, can) {
 		can.onmotion.share(event, can, [], [mdb.LINK, can.misc.MergeURL(can, {_path: "/chat/div/"+can.Option("hash")})])

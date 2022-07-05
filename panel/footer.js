@@ -27,7 +27,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 				case cli.CLOSE: can.cli && can.cli.close(); break
 				case cli.CLEAR: can.cli && can.cli.close(); break
 				default:
-					can.run(event, [ice.RUN].concat(can.core.Split(event.target.value, ice.SP)), function(msg) {
+					can.runAction(event, ice.RUN, can.core.Split(event.target.value, ice.SP), function(msg) {
 						can.cli && can.cli.close(), can.onexport.float(can, msg, function(value, key, index, line, list) {}, "cli", true)
 					})
 			}
@@ -112,7 +112,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
 
 			can.getActionSize(function(msg, top, left, width, height) {
 				can.onappend.plugin(can, {index: cmds[0], args: cmds.slice(1), height: height-100, width: width}, function(sub) {
-					sub.run = function(event, cmd, cb) { can.runAction(event, ice.RUN, [cmds[0]].concat(cmd), cb) }
+					sub.run = function(event, cmd, cb) { can.runActionCommand(event, cmds[0], cmd, cb) }
 
 					can.page.style(can, sub._target, {top: top+100, left: left})
 					can.page.style(can, sub._legend, {display: html.BLOCK})

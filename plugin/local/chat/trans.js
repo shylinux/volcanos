@@ -16,7 +16,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 				if (can.onaction[cmds[1]]) { return can.onaction[cmds[1]](can, from, to, event, cmds, cb) }
 
 				var msg = sub.request(event, {_pod: can.Option(from)})
-				can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, index], cmds), cb, true)
+				can.runActionCommand(event, index, cmds, cb)
 			}
 		})
 	},

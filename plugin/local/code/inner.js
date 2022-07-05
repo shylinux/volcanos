@@ -86,12 +86,12 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				}
 			},
 			mdb.PLUGIN, function(event) {
-				can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(event, button, data) {
+				can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) {
 					can.onimport.plugin(can, data, ui.output)
 				})
 			},
 			html.WIDTH, function(event) {
-				can.user.input(event, can, [{name: html.WIDTH, value: 50}], function(event, button, data) {
+				can.user.input(event, can, [{name: html.WIDTH, value: 50}], function(data) {
 					can.profile_size[can.onexport.keys(can)] = can.ConfWidth()*parseInt(data.width)/100
 					can.onaction["展示"](event, can)
 				})
@@ -107,13 +107,13 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
 			cli.EXEC, function(event) { can.onaction["执行"](event, can) },
 			mdb.PLUGIN, function(event) {
-				can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(event, button, data) {
+				can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) {
 					can.onimport.plugin(can, data, ui.output)
 				})
 			},
 			html.HEIGHT, function(event) {
-				can.user.input(event, can, [{name: html.HEIGHT, value: 50}], function(event, button, data) {
-					can.profile_size[can.onexport.keys(can)] = can.ConfHeight()*parseInt(data.height)/100
+				can.user.input(event, can, [{name: html.HEIGHT, value: 50}], function(list) {
+					can.profile_size[can.onexport.keys(can)] = can.ConfHeight()*parseInt(list[0])/100
 					can.onaction["执行"](event, can)
 				})
 			}
@@ -178,7 +178,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			}, true)
 		}, function() { can.base.isFunc(cb) && cb() })
 
-		can.run(can.request({}, {fields: "index"}), [ctx.ACTION, ctx.COMMAND, "search", "command"], function(msg) {
+		can.runAction(can.request({}, {fields: "index"}), ctx.COMMAND, ["search", "command"], function(msg) {
 			can.onimport.tree(can, msg.Table(), ctx.INDEX, ice.PT, function(event, item) {
 				can.onimport.tabview(can, can.Option(nfs.PATH), item.index, ctx.INDEX)
 			}, project.module)
@@ -264,7 +264,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	plugin: function(can, meta, target, cb) {
 		can.onappend.plugin(can, meta, function(sub) {
 			sub.run = function(event, cmds, cb) { can.request(event, can.Option())
-				can.run(event, can.misc.concat(can, [ctx.ACTION, ice.RUN, meta.index], cmds), cb, true)
+				can.runActionCommand(event, meta.index, cmds, cb)
 			}, can.base.isFunc(cb) && cb(sub)
 		}, target)
 	},
@@ -423,9 +423,9 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line
 			}
 		}
 		can.Conf("plug") && (can.onsyntax[can.parse] = can.Conf("plug"))
-		var p = can.onsyntax[can.parse]; !p? can.run({}, [ctx.ACTION, mdb.PLUGIN, can.parse, msg.Option(nfs.FILE), msg.Option(nfs.PATH)], function(msg) {
+		var p = can.onsyntax[can.parse]; !p? can.runAction({}, mdb.PLUGIN, [can.parse, msg.Option(nfs.FILE), msg.Option(nfs.PATH)], function(msg) {
 			init(p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()))
-		}, true): init(p)
+		}): init(p)
 	},
 	_parse: function(can, line) { if (line.indexOf("<html") == 0) { return line }
 		line = can.page.replace(can, line||"")
@@ -498,29 +498,29 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["搜索", "打开", "添�
 	},
 	"刷新": function(event, can) { can.onimport.tabview(can, "src/", "main.go", "", function() {}, skip) },
 	"搜索": function(event, can) {
-		can.user.input(event, can, [mdb.NAME, [ctx.ACTION, nfs.TAGS, nfs.GREP, cli.MAKE]], function(event, button, data) {
+		can.user.input(event, can, [mdb.NAME, [ctx.ACTION, nfs.TAGS, nfs.GREP, cli.MAKE]], function(data) {
 			can.ui.search.Update({}, [ctx.ACTION, data.action, data.name])
 		})
 	},
 	"打开": function(event, can) {
-		can.user.input(event, can, [nfs.FILE], function(event, button, data) {
-			can.onimport.tabview(can, can.Option(nfs.PATH), data.file)
+		can.user.input(event, can, [nfs.FILE], function(list) {
+			can.onimport.tabview(can, can.Option(nfs.PATH), list[0])
 			can.onimport.project(can, can.Option(nfs.PATH))
 		})
 	},
 	"添加": function(event, can) {
-		can.user.input(event, can, [ctx.INDEX], function(event, button, data) {
-			can.onimport.tabview(can, can.Option(nfs.PATH), data.index, ctx.INDEX)
+		can.user.input(event, can, [ctx.INDEX], function(list) {
+			can.onimport.tabview(can, can.Option(nfs.PATH), list[0], ctx.INDEX)
 		})
 	},
 	"插件": function(event, can) {
-		can.user.input(event, can, [ctx.INDEX], function(event, button, data) {
+		can.user.input(event, can, [ctx.INDEX], function(data) {
 			var sub = can.toolkit[data.index]; if (sub) { sub.select(); return }
 			can.onimport.toolkit(can, data, function(sub) { can.toolkit[data.index] = sub.select() })
 		})
 	},
 	"扩展": function(event, can) {
-		can.user.input(event, can, ["url"], function(event, button, data) {
+		can.user.input(event, can, ["url"], function(data) {
 			var sub = can.extentions[data.url]; if (sub) { sub.select(); return }
 			can.onimport.exts(can, data.url, function(sub) { can.extentions[data.url] = sub.select() })
 		})
@@ -529,19 +529,19 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["搜索", "打开", "添�
 	"项目": function(event, can) { can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can) },
 	"工具": function(event, can) { can.onmotion.toggle(can, can.ui.toolkit.fieldset) },
 	"执行": function(event, can) { can.onimport.display(can), can.request(event, {_toast: "执行中..."})
-		can.run(event, [ctx.ACTION, mdb.ENGINE, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
+		can.runAction(event, mdb.ENGINE, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
 			can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.ui.display_status)
 			can.onimport.display(can, msg), can.onimport.layout(can) 
-		}, true)
+		})
 	},
 	"展示": function(event, can) { can.onimport.profile(can), can.request(event, {_toast: "渲染中..."})
 		if (can.Option(nfs.FILE).indexOf("website/") == 0) {
 			can.profile_size[can.onexport.keys(can)] = can.profile_size[can.onexport.keys(can)] || can.ConfWidth()*parseInt(70)/100
 		}
 		can.parse == "js" && can.onaction["加载"](event, can)
-		can.run(event, [ctx.ACTION, mdb.RENDER, can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
+		can.runAction(event, mdb.RENDER, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
 			can.onimport.profile(can, msg)
-		}, true)
+		})
 	},
 	"清屏": function(event, can) {
 		if (can.page.Select(can, can._root._target, ".input.float", function(item) {
@@ -656,11 +656,11 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["搜索", "打开", "添�
 		can.ui.search.Update(event, [ctx.ACTION, nfs.TAGS, value.trim()])
 	},
 	favorLine: function(can, value) {
-		can.user.input(event, can, [{name: "zone", value: "hi"}, {name: "name", value: "hello"}], function(event, button, data) {
-			can.run(event, [ctx.ACTION, code.FAVOR, ctx.ACTION, mdb.INSERT, mdb.ZONE, data.zone||"",
+		can.user.input(event, can, [{name: "zone", value: "hi"}, {name: "name", value: "hello"}], function(data) {
+			can.runAction(event, code.FAVOR, [ctx.ACTION, mdb.INSERT, mdb.ZONE, data.zone||"",
 				mdb.TYPE, can.parse, mdb.NAME, data.name||"", mdb.TEXT, (value||"").trimRight(),
 				nfs.PATH, can.Option(nfs.PATH), nfs.FILE, can.Option(nfs.FILE), nfs.LINE, can.Option(nfs.LINE),
-			], function(msg) { can.user.toastSuccess(can) }, true)
+			])
 		})
 	},
 })
