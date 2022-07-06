@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.path = can.request(), can.list = [], msg.Table(function(value) {
 			can.base.endWith(value.path, ice.PS)? can.path.Push(value): can.list.push(value)
 		}), can.base.isFunc(cb) && cb(msg)
@@ -29,7 +29,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.Status({begin: begin, limit: limit, total: can.list.length})
 	},
 }, [""])
-Volcanos(chat.ONFIGURE, {help: "组件菜单", list: [],
+Volcanos(chat.ONFIGURE, {help: "组件菜单",
 	png: function(can, path, index) { return can.onfigure.image(can, path, index) },
 	jpg: function(can, path, index) { return can.onfigure.image(can, path, index) },
 	jpeg: function(can, path, index) { return can.onfigure.image(can, path, index) },

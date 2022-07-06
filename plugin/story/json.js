@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.page.ClassList.add(can, target, "json")
 		can.onmotion.clear(can, target), can.base.isFunc(cb) && cb(msg)
 		can.onappend.table(can, msg), can.onimport.show(can, can.base.Obj(msg.Result(), {}), target)
@@ -57,4 +57,3 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: ["展开", "折叠", "复�
 		can.user.copy(event, can, can._msg.Result())
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: []})

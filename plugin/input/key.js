@@ -1,4 +1,4 @@
-Volcanos(chat.ONFIGURE, {help: "控件详情", list: [], key: {
+Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 	_init: function(event, can, cbs, target, name, value) { var call = arguments.callee
 		can.runAction(event, mdb.INPUTS, [name, value||target.value], function(msg) {
 			can.onmotion.clear(can), can.onappend.table(can, msg, function(value) {

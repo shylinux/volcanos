@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() { can.undo = [], can.redo = []
 			can.onkeymap._build(can), can.onimport._input(can), can.onkeymap._plugin({}, can), can.base.isFunc(cb) && cb(msg)
 
@@ -26,7 +26,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		]); can.ui.current = ui.current, can.ui.complete = ui.complete
 	},
 }, [""])
-Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [],
+Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 	_model: function(can, value) { can.Status("模式", can.mode = value)
 		can.page.styleClass(can, can.ui.current, ["current", can.mode]), value
 		can.page.styleClass(can, can.ui.complete, ["complete", can.mode]), value

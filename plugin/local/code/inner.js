@@ -279,9 +279,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.page.styleWidth(can, can.ui.profile_output, can.profile_size[can.onexport.keys(can)]||(width-can.ui.project.offsetWidth)/2)
 		can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
 		can.page.styleWidth(can, can.ui.display, width-can.ui.project.offsetWidth)
+		can.page.style(can, can._output, html.MAX_WIDTH, "")
+		if (can.Conf("mode") == "simple") { return }
 
-		if (!height && can.Conf("mode") == "simple") { return }
-		var height = can.ConfHeight()-(can.user.isMobile && can._mode == "cmd"? (can.user.isLandscape()? 14: 54): 0)-(can.user.isWindows? 20: 0)
+		var height = can.ConfHeight()
 		if (!height || height > can._root._height) { height = can._root._height - 200 }
 		if (can.user.isMobile && can.user.isLandscape() && height < 200) { height = 400 }
 

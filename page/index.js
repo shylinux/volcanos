@@ -4,7 +4,7 @@ Volcanos({name: "chat", panels: [
 		{name: "Action", help: "工作台", pos: html.MAIN},
 		{name: "Footer", help: "状态条", pos: html.FOOT, state: ["ncmd"]},
 		{name: "Search", help: "搜索框", pos: html.AUTO},
-	], main: {name: "Header", list: []}, river: {
+	], main: {name: "Header"}, river: {
 	product: {name: "产品群", storm: {
 		office: {name: "办公 office",  list: [
 			{name: "feel", help: "影音媒体", index: "web.wiki.feel"},

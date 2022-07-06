@@ -1,4 +1,4 @@
-Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], 
+Volcanos(chat.ONAPPEND, {help: "渲染引擎",
 	parse: function(can, list, target, keys, data, type) { target = target||can._output, data = data||{}
 		if (!list) { return } else if (can.base.isArray(list)) {
 			return can.core.List(list, function(meta, index) {

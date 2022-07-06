@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.onmotion.clear(can, target)
 		can.ui = can.onlayout.profile(can)
 		can.onimport[can.Option("scale")||"week"](can, msg)

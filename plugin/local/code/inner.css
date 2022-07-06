@@ -21,7 +21,7 @@ fieldset.inner>div.output div.content td.text span.datatype { color:lightgreen; 
 fieldset.inner>div.output div.content td.text span.function { color:cyan; font-weight:bold; }
 fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
-fieldset.inner>div.output div.content legend { margin-right:4px; height:30px; float:left; }
+fieldset.inner>div.output div.content legend { margin-right:4px; float:left; }
 fieldset.inner>div.output div.profile>div.output>fieldset>legend { padding:0.1rem; float:left; }
 fieldset.inner>div.output div.display { border:solid 1px greenyellow; }
 

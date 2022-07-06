@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, list, cb, target) {
 		can.list = msg.Table(), can.onmotion.clear(can, can.ui.content)
 		var table = can.onappend.table(can, msg, function(value, key, index, line, array) { can.Status(mdb.TOTAL, index+1)
 			return {text: [key == mdb.TEXT && can.base.isFunc(line.text) && line.text.help || value, html.TD], onclick: function(event) {
@@ -126,7 +126,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [cli.CLOSE, cli.CLEAR, cli.
 		}, can.ui.profile)
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
+Volcanos(chat.ONEXPORT, {help: "导出数据",
 	select: function(can) {
 		return can.page.Select(can, can.ui.display, html.TR, function(tr) {
 			return can.page.Select(can, tr, html.TD, function(td) { return td.innerHTML })

@@ -110,12 +110,12 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 	space: function(event, can) { can.onimport.layout(can) },
 	speed: function(event, can) { can.onimport.layout(can) },
 })
-Volcanos(chat.ONDETAIL, {help: "用户交互", list: [],
+Volcanos(chat.ONDETAIL, {help: "用户交互",
 	onmouseenter: function(event, can, line) { can.Status(line) },
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["from", "commit", "total", "max", "date", "text", "add", "del"],
 	height: function(can) { var height = can.Action(html.HEIGHT)
 		if (height == ice.AUTO) { height = can.ConfHeight() }
-		return parseInt(height)
+		return parseInt(height||can._root._height/2)
 	},
 })

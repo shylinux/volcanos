@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 		var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) {
 			item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y)
@@ -54,7 +54,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.page.styleHeight(can._target, height)
 	},
 })
-Volcanos(chat.ONENGINE, {help: "解析引擎", list: [], _engine: function(event, page, msg, can, cmds, cb) {
+Volcanos(chat.ONENGINE, {help: "解析引擎", _engine: function(event, page, msg, can, cmds, cb) {
 	var storm = can.core.Value(can._root, can.core.Keys(chat.RIVER, cmds[0], chat.STORM, cmds[1]))
 	if (!storm || cmds.length != 2) { return false }
 
@@ -75,7 +75,7 @@ Volcanos(chat.ONENGINE, {help: "解析引擎", list: [], _engine: function(event
 	}
 	return true
 }})
-Volcanos(chat.ONPLUGIN, {help: "注册插件", list: [],
+Volcanos(chat.ONPLUGIN, {help: "注册插件",
 	"parse": shy("解析", {
 		"show": function(can, msg, cmds) {
 			can.require(["/plugin/story/parse.js"], function() {
@@ -110,7 +110,7 @@ Volcanos(chat.ONPLUGIN, {help: "注册插件", list: [],
 	}),
 	"can.code.inner.plugin": shy("插件", {}, [{type: "button", name: "list", action: "auto"}, "back"], function(can, msg, cmds) {}),
 })
-Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
+Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, target) {
 		can.onkeymap._build(can), can.onengine.listen(can, chat.ONKEYDOWN, function(msg, model) {
 			can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
 		})
@@ -144,7 +144,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [], _focus: [], _init: func
 		},
 	}, _engine: {},
 })
-Volcanos(chat.ONACTION, {help: "交互操作", list: [], _init: function(can, cb, target) {
+Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) {
 		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+2*html.ACTION_HEIGHT+html.ACTION_MARGIN)
 		can.Conf(html.MARGIN_X, 4*html.PLUGIN_MARGIN)
 
@@ -232,7 +232,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [], _init: function(can, cb
 		})
 	},
 })
-Volcanos(chat.ONLAYOUT, {help: "导出数据", list: [],
+Volcanos(chat.ONLAYOUT, {help: "导出数据",
 	auto: function(can) {
 		can.Conf(chat.LAYOUT, "")
 	},
@@ -258,7 +258,7 @@ Volcanos(chat.ONLAYOUT, {help: "导出数据", list: [],
 		return can.onmotion.toimage(event, can, can.Conf(chat.STORM), can._output), true
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
+Volcanos(chat.ONEXPORT, {help: "导出数据",
 	args: function(can, msg, cb, target) {
 		can.core.Next(can.page.Select(can, target, [[html.FIELDSET_PLUGIN, html.FORM_OPTION]]), function(item, next, index, array) {
 			item.dataset.args = JSON.stringify(can.page.Select(can, item, html.OPTION_ARGS, function(item) { return item.value||"" }))

@@ -34,7 +34,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		var begin = 0; msg[cli.COLOR] = [], msg["weight"] = [], msg.Table(function(value, index) { var span = can.onimport._parseInt(can, value[field])/total*360
 			var p = index==which? pos(x, y, margin, begin+span/2): [x, y], c = color[index%color.length]
 
-			pie(p[0], p[1], r, begin, span, c, function(event) { can.onimport._draw(can, msg, field, color, x, y, r, margin, index) }), begin += span
+			if (msg.Length() == 1) {
+				can.onimport.draw({}, can, {shape: svg.CIRCLE, point: [{x: x, y: y}, {x: x, y: y+r}], style: {fill: color[0]}})
+			} else {
+				pie(p[0], p[1], r, begin, span, c, function(event) { can.onimport._draw(can, msg, field, color, x, y, r, margin, index) }), begin += span
+			}
 			msg.Push(cli.COLOR, '<span style="background-color:'+c+'">     </span>')
 			msg.Push("weight", parseInt(span*100/360)+"%")
 			if (index == which) { can.Status(value), can.Status("weight", parseInt(span*100/360)+"%") }
@@ -48,4 +52,4 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		return parseInt(value)
 	}
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: [], _show: function(can) {}})
+Volcanos(chat.ONEXPORT, {help: "导出数据", _show: function(can) {}})

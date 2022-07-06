@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据",  _init: function(can, msg, cb, target) {
 		can.ui = can.onlayout.display(can, target)
 		can.ui.canvas = can.page.Append(can, can.ui.display, [{type: "canvas", width: 320, height: 240, style: {display: "none"}}]).first
 
@@ -14,7 +14,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.base.isFunc(cb) && cb(msg)
 	},
 })
-Volcanos(chat.ONACTION, {help: "操作数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, msg, cb, target) {
 	},
 
 	open: function(event, can) {
@@ -30,6 +30,4 @@ Volcanos(chat.ONACTION, {help: "操作数据", list: [], _init: function(can, ms
 		can.ui.canvas.getContext("2d").drawImage(can.ui.video, 0, 0)
 		can.page.Append(can, can.ui.display, [{type: "img", src: can.ui.canvas.toDataURL('image/webp')}])
 	},
-})
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: [], 
 })

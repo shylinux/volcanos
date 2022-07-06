@@ -1,4 +1,4 @@
-Volcanos(chat.ONFIGURE, {help: "控件详情", list: [], date: {onclick: function(event, can, meta, cb, target) { cb(function(can, cbs) {
+Volcanos(chat.ONFIGURE, {help: "控件详情", date: {onclick: function(event, can, meta, cb, target) { cb(function(can, cbs) {
 	function set(now) { target.value = can.user.time(can, now), can.close(), meta && meta.action == ice.AUTO && can.run({}) }
 
 	// 添加控件

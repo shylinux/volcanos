@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.onmotion.clear(can), can.river_list = {}, can.storm_list = {}
 		can.onimport._main(can, msg), can.onimport._menu(can, msg)
 
@@ -6,9 +6,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 			return can.onimport._river(can, item, function(target) {
 				(index == 0 || item.hash == can._main_river) && (select = target)
 			})
-		})), select && can.onmotion.delay(can, function() {
-			can.onlayout._init(can), select.click()
-		})
+		})), select && select.click()
 	},
 	_main: function(can, msg) {
 		// if (can.user.isMobile) { can._main_river = "product", can._main_storm = "office" }
@@ -54,7 +52,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		var show = can.onmotion.toggle(can, can._target); can.onlayout._init(can); return show
 	},
 })
-Volcanos(chat.ONENGINE, {help: "解析引擎", list: [], _engine: function(event, can, msg, panel, cmds, cb) {
+Volcanos(chat.ONENGINE, {help: "解析引擎", _engine: function(event, can, msg, panel, cmds, cb) {
 	var list = can._root.river
 	cmds.length == 0 && can.core.ItemSort(list, "order", function(key, value) {
 		if (can.core.Item(value.storm).length == 0) { return }
@@ -66,7 +64,7 @@ Volcanos(chat.ONENGINE, {help: "解析引擎", list: [], _engine: function(event
 		msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) // 应用列表
 	}), can.base.isFunc(cb) && cb(msg); return true
 }})
-Volcanos(chat.ONACTION, {help: "控件交互", list: [], _init: function(can, cb, target) {
+Volcanos(chat.ONACTION, {help: "控件交互", _init: function(can, cb, target) {
 		can.onmotion.hidden(can, target), can.base.isFunc(cb) && cb()
 	},
 	onlogin: function(can, msg) {
@@ -111,9 +109,12 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [], _init: function(can, cb
 		can.onmotion.select(can, can._output, html.DIV_ITEM, can.river_list[river])
 		can.onmotion.select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], can.storm_list[can.core.Keys(river, storm)])
 
-		can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {
-			river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm),
-		}))
+		can.onmotion.delay(can, function() {
+			can.onlayout._init(can)
+			can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {
+				river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm),
+			}))
+		})
 	},
 
 	create: function(event, can) {
@@ -232,7 +233,7 @@ Volcanos(chat.ONDETAIL, {help: "菜单交互",
 		})
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
+Volcanos(chat.ONEXPORT, {help: "导出数据",
 	width: function(can) { return can._target.offsetWidth },
 	storm: function(can, msg, word) {
 		var fields = (msg.Option(ice.MSG_FIELDS)||"ctx,cmd,type,name,text").split(",")

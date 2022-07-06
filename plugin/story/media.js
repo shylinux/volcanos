@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 	can.base.isFunc(cb) && cb(msg)
 }})
 Volcanos(chat.ONACTION, {help: "操作数据", list: ["打开屏幕", "打开摄像", "打开录音"],
@@ -46,4 +46,3 @@ Volcanos(chat.ONACTION, {help: "操作数据", list: ["打开屏幕", "打开摄
 		})
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: []})

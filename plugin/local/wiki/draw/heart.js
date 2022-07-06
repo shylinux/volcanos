@@ -1,4 +1,4 @@
-Volcanos("heart", {help: "心形", list: [],
+Volcanos("heart", {help: "心形",
     data: {name: "path", size: {},
         copy: ["d", "name", "meta", "tt", "xx", "yy"],
         x: function(event, can, value, cmd, target) {

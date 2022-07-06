@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		var meta = {}; msg.Table(function(value) { meta[value.key] = value.value })
 		can._meta = can.base.Obj(meta.text, {meta: {name: meta.name||"hi"}, list: []})
 		can.base.isFunc(cb) && cb(msg)
@@ -76,7 +76,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		return field
 	}, 
 }, ["/plugin/local/chat/div.css"])
-Volcanos(chat.ONACTION, {help: "操作数据", list: [],
+Volcanos(chat.ONACTION, {help: "操作数据",
 	"添加": function(event, can) {
 		can.user.input(event, can, [mdb.NAME, ctx.INDEX, ctx.ARGS, ctx.STYLE, html.HEIGHT, html.WIDTH], function(data) {
 			can.current._add({meta: data, list: []})
@@ -89,4 +89,3 @@ Volcanos(chat.ONACTION, {help: "操作数据", list: [],
 		can.onmotion.share(event, can, [], [mdb.LINK, can.misc.MergeURL(can, {_path: "/chat/div/"+can.Option("hash")})])
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: []})

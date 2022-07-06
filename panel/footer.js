@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
 		can.onimport._title(can, msg, target)
 		can.onimport._state(can, msg, target)
@@ -49,7 +49,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.onimport.count(can, "ncmd")
 	},
 })
-Volcanos(chat.ONACTION, {help: "交互数据", list: [], _init: function(can, cb, target) {
+Volcanos(chat.ONACTION, {help: "交互数据", _init: function(can, cb, target) {
 		if (can.user.mod.isPod || can.user.isExtension) { can.onmotion.hidden(can, can._target) }
 		can.base.isFunc(cb) && cb()
 	},
@@ -59,7 +59,7 @@ Volcanos(chat.ONACTION, {help: "交互数据", list: [], _init: function(can, cb
 	onaction_cmd: function(can, msg) { can.onmotion.hidden(can) },
 	oncommandfocus: function(can) { can.page.Select(can, can._output, ["div.cmd", "input"], function(target) { can.onmotion.focus(can, target) }) },
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
+Volcanos(chat.ONEXPORT, {help: "导出数据",
 	height: function(can) { return can._target.offsetHeight },
 	float: function(can, msg, cb, name, bottom) { if (can[name]) { return can[name].close() }
 		var ui = can.onappend.field(can, "story toast float", {}, can._root._target)

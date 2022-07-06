@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
 		can.onimport._show(can, msg), can.onmotion.hidden(can, can._action)
 		can.keylist = [], can.onkeymap._build(can)
@@ -114,7 +114,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		return value && g.Value(value), g
 	},
 }, [""])
-Volcanos(chat.ONFIGURE, {help: "图形绘制", list: [],
+Volcanos(chat.ONFIGURE, {help: "图形绘制",
 	_get: function(can, item, name) {
 		return can.onfigure[name]||can.onfigure[item.getAttribute(mdb.NAME)]||can.onfigure[item.tagName]
 	},
@@ -215,7 +215,7 @@ Volcanos(chat.ONFIGURE, {help: "图形绘制", list: [],
 		text: function(can, data, target) { can.onfigure.rect.text(can, data, target) },
 	},
 }, [])
-Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [],
+Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 	_mode: {
 		normal: {
 			gr: function(event, can) { can.Action("go", "run") },

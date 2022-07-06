@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.onmotion.clear(can)
 		can.onimport._title(can, msg, target)
 		can.onimport._state(can, msg, target)
@@ -102,7 +102,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		}) }]).first
 	},
 })
-Volcanos(chat.ONPLUGIN, {help: "注册插件", list: [],
+Volcanos(chat.ONPLUGIN, {help: "注册插件",
 	"topic": shy("主题", {
 		"demo": function(can, msg, cmds) { can.onimport.topic(can, cmds[0]) },
 	}, ["topic:select=white,black", "run:button", "demo:button"], function(can, msg, cmds) {
@@ -123,7 +123,7 @@ Volcanos(chat.ONPLUGIN, {help: "注册插件", list: [],
 		console.log(cmds[0])
 	}),
 })
-Volcanos(chat.ONACTION, {help: "交互数据", list: [], _init: function(can, cb, target) {
+Volcanos(chat.ONACTION, {help: "交互数据", _init: function(can, cb, target) {
 		can.base.isFunc(cb) && cb()
 	},
 	_menus: [["setting", chat.BLACK, chat.WHITE, chat.PRINT, code.WEBPACK, "toimage", ctx.CONFIG]],
@@ -240,7 +240,7 @@ Volcanos(chat.ONACTION, {help: "交互数据", list: [], _init: function(can, cb
 	clear: function(event, can) { can.onimport.background(event, can, ""), can.onimport.avatar(event, can, "") },
 	logout: function(event, can) { can.user.logout(can) },
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
+Volcanos(chat.ONEXPORT, {help: "导出数据",
 	height: function(can) { return can._target.offsetHeight },
 	topic: function(can) { return can._topic },
 	avatar: function(can) {

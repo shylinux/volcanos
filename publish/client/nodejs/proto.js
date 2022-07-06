@@ -1,4 +1,4 @@
-Volcanos("onappend", {help: "渲染引擎", list: [],
+Volcanos("onappend", {help: "渲染引擎",
 	table: function(can, msg) {
 		var max = {}; msg.Table(function(value, index, array) {
 			for (var k in value) { if (value[k].length > (max[k]||0)) {

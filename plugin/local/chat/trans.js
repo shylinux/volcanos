@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.onmotion.clear(can)
 		can.from = can.onimport._plugin(can, nfs.DIR, html.LEFT, "from", "to")
 		can.to = can.onimport._plugin(can, nfs.DIR, html.RIGHT, "to", "from")
@@ -21,7 +21,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		})
 	},
 })
-Volcanos(chat.ONACTION, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
+Volcanos(chat.ONACTION, {help: "导入数据", _init: function(can, msg, cb, target) {
 	},
 	send: function(can, from, to, event, cmds, cb) { var _from = can[from], _to = can[to]
 		var path = can.request(event).Option(nfs.PATH)

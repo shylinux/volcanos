@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can._action)
 		var cbs = can.onimport[can._args[ctx.STYLE]]; if (can.base.isFunc(cbs)) {
 			can.page.ClassList.add(can, target, can._args[ctx.STYLE])

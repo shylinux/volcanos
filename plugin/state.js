@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, meta, cb, target) {},
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, target) {},
 	_process: function(can, msg) {
 		msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, can.base.Obj(msg.OptionStatus()))
 		return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, msg: msg})
@@ -88,7 +88,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		"刷新数据", "切换全屏", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", [
 			"其它", "刷新页面", "保存参数", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除工具","摄像头",
 		],
-	], _init: function(can, msg, list, cb, target) {},
+	],
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input([], true))) },
 
 	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
@@ -198,7 +198,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 			can.user.input(event, can, [{type: html.TEXTAREA, name: mdb.TEXT}], function(list) { add(list[0]) })
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: [], 
+Volcanos(chat.ONEXPORT, {help: "导出数据",
 	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return }
 		var res = [msg.append && msg.append.join(ice.FS)]; msg.Table(function(line, index, array) {
 			res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS))

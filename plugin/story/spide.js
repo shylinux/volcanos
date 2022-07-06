@@ -121,7 +121,7 @@ Volcanos(chat.ONACTION, {help: "用户操作", list: [
 		})
 	},
 })
-Volcanos(chat.ONDETAIL, {help: "用户交互", list: [],
+Volcanos(chat.ONDETAIL, {help: "用户交互",
 	onmouseenter: function(event, can, tree) { var y = tree.y+tree.height*can.margin/2
 		can.page.Remove(can, can.pos), can.pos = can.onimport.draw({}, can, {shape: svg.RECT, point: [
 			{x: tree.x-can.margin/4, y: y-can.margin/2}, {x: tree.x+tree.width+can.margin/8, y: y+can.margin/2},
@@ -156,7 +156,7 @@ Volcanos(chat.ONDETAIL, {help: "用户交互", list: [],
 			sub.run = function(event, cmds, cb) { can.runAction(can.request(event), prefix, cmds, cb) }
 			sub._mode = "float", can.getActionSize(function(left, top, width, height) { left = left||0
 				var top = can._mode == undefined? 120: 0; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
-				sub.ConfHeight(height-top-html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0)), sub.ConfWidth(width)
+				sub.ConfHeight(height-top-2*html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0)), sub.ConfWidth(width)
 				can.onmotion.move(can, sub._target, {position: html.FIXED, left: left, top: top})
 			})
 		})

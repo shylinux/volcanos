@@ -1,4 +1,4 @@
-Volcanos(chat.ONENGINE, {help: "搜索引擎", list: [], _init: function(can, meta, list, cb, target) {
+Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, cb, target) {
 		if (can.misc.Search(can, ice.MSG_SESSID)) { can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID))
 			return can.misc.Search(can, ice.MSG_SESSID, "") 
 		}
@@ -105,7 +105,7 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", list: [], _init: function(can, me
 		return can.core.List(can.onengine.listen.meta[name], function(cb) { can.core.CallFunc(cb, {event: msg._event, msg: msg}) }).length
 	}),
 })
-Volcanos(chat.ONDAEMON, {help: "推荐引擎", list: [], _init: function(can, name) { if (can.user.isLocalFile) { return }
+Volcanos(chat.ONDAEMON, {help: "推荐引擎", _init: function(can, name) { if (can.user.isLocalFile) { return }
 		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, cli.DAEMON)||name||"", text: can.user.title()}, function(event, msg, cmd, arg) { if (!msg) { return }
 			var sub = can.ondaemon._list[msg.Option(ice.MSG_TARGET)]
 			can.base.isFunc(can.ondaemon[cmd])? can.core.CallFunc(can.ondaemon[cmd], {
@@ -119,7 +119,7 @@ Volcanos(chat.ONDAEMON, {help: "推荐引擎", list: [], _init: function(can, na
 	pwd: function(can, msg, arg) { can.ondaemon._list[0] = arg[0] },
 	exit: function(can, msg, sub) { can.user.close() },
 })
-Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, meta, list, cb, target, field) {
+Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, cb, target, field) {
 		meta.name = (meta.name||"").split(ice.SP)[0].split(ice.PT).pop()
 		field = field||can.onappend.field(can, meta.type, meta, target).first
 		var legend = can.page.Select(can, field, html.LEGEND)[0]
@@ -427,7 +427,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 		})
 	},
 })
-Volcanos(chat.ONLAYOUT, {help: "页面布局", list: [], _init: function(can, target) { target = target||can._root._target
+Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { target = target||can._root._target
 		if (can.page.Select(can, target, can.core.Keys(html.FIELDSET_MAIN, html.PAGE)).length > 0) {
 			can.page.Select(can, target, html.FIELDSET_LEFT, function(field) { can.page.styleHeight(can, field, "")
 				can.page.Select(can, target, [[html.FIELDSET_LEFT, html.DIV_OUTPUT]], function(output) {
@@ -452,7 +452,7 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", list: [], _init: function(can, ta
 			can.user.isMobile || (width -= field.offsetWidth)
 			can.page.styleHeight(can, field, height-offset)
 			can.page.Select(can, target, [[html.FIELDSET_LEFT, html.DIV_OUTPUT]], function(output) {
-				can.page.styleHeight(can, output, height-offset-html.ACTION_HEIGHT-1)
+				can.page.styleHeight(can, output, height-offset-html.ACTION_HEIGHT-2)
 			})
 		})
 
@@ -473,7 +473,7 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", list: [], _init: function(can, ta
 		if (layout) { return can.page.style(can, target, layout), can.onmotion.move(can, target, layout), layout }
 		if (!event || !event.target || !event.clientX) { return {} }
 
-		var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight-5; if (right) {
+		var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight-1; if (right) {
 			var left = event.clientX-event.offsetX+event.target.offsetWidth, top = event.clientY-event.offsetY
 		}
 
@@ -535,7 +535,7 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", list: [], _init: function(can, ta
 		] }]); return can.ui = ui
 	},
 })
-Volcanos(chat.ONMOTION, {help: "动态特效", list: [], _init: function(can, target) {
+Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 		window.addEventListener(html.ORIENTATIONCHANGE, function(event) { can.onengine.signal(can, html.ORIENTATIONCHANGE) })
 		can.onmotion.float.auto(can, target)
 	},
@@ -775,7 +775,7 @@ Volcanos(chat.ONMOTION, {help: "动态特效", list: [], _init: function(can, ta
 		} can.onkeymap.prevent(event)
 	},
 })
-Volcanos(chat.ONKEYMAP, {help: "键盘交互", list: [], _focus: [], _init: function(can, target) {
+Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, target) {
 		document.body.onclick = function(event) {
 			if (window.webview) {
 				if (event.target.tagName == "A") { can.user.open(event.target.href) }

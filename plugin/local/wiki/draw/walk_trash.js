@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [],
+Volcanos(chat.ONIMPORT, {help: "导入数据",
     init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
         if (!msg.result || msg.result.length == 0) {
             var table = can.page.AppendTable(can, msg, output, msg.append);

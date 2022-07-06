@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb) {
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb) {
 		can.ui = can.onlayout.display(can)
 		can.base.isFunc(cb) && cb(msg)
 
@@ -18,7 +18,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 		can.onaction._compute(event, can)
 	},
 })
-Volcanos(chat.ONFIGURE, {help: "组件菜单", list: [],
+Volcanos(chat.ONFIGURE, {help: "组件菜单",
 	"求和": function(event, can, res, td, index) {
 		res[index] = parseInt(td.innerText) + (res[index]||0);
 	},
@@ -131,7 +131,7 @@ Volcanos(chat.ONDETAIL, {help: "组件详情", list: ["复制", "删除"],
 		can.page.Remove(can, event.target.parentNode)
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: [],
+Volcanos(chat.ONEXPORT, {help: "导出数据",
 	file: function(can) {
 		return can.page.Select(can, can.ui.content, "tr", function(tr) {
 			return can.page.Select(can, tr, "th,td", function(td) {return td.innerHTML}).join(",")

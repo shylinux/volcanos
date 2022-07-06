@@ -1,6 +1,6 @@
 fieldset.word form.option input[name=path] { width:127px; }
 
-fieldset.word>div.navmenu { background-color:inherit; overflow:auto; margin-right:10px; min-width:120px; clear:both; float:left; }
+fieldset.word>div.navmenu { background-color:inherit; overflow:auto; min-width:120px; clear:both; float:left; }
 fieldset.word>div.navmenu div.list { margin-left:20px; }
 fieldset.word>div.navmenu div.item { font-size:1.6em; font-weight:bold; font-family:cursive; padding:4px 10px; }
 fieldset.word>div.navmenu>div.item { font-size:2em; }
@@ -19,6 +19,16 @@ fieldset.word svg.story { display:block; float:left; }
 fieldset.word svg.story { font-family:fangsong; }
 fieldset.word video.story { max-height:320px; }
 fieldset.word fieldset.story { margin:10px; }
+
+fieldset.word div.story[data-type=spark][data-name=field]>div.menu {
+	float:left; overflow:auto;
+}
+fieldset.word div.story[data-type=spark][data-name=field]>div.list {
+	float:left; overflow:auto;
+}
+fieldset.word div.story[data-type=spark][data-name=field]>div.menu div.list div.item {
+	padding:0 20px;
+}
 
 fieldset.word.float { padding:0; margin:0; width:-webkit-fill-available; position:fixed; left:0; top:0; z-index:10; }
 fieldset.word.float>div.action { display:contents; }
