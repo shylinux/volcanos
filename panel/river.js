@@ -73,7 +73,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [], _init: function(can, cb
 		can.run({}, [], function(msg) { if (msg.Option(ice.MSG_RIVER) == "_share") { return }
 			can.onimport._init(can, msg, null, can._output), can.onappend._action(can, can.Conf(ctx.ACTION))
 			if (can.user.mod.isPod ||can.user.isExtension || can.user.isMobile) { return }
-			can.onmotion.hidden(can, can._target, true)
+			can.onmotion.toggle(can, can._target, true)
 		})
 	},
 	onsearch: function(can, msg, word) {

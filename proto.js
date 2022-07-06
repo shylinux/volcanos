@@ -115,7 +115,7 @@ var gdb = {
 	SIGNAL: "signal",
 }
 var lex = {
-	SPLIT: "split",
+	SPLIT: "split", PREFIX: "prefix",
 }
 
 var code = {
@@ -198,7 +198,7 @@ var mall = {
 }
 
 var svg = {
-	GROUP: "group", PID: "pid",
+	GROUP: "group", PID: "pid", GRID: "grid",
 	SHAPE: "shape", TEXT: "text", RECT: "rect", LINE: "line", CIRCLE: "circle", ELLIPSE: "ellipse",
 	G: "g", X: "x", Y: "y", R: "r", RX: "rx", RY: "ry", CX: "cx", CY: "cy", X1: "x1", Y1: "y1", X2: "x2", Y2: "y2",
 	PATH: "path", PATH2V: "path2v", PATH2H: "path2h",
@@ -236,6 +236,7 @@ var html = {
 	SPEED: "speed",
 	MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MIN_WIDTH: "min-width", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
 	PLUGIN_MARGIN: 10, ACTION_HEIGHT: 29, ACTION_MARGIN: 200,
+	TEXT_ANCHOR: "text-anchor",
 	TOGGLE: "toggle",
 
 	PAGE: "page", TABS: "tabs",
@@ -341,9 +342,11 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 		},
 
 		actions: function(event, button) { can.runAction(event, button, []) },
-		runActionCommand: function(event, index, args, cb) { can.runAction(event, ice.RUN, [index].concat(args), cb) },
+		runActionCommand: function(event, index, args, cb) { can.runAction(event, ice.RUN, can.misc.concat(can, [index], args), cb) },
 		runAction: function(event, action, args, cb) { can.request(event, {_handle: ice.TRUE}, can.Option())
 			can.run(event, can.misc.concat(can, [ctx.ACTION, action], args), cb||function(msg) {
+				if (can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
+				if (can.core.CallFunc([can.sup, chat.ONIMPORT, ice.MSG_PROCESS], {can: can.sup, msg: msg})) { return }
 				can.user.toastSuccess(can, action)
 			}, true)
 		},
@@ -369,6 +372,9 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 		getAction: function(key, cb) { return can.get("Action", key, cb) },
 		getActionSize: function(cb) { return can.get("Action", "size", cb) },
 
+		ConfDefault: function(value) {
+			can.core.Item(value, function(k, v) { can.Conf(k) || can.Conf(k, v) }) 
+		},
 		ConfHeight: function(value) { return can.Conf(html.HEIGHT, value) },
 		ConfWidth: function(value) { return can.Conf(html.WIDTH, value) },
 		Conf: function(key, value) { var res = can._conf

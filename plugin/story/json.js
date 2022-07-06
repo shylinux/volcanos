@@ -45,7 +45,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 Volcanos(chat.ONACTION, {help: "组件菜单", list: ["展开", "折叠", "复制"],
 	"展开": function(event, can) {
 		can.page.Select(can, can._output, "div.list div.list", function(list) {
-			can.onmotion.hidden(can, list, true)
+			can.onmotion.toggle(can, list, true)
 		})
 	},
 	"折叠": function(event, can) {

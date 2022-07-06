@@ -31,13 +31,13 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			if (can.core.Value(can, list[0])) { return can.core.CallFunc([can, list[0]], list.slice(1)) }
 			if (!link || link == can.Option(nfs.PATH)) { return false }
 
-			if (can.onmotion.cache(can, function() { can.user.mod.isCmd && can.user.title(item.meta.name); return can.Option(nfs.PATH, link) })) { return }
+			if (can.onmotion.cache(can, function() { can._mode == "cmd" && can.user.title(item.meta.name); return can.Option(nfs.PATH, link) })) { return }
 			return can.sup.Update(event, [link])
 		}, nav), can.sup._navmenu = nav
 
 		can.getActionSize(function(msg) { 
-			can.page.style(can, nav, html.HEIGHT, can.ConfHeight()+(can.user.mod.isCmd? msg.Option(html.MARGIN_Y): 0))
-			can.ConfWidth(can.ConfWidth()-nav.offsetWidth-(can.user.mod.isCmd? 10: 20)-10)
+			can.page.style(can, nav, html.HEIGHT, can.ConfHeight()+(can._mode == "cmd"? msg.Option(html.MARGIN_Y): 0))
+			can.ConfWidth(can.ConfWidth()-nav.offsetWidth-(can._mode == "cmd"? 10: 20)-10)
 			can.page.style(can, can._output,
 				html.HEIGHT, can.sup._navmenu.offsetHeight, html.MAX_WIDTH, can.ConfWidth(),
 				html.FLOAT, html.LEFT, html.CLEAR, html.NONE
@@ -52,7 +52,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 	title: function(can, data, target) {
-		can.user.mod.isCmd && target.tagName == "H1" && can.user.title(data.text)
+		can._mode == "cmd" && target.tagName == "H1" && can.user.title(data.text)
 	},
 	refer: function(can, data, target) {
 		can.page.Select(can, target, html.A, function(item) {
@@ -126,7 +126,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	field: function(can, data, target, width) { var item = can.base.Obj(data.meta)
 		can.onappend._init(can, item, [chat.PLUGIN_STATE_JS], function(sub) {
 			sub.run = function(event, cmds, cb, silent) {
-				can.runAction(event, chat.STORY, [data.type, data.name, data.text].concat(cmds), cb)
+				can.runAction(event, chat.STORY, can.misc.concat(can, [data.type, data.name, data.text], cmds), cb)
 			}
 			sub.ConfHeight(can.ConfHeight())
 			sub.ConfWidth(item.width = (width||can.ConfWidth())-(can.user.isWindows? 40: 20))

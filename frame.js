@@ -259,9 +259,9 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 		}
 
 		return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)||{}
-			if (!cmds || cmds[0] != ctx.ACTION) { can._msg = msg, sub._msg = msg }
+			if (!cmds || cmds[0] != ctx.ACTION) { can._msg = msg, sub._msg = msg, msg._cmds = cmds }
 			if (can.base.isFunc(cb)) { can.core.CallFunc(cb, {can: can, msg: msg}); return }
-			var process = msg._can == can || msg._can == sub; msg._cmds = cmds
+			var process = msg._can == can || msg._can == sub
 			if (process && can.core.CallFunc([sub, chat.ONIMPORT, ice.MSG_PROCESS], {can: sub, msg: msg})) { return }
 			if (process && can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
 			!silent && can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)||meta.display||meta.feature.display, can._output, can._action)
@@ -278,7 +278,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: [], _init: function(can, me
 				return can.Update(event, can.Input(cmds, silent), cb, silent)
 			}, can._outputs && can._outputs.push(table), table.sup = can, table._msg = msg
 
-			table.Conf(table._args = can.base.ParseURL(table._display))
+			table._mode = can._mode, table.Conf(table._args = can.base.ParseURL(table._display))
 			table._trans = can.base.Copy(table._trans||{}, can.core.Value(table, "onaction._trans"))
 			if (table.onimport && can.base.isArray(table.onimport.list) && table.onimport.list.length > 0) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: table.onimport.list})
@@ -607,8 +607,11 @@ Volcanos(chat.ONMOTION, {help: "动态特效", list: [], _init: function(can, ta
 
 	hidden: function(can, target, show) {
 		can.page.styleDisplay(can, target||can._target, show? "": html.NONE)
+		return show
 	},
 	toggle: function(can, target, show, hide) { target = target||can._target
+		if (show === true) { return can.onmotion.hidden(can, target, true) }
+		if (show === false) { return can.onmotion.hidden(can, target, false) }
 		var status = target.style.display == html.NONE
 		if (!(status? can.base.isFunc(show) && show(): can.base.isFunc(hide) && hide())) {
 			can.page.styleDisplay(can, target, status? "": html.NONE)

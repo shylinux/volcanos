@@ -47,6 +47,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 			sub.ConfHeight(can.ConfHeight()-can.Conf(html.MARGIN_Y))
 			can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth())
 			can.user.title(meta.name), skip || next()
+			sub._mode = can._mode
 		})
 	},
 	height: function(can, height) {
@@ -210,6 +211,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [], _init: function(can, cb
 		can.page.ClassList.add(can, can._root._target, "simple") 
 		can.page.ClassList.add(can, can._target, "cmd")
 		can.onlayout._init(can)
+		can._mode = "cmd"
 	},
 
 	layout: function(can, button, silent) { button = button||ice.AUTO

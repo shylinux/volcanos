@@ -6,8 +6,8 @@ select { background-color:black; color:cyan; padding:0 10px; height:1.92rem; }
 textarea { background-color:cyan; height:60px; width:400px; }
 input[type=button] { background-color:black; color:cyan; }
 input[name=cmd] { background-color:black; color:white; width:240px; }
-input[type=text] { background-color:cyan; color:black; padding:0 4px; height:1.65rem; width:82px; }
-input[type=password] { background-color:cyan; color:black; padding:0 4px; height:1.65rem; width:82px; }
+input[type=text] { background-color:cyan; color:black; padding:0 4px; height:27px; width:90px; }
+input[type=password] { background-color:cyan; color:black; padding:0 4px; height:27px; width:90px; }
 input[name=where] { width:320px; }
 input[name=date] { width:150px; }
 input[name=path] { width:160px; }

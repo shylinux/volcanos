@@ -20,7 +20,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 			can.onmotion.hidden(can, can._option)
 			can.onmotion.hidden(can, can._action)
 		}
-		if (can.user.mod.isCmd || can.user.mod.isDiv) {
+		if (can._mode == "cmd" || can.user.mod.isDiv) {
 			width = can._root._width, height = can._root._height
 			can.page.style(can, can._output, {width: width, height: height})
 		}

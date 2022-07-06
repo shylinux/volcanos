@@ -1,25 +1,21 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, msg, list, cb, target) {
-		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
-		if (msg.Length() == 0) { return }
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
+		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg); if (msg.Length() == 0) { return }
 
-		can._args = can.base.Copy({root: "ice", field: msg.append[0], split: ice.PS}, can.base.ParseURL(can._display))
-		can.dir_root = msg.Option(nfs.DIR_ROOT)||can._args.root||""
-		can._tree = can.onimport._tree(can, msg.Table(), can._args.field, can._args.split)
-		if (!can._tree[""]) { return } can._tree[""].name = can._args.root
+		can.ConfDefault({root: "ice", field: msg.append[0], split: ice.PS})
+		can.dir_root = msg.Option(nfs.DIR_ROOT)||can.Conf("root")
+		can._tree = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))
+		if (!can._tree[""]) { return } can._tree[""].name = can.Conf("root")
 
-		can.size = 30, can.margin = 30
-		can.onmotion.hidden(can, can._action)
+		can.size = parseInt(can.Action("size")||24)
+		can.margin = parseInt(can.Action("margin")||30)
+		can.page.ClassList.add(can, can._fields, "draw")
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
-			can.page.ClassList.add(can, can._fields, "draw")
-			can.onimport._show(can, msg), can.onmotion.hidden(can, can.ui.project)
-			var p = can.Action(ice.VIEW, can.sup.view||can.Action(ice.VIEW))
-			can.onaction[p](event, can, p)
+			can.onimport.layout(can)
 		})
 	},
-
 	_tree: function(can, list, field, split) {
 		var node = {}; can.core.List(list, function(item) { if (!item[field]) { return }
-			can.core.List(can.base.trimPrefix(item[field], can.dir_root+can._args.split).split(split), function(value, index, array) {
+			can.core.List(can.base.trimPrefix(item[field], can.dir_root+split).split(split), function(value, index, array) {
 				var last = array.slice(0, index).join(split)||"", name = array.slice(0, index+1).join(split)
 				if (!value || node[name]) { return }
 
@@ -57,41 +53,43 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", list: [], _init: function(can, ms
 	_color: function(can, tree) {
 		return tree.meta&&tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW)
 	},
+	layout: function(can) {
+		var p = can.Action(ice.VIEW, can.sup.view||can.Action(ice.VIEW))
+		can.onmotion.clear(can), can.onimport._show(can, can.request())
+		can.svg.Val(html.FONT_SIZE, can.Action("size"))
+		can.onaction[p](event, can, p)
+	},
 }, [""])
-Volcanos(chat.ONACTION, {help: "用户操作", list: ["edit", [ice.VIEW, "横向", "纵向"], "生成图片"],
-	"edit": function(event, can) { can.onmotion.toggle(can, can._action), can.onmotion.toggle(can, can._status) },
-
-	"横向": function(event, can) {
+Volcanos(chat.ONACTION, {help: "用户操作", list: [
+		[ice.VIEW, "横向", "纵向"], ["size", 24, 32, 48], ["margin", 30, 50, 100],
+	],
+	size: function(event, can) { can.size = parseInt(can.Action("size")||30), can.onimport.layout(can) },
+	margin: function(event, can) { can.margin = parseInt(can.Action("margin")||30), can.onimport.layout(can) },
+	"横向": function(event, can, button) {
 		can.onimport._height(can, can._tree[""])
-		can.sup.view = "横向", can.onmotion.clear(can, can.svg)
+		can.sup.view = button, can.onmotion.clear(can, can.svg)
 
-		can.svg.Val(html.HEIGHT, can._tree[""].height*can.size+2*can.margin)
+		can.svg.Val(html.HEIGHT, can._tree[""].height*can.margin+2*can.margin)
 		can.width = 0, can.onaction._draw_horizontal(can, can._tree[""], can.margin, can.margin)
 		can.svg.Val(html.WIDTH, can.width+can.margin)
 	},
-	"纵向": function(event, can) {
+	"纵向": function(event, can, button) {
 		can.onimport._width(can, can._tree[""])
-		can.sup.view = "纵向", can.onmotion.clear(can, can.svg)
+		can.sup.view = button, can.onmotion.clear(can, can.svg)
 
 		can.svg.Val(html.WIDTH, can._tree[""].width+2*can.margin)
-		can.height = 0, can.onaction._draw_vertical(can, can._tree[""], can.margin, can.margin+can.size)
+		can.height = 0, can.onaction._draw_vertical(can, can._tree[""], can.margin, can.margin+can.margin)
 		can.svg.Val(html.HEIGHT, can.height+can.margin)
 	},
-	"生成图片": function(event, can) {
-		can.onmotion.toimage(event, can, can._legend.innerText, can._output)
-	},
-	_draw: function(can, tree, x, y, style) {
-		var color = can.onimport._color(can, tree)
-		tree.view = can.onimport.draw({}, can, {
-			shape: html.TEXT, point: [{x: x, y: y}], style: can.base.Copy({
-				stroke: color, fill: color, "text-anchor": "start", inner: tree.name||tree.file,
-			}, style),
-		}), can.core.ItemCB(can.ondetail, tree.view, can, tree)
+	_draw: function(can, tree, x, y, style) { var color = can.onimport._color(can, tree)
+		tree.view = can.onimport.draw({}, can, {shape: html.TEXT, point: [{x: x, y: y}], style: can.base.Copy(kit.Dict(
+			html.STROKE, color, html.FILL, color, html.TEXT_ANCHOR, "start", "inner", tree.name||tree.file,
+		), style), }), can.core.ItemCB(can.ondetail, tree.view, can, tree)
 	},
 	_draw_vertical: function(can, tree, x, y) { tree.x = x, tree.y = y
-		can.onaction._draw(can, tree, x+tree.width/2, y, {"text-anchor": "middle"})
+		can.onaction._draw(can, tree, x+tree.width/2, y, kit.Dict(html.TEXT_ANCHOR, "middle"))
 
-		tree.height = can.size
+		tree.height = can.margin
 		if (y+tree.height > can.height) { can.height = y+tree.height }
 		if (tree.hide) { return }
 
@@ -106,7 +104,7 @@ Volcanos(chat.ONACTION, {help: "用户操作", list: ["edit", [ice.VIEW, "横向
 		})
 	},
 	_draw_horizontal: function(can, tree, x, y) { tree.x = x, tree.y = y
-		can.onaction._draw(can, tree, x, y+tree.height*can.size/2, {"text-anchor": "start"})
+		can.onaction._draw(can, tree, x, y+tree.height*can.margin/2, kit.Dict(html.TEXT_ANCHOR, "start"))
 
 		tree.width = tree.view.Val("textLength")||(tree.name||"").length*10
 		if (x+tree.width > can.width) { can.width = x+tree.width }
@@ -114,42 +112,32 @@ Volcanos(chat.ONACTION, {help: "用户操作", list: ["edit", [ice.VIEW, "横向
 
 		var offset = 0; can.core.List(tree.list, function(item) {
 			can.onimport.draw({}, can, {shape: svg.PATH2H, point: [
-				{x: x+tree.width+can.margin/8, y: y+tree.height*can.size/2},
-				{x: x+tree.width+can.margin*2-2*can.margin/8, y: y+offset+item.height*can.size/2}
+				{x: x+tree.width+can.margin/8, y: y+tree.height*can.margin/2},
+				{x: x+tree.width+can.margin*2-2*can.margin/8, y: y+offset+item.height*can.margin/2}
 			], style: {stroke: cli.CYAN}})
 
 			can.onaction._draw_horizontal(can, item, x+tree.width+2*can.margin, y+offset)
-			offset += item.height*can.size
+			offset += item.height*can.margin
 		})
 	},
 })
 Volcanos(chat.ONDETAIL, {help: "用户交互", list: [],
-	onmouseenter: function(event, can, tree) { var y = tree.y+tree.height*can.size/2
-		can.page.Remove(can, can.pos), can.pos = can.onimport.draw({}, can, {
-			shape: svg.RECT, point: [
-				{x: tree.x-can.margin/4, y: y-can.size/2},
-				{x: tree.x+tree.width+can.margin/8, y: y+can.size/2},
-			], style: {stroke: cli.RED, fill: html.NONE},
-		}), can.onkeymap.prevent(event)
+	onmouseenter: function(event, can, tree) { var y = tree.y+tree.height*can.margin/2
+		can.page.Remove(can, can.pos), can.pos = can.onimport.draw({}, can, {shape: svg.RECT, point: [
+			{x: tree.x-can.margin/4, y: y-can.margin/2}, {x: tree.x+tree.width+can.margin/8, y: y+can.margin/2},
+		], style: {stroke: cli.RED, fill: html.NONE}}), can.onkeymap.prevent(event)
 	},
 	onclick: function(event, can, tree) {
-		if (tree.list.length > 0 || tree.tags || tree.name.endsWith(can._args.split)) {
+		if (tree.list.length > 0 || tree.tags || tree.name.endsWith(can.Conf(lex.SPLIT))) {
 			return tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)](event, can)
 		}
 
-		for (var node = tree; node; node = node.last) {
-			can.request(event, node.meta)
-		}
-		var msg = can.request(event, can.Option())
-		can.run(event, can.base.Obj(can._args.prefix, []).concat([can.Option("repos")||"", tree.file||"", tree.name]), function(msg) {
-			if (msg.Length() == 0) {
-				return can.ondetail.plugin(can, tree, {}, "web.code.inner", [can.dir_root, tree.file, tree.line], [ctx.ACTION, "inner"])
-			}
-			if (msg.Append(mdb.INDEX)) { msg.Table(function(value) {
-				can.ondetail.plugin(can, tree, value, value.index, [], [ctx.ACTION, ice.RUN, value.index])
-			}); return }
+		for (var node = tree; node; node = node.last) { can.request(event, node.meta) }
 
-			tree.tags = true
+		can.run(can.request(event, can.Option()), can.base.Obj(can.Conf(lex.PREFIX), []).concat([can.Option("repos")||"", tree.file||"", tree.name]), function(msg) {
+			if (msg.Length() == 0) { return can.ondetail.plugin(can, "web.code.inner", [can.dir_root, tree.file, tree.line], code.INNER) }
+			if (msg.Append(mdb.INDEX)) { msg.Table(function(value) { can.ondetail.plugin(can, value.index, [], value.index) }); return }
+
 			if (msg.Option(lex.SPLIT)) {
 				tree.list = can.onimport._tree(can, msg.Table(), msg.Option(mdb.FIELD)||msg.append[0], msg.Option(lex.SPLIT))[""].list||[]
 				can.core.List(tree.list, function(item) { item.last = tree })
@@ -160,28 +148,17 @@ Volcanos(chat.ONDETAIL, {help: "用户交互", list: [],
 					file: item.file, line: item.line, hide: true,
 				}) })
 			}
-			tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)](event, can)
+			tree.tags = true, tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)](event, can)
 		}, true)
 	},
-
-	plugin: function(can, tree, value, index, args, prefix) {
-		for (var node = tree; node; node = node.last) {
-			can.base.Copy(value, node.meta)
-		}
-		can.onappend.plugin(can, can.base.Copy({type: chat.FLOAT, index: index, args: args}), function(sub) {
-			sub.run = function(event, cmds, cb) { var msg = can.request(event)
-				can.run(event, can.misc.concat(can, prefix, cmds), cb, true)
-			}, can.ondetail.figure(can, sub)
-		})
-	},
-	figure: function(can, sub, msg, cb) {
-		can.getActionSize(function(left, top, width, height) { left = left||0
-			var top = 120; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
-			sub.ConfHeight(height-top-html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0)), sub.ConfWidth(width)
-
-			can.onmotion.move(can, sub._target, {position: html.FIXED, left: left, top: top})
-			can.page.style(can, sub._output, html.MAX_WIDTH)
-			can.base.isFunc(cb) && cb(msg)
+	plugin: function(can, index, args, prefix) {
+		can.onappend.plugin(can, {type: chat.FLOAT, index: index, args: args}, function(sub) {
+			sub.run = function(event, cmds, cb) { can.runAction(can.request(event), prefix, cmds, cb) }
+			sub._mode = "float", can.getActionSize(function(left, top, width, height) { left = left||0
+				var top = can._mode == undefined? 120: 0; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
+				sub.ConfHeight(height-top-html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0)), sub.ConfWidth(width)
+				can.onmotion.move(can, sub._target, {position: html.FIXED, left: left, top: top})
+			})
 		})
 	},
 })
