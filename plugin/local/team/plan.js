@@ -1,11 +1,8 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
-		can.onmotion.clear(can, target)
-		can.ui = can.onlayout.profile(can)
-		can.onimport[can.Option("scale")||"week"](can, msg)
-		can.page.style(can, can.ui.project, html.MAX_HEIGHT, can.ui.content.offsetHeight)
+		can.onmotion.clear(can, target), can.base.isFunc(cb) && cb(msg)
+
+		can.ui = can.onlayout.profile(can), can.onimport[can.Option("scale")||"week"](can, msg)
 		can.page.style(can, can.ui.profile, html.MAX_HEIGHT, can.ui.content.offsetHeight)
-		can.page.style(can, can.ui.profile, {display: "block"})
-		can.base.isFunc(cb) && cb(msg)
 		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
 	},
 	_content: function(can, msg, head, list, key, get, set) {
