@@ -152,10 +152,10 @@ Volcanos(chat.ONDETAIL, {help: "用户交互",
 		}, true)
 	},
 	plugin: function(can, index, args, prefix) {
-		can.onappend.plugin(can, {type: chat.FLOAT, index: index, args: args}, function(sub) {
+		can.onappend.plugin(can, {type: chat.FLOAT, index: index, args: args, mode: "float"}, function(sub) {
 			sub.run = function(event, cmds, cb) { can.runAction(can.request(event), prefix, cmds, cb) }
-			sub._mode = "float", can.getActionSize(function(left, top, width, height) { left = left||0
-				var top = can._mode == undefined? 120: 0; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
+			sub.Mode("float"), can.getActionSize(function(left, top, width, height) { left = left||0
+				var top = can.Mode() == undefined? 120: 0; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
 				sub.ConfHeight(height-top-2*html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0)), sub.ConfWidth(width)
 				can.onmotion.move(can, sub._target, {position: html.FIXED, left: left, top: top})
 			})

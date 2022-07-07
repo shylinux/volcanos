@@ -24,7 +24,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}))
 
 		can.onengine.listen(can, "orientationchange", function(event) {
-			if (can._mode == "cmd") { can.ConfHeight(can._root._height), can.ConfWidth(can._root._width) }
+			if (can.isCmdMode()) { can.ConfHeight(can._root._height), can.ConfWidth(can._root._width) }
 			can.user.toast(can, can.ConfHeight()+"")
 			can.onimport.layout(can)
 		})
@@ -43,12 +43,6 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.ui._tabs = can.page.insertBefore(can, [{view: "tabs"}], can.ui.content)
 		can.ui._path = can.page.insertBefore(can, [{view: "path"}], can.ui.content)
 		can.base.isFunc(cb) && cb(msg)
-
-		can._mode == "float" && can.onmotion.hidden(can, can.ui.project)
-		can._mode == "float" && can.onmotion.hidden(can, can._action)
-		can._mode == "float" && can.onmotion.hidden(can, can._action)
-		can._mode == "float" && can.onmotion.hidden(can, can.ui._tabs)
-		can._mode == "float" && can.onmotion.hidden(can, can.ui._path)
 
 		can.Conf("mode") == "simple"? can.onimport._simple(can): can.onimport.project(can, paths, function() {
 			can.onimport._toolkit(can, can.ui.toolkit), can.onimport._session(can, msg), can.onimport._keydown(can)
@@ -137,7 +131,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}) })
 	},
 	_keydown: function(can) { can.onkeymap._build(can)
-		can._mode == "cmd" && can.onengine.listen(can, chat.ONKEYDOWN, function(event) {
+		can.isCmdMode() && can.onengine.listen(can, chat.ONKEYDOWN, function(event) {
 			can._key_list = can.onkeymap._parse(event, can, "plugin", can._key_list, can.ui.content)
 		})
 	},
@@ -195,8 +189,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}, project.plugin)
 	},
 	tabview: function(can, path, file, line, cb, skip, skip2) { var key = can.onexport.keys(can, file, path)
-		if (can._mode == "cmd") { location.hash = file }
-		if (!skip && can.tabview[key]) { can._mode == "cmd" && can.user.title(path+file)
+		if (can.isCmdMode()) { location.hash = file }
+		if (!skip && can.tabview[key]) { can.isCmdMode() && can.user.title(path+file)
 			can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.tabview[key]
 			can.Option({path: path, file: file, line: line||can._msg.Option(nfs.LINE)||1})
 			return can._msg.Option(can.Option()), can.onsyntax._init(can, can._msg, cb, skip2)
@@ -275,7 +269,15 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}, target)
 	},
 	layout: function(can) {
-		var width = can.ConfWidth()+(can.user.isMobile && can._mode == "cmd" && can.user.isLandscape()? 16: 0)-(can.user.isWindows && !can._mode == "cmd"? 20: 0)
+		switch (can.Mode()) {
+			case "float":
+				can.onmotion.hidden(can, can.ui.project)
+				can.onmotion.hidden(can, can._action)
+				can.onmotion.hidden(can, can.ui._tabs)
+				can.onmotion.hidden(can, can.ui._path)
+		}
+
+		var width = can.ConfWidth()+(can.user.isMobile && can.isCmdMode() && can.user.isLandscape()? 16: 0)-(can.user.isWindows && !can._mode == "cmd"? 20: 0)
 		can.page.styleWidth(can, can.ui.profile_output, can.profile_size[can.onexport.keys(can)]||(width-can.ui.project.offsetWidth)/2)
 		can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
 		can.page.styleWidth(can, can.ui.display, width-can.ui.project.offsetWidth)
@@ -286,7 +288,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		if (!height || height > can._root._height) { height = can._root._height - 200 }
 		if (can.user.isMobile && can.user.isLandscape() && height < 200) { height = 400 }
 
-		if (can._mode == "cmd") { can.page.styleHeight(can, can.ui.project, height+2*html.ACTION_HEIGHT)
+		if (can.isCmdMode()) { can.page.styleHeight(can, can.ui.project, height+2*html.ACTION_HEIGHT)
 			if (can.ui.project.offsetHeight) {
 				var rest = can.ui.display.offsetHeight+can.ui._path.offsetHeight+can.ui._tabs.offsetHeight+5
 				can.page.styleHeight(can, can.ui.content, can.ui.project.offsetHeight-rest)
@@ -298,7 +300,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			}
 		} else {
 			var rest = can.ui.display.offsetHeight+can.ui._path.offsetHeight+can.ui._tabs.offsetHeight+5
-			can.page.style(can, can.ui.content, can._mode == "cmd" || can.user.isMobile? html.HEIGHT: html.MAX_HEIGHT, height)
+			can.page.style(can, can.ui.content, can.isCmdMode() || can.user.isMobile? html.HEIGHT: html.MAX_HEIGHT, height)
 			can.page.styleHeight(can, can.ui.project, can.ui.content.offsetHeight+rest)
 			if (can.page.ClassList.has(can, can._fields, "full")) {
 				can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight)
@@ -424,7 +426,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line
 				p && p.engine && can.onaction["执行"]({}, can)
 			}
 			can.onimport.layout(can)
-			if (!can.page.ClassList.has(can, can._fields, chat.STORY) && !can._mode == "cmd") {
+			if (!can.page.ClassList.has(can, can._fields, chat.STORY) && !can.isCmdMode()) {
 				can.page.style(can, can.ui.project, html.MIN_HEIGHT, can.ConfHeight()-200)
 				can.page.style(can, can.ui.content, html.MIN_HEIGHT, can.ConfHeight()-200)
 			}

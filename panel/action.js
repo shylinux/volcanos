@@ -42,12 +42,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 	}) },
 	_cmd: function(can, item, next) {
 		can.onengine.signal(can, chat.ONACTION_CMD)
-
-		can.onappend.plugin(can, can.base.Copy(item, {opts: can.misc.Search(can)}), function(sub, meta, skip) {
+		can.onappend.plugin(can, can.base.Copy(item, {opts: can.misc.Search(can), mode: "cmd"}), function(sub, meta, skip) {
 			sub.ConfHeight(can.ConfHeight()-can.Conf(html.MARGIN_Y))
 			can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth())
 			can.user.title(meta.name), skip || next()
-			sub._mode = can._mode
 		})
 	},
 	height: function(can, height) {
@@ -211,7 +209,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 		can.page.ClassList.add(can, can._root._target, "simple") 
 		can.page.ClassList.add(can, can._target, "cmd")
 		can.onlayout._init(can)
-		can._mode = "cmd"
+		can.isCmdMode()
 	},
 
 	layout: function(can, button, silent) { button = button||ice.AUTO

@@ -17,12 +17,12 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			if (can.core.Value(can, list[0])) { return can.core.CallFunc([can, list[0]], list.slice(1)) }
 			if (!link || link == can.Option(nfs.PATH)) { return false }
 
-			if (can.onmotion.cache(can, function() { can._mode == "cmd" && can.user.title(item.meta.name); return can.Option(nfs.PATH, link) })) { return }
+			if (can.onmotion.cache(can, function() { can.isCmdMode() && can.user.title(item.meta.name); return can.Option(nfs.PATH, link) })) { return }
 			return can.sup.Update(event, [link])
 		}, nav), can.sup._navmenu = nav
 
 		can.getActionSize(function(msg) { 
-			can.page.style(can, nav, html.HEIGHT, can.ConfHeight()+(can._mode == "cmd"? msg.Option(html.MARGIN_Y): 0))
+			can.page.style(can, nav, html.HEIGHT, can.ConfHeight()+(can.isCmdMode()? msg.Option(html.MARGIN_Y): 0))
 			can.ConfWidth(can.ConfWidth()-nav.offsetWidth-20)
 			can.page.style(can, can._output,
 				html.HEIGHT, can.sup._navmenu.offsetHeight-20, html.MAX_WIDTH, can.ConfWidth(),
@@ -39,7 +39,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 	title: function(can, data, target) {
-		can._mode == "cmd" && target.tagName == "H1" && can.user.title(data.text)
+		can.isCmdMode() && target.tagName == "H1" && can.user.title(data.text)
 	},
 	refer: function(can, data, target) {
 		can.page.Select(can, target, html.A, function(item) {

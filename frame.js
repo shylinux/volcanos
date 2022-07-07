@@ -158,6 +158,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				case lang.STRING: can.page.ClassList.add(can, field, style); break
 				case lang.OBJECT: can.page.style(can, sub._target, style); break
 			}
+			meta.type != sub.Mode() && can.page.ClassList.add(can, field, sub.Mode())
 
 			meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
 			if (meta.msg) { var msg = sub.request(); msg.Copy(can.base.Obj(meta.msg)), sub.onappend._output(sub, msg, msg.Option(ice.MSG_DISPLAY)||meta.feature.display) }
@@ -192,7 +193,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				skip? next(): can.core.CallFunc([input.onaction, chat._INIT], [input, item, next, input._target]);
 				(item.action||can.core.Value(meta, [ctx.FEATURE, ctx.INPUTS])) && can.onappend.figure(input, item, input._target)
 			})
-		}; can.core.Next(can.base.Obj(meta.inputs, can.core.Value(can, [chat.ONIMPORT, mdb.LIST])).concat(meta.type == chat.FLOAT? [{type: html.BUTTON, name: cli.CLOSE}]: []), add)
+		}; can.core.Next(can.base.getValid(can.core.Value(can, [chat.ONIMPORT, mdb.LIST]), can.base.Obj(meta.inputs)).concat([{type: html.BUTTON, name: cli.CLOSE}]), add)
 	},
 	_action: function(can, list, action, meta) { list = can.base.Obj(can.base.getValid(list, can.core.Item(meta)), can.core.Value(can, [chat.ONACTION, mdb.LIST])); if (!list) { return }
 		var _list = []; for (var i = 0; i < list.length; i++) {
@@ -278,7 +279,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				return can.Update(event, can.Input(cmds, silent), cb, silent)
 			}, can._outputs && can._outputs.push(table), table.sup = can, table._msg = msg
 
-			table._mode = can._mode, table.Conf(table._args = can.base.ParseURL(table._display))
+			table.Mode(can.Mode()), table.Conf(table._args = can.base.ParseURL(table._display))
 			table._trans = can.base.Copy(table._trans||{}, can.core.Value(table, "onaction._trans"))
 			if (table.onimport && can.base.isArray(table.onimport.list) && table.onimport.list.length > 0) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: table.onimport.list})

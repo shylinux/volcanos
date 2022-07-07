@@ -89,6 +89,10 @@ fieldset.story div.status { border-top:1px solid darkcyan; }
 /* fieldset.story>legend { height:30px; margin-right:5px; float:left; } */
 fieldset.story>legend { padding:0 20px; margin:5px 0; }
 fieldset.float { background-color:#023531cf; }
+fieldset.float input[type="button"][name="close"]{ display:block; }
+fieldset.Full input[type="button"][name="close"]{ display:block; }
+fieldset.plug input[type="button"][name="close"]{ display:block; }
+fieldset input[type="button"][name="close"]{ display:none; }
 /* fieldset.float>div.action { display:block; height:2.3rem; } */
 fieldset.float table { color:white; }
 

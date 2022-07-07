@@ -94,9 +94,11 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
 	"切换全屏": function(event, can) { var sub = can._outputs[can._outputs.length-1]
 		if (can.page.ClassList.neg(can, can._target, "Full")) { sub._height_bak = sub.ConfHeight(), sub._width_bak = sub.ConfWidth()
+			can._mode = can.Mode(), can.Mode("full"), sub.Mode("full")
 			var height = can._root._height-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT; can.user.isMobile && (height -= 2*html.ACTION_HEIGHT)
 			can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight(height), html.MIN_WIDTH, sub.ConfWidth(can._root._width))
 		} else {
+			can.Mode(can._mode), sub.Mode(can._mode)
 			sub.ConfHeight(sub._height_bak), sub.ConfWidth(sub._width_bak)
 			can.page.style(can, can._output, html.HEIGHT, "", html.MIN_WIDTH, "")
 		}
@@ -170,7 +172,13 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	},
 
 	clear: function(event, can, name) { can.onmotion.clear(can, can._output) },
-	close: function(event, can) { can.page.Remove(can, can._target) },
+	close: function(event, can) {
+		if (can.isFullMode()) {
+			can.onaction["切换全屏"](event, can)
+		} else {
+			can.page.Remove(can, can._target)
+		}
+	},
 	upload: function(event, can) { can.user.upload(event, can) },
 	actions: function(event, can) { can.onmotion.toggle(can, can._action) },
 	next: function(event, can) { can.Update(event, [ctx.ACTION, mdb.NEXT, can.Status(mdb.TOTAL)||0, can.Option(mdb.LIMIT)||can.Action(mdb.LIMIT)||"", can.Option(mdb.OFFEND)||can.Action(mdb.OFFEND)||""]) },
