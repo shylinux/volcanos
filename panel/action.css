@@ -23,7 +23,6 @@ fieldset.Action>div.project.toggle {
 
 fieldset.panel.cmd>div.output>fieldset.plugin { padding:0; margin:0; }
 fieldset.panel.cmd>div.output>fieldset.plugin>legend { background-color:darkcyan; padding:0 10px; margin-right:3px; height:31px; float:left; }
-body.mobile fieldset.panel.cmd>div.output>fieldset.plugin>legend { height:42px; }
 
 div.output.form div.item {
 	margin:10px 40px;

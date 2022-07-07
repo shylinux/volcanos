@@ -488,6 +488,7 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 			if (right) { layout.bottom -= target.offsetHeight }
 			if (layout.bottom < html.ACTION_HEIGHT) { layout.bottom = html.ACTION_HEIGHT }
 		}
+		// if (can.user.isMobile && !can.user.isLandscape()) { layout.left = 0, layout.right = "" }
 		return can.page.style(can, target, layout), can.onmotion.move(can, target, layout), layout
 	},
 

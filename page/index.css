@@ -46,10 +46,10 @@ table.content thead { position:sticky; top:-1px; }
 input[type=button][name=start] { background-color:#52ce78; }
 input[type=button][name=open] { background-color:blue; }
 input[type=button][name=stop] { background-color:red; }
-input[type=button][name=create] { background-color:blue; }
+/* input[type=button][name=create] { background-color:blue; } */
 input[type=button][name=remove] { background-color:red; }
 input[type=button][name=delete] { background-color:red; }
-input[type=button][name=insert] { background-color:blue; }
+/* input[type=button][name=insert] { background-color:blue; } */
 input[type=button][name=trash] { background-color:red; }
 
 div.tabs { background-color:#00000038; color:white; padding:5px; margin:0 1px; }
@@ -57,7 +57,6 @@ div.code { background-color:#343a3445; color:white; padding:10px; border:solid 3
 div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:4px 10px; border-left:solid 4px blue; margin:10px; }
 fieldset.panel.Search div.story[data-type=spark] { padding:0px; margin:0px; }
 
-body.mobile form.option>div.item { margin-right:0px; }
 form.option>div.item { margin-right:0px; margin-right:5px; }
 form.option>div.item.select { background-color:#0000; }
 form.option>div.item input.args.char { width:20px; }
@@ -165,9 +164,9 @@ body.white input[type=button][name=结束] { background-color:red; }
 body.white input[type=button][name=stop] { background-color:red; }
 body.white input[type=button][name=open] { background-color:blue; }
 body.white input[type=button][name=start] { background-color:#52ce78; }
-body.white input[type=button][name=create] { background-color:blue; }
+/* body.white input[type=button][name=create] { background-color:blue; } */
 body.white input[type=button][name=remove] { background-color:red; }
-body.white input[type=button][name=insert] { background-color:blue; }
+/* body.white input[type=button][name=insert] { background-color:blue; } */
 body.white input[type=button][name=delete] { background-color:red; }
 body.white input[type=button][name=trash] { background-color:red; }
 
@@ -180,11 +179,8 @@ body.print fieldset.River>div.output div.list div.item { background-color:white;
 body.mobile>div.input input[name=username] { width:264px; }
 body.mobile>div.input input[name=password] { width:264px; }
 body.mobile legend { font-size:1.6rem; }
-body.mobile input { font-size:1.4rem; }
+body.mobile input { font-size:1.3rem; }
 body.mobile textarea { font-size:1.2rem; }
-body.mobile input[type=text] { padding-top:3px; height:2.47rem; }
-body.mobile.white input[type=text] { padding-top:3px; height:2.35rem; }
-body.mobile select { font-size:1.4rem; margin-top:3px; height:42px; }
 body.mobile>div.carte { font-size:1.6rem; }
 body.mobile>div.carte div.item { font-size:1.6rem; }
 body.mobile>div.input.login input { font-size:1.4rem; }
@@ -260,15 +256,12 @@ body.black a { color:yellow; }
 body.white legend:hover { background-color:skyblue; }
 body.white input[type=text]:hover { background-color:cyan; }
 body.white input[name=cmd]:hover { background-color:white; color:black; }
-body.white input[type=button]:hover { background-color:#FFCC33; border:2px solid #FFCC33; }
+body.white input[type=button]:hover { background-color:#FFCC33; }
 body.white table.content th:hover, body.white table.content td.select, body.white table.content td:hover { background-color:#6495ed63; }
 body.white table.content tr:hover { background-color:#4682b46b; }
 body.white div.item.select, body.white div.item:hover { background-color:steelblue; }
 body.white fieldset.float table { color:white; }
 
-body.mobile div.output div.code { font-size:12px; }
-body.mobile div.output.card div.item { height:160px; float:none; }
-body.mobile.landscape div.output.card div.item { width:auto; float:left; }
 div.output.card div.item { padding:10px; border:solid 1px #e7e7e7; margin:10px; height:120px; width:240px; float:left; position:relative; }
 div.output.card div.item>div.title { font-size:1.2rem; font-weight:bold; padding:10px; border-bottom: solid 1px #e7e7e7; }
 div.output.card div.item>div.content { padding:10px; height:24px; }
@@ -301,8 +294,6 @@ body.simple div.output.card div.item>div.title { border-bottom:solid 1px #e7e7e7
 body.white.simple div.output.card input[type=button]:hover { box-shadow:2px 2px 8px 2px gray; }
 body.white.simple div.output.card input[type=button] { box-shadow:2px 2px 6px 1px gray; color:white; }
 body.white.simple div.output.card input[type=button] { background-color:#0152d9; font-size:0.8rem; padding:5px 10px; border:none; border-radius:5px; }
-body.mobile.simple div.output.card div.item { width:-webkit-fill-available; }
-body.mobile.landscape.simple div.output.card div.item { width:auto; float:left; }
 
 body.simple fieldset.feel.float { top:0 }
 
@@ -311,3 +302,20 @@ body.white.simple>div.carte div.item { font-size:1rem; }
 body.white.simple>div.carte div.item:hover { background-color:#0152d9; color:white; }
 body.white.simple input[type=button] { background-color:#0152d9; border:none; border-radius:5px; height:31px; box-shadow:2px 2px 6px 1px gray; }
 
+body.mobile legend { height:40px; }
+body.mobile input[type=button] { height:31px; }
+body.mobile form.option>div.item { margin-right:0px; height:38px; }
+body.mobile div.output div.code { font-size:12px; }
+body.mobile div.output.card div.item { height:160px; float:none; }
+body.mobile.landscape div.output.card div.item { width:auto; float:left; }
+body.mobile.simple div.output.card div.item { width:-webkit-fill-available; }
+body.mobile.landscape.simple div.output.card div.item { width:auto; float:left; }
+body.mobile fieldset.Action div.output fieldset.Full>legend { float:left; }
+body.mobile input[type=text] { padding-top:3px; height:31px; }
+body.mobile.white input[type=text] { padding-top:3px; height:31px; }
+body.mobile div.action>div.item { margin-right:3px; height:38px; }
+body.mobile select { font-size:1.4rem; height:38px; }
+body.mobile fieldset.panel.cmd>div.output>fieldset.plugin>legend { height:38px; }
+/* div.action>div.item { margin-right:3px; height:31px; } */
+body.mobile table.content th { padding:6px 6px; }
+body.mobile fieldset.input.date div.output td { padding:8px 20px; }

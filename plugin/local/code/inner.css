@@ -53,7 +53,7 @@ body.white fieldset.inner>div.output div.project { color:#a2dad2; }
 body.white fieldset.inner>div.output div.content { background-color:#013b675c; }
 body.white fieldset.inner>div.output div.content td.text span.string { color:#a703a7; }
 
-body.mobile fieldset.inner.float legend { height:42px; }
+body.mobile fieldset.inner.float legend { height:38px; }
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.plugin.inner div.action { display:none; }
 body.mobile.landscape fieldset.plugin.inner div.action { display:contents; }
@@ -115,10 +115,6 @@ body.white.simple fieldset.plugin div.output.json div.item span.key { color:blue
 body.simple fieldset.plugin div.output.json div.item span.string { color:magenta; }
 
 body.mobile.simple fieldset.inner>div.output div.toggle { display:block; }
-body.mobile.simple input[type=button] { height:45px; }
-body.mobile.simple fieldset.inner>div.output div.content legend { height:45px; }
 body.mobile.simple fieldset.inner>div.output div.toggle { background-color:lightblue; width:30px; }
 body.mobile.simple fieldset.inner>div.output div.toggle.display { background-color:lightblue; margin-top:-33px; height:30px; width:100px; }
-body.mobile fieldset.Action div.output fieldset.Full>legend { float:none; }
 
-body.mobile fieldset.inner>div.output div.content legend { height:45px; }
