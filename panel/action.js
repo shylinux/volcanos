@@ -150,6 +150,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 			var gt = "&#10095;", lt = "&#10094;"; function toggle(view) { return !can.setRiver("display") }
 			can.page.Append(can, target, [{view: [[html.TOGGLE, chat.PROJECT]], list: [{text: [gt, html.DIV]}], onclick: function(event) {
 				event.target.innerHTML = toggle()? gt: lt
+				can.onaction.refresh(can)
 			}}])
 		}
 
@@ -219,14 +220,15 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 		can.onlayout._init(can)
 	},
 	help: function(can, button) { can.user.open("/help/"+button+".shy") },
-	refresh: function(can, button) {
+	refresh: function(can) {
 		can._root._height = window.innerHeight, can._root._width = window.innerWidth
 		can.onlayout._init(can)
 
 		var width = can.ConfWidth()-can.Conf(html.MARGIN_X)
-		can.core.List(can._plugins, function(sub) {
+		can.core.List(can._plugins, function(sub) { var table = can.core.Value(sub, chat._OUTPUT_CURRENT)
 			can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth(width)-(can.user.isWindows? 20: 0))
-			can.onappend._output(sub, can.core.Value(sub, chat._OUTPUT_CURRENT)._msg, sub._display)
+			table.ConfWidth(width)
+			table.onimport.layout? table.onimport.layout(table): can.onappend._output(sub, table._msg, sub._display)
 		})
 	},
 })

@@ -474,7 +474,7 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 		if (layout) { return can.page.style(can, target, layout), can.onmotion.move(can, target, layout), layout }
 		if (!event || !event.target || !event.clientX) { return {} }
 
-		var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight-1; if (right) {
+		var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight-3; if (right) {
 			var left = event.clientX-event.offsetX+event.target.offsetWidth, top = event.clientY-event.offsetY
 		}
 

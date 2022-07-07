@@ -43,13 +43,14 @@ table.content td { padding:2px 6px; }
 table.content.action td:last-child, table.content.action th:last-child { background-color:#7dc6d7eb; position:sticky; right:0; }
 table.content thead { position:sticky; top:-1px; }
 
-td>input[type=button][name=create] { background-color:blue; }
-td>input[type=button][name=remove] { background-color:red; }
-td>input[type=button][name=start] { background-color:#52ce78; }
-td>input[type=button][name=open] { background-color:blue; }
-td>input[type=button][name=stop] { background-color:red; }
-td>input[type=button][name=delete] { background-color:red; }
-td>input[type=button][name=insert] { background-color:blue; }
+input[type=button][name=start] { background-color:#52ce78; }
+input[type=button][name=open] { background-color:blue; }
+input[type=button][name=stop] { background-color:red; }
+input[type=button][name=create] { background-color:blue; }
+input[type=button][name=remove] { background-color:red; }
+input[type=button][name=delete] { background-color:red; }
+input[type=button][name=insert] { background-color:blue; }
+input[type=button][name=trash] { background-color:red; }
 
 div.tabs { background-color:#00000038; color:white; padding:5px; margin:0 1px; }
 div.code { background-color:#343a3445; color:white; padding:10px; border:solid 3px green; }
@@ -151,7 +152,7 @@ body.white fieldset.word.float { background-color:#3d5569; color:black; }
 
 body.white legend { border-radius:10px 10px 10px 10px; }
 body.white select { background-color:#99CC66; color:white; border:2px solid #99CC66; border-radius:10px 10px 10px 10px; }
-body.white input[type=button] { background-color:#FF9900; color:white; border:2px solid #FF9900; border-radius:10px; }
+body.white input[type=button] { background-color:#FF9900; color:white; border:none; border-radius:10px; }
 body.white input[type=text] { background-color:white; color:black; border:2px solid #14a58e; border-radius:6px; }
 body.white input[type=password] { background-color:white; color:black; border:2px solid #14a58e; border-radius:6px; }
 body.white input[name=cmd] { background-color:black; color:white; width:240px; }
@@ -160,14 +161,15 @@ body.white table.content { color:black; }
 body.white table.content tr { background-color:#e1f1ff1f; }
 body.white table.content th { background-color:#99CCFF; }
 
-body.white td>input[type=button][name=结束] { background-color:red; }
-body.white td>input[type=button][name=stop] { background-color:red; }
-body.white td>input[type=button][name=open] { background-color:blue; }
-body.white td>input[type=button][name=start] { background-color:#52ce78; }
-body.white td>input[type=button][name=create] { background-color:blue; }
-body.white td>input[type=button][name=remove] { background-color:red; }
-body.white td>input[type=button][name=insert] { background-color:blue; }
-body.white td>input[type=button][name=delete] { background-color:red; }
+body.white input[type=button][name=结束] { background-color:red; }
+body.white input[type=button][name=stop] { background-color:red; }
+body.white input[type=button][name=open] { background-color:blue; }
+body.white input[type=button][name=start] { background-color:#52ce78; }
+body.white input[type=button][name=create] { background-color:blue; }
+body.white input[type=button][name=remove] { background-color:red; }
+body.white input[type=button][name=insert] { background-color:blue; }
+body.white input[type=button][name=delete] { background-color:red; }
+body.white input[type=button][name=trash] { background-color:red; }
 
 body.print { background-color:white; color:black; }
 body.print legend, body.print select, body.print input[type=text] { box-shadow:0px 0px 0px 0px #626bd0; }
@@ -270,6 +272,7 @@ body.mobile.landscape div.output.card div.item { width:auto; float:left; }
 div.output.card div.item { padding:10px; border:solid 1px #e7e7e7; margin:10px; height:120px; width:240px; float:left; position:relative; }
 div.output.card div.item>div.title { font-size:1.2rem; font-weight:bold; padding:10px; border-bottom: solid 1px #e7e7e7; }
 div.output.card div.item>div.content { padding:10px; height:24px; }
+div.output.card div.item.stop { color:gray; }
 
 body.simple { background-color:white; }
 body.simple fieldset.Header { border-bottom:solid 1px #e7e7e7; height:60px; display:block; }

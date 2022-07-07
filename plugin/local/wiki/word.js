@@ -126,6 +126,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			})
 		}, can._output, target)
 	},
+	// layout: function(can) {
+	// },
 }, [""])
 Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 	_mode: {

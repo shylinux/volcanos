@@ -13,7 +13,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	card: function(can, msg, target) {
 		can.page.Appends(can, target, msg.Table(function(value) {
-			return {view: html.ITEM, list: [
+			return {view: html.ITEM+" "+(value.status||""), list: [
 				{view: [wiki.TITLE, html.DIV, value.name]},
 				{view: [wiki.CONTENT, html.DIV, value.text]},
 				{view: html.ACTION, inner: value.action, onclick: function(event) {
