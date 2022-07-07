@@ -23,7 +23,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 		can.getActionSize(function(msg) { 
 			can.page.style(can, nav, html.HEIGHT, can.ConfHeight()+(can.isCmdMode()? msg.Option(html.MARGIN_Y): 0))
-			can.ConfWidth(can.ConfWidth()-nav.offsetWidth-20)
+			can.ConfWidth(can.ConfWidth()-nav.offsetWidth-21)
 			can.page.style(can, can._output,
 				html.HEIGHT, can.sup._navmenu.offsetHeight-20, html.MAX_WIDTH, can.ConfWidth(),
 				html.FLOAT, html.LEFT, html.CLEAR, html.NONE,
@@ -75,7 +75,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 					can.core.List(item.list, function(item) {
 						can.onappend.plugin(can, item.meta, function(sub) {
 							sub.run = function(event, cmds, cb) { can.runActionCommand(event, item.meta.index, cmds, cb) }
-							sub.ConfHeight(item.meta.height = can.ConfHeight()/2), sub.ConfWidth(item.meta.width = can.ConfWidth()-165)
+							sub.ConfHeight(item.meta.height = can.ConfHeight()/2), sub.ConfWidth(item.meta.width = can.ConfWidth()-(can.user.isWindows? 181: 165))
 							can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth())
 						}, output)
 					})
@@ -86,7 +86,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 			var view = can.page.Appends(can, target, [
 				{view: html.MENU, style: {height: can.ConfHeight()/2, width: 120}},
-				{view: html.LIST, style: {height: can.ConfHeight()/2, width: can.ConfWidth()-165}},
+				{view: html.LIST, style: {height: can.ConfHeight()/2, width: can.ConfWidth()-(can.user.isWindows? 181: 165)}},
 			])
 			return show(list[0], list[0]._index, view.menu, view.list), first.click()
 		}
