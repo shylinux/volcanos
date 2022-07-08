@@ -59,9 +59,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 	_time: function(can, target) {
 		can.core.Timer({interval: 500}, function() { can.onimport.time(can, target) })
-		can.onappend.figure(can, {action: "date", style: {"min-width": 306}}, target, function(sub) {
+		can.onappend.figure(can, {action: "date", style: {"min-width": 306}, _init: function(sub) {
 			can.getActionSize(function(msg, top) { can.page.style(can, sub._target, {top: top, right: 0, left: ""}) })
-		}), target.onmouseenter = target.click
+		}}, target), target.onmouseenter = target.click
 	},
 	time: function(can, target) { can.onimport.topic(can)
 		target.innerHTML = can.user.time(can, null, "%w %H:%M:%S")
@@ -154,6 +154,7 @@ Volcanos(chat.ONACTION, {help: "交互数据", _init: function(can, cb, target) 
 			}
 			can.base.Copy(can.onaction._trans, can.base.Obj(msg.Option(chat.TRANS), {}))
 			can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
+			can.user.info.language = can.misc.Search(can, aaa.LANGUAGE)||msg.Option(aaa.LANGUAGE)
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			can.onimport._init(can, msg, function(msg) { can.onengine.signal(can, chat.ONLOGIN, msg) }, can._output)
 		})

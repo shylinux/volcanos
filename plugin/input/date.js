@@ -1,5 +1,5 @@
 Volcanos(chat.ONFIGURE, {help: "控件详情", date: {onclick: function(event, can, meta, cb, target) { cb(function(can, cbs) {
-	function set(now) { target.value = can.user.time(can, now), can.close(), meta && meta.action == ice.AUTO && can.run({}) }
+	function set(now) { cbs(can, can.user.time(can, now), target.value) }
 
 	// 添加控件
 	var now = target.value? new Date(target.value): new Date()
@@ -56,5 +56,5 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", date: {onclick: function(event, c
 		for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) { add(day, mdb.NEXT) }
 
 		return now
-	} show(now), can.onlayout.figure(event, can), can.base.isFunc(cbs) && cbs(can)
+	} show(now), can.onlayout.figure(event, can)
 })}} }, [""])

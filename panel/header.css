@@ -1,5 +1,5 @@
-fieldset.Header { font-size:1.2em; padding:0 5px; height:32px; overflow:hidden; z-index:10; }
-fieldset.Header>div.output { height:32px; overflow:hidden; }
+fieldset.Header { font-size:1.2em; padding:0 5px; height:31px; overflow:hidden; z-index:10; }
+fieldset.Header>div.output { height:31px; overflow:hidden; }
 fieldset.Header>div.output>div { padding:5px; height:22px; cursor:pointer; }
 fieldset.Header>div.output>div:hover { background-color:#2e515f; border-bottom:solid 2px red; }
 fieldset.Header>div.output>div.title { float:left; }
@@ -110,7 +110,7 @@ div.main fieldset.plugin div.status {
 	color:black;
 }
 div.foot {
-	background-color:#404040; height:32px; clear:both;
+	background-color:#404040; height:31px; clear:both;
 }
 
 div.tabs:hover {

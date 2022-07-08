@@ -375,7 +375,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 		isCmdMode: function(value) { return can.Mode() == "cmd" },
 		isFullMode: function(value) { return can.Mode() == "full" },
 		isFloatMode: function(value) { return can.Mode() == "float" },
-		Mode: function(value) { return can.Conf("mode", value) },
+		Mode: function(value) { return can.Conf(ice.MODE, value) },
 		ConfDefault: function(value) { can.core.Item(value, function(k, v) { can.Conf(k) || can.Conf(k, v) }) },
 		ConfHeight: function(value) { return can.Conf(html.HEIGHT, value) },
 		ConfWidth: function(value) { return can.Conf(html.WIDTH, value) },
@@ -387,8 +387,8 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 				}
 				res = can.core.Value(can._conf, arguments[i], arguments[i+1])
 			}
-			if (res == undefined && key.indexOf("feature.") == -1) {
-				return can.Conf(can.core.Keys("feature", key))
+			if (res == undefined && key.indexOf(ctx.FEATURE+ice.PT) == -1) {
+				return can.Conf(can.core.Keys(ctx.FEATURE, key))
 			}
 			return res
 		}, _conf: {},

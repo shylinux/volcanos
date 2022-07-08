@@ -1,18 +1,22 @@
 Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
-	_init: function(event, can, cbs, target, name, value) { var call = arguments.callee
+	_init: function(can, msg, cbs, target, name) { can.onmotion.hidden(can, can._target, msg.Length() != 0)
+		can.onmotion.clear(can), can.onappend.table(can, msg, function(value) {
+			return {text: [value, html.TD], onclick: function(event) { can.base.isFunc(cbs) && cbs(can, value, target.value) }}
+		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length())
+	},
+	_show: function(event, can, cbs, target, name, value) {
 		can.runAction(event, mdb.INPUTS, [name, value||target.value], function(msg) {
-			can.onmotion.clear(can), can.onappend.table(can, msg, function(value) {
-				return {text: [value, html.TD], onclick: function(event) {
-					target.value = value, can.onmotion.focus(can, target)
-					if (msg.Option(ice.MSG_PROCESS) != ice.PROCESS_AGAIN) { return can.close() }
-					target._hold = true, call(event, can, cbs, target, name, value)
-				}}
-			}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length())
-			can.base.isFunc(cbs) && cbs(can, msg.Length() == 0)
+			can.onfigure.key._init(can, msg, cbs, target, name)
 		})
 	},
 	onclick: function(event, can, meta, cb, target) { can.onmotion.focus(can, target)
-		cb(function(sub, cbs) { can.onfigure.key._init(event, sub, cbs, target, meta.name) })
+		cb(function(sub, cbs) {
+			if (meta.msg && meta.msg.Length() > 0) {
+				can.onfigure.key._init(sub, meta.msg, cbs, target, meta.name)
+			} else {
+				can.onfigure.key._show(event, sub, cbs, target, meta.name)
+			}
+		})
 	},
 	onkeydown: function(event, can, meta, cb, target, last) {
 		switch (event.key) {
@@ -23,7 +27,7 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 	},
 	onkeyup: function(event, can, meta, cb, target, last) { var sub = target._can
 		sub && can.onmotion.selectInputTable(event, sub, function() {
-			can.onfigure.key._init(event, sub, null, target, meta.name)
+			can.onfigure.key._show(event, sub, null, target, meta.name)
 		}, target), can.base.isFunc(last) && last(event, can)
 	},
 	onblur: function(event, can, meta, cb, target) {

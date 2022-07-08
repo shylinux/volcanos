@@ -95,7 +95,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据",
 				}}
 			}, ui.output), can.onappend.board(can, msg.Result(), ui.output)
 		}
-		return can.page.style(can, ui.first, bottom? {bottom: 32, top: ""}: {}), can[name] = ui
+		return can.page.style(can, ui.first, bottom? {bottom: 31, top: ""}: {}), can[name] = ui
 	},
 	ntip: function(can) {
 		can.onexport.float(can, can._tips, function() {}, "ntip")

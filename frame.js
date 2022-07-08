@@ -191,7 +191,9 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				can.core.ItemCB(input.onaction, function(key, cb) { input._target[key] = function(event) { cb(event, input) } })
 				can.core.ItemCB(item, function(key, cb) { input._target[key] = function(event) { cb(event, input) } })
 				skip? next(): can.core.CallFunc([input.onaction, chat._INIT], [input, item, next, input._target]);
-				(item.action||can.core.Value(meta, [ctx.FEATURE, ctx.INPUTS])) && can.onappend.figure(input, item, input._target)
+				(item.action||can.core.Value(meta, [ctx.FEATURE, ctx.INPUTS])) && can.onappend.figure(input, item, input._target, function(sub, value) {
+					input._target.value = value, can.Update()
+				})
 			})
 		}; can.core.Next(can.base.getValid(can.core.Value(can, [chat.ONIMPORT, mdb.LIST]), can.base.Obj(meta.inputs)).concat([{type: html.BUTTON, name: cli.CLOSE}]), add)
 	},
@@ -233,7 +235,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); if (msg.RunAction(event, can, cmds)) { return }
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { var msg = can.request(event, {action: cmds[1]})
 			if (can.base.isFunc(meta.feature[cmds[1]])) { return can.core.CallFunc(meta.feature[cmds[1]], {can: can, msg: msg, cmds: cmds.slice(2)}) }
-			return can.user.input(event, can, meta.feature[cmds[1]], function(args) { var msg = can.request(event, {_handle: ice.TRUE}, can.Option())
+			return can.user.input(event._event||event, can, meta.feature[cmds[1]], function(args) { var msg = can.request(event, {_handle: ice.TRUE}, can.Option())
 				can.Update(event, cmds.slice(0, 2).concat(args), cb||function() {
 					if (can.core.CallFunc([can.sup, chat.ONIMPORT, ice.MSG_PROCESS], {can: can.sup, msg: msg})) { return }
 					if (can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
@@ -417,12 +419,14 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 	figure: function(can, meta, target, cbs) { if ([html.BUTTON, html.SELECT].indexOf(meta.type) > -1) { return }
 		var input = meta.action||mdb.KEY; input != ice.AUTO && can.require(["/plugin/input/"+input+".js"], function(can) {
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]; target[key] = function(event) { on(event, can, meta, function(cb) {
-				if (target._can) { return can.base.isFunc(cb) && cb(target._can, cbs) }
-				can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT}, ["/plugin/input/"+input+".js"], function(sub) { sub.Conf(meta)
-					sub.run = function(event, cmds, cb) { var msg = sub.request(event, can.Option()); (meta.run||can.run)(event, cmds, cb, true) }
+				function _cbs(sub, value, old) { can.onmotion.hidden(can, sub._target), can.base.isFunc(cbs)? cbs(sub, value, old): target.value = value||"" }
+				if (target._can) { return can.onmotion.toggle(can,  target._can._target), can.base.isFunc(cb) && cb(target._can, _cbs) }
+				can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT, mode: meta.mode}, ["/plugin/input/"+input+".js"], function(sub) { sub.Conf(meta)
+					sub.run = function(event, cmds, cb) { (meta.run||can.run)(sub.request(event, can.Option()), cmds, cb, true) }
+					var layout = target.getBoundingClientRect(); can.page.style(can, sub._target, {left: layout.left, top: layout.bottom}), can.page.style(sub, sub._target, meta.style)
 					target._can = sub, sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }
-					can.page.style(sub, sub._target, meta.style), can.onlayout.figure(event, sub), can.onmotion.hidden(can, sub._target)
-					can.base.isFunc(cb) && cb(sub, function(sub, hide) { can.onmotion.hidden(can, sub._target, !hide), can.base.isFunc(cbs) && cbs(sub) })
+					can.base.isFunc(cb) && cb(sub, _cbs)
+					can.base.isFunc(meta._init) && meta._init(sub, sub._target)
 				}, can._root._target)
 			}, target, last) } })
 		})
@@ -470,26 +474,19 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 	background: function(can, url, target) {
 		can.page.style(can, target||can._root._target, html.BACKGROUND, url == "" || url == "void"? "": 'url("'+url+'")')
 	},
-	figure: function(event, can, target, right, layout) { target = target||can._target
-		if (layout) { return can.page.style(can, target, layout), can.onmotion.move(can, target, layout), layout }
-		if (!event || !event.target || !event.clientX) { return {} }
 
-		var left = event.clientX-event.offsetX, top = event.clientY-event.offsetY+event.target.offsetHeight-3; if (right) {
-			var left = event.clientX-event.offsetX+event.target.offsetWidth, top = event.clientY-event.offsetY
-		}
-
-		layout = {left: left, top: top}
-		if (layout.top < 0) { layout.top = 0 }
-		if (layout.left < 0) { layout.left = 0 }
-		if (layout.left+target.offsetWidth > can._root._width) { layout.right = 0, layout.left = "" }
-
-		if (!(can.user.isMobile && can.user.isLandscape()) && layout.top+target.offsetHeight > can._root._height-html.ACTION_HEIGHT) {
-			layout.bottom = can._root._height - event.clientY+event.offsetY, layout.top = ""
-			if (right) { layout.bottom -= target.offsetHeight }
-			if (layout.bottom < html.ACTION_HEIGHT) { layout.bottom = html.ACTION_HEIGHT }
-		}
-		// if (can.user.isMobile && !can.user.isLandscape()) { layout.left = 0, layout.right = "" }
-		return can.page.style(can, target, layout), can.onmotion.move(can, target, layout), layout
+	figure: function(event, can, target, right) { var rect = event.target.getBoundingClientRect()
+		target = target||can._fields||can._target
+		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
+		can.getActionSize(function(left, top, width, height) {
+			if (layout.top+target.offsetHeight > top+height-31) {
+				layout.bottom = 31, layout.top = ""
+			}
+			if (layout.left+target.offsetWidth > left+width) {
+				layout.right = 0, layout.left = ""
+			}
+		})
+		return can.onmotion.move(can, target, layout), layout
 	},
 
 	display: function(can, target) { target = target||can._target
@@ -643,9 +640,8 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 				case lang.ESCAPE: target.innerHTML = back; break
 				default: can.onkeymap.input(event, can)
 			}
-		}, _init: function(target) {
-			item && can.onappend.figure(can, item, target), target.value = text
-			can.onmotion.focus(can, target)
+		}, _init: function(target) { item && can.onappend.figure(can, item, target, cb)
+			can.onmotion.focus(can, target), can.onmotion.delay(can, function() { target.click() })
 		}}])
 	},
 	modifys: function(can, target, cb, item) { var back = target.innerHTML
@@ -663,7 +659,7 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 			}
 		}, _init: function(target) {
 			item && can.onappend.figure(can, item, target)
-			can.onmotion.focus(can, target)
+			can.onmotion.focus(can, target), can.onmotion.delay(can, function() { target.click() })
 		}}])
 	},
 	toimage: function(event, can, name, target) {
