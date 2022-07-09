@@ -12,8 +12,8 @@ fieldset.Action.free>div.output fieldset.plugin { position:absolute; }
 fieldset.Action.free>div.output fieldset.plugin.select { display:block; }
 fieldset.Action.flow>div.output fieldset.plugin { float:left; }
 
-fieldset.Action>div.output fieldset.Full { background-color:#073947f2; padding:0; margin:0; position:fixed; left:0; top:0; overflow:auto; z-index:10; }
-fieldset.Action>div.output fieldset.Full>legend { margin:0px; float:left; }
+fieldset.Action>div.output fieldset.full { background-color:#073947f2; padding:0; margin:0; position:fixed; left:0; top:0; overflow:auto; z-index:10; }
+fieldset.Action>div.output fieldset.full>legend { margin:0px; float:left; }
 
 fieldset.panel.cmd>div.output>fieldset.plugin { padding:0; margin:0; }
 fieldset.panel.cmd>div.output>fieldset.plugin>legend { padding:0 10px; margin-right:3px; float:left; }

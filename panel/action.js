@@ -149,8 +149,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 		if (can.user.mod.isPod || can.user.isMobile) {
 			var gt = "&#10095;", lt = "&#10094;"; function toggle(view) { return !can.setRiver("display") }
 			can.page.Append(can, target, [{view: [[html.TOGGLE, chat.PROJECT]], list: [{text: [gt, html.DIV]}], onclick: function(event) {
-				event.target.innerHTML = toggle()? gt: lt
-				can.onaction.refresh(can)
+				event.target.innerHTML = toggle()? gt: lt, can.onaction.refresh(can)
 			}}])
 		}
 
@@ -160,7 +159,6 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 	_menus: [
 		[chat.LAYOUT, "auto", "tabs", "grid", "free", "flow", "page", "toimage"],
 		[ice.HELP, "tutor", "manual", "service", "devops", "refer"],
-		"refresh",
 	],
 	_trans: {
 		"layout": "布局",
@@ -216,6 +214,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 	layout: function(can, button, silent) { button = button||ice.AUTO
 		var cb = can.onlayout[button]; if (can.base.isFunc(cb) && cb(can, silent)) { return }
 		can.page.ClassList.del(can, can._target, can.Conf(chat.LAYOUT))
+		if (button == ice.AUTO) { button = "" }
 		can.page.ClassList.add(can, can._target, can.Conf(chat.LAYOUT, button))
 		can.onlayout._init(can)
 	},
@@ -233,9 +232,6 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 	},
 })
 Volcanos(chat.ONLAYOUT, {help: "导出数据",
-	auto: function(can) {
-		can.Conf(chat.LAYOUT, "")
-	},
 	grid: function(can, silent) {
 		var ACTION_LAYOUT_FMT = " fieldset.Action.grid>div.output fieldset.plugin { width:_width; height:_height; } fieldset.Action.grid>div.output fieldset.plugin>div.output { width:_width; height:_height; } "
 		can.user.input(event, can, [{name: "m", value: 2}, {name: "n", value: 2}], function(data) {

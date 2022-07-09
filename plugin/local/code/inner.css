@@ -40,13 +40,13 @@ fieldset.inner.float legend { height:30px; }
 fieldset.inner.float div.output { background-color:#332f1ecf; }
 fieldset.inner.float div.status { color:white; }
 
-fieldset.inner.full>legend { display:none; }
-fieldset.inner.full>form.option { display:none; }
-fieldset.inner.full>div.action { display:none; }
-fieldset.inner.full>div.status { display:none; }
-fieldset.inner.full>div.output div.profile>div.action { display:none; }
-fieldset.inner.full>div.output div.display>div.action { display:none; }
-fieldset.inner.full>div.output div.display>div.status { display:none; }
+fieldset.inner.Full>legend { display:none; }
+fieldset.inner.Full>form.option { display:none; }
+fieldset.inner.Full>div.action { display:none; }
+fieldset.inner.Full>div.status { display:none; }
+fieldset.inner.Full>div.output div.profile>div.action { display:none; }
+fieldset.inner.Full>div.output div.display>div.action { display:none; }
+fieldset.inner.Full>div.output div.display>div.status { display:none; }
 
 body.white fieldset.inner>div.output div.project { color:#a2dad2; }
 body.white fieldset.inner>div.output div.content { background-color:#013b675c; }

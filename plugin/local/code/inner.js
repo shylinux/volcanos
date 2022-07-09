@@ -302,7 +302,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			var rest = can.ui.display.offsetHeight+can.ui._path.offsetHeight+can.ui._tabs.offsetHeight+5
 			can.page.style(can, can.ui.content, can.isCmdMode() || can.user.isMobile? html.HEIGHT: html.MAX_HEIGHT, height)
 			can.page.styleHeight(can, can.ui.project, can.ui.content.offsetHeight+rest)
-			if (can.page.ClassList.has(can, can._fields, "full")) {
+			if (can.page.ClassList.has(can, can._fields, "Full")) {
 				can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight)
 			} else {
 				can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight-html.ACTION_HEIGHT-2)
@@ -576,7 +576,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["搜索", "打开", "添�
 		can.onimport.layout(can)
 	},
 	"全屏": function(event, can) {
-		if (can.page.ClassList.neg(can, can._fields, "full")) {
+		if (can.page.ClassList.neg(can, can._fields, "Full")) {
 			can.onmotion.hidden(can, can.ui.project)
 			can.ConfHeight(can._root._height)
 		} else {

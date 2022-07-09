@@ -64,12 +64,12 @@ Volcanos(chat.ONENGINE, {help: "解析引擎", _engine: function(event, can, msg
 		msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) // 应用列表
 	}), can.base.isFunc(cb) && cb(msg); return true
 }})
-Volcanos(chat.ONACTION, {help: "控件交互", _init: function(can, cb, target) {
+Volcanos(chat.ONACTION, {help: "控件交互", list: ["create", "share", "refresh"], _init: function(can, cb, target) {
 		can.onmotion.hidden(can, target), can.base.isFunc(cb) && cb()
 	},
 	onlogin: function(can, msg) {
 		can.run({}, [], function(msg) { if (msg.Option(ice.MSG_RIVER) == "_share") { return }
-			can.onimport._init(can, msg, null, can._output), can.onappend._action(can, can.Conf(ctx.ACTION))
+			can.onimport._init(can, msg, null, can._output), can.onappend._action(can, can.Conf(ctx.ACTION)||can.onaction.list)
 			if (can.user.mod.isPod ||can.user.isExtension || can.user.isMobile) { return }
 			can.onmotion.toggle(can, can._target, true)
 		})
@@ -126,10 +126,11 @@ Volcanos(chat.ONACTION, {help: "控件交互", _init: function(can, cb, target) 
 			can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })
 		})
 	},
+	share: function(event, can) {
+		can.onmotion.share(event, can, [{name: chat.TITLE, value: can.Conf(chat.STORM)}], [mdb.TYPE, chat.STORM])
+	},
 	refresh: function(event, can) {
-		var args = {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM),
-			topic: can.getHeader(chat.TOPIC), layout: can.getAction(chat.LAYOUT),
-		}
+		var args = {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), topic: can.getHeader(chat.TOPIC), layout: can.getAction(chat.LAYOUT)}
 		if (can.user.isExtension) { localStorage.setItem(ctx.ARGS, JSON.stringify(args)) }
 		can.misc.Search(can, args)
 	},
@@ -137,10 +138,10 @@ Volcanos(chat.ONACTION, {help: "控件交互", _init: function(can, cb, target) 
 Volcanos(chat.ONDETAIL, {help: "菜单交互",
 	list: ["共享群组", "添加应用", "添加设备", "添加用户", "重命名群组", "删除群组"],
 	sublist: ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"],
-	_menus: [
-		["create", "创建群组", "添加应用", "添加工具", "添加设备", "创建空间"],
-		["share", "共享群组", "共享应用", "共享工具", "共享设备", "访问空间"],
-	],
+	// _menus: [
+	// 	["create", "创建群组", "添加应用", "添加工具", "添加设备", "创建空间"],
+	// 	["share", "共享群组", "共享应用", "共享工具", "共享设备", "访问空间"],
+	// ],
 
 	"创建群组": function(event, can) { can.onaction.create(event, can) },
 	"共享群组": function(event, can, button, river) {

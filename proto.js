@@ -153,7 +153,7 @@ var chat = {
 	libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
 	panel_list: [
 		{name: "Header", help: "标题栏", pos: "head", state: ["time", "usernick", "avatar"]},
-		{name: "River",  help: "群聊组", pos: "left", action: ["create", "refresh"]},
+		{name: "River",  help: "群聊组", pos: "left"},
 		{name: "Action", help: "工作台", pos: "main"},
 		{name: "Search", help: "搜索框", pos: "auto"},
 		{name: "Footer", help: "状态条", pos: "foot", state: ["ncmd", "ntip"]},

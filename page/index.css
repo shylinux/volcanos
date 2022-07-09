@@ -2,7 +2,7 @@ body, fieldset, table, tr, th, td { padding:0; border:0; margin:0; }
 body { background-color:black; color:cyan; }
 legend { background-color:#339999; color:white; padding:0px 20px; }
 select { background-color:black; color:cyan; padding:0 10px; }
-textarea { background-color:cyan; width:400px; }
+textarea { background-color:cyan; width:400px; padding:4px; }
 input[type=password] { background-color:cyan; color:black; padding:0 4px; width:90px; }
 input[type=text] { background-color:cyan; color:black; padding:0 4px; width:90px; }
 input[name=cmd] { background-color:black; color:white; width:320px; }
@@ -60,10 +60,10 @@ fieldset.plugin { background-color:#061c3c9e; padding:10px; margin:10px; }
 fieldset.plugin div.status { border-top:1px solid darkcyan; }
 fieldset.story div.status { border-top:1px solid darkcyan; }
 fieldset.story>legend { margin:5px 0; }
-fieldset.float { background-color:#023531cf; }
+fieldset.float { background-color:#0e3369b3; }
 fieldset.float input[type=button][name=close]{ display:block; }
-fieldset.Full input[type=button][name=close]{ display:block; }
 fieldset.plug input[type=button][name=close]{ display:block; }
+fieldset.full input[type=button][name=close]{ display:block; }
 fieldset input[type=button][name=close]{ display:none; }
 
 fieldset.output>form.option { display:none; }
@@ -82,25 +82,24 @@ fieldset.input.date div.output td.next { color:gray; }
 fieldset.input.date div.output td { padding:2px 11px; }
 fieldset.input.date table { text-align:center; width:280px; }
 
-/* body>div.float { background-color:#0e3369b3; padding:5px; } */
-body>div.toast { background-color:#0e3369b3; }
-body>div.toast div.title { color:#cae850; word-break:break-all; float:left; }
+body>div.float { background-color:#0e3369b3; color:white; padding:10px; }
+body>div.toast div.title { color:yellow; word-break:break-all; float:left; }
 body>div.toast div.duration { color:gray; float:right; }
 body>div.toast div.content { text-align:center; color:yellow; }
 body>div.toast div.progress { border:solid 2px green; margin-left:-2px; height:10px; clear:both; }
 body>div.toast div.progress div.current { background-color:red; height:10px; }
 body>div.toast div.action { display:block; }
 
-body>div.carte { background-color:#295b61; padding:4px; min-width:80px; }
+body>div.carte { padding:0; }
 body>div.carte div.item { padding:3px 12px; }
-body>div.input { background-color:#0d4142a6; padding:5px; }
 body>div.input div.item { float:left; }
 body>div.input div.content { overflow:auto; }
-body>div.input select { width:183px; margin:5px; }
-body>div.input input[type=text] { width:171px; margin:5px; }
-body>div.input input[name=username] { width:171px; margin:5px; }
-body>div.input input[name=password] { width:171px; margin:5px; }
-body>div.input textarea { background-color:cyan; padding:4px; margin:5px; border:2px inset #14a58e; height:120px; width:171px; }
+body>div.input td { padding:5px; }
+body>div.input select { width:183px; }
+body>div.input input[type=text] { width:171px; }
+body>div.input input[name=username] { width:171px; }
+body>div.input input[name=password] { width:171px; }
+body>div.input textarea { border:2px inset #14a58e; height:120px; width:171px; }
 body>div.input.login { padding:10px; }
 
 body>div.upload div.item { float:left; }
@@ -109,7 +108,7 @@ body>div.upload div.progress { background-color:red; height:10px; width:0; }
 body>div.upload div.status div.cost { float:left; }
 body>div.upload div.status div.show { float:right; }
 body>div.upload div.status div.size { text-align:center; }
-body>div.upload input[type=file] { width:240px; }
+body>div.upload input[type=file] { width:320px; }
 
 /* font */
 * { tab-size:4; }
@@ -150,6 +149,7 @@ div.tabs.select, div.tabs:hover, table.content tr.select, table.content tr:hover
 input[type=text]:hover { background-color:white; }
 input[name=cmd]:hover { background-color:white; color:black; }
 input[type=button]:hover { background-color:gray; color:cyan; }
+legend:hover { background-color:skyblue; }
 
 /* scrollbar */
 body { overflow:-moz-scrollbars-none; -ms-overflow-style:none; }
@@ -201,6 +201,7 @@ body.white.simple input[type=button] { background-color:#0152d9; border:none; bo
 body.white { background-color:rgba(5,34,56,0.75); color:white; }
 body.white legend { border-radius:10px 10px 10px 10px; }
 body.white select { background-color:#99CC66; color:white; border:2px solid #99CC66; border-radius:10px 10px 10px 10px; }
+body.white textarea { background-color:white; color:black; }
 body.white input[type=password] { background-color:white; color:black; border:2px solid #14a58e; border-radius:6px; }
 body.white input[type=text] { background-color:white; color:black; border:2px solid #14a58e; border-radius:6px; }
 body.white input[name=cmd] { background-color:black; color:white; }
@@ -216,7 +217,7 @@ body.white table.content th { background-color:#99CCFF; }
 body.white fieldset.panel.Action { color:black; }
 body.white fieldset.panel.Action div.action { color:white; }
 body.white fieldset.plugin { background-color:#ffffff78; }
-body.white fieldset.Full { background-color:#cce0f4eb; color:white; z-index:10; }
+body.white fieldset.full { background-color:#cce0f4eb; color:white; z-index:10; }
 
 body.white legend:hover { background-color:skyblue; }
 body.white input[type=text]:hover { background-color:cyan; }
@@ -233,7 +234,6 @@ body.print legend, body.print select, body.print input[type=text] { box-shadow:0
 body.print div.item.select { background-color:white; border:solid 2px red; }
 body.print div.list div.item { background-color:white; }
 body.print fieldset.Header, body.print fieldset.River, body.print fieldset.Action, body.print fieldset.Footer { background-color:white; color:black; }
-body.black a { color:yellow; }
 
 body.mobile textarea { font-size:1.2rem; }
 body.mobile legend { font-size:1.6rem; height:38px; }
@@ -291,4 +291,5 @@ fieldset.panel.Search div.story[data-type=spark] { padding:0px; margin:0px; }
 fieldset.panel.Action.cmd>div.toggle.project { display:none; }
 fieldset.plugin.config form.option input[name=key] { width:240px; }
 body.mobile fieldset.plan>div.action { display:none; }
-
+body.white fieldset.panel.Search a { color:yellow; }
+body.black a { color:yellow; }
