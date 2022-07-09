@@ -167,7 +167,7 @@ Volcanos(chat.ONACTION, {help: "组件交互", list: [
 	_trans: {"task": "任务", "hour": "时间", "month": "月份"},
 	insertTask: function(event, can, time) { var msg = can.sup.request(event, {begin_time: time})
 		can.user.input(event, can, can.Conf([ctx.FEATURE, mdb.INSERT]), function(args) {
-			can.runAction(event, mdb.INSERT, ["begin_time", time].concat(args))
+			can.runAction(event, mdb.INSERT, ["zone", args[1], "begin_time", time].concat(args))
 		})
 	},
 	modifyTask: function(event, can, task, key, value) {

@@ -82,7 +82,8 @@ fieldset.input.date div.output td.next { color:gray; }
 fieldset.input.date div.output td { padding:2px 11px; }
 fieldset.input.date table { text-align:center; width:280px; }
 
-body>div.float { background-color:#0e3369b3; padding:5px; }
+/* body>div.float { background-color:#0e3369b3; padding:5px; } */
+body>div.toast { background-color:#0e3369b3; }
 body>div.toast div.title { color:#cae850; word-break:break-all; float:left; }
 body>div.toast div.duration { color:gray; float:right; }
 body>div.toast div.content { text-align:center; color:yellow; }
