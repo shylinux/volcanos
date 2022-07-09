@@ -86,7 +86,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 })
 Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		"刷新数据", "切换全屏", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", [
-			"其它", "刷新页面", "保存参数", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除工具","摄像头",
+			"其它", "刷新页面", "保存参数", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除配置", "删除工具","摄像头",
 		],
 	],
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input([], true))) },
@@ -142,6 +142,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	},
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
 	"删除工具": function(event, can) { can.page.Remove(can, can._target) },
+	"删除配置": function(event, can) { can.runAction(event, "config", ["reset"]) },
 
 	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
 

@@ -57,4 +57,4 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", date: {onclick: function(event, c
 
 		return now
 	} show(now), can.onlayout.figure(event, can)
-})}} }, [""])
+})}} })

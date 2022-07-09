@@ -3,6 +3,9 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value) {
 			return {text: [value, html.TD], onclick: function(event) { can.base.isFunc(cbs) && cbs(can, value, target.value) }}
 		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length())
+		can.getActionSize(function(left, top, width, height) {
+			can.page.style(can, can._target, html.MAX_HEIGHT, top+height-can._target.offsetTop)
+		})
 	},
 	_show: function(event, can, cbs, target, name, value) {
 		can.runAction(event, mdb.INPUTS, [name, value||target.value], function(msg) {

@@ -32,7 +32,6 @@ fieldset.inner>div.output fieldset.toolkit>div.output>fieldset>legend { float:le
 fieldset.inner>div.output fieldset.toolkit>div.status>legend { background:#0d969f8a; padding:4px 4px; border-left:solid 2px red; float:right; }
 fieldset.inner>div.output fieldset.toolkit>div.status>legend.select { background:green; }
 fieldset.inner>div.output fieldset.toolkit>div.status>legend:hover { background:green; }
-fieldset.inner>div.status { height:26px; }
 fieldset.inner>div.status legend { background:#0d969f8a; font-size:1.1rem; padding:0px 10px; border-left:solid 2px red; cursor:pointer; float:right; }
 fieldset.inner>div.status legend.select { background:green; }
 fieldset.inner>div.status legend:hover { background:green; }

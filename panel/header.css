@@ -1,14 +1,13 @@
-fieldset.Header { font-size:1.2em; padding:0 5px; height:31px; overflow:hidden; z-index:10; }
-fieldset.Header>div.output { height:31px; overflow:hidden; }
-fieldset.Header>div.output>div { padding:5px; height:22px; cursor:pointer; }
-fieldset.Header>div.output>div:hover { background-color:#2e515f; border-bottom:solid 2px red; }
-fieldset.Header>div.output>div.title { float:left; }
-fieldset.Header>div.output>div.state { float:right; }
-fieldset.Header>div.output>div.state.avatar>img { height:1.4em; }
-fieldset.Header>div.output>div.search { margin-left:20px; float:left; }
-fieldset.Header>div.output>div.search>input { margin-top:-5px; height:25px; border-radius:0; }
-fieldset.Header>div.output div.menu { padding:5px; height:21px; cursor:pointer; float:left; }
-fieldset.Header>div.output div.menu:hover { background-color:#2e515f; border-bottom:solid 2px red; }
+fieldset.Header { font-size:1.1rem; height:31px; overflow:auto; padding:0 5px; z-index:10; }
+fieldset.Header>div.output { overflow:hidden; }
+fieldset.Header>div.output div { padding:5px; height:21px; float:left; cursor:pointer; }
+fieldset.Header>div.output div:hover { background-color:#2e515f; }
+fieldset.Header>div.output div.title { float:left; }
+fieldset.Header>div.output div.state { float:right; }
+fieldset.Header>div.output div.state.avatar { padding:0; }
+fieldset.Header>div.output div.state.avatar>img { height:31px; }
+fieldset.Header>div.output div.search { margin-left:20px; float:left; }
+fieldset.Header>div.output div.search>input { margin-top:-5px; border-radius:0; }
 
 div.head {
 	background-color:#404040; padding:5px; height:42px; clear:both;

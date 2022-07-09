@@ -8,10 +8,6 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, list, c
 			return list.indexOf(item)
 		})); table && can.page.styleWidth(can, can.ui.display, table.offsetWidth)
 
-		can.getActionSize(function(msg, height) {
-			can.page.style(can, can.ui.profile, html.MAX_HEIGHT, can.base.Min(height-(table&&table.offsetHeight||0), height/2))
-		})
-
 		can.page.Select(can, can._output, html.A, function(item) {
 			item.onclick = function(event) { can.user.open(item.href), can.onkeymap.prevent(event) }
 		}), can.onmotion.story.auto(can)
@@ -45,10 +41,13 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, list, c
 		}, can.onimport._word(can, msg, cmds, fields)
 
 		can.getActionSize(function(msg, top, left, width, height) {
+			can.ConfHeight(height-2*html.ACTION_HEIGHT-2*html.PLUGIN_MARGIN)
+			can.ConfWidth(width-2*html.PLUGIN_MARGIN)
 			can.page.style(can, can._target, {top: top, left: left})
-			can.page.style(can, can._output, html.MAX_HEIGHT, height-71, html.MAX_WIDTH, width-2*html.PLUGIN_MARGIN)
-			can.page.style(can, can.ui.content, html.MAX_WIDTH, width-2*html.PLUGIN_MARGIN)
-			can.page.style(can, can.ui.display, html.MAX_WIDTH, width-2*html.PLUGIN_MARGIN)
+			can.page.style(can, can._output, html.MAX_HEIGHT, can.ConfHeight(), html.MAX_WIDTH, can.ConfWidth())
+			can.page.style(can, can.ui.content, html.MAX_WIDTH, can.ConfWidth())
+			can.page.style(can, can.ui.display, html.MAX_WIDTH, can.ConfWidth())
+			can.page.style(can, can.ui.profile, html.MAX_WIDTH, can.ConfWidth())
 		})
 	},
 })
@@ -115,14 +114,9 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [cli.CLOSE, cli.CLEAR, cli.
 
 		var cmd = line.cmd == ctx.COMMAND? can.core.Keys(line.type, line.name.split(ice.SP)[0]): can.core.Keys(line.ctx, line.cmd)
 		can.onappend.plugin(can, {type: chat.STORY, index: cmd||msg.Option(mdb.INDEX), mode: "plug"}, function(sub, meta) {
-			can.getActionSize(function(msg, height, width) { height = can.base.Min(height - can.ui.content.offsetHeight+204, height/2)
-				can.page.style(can, sub._output, html.MAX_HEIGHT, height-26, html.MAX_WIDTH, width-40)
-				sub.ConfHeight(height+28), sub.ConfWidth(width-60)
-			})
-
-			sub.run = function(event, cmds, cb) {
-				can.runActionCommand(event, meta.index, cmds, cb)
-			}, sub.Focus()
+			sub.run = function(event, cmds, cb) { can.runActionCommand(event, meta.index, cmds, cb) }
+			sub.ConfHeight(can.ConfHeight()-2*html.ACTION_HEIGHT), sub.ConfWidth(can.ConfWidth())
+			sub.Focus()
 		}, can.ui.profile)
 	},
 })

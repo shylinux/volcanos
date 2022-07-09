@@ -266,12 +266,10 @@ Volcanos(chat.ONEXPORT, {help: "导出数据",
 		})
 	},
 	size: function(can, msg) {
-		msg.Option(html.TOP, can._target.offsetTop)
-		msg.Option(html.LEFT, can._target.offsetLeft)
-		msg.Option(html.WIDTH, can._target.offsetWidth)
-		if (msg.Option(html.HEIGHT, can._target.offsetHeight-can._action.offsetHeight) > can._root._height) {
-			msg.Option(html.HEIGHT, can._root._height-2*html.ACTION_HEIGHT)
-		}
+		msg.Option(html.TOP, can._output.offsetTop)
+		msg.Option(html.LEFT, can._output.offsetLeft)
+		msg.Option(html.WIDTH, can._output.offsetWidth)
+		msg.Option(html.HEIGHT, can._output.offsetHeight)
 		msg.Option(html.SCROLL, can.user.isMobile? can._target.parentNode.parentNode.scrollTop: can._output.scrollTop)
 		msg.Option(html.MARGIN_X, can.Conf(html.MARGIN_X))
 		msg.Option(html.MARGIN_Y, can.Conf(html.MARGIN_Y))

@@ -72,7 +72,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 	topic: function(can, topic) { topic && (can._topic = topic)
-		can.user.topic(can, can._topic || can.misc.Search(can, chat.TOPIC) || Volcanos.meta.args.topic || (can.base.isNight()? chat.BLACK: chat.WHITE))
+		topic = can._topic || can.misc.Search(can, chat.TOPIC) || Volcanos.meta.args.topic || (can.base.isNight()? chat.BLACK: chat.WHITE)
+		can.require(["/chat/topic/"+topic+".css"])
+		can.user.topic(can, topic)
 	},
 	background: function(event, can, background) { if (can.user.isExtension || can.user.isLocalFile) { return }
 		can.runAction(event, aaa.BACKGROUND, [background], function(msg) {

@@ -475,7 +475,9 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 		can.page.style(can, target||can._root._target, html.BACKGROUND, url == "" || url == "void"? "": 'url("'+url+'")')
 	},
 
-	figure: function(event, can, target, right) { var rect = event.target.getBoundingClientRect()
+	figure: function(event, can, target, right) {
+		if (!event || !event.target) { return {} }
+		var rect = event.target.getBoundingClientRect()
 		target = target||can._fields||can._target
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.getActionSize(function(left, top, width, height) {

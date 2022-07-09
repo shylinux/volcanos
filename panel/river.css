@@ -1,9 +1,5 @@
 fieldset.River { overflow:auto; float:left; }
 fieldset.River>div.output { width:180px; }
 fieldset.River>div.output div.item { padding:3px 16px; border-left:solid 3px #00ffae; }
-fieldset.River>div.output div.item.select { background-color:#2e515f; }
-fieldset.River>div.output div.item:hover { background-color:#2e515f; }
+fieldset.River>div.output div.list div.item { border-left:solid 3px #ccdc4c; }
 fieldset.River>div.output div.list { padding-left:5px; margin-left:8px; }
-fieldset.River>div.output div.list div.item { background-color:#073540b5; border-left:solid 3px #ccdc4c; }
-fieldset.River>div.output div.list div.item.select { background-color:steelblue; }
-fieldset.River>div.output div.list div.item:hover { background-color:steelblue; }

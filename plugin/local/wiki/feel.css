@@ -1,4 +1,2 @@
 fieldset.feel div.output img { display:block; float:left; }
 fieldset.feel div.output video { display:block; float:left; }
-fieldset.feel.float { background-color:#4eaad0c2; position:absolute; }
-fieldset.feel.float>legend { display:none; }
