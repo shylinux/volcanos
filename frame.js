@@ -89,7 +89,11 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 		return false
 	},
 
-	plugin: shy("添加插件", function(can, name, command) { name = can.base.trimPrefix(name, "can.")
+	plugin: shy("添加插件", function(can, name, command) {
+		if (can.base.isObject(name)) {
+			return can.core.Item(name, function(key, value) { name.hasOwnProperty(key) && can.onengine.plugin(can, key, value) })
+		}
+		name = can.base.trimPrefix(name, "can.")
 		var type = html.TEXT; command.list = can.core.List(command.list, function(item) {
 			switch (typeof item) {
 				case lang.STRING: return can.core.SplitInput(item)

@@ -372,9 +372,10 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 		getAction: function(key, cb) { return can.get("Action", key, cb) },
 		getActionSize: function(cb) { return can.get("Action", "size", cb) },
 
-		isCmdMode: function(value) { return can.Mode() == "cmd" },
-		isFullMode: function(value) { return can.Mode() == "full" },
+		isSimpleMode: function(value) { return can.Mode() == "simple" },
 		isFloatMode: function(value) { return can.Mode() == "float" },
+		isFullMode: function(value) { return can.Mode() == "full" },
+		isCmdMode: function(value) { return can.Mode() == "cmd" },
 		Mode: function(value) { return can.Conf(ice.MODE, value) },
 		ConfDefault: function(value) { can.core.Item(value, function(k, v) { can.Conf(k) || can.Conf(k, v) }) },
 		ConfHeight: function(value) { return can.Conf(html.HEIGHT, value) },

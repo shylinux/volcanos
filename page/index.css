@@ -30,7 +30,7 @@ table.layout div.toggle { font-size:24px; background-color:#e1aeae45; position:a
 table.layout div.toggle>div { color:white; display:table-cell; }
 table.layout div.toggle.project { padding-top: 50px; height:100px; width:15px; top:20%; left:0px; border-top-right-radius:10px; border-bottom-right-radius:10px; }
 table.layout div.toggle.profile { padding-top: 50px; height:100px; width:15px; top:20%; right:0px; border-top-left-radius:10px; border-bottom-left-radius:10px; }
-table.layout div.toggle.display { overflow:hidden; margin-top:-14px; height:15px; width:100px; position:sticky; left:40%; border-top-left-radius:10px; border-top-right-radius:10px; }
+table.layout div.toggle.display { overflow:hidden; margin-top:-15px; height:15px; width:100px; position:sticky; left:40%; border-top-left-radius:10px; border-top-right-radius:10px; }
 table.layout div.toggle.display>div { color:white; text-align:center; height:15px; width:100px; }
 
 table.content thead { position:sticky; top:2px; }
@@ -63,6 +63,7 @@ fieldset.story>legend { margin:5px 0; }
 fieldset.float { background-color:#0e3369b3; }
 fieldset.float input[type=button][name=close]{ display:block; }
 fieldset.plug input[type=button][name=close]{ display:block; }
+fieldset.plug>legend { float:left; }
 fieldset.full input[type=button][name=close]{ display:block; }
 fieldset input[type=button][name=close]{ display:none; }
 
@@ -82,7 +83,7 @@ fieldset.input.date div.output td.next { color:gray; }
 fieldset.input.date div.output td { padding:2px 11px; }
 fieldset.input.date table { text-align:center; width:280px; }
 
-body>div.float { background-color:#0e3369b3; color:white; padding:10px; }
+body>div.float { background-color:#0e3369b3; color:white; padding:5px; }
 body>div.toast div.title { color:yellow; word-break:break-all; float:left; }
 body>div.toast div.duration { color:gray; float:right; }
 body>div.toast div.content { text-align:center; color:yellow; }
@@ -238,6 +239,7 @@ body.print fieldset.Header, body.print fieldset.River, body.print fieldset.Actio
 body.mobile textarea { font-size:1.2rem; }
 body.mobile legend { font-size:1.6rem; height:38px; }
 body.mobile select { font-size:1.4rem; height:38px; }
+body.mobile fieldset.float input[type=button] { font-size:1.4rem; height:38px; }
 body.mobile input[type=button] { height:31px; margin-top:-2px; }
 body.mobile input[type=text] { padding-top:3px; height:31px; }
 body.mobile table.content th { padding:6px 6px; }
@@ -293,3 +295,7 @@ fieldset.plugin.config form.option input[name=key] { width:240px; }
 body.mobile fieldset.plan>div.action { display:none; }
 body.white fieldset.panel.Search a { color:yellow; }
 body.black a { color:yellow; }
+div.action>div.item { float:left; clear:none; }
+
+div.output td.project div.project div.zone>div.action>div.item { float:right; clear:none; padding:0; margin:0; }
+div.output td.project div.project div.zone>div.action>div.item input[type=text] { background-color:#ff000000; padding-left:10px; color:white; border:none; }

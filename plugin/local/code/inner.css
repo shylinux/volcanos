@@ -1,14 +1,14 @@
-fieldset.story.inner>div.action { display:none; }
 fieldset.inner>form.option input[name=path] { width:80px; }
 fieldset.inner>form.option input[name=file] { width:160px; }
-fieldset.inner>div.action>div.tabs { background-color:#5c809c5c; height:18px; }
+
+fieldset.inner>div.action>div.tabs { background-color:#5c809c5c; height:21px; }
 fieldset.inner>div.action>div.tabs:hover { background-color:#013b675c; }
 fieldset.inner>div.action>div.tabs.select { background-color:#013b675c; border-bottom:solid 2px #7999b2; font-size:1rem; height:19px; }
-
 fieldset.inner>div.output { color:white; }
-fieldset.inner>div.output td.project div.project { width:180px; }
-fieldset.inner>div.output div.project div.kind { background-color:cornflowerblue; color:white; font-family:monospace; font-size:1.1rem; text-align:center; padding:5px; clear:both; }
-fieldset.inner>div.output div.project div.item div.name { padding:0 16px; }
+
+fieldset.inner>div.output div.project div.zone>div.name { background-color:cornflowerblue; color:white; font-family:monospace; font-size:1.1rem; text-align:center; padding:5px; clear:both; }
+fieldset.inner>div.output div.project div.item>div.name { padding:0 16px; }
+
 fieldset.inner>div.output div.content { color:white; font-size:1.1rem; font-family:monospace; position:relative; }
 fieldset.inner>div.output div.content tr.select { background-color:#0000ff6b; }
 fieldset.inner>div.output div.content tr.select td.line { background-color:blue; border:solid 1px red; border-right:solid 2px red; }
@@ -22,17 +22,18 @@ fieldset.inner>div.output div.content td.text span.function { color:cyan; font-w
 fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content legend { margin-right:4px; float:left; }
-fieldset.inner>div.output div.profile>div.output>fieldset>legend { padding:0.1rem; float:left; }
-fieldset.inner>div.output div.display { border:solid 1px greenyellow; }
+/* fieldset.inner>div.output div.profile>div.output>fieldset>legend { padding:0.1rem; float:left; } */
+/* fieldset.inner>div.output div.display { border:solid 1px greenyellow; } */
 
 fieldset.inner div.output fieldset.toolkit { position:absolute; bottom:0px; right:0px; }
-fieldset.inner>div.output fieldset.toolkit>div.output>fieldset { display:none; }
+fieldset.inner>div.output fieldset.toolkit>div.output>fieldset { display:none; background-color:#0e3369b3; }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select { display:block; }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset>legend { float:left; }
 fieldset.inner>div.output fieldset.toolkit>div.status>legend { background:#0d969f8a; padding:4px 4px; border-left:solid 2px red; float:right; }
 fieldset.inner>div.output fieldset.toolkit>div.status>legend.select { background:green; }
 fieldset.inner>div.output fieldset.toolkit>div.status>legend:hover { background:green; }
-fieldset.inner>div.status legend { background:#0d969f8a; font-size:1.1rem; padding:0px 10px; border-left:solid 2px red; cursor:pointer; float:right; }
+fieldset.inner>div.status legend { background:#0d969f8a; font-size:1.1rem; padding:0px 10px; border-left:solid 2px red; height:30px; cursor:pointer; float:right; }
+fieldset.inner>div.status { height:31px; overflow:auto; }
 fieldset.inner>div.status legend.select { background:green; }
 fieldset.inner>div.status legend:hover { background:green; }
 
@@ -56,7 +57,7 @@ body.mobile fieldset.inner.float legend { height:38px; }
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.plugin.inner div.action { display:none; }
 body.mobile.landscape fieldset.plugin.inner div.action { display:contents; }
-body.mobile.landscape fieldset.plugin.inner form.option input[type=button] { display:none; }
+/* body.mobile.landscape fieldset.plugin.inner form.option input[type=button] { display:none; } */
 
 .unselectable {
 	-webkit-touch-callout:none;
@@ -117,3 +118,4 @@ body.mobile.simple fieldset.inner>div.output div.toggle { display:block; }
 body.mobile.simple fieldset.inner>div.output div.toggle { background-color:lightblue; width:30px; }
 body.mobile.simple fieldset.inner>div.output div.toggle.display { background-color:lightblue; margin-top:-33px; height:30px; width:100px; }
 
+fieldset.story.inner>div.action { display:none; }
