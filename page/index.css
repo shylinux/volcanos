@@ -76,7 +76,8 @@ fieldset.input.key { overflow:auto; }
 fieldset.input.key div.action { display:none; }
 fieldset.input.key.simple div.status { display:none; }
 fieldset.input.key.simple th { display:none; }
-fieldset.input.key.simple td { min-width:40px; text-align:center; }
+/* fieldset.input.key.simple td { min-width:40px; text-align:center; } */
+fieldset.input.key.simple td { min-width:40px; }
 fieldset.input.date div.action div.space { width:0; clear:both; }
 fieldset.input.date div.output td.prev { color:gray; }
 fieldset.input.date div.output td.next { color:gray; }
@@ -118,7 +119,7 @@ legend { font-size:1.2rem; height:31px; }
 select { font-size:1.1rem; height:31px; }
 input { font-size:1.1rem; height:27px; }
 input[type=button] { height:31px; }
-table.content th, table.content td, div.item, div.tabs, div.code, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
+table.content th, table.content td, div.item, div.code, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
 div.status>div.item>label { font-size:0.6rem; font-family:monospace; }
 div.status>div.item { padding:4px; height:22px; }
 svg { font-family:monospace; }
@@ -176,7 +177,7 @@ body.simple fieldset.River>div.output div.list div.item { background-color:white
 body.simple fieldset.River>div.output div.list div.item.select { background-color:#0152d9; color:white; }
 body.simple fieldset.River>div.output div.list div.item:hover { background-color:#0152d9; color:white; }
 
-body.simple fieldset.Action>div.action { background:white; padding:10px; border-bottom: solid 1px red; height:38px; width:600px; }
+body.simple fieldset.Action>div.action { background-color:white; padding:10px; border-bottom: solid 1px red; height:38px; width:600px; }
 body.simple fieldset.Action>div.action div.tabs { padding:10px; margin:10px; }
 body.simple fieldset.Action.tabs>div.output { margin-top:58px; }
 body.simple fieldset.Action>div.output>fieldset.plugin.inner { box-shadow:none; }
@@ -195,7 +196,7 @@ body.white.simple div.output.card input[type=button]:hover { box-shadow:2px 2px 
 body.white.simple div.output.card input[type=button] { box-shadow:2px 2px 6px 1px gray; color:white; }
 body.white.simple div.output.card input[type=button] { background-color:#0152d9; font-size:0.8rem; padding:5px 10px; border:none; border-radius:5px; }
 body.white.simple>div.carte { background-color:white; border:solid 1px #e7e7e7; }
-body.white.simple>div.carte div.item { font-size:1rem; }
+body.white.simple>div.carte div.item { font-size:1rem; color:black; }
 body.white.simple>div.carte div.item:hover { background-color:#0152d9; }
 body.white.simple input[type=button] { background-color:#0152d9; border:none; border-radius:5px; box-shadow:2px 2px 6px 1px gray; }
 
@@ -297,5 +298,9 @@ body.white fieldset.panel.Search a { color:yellow; }
 body.black a { color:yellow; }
 div.action>div.item { float:left; clear:none; }
 
-div.output td.project div.project div.zone>div.action>div.item { float:right; clear:none; padding:0; margin:0; }
-div.output td.project div.project div.zone>div.action>div.item input[type=text] { background-color:#ff000000; padding-left:10px; color:white; border:none; }
+div.project div.zone>div.name { background-color:cornflowerblue; color:white; font-family:monospace; font-size:1.1rem; text-align:center; padding:5px; clear:both; }
+div.project div.item>div.name { padding:0 16px; }
+div.project div.zone>div.action>div.item { float:right; clear:none; padding:0; margin:0; }
+div.project div.zone>div.action>div.item input[type=text] { background-color:#ff000000; padding-left:10px; color:white; border:none; }
+body.white.simple fieldset.plugin div.output.json div.item span { color:black; }
+body.white.simple fieldset.plugin div.output.json div.item span.key { color:blue; }

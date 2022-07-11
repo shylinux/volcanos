@@ -196,7 +196,8 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				can.core.ItemCB(item, function(key, cb) { input._target[key] = function(event) { cb(event, input) } })
 				skip? next(): can.core.CallFunc([input.onaction, chat._INIT], [input, item, next, input._target]);
 				(item.action||can.core.Value(meta, [ctx.FEATURE, ctx.INPUTS])) && can.onappend.figure(input, item, input._target, function(sub, value) {
-					input._target.value = value, can.Update()
+					input._target.value = value, can.onmotion.focus(can, input._target)
+					can.onmotion.delay(can, function() { can.Update() })
 				})
 			})
 		}; can.core.Next(can.base.getValid(can.core.Value(can, [chat.ONIMPORT, mdb.LIST]), can.base.Obj(meta.inputs)).concat([{type: html.BUTTON, name: cli.CLOSE}]), add)
@@ -423,14 +424,13 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 	figure: function(can, meta, target, cbs) { if ([html.BUTTON, html.SELECT].indexOf(meta.type) > -1) { return }
 		var input = meta.action||mdb.KEY; input != ice.AUTO && can.require(["/plugin/input/"+input+".js"], function(can) {
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]; target[key] = function(event) { on(event, can, meta, function(cb) {
-				function _cbs(sub, value, old) { can.onmotion.hidden(can, sub._target), can.base.isFunc(cbs)? cbs(sub, value, old): target.value = value||"" }
+				function _cbs(sub, value, old) { can.onmotion.hidden(can, sub._target), can.base.isFunc(cbs)? cbs(sub, value, old): target.value = value||"", can.onmotion.delay(can, function() { can.onmotion.focus(can, target) }) }
 				if (target._can) { return can.onmotion.toggle(can,  target._can._target), can.base.isFunc(cb) && cb(target._can, _cbs) }
 				can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT, mode: meta.mode}, ["/plugin/input/"+input+".js"], function(sub) { sub.Conf(meta)
 					sub.run = function(event, cmds, cb) { (meta.run||can.run)(sub.request(event, can.Option()), cmds, cb, true) }
-					var layout = target.getBoundingClientRect(); can.page.style(can, sub._target, {left: layout.left, top: layout.bottom}), can.page.style(sub, sub._target, meta.style)
+					can.onlayout.figure({target: target}, can, sub._target), can.page.style(sub, sub._target, meta.style)
 					target._can = sub, sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }
-					can.base.isFunc(cb) && cb(sub, _cbs)
-					can.base.isFunc(meta._init) && meta._init(sub, sub._target)
+					can.base.isFunc(cb) && cb(sub, _cbs), can.base.isFunc(meta._init) && meta._init(sub, sub._target)
 				}, can._root._target)
 			}, target, last) } })
 		})
@@ -478,18 +478,15 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 	background: function(can, url, target) {
 		can.page.style(can, target||can._root._target, html.BACKGROUND, url == "" || url == "void"? "": 'url("'+url+'")')
 	},
-
-	figure: function(event, can, target, right) {
-		if (!event || !event.target) { return {} }
-		var rect = event.target.getBoundingClientRect()
-		target = target||can._fields||can._target
+	figure: function(event, can, target, right) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
+		var rect = event.target == document.body? {left: window.innerWidth/2, top: 200, right: window.innerWidth/2, bottom: 200}: event.target.getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.getActionSize(function(left, top, width, height) {
-			if (layout.top+target.offsetHeight > top+height-31) {
-				layout.bottom = 31, layout.top = ""
+			if (layout.top+target.offsetHeight > top+height-html.ACTION_HEIGHT) {
+				layout.top = "", layout.bottom = right? html.ACTION_HEIGHT: top+height+html.ACTION_HEIGHT-rect.top
 			}
 			if (layout.left+target.offsetWidth > left+width) {
-				layout.right = 0, layout.left = ""
+				layout.left = "", layout.right = 0
 			}
 		})
 		return can.onmotion.move(can, target, layout), layout
@@ -727,7 +724,8 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 			can.Update(event)
 		} })
 	},
-	selectInputTable: function(event, can, cb, target) { if (target.value == "") { return cb() }
+	selectInputTable: function(event, can, cb, target) {
+		// if (target.value == "") { return cb() }
 		switch (event.key) {
 			case lang.SHIFT:
 			case lang.CONTROL:
@@ -735,6 +733,9 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 		}
 
 		if (event.ctrlKey) {
+			if (target._index == undefined) {
+				target._index = -1, target._value = target.value
+			}
 			function select(order) { if (order == -1) { target.value = target._value }
 				var index = 0; return can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr) {
 					if (can.page.ClassList.has(can, tr, html.HIDDEN)) { return }

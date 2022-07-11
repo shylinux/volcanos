@@ -89,4 +89,39 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			})
 		}); return node
 	},
+	tabs: function(can, list, cb, cbs, action, each) { action = action||can._action
+		return can.page.Append(can, action, can.core.List(list, function(meta) {
+			return {text: [meta.name, html.DIV, html.TABS], title: meta.text, onclick: function(event) {
+				can.onmotion.select(can, action, html.DIV_TABS, event.target)
+				can.base.isFunc(cb) && cb(event, meta)
+			}, _init: function(item) { const OVER = "over"
+				function close(item) { var next = item.nextSibling||item.previousSibling
+					item._close(item) || can.page.Remove(can, item), next && next.click()
+				}
+				can.page.Modify(can, item, {draggable: true, _close: cbs,
+					onmouseenter: function(event) {
+						can.user.carte(event, can, kit.Dict(
+							"close tab", function(event) { close(item) },
+							"close other", function(event) {
+								can.page.Select(can, action, html.DIV_TABS, function(_item) { _item == item || close(_item) })
+							},
+							"close all", function(event) { can.page.Select(can, action, html.DIV_TABS, close) }
+						), ["close tab", "close other", "close all"])
+					},
+					ondragstart: function(event) { var target = event.target; target.click()
+						action._drop = function(event, before) { action.insertBefore(target, before) }
+					},
+					ondragover: function(event) { event.preventDefault(), action._drop(event, event.target) },
+					ondrop: function(event) { event.preventDefault(), action._drop(event, event.target) },
+				}), can.core.Timer(10, function() { item.click() })
+				can.base.isFunc(each) && each(item)
+			}}
+		})).first
+	},
+	plugin: function(can, meta, target, cb) { meta.type = "plug"
+		can.onappend.plugin(can, meta, function(sub) {
+			sub.run = function(event, cmds, cb) { can.runActionCommand(can.request(event, can.Option()), meta.index, cmds, cb) }
+			can.base.isFunc(cb) && cb(sub)
+		}, target)
+	},
 })

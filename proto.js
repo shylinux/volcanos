@@ -70,7 +70,7 @@ var cli = {
 	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done",
 	CODE: "code", COST: "cost", BACK: "back", FROM: "from",
 	ERROR: "error", CLEAR: "clear", REFRESH: "refresh",
-	SHOW: "show",
+	SHOW: "show", FULL: "full",
 }
 var nfs = {
 	ZML: "zml", IML: "iml", TXT: "txt",
