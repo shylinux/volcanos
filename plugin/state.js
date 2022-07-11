@@ -93,13 +93,15 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 
 	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
 	"切换全屏": function(event, can) { var sub = can._outputs[can._outputs.length-1]
-		if (can.page.ClassList.neg(can, can._target, "full")) { sub._height_bak = sub.ConfHeight(), sub._width_bak = sub.ConfWidth()
-			can._mode = can.Mode(), can.Mode("full"), sub.Mode("full")
+		if (can.page.ClassList.neg(can, can._target, "full")) {
 			var height = can._root._height-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT; can.user.isMobile && (height -= 2*html.ACTION_HEIGHT)
+			can._mode = can.Mode(), can._height_bak = sub.ConfHeight(), can._width_bak = sub.ConfWidth()
+			can.Mode("full"), can.ConfHeight(height), can.ConfWidth(can._root._width)
+			sub.Mode("full")
 			can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight(height), html.MIN_WIDTH, sub.ConfWidth(can._root._width))
 		} else {
-			can.Mode(can._mode), sub.Mode(can._mode)
-			sub.ConfHeight(sub._height_bak), sub.ConfWidth(sub._width_bak)
+			can.Mode(can._mode), can.ConfHeight(can._height_bak), can.ConfWidth(can._width_bak)
+			sub.Mode(can._mode), sub.ConfHeight(can._height_bak), sub.ConfWidth(can._width_bak)
 			can.page.style(can, can._output, html.HEIGHT, "", html.MIN_WIDTH, "")
 		}
 		can.core.CallFunc([sub, chat.ONIMPORT, html.LAYOUT], {can: sub})

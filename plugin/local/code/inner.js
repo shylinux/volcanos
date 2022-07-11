@@ -177,7 +177,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	profile: function(can, msg) {
 		var width = can.profile_size[can.onexport.keys(can)]||(can.ConfWidth()-can.ui.project.offsetWidth)/2
-		msg && can.onimport.process(can, msg, can.ui.profile_output, width-32)
+		msg && can.onimport.process(can, msg, can.ui.profile_output, width)
 		can.onmotion.toggle(can, can.ui.profile, true), can.onimport.layout(can)
 	},
 	display: function(can, msg) {
@@ -198,16 +198,19 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target)
 		}
 	},
-	toolkit: function(can, meta, cb) {
+	toolkit: function(can, meta, cb) { meta.msg = true
 		meta.opts = meta.opts||{repos: can.base.trimSuffix(can.base.trimPrefix(can.Option(nfs.PATH), "usr/"), ice.PS) }
 		can.onimport.plugin(can, meta, can.ui.toolkit.output, function(sub) {
 			sub.ConfHeight(can.ConfHeight()-4*html.ACTION_HEIGHT), sub.ConfWidth(can.ConfWidth())
 			sub.page.style(sub, sub._output, html.MAX_HEIGHT, sub.ConfHeight())
 			sub.page.style(sub, sub._output, html.MAX_WIDTH, sub.ConfWidth())
-			sub.select = function() { return sub._legend.click(), sub }
+			sub.select = function() {
+				return sub._legend.click(), sub
+			}
 			sub.onaction.close = function() { sub.select() }
 
 			can._status.appendChild(sub._legend), sub._legend.onclick = function(event) {
+				if (meta.msg == true) { meta.msg = false, sub.Update() }
 				if (can.page.Select(can, can._status, ice.PT+html.SELECT)[0] == event.target) {
 					can.page.ClassList.del(can, event.target, html.SELECT)
 					can.page.ClassList.del(can, sub._target, html.SELECT)
@@ -256,8 +259,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.core.Next(sess.plug, function(item, next) { can.onimport.toolkit(can, {index: item}, function(sub) { can.toolkit[item] = sub, next() }) }, function() {
 			can.core.Next(sess.exts, function(item, next) { can.onimport.exts(can, item, next) }, function() {
 				var path = can.Option(nfs.PATH), file = can.Option(nfs.FILE), line = can.Option(nfs.LINE)
-				can.core.Next(sess.tabs, function(item, next) { var ls = item.split(ice.DF); can.onimport.tabview(can, ls[0], ls[1], ls[2], next) },
-					function() { can.onimport.tabview(can, path, file, line, cb) })
+				can.base.getValid(sess.tabs)? can.core.Next(sess.tabs, function(item, next) { var ls = item.split(ice.DF); can.onimport.tabview(can, ls[0], ls[1], ls[2], next) },
+					function() { can.onimport.tabview(can, path, file, line, cb) }): can.base.isFunc(cb) && cb()
 			})
 		})
 	},
