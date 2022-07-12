@@ -4,6 +4,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.tabview = can.tabview||{}, can.history = can.history||[], can.toolkit = {}, can.extentions = {}
 		can.profile_size = {}, can.display_size = {}
 
+		can.onengine.plugin(can, can.onplugin)
 		can.onmotion.clear(can), can.onlayout.profile(can)
 		can.page.styleWidth(can, can.ui.project, 180)
 		can.onimport._project(can, can.ui.project)
@@ -17,9 +18,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			case "cmd": can.onimport._tabs(can) // no break
 			case "full": // no break
 			default: if (can.ConfHeight() < 320) { can.ConfHeight(320) }
-				can.onimport.project(can, paths), can.onengine.plugin(can, can.onplugin)
-				can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
-
+				can.onimport.project(can, paths), can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
 				can.onimport._toolkit(can, can.ui.toolkit), can.onimport._session(can, msg, function() {
 					files.length > 1 && can.onmotion.delay(can, function() { can.core.Next(files.slice(1), function(file, next) {
 						can.onimport.tabview(can, can.Option(nfs.PATH), file, can.Option(nfs.LINE), next)
@@ -73,7 +72,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	_keydown: function(can) { can.onkeymap._build(can)
 		can.isCmdMode() && can.onengine.listen(can, chat.ONKEYDOWN, function(event) {
-			can._key_list = can.onkeymap._parse(event, can, "plugin", can._key_list, can.ui.content)
+			can._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can._key_list, can.ui.content)
 		})
 	},
 	_session: function(can, msg) {
@@ -132,14 +131,21 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	project: function(can, path) {
 		can.onimport.zone(can, [
 			{name: "source", _init: function(view) { var total = 0
-				var ui = can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(view) {
+				function show(view) {
 					can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
 						can.core.List(list, function(item) { if (can.Option(nfs.FILE).indexOf(item.path) == 0) { item.expand = true } })
 						can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) {
 							can.onimport.tabview(can, path, item.path) // 显示文件
 						}, view), can.Status("文件数", total += msg.Length())
 					}, true)
-				}} }), view); can.onmotion.delay(can, function() { view.previousSibling.innerHTML = "" })
+				}
+				if (path.length == 1) {
+					show(view)
+				} else {
+					var ui = can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(view) {
+						show(view)
+					}} }), view); can.onmotion.delay(can, function() { view.previousSibling.innerHTML = "" })
+				}
 			}},
 			{name: "module", _init: function(view) {
 				can.runAction(can.request({}, {fields: ctx.INDEX}), ctx.COMMAND, [mdb.SEARCH, ctx.COMMAND], function(msg) {
@@ -149,11 +155,16 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				})
 			}},
 			{name: "plugin", _init: function(view) {
-				can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return {index: key} }), ctx.INDEX, ice.PT, function(event, item) {
-					can.onimport.tabview(can, can.Option(nfs.PATH), item.index, ctx.INDEX) // 显示插件
+				can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return {index: can.base.trimPrefix(key, "can.")} }), ctx.INDEX, ice.PT, function(event, item) {
+					can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys("can", item.index), ctx.INDEX) // 显示插件
 				}, view)
 			}},
 		], can.ui.project)
+	},
+	history: function(can, push) {
+		can.base.Eq(push, can.history[can.history.length-1]) || can.history.push(push)
+		can.Status("跳转数", can.history.length)
+		return push
 	},
 	tabview: function(can, path, file, line, cb, skip, skip2) { var key = can.onexport.keys(can, file, path)
 		if (can.isCmdMode()) { location.hash = file+ice.FS+(line||1) }
@@ -163,8 +174,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			return can._msg.Option(can.Option()), can.onsyntax._init(can, can._msg, cb, skip2)
 		}
 
+		can.onimport.history(can, {path: path, file: file, line: line})
 		function show(msg) { var skip2 = skip; can.tabview[key] = msg
 			msg._tab = can.onimport.tabs(can, [{name: file.split(msg.Option(nfs.LINE) == ctx.INDEX? ice.PT: ice.PS).pop(), text: file}], function(event, meta) {
+				msg._tab = event.target
 				can.onimport.tabview(can, path, file, msg.Option(nfs.LINE), cb, false, skip2), cb = null, skip2 = false
 			}, function(item) { delete(can.tabview[key]) }, can.ui._tabs, function(item) {})
 		}
@@ -237,7 +250,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 }, [""])
 Volcanos(chat.ONPLUGIN, {help: "注册插件", 
-	"code.inner.keymap": shy("按键", {}, ["mode", "key", ice.LIST, ice.BACK], function(msg, cmds) {
+	"local": shy("按键", {}, ["mode", "key", ice.LIST, ice.BACK], function(msg, cmds) {
+	}),
+	"code.inner.keymap": shy("按键", {}, ["mode", "key", ice.LIST, ice.BACK], function(can, msg, cmds) {
 		can.core.Item(can.onkeymap._mode, function(mode, value) {
 			(!cmds[0] || cmds[0] == mode) && can.core.Item(value, function(key, func) {
 				if (cmds[0] == mode && cmds[1] == key) {
@@ -286,6 +301,9 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line
 			can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(can.ui.content.offsetHeight-2*html.ACTION_HEIGHT))
 			can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth(can.ui.content.offsetWidth))
 			can.onmotion.delay(can, function() { sub.Focus() }), can.base.isFunc(cb) && cb()
+			sub.onaction.close = function() {
+				can.onaction.back({}, can), msg._tab._close()
+			}
 		}) }
 
 		function init(p) {
@@ -484,11 +502,9 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["搜索", "打开", "添�
 				}
 			}
 
-			var push = {path: can.Option(nfs.PATH), file: can.Option(nfs.FILE), line: can.Option(nfs.LINE), text: can.current.text()}
-			can.base.Eq({path: push.path, file: push.file, line: push.line}, can.history[can.history.length-1]) || can.history.push(push)
-			can.Status("跳转数", can.history.length)
-			can.onaction._selectLine(event, can)
+			var push = can.onimport.history(can, {path: can.Option(nfs.PATH), file: can.Option(nfs.FILE), line: can.Option(nfs.LINE), text: can.current.text()})
 			if (can.isCmdMode()) { location.hash = push.file+","+(push.line||1) }
+			can.onaction._selectLine(event, can)
 		})
 	},
 	_selectLine: function(event, can) { },

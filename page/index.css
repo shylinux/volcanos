@@ -93,7 +93,8 @@ body>div.toast div.progress div.current { background-color:red; height:10px; }
 body>div.toast div.action { display:block; }
 
 body>div.carte { padding:0; }
-body>div.carte div.item { padding:3px 12px; }
+body>div.carte div.item { background-color:#0e3369b3; padding:3px 12px; }
+body>div.carte div.item:hover { background-color:cornflowerblue; }
 body>div.input div.item { float:left; }
 body>div.input div.content { overflow:auto; }
 body>div.input td { padding:5px; }
@@ -196,6 +197,7 @@ body.white.simple div.output.card input[type=button]:hover { box-shadow:2px 2px 
 body.white.simple div.output.card input[type=button] { box-shadow:2px 2px 6px 1px gray; color:white; }
 body.white.simple div.output.card input[type=button] { background-color:#0152d9; font-size:0.8rem; padding:5px 10px; border:none; border-radius:5px; }
 body.white.simple>div.carte { background-color:white; border:solid 1px #e7e7e7; }
+body.white.simple>div.carte div.item { background-color:white; }
 body.white.simple>div.carte div.item { font-size:1rem; color:black; }
 body.white.simple>div.carte div.item:hover { background-color:#0152d9; }
 body.white.simple input[type=button] { background-color:#0152d9; border:none; border-radius:5px; box-shadow:2px 2px 6px 1px gray; }

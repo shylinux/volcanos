@@ -53,7 +53,6 @@ body.white.simple fieldset.inner>div.output div.content td.text span.string { co
 body.white.simple fieldset.inner>div.output div.content td.text span.function { color:#795e26; }
 body.white.simple fieldset.inner>div.output div.content td.text span.keyword { color:blue; }
 
-body.mobile fieldset.inner.float legend { height:38px; }
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.plugin.inner div.action { display:none; }
 body.mobile.landscape fieldset.plugin.inner div.action { display:contents; }

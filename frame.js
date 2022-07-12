@@ -91,7 +91,8 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 
 	plugin: shy("添加插件", function(can, name, command) {
 		if (can.base.isObject(name)) {
-			return can.core.Item(name, function(key, value) { name.hasOwnProperty(key) && can.onengine.plugin(can, key, value) })
+			return can.core.Item(name, function(key, value) {
+				name.hasOwnProperty(key) && can.base.isFunc(value) && can.onengine.plugin(can, key, value) })
 		}
 		name = can.base.trimPrefix(name, "can.")
 		var type = html.TEXT; command.list = can.core.List(command.list, function(item) {
@@ -540,6 +541,12 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 		window.addEventListener(html.ORIENTATIONCHANGE, function(event) { can.onengine.signal(can, html.ORIENTATIONCHANGE) })
 		can.onmotion.float.auto(can, target)
+		target.onclick = function(event) {
+			if (can.page.tagis(["input", "select", "textarea"], event.target)) { return }
+			can.page.Select(can, target, can.page.Keys("div.float", "fieldset.float"), function(item) {
+				can.page.Remove(can, item)
+			})
+		}
 	},
 	float: {_hash: {},
 		del: function(can, key) {

@@ -61,7 +61,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 							can.onmotion.toggle(can, item, name.innerText.indexOf(event.target.value) > -1)
 						})
 					})
-				}, _init: function(item) {
+				}, onclick: function(event) {
+					can.onmotion.focus(can, event.target)
+				},_init: function(item) {
 					can.onmotion.delay(can, function() {
 						can.page.styleWidth(can, item, item.parentNode.parentNode.parentNode.offsetWidth-32)
 					})
@@ -96,9 +98,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				can.base.isFunc(cb) && cb(event, meta)
 			}, _init: function(item) { const OVER = "over"
 				function close(item) { var next = item.nextSibling||item.previousSibling
-					item._close(item) || can.page.Remove(can, item), next && next.click()
+					can.base.isFunc(cbs) && cbs(item._meta) || can.page.Remove(can, item), next && next.click()
 				}
-				can.page.Modify(can, item, {draggable: true, _close: cbs,
+				can.page.Modify(can, item, {draggable: true, _close: function() { close(item) }, _meta: meta,
 					onmouseenter: function(event) {
 						can.user.carte(event, can, kit.Dict(
 							"close tab", function(event) { close(item) },
