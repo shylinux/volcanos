@@ -86,7 +86,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}]) }), can.onimport._display(can, task)
 	},
 	_display: function(can, task) { if (!task["extra.cmd"]) { return }
-		can.onappend.plugin(can, {type: chat.STORY, ctx: task["extra.ctx"], cmd: task["extra.cmd"], arg: task["extra.arg"]}, function(sub, meta) {
+		can.onappend.plugin(can, {type: "plug", ctx: task["extra.ctx"], cmd: task["extra.cmd"], arg: task["extra.arg"]}, function(sub, meta) {
 			sub.run = function(event, cmds, cb) { var msg = can.request(event, kit.Dict("task.pod", task["pod"], "task.zone", task.zone, "task.id", task.id))
 				can.runAction(event, ice.RUN, [task[mdb.ZONE], task[mdb.ID]].concat(cmds), cb)
 			}

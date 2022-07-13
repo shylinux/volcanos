@@ -1,7 +1,11 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can._action)
-		var cbs = can.onimport[can._args[ctx.STYLE]]; if (can.base.isFunc(cbs)) {
+		var cbs = can.onimport[can.Conf(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.page.ClassList.add(can, target, can._args[ctx.STYLE])
+			can.core.CallFunc(cbs, {
+				can: can, msg: msg, target: target,
+				list: msg.Table(),
+			})
 			return cbs(can, msg, target)
 		}
 
@@ -38,39 +42,44 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}]); return ui.first
 	},
 
-	zone: function(can, list, target) { var color = ["blue", "red", "cyan"]
-		return can.page.Append(can, target, can.core.List(list, function(zone, index) { return {view: "zone", list: [
-			{view: "name", inner: zone.name, style: {background: color[index%color.length]}, onclick: function() {
-				can.onmotion.toggle(can, event.target.nextSibling.nextSibling)
-				can.onmotion.toggle(can, event.target.nextSibling)
+	zone: function(can, list, target) { var color = ["blue", "red", "green"]
+		return can.page.Append(can, target, can.core.List(list, function(zone, index) { return {view: html.ZONE, list: [
+			{view: html.NAME, inner: zone.name, style: {background: color[index%color.length]}, onclick: function() {
+				can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._target)
 			}, onmouseenter: function(event) {
-				can.user.carteRight(event, can, {
+				zone._menu? can.user.carteRight(event, can, zone._menu.meta, zone._menu.list, function(event, button, meta) {
+					meta[button](event, zone)
+				}): can.user.carteRight(event, can, {
 					"折叠": function() {
-						can.page.Select(can, event.target.nextSibling.nextSibling, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, false) })
+						can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, false) })
 					},
 					"展开": function() {
-						can.page.Select(can, event.target.nextSibling.nextSibling, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) })
+						can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) })
 					},
-				}, ["折叠", "展开"])
-			}, _init: function(item) { if (list.length > 1 && index > 0) { can.onmotion.delay(can, function() { item.click() }) } }},
-			{view: "action", _init: function(item) {
-				can.onappend._action(can, [{input: "type", onkeyup: function(event) {
-					can.page.Select(can, item.nextSibling, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) })
-					can.page.Select(can, item.nextSibling, html.DIV_ITEM, function(item) {
+					"刷新": function() { can.onmotion.clear(can, zone._target), zone._init(zone._target) },
+				}, ["折叠", "展开", "刷新"])
+			}},
+			{view: html.ACTION, _init: function(target) { zone._action = target
+				can.onappend._action(can, [{input: html.TEXT, onkeyup: function(event) {
+					can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) })
+					can.page.Select(can, zone._target, html.DIV_ITEM, function(item) {
 						can.page.Select(can, item, "div.name", function(name) {
 							can.onmotion.toggle(can, item, name.innerText.indexOf(event.target.value) > -1)
 						})
 					})
 				}, onclick: function(event) {
 					can.onmotion.focus(can, event.target)
-				},_init: function(item) {
+				}, _init: function(target) {
 					can.onmotion.delay(can, function() {
-						can.page.styleWidth(can, item, item.parentNode.parentNode.parentNode.offsetWidth-32)
+						can.page.styleWidth(can, target, target.parentNode.parentNode.parentNode.offsetWidth-32)
 					})
-				}}], item, {})
+				}}], target, {})
 			}},
-			{view: "list", _init: function(item) {
-				can.base.isFunc(zone._init) && zone._init(item)
+			{view: html.ZONE, _init: function(target) { can.ui[zone.name] = zone
+				zone._target = target, zone.refresh = function() {
+					can.onmotion.clear(can, target), zone._init(target) 
+				}
+				can.base.isFunc(zone._init) && zone._init(target)
 			}}
 		]} }))
 	},

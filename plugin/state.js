@@ -1,7 +1,7 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, target) {},
 	_process: function(can, msg) {
 		msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, can.base.Obj(msg.OptionStatus()))
-		return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, msg: msg})
+		return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, sub: can, msg: msg})
 	},
 
 	_location: function(can, msg, _arg) { can.user.jumps(_arg); return true },
@@ -111,7 +111,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 			mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input([], true)),
 		])
 	},
-	"打开链接": function(event, can) { var meta = can.Conf(), args = can.Option()
+	"打开链接": function(event, can) { var meta = can.Conf(), args = can.Option(); args.river = "", args.storm = ""
 		args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == "web.wiki.word" && (args.cmd = args.path)
 		can.user.isWeiXin? can.user.jumps(can.misc.MergeURL(can, args)): can.user.open(can.misc.MergeURL(can, args))
 	},

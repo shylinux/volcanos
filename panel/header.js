@@ -115,7 +115,7 @@ Volcanos(chat.ONPLUGIN, {help: "注册插件",
 		})
 	}),
 	"alert": shy("提示", {}, ["text", "list", "back"], function(can, msg, cmds) {
-		can.user.alert(cmds[0])
+		cmds && cmds[0] && can.user.alert(cmds[0])
 	}),
 	"info": shy("信息", {}, ["text", "list", "back"], function(can, msg, cmds) {
 		msg.Echo("hello world")

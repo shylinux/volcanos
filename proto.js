@@ -240,16 +240,20 @@ var html = {
 	TOGGLE: "toggle",
 
 	PAGE: "page", TABS: "tabs",
-	LIST: "list", ITEM: "item",
 	MENU: "menu", NODE: "node",
+	ZONE: "zone", NAME: "name",
+	LIST: "list", ITEM: "item",
+
 	HIDE: "hide", SHOW: "show", AUTO: "auto",
 	HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot",
 	PLUGIN: "plugin", LAYOUT: "layout", CONTENT: "content",
 
 	DIV_PAGE: "div.page",
 	DIV_TABS: "div.tabs",
+	DIV_ZONE: "div.zone",
 	DIV_LIST: "div.list",
 	DIV_ITEM: "div.item",
+	DIV_NAME: "div.name",
 	DIV_CODE: "div.code",
 	DIV_LAYOUT_HEAD: "div.layout.head",
 	DIV_LAYOUT_LEFT: "div.layout.left",

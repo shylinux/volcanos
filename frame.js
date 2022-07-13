@@ -331,7 +331,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 					can.onkeymap.input(event, can), can.onmotion.selectField(event, can)
 					break
 				case html.TEXTAREA:
-					switch (event.key) { case lang.TAB: can.onkeymap.insertText(event.target, ice.TB); can.onkeymap.prevent(event); break }
+					// switch (event.key) { case lang.TAB: can.onkeymap.insertText(event.target, ice.TB); can.onkeymap.prevent(event); break }
 					break
 			}
 
@@ -541,12 +541,6 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 		window.addEventListener(html.ORIENTATIONCHANGE, function(event) { can.onengine.signal(can, html.ORIENTATIONCHANGE) })
 		can.onmotion.float.auto(can, target)
-		target.onclick = function(event) {
-			if (can.page.tagis(["input", "select", "textarea"], event.target)) { return }
-			can.page.Select(can, target, can.page.Keys("div.float", "fieldset.float"), function(item) {
-				can.page.Remove(can, item)
-			})
-		}
 	},
 	float: {_hash: {},
 		del: function(can, key) {
@@ -604,7 +598,7 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 			if (pos) { item.scrollTo && item.scrollTo(0, pos-1); return item }
 		}).length > 0
 	},
-	delay: function(can, cb) { can.core.Timer(100, cb) },
+	delay: function(can, cb, interval) { can.core.Timer(interval||100, cb) },
 	focus: function(can, target) { if (!target) { return }
 		target.setSelectionRange && target.setSelectionRange(0, -1), target.focus()
 	},
@@ -792,6 +786,10 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 			if (window.webview) {
 				if (event.target.tagName == "A") { can.user.open(event.target.href) }
 			}
+			if (can.page.tagis(["input", "select", "textarea"], event.target)) { return }
+			can.page.Select(can, document.body, can.page.Keys("fieldset.input.key.float"), function(item) {
+				can.page.Remove(can, item)
+			})
 		}
 		can.onkeymap._build(can), document.body.onkeydown = function(event) {
 			if (event.metaKey) { if (window.webview) {

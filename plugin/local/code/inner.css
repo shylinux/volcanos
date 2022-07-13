@@ -16,12 +16,13 @@ fieldset.inner>div.output div.content td.text span.datatype { color:lightgreen; 
 fieldset.inner>div.output div.content td.text span.function { color:cyan; font-weight:bold; }
 fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
+fieldset.inner>div.output td.content iframe { border:0; }
 
 fieldset.inner>div.output td.content>div.tabs { display:none; }
 fieldset.inner>div.output td.content>div.path { display:none; }
-fieldset.inner div.output fieldset.toolkit { background-color:#0e3369b3; position:absolute; bottom:0px; right:0px; }
+fieldset.inner div.output fieldset.toolkit { position:absolute; bottom:0px; right:0px; }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset { display:none; }
-fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select { display:block; }
+fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select { background-color:#0e3369b3; color:white; display:block; }
 fieldset.inner>div.status legend { background-color:#0d969f8a; padding:0px 10px; border-left:solid 2px red; height:30px; float:right; }
 fieldset.inner>div.status legend.select { background-color:green; }
 fieldset.inner>div.status legend:hover { background-color:green; }
@@ -52,6 +53,8 @@ body.white.simple fieldset.inner>div.output div.content tr.select td.text { bord
 body.white.simple fieldset.inner>div.output div.content td.text span.string { color:#a31515; }
 body.white.simple fieldset.inner>div.output div.content td.text span.function { color:#795e26; }
 body.white.simple fieldset.inner>div.output div.content td.text span.keyword { color:blue; }
+
+body.white.simple>div.carte div.item:hover { background-color:#e3e6f1; }
 
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.plugin.inner div.action { display:none; }
