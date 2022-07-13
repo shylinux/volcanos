@@ -304,7 +304,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 		can.core.List(can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST])), function(item) { item = can.base.isObject(item)? item: {name: item}
 			can.page.Append(can, status, [{view: can.base.join([html.ITEM, item.name]), title: item.name, list: [
 				{text: [item.name, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value||"")+"", html.SPAN, item.name]},
-			], }])
+			], onclick: function(event) { can.user.copy(event, can, item.value) }}])
 		})
 	},
 
@@ -482,9 +482,9 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 	figure: function(event, can, target, right) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
 		var rect = event.target == document.body? {left: window.innerWidth/2, top: 200, right: window.innerWidth/2, bottom: 200}: event.target.getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
-		can.getActionSize(function(left, top, width, height) {
-			if (layout.top+target.offsetHeight > top+height) {
-				layout.top = "", layout.bottom = right? html.ACTION_HEIGHT: top+height+html.ACTION_HEIGHT-rect.top
+		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0
+			if (layout.top+target.offsetHeight > window.innerHeight) {
+				layout.top = "", layout.bottom = right? html.ACTION_HEIGHT: window.innerHeight-rect.top
 			}
 			if (layout.left+target.offsetWidth > left+width) {
 				layout.left = "", layout.right = 0
@@ -788,7 +788,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 			}
 			if (can.page.tagis(["input", "select", "textarea"], event.target)) { return }
 			can.page.Select(can, document.body, can.page.Keys("fieldset.input.key.float"), function(item) {
-				can.page.Remove(can, item)
+				// can.page.Remove(can, item)
 			})
 		}
 		can.onkeymap._build(can), document.body.onkeydown = function(event) {

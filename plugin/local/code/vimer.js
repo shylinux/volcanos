@@ -1,13 +1,11 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() { can.undo = [], can.redo = []
-			can.onimport._input(can), can.onkeymap._build(can), can.onkeymap._plugin({}, can), can.base.isFunc(cb) && cb(msg)
+			can.onimport._input(can), can.onkeymap._build(can), can.onkeymap._plugin({}, can)
+			can.onengine.plugin(can, can.onplugin)
+			can.base.isFunc(cb) && cb(msg)
 
 		}, target) }, function(can, name, sub) { name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
 			if (name == chat.ONACTION) { can._trans = can.base.Copy(can._trans||{}, sub._trans) }
-			if (name == chat.ONKEYMAP) { can.base.Copy(can.onkeymap._mode, sub._mode)
-				can.core.Item(can.onkeymap._mode.normal, function(k, v) { sub._mode.plugin[k] || (sub._mode.plugin[k] = v) })
-				can.core.Item(sub._mode.plugin, function(k, v) { can.onkeymap._mode.normal[k] || (can.onkeymap._mode.normal[k] = v) })
-			}
 		})
 	},
 	_input: function(can) {
@@ -15,7 +13,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			{view: ["current", html.INPUT], spellcheck: false, onkeydown: function(event) { if (event.metaKey) { return }
 				if (event.ctrlKey && can.onaction._complete(event, can)) { return }
 				can._keylist = can.onkeymap._parse(event, can, can.mode+(event.ctrlKey? "_ctrl": ""), can._keylist, can.ui.current)
-				can.mode == "insert" && can.core.Timer(10, function() { can.current.text(can.ui.current.value) })
+				can.mode == "insert" && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }, 10)
 				can.mode == "normal" && can.Status("按键", can._keylist.join(""))
 				can.mode == "normal" && can.onkeymap.prevent(event)
 			}, onkeyup: function(event) { can.onaction._complete(event, can)
@@ -24,6 +22,81 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 			}}, {view: ["complete"]},
 		]); can.ui.current = ui.current, can.ui.complete = ui.complete
+	},
+	project: function(can, path) {
+		can.onimport.zone(can, [
+			{name: "source", _init: function(target) { var total = 0
+				function show(path, target) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
+					can.core.List(list, function(item) {
+						item._init = function(target) {
+							target.onmouseenter = function(event) {
+								can.user.carteRight(event, can, {"删除": function() {
+									can.runAction(event, nfs.TRASH, [can.base.Path(path, item.path)], function() {
+										can.ui.source.refresh()
+									})
+								}}, ["删除"])
+							}
+						}
+						if (can.Option(nfs.FILE).indexOf(item.path) == 0) { item.expand = true }
+					})
+					can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) {
+						can.onimport.tabview(can, path, item.path) // 显示文件
+					}, target), can.Status("文件数", total += msg.Length())
+				}, true) } if (path.length == 1) { return show(path[0], target) }
+
+				can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(path, target) }} }), target)
+				can.onmotion.delay(can, function() { target.previousSibling.innerHTML = "" })
+			}},
+			{name: "plugin", _init: function(target) {
+				can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return {index: can.base.trimPrefix(key, "can.")} }), ctx.INDEX, ice.PT, function(event, item) {
+					can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys("can", item.index), ctx.INDEX) // 显示插件
+				}, target)
+			}},
+			{name: "module", _init: function(target) {
+				can.runAction(can.request({}, {fields: ctx.INDEX}), ctx.COMMAND, [mdb.SEARCH, ctx.COMMAND], function(msg) {
+					can.onimport.tree(can, msg.Table(), ctx.INDEX, ice.PT, function(event, item) {
+						can.onimport.tabview(can, can.Option(nfs.PATH), item.index, ctx.INDEX) // 显示模块
+					}, target)
+				})
+			}},
+			{name: "dreams", _init: function(target) { var call = arguments.callee
+				can.runAction({}, ice.RUN, [web.DREAM], function(msg) {
+					msg.Table(function(item) {
+						function carte(event) {
+							var list = []; switch (item.status) {
+								case "start": list = ["open", "stop"]; break
+								case "stop": list = ["start", "trash"]; break
+							}
+							can.user.carteRight(event, can, {}, list, function(event, action) {
+								can.runAction(can.request({}, item), ice.RUN, [web.DREAM, ctx.ACTION, action], function(msg) {
+									can.onmotion.clear(can, target), call(target)
+								})
+							})
+						}
+
+						var color = item.status == "start"? "": "gray"
+						can.page.Append(can, target, [{view: html.ITEM, list: [{text: [item.name, html.DIV], style: {color: color}, onmouseenter: carte}], onclick: function() {
+							can.onimport.tabview(can, can.Option(nfs.PATH), item.name, web.DREAM) // 显示空间
+						}}])
+					})
+				})
+			}, _menu: shy("", {
+				"create": function(event, zone) {
+					can.user.input(event, can, [mdb.NAME], function(list) {
+						can.runAction({}, ice.RUN, [web.DREAM, cli.START, list[0]], function(msg) {
+							can.onmotion.clear(can, zone._target), zone._init(zone._target), can.user.toastSuccess(can)
+							can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(mdb.NAME), web.DREAM) // 显示空间
+						})
+					})
+				},
+				"refresh": function(event, zone) {
+					can.onmotion.clear(can, zone._target), zone._init(zone._target)
+				},
+				"publish": function(event, zone) { button = "publish"
+					can.runAction(event, button, [], function(msg) { can.user.toastConfirm(can, msg.Result(), button) })
+				},
+			}, ["create", "refresh", "publish"], function() {})},
+		], can.ui.project)
 	},
 }, [""])
 Volcanos(chat.ONKEYMAP, {help: "键盘交互",
@@ -44,110 +117,108 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 	},
 
 	_mode: {
+		plugin: {
+			Escape: shy("切换模式", function(event, can) { can.onaction.clear(event, can) }),
+			g: shy("搜索", function(event, can) { can.onaction["搜索"](event, can) }),
+			f: shy("打开文件", function(event, can) { can.onaction["打开"](event, can) }),
+			t: shy("添加命令", function(event, can) { can.onaction["添加"](event, can) }),
+			p: shy("添加插件", function(event, can) { can.onaction["插件"](event, can) }),
+			e: shy("添加扩展", function(event, can) { can.onaction["扩展"](event, can) }),
+			r: shy("执行命令", function(event, can) { can.onaction[cli.EXEC](event, can) }),
+			v: shy("渲染界面", function(event, can) { can.onaction[cli.SHOW](event, can) }),
+
+			j: shy("向下滚动", function(event, can) { can.current.scroll(1) }),
+			k: shy("向上滚动", function(event, can) { can.current.scroll(-1) }),
+			J: shy("向下滚屏", function(event, can) { can.current.scroll(can.current.window()-3) }),
+			K: shy("向上滚屏", function(event, can) { can.current.scroll(-can.current.window()+3) }),
+
+			i: shy("插入模式", function(event, can) { can.onkeymap._insert(event, can) }),
+			n: shy("命令模式", function(event, can) { can.onkeymap._normal(event, can) }),
+			":": shy("底行模式", function(event, can) { can.onimport.toolkit(can, {index: "cli.system"}, function(sub) { can.toolkit["cli.system"] = sub.select() }) }),
+		},
 		normal_ctrl: {
-			f: function(event, can, target, count) {
+			f: shy("向下翻页", function(event, can, target, count) {
 				var line = can.onaction.selectLine(event, can)+can.current.window()-3-can.current.scroll()
 				return can.current.scroll(line), can.onaction.selectLine(event, can, line), true
-			},
-			b: function(event, can, target, count) {
+			}),
+			b: shy("向上翻页", function(event, can, target, count) {
 				var line = can.onaction.selectLine(event, can)-can.current.window()+3
 				return can.current.scroll(line), can.onaction.selectLine(event, can, line), true
-			},
+			}),
 		},
 		normal: {
-			Escape: function(event, can) { can.onkeymap._plugin(event, can) },
-			ArrowLeft: function(event, can, target) { can.onkeymap.cursorMove(can, target, -1) },
-			ArrowRight: function(event, can, target) { can.onkeymap.cursorMove(can, target, 1) },
-			ArrowDown: function(event, can) { can.onaction.selectLine(event, can, can.current.next()) },
-			ArrowUp: function(event, can) { can.onaction.selectLine(event, can, can.current.prev()) },
+			Escape: shy("切换模式", function(event, can) { can.onkeymap._plugin(event, can) }),
+			ArrowLeft: shy("光标左移", function(event, can, target) { can.onkeymap.cursorMove(can, target, -1) }),
+			ArrowRight: shy("光标右移", function(event, can, target) { can.onkeymap.cursorMove(can, target, 1) }),
+			ArrowDown: shy("光标下移", function(event, can) { can.onaction.selectLine(event, can, can.current.next()) }),
+			ArrowUp: shy("光标上移", function(event, can) { can.onaction.selectLine(event, can, can.current.prev()) }),
 
-			".": function(event, can, target) { var cb = can.redo.pop(); cb && cb() },
-			u: function(event, can, target) { var cb = can.undo.pop(); cb && cb() },
-			J: function(event, can, target) {
+			".": shy("重复操作", function(event, can, target) { var cb = can.redo.pop(); cb && cb() }),
+			u: shy("撤销操作", function(event, can, target) { var cb = can.undo.pop(); cb && cb() }),
+			J: shy("合并两行", function(event, can, target) {
 				var next = can.current.next(); if (!next) { return }
 				var line = can.current.line, text = can.current.text()
 				var rest = can.page.Select(can, next, "td.text")[0].innerText
 				can.current.text(text.trimRight()+ice.SP+rest.trimLeft()), can.onaction.deleteLine(can, next)
 				can.undo.push(function() { can.onaction.modifyLine(can, line, text), can.onaction.insertLine(can, rest, line.nextSibling) })
-			},
-			H: function(event, can, target) { can.onkeymap.cursorMove(can, target, 0, 0) },
-			h: function(event, can, target) { can.onkeymap.cursorMove(can, target, -1) },
-			l: function(event, can, target) { can.onkeymap.cursorMove(can, target, 1) },
-			L: function(event, can, target) { can.onkeymap.cursorMove(can, target, 0, -1) },
-			j: function(event, can) { can.onaction.selectLine(event, can, can.current.next()) },
-			k: function(event, can) { can.onaction.selectLine(event, can, can.current.prev()) },
+			}),
 
-			gg: function(event, can, target, count) { return can.onaction.selectLine(event, can, count), true },
-			G: function(event, can, target, count) { return can.onaction.selectLine(event, can, count = count>1? count: can.max), true },
-			zt: function(event, can, target, count) { return can.current.scroll(can.current.scroll()-(count>1? count: 3)), true },
-			zz: function(event, can, target, count) { return can.current.scroll(can.current.scroll()-(count = count>1? count: can.current.window()/2)), true },
-			zb: function(event, can, target, count) { return can.current.scroll(can.current.scroll()-can.current.window()+(count>1? count: 5)), true },
+			H: shy("跳到行首", function(event, can, target) { can.onkeymap.cursorMove(can, target, 0, 0) }),
+			h: shy("光标左移", function(event, can, target) { can.onkeymap.cursorMove(can, target, -1) }),
+			l: shy("光标右移", function(event, can, target) { can.onkeymap.cursorMove(can, target, 1) }),
+			L: shy("跳到行尾", function(event, can, target) { can.onkeymap.cursorMove(can, target, 0, -1) }),
+			j: shy("光标下移", function(event, can) { can.onaction.selectLine(event, can, can.current.next()) }),
+			k: shy("光标上移", function(event, can) { can.onaction.selectLine(event, can, can.current.prev()) }),
 
-			i: function(event, can) { can.onkeymap._insert(event, can) },
-			I: function(event, can, target) { can.onkeymap._insert(event, can), can.onkeymap.cursorMove(can, target, 0, 0) },
-			a: function(event, can, target) { can.onkeymap._insert(event, can), can.onkeymap.cursorMove(can, target, 1) },
-			A: function(event, can, target) { can.onkeymap._insert(event, can), can.onkeymap.cursorMove(can, target, 0, -1) },
-			o: function(event, can) { var text = can.current.text()
+			gg: shy("跳到某行", function(event, can, target, count) { return can.onaction.selectLine(event, can, count), true }),
+			G: shy("跳到某行", function(event, can, target, count) { return can.onaction.selectLine(event, can, count = count>1? count: can.max), true }),
+			zt: shy("将当前行拉到屏幕最上", function(event, can, target, count) { return can.current.scroll(can.current.scroll()-(count>1? count: 3)), true }),
+			zz: shy("将当前行拉到屏幕中间", function(event, can, target, count) { return can.current.scroll(can.current.scroll()-(count = count>1? count: can.current.window()/2)), true }),
+			zb: shy("将当前行拉到屏幕最下", function(event, can, target, count) { return can.current.scroll(can.current.scroll()-can.current.window()+(count>1? count: 5)), true }),
+
+			i: shy("插入模式", function(event, can) { can.onkeymap._insert(event, can) }),
+			I: shy("插入行首", function(event, can, target) { can.onkeymap._insert(event, can), can.onkeymap.cursorMove(can, target, 0, 0) }),
+			a: shy("插入模式", function(event, can, target) { can.onkeymap._insert(event, can), can.onkeymap.cursorMove(can, target, 1) }),
+			A: shy("插入行尾", function(event, can, target) { can.onkeymap._insert(event, can), can.onkeymap.cursorMove(can, target, 0, -1) }),
+			o: shy("插入下一行", function(event, can) { var text = can.current.text()
 				text = text.substr(0, text.indexOf(text.trimLeft()))+(text.endsWith("{")?"\t":"")
 				can.onkeymap._insert(event, can), can.onaction.selectLine(event, can, can.onaction.insertLine(can, text, can.current.next()))
 				can.onkeymap.cursorMove(can, can.ui.current, 1000)
-			},
-			O: function(event, can) { var text = can.current.text()
+			}),
+			O: shy("插入上一行", function(event, can) { var text = can.current.text()
 				text = text.substr(0, text.indexOf(text.trimLeft()))+(text.endsWith("}")?"\t":"")
 				can.onkeymap._insert(event, can), can.onaction.selectLine(event, can, can.onaction.insertLine(can, text, can.current.line))
 				can.onkeymap.cursorMove(can, can.ui.current, 1000)
-			},
+			}),
 
-			yy: function(event, can, target, count) { can._last_text = can.current.text() },
-			dd: function(event, can, target, count) { var text = can.current.text(), line = can.onaction._getLineno(can, can.current.line)
+			yy: shy("复制当前行", function(event, can, target, count) { can._last_text = can.current.text() }),
+			dd: shy("剪切当前行", function(event, can, target, count) { var text = can.current.text(), line = can.onaction._getLineno(can, can.current.line)
 				can._last_text = can.current.text(), can.onaction.selectLine(event, can, can.onaction.deleteLine(can, can.current.line))
 				can.undo.push(function() { can.onaction.insertLine(can, text, line), can.onaction.selectLine(event, can, line) })
 				var callee = arguments.callee
 				can.redo.push(function() { callee(event, can, target, count) })
-			},
-			p: function(event, can) {
+			}),
+			p: shy("粘贴", function(event, can) {
 				var line = can.onaction.insertLine(can, can._last_text, can.current.next())
 				can.undo.push(function() { can.onaction.deleteLine(can, line), can.onaction.selectLine(event, can, line-1) })
-			},
-			P: function(event, can) {
+			}),
+			P: shy("粘贴", function(event, can) {
 				var line = can.onaction.insertLine(can, can._last_text, can.current.line)
 				can.undo.push(function() { can.onaction.deleteLine(can, line), can.onaction.selectLine(event, can, line+1) })
-			},
+			}),
 
-			s: function(event, can) { can.onaction.save(event, can) },
-			m: function(event, can) { can.onaction.autogen(event, can, "autogen") },
-			c: function(event, can) { can.onaction.compile(event, can, "compile") },
+			s: shy("保存文件", function(event, can) { can.onaction.save(event, can) }),
+			m: shy("添加模块", function(event, can) { can.onaction.autogen(event, can, "autogen") }),
+			c: shy("编译项目", function(event, can) { can.onaction.compile(event, can, "compile") }),
 		},
 		insert: {
-			jk: function(event, can, target) { can.onkeymap._normal(event, can)
-				can.onkeymap.deleteText(target, target.selectionStart-1, 1)
-				can.current.text(can.ui.current.value)
-			},
-			Escape: function(event, can) {
-				if (event.key != "Escape") { return }
+			Escape: shy("退出编辑", function(event, can) { if (event.key != "Escape") { return }
 				can.onkeymap._normal(event, can)
-			},
-			Tab: function(event, can) {
-				if (event.key != "Tab") { return }
-				can.onkeymap.insertText(can.ui.current, "\t")
-				can.onkeymap.prevent(event)
-			},
-
-			Enter: function(event, can, target) {
-				if (event.key != "Enter") { return }
-				var rest = can.onkeymap.deleteText(target, target.selectionEnd), text = can.ui.current.value
-				var left = text.substr(0, text.indexOf(text.trimLeft()))||(text.trimRight() == ""? text: "")
-				if (text.endsWith("{")) { can.onaction.insertLine(can, left+"}", can.current.next()), left += "\t" }
-				if (text.endsWith("[")) { can.onaction.insertLine(can, left+"]", can.current.next()), left += "\t" }
-				if (text.endsWith("(")) { can.onaction.insertLine(can, left+")", can.current.next()), left += "\t" }
-				if (text.endsWith("`") && can.base.count(text, "`")%2==1) { can.onaction.insertLine(can, left+"`", can.current.next()) }
-
-				var line = can.onaction.insertLine(can, left+rest.trimLeft(), can.current.next())
-				can.current.text(text.trimRight()||text), can.onaction.selectLine(event, can, line)
-				can.onkeymap.cursorMove(can, can.ui.current, left.length, 0)
-			},
-			Backspace: function(event, can, target) {
-				if (event.key != "Backspace") { return }
+			}),
+			Tab: shy("缩进", function(event, can) { if (event.key != "Tab") { return }
+				can.onkeymap.insertText(can.ui.current, ice.TB), can.onkeymap.prevent(event)
+			}),
+			Backspace: shy("删除", function(event, can, target) { if (event.key != "Backspace") { return }
 				if (target.selectionStart > 0) { return }
 				if (!can.current.prev()) { return }
 				can.onkeymap.prevent(event)
@@ -159,33 +230,50 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 
 				can.ui.current.value = can.current.text()+rest
 				can.onkeymap.cursorMove(can, can.ui.current, 0, pos)
-			},
-			ArrowUp: function(event, can) {
-				if (event.key != "ArrowUp") { return }
+			}),
+			Enter: shy("换行", function(event, can, target) { if (event.key != "Enter") { return }
+				var rest = can.onkeymap.deleteText(target, target.selectionEnd), text = can.ui.current.value
+				var left = text.substr(0, text.indexOf(text.trimLeft()))||(text.trimRight() == ""? text: "")
+				if (text.endsWith("{")) { can.onaction.insertLine(can, left+"}", can.current.next()), left += ice.TB }
+				if (text.endsWith("[")) { can.onaction.insertLine(can, left+"]", can.current.next()), left += ice.TB }
+				if (text.endsWith("(")) { can.onaction.insertLine(can, left+")", can.current.next()), left += ice.TB }
+				if (text.endsWith("`") && can.base.count(text, "`")%2==1) { can.onaction.insertLine(can, left+"`", can.current.next()) }
+
+				var line = can.onaction.insertLine(can, left+rest.trimLeft(), can.current.next())
+				can.current.text(text.trimRight()||text), can.onaction.selectLine(event, can, line)
+				can.onkeymap.cursorMove(can, can.ui.current, left.length, 0)
+			}),
+			ArrowUp: shy("光标上移", function(event, can) { if (event.key != "ArrowUp") { return }
 				can.onaction.selectLine(event, can, can.current.prev())
-			},
-			ArrowDown: function(event, can) {
-				if (event.key != "ArrowDown") { return }
+			}),
+			ArrowDown: shy("光标下移", function(event, can) { if (event.key != "ArrowDown") { return }
 				can.onaction.selectLine(event, can, can.current.next())
-			},
+			}),
 		},
 	}, _engine: {},
 })
-Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, code.COMPILE, nfs.SCRIPT, chat.WEBSITE, web.DREAM, code.PUBLISH],
+Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.COMPILE, code.AUTOGEN, nfs.SCRIPT, chat.WEBSITE],
 	_run: function(event, can, button, args, cb) {
 		can.runAction(event, button, args, cb||function(msg) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.source.refresh()
+			can.user.toastSuccess(can, button)
 		})
 	},
-	_runs: function(event, can, button) { var meta = can.Conf(); can.request(event, {action: button})
+	_runs: function(event, can, button, cb) { var meta = can.Conf(); can.request(event, {action: button})
 		can.user.input(event, can, meta.feature[button], function(args) {
-			can.onaction._run(event, can, button, args)
+			can.onaction._run(event, can, button, args, cb)
 		})
 	},
 	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
 		can.onaction._run(event, can, button, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)])
 	},
-	autogen: function(event, can, button) { can.onaction._runs(event, can, button) },
+	autogen: function(event, can, button) { can.onaction._runs(event, can, button, function(msg) {
+		can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(cli.MAIN), "", function() {
+			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE), "", function() {
+				can.ui.source.refresh()
+			})
+		}, true)
+	}) },
 	compile: function(event, can, button) { var toast = can.user.toastProcess(can, "编译中...")
 		can.runAction(can.request(event), button, [], function(msg) { toast.close()
 			if (msg.Length() == 0) { var toast1 = can.user.toastProcess(can, "重启中...")
@@ -195,13 +283,23 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, co
 		})
 	},
 	script: function(event, can, button) {
-		can.onaction._runs(can.request(event, {file: "hi/hi.js"}), can, button)
+		can.onaction._runs(can.request(event, {file: can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.JS}), can, button)
 	},
 	website: function(event, can, button) {
 		can.onaction._runs(can.request(event, {file: "hi.zml"}), can, button)
 	},
-	publish: function(event, can, button) {
-		can.runAction(event, button, [], function(msg) { can.user.toastConfirm(can, msg.Result(), button) })
+	"添加": function(event, can) { can.user.input(event, can, [ctx.INDEX], function(list) { can.onimport.tabview(can, can.Option(nfs.PATH), list[0], ctx.INDEX) }) },
+	"插件": function(event, can) {
+		can.user.input(event, can, [ctx.INDEX], function(list) {
+			var sub = can.toolkit[list[0]]; if (sub) { sub.select(); return }
+			can.onimport.toolkit(can, {index: list[0]}, function(sub) { can.toolkit[list[0]] = sub.select() })
+		})
+	},
+	"扩展": function(event, can) {
+		can.user.input(event, can, ["url"], function(list) {
+			var sub = can.extentions[list[0]]; if (sub) { sub.select(); return }
+			can.onimport.exts(can, list[0], function(sub) { can.extentions[list[0]] = sub.select() })
+		})
 	},
 
 	listTags: function(event, can, button) { var list = []
@@ -323,8 +421,16 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.AUTOGEN, co
 		can.page.Select(can, can.ui.content, html.TR, function(item, index) {
 			if (item != line && index+1 != line) { return }
 			can.page.Select(can, item, "td.text", function(item) {
-				can.page.Appends(can, item, [can.onsyntax._parse(can, value)])
+				item.innerHTML = can.onsyntax._parse(can, value)
 			})
+		})
+	},
+	favorLine: function(can, value) {
+		can.user.input(event, can, [{name: "zone", value: "hi"}, {name: "name", value: "hello"}], function(data) {
+			can.runAction(event, code.FAVOR, [ctx.ACTION, mdb.INSERT, mdb.ZONE, data.zone||"",
+				mdb.TYPE, can.parse, mdb.NAME, data.name||"", mdb.TEXT, (value||"").trimRight(),
+				nfs.PATH, can.Option(nfs.PATH), nfs.FILE, can.Option(nfs.FILE), nfs.LINE, can.Option(nfs.LINE),
+			])
 		})
 	},
 })

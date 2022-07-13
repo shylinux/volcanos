@@ -7,7 +7,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) {
 				},
 			))) { return }
 
-			can.runAction(event, code.FAVOR, cmds, function(msg) { var sub = msg._can
+			can.runAction(event, code.FAVOR, cmds, function(msg) {
 				sub.onmotion.clear(sub), sub.onappend.table(sub, msg, function(value, key, index, line) {
 					if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) {
 						if (key == mdb.VALUE) { key = line.key }

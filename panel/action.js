@@ -106,7 +106,7 @@ Volcanos(chat.ONPLUGIN, {help: "注册插件",
 		msg.Push("value", 300)
 		msg.Push("value", 400)
 	}),
-	"can.code.inner.plugin": shy("插件", {}, [{type: "button", name: "list", action: "auto"}, "back"], function(can, msg, cmds) {}),
+	"can.code.inner._plugin": shy("插件", {}, [{type: "button", name: "list", action: "auto"}, "back"], function(can, msg, cmds) {}),
 })
 Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, target) {
 		can.onkeymap._build(can), can.onengine.listen(can, chat.ONKEYDOWN, function(msg, model) {

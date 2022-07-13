@@ -117,6 +117,8 @@ var gdb = {
 var lex = {
 	SPLIT: "split", PREFIX: "prefix",
 }
+var ssh = {
+}
 
 var code = {
 	VIMER: "vimer", INNER: "inner", FAVOR: "favor",
@@ -290,7 +292,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 		// 根模块
 		_can_name = "", name = Config.name||ice.CAN, cb = can||function(can) {
 			can.onengine._init(can, can.Conf(Config), panels, Config._init, can._target)
-		}, can = {_follow: name, _target: Config.target||meta.target, _height: Config.height||window.innerHeight, _width: Config.width||window.innerWidth}
+		}, can = {_follow: name, _target: Config.target||meta.target, _height: Config.height||meta._height, _width: Config.width||meta._width}
 		for (var k in Config) { can[k] = Config[k] }
 		can._root = can
 	}
@@ -427,34 +429,10 @@ function can(tool) {
 	]})
 }
 
-try { if (typeof(global) == lang.OBJECT) { // nodejs
-	global.kit = kit, global.ice = ice
-	global.ctx = ctx, global.cli = cli, global.web = web, global.aaa = aaa
-	global.mdb = mdb, global.ssh = ssh, global.nfs = nfs, global.tcp = tcp
-	global.code = code, global.wiki = wiki, global.chat = chat, global.team = team, global.mall = mall
-	global.svg = svg, global.html = html, global.lang = lang
-	global.shy = shy, global.Volcanos = Volcanos
-
-	Volcanos.meta._load = function(url, cb) {
-		setTimeout(function() { if (Volcanos.meta.cache[url]) { return cb(Volcanos.meta.cache[url]) }
-			switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
-				case nfs.JS: require(_can_name = url), cb(Volcanos.meta.cache[url]); break
-			}
-		}, 100)
-	}
-
-	Volcanos.meta._load(global.plugin, function(cache) {
-		Volcanos.meta.volcano = "./frame.js", Volcanos({libs: [
-			"./lib/base.js", "./lib/core.js", "./lib/misc.js", "./lib/page.js", // "./lib/user.js",
-		], panels: [], plugin: []}, function(can) { can.core.List(cache, function(item) { can[item._name] = item })
-			Volcanos.meta._load("./publish/client/nodejs/proto.js", function(cache) {
-				can.core.List(cache, function(item) { can.base.Copy(can[item._name]||{}, item) })
-				can.onimport._init(can, can.request(), function(msg) { console.log(ice.NL) }, null)
-			})
-		})
-	})
-} else { // browser
+try { if (typeof(window) == lang.OBJECT) { // nodejs
 	Volcanos.meta.target = document.body
+	Volcanos.meta._width = window.innerWidth
+	Volcanos.meta._height = window.innerHeight
 	Volcanos.meta._load = function(url, cb) {
 		switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
 			case nfs.CSS:
@@ -468,4 +446,11 @@ try { if (typeof(global) == lang.OBJECT) { // nodejs
 				return document.body.appendChild(item), item
 		}
 	}
+} else { // nodejs
+	global.kit = kit, global.ice = ice
+	global.ctx = ctx, global.cli = cli, global.web = web, global.aaa = aaa
+	global.mdb = mdb, global.ssh = ssh, global.nfs = nfs, global.tcp = tcp
+	global.code = code, global.wiki = wiki, global.chat = chat, global.team = team, global.mall = mall
+	global.svg = svg, global.html = html, global.lang = lang
+	global.shy = shy, global.Volcanos = Volcanos, global.can = can
 } } catch (e) { console.log(e) }

@@ -88,7 +88,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }
 				var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split)
 				if (node[name]) { return }
-				var ui = can.page.Append(can, node[last], [{view: "item", list: [{view: ["switch", "div", (index==array.length-1?"":"&#8963;")]}, {view: ["name", html.DIV, value+(index==array.length-1?"":"")]}], onclick: function(event) {
+				var ui = can.page.Append(can, node[last], [{view: "item", list: [{view: ["switch", "div", (index==array.length-1?"":"&#8963;")]}, {view: ["name", html.DIV, value+(index==array.length-1?"":"")], _init: item._init}], onclick: function(event) {
 					index < array.length - 1? can.onmotion.toggle(can, node[name], function() {
 						can.page.ClassList.add(can, ui["switch"], "open")
 					}, function() {
