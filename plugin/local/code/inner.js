@@ -11,6 +11,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onimport._profile(can, can.ui.profile)
 		can.onimport._display(can, can.ui.display)
 		can.ui._content = can.ui.content
+		can.onimport._input(can)
 
 		switch (can.Mode()) {
 			case "simple": can.onimport._simple(can); break
@@ -26,15 +27,19 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				}), can.onimport._keydown(can)
 		}
 
-		if (can.isCmdMode() && location.hash) { var args = can.core.Split(decodeURIComponent(location.hash).slice(1))
-			can.onimport.tabview(can, can.Option(nfs.PATH), args[0], args[1])
-		} else { can.isCmdMode() || (can.tabview[can.onexport.keys(can)] = msg)
-			can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE))
-		}
+		var hash = location.hash
+		can.isCmdMode() || (can.tabview[can.onexport.keys(can)] = msg)
+		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE), function() {
+			if (can.isCmdMode() && hash) { var args = can.core.Split(decodeURIComponent(hash).slice(1))
+				can.onimport.tabview(can, can.Option(nfs.PATH), args[0], args[1])
+			}
+		})
 		can.base.isFunc(cb) && cb(msg)
 	},
+	_input: function(can) {
+	},
 	_project: function(can, target) {
-		target._toggle = function(event) { can.onmotion.toggle(can, target), can.onimport.layout(can) }
+		target._toggle = function(event, show) { can.onimport.layout(can) }
 	},
 	_profile: function(can, target) {
 		var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT]); can.ui.profile_output = ui.output
@@ -355,6 +360,142 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line
 		p.prefix && can.core.Item(p.prefix, function(pre, type) { if (can.base.beginWith(line, pre)) { line = wrap(type, line) } })
 		p.suffix && can.core.Item(p.suffix, function(end, type) { if (can.base.endWith(line, end)) { line = wrap(type, line) } })
 		return line
+	},
+	go: {
+		keyword: {
+			"package": "keyword",
+			"import": "keyword",
+			"type": "keyword",
+			"struct": "keyword",
+			"interface": "keyword",
+			"const": "keyword",
+			"var": "keyword",
+			"func": "keyword",
+
+			"if": "keyword",
+			"else": "keyword",
+			"for": "keyword",
+			"range": "keyword",
+			"break": "keyword",
+			"continue": "keyword",
+			"switch": "keyword",
+			"case": "keyword",
+			"default": "keyword",
+			"fallthrough": "keyword",
+			"go": "keyword",
+			"select": "keyword",
+			"defer": "keyword",
+			"return": "keyword",
+
+			"false": "constant",
+			"true": "constant",
+			"nil": "constant",
+			"iota": "constant",
+			"-1": "constant",
+			"0": "constant",
+			"1": "constant",
+			"2": "constant",
+			"3": "constant",
+
+			"int": "datatype", "int8": "datatype", "int16": "datatype", "int32": "datatype", "int64": "datatype",
+			"uint": "datatype", "uint8": "datatype", "uint16": "datatype", "uint32": "datatype", "uint64": "datatype",
+			"float32": "datatype", "float64": "datatype", "complex64": "datatype", "complex128": "datatype",
+			"rune": "datatype", "string": "datatype", "byte": "datatype", "uintptr": "datatype",
+			"bool": "datatype", "error": "datatype", "chan": "datatype", "map": "datatype",
+
+			"msg": "function", "m": "function",
+			"init": "function", "main": "function", "print": "function", "println": "function", "panic": "function", "recover": "function",
+			"new": "function", "make": "function", "len": "function", "cap": "function", "copy": "function", "append": "function", "delete": "function", "close": "function",
+			"complex": "function", "real": "function", "imag": "function",
+		},
+	},
+	css: {
+		keyword: {
+			"body": "keyword",
+			"div": "keyword",
+			"span": "keyword",
+			"form": "keyword",
+			"fieldset": "keyword",
+			"legend": "keyword",
+			"select": "keyword",
+			"textarea": "keyword",
+			"input": "keyword",
+			"table": "keyword",
+			"tr": "keyword",
+			"th": "keyword",
+			"td": "keyword",
+
+			"background-color": "function",
+			"font-family": "function",
+			"font-weight": "function",
+			"font-size": "function",
+			"color": "function",
+			"width": "function",
+			"height": "function",
+			"padding": "function",
+			"border": "function",
+			"margin": "function",
+			"position": "function",
+			"left": "function",
+			"top": "function",
+			"right": "function",
+			"bottom": "function",
+			"display": "function",
+			"overflow": "function",
+			"float": "function",
+			"clear": "function",
+			"cursor": "function",
+
+			"z-index": "function",
+			"tab-size": "function",
+			"word-break": "function",
+			"white-space": "function",
+			"text-align": "function",
+			"vertical-align": "function",
+			"min-width": "function",
+			"max-width": "function",
+			"padding-left": "function",
+			"padding-top": "function",
+			"border-left": "function",
+			"border-top": "function",
+			"border-right": "function",
+			"border-bottom": "function",
+			"border-radius": "function",
+			"border-spacing": "function",
+			"margin-left": "function",
+			"margin-top": "function",
+			"margin-right": "function",
+			"margin-bottom": "function",
+			"box-shadow": "function",
+
+			"0": "constant",
+			"10px": "constant",
+			"20px": "constant",
+			"cyan": "constant",
+			"gray": "constant",
+			"yellow": "constant",
+			"black": "constant",
+			"white": "constant",
+			"blue": "constant",
+			"red": "constant",
+			"green": "constant",
+			"magenta": "constant",
+
+			"monospace": "constant",
+			"bold": "constant",
+			"solid": "constant",
+			"none": "constant",
+			"block": "constant",
+			"contexts": "constant",
+			"both": "constant",
+			"auto": "constant",
+
+			"center": "constant",
+			"relative": "constant",
+			"absolute": "constant",
+			"sticky": "constant",
+			"fixed": "constant",
+		},
 	},
 })
 Volcanos(chat.ONKEYMAP, {help: "导入数据",

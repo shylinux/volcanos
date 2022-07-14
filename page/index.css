@@ -1,6 +1,6 @@
 body, fieldset, table, tr, th, td { padding:0; border:0; margin:0; }
 body { background-color:black; color:cyan; }
-legend { background-color:#339999; color:white; padding:0px 20px; }
+legend { background-color:#339999; color:white; padding:0 20px; }
 select { background-color:black; color:cyan; padding:0 10px; }
 textarea { background-color:cyan; width:400px; padding:4px; }
 input[type=password] { background-color:cyan; color:black; padding:0 4px; width:90px; }
@@ -31,7 +31,7 @@ table.layout div.toggle>div { color:white; display:table-cell; }
 table.layout div.toggle.project { padding-top: 50px; height:100px; width:15px; top:20%; left:0px; border-top-right-radius:10px; border-bottom-right-radius:10px; }
 table.layout div.toggle.profile { padding-top: 50px; height:100px; width:15px; top:20%; right:0px; border-top-left-radius:10px; border-bottom-left-radius:10px; }
 table.layout div.toggle.display { overflow:hidden; margin-top:-15px; height:15px; width:100px; position:sticky; left:40%; border-top-left-radius:10px; border-top-right-radius:10px; }
-table.layout div.toggle.display>div { color:white; text-align:center; height:15px; width:100px; }
+table.layout div.toggle.display>div { color:white; text-align:center; height:15px; width:100px; transform: rotate(-90deg) translate(5px, 0px); }
 
 table.content thead { position:sticky; top:2px; }
 table.content th { background-color:#0fbd45; padding:2px 6px; }
@@ -190,7 +190,7 @@ body.simple fieldset.Action>div.output>fieldset.plugin.inner>div.action { displa
 body.simple div.output.card div.item { min-width:240px; border-radius:5px; box-shadow:2px 2px 6px 1px gray; }
 body.simple div.output.card div.item:hover { background-color:white; box-shadow:5px 5px 10px 5px gray; }
 body.simple div.output.card div.item>div.title { border-bottom:solid 1px #e7e7e7; }
-body.simple fieldset.feel.float { top:0 }
+body.simple fieldset.feel.float { top:0; }
 
 body.white.simple fieldset.Action { background-color:white; }
 body.white.simple div.output.card input[type=button]:hover { box-shadow:2px 2px 8px 2px gray; }

@@ -493,25 +493,26 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 		]}] }])
 	},
 	profile: function(can, target) { target = target||can._output
-		function toggle(view) {
-			view._toggle? view._toggle(event, view.style.display == html.NONE): can.onmotion.toggle(can, view)
-			return view.style.display == html.NONE
+		function toggle(view) { var show = view.style.display == html.NONE
+			can.onmotion.toggle(can, view, show), view._toggle && view._toggle(event, show)
+			return show
 		}
 
-		var gt = "&#10095;", lt = "&#10094;", down = "&#709;", up = "&#708;"
+		// var gt = "&#10095;", lt = "&#10094;", down = "&#709;", up = "&#708;"
+		var gt = "&#10095;", lt = "&#10094;", down = lt, up = gt
 		var ui = can.page.Append(can, target, [{view: [chat.LAYOUT, html.TABLE], list: [
 			{view: [chat.PROJECT, html.TD], list: [{view: [chat.PROJECT]}]},
 			{type: html.TD, list: [
 				{type: html.TR, list: [{type: html.TR, list: [
 					{view: [chat.CONTENT, html.TD], list: [{view: [chat.CONTENT]},
-						{view: [[html.TOGGLE, chat.PROJECT]], list: [{text: [gt, html.DIV]}], onclick: function(event) {
-							event.target.innerHTML = toggle(can.ui.project)? gt: lt
+						{view: [[html.TOGGLE, chat.PROJECT]], list: [{text: [lt, html.DIV]}], onclick: function(event) {
+							can.page.Appends(can, event.target, [{text: [toggle(can.ui.project)? lt: gt, html.DIV]}])
 						}},
 						{view: [[html.TOGGLE, chat.PROFILE]], list: [{text: [lt, html.DIV]}], onclick: function(event) {
-							event.target.innerHTML = toggle(can.ui.profile)? lt: gt
+							can.page.Appends(can, event.target, [{text: [toggle(can.ui.profile)? gt: lt, html.DIV]}])
 						}},
 						{view: [[html.TOGGLE, chat.DISPLAY]], list: [{text: [up, html.DIV]}], onclick: function(event) {
-							event.target.innerHTML = toggle(can.ui.display)? up: down
+							can.page.Appends(can, event.target, [{text: [toggle(can.ui.display)? down: up, html.DIV]}])
 						}},
 					]},
 					{view: [chat.PROFILE, html.TD], list: [{view: [chat.PROFILE], style: {display: html.NONE}}]},

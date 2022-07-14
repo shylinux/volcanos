@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() { can.undo = [], can.redo = []
-			can.onimport._input(can), can.onkeymap._build(can), can.onkeymap._plugin({}, can)
+			can.onkeymap._build(can), can.onkeymap._plugin({}, can)
 			can.base.isFunc(cb) && cb(msg)
 		}, target) } , function(can, name, sub) { name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
 			if (name == chat.ONACTION) { can._trans = can.base.Copy(can._trans||{}, sub._trans) }
