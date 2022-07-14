@@ -2,6 +2,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
 		if (msg.Length() > 0) { return can.onappend.table(can, msg) }
 
+		can.page.style(can, can._output, html.MAX_WIDTH, can.ConfWidth())
 		can.page.Modify(can, target, msg.Result())
 		can.page.Select(can, target, wiki.ITEM, function(item) { var data = item.dataset||{}
 			can.page.style(can, item, can.base.Obj(data.style))

@@ -1,11 +1,13 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() { can.undo = [], can.redo = []
 			can.onimport._input(can), can.onkeymap._build(can), can.onkeymap._plugin({}, can)
-			can.onengine.plugin(can, can.onplugin)
 			can.base.isFunc(cb) && cb(msg)
-
-		}, target) }, function(can, name, sub) { name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
+		}, target) } , function(can, name, sub) { name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
 			if (name == chat.ONACTION) { can._trans = can.base.Copy(can._trans||{}, sub._trans) }
+			if (name == chat.ONKEYMAP) { can.core.Item(sub._mode, function(mode, value) {
+				var list = can.onkeymap._mode[mode] = can.onkeymap._mode[mode]||{}
+				can.core.Item(value, function(key, cb) { list[key] = list[key]||cb })
+			}) }
 		})
 	},
 	_input: function(can) {
@@ -25,19 +27,14 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	project: function(can, path) {
 		can.onimport.zone(can, [
+			can.isCmdMode() && {name: "create", _init: function(target) { can.onappend._action(can, can.onaction.list, target) }},
 			{name: "source", _init: function(target) { var total = 0
 				function show(path, target) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
-					can.core.List(list, function(item) {
-						item._init = function(target) {
-							target.onmouseenter = function(event) {
-								can.user.carteRight(event, can, {"删除": function() {
-									can.runAction(event, nfs.TRASH, [can.base.Path(path, item.path)], function() {
-										can.ui.source.refresh()
-									})
-								}}, ["删除"])
-							}
-						}
-						if (can.Option(nfs.FILE).indexOf(item.path) == 0) { item.expand = true }
+					can.core.List(list, function(item) { if (can.Option(nfs.FILE).indexOf(item.path) == 0) { item.expand = true }
+						item._init = function(target) { target.onmouseenter = function(event) { can.user.carteRight(event, can, {
+							"trash": function() { can.onaction._run(event, can, nfs.TRASH, [can.base.Path(path, item.path)]) },
+							_engine: function(event, can, button) { can.onaction[button](event, can, button) },
+						}, ["trash"]) } }
 					})
 					can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) {
 						can.onimport.tabview(can, path, item.path) // 显示文件
@@ -81,20 +78,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 					})
 				})
 			}, _menu: shy("", {
-				"create": function(event, zone) {
-					can.user.input(event, can, [mdb.NAME], function(list) {
-						can.runAction({}, ice.RUN, [web.DREAM, cli.START, list[0]], function(msg) {
-							can.onmotion.clear(can, zone._target), zone._init(zone._target), can.user.toastSuccess(can)
-							can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(mdb.NAME), web.DREAM) // 显示空间
-						})
-					})
-				},
-				"refresh": function(event, zone) {
-					can.onmotion.clear(can, zone._target), zone._init(zone._target)
-				},
-				"publish": function(event, zone) { button = "publish"
-					can.runAction(event, button, [], function(msg) { can.user.toastConfirm(can, msg.Result(), button) })
-				},
+				"create": function(event, can, button) { can.onaction.dream(event, can, "dream") },
+				"refresh": function(event, can, button) { can.ui.dreams.refresh() },
+				"publish": function(event, can, button) { can.runAction(event, button, [], function(msg) { can.user.toastConfirm(can, msg.Result(), button) }) },
 			}, ["create", "refresh", "publish"], function() {})},
 		], can.ui.project)
 	},
@@ -118,23 +104,18 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 
 	_mode: {
 		plugin: {
-			Escape: shy("切换模式", function(event, can) { can.onaction.clear(event, can) }),
-			g: shy("搜索", function(event, can) { can.onaction["搜索"](event, can) }),
-			f: shy("打开文件", function(event, can) { can.onaction["打开"](event, can) }),
 			t: shy("添加命令", function(event, can) { can.onaction["添加"](event, can) }),
 			p: shy("添加插件", function(event, can) { can.onaction["插件"](event, can) }),
 			e: shy("添加扩展", function(event, can) { can.onaction["扩展"](event, can) }),
-			r: shy("执行命令", function(event, can) { can.onaction[cli.EXEC](event, can) }),
-			v: shy("渲染界面", function(event, can) { can.onaction[cli.SHOW](event, can) }),
-
-			j: shy("向下滚动", function(event, can) { can.current.scroll(1) }),
-			k: shy("向上滚动", function(event, can) { can.current.scroll(-1) }),
-			J: shy("向下滚屏", function(event, can) { can.current.scroll(can.current.window()-3) }),
-			K: shy("向上滚屏", function(event, can) { can.current.scroll(-can.current.window()+3) }),
 
 			i: shy("插入模式", function(event, can) { can.onkeymap._insert(event, can) }),
 			n: shy("命令模式", function(event, can) { can.onkeymap._normal(event, can) }),
 			":": shy("底行模式", function(event, can) { can.onimport.toolkit(can, {index: "cli.system"}, function(sub) { can.toolkit["cli.system"] = sub.select() }) }),
+
+			s: shy("保存文件", function(event, can) { can.onaction.save(event, can, "save") }),
+			d: shy("创建空间", function(event, can) { can.onaction.dream(event, can, "dream") }),
+			m: shy("添加模块", function(event, can) { can.onaction.autogen(event, can, "autogen") }),
+			c: shy("编译项目", function(event, can) { can.onaction.compile(event, can, "compile") }),
 		},
 		normal_ctrl: {
 			f: shy("向下翻页", function(event, can, target, count) {
@@ -207,7 +188,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 				can.undo.push(function() { can.onaction.deleteLine(can, line), can.onaction.selectLine(event, can, line+1) })
 			}),
 
-			s: shy("保存文件", function(event, can) { can.onaction.save(event, can) }),
+			s: shy("保存文件", function(event, can) { can.onaction.save(event, can, "save") }),
 			m: shy("添加模块", function(event, can) { can.onaction.autogen(event, can, "autogen") }),
 			c: shy("编译项目", function(event, can) { can.onaction.compile(event, can, "compile") }),
 		},
@@ -252,7 +233,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 		},
 	}, _engine: {},
 })
-Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.COMPILE, code.AUTOGEN, nfs.SCRIPT, chat.WEBSITE],
+Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.COMPILE, code.AUTOGEN, nfs.SCRIPT, chat.WEBSITE, web.DREAM],
 	_run: function(event, can, button, args, cb) {
 		can.runAction(event, button, args, cb||function(msg) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.source.refresh()
@@ -267,13 +248,6 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.COMPILE, co
 	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
 		can.onaction._run(event, can, button, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)])
 	},
-	autogen: function(event, can, button) { can.onaction._runs(event, can, button, function(msg) {
-		can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(cli.MAIN), "", function() {
-			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE), "", function() {
-				can.ui.source.refresh()
-			})
-		}, true)
-	}) },
 	compile: function(event, can, button) { var toast = can.user.toastProcess(can, "编译中...")
 		can.runAction(can.request(event), button, [], function(msg) { toast.close()
 			if (msg.Length() == 0) { var toast1 = can.user.toastProcess(can, "重启中...")
@@ -282,11 +256,24 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.COMPILE, co
 
 		})
 	},
+	autogen: function(event, can, button) { can.onaction._runs(event, can, button, function(msg) {
+		can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(cli.MAIN), "", function() {
+			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE), "", function() {
+				can.ui.source.refresh()
+			})
+		}, true)
+	}) },
 	script: function(event, can, button) {
 		can.onaction._runs(can.request(event, {file: can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.JS}), can, button)
 	},
 	website: function(event, can, button) {
 		can.onaction._runs(can.request(event, {file: "hi.zml"}), can, button)
+	},
+	dream: function(event, can, button) {
+		can.onaction._runs(can.request(event), can, button, function(msg) { can.ui.dreams.refresh()
+			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(mdb.NAME), web.DREAM) // 显示空间
+			can.user.toastSuccess(can)
+		})
 	},
 	"添加": function(event, can) { can.user.input(event, can, [ctx.INDEX], function(list) { can.onimport.tabview(can, can.Option(nfs.PATH), list[0], ctx.INDEX) }) },
 	"插件": function(event, can) {

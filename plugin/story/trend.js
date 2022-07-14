@@ -115,7 +115,7 @@ Volcanos(chat.ONDETAIL, {help: "用户交互",
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["from", "commit", "total", "max", "date", "text", "add", "del"],
 	height: function(can) { var height = can.Action(html.HEIGHT)
-		if (height == ice.AUTO) { height = can.ConfHeight() }
+		if (height == ice.AUTO) { height = can.base.Max(can.ConfHeight(), 600) }
 		if (height < 200) { height = 200 }
 		return parseInt(height||can._root._height/2)
 	},
