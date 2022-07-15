@@ -1,9 +1,10 @@
 fieldset.inner>form.option input[name=path] { width:80px; }
 fieldset.inner>form.option input[name=file] { width:160px; }
-fieldset.inner>div.action>div.tabs { background-color:#5c809c5c; height:21px; }
-fieldset.inner>div.action>div.tabs:hover { background-color:#013b675c; }
-fieldset.inner>div.action>div.tabs.select { background-color:#013b675c; border-bottom:solid 2px #7999b2; }
+fieldset.inner>div.action>div.tabs { padding:5px; margin:0 1px; }
+fieldset.inner>div.action>div.tabs:hover { background-color:steelblue; }
+fieldset.inner>div.action>div.tabs.select { background-color:steelblue; }
 
+fieldset.inner>div.output td.content { position:relative; }
 fieldset.inner>div.output div.content { color:white; font-size:16px; font-family:monospace; position:relative; }
 fieldset.inner>div.output div.content tr.select { background-color:#0000ff6b; }
 fieldset.inner>div.output div.content tr.select td.line { background-color:blue; border:solid 1px red; border-right:solid 2px red; }
@@ -12,7 +13,7 @@ fieldset.inner>div.output div.content td.line:hover { background-color:blue; }
 fieldset.inner>div.output div.content td.text { white-space:pre; padding-left:10px; cursor:text; }
 fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
 fieldset.inner>div.output div.content td.text span.keyword { color:yellow; font-weight:bold; }
-fieldset.inner>div.output div.content td.text span.datatype { color:lightgreen; font-weight:bold; }
+fieldset.inner>div.output div.content td.text span.datatype { color:green; font-weight:bold; }
 fieldset.inner>div.output div.content td.text span.function { color:cyan; font-weight:bold; }
 fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
@@ -23,38 +24,35 @@ fieldset.inner>div.output td.content>div.path { display:none; }
 fieldset.inner div.output fieldset.toolkit { position:absolute; bottom:0px; right:0px; }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset { display:none; }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select { background-color:#0e3369b3; color:white; display:block; }
-fieldset.inner>div.status legend { background-color:#0d969f8a; padding:0px 10px; border-left:solid 2px red; height:30px; float:right; }
+fieldset.inner>div.status legend { float:right; }
 fieldset.inner>div.status legend.select { background-color:green; }
 fieldset.inner>div.status legend:hover { background-color:green; }
 fieldset.inner>div.status { height:31px; overflow:auto; }
 
-body.white fieldset.inner>div.output div.project { color:#a2dad2; }
-body.white fieldset.inner>div.output div.content { background-color:#013b675c; }
-body.white fieldset.inner>div.output div.content td.text span.string { color:#a703a7; }
+body.white fieldset.inner>div.output div.content { color:black; }
 
-body.simple fieldset.inner>div.output td.content>div.tabs { background-color:#546E7A; padding:0px; height:31px; overflow:auto; display:block; }
-body.simple fieldset.inner>div.output td.content>div.tabs div.tabs { background-color:#69818d; font-family:monospace; padding:7px; height:17px; float:left; }
-body.simple fieldset.inner>div.output td.content>div.tabs div.tabs.select { background-color:#455A64; box-shadow:0px 0px 5px 1px grey; }
-body.simple fieldset.inner>div.output td.content>div.path { background-color:#455A64; color:white; padding:4px 10px; margin-bottom:4px; box-shadow:0px 0px 5px 1px #90A4AE; display:block; clear:both; }
+body.simple fieldset.inner>div.output td.content>div.tabs { background-color:gray; padding:0px; height:31px; overflow:auto; display:block; }
+body.simple fieldset.inner>div.output td.content>div.tabs div.tabs { background-color:gray; font-family:monospace; padding:7px 20px; height:17px; float:left; }
+body.simple fieldset.inner>div.output td.content>div.tabs div.tabs.select { background-color:#1d3349; }
+body.simple fieldset.inner>div.output td.content>div.tabs div.tabs:hover { background-color:#1d3349; }
+body.simple fieldset.inner>div.output td.content>div.path { background-color:#1d3349; padding:4px 10px; margin-bottom:4px; display:block; clear:both; }
 body.simple fieldset.inner>div.output div.content td.line { padding-top:4px; border-right:none; }
 body.simple fieldset.inner>div.output div.content td.text { padding-top:2px; border:solid 1px transparent; }
 
-body.white.simple fieldset.inner>div.output div.project { background-color:lightyellow; }
+body.white.simple fieldset.inner>div.output div.project { background-color:whitesmoke; }
 body.white.simple fieldset.inner>div.output div.project div.item { color:black; }
-body.white.simple fieldset.inner>div.output div.project div.item:hover { background-color:#e3e6f1; }
-body.white.simple fieldset.inner>div.output td.content>div.tabs { background-color:#f3f3f3; }
-body.white.simple fieldset.inner>div.output td.content>div.tabs div.tabs { background-color:#ececec; color:black; }
+body.white.simple fieldset.inner>div.output td.content>div.tabs { background-color:whitesmoke; }
+body.white.simple fieldset.inner>div.output td.content>div.tabs div.tabs { background-color:lightgray; color:black; }
 body.white.simple fieldset.inner>div.output td.content>div.tabs div.tabs.select { background-color: white; box-shadow:0px 0px 5px 1px grey; }
-body.white.simple fieldset.inner>div.output td.content>div.path { background-color:white; color:black; box-shadow:0px 0px 5px 1px grey; }
+body.white.simple fieldset.inner>div.output td.content>div.path { background-color:white; color:black; }
 body.white.simple fieldset.inner>div.output div.content { background-color:white; color:black; }
 body.white.simple fieldset.inner>div.output div.content tr.select { background-color:white; }
 body.white.simple fieldset.inner>div.output div.content tr.select td.line { background-color:white; color:black; border:none; }
-body.white.simple fieldset.inner>div.output div.content tr.select td.text { border:solid 1px #e7e7e7; }
-body.white.simple fieldset.inner>div.output div.content td.text span.string { color:#a31515; }
-body.white.simple fieldset.inner>div.output div.content td.text span.function { color:#795e26; }
+body.white.simple fieldset.inner>div.output div.content tr.select td.text { border:solid 1px lightgray; }
+body.white.simple fieldset.inner>div.output div.content td.text span.string { color:royalblue; }
+body.white.simple fieldset.inner>div.output div.content td.text span.function { color:darkred; }
 body.white.simple fieldset.inner>div.output div.content td.text span.keyword { color:blue; }
-
-body.white.simple>div.carte div.item:hover { background-color:#e3e6f1; }
+body.white.simple fieldset.inner>div.status legend { background-color:lightgray; color:black; padding:0px 10px; border-left:solid 2px red; height:30px; float:right; border-radius:0; box-shadow:none; }
 
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.plugin.inner div.action { display:none; }

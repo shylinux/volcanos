@@ -16,7 +16,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.base.isFunc(cb) && cb(msg)
 	},
 
-	zone: function(can, list, target) { var color = ["blue", "red", "green"]
+	zone: function(can, list, target) { var color = [""]
 		return can.page.Append(can, target, can.core.List(list, function(zone, index) { return zone && {view: html.ZONE+" "+zone.name, list: [
 			{view: html.NAME, inner: zone.name, style: {background: color[index%color.length]}, onclick: function() {
 				can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._target)
@@ -30,7 +30,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				}, ["折叠", "展开", "刷新"])
 			}},
 			{view: html.ACTION, _init: function(target) { zone._action = target
-				can.onappend._action(can, [{input: html.TEXT, onkeyup: function(event) {
+				can.onappend._action(can, [{input: html.TEXT, placeholder: "search", onkeyup: function(event) {
 					can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) })
 					can.page.Select(can, zone._target, html.DIV_ITEM, function(item) {
 						can.page.Select(can, item, "div.name", function(name) { can.onmotion.toggle(can, item, name.innerText.indexOf(event.target.value) > -1) })

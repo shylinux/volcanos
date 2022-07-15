@@ -1,10 +1,10 @@
 body, fieldset, table, tr, th, td { padding:0; border:0; margin:0; }
 body { background-color:black; color:cyan; }
-legend { background-color:#339999; color:white; padding:0 20px; }
-select { background-color:black; color:cyan; padding:0 10px; }
-textarea { background-color:cyan; width:400px; padding:4px; }
-input[type=password] { background-color:cyan; color:black; padding:0 4px; width:90px; }
-input[type=text] { background-color:cyan; color:black; padding:0 4px; width:90px; }
+legend { background-color:cadetblue; color:white; padding:0 20px; }
+select { background-color:black; color:cyan; padding:0 10px; border:0; }
+textarea { background-color:cyan; width:400px; padding:5px; border:0; }
+input[type=password] { background-color:cyan; color:black; padding:0 5px; border:0; width:90px; }
+input[type=text] { background-color:cyan; color:black; padding:0 5px; border:0; width:90px; }
 input[name=cmd] { background-color:black; color:white; width:320px; }
 input[name=url] { width:320px; }
 input[name=text] { width:160px; }
@@ -15,8 +15,8 @@ input[name=limit] { width:48px; }
 input[name=offend] { width:48px; }
 input[name=id] { width:48px; }
 input[name=ID] { width:48px; }
-input[type=button] { background-color:black; color:cyan; }
-input[type=button][name=start] { background-color:#52ce78; }
+input[type=button] { background-color:black; color:cyan; border:0; }
+input[type=button][name=start] { background-color:green; }
 input[type=button][name=open] { background-color:blue; }
 input[type=button][name=stop] { background-color:red; }
 input[type=button][name=trash] { background-color:red; }
@@ -25,48 +25,42 @@ input[type=button][name=remove] { background-color:red; }
 
 table.layout { border-spacing:0; }
 table.layout td { vertical-align:top; }
-table.layout td.content { position:relative; }
-table.layout div.toggle { font-size:24px; background-color:#e1aeae45; position:absolute; }
-table.layout div.toggle>div { color:white; display:table-cell; }
+table.layout div.toggle { background-color:#4682b46b; color:white; font-size:24px; position:absolute; z-index:10; }
+table.layout div.toggle>div { display:table-cell; }
 table.layout div.toggle.project { padding-top: 50px; height:100px; width:15px; top:20%; left:0px; border-top-right-radius:10px; border-bottom-right-radius:10px; }
 table.layout div.toggle.profile { padding-top: 50px; height:100px; width:15px; top:20%; right:0px; border-top-left-radius:10px; border-bottom-left-radius:10px; }
-table.layout div.toggle.display { overflow:hidden; margin-top:-15px; height:15px; width:100px; position:sticky; left:40%; border-top-left-radius:10px; border-top-right-radius:10px; }
-table.layout div.toggle.display>div { color:white; text-align:center; height:15px; width:100px; transform: rotate(-90deg) translate(5px, 0px); }
-
+table.layout div.toggle.display { margin-top:-15px; height:15px; width:100px; position:sticky; left:40%; border-top-left-radius:10px; border-top-right-radius:10px; }
+table.layout div.toggle.display>div { text-align:center; width:100px; transform: rotate(-90deg) translate(5px, 0px); }
 table.content thead { position:sticky; top:2px; }
-table.content th { background-color:#0fbd45; padding:2px 6px; }
+table.content th { background-color:steelblue; padding:2px 6px; }
 table.content td { padding:2px 6px; }
-table.content.action th:last-child { background-color:#7dc6d7eb; position:sticky; right:0; }
-table.content.action td:last-child { background-color:#7dc6d7eb; position:sticky; right:0; }
-
-div.tabs { background-color:#00000038; color:white; padding:5px; margin:0 1px; }
-div.code { background-color:#343a3445; color:white; padding:10px; border:solid 3px green; }
-div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:4px 10px; border-left:solid 4px blue; margin:10px; }
-div.story[data-type=spark] { box-shadow:4px 4px 10px 1px #626bd0; }
-div.story[data-type=spark] span:hover { background-color:deepskyblue; box-shadow:4px 4px 20px 4px #29318e; }
+table.content.action th:last-child { position:sticky; right:0; }
+table.content.action td:last-child { background-color:skyblue; position:sticky; right:0; }
+div.code { background-color:#343a3445; color:white; padding:10px; border:solid 2px green; }
+div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:5px 10px; border-left:solid 5px blue; margin:10px; }
 
 form.option>div.item { margin-right:5px; }
 div.action>div.item { margin-right:5px; }
 div.output { position:relative; }
-div.output td.project { background-color:#435f8c8c; }
-div.output td.project div.project { min-width:88px; max-width:360px; }
-div.output td.project div.project div.item { padding:2px 10px; }
-div.output td.project div.project div.list { margin-left:10px; }
-div.output td.project div.project div.switch { color:#0d1bc2; width:12px; float:left; transform: rotate(90deg) translate(2px, 0px); }
-div.output td.project div.project div.switch.open { transform: rotate(180deg) translate(-4px, 1px); }
-div.output td.profile { background-color:#71909c91; }
+div.output div.project div.item { padding:2px 10px; }
+div.output div.project div.list { margin-left:10px; }
+div.output div.project div.switch { width:12px; float:left; transform: rotate(90deg) translate(1px, 0px); }
+div.output div.project div.switch.open { transform: rotate(180deg) translate(-4px, 4px); }
+div.output div.project div.zone>div.name { background-color:steelblue; color:white; text-align:center; padding:5px; clear:both; }
+div.output div.project div.item>div.name { padding-left:16px; }
+div.output div.project div.zone>div.action>div.item { float:right; clear:none; padding:0; margin:0; }
+div.output div.project div.zone>div.action>div.item input[type=text] { background-color:#ff000000; padding-left:10px; color:white; }
 
 fieldset.plugin { background-color:#061c3c9e; padding:10px; margin:10px; }
-fieldset.plugin div.status { border-top:1px solid darkcyan; }
-fieldset.story div.status { border-top:1px solid darkcyan; }
-fieldset.story>legend { margin:5px 0; }
-fieldset.float { background-color:#0e3369b3; }
+fieldset.float { background-color:#0e3369b3; position:absolute; }
+fieldset.story>legend { margin:10px 0; }
+fieldset.plug>legend { float:left; margin-right:5px; }
 fieldset.float input[type=button][name=close]{ display:block; }
-fieldset.plug input[type=button][name=close]{ display:block; }
-fieldset.plug>legend { float:left; }
+fieldset.plug>form.option input[type=button][name=close]{ display:block; }
 fieldset.full input[type=button][name=close]{ display:block; }
 fieldset input[type=button][name=close]{ display:none; }
-
+fieldset.plugin div.status { border-top:1px solid darkcyan; }
+fieldset.story div.status { border-top:1px solid darkcyan; }
 fieldset.output>form.option { display:none; }
 fieldset.output>div.action { display:none; }
 fieldset.output div.status { display:none; }
@@ -76,35 +70,30 @@ fieldset.input.key { overflow:auto; }
 fieldset.input.key div.action { display:none; }
 fieldset.input.key.simple div.status { display:none; }
 fieldset.input.key.simple th { display:none; }
-/* fieldset.input.key.simple td { min-width:40px; text-align:center; } */
 fieldset.input.key.simple td { min-width:40px; }
 fieldset.input.date div.action div.space { width:0; clear:both; }
 fieldset.input.date div.output td.prev { color:gray; }
 fieldset.input.date div.output td.next { color:gray; }
-fieldset.input.date div.output td { padding:2px 11px; }
+fieldset.input.date div.output td { padding:2px 10px; }
 fieldset.input.date table { text-align:center; width:280px; }
 
 body>div.float { background-color:#0e3369b3; color:white; padding:5px; }
-body>div.toast div.title { color:yellow; word-break:break-all; float:left; }
+body>div.toast div.title { color:yellow; float:left; }
 body>div.toast div.duration { color:gray; float:right; }
 body>div.toast div.content { text-align:center; color:yellow; }
 body>div.toast div.progress { border:solid 2px green; margin-left:-2px; height:10px; clear:both; }
 body>div.toast div.progress div.current { background-color:red; height:10px; }
 body>div.toast div.action { display:block; }
-
 body>div.carte { padding:0; }
 body>div.carte div.item { background-color:#0e3369b3; padding:3px 12px; }
-body>div.carte div.item:hover { background-color:cornflowerblue; }
-body>div.input div.item { float:left; }
 body>div.input div.content { overflow:auto; }
 body>div.input td { padding:5px; }
-body>div.input select { width:183px; }
+body>div.input select { width:179px; }
 body>div.input input[type=text] { width:171px; }
 body>div.input input[name=username] { width:171px; }
 body>div.input input[name=password] { width:171px; }
-body>div.input textarea { border:2px inset #14a58e; height:120px; width:171px; }
+body>div.input textarea { height:120px; width:171px; }
 body>div.input.login { padding:10px; }
-
 body>div.upload div.item { float:left; }
 body>div.upload div.output { border:solid 1px red; }
 body>div.upload div.progress { background-color:red; height:10px; width:0; }
@@ -118,9 +107,8 @@ body>div.upload input[type=file] { width:320px; }
 textarea { tab-size:2; height:60px; }
 legend { font-size:1.2rem; height:31px; }
 select { font-size:1.1rem; height:31px; }
-input { font-size:1.1rem; height:27px; }
-input[type=button] { height:31px; }
-table.content th, table.content td, div.item, div.code, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
+input { font-size:1.1rem; height:31px; }
+table.content th, table.content td, div.zone>div.name, div.item, div.code, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
 div.status>div.item>label { font-size:0.6rem; font-family:monospace; }
 div.status>div.item { padding:4px; height:22px; }
 svg { font-family:monospace; }
@@ -135,24 +123,27 @@ div.code, div.story, div.item, div.content, table.content, textarea { white-spac
 div.code, div.story, div.item { text-align:left; }
 
 /* position cursor */
-fieldset.float, fieldset.input, body>div.toast, body>div.carte, body>div.input, body>div.upload { position:fixed; z-index:10; }
+fieldset.full fieldset.float, fieldset.input, body>div.toast, body>div.carte, body>div.input, body>div.upload { position:fixed; z-index:10; }
 legend, select, input[type=button], div.item, div.tabs, th, td, h1, h2, h3 { cursor:pointer; }
 div.title, div.story[data-type=spark] { cursor:copy; }
 
 /* box-shadow */
 fieldset.plugin { box-shadow:2px 2px 10px 4px #626bd0; }
 fieldset.plugin:hover { box-shadow:4px 4px 12px 6px #626bd0; }
-fieldset.story { clear:both; float:left; box-shadow:4px 4px 10px 1px #626bd0; }
+fieldset.story { box-shadow:4px 4px 10px 1px #626bd0; }
 fieldset.story:hover { box-shadow:12px 12px 12px 6px #5764efd1; }
 legend, select, textarea, input[type=text], div.code, div.story[data-type=spark] { box-shadow:4px 4px 20px 4px #626bd0; }
 
 /* hover */
-.select, div.item.select, div.item:hover, table.content th:hover, table.content td.select, table.content td:hover { background-color:cornflowerblue; }
-div.tabs.select, div.tabs:hover, table.content tr.select, table.content tr:hover, h1:hover, h2:hover, h3:hover { background-color:steelblue; }
-input[type=text]:hover { background-color:white; }
-input[name=cmd]:hover { background-color:white; color:black; }
-input[type=button]:hover { background-color:gray; color:cyan; }
 legend:hover { background-color:skyblue; }
+select:hover { background-color:gray; color:cyan; }
+input[type=text]:hover { background-color:white; }
+input[name=cmd]:hover { background-color:cyan; color:black; }
+input[type=button]:hover { background-color:gray; }
+div.story[data-type=spark] span:hover { background-color:deepskyblue; box-shadow:4px 4px 20px 4px #29318e; }
+table.content tr.select, table.content tr:hover, h1:hover, h2:hover, h3:hover, div.item.select, div.item:hover, div.tabs.select, div.tabs:hover, .select { background-color:steelblue; }
+table.content th:hover, table.content td.select, table.content td:hover { background-color:cornflowerblue; }
+body>div.carte div.item:hover { background-color:cornflowerblue; }
 
 /* scrollbar */
 body { overflow:-moz-scrollbars-none; -ms-overflow-style:none; }
@@ -162,82 +153,60 @@ div.story[data-type=spark]::-webkit-scrollbar { width:0 !important; height:0 !im
 div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
 
-div.output.card div.item { padding:10px; border:solid 1px #e7e7e7; margin:10px; height:120px; width:240px; float:left; position:relative; }
+/* table card */
+div.output.card div.item { padding:10px; border:solid 1px #e7e7e7; margin:10px; height:120px; width:240px; float:left; }
 div.output.card div.item>div.title { font-size:1.2rem; font-weight:bold; padding:10px; border-bottom: solid 1px #e7e7e7; }
 div.output.card div.item>div.content { padding:10px; height:24px; }
 div.output.card div.item.stop { color:gray; }
 
-/* body.simple { background-color:white; } */
-body.simple fieldset.Header { border-bottom:solid 1px #e7e7e7; height:60px; display:block; }
-body.simple fieldset.River { border-right:solid 1px #e7e7e7; }
-body.simple fieldset.River>div.output { padding:10px 10px; width:200px; }
-body.simple fieldset.River>div.output div.item { color:black; padding:10px 40px; border-left:none; }
-body.simple fieldset.River>div.output div.item.select { background-color:white; }
-body.simple fieldset.River>div.output div.item:hover { background-color:#0152d9; color:white; }
-body.simple fieldset.River>div.output div.list div.item { background-color:white; color:black; border-left:none; }
-body.simple fieldset.River>div.output div.list div.item.select { background-color:#0152d9; color:white; }
-body.simple fieldset.River>div.output div.list div.item:hover { background-color:#0152d9; color:white; }
-
-body.simple fieldset.Action>div.action { background-color:white; padding:10px; border-bottom: solid 1px red; height:38px; width:600px; }
-body.simple fieldset.Action>div.action div.tabs { padding:10px; margin:10px; }
-body.simple fieldset.Action.tabs>div.output { margin-top:58px; }
-body.simple fieldset.Action>div.output>fieldset.plugin.inner { box-shadow:none; }
-body.simple fieldset.Action>div.output>fieldset.plugin.inner>legend { display:none; }
-body.simple fieldset.Action>div.output>fieldset.plugin.inner>form.option { display:none; }
-body.simple fieldset.Action>div.output>fieldset.plugin.inner>div.action { display:none; }
-/* body.simple fieldset.Action>div.output>fieldset.plugin.inner>div.status { display:none; } */
-
-body.simple div.output.card div.item { min-width:240px; border-radius:5px; box-shadow:2px 2px 6px 1px gray; }
-body.simple div.output.card div.item:hover { background-color:white; box-shadow:5px 5px 10px 5px gray; }
-body.simple div.output.card div.item>div.title { border-bottom:solid 1px #e7e7e7; }
-body.simple fieldset.feel.float { top:0; }
-
-body.white.simple fieldset.Action { background-color:white; }
-body.white.simple div.output.card input[type=button]:hover { box-shadow:2px 2px 8px 2px gray; }
-body.white.simple div.output.card input[type=button] { box-shadow:2px 2px 6px 1px gray; color:white; }
-body.white.simple div.output.card input[type=button] { background-color:#0152d9; font-size:0.8rem; padding:5px 10px; border:none; border-radius:5px; }
-body.white.simple>div.carte { background-color:white; border:solid 1px #e7e7e7; }
-body.white.simple>div.carte div.item { background-color:white; }
-body.white.simple>div.carte div.item { font-size:1rem; color:black; }
-body.white.simple>div.carte div.item:hover { background-color:#0152d9; }
-body.white.simple input[type=button] { background-color:#0152d9; border:none; border-radius:5px; box-shadow:2px 2px 6px 1px gray; }
-
 body.white { background-color:rgba(5,34,56,0.75); color:white; }
-body.white legend { border-radius:10px 10px 10px 10px; }
-body.white select { background-color:#99CC66; color:white; border:2px solid #99CC66; border-radius:10px 10px 10px 10px; }
-body.white textarea { background-color:white; color:black; }
-body.white input[type=password] { background-color:white; color:black; border:2px solid #14a58e; border-radius:6px; }
-body.white input[type=text] { background-color:white; color:black; border:2px solid #14a58e; border-radius:6px; }
+body.white select { background-color:yellowgreen; color:white; }
+body.white textarea { background-color:white; }
+body.white input[type=password] { background-color:white; }
+body.white input[type=text] { background-color:white; }
 body.white input[name=cmd] { background-color:black; color:white; }
-body.white input[type=button] { background-color:#FF9900; color:white; border:none; border-radius:10px; }
-body.white input[type=button][name=start] { background-color:#52ce78; }
+body.white input[type=button] { background-color:cornflowerblue; color:white; }
+body.white input[type=button][name=start] { background-color:green; }
 body.white input[type=button][name=open] { background-color:blue; }
 body.white input[type=button][name=stop] { background-color:red; }
 body.white input[type=button][name=trash] { background-color:red; }
 body.white input[type=button][name=delete] { background-color:red; }
 body.white input[type=button][name=remove] { background-color:red; }
-
-body.white table.content th { background-color:#99CCFF; }
+body.white table.content th { background-color:skyblue; }
 body.white fieldset.panel.Action { color:black; }
 body.white fieldset.panel.Action div.action { color:white; }
-body.white fieldset.plugin { background-color:#ffffff78; }
-body.white fieldset.full { background-color:#cce0f4eb; color:white; z-index:10; }
+body.white fieldset.plugin { background-color:#ffffffa1; }
+body.white fieldset.full { background-color:#cce0f4eb; color:white; }
 
+/* hover */
 body.white legend:hover { background-color:skyblue; }
+body.white select:hover { background-color:#99cc667d; }
 body.white input[type=text]:hover { background-color:cyan; }
 body.white input[name=cmd]:hover { background-color:white; color:black; }
-body.white input[type=button]:hover { background-color:#FFCC33; }
+body.white input[type=button]:hover { background-color:#1b7acc8c; }
 body.white table.content tr:hover { background-color:#4682b46b; }
+body.white h1:hover { background-color:#4682b46b; }
+body.white h2:hover { background-color:#4682b46b; }
+body.white h3:hover { background-color:#4682b46b; }
 body.white table.content th:hover { background-color:#6495ed63; }
 body.white table.content td:hover { background-color:#6495ed63; }
 body.white table.content td.select { background-color:#6495ed63; }
-body.white div.item:hover { background-color:steelblue; }
+body.white div.item:hover { background-color:#4682b46b; }
+body.white div.item.select { background-color:#4682b46b; }
 
 body.print { background-color:white; color:black; }
-body.print legend, body.print select, body.print input[type=text] { box-shadow:0px 0px 0px 0px #626bd0; }
-body.print div.item.select { background-color:white; border:solid 2px red; }
+body.print legend, body.print select, body.print input, body.print input[type=button] { background-color:lightgray; color:black; box-shadow:0px 0px 0px 0px #626bd0; }
+body.print table.content th { background-color:lightgray; }
+body.print table.content.action td:last-child { background-color:lightgray; }
+body.print div.project div.zone>div.name { background-color:lightgray; }
 body.print div.list div.item { background-color:white; }
-body.print fieldset.Header, body.print fieldset.River, body.print fieldset.Action, body.print fieldset.Footer { background-color:white; color:black; }
+body.print div.list div.item.select { background-color:lightgray; }
+body.print div.item.select { background-color:lightgray; }
+body.print div.story[data-type=spark] { background-color:lightgray; }
+body.print fieldset.plugin { background:white; color:black; }
+body.print fieldset.panel { background:white; color:black; }
+body.print fieldset.draw div.output div.content svg { background-color:lightgray; }
+body.print fieldset.draw div.output { background-color:lightgray; }
 
 body.mobile textarea { font-size:1.2rem; }
 body.mobile legend { font-size:1.6rem; height:38px; }
@@ -283,7 +252,6 @@ body.mobile.landscape fieldset.Footer.foot { position:unset; }
 body.mobile.landscape fieldset.Footer.foot input[name=cmd] { width:240px; }
 
 body.mobile div.output.card div.item { height:160px; float:none; }
-body.mobile.simple div.output.card div.item { width:-webkit-fill-available; }
 body.mobile.landscape div.output.card div.item { width:auto; float:left; }
 body.mobile.landscape.simple div.output.card div.item { width:auto; float:left; }
 
@@ -292,17 +260,47 @@ body.mobile fieldset.draw.trend div.action { display:none; }
 body.mobile.landscape fieldset.draw.spide div.action { display:block; }
 body.mobile.landscape fieldset.draw.trend div.action { display:block; }
 
+/* misc */
+body.mobile.simple div.output.card div.item { width:-webkit-fill-available; }
 fieldset.panel.Search div.story[data-type=spark] { padding:0px; margin:0px; }
 fieldset.panel.Action.cmd>div.toggle.project { display:none; }
 fieldset.plugin.config form.option input[name=key] { width:240px; }
 body.mobile fieldset.plan>div.action { display:none; }
 body.white fieldset.panel.Search a { color:yellow; }
 body.black a { color:yellow; }
-div.action>div.item { float:left; clear:none; }
 
-div.project div.zone>div.name { background-color:cornflowerblue; color:white; font-family:monospace; font-size:1.1rem; text-align:center; padding:5px; clear:both; }
-div.project div.item>div.name { padding-left:16px; }
-div.project div.zone>div.action>div.item { float:right; clear:none; padding:0; margin:0; }
-div.project div.zone>div.action>div.item input[type=text] { background-color:#ff000000; padding-left:10px; color:white; border:none; }
+body.simple fieldset.Header { border-bottom:solid 1px #e7e7e7; height:60px; display:block; }
+body.simple fieldset.River { border-right:solid 1px #e7e7e7; }
+body.simple fieldset.River>div.output { padding:10px 10px; width:200px; }
+body.simple fieldset.River>div.output div.item { color:black; padding:10px 40px; border-left:none; }
+body.simple fieldset.River>div.output div.item.select { background-color:white; }
+body.simple fieldset.River>div.output div.item:hover { background-color:#0152d9; color:white; }
+body.simple fieldset.River>div.output div.list div.item { background-color:white; color:black; border-left:none; }
+body.simple fieldset.River>div.output div.list div.item.select { background-color:#0152d9; color:white; }
+body.simple fieldset.River>div.output div.list div.item:hover { background-color:#0152d9; color:white; }
+
+body.simple fieldset.Action>div.action { background-color:white; padding:10px; border-bottom: solid 1px red; height:38px; width:600px; }
+body.simple fieldset.Action>div.action div.tabs { padding:10px; margin:10px; }
+body.simple fieldset.Action.tabs>div.output { margin-top:58px; }
+body.simple fieldset.Action>div.output>fieldset.plugin.inner { box-shadow:none; }
+body.simple fieldset.Action>div.output>fieldset.plugin.inner>legend { display:none; }
+body.simple fieldset.Action>div.output>fieldset.plugin.inner>form.option { display:none; }
+body.simple fieldset.Action>div.output>fieldset.plugin.inner>div.action { display:none; }
+
+body.simple div.output.card div.item { min-width:240px; border-radius:5px; box-shadow:2px 2px 6px 1px gray; }
+body.simple div.output.card div.item:hover { background-color:white; box-shadow:5px 5px 10px 5px gray; }
+body.simple div.output.card div.item>div.title { border-bottom:solid 1px #e7e7e7; }
+body.simple fieldset.feel.float { top:0; }
+
+body.white.simple div.profile { background-color:whitesmoke; }
+body.white.simple div.display { background-color:whitesmoke; }
+body.white.simple div.code { background-color:white; color:black; border:none; }
+body.white.simple fieldset.plugin div.status { border-top:1px solid lightgray; }
+body.white.simple>div.carte { background-color:white; border:solid 1px #e7e7e7; }
+body.white.simple>div.carte div.item { background-color:white; color:black; }
+body.white.simple div.carte div.item:hover { background-color:#e3e6f1; }
 body.white.simple fieldset.plugin div.output.json div.item span { color:black; }
 body.white.simple fieldset.plugin div.output.json div.item span.key { color:blue; }
+body.white.simple div.output.card input[type=button] { background-color:#0152d9; font-size:0.8rem; padding:5px 10px; box-shadow:2px 2px 6px 1px gray; }
+body.white.simple div.output.card input[type=button]:hover { box-shadow:2px 2px 8px 2px gray; }
+body.white.simple div.output div.project div.zone>div.action>div.item input[type=text] { color:black; }

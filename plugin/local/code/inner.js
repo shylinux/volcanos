@@ -5,6 +5,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.profile_size = {}, can.display_size = {}
 		can.onengine.plugin(can, can.onplugin)
 
+		can.isCmdMode() && can.onmotion.hidden(can, can._status)
 		can.onmotion.clear(can), can.onlayout.profile(can)
 		can.page.styleWidth(can, can.ui.project, 240)
 		can.onimport._project(can, can.ui.project)
@@ -111,6 +112,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		if (can.user.isMobile && can.isFloatMode()) { height = can._root._height-2*html.ACTION_HEIGHT }
 
 		if (can.isCmdMode()) {
+			if (can._status.style.display == html.NONE) { height += html.ACTION_HEIGHT }
 			var rest = can.ui.display.offsetHeight+can.ui._tabs.offsetHeight+can.ui._path.offsetHeight+4
 			can.page.styleHeight(can, can.ui.content, height+html.ACTION_HEIGHT-rest)
 			can.page.styleHeight(can, can.ui.profile_output, height-can.ui.display.offsetHeight)
