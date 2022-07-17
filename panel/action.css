@@ -1,5 +1,8 @@
 fieldset.Action { background-color:rgba(114, 153, 162, 0.54); min-width:160px; }
-fieldset.Action>div.action { background-color:#159cc7b0; width:inherit; display:none; }
+fieldset.Action>div.action { background-color:#4682b46b; width:inherit; display:none; }
+fieldset.Action>div.action div.tabs { font-size:1.1rem; padding:5px; height:21px; }
+fieldset.Action>div.action div.tabs.select { background:#6495ed63; }
+fieldset.Action>div.action div.tabs:hover { background:#6495ed63; }
 fieldset.Action.tabs>div.action { display:block; }
 fieldset.Action.tabs>div.output>fieldset>legend { display:none; }
 fieldset.Action.tabs>div.output fieldset.plugin { display:none; }

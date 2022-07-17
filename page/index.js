@@ -1,10 +1,4 @@
-Volcanos({name: "chat", panels: [
-		{name: "Header", help: "标题栏", pos: html.HEAD, state: ["time", "usernick", "avatar"]},
-		{name: "River",  help: "群聊组", pos: html.LEFT, action: ["create", "refresh"]},
-		{name: "Action", help: "工作台", pos: html.MAIN},
-		{name: "Footer", help: "状态条", pos: html.FOOT, state: ["ncmd"]},
-		{name: "Search", help: "搜索框", pos: html.AUTO},
-	], main: {name: "Header"}, river: {
+Volcanos({name: "chat", river: {
 	product: {name: "产品群", storm: {
 		office: {name: "办公 office",  list: [
 			{name: "feel", help: "影音媒体", index: "web.wiki.feel"},
@@ -48,10 +42,10 @@ Volcanos({name: "chat", panels: [
 			"share", "spide", "cache", "story",
 		]},
 		cli: {name: "系统 cli", index: [
-			"qrcode", "daemon", "system", "runtime",
+			"qrcode", "daemon", "system", "runtime", "mirrors", "forever",
 		]},
 		nfs: {name: "文件 nfs", index: [
-			"cat", "dir", "tail", "trash",
+			"cat", "dir", "port", "tail", "trash",
 		]},
 	}},
 }})

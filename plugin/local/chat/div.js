@@ -22,8 +22,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.sup._keys == keys && ui.item.click()
 	},
 	_list: function(can, keys, item, target, width, height) {
-		if (item.meta.style == html.SPAN) { width = width / item.list.length }
-		if (item.meta.style == html.DIV) { height = height / item.list.length }
+		if (item.meta.style == html.SPAN) { width = width / item.list.length } else { height = height / item.list.length }
 		can.onmotion.clear(can, target), can.onmotion.clear(can, target._target)
 		can.core.List(item.list, function(item) { can.onimport._item(can, can.core.Keys(keys, item.meta.name), item, target, width, height) })
 	},

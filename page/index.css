@@ -57,7 +57,7 @@ fieldset.full { background-color:#073947f2; padding:0; margin:0; left:0; top:0; 
 fieldset.story>legend { margin:10px 0; }
 fieldset.plug>legend { float:left; margin-right:5px; }
 fieldset.float>legend { float:left; margin-right:5px; }
-fieldset.full>legend { float:left; margin-right:5px; }
+fieldset.full>legend { float:left; margin:0; margin-right:5px; }
 fieldset.float input[type=button][name=close]{ display:block; }
 fieldset.plug>form.option input[type=button][name=close]{ display:block; }
 fieldset.full input[type=button][name=close]{ display:block; }

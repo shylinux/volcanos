@@ -57,7 +57,7 @@ Volcanos(chat.ONENGINE, {help: "解析引擎", _engine: function(event, page, ms
 	if (!storm || cmds.length != 2) { return false }
 
 	if (storm.index) { // 命令索引
-		can.runAction(event, ctx.COMMAND, [storm.index], cb)
+		can.runAction(event, ctx.COMMAND, [].concat(storm.index), cb)
 	} else { // 命令列表
 		can.core.List(storm.list, function(value) {
 			msg.Push(mdb.NAME, value.name||"")
