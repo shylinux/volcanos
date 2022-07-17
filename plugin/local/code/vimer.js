@@ -28,7 +28,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	project: function(can, path) {
 		can.onimport.zone(can, [
 			can.isCmdMode() && {name: "create", _init: function(target) { can.onappend._action(can, can.onaction.list, target) }},
-			{name: "source", _init: function(target) { var total = 0
+			{name: "source", _init: function(target, zone) { var total = 0
 				function show(path, target) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
 					can.core.List(list, function(item) { if (can.Option(nfs.FILE).indexOf(item.path) == 0) { item.expand = true }
 						item._init = function(target) { target.onmouseenter = function(event) { can.user.carteRight(event, can, {
@@ -39,25 +39,29 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 					can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) {
 						can.onimport.tabview(can, path, item.path) // 显示文件
 					}, target), can.Status("文件数", total += msg.Length())
+					can.page.Modify(can, zone._search, {placeholder: "search in "+total+" item"})
 				}, true) } if (path.length == 1) { return show(path[0], target) }
 
 				can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(path, target) }} }), target)
 				can.onmotion.delay(can, function() { target.previousSibling.innerHTML = "" })
 			}},
-			{name: "plugin", _init: function(target) {
-				can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return {index: can.base.trimPrefix(key, "can.")} }), ctx.INDEX, ice.PT, function(event, item) {
+			{name: "plugin", _init: function(target, zone) { var total = 0
+				can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return total++, {index: can.base.trimPrefix(key, "can.")} }), ctx.INDEX, ice.PT, function(event, item) {
 					can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys("can", item.index), ctx.INDEX) // 显示插件
 				}, target)
+				can.page.Modify(can, zone._search, {placeholder: "search in "+total+" item"})
 			}},
-			{name: "module", _init: function(target) {
+			{name: "module", _init: function(target, zone) {
 				can.runAction(can.request({}, {fields: ctx.INDEX}), ctx.COMMAND, [mdb.SEARCH, ctx.COMMAND], function(msg) {
+					can.page.Modify(can, zone._search, {placeholder: "search in "+msg.Length()+" item"})
 					can.onimport.tree(can, msg.Table(), ctx.INDEX, ice.PT, function(event, item) {
 						can.onimport.tabview(can, can.Option(nfs.PATH), item.index, ctx.INDEX) // 显示模块
 					}, target)
 				})
 			}},
-			{name: "dreams", _init: function(target) { var call = arguments.callee
+			{name: "dreams", _init: function(target, zone) { var call = arguments.callee
 				can.runAction({}, ice.RUN, [web.DREAM], function(msg) {
+					can.page.Modify(can, zone._search, {placeholder: "search in "+msg.Length()+" item"})
 					msg.Table(function(item) {
 						function carte(event) {
 							var list = []; switch (item.status) {

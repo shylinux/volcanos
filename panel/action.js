@@ -75,22 +75,19 @@ Volcanos(chat.ONENGINE, {help: "解析引擎", _engine: function(event, page, ms
 }})
 Volcanos(chat.ONPLUGIN, {help: "注册插件",
 	"parse": shy("解析", {
-		"show": function(can, msg, cmds) {
-			can.require(["/plugin/story/parse.js"], function() {
-				can.onmotion.hidden(can, can._legend)
-				can.onmotion.hidden(can, can._option)
-				can.onmotion.hidden(can, can._status)
-
-				can.ConfHeight(can.ConfHeight()+can.Conf(html.MARGIN_Y)-(can.user.isWindows? 17: 0))
-
-				can.onengine.listen(can, "menu", function(msg) { can.user.toast(can, msg.Option(html.ITEM)) })
-				can.onengine.listen(can, "高级配置", function(msg) { can.user.toast(can, msg.Option(html.ITEM)) })
-				can.onengine.listen(can, "h1", function(msg) { can.user.toast(can, "h1") })
-
-				can.onappend.parse(can, can.onappend._parse(can, cmds[0]))
+		"show": function(can, msg, cmds) { var name = cmds[1]||"can"
+			cmds && cmds[0] && Volcanos(name, {_follow: can.core.Keys(can._follow, name)}, ["/plugin/story/parse.js"], function(sub) {
+				sub.run = can.run, sub.Option = function() {}, can.isCmdMode() && sub.ConfHeight(window.innerHeight)
+				sub.onappend.parse(sub, sub.onappend._parse(sub, cmds[0], name, sub.ConfHeight()), can._output)
+				can.onengine.listen(can, "menu", function(msg) {
+					delete(msg._event), delete(msg._can)
+					can.user.toast(can, JSON.stringify(msg))
+				})
 			})
 		},
-	}, ["text", "show:button@auto"], function(can, msg, cmds, cb) { can._root.Action.run({}, cmds, cb, true) }),
+	}, ["text", "show:button@auto", "clear:button"], function(can, msg, cmds, cb) {
+		cmds && cmds[0] && can._root.Action.run({}, cmds, cb, true)
+	}),
 
 	"plugin": shy("插件", {}, ["text", "list", "back"], function(can, msg, cmds) {
 		msg.Echo("hello world")

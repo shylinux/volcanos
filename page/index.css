@@ -35,7 +35,7 @@ table.content thead { position:sticky; top:2px; }
 table.content th { background-color:steelblue; padding:2px 6px; }
 table.content td { padding:2px 6px; }
 table.content.action th:last-child { position:sticky; right:0; }
-table.content.action td:last-child { background-color:skyblue; position:sticky; right:0; }
+table.content.action td:last-child { background-color:steelblue; position:sticky; right:0; }
 div.code { background-color:#343a3445; color:white; padding:10px; border:solid 2px green; }
 div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:5px 10px; border-left:solid 5px blue; margin:10px; }
 
@@ -47,14 +47,17 @@ div.output div.project div.list { margin-left:10px; }
 div.output div.project div.switch { width:12px; float:left; transform: rotate(90deg) translate(1px, 0px); }
 div.output div.project div.switch.open { transform: rotate(180deg) translate(-4px, 4px); }
 div.output div.project div.zone>div.name { background-color:steelblue; color:white; text-align:center; padding:5px; clear:both; }
-div.output div.project div.item>div.name { padding-left:16px; }
+div.output div.project div.item>div.name { padding-left:20px; }
 div.output div.project div.zone>div.action>div.item { float:right; clear:none; padding:0; margin:0; }
 div.output div.project div.zone>div.action>div.item input[type=text] { background-color:#ff000000; padding-left:10px; color:white; }
 
 fieldset.plugin { background-color:#061c3c9e; padding:10px; margin:10px; }
 fieldset.float { background-color:#0e3369b3; position:absolute; }
+fieldset.full { background-color:#073947f2; padding:0; margin:0; left:0; top:0; overflow:auto; }
 fieldset.story>legend { margin:10px 0; }
 fieldset.plug>legend { float:left; margin-right:5px; }
+fieldset.float>legend { float:left; margin-right:5px; }
+fieldset.full>legend { float:left; margin-right:5px; }
 fieldset.float input[type=button][name=close]{ display:block; }
 fieldset.plug>form.option input[type=button][name=close]{ display:block; }
 fieldset.full input[type=button][name=close]{ display:block; }
@@ -117,13 +120,13 @@ svg { font-family:monospace; }
 form.option, div.action { display:contents; }
 .hide, .hidden, form.option>div.item>label, div.action>div.item>label, fieldset.panel>legend, fieldset.output>legend, fieldset.input>legend { display:none; }
 div.output, div.status, div.content, div.project div.item, div.item.textarea, div.code, div.story[data-type=spark], p.story, h1, h2, h3 { clear:both; }
-form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, div.project, div.status>div.item, fieldset.float>legend { float:left; }
+form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, div.project, div.status>div.item { float:left; }
 div.code, div.story, div.action, div.output, div.status, div.project, div.content, div.profile, div.display, table.content, table.content td, body>div.toast { overflow:auto; }
 div.code, div.story, div.item, div.content, table.content, textarea { white-space:pre; }
 div.code, div.story, div.item { text-align:left; }
 
 /* position cursor */
-fieldset.full fieldset.float, fieldset.input, body>div.toast, body>div.carte, body>div.input, body>div.upload { position:fixed; z-index:10; }
+fieldset.full, fieldset.float, fieldset.input, body>div.toast, body>div.carte, body>div.input, body>div.upload { position:fixed; z-index:10; }
 legend, select, input[type=button], div.item, div.tabs, th, td, h1, h2, h3 { cursor:pointer; }
 div.title, div.story[data-type=spark] { cursor:copy; }
 
@@ -154,11 +157,13 @@ div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
 
 /* table card */
-div.output.card div.item { padding:10px; border:solid 1px #e7e7e7; margin:10px; height:120px; width:240px; float:left; }
+div.output.card div.item { padding:10px; border:solid 1px #e7e7e7; margin:10px; width:240px; float:left; }
 div.output.card div.item>div.title { font-size:1.2rem; font-weight:bold; padding:10px; border-bottom: solid 1px #e7e7e7; }
-div.output.card div.item>div.content { padding:10px; height:24px; }
+div.output.card div.item>div.content { padding:10px; height:45px; }
+body.white div.output.card div.item input[type=button] { background-color:#ff000000; }
 div.output.card div.item.stop { color:gray; }
 
+/* white */
 body.white { background-color:rgba(5,34,56,0.75); color:white; }
 body.white select { background-color:yellowgreen; color:white; }
 body.white textarea { background-color:white; }
@@ -178,13 +183,14 @@ body.white fieldset.panel.Action div.action { color:white; }
 body.white fieldset.plugin { background-color:#ffffffa1; }
 body.white fieldset.full { background-color:#cce0f4eb; color:white; }
 
-/* hover */
+/* white hover */
 body.white legend:hover { background-color:skyblue; }
 body.white select:hover { background-color:#99cc667d; }
 body.white input[type=text]:hover { background-color:cyan; }
 body.white input[name=cmd]:hover { background-color:white; color:black; }
 body.white input[type=button]:hover { background-color:#1b7acc8c; }
 body.white table.content tr:hover { background-color:#4682b46b; }
+body.white table.content.action td:last-child { background-color:skyblue; }
 body.white h1:hover { background-color:#4682b46b; }
 body.white h2:hover { background-color:#4682b46b; }
 body.white h3:hover { background-color:#4682b46b; }
@@ -193,7 +199,8 @@ body.white table.content td:hover { background-color:#6495ed63; }
 body.white table.content td.select { background-color:#6495ed63; }
 body.white div.item:hover { background-color:#4682b46b; }
 body.white div.item.select { background-color:#4682b46b; }
-
+ 
+/* print */
 body.print { background-color:white; color:black; }
 body.print legend, body.print select, body.print input, body.print input[type=button] { background-color:lightgray; color:black; box-shadow:0px 0px 0px 0px #626bd0; }
 body.print table.content th { background-color:lightgray; }
@@ -208,20 +215,19 @@ body.print fieldset.panel { background:white; color:black; }
 body.print fieldset.draw div.output div.content svg { background-color:lightgray; }
 body.print fieldset.draw div.output { background-color:lightgray; }
 
-body.mobile textarea { font-size:1.2rem; }
 body.mobile legend { font-size:1.6rem; height:38px; }
-body.mobile select { font-size:1.4rem; height:38px; }
+body.mobile select { font-size:1.4rem; height:38px; border-radius:0; margin-right:10; }
+body.mobile textarea { font-size:1.2rem; border-radius:0; }
+body.mobile input[type=text] { font-size:1.2rem; height:38px; border-radius:0; margin-right:5px; }
+body.mobile input[type=button] { font-size:1.2rem; height:38px; border-radius:0; }
 body.mobile fieldset.float input[type=button] { font-size:1.4rem; height:38px; }
-body.mobile input[type=button] { height:31px; margin-top:-2px; }
-body.mobile input[type=text] { padding-top:3px; height:31px; }
+body.mobile table.layout div.toggle { font-size:48px; }
 body.mobile table.content th { padding:6px 6px; }
 
 body.mobile form.option>div.item { margin:0; height:38px; }
 body.mobile div.action>div.item { margin:0; height:38px; }
-body.mobile div.output div.code { font-size:12px; }
 body.mobile fieldset.word.float>div.output>div.project { top:38px; }
-
-body.mobile>div.carte div.item { font-size:2rem; }
+body.mobile>div.carte div.item { font-size:1.6rem; }
 body.mobile>div.input.login input { font-size:1.4rem; }
 body.mobile>div.input.login input[name=username] { width:264px; }
 body.mobile>div.input.login input[name=password] { width:264px; }
@@ -233,9 +239,9 @@ body.mobile fieldset.Header.head div.output { height:3rem; }
 body.mobile fieldset.Header.head div.state.time { display:none; }
 body.mobile fieldset.Header.head div.search>input { height:38px; }
 body.mobile fieldset.Header.head div.output div { height:38px; }
-body.mobile fieldset.River.left { background-color:#243950bf; font-size:2rem; min-width:240px; position:fixed; top:3rem; z-index:10; }
+body.mobile fieldset.River.left { background-color:#243950bf; font-size:1.6rem; min-width:240px; position:fixed; top:3rem; z-index:10; }
 body.mobile fieldset.River>div.output { width:320px; }
-body.mobile fieldset.River>div.output div.item { font-size:2rem; }
+body.mobile fieldset.River>div.output div.item { font-size:1.6rem; }
 body.mobile fieldset.Action.main { margin-top:3rem; margin-bottom:3rem; }
 body.mobile fieldset.Action.main.cmd { margin-top:0; margin-bottom:0; }
 body.mobile fieldset.Footer.foot { width:-webkit-fill-available; }
@@ -251,20 +257,23 @@ body.mobile.landscape fieldset.Action.main { margin-top:0; margin-bottom:0; }
 body.mobile.landscape fieldset.Footer.foot { position:unset; }
 body.mobile.landscape fieldset.Footer.foot input[name=cmd] { width:240px; }
 
-body.mobile div.output.card div.item { height:160px; float:none; }
-body.mobile.landscape div.output.card div.item { width:auto; float:left; }
-body.mobile.landscape.simple div.output.card div.item { width:auto; float:left; }
-
 body.mobile fieldset.draw.spide div.action { display:none; }
 body.mobile fieldset.draw.trend div.action { display:none; }
 body.mobile.landscape fieldset.draw.spide div.action { display:block; }
 body.mobile.landscape fieldset.draw.trend div.action { display:block; }
+body.mobile div.output.card div.item { height:160px; float:none; }
+body.mobile.landscape div.output.card div.item { width:auto; float:left; }
+body.mobile.landscape.simple div.output.card div.item { width:auto; float:left; }
 
 /* misc */
 body.mobile.simple div.output.card div.item { width:-webkit-fill-available; }
 fieldset.panel.Search div.story[data-type=spark] { padding:0px; margin:0px; }
 fieldset.panel.Action.cmd>div.toggle.project { display:none; }
 fieldset.plugin.config form.option input[name=key] { width:240px; }
+fieldset.plugin.parse.cmd>legend { display:none; }
+fieldset.plugin.parse.cmd>form.option { display:none; }
+fieldset.plugin.parse.cmd>div.action { display:none; }
+fieldset.plugin.parse.cmd>div.status { display:none; }
 body.mobile fieldset.plan>div.action { display:none; }
 body.white fieldset.panel.Search a { color:yellow; }
 body.black a { color:yellow; }
@@ -301,6 +310,7 @@ body.white.simple>div.carte div.item { background-color:white; color:black; }
 body.white.simple div.carte div.item:hover { background-color:#e3e6f1; }
 body.white.simple fieldset.plugin div.output.json div.item span { color:black; }
 body.white.simple fieldset.plugin div.output.json div.item span.key { color:blue; }
+body.white.simple fieldset.plugin div.output.json div.item span.nonce { color:lightgray; }
 body.white.simple div.output.card input[type=button] { background-color:#0152d9; font-size:0.8rem; padding:5px 10px; box-shadow:2px 2px 6px 1px gray; }
 body.white.simple div.output.card input[type=button]:hover { box-shadow:2px 2px 8px 2px gray; }
 body.white.simple div.output div.project div.zone>div.action>div.item input[type=text] { color:black; }

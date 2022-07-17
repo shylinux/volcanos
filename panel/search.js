@@ -115,7 +115,8 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [cli.CLOSE, cli.CLEAR, cli.
 		var cmd = line.cmd == ctx.COMMAND? can.core.Keys(line.type, line.name.split(ice.SP)[0]): can.core.Keys(line.ctx, line.cmd)
 		can.onappend.plugin(can, {type: "plug", index: cmd||msg.Option(mdb.INDEX)}, function(sub, meta) {
 			sub.run = function(event, cmds, cb) { can.runActionCommand(event, meta.index, cmds, cb) }
-			sub.ConfHeight(can.ConfHeight()-2*html.ACTION_HEIGHT), sub.ConfWidth(can.ConfWidth())
+			can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth(can.ConfWidth()))
+			sub.ConfHeight(can.ConfHeight()-2*html.ACTION_HEIGHT)
 			sub.Focus()
 		}, can.ui.profile)
 	},

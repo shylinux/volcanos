@@ -195,7 +195,7 @@ Volcanos(chat.ONDETAIL, {help: "菜单交互",
 		})
 	},
 	"删除群组": function(event, can, button, river) {
-		can.runAction(can.request(event, {hash: river}), mdb.REMOVE, [], function(msg) { can.misc.Search(can, {}) })
+		can.runAction(can.request(event, {hash: river}), mdb.REMOVE, [], function(msg) { can.misc.Search(can, {river: "", storm: ""}) })
 	},
 
 	"保存参数": function(event, can, button, river, storm) {
@@ -217,7 +217,7 @@ Volcanos(chat.ONDETAIL, {help: "菜单交互",
 	},
 	"删除应用": function(event, can, button, river, storm) {
 		can.run(can.request(event, {hash: storm}), [river, chat.STORM, ctx.ACTION, mdb.REMOVE], function(msg) {
-			can.misc.Search(can, {river: river})
+			can.misc.Search(can, {river: river, storm: ""})
 		})
 	},
 

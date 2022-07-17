@@ -245,6 +245,7 @@ var html = {
 	MENU: "menu", NODE: "node",
 	ZONE: "zone", NAME: "name",
 	LIST: "list", ITEM: "item",
+	ICON: "icon",
 
 	HIDE: "hide", SHOW: "show", AUTO: "auto",
 	HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot",

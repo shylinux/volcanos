@@ -1,8 +1,13 @@
+fieldset.layout legend { display:none; }
+fieldset.layout fieldset.plugin { padding:0; margin:0; }
+
 fieldset.div div.output td { vertical-align:top; }
-fieldset.div div.output fieldset.span>fieldset { overflow:auto; float:left; }
+fieldset.div div.output fieldset.span>div.output>fieldset { overflow:auto; float:left; }
+
 fieldset.panel.cmd.main fieldset.div>legend { display:none; }
 fieldset.panel.cmd.main fieldset.div>form.option { display:none; }
 fieldset.panel.cmd.main fieldset.div>div.action { display:none; }
 fieldset.panel.cmd.main fieldset.div div.project { display:none; }
 fieldset.panel.cmd.main fieldset.div div.profile { display:none; }
-fieldset.word>div.output fieldset.span>fieldset { overflow:auto; float:left; }
+fieldset.panel.cmd.main fieldset.div>div.status { display:none; }
+

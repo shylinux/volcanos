@@ -37,13 +37,13 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 					})
 				}, onclick: function(event) {
 					can.onmotion.focus(can, event.target)
-				}, _init: function(target) {
+				}, _init: function(target) { zone._search = target
 					can.onmotion.delay(can, function() { can.page.styleWidth(can, target, target.parentNode.parentNode.parentNode.offsetWidth-32) })
 				}}], target, {})
 			}},
 			{view: html.LIST, _init: function(target) { can.ui[zone.name] = zone
 				zone._target = target, zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target) }
-				can.base.isFunc(zone._init) && zone._init(target)
+				can.base.isFunc(zone._init) && zone._init(target, zone)
 			}}
 		]} }))
 	},
@@ -109,7 +109,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				{view: [wiki.TITLE, html.DIV, value.name]},
 				{view: [wiki.CONTENT, html.DIV, value.text]},
 				{view: html.ACTION, inner: value.action, onclick: function(event) {
-					can.runAction(can.request(event, value), event.target.name, [])
+					can.runAction(can.request(event, value, {_handle: ice.FALSE}), event.target.name, [])
 				}},
 			]}
 		}))

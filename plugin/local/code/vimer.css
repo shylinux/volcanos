@@ -1,6 +1,6 @@
 fieldset.vimer>div.output input.current {
 	background-color:#00000000; color:#00000000; font-size:1em; font-family:monospace;
-	padding:0; padding-left:12px; border:none; outline:none; margin:0; margin-top:1px;
+	padding:0; padding-left:12px; border:none; outline:none; margin:0; margin-top:-3px;
  	height:22px; position:absolute;
 }
 fieldset.vimer>div.output input.current.normal { caret-color:gray; }
@@ -33,6 +33,9 @@ body.simple fieldset.vimer>div.output div.complete table.content td {
 	font-size:1rem;
 }
 
+body.simple fieldset.vimer>div.output input.current {
+ 	margin-top:1px;
+}
 body.white fieldset.vimer>div.output input.current.insert { caret-color:black; }
 body.white fieldset.vimer>div.output input.current.normal { caret-color:lightgray; }
 
