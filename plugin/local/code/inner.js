@@ -50,7 +50,17 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
 			cli.SHOW, function(event) { can.onaction[cli.SHOW](event, can) },
 			nfs.LOAD, function(event) { can.onaction[nfs.LOAD](event, can) },
-			mdb.LINK, function(event) { can.user.open(can.misc.MergeURL(can, {pod: can.misc.Search(can, ice.POD), cmd: can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE))})) },
+			mdb.LINK, function(event) {
+				if ([nfs.ZML, nfs.IML].indexOf(can.base.Ext(can.Option(nfs.FILE))) > -1) {
+					can.user.open(can.misc.MergeURL(can, {
+						pod: can.misc.Search(can, ice.POD), website: can.base.trimPrefix(can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE)), "src/website/"),
+					}))
+				} else {
+					can.user.open(can.misc.MergeURL(can, {
+						pod: can.misc.Search(can, ice.POD), cmd: can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE))
+					}))
+				}
+			},
 			mdb.PLUGIN, function(event) { can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) { can.onimport.plug(can, data, ui.output) }) },
 			html.WIDTH, function(event) {
 				can.user.input(event, can, [{name: html.WIDTH, value: can.profile_size[can.onexport.keys(can)]*100/can.ConfWidth()||50}], function(list) {

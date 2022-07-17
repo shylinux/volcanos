@@ -126,7 +126,7 @@ div.code, div.story, div.item, div.content, table.content, textarea { white-spac
 div.code, div.story, div.item { text-align:left; }
 
 /* position cursor */
-fieldset.full, fieldset.float, fieldset.input, body>div.toast, body>div.carte, body>div.input, body>div.upload { position:fixed; z-index:10; }
+fieldset.auto, fieldset.full, fieldset.float, fieldset.input, body>div.toast, body>div.carte, body>div.input, body>div.upload { position:fixed; z-index:10; }
 legend, select, input[type=button], div.item, div.tabs, th, td, h1, h2, h3 { cursor:pointer; }
 div.title, div.story[data-type=spark] { cursor:copy; }
 
