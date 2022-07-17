@@ -91,7 +91,7 @@ body>div.carte { padding:0; }
 body>div.carte div.item { background-color:#0e3369b3; padding:3px 12px; }
 body>div.input div.content { overflow:auto; }
 body>div.input td { padding:5px; }
-body>div.input select { width:179px; }
+body>div.input select { width:181px; }
 body>div.input input[type=text] { width:171px; }
 body>div.input input[name=password] { padding:5px; border:0; width:171px; background:white; }
 body>div.input input[name=username] { padding:5px; border:0; width:171px; }
