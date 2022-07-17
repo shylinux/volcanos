@@ -93,10 +93,10 @@ body>div.input div.content { overflow:auto; }
 body>div.input td { padding:5px; }
 body>div.input select { width:179px; }
 body>div.input input[type=text] { width:171px; }
-body>div.input input[name=username] { width:171px; }
-body>div.input input[name=password] { width:171px; }
+body>div.input input[name=password] { padding:5px; border:0; width:171px; background:white; }
+body>div.input input[name=username] { padding:5px; border:0; width:171px; }
 body>div.input textarea { height:120px; width:171px; }
-body>div.input.login { padding:10px; }
+body>div.input.login { padding:10px; background:steelblue; }
 body>div.upload div.item { float:left; }
 body>div.upload div.output { border:solid 1px red; }
 body>div.upload div.progress { background-color:red; height:10px; width:0; }
