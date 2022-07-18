@@ -222,7 +222,7 @@ Volcanos(chat.ONDETAIL, {help: "交互操作", list: ["删除"],
 	},
 	flash: function(sub) {
 		sub.core.Next(sub.page.Select(sub, sub.ui.content, wiki.DIV_PAGE), function(page, next) {
-			sub.sup.ondetail.show(sub, page), sub.core.Timer(500, function() { next() })
+			sub.sup.ondetail.show(sub, page), sub.onmotion.delay(sub, function() { next() })
 		})
 	},
 	grid: function(sub) { sub.page.styleClass(sub, sub.ui.content, "content grid") },

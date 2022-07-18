@@ -2,7 +2,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onimport.select(can, msg)
 		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
 		can.onappend.table(can, msg), can.onappend.board(can, msg)
-		can.core.Timer(12000, function() { can.onaction.play(event, can) })
+		can.onmotion.delay(can, function() { can.onaction.play(event, can) })
 		can.page.Select(can, can._output, "td a", function(a) {
 			can.page.Modify(can, a, {target: ""})
 		})
@@ -12,7 +12,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			msg.Push(mdb.INDEX, index)
 			msg.Push(mdb.NAME, a.innerText)
 			msg.Push(mdb.LINK, a.href)
-			a.href == location.href && can.core.Timer(100, function() {
+			a.href == location.href && can.onmotion.delay(can, function() {
 				can.page.Select(can, can._output, html.TR, function(tr, i) {
 					i-1 == index && can.page.ClassList.add(can, tr, "select")
 				})

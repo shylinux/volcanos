@@ -4,7 +4,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 Volcanos(chat.ONACTION, {help: "操作数据", list: ["打开屏幕", "打开摄像", "打开录音"],
 	_action: function(can, cb) {
 		var ui = can.page.Append(can, can._output, [{view: html.ACTION}, {view: html.OUTPUT, list: [{type: html.VIDEO, style: {width: can.ConfWidth()}, _init: function(item) {
-			can.core.Timer(10, function() { cb(item, ui) })
+			can.onmotion.delay(can, function() { cb(item, ui) })
 		}}]}])
 
 		can.onappend._action(can, [], ui.action, {

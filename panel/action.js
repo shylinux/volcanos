@@ -76,6 +76,7 @@ Volcanos(chat.ONENGINE, {help: "解析引擎", _engine: function(event, page, ms
 Volcanos(chat.ONPLUGIN, {help: "注册插件",
 	"parse": shy("解析", {
 		"show": function(can, msg, cmds) { var name = cmds[1]||"can"
+			can.isCmdMode() && can.user.title(name)
 			cmds && cmds[0] && Volcanos(name, {_follow: can.core.Keys(can._follow, name)}, ["/plugin/story/parse.js"], function(sub) {
 				sub.run = can.run, sub.Option = function() {}, can.isCmdMode() && sub.ConfHeight(window.innerHeight)
 				sub.onappend.parse(sub, sub.onappend._parse(sub, cmds[0], name, sub.ConfHeight()), can._output)
@@ -85,7 +86,7 @@ Volcanos(chat.ONPLUGIN, {help: "注册插件",
 				})
 			})
 		},
-	}, ["text", "show:button@auto", "clear:button"], function(can, msg, cmds, cb) {
+	}, ["text", "name", "show:button@auto", "clear:button"], function(can, msg, cmds, cb) {
 		cmds && cmds[0] && can._root.Action.run({}, cmds, cb, true)
 	}),
 

@@ -330,7 +330,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 
 			// 加载模块
 			libs[0] = libs[0].toLowerCase()
-			var name = libs[0].split("?")[0]
+			var name = libs[0].indexOf("http") == 0? libs[0]: libs[0].split("?")[0]
 			function next() { can._load(name, each), can.require(libs.slice(1), cb, each) }
 			meta.cache[name]? next(): (_can_path = libs[0], meta._load(name, next))
 		},
@@ -442,6 +442,7 @@ try { if (typeof(window) == lang.OBJECT) { // nodejs
 				item.href = url, item.onload = cb
 				return document.head.appendChild(item), item
 			case nfs.JS:
+			default:
 				var item = document.createElement(nfs.SCRIPT)
 				item.src = url, item.onload = cb, item.onerror = cb
 				return document.body.appendChild(item), item

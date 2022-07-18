@@ -8,7 +8,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 						return
 					}
 					if (cmds[1] == "main.go") { res.Echo(msg.Option("content"))
-						can.core.Timer(100, function() { can.sub && can.sub.onaction["项目"]({}, can.sub) })
+						can.onmotion.delay(can, function() { can.sub && can.sub.onaction["项目"]({}, can.sub) })
 					}
 					cb(res), can.sub = can.core.Value(sub, "_outputs.-1")
 				}

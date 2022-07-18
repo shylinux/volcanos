@@ -127,7 +127,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: ["{", "}", html.HEAD, html.
 					can.onappend.parse(can, item.list, target, can.core.Keys(meta.keys, item.name), data, html.ITEM)
 				}}])
 			})
-			can.core.Timer(100, function() { var height = target.offsetHeight
+			can.onmotion.delay(can, function() { var height = target.offsetHeight
 				can.page.style(can, ui.page, html.HEIGHT, height-10-(meta.style? 0: ui.name.offsetHeight))
 				can.page.style(can, _target, html.HEIGHT, height-10)
 			}), can.page.Select(can, ui.name, html.DIV_ITEM)[0].click()

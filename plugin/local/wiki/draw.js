@@ -391,7 +391,7 @@ Volcanos(chat.ONDETAIL, {help: "组件详情", list: [cli.START, ice.RUN, ice.CO
 				})
 			}
 		}
-		can.core.Next(list, function(item, next) { can.core.Timer(3000, function() {
+		can.core.Next(list, function(item, next) { can.onmotion.delay(can, function() {
 			can.onmotion.show(can, {interval: 300, length: 10}, null, item) 
 			can.user.toast(can, item.Value("index"))
 			can.ondetail.run({target: item}, can), next()

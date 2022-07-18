@@ -52,27 +52,22 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 		}, mod)
 	},
 	_remote: function(event, can, msg, panel, cmds, cb) {
-		msg.option = can.core.List(msg.option, function(item) {
-			return {_toast: true, _handle: true}[item] && delete(msg[item])? undefined: item
-		})
-
 		if (panel.onengine._engine(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._plugin(event, can, msg, panel, cmds, cb)) { return }
 
-		var key = can.core.Keys(panel._name, cmds.join(ice.FS))
+		var keys = can.core.Keys(panel._name, cmds.join(ice.FS))
 		if (can.user.isLocalFile) { var msg = can.request(event); msg.Clear(ice.MSG_APPEND)
-			var res = Volcanos.meta.pack[key]; res? msg.Copy(res): can.user.toast(can, "缺失数据")
+			var res = Volcanos.meta.pack[keys]; res? msg.Copy(res): can.user.toast(can, "缺失数据")
 			return can.base.isFunc(cb) && cb(msg)
 		}
 
-		var toast; if (msg.Option(chat._TOAST)) { can.core.Timer(1000, function() {
-			toast = toast||can.user.toast(can, msg.Option(chat._TOAST), msg._can._name, -1)
-		}) }
-		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+panel._name)
+		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() { toast = toast||can.user.toastProcess(can, _toast, msg._can._name) }) }
+		msg.option = can.core.List(msg.option, function(item) { return {_toast: true, _handle: true}[item] && delete(msg[item])? undefined: item })
 		can.onengine.signal(can, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
+
+		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+panel._name)
 		can.misc.Run(event, can, {names: names, daemon: can.core.Keys(can.ondaemon._list[0], msg._daemon)}, cmds, function(msg) {
-			Volcanos.meta.pack[key] = msg, delete(msg._handle), can.base.isFunc(cb) && cb(msg)
-			toast && toast.close(), toast = true, delete(msg._toast)
+			Volcanos.meta.pack[keys] = msg, toast && toast.close(), toast = true, can.base.isFunc(cb) && cb(msg)
 		})
 	},
 	_engine: function(event, can, msg, panel, cmds, cb) {
@@ -155,7 +150,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			},
 			Clone: function() { meta.args = can.page.SelectArgs(can, option, "")
 				can.onappend._init(can, meta, list, function(sub) { can.base.isFunc(cb) && cb(sub, true)
-					can.core.Timer(10, function() { for (var k in sub._inputs) { can.onmotion.focus(can, sub._inputs[k]._target); break } })
+					can.onmotion.delay(can, function() { for (var k in sub._inputs) { can.onmotion.focus(can, sub._inputs[k]._target); break } })
 				}, target)
 			},
 		}, list, function(sub) { sub.Conf(meta), meta.feature = can.base.Obj(meta.feature, {})

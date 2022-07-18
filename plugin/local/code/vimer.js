@@ -103,7 +103,6 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 	_insert: function(event, can) { can.onkeymap._model(can, "insert")
 		can.ui.current.focus(), can.ui.content.scrollLeft -= 10000
 		can.onkeymap.prevent(event)
-		// can._keylist = []
 	},
 
 	_mode: {
@@ -271,7 +270,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.COMPILE, co
 		can.onaction._runs(can.request(event, {file: can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.JS}), can, button)
 	},
 	website: function(event, can, button) {
-		can.onaction._runs(can.request(event, {file: "hi.zml"}), can, button)
+		can.onaction._runs(can.request(event, {file: (can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.ZML).split("/").pop()}), can, button)
 	},
 	dream: function(event, can, button) {
 		can.onaction._runs(can.request(event), can, button, function(msg) { can.ui.dreams.refresh()

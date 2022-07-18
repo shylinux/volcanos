@@ -4,7 +4,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", _init: function(can, meta, cb, ta
 			case html.BUTTON: meta.action == ice.AUTO && target.click(); break
 		}
 	},
-	run: function(event, can) { can.run(event) },
+	run: function(event, can) { can.run(can.request(event, {_toast: "执行中..."})) },
 	list: function(event, can) { can.sup.Conf("mode") != "simple" && can.run(event) },
 	back: function(event, can) { can.sup.onimport._back(can.sup) },
 	refresh: function(event, can) { can.run(event) },

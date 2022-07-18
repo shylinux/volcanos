@@ -202,7 +202,7 @@ Volcanos(chat.ONDETAIL, {help: "菜单交互",
 		can.getAction(ctx.ARGS, function(item, next, index, array) { var msg = can.request({}, {hash: storm, id: item.dataset.id})
 			var toast = can.user.toast(can, (index+1)+ice.PS+array.length, button, 10000, (index+1)*100/array.length)
 			can.run(msg, [river, chat.STORM, ctx.ACTION, mdb.MODIFY, ice.ARG, item.dataset.args], function(msg) {
-				can.core.Timer(200, function() {
+				can.onmotion.delay(can, function() {
 					toast.close(), next(), index == array.length-1 && can.user.toastSuccess(can, button)
 				})
 			})
