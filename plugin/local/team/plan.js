@@ -41,7 +41,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				ondragstart: function(event) { var target = event.target; can.drop = function(event, td, time) { td.append(target)
 					can.onaction.modifyTask(event, can, task, "begin_time", time+task.begin_time.slice(time.length), task.begin_time)
 				} }, draggable: time != undefined, title: can.onexport.title(can, task), _init: function(target) {
-					var item = can.onimport.item(can, html.ITEM, {nick: task.name+":"+task.text}, function() { can.onmotion.delay(can, function() {
+					var item = can.onimport.item(can, {nick: task.name+":"+task.text}, function() { can.onmotion.delay(can, function() {
 						can.onmotion.select(can, can.ui.content, html.TD, target.parentNode), can.onimport._profile(can, task)
 					}) }, null, can.ui.project); task._target = target, target.onclick = function(event) { item.click() }
 					can.task = can.task||task, can.sup.task = can.sup.task||task, can.sup.task.zone == task.zone && can.sup.task.id == task.id && (can.sup.task._target = target)

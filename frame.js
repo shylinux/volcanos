@@ -114,7 +114,9 @@ Volcanos(chat.ONDAEMON, {help: "推荐引擎", _init: function(can, name) { if (
 		})
 	}, _list: [""],
 	refresh: function(can, msg, sub) { sub.Update() },
-	grow: function(can, msg, sub, arg) { sub.onimport._grow(sub, msg, can.page.Color(arg.join(""))) },
+	grow: function(can, msg, sub, arg) {
+		sub.onimport._grow(sub, msg, can.page.Color(arg.join("")))
+	},
 	toast: function(can, msg, arg) { can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}) },
 	pwd: function(can, msg, arg) { can.ondaemon._list[0] = arg[0] },
 	exit: function(can, msg, sub) { can.user.close() },
@@ -134,7 +136,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 
 			Status: function(key, value) {
 				if (can.base.isObject(key)) { return can.core.Item(key, sub.Status), key }
-				can.page.Select(can, status, [[[html.DIV, key], html.SPAN]], function(item) {
+				key && can.page.Select(can, status, [[[html.DIV, key], html.SPAN]], function(item) {
 					if (value && value.indexOf && value.indexOf("http") == 0) { value = can.page.Format(html.A, value) }
 					return value == undefined? (value = item.innerHTML): (item.innerHTML = value)
 				}); return value
@@ -301,14 +303,25 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			case "": return can.page.Append(can, target, [item])
 			case html.SPACE: return can.page.Append(can, target, [{view: can.base.join([html.ITEM, html.SPACE])}])
 		}
-
 		var input = can.page.input(can, item, value)
+		if (item.range) {
+			input._init = function(target) { item.mode = "simple"
+				can.onappend.figure(can, item, target, function(sub, value, old) {
+					target.value = value, can.onaction[item.name](event, can, item.name)
+				})
+			}
+		}
 		var br = input.type == html.TEXTAREA? [{type: html.BR, style: {clear: html.BOTH}}]: []
 		var title = can.Conf([ctx.FEATURE, chat.TITLE, item.name].join(ice.PT))||""; title && (input.title = title)
 		return can.page.Append(can, target, ([{view: style||can.base.join([html.ITEM, item.type]), onkeydown: function(event) {
 			switch (item.type) {
 				case html.TEXT:
-					switch (event.key) { case lang.ENTER: can.onkeymap.prevent(event); break }
+					switch (event.key) {
+						case lang.ENTER:
+							can.onkeymap.prevent(event);
+							can.onaction && can.onaction[item.name] && can.onaction[item.name](event, can, item.name);
+							break
+					}
 					can.onkeymap.input(event, can), can.onmotion.selectField(event, can)
 					break
 				case html.TEXTAREA:
@@ -316,6 +329,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 					break
 			}
 
+		}, _init: function(target) {
 		}, list: [input]}]).concat(br))[item.name]
 	},
 	table: function(can, msg, cb, target, sort) { if (msg.Length() == 0) { return }
@@ -409,7 +423,13 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				function _cbs(sub, value, old) { can.onmotion.hidden(can, sub._target), can.base.isFunc(cbs)? cbs(sub, value, old): target.value = value||"", can.onmotion.delay(can, function() { can.onmotion.focus(can, target) }) }
 				if (target._can) { return can.onmotion.toggle(can,  target._can._target), can.base.isFunc(cb) && cb(target._can, _cbs) }
 				can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT, mode: meta.mode}, ["/plugin/input/"+input+".js"], function(sub) { sub.Conf(meta)
-					sub.run = function(event, cmds, cb) { (meta.run||can.run)(sub.request(event, can.Option()), cmds, cb, true) }
+					sub.run = function(event, cmds, cb) {
+						if (meta.range) {
+							var msg = can.request(event); for (var i = meta.range[0]; i < meta.range[1]; i += meta.range[2]||1) { msg.Push("value", i) } cb(msg)
+							return
+						}
+						(meta.run||can.run)(sub.request(event, can.Option()), cmds, cb, true)
+					}
 					can.onlayout.figure({target: target}, can, sub._target), can.page.style(sub, sub._target, meta.style)
 					target._can = sub, sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }
 					can.base.isFunc(cb) && cb(sub, _cbs), can.base.isFunc(meta._init) && meta._init(sub, sub._target)
@@ -492,7 +512,7 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 	},
 	profile: function(can, target) { target = target||can._output
 		function toggle(view) { var show = view.style.display == html.NONE
-			can.onmotion.toggle(can, view, show), view._toggle && view._toggle(event, show)
+			can.onmotion.toggle(can, view, show), view._toggle? view._toggle(event, show): can.onimport.layout && can.onimport.layout(can)
 			return show
 		}
 

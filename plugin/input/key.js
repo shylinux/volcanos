@@ -7,7 +7,7 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 	_show: function(can, msg, cbs, target, name) {
 		if (!can.onmotion.toggle(can, can._target, msg.Length() != 0)) { return }
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value) {
-			return {text: [value, html.TD], onclick: function(event) { can.base.isFunc(cbs) && cbs(can, value, target.value)
+			return {text: [value, html.TD], style: msg.Length() > 1? {"min-width": target.offsetWidth-16}: {}, onclick: function(event) { can.base.isFunc(cbs) && cbs(can, value, target.value)
 				msg.Option(ice.MSG_PROCESS) == ice.PROCESS_AGAIN && can.onmotion.delay(can, function() {
 					can.onfigure.key._init(event, can, cbs, target, name, value)
 				})

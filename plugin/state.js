@@ -72,6 +72,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 		return true
 	},
 	_grow: function(can, msg, _arg) {
+		sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
+		if (sub && sub.onimport && sub.onimport.grow) {
+			sub.onimport.grow(sub, _arg)
+			return true
+		}
 		if (can.page.Select(can, can._output, html.DIV_CODE, function(div) {
 			can.page.style(can, div, html.MAX_HEIGHT, 400)
 			can.page.Append(can, div, [{text: _arg}])
@@ -144,6 +149,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
 	"删除工具": function(event, can) { can.page.Remove(can, can._target) },
 	"删除配置": function(event, can) { can.runAction(event, "config", ["reset"]) },
+	"帮助文档": function(event, can) { can.runAction(event, "help") },
 
 	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
 

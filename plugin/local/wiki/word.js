@@ -169,7 +169,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 
 			sub.ui = sub.page.Append(sub, sub._output, [{view: chat.PROJECT}, {view: chat.CONTENT}])
 			can.core.List(sub.list = list, function(page, index) {
-				can.onimport.item(can, html.ITEM, {name: page[0].innerHTML}, function(event) {
+				can.onimport.item(can, {name: page[0].innerHTML}, function(event) {
 					can.ondetail.show(sub, index) 
 				}, function(event) {}, sub.ui.project)
 

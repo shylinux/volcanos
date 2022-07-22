@@ -35,7 +35,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				can.Action(key, target.Value(key)||can.Action(key))
 			})
 		}
-		return (name || target == can.svg) && can.onimport.item(can, html.ITEM, {name: name||html.SVG}, function(event) {
+		return (name || target == can.svg) && can.onimport.item(can, {name: name||html.SVG}, function(event) {
 			show(event), can.onaction.show(event, can), can.Status(svg.GROUP, name||html.SVG)
 		}, function(event) {
 			can.user.carteRight(event, can, can.onaction, can.onaction.menu_list)

@@ -104,6 +104,7 @@ var aaa = {
 	PASSWORD: "password", USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite",
+	TOKEN: "token",
 }
 var web = {
 	SPACE: "space", DREAM: "dream", SHARE: "share",
@@ -151,6 +152,7 @@ var chat = {
 	AGENT: "agent", CHECK: "check", GRANT: "grant",
 	STATE: "state", MENUS: "menus", TRANS: "trans",
 	SSO: "sso", WEBSITE: "website",
+	LOCATION: "location",
 
 	libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
 	panel_list: [
@@ -278,7 +280,7 @@ var lang = {
 
 function shy(help, meta, list, cb) { var index = 0, args = arguments
 	function next(type) { if (index < args.length && (!type || type == typeof args[index])) { return args[index++] } }
-	return cb = args[args.length-1]||function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.OBJECT)||[], cb
+	return cb = typeof args[args.length-1] == lang.FUNCTION?args[args.length-1]:function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.OBJECT)||[], cb
 }; var _can_name = "", _can_path = ""
 var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: {}, cache: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list

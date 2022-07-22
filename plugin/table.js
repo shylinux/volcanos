@@ -17,11 +17,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 
 	zone: function(can, list, target) { var color = [""]
-		return can.page.Append(can, target, can.core.List(list, function(zone, index) { return zone && {view: html.ZONE+" "+zone.name, list: [
-			{view: html.NAME, inner: zone.name, style: {background: color[index%color.length]}, onclick: function() {
+		return can.page.Append(can, target, can.core.List(list, function(zone, index) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: html.ZONE+" "+zone.name, list: [
+			{view: html.NAME, inner: can.user.trans(can, zone.name), style: {background: color[index%color.length]}, onclick: function() {
 				can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._target)
 			}, onmouseenter: function(event) {
-				zone._menu? can.user.carteRight(event, can, zone._menu.meta, zone._menu.list, function(event, button, meta) {
+				zone._menu? can.user.carteRight(event, can, zone._menu.meta, zone._menu.list||can.core.Item(zone._menu.meta), function(event, button, meta) {
 					(meta[button]||can.onaction[button])(event, can, button)
 				}): can.user.carteRight(event, can, {
 					"折叠": function() { can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, false) }) },
@@ -39,6 +39,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 					can.onmotion.focus(can, event.target)
 				}, _init: function(target) { zone._search = target
 					can.onmotion.delay(can, function() { can.page.styleWidth(can, target, target.parentNode.parentNode.parentNode.offsetWidth-32) })
+					// can.onappend.figure(can, {name: zone.name}, target)
 				}}], target, {})
 			}},
 			{view: html.LIST, _init: function(target) { can.ui[zone.name] = zone
@@ -72,12 +73,19 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			}}, {view: html.LIST}]); can.onimport.list(can, item, cb, ui.list)
 		})
 	},
-	item: function(can, type, item, cb, cbs, target) { target = target||can._output
-		var ui = can.page.Append(can, target, [{view: [type, html.DIV, item.nick||item.name],
-			onclick: function(event) { cb(event, ui.first)
-				can.onmotion.select(can, target, can.core.Keys(html.DIV, type), ui.first)
+	item: function(can, item, cb, cbs, target) { target = target||can._output
+		var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.nick||item.name],
+			onclick: function(event) { cb(event, ui.first, event.target._list && can.onmotion.toggle(can, event.target._list))
+				can.onmotion.select(can, target, can.core.Keys(html.DIV, html.ITEM), ui.first)
 			}, onmouseenter: function(event) { cbs(event, ui.first) },
 		}]); return ui.first
+	},
+	itemlist: function(can, list, cb, cbs, target) {
+		return target._list = can.page.insertBefore(can, [{view: html.LIST, list: can.core.List(list, function(item) {
+			return {view: [html.ITEM, html.DIV, item.name], onclick: function(event) {
+				cb(event, item, event.target._list && can.onmotion.toggle(can, event.target._list))
+			}, onmouseenter: function(event) { cbs(event, item) }}
+		}) }], target.nextSibling, target.parentNode)
 	},
 	tabs: function(can, list, cb, cbs, action, each) { action = action||can._action
 		return can.page.Append(can, action, can.core.List(list, function(tabs) {

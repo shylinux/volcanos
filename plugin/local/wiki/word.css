@@ -30,10 +30,10 @@ fieldset.word.float h1 { text-align:center; }
 fieldset.word.float h2 { text-align:center; }
 fieldset.word.float h3 { text-align:center; }
 
-fieldset.panel.cmd fieldset.word>legend { display:none; }
-fieldset.panel.cmd fieldset.word>form.option { display:none; }
-fieldset.panel.cmd fieldset.word>div.action { display:none; }
-fieldset.panel.cmd fieldset.word>div.status { display:none; }
+fieldset.word.cmd>legend { display:none; }
+fieldset.word.cmd>form.option { display:none; }
+fieldset.word.cmd>div.action { display:none; }
+fieldset.word.cmd>div.status { display:none; }
 
 div.story[data-type=spark][data-name=field]>div.menu { float:left; overflow:auto; }
 div.story[data-type=spark][data-name=field]>div.list { float:left; overflow:auto; }
