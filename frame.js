@@ -514,6 +514,14 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 			]}
 		]}] }])
 	},
+	profile_auto: function(can, target) {
+		can.onlayout.profile(can, target)
+		can.page.ClassList.add(can, can.ui.project, ice.AUTO)
+		can.page.ClassList.add(can, can.ui.profile, ice.AUTO)
+		can.page.ClassList.add(can, can.ui.display, ice.AUTO)
+		can.onmotion.toggle(can, can.ui.profile, true)
+		can.onmotion.hidden(can, can.ui.project)
+	},
 	profile: function(can, target) { target = target||can._output
 		function toggle(view) { var show = view.style.display == html.NONE
 			can.onmotion.toggle(can, view, show), view._toggle? view._toggle(event, show): can.onimport.layout && can.onimport.layout(can)
@@ -599,7 +607,7 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), true },
 	cache: function(can, next) { var list = can.base.Obj(can.core.List(arguments).slice(2), [can._output])
 		can.core.List(list, function(item) { item._cache_key && can.page.Cache(item._cache_key, item, item.scrollTop+1) })
-		var key = next(can._cache_data = can._cache_data||{})
+		var key = next(can._cache_data = can._cache_data||{}); if (!key) { return }
 		return can.core.List(list, function(item) { var pos = can.page.Cache(item._cache_key = key, item)
 			if (pos) { item.scrollTo && item.scrollTo(0, pos-1); return item }
 		}).length > 0

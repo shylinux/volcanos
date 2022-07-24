@@ -89,6 +89,7 @@ body>div.toast div.progress div.current { background-color:red; height:10px; }
 body>div.toast div.action { display:block; }
 body>div.carte { padding:0; }
 body>div.carte div.item { background-color:#0e3369b3; padding:3px 12px; }
+body>div.carte div.space { border-bottom:solid 1px gray; }
 body>div.input div.content { overflow:auto; }
 body>div.input td { padding:5px; }
 body>div.input select { width:181px; }
@@ -114,6 +115,7 @@ input { font-size:1.1rem; height:31px; }
 table.content th, table.content td, div.zone>div.name, div.item, div.code, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
 div.status>div.item>label { font-size:0.6rem; font-family:monospace; }
 div.status>div.item { padding:4px; height:22px; }
+div.action>div.tabs { padding:5px 10px; height:21px; }
 svg { font-family:monospace; }
 
 /* display */
@@ -147,6 +149,7 @@ div.story[data-type=spark] span:hover { background-color:deepskyblue; box-shadow
 table.content tr.select, table.content tr:hover, h1:hover, h2:hover, h3:hover, div.item.select, div.item:hover, div.tabs.select, div.tabs:hover, .select { background-color:steelblue; }
 table.content th:hover, table.content td.select, table.content td:hover { background-color:cornflowerblue; }
 body>div.carte div.item:hover { background-color:cornflowerblue; }
+div.action>div.tabs:hover { background-color:steelblue; }
 
 /* scrollbar */
 body { overflow:-moz-scrollbars-none; -ms-overflow-style:none; }
@@ -329,3 +332,6 @@ div.profile.auto { position:absolute; right:0; z-index:10; }
 fieldset.plugin.location>div.action input[type=text] {
 	width:40px;
 }
+
+fieldset.xterm div.action>div.tabs:hover { background-color:black; }
+fieldset.xterm div.action>div.tabs.select { background-color:black; }

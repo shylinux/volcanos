@@ -314,6 +314,15 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 				}
 			}
 		},
+		requireModules: function(libs, cb, each) {
+			for (var i = 0; i < libs.length; i++) {
+				if (libs[i].indexOf("http") == 0) { continue }
+				if (libs[i].indexOf("/") == 0) { continue }
+				if (libs[i].indexOf(".css") == -1 && libs[i].indexOf(".js") == -1) { libs[i] = libs[i]+"/lib/"+libs[i]+".js" }
+				libs[i] = "/require/node_modules/"+libs[i]
+			}
+			can.require(libs, cb, each)
+		},
 		require: function(libs, cb, each) { if (!libs || libs.length == 0) {
 				typeof cb == lang.FUNCTION && setTimeout(function() { cb(can) }, 10)
 				return // 加载完成

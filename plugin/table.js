@@ -95,13 +95,14 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				function close(item) { var next = item.nextSibling||item.previousSibling; next && next.click()
 					if (next) { can.base.isFunc(cbs) && cbs(item._meta), can.page.Remove(can, item) }
 				}
+				var menu = tabs._menu||shy({}, [], function(event, button, meta) { (meta[button])(event, can, button) })
 				can.page.Modify(can, item, {draggable: true, _close: function() { close(item) }, _meta: tabs,
-					onmouseenter: function(event) { can.user.carte(event, can, kit.Dict(
-						"close tab", function(event) { close(item) },
-						"close other", function(event) { can.page.Select(can, action, html.DIV_TABS, function(_item) { _item == item || close(_item) }) },
-						"close all", function(event) { can.page.Select(can, action, html.DIV_TABS, close) }
-					), ["close tab", "close other", "close all"].concat(tabs._menu||[]), function(event, button, meta) {
-						(meta[button]||can.onaction[button])(event, can, button)
+					onmouseenter: function(event) { can.user.carte(event, can, can.base.Copy(kit.Dict(
+						"Close", function(event) { close(item) },
+						"Close others", function(event) { can.page.Select(can, action, html.DIV_TABS, function(_item) { _item == item || close(_item) }) },
+						"Close all", function(event) { can.page.Select(can, action, html.DIV_TABS, close) },
+					), menu.meta), ["Close", "Close others", "Close all", ""].concat(menu.list), function(event, button, meta) {
+						menu(event, button, meta)
 					}) },
 					ondragstart: function(event) { action._drop = function(before) { action.insertBefore(event.target, before) } },
 					ondragover: function(event) { event.preventDefault(), action._drop(event.target) },
@@ -122,9 +123,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			]}
 		}))
 	},
-	plug: function(can, meta, target, cb) { meta.type = "plug"
-		can.onappend.plugin(can, meta, function(sub) {
+	plug: function(can, meta, target, cb) { if (!meta || !meta.index) { return }
+		meta.type = "plug", can.onappend.plugin(can, meta, function(sub) {
 			sub.run = function(event, cmds, cb) { can.runActionCommand(can.request(event, can.Option()), meta.index, cmds, cb) }
+			sub.onaction.close = function() { can.onmotion.hidden(sub, sub._target) }
 			can.base.isFunc(cb) && cb(sub)
 		}, target)
 	},

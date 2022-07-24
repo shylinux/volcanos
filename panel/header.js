@@ -208,7 +208,7 @@ Volcanos(chat.ONACTION, {help: "交互数据", _init: function(can, cb, target) 
 		can.user.carte(event, can, can.onaction, list, cb)
 	},
 	share: function(event, can, args) {
-		can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[], [chat.RIVER, can.Conf(chat.RIVER), chat.STORM, can.Conf(chat.STORM)]))
+		can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[], [chat.RIVER, can.Conf(chat.RIVER)||"", chat.STORM, can.Conf(chat.STORM)||""]))
 	},
 
 	usernick: function(event, can) { if (can.user.mod.isPod || can.user.isExtension || can.user.isLocalFile) { return }
