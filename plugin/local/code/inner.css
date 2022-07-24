@@ -24,7 +24,7 @@ fieldset.inner>div.output td.content>div.tabs { display:none; }
 fieldset.inner>div.output td.content>div.path { display:none; }
 fieldset.inner div.output fieldset.toolkit { position:absolute; bottom:0px; right:0px; }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset { display:none; }
-fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select { background-color:#0e3369b3; color:white; display:block; }
+fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select { background-color:#0e3369b3; color:white; display:block; z-index:10; }
 fieldset.inner>div.status legend { float:right; }
 fieldset.inner>div.status legend.select { background-color:green; }
 fieldset.inner>div.status legend:hover { background-color:green; }
@@ -43,6 +43,7 @@ body.simple fieldset.inner>div.output div.content td.line { padding-top:4px; bor
 body.simple fieldset.inner>div.output div.content td.text { padding-top:2px; border:solid 1px transparent; }
 
 body.white.simple fieldset.inner>div.output div.project { background-color:whitesmoke; }
+body.white.simple fieldset.inner>div.output div.project.toggle { background-color:#4682b46b; }
 body.white.simple fieldset.inner>div.output div.project div.item { color:black; }
 body.white.simple fieldset.inner>div.output td.content>div.tabs { background-color:whitesmoke; }
 body.white.simple fieldset.inner>div.output td.content>div.tabs div.tabs { background-color:lightgray; color:black; }

@@ -73,11 +73,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			}}, {view: html.LIST}]); can.onimport.list(can, item, cb, ui.list)
 		})
 	},
-	item: function(can, item, cb, cbs, target) { target = target||can._output
+	item: function(can, item, cb, cbs, target) { target = target||(can.ui && can.ui.project? can.ui.project: can._output)
 		var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.nick||item.name],
 			onclick: function(event) { cb(event, ui.first, event.target._list && can.onmotion.toggle(can, event.target._list))
 				can.onmotion.select(can, target, can.core.Keys(html.DIV, html.ITEM), ui.first)
-			}, onmouseenter: function(event) { cbs(event, ui.first) },
+			}, onmouseenter: function(event) { can.base.isFunc(cbs) && cbs(event, ui.first) },
 		}]); return ui.first
 	},
 	itemlist: function(can, list, cb, cbs, target) {

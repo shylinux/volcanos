@@ -5,4 +5,5 @@ page/can.js
 page/can.css
 page/cache.js
 page/cache.css
-pack/
+node_modules/
+package-lock.json

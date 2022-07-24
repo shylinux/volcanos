@@ -74,7 +74,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 	_grow: function(can, msg, _arg) {
 		sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
 		if (sub && sub.onimport && sub.onimport.grow) {
-			sub.onimport.grow(sub, _arg)
+			sub.onimport.grow(sub, msg, _arg)
 			return true
 		}
 		if (can.page.Select(can, can._output, html.DIV_CODE, function(div) {

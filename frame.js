@@ -9,6 +9,8 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 		}, Volcanos.meta.args = can.user.args(can)
 		can.user.title(can.misc.Search(can, chat.TITLE)||can.misc.Search(can, ice.POD)||location.host)
 
+		window.onunload = function() { can.onengine.signal(can, "onunload") }
+
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
 			can.onappend._init(can, can.base.Copy(item, can.core.Value(can, [chat.RIVER, item.name])), item.list, function(panel) {
 				panel.run = function(event, cmds, cb) { var msg = panel.request(event); cmds = cmds||[]
@@ -118,7 +120,9 @@ Volcanos(chat.ONDAEMON, {help: "推荐引擎", _init: function(can, name) { if (
 		sub.onimport._grow(sub, msg, can.page.Color(arg.join("")))
 	},
 	toast: function(can, msg, arg) { can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}) },
-	pwd: function(can, msg, arg) { can.ondaemon._list[0] = arg[0] },
+	pwd: function(can, msg, arg) {
+		can._wss_name = can.ondaemon._list[0] = arg[0]
+	},
 	exit: function(can, msg, sub) { can.user.close() },
 })
 Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, cb, target, field) {
