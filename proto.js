@@ -421,6 +421,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 	} else { // 加入队列
 		list.push(can)
 	}
+	_can_path = _can_name||_can_path
 
 	if (can._follow) { libs = libs.concat(meta.libs, meta.volcano) }
 	if (libs && libs.length > 0) { // 解析参数

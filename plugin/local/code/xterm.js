@@ -10,17 +10,23 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 			var hash = can.sup._hash||(location.hash||"#").slice(1)||true, list = msg.Table(function(value) {
 				var item = can.onimport._item(can, value); value.hash == hash && (item.click(), hash = false)
-			});
-			hash && can.onimport._create(can, [mdb.TYPE, "", mdb.NAME, "term"])
+			}); hash && can.onimport._create(can, [mdb.TYPE, "", mdb.NAME, "term"])
 		}, 500) })
 	},
 	layout: function(can) {
 		can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth())
 		var term = can.ui.content._term; if (!term) { return }
-		term._fit.fit(), can.onexport.term(can, term._item, term)
+		term._fit.fit(), can.onexport.term(can, term)
 	},
-	_size: function(can, item, size) {
-		can.runAction(can.request({}, size, item), "resize", [], function() {})
+	_item: function(can, item) {
+		item._menu = shy(can.ondetail, can.ondetail.list, function(event, button, meta) {
+			can.request(event, item, item.extra), meta[button](event, can, button, item)
+		})
+		return item._item = can.onimport.item(can, item, function(event) { 
+			item._tabs? item._tabs.click(): item._tabs = can.onimport.tabs(can, [item], function(event) {
+				can.onimport._connect(can, item)
+			}), item._plugin && can.onmotion.toggle(can, item._plugin._target, true)
+		}, function(event) { can.user.carteRight(event, can, can.ondetail, can.ondetail.list, item._menu) })
 	},
 	_create: function(can, args, data) {
 		can.runAction({}, mdb.CREATE, args, function(msg) {
@@ -28,31 +34,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.page.insertBefore(can, current, can.ui.project.firstChild).click()
 		})
 	},
-	_input: function(can, item, val) {
-		can.runAction(can.request({}, item), "input", [btoa(val)], function() {})
-	},
-	_item: function(can, item) {
-		item._menu = shy(can.ondetail, can.ondetail.list, function(event, button, meta) {
-			can.request(event, item, item.extra), meta[button](event, can, button, item)
-		})
-		return item._item = can.onimport.item(can, item, function(event) { 
-			item._plugin && can.onmotion.toggle(can, item._plugin._target, true)
-			item._tabs? item._tabs.click(): item._tabs = can.onimport.tabs(can, [item], function(event) {
-				can.onimport._connect(can, item)
-			})
-		}, function(event) {
-			can.user.carteRight(event, can, can.ondetail, can.ondetail.list, item._menu)
-		})
-	},
-	_plug: function(can, item) { can.onmotion.clear(can, can.ui.profile)
-		can.onimport.plug(can, item.extra, can.ui.profile, function(sub) { item._plugin = sub
-			can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth()*3/4)
-		})
-	},
 	_connect: function(can, item, target) { target = target||can.ui.content
 		can.sup._hash = item.hash, can.isCmdMode() && (location.hash = item.hash)
 		if (can.onmotion.cache(can, function() { return item.hash }, target, can.ui.profile)) {
-			return item._term.focus(), can.onexport.term(can, item, item._term)
+			can.runAction(can.request(event, item), "select"), item._term.focus()
+			return can.onexport.term(can, item._term)
 		}
 
 		item.extra = can.base.Obj(item.extra, {})
@@ -61,7 +47,6 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		term.loadAddon(new WebLinksAddon.WebLinksAddon())
 
 		term.open(target||can.ui.content)
-		term.onCursorMove(function(e) { can.onexport.term(can, item, term) })
 		term.onResize(function(size) { can.onimport._size(can, item, size) })
 		fitAddon.fit()
 
@@ -79,17 +64,29 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				default: keyskip = false
 			} }
 			submode = event.ctrlKey && event.key == "g"
-			can.onexport.term(can, item, term)
+			can.onexport.term(can, term)
 		})
 		term.onData(function(val) {
 			if (submode || keyskip) { keyskip = false; return }
 			can.onimport._input(can, item, val)
 		})
 		term.onTitleChange(function(title) { can.isCmdMode() && can.user.title(title) })
+		term.onCursorMove(function(e) { can.onexport.term(can, term) })
 
 		can.term[item.hash] = item._term = target._term = term, term._target = target, term._item = item
-		can.runAction(can.request(event, item), "select"), can.onimport._plug(can, item)
-		return item._term.focus(), can.onexport.term(can, item, term)
+		can.runAction(can.request(event, item), "select"), item._term.focus()
+		return can.onimport._plug(can, item), can.onexport.term(can, term)
+	},
+	_input: function(can, item, val) {
+		can.runAction(can.request({}, item), "input", [btoa(val)], function() {})
+	},
+	_size: function(can, item, size) {
+		can.runAction(can.request({}, size, item), "resize", [])
+	},
+	_plug: function(can, item) { can.onmotion.clear(can, can.ui.profile)
+		can.onimport.plug(can, item.extra, can.ui.profile, function(sub) { item._plugin = sub
+			can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth()*3/4)
+		})
 	},
 	grow: function(can, msg, type) { var term = can.term[msg.Option(mdb.HASH)]
 		switch (type) {
@@ -130,7 +127,7 @@ Volcanos(chat.ONDETAIL, {help: "操作数据", list: ["share", "plugin", "theme"
 	},
 	theme: function(event, can, button, item) {
 		can.user.input(event, can, ["background", "selection", "cursor", "foreground"], function(args, data) {
-			can.runAction(event, mdb.MODIFY, args), item._term.setOption("theme", data), can.base.Copy(item.extra, data)
+			can.runAction(event, mdb.MODIFY, args), can.base.Copy(item.extra, data), item._term.setOption("theme", data)
 		})
 	},
 	rename: function(event, can, button, item) {
@@ -142,13 +139,13 @@ Volcanos(chat.ONDETAIL, {help: "操作数据", list: ["share", "plugin", "theme"
 		can.runAction(event, button)
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["total", "type", "background", "rows", "cols", "cursorY", "cursorX", ctx.INDEX],
-	term: function(can, item, term) {
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: [mdb.TOTAL, mdb.TYPE, "background", "rows", "cols", "cursorY", "cursorX", ctx.INDEX],
+	term: function(can, term) { item = term._item
 		can.core.List(can.onexport.list, function(key) {
 			can.Status(key, can.base.getValid(item[key], item.extra[key], term[key], term.buffer.active[key], ""))
 		})
-		can.Status("total", can.page.Select(can, can.ui.project, html.DIV_ITEM).length)
-		can.Status("type", item["type"]||"")
+		can.Status(mdb.TOTAL, can.page.Select(can, can.ui.project, html.DIV_ITEM).length)
+		can.Status(mdb.TYPE, item[mdb.TYPE]||"")
 		return term
 	},
 })
