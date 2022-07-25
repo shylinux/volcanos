@@ -573,7 +573,7 @@ Volcanos(chat.ONKEYMAP, {help: "导入数据",
 	}, _engine: {},
 })
 Volcanos(chat.ONACTION, {help: "控件交互", list: ["搜索", "打开"],
-	_trans: {load: "加载", link: "链接", width: "宽度", height: "高度", website: "网页"},
+	_trans: {source: "源码", module: "模块", dreams: "空间", load: "加载", link: "链接", width: "宽度", height: "高度", website: "网页"},
 	"搜索": function(event, can) {
 		can.user.input(event, can, [mdb.NAME, [ctx.ACTION, nfs.TAGS, nfs.GREP, cli.MAKE]], function(data) {
 			can.ui.search.Update({}, [ctx.ACTION, data.action, data.name])

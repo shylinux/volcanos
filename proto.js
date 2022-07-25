@@ -172,6 +172,7 @@ var chat = {
 		"/plugin/story/trend.js",
 		"/plugin/local/code/inner.js",
 		"/plugin/local/code/vimer.js",
+		"/plugin/local/code/xterm.js",
 		"/plugin/local/wiki/draw/path.js",
 		"/plugin/local/wiki/draw.js",
 		"/plugin/local/wiki/word.js",

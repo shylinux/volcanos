@@ -8,7 +8,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				return can.onimport._connect(can, item)
 			}
 
-			var hash = can.sup._hash||(location.hash||"#").slice(1)||true, list = msg.Table(function(value) {
+			var hash = can.sup._hash||can.misc.SearchHash(can)||true, list = msg.Table(function(value) {
 				var item = can.onimport._item(can, value); value.hash == hash && (item.click(), hash = false)
 			}); hash && can.onimport._create(can, [mdb.TYPE, "", mdb.NAME, "term"])
 		}, 500) })
@@ -88,7 +88,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth()*3/4)
 		})
 	},
-	grow: function(can, msg, type) { var term = can.term[msg.Option(mdb.HASH)]
+	grow: function(can, msg, type) { var term = can.term[msg.Option(mdb.HASH)]; if (!term) { return }
 		switch (type) {
 			case "data": term.write(atob(msg.Option(mdb.TEXT))); break
 			case "exit": can.onmotion.clear(can, term._target); break
@@ -117,7 +117,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", list: [mdb.CREATE, lex.SPLIT, mdb
 Volcanos(chat.ONDETAIL, {help: "操作数据", list: ["share", "plugin", "theme", "rename", "remove"],
 	share: function(event, can, button, item) { var msg = can.request(event); msg.Option("args", "")
 		can.onmotion.share(event, can, [{name: chat.TITLE, value: item.name}, {name: chat.TOPIC, values: [cli.WHITE, cli.BLACK]}], [
-			mdb.NAME, "web.code.xterm", mdb.TEXT, JSON.stringify([can.sup._hash]),
+			mdb.NAME, can._index, mdb.TEXT, JSON.stringify([can.sup._hash]),
 		])
 	},
 	plugin: function(event, can, button, item) {

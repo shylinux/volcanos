@@ -333,5 +333,6 @@ fieldset.plugin.location>div.action input[type=text] {
 	width:40px;
 }
 
-fieldset.xterm div.action>div.tabs:hover { background-color:black; }
-fieldset.xterm div.action>div.tabs.select { background-color:black; }
+fieldset.xterm>div.action>div.tabs:hover { background-color:black; }
+fieldset.xterm>div.action>div.tabs.select { background-color:black; }
+fieldset.xterm>div.output { background-color:black; }

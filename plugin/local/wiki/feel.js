@@ -7,9 +7,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onappend.table(can, can.path, null, can.ui.content)
 		can.onappend._status(can, can.onexport.list)
 
-		can.Action(html.HEIGHT, msg.Option(html.HEIGHT)||msg._cmds[1]||"100")
+		can.Action(html.HEIGHT, msg.Option(html.HEIGHT)||msg._cmds[1]||ice.AUTO)
 		can.Action(html.SPEED, msg.Option(html.SPEED)||msg._cmds[2]||"1")
-		can.Action(mdb.LIMIT, msg.Option(mdb.LIMIT)||msg._cmds[3]||"6")
+		can.Action(mdb.LIMIT, msg.Option(mdb.LIMIT)||msg._cmds[3]||"9")
 		can.onmotion.hidden(can, can._action)
 
 		can.begin = parseInt(can.begin||msg.Option(cli.BEGIN)||"0")
@@ -33,13 +33,13 @@ Volcanos(chat.ONFIGURE, {help: "组件菜单",
 	png: function(can, path, index) { return can.onfigure.image(can, path, index) },
 	jpg: function(can, path, index) { return can.onfigure.image(can, path, index) },
 	jpeg: function(can, path, index) { return can.onfigure.image(can, path, index) },
-	image: function(can, path, index) { return {img: path, height: can.Action(html.HEIGHT),
+	image: function(can, path, index) { return {img: path, height: can.onexport.height(can),
 		onmouseover: function(event) { can.Status(nfs.FILE, path) },
 		onclick: function(event) { can.ondetail._init(can, index) },
 	} },
 
 	video: function(can, path) { var auto = can.user.isMobile&&can.Action(mdb.LIMIT)!="1"? false: true, loop = true, total = 0; function cb(event) { }
-		return {type: html.VIDEO, style: {height: parseInt(can.Action(html.HEIGHT))}, className: "preview",
+		return {type: html.VIDEO, style: {height: can.onexport.height(can)}, className: "preview",
 			data: {src: path, controls: "controls", autoplay: auto, loop: loop, playbackRate: parseFloat(can.Action(html.SPEED))},
 			oncontextmenu: cb, onplay: cb, onpause: cb, onended: cb,
 			onmouseover: function(event) { can.Status(nfs.FILE, path) },
@@ -55,7 +55,7 @@ Volcanos(chat.ONFIGURE, {help: "组件菜单",
 	mov: function(can, path) { return can.onfigure.video(can, path) },
 })
 Volcanos(chat.ONACTION, {help: "组件菜单", list: [
-		[html.HEIGHT, 100, 200, 400, 600, 800],
+		[html.HEIGHT, 100, 200, 400, 600, 800, ice.AUTO],
 		[html.SPEED, 0.1, 0.2, 0.5, 1, 2, 3, 5, 10],
 		[mdb.LIMIT, 1, 3, 6, 9, 12, 15, 20, 30, 50],
 	],
@@ -112,6 +112,9 @@ Volcanos(chat.ONDETAIL, {help: "组件菜单", list: ["关闭", "下载", "删�
 	"复制链接": function(event, can) { can.user.copy(event, can, can.misc.MergeURL(can, {_path: can.onimport._file(can, can.list[can.order].path)}, true)) },
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据", list: [cli.BEGIN, mdb.LIMIT, mdb.TOTAL, nfs.FILE, "position"],
+	height: function(can) { var height = can.Action(html.HEIGHT)
+		return parseInt(height == ice.AUTO? can.base.Min(can.ConfHeight()/4, 200): height)
+	},
 	position: function(can, index, total) { total = total || can.max
 		return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+ice.PS+parseInt(total)
 	},

@@ -103,7 +103,7 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 		arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
 	}),
 	signal: shy("触发事件", function(can, name, msg) { msg = msg||can.request()
-		can.misc.Log(gdb.SIGNAL, name, name == chat.ONREMOTE? msg.Option("_msg"): msg)
+		can.misc.Log(gdb.SIGNAL, name, (msg._cmds||[]), name == chat.ONREMOTE? msg.Option("_msg"): msg)
 		return can.core.List(can.onengine.listen.meta[name], function(cb) { can.core.CallFunc(cb, {event: msg._event, msg: msg}) }).length
 	}),
 })
@@ -272,6 +272,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				return can.Update(event, can.Input(cmds, silent), cb, silent)
 			}, can._outputs && can._outputs.push(table), table.sup = can, table._msg = msg
 
+			table._index = can._index
 			table.Mode(can.Mode()), table.Conf(table._args = can.base.ParseURL(table._display))
 			table._trans = can.base.Copy(table._trans||{}, can.core.Value(table, "onaction._trans"))
 			if (table.onimport && can.base.isArray(table.onimport.list) && table.onimport.list.length > 0) {
