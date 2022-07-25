@@ -68,7 +68,7 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 		can.onengine.signal(can, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
 
 		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+panel._name)
-		can.misc.Run(event, can, {names: names, daemon: can.core.Keys(can.ondaemon._list[0], msg._daemon)}, cmds, function(msg) {
+		can.misc.Run(event, can, {names: names, daemon: msg._daemon}, cmds, function(msg) {
 			Volcanos.meta.pack[keys] = msg, toast && toast.close(), toast = true, can.base.isFunc(cb) && cb(msg)
 		})
 	},
@@ -516,6 +516,7 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 	},
 	profile_auto: function(can, target) {
 		can.onlayout.profile(can, target)
+		can.page.style(can, can.ui.project, html.MAX_HEIGHT, can.ConfHeight())
 		can.page.ClassList.add(can, can.ui.project, ice.AUTO)
 		can.page.ClassList.add(can, can.ui.profile, ice.AUTO)
 		can.page.ClassList.add(can, can.ui.display, ice.AUTO)
@@ -558,8 +559,8 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 	},
 	float: {_hash: {},
 		del: function(can, key) {
-			key == chat.CARTE && can.page.Select(can, can._root._target, can.core.Keys(html.DIV, chat.CARTE), function(item) {
-				can.page.Remove(can, item)
+			key == chat.CARTE && can.page.Select(can, can._root._target, can.core.Keys(html.DIV, chat.CARTE), function(target) {
+				can.page.Remove(can, target)
 			})
 			var last = this._hash[key]; if (!last) { return }
 			last.close? last.close(): can.page.Remove(can, last._target)

@@ -347,7 +347,9 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 		},
 		request: function(event) { event = event||{}, event = event._event||event
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg
-			function set(key, value) { msg.Option(key) || value == "" || msg.Option(key, value) }
+			function set(key, value) {
+				typeof value == lang.FUNCTION || typeof value == lang.OBJECT || value == "" || msg.Option(key) || msg.Option(key, value)
+			}
 
 			// 添加参数
 			can.core.List(arguments, function(option, index) { if (!option || index == 0) { return } 

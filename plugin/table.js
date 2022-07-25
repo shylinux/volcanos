@@ -124,9 +124,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}))
 	},
 	plug: function(can, meta, target, cb) { if (!meta || !meta.index) { return }
-		meta.type = "plug", can.onappend.plugin(can, meta, function(sub) {
+		meta.type = "plug", can.onappend.plugin(can, meta, function(sub) { sub.sup = can
 			sub.run = function(event, cmds, cb) { can.runActionCommand(can.request(event, can.Option()), meta.index, cmds, cb) }
-			sub.onaction.close = function() { can.onmotion.hidden(sub, sub._target) }
+			sub.onaction.close = function() { can.ui && target == can.ui.profile? can.onmotion.hidden(sub, target): can.onmotion.hidden(sub, sub._target) }
+			can.page.style(can, sub._output, html.MAX_HEIGHT, can.ConfHeight()-2*html.ACTION_HEIGHT, html.MAX_WIDTH, can.ConfWidth())
 			can.base.isFunc(cb) && cb(sub)
 		}, target)
 	},
