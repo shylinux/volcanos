@@ -366,7 +366,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 		actions: function(event, button) { can.runAction(event, button, []) },
 		runActionCommand: function(event, index, args, cb) { can.runAction(event, ice.RUN, can.misc.concat(can, [index], args), cb) },
 		runAction: function(event, action, args, cb) { can.request(event, {_handle: ice.TRUE}, can.Option())
-			can.run(event, can.misc.concat(can, [ctx.ACTION, action], args), cb||function(msg) {
+			can.run(event, can.misc.concat(can, [ctx.ACTION].concat(action), args), cb||function(msg) {
 				if (can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
 				if (can.core.CallFunc([can.sup, chat.ONIMPORT, ice.MSG_PROCESS], {can: can.sup, msg: msg})) { return }
 				can.user.toastSuccess(can, action)

@@ -41,7 +41,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	_search: function(can, msg, target) {
 		var ui = can.onappend.input(can, {type: html.TEXT, name: mdb.SEARCH, onkeydown: function(event) {
 			can.onkeymap.input(event, can); switch (event.key) {
-				case lang.ENTER: can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: event.target.value}))
+				case lang.ENTER: can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: "command,space,text"||mdb.FOREACH, word: event.target.value}))
 			}
 		}}, "", target, "title search")
 		can.onimport.menu(can, mdb.SEARCH, function() {

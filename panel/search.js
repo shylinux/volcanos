@@ -1,8 +1,10 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, list, cb, target) {
+		can._foreach = "*"
+		can._foreach = "command,space,text"
 		can.list = msg.Table(), can.onmotion.clear(can, can.ui.content)
 		var table = can.onappend.table(can, msg, function(value, key, index, line, array) { can.Status(mdb.TOTAL, index+1)
 			return {text: [key == mdb.TEXT && can.base.isFunc(line.text) && line.text.help || value, html.TD], onclick: function(event) {
-				can.onaction[can.type == mdb.FOREACH||event.ctrlKey? chat.PLUGIN: mdb.SELECT](event, can, index) 
+				can.onaction[can.type == can._foreach||event.ctrlKey? chat.PLUGIN: mdb.SELECT](event, can, index) 
 			}}
 		}, can.ui.content, can.core.List((msg.Option("sort")||"ctx,cmd,type,name,text").split(ice.FS), function(item) {
 			return list.indexOf(item)
@@ -77,7 +79,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [cli.CLOSE, cli.CLEAR, cli.
 
 				if (event.key == lang.ENTER) { can.onkeymap.prevent(event)
 					if (event.shiftKey) { var first = can.page.Select(can, can.ui.content, html.TR)[1]
-						return can.onaction[can.type == mdb.FOREACH? chat.PLUGIN: html.SELECT](event, can, first.dataset.index)
+						return can.onaction[can.type == can._foreach? chat.PLUGIN: html.SELECT](event, can, first.dataset.index)
 					}
 					if (event.ctrlKey) { return can.onaction[cli.DONE](event, can) }
 					return can.input(event, event.target.value)
@@ -91,7 +93,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [cli.CLOSE, cli.CLEAR, cli.
 			chat.CONTENT, html.STATUS, {view: [chat.DISPLAY, html.TABLE]}, chat.PROFILE,
 		]), can.page.ClassList.add(can, can.ui.display, chat.CONTENT)
 	},
-	onopensearch: function(can, msg, type, word) { can.onimport.select(can, msg, [type||mdb.FOREACH, word||""]) },
+	onopensearch: function(can, msg, type, word) { can.onimport.select(can, msg, [type||can._foreach, word||""]) },
 
 	clear: function(event, can) { can.onmotion.clear(can, can.ui.profile) },
 	done: function(event, can) { can.base.isFunc(can.cb) && can.cb() },

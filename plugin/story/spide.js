@@ -136,7 +136,7 @@ Volcanos(chat.ONDETAIL, {help: "用户交互",
 
 		can.run(can.request(event, can.Option()), can.base.Obj(can.Conf(lex.PREFIX), []).concat([can.Option("repos")||"", tree.file||"", tree.name]), function(msg) {
 			if (msg.Length() == 0) { return can.ondetail.plugin(can, "web.code.inner", [can.dir_root, tree.file, tree.line], code.INNER) }
-			if (msg.Append(mdb.INDEX)) { msg.Table(function(value) { can.ondetail.plugin(can, value.index, [], value.index) }); return }
+			if (msg.Append(mdb.INDEX)) { msg.Table(function(value) { can.ondetail.plugin(can, value.index, []) }); return }
 
 			if (msg.Option(lex.SPLIT)) {
 				tree.list = can.onimport._tree(can, msg.Table(), msg.Option(mdb.FIELD)||msg.append[0], msg.Option(lex.SPLIT))[""].list||[]
@@ -153,7 +153,7 @@ Volcanos(chat.ONDETAIL, {help: "用户交互",
 	},
 	plugin: function(can, index, args, prefix) {
 		can.onappend.plugin(can, {type: chat.FLOAT, index: index, args: args, mode: "float"}, function(sub) {
-			sub.run = function(event, cmds, cb) { can.runAction(can.request(event), prefix, cmds, cb) }
+			sub.run = function(event, cmds, cb) { can.runAction(can.request(event), prefix||[ice.RUN, index], cmds, cb) }
 			sub.Mode("float"), can.getActionSize(function(left, top, width, height) { left = left||0
 				var top = can.Mode() == undefined? 120: 0; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
 				sub.ConfHeight(height-top-2*html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0)), sub.ConfWidth(width)
