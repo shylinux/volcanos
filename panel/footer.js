@@ -37,7 +37,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	toast: function(can, msg, title, content, fileline, time) { can._tips = can._tips||can.request()
 		can._tips.Push({time: time, fileline: fileline, title: title, content: content})
 		can.onimport.count(can, "ntip")
-		can.page.Modify(can, can.toast, [time.split(ice.SP).pop(), title, content].join(ice.SP))
+		can.page.Modify(can, can.toast, [time, title, content].join(ice.SP))
 	},
 	count: function(can, name) {
 		can.page.Select(can, can._output, can.core.Keys(html.SPAN, name), function(item) {

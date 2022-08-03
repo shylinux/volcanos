@@ -73,7 +73,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	topic: function(can, topic) { topic && (can._topic = topic)
 		topic = can._topic || can.misc.Search(can, chat.TOPIC) || Volcanos.meta.args.topic || (can.base.isNight()? chat.BLACK: chat.WHITE)
-		can.require(["/chat/topic/"+topic+".css"])
+		// can.require(["/chat/topic/"+topic+".css"])
 		can.user.topic(can, topic)
 	},
 	background: function(event, can, background) { if (can.user.isExtension || can.user.isLocalFile) { return }
@@ -147,6 +147,7 @@ Volcanos(chat.ONACTION, {help: "交互数据", _init: function(can, cb, target) 
 		"logout": "退出登录",
 	},
 	onmain: function(can, msg) {
+		debugger
 		can.run({}, [], function(msg) {
 			if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNAME))) {
 				msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)): can.user.login(can, function() {
