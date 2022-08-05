@@ -147,7 +147,6 @@ Volcanos(chat.ONACTION, {help: "交互数据", _init: function(can, cb, target) 
 		"logout": "退出登录",
 	},
 	onmain: function(can, msg) {
-		debugger
 		can.run({}, [], function(msg) {
 			if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNAME))) {
 				msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)): can.user.login(can, function() {

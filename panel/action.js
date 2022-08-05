@@ -32,12 +32,12 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 			can.core.CallFunc([can.onaction, list[0]], [can, button])
 		})
 	},
-	_share: function(can, share) { share && can.run({}, ["_share", share], function(msg) {
+	_share: function(can, share) { share && can.run({}, [web.SHARE, share], function(msg) {
 		msg.Length() == 1 && can.onengine.signal(can, chat.ONACTION_CMD)
 		can.setHeader(chat.TOPIC, msg.OptionOrSearch(chat.TOPIC))
 		can.user.title(msg.OptionOrSearch(chat.TITLE))
 
-		can.Conf(chat.RIVER, "_share", chat.STORM, share)
+		can.Conf(chat.RIVER, web.SHARE, chat.STORM, share)
 		msg.Length() > 0 && can.onimport._init(can, msg)
 	}) },
 	_cmd: function(can, item, next) {

@@ -123,7 +123,8 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["create", "share", "refres
 			{name: mdb.TYPE, values: [chat.PUBLIC, chat.PROTECTED, chat.PRIVATE], _trans: "类型"},
 			{name: mdb.NAME, value: "hi", _trans: "群名"}, {name: mdb.TEXT, value: "hello", _trans: "简介"},
 		], function(args) {
-			can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })
+			can.runAction(event, mdb.CREATE, args, function(msg) {
+				can.misc.Search(can, {river: msg.Result()}) })
 		})
 	},
 	share: function(event, can) {
@@ -152,21 +153,21 @@ Volcanos(chat.ONDETAIL, {help: "菜单交互",
 		can.onmotion.share(event, can, [{name: chat.TITLE, value: storm}], [mdb.TYPE, chat.STORM])
 	},
 	"添加工具": function(event, can, button, river, storm) {
-		can.user.select(event, can, ctx.COMMAND, "context,command", function(item, next) {
-			can.run({}, [river, chat.STORM, ctx.ACTION, mdb.INSERT, mdb.HASH, storm].concat([ice.POD, "", ice.CTX, item[0], ice.CMD, item[1]]), function(msg) { next() })
+		can.user.select(event, can, ctx.COMMAND, "index", function(item, next) {
+			can.run({}, [river, chat.STORM, ctx.ACTION, mdb.INSERT, mdb.HASH, storm].concat([web.SPACE, "", ctx.INDEX, item[0]]), function(msg) { next() })
 		}, function() { can.misc.Search(can, {river: river, storm: storm}) })
 	},
 	"共享工具": function(event, can, button, river, storm) {
-		can.user.select(event, can, mdb.PLUGIN, "name,context,command,argument", function(item, next) {
+		can.user.select(event, can, mdb.PLUGIN, "name,index,args", function(item, next) {
 			can.user.share(can, can.request(event), [river, ctx.ACTION, chat.SHARE, mdb.TYPE, chat.FIELD,
-				mdb.NAME, item[2], mdb.TEXT, item[3], chat.TITLE, item[0], chat.RIVER, river, chat.STORM, storm,
+				mdb.NAME, item[1], mdb.TEXT, item[2], chat.TITLE, item[0], chat.RIVER, river, chat.STORM, storm,
 			])
 		})
 	},
 
 	"添加设备": function(event, can, button, river) {
 		can.user.select(event, can, web.SPACE, "type,name,text", function(item, next) {
-			can.run({}, [river, chat.NODE, ctx.ACTION, mdb.INSERT, mdb.TYPE, item[0], mdb.NAME, item[1]], function(msg) { next() })
+			can.run({}, [river, chat.NODES, ctx.ACTION, mdb.INSERT, mdb.TYPE, item[0], mdb.NAME, item[1]], function(msg) { next() })
 		})
 	},
 	"共享设备": function(event, can, button, river, storm) {
@@ -201,7 +202,7 @@ Volcanos(chat.ONDETAIL, {help: "菜单交互",
 	"保存参数": function(event, can, button, river, storm) {
 		can.getAction(ctx.ARGS, function(item, next, index, array) { var msg = can.request({}, {hash: storm, id: item.dataset.id})
 			var toast = can.user.toast(can, (index+1)+ice.PS+array.length, button, 10000, (index+1)*100/array.length)
-			can.run(msg, [river, chat.STORM, ctx.ACTION, mdb.MODIFY, ice.ARG, item.dataset.args], function(msg) {
+			can.run(msg, [river, chat.STORM, ctx.ACTION, mdb.MODIFY, ctx.ARGS, item.dataset.args], function(msg) {
 				can.onmotion.delay(can, function() {
 					toast.close(), next(), index == array.length-1 && can.user.toastSuccess(can, button)
 				})

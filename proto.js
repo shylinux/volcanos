@@ -147,7 +147,7 @@ var chat = {
 	TITLE: "title", TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print",
 	SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field",
 	PUBLIC: "public", PROTECTED: "protected", PRIVATE: "private",
-	USER: "user", TOOL: "tool", NODE: "node",
+	USER: "user", TOOL: "tool", NODES: "nodes",
 
 	AGENT: "agent", CHECK: "check", GRANT: "grant",
 	STATE: "state", MENUS: "menus", TRANS: "trans",
@@ -320,7 +320,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 				if (libs[i].indexOf("http") == 0) { continue }
 				if (libs[i].indexOf("/") == 0) { continue }
 				if (libs[i].indexOf(".css") == -1 && libs[i].indexOf(".js") == -1) { libs[i] = libs[i]+"/lib/"+libs[i]+".js" }
-				libs[i] = "/require/node_modules/"+libs[i]
+				libs[i] = "/require/lib/node_modules/"+libs[i]
 			}
 			can.require(libs, cb, each)
 		},

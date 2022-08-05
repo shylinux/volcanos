@@ -35,7 +35,8 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 				can.core.List(msg.Option(ice.MSG_FIELDS).split(ice.FS), function(item) {
 					msg.Push(item, kit.Dict(ice.CTX, chat.ONENGINE, ice.CMD, ctx.COMMAND,
 						mdb.TYPE, ice.CAN, mdb.NAME, name, mdb.TEXT, command.help,
-						ctx.CONTEXT, ice.CAN, ctx.COMMAND, name
+						ctx.CONTEXT, ice.CAN, ctx.COMMAND, name,
+						ctx.INDEX, can.core.Keys(ice.CAN, name),
 					)[item]||"")
 				})
 			})
