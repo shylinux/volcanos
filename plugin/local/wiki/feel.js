@@ -53,6 +53,7 @@ Volcanos(chat.ONFIGURE, {help: "组件菜单",
 	mp4: function(can, path) { return can.onfigure.video(can, path) },
 	m4v: function(can, path) { return can.onfigure.video(can, path) },
 	mov: function(can, path) { return can.onfigure.video(can, path) },
+	webm: function(can, path) { return can.onfigure.video(can, path) },
 })
 Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		[html.HEIGHT, 100, 200, 400, 600, 800, ice.AUTO],
@@ -81,6 +82,48 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		can.user.agent.chooseImage(function(list) { can.core.List(list, function(item) {
 			can.page.Append(can, can._output, [{img: item, height: 200}])
 		}) })
+	},
+	record1: function(event, can) { var height = window.innerHeight, width = window.innerWidth
+		can.user.input(event, can, [{type: "text", name: "file", value: "some"}], function(list) {
+			navigator.mediaDevices.getDisplayMedia({video: {height: height}}).then(function(stream) {
+				var video = can.page.Append(can, can._output, [{type: html.VIDEO, height: height}]).first
+				video.srcObject = stream, video.onloadedmetadata = function(e) { video.play()
+					can.onmotion.delay(can, function() {
+						var canvas = can.page.Append(can, can._output, [{type: html.CANVAS, height: height, width: width}]).first
+						canvas.getContext("2d").drawImage(video, 0, 0, width, height, 0, 0, width, height)
+						canvas.toBlob((blob) => {
+							var msg = can.request(event)
+							msg._upload = new File([blob], (list[0])+".png")
+							can.runAction(event, html.UPLOAD, [], function() {
+								can.user.toast(can, "上传成功"), can.Update()
+							})
+						})
+					})
+				}
+			}).catch(function(err) { can.user.toast(can, err.name + ": " + err.message) })
+		})
+	},
+	record: function(event, can) { var blobs = []
+		can.user.input(event, can, [{type: "text", name: "file", value: "some"}], function(list) {
+			navigator.mediaDevices.getDisplayMedia({video: {height: can.ConfHeight()*3/4}}).then(function(stream) {
+				can.core.Next([3, 2, 1], function(item, next) {
+					can.user.toast(can, item + "s 后开始录屏")
+					can.onmotion.delay(can, next, 1000)
+				}, function() {
+					can.user.toast(can, "现在开始录屏")
+					var recorder = new MediaRecorder(stream, {mimeType: 'video/webm'})
+					recorder.ondataavailable = function(res) { blobs.push(res.data) }
+					recorder.onstop = function() {
+						can.user.toast(can, "录屏成功")
+						var msg = can.request(event)
+						msg._upload = new File(blobs, (list[0]||"some")+".webm") 
+						can.runAction(event, html.UPLOAD, [], function() {
+							can.user.toast(can, "上传成功"), can.Update()
+						})
+					}, recorder.start(10)
+				})
+			}).catch(function(err) { can.user.toast(can, err.name + ": " + err.message) })
+		})
 	},
 })
 Volcanos(chat.ONDETAIL, {help: "组件菜单", list: ["关闭", "下载", "删除", "上一个", "下一个", "设置头像", "设置背景", "复制链接"], _init: function(can, index) {

@@ -43,6 +43,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 	_cmd: function(can, item, next) {
 		can.onengine.signal(can, chat.ONACTION_CMD)
 		can.onappend.plugin(can, can.base.Copy(item, {opts: can.misc.Search(can), mode: "cmd"}), function(sub, meta, skip) {
+			sub.run = function(event, cmds, cb) {
+				can.request(event, {height: sub.ConfHeight(), width: can.ConfWidth()})
+				can.runActionCommand(event, sub._index, cmds, cb)
+			}
 			sub.ConfHeight(can.ConfHeight()-can.Conf(html.MARGIN_Y))
 			can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth())
 			can.user.title(meta.name), skip || next()
