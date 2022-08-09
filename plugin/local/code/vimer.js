@@ -273,7 +273,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.COMPILE, co
 		can.onaction._runs(can.request(event, {file: (can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.ZML).split("/").pop()}), can, button)
 	},
 	dream: function(event, can, button) {
-		can.onaction._runs(can.request(event), can, button, function(msg) { can.ui.dreams.refresh()
+		can.onaction._runs(can.request(event, {name: can.base.trimSuffix(can.Option(nfs.FILE), ice.PT+can.base.Ext(can.Option(nfs.FILE)))}), can, button, function(msg) { can.ui.dreams.refresh()
 			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(mdb.NAME), web.DREAM) // 显示空间
 			can.user.toastSuccess(can)
 		})
