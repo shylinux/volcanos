@@ -320,7 +320,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 				if (libs[i].indexOf("http") == 0) { continue }
 				if (libs[i].indexOf("/") == 0) { continue }
 				if (libs[i].indexOf(".css") == -1 && libs[i].indexOf(".js") == -1) { libs[i] = libs[i]+"/lib/"+libs[i]+".js" }
-				libs[i] = "/require/lib/node_modules/"+libs[i]
+				libs[i] = "/require/page/node_modules/"+libs[i]
 			}
 			can.require(libs, cb, each)
 		},
