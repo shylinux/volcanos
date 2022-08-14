@@ -10,7 +10,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 			var hash = can.sup._hash||can.misc.SearchHash(can)||true, list = msg.Table(function(value) {
 				var item = can.onimport._item(can, value); value.hash == hash && (item.click(), hash = false)
-			}); hash && can.onimport._create(can, [mdb.TYPE, "", mdb.NAME, "term"])
+			}); hash && can.onimport._create(can, [mdb.TYPE, msg.Option("type")||"", mdb.NAME, "term"])
 		}, 500) })
 	},
 	layout: function(can) {
