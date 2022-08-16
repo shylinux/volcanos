@@ -280,6 +280,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, table.onimport.list) })
 			}
 
+			can.onmotion.clear(can, can._action)
 			can.core.CallFunc([table, chat.ONIMPORT, chat._INIT], {can: table, msg: msg, cb: function(msg) {
 				action === false || table.onappend._action(table, msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), action)
 				action === false || table.onappend._status(table, msg.Option(ice.MSG_STATUS))
