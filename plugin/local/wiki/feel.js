@@ -79,7 +79,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 	limit: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.list) },
 
 	chooseImage: function(event, can) { var msg = can.request(event)
-		can.user.agent.chooseImage(function(list) { can.core.List(list, function(item) {
+		can.user.agent.chooseImage(can, function(list) { can.core.List(list, function(item) {
 			can.page.Append(can, can._output, [{img: item, height: 200}])
 		}) })
 	},

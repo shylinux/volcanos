@@ -15,7 +15,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.require([can.base.MergeURL("https://map.qq.com/api/gljs", "v", "1.exp", "libraries", "service", "key", can.Conf(aaa.TOKEN))], function() {
 			var res = {type: "unknown", latitude: 3998412, longitude: 11630748}, current = can.base.Obj(msg.Option(chat.LOCATION))
 			if (current.status === 0) { res = can.onexport.point(can, current.result.location, current.result.ad_info), res.type = "ip", res.name = current.result.ip, can.Status(res) }
-			can._current = res, can.onimport._layout(can), can.user.agent.getLocation(function(res) { res.type = "current", can.onimport.center(can, can._current = res) })
+			can._current = res, can.onimport._layout(can), can.user.agent.getLocation(can, function(res) { res.type = "current", can.onimport.center(can, can._current = res) })
 		})
 	},
 	_layout: function(can) { can.onmotion.clear(can, can.ui.content), can.onmotion.clear(can, can.ui.project)
@@ -46,18 +46,18 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.runAction(can.request({}, {"boundary": "nearby("+can.base.join([p.lat, p.lng, "500"], ice.FS)+")", "page_index": 1, "keyword": keyword}), "search", [], function(msg) {
 			var res = can.base.Obj(msg.Result()); can.core.List(res.data, function(item) {
 				can.onimport._item(can, can.onexport.point(can, item.location, {type: item.category, name: item.title, text: item.address}), can.ui.explore._target)
-			}), can.misc.Debug(res)
+			})
 		})
 	},
 	_search: function(can, keyword) { var p = can.onimport.point(can, can.current.item)
 		can.runAction(can.request({}, {"boundary": "region("+can.base.join([can.Status("city"), p.lat, p.lng], ice.FS)+")", "page_index": 1, "keyword": keyword}), "search", [], function(msg) {
 			var res = can.base.Obj(msg.Result()); can.core.List(res.data, function(item) {
 				can.onimport._item(can, can.onexport.point(can, item.location, {type: item.category, name: item.title, text: item.address}), can.ui.search._target)
-			}), can.misc.Debug(res)
+			})
 		})
 	},
 
-	_list_result: function(can, msg, cb) { var res = can.base.Obj(msg.Result()); can.misc.Debug(res)
+	_list_result: function(can, msg, cb) { var res = can.base.Obj(msg.Result())
 		return can.core.List(res.result[0], function(item) { item.name = item.name||item.fullname; return can.base.isFunc(cb)? cb(item): item })
 	},
 	_district: function(can, id, cb) {
@@ -259,7 +259,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", list: [["mode", "select", "insert
 			can.runAction(can.request({}, {"boundary": "nearby("+can.base.join([p.lat, p.lng, "500"], ice.FS)+")", "page_index": i}), button, [], function(msg) {
 				var res = can.base.Obj(msg.Result()); can.core.List(res.data, function(item) {
 					can.onimport._item(can, can.onexport.point(can, item.location, {type: item.category, name: item.title, text: item.address}), can.ui.explore._target)
-				}), can.misc.Debug(res)
+				})
 			})
 		}
 	},

@@ -202,19 +202,24 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 			}
 		})
 	},
-
-	openLocation: function(event, can) { can.user.agent.openLocation(can.request(event)) },
+	getClipboardData: function(event, can, button) {
+		function add(text) { can.runAction(event, button, can.base.Simple(can.base.ParseJSON(text)), function() { can.Update() }) }
+		navigator.clipboard? navigator.clipboard.readText().then(add).catch(function(err) { can.misc.Log(err) }):
+			can.user.input(event, can, [{type: html.TEXTAREA, name: mdb.TEXT}], function(list) { add(list[0]) })
+	},
+	scanQRCode0: function(event, can, button) { can.user.agent.scanQRCode(can) },
+	scanQRCode: function(event, can, button) {
+		can.user.agent.scanQRCode(can, function(data) {
+			can.runAction(event, button, can.base.Simple(data), function() { can.Update() })
+		})
+	},
+	openLocation: function(event, can) { can.user.agent.openLocation(can, can.request(event)) },
 	getLocation: function(event, can, button) {
-		can.user.agent.getLocation(function(data) { can.request(event, data)
+		can.user.agent.getLocation(can, function(data) { can.request(event, data)
 			can.user.input(event, can, [mdb.TYPE, mdb.NAME, mdb.TEXT, "latitude", "longitude"], function(args) {
 				can.runAction(event, button, args)
 			})
 		})
-	},
-	getClipboardData: function(event, can, button) {
-		function add(text) { can.runAction(event, button, [can.base.ParseJSON(text)]) }
-		navigator.clipboard? navigator.clipboard.readText().then(add).catch(function(err) { can.misc.Log(err) }):
-			can.user.input(event, can, [{type: html.TEXTAREA, name: mdb.TEXT}], function(list) { add(list[0]) })
 	},
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据",
