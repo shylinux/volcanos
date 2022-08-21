@@ -48,7 +48,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 		term.open(target||can.ui.content)
 		term.onResize(function(size) { can.onimport._size(can, item, size) })
-		fitAddon.fit()
+		can.onmotion.delay(can, function() { fitAddon.fit() })
 
 		var submode = false, keyskip = false
 		term.onKey(function(e) { var event = e.domEvent
