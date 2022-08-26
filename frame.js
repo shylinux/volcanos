@@ -116,14 +116,10 @@ Volcanos(chat.ONDAEMON, {help: "推荐引擎", _init: function(can, name) { if (
 			}): can.onengine._search({}, can, msg, can, [chat._SEARCH, cmd].concat(arg), function() { msg.Reply() })
 		})
 	}, _list: [""],
-	refresh: function(can, msg, sub) { sub.Update() },
-	grow: function(can, msg, sub, arg) {
-		sub.onimport._grow(sub, msg, can.page.Color(arg.join("")))
-	},
+	pwd: function(can, msg, arg) { can._wss_name = can.ondaemon._list[0] = arg[0] },
 	toast: function(can, msg, arg) { can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}) },
-	pwd: function(can, msg, arg) {
-		can._wss_name = can.ondaemon._list[0] = arg[0]
-	},
+	refresh: function(can, msg, sub) { sub.Update() },
+	grow: function(can, msg, sub, arg) { sub.onimport._grow(sub, msg, can.page.Color(arg.join(""))) },
 	exit: function(can, msg, sub) { can.user.close() },
 })
 Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, cb, target, field) {
