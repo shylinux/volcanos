@@ -1,4 +1,5 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
+		if (msg.Result() == "" && msg.Length() == 0) { can.onmotion.hidden(can, can._output); return }
 		var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
 		var files = can.core.Split(can.Option(nfs.FILE), ice.FS); can.Option(nfs.FILE, files[0])
 		can.tabview = can.tabview||{}, can.history = can.history||[], can.toolkit = {}, can.extentions = {}
