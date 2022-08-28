@@ -48,8 +48,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: ui.value}))
 		})
 	},
-	_menus: function(can, msg, target) {
-		can.setHeaderMenu(can.user.mod.isPod? [ctx.CONFIG]:
+	_menus: function(can, msg, target) { if (can.user.mod.isPod) { return }
+		can.setHeaderMenu(can.user.mod.isPod? []:
 			can.base.Obj(msg.Option(chat.MENUS)||can.Conf(chat.MENUS), can.onaction._menus), function(event, button) {
 				can.core.CallFunc(can.onaction[button]||function(event, can) {
 					can.run(event, [button], function(msg) { can.user.toastSuccess(can, can.user.trans(can, button)) })
