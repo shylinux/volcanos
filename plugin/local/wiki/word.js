@@ -100,6 +100,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 	chart: function(can, data, target) {
+		target.onclick = function(event) {
+			can.runAction(can.request(event, data), "run", [data.index, "find", event.target.innerHTML])
+		}
 		target.oncontextmenu = function(event) {
 			can.user.carteClient(event, can, kit.Dict(mdb.EXPORT, function(event, can, button) {
 				can.onmotion.toimage(event, can, "hi", target)
