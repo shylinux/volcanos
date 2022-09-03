@@ -114,7 +114,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.page.Select(can, target, html.TD, function(item) { can.onmotion.copy(can, item) })
 	},
 	image: function(can, data, target) {
-		can.page.style(can, target, html.MAX_HEIGHT, can.ConfHeight()/(can.user.isMobile? 2: 1), html.MAX_WIDTH, can.ConfWidth())
+		// can.page.style(can, target, html.MAX_HEIGHT, can.ConfHeight()/(can.user.isMobile? 2: 1), html.MAX_WIDTH, can.ConfWidth())
+		can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth())
 	},
 	field: function(can, data, target, width) { var item = can.base.Obj(data.meta)
 		can.onappend._init(can, item, [chat.PLUGIN_STATE_JS], function(sub) {

@@ -18,7 +18,6 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	_show: function(can, msg) { can.point = []
 		can.svg = null, can.group = null, can.temp = null, can.current = null
-
 		can.ui = can.onlayout.profile(can), can.onmotion.hidden(can, can.ui.project)
 		can.page.Modify(can, can.ui.content, msg.Result()||can.onexport.content(can))
 		can.page.Select(can, can.ui.content, html.SVG, function(svg) {
@@ -279,7 +278,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 
 	project: function(event, can) { can.onmotion.toggle(can, can.ui.project) },
 	profile: function(event, can) { can.onmotion.toggle(can, can.ui.profile) },
-	show: function(event, can) { can.onmotion.show(can, {interval: 100, length: 10}, null, can.group) },
+	show: function(event, can) { can.onmotion.show(can, {interval: 10, length: 1}, null, can.group) },
 	hide: function(event, can) { can.onmotion.hide(can, {interval: 100, length: 10}, null, can.group) },
 	create: function(event, can) {
 		can.user.input(event, can, [svg.GROUP], function(list) { var name = list[0]

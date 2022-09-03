@@ -1,4 +1,9 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) { if (msg.Result() == "" && msg.Length() == 0) { can.onmotion.hidden(can, can._output); return }
+		if (msg.Option(nfs.FILE)) {
+			msg.Option(nfs.PATH) && can.Option(nfs.PATH, msg.Option(nfs.PATH))
+			can.Option(nfs.FILE, msg.Option(nfs.FILE))
+			msg.Option(nfs.LINE) && can.Option(nfs.LINE, msg.Option(nfs.LINE))
+		}
 		if (can.Option(nfs.PATH) == "man") {
 			msg.result = [msg.Option(mdb.TEXT)]
 		}
@@ -119,7 +124,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		if (can.isFloatMode()) { can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can.ui.project) }
 
 		var width = can.ConfWidth()+(can.user.isMobile && can.isCmdMode() && can.user.isLandscape()? 16: 0)-(can.user.isWindows && !can.isCmdMode()? 20: 0)
-		can.page.styleWidth(can, can.ui.profile_output, can.profile_size[can.onexport.keys(can)]||(width-can.ui.project.offsetWidth)/2)
+		can.page.styleWidth(can, can.ui.profile_output, can.profile_size[can.onexport.keys(can)]||(width-can.ui.project.offsetWidth)/3)
 		can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
 		can.page.styleWidth(can, can.ui.display, width-can.ui.project.offsetWidth)
 
@@ -175,7 +180,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		return can.Status("跳转数", can.history.length), push
 	},
 	tabview: function(can, path, file, line, cb, skip, skip2) { var key = can.onexport.keys(can, file, path)
-		if (can.isCmdMode()) { location.hash = file+ice.FS+(line||1) }
+		if (can.isCmdMode()) { (location.hash = location.pathname.indexOf(file) > -1? "": file+ice.FS+(line||1)) }
 		if (!skip && can.tabview[key]) { can.isCmdMode() && can.user.title(path+file)
 			can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.tabview[key]
 			can.Option({path: path, file: file, line: line||can._msg.Option(nfs.LINE)||1})
@@ -356,8 +361,8 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line
 			can.onaction.selectLine(null, can, msg.Option(nfs.LINE)), can.base.isFunc(cb) && cb()
 
 			msg.Option(nfs.FILE).indexOf("website/") == 0 && can.onaction[cli.SHOW]({}, can)
+			p && p.render && can.onaction[cli.SHOW]({}, can)
 			if (can.page.ClassList.has(can, can._fields, chat.PLUGIN)) {
-				p && p.render && can.onaction[cli.SHOW]({}, can)
 				p && p.engine && can.onaction[cli.EXEC]({}, can)
 			}
 		}
@@ -385,6 +390,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line
 		return line
 	},
 	go: {
+		render: {},
 		keyword: {
 			"package": "keyword",
 			"import": "keyword",
@@ -601,6 +607,10 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["搜索", "打开"],
 		}
 		can.runAction(event, mdb.RENDER, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
 			can.onimport.profile(can, msg)
+			can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.page.Append(can, can.ui._profile_output, ["status"]).first)
+			can.page.Select(can, can.ui._profile_output, "table.content", function(target) {
+				can.page.style(can, target,  "max-height", "1000px")
+			})
 		})
 	},
 	exec: function(event, can) { can.request(event, {_toast: "执行中...", "some": "run"})
@@ -686,13 +696,20 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["搜索", "打开"],
 			}
 
 			var push = can.onimport.history(can, {path: can.Option(nfs.PATH), file: can.Option(nfs.FILE), line: can.Option(nfs.LINE), text: can.current.text()})
-			if (can.isCmdMode()) { location.hash = push.file+ice.FS+(push.line||1) }
+			if (can.isCmdMode()) { (location.hash = location.pathname.indexOf(can.Option(nfs.FILE)) > -1? "": push.file+ice.FS+(push.line||1)) }
 			can.onaction._selectLine(event, can)
 		})
 	},
 	_selectLine: function(event, can) { },
-	searchLine: function(event, can, value) { if (!can.ui.search) { return }
-		can.ui.search.Update(event, [ctx.ACTION, nfs.TAGS, value.trim()])
+	searchLine: function(event, can, value) {
+		if (can.ui.search) {
+			can.ui.search.Update(event, [ctx.ACTION, nfs.TAGS, value.trim()])
+		} else {
+			can.runAction(event, nfs.TAGS, [value], function(msg) {
+				msg.Append(nfs.FILE)? can.onimport.tabview(can, msg.Append(nfs.PATH), msg.Append(nfs.FILE), msg.Append(nfs.LINE)):
+					can.user.toast(can, "not found")
+			})
+		}
 	},
 	favorLine: function(event, can) { },
 })

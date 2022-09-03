@@ -238,7 +238,7 @@ var html = {
 	OPACITY: "opacity",
 	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", FONT_FAMILY: "font-family", MONOSPACE: "monospace",
 	SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
-	SPEED: "speed", PADDING: "padding",
+	SPEED: "speed", PADDING: "padding", MARGIN: "margin",
 	MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MIN_WIDTH: "min-width", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
 	PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	TEXT_ANCHOR: "text-anchor",
@@ -261,6 +261,7 @@ var html = {
 	DIV_ITEM: "div.item",
 	DIV_NAME: "div.name",
 	DIV_CODE: "div.code",
+	DIV_TOGGLE: "div.toggle",
 	DIV_LAYOUT_HEAD: "div.layout.head",
 	DIV_LAYOUT_LEFT: "div.layout.left",
 	DIV_LAYOUT_FOOT: "div.layout.foot",
@@ -379,7 +380,10 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 			}
 			return can.run && can.run(event, [chat._SEARCH].concat(cmds), cb, true)
 		},
-		get: function(name, key, cb) { return can.search({}, [can.core.Keys(name, chat.ONEXPORT, key)], cb) },
+		get: function(name, key, cb) { var value
+			var res = can.search({}, [can.core.Keys(name, chat.ONEXPORT, key)], cb||function(msg) { value = msg.Result() })
+			return value||res
+		},
 		set: function(name, key, value) { var msg = can.request({}); msg.Option(key, value)
 			return can.search(msg, [[name, chat.ONIMPORT, key]])
 		},

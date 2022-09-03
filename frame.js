@@ -213,10 +213,11 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 					var cb = meta[item]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
 				}
 
-			}}: item.length > 0? /*列表*/ {type: html.SELECT, name: item[0], values: item.slice(1), onchange: function(event) {
+			}}: item.length > 0? /*列表*/ {type: html.SELECT, name: item[0], values: item.slice(1), value: can.sup[item[0]], onchange: function(event) {
 				var which = item[event.target.selectedIndex+1]
 				can.core.CallFunc(meta[which], [event, can, which])
 				can.core.CallFunc(meta[item[0]], [event, can, item[0], which])
+				can.sup && (can.sup[item[0]] = can.Action(item[0]))
 
 			}}: /*其它*/ item, "", action)}), meta
 	},
@@ -250,8 +251,8 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 		}
 
 		return can.run(event, cmds, function(msg) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)||{}
-			if (!cmds || cmds[0] != ctx.ACTION) { can._msg = msg, sub._msg = msg, msg._cmds = cmds }
 			if (can.base.isFunc(cb)) { can.core.CallFunc(cb, {can: can, msg: msg}); return }
+			if (!cmds || cmds[0] != ctx.ACTION) { can._msg = msg, sub._msg = msg, msg._cmds = cmds }
 			var process = msg._can == can || msg._can == sub
 			if (process && can.core.CallFunc([sub, chat.ONIMPORT, ice.MSG_PROCESS], {can: sub, msg: msg})) { return }
 			if (process && can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
@@ -277,6 +278,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			}
 
 			can.onmotion.clear(can, can._action)
+			can._display_output? can._display_output(table, msg):
 			can.core.CallFunc([table, chat.ONIMPORT, chat._INIT], {can: table, msg: msg, cb: function(msg) {
 				action === false || table.onappend._action(table, msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), action)
 				action === false || table.onappend._status(table, msg.Option(ice.MSG_STATUS))
@@ -310,6 +312,8 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			case html.SPACE: return can.page.Append(can, target, [{view: can.base.join([html.ITEM, html.SPACE])}])
 		}
 		var input = can.page.input(can, item, value)
+		if (item.type == "select" && item.value) { input._init = function(target) { target.value = item.value } }
+
 		if (item.range) {
 			input._init = function(target) { item.mode = "simple"
 				can.onappend.figure(can, item, target, function(sub, value, old) {
@@ -334,7 +338,6 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 					// switch (event.key) { case lang.TAB: can.onkeymap.insertText(event.target, ice.TB); can.onkeymap.prevent(event); break }
 					break
 			}
-
 		}, _init: function(target) {
 		}, list: [input]}]).concat(br))[item.name]
 	},

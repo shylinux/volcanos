@@ -31,7 +31,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	_height: function(can, tree, deep) { if (!tree) { return 0 }
 		tree.deep = deep||0
-		if (tree.list.length == 0 || tree.hide) { return tree.height = 1 }
+		if (!tree.list || tree.list.length == 0 || tree.hide) { return tree.height = 1 }
 
 		var height = 0; can.core.List(tree.list, function(item) {
 			height += can.onimport._height(can, item, (deep||0)+1)
@@ -40,7 +40,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	_width: function(can, tree, deep) { if (!tree) { return 0 }
 		tree.deep = deep||0
-		if (tree.list.length == 0 || tree.hide) {
+		if (!tree.list || tree.list.length == 0 || tree.hide) { if (!tree.name) { return tree.width = 20 }
 			tree.view = can.onimport.draw({}, can, {shape: html.TEXT, point: [{x: 0, y: 0}], style: {inner: tree.name}})
 			return tree.width = tree.view.Val("textLength")+can.margin
 		}
@@ -53,11 +53,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	_color: function(can, tree) {
 		return tree.meta&&tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW)
 	},
-	layout: function(can) {
-		var p = can.Action(ice.VIEW, can.sup.view||can.Action(ice.VIEW))
+	layout: function(can) { can.margin = can.margin||20
 		can.onmotion.clear(can), can.onimport._show(can, can.request())
 		can.svg.Val(html.FONT_SIZE, can.Action("size"))
-		can.onaction[p](event, can, p)
+		can.onaction[can.Action(ice.VIEW)](event, can, can.Action(ice.VIEW))
 	},
 }, [""])
 Volcanos(chat.ONACTION, {help: "用户操作", list: [
@@ -82,6 +81,7 @@ Volcanos(chat.ONACTION, {help: "用户操作", list: [
 		can.svg.Val(html.HEIGHT, can.height+can.margin)
 	},
 	_draw: function(can, tree, x, y, style) { var color = can.onimport._color(can, tree)
+		if (!tree.name) { return }
 		tree.view = can.onimport.draw({}, can, {shape: html.TEXT, point: [{x: x, y: y}], style: can.base.Copy(kit.Dict(
 			html.STROKE, color, html.FILL, color, html.TEXT_ANCHOR, "start", "inner", tree.name||tree.file,
 		), style), }), can.core.ItemCB(can.ondetail, tree.view, can, tree)
@@ -93,24 +93,22 @@ Volcanos(chat.ONACTION, {help: "用户操作", list: [
 		if (y+tree.height > can.height) { can.height = y+tree.height }
 		if (tree.hide) { return }
 
-		var offset = 0; can.core.List(tree.list, function(item) {
-			can.onimport.draw({}, can, {shape: svg.PATH2V, point: [
+		var offset = 0; can.core.List(tree.list, function(item) { if (!item) { return }
+			item.name && item.name != " " && can.onimport.draw({}, can, {shape: svg.PATH2V, point: [
 				{x: x+tree.width/2, y: y+tree.height-can.margin/2},
 				{x: x+offset+item.width/2, y: y+tree.height+can.margin/2},
 			], style: {stroke: cli.CYAN}})
-
-			can.onaction._draw_vertical(can, item, x+offset, y+tree.height+can.margin)
-			offset += item.width
+			can.onaction._draw_vertical(can, item, x+offset, y+tree.height+can.margin), offset += item.width
 		})
 	},
 	_draw_horizontal: function(can, tree, x, y) { tree.x = x, tree.y = y
 		can.onaction._draw(can, tree, x, y+tree.height*can.margin/2, kit.Dict(html.TEXT_ANCHOR, "start"))
 
-		tree.width = tree.view.Val("textLength")||(tree.name||"").length*10
+		tree.width = tree.view&&tree.view.Val("textLength")||(tree.name||"").length*10
 		if (x+tree.width > can.width) { can.width = x+tree.width }
 		if (tree.hide) { return }
 
-		var offset = 0; can.core.List(tree.list, function(item) {
+		var offset = 0; can.core.List(tree.list, function(item) { if (!item || !item.name) { return }
 			can.onimport.draw({}, can, {shape: svg.PATH2H, point: [
 				{x: x+tree.width+can.margin/8, y: y+tree.height*can.margin/2},
 				{x: x+tree.width+can.margin*2-2*can.margin/8, y: y+offset+item.height*can.margin/2}

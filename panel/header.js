@@ -244,7 +244,10 @@ Volcanos(chat.ONACTION, {help: "交互数据", _init: function(can, cb, target) 
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据",
 	height: function(can) { return can._target.offsetHeight },
-	topic: function(can) { return can._topic },
+	topic: function(can) {
+		return can._topic || can.misc.Search(can, chat.TOPIC) || Volcanos.meta.args.topic || (can.base.isNight()? chat.BLACK: chat.WHITE)
+		return can._topic
+	},
 	avatar: function(can) {
 		if (can.user.info.avatar == "void") {
 			return ""

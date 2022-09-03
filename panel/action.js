@@ -94,9 +94,10 @@ Volcanos(chat.ONPLUGIN, {help: "注册插件",
 		cmds && cmds[0] && can._root.Action.run({}, cmds, cb, true)
 	}),
 
-	"plugin": shy("插件", {}, ["text", "list", "back"], function(can, msg, cmds) {
+	"plugin": shy("插件", {}, ["list", "back"], function(can, msg, cmds) {
 		msg.Echo("hello world")
 	}),
+	"output": shy("插件", {}, ["some"], function(can, msg, cmds) {}),
 	"nfs.save": shy("保存文件", {}, ["file=hi.txt", "text:textarea='hello world'", "save:button"], function(can, msg, cmds, cb) {
 		can.misc.runAction(can, msg, cmds, cb, kit.Dict(
 			"save", function(cmds) { can.user.downloads(can, cmds[1], cmds[0]) }

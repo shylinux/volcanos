@@ -52,7 +52,8 @@ div.output div.project div.zone>div.action>div.item { float:right; clear:none; p
 div.output div.project div.zone>div.action>div.item input[type=text] { background-color:#ff000000; padding-left:10px; color:white; }
 
 fieldset.plugin { background-color:#061c3c9e; padding:10px; margin:10px; }
-fieldset.float { background-color:#0e3369b3; position:absolute; }
+fieldset.float { background-color:#0e3369; position:absolute; }
+/* fieldset.float { background-color:#0e3369b3; position:absolute; } */
 fieldset.full { background-color:#073947f2; padding:0; margin:0; left:0; top:0; overflow:auto; }
 fieldset.story>legend { margin:10px 0; }
 fieldset.plug>legend { float:left; margin-right:5px; }

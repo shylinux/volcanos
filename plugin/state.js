@@ -20,9 +20,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 			sub.Mode("float"), can.getActionSize(function(left, top, width, height) { left = left||0
 				var top = can.Mode() == undefined? 120: 0; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
 				sub.ConfHeight(height-top-2*html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0)), sub.ConfWidth(width)
+				can.page.style(can, sub._output, "max-height", window.innerHeight - top, "overflow", "auto")
 				can.onmotion.move(can, sub._target, {position: html.FIXED, left: left, top: top})
 			})
-		})
+		}, document.body)
 	},
 	_rewrite: function(can, msg) {
 		for (var i = 0; i < msg._arg.length; i += 2) {
@@ -37,15 +38,15 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 		msg.Table(function(item) { item.type = chat.STORY, can.onappend._plugin(can, item, {type: chat.STORY, arg: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
 			sub.Conf(can.base.Obj(item.conf))
 			if (sub.Conf("mode") == "simple") { (function() {
-				var msg = can.request(); msg.Echo(sub.Conf("result"))
-				sub.ConfHeight(can.ConfHeight()/2)
+				var msg = can.request(); msg.Echo(sub.Conf("result")), sub.ConfHeight(can.ConfHeight()/2)
 				can.onappend._output(sub, msg, msg.Option(ice.MSG_DISPLAY)||sub.Conf("feature.display"))
 			})(); return }
+
 			var opt = can.base.Obj(item[ice.OPT], [])
 			sub.ConfHeight(can.ConfHeight())
 			sub.ConfWidth(can.ConfWidth()-4*html.PLUGIN_MARGIN)
 			sub.run = function(event, cmds, cb, silent) {
-				var res = can.request(event, can.Option())
+				var res = can.request(event, can.Option(), {pid: msg.Option("pid")})
 				for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
 				can.run(event, (msg[ice.MSG_PREFIX]||[]).concat(cmds), cb, true)
 			}
@@ -101,7 +102,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 })
 Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		"刷新数据", "切换全屏", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", [
-			"其它", "刷新页面", "保存参数", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除配置", "查看配置", "删除工具","摄像头",
+			"其它", "刷新页面", "保存参数", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据",
+			"查看文档", "查看脚本", "查看源码", "查看配置", "删除配置", "删除工具",
 		],
 	],
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input([], true))) },
@@ -162,6 +164,9 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	"查看配置": function(event, can) { can.runAction(event, "config", ["select"], function(msg) {
 		can.onappend.board(can, msg)
 	}) },
+	"查看文档": function(event, can) { can.runAction(event, "config", ["help"]) },
+	"查看脚本": function(event, can) { can.runAction(event, "config", ["script"]) },
+	"查看源码": function(event, can) { can.runAction(event, "config", ["source"]) },
 	"帮助文档": function(event, can) { can.runAction(event, "help") },
 
 	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },

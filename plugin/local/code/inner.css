@@ -1,3 +1,5 @@
+fieldset.word fieldset.inner>form.option input[name=path] { width:240px; }
+
 fieldset.inner>form.option input[name=path] { width:80px; }
 fieldset.inner>form.option input[name=file] { width:160px; }
 fieldset.inner>div.action>div.tabs { padding:5px; margin:0 1px; }
@@ -33,6 +35,8 @@ fieldset.inner>div.status { height:31px; overflow:auto; }
 body.white fieldset.inner>div.output div.content { color:black; }
 body.white fieldset.inner.float>div.output div.content { color:white; }
 body.black fieldset.inner.float>div.output div.content { color:white; }
+
+body.white fieldset.inner.float>div.output div.profile { color:black; }
 
 body.simple fieldset.inner>div.output td.content>div.tabs { background-color:gray; padding:0px; height:31px; overflow:auto; display:block; }
 body.simple fieldset.inner>div.output td.content>div.tabs div.tabs { background-color:gray; font-family:monospace; padding:7px 20px; height:17px; float:left; }
