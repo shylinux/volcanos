@@ -5,7 +5,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			msg.Option(nfs.LINE) && can.Option(nfs.LINE, msg.Option(nfs.LINE))
 		}
 		if (can.Option(nfs.PATH) == "man") {
-			msg.result = [msg.Option(mdb.TEXT)]
+			// msg.result = [msg.Option(mdb.TEXT)]
 		}
 
 		var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
