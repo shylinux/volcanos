@@ -13,6 +13,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.tabview = can.tabview||{}, can.history = can.history||[], can.toolkit = {}, can.extentions = {}
 		can.profile_size = {}, can.display_size = {}
 
+		can.page.ClassList.add(can, can._fields, "inner")
 		can.onmotion.clear(can), can.onlayout.profile(can)
 		can.page.styleWidth(can, can.ui.project, 240)
 		can.onimport._project(can, can.ui.project)
@@ -189,7 +190,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 		function show(msg) { var skip2 = skip; can.tabview[key] = msg
 			can.onimport.tabs(can, [{name: file.split(line == ctx.INDEX? ice.PT: ice.PS).pop(), text: file}], function(event, meta) {
-				can._tab = msg._tab = event.target, can.onimport.tabview(can, path, file, msg.Option(nfs.LINE), cb, false, skip2), cb = null, skip2 = false
+				can._tab = msg._tab = event.target, can.onimport.tabview(can, path, file, msg.Option(nfs.LINE)||line, cb, false, skip2), cb = null, skip2 = false
 			}, function(item) {
 				delete(can.tabview[key])
 				delete(can._cache_data[can.base.Path(path, file)])
@@ -376,179 +377,26 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line
 
 		function wrap(type, str) { return type? '<span class="'+type+'">'+str+'</span>': str }
 		var p = can.onsyntax[can.parse]; if (!p) { return line } p = can.onsyntax[p.link]||p, p.split = p.split||{}
-		p.keyword && (line = can.core.List(can.core.Split(line, p.split.space||"\t ", p.split.operator||"{[(.,:;!|<>)]}", {detail: true}), function(item, index, array) {
+		p.keyword && (line = can.core.List(can.core.Split(line, p.split.space||"\t ", p.split.operator||"{[(.,:;!|<*>)]}", {detail: true}), function(item, index, array) {
 			item = can.base.isObject(item)? item: {text: item}; var text = item.text, type = item.keyword||p.keyword[text]
-
-			switch (item.type) { case html.SPACE: return text
+			switch (item.type) {
+				case html.SPACE: return text
 				case lang.STRING: return wrap(lang.STRING, item.left+text+item.right)
-				default: return wrap(type, text)
+				case code.COMMENT:
+				case code.KEYWORD:
+				case code.CONSTANT:
+				case code.DATATYPE:
+				case code.FUNCTION: return wrap(item.type, text)
+				default:
+					var t = can.core.Item(p.regexp, function(reg, type) {
+						if ((new RegExp(reg)).test(text)) { return type }
+					}); if (t && t.length > 0) { return wrap(t[0], text) }
+					return wrap(type, text)
 			}
 		}).join(""))
-
 		p.prefix && can.core.Item(p.prefix, function(pre, type) { if (can.base.beginWith(line, pre)) { line = wrap(type, line) } })
 		p.suffix && can.core.Item(p.suffix, function(end, type) { if (can.base.endWith(line, end)) { line = wrap(type, line) } })
 		return line
-	},
-	go: {
-		render: {},
-		keyword: {
-			"package": "keyword",
-			"import": "keyword",
-			"type": "keyword",
-			"struct": "keyword",
-			"interface": "keyword",
-			"const": "keyword",
-			"var": "keyword",
-			"func": "keyword",
-
-			"if": "keyword",
-			"else": "keyword",
-			"for": "keyword",
-			"range": "keyword",
-			"break": "keyword",
-			"continue": "keyword",
-			"switch": "keyword",
-			"case": "keyword",
-			"default": "keyword",
-			"fallthrough": "keyword",
-			"go": "keyword",
-			"select": "keyword",
-			"defer": "keyword",
-			"return": "keyword",
-
-			"false": "constant",
-			"true": "constant",
-			"nil": "constant",
-			"iota": "constant",
-			"-1": "constant",
-			"0": "constant",
-			"1": "constant",
-			"2": "constant",
-			"3": "constant",
-
-			"int": "datatype", "int8": "datatype", "int16": "datatype", "int32": "datatype", "int64": "datatype",
-			"uint": "datatype", "uint8": "datatype", "uint16": "datatype", "uint32": "datatype", "uint64": "datatype",
-			"float32": "datatype", "float64": "datatype", "complex64": "datatype", "complex128": "datatype",
-			"rune": "datatype", "string": "datatype", "byte": "datatype", "uintptr": "datatype",
-			"bool": "datatype", "error": "datatype", "chan": "datatype", "map": "datatype",
-
-			"msg": "function", "m": "function",
-			"init": "function", "main": "function", "print": "function", "println": "function", "panic": "function", "recover": "function",
-			"new": "function", "make": "function", "len": "function", "cap": "function", "copy": "function", "append": "function", "delete": "function", "close": "function",
-			"complex": "function", "real": "function", "imag": "function",
-		},
-	},
-	zml: {
-		prefix: {
-			"# ": "comment",
-		},
-		keyword: {
-			"return": "keyword",
-
-			"head": "keyword",
-			"left": "keyword",
-			"main": "keyword",
-			"foot": "keyword",
-			"tabs": "keyword",
-
-			"index": "function",
-			"action": "function",
-			"args": "function",
-			"type": "function",
-			"style": "function",
-			"width": "function",
-
-			"auto": "constant",
-			"username": "constant",
-		},
-	},
-	css: {
-		keyword: {
-			"body": "keyword",
-			"div": "keyword",
-			"span": "keyword",
-			"form": "keyword",
-			"fieldset": "keyword",
-			"legend": "keyword",
-			"select": "keyword",
-			"textarea": "keyword",
-			"input": "keyword",
-			"table": "keyword",
-			"tr": "keyword",
-			"th": "keyword",
-			"td": "keyword",
-
-			"background-color": "function",
-			"font-family": "function",
-			"font-weight": "function",
-			"font-size": "function",
-			"color": "function",
-			"width": "function",
-			"height": "function",
-			"padding": "function",
-			"border": "function",
-			"margin": "function",
-			"position": "function",
-			"left": "function",
-			"top": "function",
-			"right": "function",
-			"bottom": "function",
-			"display": "function",
-			"overflow": "function",
-			"float": "function",
-			"clear": "function",
-			"cursor": "function",
-
-			"z-index": "function",
-			"tab-size": "function",
-			"word-break": "function",
-			"white-space": "function",
-			"text-align": "function",
-			"vertical-align": "function",
-			"min-width": "function",
-			"max-width": "function",
-			"padding-left": "function",
-			"padding-top": "function",
-			"border-left": "function",
-			"border-top": "function",
-			"border-right": "function",
-			"border-bottom": "function",
-			"border-radius": "function",
-			"border-spacing": "function",
-			"margin-left": "function",
-			"margin-top": "function",
-			"margin-right": "function",
-			"margin-bottom": "function",
-			"box-shadow": "function",
-
-			"0": "constant",
-			"10px": "constant",
-			"20px": "constant",
-			"cyan": "constant",
-			"gray": "constant",
-			"yellow": "constant",
-			"black": "constant",
-			"white": "constant",
-			"blue": "constant",
-			"red": "constant",
-			"green": "constant",
-			"magenta": "constant",
-
-			"monospace": "constant",
-			"bold": "constant",
-			"solid": "constant",
-			"none": "constant",
-			"block": "constant",
-			"contexts": "constant",
-			"both": "constant",
-			"auto": "constant",
-
-			"center": "constant",
-			"relative": "constant",
-			"absolute": "constant",
-			"sticky": "constant",
-			"fixed": "constant",
-		},
 	},
 })
 Volcanos(chat.ONKEYMAP, {help: "导入数据",
@@ -721,4 +569,247 @@ Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["文件数", "解析器", 
 	exts: function(can) { return can.core.Item(can.plugins) },
 	position: function(can, index, total) { total = total||can.max; return (parseInt(index))+ice.PS+parseInt(total)+" = "+parseInt((index)*100/total)+"%" },
 	content: function(can) { return can.page.Select(can, can.ui.content, "td.text", function(item) { return item.innerText }).join(ice.NL) },
+})
+Volcanos(chat.ONSYNTAX, {help: "语法高亮",
+	h: {
+		render: {},
+		link: "c",
+	},
+	c: {
+		render: {},
+		prefix: {
+			"//": code.COMMENT,
+			"/*": code.COMMENT,
+			"*": code.COMMENT,
+			"*/": code.COMMENT,
+			"#": code.KEYWORD,
+		},
+		regexp: {
+			"^u_\\w+$": code.DATATYPE,
+			"^\\w+_t$": code.DATATYPE,
+			"^\\w+_pt$": code.DATATYPE,
+			"^[-]*\\d+$": code.CONSTANT,
+			"^[A-Z0-9_]+$": code.CONSTANT,
+		},
+		keyword: {
+			"#include": code.KEYWORD,
+			"#define": code.KEYWORD,
+			"#undef": code.KEYWORD,
+			"#ifndef": code.KEYWORD,
+			"#ifdef": code.KEYWORD,
+			"#if": code.KEYWORD,
+			"#elif": code.KEYWORD,
+			"#else": code.KEYWORD,
+			"#endif": code.KEYWORD,
+			"#error": code.KEYWORD,
+			"#line": code.KEYWORD,
+
+			"if": code.KEYWORD,
+			"else": code.KEYWORD,
+			"for": code.KEYWORD,
+			"while": code.KEYWORD,
+			"do": code.KEYWORD,
+			"break": code.KEYWORD,
+			"continue": code.KEYWORD,
+			"switch": code.KEYWORD,
+			"case": code.KEYWORD,
+			"default": code.KEYWORD,
+			"return": code.KEYWORD,
+			"goto": code.KEYWORD,
+
+			"struct": code.DATATYPE,
+			"union": code.DATATYPE,
+			"enum": code.DATATYPE,
+
+			"void": code.DATATYPE,
+			"char": code.DATATYPE,
+			"float": code.DATATYPE,
+			"double": code.DATATYPE,
+			"unsigned": code.DATATYPE,
+			"signed": code.DATATYPE,
+			"short": code.DATATYPE,
+			"long": code.DATATYPE,
+			"int": code.DATATYPE,
+
+			"auto": code.DATATYPE,
+			"typedef": code.DATATYPE,
+			"register": code.DATATYPE,
+			"volatile": code.DATATYPE,
+			"extern": code.DATATYPE,
+			"static": code.DATATYPE,
+			"const": code.DATATYPE,
+
+			"defined": code.FUNCTION,
+			"sizeof": code.FUNCTION,
+
+			"__FILE__": code.CONSTANT,
+			"__LINE__": code.CONSTANT,
+			"NULL": code.CONSTANT,
+			"-1": code.CONSTANT,
+			"0": code.CONSTANT,
+			"1": code.CONSTANT,
+			"2": code.CONSTANT,
+		},
+	},
+	go: {
+		render: {},
+		keyword: {
+			"package": code.KEYWORD,
+			"import": code.KEYWORD,
+			"type": code.KEYWORD,
+			"struct": code.KEYWORD,
+			"interface": code.KEYWORD,
+			"const": code.KEYWORD,
+			"var": code.KEYWORD,
+			"func": code.KEYWORD,
+
+			"if": code.KEYWORD,
+			"else": code.KEYWORD,
+			"for": code.KEYWORD,
+			"range": code.KEYWORD,
+			"break": code.KEYWORD,
+			"continue": code.KEYWORD,
+			"switch": code.KEYWORD,
+			"case": code.KEYWORD,
+			"default": code.KEYWORD,
+			"fallthrough": code.KEYWORD,
+			"go": code.KEYWORD,
+			"select": code.KEYWORD,
+			"defer": code.KEYWORD,
+			"return": code.KEYWORD,
+
+			"false": "constant",
+			"true": "constant",
+			"nil": "constant",
+			"iota": "constant",
+			"-1": "constant",
+			"0": "constant",
+			"1": "constant",
+			"2": "constant",
+			"3": "constant",
+
+			"int": code.DATATYPE, "int8": code.DATATYPE, "int16": code.DATATYPE, "int32": code.DATATYPE, "int64": code.DATATYPE,
+			"uint": code.DATATYPE, "uint8": code.DATATYPE, "uint16": code.DATATYPE, "uint32": code.DATATYPE, "uint64": code.DATATYPE,
+			"float32": code.DATATYPE, "float64": code.DATATYPE, "complex64": code.DATATYPE, "complex128": code.DATATYPE,
+			"rune": code.DATATYPE, "string": code.DATATYPE, "byte": code.DATATYPE, "uintptr": code.DATATYPE,
+			"bool": code.DATATYPE, "error": code.DATATYPE, "chan": code.DATATYPE, "map": code.DATATYPE,
+
+			"msg": code.FUNCTION, "m": code.FUNCTION,
+			"init": code.FUNCTION, "main": code.FUNCTION, "print": code.FUNCTION, "println": code.FUNCTION, "panic": code.FUNCTION, "recover": code.FUNCTION,
+			"new": code.FUNCTION, "make": code.FUNCTION, "len": code.FUNCTION, "cap": code.FUNCTION, "copy": code.FUNCTION, "append": code.FUNCTION, "delete": code.FUNCTION, "close": code.FUNCTION,
+			"complex": code.FUNCTION, "real": code.FUNCTION, "imag": code.FUNCTION,
+		},
+	},
+	zml: {
+		prefix: {
+			"# ": code.COMMENT,
+		},
+		keyword: {
+			"return": code.KEYWORD,
+
+			"head": code.KEYWORD,
+			"left": code.KEYWORD,
+			"main": code.KEYWORD,
+			"foot": code.KEYWORD,
+			"tabs": code.KEYWORD,
+
+			"index": code.FUNCTION,
+			"action": code.FUNCTION,
+			"args": code.FUNCTION,
+			"type": code.FUNCTION,
+			"style": code.FUNCTION,
+			"width": code.FUNCTION,
+
+			"auto": "constant",
+			"username": "constant",
+		},
+	},
+	css: {
+		keyword: {
+			"body": code.KEYWORD,
+			"div": code.KEYWORD,
+			"span": code.KEYWORD,
+			"form": code.KEYWORD,
+			"fieldset": code.KEYWORD,
+			"legend": code.KEYWORD,
+			"select": code.KEYWORD,
+			"textarea": code.KEYWORD,
+			"input": code.KEYWORD,
+			"table": code.KEYWORD,
+			"tr": code.KEYWORD,
+			"th": code.KEYWORD,
+			"td": code.KEYWORD,
+
+			"background-color": code.FUNCTION,
+			"font-family": code.FUNCTION,
+			"font-weight": code.FUNCTION,
+			"font-size": code.FUNCTION,
+			"color": code.FUNCTION,
+			"width": code.FUNCTION,
+			"height": code.FUNCTION,
+			"padding": code.FUNCTION,
+			"border": code.FUNCTION,
+			"margin": code.FUNCTION,
+			"position": code.FUNCTION,
+			"left": code.FUNCTION,
+			"top": code.FUNCTION,
+			"right": code.FUNCTION,
+			"bottom": code.FUNCTION,
+			"display": code.FUNCTION,
+			"overflow": code.FUNCTION,
+			"float": code.FUNCTION,
+			"clear": code.FUNCTION,
+			"cursor": code.FUNCTION,
+
+			"z-index": code.FUNCTION,
+			"tab-size": code.FUNCTION,
+			"word-break": code.FUNCTION,
+			"white-space": code.FUNCTION,
+			"text-align": code.FUNCTION,
+			"vertical-align": code.FUNCTION,
+			"min-width": code.FUNCTION,
+			"max-width": code.FUNCTION,
+			"padding-left": code.FUNCTION,
+			"padding-top": code.FUNCTION,
+			"border-left": code.FUNCTION,
+			"border-top": code.FUNCTION,
+			"border-right": code.FUNCTION,
+			"border-bottom": code.FUNCTION,
+			"border-radius": code.FUNCTION,
+			"border-spacing": code.FUNCTION,
+			"margin-left": code.FUNCTION,
+			"margin-top": code.FUNCTION,
+			"margin-right": code.FUNCTION,
+			"margin-bottom": code.FUNCTION,
+			"box-shadow": code.FUNCTION,
+
+			"0": "constant",
+			"10px": "constant",
+			"20px": "constant",
+			"cyan": "constant",
+			"gray": "constant",
+			"yellow": "constant",
+			"black": "constant",
+			"white": "constant",
+			"blue": "constant",
+			"red": "constant",
+			"green": "constant",
+			"magenta": "constant",
+
+			"monospace": "constant",
+			"bold": "constant",
+			"solid": "constant",
+			"none": "constant",
+			"block": "constant",
+			"contexts": "constant",
+			"both": "constant",
+			"auto": "constant",
+
+			"center": "constant",
+			"relative": "constant",
+			"absolute": "constant",
+			"sticky": "constant",
+			"fixed": "constant",
+		},
+	},
 })

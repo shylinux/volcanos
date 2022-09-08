@@ -125,6 +125,12 @@ var code = {
 	VIMER: "vimer", INNER: "inner", FAVOR: "favor",
 	AUTOGEN: "autogen", COMPILE: "compile", BINPACK: "binpack", WEBPACK: "webpack", PUBLISH: "publish",
 	KEYWORD: "keyword",
+
+	COMMENT: "comment",
+	KEYWORD: "keyword",
+	CONSTANT: "constant",
+	FUNCTION: "function",
+	DATATYPE: "datatype",
 }
 var wiki = {
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",

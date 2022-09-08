@@ -14,11 +14,16 @@ fieldset.inner>div.output div.content tr.select { background-color:#4682b46b; }
 fieldset.inner>div.output div.content tr.select td.line { background-color:#6495ed63; border:solid 1px red; border-right:solid 2px red; }
 fieldset.inner>div.output div.content td.text { white-space:pre; padding-left:10px; cursor:text; }
 fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
-fieldset.inner>div.output div.content td.text span.keyword { color:yellow; font-weight:bold; }
-fieldset.inner>div.output div.content td.text span.datatype { color:green; font-weight:bold; }
-fieldset.inner>div.output div.content td.text span.function { color:cyan; font-weight:bold; }
-fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
+fieldset.inner>div.output div.content td.text span.keyword { color:blue; font-weight:bold; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
+fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
+fieldset.inner>div.output div.content td.text span.datatype { color:green; }
+fieldset.inner>div.output div.content td.text span.function { color:purple; font-weight:bold; }
+fieldset.inner.float>div.output div.content td.text span.keyword { color:yellow; font-weight:bold; }
+fieldset.inner.float>div.output div.content td.text span.datatype { color:lightgreen; }
+body.black fieldset.inner>div.output div.content td.text span.keyword { color:yellow; font-weight:bold; }
+body.black fieldset.inner>div.output div.content td.text span.datatype { color:lightgreen; }
+body.black fieldset.inner>div.output div.content td.text span.function { color:cyan; font-weight:bold; }
 fieldset.inner>div.output td.content iframe { border:0; }
 fieldset.inner>div.output td.profile iframe { border:0; }
 
@@ -36,7 +41,7 @@ body.white fieldset.inner>div.output div.content { color:black; }
 body.white fieldset.inner.float>div.output div.content { color:white; }
 body.black fieldset.inner.float>div.output div.content { color:white; }
 
-body.white fieldset.inner.float>div.output div.profile { color:black; }
+/* body.white fieldset.inner.float>div.output div.profile { color:black; } */
 
 body.simple fieldset.inner>div.output td.content>div.tabs { background-color:gray; padding:0px; height:31px; overflow:auto; display:block; }
 body.simple fieldset.inner>div.output td.content>div.tabs div.tabs { background-color:gray; font-family:monospace; padding:7px 20px; height:17px; float:left; }

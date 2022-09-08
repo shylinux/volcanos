@@ -20,6 +20,13 @@ fieldset.word table.content { display:block; max-height:400px; }
 fieldset.word fieldset.story { margin:10px; }
 fieldset.word fieldset.story.full { margin:0px; }
 
+body.white fieldset.word svg.story text { stroke:blue; fill:blue; }
+body.white fieldset.word svg.story line { stroke:red; stroke-width:1; }
+body.white fieldset.word svg.story path { stroke:red; stroke-width:1; }
+fieldset.word svg.story text { stroke:yellow; fill:yellow; }
+fieldset.word svg.story line { stroke:red; stroke-width:1; }
+fieldset.word svg.story path { stroke:red; stroke-width:1; }
+
 fieldset.word.float { padding:0; margin:0; width:-webkit-fill-available; position:fixed; left:0; top:0; z-index:10; }
 fieldset.word.float>div.action { display:contents; }
 fieldset.word.float>div.status { clear:none; }
