@@ -291,7 +291,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 	},
 	_status: function(can, list, status) { status = status||can._status, can.onmotion.clear(can, status)
 		can.core.List(can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST])), function(item) { item = can.base.isObject(item)? item: {name: item}
-			msg = can._msg, item.name == "cost" && (item.value += "/"+msg.Option("_cost")+"ms")
+			// msg = can._msg, msg && item.name == "cost" && (item.value += "/"+msg.Option("_cost")+"ms")
 			if (item.value && item.value.indexOf && item.value.indexOf("http") == 0) { item.value = can.page.Format(html.A, item.value) }
 			can.page.Append(can, status, [{view: can.base.join([html.ITEM, item.name]), title: item.name, list: [
 				{text: [item.name, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value||"")+"", html.SPAN, item.name]},
