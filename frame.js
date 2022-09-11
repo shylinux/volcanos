@@ -185,7 +185,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			return Volcanos(item.name, {_follow: can.core.Keys(can._follow, item.name), _root: can._root,
 				_target: can.onappend.input(can, item, args[index]||opts[item.name], option||can._option),
 				_option: option||can._option, _action: can._action, _output: can._output, _status: can._status,
-				Option: can.Option, Action: can.Action, Status: can.Status, CloneField: can.Clone,
+				Option: can.Option, Action: can.Action, Status: can.Status, CloneField: can.Clone, Input: can.Input,
 				CloneInput: function() { can.onmotion.focus(can, add(item)._target) },
 			}, [item.display, chat.PLUGIN_INPUT_JS], function(input) { input.Conf(item)
 				input.run = function(event, cmds, cb, silent) { var msg = can.request(event)
@@ -291,7 +291,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 	},
 	_status: function(can, list, status) { status = status||can._status, can.onmotion.clear(can, status)
 		can.core.List(can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST])), function(item) { item = can.base.isObject(item)? item: {name: item}
-
+			msg = can._msg, item.name == "cost" && (item.value += "/"+msg.Option("_cost")+"ms")
 			if (item.value && item.value.indexOf && item.value.indexOf("http") == 0) { item.value = can.page.Format(html.A, item.value) }
 			can.page.Append(can, status, [{view: can.base.join([html.ITEM, item.name]), title: item.name, list: [
 				{text: [item.name, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value||"")+"", html.SPAN, item.name]},

@@ -3,7 +3,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) { 
 		!sub.page.ClassList.has(sub, sub._legend, "select") && can.ui.search.select()
 		sub.onmotion.clear(sub), sub.onappend.table(sub, msg, function(value, key, index, line) {
 			return {text: ["", html.TD], list: [{text: [can.page.replace(can, value, ice.PWD, ""), html.DIV]}], onclick: function(event) {
-				line.line && can.onimport.tabview(can, can.Option(nfs.PATH), line.file.replace(ice.PWD, ""), parseInt(line.line))
+				line.line && can.onimport.tabview(can, line.path||can.Option(nfs.PATH), line.file.replace(ice.PWD, ""), parseInt(line.line))
 			}}
 		}, sub._output), sub.onappend.board(sub, msg.Result()), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS)), can.Status("标签数", msg.Length())
 	}
@@ -35,7 +35,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) { 
 			})
 			show(msg)
 		},
-		nfs.TAGS, function(cmds) { msg.Option(kit.Dict(ice.MSG_HANDLE, ice.TRUE, ice.MSG_FIELDS, "file,line,text"))
+		nfs.TAGS, function(cmds) { msg.Option(kit.Dict(ice.MSG_HANDLE, ice.TRUE, ice.MSG_FIELDS, "path,file,line,text"))
 			can.runAction(msg, mdb.SEARCH, [can.parse, cmds[0], can.Option(nfs.PATH)], function(msg) { var sub = msg._can
 				can.page.style(can, sub._output, html.MAX_HEIGHT, can.ConfHeight()/4), show(msg, msg._word = cmds[0])
 				can.page.ClassList.has(sub, sub._target, html.SELECT) || sub._legend.click()

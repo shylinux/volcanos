@@ -12,6 +12,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		var files = can.core.Split(can.Option(nfs.FILE), ice.FS); can.Option(nfs.FILE, files[0])
 		can.tabview = can.tabview||{}, can.history = can.history||[], can.toolkit = {}, can.extentions = {}
 		can.profile_size = {}, can.display_size = {}
+		can.core.List(paths.concat(msg.modules||[], can.sup.paths||[]), function(p) {
+			if (paths.indexOf(p) == -1) { paths.push(p) }
+		}), can.sup.paths = paths
 
 		can.page.ClassList.add(can, can._fields, "inner")
 		can.onmotion.clear(can), can.onlayout.profile(can)
@@ -377,7 +380,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line
 
 		function wrap(type, str) { return type? '<span class="'+type+'">'+str+'</span>': str }
 		var p = can.onsyntax[can.parse]; if (!p) { return line } p = can.onsyntax[p.link]||p, p.split = p.split||{}
-		p.keyword && (line = can.core.List(can.core.Split(line, p.split.space||"\t ", p.split.operator||"{[(.,:;!|<*>)]}", {detail: true}), function(item, index, array) {
+		p.keyword && (line = can.core.List(can.core.Split(line, p.split.space||"\t ", p.split.operator||"{[(,:;!|<*>)]}", {detail: true}), function(item, index, array) {
 			item = can.base.isObject(item)? item: {text: item}; var text = item.text, type = item.keyword||p.keyword[text]
 			switch (item.type) {
 				case html.SPACE: return text

@@ -131,7 +131,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["create", "share", "refres
 		can.onmotion.share(event, can, [{name: chat.TITLE, value: can.Conf(chat.STORM)}], [mdb.TYPE, chat.STORM])
 	},
 	refresh: function(event, can) {
-		var args = {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), topic: can.getHeader(chat.TOPIC), layout: can.getAction(chat.LAYOUT)}
+		var args = {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), layout: can.getAction(chat.LAYOUT)}
 		if (can.user.isExtension) { localStorage.setItem(ctx.ARGS, JSON.stringify(args)) }
 		can.misc.Search(can, args)
 	},

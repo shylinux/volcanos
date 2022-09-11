@@ -3,6 +3,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.onkeymap._build(can), can.onkeymap._plugin({}, can)
 			can.base.isFunc(cb) && cb(msg)
 		}, target) } , function(can, name, sub) { name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
+		can.page.ClassList.add(can, can._fields, "inner")
+		can.page.ClassList.add(can, can._fields, "vimer")
 			if (name == chat.ONACTION) { can._trans = can.base.Copy(can._trans||{}, sub._trans) }
 			if (name == chat.ONKEYMAP) { can.core.Item(sub._mode, function(mode, value) {
 				var list = can.onkeymap._mode[mode] = can.onkeymap._mode[mode]||{}
@@ -236,7 +238,8 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 		},
 	}, _engine: {},
 })
-Volcanos(chat.ONACTION, {help: "控件交互", list: [nfs.SAVE, code.COMPILE, code.AUTOGEN, nfs.SCRIPT, chat.WEBSITE, web.DREAM],
+Volcanos(chat.ONACTION, {help: "控件交互", list: [],
+	// list: [nfs.SAVE, code.COMPILE, code.AUTOGEN, nfs.SCRIPT, chat.WEBSITE, web.DREAM],
 	_run: function(event, can, button, args, cb) {
 		can.runAction(event, button, args, cb||function(msg) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.source.refresh()

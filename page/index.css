@@ -16,7 +16,7 @@ input[name=offend] { width:48px; }
 input[name=id] { width:48px; }
 input[name=ID] { width:48px; }
 input[type=button] { background-color:black; color:cyan; border:0; }
-input[type=button][name=start] { background-color:green; }
+input[type=button][name=start] { background-color:blue; }
 input[type=button][name=open] { background-color:blue; }
 input[type=button][name=stop] { background-color:red; }
 input[type=button][name=trash] { background-color:red; }
@@ -175,7 +175,7 @@ body.white input[type=password] { background-color:white; }
 body.white input[type=text] { background-color:white; }
 body.white input[name=cmd] { background-color:black; color:white; }
 body.white input[type=button] { background-color:cornflowerblue; color:white; }
-body.white input[type=button][name=start] { background-color:green; }
+body.white input[type=button][name=start] { background-color:blue; }
 body.white input[type=button][name=open] { background-color:blue; }
 body.white input[type=button][name=stop] { background-color:red; }
 body.white input[type=button][name=trash] { background-color:red; }

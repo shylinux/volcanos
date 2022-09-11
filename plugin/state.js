@@ -35,7 +35,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 		return can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)), true
 	},
 	_field: function(can, msg) {
-		msg.Table(function(item) { item.type = chat.STORY, can.onappend._plugin(can, item, {type: chat.STORY, arg: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
+		msg.Table(function(item) { item.type = chat.STORY, can.onappend._plugin(can, item, {index: item.index, type: chat.STORY, arg: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
 			sub.Conf(can.base.Obj(item.conf))
 			if (sub.Conf("mode") == "simple") { (function() {
 				var msg = can.request(); msg.Echo(sub.Conf("result")), sub.ConfHeight(can.ConfHeight()/2)
@@ -61,7 +61,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 		return true
 	},
 
-	_hold: function(can, msg) { return true },
+	_hold: function(can, msg, _arg) { _arg && can.user.toast(can, _arg); return true },
 	_back: function(can) { can._history.pop()
 		for (var his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
 			var index = 0
