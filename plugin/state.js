@@ -14,17 +14,6 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 		})
 		return true
 	},
-	_story: function(can, msg) { 
-		can.onappend.plugin(can, {type: chat.FLOAT, index: msg._arg[0], args: msg._arg.slice(1), mode: "float"}, function(sub) {
-			sub.run = function(event, cmds, cb) { can.runAction(can.request(event, {path: msg.Option(nfs.PATH), text: msg.Option(mdb.TEXT)}), [ice.RUN, msg._arg[0]], cmds, cb) }
-			sub.Mode("float"), can.getActionSize(function(left, top, width, height) { left = left||0
-				var top = can.Mode() == undefined? 120: 0; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
-				sub.ConfHeight(height-top-2*html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0)), sub.ConfWidth(width)
-				can.page.style(can, sub._output, "max-height", window.innerHeight - top, "overflow", "auto")
-				can.onmotion.move(can, sub._target, {position: html.FIXED, left: left, top: top})
-			})
-		}, document.body)
-	},
 	_rewrite: function(can, msg) {
 		for (var i = 0; i < msg._arg.length; i += 2) {
 			can.Option(msg._arg[i], msg._arg[i+1]), can.Action(msg._arg[i], msg._arg[i+1])
@@ -35,7 +24,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 		return can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)), true
 	},
 	_field: function(can, msg) {
-		msg.Table(function(item) { item.type = chat.STORY, can.onappend._plugin(can, item, {index: item.index, type: chat.STORY, arg: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
+		msg.Table(function(item) { item.type = chat.STORY, can.onappend._plugin(can, item, {type: chat.STORY, index: item.index, args: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
 			sub.Conf(can.base.Obj(item.conf))
 			if (sub.Conf("mode") == "simple") { (function() {
 				var msg = can.request(); msg.Echo(sub.Conf("result")), sub.ConfHeight(can.ConfHeight()/2)
@@ -59,6 +48,17 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 		can.onmotion.story.auto(can)
 		can.page.style(can, can._output, html.DISPLAY, html.BLOCK)
 		return true
+	},
+	_float: function(can, msg) { var _arg = msg._arg
+		msg.Table(function(item) { can.onappend._plugin(can, item, {type: "float", index: item.index, args: _arg.slice(1), mode: "float"}, function(sub, meta) {
+			sub.run = function(event, cmds, cb) { can.runAction(can.request(event, {path: msg.Option(nfs.PATH), text: msg.Option(mdb.TEXT)}), [ice.RUN, msg._arg[0]], cmds, cb) }
+			sub.Mode("float"), can.getActionSize(function(left, top, width, height) { left = left||0
+				var top = can.Mode() == undefined? 120: 0; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
+				sub.ConfHeight(height-top-2*html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0)), sub.ConfWidth(width)
+				can.page.style(can, sub._output, "max-height", window.innerHeight - top, "overflow", "auto")
+				can.onmotion.move(can, sub._target, {position: html.FIXED, left: left, top: top})
+			})
+		}, document.body) })
 	},
 
 	_hold: function(can, msg, _arg) { _arg && can.user.toast(can, _arg); return true },
