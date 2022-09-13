@@ -1,9 +1,9 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.onmotion.clear(can), can.onlayout.profile_auto(can), can.base.isFunc(cb) && cb(msg)
-		can.onimport.layout(can), can.onappend._status(can), can.term = {}
+		can.ConfWidth(can.ConfWidth()+20), can.onimport.layout(can), can.onappend._status(can)
 
 		can.requireModules(["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() { can.onmotion.delay(can, function() { 
-			if (can.Option(mdb.HASH) != "") {
+			can.term = {}; if (can.Option(mdb.HASH) != "") {
 				var item = {hash: can.Option(mdb.HASH)}; msg.Table(function(value) { can.core.Value(item, value.key, value.value) })
 				return can.onimport._connect(can, item)
 			}
@@ -14,6 +14,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}, 500) })
 	},
 	layout: function(can) {
+		if (can._full) { can.ConfHeight(window.innerHeight), can.ConfWidth(window.innerWidth+20)
+			can.onmotion.hidden(can, can._legend), can.onmotion.hidden(can, can._option), can.onmotion.hidden(can, can._action)
+				, can.onmotion.hidden(can, can._status)
+		}
+
 		can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth())
 		var term = can.ui.content._term; if (!term) { return }
 		term._fit.fit(), can.onexport.term(can, term)
@@ -91,14 +96,28 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 	grow: function(can, msg, type) { var term = can.term[msg.Option(mdb.HASH)]; if (!term) { return }
+		function base64ToArrayBuffer(base64) {
+			  var binary_string = window.atob(base64);
+			  var len = binary_string.length;
+			  var bytes = new Uint8Array(len);
+				for (var i = 0; i < len; i++) {
+					bytes[i] = binary_string.charCodeAt(i);
+				}
+				return new Blob([bytes.buffer]).text()
+		}
+
 		switch (type) {
-			case "data": term.write(atob(msg.Option(mdb.TEXT))); break
+			// case "data": term.write(atob(msg.Option(mdb.TEXT))); break
+			// case "data": term.write(base64ToArrayBuffer(msg.Option(mdb.TEXT))); break
+			// case "data": term.write(unescape(msg.Option("escape"))); break
+			case "data": term.write((msg.Option("raw"))); break
 			case "exit": can.onmotion.clear(can, term._target); break
 		}
 	},
 })
-Volcanos(chat.ONACTION, {help: "操作数据", list: [mdb.CREATE, lex.SPLIT, mdb.PRUNES, "install"],
+Volcanos(chat.ONACTION, {help: "操作数据", list: [mdb.CREATE, lex.SPLIT, mdb.PRUNES, "install", "full"],
 	_trans: {split: "分屏", theme: "主题"},
+	full: function(event, can) { can._full = true, can.onimport.layout(can) },
 	create: function(event, can) {
 		can.user.input(event, can, [mdb.TYPE, mdb.NAME, "background", ctx.INDEX, ctx.ARGS], function(args, data) {
 			can.onimport._create(can, args, data)
