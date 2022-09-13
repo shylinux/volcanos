@@ -22,6 +22,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		item._menu = shy(can.ondetail, can.ondetail.list, function(event, button, meta) {
 			can.request(event, item, item.extra), meta[button](event, can, button, item)
 		})
+		item.nick = item.name+": "+item.type
 		return item._item = can.onimport.item(can, item, function(event) { 
 			item._tabs? item._tabs.click(): item._tabs = can.onimport.tabs(can, [item], function(event) {
 				can.onimport._connect(can, item)
@@ -30,7 +31,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	_create: function(can, args, data) {
 		can.runAction({}, mdb.CREATE, args, function(msg) {
-			var current = can.onimport._item(can, {hash: msg.Result(), name: msg.Option(mdb.NAME), extra: data})
+			var current = can.onimport._item(can, {hash: msg.Result(), name: msg.Option(mdb.NAME), type: msg.Option(mdb.TYPE), extra: data})
 			can.page.insertBefore(can, current, can.ui.project.firstChild).click()
 		})
 	},
@@ -73,6 +74,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		term.onTitleChange(function(title) { can.isCmdMode() && can.user.title(title) })
 		term.onCursorMove(function(e) { can.onexport.term(can, term) })
 
+		can._current = item.hash
 		can.term[item.hash] = item._term = target._term = term, term._target = target, term._item = item
 		can.runAction(can.request(event, item), "select"), item._term.focus()
 		return can.onimport._plug(can, item), can.onexport.term(can, term)
@@ -95,7 +97,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}
 	},
 })
-Volcanos(chat.ONACTION, {help: "操作数据", list: [mdb.CREATE, lex.SPLIT, mdb.PRUNES],
+Volcanos(chat.ONACTION, {help: "操作数据", list: [mdb.CREATE, lex.SPLIT, mdb.PRUNES, "install"],
 	_trans: {split: "分屏", theme: "主题"},
 	create: function(event, can) {
 		can.user.input(event, can, [mdb.TYPE, mdb.NAME, "background", ctx.INDEX, ctx.ARGS], function(args, data) {
@@ -112,6 +114,10 @@ Volcanos(chat.ONACTION, {help: "操作数据", list: [mdb.CREATE, lex.SPLIT, mdb
 				})
 			})
 		})
+	},
+	install: function(event, can) {
+		can.request(event, {"hash": can._current})
+		can.runAction(event, "install")
 	},
 })
 Volcanos(chat.ONDETAIL, {help: "操作数据", list: ["share", "plugin", "theme", "rename", "remove"],

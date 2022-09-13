@@ -23,7 +23,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 	_display: function(can, msg) {
 		return can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)), true
 	},
-	_field: function(can, msg) {
+	_field: function(can, msg) { var opts = {}
+		can.page.Select(can, can._option, "input.args", function(target) {
+			var value = msg.Option(target.name); target.name && value && (opts[target.name] = value)
+		})
 		msg.Table(function(item) { item.type = chat.STORY, can.onappend._plugin(can, item, {type: chat.STORY, index: item.index, args: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
 			sub.Conf(can.base.Obj(item.conf))
 			if (sub.Conf("mode") == "simple") { (function() {
@@ -35,7 +38,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 			sub.ConfHeight(can.ConfHeight())
 			sub.ConfWidth(can.ConfWidth()-4*html.PLUGIN_MARGIN)
 			sub.run = function(event, cmds, cb, silent) {
-				var res = can.request(event, can.Option(), {pid: msg.Option("pid")})
+				var res = can.request(event, can.Option(), {pid: msg.Option("pid")}, opts)
 				for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
 				can.run(event, (msg[ice.MSG_PREFIX]||[]).concat(cmds), cb, true)
 			}

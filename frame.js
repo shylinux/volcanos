@@ -216,7 +216,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 					var cb = meta[item]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
 				}
 
-			}}: item.length > 0? /*列表*/ {type: html.SELECT, name: item[0], values: item.slice(1), value: can.sup[item[0]], onchange: function(event) {
+			}}: item.length > 0? /*列表*/ {type: html.SELECT, name: item[0], values: item.slice(1), value: can.sup&&can.sup[item[0]]||"", onchange: function(event) {
 				var which = item[event.target.selectedIndex+1]
 				can.core.CallFunc(meta[which], [event, can, which])
 				can.core.CallFunc(meta[item[0]], [event, can, item[0], which])

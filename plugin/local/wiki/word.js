@@ -100,6 +100,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 	chart: function(can, data, target) {
+		if (!data.fg && !data.bg) { target.className.baseVal = "story auto" }
+
 		target.onclick = function(event) {
 			can.runAction(can.request(event, data), "run", [data.index, "find", event.target.innerHTML])
 		}
