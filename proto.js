@@ -129,8 +129,8 @@ var code = {
 	COMMENT: "comment",
 	KEYWORD: "keyword",
 	CONSTANT: "constant",
-	FUNCTION: "function",
 	DATATYPE: "datatype",
+	FUNCTION: "function",
 }
 var wiki = {
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",

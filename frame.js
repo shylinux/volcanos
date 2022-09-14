@@ -104,8 +104,8 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 	listen: shy("监听事件", function(can, name, cb) {
 		arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
 	}),
-	signal: shy("触发事件", function(can, name, msg) { msg = msg||can.request()
-		can.misc.Log(gdb.SIGNAL, name, (msg._cmds||[]), name == chat.ONREMOTE? msg.Option("_msg"): msg)
+	signal: shy("触发事件", function(can, name, msg) { msg = msg||can.request(); var _msg = name == chat.ONREMOTE? msg.Option("_msg"): msg
+		_msg.Option("log.disable") != ice.TRUE && can.misc.Log(gdb.SIGNAL, name, (msg._cmds||[]), _msg)
 		return can.core.List(can.onengine.listen.meta[name], function(cb) { can.core.CallFunc(cb, {event: msg._event, msg: msg}) }).length
 	}),
 })

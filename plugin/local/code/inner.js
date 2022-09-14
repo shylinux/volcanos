@@ -389,7 +389,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line
 				case code.KEYWORD:
 				case code.CONSTANT:
 				case code.DATATYPE:
-				case code.FUNCTION: return wrap(item.type, text)
+				case code.FUNCTION: return wrap(type, text)
 				default:
 					var t = can.core.Item(p.regexp, function(reg, type) {
 						if ((new RegExp(reg)).test(text)) { return type }
@@ -725,6 +725,49 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 
 			"auto": "constant",
 			"username": "constant",
+		},
+	},
+	js: {
+		split: {
+			operator: "{[(.,:;!|<*>)]}",
+		},
+		prefix: {
+			"// ": code.COMMENT,
+		},
+		regexp: {
+			// "can.*": code.FUNCTION,
+		},
+		keyword: {
+			"var": code.KEYWORD,
+
+			"if": code.KEYWORD,
+			"else": code.KEYWORD,
+			"switch": code.KEYWORD,
+			"case": code.KEYWORD,
+			"default": code.KEYWORD,
+			"return": code.KEYWORD,
+
+			"can": code.KEYWORD,
+			"sub": code.KEYWORD,
+			"sup": code.KEYWORD,
+			"msg": code.KEYWORD,
+			"res": code.KEYWORD,
+
+			"ice": code.KEYWORD,
+			"kit": code.KEYWORD,
+
+			"event": code.KEYWORD,
+			"target": code.KEYWORD,
+			"window": code.KEYWORD,
+			"location": code.KEYWORD,
+
+			"null": code.CONSTANT,
+
+			"function": code.FUNCTION,
+			"Volcanos": code.FUNCTION,
+			"shy": code.FUNCTION,
+			"cb": code.FUNCTION,
+			"cbs": code.FUNCTION,
 		},
 	},
 	css: {

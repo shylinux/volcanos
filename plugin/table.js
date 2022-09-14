@@ -1,11 +1,9 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
+		can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
 		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can._action)
 		var cbs = can.onimport[can.Conf(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
+			can.core.CallFunc(cbs, {can: can, msg: msg, target: target, list: msg.Table()})
 			can.page.ClassList.add(can, target, can._args[ctx.STYLE])
-			can.core.CallFunc(cbs, {
-				can: can, msg: msg, target: target,
-				list: msg.Table(),
-			})
 			return cbs(can, msg, target)
 		}
 
@@ -140,4 +138,3 @@ Volcanos(chat.ONACTION, {help: "操作数据",
 		can.onimport.layout(can)
 	},
 })
-
