@@ -68,9 +68,7 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 		msg.option = can.core.List(msg.option, function(item) { return {_toast: true, _handle: true}[item] && delete(msg[item])? undefined: item })
 		can.onengine.signal(can, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
 
-		can.getHeader("topic", function(topic) {
-			can.request(event, {topic: topic})
-		})
+		can.getHeader("topic", function(topic) { can.request(event, {topic: topic}) })
 		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+panel._name)
 		can.misc.Run(event, can, {names: names, daemon: msg._daemon}, cmds, function(msg) {
 			Volcanos.meta.pack[keys] = msg, toast && toast.close(), toast = true, can.base.isFunc(cb) && cb(msg)
