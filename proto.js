@@ -242,6 +242,7 @@ var html = {
 	BACKGROUND: "background", SELECT: "select", HIDDEN: "hidden",
 	DISPLAY: "display", BLOCK: "block", NONE: "none", FIXED: "fixed",
 	OPACITY: "opacity",
+	OVERFLOW: "overflow",
 	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", FONT_FAMILY: "font-family", MONOSPACE: "monospace",
 	SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
 	SPEED: "speed", PADDING: "padding", MARGIN: "margin",

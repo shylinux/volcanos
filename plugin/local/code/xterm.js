@@ -2,6 +2,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) { can.o
 		can.requireModules(["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
 			var item = {hash: can.Option(mdb.HASH)}; msg.Table(function(value) { can.core.Value(item, value.key, value.value) })
 			can.onimport.layout(can), can.onappend._status(can), can.onimport._connect(can, item)
+			can.isCmdMode() && can.misc.Search(can, "hash") && can.onaction.full({}, can)
 		})
 	},
 	_connect: function(can, item) { item.extra = can.base.Obj(item.extra, {})
@@ -19,10 +20,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) { can.o
 		term.open(can._output), term.focus()
 	},
 	_resize: function(can, item, size) {
-		can.runAction(can.request({}, size, item), "resize", function() { can.onexport.term(can) })
+		can.runAction(can.request({}, size, item), "resize", [], function() { can.onexport.term(can) })
 	},
 	_input: function(can, item, val) {
 		can.runAction(can.request({}, item, {"log.disable": ice.TRUE}), "input", [btoa(val)], function() {})
+		// can.runAction(can.request({}, item, {}), "input", [btoa(val)], function() {})
 	},
 	layout: function(can) {
 		can.page.style(can, can._output, html.HEIGHT, can.ConfHeight()+(can.ConfHeight() == window.innerHeight? 10: 0), html.WIDTH, can.ConfWidth()+20, html.MAX_WIDTH, "")

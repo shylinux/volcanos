@@ -1,7 +1,6 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, target) {},
-	_process: function(can, msg) {
-		msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, can.base.Obj(msg.OptionStatus()))
-		return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, sub: can, msg: msg})
+Volcanos(chat.ONIMPORT, {help: "导入数据", _process: function(can, msg) {
+		msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, msg.OptionStatus())
+		return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, msg: msg})
 	},
 
 	_location: function(can, msg, _arg) { can.user.jumps(_arg); return true },
@@ -23,64 +22,57 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, conf, cb, ta
 	_display: function(can, msg) {
 		return can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)), true
 	},
+	_inner: function(can, msg) {
+		can.onappend.table(can, msg), can.onappend.board(can, msg), can.onmotion.story.auto(can)
+		can.page.style(can, can._output, html.DISPLAY, html.BLOCK)
+		return true
+	},
 	_field: function(can, msg) { var opts = {}
-		can.page.Select(can, can._option, "input.args", function(target) {
+		can.page.Select(can, can._option, html.INPUT_ARGS, function(target) {
 			var value = msg.Option(target.name); target.name && value && (opts[target.name] = value)
 		})
-		msg.Table(function(item) { item.type = chat.STORY, can.onappend._plugin(can, item, {type: chat.STORY, index: item.index, args: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
-			sub.Conf(can.base.Obj(item.conf))
-			if (sub.Conf("mode") == "simple") { (function() {
-				var msg = can.request(); msg.Echo(sub.Conf("result")), sub.ConfHeight(can.ConfHeight()/2)
-				can.onappend._output(sub, msg, msg.Option(ice.MSG_DISPLAY)||sub.Conf("feature.display"))
+		msg.Table(function(item) { can.onappend._plugin(can, item, {type: chat.STORY, index: item.index, args: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
+			sub.Conf(can.base.Obj(item.conf)); if (sub.isSimpleMode()) { (function() { sub.ConfHeight(can.ConfHeight()/2)
+				var msg = can.request(); msg.Echo(sub.Conf(ice.MSG_RESULT))
+				can.onappend._output(sub, msg, sub.Conf("feature.display"))
 			})(); return }
 
 			var opt = can.base.Obj(item[ice.OPT], [])
-			sub.ConfHeight(can.ConfHeight())
-			sub.ConfWidth(can.ConfWidth()-4*html.PLUGIN_MARGIN)
-			sub.run = function(event, cmds, cb, silent) {
-				var res = can.request(event, can.Option(), {pid: msg.Option("pid")}, opts)
+			sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()-4*html.PLUGIN_MARGIN)
+			sub.run = function(event, cmds, cb) {
+				var res = can.request(event, can.Option(), opts, {pid: msg.Option("pid")})
 				for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
 				can.run(event, (msg[ice.MSG_PREFIX]||[]).concat(cmds), cb, true)
 			}
 		}) })
 		return true
 	},
-	_inner: function(can, msg) {
-		can.onappend.table(can, msg)
-		can.onappend.board(can, msg)
-		can.onmotion.story.auto(can)
-		can.page.style(can, can._output, html.DISPLAY, html.BLOCK)
-		return true
-	},
 	_float: function(can, msg) { var _arg = msg._arg
-		msg.Table(function(item) { can.onappend._plugin(can, item, {type: "float", index: item.index, args: _arg.slice(1), mode: "float"}, function(sub, meta) {
+		msg.Table(function(item) { can.onappend._plugin(can, item, {type: chat.FLOAT, index: item.index, args: _arg.slice(1), mode: chat.FLOAT}, function(sub, meta) {
 			sub.run = function(event, cmds, cb) { can.runAction(can.request(event, {path: msg.Option(nfs.PATH), text: msg.Option(mdb.TEXT)}), [ice.RUN, msg._arg[0]], cmds, cb) }
-			sub.Mode("float"), can.getActionSize(function(left, top, width, height) { left = left||0
+			sub.Mode(chat.FLOAT), can.getActionSize(function(left, top, width, height) { left = left||0
 				var top = can.Mode() == undefined? 120: 0; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
 				sub.ConfHeight(height-top-2*html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0)), sub.ConfWidth(width)
-				can.page.style(can, sub._output, "max-height", window.innerHeight - top, "overflow", "auto")
+				can.page.style(can, sub._output, html.MAX_HEIGHT, window.innerHeight - top, html.OVERFLOW, ice.AUTO)
 				can.onmotion.move(can, sub._target, {position: html.FIXED, left: left, top: top})
 			})
 		}, document.body) })
+		return true
 	},
 
-	_hold: function(can, msg, _arg) { _arg && can.user.toast(can, _arg); return true },
+	_hold: function(can, msg, _arg) { return _arg && can.user.toast(can, _arg), true },
 	_back: function(can) { can._history.pop()
-		for (var his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
-			var index = 0
+		for (var index = 0, his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
 			can.page.SelectArgs(can, can._option, "", function(item) { item.value = his[index++]||"" })
 			can.page.SelectArgs(can, can._action, "", function(item) { item.value = his[index++]||"" })
 			can.Update(); break
-		}
-		!his && can.Update()
+		} !his && can.Update()
 		return true
 	},
 	_rich: function(can, msg, _arg) {
 		if (can.page.Select(can, can._output, [html.TABLE_CONTENT, html.TBODY], function(table) {
 			var head = can.page.Select(can, can._output, [html.TABLE_CONTENT, html.TH], function(th) { return th.innerText })
-			can.page.Append(can, table, msg.Table(function(value) {
-				return {row: can.core.List(head, function(key) { return value[key] })}
-			}))
+			can.page.Append(can, table, msg.Table(function(value) { return {row: can.core.List(head, function(key) { return value[key] })} }))
 			return true
 		}).length == 0) { can.onappend.table(can, msg) }
 		return true
@@ -112,7 +104,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input([], true))) },
 
 	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
-	"切换全屏": function(event, can) { var sub = can._outputs[can._outputs.length-1]
+	"切换全屏": function(event, can) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
 		if (can.page.ClassList.neg(can, can._target, "full")) {
 			var height = window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT; can.user.isMobile && (height -= 2*html.ACTION_HEIGHT)
 			can._mode_bak = can.Mode(), can._height_bak = sub.ConfHeight(), can._width_bak = sub.ConfWidth()
@@ -149,7 +141,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	},
 	"生成图片": function(event, can) { can.onmotion.toimage(event, can, can._name) },
 
-	"刷新页面": function(event, can) { var sub = can.core.Value(can._outputs, "-1")
+	"刷新页面": function(event, can) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
 		can.core.CallFunc([sub, chat.ONIMPORT, "_init"], {can: sub, msg: sub._msg, cb: function(msg) {}, target: can._output})
 	},
 	"保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
@@ -162,18 +154,17 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		})
 	},
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
-	"删除工具": function(event, can) { can.page.Remove(can, can._target) },
-	"删除配置": function(event, can) { can.runAction(event, "config", ["reset"]) },
-	"查看配置": function(event, can) { can.runAction(event, "config", ["select"], function(msg) {
-		can.onappend.board(can, msg)
-	}) },
+
 	"查看文档": function(event, can) { can.runAction(event, "config", ["help"]) },
 	"查看脚本": function(event, can) { can.runAction(event, "config", ["script"]) },
 	"查看源码": function(event, can) { can.runAction(event, "config", ["source"]) },
-	"帮助文档": function(event, can) { can.runAction(event, "help") },
+	"查看配置": function(event, can) { can.runAction(event, "config", ["select"], function(msg) {
+		can.onappend.board(can, msg)
+	}) },
+	"删除配置": function(event, can) { can.runAction(event, "config", ["reset"]) },
+	"删除工具": function(event, can) { can.page.Remove(can, can._target) },
 
 	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
-
 	"摄像头": function(event, can) {
 		var constraints = {audio: false, video: {width: 200, height: 200}}
 		var ui = can.page.Append(can, can._output, [{view: ctx.ACTION}, {view: "capture", list: [{type: "video", _init: function(item) {

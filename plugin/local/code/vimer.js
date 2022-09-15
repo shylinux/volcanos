@@ -79,7 +79,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 						var color = item.status == "start"? "": "gray"
 						can.page.Append(can, target, [{view: html.ITEM, list: [{text: [item.name, html.DIV], style: {color: color}, onmouseenter: carte}], onclick: function() {
-							can.onimport.tabview(can, can.Option(nfs.PATH), item.name, web.DREAM) // 显示空间
+							can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, "pod"), item.name), web.DREAM) // 显示空间
 						}}])
 					})
 				})
@@ -277,7 +277,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 	},
 	dream: function(event, can, button) {
 		can.onaction._runs(can.request(event, {name: can.base.trimSuffix(can.Option(nfs.FILE).split(ice.PS).pop(), ice.PT+can.base.Ext(can.Option(nfs.FILE)))}), can, button, function(msg) { can.ui.dreams.refresh()
-			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(mdb.NAME), web.DREAM) // 显示空间
+			can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, "pod"), msg.Option(mdb.NAME)), web.DREAM) // 显示空间
 			can.user.toastSuccess(can)
 		})
 	},

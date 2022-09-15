@@ -1,20 +1,20 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) { if (msg.Result() == "" && msg.Length() == 0) { can.onmotion.hidden(can, can._output); return }
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
+		if (msg.Result() == "" && msg.Length() == 0) { can.onmotion.hidden(can, can._output); return }
+		can.onmotion.toggle(can, can._output, true)
 		if (msg.Option(nfs.FILE)) {
 			msg.Option(nfs.PATH) && can.Option(nfs.PATH, msg.Option(nfs.PATH))
 			can.Option(nfs.FILE, msg.Option(nfs.FILE))
 			msg.Option(nfs.LINE) && can.Option(nfs.LINE, msg.Option(nfs.LINE))
 		}
-		if (can.Option(nfs.PATH) == "man") {
-			// msg.result = [msg.Option(mdb.TEXT)]
-		}
 
 		var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
 		var files = can.core.Split(can.Option(nfs.FILE), ice.FS); can.Option(nfs.FILE, files[0])
-		can.tabview = can.tabview||{}, can.history = can.history||[], can.toolkit = {}, can.extentions = {}
-		can.profile_size = {}, can.display_size = {}
 		can.core.List(paths.concat(msg.modules||[], can.sup.paths||[]), function(p) {
 			if (paths.indexOf(p) == -1) { paths.push(p) }
 		}), can.sup.paths = paths
+
+		can.tabview = can.tabview||{}, can.history = can.history||[], can.toolkit = {}, can.extentions = {}
+		can.profile_size = {}, can.display_size = {}
 
 		can.page.ClassList.add(can, can._fields, "inner")
 		can.onmotion.clear(can), can.onlayout.profile(can)
@@ -51,8 +51,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			}
 		})
 	},
-	_input: function(can) {
-	},
+	_input: function(can) {},
 	_project: function(can, target) {
 		target._toggle = function(event, show) { can.onimport.layout(can) }
 	},
@@ -392,7 +391,8 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line
 				case code.FUNCTION: return wrap(type, text)
 				default:
 					var t = can.core.Item(p.regexp, function(reg, type) {
-						if ((new RegExp(reg)).test(text)) { return type }
+						var m = text.match(new RegExp(reg))
+						if (m && m.length > 0 && m[0] == text) { return type}
 					}); if (t && t.length > 0) { return wrap(t[0], text) }
 					return wrap(type, text)
 			}
@@ -654,6 +654,47 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 			"2": code.CONSTANT,
 		},
 	},
+	sh: {
+		// render: {},
+		split: {
+			operator: "=",
+		},
+		prefix: {
+			"#": code.COMMENT,
+		},
+		suffix: {
+			" {": code.COMMENT,
+		},
+		regexp: {
+			"[A-Z0-9_]+": code.CONSTANT,
+		},
+		keyword: {
+			"local": code.KEYWORD,
+			"export": code.KEYWORD,
+			"require": code.KEYWORD,
+			"source": code.KEYWORD,
+			"return": code.KEYWORD,
+			"exit": code.KEYWORD,
+			".": code.KEYWORD,
+
+			"if": code.KEYWORD,
+			"then": code.KEYWORD,
+			"elif": code.KEYWORD,
+			"else": code.KEYWORD,
+			"fi": code.KEYWORD,
+
+			"case": code.KEYWORD,
+			"in": code.KEYWORD,
+			"esac": code.KEYWORD,
+
+			"eval": code.FUNCTION,
+			"test": code.FUNCTION,
+			"echo": code.FUNCTION,
+			"mkdir": code.FUNCTION,
+			"cat": code.FUNCTION,
+			"rm": code.FUNCTION,
+		},
+	}, configure: {link: "sh"},
 	go: {
 		render: {},
 		keyword: {
@@ -701,30 +742,6 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 			"init": code.FUNCTION, "main": code.FUNCTION, "print": code.FUNCTION, "println": code.FUNCTION, "panic": code.FUNCTION, "recover": code.FUNCTION,
 			"new": code.FUNCTION, "make": code.FUNCTION, "len": code.FUNCTION, "cap": code.FUNCTION, "copy": code.FUNCTION, "append": code.FUNCTION, "delete": code.FUNCTION, "close": code.FUNCTION,
 			"complex": code.FUNCTION, "real": code.FUNCTION, "imag": code.FUNCTION,
-		},
-	},
-	zml: {
-		prefix: {
-			"# ": code.COMMENT,
-		},
-		keyword: {
-			"return": code.KEYWORD,
-
-			"head": code.KEYWORD,
-			"left": code.KEYWORD,
-			"main": code.KEYWORD,
-			"foot": code.KEYWORD,
-			"tabs": code.KEYWORD,
-
-			"index": code.FUNCTION,
-			"action": code.FUNCTION,
-			"args": code.FUNCTION,
-			"type": code.FUNCTION,
-			"style": code.FUNCTION,
-			"width": code.FUNCTION,
-
-			"auto": "constant",
-			"username": "constant",
 		},
 	},
 	js: {
@@ -856,6 +873,30 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 			"absolute": "constant",
 			"sticky": "constant",
 			"fixed": "constant",
+		},
+	},
+	zml: {
+		prefix: {
+			"# ": code.COMMENT,
+		},
+		keyword: {
+			"return": code.KEYWORD,
+
+			"head": code.KEYWORD,
+			"left": code.KEYWORD,
+			"main": code.KEYWORD,
+			"foot": code.KEYWORD,
+			"tabs": code.KEYWORD,
+
+			"index": code.FUNCTION,
+			"action": code.FUNCTION,
+			"args": code.FUNCTION,
+			"type": code.FUNCTION,
+			"style": code.FUNCTION,
+			"width": code.FUNCTION,
+
+			"auto": "constant",
+			"username": "constant",
 		},
 	},
 })
