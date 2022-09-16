@@ -13,7 +13,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onmotion.story.auto(can, target)
 		can.base.isFunc(cb) && cb(msg)
 	},
-
+	_title: function(can, title) {
+		can.user.title(title+ice.SP+(can.misc.Search(can, ice.POD)||location.host))
+	},
 	zone: function(can, list, target) { var color = [""]
 		return can.page.Append(can, target, can.core.List(list, function(zone, index) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: html.ZONE+" "+zone.name, list: [
 			{view: html.NAME, inner: can.user.trans(can, zone.name), style: {background: color[index%color.length]}, onclick: function() {
@@ -133,8 +135,12 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 Volcanos(chat.ONACTION, {help: "操作数据",
 	_trans: {"full": "全屏"},
 	full: function(event, can) {
-		can.onmotion.hidden(can, can._legend), can.onmotion.hidden(can, can._option), can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
-		can.ConfHeight(window.innerHeight), can.ConfWidth(window.innerWidth)
-		can.onimport.layout(can)
+		if (can.isCmdMode()) {
+			can.onmotion.hidden(can, can._legend), can.onmotion.hidden(can, can._option), can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
+			can.ConfHeight(window.innerHeight), can.ConfWidth(window.innerWidth)
+			can.onimport.layout(can)
+		} else {
+			can.sup.onaction["切换全屏"](event, can.sup)
+		}
 	},
 })

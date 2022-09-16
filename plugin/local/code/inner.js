@@ -184,7 +184,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	tabview: function(can, path, file, line, cb, skip, skip2) { var key = can.onexport.keys(can, file, path)
 		if (can.isCmdMode()) { (location.hash = location.pathname.indexOf(file) > -1? "": file+ice.FS+(line||1)) }
-		if (!skip && can.tabview[key]) { can.isCmdMode() && can.user.title(path+file)
+			if (!skip && can.tabview[key]) { if (can.isCmdMode()) { can.onimport._title(can, path+file) }
 			can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.tabview[key]
 			can.Option({path: path, file: file, line: line||can._msg.Option(nfs.LINE)||1})
 			return can._msg.Option(can.Option()), can.onsyntax._init(can, can._msg, cb, skip2)

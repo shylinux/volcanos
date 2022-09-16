@@ -207,6 +207,7 @@ body.white div.item.select { background-color:#4682b46b; }
 /* print */
 body.print { background-color:white; color:black; }
 body.print legend, body.print select, body.print input, body.print input[type=button] { background-color:lightgray; color:black; box-shadow:0px 0px 0px 0px #626bd0; }
+body.print input[type=text] { background-color:lightgray; }
 body.print table.content th { background-color:lightgray; }
 body.print table.content.action td:last-child { background-color:lightgray; }
 body.print div.project div.zone>div.name { background-color:lightgray; }
