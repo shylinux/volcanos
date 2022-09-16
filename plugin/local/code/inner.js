@@ -1,6 +1,7 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		if (msg.Result() == "" && msg.Length() == 0) { can.onmotion.hidden(can, can._output); return }
 		can.onmotion.toggle(can, can._output, true)
+
 		if (msg.Option(nfs.FILE)) {
 			msg.Option(nfs.PATH) && can.Option(nfs.PATH, msg.Option(nfs.PATH))
 			can.Option(nfs.FILE, msg.Option(nfs.FILE))
@@ -9,34 +10,30 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 		var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
 		var files = can.core.Split(can.Option(nfs.FILE), ice.FS); can.Option(nfs.FILE, files[0])
-		can.core.List(paths.concat(msg.modules||[], can.sup.paths||[]), function(p) {
-			if (paths.indexOf(p) == -1) { paths.push(p) }
-		}), can.sup.paths = paths
+		can.core.List(paths.concat(msg.modules||[], can.sup.paths||[]), function(p) { if (paths.indexOf(p) == -1) { paths.push(p) } })
+		can.sup.paths = paths
 
 		can.tabview = can.tabview||{}, can.history = can.history||[], can.toolkit = {}, can.extentions = {}
 		can.profile_size = {}, can.display_size = {}
 
-		can.page.ClassList.add(can, can._fields, "inner")
+		can.page.ClassList.add(can, can._fields, code.INNER)
 		can.onmotion.clear(can), can.onlayout.profile(can)
-		can.page.styleWidth(can, can.ui.project, 240)
 		can.onimport._project(can, can.ui.project)
 		can.onimport._profile(can, can.ui.profile)
 		can.onimport._display(can, can.ui.display)
-		can.onimport._input(can)
 
+		can.onimport._input(can)
+		can.require(["inner/syntax.js"], function() { can.base.isFunc(cb) && cb(msg) })
 		can.ui._content = can.ui.content
 		can.ui._profile_output = can.ui.profile_output
-		can.isCmdMode() && can.onmotion.hidden(can, can._status)
 		can.onengine.plugin(can, can.onplugin)
-		can.base.isFunc(cb) && cb(msg)
 
 		switch (can.Mode()) {
 			case "simple": can.onimport._simple(can); break
 			case "float": break
-			case "cmd": can.onimport._tabs(can) // no break
+			case "cmd": can.onimport._tabs(can), can.onmotion.hidden(can, can._status) // no break
 			case "full": // no break
-			default: if (can.ConfHeight() < 320) { can.ConfHeight(320) }
-				can.onimport.project(can, paths), can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
+			default: can.onimport.project(can, paths)
 				can.onimport._toolkit(can, can.ui.toolkit), can.onimport._session(can, msg, function() {
 					files.length > 1 && can.onmotion.delay(can, function() { can.core.Next(files.slice(1), function(file, next) {
 						can.onimport.tabview(can, can.Option(nfs.PATH), file, can.Option(nfs.LINE), next)
@@ -55,12 +52,19 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	_project: function(can, target) {
 		target._toggle = function(event, show) { can.onimport.layout(can) }
 	},
-	_profile: function(can, target) {
-		var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT]); can.ui.profile_output = ui.output
+	_panel: function(can, target, action) {
+		var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT])
 		var action = can.onappend._action(can, [], ui.action, kit.Dict(
 			cli.CLOSE, function(event) { can.onmotion.hidden(can, target), can.onimport.layout(can) },
 			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
 			cli.SHOW, function(event) { can.onaction[cli.SHOW](event, can) },
+			action,
+			mdb.PLUGIN, function(event) { can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) { can.onimport.plug(can, data, ui.output) }) },
+		)); target._toggle = function(event, show) { action[show? cli.SHOW: cli.CLOSE](event) }
+		return ui
+	},
+	_profile: function(can, target) {
+		var ui = can.onimport._panel(can, target, kit.Dict(
 			nfs.LOAD, function(event) { can.onaction[nfs.LOAD](event, can) },
 			mdb.LINK, function(event) {
 				if ([nfs.ZML, nfs.IML].indexOf(can.base.Ext(can.Option(nfs.FILE))) > -1) {
@@ -73,21 +77,17 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 					}))
 				}
 			},
-			mdb.PLUGIN, function(event) { can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) { can.onimport.plug(can, data, ui.output) }) },
 			html.WIDTH, function(event) {
 				can.user.input(event, can, [{name: html.WIDTH, value: can.profile_size[can.onexport.keys(can)]*100/can.ConfWidth()||50}], function(list) {
 					can.profile_size[can.onexport.keys(can)] = can.ConfWidth()*parseInt(list[0])/100
 					can.onaction[cli.SHOW](event, can)
 				})
-			}
-		)); target._toggle = function(event, show) { action[show? cli.SHOW: cli.CLOSE](event) }
+			},
+		)); can.ui.profile_output = ui.output
 	},
 	_display: function(can, target) {
-		var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT, html.STATUS]); can.ui.display_output = ui.output, can.ui.display_status = ui.status
-		var action = can.onappend._action(can, [], ui.action, kit.Dict(
-			cli.CLOSE, function(event) { can.onmotion.hidden(can, target), can.onimport.layout(can) },
-			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
-			cli.EXEC, function(event) { can.onaction[cli.EXEC](event, can) },
+		var ui = can.onimport._panel(can, target, kit.Dict(
+			cli.SHOW, function(event) { can.onaction[cli.EXEC](event, can) },
 			mdb.PLUGIN, function(event) { can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) { can.onimport.plug(can, data, ui.output) }) },
 			html.HEIGHT, function(event) {
 				can.user.input(event, can, [{name: html.HEIGHT, value: can.display_size[can.onexport.keys(can)]*100/can.ConfHeight()||50}], function(list) {
@@ -95,22 +95,22 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 					can.onaction[cli.EXEC](event, can)
 				})
 			}
-		)); target._toggle = function(event, show) { action[show? cli.EXEC: cli.CLOSE](event) }
+		)); can.ui.display_output = ui.output, can.ui.display_status = ui.status
 	},
 	_toolkit: function(can, target) {
 		can.ui.toolkit = can.onappend.field(can, "toolkit", {}, can._output)
+	},
+	_session: function(can, msg) {
+		can.onimport.sess(can, "", function() { can.onimport.sess(can, {
+			exts: can.core.Split(msg.OptionOrSearch("exts")).reverse(),
+			plug: can.core.Split(msg.OptionOrSearch("plug")).reverse(),
+			tabs: can.core.Split(msg.OptionOrSearch("tabs")),
+		}) })
 	},
 	_keydown: function(can) { can.onkeymap._build(can)
 		can.isCmdMode() && can.onengine.listen(can, chat.ONKEYDOWN, function(event) {
 			can._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can._key_list, can.ui.content)
 		})
-	},
-	_session: function(can, msg) {
-		can.onimport.sess(can, "", function() { can.onimport.sess(can, {
-			plug: can.core.Split(msg.OptionOrSearch("plug")).reverse(),
-			exts: can.core.Split(msg.OptionOrSearch("exts")).reverse(),
-			tabs: can.core.Split(msg.OptionOrSearch("tabs")),
-		}) })
 	},
 	_simple: function(can) {
 		can.tabview[can.onexport.keys(can)] = can._msg
@@ -159,24 +159,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 	project: function(can, path) {
-		can.onimport.zone(can, [
-			{name: "source", _init: function(target) { var total = 0
-				function show(path, target) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
-					can.core.List(list, function(item) { if (can.Option(nfs.FILE).indexOf(item.path) == 0) { item.expand = true } })
-					can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) {
-						can.onimport.tabview(can, path, item.path) // 显示文件
-					}, target), can.Status("文件数", total += msg.Length())
-				}, true) } if (path.length == 1) { return show(path[0], target) }
-
-				can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(path, target) }} }), target)
-				can.onmotion.delay(can, function() { target.previousSibling.innerHTML = "" })
-			}},
-			{name: "plugin", _init: function(target) {
-				can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return {index: can.base.trimPrefix(key, "can.")} }), ctx.INDEX, ice.PT, function(event, item) {
-					can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys("can", item.index), ctx.INDEX) // 显示插件
-				}, target)
-			}},
-		], can.ui.project)
+		if (can.ConfHeight() < 320) { can.ConfHeight(320) }
+		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
+		can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) {
+			return can.base.isFunc(cb)? {name: name, _init: function(target, zone) { cb(can, target, zone, path) }}: undefined
+		}), can.ui.project)
 	},
 	history: function(can, push) {
 		can.base.Eq(push, can.history[can.history.length-1]) || can.history.push(push)
@@ -184,7 +171,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	tabview: function(can, path, file, line, cb, skip, skip2) { var key = can.onexport.keys(can, file, path)
 		if (can.isCmdMode()) { (location.hash = location.pathname.indexOf(file) > -1? "": file+ice.FS+(line||1)) }
-			if (!skip && can.tabview[key]) { if (can.isCmdMode()) { can.onimport._title(can, path+file) }
+
+		if (!skip && can.tabview[key]) { if (can.isCmdMode()) { can.onimport._title(can, path+file) }
 			can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.tabview[key]
 			can.Option({path: path, file: file, line: line||can._msg.Option(nfs.LINE)||1})
 			return can._msg.Option(can.Option()), can.onsyntax._init(can, can._msg, cb, skip2)
@@ -193,7 +181,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		function show(msg) { var skip2 = skip; can.tabview[key] = msg
 			can.onimport.tabs(can, [{name: file.split(line == ctx.INDEX? ice.PT: ice.PS).pop(), text: file}], function(event, meta) {
 				can._tab = msg._tab = event.target, can.onimport.tabview(can, path, file, msg.Option(nfs.LINE)||line, cb, false, skip2), cb = null, skip2 = false
-			}, function(item) {
+			}, function(item) { // 关闭文件
 				delete(can.tabview[key])
 				delete(can._cache_data[can.base.Path(path, file)])
 				delete(can.ui._content._cache[can.base.Path(path, file)])
@@ -204,9 +192,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}
 
 		can.Option(can.onimport.history(can, {path: path, file: file, line: line}))
-		line == ctx.INDEX? show(can.request({}, {index: file, line: line})):
-			line == web.DREAM? show(can.request({}, {index: file, line: line})):
-				can.run({}, [path, file], show, true)
+		path == ctx.COMMAND || line == ctx.INDEX? /* 命令 */ show(can.request({}, {index: file, line: line})):
+			line == web.DREAM? /* 空间 */ show(can.request({}, {index: file, line: line})):
+				/* 文件 */ can.run({}, [path, file], show, true)
 	},
 	profile: function(can, msg) {
 		var width = can.profile_size[can.onexport.keys(can)]||(can.ConfWidth()-can.ui.project.offsetWidth)/2
@@ -279,6 +267,24 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 }, [""])
+Volcanos(chat.ONFIGURE, {help: "导航索引", 
+	source: function(can, target, zone, path) { var total = 0
+		function show(path, target) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
+			can.core.List(list, function(item) { if (can.Option(nfs.FILE).indexOf(item.path) == 0) { item.expand = true } })
+			can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) {
+				can.onimport.tabview(can, path, item.path) // 显示文件
+			}, target), can.Status("文件数", total += msg.Length())
+		}, true) } if (path.length == 1) { return show(path[0], target) }
+
+		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(path, target) }} }), target)
+		can.onmotion.delay(can, function() { target.previousSibling.innerHTML = "" })
+	},
+	plugin: function(can, target, zone) {
+		can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return {index: can.base.trimPrefix(key, "can.")} }), ctx.INDEX, ice.PT, function(event, item) {
+			can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys("can", item.index), ctx.INDEX) // 显示插件
+		}, target)
+	},
+})
 Volcanos(chat.ONPLUGIN, {help: "注册插件", 
 	"can.code.inner.keymap": shy("按键", {}, ["mode", "key", ice.LIST, ice.BACK], function(can, msg, cmds) {
 		can.core.Item(can.onkeymap._mode, function(mode, value) {
@@ -302,8 +308,8 @@ Volcanos(chat.ONPLUGIN, {help: "注册插件",
 Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line"], _init: function(can, msg, cb, skip) {
 		if (can.ui._path) {
 			can.ui._path.innerHTML = msg.Option(ctx.INDEX)? msg.Option(nfs.LINE) == web.DREAM?
-				/* dream */ can.page.Format(html.A, can.misc.MergeURL(can, {pod: msg.Option(nfs.FILE), topic: can.misc.Search(can, "topic")}, true)):
-				/* index */ msg.Option(nfs.FILE): /* file */ can.base.Path(msg.Option(nfs.PATH), msg.Option(nfs.FILE))
+				/* 空间 */ can.page.Format(html.A, can.misc.MergeURL(can, {pod: msg.Option(nfs.FILE), topic: can.misc.Search(can, "topic")}, true)):
+				/* 命令 */ msg.Option(nfs.FILE): /* 文件 */ can.base.Path(msg.Option(nfs.PATH), msg.Option(nfs.FILE))
 		}
 		can.ui.current && can.onmotion.toggle(can, can.ui.current, !msg.Option(ctx.INDEX))
 
@@ -336,14 +342,13 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", list: ["keyword", "prefix", "line
 
 		can.onmotion.clear(can, can.ui.content), can.onimport.layout(can)
 		if (msg.Option(ctx.INDEX)) {
-			if (msg.Option(nfs.LINE) == web.DREAM) {
-				if (msg._content) { return }
+			if (msg.Option(nfs.LINE) == web.DREAM) { if (msg._content) { return }
 				can.ui.content = msg._content = can.page.insertBefore(can, [{type: html.IFRAME, src: can.misc.MergeURL(can, {pod: msg.Option(nfs.FILE), topic: can.misc.Search(can, "topic")}, true), width: can.ui.content.offsetWidth, height: can.ui.content.offsetHeight}], can.ui.content)
 				return can.onimport.layout(can)
 			}
 
 			can.onmotion.toggle(can, can.ui.content = msg._content = can.ui._content, true)
-			return can.onimport.plug(can, {index: msg.Option(ctx.INDEX)}, can.ui.content, function(sub) {
+			return can.onimport.plug(can, {index: msg.Option(ctx.INDEX), args: msg.Option(nfs.PATH) == ctx.COMMAND? [msg.Option(nfs.LINE)]: []}, can.ui.content, function(sub) {
 				can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(can.ui.content.offsetHeight-2*html.ACTION_HEIGHT))
 				can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth(can.ui.content.offsetWidth))
 				can.onmotion.delay(can, function() { sub.Focus() }), can.base.isFunc(cb) && cb()
@@ -572,331 +577,4 @@ Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["文件数", "解析器", 
 	exts: function(can) { return can.core.Item(can.plugins) },
 	position: function(can, index, total) { total = total||can.max; return (parseInt(index))+ice.PS+parseInt(total)+" = "+parseInt((index)*100/total)+"%" },
 	content: function(can) { return can.page.Select(can, can.ui.content, "td.text", function(item) { return item.innerText }).join(ice.NL) },
-})
-Volcanos(chat.ONSYNTAX, {help: "语法高亮",
-	h: {
-		render: {},
-		link: "c",
-	},
-	c: {
-		render: {},
-		prefix: {
-			"//": code.COMMENT,
-			"/*": code.COMMENT,
-			"*": code.COMMENT,
-			"*/": code.COMMENT,
-			"#": code.KEYWORD,
-		},
-		regexp: {
-			"^u_\\w+$": code.DATATYPE,
-			"^\\w+_t$": code.DATATYPE,
-			"^\\w+_pt$": code.DATATYPE,
-			"^[-]*\\d+$": code.CONSTANT,
-			"^[A-Z0-9_]+$": code.CONSTANT,
-		},
-		keyword: {
-			"#include": code.KEYWORD,
-			"#define": code.KEYWORD,
-			"#undef": code.KEYWORD,
-			"#ifndef": code.KEYWORD,
-			"#ifdef": code.KEYWORD,
-			"#if": code.KEYWORD,
-			"#elif": code.KEYWORD,
-			"#else": code.KEYWORD,
-			"#endif": code.KEYWORD,
-			"#error": code.KEYWORD,
-			"#line": code.KEYWORD,
-
-			"if": code.KEYWORD,
-			"else": code.KEYWORD,
-			"for": code.KEYWORD,
-			"while": code.KEYWORD,
-			"do": code.KEYWORD,
-			"break": code.KEYWORD,
-			"continue": code.KEYWORD,
-			"switch": code.KEYWORD,
-			"case": code.KEYWORD,
-			"default": code.KEYWORD,
-			"return": code.KEYWORD,
-			"goto": code.KEYWORD,
-
-			"struct": code.DATATYPE,
-			"union": code.DATATYPE,
-			"enum": code.DATATYPE,
-
-			"void": code.DATATYPE,
-			"char": code.DATATYPE,
-			"float": code.DATATYPE,
-			"double": code.DATATYPE,
-			"unsigned": code.DATATYPE,
-			"signed": code.DATATYPE,
-			"short": code.DATATYPE,
-			"long": code.DATATYPE,
-			"int": code.DATATYPE,
-
-			"auto": code.DATATYPE,
-			"typedef": code.DATATYPE,
-			"register": code.DATATYPE,
-			"volatile": code.DATATYPE,
-			"extern": code.DATATYPE,
-			"static": code.DATATYPE,
-			"const": code.DATATYPE,
-
-			"defined": code.FUNCTION,
-			"sizeof": code.FUNCTION,
-
-			"__FILE__": code.CONSTANT,
-			"__LINE__": code.CONSTANT,
-			"NULL": code.CONSTANT,
-			"-1": code.CONSTANT,
-			"0": code.CONSTANT,
-			"1": code.CONSTANT,
-			"2": code.CONSTANT,
-		},
-	},
-	sh: {
-		// render: {},
-		split: {
-			operator: "=",
-		},
-		prefix: {
-			"#": code.COMMENT,
-		},
-		suffix: {
-			" {": code.COMMENT,
-		},
-		regexp: {
-			"[A-Z0-9_]+": code.CONSTANT,
-		},
-		keyword: {
-			"local": code.KEYWORD,
-			"export": code.KEYWORD,
-			"require": code.KEYWORD,
-			"source": code.KEYWORD,
-			"return": code.KEYWORD,
-			"exit": code.KEYWORD,
-			".": code.KEYWORD,
-
-			"if": code.KEYWORD,
-			"then": code.KEYWORD,
-			"elif": code.KEYWORD,
-			"else": code.KEYWORD,
-			"fi": code.KEYWORD,
-
-			"case": code.KEYWORD,
-			"in": code.KEYWORD,
-			"esac": code.KEYWORD,
-
-			"eval": code.FUNCTION,
-			"test": code.FUNCTION,
-			"echo": code.FUNCTION,
-			"mkdir": code.FUNCTION,
-			"cat": code.FUNCTION,
-			"rm": code.FUNCTION,
-		},
-	}, configure: {link: "sh"},
-	go: {
-		render: {},
-		keyword: {
-			"package": code.KEYWORD,
-			"import": code.KEYWORD,
-			"type": code.KEYWORD,
-			"struct": code.KEYWORD,
-			"interface": code.KEYWORD,
-			"const": code.KEYWORD,
-			"var": code.KEYWORD,
-			"func": code.KEYWORD,
-
-			"if": code.KEYWORD,
-			"else": code.KEYWORD,
-			"for": code.KEYWORD,
-			"range": code.KEYWORD,
-			"break": code.KEYWORD,
-			"continue": code.KEYWORD,
-			"switch": code.KEYWORD,
-			"case": code.KEYWORD,
-			"default": code.KEYWORD,
-			"fallthrough": code.KEYWORD,
-			"go": code.KEYWORD,
-			"select": code.KEYWORD,
-			"defer": code.KEYWORD,
-			"return": code.KEYWORD,
-
-			"false": "constant",
-			"true": "constant",
-			"nil": "constant",
-			"iota": "constant",
-			"-1": "constant",
-			"0": "constant",
-			"1": "constant",
-			"2": "constant",
-			"3": "constant",
-
-			"int": code.DATATYPE, "int8": code.DATATYPE, "int16": code.DATATYPE, "int32": code.DATATYPE, "int64": code.DATATYPE,
-			"uint": code.DATATYPE, "uint8": code.DATATYPE, "uint16": code.DATATYPE, "uint32": code.DATATYPE, "uint64": code.DATATYPE,
-			"float32": code.DATATYPE, "float64": code.DATATYPE, "complex64": code.DATATYPE, "complex128": code.DATATYPE,
-			"rune": code.DATATYPE, "string": code.DATATYPE, "byte": code.DATATYPE, "uintptr": code.DATATYPE,
-			"bool": code.DATATYPE, "error": code.DATATYPE, "chan": code.DATATYPE, "map": code.DATATYPE,
-
-			"msg": code.FUNCTION, "m": code.FUNCTION,
-			"init": code.FUNCTION, "main": code.FUNCTION, "print": code.FUNCTION, "println": code.FUNCTION, "panic": code.FUNCTION, "recover": code.FUNCTION,
-			"new": code.FUNCTION, "make": code.FUNCTION, "len": code.FUNCTION, "cap": code.FUNCTION, "copy": code.FUNCTION, "append": code.FUNCTION, "delete": code.FUNCTION, "close": code.FUNCTION,
-			"complex": code.FUNCTION, "real": code.FUNCTION, "imag": code.FUNCTION,
-		},
-	},
-	js: {
-		split: {
-			operator: "{[(.,:;!|<*>)]}",
-		},
-		prefix: {
-			"// ": code.COMMENT,
-		},
-		regexp: {
-			// "can.*": code.FUNCTION,
-		},
-		keyword: {
-			"var": code.KEYWORD,
-
-			"if": code.KEYWORD,
-			"else": code.KEYWORD,
-			"switch": code.KEYWORD,
-			"case": code.KEYWORD,
-			"default": code.KEYWORD,
-			"return": code.KEYWORD,
-
-			"can": code.KEYWORD,
-			"sub": code.KEYWORD,
-			"sup": code.KEYWORD,
-			"msg": code.KEYWORD,
-			"res": code.KEYWORD,
-
-			"ice": code.KEYWORD,
-			"kit": code.KEYWORD,
-
-			"event": code.KEYWORD,
-			"target": code.KEYWORD,
-			"window": code.KEYWORD,
-			"location": code.KEYWORD,
-
-			"null": code.CONSTANT,
-
-			"function": code.FUNCTION,
-			"Volcanos": code.FUNCTION,
-			"shy": code.FUNCTION,
-			"cb": code.FUNCTION,
-			"cbs": code.FUNCTION,
-		},
-	},
-	css: {
-		keyword: {
-			"body": code.KEYWORD,
-			"div": code.KEYWORD,
-			"span": code.KEYWORD,
-			"form": code.KEYWORD,
-			"fieldset": code.KEYWORD,
-			"legend": code.KEYWORD,
-			"select": code.KEYWORD,
-			"textarea": code.KEYWORD,
-			"input": code.KEYWORD,
-			"table": code.KEYWORD,
-			"tr": code.KEYWORD,
-			"th": code.KEYWORD,
-			"td": code.KEYWORD,
-
-			"background-color": code.FUNCTION,
-			"font-family": code.FUNCTION,
-			"font-weight": code.FUNCTION,
-			"font-size": code.FUNCTION,
-			"color": code.FUNCTION,
-			"width": code.FUNCTION,
-			"height": code.FUNCTION,
-			"padding": code.FUNCTION,
-			"border": code.FUNCTION,
-			"margin": code.FUNCTION,
-			"position": code.FUNCTION,
-			"left": code.FUNCTION,
-			"top": code.FUNCTION,
-			"right": code.FUNCTION,
-			"bottom": code.FUNCTION,
-			"display": code.FUNCTION,
-			"overflow": code.FUNCTION,
-			"float": code.FUNCTION,
-			"clear": code.FUNCTION,
-			"cursor": code.FUNCTION,
-
-			"z-index": code.FUNCTION,
-			"tab-size": code.FUNCTION,
-			"word-break": code.FUNCTION,
-			"white-space": code.FUNCTION,
-			"text-align": code.FUNCTION,
-			"vertical-align": code.FUNCTION,
-			"min-width": code.FUNCTION,
-			"max-width": code.FUNCTION,
-			"padding-left": code.FUNCTION,
-			"padding-top": code.FUNCTION,
-			"border-left": code.FUNCTION,
-			"border-top": code.FUNCTION,
-			"border-right": code.FUNCTION,
-			"border-bottom": code.FUNCTION,
-			"border-radius": code.FUNCTION,
-			"border-spacing": code.FUNCTION,
-			"margin-left": code.FUNCTION,
-			"margin-top": code.FUNCTION,
-			"margin-right": code.FUNCTION,
-			"margin-bottom": code.FUNCTION,
-			"box-shadow": code.FUNCTION,
-
-			"0": "constant",
-			"10px": "constant",
-			"20px": "constant",
-			"cyan": "constant",
-			"gray": "constant",
-			"yellow": "constant",
-			"black": "constant",
-			"white": "constant",
-			"blue": "constant",
-			"red": "constant",
-			"green": "constant",
-			"magenta": "constant",
-
-			"monospace": "constant",
-			"bold": "constant",
-			"solid": "constant",
-			"none": "constant",
-			"block": "constant",
-			"contexts": "constant",
-			"both": "constant",
-			"auto": "constant",
-
-			"center": "constant",
-			"relative": "constant",
-			"absolute": "constant",
-			"sticky": "constant",
-			"fixed": "constant",
-		},
-	},
-	zml: {
-		prefix: {
-			"# ": code.COMMENT,
-		},
-		keyword: {
-			"return": code.KEYWORD,
-
-			"head": code.KEYWORD,
-			"left": code.KEYWORD,
-			"main": code.KEYWORD,
-			"foot": code.KEYWORD,
-			"tabs": code.KEYWORD,
-
-			"index": code.FUNCTION,
-			"action": code.FUNCTION,
-			"args": code.FUNCTION,
-			"type": code.FUNCTION,
-			"style": code.FUNCTION,
-			"width": code.FUNCTION,
-
-			"auto": "constant",
-			"username": "constant",
-		},
-	},
 })

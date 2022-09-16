@@ -27,70 +27,81 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			}}, {view: ["complete"]},
 		]); can.ui.current = ui.current, can.ui.complete = ui.complete
 	},
-	project: function(can, path) {
-		can.onimport.zone(can, [
-			can.isCmdMode() && {name: "create", _init: function(target) { can.onappend._action(can, can.onaction.list, target) }},
-			{name: "source", _init: function(target, zone) { var total = 0
-				function show(path, target) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
-					can.core.List(list, function(item) { if (can.Option(nfs.FILE).indexOf(item.path) == 0) { item.expand = true }
-						item._init = function(target) { target.onmouseenter = function(event) { can.user.carteRight(event, can, {
-							"trash": function() { can.onaction._run(event, can, nfs.TRASH, [can.base.Path(path, item.path)]) },
-							_engine: function(event, can, button) { can.onaction[button](event, can, button) },
-						}, ["trash"]) } }
-					})
-					can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) {
-						can.onimport.tabview(can, path, item.path) // 显示文件
-					}, target), can.Status("文件数", total += msg.Length())
-					can.page.Modify(can, zone._search, {placeholder: "search in "+total+" item"})
-				}, true) } if (path.length == 1) { return show(path[0], target) }
-
-				can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(path, target) }} }), target)
-				can.onmotion.delay(can, function() { target.previousSibling.innerHTML = "" })
-			}},
-			{name: "plugin", _init: function(target, zone) { var total = 0
-				can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return total++, {index: can.base.trimPrefix(key, "can.")} }), ctx.INDEX, ice.PT, function(event, item) {
-					can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys("can", item.index), ctx.INDEX) // 显示插件
-				}, target)
-				can.page.Modify(can, zone._search, {placeholder: "search in "+total+" item"})
-			}},
-			{name: "module", _init: function(target, zone) {
-				can.runAction(can.request({}, {fields: ctx.INDEX}), ctx.COMMAND, [mdb.SEARCH, ctx.COMMAND], function(msg) {
-					can.page.Modify(can, zone._search, {placeholder: "search in "+msg.Length()+" item"})
-					can.onimport.tree(can, msg.Table(), ctx.INDEX, ice.PT, function(event, item) {
-						can.onimport.tabview(can, can.Option(nfs.PATH), item.index, ctx.INDEX) // 显示模块
-					}, target)
-				})
-			}},
-			{name: "dreams", _init: function(target, zone) { var call = arguments.callee
-				can.runAction({}, ice.RUN, [web.DREAM], function(msg) {
-					can.page.Modify(can, zone._search, {placeholder: "search in "+msg.Length()+" item"})
-					msg.Table(function(item) {
-						function carte(event) {
-							var list = []; switch (item.status) {
-								case "start": list = ["open", "stop"]; break
-								case "stop": list = ["start", "trash"]; break
-							}
-							can.user.carteRight(event, can, {}, list, function(event, action) {
-								can.runAction(can.request({}, item), ice.RUN, [web.DREAM, ctx.ACTION, action], function(msg) {
-									can.onmotion.clear(can, target), call(target)
-								})
-							})
-						}
-
-						var color = item.status == "start"? "": "gray"
-						can.page.Append(can, target, [{view: html.ITEM, list: [{text: [item.name, html.DIV], style: {color: color}, onmouseenter: carte}], onclick: function() {
-							can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, "pod"), item.name), web.DREAM) // 显示空间
-						}}])
-					})
-				})
-			}, _menu: shy("", {
-				"create": function(event, can, button) { can.onaction.dream(event, can, "dream") },
-				"refresh": function(event, can, button) { can.ui.dreams.refresh() },
-				"publish": function(event, can, button) { can.runAction(event, button, [], function(msg) { can.user.toastConfirm(can, msg.Result(), button) }) },
-			}, ["create", "refresh", "publish"], function() {})},
-		], can.ui.project)
-	},
 }, [""])
+Volcanos(chat.ONFIGURE, {help: "导航索引", 
+	source: function(can, target, zone, path) { var total = 0
+		function show(path, target) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
+			can.core.List(list, function(item) { if (can.Option(nfs.FILE).indexOf(item.path) == 0) { item.expand = true }
+				item._init = function(target) { target.onmouseenter = function(event) { can.user.carteRight(event, can, {
+					"trash": function() { can.onaction._run(event, can, nfs.TRASH, [can.base.Path(path, item.path)]) },
+					_engine: function(event, can, button) { can.onaction[button](event, can, button) },
+				}, ["trash"]) } }
+			})
+			can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) {
+				can.onimport.tabview(can, path, item.path) // 显示文件
+			}, target), can.Status("文件数", total += msg.Length())
+			can.page.Modify(can, zone._search, {placeholder: "search in "+total+" item"})
+		}, true) } if (path.length == 1) { return show(path[0], target) }
+
+		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(path, target) }} }), target)
+		can.onmotion.delay(can, function() { target.previousSibling.innerHTML = "" })
+	},
+	plugin: function(can, target, zone) { var total = 0
+		can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return total++, {index: can.base.trimPrefix(key, "can.")} }), ctx.INDEX, ice.PT, function(event, item) {
+			can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys("can", item.index), ctx.INDEX) // 显示插件
+		}, target)
+		can.page.Modify(can, zone._search, {placeholder: "search in "+total+" item"})
+	},
+	module: function(can, target, zone) {
+		can.runAction(can.request({}, {fields: ctx.INDEX}), ctx.COMMAND, [mdb.SEARCH, ctx.COMMAND], function(msg) {
+			can.page.Modify(can, zone._search, {placeholder: "search in "+msg.Length()+" item"})
+			can.onimport.tree(can, msg.Table(), ctx.INDEX, ice.PT, function(event, item) {
+				can.onimport.tabview(can, can.Option(nfs.PATH), item.index, ctx.INDEX) // 显示模块
+			}, target)
+		})
+	},
+	dream: function(can, target, zone) {
+		var call = arguments.callee
+		can.runAction({}, ice.RUN, [web.DREAM], function(msg) {
+			can.page.Modify(can, zone._search, {placeholder: "search in "+msg.Length()+" item"})
+			msg.Table(function(item) {
+				function carte(event) {
+					var list = []; switch (item.status) {
+						case "start": list = ["open", "stop"]; break
+						case "stop": list = ["start", "trash"]; break
+					}
+					can.user.carteRight(event, can, {}, list, function(event, action) {
+						can.runAction(can.request({}, item), ice.RUN, [web.DREAM, ctx.ACTION, action], function(msg) {
+							can.onmotion.clear(can, target), call(target)
+						})
+					})
+				}
+
+				var color = item.status == "start"? "": "gray"
+				can.page.Append(can, target, [{view: html.ITEM, list: [{text: [item.name, html.DIV], style: {color: color}, onmouseenter: carte}], onclick: function() {
+					can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, "pod"), item.name), web.DREAM) // 显示空间
+				}}])
+			})
+		})
+		// _menu: shy("", {
+		// 	"create": function(event, can, button) { can.onaction.dream(event, can, "dream") },
+		// 	"refresh": function(event, can, button) { can.ui.dreams.refresh() },
+		// 	"publish": function(event, can, button) { can.runAction(event, button, [], function(msg) { can.user.toastConfirm(can, msg.Result(), button) }) },
+		// }, ["create", "refresh", "publish"], function() {})
+	},
+	xterm: function(can, target, zone) {
+		can.runAction({}, ice.RUN, [code.XTERM], function(msg) {
+			can.page.Modify(can, zone._search, {placeholder: "search in "+msg.Length()+" item"})
+			msg.Table(function(item) {
+				can.onimport.item(can, item, function(event) {
+					can.onimport.tabview(can, ctx.COMMAND, code.XTERM, item.hash) // 显示模块
+				}, function(event) {
+
+				}, target)
+			})
+		})
+	},
+})
 Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 	_model: function(can, value) { can.Status("模式", can.mode = value)
 		can.page.styleClass(can, can.ui.current, ["current", can.mode]), value
@@ -276,8 +287,14 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 		can.onaction._runs(can.request(event, {file: (can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.ZML).split("/").pop()}), can, button)
 	},
 	dream: function(event, can, button) {
-		can.onaction._runs(can.request(event, {name: can.base.trimSuffix(can.Option(nfs.FILE).split(ice.PS).pop(), ice.PT+can.base.Ext(can.Option(nfs.FILE)))}), can, button, function(msg) { can.ui.dreams.refresh()
+		can.onaction._runs(can.request(event, {name: can.base.trimSuffix(can.Option(nfs.FILE).split(ice.PS).pop(), ice.PT+can.base.Ext(can.Option(nfs.FILE)))}), can, button, function(msg) { can.ui.dream.refresh()
 			can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, "pod"), msg.Option(mdb.NAME)), web.DREAM) // 显示空间
+			can.user.toastSuccess(can)
+		})
+	},
+	xterm: function(event, can, button) {
+		can.onaction._runs(can.request(event), can, button, function(msg) { can.ui.xterm.refresh()
+			can.onimport.tabview(can, ctx.COMMAND, code.XTERM, msg.Result())
 			can.user.toastSuccess(can)
 		})
 	},

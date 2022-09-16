@@ -1,6 +1,14 @@
 var kit = {
 	Dict: function() { var res = {}
-		for (var i = 0; i < arguments.length; i += 2) { res[arguments[i]] = arguments[i+1] }
+		for (var i = 0; i < arguments.length; i += 2) {
+			if (typeof arguments[i] == "object") {
+				for (var k in arguments[i]) {
+					res[k] = arguments[i][k]
+				} i--
+				continue
+			}
+			res[arguments[i]] = arguments[i+1]
+		}
 		return res
 	}
 }
@@ -122,7 +130,7 @@ var ssh = {
 }
 
 var code = {
-	VIMER: "vimer", INNER: "inner", FAVOR: "favor",
+	XTERM: "xterm", VIMER: "vimer", INNER: "inner", FAVOR: "favor",
 	AUTOGEN: "autogen", COMPILE: "compile", BINPACK: "binpack", WEBPACK: "webpack", PUBLISH: "publish",
 	KEYWORD: "keyword",
 

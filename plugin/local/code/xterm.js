@@ -5,8 +5,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) { can.o
 			can.isCmdMode() && can.misc.Search(can, "hash") && can.onaction.full({}, can)
 		})
 	},
-	_connect: function(can, item) { item.extra = can.base.Obj(item.extra, {})
-		var term = new Terminal({theme: item.extra, cursorBlink: true, tabStopWidth: 4})
+	_connect: function(can, item) { var term = new Terminal({tabStopWidth: 4, cursorBlink: true})
 		var fitAddon = new FitAddon.FitAddon(); term.loadAddon(fitAddon), term._fit = fitAddon
 		can.onmotion.delay(can, function() { fitAddon.fit() })
 		term.loadAddon(new WebLinksAddon.WebLinksAddon())
@@ -24,7 +23,6 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) { can.o
 	},
 	_input: function(can, item, val) {
 		can.runAction(can.request({}, item, {"log.disable": ice.TRUE}), "input", [btoa(val)], function() {})
-		// can.runAction(can.request({}, item, {}), "input", [btoa(val)], function() {})
 	},
 	layout: function(can, item) {
 		if (can.isCmdMode()) { item && can.onimport._title(can, item.name)
@@ -41,7 +39,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) { can.o
 Volcanos(chat.ONEXPORT, {help: "导出数据", list: [mdb.TYPE, "rows", "cols", "cursorY", "cursorX"],
 	term: function(can) { var term = can._current, item = term._item
 		can.core.List(can.onexport.list, function(key) {
-			can.Status(key, can.base.getValid(item[key], item.extra[key], can._current[key], can._current.buffer.active[key], ""))
+			can.Status(key, can.base.getValid(item[key], can._current[key], can._current.buffer.active[key], ""))
 		}), can.Status(mdb.TYPE, item[mdb.TYPE]||"")
 	},
 })

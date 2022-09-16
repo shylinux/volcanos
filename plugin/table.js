@@ -43,7 +43,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				}}], target, {})
 			}},
 			{view: html.LIST, _init: function(target) { can.ui[zone.name] = zone
-				zone._target = target, zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target) }
+				zone._target = target, zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target, zone) }
 				can.base.isFunc(zone._init) && zone._init(target, zone)
 			}}
 		]} }))
