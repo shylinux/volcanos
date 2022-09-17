@@ -17,7 +17,7 @@ fieldset.vimer>div.output div.complete div.pre {
 	font-size:1.1rem; color:#f0f8ff00; margin-left:5px; float:left;
 }
 fieldset.vimer>div.output div.complete table {
-	background:lightblue; max-height:400px; max-width:800px; overflow:auto; display:block; float:left;
+	background:darkblue; max-height:400px; max-width:800px; overflow:auto; display:block; float:left;
 }
 fieldset.vimer>div.output div.complete table.content th {
 	display:none;

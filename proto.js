@@ -24,6 +24,7 @@ var ice = {
 	RUN: "run", ERR: "err", OPT: "opt",
 	CAN: "can",
 	PWD: "./",
+	ErrWarn: "warn: ",
 
 	MSG_DETAIL: "detail",
 	MSG_OPTION: "option",
@@ -43,6 +44,7 @@ var ice = {
 
 	MSG_DISPLAY: "_display",
 	MSG_PROCESS: "_process",
+	MSG_TOOLKIT: "_toolkit",
 
 	MSG_USERNAME: "user.name",
 	MSG_USERNICK: "user.nick",

@@ -253,7 +253,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 	// list: [nfs.SAVE, code.COMPILE, code.AUTOGEN, nfs.SCRIPT, chat.WEBSITE, web.DREAM],
 	_run: function(event, can, button, args, cb) {
 		can.runAction(event, button, args, cb||function(msg) {
-			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.source.refresh()
+			can.onimport.tabview(can, msg.Option(nfs.PATH)||can.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.source.refresh()
 			can.user.toastSuccess(can, button)
 		})
 	},
@@ -284,7 +284,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 		can.onaction._runs(can.request(event, {file: can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.JS}), can, button)
 	},
 	website: function(event, can, button) {
-		can.onaction._runs(can.request(event, {file: (can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.ZML).split("/").pop()}), can, button)
+		can.onaction._runs(can.request(event, {path: "src/", file: (can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.ZML).split("/").pop()}), can, button)
 	},
 	dream: function(event, can, button) {
 		can.onaction._runs(can.request(event, {name: can.base.trimSuffix(can.Option(nfs.FILE).split(ice.PS).pop(), ice.PT+can.base.Ext(can.Option(nfs.FILE)))}), can, button, function(msg) { can.ui.dream.refresh()
@@ -329,16 +329,68 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 	},
 	_complete: function(event, can, target) { target = target||can.ui.complete
 		if (event == undefined) { return }
+		const PRE = "pre"
 		var pre = can.ui.current.value.slice(0, can.ui.current.selectionStart)
 		var end = can.ui.current.value.slice(can.ui.current.selectionStart)
+
 		var type = can.core.Split(pre).pop()||""
 		var name = can.core.Split(type, "", ice.PT).pop()||""
 		type = can.base.trimSuffix(type, name)
 		type = can.base.trimSuffix(type, ice.PT)
-		const PRE = "pre"
 
-		function update(target) { can.request(event, {type: type, name: name, text: pre, file: can.Option(nfs.FILE)})
-			can.runAction(event, "complete", [], function(msg) { can.ui.complete._msg = msg
+		function update() { target._pre = pre, target._index = -1
+			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, can.ui.current.offsetLeft-1, html.MARGIN_TOP, can.ui.current.offsetHeight+4)
+			can.runAction(can.request(event, {text: pre}, can.Option()), "complete", [], function(msg) {
+				can.page.Appends(can, target, [{view: [PRE, html.DIV, pre]}])
+				can.onappend.table(can, msg, function(value, key, index) { return {text: [value, html.TD], onclick: function(event) {
+					var left = can.ui.current.value.slice(0, can.ui.current.selectionStart)+value
+					can.current.text(can.ui.current.value = left+can.ui.current.value.slice(can.ui.current.selectionEnd))
+					can.ui.current.focus(), can.ui.content.scrollLeft -= 10000, can.ui.current.setSelectionRange(left.length, left.length)
+				}} }, target)
+			})
+		}
+		function filter() {
+			return can.page.Select(can, target, [html.TBODY,  html.TR], function(tr) {
+				if (!can.page.ClassList.set(can, tr, html.HIDE, can.page.Select(can, tr, html.TD, function(td) {
+					if (td.innerText.toLowerCase().indexOf(can.base.trimSuffix((name == ice.PT? type: name).toLowerCase(), "(")) == 0) { return td }
+				}).length == 0)) { return tr }
+			}).length > (name == ice.PT? 1: 0)
+		}
+		function select(index, total) { index = (index+(total+1))%(total+1)
+			if (index == total) { can.current.text(can.ui.current.value = target._pre) }
+			can.page.Select(can, target, [html.TBODY, "tr:not(.hide)"], function(tr, i) { if (can.page.ClassList.set(can, tr, html.SELECT, i == index)) {
+				can.current.text(can.ui.current.value = target._pre+can.page.Select(can, tr, html.TD)[0].innerText)
+			} }); return index
+		}
+
+		if (event.ctrlKey) { if (event.type == "keyup") {
+			var total = can.page.Select(can, target, [html.TBODY, "tr:not(.hide)"]).length
+			switch (event.key) {
+				case "n": target._index = select(target._index+1, total); break
+				case "p": target._index = select(target._index-1, total); break
+				default: return false
+			}
+			return can.onkeymap.prevent(event)
+		} return }
+
+		switch (pre.slice(-1)) {
+			case "\t":
+			case " ":
+			case ".":
+			case "(":
+			case "{":
+				update()
+				break
+			case "":
+			default:
+				filter()
+
+		}
+		return
+
+		function update0(target) {
+			can.request(event, {type: type, name: name, text: pre, file: can.Option(nfs.FILE)})
+			can.runAction(event, "complete", [], function(msg) { target._msg = msg
 				if (msg.Length() == 0 && can.base.Ext(can.Option(nfs.FILE)) == nfs.JS) {
 					msg.name = [], msg.type = [], msg.text = []
 					can.core.Item(can.core.Value(window, type), function(k, v) {
@@ -358,35 +410,6 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 					can.ui.current.focus(), can.ui.content.scrollLeft -= 10000, can.ui.current.setSelectionRange(left.length, left.length)
 				}} }, target)
 			})
-		}
-
-		function filter() {
-			return can.page.Select(can, target, [html.TBODY,  html.TR], function(tr) {
-				if (!can.page.ClassList.set(can, tr, html.HIDE, can.page.Select(can, tr, html.TD, function(td) {
-					if (td.innerText.toLowerCase().indexOf(can.base.trimSuffix((name == ice.PT? type: name).toLowerCase(), "(")) == 0) { return td }
-				}).length == 0)) { return tr }
-			}).length > (name == ice.PT? 1: 0)
-		}
-
-		function select(index, total) { index = (index+(total+1))%(total+1)
-			if (index == total) { can.current.text(can.ui.current.value = can.ui.complete._msg.Option(PRE)) }
-			can.page.Select(can, target, [html.TBODY, "tr:not(.hide)"], function(tr, i) { if (can.page.ClassList.set(can, tr, html.SELECT, i == index)) {
-				can.current.text(can.ui.current.value = can.ui.complete._msg.Option(PRE)+can.page.Select(can, tr, html.TD)[0].innerText)
-			} })
-			return index
-		}
-
-		if (event.ctrlKey) {
-			if (event.type == "keyup") {
-				var total = can.page.Select(can, target, [html.TBODY, "tr:not(.hide)"]).length
-				switch (event.key) {
-					case "n": can.ui.complete._index = select(can.ui.complete._index+1, total); break
-					case "p": can.ui.complete._index = select(can.ui.complete._index-1, total); break
-					default: return false
-				}
-				return can.onkeymap.prevent(event)
-			}
-			return
 		}
 
 		can.current.line.appendChild(can.ui.complete), can.page.style(can, can.ui.complete, html.LEFT, can.ui.current.offsetLeft-1, html.MARGIN_TOP, can.ui.current.offsetHeight+4)

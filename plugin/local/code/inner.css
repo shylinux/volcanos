@@ -33,10 +33,16 @@ fieldset.inner>div.output td.content>div.path { display:none; }
 fieldset.inner div.output fieldset.toolkit { position:absolute; bottom:0px; right:0px; }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset { display:none; }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select { background-color:#0e3369b3; color:white; display:block; z-index:10; }
-fieldset.inner>div.status legend { float:right; height:30px; }
-fieldset.inner>div.status legend.select { background-color:green; }
-fieldset.inner>div.status legend:hover { background-color:green; }
-fieldset.inner>div.status { height:31px; overflow:auto; }
+
+fieldset>div.output>fieldset.plug { position:absolute; bottom:0px; right:0px; }
+fieldset>div.output>fieldset.plug { display:none; }
+fieldset>div.output>fieldset.plug.select { background-color:#0e3369b3; color:white; display:block; z-index:10; }
+fieldset>div.status legend { float:right; height:30px; }
+fieldset>div.status legend.select { background-color:green; }
+fieldset>div.status legend:hover { background-color:green; }
+fieldset>div.status { height:31px; overflow:auto; }
+
+fieldset.Action>div.status { display:none; }
 
 body.white fieldset.inner>div.output div.content { color:black; }
 body.white fieldset.inner.float>div.output div.content { color:white; }

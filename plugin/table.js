@@ -131,16 +131,30 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.base.isFunc(cb) && cb(sub)
 		}, target)
 	},
+	tool: function(can, list, cb, target) { target = target||can._output
+		can.core.List(list, function(meta) { typeof meta == "string" && (meta = {index: meta})
+			can.onimport.plug(can, meta, target, function(sub) {
+				sub.ConfHeight(can.ConfHeight()-4*html.ACTION_HEIGHT), sub.ConfWidth(can.ConfWidth())
+				sub.page.style(sub, sub._output, html.MAX_HEIGHT, sub.ConfHeight())
+				sub.page.style(sub, sub._output, html.MAX_WIDTH, sub.ConfWidth())
+
+				can._status.appendChild(sub._legend), sub._legend.onclick = function(event) {
+					if (can.page.Select(can, can._status, ice.PT+html.SELECT)[0] == event.target) {
+						can.page.ClassList.del(can, event.target, html.SELECT)
+						can.page.ClassList.del(can, sub._target, html.SELECT)
+						return
+					}
+					can.onmotion.select(can, target, html.FIELDSET, sub._target), sub.Focus()
+					can.onmotion.select(can, can._status, html.LEGEND, event.target)
+					if (meta.msg == true) { meta.msg = false, sub.Update() }
+				}, sub.select = function() { return sub._legend.click(), sub }
+				sub.onaction.close = function() { sub.select() }
+				sub._legend.onmouseenter = null
+				can.base.isFunc(cb) && cb(sub)
+			})
+		})
+	},
 })
 Volcanos(chat.ONACTION, {help: "操作数据",
 	_trans: {"full": "全屏"},
-	full: function(event, can) {
-		if (can.isCmdMode()) {
-			can.onmotion.hidden(can, can._legend), can.onmotion.hidden(can, can._option), can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
-			can.ConfHeight(window.innerHeight), can.ConfWidth(window.innerWidth)
-			can.onimport.layout(can)
-		} else {
-			can.sup.onaction["切换全屏"](event, can.sup)
-		}
-	},
 })

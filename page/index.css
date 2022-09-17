@@ -62,13 +62,16 @@ fieldset.full>legend { float:left; margin:0; margin-right:5px; }
 fieldset.float input[type=button][name=close]{ display:block; }
 fieldset.plug>form.option input[type=button][name=close]{ display:block; }
 fieldset.full input[type=button][name=close]{ display:block; }
-fieldset input[type=button][name=close]{ display:none; }
+fieldset.plugin>form.option input[type=button][name=close]{ display:none; }
 fieldset.plugin div.status { border-top:1px solid darkcyan; }
 fieldset.story div.status { border-top:1px solid darkcyan; }
 fieldset.output>form.option { display:none; }
 fieldset.output>div.action { display:none; }
 fieldset.output div.status { display:none; }
 fieldset.output div.toggle { display:none; }
+
+fieldset.story>legend { float:left; margin:0px; margin-right:5px; }
+fieldset.story { margin-top:10px; }
 
 fieldset.input.key { overflow:auto; }
 fieldset.input.key div.action { display:none; }

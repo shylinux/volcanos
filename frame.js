@@ -283,6 +283,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			can.core.CallFunc([table, chat.ONIMPORT, chat._INIT], {can: table, msg: msg, cb: function(msg) {
 				action === false || table.onappend._action(table, msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), action)
 				action === false || table.onappend._status(table, msg.Option(ice.MSG_STATUS))
+				// action === false || table.onimport.tool(table, can.base.Obj(msg.Option(ice.MSG_TOOLKIT)))
 				can.base.isFunc(cb) && cb(msg)
 			}, target: output||can._output})
 		})
@@ -373,8 +374,9 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			return {text: [value, html.TD], onclick: function(event) { var target = event.target
 				if (can.page.tagis(html.INPUT, target) && target.type == html.BUTTON) { return run([ctx.ACTION, target.name]) }
 				if (key == mdb.HASH && can.user.mod.isDiv) { return can.user.jumps("/chat/div/"+value) }
-				can.sup.onaction.change(event, can.sup, key, event.target.innerText)
-
+				if (can.sup.onaction.change(event, can.sup, key, event.target.innerText).length == 0) {
+					can.sup && can.sup._item_click && can.sup._item_click(value, key)
+				}
 			}, ondblclick: function(event) { if ([mdb.KEY].indexOf(key) > -1) { return }
 				var item = can.core.List(can.Conf("feature.insert"), function(item) { if (item.name == key) { return item } })[0]||{name: key, value: value}
 				item.run = function(event, cmds, cb) { can.run(can.request(event, line), cmds, cb, true) }
@@ -393,6 +395,9 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			}
 		})
 		return (code.scrollBy && code.scrollBy(0, 10000)), code
+	},
+	tools: function(can, msg, cb, target) {
+		can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT)), cb, target)
 	},
 
 	_plugin: function(can, value, meta, cb, target, field) {
@@ -619,7 +624,7 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 			if (pos) { item.scrollTo && item.scrollTo(0, pos-1); return item }
 		}).length > 0
 	},
-	delay: function(can, cb, interval) { can.core.Timer(interval||100, cb) },
+	delay: function(can, cb, interval) { can.core.Timer(interval||300, cb) },
 	focus: function(can, target) { if (!target) { return }
 		target.setSelectionRange && target.setSelectionRange(0, -1), target.focus()
 	},

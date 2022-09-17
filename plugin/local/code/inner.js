@@ -558,6 +558,12 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["搜索", "打开"],
 	},
 	_selectLine: function(event, can) { },
 	searchLine: function(event, can, value) {
+		can.runAction(can.request(event, {text: value}, can.Option()), "navigate", [], function(msg) {
+			msg.Append(nfs.FILE)? can.onimport.tabview(can, msg.Append(nfs.PATH), msg.Append(nfs.FILE), msg.Append(nfs.LINE)):
+				can.user.toast(can, "not found")
+		})
+		return
+
 		if (can.ui.search) {
 			can.ui.search.Update(event, [ctx.ACTION, nfs.TAGS, value.trim()])
 		} else {

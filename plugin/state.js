@@ -38,7 +38,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _process: function(can, msg) {
 			})(); return }
 
 			var opt = can.base.Obj(item[ice.OPT], [])
-			sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()-4*html.PLUGIN_MARGIN)
+			sub.ConfHeight(can.ConfHeight()/2), sub.ConfWidth(can.ConfWidth())
 			sub.run = function(event, cmds, cb) {
 				var res = can.request(event, can.Option(), opts, {pid: msg.Option("pid")})
 				for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
@@ -191,6 +191,15 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		})
 	},
 
+	full: function(event, can) {
+		if (can.isCmdMode()) {
+			can.onmotion.hidden(can, can._legend), can.onmotion.hidden(can, can._option), can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
+			can.ConfHeight(window.innerHeight), can.ConfWidth(window.innerWidth)
+			can.onimport.layout(can)
+		} else {
+			can.onaction["切换全屏"](event, can)
+		}
+	},
 	clear: function(event, can, name) { can.onmotion.clear(can, can._output) },
 	close: function(event, can) {
 		if (can.isFullMode()) {
