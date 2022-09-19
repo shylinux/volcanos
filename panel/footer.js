@@ -72,7 +72,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据",
 
 		can.onappend._action(can, [cli.CLOSE, cli.REFRESH, {input: html.TEXT, placeholder: "filter", _init: function(input) {
 			can.onengine.signal(can, "keymap.focus", can.request({}, {cb: function(event) {
-				if (can.page.tagis(html.INPUT, event.target)) { return }
+				if (can.page.tagis(event.target, html.INPUT)) { return }
 				if (event.key == lang.ESCAPE) { ui.close(); return }
 				if (event.key == ice.SP) { input.focus(), can.onkeymap.prevent(event) }
 			}}))

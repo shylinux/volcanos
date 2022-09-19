@@ -56,7 +56,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		var table = can.page.Appends(can, can.ui.profile, [{view: [chat.CONTENT, html.TABLE], list: [{th: [mdb.KEY, mdb.VALUE]}]}]).first
 		can.core.Item(task, function(key, value) { key != "_target" && can.page.Append(can, table, [{
 			td: [key, key == ice.POD && value != ""? can.page.Format(html.A, can.misc.MergeURL(can, {pod: value}), value): value],
-			onclick: function(event) { if (can.page.tagis(html.INPUT, event.target) && event.target.type == html.BUTTON) {
+			onclick: function(event) { if (can.page.tagis(event.target, html.INPUT) && event.target.type == html.BUTTON) {
 				can.run(can.request(event, task), [ctx.ACTION, event.target.name], function(msg) { can.Update() })
 			} },
 			ondblclick: function(event) { var msg = can.request()

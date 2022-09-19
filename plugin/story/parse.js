@@ -41,7 +41,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: ["{", "}", html.HEAD, html.
 							if (item.parentNode == target.parentNode) {
 								height -= item.offsetHeight // 高度
 							}
-						}), can.page.style(can, target, html.HEIGHT, height)
+						}), can.page.style(can, target, html.HEIGHT, height-40)
 					})
 				}
 				break

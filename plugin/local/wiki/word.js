@@ -125,7 +125,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				can.runAction(event, chat.STORY, can.misc.concat(can, [data.type, data.name, data.text], cmds), cb)
 			}
 
-			sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(item.width = (width||can.ConfWidth())-(can.user.isWindows? 40: 20))
+			sub.ConfHeight(can.base.Min(300, can.ConfHeight()-300)), sub.ConfWidth(item.width = (width||can.ConfWidth())-(can.user.isWindows? 40: 20))
 			can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth())
 
 			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() {
@@ -155,7 +155,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	_trans: {view: "视图"},
 	play: function(event, can) { var list = [], current = []
 		can.page.Select(can, can._output, wiki.ITEM, function(item) {
-			can.page.tagis(["h1", "h2", "h3"], item) && list.push(current = []), current.push(item)
+			can.page.tagis(item, "h1", "h2", "h3") && list.push(current = []), current.push(item)
 		})
 
 		can.onappend._init(can, {type: "story word float"}, [], function(sub) {

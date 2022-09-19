@@ -372,7 +372,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			}
 
 			return {text: [value, html.TD], onclick: function(event) { var target = event.target
-				if (can.page.tagis(html.INPUT, target) && target.type == html.BUTTON) { return run([ctx.ACTION, target.name]) }
+				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { return run([ctx.ACTION, target.name]) }
 				if (key == mdb.HASH && can.user.mod.isDiv) { return can.user.jumps("/chat/div/"+value) }
 				if (can.sup.onaction.change(event, can.sup, key, event.target.innerText).length == 0) {
 					can.sup && can.sup._item_click && can.sup._item_click(value, key)
@@ -581,7 +581,7 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 			var list = can.core.List(arguments).slice(2)
 			if (list.length == 0) { list = [chat.CARTE, chat.INPUT] }
 			can.page.Modify(can, target, {onmouseover: function(event) { 
-				if (can.page.tagis(html.IMG, event.target)) { return }
+				if (can.page.tagis(event.target, html.IMG)) { return }
 				can.core.List(list, function(key, index) { that.del(can, key) })
 			}})
 		},
@@ -812,7 +812,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 			if (window.webview) {
 				if (event.target.tagName == "A") { can.user.open(event.target.href) }
 			}
-			if (can.page.tagis([html.SELECT, html.INPUT, html.TEXTAREA], event.target)) { return }
+			if (can.page.tagis( event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
 			can.page.Select(can, document.body, can.page.Keys("fieldset.input.key.float"), function(item) {
 				can.page.Remove(can, item)
 			})
@@ -829,7 +829,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 				}
 			} return }
 
-			if (can.page.tagis([html.SELECT, html.INPUT, html.TEXTAREA], event.target)) { return }
+			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
 			var msg = can.request(event, {"model": "normal"}); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
 			can.onengine.signal(can, chat.ONKEYDOWN, msg); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
 			can._keylist = can.onkeymap._parse(event, can, msg.Option("model"), can._keylist, can._output)
@@ -869,7 +869,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 			Escape: function(event, can, target) { target.blur() },
 			Enter: function(event, can, target) { var his = target._history||[]
 				his.push(target.value), target._history = his, target._current = his.length
-				can.page.tagis(html.INPUT, event.target) && can.onmotion.focus(can, target)
+				can.page.tagis(event.target, html.INPUT) && can.onmotion.focus(can, target)
 			},
 		},
 		insert_ctrl: {

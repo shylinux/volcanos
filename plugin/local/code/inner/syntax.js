@@ -1,4 +1,18 @@
 Volcanos(chat.ONSYNTAX, {help: "语法高亮",
+	makefile: {
+		prefix: {
+			"#": code.COMMENT,
+		},
+		suffix: {
+			":": code.COMMENT,
+		},
+		keyword: {
+			"ifeq": code.KEYWORD,
+			"ifneq": code.KEYWORD,
+			"else": code.KEYWORD,
+			"endif": code.KEYWORD,
+		},
+	},
 	h: {
 		render: {},
 		link: "c",
@@ -170,6 +184,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 		},
 	},
 	js: {
+		render: {},
 		split: {
 			operator: "{[(.,:;!|<*>)]}",
 		},
@@ -300,7 +315,11 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 			"fixed": "constant",
 		},
 	},
+	iml: {
+		render: {},
+	},
 	zml: {
+		render: {},
 		prefix: {
 			"# ": code.COMMENT,
 		},

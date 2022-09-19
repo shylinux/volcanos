@@ -141,6 +141,10 @@ var code = {
 	CONSTANT: "constant",
 	DATATYPE: "datatype",
 	FUNCTION: "function",
+
+	TEMPLATE: "template",
+	COMPLETE: "complete",
+	NAVIGAET: "navigate",
 }
 var wiki = {
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
@@ -229,6 +233,7 @@ var html = {
 	// FIELDSET
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
+	DIV_CONTENT: "div.content",
 	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story",
 	FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot",
 	FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main",

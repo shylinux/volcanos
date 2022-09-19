@@ -46,7 +46,7 @@ div.output div.project div.item { padding:2px 10px; }
 div.output div.project div.list { margin-left:10px; }
 div.output div.project div.switch { width:12px; float:left; transform: rotate(90deg) translate(1px, 0px); }
 div.output div.project div.switch.open { transform: rotate(180deg) translate(-4px, 4px); }
-div.output div.project div.zone>div.name { background-color:steelblue; color:white; text-align:center; padding:5px; clear:both; }
+div.output div.project div.zone>div.name { background-color:steelblue; color:white; text-align:center; padding:3px; clear:both; }
 div.output div.project div.item>div.name { padding-left:20px; }
 div.output div.project div.zone>div.action>div.item { float:right; clear:none; padding:0; margin:0; }
 div.output div.project div.zone>div.action>div.item input[type=text] { background-color:#ff000000; padding-left:10px; color:white; }
@@ -59,10 +59,8 @@ fieldset.story>legend { margin:10px 0; }
 fieldset.plug>legend { float:left; margin-right:5px; }
 fieldset.float>legend { float:left; margin-right:5px; }
 fieldset.full>legend { float:left; margin:0; margin-right:5px; }
-fieldset.float input[type=button][name=close]{ display:block; }
-fieldset.plug>form.option input[type=button][name=close]{ display:block; }
-fieldset.full input[type=button][name=close]{ display:block; }
 fieldset.plugin>form.option input[type=button][name=close]{ display:none; }
+fieldset.word>div.output>fieldset.story>form.option input[type=button][name=close]{ display:none; }
 fieldset.plugin div.status { border-top:1px solid darkcyan; }
 fieldset.story div.status { border-top:1px solid darkcyan; }
 fieldset.output>form.option { display:none; }
@@ -315,6 +313,7 @@ body.simple fieldset.feel.float { top:0; }
 div.output div.row div.col { float:left; border:solid 1px green; }
 
 body.white.simple div.profile { background-color:whitesmoke; }
+body.white.simple div.profile { color:black; }
 body.white.simple div.display { background-color:whitesmoke; }
 body.white.simple div.code { background-color:white; color:black; border:none; }
 body.white.simple fieldset.plugin div.status { border-top:1px solid lightgray; }

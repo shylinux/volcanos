@@ -191,11 +191,12 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		})
 	},
 
-	full: function(event, can) {
+	full: function(event, can) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
 		if (can.isCmdMode()) {
 			can.onmotion.hidden(can, can._legend), can.onmotion.hidden(can, can._option), can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
 			can.ConfHeight(window.innerHeight), can.ConfWidth(window.innerWidth)
-			can.onimport.layout(can)
+			sub.ConfHeight(window.innerHeight), sub.ConfWidth(window.innerWidth)
+			sub.onimport.layout(sub)
 		} else {
 			can.onaction["切换全屏"](event, can)
 		}

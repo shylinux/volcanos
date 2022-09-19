@@ -24,7 +24,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.svg = can.group = can.onimport._block(can, svg), can.onimport._group(can, svg).click()
 			can.core.ItemCB(can.onaction, function(key, cb) { svg[key] = function(event) { cb(event, can) } })
 			can.page.Select(can, svg, mdb.FOREACH, function(item, index) { can.onimport._block(can, item)
-				can.page.tagis(svg.G, item) && item.Value(html.CLASS) && can.onimport._group(can, item)
+				can.page.tagis(item, svg.G) && item.Value(html.CLASS) && can.onimport._group(can, item)
 			})
 		})
 	},
@@ -314,7 +314,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		resize: function(event, can, point, target) { target = target||event.target
 			if (event.type == html.CLICK) {
 				if (point.length == 1) {
-					can.current = {target: target, begin: can.core.List([target], function(item) { if (can.page.tagis(svg.G, item)) { return }
+					can.current = {target: target, begin: can.core.List([target], function(item) { if (can.page.tagis(item, svg.G)) { return }
 						return {
 							height: item.Val(html.HEIGHT), width: item.Val(html.WIDTH), x: item.Val(svg.X), y: item.Val(svg.Y),
 							target: item, ship: can.core.List(item.Value(ice.SHIP), function(ship) {

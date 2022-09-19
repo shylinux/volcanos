@@ -16,6 +16,17 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	_title: function(can, title) {
 		can.user.title(title+ice.SP+(can.misc.Search(can, ice.POD)||location.host))
 	},
+	_panel: function(can, target, action) {
+		var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT])
+		var action = can.onappend._action(can, [], ui.action, kit.Dict(
+			cli.CLOSE, function(event) { can.onmotion.hidden(can, target), can.onimport.layout(can) },
+			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
+			cli.SHOW, function(event) { can.onaction[cli.SHOW](event, can) },
+			action,
+			mdb.PLUGIN, function(event) { can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) { can.onimport.plug(can, data, ui.output) }) },
+		)); target._toggle = function(event, show) { action[show? cli.SHOW: cli.CLOSE](event) }
+		return ui
+	},
 	zone: function(can, list, target) { var color = [""]
 		return can.page.Append(can, target, can.core.List(list, function(zone, index) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: html.ZONE+" "+zone.name, list: [
 			{view: html.NAME, inner: can.user.trans(can, zone.name), style: {background: color[index%color.length]}, onclick: function() {
@@ -43,22 +54,22 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				}}], target, {})
 			}},
 			{view: html.LIST, _init: function(target) { can.ui[zone.name] = zone
+				zone._total = function(total) { can.page.Modify(can, zone._search, {placeholder: "search in "+total+" item"}) }
 				zone._target = target, zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target, zone) }
-				can.base.isFunc(zone._init) && zone._init(target, zone)
+				can.base.isFunc(zone._init) && (zone._menu = zone._init(target, zone)||zone._menu)
 			}}
 		]} }))
 	},
 	tree: function(can, list, field, split, cb, target, node) {
 		node = node||{"": target}; can.core.List(list, function(item) {
 			item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }
-				var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split)
-				if (node[name]) { return }
-				var ui = can.page.Append(can, node[last], [{view: "item", list: [{view: ["switch", "div", (index==array.length-1?"":"&#8963;")]}, {view: ["name", html.DIV, value+(index==array.length-1?"":"")], _init: item._init}], onclick: function(event) {
-					index < array.length - 1? can.onmotion.toggle(can, node[name], function() {
-						can.page.ClassList.add(can, ui["switch"], "open")
-					}, function() {
-						can.page.ClassList.del(can, ui["switch"], "open")
-					}): can.base.isFunc(cb) && cb(event, item)
+				var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split); if (node[name]) { return }
+				var ui = can.page.Append(can, node[last], [{view: "item", list: [{view: ["switch", "div", (index==array.length-1?"":"&#8963;")]}, {view: ["name", html.DIV, value+(index==array.length-1?"":"")], _init: item._init, onmouseenter: function(event) { if (!item._menu) { return }
+					can.user.carteRight(event, can, item._menu.meta, item._menu.list||can.core.Item(item._meta.meta), function(event, button) {
+						(item._menu.meta[button]||item._menu)(event, can, button)
+					})
+				}}], onclick: function(event) {
+					index < array.length - 1? can.onmotion.toggle(can, node[name], function() { can.page.ClassList.add(can, ui["switch"], "open") }, function() { can.page.ClassList.del(can, ui["switch"], "open") }): can.base.isFunc(cb) && cb(event, item)
 					if (node[name].childElementCount == 2) { node[name].firstChild.click() }
 				}}, {view: html.LIST, style: {display: html.NONE}, _init: function(list) { item.expand && can.page.style(can, list, html.DISPLAY, html.BLOCK) }}])
 				node[name] = ui.list
@@ -77,7 +88,14 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.nick||item.name],
 			onclick: function(event) { cb(event, ui.first, event.target._list && can.onmotion.toggle(can, event.target._list))
 				can.onmotion.select(can, target, can.core.Keys(html.DIV, html.ITEM), ui.first)
-			}, onmouseenter: function(event) { can.base.isFunc(cbs) && cbs(event, ui.first) },
+			}, onmouseenter: function(event) {
+				if (can.base.isFunc(cbs)) {
+					var menu = cbs(event, ui.first)
+					if (menu) {
+						can.user.carteRight(event, can, menu.meta, menu.list, menu)
+					}
+				}
+			},
 		}]); return ui.first
 	},
 	itemlist: function(can, list, cb, cbs, target) {

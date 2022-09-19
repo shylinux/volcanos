@@ -4,7 +4,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) { can.o
 			item.init && can.onmotion.delay(can, function() { can.onimport._input(can, item.init+ice.NL) })
 			can.onimport.layout(can), can.onappend._status(can), can.onappend.tools(can, msg, function(sub) {
 				sub._item_click = function(value, key) { can.onimport._input(can, value+ice.NL) }
-			}), can.isCmdMode() && can.misc.Search(can, mdb.HASH) && can.sup.onaction.full({}, can)
+			}), can.isCmdMode() && can.misc.Search(can, mdb.HASH) && can.sup.onaction.full({}, can.sup)
 			can.onimport._connect(can, item)
 		})
 	},
@@ -33,7 +33,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) { can.o
 		} else {
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth(), html.MAX_WIDTH, "")
 		}
-		can.onmotion.delay(can, function() { can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "") })
+		can.onmotion.delay(can, function() { can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "") }, 500)
 		can._current && can._current._fit.fit()
 	},
 	grow: function(can, msg) { can._current.write(msg.Option(mdb.TEXT)) },
