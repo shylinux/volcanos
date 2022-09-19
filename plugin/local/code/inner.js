@@ -412,19 +412,17 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.profile_size = {}, can.display_size = {}
 		can.base.isFunc(cb) && cb(msg) 
 
-		can.onengine.listen(can, "tabview.view.init", function() { var p = can.onsyntax[can.parse]
-			if (can.Mode() == "simple") { return }
-			p && p.render && can.onaction[cli.SHOW]({}, can); if (can.page.ClassList.has(can, can._fields, chat.PLUGIN)) {
-				p && p.engine && can.onaction[cli.EXEC]({}, can)
-			}
-		})
-
 		switch (can.Mode()) {
 			case "simple": can.onmotion.hidden(can, can.ui.project); break
 			case "float": break
 			case "cmd": can.onimport._tabs(can), can.onmotion.hidden(can, can._status) // no break
 			case "full": // no break
 			default: can.onimport.project(can, paths)
+				can.onengine.listen(can, "tabview.view.init", function() { var p = can.onsyntax[can.parse]
+					p && p.render && can.onaction[cli.SHOW]({}, can); if (can.page.ClassList.has(can, can._fields, chat.PLUGIN)) {
+						p && p.engine && can.onaction[cli.EXEC]({}, can)
+					}
+				})
 				can.onimport._keydown(can), can.onimport._toolkit(can, can.ui.toolkit), can.onimport._session(can, msg, function() {
 					files.length > 1 && can.onmotion.delay(can, function() { can.core.Next(files.slice(1), function(file, next) {
 						can.onimport.tabview(can, can.Option(nfs.PATH), file, can.Option(nfs.LINE), next)
