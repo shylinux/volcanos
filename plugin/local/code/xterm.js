@@ -1,7 +1,7 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) { can.onmotion.clear(can)
 		can.requireModules(["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
 			var item = {hash: can.Option(mdb.HASH)}; msg.Table(function(value) { can.core.Value(item, value.key, value.value) })
-			item.init && can.onmotion.delay(can, function() { can.onimport._input(can, item.init+ice.NL) })
+			item.text && can.onmotion.delay(can, function() { can.onimport._input(can, item.text+ice.NL) })
 			can.onimport.layout(can), can.onappend._status(can), can.onappend.tools(can, msg, function(sub) {
 				sub._item_click = function(value, key) { can.onimport._input(can, value+ice.NL) }
 			}), can.isCmdMode() && can.misc.Search(can, mdb.HASH) && can.sup.onaction.full({}, can.sup)
