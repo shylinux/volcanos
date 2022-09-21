@@ -96,7 +96,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _process: function(can, msg) {
 	},
 })
 Volcanos(chat.ONACTION, {help: "交互操作", list: [
-		"刷新数据", "切换全屏", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", [
+		"刷新数据", "切换全屏", "keyboard", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", [
 			"其它", "刷新页面", "保存参数", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据",
 			"查看文档", "查看脚本", "查看源码", "查看配置", "删除配置", "删除工具",
 		],
@@ -121,6 +121,17 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.TOPIC, values: [cli.WHITE, cli.BLACK]}], [
 			mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input([], true)),
 		])
+	},
+	"keyboard": function(event, can) {
+		can.base.isUndefined(can._daemon) && can.ondaemon._list[0] && (can._daemon = can.ondaemon._list.push(can)-1)
+		can.request(event, kit.Dict(ctx.INDEX, can._index, ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], can._daemon)))
+
+		can.runAction(event, "keyboard", [], function(msg) {
+			can.user.toast(can, {
+				title: msg.Append(mdb.NAME), duration: -1,
+				content: msg.Append(mdb.TEXT), action: [cli.CLOSE, cli.OPEN],
+			}), can.user.copy(msg._event, can, msg.Append(mdb.NAME))
+		}, true)
 	},
 	"打开链接": function(event, can) { var meta = can.Conf(), args = can.Option(); args.river = "", args.storm = ""
 		args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == "web.wiki.word" && (args.cmd = args.path)
@@ -200,6 +211,10 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		} else {
 			can.onaction["切换全屏"](event, can)
 		}
+	},
+	refresh: function(event, can) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
+		if (!sub) { return }
+		sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), sub.onimport.layout(sub)
 	},
 	clear: function(event, can, name) { can.onmotion.clear(can, can._output) },
 	close: function(event, can) {

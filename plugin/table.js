@@ -143,10 +143,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	plug: function(can, meta, target, cb) { if (!meta || !meta.index) { return }
 		meta.type = "plug", can.onappend.plugin(can, meta, function(sub) { sub.sup = can
+			sub.ConfHeight(target.offsetHeight-2*html.ACTION_HEIGHT), sub.ConfWidth(target.offsetWidth)
 			sub.run = function(event, cmds, cb) { can.runActionCommand(can.request(event, can.Option()), meta.index, cmds, cb) }
 			sub.onaction.close = function() { can.ui && target == can.ui.profile? can.onmotion.hidden(sub, target): can.onmotion.hidden(sub, sub._target) }
-			can.page.style(can, sub._output, html.MAX_HEIGHT, can.ConfHeight()-2*html.ACTION_HEIGHT, html.MAX_WIDTH, can.ConfWidth())
-			can.base.isFunc(cb) && cb(sub)
+			can.base.isFunc(cb) && cb(sub), can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())
 		}, target)
 	},
 	tool: function(can, list, cb, target) { target = target||can._output

@@ -1,9 +1,8 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() { can.undo = [], can.redo = []
 			can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(msg._event, can) })
-			can.core.Item(can.onkeymap._mode.plugin, function(key, value) {
-				can.onkeymap._mode.normal[key] = can.onkeymap._mode.normal[key]||value
-			}), can.onimport._input(can), can.onkeymap._build(can), can.onkeymap._plugin({}, can)
+			can.core.Item(can.onkeymap._mode.plugin, function(key, value) { can.onkeymap._mode.normal[key] = can.onkeymap._mode.normal[key]||value })
+			can.onimport._input(can), can.onkeymap._build(can), can.onkeymap._plugin({}, can)
 			can.page.ClassList.add(can, can._fields, code.VIMER), can.base.isFunc(cb) && cb(msg)
 			can.onengine.plugin(can, can.onplugin)
 		}, target) }, function(can, name, sub) { name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
@@ -100,7 +99,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 	_model: function(can, value) { can.Status("模式", can.mode = value)
 		can.page.styleClass(can, can.ui.current, ["current", can.mode]), value
-		can.page.styleClass(can, can.ui.complete, ["complete", can.mode]), value
+		can.page.styleClass(can, can.ui.complete, [code.COMPLETE, can.mode]), value
 	},
 	_plugin: function(event, can) { can.onkeymap._model(can, "plugin")
 		can.ui.current.blur()
@@ -159,8 +158,12 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 			h: shy("光标左移", function(event, can, target) { can.onkeymap.cursorMove(can, target, -1) }),
 			l: shy("光标右移", function(event, can, target) { can.onkeymap.cursorMove(can, target, 1) }),
 			L: shy("跳到行尾", function(event, can, target) { can.onkeymap.cursorMove(can, target, 0, -1) }),
-			j: shy("光标下移", function(event, can) { can.onaction.selectLine(event, can, can.current.next()) }),
-			k: shy("光标上移", function(event, can) { can.onaction.selectLine(event, can, can.current.prev()) }),
+			j: shy("光标下移", function(event, can) {
+				can.onaction.selectLine(event, can, can.current.next())
+			}),
+			k: shy("光标上移", function(event, can) {
+				can.onaction.selectLine(event, can, can.current.prev())
+			}),
 
 			gg: shy("跳到某行", function(event, can, target, count) { return can.onaction.selectLine(event, can, count), true }),
 			G: shy("跳到某行", function(event, can, target, count) { return can.onaction.selectLine(event, can, count = count>1? count: can.max), true }),
@@ -242,6 +245,24 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 })
 Volcanos(chat.ONACTION, {help: "控件交互",
 	_trans: {source: "源码", module: "模块", dreams: "空间", website: "网页"},
+	_daemon: function(event, can, arg) {
+		switch (arg[0]) {
+			case "dream":
+				can.runAction({}, arg[0], arg.slice(1), function(msg) {
+					can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME)), web.DREAM)
+				})
+				break
+			case "xterm":
+				can.runAction({}, arg[0], arg.slice(1), function(msg) {
+					can.onimport.tabview(can, ctx.COMMAND, code.XTERM, msg.Result())
+				})
+				break
+			default:
+				can.runAction({}, arg[0], arg.slice(1), function(msg) {
+					can.onimport.tabview(can, msg.Option(nfs.PATH)||can.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.source.refresh()
+				})
+		}
+	},
 	_run: function(event, can, button, args, cb) {
 		can.runAction(event, button, args, cb||function(msg) {
 			can.onimport.tabview(can, msg.Option(nfs.PATH)||can.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.source.refresh()
@@ -273,7 +294,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		can.onaction._runs(can.request(event, {file: can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.JS}), can, button)
 	},
 	website: function(event, can, button) {
-		can.onaction._runs(can.request(event, {path: "src/", file: (can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.ZML).split(ice.PS).pop()}), can, button)
+		can.onaction._runs(can.request(event, {path: "src/website/", file: (can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.ZML).split(ice.PS).pop()}), can, button)
 	},
 	dream: function(event, can, button) {
 		can.onaction._runs(can.request(event, {name: can.base.trimSuffix(can.Option(nfs.FILE).split(ice.PS).pop(), ice.PT+can.base.Ext(can.Option(nfs.FILE)))}), can, button, function(msg) { can.ui.dream.refresh()
@@ -366,14 +387,16 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		}
 	},
 	_selectLine: function(event, can) {
-		can.page.Select(can, can.current.line, "td.text", function(td) { can.ui.current.value = td.innerText
-			can.current.line.appendChild(can.ui.current), can.page.style(can, can.ui.current, html.LEFT, td.offsetLeft-1, html.WIDTH, can.ui.content.style.width)
+		can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
+			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.WIDTH, can.ui.content.style.width)
 			if (event && event.type) {
 				if (event.type == "click" && can.mode != "insert") { can.onkeymap._insert(event, can)
 					can.onmotion.delay(can, function() { can.onaction._complete(event, can) })
 				}
-				can.ui.current.focus(), can.ui.content.scrollLeft -= 10000
-				can.onkeymap.cursorMove(can, can.ui.current, 0, (event.offsetX)/12-1)
+				target.focus(), can.ui.content.scrollLeft -= 10000
+				if (event.type == "click") {
+					can.onkeymap.cursorMove(can, target, 0, (event.offsetX)/12-1)
+				}
 			}
 		})
 	},

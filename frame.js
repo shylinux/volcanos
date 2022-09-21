@@ -120,6 +120,14 @@ Volcanos(chat.ONDAEMON, {help: "推荐引擎", _init: function(can, name) { if (
 	pwd: function(can, msg, arg) { can._wss_name = can.ondaemon._list[0] = arg[0] },
 	toast: function(can, msg, arg) { can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}) },
 	refresh: function(can, msg, sub) { sub.Update() },
+	action: function(can, msg, sub, arg) {
+		var _sub = can.core.Value(sub, chat._OUTPUTS_CURRENT)
+		if (_sub && _sub.onaction) {
+			_sub.onaction && _sub.onaction._daemon({}, _sub, arg)
+			return
+		}
+		sub.runAction({}, arg[0], arg.slice(1))
+	},
 	grow: function(can, msg, sub, arg) { sub.onimport._grow(sub, msg, can.page.Color(arg.join(""))) },
 	exit: function(can, msg, sub) { can.user.close() },
 })
@@ -344,6 +352,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 		}, list: [input]}]).concat(br))[item.name]
 	},
 	table: function(can, msg, cb, target, sort) { if (msg.Length() == 0) { return }
+		var meta = can.base.Obj(msg.Option("meta"))
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) {
 				if (key == mdb.VALUE) { key = line.key }
@@ -372,7 +381,15 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			}
 
 			return {text: [value, html.TD], onclick: function(event) { var target = event.target
-				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { return run([ctx.ACTION, target.name]) }
+				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) {
+					if (meta && meta[target.name]) {
+						var msg = can.request(event, {action: target.name})
+						return can.user.input(event, can, meta[target.name], function(args) { var msg = can.request(event, {_handle: ice.TRUE}, line, can.Option())
+							can.runAction(event, target.name, args)
+						})
+					}
+					return run([ctx.ACTION, target.name])
+				}
 				if (key == mdb.HASH && can.user.mod.isDiv) { return can.user.jumps("/chat/div/"+value) }
 				if (can.sup.onaction.change(event, can.sup, key, event.target.innerText).length == 0) {
 					can.sup && can.sup._item_click && can.sup._item_click(value, key)
@@ -383,6 +400,10 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				can.onmotion.modifys(can, event.target, function(event, value, old) { run([ctx.ACTION, mdb.MODIFY, key, value]) }, item)
 			}}
 		}); table && can.page.styleClass(can, table, chat.CONTENT)
+
+		meta && meta._trans && can.page.Select(can, table, "input", function(target) {
+			target.value = meta._trans[target.value]||target.value
+		})
 		if (msg.append && msg.append[msg.append.length-1] == ctx.ACTION) { can.page.ClassList.add(can, table, ctx.ACTION) }
 		can._table = table, can.sup && (can.sup._table = table)
 		return sort && can.page.RangeTable(can, table, sort), table

@@ -1,0 +1,72 @@
+fieldset.input.keyboard div.output div.small.key {
+	font-size:16px; white-space:pre;
+}
+fieldset.input.keyboard div.output div.key {
+	color:white;
+	margin:5px;
+	background-color:green;
+	font-size:24px; text-align:center;
+	height:40px; width:40px; float:left;
+	padding:0;
+}
+fieldset.input.keyboard div.output div.key.Tab {
+	width:60px;
+	background-color:red;
+}
+fieldset.input.keyboard div.output div.key.CapsLock {
+	width:70px;
+	background-color:red;
+}
+fieldset.input.keyboard div.output div.key.Ctrl {
+	width:70px;
+	background-color:red;
+}
+fieldset.input.keyboard div.output div.key.Win {
+	width:60px;
+	background-color:red;
+}
+fieldset.input.keyboard div.output div.key.special {
+	font-size:16px;
+}
+fieldset.input.keyboard div.output div.key span {
+	display:block;
+	margin-top:2px;
+}
+fieldset.input.keyboard div.output div.key.special span {
+	display:block;
+	margin-top:10px;
+}
+fieldset.input.keyboard div.output div.key.Alt {
+	width:60px;
+	background-color:red;
+}
+fieldset.input.keyboard div.output div.key.Shift {
+	width:90px;
+	background-color:red;
+}
+fieldset.input.keyboard div.output div.key.tail {
+	width:70px;
+	background-color:red;
+}
+fieldset.input.keyboard div.output div.key.Shift.tail {
+	width:140px;
+	background-color:red;
+}
+fieldset.input.keyboard div.output div.key.Enter {
+	width:110px;
+	background-color:red;
+}
+fieldset.input.keyboard div.output div.key.Space {
+	width:300px;
+	background-color:red;
+}
+fieldset.input.keyboard div.output div.key.Backspace {
+	width:90px;
+	background-color:red;
+}
+fieldset.input.keyboard div.output br {
+	clear:both;
+}
+fieldset.input.keyboard div.output div.key:hover {
+	background-color:green;
+}
