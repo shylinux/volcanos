@@ -120,7 +120,17 @@ Volcanos(chat.ONDAEMON, {help: "推荐引擎", _init: function(can, name) { if (
 	pwd: function(can, msg, arg) { can._wss_name = can.ondaemon._list[0] = arg[0] },
 	toast: function(can, msg, arg) { can.core.CallFunc(can.user.toast, {can: can, msg: msg, cmds: arg}) },
 	refresh: function(can, msg, sub) { sub.Update() },
+	input: function(can, msg, sub, arg) {
+		can.page.Select(can, sub._target, "input:focus", function(target) {
+		// can.page.Select(can, sub._target, "input", function(target) {
+			target.value += arg[0]
+		})
+	},
 	action: function(can, msg, sub, arg) {
+		if (can.page.Select(can, sub._option, "input.args[name="+arg[0]+"]", function(target) {
+			target.focus()
+			return target
+		}).length > 0) { return }
 		var _sub = can.core.Value(sub, chat._OUTPUTS_CURRENT)
 		if (_sub && _sub.onaction) {
 			_sub.onaction && _sub.onaction._daemon({}, _sub, arg)

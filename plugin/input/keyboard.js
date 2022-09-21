@@ -8,22 +8,23 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", keyboard: {
 	_make: function(event, can, meta, cb, target, last) {
 		var sub = target._can; if (sub && sub._cbs) { return }
 		cb(function(sub, cbs) { sub._cbs = cbs
+			can.onfigure.keyboard._show(can, sub, target)
+
+		})
+	},
+	_show: function(can, sub, target) {
 			can.require(["/plugin/input/keyboard.css"])
-			var msg = can.request({}); can.onfigure.keyboard._normal(can, msg)
-			var keys = {}
+			var  msg = can.request({}); can.onfigure.keyboard._normal(can, msg)
+			var keys = {}; function hold(value, div) { keys[value.name] = div, can.page.ClassList.add(can, div, "hold") }
 			msg.Table(function(value) { value.type == "head" && can.page.Append(can, can._output, "br")
-				var t = value.type+" "+value.name+(value.name.indexOf("\n")>-1? " small": value.name.length>1? " special": "")
+				var t = value.type+" "+value.name+(value.name.indexOf("\n")>-1? " double": value.name.length>1? " special": "")
 				var div = can.page.Append(can, sub._output, [{view: t, list: [{text: [value.name]}], onclick: function(event) {
 					switch (value.name) {
 						case "Ctrl":
-							can._ctrl = !can._ctrl
-							keys[value.name] = div
-							can.page.style(can, div, "background-color", "green")
+							can._ctrl = !can._ctrl, hold(value, div)
 							break
 						case "Shift":
-							can._shift = !can._shift
-							keys[value.name] = div
-							can.page.style(can, div, "background-color", "green")
+							can._shift = !can._shift, hold(value, div)
 							break
 						case "Backspace":
 							target.value = target.value.slice(0, -1)
@@ -33,6 +34,10 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", keyboard: {
 						case "Esc":
 							break
 						default:
+							if (can.base.isFunc(target)) {
+								target(value.name)
+								return
+							}
 							can._shift = can._shift||event.shiftKey
 							if (value.name == "Space") {
 								target.value += " "
@@ -44,14 +49,13 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", keyboard: {
 							} else {
 								target.value += value.name
 							}
-							can.core.Item(keys, function(key, target) {
-								can.page.style(can, target, "background-color", "")
+							can.core.Item(keys, function(key, div) {
+								can.page.ClassList.del(can, div, "hold")
 							}), can._ctrl = false, can._shift = false
 					}
 					target.focus(), can.user.toast(can, value.name)
 				} }]).first
 			})
-		})
 	},
 	_normal: function(can, msg) {
 		msg.Push({type: "key head", name: "Esc"})
