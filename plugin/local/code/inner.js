@@ -197,7 +197,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 		}); return parseInt(can.page.Select(can, line, "td.line")[0].innerText)
 	},
 	searchLine: function(event, can, value) {
-		can.runAction(can.request(event, {name: value, text: can.current.text()}, can.Option()), NAVIGATE, [], function(msg) {
+		can.runAction(can.request(event, {name: value, text: can.current.text()}, can.Option()), code.NAVIGATE, [], function(msg) {
 			msg.Append(nfs.FILE)? can.onimport.tabview(can, msg.Append(nfs.PATH), msg.Append(nfs.FILE), msg.Append(nfs.LINE)):
 				can.user.toast(can, "not found")
 		})

@@ -144,7 +144,7 @@ var code = {
 
 	TEMPLATE: "template",
 	COMPLETE: "complete",
-	NAVIGAET: "navigate",
+	NAVIGATE: "navigate",
 }
 var wiki = {
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",

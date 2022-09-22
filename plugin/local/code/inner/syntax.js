@@ -13,6 +13,21 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 			"endif": code.KEYWORD,
 		},
 	},
+	man: {
+		prefix: {
+			"NAME": code.KEYWORD,
+			"SYNOPSIS": code.KEYWORD,
+			"DESCRIPTION": code.KEYWORD,
+
+			"AUTHOR": code.KEYWORD,
+			"COPYRIGHT": code.KEYWORD,
+			"LIBRARY": code.KEYWORD,
+			"STANDARDS": code.KEYWORD,
+			"SEE ALSO": code.KEYWORD,
+			"HISTORY": code.KEYWORD,
+			"BUGS": code.KEYWORD,
+		},
+	},
 	h: {
 		render: {},
 		link: "c",
@@ -134,6 +149,28 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 			"rm": code.FUNCTION,
 		},
 	}, configure: {link: "sh"},
+	shy: {
+		prefix: {
+			"#": code.COMMENT,
+		},
+		keyword: {
+			"source": code.KEYWORD,
+			"return": code.KEYWORD,
+			"title": code.KEYWORD,
+			"premenu": code.KEYWORD,
+			"chapter": code.KEYWORD,
+			"section": code.KEYWORD,
+			"refer": code.KEYWORD,
+			"spark": code.KEYWORD,
+			"shell": code.KEYWORD,
+			"field": code.KEYWORD,
+			"chart": code.KEYWORD,
+			"label": code.KEYWORD,
+			"chain": code.KEYWORD,
+			"image": code.KEYWORD,
+			"sequence": code.KEYWORD,
+		},
+	},
 	go: {
 		render: {},
 		keyword: {
@@ -181,6 +218,25 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 			"init": code.FUNCTION, "main": code.FUNCTION, "print": code.FUNCTION, "println": code.FUNCTION, "panic": code.FUNCTION, "recover": code.FUNCTION,
 			"new": code.FUNCTION, "make": code.FUNCTION, "len": code.FUNCTION, "cap": code.FUNCTION, "copy": code.FUNCTION, "append": code.FUNCTION, "delete": code.FUNCTION, "close": code.FUNCTION,
 			"complex": code.FUNCTION, "real": code.FUNCTION, "imag": code.FUNCTION,
+		},
+	},
+	godoc: {
+		render: {},
+		link: "go",
+	},
+	mod: {
+		split: {
+			operator: "()",
+		},
+		prefix: {
+			"//": code.COMMENT,
+		},
+		keyword: {
+			"go": code.KEYWORD,
+			"module": code.KEYWORD,
+			"require": code.KEYWORD,
+			"replace": code.KEYWORD,
+			"=>": code.KEYWORD,
 		},
 	},
 	js: {

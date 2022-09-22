@@ -122,7 +122,6 @@ Volcanos(chat.ONDAEMON, {help: "推荐引擎", _init: function(can, name) { if (
 	refresh: function(can, msg, sub) { sub.Update() },
 	input: function(can, msg, sub, arg) {
 		can.page.Select(can, sub._target, "input:focus", function(target) {
-		// can.page.Select(can, sub._target, "input", function(target) {
 			target.value += arg[0]
 		})
 	},

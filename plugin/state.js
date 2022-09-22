@@ -127,10 +127,10 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		can.request(event, kit.Dict(ctx.INDEX, can._index, ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], can._daemon)))
 
 		can.runAction(event, "keyboard", [], function(msg) {
-			can.user.toast(can, {
+			can.onmotion.move(can, can.user.toast(can, {
 				title: msg.Append(mdb.NAME), duration: -1,
 				content: msg.Append(mdb.TEXT), action: [cli.CLOSE, cli.OPEN],
-			}), can.user.copy(msg._event, can, msg.Append(mdb.NAME))
+			})._target, {}), can.user.copy(msg._event, can, msg.Append(mdb.NAME))
 		}, true)
 	},
 	"打开链接": function(event, can) { var meta = can.Conf(), args = can.Option(); args.river = "", args.storm = ""

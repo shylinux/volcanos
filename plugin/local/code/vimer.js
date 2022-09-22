@@ -1,7 +1,7 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() { can.undo = [], can.redo = []
 			can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(msg._event, can) })
-			can.core.Item(can.onkeymap._mode.plugin, function(key, value) { can.onkeymap._mode.normal[key] = can.onkeymap._mode.normal[key]||value })
+			// can.core.Item(can.onkeymap._mode.plugin, function(key, value) { can.onkeymap._mode.normal[key] = can.onkeymap._mode.normal[key]||value })
 			can.onimport._input(can), can.onkeymap._build(can), can.onkeymap._plugin({}, can)
 			can.page.ClassList.add(can, can._fields, code.VIMER), can.base.isFunc(cb) && cb(msg)
 			can.onengine.plugin(can, can.onplugin)
