@@ -413,7 +413,6 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.ui._content = can.ui.content, can.ui._profile_output = can.ui.profile_output
 		can.tabview = can.tabview||{}, can.history = can.history||[], can.toolkit = {}, can.extentions = {}
 		can.profile_size = {}, can.display_size = {}
-		can.base.isFunc(cb) && cb(msg) 
 
 		switch (can.Mode()) {
 			case "simple": can.onmotion.hidden(can, can.ui.project); break
@@ -438,7 +437,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			if (can.isCmdMode() && hash) { var args = can.core.Split(decodeURIComponent(hash).slice(1))
 				can.onmotion.delay(can, function() { can.onimport.tabview(can, args[args.length-3]||can.Option(nfs.PATH), args[args.length-2]||can.Option(nfs.FILE), args[args.length-1]) })
 			}
-		})
+		}), can.base.isFunc(cb) && cb(msg) 
 	},
 	_toolkit: function(can, target) {
 		can.ui.toolkit = can.onappend.field(can, "toolkit", {}, can._output)
@@ -462,7 +461,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.page.styleWidth(can, can.ui.display_output, width-can.ui.project.offsetWidth)
 
 		var displayHeight = can.display_size[can.onexport.keys(can)]
-		can.page.style(can, can.ui.display_output, html.HEIGHT, displayHeight||200)
+		can.page.style(can, can.ui.display_output, html.HEIGHT, displayHeight||"")
 
 		if (can.isCmdMode()) {
 			if (can.ui.display.display != html.NONE) {

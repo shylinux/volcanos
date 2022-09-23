@@ -1,5 +1,5 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
-		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg); if (msg.Length() == 0) { return }
+		can.onmotion.clear(can); if (msg.Length() == 0) { return }
 
 		can.ConfDefault({root: "ice", field: msg.append[0], split: ice.PS})
 		can.dir_root = msg.Option(nfs.DIR_ROOT)||can.Conf("root")
@@ -10,7 +10,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.margin = parseInt(can.Action("margin")||30)
 		can.page.ClassList.add(can, can._fields, "draw")
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
-			can.onimport.layout(can)
+				can.base.isFunc(cb) && cb(msg)
 		})
 	},
 	_tree: function(can, list, field, split) {

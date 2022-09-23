@@ -1,8 +1,8 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() { can.undo = [], can.redo = []
-			can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(msg._event, can) })
 			// can.core.Item(can.onkeymap._mode.plugin, function(key, value) { can.onkeymap._mode.normal[key] = can.onkeymap._mode.normal[key]||value })
 			can.onimport._input(can), can.onkeymap._build(can), can.onkeymap._plugin({}, can)
+			can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(msg._event, can) })
 			can.page.ClassList.add(can, can._fields, code.VIMER), can.base.isFunc(cb) && cb(msg)
 			can.onengine.plugin(can, can.onplugin)
 		}, target) }, function(can, name, sub) { name == chat.ONIMPORT && (can.onimport.inner_init = sub._init)
@@ -60,7 +60,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 	dream: function(can, target, zone) { var call = arguments.callee
 		can.runAction({}, ice.RUN, [web.DREAM], function(msg) { msg.Table(function(item) { var color = item.status == cli.START? "": "gray"
 			can.page.style(can, can.onimport.item(can, item, function(event) {
-				can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, ice.POD), item.name), web.DREAM)
+				can.onimport.tabview(can, can.Option(nfs.PATH), item.name, web.DREAM)
 			}, function(event) {
 				return shy({}, kit.Dict(cli.START, [cli.OPEN, cli.STOP], cli.STOP, [cli.START, nfs.TRASH])[item.status], function(event, button) {
 					can.runAction(can.request({}, item), ice.RUN, [web.DREAM, ctx.ACTION, button], function(msg) {
@@ -298,7 +298,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	},
 	dream: function(event, can, button) {
 		can.onaction._runs(can.request(event, {name: can.base.trimSuffix(can.Option(nfs.FILE).split(ice.PS).pop(), ice.PT+can.base.Ext(can.Option(nfs.FILE)))}), can, button, function(msg) { can.ui.dream.refresh()
-			can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME)), web.DREAM)
+			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(mdb.NAME), web.DREAM)
 			can.user.toastSuccess(can)
 		})
 	},
@@ -386,7 +386,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 				filter()
 		}
 	},
-	_selectLine: function(event, can) {
+	_selectLine: function(event, can) { if (!can.current) { return }
 		can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
 			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.WIDTH, can.ui.content.style.width)
 			if (event && event.type) {

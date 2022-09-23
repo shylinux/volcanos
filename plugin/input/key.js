@@ -1,4 +1,4 @@
-Volcanos(chat.ONFIGURE, {help: "控件详情", keyboard: {
+Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 	_init: function(event, can, cbs, target, name, value) {
 		can.runAction(event, mdb.INPUTS, [name, value||target.value], function(msg) {
 			can.onfigure.key._show(can, msg, cbs, target, name)

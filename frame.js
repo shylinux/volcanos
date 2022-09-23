@@ -139,6 +139,7 @@ Volcanos(chat.ONDAEMON, {help: "推荐引擎", _init: function(can, name) { if (
 	},
 	grow: function(can, msg, sub, arg) { sub.onimport._grow(sub, msg, can.page.Color(arg.join(""))) },
 	exit: function(can, msg, sub) { can.user.close() },
+	close: function(can, msg, sub) { can.user.close() },
 })
 Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, cb, target, field) {
 		meta.name = (meta.name||"").split(ice.SP)[0].split(ice.PT).pop()
@@ -187,10 +188,11 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 
 			can.page.Modify(can, sub._legend, kit.Dict(can.Conf("legend_event")||chat.ONMOUSEENTER, function(event) {
 				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["所有"].concat(can.core.Item(meta.feature._trans))]), function(event, item, meta) {
-					var cb = can.core.Value(sub, [chat._OUTPUTS_CURRENT, chat.ONACTION, item])
-					if (can.base.isFunc(cb)) { return cb(event, can.core.Value(sub, chat._OUTPUTS_CURRENT), item) }
+					var _sub = can.core.Value(sub, chat._OUTPUTS_CURRENT)
+					var cb = can.core.Value(_sub, [chat.ONACTION, item])
+					if (can.base.isFunc(cb)) { return cb(event, _sub, item) }
 					var cb = meta[item]||meta[chat._ENGINE]
-					if (can.base.isFunc(cb)) { return cb(event, sub, item) }
+					if (can.base.isFunc(cb)) { return cb(event, sub, item, _sub) }
 				})
 			})), can.base.isFunc(cb) && cb(sub)
 		}); return sub
@@ -274,7 +276,8 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			var process = msg._can == can || msg._can == sub
 			if (process && can.core.CallFunc([sub, chat.ONIMPORT, ice.MSG_PROCESS], {can: sub, msg: msg})) { return }
 			if (process && can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
-			!silent && can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)||meta.display||meta.feature.display, can._output, can._action)
+			if (cmds && cmds[0] == ctx.ACTION && msg.Result() == "" && msg.Length() == 0) { return can.Update() }
+			!silent && can.onappend._output(can, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display, can._output, can._action)
 		})
 	},
 	_output: function(can, msg, display, output, action, cb) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
@@ -301,6 +304,10 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				action === false || table.onappend._action(table, msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), action)
 				action === false || table.onappend._status(table, msg.Option(ice.MSG_STATUS))
 				// action === false || table.onimport.tool(table, can.base.Obj(msg.Option(ice.MSG_TOOLKIT)))
+
+				var mode= ["float", "full", "cmd"]; for (var i in mode) {
+					if (can.page.ClassList.has(can, can._target, mode[i])) { table.onlayout[mode[i]](table); break }
+				}
 				can.base.isFunc(cb) && cb(msg)
 			}, target: output||can._output})
 		})

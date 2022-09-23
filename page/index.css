@@ -58,6 +58,9 @@ fieldset.full { background-color:#073947f2; padding:0; margin:0; left:0; top:0; 
 fieldset.story>legend { margin:10px 0; }
 fieldset.plug>legend { float:left; margin-right:5px; }
 fieldset.float>legend { float:left; margin-right:5px; }
+body.white fieldset.float>div.status { color:white; }
+fieldset.story.float>div.status { display:none; }
+fieldset.plugin.float>div.status { display:none; }
 fieldset.full>legend { float:left; margin:0; margin-right:5px; }
 fieldset.plugin>form.option input[type=button][name=close]{ display:none; }
 fieldset.word>div.output>fieldset.story>form.option input[type=button][name=close]{ display:none; }
@@ -70,6 +73,7 @@ fieldset.output div.toggle { display:none; }
 
 fieldset.story>legend { float:left; margin:0px; margin-right:5px; }
 fieldset.story { margin-top:10px; }
+fieldset.story.full { margin-top:0px; }
 
 fieldset.input.key { overflow:auto; }
 fieldset.input.key div.action { display:none; }

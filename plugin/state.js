@@ -96,33 +96,63 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _process: function(can, msg) {
 	},
 })
 Volcanos(chat.ONACTION, {help: "交互操作", list: [
-		"刷新数据", "切换全屏", "keyboard", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片", [
-			"其它", "刷新页面", "保存参数", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据",
+		"刷新页面", "刷新数据", "共享工具", "切换浮动", "切换全屏", "远程控制", "打开链接", "生成链接", "生成脚本", "生成图片", [
+			"其它", "保存参数", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据",
 			"查看文档", "查看脚本", "查看源码", "查看配置", "删除配置", "删除工具",
 		],
 	],
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input([], true))) },
-
-	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
-	"切换全屏": function(event, can) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
-		if (can.page.ClassList.neg(can, can._target, "full")) {
-			var height = window.innerHeight-(can._status.innerText? 2: 1)*html.ACTION_HEIGHT; can.user.isMobile && (height -= 2*html.ACTION_HEIGHT)
-			can._mode_bak = can.Mode(), can._height_bak = sub.ConfHeight(), can._width_bak = sub.ConfWidth()
-			sub.Mode("full"), can.Mode("full"), can.ConfHeight(height), can.ConfWidth(window.innerWidth)
-			can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight(height), html.MIN_WIDTH, sub.ConfWidth(window.innerWidth))
+	_switch: function(can, sub, mode, save, load) {
+		if (can.page.ClassList.neg(can, can._target, mode)) {
+			can._mode_bak = can.Mode(), can._height_bak = can.ConfHeight()||"", can._width_bak = can.ConfWidth()||""
+			can._output_bak = {}, can.core.List([html.HEIGHT, html.MAX_HEIGHT, html.WIDTH, html.MAX_WIDTH], function(key) {
+				can._output_bak[key] = can._output.style[key]
+			})
+			save(), sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
+			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth(), html.MAX_WIDTH, can.ConfWidth())
+			sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub)
 		} else {
 			can.Mode(can._mode_bak||""), can.ConfHeight(can._height_bak), can.ConfWidth(can._width_bak)
-			sub.Mode(can._mode_bak||""), sub.ConfHeight(can._height_bak), sub.ConfWidth(can._width_bak)
-			can.page.style(can, can._output, html.HEIGHT, "", html.MIN_WIDTH, "")
+			can.page.style(can, can._output, can._output_bak)
+			load(), sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
+			sub.Mode(can.Mode()), sub.onlayout._init(sub)
 		}
-		can.core.CallFunc([sub, chat.ONIMPORT, html.LAYOUT], {can: sub})
+	},
+
+	"刷新页面": function(event, can, button, sub) {
+		can.core.CallFunc([sub.onimport, "_init"], {can: sub, msg: sub._msg, cb: function(msg) { can.user.toastSuccess(can) }, target: can._output})
+	},
+	"刷新数据": function(event, can) {
+		can.Update({}, can.Input([], true))
 	},
 	"共享工具": function(event, can) { var meta = can.Conf()
 		can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.TOPIC, values: [cli.WHITE, cli.BLACK]}], [
 			mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input([], true)),
 		])
 	},
-	"keyboard": function(event, can) {
+	"切换浮动": function(event, can, button, sub) {
+		can.onaction._switch(can, sub, "float", function() {
+			can.onmotion.move(can, can._target, {left: window.innerWidth/2, top: window.innerHeight/2})
+			can.ConfHeight(window.innerHeight/2), html.WIDTH, can.ConfWidth(window.innerWidth/2)
+		}, function() {
+			can.page.style(can, can._target, html.LEFT, "", html.TOP, "")
+		})
+	},
+	"切换全屏": function(event, can, button, sub) {
+		can.onaction._switch(can, sub, "full", function() {
+			if (sub.isCmdMode()) {
+				can.onmotion.hidden(can, can._legend), can.onmotion.hidden(can, can._option), can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
+				can.ConfHeight(window.innerHeight), can.ConfWidth(window.innerWidth)
+			} else {
+				can.ConfHeight(window.innerHeight - (can._status.innerText? 2: 1)*html.ACTION_HEIGHT - (can.user.isMobile? 2*html.ACTION_HEIGHT: 0)), can.ConfWidth(window.innerWidth)
+			}
+		}, function() {
+			if (sub.isCmdMode()) {
+				can.onmotion.toggle(can, can._legend, true), can.onmotion.toggle(can, can._option, true), can.onmotion.toggle(can, can._action, true), can.onmotion.toggle(can, can._status, true)
+			}
+		})
+	},
+	"远程控制": function(event, can) {
 		can.base.isUndefined(can._daemon) && can.ondaemon._list[0] && (can._daemon = can.ondaemon._list.push(can)-1)
 		can.request(event, kit.Dict(ctx.INDEX, can._index, ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], can._daemon)))
 
@@ -152,16 +182,15 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	},
 	"生成图片": function(event, can) { can.onmotion.toimage(event, can, can._name) },
 
-	"刷新页面": function(event, can) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
-		can.core.CallFunc([sub, chat.ONIMPORT, "_init"], {can: sub, msg: sub._msg, cb: function(msg) {}, target: can._output})
-	},
 	"保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
 	"清空参数": function(event, can) { can.page.SelectArgs(can, can._option, "", function(item) { return item.value = "" }) },
 	"扩展参数": function(event, can) { can.onmotion.toggle(can, can._action) },
-	"复制数据": function(event, can) { can.user.copy(event, can, can.onexport.table(can)||can.onexport.board(can)) },
-	"下载数据": function(event, can) { var meta = can.Conf()
+	"复制数据": function(event, can, button, sub) {
+		can.user.copy(event, can, sub.onexport.table(sub)||sub.onexport.board(sub))
+	},
+	"下载数据": function(event, can, button, sub) { var meta = can.Conf()
 		can.user.input(event, can, [{name: "filename", value: meta.name}], function(list) {
-			can.user.downloads(can, can.onexport.table(can), list[0], nfs.CSV)||can.user.downloads(can, can.onexport.board(can), meta.name, nfs.TXT)
+			can.user.downloads(can, sub.onexport.table(sub), list[0], nfs.CSV)||can.user.downloads(can, sub.onexport.board(sub), meta.name, nfs.TXT)
 		})
 	},
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
@@ -202,16 +231,8 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		})
 	},
 
-	full: function(event, can) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
-		if (can.isCmdMode()) {
-			can.onmotion.hidden(can, can._legend), can.onmotion.hidden(can, can._option), can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
-			can.ConfHeight(window.innerHeight), can.ConfWidth(window.innerWidth)
-			sub.ConfHeight(window.innerHeight), sub.ConfWidth(window.innerWidth)
-			sub.onimport.layout(sub)
-		} else {
-			can.onaction["切换全屏"](event, can)
-		}
-	},
+	keyboard: function(event, can) { can.onaction["远程控制"](event, can, "远程控制", can.core.Value(can, chat._OUTPUTS_CURRENT)) },
+	full: function(event, can) { can.onaction["切换全屏"](event, can, "切换全屏", can.core.Value(can, chat._OUTPUTS_CURRENT)) },
 	refresh: function(event, can) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
 		if (!sub) { return }
 		sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), sub.onimport.layout(sub)
@@ -255,13 +276,4 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 			})
 		})
 	},
-})
-Volcanos(chat.ONEXPORT, {help: "导出数据",
-	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return }
-		var res = [msg.append && msg.append.join(ice.FS)]; msg.Table(function(line, index, array) {
-			res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS))
-		})
-		return res.join(ice.NL)
-	},
-	board: function(can) { var msg = can._msg; return msg.Result() },
 })

@@ -1,5 +1,4 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
-		can.page.style(can, can._output, html.HEIGHT, "")
 		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can._action)
 		var cbs = can.onimport[can.Conf(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.core.CallFunc(cbs, {can: can, msg: msg, target: target, list: msg.Table()})
@@ -7,6 +6,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			return cbs(can, msg, target)
 		}
 
+		can.page.style(can, can._output, html.HEIGHT, "")
 		can.onmotion.clear(can, target)
 		can.onappend.table(can, msg, null, target)
 		can.onappend.board(can, msg, target)
@@ -173,6 +173,21 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 })
+Volcanos(chat.ONLAYOUT, {help: "界面布局",
+	_init: function(can) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can}) },
+	float: function(can) { can.onlayout._init(can) },
+	full: function(can) { can.onlayout._init(can) },
+	cmd: function(can) { can.onlayout._init(can) },
+})
 Volcanos(chat.ONACTION, {help: "操作数据",
 	_trans: {"full": "全屏"},
+})
+Volcanos(chat.ONEXPORT, {help: "导出数据",
+	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return }
+		var res = [msg.append && msg.append.join(ice.FS)]; msg.Table(function(line, index, array) {
+			res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS))
+		})
+		return res.join(ice.NL)
+	},
+	board: function(can) { var msg = can._msg; return msg.Result() },
 })

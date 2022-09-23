@@ -109,7 +109,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 		},
 	},
 	sh: {
-		// render: {},
+		render: {},
 		split: {
 			operator: "=",
 		},
@@ -237,6 +237,19 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 			"require": code.KEYWORD,
 			"replace": code.KEYWORD,
 			"=>": code.KEYWORD,
+		},
+	},
+	py: {
+		prefix: {
+			"#!": code.COMMENT,
+			"# ": code.COMMENT,
+		},
+		keyword: {
+			"import": code.KEYWORD,
+			"from": code.KEYWORD,
+			"return": code.KEYWORD,
+
+			"print": code.FUNCTION,
 		},
 	},
 	js: {

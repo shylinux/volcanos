@@ -45,6 +45,7 @@ fieldset>div.status legend.select { background-color:green; }
 fieldset>div.status legend:hover { background-color:green; }
 fieldset.inner>div.status { height:31px; overflow:auto; }
 fieldset.panel>div.status { display:none; overflow:auto; }
+fieldset.Search.panel>div.status { display:block; overflow:auto; }
 fieldset.inner.simple>legend { display:none; }
 fieldset.inner.simple>form.option { display:none; }
 fieldset.inner.simple>div.status { display:none; }

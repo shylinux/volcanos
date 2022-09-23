@@ -1,14 +1,12 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
-		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg); if (msg.Length() == 0) { return }
-		if (msg.Option("branch")) { return can.onappend.table(can, msg) }
-
+		can.onmotion.clear(can)
 		can.data = msg.Table(), can.onimport._sum(can)
 		can.Action(html.HEIGHT, msg.Option(html.HEIGHT)||ice.AUTO)
 		can.Action(html.SPEED, parseInt(msg.Option(html.SPEED)||"100"))
 
 		can.page.ClassList.add(can, can._fields, "draw")
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
-			can.onimport.layout(can)
+			can.base.isFunc(cb) && cb(msg)
 		})
 	},
 	_sum: function(can) {

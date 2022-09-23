@@ -450,7 +450,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 	}
 	_can_path = _can_name||_can_path
 
-	if (can._follow) { libs = libs.concat(meta.libs, meta.volcano) }
+	if (can._follow) { libs = libs.concat(meta.volcano, meta.libs) }
 	if (libs && libs.length > 0) { // 解析参数
 		for (var i = 0; i < libs.length; i++) {
 			if (libs[i] == undefined) {
