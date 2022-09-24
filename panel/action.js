@@ -236,10 +236,17 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 })
 Volcanos(chat.ONLAYOUT, {help: "导出数据",
 	grid: function(can, silent) {
-		var ACTION_LAYOUT_FMT = " fieldset.Action.grid>div.output fieldset.plugin { width:_width; height:_height; } fieldset.Action.grid>div.output fieldset.plugin>div.output { width:_width; height:_height; } "
+		var ACTION_LAYOUT_FMT = " fieldset.Action.grid>div.output fieldset.plugin { width:_width; height:_height; } "
 		can.user.input(event, can, [{name: "m", value: 2}, {name: "n", value: 2}], function(data) {
 			can.getActionSize(function(height, width) { var m = parseInt(data.m)||2, n = parseInt(data.n)||2
-				can.page.css(can.base.replaceAll(ACTION_LAYOUT_FMT, "_width", (width-(4*m+1)*html.PLUGIN_MARGIN)/m+"px", "_height", (height-(4*n+1)*html.PLUGIN_MARGIN)/n+"px"))
+				var h = (height-(4*n+1)*html.PLUGIN_MARGIN)/n, w = (width-(4*m+1)*html.PLUGIN_MARGIN)/m
+				can.page.css(can.base.replaceAll(ACTION_LAYOUT_FMT, "_height", h+"px", "_width", w+"px"))
+				can.core.List(can._plugins, function(sub) {
+					can.page.style(can, sub._output, html.HEIGHT, sub.ConfHeight(h-2*html.ACTION_HEIGHT-3*html.PLUGIN_MARGIN), html.WIDTH, sub.ConfWidth(w))
+					sub.onaction["刷新数据"]({}, sub)
+					can.ConfHeight(sub.ConfHeight())
+					can.ConfWidth(sub.ConfWidth())
+				})
 			})
 		}, silent)
 	},
