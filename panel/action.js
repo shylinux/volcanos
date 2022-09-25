@@ -283,7 +283,7 @@ Volcanos(chat.ONLAYOUT, {help: "导出数据",
 			can.onmotion.select(can, can._action, html.DIV_TABS, 0), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)
 		})
 		can.getActionSize(function(height, width) {
-			can.ConfHeight(height-1*html.ACTION_HEIGHT-2*html.PLUGIN_MARGIN), can.ConfWidth(width-2*html.PLUGIN_MARGIN)
+			can.ConfHeight(height-2*html.PLUGIN_MARGIN), can.ConfWidth(width-2*html.PLUGIN_MARGIN)
 		})
 	},
 	tabs: function(can) {
