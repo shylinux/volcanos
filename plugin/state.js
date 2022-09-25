@@ -38,7 +38,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _process: function(can, msg) {
 			})(); return }
 
 			var opt = can.base.Obj(item[ice.OPT], [])
-			sub.ConfHeight(can.ConfHeight()/2), sub.ConfWidth(can.ConfWidth())
+			sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
 			sub.run = function(event, cmds, cb) {
 				var res = can.request(event, can.Option(), opts, {pid: msg.Option("pid")})
 				for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }

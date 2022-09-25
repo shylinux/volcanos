@@ -31,7 +31,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb) { c
 })
 Volcanos(chat.ONLAYOUT, {help: "界面布局",
 	_init: function(can) {
-		can.page.style(can, can._output, html.HEIGHT, can.ConfHeight()+20, html.WIDTH, can.ConfWidth()+20, html.MAX_WIDTH, "")
+		can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth()+20, html.MAX_WIDTH, "")
 		can.onmotion.delay(can, function() { can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "") }, 500)
 		can._current && can._current._fit.fit(), can.onexport.term(can)
 	},

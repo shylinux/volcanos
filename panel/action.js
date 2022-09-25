@@ -248,7 +248,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 		can.page.ClassList.del(can, can._target, can.Conf(chat.LAYOUT)); if (button == ice.AUTO) { button = "" }
 		can.page.ClassList.add(can, can._target, can.Conf(chat.LAYOUT, button)), can.onlayout._init(can)
 		can.onmotion.toggle(can, can._root.River._target, true), can.onmotion.toggle(can, can._root.Footer._target, true), can.onlayout._init(can)
-		can.onmotion.hidden(can, can._header_tabs)
+		can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 
 		var cb = can.onlayout[button]; if (can.base.isFunc(cb)? cb(can, silent): (can.getActionSize(function(height, width) {
 			can.ConfHeight(can.base.Min(200, height-3*html.ACTION_HEIGHT-4*html.PLUGIN_MARGIN-200)), can.ConfWidth(width-4*html.PLUGIN_MARGIN)
