@@ -14,9 +14,8 @@ fieldset.Action.grid>div.output fieldset.plugin>div.output { overflow:auto; }
 fieldset.Action>div.action div.tabview { font-size:1.1rem; padding:5px; height:21px; }
 fieldset.Action>div.action div.tabview.select { background:#6495ed63; }
 fieldset.Action>div.action div.tabview:hover { background:#6495ed63; }
-fieldset.Action.tabview>div.action { display:block; }
 fieldset.Action.tabview>div.output>fieldset>legend { display:none; }
-fieldset.Action.tabview>div.output fieldset.plugin { display:none; overflow:auto; padding:0; }
+fieldset.Action.tabview>div.output fieldset.plugin { display:none; overflow:auto; padding:0; margin:10px 0; }
 fieldset.Action.tabview>div.output fieldset.plugin.select { display:block; }
 fieldset.Action.tabview>div.output fieldset.plugin>form.option { display:none; }
 fieldset.Action.tabview>div.output fieldset.plugin>div.action { display:none; }

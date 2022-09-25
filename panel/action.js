@@ -1,4 +1,5 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
+		can.onimport._menu(can, msg), can.onkeymap._init(can)
 		can.onaction.layout(can, can.misc.SearchOrConf(can, chat.LAYOUT)||Volcanos.meta.args.layout, true)
 		var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) {
@@ -10,7 +11,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 				can.onimport._plugin(can, river, storm, sub, meta), skip || next()
 			})
 		}, function() {
-			can.onimport._menu(can, msg), can.onkeymap._init(can)
+			// can.onimport._menu(can, msg), can.onkeymap._init(can)
 		})
 	},
 	_plugin: function(can, river, storm, sub, meta) { sub._target._meta = meta
@@ -24,10 +25,17 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
 			can.onmotion.select(can, can._action, html.DIV_TABS, event.target)
 		}, onmouseenter: sub._legend.onmouseenter, ondblclick: sub._legend.onclick}]).first
+		sub._header_tabs = can.page.Append(can, can._header_tabs, [{view: [html.TABS, html.DIV, meta.name], onclick: function(event) {
+			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
+			can.onmotion.select(can, can._header_tabs, html.DIV_TABS, event.target)
+		}, onmouseenter: sub._legend.onmouseenter, ondblclick: sub._legend.onclick}]).first
 	},
 	_menu: function(can, msg) { if (can.user.mod.isPod || can.user.isMobile) { return }
 		can.setHeaderMenu(can.base.Obj(msg.Option(chat.MENUS), can.Conf(chat.MENUS)||can.onaction._menus), function(event, button, list) {
 			can.core.CallFunc([can.onaction, list[0]], [can, button])
+		})
+		can.page.Select(can, can._root.Header._output, "action", function(target) {
+			can._header_tabs = can.page.Append(can, target, [{view: "tabs", style: {padding: 0, "padding-left": "40px"}}]).first
 		})
 	},
 	_share: function(can, share) { share && can.run({}, [web.SHARE, share], function(msg) {
@@ -193,6 +201,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 	onkeydown: function(can, msg) { var event = msg._event
 		if (event.ctrlKey && event.key >= "1"  && event.key <= "9") {
 			can.onmotion.select(can, can._action, html.DIV_TABS, parseInt(event.key)-1), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, parseInt(event.key)-1)
+			can.onmotion.select(can, can._header_tabs, html.DIV_TABS, parseInt(event.key)-1), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, parseInt(event.key)-1)
 		}
 	},
 	onsearch: function(can, msg, word) {
@@ -202,7 +211,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 	onstorm_select: function(can, msg, river, storm) {
 		if (can.onmotion.cache(can, function() {
 			return can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm))
-		}, can._action, can._output)) {
+		}, can._header_tabs, can._action, can._output)) {
 			var conf = can.core.Value(can._root, can.core.Keys(chat.RIVER, river, chat.STORM, storm))||{}
 			return can.onaction.layout(can, can.misc.SearchOrConf(can, chat.LAYOUT)||Volcanos.meta.args.layout||conf.layout, true)
 		}
@@ -239,6 +248,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 		can.page.ClassList.del(can, can._target, can.Conf(chat.LAYOUT)); if (button == ice.AUTO) { button = "" }
 		can.page.ClassList.add(can, can._target, can.Conf(chat.LAYOUT, button)), can.onlayout._init(can)
 		can.onmotion.toggle(can, can._root.River._target, true), can.onmotion.toggle(can, can._root.Footer._target, true), can.onlayout._init(can)
+		can.onmotion.hidden(can, can._header_tabs)
 
 		var cb = can.onlayout[button]; if (can.base.isFunc(cb)? cb(can, silent): (can.getActionSize(function(height, width) {
 			can.ConfHeight(can.base.Min(200, height-3*html.ACTION_HEIGHT-4*html.PLUGIN_MARGIN-200)), can.ConfWidth(width-4*html.PLUGIN_MARGIN)
@@ -278,13 +288,12 @@ Volcanos(chat.ONLAYOUT, {help: "导出数据",
 		})
 	},
 	tabview: function(can) {
+		can.onmotion.toggle(can, can._header_tabs, true)
 		can.onmotion.hidden(can, can._root.River._target), can.onmotion.hidden(can, can._root.Footer._target), can.onlayout._init(can)
 		can.onmotion.delay(can, function() {
 			can.onmotion.select(can, can._action, html.DIV_TABS, 0), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)
 		})
-		can.getActionSize(function(height, width) {
-			can.ConfHeight(height-2*html.PLUGIN_MARGIN), can.ConfWidth(width-2*html.PLUGIN_MARGIN)
-		})
+		can.getActionSize(function(height, width) { can.ConfHeight(height-2*html.PLUGIN_MARGIN), can.ConfWidth(width) })
 	},
 	tabs: function(can) {
 		can.onmotion.select(can, can._action, html.DIV_TABS, 0), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)

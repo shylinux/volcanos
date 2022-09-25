@@ -655,9 +655,10 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 
 	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), true },
 	cache: function(can, next) { var list = can.base.Obj(can.core.List(arguments).slice(2), [can._output])
-		can.core.List(list, function(item) { item._cache_key && can.page.Cache(item._cache_key, item, item.scrollTop+1) })
+		can.core.List(list, function(item) { item && item._cache_key && can.page.Cache(item._cache_key, item, item.scrollTop+1) })
 		var key = next(can._cache_data = can._cache_data||{}); if (!key) { return }
-		return can.core.List(list, function(item) { var pos = can.page.Cache(item._cache_key = key, item)
+		return can.core.List(list, function(item) { if (!item) { return }
+			var pos = can.page.Cache(item._cache_key = key, item)
 			if (pos) { item.scrollTo && item.scrollTo(0, pos-1); return item }
 		}).length > 0
 	},
