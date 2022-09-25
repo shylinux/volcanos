@@ -1,6 +1,7 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.onmotion.clear(can), can.river_list = {}, can.storm_list = {}
 		can.onimport._main(can, msg), can.onimport._menu(can, msg)
+		can._name_list = {}
 
 		var select; can.page.Append(can, can._output, msg.Table(function(item, index) {
 			return can.onimport._river(can, item, function(target) {
@@ -27,6 +28,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 	_river: function(can, meta, cb) {
+		can._name_list[meta.hash] = meta.name
 		return {text: [meta.name, html.DIV, html.ITEM], onclick: function(event) {
 			can.onaction.storm(event, can, meta.hash)
 
@@ -38,6 +40,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}}
 	},
 	_storm: function(can, meta, river) {
+		can._name_list[can.core.Keys(river, meta.hash)] = meta.name
 		return {text: [meta.name, html.DIV, html.ITEM], onclick: function(event) {
 			can.onaction.action(event, can, river, meta.hash)
 
@@ -113,6 +116,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: ["create", "share", "refres
 			can.onlayout._init(can)
 			can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {
 				river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm),
+				river_name: can._name_list[river], storm_name: can._name_list[can.core.Keys(river, storm)],
 			}))
 		})
 	},

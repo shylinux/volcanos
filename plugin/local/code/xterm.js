@@ -1,4 +1,5 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb) { can.onmotion.clear(can)
+		can.onlayout._init(can)
 		can.requireModules(["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
 			var item = {hash: can.Option(mdb.HASH)}; msg.Table(function(value) { can.core.Value(item, value.key, value.value) })
 			item.text && can.onmotion.delay(can, function() { can.onimport._input(can, item.text+ice.NL) })
@@ -44,7 +45,7 @@ Volcanos(chat.ONACTION, {help: "操作数据",
 	"反引号": function(event, can, button) { can.onimport._input(can, "`"), can._current.focus() },
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据", list: [mdb.TYPE, mdb.NAME, "rows", "cols", "cursorY", "cursorX"],
-	term: function(can) { var term = can._current, item = term._item
+	term: function(can) { var term = can._current||{}, item = term._item; if (!item) { return }
 		can.core.List(can.onexport.list, function(key) {
 			can.Status(key, can.base.getValid(item[key], term[key], term.buffer.active[key], ""))
 		}), can.Status(mdb.TYPE, item[mdb.TYPE]||""), can.Status(mdb.NAME, item[mdb.NAME]||"")

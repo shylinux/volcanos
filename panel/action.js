@@ -1,8 +1,7 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
+		can.onaction.layout(can, can.misc.SearchOrConf(can, chat.LAYOUT)||Volcanos.meta.args.layout, true)
 		var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) {
-			item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y)
-			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X)
 			item.feature = can.base.Obj(item.feature||item.meta)
 			item.inputs = can.base.Obj(item.inputs||item.list)
 
@@ -11,7 +10,6 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 				can.onimport._plugin(can, river, storm, sub, meta), skip || next()
 			})
 		}, function() {
-			can.onaction.layout(can, can.misc.SearchOrConf(can, chat.LAYOUT)||Volcanos.meta.args.layout, true)
 			can.onimport._menu(can, msg), can.onkeymap._init(can)
 		})
 	},
@@ -22,10 +20,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 			return can.run(sub.request(event), can.misc.concat(can, [river, storm, meta.id||meta.index], cmds), cb)
 		}, can._plugins = can.misc.concat(can, can._plugins, [sub])
 
-		can.page.Append(can, can._action, [{view: [html.TABS, html.DIV, meta.name], onclick: function(event) {
+		sub._tabs = can.page.Append(can, can._action, [{view: [html.TABS, html.DIV, meta.name], onclick: function(event) {
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
 			can.onmotion.select(can, can._action, html.DIV_TABS, event.target)
-		}, onmouseenter: sub._legend.onmouseenter, ondblclick: sub._legend.onclick}])
+		}, onmouseenter: sub._legend.onmouseenter, ondblclick: sub._legend.onclick}]).first
 	},
 	_menu: function(can, msg) { if (can.user.mod.isPod || can.user.isMobile) { return }
 		can.setHeaderMenu(can.base.Obj(msg.Option(chat.MENUS), can.Conf(chat.MENUS)||can.onaction._menus), function(event, button, list) {
@@ -160,13 +158,16 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 		can.base.isFunc(cb) && cb()
 	},
 	_menus: [
-		[chat.LAYOUT, "auto", "tabs", "grid", "free", "flow", "page", "toimage"],
+		[chat.LAYOUT, "auto", "tabs", "tabview", "vertical", "horizon", "grid", "free", "flow", "page", "toimage"],
 		[ice.HELP, "tutor", "manual", "service", "devops", "refer"],
 	],
 	_trans: {
 		"layout": "布局",
 		"auto": "默认布局",
 		"flow": "流动布局",
+		"vertical": "上下分屏",
+		"horizon": "左右分屏",
+		"tabview": "标签分屏",
 		"grid": "网格布局",
 		"tabs": "标签布局",
 		"free": "自由布局",
@@ -189,6 +190,11 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 			can.onimport._cmd(can, item, next)
 		}) })
 	},
+	onkeydown: function(can, msg) { var event = msg._event
+		if (event.ctrlKey && event.key >= "1"  && event.key <= "9") {
+			can.onmotion.select(can, can._action, html.DIV_TABS, parseInt(event.key)-1), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, parseInt(event.key)-1)
+		}
+	},
 	onsearch: function(can, msg, word) {
 		if (word[0] == mdb.PLUGIN || word[0] == mdb.FOREACH) { can.onexport.plugin(can, msg, word) }
 	},
@@ -201,6 +207,10 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 			return can.onaction.layout(can, can.misc.SearchOrConf(can, chat.LAYOUT)||Volcanos.meta.args.layout||conf.layout, true)
 		}
 
+		can.page.Append(can, can._action, [
+			{text: [msg.Option("river_name")||river, html.DIV]},
+			{text: [msg.Option("storm_name")||storm, html.DIV]}
+		])
 		can.run({}, [river, storm], function(msg) { if (msg.Length() > 0) { return can.onimport._init(can, msg) }
 			can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm}))
 		})
@@ -214,14 +224,6 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 		can.isCmdMode()
 	},
 
-	layout: function(can, button, silent) { button = button||ice.AUTO
-		var cb = can.onlayout[button]; if (can.base.isFunc(cb) && cb(can, silent)) { return }
-		can.page.ClassList.del(can, can._target, can.Conf(chat.LAYOUT))
-		if (button == ice.AUTO) { button = "" }
-		can.page.ClassList.add(can, can._target, can.Conf(chat.LAYOUT, button))
-		can.onlayout._init(can)
-	},
-	help: function(can, button) { can.user.open("/help/"+button+".shy") },
 	refresh: function(can) {
 		can._root._height = window.innerHeight, can._root._width = window.innerWidth
 		can.onlayout._init(can)
@@ -233,30 +235,65 @@ Volcanos(chat.ONACTION, {help: "交互操作", _init: function(can, cb, target) 
 			table.onimport.layout? table.onimport.layout(table): can.onappend._output(sub, table._msg, sub._display)
 		})
 	},
+	layout: function(can, button, silent) { button = button||ice.AUTO
+		can.page.ClassList.del(can, can._target, can.Conf(chat.LAYOUT)); if (button == ice.AUTO) { button = "" }
+		can.page.ClassList.add(can, can._target, can.Conf(chat.LAYOUT, button)), can.onlayout._init(can)
+		can.onmotion.toggle(can, can._root.River._target, true), can.onmotion.toggle(can, can._root.Footer._target, true), can.onlayout._init(can)
+
+		var cb = can.onlayout[button]; if (can.base.isFunc(cb)? cb(can, silent): (can.getActionSize(function(height, width) {
+			can.ConfHeight(can.base.Min(200, height-3*html.ACTION_HEIGHT-4*html.PLUGIN_MARGIN-200)), can.ConfWidth(width-4*html.PLUGIN_MARGIN)
+		}), false)) { return }
+
+		can.core.Next(can._plugins, function(sub, next) {
+			sub.onaction._resize(sub, button != ice.AUTO, can.ConfHeight(), can.ConfWidth())
+			can.onmotion.delay(can, next)
+		})
+	},
+	help: function(can, button) { can.user.open("/help/"+button+".shy") },
 })
 Volcanos(chat.ONLAYOUT, {help: "导出数据",
+	_grid: function(can, m, n) {
+		can.getActionSize(function(height, width) {
+			var h = (height-(4*n+1)*html.PLUGIN_MARGIN)/n, w = (width-(4*m+1)*html.PLUGIN_MARGIN)/m
+			can.ConfHeight(h-2*html.ACTION_HEIGHT-3*html.PLUGIN_MARGIN), can.ConfWidth(w)
+			can.core.List(can._plugins, function(sub) { sub.onaction._resize(sub, true, can.ConfHeight(), can.ConfWidth()) })
+		})
+	},
 	grid: function(can, silent) {
-		var ACTION_LAYOUT_FMT = " fieldset.Action.grid>div.output fieldset.plugin { width:_width; height:_height; } "
 		can.user.input(event, can, [{name: "m", value: 2}, {name: "n", value: 2}], function(data) {
-			can.getActionSize(function(height, width) { var m = parseInt(data.m)||2, n = parseInt(data.n)||2
-				var h = (height-(4*n+1)*html.PLUGIN_MARGIN)/n, w = (width-(4*m+1)*html.PLUGIN_MARGIN)/m
-				can.page.css(can.base.replaceAll(ACTION_LAYOUT_FMT, "_height", h+"px", "_width", w+"px"))
-				can.core.List(can._plugins, function(sub) {
-					can.page.style(can, sub._output, html.HEIGHT, sub.ConfHeight(h-2*html.ACTION_HEIGHT-3*html.PLUGIN_MARGIN), html.WIDTH, sub.ConfWidth(w))
-					sub.onaction["刷新数据"]({}, sub)
-					can.ConfHeight(sub.ConfHeight())
-					can.ConfWidth(sub.ConfWidth())
-				})
-			})
+			can.onlayout._grid(can, parseInt(data.m), parseInt(data.n))
 		}, silent)
+		return true
+	},
+	vertical: function(can) {
+		can.onmotion.hidden(can, can._root.River._target), can.onmotion.hidden(can, can._root.Footer._target), can.onlayout._init(can)
+		can.getActionSize(function(height, width) { can.ConfHeight(height/2), can.ConfWidth(width)
+			can.core.List(can._plugins, function(sub) { sub.onaction._resize(sub, true, can.ConfHeight(), can.ConfWidth()) })
+		})
+	},
+	horizon: function(can) {
+		can.onmotion.hidden(can, can._root.River._target), can.onmotion.hidden(can, can._root.Footer._target), can.onlayout._init(can)
+		can.getActionSize(function(height, width) { can.ConfHeight(height), can.ConfWidth(width/2)
+			can.core.List(can._plugins, function(sub) { sub.onaction._resize(sub, true, can.ConfHeight(), can.ConfWidth()) })
+		})
+	},
+	tabview: function(can) {
+		can.onmotion.hidden(can, can._root.River._target), can.onmotion.hidden(can, can._root.Footer._target), can.onlayout._init(can)
+		can.onmotion.delay(can, function() {
+			can.onmotion.select(can, can._action, html.DIV_TABS, 0), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)
+		})
+		can.getActionSize(function(height, width) {
+			can.ConfHeight(height-1*html.ACTION_HEIGHT-2*html.PLUGIN_MARGIN), can.ConfWidth(width-2*html.PLUGIN_MARGIN)
+		})
 	},
 	tabs: function(can) {
-		can.onmotion.select(can, can._action, html.DIV_TABS, 0)
-		can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)
+		can.onmotion.select(can, can._action, html.DIV_TABS, 0), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)
+		can.getActionSize(function(height, width) {
+			can.ConfHeight(height-3*html.ACTION_HEIGHT-4*html.PLUGIN_MARGIN), can.ConfWidth(width-4*html.PLUGIN_MARGIN)
+		})
 	},
 	free: function(can) {
 		can.page.Select(can, can._target, [[html.DIV_OUTPUT, html.FIELDSET_PLUGIN]], function(item, index) {
-			can.page.style(can, item, {left: 40*index, top: 40*index})
 			can.onmotion.move(can, item, {left: 40*index, top: 40*index})
 		})
 	},

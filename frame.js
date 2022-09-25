@@ -871,6 +871,12 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 			can.onengine.signal(can, chat.ONKEYDOWN, msg); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
 			can._keylist = can.onkeymap._parse(event, can, msg.Option("model"), can._keylist, can._output)
 		}
+		can.onkeymap._build(can), document.body.onkeyup = function(event) {
+			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
+			var msg = can.request(event, {"model": "normal"}); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
+			can.onengine.signal(can, chat.ONKEYUP, msg); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
+			can._keylist = can.onkeymap._parse(event, can, msg.Option("model"), can._keylist, can._output)
+		}
 	},
 	_build: function(can) {
 		can.core.Item(can.onkeymap._mode, function(item, value) { var engine = {list: {}}

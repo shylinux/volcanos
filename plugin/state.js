@@ -118,6 +118,12 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 			sub.Mode(can.Mode()), sub.onlayout._init(sub)
 		}
 	},
+	_resize: function(can, auto, height, width) { can.ConfHeight(height), can.ConfWidth(width)
+		auto? can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, can.ConfWidth()):
+			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_WIDTH, can.ConfWidth())
+		// can.onaction["刷新页面"]({}, can, "刷新页面", can.core.Value(can, chat._OUTPUTS_CURRENT))
+		can.onaction["刷新数据"]({}, can, "刷新数据", can.core.Value(can, chat._OUTPUTS_CURRENT))
+	},
 
 	"刷新页面": function(event, can, button, sub) {
 		can.core.CallFunc([sub.onimport, "_init"], {can: sub, msg: sub._msg, cb: function(msg) { can.user.toastSuccess(can) }, target: can._output})

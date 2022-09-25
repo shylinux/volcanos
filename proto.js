@@ -208,6 +208,7 @@ var chat = {
 
 	ONMAIN: "onmain", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
 	ONSIZE: "onsize", ONTOAST: "ontoast", ONREMOTE: "onremote",
+	ONKEYUP: "onkeyup",
 	ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
 	ONSTORM_SELECT: "onstorm_select", ONACTION_TOUCH: "onaction_touch", ONACTION_NOTOOL: "onaction_notool", ONACTION_CMD: "onaction_cmd",
 	ONOPENSEARCH: "onopensearch", ONSEARCHFOCUS: "onsearchfocus", ONCOMMANDFOCUS: "oncommandfocus",

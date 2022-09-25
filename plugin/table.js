@@ -27,6 +27,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		)); target._toggle = function(event, show) { action[show? cli.SHOW: cli.CLOSE](event) }
 		return ui
 	},
+	title: function(can, title) {
+		can._legend.innerHTML = title, can.sup && can.sup._tabs && (can.sup._tabs.innerHTML = title)
+	},
 	zone: function(can, list, target) { var color = [""]
 		return can.page.Append(can, target, can.core.List(list, function(zone, index) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: html.ZONE+" "+zone.name, list: [
 			{view: html.NAME, inner: can.user.trans(can, zone.name), style: {background: color[index%color.length]}, onclick: function() {
