@@ -2,3 +2,4 @@ fieldset.feel div.output img { display:block; float:left; }
 fieldset.feel div.output video { display:block; float:left; }
 fieldset.feel.float div.output img { display:block; float:none; margin:auto; }
 fieldset.feel.float div.output video { display:block; float:none; margin:auto; }
+fieldset.feel.float div.status { display:block; }

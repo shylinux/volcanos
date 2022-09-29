@@ -115,9 +115,11 @@ var aaa = {
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite",
 	TOKEN: "token",
+	VOID: "void", TECH: "tech",
 }
 var web = {
 	SPACE: "space", DREAM: "dream", SHARE: "share",
+	REFRESH: "refresh",
 }
 var tcp = {
 	HOST: "host", PORT: "port",
@@ -211,7 +213,8 @@ var chat = {
 	ONKEYUP: "onkeyup",
 	ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
 	ONSTORM_SELECT: "onstorm_select", ONACTION_TOUCH: "onaction_touch", ONACTION_NOTOOL: "onaction_notool", ONACTION_CMD: "onaction_cmd",
-	ONOPENSEARCH: "onopensearch", ONSEARCHFOCUS: "onsearchfocus", ONCOMMANDFOCUS: "oncommandfocus",
+	ONOPENSEARCH: "onopensearch", ONSEARCH_FOCUS: "onsearch_focus", ONCOMMAND_FOCUS: "oncommand_focus",
+	ONPRINT: "onprint",
 
 	_INIT: "_init", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1",
 	_NAMES: "_names", _TOAST: "_toast",
@@ -451,7 +454,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 	}
 	_can_path = _can_name||_can_path
 
-	if (can._follow) { libs = libs.concat(meta.volcano, meta.libs) }
+	if (can._follow) { libs = libs.concat(meta.libs, meta.volcano) }
 	if (libs && libs.length > 0) { // 解析参数
 		for (var i = 0; i < libs.length; i++) {
 			if (libs[i] == undefined) {

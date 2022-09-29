@@ -107,7 +107,8 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 	},
 	_index: function(can, msg, cb) {
 		if (can.Option(nfs.LINE) == web.DREAM) {
-			return can.base.isFunc(cb) && cb(msg._content = msg._content||can.page.insertBefore(can, [{type: html.IFRAME, src: can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}), width: can.ui.content.offsetWidth, height: can.ui.content.offsetHeight}], can.ui._content))
+			return can.base.isFunc(cb) && cb(msg._content = msg._content||can.page.insertBefore(can, [{type: html.IFRAME,
+				src: can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}), style: {height: can.ui.content.offsetHeight-4, width: can.ui.content.offsetWidth}}], can.ui._content))
 		}
 
 		return can.onimport.plug(can, {index: msg.Option(ctx.INDEX), args: can.Option(nfs.PATH) == ctx.COMMAND && can.Option(nfs.LINE) != ctx.INDEX? [can.Option(nfs.LINE)]: []}, can.ui._content, function(sub) {
@@ -416,7 +417,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 		switch (can.Mode()) {
 			case "simple": can.onmotion.hidden(can, can.ui.project); break
-			case "float": break
+			case "float": can.onmotion.hidden(can, can.ui.project); break
 			case "cmd": can.onimport._tabs(can), can.onmotion.hidden(can, can._status) // no break
 			case "full": // no break
 			default: can.onimport.project(can, paths)
@@ -444,56 +445,48 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	_session: function(can, msg) {
 		can.onimport.sess(can, "", function() { can.onimport.sess(can, {
-			exts: can.core.Split(msg.OptionOrSearch("exts")).reverse(),
-			plug: can.core.Split(msg.OptionOrSearch("plug")).reverse(),
-			tabs: can.core.Split(msg.OptionOrSearch("tabs")),
+			exts: can.core.Split(msg.SearchOrOption("exts")).reverse(),
+			plug: can.core.Split(msg.SearchOrOption("plug")).reverse(),
+			tabs: can.core.Split(msg.SearchOrOption("tabs")),
 		}) })
 	},
-	layout: function(can) { if (can.isSimpleMode()) {
-			return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth())
-		}
-		if (can.isFloatMode()) { can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can.ui.project) }
+	layout: function(can) {
+		if (can.isSimpleMode()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
 
-		var height = can.user.isMobile && can.isFloatMode()? window.innerHeight-2*html.ACTION_HEIGHT: can.ConfHeight()
 		var width = can.ConfWidth()+(can.user.isMobile && can.isCmdMode() && can.user.isLandscape()? 16: 0)-(can.user.isWindows && !can.isCmdMode()? 20: 0)
-		can.page.styleWidth(can, can.ui.profile_output, can.profile_size[can.onexport.keys(can)]||(width-can.ui.project.offsetWidth)/2)
-		can.page.styleWidth(can, can.ui.content, width-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
-		can.page.styleWidth(can, can.ui.display_output, width-can.ui.project.offsetWidth)
+		var project_width = can.ui.project.style.display == html.NONE? 0: (can.ui.project.offsetWidth||240)
+		var profile_width = can.ui.profile.style.display == html.NONE? 0: can.profile_size[can.onexport.keys(can)]||(width-project_width)/2
+		var content_width = width-project_width-profile_width
+		can.page.styleWidth(can, can.ui.content, content_width)
+		can.page.styleWidth(can, can.ui.profile_output, profile_width)
+		can.page.styleWidth(can, can.ui.display_output, width-project_width)
 
-		var displayHeight = can.display_size[can.onexport.keys(can)]
-		can.page.style(can, can.ui.display_output, html.HEIGHT, displayHeight||"")
-
-		if (can.isCmdMode()) {
-			if (can.ui.display.display != html.NONE) {
-				if (can.ui.display.offsetHeight > can.base.Min(can.ConfHeight() / 2, 200)) {
-					can.page.style(can, can.ui.display_output, html.MAX_HEIGHT, can.base.Min(can.ConfHeight() / 2, 200))
-				}
-			}
-			if (can._status.style.display == html.NONE) { height += html.ACTION_HEIGHT }
-			var rest = can.ui.display.offsetHeight+can.ui._tabs.offsetHeight+can.ui._path.offsetHeight+4
-			can.page.styleHeight(can, can.ui.content, height+html.ACTION_HEIGHT-rest)
-			can.page.styleHeight(can, can.ui.profile_output, height-can.ui.display.offsetHeight)
-			can.page.styleHeight(can, can.ui.project, height+html.ACTION_HEIGHT)
-		} else { var rest = can.ui.display.offsetHeight; if (height < 320) { height = 320 }
-			if (!can.isFullMode()) {
-				can._min_height = can._min_height||height, height >= can._min_height && (can._min_height = height)
-				can.page.style(can, can.ui.content, html.MIN_HEIGHT, can._min_height)
-			}
-			can.page.style(can, can.ui.content, can.user.isMobile? html.HEIGHT: html.MAX_HEIGHT, height-rest)
-			can.page.styleHeight(can, can.ui.profile_output, can.ui.content.offsetHeight-html.ACTION_HEIGHT)
-			can.page.styleHeight(can, can.ui.project, can.ui.content.offsetHeight+rest)
+		var height = can.user.isMobile && can.isFloatMode()? window.innerHeight-2*html.ACTION_HEIGHT: can.ConfHeight()-1
+		var display_height = can.ui.display.style.display == html.NONE? 0: (can.display_size[can.onexport.keys(can)]||120)
+		if (can.isCmdMode()) { height += html.ACTION_HEIGHT
+			var content_height = height-display_height - can.ui._tabs.offsetHeight - can.ui._path.offsetHeight - 4
+			can.page.style(can, can._output, html.MAX_HEIGHT, "")
+		} else {
+			var content_height = height-display_height
 		}
+
+		var profile_height = height-html.ACTION_HEIGHT-display_height
+		can.page.styleHeight(can, can.ui.profile_output, profile_height)
+		can.page.styleHeight(can, can.ui.display_output, display_height)
+		can.page.styleHeight(can, can.ui.content, content_height-(can.ui.content != can.ui._content? 4: 0))
+		can.page.styleHeight(can, can.ui.project, height)
+
 		can.page.Select(can, can.ui.profile, html.IFRAME, function(iframe) {
-			can.page.Modify(can, iframe, {height: can.ui.profile.offsetHeight-html.ACTION_HEIGHT-4, width: can.ui.profile.offsetWidth})
+			can.page.Modify(can, iframe, {height: profile_height-html.ACTION_HEIGHT-4, width: profile_width})
 		})
 		var sub = can.ui.content._plugin; if (sub) {
-			sub.ConfHeight(can.ui.content.offsetHeight-2*html.ACTION_HEIGHT), sub.ConfWidth(can.ui.content.offsetWidth)
+			sub.ConfHeight(content_height-2*html.ACTION_HEIGHT), sub.ConfWidth(content_width)
 			sub && sub.onaction.refresh({}, sub)
 		}
 	},
 	toolkit: function(can, meta, cb) { meta.msg = true
 		can.onimport.plug(can, meta, can.ui.toolkit.output, function(sub) {
-			sub.ConfHeight(can.ConfHeight()/2), sub.ConfWidth(can.ui.content.offsetWidth+can.ui.profile.offsetWidth)
+			sub.ConfHeight(can.ConfHeight()/2), sub.ConfWidth(can.ConfWidth()-can.ui.project.offsetWidth)
 			sub.page.style(sub, sub._output, html.MAX_HEIGHT, sub.ConfHeight())
 			sub.page.style(sub, sub._output, html.MAX_WIDTH, sub.ConfWidth())
 

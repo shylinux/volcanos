@@ -22,6 +22,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb) { c
 		term.open(can._output), term.focus()
 	},
 	_resize: function(can, size) {
+		can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "")
 		can.runAction(can.request({}, size, can._current._item), "resize", [], function() { can.onexport.term(can) })
 	},
 	_input: function(can, data) { if (!can._current) { return }
@@ -31,8 +32,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb) { c
 })
 Volcanos(chat.ONLAYOUT, {help: "界面布局",
 	_init: function(can) {
-		can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth()+20, html.MAX_WIDTH, "")
-		can.onmotion.delay(can, function() { can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "") }, 500)
+		can.page.style(can, can._output, html.HEIGHT, can.ConfHeight()+8, html.WIDTH, can.ConfWidth()+18, html.MAX_WIDTH, "")
 		can._current && can._current._fit.fit(), can.onexport.term(can)
 	},
 	cmd: function(can) { can._current && can.onimport._title(can, can._current._item.name), can.ConfWidth(can.ConfWidth()-10)

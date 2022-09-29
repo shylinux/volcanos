@@ -1,5 +1,6 @@
 fieldset.word fieldset.inner>form.option input[name=path] { width:240px; }
 
+fieldset.inner.cmd>div.output { overflow:hidden; }
 fieldset.inner>form.option input[name=path] { width:80px; }
 fieldset.inner>form.option input[name=file] { width:160px; }
 fieldset.inner>div.action>div.tabs { padding:5px; margin:0 1px; }
@@ -43,13 +44,15 @@ fieldset>div.output>fieldset.plug.select { background-color:#0e3369b3; color:whi
 fieldset>div.status legend { float:right; height:30px; }
 fieldset>div.status legend.select { background-color:green; }
 fieldset>div.status legend:hover { background-color:green; }
-fieldset.inner>div.status { height:31px; overflow:auto; }
+fieldset.inner>div.status { height:30px; overflow:auto; }
 fieldset.panel>div.status { display:none; overflow:auto; }
 fieldset.Search.panel>div.status { display:block; overflow:auto; }
 fieldset.inner.simple>legend { display:none; }
 fieldset.inner.simple>form.option { display:none; }
 fieldset.inner.simple>div.status { display:none; }
 fieldset.inner.simple div.toggle { display:none; }
+
+fieldset.inner.float>div.action { display:none; }
 
 fieldset.Action>div.status { display:none; }
 

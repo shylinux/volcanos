@@ -672,6 +672,14 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 		})
 	},
 
+	tableFilter: function(can, target, value) {
+		can.page.Select(can, target, html.TR, function(tr, index) { if (index == 0) { return }
+			can.page.ClassList.add(can, tr, html.HIDDEN)
+			can.page.Select(can, tr, html.TD, function(td) { if (td.innerText.indexOf(value) > -1) {
+				can.page.ClassList.del(can, tr, html.HIDDEN)
+			} })
+		})
+	},
 	hidden: function(can, target, show) {
 		can.page.styleDisplay(can, target||can._target, show? "": html.NONE)
 		return show

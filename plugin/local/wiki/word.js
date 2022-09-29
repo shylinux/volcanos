@@ -121,6 +121,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	field: function(can, data, target, width) { var item = can.base.Obj(data.meta)
 		can.onappend._init(can, item, [chat.PLUGIN_STATE_JS], function(sub) {
+			can._plugins = (can._plugins||[]).concat([sub])
 			sub.run = function(event, cmds, cb, silent) {
 				can.runAction(event, chat.STORY, can.misc.concat(can, [data.type, data.name, data.text], cmds), cb)
 			}
@@ -133,8 +134,12 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			})
 		}, can._output, target)
 	},
-	// layout: function(can) {
-	// },
+	layout: function(can) {
+		can.core.List(can._plugins, function(sub) {
+			sub.ConfHeight(can.base.Min(300, can.ConfHeight()-300)), sub.ConfWidth(can.ConfWidth()-(can.user.isWindows? 40: 20))
+			sub.onaction._resize(sub, true, sub.ConfHeight(), sub.ConfWidth())
+		})
+	},
 }, [""])
 Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 	_mode: {

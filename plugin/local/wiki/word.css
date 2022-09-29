@@ -31,9 +31,10 @@ fieldset.word svg.story.auto text { stroke:yellow; fill:yellow; }
 fieldset.word svg.story.auto line { stroke:red; stroke-width:1; }
 fieldset.word svg.story.auto path { stroke:red; stroke-width:1; }
 
-fieldset.word.float { padding:0; margin:0; width:-webkit-fill-available; position:fixed; left:0; top:0; z-index:10; }
+fieldset.word.float { padding:0; margin:0; position:fixed; left:0; top:0; z-index:10; }
+/* fieldset.word.float { padding:0; margin:0; width:-webkit-fill-available; position:fixed; left:0; top:0; z-index:10; } */
 fieldset.word.float>div.action { display:contents; }
-fieldset.word.float>div.status { clear:none; }
+fieldset.word.float>div.status { clear:none; display:block; }
 fieldset.word.float>div.output { background-color:#f0f8ff80; padding:20px; overflow:auto; }
 fieldset.word.float>div.output>div.project { background:#4682b46b; padding:10px; position:fixed; right:0; top:31px; z-index:10; }
 fieldset.word.float div.content div.page { margin-top:31px; display:none; }

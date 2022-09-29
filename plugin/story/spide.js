@@ -10,7 +10,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.margin = parseInt(can.Action("margin")||30)
 		can.page.ClassList.add(can, can._fields, "draw")
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
-				can.base.isFunc(cb) && cb(msg)
+			can.base.isFunc(cb) && cb(msg), can.onimport.layout(can)
 		})
 	},
 	_tree: function(can, list, field, split) {

@@ -6,7 +6,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 		can.page.ClassList.add(can, can._fields, "draw")
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
-			can.base.isFunc(cb) && cb(msg)
+			can.base.isFunc(cb) && cb(msg), can.onimport.layout(can)
 		})
 	},
 	_sum: function(can) {
@@ -49,7 +49,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 }, [""])
 Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		[ice.VIEW, "趋势图", "柱状图", "数据源"],
-		[html.HEIGHT, 100, 200, 400, 600, 800, ice.AUTO],
+		[html.HEIGHT, ice.AUTO, 100, 200, 400, 600, 800, ice.AUTO],
 		["space", 10, 20, 50, 100],
 		[html.SPEED, 10, 20, 50, 100],
 	],
