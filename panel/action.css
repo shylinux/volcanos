@@ -47,7 +47,7 @@ fieldset.Header action>div.tabs:hover { background:none; }
 fieldset.Header div.tabs div.tabs { padding:5px 10px; }
 fieldset.Header div.tabs div.tabs:hover { background:#6495ed63; }
 
-fieldset.iframe>div.output { overflow:hidden; }
+/* fieldset.iframe>div.output { overflow:hidden; } */
 
 fieldset.Action>div.project.toggle {
 	background-color:cornsilk; opacity:0.4; color:teal; font-size: 28px; padding-top: 50px; height: 100px; width:20px; position: fixed; top: 30%;

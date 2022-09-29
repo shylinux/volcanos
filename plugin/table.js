@@ -181,8 +181,15 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 Volcanos(chat.ONLAYOUT, {help: "界面布局",
 	_init: function(can) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can}) },
 	float: function(can) { can.onlayout._init(can) },
-	full: function(can) { can.onlayout._init(can) },
-	cmd: function(can) { can.onlayout._init(can) },
+	full: function(can) {
+		can.sup.onimport.size(can.sup, can.ConfHeight(), can.ConfWidth(), false)
+		can.onlayout._init(can)
+	},
+	cmd: function(can) {
+		can.ConfHeight(can.ConfHeight()+html.ACTION_HEIGHT)
+		can.sup.onimport.size(can.sup, can.ConfHeight(), can.ConfWidth(), true)
+		can.onlayout._init(can)
+	},
 })
 Volcanos(chat.ONACTION, {help: "操作数据",
 	_trans: {"full": "全屏"},

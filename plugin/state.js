@@ -116,13 +116,13 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	},
 	_resize: function(can, auto, height, width) { can.onimport.size(can, height, width, auto) },
 
-	"刷新页面": function(event, can, button, sub) { can.core.CallFunc([sub.onlayout, "_init"], {can: sub}) },
+	"刷新页面": function(event, can, button, sub) { can.core.CallFunc([sub.onlayout, "_init"], {can: sub}), can.user.toastSuccess(can, button) },
 	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
 	"切换浮动": function(event, can, button, sub) {
 		can.onaction._switch(can, sub, "float", function() {
 			can.ConfHeight(window.innerHeight/2), html.WIDTH, can.ConfWidth(window.innerWidth/2)
-			can.getActionSize(function(left) { can.onmotion.move(can, can._target, {left: left||0, bottom: html.ACTION_HEIGHT}) })
-		}, function() { can.page.style(can, can._target, html.LEFT, "", html.BOTTOM, "") })
+			can.getActionSize(function(left) { can.onmotion.move(can, can._target, {left: left||0, top: window.innerHeight/2-4*html.ACTION_HEIGHT-html.PLUGIN_MARGIN}) })
+		}, function() { can.page.style(can, can._target, html.LEFT, "", html.TOP, "") })
 	},
 	"切换全屏": function(event, can, button, sub) {
 		can.onaction._switch(can, sub, "full", function() { can.ConfWidth(window.innerWidth)
