@@ -190,6 +190,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, cb, target) 
 	},
 	onsize: function(can, msg, height, width) { can.Conf({height: height-can.Conf(html.MARGIN_Y), width: width-can.Conf(html.MARGIN_X)}) },
 	onprint: function(can, msg) { can.page.styleHeight(can, can._target, "") },
+	onresize: function(can, msg) { can.onlayout._init(can), can.onaction.layout(can, can.Conf(chat.LAYOUT)) },
 
 	layout: function(can, button, silent) { button = button||ice.AUTO
 		can.page.ClassList.del(can, can._target, can.Conf(chat.LAYOUT)); if (button == ice.AUTO) { button = "" }
@@ -204,6 +205,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, cb, target) 
 
 		can.core.Next(can._plugins, function(sub, next) { can.onmotion.delay(can, function() {
 			sub.onaction._resize(sub, button == "" || button == ice.AUTO, can.ConfHeight(), can.ConfWidth()), next()
+			if (button == "" || button == ice.AUTO) { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
 		}, 10) })
 	},
 	help: function(can, button) { can.user.open("/help/"+button+".shy") },

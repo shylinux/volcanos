@@ -505,7 +505,7 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 			return
 		}
 
-		var width = can._root._width, height = can._root._height
+		var width = window.innerWidth, height = window.innerHeight
 		can.page.Select(can, target, can.page.Keys(html.FIELDSET_HEAD, html.FIELDSET_FOOT), function(field) {
 			height -= field.offsetHeight
 		})
@@ -603,6 +603,7 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 })
 Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 		window.addEventListener(html.ORIENTATIONCHANGE, function(event) { can.onengine.signal(can, html.ORIENTATIONCHANGE) })
+		window.onresize = function(event) { can.onengine.signal(can, chat.ONRESIZE) }
 		can.onmotion.float.auto(can, target)
 	},
 	float: {_hash: {},

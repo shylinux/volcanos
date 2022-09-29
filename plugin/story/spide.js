@@ -56,6 +56,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	layout: function(can) { can.margin = can.margin||20
 		can.onmotion.clear(can), can.onimport._show(can, can.request())
 		can.svg.Val(html.FONT_SIZE, can.Action("size"))
+		can.page.style(can, can._output, html.MAX_HEIGHT, "")
 		can.onaction[can.Action(ice.VIEW)](event, can, can.Action(ice.VIEW))
 	},
 }, [""])
