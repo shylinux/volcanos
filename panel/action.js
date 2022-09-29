@@ -35,7 +35,6 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 	_cmd: function(can, item, next) { can.onengine.signal(can, chat.ONACTION_CMD)
 		can.onappend.plugin(can, can.base.Copy(item, {mode: "cmd", opts: can.misc.Search(can)}), function(sub, meta, skip) {
 			sub.run = function(event, cmds, cb) { can.runActionCommand(event, sub._index, cmds, cb) }
-			// sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth(), true)
 			can.user.title(meta.name), skip || next()
 		})
 	},
@@ -220,7 +219,7 @@ Volcanos(chat.ONLAYOUT, {help: "界面布局",
 	tabview: function(can) {
 		can.onmotion.toggle(can, can._header_tabs, true)
 		can.onmotion.hidden(can, can._root.River._target), can.onmotion.hidden(can, can._root.Footer._target), can.onlayout._init(can)
-		can.getActionSize(function(height, width) { can.ConfHeight(height), can.ConfWidth(width) })
+		can.getActionSize(function(height, width) { can.ConfHeight(height-html.ACTION_HEIGHT), can.ConfWidth(width) })
 		if (can.page.Select(can, can._output, "fieldset.plugin.select").length > 0) { return }
 		can.onmotion.select(can, can._header_tabs, html.DIV_TABS, 0), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)
 	},
