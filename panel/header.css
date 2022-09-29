@@ -1,4 +1,4 @@
-fieldset.Header { font-size:1.1rem; height:31px; overflow:auto; padding:0 5px; z-index:10; }
+fieldset.Header { font-size:1.1rem; padding:0 5px; height:31px; overflow:auto; z-index:10; }
 fieldset.Header>div.output { overflow:hidden; }
 fieldset.Header>div.output div { padding:5px; height:21px; float:left; cursor:pointer; }
 fieldset.Header>div.output div:hover { background-color:#2e515f; }

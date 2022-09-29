@@ -10,6 +10,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 	},
 	_plugin: function(can, river, storm, sub, meta) { sub._target._meta = meta
 		meta.id && (sub._option.dataset = sub._option.dataset||{}, sub._option.dataset.id = meta.id)
+		can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth())
 
 		sub.run = function(event, cmds, cb) {
 			return can.run(sub.request(event), can.misc.concat(can, [river, storm, meta.id||meta.index], cmds), cb)
@@ -172,8 +173,9 @@ Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, cb, target) 
 		})
 	},
 	onaction_cmd: function(can, msg) { can.Mode("cmd")
+		can.Conf(html.MARGIN_Y, 2*html.ACTION_HEIGHT), can.Conf(html.MARGIN_X, 0)
+		can.ConfHeight(can._root._height-can.Conf(html.MARGIN_Y)), can.ConfWidth(can._root._width)
 		can.page.style(can, can._target, html.HEIGHT, can._root._height, html.WIDTH, can._root._width)
-		can.ConfHeight(can._root._height-2*html.ACTION_HEIGHT), can.ConfWidth(can._root._width)
 		can.page.ClassList.add(can, can._root._target, "simple") 
 		can.page.ClassList.add(can, can._target, "cmd")
 	},

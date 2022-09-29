@@ -121,12 +121,13 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	"切换浮动": function(event, can, button, sub) {
 		can.onaction._switch(can, sub, "float", function() {
 			can.ConfHeight(window.innerHeight/2), html.WIDTH, can.ConfWidth(window.innerWidth/2)
-			can.onmotion.move(can, can._target, {left: window.innerWidth/2, top: window.innerHeight/2})
-		}, function() { can.page.style(can, can._target, html.LEFT, "", html.TOP, "") })
+			can.getActionSize(function(left) { can.onmotion.move(can, can._target, {left: left||0, bottom: html.ACTION_HEIGHT}) })
+		}, function() { can.page.style(can, can._target, html.LEFT, "", html.BOTTOM, "") })
 	},
 	"切换全屏": function(event, can, button, sub) {
 		can.onaction._switch(can, sub, "full", function() { can.ConfWidth(window.innerWidth)
-			if (sub.isCmdMode()) { can.ConfHeight(window.innerHeight) } else { can.ConfHeight(window.innerHeight-html.ACTION_HEIGHT-can.onexport.statusHeight(can)-(can.user.isMobile? 2*html.ACTION_HEIGHT: 0)) }
+				can.page.style(can, can._target, html.LEFT, "", html.BOTTOM, "")
+				can.ConfHeight(window.innerHeight-html.ACTION_HEIGHT-can.onexport.statusHeight(can)-(can.user.isMobile? 2*html.ACTION_HEIGHT: 0))
 		}, function() {})
 	},
 	"共享工具": function(event, can) { var meta = can.Conf()

@@ -1,5 +1,5 @@
 body, fieldset, table, tr, th, td { padding:0; border:0; margin:0; }
-body { background-color:black; color:cyan; font-size:16px; overflow:hidden; }
+body { background-color:black; color:cyan; font-size:16px; }
 legend { background-color:cadetblue; color:white; padding:0 20px; }
 select { background-color:black; color:cyan; padding:0 10px; border:0; }
 textarea { background-color:cyan; width:400px; padding:5px; border:0; }
@@ -25,7 +25,6 @@ input[type=button][name=remove] { background-color:red; }
 
 table.layout { border-spacing:0; }
 table.layout td { vertical-align:top; }
-/* table.layout td.content div.toggle { background-color:#4682b46b; color:white; font-size:24px; position:absolute; z-index:10; } */
 table.layout td.content div.toggle { background-color:#4682b46b; color:white; font-size:24px; position:absolute; }
 table.layout td.content div.toggle>div { display:table-cell; }
 table.layout td.content div.toggle.project { padding-top: 50px; height:100px; width:15px; top:20%; left:0px; border-top-right-radius:10px; border-bottom-right-radius:10px; }
@@ -53,28 +52,26 @@ div.output div.project div.zone>div.action>div.item { float:right; clear:none; p
 div.output div.project div.zone>div.action>div.item input[type=text] { background-color:#ff000000; padding-left:10px; color:white; }
 
 fieldset.plugin { background-color:#061c3c9e; padding:10px; margin:10px; }
-fieldset.float { background-color:#0e3369; position:absolute; }
-/* fieldset.float { background-color:#0e3369b3; position:absolute; } */
-fieldset.full { background-color:#073947f2; padding:0; margin:0; left:0; top:0; overflow:auto; }
-fieldset.story>legend { margin:10px 0; }
-fieldset.plug>legend { float:left; margin-right:5px; }
-fieldset.float>legend { float:left; margin-right:5px; }
-body.white fieldset.float>div.status { color:white; }
-fieldset.plugin.float>div.status { display:none; }
-fieldset.full>legend { float:left; margin:0; margin-right:5px; }
-fieldset>form.option input[type=button][name=close]{ display:none; }
-fieldset.plugin div.status { border-top:1px solid darkcyan; }
-fieldset.story div.status { border-top:1px solid darkcyan; }
-fieldset.output>form.option { display:none; }
-fieldset.output>div.action { display:none; }
-fieldset.output div.status { display:none; }
-fieldset.output div.toggle { display:none; }
+fieldset.float { background-color:#0e3369; color:white; position:absolute; }
+fieldset.full { background-color:#0e3369; color:white; padding:0; margin:0; left:0; top:0; overflow:auto; }
 
+fieldset.story>legend { float:left; margin:0px; margin-right:5px; }
+fieldset.float>legend { float:left; margin-right:5px; }
+fieldset.full>legend { float:left; margin:0; margin-right:5px; }
+fieldset.plug>legend { float:left; margin-right:5px; }
+
+fieldset>form.option input[type=button][name=close]{ display:none; }
 fieldset.float>form.option input[type=button][name=close]{ display:block; }
 fieldset.full>form.option input[type=button][name=close]{ display:block; }
 fieldset.plug>form.option input[type=button][name=close]{ display:block; }
 
-fieldset.story>legend { float:left; margin:0px; margin-right:5px; }
+fieldset.plugin>div.status { border-top:1px solid darkcyan; }
+fieldset.story>div.status { border-top:1px solid darkcyan; }
+fieldset.output>form.option { display:none; }
+fieldset.output>div.action { display:none; }
+fieldset.output>div.status { display:none; }
+fieldset.output div.toggle { display:none; }
+
 fieldset.plugin.word fieldset.story { margin-top:10px; }
 fieldset.story.full { margin-top:0px; }
 
@@ -193,7 +190,8 @@ body.white table.content th { background-color:skyblue; }
 body.white fieldset.panel.Action { color:black; }
 body.white fieldset.panel.Action div.action { color:white; }
 body.white fieldset.plugin { background-color:#ffffffa1; }
-body.white fieldset.full { background-color:#cce0f4eb; color:white; }
+body.white fieldset.float { background-color:#0e3369; color:white; }
+body.white fieldset.full { background-color:#0e3369; color:white; }
 
 /* white hover */
 body.white legend:hover { background-color:skyblue; }
@@ -344,6 +342,4 @@ fieldset.plugin.location>div.action input[type=text] {
 	width:40px;
 }
 
-fieldset.xterm>div.action>div.tabs:hover { background-color:black; }
-fieldset.xterm>div.action>div.tabs.select { background-color:black; }
 fieldset.xterm div.toggle { display:none; }

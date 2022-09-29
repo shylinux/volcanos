@@ -36,7 +36,7 @@ Volcanos(chat.ONLAYOUT, {help: "界面布局",
 		can._current && can._current._fit.fit(), can.onexport.term(can)
 	},
 	cmd: function(can) { can._current && can.onimport._title(can, can._current._item.name), can.ConfWidth(can.ConfWidth()-10)
-		can.Option(mdb.HASH) && can.Option(mdb.HASH) == can.misc.Search(can, mdb.HASH)? can.sup.onaction.full({}, can.sup): can.onlayout._init(can)
+		// can.Option(mdb.HASH) && can.Option(mdb.HASH) == can.misc.Search(can, mdb.HASH)? can.sup.onaction.full({}, can.sup): can.onlayout._init(can)
 	},
 })
 Volcanos(chat.ONACTION, {help: "操作数据",

@@ -28,6 +28,7 @@ body.black fieldset.inner>div.output div.content td.text span.datatype { color:l
 body.black fieldset.inner>div.output div.content td.text span.function { color:cyan; font-weight:bold; }
 fieldset.inner>div.output td.content iframe { border:0; }
 fieldset.inner>div.output td.profile iframe { border:0; }
+fieldset.inner.float>div.status { display:none; }
 
 fieldset.inner>div.output td.content>div.tabs { display:none; }
 fieldset.inner>div.output td.content>div.path { display:none; }
@@ -59,6 +60,8 @@ fieldset.Action>div.status { display:none; }
 body.white fieldset.inner>div.output div.content { color:black; }
 body.white fieldset.inner.float>div.output div.content { color:white; }
 body.black fieldset.inner.float>div.output div.content { color:white; }
+body.white fieldset.inner.full>div.output div.content { color:white; }
+body.black fieldset.inner.full>div.output div.content { color:white; }
 
 /* body.white fieldset.inner.float>div.output div.profile { color:black; } */
 

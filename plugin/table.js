@@ -30,6 +30,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	title: function(can, title) {
 		can._legend.innerHTML = title, can.sup && can.sup._tabs && (can.sup._tabs.innerHTML = title)
 		can.sup && can.sup._header_tabs && (can.sup._header_tabs.innerHTML = title)
+		can.isCmdMode() && can.user.title(title)
 	},
 	zone: function(can, list, target) { var color = [""]
 		return can.page.Append(can, target, can.core.List(list, function(zone, index) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: html.ZONE+" "+zone.name, list: [
