@@ -173,6 +173,9 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 	},
 	go: {
 		render: {},
+		prefix: {
+			"//": code.COMMENT,
+		},
 		keyword: {
 			"package": code.KEYWORD,
 			"import": code.KEYWORD,
@@ -288,6 +291,8 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 			"location": code.KEYWORD,
 
 			"null": code.CONSTANT,
+			"true": code.CONSTANT,
+			"false": code.CONSTANT,
 
 			"function": code.FUNCTION,
 			"Volcanos": code.FUNCTION,

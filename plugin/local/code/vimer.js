@@ -144,6 +144,9 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 			ArrowDown: shy("光标下移", function(event, can) { can.onaction.selectLine(event, can, can.current.next()) }),
 			ArrowUp: shy("光标上移", function(event, can) { can.onaction.selectLine(event, can, can.current.prev()) }),
 
+			s: shy("保存文件", function(event, can) { can.onaction.save(event, can, nfs.SAVE) }),
+			c: shy("编译项目", function(event, can) { can.onaction.compile(event, can, code.COMPILE) }),
+			
 			".": shy("重复操作", function(event, can, target) { var cb = can.redo.pop(); cb && cb() }),
 			u: shy("撤销操作", function(event, can, target) { var cb = can.undo.pop(); cb && cb() }),
 			J: shy("合并两行", function(event, can, target) {
@@ -429,7 +432,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		})
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["文件数", "模式", "按键", "解析器", "文件名", "当前行", "跳转数"]})
+Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["文件数", "模式", "解析器", "文件名", "当前行", "跳转数"]})
 Volcanos(chat.ONPLUGIN, {help: "注册插件", 
 	"can.code.vimer.keymap": shy("按键", {}, ["mode", "key", ice.LIST, ice.BACK], function(can, msg, cmds) {
 		can.core.Item(can.onkeymap._mode, function(mode, value) {

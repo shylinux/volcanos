@@ -422,7 +422,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			case "full": // no break
 			default: can.onimport.project(can, paths)
 				can.onengine.listen(can, "tabview.view.init", function() { var p = can.onsyntax[can.parse]
-					p && p.render && can.onaction[cli.SHOW]({}, can); if (can.page.ClassList.has(can, can._fields, chat.PLUGIN)) {
+					can.Option(nfs.PATH).indexOf("src/") == 0 && p && p.render && can.onaction[cli.SHOW]({}, can); if (can.page.ClassList.has(can, can._fields, chat.PLUGIN)) {
 						p && p.engine && can.onaction[cli.EXEC]({}, can)
 					}
 				})
