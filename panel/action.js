@@ -20,6 +20,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
 			can.onmotion.select(can, can._header_tabs, html.DIV_TABS, sub._header_tabs)
 			can.onmotion.select(can, can._action, html.DIV_TABS, sub._tabs)
+			if (sub._delay_refresh) { sub._delay_refresh = false; var button = can.Conf(chat.LAYOUT)
+				sub.onaction._resize(sub, button == "" || button == ice.AUTO, can.ConfHeight(), can.ConfWidth())
+			}
 		}, onmouseenter: sub._legend.onmouseenter, ondblclick: sub._legend.onclick}]
 
 		sub._header_tabs = can.page.Append(can, can._header_tabs, tabs).first
@@ -206,6 +209,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, cb, target) 
 		can.core.Next(can._plugins, function(sub, next) { can.onmotion.delay(can, function() {
 			sub.onaction._resize(sub, button == "" || button == ice.AUTO, can.ConfHeight(), can.ConfWidth()), next()
 			if (button == "" || button == ice.AUTO) { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
+			sub._delay_refresh = true
 		}, 10) })
 	},
 	help: function(can, button) { can.user.open("/help/"+button+".shy") },
