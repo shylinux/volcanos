@@ -11,6 +11,7 @@ fieldset.Action.tabs>div.output>fieldset.plugin { display:none; }
 fieldset.Action.tabs>div.output>fieldset.plugin.select { display:block; }
 
 fieldset.Action.tabview>div.output { overflow:hidden; }
+fieldset.Action.tabview>div.output fieldset.plugin.iframe div.output{ overflow:hidden; }
 fieldset.Action.tabview>div.output>fieldset>legend { display:none; }
 fieldset.Action.tabview>div.output>fieldset.plugin { display:none; overflow:auto; margin:0; padding:0; }
 fieldset.Action.tabview>div.output>fieldset.plugin.select { display:block; }

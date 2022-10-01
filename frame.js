@@ -694,12 +694,14 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 		}
 		return status
 	},
-	select: function(can, target, name, which) {
-		var old = can.page.Select(can, target, name, function(item, index) {
-			if (can.page.ClassList.has(can, item, html.SELECT)) { return index }
+	select: function(can, target, name, which, cb) {
+		var old = can.page.Select(can, target, name, function(target, index) {
+			if (can.page.ClassList.has(can, target, html.SELECT)) { return index }
 		})[0]
-		can.page.Select(can, target, name, function(item, index) {
-			can.page.ClassList.set(can, item, html.SELECT, item == which || which == index)
+		can.page.Select(can, target, name, function(target, index) {
+			if (can.page.ClassList.set(can, target, html.SELECT, target == which || which == index)) {
+				can.base.isFunc(cb) && cb(target)
+			}
 		})
 		return old
 	},

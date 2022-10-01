@@ -8,7 +8,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 			})
 		})
 	},
-	_plugin: function(can, river, storm, sub, meta) { sub._target._meta = meta
+	_plugin: function(can, river, storm, sub, meta) { sub._target._meta = meta, sub._target._plugin = sub
 		meta.id && (sub._option.dataset = sub._option.dataset||{}, sub._option.dataset.id = meta.id)
 		can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth())
 
@@ -209,7 +209,6 @@ Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, cb, target) 
 		can.core.Next(can._plugins, function(sub, next) { can.onmotion.delay(can, function() {
 			sub.onaction._resize(sub, button == "" || button == ice.AUTO, can.ConfHeight(), can.ConfWidth()), next()
 			if (button == "" || button == ice.AUTO) { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
-			sub._delay_refresh = true
 		}, 10) })
 	},
 	help: function(can, button) { can.user.open("/help/"+button+".shy") },
@@ -222,12 +221,20 @@ Volcanos(chat.ONLAYOUT, {help: "界面布局",
 		if (can.page.Select(can, can._output, "fieldset.plugin.select").length > 0) { return }
 		can.onmotion.select(can, can._action, html.DIV_TABS, 0), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)
 	},
-	tabview: function(can) {
-		can.onmotion.toggle(can, can._header_tabs, true)
+	tabview: function(can) { can.onmotion.toggle(can, can._header_tabs, true)
 		can.onmotion.hidden(can, can._root.River._target), can.onmotion.hidden(can, can._root.Footer._target), can.onlayout._init(can)
 		can.getActionSize(function(height, width) { can.ConfHeight(height-html.ACTION_HEIGHT), can.ConfWidth(width) })
-		if (can.page.Select(can, can._output, "fieldset.plugin.select").length > 0) { return }
-		can.onmotion.select(can, can._header_tabs, html.DIV_TABS, 0), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)
+
+		can.core.List(can._plugins, function(sub) { sub._delay_refresh = true })
+		if (can.page.Select(can, can._output, "fieldset.plugin.select", function(target) {
+			target._plugin._header_tabs.click()
+			return target
+		}).length == 0) {
+			can.onmotion.select(can, can._header_tabs, html.DIV_TABS, 0, function(target) {
+				target.click()
+			}), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, 0)
+		}
+		return true
 	},
 	horizon: function(can) {
 		can.onmotion.hidden(can, can._root.River._target), can.onmotion.hidden(can, can._root.Footer._target), can.onlayout._init(can)

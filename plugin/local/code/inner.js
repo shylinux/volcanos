@@ -314,6 +314,8 @@ Volcanos(chat.ONACTION, {help: "控件交互", _trans: {link: "链接", width: "
 		})
 	},
 	"打开": function(event, can) {
+		can.request()
+		can.request(event, {path: can.sup.paths.join(",")})
 		can.user.input(event, can, [nfs.FILE], function(list) { can.onimport.tabview(can, can.Option(nfs.PATH), list[0]) })
 	},
 	show: function(event, can) { can.request(event, {_toast: "渲染中..."})
