@@ -117,6 +117,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 			t: shy("添加命令", function(event, can) { can.onaction["添加"](event, can) }),
 			p: shy("添加插件", function(event, can) { can.onaction["插件"](event, can) }),
 			e: shy("添加扩展", function(event, can) { can.onaction["扩展"](event, can) }),
+			f: shy("打开文件", function(event, can) { can.onaction["打开"](event, can) }),
 
 			i: shy("插入模式", function(event, can) { can.onkeymap._insert(event, can) }),
 			n: shy("命令模式", function(event, can) { can.onkeymap._normal(event, can) }),

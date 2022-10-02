@@ -23,7 +23,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
 			cli.SHOW, function(event) { can.onaction[cli.SHOW](event, can) },
 			action,
-			mdb.PLUGIN, function(event) { can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) { can.onimport.plug(can, data, ui.output) }) },
+			mdb.PLUGIN, function(event) { can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) {
+				can.onimport.plug(can, data, ui.output, function(sub) {
+					sub.ConfHeight(target.offsetHeight-4*html.ACTION_HEIGHT)
+				})
+			}) },
 		)); target._toggle = function(event, show) { action[show? cli.SHOW: cli.CLOSE](event) }
 		return ui
 	},
@@ -69,7 +73,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		node = node||{"": target}; can.core.List(list, function(item) {
 			item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }
 				var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split); if (node[name]) { return }
-				var ui = can.page.Append(can, node[last], [{view: "item", list: [{view: ["switch", "div", (index==array.length-1?"":"&#8963;")]}, {view: ["name", html.DIV, value+(index==array.length-1?"":"")], _init: item._init, onmouseenter: function(event) { if (!item._menu) { return }
+				var ui = can.page.Append(can, node[last], [{view: "item", list: [{view: ["switch", "div", (index==array.length-1?"":"⌃")]}, {view: ["name", html.DIV, value+(index==array.length-1?"":"")], _init: item._init, onmouseenter: function(event) { if (!item._menu) { return }
 					can.user.carteRight(event, can, item._menu.meta, item._menu.list||can.core.Item(item._meta.meta), function(event, button) {
 						(item._menu.meta[button]||item._menu)(event, can, button)
 					})

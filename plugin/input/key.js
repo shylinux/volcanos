@@ -4,6 +4,15 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 			can.onfigure.key._show(can, msg, cbs, target, name)
 		})
 	},
+	_select: function(event, can, target) {
+		if (event.ctrlKey) { var sub = target._can
+			if (event.key <= "9" && event.key >= "0") { 
+				can.page.Select(can, sub._output, "tr:not(.hidden) td:first-child", function(td, index) {
+					if (index+1 == event.key) { target.value = td.innerText }
+				}); return true
+			}
+		} return false
+	},
 	_show: function(can, msg, cbs, target, name) {
 		if (!can.onmotion.toggle(can, can._target, msg.Length() != 0)) { return }
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, line) { value = line[key]
@@ -46,6 +55,7 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 		can.onfigure.key._make(event, can, meta, cb, target)
 	},
 	onkeyup: function(event, can, meta, cb, target, last) { var sub = target._can; if (!sub) { return }
+		if (can.onfigure.key._select(event, can, target)) { return }
 		switch (event.key) {
 			case ice.PS: can.onfigure.key._init(event, sub, sub._cbs, target, meta.name, event.target.value); break
 		}

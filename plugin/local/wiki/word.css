@@ -19,6 +19,7 @@ fieldset.word p.story[data-name=inner]:hover { background-color:#c10c8a; cursor:
 fieldset.word table.content { display:block; max-height:400px; }
 fieldset.word fieldset.story { margin:10px; }
 fieldset.word fieldset.story.full { margin:0px; }
+fieldset.word fieldset.story.float { margin:0px; }
 
 body.white fieldset.word svg.story.auto defs marker { stroke:red; fill:red; }
 body.white fieldset.word svg.story.auto rect { stroke:blue; fill:yellow; }

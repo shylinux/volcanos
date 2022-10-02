@@ -220,7 +220,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 					can.onmotion.delay(can, function() { can.Update() })
 				})
 			})
-		}; can.core.Next(can.base.getValid(can.core.Value(can, [chat.ONIMPORT, mdb.LIST]), can.base.Obj(meta.inputs)).concat([{type: html.BUTTON, name: cli.CLOSE}]), add)
+		}; can.core.Next(can.base.getValid(can.core.Value(can, [chat.ONIMPORT, mdb.LIST]), can.base.Obj(meta.inputs, [])).concat([{type: html.BUTTON, name: cli.CLOSE}]), add)
 	},
 	_action: function(can, list, action, meta) { list = can.base.Obj(can.base.getValid(list, can.core.Item(meta)), can.core.Value(can, [chat.ONACTION, mdb.LIST])); if (!list) { return }
 		var _list = can.page.inputs(can, list); action = action||can._action, can.onmotion.clear(can, action), meta = meta||can.onaction||{}
@@ -577,8 +577,8 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 			return show
 		}
 
-		// var gt = "&#10095;", lt = "&#10094;", down = "&#709;", up = "&#708;"
-		var gt = "&#10095;", lt = "&#10094;", down = lt, up = gt
+		// var gt = "❯", lt = "❮", down = "˅", up = "˄"
+		var gt = "❯", lt = "❮", down = lt, up = gt
 		var ui = can.page.Append(can, target, [{view: [chat.LAYOUT, html.TABLE], list: [
 			{view: [chat.PROJECT, html.TD], list: [{view: [chat.PROJECT]}]},
 			{type: html.TD, list: [
@@ -663,7 +663,8 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 			if (pos) { item.scrollTo && item.scrollTo(0, pos-1); return item }
 		}).length > 0
 	},
-	delay: function(can, cb, interval) { can.core.Timer(interval||300, cb) },
+	delay: function(can, cb, interval) { can.core.Timer(interval||30, cb) },
+	delayLong: function(can, cb, interval) { can.core.Timer(interval||300, cb) },
 	focus: function(can, target) { if (!target) { return }
 		target.setSelectionRange && target.setSelectionRange(0, -1), target.focus()
 	},

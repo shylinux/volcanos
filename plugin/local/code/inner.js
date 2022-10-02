@@ -30,6 +30,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 				})
 				can.onexport.hash(can), can.onimport.layout(can), can.base.isFunc(cb) && cb(), cb = null
 				msg._plugin && can.onmotion.delay(can, function() { msg._plugin.Focus() })
+				can.onmotion.select(can, msg._tab.parentNode, "div.tabs", msg._tab)
 				can.onengine.signal(can, "tabview.view.show", msg)
 			})
 		}
@@ -84,11 +85,12 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 			can.page.style(can, can.ui.profile, {display: p? p.profile_display: html.NONE})
 			can.page.style(can, can.ui.display, {display: p? p.display_display: html.NONE})
 			can.parse = can.base.Ext(can.file), can.Status("模式", "plugin")
-			can.onengine.signal(can, "tabview.data.load", msg)
+			p && p.scrollTop && can.ui.content.scrollTo(0, p.scrollTop)
 			return can.file
 
 		}, can.ui._content, can.ui._profile_output, can.ui.display_output)) {
-			can.onengine.signal(can, "tabview.view.load", msg)
+			// can.onengine.signal(can, "tabview.view.load", msg)
+			// var scrollTop = can.ui.content.scrollTop; can.onmotion.delay(can, function() { can.ui.content.scrollTo(0, scrollTop) }, 10)
 			return can.onaction.selectLine(null, can, can.Option(nfs.LINE)), can.base.isFunc(cb) && cb(msg._content)
 		}
 
@@ -280,6 +282,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 				var width = can.profile_size[can.onexport.keys(can)]||(can.ConfWidth()-can.ui.project.offsetWidth)/2
 				can.ui.profile_output = sup._profile_output = can.ui._profile_output
 				can.onimport.process(can, msg, can.ui._profile_output, width, can.ui.profile.offsetHeight)
+				can.page.Select(can, can.ui._profile_output, html.TABLE, function(target) { can.onmotion.delay(can, function() {
+					if (target.offsetWidth < can.ui._profile_output.offsetWidth) {
+						can.profile_size[can.onexport.keys(can)] = target.offsetWidth, can.onimport.layout(can)
+					}
+				}, 10) })
 				can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.page.Append(can, can.ui._profile_output, [html.STATUS]).first)
 				can.page.Select(can, can.ui._profile_output, "table.content", function(target) { can.page.style(can, target, html.MAX_HEIGHT, "1000px") })
 			}
@@ -288,22 +295,34 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 		can.onmotion.toggle(can, can.ui.profile, true), can.onimport.layout(can)
 	},
 	display: function(can, msg) {
-		var height = can.display_size[can.onexport.keys(can)]||{sh: can.ConfHeight()/2}[can.parse]||can.ConfHeight()/4
+		var height = can.display_size[can.onexport.keys(can)]||{sh: can.ConfHeight()/2}[can.parse]||can.ConfHeight()/2
 		if (msg) {
 			can.onimport.process(can, msg, can.ui.display_output, can.ui.display.offsetWidth, height)
 			can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.ui.display_status)
+				can.onmotion.delay(can, function() {
+				can.page.Select(can, can.ui.display_output, html.TABLE, function(target) {
+					if (target.offsetHeight < can.ui.display_output.offsetHeight-3*html.ACTION_HEIGHT) {
+						can.display_size[can.onexport.keys(can)] = target.offsetHeight-3*html.ACTION_HEIGHT, can.onimport.layout(can)
+					}
+				})
+				})
 		}
 		can.onmotion.toggle(can, can.ui.display, true), can.onimport.layout(can)
 	},
 	process: function(can, msg, target, width, height) { can.onmotion.clear(can, target), can.user.toastSuccess(can)
 		if (msg.Option(ice.MSG_PROCESS) == "_field") {
 			msg.Table(function(item) { item.display = msg.Option(ice.MSG_DISPLAY)
-				can.onimport.plug(can, item, target, function(sub) { width && sub.ConfWidth(width), height && sub.ConfHeight(height), sub.Focus() })
+				can.onimport.plug(can, item, target, function(sub) { width && sub.ConfWidth(width)
+				, height && sub.ConfHeight(height-3*html.ACTION_HEIGHT), sub.Focus() })
 			})
 		} else if (msg.Option(ice.MSG_DISPLAY) != "") {
 			can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY), target, false, function(msg) { can.onmotion.delay(can, function() { can.onimport.layout(can) }) })
 		} else {
-			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target)
+			can.onappend.table(can, msg, function(value, key, index, line, array) {
+				return {text: [value, html.TD], onclick: function(event) {
+					if (line.line || line.file) { can.onimport.tabview(can, line.path||can.Option(nfs.PATH), line.file||can.Option(nfs.FILE), line.line||can.Option(nfs.LINE)) }
+				}}
+			}, target), can.onappend.board(can, msg, target)
 		}
 	},
 }, [""])
@@ -313,10 +332,16 @@ Volcanos(chat.ONACTION, {help: "控件交互", _trans: {link: "链接", width: "
 			can.ui.search.Update({}, [ctx.ACTION, data.action, data.name])
 		})
 	},
-	"打开": function(event, can) {
-		can.request()
-		can.request(event, {path: can.sup.paths.join(",")})
-		can.user.input(event, can, [nfs.FILE], function(list) { can.onimport.tabview(can, can.Option(nfs.PATH), list[0]) })
+	"打开": function(event, can) { var msg = can.request(event, {paths: can.sup.paths.join(ice.FS)})
+		can.user.input(event, can, [nfs.FILE], function(list) {
+			if (list[0].indexOf("line:") == 0) { var ls = can.core.Split(list[0], ice.DF, ice.DF)
+				can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), ls[1])
+				return
+			}
+			can.core.List(can.sup.paths, function(path) {
+				if (list[0].indexOf(path) == 0) { can.onimport.tabview(can, path, list[0].slice(path.length)) }
+			})
+		})
 	},
 	show: function(event, can) { can.request(event, {_toast: "渲染中..."})
 		if (can.base.endWith(can.Option(nfs.FILE), ".js")) {
@@ -464,8 +489,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.page.styleWidth(can, can.ui.display_output, width-project_width)
 
 		var height = can.user.isMobile && can.isFloatMode()? window.innerHeight-2*html.ACTION_HEIGHT: can.base.Min(can.ConfHeight(), 320)-1
-		var display_height = can.ui.display.style.display == html.NONE? 0: (can.display_size[can.onexport.keys(can)]||120)
-		if (can.isCmdMode()) { height += html.ACTION_HEIGHT
+		var display_height = can.ui.display.style.display == html.NONE? 0: (can.display_size[can.onexport.keys(can)]||height/2)
+		if (can.isCmdMode()) { // height += html.ACTION_HEIGHT
 			var content_height = height-display_height - can.ui._tabs.offsetHeight - can.ui._path.offsetHeight - 4
 			can.page.style(can, can._output, html.MAX_HEIGHT, "")
 		} else {
