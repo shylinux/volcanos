@@ -392,7 +392,8 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	},
 	_selectLine: function(event, can) { if (!can.current) { return }
 		can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
-			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.WIDTH, can.ui.content.style.width)
+			can.current.line.appendChild(target), can.page.style(can, target,
+				html.LEFT, td.offsetLeft-1, html.WIDTH, can.base.Max(can.ui.content.style.width, td.offsetWidth))
 			if (event && event.type) {
 				if (event.type == "click" && can.mode != "insert") { can.onkeymap._insert(event, can)
 					can.onmotion.delay(can, function() { can.onaction._complete(event, can) })
@@ -435,7 +436,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["文件数", "模式", "解析器", "文件名", "当前行", "跳转数"]})
 Volcanos(chat.ONPLUGIN, {help: "注册插件", 
-	"can.code.vimer.keymap": shy("按键", {}, ["mode", "key", ice.LIST, ice.BACK], function(can, msg, cmds) {
+	"code.vimer.keymap": shy("按键", {}, ["mode", "key", ice.LIST, ice.BACK], function(can, msg, cmds) {
 		can.core.Item(can.onkeymap._mode, function(mode, value) {
 			(!cmds[0] || cmds[0] == mode) && can.core.Item(value, function(key, func) {
 				if (cmds[0] == mode && cmds[1] == key) {
