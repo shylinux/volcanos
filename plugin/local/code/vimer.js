@@ -47,7 +47,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 		}, true) }
 
 		if (path.length == 1) { return show(path[0], target) }
-		can.onmotion.delay(can, function() { can.onmotion.hidden(can, target.previousSibling) })
+		can.onmotion.delay(can, function() { can.page.Remove(can, target.previousSibling) })
 		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(path, target) }} }), target)
 	},
 	website: function(can, target, zone) {

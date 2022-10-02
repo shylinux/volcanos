@@ -18,38 +18,37 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 			can.Option(can.onimport.history(can, {path: path, file: file, line: line||can._msg.Option(nfs.LINE)||1}))
 			if (isCommand()||isDream()) { can._msg.Option(ctx.INDEX, file) }
 			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg
+				can.onexport.hash(can), msg._tab && can.onmotion.select(can, msg._tab.parentNode, html.DIV_TABS, msg._tab)
 				can.ui._path && (can.ui._path.innerHTML = isDream()? can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)})):
 					isCommand()? can.Option(nfs.FILE): can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE)))
 				can.ui.current && can.onmotion.toggle(can, can.ui.current, !isCommand() && !isDream())
 
 				can.page.Select(can, can.ui._content.parentNode, can.page.Keys(html.DIV_CONTENT, html.IFRAME), function(item) {
 					if (can.onmotion.toggle(can, item, item == msg._content)) { can.ui.content = msg._content }
-				}), can.ui.content._plugin = msg._plugin
+				}), can.ui.content._plugin = msg._plugin, msg._plugin && can.onmotion.delay(can, function() { msg._plugin.Focus() })
+				
 				can.page.Select(can, can.ui._profile_output.parentNode, can.page.Keys(html.DIV_OUTPUT, html.IFRAME), function(item) {
 					if (can.onmotion.toggle(can, item, item == msg._profile_output)) { can.ui.profile_output = msg._profile_output }
 				})
-				can.onexport.hash(can), can.onimport.layout(can), can.base.isFunc(cb) && cb(), cb = null
-				msg._plugin && can.onmotion.delay(can, function() { msg._plugin.Focus() })
-				can.onmotion.select(can, msg._tab.parentNode, "div.tabs", msg._tab)
+				can.onimport.layout(can), can.base.isFunc(cb) && cb(), cb = null
 				can.onengine.signal(can, "tabview.view.show", msg)
 			})
 		}
 		function load(msg) { can.tabview[key] = msg
 			can.onimport.tabs(can, [{name: file.split(isCommand()? ice.PT: ice.PS).pop(), text: file}], function(event) {
 				can._tab = msg._tab = event.target, show()
-			}, function(item) { delete(can.tabview[key])
+			}, function(item) { var keys = can.base.Path(path.file)
 				can.onengine.signal(can, "tabview.view.delete", msg)
-				delete(can._cache_data[can.base.Path(path, file)])
-				delete(can.ui._content._cache[can.base.Path(path, file)])
-				delete(can.ui._profile_output._cache[can.base.Path(path, file)])
-				delete(can.ui.display_output._cache[can.base.Path(path, file)])
+				delete(can.tabview[key])
+				delete(can._cache_data[keys])
+				delete(can.ui._content._cache[keys])
+				delete(can.ui._profile_output._cache[keys])
+				delete(can.ui.display_output._cache[keys])
 				msg._content != can.ui._content && can.page.Remove(can, msg._content)
 			}, can.ui._tabs)
 		}
 
-		if (can.tabview[key]) {
-			return can.isCmdMode() && !can._msg._tab? load(can.tabview[key]): show()
-		}
+		if (can.tabview[key]) { return can.isCmdMode() && !can._msg._tab? load(can.tabview[key]): show() }
 		isCommand()||isDream()? load(can.request({}, {index: file, line: line})): can.run({}, [path, file], load, true)
 	},
 	history: function(can, push) {
@@ -66,7 +65,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 		}, true) }
 
 		if (path.length == 1) { return show(path[0], target) }
-		can.onmotion.delay(can, function() { target.previousSibling.innerHTML = "" })
+		can.onmotion.delay(can, function() { can.page.Remove(can, target.previousSibling) })
 		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(path, target) }} }), target)
 	},
 	plugin: function(can, target, zone) { var total = 0
@@ -81,16 +80,14 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 				profile_display: can.ui.profile.style.display, display_display: can.ui.display.style.display,
 			})
 			can.file = can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE))
-			var p = cache_data[can.file]; p && (can.current = p.current, can.max = p.max)
-			can.page.style(can, can.ui.profile, {display: p? p.profile_display: html.NONE})
-			can.page.style(can, can.ui.display, {display: p? p.display_display: html.NONE})
+			var p = cache_data[can.file]; if (p) { can.current = p.current, can.max = p.max }
+			can.page.style(can, can.ui.profile, html.DISPLAY, p? p.profile_display: html.NONE)
+			can.page.style(can, can.ui.display, html.DISPLAY, p? p.display_display: html.NONE)
 			can.parse = can.base.Ext(can.file), can.Status("模式", "plugin")
-			p && p.scrollTop && can.ui.content.scrollTo(0, p.scrollTop)
 			return can.file
 
 		}, can.ui._content, can.ui._profile_output, can.ui.display_output)) {
-			// can.onengine.signal(can, "tabview.view.load", msg)
-			// var scrollTop = can.ui.content.scrollTop; can.onmotion.delay(can, function() { can.ui.content.scrollTo(0, scrollTop) }, 10)
+			can.onengine.signal(can, "tabview.view.load", msg)
 			return can.onaction.selectLine(null, can, can.Option(nfs.LINE)), can.base.isFunc(cb) && cb(msg._content)
 		}
 
@@ -103,7 +100,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 		}
 		can.require(["inner/syntax.js"], function() { can.Conf("plug") && (can.onsyntax[can.parse] = can.Conf("plug"))
 			var p = can.onsyntax[can.parse]; !p? can.runAction({}, mdb.PLUGIN, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
-				init(p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()))
+				init(p = can.onsyntax[can.parse] = can.base.Obj(msg.Result()||"{}"))
 			}): init(p)
 		})
 	},
@@ -114,8 +111,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 		}
 
 		return can.onimport.plug(can, {index: msg.Option(ctx.INDEX), args: can.Option(nfs.PATH) == ctx.COMMAND && can.Option(nfs.LINE) != ctx.INDEX? [can.Option(nfs.LINE)]: []}, can.ui._content, function(sub) {
-			can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(can.ui.content.offsetHeight-2*html.ACTION_HEIGHT))
-			can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth(can.ui.content.offsetWidth))
+			sub.onimport.size(sub, sub.ConfHeight(can.ui.content.offsetHeight-2*html.ACTION_HEIGHT), sub.ConfWidth(can.ui.content.offsetWidth), true)
 			msg._plugin = sub, can.base.isFunc(cb) && cb(msg._content = can.ui._content)
 			can.onmotion.delay(can, function() { sub.Focus() })
 
