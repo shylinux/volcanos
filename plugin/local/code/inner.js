@@ -13,7 +13,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 		function isCommand() { return path == ctx.COMMAND || line == ctx.INDEX }
 		function isDream() { return line == web.DREAM }
 
-		function show() { if (can.isCmdMode()) { can.onimport._title(can, path+file) }
+		function show(skip) { if (can.isCmdMode()) { can.onimport._title(can, path+file) }
 			can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.tabview[key]
 			can.Option(can.onimport.history(can, {path: path, file: file, line: line||can._msg.Option(nfs.LINE)||1}))
 			if (isCommand()||isDream()) { can._msg.Option(ctx.INDEX, file) }
@@ -26,24 +26,22 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 				can.page.Select(can, can.ui._content.parentNode, can.page.Keys(html.DIV_CONTENT, html.IFRAME), function(item) {
 					if (can.onmotion.toggle(can, item, item == msg._content)) { can.ui.content = msg._content }
 				}), can.ui.content._plugin = msg._plugin, msg._plugin && can.onmotion.delay(can, function() { msg._plugin.Focus() })
-				
+
 				can.page.Select(can, can.ui._profile_output.parentNode, can.page.Keys(html.DIV_OUTPUT, html.IFRAME), function(item) {
 					if (can.onmotion.toggle(can, item, item == msg._profile_output)) { can.ui.profile_output = msg._profile_output }
 				})
-				can.onimport.layout(can), can.base.isFunc(cb) && cb(), cb = null
+				
+				skip || can.onaction.selectLine(null, can, can.Option(nfs.LINE)), can.onimport.layout(can)
 				can.onengine.signal(can, "tabview.view.show", msg)
+				can.base.isFunc(cb) && cb(), cb = null
 			})
 		}
 		function load(msg) { can.tabview[key] = msg
 			can.onimport.tabs(can, [{name: file.split(isCommand()? ice.PT: ice.PS).pop(), text: file}], function(event) {
-				can._tab = msg._tab = event.target, show()
-			}, function(item) { var keys = can.base.Path(path.file)
-				can.onengine.signal(can, "tabview.view.delete", msg)
-				delete(can.tabview[key])
-				delete(can._cache_data[keys])
-				delete(can.ui._content._cache[keys])
-				delete(can.ui._profile_output._cache[keys])
-				delete(can.ui.display_output._cache[keys])
+				can._tab = msg._tab = event.target, show(true)
+			}, function(item) { can.onengine.signal(can, "tabview.view.delete", msg)
+				delete(can.tabview[key]), delete(can._cache_data[key]), delete(can.ui._content._cache[key])
+				delete(can.ui._profile_output._cache[key]), delete(can.ui.display_output._cache[key])
 				msg._content != can.ui._content && can.page.Remove(can, msg._content)
 			}, can.ui._tabs)
 		}
@@ -79,7 +77,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 			can.file && (cache_data[can.file] = {current: can.current, max: can.max,
 				profile_display: can.ui.profile.style.display, display_display: can.ui.display.style.display,
 			})
-			can.file = can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE))
+			can.file = can.onexport.keys(can, can.Option(nfs.PATH), can.Option(nfs.FILE))
 			var p = cache_data[can.file]; if (p) { can.current = p.current, can.max = p.max }
 			can.page.style(can, can.ui.profile, html.DISPLAY, p? p.profile_display: html.NONE)
 			can.page.style(can, can.ui.display, html.DISPLAY, p? p.display_display: html.NONE)
@@ -88,7 +86,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 
 		}, can.ui._content, can.ui._profile_output, can.ui.display_output)) {
 			can.onengine.signal(can, "tabview.view.load", msg)
-			return can.onaction.selectLine(null, can, can.Option(nfs.LINE)), can.base.isFunc(cb) && cb(msg._content)
+			return can.base.isFunc(cb) && cb(msg._content)
 		}
 
 		if (msg.Option(ctx.INDEX)) { return can.onsyntax._index(can, msg, cb) }

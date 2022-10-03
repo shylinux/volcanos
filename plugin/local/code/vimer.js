@@ -154,7 +154,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 				var next = can.current.next(); if (!next) { return }
 				var line = can.current.line, text = can.current.text()
 				var rest = can.page.Select(can, next, "td.text")[0].innerText
-				can.current.text(text.trimRight()+ice.SP+rest.trimLeft()), can.onaction.deleteLine(can, next)
+				can.ui.current.value = can.current.text(text.trimRight()+ice.SP+rest.trimLeft()), can.onaction.deleteLine(can, next)
 				can.undo.push(function() { can.onaction.modifyLine(can, line, text), can.onaction.insertLine(can, rest, line.nextSibling) })
 			}),
 
