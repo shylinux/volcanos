@@ -39,7 +39,7 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 	onclick: function(event, can, meta, cb, target) {
 		target._can && target._can.close()
 		can.onfigure.key._make(event, can, meta, cb, target)
-		can.onmotion.focus(can, target)
+		// can.onmotion.focus(can, target)
 	},
 	onfocus: function(event, can, meta, cb, target, last) {
 		can.onfigure.key._make(event, can, meta, cb, target)
