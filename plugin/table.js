@@ -63,7 +63,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				}}], target, {})
 			}},
 			{view: html.LIST, _init: function(target) { can.ui[zone.name] = zone
-				zone._total = function(total) { can.page.Modify(can, zone._search, {placeholder: "search in "+total+" item"}) }
+				zone._total = function(total) { return can.page.Modify(can, zone._search, {placeholder: "search in "+total+" item"}), total }
 				zone._target = target, zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target, zone) }
 				can.base.isFunc(zone._init) && (zone._menu = zone._init(target, zone)||zone._menu)
 			}}

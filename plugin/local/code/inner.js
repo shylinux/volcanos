@@ -33,7 +33,6 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 				var ls = can.file.split(ice.PS); if (ls.length > 4) { ls = [ls.slice(0, 2).join(ice.PS)+"/.../"+ls.slice(-2).join(ice.PS)] }
 				can.Status(kit.Dict("文件名", ls.join(ice.PS), "解析器", can.parse)), can.onimport.layout(can)
 				skip || can.onaction.selectLine(can, can.Option(nfs.LINE))
-				can.onengine.signal(can, "tabview.view.show", msg)
 				can.base.isFunc(cb) && cb(), cb = null
 			})
 		}
@@ -59,7 +58,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 	source: function(can, target, zone, path) { var total = 0
 		function show(target, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
 			can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target)
-			can.Status("文件数", total += msg.Length()), zone._total(total)
+			can.Status("文件数", zone._total(total += msg.Length()))
 		}, true) }
 
 		if (path.length == 1) { return show(target, path[0]) } can.page.Remove(can, target.previousSibling)
@@ -150,7 +149,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			}, ondblclick: function(event) {
 				can.onaction.favorLine(event, can, ui.text.innerText)
 			}},
-			{view: [html.TEXT, html.TD], inner: can.onsyntax._parse(can, value), onclick: function(event) {
+			{view: [html.TEXT, html.TD, can.onsyntax._parse(can, value)], onclick: function(event) {
 				can.onaction.selectLine(can, ui.tr)
 			}, ondblclick: function(event) {
 				var s = document.getSelection().toString(), str = ui.text.innerText, begin = str.indexOf(s), end = begin+s.length
@@ -174,11 +173,9 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 				}, prev: function() { return line.previousSibling }, next: function() { return line.nextSibling },
 				line: line, text: function(text) { return text != undefined && can.onaction.modifyLine(can, line, text), item.innerText },
 			}
-
 			var scroll = can.current.scroll(); if (scroll < 3) { can.current.scroll(scroll-3) } else {
 				var window = can.current.window(); if (scroll > window-4) { can.current.scroll(scroll-window+4) }
 			}
-
 			can.onimport.history(can, {path: can.Option(nfs.PATH), file: can.Option(nfs.FILE), line: can.Option(nfs.LINE)})
 			can.onexport.hash(can), can.onengine.signal(can, "tabview.line.select")
 		}); return parseInt(can.page.Select(can, line, "td.line")[0].innerText)
@@ -248,9 +245,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 			can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.page.Append(can, can.ui._profile_output, [html.STATUS]).first)
 			can.page.Select(can, can.ui._profile_output, html.TABLE, function(target) { can.onmotion.delay(can, function() {
 				if (target.offsetWidth < can.ui._profile_output.offsetWidth) { can.profile_size[can.onexport.keys(can)] = target.offsetWidth, can.onimport.layout(can) }
-			}) }), can.page.Select(can, can.ui._profile_output, "table.content", function(target) { can.page.style(can, target, html.MAX_HEIGHT, "1000px") })
+			}) })
 		}
-		can.onmotion.toggle(can, can.ui.profile_output, true)
 		can.onmotion.toggle(can, can.ui.profile, true), can.onimport.layout(can)
 	},
 	display: function(can, msg) {
