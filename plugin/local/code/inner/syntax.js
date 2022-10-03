@@ -262,7 +262,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 	js: {
 		render: {},
 		split: {
-			operator: "{[(.,:;!|<*>)]}",
+			operator: "{[(.,:;!?|<*>)]}",
 		},
 		prefix: {
 			"// ": code.COMMENT,
@@ -277,6 +277,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 			"else": code.KEYWORD,
 			"for": code.KEYWORD,
 			"while": code.KEYWORD,
+			"break": code.KEYWORD,
 			"switch": code.KEYWORD,
 			"case": code.KEYWORD,
 			"default": code.KEYWORD,

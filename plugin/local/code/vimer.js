@@ -38,7 +38,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 		}
 	},
 	source: function(can, target, zone, path) { var total = 0
-		function show(path, target) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
+		function show(target, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
 			can.core.List(list, function(item) { if (can.Option(nfs.FILE).indexOf(item.path) == 0) { item.expand = true }
 				item._menu = shy({trash: function(event) { can.onaction._run(event, can, nfs.TRASH, [can.base.Path(path, item.path)]) }})
 			})
@@ -46,9 +46,8 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 			can.Status("文件数", total += msg.Length()), zone._total(total)
 		}, true) }
 
-		if (path.length == 1) { return show(path[0], target) }
-		can.onmotion.delay(can, function() { can.page.Remove(can, target.previousSibling) })
-		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(path, target) }} }), target)
+		if (path.length == 1) { return show(target, path[0]) } can.page.Remove(can, target.previousSibling)
+		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(target, path) }} }), target)
 	},
 	website: function(can, target, zone) {
 		can.run(can.request({}, {dir_root: "src/website/", dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()

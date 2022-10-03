@@ -23,7 +23,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) {
 
 						line.line && can.onimport.tabview(can, line.path, line.file.replace(ice.PWD, ""), parseInt(line.line))
 					}}
-				}, sub._output), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS)), can.Status("标签数", msg.Length())
+				}, sub._output), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS))
 			})
 		}, can.base.isFunc(cb) && cb(sub)
 	})

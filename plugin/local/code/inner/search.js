@@ -5,7 +5,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) { 
 			return {text: ["", html.TD], list: [{text: [can.page.replace(can, value, ice.PWD, ""), html.DIV]}], onclick: function(event) {
 				line.line && can.onimport.tabview(can, line.path||can.Option(nfs.PATH), line.file.replace(ice.PWD, ""), parseInt(line.line))
 			}}
-		}, sub._output), sub.onappend.board(sub, msg.Result()), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS)), can.Status("标签数", msg.Length())
+		}, sub._output), sub.onappend.board(sub, msg.Result()), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS))
 	}
 	can.onengine.plugin(can, SEARCH, shy("搜索", {}, [
 		{type: html.TEXT, name: "word", value: cli.MAIN, onkeydown: function(event, can) {
