@@ -38,6 +38,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 	_cmd: function(can, item, next) { can.onengine.signal(can, chat.ONACTION_CMD)
 		can.onappend.plugin(can, can.base.Copy(item, {mode: "cmd", opts: can.misc.Search(can)}), function(sub, meta, skip) {
 			sub.run = function(event, cmds, cb) { can.runActionCommand(event, sub._index, cmds, cb) }
+			can._plugins = can.misc.concat(can, can._plugins, [sub])
 			can.user.title(meta.name), skip || next()
 		})
 	},

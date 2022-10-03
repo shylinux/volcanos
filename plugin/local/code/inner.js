@@ -32,8 +32,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 				
 				var ls = can.file.split(ice.PS); if (ls.length > 4) { ls = [ls.slice(0, 2).join(ice.PS)+"/.../"+ls.slice(-2).join(ice.PS)] }
 				can.Status(kit.Dict("文件名", ls.join(ice.PS), "解析器", can.parse)), can.onimport.layout(can)
-				skip || can.onaction.selectLine(can, can.Option(nfs.LINE))
-				can.base.isFunc(cb) && cb(), cb = null
+				skip || can.onaction.selectLine(can, can.Option(nfs.LINE)), can.base.isFunc(cb) && cb(), cb = null
 			})
 		}
 		function load(msg) { can.tabview[key] = msg
@@ -65,7 +64,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(target, path) }} }), target)
 	},
 	plugin: function(can, target, zone) { var total = 0
-		can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return total++, {index: can.base.trimPrefix(key, "can.")} }), ctx.INDEX, ice.PT, function(event, item) {
+		can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return total++, {index: key} }), ctx.INDEX, ice.PT, function(event, item) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys("can", item.index), ctx.INDEX)
 		}, target), zone._total(total)
 	},
@@ -105,7 +104,6 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 		return can.onimport.plug(can, {index: msg.Option(ctx.INDEX), args: can.Option(nfs.PATH) == ctx.COMMAND && can.Option(nfs.LINE) != ctx.INDEX? [can.Option(nfs.LINE)]: []}, can.ui._content, function(sub) {
 			sub.onimport.size(sub, sub.ConfHeight(can.ui.content.offsetHeight-2*html.ACTION_HEIGHT), sub.ConfWidth(can.ui.content.offsetWidth), true)
 			msg._plugin = sub, can.base.isFunc(cb) && cb(msg._content = can.ui._content), can.onmotion.delay(can, function() { sub.Focus() })
-
 			sub.onaction.close = function() { can.onaction.back(can), msg._tab._close() }
 			sub.onimport._open = function(sub, msg, _arg) { var url = can.base.ParseURL(_arg), ls = url.origin.split("/chat/pod/")
 				if (_arg.indexOf(location.origin) == 0 && ls.length > 1) {
@@ -247,6 +245,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 				if (target.offsetWidth < can.ui._profile_output.offsetWidth) { can.profile_size[can.onexport.keys(can)] = target.offsetWidth, can.onimport.layout(can) }
 			}) })
 		}
+		can.onmotion.toggle(can, can.ui.profile_output, true)
 		can.onmotion.toggle(can, can.ui.profile, true), can.onimport.layout(can)
 	},
 	display: function(can, msg) {
@@ -302,8 +301,8 @@ Volcanos(chat.ONACTION, {help: "控件交互", _trans: {link: "链接", width: "
 })
 
 Volcanos(chat.ONIMPORT, {help: "导入数据",
-	_keydown: function(can) { can.onkeymap._build(can)
-		can.isCmdMode() && can._root.onengine.listen(can, chat.ONKEYDOWN, function(event) {
+	_keydown: function(can) { if (!can.isCmdMode()) { return }
+		can.onkeymap._build(can), can._root.onengine.listen(can, chat.ONKEYDOWN, function(event) {
 			can._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can._key_list, can.ui.content)
 		})
 	},
@@ -315,8 +314,6 @@ Volcanos(chat.ONKEYMAP, {help: "导入数据",
 			v: shy("渲染界面", function(event, can) { can.onaction[cli.SHOW](event, can) }),
 			r: shy("执行命令", function(event, can) { can.onaction[cli.EXEC](event, can) }),
 			f: shy("打开文件", function(event, can) { can.onaction["打开"](event, can) }),
-
-			g: shy("搜索", function(event, can) { can.onaction["搜索"](event, can) }),
 
 			x: shy("关闭标签", function(event, can) { can._tab._close() }),
 			h: shy("打开左边标签", function(event, can) { var next = can._tab.previousSibling; next && next.click() }),
@@ -343,10 +340,8 @@ Volcanos(chat.ONKEYMAP, {help: "导入数据",
 })
 
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
-		can.page.ClassList.add(can, can._fields, code.INNER)
-		can.onmotion.clear(can), can.onlayout.profile(can)
-		can.onimport._profile(can, can.ui.profile)
-		can.onimport._display(can, can.ui.display)
+		can.onmotion.clear(can), can.page.ClassList.add(can, can._fields, code.INNER), can.onlayout.profile(can)
+		can.onimport._profile(can, can.ui.profile), can.onimport._display(can, can.ui.display)
 		if (msg.Result() == "" && can.Option(nfs.LINE) == "1") { return }
 
 		if (msg.Option(nfs.FILE)) {
@@ -401,6 +396,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	layout: function(can) {
 		if (can.isSimpleMode()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
+		if (can.isCmdMode()) { can.ConfHeight(window.innerHeight), can.ConfWidth(window.innerWidth) }
 
 		var width = can.ConfWidth()+(can.user.isMobile && can.isCmdMode() && can.user.isLandscape()? 16: 0)-(can.user.isWindows && !can.isCmdMode()? 20: 0)
 		var project_width = can.ui.project.style.display == html.NONE? 0: (can.ui.project.offsetWidth||240)
@@ -412,47 +408,30 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 		var height = can.user.isMobile && can.isFloatMode()? window.innerHeight-2*html.ACTION_HEIGHT: can.base.Min(can.ConfHeight(), 320)-1
 		var display_height = can.ui.display.style.display == html.NONE? 0: (can.display_size[can.onexport.keys(can)]||height/2)
-		if (can.isCmdMode()) { // height += html.ACTION_HEIGHT
-			var content_height = height-display_height - can.ui._tabs.offsetHeight - can.ui._path.offsetHeight - 4
-			can.page.style(can, can._output, html.MAX_HEIGHT, "")
-		} else {
-			var content_height = height-display_height
-		}
-
+		var content_height = height-display_height; if (can.isCmdMode()) { content_height -= can.ui._tabs.offsetHeight + can.ui._path.offsetHeight + 4 }
 		var profile_height = height-html.ACTION_HEIGHT-display_height
 		can.page.styleHeight(can, can.ui.profile_output, profile_height)
 		can.page.styleHeight(can, can.ui.display_output, display_height)
 		can.page.styleHeight(can, can.ui.content, content_height-(can.ui.content != can.ui._content? 4: 0))
 		can.page.styleHeight(can, can.ui.project, height)
 
-		can.page.Select(can, can.ui.profile, html.IFRAME, function(iframe) {
-			can.page.Modify(can, iframe, {height: profile_height-html.ACTION_HEIGHT-4, width: profile_width})
-		})
-		var sub = can.ui.content._plugin; if (sub) {
-			sub.ConfHeight(content_height-2*html.ACTION_HEIGHT), sub.ConfWidth(content_width)
-			sub && sub.onaction.refresh({}, sub)
-		}
+		var sub = can.ui.content._plugin; sub && sub.onimport.size(content_height-2*html.ACTION_HEIGHT, content_width, true)
+		can.page.Select(can, can.ui.profile, html.IFRAME, function(iframe) { can.page.Modify(can, iframe, {height: profile_height-html.ACTION_HEIGHT-4, width: profile_width}) })
 	},
 	toolkit: function(can, meta, cb) { meta.msg = true
 		can.onimport.plug(can, meta, can.ui.toolkit.output, function(sub) {
-			sub.ConfHeight(can.ConfHeight()/2), sub.ConfWidth(can.ConfWidth()-can.ui.project.offsetWidth)
-			sub.page.style(sub, sub._output, html.MAX_HEIGHT, sub.ConfHeight())
-			sub.page.style(sub, sub._output, html.MAX_WIDTH, sub.ConfWidth())
-
+			sub.onimport.size(sub, can.ConfHeight()/2, can.ConfWidth() - can.ui.profile.offsetWidth, true)
 			can._status.appendChild(sub._legend), sub._legend.onclick = function(event) {
 				if (can.page.Select(can, can._status, ice.PT+html.SELECT)[0] == event.target) {
 					can.page.ClassList.del(can, event.target, html.SELECT)
 					can.page.ClassList.del(can, sub._target, html.SELECT)
 					return
 				}
-
 				can.onmotion.select(can, can.ui.toolkit.output, html.FIELDSET, sub._target), sub.Focus()
 				can.onmotion.select(can, can._status, html.LEGEND, event.target)
 				if (meta.msg == true) { meta.msg = false, sub.Update() }
-			}, sub.select = function() { return sub._legend.click(), sub }
-			sub.onaction.close = function() { sub.select() }
-			sub._legend.onmouseenter = null
-			can.base.isFunc(cb) && cb(sub)
+			}, sub._legend.onmouseenter = null, can.base.isFunc(cb) && cb(sub)
+			sub.onaction.close = sub.select = function() { return sub._legend.click(), sub }
 		})
 	},
 	exts: function(can, url, cb) {
