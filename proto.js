@@ -83,6 +83,7 @@ var cli = {
 	SHOW: "show", FULL: "full",
 }
 var nfs = {
+	PWD: "./",
 	ZML: "zml", IML: "iml", TXT: "txt",
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",

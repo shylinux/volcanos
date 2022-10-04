@@ -232,5 +232,6 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据",
 	actionHeight: function(can) { return can._action.style.display == html.NONE || can._action.innerHTML == ""? 0: html.ACTION_HEIGHT },
-	statusHeight: function(can) { return can._status.style.display == html.NONE || can._status.innerHTML == "" || can._status.offsetHeight == 0? 0: html.ACTION_HEIGHT }
+	statusHeight: function(can) { return can._status.style.display == html.NONE || can._status.innerHTML == "" || can._status.offsetHeight == 0? 0: html.ACTION_HEIGHT },
+	record: function(can, line) {},
 })

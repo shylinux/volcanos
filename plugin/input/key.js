@@ -46,6 +46,7 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 	},
 	onkeydown: function(event, can, meta, cb, target, last) {
 		switch (event.key) {
+			case "Enter": meta._enter && meta._enter(event); break
 			case "Escape": target._can? target._can.close(): target.blur(); return
 			case "Tab": target._can && target._can.close(); return
 			case "n":

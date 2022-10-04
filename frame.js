@@ -99,9 +99,9 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 		name = can.base.trimPrefix(name, "can.")
 		var type = html.TEXT; command.list = can.core.List(command.list, function(item) {
 			switch (typeof item) {
-				case lang.STRING: return can.core.SplitInput(item)
-				case lang.OBJECT: return type = item.type||type, item
-			}
+				case lang.STRING: item = can.core.SplitInput(item, type)
+			} type = item.type
+			return item
 		}), command.can = can, arguments.callee.meta[name] = command
 	}),
 	listen: shy("监听事件", function(can, name, cb) {
@@ -409,6 +409,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 					}
 					return run([ctx.ACTION, target.name])
 				}
+				can.sup && can.sup.onexport && can.sup.onexport.record && can.sup.onexport.record(can.sup, line)
 				if (key == mdb.HASH && can.user.mod.isDiv) { return can.user.jumps("/chat/div/"+value) }
 				if (can.sup.onaction.change(event, can.sup, key, event.target.innerText).length == 0) {
 					can.sup && can.sup._item_click && can.sup._item_click(value, key)

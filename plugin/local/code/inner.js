@@ -421,6 +421,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	toolkit: function(can, meta, cb) { meta.msg = true
 		can.onimport.plug(can, meta, can.ui.toolkit.output, function(sub) {
+			sub.onexport.record = function(sub, line) { if (!line.file && !line.line) { return }
+				can.onimport.tabview(can, line.path||can.Option(nfs.PATH), can.base.trimPrefix(line.file, nfs.PWD)||can.Option(nfs.FILE), parseInt(line.line)), can.current.scroll(can.current.scroll()-4)
+			}
 			sub.onimport.size(sub, can.ConfHeight()/2, can.ConfWidth() - can.ui.profile.offsetWidth, true)
 			can._status.appendChild(sub._legend), sub._legend.onclick = function(event) {
 				if (can.page.Select(can, can._status, ice.PT+html.SELECT)[0] == event.target) {
@@ -437,7 +440,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 	exts: function(can, url, cb) {
-		can.require([url], function() {}, function(can, name, sub) { name == chat.ONIMPORT && sub._init(can, can.base.ParseURL(sub._path), function(sub) {
+		can.require([url], function() {}, function(can, name, sub) { sub._init(can, sub, function(sub) {
 			can.extentions[url.split("?")[0]] = sub, can.base.isFunc(cb)? cb(sub): sub.select()
 		}) })
 	},
