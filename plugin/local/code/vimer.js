@@ -83,23 +83,16 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 		can.page.styleClass(can, can.ui.current, ["current", can.mode]), value
 		can.page.styleClass(can, can.ui.complete, [code.COMPLETE, can.mode]), value
 	},
-	_plugin: function(event, can) { can.onkeymap._model(can, "plugin")
-		can.ui.current.blur()
-	},
-	_normal: function(event, can) { can.onkeymap._model(can, "normal")
-		can.ui.current.focus()
-	},
-	_insert: function(event, can) { can.onkeymap._model(can, "insert")
-		can.ui.current.focus(), can.ui.content.scrollLeft -= 10000
-		event && can.onkeymap.prevent(event)
-	},
+	_plugin: function(event, can) { can.onkeymap._model(can, "plugin"), can.ui.current.blur() },
+	_normal: function(event, can) { can.onkeymap._model(can, "normal"), can.ui.current.focus() },
+	_insert: function(event, can) { can.onkeymap._model(can, "insert"), can.ui.current.focus(), event && can.onkeymap.prevent(event) },
 
 	_mode: {
 		plugin: {
 			t: shy("添加命令", function(event, can) { can.onaction["添加"](event, can) }),
 			p: shy("添加插件", function(event, can) { can.onaction["插件"](event, can) }),
 			e: shy("添加扩展", function(event, can) { can.onaction["扩展"](event, can) }),
-			g: shy("搜索", function(event, can) { can.onaction["搜索"](event, can) }),
+			g: shy("搜索", function(event, can) { can.onimport.exts(can, "inner/search.js") }),
 			
 			i: shy("插入模式", function(event, can) { can.onkeymap._insert(event, can) }),
 			n: shy("命令模式", function(event, can) { can.onkeymap._normal(event, can) }),
@@ -270,8 +263,8 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		})
 	},
 	autogen: function(event, can, button) { can.onaction._runs(event, can, button, function(msg) {
-		can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(cli.MAIN), "", function() {
-			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(nfs.FILE), "", function() {
+		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(cli.MAIN), "", function() {
+			can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE), "", function() {
 				can.ui.source.refresh()
 			})
 		}, true)
@@ -306,10 +299,10 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			can.onimport.toolkit(can, {index: list[0]}, function(sub) { can.toolkit[list[0]] = sub.select() })
 		})
 	},
-	"扩展": function(event, can) {
+	"扩展": function(event, can) { can.request(event, {action: "extension"})
 		can.user.input(event, can, ["url"], function(list) {
 			var sub = can.extentions[list[0]]; if (sub) { sub.select(); return }
-			can.onimport.exts(can, list[0], function(sub) { can.extentions[list[0]] = sub.select() })
+			can.onimport.exts(can, list[0])
 		})
 	},
 

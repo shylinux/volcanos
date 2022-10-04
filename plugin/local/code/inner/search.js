@@ -26,7 +26,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) { 
 		{type: html.BUTTON, name: cli.MAKE},
 		{type: html.BUTTON, name: "history"},
 		{type: html.BUTTON, name: "last", _trans: "返回"},
-	], function(msg, cmds, cb) { if (can.misc.runAction(can, msg, cmds, cb, kit.Dict(
+	], function(can, msg, cmds, cb) { if (can.misc.runAction(can, msg, cmds, cb, kit.Dict(
 		"history", function(cmds) {
 			can.core.List(can.history, function(item) {
 				msg.Push(nfs.FILE, item.file)
@@ -51,8 +51,5 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) { 
 		},
 		"last", function(cmds) { history.pop(), show(history.pop()) },
 	))) { return } can.run(msg, cmds, function(msg) { show(msg) }, true) }))
-	can.onimport.toolkit(can, {index: SEARCH}, function(sub) {
-		can.ui.search = sub, can.base.isFunc(cb) && cb(sub)
-		can.ui.search._show = show
-	})
+	can.onimport.toolkit(can, {index: SEARCH}, function(sub) { can.ui.search = sub, can.ui.search._show = show, can.base.isFunc(cb) && cb(sub) })
 }})

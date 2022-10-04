@@ -47,7 +47,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 					"折叠": function() { can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, false) }) },
 					"展开": function() { can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) }) },
 					"刷新": function() { can.onmotion.clear(can, zone._target), zone._init(zone._target) },
-				}, ["折叠", "展开", "刷新"])
+				}, ["刷新", "折叠", "展开"])
 			}},
 			{view: html.ACTION, _init: function(target) { zone._action = target
 				can.onappend._action(can, [{input: html.TEXT, placeholder: "search", onkeyup: function(event) {

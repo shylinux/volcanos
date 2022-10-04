@@ -539,12 +539,8 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 		var rect = event.target == document.body? {left: window.innerWidth/2, top: 200, right: window.innerWidth/2, bottom: 200}: event.target.getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0
-			if (layout.top+target.offsetHeight > window.innerHeight) {
-				layout.top = "", layout.bottom = right? html.ACTION_HEIGHT: window.innerHeight-rect.top
-			}
-			if (layout.left+target.offsetWidth > left+width) {
-				layout.left = "", layout.right = 0
-			}
+			if (layout.top+target.offsetHeight > window.innerHeight) { layout.top = "", layout.bottom = window.innerHeight-top-height, layout.left += rect.width }
+			if (layout.left+target.offsetWidth > window.innerWidth) { layout.left = "", layout.right = 0 }
 		})
 		return can.onmotion.move(can, target, layout), layout
 	},
@@ -669,7 +665,7 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 	delay: function(can, cb, interval) { can.core.Timer(interval||30, cb) },
 	delayLong: function(can, cb, interval) { can.core.Timer(interval||300, cb) },
 	focus: function(can, target) { if (!target) { return }
-		target.setSelectionRange && target.setSelectionRange(0, -1), target.focus()
+		target.focus(), target.setSelectionRange && target.setSelectionRange(0, target.value.length)
 	},
 	share: function(event, can, input, args) { var _args = args
 		return can.user.input(event, can, input, function(args) {

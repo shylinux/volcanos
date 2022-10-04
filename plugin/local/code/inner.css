@@ -32,14 +32,14 @@ fieldset.inner.float>div.status { display:none; }
 
 fieldset.inner>div.output td.content>div.tabs { display:none; }
 fieldset.inner>div.output td.content>div.path { display:none; }
-fieldset.inner div.output fieldset.toolkit { position:relative; bottom:0px; right:0px; }
+fieldset.inner div.output fieldset.toolkit { position:absolute; bottom:0px; right:0px; }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset { display:none; }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select { background-color:#0e3369b3; color:white; display:block; z-index:10; }
 fieldset.inner>div.output fieldset.toolkit>div.output fieldset { display:none; }
 fieldset.inner>div.output fieldset.toolkit>div.output fieldset.select { background-color:#0e3369b3; color:white; display:block; z-index:10; }
 fieldset.inner div.output fieldset.toolkit>div.output { position:unset; }
 
-fieldset>div.output>fieldset.plug { position:absolute; bottom:0px; right:0px; }
+fieldset>div.output>fieldset.plug { position:inherit; bottom:0px; right:0px; }
 fieldset>div.output>fieldset.plug { display:none; }
 fieldset>div.output>fieldset.plug.select { background-color:#0e3369b3; color:white; display:block; z-index:10; }
 fieldset>div.status legend { float:right; height:30px; }

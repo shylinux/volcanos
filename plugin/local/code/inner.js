@@ -101,8 +101,9 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 				src: can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}), height: can.ui.content.offsetHeight-4, width: can.ui.content.offsetWidth}], can.ui._content))
 		}
 
+		can.onimport.layout(can)
 		return can.onimport.plug(can, {index: msg.Option(ctx.INDEX), args: can.Option(nfs.PATH) == ctx.COMMAND && can.Option(nfs.LINE) != ctx.INDEX? [can.Option(nfs.LINE)]: []}, can.ui._content, function(sub) {
-			sub.onimport.size(sub, sub.ConfHeight(can.ui.content.offsetHeight-2*html.ACTION_HEIGHT), sub.ConfWidth(can.ui.content.offsetWidth), true)
+			sub.onimport.size(sub, sub.ConfHeight(can.ui.content.offsetHeight-3*html.ACTION_HEIGHT+sub.onexport.statusHeight(sub)), sub.ConfWidth(can.ui.content.offsetWidth), true)
 			msg._plugin = sub, can.base.isFunc(cb) && cb(msg._content = can.ui._content), can.onmotion.delay(can, function() { sub.Focus() })
 			sub.onaction.close = function() { can.onaction.back(can), msg._tab._close() }
 			sub.onimport._open = function(sub, msg, _arg) { var url = can.base.ParseURL(_arg), ls = url.origin.split("/chat/pod/")
@@ -280,7 +281,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", _trans: {link: "链接", width: "
 	},
 	"打开": function(event, can) {
 		can.user.input(can.request(event, {paths: can.sup.paths.join(ice.FS)}), can, [nfs.FILE], function(list) {
-			if (list[0].indexOf("line:") == 0) { return can.onaction.selectLine(can, parseInt(can.core.Split(list[0], ice.DF, ice.DF)[1])) }
+			if (list[0].indexOf("line:") == 0) { return can.onaction.selectLine(can, parseInt(can.core.Split(list[0], ice.DF, ice.DF)[1])), can.current.scroll(can.current.scroll()-4) }
 			can.core.List(can.sup.paths, function(path) { if (list[0].indexOf(path) == 0) { can.onimport.tabview(can, path, list[0].slice(path.length)) } })
 		})
 	},
@@ -380,7 +381,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		var hash = location.hash; can.tabview[can.onexport.keys(can)] = msg
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE), function() {
 			if (can.isCmdMode() && hash) { var args = can.core.Split(decodeURIComponent(hash).slice(1))
-				can.onmotion.delay(can, function() { can.onimport.tabview(can, args[args.length-3]||can.Option(nfs.PATH), args[args.length-2]||can.Option(nfs.FILE), args[args.length-1]) })
+				can.onmotion.delay(can, function() { can.onimport.tabview(can, args[args.length-3]||can.Option(nfs.PATH), args[args.length-2]||can.Option(nfs.FILE), args[args.length-1]) }, 30)
 			}
 		}), can.base.isFunc(cb) && cb(msg) 
 	},
@@ -415,7 +416,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.page.styleHeight(can, can.ui.content, content_height-(can.ui.content != can.ui._content? 4: 0))
 		can.page.styleHeight(can, can.ui.project, height)
 
-		var sub = can.ui.content._plugin; sub && sub.onimport.size(content_height-2*html.ACTION_HEIGHT, content_width, true)
+		var sub = can.ui.content._plugin; sub && sub.onimport.size(sub, content_height-3*html.ACTION_HEIGHT+sub.onexport.statusHeight(sub), content_width, true)
 		can.page.Select(can, can.ui.profile, html.IFRAME, function(iframe) { can.page.Modify(can, iframe, {height: profile_height-html.ACTION_HEIGHT-4, width: profile_width}) })
 	},
 	toolkit: function(can, meta, cb) { meta.msg = true
@@ -430,13 +431,14 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				can.onmotion.select(can, can.ui.toolkit.output, html.FIELDSET, sub._target), sub.Focus()
 				can.onmotion.select(can, can._status, html.LEGEND, event.target)
 				if (meta.msg == true) { meta.msg = false, sub.Update() }
-			}, sub._legend.onmouseenter = null, can.base.isFunc(cb) && cb(sub)
+			}, sub._legend.onmouseenter = null
 			sub.onaction.close = sub.select = function() { return sub._legend.click(), sub }
+			can.base.isFunc(cb) && cb(sub)
 		})
 	},
 	exts: function(can, url, cb) {
-		can.require([url], function() {}, function(can, name, sub) { sub._init(can, can.base.ParseURL(sub._path), function(sub) {
-			can.extentions[url.split("?")[0]] = sub, can.base.isFunc(cb) && cb(sub)
+		can.require([url], function() {}, function(can, name, sub) { name == chat.ONIMPORT && sub._init(can, can.base.ParseURL(sub._path), function(sub) {
+			can.extentions[url.split("?")[0]] = sub, can.base.isFunc(cb)? cb(sub): sub.select()
 		}) })
 	},
 	sess: function(can, sess, cb) { sess = sess||can.user.localStorage(can, "web.code.inner.sess")
