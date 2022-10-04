@@ -110,6 +110,19 @@ Volcanos(chat.ONPLUGIN, {help: "注册插件",
 	"log": shy("日志", {}, ["text", "list", "back"], function(can, msg, cmds) {
 		console.log(cmds[0])
 	}),
+	"location": shy("地址", {
+		copy: function(can, msg, cmds) {
+			can.user.copy(msg._event, can, location.href)
+		},
+	}, ["link", "list", "back", "copy"], function(can, msg, cmds, cb) {
+		var _msg = can.request({}, mdb.LINK, location.href)
+		can.run(_msg._event, [web.SHARE], function(res) {
+			msg.Echo(res.Append(mdb.TEXT))
+			msg.Echo("\n")
+			msg.Echo(can.page.Format(html.A, res.Append(mdb.NAME)))
+			can.base.isFunc(cb) && cb(msg)
+		}) 
+	}),
 })
 Volcanos(chat.ONACTION, {help: "交互数据",
 	_menus: [["setting", chat.BLACK, chat.WHITE, chat.PRINT, code.WEBPACK, "toimage"]],

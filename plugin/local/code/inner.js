@@ -281,8 +281,15 @@ Volcanos(chat.ONACTION, {help: "控件交互", _trans: {link: "链接", width: "
 	},
 	"打开": function(event, can) {
 		can.user.input(can.request(event, {paths: can.sup.paths.join(ice.FS)}), can, [nfs.FILE], function(list) {
-			if (list[0].indexOf("line:") == 0) { return can.onaction.selectLine(can, parseInt(can.core.Split(list[0], ice.DF, ice.DF)[1])), can.current.scroll(can.current.scroll()-4) }
-			can.core.List(can.sup.paths, function(path) { if (list[0].indexOf(path) == 0) { can.onimport.tabview(can, path, list[0].slice(path.length)) } })
+			var ls = can.core.Split(list[0], ice.DF, ice.DF); switch (ls[0]) {
+				case ctx.INDEX:
+				case web.DREAM:
+					return can.onimport.tabview(can, can.Option(nfs.PATH), ls[1], ls[0])
+				case nfs.LINE:
+					return can.onaction.selectLine(can, parseInt(ls[1])), can.current.scroll(can.current.scroll()-4)
+				default:
+					can.core.List(can.sup.paths, function(path) { if (list[0].indexOf(path) == 0) { can.onimport.tabview(can, path, list[0].slice(path.length)) } })
+			}
 		})
 	},
 	show: function(event, can) {
@@ -351,6 +358,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			msg.Option(nfs.LINE) && can.Option(nfs.LINE, msg.Option(nfs.LINE))
 		}
 
+		can.onengine.plugin(can, can.onplugin)
 		var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
 		var files = can.core.Split(can.Option(nfs.FILE), ice.FS); can.Option(nfs.FILE, files[0])
 		can.core.List(paths.concat(msg.modules||[], can.sup.paths||[]), function(p) { if (paths.indexOf(p) == -1) { paths.push(p) } })
