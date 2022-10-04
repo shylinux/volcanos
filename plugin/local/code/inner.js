@@ -282,6 +282,9 @@ Volcanos(chat.ONACTION, {help: "控件交互", _trans: {link: "链接", width: "
 	"打开": function(event, can) {
 		can.user.input(can.request(event, {paths: can.sup.paths.join(ice.FS)}), can, [nfs.FILE], function(list) {
 			var ls = can.core.Split(list[0], ice.DF, ice.DF); switch (ls[0]) {
+				case "_open":
+					can.runAction(event, "_open", ls[1])
+					break
 				case ctx.INDEX:
 				case web.DREAM:
 					return can.onimport.tabview(can, can.Option(nfs.PATH), ls[1], ls[0])

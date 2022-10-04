@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
 		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can._action)
-		var cbs = can.onimport[can.Conf(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
+		var cbs = can.onimport[msg.Option(ctx.STYLE)||can.Conf(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.core.CallFunc(cbs, {can: can, msg: msg, target: target, list: msg.Table()})
 			can.page.ClassList.add(can, target, can._args[ctx.STYLE])
 			return cbs(can, msg, target)
@@ -12,6 +12,15 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onappend.board(can, msg, target)
 		can.onmotion.story.auto(can, target)
 		can.base.isFunc(cb) && cb(msg)
+	},
+	_open: function(can, msg, list) {
+		can.core.List(list, function(item) {
+			can.page.Append(can, can._output, [{view: "item", style: {"text-align": "center", "float": "left", "width": "120"}, list: [
+				{type: "img", src: "/share/local/usr/icons/"+item.name, width: 120, style: {display: "block"}},
+				{text: item.name.split(".")[0].replace(" ", "\n"), style: {display: "block"}}], onclick: function(event) {
+				can.runAction(can.request(event, item, can.Option()), "click", [])
+			}}])
+		})
 	},
 	_title: function(can, title) {
 		can.user.title(title+ice.SP+(can.misc.Search(can, ice.POD)||location.host))
