@@ -15,9 +15,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	_open: function(can, msg, list) {
 		can.core.List(list, function(item) {
-			can.page.Append(can, can._output, [{view: "item", style: {"text-align": "center", "float": "left", "width": "120"}, list: [
-				{type: "img", src: "/share/local/usr/icons/"+item.name, width: 120, style: {display: "block"}},
-				{text: item.name.split(".")[0].replace(" ", "\n"), style: {display: "block"}}], onclick: function(event) {
+			can.page.Append(can, can._output, [{view: html.ITEM, style: {"text-align": "center", "float": "left", width: "100", margin: "10"}, list: [
+				{type: html.IMG, src: "/share/local/usr/icons/"+item.name, style: {display: html.BLOCK, width: 100}},
+				{text: item.name.split(ice.PT)[0].replace(ice.SP, ice.NL), style: {display: html.BLOCK, height: 40}}], onclick: function(event) {
 				can.runAction(can.request(event, item, can.Option()), "click", [])
 			}}])
 		})
