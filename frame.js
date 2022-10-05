@@ -908,7 +908,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 		}; var count = parseInt(list.slice(0, pre).join(""))||1
 
 		var map = can.onkeymap._mode[mode]
-		function repeat(cb, count) { list = []; for (var i = 1; i <= count; i++) { if (cb(event, can, target, count)) { break } } }
+		function repeat(cb, count) { list = []; for (var i = 1; i <= count; i++) { if (can.core.CallFunc(cb, {event: event, can: can, target: target, count: count})) { break } } }
 		var cb = map && map[event.key]; if (can.base.isFunc(cb) && event.key.length > 1) { repeat(cb, count); return list }
 		var cb = map && map[event.key.toLowerCase()]; if (can.base.isFunc(cb) && event.key.length > 1) { repeat(cb, count); return list }
 
@@ -968,7 +968,12 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 		target.value = before+text+after
 		return target.setSelectionRange(start+1, start+1)
 	},
-	cursorMove: function(can, target, count, begin) { begin != undefined && target.setSelectionRange(begin, begin)
-		target.setSelectionRange(target.selectionStart+count, target.selectionStart+count)
+	cursorMove: function(target, count, begin) {
+		if (begin != undefined) {
+			if (begin < 0) { begin += target.value.length+1 }
+			target.setSelectionRange(begin, begin)
+		}
+		count != undefined && target.setSelectionRange(target.selectionStart+count, target.selectionStart+count)
+		return target.selectionStart
 	},
 })

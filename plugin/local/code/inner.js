@@ -326,26 +326,9 @@ Volcanos(chat.ONKEYMAP, {help: "导入数据",
 			r: shy("执行命令", function(event, can) { can.onaction[cli.EXEC](event, can) }),
 			f: shy("打开文件", function(event, can) { can.onaction["打开"](event, can) }),
 
-			x: shy("关闭标签", function(event, can) { can._tab._close() }),
-			h: shy("打开左边标签", function(event, can) { var next = can._tab.previousSibling; next && next.click() }),
-			l: shy("打开右边标签", function(event, can) { var next = can._tab.nextSibling; next && next.click() }),
-
-			j: shy("向下滚动", function(event, can) {
-				if (can.ui.content != can.ui._content) {
-					can.ui.content.contentWindow.document.body.scrollTop += 16
-				} else {
-					can.current.scroll(1)
-				}
-			}),
-			k: shy("向上滚动", function(event, can) {
-				if (can.ui.content != can.ui._content) {
-					can.ui.content.contentWindow.document.body.scrollTop -= 16
-				} else {
-					can.current.scroll(-1)
-				}
-			}),
-			J: shy("向下滚屏", function(event, can) { can.current.scroll(can.current.window()-3) }),
-			K: shy("向上滚屏", function(event, can) { can.current.scroll(-can.current.window()+3) }),
+			x: shy("关闭标签", function(can) { can._tab._close() }),
+			h: shy("打开左边标签", function(can) { var next = can._tab.previousSibling; next && next.click() }),
+			l: shy("打开右边标签", function(can) { var next = can._tab.nextSibling; next && next.click() }),
 		},
 	}, _engine: {},
 })
