@@ -868,16 +868,14 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 			})
 		}
 		can.onkeymap._build(can), document.body.onkeydown = function(event) {
-			if (event.metaKey) { if (window.webview) {
-				switch (event.key) {
-					case "q": window.terminate(); break
-					case "w": can.user.close(); break
-					case "r": can.user.reload(); break
-					case "f": can.onengine.signal(can, chat.ONOPENSEARCH, can.request({}, {type: "*"})); break
-					case "[": history.back(); break
-					case "]": history.forward(); break
-				}
-			} return }
+			if (event.metaKey) { if (window.webview) { switch (event.key) {
+				case "q": window.terminate(); break
+				case "w": can.user.close(); break
+				case "r": can.user.reload(true); break
+				case "f": can.onengine.signal(can, chat.ONOPENSEARCH, can.request({}, {type: mdb.FOREACH})); break
+				case "[": history.back(); break
+				case "]": history.forward(); break
+			} } return }
 
 			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
 			var msg = can.request(event, {"model": "normal"}); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
@@ -956,7 +954,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 	input: function(event, can) { if (event.metakey) { return } var target = event.target
 		target._keys = can.onkeymap._parse(event, can, event.ctrlKey? "insert_ctrl": mdb.INSERT, target._keys, target)
 	},
-	prevent: function(event) { event.stopPropagation(), event.preventDefault(); return true },
+	prevent: function(event) { event && event.stopPropagation(), event && event.preventDefault(); return true },
 	deleteText: function(target, start, count) { var end = count? start+count: target.value.length
 		var cut = target.value.slice(start, end)
 		target.value = target.value.substring(0, start)+target.value.substring(end, target.value.length)

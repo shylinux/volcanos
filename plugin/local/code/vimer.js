@@ -84,17 +84,17 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 	},
 	_plugin: function(event, can) { can.onkeymap._model(can, "plugin"), can.ui.current.blur() },
 	_normal: function(event, can) { can.onkeymap._model(can, "normal"), can.ui.current.focus() },
-	_insert: function(event, can, count, begin) {
+	_insert: function(event, can, count, begin) { can.onkeymap.prevent(event)
 		can.onkeymap._model(can, "insert"), can.ui.current.focus()
-		can.onkeymap.cursorMove(can.ui.current, count, begin), event && can.onkeymap.prevent(event)
+		can.onkeymap.cursorMove(can.ui.current, count, begin)
 	},
 
 	_mode: {
 		plugin: {
-			t: shy("添加命令", function(event, can) { can.onaction["添加"](event, can) }),
+			t: shy("添加命令", function(event, can) { can.onaction["命令"](event, can) }),
 			p: shy("添加插件", function(event, can) { can.onaction["插件"](event, can) }),
 			e: shy("添加扩展", function(event, can) { can.onaction["扩展"](event, can) }),
-			g: shy("搜索", function(event, can) { can.onimport.exts(can, "inner/search.js") }),
+			g: shy("打开搜索", function(event, can) { can.onimport.exts(can, "inner/search.js") }),
 			
 			i: shy("插入模式", function(event, can) { can.onkeymap._insert(event, can) }),
 			n: shy("命令模式", function(event, can) { can.onkeymap._normal(event, can) }),
@@ -189,31 +189,30 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 				var rest = can.current.text(); can.onaction.selectLine(can, can.current.prev()), can.onaction.deleteLine(can, can.current.next())
 				var text = can.current.text(); can.ui.current.value = text+rest, can.onkeymap.cursorMove(target, 0, text.length)
 			}),
-			Enter: shy("换行", function(event, can, target) { if (event.key != "Enter") { return }
+			Enter: shy("换行", function(can, target) { if (event.key != "Enter") { return }
 				var rest = can.onkeymap.deleteText(target, target.selectionEnd), text = can.ui.current.value
 				var left = text.substr(0, text.indexOf(text.trimLeft()))||(text.trimRight() == ""? text: "")
-				if (can.base.endWith(text, "{")) { !can.base.beginWith(rest, "}") && (left += ice.TB), !rest && can.onaction.insertLine(can, left+"}", can.current.next()) }
-				if (can.base.endWith(text, "[")) { !can.base.beginWith(rest, "]") && (left += ice.TB), !rest && can.onaction.insertLine(can, left+"]", can.current.next()) }
-				if (can.base.endWith(text, "(")) { !can.base.beginWith(rest, ")") && (left += ice.TB), !rest && can.onaction.insertLine(can, left+")", can.current.next()) }
-				if (can.base.endWith(text, "`") && can.base.count(text, "`")%2==1) { !rest && can.onaction.insertLine(can, left+"`", can.current.next()) }
+				can.core.List(["{}", "[]", "()"], function(item) { if (can.base.endWith(text, item[0])) {
+					!can.base.beginWith(rest, item[1]) && (left += ice.TB), !rest && can.onaction.insertLine(can, left+item[1], can.current.next())
+				} }); if (can.base.endWith(text, "`") && can.base.count(text, "`")%2==1) { !rest && can.onaction.insertLine(can, left+"`", can.current.next()) }
 				var line = can.onaction.insertLine(can, left+rest.trimLeft(), can.current.next())
 				can.current.text(text.trimRight()||text), can.onaction.selectLine(can, line)
 				can.onkeymap.cursorMove(target, 0, left.length)
 			}),
-			ArrowDown: shy("光标下移", function(event, can) { event.key == "ArrowDown" && can.onaction.cursorDown(can, target) }),
-			ArrowUp: shy("光标上移", function(event, can) { event.key == "ArrowUp" && can.onaction.cursorUp(can, target) }),
+			ArrowDown: shy("光标下移", function(can, target) { event.key == "ArrowDown" && can.onaction.cursorDown(can, target) }),
+			ArrowUp: shy("光标上移", function(can, target) { event.key == "ArrowUp" && can.onaction.cursorUp(can, target) }),
 		},
 	}, _engine: {},
 })
 Volcanos(chat.ONACTION, {help: "控件交互",
 	_daemon: function(event, can, arg) {
 		switch (arg[0]) {
-			case "dream":
+			case web.DREAM:
 				can.runAction({}, arg[0], arg.slice(1), function(msg) {
 					can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME)), web.DREAM)
 				})
 				break
-			case "xterm":
+			case code.XTERM:
 				can.runAction({}, arg[0], arg.slice(1), function(msg) {
 					can.onimport.tabview(can, ctx.COMMAND, code.XTERM, msg.Result())
 				})
@@ -226,8 +225,8 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	},
 	_run: function(event, can, button, args, cb) {
 		can.runAction(event, button, args, cb||function(msg) {
-			can.onimport.tabview(can, msg.Option(nfs.PATH)||can.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.source.refresh()
-			can.user.toastSuccess(can, button)
+			can.onimport.tabview(can, msg.Option(nfs.PATH)||can.Option(nfs.PATH), msg.Option(nfs.FILE))
+			can.ui.source.refresh(), can.user.toastSuccess(can, button)
 		})
 	},
 	_runs: function(event, can, button, cb) { var meta = can.Conf(); can.request(event, {action: button})
@@ -237,17 +236,17 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
 		can.onaction._run(event, can, button, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)])
 	},
-	compile: function(event, can, button) { var toast = can.user.toastProcess(can, "编译中...")
-		can.runAction(can.request(event), button, [], function(msg) { toast.close()
-			if (msg.Length() == 0) { var toast1 = can.user.toastProcess(can, "重启中...")
-				can.onmotion.delay(can, function() { toast1.close(), can.onaction[cli.SHOW]({}, can) }, 3000)
-			} else { can.ui.search._show(msg) }
+	compile: function(event, can, button) {
+		can.runAction(can.request(event, {_toast: "编译中..."}), button, [], function(msg) {
+			if (msg.Length() > 0) { return can.ui.search._show(msg) }
+			var toast = can.user.toastProcess(can, "重启中...")
+			can.onmotion.delay(can, function() { toast.close(), can.onaction[cli.SHOW]({}, can) }, 3000)
 		})
 	},
 	autogen: function(event, can, button) { can.onaction._runs(event, can, button, function(msg) {
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(cli.MAIN), "", function() {
 			can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE), "", function() {
-				can.ui.source.refresh()
+				can.ui.source.refresh(), can.user.toastSuccess(can)
 			})
 		}, true)
 	}) },
@@ -258,19 +257,19 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		can.onaction._runs(can.request(event, {path: "src/website/", file: (can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.ZML).split(ice.PS).pop()}), can, button)
 	},
 	dream: function(event, can, button) {
-		can.onaction._runs(can.request(event, {name: can.base.trimSuffix(can.Option(nfs.FILE).split(ice.PS).pop(), ice.PT+can.base.Ext(can.Option(nfs.FILE)))}), can, button, function(msg) { can.ui.dream.refresh()
+		can.onaction._runs(can.request(event, {name: can.base.trimSuffix(can.Option(nfs.FILE).split(ice.PS).pop(), ice.PT+can.base.Ext(can.Option(nfs.FILE)))}), can, button, function(msg) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(mdb.NAME), web.DREAM)
-			can.user.toastSuccess(can)
+			can.ui.dream.refresh(), can.user.toastSuccess(can)
 		})
 	},
 	xterm: function(event, can, button) {
-		can.onaction._runs(can.request(event), can, button, function(msg) { can.ui.xterm.refresh()
+		can.onaction._runs(can.request(event), can, button, function(msg) {
 			can.onimport.tabview(can, ctx.COMMAND, code.XTERM, msg.Result())
-			can.user.toastSuccess(can)
+			can.ui.xterm.refresh(), can.user.toastSuccess(can)
 		})
 	},
 
-	"添加": function(event, can) {
+	"命令": function(event, can) {
 		can.user.input(event, can, [ctx.INDEX], function(list) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), list[0], ctx.INDEX)
 		})
@@ -349,20 +348,9 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	},
 	_selectLine: function(can) { if (!can.current) { return }
 		can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
-			can.current.line.appendChild(target), can.page.style(can, target,
-				html.LEFT, td.offsetLeft-1, html.WIDTH, can.base.Max(can.ui.content.style.width, td.offsetWidth))
-			// can.mode != "insert" && can.onkeymap._insert(event, can)
-			// target.focus(), can.ui.content.scrollLeft -= 10000
-			// return
-			if (event && event.type) {
-				if (event.type == "click" && can.mode != "insert") { can.onkeymap._insert(event, can)
-					can.onmotion.delay(can, function() { can.onaction._complete(event, can) })
-				}
-				target.focus(), can.ui.content.scrollLeft -= 10000
-				if (event.type == "click") {
-					can.onkeymap.cursorMove(target, 0, (event.offsetX)/12-1)
-				}
-			}
+			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.WIDTH, can.base.Max(can.ui.content.style.width, td.offsetWidth))
+			if (event && event.type == "click") { can.onkeymap._insert(event, can, 0, (event.offsetX)/12-1) }
+			target.focus(), can.ui.content.scrollLeft -= 10000
 		})
 	},
 
@@ -386,7 +374,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		return can.page.Remove(can, line), can.onaction.rerankLine(can), next
 	},
 	modifyLine: function(can, line, value) {
-		can.page.Select(can, can.onaction.getLine(line), "td.text", function(target) {
+		can.page.Select(can, can.onaction._getLine(can, line), "td.text", function(target) {
 			target.innerHTML = can.onsyntax._parse(can, value)
 		})
 	},
