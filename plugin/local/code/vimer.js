@@ -29,6 +29,22 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 	create: function(can, target, zone, path) {
 		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)), target): can.onmotion.hidden(can, target.parentNode)
 	},
+	recent: function(can, target, zone, path) {
+		can.runAction(can.request({}), code.FAVOR, ["_vimer"], function(msg) {
+			var list = {}; msg.Table(function(item) { list[item.path+item.file] = item }), can.core.Item(list, function(path, item) {
+				can.page.Append(can, target, [{text: [item.name||item.file, html.DIV, html.ITEM], onclick: function(event) {
+					can.onimport.tabview(can, can.Option(nfs.PATH), item.file, ctx.INDEX)
+				}}])
+			})
+		})
+		can.runAction(can.request({}), code.FAVOR, ["_recent"], function(msg) {
+			var list = {}; msg.Table(function(item) { list[item.path+item.file] = item }), can.core.Item(list, function(path, item) {
+				can.page.Append(can, target, [{text: [path.split(ice.PS).slice(-2).join(ice.PS), html.DIV, html.ITEM], onclick: function(event) {
+					can.onimport.tabview(can, item.path, item.file)
+				}}])
+			})
+		})
+	},
 	source: function(can, target, zone, path) { var total = 0
 		function show(target, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
 			can.core.List(list, function(item) { item._menu = shy({trash: function(event) { can.onaction._run(event, can, nfs.TRASH, [can.base.Path(path, item.path)]) }}) })
@@ -134,8 +150,10 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 				can.onkeymap._insert(event, can, 0, -1)
 			}),
 
-			yy: shy("复制当前行", function(event, can, target, count) { can._last_text = can.current.text() }),
-			dd: shy("剪切当前行", function(can) {
+			yy: shy("复制当前行", function(event, can, target, count) {
+				can._last_text = can.current.text()
+			}),
+			dd: shy("剪切当前行", function(event, can, target, count) {
 				var line = can.onaction.selectLine(can), text = can.current.text()
 				can.onaction.selectLine(can, can.onaction.deleteLine(can, line)), can._last_text = text
 				can.undo.push(function() { can.onaction.insertLine(can, text, line), can.onaction.selectLine(can, line) })
@@ -268,7 +286,12 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			can.ui.xterm.refresh(), can.user.toastSuccess(can)
 		})
 	},
-
+	status: function(event, can, button) {
+		can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX)
+	},
+	favor: function(event, can, button) {
+		can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.favor", ctx.INDEX)
+	},
 	"命令": function(event, can) {
 		can.user.input(event, can, [ctx.INDEX], function(list) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), list[0], ctx.INDEX)

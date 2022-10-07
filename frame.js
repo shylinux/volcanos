@@ -868,18 +868,11 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 			})
 		}
 		can.onkeymap._build(can), document.body.onkeydown = function(event) {
-			if (event.metaKey) { if (window.webview) { switch (event.key) {
-				case "q": window.terminate(); break
-				case "w": can.user.close(); break
-				case "r": can.user.reload(true); break
-				case "f": can.onengine.signal(can, chat.ONOPENSEARCH, can.request({}, {type: mdb.FOREACH})); break
-				case "[": history.back(); break
-				case "]": history.forward(); break
-			} } return }
-
-			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
-			var msg = can.request(event, {"model": "normal"}); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
-			can.onengine.signal(can, chat.ONKEYDOWN, msg); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
+			var msg = can.request(event, {model: "normal"}); if (event.metaKey && window.webview) {
+				msg.Option("model", "webview")
+			} else if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return } else {
+				can.onengine.signal(can, chat.ONKEYDOWN, msg); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
+			}
 			can._keylist = can.onkeymap._parse(event, can, msg.Option("model"), can._keylist, can._output)
 		}
 		can.onkeymap._build(can), document.body.onkeyup = function(event) {
@@ -918,6 +911,16 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 		return list
 	},
 	_mode: {
+		webview: {
+			q: function(event, can, target) { window.terminate() },
+			o: function(event, can, target) { window.outopen(location.href) },
+			t: function(event, can, target) { window.terminal(location.href) },
+			w: function(event, can, target) { can.user.close() },
+			r: function(event, can, target) { can.user.reload(true) },
+			f: function(event, can, target) { can.onengine.signal(can, chat.ONOPENSEARCH, can.request({}, {type: mdb.FOREACH})) },
+			"[": function(event, can, target) { history.back() },
+			"]": function(event, can, target) { history.forward() },
+		},
 		insert: {
 			jk: function(event, can, target) { target.blur(), can.onkeymap.deleteText(target, target.selectionStart-1, target.selectionStart) },
 			Escape: function(event, can, target) { target.blur() },
