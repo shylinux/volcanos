@@ -27,11 +27,12 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 }, [""])
 Volcanos(chat.ONFIGURE, {help: "索引导航", 
 	create: function(can, target, zone, path) {
-		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)), target): can.onmotion.hidden(can, target.parentNode)
+		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(window.webview? ["编辑器", "浏览器"]: []), target): can.onmotion.hidden(can, target.parentNode)
 	},
-	recent: function(can, target, zone, path) {
+	recent: function(can, target, zone, path) { var total = 0
 		can.runAction(can.request({}), code.FAVOR, ["_vimer"], function(msg) {
 			var list = {}; msg.Table(function(item) { list[item.path+item.file] = item }), can.core.Item(list, function(path, item) {
+				zone._total(++total)
 				can.page.Append(can, target, [{text: [item.name||item.file, html.DIV, html.ITEM], onclick: function(event) {
 					can.onimport.tabview(can, can.Option(nfs.PATH), item.file, ctx.INDEX)
 				}}])
@@ -39,6 +40,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 		})
 		can.runAction(can.request({}), code.FAVOR, ["_recent"], function(msg) {
 			var list = {}; msg.Table(function(item) { list[item.path+item.file] = item }), can.core.Item(list, function(path, item) {
+				zone._total(++total)
 				can.page.Append(can, target, [{text: [path.split(ice.PS).slice(-2).join(ice.PS), html.DIV, html.ITEM], onclick: function(event) {
 					can.onimport.tabview(can, item.path, item.file)
 				}}])
@@ -79,7 +81,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 	},
 	xterm: function(can, target, zone) {
 		can.runAction({}, ice.RUN, [code.XTERM], function(msg) { msg.Table(function(item) {
-			can.onimport.item(can, item, function(event) { can.onimport.tabview(can, ctx.COMMAND, code.XTERM, item.hash) }, function(event) {}, target)
+			can.onimport.item(can, item, function(event) { can.onimport.tabview(can, can.Option(nfs.PATH), item.hash, code.XTERM) }, function(event) {}, target)
 		}), zone._total(msg.Length()) })
 	},
 	plugin: function(can, target, zone) { var total = 0
@@ -151,23 +153,33 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 			}),
 
 			yy: shy("复制当前行", function(event, can, target, count) {
-				can._last_text = can.current.text()
+				var list = [], line = can.current.line; for (var i = 0; i < count; i++) {
+					list.push(can.core.Value(can.page.Select(can, line, "td.text")[0], "innerText")), line = line.nextSibling
+				} can._last_text = list
+				return true 
 			}),
 			dd: shy("剪切当前行", function(event, can, target, count) {
-				var line = can.onaction.selectLine(can), text = can.current.text()
-				can.onaction.selectLine(can, can.onaction.deleteLine(can, line)), can._last_text = text
-				can.undo.push(function() { can.onaction.insertLine(can, text, line), can.onaction.selectLine(can, line) })
-				var callee = arguments.callee; can.redo.push(function() { callee(can) })
+				var list = []; for (var i = 0; i < count; i++) { (function() {
+					var line = can.onaction.selectLine(can), text = can.current.text(); list.push(text)
+					can.onaction.selectLine(can, can.onaction.deleteLine(can, line))
+					can.undo.push(function() { can.onaction.insertLine(can, text, line), can.onaction.selectLine(can, line) })
+					var callee = arguments.callee; can.redo.push(function() { callee(can) })
+				})() } can._last_text = list
+				return true
 			}),
-			p: shy("粘贴", function(can) {
-				var line = can.onaction.insertLine(can, can._last_text, can.current.next())
-				can.undo.push(function() { can.onaction.deleteLine(can, line), can.onaction.selectLine(can, line-1) })
-				var call = arguments.callee; can.redo.push(function() { call(event, can) })
+			p: shy("粘贴", function(can) { if (!can._last_text) { return }
+				for (var i = can._last_text.length-1; i >= 0; i--) { (function() {
+					var line = can.onaction.insertLine(can, can._last_text[i], can.current.next())
+					can.undo.push(function() { can.onaction.deleteLine(can, line), can.onaction.selectLine(can, line-1) })
+					var call = arguments.callee; can.redo.push(function() { call(event, can) })
+				})() }
 			}),
-			P: shy("粘贴", function(can) {
-				var line = can.onaction.insertLine(can, can._last_text, can.current.line)
-				can.undo.push(function() { can.onaction.deleteLine(can, line), can.onaction.selectLine(can, line+1) })
-				var call = arguments.callee; can.redo.push(function() { call(event, can) })
+			P: shy("粘贴", function(can) { if (!can._last_text) { return }
+				for (var i = 0; i < can._last_text.length; i++) { (function() {
+					var line = can.onaction.insertLine(can, can._last_text[i], can.current.line)
+					can.undo.push(function() { can.onaction.deleteLine(can, line), can.onaction.selectLine(can, line+1) })
+					var call = arguments.callee; can.redo.push(function() { call(event, can) })
+				})() }
 			}),
 			J: shy("合并两行", function(can) {
 				var next = can.current.next(); if (!next) { return }
@@ -308,6 +320,12 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			var sub = can.extentions[list[0]]; if (sub) { sub.select(); return }
 			can.onimport.exts(can, list[0])
 		})
+	},
+	"编辑器": function(event, can) {
+		window.opencmd("cd ~/contexts; vim "+can.Option(nfs.PATH)+can.Option(nfs.FILE)+" +"+can.Option(nfs.LINE))
+	},
+	"浏览器": function(event, can) {
+		window.openurl(location.href)
 	},
 
 	_complete: function(event, can, target) { target = target||can.ui.complete

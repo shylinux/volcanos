@@ -295,6 +295,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 			"event": code.KEYWORD,
 			"target": code.KEYWORD,
 			"window": code.KEYWORD,
+			"document": code.KEYWORD,
 			"location": code.KEYWORD,
 
 			"null": code.CONSTANT,

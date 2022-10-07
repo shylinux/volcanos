@@ -92,6 +92,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _process: function(can, msg) {
 		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
 		if (mode) { sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub) } else { can.onaction["刷新页面"]({}, can, "刷新页面", sub) }
 	},
+	title: function(can, title) {
+		can.isCmdMode() && can.user.title(title)
+	},
 })
 Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		"刷新页面", "刷新数据", "切换浮动", "切换全屏", "共享工具", "远程控制", "打开链接", "生成链接", "生成脚本", "生成图片", [

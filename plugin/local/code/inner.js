@@ -10,7 +10,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 		}), can.ui.project), can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
 	},
 	tabview: function(can, path, file, line, cb) { var key = can.onexport.keys(can, path, file)
-		function isCommand() { return path == ctx.COMMAND || line == ctx.INDEX }
+		function isCommand() { return path == ctx.COMMAND || line == ctx.INDEX || line == code.XTERM }
 		function isDream() { return line == web.DREAM }
 
 		function show(skip) { if (can.isCmdMode()) { can.onimport._title(can, path+file) }
@@ -100,12 +100,19 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 			return can.base.isFunc(cb) && cb(msg._content = msg._content||can.page.insertBefore(can, [{type: html.IFRAME,
 				src: can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}), height: can.ui.content.offsetHeight-4, width: can.ui.content.offsetWidth}], can.ui._content))
 		}
+		
+		var meta = {index: msg.Option(ctx.INDEX), args: can.Option(nfs.PATH) == ctx.COMMAND && can.Option(nfs.LINE) != ctx.INDEX? [can.Option(nfs.LINE)]: []}
+		if (can.Option(nfs.LINE) == code.XTERM) {
+			meta = {index: "web.code.xterm", args: can.Option(nfs.FILE)}
+		} else {
+			can.onimport.layout(can)
+		}
 
-		can.onimport.layout(can)
-		return can.onimport.plug(can, {index: msg.Option(ctx.INDEX), args: can.Option(nfs.PATH) == ctx.COMMAND && can.Option(nfs.LINE) != ctx.INDEX? [can.Option(nfs.LINE)]: []}, can.ui._content, function(sub) {
+		return can.onimport.plug(can, meta, can.ui._content, function(sub) {
 			sub.onimport.size(sub, sub.ConfHeight(can.ui.content.offsetHeight-3*html.ACTION_HEIGHT+sub.onexport.statusHeight(sub)), sub.ConfWidth(can.ui.content.offsetWidth), true)
 			msg._plugin = sub, can.base.isFunc(cb) && cb(msg._content = can.ui._content), can.onmotion.delay(can, function() { sub.Focus() })
 			sub.onaction.close = function() { can.onaction.back(can), msg._tab._close() }
+			sub.onimport.title = function(_, title) { can.page.Modify(can, msg._tab, title) }
 			sub.onimport._open = function(sub, msg, _arg) { var url = can.base.ParseURL(_arg), ls = url.origin.split("/chat/pod/")
 				if (_arg.indexOf(location.origin) == 0 && ls.length > 1) {
 					return can.onimport.tabview(can, can.Option(nfs.PATH), ls[1].split(ice.PS)[0], web.DREAM), sub.Update()
@@ -314,6 +321,11 @@ Volcanos(chat.ONACTION, {help: "控件交互", _trans: {link: "链接", width: "
 Volcanos(chat.ONIMPORT, {help: "导入数据",
 	_keydown: function(can) { if (!can.isCmdMode()) { return }
 		can.onkeymap._build(can), can._root.onengine.listen(can, chat.ONKEYDOWN, function(event) {
+			if ((event.ctrlKey || event.metaKey) && event.key >= "0" && event.key <= "9") {
+				return can.page.Select(can, can.ui._tabs, "div.tabs", function(target, index) {
+					if (index+1 == event.key) { target.click() }
+				})
+			}
 			can._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can._key_list, can.ui.content)
 		})
 	},

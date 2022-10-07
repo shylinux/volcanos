@@ -860,7 +860,10 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, target) {
 		document.body.onclick = function(event) {
 			if (window.webview) {
-				if (event.target.tagName == "A") { can.user.open(event.target.href) }
+				if (can.page.tagis(event.target, html.A)) {
+					event.shiftKey? window.outopen(event.target.href): can.user.open(event.target.href)
+					return
+				}
 			}
 			if (can.page.tagis( event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
 			can.page.Select(can, document.body, can.page.Keys("fieldset.input.key.float"), function(item) {
@@ -870,6 +873,9 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 		can.onkeymap._build(can), document.body.onkeydown = function(event) {
 			var msg = can.request(event, {model: "normal"}); if (event.metaKey && window.webview) {
 				msg.Option("model", "webview")
+				if (event.key >= "0" && event.key <= "9") {
+					can.onengine.signal(can, chat.ONKEYDOWN, msg); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
+				}
 			} else if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return } else {
 				can.onengine.signal(can, chat.ONKEYDOWN, msg); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }
 			}
@@ -913,8 +919,9 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 	_mode: {
 		webview: {
 			q: function(event, can, target) { window.terminate() },
-			o: function(event, can, target) { window.outopen(location.href) },
-			t: function(event, can, target) { window.terminal(location.href) },
+			o: function(event, can, target) { window.openurl(location.href) },
+			p: function(event, can, target) { window.openapp("QuickTime Player") },
+			t: function(event, can, target) { window.opencmd("cd contexts; pwd") },
 			w: function(event, can, target) { can.user.close() },
 			r: function(event, can, target) { can.user.reload(true) },
 			f: function(event, can, target) { can.onengine.signal(can, chat.ONOPENSEARCH, can.request({}, {type: mdb.FOREACH})) },
