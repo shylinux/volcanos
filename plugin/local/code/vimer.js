@@ -30,21 +30,22 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(window.webview? ["vim", "录屏", "日志", "编辑器", "浏览器"]: []), target): can.onmotion.hidden(can, target.parentNode)
 	},
 	recent: function(can, target, zone, path) { var total = 0
-		can.runAction(can.request({}), code.FAVOR, ["_recent_cmd"], function(msg) {
-			var list = {}; msg.Table(function(item) { list[item.path+item.file] = item }), can.core.Item(list, function(path, item) {
-				zone._total(++total)
-				can.page.Append(can, target, [{text: [item.name||item.file, html.DIV, html.ITEM], onclick: function(event) {
-					can.onimport.tabview(can, can.Option(nfs.PATH), item.file, ctx.INDEX)
-				}}])
+		function show(msg, cb) {
+			var list = {}; msg.Table(function(item) { var path = item.path+item.file
+				if (!list[path]) { zone._total(++total)
+					can.page.Append(can, target, cb(item, path))
+				} list[path] = item
 			})
+		}
+		can.runAction({}, code.FAVOR, ["_recent_cmd"], function(msg) {
+			show(msg, function(item) { return [{text: [item.name||item.file, html.DIV, html.ITEM], onclick: function(event) {
+				can.onimport.tabview(can, can.Option(nfs.PATH), item.file, ctx.INDEX)
+			}}] })
 		})
-		can.runAction(can.request({}), code.FAVOR, ["_recent_file"], function(msg) {
-			var list = {}; msg.Table(function(item) { list[item.path+item.file] = item }), can.core.Item(list, function(path, item) {
-				zone._total(++total)
-				can.page.Append(can, target, [{text: [path.split(ice.PS).slice(-2).join(ice.PS), html.DIV, html.ITEM], onclick: function(event) {
-					can.onimport.tabview(can, item.path, item.file)
-				}}])
-			})
+		can.runAction({}, code.FAVOR, ["_recent_file"], function(msg) {
+			show(msg, function(item, path) { return [{text: [path.split(ice.PS).slice(-2).join(ice.PS), html.DIV, html.ITEM], onclick: function(event) {
+				can.onimport.tabview(can, item.path, item.file)
+			}}] })
 		})
 	},
 	source: function(can, target, zone, path) { var total = 0
