@@ -30,7 +30,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(window.webview? ["vim", "录屏", "日志", "编辑器", "浏览器"]: []), target): can.onmotion.hidden(can, target.parentNode)
 	},
 	recent: function(can, target, zone, path) { var total = 0
-		can.runAction(can.request({}), code.FAVOR, ["_vimer"], function(msg) {
+		can.runAction(can.request({}), code.FAVOR, ["_recent_cmd"], function(msg) {
 			var list = {}; msg.Table(function(item) { list[item.path+item.file] = item }), can.core.Item(list, function(path, item) {
 				zone._total(++total)
 				can.page.Append(can, target, [{text: [item.name||item.file, html.DIV, html.ITEM], onclick: function(event) {
@@ -38,7 +38,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 				}}])
 			})
 		})
-		can.runAction(can.request({}), code.FAVOR, ["_recent"], function(msg) {
+		can.runAction(can.request({}), code.FAVOR, ["_recent_file"], function(msg) {
 			var list = {}; msg.Table(function(item) { list[item.path+item.file] = item }), can.core.Item(list, function(path, item) {
 				zone._total(++total)
 				can.page.Append(can, target, [{text: [path.split(ice.PS).slice(-2).join(ice.PS), html.DIV, html.ITEM], onclick: function(event) {
@@ -273,7 +273,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			can.onmotion.delay(can, function() { toast.close(), can.onaction[cli.SHOW]({}, can) }, 3000)
 		})
 	},
-	autogen: function(event, can, button) { can.onaction._runs(event, can, button, function(msg) {
+	autogen: function(event, can, button) { can.onaction._runs(can.request(event, {path: "src/"}), can, button, function(msg) {
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(cli.MAIN), "", function() {
 			can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE), "", function() {
 				can.ui.source.refresh(), can.user.toastSuccess(can)
@@ -281,7 +281,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		}, true)
 	}) },
 	script: function(event, can, button) {
-		can.onaction._runs(can.request(event, {file: can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.JS}), can, button)
+		can.onaction._runs(can.request(event, {path: "src/", file: can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.JS}), can, button)
 	},
 	website: function(event, can, button) {
 		can.onaction._runs(can.request(event, {path: "src/website/", file: (can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.ZML).split(ice.PS).pop()}), can, button)

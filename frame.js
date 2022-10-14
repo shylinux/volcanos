@@ -540,7 +540,7 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 		var rect = event.target == document.body? {left: window.innerWidth/2, top: 200, right: window.innerWidth/2, bottom: 200}: event.target.getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0
-			if (layout.top+target.offsetHeight > window.innerHeight) { layout.top = "", layout.bottom = window.innerHeight-top-height, layout.left += rect.width }
+			if (layout.top+target.offsetHeight > window.innerHeight) { layout.top = "", layout.bottom = window.innerHeight-top-height }
 			if (layout.left+target.offsetWidth > window.innerWidth) { layout.left = "", layout.right = 0 }
 		})
 		return can.onmotion.move(can, target, layout), layout
