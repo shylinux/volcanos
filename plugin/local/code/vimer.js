@@ -223,8 +223,8 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 			Enter: shy("换行", function(can, target) { if (event.key != "Enter") { return }
 				var rest = can.onkeymap.deleteText(target, target.selectionEnd), text = can.ui.current.value
 				var left = text.substr(0, text.indexOf(text.trimLeft()))||(text.trimRight() == ""? text: "")
-				can.core.List(["{}", "[]", "()"], function(item) { if (can.base.endWith(text, item[0])) {
-					!can.base.beginWith(rest, item[1]) && (left += ice.TB), !rest && can.onaction.insertLine(can, left+item[1], can.current.next())
+				text && can.core.List(["{}", "[]", "()"], function(item) { if (can.base.endWith(text, item[0])) {
+					!can.base.beginWith(rest, item[1]) && (!rest && can.onaction.insertLine(can, left+item[1], can.current.next()), left += ice.TB)
 				} }); if (can.base.endWith(text, "`") && can.base.count(text, "`")%2==1) { !rest && can.onaction.insertLine(can, left+"`", can.current.next()) }
 				var line = can.onaction.insertLine(can, left+rest.trimLeft(), can.current.next())
 				can.current.text(text.trimRight()||text), can.onaction.selectLine(can, line)
@@ -414,10 +414,8 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	_getLineno: function(can, line) {
 		return can.page.Select(can, can.ui.content, html.TR, function(item, index, array) { if (item == line || index+1 == line) { return index+1 } })[0]
 	},
-	rerankLine: function(can, value) { can.max = 0
-		can.page.Select(can, can.ui.content, html.TR, function(item, index) {
-			can.max++, can.page.Select(can, item, "td.line", function(item) { item.innerText = index+1 })
-		})
+	rerankLine: function(can, value) {
+		can.max = can.page.Select(can, can.ui.content, "tr>td.line", function(target, index) { return target.innerText = index+1 }).length
 	},
 	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value)
 		before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before))

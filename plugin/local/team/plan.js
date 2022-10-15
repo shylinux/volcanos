@@ -81,12 +81,13 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				}
 				can.onmotion.modify(can, event.target, function(sub, value) {
 					can.onaction.modifyTask(event, can, task, key, value)
+					event.target.innerText = value
 				}, {name: key, action: key.indexOf(mdb.TIME) > 0? "date": "key", msg: msg, mode: "simple"})
 			},
 		}]) }), can.onimport._display(can, task)
 	},
-	_display: function(can, task) { if (!task["extra.cmd"]) { return }
-		can.onappend.plugin(can, {type: "plug", ctx: task["extra.ctx"], cmd: task["extra.cmd"], arg: task["extra.arg"]}, function(sub, meta) {
+	_display: function(can, task) { if (!task["extra.index"]) { return }
+		can.onappend.plugin(can, {type: "plug", index: task["extra.index"], args: task["extra.args"]}, function(sub, meta) {
 			sub.run = function(event, cmds, cb) { var msg = can.request(event, kit.Dict("task.pod", task["pod"], "task.zone", task.zone, "task.id", task.id))
 				can.runAction(event, ice.RUN, [task[mdb.ZONE], task[mdb.ID]].concat(cmds), cb)
 			}
@@ -171,7 +172,7 @@ Volcanos(chat.ONACTION, {help: "组件交互", list: [
 		})
 	},
 	modifyTask: function(event, can, task, key, value) {
-		can.runAction(can.request(event, task), mdb.MODIFY, [key, value, task[key]])
+		can.runAction(can.request(event, task, can.Option()), mdb.MODIFY, [key, value])
 	},
 
 	_filter: function(event, can, key, value) { var count = 0
