@@ -265,7 +265,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 	process: function(can, msg, target, height, width) { can.onmotion.clear(can, target), can.user.toastSuccess(can)
 		if (msg.Option(ice.MSG_PROCESS) == "_field") {
 			msg.Table(function(item) { item.display = msg.Option(ice.MSG_DISPLAY)
-				can.onimport.plug(can, item, target, function(sub) { height && sub.ConfHeight(height-3*html.ACTION_HEIGHT), width && sub.ConfWidth(width), sub.Focus() })
+				can.onimport.plug(can, item, target, function(sub) {
+					sub.onaction.close = function() { can.onmotion.hidden(can, target.parentNode), can.onimport.layout(can) }
+					height && sub.ConfHeight(height-3*html.ACTION_HEIGHT), width && sub.ConfWidth(width), sub.Focus()
+				})
 			})
 		} else if (msg.Option(ice.MSG_DISPLAY) != "") {
 			can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY), target, false, function(msg) { can.onmotion.delay(can, function() { can.onimport.layout(can) }) })

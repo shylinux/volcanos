@@ -1,7 +1,7 @@
 Volcanos(chat.ONACTION, {help: "控件交互", _init: function(can, meta, cb, target) {
 		can.base.isFunc(cb) && cb(); switch (meta.type) {
 			case html.SELECT: meta.value && (target.value = meta.value); break
-			case html.BUTTON: meta.action == ice.AUTO && target.click(); break
+			case html.BUTTON: !can.sup._delay_init && meta.action == ice.AUTO && target.click(); break
 		}
 	},
 	run: function(event, can) { can.run(can.request(event, {_toast: "执行中..."})) },

@@ -251,7 +251,9 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				can.Update(event, cmds.slice(0, 2).concat(args), cb||function() {
 					if (can.core.CallFunc([can.sup, chat.ONIMPORT, ice.MSG_PROCESS], {can: can.sup, msg: msg})) { return }
 					if (can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
-					if (msg.Result().length > 0 || msg.Length() > 0) {
+					if (cmds[1] == mdb.CREATE || cmds[1] == mdb.INSERT) {
+						can.Update()
+					} else if (msg.Result().length > 0 || msg.Length() > 0) {
 						can.onappend.table(can, msg), can.onappend.board(can, msg)
 					} else {
 						can.Update()

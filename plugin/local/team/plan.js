@@ -6,6 +6,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
 		!can.user.isMobile && can.onmotion.toggle(can, can.ui.profile, true)
 		!can.user.isMobile && can.onmotion.toggle(can, can.ui.display, true)
+		can.onappend.tools(can, msg)
 	},
 	_content: function(can, msg, head, list, key, get, set) {
 		var hash = {}; msg.Table(function(value, index) { var k = key(can.base.Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value]) })

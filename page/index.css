@@ -65,7 +65,7 @@ fieldset.float>form.option input[type=button][name=close]{ display:block; }
 fieldset.full>form.option input[type=button][name=close]{ display:block; }
 fieldset.plug>form.option input[type=button][name=close]{ display:block; }
 
-fieldset.plugin>div.status { border-top:1px solid darkcyan; }
+fieldset.plugin>div.status { border-top:1px solid darkcyan; height:30px; }
 fieldset.story>div.status { border-top:1px solid darkcyan; }
 fieldset.output>form.option { display:none; }
 fieldset.output>div.action { display:none; }
@@ -327,7 +327,7 @@ body.white.simple div.carte div.item:hover { background-color:#e3e6f1; }
 body.white.simple fieldset.plugin div.output.json div.item span { color:black; }
 body.white.simple fieldset.plugin div.output.json div.item span.key { color:blue; }
 body.white.simple fieldset.plugin div.output.json div.item span.nonce { color:lightgray; }
-body.white.simple div.output.card input[type=button] { background-color:#0152d9; font-size:0.8rem; padding:5px 10px; box-shadow:2px 2px 6px 1px gray; }
+body.white.simple div.output.card input[type=button] { background-color:#0152d9; color:black; font-size:0.8rem; padding:5px 10px; box-shadow:2px 2px 6px 1px gray; }
 body.white.simple div.output.card input[type=button]:hover { box-shadow:2px 2px 8px 2px gray; }
 body.white.simple div.output div.project div.zone>div.action>div.item input[type=text] { color:black; }
 

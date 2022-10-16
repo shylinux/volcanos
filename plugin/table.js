@@ -157,6 +157,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				}},
 			]}
 		}))
+		can.page.Select(can, target, "input[type=button]", function(target) {
+			if (target.value == target.name) {
+				target.value = can.user.trans(can, target.name)
+			}
+		})
 	},
 	plug: function(can, meta, target, cb) { if (!meta || !meta.index) { return }
 		meta.type = "plug", can.onappend.plugin(can, meta, function(sub) { sub.sup = can
@@ -168,7 +173,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	tool: function(can, list, cb, target) { target = target||can._output
 		can.core.List(list, function(meta) { typeof meta == "string" && (meta = {index: meta})
-			can.onimport.plug(can, meta, target, function(sub) {
+			can.onimport.plug(can, meta, target, function(sub) { sub._delay_init = true
 				sub.ConfHeight(can.ConfHeight()-4*html.ACTION_HEIGHT), sub.ConfWidth(can.ConfWidth())
 				sub.page.style(sub, sub._output, html.MAX_HEIGHT, sub.ConfHeight())
 				sub.page.style(sub, sub._output, html.MAX_WIDTH, sub.ConfWidth())
