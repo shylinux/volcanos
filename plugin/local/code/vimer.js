@@ -155,7 +155,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 
 			yy: shy("复制当前行", function(event, can, target, count) {
 				var list = [], line = can.current.line; for (var i = 0; i < count; i++) {
-					list.push(can.core.Value(can.page.Select(can, line, "td.text")[0], "innerText")), line = line.nextSibling
+					list.push(can.onexport.text(can, line)), line = line.nextSibling
 				} can._last_text = list
 				return true 
 			}),
@@ -184,7 +184,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 			}),
 			J: shy("合并两行", function(can) {
 				var next = can.current.next(); if (!next) { return }
-				var rest = can.page.Select(can, next, "td.text")[0].innerText
+				var rest = can.onexport.text(can, next)
 				var line = can.onaction.selectLine(can), text = can.current.text()
 				can.ui.current.value = can.current.text(text.trimRight()+ice.SP+rest.trimLeft()), can.onaction.deleteLine(can, next)
 				can.undo.push(function() { can.onaction.modifyLine(can, line, text), can.onaction.insertLine(can, rest, line+1) })
@@ -265,7 +265,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	},
 
 	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
-		can.onaction._run(event, can, button, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)])
+		can.onaction._run(event, can, button, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function() { can.user.toastSuccess(can, button) })
 	},
 	compile: function(event, can, button) {
 		can.runAction(can.request(event, {_toast: "编译中..."}), button, [], function(msg) {
@@ -409,13 +409,13 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	},
 
 	_getLine: function(can, line) {
-		return can.page.Select(can, can.ui.content, html.TR, function(item, index, array) { if (item == line || index+1 == line) { return item } })[0]
+		return can.page.Select(can, can.ui.content, "tr>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return td.parentNode } })[0]
 	},
 	_getLineno: function(can, line) {
-		return can.page.Select(can, can.ui.content, html.TR, function(item, index, array) { if (item == line || index+1 == line) { return index+1 } })[0]
+		return can.page.Select(can, can.ui.content, "tr>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return index+1 } })[0]
 	},
 	rerankLine: function(can, value) {
-		can.max = can.page.Select(can, can.ui.content, "tr>td.line", function(target, index) { return target.innerText = index+1 }).length
+		can.max = can.page.Select(can, can.ui.content, "tr>td.line", function(td, index) { return td.innerText = index+1 }).length
 	},
 	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value)
 		before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before))
@@ -426,8 +426,8 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		return can.page.Remove(can, line), can.onaction.rerankLine(can), next
 	},
 	modifyLine: function(can, line, value) {
-		can.page.Select(can, can.onaction._getLine(can, line), "td.text", function(target) {
-			target.innerHTML = can.onsyntax._parse(can, value)
+		can.page.Select(can, can.onaction._getLine(can, line), "td.text", function(td) {
+			td.innerHTML = can.onsyntax._parse(can, value)
 		})
 	},
 

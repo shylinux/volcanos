@@ -3,7 +3,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		var cbs = can.onimport[msg.Option(ctx.STYLE)||can.Conf(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.core.CallFunc(cbs, {can: can, msg: msg, target: target, list: msg.Table()})
 			can.page.ClassList.add(can, target, can._args[ctx.STYLE])
-			return cbs(can, msg, target)
+			return cbs(can, msg, cb, target)
 		}
 
 		can.page.style(can, can._output, html.HEIGHT, "")
@@ -147,7 +147,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			}}
 		})).first
 	},
-	card: function(can, msg, target) {
+	card: function(can, msg, cb, target) {
 		can.page.Appends(can, target, msg.Table(function(value) {
 			return {view: html.ITEM+" "+(value.status||""), list: [
 				{view: [wiki.TITLE, html.DIV, value.name]},
@@ -158,10 +158,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			]}
 		}))
 		can.page.Select(can, target, "input[type=button]", function(target) {
-			if (target.value == target.name) {
-				target.value = can.user.trans(can, target.name)
-			}
+			if (target.value == target.name) { target.value = can.user.trans(can, target.name) }
 		})
+		can.base.isFunc(cb) && cb(msg)
 	},
 	plug: function(can, meta, target, cb) { if (!meta || !meta.index) { return }
 		meta.type = "plug", can.onappend.plugin(can, meta, function(sub) { sub.sup = can
@@ -172,7 +171,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}, target)
 	},
 	tool: function(can, list, cb, target) { target = target||can._output
-		can.core.List(list, function(meta) { typeof meta == "string" && (meta = {index: meta})
+		can.core.List(list.reverse(), function(meta) { typeof meta == "string" && (meta = {index: meta})
 			can.onimport.plug(can, meta, target, function(sub) { sub._delay_init = true
 				sub.ConfHeight(can.ConfHeight()-4*html.ACTION_HEIGHT), sub.ConfWidth(can.ConfWidth())
 				sub.page.style(sub, sub._output, html.MAX_HEIGHT, sub.ConfHeight())
@@ -186,7 +185,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 					}
 					can.onmotion.select(can, target, html.FIELDSET, sub._target), sub.Focus()
 					can.onmotion.select(can, can._status, html.LEGEND, event.target)
-					if (meta.msg == true) { meta.msg = false, sub.Update() }
+					if (sub._delay_init || meta.msg == true) { sub._delay_init = false, meta.msg = false, sub.Update() }
 				}, sub.select = function() { return sub._legend.click(), sub }
 				sub.onaction.close = function() { sub.select() }
 				sub._legend.onmouseenter = null

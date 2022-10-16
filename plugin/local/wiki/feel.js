@@ -152,7 +152,9 @@ Volcanos(chat.ONDETAIL, {help: "组件菜单", list: ["关闭", "下载", "删�
 	"下一个": function(event, can) { can.order < can.list.length-1? can.show(++can.order): can.user.toast(can, "已经是最后一张啦!") },
 	"设置头像": function(event, can) { can.setHeader("avatar", can.onimport._file(can, can.list[can.order].path)) },
 	"设置背景": function(event, can) { can.setHeader("background", can.onimport._file(can, can.list[can.order].path)) },
-	"复制链接": function(event, can) { can.user.copy(event, can, can.misc.MergeURL(can, {_path: can.onimport._file(can, can.list[can.order].path)}, true)) },
+	"复制链接": function(event, can) {
+		can.onmotion.share(event, can, [], [mdb.LINK, can.user.copy(event, can, can.misc.MergeURL(can, {_path: can.onimport._file(can, can.list[can.order].path)}, true)) ])
+	},
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据", list: [cli.BEGIN, mdb.LIMIT, mdb.TOTAL, nfs.FILE, "position"],
 	height: function(can) { var height = can.Action(html.HEIGHT)

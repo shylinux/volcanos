@@ -309,11 +309,10 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				action === false || table.onappend._action(table, msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), action)
 				action === false || table.onappend._status(table, msg.Option(ice.MSG_STATUS))
 				// action === false || table.onimport.tool(table, can.base.Obj(msg.Option(ice.MSG_TOOLKIT)))
-
 				var mode= ["float", "full", "cmd"]; for (var i in mode) {
 					if (can.page.ClassList.has(can, can._target, mode[i])) { table.onlayout[mode[i]](table); break }
 				}
-				can.base.isFunc(cb) && cb(msg)
+				can.onaction._output(can, msg), can.base.isFunc(cb) && cb(msg)
 			}, target: output||can._output})
 		})
 	},

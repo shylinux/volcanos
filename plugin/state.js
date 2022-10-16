@@ -118,6 +118,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		}
 	},
 	_resize: function(can, auto, height, width) { can.onimport.size(can, height, width, auto) },
+	_output: function(can, msg) { },
 
 	"刷新页面": function(event, can, button, sub) { can.core.CallFunc([sub.onlayout, "_init"], {can: sub}), can.user.toastSuccess(can, button) },
 	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },

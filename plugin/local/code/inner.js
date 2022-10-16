@@ -165,11 +165,11 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		]}]); return ui.tr
 	},
 	selectLine: function(can, line) {
-		if (!line) { return parseInt(can.core.Value(can.page.Select(can, can.ui._content, [[[html.TR, html.SELECT], [html.TD, nfs.LINE]]])[0], "innerText")||"1") }
-		can.page.Select(can, can.ui._content, html.TR, function(item, index, array) {
-			if (!can.page.ClassList.set(can, item, html.SELECT, item == line || index+1 == line)) { return }
-			line = item, can.Status("当前行", can.onexport.position(can, can.Option(nfs.LINE, index+1)))
-		}); if (!can.base.isObject(line)) { return 1 }
+		if (!line) { return can.onexport.line(can, can.page.Select(can, can.ui._content, "tr.select")[0]) }
+		can.page.Select(can, can.ui._content, "tr>td.line", function(td, index) { var tr = td.parentNode, n = parseInt(td.innerText)
+			if (!can.page.ClassList.set(can, tr, html.SELECT, tr == line || n == line)) { return }
+			line = tr, can.Status("当前行", can.onexport.position(can, can.Option(nfs.LINE, n)))
+		}); if (!can.base.isObject(line)) { return 0 }
 
 		can.page.Select(can, line, "td.text", function(item) {
 			can.current = {
@@ -184,7 +184,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			}
 			can.onimport.history(can, {path: can.Option(nfs.PATH), file: can.Option(nfs.FILE), line: can.Option(nfs.LINE)})
 			can.onexport.hash(can), can.onengine.signal(can, "tabview.line.select")
-		}); return parseInt(can.page.Select(can, line, "td.line")[0].innerText)
+		}); return can.onexport.line(can, line)
 	},
 	searchLine: function(event, can, value) {
 		can.runAction(can.request(event, {name: value, text: can.current.text()}, can.Option()), code.NAVIGATE, [], function(msg) {
@@ -211,6 +211,8 @@ Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["文件数", "解析器", 
 	keys: function(can, path, file) { return [path||can.Option(nfs.PATH), file||can.Option(nfs.FILE)].join(ice.FS) },
 	content: function(can) { return can.page.Select(can, can.ui.content, "td.text", function(item) { return item.innerText }).join(ice.NL) },
 	position: function(can, index, total) { total = total||can.max; return (parseInt(index))+ice.PS+parseInt(total)+" = "+parseInt((index)*100/total)+"%" },
+	text: function(can, line) { return can.core.Value(can.page.Select(can, line, "td.text")[0], "innerText") },
+	line: function(can, line) { return parseInt(can.core.Value(can.page.Select(can, line, "td.line")[0], "innerText")) },
 })
 
 Volcanos(chat.ONIMPORT, {help: "导入数据",
@@ -258,14 +260,17 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 	},
 	display: function(can, msg) {
 		var height = can.display_size[can.onexport.keys(can)]||can.ConfHeight()/2
-		can.onimport.process(can, msg, can.ui.display_output, height, can.ui.display.offsetWidth)
+		can.onimport.process(can, msg, can.ui.display_output, height, can.ui.display.offsetWidth, function(sub) {
+			can.display_size[can.onexport.keys(can)] = can.base.Max(sub._output.offsetHeight, can.ConfHeight()/2)+2*html.ACTION_HEIGHT+sub.onexport.statusHeight(sub)
+			can.onimport.layout(can)
+		})
 		can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.ui.display_status)
 		can.onmotion.toggle(can, can.ui.display, true), can.onimport.layout(can)
 	},
-	process: function(can, msg, target, height, width) { can.onmotion.clear(can, target), can.user.toastSuccess(can)
+	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target), can.user.toastSuccess(can)
 		if (msg.Option(ice.MSG_PROCESS) == "_field") {
 			msg.Table(function(item) { item.display = msg.Option(ice.MSG_DISPLAY)
-				can.onimport.plug(can, item, target, function(sub) {
+				can.onimport.plug(can, item, target, function(sub) { sub.onaction._output = function(_sub, _msg) { can.base.isFunc(cb) && cb(_sub, _msg) }
 					sub.onaction.close = function() { can.onmotion.hidden(can, target.parentNode), can.onimport.layout(can) }
 					height && sub.ConfHeight(height-3*html.ACTION_HEIGHT), width && sub.ConfWidth(width), sub.Focus()
 				})
