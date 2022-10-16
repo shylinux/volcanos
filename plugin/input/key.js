@@ -55,7 +55,10 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 			case "Tab": target._can && target._can.close(); return
 			case "n":
 			case "p": event.ctrlKey && can.onkeymap.prevent(event); break
-			case "Enter": if (meta._enter) { meta._enter(event); break }
+			case "Enter": if (meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey)) {
+				meta._enter(event)
+				break
+			}
 			default: can.base.isFunc(last) && last(event, can)
 		}
 		can.onfigure.key._make(event, can, meta, cb, target)
