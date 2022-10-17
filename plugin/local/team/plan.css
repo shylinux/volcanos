@@ -5,3 +5,5 @@ fieldset.plan>div.output div.prepare { background-color:blue; color:white; }
 fieldset.plan>div.output div.process { background-color:green; color:white; }
 fieldset.plan>div.output div.cancel { background-color:red; color:white; }
 fieldset.plan>div.output div.finish { background-color:gray; color:white; }
+
+fieldset.plan>div.output div.content table { width: -webkit-fill-available; }
