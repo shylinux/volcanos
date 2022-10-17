@@ -122,7 +122,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, cb, target) 
 		can.Conf(html.MARGIN_X, 4*html.PLUGIN_MARGIN)
 
 		if (can.user.mod.isPod || can.user.isMobile) {
-			var gt = "&#10095;", lt = "&#10094;"; function toggle(view) { return can.onmotion.toggle(can, can._root.River._target) }
+			var gt = "❯", lt = "❮"; function toggle(view) { return can.onmotion.toggle(can, can._root.River._target) }
 			can.page.Append(can, target, [{view: [[html.TOGGLE, chat.PROJECT]], list: [{text: [gt, html.DIV]}], onclick: function(event) {
 				event.target.innerHTML = toggle()? gt: lt, can.onaction.layout(can, can.Conf(chat.LAYOUT))
 			}}])
@@ -204,7 +204,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, cb, target) 
 		can.onlayout._init(can)
 
 		var cb = can.onlayout[button]; if (can.base.isFunc(cb)? cb(can, silent): (can.getActionSize(function(height, width) {
-			can.ConfHeight(can.base.Min(200, height-can.Conf(html.MARGIN_Y)-200)), can.ConfWidth(width-can.Conf(html.MARGIN_X))
+			can.ConfHeight(can.base.Min(200, height-can.Conf(html.MARGIN_Y)-(can.isCmdMode()? 0: 200))), can.ConfWidth(width-can.Conf(html.MARGIN_X))
 		}), false)) { return }
 
 		can.core.Next(can._plugins, function(sub, next) { can.onmotion.delay(can, function() {

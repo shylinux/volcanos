@@ -83,9 +83,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _process: function(can, msg) {
 	},
 	_open: function(can, msg, _arg) { return can.user.open(_arg), can.Update() },
 
-	size: function(can, height, width, auto, mode) { height += html.ACTION_HEIGHT-can.onexport.statusHeight(can)
+	size: function(can, height, width, auto, mode) { // height += html.ACTION_HEIGHT-can.onexport.statusHeight(can)
 		if (auto) {
-			can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, can.ConfHeight(height), html.MAX_WIDTH, can.ConfWidth(width))
+			height && can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, can.ConfHeight(height), html.MAX_WIDTH, can.ConfWidth(width))
 		} else {
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, "")
 		}

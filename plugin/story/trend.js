@@ -4,7 +4,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.Action(html.SPEED, parseInt(msg.Option(html.SPEED)||"100"))
 		can.page.ClassList.add(can, can._fields, "draw")
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
-			can.base.isFunc(cb) && cb(msg), can.onimport.layout(can)
+			can.base.isFunc(cb) && cb(msg)
+			can.onimport.layout(can)
+			can.base.isFunc(cb) && cb(msg)
 		})
 	},
 	_sum: function(can) {

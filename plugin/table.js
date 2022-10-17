@@ -202,7 +202,7 @@ Volcanos(chat.ONLAYOUT, {help: "界面布局",
 		can.onlayout._init(can)
 	},
 	cmd: function(can) {
-		can.ConfHeight(can.ConfHeight()+html.ACTION_HEIGHT)
+		// can.ConfHeight(can.ConfHeight()+html.ACTION_HEIGHT)
 		can.sup.onimport.size(can.sup, can.ConfHeight(), can.ConfWidth(), true)
 		can.onlayout._init(can)
 	},

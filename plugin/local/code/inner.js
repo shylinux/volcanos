@@ -269,7 +269,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 	},
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target), can.user.toastSuccess(can)
 		if (msg.Option(ice.MSG_PROCESS) == "_field") {
-			msg.Table(function(item) { item.display = msg.Option(ice.MSG_DISPLAY)
+			msg.Table(function(item) { item.display = msg.Option(ice.MSG_DISPLAY), item.height = height-3*html.ACTION_HEIGHT
 				can.onimport.plug(can, item, target, function(sub) { sub.onaction._output = function(_sub, _msg) { can.base.isFunc(cb) && cb(_sub, _msg) }
 					sub.onaction.close = function() { can.onmotion.hidden(can, target.parentNode), can.onimport.layout(can) }
 					height && sub.ConfHeight(height-3*html.ACTION_HEIGHT), width && sub.ConfWidth(width), sub.Focus()
@@ -358,6 +358,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onimport._profile(can, can.ui.profile), can.onimport._display(can, can.ui.display)
 		if (msg.Result() == "" && can.Option(nfs.LINE) == "1") { return }
 
+		can.isCmdMode() && can.ConfHeight(can.ConfHeight()+2*html.ACTION_HEIGHT)
 		if (msg.Option(nfs.FILE)) {
 			msg.Option(nfs.PATH) && can.Option(nfs.PATH, msg.Option(nfs.PATH))
 			can.Option(nfs.FILE, msg.Option(nfs.FILE))
@@ -422,11 +423,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.page.styleWidth(can, can.ui.display_output, width-project_width)
 
 		var height = can.user.isMobile && can.isFloatMode()? window.innerHeight-2*html.ACTION_HEIGHT: can.base.Min(can.ConfHeight(), 320)-1
-		var display_height = can.ui.display.style.display == html.NONE? 0: (can.display_size[can.onexport.keys(can)]||height/2)
+		var display_height = can.ui.display.style.display == html.NONE? 0: (can.display_size[can.onexport.keys(can)]||height/2-html.ACTION_HEIGHT)
 		var content_height = height-display_height; if (can.isCmdMode()) { content_height -= can.ui._tabs.offsetHeight + can.ui._path.offsetHeight + 4 }
 		var profile_height = height-html.ACTION_HEIGHT-display_height
 		can.page.styleHeight(can, can.ui.profile_output, profile_height)
-		can.page.styleHeight(can, can.ui.display_output, display_height)
+		can.page.styleHeight(can, can.ui.display_output, display_height-html.ACTION_HEIGHT)
 		can.page.styleHeight(can, can.ui.content, content_height-(can.ui.content != can.ui._content? 4: 0))
 		can.page.styleHeight(can, can.ui.project, height)
 

@@ -262,7 +262,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 	js: {
 		render: {},
 		split: {
-			operator: "{[(.,:;!?|<*>)]}",
+			operator: "{[(.,:;!?|<*>-+)]}",
 		},
 		prefix: {
 			"// ": code.COMMENT,

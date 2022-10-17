@@ -27,8 +27,8 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 				})
 			}}
 		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length())
-		can.getActionSize(function(left, top, width, height) {
-			can.page.style(can, can._target, html.MAX_HEIGHT, can.base.Max(top+height-can._target.offsetTop, 400))
+		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0
+			can.page.style(can, can._target, html.MAX_HEIGHT, can.base.Max(window.innerHeight-can._target.offsetTop-html.ACTION_HEIGHT, 600))
 		})
 	},
 	_make: function(event, can, meta, cb, target, last) {

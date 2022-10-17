@@ -461,7 +461,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 		}, target||can._output, field)
 	},
 	plugin: function(can, meta, cb, target, field) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)
-		var p = can.onengine.plugin(can, meta.index), res = {}; function cbs(sub, meta, skip) { res.__proto__ = sub, cb(sub, meta, skip) }
+		var p = can.onengine.plugin(can, meta.index), res = {}; function cbs(sub, meta, skip) { res.__proto__ = sub, can._plugins = (can._plugins||[]).concat([sub]), cb(sub, meta, skip) }
 		(meta.meta || meta.inputs && meta.inputs.length > 0)? /* 局部命令 */ can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, cbs, target, field):
 			p? /* 前端命令 */ can.onappend._plugin(can, {name: meta.index, help: p.help, meta: p.meta, list: p.list}, meta, function(sub, meta, skip) {
 				sub.run = function(event, cmds, cb) { var _cb = p, n = 0
