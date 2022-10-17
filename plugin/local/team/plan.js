@@ -1,5 +1,6 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) { can.onmotion.clear(can, target)
 		can.ui = can.onlayout.profile(can)
+		can.onimport.layout(can)
 		can._display_heights = {}
 		can.onimport[can.Option("scale")||"week"](can, msg)
 		can.page.style(can, can.ui.project, html.MAX_HEIGHT, can.ui.content.offsetHeight)
