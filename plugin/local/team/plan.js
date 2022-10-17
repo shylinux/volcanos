@@ -9,6 +9,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
 		!can.user.isMobile && can.onmotion.toggle(can, can.ui.profile, true)
 		!can.user.isMobile && can.onmotion.toggle(can, can.ui.display, true)
+		can.onmotion.hidden(can, can.ui.project)
+		can.onmotion.hidden(can, can.ui.profile)
 	},
 	_content: function(can, msg, head, list, key, get, set) { var begin_time = can.base.Date(can.Option("begin_time"))
 		var hash = {}; msg.Table(function(value, index) { var k = key(can.base.Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value]) })
@@ -35,7 +37,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 						can.onmotion.select(can, can.ui.content, html.TD, target.parentNode), can.onimport._profile(can, task)
 					}) }, null, can.ui.project); task._target = target, target.onclick = function(event) { item.click() }
 					can.sup.task = can.sup.task||task, can.sup.task.zone == task.zone && can.sup.task.id == task.id && (can.sup.task._target = target)
-					var ls = can.core.Split(location.hash.slice(1))||[]; if (ls[0] == task.zone && ls[1] == task.id) { can.sup.task = task }
+					var ls = can.core.Split(decodeURIComponent(location.hash.slice(1)))||[]; if (ls[0] == task.zone && ls[1] == task.id) { can.sup.task = task }
 				},
 			}
 		}),
@@ -129,7 +131,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight())
 			}
 		}
-		can.page.styleWidth(can, can.ui.content, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth), can.core.List(can._plugins_display, function(sub) {
+		can.page.styleWidth(can, can.ui.content, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
+		if (can.ui.display.style.display == html.NONE) { return }
+		can.core.List(can._plugins_display, function(sub) {
 			sub.onimport.size(sub, can.ConfHeight()-can.ui.content.offsetHeight-html.ACTION_HEIGHT-sub.onexport.statusHeight(sub), sub.ConfWidth(can.ConfWidth()-can.ui.project.offsetWidth), true)
 		})
 	}

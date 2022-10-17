@@ -1,0 +1,5 @@
+fieldset.goods>div.output>div.item>div { padding:10px; float:left; clear:none; }
+fieldset.goods>div.output>div.item { height:170px; width:488px; float:left; border-radius:10px; }
+fieldset.goods>div.output>div.item>div.image img { border-radius:10px; }
+fieldset.goods>div.output>div.item>div.content>div.title { width:298px; height:50px; white-space:break-spaces; overflow:auto; }
+fieldset.goods>div.output>div.item>div.content>div.price { color:red; }

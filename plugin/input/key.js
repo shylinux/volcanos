@@ -1,5 +1,5 @@
 Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
-	_init: function(event, can, cbs, target, name, value) {
+	_load: function(event, can, cbs, target, name, value) {
 		can.runAction(event, mdb.INPUTS, [name, value||target.value], function(msg) {
 			if (name == ctx.INDEX) {
 				can.core.Item(can.onengine.plugin.meta, function(key, cb) {
@@ -23,7 +23,7 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, line) { value = line[key]
 			return {text: [value, html.TD], style: msg.append && msg.append.length == 1? {"min-width": target.offsetWidth-16}: {}, onclick: function(event) { can.base.isFunc(cbs) && cbs(can, value, target.value)
 				msg.Option(ice.MSG_PROCESS) == ice.PROCESS_AGAIN && can.onmotion.delay(can, function() {
-					can.onfigure.key._init(event, can, cbs, target, name, value)
+					can.onfigure.key._load(event, can, cbs, target, name, value)
 				})
 			}}
 		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length())
@@ -37,7 +37,7 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 			if (meta.msg && meta.msg.Length() > 0) {
 				can.onfigure.key._show(sub, meta.msg, cbs, target, meta.name)
 			} else {
-				can.onfigure.key._init(event, sub, cbs, target, meta.name)
+				can.onfigure.key._load(event, sub, cbs, target, meta.name)
 			}
 		})
 	},
@@ -66,8 +66,8 @@ Volcanos(chat.ONFIGURE, {help: "控件详情", key: {
 	onkeyup: function(event, can, meta, cb, target, last) { var sub = target._can; if (!sub) { return }
 		if (can.onfigure.key._select(event, can, target)) { return }
 		switch (event.key) {
-			case ice.PS: can.onfigure.key._init(event, sub, sub._cbs, target, meta.name, event.target.value); break
+			case ice.PS: can.onfigure.key._load(event, sub, sub._cbs, target, meta.name, event.target.value); break
 		}
-		can.onmotion.selectInputTable(event, sub, function() { can.onfigure.key._init(event, sub, sub._cbs, target, meta.name) }, target)
+		can.onmotion.selectInputTable(event, sub, function() { can.onfigure.key._load(event, sub, sub._cbs, target, meta.name) }, target)
 	},
 }})

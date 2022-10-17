@@ -269,7 +269,13 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	},
 	compile: function(event, can, button) {
 		can.runAction(can.request(event, {_toast: "编译中..."}), button, [], function(msg) {
-			if (msg.Length() > 0) { return can.ui.search._show(msg) }
+			if (msg.Length() > 0 || msg.Result()) {
+				can.onimport.exts(can, "inner/search.js", function() {
+					can.ui.search._show(msg)
+				})
+				return
+			}
+			
 			var toast = can.user.toastProcess(can, "重启中...")
 			can.onmotion.delay(can, function() { toast.close(), can.onaction[cli.SHOW]({}, can) }, 3000)
 		})

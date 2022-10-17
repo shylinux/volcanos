@@ -491,7 +491,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 					target._can = sub, sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }
 					can.base.isFunc(cb) && cb(sub, _cbs), can.base.isFunc(meta._init) && meta._init(sub, sub._target)
 				}, can._root._target)
-			}, target, last) } })
+			}, target, last) } }), can.onfigure[input]._init && can.onfigure[input]._init(can, target)
 		})
 	},
 })
