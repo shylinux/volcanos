@@ -8,7 +8,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 					{view: [wiki.CONTENT, html.DIV, item.text]},
 					{view: [mall.PRICE, html.DIV, "¥ "+(item.price||0)]},
 					{view: [mall.COUNT, html.DIV, "还剩 "+(item.count||0)]},
-					{view: html.ACTION, inner: item.action},
+					{view: html.ACTION, inner: item.action, style: {width: width-190}},
 				]},
 			], onclick: function(event) {
 				if (can.page.tagis(event.target, html.INPUT) && event.target.type == html.BUTTON) {
