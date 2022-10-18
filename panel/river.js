@@ -78,7 +78,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", list: [mdb.CREATE, web.SHARE, web
 		can.onmotion.select(can, can._output, html.DIV_ITEM, can.river_list[river])
 		can.onmotion.select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], can.storm_list[can.core.Keys(river, storm)])
 
-		can.onmotion.delay(can, function() { can.onlayout._init(can)
+		can.onmotion.delay(can, function() { // can.onlayout._init(can)
 			can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {
 				river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm),
 			}))

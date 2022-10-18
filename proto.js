@@ -226,6 +226,7 @@ var team = {
 }
 var mall = {
 	ASSET: "asset", SALARY: "salary",
+	PRICE: "price", COUNT: "count",
 }
 
 var svg = {

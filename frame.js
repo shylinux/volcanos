@@ -312,6 +312,10 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				var mode= ["float", "full", "cmd"]; for (var i in mode) {
 					if (can.page.ClassList.has(can, can._target, mode[i])) { table.onlayout[mode[i]](table); break }
 				}
+				can.page.Select(can, can._output, "input[type=button]", function(target) {
+					if (target.value == target.name) { target.value = can.user.trans(can, target.name) }
+				})
+				can.user.isMobile && can.ConfHeight() > can.ConfWidth() && can.onmotion.hidden(can, can._action)
 				can.onaction._output(can, msg), can.base.isFunc(cb) && cb(msg)
 			}, target: output||can._output})
 		})

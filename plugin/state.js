@@ -91,6 +91,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _process: function(can, msg) {
 		}
 		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
 		if (mode) { sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub) } else { can.onaction["刷新页面"]({}, can, "刷新页面", sub) }
+		if (can.user.isMobile) {
+			can.onmotion.toggle(can, can._action, can.ConfHeight() < can.ConfWidth())
+		}
 	},
 	title: function(can, title) {
 		can.isCmdMode() && can.user.title(title)
@@ -120,7 +123,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	_resize: function(can, auto, height, width) { can.onimport.size(can, height, width, auto) },
 	_output: function(can, msg) { },
 
-	"刷新页面": function(event, can, button, sub) { can.core.CallFunc([sub.onlayout, "_init"], {can: sub}), can.user.toastSuccess(can, button) },
+	"刷新页面": function(event, can, button, sub) { can.core.CallFunc([sub.onlayout, "_init"], {can: sub}) },
 	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
 	"切换浮动": function(event, can, button, sub) {
 		can.onaction._switch(can, sub, "float", function() {

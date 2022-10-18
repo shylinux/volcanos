@@ -257,6 +257,7 @@ body.mobile fieldset.River>div.output { width:320px; }
 body.mobile fieldset.River>div.output div.item { font-size:1.6rem; }
 body.mobile fieldset.Action.main { margin-top:3rem; margin-bottom:3rem; }
 body.mobile fieldset.Action.main.cmd { margin-top:0; margin-bottom:0; }
+body.mobile fieldset.Action>div.output { overflow:hidden; }
 body.mobile fieldset.Footer.foot { width:-webkit-fill-available; }
 body.mobile fieldset.Footer.foot { background-color:#000000b8; font-size:1.6rem; height:3rem; position:fixed; bottom:0; }
 body.mobile fieldset.Footer.foot div.output { height:3rem; }

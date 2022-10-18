@@ -213,7 +213,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, cb, target) 
 		// var cb = can.onlayout[button]; if (can.base.isFunc(cb)? cb(can, silent): (can.getActionSize(function(height, width) {
 		// 	can.ConfHeight(can.base.Min(200, height-can.Conf(html.MARGIN_Y)-(can.isCmdMode()? 0: 200))), can.ConfWidth(width-can.Conf(html.MARGIN_X))
 		// }), false)) { return }
-		can.page.style(can, can._target, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth())
+		can.page.style(can, can._target, html.HEIGHT, can.ConfHeight()+can.Conf(html.MARGIN_Y), html.WIDTH, can.ConfWidth()+can.Conf(html.MARGIN_X))
 		can.core.Next(can._plugins, function(sub, next) { can.onmotion.delay(can, function() {
 			sub.onaction._resize(sub, button == "" || button == ice.AUTO, can.ConfHeight(), can.ConfWidth()), next()
 			if (button == "" || button == ice.AUTO) { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }

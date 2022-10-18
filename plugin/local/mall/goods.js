@@ -1,27 +1,26 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.clear(can)
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 		var width = can.onexport.width(can); can.user.isMobile && can.page.style(can, can._output, html.HEIGHT, can.ConfHeight())
-		can.page.Appends(can, target, msg.Table(function(value) {
-			return {view: html.ITEM+" "+(value.status||""), style: {width: width}, list: [
-				{view: "image", list: [{img: can.misc.MergeURL(can, {_path: "/share/cache/"+can.core.Split(value.image)[0]}), width: 150}]}, {view: "content", list: [
-					{view: [wiki.TITLE, html.DIV, value.name], style: {width: width-190}},
-					{view: [wiki.CONTENT, html.DIV, value.text]},
-					{view: ["price", html.DIV, "¥ "+value.price]},
-					{view: ["count", html.DIV, "还剩 "+value.count]},
-					{view: html.ACTION, inner: value.action, onclick: function(event) {
-						can.run(can.request(event, value), [ctx.ACTION, event.target.name])
-					}},
+		can.page.Appends(can, target, msg.Table(function(item) {
+			return {view: html.ITEM, style: {width: width}, list: [
+				{view: wiki.IMAGE, list: [{img: can.misc.MergeURL(can, {_path: "/share/cache/"+can.core.Split(item.image)[0]}), width: 150}]},
+				{view: wiki.CONTENT, list: [
+					{view: [wiki.TITLE, html.DIV, item.name], style: {width: width-190}},
+					{view: [wiki.CONTENT, html.DIV, item.text]},
+					{view: [mall.PRICE, html.DIV, "¥ "+(item.price||0)]},
+					{view: [mall.COUNT, html.DIV, "还剩 "+(item.count||0)]},
+					{view: html.ACTION, inner: item.action},
 				]},
 			], onclick: function(event) {
-				if (can.page.tagis(event.target, html.INPUT)) { return }
-				can.Option(mdb.HASH, value.hash), can.Update()
+				if (can.page.tagis(event.target, html.INPUT) && event.target.type == html.BUTTON) {
+					can.run(can.request(event, item), [ctx.ACTION, event.target.name])
+				} else {
+					can.Option(mdb.HASH, item.hash), can.Update()
+				}
 			}}
 		})), can.base.isFunc(cb) && cb(msg)
-		can.page.Select(can, target, "input[type=button]", function(target) {
-			if (target.value == target.name) { target.value = can.user.trans(can, target.name) }
-		})
 	},
-	layout: function(can) { can.page.style(can, can._output, html.HEIGHT, can.ConfHeight())
-		var width = can.onexport.width(can); can.page.Select(can, can._output, "div.item", function(target) {
+	layout: function(can) { can.user.isMobile && can.page.style(can, can._output, html.HEIGHT, can.ConfHeight())
+		var width = can.onexport.width(can); can.page.Select(can, can._output, html.DIV_ITEM, function(target) {
 			can.page.style(can, target, html.WIDTH, width), can.page.Select(can, target, "div.title", function(target) {
 				can.page.style(can, target, html.WIDTH, width-190)
 			})
