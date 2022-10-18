@@ -1,4 +1,5 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg, cb, target) {
 		var width = can.onexport.width(can); can.user.isMobile && can.page.style(can, can._output, html.HEIGHT, can.ConfHeight())
 		can.page.Appends(can, target, msg.Table(function(item) {
 			return {view: html.ITEM, style: {width: width}, list: [
@@ -21,7 +22,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 	},
 	layout: function(can) { can.user.isMobile && can.page.style(can, can._output, html.HEIGHT, can.ConfHeight())
 		var width = can.onexport.width(can); can.page.Select(can, can._output, html.DIV_ITEM, function(target) {
-			can.page.style(can, target, html.WIDTH, width), can.page.Select(can, target, "div.title", function(target) {
+			can.page.style(can, target, html.WIDTH, width), can.page.Select(can, target, "div.title,div.action", function(target) {
 				can.page.style(can, target, html.WIDTH, width-190)
 			})
 		})
