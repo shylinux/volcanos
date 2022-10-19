@@ -1,7 +1,7 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) { can.onmotion.clear(can, target)
-		can.ui = can.onlayout.profile(can)
-		can.onimport.layout(can)
+		can.isCmdMode() && can.page.styleHeight(can, can._output, can.ConfHeight())
 		can._display_heights = {}
+		can.ui = can.onlayout.profile(can), can.onimport.layout(can)
 		can.onimport[can.Option("scale")||"week"](can, msg)
 		can.page.style(can, can.ui.project, html.MAX_HEIGHT, can.ui.content.offsetHeight)
 		can.page.style(can, can.ui.profile, html.MAX_HEIGHT, can.ui.content.offsetHeight)
@@ -122,6 +122,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onimport._content(can, msg, head, list, key, get, set)
 	},
 	layout: function(can) {
+		can.user.isMobile && can.page.styleHeight(can, can._output, can.ConfHeight())
 		if (can.isCmdMode()) {
 			var height = can._display_heights[can.sup.task? [can.sup.task.zone, can.sup.task.id].join(ice.FS): ""]||html.ACTION_HEIGHT
 			if (can.ui.display.innerHTML && can.ui.display.style.display != "none") {

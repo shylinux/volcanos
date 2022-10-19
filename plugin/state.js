@@ -156,7 +156,7 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	},
 	"生成链接": function(event, can) { var meta = can.Conf(), args = can.Option()
 		args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == "web.wiki.word" && (args.cmd = args.path)
-		can.onmotion.share(event, can, [], [mdb.LINK, can.user.copy(event, can, can.misc.MergeURL(can, args))])
+		can.onmotion.share(event, can, [], [mdb.LINK, can.user.copy(event, can, can.misc.MergePodCmd(can, args))])
 	},
 	"生成脚本": function(event, can) { var conf = can.Conf()
 		var args = can.Input("", true).join(ice.SP), list = [

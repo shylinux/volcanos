@@ -1,15 +1,14 @@
 Volcanos(chat.ONIMPORT, {
-	_init: function(can, msg, cb, target) {
-		var width = can.onexport.width(can); can.user.isMobile && can.page.style(can, can._output, html.HEIGHT, can.ConfHeight())
+	_init: function(can, msg, target) {
 		can.page.Appends(can, target, msg.Table(function(item) {
-			return {view: html.ITEM, style: {width: width}, list: [
-				{view: wiki.IMAGE, list: [{img: can.misc.MergeURL(can, {_path: "/share/cache/"+can.core.Split(item.image)[0]}), width: 150}]},
+			return {view: html.ITEM, list: [
+				{view: wiki.IMAGE, list: [{img: can.misc.MergeCache(can, can.core.Split(item.image)[0]), width: 150}]},
 				{view: wiki.CONTENT, list: [
-					{view: [wiki.TITLE, html.DIV, item.name], style: {width: width-190}},
+					{view: [wiki.TITLE, html.DIV, item.name]},
 					{view: [wiki.CONTENT, html.DIV, item.text]},
 					{view: [mall.PRICE, html.DIV, "¥ "+(item.price||0)]},
 					{view: [mall.COUNT, html.DIV, "还剩 "+(item.count||0)]},
-					{view: html.ACTION, inner: item.action, style: {width: width-190}},
+					{view: html.ACTION, inner: item.action},
 				]},
 			], onclick: function(event) {
 				if (can.page.tagis(event.target, html.INPUT) && event.target.type == html.BUTTON) {
@@ -18,14 +17,11 @@ Volcanos(chat.ONIMPORT, {
 					can.Option(mdb.HASH, item.hash), can.Update()
 				}
 			}}
-		})), can.base.isFunc(cb) && cb(msg)
+		})), can.onimport.layout(can)
 	},
-	layout: function(can) { can.user.isMobile && can.page.style(can, can._output, html.HEIGHT, can.ConfHeight())
-		var width = can.onexport.width(can); can.page.Select(can, can._output, html.DIV_ITEM, function(target) {
-			can.page.style(can, target, html.WIDTH, width), can.page.Select(can, target, "div.title,div.action", function(target) {
-				can.page.style(can, target, html.WIDTH, width-190)
-			})
-		})
+	layout: function(can) { var width = can.onexport.width(can)
+		can.page.Select(can, can._output, "div.item>div.content", function(target) { can.page.styleWidth(can, target, width-190) })
+		can.isCmdMode() && can.page.styleHeight(can, can._output, can.ConfHeight())
 	},
 }, [""])
 Volcanos(chat.ONEXPORT, {

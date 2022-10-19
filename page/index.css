@@ -236,6 +236,7 @@ body.mobile table.content th { padding:6px 6px; }
 
 body.mobile table.layout td.content div.toggle.project { width:30px; }
 body.mobile table.layout td.content div.toggle.profile { width:30px; }
+body.mobile table.layout td.content div.toggle.display { margin-top:-30px; height:30px; }
 
 body.mobile form.option>div.item { margin:0; height:38px; }
 body.mobile div.action>div.item { margin:0; height:38px; }
