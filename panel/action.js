@@ -10,9 +10,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 	},
 	_plugin: function(can, river, storm, sub, meta) { sub._target._meta = meta, sub._target._plugin = sub
 		meta.id && (sub._option.dataset = sub._option.dataset||{}, sub._option.dataset.id = meta.id)
-		can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth())
+		sub.Mode(can.Mode()), can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth())
 
-		sub.Mode(can.Mode())
 		sub.run = function(event, cmds, cb) {
 			return can.run(sub.request(event, {width: sub.ConfWidth(), height: sub.ConfHeight()}), can.misc.concat(can, [river, storm, meta.id||meta.index], cmds), cb)
 		}, can._plugins = can.misc.concat(can, can._plugins, [sub])

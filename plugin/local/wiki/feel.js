@@ -131,7 +131,7 @@ Volcanos(chat.ONDETAIL, {help: "组件菜单", list: ["关闭", "下载", "删�
 			sub.run = function(event, cmds, cb) { return can.run(event, cmds, cb, true) }
 
 			sub.getActionSize(function(msg, left, top, width, height) {
-				sub.page.style(sub, sub._target, {left: left, top: top})
+				sub.page.style(sub, sub._target, {left: left||0, top: top||0})
 				sub.page.style(sub, sub._output, html.WIDTH, width, html.HEIGHT, height-2*html.ACTION_HEIGHT)
 				sub.onappend._action(can, can.ondetail.list, sub._action, can.ondetail)
 				sub.onappend._status(sub, ["begin", "file"])
@@ -158,7 +158,7 @@ Volcanos(chat.ONDETAIL, {help: "组件菜单", list: ["关闭", "下载", "删�
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据", list: [cli.BEGIN, mdb.LIMIT, mdb.TOTAL, nfs.FILE, "position"],
 	height: function(can) { var height = can.Action(html.HEIGHT)
-		return parseInt(height == ice.AUTO? can.base.Min(can.ConfHeight()/4, 200): height)
+		return parseInt(height == ice.AUTO? can.base.Min(can.ConfHeight()/4, 200): height)||200
 	},
 	position: function(can, index, total) { total = total || can.max
 		return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+ice.PS+parseInt(total)

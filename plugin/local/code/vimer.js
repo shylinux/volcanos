@@ -27,7 +27,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 }, [""])
 Volcanos(chat.ONFIGURE, {help: "索引导航", 
 	create: function(can, target, zone, path) {
-		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(window.webview? ["vim", "录屏", "日志", "编辑器", "浏览器"]: []), target): can.onmotion.hidden(can, target.parentNode)
+		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(window.webview? ["查找", "vim", "录屏", "日志", "编辑器", "浏览器"]: ["查找"]), target): can.onmotion.hidden(can, target.parentNode)
 	},
 	recent: function(can, target, zone, path) { var total = 0
 		function show(msg, cb) {
@@ -114,6 +114,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 			p: shy("添加插件", function(event, can) { can.onaction["插件"](event, can) }),
 			e: shy("添加扩展", function(event, can) { can.onaction["扩展"](event, can) }),
 			g: shy("打开搜索", function(event, can) { can.onimport.exts(can, "inner/search.js") }),
+			y: shy("添加插件", function(event, can) { can.onaction["查找"](event, can) }),
 			
 			i: shy("插入模式", function(event, can) { can.onkeymap._insert(event, can) }),
 			n: shy("命令模式", function(event, can) { can.onkeymap._normal(event, can) }),
@@ -346,7 +347,34 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	"浏览器": function(event, can) {
 		window.openurl(location.href)
 	},
-
+	"查找": function(event, can) {
+		var ui = can.page.Append(can, can._output, [{view: "vimer find", list: [html.ACTION, html.OUTPUT], style: {position: "absolute", left: can.ui.project.offsetWidth, top: 320}}])
+		can.onmotion.move(can, ui.first)
+		
+		function find(begin, text) {
+			for (begin; begin <= can.max; begin++) {
+				if (can.onexport.text(can, can.onaction._getLine(can, begin)).indexOf(text) > -1) {
+					return can.onaction.selectLine(can, begin), can.current.scroll(can.current.scroll()-5)
+				}
+			}
+		}
+		function complete(target) {
+			can.onappend.figure(can, {action: "key", mode: "simple", run: function(event, cmds, cb) {
+				var msg = can.request(event); can.core.List(can.core.Split(can.current.text(), "\t \n:,{}"), function(value) { msg.Push("value", value) }), cb(msg)
+			}}, target)
+		}
+		
+		var from, to
+		var meta = can.onappend._action(can, [
+			{type: "text", name: "from", _init: function(target) { from = target, complete(target), can.onmotion.delay(can, function() { target.focus() }) }},
+			{type: "text", name: "to", _init: function(target) { to = target, complete(target) }},
+			"find", "next", "replace", "close"], ui.action, {
+			find: function() { find(1, from.value) },
+			next: function() { find(can.onaction.selectLine(can)+1, from.value) },
+			replace: function() { can.current.text(can.current.text().replace(from.value, to.value)), meta.next() },
+			close: function() { can.page.Remove(can, ui.first) },
+		}) 
+	},
 	_complete: function(event, can, target) { target = target||can.ui.complete
 		if (event == undefined) { return }
 		var pre = can.ui.current.value.slice(0, can.ui.current.selectionStart)
@@ -412,6 +440,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			if (event && event.type == "click") { can.onkeymap._insert(event, can, 0, (event.offsetX)/12-1) }
 			target.focus(), can.ui.content.scrollLeft -= 10000
 		})
+		can.user.localStorage(can, "web.code.vimer.selectLine:"+can.Option(nfs.PATH)+can.Option(nfs.FILE), can.onaction._getLineno(can, can.current.line))
 	},
 
 	_getLine: function(can, line) {

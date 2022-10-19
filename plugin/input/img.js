@@ -1,4 +1,4 @@
-Volcanos(chat.ONFIGURE, {help: "控件详情", img: {
+Volcanos(chat.ONFIGURE, {img: {
 	_init: function(can, target) { can.onmotion.hidden(can, target)
 		for (var i = 0; i < 1; i++) {
 		can.page.Append(can, target.parentNode, [{type: html.DIV, style: {width: 90, height: 90, "background-color": "yellow"}, onclick: function(event) {

@@ -15,7 +15,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 
 		function show(skip) { if (can.isCmdMode()) { can.onimport._title(can, path+file) }
 			can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.tabview[key]
-			can.Option(can.onimport.history(can, {path: path, file: file, line: line||can._msg.Option(nfs.LINE)||1}))
+			
+			can.Option(can.onimport.history(can, {path: path, file: file, line: line||
+			can.user.localStorage(can, "web.code.vimer.selectLine:"+path+file)||
+			can._msg.Option(nfs.LINE)||
+			1}))
 			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg
 				can.onexport.hash(can), msg._tab && can.onmotion.select(can, msg._tab.parentNode, html.DIV_TABS, msg._tab)
 				can.ui._path && (can.ui._path.innerHTML = isDream()? can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)})):
@@ -459,7 +463,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.extentions[url.split("?")[0]] = sub, can.base.isFunc(cb)? cb(sub): sub.select()
 		}) })
 	},
-	sess: function(can, sess, cb) { sess = sess||can.user.localStorage(can, "web.code.inner.sess")
+	sess: function(can, sess, cb) { sess = sess||can.base.Obj(can.user.localStorage(can, "web.code.inner.sess"), {})
 		can.core.Next(sess.plug, function(item, next) { can.onimport.toolkit(can, {index: item}, function(sub) { can.toolkit[item] = sub, next() }) }, function() {
 			can.core.Next(sess.exts, function(item, next) { can.onimport.exts(can, item, next) }, function() {
 				var path = can.Option(nfs.PATH), file = can.Option(nfs.FILE), line = can.Option(nfs.LINE)
