@@ -315,6 +315,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				can.page.Select(can, can._output, "input[type=button]", function(target) {
 					if (target.value == target.name) { target.value = can.user.trans(can, target.name) }
 				})
+				table.onappend.tools(table, msg)
 				can.user.isMobile && can.ConfHeight() > can.ConfWidth() && can.onmotion.hidden(can, can._action)
 				can.onaction._output(can, msg), can.base.isFunc(cb) && cb(msg)
 			}, target: output||can._output})
@@ -443,7 +444,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 		return (code.scrollBy && code.scrollBy(0, 10000)), code
 	},
 	tools: function(can, msg, cb, target) {
-		can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT)), cb, target)
+		can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []), cb, target)
 	},
 
 	_plugin: function(can, value, meta, cb, target, field) {
