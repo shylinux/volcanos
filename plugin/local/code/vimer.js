@@ -27,7 +27,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 }, [""])
 Volcanos(chat.ONFIGURE, {help: "索引导航", 
 	create: function(can, target, zone, path) {
-		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(window.webview? ["查找", "vim", "录屏", "日志", "编辑器", "浏览器"]: ["查找"]), target): can.onmotion.hidden(can, target.parentNode)
+		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(window.webview? ["查找", "git", "vim", "录屏", "日志", "编辑器", "浏览器"]: ["查找"]), target): can.onmotion.hidden(can, target.parentNode)
 	},
 	recent: function(can, target, zone, path) { var total = 0
 		function show(msg, cb) {
@@ -328,6 +328,9 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			var sub = can.extentions[list[0]]; if (sub) { sub.select(); return }
 			can.onimport.exts(can, list[0])
 		})
+	},
+	"git": function(event, can) {
+		can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX)
 	},
 	"vim": function(event, can) {
 		can.onaction._run(can.request(event, can.Option()), can, code.XTERM, [mdb.TYPE, "vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE)], function(msg) {

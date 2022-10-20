@@ -113,7 +113,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 		}
 
 		return can.onimport.plug(can, meta, can.ui._content, function(sub) {
-			sub.onimport.size(sub, sub.ConfHeight(can.ui.content.offsetHeight-3*html.ACTION_HEIGHT+sub.onexport.statusHeight(sub)), sub.ConfWidth(can.ui.content.offsetWidth), true)
+			sub.onimport.size(sub, sub.ConfHeight(can.ui.content.offsetHeight-html.ACTION_HEIGHT-sub.onexport.statusHeight(sub)), sub.ConfWidth(can.ui.content.offsetWidth), true)
 			msg._plugin = sub, can.base.isFunc(cb) && cb(msg._content = can.ui._content), can.onmotion.delay(can, function() { sub.Focus() })
 			sub.onaction.close = function() { can.onaction.back(can), msg._tab._close() }
 			sub.onimport.title = function(_, title) { can.page.Modify(can, msg._tab, title) }

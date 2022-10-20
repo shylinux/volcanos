@@ -187,7 +187,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			meta.type != sub.Mode() && can.page.ClassList.add(can, field, sub.Mode())
 
 			meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
-			if (meta.msg) { var msg = sub.request(); msg.Copy(can.base.Obj(meta.msg)), sub.onappend._output(sub, msg, msg.Option(ice.MSG_DISPLAY)||meta.feature.display) }
+			if (meta.msg) { var msg = sub.request(); msg.Copy(can.base.Obj(meta.msg)), sub.onappend._output(sub, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display) }
 
 			can.page.Modify(can, sub._legend, kit.Dict(can.Conf("legend_event")||chat.ONMOUSEENTER, function(event) {
 				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["所有"].concat(can.core.Item(meta.feature._trans))]), function(event, item, meta) {
@@ -265,7 +265,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 		if (meta && meta.index && meta.index.indexOf("can.") == 0) {
 			can.onengine._plugin(event, can, msg, can, can.misc.concat(can, [meta.index], cmds), function(msg) {
 				if (can.base.isFunc(cb)) { can.core.CallFunc(cb, {can: can, msg: msg}); return }
-				!silent && can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)||meta.display||meta.feature.display)
+				!silent && can.onappend._output(can, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
 			})
 			return
 		}
@@ -282,43 +282,34 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			if (process && can.core.CallFunc([sub, chat.ONIMPORT, ice.MSG_PROCESS], {can: sub, msg: msg})) { return }
 			if (process && can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
 			if (cmds && cmds[0] == ctx.ACTION && msg.Result() == "" && msg.Length() == 0) { return can.Update() }
-			!silent && can.onappend._output(can, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display, can._output, can._action)
+			!silent && can.onappend._output(can, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
 		})
 	},
 	_output: function(can, msg, display, output, action, cb) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
-		can._display = display
-		Volcanos(display, {_follow: can.core.Keys(can._follow, display), _target: output, _fields: can._target, _display: display,
-			_legend: can._legend, _option: can._option, _action: can._action, _output: can._output, _status: can._status, _root: can._root,
+		Volcanos(display, {_follow: can.core.Keys(can._follow, display), _target: output, _fields: can._target,
+			_legend: can._legend, _option: can._option, _action: can._action, _output: output, _status: can._status,
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
-		}, [display, chat.PLUGIN_TABLE_JS], function(table) { table.Conf(can.Conf())
-			table.run = function(event, cmds, cb, silent) { var msg = can.request(event)
-				if (msg.RunAction(event, table, cmds)) { return }
+		}, [display, chat.PLUGIN_TABLE_JS], function(sub) { sub.Conf(can.Conf())
+			sub.run = function(event, cmds, cb, silent) {
+				if (msg.RunAction(can.request(event), sub, cmds)) { return }
 				return can.Update(event, can.Input(cmds, silent), cb, silent)
-			}, can._outputs && can._outputs.push(table), table.sup = can, table._msg = msg
-
-			table._index = can._index
-			table.Mode(can.Mode()), table.Conf(table._args = can.base.ParseURL(table._display))
-			table._trans = can.base.Copy(table._trans||{}, can.core.Value(table, "onaction._trans"))
-			if (table.onimport && can.base.isArray(table.onimport.list) && table.onimport.list.length > 0) {
-				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, table.onimport.list) })
+			}, can._outputs && can._outputs.push(sub), sub.sup = can, sub._root = can._root
+			sub._index = can._index, sub._msg = msg, sub.Conf(sub._args = can.base.ParseURL(display)), sub.Mode(can.Mode()),
+			
+			sub._trans = can.base.Copy(sub._trans||{}, can.core.Value(sub, "onaction._trans"))
+			if (sub.onimport && can.base.isArray(sub.onimport.list) && sub.onimport.list.length > 0) {
+				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list) })
 			}
 
-			can.onmotion.clear(can, can._action)
-			can._display_output? can._display_output(table, msg):
-			can.core.CallFunc([table, chat.ONIMPORT, chat._INIT], {can: table, msg: msg, cb: function(msg) {
-				action === false || table.onappend._action(table, msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), action)
-				action === false || table.onappend._status(table, msg.Option(ice.MSG_STATUS))
-				// action === false || table.onimport.tool(table, can.base.Obj(msg.Option(ice.MSG_TOOLKIT)))
-				var mode= ["float", "full", "cmd"]; for (var i in mode) {
-					if (can.page.ClassList.has(can, can._target, mode[i])) { table.onlayout[mode[i]](table); break }
-				}
-				can.page.Select(can, can._output, "input[type=button]", function(target) {
-					if (target.value == target.name) { target.value = can.user.trans(can, target.name) }
-				})
-				table.onappend.tools(table, msg)
-				can.user.isMobile && can.ConfHeight() > can.ConfWidth() && can.onmotion.hidden(can, can._action)
+			can.onmotion.clear(can, can._action), can.user.isMobile && can.ConfHeight() > can.ConfWidth() && can.onmotion.hidden(can, can._action)
+			can._display_output? can._display_output(sub, msg): can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
+				action === false || sub.onappend._action(sub, msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), action||can._action)
+				action === false || sub.onappend._status(sub, msg.Option(ice.MSG_STATUS)), sub.onappend.tools(sub, msg)
+				
+				can.page.Select(can, output, "input[type=button]", function(target) { if (target.value == target.name) { target.value = can.user.trans(can, target.name) } })
+				var mode= ["float", "full", "cmd"]; for (var i in mode) { if (can.page.ClassList.has(can, can._target, mode[i])) { sub.onlayout[mode[i]](sub); break } }
 				can.onaction._output(can, msg), can.base.isFunc(cb) && cb(msg)
-			}, target: output||can._output})
+			}, target: output})
 		})
 	},
 	_status: function(can, list, status) { status = status||can._status, can.onmotion.clear(can, status)
