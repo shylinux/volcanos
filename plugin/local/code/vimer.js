@@ -103,8 +103,8 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 	},
 	_plugin: function(event, can) { can.onkeymap._model(can, "plugin"), can.ui.current.blur() },
 	_normal: function(event, can) { can.onkeymap._model(can, "normal"), can.ui.current.focus() },
-	_insert: function(event, can, count, begin) { can.onkeymap.prevent(event)
-		can.onkeymap._model(can, "insert"), can.ui.current.focus()
+	_insert: function(event, can, count, begin) { can.onkeymap._model(can, "insert"), can.onkeymap.prevent(event)
+		var scroll = can.ui.content.scrollLeft; can.ui.current.focus(), can.ui.content.scrollLeft = scroll
 		can.onkeymap.cursorMove(can.ui.current, count, begin)
 	},
 
@@ -271,10 +271,9 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	compile: function(event, can, button) {
 		can.runAction(can.request(event, {_toast: "编译中..."}), button, [], function(msg) {
 			if (msg.Length() > 0 || msg.Result()) {
-				can.onimport.exts(can, "inner/search.js", function() {
-					can.ui.search._show(msg)
+				return can.onimport.exts(can, "inner/search.js", function() {
+					can.onmotion.delay(can, function() { can.ui.search._show(msg) }, 300)
 				})
-				return
 			}
 			
 			var toast = can.user.toastProcess(can, "重启中...")
@@ -306,12 +305,9 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			can.ui.xterm.refresh(), can.user.toastSuccess(can)
 		})
 	},
-	status: function(event, can, button) {
-		can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX)
-	},
-	favor: function(event, can, button) {
-		can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.favor", ctx.INDEX)
-	},
+	
+	status: function(event, can, button) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX) },
+	favor: function(event, can, button) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.favor", ctx.INDEX) },
 	"命令": function(event, can) {
 		can.user.input(event, can, [ctx.INDEX], function(list) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), list[0], ctx.INDEX)
@@ -329,27 +325,17 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			can.onimport.exts(can, list[0])
 		})
 	},
-	"git": function(event, can) {
-		can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX)
-	},
+	"git": function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX) },
 	"vim": function(event, can) {
 		can.onaction._run(can.request(event, can.Option()), can, code.XTERM, [mdb.TYPE, "vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE)], function(msg) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Result(), code.XTERM)
 			can.ui.xterm.refresh(), can.user.toastSuccess(can)
 		})
 	},
-	"日志": function(event, can) {
-		window.opencmd("cd ~/contexts; tail -f var/log/bench.log")
-	},
-	"录屏": function(event, can) {
-		window.openapp("QuickTime Player")
-	},
-	"编辑器": function(event, can) {
-		window.opencmd("cd ~/contexts; vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE))
-	},
-	"浏览器": function(event, can) {
-		window.openurl(location.href)
-	},
+	"录屏": function(event, can) { window.openapp("QuickTime Player") },
+	"日志": function(event, can) { window.opencmd("cd ~/contexts; tail -f var/log/bench.log") },
+	"编辑器": function(event, can) { window.opencmd("cd ~/contexts; vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE)) },
+	"浏览器": function(event, can) { window.openurl(location.href) },
 	"查找": function(event, can) {
 		var ui = can.page.Append(can, can._output, [{view: "vimer find", list: [html.ACTION, html.OUTPUT], style: {position: "absolute", left: can.ui.project.offsetWidth, top: 320}}])
 		can.onmotion.move(can, ui.first)
@@ -440,8 +426,12 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	_selectLine: function(can) { if (!can.current) { return }
 		can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
 			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.WIDTH, can.base.Min(td.offsetWidth, can.ui._content.offsetWidth))
-			if (event && event.type == "click") { can.onkeymap._insert(event, can, 0, (event.offsetX)/12-1) }
-			target.focus(), can.ui.content.scrollLeft -= 10000
+			var scroll = can.ui.content.scrollLeft
+			if (event && event.type == "click") {
+				can.onkeymap._insert(event, can, 0, (event.offsetX)/12-1)
+			} else {
+				target.focus(), can.onkeymap.cursorMove(can.ui.current, 0, 0)
+			} can.ui.content.scrollLeft = scroll
 		})
 		can.user.localStorage(can, "web.code.vimer.selectLine:"+can.Option(nfs.PATH)+can.Option(nfs.FILE), can.onaction._getLineno(can, can.current.line))
 	},
