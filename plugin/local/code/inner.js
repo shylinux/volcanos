@@ -360,6 +360,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onmotion.clear(can), can.page.ClassList.add(can, can._fields, code.INNER), can.onlayout.profile(can)
 		can.onimport._profile(can, can.ui.profile), can.onimport._display(can, can.ui.display)
 		if (msg.Result() == "" && can.Option(nfs.LINE) == "1") { return }
+		can.page.styleWidth(can, can.ui.project, 240)
 
 		can.isCmdMode() && can.ConfHeight(can.ConfHeight()+2*html.ACTION_HEIGHT)
 		if (msg.Option(nfs.FILE)) {

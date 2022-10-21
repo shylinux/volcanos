@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can, target), can._display_heights = {}
 		can.ui = can.onlayout.profile(can), can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.profile)
-		can.onimport.layout(can), can.onimport[can.Option("scale")||"week"](can, msg), can.Status(mdb.COUNT, msg.Length())
+		can.onimport.layout(can), can.onimport[can.Option("scale")||"week"](can, msg)
 	},
 	_content: function(can, msg, head, list, key, get, set) { var begin_time = can.base.Date(can.Option("begin_time"))
 		var hash = {}; msg.Table(function(value, index) { var k = key(can.base.Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value]) })
@@ -12,7 +12,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				return can.onimport._task(can, msg, get(begin_time, col, row, hash), set(begin_time, col, row))
 			})}
 		}) }]); if (!can.sup.task) { return }
-		can.onmotion.delay(can, function() { var target = can.sup.task._target; target && target.click() })
+		can.onmotion.delay(can, function() { var target = can.sup.task._target; target && target.click(), can.Status(mdb.COUNT, msg.Length()) })
 	},
 	_task: function(can, msg, list, time) { return {text: ["", html.TD],
 		ondblclick: function(event) { can.onaction.insertTask(event, can, time+can.base.Time(null, "%y-%m-%d %H:%M:%S").slice(time.length)) },
@@ -23,7 +23,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				ondragstart: function(event) { var target = event.target; can.drop = function(event, td, time) { td.append(target)
 					can.onaction.modifyTask(event, can, task, "begin_time", time+task.begin_time.slice(time.length), task.begin_time)
 				} }, draggable: time != undefined, title: can.onexport.title(can, task), _init: function(target) {
-					var item = can.onimport.item(can, {nick: task.name+":"+task.text}, function() { can.onmotion.delay(can, function() {
+					var item = can.onimport.item(can, {nick: task.name+ice.DF+task.text}, function() { can.onmotion.delay(can, function() {
 						can.onmotion.select(can, can.ui.content, html.TD, target.parentNode), can.onimport._profile(can, task)
 					}) }, null, can.ui.project); task._target = target, target.onclick = function(event) { item.click() }
 					can.sup.task = can.sup.task||task, can.sup.task.zone == task.zone && can.sup.task.id == task.id && (can.sup.task._target = target)
@@ -47,17 +47,16 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 					can.onaction.modifyTask(event, can, task, key, value)
 				}, {name: key, action: key.indexOf(mdb.TIME) > 0? "date": "key", mode: "simple"})
 			},
-		}]) }), can.onimport.layout(can), can.onimport._display(can, task)
+		}]) }), can.onimport.layout(can)
+		task["extra.index"] && can.onimport._display(can, task)
 	},
-	_display: function(can, task) { if (!task["extra.index"]) { return }
+	_display: function(can, task) { can.onmotion.toggle(can, can.ui.display, true)
 		can.onappend.plugin(can, {type: "plug", index: task["extra.index"], args: task["extra.args"], height: can.ConfHeight()/2-2*html.ACTION_HEIGHT}, function(sub, meta) {
-			sub.run = function(event, cmds, cb) {
-				can.runAction(can.request(event, kit.Dict("task.pod", task.pod, "task.zone", task.zone, "task.id", task.id)), ice.RUN, [task[mdb.ZONE], task[mdb.ID]].concat(cmds), cb)
+			sub.run = function(event, cmds, cb) { can.request(event, kit.Dict("task.pod", task.pod, "task.zone", task.zone, "task.id", task.id))
+				can.runAction(event, ice.RUN, [task[mdb.ZONE], task[mdb.ID]].concat(cmds), cb)
 			}, can._plugins_display = (can._plugins_display||[]).concat([sub])
 			sub.onaction._output = function() {
-				can._display_heights[[task.zone, task.id].join(ice.FS)] = can.base.Max(sub._output.offsetHeight+html.ACTION_HEIGHT+sub.onexport.statusHeight(sub), can.ConfHeight()/2)
-				can.onmotion.toggle(can, can.ui.display, true)
-				can.onimport.layout(can)
+				can._display_heights[[task.zone, task.id].join(ice.FS)] = can.base.Max(sub._output.offsetHeight+html.ACTION_HEIGHT+sub.onexport.statusHeight(sub), can.ConfHeight()/2), can.onimport.layout(can)
 			}, sub.onaction.close = function() { can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can) }
 		}, can.ui.display)
 	},
@@ -113,7 +112,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 	layout: function(can) {
 		if (can.isCmdMode()) { can.page.styleHeight(can, can._output, can.ConfHeight())
-			var height = can._display_heights[can.sup.task? [can.sup.task.zone, can.sup.task.id].join(ice.FS): ""]||html.ACTION_HEIGHT
+			var height = can._display_heights[can.sup.task? [can.sup.task.zone, can.sup.task.id].join(ice.FS): ""]||200
 			if (can.ui.display.innerHTML && can.ui.display.style.display != html.NONE) {
 				can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight()-height)
 			} else {
@@ -126,7 +125,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		
 		can.ui.display.style.display != html.NONE && can.core.List(can._plugins_display, function(sub) {
 			sub.onimport.size(sub, can.ConfHeight()-can.ui.content.offsetHeight-html.ACTION_HEIGHT-sub.onexport.statusHeight(sub), sub.ConfWidth(can.ConfWidth()-can.ui.project.offsetWidth), true)
-		})
+		}) 
 	}
 }, [""])
 Volcanos(chat.ONACTION, {list: [mdb.PREV, mdb.NEXT, mdb.INSERT, mdb.EXPORT, mdb.IMPORT,
@@ -146,50 +145,25 @@ Volcanos(chat.ONACTION, {list: [mdb.PREV, mdb.NEXT, mdb.INSERT, mdb.EXPORT, mdb.
 			can.runAction(event, mdb.INSERT, [mdb.ZONE, args[1], "begin_time", time].concat(args))
 		})
 	},
-	modifyTask: function(event, can, task, key, value) {
-		can.runAction(can.request(event, task, can.Option()), mdb.MODIFY, [key, value], function() { can.Update() })
-	},
+	modifyTask: function(event, can, task, key, value) { can.runAction(can.request(event, task, can.Option()), mdb.MODIFY, [key, value], function() { can.Update() }) },
 
 	_filter: function(event, can, key, value) { var count = 0
 		if (value == "all") {
-			can.page.Select(can, can.ui.content, html.DIV_ITEM, function(item) {
-				can.page.ClassList.del(can, item, html.HIDE), count++
-			})
+			can.page.Select(can, can.ui.content, html.DIV_ITEM, function(item) { can.page.ClassList.del(can, item, html.HIDE), count++ })
 		} else {
-			can.page.Select(can, can.ui.content, html.DIV_ITEM, function(item) {
-				can.page.ClassList.add(can, item, html.HIDE)
-			})
-			can.page.Select(can, can.ui.content, can.core.Keys(html.DIV, value), function(item) {
-				can.page.ClassList.del(can, item, html.HIDE), count++
-			})
-		}
-		can.Action(key, value), can.Status(mdb.COUNT, count)
+			can.page.Select(can, can.ui.content, html.DIV_ITEM, function(item) { can.page.ClassList.add(can, item, html.HIDE) })
+			can.page.Select(can, can.ui.content, can.core.Keys(html.DIV, value), function(item) { can.page.ClassList.del(can, item, html.HIDE), count++ })
+		} can.Action(key, value), can.Status(mdb.COUNT, count)
 	},
 	status: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
-	level: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
-	score: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
-	view: function(event, can, key, value) { can.Action(key, value)
-		can.onmotion.clear(can, can.ui.project), can.onmotion.clear(can, can.ui.content)
-		can.onimport[can.Option("scale")](can, can._msg)
-	},
+	level: function(event, can, key, value) { value && can.onaction._filter(event, can, key, value) },
+	score: function(event, can, key, value) { value && can.onaction._filter(event, can, key, value) },
+	view: function(event, can, key, value) { can.Action(key, value), can.onmotion.clear(can, can.ui.project), can.onmotion.clear(can, can.ui.content), can.onimport[can.Option("scale")](can, can._msg) },
 })
 Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, "begin_time", mdb.ZONE, mdb.ID, mdb.TYPE, mdb.NAME, mdb.TEXT],
-	span: function(can) {
-		switch (can.Option("scale")) {
-			case "day": return 24*3600*1000
-			case "week": return 7*24*3600*1000
-			case "month": return 30*24*3600*1000
-			case "year": return 365*24*3600*1000
-			case "long": return 365*24*3600*1000
-			default: return 0
-		}
-	},
-	hash: function(can, task) { if (!can.isCmdMode()) { return }
-		location.hash = [task.zone, task.id].join(ice.FS)
-	},
-	head: function(can, scale) { if (["year", "long"].indexOf(scale) > -1) { return }
-		return [scale].concat(can.user.info.language == "en"? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]);
-	},
+	span: function(can) { return {"day": 24*3600*1000, "week": 7*24*3600*1000, "month": 30*24*3600*1000, "year": 365*24*3600*1000, "long": 365*24*3600*1000}[can.Option("scale")]||0 },
+	hash: function(can, task) { if (!can.isCmdMode()) { return } location.hash = [task.zone, task.id].join(ice.FS) },
+	head: function(can, scale) { if (["year", "long"].indexOf(scale) > -1) { return } return [scale].concat(can.user.info.language == "en"? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]); },
 	name: function(can, task) { return task.name },
 	text: function(can, task) { return task.name+": "+(task.text||"") },
 	level: function(can, task) { return "l-"+(task.level||3)+": "+(task.name||"") },

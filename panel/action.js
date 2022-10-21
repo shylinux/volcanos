@@ -12,8 +12,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 		meta.id && (sub._option.dataset = sub._option.dataset||{}, sub._option.dataset.id = meta.id)
 		sub.Mode(can.Mode()), can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth())
 
-		sub.run = function(event, cmds, cb) {
-			return can.run(sub.request(event, {width: sub.ConfWidth(), height: sub.ConfHeight()}), can.misc.concat(can, [river, storm, meta.id||meta.index], cmds), cb)
+		sub.run = function(event, cmds, cb) { (!cmds || cmds[0] != ctx.ACTION) && sub.request(event, {width: sub.ConfWidth(), height: sub.ConfHeight()})
+			return can.run(event, can.misc.concat(can, [river, storm, meta.id||meta.index], cmds), cb)
 		}, can._plugins = can.misc.concat(can, can._plugins, [sub])
 
 		var tabs = [{view: [html.TABS, html.DIV, meta.name], onclick: function(event) {
@@ -37,7 +37,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 	}) },
 	_cmd: function(can, item, next) { can.onengine.signal(can, chat.ONACTION_CMD)
 		can.onappend.plugin(can, can.base.Copy(item, {mode: "cmd", opts: can.misc.Search(can)}), function(sub, meta, skip) {
-			sub.run = function(event, cmds, cb) { can.runActionCommand(can.request(event, {width: can.ConfWidth(), height: can.ConfHeight()}), sub._index, cmds, cb) }
+			sub.run = function(event, cmds, cb) { (!cmds || cmds[0] != ctx.ACTION) && can.request(event, {width: can.ConfWidth(), height: can.ConfHeight()})
+				can.runActionCommand(event, sub._index, cmds, cb) }
 			can._plugins = can.misc.concat(can, can._plugins, [sub])
 			can.user.title(meta.name), skip || next()
 		})

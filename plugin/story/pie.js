@@ -1,23 +1,19 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
-		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
-
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) { can.onmotion.clear(can)
 		var color = [cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE]
 		var color = ["#3300FF", "#2196F3", "#4CAF50", "#CDDC39", "#FFEB3B", "#9C27B0", "#795548", "#607D8B", "#CC33FF"]
 		var height = msg.Option(html.HEIGHT)||can.ConfHeight()
 
-		can.page.ClassList.add(can, can._fields, "draw")
-		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
-			can.onimport._show(can, msg), can.onappend._status(can, [].concat(msg.append, ["weight"]))
+		can.page.ClassList.add(can, can._fields, "draw"), can.onmotion.hidden(can, can._action)
+		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() { can.onimport._show(can, msg)
 			var margin = height/8, r = height/2-margin; can.svg.Val(html.WIDTH, 2*(r+margin)), can.svg.Val(html.HEIGHT, 2*(r+margin))
 			can.onimport._draw(can, msg, can.Conf(mdb.FIELD), color, r+margin, r+margin, r, margin, 0)
 
 			can.page.style(can, can.ui.project, html.MAX_WIDTH, can.ConfWidth()-height)
 			can.onmotion.clear(can, can.ui.project), can.onmotion.toggle(can, can.ui.project, true)
 			can.onappend.table(can, msg, null, can.ui.project), can.page.Select(can, can.ui.project, html.TR, function(tr, index) {
-				can.page.Modify(can, tr, {onmouseenter: function(event) {
-					can.onimport._draw(can, msg, can.Conf(mdb.FIELD), color, r+margin, r+margin, r, margin, index-1)
-				}})
+				can.page.Modify(can, tr, {onmouseenter: function(event) { can.onimport._draw(can, msg, can.Conf(mdb.FIELD), color, r+margin, r+margin, r, margin, index-1) }})
 			})
+			can.base.isFunc(cb) && cb(msg), can.onappend._status(can, [].concat(msg.append, ["weight"]))
 		})
 	},
 	_draw: function(can, msg, field, color, x, y, r, margin, which) { field = field||mdb.VALUE

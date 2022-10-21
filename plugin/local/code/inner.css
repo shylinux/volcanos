@@ -7,7 +7,7 @@ fieldset.inner>div.action>div.tabs { padding:5px; margin:0 1px; }
 fieldset.inner>div.action>div.tabs:hover { background-color:steelblue; }
 fieldset.inner>div.action>div.tabs.select { background-color:steelblue; }
 
-fieldset.inner>div.output div.project { width:240px; }
+// fieldset.inner>div.output div.project { width:240px; }
 fieldset.inner>div.output td.content { position:relative; }
 fieldset.inner>div.output div.content { color:white; font-size:16px; font-family:monospace; position:relative; }
 fieldset.inner>div.output div.content td.line { position:sticky; left:0; text-align:right; padding:0 6px; border-right:solid 2px red; }
