@@ -47,8 +47,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 					can.onaction.modifyTask(event, can, task, key, value)
 				}, {name: key, action: key.indexOf(mdb.TIME) > 0? "date": "key", mode: "simple"})
 			},
-		}]) }), can.onimport.layout(can)
-		task["extra.index"] && can.onimport._display(can, task)
+		}]) }), can.onimport.layout(can), task["extra.index"] && can.onimport._display(can, task)
 	},
 	_display: function(can, task) { can.onmotion.toggle(can, can.ui.display, true)
 		can.onappend.plugin(can, {type: "plug", index: task["extra.index"], args: task["extra.args"], height: can.ConfHeight()/2-2*html.ACTION_HEIGHT}, function(sub, meta) {
@@ -111,21 +110,20 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.onimport._content(can, msg, head, list, key, get, set)
 	},
 	layout: function(can) {
-		if (can.isCmdMode()) { can.page.styleHeight(can, can._output, can.ConfHeight())
+		can.page.styleWidth(can, can.ui.content, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
+		if (can.isCmdMode() || can.isPlugType()) { can.page.styleHeight(can, can._output, can.ConfHeight())
 			var height = can._display_heights[can.sup.task? [can.sup.task.zone, can.sup.task.id].join(ice.FS): ""]||200
 			if (can.ui.display.innerHTML && can.ui.display.style.display != html.NONE) {
 				can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight()-height)
 			} else {
 				can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight())
 			}
+			can.ui.display.innerHTML && can.ui.display.style.display != html.NONE && can.core.List(can._plugins_display, function(sub) {
+				sub.onimport.size(sub, can.ConfHeight()-can.ui.content.offsetHeight-html.ACTION_HEIGHT-sub.onexport.statusHeight(sub), sub.ConfWidth(can.ConfWidth()-can.ui.project.offsetWidth), true)
+			}) 
 		}
 		can.page.style(can, can.ui.profile, html.MAX_HEIGHT, can.ui.content.offsetHeight)
 		can.page.style(can, can.ui.project, html.MAX_HEIGHT, can.ui.content.offsetHeight+can.ui.display.offsetHeight)
-		can.page.styleWidth(can, can.ui.content, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
-		
-		can.ui.display.style.display != html.NONE && can.core.List(can._plugins_display, function(sub) {
-			sub.onimport.size(sub, can.ConfHeight()-can.ui.content.offsetHeight-html.ACTION_HEIGHT-sub.onexport.statusHeight(sub), sub.ConfWidth(can.ConfWidth()-can.ui.project.offsetWidth), true)
-		}) 
 	}
 }, [""])
 Volcanos(chat.ONACTION, {list: [mdb.PREV, mdb.NEXT, mdb.INSERT, mdb.EXPORT, mdb.IMPORT,
