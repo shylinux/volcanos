@@ -349,7 +349,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 		}
 		var br = input.type == html.TEXTAREA? [{type: html.BR, style: {clear: html.BOTH}}]: []
 		var title = can.Conf([ctx.FEATURE, chat.TITLE, item.name].join(ice.PT))||""; title && (input.title = title)
-		return can.page.Append(can, target, ([{view: style||can.base.join([html.ITEM, item.type]), onkeydown: function(event) {
+		input.onkeydown = input.onkeydown||function(event) {
 			switch (item.type) {
 				case html.TEXT:
 					switch (event.key) {
@@ -364,8 +364,8 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 					// switch (event.key) { case lang.TAB: can.onkeymap.insertText(event.target, ice.TB); can.onkeymap.prevent(event); break }
 					break
 			}
-		}, _init: function(target) {
-		}, list: [input]}]).concat(br))[item.name]
+		}
+		return can.page.Append(can, target, ([{view: style||can.base.join([html.ITEM, item.type]), list: [input]}]).concat(br))[item.name]
 	},
 	table: function(can, msg, cb, target, sort) { if (msg.Length() == 0) { return }
 		var meta = can.base.Obj(msg.Option("meta"))

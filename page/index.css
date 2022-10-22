@@ -339,8 +339,6 @@ body.black div.project.auto { background-color:#1d3349; }
 body.black div.profile.auto { background-color:#1d3349; }
 /* div.project.auto { position:absolute; left:0; z-index:10; } */
 /* div.profile.auto { position:absolute; right:0; z-index:10; } */
-fieldset.plugin.location>div.action input[type=text] {
-	width:40px;
-}
+fieldset.plugin.location>div.action input[type=text] { width:40px; }
 
 fieldset.xterm div.toggle { display:none; }

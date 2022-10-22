@@ -8,10 +8,15 @@ Volcanos(chat.ONPLUGIN, {help: "导入数据", _init: function(can, sub, cb) { c
 		}, sub._output), sub.onappend.board(sub, msg.Result()), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS))
 		!sub.page.ClassList.has(sub, sub._legend, html.SELECT) && sub.select(), sub.Focus(), sub.Option("word", word||msg._word||"")
 	}
-	can.onengine.plugin(can, SEARCH, shy("搜索", {}, ["word=main", "filter", "grep:button", "make", "history", "last"], function(can, msg, cmds, cb) { can.misc.runAction(can, msg, cmds, cb, kit.Dict(
+	can.onengine.plugin(can, SEARCH, shy("搜索", {}, [
+		{type: "text", name: "main"},
+		"filter", "grep:button", "make", "history", "last"], function(can, msg, cmds, cb) { can.misc.runAction(can, msg, cmds, cb, kit.Dict(
 		"replace", function(cmds) { can.runAction(msg, nfs.GREP, [cmds[0]], function(msg) { show(msg, cmds[0]) }) },
 		nfs.GREP, function(cmds) { can.runAction(msg, nfs.GREP, [cmds[0]], function(msg) { show(msg, cmds[0]) }) },
 		"history", function(cmds) { can.core.List(can.history, function(item) { msg.PushRecord(item) }), show(msg) },
 		"last", function(cmds) { history.pop(), show(history.pop()) },
-	)) })), can.onimport.toolkit(can, {index: SEARCH}, function(sub) { can.ui.search = sub, sub._show = show, can.base.isFunc(cb) && cb(sub) })
+	)) })), can.onimport.toolkit(can, {index: SEARCH}, function(sub) {
+		can.page.style(can, sub._output, html.MIN_WIDTH, 600)
+		can.ui.search = sub, sub._show = show, can.base.isFunc(cb) && cb(sub)
+	})
 }})

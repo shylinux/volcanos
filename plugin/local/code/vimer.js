@@ -114,17 +114,14 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 			t: shy("添加命令", function(event, can) { can.onaction["命令"](event, can) }),
 			p: shy("添加插件", function(event, can) { can.onaction["插件"](event, can) }),
 			e: shy("添加扩展", function(event, can) { can.onaction["扩展"](event, can) }),
-			g: shy("打开搜索", function(event, can) { can.onimport.exts(can, "inner/search.js") }),
-			y: shy("添加插件", function(event, can) { can.onaction["查找"](event, can) }),
 			
 			i: shy("插入模式", function(event, can) { can.onkeymap._insert(event, can) }),
 			n: shy("命令模式", function(event, can) { can.onkeymap._normal(event, can) }),
 			":": shy("底行模式", function(event, can) { can.onimport.toolkit(can, {index: "cli.system"}, function(sub) { can.toolkit["cli.system"] = sub.select() }) }),
 
+			g: shy("查找替换", function(event, can) { can.onaction["查找"](event, can) }),
 			s: shy("保存文件", function(event, can) { can.onaction.save(event, can, nfs.SAVE) }),
 			c: shy("编译项目", function(event, can) { can.onaction.compile(event, can, code.COMPILE) }),
-			m: shy("添加模块", function(event, can) { can.onaction.autogen(event, can, code.AUTOGEN) }),
-			d: shy("创建空间", function(event, can) { can.onaction.dream(event, can, web.DREAM) }),
 		},
 		normal: {
 			Escape: shy("切换模式", function(event, can) { can.onkeymap._plugin(event, can) }),
@@ -340,30 +337,55 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	"首页": function(event, 	can) { window.openurl(location.protocol+"//"+location.host) },
 	"百度": function(event, 	can) { window.openurl("https://baidu.com") },
 	"查找": function(event, can) {
-		var ui = can.page.Append(can, can._output, [{view: "vimer find", list: [html.ACTION, html.OUTPUT], style: {position: "absolute", left: can.ui.project.offsetWidth, top: 320}}])
+		var ui = can.page.Append(can, can._output, [{view: "vimer find float", list: [html.ACTION, html.OUTPUT],
+			style: {position: "absolute", left: can.ui.project.offsetWidth+can.ui.content.offsetWidth/2, top: can.current.line.offsetTop-can.ui.content.scrollTop+57+28}}])
+		can.onmotion.delay(can, function() { can.page.style(can, ui.first, html.LEFT, can.ui.project.offsetWidth+can.ui.content.offsetWidth/2-ui.first.offsetWidth/2) }, 10)
 		can.onmotion.move(can, ui.first)
 		
-		function find(begin, text) {
+		var last = can.onaction._getLineno(can, can.current.line)
+		function find(begin, text) { if (parseInt(text) > 0) { return can.onaction.selectLine(can, parseInt(text)) && meta.close() }
 			for (begin; begin <= can.max; begin++) {
 				if (can.onexport.text(can, can.onaction._getLine(can, begin)).indexOf(text) > -1) {
-					return can.onaction.selectLine(can, begin), can.current.scroll(can.current.scroll()-5)
+					return last = begin, can.onaction.selectLine(can, begin), can.current.scroll(can.current.scroll()-5)
 				}
-			}
+			} last = 0, can.user.toast(can, "已经到最后一行")
 		}
-		function complete(target) {
-			can.onappend.figure(can, {action: "key", mode: "simple", run: function(event, cmds, cb) {
-				var msg = can.request(event); can.core.List(can.core.Split(can.current.text(), "\t \n:,{}"), function(value) { msg.Push("value", value) }), cb(msg)
+		function complete(target, button) {
+			can.onappend.figure(can, {action: "key", mode: "simple", _enter: function(event) {
+				if (event.ctrlKey) { meta.grep() } else {
+					meta[button](), can.onmotion.delay(can, function() { target.focus() })
+				}
+				return true
+			}, run: function(event, cmds, cb) {
+				var msg = can.request(event); can.core.List(can.core.Split(can.current.text(), "\t \n{[:,]}", {detail: true}), function(value) {
+					if (can.base.isObject(value)) { if (value.type == html.SPACE) { return }
+						value.type == lang.STRING && msg.Push(mdb.VALUE, value.left+value.text+value.right)
+						msg.Push(mdb.VALUE, value.text)
+					} else {
+						msg.Push(mdb.VALUE, value)
+					}
+				}), cb(msg)
 			}}, target)
 		}
-		
 		var from, to
 		var meta = can.onappend._action(can, [
-			{type: "text", name: "from", _init: function(target) { from = target, complete(target), can.onmotion.delay(can, function() { target.focus() }) }},
-			{type: "text", name: "to", _init: function(target) { to = target, complete(target) }},
-			"find", "next", "replace", "close"], ui.action, {
-			find: function() { find(1, from.value) },
-			next: function() { find(can.onaction.selectLine(can)+1, from.value) },
-			replace: function() { can.current.text(can.current.text().replace(from.value, to.value)), meta.next() },
+			{type: html.TEXT, name: "from", style: {width: 200}, _init: function(target) { from = target, complete(target, "find"), can.onmotion.delay(can, function() { target.focus() }) }},
+			"find", "grep",
+			{type: html.TEXT, name: "to", _init: function(target) { to = target, complete(target, "replace") }},
+			"replace",
+			"close",
+		], ui.action, {
+			find: function() { find(last+1, from.value) },
+			grep: function() {
+				can.onimport.exts(can, "inner/search.js"), can.onmotion.delay(can, function() { meta.close()
+					can.ui.search.runAction(event, nfs.GREP, [from.value])
+				})
+			},
+			replace: function() {
+				var text = can.current.text(), line = can.onaction._getLineno(can, can.current.line)
+				can.undo.push(function() { can.onaction.selectLine(can, line), can.onaction.modifyLine(can, line, text) })
+				can.current.text(text.replace(from.value, to.value))
+				can.current.text().indexOf(from.value) == -1 && meta.find() },
 			close: function() { can.page.Remove(can, ui.first) },
 		}) 
 	},
