@@ -24,9 +24,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 					can.onaction.modifyTask(event, can, task, "begin_time", time+task.begin_time.slice(time.length), task.begin_time)
 				} }, draggable: time != undefined, title: can.onexport.title(can, task), _init: function(target) {
 					var item = can.onimport.item(can, {nick: task.name+ice.DF+task.text}, function() { can.onmotion.delay(can, function() {
-						can.onmotion.select(can, can.ui.content, html.TD, target.parentNode), can.onimport._profile(can, task)
+						can.onmotion.select(can, can.ui.content, html.TD, target.parentNode), can.onimport._profile(can, task), can.Status(mdb.COUNT, msg.Length())
 					}) }, null, can.ui.project); task._target = target, target.onclick = function(event) { item.click() }
-					can.sup.task = can.sup.task||task, can.sup.task.zone == task.zone && can.sup.task.id == task.id && (can.sup.task._target = target)
+					can.sup.task && can.sup.task.zone == task.zone && can.sup.task.id == task.id && (can.sup.task._target = target)
 					var ls = can.core.Split(decodeURIComponent(location.hash.slice(1)))||[]; if (ls[0] == task.zone && ls[1] == task.id) { can.sup.task = task }
 				},
 			}
@@ -143,7 +143,9 @@ Volcanos(chat.ONACTION, {list: [mdb.PREV, mdb.NEXT, mdb.INSERT, mdb.EXPORT, mdb.
 			can.runAction(event, mdb.INSERT, [mdb.ZONE, args[1], "begin_time", time].concat(args))
 		})
 	},
-	modifyTask: function(event, can, task, key, value) { can.runAction(can.request(event, task, can.Option()), mdb.MODIFY, [key, value], function() { can.Update() }) },
+	modifyTask: function(event, can, task, key, value) {
+		can.runAction(can.request(event, task, can.Option()), mdb.MODIFY, [key, value], function() { can.Update() })
+	},
 
 	_filter: function(event, can, key, value) { var count = 0
 		if (value == "all") {

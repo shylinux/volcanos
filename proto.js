@@ -341,6 +341,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 			for (var i = 0; i < cache.length; i++) { var sub = cache[i], name = sub._name
 				if (typeof each == lang.FUNCTION && each(can, name, sub)) { continue }
 				!can[name] && (can[name] = {}); for (var k in sub) {
+					if (name == "onimport" && k == "_init") { can[name]["_last_init"] = sub[k] }
 					can[name].hasOwnProperty(k) || !sub.hasOwnProperty(k) || (can[name][k] = sub[k])
 				}
 			}

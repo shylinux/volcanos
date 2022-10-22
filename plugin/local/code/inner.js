@@ -309,7 +309,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", _trans: {link: "链接", width: "
 				case nfs.LINE: return can.onaction.selectLine(can, parseInt(ls[1])), can.current.scroll(can.current.scroll()-4)
 				default: can.core.List(can.sup.paths, function(path) { if (list[0].indexOf(path) == 0) { can.onimport.tabview(can, path, list[0].slice(path.length)) } })
 			}
-		})._target, html.LEFT, can.ui.project.offsetWidth+can.ui.content.offsetWidth/4-34, html.TOP, can.ui.content.offsetHeight/4)
+		})._target, html.LEFT, can.ui.project.offsetWidth+can.ui.content.offsetWidth/4-34, html.TOP, can.ui.content.offsetHeight/4, html.RIGHT, "")
 	},
 	show: function(event, can) {
 		if (can.base.Ext(can.Option(nfs.FILE)) == nfs.JS) { delete(Volcanos.meta.cache[can.base.Path("/require/", can.Option(nfs.PATH), can.Option(nfs.FILE))]) }

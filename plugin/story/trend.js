@@ -2,7 +2,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onmotion.clear(can), can.page.ClassList.add(can, can._fields, "draw")
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
 			can.data = msg.Table(), can.onimport._sum(can)
-			can.base.isFunc(cb) && cb(msg), can.onimport.layout(can), can.base.isFunc(cb) && cb(msg)
+			can.base.isFunc(cb) && cb(msg), can.Conf(ice.VIEW) && can.Action(ice.VIEW, can.Conf(ice.VIEW))
+			can.list = can.sup.list||can.list
+			can.onimport.layout(can), can.base.isFunc(cb) && cb(msg)
 			can.data = msg.Table(), can.onimport._sum(can)
 		})
 	},
@@ -43,13 +45,30 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	layout: function(can) {
 		can.onaction[can.Action(ice.VIEW)]({}, can)
 	},
+	transform: function(can, target) {
+		target.Value("transform", "translate(0, "+parseInt(can.ConfHeight())+") scale(1, -1)")
+	},
 }, [""])
 Volcanos(chat.ONACTION, {help: "组件菜单", list: [
-		[ice.VIEW, "趋势图", "柱状图", "数据源"],
+		[ice.VIEW, "趋势图", "柱状图", "折线图", "数据源"],
 		[html.HEIGHT, ice.AUTO, 100, 200, 400, 600, 800, ice.AUTO],
 		["space", 10, 20, 50, 100],
 		[html.SPEED, 10, 20, 50, 100],
 	],
+	"折线图": function(event, can) { var args = can.onimport._layout(can)
+		var black = can.onimport.group(can, cli.BLACK, kit.Dict(html.STROKE, cli.BLACK, html.FILL, cli.BLACK))
+		var white = can.onimport.group(can, cli.WHITE, kit.Dict(html.STROKE, cli.WHITE, html.FILL, cli.WHITE))
+		can.onimport.transform(can, black), can.onimport.transform(can, white)
+		can.core.List(can.list, function(list) {
+			var max = list[0], min = list[0], step = (can.ConfWidth()-2*args.space)/(list.length-1)
+			for (var i = 1; i < list.length; i += 1) { if (list[i] > max) { max = list[i] } if (list[i] < min) { min = list[i] } }
+			function scale(y) { return (y - min)/(max - min)*(args.height-2*args.space)+args.space }
+			function order(i) { return i*step+args.space }
+			for (var i = 1; i < list.length; i += 1) {
+				can.onimport.draw({}, can, {shape: svg.LINE, point: [{x: order(i-1), y: scale(list[i-1])}, {x: order(i), y: scale(list[i])}]}, white)
+			}
+		})
+	},
 	"趋势图": function(event, can) { var args = can.onimport._layout(can)
 		function scale(y) { return (y - can.min)/(can.max - can.min)*(args.height-2*args.space) }
 		function order(index, x, y) { return {x: args.space+args.step*index+x, y: args.height-args.space-scale(y)} }

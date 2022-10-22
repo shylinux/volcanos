@@ -601,7 +601,7 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 		window.addEventListener(html.ORIENTATIONCHANGE, function(event) { can.onengine.signal(can, html.ORIENTATIONCHANGE) })
 		window.onresize = function(event) {
-			window.setsize(window.innerWidth, window.innerHeight)
+			window.setsize && window.setsize(window.innerWidth, window.innerHeight)
 			can.onengine.signal(can, chat.ONRESIZE)
 		}
 		can.onmotion.float.auto(can, target)

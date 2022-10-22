@@ -223,8 +223,10 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 				var rest = can.onkeymap.deleteText(target, target.selectionEnd), text = can.ui.current.value
 				var left = text.substr(0, text.indexOf(text.trimLeft()))||(text.trimRight() == ""? text: "")
 				text && can.core.List(["{}", "[]", "()"], function(item) { if (can.base.endWith(text, item[0])) {
-					!can.base.beginWith(rest, item[1]) && (!rest && can.onaction.insertLine(can, left+item[1], can.current.next()), left += ice.TB)
-				} }); if (can.base.endWith(text, "`") && can.base.count(text, "`")%2==1) { !rest && can.onaction.insertLine(can, left+"`", can.current.next()) }
+					if (can.base.beginWith(rest, item[1])) { return true }
+					(!rest && can.onaction.insertLine(can, left+item[1], can.current.next()), left += ice.TB)
+				} }).length == 0 && rest && ["}", "]", ")"].indexOf(rest[0]) > -1 && (left = left.slice(0, -1))
+				if (can.base.endWith(text, "`") && can.base.count(text, "`")%2==1) { !rest && can.onaction.insertLine(can, left+"`", can.current.next()) }
 				var line = can.onaction.insertLine(can, left+rest.trimLeft(), can.current.next())
 				can.current.text(text.trimRight()||text), can.onaction.selectLine(can, line)
 				can.onkeymap.cursorMove(target, 0, left.length)

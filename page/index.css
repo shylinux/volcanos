@@ -67,6 +67,7 @@ fieldset.plug>form.option input[type=button][name=close]{ display:block; }
 
 fieldset.plugin>div.status { border-top:1px solid darkcyan; height:30px; }
 fieldset.story>div.status { border-top:1px solid darkcyan; }
+fieldset.output { padding:0; margin:0; }
 fieldset.output>form.option { display:none; }
 fieldset.output>div.action { display:none; }
 fieldset.output>div.status { display:none; }

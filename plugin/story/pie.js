@@ -2,7 +2,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		var color = [cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE]
 		var color = ["#3300FF", "#2196F3", "#4CAF50", "#CDDC39", "#FFEB3B", "#9C27B0", "#795548", "#607D8B", "#CC33FF"]
 		var height = msg.Option(html.HEIGHT)||can.ConfHeight()
-
+		msg = can.sup.__msg||msg
 		can.page.ClassList.add(can, can._fields, "draw"), can.onmotion.hidden(can, can._action)
 		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() { can.onimport._show(can, msg)
 			var margin = height/8, r = height/2-margin; can.svg.Val(html.WIDTH, 2*(r+margin)), can.svg.Val(html.HEIGHT, 2*(r+margin))
