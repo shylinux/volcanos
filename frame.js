@@ -9,8 +9,6 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 		}, Volcanos.meta.args = can.user.args(can)
 		can.user.title(can.misc.Search(can, chat.TITLE)||can.misc.Search(can, ice.POD)||location.host)
 
-		window.onunload = function() { can.onengine.signal(can, "onunload") }
-
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
 			can.onappend._init(can, can.base.Copy(item, can.core.Value(can, [chat.RIVER, item.name])), item.list, function(panel) {
 				panel.run = function(event, cmds, cb) { var msg = panel.request(event); cmds = cmds||[]
@@ -602,12 +600,18 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 })
 Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 		var last = window.innerWidth < window.innerHeight
+		window.onbeforeunload = function(event) {
+			can.onengine.signal(can, "onunload")
+		}
+		window.onunload = function() {
+			can.onengine.signal(can, "onunload")
+		}
 		window.onresize = function(event) {
-			window.setsize && window.setsize(window.innerWidth, window.innerHeight)
 			if (can.user.isMobile) {
 				if (last === window.innerWidth < window.innerHeight) { return }
 				last = window.innerWidth < window.innerHeight
 			}
+			window.setsize && window.setsize(window.innerWidth, window.innerHeight)
 			can.onengine.signal(can, chat.ONRESIZE)
 		}
 		can.onmotion.float.auto(can, target)
@@ -905,7 +909,8 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 		})
 	},
 	_parse: function(event, can, mode, list, target) { list = list||[]
-		if (["Control", "Shift"].indexOf(event.key) > -1) { return list }
+		if (event.metaKey && !can.user.isWebview) { return }
+		if (["Control", "Shift", "Meta"].indexOf(event.key) > -1) { return list }
 		list.push(event.key); for (var pre = 0; pre < list.length; pre++) {
 			if ("0" <= list[pre] && list[pre] <= "9") { continue } break
 		}; var count = parseInt(list.slice(0, pre).join(""))||1

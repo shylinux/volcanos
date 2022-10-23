@@ -110,8 +110,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.onimport._content(can, msg, head, list, key, get, set)
 	},
 	layout: function(can) {
+		can.onmotion.toggle(can, can._action, !can.isFloatMode() && !(can.user.isMobile && window.innerHeight < window.innerWidth))
+		can.onmotion.toggle(can, can._status, !can.isFloatMode() && !(can.user.isMobile && window.innerHeight < window.innerWidth))
 		can.page.styleWidth(can, can.ui.content, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
-		if (can.isCmdMode() || can.isFullMode() || can.isPlugType()) { can.page.styleHeight(can, can._output, can.ConfHeight())
+		if (can.isCmdMode() || can.isFullMode() || can.isFloatMode() || can.isPlugType()) { can.page.styleHeight(can, can._output, can.ConfHeight())
 			var height = can._display_heights[can.sup.task? [can.sup.task.zone, can.sup.task.id].join(ice.FS): ""]||200
 			if (can.ui.display.innerHTML && can.ui.display.style.display != html.NONE) {
 				can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight()-height)

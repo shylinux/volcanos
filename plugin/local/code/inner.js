@@ -331,10 +331,8 @@ Volcanos(chat.ONACTION, {help: "控件交互", _trans: {link: "链接", width: "
 Volcanos(chat.ONIMPORT, {help: "导入数据",
 	_keydown: function(can) { if (!can.isCmdMode()) { return }
 		can.onkeymap._build(can), can._root.onengine.listen(can, chat.ONKEYDOWN, function(event) {
-			if ((event.ctrlKey || event.metaKey) && event.key >= "0" && event.key <= "9") {
-				return can.page.Select(can, can.ui._tabs, "div.tabs", function(target, index) {
-					if (index+1 == event.key) { target.click() }
-				})
+			if (event.ctrlKey && event.key >= "0" && event.key <= "9") {
+				return can.page.Select(can, can.ui._tabs, "div.tabs", function(target, index) { index+1 == event.key && target.click() })
 			}
 			can._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can._key_list, can.ui.content)
 		})
