@@ -134,6 +134,6 @@ Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["from", "commit", "total",
 			// can.isFullMode() || (height = can.base.Max(can.ConfHeight(), 600))
 		}
 		if (height < 200) { height = 200 }
-		return parseInt(height||can._root._height/2)
+		return parseInt(height||can.page.height()/2)
 	},
 })

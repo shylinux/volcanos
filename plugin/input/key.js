@@ -28,7 +28,7 @@ Volcanos(chat.ONFIGURE, {key: {
 			}}
 		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length())
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0
-			can.page.style(can, can._target, html.MAX_HEIGHT, can.base.Max(window.innerHeight-can._target.offsetTop-html.ACTION_HEIGHT, 600))
+			can.page.style(can, can._target, html.MAX_HEIGHT, can.base.Max(can.page.height()-can._target.offsetTop-html.ACTION_HEIGHT, 600))
 		})
 	},
 	_make: function(event, can, meta, cb, target, last) {

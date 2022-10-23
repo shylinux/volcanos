@@ -192,7 +192,7 @@ Volcanos(chat.ONACTION, {help: "交互数据",
 	white: function(event, can, button) { can.onimport.topic(can, button), can.onlayout._init(can) },
 	print: function(event, can, button) { can.onimport.topic(can, [chat.WHITE, button]), can.onengine.signal(can, chat.ONPRINT) },
 	webpack: function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
-	toimage: function(event, can, button) { can.onmotion.toimage(event, can, can.user.title(), can._target.parentNode) },
+	toimage: function(event, can) { can.onmotion.toimage(event, can, can.user.title(), can._target.parentNode) },
 
 	carte: function(event, can, list, cb) { can.user.carte(event, can, can.onaction, list, cb) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },

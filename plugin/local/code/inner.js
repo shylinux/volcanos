@@ -415,7 +415,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	layout: function(can) {
 		if (can.isSimpleMode()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
-		if (can.isCmdMode()) { can.ConfHeight(window.innerHeight), can.ConfWidth(window.innerWidth) }
+		if (can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
 		can.isFloatMode() && can.onmotion.hidden(can, can.ui.profile)
 
 		var width = can.ConfWidth()+(can.user.isMobile && can.isCmdMode() && can.user.isLandscape()? 16: 0)-(can.user.isWindows && !can.isCmdMode()? 20: 0)
@@ -426,7 +426,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.page.styleWidth(can, can.ui.profile_output, profile_width)
 		can.page.styleWidth(can, can.ui.display_output, width-project_width)
 
-		var height = can.user.isMobile && can.isFloatMode()? window.innerHeight-2*html.ACTION_HEIGHT: can.base.Min(can.ConfHeight(), 320)-1
+		var height = can.user.isMobile && can.isFloatMode()? can.page.height()-2*html.ACTION_HEIGHT: can.base.Min(can.ConfHeight(), 320)-1
 		var display_height = can.ui.display.style.display == html.NONE? 0: (can.display_size[can.onexport.keys(can)]||height/2-html.ACTION_HEIGHT)
 		var content_height = height-display_height; if (can.isCmdMode()) { content_height -= can.ui._tabs.offsetHeight + can.ui._path.offsetHeight + 4 }
 		var profile_height = height-html.ACTION_HEIGHT-display_height

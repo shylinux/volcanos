@@ -435,6 +435,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 		isFloatMode: function(value) { return can.Mode() == "float" },
 		isFullMode: function(value) { return can.Mode() == "full" },
 		isCmdMode: function(value) { return can.Mode() == "cmd" },
+		isAutoMode: function(value) { return can.Mode() == "" },
 		Mode: function(value) { return can.Conf(ice.MODE, value) },
 		ConfDefault: function(value) { can.core.Item(value, function(k, v) { can.Conf(k) || can.Conf(k, v) }) },
 		ConfHeight: function(value) { return can.Conf(html.HEIGHT, value) },

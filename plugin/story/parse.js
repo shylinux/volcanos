@@ -9,7 +9,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: ["{", "}", html.HEAD, html.
 			can.onappend.list.indexOf(ls[0]) > -1 || can.onappend[ls[0]]? item.type = ls[0]: item.name = ls[0]
 			for (var i = 1; i < ls.length; i += 2) { can.core.Value(item, ls[i], ls[i+1]) }
 		})
-		return {type: name, style: {height: height||can.ConfHeight()||window.innerHeight}, list: stack[0].list}
+		return {type: name, style: {height: height||can.ConfHeight()||can.page.height()}, list: stack[0].list}
 	},
 	parse: function(can, list, target, keys, data, type) { target = target||can._output, data = data||{}
 		if (!list) { return } else if (can.base.isArray(list)) {

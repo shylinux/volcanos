@@ -46,7 +46,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _process: function(can, msg) {
 			sub.run = function(event, cmds, cb) { can.runAction(can.request(event, {path: msg.Option(nfs.PATH), text: msg.Option(mdb.TEXT)}), [ice.RUN, msg._arg[0]], cmds, cb) }
 			can.getActionSize(function(left, top, width, height) { left = left||0
 				var top = can.Mode() == undefined? 120: 0; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
-				sub.onimport.size(sub, can.base.Max(height, window.innerHeight)-top-2*html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0), width, true)
+				sub.onimport.size(sub, can.base.Max(height, can.page.height())-top-2*html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0), width, true)
 				can.onmotion.move(can, sub._target, {left: left, top: top})
 			})
 		}, document.body) }); return true
@@ -85,15 +85,14 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _process: function(can, msg) {
 
 	size: function(can, height, width, auto, mode) { // height += html.ACTION_HEIGHT-can.onexport.statusHeight(can)
 		if (auto) {
-			height && can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, can.ConfHeight(height), html.MAX_WIDTH, can.ConfWidth(width))
+			// height && can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, can.ConfHeight(height), html.MAX_WIDTH, can.ConfWidth(width))
+			height && can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, "", html.MAX_WIDTH, can.ConfWidth(width))
 		} else {
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, "")
 		}
 		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
 		if (mode) { sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub) } else { can.onaction["刷新页面"]({}, can, "刷新页面", sub) }
-		if (can.user.isMobile) {
-			can.onmotion.toggle(can, can._action, can.ConfHeight() < can.ConfWidth()-100)
-		}
+		can.user.isMobile && can.onmotion.toggle(can, can._action, can.ConfHeight() < can.ConfWidth()-100)
 	},
 	title: function(can, title) {
 		can.isCmdMode() && can.user.title(title)
@@ -131,8 +130,8 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 			can._status_bak = can._status.style.display == ""
 			can.onmotion.hidden(can, can._action)
 			can.onmotion.hidden(can, can._status)
-			can.ConfHeight(window.innerHeight/2-2*html.ACTION_HEIGHT-can.onexport.statusHeight(can)), html.WIDTH, can.ConfWidth(window.innerWidth/(can.user.isMobile? 1: 2))
-			can.getActionSize(function(left) { can.onmotion.move(can, can._target, {left: (left||0)+html.PLUGIN_MARGIN, top: window.innerHeight/2-html.PLUGIN_MARGIN}) })
+			can.ConfHeight(can.page.height()/2-2*html.ACTION_HEIGHT-can.onexport.statusHeight(can)), html.WIDTH, can.ConfWidth(can.page.width()/(can.user.isMobile? 1: 2))
+			can.getActionSize(function(left) { can.onmotion.move(can, can._target, {left: (left||0)+(can.user.isMobile? 0: html.PLUGIN_MARGIN), top: can.page.height()/2-html.PLUGIN_MARGIN}) })
 		}, function() {
 			can.onmotion.toggle(can, can._action, can._action_bak)
 			can.onmotion.toggle(can, can._status, can._status_bak)
@@ -140,9 +139,9 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 		})
 	},
 	"切换全屏": function(event, can, button, sub) {
-		can.onaction._switch(can, sub, "full", function() { can.ConfWidth(window.innerWidth)
+		can.onaction._switch(can, sub, "full", function() { can.ConfWidth(can.page.width())
 			can.page.style(can, can._target, html.LEFT, "", html.BOTTOM, "")
-			can.ConfHeight(window.innerHeight-html.ACTION_HEIGHT-can.onexport.statusHeight(can))
+			can.ConfHeight(can.page.height()-html.ACTION_HEIGHT-can.onexport.statusHeight(can))
 		}, function() {})
 	},
 	"共享工具": function(event, can) { var meta = can.Conf()
@@ -171,8 +170,6 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 			"export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -o $ctx_temp -fsSL $ctx_dev;"+" source $ctx_temp "+(conf.index||"")+ice.SP+args,
 			"ish_sys_dev_run_command "+args, "ish_sys_dev_run_action", "ish_sys_dev_run_source",
 		]
-		can.user.toastScript(can, '<div class="story" data-type="spark", data-name="shell">'+
-			'<label>$ </label>'+'<span>'+list.join("</span><br/><label>$ </label><span>")+'</span>'+'</div>', conf.index+ice.SP+args)
 		can.user.copy(event, can, list[0])
 	},
 	"生成图片": function(event, can) { can.onmotion.toimage(event, can, can._name) },

@@ -83,7 +83,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 			can.page.Append(can, can._output, [{img: item, height: 200}])
 		}) })
 	},
-	record1: function(event, can) { var height = window.innerHeight, width = window.innerWidth
+	record1: function(event, can) { var height = can.page.height(), width = can.page.width()
 		can.user.input(event, can, [{type: "text", name: "file", value: "some"}], function(list) {
 			navigator.mediaDevices.getDisplayMedia({video: {height: height}}).then(function(stream) {
 				var video = can.page.Append(can, can._output, [{type: html.VIDEO, height: height}]).first

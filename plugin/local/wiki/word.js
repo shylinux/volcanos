@@ -8,6 +8,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.page.style(can, item, can.base.Obj(data.style))
 			can.core.CallFunc([can.onimport, data.type], [can, data, item])
 		})
+		can.user.isMobile && can.isCmdMode() && can.page.style(can, can._output, html.MAX_HEIGHT, can.ConfHeight()+2*html.ACTION_HEIGHT)
 	},
 	navmenu: function(can, data, target) { var nav = can.sup._navmenu
 		nav = nav||can.page.Append(can, can._fields, [wiki.NAVMENU]).first
@@ -165,7 +166,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		})
 
 		can.onappend._init(can, {type: "story word float"}, [], function(sub) {
-			sub.run = can.run, sub.sup = can, can.sub = sub, can.onappend._action(sub, can.user.isMobile && window.innerHeight > window.innerWidth? [
+			sub.run = can.run, sub.sup = can, can.sub = sub, can.onappend._action(sub, can.user.isMobile && can.page.height() > can.page.width()? [
 				"大纲", "上一页", "下一页", "结束",
 			]: [
 				["布局", "开讲", "网格", "快闪"], "大纲", "首页", "上一页",
@@ -178,8 +179,8 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			}})), can.onkeymap._build(can)
 
 			sub.page.style(sub, sub._target, html.BACKGROUND, can._root._target.style.background)
-			sub.page.style(sub, sub._output, html.HEIGHT, can._root._height-2*html.ACTION_HEIGHT)
-			sub.page.style(sub, sub._output, html.WIDTH, can._root._width)
+			sub.page.style(sub, sub._output, html.HEIGHT, can.page.height()-2*html.ACTION_HEIGHT)
+			sub.page.style(sub, sub._output, html.WIDTH, can.page.width())
 
 			sub.ui = sub.page.Append(sub, sub._output, [{view: chat.PROJECT}, {view: chat.CONTENT}])
 			can.core.List(sub.list = list, function(page, index) {
@@ -193,7 +194,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 						case chat.FIELD: item = can.onappend.field(can, chat.STORY, can.base.Obj(data.meta), sub.ui.content).first; break
 						default: item = item.cloneNode(true)
 					}
-					return can.core.CallFunc([can.onimport, data.type], [sub, data, item, window.innerWidth]), item
+					return can.core.CallFunc([can.onimport, data.type], [sub, data, item, can.page.width()]), item
 				}), }])
 			}), can.onmotion.hidden(can, sub.ui.project), can.ondetail.show(sub, 0) 
 

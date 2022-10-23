@@ -227,6 +227,7 @@ body.print fieldset.draw div.output div.content svg { background-color:lightgray
 body.print fieldset.draw div.output { background-color:lightgray; }
 
 body.mobile { overflow:auto; }
+// body.mobile.black { background-color:black; }
 body.mobile.simple { overflow:hidden; }
 body.mobile legend { font-size:1.6rem; height:38px; }
 body.mobile select { font-size:1.4rem; height:38px; border-radius:0; margin-right:10; }

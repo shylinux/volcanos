@@ -43,7 +43,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onmotion.clear(can, target), can.onlayout.profile(can, target), can.ui.project._target = can.ui.content
 		var width = can.ConfWidth()-320, height = can.ConfHeight()
 		if (can.isCmdMode()) {
-			width = can._root._width, height = can._root._height, can.user.title(can._list.meta.name)
+			width = can.page.width(), height = can.page.height(), can.user.title(can._list.meta.name)
 		} else if (can.isFullMode()) {
 			width = can.ConfWidth(), height = can.ConfHeight()
 			can.onmotion.toggle(can, can.ui.project, false)

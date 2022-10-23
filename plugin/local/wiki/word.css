@@ -1,6 +1,6 @@
 fieldset.word form.option input[name=path] { width:127px; }
 fieldset.word>form.option>div.item>input[name=path] { width:320px; }
-body.mobile fieldset.word>form.option>div.item>input[name=path] { width:220px; }
+body.mobile fieldset.word>form.option>div.item>input[name=path] { width:180px; }
 body.webview fieldset.word>form.option>div.item>input[name=path] { width:160px; }
 
 fieldset.word>div.navmenu { background-color:inherit; overflow:auto; min-width:120px; clear:both; float:left; }
@@ -38,7 +38,7 @@ fieldset.word.float { padding:0; margin:0; position:fixed; left:0; top:0; z-inde
 /* fieldset.word.float { padding:0; margin:0; width:-webkit-fill-available; position:fixed; left:0; top:0; z-index:10; } */
 fieldset.word.float>div.action { display:contents; }
 fieldset.word.float>div.status { clear:none; display:block; }
-fieldset.word.float>div.output { background-color:#f0f8ff80; overflow:auto; }
+fieldset.word.float>div.output { background-color:#f0f8ff80; text-align:center; overflow:auto; }
 fieldset.word.float>div.output>div.project { background:#4682b46b; padding:10px; position:fixed; right:0; top:31px; z-index:10; }
 fieldset.word.float div.content div.page { text-align:center; margin-top:31px; display:none; }
 fieldset.word.float div.content div.page.show { display:block; }
