@@ -200,7 +200,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, cb, target) 
 	layout: function(can, button, silent) { button = button||ice.AUTO
 		can.page.ClassList.del(can, can._target, can.Conf(chat.LAYOUT)); if (button == ice.AUTO) { button = "" }
 		can.page.ClassList.add(can, can._target, can.Conf(chat.LAYOUT, button))
-		can.isCmdMode() || (can.onmotion.toggle(can, can._root.River._target, true), can.onmotion.toggle(can, can._root.Footer._target, true))
+		// can.isCmdMode() || (can.onmotion.toggle(can, can._root.River._target, true), can.onmotion.toggle(can, can._root.Footer._target, true))
 		can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		can.onlayout._init(can)
 

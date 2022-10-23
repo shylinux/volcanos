@@ -1,5 +1,6 @@
 fieldset.word form.option input[name=path] { width:127px; }
 fieldset.word>form.option>div.item>input[name=path] { width:320px; }
+body.mobile fieldset.word>form.option>div.item>input[name=path] { width:220px; }
 body.webview fieldset.word>form.option>div.item>input[name=path] { width:160px; }
 
 fieldset.word>div.navmenu { background-color:inherit; overflow:auto; min-width:120px; clear:both; float:left; }

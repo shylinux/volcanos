@@ -226,6 +226,8 @@ body.print fieldset.panel { background:white; color:black; }
 body.print fieldset.draw div.output div.content svg { background-color:lightgray; }
 body.print fieldset.draw div.output { background-color:lightgray; }
 
+body.mobile { overflow:auto; }
+body.mobile.simple { overflow:hidden; }
 body.mobile legend { font-size:1.6rem; height:38px; }
 body.mobile select { font-size:1.4rem; height:38px; border-radius:0; margin-right:10; }
 body.mobile textarea { font-size:1.2rem; border-radius:0; }
@@ -252,8 +254,9 @@ body.mobile fieldset.Header.head { width:-webkit-fill-available; }
 body.mobile fieldset.Header.head { background-color:#000000b8; font-size:1.6rem; height:3rem; position:fixed; top:0; }
 body.mobile fieldset.Header.head div.output { height:3rem; }
 body.mobile fieldset.Header.head div.state.time { display:none; }
-body.mobile fieldset.Header.head div.search>input { height:38px; }
-body.mobile fieldset.Header.head div.output div { height:38px; }
+body.mobile fieldset.Header.head div.search>input { background-color:#21181838; color:white; margin:0; height:38px; width:-webkit-fill-available }
+body.mobile fieldset.Header.head div.search { height:38px; width:-webkit-fill-available }
+body.mobile fieldset.Header.head div.output div { height:38px; margin-left:0; }
 body.mobile fieldset.River.left { background-color:#243950bf; font-size:1.6rem; min-width:240px; position:fixed; top:3rem; z-index:10; }
 body.mobile fieldset.River>div.output { width:320px; }
 body.mobile fieldset.River>div.output div.item { font-size:1.6rem; }
@@ -266,11 +269,11 @@ body.mobile fieldset.Footer.foot div.output { height:3rem; }
 body.mobile fieldset.Footer.foot div.output div { height:2.6rem; }
 body.mobile fieldset.Footer.foot input[name=cmd] { height:38px; }
 
-body.mobile.landscape fieldset.Header.head { position:unset; }
+body.mobile.landscape fieldset.Header.head { position:unset; display:none; }
 body.mobile.landscape fieldset.Header.head div.search>input { width:240px; }
 body.mobile.landscape fieldset.Header.head div.state.time { display:block; }
 body.mobile.landscape fieldset.Action.main { margin-top:0; margin-bottom:0; }
-body.mobile.landscape fieldset.Footer.foot { position:unset; }
+body.mobile.landscape fieldset.Footer.foot { position:unset; display:none; }
 body.mobile.landscape fieldset.Footer.foot input[name=cmd] { width:240px; }
 
 body.mobile fieldset.draw.spide div.action { display:none; }

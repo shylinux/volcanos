@@ -16,7 +16,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			}}])
 		})
 	},
-	_state: function(can, msg, target) {
+	_state: function(can, msg, target) { if (can.user.isMobile) { return }
 		can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [mdb.TIME, aaa.USERNICK]), function(item) {
 			if (item == aaa.AVATAR ) { if (can.user.isLocalFile) { return }
 				can.page.Append(can, target, [{view: can.base.join([chat.STATE, item]), list: [{img: ice.SP}], onmouseenter: function(event) {
@@ -39,13 +39,12 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.onkeymap.input(event, can); switch (event.key) {
 				case lang.ENTER: can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: event.target.value||""}))
 			}
-		}}, "", target, "title search"); can._search = ui, can.onimport.menu(can, mdb.SEARCH, function() {
+		}}, "", target, "title search"); can._search = ui, can.user.isMobile || can.onimport.menu(can, mdb.SEARCH, function() {
 			can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: ui.value||""}))
 		})
 	},
-	_menus: function(can, msg, target) { if (can.user.mod.isPod) { return }
-		can.setHeaderMenu(can.user.mod.isPod? []:
-			can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.onaction._menus), function(event, button) {
+	_menus: function(can, msg, target) { if (can.user.mod.isPod || can.user.isMobile) { return }
+		can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.onaction._menus), function(event, button) {
 				can.core.CallFunc(can.onaction[button]||function(event, can) {
 					can.run(event, [button], function(msg) { can.user.toastSuccess(can, button) })
 				}, {event: event, can: can, button: button})
@@ -58,7 +57,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.getActionSize(function(msg, top) { can.page.style(can, sub._target, {top: top, right: 0, left: ""}) })
 		}}, target), target.onmouseenter = target.click
 	},
-	time: function(can, target) { can.onimport.topic(can), target.innerHTML = can.user.time(can, null, "%w %H:%M:%S") },
+	time: function(can, target) {
+		return
+		can.onimport.topic(can), target.innerHTML = can.user.time(can, null, "%w %H:%M:%S")
+	},
 	avatar: function(event, can, avatar) { if (can.user.isExtension || can.user.isLocalFile) { return }
 		can.runAction(event, aaa.AVATAR, [avatar], function(msg) {
 			can.user.info.avatar = avatar, can.onimport._avatar(can, msg), can.user.toastSuccess(can)

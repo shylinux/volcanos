@@ -337,7 +337,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			case "": return can.page.Append(can, target, [item])
 			case html.SPACE: return can.page.Append(can, target, [{view: can.base.join([html.ITEM, html.SPACE])}])
 		}
-		var input = can.page.input(can, item, value)
+		var input = can.page.input(can, can.base.Copy({}, item), value)
 		if (item.type == "select" && item.value) { input._init = function(target) { target.value = item.value } }
 
 		if (item.range) {
@@ -349,7 +349,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 		}
 		var br = input.type == html.TEXTAREA? [{type: html.BR, style: {clear: html.BOTH}}]: []
 		var title = can.Conf([ctx.FEATURE, chat.TITLE, item.name].join(ice.PT))||""; title && (input.title = title)
-		input.onkeydown = input.onkeydown||function(event) {
+		input.onkeydown = item.onkeydown||function(event) {
 			switch (item.type) {
 				case html.TEXT:
 					switch (event.key) {
@@ -511,12 +511,11 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 			height -= field.offsetHeight
 		})
 
-		var offset = can.user.isMobile && !can.user.isLandscape()? 100: 0
 		can.page.Select(can, target, html.FIELDSET_LEFT, function(field, index) {
 			can.user.isMobile || (width -= field.offsetWidth)
-			can.page.styleHeight(can, field, height-offset)
+			can.page.styleHeight(can, field, height)
 			can.page.Select(can, target, [[html.FIELDSET_LEFT, html.DIV_OUTPUT]], function(output) {
-				can.page.styleHeight(can, output, height-offset-html.ACTION_HEIGHT-2)
+				can.page.styleHeight(can, output, height-html.ACTION_HEIGHT)
 			})
 		})
 
@@ -599,9 +598,13 @@ Volcanos(chat.ONLAYOUT, {help: "页面布局", _init: function(can, target) { ta
 	},
 })
 Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
-		window.addEventListener(html.ORIENTATIONCHANGE, function(event) { can.onengine.signal(can, html.ORIENTATIONCHANGE) })
+		var last = window.innerWidth < window.innerHeight
 		window.onresize = function(event) {
 			window.setsize && window.setsize(window.innerWidth, window.innerHeight)
+			if (can.user.isMobile) {
+				if (last === window.innerWidth < window.innerHeight) { return }
+				last = window.innerWidth < window.innerHeight
+			}
 			can.onengine.signal(can, chat.ONRESIZE)
 		}
 		can.onmotion.float.auto(can, target)

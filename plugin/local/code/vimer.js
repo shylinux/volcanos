@@ -340,7 +340,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	"百度": function(event, 	can) { window.openurl("https://baidu.com") },
 	"查找": function(event, can) {
 		var ui = can.page.Append(can, can._output, [{view: "vimer find float", list: [html.ACTION, html.OUTPUT],
-			style: {position: "absolute", left: can.ui.project.offsetWidth+can.ui.content.offsetWidth/2, top: can.current.line.offsetTop-can.ui.content.scrollTop+57+28}}])
+			style: {position: "absolute", left: can.ui.project.offsetWidth+can.ui.content.offsetWidth/2, top: can.base.Min(can.current.line.offsetTop-can.ui.content.scrollTop, 100)+57+28}}])
 		can.onmotion.delay(can, function() { can.page.style(can, ui.first, html.LEFT, can.ui.project.offsetWidth+can.ui.content.offsetWidth/2-ui.first.offsetWidth/2) }, 10)
 		can.onmotion.move(can, ui.first)
 		

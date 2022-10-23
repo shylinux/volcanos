@@ -56,6 +56,9 @@ Volcanos(chat.ONACTION, {help: "操作数据", list: [mdb.CREATE, web.SHARE, web
 			can.onmotion.toggle(can, can._target, true)
 		})
 	},
+	onresize: function(can, msg) {
+		can.onmotion.hidden(can, can._target)
+	},
 	onsearch: function(can, msg, word) { if (word[0] == mdb.FOREACH || word[0] == chat.STORM) { can.onexport.storm(can, msg, word) } },
 	onaction_notool: function(can, msg, river, storm) { can.ondetail["添加工具"](msg._event, can, "添加工具", river, storm) },
 	onaction_touch: function(can, msg) { can.user.isMobile && can.onmotion.hidden(can) },

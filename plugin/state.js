@@ -92,7 +92,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _process: function(can, msg) {
 		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
 		if (mode) { sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub) } else { can.onaction["刷新页面"]({}, can, "刷新页面", sub) }
 		if (can.user.isMobile) {
-			can.onmotion.toggle(can, can._action, can.ConfHeight() < can.ConfWidth())
+			can.onmotion.toggle(can, can._action, can.ConfHeight() < can.ConfWidth()-100)
 		}
 	},
 	title: function(can, title) {
