@@ -11,6 +11,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onappend.board(can, msg, target)
 		can.onmotion.story.auto(can, target)
 		can.base.isFunc(cb) && cb(msg)
+		can.user.isMobile && can.onmotion.toggle(can, can._action, can.ConfHeight() < can.ConfWidth())
 		can.page.Select(can, target, "input[type=button]", function(target) {
 			if (target.value == target.name) { target.value = can.user.trans(can, target.name) }
 		})
@@ -220,7 +221,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 })
 Volcanos(chat.ONLAYOUT, {help: "界面布局",
-	_init: function(can) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can}) },
+	_init: function(can) {
+		can.user.isMobile && can.onmotion.toggle(can, can._action, can.ConfHeight() < can.ConfWidth())
+		can.core.CallFunc([can.onimport, html.LAYOUT], {can: can})
+	},
 	float: function(can) { can.onlayout._init(can) },
 	full: function(can) {
 		can.sup.onimport.size(can.sup, can.ConfHeight(), can.ConfWidth(), false)

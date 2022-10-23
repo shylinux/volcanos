@@ -145,6 +145,9 @@ Volcanos(chat.ONACTION, {help: "交互数据",
 		"clear": "清除背景",
 		"logout": "退出登录",
 	},
+	onsize: function(can, msg) {
+		can.onimport.topic(can)
+	},
 	onmain: function(can, msg) {
 		can.run({}, [], function(msg) {
 			if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {

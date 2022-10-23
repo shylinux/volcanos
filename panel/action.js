@@ -121,6 +121,10 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互", _focus: [], _init: function(can, 
 Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, cb, target) {
 		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+2*html.ACTION_HEIGHT+html.ACTION_MARGIN)
 		can.Conf(html.MARGIN_X, 4*html.PLUGIN_MARGIN)
+		if (can.user.isMobile) {
+			can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+2*html.ACTION_HEIGHT+html.ACTION_MARGIN)
+			can.Conf(html.MARGIN_X, 2*html.PLUGIN_MARGIN)
+		}
 
 		if (can.user.mod.isPod || can.user.isMobile) {
 			var gt = "❯", lt = "❮"; function toggle(view) { return can.onmotion.toggle(can, can._root.River._target) }
@@ -205,10 +209,10 @@ Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, cb, target) 
 		can.onlayout._init(can)
 
 		var cb = can.onlayout[button]; if (can.base.isFunc(cb)? cb(can, silent): (function() {})()) { return }
-		can.page.style(can, can._target, html.HEIGHT, can.ConfHeight()+can.Conf(html.MARGIN_Y), html.WIDTH, can.ConfWidth()+can.Conf(html.MARGIN_X))
+		(button == "" && can.user.isMobile) || can.page.style(can, can._target, html.HEIGHT, can.ConfHeight()+can.Conf(html.MARGIN_Y), html.WIDTH, can.ConfWidth()+can.Conf(html.MARGIN_X))
 		can.core.Next(can._plugins, function(sub, next) { can.onmotion.delay(can, function() {
 			sub.onaction._resize(sub, button == "" || button == ice.AUTO, can.ConfHeight(), can.ConfWidth()), next()
-			if (button == "" || button == ice.AUTO) { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
+			if (button == "") { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
 		}, 10) })
 	},
 	help: function(can, button) { can.user.open("/help/"+button+".shy") },

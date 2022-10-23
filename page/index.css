@@ -234,6 +234,8 @@ body.mobile textarea { font-size:1.2rem; border-radius:0; }
 body.mobile input[type=text] { font-size:1.2rem; height:38px; border-radius:0; margin-right:5px; }
 body.mobile input[type=button] { font-size:1.2rem; height:38px; border-radius:0; }
 body.mobile fieldset.float input[type=button] { font-size:1.4rem; height:38px; }
+body.mobile fieldset.plugin { margin:10px 0; }
+body.mobile fieldset.plugin.full { margin:0; }
 body.mobile table.layout div.toggle { font-size:48px; }
 body.mobile table.content th { padding:6px 6px; }
 
@@ -269,11 +271,10 @@ body.mobile fieldset.Footer.foot div.output { height:3rem; }
 body.mobile fieldset.Footer.foot div.output div { height:2.6rem; }
 body.mobile fieldset.Footer.foot input[name=cmd] { height:38px; }
 
-body.mobile.landscape fieldset.Header.head { position:unset; display:none; }
-body.mobile.landscape fieldset.Header.head div.search>input { width:240px; }
+body.mobile.landscape fieldset.Header.head { position:unset; }
 body.mobile.landscape fieldset.Header.head div.state.time { display:block; }
 body.mobile.landscape fieldset.Action.main { margin-top:0; margin-bottom:0; }
-body.mobile.landscape fieldset.Footer.foot { position:unset; display:none; }
+body.mobile.landscape fieldset.Footer.foot { position:unset; }
 body.mobile.landscape fieldset.Footer.foot input[name=cmd] { width:240px; }
 
 body.mobile fieldset.draw.spide div.action { display:none; }

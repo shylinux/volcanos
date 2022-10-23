@@ -43,6 +43,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		return {height: height, width: width, space: space, step: step}
 	},
 	layout: function(can) {
+		can.onmotion.toggle(can, can._option, !can.user.isMobile || !can.isFullMode())
 		can.onaction[can.Action(ice.VIEW)]({}, can)
 	},
 	transform: function(can, target) {
@@ -51,7 +52,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 }, [""])
 Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		[ice.VIEW, "趋势图", "柱状图", "折线图", "数据源"],
-		[html.HEIGHT, ice.AUTO, 100, 200, 400, 600, 800, ice.AUTO],
+		[html.HEIGHT, ice.AUTO, 100, 200, 400, 600, 800],
 		["space", 10, 20, 50, 100],
 		[html.SPEED, 10, 20, 50, 100],
 	],

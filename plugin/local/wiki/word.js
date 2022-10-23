@@ -100,6 +100,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 	chart: function(can, data, target) {
+		can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth(), "overflow", "auto")
 		if (!data.fg && !data.bg) { target.className.baseVal = "story auto" }
 
 		target.onclick = function(event) {
@@ -164,7 +165,10 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		})
 
 		can.onappend._init(can, {type: "story word float"}, [], function(sub) {
-			sub.run = can.run, sub.sup = can, can.sub = sub, can.onappend._action(sub, [
+			sub.run = can.run, sub.sup = can, can.sub = sub, can.onappend._action(sub, can.user.isMobile && window.innerHeight > window.innerWidth? [
+				"大纲", "上一页",
+				"下一页", "结束",
+			]: [
 				["布局", "开讲", "网格", "快闪"], "大纲", "首页", "上一页",
 				["菜单"].concat(can.core.List(list, function(page) { return page[0].innerHTML })),
 				"下一页", "隐藏", "结束",
