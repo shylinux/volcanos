@@ -58,7 +58,6 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}}, target), target.onmouseenter = target.click
 	},
 	time: function(can, target) {
-		return
 		can.onimport.topic(can), target.innerHTML = can.user.time(can, null, "%w %H:%M:%S")
 	},
 	avatar: function(event, can, avatar) { if (can.user.isExtension || can.user.isLocalFile) { return }

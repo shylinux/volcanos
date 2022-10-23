@@ -10,7 +10,7 @@ fieldset.word>div.navmenu>div.item { font-size:1.6em; }
 
 fieldset.word a { word-break:break-all; }
 fieldset.word br.story { clear:both; }
-fieldset.word ul.story { font-family:monospace; }
+fieldset.word ul.story { font-family:monospace; text-align:left; }
 fieldset.word ul.story li.H2 { font-size:1.4em; font-weight:bold; }
 fieldset.word ul.story li.H3 { font-size:1.2em; }
 fieldset.word ul.story[data-type=premenu] { cursor:pointer; }
@@ -38,9 +38,9 @@ fieldset.word.float { padding:0; margin:0; position:fixed; left:0; top:0; z-inde
 /* fieldset.word.float { padding:0; margin:0; width:-webkit-fill-available; position:fixed; left:0; top:0; z-index:10; } */
 fieldset.word.float>div.action { display:contents; }
 fieldset.word.float>div.status { clear:none; display:block; }
-fieldset.word.float>div.output { background-color:#f0f8ff80; padding:20px; overflow:auto; }
+fieldset.word.float>div.output { background-color:#f0f8ff80; overflow:auto; }
 fieldset.word.float>div.output>div.project { background:#4682b46b; padding:10px; position:fixed; right:0; top:31px; z-index:10; }
-fieldset.word.float div.content div.page { margin-top:31px; display:none; }
+fieldset.word.float div.content div.page { text-align:center; margin-top:31px; display:none; }
 fieldset.word.float div.content div.page.show { display:block; }
 fieldset.word.float div.content.grid div.page { background-color:#a4cbecb5; margin:10px; height:200px; width:200px; overflow:auto; display:block; float:left; }
 fieldset.word.float h1 { text-align:center; }

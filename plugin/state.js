@@ -127,9 +127,17 @@ Volcanos(chat.ONACTION, {help: "交互操作", list: [
 	"刷新数据": function(event, can) { can.Update({}, can.Input([], true)) },
 	"切换浮动": function(event, can, button, sub) {
 		can.onaction._switch(can, sub, "float", function() {
-			can.ConfHeight(window.innerHeight/2), html.WIDTH, can.ConfWidth(window.innerWidth/(can.user.isMobile? 1: 2))
-			can.getActionSize(function(left) { can.onmotion.move(can, can._target, {left: left||0, top: window.innerHeight/2-4*html.ACTION_HEIGHT-html.PLUGIN_MARGIN}) })
-		}, function() { can.page.style(can, can._target, html.LEFT, "", html.TOP, "") })
+			can._action_bak = can._action.style.display == ""
+			can._status_bak = can._status.style.display == ""
+			can.onmotion.hidden(can, can._action)
+			can.onmotion.hidden(can, can._status)
+			can.ConfHeight(window.innerHeight/2-2*html.ACTION_HEIGHT-can.onexport.statusHeight(can)), html.WIDTH, can.ConfWidth(window.innerWidth/(can.user.isMobile? 1: 2))
+			can.getActionSize(function(left) { can.onmotion.move(can, can._target, {left: (left||0)+html.PLUGIN_MARGIN, top: window.innerHeight/2-html.PLUGIN_MARGIN}) })
+		}, function() {
+			can.onmotion.toggle(can, can._action, can._action_bak)
+			can.onmotion.toggle(can, can._status, can._status_bak)
+			can.page.style(can, can._target, html.LEFT, "", html.TOP, "")
+		})
 	},
 	"切换全屏": function(event, can, button, sub) {
 		can.onaction._switch(can, sub, "full", function() { can.ConfWidth(window.innerWidth)

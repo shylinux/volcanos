@@ -1,10 +1,10 @@
 body, fieldset, table, tr, th, td { padding:0; border:0; margin:0; }
 body { background-color:black; color:cyan; font-size:16px; overflow:hidden; }
-legend { background-color:cadetblue; color:white; padding:0 20px; }
-select { background-color:black; color:cyan; padding:0 10px; border:0; }
+legend { background-color:cadetblue; color:white; padding:0 20px; margin-right:2px; float:left; }
+select { background-color:black; color:cyan; padding:0 10px; margin:0 2px; border:0; }
 textarea { background-color:cyan; width:400px; padding:5px; border:0; }
 input[type=password] { background-color:cyan; color:black; padding:0 5px; border:0; width:90px; }
-input[type=text] { background-color:cyan; color:black; padding:0 5px; border:0; width:90px; }
+input[type=text] { background-color:cyan; color:black; padding:0 5px; margin:0 2px; border:0; width:90px; }
 input[name=cmd] { background-color:black; color:white; width:320px; }
 input[name=url] { width:320px; }
 input[name=text] { width:160px; }
@@ -15,7 +15,7 @@ input[name=limit] { width:48px; }
 input[name=offend] { width:48px; }
 input[name=id] { width:48px; }
 input[name=ID] { width:48px; }
-input[type=button] { background-color:black; color:cyan; border:0; }
+input[type=button] { background-color:black; color:cyan; border:0; margin:0 2px; }
 input[type=button][name=start] { background-color:blue; }
 input[type=button][name=open] { background-color:blue; }
 input[type=button][name=stop] { background-color:red; }
@@ -39,8 +39,9 @@ table.content.action td:last-child { background-color:steelblue; position:sticky
 div.code { background-color:#343a3445; color:white; padding:10px; border:solid 2px green; }
 div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:5px 10px; border-left:solid 5px blue; margin:10px; }
 
-form.option>div.item { margin-right:5px; }
-div.action>div.item { margin-right:5px; }
+form.option>div.item { height:31px; }
+form.option>div.item.textarea { height:unset; }
+div.action>div.item { height:31px; }
 div.output { position:relative; }
 div.output div.project div.item { padding:2px 10px; }
 div.output div.project div.list { margin-left:10px; }
@@ -55,10 +56,9 @@ fieldset.plugin { background-color:#061c3c9e; padding:10px; margin:10px; }
 fieldset.float { background-color:#0e3369; color:white; padding:0; margin:0; }
 fieldset.full { background-color:#0e3369; color:white; padding:0; margin:0; left:0; top:0; overflow:auto; }
 
-fieldset.story>legend { float:left; margin:0px; margin-right:5px; }
-fieldset.float>legend { float:left; margin-right:5px; }
-fieldset.full>legend { float:left; margin:0; margin-right:5px; }
-fieldset.plug>legend { float:left; margin-right:5px; }
+fieldset.plugin>legend { float:none; }
+fieldset.plugin.full>legend { float:left; }
+fieldset.plugin.float>legend { float:left; }
 
 fieldset>form.option input[type=button][name=close]{ display:none; }
 fieldset.float>form.option input[type=button][name=close]{ display:block; }

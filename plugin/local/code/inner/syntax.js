@@ -359,6 +359,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 			"float": code.FUNCTION,
 			"clear": code.FUNCTION,
 			"cursor": code.FUNCTION,
+			"unset": code.FUNCTION,
 
 			"z-index": code.FUNCTION,
 			"tab-size": code.FUNCTION,

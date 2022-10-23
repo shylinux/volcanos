@@ -166,8 +166,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 
 		can.onappend._init(can, {type: "story word float"}, [], function(sub) {
 			sub.run = can.run, sub.sup = can, can.sub = sub, can.onappend._action(sub, can.user.isMobile && window.innerHeight > window.innerWidth? [
-				"大纲", "上一页",
-				"下一页", "结束",
+				"大纲", "上一页", "下一页", "结束",
 			]: [
 				["布局", "开讲", "网格", "快闪"], "大纲", "首页", "上一页",
 				["菜单"].concat(can.core.List(list, function(page) { return page[0].innerHTML })),
@@ -179,8 +178,8 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			}})), can.onkeymap._build(can)
 
 			sub.page.style(sub, sub._target, html.BACKGROUND, can._root._target.style.background)
-			sub.page.style(sub, sub._output, html.HEIGHT, can._root._height-4*html.PLUGIN_MARGIN-2*html.ACTION_HEIGHT)
-			sub.page.style(sub, sub._output, html.WIDTH, can._root._width-4*html.PLUGIN_MARGIN)
+			sub.page.style(sub, sub._output, html.HEIGHT, can._root._height-2*html.ACTION_HEIGHT)
+			sub.page.style(sub, sub._output, html.WIDTH, can._root._width)
 
 			sub.ui = sub.page.Append(sub, sub._output, [{view: chat.PROJECT}, {view: chat.CONTENT}])
 			can.core.List(sub.list = list, function(page, index) {
@@ -194,7 +193,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 						case chat.FIELD: item = can.onappend.field(can, chat.STORY, can.base.Obj(data.meta), sub.ui.content).first; break
 						default: item = item.cloneNode(true)
 					}
-					return can.core.CallFunc([can.onimport, data.type], [sub, data, item, can._root._width-4*html.PLUGIN_MARGIN]), item
+					return can.core.CallFunc([can.onimport, data.type], [sub, data, item, window.innerWidth]), item
 				}), }])
 			}), can.onmotion.hidden(can, sub.ui.project), can.ondetail.show(sub, 0) 
 

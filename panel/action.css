@@ -42,7 +42,7 @@ fieldset.Action.free>div.output>fieldset.plugin.select { display:block; }
 
 fieldset.Action.cmd { overflow:hidden; }
 fieldset.panel.cmd>div.output>fieldset.plugin { padding:0; margin:0; }
-fieldset.panel.cmd>div.output>fieldset.plugin>legend { padding:0 10px; margin-right:3px; float:left; }
+fieldset.panel.cmd>div.output>fieldset.plugin>legend { padding:0 10px; float:left; }
 
 fieldset.Header action>div.tabs { padding:0; margin-left:20px; display:contents; }
 fieldset.Header action>div.tabs:hover { background:none; }

@@ -460,6 +460,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 				target.focus(), can.onkeymap.cursorMove(can.ui.current, 0, 0)
 			} can.ui.content.scrollLeft = scroll
 		})
+		can.user.localStorage(can, "web.code.inner:currentFile", can.Option(nfs.PATH)+ice.DF+can.Option(nfs.FILE)+ice.DF+can.onaction._getLineno(can, can.current.line))
 		can.user.localStorage(can, "web.code.vimer:selectLine:"+can.Option(nfs.PATH)+can.Option(nfs.FILE), can.onaction._getLineno(can, can.current.line))
 	},
 
