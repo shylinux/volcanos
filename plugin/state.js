@@ -63,21 +63,14 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 			var head = can.page.Select(can, can._output, [html.TABLE_CONTENT, html.TH], function(th) { return th.innerText })
 			can.page.Append(can, table, msg.Table(function(value) { return {row: can.core.List(head, function(key) { return value[key] })} }))
 			return true
-		}).length == 0) { can.onappend.table(can, msg) }; return true
+		}).length == 0) { can.onappend.table(can, msg) } return true
 	},
-	_grow: function(can, msg, _arg) {
-		sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
-		if (sub && sub.onimport && sub.onimport.grow) {
-			sub.onimport.grow(sub, msg, _arg)
-			return true
-		}
+	_grow: function(can, msg, _arg) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
+		if (sub && sub.onimport && sub.onimport.grow) { return sub.onimport.grow(sub, msg, _arg), true }
+		
 		if (can.page.Select(can, can._output, html.DIV_CODE, function(div) {
-			can.page.style(can, div, html.MAX_HEIGHT, 400)
-			can.page.Append(can, div, [{text: _arg}])
-			div.scrollBy(0, 10000)
-			return true
-		}).length == 0) { can.onappend.board(can, _arg) }
-		return true
+			return can.page.style(can, div, html.MAX_HEIGHT, 400), can.page.Append(can, div, [{text: _arg}]), div.scrollBy(0, 10000), true
+		}).length == 0) { can.onappend.board(can, _arg) } return true
 	},
 	_open: function(can, msg, _arg) { return can.user.open(_arg), can.Update() },
 
@@ -116,8 +109,8 @@ Volcanos(chat.ONACTION, {list: [
 				save(),
 			)), can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), false, mode)
 		} else { var back = (can._mode_list = can._mode_list||[]).pop(); if (!back) { return }
-			can.Mode(back.mode), can.ConfHeight(back.height), can.ConfWidth(back.width), can.page.style(can, can._output, back.output)
-			can.page.style(can, can._target, back.style)
+			can.Mode(back.mode), can.ConfHeight(back.height), can.ConfWidth(back.width)
+			can.page.style(can, can._output, back.output), can.page.style(can, can._target, back.style)
 			can.onmotion.toggle(can, can._action, back.action), can.onmotion.toggle(can, can._status, back.status)
 			can.base.isFunc(load) && load(back), sub.Mode(can.Mode()), sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), sub.onlayout._init(sub)
 		}
@@ -192,12 +185,10 @@ Volcanos(chat.ONACTION, {list: [
 	keyboard: function(event, can) {
 		can.base.isUndefined(can._daemon) && can.ondaemon._list[0] && (can._daemon = can.ondaemon._list.push(can)-1)
 		can.request(event, kit.Dict(ctx.INDEX, can._index, ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], can._daemon)))
-
 		can.runAction(event, "keyboard", [], function(msg) {
-			can.onmotion.move(can, can.user.toast(can, {
-				title: msg.Append(mdb.NAME), duration: -1, content: msg.Append(mdb.TEXT), action: [cli.CLOSE, cli.OPEN],
-			})._target, {}), can.user.copy(msg._event, can, msg.Append(mdb.NAME))
-		}, true)
+			can.user.toast(can, {title: msg.Append(mdb.NAME), duration: -1, content: msg.Append(mdb.TEXT), action: [cli.CLOSE, cli.OPEN]})
+			can.user.copy(msg._event, can, msg.Append(mdb.NAME))
+		})
 	},
 	actions: function(event, can) { can.onmotion.toggle(can, can._action) },
 	upload: function(event, can) { can.user.upload(event, can) },
