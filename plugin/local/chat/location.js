@@ -212,10 +212,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		if (can.onmotion.cache(can, function() { return item.hash }, can.ui.profile)) {
 
 		} else { item.extra = can.base.Obj(item.extra, {})
-			item.extra.index && can.onimport.plug(can, {index: item.extra.index, args: item.extra.args}, can.ui.profile, function(sub) { item._plugin = sub
+			item.extra.index && can.onimport.plug(can, {index: item.extra.index, args: item.extra.args}, function(sub) { item._plugin = sub
 				can.page.style(can, sub._target, html.MAX_HEIGHT, sub.ConfHeight(can.ConfHeight()), html.MAX_WIDTH, sub.ConfWidth(can.ConfWidth()*3/4))
 				can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(can.ConfHeight()-2*html.ACTION_HEIGHT), html.MAX_WIDTH, sub.ConfWidth(can.ConfWidth()*3/4))
-			})
+			}, can.ui.profile)
 		}
 	},
 	_plugin: function(can, item, meta) {

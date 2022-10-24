@@ -1,33 +1,31 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
-		var cbs = can.onimport[msg.Option(ctx.STYLE)||can.Conf(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
-			can.core.CallFunc(cbs, {can: can, msg: msg, target: target, list: msg.Table()})
+Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) { can.onmotion.clear(can, target)
+		var cbs = can.onimport[can.Conf(ctx.STYLE)||msg.Option(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
+			can.core.CallFunc(cbs, {can: can, msg: msg, target: target})
 			can.page.ClassList.add(can, target, can._args[ctx.STYLE])
-			return cbs(can, msg, cb, target)
-		}
-
-		can.page.style(can, can._output, html.HEIGHT, "")
-		can.onmotion.clear(can, target)
-		can.onappend.table(can, msg, null, target)
-		can.onappend.board(can, msg, target)
-		can.onmotion.story.auto(can, target)
-		can.base.isFunc(cb) && cb(msg)
-		can.user.isMobile && can.onmotion.toggle(can, can._action, can.ConfHeight() < can.ConfWidth())
-		can.page.Select(can, target, "input[type=button]", function(target) {
-			if (target.value == target.name) { target.value = can.user.trans(can, target.name) }
-		})
+		} else {
+			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target)
+		} can.onmotion.story.auto(can, target), can.base.isFunc(cb) && cb(msg)
 	},
-	_open: function(can, msg, list) {
-		can.core.List(list, function(item) {
-			can.page.Append(can, can._output, [{view: html.ITEM, style: {"text-align": "center", "float": "left", width: "100", margin: "10"}, list: [
+	card: function(can, msg, target) {
+		can.page.Appends(can, target, msg.Table(function(item) {
+			return {view: html.ITEM+ice.SP+(item.status||""), list: [
+				{view: [wiki.TITLE, html.DIV, item.name]},
+				{view: [wiki.CONTENT, html.DIV, item.text]},
+				{view: html.ACTION, inner: item.action, onclick: function(event) {
+					can.run(can.request(event, item), [ctx.ACTION, event.target.name])
+				}},
+			]}
+		}))
+	},
+	_open: function(can, msg, target) {
+		can.page.Appends(can, target, msg.Table(function(item) {
+			return {view: html.ITEM, style: {"text-align": "center", margin: 10, width: 100, "float": "left"}, list: [
 				{type: html.IMG, src: "/share/local/usr/icons/"+item.name, style: {display: html.BLOCK, width: 100}},
-				{text: item.name.split(ice.PT)[0].replace(ice.SP, ice.NL), style: {display: html.BLOCK, height: 40}}], onclick: function(event) {
-				can.runAction(can.request(event, item, can.Option()), "click", [])
-			}}])
-		})
+				{text: item.name.split(ice.PT)[0].replace(ice.SP, ice.NL), style: {display: html.BLOCK, height: 40}},
+			], onclick: function(event) { can.runAction(can.request(event, item, can.Option()), "click", []) }}
+		}))
 	},
-	_title: function(can, title) {
-		can.user.title(title+ice.SP+(can.misc.Search(can, ice.POD)||location.host))
-	},
+
 	_panel: function(can, target, action) {
 		var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT])
 		var action = can.onappend._action(can, [], ui.action, kit.Dict(
@@ -36,29 +34,72 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			cli.SHOW, function(event) { can.onaction[cli.SHOW](event, can) },
 			action,
 			mdb.PLUGIN, function(event) { can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) {
-				can.onimport.plug(can, data, ui.output, function(sub) {
+				can.onimport.plug(can, data, function(sub) {
 					sub.ConfHeight(target.offsetHeight-4*html.ACTION_HEIGHT)
-				})
+				}, ui.output)
 			}) },
 		)); target._toggle = function(event, show) { action[show? cli.SHOW: cli.CLOSE](event) }
 		return ui
 	},
-	title: function(can, title) {
-		can._legend.innerHTML = title, can.sup && can.sup._tabs && (can.sup._tabs.innerHTML = title)
-		can.sup && can.sup._header_tabs && (can.sup._header_tabs.innerHTML = title)
-		can.isCmdMode() && can.user.title(title)
+	_title: function(can, title) {
+		can.user.title(title+ice.SP+(can.misc.Search(can, ice.POD)||location.host))
 	},
-	zone: function(can, list, target) { var color = [""]
-		return can.page.Append(can, target, can.core.List(list, function(zone, index) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: html.ZONE+" "+zone.name, list: [
-			{view: html.NAME, inner: can.user.trans(can, zone.name), style: {background: color[index%color.length]}, onclick: function() {
+	title: function(can, title) { can._legend.innerHTML = title
+		can.sup && can.sup._tabs && (can.sup._tabs.innerHTML = title)
+		can.sup && can.sup._header_tabs && (can.sup._header_tabs.innerHTML = title)
+		can.isCmdMode() && can.onimport._title(can, title)
+	},
+	item: function(can, item, cb, cbs, target) { target = target||(can.ui && can.ui.project? can.ui.project: can._output)
+		var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.nick||item.name],
+			onclick: function(event) { can.onmotion.select(can, target, html.DIV_ITEM, event.target)
+				cb(event, event.target, event.target._list && can.onmotion.toggle(can, event.target._list))
+			}, onmouseenter: function(event) {
+				if (can.base.isFunc(cbs)) { var menu = cbs(event, ui.first); if (menu) {
+					can.user.carteRight(event, can, menu.meta, menu.list, menu)
+				} }
+			},
+		}]); return ui.first
+	},
+	itemlist: function(can, list, cb, cbs, target) {
+		return target._list = can.page.insertBefore(can, [{view: html.LIST, list: can.core.List(list, function(item) {
+			return {view: [html.ITEM, html.DIV, item.name], onclick: function(event) {
+				cb(event, item, event.target._list && can.onmotion.toggle(can, event.target._list))
+			}, onmouseenter: function(event) { cbs(event, item) }}
+		}) }], target.nextSibling, target.parentNode)
+	},
+	list: function(can, root, cb, target) { target = target||can._output
+		can.core.List(root.list, function(item) {
+			var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.meta.name], onclick: function(event) {
+				can.base.isFunc(cb) && cb(event, item) || can.onmotion.toggle(can, ui.list)
+				can.onmotion.select(can, target, html.DIV_ITEM, event.target)
+			}}, {view: html.LIST}]); can.onimport.list(can, item, cb, ui.list)
+		})
+	},
+	tree: function(can, list, field, split, cb, target, node) {
+		node = node||{"": target}; can.core.List(list, function(item) {
+			item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }
+				var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split); if (node[name]) { return }
+				var ui = can.page.Append(can, node[last], [{view: html.ITEM, list: [{view: ["switch", html.DIV, (index==array.length-1?"":"⌃")]}, {view: [mdb.NAME, html.DIV, value+(index==array.length-1?"":"")], _init: item._init, onmouseenter: function(event) { if (!item._menu) { return }
+					can.user.carteRight(event, can, item._menu.meta, item._menu.list||can.core.Item(item._meta.meta), function(event, button) {
+						(item._menu.meta[button]||item._menu)(event, can, button)
+					})
+				}}], onclick: function(event) { if (node[name].childElementCount == 2) { node[name].firstChild.click() }
+					index < array.length - 1? can.page.ClassList.set(can, ui["switch"], "open", can.onmotion.toggle(can, node[name])): can.base.isFunc(cb) && cb(event, item)
+				}}, {view: html.LIST, style: {display: html.NONE}, _init: function(list) { item.expand && can.page.style(can, list, html.DISPLAY, html.BLOCK) }}]); node[name] = ui.list
+			})
+		}); return node
+	},
+	zone: function(can, list, target) {
+		return can.page.Append(can, target, can.core.List(list, function(zone, index) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: html.ZONE+ice.SP+zone.name, list: [
+			{view: html.NAME, inner: can.user.trans(can, zone.name), onclick: function() {
 				can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._target)
 			}, onmouseenter: function(event) {
 				zone._menu? can.user.carteRight(event, can, zone._menu.meta, zone._menu.list||can.core.Item(zone._menu.meta), function(event, button, meta) {
 					(meta[button]||can.onaction[button])(event, can, button)
 				}): can.user.carteRight(event, can, {
+					"刷新": function() { zone.refresh() },
 					"折叠": function() { can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, false) }) },
 					"展开": function() { can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) }) },
-					"刷新": function() { can.onmotion.clear(can, zone._target), zone._init(zone._target) },
 				}, ["刷新", "折叠", "展开"])
 			}},
 			{view: html.ACTION, _init: function(target) { zone._action = target
@@ -80,58 +121,14 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			}}
 		]} }))
 	},
-	tree: function(can, list, field, split, cb, target, node) {
-		node = node||{"": target}; can.core.List(list, function(item) {
-			item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }
-				var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split); if (node[name]) { return }
-				var ui = can.page.Append(can, node[last], [{view: "item", list: [{view: ["switch", "div", (index==array.length-1?"":"⌃")]}, {view: ["name", html.DIV, value+(index==array.length-1?"":"")], _init: item._init, onmouseenter: function(event) { if (!item._menu) { return }
-					can.user.carteRight(event, can, item._menu.meta, item._menu.list||can.core.Item(item._meta.meta), function(event, button) {
-						(item._menu.meta[button]||item._menu)(event, can, button)
-					})
-				}}], onclick: function(event) {
-					index < array.length - 1? can.onmotion.toggle(can, node[name], function() { can.page.ClassList.add(can, ui["switch"], "open") }, function() { can.page.ClassList.del(can, ui["switch"], "open") }): can.base.isFunc(cb) && cb(event, item)
-					if (node[name].childElementCount == 2) { node[name].firstChild.click() }
-				}}, {view: html.LIST, style: {display: html.NONE}, _init: function(list) { item.expand && can.page.style(can, list, html.DISPLAY, html.BLOCK) }}])
-				node[name] = ui.list
-			})
-		}); return node
-	},
-	list: function(can, root, cb, target) { target = target||can._output
-		can.core.List(root.list, function(item) {
-			var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.meta.name], onclick: function(event) {
-				can.base.isFunc(cb) && cb(event, item) || can.onmotion.toggle(can, ui.list)
-				can.onmotion.select(can, target, html.DIV_ITEM, event.target)
-			}}, {view: html.LIST}]); can.onimport.list(can, item, cb, ui.list)
-		})
-	},
-	item: function(can, item, cb, cbs, target) { target = target||(can.ui && can.ui.project? can.ui.project: can._output)
-		var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.nick||item.name],
-			onclick: function(event) { cb(event, ui.first, event.target._list && can.onmotion.toggle(can, event.target._list))
-				can.onmotion.select(can, target, can.core.Keys(html.DIV, html.ITEM), ui.first)
-			}, onmouseenter: function(event) {
-				if (can.base.isFunc(cbs)) {
-					var menu = cbs(event, ui.first)
-					if (menu) {
-						can.user.carteRight(event, can, menu.meta, menu.list, menu)
-					}
-				}
-			},
-		}]); return ui.first
-	},
-	itemlist: function(can, list, cb, cbs, target) {
-		return target._list = can.page.insertBefore(can, [{view: html.LIST, list: can.core.List(list, function(item) {
-			return {view: [html.ITEM, html.DIV, item.name], onclick: function(event) {
-				cb(event, item, event.target._list && can.onmotion.toggle(can, event.target._list))
-			}, onmouseenter: function(event) { cbs(event, item) }}
-		}) }], target.nextSibling, target.parentNode)
-	},
+
 	tabs: function(can, list, cb, cbs, action, each) { action = action||can._action
 		return can.page.Append(can, action, can.core.List(list, function(tabs) {
 			return {text: [tabs.name, html.DIV, html.TABS], title: tabs.text, onclick: function(event) {
 				can.onmotion.select(can, action, html.DIV_TABS, event.target), can.base.isFunc(cb) && cb(event, tabs)
 			}, _init: function(item) {
-				function close(item) { var next = item.nextSibling||item.previousSibling; next && next.click()
-					if (next) { can.base.isFunc(cbs) && cbs(item._meta), can.page.Remove(can, item) }
+				function close(item) { var next = item.nextSibling||item.previousSibling; if (!next) { return }
+					can.base.isFunc(cbs) && cbs(item._meta), can.page.Remove(can, item), next.click()
 				}
 				var menu = tabs._menu||shy({}, [], function(event, button, meta) { (meta[button])(event, can, button) })
 				can.page.Modify(can, item, {draggable: true, _close: function() { close(item) }, _meta: tabs,
@@ -150,59 +147,20 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			}}
 		})).first
 	},
-	card: function(can, msg, cb, target) {
-		can.page.Appends(can, target, msg.Table(function(value) {
-			return {view: html.ITEM+" "+(value.status||""), list: [
-				{view: [wiki.TITLE, html.DIV, value.name]},
-				{view: [wiki.CONTENT, html.DIV, value.text]},
-				{view: html.ACTION, inner: value.action, onclick: function(event) {
-					can.run(can.request(event, value), [ctx.ACTION, event.target.name])
-				}},
-			]}
-		}))
-		can.page.Select(can, target, "input[type=button]", function(target) {
-			if (target.value == target.name) { target.value = can.user.trans(can, target.name) }
-		})
-		can.base.isFunc(cb) && cb(msg)
-	},
-	card_detail: function(can, msg, cb, target) {
-	},
-	card_left: function(can, msg, cb, target) {
-		can.page.Appends(can, target, msg.Table(function(value) {
-			return {view: html.ITEM+" "+(value.status||""), list: [
-				{view: "image", list: [{img: can.misc.MergeURL(can, {_path: "/share/cache/"+can.core.Split(value.image)[0]}), width: 150}]}, {view: "content", list: [
-					{view: [wiki.TITLE, html.DIV, value.name]},
-					{view: [wiki.CONTENT, html.DIV, value.text]},
-					{view: ["price", html.DIV, "¥"+value.price]},
-					{view: html.ACTION, inner: value.action, onclick: function(event) {
-						can.run(can.request(event, value), [ctx.ACTION, event.target.name])
-					}},
-				]},
-			], onclick: function(event) {
-				if (can.page.tagis(event.target, html.INPUT)) { return }
-				can.Option(mdb.HASH, value.hash), can.Update()
-			}}
-		}))
-		can.page.Select(can, target, "input[type=button]", function(target) {
-			if (target.value == target.name) { target.value = can.user.trans(can, target.name) }
-		})
-		can.base.isFunc(cb) && cb(msg)
-	},
-	plug: function(can, meta, target, cb) { if (!meta || !meta.index) { return }
+	plug: function(can, meta, cb, target) { if (!meta || !meta.index) { return }
 		meta.type = "plug", can.onappend.plugin(can, meta, function(sub) { sub.sup = can
 			sub.ConfHeight(target.offsetHeight-2*html.ACTION_HEIGHT), sub.ConfWidth(target.offsetWidth)
+			can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())
 			sub.run = function(event, cmds, cb) { can.runActionCommand(can.request(event, can.Option()), meta.index, cmds, cb) }
-			sub.onaction.close = function() { can.ui && target == can.ui.profile? can.onmotion.hidden(sub, target): can.onmotion.hidden(sub, sub._target) }
-			can.base.isFunc(cb) && cb(sub), can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())
+			sub.onaction.close = function() { can.onmotion.hidden(can, target) }
+			can.base.isFunc(cb) && cb(sub)
 		}, target)
 	},
 	tool: function(can, list, cb, target) { target = target||can._output
-		can.core.List(list.reverse(), function(meta) { typeof meta == "string" && (meta = {index: meta})
-			can.onimport.plug(can, meta, target, function(sub) { sub._delay_init = true
+		can.core.List(list.reverse(), function(meta) { can.base.isString(meta) && (meta = {index: meta})
+			can.onimport.plug(can, meta, function(sub) { sub._delay_init = true
 				sub.ConfHeight(can.ConfHeight()-4*html.ACTION_HEIGHT), sub.ConfWidth(can.ConfWidth())
-				sub.page.style(sub, sub._output, html.MAX_HEIGHT, sub.ConfHeight())
-				sub.page.style(sub, sub._output, html.MAX_WIDTH, sub.ConfWidth())
-
+				can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())
 				can._status.appendChild(sub._legend), sub._legend.onclick = function(event) {
 					if (can.page.Select(can, can._status, ice.PT+html.SELECT)[0] == event.target) {
 						can.page.ClassList.del(can, event.target, html.SELECT)
@@ -212,39 +170,24 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 					can.onmotion.select(can, target, html.FIELDSET, sub._target), sub.Focus()
 					can.onmotion.select(can, can._status, html.LEGEND, event.target)
 					if (sub._delay_init || meta.msg == true) { sub._delay_init = false, meta.msg = false, sub.Update() }
-				}, sub.select = function() { return sub._legend.click(), sub }
+				}, sub.select = function() { return sub._legend.click(), sub }, sub._legend.onmouseenter = null
 				sub.onaction.close = function() { sub.select() }
-				sub._legend.onmouseenter = null
 				can.base.isFunc(cb) && cb(sub)
-			})
+			}, target)
 		})
 	},
 })
 Volcanos(chat.ONLAYOUT, {help: "界面布局",
-	_init: function(can) {
-		can.user.isMobile && can.onmotion.toggle(can, can._action, can.ConfHeight() < can.ConfWidth())
-		can.core.CallFunc([can.onimport, html.LAYOUT], {can: can})
-	},
+	_init: function(can) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can}) },
 	float: function(can) { can.onlayout._init(can) },
-	full: function(can) {
-		can.sup.onimport.size(can.sup, can.ConfHeight(), can.ConfWidth(), false)
-		can.onlayout._init(can)
-	},
-	cmd: function(can) {
-		// can.ConfHeight(can.ConfHeight()+html.ACTION_HEIGHT)
-		can.sup.onimport.size(can.sup, can.ConfHeight(), can.ConfWidth(), true)
-		can.onlayout._init(can)
-	},
-})
-Volcanos(chat.ONACTION, {help: "操作数据",
-	_trans: {"full": "全屏"},
+	full: function(can) { can.onlayout._init(can) },
+	cmd: function(can) { can.onlayout._init(can) },
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据",
 	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return }
 		var res = [msg.append && msg.append.join(ice.FS)]; msg.Table(function(line, index, array) {
 			res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS))
-		})
-		return res.join(ice.NL)
+		}); return res.join(ice.NL)
 	},
 	board: function(can) { var msg = can._msg; return msg.Result() },
 })

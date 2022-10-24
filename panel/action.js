@@ -104,8 +104,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	onstorm_select: function(can, msg, river, storm) {
 		if (can.onmotion.cache(can, function(cache, old) {
 			var key = can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm))
-			cache[old] = can._plugins, can._plugins = cache[key]||[]
-			return key
+			return cache[old] = can._plugins, can._plugins = cache[key]||[], key
 		}, can._output, can._action, can._header_tabs)) {
 			var conf = can.core.Value(can._root, can.core.Keys(chat.RIVER, river, chat.STORM, storm))||{}
 			return can.onaction.layout(can, can.misc.SearchOrConf(can, chat.LAYOUT)||msg.Option(chat.LAYOUT)||conf.layout, true)
@@ -139,8 +138,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.page.ClassList.add(can, can._target, can.Conf(chat.LAYOUT, button))
 		can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		can.user.isMobile || can.isCmdMode() || (can.onmotion.toggle(can, can._root.River._target, true), can.onmotion.toggle(can, can._root.Footer._target, true))
-		can.onlayout._init(can); var cb = can.onlayout[button]; if (can.base.isFunc(cb) && cb(can, silent)) { return }
-		can.onlayout._plugin(can, button)
+		can.onlayout._init(can); var cb = can.onlayout[button]; if (can.base.isFunc(cb) && cb(can, silent)) { return } can.onlayout._plugin(can, button)
 	},
 	help: function(can, button) { can.user.open("/help/"+button+".shy") },
 })

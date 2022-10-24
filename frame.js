@@ -650,6 +650,9 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 			can.page.Select(can, target, html.IFRAME, function(item) {
 				can.page.style(can, item, html.HEIGHT, can.ConfHeight()-88, html.WIDTH, can.ConfWidth()-30)
 			})
+			can.page.Select(can, target, "input[type=button]", function(target) {
+				if (target.value == target.name) { target.value = can.user.trans(can, target.name) }
+			})
 		},
 	},
 	copy: function(can, target, text, cb) {

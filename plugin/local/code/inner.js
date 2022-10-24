@@ -111,7 +111,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 			can.onimport.layout(can)
 		}
 
-		return can.onimport.plug(can, meta, can.ui._content, function(sub) {
+		return can.onimport.plug(can, meta, function(sub) {
 			sub.onimport.size(sub, sub.ConfHeight(can.ui.content.offsetHeight-html.ACTION_HEIGHT-sub.onexport.statusHeight(sub)), sub.ConfWidth(can.ui.content.offsetWidth), true)
 			msg._plugin = sub, can.base.isFunc(cb) && cb(msg._content = can.ui._content), can.onmotion.delay(can, function() { sub.Focus() })
 			sub.onaction.close = function() { can.onaction.back(can), msg._tab._close() }
@@ -122,7 +122,7 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮", _init: function(can, msg, cb) {
 				}
 				return can.user.open(_arg), sub.Update()
 			}
-		})
+		}, can.ui._content)
 	},
 	_parse: function(can, line) { line = can.page.replace(can, line||"")
 		function wrap(text, type) { return can.page.Format(html.SPAN, text, type) }
@@ -273,10 +273,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target), can.user.toastSuccess(can)
 		if (msg.Option(ice.MSG_PROCESS) == "_field") {
 			msg.Table(function(item) { item.display = msg.Option(ice.MSG_DISPLAY), item.height = height-3*html.ACTION_HEIGHT
-				can.onimport.plug(can, item, target, function(sub) { sub.onaction._output = function(_sub, _msg) { can.base.isFunc(cb) && cb(_sub, _msg) }
+				can.onimport.plug(can, item, function(sub) { sub.onaction._output = function(_sub, _msg) { can.base.isFunc(cb) && cb(_sub, _msg) }
 					sub.onaction.close = function() { can.onmotion.hidden(can, target.parentNode), can.onimport.layout(can) }
 					height && sub.ConfHeight(height-3*html.ACTION_HEIGHT), width && sub.ConfWidth(width), sub.Focus()
-				})
+				}, target)
 			})
 		} else if (msg.Option(ice.MSG_DISPLAY) != "") {
 			can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY), target, false, function(msg) { can.onmotion.delay(can, function() { can.onimport.layout(can) }) })
@@ -439,7 +439,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.page.Select(can, can.ui.profile, html.IFRAME, function(iframe) { can.page.Modify(can, iframe, {height: profile_height-html.ACTION_HEIGHT-4, width: profile_width}) })
 	},
 	toolkit: function(can, meta, cb) { meta.msg = true
-		can.onimport.plug(can, meta, can.ui.toolkit.output, function(sub) {
+		can.onimport.plug(can, meta, function(sub) {
 			sub.onexport.record = function(sub, line) { if (!line.file && !line.line) { return }
 				can.onimport.tabview(can, line.path||can.Option(nfs.PATH), can.base.trimPrefix(line.file, nfs.PWD)||can.Option(nfs.FILE), parseInt(line.line)), can.current.scroll(can.current.scroll()-4)
 			}
@@ -456,7 +456,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			}, sub._legend.onmouseenter = null
 			sub.onaction.close = sub.select = function() { return sub._legend.click(), sub }
 			can.base.isFunc(cb) && cb(sub)
-		})
+		}, can.ui.toolkit.output)
 	},
 	exts: function(can, url, cb) {
 		can.require([url], function() {}, function(can, name, sub) { sub._init(can, sub, function(sub) {
