@@ -35,8 +35,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 		can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.onaction._menus), function(event, button, list) {
 			can.core.CallFunc([can.onaction, list[0]], [can, button])
 		})
-		can.page.Select(can, can._root.Header._output, "action", function(target) {
-			can.onmotion.hidden(can, can._header_tabs = can.page.Append(can, target, ["tabs"]).first)
+		can.page.Select(can, can._root.Header._output, html.ACTION, function(target) {
+			can.onmotion.hidden(can, can._header_tabs = can.page.Append(can, target, [html.TABS]).first)
 		})
 	},
 })
@@ -179,7 +179,10 @@ Volcanos(chat.ONLAYOUT, {
 		})
 	},
 	_plugin: function(can, button) {
- 		can.core.List(can._plugins, function(sub) { sub.onaction._resize(sub, button == "" || button == "free" || button == "flow", can.ConfHeight(), can.ConfWidth()) })
+ 		can.core.List(can._plugins, function(sub) {
+ 			sub.onaction._resize(sub, button == "" || button == "free" || button == "flow", can.ConfHeight(), can.ConfWidth())
+ 			button == "" && can.page.style(can, sub._output, html.MAX_HEIGHT, "")
+ 		})
 	},
 })
 Volcanos(chat.ONEXPORT, {

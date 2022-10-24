@@ -166,10 +166,9 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 			Option: function(key, value) { return can.page.SelectArgs(can, option, key, value)[0] },
 			Update: function(event, cmds, cb, silent) { sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input(), cb, silent); return true },
 			Focus: function() { can.page.Select(can, option, html.INPUT_ARGS, function(item, index) { index == 0 && item.focus() }) },
-			Input: function(cmds, silent) {
+			Input: function(cmds, save) {
 				cmds = cmds && cmds.length > 0? cmds: can.page.SelectArgs(can, option, "").concat(can.page.SelectArgs(can, action, "")), cmds = can.base.trim(cmds)
-				silent || cmds[0] == ctx.ACTION || can.base.Eq(sub._history[sub._history.length-1], cmds) || sub._history.push(cmds)
-				return cmds
+				return !save || cmds[0] == ctx.ACTION || can.base.Eq(sub._history[sub._history.length-1], cmds) || sub._history.push(cmds), cmds
 			},
 			Clone: function() { meta.args = can.page.SelectArgs(can, option, "")
 				can.onappend._init(can, meta, list, function(sub) { can.base.isFunc(cb) && cb(sub, true)
@@ -210,7 +209,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 					if (item._cb) { return item._cb(event) }
 					if (msg.RunAction(event, can.core.Value(can, chat._OUTPUTS_CURRENT), cmds)) { return }
 					if (msg.RunAction(event, input, cmds)) { return }
-					return can.Update(event, can.Input(cmds, silent), cb, silent)
+					return can.Update(event, can.Input(cmds, !silent), cb, silent)
 				}, can._inputs[item.name] = input, input.sup = can
 
 				can.core.ItemCB(input.onaction, function(key, cb) { input._target[key] = function(event) { cb(event, input) } })
@@ -290,7 +289,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 		}, [display, chat.PLUGIN_TABLE_JS], function(sub) { sub.Conf(can.Conf())
 			sub.run = function(event, cmds, cb, silent) {
 				if (msg.RunAction(can.request(event), sub, cmds)) { return }
-				return can.Update(event, can.Input(cmds, silent), cb, silent)
+				return can.Update(event, can.Input(cmds, !silent), cb, silent)
 			}, can._outputs && can._outputs.push(sub), sub.sup = can, sub._root = can._root
 			sub._index = can._index, sub._msg = msg, sub.Conf(sub._args = can.base.ParseURL(display)), sub.Mode(can.Mode()),
 			

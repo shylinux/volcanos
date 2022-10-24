@@ -76,7 +76,7 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 
 	size: function(can, height, width, auto, mode) {
 		if (auto) {
-			can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, "", html.MAX_WIDTH, can.ConfWidth(width))
+			can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, can.ConfHeight(height), html.MAX_WIDTH, can.ConfWidth(width))
 		} else {
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, "")
 		}
@@ -87,7 +87,7 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 	change: function(event, can, name, value, cb) {
 		return can.page.SelectArgs(can, can._option, "", function(input) {
 			if (input.name != name || value == input.value) { return }
-			return input.value = value, can.Update(event, can.Input(), cb), input
+			return input.value = value, can.Update(event, can.Input([], true), cb), input
 		})
 	},
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
@@ -98,7 +98,7 @@ Volcanos(chat.ONACTION, {list: [
 			"查看文档", "查看脚本", "查看源码", "查看配置", "删除配置", "删除工具",
 		],
 	],
-	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input([], true))) },
+	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input())) },
 	_switch: function(can, sub, mode, save, load) {
 		if (can.page.ClassList.neg(can, can._target, mode)) {
 			(can._mode_list = can._mode_list||[]).push(kit.Dict(
@@ -119,7 +119,7 @@ Volcanos(chat.ONACTION, {list: [
 	_output: function(can, msg) {},
 
 	"刷新界面": function(event, can, button, sub) { sub.onlayout._init(sub) },
-	"刷新数据": function(event, can) { can.Update(event, can.Input([], true)) },
+	"刷新数据": function(event, can) { can.Update(event, can.Input()) },
 	"切换浮动": function(event, can, button, sub) {
 		can.onaction._switch(can, sub, chat.FLOAT, function() { can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
 			can.ConfHeight(can.page.height()/2-2*html.ACTION_HEIGHT-can.onexport.statusHeight(can)), html.WIDTH, can.ConfWidth(can.page.width()/(can.user.isMobile? 1: 2))
@@ -132,13 +132,13 @@ Volcanos(chat.ONACTION, {list: [
 		})
 	},
 	"共享工具": function(event, can) { var meta = can.Conf()
-		can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.TOPIC, values: [can.getHeader(chat.TOPIC), cli.WHITE, cli.BLACK]}], [mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input([], true))])
+		can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.TOPIC, values: [can.getHeader(chat.TOPIC), cli.WHITE, cli.BLACK]}], [mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input())])
 	},
 	"远程控制": function(event, can) { can.onaction.keyboard(event, can) },
 	"打开链接": function(event, can) { can.user.open(can.onexport.link(can)) },
 	"生成链接": function(event, can) { can.onmotion.share(event, can, [], [mdb.LINK, can.user.copy(event, can, can.onexport.link(can))]) },
 	"生成脚本": function(event, can) { var conf = can.Conf()
-		var args = can.Input("", true).join(ice.SP), list = [
+		var args = can.Input().join(ice.SP), list = [
 			"export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -o $ctx_temp -fsSL $ctx_dev;"+" source $ctx_temp "+(conf.index||"")+ice.SP+args,
 			"ish_sys_dev_run_command "+args, "ish_sys_dev_run_action", "ish_sys_dev_run_source",
 		]
