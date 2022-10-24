@@ -15,7 +15,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, cb) {
 					if (key != ctx.ACTION) { value = sub.page.replace(sub, value, ice.PWD, "") }
 
 					return {text: ["", html.TD], list: [{text: [value, html.DIV]}], onclick: function(event) { var target = event.target
-						if ([mdb.ZONE, mdb.ID].indexOf(key) > -1) { return sub.onaction.change(event, sub, key, value) }
+						if ([mdb.ZONE, mdb.ID].indexOf(key) > -1) { return sub.onimport.change(event, sub, key, value) }
 
 						if (target.tagName == "INPUT" && target.type == html.BUTTON) { var msg = sub.request(event, line, sub.Option())
 							return sub.runAction(event, target.name, [], function(msg) { sub.run() })

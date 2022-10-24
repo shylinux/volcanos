@@ -4,7 +4,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",  _init: function(can, msg, cb, ta
 
 		can.onappend.table(can, msg, function(value, key, index, line, array) {
 			return {text: [value, "td"], onclick: function(event) {
-				can.sup.onaction.change(event, can.sup, key, value, function(msg) {
+				can.sup.onimport.change(event, can.sup, key, value, function(msg) {
 					can.run(event)
 				})
 			}}

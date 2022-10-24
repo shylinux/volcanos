@@ -407,7 +407,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", _init: function(can, meta, list, 
 				}
 				can.sup && can.sup.onexport && can.sup.onexport.record && can.sup.onexport.record(can.sup, line)
 				if (key == mdb.HASH && can.user.mod.isDiv) { return can.user.jumps("/chat/div/"+value) }
-				if (can.sup.onaction.change(event, can.sup, key, event.target.innerText).length == 0) {
+				if (can.sup.onimport.change(event, can.sup, key, event.target.innerText).length == 0) {
 					can.sup && can.sup._item_click && can.sup._item_click(value, key)
 				}
 			}, ondblclick: function(event) { if ([mdb.KEY].indexOf(key) > -1) { return }

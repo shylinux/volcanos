@@ -2,14 +2,11 @@ var kit = {
 	Dict: function() { var res = {}
 		for (var i = 0; i < arguments.length; i += 2) {
 			if (typeof arguments[i] == "object") {
-				for (var k in arguments[i]) {
-					res[k] = arguments[i][k]
-				} i--
-				continue
+				for (var k in arguments[i]) { res[k] = arguments[i][k] } i--
+			} else if (arguments[i] != undefined) {
+				res[arguments[i]] = arguments[i+1]
 			}
-			res[arguments[i]] = arguments[i+1]
-		}
-		return res
+		} return res
 	}
 }
 var ice = {
@@ -222,6 +219,8 @@ var chat = {
 
 	_INIT: "_init", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1",
 	_NAMES: "_names", _TOAST: "_toast",
+	
+	FLOAT: "float", FULL: "full", CMD: "cmd",
 }
 var team = {
 	TASK: "task", PLAN: "plan",

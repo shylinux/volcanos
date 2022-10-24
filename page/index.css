@@ -56,9 +56,8 @@ fieldset.plugin { background-color:#061c3c9e; padding:10px; margin:10px; }
 fieldset.float { background-color:#0e3369; color:white; padding:0; margin:0; }
 fieldset.full { background-color:#0e3369; color:white; padding:0; margin:0; left:0; top:0; overflow:auto; }
 
-fieldset.plugin>legend { float:none; }
-fieldset.plugin.full>legend { float:left; }
-fieldset.plugin.float>legend { float:left; }
+fieldset.Action>div.output>fieldset.plugin>legend { float:none; }
+fieldset.Action>div.output>fieldset.plugin>legend { box-shadow:4px 4px 20px 4px #626bd0; }
 
 fieldset>form.option input[type=button][name=close]{ display:none; }
 fieldset.float>form.option input[type=button][name=close]{ display:block; }
@@ -139,11 +138,12 @@ legend, select, input[type=button], div.item, div.tabs, th, td, h1, h2, h3 { cur
 div.title, div.story[data-type=spark] { cursor:copy; }
 
 /* box-shadow */
-fieldset.plugin { box-shadow:2px 2px 10px 4px #626bd0; }
-fieldset.plugin:hover { box-shadow:4px 4px 12px 6px #626bd0; }
-fieldset.story { box-shadow:4px 4px 10px 1px #626bd0; }
-fieldset.story:hover { box-shadow:12px 12px 12px 6px #5764efd1; }
-legend, select, textarea, input[type=text], div.code, div.story[data-type=spark] { box-shadow:4px 4px 20px 4px #626bd0; }
+// fieldset.plugin { box-shadow:2px 2px 10px 4px #626bd0; }
+// fieldset.plugin:hover { box-shadow:4px 4px 12px 6px #626bd0; }
+// fieldset.story { box-shadow:4px 4px 10px 1px #626bd0; }
+// fieldset.story:hover { box-shadow:12px 12px 12px 6px #5764efd1; }
+// select, textarea, input[type=text], div.code, div.story[data-type=spark] { box-shadow:4px 4px 20px 4px #626bd0; }
+select, textarea, input[type=text] { box-shadow:4px 4px 20px 4px #626bd0; }
 
 /* hover */
 legend:hover { background-color:skyblue; }
