@@ -668,7 +668,7 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), true },
 	cache: function(can, next) { var list = can.base.Obj(can.core.List(arguments).slice(2), [can._output])
 		can.core.List(list, function(item) { item && item._cache_key && can.page.Cache(item._cache_key, item, item.scrollTop+1) })
-		var key = next(can._cache_data = can._cache_data||{}); if (!key) { return }
+		var key = next(can._cache_data = can._cache_data||{}, arguments[2]._cache_key); if (!key) { return }
 		return can.core.List(list, function(item) { if (!item) { return }
 			var pos = can.page.Cache(item._cache_key = key, item)
 			if (pos) { item.scrollTo && item.scrollTo(0, pos-1); return item }
@@ -710,7 +710,7 @@ Volcanos(chat.ONMOTION, {help: "动态特效", _init: function(can, target) {
 		var old = can.page.Select(can, target, name, function(target, index) {
 			if (can.page.ClassList.has(can, target, html.SELECT)) { return index }
 		})[0]
-		can.page.Select(can, target, name, function(target, index) {
+		which != undefined && can.page.Select(can, target, name, function(target, index) {
 			if (can.page.ClassList.set(can, target, html.SELECT, target == which || which == index)) {
 				can.base.isFunc(cb) && cb(target)
 			}

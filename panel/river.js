@@ -132,8 +132,8 @@ Volcanos(chat.ONDETAIL, {help: "操作数据",
 		}, function() { can.misc.Search(can, {river: river, storm: storm}) })
 	},
 	"保存参数": function(event, can, button, river, storm) {
-		can.getAction(ctx.ARGS, function(item, next, index, array) { var toast = can.user.toast(can, (index+1)+ice.PS+array.length, button, 10000, (index+1)*100/array.length)
-			can.run({}, [river, storm, chat.STORM, ctx.ACTION, mdb.MODIFY, mdb.ID, item.dataset.id, ctx.ARGS, item.dataset.args], function() {
+		can.getAction(ctx.ARGS, function(args, sub, next, index, array) { var toast = can.user.toast(can, (index+1)+ice.PS+array.length, button, 10000, (index+1)*100/array.length)
+			can.run({}, [river, storm, chat.STORM, ctx.ACTION, mdb.MODIFY, mdb.ID, sub.Conf(mdb.ID), ctx.ARGS, JSON.stringify(args)], function() {
 				can.onmotion.delay(can, function() { toast.close(), next(), index == array.length-1 && can.user.toastSuccess(can) })
 			})
 		})
