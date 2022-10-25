@@ -66,6 +66,6 @@ Volcanos(chat.ONFIGURE, {key: {
 		switch (event.key) {
 			case ice.PS: can.onfigure.key._load(event, sub, sub._cbs, target, meta.name, event.target.value); break
 		}
-		can.onmotion.selectInputTable(event, sub, function() { can.onfigure.key._load(event, sub, sub._cbs, target, meta.name) }, target)
+		can.onkeymap.selectInputs(event, sub, function() { can.onfigure.key._load(event, sub, sub._cbs, target, meta.name) }, target)
 	},
 }})

@@ -53,9 +53,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 	_time: function(can, target) {
 		can.core.Timer({interval: 500}, function() { can.onimport.time(can, target) })
-		can.onappend.figure(can, {action: "date", style: {"min-width": 306}, _init: function(sub) {
-			can.getActionSize(function(msg, top) { can.page.style(can, sub._target, {top: top, right: 0, left: ""}) })
-		}}, target), target.onmouseenter = target.click
+		can.onappend.figure(can, {action: "date", style: {"min-width": 306}}, target), target.onmouseenter = target.click
 	},
 	time: function(can, target) {
 		can.onimport.topic(can), target.innerHTML = can.user.time(can, null, "%w %H:%M:%S")
@@ -148,6 +146,7 @@ Volcanos(chat.ONACTION, {help: "交互数据",
 		can.onimport.topic(can)
 	},
 	onmain: function(can, msg) {
+		can.setHeader(chat.TOPIC)
 		can.run({}, [], function(msg) {
 			if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
 				msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)): can.user.login(can, function() {
@@ -182,6 +181,9 @@ Volcanos(chat.ONACTION, {help: "交互数据",
 			})
 		})
 	},
+	onshare: function(can, msg, args) {
+		can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[]))
+	},
 
 	title: function(event, can) {
 		var args = {}; can.core.List([chat.TITLE, chat.TOPIC], function(key) { var value = can.misc.Search(can, key); value && (args[key] = value) })
@@ -192,7 +194,7 @@ Volcanos(chat.ONACTION, {help: "交互数据",
 	white: function(event, can, button) { can.onimport.topic(can, button), can.onlayout._init(can) },
 	print: function(event, can, button) { can.onimport.topic(can, [chat.WHITE, button]), can.onengine.signal(can, chat.ONPRINT) },
 	webpack: function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
-	toimage: function(event, can) { can.onmotion.toimage(event, can, can.user.title(), can._target.parentNode) },
+	toimage: function(event, can) { can.user.toimage(event, can, can.user.title(), can._target.parentNode) },
 
 	carte: function(event, can, list, cb) { can.user.carte(event, can, can.onaction, list, cb) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },

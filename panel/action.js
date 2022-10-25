@@ -50,7 +50,7 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) { can.onkeymap._build(can)
 
 			b: function(event, can) { can.search(event, ["Header.onaction.black"]) },
 			w: function(event, can) { can.search(event, ["Header.onaction.white"]) },
-			c: function(event, can) { can.onmotion.toimage(event, can, can.user.title(), can._target.parentNode, true) },
+			c: function(event, can) { can.user.toimage(event, can, can.user.title(), can._target.parentNode, true) },
 
 			":": function(event, can) { can.onengine.signal(can, chat.ONCOMMAND_FOCUS), can.onkeymap.prevent(event) },
 			" ": function(event, can) { can.onengine.signal(can, chat.ONSEARCH_FOCUS), can.onkeymap.prevent(event) },

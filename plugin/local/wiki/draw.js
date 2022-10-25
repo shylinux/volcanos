@@ -407,7 +407,7 @@ Volcanos(chat.ONDETAIL, {help: "组件详情", list: [cli.START, ice.RUN, ice.CO
 			can.onmotion.hidden(can, sub._legend), can.onmotion.toggle(can, can.ui.display, true)
 		}, can.ui.display)
 	},
-	toimage: function(event, can) { can.onmotion.toimage(event, can, can.Option(nfs.PATH).split(ice.PS).pop().split(ice.PT)[0], can.svg) },
+	toimage: function(event, can) { can.user.toimage(event, can, can.Option(nfs.PATH).split(ice.PS).pop().split(ice.PT)[0], can.svg) },
 	copy: function(event, can) { can.onfigure._copy(event, can, event.target) },
 	label: function(event, can) { var target = event.target
 		var def = target.Value(mdb.TEXT); def && can.page.Select(can, can.svg, ice.PT+def, function(item) { def = item.Value(html.INNER) })

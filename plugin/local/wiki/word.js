@@ -95,7 +95,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 		if (data[mdb.NAME] == html.INNER) { return can.onmotion.copy(can, target) }
 		can.page.Select(can, target, html.SPAN, function(item) {
-			can.onmotion.copy(can, item, "", function(event) {
+			can.onmotion.copy(can, item, function(event) {
 				can.runAction(event, mdb.CREATE, [mdb.TYPE, "spark", mdb.NAME, "shell", mdb.TEXT, item.innerText], function() {})
 			})
 		})
@@ -109,7 +109,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		}
 		target.oncontextmenu = function(event) {
 			can.user.carteClient(event, can, kit.Dict(mdb.EXPORT, function(event, can, button) {
-				can.onmotion.toimage(event, can, "hi", target)
+				can.user.toimage(event, can, "hi", target)
 			}), [mdb.EXPORT])
 		}
 	},

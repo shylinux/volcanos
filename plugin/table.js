@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) { can.onmotion.clear(can, target)
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.clear(can, target)
 		var cbs = can.onimport[can.Conf(ctx.STYLE)||msg.Option(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.core.CallFunc(cbs, {can: can, msg: msg, target: target})
 			can.page.ClassList.add(can, target, can._args[ctx.STYLE])
@@ -97,10 +97,10 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 				zone._menu? can.user.carteRight(event, can, zone._menu.meta, zone._menu.list||can.core.Item(zone._menu.meta), function(event, button, meta) {
 					(meta[button]||can.onaction[button])(event, can, button)
 				}): can.user.carteRight(event, can, {
-					"刷新": function() { zone.refresh() },
-					"折叠": function() { can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, false) }) },
-					"展开": function() { can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) }) },
-				}, ["刷新", "折叠", "展开"])
+					"refresh": function() { zone.refresh() },
+					"fold": function() { can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, false) }) },
+					"expand": function() { can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) }) },
+				}, ["refresh", "fold", "expand"])
 			}},
 			{view: html.ACTION, _init: function(target) { zone._action = target
 				can.onappend._action(can, [{input: html.TEXT, placeholder: "search", onkeyup: function(event) {
@@ -177,13 +177,13 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		})
 	},
 })
-Volcanos(chat.ONLAYOUT, {help: "界面布局",
+Volcanos(chat.ONLAYOUT, {
 	_init: function(can) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can}) },
 	float: function(can) { can.onlayout._init(can) },
 	full: function(can) { can.onlayout._init(can) },
 	cmd: function(can) { can.onlayout._init(can) },
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据",
+Volcanos(chat.ONEXPORT, {
 	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return }
 		var res = [msg.append && msg.append.join(ice.FS)]; msg.Table(function(line, index, array) {
 			res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS))
