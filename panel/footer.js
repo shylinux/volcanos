@@ -64,12 +64,11 @@ Volcanos(chat.ONACTION, {help: "交互数据", _init: function(can, cb) {
 Volcanos(chat.ONEXPORT, {help: "导出数据",
 	height: function(can) { return can._target.offsetHeight },
 	float: function(can, msg, name, cb) { if (can[name]) { return can[name].close() }
-		var ui = can.onappend.field(can, "story toast float", {}, can._root._target); can[name] = ui
+		var ui = can.onappend.field(can, "story toast float", {}, document.body); can[name] = ui
 		ui.close = function() { can.page.Remove(can, ui.first), delete(can[name]) }
 		ui.refresh = function() { ui.close(), can.toast.click() }
 
 		can.getActionSize(function(left, top, height, width) {
-			// can.page.style(can, ui.first, html.LEFT, left, html.TOP, top)
 			can.page.style(can, ui.first, html.RIGHT, 0, html.BOTTOM, can.onexport.height(can))
 			can.page.style(can, ui.output, html.MAX_HEIGHT, height-html.ACTION_HEIGHT, html.MAX_WIDTH, width)
 		})
@@ -85,7 +84,14 @@ Volcanos(chat.ONEXPORT, {help: "导出数据",
 		}, ui.output), can.onappend.board(can, msg.Result(), ui.output)
 		return ui
 	},
-	ntip: function(can) { can.onexport.float(can, can._tips, "ntip") },
+	ntip: function(can) { can.onexport.float(can, can._tips, "ntip", function(value, key, index, line) {
+		can.onappend.plugin(can, {type: chat.SRORY, mode: chat.FLOAT, index: "web.code.inner", args: ["usr/volcanos/"].concat(line.fileline.split(":"))}, function(sub) {
+			can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0
+				sub.onimport.size(sub, sub.ConfHeight(height/2), sub.ConfWidth(width))
+				can.onmotion.move(can, sub._target, {left: left, top: top+height/4})
+			}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
+		}, document.body)
+	}) },
 	ncmd: function(can) {
 		can.onexport.float(can, can._cmds, "ncmd", function(value, key, index, line) {
 			var cmds = can.base.Obj(line.cmds); switch (line.follow) {
@@ -101,7 +107,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据",
 					sub.run = function(event, cmd, cb) { can.runActionCommand(event, cmds[0], cmd, cb) }
 					sub.onimport.size(sub, height-120-2*html.ACTION_HEIGHT-can.onexport.height(can), width, true)
 					sub.onmotion.move(sub, sub._target, {left: left, top: top+120})
-				}, can._root._target)
+				}, document.body)
 			})
 		})
 	},

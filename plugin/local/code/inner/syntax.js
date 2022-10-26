@@ -172,7 +172,6 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 		},
 	},
 	go: {
-		render: {},
 		split: {
 			operator: "{([:.,*])}",
 		},

@@ -6,7 +6,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 		can.require([can.volcano], null, function(can, key, sub) { can[key] = sub })
 		can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]
 			return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb)
-		}, Volcanos.meta.args = can.user.args(can)
+		}
 		can.user.title(can.misc.Search(can, chat.TITLE)||can.misc.Search(can, ice.POD)||location.host)
 
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
@@ -21,9 +21,9 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 					can.onengine.listen(can, key, function(msg) { can.core.CallFunc(cb, {can: panel, msg: msg}) })
 				}), can.core.CallFunc([panel.onaction, chat._INIT], {can: panel, cb: next, target: panel._target})
 			}, target)
-		}, function() { can.misc.Log(can.user.title(), ice.RUN, can)
+		}, function() { can.misc.Info(can.user.title(), ice.RUN, can)
 			can.onmotion._init(can, target), can.onkeymap._init(can)
-			can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { word[0] == ctx.COMMAND && can.run(msg._event, ["can.command"]) })
+			can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { word[0] == ctx.COMMAND && can.run(msg, ["can.command"]) })
 			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb()
 		})
 	},
@@ -48,9 +48,9 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 			return can.base.isFunc(cb) && cb(msg)
 		}
 
-		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() { toast = toast||can.user.toastProcess(can, _toast, msg._can._name) }) }
+		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() { toast = toast||can.user.toastProcess(msg._can, _toast) }) }
 		msg.option = can.core.List(msg.option, function(item) { return {_toast: true, _handle: true}[item] && delete(msg[item])? undefined: item })
-		can.onengine.signal(can, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
+		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
 
 		can.getHeader("topic", function(topic) { can.request(event, {topic: topic}) })
 		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+panel._name)
@@ -82,7 +82,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 	}),
 	listen: shy("监听事件", function(can, name, cb) { arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb) }),
 	signal: shy("触发事件", function(can, name, msg) { msg = msg||can.request(); var _msg = name == chat.ONREMOTE? msg.Option("_msg"): msg
-		_msg.Option("log.disable") != ice.TRUE && can.misc.Log(gdb.SIGNAL, name, (msg._cmds||[]), _msg)
+		_msg.Option("log.disable") != ice.TRUE && can.misc.Log(gdb.SIGNAL, name, can._name, (msg._cmds||[]).join(ice.SP), _msg)
 		return can.core.List(can.onengine.listen.meta[name], function(cb) { can.core.CallFunc(cb, {event: msg._event, msg: msg}) }).length
 	}),
 })
@@ -345,13 +345,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		meta.name = meta.name||value.name
 		meta.help = meta.help||value.help
 		meta.args = can.base.getValid(can.base.Obj(meta.args), can.base.Obj(meta.arg), can.base.Obj(value.args), can.base.Obj(value.arg))||[]
+		if (can.misc.Debug(can, "plugin", meta.index, meta.args, meta)) { debugger }
 		can.onappend._init(can, meta, [chat.PLUGIN_STATE_JS], function(sub, skip) { sub._index = value.index||meta.index
 			sub.run = function(event, cmds, cb) { can.runActionCommand(event, sub._index, cmds, cb) }
 			can.base.isFunc(cb) && cb(sub, meta, skip)
 		}, target||can._output, field)
 	},
 	plugin: function(can, meta, cb, target, field) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)
-		var p = can.onengine.plugin(can, meta.index), res = {}; function cbs(sub, meta, skip) { res.__proto__ = sub, cb(sub, meta, skip) }
+		if (can.misc.Debug(can, "plugin", meta.index, meta.args, meta)) { debugger }
+		var p = can.onengine.plugin(can, meta.index), res = {}; function cbs(sub, meta, skip) { kit.proto(res, sub), cb(sub, meta, skip) }
 		(meta.inputs && meta.inputs.length > 0 || meta.meta)? /* 局部命令 */ can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, cbs, target, field):
 			p? /* 前端命令 */ can.onappend._plugin(can, {name: meta.index, help: p.help, meta: p.meta, list: p.list}, meta, function(sub, meta, skip) {
 				sub.run = function(event, cmds, cb) { var _cb = p, n = 0
@@ -378,7 +380,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.onlayout.figure({target: target}, can, sub._target), can.page.style(sub, sub._target, meta.style)
 					target._can = sub, sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }
 					can.base.isFunc(cb) && cb(sub, _cbs), can.base.isFunc(meta._init) && meta._init(sub, sub._target)
-				}, can._root._target)
+				}, document.body)
 			}, target, last) } }), can.onfigure[input]._init && can.onfigure[input]._init(can, target)
 		})
 	},

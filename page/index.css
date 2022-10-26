@@ -85,6 +85,7 @@ fieldset.input.date div.output td.next { color:gray; }
 fieldset.input.date div.output td { padding:2px 10px; }
 fieldset.input.date table { text-align:center; width:280px; }
 
+body>div.toast div.action>div.item.space { height:unset; }
 body>div.float { background-color:#0e3369b3; color:white; padding:5px; }
 body>div.toast div.title { color:yellow; float:left; }
 body>div.toast div.duration { color:gray; float:right; }

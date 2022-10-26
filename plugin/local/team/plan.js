@@ -165,7 +165,7 @@ Volcanos(chat.ONACTION, {list: [mdb.PREV, mdb.NEXT, mdb.INSERT, mdb.EXPORT, mdb.
 Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, "begin_time", mdb.ZONE, mdb.ID, mdb.TYPE, mdb.NAME, mdb.TEXT],
 	span: function(can) { return {"day": 24*3600*1000, "week": 7*24*3600*1000, "month": 30*24*3600*1000, "year": 365*24*3600*1000, "long": 365*24*3600*1000}[can.Option("scale")]||0 },
 	hash: function(can, task) { if (!can.isCmdMode()) { return } location.hash = [task.zone, task.id].join(ice.FS) },
-	head: function(can, scale) { if (["year", "long"].indexOf(scale) > -1) { return } return [scale].concat(can.user.info.language == "en"? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]); },
+	head: function(can, scale) { if (["year", "long"].indexOf(scale) > -1) { return } return [scale].concat(can.user.time(can, "", "%W")) },
 	name: function(can, task) { return task.name },
 	text: function(can, task) { return task.name+": "+(task.text||"") },
 	level: function(can, task) { return "l-"+(task.level||3)+": "+(task.name||"") },

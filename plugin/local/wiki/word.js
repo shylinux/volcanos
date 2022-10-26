@@ -108,9 +108,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.runAction(can.request(event, data), "run", [data.index, "find", event.target.innerHTML])
 		}
 		target.oncontextmenu = function(event) {
-			can.user.carteClient(event, can, kit.Dict(mdb.EXPORT, function(event, can, button) {
+			var ui = can.user.carte(event, can, kit.Dict(mdb.EXPORT, function(event, can, button) {
 				can.user.toimage(event, can, "hi", target)
-			}), [mdb.EXPORT])
+			}), [mdb.EXPORT]); can.page.style(can, ui._target, {left: event.clientX, top: event.clientY})
 		}
 	},
 	table: function(can, data, target) {
@@ -178,7 +178,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 				can.keylist = can.onkeymap._parse(event, can, "normal", can.keylist)
 			}})), can.onkeymap._build(can)
 
-			sub.page.style(sub, sub._target, html.BACKGROUND, can._root._target.style.background)
+			sub.page.style(sub, sub._target, html.BACKGROUND, document.body.style.background)
 			sub.page.style(sub, sub._output, html.HEIGHT, can.page.height()-2*html.ACTION_HEIGHT)
 			sub.page.style(sub, sub._output, html.WIDTH, can.page.width())
 
@@ -202,7 +202,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			var from = new Date(); can.core.Timer({interval: 100}, function() { var now = new Date()
 				sub.Status(cli.COST, can.base.Duration(now-from))
 			})
-		}, can._root._target)
+		}, document.body)
 	},
 	view: function(event, can) {
 		if (can._height) {

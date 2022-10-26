@@ -6,7 +6,7 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
             msg.Push(mdb.LINK, location.href)
         }
 
-        var has = {}; _target = _target||can._root._target
+        var has = {}; _target = _target||document.body
         can.page.Select(can, _target, html.IFRAME, function(item) {
             if (!item.src || has[item.src]) { return } has[item.src] = true
 
@@ -41,7 +41,7 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
     },
     change: function(can, msg, arg) {
         arg.length > 1 && can.page.Modify(can, arg[0], can.base.Obj(arg[1]))
-        arg.length > 0 && can.page.Select(can, can._root._target, arg[0], function(item) {
+        arg.length > 0 && can.page.Select(can, document.body, arg[0], function(item) {
             msg.Push(mdb.TEXT, item.outerHTML)
         })
     },
@@ -87,11 +87,11 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
                 can.run(event, [chat.FIELD, mdb.MODIFY, ctx.ARGS, JSON.stringify(sub.Input([], true))])
                 can.user.toastSuccess(can)
             }
-        }, can._root._target)
+        }, document.body)
     },
     style: function(can, msg, arg) {
         can.core.List(arg[0].split(ice.FS), function(item) {
-            can.page.Select(can, can._root._target, item, function(target) {
+            can.page.Select(can, document.body, item, function(target) {
                 can.page.Modify(can, target, can.base.Obj(arg[1]))
             })
         })
@@ -104,7 +104,7 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
             }})
         })
     },
-    _motion: function(can) { can.onmotion.float.auto(can, can._root._target)
+    _motion: function(can) { can.onmotion.float.auto(can, document.body)
         document.body.ondblclick = function(event) { can.onengine.signal(can, "onselection") }
 
         can.runAction({}, ctx.COMMAND, [], function(msg) {

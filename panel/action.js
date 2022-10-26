@@ -1,6 +1,7 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 		var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM); can.core.Next(msg.Table(), function(item, next) {
 			item.inputs = can.base.Obj(item.inputs||item.list), item.feature = can.base.Obj(item.feature||item.meta)
+			if (can.misc.Debug(can, "plugin", item.index, item.args, item)) { debugger }
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can.onimport._run(can, sub, function(event, cmds, cb) {
 				return can.run(event, can.misc.concat(can, [river, storm, meta.id||meta.index], cmds), cb)
 			}), can.onimport._tabs(can, sub, meta), skip || next() })
@@ -12,6 +13,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 		can.Conf(chat.RIVER, web.SHARE, chat.STORM, share), can.onimport._init(can, msg)
 	}) },
 	_cmd: function(can, item, next) { can.base.Copy(item, {mode: chat.CMD, opts: can.misc.Search(can)}), can.onengine.signal(can, chat.ONACTION_CMD)
+		if (can.misc.Debug(can, "plugin", item.index, item.args, item)) { debugger }
 		can.onappend.plugin(can, item, function(sub, meta, skip) { can.onimport._run(can, sub, function(event, cmds, cb) {
 			return can.runActionCommand(event, sub._index, cmds, cb)
 		}), can.user.title(meta.name), skip || next() })
@@ -200,12 +202,12 @@ Volcanos(chat.ONEXPORT, {
 		})
 	},
 	plugin: function(can, msg, word) { var fields = can.core.Split(msg.Option(ice.MSG_FIELDS))
-		can.core.List(can._plugins, function(sub) {
+		can.core.List(can._plugins, function(sub) { var meta = sub.Conf(); if (meta.index.indexOf(word[1]) == -1) { return }
 			var data = {ctx: "can", cmd: "Action",
 				type: mdb.PLUGIN, name: sub._legend.innerHTML, text: shy("跳转", function(event) { sub.Focus() }),
 				argument: JSON.stringify(can.page.SelectArgs(can, sub._option, "", function(target) { return target.value })),
 			}
-			var meta = sub._target._meta; if (meta.index) {
+			if (meta.index) {
 				data.context = "", data.command = meta.index
 			} else if (meta.cmd) {
 				data.context = meta.ctx, data.command = meta.cmd

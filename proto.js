@@ -7,7 +7,8 @@ var kit = {
 				res[arguments[i]] = arguments[i+1]
 			}
 		} return res
-	}
+	},
+	proto: function(sub, sup) { return sub.__proto__ = sup, sub },
 }
 var ice = {
 	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
@@ -33,8 +34,8 @@ var ice = {
 	MSG_SOURCE: "_source",
 	MSG_TARGET: "_target",
 	MSG_HANDLE: "_handle",
-	MSG_UPLOAD: "_upload",
 	MSG_DAEMON: "_daemon",
+	MSG_UPLOAD: "_upload",
 	MSG_ACTION: "_action",
 	MSG_STATUS: "_status",
 	MSG_PREFIX: "_prefix",
@@ -79,6 +80,9 @@ var cli = {
 	ERROR: "error", CLEAR: "clear", REFRESH: "refresh",
 	SHOW: "show", FULL: "full",
 }
+var log = {
+	INFO: "info", WARN: "warn", ERROR: "error", DEBUG: "debug", TRACE: "trace",
+}
 var nfs = {
 	PWD: "./",
 	ZML: "zml", IML: "iml", TXT: "txt",
@@ -88,6 +92,8 @@ var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash",
 	DIR_ROOT: "dir_root",
 	SCRIPT: "script",
+	CONTENT: "content",
+	PNG: "png",
 }
 var mdb = {
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
@@ -118,6 +124,13 @@ var aaa = {
 var web = {
 	SPACE: "space", DREAM: "dream", SHARE: "share",
 	REFRESH: "refresh",
+	WEBSITE: "website",
+	SHARE_CACHE: "/share/cache/",
+	DOWNLOAD: "download",
+
+	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
+	Accept: "Accept", ContentType: "Content-Type",
+	ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 }
 var tcp = {
 	HOST: "host", PORT: "port",
@@ -249,14 +262,14 @@ var html = {
 	FIELDSET_AUTO: "fieldset.auto", FIELDSET_FLOAT: "fieldset.float",
 	OPTION_ARGS: "select.args,input.args,textarea.args",
 	INPUT_ARGS: "input.args,textarea.args",
-	INPUT_BUTTON: "input[type=button]",
+	INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",
 
 	// HTML
 	UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
 	INPUT: "input", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
 	FORM: "form", FILE: "file", SPACE: "space", CLICK: "click", SUBMIT: "submit", CANCEL: "cancel",
 	DIV: "div", IMG: "img", CODE: "code", SPAN: "span", VIDEO: "video",
-	TABLE: "table", TBODY: "tbody", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li",
+	TABLE: "table", THEAD: "thead", TBODY: "tbody", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li",
 	A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
 	H1: "h1", H2: "h2", H3: "h3",
 	WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe", CHROME: "chrome",
@@ -330,10 +343,9 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 			can.onengine._init(can, can.Conf(Config), panels, Config._init, can._target)
 		}, can = {_follow: name, _target: Config.target||meta.target, _height: Config.height||meta._height, _width: Config.width||meta._width}
 		for (var k in Config) { can[k] = Config[k] }
-		can._root = can
 	}
 
-	var proto = {__proto__: meta, _path: _can_path, _name: name, _load: function(name, each) {
+	var proto = {_path: _can_path, _name: name, _load: function(name, each) {
 			// 加载缓存
 			var cache = meta.cache[name]||[]; for (list.reverse(); list.length > 0; list) {
 				var sub = list.pop(); sub != can && cache.push(sub)
@@ -453,7 +465,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 			}
 			return res
 		}, _conf: {},
-	}; can = can||{}, can.__proto__ = proto
+	}; can = can||{}, kit.proto(can, proto), kit.proto(proto, meta)
 
 	if (_can_name) { // 加入缓存
 		meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can)

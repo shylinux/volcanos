@@ -16,7 +16,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 		function show(skip) { if (can.isCmdMode()) { can.onimport._title(can, path+file) }
 			can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.tabview[key]
 			
-			can.Option(can.onimport.history(can, {path: path, file: file, line: line||can.user.localStorage(can, "web.code.vimer:selectLine:"+path+file)||can._msg.Option(nfs.LINE)|| 1}))
+			can.Option(can.onimport.history(can, {path: path, file: file, line: line||can.misc.localStorage(can, "web.code.vimer:selectLine:"+path+file)||can._msg.Option(nfs.LINE)|| 1}))
 			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg
 				can.onexport.hash(can), msg._tab && can.onmotion.select(can, msg._tab.parentNode, html.DIV_TABS, msg._tab)
 				can.ui._path && (can.ui._path.innerHTML = isDream()? can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)})):
@@ -318,11 +318,11 @@ Volcanos(chat.ONACTION, {help: "控件交互", _trans: {link: "链接", width: "
 		can.runAction(can.request(event, {_toast: "执行中..."}), mdb.ENGINE, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) { can.onimport.display(can, msg) })
 	},
 	clear: function(event, can) {
-		if (can.page.Select(can, can._root._target, ".input.float", function(item) { return can.page.Remove(can, item) }).length > 0) { return }
+		if (can.page.Select(can, document.body, ".input.float", function(item) { return can.page.Remove(can, item) }).length > 0) { return }
 		if (can.page.Select(can, can._status, "legend.select", function(item) { return item.click(), item }).length > 0) { return }
 		if (can.ui.display.style.display == "") { return can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) }
 		if (can.ui.profile.style.display == "") { return can.onmotion.hidden(can, can.ui.profile), can.onimport.layout(can) }
-		if (can.page.Select(can, can._root._target, "div.vimer.find.float", function(item) { return can.page.Remove(can, item) }).length > 0) { return }
+		if (can.page.Select(can, document.body, "div.vimer.find.float", function(item) { return can.page.Remove(can, item) }).length > 0) { return }
 		can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)
 	},
 })
@@ -375,7 +375,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.tabview = can.tabview||{}, can.history = can.history||[], can.toolkit = {}, can.extentions = {}
 		can.profile_size = {}, can.display_size = {}
 
-		if (can.user.isWebview) { var last = can.user.localStorage(can, "web.code.inner:currentFile"); if (last) { var ls = can.core.Split(last, ice.DF) } }
+		if (can.user.isWebview) { var last = can.misc.localStorage(can, "web.code.inner:currentFile"); if (last) { var ls = can.core.Split(last, ice.DF) } }
 		
 		switch (can.Mode()) {
 			case "simple": can.onmotion.hidden(can, can.ui.project); break
@@ -463,7 +463,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 			can.extentions[url.split("?")[0]] = sub, can.base.isFunc(cb)? cb(sub): sub.select()
 		}) })
 	},
-	sess: function(can, sess, cb) { sess = sess||can.base.Obj(can.user.localStorage(can, "web.code.inner.sess"), {})
+	sess: function(can, sess, cb) { sess = sess||can.base.Obj(can.misc.localStorage(can, "web.code.inner.sess"), {})
 		can.core.Next(sess.plug, function(item, next) { can.onimport.toolkit(can, {index: item}, function(sub) { can.toolkit[item] = sub, next() }) }, function() {
 			can.core.Next(sess.exts, function(item, next) { can.onimport.exts(can, item, next) }, function() {
 				var path = can.Option(nfs.PATH), file = can.Option(nfs.FILE), line = can.Option(nfs.LINE)
@@ -492,7 +492,7 @@ Volcanos(chat.ONACTION, {help: "控件交互", list: [],
 	},
 })
 Volcanos(chat.ONEXPORT, {help: "导出数据",
-	sess: function(can) { can.user.localStorage(can, "web.code.inner.sess", {"plug": can.onexport.plug(can), "exts": can.onexport.exts(can), "tabs": can.onexport.tabs(can)}) },
+	sess: function(can) { can.misc.localStorage(can, "web.code.inner.sess", {"plug": can.onexport.plug(can), "exts": can.onexport.exts(can), "tabs": can.onexport.tabs(can)}) },
 	tabs: function(can) { return can.core.Item(can.tabview, function(key, msg) { return key+ice.DF+can.Option(nfs.LINE) }) },
 	plug: function(can) { return can.core.Item(can.toolkit) },
 	exts: function(can) { return can.core.Item(can.plugins) },

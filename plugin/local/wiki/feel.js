@@ -143,7 +143,7 @@ Volcanos(chat.ONDETAIL, {help: "组件菜单", list: ["关闭", "下载", "删�
 					sub.Status(cli.BEGIN, order+1+ice.PS+can.list.length), sub.Status(nfs.FILE, path)
 				}, can.show(can.order)
 			})
-		}, can._root._target)
+		}, document.body)
 	},
 	"关闭": function(event, can) { can.page.Remove(can, can.sub._target) },
 	"下载": function(event, can) { can.user.download(can, path = can.onimport._file(can, can.list[can.order].path)) },

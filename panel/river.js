@@ -7,8 +7,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 		})), select && select.click()
 	},
 	_main: function(can, msg) {
-		can._main_river = can.misc.Search(can, chat.RIVER)||Volcanos.meta.args.river||msg.Option(ice.MSG_RIVER)||can._main_river||"project"
-		can._main_storm = can.misc.Search(can, chat.STORM)||Volcanos.meta.args.storm||msg.Option(ice.MSG_STORM)||can._main_storm||"studio"
+		can._main_river = can.misc.Search(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||can._main_river||"project"
+		can._main_storm = can.misc.Search(can, chat.STORM)||msg.Option(ice.MSG_STORM)||can._main_storm||"studio"
 	},
 	_menu: function(can, msg) { if (can.user.mod.isPod||can.user.isMobile) { return }
 		can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.ondetail._menus), function(event, button) {
@@ -35,7 +35,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg) {
 	},
 })
 Volcanos(chat.ONENGINE, {help: "解析引擎", _engine: function(event, can, msg, panel, cmds, cb) {
-	var list = can._root.river
+	var list = can.river
 	cmds.length == 0 && can.core.ItemSort(list, "order", function(key, value) {
 		if (can.core.Item(value.storm).length == 0) { return }
 		msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) // 群组列表
