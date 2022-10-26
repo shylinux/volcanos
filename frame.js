@@ -1,4 +1,4 @@
-Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, cb, target) {
+Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 		if (can.misc.Search(can, ice.MSG_SESSID)) { can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID))
 			return can.misc.Search(can, ice.MSG_SESSID, "") 
 		}
@@ -23,21 +23,9 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 			}, target)
 		}, function() { can.misc.Log(can.user.title(), ice.RUN, can)
 			can.onmotion._init(can, target), can.onkeymap._init(can)
+			can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { word[0] == ctx.COMMAND && can.run(msg._event, ["can.command"]) })
 			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb()
 		})
-
-		can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { if (word[0] == ctx.COMMAND || word[1] != "") { var meta = can.onengine.plugin.meta
-			var list = word[1] == ""? meta: meta[word[1]]? kit.Dict(word[1], meta[word[1]]): {}
-			can.core.Item(list, function(name, command) { name = can.base.trimPrefix(name, "can.")
-				can.core.List(msg.Option(ice.MSG_FIELDS).split(ice.FS), function(item) {
-					msg.Push(item, kit.Dict(ice.CTX, chat.ONENGINE, ice.CMD, ctx.COMMAND,
-						mdb.TYPE, ice.CAN, mdb.NAME, name, mdb.TEXT, command.help,
-						ctx.CONTEXT, ice.CAN, ctx.COMMAND, name,
-						ctx.INDEX, can.core.Keys(ice.CAN, name),
-					)[item]||"")
-				})
-			})
-		} })
 	},
 	_search: function(event, can, msg, panel, cmds, cb) {
 		var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split(ice.PT), function(value) {
@@ -98,7 +86,7 @@ Volcanos(chat.ONENGINE, {help: "搜索引擎", _init: function(can, meta, list, 
 		return can.core.List(can.onengine.listen.meta[name], function(cb) { can.core.CallFunc(cb, {event: msg._event, msg: msg}) }).length
 	}),
 })
-Volcanos(chat.ONDAEMON, {help: "推荐引擎", _init: function(can, name) { if (can.user.isLocalFile) { return }
+Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) { return }
 		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, cli.DAEMON)||name||"", text: can.user.title()}, function(event, msg, cmd, arg) { if (!msg) { return }
 			var sub = can.ondaemon._list[msg.Option(ice.MSG_TARGET)]
 			can.base.isFunc(can.ondaemon[cmd])? can.core.CallFunc(can.ondaemon[cmd], {

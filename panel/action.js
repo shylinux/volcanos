@@ -230,6 +230,15 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 	}), can.base.isFunc(cb) && cb(msg) } return true
 }})
 Volcanos(chat.ONPLUGIN, {
+	"command": shy("插件列表", {}, [], function(can, msg, arg) {
+			var meta = can.onengine.plugin.meta
+			can.core.Item(word[1] == ""? meta: meta[word[1]]? kit.Dict(word[1], meta[word[1]]): {}, function(name, command) {
+				msg.Push(kit.Dict(ice.CTX, ice.CAN, ice.CMD, ctx.COMMAND,
+					mdb.TYPE, ice.CAN, mdb.NAME, name, mdb.TEXT, command.help,
+					ctx.CONTEXT, ice.CAN, ctx.COMMAND, name, ctx.INDEX, can.core.Keys(ice.CAN, name),
+				), msg.Option(ice.MSG_FIELDS).split(ice.FS))
+			})
+	}),
 	"plugin": shy("默认插件", {}, ["name", "list", "back"]),
 	"parse": shy("生成网页", {
 		"show": function(can, msg, cmds) { var name = cmds[1]||"can"; can.isCmdMode() && can.user.title(name)
