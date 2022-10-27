@@ -50,7 +50,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 		})
 	},
 	source: function(can, target, zone, path) { var total = 0
-		function show(target, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
+		function show(target, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) { var list = msg.Table()
 			can.core.List(list, function(item) { item._menu = shy({trash: function(event) { can.onaction._run(event, can, nfs.TRASH, [can.base.Path(path, item.path)]) }}) })
 			can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target)
 			can.Status("文件数", zone._total(total += msg.Length()))
@@ -60,7 +60,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(target, path) }} }), target)
 	},
 	website: function(can, target, zone) {
-		can.run(can.request({}, {dir_root: "src/website/", dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
+		can.run(can.request({}, {dir_root: "src/website/", dir_deep: true}), [nfs.PWD], function(msg) { var list = msg.Table()
 			can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, "src/website/", item.path) }, target)
 			zone._total(msg.Length())
 		}, true)
@@ -76,7 +76,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 			}, target), {color: color})
 		}), zone._total(msg.Length()) })
 		return shy(kit.Dict(
-			cli.REFRESH, function(event, can, button) { zone.refresh() },
+			web.REFRESH, function(event, can, button) { zone.refresh() },
 			mdb.CREATE, function(event, can, button) { can.onaction.dream(event, can, web.DREAM) },
 			code.PUBLISH, function(event, can, button) { can.runAction(event, button, [], function(msg) { can.user.toastConfirm(can, msg.Result(), button) }) },
 		))
@@ -277,7 +277,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			}
 			
 			var toast = can.user.toastProcess(can, "重启中...")
-			can.onmotion.delay(can, function() { toast.close(), can.onaction[cli.SHOW]({}, can) }, 3000)
+			can.onmotion.delay(can, function() { toast.close(), can.onaction[ice.SHOW]({}, can) }, 3000)
 		})
 	},
 	autogen: function(event, can, button) { can.onaction._runs(can.request(event, {path: "src/"}), can, button, function(msg) {
@@ -353,7 +353,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			} last = 0, can.user.toast(can, "已经到最后一行")
 		}
 		function complete(target, button) {
-			can.onappend.figure(can, {action: "key", mode: "simple", _enter: function(event) {
+			can.onappend.figure(can, {action: "key", mode: chat.SIMPLE, _enter: function(event) {
 				if (event.ctrlKey) { meta.grep() } else {
 					meta[button](), can.onmotion.delay(can, function() { target.focus() })
 				}

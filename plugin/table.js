@@ -31,14 +31,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		var action = can.onappend._action(can, [], ui.action, kit.Dict(
 			cli.CLOSE, function(event) { can.onmotion.hidden(can, target), can.onimport.layout(can) },
 			cli.CLEAR, function(event) { can.onmotion.clear(can, ui.output) },
-			cli.SHOW, function(event) { can.onaction[cli.SHOW](event, can) },
+			ice.SHOW, function(event) { can.onaction[ice.SHOW](event, can) },
 			action,
 			mdb.PLUGIN, function(event) { can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) {
 				can.onimport.plug(can, data, function(sub) {
 					sub.ConfHeight(target.offsetHeight-4*html.ACTION_HEIGHT)
 				}, ui.output)
 			}) },
-		)); target._toggle = function(event, show) { action[show? cli.SHOW: cli.CLOSE](event) }
+		)); target._toggle = function(event, show) { action[show? ice.SHOW: cli.CLOSE](event) }
 		return ui
 	},
 	_title: function(can, title) {

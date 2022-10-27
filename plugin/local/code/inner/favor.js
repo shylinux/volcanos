@@ -12,7 +12,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, cb) {
 					if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) {
 						if (key == mdb.VALUE) { key = line.key }
 					}
-					if (key != ctx.ACTION) { value = sub.page.replace(sub, value, ice.PWD, "") }
+					if (key != ctx.ACTION) { value = sub.page.replace(sub, value, nfs.PWD, "") }
 
 					return {text: ["", html.TD], list: [{text: [value, html.DIV]}], onclick: function(event) { var target = event.target
 						if ([mdb.ZONE, mdb.ID].indexOf(key) > -1) { return sub.onimport.change(event, sub, key, value) }
@@ -21,7 +21,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, cb) {
 							return sub.runAction(event, target.name, [], function(msg) { sub.run() })
 						}
 
-						line.line && can.onimport.tabview(can, line.path, line.file.replace(ice.PWD, ""), parseInt(line.line))
+						line.line && can.onimport.tabview(can, line.path, line.file.replace(nfs.PWD, ""), parseInt(line.line))
 					}}
 				}, sub._output), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS))
 			})

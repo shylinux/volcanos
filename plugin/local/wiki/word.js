@@ -4,7 +4,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 		can.page.style(can, can._output, html.MAX_WIDTH, can.ConfWidth())
 		can.page.Modify(can, target, msg.Result())
-		can.page.Select(can, target, wiki.ITEM, function(item) { var data = item.dataset||{}
+		can.page.Select(can, target, wiki.STORY_ITEM, function(item) { var data = item.dataset||{}
 			can.page.style(can, item, can.base.Obj(data.style))
 			can.core.CallFunc([can.onimport, data.type], [can, data, item])
 		})
@@ -161,7 +161,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 Volcanos(chat.ONACTION, {help: "控件交互",
 	_trans: {view: "视图"},
 	play: function(event, can) { var list = [], current = []
-		can.page.Select(can, can._output, wiki.ITEM, function(item) {
+		can.page.Select(can, can._output, wiki.STORY_ITEM, function(item) {
 			can.page.tagis(item, "h1", "h2", "h3") && list.push(current = []), current.push(item)
 		})
 
@@ -214,7 +214,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 })
 Volcanos(chat.ONDETAIL, {help: "交互操作", list: ["删除"],
 	show: function(sub, which) { sub.page.styleClass(sub, sub.ui.content, chat.CONTENT)
-		sub.page.Select(sub, sub.ui.content, wiki.DIV_PAGE, function(page, index) {
+		sub.page.Select(sub, sub.ui.content, html.DIV_PAGE, function(page, index) {
 			if (index == which || page == which) {
 				sub.page.Select(sub, page, sub.page.Keys(html.H1, html.H2, html.H3), function(item) { sub.Action("菜单", item.innerHTML) })
 				sub.onmotion.select(sub, sub.ui.project, html.DIV_ITEM, index)
@@ -226,17 +226,17 @@ Volcanos(chat.ONDETAIL, {help: "交互操作", list: ["删除"],
 		})
 	},
 	next: function(sub) {
-		sub.page.Select(sub, sub.ui.content, sub.core.Keys(wiki.DIV_PAGE, ice.SHOW), function(page) {
+		sub.page.Select(sub, sub.ui.content, sub.core.Keys(html.DIV_PAGE, ice.SHOW), function(page) {
 			page.nextSibling? sub.sup.ondetail.show(sub, page.nextSibling): sub.user.toast(sub, cli.END)
 		})
 	},
 	prev: function(sub) {
-		sub.page.Select(sub, sub.ui.content, sub.core.Keys(wiki.DIV_PAGE, ice.SHOW), function(page) {
+		sub.page.Select(sub, sub.ui.content, sub.core.Keys(html.DIV_PAGE, ice.SHOW), function(page) {
 			page.previousSibling? sub.sup.ondetail.show(sub, page.previousSibling): sub.user.toast(sub, cli.END)
 		})
 	},
 	flash: function(sub) {
-		sub.core.Next(sub.page.Select(sub, sub.ui.content, wiki.DIV_PAGE), function(page, next) {
+		sub.core.Next(sub.page.Select(sub, sub.ui.content, html.DIV_PAGE), function(page, next) {
 			sub.sup.ondetail.show(sub, page), sub.onmotion.delay(sub, function() { next() })
 		})
 	},

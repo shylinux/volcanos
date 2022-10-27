@@ -45,7 +45,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			ondblclick: function(event) { if ([ice.POD, mdb.ZONE, mdb.ID].indexOf(key) > -1) { return }
 				can.onmotion.modify(can, event.target, function(sub, value) {
 					can.onaction.modifyTask(event, can, task, key, value)
-				}, {name: key, action: key.indexOf(mdb.TIME) > 0? "date": "key", mode: "simple"})
+				}, {name: key, action: key.indexOf(mdb.TIME) > 0? "date": "key", mode: chat.SIMPLE})
 			},
 		}]) }), can.onimport.layout(can), task["extra.index"] && can.onimport._display(can, task)
 	},

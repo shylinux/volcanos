@@ -1,7 +1,7 @@
 Volcanos(chat.ONACTION, {
 	_init: function(can, meta, target) { meta.type == html.BUTTON && meta.action == ice.AUTO && !can.sup._delay_init && target.click() },
 	run: function(event, can) { can.run(can.request(event, {_toast: ice.PROCESS})) },
-	list: function(event, can) { can.sup.Conf("mode") != "simple" && can.run(event) },
+	list: function(event, can) { can.sup.Conf("mode") != chat.SIMPLE && can.run(event) },
 	back: function(event, can) { can.sup.onimport._back(can.sup) },
 	refresh: function(event, can) { can.run(event) },
 

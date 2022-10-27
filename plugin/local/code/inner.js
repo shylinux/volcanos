@@ -58,7 +58,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 }, [""])
 Volcanos(chat.ONFIGURE, {help: "索引导航", 
 	source: function(can, target, zone, path) { var total = 0
-		function show(target, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [ice.PWD], function(msg) { var list = msg.Table()
+		function show(target, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) { var list = msg.Table()
 			can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target)
 			can.Status("文件数", zone._total(total += msg.Length()))
 		}, true) }
@@ -230,17 +230,17 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 			},
 			html.WIDTH, function(event) {
 				can.user.input(event, can, [{name: html.WIDTH, value: can.profile_size[can.onexport.keys(can)]*100/can.ConfWidth()||50}], function(list) {
-					can.profile_size[can.onexport.keys(can)] = can.ConfWidth()*parseInt(list[0])/100, can.onaction[cli.SHOW](event, can)
+					can.profile_size[can.onexport.keys(can)] = can.ConfWidth()*parseInt(list[0])/100, can.onaction[ice.SHOW](event, can)
 				})
 			},
 		)); can.ui.profile_output = ui.output
 	},
 	_display: function(can, target) {
 		var ui = can.onimport._panel(can, target, kit.Dict(
-			cli.SHOW, function(event) { can.onaction[cli.EXEC](event, can) },
+			ice.SHOW, function(event) { can.onaction[ice.EXEC](event, can) },
 			html.HEIGHT, function(event) {
 				can.user.input(event, can, [{name: html.HEIGHT, value: can.display_size[can.onexport.keys(can)]*100/can.ConfHeight()||50}], function(list) {
-					can.display_size[can.onexport.keys(can)] = can.ConfHeight()*parseInt(list[0])/100, can.onaction[cli.EXEC](event, can)
+					can.display_size[can.onexport.keys(can)] = can.ConfHeight()*parseInt(list[0])/100, can.onaction[ice.EXEC](event, can)
 				})
 			}
 		)); can.ui.display_output = ui.output, can.ui.display_status = ui.status
@@ -341,8 +341,8 @@ Volcanos(chat.ONKEYMAP, {help: "导入数据",
 	_mode: {
 		plugin: {
 			Escape: shy("切换模式", function(event, can) { can.onaction.clear(event, can) }),
-			v: shy("渲染界面", function(event, can) { can.onaction[cli.SHOW](event, can) }),
-			r: shy("执行命令", function(event, can) { can.onaction[cli.EXEC](event, can) }),
+			v: shy("渲染界面", function(event, can) { can.onaction[ice.SHOW](event, can) }),
+			r: shy("执行命令", function(event, can) { can.onaction[ice.EXEC](event, can) }),
 			f: shy("打开文件", function(event, can) { can.onaction["打开"](event, can) }),
 
 			x: shy("关闭标签", function(can) { can._tab._close() }),
@@ -378,14 +378,14 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		if (can.user.isWebview) { var last = can.misc.localStorage(can, "web.code.inner:currentFile"); if (last) { var ls = can.core.Split(last, ice.DF) } }
 		
 		switch (can.Mode()) {
-			case "simple": can.onmotion.hidden(can, can.ui.project); break
-			case "float": can.onmotion.hidden(can, can.ui.project); break
-			case "cmd": can.onimport._tabs(can), can.onmotion.hidden(can, can._status) // no break
-			case "full": // no break
+			case chat.SIMPLE: can.onmotion.hidden(can, can.ui.project); break
+			case chat.FLOAT: can.onmotion.hidden(can, can.ui.project); break
+			case chat.CMD: can.onimport._tabs(can), can.onmotion.hidden(can, can._status) // no break
+			case chat.FULL: // no break
 			default: can.onimport.project(can, paths)
 				can.onengine.listen(can, "tabview.view.init", function() { if (can.user.isMobile) { return } var p = can.onsyntax[can.parse]
-					can.Option(nfs.PATH).indexOf("src/") == 0 && p && p.render && can.onaction[cli.SHOW]({}, can); if (can.page.ClassList.has(can, can._fields, chat.PLUGIN)) {
-						p && p.engine && can.onaction[cli.EXEC]({}, can)
+					can.Option(nfs.PATH).indexOf("src/") == 0 && p && p.render && can.onaction[ice.SHOW]({}, can); if (can.page.ClassList.has(can, can._fields, chat.PLUGIN)) {
+						p && p.engine && can.onaction[ice.EXEC]({}, can)
 					}
 				})
 				can.onimport._keydown(can), can.onimport._toolkit(can, can.ui.toolkit), can.onimport._session(can, msg, function() {

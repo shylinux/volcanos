@@ -1,28 +1,23 @@
 var kit = {
-	Dict: function() { var res = {}
-		for (var i = 0; i < arguments.length; i += 2) {
-			if (typeof arguments[i] == "object") {
-				for (var k in arguments[i]) { res[k] = arguments[i][k] } i--
-			} else if (arguments[i] != undefined) {
-				res[arguments[i]] = arguments[i+1]
-			}
-		} return res
-	},
+	Dict: function() { var res = {}; for (var i = 0; i < arguments.length; i += 2) {
+		if (typeof arguments[i] == "object") {
+			for (var k in arguments[i]) { res[k] = arguments[i][k] } i--
+		} else if (arguments[i] != undefined) {
+			res[arguments[i]] = arguments[i+1]
+		}
+	} return res },
 	proto: function(sub, sup) { return sub.__proto__ = sup, sub },
 }
 var ice = {
 	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
 	OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
 
-	AUTO: "auto", LIST: "list", BACK: "back", EXEC: "exec",
-	SHOW: "show", HIDE: "hide", HELP: "help", HTTP: "http",
-	VIEW: "view", MODE: "mode", SHIP: "ship", COPY: "copy",
+	AUTO: "auto", HTTP: "http", HELP: "help", COPY: "copy",
+	LIST: "list", BACK: "back", SHOW: "show", HIDE: "hide",
+	VIEW: "view", MODE: "mode", SHIP: "ship", EXEC: "exec",
 
-	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", RES: "res",
-	RUN: "run", ERR: "err", OPT: "opt",
-	CAN: "can",
-	PWD: "./",
-	ErrWarn: "warn: ",
+	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
+	CAN: "can", RUN: "run", RES: "res", ERR: "err",
 
 	MSG_DETAIL: "detail",
 	MSG_OPTION: "option",
@@ -40,12 +35,11 @@ var ice = {
 	MSG_STATUS: "_status",
 	MSG_PREFIX: "_prefix",
 
-	MSG_DISPLAY: "_display",
 	MSG_PROCESS: "_process",
+	MSG_DISPLAY: "_display",
 	MSG_TOOLKIT: "_toolkit",
 
-	MSG_USERNAME: "user.name",
-	MSG_USERNICK: "user.nick",
+	PROCESS_AGAIN: "_again",
 
 	MSG_TITLE: "sess.title",
 	MSG_TOPIC: "sess.topic",
@@ -53,47 +47,40 @@ var ice = {
 	MSG_STORM: "sess.storm",
 	MSG_TOAST: "sess.toast",
 
-	PROCESS_AGAIN: "_again",
+	MSG_USERNAME: "user.name",
+	MSG_USERNICK: "user.nick",
 
 	ErrWarn: "warn: ",
 	ErrNotLogin: "not login: ",
 	ErrNotRight: "not right: ",
 	ErrNotFound: "not found: ",
+	ErrNotValid: "not valid: ",
 }
 
 var ctx = {
-	CONTEXT: "context", COMMAND: "command", CONFIG: "config",
+	CONTEXT: "context", COMMAND: "command", CONFIG: "config", INPUTS: "inputs", FEATURE: "feature",
 	INDEX: "index", ARGS: "args", STYLE: "style", DISPLAY: "display", ACTION: "action",
-	INPUTS: "inputs", FEATURE: "feature",
 }
 var cli = {
-	DAEMON: "daemon",
-	START: "start", STOP: "stop", OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end",
-
-	COLOR: "color",
-	RED: "red", GREEN: "green", BLUE: "blue",
+	DAEMON: "daemon", START: "start", STOP: "stop", OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end",
+	COLOR: "color", WHITE: "white", BLACK: "black", RED: "red", GREEN: "green", BLUE: "blue",
 	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta",
-	WHITE: "white", BLACK: "black",
+	MAKE: "make", MAIN: "main", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
+}
+var aaa = {
+	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
+	PASSWORD: "password", USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
+	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
+	VOID: "void", TECH: "tech",
+}
+var web = {
+	SPACE: "space", DREAM: "dream", SHARE: "share",
+	WEBSITE: "website", REFRESH: "refresh", UPLOAD: "upload", DOWNLOAD: "download",
+	SHARE_CACHE: "/share/cache/",
 
-	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done",
-	CODE: "code", COST: "cost", BACK: "back", FROM: "from",
-	ERROR: "error", CLEAR: "clear", REFRESH: "refresh",
-	SHOW: "show", FULL: "full",
-}
-var log = {
-	INFO: "info", WARN: "warn", ERROR: "error", DEBUG: "debug", TRACE: "trace",
-}
-var nfs = {
-	PWD: "./",
-	ZML: "zml", IML: "iml", TXT: "txt",
-	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
-	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
-	SAVE: "save", LOAD: "load", TAGS: "tags", FIND: "find", GREP: "grep",
-	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash",
-	DIR_ROOT: "dir_root",
-	SCRIPT: "script",
-	CONTENT: "content",
-	PNG: "png",
+	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
+	Accept: "Accept", ContentType: "Content-Type",
+	ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 }
 var mdb = {
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
@@ -103,89 +90,56 @@ var mdb = {
 	SHORT: "short", FIELD: "field", TOTAL: "total", COUNT: "count", LIMIT: "limit",
 	INDEX: "index", VALUE: "value", EXTRA: "extra", ALIAS: "alias", EXPIRE: "expire",
 
-	CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete",
-	MODIFY: "modify", SELECT: "select",
+	CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete", MODIFY: "modify", SELECT: "select",
 	INPUTS: "inputs", PRUNES: "prunes", EXPORT: "export", IMPORT: "import",
-	UPLOAD: "upload",
-
 	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
-	PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
-	MAIN: "main",
 
+	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
 	FOREACH: "*", RANDOMS: "%",
 }
-var aaa = {
-	PASSWORD: "password", USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
-	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
-	LOGIN: "login", LOGOUT: "logout", INVITE: "invite",
-	TOKEN: "token",
-	VOID: "void", TECH: "tech",
+var ssh = {
 }
-var web = {
-	SPACE: "space", DREAM: "dream", SHARE: "share",
-	REFRESH: "refresh",
-	WEBSITE: "website",
-	SHARE_CACHE: "/share/cache/",
-	DOWNLOAD: "download",
-
-	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
-	Accept: "Accept", ContentType: "Content-Type",
-	ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
+var nfs = {
+	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
+	SAVE: "save", LOAD: "load", TAGS: "tags", FIND: "find", GREP: "grep",
+	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash", SCRIPT: "script", CONTENT: "content", DIR_ROOT: "dir_root", PWD: "./",
+	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
+	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png",
 }
 var tcp = {
 	HOST: "host", PORT: "port",
 }
-var gdb = {
-	SIGNAL: "signal",
-}
 var lex = {
 	SPLIT: "split", PREFIX: "prefix",
 }
-var ssh = {
+var gdb = {
+	SIGNAL: "signal",
+}
+var log = {
+	INFO: "info", WARN: "warn", ERROR: "error", DEBUG: "debug", TRACE: "trace",
 }
 
 var code = {
-	XTERM: "xterm", VIMER: "vimer", INNER: "inner", FAVOR: "favor",
-	AUTOGEN: "autogen", COMPILE: "compile", BINPACK: "binpack", WEBPACK: "webpack", PUBLISH: "publish",
-	KEYWORD: "keyword",
-
-	COMMENT: "comment",
-	KEYWORD: "keyword",
-	CONSTANT: "constant",
-	DATATYPE: "datatype",
-	FUNCTION: "function",
-
-	TEMPLATE: "template",
-	COMPLETE: "complete",
-	NAVIGATE: "navigate",
+	FAVOR: "favor", XTERM: "xterm", INNER: "inner", VIMER: "vimer",
+	WEBPACK: "webpack", BINPACK: "binpack", AUTOGEN: "autogen", COMPILE: "compile", PUBLISH: "publish",
+	COMMENT: "comment", KEYWORD: "keyword", CONSTANT: "constant", DATATYPE: "datatype", FUNCTION: "function",
+	TEMPLATE: "template", COMPLETE: "complete", NAVIGATE: "navigate",
 }
 var wiki = {
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
 	ORDER: "order", TABLE: "table", CHART: "chart", IMAGE: "image", VIDEO: "video",
 	FIELD: "field", SHELL: "shell", LOCAL: "local", PARSE: "parse",
-	CONTENT: "content",
-
-	NAVMENU: "navmenu", PREMENU: "premenu",
-
-	ITEM: ".story",
-	H2: "h2.story",
-	H3: "h3.story",
-	DIV_PAGE: "div.page",
+	NAVMENU: "navmenu", PREMENU: "premenu", CONTENT: "content",
+	STORY_ITEM: ".story", H2: "h2.story", H3: "h3.story",
 }
 var chat = {
-	LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", OUTPUT: "output", STORY: "story", FLOAT: "float",
+	LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", OUTPUT: "output", STORY: "story",
 	TOAST: "toast", CARTE: "carte", INPUT: "input", UPLOAD: "upload", CONTEXTS: "contexts",
 	LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile",
-
 	TITLE: "title", TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print",
-	SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field",
-	PUBLIC: "public", PROTECTED: "protected", PRIVATE: "private",
-	USER: "user", TOOL: "tool", NODES: "nodes",
-
-	AGENT: "agent", CHECK: "check", GRANT: "grant",
-	STATE: "state", MENUS: "menus", TRANS: "trans",
-	SSO: "sso", WEBSITE: "website",
-	LOCATION: "location",
+	SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field", TOOL: "tool",
+	STATE: "state", MENUS: "menus", SSO: "sso", LOCATION: "location",
+	SIMPLE: "simple", FLOAT: "float", FULL: "full", CMD: "cmd",
 
 	libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
 	panel_list: [
@@ -213,28 +167,18 @@ var chat = {
 		"/plugin/local/team/plan.js",
 		"/plugin/local/mall/goods.js",
 	],
-	PLUGIN_STATE_JS: "/plugin/state.js",
-	PLUGIN_INPUT_JS: "/plugin/input.js",
-	PLUGIN_TABLE_JS: "/plugin/table.js",
-
+	PLUGIN_STATE_JS: "/plugin/state.js", PLUGIN_INPUT_JS: "/plugin/input.js", PLUGIN_TABLE_JS: "/plugin/table.js",
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
-	ONIMPORT: "onimport", ONSYNTAX: "onsyntax", ONACTION: "onaction", ONDETAIL: "ondetail", ONFIGURE: "onfigure", ONEXPORT: "onexport",
-	ONPLUGIN: "onplugin",
+	ONIMPORT: "onimport", ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport", ONPLUGIN: "onplugin",
 
-	ONMAIN: "onmain", ONLOGIN: "onlogin", ONSEARCH: "onsearch",
-	ONSIZE: "onsize", ONTOAST: "ontoast", ONREMOTE: "onremote",
-	ONSHARE: "onshare",
-	ONKEYUP: "onkeyup",
-	ONRESIZE: "onresize",
-	ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
-	ONSTORM_SELECT: "onstorm_select", ONACTION_TOUCH: "onaction_touch", ONACTION_NOTOOL: "onaction_notool", ONACTION_CMD: "onaction_cmd",
+	ONMAIN: "onmain", ONLOGIN: "onlogin", ONSEARCH: "onsearch", ONREMOTE: "onremote",
+	ONSIZE: "onsize", ONTOAST: "ontoast", ONSHARE: "onshare", ONPRINT: "onprint",
+	ONRESIZE: "onresize", ONKEYUP: "onkeyup", ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
+	ONSTORM_SELECT: "onstorm_select", ONACTION_NOTOOL: "onaction_notool", ONACTION_TOUCH: "onaction_touch", ONACTION_CMD: "onaction_cmd",
 	ONOPENSEARCH: "onopensearch", ONSEARCH_FOCUS: "onsearch_focus", ONCOMMAND_FOCUS: "oncommand_focus",
-	ONPRINT: "onprint",
 
 	_INIT: "_init", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1",
 	_NAMES: "_names", _TOAST: "_toast",
-	
-	FLOAT: "float", FULL: "full", CMD: "cmd",
 }
 var team = {
 	TASK: "task", PLAN: "plan",
@@ -254,15 +198,10 @@ var svg = {
 var html = {
 	// FIELDSET
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
-	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
-	DIV_CONTENT: "div.content",
-	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story",
-	FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot",
-	FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main",
-	FIELDSET_AUTO: "fieldset.auto", FIELDSET_FLOAT: "fieldset.float",
-	OPTION_ARGS: "select.args,input.args,textarea.args",
-	INPUT_ARGS: "input.args,textarea.args",
-	INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",
+	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status", DIV_CONTENT: "div.content",
+	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story", FIELDSET_FLOAT: "fieldset.float",
+	FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot", FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main",
+	OPTION_ARGS: "select.args,input.args,textarea.args", INPUT_ARGS: "input.args,textarea.args", INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",
 
 	// HTML
 	UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
@@ -275,18 +214,19 @@ var html = {
 	WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe", CHROME: "chrome",
 
 	// CSS
-	CLASS: "class", FLOAT: "float", CLEAR: "clear", BOTH: "both",
-	BACKGROUND: "background", SELECT: "select", HIDDEN: "hidden",
-	DISPLAY: "display", BLOCK: "block", NONE: "none", FIXED: "fixed",
-	OPACITY: "opacity",
-	OVERFLOW: "overflow",
-	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", FONT_FAMILY: "font-family", MONOSPACE: "monospace",
-	SCROLL: "scroll", HEIGHT: "height", WIDTH: "width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
-	SPEED: "speed", PADDING: "padding", MARGIN: "margin",
+	CLASS: "class", DISPLAY: "display", BLOCK: "block", NONE: "none",
+	HEIGHT: "height", WIDTH: "width", PADDING: "padding", MARGIN: "margin", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
 	MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MIN_WIDTH: "min-width", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
+	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", FONT_FAMILY: "font-family", MONOSPACE: "monospace", TEXT_ANCHOR: "text-anchor",
+	SELECT: "select", HIDDEN: "hidden", TOGGLE: "toggle",
+	FLOAT: "float", CLEAR: "clear", BOTH: "both",
+	BACKGROUND: "background",
+	OVERFLOW: "overflow",
+	OPACITY: "opacity",
+	SCROLL: "scroll",
+	SPEED: "speed",
+	FIXED: "fixed",
 	PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
-	TEXT_ANCHOR: "text-anchor",
-	TOGGLE: "toggle",
 
 	PAGE: "page", TABS: "tabs",
 	MENU: "menu", NODE: "node",
@@ -324,91 +264,57 @@ var lang = {
 	PS: "/",
 }
 
-function shy(help, meta, list, cb) { var index = 0, args = arguments
-	function next(type) { if (index < args.length && (!type || type == typeof args[index])) { return args[index++] } }
-	return cb = typeof args[args.length-1] == lang.FUNCTION?args[args.length-1]:function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.OBJECT)||[], cb
+function shy(help, meta, list, cb) { var args = arguments, i = 0
+	function next(type) { if (i < args.length && (!type || type == typeof args[i])) { return args[i++] } }
+	return cb = typeof args[args.length-1] == lang.FUNCTION? args[args.length-1]: function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.OBJECT)||[], cb
 }; var _can_name = "", _can_path = ""
-var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: {}, cache: {}}, function(name, can, libs, cb) {
+var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list
-	if (typeof name == lang.OBJECT) { var Config = name, panels = Config.panels||chat.panel_list
-		meta.libs = Config.libs||chat.libs, meta.iceberg = Config.iceberg||meta.iceberg
-
-		// 预加载
-		libs = []; for (var i = 0; i < panels.length; i++) { var p = panels[i]
-			p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+html._CSS, "/panel/"+p.name+html._JS]))
-		}; libs = libs.concat(Config.plugin||chat.plugin_list)
-
-		// 根模块
-		_can_name = "", name = Config.name||ice.CAN, cb = can||function(can) {
-			can.onengine._init(can, can.Conf(Config), panels, Config._init, can._target)
-		}, can = {_follow: name, _target: Config.target||meta.target, _height: Config.height||meta._height, _width: Config.width||meta._width}
-		for (var k in Config) { can[k] = Config[k] }
+	if (typeof name == lang.OBJECT) {
+		if (name.length > 0) { return Volcanos({panels: [
+			{name: "Header", help: "标题栏", pos: html.HIDE, state: [aaa.USERNICK]},
+			{name: "Action", help: "工作台", pos: html.MAIN, tool: name},
+			{name: "Search", help: "搜索框", pos: html.AUTO},
+		]}) }
+		var Config = name; name = Config.name||ice.CAN, kit.proto(meta, Config), _can_name = ""
+		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list
+		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+html._CSS, "/panel/"+p.name+html._JS])) })
+		libs = libs.concat(Config.plugin||chat.plugin_list)
+		cb = can||function(can) { can.onengine._init(can, can.Conf(Config), panels, Config._init, can._target) }
+		can = {_follow: name, _target: Config.target||meta.target, _height: Config.height||meta._height, _width: Config.width||meta._width}
 	}
 
-	var proto = {_path: _can_path, _name: name, _load: function(name, each) {
-			// 加载缓存
-			var cache = meta.cache[name]||[]; for (list.reverse(); list.length > 0; list) {
-				var sub = list.pop(); sub != can && cache.push(sub)
-			}; meta.cache[name] = cache
-
-			// 加载模块
-			for (var i = 0; i < cache.length; i++) { var sub = cache[i], name = sub._name
-				if (typeof each == lang.FUNCTION && each(can, name, sub)) { continue }
-				!can[name] && (can[name] = {}); for (var k in sub) {
-					if (name == "onimport" && k == "_init") { can[name]["_last_init"] = sub[k] }
-					can[name].hasOwnProperty(k) || !sub.hasOwnProperty(k) || (can[name][k] = sub[k])
-				}
-			}
+	var proto = {_path: _can_path, _name: name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
+			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub) } meta.cache[name] = cache
+			cache.forEach(function(sub) { var name = sub._name; if (typeof cbs == lang.FUNCTION && cbs(can, name, sub)) { return }
+				can[name] = can[name]||{}; for (var k in sub) { can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k]) }
+			})
 		},
-		requireModules: function(libs, cb, each) {
-			for (var i = 0; i < libs.length; i++) {
-				if (libs[i].indexOf("http") == 0) { continue }
-				if (libs[i].indexOf("/") == 0) { continue }
-				if (libs[i].indexOf(".css") == -1 && libs[i].indexOf(".js") == -1) { libs[i] = libs[i]+"/lib/"+libs[i]+".js" }
+		requireModules: function(libs, cb, cbs) {
+			for (var i = 0; i < libs.length; i++) { if (libs[i].indexOf(ice.HTTP) == 0 || libs[i].indexOf(ice.PS) == 0) { continue }
+				if (libs[i].indexOf(html._CSS) == -1 && libs[i].indexOf(html._JS) == -1) { libs[i] = libs[i]+"/lib/"+libs[i]+html._JS }
 				libs[i] = "/require/node_modules/"+libs[i]
-			}
-			can.require(libs, cb, each)
+			} can.require(libs, cb, cbs)
 		},
-		require: function(libs, cb, each) { if (!libs || libs.length == 0) {
-				typeof cb == lang.FUNCTION && setTimeout(function() { cb(can) }, 10)
-				return // 加载完成
-			}
-
-			// 无效地址
-			if (libs[0] == undefined) { return can.require(libs.slice(1), cb, each) }
-
-			if (libs[0] == "") {
-				// 样式地址
-				libs[0] = can._name.replace(html._JS, html._CSS)
-			} else if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) {
-				// 相对地址
-				libs[0] = can._name.slice(0, can._name.lastIndexOf(ice.PS)+1)+libs[0]
-			}
-
-			// 加载模块
-			libs[0] = libs[0].toLowerCase()
-			var name = libs[0].indexOf("http") == 0? libs[0]: libs[0].split("?")[0]
-			function next() { can._load(name, each), can.require(libs.slice(1), cb, each) }
+		require: function(libs, cb, cbs) {
+			if (!libs || libs.length == 0) { return typeof cb == lang.FUNCTION && setTimeout(function() { cb(can) }, 10) }
+			if (libs[0] == undefined) { return can.require(libs.slice(1), cb, cbs) }
+			if (libs[0] == "") { libs[0] = can._name.replace(html._JS, html._CSS) }
+			if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) { libs[0] = can._name.slice(0, can._name.lastIndexOf(ice.PS)+1)+libs[0] }
+			var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split("?")[0]).toLowerCase()
+			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
 			meta.cache[name]? next(): (_can_path = libs[0], meta._load(name, next))
 		},
 		request: function(event) { event = event||{}, event = event._event||event
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg
-			function set(key, value) {
-				value == "" || msg.Option(key) || msg.Option(key, value)
-				// typeof value == lang.FUNCTION || typeof value == lang.OBJECT || value == "" || msg.Option(key) || msg.Option(key, value)
-			}
-
-			// 添加参数
-			can.core.List(arguments, function(option, index) { if (!option || index == 0) { return } 
-				can.base.isFunc(option.Option)? can.core.List(option.Option(), function(key) {
-					if (key.indexOf("user.") == 0) { return }
-					if (key.indexOf("_") == 0) { return }
-					set(key, option.Option(key))
-				}): can.core.Item(can.base.isFunc(option)? option(): option, set)
+			function set(key, value) { value == "" || msg.Option(key) || msg.Option(key, value) }
+			can.core.List(arguments, function(item, index) { if (!item || index == 0) { return } 
+				can.base.isFunc(item.Option)? can.core.List(item.Option(), function(key) {
+					key.indexOf("_") == 0 || key.indexOf("user.") == 0 || set(key, item.Option(key))
+				}): can.core.Item(can.base.isFunc(item)? item(): item, set)
 			}); return msg
 		},
 
-		actions: function(event, button) { can.runAction(event, button, []) },
 		runActionCommand: function(event, index, args, cb) { can.runAction(event, ice.RUN, can.misc.concat(can, [index], args), cb) },
 		runAction: function(event, action, args, cb) { can.request(event, {_handle: ice.TRUE}, can.Option())
 			can.run(event, can.misc.concat(can, [ctx.ACTION].concat(action), args), cb||function(msg) {
@@ -419,21 +325,13 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 		},
 
 		search: function(event, cmds, cb) {
-			if (cmds && typeof cmds == lang.OBJECT && cmds.length > 0 && typeof cmds[0] == lang.OBJECT && cmds[0].length > 0 ) {
-				cmds[0] = cmds[0].join(ice.PT)
-			}
+			if (cmds && typeof cmds == lang.OBJECT && cmds.length > 0 && typeof cmds[0] == lang.OBJECT && cmds[0].length > 0 ) { cmds[0] = cmds[0].join(ice.PT) }
 			return can.run && can.run(event, [chat._SEARCH].concat(cmds), cb, true)
 		},
-		get: function(name, key, cb) { var value
-			var res = can.search({}, [can.core.Keys(name, chat.ONEXPORT, key)], cb||function(msg) { value = msg.Result() })
-			return value||res
-		},
-		set: function(name, key, value) { var msg = can.request({}); msg.Option(key, value)
-			return can.search(msg, [[name, chat.ONIMPORT, key]])
-		},
+		get: function(name, key, cb) { var value; can.search({}, [can.core.Keys(name, chat.ONEXPORT, key)], cb||function(msg) { value = msg.Result() }); return value },
+		set: function(name, key, value) { var msg = can.request(); msg.Option(key, value); return can.search(msg, [[name, chat.ONIMPORT, key]]) },
 		setHeaderMenu: function(list, cb) { can._menu && can.page.Remove(can, can._menu)
-			var msg = can.request({}, {trans: can.onaction._trans})
-			return can._menu = can.search(msg, [["Header", chat.ONIMPORT, "menu"], can._name].concat(list), cb)
+			return can._menu = can.search(can.request({}, {trans: can.onaction._trans}), [["Header", chat.ONIMPORT, "menu"], can._name].concat(list), cb)
 		},
 		setHeader: function(key, value) { return can.set("Header", key, value) },
 		getHeader: function(key, cb) { return can.get("Header", key, cb) },
@@ -443,10 +341,10 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 		getActionSize: function(cb) { return can.get("Action", "size", cb) },
 
 		isPlugType: function(value) { return can.page.ClassList.has(can, can._fields, "plug") },
-		isSimpleMode: function(value) { return can.Mode() == "simple" },
-		isFloatMode: function(value) { return can.Mode() == "float" },
-		isFullMode: function(value) { return can.Mode() == "full" },
-		isCmdMode: function(value) { return can.Mode() == "cmd" },
+		isSimpleMode: function(value) { return can.Mode() == chat.SIMPLE },
+		isFloatMode: function(value) { return can.Mode() == chat.FLOAT },
+		isFullMode: function(value) { return can.Mode() == chat.FULL },
+		isCmdMode: function(value) { return can.Mode() == chat.CMD },
 		isAutoMode: function(value) { return can.Mode() == "" },
 		Mode: function(value) { return can.Conf(ice.MODE, value) },
 		ConfDefault: function(value) { can.core.Item(value, function(k, v) { can.Conf(k) || can.Conf(k, v) }) },
@@ -454,71 +352,33 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", pack: 
 		ConfWidth: function(value) { return can.Conf(html.WIDTH, value) },
 		Conf: function(key, value) { var res = can._conf
 			for (var i = 0; i < arguments.length; i += 2) {
-				if (typeof key == lang.OBJECT) {
-					res = can.core.Value(can._conf, arguments[i]), i--
-					continue
-				}
+				if (typeof key == lang.OBJECT) { res = can.core.Value(can._conf, arguments[i]), i--; continue }
 				res = can.core.Value(can._conf, arguments[i], arguments[i+1])
-			}
-			if (res == undefined && key.indexOf(ctx.FEATURE+ice.PT) == -1) {
-				return can.Conf(can.core.Keys(ctx.FEATURE, key))
-			}
-			return res
+			} return res == undefined && key.indexOf(ctx.FEATURE+ice.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
 		}, _conf: {},
 	}; can = can||{}, kit.proto(can, proto), kit.proto(proto, meta)
 
-	if (_can_name) { // 加入缓存
-		meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can)
-	} else { // 加入队列
-		list.push(can)
-	}
+	if (_can_name) { meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can) } else { list.push(can) }
+
 	_can_path = _can_name||_can_path
-
-	if (can._follow) { libs = libs.concat(meta.libs, meta.volcano) }
-	if (libs && libs.length > 0) { // 解析参数
-		for (var i = 0; i < libs.length; i++) {
-			if (libs[i] == undefined) {
-
-			} else if (libs[i] == "") {
-				libs[i] = _can_path.replace(html._JS, html._CSS)
-			} else if (libs[i][0] != ice.PS && libs[i].indexOf(ice.HTTP) != 0) {
-				libs[i] = _can_path.slice(0, _can_path.lastIndexOf(ice.PS)+1)+libs[i]
-			}
-		}
-	}
+	if (libs && libs.length > 0) { for (var i = 0; i < libs.length; i++) { if (libs[i] == undefined) { continue }
+		if (libs[i] == "") { libs[i] = _can_path.replace(html._JS, html._CSS) }
+		if (libs[i][0] != ice.PS && libs[i].indexOf(ice.HTTP) != 0) { libs[i] = _can_path.slice(0, _can_path.lastIndexOf(ice.PS)+1)+libs[i] }
+	} } if (can._follow) { libs = libs.concat(meta.libs, meta.volcano) }
 	return can.require(libs, cb), can
 })
-function can(tool) {
-	Volcanos({panels: [
-		{name: "Header", help: "标题栏", pos: html.HIDE, state: [aaa.USERNICK]},
-		{name: "Action", help: "工作台", pos: html.MAIN, tool: tool},
-		{name: "Search", help: "搜索框", pos: html.AUTO},
-	]})
-}
 
-try { if (typeof(window) == lang.OBJECT) { // nodejs
-	Volcanos.meta.target = document.body
-	Volcanos.meta._width = window.innerWidth
-	Volcanos.meta._height = window.innerHeight
-	Volcanos.meta._load = function(url, cb) {
-		switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
-			case nfs.CSS:
-				var item = document.createElement(mdb.LINK)
-				item.rel = "stylesheet", item.type = "text/css"
-				item.href = url, item.onload = cb
-				return document.head.appendChild(item), item
-			case nfs.JS:
-			default:
-				var item = document.createElement(nfs.SCRIPT)
-				item.src = url, item.onload = cb, item.onerror = cb
-				return document.body.appendChild(item), item
-		}
-	}
+try { if (typeof(window) == lang.OBJECT) { // chrome
+	Volcanos.meta.target = document.body, Volcanos.meta._height = window.innerHeight, Volcanos.meta._width = window.innerWidth
+	Volcanos.meta._load = function(url, cb) { switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
+		case nfs.CSS: var item = document.createElement(mdb.LINK); item.rel = "stylesheet", item.href = url, item.onload = cb, document.head.appendChild(item); break
+		default: var item = document.createElement(nfs.SCRIPT); item.src = url, item.onerror = cb, item.onload = cb, document.body.appendChild(item)
+	} }
 } else { // nodejs
 	global.kit = kit, global.ice = ice
-	global.ctx = ctx, global.cli = cli, global.web = web, global.aaa = aaa
+	global.ctx = ctx, global.cli = cli, global.aaa = aaa, global.web = web
 	global.mdb = mdb, global.ssh = ssh, global.nfs = nfs, global.tcp = tcp
 	global.code = code, global.wiki = wiki, global.chat = chat, global.team = team, global.mall = mall
 	global.svg = svg, global.html = html, global.lang = lang
-	global.shy = shy, global.Volcanos = Volcanos, global.can = can
+	global.shy = shy, global.Volcanos = Volcanos
 } } catch (e) { console.log(e) }

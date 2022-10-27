@@ -121,7 +121,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.Conf(html.MARGIN_Y, 2*html.ACTION_HEIGHT), can.Conf(html.MARGIN_X, 0)
 		can.ConfHeight(can.page.height()-can.Conf(html.MARGIN_Y)), can.ConfWidth(can.page.width())
 		can.page.style(can, can._target, html.HEIGHT, can.page.height(), html.WIDTH, can.page.width())
-		can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.page.ClassList.add(can, document.body, "simple") 
+		can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.page.ClassList.add(can, document.body, chat.SIMPLE) 
 	},
 	onkeydown: function(can, msg) { var event = msg._event
 		if (event.ctrlKey && event.key >= "1"  && event.key <= "9") {

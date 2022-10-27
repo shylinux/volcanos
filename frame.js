@@ -178,7 +178,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.core.ItemCB(sub.onaction, function(key, cb) { sub._target[key] = function(event) { cb(can.request(event), sub) } })
 				can.core.ItemCB(item, function(key, cb) { sub._target[key] = function(event) { cb(can.request(event), sub) } })
 				skip? next(): can.core.CallFunc([sub.onaction, chat._INIT], {can: sub, meta: item, cb: next, target: sub._target});
-				(item.action||can.core.Value(meta, [ctx.FEATURE, ctx.INPUTS])) && can.onappend.figure(sub, item, sub._target, function(sub, value) {
+				(item.action||can.core.Value(meta, [ctx.FEATURE, ctx.INPUTS])) && can.onappend.figure(sub, item, sub._target, function(_sub, value) {
 					sub._target.value = value, can.onmotion.focus(can, sub._target), can.onmotion.delay(can, function() { can.Update() })
 				})
 			})
@@ -277,7 +277,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		if (item.type == html.TEXT) { input.onkeydown = item.onkeydown||function(event) {
 			can.onkeymap.input(event, can), can.onkeymap.selectOutput(event, can), event.key == lang.ENTER && can.onkeymap.prevent(event)
 		} }
-		if (item.range) { input._init = function(target) { item.mode = "simple"
+		if (item.range) { input._init = function(target) { item.mode = chat.SIMPLE
 			can.onappend.figure(can, item, target, function(sub, value, old) {
 				target.value = value, can.onaction[item.name](event, can, item.name)
 			})

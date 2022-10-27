@@ -73,7 +73,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据",
 			can.page.style(can, ui.output, html.MAX_HEIGHT, height-html.ACTION_HEIGHT, html.MAX_WIDTH, width)
 		})
 
-		can.onappend._action(can, [cli.CLOSE, cli.REFRESH, {input: html.TEXT, placeholder: "filter", onkeydown: function(event) {
+		can.onappend._action(can, [cli.CLOSE, web.REFRESH, {input: html.TEXT, placeholder: "filter", onkeydown: function(event) {
 			can.onkeymap.input(event, can); if (event.key != lang.ENTER) { return }
 			can.onmotion.tableFilter(can, ui.output, event.target.value)
 			can.onmotion.focus(can, event.target)
@@ -103,7 +103,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据",
 			}
 
 			can.getActionSize(function(msg, left, top, width, height) {
-				can.onappend.plugin(can, {type: "story", mode: "float", index: cmds[0], args: cmds.slice(1)}, function(sub) {
+				can.onappend.plugin(can, {type: "story", mode: chat.FLOAT, index: cmds[0], args: cmds.slice(1)}, function(sub) {
 					sub.run = function(event, cmd, cb) { can.runActionCommand(event, cmds[0], cmd, cb) }
 					sub.onimport.size(sub, height-120-2*html.ACTION_HEIGHT-can.onexport.height(can), width, true)
 					sub.onmotion.move(sub, sub._target, {left: left, top: top+120})
