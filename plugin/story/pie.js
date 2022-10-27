@@ -19,7 +19,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	_draw: function(can, msg, field, color, x, y, r, margin, which) { field = field||mdb.VALUE
 		function pos(x, y, r, angle) { angle -= 90; return [x + r * Math.cos(angle * Math.PI / 180), y + r * Math.sin(angle * Math.PI / 180)] }
 		function pie(x, y, r, begin, span, color, cb) { can.onimport.draw({}, can, {shape: svg.PATH, style: kit.Dict(
-			html.STROKE_WIDTH, 1, html.STROKE, color, html.FILL, color, "d", can.base.joins([
+			svg.STROKE_WIDTH, 1, svg.STROKE, color, svg.FILL, color, "d", can.base.joins([
 				["M", x, y], ["L"].concat(pos(x, y, r, begin)), ["A", r, r, "0", span>180? "1": "0", "1"].concat(pos(x, y, r, begin+span)), ["Z"]
 			], ice.SP, ice.FS),
 		), onmouseenter: function(event) { can.base.isFunc(cb) && cb(event) } }) }

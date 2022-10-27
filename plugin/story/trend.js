@@ -57,8 +57,8 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		[html.SPEED, 10, 20, 50, 100],
 	],
 	"折线图": function(event, can) { var args = can.onimport._layout(can)
-		var black = can.onimport.group(can, cli.BLACK, kit.Dict(html.STROKE, cli.BLACK, html.FILL, cli.BLACK))
-		var white = can.onimport.group(can, cli.WHITE, kit.Dict(html.STROKE, cli.WHITE, html.FILL, cli.WHITE))
+		var black = can.onimport.group(can, cli.BLACK, kit.Dict(svg.STROKE, cli.BLACK, svg.FILL, cli.BLACK))
+		var white = can.onimport.group(can, cli.WHITE, kit.Dict(svg.STROKE, cli.WHITE, svg.FILL, cli.WHITE))
 		can.onimport.transform(can, black), can.onimport.transform(can, white)
 		can.core.List(can.list, function(list) {
 			var max = list[0], min = list[0], step = (can.ConfWidth()-2*args.space)/(list.length-1)
@@ -74,8 +74,8 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 		function scale(y) { return (y - can.min)/(can.max - can.min)*(args.height-2*args.space) }
 		function order(index, x, y) { return {x: args.space+args.step*index+x, y: args.height-args.space-scale(y)} }
 
-		var black = can.onimport.group(can, cli.BLACK, kit.Dict(html.STROKE, cli.BLACK, html.FILL, cli.BLACK))
-		var white = can.onimport.group(can, cli.WHITE, kit.Dict(html.STROKE, cli.WHITE, html.FILL, cli.WHITE))
+		var black = can.onimport.group(can, cli.BLACK, kit.Dict(svg.STROKE, cli.BLACK, svg.FILL, cli.BLACK))
+		var white = can.onimport.group(can, cli.WHITE, kit.Dict(svg.STROKE, cli.WHITE, svg.FILL, cli.WHITE))
 
 		can.core.Next(can.list, function(line, next, index) { can.Status(line)
 			can.onimport.draw({}, can, {shape: svg.LINE, point: [
@@ -110,7 +110,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 				can.onimport.draw({}, can, {shape: svg.RECT, point: [
 					{x: args.space+args.step*index+width*which+2, y: args.height-args.space-scale(key, parseInt(line[key]))},
 					{x: args.space+args.step*index+width*(which+1)+2, y: args.height-args.space},
-				], style: kit.Dict(html.STROKE_WIDTH, 1, html.STROKE, cli.WHITE, html.FILL, cli.WHITE, svg.RX, 0, svg.RY, 0), _init: function(view) {
+				], style: kit.Dict(svg.STROKE_WIDTH, 1, svg.STROKE, cli.WHITE, svg.FILL, cli.WHITE, svg.RX, 0, svg.RY, 0), _init: function(view) {
 					can.core.ItemCB(can.ondetail, function(key, cb) { view[key] = function(event) { cb(event, can, line) } })
 				}}), can.core.Timer(parseInt(can.Action(html.SPEED)), next)
 			}), which++

@@ -105,6 +105,7 @@ var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash", SCRIPT: "script", CONTENT: "content", DIR_ROOT: "dir_root", PWD: "./",
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
 	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png",
+	_CSS: ".css", _JS: ".js",
 }
 var tcp = {
 	HOST: "host", PORT: "port",
@@ -191,77 +192,43 @@ var mall = {
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",
 	SHAPE: "shape", TEXT: "text", RECT: "rect", LINE: "line", CIRCLE: "circle", ELLIPSE: "ellipse",
+	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", FONT_FAMILY: "font-family", MONOSPACE: "monospace", TEXT_ANCHOR: "text-anchor",
 	G: "g", X: "x", Y: "y", R: "r", RX: "rx", RY: "ry", CX: "cx", CY: "cy", X1: "x1", Y1: "y1", X2: "x2", Y2: "y2",
 	PATH: "path", PATH2V: "path2v", PATH2H: "path2h",
 	M: "M", Q: "Q", T: "T",
 }
-var html = {
-	// FIELDSET
+var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status", DIV_CONTENT: "div.content",
 	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story", FIELDSET_FLOAT: "fieldset.float",
 	FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot", FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main",
 	OPTION_ARGS: "select.args,input.args,textarea.args", INPUT_ARGS: "input.args,textarea.args", INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",
 
-	// HTML
-	UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
 	INPUT: "input", TEXT: "text", TEXTAREA: "textarea", SELECT: "select", BUTTON: "button",
-	FORM: "form", FILE: "file", SPACE: "space", CLICK: "click", SUBMIT: "submit", CANCEL: "cancel",
-	DIV: "div", IMG: "img", CODE: "code", SPAN: "span", VIDEO: "video",
+	FORM: "form", FILE: "file", CLICK: "click", SUBMIT: "submit", CANCEL: "cancel", UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
 	TABLE: "table", THEAD: "thead", TBODY: "tbody", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li",
-	A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
-	H1: "h1", H2: "h2", H3: "h3",
+	H1: "h1", H2: "h2", H3: "h3", A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
+	SPAN: "span", CODE: "code", DIV: "div", IMG: "img", VIDEO: "video", SPACE: "space", 
 	WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe", CHROME: "chrome",
 
-	// CSS
-	CLASS: "class", DISPLAY: "display", BLOCK: "block", NONE: "none",
+	CLASS: "class", DISPLAY: "display", BLOCK: "block", NONE: "none", HIDDEN: "hidden", TOGGLE: "toggle",
 	HEIGHT: "height", WIDTH: "width", PADDING: "padding", MARGIN: "margin", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
 	MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MAX_WIDTH: "max-width", MIN_WIDTH: "min-width", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
-	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", FONT_FAMILY: "font-family", MONOSPACE: "monospace", TEXT_ANCHOR: "text-anchor",
-	SELECT: "select", HIDDEN: "hidden", TOGGLE: "toggle",
-	FLOAT: "float", CLEAR: "clear", BOTH: "both",
-	BACKGROUND: "background",
-	OVERFLOW: "overflow",
-	OPACITY: "opacity",
-	SCROLL: "scroll",
-	SPEED: "speed",
-	FIXED: "fixed",
-	PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
+	BACKGROUND: "background", OPACITY: "opacity", OVERFLOW: "overflow", SCROLL: "scroll", SPEED: "speed", FLOAT: "float", CLEAR: "clear", BOTH: "both",
 
-	PAGE: "page", TABS: "tabs",
-	MENU: "menu", NODE: "node",
-	ZONE: "zone", NAME: "name",
-	LIST: "list", ITEM: "item",
-	ICON: "icon",
-
-	HIDE: "hide", SHOW: "show", AUTO: "auto",
-	HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot",
+	PAGE: "page", TABS: "tabs", MENU: "menu", NODE: "node",
+	ZONE: "zone", LIST: "list", ITEM: "item", NAME: "name", ICON: "icon",
+	SHOW: "show", HIDE: "hide", AUTO: "auto", HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot",
 	PLUGIN: "plugin", LAYOUT: "layout", CONTENT: "content",
 
-	DIV_PAGE: "div.page",
-	DIV_TABS: "div.tabs",
-	DIV_ZONE: "div.zone",
-	DIV_LIST: "div.list",
-	DIV_ITEM: "div.item",
-	DIV_NAME: "div.name",
-	DIV_CODE: "div.code",
-	DIV_TOGGLE: "div.toggle",
-	DIV_LAYOUT_HEAD: "div.layout.head",
-	DIV_LAYOUT_LEFT: "div.layout.left",
-	DIV_LAYOUT_FOOT: "div.layout.foot",
-	TABLE_CONTENT: "table.content",
-	DIV_FLOAT: "div.float",
-
-	ESCAPE: "Escape", ENTER: "Enter", TAB: "Tab",
-	_CSS: ".css", _JS: ".js",
+	DIV_PAGE: "div.page", DIV_TABS: "div.tabs",
+	DIV_ZONE: "div.zone", DIV_LIST: "div.list", DIV_ITEM: "div.item", DIV_NAME: "div.name",
+	DIV_LAYOUT_HEAD: "div.layout.head", DIV_LAYOUT_FOOT: "div.layout.foot", DIV_LAYOUT_LEFT: "div.layout.left",
+	DIV_CODE: "div.code", DIV_FLOAT: "div.float", TABLE_CONTENT: "table.content",
 }
 var lang = {
-	UNDEFINED: "undefined",
-	STRING: "string", NUMBER: "number",
-	OBJECT: "object", FUNCTION: "function",
-	ESCAPE: "Escape", ENTER: "Enter", TAB: "Tab",
-	CONTROL: "Control", SHIFT: "Shift",
-	PS: "/",
+	UNDEFINED: "undefined", STRING: "string", NUMBER: "number", BOOLEAN: "boolean", OBJECT: "object", FUNCTION: "function",
+	META: "Meta", ALT: "Alt", CONTROL: "Control", SHIFT: "Shift", TAB: "Tab", ENTER: "Enter", ESCAPE: "Escape", PS: "/",
 }
 
 function shy(help, meta, list, cb) { var args = arguments, i = 0
@@ -269,21 +236,14 @@ function shy(help, meta, list, cb) { var args = arguments, i = 0
 	return cb = typeof args[args.length-1] == lang.FUNCTION? args[args.length-1]: function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.OBJECT)||[], cb
 }; var _can_name = "", _can_path = ""
 var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}}, function(name, can, libs, cb) {
-	var meta = arguments.callee.meta, list = arguments.callee.list
-	if (typeof name == lang.OBJECT) {
-		if (name.length > 0) { return Volcanos({panels: [
-			{name: "Header", help: "标题栏", pos: html.HIDE, state: [aaa.USERNICK]},
-			{name: "Action", help: "工作台", pos: html.MAIN, tool: name},
-			{name: "Search", help: "搜索框", pos: html.AUTO},
-		]}) }
+	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {
+		if (name.length > 0) { return Volcanos({panels: [{name: "Header", pos: html.HIDE, state: [aaa.USERNICK]}, {name: "Action", pos: html.MAIN, tool: name}]}) }
 		var Config = name; name = Config.name||ice.CAN, kit.proto(meta, Config), _can_name = ""
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list
-		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+html._CSS, "/panel/"+p.name+html._JS])) })
-		libs = libs.concat(Config.plugin||chat.plugin_list)
+		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._CSS, "/panel/"+p.name+nfs._JS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)
 		cb = can||function(can) { can.onengine._init(can, can.Conf(Config), panels, Config._init, can._target) }
 		can = {_follow: name, _target: Config.target||meta.target, _height: Config.height||meta._height, _width: Config.width||meta._width}
 	}
-
 	var proto = {_path: _can_path, _name: name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
 			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub) } meta.cache[name] = cache
 			cache.forEach(function(sub) { var name = sub._name; if (typeof cbs == lang.FUNCTION && cbs(can, name, sub)) { return }
@@ -292,14 +252,14 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", cache:
 		},
 		requireModules: function(libs, cb, cbs) {
 			for (var i = 0; i < libs.length; i++) { if (libs[i].indexOf(ice.HTTP) == 0 || libs[i].indexOf(ice.PS) == 0) { continue }
-				if (libs[i].indexOf(html._CSS) == -1 && libs[i].indexOf(html._JS) == -1) { libs[i] = libs[i]+"/lib/"+libs[i]+html._JS }
+				if (libs[i].indexOf(nfs._CSS) == -1 && libs[i].indexOf(nfs._JS) == -1) { libs[i] = libs[i]+"/lib/"+libs[i]+nfs._JS }
 				libs[i] = "/require/node_modules/"+libs[i]
 			} can.require(libs, cb, cbs)
 		},
 		require: function(libs, cb, cbs) {
 			if (!libs || libs.length == 0) { return typeof cb == lang.FUNCTION && setTimeout(function() { cb(can) }, 10) }
 			if (libs[0] == undefined) { return can.require(libs.slice(1), cb, cbs) }
-			if (libs[0] == "") { libs[0] = can._name.replace(html._JS, html._CSS) }
+			if (libs[0] == "") { libs[0] = can._name.replace(nfs._JS, nfs._CSS) }
 			if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) { libs[0] = can._name.slice(0, can._name.lastIndexOf(ice.PS)+1)+libs[0] }
 			var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split("?")[0]).toLowerCase()
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
@@ -331,7 +291,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", cache:
 		get: function(name, key, cb) { var value; can.search({}, [can.core.Keys(name, chat.ONEXPORT, key)], cb||function(msg) { value = msg.Result() }); return value },
 		set: function(name, key, value) { var msg = can.request(); msg.Option(key, value); return can.search(msg, [[name, chat.ONIMPORT, key]]) },
 		setHeaderMenu: function(list, cb) { can._menu && can.page.Remove(can, can._menu)
-			return can._menu = can.search(can.request({}, {trans: can.onaction._trans}), [["Header", chat.ONIMPORT, "menu"], can._name].concat(list), cb)
+			return can._menu = can.search(can.request({}, {trans: can.onaction._trans}), [["Header", chat.ONIMPORT, html.MENU], can._name].concat(list), cb)
 		},
 		setHeader: function(key, value) { return can.set("Header", key, value) },
 		getHeader: function(key, cb) { return can.get("Header", key, cb) },
@@ -354,20 +314,17 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", cache:
 			for (var i = 0; i < arguments.length; i += 2) {
 				if (typeof key == lang.OBJECT) { res = can.core.Value(can._conf, arguments[i]), i--; continue }
 				res = can.core.Value(can._conf, arguments[i], arguments[i+1])
-			} return res == undefined && key.indexOf(ctx.FEATURE+ice.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
+			} return can.base.isUndefined(res) && key.indexOf(ctx.FEATURE+ice.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
 		}, _conf: {},
-	}; can = can||{}, kit.proto(can, proto), kit.proto(proto, meta)
+	}; can = can||{}, kit.proto(can, proto), kit.proto(proto, meta), _can_path = _can_name||_can_path
 
 	if (_can_name) { meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can) } else { list.push(can) }
-
-	_can_path = _can_name||_can_path
 	if (libs && libs.length > 0) { for (var i = 0; i < libs.length; i++) { if (libs[i] == undefined) { continue }
-		if (libs[i] == "") { libs[i] = _can_path.replace(html._JS, html._CSS) }
+		if (libs[i] == "") { libs[i] = _can_path.replace(nfs._JS, nfs._CSS) }
 		if (libs[i][0] != ice.PS && libs[i].indexOf(ice.HTTP) != 0) { libs[i] = _can_path.slice(0, _can_path.lastIndexOf(ice.PS)+1)+libs[i] }
 	} } if (can._follow) { libs = libs.concat(meta.libs, meta.volcano) }
 	return can.require(libs, cb), can
 })
-
 try { if (typeof(window) == lang.OBJECT) { // chrome
 	Volcanos.meta.target = document.body, Volcanos.meta._height = window.innerHeight, Volcanos.meta._width = window.innerWidth
 	Volcanos.meta._load = function(url, cb) { switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {

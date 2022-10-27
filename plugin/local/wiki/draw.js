@@ -5,8 +5,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 		can.onmotion.delay(can, function() {
 			can.core.Item(kit.Dict(
-				html.STROKE_WIDTH, 2, html.STROKE, cli.YELLOW, html.FILL, cli.PURPLE,
-				html.FONT_SIZE, 24, html.FONT_FAMILY, html.MONOSPACE,
+				svg.STROKE_WIDTH, 2, svg.STROKE, cli.YELLOW, svg.FILL, cli.PURPLE,
+				svg.FONT_SIZE, 24, svg.FONT_FAMILY, svg.MONOSPACE,
 				"go", ice.RUN, svg.SHAPE, svg.RECT, svg.GRID, 10,
 			), function(key, value) { can.svg.Value(key, can.Action(key, can.svg.Value(key)||value)) })
 
@@ -30,7 +30,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	},
 	_group: function(can, target) { var name = target.Groups()
 		function show(event) { can.group = target
-			can.core.List([html.STROKE_WIDTH, html.STROKE, html.FILL, html.FONT_SIZE], function(key) {
+			can.core.List([svg.STROKE_WIDTH, svg.STROKE, svg.FILL, svg.FONT_SIZE], function(key) {
 				can.Action(key, target.Value(key)||can.Action(key))
 			})
 		}
@@ -230,31 +230,31 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 			sc: function(event, can) { can.Action(svg.SHAPE, svg.CIRCLE) },
 			se: function(event, can) { can.Action(svg.SHAPE, svg.ELLIPSE) },
 
-			cr: function(event, can) { can.onaction._change(can, html.STROKE, cli.RED) },
-			cb: function(event, can) { can.onaction._change(can, html.STROKE, cli.BLUE) },
-			cg: function(event, can) { can.onaction._change(can, html.STROKE, cli.GREEN) },
-			cy: function(event, can) { can.onaction._change(can, html.STROKE, cli.YELLOW) },
-			cp: function(event, can) { can.onaction._change(can, html.STROKE, cli.PURPLE) },
-			cc: function(event, can) { can.onaction._change(can, html.STROKE, cli.CYAN) },
-			ch: function(event, can) { can.onaction._change(can, html.STROKE, cli.BLACK) },
-			cw: function(event, can) { can.onaction._change(can, html.STROKE, cli.WHITE) },
+			cr: function(event, can) { can.onaction._change(can, svg.STROKE, cli.RED) },
+			cb: function(event, can) { can.onaction._change(can, svg.STROKE, cli.BLUE) },
+			cg: function(event, can) { can.onaction._change(can, svg.STROKE, cli.GREEN) },
+			cy: function(event, can) { can.onaction._change(can, svg.STROKE, cli.YELLOW) },
+			cp: function(event, can) { can.onaction._change(can, svg.STROKE, cli.PURPLE) },
+			cc: function(event, can) { can.onaction._change(can, svg.STROKE, cli.CYAN) },
+			ch: function(event, can) { can.onaction._change(can, svg.STROKE, cli.BLACK) },
+			cw: function(event, can) { can.onaction._change(can, svg.STROKE, cli.WHITE) },
 
-			fr: function(event, can) { can.onaction._change(can, html.FILL, cli.RED) },
-			fb: function(event, can) { can.onaction._change(can, html.FILL, cli.BLUE) },
-			fg: function(event, can) { can.onaction._change(can, html.FILL, cli.GREEN) },
-			fy: function(event, can) { can.onaction._change(can, html.FILL, cli.YELLOW) },
-			fp: function(event, can) { can.onaction._change(can, html.FILL, cli.PURPLE) },
-			fc: function(event, can) { can.onaction._change(can, html.FILL, cli.CYAN) },
-			fh: function(event, can) { can.onaction._change(can, html.FILL, cli.BLACK) },
-			fw: function(event, can) { can.onaction._change(can, html.FILL, cli.WHITE) },
+			fr: function(event, can) { can.onaction._change(can, svg.FILL, cli.RED) },
+			fb: function(event, can) { can.onaction._change(can, svg.FILL, cli.BLUE) },
+			fg: function(event, can) { can.onaction._change(can, svg.FILL, cli.GREEN) },
+			fy: function(event, can) { can.onaction._change(can, svg.FILL, cli.YELLOW) },
+			fp: function(event, can) { can.onaction._change(can, svg.FILL, cli.PURPLE) },
+			fc: function(event, can) { can.onaction._change(can, svg.FILL, cli.CYAN) },
+			fh: function(event, can) { can.onaction._change(can, svg.FILL, cli.BLACK) },
+			fw: function(event, can) { can.onaction._change(can, svg.FILL, cli.WHITE) },
 		},
 	}, _engine: {},
 })
 Volcanos(chat.ONACTION, {help: "组件菜单", list: [
-		[html.STROKE_WIDTH, 1, 2, 3, 4, 5],
-		[html.STROKE, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE],
-		[html.FILL, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE, "#0000"],
-		[html.FONT_SIZE, 12, 16, 18, 24, 32],
+		[svg.STROKE_WIDTH, 1, 2, 3, 4, 5],
+		[svg.STROKE, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE],
+		[svg.FILL, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE, "#0000"],
+		[svg.FONT_SIZE, 12, 16, 18, 24, 32],
 
 		["go", ice.RUN, ice.AUTO, "manual"],
 		["mode", "draw", "resize"],
@@ -283,7 +283,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 	create: function(event, can) {
 		can.user.input(event, can, [svg.GROUP], function(list) { var name = list[0]
 			var group = can.onimport.group(can, name)
-			can.core.List([html.STROKE_WIDTH, html.STROKE, html.FILL, html.FONT_SIZE], function(name) {
+			can.core.List([svg.STROKE_WIDTH, svg.STROKE, svg.FILL, svg.FONT_SIZE], function(name) {
 				group.Value(name, can.Action(name))
 			})
 		})
@@ -461,7 +461,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据", list: [svg.GROUP, "figure", "inde
 	},
 	content: function(can, svg) {
 		return ['<svg vertion="1.1" xmlns="https://www.w3.org/2000/svg" text-anchor="middle" dominant-baseline="middle"'].concat(
-			svg? can.core.List([html.HEIGHT, html.WIDTH, mdb.COUNT, svg.PID, svg.GRID, html.STROKE_WIDTH, html.STROKE, html.FILL, html.FONT_SIZE], function(item) {
+			svg? can.core.List([html.HEIGHT, html.WIDTH, mdb.COUNT, svg.PID, svg.GRID, svg.STROKE_WIDTH, svg.STROKE, svg.FILL, svg.FONT_SIZE], function(item) {
 				return svg.Value(item)? ice.SP + item + '="' + svg.Value(item) + '"': ""
 			}): [" height="+((can.ConfHeight()||450)-50)+" width="+(can.ConfWidth()||600)]).concat(['>', svg? svg.innerHTML: "", "</svg>"]).join("")
 	},
