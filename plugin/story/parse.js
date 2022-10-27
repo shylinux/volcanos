@@ -20,9 +20,9 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: ["{", "}", html.HEAD, html.
 				var meta = type? {type: type, name: ls[0]}: {type: ls[0]}
 			} else {
 				var meta = {name: ls[0]}; for (var i = 1; i < ls.length; i += 2) { switch (ls[i]) {
-					case "@": meta.action = ls[i+1]; break
-					case "=": meta.value = ls[i+1]; break
-					case ":": meta.type = ls[i+1]; break
+					case ice.AT: meta.action = ls[i+1]; break
+					case ice.EQ: meta.value = ls[i+1]; break
+					case ice.DF: meta.type = ls[i+1]; break
 				} }
 			}
 

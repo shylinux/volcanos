@@ -20,12 +20,13 @@ fieldset.inner>div.output div.content td.text span.keyword { color:blue; font-we
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.datatype { color:green; }
-fieldset.inner>div.output div.content td.text span.function { color:purple; font-weight:bold; }
-fieldset.inner.float>div.output div.content td.text span.keyword { color:yellow; font-weight:bold; }
-fieldset.inner.float>div.output div.content td.text span.datatype { color:lightgreen; }
-body.black fieldset.inner>div.output div.content td.text span.keyword { color:yellow; font-weight:bold; }
-body.black fieldset.inner>div.output div.content td.text span.datatype { color:lightgreen; }
-body.black fieldset.inner>div.output div.content td.text span.function { color:cyan; font-weight:bold; }
+fieldset.inner>div.output div.content td.text span.function { color:purple; }
+fieldset.inner.float>div.output div.content td.text span.keyword { color:yellow; }
+fieldset.inner.float>div.output div.content td.text span.datatype { color:cyan; }
+fieldset.inner.float>div.output div.content td.text span.function { color:lightgreen; }
+body.black fieldset.inner>div.output div.content td.text span.keyword { color:yellow; }
+body.black fieldset.inner>div.output div.content td.text span.datatype { color:cyan; }
+body.black fieldset.inner>div.output div.content td.text span.function { color:lightgreen; }
 fieldset.inner>div.output td.content iframe { border:0; }
 fieldset.inner>div.output td.profile iframe { border:0; }
 fieldset.inner.float>div.status { display:none; }

@@ -150,7 +150,7 @@ Volcanos(chat.ONFIGURE, {help: "图形绘制",
 		data: {size: {}, copy: []},
 		show: function(can, target, figure) { return can.onexport._size(can, target, figure) }
 	},
-	text: { // <text x="60" y="10">hi<text>
+	text: { // <text x="60" y="10">hi</text>
 		data: {points: 1, size: {}, copy: [html.INNER]},
 		draw: function(event, can, point, style) { if (point.length < 1 || event.type == "mousemove") { return }
 			var p0 = point[0], text = style&&style.inner||can.user.prompt(mdb.TEXT)
@@ -185,7 +185,7 @@ Volcanos(chat.ONFIGURE, {help: "图形绘制",
 		},
 		text: function(can, data, target) { return data.x = target.Val(svg.X)+target.Val(html.WIDTH)/2, data.y = target.Val(svg.Y)+target.Val(html.HEIGHT)/2, data },
 	},
-	line: { // <line x1="10" y1="50" x2="110" y2="150" xx="100" yy="100"/>
+	line: { // <line "10" y1="50" x2="110" y2="150" xx="100" yy="100"/>
 		data: {points: 2, size: {x: svg.X1, y: svg.Y1}, copy: [svg.X1, svg.Y1, svg.X2, svg.Y2]},
 		grid: function(event, can, point) { var target = event.target
 			if (target == can.svg) { return }
@@ -440,7 +440,7 @@ Volcanos(chat.ONDETAIL, {help: "组件详情", list: [cli.START, ice.RUN, ice.CO
 Volcanos(chat.ONEXPORT, {help: "导出数据", list: [svg.GROUP, "figure", "index", "pos"],
 	_show: function(can, target) { var figure = can.onfigure._get(can, target)
 		function show() { return can.onexport._size(can, target, figure)+ice.SP+can.onexport._position(can, target, figure) }
-		can.Status("figure", target.tagName+":"+target.Value(svg.PID)+ice.SP+(figure? (figure.show||show)(can, target, figure): ""))
+		can.Status("figure", target.tagName+ice.DF+target.Value(svg.PID)+ice.SP+(figure? (figure.show||show)(can, target, figure): ""))
 		can.Status(svg.GROUP, target.Groups()||can.group.Groups()||html.SVG)
 		can.Status("index", target.Value("index"))
 	},

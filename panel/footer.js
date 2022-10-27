@@ -85,7 +85,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据",
 		return ui
 	},
 	ntip: function(can) { can.onexport.float(can, can._tips, "ntip", function(value, key, index, line) {
-		can.onappend.plugin(can, {type: chat.SRORY, mode: chat.FLOAT, index: "web.code.inner", args: ["usr/volcanos/"].concat(line.fileline.split(":"))}, function(sub) {
+		can.onappend.plugin(can, {type: chat.SRORY, mode: chat.FLOAT, index: "web.code.inner", args: ["usr/volcanos/"].concat(line.fileline.split(ice.DF))}, function(sub) {
 			can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0
 				sub.onimport.size(sub, sub.ConfHeight(height/2), sub.ConfWidth(width))
 				can.onmotion.move(can, sub._target, {left: left, top: top+height/4})

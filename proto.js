@@ -101,7 +101,7 @@ var ssh = {
 }
 var nfs = {
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
-	SAVE: "save", LOAD: "load", TAGS: "tags", FIND: "find", GREP: "grep",
+	SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
 	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash", SCRIPT: "script", CONTENT: "content", DIR_ROOT: "dir_root", PWD: "./",
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
 	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png",
@@ -111,7 +111,7 @@ var tcp = {
 	HOST: "host", PORT: "port",
 }
 var lex = {
-	SPLIT: "split", PREFIX: "prefix",
+	SPLIT: "split", PREFIX: "prefix", SUFFIX: "suffix",
 }
 var gdb = {
 	SIGNAL: "signal",
@@ -171,6 +171,8 @@ var chat = {
 	PLUGIN_STATE_JS: "/plugin/state.js", PLUGIN_INPUT_JS: "/plugin/input.js", PLUGIN_TABLE_JS: "/plugin/table.js",
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport", ONPLUGIN: "onplugin",
+	PLUGIN_INPUT: "/plugin/input/",
+	PLUGIN_STORY: "/plugin/story/",
 
 	ONMAIN: "onmain", ONLOGIN: "onlogin", ONSEARCH: "onsearch", ONREMOTE: "onremote",
 	ONSIZE: "onsize", ONTOAST: "ontoast", ONSHARE: "onshare", ONPRINT: "onprint",
@@ -178,7 +180,7 @@ var chat = {
 	ONSTORM_SELECT: "onstorm_select", ONACTION_NOTOOL: "onaction_notool", ONACTION_TOUCH: "onaction_touch", ONACTION_CMD: "onaction_cmd",
 	ONOPENSEARCH: "onopensearch", ONSEARCH_FOCUS: "onsearch_focus", ONCOMMAND_FOCUS: "oncommand_focus",
 
-	_INIT: "_init", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1",
+	_INIT: "_init", _TRANS: "_trans", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1",
 	_NAMES: "_names", _TOAST: "_toast",
 }
 var team = {
@@ -295,7 +297,6 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", cache:
 		},
 		setHeader: function(key, value) { return can.set("Header", key, value) },
 		getHeader: function(key, cb) { return can.get("Header", key, cb) },
-		setRiver: function(key, value) { return can.set("River", key, value) },
 		setAction: function(key, value) { return can.set("Action", key, value) },
 		getAction: function(key, cb) { return can.get("Action", key, cb) },
 		getActionSize: function(cb) { return can.get("Action", "size", cb) },
@@ -314,7 +315,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", cache:
 			for (var i = 0; i < arguments.length; i += 2) {
 				if (typeof key == lang.OBJECT) { res = can.core.Value(can._conf, arguments[i]), i--; continue }
 				res = can.core.Value(can._conf, arguments[i], arguments[i+1])
-			} return res == undefined && key.indexOf(ctx.FEATURE+ice.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
+			} return can.base.isUndefined(res) && key.indexOf(ctx.FEATURE+ice.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
 		}, _conf: {},
 	}; can = can||{}, kit.proto(can, proto), kit.proto(proto, meta), _can_path = _can_name||_can_path
 
