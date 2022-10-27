@@ -57,6 +57,7 @@ fieldset.float { background-color:#0e3369; color:white; padding:0; margin:0; }
 fieldset.full { background-color:#0e3369; color:white; padding:0; margin:0; left:0; top:0; overflow:auto; }
 
 fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full)>legend { float:none; }
+fieldset.Action.cmd>div.output>fieldset.plugin:not(.float):not(.full)>legend { float:left; }
 fieldset.Action>div.output>fieldset.plugin>legend { box-shadow:4px 4px 20px 4px #626bd0; }
 
 fieldset>form.option input[type=button][name=close]{ display:none; }

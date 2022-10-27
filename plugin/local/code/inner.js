@@ -427,6 +427,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.page.styleWidth(can, can.ui.display_output, width-project_width)
 
 		var height = can.user.isMobile && can.isFloatMode()? can.page.height()-2*html.ACTION_HEIGHT: can.base.Min(can.ConfHeight(), 320)-1
+		can.user.isMobile && can.isCmdMode() && can.page.style(can, can._output, html.MAX_HEIGHT, height)
 		var display_height = can.ui.display.style.display == html.NONE? 0: (can.display_size[can.onexport.keys(can)]||height/2-html.ACTION_HEIGHT)
 		var content_height = height-display_height; if (can.isCmdMode()) { content_height -= can.ui._tabs.offsetHeight + can.ui._path.offsetHeight + 4 }
 		var profile_height = height-html.ACTION_HEIGHT-display_height
