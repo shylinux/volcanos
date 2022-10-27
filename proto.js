@@ -314,7 +314,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", cache:
 			for (var i = 0; i < arguments.length; i += 2) {
 				if (typeof key == lang.OBJECT) { res = can.core.Value(can._conf, arguments[i]), i--; continue }
 				res = can.core.Value(can._conf, arguments[i], arguments[i+1])
-			} return can.base.isUndefined(res) && key.indexOf(ctx.FEATURE+ice.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
+			} return res == undefined && key.indexOf(ctx.FEATURE+ice.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
 		}, _conf: {},
 	}; can = can||{}, kit.proto(can, proto), kit.proto(proto, meta), _can_path = _can_name||_can_path
 

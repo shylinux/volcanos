@@ -174,10 +174,12 @@ Volcanos(chat.ONFIGURE, {help: "图形绘制",
 	},
 	rect: { // <rect height="30" width="30" ry="10" rx="10" x="60" y="10"/>
 		data: {points: 2, ry: 4, rx: 4, size: {}, copy: [html.HEIGHT, html.WIDTH, svg.RY, svg.RX]},
-		draw: function(event, can, point) { if (point.length < 2) { return }
-			var p0 = point[0], p1 = point[1]
+		draw: function(event, can, point, style) { if (point.length < 2) { return }
+			var p0 = point[0], p1 = point[1]; style = style||{}
 			return {
-				height: Math.abs(p0.y-p1.y), width: Math.abs(p0.x-p1.x), ry: this.data.ry, rx: this.data.rx,
+				height: Math.abs(p0.y-p1.y), width: Math.abs(p0.x-p1.x),
+				ry: style.ry == undefined? this.data.ry: style.ry,
+				rx: style.rx == undefined? this.data.rx: style.rx,
 				x: p0.x > p1.x? p1.x: p0.x, y: p0.y > p1.y? p1.y: p0.y,
 			}
 		},
@@ -206,7 +208,7 @@ Volcanos(chat.ONFIGURE, {help: "图形绘制",
 			this._temp && can.page.Remove(can, this._temp) && delete(this._temp)
 			this._temp = can.onfigure._push(can, svg.G, {}, can.group||can.svg)
 
-			var rect = can.onfigure._push(can, svg.RECT, can.onfigure.rect.draw(event, can, point), this._temp)
+			var rect = can.onfigure._push(can, svg.RECT, can.onfigure.rect.draw(event, can, point, {}), this._temp)
 			if (event.type == html.CLICK) {
 				can.onfigure._pid(can, rect), delete(this._temp)
 			}
@@ -300,7 +302,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 			var shape = can.Action(svg.SHAPE), figure = can.onfigure[shape]
 			figure.grid && figure.grid(event, can, point)
 
-			var data = figure.draw && figure.draw(event, can, point)
+			var data = figure.draw && figure.draw(event, can, point, {})
 			var item = data && can.onfigure._push(can, figure.data.name||shape, data, can.group||can.svg)
 			event.type == html.CLICK && point.length === figure.data.points && (can.point = []) 
 

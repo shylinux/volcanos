@@ -36,7 +36,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	_layout: function(can) {
 		var height = can.onexport.height(can)
 		var width = parseInt(can.ConfWidth()), space = parseInt(can.Action("space")||"10")
-		var step = parseInt((width-2*space) / can.list.length)
+		var step = parseFloat((width-2*space) / can.list.length)
 
 		can.onmotion.clear(can, can._output), can.onimport._show(can, can._msg)
 		can.svg.Val(html.HEIGHT, height), can.svg.Val(html.WIDTH, width)
@@ -84,7 +84,7 @@ Volcanos(chat.ONACTION, {help: "组件菜单", list: [
 
 			can.onimport.draw({}, can, {shape: svg.RECT, point: [
 				order(index, args.step/4, line.close), order(index, args.step/4*3, line.begin),
-			], _init: function(view) {
+			], style: {rx: 0, ry:0}, _init: function(view) {
 				can.core.ItemCB(can.ondetail, function(key, cb) { view[key] = function(event) { cb(event, can, line) } })
 			}}, line.begin < line.close? white: black)
 
