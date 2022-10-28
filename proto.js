@@ -167,12 +167,10 @@ var chat = {
 		"/plugin/local/wiki/word.js",
 		"/plugin/local/team/plan.js",
 		"/plugin/local/mall/goods.js",
-	],
+	], PLUGIN_INPUT: "/plugin/input/", PLUGIN_STORY: "/plugin/story/", PLUGIN_LOCAL: "/plugin/local/",
 	PLUGIN_STATE_JS: "/plugin/state.js", PLUGIN_INPUT_JS: "/plugin/input.js", PLUGIN_TABLE_JS: "/plugin/table.js",
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport", ONPLUGIN: "onplugin",
-	PLUGIN_INPUT: "/plugin/input/",
-	PLUGIN_STORY: "/plugin/story/",
 
 	ONMAIN: "onmain", ONLOGIN: "onlogin", ONSEARCH: "onsearch", ONREMOTE: "onremote",
 	ONSIZE: "onsize", ONTOAST: "ontoast", ONSHARE: "onshare", ONPRINT: "onprint",
