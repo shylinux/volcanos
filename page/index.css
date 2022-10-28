@@ -176,7 +176,7 @@ div.output.card div.item.stop { color:gray; }
 
 /* white */
 body.white { background-color:rgba(5,34,56,0.75); color:white; }
-body.white select { background-color:yellowgreen; color:white; }
+body.white select { background-color:yellowgreen; color:white; opacity:1; }
 body.white textarea { background-color:white; }
 body.white input[type=password] { background-color:white; }
 body.white input[type=text] { background-color:white; }
