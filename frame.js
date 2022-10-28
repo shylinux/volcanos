@@ -179,7 +179,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	_action: function(can, list, action, meta) { meta = meta||can.onaction||{}, action = action||can._action, can.onmotion.clear(can, action)
 		return can.core.List(can.page.inputs(can, can.base.getValid(can.base.Obj(list), can.core.Value(can, [chat.ONACTION, mdb.LIST]), can.core.Item(meta))||[]), function(item) {
 			!can.base.isUndefined(item) && can.onappend.input(can, item == ""? /* 空白 */ {type: html.SPACE}:
-				can.base.isString(item)? /* 按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item), onclick: function(event) {
+				can.base.isString(item)? /* 按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
 					var cb = meta[item]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
 				}, onkeydown: function(event) { if (event.key == lang.ENTER) {
 					var cb = meta[item]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
@@ -335,7 +335,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	figure: function(can, meta, target, cb) { if (meta.action == ice.AUTO || can.base.isIn(meta.type, html.BUTTON)) { return }
 		var input = meta.action||mdb.KEY; can.require([chat.PLUGIN_INPUT+input+nfs._JS], function(can) {
-			function _cb(sub, value, old) { if (value == old) { return } can.base.isFunc(cb)? cb(sub, value, old): target.value = value||"", can.onmotion.focus(can, target) }
+			function _cb(sub, value, old) { if (value == old) { return } can.base.isFunc(cb)? cb(sub, value, old): target.value = value||"", can.onmotion.delay(can, function() { can.onmotion.focus(can, target) }) }
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function(){}; target[key] = function(event) {
 				target._can && can.onlayout.figure(event, can, target._can._target)
 				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, last: last, cbs: function(cb) {
@@ -345,14 +345,14 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 							if (meta.range) { for (var i = meta.range[0]; i < meta.range[1]; i += meta.range[2]||1) { msg.Push(mdb.VALUE, i) } cb(msg); return }
 							(meta.run||can.run)(sub.request(event, can.Option()), cmds, cb, true)
 						}, target._can = sub, can.base.Copy(sub, can.onfigure[input], true)
-						sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }
 						sub.hidden = function() { return sub._target.style.display == html.NONE }
-						can.onlayout.figure({target: target}, can, sub._target), can.page.style(sub, sub._target, meta.style)
-						can.page.style(can, sub._output, html.MAX_HEIGHT, can.base.Max(can.page.height()-sub._target.offsetTop-2*html.ACTION_HEIGHT, can.page.height()/2))
-						can.base.isFunc(cb) && cb(sub, _cb), can.base.isFunc(meta._init) && meta._init(sub, sub._target)
+						sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }
+						can.onmotion.delay(can, function() { can.onlayout.figure({target: target}, can, sub._target), can.page.style(sub, sub._target, meta.style)
+							can.page.style(can, sub._output, html.MAX_HEIGHT, can.base.Max(can.page.height()-sub._target.offsetTop-2*html.ACTION_HEIGHT, can.page.height()/2))
+						}), can.base.isFunc(cb) && cb(sub, _cb), can.base.isFunc(meta._init) && meta._init(sub, sub._target)
 					}, document.body)
 				}})
-			} }), can.onfigure[input]._init && can.onfigure[input]._init(can, target, _cb)
+			} }), can.onfigure[input]._init && can.onfigure[input]._init(can, meta, target, _cb)
 		})
 	},
 })
@@ -471,7 +471,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	}) },
 
 	delay: function(can, cb, interval) { can.core.Timer(interval||30, cb) },
-	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), true },
+	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), target },
 	cache: function(can, next) { var list = can.base.Obj(can.core.List(arguments).slice(2), [can._output])
 		can.core.List(list, function(target) { target && target._cache_key && can.page.Cache(target._cache_key, target, target.scrollTop+1) })
 		var key = next(can._cache_data = can._cache_data||{}, arguments[2]._cache_key); if (!key) { return }

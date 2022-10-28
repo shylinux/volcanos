@@ -1,70 +1,28 @@
-fieldset.keyboard div.output div.key {
+fieldset.keyboard>div.output { min-width:750px; }
+fieldset.keyboard>div.output>br { clear:both; }
+fieldset.keyboard>div.output>div.key {
 	font-size:24px; text-align:center;
 	background-color:green; color:white; padding:0; margin:5px;
 	height:40px; width:40px; float:left;
+	cursor:pointer;
 }
-fieldset.keyboard div.output div.key.double {
-	font-size:16px; white-space:pre;
-}
-fieldset.keyboard div.output div.key.special {
-	font-size:16px;
-	background-color:red;
-}
-fieldset.keyboard div.output div.key.special.hold {
-	background-color:green;
-}
-fieldset.keyboard div.output div.key.tail {
-	width:70px;
-}
-fieldset.keyboard div.output div.key.Tab {
-	width:60px;
-}
-fieldset.keyboard div.output div.key.Ctrl {
-	width:70px;
-}
-fieldset.keyboard div.output div.key.Shift {
-	width:90px;
-}
-fieldset.keyboard div.output div.key.Win {
-	width:60px;
-}
-fieldset.keyboard div.output div.key.Alt {
-	width:60px;
-}
-fieldset.keyboard div.output div.key.Space {
-	width:300px;
-}
-fieldset.keyboard div.output div.key.Shift.tail {
-	width:140px;
-}
-fieldset.keyboard div.output div.key.Enter {
-	width:110px;
-}
-fieldset.keyboard div.output div.key.Backspace {
-	width:90px;
-}
-fieldset.keyboard div.output div.key span {
-	margin-top:2px; display:block;
-}
-fieldset.keyboard div.output div.key.special span {
-	margin-top:10px; display:block;
-}
-fieldset.keyboard div.output br {
-	clear:both;
-}
-fieldset.keyboard div.output div.key:hover {
-	background-color:red;
-}
-fieldset.keyboard div.output div.key.special:hover {
-	background-color:green;
-}
-fieldset.keyboard div.output {
-	min-width:750px;
-}
+fieldset.keyboard>div.output>div.key:hover { background-color:red; }
+fieldset.keyboard>div.output>div.key.double { font-size:16px; white-space:pre; }
+fieldset.keyboard>div.output>div.key.special { font-size:16px; background-color:red; }
+fieldset.keyboard>div.output>div.key.special:hover { background-color:green; }
+fieldset.keyboard>div.output>div.key.special.hold { background-color:green; }
+fieldset.keyboard>div.output>div.key.tail { width:70px; }
+fieldset.keyboard>div.output>div.key.Tab { width:60px; }
+fieldset.keyboard>div.output>div.key.Ctrl { width:70px; }
+fieldset.keyboard>div.output>div.key.Shift { width:90px; }
+fieldset.keyboard>div.output>div.key.Win { width:60px; }
+fieldset.keyboard>div.output>div.key.Alt { width:60px; }
+fieldset.keyboard>div.output>div.key.Space { width:300px; }
+fieldset.keyboard>div.output>div.key.Shift.tail { width:140px; }
+fieldset.keyboard>div.output>div.key.Enter { width:110px; }
+fieldset.keyboard>div.output>div.key.Backspace { width:90px; }
+fieldset.keyboard>div.output>div.key>span { margin-top:2px; display:block; }
+fieldset.keyboard>div.output>div.key.special>span { margin-top:10px; }
 
-table.content td input {
-	width:50px;
-}
-body.mobile table.content td input {
-	width:80px;
-}
+table.content td input { width:50px; }
+body.mobile table.content td input { width:80px; }

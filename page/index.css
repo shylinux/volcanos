@@ -2,7 +2,7 @@ body, fieldset, table, tr, th, td { padding:0; border:0; margin:0; }
 body { background-color:black; color:cyan; font-size:16px; overflow:hidden; }
 legend { background-color:cadetblue; color:white; padding:0 20px; margin-right:2px; float:left; }
 select { background-color:black; color:cyan; padding:0 10px; margin:0 2px; border:0; }
-textarea { background-color:cyan; width:400px; padding:5px; border:0; }
+textarea { background-color:cyan; width:400px; padding:5px; border:0; margin:2px; }
 input[type=password] { background-color:cyan; color:black; padding:0 5px; border:0; width:90px; }
 input[type=text] { background-color:cyan; color:black; padding:0 5px; margin:0 2px; border:0; width:90px; }
 input[name=cmd] { background-color:black; color:white; width:320px; }
@@ -85,6 +85,9 @@ fieldset.input.date div.output td.prev { color:gray; }
 fieldset.input.date div.output td.next { color:gray; }
 fieldset.input.date div.output td { padding:2px 10px; }
 fieldset.input.date table { text-align:center; width:280px; }
+fieldset.input.date select { width:63px; }
+fieldset.input.date select[name=month] { width:70px; }
+fieldset.input.date select[name=year] { width:88px; }
 
 body>div.toast div.action>div.item.space { height:unset; }
 body>div.float { background-color:#0e3369b3; color:white; padding:5px; }

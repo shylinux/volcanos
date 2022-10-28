@@ -53,7 +53,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 
 	_time: function(can, target) {
 		can.core.Timer({interval: 500}, function() { can.onimport.time(can, target) })
-		can.onappend.figure(can, {action: "date", style: {"min-width": 306}}, target), target.onmouseenter = target.click
+		can.onappend.figure(can, {action: "date"}, target), target.onmouseenter = target.click
 	},
 	time: function(can, target) {
 		can.onimport.topic(can), target.innerHTML = can.user.time(can, null, "%w %H:%M:%S")
