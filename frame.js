@@ -430,9 +430,14 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			spark: function(can, meta, target) {
 				meta[mdb.NAME] == html.INNER? can.onmotion.copy(can, target): can.page.Select(can, target, html.SPAN, function(item) { can.onmotion.copy(can, item) })
 			},
+			audio: function(can, meta, target) {
+			},
 		},
 		auto: function(can, target) { var that = this; target = target||can._output
-			can.page.Select(can, target, wiki.STORY_ITEM, function(item) { var meta = item.dataset; can.page.style(can, item, can.base.Obj(meta.style)), can.core.CallFunc(that._hash[meta.type], [can, meta, target]) })
+			can.page.Select(can, target, wiki.STORY_ITEM, function(item) { var meta = item.dataset; can.page.style(can, item, can.base.Obj(meta.style)),
+				can.core.CallFunc(that._hash[meta.type]||that._hash[target.tagName], [can, meta, target])
+				can.core.CallFunc(that._hash[meta.type], [can, meta, target])
+			})
 			can.page.Select(can, target, html.INPUT_BUTTON, function(target) { if (target.value == target.name) { target.value = can.user.trans(can, target.name) } })
 			can.page.Select(can, target, html.IFRAME, function(item) { can.page.style(can, item, html.HEIGHT, can.ConfHeight()-88, html.WIDTH, can.ConfWidth()-30) })
 		},

@@ -6,7 +6,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.page.Modify(can, target, msg.Result())
 		can.page.Select(can, target, wiki.STORY_ITEM, function(item) { var data = item.dataset||{}
 			can.page.style(can, item, can.base.Obj(data.style))
-			can.core.CallFunc([can.onimport, data.type], [can, data, item])
+			can.core.CallFunc([can.onimport, data.type||item.tagName.toLowerCase()], [can, data, item])
 		})
 		can.user.isMobile && can.isCmdMode() && can.page.style(can, can._output, html.MAX_HEIGHT, can.ConfHeight()+2*html.ACTION_HEIGHT)
 	},
@@ -120,6 +120,11 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	image: function(can, data, target) {
 		// can.page.style(can, target, html.MAX_HEIGHT, can.ConfHeight()/(can.user.isMobile? 2: 1), html.MAX_WIDTH, can.ConfWidth())
 		can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth())
+	},
+	audio: function(can, data, target) {
+		can.page.insertBefore(can, [{name: "play", value: "play", button: ["play", function(event) {
+			target.play()
+		}]}], target)
 	},
 	field: function(can, data, target, width) { var item = can.base.Obj(data.meta)
 		can.onappend._init(can, item, [chat.PLUGIN_STATE_JS], function(sub) {

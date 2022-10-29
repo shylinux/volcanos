@@ -39,9 +39,9 @@ table.content.action td:last-child { background-color:steelblue; position:sticky
 div.code { background-color:#343a3445; color:white; padding:10px; border:solid 2px green; }
 div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:5px 10px; border-left:solid 5px blue; margin:10px; }
 
-form.option>div.item { height:31px; }
 form.option>div.item.textarea { height:unset; }
-div.action>div.item { height:31px; }
+// form.option>div.item { height:31px; }
+// div.action>div.item { height:31px; }
 div.output { position:relative; }
 div.output div.project div.item { padding:2px 10px; }
 div.output div.project div.list { margin-left:10px; }
@@ -65,7 +65,8 @@ fieldset.float>form.option input[type=button][name=close]{ display:block; }
 fieldset.full>form.option input[type=button][name=close]{ display:block; }
 fieldset.plug>form.option input[type=button][name=close]{ display:block; }
 
-fieldset.plugin>div.status { border-top:1px solid darkcyan; height:30px; }
+// fieldset.plugin>div.status { border-top:1px solid darkcyan; height:30px; }
+fieldset.plugin>div.status { border-top:1px solid darkcyan; }
 fieldset.story>div.status { border-top:1px solid darkcyan; }
 fieldset.output { padding:0; margin:0; }
 fieldset.output>form.option { display:none; }
