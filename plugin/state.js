@@ -85,7 +85,7 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 		return can.page.SelectArgs(can, can._option, "", function(input) {
 			if (input.name != name || value == input.value) { return }
 			return input.value = value, can.Update(event, can.Input([], true), cb), input
-		})
+		})[0]
 	},
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
 })

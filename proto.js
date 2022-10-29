@@ -1,10 +1,6 @@
 var kit = {
-	Dict: function() { var res = {}; for (var i = 0; i < arguments.length; i += 2) {
-		if (typeof arguments[i] == "object") {
-			for (var k in arguments[i]) { res[k] = arguments[i][k] } i--
-		} else if (arguments[i] != undefined) {
-			res[arguments[i]] = arguments[i+1]
-		}
+	Dict: function() { var res = {}, args = arguments; for (var i = 0; i < args.length; i += 2) {
+		if (typeof args[i] == "object") { for (var k in args[i]) { res[k] = args[i][k] } i-- } else if (args[i] != undefined) { res[args[i]] = args[i+1] }
 	} return res },
 	proto: function(sub, sup) { return sub.__proto__ = sup, sub },
 }
@@ -38,7 +34,6 @@ var ice = {
 	MSG_PROCESS: "_process",
 	MSG_DISPLAY: "_display",
 	MSG_TOOLKIT: "_toolkit",
-
 	PROCESS_AGAIN: "_again",
 
 	MSG_TITLE: "sess.title",
@@ -49,6 +44,8 @@ var ice = {
 
 	MSG_USERNAME: "user.name",
 	MSG_USERNICK: "user.nick",
+	
+	LOG_DISABLE: "log.disable",
 
 	ErrWarn: "warn: ",
 	ErrNotLogin: "not login: ",
@@ -75,7 +72,7 @@ var aaa = {
 }
 var web = {
 	SPACE: "space", DREAM: "dream", SHARE: "share",
-	WEBSITE: "website", REFRESH: "refresh", UPLOAD: "upload", DOWNLOAD: "download",
+	WEBSITE: "website", REFRESH: "refresh", CLEAR: "clear", UPLOAD: "upload", DOWNLOAD: "download",
 	SHARE_CACHE: "/share/cache/",
 
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
@@ -85,8 +82,7 @@ var web = {
 var mdb = {
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
 
-	ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text",
-	LINK: "link", SCAN: "scan", SHOW: "show", HELP: "help",
+	ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text", LINK: "link", SCAN: "scan", HELP: "help",
 	SHORT: "short", FIELD: "field", TOTAL: "total", COUNT: "count", LIMIT: "limit",
 	INDEX: "index", VALUE: "value", EXTRA: "extra", ALIAS: "alias", EXPIRE: "expire",
 
@@ -144,11 +140,9 @@ var chat = {
 
 	libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
 	panel_list: [
-		{name: "Header", help: "标题栏", pos: "head", state: ["time", "usernick", "avatar"]},
-		{name: "River",  help: "群聊组", pos: "left"},
-		{name: "Action", help: "工作台", pos: "main"},
-		{name: "Search", help: "搜索框", pos: "auto"},
-		{name: "Footer", help: "状态条", pos: "foot", state: ["ncmd", "ntip"]},
+		{name: "Header", pos: "head", state: ["time", "usernick", "avatar"]},
+		{name: "River",  pos: "left"}, {name: "Action", pos: "main"}, {name: "Search", pos: "auto"},
+		{name: "Footer", pos: "foot", state: ["ncmd", "ntip"]},
 	],
 	plugin_list: [
 		"/plugin/state.js",
@@ -172,7 +166,7 @@ var chat = {
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport", ONPLUGIN: "onplugin",
 
-	ONMAIN: "onmain", ONLOGIN: "onlogin", ONSEARCH: "onsearch", ONREMOTE: "onremote",
+	ONMAIN: "onmain", ONLOGIN: "onlogin", ONREMOTE: "onremote", ONSEARCH: "onsearch",
 	ONSIZE: "onsize", ONTOAST: "ontoast", ONSHARE: "onshare", ONPRINT: "onprint",
 	ONRESIZE: "onresize", ONKEYUP: "onkeyup", ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
 	ONSTORM_SELECT: "onstorm_select", ONACTION_NOTOOL: "onaction_notool", ONACTION_TOUCH: "onaction_touch", ONACTION_CMD: "onaction_cmd",
@@ -185,8 +179,8 @@ var team = {
 	TASK: "task", PLAN: "plan",
 }
 var mall = {
+	COUNT: "count", PRICE: "price",
 	ASSET: "asset", SALARY: "salary",
-	PRICE: "price", COUNT: "count",
 }
 
 var svg = {
@@ -199,7 +193,7 @@ var svg = {
 }
 var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
-	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status", DIV_CONTENT: "div.content",
+	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
 	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story", FIELDSET_FLOAT: "fieldset.float",
 	FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot", FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main",
 	OPTION_ARGS: "select.args,input.args,textarea.args", INPUT_ARGS: "input.args,textarea.args", INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",
@@ -218,18 +212,18 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 
 	PAGE: "page", TABS: "tabs", MENU: "menu", NODE: "node",
 	ZONE: "zone", LIST: "list", ITEM: "item", NAME: "name", ICON: "icon",
-	SHOW: "show", HIDE: "hide", AUTO: "auto", HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot",
+	HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot", AUTO: "auto", SHOW: "show", HIDE: "hide",
 	PLUGIN: "plugin", LAYOUT: "layout", CONTENT: "content",
 
 	DIV_PAGE: "div.page", DIV_TABS: "div.tabs",
 	DIV_ZONE: "div.zone", DIV_LIST: "div.list", DIV_ITEM: "div.item", DIV_NAME: "div.name",
 	DIV_LAYOUT_HEAD: "div.layout.head", DIV_LAYOUT_FOOT: "div.layout.foot", DIV_LAYOUT_LEFT: "div.layout.left",
-	DIV_CODE: "div.code", DIV_FLOAT: "div.float", TABLE_CONTENT: "table.content",
+	DIV_CODE: "div.code", DIV_FLOAT: "div.float", DIV_CONTENT: "div.content", TABLE_CONTENT: "table.content",
 }
 var lang = {
-	UNDEFINED: "undefined", STRING: "string", NUMBER: "number", BOOLEAN: "boolean", OBJECT: "object", FUNCTION: "function",
-	META: "Meta", ALT: "Alt", CONTROL: "Control", SHIFT: "Shift", TAB: "Tab", ENTER: "Enter", ESCAPE: "Escape", PS: "/",
-	ESC: "Esc", CTRL: "Ctrl", CMD: "Cmd", SPACE: "Space", BACKSPACE: "Backspace",
+	UNDEFINED: "undefined", STRING: "string", NUMBER: "number", BOOLEAN: "boolean", FUNCTION: "function", OBJECT: "object",
+	META: "Meta", ALT: "Alt", CONTROL: "Control", SHIFT: "Shift", TAB: "Tab", ENTER: "Enter", ESCAPE: "Escape",
+	CMD: "Cmd", CTRL: "Ctrl", SPACE: "Space", BACKSPACE: "Backspace", ESC: "Esc", PS: "/",
 }
 
 function shy(help, meta, list, cb) { var args = arguments, i = 0
@@ -239,7 +233,7 @@ function shy(help, meta, list, cb) { var args = arguments, i = 0
 var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {
 		if (name.length > 0) { return Volcanos({panels: [{name: "Header", pos: html.HIDE, state: [aaa.USERNICK]}, {name: "Action", pos: html.MAIN, tool: name}]}) }
-		var Config = name; name = Config.name||ice.CAN, kit.proto(meta, Config), _can_name = ""
+		var Config = name; name = Config.name||ice.CAN, kit.proto(meta, Config), _can_name = "", _can_path = ""
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._CSS, "/panel/"+p.name+nfs._JS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)
 		cb = can||function(can) { can.onengine._init(can, can.Conf(Config), panels, Config._init, can._target) }
@@ -276,13 +270,10 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", cache:
 			}); return msg
 		},
 
-		runActionCommand: function(event, index, args, cb) { can.runAction(event, ice.RUN, can.misc.concat(can, [index], args), cb) },
-		runAction: function(event, action, args, cb) { can.request(event, {_handle: ice.TRUE}, can.Option())
-			can.run(event, can.misc.concat(can, [ctx.ACTION].concat(action), args), cb||function(msg) {
-				if (can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
-				if (can.core.CallFunc([can.sup, chat.ONIMPORT, ice.MSG_PROCESS], {can: can.sup, msg: msg})) { return }
-				can.user.toastSuccess(can, action)
-			}, true)
+		runActionCommand: function(event, index, args, cb) { can.runAction(event, ice.RUN, can.misc.concat(can, [index], args), cb, true) },
+		runAction: function(event, action, args, cb, silent) {
+			can.run(can.request(event, {_handle: ice.TRUE}, can.Option()), can.misc.concat(can, [ctx.ACTION].concat(action), args), cb, silent)
+			// can.run(can.request(event, can.Option()), can.misc.concat(can, [ctx.ACTION].concat(action), args), cb, silent)
 		},
 
 		search: function(event, cmds, cb) {
@@ -292,7 +283,7 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", cache:
 		get: function(name, key, cb) { var value; can.search({}, [can.core.Keys(name, chat.ONEXPORT, key)], cb||function(msg) { value = msg.Result() }); return value },
 		set: function(name, key, value) { var msg = can.request(); msg.Option(key, value); return can.search(msg, [[name, chat.ONIMPORT, key]]) },
 		setHeaderMenu: function(list, cb) { can._menu && can.page.Remove(can, can._menu)
-			return can._menu = can.search(can.request({}, {trans: can.onaction._trans}), [["Header", chat.ONIMPORT, html.MENU], can._name].concat(list), cb)
+			return can._menu = can.search(can.request({}, {trans: can.onaction._trans}), [["Header", chat.ONIMPORT, html  .MENU], can._name].concat(list), cb)
 		},
 		setHeader: function(key, value) { return can.set("Header", key, value) },
 		getHeader: function(key, cb) { return can.get("Header", key, cb) },
