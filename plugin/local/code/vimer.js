@@ -28,7 +28,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 Volcanos(chat.ONFIGURE, {help: "索引导航", 
 	create: function(can, target, zone, path) {
 		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(
-			["查找", "首页", "百度", "plan", "git"], window.webview? ["录屏", "日志", "编辑器", "浏览器"]: [],
+			["查找", "首页", "百度", "plan", "git", "vim"], window.webview? ["录屏", "日志", "编辑器", "浏览器"]: [],
 		), target): can.onmotion.hidden(can, target.parentNode)
 	},
 	recent: function(can, target, zone, path) { var total = 0

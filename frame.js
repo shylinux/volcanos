@@ -99,7 +99,13 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) 
 		var _sub = can.core.Value(sub, chat._OUTPUTS_CURRENT); if (_sub && _sub.onaction) { return _sub.onaction && _sub.onaction._daemon({}, _sub, arg) }
 		sub.runAction({}, arg[0], arg.slice(1))
 	},
-	grow: function(can, msg, sub, arg) { sub.onimport._grow(sub, msg, can.page.Color(arg.join(""))) },
+	grow: function(can, msg, sub, arg) {
+		if (sub.onimport && sub.onimport._grow) {
+			sub.onimport._grow(sub, msg, can.page.Color(arg.join("")))
+		} if (sub.sup && sub.sup.onimport._grow) {
+			sub.sup.onimport._grow(sub.sup, msg, can.page.Color(arg.join("")))
+		}
+	},
 	close: function(can, msg, sub) { can.user.close() },
 	exit: function(can, msg, sub) { can.user.close() },
 })
