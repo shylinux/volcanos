@@ -26,6 +26,17 @@ Volcanos(chat.ONIMPORT, {
 		can.isCmdMode() && can.page.styleHeight(can, can._output, can.ConfHeight())
 	},
 }, [""])
+Volcanos(chat.ONACTION, {list: ["music"],
+	"play": function(event, can, button) {
+		can._audio = can._audio||can.page.Append(can, can._output, [{type:"audio", src: "https://m701.music.126.net/20221029062844/f7593e1bb844dc4e35003543494314a2/jdyyaac/obj/w5rDlsOJwrLDjj7CmsOj/9879113394/5ffc/73bd/1a47/b11e9469bf4f6744db6e88c527a678df.m4a", _init: function(target) {
+		}}])._target
+		can._audio.play()
+	},
+	"stop": function(event, can, button) {
+	},
+	"music": function(event, can, button) {
+	},
+})
 Volcanos(chat.ONEXPORT, {
 	width: function(can) { if (can.ConfWidth() < 343) { return 343 } for (var i = 2; i < 10; i++) { if (can.ConfWidth() < 343*i) { return can.ConfWidth()/(i-1) } } },
 })

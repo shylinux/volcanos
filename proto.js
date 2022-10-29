@@ -229,6 +229,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 var lang = {
 	UNDEFINED: "undefined", STRING: "string", NUMBER: "number", BOOLEAN: "boolean", OBJECT: "object", FUNCTION: "function",
 	META: "Meta", ALT: "Alt", CONTROL: "Control", SHIFT: "Shift", TAB: "Tab", ENTER: "Enter", ESCAPE: "Escape", PS: "/",
+	ESC: "Esc", CTRL: "Ctrl", CMD: "Cmd", SPACE: "Space", BACKSPACE: "Backspace",
 }
 
 function shy(help, meta, list, cb) { var args = arguments, i = 0

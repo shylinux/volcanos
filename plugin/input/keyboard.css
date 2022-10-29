@@ -1,4 +1,3 @@
-fieldset.keyboard>div.output { min-width:750px; }
 fieldset.keyboard>div.output>br { clear:both; }
 fieldset.keyboard>div.output>div.key {
 	font-size:24px; text-align:center;
@@ -15,7 +14,7 @@ fieldset.keyboard>div.output>div.key.tail { width:70px; }
 fieldset.keyboard>div.output>div.key.Tab { width:60px; }
 fieldset.keyboard>div.output>div.key.Ctrl { width:70px; }
 fieldset.keyboard>div.output>div.key.Shift { width:90px; }
-fieldset.keyboard>div.output>div.key.Win { width:60px; }
+fieldset.keyboard>div.output>div.key.Cmd { width:60px; }
 fieldset.keyboard>div.output>div.key.Alt { width:60px; }
 fieldset.keyboard>div.output>div.key.Space { width:300px; }
 fieldset.keyboard>div.output>div.key.Shift.tail { width:140px; }

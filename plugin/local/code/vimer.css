@@ -43,5 +43,6 @@ body.white fieldset.vimer>div.output input.current.insert { caret-color:black; }
 body.white fieldset.vimer>div.output input.current.normal { caret-color:lightgray; }
 
 div.project div.zone.create>div.list div.item { padding:2px; float:left; clear:none; }
+div.project div.zone.create>div.list div.item input { font-family:monospace; }
 body.webview div.project div.zone.create>div.list div.item { padding:2px; }
 div.project div.zone.create>div.action { display:none; }

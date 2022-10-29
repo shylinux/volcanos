@@ -334,17 +334,17 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}) }); return res
 	},
 	figure: function(can, meta, target, cb) { if (meta.action == ice.AUTO || can.base.isIn(meta.type, html.BUTTON)) { return }
-		var input = meta.action||mdb.KEY; can.require([chat.PLUGIN_INPUT+input+nfs._JS], function(can) {
+		var input = meta.action||mdb.KEY, path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
 			function _cb(sub, value, old) { if (value == old) { return } can.base.isFunc(cb)? cb(sub, value, old): target.value = value||"", can.onmotion.delay(can, function() { can.onmotion.focus(can, target) }) }
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function(){}; target[key] = function(event) {
 				target._can && can.onlayout.figure(event, can, target._can._target)
 				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, last: last, cbs: function(cb) {
 					if (target._can) { return can.onmotion.toggle(can, target._can._target, true), can.base.isFunc(cb) && cb(target._can, _cb) }
-					can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT, mode: meta.mode}, [chat.PLUGIN_INPUT+input+nfs._JS], function(sub) { sub.Conf(meta)
+					can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT, mode: meta.mode}, [path], function(sub) { sub.Conf(meta)
 						sub.run = function(event, cmds, cb) { var msg = sub.request(event)
 							if (meta.range) { for (var i = meta.range[0]; i < meta.range[1]; i += meta.range[2]||1) { msg.Push(mdb.VALUE, i) } cb(msg); return }
 							(meta.run||can.run)(sub.request(event, can.Option()), cmds, cb, true)
-						}, target._can = sub, can.base.Copy(sub, can.onfigure[input], true)
+						}, target._can = sub, can.base.Copy(sub, can.onfigure[input], true), sub._name = sub._path = path
 						sub.hidden = function() { return sub._target.style.display == html.NONE }
 						sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }
 						can.onmotion.delay(can, function() { can.onlayout.figure({target: target}, can, sub._target), can.page.style(sub, sub._target, meta.style)
@@ -598,7 +598,7 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) {
 	},
 	insertText: function(target, text) { var start = target.selectionStart
 		var left = target.value.slice(0, target.selectionStart), rest = target.value.slice(target.selectionEnd)
-		return target.value = left+text+rest, target.setSelectionRange(start, start+text.length)
+		return target.value = left+text+rest, target.setSelectionRange(start+text.length, start+text.length)
 	},
 	deleteText: function(target, start, count) {
 		var end = count? start+count: target.value.length, cut = target.value.slice(start, end)
@@ -609,8 +609,8 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) {
 	selectCtrlN: function(event, can, target, key, cb) { if (!event.ctrlKey || event.key < "0" || event.key > "9") { return }
 		return can.page.Select(can, target, key, function(target, index) { if (index+1 == event.key) { return cb(target) } })[0]
 	},
-	selectInputs: function(event, can, cb, target) {
-		if (can.page.ismodkey(event)) { return }
+	selectInputs: function(event, can, cb, target) { if (can.page.ismodkey(event)) { return }
+		if (event.key == lang.ESCAPE) { return target.blur() }
 		if (event.ctrlKey || event.key == lang.TAB) { if (can.base.isUndefined(target._index)) { target._index = -1, target._value = target.value }
 			function select(order) { if (order == -1) { target.value = target._value }
 				var index = 0; return can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr) {
@@ -620,8 +620,7 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) {
 					} return tr
 				}).length
 			}
-			var total = select(target._index); switch (event.key) {
-				case lang.TAB: can.onkeymap.prevent(event)
+			var total = select(target._index), key = event.key; if (event.key == lang.TAB) { key = event.shiftKey? "p": "n" } switch (key) {
 				case "n": select(target._index = (target._index+2) % (total+1) - 1); break
 				case "p": select(target._index = (target._index+total+1) % (total+1) - 1); break
 				default: return

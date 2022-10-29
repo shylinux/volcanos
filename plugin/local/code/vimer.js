@@ -28,7 +28,8 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 Volcanos(chat.ONFIGURE, {help: "索引导航", 
 	create: function(can, target, zone, path) {
 		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(
-			window.webview? ["查找", "录屏", "git", "vim", "日志", "编辑器", "浏览器", "首页", "百度"]: ["查找"]), target): can.onmotion.hidden(can, target.parentNode)
+			["查找", "首页", "百度", "plan", "git"], window.webview? ["录屏", "日志", "编辑器", "浏览器"]: [],
+		), target): can.onmotion.hidden(can, target.parentNode)
 	},
 	recent: function(can, target, zone, path) { var total = 0
 		function show(msg, cb) {
@@ -210,16 +211,16 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 			y: shy("向上滚屏", function(can) { can.current.scroll(-1) }),
 		},
 		insert: {
-			Escape: shy("退出编辑", function(event, can) { event.key == "Escape" && can.onkeymap._normal(event, can) }),
-			Tab: shy("缩进", function(event, can) { if (event.key != "Tab") { return }
+			Escape: shy("退出编辑", function(event, can) { event.key == lang.ESCAPE && can.onkeymap._normal(event, can) }),
+			Tab: shy("缩进", function(event, can) { if (event.key != lang.TAB) { return }
 				can.onkeymap.insertText(can.ui.current, ice.TB), can.onkeymap.prevent(event)
 			}),
-			Backspace: shy("删除", function(event, can, target) { if (event.key != "Backspace") { return }
+			Backspace: shy("删除", function(event, can, target) { if (event.key != lang.BACKSPACE) { return }
 				if (target.selectionStart > 0 || !can.current.prev()) { return } can.onkeymap.prevent(event)
 				var rest = can.current.text(); can.onaction.selectLine(can, can.current.prev()), can.onaction.deleteLine(can, can.current.next())
 				var text = can.current.text(); can.ui.current.value = text+rest, can.onkeymap.cursorMove(target, 0, text.length)
 			}),
-			Enter: shy("换行", function(can, target) { if (event.key != "Enter") { return }
+			Enter: shy("换行", function(can, target) { if (event.key != lang.ENTER) { return }
 				var rest = can.onkeymap.deleteText(target, target.selectionEnd), text = can.ui.current.value
 				var left = text.substr(0, text.indexOf(text.trimLeft()))||(text.trimRight() == ""? text: "")
 				text && can.core.List(["{}", "[]", "()"], function(item) { if (can.base.endWith(text, item[0])) {
@@ -325,6 +326,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 			can.onimport.exts(can, list[0])
 		})
 	},
+	"plan": function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.team.plan", ctx.INDEX) },
 	"git": function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX) },
 	"vim": function(event, can) {
 		can.onaction._run(can.request(event, can.Option()), can, code.XTERM, [mdb.TYPE, "vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE)], function(msg) {
@@ -336,8 +338,8 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	"日志": function(event, can) { window.opencmd("cd ~/contexts; tail -f var/log/bench.log") },
 	"编辑器": function(event, can) { window.opencmd("cd ~/contexts; vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE)) },
 	"浏览器": function(event, can) { window.openurl(location.href) },
-	"首页": function(event, 	can) { window.openurl(location.protocol+"//"+location.host) },
-	"百度": function(event, 	can) { window.openurl("https://baidu.com") },
+	"首页": function(event, 	can) { can.user.isWebview? window.openurl(location.protocol+"//"+location.host): window.open(location.protocol+"//"+location.host) },
+	"百度": function(event, 	can) { can.user.isWebview? window.openurl("https://baidu.com"): can.user.open("https://baidu.com") },
 	"查找": function(event, can) {
 		var ui = can.page.Append(can, can._output, [{view: "vimer find float", list: [html.ACTION, html.OUTPUT],
 			style: {position: "absolute", left: can.ui.project.offsetWidth+can.ui.content.offsetWidth/2, top: can.base.Max(can.base.Min(can.current.line.offsetTop-can.ui.content.scrollTop, 100), can.ConfHeight()/2)+57+28}}])
