@@ -126,6 +126,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}
 		can.page.style(can, can.ui.profile, html.MAX_HEIGHT, can.ui.content.offsetHeight)
 		can.page.style(can, can.ui.project, html.MAX_HEIGHT, can.ui.content.offsetHeight+can.ui.display.offsetHeight)
+		can.onmotion.clear(can, can.ui.content), can.onimport[can.Option("scale")||"week"](can, can._msg)
 	}
 }, [""])
 Volcanos(chat.ONACTION, {list: [mdb.PREV, mdb.NEXT, mdb.INSERT, mdb.EXPORT, mdb.IMPORT,

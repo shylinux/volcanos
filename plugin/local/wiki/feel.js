@@ -7,9 +7,9 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onappend.table(can, can.path, null, can.ui.content)
 		can.onappend._status(can, can.onexport.list)
 
-		can.Action(html.HEIGHT, msg.Option(html.HEIGHT)||msg._cmds[1]||ice.AUTO)
-		can.Action(html.SPEED, msg.Option(html.SPEED)||msg._cmds[2]||"1")
-		can.Action(mdb.LIMIT, msg.Option(mdb.LIMIT)||msg._cmds[3]||"9")
+		can.Action(html.HEIGHT, msg.Option(html.HEIGHT)||ice.AUTO)
+		can.Action(html.SPEED, msg.Option(html.SPEED)||"1")
+		can.Action(mdb.LIMIT, msg.Option(mdb.LIMIT)||"9")
 		can.onmotion.hidden(can, can._action)
 
 		can.begin = parseInt(can.begin||msg.Option(cli.BEGIN)||"0")

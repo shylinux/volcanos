@@ -270,10 +270,11 @@ var Volcanos = shy("火山架", {iceberg: "/chat/", volcano: "/frame.js", cache:
 			}); return msg
 		},
 
-		runActionCommand: function(event, index, args, cb) { can.runAction(event, ice.RUN, can.misc.concat(can, [index], args), cb, true) },
+		runActionCommand: function(event, index, args, cb) {
+			can.runAction(event, ice.RUN, can.misc.concat(can, [index], args), cb, true)
+		},
 		runAction: function(event, action, args, cb, silent) {
 			can.run(can.request(event, {_handle: ice.TRUE}, can.Option()), can.misc.concat(can, [ctx.ACTION].concat(action), args), cb, silent)
-			// can.run(can.request(event, can.Option()), can.misc.concat(can, [ctx.ACTION].concat(action), args), cb, silent)
 		},
 
 		search: function(event, cmds, cb) {
