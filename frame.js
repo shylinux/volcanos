@@ -181,9 +181,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.base.isUndefined(item) || can.onappend.input(can, item == ""? /* 空白 */ {type: html.SPACE}:
 				can.base.isString(item)? /* 按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
 					var cb = meta[item]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
-				}, onkeydown: function(event) { if (event.key == lang.ENTER) {
-					var cb = meta[item]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
-				}}}: item.length > 0? /* 列表 */ {type: html.SELECT, name: item[0], values: item.slice(1), onchange: function(event) { var button = item[event.target.selectedIndex+1]
+				}, onkeydown: function(event) { if (event.key == lang.ENTER) { target.click() }}}:
+				item.length > 0? /* 列表 */ {type: html.SELECT, name: item[0], values: item.slice(1), onchange: function(event) { var button = item[event.target.selectedIndex+1]
 					meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]): meta[button] && can.core.CallFunc(meta[button], [event, can, button])
 				}}: /* 其它 */ item, "", action)
 		}), meta
@@ -258,15 +257,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) { if (key == mdb.VALUE) { key = line.key }
 				line = {}, can.core.List(array, function(item) { line[item.key] = item.value })
-			} function run(cmd, arg) { return can.run(can.request(event, line, can.Option()), [ctx.ACTION, cmd].concat(arg)) }
+			} function run(event, cmd, arg) { return can.run(can.request(event, line, can.Option()), [ctx.ACTION, cmd].concat(arg)) }
 			return {text: [value, html.TD], onclick: function(event) { var target = event.target
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) {
-					meta && meta[target.name]? can.user.input(can.request(event, {action: target.name}), can, meta[target.name], function(args) { run(target.name, args) }): run(target.name)
+					meta && meta[target.name]? can.user.input(can.request(event, {action: target.name}), can, meta[target.name], function(args) { run(event, target.name, args) }): run(event, target.name)
 				} else { can.sup.onimport.change(event, can.sup, key, event.target.innerText) || can.sup.onexport.record(can.sup, line) }
 			}, ondblclick: function(event) { if ([mdb.KEY, mdb.HASH, mdb.ID].indexOf(key) > -1) { return }
 				var item = can.core.List(can.Conf([ctx.FEATURE, mdb.INSERT]), function(item) { if (item.name == key) { return item } })[0]||{name: key, value: value}
 				item.run = function(event, cmds, cb) { can.run(can.request(event, line), cmds, cb, true) }
-				can.onmotion.modifys(can, event.target, function(event, value, old) { run(mdb.MODIFY, [key, value]) }, item)
+				can.onmotion.modifys(can, event.target, function(event, value, old) { run(event, mdb.MODIFY, [key, value]) }, item)
 			}}
 		}); table && can.page.styleClass(can, table, chat.CONTENT), msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.page.ClassList.add(can, table, ctx.ACTION)
 		return sort && can.page.RangeTable(can, table, sort), table
@@ -299,9 +298,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var input = meta.action||mdb.KEY, path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
 			function _cb(sub, value, old) { if (value == old) { return } can.base.isFunc(cb)? cb(sub, value, old): target.value = value||"", can.onmotion.delay(can, function() { can.onmotion.focus(can, target) }) }
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function(){}; target[key] = function(event) {
-				target._can && can.onlayout.figure(event, can, target._can._target)
 				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, last: last, cbs: function(cb) {
-					if (target._can) { return can.onmotion.toggle(can, target._can._target, true), can.base.isFunc(cb) && cb(target._can, _cb) }
+					if (target._can) { return can.onlayout.figure(event, can, target._can._target), can.onmotion.toggle(can, target._can._target, true), can.base.isFunc(cb) && cb(target._can, _cb) }
 					can.onappend._init(can, {type: html.INPUT, name: input, pos: chat.FLOAT, mode: meta.mode}, [path], function(sub) { sub.Conf(meta)
 						sub.run = function(event, cmds, cb) { var msg = sub.request(event)
 							if (meta.range) { for (var i = meta.range[0]; i < meta.range[1]; i += meta.range[2]||1) { msg.Push(mdb.VALUE, i) } cb(msg); return }
