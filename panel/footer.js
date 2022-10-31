@@ -64,7 +64,7 @@ Volcanos(chat.ONACTION, {help: "交互数据", _init: function(can, cb) {
 Volcanos(chat.ONEXPORT, {help: "导出数据",
 	height: function(can) { return can._target.offsetHeight },
 	float: function(can, msg, name, cb) { if (can[name]) { return can[name].close() }
-		var ui = can.onappend.field(can, "story toast float", {}, document.body); can[name] = ui
+		var ui = can.onappend.field(can, "story toast float", {}, can._root._target); can[name] = ui
 		ui.close = function() { can.page.Remove(can, ui.first), delete(can[name]) }
 		ui.refresh = function() { ui.close(), can.toast.click() }
 
@@ -90,7 +90,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据",
 				sub.onimport.size(sub, sub.ConfHeight(height/2), sub.ConfWidth(width))
 				can.onmotion.move(can, sub._target, {left: left, top: top+height/4})
 			}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
-		}, document.body)
+		}, can._root._target)
 	}) },
 	ncmd: function(can) {
 		can.onexport.float(can, can._cmds, "ncmd", function(value, key, index, line) {
@@ -107,7 +107,7 @@ Volcanos(chat.ONEXPORT, {help: "导出数据",
 					sub.run = function(event, cmd, cb) { can.runActionCommand(event, cmds[0], cmd, cb) }
 					sub.onimport.size(sub, height-120-2*html.ACTION_HEIGHT-can.onexport.height(can), width, true)
 					sub.onmotion.move(sub, sub._target, {left: left, top: top+120})
-				}, document.body)
+				}, can._root._target)
 			})
 		})
 	},

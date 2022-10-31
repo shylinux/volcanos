@@ -44,7 +44,7 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 				sub.onimport.size(sub, can.base.Max(height, can.page.height())-top-2*html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0), width, true)
 				can.onmotion.move(can, sub._target, {left: left, top: top})
 			})
-		}, document.body) }); return true
+		}, can._root._target) }); return true
 	},
 
 	_hold: function(can, msg, _arg) { return _arg && can.user.toast(can, _arg), true },

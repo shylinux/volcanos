@@ -318,11 +318,11 @@ Volcanos(chat.ONACTION, {help: "控件交互", _trans: {link: "链接", width: "
 		can.runAction(can.request(event, {_toast: "执行中..."}), mdb.ENGINE, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) { can.onimport.display(can, msg) })
 	},
 	clear: function(event, can) {
-		if (can.page.Select(can, document.body, ".input.float", function(item) { return can.page.Remove(can, item) }).length > 0) { return }
+		if (can.page.Select(can, can._root._target, ".input.float", function(item) { return can.page.Remove(can, item) }).length > 0) { return }
 		if (can.page.Select(can, can._status, "legend.select", function(item) { return item.click(), item }).length > 0) { return }
 		if (can.ui.display.style.display == "") { return can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) }
 		if (can.ui.profile.style.display == "") { return can.onmotion.hidden(can, can.ui.profile), can.onimport.layout(can) }
-		if (can.page.Select(can, document.body, "div.vimer.find.float", function(item) { return can.page.Remove(can, item) }).length > 0) { return }
+		if (can.page.Select(can, can._root._target, "div.vimer.find.float", function(item) { return can.page.Remove(can, item) }).length > 0) { return }
 		can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)
 	},
 })
