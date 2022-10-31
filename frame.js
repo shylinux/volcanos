@@ -21,7 +21,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 			}, target)
 		}, function() { can.onmotion._init(can, target), can.onkeymap._init(can), can.misc.Info(can.user.title(), ice.RUN, can)
 			can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { word[0] == ctx.COMMAND && can.run(msg, ["can.command"]) })
-			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb()
+			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb(can)
 		})
 	},
 	_search: function(event, can, msg, panel, cmds, cb) {
@@ -189,7 +189,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); if (msg.RunAction(event, can, cmds)) { return }
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { var msg = can.request(event, {action: cmds[1]})
-			return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, can.Option()), args.concat(cmds.slice(0, 2))) })
+			return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, can.Option()), cmds.slice(0, 2).concat(args)) })
 		}
 		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, cb||function(msg) { if (silent) { return }
 			if ((msg._can == can || msg._can == can.core.Value(can, chat._OUTPUTS_CURRENT)) && can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
@@ -299,7 +299,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			function _cb(sub, value, old) { if (value == old) { return } can.base.isFunc(cb)? cb(sub, value, old): target.value = value||"", can.onmotion.delay(can, function() { can.onmotion.focus(can, target) }) }
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function(){}; target[key] = function(event) {
 				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, last: last, cbs: function(cb) {
-					function show() {
+					function show() { var sub = target._can
 						can.onlayout.figure(event, can, target._can._target), can.onmotion.toggle(can, target._can._target, true), can.base.isFunc(cb) && cb(target._can, _cb)
 						can.page.style(can, sub._output, html.MAX_HEIGHT, can.base.Max(can.page.height()-sub._target.offsetTop-2*html.ACTION_HEIGHT, can.page.height()/2))
 					} if (target._can) { return show() }
@@ -374,9 +374,9 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||documen
 	},
 })
 Volcanos(chat.ONMOTION, {_init: function(can, target) {
-		var last = can.page.width() < can.page.height(); window.onresize = function(event) {
-			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
-			can.onengine.signal(can, chat.ONRESIZE), window.setsize && window.setsize(can.page.width(), can.page.height())
+		document.body.onclick = function(event) { if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
+			if (can.page.tagis(event.target, html.A) && can.user.isWebview) { return event.shiftKey? window.outopen(event.target.href): can.user.open(event.target.href) }
+			can.page.Select(can, document.body, can.page.Keys("div.carte.float"), function(target) { can.page.Remove(can, target) })
 		}
 	},
 	story: {
@@ -474,10 +474,6 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	},
 })
 Volcanos(chat.ONKEYMAP, {_init: function(can, target) {
-		document.body.onclick = function(event) { if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
-			if (can.page.tagis(event.target, html.A) && can.user.isWebview) { return event.shiftKey? window.outopen(event.target.href): can.user.open(event.target.href) }
-			can.page.Select(can, document.body, can.page.Keys("div.carte.float"), function(target) { can.page.Remove(can, target) })
-		}
 		can.onkeymap._build(can), document.body.onkeydown = function(event) {
 			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
 			var msg = can.request(event, {"model": "normal"}); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }

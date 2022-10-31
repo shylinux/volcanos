@@ -17,7 +17,7 @@ Volcanos(chat.ONFIGURE, {key: {
 	}) },
 	onblur: function(event, can, sub) { can.onmotion.delay(can, function() { sub._delay_hidden || can.onmotion.hidden(can, sub._target), sub._delay_hidden = false }, 300) },
 	onkeydown: function(event, can, meta, cb, target, sub, last) { if (sub.hidden()) { return }
-		if (event.key == lang.ENTER && meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event)) { return }
+		if (event.key == lang.ENTER && meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event)) { return sub.close() }
 		can.onkeymap.selectCtrlN(event, can, sub._output, "tr:not(.hidden)>td:first-child", function(td) { return cb(sub, td.innerText, target.value), td }) 
 			|| can.onkeymap.selectInputs(event, sub, function() { sub._load(event, sub, cb, target, meta.name) }, target)
 	},

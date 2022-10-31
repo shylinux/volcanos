@@ -179,6 +179,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 })
 Volcanos(chat.ONLAYOUT, {
 	_init: function(can) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can}) },
+	simple: function(can) { can.onlayout._init(can) },
+	output: function(can) { can.onlayout._init(can) },
 	float: function(can) { can.onlayout._init(can) },
 	full: function(can) { can.onlayout._init(can) },
 	cmd: function(can) { can.onlayout._init(can) },

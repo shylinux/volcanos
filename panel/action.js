@@ -130,7 +130,10 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, parseInt(event.key)-1)
 		}
 	},
-	onresize: function(can, msg) { can.onlayout._init(can), can.onaction.layout(can, can.Conf(chat.LAYOUT)) },
+	onresize: function(can, height, width) {
+		can.onlayout._init(can), can.onaction.layout(can, can.Conf(chat.LAYOUT))
+		window.setsize && window.setsize(can.page.width(), can.page.height())
+	},
 	onsize: function(can, msg, height, width) { can.Conf({height: height-can.Conf(html.MARGIN_Y), width: width-can.Conf(html.MARGIN_X)}) },
 	onsearch: function(can, msg, word) { if (word[0] == mdb.FOREACH || word[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, word) } },
 	onprint: function(can, msg) { can.page.styleHeight(can, can._target, "") },
