@@ -235,12 +235,12 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, pos: html.HIDE, state: [aaa.USERNICK]}, {name: chat.ACTION, pos: html.MAIN, tool: name}]}) }
 		var Config = name; name = Config.name||ice.CAN, kit.proto(meta, Config), _can_name = "", _can_path = ""
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list
-		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._CSS, "/panel/"+p.name+nfs._JS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)
-		cb = can||function(can) { can.onengine._init(can, can.Conf(Config), panels, Config._init, can._target) }
+		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)
+		cb = can||function(can) { can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target) }
 		can = {_follow: name, _target: Config.target||meta.target, _height: Config.height||meta._height, _width: Config.width||meta._width}
 	}
-	var proto = {_path: _can_path, _name: name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
-			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub) } meta.cache[name] = cache
+	can = kit.proto(can||{}, kit.proto({_path: _can_path, _name: name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
+			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub), sub._path = name } meta.cache[name] = cache
 			cache.forEach(function(sub) { var name = sub._name; if (typeof cbs == lang.FUNCTION && cbs(can, name, sub)) { return }
 				can[name] = can[name]||{}; for (var k in sub) { can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k]) }
 			})
@@ -254,8 +254,8 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 		require: function(libs, cb, cbs) {
 			if (!libs || libs.length == 0) { return typeof cb == lang.FUNCTION && setTimeout(function() { cb(can) }, 10) }
 			if (libs[0] == undefined) { return can.require(libs.slice(1), cb, cbs) }
-			if (libs[0] == "") { libs[0] = can._name.replace(nfs._JS, nfs._CSS) }
-			if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) { libs[0] = can._name.slice(0, can._name.lastIndexOf(ice.PS)+1)+libs[0] }
+			if (libs[0] == "") { libs[0] = can._path.replace(nfs._JS, nfs._CSS) }
+			if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
 			var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split("?")[0]).toLowerCase()
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
 			meta.cache[name]? next(): (_can_path = libs[0], meta._load(name, next))
@@ -307,14 +307,10 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 				res = can.core.Value(can._conf, arguments[i], arguments[i+1])
 			} return can.base.isUndefined(res) && key.indexOf(ctx.FEATURE+ice.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
 		}, _conf: {},
-	}; can = kit.proto(can||{}, kit.proto(proto, meta)), _can_path = _can_name||_can_path
+	}, meta))
 
 	if (_can_name) { meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can) } else { list.push(can) }
-	if (libs && libs.length > 0) { for (var i = 0; i < libs.length; i++) { if (libs[i] == undefined) { continue }
-		if (libs[i] == "") { libs[i] = _can_path.replace(nfs._JS, nfs._CSS) }
-		if (libs[i][0] != ice.PS && libs[i].indexOf(ice.HTTP) != 0) { libs[i] = _can_path.slice(0, _can_path.lastIndexOf(ice.PS)+1)+libs[i] }
-	} } if (can._follow) { libs = libs.concat(meta.libs, meta.volcano) }
-	return can.require(libs, cb), can
+	return can.require(can._follow? libs.concat(meta.libs, meta.volcano): libs, cb), can
 })
 try { if (typeof(window) == lang.OBJECT) { // chrome
 	Volcanos.meta.target = document.body, Volcanos.meta._height = window.innerHeight, Volcanos.meta._width = window.innerWidth
