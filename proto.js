@@ -7,8 +7,8 @@ var ice = {
 	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
 	OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
 
-	AUTO: "auto", HTTP: "http", HELP: "help", COPY: "copy",
-	LIST: "list", BACK: "back", SHOW: "show", HIDE: "hide",
+	AUTO: "auto", HTTP: "http", LIST: "list", BACK: "back",
+	SHOW: "show", HIDE: "hide", HELP: "help", COPY: "copy",
 	VIEW: "view", MODE: "mode", SHIP: "ship", EXEC: "exec",
 
 	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
@@ -39,7 +39,6 @@ var ice = {
 	MSG_TOPIC: "sess.topic",
 	MSG_RIVER: "sess.river",
 	MSG_STORM: "sess.storm",
-	MSG_TOAST: "sess.toast",
 
 	MSG_USERNAME: "user.name",
 	MSG_USERNICK: "user.nick",

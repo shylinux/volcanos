@@ -27,7 +27,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 
 		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() { toast = toast||can.user.toastProcess(msg._can, _toast) }, 500) }
 		msg.option = can.core.List(msg.option, function(item) { return [chat._TOAST, ice.MSG_HANDLE].indexOf(item) > -1 && delete(msg[item])? undefined: item })
-		can.getHeader(chat.TOPIC, function(topic) { msg.Option(chat.TOPIC, topic) })
+		msg.Option(chat.TOPIC) || msg.Option(chat.TOPIC, can.getHeader(chat.TOPIC))
 		if (can.base.isUndefined(msg._daemon)) { var sub = msg._can; can.base.isUndefined(sub._daemon) && can.ondaemon._list[0] && (sub._daemon = can.ondaemon._list.push(sub)-1)
 			if (sub._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], sub._daemon)) }
 		} can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
@@ -101,7 +101,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			},
 			Action: function(key, value) { return can.page.SelectArgs(can, action, key, value)[0] },
 			Option: function(key, value) { return can.page.SelectArgs(can, option, key, value)[0] },
-			Update: function(event, cmds, cb, silent) { sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input(), cb, silent); return true },
+			Update: function(event, cmds, cb, silent) { sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input([], !silent), cb, silent); return true },
 			Focus: function() { can.page.SelectOne(can, option, html.INPUT_ARGS, function(target) { target.focus() }) },
 			Input: function(cmds, save) { cmds = cmds && cmds.length > 0? cmds: can.page.SelectArgs(sub), cmds = can.base.trim(cmds)
 				return !save || cmds[0] == ctx.ACTION || can.base.Eq(sub._history[sub._history.length-1], cmds) || sub._history.push(cmds), cmds
@@ -206,7 +206,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	field: function(can, type, item, target) { type = type||html.PLUGIN, item = item||{}
 		var name = (item.nick||item.name||"").split(ice.SP)[0], title = !item.help || can.user.language(can) == "en"? name: name+"("+item.help.split(ice.SP)[0]+")"
 		return can.page.Append(can, target||can._output, [{view: [can.base.join([type||"", item.name||"", item.pos||""]), html.FIELDSET], list: [
-			title && {text: [name == "word"? item.help.split(ice.SP)[0]: title, html.LEGEND]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS,
+			{text: [name == "word"? item.help.split(ice.SP)[0]: title, html.LEGEND]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS,
 		]}])
 	},
 	input: function(can, item, value, target, style) {
