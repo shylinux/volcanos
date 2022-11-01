@@ -284,11 +284,11 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 		setHeaderMenu: function(list, cb) { can._menu && can.page.Remove(can, can._menu)
 			return can._menu = can.search(can.request({}, {trans: can.onaction._trans}), [[chat.HEADER, chat.ONIMPORT, html  .MENU], can._name].concat(list), cb)
 		},
-		setHeader: function(key, value) { return can.set("Header", key, value) },
-		getHeader: function(key, cb) { return can.get("Header", key, cb) },
-		setAction: function(key, value) { return can.set("Action", key, value) },
-		getAction: function(key, cb) { return can.get("Action", key, cb) },
-		getActionSize: function(cb) { return can.get("Action", "size", cb) },
+		setHeader: function(key, value) { return can.set(chat.HEADER, key, value) },
+		getHeader: function(key, cb) { return can.get(chat.HEADER, key, cb) },
+		setAction: function(key, value) { return can.set(chat.ACTION, key, value) },
+		getAction: function(key, cb) { return can.get(chat.ACTION, key, cb) },
+		getActionSize: function(cb) { return can.get(chat.ACTION, nfs.SIZE, cb) },
 
 		isStoryType: function(value) { return can.page.ClassList.has(can, can._fields, chat.STORY) },
 		isSimpleMode: function(value) { return can.Mode() == chat.SIMPLE },
@@ -307,9 +307,7 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 				res = can.core.Value(can._conf, arguments[i], arguments[i+1])
 			} return can.base.isUndefined(res) && key.indexOf(ctx.FEATURE+ice.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
 		}, _conf: {},
-	}, meta))
-
-	if (_can_name) { meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can) } else { list.push(can) }
+	}, meta)); if (_can_name) { meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can) } else { list.push(can) }
 	return can.require(can._follow? libs.concat(meta.libs, meta.volcano): libs, cb), can
 })
 try { if (typeof(window) == lang.OBJECT) { // chrome
