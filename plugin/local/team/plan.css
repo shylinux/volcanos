@@ -7,6 +7,5 @@ fieldset.plan>div.output div.process { background-color:green; color:white; }
 fieldset.plan>div.output div.cancel { background-color:red; color:white; }
 fieldset.plan>div.output div.finish { background-color:gray; color:white; }
 
-fieldset.plan>div.output div.content table { height:-webkit-fill-available; width:-webkit-fill-available; }
 fieldset.plan>div.output div.content th:first-child { width:40px; position:sticky; left:2px; }
 fieldset.plan>div.output div.content table.content>tr:first-child { height:30px; position:sticky; top:2px; }

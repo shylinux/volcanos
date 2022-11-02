@@ -5,13 +5,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	_content: function(can, msg, head, list, key, get, set) { var begin_time = can.base.Date(can.Option(team.BEGIN_TIME))
 		var hash = {}; msg.Table(function(value, index) { var k = key(can.base.Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value]) })
 		can.sup.task && (can.sup.task._target = null)
-		can.page.Append(can, can.ui.content, [{view: [chat.CONTENT, html.TABLE], list: can.core.List(list, function(hour, row) {
+		can.ui.table = can.page.Append(can, can.ui.content, [{view: [chat.CONTENT, html.TABLE], list: can.core.List(list, function(hour, row) {
 			return {type: html.TR, list: can.core.List(head, function(week, col) {
 				if (row == 0) { return {text: [can.user.trans(can, week), html.TH]} }
 				if (col == 0) { return {text: [hour, html.TH]} }
 				return can.onimport._task(can, msg, get(begin_time, col, row, hash), set(begin_time, col, row))
 			})}
-		}) }]); if (!can.sup.task) { return }
+		}) }])._target; if (!can.sup.task) { return }
 		can.onmotion.delay(can, function() { var target = can.sup.task._target; target && target.click(), can.Status(mdb.COUNT, msg.Length()) })
 	},
 	_task: function(can, msg, list, time) { return {text: ["", html.TD],
@@ -115,13 +115,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 	layout: function(can) {
 		can.page.styleWidth(can, can.ui.content, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
+		can.page.styleWidth(can, can.ui.table, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
 		if (true || !can.isAutoMode() || can.isStoryType()) { can.page.styleHeight(can, can._output, can.ConfHeight())
 			var height = can._display_heights[can.sup.task? [can.sup.task.zone, can.sup.task.id].join(ice.FS): ""]||html.ACTION_HEIGHT
-			if (can.ui.display.innerHTML && can.ui.display.style.display != html.NONE) {
-				can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight()-height)
-			} else {
-				can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight())
-			}
+			if (!can.ui.display.innerHTML || can.ui.display.style.display == html.NONE) { height = 0 }
+			can.page.style(can, can.ui.table, html.HEIGHT, can.ConfHeight()-height)
+			can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight()-height)
+			
 			can.ui.display.innerHTML && can.ui.display.style.display != html.NONE && can.core.List(can._plugins_display, function(sub) {
 				sub.onimport.size(sub, can.ConfHeight()-can.ui.content.offsetHeight-html.ACTION_HEIGHT-sub.onexport.statusHeight(sub), sub.ConfWidth(can.ConfWidth()-can.ui.project.offsetWidth), true)
 			}) 

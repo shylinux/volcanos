@@ -11,6 +11,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 		can.user.title(msg.SearchOrOption(chat.TITLE)), can.setHeader(chat.TOPIC, msg.SearchOrOption(chat.TOPIC))
 		msg.Length() > 1? can.onlayout._init(can): can.onengine.signal(can, chat.ONACTION_CMD)
 		can.Conf(chat.RIVER, web.SHARE, chat.STORM, share), can.onimport._init(can, msg)
+		can.user.mod.isCmd = true
 	}) },
 	_cmd: function(can, item, next) { can.base.Copy(item, {mode: chat.CMD, opts: can.misc.Search(can)}), can.onengine.signal(can, chat.ONACTION_CMD)
 		if (can.misc.Debug(can, "plugin", item.index, item.args, item)) { debugger }
