@@ -143,6 +143,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.page.ClassList.add(can, can._target, can.Conf(chat.LAYOUT, button))
 		can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		can.user.isMobile || can.isCmdMode() || (can.onmotion.toggle(can, can._root.River._target, true), can.onmotion.toggle(can, can._root.Footer._target, true))
+		can.user.isMobile && can.isCmdMode() && can.page.style(can, can._target, html.WIDTH, "", html.HEIGHT, "")
 		can.onlayout._init(can); var cb = can.onlayout[button]; if (can.base.isFunc(cb) && cb(can, silent)) { return } can.onlayout._plugin(can, button)
 	},
 	help: function(can, button) { can.user.open("/help/"+button+".shy") },
