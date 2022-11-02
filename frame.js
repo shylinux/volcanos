@@ -119,13 +119,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			sub._trans = can.base.Copy(sub._trans||{}, can.core.Value(sub, [chat.ONACTION, chat._TRANS])), meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
 			if (meta.msg) { var msg = sub.request(); msg.Copy(can.base.Obj(meta.msg)), sub.onappend._output(sub, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display) }
 
-			sub._legend[chat.ONMOUSEENTER] = function(event) {
+			can.core.Value(can, sub._legend, chat.ONMOUSEENTER, function(event) {
 				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([[ctx.ACTION].concat(can.core.Item(meta.feature._trans))]), function(event, button, meta) {
 					var _sub = can.core.Value(sub, chat._OUTPUTS_CURRENT)
 					var cb = can.core.Value(_sub, [chat.ONACTION, button]); if (can.base.isFunc(cb)) { return cb(event, _sub, button) }
 					var cb = meta[button]||meta[chat._ENGINE]; if (can.base.isFunc(cb)) { return cb(event, sub, button, _sub) }
 				})
-			}, can.base.isFunc(cb) && cb(sub)
+			}), can.base.isFunc(cb) && cb(sub)
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { meta = meta||{}; var index = -1, args = can.base.Obj(meta.args||meta.arg||meta.opt, []), opts = can.base.Obj(meta.opts, {})
