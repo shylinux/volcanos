@@ -1,5 +1,6 @@
 Volcanos(chat.ONFIGURE, {key: {
 	_show: function(can, msg, cb, target, name) { if (msg.Length() == 0 || msg.Length() == 1 && msg.Append(name) == target.value) { return can.onmotion.hidden(can) }
+		if (msg.append[msg.append.length-1] == ctx.ACTION) { msg.append = msg.append.slice(0, -1) }
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, line) { value = line[key]
 			return {text: [value, html.TD], style: msg.append && msg.append.length == 1? kit.Dict(html.MIN_WIDTH, target.offsetWidth-16): {}, onclick: function(event) {
 				can._delay_hidden = false, cb(can, value, target.value), msg.Option(ice.MSG_PROCESS) == ice.PROCESS_AGAIN && can.onmotion.delay(can, function() { can._load(event, can, cb, target, name, value) })

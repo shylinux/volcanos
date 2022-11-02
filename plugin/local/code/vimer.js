@@ -361,7 +361,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 				}
 				return true
 			}, run: function(event, cmds, cb) {
-				var msg = can.request(event); can.core.List(can.core.Split(can.current.text(), "\t \n{[:,]}", {detail: true}), function(value) {
+				var msg = can.request(event); can.core.List(can.core.Split(can.current.text(), "\t \n{[(:=,)]}", {detail: true}), function(value) {
 					if (can.base.isObject(value)) { if (value.type == html.SPACE) { return }
 						value.type == lang.STRING && msg.Push(mdb.VALUE, value.left+value.text+value.right)
 						msg.Push(mdb.VALUE, value.text)

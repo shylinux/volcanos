@@ -11,9 +11,9 @@ fieldset.inner>div.action>div.tabs.select { background-color:steelblue; }
 fieldset.inner>div.output td.content { position:relative; }
 fieldset.inner>div.output div.content { color:white; font-size:16px; font-family:monospace; position:relative; }
 fieldset.inner>div.output div.content td.line { position:sticky; left:0; text-align:right; padding:0 6px; border-right:solid 2px red; }
-fieldset.inner>div.output div.content tr:hover { background-color:#4682b46b; }
-fieldset.inner>div.output div.content tr.select { background-color:#4682b46b; }
-fieldset.inner>div.output div.content tr.select td.line { background-color:#6495ed63; border:solid 1px red; border-right:solid 2px red; }
+fieldset.inner>div.output div.content>tr:hover { background-color:#4682b46b; }
+fieldset.inner>div.output div.content>tr.select { background-color:#4682b46b; }
+fieldset.inner>div.output div.content>tr.select td.line { background-color:#6495ed63; border:solid 1px red; border-right:solid 2px red; }
 fieldset.inner>div.output div.content td.text { white-space:pre; padding-left:10px; cursor:text; }
 fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
 fieldset.inner>div.output div.content td.text span.keyword { color:blue; font-weight:bold; }

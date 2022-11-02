@@ -60,7 +60,7 @@ fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full)>legend { float
 fieldset.Action.cmd>div.output>fieldset.plugin:not(.float):not(.full)>legend { float:left; }
 fieldset.Action>div.output>fieldset.plugin>legend { box-shadow:4px 4px 20px 4px #626bd0; }
 
-fieldset>form.option input[type=button][name=close]{ display:none; }
+fieldset.plugin>form.option input[type=button][name=close]{ display:none; }
 fieldset.float>form.option input[type=button][name=close]{ display:block; }
 fieldset.full>form.option input[type=button][name=close]{ display:block; }
 fieldset.plug>form.option input[type=button][name=close]{ display:block; }
@@ -323,8 +323,7 @@ body.simple fieldset.Action>div.output>fieldset.plugin.inner>legend { display:no
 body.simple fieldset.Action>div.output>fieldset.plugin.inner>form.option { display:none; }
 body.simple fieldset.Action>div.output>fieldset.plugin.inner>div.action { display:none; }
 
-body.simple div.output.card div.item { min-width:240px; border-radius:5px; box-shadow:2px 2px 6px 1px gray; }
-body.simple div.output.card div.item:hover { background-color:white; box-shadow:5px 5px 10px 5px gray; }
+body.simple div.output.card div.item { border-radius:5px; box-shadow:2px 2px 6px 1px gray; }
 body.simple div.output.card div.item>div.title { border-bottom:solid 1px #e7e7e7; }
 body.simple fieldset.feel.float { top:0; }
 
@@ -341,6 +340,7 @@ body.white.simple div.carte div.item:hover { background-color:#e3e6f1; }
 body.white.simple fieldset.plugin div.output.json div.item span { color:black; }
 body.white.simple fieldset.plugin div.output.json div.item span.key { color:blue; }
 body.white.simple fieldset.plugin div.output.json div.item span.nonce { color:lightgray; }
+body.white.simple div.output.card div.item:hover { background-color:white; box-shadow:5px 5px 10px 5px gray; }
 body.white.simple div.output.card input[type=button] { background-color:#0152d9; color:black; font-size:0.8rem; padding:5px 10px; box-shadow:2px 2px 6px 1px gray; }
 body.white.simple div.output.card input[type=button]:hover { box-shadow:2px 2px 8px 2px gray; }
 body.white.simple div.output div.project div.zone>div.action>div.item input[type=text] { color:black; }

@@ -1,7 +1,7 @@
 Volcanos(chat.ONFIGURE, {date: {
 	onclick: function(event, can, meta, target, cbs) { cbs(function(can, cb) {
 		const TODAY = "today", YEAR = "year", MONTH = "month", HOUR = "hour", MINUTE = "minute", SECOND = "second"
-		var today = new Date(), now = can.base.Date(target.value); function _cb(_now) { cb(can, can.user.time(can, now = _now), target.value) }
+		var today = new Date(), now = can.base.Date((target.value||"").trim()); function _cb(_now) { cb(can, can.user.time(can, now = _now), target.value) }
 		can.onappend._action(can, [cli.CLOSE, [HOUR].concat(can.core.List(24)), [MINUTE].concat(can.core.List(0, 60, 5)), [SECOND].concat(can.core.List(0, 60, 5)),
 			TODAY, "", mdb.PREV, [YEAR].concat(can.core.List(now.getFullYear() - 10, now.getFullYear() + 10)), [MONTH].concat(can.core.List(1, 13)), mdb.NEXT,
 		], can.onmotion.clear(can, can._action), kit.Dict(cli.CLOSE, function() { can.close() },
@@ -20,6 +20,7 @@ Volcanos(chat.ONFIGURE, {date: {
 			"come", function() { now.setFullYear(now.getFullYear()+1), show(now) },
 			chat._TRANS, kit.Dict(TODAY, "今天", mdb.NEXT, "下一月", mdb.PREV, "上一月", "over", "去年", "come", "今年"),
 		)), can._table = can.page.Appends(can, can._output, [{view: [chat.CONTENT, html.TABLE]}]).first
+		target.value == "" && (now.setMinutes(now.getMinutes()>30? 30: 0), now.setSeconds(0))
 		function show(now) {
 			can.Action(YEAR, now.getFullYear())
 			can.Action(MONTH, now.getMonth()+1)
@@ -29,13 +30,16 @@ Volcanos(chat.ONFIGURE, {date: {
 
 			can.page.Appends(can, can._table, [{th: ["日", "一", "二", "三", "四", "五", "六"]}])
 			var tr; function add(day, type) { if (day.getDay() == 0) { tr = can.page.Append(can, can._table, [{type: html.TR}]).last }
+				var _day = new Date(day)
 				can.page.Append(can, tr, [{text: [day.getDate(), html.TD, can.base.isIn(can.base.Time(day, "%y-%m-%d"), can.base.Time(now, "%y-%m-%d"), can.base.Time(today, "%y-%m-%d"))? html.SELECT: type],
-					onclick: function(event) { _cb(day) },
+					onclick: function(event) {
+						_day.setHours(now.getHours()), _day.setMinutes(now.getMinutes()), _day.getSeconds(now.getSeconds())
+						_cb(_day), can.close() },
 				}])
 			}
 
 			var one = new Date(now); one.setDate(1)
-			var end = new Date(now); end.setMonth(now.getMonth()+1), end.setDate(1)
+			var end = new Date(now); end.setMonth(end.getMonth()+1), end.setDate(1)
 			var head = new Date(one); head.setDate(one.getDate()-one.getDay())
 			var tail = new Date(end); tail.setDate(end.getDate()+7-end.getDay())
 

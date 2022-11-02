@@ -73,7 +73,7 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 
 	size: function(can, height, width, auto, mode) {
 		if (auto) {
-			can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, can.ConfHeight(height), html.MAX_WIDTH, can.ConfWidth(width))
+			can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, height? can.ConfHeight(height): "", html.MAX_WIDTH, can.ConfWidth(width))
 		} else {
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, "")
 		}

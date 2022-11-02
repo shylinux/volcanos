@@ -176,6 +176,7 @@ var chat = {
 }
 var team = {
 	TASK: "task", PLAN: "plan",
+	BEGIN_TIME: "begin_time",
 }
 var mall = {
 	COUNT: "count", PRICE: "price",
