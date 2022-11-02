@@ -1,7 +1,7 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据",
 	_tabs: function(can) {
 		can.ui._tabs = can.page.insertBefore(can, ["tabs"], can.ui._content), can.ui._path = can.page.insertBefore(can, ["path"], can.ui._content)
-		can.page.Append(can, can.ui._tabs, [{view: "time", style: {"float": html.RIGHT, "padding": 5}, _init: function(target) {
+		can.page.Append(can, can.ui._tabs, [{view: [["time", "select"]], style: {"float": html.RIGHT}, _init: function(target) {
 			can.core.Timer({interval: 100}, function() { can.page.Appends(can, target, [{text: can.base.Time()}]) })
 			can.onappend.figure(can, {action: "date"}, target, function(sub, value) {
 				can.onimport.tabview(can, can.Option(nfs.PATH), "web.team.plan", ctx.INDEX)

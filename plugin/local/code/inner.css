@@ -67,9 +67,9 @@ body.black fieldset.inner.full>div.output div.content { color:white; }
 /* body.white fieldset.inner.float>div.output div.profile { color:black; } */
 
 body.simple fieldset.inner>div.output td.content>div.tabs { background-color:slategrey; padding:0px; height:31px; overflow:auto; display:block; }
-body.simple fieldset.inner>div.output td.content>div.tabs div.tabs { background-color:teal; font-family:monospace; padding:7px 20px; height:17px; float:left; }
-body.simple fieldset.inner>div.output td.content>div.tabs div.tabs.select { background-color:#1d3349; }
-body.simple fieldset.inner>div.output td.content>div.tabs div.tabs:hover { background-color:#1d3349; }
+body.simple fieldset.inner>div.output td.content>div.tabs div { background-color:teal; font-family:monospace; padding:7px 20px; height:17px; float:left; }
+body.simple fieldset.inner>div.output td.content>div.tabs div.select { background-color:#1d3349; }
+body.simple fieldset.inner>div.output td.content>div.tabs div:hover { background-color:#1d3349; }
 body.simple fieldset.inner>div.output td.content>div.path { background-color:#1d3349; padding:4px 10px; margin-bottom:4px; display:block; clear:both; }
 body.simple fieldset.inner>div.output div.content td.line { padding-top:4px; border-right:none; }
 body.simple fieldset.inner>div.output div.content td.text { padding-top:2px; border:solid 1px transparent; }

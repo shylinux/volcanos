@@ -61,6 +61,7 @@ fieldset.Action.cmd>div.output>fieldset.plugin:not(.float):not(.full)>legend { f
 fieldset.Action>div.output>fieldset.plugin>legend { box-shadow:4px 4px 20px 4px #626bd0; }
 
 fieldset.plugin>form.option input[type=button][name=close]{ display:none; }
+fieldset.plugin.word fieldset.story>form.option input[type=button][name=close]{ display:none; }
 fieldset.float>form.option input[type=button][name=close]{ display:block; }
 fieldset.full>form.option input[type=button][name=close]{ display:block; }
 fieldset.plug>form.option input[type=button][name=close]{ display:block; }
@@ -125,8 +126,8 @@ select { font-size:1.1rem; height:31px; }
 input { font-size:1.1rem; height:31px; }
 table.content th, table.content td, div.zone>div.name, div.item, div.code, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
 div.status>div.item>label { font-size:0.6rem; font-family:monospace; }
-fieldset.plugin>form.option>div.item { height:31px; }
-fieldset.plugin>div.action>div.item { height:31px; }
+fieldset.plugin>form.option>div.item:not(.textarea) { height:31px; }
+fieldset.plugin>div.action>div.item:not(.textarea) { height:31px; }
 div.status>div.item { padding:4px; height:22px; }
 div.action>div.tabs { padding:5px 10px; height:21px; }
 svg { font-family:monospace; }
