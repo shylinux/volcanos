@@ -1,11 +1,13 @@
-fieldset.plan>div.output td { vertical-align:top; }
 fieldset.plan>div.output td.content { position:relative; }
-fieldset.plan>div.output td.over { border:solid 2px red; }
-fieldset.plan>div.output td div.date { color:gray; }
-fieldset.plan>div.output div.prepare { background-color:blue; color:white; }
-fieldset.plan>div.output div.process { background-color:green; color:white; }
-fieldset.plan>div.output div.cancel { background-color:red; color:white; }
-fieldset.plan>div.output div.finish { background-color:gray; color:white; }
-
-fieldset.plan>div.output div.content th:first-child { width:40px; position:sticky; left:2px; }
-fieldset.plan>div.output div.content table.content>tr:first-child { height:30px; position:sticky; top:2px; }
+fieldset.plan>div.output table.content.plan th { font-family:unset; }
+fieldset.plan>div.output table.content.plan td { vertical-align:top; }
+fieldset.plan>div.output table.content.plan td.over { border:solid 2px red; }
+fieldset.plan>div.output table.content.plan td.today { background-color:cornflowerblue; }
+fieldset.plan>div.output table.content.plan td div { color:white; }
+fieldset.plan>div.output table.content.plan td div.date { color:gray; }
+fieldset.plan>div.output table.content.plan td div.prepare { background-color:blue; }
+fieldset.plan>div.output table.content.plan td div.process { background-color:green; }
+fieldset.plan>div.output table.content.plan td div.cancel { background-color:red; }
+fieldset.plan>div.output table.content.plan td div.finish { background-color:gray; }
+fieldset.plan>div.output table.content.plan tr:first-child { height:30px; position:sticky; top:2px; }
+fieldset.plan>div.output table.content.plan th:first-child { width:40px; position:sticky; left:2px; }

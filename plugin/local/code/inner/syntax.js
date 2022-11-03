@@ -173,7 +173,10 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 	},
 	go: {
 		split: {
-			operator: "{([:.,*])}",
+			operator: "{([-+:.,*])}",
+		},
+		regexp: {
+			"[0-9]+": code.CONSTANT,
 		},
 		prefix: {
 			"//": code.COMMENT,
@@ -334,10 +337,11 @@ Volcanos(chat.ONSYNTAX, {help: "语法高亮",
 	},
 	css: {
 		split: {
-			operator: ".>{:;}",
+			operator: ".[]()>,{:;}",
 		},
 		regexp: {
-			"[0-9]+px": code.CONSTANT,
+			"[-0-9]+px": code.CONSTANT,
+			"#[^ ;]+": code.CONSTANT,
 		},
 		keyword: {
 			"body": code.KEYWORD,

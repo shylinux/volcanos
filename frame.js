@@ -250,7 +250,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	tools: function(can, msg, cb, target) { can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []), cb, target) },
 
 	_plugin: function(can, value, meta, cb, target, field) { can.base.Copy(meta, value, true)
-		meta.type = meta.type||chat.PLUGIN, meta.height = meta.height||can.ConfHeight(), meta.width = meta.width||can.ConfWidth()
+		meta.type = meta.type||chat.STORY, meta.height = meta.height||can.ConfHeight(), meta.width = meta.width||can.ConfWidth()
 		meta.args = can.base.getValid(can.base.Obj(meta.args), can.base.Obj(meta.arg), can.base.Obj(value.args), can.base.Obj(value.arg))||[]
 		meta.inputs = can.base.getValid(meta.inputs, can.base.Obj(value.list))||[], meta.feature = can.base.getValid(meta.feature, can.base.Obj(value.meta))||{}
 		if (can.misc.Debug(can, chat.PLUGIN, meta.index, meta.args, meta)) { debugger }

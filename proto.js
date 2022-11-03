@@ -55,6 +55,7 @@ var ice = {
 var ctx = {
 	CONTEXT: "context", COMMAND: "command", CONFIG: "config", INPUTS: "inputs", FEATURE: "feature",
 	INDEX: "index", ARGS: "args", STYLE: "style", DISPLAY: "display", ACTION: "action",
+	EXTRA_INDEX: "extra.index", EXTRA_ARGS: "extra.args",
 }
 var cli = {
 	DAEMON: "daemon", START: "start", STOP: "stop", OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end",
@@ -177,6 +178,8 @@ var chat = {
 var team = {
 	TASK: "task", PLAN: "plan",
 	BEGIN_TIME: "begin_time",
+	LONG: "long", YEAR: "year", MONTH: "month", WEEK: "week", DAY: "day", HOUR: "hour",
+	TASK_POD: "task.pod", TASK_ZONE: "task.zone", TASK_ID: "task.id",
 }
 var mall = {
 	COUNT: "count", PRICE: "price",
