@@ -13,7 +13,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}) }])._target, can.onmotion.delay(can, function() { var target = can.sup.task && can.sup.task._target; target && target.click(), can.Status(mdb.COUNT, msg.Length())
 			can.user.isMobile || can.isCmdMode() && can.page.Append(can, can._action, [{view: [["item", "time", "select"]], style: {"float": html.RIGHT, "padding": 5, "height": 21}, _init: function(target) {
 				can.onappend.figure(can, {action: "date"}, target, function(sub, value) { }), target.onmouseenter = target.click
-				can.core.Timer({interval: 100}, function() { can.page.Appends(can, target, [{text: can.base.Time()}]) })
+				can.core.Timer({interval: 100}, function() {
+					window.power? window.power().then(function(value) {
+						can.page.Appends(can, target, [{text: value+" "+can.base.Time()}])
+					}): can.page.Appends(can, target, [{text: can.base.Time()}])
+				})
 			}}])
 		})
 	},
@@ -107,12 +111,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	layout: function(can) { can.page.styleHeight(can, can._output, can.ConfHeight()), can.page.styleHeight(can, can.ui.project, can.ConfHeight())
 		var height = can._display_heights[can.sup.task? [can.sup.task.zone, can.sup.task.id].join(ice.FS): ""]||html.ACTION_HEIGHT
 		if (!can.ui.display.innerHTML || can.ui.display.style.display == html.NONE) { height = 0 }
-		can.page.styleHeight(can, can.ui.table, can.ConfHeight()-height)
-		can.page.styleHeight(can, can.ui.content, can.ConfHeight()-height)
-		can.page.styleHeight(can, can.ui.profile, can.ConfHeight()-height)
-		can.page.styleWidth(can, can.ui.table, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
-		can.page.styleWidth(can, can.ui.content, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
-		height == 0 || can.core.List(can._plugins_display, function(sub) {
+		can.page.style(can, can.ui.table, html.HEIGHT, can.ConfHeight()-height, html.WIDTH, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
+		can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight()-height, html.WIDTH, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
+		can.page.styleHeight(can, can.ui.profile, can.ConfHeight()-height), height == 0 || can.core.List(can._plugins_display, function(sub) {
 			sub.onimport.size(sub, height-html.ACTION_HEIGHT-sub.onexport.statusHeight(sub), sub.ConfWidth(can.ConfWidth()-can.ui.project.offsetWidth), true)
 		})
 	}

@@ -40,7 +40,6 @@ fieldset.Action.flow>div.output>fieldset.plugin { float:left; }
 fieldset.Action.free>div.output>fieldset.plugin { position:absolute; }
 fieldset.Action.free>div.output>fieldset.plugin.select { display:block; }
 
-fieldset.Action.cmd { overflow:hidden; }
 fieldset.panel.cmd>div.output>fieldset.plugin { padding:0; margin:0; }
 fieldset.panel.cmd>div.output>fieldset.plugin>legend { padding:0 10px; float:left; }
 

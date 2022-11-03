@@ -18,6 +18,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 		can.onappend.plugin(can, item, function(sub, meta, skip) { can.onimport._run(can, sub, function(event, cmds, cb) {
 			return can.runActionCommand(event, sub._index, cmds, cb)
 		}), can.user.title(meta.name), skip || next() })
+		can.onlayout._init(can)
 	},
 	_run: function(can, sub, cbs) {
 		sub.run = function(event, cmds, cb) { (!cmds || cmds[0] != ctx.ACTION) && sub.request(event, {height: sub.ConfHeight(), width: sub.ConfWidth()})

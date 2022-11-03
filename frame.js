@@ -406,9 +406,9 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 
 	delay: function(can, cb, interval) { can.core.Timer(interval||30, cb) },
 	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), target },
-	cache: function(can, next) { var list = can.base.Obj(can.core.List(arguments).slice(2), [can._output])
+	cache: function(can, next) { var list = can.base.getValid(can.base.Obj(can.core.List(arguments).slice(2)), [can._output])
 		can.core.List(list, function(target) { target && target._cache_key && can.page.Cache(target._cache_key, target, target.scrollTop+1) })
-		var key = next(can._cache_data = can._cache_data||{}, arguments[2]._cache_key); return key && can.core.List(list, function(target) { if (!target) { return }
+		var key = next(can._cache_data = can._cache_data||{}, list[0]._cache_key); return key && can.core.List(list, function(target) { if (!target) { return }
 			var pos = can.page.Cache(target._cache_key = key, target); if (pos) { target.scrollTo && target.scrollTo(0, pos-1); return target }
 		}).length > 0
 	},

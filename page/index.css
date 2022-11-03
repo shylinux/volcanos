@@ -61,7 +61,7 @@ fieldset.Action.cmd>div.output>fieldset.plugin:not(.float):not(.full)>legend { f
 fieldset.Action>div.output>fieldset.plugin>legend { box-shadow:4px 4px 20px 4px #626bd0; }
 
 fieldset.plugin>form.option input[type=button][name=close]{ display:none; }
-fieldset.plugin.word fieldset.story>form.option input[type=button][name=close]{ display:none; }
+// fieldset.plugin.word fieldset.story>form.option input[type=button][name=close]{ display:none; }
 fieldset.float>form.option input[type=button][name=close]{ display:block; }
 fieldset.full>form.option input[type=button][name=close]{ display:block; }
 fieldset.plug>form.option input[type=button][name=close]{ display:block; }
