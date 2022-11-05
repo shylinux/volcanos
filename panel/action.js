@@ -247,7 +247,9 @@ Volcanos(chat.ONPLUGIN, {
 				), msg.Option(ice.MSG_FIELDS).split(ice.FS))
 			})
 	}),
-	"plugin": shy("默认插件", {}, ["name", "list", "back"]),
+	"plugin": shy("默认插件", {}, ["name", "list", "back"], function(can, msg, arg) {
+		can.misc.Log("what", msg, arg)
+	}),
 	"parse": shy("生成网页", {
 		"show": function(can, msg, cmds) { var name = cmds[1]||"can"; can.isCmdMode() && can.user.title(name)
 			cmds && cmds[0] && Volcanos(name, {_follow: can.core.Keys(can._follow, name)}, ["/plugin/story/parse.js"], function(sub) {

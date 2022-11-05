@@ -259,8 +259,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			sub._index = value.index||meta.index, can.base.isFunc(cb) && cb(sub, meta, skip)
 		}, target||can._output, field)
 	},
-	plugin: function(can, meta, cb, target, field) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)
-		var res = {}; function _cb(sub, meta, skip) { kit.proto(res, sub), cb(sub, meta, skip) } if (can.misc.Debug(can, chat.PLUGIN, meta.index, meta.args, meta)) { debugger }
+	plugin: function(can, meta, cb, target, field) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||ice.CAN_PLUGIN
+		var res = {}; function _cb(sub, meta, skip) { kit.proto(res, sub), cb && cb(sub, meta, skip) } if (can.misc.Debug(can, chat.PLUGIN, meta.index, meta.args, meta)) { debugger }
 		if (meta.inputs && meta.inputs.length > 0 || meta.meta) { can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, _cb, target, field); return res }
 		var value = can.onengine.plugin(can, meta.index); if (value) { can.onappend._plugin(can, value, meta, _cb, target, field); return res }
 		can.runAction(can.request({}, meta), ctx.COMMAND, [meta.index], function(msg) { msg.Table(function(value) { can.onappend._plugin(can, value, meta, _cb, target, field) })}); return res
