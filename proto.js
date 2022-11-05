@@ -13,6 +13,7 @@ var ice = {
 
 	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
 	CAN: "can", RUN: "run", RES: "res", ERR: "err",
+	CAN_PLUGIN: "can.plugin",
 
 	MSG_DETAIL: "detail",
 	MSG_OPTION: "option",
