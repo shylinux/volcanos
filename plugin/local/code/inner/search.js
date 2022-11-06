@@ -20,7 +20,7 @@ Volcanos(chat.ONPLUGIN, {_init: function(can, _sub, cb) { const SEARCH = "can.co
 		}, sub._output), sub.onappend.board(sub, msg.Result()), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS))
 		!sub.page.ClassList.has(sub, sub._legend, html.SELECT) && sub.select(), sub.Focus(), sub.Option("word", word||msg._word||"")
 		can.onmotion.delay(can, function() {
-			highlight(word)
+			word && highlight(word)
 		})
 	}
 	can.onengine.plugin(can, SEARCH, shy("搜索", {}, [
