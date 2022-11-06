@@ -3,9 +3,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			can.core.Item(kit.Dict(svg.FONT_SIZE, 24, svg.FONT_FAMILY, svg.MONOSPACE, svg.STROKE_WIDTH, 2, svg.STROKE, cli.YELLOW, svg.FILL, cli.PURPLE,
 				"go", ice.RUN, svg.SHAPE, svg.RECT, svg.GRID, 10,
 			), function(key, value) { can.svg.Value(key, can.Action(key, can.svg.Value(key)||value)) })
-			var pid = can.Option(svg.PID)||can.svg.Value(svg.PID); if (!pid) { return }
+			var pid = can.Option(svg.PID)||can.misc.SearchHash(can)[0]||can.svg.Value(svg.PID); if (!pid) { return }
 			can.page.Select(can, can.svg, ice.PT+pid, function(target) { can.onimport._profile(can, target), can.ondetail.run({target: target}, can) })
-		}), can.keylist = [], can.onkeymap._build(can), can.onmotion.hidden(can, can._action)
+		}), can.isCmdMode()? (can.keylist = [], can.onkeymap._build(can)): can.onmotion.hidden(can, can._action)
 	},
 	_show: function(can, msg) { can.svg = null, can.group = null, can.temp = null, can.current = null, can.point = []
 		can.ui = can.onlayout.profile(can), can.page.Modify(can, can.ui.content, msg.Result()||can.onexport.content(can)), can.onmotion.hidden(can, can.ui.project)
@@ -14,6 +14,23 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			can.core.ItemCB(can.onaction, function(key, cb) { target[key] = function(event) { cb(event, can) } })
 		}), can.page.style(can, can.ui.display, html.MIN_HEIGHT, 80, html.MAX_HEIGHT, can.ConfHeight()-can.svg.Val(html.HEIGHT)-52)
 	},
+	_block: function(can, target) {
+		target.Value = function(key, value) { if (can.base.isUndefined(key)) { return } if (can.base.isObject(key)) { can.core.Item(key, target.Value); return }
+			var figure = can.onfigure._get(can, target); key = can.core.Value(figure, ["data", "trans", key])||key
+			var _cb = can.core.Value(figure, ["data", key]); if (can.base.isFunc(_cb)) { return _cb(can, value, key, target) }
+			if (key == ice.SHIP) { return value != undefined && target.setAttribute(key, JSON.stringify(value)), can.base.Obj(target.getAttribute(key), []) }
+			if (key == html.INNER) { return value != undefined && (target.innerHTML = value), target.innerHTML }
+			return value != undefined && target.setAttribute(key, value), target.getAttribute(key) || can.core.Value(target[key], "baseVal.value") || can.core.Value(target[key], "baseVal") || ""
+		}
+		target.Val = function(key, value) { return parseInt(target.Value(key, value == undefined? value: parseInt(value)||0))||0 }
+		target.Group = function() { for (var node = target; node; node = node.parentNode) { if (can.page.tagis(node, svg.G, html.SVG)) { return node } } return can.svg }
+		target.Groups = function() { if (target == can.svg) { return html.SVG } var list = []
+			for (var node = target; node && !can.page.tagis(node, html.SVG); node = node.parentNode) { can.page.tagis(node, svg.G) && node.Value(html.CLASS) && list.push(node.Value(html.CLASS)) }
+			return list.reverse().join(ice.PT)
+		}
+		target.oncontextmenu = function(event) { can.page.style(can, can.user.carte(event, can, can.ondetail)._target, {left: event.clientX, top: event.clientY}) }
+		return target
+	},
 	_group: function(can, target) { var name = target.Groups()
 		return name && can.onimport.item(can, {name: name}, function(event) { can.group = target
 			can.core.List([svg.STROKE_WIDTH, svg.STROKE, svg.FILL, svg.FONT_SIZE], function(key) {
@@ -21,67 +38,38 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			}), can.onaction.show(event, can), can.Status(svg.GROUP, name)
 		}, function(event) { can.user.carteRight(event, can, can.onaction, can.onaction.menu_list) }, can.ui.project)
 	},
-	_block: function(can, target) {
-		target.Val = function(key, value) { return parseInt(target.Value(key, value == undefined? value: parseInt(value)||0))||0 }
-		target.Value = function(key, value) { if (can.base.isUndefined(key)) { return }
-			if (can.base.isObject(key)) { can.core.Item(key, target.Value); return }
-			var figure = can.onfigure._get(can, target); key = can.core.Value(figure, ["data", "trans", key])||key
-			var _cb = can.core.Value(figure, ["data", key]); if (can.base.isFunc(_cb)) { return _cb(can, value, key, target) }
-			if (key == ice.SHIP) { return value != undefined && target.setAttribute(key, JSON.stringify(value)), can.base.Obj(target.getAttribute(key), []) }
-			if (key == html.INNER) { return value != undefined && (target.innerHTML = value), target.innerHTML }
-			return value != undefined && target.setAttribute(key, value), target.getAttribute(key||html.CLASS)
-				|| target[key]&&target[key].baseVal&&target[key].baseVal.value || target[key]&&target[key].baseVal || ""
-		}
-		target.Group = function() { for (var item = target; item; item = item.parentNode) { if (can.page.tagis(item, svg.G, html.SVG)) { return item } } return can.svg }
-		target.Groups = function() { var list = []; if (target == can.svg) { return html.SVG }
-			for (var item = target; item && !can.page.tagis(item, html.SVG); item = item.parentNode) { can.page.tagis(item, svg.G) && item.Value(html.CLASS) && list.push(item.Value(html.CLASS)) }
-			return list.reverse().join(ice.PT)
-		}
-		target.oncontextmenu = function(event) {
-			var carte = can.user.carte(event, can, can.ondetail, null, function(ev, button, meta) { meta[button](event, can, button) })
-			can.page.style(can, carte._target, {left: event.clientX, top: event.clientY})
-		}
-		return target
-	},
-	_profile: function(can, target, list) { can.Option(svg.PID, can.onexport._pid(can, target))
+	_profile: function(can, target, list) { can.misc.SearchHash(can, can.Option(svg.PID, can.onexport._pid(can, target)))
 		if (can.onmotion.cache(can, function() { return target.Value(svg.PID) }, can.ui.profile, can.ui.display)) { return }
-		var ui = can.page.Append(can, can.ui.profile, [html.ACTION, html.OUTPUT])
-		can.onappend._action(can, can.ondetail.list, ui.action, {_engine: function(event, can, button) { can.ondetail[button]({target: target}, can, button) }})
-		var figure = can.onfigure._get(can, target); can.page.Append(can, ui.output, [{view: [html.CONTENT, html.TABLE], list: [
+		var figure = can.onfigure._get(can, target), ui = can.page.Append(can, can.ui.profile, [html.OUTPUT, html.ACTION])
+		can.page.Append(can, ui.output, [{view: [html.CONTENT, html.TABLE], list: [
 			{th: [mdb.KEY, mdb.VALUE]}, {td: [mdb.TYPE, target.tagName]}, {td: [svg.PID, target.Value(svg.PID)]},
 		].concat(can.core.List((list||[]).concat(figure.data.copy, [svg.X, svg.Y, mdb.INDEX, ctx.ARGS]), function(key) {
 			return key = can.core.Value(figure.data, can.core.Keys("trans", key))||key, {td: [key, target.Value(key)], ondblclick: function(event) {
 				can.onmotion.modify(can, event.target, function(event, value, old) { target.Value(key, value), can.ondetail._move(can, target) })
 			}}
-		})) }])
+		})) }]), can.onappend._action(can, can.ondetail.list, ui.action, {_engine: function(event, can, button) { can.ondetail[button]({target: target}, can, button) }})
+	},
+	block: function(can, type, value, group) { group = group||can.group||can.svg
+		var target = document.createElementNS("http://www.w3.org/2000/svg", type)
+		return group.appendChild(can.onimport._block(can, target)), target.Value(value), target
+	},
+	group: function(can, name, value, group) { var target = can.onimport.block(can, svg.G, value, group)
+		return target.Value(html.CLASS, name), can.onimport._group(can, target).click(), target
 	},
 	draw: function(event, can, value, group) {
-		var figure = can.onfigure[value.shape], data = figure.draw(event, can, value.point, value.style); can.core.Item(value.style, function(key, value) { data[key] = value })
-		var target = can.onimport.block(can, figure.data.name||value.shape, data, group||can.group||can.svg); can.core.ItemCB(value, function(key, cb) { target[key] = cb })
-		return can.onimport._block(can, target), value._init && value._init(target), target
-	},
-	group: function(can, name, value, group) { group = group||can.group||can.svg
-		var g = document.createElementNS('http://www.w3.org/2000/svg', svg.G); group.append(g)
-		can.onimport._block(can, g), g.Value(html.CLASS, name), can.onimport._group(can, g).click()
-		return value && g.Value(value), g
-	},
-	block: function(can, type, value, target) {
-		var _target = document.createElementNS("http://www.w3.org/2000/svg", type)
-		return target.appendChild(can.onimport._block(can, _target)), _target.Value(value), _target
+		var figure = can.onfigure[value.shape], data = figure.draw(event, can, value.point, value.style||{}); can.core.Item(value.style, function(key, value) { data[key] = value })
+		var target = can.onimport.block(can, figure.data.name||value.shape, data, group); can.core.ItemCB(value, function(key, cb) { target[key] = cb })
+		return value._init && value._init(target), target
 	},
 }, [""])
-Volcanos(chat.ONACTION, {list: [
-		[svg.FONT_SIZE, 12, 16, 18, 24, 32],
-		[svg.STROKE_WIDTH, 1, 2, 3, 4, 5],
+Volcanos(chat.ONACTION, {list: [[svg.GRID, 1, 2, 3, 4, 5, 10, 20],
+		[svg.FONT_SIZE, 12, 16, 18, 24, 32], [svg.STROKE_WIDTH, 1, 2, 3, 4, 5],
 		[svg.STROKE, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE],
 		[svg.FILL, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE, "#0000"],
 
-		["go", ice.RUN, ice.AUTO, "manual"],
-		["mode", "draw", "resize"],
+		["go", ice.RUN, ice.AUTO, "manual"], [ice.MODE, "draw", web.RESIZE],
 		[svg.SHAPE, svg.TEXT, svg.CIRCLE, svg.ELLIPSE, svg.RECT, svg.LINE, svg.BLOCK],
-		[svg.GRID, 1, 2, 3, 4, 5, 10, 20],
-	], menu_list: [ice.HIDE, ice.SHOW, mdb.CREATE, web.CLEAR, mdb.REMOVE],
-	_change: function(can, key, value) { can.Action(key, value), can.group.Value(key, value) },
+	], _change: function(can, key, value) { can.Action(key, value), can.group.Value(key, value) },
 	"font-size": function(event, can, key, value) { can.onaction._change(can, key, value) },
 	"stroke-width": function(event, can, key, value) { can.onaction._change(can, key, value) },
 	stroke: function(event, can, key, value) { can.onaction._change(can, key, value) },
@@ -91,31 +79,25 @@ Volcanos(chat.ONACTION, {list: [
 	mode: function(event, can, key, value) { can.Action(key, value) },
 	shape: function(event, can, key, value) { can.Action(key, value) },
 
-	edit: function(event, can) { can.Action("go", can.Action("go") == ice.RUN? ice.AUTO: ice.RUN) },
-	save: function(event, can, button) { can.runAction(can.request(event, {text: can.onexport.content(can, can.svg)}), button, [can.Option(nfs.PATH)]) },
-
+	menu_list: [ice.HIDE, ice.SHOW, mdb.CREATE, web.CLEAR, mdb.REMOVE],
 	hide: function(event, can) { can.onmotion.hide(can, {interval: 100, length: 10}, null, can.group) },
 	show: function(event, can) { can.onmotion.show(can, {interval: 10, length: 1}, null, can.group) },
 	create: function(event, can) { can.user.input(event, can, [svg.GROUP], function(list) { can.onimport.group(can, list[0]) }) },
 	clear: function(event, can) { can.onmotion.clear(can, can.group), delete(can.temp), can.point = [] },
-	remove: function(event, can) { if (can.group == can.svg) { return } can.page.Remove(can, can.group) },
+	remove: function(event, can) { can.group == can.svg || can.page.Remove(can, can.group) },
+
+	save: function(event, can, button) { can.runAction(can.request(event, {text: can.onexport.content(can, can.svg)}), button, [can.Option(nfs.PATH)]) },
+	edit: function(event, can) { can.Action("go", can.Action("go") == ice.RUN? ice.AUTO: ice.RUN) },
 
 	_mode: {
-		run: function(event, can) { can.onimport._profile(can, event.target) },
 		draw: function(event, can, point) { var shape = can.Action(svg.SHAPE), figure = can.onfigure[shape]
-			if (event.type == html.CLICK) {
-				debugger
-			}
 			figure.grid && figure.grid(event, can, point); if (figure.data.points && figure.data.points != point.length) { return }
 			var data = figure.draw && figure.draw(event, can, point, {}), target = data && can.onimport.block(can, figure.data.name||shape, data, can.group)
-			if (event.type == html.CLICK) { can.point = []; if (target) {
-				var pid = can.onexport._pid(can, target); can.core.List(point, function(p, i) { if (!p.target) { return }
-					p.target.Value(ice.SHIP, p.target.Value(ice.SHIP).concat([{pid: pid, which: i+1, anchor: p.anchor}]))
-				})
-			} }
-			return target
+			if (event.type == html.CLICK) { can.point = []; if (target) { var pid = can.onexport._pid(can, target)
+				can.core.List(point, function(p, i) { p.target && p.target.Value(ice.SHIP, p.target.Value(ice.SHIP).concat([{pid: pid, which: i+1, anchor: p.anchor}])) })
+			} } return target
 		},
-		resize: function(event, can, point, target) { target = target||event.target
+		resize: function(event, can, point) { var target = event.target
 			if (event.type == html.CLICK) { if (point.length > 1) { return can.point = [], delete(can.current) }
 				return can.current = {target: target, begin: can.core.List([target], function(target) { if (can.page.tagis(target, svg.G)) { return }
 					return {target: target, height: target.Val(html.HEIGHT), width: target.Val(html.WIDTH), x: target.Val(svg.X), y: target.Val(svg.Y),
@@ -140,17 +122,17 @@ Volcanos(chat.ONACTION, {list: [
 			default: can.Action(ice.MODE, "draw"), can.Action(svg.SHAPE, svg.LINE)
 		} }
 	},
-	_figure: function(event, can, points, target) { can.temp && can.page.Remove(can, can.temp) && delete(can.temp)
-		can.temp = can.core.CallFunc([can.onaction._mode, can.Action(ice.MODE)], [event, can, points, target]), can.point.length == 0 && delete(can.temp)
+	_figure: function(event, can, points) { can.temp && can.page.Remove(can, can.temp) && delete(can.temp)
+		can.temp = can.core.CallFunc([can.onaction._mode, can.Action(ice.MODE)], [event, can, points]), can.point.length == 0 && delete(can.temp)
 	},
+	onmouseover: function(event, can) { can.onexport._show(can, event.target) },
 	onmousemove: function(event, can) { var point = can.onexport._point(event, can)
 		if (can.Action("go") == ice.RUN) { return } can.onexport.cursor(event, can, event.target)
 		if (can.Action("go") == ice.AUTO) { can.onaction._auto(can, event.target) }
 		can.onaction._figure(event, can, can.point.concat(point))
 	},
-	onmouseover: function(event, can) { can.onexport._show(can, event.target) },
 	onclick: function(event, can) { var point = can.onexport._point(event, can)
-		if (can.Action("go") == ice.RUN) { return can.onimport._profile(can, event.target), event.shiftKey? can.onaction._mode.run(event, can): can.ondetail.run(event, can) }
+		if (can.Action("go") == ice.RUN) { return can.onimport._profile(can, event.target) }
 		can.onaction._figure(event, can, can.point = can.point.concat(point))
 	},
 	ondblclick: function(event, can) { can.ondetail.label(event, can) },
