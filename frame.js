@@ -369,8 +369,9 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		},
 	},
 
-	hidden: function(can, target, show) { target = target||can._target, can.page.styleDisplay(can, target, show? "": html.NONE)
-		return show? target._show && target._show(): target._hide && target._hide(), show
+	hidden: function(can, target, show) { target = target||can._target
+		if (target.length > 0) { return can.core.List(target, function(target) { can.onmotion.hidden(can, target, show) }) }
+		return can.page.styleDisplay(can, target, show? "": html.NONE), show? target._show && target._show(): target._hide && target._hide(), show
 	},
 	toggle: function(can, target, show, hide) { target = target||can._target
 		if (show === true) { return can.onmotion.hidden(can, target, true) } if (show === false) { return can.onmotion.hidden(can, target, false) }

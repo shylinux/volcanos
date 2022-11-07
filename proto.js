@@ -59,7 +59,7 @@ var ctx = {
 	EXTRA_INDEX: "extra.index", EXTRA_ARGS: "extra.args",
 }
 var cli = {
-	DAEMON: "daemon", START: "start", STOP: "stop", OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end",
+	DAEMON: "daemon", START: "start", STOP: "stop", OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end", GLASS: "#0000",
 	COLOR: "color", WHITE: "white", BLACK: "black", RED: "red", GREEN: "green", BLUE: "blue",
 	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta",
 	MAKE: "make", MAIN: "main", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
@@ -72,7 +72,7 @@ var aaa = {
 }
 var web = {
 	SPACE: "space", DREAM: "dream", SHARE: "share",
-	WEBSITE: "website", RESIZE: "resize", REFRESH: "refresh", CLEAR: "clear", UPLOAD: "upload", DOWNLOAD: "download",
+	WEBSITE: "website", DRAW: "draw", RESIZE: "resize", REFRESH: "refresh", CLEAR: "clear", UPLOAD: "upload", DOWNLOAD: "download",
 	SHARE_CACHE: "/share/cache/",
 
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
@@ -162,6 +162,7 @@ var chat = {
 		"/plugin/local/wiki/word.js",
 		"/plugin/local/team/plan.js",
 		"/plugin/local/mall/goods.js",
+		"/lib/lunar.js",
 	], PLUGIN_INPUT: "/plugin/input/", PLUGIN_STORY: "/plugin/story/", PLUGIN_LOCAL: "/plugin/local/",
 	PLUGIN_STATE_JS: "/plugin/state.js", PLUGIN_INPUT_JS: "/plugin/input.js", PLUGIN_TABLE_JS: "/plugin/table.js",
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
@@ -189,6 +190,8 @@ var mall = {
 
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",
+	FIGURE: "figure", DATA: "data", SHIP: "ship", TRANS: "trans",
+	GO: "go",
 	SHAPE: "shape", TEXT: "text", RECT: "rect", LINE: "line", CIRCLE: "circle", ELLIPSE: "ellipse", BLOCK: "block",
 	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", FONT_FAMILY: "font-family", MONOSPACE: "monospace", TEXT_ANCHOR: "text-anchor",
 	G: "g", X: "x", Y: "y", R: "r", RX: "rx", RY: "ry", CX: "cx", CY: "cy", X1: "x1", Y1: "y1", X2: "x2", Y2: "y2",
