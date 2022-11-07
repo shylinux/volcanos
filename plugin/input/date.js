@@ -1,7 +1,5 @@
 Volcanos(chat.ONFIGURE, {date: {
-	onclick: function(event, can, meta, target, cbs) { cbs(function(can, cb) {
-		function lunar(year, month, day) { return [] }
-		
+	onclick: function(event, can, meta, target, cbs) { cbs(function(can, cb) { function lunar(year, month, day) { return [] }
 		const TODAY = "today", YEAR = "year", MONTH = "month", HOUR = "hour", MINUTE = "minute", SECOND = "second"
 		var today = new Date(), now = can.base.Date((target.value||"").trim()); function _cb(_now) { cb(can, can.user.time(can, now = _now), target.value) }
 		can.onappend._action(can, [cli.CLOSE, [HOUR].concat(can.core.List(24)), [MINUTE].concat(can.core.List(0, 60, 5)), [SECOND].concat(can.core.List(0, 60, 5)),
@@ -32,12 +30,11 @@ Volcanos(chat.ONFIGURE, {date: {
 
 			can.page.Appends(can, can._table, [{th: ["日", "一", "二", "三", "四", "五", "六"]}])
 			var tr; function add(day, type) { if (day.getDay() == 0) { tr = can.page.Append(can, can._table, [{type: html.TR}]).last } var _day = new Date(day)
-				var _lunar = lunar(day.getFullYear(), day.getMonth()+1, day.getDate())
+				var _lunar = lunar(day)
 				can.page.Append(can, tr, [{view: [can.base.isIn(can.base.Time(day, "%y-%m-%d"), can.base.Time(now, "%y-%m-%d"), can.base.Time(today, "%y-%m-%d"))? html.SELECT: type, html.TD],
 					onclick: function(event) { _day.setHours(now.getHours()), _day.setMinutes(now.getMinutes()), _day.getSeconds(now.getSeconds()), _cb(_day), can.close() },
-				list: [
-					{text: day.getDate()+""},
-					{text: [_lunar.lunarFestival||_lunar.festival||_lunar.Term||(_lunar.IDayCn == "初一"? _lunar.IMonthCn: _lunar.IDayCn)], "className": "lunar"},
+				list: [{text: day.getDate()+""}, {text: [_lunar.lunarFestival||_lunar.festival||_lunar.Term||(_lunar.IDayCn == "初一"? _lunar.IMonthCn: _lunar.IDayCn)],
+					"className": "lunar"+(_lunar.lunarFestival||_lunar.festival? " fest":"")+(_lunar.isTerm? " term": "")},
 				]}])
 			}
 
@@ -49,15 +46,11 @@ Volcanos(chat.ONFIGURE, {date: {
 			for (var day = new Date(head); day < one; day.setDate(day.getDate()+1)) { add(day, mdb.PREV) }
 			for (var day = new Date(one); day < end; day.setDate(day.getDate()+1)) { add(day, mdb.MAIN) }
 			for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) { add(day, mdb.NEXT) }
+			var l = lunar(now); can.page.Appends(can, can._status, [{view: "today", inner: [l.gzYear, l.Animal+"年", l.Astro].join(ice.SP)}])
 			return now
 		}
 		can.require(["/lib/lunar.js"], function() {
-			lunar = function(year, month, day) {
-				var what = calendar.solar2lunar(year,month,day) 
-				can.misc.Log("what", what)
-				return what
-				return Lunar.toLunar(year, month, day)
-			}
+			lunar = function(year, month, day) { return calendar.solar2lunar(year,month,day) }
 			show(now), can._show = function(d) { _cb(show(new Date(now.getTime()+d*24*3600*1000))) }
 		})
 	})},
