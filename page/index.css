@@ -89,6 +89,7 @@ fieldset.input.date div.output td { padding:2px 10px; }
 fieldset.input.date div.output td span.lunar { font-size:8px; display:block; clear:both; }
 fieldset.input.date div.output td span.lunar.fest { color:red; }
 fieldset.input.date div.output td span.lunar.term { color:green; }
+fieldset.input.date div.status { text-align:center; }
 fieldset.input.date table { text-align:center; width:280px; }
 fieldset.input.date select { width:63px; }
 fieldset.input.date select[name=month] { width:70px; }
