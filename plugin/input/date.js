@@ -30,12 +30,10 @@ Volcanos(chat.ONFIGURE, {date: {
 
 			can.page.Appends(can, can._table, [{th: ["日", "一", "二", "三", "四", "五", "六"]}])
 			var tr; function add(day, type) { if (day.getDay() == 0) { tr = can.page.Append(can, can._table, [{type: html.TR}]).last } var _day = new Date(day)
-				var _lunar = lunar(day)
+				var l = lunar(day)
 				can.page.Append(can, tr, [{view: [can.base.isIn(can.base.Time(day, "%y-%m-%d"), can.base.Time(now, "%y-%m-%d"), can.base.Time(today, "%y-%m-%d"))? html.SELECT: type, html.TD],
-					onclick: function(event) { _day.setHours(now.getHours()), _day.setMinutes(now.getMinutes()), _day.getSeconds(now.getSeconds()), _cb(_day), can.close() },
-				list: [{text: day.getDate()+""}, {text: [_lunar.lunarFestival||_lunar.festival||_lunar.Term||(_lunar.IDayCn == "初一"? _lunar.IMonthCn: _lunar.IDayCn)],
-					"className": "lunar"+(_lunar.lunarFestival||_lunar.festival? " fest":"")+(_lunar.isTerm? " term": "")},
-				]}])
+					onclick: function(event) { _day.setHours(now.getHours()), _day.setMinutes(now.getMinutes()), _day.getSeconds(now.getSeconds()), _cb(_day), meta._hold? show(_day): can.close() },
+				list: [{text: day.getDate()+""}, {text: l.autoDay, "className": l.autoClass}]}])
 			}
 
 			var one = new Date(now); one.setDate(1)
@@ -49,8 +47,7 @@ Volcanos(chat.ONFIGURE, {date: {
 			var l = lunar(now); can.page.Appends(can, can._status, [{view: "today", inner: [l.gzYear, l.Animal+"年", l.Astro].join(ice.SP)}])
 			return now
 		}
-		can.require(["/lib/lunar.js"], function() {
-			lunar = function(year, month, day) { return calendar.solar2lunar(year,month,day) }
+		can.require(["/lib/lunar.js"], function() { lunar = function(day) { return calendar.solar2lunar(day) }
 			show(now), can._show = function(d) { _cb(show(new Date(now.getTime()+d*24*3600*1000))) }
 		})
 	})},
