@@ -44,7 +44,7 @@ Volcanos(chat.ONFIGURE, {date: {
 			for (var day = new Date(head); day < one; day.setDate(day.getDate()+1)) { add(day, mdb.PREV) }
 			for (var day = new Date(one); day < end; day.setDate(day.getDate()+1)) { add(day, mdb.MAIN) }
 			for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) { add(day, mdb.NEXT) }
-			var l = lunar(now); can.page.Appends(can, can._status, [{view: "today", inner: [l.gzYear, l.Animal+"年", l.Astro].join(ice.SP)}])
+			var l = lunar(now); can.page.Appends(can, can._status, [{view: "today", inner: [l.gzYear, l.Animal+"年", l.cnMonth, l.cnDay, l.lunarFestival||l.festival||l.Term, l.Astro].join(ice.SP)}])
 			return now
 		}
 		can.require(["/lib/lunar.js"], function() { lunar = function(day) { return calendar.solar2lunar(day) }
