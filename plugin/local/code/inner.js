@@ -8,6 +8,34 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 		}}])
 	},
 
+	tabInputs: function(event, can, ps, key, pre, cb, parent) {
+		can.runAction(event, mdb.INPUTS, [key, pre], function(msg) { var _trans = {}
+			var carte = can.user[parent? "carteRight": "carte"](event, can, {}, msg.Table(function(value) { var p = can.base.trimPrefix(value[key], pre)
+				if (can.base.beginWith(pre, "usr/icebergs/core/") && can.base.beginWith(value[key], "usr/volcanos/plugin/local/")) {
+					var p = can.base.trimPrefix(can.base.replaceAll(value[key], "usr/volcanos/plugin/local/", "usr/icebergs/core/"), pre)
+				}
+				if (can.base.beginWith(pre, "usr/volcanos/plugin/local/") && can.base.beginWith(value[key], "usr/icebergs/core/")) {
+					var p = can.base.trimPrefix(can.base.replaceAll(value[key], "usr/icebergs/core/", "usr/volcanos/plugin/local/"), pre)
+				}
+				return _trans[p] = value[key], p
+			}), function(event, button) {
+				if (can.base.endWith(button, ps)) { can.onimport.tabInputs(event, can, ps, key, pre+button, cb, carte); return }
+				cb(can.core.Split(_trans[button], ps), pre)
+			}, parent)._target
+			function remove(p) { if (p && p._sub) { remove(p._sub), can.page.Remove(can, p._sub), delete(p._sub) } }
+			if (parent) { remove(parent), parent._sub = carte }
+			var _p = can.core.Split(event.target.innerHTML.trim(), ice.PT)[0]
+			can.page.Select(can, carte, html.DIV_ITEM, function(target) { can.base.beginWith(target.innerHTML, _p) && carte.insertBefore(target, carte.firstChild) })
+		})
+	},
+	_tabInputs: function(can, ps, key, value, cb) {
+		can.core.List(can.core.Split(value, ps), function(value, index, array) {
+			can.page.Append(can, can.ui._path, [{text: [value, html.SPAN, html.ITEM], onclick: function(event) {
+				can.onimport.tabInputs(event, can, ps, key, array.slice(0, index).join(ps)+ps, cb)
+			}}, index < array.length-1? {text: ps}: null])
+		})
+	},
+	
 	project: function(can, path) {
 		can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) {
 			if (can.base.isFunc(cb)) { return {name: name, _init: function(target, zone) { return cb(can, target, zone, path) }} }
@@ -23,8 +51,21 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 			can.Option(can.onimport.history(can, {path: path, file: file, line: line||can.misc.localStorage(can, "web.code.vimer:selectLine:"+path+file)||can._msg.Option(nfs.LINE)|| 1}))
 			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg
 				can.onexport.hash(can), msg._tab && can.onmotion.select(can, msg._tab.parentNode, html.DIV_TABS, msg._tab)
-				can.ui._path && (can.ui._path.innerHTML = isDream()? can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)})):
-					isCommand()? can.Option(nfs.FILE): can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE)))
+				if (can.ui._path) { can.ui._path.innerHTML = ""
+					if (isDream()) {
+						can.ui._path.innerHTML = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}))
+					} else if (isCommand()) {
+						can.ui._path.innerHTML = can.Option(nfs.FILE)
+					} else {
+						can.onimport._tabInputs(can, ice.PS, nfs.PATH, can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE)), function(ls, pre) {
+							if (can.base.beginWith(pre, "usr/")) {
+								can.onimport.tabview(can, ls.slice(0, 2).join(ice.PS)+ice.PS, ls.slice(2).join(ice.PS))
+							} else {
+								can.onimport.tabview(can, ls.slice(0, 1).join(ice.PS)+ice.PS, ls.slice(1).join(ice.PS))
+							}
+						})
+					}
+				}
 				can.ui.current && can.onmotion.toggle(can, can.ui.current, !isCommand() && !isDream())
 
 				can.page.Select(can, can.ui._content.parentNode, can.page.Keys(html.DIV_CONTENT, html.IFRAME), function(item) {

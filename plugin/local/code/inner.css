@@ -33,6 +33,9 @@ fieldset.inner.float>div.status { display:none; }
 
 fieldset.inner>div.output td.content>div.tabs { display:none; }
 fieldset.inner>div.output td.content>div.path { display:none; }
+fieldset.inner>div.output td.content>div.path { font-family:monospace; }
+fieldset.inner>div.output td.content>div.path span.item { padding:3px 12px; }
+fieldset.inner>div.output td.content>div.path span.item:hover { background-color:cornflowerblue; }
 fieldset.inner div.output fieldset.toolkit { position:absolute; bottom:0px; right:0px; }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset { display:none; }
 fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select { background-color:#0e3369b3; color:white; display:block; z-index:10; }
