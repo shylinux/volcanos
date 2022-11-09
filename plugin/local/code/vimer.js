@@ -226,9 +226,8 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 				text && can.core.List(["{}", "[]", "()"], function(item) { if (can.base.endWith(text, item[0])) {
 					if (can.base.beginWith(rest, item[1])) { return true }
 					(!rest && can.onaction.insertLine(can, left+item[1], can.current.next()), left += ice.TB)
-				} }).length == 0 && rest && ["}", "]", ")"].indexOf(rest[0]) > -1 && (left = left.slice(0, -1))
+				} }).length == 0 && rest && ["}", "]", ")"].indexOf(rest[0]) > -1 && (left = left.slice(0, -1)) || (rest.trim()[0] == "}" && text.trim()[text.length-1] != "{") && (left = left.slice(0, -1))
 				if (can.base.endWith(text, "`") && can.base.count(text, "`")%2==1) { !rest && can.onaction.insertLine(can, left+"`", can.current.next()) }
-				if (rest.trim()[0] == "}" && text.trim()[text.length-1] != "{") { left = left.slice(0, -1) }
 				var line = can.onaction.insertLine(can, left+rest.trimLeft(), can.current.next())
 				can.current.text(text.trimRight()||text), can.onaction.selectLine(can, line)
 				can.onkeymap.cursorMove(target, 0, left.length)

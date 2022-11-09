@@ -447,7 +447,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		can.core.Timer(time, function(event, value, index) { can.page.style(can, target, html.OPACITY, (index+1)/time.length) }, cb)
 	},
 })
-Volcanos(chat.ONKEYMAP, {_init: function(can, target) {
+Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||document.body
 		can.onkeymap._build(can), target.onkeydown = function(event) {
 			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
 			var msg = can.request(event, {"model": "normal"}); if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return }

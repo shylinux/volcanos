@@ -7,6 +7,7 @@ Volcanos(chat.ONFIGURE, {key: {
 			}}
 		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length())
 		msg.append.length == 1 && can.page.ClassList.add(can, can._target, chat.SIMPLE)
+		can.onlayout.figure({target: target}, can, can._target)
 	},
 	_load: function(event, can, cb, target, name, value) { can.runAction(event, mdb.INPUTS, [name, value||""], function(msg) {
 		name == ctx.INDEX && can.core.Item(can.onengine.plugin.meta, function(key) { msg.Push(ctx.INDEX, can.core.Keys(ice.CAN, key)) })
@@ -17,8 +18,10 @@ Volcanos(chat.ONFIGURE, {key: {
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
 	onblur: function(event, can, sub) { can.onmotion.delay(can, function() { sub._delay_hidden || can.onmotion.hidden(can, sub._target), sub._delay_hidden = false }, 300) },
-	onkeydown: function(event, can, meta, cb, target, sub, last) { if (sub.hidden()) { return }
+	onkeydown: function(event, can, meta, cb, target, sub, last) {
 		if (event.key == lang.ENTER && meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event)) { return sub.close() }
+		if (event.key == lang.ENTER) { return last(event) }
+		if (sub.hidden()) { return }
 		can.onkeymap.selectCtrlN(event, can, sub._output, "tr:not(.hidden)>td:first-child", function(td) { return cb(sub, td.innerText, target.value), td }) 
 			|| can.onkeymap.selectInputs(event, sub, function() { sub._load(event, sub, cb, target, meta.name) }, target)
 	},
