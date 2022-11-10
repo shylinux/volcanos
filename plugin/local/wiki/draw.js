@@ -53,15 +53,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			can._plugins = (can._plugins||[]).concat(sub)
 		}, can.ui.display): can.onimport.layout(can)
 	},
-	block: function(can, type, value, group) { group = group||can.group||can.svg
+	block: function(can, type, value, group) { group = group||can.group
 		var target = document.createElementNS("http://www.w3.org/2000/svg", type)
 		return group.appendChild(can.onimport._block(can, target)), target.Value(value), target
 	},
-	group: function(can, name, value, group) { var target = can.onimport.block(can, svg.G, value, group)
+	group: function(can, name, value, group) { var target = can.onimport.block(can, svg.G, value, group||can.svg)
 		return target.Value(html.CLASS, name), can.onimport._group(can, target).click(), target
 	},
-	draw: function(event, can, value, group) {
-		var figure = can.onfigure[value.shape], data = figure.draw(event, can, value.points, value.style||{}); can.core.Item(value.style, function(key, value) { data[key] = value })
+	draw: function(can, value, group) { group = group||can.svg
+		var figure = can.onfigure[value.shape], data = figure.draw({}, can, value.points, value.style||{}); can.core.Item(value.style, function(key, value) { data[key] = value })
 		var target = can.onimport.block(can, figure.data.name||value.shape, data, group); can.core.ItemCB(value, function(key, cb) { target[key] = cb })
 		return value._init && value._init(target), target
 	},

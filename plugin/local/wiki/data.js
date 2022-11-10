@@ -10,6 +10,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	},
 	_story: function(can, msg, display) { return can.onappend.plugin(can, {msg: msg, mode: chat.OUTPUT, display: can.misc.MergePath(can, display, chat.PLUGIN_STORY)}) },
 	"折线图": function(can, msg, field) { return can.onimport._story(can, msg, can.base.MergeURL("trend.js", {field: field, view: "折线图"})) },
+	"柱状图": function(can, msg, field) { return can.onimport._story(can, msg, can.base.MergeURL("trend.js", {field: field, view: "柱状图"})) },
 	"比例图": function(can, msg, field) { return can.onimport._story(can, msg, can.base.MergeURL("pie.js", {field: field})) },
 }, [""])
 Volcanos(chat.ONFIGURE, {

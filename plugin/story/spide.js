@@ -1,129 +1,65 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
-		can.onmotion.clear(can); if (msg.Length() == 0) { return }
-
-		can.ConfDefault({root: "ice", field: msg.append[0], split: ice.PS})
-		can.dir_root = msg.Option(nfs.DIR_ROOT)||can.Conf("root")
-		can._tree = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))
-		if (!can._tree[""]) { return } can._tree[""].name = can.Conf("root")
-
-		can.size = parseInt(can.Action("size")||24)
-		can.margin = parseInt(can.Action("margin")||30)
-		can.page.ClassList.add(can, can._fields, "draw")
-		can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
+		can.requireDraw(function() { can.ConfDefault({field: msg.append[0], split: ice.PS})
+			can.dir_root = can.Conf(nfs.ROOT)||msg.Option(nfs.DIR_ROOT), can._tree = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))
 			can.base.isFunc(cb) && cb(msg), can.onimport.layout(can)
 		})
 	},
 	_tree: function(can, list, field, split) {
-		var node = {}; can.core.List(list, function(item) { if (!item[field]) { return }
-			can.core.List(can.base.trimPrefix(item[field], can.dir_root+split).split(split), function(value, index, array) {
-				var last = array.slice(0, index).join(split)||"", name = array.slice(0, index+1).join(split)
-				if (!value || node[name]) { return }
-
-				node[last] = node[last]||{name: last, meta: {}, list: []}
-				node[last].list.push(node[name] = {
-					name: value+(index==array.length-1? "": split),
-					meta: item, list: [], last: node[last],
-					file: item[field]||item.file, hide: true,
-				})
+		var node = {}; can.core.List(list, function(item) { can.core.List(item[field].split(split), function(value, index, array) {
+			var last = array.slice(0, index).join(split)||can.dir_root, name = array.slice(0, index+1).join(split)
+			value && !node[name] && (node[last] = node[last]||{name: last, meta: {}, list: []}).list.push(node[name] = {
+				name: value+(index==array.length-1? "": split), file: item[field]||item.file, hide: true, meta: item, list: [], last: node[last],
 			})
-		})
-		return node
+		}) }); return node
 	},
-	_height: function(can, tree, deep) { if (!tree) { return 0 }
-		tree.deep = deep||0
-		if (!tree.list || tree.list.length == 0 || tree.hide) { return tree.height = 1 }
-
-		var height = 0; can.core.List(tree.list, function(item) {
-			height += can.onimport._height(can, item, (deep||0)+1)
-		})
-		return tree.height = height
+	_height: function(can, tree, deep) { tree.deep = deep||0, tree.height = 0; if (tree.list.length == 0 || tree.hide) { return tree.height = 1 }
+		can.core.List(tree.list, function(item) { tree.height += can.onimport._height(can, item, (deep||0)+1) }); return tree.height
 	},
-	_width: function(can, tree, deep) { if (!tree) { return 0 }
-		tree.deep = deep||0
-		if (!tree.list || tree.list.length == 0 || tree.hide) { if (!tree.name) { return tree.width = 20 }
-			tree.view = can.onimport.draw({}, can, {shape: html.TEXT, point: [{x: 0, y: 0}], style: {inner: tree.name}})
-			return tree.width = tree.view.Val("textLength")+can.margin
-		}
-
-		var width = 0; can.core.List(tree.list, function(item) {
-			width += can.onimport._width(can, item, (deep||0)+1)
-		})
-		return tree.width = width
+	_width: function(can, tree, deep) { tree.deep = deep||0, tree.width = 0; if (tree.list.length == 0 || tree.hide) {
+			return tree.width = can.onimport.draw(can, {shape: html.TEXT, points: [{x: 0, y: 0}], style: {inner: tree.name}}).Val(svg.TEXT_LENGTH)+can.margin
+		} can.core.List(tree.list, function(item) { tree.width += can.onimport._width(can, item, (deep||0)+1) }); return tree.width
 	},
-	_color: function(can, tree) {
-		return tree.meta&&tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW)
-	},
-	layout: function(can) { can.margin = can.margin||20
-		can.onmotion.clear(can), can.onimport._show(can, can.request())
-		can.svg.Val(svg.FONT_SIZE, can.Action("size"))
-		can.page.style(can, can._output, html.MAX_HEIGHT, "")
+	_color: function(can, tree) { return tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW) },
+	layout: function(can) { can.page.style(can, can._output, html.MAX_HEIGHT, "")
+		can.svg.Val(svg.FONT_SIZE, can.size = parseInt(can.Action(html.SIZE))), can.margin = parseInt(can.Action(html.MARGIN))
 		can.onaction[can.Action(ice.VIEW)](event, can, can.Action(ice.VIEW))
 	},
 }, [""])
-Volcanos(chat.ONACTION, {help: "用户操作", list: [
-		[ice.VIEW, "横向", "纵向"], ["size", 24, 32, 48], ["margin", 30, 50, 100],
-	],
-	size: function(event, can) { can.size = parseInt(can.Action("size")||30), can.onimport.layout(can) },
-	margin: function(event, can) { can.margin = parseInt(can.Action("margin")||30), can.onimport.layout(can) },
-	"横向": function(event, can, button) {
-		can.onimport._height(can, can._tree[""])
-		can.sup.view = button, can.onmotion.clear(can, can.svg)
-
-		can.svg.Val(html.HEIGHT, can._tree[""].height*can.margin+2*can.margin)
-		can.width = 0, can.onaction._draw_horizontal(can, can._tree[""], can.margin, can.margin)
-		can.svg.Val(html.WIDTH, can.width+can.margin)
+Volcanos(chat.ONACTION, {list: [[ice.VIEW, "横向", "纵向"], [html.SIZE, 24, 32, 48], [html.MARGIN, 10, 30, 50]],
+	size: function(event, can) { can.onimport.layout(can) }, margin: function(event, can) { can.onimport.layout(can) },
+	"横向": function(event, can, button) { can.onimport._height(can, can._tree[can.dir_root]), can.onmotion.clear(can, can.svg)
+		can.svg.Val(html.HEIGHT, can._tree[can.dir_root].height*(can.size+can.margin)+2*can.margin), can.svg.Value(svg.TEXT_ANCHOR, "start")
+		can.onaction._draw_horizontal(can, can._tree[can.dir_root], can.margin, can.margin)
 	},
-	"纵向": function(event, can, button) {
-		can.onimport._width(can, can._tree[""])
-		can.sup.view = button, can.onmotion.clear(can, can.svg)
-
-		can.svg.Val(html.WIDTH, can._tree[""].width+2*can.margin)
-		can.height = 0, can.onaction._draw_vertical(can, can._tree[""], can.margin, can.margin+can.margin)
-		can.svg.Val(html.HEIGHT, can.height+can.margin)
+	"纵向": function(event, can, button) { can.onimport._width(can, can._tree[can.dir_root]), can.onmotion.clear(can, can.svg)
+		can.svg.Val(html.WIDTH, can._tree[can.dir_root].width+2*can.margin), can.svg.Value(svg.TEXT_ANCHOR, "middle")
+		can.onaction._draw_vertical(can, can._tree[can.dir_root], can.margin, can.margin+(can.size+can.margin)/2)
 	},
 	_draw: function(can, tree, x, y, style) { var color = can.onimport._color(can, tree)
-		if (!tree.name) { return }
-		tree.view = can.onimport.draw({}, can, {shape: html.TEXT, point: [{x: x, y: y}], style: can.base.Copy(kit.Dict(
-			svg.STROKE, color, svg.FILL, color, svg.TEXT_ANCHOR, "start", "inner", tree.name||tree.file,
-		), style), }), can.core.ItemCB(can.ondetail, tree.view, can, tree)
+		tree.view = can.onimport.draw(can, {shape: html.TEXT, points: [{x: x, y: y}], style: can.base.Copy(kit.Dict(svg.STROKE, color, svg.FILL, color, html.INNER, tree.name), style)})
+		return can.core.ItemCB(can.ondetail, tree.view, can, tree), tree.view
 	},
-	_draw_vertical: function(can, tree, x, y) { tree.x = x, tree.y = y
-		can.onaction._draw(can, tree, x+tree.width/2, y, kit.Dict(svg.TEXT_ANCHOR, "middle"))
-
-		tree.height = can.margin
-		if (y+tree.height > can.height) { can.height = y+tree.height }
-		if (tree.hide) { return }
-
-		var offset = 0; can.core.List(tree.list, function(item) { if (!item) { return }
-			item.name && item.name != " " && can.onimport.draw({}, can, {shape: svg.PATH2V, point: [
-				{x: x+tree.width/2, y: y+tree.height-can.margin/2},
-				{x: x+offset+item.width/2, y: y+tree.height+can.margin/2},
-			], style: {stroke: cli.CYAN}})
-			can.onaction._draw_vertical(can, item, x+offset, y+tree.height+can.margin), offset += item.width
+	_draw_vertical: function(can, tree, x, y) {
+		tree.height = can.size+can.margin, can.onaction._draw(can, tree, tree.x = x+tree.width/2, tree.y = y); if (y+tree.height > can.svg.Val(html.HEIGHT)) { can.svg.Val(html.HEIGHT, y+tree.height) }
+		var offset = 0; tree.hide || can.core.List(tree.list, function(item) {
+			can.onimport.draw(can, {shape: svg.PATH2V, points: [
+				{x: x+tree.width/2, y: y+tree.height/2-can.margin/2}, {x: x+offset+item.width/2, y: y+tree.height/2+8*can.margin-can.margin/2},
+			], style: {stroke: cli.CYAN}}), can.onaction._draw_vertical(can, item, x+offset, y+tree.height+8*can.margin), offset += item.width
 		})
 	},
-	_draw_horizontal: function(can, tree, x, y) { tree.x = x, tree.y = y
-		can.onaction._draw(can, tree, x, y+tree.height*can.margin/2, kit.Dict(svg.TEXT_ANCHOR, "start"))
-
-		tree.width = tree.view&&tree.view.Val("textLength")||(tree.name||"").length*10
-		if (x+tree.width > can.width) { can.width = x+tree.width }
-		if (tree.hide) { return }
-
-		var offset = 0; can.core.List(tree.list, function(item) { if (!item || !item.name) { return }
-			can.onimport.draw({}, can, {shape: svg.PATH2H, point: [
-				{x: x+tree.width+can.margin/8, y: y+tree.height*can.margin/2},
-				{x: x+tree.width+can.margin*2-2*can.margin/8, y: y+offset+item.height*can.margin/2}
-			], style: {stroke: cli.CYAN}})
-
-			can.onaction._draw_horizontal(can, item, x+tree.width+2*can.margin, y+offset)
-			offset += item.height*can.margin
+	_draw_horizontal: function(can, tree, x, y) {
+		tree.width = can.onaction._draw(can, tree, tree.x = x, tree.y = y+tree.height*(can.size+can.margin)/2).Val(svg.TEXT_LENGTH); if (x+tree.width > can.svg.Val(html.WIDTH)) { can.svg.Val(html.WIDTH, x+tree.width) }
+		var offset = 0; tree.hide || can.core.List(tree.list, function(item) {
+			can.onimport.draw(can, {shape: svg.PATH2H, points: [
+				{x: x+tree.width+can.margin/2, y: y+tree.height*(can.size+can.margin)/2}, {x: x+tree.width+8*can.margin-can.margin/2, y: y+offset+item.height*(can.size+can.margin)/2}
+			], style: {stroke: cli.CYAN}}), can.onaction._draw_horizontal(can, item, x+tree.width+8*can.margin, y+offset), offset += item.height*(can.size+can.margin)
 		})
 	},
 })
-Volcanos(chat.ONDETAIL, {help: "用户交互",
-	onmouseenter: function(event, can, tree) { var y = tree.y+tree.height*can.margin/2
-		can.page.Remove(can, can.pos), can.pos = can.onimport.draw({}, can, {shape: svg.RECT, point: [
-			{x: tree.x-can.margin/4, y: y-can.margin/2}, {x: tree.x+tree.width+can.margin/8, y: y+can.margin/2},
+Volcanos(chat.ONDETAIL, {
+	onmouseenter: function(event, can, tree) { var view = tree.view, width = can.Action(ice.VIEW) == "纵向"? view.Val(svg.TEXT_LENGTH)/2: 0
+		can.page.Remove(can, can.pos), can.pos = can.onimport.draw(can, {shape: svg.RECT, points: [
+			{x: view.Val(svg.X)-width-can.margin/2, y: view.Val(svg.Y)-(can.size+can.margin/2)/2}, {x: view.Val(svg.X)-width+view.Val(svg.TEXT_LENGTH)+can.margin/2, y: view.Val(svg.Y)+(can.size+can.margin/2)/2},
 		], style: {stroke: cli.RED, fill: html.NONE}}), can.onkeymap.prevent(event)
 	},
 	onclick: function(event, can, tree) {
@@ -138,7 +74,7 @@ Volcanos(chat.ONDETAIL, {help: "用户交互",
 			if (msg.Append(mdb.INDEX)) { msg.Table(function(value) { can.ondetail.plugin(can, value.index, []) }); return }
 
 			if (msg.Option(lex.SPLIT)) {
-				tree.list = can.onimport._tree(can, msg.Table(), msg.Option(mdb.FIELD)||msg.append[0], msg.Option(lex.SPLIT))[""].list||[]
+				tree.list = can.onimport._tree(can, msg.Table(), msg.Option(mdb.FIELD)||msg.append[0], msg.Option(lex.SPLIT))[can.dir_root].list||[]
 				can.core.List(tree.list, function(item) { item.last = tree })
 			} else {
 				msg.Table(function(item) { tree.list.push({
@@ -151,7 +87,7 @@ Volcanos(chat.ONDETAIL, {help: "用户交互",
 		}, true)
 	},
 	plugin: function(can, index, args, prefix) {
-		can.onappend.plugin(can, {type: chat.STORY, mode: chat.FLOAT, index: index, args: args}, function(sub) {
+		can.onappend.plugin(can, {mode: chat.FLOAT, index: index, args: args}, function(sub) {
 			sub.run = function(event, cmds, cb) { can.runAction(can.request(event), prefix||[ice.RUN, index], cmds, cb) }
 			sub.onaction.close = function() { can.page.Remove(can, sub._target) }
 			can.getActionSize(function(left, top, width, height) { left = left||0

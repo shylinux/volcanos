@@ -96,7 +96,7 @@ var mdb = {
 var ssh = {
 }
 var nfs = {
-	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
+	PATH: "path", FILE: "file", LINE: "line", SIZE: "size", ROOT: "root",
 	SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
 	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash", SCRIPT: "script", CONTENT: "content", DIR_ROOT: "dir_root", PWD: "./",
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
@@ -197,6 +197,7 @@ var svg = {
 	G: "g", X: "x", Y: "y", R: "r", RX: "rx", RY: "ry", CX: "cx", CY: "cy", X1: "x1", Y1: "y1", X2: "x2", Y2: "y2",
 	PATH: "path", PATH2V: "path2v", PATH2H: "path2h",
 	M: "M", Q: "Q", T: "T",
+	TEXT_LENGTH: "textLength",
 }
 var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
@@ -212,7 +213,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	SPAN: "span", CODE: "code", DIV: "div", IMG: "img", VIDEO: "video", SPACE: "space", 
 	WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe", CHROME: "chrome",
 
-	CLASS: "class", DISPLAY: "display", BLOCK: "block", NONE: "none", HIDDEN: "hidden", TOGGLE: "toggle",
+	CLASS: "class", DISPLAY: "display", BLOCK: "block", NONE: "none", HIDDEN: "hidden", TOGGLE: "toggle", SIZE: "size",
 	HEIGHT: "height", WIDTH: "width", PADDING: "padding", MARGIN: "margin", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
 	MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MIN_WIDTH: "min-width", MAX_WIDTH: "max-width", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
 	BACKGROUND: "background", OPACITY: "opacity", OVERFLOW: "overflow", SCROLL: "scroll", SPEED: "speed", FLOAT: "float", CLEAR: "clear", BOTH: "both",
@@ -257,6 +258,11 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 				if (libs[i].indexOf(nfs._CSS) == -1 && libs[i].indexOf(nfs._JS) == -1) { libs[i] = libs[i]+"/lib/"+libs[i]+nfs._JS }
 				libs[i] = "/require/node_modules/"+libs[i]
 			} can.require(libs, cb, cbs)
+		},
+		requireDraw: function(cb) { can.page.ClassList.add(can, can._fields, "draw")
+			can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
+				can.onmotion.clear(can), can.onimport._show(can, can._msg), cb()
+			})
 		},
 		require: function(libs, cb, cbs) {
 			if (!libs || libs.length == 0) { return typeof cb == lang.FUNCTION && setTimeout(function() { cb(can) }, 10) }
