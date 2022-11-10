@@ -7,7 +7,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 		})
 	},
 	_draw: function(can, msg, field, color, x, y, r, margin, which) { if (which == can._last) { return } can._last = which, field = field||mdb.VALUE
-		if (msg.Length() == 1) { return can.onimport.draw(can, {shape: svg.CIRCLE, point: [{x: x, y: y}, {x: x, y: y+r}], style: {fill: color[0]}}) }
+		if (msg.Length() == 1) { return can.onimport.draw(can, {shape: svg.CIRCLE, points: [{x: x, y: y}, {x: x, y: y+r}], style: {fill: color[0]}}) }
 		function pos(x, y, r, angle) { angle -= 90; return [x + r * Math.cos(angle * Math.PI / 180), y + r * Math.sin(angle * Math.PI / 180)] }
 		function pie(x, y, r, begin, span, color, cb) { can.onimport.draw(can, {shape: svg.PATH, style: kit.Dict(
 			svg.STROKE, color, svg.FILL, color, "d", can.base.joins([
