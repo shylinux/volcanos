@@ -28,7 +28,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 Volcanos(chat.ONFIGURE, {help: "索引导航", 
 	create: function(can, target, zone, path) {
 		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(
-			["查找", "首页", "百度", "plan", "git", "vim"], window.webview? ["录屏", "日志", "编辑器", "浏览器"]: [],
+			["查找", "git", "首页", "官网" , "文档" , "百度"], window.webview? ["录屏", "日志", "编辑器", "浏览器"]: [],
 		), target): can.onmotion.hidden(can, target.parentNode)
 	},
 	recent: function(can, target, zone, path) { var total = 0
@@ -340,6 +340,8 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	"浏览器": function(event, can) { window.openurl(location.href) },
 	"首页": function(event, 	can) { can.user.isWebview? window.openurl(location.protocol+"//"+location.host): window.open(location.protocol+"//"+location.host) },
 	"百度": function(event, 	can) { can.user.isWebview? window.openurl("https://baidu.com"): can.user.open("https://baidu.com") },
+	"文档": function(event, 	can) { can.user.isWebview? window.openurl("https://developer.mozilla.org/"): can.user.open("https://developer.mozilla.org/") },
+	"官网": function(event, 	can) { can.user.isWebview? window.openurl("https://shylinux.com/"): can.user.open("https://shylinux.com/") },
 	"查找": function(event, can) {
 		var ui = can.page.Append(can, can._output, [{view: "vimer find float", list: [html.ACTION, html.OUTPUT],
 			style: {position: "absolute", left: can.ui.project.offsetWidth+can.ui.content.offsetWidth/2, top: can.base.Max(can.base.Min(can.current.line.offsetTop-can.ui.content.scrollTop, 100), can.ConfHeight()/2)+57+28}}])

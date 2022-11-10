@@ -100,7 +100,7 @@ var nfs = {
 	SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
 	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash", SCRIPT: "script", CONTENT: "content", DIR_ROOT: "dir_root", PWD: "./",
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
-	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png",
+	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
 }
 var tcp = {
@@ -164,6 +164,7 @@ var chat = {
 		"/plugin/local/mall/goods.js",
 		"/lib/lunar.js",
 	], PLUGIN_INPUT: "/plugin/input/", PLUGIN_STORY: "/plugin/story/", PLUGIN_LOCAL: "/plugin/local/",
+	SHARE_LOCAL: "/share/local/",
 	PLUGIN_STATE_JS: "/plugin/state.js", PLUGIN_INPUT_JS: "/plugin/input.js", PLUGIN_TABLE_JS: "/plugin/table.js",
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport", ONPLUGIN: "onplugin",
