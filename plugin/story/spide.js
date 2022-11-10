@@ -12,12 +12,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
 			})
 		}) }); return node
 	},
-	_height: function(can, tree, deep) { tree.deep = deep||0, tree.height = 0; if (tree.list.length == 0 || tree.hide) { return tree.height = 1 }
-		can.core.List(tree.list, function(item) { tree.height += can.onimport._height(can, item, (deep||0)+1) }); return tree.height
+	_height: function(can, tree) { tree.height = 0; if (tree.list.length == 0 || tree.hide) { return tree.height = 1 }
+		can.core.List(tree.list, function(item) { tree.height += can.onimport._height(can, item) }); return tree.height
 	},
-	_width: function(can, tree, deep) { tree.deep = deep||0, tree.width = 0; if (tree.list.length == 0 || tree.hide) {
+	_width: function(can, tree) { tree.width = 0; if (tree.list.length == 0 || tree.hide) {
 			return tree.width = can.onimport.draw(can, {shape: html.TEXT, points: [{x: 0, y: 0}], style: {inner: tree.name}}).Val(svg.TEXT_LENGTH)+can.margin
-		} can.core.List(tree.list, function(item) { tree.width += can.onimport._width(can, item, (deep||0)+1) }); return tree.width
+		} can.core.List(tree.list, function(item) { tree.width += can.onimport._width(can, item) }); return tree.width
 	},
 	_color: function(can, tree) { return tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW) },
 	layout: function(can) { can.page.style(can, can._output, html.MAX_HEIGHT, "")
@@ -66,11 +66,9 @@ Volcanos(chat.ONDETAIL, {
 		if (tree.list.length > 0 || tree.tags || tree.name.endsWith(can.Conf(lex.SPLIT))) {
 			return tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)](event, can)
 		}
-
 		for (var node = tree; node; node = node.last) { can.request(event, node.meta) }
-
 		can.run(can.request(event, can.Option()), can.base.Obj(can.Conf(lex.PREFIX), []).concat([can.Option("repos")||"", tree.file||"", tree.name]), function(msg) {
-			if (msg.Length() == 0) { return can.ondetail.plugin(can, "web.code.inner", [can.dir_root, tree.file, tree.line], code.INNER) }
+			if (msg.Length() == 0) { return can.ondetail.plugin(can, "web.code.inner", [can._msg.Option(nfs.DIR_ROOT), tree.file, tree.line], code.INNER) }
 			if (msg.Append(mdb.INDEX)) { msg.Table(function(value) { can.ondetail.plugin(can, value.index, []) }); return }
 
 			if (msg.Option(lex.SPLIT)) {
@@ -79,22 +77,19 @@ Volcanos(chat.ONDETAIL, {
 			} else {
 				msg.Table(function(item) { tree.list.push({
 					type: "tags", name: item.name||item.file||item[msg.append[0]],
-					meta: item, list: [], last: tree,
 					file: item.file, line: item.line, hide: true,
+					meta: item, list: [], last: tree,
 				}) })
-			}
-			tree.tags = true, tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)](event, can)
+			} tree.tags = true, tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)](event, can)
 		}, true)
 	},
 	plugin: function(can, index, args, prefix) {
 		can.onappend.plugin(can, {mode: chat.FLOAT, index: index, args: args}, function(sub) {
-			sub.run = function(event, cmds, cb) { can.runAction(can.request(event), prefix||[ice.RUN, index], cmds, cb) }
-			sub.onaction.close = function() { can.page.Remove(can, sub._target) }
-			can.getActionSize(function(left, top, width, height) { left = left||0
-				var top = can.Mode() == undefined? 120: 0; if (can.user.isMobile) { top = can.user.isLandscape()? 0: 48 }
-				sub.ConfHeight(height-top-2*html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0)), sub.ConfWidth(width)
-				can.onmotion.move(can, sub._target, {left: left, top: top})
-			})
+			sub.run = function(event, cmds, cb) { can.runAction(event, prefix||[ice.RUN, index], cmds, cb) }
+			can.getActionSize(function(left, top, width, height) { var margin = 100; left = left||0, top = top||0
+				sub.ConfHeight(height-margin-2*html.ACTION_HEIGHT), sub.ConfWidth(width), can.page.style(can, sub._status, html.DISPLAY, html.BLOCK)
+				can.onmotion.move(can, sub._target, {left: left, top: top+margin})
+			}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
 		})
 	},
 })
