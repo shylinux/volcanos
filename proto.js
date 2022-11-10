@@ -297,8 +297,9 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 		setHeaderMenu: function(list, cb) { can._menu && can.page.Remove(can, can._menu)
 			return can._menu = can.search(can.request({}, {trans: can.onaction._trans}), [[chat.HEADER, chat.ONIMPORT, html  .MENU], can._name].concat(list), cb)
 		},
-		setHeader: function(key, value) { return can.set(chat.HEADER, key, value) },
+		getHeaderTopic: function(cb) { return can.get(chat.HEADER, chat.TOPIC, cb) },
 		getHeader: function(key, cb) { return can.get(chat.HEADER, key, cb) },
+		setHeader: function(key, value) { return can.set(chat.HEADER, key, value) },
 		setAction: function(key, value) { return can.set(chat.ACTION, key, value) },
 		getAction: function(key, cb) { return can.get(chat.ACTION, key, cb) },
 		getActionSize: function(cb) { return can.get(chat.ACTION, nfs.SIZE, cb) },
