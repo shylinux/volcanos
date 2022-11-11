@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, args, cb) { var SESS = "web.code.sess"
+Volcanos(chat.ONIMPORT, {_init: function(can, args, cb) { var SESS = "web.code.sess"
 	can.onimport.toolkit(can, {index: SESS}, function(sub) {
 		sub.run = function(event, cmds, cb) { var msg = can.request(event)
 			if (can.misc.runAction(can, msg, cmds, cb, kit.Dict(

@@ -215,7 +215,7 @@ Volcanos(chat.ONEXPORT, {
 	actionHeight: function(can) { return can._action.style.display == html.NONE || can._action.innerHTML == ""? 0: html.ACTION_HEIGHT },
 	record: function(can, line) {},
 	link: function(can) { var meta = can.Conf(), args = can.Option()
-		args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == "web.wiki.word" && (args.cmd = args.path)
+		args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == web.WIKI_WORD && (args.cmd = args.path)
 		return can.misc.MergePodCmd(can, args, true)
 	},
 })

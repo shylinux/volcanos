@@ -68,7 +68,7 @@ Volcanos(chat.ONDETAIL, {
 		}
 		for (var node = tree; node; node = node.last) { can.request(event, node.meta) }
 		can.run(can.request(event, can.Option()), can.base.Obj(can.Conf(lex.PREFIX), []).concat([can.Option("repos")||"", tree.file||"", tree.name]), function(msg) {
-			if (msg.Length() == 0) { return can.ondetail.plugin(can, "web.code.inner", [can._msg.Option(nfs.DIR_ROOT), tree.file, tree.line], code.INNER) }
+			if (msg.Length() == 0) { return can.ondetail.plugin(can, web.CODE_INNER, [can._msg.Option(nfs.DIR_ROOT), tree.file, tree.line], code.INNER) }
 			if (msg.Append(mdb.INDEX)) { msg.Table(function(value) { can.ondetail.plugin(can, value.index, []) }); return }
 
 			if (msg.Option(lex.SPLIT)) {

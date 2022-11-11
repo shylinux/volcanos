@@ -6,7 +6,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(msg.result, function(item) { can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "联系站长"}]) }) },
 	_state: function(can, msg, target) {
-		can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), ["ncmd", "ntip"]), function(item) {
+		can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), ["ntip", "ncmd"]).reverse(), function(item) {
 			can.page.Append(can, target, [{view: [can.base.join([chat.STATE, item]), html.DIV, can.Conf(item)], list: [
 				{text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", html.SPAN, item]},
 			], onclick: function(event) { can.onexport[item](can) }}])
@@ -45,14 +45,14 @@ Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight
 			return {text: [value, html.TD], onclick: function(event) { can.base.isFunc(cb) && cb(value, key, index, line, list) }}
 		}, ui.output), can.onappend.board(can, msg.Result(), ui.output); return ui
 	},
-	ntip: function(can) { can.onexport.float(can, can._tips, "ntip", function(value, key, index, line) { can.onappend._float(can, "web.code.inner", ["usr/volcanos/"].concat(line.fileline.split(ice.DF))) }) },
+	ntip: function(can) { can.onexport.float(can, can._tips, "ntip", function(value, key, index, line) { can.onappend._float(can, web.CODE_INNER, [ice.USR_VOLCANOS].concat(line.fileline.split(ice.DF))) }) },
 	ncmd: function(can) { can.onexport.float(can, can._cmds, "ncmd", function(value, key, index, line) {
 		var cmds = can.base.Obj(line.cmds); switch (line.follow) {
 			case "can.Action": cmds = cmds.slice(2); break
 			case "can.Footer": cmds = cmds.slice(2); break
 		}
 		switch (cmds[0]) {
-			case "web.wiki.word": cmds = cmds.slice(5); break
+			case web.WIKI_WORD: cmds = cmds.slice(5); break
 		}
 		can.onappend._float(can, cmds[0], cmds.slice(1))
 	}) },

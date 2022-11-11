@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb) { can.onmotion.clear(can)
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can)
 		can.onlayout._init(can)
 		can.requireModules(["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
 			var item = {hash: can.Option(mdb.HASH)}; msg.Table(function(value) { can.core.Value(item, value.key, value.value) })
@@ -31,7 +31,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb) { c
 	},
 	grow: function(can, msg) { can._current.write(msg.Option(mdb.TEXT)) },
 })
-Volcanos(chat.ONLAYOUT, {help: "界面布局",
+Volcanos(chat.ONLAYOUT, {
 	_init: function(can) {
 		can.page.style(can, can._output, html.HEIGHT, can.ConfHeight()+8, html.WIDTH, can.ConfWidth()+18, html.MAX_WIDTH, "")
 		can._current && can._current._fit.fit(), can.onexport.term(can)
@@ -40,12 +40,12 @@ Volcanos(chat.ONLAYOUT, {help: "界面布局",
 		// can.Option(mdb.HASH) && can.Option(mdb.HASH) == can.misc.Search(can, mdb.HASH)? can.sup.onaction.full({}, can.sup): can.onlayout._init(can)
 	},
 })
-Volcanos(chat.ONACTION, {help: "操作数据",
+Volcanos(chat.ONACTION, {
 	refresh: function(event, can, button) { can.onlayout._init(can), can._current.focus() },
 	"波浪线": function(event, can, button) { can.onimport._input(can, "~"), can._current.focus() },
 	"反引号": function(event, can, button) { can.onimport._input(can, "`"), can._current.focus() },
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: [mdb.TYPE, mdb.NAME, "rows", "cols", "cursorY", "cursorX"],
+Volcanos(chat.ONEXPORT, {list: [mdb.TYPE, mdb.NAME, "rows", "cols", "cursorY", "cursorX"],
 	term: function(can) { var term = can._current||{}, item = term._item; if (!item) { return }
 		can.core.List(can.onexport.list, function(key) {
 			can.Status(key, can.base.getValid(item[key], term[key], term.buffer.active[key], ""))

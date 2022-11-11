@@ -52,7 +52,7 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 
 	plugin: function(event, can, index) { var line = can.list[index]; if (can.base.isFunc(line.text)) { return can.onmotion.hide(can), line.text(event) }
 		var cmd = line.cmd == ctx.COMMAND? can.core.Keys(line.type, line.name.split(ice.SP)[0]): can.core.Keys(line.ctx, line.cmd)
-		can.onappend.plugin(can, {index: cmd||msg.Option(mdb.INDEX), args: cmd == "web.wiki.word"? [line.name]: []}, function(sub, meta) { can.onmotion.delay(can, function() { sub.Focus() }, 20)
+		can.onappend.plugin(can, {index: cmd||msg.Option(mdb.INDEX), args: cmd == web.WIKI_WORD? [line.name]: []}, function(sub, meta) { can.onmotion.delay(can, function() { sub.Focus() }, 20)
 			sub.onimport.size(sub, can.base.Min(320, can.ConfHeight()-html.ACTION_HEIGHT-can.ui.content.offsetHeight-can.ui.display.offsetHeight)-2*html.ACTION_HEIGHT-1, can.ConfWidth()-1, true)
 		}, can.ui.profile)
 	},

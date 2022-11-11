@@ -1,4 +1,4 @@
-Volcanos(chat.ONSYNTAX, {help: "语法高亮",
+Volcanos(chat.ONSYNTAX, {
 	makefile: {
 		prefix: {
 			"#": code.COMMENT,

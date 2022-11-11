@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 		can.onmotion.clear(can), can.onlayout.profile(can), can.base.isFunc(cb) && cb(msg)
 		!can.isCmdMode() && can.ConfHeight(window.innerHeight - 5*html.ACTION_HEIGHT - 5*html.PLUGIN_MARGIN)
 		can.user.isMobile && can.ConfHeight(window.innerHeight-html.ACTION_HEIGHT)
@@ -242,7 +242,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		return new myInfoWindow({map: can.map, position: can.onimport.point(can, item), meta: meta})
 	},
 })
-Volcanos(chat.ONACTION, {help: "操作数据", list: [["mode", "select", "insert"],
+Volcanos(chat.ONACTION, {list: [["mode", "select", "insert"],
 	{type: html.TEXT, name: "zoom", value: 17, range: [3, 21]},
 	{type: html.TEXT, name: "pitch", value: 30, range: [0, 80, 5]},
 	{type: html.TEXT, name: "rotation", value: "0", range: [0, 360, 10]},
@@ -290,7 +290,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", list: [["mode", "select", "insert
 		return can.base.Copy({left: rect.left+event.point.x, bottom: rect.top+event.point.y, latitude: parseInt(event.latLng.lat*100000), longitude: parseInt(event.latLng.lng*100000)}, item, true)
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["nation", "province", "city", "latitude", "longitude",  "type", "name", "text"],
+Volcanos(chat.ONEXPORT, {list: ["nation", "province", "city", "latitude", "longitude",  "type", "name", "text"],
 	point: function(can, point, item) { return can.base.Copy({latitude: parseInt(point.lat*100000), longitude: parseInt(point.lng*100000)}, item, true) },
 	center: function(can) { return can.onexport.point(can, can.map.getCenter()) },
 	current: function(can) {

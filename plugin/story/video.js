@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 		can.onimport.select(can, msg)
 		can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg)
 		can.onappend.table(can, msg), can.onappend.board(can, msg)
@@ -24,7 +24,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		]))
 	},
 })
-Volcanos(chat.ONACTION, {help: "控件交互",
+Volcanos(chat.ONACTION, {
 	next: function(event, can) { var msg = can._msg
 		msg.Table(function(line, index) {
 			if (line.link == location.href) {

@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据",  _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 		can.ui = can.onlayout.display(can, target)
 		can.ui.canvas = can.page.Append(can, can.ui.display, [{type: "canvas", width: 320, height: 240, style: {display: "none"}}])._target
 
@@ -14,7 +14,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",  _init: function(can, msg, cb, ta
 		can.base.isFunc(cb) && cb(msg)
 	},
 })
-Volcanos(chat.ONACTION, {help: "操作数据", _init: function(can, msg, cb, target) {
+Volcanos(chat.ONACTION, {_init: function(can, msg, cb, target) {
 	},
 
 	open: function(event, can) {

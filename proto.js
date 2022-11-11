@@ -51,6 +51,8 @@ var ice = {
 	ErrNotRight: "not right: ",
 	ErrNotFound: "not found: ",
 	ErrNotValid: "not valid: ",
+	
+	USR_VOLCANOS: "usr/volcanos/",
 }
 
 var ctx = {
@@ -78,6 +80,9 @@ var web = {
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	Accept: "Accept", ContentType: "Content-Type",
 	ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
+	
+	CODE_INNER: "web.code.inner",
+	WIKI_WORD: "web.wiki.word",
 }
 var mdb = {
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
@@ -141,9 +146,7 @@ var chat = {
 	HEADER: "Header", ACTION: "Action",
 	libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
 	panel_list: [
-		{name: "Header", pos: "head", state: ["avatar", "usernick", "time"]},
-		{name: "River",  pos: "left"}, {name: "Action", pos: "main"}, {name: "Search", pos: "auto"},
-		{name: "Footer", pos: "foot", state: ["ncmd", "ntip"]},
+		{name: "Header", pos: "head"}, {name: "River",  pos: "left"}, {name: "Action", pos: "main"}, {name: "Search", pos: "auto"}, {name: "Footer", pos: "foot"},
 	],
 	plugin_list: [
 		"/plugin/state.js",
@@ -329,7 +332,7 @@ try { if (typeof(window) == lang.OBJECT) { // chrome
 	Volcanos.meta.target = document.body, Volcanos.meta._height = window.innerHeight, Volcanos.meta._width = window.innerWidth
 	Volcanos.meta._load = function(url, cb) { switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
 		case nfs.CSS: var item = document.createElement(mdb.LINK); item.rel = "stylesheet", item.href = url, item.onload = cb, document.head.appendChild(item); break
-		default: var item = document.createElement(nfs.SCRIPT); item.src = url, item.onerror = cb, item.onload = cb, document.body.appendChild(item)
+		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
 	} }
 	Volcanos.meta._init = function(can) {
 		var last = can.page.width() < can.page.height(); window.onresize = function(event) {

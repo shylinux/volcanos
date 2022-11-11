@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 		can.require(["inner.js"], function(can) { can.onimport.inner_init(can, msg, function() { can.undo = [], can.redo = []
 			can.page.ClassList.add(can, can._fields, code.VIMER)
 			can.onimport._input(can), can.onkeymap._build(can), can.onkeymap._plugin({}, can)
@@ -25,7 +25,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		]); can.ui.current = ui.current, can.ui.complete = ui.complete
 	},
 }, [""])
-Volcanos(chat.ONFIGURE, {help: "索引导航", 
+Volcanos(chat.ONFIGURE, { 
 	create: function(can, target, zone, path) {
 		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(
 			["查找", "git", "首页", "官网" , "文档" , "百度"], window.webview? ["浏览器", "录屏", "编辑器", "日志"]: [],
@@ -98,7 +98,7 @@ Volcanos(chat.ONFIGURE, {help: "索引导航",
 		})
 	},
 })
-Volcanos(chat.ONKEYMAP, {help: "键盘交互",
+Volcanos(chat.ONKEYMAP, {
 	_model: function(can, value) { can.Status("模式", can.mode = value)
 		can.page.styleClass(can, can.ui.current, ["current", can.mode]), value
 		can.page.styleClass(can, can.ui.complete, [code.COMPLETE, can.mode]), value
@@ -237,7 +237,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 		},
 	}, _engine: {},
 })
-Volcanos(chat.ONACTION, {help: "控件交互",
+Volcanos(chat.ONACTION, {
 	_daemon: function(event, can, arg) {
 		switch (arg[0]) {
 			case web.DREAM:
@@ -498,8 +498,8 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		can.onaction.selectLine(can, can.current.next()), can.onkeymap.cursorMove(target, 0, p)
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["文件数", "模式", "按键", "解析器", "文件名", "当前行", "跳转数"]})
-Volcanos(chat.ONPLUGIN, {help: "注册插件", 
+Volcanos(chat.ONEXPORT, {list: ["文件数", "模式", "按键", "解析器", "文件名", "当前行", "跳转数"]})
+Volcanos(chat.ONPLUGIN, { 
 	"code.vimer.keymap": shy("按键", {}, ["mode", "key", ice.LIST, ice.BACK], function(can, msg, cmds) {
 		can.core.Item(can.onkeymap._mode, function(mode, value) {
 			(!cmds[0] || cmds[0] == mode) && can.core.Item(value, function(key, func) {

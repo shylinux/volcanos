@@ -23,7 +23,7 @@ try { if (typeof(global) == lang.OBJECT) { // nodejs
 } } catch (e) { console.log(e) }
 
 _can_name = "./frame.js"
-Volcanos("onappend", {help: "渲染引擎",
+Volcanos("onappend", {
 	table: function(can, msg) {
 		var max = {}; msg.Table(function(value, index, array) {
 			for (var k in value) { if (value[k].length > (max[k]||0)) {

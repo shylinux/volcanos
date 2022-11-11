@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 		can.onmotion.clear(can, target), can.base.isFunc(cb) && cb(msg)
 		can.requireModules(["gifshot/dist/gifshot.js"], function() {
 
@@ -27,7 +27,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		return src
 	},
 })
-Volcanos(chat.ONACTION, {help: "操作数据", list: ["录屏", "摄像"],
+Volcanos(chat.ONACTION, {list: ["录屏", "摄像"],
 	"录屏": function(event, can) {
 		can.onimport._layout(can, function(target) {
 			navigator.mediaDevices.getDisplayMedia({video: {height: can.ConfHeight()*3/4}}).then(function(stream) { can.stream = stream
@@ -71,7 +71,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", list: ["录屏", "摄像"],
 		can.onmotion.clear(can, can.ui.output), can.onimport._action(can)
 	},
 })
-Volcanos(chat.ONDETAIL, {help: "操作数据", list: ["关闭", "抓拍", "录制"],
+Volcanos(chat.ONDETAIL, {list: ["关闭", "抓拍", "录制"],
 	"成图": function(event, can) {
 		gifshot.createGIF({
 			'video': [URL.createObjectURL(new Blob(can.ui.blobs, {type : 'video/webm'}))],
@@ -89,4 +89,4 @@ Volcanos(chat.ONDETAIL, {help: "操作数据", list: ["关闭", "抓拍", "录�
 		can.user.download(can, URL.createObjectURL(new Blob(can.ui.blobs, {type: "video/webm"})), "record.webm")
 	},
 })
-Volcanos(chat.ONEXPORT, {help: "导出数据", list: ["total"]})
+Volcanos(chat.ONEXPORT, {list: ["total"]})

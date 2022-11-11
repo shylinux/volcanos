@@ -203,7 +203,7 @@ Volcanos(chat.ONPLUGIN, {
 	"command": shy("插件列表", {}, [], function(can, msg, arg) { var meta = can.onengine.plugin.meta
 		can.core.Item(arg[0] == ""? meta: meta[arg[0]]? kit.Dict(arg[0], meta[arg[0]]): {}, function(name, command) {
 			msg.Push(kit.Dict(ice.CTX, ice.CAN, ice.CMD, ctx.COMMAND,
-				mdb.TYPE, ice.CAN, mdb.NAME, name, mdb.TEXT, command.help,
+				mdb.TYPE, ice.CAN, mdb.NAME, name||command.name, mdb.TEXT, command.help,
 				ctx.CONTEXT, ice.CAN, ctx.COMMAND, name, ctx.INDEX, can.core.Keys(ice.CAN, name),
 			), msg.Option(ice.MSG_FIELDS).split(ice.FS))
 		})

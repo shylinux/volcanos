@@ -34,7 +34,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 
 		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+panel._name)
 		can.misc.Run(event, can, {names: names, daemon: msg._daemon}, cmds, function(msg) { toast && toast.close(), toast = true
-			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(ice.FS))] = msg
+			can.base.isFunc(cb) && cb(msg)//, Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(ice.FS))] = msg
 		})
 	},
 	_static: function(event, can, msg, panel, cmds, cb) { if (!can.user.isLocalFile) { return false }
@@ -54,7 +54,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 		if (can.base.isUndefined(name) || !can.base.isString(name) || name.indexOf("can.") == -1) { return }
 		if (can.base.isUndefined(command)) { return arguments.callee.meta[can.base.trimPrefix(name, "can.")] }
 		var type = html.TEXT; command.list = can.core.List(command.list, function(item) { return can.base.isString(item) && (item = can.core.SplitInput(item, type)), type = item.type, item })
-		command.can = can, command.name = name, arguments.callee.meta[can.base.trimPrefix(name, "can.")] = command
+		command.can = can, command.meta.name = name, arguments.callee.meta[can.base.trimPrefix(name, "can.")] = command
 	}),
 	listen: shy(function(can, name, cb) { arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb) }),
 	signal: function(can, name, msg) { msg = msg||can.request(); var _msg = name == chat.ONREMOTE? msg.Option("_msg"): msg
@@ -162,6 +162,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); if (msg.RunAction(event, can, cmds)) { return }
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { var msg = can.request(event, {action: cmds[1]})
+			if (can.base.isFunc(meta.feature[cmds[1]])) { return meta.feature[cmds[1]](can, msg, cmds.slice(2)) }
 			return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, can.Option()), cmds.slice(0, 2).concat(args)) })
 		}
 		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, cb||function(msg) { if (silent) { return }
@@ -249,10 +250,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	tools: function(can, msg, cb, target) { can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []), cb, target) },
 
 	_plugin: function(can, value, meta, cb, target, field) { can.base.Copy(meta, value, true)
+		meta.name = meta.name||value&&value.meta&&value.meta.name||""
 		meta.type = meta.type||chat.STORY, meta.height = meta.height||can.ConfHeight(), meta.width = meta.width||can.ConfWidth()
 		meta.args = can.base.getValid(can.base.Obj(meta.args), can.base.Obj(meta.arg), can.base.Obj(value.args), can.base.Obj(value.arg))||[]
 		meta.inputs = can.base.getValid(meta.inputs, can.base.Obj(value.list))||[], meta.feature = can.base.getValid(meta.feature, can.base.Obj(value.meta))||{}
-		if (can.misc.Debug(can, chat.PLUGIN, meta.index, meta.args, meta)) { debugger }
 		can.onappend._init(can, meta, [chat.PLUGIN_STATE_JS], function(sub, skip) {
 			sub.run = function(event, cmds, cb) { can.runActionCommand(event, sub._index, cmds, cb) }
 			sub._index = value.index||meta.index, can.base.isFunc(cb) && cb(sub, meta, skip)
@@ -261,7 +262,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	plugin: function(can, meta, cb, target, field) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||ice.CAN_PLUGIN
 		var res = {}; function _cb(sub, meta, skip) { kit.proto(res, sub), cb && cb(sub, meta, skip) } if (can.misc.Debug(can, chat.PLUGIN, meta.index, meta.args, meta)) { debugger }
 		if (meta.inputs && meta.inputs.length > 0 || meta.meta) { can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, _cb, target, field); return res }
-		var value = can.onengine.plugin(can, meta.index); if (value) { can.onappend._plugin(can, value, meta, _cb, target, field); return res }
+		var value = can.onengine.plugin(can, meta.index); if (value) { can.onappend._plugin(can, value, meta, function(sub, meta, skip) {
+			_cb(sub, meta, skip), can.onmotion.delay(can, function() { value.meta && value.meta._init && value.meta._init(sub, meta) })
+		}, target, field); return res }
 		can.runAction(can.request({}, meta), ctx.COMMAND, [meta.index], function(msg) { msg.Table(function(value) { can.onappend._plugin(can, value, meta, _cb, target, field) })}); return res
 	},
 	_float: function(can, index, args) {

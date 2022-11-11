@@ -1,4 +1,4 @@
-Volcanos(chat.ONFIGURE, {help: "图形绘制",
+Volcanos(chat.ONFIGURE, {
     path2v: { // <path d="M x0,y0 Q x2,y2 x3,y3 T x1,y1"/>
         data: {name: "path", size: {}, copy: []},
         draw: function(event, can, point) {

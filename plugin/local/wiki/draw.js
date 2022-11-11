@@ -329,7 +329,7 @@ Volcanos(chat.ONFIGURE, {
 		},
 	},
 }, [])
-Volcanos(chat.ONKEYMAP, {help: "键盘交互",
+Volcanos(chat.ONKEYMAP, {
 	_mode: {
 		normal: {
 			Escape: function(event, can) { can._undo && can._undo(), can.points = [] },			

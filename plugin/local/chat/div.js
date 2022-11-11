@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, target) {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 		var meta = {}; msg.Table(function(value) { meta[value.key] = value.value })
 		can._list = can.base.Obj(meta.text, {meta: {name: meta.name||html.DIV}, list: []})
 		can.sup._keys = can.sup._keys||can._list.meta.name
@@ -53,7 +53,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 		can.onimport._item(can, can._list.meta.name, can._list, can.ui.project, width, height)
 	},
 }, [""])
-Volcanos(chat.ONACTION, {help: "操作数据",
+Volcanos(chat.ONACTION, {
 	"添加": function(event, can) {
 		can.user.input(event, can, [mdb.NAME, ctx.INDEX, ctx.ARGS, ctx.STYLE, html.HEIGHT, html.WIDTH], function(data) {
 			can.current._add({meta: data, list: []})

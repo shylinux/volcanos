@@ -1,4 +1,4 @@
-Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: ["{", "}", html.HEAD, html.LEFT, html.MAIN, html.FOOT],
+Volcanos(chat.ONAPPEND, {list: ["{", "}", html.HEAD, html.LEFT, html.MAIN, html.FOOT],
 	_parse: function(can, text, name, height) { var stack = [{_deep: -1, list: []}], finish = false
 		can.core.List(can.core.Split(text, ice.NL, ice.NL, ice.NL), function(line) { if (line == "" || finish) { return }
 			var deep = 0; for (var i = 0; i < line.length; i++) { if (line[i] == ice.SP) { deep++ } else if (line[i] == ice.TB) { deep += 4 } else { break } }

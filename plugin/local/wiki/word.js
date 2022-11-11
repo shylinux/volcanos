@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, target) { can.onmotion.clear(can)
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can)
 		can.page.Modify(can, target, msg.Result())
 		can.page.Select(can, target, wiki.STORY_ITEM, function(target) { var meta = target.dataset||{}
 			can.core.CallFunc([can.onimport, meta.type||target.tagName.toLowerCase()], [can, meta, target])
@@ -117,7 +117,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, target)
 		})
 	},
 }, [""])
-Volcanos(chat.ONKEYMAP, {help: "键盘交互",
+Volcanos(chat.ONKEYMAP, {
 	_mode: {
 		normal: {
 			"n": function(event, can) { can.ondetail.next(can.sub) },
@@ -132,7 +132,7 @@ Volcanos(chat.ONKEYMAP, {help: "键盘交互",
 		},
 	}, _engine: {},
 })
-Volcanos(chat.ONACTION, {help: "控件交互",
+Volcanos(chat.ONACTION, {
 	_trans: {view: "视图"},
 	play: function(event, can) { var list = [], current = []
 		can.page.Select(can, can._output, wiki.STORY_ITEM, function(item) {
@@ -186,7 +186,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 		}
 	},
 })
-Volcanos(chat.ONDETAIL, {help: "交互操作", list: ["删除"],
+Volcanos(chat.ONDETAIL, {list: ["删除"],
 	show: function(sub, which) { sub.page.styleClass(sub, sub.ui.content, chat.CONTENT)
 		sub.page.Select(sub, sub.ui.content, html.DIV_PAGE, function(page, index) {
 			if (index == which || page == which) {
