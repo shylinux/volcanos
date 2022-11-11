@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {help: "导入数据",  _init: function(can, msg, cb, target) {
 		can.ui = can.onlayout.display(can, target)
-		can.ui.canvas = can.page.Append(can, can.ui.display, [{type: "canvas", width: 320, height: 240, style: {display: "none"}}]).first
+		can.ui.canvas = can.page.Append(can, can.ui.display, [{type: "canvas", width: 320, height: 240, style: {display: "none"}}])._target
 
 		can.onappend.table(can, msg, function(value, key, index, line, array) {
 			return {text: [value, "td"], onclick: function(event) {

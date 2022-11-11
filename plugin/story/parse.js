@@ -80,7 +80,7 @@ Volcanos(chat.ONAPPEND, {help: "渲染引擎", list: ["{", "}", html.HEAD, html.
 		meta.keys = meta.keys||can.core.Keys(keys, meta.name||meta.type) 
 		var cb = can.onappend[type]; !can.onappend[meta.type] && cb && cb(can, item, meta, target, data)
 		item._init = item._init||function(target) { meta.list && can.onappend.parse(can, meta.list, target, meta.keys, data, meta.subtype||type) }
-		item.target = can.page.Append(can, target, [item]).first; meta.init && meta.init(item.target)
+		item.target = can.page.Append(can, target, [item])._target; meta.init && meta.init(item.target)
 		can.core.ItemCB(meta, function(key, cb) { item.target[key] = can.base.isFunc(cb)? cb: function(event) { can.onengine.signal(can, cb, can.request(event, meta)) } })
 	},
 	username: function(can, item, meta, target) {

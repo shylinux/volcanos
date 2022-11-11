@@ -83,7 +83,7 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) 
 })
 Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		meta.name = (meta.name||"").split(ice.SP)[0].split(ice.PT).pop()
-		field = field||can.onappend.field(can, meta.type, meta, target).first
+		field = field||can.onappend.field(can, meta.type, meta, target)._target
 		var legend = can.page.Select(can, field, html.LEGEND)[0]
 		var option = can.page.Select(can, field, html.FORM_OPTION)[0]
 		var action = can.page.Select(can, field, html.DIV_ACTION)[0]
@@ -210,7 +210,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		]}])
 	},
 	input: function(can, item, value, target, style) {
-		// switch (item.type) { case "": return can.page.Append(can, target, [item]) }
 		if (item.type == html.SPACE) { return can.page.Append(can, target, [{view: can.base.join([html.ITEM, html.SPACE])}]) }
 		var input = can.page.input(can, can.base.Copy({}, item), value)
 		if (item.type == html.SELECT && item.value) { input._init = function(target) { target.value = item.value } }
@@ -222,7 +221,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}) } }
 		var br = input.type == html.TEXTAREA? [{type: html.BR, style: {clear: html.BOTH}}]: []
 		var title = can.Conf(can.core.Keys(ctx.FEATURE, chat.TITLE, item.name))||""; title && (input.title = title)
-		return can.page.Append(can, target, ([{view: style||can.base.join([html.ITEM, item.type]), list: [input]}]).concat(br))[item.name]
+		return can.page.Append(can, target, ([{view: can.base.join(style||[html.ITEM, item.type]), list: [input]}]).concat(br))[item.name]
 	},
 	table: function(can, msg, cb, target, sort) { if (msg.Length() == 0) { return } var meta = can.base.Obj(msg.Option(mdb.META))
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
@@ -264,6 +263,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		if (meta.inputs && meta.inputs.length > 0 || meta.meta) { can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, _cb, target, field); return res }
 		var value = can.onengine.plugin(can, meta.index); if (value) { can.onappend._plugin(can, value, meta, _cb, target, field); return res }
 		can.runAction(can.request({}, meta), ctx.COMMAND, [meta.index], function(msg) { msg.Table(function(value) { can.onappend._plugin(can, value, meta, _cb, target, field) })}); return res
+	},
+	_float: function(can, index, args) {
+		can.onappend.plugin(can, {mode: chat.FLOAT, index: index, args: args}, function(sub) {
+			can.getActionSize(function(left, top, width, height) { sub.onimport.size(sub, sub.ConfHeight(height/2), sub.ConfWidth(width))
+				can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+height/4})
+			}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
+		}, can._root._target)
 	},
 	figure: function(can, meta, target, cb) { if (meta.action == ice.AUTO || meta.type == html.BUTTON) { return }
 		var input = meta.action||mdb.KEY, path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
@@ -402,7 +408,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		} }, _init: function(target) { item && can.onappend.figure(can, item, target), can.onmotion.focus(can, target), can.onmotion.delay(can, function() { target.click() }) }}])
 	},
 	tableFilter: function(can, target, value) { can.page.Select(can, target, html.TR, function(tr, index) {
-		index == 0 && can.page.ClassList.set(can, tr, html.HIDDEN, can.page.Select(can, tr, html.TD, function(td) { if (td.innerText.indexOf(value) > -1) { return td } }) == 0)
+		index > 0 && can.page.ClassList.set(can, tr, html.HIDDEN, can.page.Select(can, tr, html.TD, function(td) { if (td.innerText.indexOf(value) > -1) { return td } }) == 0)
 	}) },
 
 	delay: function(can, cb, interval) { can.core.Timer(interval||30, cb) },

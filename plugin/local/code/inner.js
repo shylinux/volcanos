@@ -295,7 +295,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据",
 			can.ui.profile_output = sup._profile_output = can.ui._profile_output
 			var width = can.profile_size[can.onexport.keys(can)]||(can.ConfWidth()-can.ui.project.offsetWidth)/2
 			can.onimport.process(can, msg, can.ui._profile_output, can.ui.profile.offsetHeight, width)
-			can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.page.Append(can, can.ui._profile_output, [html.STATUS]).first)
+			can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.page.Append(can, can.ui._profile_output, [html.STATUS])._target)
 			can.page.Select(can, can.ui._profile_output, html.TABLE, function(target) { can.onmotion.delay(can, function() {
 				if (target.offsetWidth < can.ui._profile_output.offsetWidth) { can.profile_size[can.onexport.keys(can)] = target.offsetWidth, can.onimport.layout(can) }
 			}) })

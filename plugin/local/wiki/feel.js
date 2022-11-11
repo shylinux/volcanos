@@ -7,7 +7,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		can.dir_root = msg.Option(nfs.DIR_ROOT), can.onimport.page(can, can.list, can.begin = parseInt(msg.Option(cli.BEGIN)||"0"))
 	},
 	_file: function(can, path, index) { var p = location.href.indexOf(ice.HTTP) == 0? "": "http://localhost:9020"
-		return path.indexOf(ice.HTTP) == 0? path: p+can.base.Path(chat.SHARE_LOCAL, can.dir_root||"", path)
+		return path.indexOf(ice.HTTP) == 0? path: p+can.base.Path(web.SHARE_LOCAL, can.dir_root||"", path)
 	},
 	file: function(can, path, index) { path = can.onimport._file(can, path, index)
 		var cb = can.onfigure[can.base.Ext(path)]||can.onfigure[wiki.IMAGE]; can.Status(nfs.FILE, path)
@@ -67,8 +67,8 @@ Volcanos(chat.ONACTION, {list: [
 		}).catch(function(err) { can.user.toast(can, err.name + ": " + err.message) })
 	}) },
 	record1: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) { var height = window.innerHeight
-		var video = can.page.Append(can, document.body, [{type: html.VIDEO, height: height}]).first; video.srcObject = stream, video.onloadedmetadata = function() { video.play(), width = video.offsetWidth
-			var canvas = can.page.Append(can, document.body, [{type: html.CANVAS, height: height, width: width}]).first; canvas.getContext("2d").drawImage(video, 0, 0, width, height)
+		var video = can.page.Append(can, document.body, [{type: html.VIDEO, height: height}])._target; video.srcObject = stream, video.onloadedmetadata = function() { video.play(), width = video.offsetWidth
+			var canvas = can.page.Append(can, document.body, [{type: html.CANVAS, height: height, width: width}])._target; canvas.getContext("2d").drawImage(video, 0, 0, width, height)
 			canvas.toBlob((blob) => { cb([blob], nfs.PNG) })
 		}
 	}) },

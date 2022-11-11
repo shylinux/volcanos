@@ -16,7 +16,7 @@ Volcanos(chat.ONIMPORT, {help: "导入数据", _init: function(can, msg, cb, tar
 	_layout: function(can, cb) { var height = can.ConfHeight()
 		can.ui.video = can.page.Appends(can, can.ui.output, [{type: html.VIDEO, data: {controls: "controls"}, style: {height: height*3/4}, _init: function(target) {
 			can.onmotion.delay(can, function() { cb(target) })
-		}}]).first, can.onimport._action(can, ["抓拍", "录制", "取消"])
+		}}])._target, can.onimport._action(can, ["抓拍", "录制", "取消"])
 	},
 	_image: function(can, src) {
 		can.page.insertBefore(can, [{img: src, style: {height: can.ConfHeight()/4}}], can.ui.display.firstChild, can.ui.display)
@@ -43,7 +43,7 @@ Volcanos(chat.ONACTION, {help: "操作数据", list: ["录屏", "摄像"],
 		})
 	},
 	"抓拍": function(event, can) { var width = can.ui.video.offsetWidth, height = can.ui.video.offsetHeight
-		var canvas = can.page.Append(can, can.ui.display, [{type: html.CANVAS, height: height, width: width}]).first
+		var canvas = can.page.Append(can, can.ui.display, [{type: html.CANVAS, height: height, width: width}])._target
 		canvas.getContext("2d").drawImage(can.ui.video, 0, 0, width, height, 0, 0, width, height)
 		can.onimport._image(can, canvas.toDataURL('image/png')), can.page.Remove(can, canvas)
 	},

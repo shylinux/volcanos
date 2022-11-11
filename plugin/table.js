@@ -54,11 +54,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			onclick: function(event) { can.onmotion.select(can, target, html.DIV_ITEM, event.target)
 				cb(event, event.target, event.target._list && can.onmotion.toggle(can, event.target._list))
 			}, onmouseenter: function(event) {
-				if (can.base.isFunc(cbs)) { var menu = cbs(event, ui.first); if (menu) {
+				if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) {
 					can.user.carteRight(event, can, menu.meta, menu.list, menu)
 				} }
 			},
-		}]); return ui.first
+		}]); return ui._target
 	},
 	itemlist: function(can, list, cb, cbs, target) {
 		return target._list = can.page.insertBefore(can, [{view: html.LIST, list: can.core.List(list, function(item) {
@@ -145,7 +145,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				})
 				can.base.isFunc(each) && each(item), can.onmotion.delay(can, function() { item.click() })
 			}}
-		})).first
+		}))._target
 	},
 	plug: function(can, meta, cb, target) { if (!meta || !meta.index) { return }
 		meta.type = "plug", can.onappend.plugin(can, meta, function(sub) { sub.sup = can

@@ -28,7 +28,7 @@ Volcanos(chat.ONFIGURE, {keyboard: {
 							add(can._shift? item.name.toUpperCase(): item.name)
 						} can._shift = false, can._ctrl = false, can.page.Select(can, can._output, "div.hold", function(target) { can.page.ClassList.del(can, div, "hold") })
 				}
-			} }]).first
+			} }])._target
 		})
 	},
 	_number: function(can, msg) {

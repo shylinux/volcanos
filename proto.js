@@ -73,7 +73,7 @@ var aaa = {
 var web = {
 	SPACE: "space", DREAM: "dream", SHARE: "share",
 	WEBSITE: "website", DRAW: "draw", RESIZE: "resize", REFRESH: "refresh", CLEAR: "clear", UPLOAD: "upload", DOWNLOAD: "download",
-	SHARE_CACHE: "/share/cache/",
+	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	Accept: "Accept", ContentType: "Content-Type",

@@ -345,8 +345,8 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 	"查找": function(event, can) {
 		var ui = can.page.Append(can, can._output, [{view: "vimer find float", list: [html.ACTION, html.OUTPUT],
 			style: {position: "absolute", left: can.ui.project.offsetWidth+can.ui.content.offsetWidth/2, top: can.base.Max(can.base.Min(can.current.line.offsetTop-can.ui.content.scrollTop, 100), can.ConfHeight()/2)+57+28}}])
-		can.onmotion.delay(can, function() { can.page.style(can, ui.first, html.LEFT, can.ui.project.offsetWidth+can.ui.content.offsetWidth/2-ui.first.offsetWidth/2) }, 10)
-		can.onmotion.move(can, ui.first)
+		can.onmotion.delay(can, function() { can.page.style(can, ui._target, html.LEFT, can.ui.project.offsetWidth+can.ui.content.offsetWidth/2-ui._target.offsetWidth/2) }, 10)
+		can.onmotion.move(can, ui._target)
 		
 		var last = can.onaction._getLineno(can, can.current.line)
 		function find(begin, text) { if (parseInt(text) > 0) { return can.onaction.selectLine(can, parseInt(text)) && meta.close() }
@@ -392,7 +392,7 @@ Volcanos(chat.ONACTION, {help: "控件交互",
 				can.undo.push(function() { can.onaction.selectLine(can, line), can.onaction.modifyLine(can, line, text) })
 				can.current.text(text.replace(from.value, to.value))
 				can.current.text().indexOf(from.value) == -1 && meta.find() },
-			close: function() { can.page.Remove(can, ui.first) },
+			close: function() { can.page.Remove(can, ui._target) },
 		}) 
 	},
 	_complete: function(event, can, target) { target = target||can.ui.complete
