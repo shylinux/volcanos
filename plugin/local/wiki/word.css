@@ -14,7 +14,7 @@ fieldset.word ul.story { font-family:monospace; text-align:left; }
 fieldset.word ul.story li.H2 { font-size:1.4em; font-weight:bold; }
 fieldset.word ul.story li.H3 { font-size:1.2em; }
 fieldset.word ul.story[data-type=premenu] { cursor:pointer; }
-fieldset.word ul.story[data-type=premenu] li:hover { background:cyan; color:blue; }
+fieldset.word ul.story[data-type=premenu] li:hover { background-color:cyan; color:blue; }
 fieldset.word ul.story[data-type=endmenu] { clear:both; }
 fieldset.word p.story[data-name=inner] { background-color:#4b6c8a7a; padding:4px 10px; border-left:solid 4px blue; margin:10px 0px; }
 fieldset.word p.story[data-name=inner]:hover { background-color:#c10c8a; cursor:copy; }
@@ -39,7 +39,7 @@ fieldset.word.float { padding:0; margin:0; position:fixed; left:0; top:0; z-inde
 fieldset.word.float>div.action { display:contents; }
 fieldset.word.float>div.status { clear:none; display:block; }
 fieldset.word.float>div.output { background-color:#f0f8ff80; text-align:center; overflow:auto; }
-fieldset.word.float>div.output>div.project { background:#4682b46b; padding:10px; position:fixed; right:0; top:31px; z-index:10; }
+fieldset.word.float>div.output>div.project { background-color:#4682b46b; padding:10px; position:fixed; right:0; top:31px; z-index:10; }
 fieldset.word.float div.content div.page { text-align:center; margin-top:31px; display:none; }
 fieldset.word.float div.content div.page.show { display:block; }
 fieldset.word.float div.content.grid div.page { background-color:#a4cbecb5; margin:10px; height:200px; width:200px; overflow:auto; display:block; float:left; }

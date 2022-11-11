@@ -141,7 +141,7 @@ var chat = {
 	HEADER: "Header", ACTION: "Action",
 	libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
 	panel_list: [
-		{name: "Header", pos: "head", state: ["time", "usernick", "avatar"]},
+		{name: "Header", pos: "head", state: ["avatar", "usernick", "time"]},
 		{name: "River",  pos: "left"}, {name: "Action", pos: "main"}, {name: "Search", pos: "auto"},
 		{name: "Footer", pos: "foot", state: ["ncmd", "ntip"]},
 	],

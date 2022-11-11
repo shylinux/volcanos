@@ -1,8 +1,8 @@
 fieldset.Action { background-color:rgba(114, 153, 162, 0.54); min-width:160px; }
 fieldset.Action>div.action { background-color:#4682b46b; width:inherit; display:none; }
 fieldset.Action>div.action div { font-size:1.1rem; padding:5px 20px; height:21px; float:left; cursor:pointer; }
-fieldset.Action>div.action div.select { background:#6495ed63; }
-fieldset.Action>div.action div:hover { background:#6495ed63; }
+fieldset.Action>div.action div.select { background-color:#6495ed63; }
+fieldset.Action>div.action div:hover { background-color:#6495ed63; }
 
 fieldset.Action.tabs>div.action { display:block; }
 fieldset.Action.tabs>div.output { overflow:hidden; }
@@ -11,7 +11,7 @@ fieldset.Action.tabs>div.output>fieldset.plugin { display:none; }
 fieldset.Action.tabs>div.output>fieldset.plugin.select { display:block; }
 
 fieldset.Action.tabview>div.output { overflow:hidden; }
-fieldset.Action.tabview>div.output fieldset.plugin.iframe div.output{ overflow:hidden; }
+fieldset.Action.tabview>div.output fieldset.plugin.iframe div.output { overflow:hidden; }
 fieldset.Action.tabview>div.output>fieldset>legend { display:none; }
 fieldset.Action.tabview>div.output>fieldset.plugin { display:none; overflow:auto; margin:0; padding:0; }
 fieldset.Action.tabview>div.output>fieldset.plugin.select { display:block; }
@@ -40,20 +40,22 @@ fieldset.Action.flow>div.output>fieldset.plugin { float:left; }
 fieldset.Action.free>div.output>fieldset.plugin { position:absolute; }
 fieldset.Action.free>div.output>fieldset.plugin.select { display:block; }
 
-fieldset.panel.cmd>div.output>fieldset.plugin { padding:0; margin:0; }
-fieldset.panel.cmd>div.output>fieldset.plugin>legend { padding:0 10px; float:left; }
-
 fieldset.Header action>div.tabs { padding:0; margin-left:20px; display:contents; }
-fieldset.Header action>div.tabs:hover { background:none; }
+fieldset.Header action>div.tabs:hover { background-color:none; }
 fieldset.Header div.tabs div.tabs { padding:5px 10px; }
-fieldset.Header div.tabs div.tabs:hover { background:#6495ed63; }
-
-/* fieldset.iframe>div.output { overflow:hidden; } */
+fieldset.Header div.tabs div.tabs:hover { background-color:#6495ed63; }
 
 fieldset.Action>div.project.toggle {
 	background-color:cornsilk; opacity:0.4; color:teal; font-size: 28px; padding-top: 50px; height: 100px; width:20px; position: fixed; top: 30%;
 	border-top-right-radius:20px; border-bottom-right-radius:20px;
 }
+
+fieldset.panel.cmd>div.output>fieldset.plugin { padding:0; margin:0; }
+fieldset.panel.cmd>div.output>fieldset.plugin>legend { padding:0 10px; float:left; }
+
+fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full)>legend { float:none; }
+fieldset.Action.cmd>div.output>fieldset.plugin:not(.float):not(.full)>legend { float:left; }
+fieldset.Action>div.output>fieldset.plugin>legend { box-shadow:4px 4px 20px 4px #626bd0; }
 
 div.head { background-color:#404040; color:white; padding:5px; height:42px; clear:both; }
 div.head div.username { float:right; margin-right:10px; }

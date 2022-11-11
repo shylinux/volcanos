@@ -17,10 +17,10 @@ fieldset.vimer>div.output div.complete div.pre {
 	font-size:1.1rem; color:#f0f8ff00; margin-left:5px; float:left;
 }
 fieldset.vimer>div.output div.complete table {
-	background:darkblue; max-height:400px; max-width:800px; overflow:auto; display:block; float:left;
+	background-color:darkblue; max-height:400px; max-width:800px; overflow:auto; display:block; float:left;
 }
 body.white fieldset.vimer>div.output div.complete table {
-	background:aliceblue; max-height:400px; max-width:800px; overflow:auto; display:block; float:left;
+	background-color:aliceblue; max-height:400px; max-width:800px; overflow:auto; display:block; float:left;
 }
 fieldset.vimer>div.output div.complete table.content th {
 	display:none;
