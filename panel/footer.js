@@ -4,7 +4,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport._toast(can, msg, target)
 		can.onimport._command(can, msg, target)
 	},
-	_title: function(can, msg, target) { can.user.isMobile || can.core.List(msg.result, function(item) { can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "联系站长"}]) }) },
+	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.getValid(msg.result, ["shylinuxc@gmail.com"]), function(item) { can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "联系站长"}]) }) },
 	_state: function(can, msg, target) {
 		can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), ["ntip", "ncmd"]).reverse(), function(item) {
 			can.page.Append(can, target, [{view: [can.base.join([chat.STATE, item]), html.DIV, can.Conf(item)], list: [
