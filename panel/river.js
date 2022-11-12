@@ -1,16 +1,14 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg), can.onimport._menu(can, msg), can.river_list = {}, can.storm_list = {}, can.sublist = {}
-		var select; can.page.Append(can, can._output, msg.Table(function(item, index) {
-			return can.onimport._river(can, item, function(target) { (index == 0 || item.hash == can._main_river) && (select = target) })
-		})), select && select.click()
-	},
-	_main: function(can, msg) {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var select; can.page.Append(can, can._output, msg.Table(function(item, index) {
+		return can.onimport._river(can, item, function(target) { (index == 0 || item.hash == can._main_river) && (select = target) })
+	})), select && select.click() },
+	_main: function(can, msg) { can.river_list = {}, can.storm_list = {}, can.sublist = {}
 		can._main_river = can.misc.Search(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||can._main_river||"project"
 		can._main_storm = can.misc.Search(can, chat.STORM)||msg.Option(ice.MSG_STORM)||can._main_storm||"studio"
 	},
 	_menu: function(can, msg) { if (can.user.mod.isPod||can.user.isMobile) { return }
 		can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.ondetail._menus), function(event, button) {
 			can.core.CallFunc([can.ondetail, button], [event, can, button, can.Conf(chat.RIVER), can.Conf(chat.STORM)])
-		})
+		}), can.onappend._action(can, can.Conf(ctx.ACTION)||can.onaction.list)
 	},
 	_river: function(can, meta, cb) { return {text: [meta.name, html.DIV, html.ITEM],
 		onclick: function(event) { can.onaction.storm(event, can, meta.hash) },
@@ -26,17 +24,23 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg
 		can.onaction.carte(event, can, list, function(event, button, meta) { meta[button](event, can, button, river, storm) })
 	},
 })
-Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: function(can) { can.onmotion.hidden(can) },
+Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.REFRESH, web.SHARE], _init: function(can) { can.onmotion.hidden(can) },
 	onlogin: function(can, msg) { can.run({}, [], function(msg) { if (msg.Option(ice.MSG_RIVER) == "_share") { return }
- 		can.onmotion.clear(can), can.onimport._init(can, msg), can.onappend._action(can, can.Conf(ctx.ACTION)||can.onaction.list)
+ 		can.onmotion.clear(can), can.onimport._main(can, msg), can.onimport._init(can, msg), can.onimport._menu(can, msg)
 		can.user.isMobile ||can.user.isExtension || can.user.mod.isPod || can.onmotion.toggle(can, can._target, true)
 	}) },
-	onresize: function(can, msg) { can.user.isMobile && can.onmotion.hidden(can, can._target) },
-	onsearch: function(can, msg, word) { if (word[0] == mdb.FOREACH || word[0] == chat.STORM) { can.onexport.storm(can, msg, word) } },
-	onaction_notool: function(can, msg, river, storm) { can.ondetail["添加工具"](msg._event, can, "添加工具", river, storm) },
 	onaction_touch: function(can, msg) { can.user.isMobile && can.onmotion.hidden(can) },
+	onaction_notool: function(can, msg, river, storm) { can.ondetail["添加工具"](msg._event, can, "添加工具", river, storm) },
+	onsearch: function(can, msg, arg) { if (arg[0] == mdb.FOREACH || arg[0] == chat.STORM) { can.onexport.storm(can, msg, arg) } },
+	onresize: function(can, msg) { can.user.isMobile && can.onmotion.hidden(can, can._target) },
 	onprint: function(can, msg) { can.page.styleHeight(can, can._target, "") },
 
+	create: function(event, can) { can.user.input(event, can, [{name: mdb.TYPE, values: [aaa.TECH, aaa.VOID], _trans: "类型"}, {name: mdb.NAME, value: "hi", _trans: "群名"}, {name: mdb.TEXT, value: "hello", _trans: "简介"}], function(args) {
+		can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })
+	}) },
+	refresh: function(event, can) { can.misc.Search(can, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), layout: can.getAction(html.LAYOUT)}) },
+	share: function(event, can) { can.onmotion.share(event, can, [{name: chat.TITLE, value: can.Conf(chat.STORM)}], [mdb.TYPE, chat.STORM, RIVER, can.Conf(RIVER), STORM, can.Conf(STORM)]) },
+	
 	storm: function(event, can, river) { can.onmotion.select(can, can._output, html.DIV_ITEM, can.river_list[river])
 		var list = can.sublist[river]; if (list) { return can.onmotion.toggle(can, list) }
 		can.run({}, [river, chat.STORM], function(msg) { var select = 0; list = can.page.Append(can, can._output, [{view: html.LIST, list: msg.Table(function(item, index) {
@@ -48,12 +52,6 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		can.onmotion.delay(can, function() { can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm)})) })
 	},
 	carte: function(event, can, list, cb) { can.user.carteRight(event, can, can.ondetail, list, cb) },
-
-	create: function(event, can) { can.user.input(event, can, [
-			{name: mdb.TYPE, values: [aaa.TECH, aaa.VOID], _trans: "类型"}, {name: mdb.NAME, value: "hi", _trans: "群名"}, {name: mdb.TEXT, value: "hello", _trans: "简介"},
-		], function(args) { can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) }) }) },
-	share: function(event, can) { can.onmotion.share(event, can, [{name: chat.TITLE, value: can.Conf(chat.STORM)}], [mdb.TYPE, chat.STORM, RIVER, can.Conf(RIVER), STORM, can.Conf(STORM)]) },
-	refresh: function(event, can) { can.misc.Search(can, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), layout: can.getAction(chat.LAYOUT)}) },
 })
 Volcanos(chat.ONDETAIL, {list: ["添加应用", "重命名群组", "删除群组"],
 	sublist: ["共享应用", "添加工具", "保存参数", "重命名应用", "删除应用"],
@@ -84,19 +82,15 @@ Volcanos(chat.ONDETAIL, {list: ["添加应用", "重命名群组", "删除群组
 	}) },
 })
 Volcanos(chat.ONEXPORT, {width: function(can) { return can._target.offsetWidth },
-	storm: function(can, msg, word) { can.core.Item(can._root.river, function(river, value) { can.core.Item(value.storm, function(storm, item) { if (word[1] != "" && storm.indexOf(word[1]) == -1 && item.name.indexOf(word[1]) == -1) { return }
-		msg.Push({ctx: ice.CAN, cmd: "Storm", type: river, name: storm, text: shy("跳转", function(event) { can.onaction.action(event, can, river, storm) })})
+	storm: function(can, msg, arg) { can.core.Item(can._root.river, function(river, value) { can.core.Item(value.storm, function(storm, item) { if (arg[1] != "" && storm.indexOf(arg[1]) == -1 && item.name.indexOf(arg[1]) == -1) { return }
+		msg.Push({ctx: ice.CAN, cmd: can._name, type: river, name: storm, text: shy("跳转", function(event) { can.onaction.action(event, can, river, storm) })})
 	}) }) },
 })
-Volcanos(chat.ONENGINE, {_engine: function(event, can, msg, panel, cmds, cb) {
-	var list = can.river
-	cmds.length == 0 && can.core.ItemSort(list, "order", function(key, value) {
-		if (can.core.Item(value.storm).length == 0) { return }
-		msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name})
-	}); if (cmds.length != 1 && cmds[1] != chat.STORM) { return false }
+Volcanos(chat.ONENGINE, {_engine: function(event, can, msg, panel, cmds, cb) { var list = can.river
+	cmds.length == 0 && can.core.ItemSort(list, "order", function(key, value) { can.core.Item(value.storm).length > 0 && msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) })
+	if (cmds.length != 1 && cmds[1] != chat.STORM) { return false }
 
 	var river = list[cmds[0]]; if (!river) { return false }
-	can.core.ItemSort(river.storm, "order", function(key, value) {
-		msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name})
-	}), can.base.isFunc(cb) && cb(msg); return true
+	can.core.ItemSort(river.storm, "order", function(key, value) { msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) })
+	can.base.isFunc(cb) && cb(msg); return true
 }})

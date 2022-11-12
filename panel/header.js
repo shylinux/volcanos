@@ -59,11 +59,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 })
 Volcanos(chat.ONACTION, {
-	_menus: [["setting", chat.BLACK, chat.WHITE, chat.PRINT, code.WEBPACK, "toimage"]],
-	_trans: {
-		"setting": "设置", "black": "黑色主题", "white": "白色主题", "print": "打印主题", "webpack": "打包页面", "toimage": "生成图片",
-		"shareuser": "共享用户", "setnick": "设置昵称", "password": "修改密码", "language": "语言地区", "chinese": "中文", "clear": "清除背景", "logout": "退出登录",
-	},
+	_menus: [["setting", chat.BLACK, chat.WHITE, chat.PRINT, code.WEBPACK, web.TOIMAGE]],
+	_trans: kit.Dict(
+		"setting", "设置", chat.BLACK, "黑色主题", chat.WHITE, "白色主题", chat.PRINT, "打印主题", code.WEBPACK, "打包页面", web.TOIMAGE, "生成图片",
+		"shareuser", "共享用户", "setnick", "设置昵称", aaa.PASSWORD, "修改密码", aaa.LANGUAGE, "语言地区", aaa.CHINESE, "中文", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
+	),
 	onmain: function(can, msg) { can.onimport.topic(can)
 		can.run({}, [], function(msg) { if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
 			return msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)): can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg.Option(aaa.LOGIN), msg.Option("login.dev"))
@@ -75,17 +75,17 @@ Volcanos(chat.ONACTION, {
 	},
 	onsize: function(can, msg) { can.onimport.topic(can) },
 	onstorm_select: function(can, msg, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
-	onsearch_focus: function(can) { can._search && can._search.focus() },
 	onaction_cmd: function(can, msg) { can.onmotion.hidden(can) },
+	onsearch_focus: function(can) { can._search && can._search.focus() },
+	onshare: function(can, msg, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
 	onwebpack: function(can, msg) {
 		can.user.input(msg._event, can, [{name: mdb.NAME, value: can.user.title()}], function(data) {
 			can.core.Item(Volcanos.meta.pack, function(key, msg) { can.core.List(["_event", "_can", "_xhr", ice.MSG_SESSID, ""], function(key) { delete(msg[key]) }) })
 			can.runAction(can.request({}, {args: "name,river,storm,topic,layout", _toast: "打包中...",
-				name: data.name, content: JSON.stringify(Volcanos.meta.pack), river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), topic: can._topic, layout: can.getAction(chat.LAYOUT),
+				name: data.name, content: JSON.stringify(Volcanos.meta.pack), river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), topic: can._topic, layout: can.getAction(html.LAYOUT),
 			}), code.WEBPACK, [], function(msg) { can.user.download(can, web.SHARE_LOCAL+msg.Result(), name, nfs.HTML), can.user.toastSuccess(can, "打包成功", code.WEBPACK) })
 		})
 	},
-	onshare: function(can, msg, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
 
 	title: function(event, can) { var args = {}; can.core.List([chat.TITLE, chat.TOPIC], function(key) { var value = can.misc.Search(can, key); value && (args[key] = value) }); can.user.jumps(can.misc.MergeURL(can, args, true)) },
 	black: function(event, can, button) { can.onimport.topic(can, button), can.onlayout._init(can) },
@@ -118,22 +118,36 @@ Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight
 	avatar: function(can) { return can.user.info.avatar == "void"? "": can.user.info.avatar },
 })
 Volcanos(chat.ONPLUGIN, {
-	title: shy("标题", {}, [chat.TITLE, ice.LIST], function(can, msg, cmds) { msg.Echo(can.user.title(cmds[0])) }),
-	topic: shy("主题", {
+	title: shy("应用标题", [chat.TITLE], function(can, msg, arg) {
+		msg.Echo(can.user.title(arg[0]))
+	}),
+	topic: shy("界面主题", {
 		_init: function(can) { can.Option(chat.TOPIC, can.getHeader(chat.TOPIC)) },
-	}, ["topic:select=white,black", ice.RUN], function(can, msg, cmds) { msg.Echo(can.onimport.topic(can, cmds[0])) }),
-	alert: shy("提示", {}, [mdb.TEXT, ice.LIST], function(can, msg, cmds) { cmds && cmds[0] && can.user.alert(cmds[0]) }),
-	location: shy("地址", {
-		copy: function(can, msg, cmds) { can.user.copy(msg._event, can, location.href) },
-	}, [mdb.LINK, ice.LIST, ice.COPY], function(can, msg, cmds, cb) {
-		can.run(can.request({}, mdb.LINK, location.href), [web.SHARE], function(res) {
+	}, ["topic:select=white,black", ice.RUN], function(can, msg, arg) {
+		msg.Echo(can.onimport.topic(can, arg[0]))
+	}),
+	location: shy("请求地址", {
+		copy: function(can) { can.user.copy(msg._event, can, location.href) },
+	}, [mdb.LINK, ice.LIST, ice.COPY], function(can, msg, cb) {
+		can.run(can.request({}, kit.Dict(mdb.LINK, location.href)), [web.SHARE], function(res) {
 			msg.Echo(res.Append(mdb.TEXT)).Echo(ice.NL).Echo(can.page.Format(html.A, res.Append(mdb.NAME))), can.base.isFunc(cb) && cb(msg)
 		}) 
 	}),
-	cookie: shy("参数", {}, [mdb.NAME, mdb.VALUE, ice.LIST, ice.BACK], function(can, msg, cmds) {
-		can.core.Item(can.misc.Cookie(can), function(key, value) { if (cmds[0] && key != cmds[0]) { return }
+	cookie: shy("请求参数", [mdb.NAME, mdb.VALUE, ice.LIST, ice.BACK], function(can, msg, arg) {
+		arg.length > 1 && can.misc.Cookie(can, arg[0], arg[1])
+		can.core.Item(can.misc.Cookie(can), function(key, value) { if (!key || !value || arg[0] && key != arg[0]) { return }
 			msg.Push(mdb.NAME, key), msg.Push(mdb.VALUE, value)
-		})
+		}), msg.StatusTimeCount()
 	}),
-	log: shy("日志", {}, [mdb.TEXT, ice.LIST], function(can, msg, cmds) { can.misc.Log(cmds) }),
+	avatar: shy("用户头像", [mdb.LINK], function(can, sub, cb) {
+		can.page.Append(can, sub._output, [{img: can.user.info.avatar, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}])
+	}),
+	background: shy("背景图片", [mdb.LINK], function(can, sub, cb) {
+		can.page.Append(can, sub._output, [{img: can.user.info.background, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}])
+	}),
+	language: shy("语言地区", {
+		_init: function(can) { can.Option(aaa.LANGUAGE, can.user.info.language||"zh") },
+	}, ["language:select=zh,en", ice.RUN], function(can, msg, arg) {
+		can.runAction(event, aaa.LANGUAGE, [arg[0]], function(msg) { can.user.reload() }) 
+	}),
 })

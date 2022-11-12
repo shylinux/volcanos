@@ -36,6 +36,9 @@ fieldset.Action.vertical>div.output>fieldset.plugin>div.status { display:none; }
 
 fieldset.Action.grid>div.output>fieldset.plugin { float:left; overflow:auto; }
 fieldset.Action.grid>div.output>fieldset.plugin>div.output { overflow:auto; }
+fieldset.Action.grid>div.output>fieldset.plugin>div.action { display:none; }
+fieldset.Action.grid>div.output>fieldset.plugin>div.status { display:none; }
+fieldset.Action.grid>div.output>fieldset.plugin>form.option input[type=text] { width:80px; }
 fieldset.Action.flow>div.output>fieldset.plugin { float:left; }
 fieldset.Action.free>div.output>fieldset.plugin { position:absolute; }
 fieldset.Action.free>div.output>fieldset.plugin.select { display:block; }

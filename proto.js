@@ -61,10 +61,10 @@ var ctx = {
 	EXTRA_INDEX: "extra.index", EXTRA_ARGS: "extra.args",
 }
 var cli = {
-	DAEMON: "daemon", START: "start", STOP: "stop", OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end", GLASS: "#0000",
+	DAEMON: "daemon", START: "start", STOP: "stop", OPEN: "open", CLOSE: "close", BEGIN: "begin", END: "end",
 	COLOR: "color", WHITE: "white", BLACK: "black", RED: "red", GREEN: "green", BLUE: "blue",
-	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta",
-	MAKE: "make", MAIN: "main", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
+	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta", GLASS: "#0000",
+	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
@@ -74,15 +74,14 @@ var aaa = {
 }
 var web = {
 	SPACE: "space", DREAM: "dream", SHARE: "share",
-	WEBSITE: "website", DRAW: "draw", RESIZE: "resize", REFRESH: "refresh", CLEAR: "clear", UPLOAD: "upload", DOWNLOAD: "download",
+	WEBSITE: "website", DRAW: "draw", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter", SUBMIT: "submit", CANCEL: "cancel", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	Accept: "Accept", ContentType: "Content-Type",
 	ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 	
-	CODE_INNER: "web.code.inner",
-	WIKI_WORD: "web.wiki.word",
+	CODE_INNER: "web.code.inner", WIKI_WORD: "web.wiki.word",
 }
 var mdb = {
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
@@ -102,8 +101,9 @@ var ssh = {
 }
 var nfs = {
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size", ROOT: "root",
-	SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
-	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash", SCRIPT: "script", CONTENT: "content", DIR_ROOT: "dir_root", PWD: "./",
+	COPY: "copy", EDIT: "edit", SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
+	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash", DIR_ROOT: "dir_root", PWD: "./",
+	CONTENT: "content", SOURCE: "source", SCRIPT: "script", MODULE: "module", RECENT: "recent",
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
 	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
@@ -137,14 +137,14 @@ var wiki = {
 var chat = {
 	LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", STORY: "story",
 	TOAST: "toast", CARTE: "carte", INPUT: "input", UPLOAD: "upload", CONTEXTS: "contexts",
-	LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile",
+	LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile", ACTIONS: "actions",
 	TITLE: "title", TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print",
 	SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field", TOOL: "tool",
 	STATE: "state", MENUS: "menus", SSO: "sso", LOCATION: "location",
 	SIMPLE: "simple", OUTPUT: "output", FLOAT: "float", FULL: "full", CMD: "cmd",
 
 	HEADER: "Header", ACTION: "Action",
-	libs: ["/lib/base.js", "/lib/core.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
+	libs: ["/lib/base.js", "/lib/core.js", "/lib/date.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
 	panel_list: [
 		{name: "Header", pos: "head"}, {name: "River",  pos: "left"}, {name: "Action", pos: "main"}, {name: "Search", pos: "auto"}, {name: "Footer", pos: "foot"},
 	],
@@ -165,7 +165,6 @@ var chat = {
 		"/plugin/local/wiki/word.js",
 		"/plugin/local/team/plan.js",
 		"/plugin/local/mall/goods.js",
-		"/lib/lunar.js",
 	], PLUGIN_INPUT: "/plugin/input/", PLUGIN_STORY: "/plugin/story/", PLUGIN_LOCAL: "/plugin/local/",
 	SHARE_LOCAL: "/share/local/",
 	PLUGIN_STATE_JS: "/plugin/state.js", PLUGIN_INPUT_JS: "/plugin/input.js", PLUGIN_TABLE_JS: "/plugin/table.js",
@@ -173,13 +172,14 @@ var chat = {
 	ONIMPORT: "onimport", ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport", ONPLUGIN: "onplugin",
 
 	ONMAIN: "onmain", ONLOGIN: "onlogin", ONREMOTE: "onremote", ONSEARCH: "onsearch",
-	ONSIZE: "onsize", ONTOAST: "ontoast", ONSHARE: "onshare", ONPRINT: "onprint",
+	ONSIZE: "onsize", ONTOAST: "ontoast", ONDEBUG: "ondebug", ONSHARE: "onshare", ONPRINT: "onprint",
 	ONRESIZE: "onresize", ONKEYUP: "onkeyup", ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
 	ONSTORM_SELECT: "onstorm_select", ONACTION_NOTOOL: "onaction_notool", ONACTION_TOUCH: "onaction_touch", ONACTION_CMD: "onaction_cmd",
 	ONOPENSEARCH: "onopensearch", ONSEARCH_FOCUS: "onsearch_focus", ONCOMMAND_FOCUS: "oncommand_focus",
 
 	_INIT: "_init", _TRANS: "_trans", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1",
 	_NAMES: "_names", _TOAST: "_toast",
+	
 }
 var team = {
 	TASK: "task", PLAN: "plan",
@@ -215,7 +215,8 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	TABLE: "table", THEAD: "thead", TBODY: "tbody", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li",
 	H1: "h1", H2: "h2", H3: "h3", A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
 	SPAN: "span", CODE: "code", DIV: "div", IMG: "img", VIDEO: "video", SPACE: "space", 
-	WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe", CHROME: "chrome",
+	WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe",
+	WEBVIEW: "webview", CHROME: "chrome", MOBILE: "mobile", LANDSCAPE: "landscape",
 
 	CLASS: "class", DISPLAY: "display", BLOCK: "block", NONE: "none", HIDDEN: "hidden", TOGGLE: "toggle", SIZE: "size",
 	HEIGHT: "height", WIDTH: "width", PADDING: "padding", MARGIN: "margin", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
@@ -233,14 +234,16 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	DIV_CODE: "div.code", DIV_FLOAT: "div.float", DIV_CONTENT: "div.content", TABLE_CONTENT: "table.content",
 }
 var lang = {
-	UNDEFINED: "undefined", STRING: "string", NUMBER: "number", BOOLEAN: "boolean", FUNCTION: "function", OBJECT: "object",
+	UNDEFINED: "undefined", STRING: "string", NUMBER: "number", BOOLEAN: "boolean", FUNCTION: "function", OBJECT: "object", ARRAY: "array",
 	META: "Meta", ALT: "Alt", CONTROL: "Control", SHIFT: "Shift", TAB: "Tab", ENTER: "Enter", ESCAPE: "Escape",
 	CMD: "Cmd", CTRL: "Ctrl", SPACE: "Space", BACKSPACE: "Backspace", ESC: "Esc", PS: "/",
 }
 
-function shy(help, meta, list, cb) { var args = arguments, i = 0
-	function next(type) { if (i < args.length && (!type || type == typeof args[i])) { return args[i++] } }
-	return cb = typeof args[args.length-1] == lang.FUNCTION? args[args.length-1]: function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.OBJECT)||[], cb
+function shy(help, meta, list, cb) { var args = arguments, i = 0; function next(type) {
+		if (type == lang.OBJECT) { if (typeof args[i] == lang.OBJECT && args[i].length == undefined) { return args[i++] }
+		} else if (type == lang.ARRAY) { if (typeof args[i] == lang.OBJECT && args[i].length != undefined) { return args[i++] }
+		} else if (i < args.length && (!type || type == typeof args[i])) { return args[i++] }
+	} return cb = typeof args[args.length-1] == lang.FUNCTION? args[args.length-1]: function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.ARRAY)||[], cb
 }; var _can_name = "", _can_path = ""
 var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {

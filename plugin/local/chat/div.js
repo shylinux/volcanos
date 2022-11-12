@@ -10,7 +10,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 			can.onmotion.select(can, can.ui.project, html.DIV_ITEM, event.target), can.current = event.target, can.onimport._profile(can, keys, item.meta)
 		}, _add: function(data) { item.list.push(data), can.onimport._list(can, keys, item, ui.list, width, height) }}, {view: html.LIST}])
 
-		var field = can.onappend.field(can, item.meta.index? chat.PLUGIN: chat.LAYOUT, item.meta, target._target)
+		var field = can.onappend.field(can, item.meta.index? chat.PLUGIN: html.LAYOUT, item.meta, target._target)
 		can.page.style(can, ui.list._target = field.output, {width: width, height: height})
 		item.meta.style && can.page.ClassList.add(can, ui.list._target, item.meta.style)
 

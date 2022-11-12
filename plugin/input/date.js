@@ -1,7 +1,6 @@
 Volcanos(chat.ONFIGURE, {date: {
 	onclick: function(event, can, meta, target, cbs) { cbs(function(can, cb) {
 		if (can._output.innerHTML) { return }
-		function lunar(year, month, day) { return [] }
 		const TODAY = "today", YEAR = "year", MONTH = "month", HOUR = "hour", MINUTE = "minute", SECOND = "second"
 		var today = new Date(), now = can.base.Date((target.value||"").trim()); function _cb(_now) { cb(can, can.user.time(can, now = _now), target.value) }
 		can.onappend._action(can, [cli.CLOSE, [HOUR].concat(can.core.List(24)), [MINUTE].concat(can.core.List(0, 60, 5)), [SECOND].concat(can.core.List(0, 60, 5)),
@@ -32,7 +31,7 @@ Volcanos(chat.ONFIGURE, {date: {
 
 			can.page.Appends(can, can._table, [{th: ["日", "一", "二", "三", "四", "五", "六"]}])
 			var tr; function add(day, type) { if (day.getDay() == 0) { tr = can.page.Append(can, can._table, [{type: html.TR}]).last } var _day = new Date(day)
-				var l = lunar(day)
+				var l = can.date.solar2lunar(day)
 				can.page.Append(can, tr, [{view: [can.base.isIn(can.base.Time(day, "%y-%m-%d"), can.base.Time(now, "%y-%m-%d"), can.base.Time(today, "%y-%m-%d"))? html.SELECT: type, html.TD],
 					onclick: function(event) { _day.setHours(now.getHours()), _day.setMinutes(now.getMinutes()), _day.getSeconds(now.getSeconds()), _cb(_day), meta._hold? show(_day): can.close() },
 				list: [{text: day.getDate()+""}, {text: l.autoDay, "className": l.autoClass}]}])
@@ -46,12 +45,10 @@ Volcanos(chat.ONFIGURE, {date: {
 			for (var day = new Date(head); day < one; day.setDate(day.getDate()+1)) { add(day, mdb.PREV) }
 			for (var day = new Date(one); day < end; day.setDate(day.getDate()+1)) { add(day, mdb.MAIN) }
 			for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) { add(day, mdb.NEXT) }
-			var l = lunar(now); can.page.Appends(can, can._status, [{view: "today", inner: [l.gzYear, l.Animal+"年", l.cnMonth, l.cnDay, l.lunarFestival||l.festival||l.Term, l.Astro].join(ice.SP)}])
+			var l = can.date.solar2lunar(now); can.page.Appends(can, can._status, [{view: "today", inner: [l.gzYear, l.Animal+"年", l.cnMonth, l.cnDay, l.lunarFestival||l.festival||l.Term, l.Astro].join(ice.SP)}])
 			return now
 		}
-		can.require(["/lib/lunar.js"], function() { lunar = function(day) { return calendar.solar2lunar(day) }
-			show(now), can._show = function(d) { _cb(show(new Date(now.getTime()+d*24*3600*1000))) }
-		})
+		show(now), can._show = function(d) { _cb(show(new Date(now.getTime()+d*24*3600*1000))) }
 	})},
 	onkeydown: function(event, can, meta, cb, target, sub, last) { if (sub.hidden()) { return } switch (event.key) {
 		case "n": can.page.SelectInput(can, sub._action, mdb.NEXT, function(target) { target.click() }); break

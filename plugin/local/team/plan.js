@@ -82,7 +82,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			var begin = can.base.TimeAdd(begin_time, -(begin_time.getDate()-1))
 			var last = can.base.TimeAdd(begin_time, -(begin_time.getDate()-1)-begin.getDay())
 			var day = can.base.TimeAdd(last, (row-1)*7+col)
-			var l = calendar.solar2lunar(day)
+			var l = can.date.solar2lunar(day)
 			return [can.page.Format(html.SPAN, day.getDate(), "day")+" "+can.page.Format(html.SPAN, l.autoDay, l.autoClass)].concat(hash[key(day)]||[])
 		}
 		function set(begin_time, col, row) {

@@ -69,7 +69,8 @@ body.black fieldset.inner.full>div.output div.content { color:white; }
 
 /* body.white fieldset.inner.float>div.output div.profile { color:black; } */
 
-body.simple fieldset.inner>div.output td.content>div.tabs { background-color:slategrey; padding:0px; height:31px; overflow:auto; display:block; }
+// body.simple fieldset.inner>div.output td.content>div.tabs { background-color:slategrey; padding:0px; height:31px; overflow:auto; display:block; }
+body.simple fieldset.inner>div.output td.content>div.tabs { background-color:#70809096; padding:0px; height:31px; overflow:auto; display:block; }
 body.simple fieldset.inner>div.output td.content>div.tabs div { background-color:teal; font-family:monospace; padding:7px 20px; height:17px; float:left; }
 body.simple fieldset.inner>div.output td.content>div.tabs div.select { background-color:#1d3349; }
 body.simple fieldset.inner>div.output td.content>div.tabs div:hover { background-color:#1d3349; }

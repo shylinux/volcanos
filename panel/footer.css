@@ -8,3 +8,6 @@ fieldset.Footer>div.output div.toast { background-color:darkcyan; float:right; }
 fieldset.Footer>div.output div.cmd { padding:0px; float:left; }
 fieldset.Footer>div.output input[name=cmd] { width:120px; border-radius:0; }
 fieldset.Footer>div.output input[name=cmd]:focus { width:320px; }
+
+fieldset.story.nlog.float tbody tr.error { color:red; }
+fieldset.story.nlog.float tbody tr.warn { color:yellow; }
