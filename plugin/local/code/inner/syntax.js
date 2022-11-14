@@ -262,7 +262,6 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	},
 	js: {
-		render: {},
 		split: {
 			operator: "{[(.,:;!?|<*>-+)]}",
 		},
