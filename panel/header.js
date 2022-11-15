@@ -105,7 +105,7 @@ Volcanos(chat.ONACTION, {
 		can.page.Select(can, can._output, can.core.Keys(html.DIV, aaa.USERNICK), function(item) { can.page.Modify(can, item, can.Conf(aaa.USERNICK, list[0])) }), can.user.toastSuccess(can)
 	}) }) },
 	password: function(event, can) { var ui = can.user.input(event, can, [{name: html.PASSWORD, type: html.PASSWORD, action: ice.AUTO}, {name: html.PASSWORD, type: html.PASSWORD, action: ice.AUTO}], function(list) {
-		if (list[0] != list[1]) { return can.user.toast(can, "密码不一致"), ui.focus(), true } can.runAction(event, aaa.PASSWORD, [list[0]])
+		if (list[0] != list[1]) { return can.user.toast(can, "密码不一致"), ui.focus(), true } can.runAction(event, aaa.PASSWORD, [list[0]], function() { can.user.toastSuccess(can) })
 	}) },
 	chinese: function(event, can) { can.runAction(event, aaa.LANGUAGE, ["zh"], function(msg) { can.user.reload() }) },
 	english: function(event, can) { can.runAction(event, aaa.LANGUAGE, ["en"], function(msg) { can.user.reload() }) },

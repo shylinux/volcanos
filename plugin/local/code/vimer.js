@@ -269,16 +269,15 @@ Volcanos(chat.ONACTION, {
 	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
 		can.onaction._run(event, can, button, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function() { can.user.toastSuccess(can, button) })
 	},
-	compile: function(event, can, button) {
-		can.runAction(can.request(event, {_toast: "编译中..."}), button, [], function(msg) {
+	compile: function(event, can, button) { var _toast = can.user.toastProcess(can, "编译中...")
+		can.runAction(can.request(event), button, [], function(msg) { _toast.close()
 			if (msg.Length() > 0 || msg.Result()) {
 				return can.onimport.exts(can, "inner/search.js", function() {
 					can.onmotion.delay(can, function() { can.ui.search._show(msg) }, 300)
 				})
 			}
-			
 			var toast = can.user.toastProcess(can, "重启中...")
-			can.onmotion.delay(can, function() { toast.close(), can.onaction[ice.SHOW]({}, can) }, 3000)
+			can.onmotion.delay(can, function() { toast.close(), can.user.toastSuccess(can) }, 3000)
 		})
 	},
 	autogen: function(event, can, button) { can.onaction._runs(can.request(event, {path: "src/"}), can, button, function(msg) {

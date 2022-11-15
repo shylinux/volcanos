@@ -276,7 +276,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
 		}, can._root._target)
 	},
-	figure: function(can, meta, target, cb) { if (meta.action == ice.AUTO || meta.type == html.BUTTON) { return }
+	figure: function(can, meta, target, cb) { if (meta.action == ice.AUTO || meta.type == html.BUTTON || meta.type == html.SELECT) { return }
 		var input = meta.action||mdb.KEY, path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
 			function _cb(sub, value, old) { if (value == old) { return } can.base.isFunc(cb)? cb(sub, value, old): target.value = value||"", can.onmotion.delay(can, function() { can.onmotion.focus(can, target) }) }
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function(){}; target[key] = function(event) {

@@ -7,7 +7,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 			}), can.onimport._tabs(can, sub, meta), skip || next() })
 		}, function() { can.onaction.layout(can, can.misc.SearchOrConf(can, html.LAYOUT), true) })
 	},
-	_share: function(can, share) { share && can.run({}, [web.SHARE, share], function(msg) {
+	_share: function(can, share) { share && can.runAction({}, web.SHARE, [share], function(msg) {
 		can.Mode(web.SHARE), msg.Length() > 1? can.onlayout._init(can): can.onengine.signal(can, chat.ONACTION_CMD)
 		can.user.title(msg.SearchOrOption(chat.TITLE)), can.setHeader(chat.TOPIC, msg.SearchOrOption(chat.TOPIC))
 		can.Conf(chat.RIVER, web.SHARE, chat.STORM, share), can.onimport._init(can, msg)
