@@ -46,7 +46,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	background: function(event, can, background) { if (can.user.isExtension || can.user.isLocalFile) { return }
 		can.runAction(event, aaa.BACKGROUND, [background], function(msg) { can.user.info.background = background, can.onimport._background(can, msg), can.user.toastSuccess(can) })
 	},
-	topic: function(can, topic) { topic && (can._topic = topic), can.user.topic(can, can.onexport.topic(can)) },
+	topic: function(can, topic) { topic && (can._topic = can.base.Obj(topic).join(ice.SP)), can.user.topic(can, can.onexport.topic(can)) },
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
 		return can.page.Append(can, can._output, [{type: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
 			if (can.base.isString(item)) { return {view: [html.MENU, html.DIV, can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }} }
@@ -64,20 +64,20 @@ Volcanos(chat.ONACTION, {
 		"setting", "设置", chat.BLACK, "黑色主题", chat.WHITE, "白色主题", chat.PRINT, "打印主题", code.WEBPACK, "打包页面", web.TOIMAGE, "生成图片",
 		"shareuser", "共享用户", "setnick", "设置昵称", aaa.PASSWORD, "修改密码", aaa.LANGUAGE, "语言地区", aaa.CHINESE, "中文", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
 	),
-	onmain: function(can, msg) { can.onimport.topic(can)
+	onmain: function(can) { can.onimport.topic(can)
 		can.run({}, [], function(msg) { if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
-			return msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)): can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg.Option(aaa.LOGIN), msg.Option("login.dev"))
+			return msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)): can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg.Option(aaa.LOGIN), msg.Option(ice.DEV))
 		} can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.language = can.misc.Search(can, aaa.LANGUAGE)||msg.Option(aaa.LANGUAGE)
 			can.user.info.background = msg.Option(aaa.BACKGROUND), can.user.info.avatar = msg.Option(aaa.AVATAR)
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			can.onmotion.clear(can), can.onimport._init(can, msg, can._output), can.ondaemon._init(can), can.onengine.signal(can, chat.ONLOGIN, msg)
 		})
 	},
-	onsize: function(can, msg) { can.onimport.topic(can) },
-	onstorm_select: function(can, msg, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
-	onaction_cmd: function(can, msg) { can.onmotion.hidden(can) },
+	onsize: function(can) { can.onimport.topic(can) },
+	onstorm_select: function(can, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
+	onaction_cmd: function(can) { can.onmotion.hidden(can) },
 	onsearch_focus: function(can) { can._search && can._search.focus() },
-	onshare: function(can, msg, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
+	onshare: function(can, msg, args) { can.user.share(can, msg, [ctx.ACTION, chat.SHARE].concat(args||[])) },
 	onwebpack: function(can, msg) {
 		can.user.input(msg._event, can, [{name: mdb.NAME, value: can.user.title()}], function(data) {
 			can.core.Item(Volcanos.meta.pack, function(key, msg) { can.core.List(["_event", "_can", "_xhr", ice.MSG_SESSID, ""], function(key) { delete(msg[key]) }) })
@@ -88,11 +88,11 @@ Volcanos(chat.ONACTION, {
 	},
 
 	title: function(event, can) { var args = {}; can.core.List([chat.TITLE, chat.TOPIC], function(key) { var value = can.misc.Search(can, key); value && (args[key] = value) }); can.user.jumps(can.misc.MergeURL(can, args, true)) },
-	black: function(event, can, button) { can.onimport.topic(can, button), can.onlayout._init(can) },
-	white: function(event, can, button) { can.onimport.topic(can, button), can.onlayout._init(can) },
+	black: function(event, can, button) { can.onimport.topic(can, button) },
+	white: function(event, can, button) { can.onimport.topic(can, button) },
 	print: function(event, can, button) { can.onimport.topic(can, [chat.WHITE, button]), can.onengine.signal(can, chat.ONPRINT) },
 	webpack: function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
-	toimage: function(event, can) { can.user.toimage(event, can, can.user.title(), can._target.parentNode) },
+	toimage: function(event, can) { can.onmotion.clearCarte(can), can.user.toimage(can, can.user.title(), can._target.parentNode) },
 
 	carte: function(event, can, list, cb) { can.user.carte(event, can, can.onaction, list, cb) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
@@ -129,8 +129,8 @@ Volcanos(chat.ONPLUGIN, {
 	location: shy("请求地址", {
 		copy: function(can) { can.user.copy(msg._event, can, location.href) },
 	}, [mdb.LINK, ice.LIST, ice.COPY], function(can, msg, cb) {
-		can.run(can.request({}, kit.Dict(mdb.LINK, location.href)), [web.SHARE], function(res) {
-			msg.Echo(res.Append(mdb.TEXT)).Echo(ice.NL).Echo(can.page.Format(html.A, res.Append(mdb.NAME))), can.base.isFunc(cb) && cb(msg)
+		can.runAction(can.request({}, kit.Dict(mdb.LINK, location.href)), web.SHARE, [], function(res) {
+			msg.Echo(res.Append(mdb.TEXT)).Status(kit.Dict(mdb.LINK, res.Append(mdb.NAME))), can.base.isFunc(cb) && cb(msg)
 		}) 
 	}),
 	cookie: shy("请求参数", [mdb.NAME, mdb.VALUE, ice.LIST, ice.BACK], function(can, msg, arg) {

@@ -14,7 +14,7 @@ Volcanos(chat.ONACTION, {
 		switch (event.key) {
 			case "b": can.CloneInput(); break
 			case "m": can.CloneField(); break
-			default: return
+			default: can.onkeymap.selectOutput(event, can.sup); return
 		} can.onkeymap.prevent(event)
 	},
 })

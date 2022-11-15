@@ -3,7 +3,7 @@ body { background-color:black; color:cyan; font-size:16px; overflow:hidden; }
 legend { background-color:cadetblue; color:white; padding:0 20px; margin-right:2px; float:left; }
 select { background-color:black; color:cyan; padding:0 10px; margin:0 2px; border:0; }
 textarea { background-color:cyan; width:400px; padding:5px; border:0; margin:2px; }
-input[type=password] { background-color:cyan; color:black; padding:0 5px; border:0; width:90px; }
+input[type=password] { background-color:cyan; color:black; padding:0 5px; margin:0 2px; border:0; width:90px; }
 input[type=text] { background-color:cyan; color:black; padding:0 5px; margin:0 2px; border:0; width:90px; }
 input[name=cmd] { background-color:black; color:white; width:320px; }
 input[name=url] { width:320px; }
@@ -31,6 +31,7 @@ table.layout td.content div.toggle.project { padding-top:50px; height:100px; wid
 table.layout td.content div.toggle.profile { padding-top:50px; height:100px; width:15px; top:20%; right:0px; border-top-left-radius:10px; border-bottom-left-radius:10px; }
 table.layout td.content div.toggle.display { margin-top:-15px; height:15px; width:100px; position:sticky; left:40%; border-top-left-radius:10px; border-top-right-radius:10px; overflow:hidden; }
 table.layout td.content div.toggle.display>div { text-align:center; width:100px; transform: rotate(-90deg) translate(5px, 0px); }
+table.content { width:-webkit-fill-available;}
 table.content thead { position:sticky; top:2px; }
 table.content th { background-color:steelblue; padding:2px 6px; }
 table.content td { padding:2px 6px; }
@@ -97,10 +98,11 @@ body>div.input div.content { overflow:auto; }
 body>div.input td { padding:5px; }
 body>div.input select { width:181px; }
 body>div.input input[type=text] { width:171px; }
-body>div.input input[name=password] { padding:5px; border:0; width:171px; background-color:white; }
+body>div.input input[name=password] { padding:5px; border:0; width:171px; }
 body>div.input input[name=username] { padding:5px; border:0; width:171px; }
 body>div.input textarea { height:120px; width:171px; }
-body>div.input.login { padding:10px; background-color:steelblue; }
+body>div.input.login { padding:10px; background-color:steelblue; min-width:240px; }
+body>div.input.login input[type=button] { width:90px; }
 body>div.upload div.item { float:left; }
 body>div.upload div.output { border:solid 1px red; }
 body>div.upload div.progress { background-color:red; height:10px; width:0; }
@@ -113,7 +115,7 @@ body>div.upload input[type=file] { width:320px; }
 * { tab-size:4; }
 textarea { tab-size:2; height:60px; }
 legend { font-size:1.2rem; height:31px; }
-select, input { font-size:1.1rem; height:31px; }
+select, input { font-size:1.0rem; height:31px; }
 table.content th, table.content td, div.zone>div.name, div.item, div.code, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
 div.action>div.tabs { padding:5px 10px; height:21px; }
 div.status>div.item { padding:4px; height:22px; }
@@ -220,6 +222,7 @@ body.mobile.simple { overflow:hidden; }
 body.mobile legend { font-size:1.6rem; height:38px; }
 body.mobile select { font-size:1.4rem; height:38px; border-radius:0; margin-right:10; }
 body.mobile textarea { font-size:1.2rem; border-radius:0; }
+body.mobile input[type=password] { font-size:1.2rem; height:38px; border-radius:0; margin-right:5px; }
 body.mobile input[type=text] { font-size:1.2rem; height:38px; border-radius:0; margin-right:5px; }
 body.mobile input[type=button] { font-size:1.2rem; height:38px; border-radius:0; }
 body.mobile fieldset.float input[type=button] { font-size:1.4rem; height:38px; }

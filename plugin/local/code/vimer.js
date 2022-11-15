@@ -39,14 +39,15 @@ Volcanos(chat.ONFIGURE, {
 				} list[path] = item
 			})
 		}
-		can.runAction({}, code.FAVOR, ["_recent_cmd"], function(msg) {
-			show(msg, function(item) { return [{text: [item.name||item.file, html.DIV, html.ITEM], onclick: function(event) {
-				can.onimport.tabview(can, can.Option(nfs.PATH), item.file, ctx.INDEX)
-			}}] })
-		})
 		can.runAction({}, code.FAVOR, ["_recent_file"], function(msg) {
 			show(msg, function(item, path) { return [{text: [path.split(ice.PS).slice(-2).join(ice.PS), html.DIV, html.ITEM], onclick: function(event) {
 				can.onimport.tabview(can, item.path, item.file)
+			}}] })
+		})
+		return
+		can.runAction({}, code.FAVOR, ["_recent_cmd"], function(msg) {
+			show(msg, function(item) { return [{text: [item.name||item.file, html.DIV, html.ITEM], onclick: function(event) {
+				can.onimport.tabview(can, can.Option(nfs.PATH), item.file, ctx.INDEX)
 			}}] })
 		})
 	},
@@ -59,12 +60,10 @@ Volcanos(chat.ONFIGURE, {
 
 		if (path.length == 1) { return show(target, path[0]) } can.page.Remove(can, target.previousSibling)
 		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(target, path) }} }), target)
-	},
-	website: function(can, target, zone) {
-		can.run(can.request({}, {dir_root: "src/website/", dir_deep: true}), [nfs.PWD], function(msg) { var list = msg.Table()
-			can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, "src/website/", item.path) }, target)
-			zone._total(msg.Length())
-		}, true)
+		can.sup.onexport.link = function(can) { var meta = can.Conf(), args = can.Option()
+			args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.path = path.join(ice.FS), args.topic = chat.BLACK
+			return can.misc.MergePodCmd(can, args, true)
+		}
 	},
 	dream: function(can, target, zone) { var call = arguments.callee
 		can.runAction({}, ice.RUN, [web.DREAM], function(msg) { msg.Table(function(item) { var color = item.status == cli.START? "": "gray"
@@ -81,11 +80,6 @@ Volcanos(chat.ONFIGURE, {
 			mdb.CREATE, function(event, can, button) { can.onaction.dream(event, can, web.DREAM) },
 			code.PUBLISH, function(event, can, button) { can.runAction(event, button, [], function(msg) { can.user.toastConfirm(can, msg.Result(), button) }) },
 		))
-	},
-	xterm: function(can, target, zone) {
-		can.runAction({}, ice.RUN, [code.XTERM], function(msg) { msg.Table(function(item) {
-			can.onimport.item(can, item, function(event) { can.onimport.tabview(can, can.Option(nfs.PATH), item.hash, code.XTERM) }, function(event) {}, target)
-		}), zone._total(msg.Length()) })
 	},
 	plugin: function(can, target, zone) { var total = 0
 		can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return total++, {index: key} }), ctx.INDEX, ice.PT, function(event, item) {

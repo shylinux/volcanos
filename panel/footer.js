@@ -4,7 +4,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport._state(can, msg, target)
 		can.onimport._toast(can, msg, target)
 		can.onimport._command(can, msg, target)
-		can["cli"] = {}
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(msg.result, function(item) { can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "联系站长"}]) }) },
 	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [NTIP, NCMD, NLOG]).reverse(), function(item) {
@@ -17,7 +16,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		case cli.CLOSE: can.cli && can.cli.close(); break
 		case cli.CLEAR: can.cli && can.cli.close(); break
 		default:
-			can.runAction(event, ice.RUN, can.core.Split(event.target.value, ice.SP), function(msg) { can.cli && can.cli.close && can.cli.close(); var ui = can.onexport.float(can, msg, "cli")
+ 			can.runAction(event, ice.RUN, can.core.Split(event.target.value, ice.SP), function(msg) { can.cli && can.cli.close && can.cli.close(), can["cli"] = {}; var ui = can.onexport.float(can, msg, "cli")
 				can.getActionSize(function(left) { can.page.style(can, ui._target, html.LEFT, left, html.RIGHT, "", html.BOTTOM, can.onexport.height(can)) })
 			})
 	} }}, "", target, [chat.TITLE, ice.CMD]) },

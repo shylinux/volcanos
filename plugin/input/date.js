@@ -50,7 +50,7 @@ Volcanos(chat.ONFIGURE, {date: {
 		}
 		show(now), can._show = function(d) { _cb(show(new Date(now.getTime()+d*24*3600*1000))) }
 	})},
-	onkeydown: function(event, can, meta, cb, target, sub, last) { if (sub.hidden()) { return } switch (event.key) {
+	onkeydown: function(event, can, meta, cb, target, sub, last) { if (sub && sub.hidden()) { return last(event) } switch (event.key) {
 		case "n": can.page.SelectInput(can, sub._action, mdb.NEXT, function(target) { target.click() }); break
 		case "p": can.page.SelectInput(can, sub._action, mdb.PREV, function(target) { target.click() }); break
 		case "t": can.page.SelectInput(can, sub._action, "today", function(target) { target.click() }); break
@@ -58,6 +58,6 @@ Volcanos(chat.ONFIGURE, {date: {
 		case "k": sub._show(-7); break
 		case "h": sub._show(-1); break
 		case "l": sub._show(1); break
-		default: return
+		default: last(event); return
 	} can.onkeymap.prevent(event) },
 } })

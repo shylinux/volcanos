@@ -179,7 +179,7 @@ Volcanos(chat.ONDETAIL, {list: [cli.START, ice.COPY, html.LABEL, "toimage", mdb.
 			target.Value(mdb.TEXT, can.onexport._pid(can, can.onimport.block(can, html.TEXT, can.onexport._text(can, target, can.onfigure._get(can, target), {inner: list[0]}), target.Group()) ))
 		})
 	},
-	toimage: function(event, can) { can.user.toimage(event, can, can.Option(nfs.PATH).split(ice.PS).pop().split(ice.PT)[0], can.svg) },
+	toimage: function(event, can) { can.user.toimage(can, can.Option(nfs.PATH).split(ice.PS).pop().split(ice.PT)[0], can.svg) },
 	remove: function(event, can) { if (target == can.svg) { return } var target = event.target
 		can.core.List(target.Value(ice.SHIP), function(item) { can.ondetail._select(can, item.pid, function(target) { can.page.Remove(can, target) }) })
 		can.ondetail._select(can, target.Value(mdb.TEXT), function(target) { can.page.Remove(can, target) }), can.page.Remove(can, target)

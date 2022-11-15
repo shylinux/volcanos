@@ -12,6 +12,7 @@ var ice = {
 	VIEW: "view", MODE: "mode", SHIP: "ship", EXEC: "exec",
 
 	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
+	DEV: "dev",
 	CAN: "can", RUN: "run", RES: "res", ERR: "err",
 	CAN_PLUGIN: "can.plugin",
 
@@ -65,6 +66,7 @@ var cli = {
 	COLOR: "color", WHITE: "white", BLACK: "black", RED: "red", GREEN: "green", BLUE: "blue",
 	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta", GLASS: "#0000",
 	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
+	PWD: "pwd",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",

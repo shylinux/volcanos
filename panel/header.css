@@ -8,3 +8,5 @@ fieldset.Header>div.output div.state.avatar { padding:0; height:31px; }
 fieldset.Header>div.output div.state.avatar>img { height:31px; }
 fieldset.Header>div.output div.search { margin-left:20px; float:left; }
 fieldset.Header>div.output div.search>input { margin-top:-5px; border-radius:0; }
+
+fieldset.Header>div.output river { margin-right:100px; }

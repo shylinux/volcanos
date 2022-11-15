@@ -24,7 +24,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var select; can.page.Append
 		can.onaction.carte(event, can, list, function(event, button, meta) { meta[button](event, can, button, river, storm) })
 	},
 })
-Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.REFRESH, web.SHARE], _init: function(can) { can.onmotion.hidden(can) },
+Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.REFRESH], _init: function(can) { can.onmotion.hidden(can) },
 	onlogin: function(can, msg) { can.run({}, [], function(msg) { if (msg.Option(ice.MSG_RIVER) == "_share") { return }
  		can.onmotion.clear(can), can.onimport._main(can, msg), can.onimport._init(can, msg), can.onimport._menu(can, msg)
 		can.user.isMobile ||can.user.isExtension || can.user.mod.isPod || can.onmotion.toggle(can, can._target, true)
@@ -83,7 +83,9 @@ Volcanos(chat.ONDETAIL, {list: ["添加应用", "重命名群组", "删除群组
 })
 Volcanos(chat.ONEXPORT, {width: function(can) { return can._target.offsetWidth },
 	storm: function(can, msg, arg) { can.core.Item(can._root.river, function(river, value) { can.core.Item(value.storm, function(storm, item) { if (arg[1] != "" && storm.indexOf(arg[1]) == -1 && item.name.indexOf(arg[1]) == -1) { return }
-		msg.Push({ctx: ice.CAN, cmd: can._name, type: river, name: storm, text: shy("跳转", function(event) { can.onaction.action(event, can, river, storm) })})
+		msg.Push({ctx: ice.CAN, cmd: can._name, type: river, name: storm, text: shy("跳转", function(event) {
+			can.onaction.action(event, can, river, storm)
+		})})
 	}) }) },
 })
 Volcanos(chat.ONENGINE, {_engine: function(event, can, msg, panel, cmds, cb) { var list = can.river

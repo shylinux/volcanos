@@ -11,7 +11,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 				can.core.CallFunc([sub.onaction, chat._INIT], {can: sub, cb: next, target: sub._target})
 			}, target)
 		}, function() { can.onmotion._init(can, target), can.onkeymap._init(can, target), can.misc.Info(can.user.title(), ice.RUN, can)
-			can.onengine.listen(can, chat.ONSEARCH, function(msg, word) { word[0] == ctx.COMMAND && can.run(msg, ["can.command"]) })
+			can.onengine.listen(can, chat.ONSEARCH, function(msg, arg) { arg[0] == ctx.COMMAND && can.run(msg, ["can.command"]) })
 			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb(can)
 		})
 	},
@@ -250,6 +250,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}); return code.scrollBy && code.scrollBy(0, 10000), code
 	},
 	tools: function(can, msg, cb, target) { can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []), cb, target) },
+	tabview: function(can, meta, list, target) { var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT])
+		can.core.List(can.base.getValid(list, can.core.Item(meta)), function(name, index) {
+			ui[name] = can.page.Append(can, ui.action, [{text: name, onclick: function(event) {
+				if (can.onmotion.cache(can, function() { return name }, ui.output)) { return } meta[name](ui.output)
+			}, _init: function(target) { index == 0 && can.onmotion.delay(can, function() { target.click() }) }}])._target
+		}); return ui._target = target, ui
+	},
 
 	_plugin: function(can, value, meta, cb, target, field) { can.base.Copy(meta, value, true)
 		meta.name = meta.name||value&&value.meta&&value.meta.name||""
@@ -272,7 +279,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	_float: function(can, index, args) {
 		can.onappend.plugin(can, {mode: chat.FLOAT, index: index, args: args}, function(sub) {
 			can.getActionSize(function(left, top, width, height) { sub.onimport.size(sub, sub.ConfHeight(height/2), sub.ConfWidth(width), true)
-				can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+height/4}), can.onmotion.delay(can, function() { sub.Focus() })
+				can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+height/4}) // , can.onmotion.delay(can, function() { sub.Focus() })
 			}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
 		}, can._root._target)
 	},
@@ -378,6 +385,11 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 				can.page.style(can, item, html.HEIGHT, can.ConfHeight()-88, html.WIDTH, can.ConfWidth()-30)
 			})
 		},
+	},
+	clearCarte: function(can) {
+		can.page.Select(can, can._root._target, "div.carte", function(target) {
+			can.page.Remove(can, target)
+		})
 	},
 
 	hidden: function(can, target, show) { target = target||can._target

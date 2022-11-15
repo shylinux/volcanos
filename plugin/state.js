@@ -141,7 +141,7 @@ Volcanos(chat.ONACTION, {list: [
 		]
 		can.user.copy(event, can, list[0])
 	},
-	"生成图片": function(event, can) { can.user.toimage(event, can, can._name) },
+	"生成图片": function(event, can) { can.user.toimage(can, can._name) },
 	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
 
 	"保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
