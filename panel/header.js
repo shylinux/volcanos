@@ -150,4 +150,7 @@ Volcanos(chat.ONPLUGIN, {
 	}, ["language:select=zh,en", ice.RUN], function(can, msg, arg) {
 		can.runAction(event, aaa.LANGUAGE, [arg[0]], function(msg) { can.user.reload() }) 
 	}),
+	logout: shy("退出登录", kit.Dict(
+		aaa.LOGOUT, shy("退出", function(can) { can.user.logout(can._root.Header, true) })
+	), [aaa.LOGOUT]),
 })

@@ -54,7 +54,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 		if (can.base.isUndefined(name) || !can.base.isString(name) || name == _name) { return }
 		if (can.base.isUndefined(command)) { return arguments.callee.meta[_name] }
 		var button = false, type = html.TEXT; command.list = can.core.List(command.list, function(item) {
-			return can.base.isString(item) && (item = can.core.SplitInput(item, type)), item.type != html.SELECT && (type = item.type), button = button || item.type == html.BUTTON, item
+			return can.base.isString(item) && (item = can.core.SplitInput(item, can.base.isFunc(command.meta[item])? html.BUTTON: type)), item.type != html.SELECT && (type = item.type), button = button || item.type == html.BUTTON, item
 		}); if (!button) { command.list.push(can.core.SplitInput(ice.LIST, html.BUTTON)) }
 		command.can = can, command.meta.name = name, arguments.callee.meta[_name] = command
 	}),
@@ -65,10 +65,10 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 	},
 })
 Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) { return }
-		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, cli.DAEMON)||name||"", text: can.user.title()}, function(event, msg, cmd, arg) { if (!msg) { return }
+		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, cli.DAEMON)||name||"", text: can.user.title()}, function(event, msg, cmd, arg, cb) {
 			var sub = can.ondaemon._list[msg.Option(ice.MSG_TARGET)]||can; can.base.isFunc(sub.ondaemon[cmd])?
-				can.core.CallFunc(sub.ondaemon[cmd], {can: can, msg: msg, sub: sub, cmd: cmd, arg: arg, cb: function() { msg.Reply() }}):
-					can.onengine._search({}, can, msg, can, [chat._SEARCH, cmd].concat(arg), function() { msg.Reply() })
+				can.core.CallFunc(sub.ondaemon[cmd], {can: can, msg: msg, sub: sub, cmd: cmd, arg: arg, cb: cb}):
+					can.onengine._search({}, can, msg, can, [chat._SEARCH, cmd].concat(arg), cb)
 		})
 	}, _list: [""],
 	pwd: function(can, arg) { can._wss_name = can.ondaemon._list[0] = arg[0] },
@@ -118,7 +118,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				case lang.OBJECT: can.page.style(can, sub._target, style); break
 			} sub.Mode() != meta.type && can.page.ClassList.add(can, field, sub.Mode())
 
-			sub._trans = can.base.Copy(sub._trans||{}, can.core.Value(sub, [chat.ONACTION, chat._TRANS])), meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
+			sub._trans = can.base.Copy(sub._trans||{}, can.core.Value(sub, [chat.ONACTION, chat._TRANS]))
+			can.core.Item(meta.feature, function(key, cb) { cb.help && sub.user.trans(sub, kit.Dict(key, cb.help)) })
+			meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
 			if (meta.msg) { var msg = sub.request(); msg.Copy(can.base.Obj(meta.msg)), sub.onappend._output(sub, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display) }
 
 			can.core.Value(sub._legend, chat.ONMOUSEENTER, function(event) {
