@@ -23,16 +23,17 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 	},
 	_field: function(can, msg) { var opts = {}
 		can.page.SelectArgs(can, can._option, "", function(target) { var value = msg.Option(target.name); target.name && value && (opts[target.name] = value) })
-		msg.Table(function(item) { can.onappend._plugin(can, item, {type: chat.STORY, index: item.index, args: can.base.Obj(item[ice.ARG], [])}, function(sub, meta) {
+		var height = can.ConfHeight()-2*html.ACTION_HEIGHT; can.page.Select(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight+4 })
+		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item[ice.ARG], []), height: can.base.Min(height, 200)}, function(sub, meta) {
 			sub.Conf(can.base.Obj(item.conf)); if (sub.isSimpleMode()) { (function() { sub.ConfHeight(can.ConfHeight()/2)
 				var msg = can.request(); msg.Echo(sub.Conf(ice.MSG_RESULT)), can.onappend._output(sub, msg, sub.Conf("feature.display"))
 			})(); return }
 
-			var opt = can.base.Obj(item[ice.OPT], []); sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
+			var opt = can.base.Obj(item[ice.OPT], []); sub.ConfWidth(can.ConfWidth())
 			sub.run = function(event, cmds, cb) {
 				var res = can.request(event, can.Option(), opts, {pid: msg.Option("pid")})
 				for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
-				can.run(event, (msg[ice.MSG_PREFIX]||[]).concat(cmds), cb, true)
+				can.run(event, (msg.Option("_index")==can._index? []: [ice.RUN, msg.Option("_index")]).concat(msg[ice.MSG_PREFIX]||[]).concat(cmds), cb, true)
 			}
 		}) }); return true
 	},
@@ -69,7 +70,7 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 			return can.page.style(can, div, html.MAX_HEIGHT, 400), can.page.Append(can, div, [{text: _arg}]), div.scrollBy(0, 10000), true
 		}).length == 0) { can.onappend.board(can, _arg) } return true
 	},
-	_open: function(can, msg, _arg) { return can.user.open(_arg), can.Update() },
+	_open: function(can, msg, _arg) { return can.user.open(_arg), true },
 
 	size: function(can, height, width, auto, mode) {
 		if (auto) {
@@ -205,7 +206,7 @@ Volcanos(chat.ONACTION, {list: [
 	getLocation: function(event, can, button) {
 		can.user.agent.getLocation(can, function(data) { can.request(event, data)
 			can.user.input(event, can, [mdb.TYPE, mdb.NAME, mdb.TEXT, "latitude", "longitude"], function(args) {
-				can.runAction(event, button, args)
+				can.runAction(event, button, args, function() { can.Update() })
 			})
 		})
 	},

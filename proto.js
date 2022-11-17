@@ -181,7 +181,7 @@ var chat = {
 
 	_INIT: "_init", _TRANS: "_trans", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1",
 	_NAMES: "_names", _TOAST: "_toast",
-	
+	IFRAME: "iframe", LOCATION: "location",
 }
 var team = {
 	TASK: "task", PLAN: "plan",

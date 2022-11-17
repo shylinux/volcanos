@@ -201,7 +201,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	_status: function(can, list, status) { status = status||can._status, can.onmotion.clear(can, status)
 		can.core.List(can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST])), function(item) { item = can.base.isString(item)? {name: item}: item
-			if (can.base.beginWith(item.value, ice.PS, ice.HTTP)) { item.value = can.page.Format(html.A, item.value) }
+			if (can.base.beginWith(item.value, ice.PS, ice.HTTP)) { item.value = can.page.Format(html.A, item.value, item.value.split("?")[0]) }
 			can.page.Append(can, status, [{view: can.base.join([html.ITEM, item.name]), title: item.name, list: [
 				{text: [item.name, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value == undefined? "": item.value)+"", html.SPAN, item.name]},
 			], onclick: function(event) { can.user.copy(event, can, item.value) }}])
@@ -234,7 +234,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				line = {}, can.core.List(array, function(item) { line[item.key] = item.value })
 			} function run(event, cmd, arg) { return can.run(can.request(event, line, can.Option()), [ctx.ACTION, cmd].concat(arg)) }
 			return {text: [value, html.TD], onclick: function(event) { var target = event.target
-				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) {
+				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.request(event, {height: can.ConfHeight()-4-table.offsetHeight, width: can.ConfWidth()})
 					meta && meta[target.name]? can.user.input(can.request(event, {action: target.name}), can, meta[target.name], function(args) { run(event, target.name, args) }): run(event, target.name)
 				} else { can.sup.onimport.change(event, can.sup, key, event.target.innerText) || can.sup.onexport.record(can.sup, line) }
 			}, ondblclick: function(event) { if ([mdb.KEY, mdb.HASH, mdb.ID].indexOf(key) > -1) { return }
@@ -384,7 +384,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 				if (target.value == target.name) { target.value = can.user.trans(can, target.name) }
 			})
 			can.page.Select(can, target, html.IFRAME, function(item) {
-				can.page.style(can, item, html.HEIGHT, can.ConfHeight()-88, html.WIDTH, can.ConfWidth()-30)
+				// can.page.style(can, item, html.HEIGHT, can.ConfHeight()-88, html.WIDTH, can.ConfWidth()-30)
 			})
 		},
 	},
