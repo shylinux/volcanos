@@ -180,14 +180,6 @@ Volcanos(chat.ONACTION, {list: [
 	full: function(event, can) { can.onaction["切换全屏"](event, can, "切换全屏", can.core.Value(can, chat._OUTPUTS_CURRENT)) },
 	next: function(event, can) { can.Update(event, [ctx.ACTION, mdb.NEXT, can.Status(mdb.TOTAL)||0, can.Option(mdb.LIMIT)||can.Action(mdb.LIMIT)||"", can.Option(mdb.OFFEND)||can.Action(mdb.OFFEND)||""]) },
 	prev: function(event, can) { can.Update(event, [ctx.ACTION, mdb.PREV, can.Status(mdb.TOTAL)||0, can.Option(mdb.LIMIT)||can.Action(mdb.LIMIT)||"", can.Option(mdb.OFFEND)||can.Action(mdb.OFFEND)||""]) },
-	keyboard: function(event, can) {
-		can.base.isUndefined(can._daemon) && can.ondaemon._list[0] && (can._daemon = can.ondaemon._list.push(can)-1)
-		can.request(event, kit.Dict(ctx.INDEX, can._index, ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], can._daemon)))
-		can.runAction(event, "keyboard", [], function(msg) {
-			can.user.toast(can, {title: msg.Append(mdb.NAME), duration: -1, content: msg.Append(mdb.TEXT), action: [cli.CLOSE, cli.OPEN]})
-			can.user.copy(msg._event, can, msg.Append(mdb.NAME))
-		})
-	},
 	actions: function(event, can) { can.onmotion.toggle(can, can._action) },
 	upload: function(event, can) { can.user.upload(event, can) },
 
@@ -196,25 +188,47 @@ Volcanos(chat.ONACTION, {list: [
 		navigator.clipboard? navigator.clipboard.readText().then(add).catch(function(err) { can.misc.Log(err) }):
 			can.user.input(event, can, [{type: html.TEXTAREA, name: mdb.TEXT}], function(list) { add(list[0]) })
 	},
-	scanQRCode0: function(event, can, button) { can.user.agent.scanQRCode(can) },
-	scanQRCode: function(event, can, button) {
-		can.user.agent.scanQRCode(can, function(data) {
-			can.runAction(event, button, can.base.Simple(data), function() { can.Update() })
+	getLocation: function(event, can, button) { can.user.agent.getLocation(can, function(data) {
+		can.user.input(can.request(event, data), can, [mdb.TYPE, mdb.NAME, mdb.TEXT, "latitude", "longitude"], function(args) {
+			can.runAction(event, button, args, function() { can.Update() })
 		})
-	},
+	}) },
 	openLocation: function(event, can) { can.user.agent.openLocation(can, can.request(event)) },
-	getLocation: function(event, can, button) {
-		can.user.agent.getLocation(can, function(data) { can.request(event, data)
-			can.user.input(event, can, [mdb.TYPE, mdb.NAME, mdb.TEXT, "latitude", "longitude"], function(args) {
-				can.runAction(event, button, args, function() { can.Update() })
+	scanQRCode0: function(event, can, button) { can.user.agent.scanQRCode(can) },
+	scanQRCode: function(event, can, button) { can.user.agent.scanQRCode(can, function(data) {
+		can.runAction(event, button, can.base.Simple(data), function() { can.Update() })
+	}) },
+	record0: function(event, can, name, cb) { can.user.input(event, can, [{name: nfs.FILE, value: name}], function(list) {
+		navigator.mediaDevices.getDisplayMedia({video: {height: window.innerHeight}}).then(function(stream) { var toast
+			can.core.Next([3, 2, 1], function(item, next) { toast = can.user.toast(can, item + "s 后开始截图"), can.onmotion.delay(can, next, 1000) }, function() { toast.close()
+				cb(stream, function(blobs, ext) { var msg = can.request(event); msg._upload = new File(blobs, list[0]+ice.PT+ext)
+					can.runAction(msg, html.UPLOAD, [], function() { can.user.toastSuccess(can), can.Update() })
+					can.core.List(stream.getTracks(), function(item) { item.stop() })
+				})
 			})
+		}).catch(function(err) { can.user.toast(can, err.name + ": " + err.message) })
+	}) },
+	record1: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) { var height = window.innerHeight
+		var video = can.page.Append(can, document.body, [{type: html.VIDEO, height: height}])._target; video.srcObject = stream, video.onloadedmetadata = function() { video.play(), width = video.offsetWidth
+			var canvas = can.page.Append(can, document.body, [{type: html.CANVAS, height: height, width: width}])._target; canvas.getContext("2d").drawImage(video, 0, 0, width, height)
+			canvas.toBlob((blob) => { cb([blob], nfs.PNG) })
+		}
+	}) },
+	record2: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) {
+		var recorder = new MediaRecorder(stream, {mimeType: web.VIDEO_WEBM}), blobs = []; recorder.ondataavailable = function(res) { blobs.push(res.data) }
+		recorder.onstop = function() { cb(blobs, nfs.WEBM) }, recorder.start(1)
+	}) },
+	keyboard: function(event, can) {
+		can.base.isUndefined(can._daemon) && can.ondaemon._list[0] && (can._daemon = can.ondaemon._list.push(can)-1)
+		can.request(event, kit.Dict(ctx.INDEX, can._index, ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], can._daemon)))
+		can.runAction(event, "keyboard", [], function(msg) { can.user.copy(msg._event, can, msg.Append(mdb.NAME))
+			can.user.toast(can, {title: msg.Append(mdb.NAME), duration: -1, content: msg.Append(mdb.TEXT), action: [cli.CLOSE, cli.OPEN]})
 		})
 	},
 })
-Volcanos(chat.ONEXPORT, {
+Volcanos(chat.ONEXPORT, {record: function(can, line) {},
 	statusHeight: function(can) { return can._status.style.display == html.NONE || can._status.innerHTML == "" || can._status.offsetHeight == 0? 0: html.ACTION_HEIGHT },
 	actionHeight: function(can) { return can._action.style.display == html.NONE || can._action.innerHTML == ""? 0: html.ACTION_HEIGHT },
-	record: function(can, line) {},
 	link: function(can) { var meta = can.Conf(), args = can.Option()
 		args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == web.WIKI_WORD && (args.cmd = args.path)
 		return can.misc.MergePodCmd(can, args, true)

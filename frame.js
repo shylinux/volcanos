@@ -75,8 +75,14 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) 
 	toast: function(can, sub, arg) { can.core.CallFunc(can.user.toast, [sub].concat(arg)) },
 	refresh: function(can, sub) { can.base.isFunc(sub.Update) && sub.Update() },
 	action: function(can, msg, sub, arg) {
-		if (can.page.SelectInput(can, sub._option, arg[0], function(target) { return arg[1] && (target.value = arg[1]), target.focus(), target })) { return }
-		(can.core.Value(sub, chat._OUTPUTS_CURRENT)||sub).runAction(can.request({}, msg), arg[0], arg.slice(1))
+		if (can.page.SelectInput(can, sub._option, arg[0], function(target) {
+			// can.onmotion.delay(can, function() {
+				target.type == html.BUTTON? target.click(): arg[1] && (target.value = arg[1], target.focus())
+			// })
+			return target })) { return }
+		var _sub = can.core.Value(sub, chat._OUTPUTS_CURRENT)
+		if (_sub && _sub.onaction && _sub.onaction[arg[0]]) { return _sub.onaction[arg[0]]({}, _sub, arg[0]) }
+		if (sub && sub.onaction && sub.onaction[arg[0]]) { return sub.onaction[arg[0]]({}, sub, arg[0], _sub) }
 	},
 	input: function(can, msg, sub, arg) { can.page.Select(can, sub._target, "input:focus", function(target) { target.value += arg[0] }) },
 	grow: function(can, msg, sub, arg) { if (sub.sup && sub.sup.onimport._grow) { return sub.sup.onimport._grow(sub.sup, msg, can.page.Color(arg.join(""))) } },
@@ -217,7 +223,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	input: function(can, item, value, target, style) {
 		if (item.type == html.SPACE) { return can.page.Append(can, target, [{view: can.base.join([html.ITEM, html.SPACE])}]) }
 		var input = can.page.input(can, can.base.Copy({}, item), value)
-		if (item.type == html.SELECT && item.value) { input._init = function(target) { target.value = item.value } }
+		if (item.type == html.SELECT && item.value) { input._init = function(target) { target.value = value||item.value } }
 		if (item.type == html.TEXT) { input.onkeydown = item.onkeydown||function(event) {
 			can.onkeymap.input(event, can), can.onkeymap.selectOutput(event, can), event.key == lang.ENTER && can.onkeymap.prevent(event)
 		} }

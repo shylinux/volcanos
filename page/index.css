@@ -299,6 +299,7 @@ body.simple fieldset.Action>div.output>fieldset.plugin.inner>div.action { displa
 body.simple div.output.card div.item { border-radius:5px; box-shadow:2px 2px 6px 1px gray; }
 body.simple div.output.card div.item>div.title { border-bottom:solid 1px #e7e7e7; }
 body.simple fieldset.feel.float { top:0; }
+body.simple div.code { padding:0px; border:none; }
 
 body.white.simple div.profile { background-color:whitesmoke; }
 body.white.simple div.profile { color:black; }

@@ -84,6 +84,7 @@ var web = {
 	ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 	
 	CODE_INNER: "web.code.inner", WIKI_WORD: "web.wiki.word",
+	VIDEO_WEBM: "video/webm",
 }
 var mdb = {
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
