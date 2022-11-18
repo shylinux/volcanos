@@ -28,7 +28,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 Volcanos(chat.ONFIGURE, { 
 	create: function(can, target, zone, path) {
 		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(
-			["查找", "git", "首页", "官网" , "文档" , "百度"], window.webview? ["浏览器", "录屏", "编辑器", "日志"]: [],
+			["favor", "git", "首页", "官网" , "文档" , "百度"], window.webview? ["浏览器", "录屏", "编辑器", "日志"]: [],
 		), target): can.onmotion.hidden(can, target.parentNode)
 	},
 	recent: function(can, target, zone, path) { var total = 0
@@ -319,6 +319,7 @@ Volcanos(chat.ONACTION, {
 			can.onimport.exts(can, list[0])
 		})
 	},
+	"favor": function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.chat.favor", ctx.INDEX) },
 	"plan": function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.team.plan", ctx.INDEX) },
 	"git": function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX) },
 	"vim": function(event, can) {
@@ -331,10 +332,12 @@ Volcanos(chat.ONACTION, {
 	"日志": function(event, can) { window.opencmd("cd ~/contexts; tail -f var/log/bench.log") },
 	"编辑器": function(event, can) { window.opencmd("cd ~/contexts; vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE)) },
 	"浏览器": function(event, can) { window.openurl(location.href) },
-	"首页": function(event, 	can) { can.user.isWebview? window.openurl(location.protocol+"//"+location.host): window.open(location.protocol+"//"+location.host) },
-	"百度": function(event, 	can) { can.user.isWebview? window.openurl("https://baidu.com"): can.user.open("https://baidu.com") },
-	"文档": function(event, 	can) { can.user.isWebview? window.openurl("https://developer.mozilla.org/"): can.user.open("https://developer.mozilla.org/") },
-	"官网": function(event, 	can) { can.user.isWebview? window.openurl("https://shylinux.com/"): can.user.open("https://shylinux.com/") },
+	_open: function(can, url) { can.user.isWebview? window.openurl(url): window.open(url) },
+	"收藏": function(event, can) { can.onaction._open(can, location.protocol+"//"+location.host+"/chat/cmd/web.chat.favor") },
+	"首页": function(event, can) { can.onaction._open(can, location.protocol+"//"+location.host) },
+	"百度": function(event, can) { can.onaction._open(can, "https://baidu.com") },
+	"文档": function(event, can) { can.onaction._open(can, "https://developer.mozilla.org/") },
+	"官网": function(event, can) { can.onaction._open(can, "https://shylinux.com/") },
 	"查找": function(event, can) {
 		var ui = can.page.Append(can, can._output, [{view: "vimer find float", list: [html.ACTION, html.OUTPUT],
 			style: {position: "absolute", left: can.ui.project.offsetWidth+can.ui.content.offsetWidth/2, top: can.base.Max(can.base.Min(can.current.line.offsetTop-can.ui.content.scrollTop, 100), can.ConfHeight()/2)+57+28}}])

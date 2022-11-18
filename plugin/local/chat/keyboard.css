@@ -1,3 +1,2 @@
-fieldset.keyboard div.output div.item {
-	float:left;
-}
+fieldset.keyboard div.output div.item { float:left; margin:5px; }
+fieldset.keyboard div.output div.space { clear:both; }

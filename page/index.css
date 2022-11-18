@@ -31,7 +31,7 @@ table.layout td.content div.toggle.project { padding-top:50px; height:100px; wid
 table.layout td.content div.toggle.profile { padding-top:50px; height:100px; width:15px; top:20%; right:0px; border-top-left-radius:10px; border-bottom-left-radius:10px; }
 table.layout td.content div.toggle.display { margin-top:-15px; height:15px; width:100px; position:sticky; left:40%; border-top-left-radius:10px; border-top-right-radius:10px; overflow:hidden; }
 table.layout td.content div.toggle.display>div { text-align:center; width:100px; transform: rotate(-90deg) translate(5px, 0px); }
-table.content { width:-webkit-fill-available;}
+// table.content { width:-webkit-fill-available;}
 table.content thead { position:sticky; top:2px; }
 table.content th { background-color:steelblue; padding:2px 6px; }
 table.content td { padding:2px 6px; }
@@ -278,7 +278,7 @@ body.mobile.landscape div.output.card div.item { width:auto; float:left; }
 body.mobile.landscape.simple div.output.card div.item { width:auto; float:left; }
 
 
-body.simple fieldset.Header { border-bottom:solid 1px #e7e7e7; height:60px; display:block; }
+body.simple fieldset.Header { border-bottom:solid 1px #e7e7e7; height:60px; }
 body.simple fieldset.River { border-right:solid 1px #e7e7e7; }
 body.simple fieldset.River>div.output { padding:10px 10px; width:200px; }
 body.simple fieldset.River>div.output div.item { color:black; padding:10px 40px; border-left:none; }

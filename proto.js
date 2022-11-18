@@ -1,6 +1,8 @@
 var kit = {proto: function(sub, sup) { return sub.__proto__ = sup, sub },
-	Dict: function() { var res = {}, args = arguments; for (var i = 0; i < args.length; i += 2) {
-		if (typeof args[i] == "object") { for (var k in args[i]) { res[k] = args[i][k] } i-- } else if (typeof args[i] == "string" && args[i]) { res[args[i]] = args[i+1] }
+	Dict: function() { var res = {}, args = arguments; for (var i = 0; i < args.length; i += 2) { var value = args[i]
+		if (typeof value == "object") { i--; for (var k in value) { res[k] = value[k] }
+			for (var j = 0; j < value.length; j += 2) { res[value[j]] = value[j+1] }
+		} else if (typeof value == "string" && value) { res[value] = args[i+1] }
 	} return res },
 }
 var ice = {

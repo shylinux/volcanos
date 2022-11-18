@@ -75,14 +75,21 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) 
 	toast: function(can, sub, arg) { can.core.CallFunc(can.user.toast, [sub].concat(arg)) },
 	refresh: function(can, sub) { can.base.isFunc(sub.Update) && sub.Update() },
 	action: function(can, msg, sub, arg) {
-		if (can.page.SelectInput(can, sub._option, arg[0], function(target) {
-			// can.onmotion.delay(can, function() {
-				target.type == html.BUTTON? target.click(): arg[1] && (target.value = arg[1], target.focus())
-			// })
-			return target })) { return }
-		var _sub = can.core.Value(sub, chat._OUTPUTS_CURRENT)
-		if (_sub && _sub.onaction && _sub.onaction[arg[0]]) { return _sub.onaction[arg[0]]({}, _sub, arg[0]) }
+		if (arg[0] == "ctrl") { var list = []; can.misc.Log("what ", document.activeElement)
+			can.page.Select(can, can._root._target, "input", function(target, index) { list[index] = target
+				if (document.activeElement == document.body) { return target.focus() }
+				switch (arg[1]) {
+					case "next": if (list[index-1] == document.activeElement) { target.focus() } break
+					case "prev": if (target == document.activeElement) { list[index-1].focus() } break
+					case "ok": if (target == document.activeElement) { target.focus() } break
+				}
+			})
+			return
+		}
+		if (arg[0].indexOf(ice.PT) == -1 && can.page.SelectInput(can, sub._option, arg[0], function(target) { target.type == html.BUTTON? target.click(): (target.value = arg[1]||"", target.focus()); return target })) { return }
+		var _sub = can.core.Value(sub, chat._OUTPUTS_CURRENT); if (_sub && _sub.onaction && _sub.onaction[arg[0]]) { return _sub.onaction[arg[0]]({}, _sub, arg[0]) }
 		if (sub && sub.onaction && sub.onaction[arg[0]]) { return sub.onaction[arg[0]]({}, sub, arg[0], _sub) }
+		can.core.CallFunc(can.core.Value(can, arg[0]), kit.Dict({can: can}, arg.slice(1)))
 	},
 	input: function(can, msg, sub, arg) { can.page.Select(can, sub._target, "input:focus", function(target) { target.value += arg[0] }) },
 	grow: function(can, msg, sub, arg) { if (sub.sup && sub.sup.onimport._grow) { return sub.sup.onimport._grow(sub.sup, msg, can.page.Color(arg.join(""))) } },
@@ -249,7 +256,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.onmotion.modifys(can, event.target, function(event, value, old) { run(event, mdb.MODIFY, [key, value]) }, item)
 			}}
 		}); table && can.page.styleClass(can, table, chat.CONTENT), msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.page.ClassList.add(can, table, ctx.ACTION)
-		return sort && can.page.RangeTable(can, table, sort), table
+		return sort && can.page.RangeTable(can, table, can.core.List(sort, function(key) {
+			return can.page.Select(can, table, html.TH, function(th, index) { if (th.innerHTML == key) { return index } })[0]
+		})), table
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }
 		var code = can.page.Append(can, target||can._output, [{text: [can.page.Color(text), html.DIV, html.CODE]}]).code
@@ -394,8 +403,18 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			})
 		},
 	},
+	clearFloat: function(can) {
+		can.page.SelectChild(can, can._root._target, "div.float", function(target) {
+			can.page.Remove(can, target)
+		})
+	},
 	clearCarte: function(can) {
-		can.page.Select(can, can._root._target, "div.carte", function(target) {
+		can.page.SelectChild(can, can._root._target, "div.carte.float", function(target) {
+			can.page.Remove(can, target)
+		})
+	},
+	clearInput: function(can) {
+		can.page.SelectChild(can, can._root._target, "div.input.float", function(target) {
 			can.page.Remove(can, target)
 		})
 	},
