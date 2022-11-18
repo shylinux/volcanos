@@ -220,7 +220,7 @@ Volcanos(chat.ONPLUGIN, {
 	plugin: shy("默认插件", [mdb.NAME, ice.LIST, ice.BACK]),
 	layout: shy("界面布局", {
 		_init: function(can) {
-			can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT))
+			can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)||ice.AUTO)
 		},
 	}, ["layout:select=auto,tabs,tabview,horizon,vertical,free,grid,flow,page", ice.RUN], function(can, msg, arg) { can.onaction.layout(can, arg[0], true) }),
 

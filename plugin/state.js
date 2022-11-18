@@ -33,7 +33,8 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 			sub.run = function(event, cmds, cb) {
 				var res = can.request(event, can.Option(), opts, {pid: msg.Option("pid")})
 				for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
-				can.run(event, (msg.Option("_index")==can._index? []: [ice.RUN, msg.Option("_index")]).concat(msg[ice.MSG_PREFIX]||[]).concat(cmds), cb, true)
+				// can.run(event, (msg.Option("_index")==can._index? []: [ice.RUN, msg.Option("_index")]).concat(msg[ice.MSG_PREFIX]||[]).concat(cmds), cb, true)
+				can.run(event, (msg.Option("_index")==can._index? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
 			}
 		}) }); return true
 	},
@@ -116,8 +117,8 @@ Volcanos(chat.ONACTION, {list: [
 	_resize: function(can, auto, height, width) { can.onimport.size(can, height, width, auto) },
 	_output: function(can, msg) {},
 
-	"刷新界面": function(event, can, button, sub) { sub.onlayout._init(sub) },
-	"刷新数据": function(event, can) { can.Update(event, can.Input()) },
+	"刷新界面": function(event, can, button, sub) { sub.onlayout._init(sub), can.user.toastSuccess(can) },
+	"刷新数据": function(event, can) { can.Update(event, can.Input()), can.user.toastSuccess(can) },
 	"切换浮动": function(event, can, button, sub) {
 		can.onaction._switch(can, sub, chat.FLOAT, function() { can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
 			can.ConfHeight(can.page.height()/2-2*html.ACTION_HEIGHT-can.onexport.statusHeight(can)), html.WIDTH, can.ConfWidth(can.page.width()/(can.user.isMobile? 1: 2))
