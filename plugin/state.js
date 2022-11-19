@@ -6,8 +6,8 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 	_replace: function(can, msg, _arg) { location.replace(_arg); return true },
 	_history: function(can, msg) { history.back(); return true },
 	_confirm: function(can, msg, _arg) { can.user.confirm(_arg) && can.runAction(can.request({}, msg), "confirm"); return true },
-	_refresh: function(can, msg) {
-		can.core.Timer(parseInt(msg.Option("_delay")||"300"), function() {
+	_refresh: function(can, msg, _arg) {
+		can.core.Timer(parseInt(_arg||"30"), function() {
 			can.Update(can.request({}, {_count: parseInt(msg.Option("_count")||"3")-1}))
 		}); return true
 	},
