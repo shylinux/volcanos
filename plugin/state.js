@@ -157,11 +157,11 @@ Volcanos(chat.ONACTION, {list: [
 	},
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
 
-	"查看文档": function(event, can) { can.runAction(event, ctx.CONFIG, ["help"]) },
-	"查看脚本": function(event, can) { can.runAction(event, ctx.CONFIG, ["script"]) },
-	"查看源码": function(event, can) { can.runAction(event, ctx.CONFIG, ["source"]) },
-	"查看配置": function(event, can) { can.runAction(event, ctx.CONFIG, ["select"], function(msg) { can.onappend.board(can, msg) }) },
-	"删除配置": function(event, can) { can.runAction(event, ctx.CONFIG, ["reset"]) },
+	"查看文档": function(event, can) { can.runAction(event, ctx.CONFIG, [ice.HELP]) },
+	"查看脚本": function(event, can) { can.runAction(event, ctx.CONFIG, [nfs.SCRIPT]) },
+	"查看源码": function(event, can) { can.runAction(event, ctx.CONFIG, [nfs.SOURCE]) },
+	"查看配置": function(event, can) { can.runAction(event, ctx.CONFIG, [mdb.SELECT], function(msg) { can.onappend.board(can, msg) }) },
+	"删除配置": function(event, can) { can.runAction(event, ctx.CONFIG, [mdb.REMOVE]) },
 	"删除工具": function(event, can) { can.page.Remove(can, can._target) },
 
 	refresh: function(event, can) {
