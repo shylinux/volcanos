@@ -16,6 +16,7 @@ input[name=offend] { width:48px; }
 input[name=id] { width:48px; }
 input[name=ID] { width:48px; }
 input[type=button] { background-color:black; color:cyan; border:0; margin:0 2px; }
+input[type=button][name=restart] { background-color:blue; }
 input[type=button][name=start] { background-color:blue; }
 input[type=button][name=open] { background-color:blue; }
 input[type=button][name=stop] { background-color:red; }

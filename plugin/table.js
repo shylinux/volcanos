@@ -5,6 +5,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		} else {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target)
 		} can.onmotion.story.auto(can, target), can.base.isFunc(cb) && cb(msg)
+		if (can.isCmdMode()) {
+			can.page.style(can, can._output, html.MAX_HEIGHT, can.ConfHeight())
+		}
 	},
 	card: function(can, msg, target) {
 		can.page.Appends(can, target, msg.Table(function(item) {

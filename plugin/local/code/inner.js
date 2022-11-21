@@ -85,7 +85,7 @@ Volcanos(chat.ONIMPORT, {
 				can._tab = msg._tab = event.target, show(true)
 			}, function(item) { can.onengine.signal(can, "tabview.view.delete", msg)
 				delete(can.tabview[key]), delete(can._cache_data[key]), delete(can.ui._content._cache[key])
-				delete(can.ui._profile_output._cache[key]), delete(can.ui.display_output._cache[key])
+				delete(can.ui._profile_output._cache[key]), delete(can.ui.display._cache[key])
 				msg._content != can.ui._content && can.page.Remove(can, msg._content)
 			}, can.ui._tabs)
 		}
@@ -123,7 +123,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 			can.page.style(can, can.ui.display, html.DISPLAY, p? p.display_display: html.NONE)
 			can.parse = can.base.Ext(can.file), can.Status("模式", "plugin")
 			return can.file
-		}, can.ui._content, can.ui._profile_output, can.ui.display_output)) {
+		}, can.ui._content, can.ui._profile_output, can.ui.display)) {
 			return can.base.isFunc(cb) && cb(msg._content)
 		}
 
@@ -278,14 +278,6 @@ Volcanos(chat.ONIMPORT, {
 		)); can.ui.profile_output = ui.output
 	},
 	_display: function(can, target) {
-		var ui = can.onimport._panel(can, target, kit.Dict(
-			ice.SHOW, function(event) { can.onaction[ice.EXEC](event, can) },
-			html.HEIGHT, function(event) {
-				can.user.input(event, can, [{name: html.HEIGHT, value: can.display_size[can.onexport.keys(can)]*100/can.ConfHeight()||50}], function(list) {
-					can.display_size[can.onexport.keys(can)] = can.ConfHeight()*parseInt(list[0])/100, can.onaction[ice.EXEC](event, can)
-				})
-			}
-		)); can.ui.display_output = ui.output, can.ui.display_status = ui.status
 	},
 	profile: function(can, msg) { var sup = can.tabview[can.onexport.keys(can)]
 		if (msg.Result().indexOf("<iframe") > -1) { if (sup._profile_output != can.ui._profile_output) { can.page.Remove(can, sup._profile_output) }
@@ -305,17 +297,20 @@ Volcanos(chat.ONIMPORT, {
 	},
 	display: function(can, msg) {
 		var height = can.display_size[can.onexport.keys(can)]||can.ConfHeight()/2
-		can.onimport.process(can, msg, can.ui.display_output, height, can.ui.display.offsetWidth, function(sub) {
-			can.display_size[can.onexport.keys(can)] = can.base.Max(sub._output.offsetHeight, can.ConfHeight()/2)+2*html.ACTION_HEIGHT+sub.onexport.statusHeight(sub)
-			can.onimport.layout(can)
+		can.onimport.process(can, msg, can.ui.display, height, can.ui.display.offsetWidth, function(sub) {
+			can.page.style(can, sub._output, html.HEIGHT, ""), can.onmotion.delay(can, function() {
+			 	can.display_size[can.onexport.keys(can)] = can.base.Max(sub._output.offsetHeight, can.ConfHeight()/2)+html.ACTION_HEIGHT+sub.onexport.statusHeight(sub)
+			 	can.page.style(can, sub._output, html.MAX_HEIGHT, can.display_size[can.onexport.keys(can)])
+				can.onimport.layout(can)
+			}), sub.onaction.close = function() { can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) }
 		})
-		can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.ui.display_status)
 		can.onmotion.toggle(can, can.ui.display, true), can.onimport.layout(can)
 	},
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target), can.user.toastSuccess(can)
 		if (msg.Option(ice.MSG_PROCESS) == "_field") {
 			msg.Table(function(item) { item.display = msg.Option(ice.MSG_DISPLAY), item.height = height-3*html.ACTION_HEIGHT
-				can.onimport.plug(can, item, function(sub) { sub.onaction._output = function(_sub, _msg) { can.base.isFunc(cb) && cb(_sub, _msg) }
+				can.onimport.plug(can, item, function(sub) {
+					sub.onaction._output = function(_sub, _msg) { can.base.isFunc(cb) && cb(_sub, _msg) }
 					sub.onaction.close = function() { can.onmotion.hidden(can, target.parentNode), can.onimport.layout(can) }
 					height && sub.ConfHeight(height-3*html.ACTION_HEIGHT), width && sub.ConfWidth(width), sub.Focus()
 				}, target)
@@ -466,15 +461,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 		var content_width = width-project_width-profile_width
 		can.page.styleWidth(can, can.ui.content, content_width)
 		can.page.styleWidth(can, can.ui.profile_output, profile_width)
-		can.page.styleWidth(can, can.ui.display_output, width-project_width)
+		can.page.styleWidth(can, can.ui.display, width-project_width)
 
 		var height = can.user.isMobile && can.isFloatMode()? can.page.height()-2*html.ACTION_HEIGHT: can.base.Min(can.ConfHeight(), 320)-1
 		can.user.isMobile && can.isCmdMode() && can.page.style(can, can._output, html.MAX_HEIGHT, height)
-		var display_height = can.ui.display.style.display == html.NONE? 0: (can.display_size[can.onexport.keys(can)]||height/2-html.ACTION_HEIGHT)
+		var display_height = can.ui.display.style.display == html.NONE? 0: (can.display_size[can.onexport.keys(can)]||html.ACTION_HEIGHT)
 		var content_height = height-display_height; if (can.isCmdMode()) { content_height -= can.ui._tabs.offsetHeight + can.ui._path.offsetHeight + 4 }
 		var profile_height = height-html.ACTION_HEIGHT-display_height
 		can.page.styleHeight(can, can.ui.profile_output, profile_height)
-		can.page.styleHeight(can, can.ui.display_output, display_height-html.ACTION_HEIGHT)
+		can.page.styleHeight(can, can.ui.display, display_height)
 		can.page.styleHeight(can, can.ui.content, content_height-(can.ui.content != can.ui._content? 4: 0))
 		can.page.styleHeight(can, can.ui.project, height)
 

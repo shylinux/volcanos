@@ -269,6 +269,8 @@ Volcanos(chat.ONACTION, {
 				return can.onimport.exts(can, "inner/search.js", function() {
 					can.onmotion.delay(can, function() { can.ui.search._show(msg) }, 300)
 				})
+			} else {
+				can.ui.search && can.onmotion.hidden(can, can.ui.search._target)
 			}
 			var toast = can.user.toastProcess(can, "重启中...")
 			can.onmotion.delay(can, function() { toast.close(), can.user.toastSuccess(can) }, 3000)
