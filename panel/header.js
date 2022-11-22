@@ -18,7 +18,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 					can.onaction.carte(event, can, [can.page.Format(html.IMG, can.onexport.avatar(can), 160)])
 				}}]); return
 			}
-			can.page.Append(can, target, [{view: [can.base.join([chat.STATE, item]), html.DIV, (can.Conf(item)||msg.Option(item)||"").slice(0, 10)], onmouseenter: function(event) {
+			can.page.Append(can, target, [{view: [can.base.join([chat.STATE, item]), html.DIV, (can.Conf(item)||msg.Option(item)||"").split("@")[0].slice(0, 10)], onmouseenter: function(event) {
 				can.core.CallFunc([can.onaction, item], [event, can, item])
 			}, _init: function(target) { item == mdb.TIME && can.onimport._time(can, target) }}])
 		})

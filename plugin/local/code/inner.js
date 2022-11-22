@@ -298,9 +298,9 @@ Volcanos(chat.ONIMPORT, {
 	display: function(can, msg) {
 		var height = can.display_size[can.onexport.keys(can)]||can.ConfHeight()/2
 		can.onimport.process(can, msg, can.ui.display, height, can.ui.display.offsetWidth, function(sub) {
-			can.page.style(can, sub._output, html.HEIGHT, ""), can.onmotion.delay(can, function() {
+			can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, ""), can.onmotion.delay(can, function() {
 			 	can.display_size[can.onexport.keys(can)] = can.base.Max(sub._output.offsetHeight, can.ConfHeight()/2)+html.ACTION_HEIGHT+sub.onexport.statusHeight(sub)
-			 	can.page.style(can, sub._output, html.MAX_HEIGHT, can.display_size[can.onexport.keys(can)])
+			 	can.page.style(can, sub._output, html.MAX_HEIGHT, can.display_size[can.onexport.keys(can)]-2*html.ACTION_HEIGHT)
 				can.onimport.layout(can)
 			}), sub.onaction.close = function() { can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) }
 		})
