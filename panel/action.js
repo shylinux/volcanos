@@ -14,7 +14,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 	}) },
 	_cmd: function(can, item, next) { can.base.Copy(item, {type: chat.PLUGIN, mode: chat.CMD, opts: can.misc.Search(can)}), can.onengine.signal(can, chat.ONACTION_CMD)
 		can.onappend.plugin(can, item, function(sub, meta, skip) { can.onimport._run(can, sub, function(event, cmds, cb) {
-			return can.runActionCommand(event, sub._index, cmds, cb)
+			return can.runActionCommand(event, sub._index, cmds, cb||function(msg) {
+				sub.onimport._process(sub, msg)
+			})
 		}), can.user.title(meta.name), skip || next() }), can.onlayout._init(can)
 	},
 	_run: function(can, sub, cbs) { can._plugins = can.misc.concat(can, can._plugins, [sub])
