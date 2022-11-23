@@ -282,7 +282,7 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 			if (libs[0] == undefined) { return can.require(libs.slice(1), cb, cbs) }
 			if (libs[0] == "") { libs[0] = can._path.replace(nfs._JS, nfs._CSS) }
 			if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
-			var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split("?")[0]).toLowerCase()
+			var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split("?")[0]).toLowerCase(); meta.debug == true && (name += "?_="+Date.now())
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
 			meta.cache[name]? next(): (_can_path = libs[0], meta._load(name, next))
 		},

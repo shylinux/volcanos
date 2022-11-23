@@ -275,7 +275,7 @@ Volcanos(chat.ONACTION, {
 	},
 
 	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
-		can.onaction._run(event, can, button, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function() { can.user.toastSuccess(can, button) })
+		can.onaction._run(event, can, button, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function() { can.user.toastSuccess(can, button, can.Option(nfs.PATH)+can.Option(nfs.FILE)) })
 	},
 	compile: function(event, can, button) { var _toast = can.user.toastProcess(can, "编译中...")
 		can.runAction(can.request(event), button, [], function(msg) { _toast.close()

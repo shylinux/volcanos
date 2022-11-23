@@ -1,5 +1,6 @@
 Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 		msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, msg.OptionStatus())
+		console.log("what", msg)
 		return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, msg: msg})
 	},
 	_location: function(can, msg, _arg) { can.user.jumps(_arg); return true },
@@ -71,7 +72,9 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 			return can.page.style(can, div, html.MAX_HEIGHT, 400), can.page.Append(can, div, [{text: _arg}]), div.scrollBy(0, 10000), true
 		}).length == 0) { can.onappend.board(can, _arg) } return true
 	},
-	_open: function(can, msg, _arg) { return can.user.open(_arg), true },
+	_open: function(can, msg, _arg) {
+		console.log("what", _arg)
+		return can.user.open(_arg), true },
 
 	size: function(can, height, width, auto, mode) {
 		if (auto) {

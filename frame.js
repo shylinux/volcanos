@@ -1,6 +1,8 @@
 Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
-		can.user.isMobile && can.require(["https://unpkg.com/vconsole@latest/dist/vconsole.min.js"], function() { new window.VConsole() })
-		if (can.misc.Search(can, ice.MSG_SESSID)) { can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)); return can.misc.Search(can, ice.MSG_SESSID, "") }
+		can.user.isMobile && can.require(["https://unpkg.com/vconsole@latest/dist/vconsole.min.js"], function() { return window.VConsole() })
+		if (!can.user.isMailMaster) {
+			if (can.misc.Search(can, ice.MSG_SESSID)) { can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)); return can.misc.Search(can, ice.MSG_SESSID, "") }
+		}
 		can.user.title(can.misc.Search(can, chat.TITLE)||can.misc.Search(can, ice.POD)||location.host)
 		can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]; return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb) }
 		can.require([can.volcano], null, function(can, key, sub) { can[key] = sub })
