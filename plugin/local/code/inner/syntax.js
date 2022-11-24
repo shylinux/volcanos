@@ -177,6 +177,7 @@ Volcanos(chat.ONSYNTAX, {
 		},
 		regexp: {
 			"[0-9]+": code.CONSTANT,
+			"[A-Z_0-9]+": code.CONSTANT,
 		},
 		prefix: {
 			"//": code.COMMENT,
@@ -221,6 +222,8 @@ Volcanos(chat.ONSYNTAX, {
 			"float32": code.DATATYPE, "float64": code.DATATYPE, "complex64": code.DATATYPE, "complex128": code.DATATYPE,
 			"rune": code.DATATYPE, "string": code.DATATYPE, "byte": code.DATATYPE, "uintptr": code.DATATYPE,
 			"bool": code.DATATYPE, "error": code.DATATYPE, "chan": code.DATATYPE, "map": code.DATATYPE,
+			"Any": code.DATATYPE, "Map": code.DATATYPE, "Maps": code.DATATYPE,
+			"Message": code.DATATYPE,
 
 			"msg": code.FUNCTION, "m": code.FUNCTION,
 			"ice": code.FUNCTION, "kit": code.FUNCTION,

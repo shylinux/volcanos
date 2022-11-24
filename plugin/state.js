@@ -1,6 +1,5 @@
 Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 		msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, msg.OptionStatus())
-		console.log("what", msg)
 		return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, msg: msg})
 	},
 	_location: function(can, msg, _arg) { can.user.jumps(_arg); return true },
@@ -18,6 +17,10 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 		}; return can.Update()
 	},
 	_display: function(can, msg) { return can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)), true },
+	_clear: function(can, msg) {
+		can.onmotion.clear(can)
+		return true
+	},
 	_inner: function(can, msg) {
 		can.onappend.table(can, msg), can.onappend.board(can, msg), can.onmotion.story.auto(can)
 		can.page.style(can, can._output, html.DISPLAY, html.BLOCK); return true
@@ -72,9 +75,7 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 			return can.page.style(can, div, html.MAX_HEIGHT, 400), can.page.Append(can, div, [{text: _arg}]), div.scrollBy(0, 10000), true
 		}).length == 0) { can.onappend.board(can, _arg) } return true
 	},
-	_open: function(can, msg, _arg) {
-		console.log("what", _arg)
-		return can.user.open(_arg), true },
+	_open: function(can, msg, _arg) { return can.user.open(_arg), true },
 
 	size: function(can, height, width, auto, mode) {
 		if (auto) {
@@ -97,7 +98,7 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 Volcanos(chat.ONACTION, {list: [
 		"刷新界面", "刷新数据", "切换浮动", "切换全屏", "共享工具", "远程控制", "打开链接", "生成链接", "生成脚本", "生成图片", [
 			"其它", "保存参数", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据",
-			"查看文档", "查看脚本", "查看源码", "查看配置", "删除配置", "删除工具",
+			"查看文档", "查看脚本", "查看源码", "查看配置", "清理配置", "导出配置", "导入配置", "删除配置", "删除工具",
 		],
 	],
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input())) },
@@ -164,7 +165,12 @@ Volcanos(chat.ONACTION, {list: [
 	"查看脚本": function(event, can) { can.runAction(event, ctx.CONFIG, [nfs.SCRIPT]) },
 	"查看源码": function(event, can) { can.runAction(event, ctx.CONFIG, [nfs.SOURCE]) },
 	"查看配置": function(event, can) { can.runAction(event, ctx.CONFIG, [mdb.SELECT]) },
-	"删除配置": function(event, can) { can.runAction(event, ctx.CONFIG, [mdb.REMOVE]) },
+	"清理配置": function(event, can) { can.runActionInputs(event, [ctx.ACTION, mdb.PRUNES]) },
+	"导出配置": function(event, can) { can.runAction(event, mdb.EXPORT) },
+	"导入配置": function(event, can) { can.runAction(event, mdb.IMPORT) },
+	"删除配置": function(event, can) { can.runAction(event, ctx.CONFIG, [mdb.REMOVE], function() {
+		can.user.toastProcess(can), can.onmotion.delay(can, function() { can.user.toastSuccess(can), can.Update() }, 1000)
+	}) },
 	"删除工具": function(event, can) { can.page.Remove(can, can._target) },
 
 	refresh: function(event, can) {
