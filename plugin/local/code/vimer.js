@@ -53,22 +53,31 @@ Volcanos(chat.ONFIGURE, {
 	},
 	source: function(can, target, zone, path) { var total = 0
 		function show(target, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) { var list = msg.Table()
-			can.core.List(list, function(item) { item._menu = shy({
-				trash: function(event) { can.onaction._run(event, can, nfs.TRASH, [can.base.Path(path, item.path)]) },
-				create: function(event) {
-					can.user.input(event, can, ["filename"], function(list) {
-						if (can.base.endWith(item.path, ice.PS)) {
-							can.request(event, {path: path+item.path, file: list[0]})
-						} else {
-							can.request(event, {path: path+item.path.split(ice.PS).slice(0, -1).join(ice.PS)+ice.PS, file: list[0]})
-						}
-						can.onaction._run(event, can, nfs.SAVE, [], function(msg) {
-							can.onimport.tabview(can, path, (msg.Option(nfs.PATH)+msg.Option(nfs.FILE)).slice(path.length))
+			var node
+			function add(list) {
+				can.core.List(list, function(item) { item._menu = shy({
+					trash: function(event) {
+						can.onaction._run(event, can, nfs.TRASH, [can.base.Path(path, item.path)], function() {
+							item._remove()
 						})
-					})
-				},
-			}) })
-			can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target)
+					},
+					create: function(event) {
+						can.user.input(event, can, ["filename"], function(list) {
+							if (can.base.endWith(item.path, ice.PS)) {
+								can.request(event, {path: path+item.path, file: list[0]})
+							} else {
+								can.request(event, {path: path+item.path.split(ice.PS).slice(0, -1).join(ice.PS)+ice.PS, file: list[0]})
+							}
+							can.onaction._run(event, can, nfs.SAVE, [], function(msg) { var file = (msg.Option(nfs.PATH)+msg.Option(nfs.FILE)).slice(path.length)
+								add([{path: file}], node)
+								can.onimport.tabview(can, path, file)
+							})
+						})
+					},
+				}), item._init = function(target) { item._remove = function() { can.page.Remove(can, target.parentNode), delete(node[item.path]) } } })
+				return can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, node)
+			}
+			node = add(list, node)
 			can.Status("文件数", zone._total(total += msg.Length()))
 		}, true) }
 
