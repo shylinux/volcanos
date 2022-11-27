@@ -44,8 +44,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		)); target._toggle = function(event, show) { action[show? ice.SHOW: cli.CLOSE](event) }
 		return ui
 	},
-	_title: function(can, title) {
-		can.user.title(title+ice.SP+(can.misc.Search(can, ice.POD)||location.host))
+	_title: function(can, title) { can.user.title(title)
+		// can.user.title(title+ice.SP+(can.misc.Search(can, ice.POD)||location.host))
 	},
 	title: function(can, title) { can._legend.innerHTML = title
 		can.sup && can.sup._tabs && (can.sup._tabs.innerHTML = title)
