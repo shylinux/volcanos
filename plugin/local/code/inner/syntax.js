@@ -234,6 +234,8 @@ Volcanos(chat.ONSYNTAX, {
 		render: {},
 		link: "go",
 	},
+	sum: {
+	},
 	mod: {
 		split: {
 			operator: "()",
