@@ -295,7 +295,7 @@ Volcanos(chat.ONIMPORT, {
 		can.onmotion.toggle(can, can.ui.profile_output, true)
 		can.onmotion.toggle(can, can.ui.profile, true), can.onimport.layout(can)
 	},
-	display: function(can, msg) {
+	display: function(can, msg) { var target = can.ui.display
 		var height = can.display_size[can.onexport.keys(can)]||can.ConfHeight()/2
 		can.onimport.process(can, msg, can.ui.display, height, can.ui.display.offsetWidth, function(sub) {
 			can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, ""), can.onmotion.delay(can, function() {
@@ -305,6 +305,13 @@ Volcanos(chat.ONIMPORT, {
 			}), sub.onaction.close = function() { can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) }
 		})
 		can.onmotion.toggle(can, can.ui.display, true), can.onimport.layout(can)
+		if (msg.Option(ice.MSG_PROCESS) != "_field") {
+			can.onmotion.delay(can, function() { can.page.style(can, target, html.HEIGHT, "", html.MAX_HEIGHT, "")
+				can.display_size[can.onexport.keys(can)] = can.base.Max(target.offsetHeight, can.ConfHeight()/2)
+		 		can.page.style(can, target, html.MAX_HEIGHT, can.display_size[can.onexport.keys(can)])
+				can.onimport.layout(can)
+			})
+		}
 	},
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target), can.user.toastSuccess(can)
 		if (msg.Option(ice.MSG_PROCESS) == "_field") {
@@ -325,6 +332,7 @@ Volcanos(chat.ONIMPORT, {
 					})
 				} }}
 			}, target), can.onappend.board(can, msg, target)
+			can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.page.Append(can, target, ["status"])._target)
 		} else {
 			can.onmotion.hidden(can, target.parentNode)
 		}

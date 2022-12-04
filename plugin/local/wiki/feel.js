@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.clear(can)
-		can.path = can.request(), can.list = [], msg.Table(function(value) { can.base.endWith(value.path, ice.PS)? can.path.Push(value): can.list.push(value) })
-		can.ui = can.onlayout.profile(can, target), can.path.Table(function(item) { item.name = item.path
+		can._path = can.request(), can.list = [], msg.Table(function(value) { can.base.endWith(value.path, ice.PS)? can._path.Push(value): can.list.push(value) })
+		can.ui = can.onlayout.profile(can, target), can._path.Table(function(item) { item.name = item.path
 			can.onimport.item(can, item, function() { can.Option(nfs.PATH, item.path), can.Update() }, function() {}, can.ui.project)
 		}), can.isCmdMode() || can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can.ui.project)
 		can.base.isFunc(cb) && cb(msg), can.Action(html.HEIGHT, ice.AUTO), can.Action(mdb.LIMIT, 6)

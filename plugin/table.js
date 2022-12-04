@@ -9,6 +9,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			can.page.style(can, can._output, html.MAX_HEIGHT, can.ConfHeight())
 		}
 	},
+	_system_app: function(can, msg, target) {
+		can.page.Appends(can, target, msg.Table(function(item) { var name = item.name||item.text
+			return {view: html.ITEM, style: {"text-align": "center", margin: 10, width: 100, "float": "left"}, list: [
+				{type: html.IMG, src: "/share/local/usr/icons/"+item.text, style: {display: html.BLOCK, width: 100}},
+				{text: name.split(ice.PT)[0].replace(ice.SP, ice.NL), style: {display: html.BLOCK, height: 40}},
+			], onclick: function(event) { can.runAction(can.request(event, item, can.Option()), "xterm", []) }}
+		}))
+	},
 	card: function(can, msg, target) {
 		can.page.Appends(can, target, msg.Table(function(item) {
 			return {view: html.ITEM+ice.SP+(item.status||""), list: [

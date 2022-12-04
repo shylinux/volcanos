@@ -29,11 +29,9 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	},
 	h: {
-		render: {},
 		link: "c",
 	},
 	c: {
-		render: {},
 		prefix: {
 			"//": code.COMMENT,
 			"/*": code.COMMENT,
