@@ -95,7 +95,10 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) 
 		can.core.CallFunc(can.core.Value(can, arg[0]), kit.Dict({can: can}, arg.slice(1)))
 	},
 	input: function(can, msg, sub, arg) { can.page.Select(can, sub._target, "input:focus", function(target) { target.value += arg[0] }) },
-	grow: function(can, msg, sub, arg) { if (sub.sup && sub.sup.onimport._grow) { return sub.sup.onimport._grow(sub.sup, msg, can.page.Color(arg.join(""))) } },
+	grow: function(can, msg, sub, arg) {
+		if (sub.sup && sub.sup.onimport._grow) { return sub.sup.onimport._grow(sub.sup, msg, can.page.Color(arg.join(""))) }
+		if (sub && sub.onimport._grow) { return sub.onimport._grow(sub, msg, can.page.Color(arg.join(""))) }
+	},
 	close: function(can, msg, sub) { can.user.close() },
 	exit: function(can, msg, sub) { can.user.close() },
 })
