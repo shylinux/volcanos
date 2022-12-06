@@ -16,7 +16,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.requireDraw(functio
 			item.min = rest - item.del
 			item.close = rest + item.add - item.del
 
-			begin = begin || value.date, count++
+			begin = begin || item.date, count++
 			rest = item.close, add += item.add, del += item.del
 
 			if (item.max - item.min > max) { max = item.max - item.min }

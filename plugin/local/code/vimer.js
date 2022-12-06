@@ -56,11 +56,6 @@ Volcanos(chat.ONFIGURE, {
 			var node
 			function add(list) {
 				can.core.List(list, function(item) { item._menu = shy({
-					trash: function(event) {
-						can.onaction._run(event, can, nfs.TRASH, [can.base.Path(path, item.path)], function() {
-							item._remove()
-						})
-					},
 					create: function(event) {
 						can.user.input(event, can, ["filename"], function(list) {
 							if (can.base.endWith(item.path, ice.PS)) {
@@ -72,6 +67,11 @@ Volcanos(chat.ONFIGURE, {
 								add([{path: file}], node)
 								can.onimport.tabview(can, path, file)
 							})
+						})
+					},
+					trash: function(event) {
+						can.onaction._run(event, can, nfs.TRASH, [can.base.Path(path, item.path)], function() {
+							item._remove()
 						})
 					},
 				}), item._init = function(target) { item._remove = function() { can.page.Remove(can, target.parentNode), delete(node[item.path]) } } })
