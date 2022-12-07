@@ -117,7 +117,8 @@ body>div.upload input[type=file] { width:320px; }
 textarea { tab-size:2; height:60px; }
 legend { font-size:1.2rem; height:31px; }
 select, input { font-size:1.0rem; height:31px; }
-table.content th, table.content td, div.zone>div.name, div.item, div.code, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
+table.content th, table.content td, div.zone>div.name, div.item, code.story, div.story[data-type=spark] { font-size:1.1rem; font-family:monospace; }
+div.code { font-family:monospace; }
 div.action>div.tabs { padding:5px 10px; height:21px; }
 div.status>div.item { padding:4px; height:22px; }
 div.status>div.item>label { font-size:0.6rem; font-family:monospace; }

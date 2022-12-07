@@ -168,7 +168,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 	},
 	_parse: function(can, line) { line = can.page.replace(can, line||"")
 		function wrap(text, type) { return can.page.Format(html.SPAN, text, type) }
-		var p = can.onsyntax[can.parse]; p = can.onsyntax[p.link]||p, p.split = p.split||{}
+		var p = can.onsyntax[can.parse]||{}; p = can.onsyntax[p.link]||p, p.split = p.split||{}
 		p.keyword && (line = can.core.List(can.core.Split(line, p.split.space||"\t ", p.split.operator||"{[(,:;!?|<*>)]}", {detail: true}), function(item, index, array) {
 			item = can.base.isObject(item)? item: {text: item}; var text = item.text, type = p.keyword[text]
 			switch (item.type||type) {

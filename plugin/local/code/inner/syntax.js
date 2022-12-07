@@ -171,7 +171,7 @@ Volcanos(chat.ONSYNTAX, {
 	},
 	go: {
 		split: {
-			operator: "{([-+:!.,*])}",
+			operator: "{([-+:;!.,*])}",
 		},
 		regexp: {
 			"[0-9]+": code.CONSTANT,
