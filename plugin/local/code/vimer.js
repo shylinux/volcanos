@@ -82,7 +82,12 @@ Volcanos(chat.ONFIGURE, {
 		}, true) }
 
 		if (path.length == 1) { return show(target, path[0]) } can.page.Remove(can, target.previousSibling)
-		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(target, path) }} }), target)
+		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _delay_show: function(target) {
+			show(target, path)
+		}, _init: function(target, zone) {
+			can.onmotion.hidden(can, zone._action)
+			can.onmotion.hidden(can, zone._target)
+		}} }), target)
 		can.sup.onexport.link = function(can) { var meta = can.Conf(), args = can.Option()
 			args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.path = path.join(ice.FS), args.topic = chat.BLACK
 			return can.misc.MergePodCmd(can, args, true)

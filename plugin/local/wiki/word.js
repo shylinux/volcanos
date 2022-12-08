@@ -79,7 +79,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 	field: function(can, meta, target, width) { var item = can.base.Obj(meta.meta)
 		can.onappend._init(can, item, [chat.PLUGIN_STATE_JS], function(sub) {
-			sub.run = function(event, cmds, cb, silent) {
+			sub.run = function(event, cmds, cb, silent) { var msg = can.request(event)
+				if (msg.Option(nfs.PATH) == can.Option(nfs.PATH)) { msg.Option(nfs.PATH, "") }
 				can.runAction(event, chat.STORY, can.misc.concat(can, [meta.type, meta.name, meta.text], cmds), cb, true)
 			}, can._plugins = (can._plugins||[]).concat([sub])
 

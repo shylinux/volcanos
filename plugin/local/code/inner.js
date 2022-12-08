@@ -413,7 +413,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 		can.onengine.plugin(can, can.onplugin)
 		var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
 		var files = can.core.Split(can.Option(nfs.FILE), ice.FS); can.Option(nfs.FILE, files[0])
-		can.core.List(paths.concat(msg.modules||[], can.sup.paths||[]), function(p) { if (paths.indexOf(p) == -1) { paths.push(p) } })
+		can.core.List(paths.concat(msg.modules||[], can.sup.paths||[], can.core.Split(msg.Option("repos"))), function(p) { if (paths.indexOf(p) == -1 && p[0] != ice.PS) { paths.push(p) } })
 		can.sup.paths = paths
 
 		can.ui._content = can.ui.content, can.ui._profile_output = can.ui.profile_output

@@ -103,6 +103,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	zone: function(can, list, target) {
 		return can.page.Append(can, target, can.core.List(list, function(zone, index) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: html.ZONE+ice.SP+zone.name, list: [
 			{view: html.NAME, inner: can.user.trans(can, zone.name), onclick: function() {
+				if (zone._delay_show) { zone._delay_show(zone._target), delete(zone._delay_show) }
 				can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._target)
 			}, onmouseenter: function(event) {
 				zone._menu? can.user.carteRight(event, can, zone._menu.meta, zone._menu.list||can.core.Item(zone._menu.meta), function(event, button, meta) {

@@ -306,8 +306,8 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 			can.runAction(event, cmds[1], cmds.slice(2), cb, true)
 		},
 		runActionCommand: function(event, index, args, cb) { can.runAction(event, ice.RUN, can.misc.concat(can, [index], args), cb, true) },
-		runAction: function(event, action, args, cb, silent) {
-			can.run(can.request(event, {_handle: ice.TRUE}, can.Option()), can.misc.concat(can, [ctx.ACTION].concat(action), args), cb, silent)
+		runAction: function(event, action, args, cb, silent) { can.request(event, {_handle: ice.TRUE}, can.Option())
+			can.run(event, can.misc.concat(can, [ctx.ACTION].concat(action), args), cb, silent)
 		},
 
 		search: function(event, cmds, cb) {
