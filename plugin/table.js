@@ -163,7 +163,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		meta.type = "plug", can.onappend.plugin(can, meta, function(sub) { sub.sup = can
 			sub.ConfHeight(target.offsetHeight-2*html.ACTION_HEIGHT), sub.ConfWidth(target.offsetWidth)
 			can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())
-			sub.run = function(event, cmds, cb) { can.runActionCommand(can.request(event, can.Option()), meta.index, cmds, cb) }
+			sub.run = function(event, cmds, cb) {
+				if (can.page.Select(can, sub._option, "input[name=path]").length > 0 && sub.Option(nfs.PATH) == "") {
+					sub.request(event, {path: "./"})
+				}
+				can.runActionCommand(can.request(event, can.Option()), meta.index, cmds, cb) }
 			sub.onaction.close = function() { can.onmotion.hidden(can, target) }
 			can.base.isFunc(cb) && cb(sub)
 		}, target)

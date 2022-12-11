@@ -142,7 +142,7 @@ Volcanos(chat.ONACTION, {list: [
 	"生成链接": function(event, can) { can.onmotion.share(event, can, [], [mdb.LINK, can.user.copy(event, can, can.onexport.link(can))]) },
 	"生成脚本": function(event, can) { var conf = can.Conf()
 		var args = can.Input().join(ice.SP), list = [
-			"export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -o $ctx_temp -fsSL $ctx_dev;"+" source $ctx_temp "+(conf.index||"")+ice.SP+args,
+			"export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -o $ctx_temp -fsSL $ctx_dev;"+" source $ctx_temp cmd "+(conf.index||"")+ice.SP+args,
 			"ish_sys_dev_run_command "+args, "ish_sys_dev_run_action", "ish_sys_dev_run_source",
 		]
 		can.user.copy(event, can, list[0])

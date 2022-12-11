@@ -40,11 +40,11 @@ Volcanos(chat.ONSYNTAX, {
 			"#": code.KEYWORD,
 		},
 		regexp: {
-			"^u_\\w+$": code.DATATYPE,
-			"^\\w+_t$": code.DATATYPE,
-			"^\\w+_pt$": code.DATATYPE,
-			"^[-]*\\d+$": code.CONSTANT,
-			"^[A-Z0-9_]+$": code.CONSTANT,
+			"^u_\\w $": code.DATATYPE,
+			"^\\w _t$": code.DATATYPE,
+			"^\\w _pt$": code.DATATYPE,
+			"^[-]*\\d $": code.CONSTANT,
+			"^[A-Z0-9_] $": code.CONSTANT,
 		},
 		keyword: {
 			"#include": code.KEYWORD,
@@ -107,9 +107,8 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	},
 	sh: {
-		render: {},
 		split: {
-			operator: "=",
+			operator: "=()|><;",
 		},
 		prefix: {
 			"#": code.COMMENT,
@@ -118,7 +117,7 @@ Volcanos(chat.ONSYNTAX, {
 			" {": code.COMMENT,
 		},
 		regexp: {
-			"[A-Z0-9_]+": code.CONSTANT,
+			"[A-Z0-9_] ": code.CONSTANT,
 		},
 		keyword: {
 			"local": code.KEYWORD,
@@ -134,17 +133,42 @@ Volcanos(chat.ONSYNTAX, {
 			"elif": code.KEYWORD,
 			"else": code.KEYWORD,
 			"fi": code.KEYWORD,
-
+			"for": code.KEYWORD,
+			"while": code.KEYWORD,
+			"do": code.KEYWORD,
+			"done": code.KEYWORD,
 			"case": code.KEYWORD,
 			"in": code.KEYWORD,
 			"esac": code.KEYWORD,
 
+			"shift": code.FUNCTION,
 			"eval": code.FUNCTION,
+			"trap": code.FUNCTION,
 			"test": code.FUNCTION,
 			"echo": code.FUNCTION,
-			"mkdir": code.FUNCTION,
 			"cat": code.FUNCTION,
 			"rm": code.FUNCTION,
+			"mkdir": code.FUNCTION,
+			"mktemp": code.FUNCTION,
+			"history": code.FUNCTION,
+			"complete": code.FUNCTION,
+			"compgen": code.FUNCTION,
+			"bind": code.FUNCTION,
+			"alias": code.FUNCTION,
+			
+			"xargs": code.FUNCTION,
+			"curl": code.FUNCTION,
+			"sed": code.FUNCTION,
+			"tr": code.FUNCTION,
+			"du": code.FUNCTION,
+			"cut": code.FUNCTION,
+			"tail": code.FUNCTION,
+			"head": code.FUNCTION,
+			"grep": code.FUNCTION,
+			
+			"/dev/null": code.CONSTANT,
+			"DEBUG": code.CONSTANT,
+			"EXIT": code.CONSTANT,
 		},
 	}, configure: {link: "sh"},
 	shy: {
@@ -171,11 +195,11 @@ Volcanos(chat.ONSYNTAX, {
 	},
 	go: {
 		split: {
-			operator: "{([-+:;!.,*])}",
+			operator: "{([- :;!.,*])}",
 		},
 		regexp: {
-			"[0-9]+": code.CONSTANT,
-			"[A-Z_0-9]+": code.CONSTANT,
+			"[0-9] ": code.CONSTANT,
+			"[A-Z_0-9] ": code.CONSTANT,
 		},
 		prefix: {
 			"//": code.COMMENT,
@@ -266,7 +290,7 @@ Volcanos(chat.ONSYNTAX, {
 	},
 	js: {
 		split: {
-			operator: "{[(.,:;!?|<*>-+)]}",
+			operator: "{[(.,:;!?|<*>- )]}",
 		},
 		prefix: {
 			"// ": code.COMMENT,
@@ -342,8 +366,12 @@ Volcanos(chat.ONSYNTAX, {
 			operator: ".[]()>,{:;}",
 		},
 		regexp: {
-			"[-0-9]+px": code.CONSTANT,
-			"#[^ ;]+": code.CONSTANT,
+			"[-0-9] px": code.CONSTANT,
+			"#[^ ;] ": code.CONSTANT,
+		},
+		prefix: {
+			"// ": code.COMMENT,
+			"/* ": code.COMMENT,
 		},
 		keyword: {
 			"body": code.KEYWORD,
@@ -366,6 +394,9 @@ Volcanos(chat.ONSYNTAX, {
 			"h1": code.KEYWORD,
 			"h2": code.KEYWORD,
 			"h3": code.KEYWORD,
+			
+			"hover": code.DATATYPE,
+			"focus": code.DATATYPE,
 
 			"background-color": code.FUNCTION,
 			"font-family": code.FUNCTION,

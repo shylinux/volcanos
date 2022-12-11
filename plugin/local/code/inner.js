@@ -9,19 +9,16 @@ Volcanos(chat.ONIMPORT, {
 	},
 
 	tabInputs: function(event, can, ps, key, pre, cb, parent) {
+		var core = ["usr/icebergs/core/", "usr/volcanos/plugin/local/"]
 		can.runAction(event, mdb.INPUTS, [key, pre], function(msg) { var _trans = {}
 			var carte = can.user[parent? "carteRight": "carte"](event, can, {}, msg.Table(function(value) { var p = can.base.trimPrefix(value[key], pre)
-				if (can.base.beginWith(pre, "usr/icebergs/core/") && can.base.beginWith(value[key], "usr/volcanos/plugin/local/")) {
-					var p = can.base.trimPrefix(can.base.replaceAll(value[key], "usr/volcanos/plugin/local/", "usr/icebergs/core/"), pre)
-				}
-				if (can.base.beginWith(pre, "usr/volcanos/plugin/local/") && can.base.beginWith(value[key], "usr/icebergs/core/")) {
-					var p = can.base.trimPrefix(can.base.replaceAll(value[key], "usr/icebergs/core/", "usr/volcanos/plugin/local/"), pre)
-				}
+				if (can.base.beginWith(pre, core[0]) && can.base.beginWith(value[key], core[1])) { var p = can.base.trimPrefix(can.base.replaceAll(value[key], core[1], core[0]), pre) }
+				if (can.base.beginWith(pre, core[1]) && can.base.beginWith(value[key], core[0])) { var p = can.base.trimPrefix(can.base.replaceAll(value[key], core[0], core[1]), pre) }
 				return _trans[p] = value[key], p
 			}), function(event, button) {
 				can.base.endWith(button, ps)? can.onimport.tabInputs(event, can, ps, key, pre+button, cb, carte): cb(can.core.Split(_trans[button], ps), pre)
 			}, parent)._target, _p = can.core.Split(event.target.innerHTML.trim(), ice.PT)[0]
-			can.page.Select(can, carte, html.DIV_ITEM, function(target) { can.base.beginWith(target.innerHTML, _p) && carte.insertBefore(target, carte.firstChild) })
+			can.page.Select(can, carte, html.DIV_ITEM, function(target) { event.target.innerHTML.trim() != target.innerHTML.trim() && can.base.beginWith(target.innerHTML, _p) && carte.insertBefore(target, carte.firstChild) })
 			function remove(p) { if (p && p._sub) { remove(p._sub), can.page.Remove(can, p._sub), delete(p._sub) } } if (parent) { remove(parent), parent._sub = carte }
 		})
 	},

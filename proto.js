@@ -64,12 +64,13 @@ var ctx = {
 	EXTRA_INDEX: "extra.index", EXTRA_ARGS: "extra.args",
 }
 var cli = {
-	DAEMON: "daemon",
+	SYSTEM: "system", DAEMON: "daemon",
 	BEGIN: "begin", START: "start", OPEN: "open", CLOSE: "close", STOP: "stop", END: "end", RESTART: "restart",
 	COLOR: "color", WHITE: "white", BLACK: "black", RED: "red", GREEN: "green", BLUE: "blue",
 	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta", GLASS: "#0000",
 	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 	PWD: "pwd",
+	ORDER: "order",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
