@@ -28,6 +28,57 @@ Volcanos(chat.ONSYNTAX, {
 			"BUGS": code.KEYWORD,
 		},
 	},
+	vimrc: {
+		link: "vim",
+	},
+	vim: {
+		split: {
+			operator: "{[(&.,;!|<>)]}",
+		},
+		prefix: {
+			"\"": "comment",
+		},
+		keyword: {
+			"source": code.KEYWORD,
+			"finish": code.KEYWORD,
+			"set": code.KEYWORD,
+			"let": code.KEYWORD,
+			"end": code.KEYWORD,
+			"if": code.KEYWORD,
+			"else": code.KEYWORD,
+			"elseif": code.KEYWORD,
+			"endif": code.KEYWORD,
+			"for": code.KEYWORD,
+			"in": code.KEYWORD,
+			"continue": code.KEYWORD,
+			"break": code.KEYWORD,
+			"endfor": code.KEYWORD,
+			"try": code.KEYWORD,
+			"catch": code.KEYWORD,
+			"finally": code.KEYWORD,
+			"endtry": code.KEYWORD,
+			"call": code.KEYWORD,
+			"function": code.KEYWORD,
+			"return": code.KEYWORD,
+			"endfunction": code.KEYWORD,
+
+			"autocmd": code.KEYWORD,
+			"command": code.KEYWORD,
+			"execute": code.KEYWORD,
+			"nnoremap": code.KEYWORD,
+			"cnoremap": code.KEYWORD,
+			"inoremap": code.KEYWORD,
+			"colorscheme": code.KEYWORD,
+			"highlight": code.KEYWORD,
+			"syntax": code.KEYWORD,
+
+			"has": code.FUNCTION,
+			"type": code.FUNCTION,
+			"empty": code.FUNCTION,
+			"exists": code.FUNCTION,
+			"executable": code.FUNCTION,
+		},
+	},
 	h: {
 		link: "c",
 	},
@@ -155,7 +206,7 @@ Volcanos(chat.ONSYNTAX, {
 			"compgen": code.FUNCTION,
 			"bind": code.FUNCTION,
 			"alias": code.FUNCTION,
-			
+
 			"xargs": code.FUNCTION,
 			"curl": code.FUNCTION,
 			"sed": code.FUNCTION,
@@ -165,7 +216,7 @@ Volcanos(chat.ONSYNTAX, {
 			"tail": code.FUNCTION,
 			"head": code.FUNCTION,
 			"grep": code.FUNCTION,
-			
+
 			"/dev/null": code.CONSTANT,
 			"DEBUG": code.CONSTANT,
 			"EXIT": code.CONSTANT,
@@ -191,6 +242,19 @@ Volcanos(chat.ONSYNTAX, {
 			"chain": code.KEYWORD,
 			"image": code.KEYWORD,
 			"sequence": code.KEYWORD,
+		},
+	},
+	py: {
+		prefix: {
+			"#!": code.COMMENT,
+			"# ": code.COMMENT,
+		},
+		keyword: {
+			"import": code.KEYWORD,
+			"from": code.KEYWORD,
+			"return": code.KEYWORD,
+
+			"print": code.FUNCTION,
 		},
 	},
 	go: {
@@ -258,8 +322,6 @@ Volcanos(chat.ONSYNTAX, {
 		render: {},
 		link: "go",
 	},
-	sum: {
-	},
 	mod: {
 		split: {
 			operator: "()",
@@ -275,18 +337,7 @@ Volcanos(chat.ONSYNTAX, {
 			"=>": code.KEYWORD,
 		},
 	},
-	py: {
-		prefix: {
-			"#!": code.COMMENT,
-			"# ": code.COMMENT,
-		},
-		keyword: {
-			"import": code.KEYWORD,
-			"from": code.KEYWORD,
-			"return": code.KEYWORD,
-
-			"print": code.FUNCTION,
-		},
+	sum: {
 	},
 	js: {
 		split: {
@@ -347,7 +398,7 @@ Volcanos(chat.ONSYNTAX, {
 			"delete": code.FUNCTION,
 			"confirm": code.FUNCTION,
 			"alert": code.FUNCTION,
-			
+
 			"kit": code.DATATYPE,
 			"ice": code.DATATYPE,
 			"can": code.DATATYPE,
@@ -394,7 +445,7 @@ Volcanos(chat.ONSYNTAX, {
 			"h1": code.KEYWORD,
 			"h2": code.KEYWORD,
 			"h3": code.KEYWORD,
-			
+
 			"hover": code.DATATYPE,
 			"focus": code.DATATYPE,
 

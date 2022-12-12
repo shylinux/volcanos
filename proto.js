@@ -70,7 +70,7 @@ var cli = {
 	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta", GLASS: "#0000",
 	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 	PWD: "pwd",
-	ORDER: "order",
+	ORDER: "order", BUILD: "build",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
@@ -100,6 +100,7 @@ var mdb = {
 	CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete", MODIFY: "modify", SELECT: "select",
 	INPUTS: "inputs", PRUNES: "prunes", EXPORT: "export", IMPORT: "import",
 	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
+	REVERT: "revert",
 
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
 	FOREACH: "*", RANDOMS: "%",
