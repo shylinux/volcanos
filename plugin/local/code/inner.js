@@ -524,9 +524,10 @@ Volcanos(chat.ONACTION, {list: [],
 				path: "usr/volcanos/", file: "lib/misc.js", line: 1,
 			})
 		})
-		can.core.List([can.base, can.core, can.misc, can.page, can.user, can.onengine, can.ondaemon, can.onappend, can.onlayout, can.onmotion, can.onkeymap], function(lib) {
-			can.core.Item(lib, function(key, value) { if (key.indexOf("_") == 0 || !lib.hasOwnProperty(key)) { return }
-				list.push({zone: lib._name, type: typeof value, name: key, text: can.base.isObject(value)? "": (value+"").split(ice.NL)[0],
+		can.page._path = "/lib/page.js"
+		can.core.Item(can, function(zone, lib) { if (zone.indexOf("_") == 0) { return }
+			can.core.Item(lib, function(key, value) { if (!lib.hasOwnProperty(key)) { return }
+				lib._path && list.push({zone: zone, type: typeof value, name: key, text: can.base.isObject(value)? "": (value+"").split(ice.NL)[0],
 					path: "usr/volcanos/", file: lib._path, line: 1,
 				})
 			})
