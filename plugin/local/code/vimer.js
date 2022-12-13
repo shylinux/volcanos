@@ -32,13 +32,9 @@ Volcanos(chat.ONFIGURE, {
 		), target): can.onmotion.hidden(can, target.parentNode)
 	},
 	recent: function(can, target, zone, path) { var total = 0
-		function show(msg, cb) {
-			var list = {}; msg.Table(function(item) { var path = item.path+item.file
-				if (!list[path]) { zone._total(++total)
-					can.page.Append(can, target, cb(item, path))
-				} list[path] = item
-			})
-		}
+		function show(msg, cb) { var list = {}; msg.Table(function(item) { var path = item.path+item.file
+			if (!list[path] && total < 10) { zone._total(++total), can.page.Append(can, target, cb(item, path)) } list[path] = item
+		}) }
 		can.runAction({}, code.FAVOR, ["_recent_file"], function(msg) {
 			show(msg, function(item, path) { return [{text: [path.split(ice.PS).slice(-2).join(ice.PS), html.DIV, html.ITEM], onclick: function(event) {
 				can.onimport.tabview(can, item.path, item.file)
