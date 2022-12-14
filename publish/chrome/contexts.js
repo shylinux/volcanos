@@ -1,42 +1,36 @@
-setTimeout(function() { Volcanos({Option: function() { return [] },
-    spide: function(can, msg, _target) {
-        if (!_target) {
+setTimeout(function() { Volcanos({
+	Option: function() { return [] },
+    spide: function(can, msg, target) {
+        if (!target) {
             msg.Push(mdb.TYPE, mdb.LINK)
             msg.Push(mdb.NAME, document.title)
             msg.Push(mdb.LINK, location.href)
         }
-
-        var has = {}; _target = _target||document.body
-        can.page.Select(can, _target, html.IFRAME, function(item) {
-            if (!item.src || has[item.src]) { return } has[item.src] = true
-
+        var has = {}; target = target||document.body
+        can.page.Select(can, target, html.IFRAME, function(target) {
+            if (!target.src || has[target.src]) { return } has[target.src] = true
             msg.Push(mdb.TYPE, html.IFRAME)
             msg.Push(mdb.NAME, "")
-            msg.Push(mdb.LINK, item.src)
-
-            can.spide(can, msg, item.contentWindow.document.body)
+            msg.Push(mdb.LINK, target.src)
+            can.spide(can, msg, target.contentWindow.document.body)
         })
-        can.page.Select(can, _target, html.VIDEO, function(item) {
-            if (!item.src || has[item.src]) { return } has[item.src] = true
-            var name = item.src.split("?")[0].split(ice.PT).pop()
-            var p = can.page.Select(can, _target, "p.title")[0]
-
+        can.page.Select(can, target, html.VIDEO, function(target) {
+            if (!target.src || has[target.src]) { return } has[target.src] = true
+            var name = target.src.split("?")[0].split(ice.PT).pop()
             msg.Push(mdb.TYPE, html.VIDEO)
-            msg.Push(mdb.NAME, (p && p.innerText || html.VIDEO)+ice.PT+name)
-            msg.Push(mdb.LINK, item.src)
+            msg.Push(mdb.NAME, html.VIDEO+ice.PT+name)
+            msg.Push(mdb.LINK, target.src)
         })
-
-        can.page.Select(can, _target, html.IMG, function(item) {
-            if (!item.src || has[item.src]) { return } has[item.src] = true
-            var name = item.src.split("?")[0].split(ice.PS).pop()
-
+        can.page.Select(can, target, html.IMG, function(target) {
+            if (!target.src || has[target.src]) { return } has[target.src] = true
+            var name = target.src.split("?")[0].split(ice.PS).pop()
             msg.Push(mdb.TYPE, html.IMG)
-            if (item.src.indexOf("data:image") == 0) {
-                msg.Push(mdb.NAME, item.src.slice(item.src.length-20))
+            if (target.src.indexOf("data:image") == 0) {
+                msg.Push(mdb.NAME, target.src.slice(target.src.length-20))
             } else {
                 msg.Push(mdb.NAME, name||"image.jpg")
             }
-            msg.Push(mdb.LINK, item.src)
+            msg.Push(mdb.LINK, target.src)
         })
     },
     change: function(can, msg, arg) {
@@ -97,23 +91,24 @@ setTimeout(function() { Volcanos({Option: function() { return [] },
         })
     },
 
+	info: function(can, msg, arg) {
+		msg.Push("title", document.title)
+		msg.Push("url", location.href)
+	},
     _daemon: function(can) {
         chrome.extension.onMessage.addListener(function(req, sender, cb) { var msg = can.request(); msg.Copy(req); can.misc.Log(req.detail, msg)
-            can.core.CallFunc([can, req.detail[3]||"spide"], {can: can, msg: msg, cmds: req.detail.slice(4), arg: req.detail.slice(4), cb: function() {
+            can.core.CallFunc([can, req.detail[0]||"spide"], {can: can, msg: msg, cmds: req.detail.slice(1), arg: req.detail.slice(1), cb: function() {
                 delete(msg._event), delete(msg._can), cb(msg)
             }})
         })
     },
-    _motion: function(can) { can.onmotion.float.auto(can, document.body)
-        document.body.ondblclick = function(event) { can.onengine.signal(can, "onselection") }
-
-        can.runAction({}, ctx.COMMAND, [], function(msg) {
-            msg.result && msg.result[0] && can.field(can, msg, msg.result)
-        })
-    },
+	_motion: function(can) { can.onmotion.story.auto(can, document.body)
+		document.body.ondblclick = function(event) { can.onengine.signal(can, "onselection") }
+		can.runAction({}, ctx.COMMAND, [], function(msg) { msg.result && msg.result[0] && can.field(can, msg, msg.result) })
+	},
 }, function(can) {
     can.run = function(event, cmds, cb) { if (cmds[0] == "_search") { return }
         var msg = can.request(event, {host: location.host}); msg.detail = can.misc.concat(can, ["page"], cmds)
         chrome.runtime.sendMessage(msg, function(res) { can.base.isFunc(cb) && cb(msg.Copy(res)) })
-    }, can._daemon(can), can._motion(can)
-}) }, 1)
+    }, can._motion(can), can._daemon(can)
+}) }, 100)

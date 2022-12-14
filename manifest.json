@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "volcanos", "version": "0.0.1",
-	"background": {"page": "/publish/chrome/chrome.html"},
+	"background": {"page": "/publish/chrome/daemon.html"},
 	"browser_action": {"default_popup": "/publish/chrome/popup.html"},
 	"content_scripts": [{"matches": ["<all_urls>"], "permissions": [
 		"tabs", "history", "cookies", "bookmarks", "contextMenus", "notifications", "http://localhost:9020/*"

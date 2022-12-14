@@ -188,6 +188,7 @@ body.white fieldset.plugin { background-color:#ffffffa1; }
 body.white fieldset.float { background-color:#0e3369; color:white; }
 body.white fieldset.full { background-color:#0e3369; color:white; }
 body.white div.output div.project div.zone>div.list>div.zone>div.name { background-color:#09466f66; color:black; }
+body.white fieldset.full div.output div.project div.zone>div.list>div.zone>div.name { background-color:#09466f66; color:white; }
 
 /* white hover */
 body.white legend:hover { background-color:skyblue; }
