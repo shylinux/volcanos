@@ -7,12 +7,12 @@ setTimeout(function() { Volcanos({
             msg.Push(mdb.LINK, location.href)
         }
         var has = {}; target = target||document.body
-        can.page.Select(can, target, html.IFRAME, function(target) {
+        can.page.Select(can, target, html.AUDIO, function(target) {
             if (!target.src || has[target.src]) { return } has[target.src] = true
-            msg.Push(mdb.TYPE, html.IFRAME)
-            msg.Push(mdb.NAME, "")
+            var name = target.src.split("?")[0].split(ice.PT).pop()
+            msg.Push(mdb.TYPE, html.AUDIO)
+            msg.Push(mdb.NAME, html.AUDIO+ice.PT+name)
             msg.Push(mdb.LINK, target.src)
-            can.spide(can, msg, target.contentWindow.document.body)
         })
         can.page.Select(can, target, html.VIDEO, function(target) {
             if (!target.src || has[target.src]) { return } has[target.src] = true
@@ -32,8 +32,43 @@ setTimeout(function() { Volcanos({
             }
             msg.Push(mdb.LINK, target.src)
         })
+        can.page.Select(can, target, html.IFRAME, function(target) {
+            if (!target.src || has[target.src]) { return } has[target.src] = true
+            msg.Push(mdb.TYPE, html.IFRAME)
+            msg.Push(mdb.NAME, "")
+            msg.Push(mdb.LINK, target.src)
+            can.spide(can, msg, target.contentWindow.document.body)
+        })
+        can.page.Select(can, target, html.A, function(target) {
+            msg.Push(mdb.TYPE, html.A)
+            msg.Push(mdb.NAME, "")
+            msg.Push(mdb.LINK, target.href)
+        })
     },
-    change: function(can, msg, arg) {
+    style: function(can, msg, arg) {
+        can.core.List(arg[0].split(ice.FS), function(item) {
+            can.page.Select(can, document.body, item, function(target) {
+                can.page.Modify(can, target, can.base.Obj(arg[1]))
+            })
+        })
+	},
+	field: function(can, msg, arg) {
+		can.onappend.plugin(can, {type: chat.CONTEXTS, index: arg[0], args: can.base.Obj(arg[1])}, function(sub, meta) {
+			sub.run = function(event, cmds, cb) { msg.RunAction(event, can, cmds) || can.runActionCommand(event, meta.index, cmds, function(msg) {
+				can.onmotion.toggle(can, sub._option, true), can.onmotion.toggle(can, sub._action, true), can.onmotion.toggle(can, sub._output, true), can.onmotion.toggle(can, sub._status, true)
+					can.base.isFunc(cb) && cb(msg)
+			}) }
+			can.onmotion.move(can, sub._target, {left: msg.Option(html.LEFT), top: msg.Option(html.TOP), right: msg.Option(html.RIGHT), bottom: msg.Option(html.BOTTOM)}, function(target) {
+				can.page.style(can, sub._output, html.MAX_HEIGHT, window.innerHeight-target.offsetTop-80, html.MAX_WIDTH, window.innerWidth-target.offsetLeft-20)
+			})
+			sub._legend.onclick = function(event) {
+				can.onmotion.toggle(can, sub._option), can.onmotion.toggle(can, sub._action), can.onmotion.toggle(can, sub._output), can.onmotion.toggle(can, sub._status)
+			}
+			msg.Option("selection")? can.onengine.listen(can, "onselection", function() { sub.Option(msg.Option("selection"), window.getSelection()), sub.Update() }): sub._legend.onclick()
+			sub.onaction["保存参数"] = function(event) { can.run(can.request(event, {domain: location.host, id: msg.Option(mdb.ID)}), [chat.FIELD, mdb.MODIFY, html.TOP, sub._target.offsetTop, html.LEFT, sub._target.offsetLeft, ctx.ARGS, JSON.stringify(sub.Input([], true))]) }
+		}, document.body)
+	},
+	change: function(can, msg, arg) {
         arg.length > 1 && can.page.Modify(can, arg[0], can.base.Obj(arg[1]))
         arg.length > 0 && can.page.Select(can, document.body, arg[0], function(item) {
             msg.Push(mdb.TEXT, item.outerHTML)
@@ -47,48 +82,6 @@ setTimeout(function() { Volcanos({
             })
         }); can.page.style(can, ui._target, {left: 200, top: 200})
         can.page.ClassList.add(can, ui._target, chat.CONTEXTS)
-    },
-    field: function(can, msg, arg) {
-        can.onappend.plugin(can, {type: chat.CONTEXTS, index: arg[0], args: can.base.Obj(arg[1])}, function(sub, meta) {
-            var pos = {left: msg.Option(html.LEFT), top: msg.Option(html.TOP), right: msg.Option(html.RIGHT), bottom: msg.Option(html.BOTTOM)}
-            can.page.style(can, sub._target, pos)
-            can.onmotion.move(can, sub._target, pos, function(target) {
-				can.page.style(can, sub._output,
-					html.MAX_HEIGHT, can._root._height-target.offsetTop-80,
-					html.MAX_WIDTH, can._root._width-target.offsetLeft-20,
-				)
-            })
-
-            sub._legend.onclick = function(event) {
-                can.onmotion.toggle(can, sub._option)
-                can.onmotion.toggle(can, sub._action)
-                can.onmotion.toggle(can, sub._output)
-                can.onmotion.toggle(can, sub._status)
-            }, msg.Option("selection")||sub._legend.onclick()
-
-            sub.run = function(event, cmds, cb) { if (msg.RunAction(event, can, cmds)) { return }
-                can.runActionCommand(event, meta.index, cmds, cb)
-            }
-
-            msg.Option("selection") && (can.onengine.listen(can, "onselection", function() {
-                sub.Option(msg.Option("selection"), window.getSelection()), sub.Update()
-            }))
-
-            sub.onaction["保存参数"] = function(event) {
-                can.request(event, {zone: location.host, id: msg.Option(mdb.ID)})
-                can.run(event, [chat.FIELD, mdb.MODIFY, html.TOP, sub._target.offsetTop])
-                can.run(event, [chat.FIELD, mdb.MODIFY, html.LEFT, sub._target.offsetLeft])
-                can.run(event, [chat.FIELD, mdb.MODIFY, ctx.ARGS, JSON.stringify(sub.Input([], true))])
-                can.user.toastSuccess(can)
-            }
-        }, document.body)
-    },
-    style: function(can, msg, arg) {
-        can.core.List(arg[0].split(ice.FS), function(item) {
-            can.page.Select(can, document.body, item, function(target) {
-                can.page.Modify(can, target, can.base.Obj(arg[1]))
-            })
-        })
     },
 
 	info: function(can, msg, arg) {
@@ -108,7 +101,7 @@ setTimeout(function() { Volcanos({
 	},
 }, function(can) {
     can.run = function(event, cmds, cb) { if (cmds[0] == "_search") { return }
-        var msg = can.request(event, {host: location.host}); msg.detail = can.misc.concat(can, ["page"], cmds)
+        var msg = can.request(event, {domain: location.host}); msg.detail = can.misc.concat(can, ["page"], cmds)
         chrome.runtime.sendMessage(msg, function(res) { can.base.isFunc(cb) && cb(msg.Copy(res)) })
     }, can._motion(can), can._daemon(can)
 }) }, 100)

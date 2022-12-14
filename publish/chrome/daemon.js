@@ -3,14 +3,14 @@ Volcanos({
         if (arg.length == 0 || arg[0] == "") {
             chrome.windows.getAll(function(wins) {
                 can.core.List(wins, function(win) { win.wid = win.id
-                    msg.Push(win, ["wid", "type", "state", "focused", html.LEFT||"0", html.TOP||"0", html.WIDTH, html.HEIGHT])
+                    msg.Push(win, ["type", "state", "wid", "focused", html.LEFT||"0", html.TOP||"0", html.WIDTH, html.HEIGHT])
                 }), can.base.isFunc(cb) && cb(msg)
             })
         } else if (arg.length == 1 || arg[1] == "") {
             chrome.tabs.getAllInWindow(parseInt(arg[0]), function(tabs) {
                 can.core.Next(tabs, function(tab, next) { var _msg = can.request(); _msg.detail = ["info"]
 					can._tabsend(can, _msg, function(res) { tab.tid = tab.id
-	                    msg.Push(tab, ["tid", "active", html.WIDTH, html.HEIGHT, "index"])
+	                    msg.Push(tab, ["index", "tid", "active", html.WIDTH, html.HEIGHT])
 	                    msg.Push("title", res && res["title"][0] || "")
 	                    msg.Push("url", res && res["url"][0] || "")
 	                    next()

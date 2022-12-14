@@ -412,6 +412,8 @@ Volcanos(chat.ONSYNTAX, {
 			"Volcanos": code.FUNCTION,
 		},
 	},
+	json: {
+	},
 	css: {
 		split: {
 			operator: ".[]()>,{:;}",
@@ -528,6 +530,16 @@ Volcanos(chat.ONSYNTAX, {
 	},
 	iml: {
 		render: {},
+	},
+	html: {
+		split: {
+			operator: ".[]()</>,{:;}",
+		},
+		keyword: {
+			"html": code.KEYWORD,
+			"head": code.KEYWORD,
+			"body": code.KEYWORD,
+		},
 	},
 	zml: {
 		render: {},
