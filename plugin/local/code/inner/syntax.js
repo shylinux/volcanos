@@ -359,6 +359,7 @@ Volcanos(chat.ONSYNTAX, {
 			"if": code.KEYWORD,
 			"else": code.KEYWORD,
 			"for": code.KEYWORD,
+			"in": code.KEYWORD,
 			"while": code.KEYWORD,
 			"break": code.KEYWORD,
 			"continue": code.KEYWORD,

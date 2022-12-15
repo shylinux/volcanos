@@ -106,7 +106,7 @@ Volcanos(chat.ONFIGURE, {
 		))
 	},
 	plugin: function(can, target, zone) { var total = 0
-		can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return total++, {index: key} }), ctx.INDEX, ice.PT, function(event, item) {
+		can.onimport.tree(can, can.core.ItemKeys(can.onengine.plugin.meta, function(key) { return total++, {index: key} }), ctx.INDEX, ice.PT, function(event, item) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys("can", item.index), ctx.INDEX)
 		}, target), zone._total(total)
 	},
