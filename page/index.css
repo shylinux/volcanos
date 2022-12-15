@@ -343,6 +343,7 @@ fieldset.plugin.parse.cmd>form.option { display:none; }
 fieldset.plugin.parse.cmd>div.action { display:none; }
 fieldset.plugin.parse.cmd>div.status { display:none; }
 fieldset.xterm div.toggle { display:none; }
+fieldset.story.inner.float { background-color:black; }
 
 body.black a { color:yellow; }
 body.white fieldset.panel.Search a { color:yellow; }
