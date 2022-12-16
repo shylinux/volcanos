@@ -1,5 +1,5 @@
 body, fieldset, table, tr, th, td { padding:0; border:0; margin:0; }
-body { background-color:black; color:cyan; font-size:16px; overflow:hidden; }
+body { background-color:black; color:cyan; font-size:16px; }
 legend { background-color:cadetblue; color:white; padding:0 20px; margin-right:2px; float:left; }
 select { background-color:black; color:cyan; padding:0 10px; margin:0 2px; border:0; }
 textarea { background-color:cyan; width:400px; padding:5px; border:0; margin:2px; }
@@ -345,6 +345,8 @@ fieldset.plugin.parse.cmd>div.status { display:none; }
 fieldset.xterm div.toggle { display:none; }
 fieldset.story.inner.float { background-color:black; }
 
+body.black { overflow:hidden; }
+body.white { overflow:hidden; }
 body.black a { color:yellow; }
 body.white fieldset.panel.Search a { color:yellow; }
 body.mobile fieldset.plan>div.action { display:none; }
