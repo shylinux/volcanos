@@ -13,8 +13,8 @@ var ice = {
 	SHOW: "show", HIDE: "hide", HELP: "help", COPY: "copy",
 	VIEW: "view", MODE: "mode", SHIP: "ship", EXEC: "exec",
 
-	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
 	DEV: "dev",
+	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
 	CAN: "can", RUN: "run", RES: "res", ERR: "err",
 	CAN_PLUGIN: "can.plugin",
 
@@ -34,9 +34,9 @@ var ice = {
 	MSG_STATUS: "_status",
 	MSG_PREFIX: "_prefix",
 
-	MSG_PROCESS: "_process",
 	MSG_DISPLAY: "_display",
 	MSG_TOOLKIT: "_toolkit",
+	MSG_PROCESS: "_process",
 	PROCESS_AGAIN: "_again",
 
 	MSG_TITLE: "sess.title",
@@ -63,33 +63,6 @@ var ctx = {
 	INDEX: "index", ARGS: "args", STYLE: "style", DISPLAY: "display", ACTION: "action",
 	EXTRA_INDEX: "extra.index", EXTRA_ARGS: "extra.args",
 }
-var cli = {
-	SYSTEM: "system", DAEMON: "daemon",
-	BEGIN: "begin", START: "start", OPEN: "open", CLOSE: "close", STOP: "stop", END: "end", RESTART: "restart",
-	COLOR: "color", WHITE: "white", BLACK: "black", RED: "red", GREEN: "green", BLUE: "blue",
-	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta", GLASS: "#0000",
-	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
-	PWD: "pwd",
-	ORDER: "order", BUILD: "build",
-}
-var aaa = {
-	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
-	PASSWORD: "password", USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
-	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
-	VOID: "void", TECH: "tech",
-}
-var web = {
-	SPACE: "space", DREAM: "dream", SHARE: "share",
-	WEBSITE: "website", DRAW: "draw", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter", SUBMIT: "submit", CANCEL: "cancel", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
-	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
-
-	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
-	Accept: "Accept", ContentType: "Content-Type",
-	ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
-	
-	CODE_INNER: "web.code.inner", WIKI_WORD: "web.wiki.word",
-	VIDEO_WEBM: "video/webm",
-}
 var mdb = {
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
 
@@ -105,7 +78,34 @@ var mdb = {
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
 	FOREACH: "*", RANDOMS: "%",
 }
+var web = {
+	SPACE: "space", DREAM: "dream", SHARE: "share",
+	WEBSITE: "website", DRAW: "draw", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter", SUBMIT: "submit", CANCEL: "cancel", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
+	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
+
+	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
+	Accept: "Accept", ContentType: "Content-Type",
+	ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
+	
+	CODE_INNER: "web.code.inner", WIKI_WORD: "web.wiki.word",
+	VIDEO_WEBM: "video/webm",
+}
+var aaa = {
+	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
+	PASSWORD: "password", USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
+	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
+	VOID: "void", TECH: "tech",
+}
+var lex = {
+	SPLIT: "split", PREFIX: "prefix", SUFFIX: "suffix",
+}
+var gdb = {
+	SIGNAL: "signal",
+}
 var ssh = {
+}
+var tcp = {
+	HOST: "host", PORT: "port",
 }
 var nfs = {
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size", ROOT: "root",
@@ -116,14 +116,12 @@ var nfs = {
 	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
 }
-var tcp = {
-	HOST: "host", PORT: "port",
-}
-var lex = {
-	SPLIT: "split", PREFIX: "prefix", SUFFIX: "suffix",
-}
-var gdb = {
-	SIGNAL: "signal",
+var cli = {
+	PWD: "pwd", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
+	BEGIN: "begin", START: "start", OPEN: "open", CLOSE: "close", STOP: "stop", END: "end", RESTART: "restart",
+	COLOR: "color", WHITE: "white", BLACK: "black", RED: "red", GREEN: "green", BLUE: "blue",
+	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta", GLASS: "#0000",
+	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 }
 var log = {
 	INFO: "info", WARN: "warn", ERROR: "error", DEBUG: "debug", TRACE: "trace",

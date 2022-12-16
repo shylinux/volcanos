@@ -5,7 +5,7 @@ App({
     requests: function(cmd, data, cb) { wx.showLoading()
         this.request(cmd, data, function(msg) { wx.hideLoading(), typeof cb == "function" && cb(msg) })
     },
-    request: function(cmd, data, cb) { var app = this; data.sessid = app.conf.sessid, data.pod = app.conf.space
+    request: function(cmd, data, cb) { var app = this; data.sessid_443 = app.conf.sessid, data.pod = app.conf.space
         wx.request({method: "POST", url: app.conf.serve+"/"+cmd, data: data, success: function(res) { var msg = res.data
             if (res.statusCode == 401) { return app.usercode(function() { app.request(cmd, data, cb) }) }
             console.log("POST", cmd, msg)
@@ -69,13 +69,13 @@ App({
     },
 
     usercode: function(cb) { var app = this
-        wx.login({success: function(res) { app.request("mp/login/sess", {code: res.code}, function(msg) {
+        wx.login({success: function(res) { app.request("mp/login/action/sess", {code: res.code}, function(msg) {
             wx.setStorage({key: "sessid", data: app.conf.sessid = msg.Result()})
             typeof cb == "function" && cb()
         })}})
     },
     userinfo: function(cb) { var app = this
-        app.conf.userInfo? app.request("mp/login/user", app.conf.userInfo, function(msg) {
+        app.conf.userInfo? app.request("mp/login/action/user", app.conf.userInfo, function(msg) {
             typeof cb == "function" && cb(app.conf.userInfo)
         }): app.usercode(function() { wx.getSetting({success: function(res) {
             res.authSetting['scope.userInfo'] && wx.getUserInfo({success: function(res) {
