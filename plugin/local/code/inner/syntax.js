@@ -393,6 +393,7 @@ Volcanos(chat.ONSYNTAX, {
 			"Date": code.DATATYPE,
 			"Math": code.DATATYPE,
 			"XMLHttpRequest": code.DATATYPE,
+			"WebSocket": code.DATATYPE,
 
 			"encodeURIComponent": code.FUNCTION,
 			"decodeURIComponent": code.FUNCTION,

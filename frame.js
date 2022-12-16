@@ -462,6 +462,11 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		index > 0 && can.page.ClassList.set(can, tr, html.HIDDEN, can.page.Select(can, tr, html.TD, function(td) { if (td.innerText.indexOf(value) > -1) { return td } }) == 0)
 	}) },
 
+	delayResize: function(can, target, key) {
+		can.onmotion.delay(can, function() { can.page.Select(can, target, key, function(_target) {
+			can.page.style(can, target, html.WIDTH, _target.offsetWidth, html.LEFT, (window.innerWidth-_target.offsetWidth)/2)
+		}) })
+	},
 	delay: function(can, cb, interval) { can.core.Timer(interval||30, cb) },
 	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), target },
 	cache: function(can, next) { var list = can.base.getValid(can.base.Obj(can.core.List(arguments).slice(2)), [can._output])
