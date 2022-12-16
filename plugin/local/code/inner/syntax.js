@@ -341,13 +341,14 @@ Volcanos(chat.ONSYNTAX, {
 	},
 	js: {
 		split: {
-			operator: "{[(.,:;!?|<*>- )]}",
+			operator: "{[(.,:;!?|&<*>=+/- )]}",
 		},
 		prefix: {
 			"// ": code.COMMENT,
 		},
 		regexp: {
 			// "can.*": code.FUNCTION,
+			"[A-Z_0-9]+": code.CONSTANT,
 		},
 		keyword: {
 			"const": code.KEYWORD,
@@ -388,7 +389,9 @@ Volcanos(chat.ONSYNTAX, {
 			"this": code.DATATYPE,
 			"JSON": code.DATATYPE,
 			"Date": code.DATATYPE,
-			"Error": code.DATATYPE,
+			"Array": code.DATATYPE,
+			"Date": code.DATATYPE,
+			"Math": code.DATATYPE,
 			"XMLHttpRequest": code.DATATYPE,
 
 			"encodeURIComponent": code.FUNCTION,
@@ -399,7 +402,27 @@ Volcanos(chat.ONSYNTAX, {
 			"delete": code.FUNCTION,
 			"confirm": code.FUNCTION,
 			"alert": code.FUNCTION,
-
+			"hasOwnProperty": code.FUNCTION,
+			"callee": code.FUNCTION,
+			"apply": code.FUNCTION,
+			"call": code.FUNCTION,
+			"parse": code.FUNCTION,
+			"pop": code.FUNCTION,
+			"push": code.FUNCTION,
+			"sort": code.FUNCTION,
+			"join": code.FUNCTION,
+			"slice": code.FUNCTION,
+			"concat": code.FUNCTION,
+			"indexOf": code.FUNCTION,
+			"lastIndexOf": code.FUNCTION,
+			"reverse": code.FUNCTION,
+			"stringify": code.FUNCTION,
+			"forEach": code.FUNCTION,
+			"toLowerCase": code.FUNCTION,
+			"length": code.FUNCTION,
+			"split": code.FUNCTION,
+			"trim": code.FUNCTION,
+			
 			"kit": code.DATATYPE,
 			"ice": code.DATATYPE,
 			"can": code.DATATYPE,

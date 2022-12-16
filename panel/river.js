@@ -89,10 +89,10 @@ Volcanos(chat.ONEXPORT, {width: function(can) { return can._target.offsetWidth }
 	}) }) },
 })
 Volcanos(chat.ONENGINE, {_engine: function(event, can, msg, panel, cmds, cb) { var list = can.river
-	cmds.length == 0 && can.core.ItemSort(list, "order", function(key, value) { can.core.Item(value.storm).length > 0 && msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) })
+	cmds.length == 0 && can.core.ItemOrder(list, "order", function(key, value) { can.core.Item(value.storm).length > 0 && msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) })
 	if (cmds.length != 1 && cmds[1] != chat.STORM) { return false }
 
 	var river = list[cmds[0]]; if (!river) { return false }
-	can.core.ItemSort(river.storm, "order", function(key, value) { msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) })
+	can.core.ItemOrder(river.storm, "order", function(key, value) { msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) })
 	can.base.isFunc(cb) && cb(msg); return true
 }})

@@ -72,23 +72,23 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		var list = [0]; for (var i = 7; i < 24; i++) { list.push(can.base.Number(i, 2)) }
 		function key(time) { return time.getDay()+" "+can.base.Number(time.getHours(), 2) }
 		function get(begin_time, col, row, hash) { return hash[col-1+" "+list[row]] }
-		function set(begin_time, col, row) { return can.base.Time(can.base.TimeAdd(begin_time, -begin_time.getDay()+col-1), "%y-%m-%d ")+list[row] }
+		function set(begin_time, col, row) { return can.base.Time(can.base.DateAdd(begin_time, -begin_time.getDay()+col-1), "%y-%m-%d ")+list[row] }
 		can.onimport._content(can, msg, head, list, key, get, set)
 	},
 	month: function(can, msg) { var head = can.onexport.head(can, "order")
 		var list = [0]; for (var i = 1; i < 6; i++) { list.push(i) }
 		function key(time) { return can.base.Time(time, "%y-%m-%d") }
 		function get(begin_time, col, row, hash) {
-			var begin = can.base.TimeAdd(begin_time, -(begin_time.getDate()-1))
-			var last = can.base.TimeAdd(begin_time, -(begin_time.getDate()-1)-begin.getDay())
-			var day = can.base.TimeAdd(last, (row-1)*7+col)
+			var begin = can.base.DateAdd(begin_time, -(begin_time.getDate()-1))
+			var last = can.base.DateAdd(begin_time, -(begin_time.getDate()-1)-begin.getDay())
+			var day = can.base.DateAdd(last, (row-1)*7+col)
 			var l = can.date.solar2lunar(day)
 			return [can.page.Format(html.SPAN, day.getDate(), "day")+" "+can.page.Format(html.SPAN, l.autoDay, l.autoClass)].concat(hash[key(day)]||[])
 		}
 		function set(begin_time, col, row) {
-			var begin = can.base.TimeAdd(begin_time, -(begin_time.getDate()-1))
-			var last = can.base.TimeAdd(begin_time, -(begin_time.getDate()-1)-begin.getDay())
-			var day = can.base.TimeAdd(last, (row-1)*7+col)
+			var begin = can.base.DateAdd(begin_time, -(begin_time.getDate()-1))
+			var last = can.base.DateAdd(begin_time, -(begin_time.getDate()-1)-begin.getDay())
+			var day = can.base.DateAdd(last, (row-1)*7+col)
 			return key(day)
 		}
 		can.onimport._content(can, msg, head, list, key, get, set)
