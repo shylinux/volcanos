@@ -558,12 +558,33 @@ Volcanos(chat.ONSYNTAX, {
 	},
 	html: {
 		split: {
-			operator: ".[]()</>,{:;}",
+			operator: "</>=!&;",
 		},
 		keyword: {
+			"DOCTYPE": code.KEYWORD,
 			"html": code.KEYWORD,
 			"head": code.KEYWORD,
 			"body": code.KEYWORD,
+			
+			"meta": code.KEYWORD,
+			"link": code.KEYWORD,
+			"title": code.KEYWORD,
+			
+			"h1": code.KEYWORD,
+			"h2": code.KEYWORD,
+			"h3": code.KEYWORD,
+			"p": code.KEYWORD,
+			"em": code.KEYWORD,
+			"strong": code.KEYWORD,
+			"i": code.KEYWORD,
+			"b": code.KEYWORD,
+			"u": code.KEYWORD,
+			"a": code.KEYWORD,
+			"ul": code.KEYWORD,
+			"ol": code.KEYWORD,
+			"li": code.KEYWORD,
+			"href": code.FUNCTION,
+			"rel": code.FUNCTION,
 		},
 	},
 	zml: {

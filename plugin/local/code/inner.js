@@ -181,7 +181,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 	profile: function(can, msg) { var sup = can.tabview[can.onexport.keys(can)]
 		if (msg.Result().indexOf("<iframe") > -1) { if (sup._profile_output != can.ui._profile_output) { can.page.Remove(can, sup._profile_output) }
 			can.ui.profile_output = sup._profile_output = can.page.Append(can, can.ui._profile_output.parentNode, [{view: html.OUTPUT, inner: msg.Result()}]).output
-			var width = can.profile_size[can.onexport.keys(can)]||(can.ConfWidth()-can.ui.project.offsetWidth)/4*3; can.profile_size[can.onexport.keys(can)] = width
+			var width = can.profile_size[can.onexport.keys(can)]||(can.ConfWidth()-can.ui.project.offsetWidth)/2; can.profile_size[can.onexport.keys(can)] = width
 		} else {
 			can.ui.profile_output = sup._profile_output = can.ui._profile_output
 			var width = can.profile_size[can.onexport.keys(can)]||(can.ConfWidth()-can.ui.project.offsetWidth)/2
