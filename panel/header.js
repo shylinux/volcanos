@@ -37,7 +37,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		})
 	},
 	_time: function(can, target) { can.core.Timer({interval: 100}, function() { can.onimport.time(can, target) })
-		can.onappend.figure(can, {action: "date"}, target), target.onmouseenter = target.click
+		can.onappend.figure(can, {action: "date"}, target)
 	},
 	time: function(can, target) { can.onimport.topic(can), target.innerHTML = can.user.time(can, null, "%w %H:%M:%S") },
 	avatar: function(event, can, avatar) { if (can.user.isExtension || can.user.isLocalFile) { return }
