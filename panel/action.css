@@ -1,6 +1,6 @@
 fieldset.Action { background-color:rgba(114, 153, 162, 0.54); min-width:160px; }
 fieldset.Action>div.action { background-color:#4682b46b; width:inherit; display:none; }
-fieldset.Action>div.action div { font-size:1.1rem; padding:5px 20px; height:21px; float:left; cursor:pointer; }
+fieldset.Action>div.action div { font-size:1.1rem; padding:5px 20px; height:31px; float:left; cursor:pointer; }
 fieldset.Action>div.action div.select { background-color:#6495ed63; }
 fieldset.Action>div.action div:hover { background-color:#6495ed63; }
 
@@ -94,7 +94,7 @@ div.foot div.menu { cursor:pointer; padding:10px; float:left; }
 div.foot>div.menu:hover { background-color:#323232; }
 
 div.tabs:hover {
-	background-color:#272727;
+	/* background-color:#272727; */
 }
 div.tabs div.name {
 	height:46px; width:-webkit-fill-available;

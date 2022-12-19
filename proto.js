@@ -115,6 +115,7 @@ var nfs = {
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
 	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
+	REPOS: "repos",
 }
 var cli = {
 	PWD: "pwd", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
@@ -130,7 +131,7 @@ var log = {
 var code = {
 	FAVOR: "favor", XTERM: "xterm", INNER: "inner", VIMER: "vimer",
 	WEBPACK: "webpack", BINPACK: "binpack", AUTOGEN: "autogen", COMPILE: "compile", PUBLISH: "publish",
-	COMMENT: "comment", KEYWORD: "keyword", CONSTANT: "constant", DATATYPE: "datatype", FUNCTION: "function",
+	COMMENT: "comment", KEYWORD: "keyword", PACKAGE: "package", DATATYPE: "datatype", FUNCTION: "function", CONSTANT: "constant", STRING: "string", OBJECT: "object",
 	TEMPLATE: "template", COMPLETE: "complete", NAVIGATE: "navigate",
 }
 var wiki = {
@@ -232,7 +233,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	PAGE: "page", TABS: "tabs", MENU: "menu", NODE: "node",
 	ZONE: "zone", LIST: "list", ITEM: "item", NAME: "name", ICON: "icon",
 	HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot", AUTO: "auto", SHOW: "show", HIDE: "hide",
-	PLUGIN: "plugin", LAYOUT: "layout", CONTENT: "content",
+	PLUGIN: "plugin", LAYOUT: "layout", PROJECT: "project", DISPLAY: "display", PROFILE: "profile", CONTENT: "content",
 
 	DIV_PAGE: "div.page", DIV_TABS: "div.tabs",
 	DIV_ZONE: "div.zone", DIV_LIST: "div.list", DIV_ITEM: "div.item", DIV_NAME: "div.name",
@@ -251,7 +252,7 @@ function shy(help, meta, list, cb) { var args = arguments, i = 0; function next(
 		} else if (i < args.length && (!type || type == typeof args[i])) { return args[i++] }
 	} return cb = typeof args[args.length-1] == lang.FUNCTION? args[args.length-1]: function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.ARRAY)||[], cb
 }; var _can_name = "", _can_path = ""
-var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}}, function(name, can, libs, cb) {
+var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {
 		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, pos: html.HIDE, state: [aaa.USERNICK]}, {name: chat.ACTION, pos: html.MAIN, tool: name}]}) }
 		var Config = name; name = Config.name||ice.CAN, _can_name = "", _can_path = ""
@@ -349,8 +350,8 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 try { if (typeof(window) == lang.OBJECT) { // chrome
 	Volcanos.meta.target = document.body, Volcanos.meta._height = window.innerHeight, Volcanos.meta._width = window.innerWidth
 	Volcanos.meta._load = function(url, cb) { switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
-		case nfs.CSS: var item = document.createElement(mdb.LINK); item.rel = "stylesheet", item.href = url, item.onload = cb, document.head.appendChild(item); break
-		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
+		case nfs.CSS: var item = document.createElement(mdb.LINK); item.rel = "stylesheet", item.href = url+Volcanos.meta.version, item.onload = cb, document.head.appendChild(item); break
+		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url+Volcanos.meta.version, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
 	} }
 	Volcanos.meta._init = function(can) {
 		var last = can.page.width() < can.page.height(); window.onresize = function(event) {

@@ -1,7 +1,7 @@
 Volcanos(chat.ONPLUGIN, {_init: function(can, _sub, cb) { const SEARCH = "can.code.inner.search"; var history = []
 	function highlight(value) { var sub = can.ui.search
-		can.page.Select(can, sub._output, "tbody>tr", function(tr) {
-			can.page.ClassList.set(can, tr, html.HIDDEN, can.page.Select(can, tr, "td", function(td) { td._text = td._text||td.innerText
+		can.page.Select(can, sub._output, html.TR, function(tr) {
+			can.page.ClassList.set(can, tr, html.HIDDEN, can.page.Select(can, tr, html.TD, function(td) { td._text = td._text||td.innerText
 				if (td.innerText.indexOf(value) > -1) {
 					td.innerHTML = td._text.replaceAll(value, "<span style='background-color:yellow;color:red;'>"+value+"</span>")
 					return td
@@ -19,22 +19,18 @@ Volcanos(chat.ONPLUGIN, {_init: function(can, _sub, cb) { const SEARCH = "can.co
 			}}
 		}, sub._output), sub.onappend.board(sub, msg.Result()), sub.onappend._status(sub, msg.Option(ice.MSG_STATUS))
 		!sub.page.ClassList.has(sub, sub._legend, html.SELECT) && sub.select(), sub.Focus(), sub.Option("word", word||msg._word||"")
-		can.onmotion.delay(can, function() {
-			word && highlight(word)
-		})
+		can.onmotion.delay(can, function() { word && highlight(word) })
 	}
 	can.onengine.plugin(can, SEARCH, shy("搜索", {}, [
-		{type: "text", name: "main"},
-		{type: "text", name: "filter", _init: function(target) {
-			target.onkeyup = function(event) { highlight(event.target.value) }
-		}},
-		"grep:button", "make", "history", "last"], function(can, msg, cmds, cb) { can.misc.runAction(can, msg, cmds, cb, kit.Dict(
-		"replace", function(cmds) { can.runAction(msg, nfs.GREP, [cmds[0]], function(msg) { show(msg, cmds[0]) }) },
+		"main", {name: "filter", _init: function(target) { target.onkeyup = function(event) { highlight(event.target.value) } }},
+		"grep:button", "history", "last",
+	], function(can, msg, cmds, cb) { can.misc.runAction(can, msg, cmds, cb, kit.Dict(
 		nfs.GREP, function(cmds) { can.runAction(msg, nfs.GREP, [cmds[0]], function(msg) { show(msg, cmds[0]) }) },
 		"history", function(cmds) { can.core.List(can.history, function(item) { msg.PushRecord(item) }), show(msg) },
 		"last", function(cmds) { history.pop(), show(history.pop()) },
-	)) })), can.onimport.toolkit(can, {index: SEARCH}, function(sub) {
-		can.page.style(can, sub._output, html.MIN_WIDTH, 600)
+	)) }))
+	can.onimport.toolkit(can, {index: SEARCH}, function(sub) {
 		can.ui.search = sub, sub._show = show, can.base.isFunc(cb) && cb(sub)
+		can.page.style(can, sub._output, html.MIN_WIDTH, 600)
 	})
 }})

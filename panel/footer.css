@@ -1,6 +1,6 @@
 fieldset.Footer { font-size:1.1rem; padding:0 5px; clear:both; }
 fieldset.Footer>div.output { overflow:hidden; }
-fieldset.Footer>div.output div { padding:5px; height:21px; cursor:pointer; }
+fieldset.Footer>div.output div { padding:5px; height:31px; cursor:pointer; }
 fieldset.Footer>div.output div:hover { background-color:#2e515f; }
 fieldset.Footer>div.output div.title { float:left; }
 fieldset.Footer>div.output div.state { font-family:monospace; float:right; }

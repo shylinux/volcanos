@@ -19,7 +19,7 @@ Volcanos(chat.ONFIGURE, {key: {
 	}) },
 	onblur: function(event, can, sub) { can.onmotion.delay(can, function() {
 		// sub._delay_hidden || can.onmotion.hidden(can, sub._target), sub._delay_hidden = false
-		sub._delay_hidden || sub.close(), sub._delay_hidden = false
+		if (sub) { sub._delay_hidden || sub.close(), sub._delay_hidden = false }
 	}, 300) },
 	onkeydown: function(event, can, meta, cb, target, sub, last) {
 		if (event.key == lang.ENTER && meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event)) { return sub.close() }

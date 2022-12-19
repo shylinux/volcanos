@@ -182,59 +182,6 @@ Volcanos(chat.ONACTION, {
 	},
 	favor: function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.favor", ctx.INDEX) },
 	git: function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX) },
-	"查找": function(event, can) {
-		var ui = can.page.Append(can, can._output, [{view: "vimer find float", list: [html.ACTION, html.OUTPUT],
-			style: {position: "absolute", left: can.ui.project.offsetWidth+can.ui.content.offsetWidth/2, top: can.base.Max(can.base.Min(can.current.line.offsetTop-can.ui.content.scrollTop, 100), can.ConfHeight()/2)+57+28}}])
-		can.onmotion.delay(can, function() { can.page.style(can, ui._target, html.LEFT, can.ui.project.offsetWidth+can.ui.content.offsetWidth/2-ui._target.offsetWidth/2) }, 10)
-		can.onmotion.move(can, ui._target)
-		
-		var last = can.onaction._getLineno(can, can.current.line)
-		function find(begin, text) { if (parseInt(text) > 0) { return can.onaction.selectLine(can, parseInt(text)) && meta.close() }
-			for (begin; begin <= can.max; begin++) {
-				if (can.onexport.text(can, can.onaction._getLine(can, begin)).indexOf(text) > -1) {
-					return last = begin, can.onaction.selectLine(can, begin), can.current.scroll(can.current.scroll()-5)
-				}
-			} last = 0, can.user.toast(can, "已经到最后一行")
-		}
-		function complete(target, button) {
-			can.onappend.figure(can, {action: "key", mode: chat.SIMPLE, _enter: function(event) {
-				if (event.ctrlKey) { meta.grep() } else {
-					meta[button](), can.onmotion.delay(can, function() { target.focus() })
-				}
-				return true
-			}, run: function(event, cmds, cb) {
-				var msg = can.request(event); can.core.List(can.core.Split(can.current.text(), "\t \n{[(:=,)]}", {detail: true}), function(value) {
-					if (can.base.isObject(value)) { if (value.type == html.SPACE) { return }
-						value.type == lang.STRING && msg.Push(mdb.VALUE, value.left+value.text+value.right)
-						msg.Push(mdb.VALUE, value.text)
-					} else {
-						msg.Push(mdb.VALUE, value)
-					}
-				}), cb(msg)
-			}}, target)
-		}
-		var from, to
-		var meta = can.onappend._action(can, [
-			{type: html.TEXT, name: "from", style: {width: 200}, _init: function(target) { from = target, complete(target, "find"), can.onmotion.delay(can, function() { target.focus() }) }},
-			"find", "grep",
-			{type: html.TEXT, name: "to", _init: function(target) { to = target, complete(target, "replace") }},
-			"replace",
-			"close",
-		], ui.action, {
-			find: function() { find(last+1, from.value) },
-			grep: function() {
-				can.onimport.exts(can, "inner/search.js", function(sub) { meta.close()
-					sub.runAction(event, nfs.GREP, [from.value])
-				})
-			},
-			replace: function() {
-				var text = can.current.text(), line = can.onaction._getLineno(can, can.current.line)
-				can.undo.push(function() { can.onaction.selectLine(can, line), can.onaction.modifyLine(can, line, text) })
-				can.current.text(text.replace(from.value, to.value))
-				can.current.text().indexOf(from.value) == -1 && meta.find() },
-			close: function() { can.page.Remove(can, ui._target) },
-		}) 
-	},
 	"收藏": function(event, can) { can.onaction._open(can, location.protocol+"//"+location.host+"/chat/cmd/web.chat.favor") },
 	"首页": function(event, can) { can.onaction._open(can, location.protocol+"//"+location.host) },
 	"官网": function(event, can) { can.onaction._open(can, "https://shylinux.com/") },
@@ -290,7 +237,7 @@ Volcanos(chat.ONACTION, {
 		type = can.base.trimSuffix(type, ice.PT)
 
 		function update() { target._pre = pre, target._index = -1
-			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, can.ui.current.offsetLeft-1, html.MARGIN_TOP, can.ui.current.offsetHeight+4)
+			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, can.ui.current.offsetLeft-1, html.MARGIN_TOP, can.ui.current.offsetHeight-1)
 			can.runAction(can.request(event, {text: pre}, can.Option()), code.COMPLETE, [], function(msg) {
 				can.page.Appends(can, target, [{view: [PRE, html.DIV, pre]}])
 				can.onappend.table(can, msg, function(value, key, index) { return {text: [value, html.TD], onclick: function(event) {
@@ -298,6 +245,7 @@ Volcanos(chat.ONACTION, {
 					can.current.text(can.ui.current.value = left+can.ui.current.value.slice(can.ui.current.selectionEnd))
 					can.ui.current.focus(), can.ui.content.scrollLeft -= 10000, can.ui.current.setSelectionRange(left.length, left.length)
 				}} }, target)
+				can.page.style(can, target, html.MAX_HEIGHT, can.ui._content.offsetHeight-(can.current.line.offsetTop-can.ui.content.scrollTop)-can.current.line.offsetHeight)
 			})
 		}
 		function filter() {
@@ -519,6 +467,10 @@ Volcanos(chat.ONKEYMAP, {
 			ArrowUp: shy("光标上移", function(can, target) { event.key == "ArrowUp" && can.onaction.cursorUp(can, target) }),
 		},
 	}, _engine: {},
+})
+Volcanos(chat.ONEXPORT, {
+	content: function(can) { return can.page.Select(can, can.ui.content, "td.text", function(item) { return item.innerText }).join(ice.NL) },
+	text: function(can, line) { return can.core.Value(can.page.Select(can, line, "td.text")[0], "innerText") },
 })
 Volcanos(chat.ONPLUGIN, { 
 	"code.vimer.keymap": shy("按键", {}, ["mode", "key", ice.LIST, ice.BACK], function(can, msg, cmds) {

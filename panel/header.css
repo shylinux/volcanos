@@ -1,6 +1,6 @@
 fieldset.Header { font-size:1.1rem; padding:0 5px; height:31px; overflow:auto; z-index:10; }
 fieldset.Header>div.output { overflow:hidden; }
-fieldset.Header>div.output div { padding:5px; height:21px; float:left; cursor:pointer; }
+fieldset.Header>div.output div { padding:5px; height:31px; float:left; cursor:pointer; }
 fieldset.Header>div.output div:hover { background-color:#2e515f; }
 fieldset.Header>div.output div.title { float:left; }
 fieldset.Header>div.output div.state { float:right; }
@@ -8,5 +8,4 @@ fieldset.Header>div.output div.state.avatar { padding:0; height:31px; }
 fieldset.Header>div.output div.state.avatar>img { height:31px; }
 fieldset.Header>div.output div.search { margin-left:20px; float:left; }
 fieldset.Header>div.output div.search>input { margin-top:-5px; border-radius:0; }
-
 fieldset.Header>div.output river { margin-right:100px; }

@@ -1,11 +1,7 @@
 Volcanos(chat.ONSYNTAX, {
 	makefile: {
-		prefix: {
-			"#": code.COMMENT,
-		},
-		suffix: {
-			":": code.COMMENT,
-		},
+		prefix: {"#": code.COMMENT},
+		suffix: {":": code.COMMENT},
 		keyword: {
 			"ifeq": code.KEYWORD,
 			"ifneq": code.KEYWORD,
@@ -28,16 +24,8 @@ Volcanos(chat.ONSYNTAX, {
 			"BUGS": code.KEYWORD,
 		},
 	},
-	vimrc: {
-		link: "vim",
-	},
 	vim: {
-		split: {
-			operator: "{[(&.,;!|<>)]}",
-		},
-		prefix: {
-			"\"": "comment",
-		},
+		prefix: {"\"": "comment"},
 		keyword: {
 			"source": code.KEYWORD,
 			"finish": code.KEYWORD,
@@ -78,10 +66,7 @@ Volcanos(chat.ONSYNTAX, {
 			"exists": code.FUNCTION,
 			"executable": code.FUNCTION,
 		},
-	},
-	h: {
-		link: "c",
-	},
+	}, vimrc: {link: "vim"},
 	c: {
 		prefix: {
 			"//": code.COMMENT,
@@ -156,19 +141,12 @@ Volcanos(chat.ONSYNTAX, {
 			"1": code.CONSTANT,
 			"2": code.CONSTANT,
 		},
-	},
+	}, h: {link: "c"},
 	sh: {
-		split: {
-			operator: "=()|><;",
-		},
-		prefix: {
-			"#": code.COMMENT,
-		},
-		suffix: {
-			" {": code.COMMENT,
-		},
+		prefix: {"#": code.COMMENT},
+		suffix: {" {": code.COMMENT},
 		regexp: {
-			"[A-Z0-9_] ": code.CONSTANT,
+			"[A-Z0-9_]+": code.CONSTANT,
 		},
 		keyword: {
 			"local": code.KEYWORD,
@@ -223,9 +201,7 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	}, configure: {link: "sh"},
 	shy: {
-		prefix: {
-			"#": code.COMMENT,
-		},
+		prefix: {"#": code.COMMENT},
 		keyword: {
 			"source": code.KEYWORD,
 			"return": code.KEYWORD,
@@ -253,30 +229,23 @@ Volcanos(chat.ONSYNTAX, {
 			"import": code.KEYWORD,
 			"from": code.KEYWORD,
 			"return": code.KEYWORD,
-
 			"print": code.FUNCTION,
 		},
 	},
 	go: {
-		split: {
-			operator: "{([- :;!.,*])}",
-		},
+		prefix: {"//": code.COMMENT},
 		regexp: {
-			"[0-9] ": code.CONSTANT,
-			"[A-Z_0-9] ": code.CONSTANT,
-		},
-		prefix: {
-			"//": code.COMMENT,
+			"[A-Z_0-9]+": code.CONSTANT,
 		},
 		keyword: {
 			"package": code.KEYWORD,
 			"import": code.KEYWORD,
+			"const": code.KEYWORD,
 			"type": code.KEYWORD,
 			"struct": code.KEYWORD,
 			"interface": code.KEYWORD,
-			"const": code.KEYWORD,
-			"var": code.KEYWORD,
 			"func": code.KEYWORD,
+			"var": code.KEYWORD,
 
 			"if": code.KEYWORD,
 			"else": code.KEYWORD,
@@ -293,61 +262,35 @@ Volcanos(chat.ONSYNTAX, {
 			"defer": code.KEYWORD,
 			"return": code.KEYWORD,
 
-			"false": code.CONSTANT,
-			"true": code.CONSTANT,
-			"nil": code.CONSTANT,
-			"iota": code.CONSTANT,
-			"-1": code.CONSTANT,
-			"0": code.CONSTANT,
-			"1": code.CONSTANT,
-			"2": code.CONSTANT,
-			"3": code.CONSTANT,
-
 			"int": code.DATATYPE, "int8": code.DATATYPE, "int16": code.DATATYPE, "int32": code.DATATYPE, "int64": code.DATATYPE,
 			"uint": code.DATATYPE, "uint8": code.DATATYPE, "uint16": code.DATATYPE, "uint32": code.DATATYPE, "uint64": code.DATATYPE,
 			"float32": code.DATATYPE, "float64": code.DATATYPE, "complex64": code.DATATYPE, "complex128": code.DATATYPE,
 			"rune": code.DATATYPE, "string": code.DATATYPE, "byte": code.DATATYPE, "uintptr": code.DATATYPE,
 			"bool": code.DATATYPE, "error": code.DATATYPE, "chan": code.DATATYPE, "map": code.DATATYPE,
-			"Any": code.DATATYPE, "Map": code.DATATYPE, "Maps": code.DATATYPE,
-			"Message": code.DATATYPE,
 
-			"msg": code.FUNCTION, "m": code.FUNCTION,
-			"ice": code.FUNCTION, "kit": code.FUNCTION,
 			"init": code.FUNCTION, "main": code.FUNCTION, "print": code.FUNCTION, "println": code.FUNCTION, "panic": code.FUNCTION, "recover": code.FUNCTION,
 			"new": code.FUNCTION, "make": code.FUNCTION, "len": code.FUNCTION, "cap": code.FUNCTION, "copy": code.FUNCTION, "append": code.FUNCTION, "delete": code.FUNCTION, "close": code.FUNCTION,
 			"complex": code.FUNCTION, "real": code.FUNCTION, "imag": code.FUNCTION,
+
+			"iota": code.CONSTANT, "true": code.CONSTANT, "false": code.CONSTANT, "nil": code.CONSTANT,
+
+			"kit": code.PACKAGE, "ice": code.PACKAGE,
+			"Any": code.DATATYPE, "Map": code.DATATYPE, "Maps": code.DATATYPE, "Message": code.DATATYPE,
+			"m": code.OBJECT, "msg": code.OBJECT,
 		},
-	},
-	godoc: {
-		render: {},
-		link: "go",
-	},
+	}, godoc: {link: "go"},
 	mod: {
-		split: {
-			operator: "()",
-		},
-		prefix: {
-			"//": code.COMMENT,
-		},
+		prefix: {"//": code.COMMENT},
 		keyword: {
 			"go": code.KEYWORD,
 			"module": code.KEYWORD,
 			"require": code.KEYWORD,
 			"replace": code.KEYWORD,
-			"=>": code.KEYWORD,
 		},
-	},
-	sum: {
-	},
+	}, sum: {},
 	js: {
-		split: {
-			operator: "{[(.,:;!?|&<*>=+/- )]}",
-		},
-		prefix: {
-			"// ": code.COMMENT,
-		},
+		prefix: {"// ": code.COMMENT},
 		regexp: {
-			// "can.*": code.FUNCTION,
 			"[A-Z_0-9]+": code.CONSTANT,
 		},
 		keyword: {
@@ -436,16 +379,13 @@ Volcanos(chat.ONSYNTAX, {
 			"cb": code.FUNCTION,
 			"Volcanos": code.FUNCTION,
 		},
-	},
-	json: {
-	},
+	}, json: {},
 	css: {
-		split: {
-			operator: ".[]()>,{:;}",
-		},
+		split: {operator: "{[(.,:;&>)]}"},
 		regexp: {
-			"[-0-9] px": code.CONSTANT,
-			"#[^ ;] ": code.CONSTANT,
+			"[-0-9]+px": code.CONSTANT,
+			"[-0-9]+": code.CONSTANT,
+			"#[^ ;]+": code.CONSTANT,
 		},
 		prefix: {
 			"// ": code.COMMENT,
@@ -475,6 +415,7 @@ Volcanos(chat.ONSYNTAX, {
 
 			"hover": code.DATATYPE,
 			"focus": code.DATATYPE,
+			"not": code.DATATYPE,
 
 			"background-color": code.FUNCTION,
 			"font-family": code.FUNCTION,
@@ -519,6 +460,11 @@ Volcanos(chat.ONSYNTAX, {
 			"margin-right": code.FUNCTION,
 			"margin-bottom": code.FUNCTION,
 			"box-shadow": code.FUNCTION,
+			"outline": code.FUNCTION,
+			"caret-color": code.FUNCTION,
+			
+			"calc": code.FUNCTION,
+			"url": code.FUNCTION,
 
 			"0": code.CONSTANT,
 			"cyan": code.CONSTANT,
@@ -534,6 +480,15 @@ Volcanos(chat.ONSYNTAX, {
 			"cadetblue": code.CONSTANT,
 			"darkcyan": code.CONSTANT,
 			"skyblue": code.CONSTANT,
+			"lightgreen": code.CONSTANT,
+			"teal": code.CONSTANT,
+			"cornflowerblue": code.CONSTANT,
+			"whitesmoke": code.CONSTANT,
+			"lightgray": code.CONSTANT,
+			"royalblue": code.CONSTANT,
+			"lightblue": code.CONSTANT,
+			"darkblue": code.CONSTANT,
+			"aliceblue": code.CONSTANT,
 
 			"monospace": code.CONSTANT,
 			"hidden": code.CONSTANT,
@@ -553,13 +508,7 @@ Volcanos(chat.ONSYNTAX, {
 			"fixed": code.CONSTANT,
 		},
 	},
-	iml: {
-		render: {},
-	},
 	html: {
-		split: {
-			operator: "</>=!&;",
-		},
 		keyword: {
 			"DOCTYPE": code.KEYWORD,
 			"html": code.KEYWORD,
@@ -583,8 +532,69 @@ Volcanos(chat.ONSYNTAX, {
 			"ul": code.KEYWORD,
 			"ol": code.KEYWORD,
 			"li": code.KEYWORD,
+			"dl": code.KEYWORD,
+			"dt": code.KEYWORD,
+			"dd": code.KEYWORD,
+			"br": code.KEYWORD,
+			"hr": code.KEYWORD,
+			"blockquote": code.KEYWORD,
+			"q": code.KEYWORD,
+			"cite": code.KEYWORD,
+			"abbr": code.KEYWORD,
+			"address": code.KEYWORD,
+			"sub": code.KEYWORD,
+			"sup": code.KEYWORD,
+			"pre": code.KEYWORD,
+			"code": code.KEYWORD,
+			"var": code.KEYWORD,
+			"kbd": code.KEYWORD,
+			"samp": code.KEYWORD,
+			"time": code.KEYWORD,
+			"header": code.KEYWORD,
+			"nav": code.KEYWORD,
+			"main": code.KEYWORD,
+			"aside": code.KEYWORD,
+			"footer": code.KEYWORD,
+			"article": code.KEYWORD,
+			"section": code.KEYWORD,
+			"span": code.KEYWORD,
+			"div": code.KEYWORD,
+			"img": code.KEYWORD,
+			"video": code.KEYWORD,
+			"audio": code.KEYWORD,
+			"source": code.KEYWORD,
+			"muted": code.FUNCTION,
+			"autoplay": code.FUNCTION,
+			"loop": code.FUNCTION,
+			"controls": code.FUNCTION,
+			"iframe": code.KEYWORD,
+			
+			"svg": code.KEYWORD,
+			"rect": code.KEYWORD,
+			"circle": code.KEYWORD,
+			"fill": code.FUNCTION,
+			"x": code.FUNCTION,
+			"y": code.FUNCTION,
+			"r": code.FUNCTION,
+			
+			"table": code.KEYWORD,
+			"tr": code.KEYWORD,
+			"th": code.KEYWORD,
+			"td": code.KEYWORD,
+			"colgroup": code.KEYWORD,
+			"col": code.KEYWORD,
+			"thead": code.KEYWORD,
+			"tbody": code.KEYWORD,
+			"tfoot": code.KEYWORD,
+			"colspan": code.FUNCTION,
+			"rowspan": code.FUNCTION,
+			
 			"href": code.FUNCTION,
 			"rel": code.FUNCTION,
+			"src": code.FUNCTION,
+			"style": code.FUNCTION,
+			"width": code.FUNCTION,
+			"height": code.FUNCTION,
 		},
 	},
 	zml: {

@@ -1,48 +1,14 @@
 fieldset.vimer>div.output input.current {
-	background-color:#00000000; color:#00000000; font-size:1em; font-family:monospace;
-	padding:0; padding-left:12px; border:none; outline:none; margin:0; margin-top:-3px;
- 	height:22px; position:absolute;
+	background-color:#00000000; color:#00000000; font-family:monospace;
+	padding-left:12px; border:none; outline:none; margin-top:-1px; height:22px; position:absolute;
 }
 fieldset.vimer>div.output input.current.normal { caret-color:gray; }
 fieldset.vimer>div.output input.current.insert { caret-color:yellow; }
-
-fieldset.vimer>div.output div.complete {
-	height:20px; position:absolute; left:32px; margin-top:20px;
-	display:none;
-}
-fieldset.vimer>div.output div.complete.insert {
-	display:block;
-}
-fieldset.vimer>div.output div.complete div.pre {
-	font-size:1.1rem; color:#f0f8ff00; margin-left:5px; float:left;
-}
-fieldset.vimer>div.output div.complete table {
-	background-color:darkblue; max-height:400px; max-width:800px; overflow:auto; display:block; float:left;
-}
-body.white fieldset.vimer>div.output div.complete table {
-	background-color:aliceblue; max-height:400px; max-width:800px; overflow:auto; display:block; float:left;
-}
-fieldset.vimer>div.output div.complete table.content th {
-	display:none;
-}
-fieldset.vimer>div.output div.complete table.content td {
-	font-size:1.1rem;
-}
-
-body.simple fieldset.vimer>div.output div.complete div.pre {
-	font-size:1rem;
-}
-body.simple fieldset.vimer>div.output div.complete table.content td {
-	font-size:1rem;
-}
-
-body.simple fieldset.vimer>div.output input.current {
- 	margin-top:1px;
-}
+fieldset.vimer>div.output div.complete { overflow:auto; position:absolute; display:none; }
+fieldset.vimer>div.output div.complete.insert { display:block; }
+fieldset.vimer>div.output div.complete div.pre { color:#00000000; margin-left:5px; float:left; }
+fieldset.vimer>div.output div.complete table { background-color:darkblue; }
+fieldset.vimer>div.output div.complete table.content thead { display:none; }
 body.white fieldset.vimer>div.output input.current.insert { caret-color:black; }
 body.white fieldset.vimer>div.output input.current.normal { caret-color:lightgray; }
-
-div.project div.zone.create>div.list div.item { padding:2px; float:left; clear:none; }
-div.project div.zone.create>div.list div.item input { font-family:monospace; }
-body.webview div.project div.zone.create>div.list div.item { padding:2px; }
-div.project div.zone.create>div.action { display:none; }
+body.white fieldset.vimer>div.output div.complete table { background-color:aliceblue; }
