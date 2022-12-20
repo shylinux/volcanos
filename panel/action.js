@@ -5,7 +5,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can.onimport._run(can, sub, function(event, cmds, cb) {
 				return can.run(event, can.misc.concat(can, river == web.SHARE? [ctx.ACTION]: [], [river, storm, meta.id||meta.index], cmds), cb)
 			}), can.onimport._tabs(can, sub, meta), skip || next() })
-		}, function() { can.onaction.layout(can, can.misc.SearchOrConf(can, html.LAYOUT), true) })
+		}, function() { can.onmotion.delay(can, function() { can.onaction.layout(can, can.misc.SearchOrConf(can, html.LAYOUT), true) }) })
 	},
 	_share: function(can, share) { share && can.runAction({}, web.SHARE, [share], function(msg) {
 		can.Mode(web.SHARE), msg.Length() > 1? can.onlayout._init(can): can.onengine.signal(can, chat.ONACTION_CMD)

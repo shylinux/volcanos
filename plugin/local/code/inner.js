@@ -62,7 +62,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		})
 	},
 	tabview: function(can, path, file, line, cb) { var key = can.onexport.keys(can, path, file)
-		function isCommand() { return path == ctx.COMMAND || line == ctx.INDEX || line == code.XTERM }
+		function isCommand() { return path == ctx.COMMAND || line == ctx.INDEX }
 		function isDream() { return line == web.DREAM }
 		function show(skip) { if (can.isCmdMode()) { can.onimport._title(can, path+file) }
 			can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.tabview[key]
@@ -145,8 +145,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		if (msg.Option(ice.MSG_PROCESS) == "_field") {
 			msg.Table(function(item) { item.display = msg.Option(ice.MSG_DISPLAY), item.height = height-2*html.ACTION_HEIGHT
 				can.onimport.plug(can, item, function(sub) {
-					sub.onaction._output = function(_sub, _msg) { can.base.isFunc(cb) && cb(_sub, _msg) }
 					sub.onaction.close = function() { can.onmotion.hidden(can, target), can.onimport.layout(can) }
+					sub.onaction._output = function(_sub, _msg) { can.base.isFunc(cb) && cb(_sub, _msg) }
 					height && sub.ConfHeight(height-2*html.ACTION_HEIGHT), width && sub.ConfWidth(width)
 				}, target)
 			})
@@ -164,19 +164,16 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			can.onmotion.hidden(can, target)
 		}
 	},
-	toolkit: function(can, meta, cb) { meta.msg = true
+	toolkit: function(can, meta, cb) { meta._delay_init = true
 		can.onimport.plug(can, meta, function(sub) {
 			can._status.appendChild(sub._legend), sub._legend.onclick = function(event) {
 				if (can.page.SelectOne(can, can._status, ice.PT+html.SELECT) == event.target) {
-					can.page.ClassList.del(can, event.target, html.SELECT)
-					can.page.ClassList.del(can, sub._target, html.SELECT)
+					can.page.ClassList.del(can, event.target, html.SELECT), can.page.ClassList.del(can, sub._target, html.SELECT)
 				} else {
 					can.page.SelectChild(can, can._output, can.core.Keys(html.FIELDSET, "plug"), function(target) {
-						if (target == sub._target) { can.page.ClassList.neg(can, target, html.SELECT) } else {
-							can.page.ClassList.del(can, target, html.SELECT)
-						}
+						can.page.ClassList.set(can, target, html.SELECT, target == sub._target)
 					}), can.onmotion.select(can, can._status, html.LEGEND, event.target)
-					if (meta.msg == true) { meta.msg = false, sub.Update() }
+					if (meta._delay_init == true) { meta._delay_init = false, sub.Update() }
 				}
 			}, sub._legend.onmouseenter = null
 			sub.onaction.close = sub.select = function() { return sub._legend.click(), sub }
@@ -208,9 +205,7 @@ Volcanos(chat.ONFIGURE, {
 		function show(target, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) {
 			can.onimport.tree(can, msg.Table(), nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target)
 			can.Status("文件数", zone._total(total += msg.Length()))
-		}, true) }
-
-		if (path.length == 1) { return show(target, path[0]) } can.page.Remove(can, target.previousSibling)
+		}, true) } if (path.length == 1) { return show(target, path[0]) } can.page.Remove(can, target.previousSibling)
 		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(target, path) }} }), target)
 	},
 	plugin: function(can, target, zone) { var total = 0
@@ -297,8 +292,7 @@ Volcanos(chat.ONACTION, {
 			}}
 		]}]); return ui.tr
 	},
-	selectLine: function(can, line) {
-		if (!line) { return can.onexport.line(can, can.page.SelectOne(can, can.ui._content, "tr.select")) }
+	selectLine: function(can, line) { if (!line) { return can.onexport.line(can, can.page.SelectOne(can, can.ui._content, "tr.select")) }
 		can.page.Select(can, can.ui._content, "tr>td.line", function(td, index) { var tr = td.parentNode, n = parseInt(td.innerText)
 			if (!can.page.ClassList.set(can, tr, html.SELECT, tr == line || n == line)) { return }
 			line = tr, can.Status("当前行", can.onexport.position(can, can.Option(nfs.LINE, n)))

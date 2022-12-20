@@ -85,7 +85,7 @@ Volcanos(chat.ONFIGURE, {
 			can.onmotion.hidden(can, zone._target)
 		}} }), target)
 		can.sup.onexport.link = function(can) { var meta = can.Conf(), args = can.Option()
-			args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.path = path.join(ice.FS), args.topic = chat.BLACK
+			args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.topic = chat.BLACK
 			return can.misc.MergePodCmd(can, args, true)
 		}
 	},
@@ -469,8 +469,8 @@ Volcanos(chat.ONKEYMAP, {
 	}, _engine: {},
 })
 Volcanos(chat.ONEXPORT, {
-	content: function(can) { return can.page.Select(can, can.ui.content, "td.text", function(item) { return item.innerText }).join(ice.NL) },
 	text: function(can, line) { return can.core.Value(can.page.Select(can, line, "td.text")[0], "innerText") },
+	content: function(can) { return can.page.Select(can, can.ui.content, "td.text", function(item) { return item.innerText }).join(ice.NL) },
 })
 Volcanos(chat.ONPLUGIN, { 
 	"code.vimer.keymap": shy("按键", {}, ["mode", "key", ice.LIST, ice.BACK], function(can, msg, cmds) {
