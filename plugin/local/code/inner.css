@@ -62,20 +62,10 @@ body.mobile fieldset.inner.cmd>div.output div.toggle.display { background-color:
 div.project div.zone.create>div.action { display:none; }
 div.project div.zone.create>div.list div.item { padding:2px; float:left; clear:none; }
 div.project div.zone.create>div.list div.item input { font-family:monospace; }
-fieldset.word fieldset.inner>form.option input[name=path] { width:240px; }
 body.webview div.project div.zone.create>div.list div.item { padding:2px; }
 body.white.simple fieldset.plugin div.output.json div.item span.nonce { color:lightgray; }
+fieldset.word fieldset.inner>form.option input[name=path] { width:240px; }
 
 fieldset>div.output>fieldset.plug { position:absolute; bottom:0px; right:0px; }
 fieldset>div.output>fieldset.plug { display:none; }
 fieldset>div.output>fieldset.plug.select { background-color:#0e3369b3; color:white; display:block; z-index:10; }
-fieldset>div.status legend { float:right; height:30px; }
-fieldset>div.status legend.select { background-color:green; }
-fieldset>div.status legend:hover { background-color:green; }
-fieldset.inner>div.status { height:30px; overflow:auto; }
-fieldset.inner div.output fieldset.toolkit { position:absolute; bottom:0px; right:0px; }
-fieldset.inner>div.output fieldset.toolkit>div.output>fieldset { display:none; }
-fieldset.inner>div.output fieldset.toolkit>div.output>fieldset.select { background-color:#0e3369b3; color:white; display:block; z-index:10; }
-fieldset.inner>div.output fieldset.toolkit>div.output fieldset { display:none; }
-fieldset.inner>div.output fieldset.toolkit>div.output fieldset.select { background-color:#0e3369b3; color:white; display:block; z-index:10; }
-fieldset.inner div.output fieldset.toolkit>div.output { position:unset; }

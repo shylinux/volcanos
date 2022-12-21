@@ -15,7 +15,7 @@ var ice = {
 
 	DEV: "dev",
 	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
-	CAN: "can", RUN: "run", RES: "res", ERR: "err",
+	CAN: "can", MSG: "msg", RUN: "run", RES: "res", ERR: "err",
 	CAN_PLUGIN: "can.plugin",
 
 	MSG_DETAIL: "detail",
@@ -56,6 +56,9 @@ var ice = {
 	ErrNotValid: "not valid: ",
 	
 	USR_VOLCANOS: "usr/volcanos/",
+	LIB_MISC: "lib/misc.js",
+	LIB_PAGE: "lib/page.js",
+	REQUIRE: "require",
 }
 
 var ctx = {
@@ -115,7 +118,7 @@ var nfs = {
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
 	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
-	REPOS: "repos",
+	REPOS: "repos", REPLACE: "replace", FROM: "from", TO: "to",
 }
 var cli = {
 	PWD: "pwd", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
@@ -142,7 +145,7 @@ var wiki = {
 	STORY_ITEM: ".story", H2: "h2.story", H3: "h3.story",
 }
 var chat = {
-	LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", STORY: "story",
+	LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", STORY: "story", PLUG: "plug",
 	TOAST: "toast", CARTE: "carte", INPUT: "input", UPLOAD: "upload", CONTEXTS: "contexts",
 	LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile", ACTIONS: "actions",
 	TITLE: "title", TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print",
@@ -264,7 +267,10 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 	can = kit.proto(can||{}, kit.proto({_path: _can_path, _name: name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
 			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub), sub._path = name } meta.cache[name] = cache
 			cache.forEach(function(sub) { var name = sub._name; if (typeof cbs == lang.FUNCTION && cbs(can, name, sub)) { return }
-				can[name] = can[name]||{}; for (var k in sub) { can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k]) }
+				can[name] = can[name]||{}; for (var k in sub) {
+					name == "onimport" && k == "_init" && (can[name]._last_init = sub[k])
+					can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k])
+				}
 			})
 		},
 		requireModules: function(libs, cb, cbs) {

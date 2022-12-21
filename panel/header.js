@@ -50,9 +50,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
 		return can.page.Append(can, can._output, [{type: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
 			if (can.base.isString(item)) { return {view: [html.MENU, html.DIV, can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }} }
-			if (can.base.isArray(item)) { var list = can.core.List(item, function(value, index) { return can.user.trans(can, value, trans) })
-				return {view: [html.MENU, html.DIV, can.user.trans(can, list[0], trans)], onmouseenter: function(event) {
-					can.onaction.carte(event, can, list.slice(1), function(event, button, meta, index) { can.base.isFunc(cb) && cb(event, item[index+1], item) }, trans)
+			if (can.base.isArray(item)) {
+				return {view: [html.MENU, html.DIV, can.user.trans(can, item[0], trans)], onmouseenter: function(event) {
+					can.onaction.carte(event, can, item.slice(1), function(event, button, meta, index) { can.base.isFunc(cb) && cb(event, button, item) }, trans)
 				}}
 			} if (can.base.isObject(item)) { return item }
 		}) }])._target
@@ -94,7 +94,7 @@ Volcanos(chat.ONACTION, {
 	webpack: function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
 	toimage: function(event, can) { can.onmotion.clearCarte(can), can.user.toimage(can, can.user.title(), can._target.parentNode) },
 
-	carte: function(event, can, list, cb) { can.user.carte(event, can, can.onaction, list, cb) },
+	carte: function(event, can, list, cb, trans) { can.user.carte(event, can, can.onaction, list, cb, null, trans) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
 
 	usernick: function(event, can) { if (can.user.mod.isPod || can.user.isExtension || can.user.isLocalFile) { return }
