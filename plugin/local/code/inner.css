@@ -21,7 +21,7 @@ fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.object { color:cyan; }
 fieldset.inner>div.output div.find.float { position:absolute; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { background-color:#70809096; height:28px; overflow:auto; display:block; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div { background-color:teal; font-family:monospace; padding:5px 10px; float:left; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div { background-color:teal; font-family:monospace; padding:5px 15px; float:left; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div:hover { background-color:#1d3349; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.select { background-color:#1d3349; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar { padding:0; height:28px; float:right; }

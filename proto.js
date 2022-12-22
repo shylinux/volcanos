@@ -77,6 +77,7 @@ var mdb = {
 	INPUTS: "inputs", PRUNES: "prunes", EXPORT: "export", IMPORT: "import",
 	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
 	REVERT: "revert",
+	NORMAL: "normal",
 
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
 	FOREACH: "*", RANDOMS: "%",
@@ -135,7 +136,7 @@ var code = {
 	FAVOR: "favor", XTERM: "xterm", INNER: "inner", VIMER: "vimer",
 	WEBPACK: "webpack", BINPACK: "binpack", AUTOGEN: "autogen", COMPILE: "compile", PUBLISH: "publish",
 	COMMENT: "comment", KEYWORD: "keyword", PACKAGE: "package", DATATYPE: "datatype", FUNCTION: "function", CONSTANT: "constant", STRING: "string", OBJECT: "object",
-	TEMPLATE: "template", COMPLETE: "complete", NAVIGATE: "navigate",
+	TEMPLATE: "template", COMPLETE: "complete", NAVIGATE: "navigate", CURRENT: "current",
 }
 var wiki = {
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
