@@ -56,11 +56,10 @@ setTimeout(function() { Volcanos({
 		can.onappend.plugin(can, {type: chat.CONTEXTS, index: arg[0], args: can.base.Obj(arg[1])}, function(sub, meta) {
 			sub.run = function(event, cmds, cb) { msg.RunAction(event, can, cmds) || can.runActionCommand(event, meta.index, cmds, function(msg) {
 				can.onmotion.toggle(can, sub._option, true), can.onmotion.toggle(can, sub._action, true), can.onmotion.toggle(can, sub._output, true), can.onmotion.toggle(can, sub._status, true)
+				can.page.style(can, sub._output, html.MAX_HEIGHT, window.innerHeight-sub._target.offsetTop-2*html.ACTION_HEIGHT, html.MAX_WIDTH, window.innerWidth-sub._target.offsetLeft)
 				can.base.isFunc(cb) && cb(msg)
 			}) }
-			can.onmotion.move(can, sub._target, {left: msg.Option(html.LEFT), top: msg.Option(html.TOP), right: msg.Option(html.RIGHT), bottom: msg.Option(html.BOTTOM)}, function(target) {
-				can.page.style(can, sub._output, html.MAX_HEIGHT, window.innerHeight-target.offsetTop-80, html.MAX_WIDTH, window.innerWidth-target.offsetLeft-20)
-			})
+			can.onmotion.move(can, sub._target, {left: msg.Option(html.LEFT), top: msg.Option(html.TOP), right: msg.Option(html.RIGHT), bottom: msg.Option(html.BOTTOM)})
 			sub._legend.onclick = function(event) { can.onmotion.toggle(can, sub._option), can.onmotion.toggle(can, sub._action), can.onmotion.toggle(can, sub._output), can.onmotion.toggle(can, sub._status) }
 			msg.Option("selection")? can.onengine.listen(can, "onselection", function() { sub.Option(msg.Option("selection"), window.getSelection()), sub.Update() }): sub._legend.onclick()
 			sub.onaction["保存参数"] = function(event) { can.run(can.request(event, {domain: location.host, id: msg.Option(mdb.ID)}), [chat.FIELD, mdb.MODIFY, html.TOP, sub._target.offsetTop, html.LEFT, sub._target.offsetLeft, ctx.ARGS, JSON.stringify(sub.Input([], true))]) }
