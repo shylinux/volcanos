@@ -151,10 +151,17 @@ Volcanos(chat.ONACTION, {
 	"浏览器": function(event, can) { window.openurl(location.href) },
 	_open: function(can, url) { can.user.isWebview? window.openurl(url): window.open(url) },
 	_complete: function(event, can, target) { if (event == undefined) { return } target = target||can.ui.complete
-		var pre = can.ui.current.value.slice(0, can.ui.current.selectionStart), key = can.core.Split(pre, "", ice.PT).pop()||"", end = can.ui.current.value.slice(can.ui.current.selectionStart)
+		var pre = can.ui.current.value.slice(0, can.ui.current.selectionStart), key = can.core.Split(pre, "\t .[]", " ").pop()||"", end = can.ui.current.value.slice(can.ui.current.selectionStart)
 		function update() { target._pre = pre, target._end = end, target._index = -1
 			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, can.ui.current.offsetLeft-1, html.MARGIN_TOP, can.ui.current.offsetHeight-1)
 			can.runAction(can.request(event, {text: pre}, can.Option()), code.COMPLETE, [], function(msg) { can.page.Appends(can, target, [{view: ["pre", html.DIV, pre]}])
+				if (can.parse == nfs.JS) { var msg = can.request()
+					var ls = can.core.Split(can.core.Split(pre, "\t (", " ").pop(), ice.PT)
+					var list = {can: can, msg: msg, target: target, window: window}
+					can.core.ItemKeys(key == ""? list: can.core.Value(list, ls)||can.core.Value(window, ls)||window, function(k, v) {
+						v && msg.Push(mdb.NAME, k).Push(mdb.TEXT, v.toString().split(ice.NL)[0])
+					})
+				}
 				can.onappend.table(can, msg, function(value, key, index) { return {text: [value, html.TD], onclick: function(event) {
 					can.current.text(can.ui.current.value = target._pre+value+target._end), can.onaction.scrollHold(can, target._pre.length+value.length)
 				}} }, target), can.page.style(can, target, html.MAX_HEIGHT, can.ui._content.offsetHeight-(can.current.line.offsetTop-can.ui.content.scrollTop)-can.current.line.offsetHeight)
@@ -180,6 +187,7 @@ Volcanos(chat.ONACTION, {
 			case ice.TB:
 			case ice.SP:
 			case ice.PT:
+			case "[":
 			case "(":
 			case "{": update(); break
 			case "":
