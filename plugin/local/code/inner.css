@@ -19,7 +19,7 @@ fieldset.inner>div.output div.content td.text span.function { color:lightgreen; 
 fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.object { color:cyan; }
-fieldset.inner>div.output div.find.float { position:absolute; }
+fieldset.inner>div.output div.find.float { position:absolute; z-index:10; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { background-color:#70809096; height:28px; overflow:auto; display:block; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div { background-color:teal; font-family:monospace; padding:5px 15px; float:left; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div:hover { background-color:#1d3349; }

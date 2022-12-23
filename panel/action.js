@@ -219,6 +219,7 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 	}), can.base.isFunc(cb) && cb(msg) } return true
 }})
 Volcanos(chat.ONPLUGIN, {
+	_plugin: shy("默认插件", [mdb.NAME, ice.LIST, ice.BACK]),
 	plugin: shy("默认插件", [mdb.NAME, ice.LIST, ice.BACK]),
 	layout: shy("界面布局", {
 		_init: function(can) {

@@ -1,5 +1,5 @@
 Volcanos(chat.ONACTION, {
-	_init: function(can, meta, target) { meta.type == html.BUTTON && meta.action == ice.AUTO && !can.sup._delay_init && target.click() },
+	_init: function(can, meta, target) { meta.type == html.BUTTON && meta.action == ice.AUTO && can.sup._delay_init == undefined && target.click() },
 	run: function(event, can) { can.run(event) },
 	list: function(event, can) { can.sup.isSimpleMode() || can.run(event) },
 	back: function(event, can) { can.sup.onimport._back(can.sup) },

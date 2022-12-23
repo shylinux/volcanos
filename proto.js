@@ -154,7 +154,7 @@ var chat = {
 	STATE: "state", MENUS: "menus", SSO: "sso", LOCATION: "location",
 	SIMPLE: "simple", OUTPUT: "output", FLOAT: "float", FULL: "full", CMD: "cmd",
 
-	HEADER: "Header", ACTION: "Action",
+	HEADER: "Header", ACTION: "Action", FOOTER: "Footer",
 	libs: ["/lib/base.js", "/lib/core.js", "/lib/date.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
 	panel_list: [
 		{name: "Header", pos: "head"}, {name: "River",  pos: "left"}, {name: "Action", pos: "main"}, {name: "Search", pos: "auto"}, {name: "Footer", pos: "foot"},
@@ -258,7 +258,11 @@ function shy(help, meta, list, cb) { var args = arguments, i = 0; function next(
 }; var _can_name = "", _can_path = ""
 var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {
-		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, pos: html.HIDE, state: [aaa.USERNICK]}, {name: chat.ACTION, pos: html.MAIN, tool: name}]}) }
+		if (name.length > 0) { return Volcanos({panels: [
+			{name: chat.HEADER, pos: html.HIDE, state: [aaa.USERNICK]},
+			{name: chat.ACTION, pos: html.MAIN, tool: name},
+			{name: chat.FOOTER, pos: html.HIDE}
+		]}) }
 		var Config = name; name = Config.name||ice.CAN, _can_name = "", _can_path = ""
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)

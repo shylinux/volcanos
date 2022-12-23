@@ -120,7 +120,9 @@ Volcanos(chat.ONACTION, {
 	},
 	compile: function(event, can, button) { var _toast = can.user.toastProcess(can, "编译中...")
 		can.runAction(can.request(event), button, [], function(msg) { _toast.close(), can.ui.search && can.onmotion.hidden(can, can.ui.search._target)
-			if (msg.Length() > 0 || msg.Result()) { return can.onimport.exts(can, "inner/search.js", function(sub) { sub._show(msg) }) }
+			if (msg.Length() > 0 || msg.Result()) { return can.onimport.exts(can, "inner/search.js", function(sub) {
+				can.onappend._output(sub, msg, sub.Conf("display")), sub.select()
+			}) }
 			var toast = can.user.toastProcess(can, "重启中..."); can.onmotion.delay(can, function() { toast.close(), can.user.toastSuccess(can) }, 3000)
 		})
 	},
@@ -139,11 +141,11 @@ Volcanos(chat.ONACTION, {
 	"文档": function(event, can) { can.onaction._open(can, "https://developer.mozilla.org/") },
 	"百度": function(event, can) { can.onaction._open(can, "https://baidu.com") },
 	"命令": function(event, can) { can.user.input(event, can, [ctx.INDEX], function(list) { can.onimport.tabview(can, can.Option(nfs.PATH), list[0], ctx.INDEX) }) },
-	"插件": function(event, can) { can.user.input(event, can, [ctx.INDEX], function(list) { var sub = can.toolkit[list[0]]; if (sub) { sub.select(); return }
-		can.onimport.toolkit(can, {index: list[0]}, function(sub) { can.toolkit[list[0]] = sub.select() })
+	"插件": function(event, can) { can.user.input(event, can, [ctx.INDEX], function(list) { var sub = can.db.toolkit[list[0]]; if (sub) { sub.select(); return }
+		can.onimport.toolkit(can, {index: list[0]}, function(sub) { can.db.toolkit[list[0]] = sub.select() })
 	}) },
 	"扩展": function(event, can) { can.user.input(can.request(event, {action: "extension"}), can, ["url"], function(list) {
-		var sub = can.extentions[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0])
+		var sub = can.db.extentions[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0])
 	}) },
 	"录屏": function(event, can) { window.openapp("QuickTime Player") },
 	"日志": function(event, can) { window.opencmd("cd ~/contexts; tail -f var/log/bench.log") },

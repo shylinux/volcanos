@@ -106,13 +106,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				if (zone._delay_show) { zone._delay_show(zone._target), delete(zone._delay_show) }
 				can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._target)
 			}, onmouseenter: function(event) {
-				zone._menu? can.user.carteRight(event, can, zone._menu.meta, zone._menu.list||can.core.Item(zone._menu.meta), function(event, button, meta) {
+				zone._menu && can.user.carteRight(event, can, zone._menu.meta, zone._menu.list||can.core.Item(zone._menu.meta), function(event, button, meta) {
 					(meta[button]||can.onaction[button])(event, can, button)
-				}): can.user.carteRight(event, can, {
-					"refresh": function() { zone.refresh() },
-					"fold": function() { can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, false) }) },
-					"expand": function() { can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) }) },
-				}, ["refresh", "fold", "expand"])
+				})
 			}},
 			{view: html.ACTION, _init: function(target) { zone._action = target
 				can.onappend._action(can, [{input: html.TEXT, placeholder: "search", onkeyup: function(event) {

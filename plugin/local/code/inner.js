@@ -154,15 +154,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			return can.onmotion.toggle(can, target, false), can.onimport.layout(can), can.user.toastFailure(can, "nothing to display")
 		} return can.onmotion.toggle(can, target, true), can.onimport.layout(can), can.user.toastSuccess(can)
 	},
-	toolkit: function(can, meta, cb) { meta._delay_init = true
-		can.onimport.plug(can, meta, function(sub) {
+	toolkit: function(can, meta, cb) {
+		can.onimport.plug(can, meta, function(sub) { sub._delay_init = true
 			can._status.appendChild(sub._legend), sub._legend.onclick = function(event) {
 				if (can.page.SelectOne(can, can._status, ice.PT+html.SELECT) == event.target) {
 					can.page.ClassList.del(can, event.target, html.SELECT), can.onmotion.hidden(can, sub._target)
 				} else {
 					can.page.SelectChild(can, can._output, can.core.Keys(html.FIELDSET, chat.PLUG), function(target) { can.onmotion.toggle(can, target, target == sub._target) })
 					can.onmotion.select(can, can._status, html.LEGEND, event.target), can.onmotion.select(can, can._output, can.core.Keys(html.FIELDSET, chat.PLUG), sub._target)
-					if (meta._delay_init == true) { meta._delay_init = false, sub.Update() }
+					if (sub._delay_init == true) { sub._delay_init = false, can.onmotion.delay(can, function() { sub._output.innerHTML == "" && sub.Update() }) }
 				}
 			}, sub._legend.onmouseenter = null
 			sub.onexport.record = function(sub, line) { if (!line.file && !line.line) { return }
@@ -183,9 +183,18 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		var sub = can.ui.content._plugin; sub && sub.onimport.size(sub, can.ui.content.offsetHeight-2*html.ACTION_HEIGHT, can.ui.content.offsetWidth, true)
 	},
 	exts: function(can, url, cb) {
-		can.require([url], function() {}, function(can, name, sub) { sub._init(can, sub, function(sub) {
+		can.onimport.toolkit(can, {index: "can._plugin", display: (url[0] == ice.PS || url.indexOf(ice.HTTP) == 0? "": can.base.Dir(can._path))+url}, function(sub) {
+			sub.run = function(event, cmds, cb) {
+				if (cmds.length > 0 && cmds[0] == ctx.ACTION) {
+					can.run(can.request(event, can.Option()), cmds, cb||function(msg) {
+						can.onappend._output(sub, msg, sub.Conf("display"))
+					}, true)
+				} else {
+					can.onappend._output(sub, can.request(event), sub.Conf("display"))
+				}
+			}
 			can.db.extentions[url.split("?")[0]] = sub, can.base.isFunc(cb)? cb(sub): sub.select()
-		}) })
+		})
 	},
 }, [""])
 Volcanos(chat.ONFIGURE, { 
@@ -374,10 +383,11 @@ Volcanos(chat.ONACTION, {
 		}
 		var meta = can.onappend._action(can, [
 			{type: html.TEXT, name: nfs.FROM, style: {width: 200}, _init: function(target) { from = target, complete(target, nfs.FIND), can.onmotion.delay(can, function() { target.focus() }) }},
-			nfs.FIND, nfs.GREP, {type: html.TEXT, name: nfs.TO, _init: function(target) { to = target, complete(target, nfs.REPLACE) }}, nfs.REPLACE, cli.CLOSE,
+			{type: html.BUTTON, name: nfs.FIND}, {type: html.BUTTON, name: nfs.GREP}, {type: html.TEXT, name: nfs.TO, _init: function(target) { to = target, complete(target, nfs.REPLACE) }},
+			{type: html.BUTTON, name: nfs.REPLACE}, {type: html.BUTTON, name: cli.CLOSE},
 		], ui.action, {_trans: {find: "查找", grep: "搜索", replace: "替换"},
 			find: function() { find(last+1, from.value) },
-			grep: function() { can.onimport.exts(can, "inner/search.js", function(sub) { meta.close(), sub.runAction(event, nfs.GREP, [from.value]) }) },
+			grep: function() { can.onimport.exts(can, "inner/search.js", function(sub) { sub.select(), meta.close(), sub.runAction(event, nfs.GREP, [from.value, can.Option(nfs.PATH)]) }) },
 			replace: function() { var text = can.current.text(), line = can.onaction._getLineno(can, can.current.line)
 				can.db.undo.push(function() { can.onaction.selectLine(can, line), can.onaction.modifyLine(can, line, text) })
 				can.current.text(text.replace(from.value, to.value)), can.current.text().indexOf(from.value) == -1 && meta.find()

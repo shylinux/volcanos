@@ -102,7 +102,7 @@ body>div.toast div.title { color:yellow; float:left; }
 body>div.toast div.duration { color:gray; float:right; }
 body>div.toast div.content { text-align:center; color:yellow; }
 body>div.toast div.progress { border:solid 2px green; margin-left:-2px; height:10px; clear:both; }
-body>div.toast div.progress div.current { background-color:red; height:10px; }
+body>div.toast div.progress div.current { background-color:red; height:6px; }
 body>div.toast div.action { display:block; }
 body>div.toast div.action>div.item.space { height:unset; }
 body>div.carte { padding:0; }
