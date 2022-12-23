@@ -361,7 +361,7 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 try { if (typeof(window) == lang.OBJECT) { // chrome
 	Volcanos.meta.target = document.body, Volcanos.meta._height = window.innerHeight, Volcanos.meta._width = window.innerWidth
 	Volcanos.meta._load = function(url, cb) { switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
-		case nfs.CSS: var item = document.createElement(mdb.LINK); item.rel = "stylesheet", item.href = url+Volcanos.meta.version, item.onload = cb, document.head.appendChild(item); break
+		case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+Volcanos.meta.version, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
 		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url+Volcanos.meta.version, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
 	} }
 	Volcanos.meta._init = function(can) {
