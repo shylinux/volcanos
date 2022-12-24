@@ -1,4 +1,5 @@
 Volcanos(chat.ONIMPORT, {list: ["main", "filter", "grep:button", "history", "last"], _init: function(can, msg) {
+	can.misc.Debug("what")
 	can.onmotion.clear(can), can.onappend.table(can, msg)
 	can.onmotion.delay(can, function() {
 		can.page.Select(can, can._option, "input[name=filter]", function(target) {

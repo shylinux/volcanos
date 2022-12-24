@@ -37,7 +37,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	},
 	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui.tabs = can._action }
 		can.page.Append(can, can.ui.tabs, [{view: [[mdb.TIME, html.SELECT]], _init: function(target) {
-			can.core.Timer({interval: 100}, function() { can.page.Modify(can, target, can.base.Time()) })
+			can.core.Timer({interval: 100}, function() { can.page.Modify(can, target, can.user.time(can, null, "%y-%m-%d %H:%M:%S %w")) })
 			can.onappend.figure(can, {action: "date", _hold: true}, target, function(sub, value) {})
 		}}])
 		can.page.Append(can, can.ui.tabs, [{view: [aaa.AVATAR], list: [{img: can.user.info.avatar}]}])
@@ -387,7 +387,7 @@ Volcanos(chat.ONACTION, {
 			{type: html.BUTTON, name: nfs.REPLACE}, {type: html.BUTTON, name: cli.CLOSE},
 		], ui.action, {_trans: {find: "查找", grep: "搜索", replace: "替换"},
 			find: function() { find(last+1, from.value) },
-			grep: function() { can.onimport.exts(can, "inner/search.js", function(sub) { sub.select(), meta.close(), sub.runAction(event, nfs.GREP, [from.value, can.Option(nfs.PATH)]) }) },
+			grep: function() { can.onimport.exts(can, "inner/search.js", function(sub) { sub.select(), meta.close(), can.onmotion.delayLong(can, function() { sub.runAction(event, nfs.GREP, [from.value, can.Option(nfs.PATH)]) }) }) },
 			replace: function() { var text = can.current.text(), line = can.onaction._getLineno(can, can.current.line)
 				can.db.undo.push(function() { can.onaction.selectLine(can, line), can.onaction.modifyLine(can, line, text) })
 				can.current.text(text.replace(from.value, to.value)), can.current.text().indexOf(from.value) == -1 && meta.find()
