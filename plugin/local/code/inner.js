@@ -16,18 +16,23 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			case chat.FULL: // no break
 			default: can.onimport.project(can, paths), can.onimport._tabs(can)
 				can.onmotion.delay(can, function() { can.core.Next(files.slice(1), function(file, next) {
-					can.onimport.tabview(can, can.Option(nfs.PATH), file, "", next)
-				}, function() { files.length > 1 && can.onimport.tabview(can, paths[0], files[0], "")
+					can.onimport._tabview(can, can.Option(nfs.PATH), file, "", next)
+				}, function() { files.length > 1 && can.onimport._tabview(can, paths[0], files[0], "")
 					if (can.user.isWebview) { var last = can.misc.localStorage(can, "web.code.inner:currentFile"); if (!last) { return } }
-					var ls = can.core.Split(last, ice.DF); ls.length > 0 && can.onmotion.delayLong(can, function() { can.onimport.tabview(can, ls[0], ls[1], ls[2]) })
+					var ls = can.core.Split(last, ice.DF); ls.length > 0 && can.onmotion.delayLong(can, function() { can.onimport._tabview(can, ls[0], ls[1], ls[2]) })
 				}) })
 		}
 		var hash = location.hash; can.db.tabview[can.onexport.keys(can)] = msg
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE), function() {
 			if (can.isCmdMode() && hash) { var args = can.core.Split(decodeURIComponent(hash).slice(1), ice.DF)
-				can.onmotion.delayLong(can, function() { can.onimport.tabview(can, args[args.length-3]||can.Option(nfs.PATH), args[args.length-2]||can.Option(nfs.FILE), args[args.length-1]) })
+				can.onmotion.delayLong(can, function() { can.onimport._tabview(can, args[args.length-3]||can.Option(nfs.PATH), args[args.length-2]||can.Option(nfs.FILE), args[args.length-1]) })
 			}
 		}), can.base.isFunc(cb) && cb(msg) 
+	},
+	_tabview: function(can, path, file, line, cb) { var key = can.onexport.keys(can, path, file)
+		if (!can.user.isWebview) {
+			can.onimport.tabview(can, path, file, line, cb)
+		} else if (!can.db.tabview[key]) { can.onimport.tabview(can, path, file, line, cb), can.db.tabview[key] = true }
 	},
 	_keydown: function(can) {
 		can.onkeymap._build(can), can._root.onengine.listen(can, chat.ONKEYDOWN, function(event) {
