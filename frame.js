@@ -595,13 +595,16 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 
 	move: function(can, target, layout, cb) { var begin; layout = layout||{}
 		can.page.style(can, target, layout), target.onmousedown = function(event) {
-			if (can.page.tagis(event.target, html.BUTTON, html.SELECT)) { return }
-			if (!event.ctrlKey && !can.page.tagis(target, html.FIELDSET)) { return }
+			if (event.target != target && !event.ctrlKey) { return }
+			can.onkeymap.prevent(event)
+			// if (can.page.tagis(event.target, html.BUTTON, html.SELECT)) { return }
+			// if (!event.ctrlKey && !can.page.tagis(target, html.FIELDSET)) { return }
 			layout.height = target.offsetHeight, layout.width = target.offsetWidth
 			layout.left = target.offsetLeft, layout.top = target.offsetTop
 			begin = can.base.Copy({x: event.x, y: event.y}, layout)
 		}, target.onmouseup = function(event) { begin = null }, target.onmousemove = function(event) { if (!begin) { return }
-			if (can.page.tagis(event.target, html.BUTTON, html.SELECT)) { return }
+			// if (event.target != target) { return }
+			// if (can.page.tagis(event.target, html.BUTTON, html.SELECT)) { return }
 			if (event.shiftKey) {
 				layout.height = begin.height + event.y - begin.y, layout.width = begin.width + event.x - begin.x 
 				can.page.style(can, target, html.HEIGHT, layout.height, html.WIDTH, layout.width)

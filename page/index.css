@@ -2,7 +2,7 @@
 body { background-color:black; color:cyan; font-size:16px; }
 legend { background-color:cadetblue; color:white; padding:0 20px; margin-right:5px; }
 select { background-color:black; color:cyan; padding:0 10px; margin-right:5px; }
-textarea { background-color:cyan; padding:5px; width:400px; }
+textarea { background-color:cyan; padding:5px; width:400px; resize:vertical; }
 input { background-color:cyan; padding:0 5px; margin-right:5px; }
 input:not([type=button]) { width:120px; }
 input[name=text] { width:160px; }
@@ -98,7 +98,7 @@ body>div.carte div.item { background-color:#0e3369b3; padding:3px 12px; }
 body>div.carte div.space { border-bottom:solid 1px gray; }
 body>div.input div.content { overflow:auto; }
 body>div.input td { padding:5px; }
-body>div.input select { width:181px; }
+body>div.input select { width:171px; }
 body>div.input input[type=text] { width:171px; }
 body>div.input input[name=password] { padding:5px; border:0; width:171px; }
 body>div.input input[name=username] { padding:5px; border:0; width:171px; }
