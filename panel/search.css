@@ -1,5 +1,5 @@
-fieldset.Search { background-color:#041a25bd; padding:10px; position:fixed; left:0px; top:31px; display:none; }
-fieldset.Search input.word { width:-webkit-fill-available; }
-fieldset.Search>div.output table { width:-webkit-fill-available; }
+fieldset.Search { background-color:#041a25bd; padding:10px; display:none; position:fixed; left:0px; top:31px; }
+fieldset.Search input.word { width:100%; }
+fieldset.Search>div.output table { width:100%; }
 fieldset.Search>div.status { border-top:1px solid darkcyan; }
 fieldset.Search>div.status { display:block; overflow:auto; }

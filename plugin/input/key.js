@@ -13,7 +13,10 @@ Volcanos(chat.ONFIGURE, {key: {
 		name == ctx.INDEX && can.core.Item(can.onengine.plugin.meta, function(key) { msg.Push(ctx.INDEX, can.core.Keys(ice.CAN, key)) })
 		can._show(can, msg, cb, target, name)
 	}) },
-	onclick: function(event, can, meta, target, cbs) { can.onfigure.key.onfocus(event, can, meta, target, cbs) },
+	onclick: function(event, can, meta, target, cbs) {
+		can.onfigure.key.onfocus(event, can, meta, target, cbs)
+		can.onmotion.focus(can, target)
+	},
 	onfocus: function(event, can, meta, target, cbs) { cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },

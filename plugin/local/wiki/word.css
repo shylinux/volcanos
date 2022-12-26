@@ -57,10 +57,10 @@ div.story[data-type=spark][data-name=field]>div.list { float:left; overflow:auto
 div.story[data-type=spark][data-name=field]>div.menu div.list div.item { padding:0 20px; }
 
 div.story[data-type=spark][data-name=shell] label {
-	-moz-user-select:none; /*火狐*/
 	-webkit-user-select:none; /*webkit浏览器*/
-	-ms-user-select:none; /*IE10*/
 	-khtml-user-select:none; /*早期浏览器*/
+	-moz-user-select:none; /*火狐*/
+	-ms-user-select:none; /*IE10*/
 	user-select:none;
 }
 
