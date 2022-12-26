@@ -15,14 +15,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 			if (can.mode == mdb.NORMAL) { can.onkeymap.prevent(event), can.Status("按键", can.db._keylist.join("")) }
 		}, onkeyup: function(event) { can.onaction._complete(event, can) }, onfocus: function() {
 			var target = can.ui.complete; can.current.line.appendChild(target), can.onmotion.toggle(can, target, true)
-			can.page.style(can, target, html.LEFT, can.ui.current.offsetLeft-1, html.MARGIN_TOP, can.ui.current.offsetHeight-1)
 		}, onblur: function(event) { can.onmotion.hidden(can, can.ui.complete) }, onclick: function(event) { can.onkeymap._insert(event, can) }}, code.COMPLETE,
 	]); can.ui.current = ui.current, can.ui.complete = ui.complete },
 }, [""])
 Volcanos(chat.ONFIGURE, { 
 	create: function(can, target, zone, path) {
 		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(
-			["favor", "git", "首页", "官网" , "文档" , "百度"], window.webview? ["录屏", "日志", "编辑器", "浏览器"]: [],
+			["favor", "git", "首页", "官网" , "文档" , "百度"], window.webview? ["浏览器", "录屏", "日志", "编辑器"]: []
 		), target): can.onmotion.hidden(can, target.parentNode)
 		can.sup.onexport.link = function(can) { var args = can.Option(); args.topic = chat.BLACK
 			var meta = can.Conf(); args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd)
@@ -198,7 +197,7 @@ Volcanos(chat.ONACTION, {
 	},
 	_selectLine: function(can) { if (!can.current) { return }
 		can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
-			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.WIDTH, can.base.Min(td.offsetWidth, can.ui._content.offsetWidth))
+			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop, html.WIDTH, can.base.Min(td.offsetWidth, can.ui._content.offsetWidth))
 			if (event && event.type == "click") { can.onkeymap._insert(event, can, 0, (event.offsetX)/12-1) } else { can.onaction.scrollHold(can, 0) }
 		})
 	},

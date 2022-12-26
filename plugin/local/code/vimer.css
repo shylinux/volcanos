@@ -1,6 +1,6 @@
 fieldset.vimer>div.output input.current {
 	background-color:#00000000; color:#00000000; font-family:monospace;
-	padding-left:12px; border:none; outline:none; margin-top:-1px; height:22px; position:absolute;
+	padding-left:12px; border:none; outline:none; height:22px; position:absolute;
 }
 fieldset.vimer>div.output input.current.normal { caret-color:gray; }
 fieldset.vimer>div.output input.current.insert { caret-color:yellow; }
