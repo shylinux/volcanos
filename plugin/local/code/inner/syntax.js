@@ -383,16 +383,16 @@ Volcanos(chat.ONSYNTAX, {
 	css: {
 		split: {operator: "{[(.,:;&>=)]}"},
 		regexp: {
-			"[-0-9]+rem": code.CONSTANT,
 			"[-0-9]+deg": code.CONSTANT,
+			"[-0-9]+rem": code.CONSTANT,
 			"[-0-9]+px": code.CONSTANT,
 			"[-0-9]+%": code.CONSTANT,
 			"[-0-9]+": code.CONSTANT,
 			"#[^ ;]+": code.CONSTANT,
 		},
 		prefix: {
-			"// ": code.COMMENT,
 			"/* ": code.COMMENT,
+			"// ": code.COMMENT,
 		},
 		keyword: {
 			"body": code.KEYWORD,
@@ -411,9 +411,9 @@ Volcanos(chat.ONSYNTAX, {
 			"h1": code.KEYWORD,
 			"h2": code.KEYWORD,
 			"h3": code.KEYWORD,
-			"div": code.KEYWORD,
 			"img": code.KEYWORD,
 			"svg": code.KEYWORD,
+			"div": code.KEYWORD,
 			"span": code.KEYWORD,
 			"hover": code.DATATYPE,
 			"focus": code.DATATYPE,
@@ -425,7 +425,6 @@ Volcanos(chat.ONSYNTAX, {
 			"overflow": code.FUNCTION,
 			"position": code.FUNCTION,
 			"z-index": code.FUNCTION,
-			"box-sizing": code.FUNCTION,
 			"padding": code.FUNCTION,
 			"padding-left": code.FUNCTION,
 			"padding-top": code.FUNCTION,
@@ -445,6 +444,7 @@ Volcanos(chat.ONSYNTAX, {
 			"top": code.FUNCTION,
 			"right": code.FUNCTION,
 			"bottom": code.FUNCTION,
+			"box-sizing": code.FUNCTION,
 			"border-box": code.CONSTANT,
 			"relative": code.CONSTANT,
 			"absolute": code.CONSTANT,
@@ -491,12 +491,9 @@ Volcanos(chat.ONSYNTAX, {
 			"pointer": code.CONSTANT,
 		},
 		keyword0: {
-
 			"font-weight": code.FUNCTION,
-			"unset": code.FUNCTION,
 
 			"word-break": code.FUNCTION,
-			"white-space": code.FUNCTION,
 			"vertical-align": code.FUNCTION,
 			"outline": code.FUNCTION,
 			"caret-color": code.FUNCTION,
