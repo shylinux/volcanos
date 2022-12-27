@@ -59,6 +59,9 @@ setTimeout(function() { Volcanos({
 				can.page.style(can, sub._output, html.MAX_HEIGHT, window.innerHeight-sub._target.offsetTop-2*html.ACTION_HEIGHT, html.MAX_WIDTH, window.innerWidth-sub._target.offsetLeft)
 				can.base.isFunc(cb) && cb(msg)
 			}) }
+			sub._target.onclick = function() {
+				can.page.Select(can, document.body, can.page.Keys("div.carte.float"), function(target) { can.page.Remove(can, target) })
+			}
 			can.onmotion.move(can, sub._target, {left: msg.Option(html.LEFT), top: msg.Option(html.TOP), right: msg.Option(html.RIGHT), bottom: msg.Option(html.BOTTOM)})
 			sub._legend.onclick = function(event) { can.onmotion.toggle(can, sub._option), can.onmotion.toggle(can, sub._action), can.onmotion.toggle(can, sub._output), can.onmotion.toggle(can, sub._status) }
 			msg.Option("selection")? can.onengine.listen(can, "onselection", function() { sub.Option(msg.Option("selection"), window.getSelection()), sub.Update() }): sub._legend.onclick()
