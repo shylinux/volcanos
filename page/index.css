@@ -3,7 +3,7 @@ body { background-color:black; color:cyan; font-size:16px; }
 legend { background-color:cadetblue; color:white; padding:0 20px; margin-right:5px; }
 select { background-color:black; color:cyan; padding:0 10px; margin-right:5px; }
 textarea { background-color:cyan; padding:5px; width:400px; resize:vertical; }
-input { background-color:cyan; padding:0 5px; margin-right:5px; }
+input:not([type=file]) { background-color:cyan; padding:0 5px; margin-right:5px; }
 input:not([type=button]) { width:120px; }
 input[name=date] { width:150px; }
 input[name=text] { width:160px; }
@@ -125,7 +125,7 @@ ul { padding-left:40px; margin:20px 0; }
 legend:hover { background-color:skyblue; }
 select:hover { background-color:gray; color:cyan; }
 input[type=button]:hover { background-color:gray; }
-input:not([type=button]):hover { background-color:white; }
+input:not([type=button]):not([type=file]):hover { background-color:white; }
 input[name=cmd]:hover { background-color:cyan; color:black; }
 div.tabs:hover, div.tabs.select, div.item:hover, div.item.select, table.content tr:hover, table.content tr.select, h1:hover, h2:hover, h3:hover, .select { background-color:steelblue; }
 div.story[data-type=spark] span:hover { background-color:deepskyblue; box-shadow:4px 4px 20px 4px #29318e; }

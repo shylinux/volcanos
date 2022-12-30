@@ -21,7 +21,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 Volcanos(chat.ONFIGURE, { 
 	create: function(can, target, zone, path) {
 		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(
-			["favor", "git", "首页", "官网" , "文档" , "百度"], window.webview? ["浏览器", "录屏", "日志", "编辑器"]: []
+			["首页", "官网" , "文档" , "git"], window.webview? ["浏览器", "录屏", "日志", "编辑器"]: []
 		), target): can.onmotion.hidden(can, target.parentNode)
 		can.sup.onexport.link = function(can) { var args = can.Option(); args.topic = chat.BLACK
 			var meta = can.Conf(); args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd)

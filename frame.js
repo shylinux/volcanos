@@ -185,7 +185,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				item.length > 0? /* 列表 */ {type: html.SELECT, name: item[0], values: item.slice(1), onchange: function(event) { var button = item[event.target.selectedIndex+1]
 					meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]): meta[button] && can.core.CallFunc(meta[button], [event, can, button])
 				}}: /* 其它 */ (item.onclick = item.onclick||function(event) {
-					var cb = meta[item.name]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item.name}): can.run(event, [ctx.ACTION, item.name].concat(can.sup.Input()))
+					var cb = meta[item.name]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item.name}): can.run(event, [ctx.ACTION, item.name].concat((can.sup||can).Input()))
 				}, (item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans))), item), "", action)
 		}), meta
 	},
@@ -235,7 +235,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 
 	style: function(can, style, target) { can.page.ClassList.add(can, target||can._fields||can._target, style) },
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}
-		var name = (item.nick||item.name||"").split(ice.SP)[0], title = !item.help || can.user.language(can) == "en"? name: name+"("+item.help.split(ice.SP)[0]+")"
+		var name = (item.nick||item.name||"").split(ice.SP)[0], title = !item.help || item.help == name || can.user.language(can) == "en"? name: name+"("+item.help.split(ice.SP)[0]+")"
 		return can.page.Append(can, target||can._output, [{view: [can.base.join([type||"", item.name||"", item.pos||""]), html.FIELDSET], list: [
 			(name||title)&&{text: [name == "word"? item.help.split(ice.SP)[0]: title, html.LEGEND]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS,
 		]}])
