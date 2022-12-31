@@ -197,7 +197,7 @@ Volcanos(chat.ONACTION, {
 	},
 	_selectLine: function(can) { if (!can.current) { return }
 		can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
-			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop, html.WIDTH, can.base.Min(td.offsetWidth, can.ui._content.offsetWidth))
+			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-2, html.TOP, td.offsetTop-1, html.WIDTH, can.base.Min(td.offsetWidth, can.ui._content.offsetWidth))
 			if (event && event.type == "click") { can.onkeymap._insert(event, can, 0, (event.offsetX)/12-1) } else { can.onaction.scrollHold(can, 0) }
 		})
 	},
