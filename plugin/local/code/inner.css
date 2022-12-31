@@ -45,7 +45,8 @@ body.white fieldset.inner.cmd>div.output div.content tr.select td.line { backgro
 body.white fieldset.inner.cmd>div.output div.content tr.select td.text { border:solid 1px lightgray; }
 body.white fieldset.inner.cmd>div.output div.content td.line { padding-top:4px; border-right:none; }
 body.white fieldset.inner.cmd>div.output div.content td.text { padding-top:2px; border:solid 1px transparent; }
-body.white fieldset.inner.cmd>div.output div.content td.text span.string { color:royalblue; }
+body.white fieldset.inner>div.output div.content td.text span.string { color:royalblue; }
+body.white fieldset.inner>div.output div.content td.text span.package { color:brown; }
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.inner.cmd>div.output div.toggle { display:block; }
 body.mobile fieldset.inner.cmd>div.output div.toggle { background-color:lightblue; width:30px; }
