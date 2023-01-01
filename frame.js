@@ -96,7 +96,7 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) 
 	},
 	input: function(can, msg, sub, arg) { can.page.Select(can, sub._target, "input:focus", function(target) { target.value += arg[0] }) },
 	grow: function(can, msg, sub, arg) {
-		if (sub.sup && sub.sup.onimport._grow) { return sub.sup.onimport._grow(sub.sup, msg, can.page.Color(arg.join(""))) }
+		if (sub.sup && sub.sup.onimport._grow) { return sub.sup.onimport._grow(sub.sup, msg, arg.join("")) }
 		if (sub && sub.onimport._grow) { return sub.onimport._grow(sub, msg, can.page.Color(arg.join(""))) }
 	},
 	close: function(can, msg, sub) { can.user.close() },
@@ -258,11 +258,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) { if (key == mdb.VALUE) { key = line.key }
 				line = {}, can.core.List(array, function(item) { line[item.key] = item.value })
-			} function run(event, cmd, arg) { return can.run(can.request(event, line, can.Option()), [ctx.ACTION, cmd].concat(arg)) }
+			} function run(event, cmd, arg) {
+				return can.run(can.request(event, line, can.Option()), [ctx.ACTION, cmd].concat(arg))
+			}
 			return {text: [value, html.TD], onclick: function(event) { var target = event.target
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.request(event, {height: can.ConfHeight()-4-table.offsetHeight, width: can.ConfWidth()})
 					meta && meta[target.name]? can.user.input(can.request(event, {action: target.name}), can, meta[target.name], function(args) { run(event, target.name, args) }): run(event, target.name)
-				} else { can.sup.onimport.change(event, can.sup, key, event.target.innerText) || can.sup.onexport.record(can.sup, line) }
+				} else { can.sup.onimport.change(event, can.sup, key, event.target.innerText) || can.sup.onexport.record(can.sup, value, key, line) }
 			}, ondblclick: function(event) { if ([mdb.KEY, mdb.HASH, mdb.ID].indexOf(key) > -1) { return }
 				var item = can.core.List(can.Conf([ctx.FEATURE, mdb.INSERT]), function(item) { if (item.name == key) { return item } })[0]||{name: key, value: value}
 				item.run = function(event, cmds, cb) { can.run(can.request(event, line), cmds, cb, true) }
@@ -275,7 +277,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }
 		var code = can.page.Append(can, target||can._output, [{text: [can.page.Color(text), html.DIV, html.CODE]}]).code
-		can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
+		can.page.Select(can, code, html.INPUT_BUTTON, function(target) {
 			target.onclick = function(event) { can.run(can.request(event, can.Option()), [ctx.ACTION, target.name]) }
 		}); return code.scrollBy && code.scrollBy(0, 10000), code
 	},

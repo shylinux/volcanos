@@ -170,7 +170,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 					if (sub._delay_init == true) { sub._delay_init = false, can.onmotion.delay(can, function() { sub._output.innerHTML == "" && sub.Update() }) }
 				}
 			}, sub._legend.onmouseenter = null
-			sub.onexport.record = function(sub, line) { if (!line.file && !line.line) { return }
+			sub.onexport.record = function(sub, value, key, line) { if (!line.file && !line.line) { return }
 				can.onimport.tabview(can, line.path||can.Option(nfs.PATH), can.base.trimPrefix(line.file, nfs.PWD)||can.Option(nfs.FILE), parseInt(line.line))
 			}, sub.onaction.close = sub.select = function() { return sub._legend.click(), sub }
 			sub.onimport.size(sub, can.ConfHeight()/2, can.ConfWidth()-can.ui.project.offsetWidth, true), can.base.isFunc(cb) && cb(sub)
