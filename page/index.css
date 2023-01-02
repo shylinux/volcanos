@@ -62,7 +62,7 @@ fieldset.simple>div.status { display:none; }
 fieldset.simple div.toggle { display:none; }
 fieldset.float { background-color:#0e3369; color:white; padding:0; margin:0; }
 fieldset.full { background-color:#0e3369; color:white; padding:0; margin:0; overflow:auto; position:absolute; left:0; top:0; }
-fieldset.cmd>div.output { overflow:hidden; }
+fieldset.cmd>div.output { overflow:auto; }
 /* input */
 fieldset.input>legend { display:none; }
 fieldset.input.key { overflow:auto; }

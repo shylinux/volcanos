@@ -19,7 +19,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.getActionSize(function(msg) {
 			can.page.style(can, nav, html.HEIGHT, can.ConfHeight()+(can.isCmdMode()? msg.Option(html.MARGIN_Y): 0))
 			can.page.style(can, can._output, html.PADDING, 10, html.FLOAT, html.LEFT, html.CLEAR, html.NONE,
-				html.HEIGHT, can.sup._navmenu.offsetHeight-20, html.MAX_WIDTH, can.ConfWidth(can.ConfWidth()-nav.offsetWidth-21),
+				html.HEIGHT, can.sup._navmenu.offsetHeight, html.MAX_WIDTH, can.ConfWidth(can.ConfWidth()-nav.offsetWidth),
 			)
 		})
 	},
@@ -69,7 +69,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 
 			var view = can.page.Appends(can, target, [
 				{view: html.MENU, style: {height: can.ConfHeight()/2, width: 120}},
-				{view: html.LIST, style: {height: can.ConfHeight()/2, width: can.ConfWidth()-(can.user.isWindows? 181: 165)}},
+				{view: html.LIST, style: {height: can.ConfHeight()/2, width: can.ConfWidth()-(can.user.isWindows? 181: 185)}},
 			])
 			return show(list[0], list[0]._index, view.menu, view.list), first.click()
 		}

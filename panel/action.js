@@ -115,7 +115,9 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			return can.onaction.layout(can, can.misc.SearchOrConf(can, html.LAYOUT)||msg.Option(html.LAYOUT)||conf.layout, true)
 		}
 		can.run({}, [river, storm], function(msg) {
-			if (msg.Length() == 0) { return can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm})) }
+			if (msg.Length() == 0) { if (can.user.isLocalFile) { return }
+				return can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm}))
+			}
 			can.onaction.layout(can, can.misc.SearchOrConf(can, html.LAYOUT)||msg.Option(html.LAYOUT), true)
 			return can.onkeymap._init(can), can.onimport._menu(can, msg), can.onimport._init(can, msg)
 		})

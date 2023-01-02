@@ -256,7 +256,7 @@ function shy(help, meta, list, cb) { var args = arguments, i = 0; function next(
 		} else if (i < args.length && (!type || type == typeof args[i])) { return args[i++] }
 	} return cb = typeof args[args.length-1] == lang.FUNCTION? args[args.length-1]: function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.ARRAY)||[], cb
 }; var _can_name = "", _can_path = ""
-var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}}, function(name, can, libs, cb) {
+var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {
 		if (name.length > 0) { return Volcanos({panels: [
 			{name: chat.HEADER, pos: html.HIDE, state: [aaa.USERNICK]},

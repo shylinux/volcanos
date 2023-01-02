@@ -5,4 +5,5 @@ div.output.json div.item span.nonce { color:#9cbeca4f; cursor:pointer; }
 div.output.json div.item span.key { color:yellow; }
 div.output.json div.item span.string { color:magenta; }
 div.output.json div.item span.const { color:cyan; }
+body.white div.output.json div.item span.key { color:blue; }
 

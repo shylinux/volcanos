@@ -2,8 +2,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var select; can.page.Append
 		return can.onimport._river(can, item, function(target) { (index == 0 || item.hash == can._main_river) && (select = target) })
 	})), select && select.click() },
 	_main: function(can, msg) { can.river_list = {}, can.storm_list = {}, can.sublist = {}
-		can._main_river = can.misc.Search(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||can._main_river||"project"
-		can._main_storm = can.misc.Search(can, chat.STORM)||msg.Option(ice.MSG_STORM)||can._main_storm||"studio"
+		var ls = []; can.user.isExtension && (ls = (can.misc.localStorage(can, "main")||"").split(","))
+		can._main_river = can.misc.Search(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||Volcanos.meta.args.river||can._main_river||ls[0]||"project"
+		can._main_storm = can.misc.Search(can, chat.STORM)||msg.Option(ice.MSG_STORM)||Volcanos.meta.args.storm||can._main_storm||ls[1]||"studio"
 	},
 	_menu: function(can, msg) { if (can.user.mod.isPod||can.user.isMobile) { return }
 		can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.ondetail._menus), function(event, button) {
@@ -50,6 +51,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.REFRESH], _init: function(can) {
 	action: function(event, can, river, storm) { can.onmotion.select(can, can._output, html.DIV_ITEM, can.river_list[river])
 		can.onmotion.select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], can.storm_list[can.core.Keys(river, storm)]), can.onmotion.toggle(can, can.sublist[river], true)
 		can.onmotion.delay(can, function() { can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm)})) })
+		can.user.isExtension && can.misc.localStorage(can, "main", river+","+storm)
 	},
 	carte: function(event, can, list, cb) { can.user.carteRight(event, can, can.ondetail, list, cb) },
 })
