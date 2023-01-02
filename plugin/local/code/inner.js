@@ -207,8 +207,10 @@ Volcanos(chat.ONFIGURE, {
 		function show(target, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) {
 			can.onimport.tree(can, msg.Table(), nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target)
 			can.Status("目录", zone._total(total += msg.Length()))
-		}, true) } if (path.length == 1) { return show(target, path[0]) } can.page.Remove(can, target.previousSibling)
-		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target) { show(target, path) }} }), target)
+		}, true) } if (path.length == 1) { return show(target, path[0]) }
+		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target, zone) {
+			can.onmotion.hidden(can, zone._action), can.onmotion.hidden(can, zone._target)
+		}, _delay_show: function(target) { show(target, path) } }}), target), can.page.Remove(can, target.previousSibling)
 	},
 	plugin: function(can, target, zone) { var total = 0
 		can.onimport.tree(can, can.core.Item(can.onengine.plugin.meta, function(key) { return total++, {index: key} }), ctx.INDEX, ice.PT, function(event, item) {
