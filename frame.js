@@ -177,14 +177,17 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		can.core.Next(([{type: html.BUTTON, name: cli.CLOSE}]).concat(can.base.getValid(can.core.Value(can, [chat.ONIMPORT, mdb.LIST]), can.base.Obj(meta.inputs, []))||[]), add)
 	},
 	_action: function(can, list, action, meta) { meta = meta||can.onaction||{}, action = action||can._action, can.onmotion.clear(can, action)
+		function what(msg) {
+			if (can.core.CallFunc([can, chat.ONIMPORT, ice.MSG_PROCESS], {can: can, msg: msg})) { return }
+		}
 		return can.core.List(can.page.inputs(can, can.base.getValid(can.base.Obj(list), can.core.Value(can, [chat.ONACTION, mdb.LIST]), meta != can.onaction? can.core.Item(meta): [])||[]), function(item) {
 			can.base.isUndefined(item) || can.onappend.input(can, item == ""? /* 空白 */ {type: html.SPACE}:
 				can.base.isString(item)? /* 按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
-					var cb = meta[item]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()))
+					var cb = meta[item]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item}): can.run(event, [ctx.ACTION, item].concat(can.sup.Input()), what)
 				}, onkeydown: function(event) { if (event.key == lang.ENTER) { target.click() }}}:
 				item.length > 0? /* 列表 */ {type: html.SELECT, name: item[0], values: item.slice(1), onchange: function(event) { var button = item[event.target.selectedIndex+1]
 					meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]): meta[button] && can.core.CallFunc(meta[button], [event, can, button])
-				}}: /* 其它 */ (item.onclick = item.onclick||function(event) {
+				}}: /* 其它 */ (item.onclick = item.onclick||function(event) { if (item.type != html.BUTTON) { return }
 					var cb = meta[item.name]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: item.name}): can.run(event, [ctx.ACTION, item.name].concat((can.sup||can).Input()))
 				}, (item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans))), item), "", action)
 		}), meta
@@ -206,7 +209,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
 		}, [display, chat.PLUGIN_TABLE_JS], function(sub) { sub.Conf(can.Conf())
 			sub.run = function(event, cmds, cb, silent) {
-				can.request(event).RunAction(event, sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
+				can.request(event).RunAction(event, sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb||function(msg) {
+				}, silent)
 			}, can._outputs && can._outputs.push(sub), sub.sup = can
 
 			sub._index = can._index, sub._msg = msg, sub.Conf(sub._args = can.base.ParseURL(display))
@@ -497,7 +501,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		},
 		auto: function(can, target) { var that = this; target = target||can._output
 			can.page.Select(can, target, wiki.STORY_ITEM, function(item) { var meta = item.dataset; can.page.style(can, item, can.base.Obj(meta.style))
-				can.core.CallFunc(that._hash[meta.type]||that._hash[target.tagName], [can, meta, target])
+				can.core.CallFunc(that._hash[meta.type]||that._hash[target.tagName], [can, meta, item])
 			})
 			can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
 				if (target.value == target.name) { target.value = can.user.trans(can, target.name) }
