@@ -209,8 +209,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
 		}, [display, chat.PLUGIN_TABLE_JS], function(sub) { sub.Conf(can.Conf())
 			sub.run = function(event, cmds, cb, silent) {
-				can.request(event).RunAction(event, sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb||function(msg) {
-				}, silent)
+				can.request(event).RunAction(event, sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
 			}, can._outputs && can._outputs.push(sub), sub.sup = can
 
 			sub._index = can._index, sub._msg = msg, sub.Conf(sub._args = can.base.ParseURL(display))

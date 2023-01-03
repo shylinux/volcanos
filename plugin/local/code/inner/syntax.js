@@ -77,10 +77,10 @@ Volcanos(chat.ONSYNTAX, {
 		},
 		regexp: {
 			"^u_\\w $": code.DATATYPE,
-			"^\\w _t$": code.DATATYPE,
-			"^\\w _pt$": code.DATATYPE,
-			"^[-]*\\d $": code.CONSTANT,
-			"^[A-Z0-9_] $": code.CONSTANT,
+			"^\\w+_t$": code.DATATYPE,
+			"^\\w+_pt$": code.DATATYPE,
+			"^[-]*\\d+$": code.CONSTANT,
+			"^[A-Z0-9_]+$": code.CONSTANT,
 		},
 		keyword: {
 			"#include": code.KEYWORD,

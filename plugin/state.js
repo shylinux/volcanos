@@ -70,7 +70,7 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 	},
 	_grow: function(can, msg, _arg) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
 		if (sub && sub.onimport && sub.onimport.grow) { return sub.onimport.grow(sub, msg, _arg), true }
-		
+		_arg = can.page.Color(_arg)
 		if (can.page.Select(can, can._output, html.DIV_CODE, function(div) {
 			return can.page.style(can, div, html.MAX_HEIGHT, 400), can.page.Append(can, div, [{text: _arg}]), div.scrollBy(0, 10000), true
 		}).length == 0) { can.onappend.board(can, _arg) } return true
