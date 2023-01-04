@@ -143,6 +143,7 @@ div.action, div.output, div.status, div.project, div.display, div.profile, div.c
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, div.status>div.item { float:left; }
 div.status>legend { margin-left:2px; margin-right:0; float:right; clear:none; }
 fieldset.auto, fieldset.full, fieldset.float, body>div.float { position:fixed; z-index:10; }
+div.code { position:sticky; left:0; }
 /* white */
 body.black a { color:yellow; }
 body.black { overflow:hidden; }

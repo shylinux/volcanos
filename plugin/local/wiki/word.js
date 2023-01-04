@@ -102,7 +102,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	chart: function(can, meta, target) {
 		can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth(), html.OVERFLOW, ice.AUTO)
 		if (!meta.fg && !meta.bg) { target.className.baseVal = "story auto" }
-		target.onclick = function(event) { can.runActionCommand(can.request(event, meta), meta.index, [nfs.FIND, event.target.innerHTML]) }
+		target.onclick = function(event) { meta.index && can.runActionCommand(can.request(event, meta), meta.index, [nfs.FIND, event.target.innerHTML]) }
 		target.oncontextmenu = function(event) {
 			var ui = can.user.carte(event, can, kit.Dict(mdb.EXPORT, function(event, can, button) {
 				can.user.toimage(can, "hi", target)
