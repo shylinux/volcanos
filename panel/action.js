@@ -100,9 +100,16 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	),
 	onmain: function(can) { can.onimport._share(can, can.misc.Search(can, web.SHARE)) },
 	onlogin: function(can) { if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return }
-		can._names = location.pathname, can.Conf(chat.TOOL)? can.core.Next(can.Conf(chat.TOOL), function(item, next) {
-			can.onimport._cmd(can, item, next)
-		}): can.runAction(can.request(), ctx.COMMAND, [], function(msg) { can.core.Next(msg.Table(), function(item, next) {
+		// can._names = location.pathname, can.Conf(chat.TOOL)? can.core.Next(can.Conf(chat.TOOL), function(item, next) {
+		// 	can.onimport._cmd(can, item, next)
+		// }): can.runAction(can.request(), ctx.COMMAND, [], function(msg) { can.core.Next(msg.Table(), function(item, next) {
+			
+		can.onengine.signal(can, chat.ONACTION_CMD)
+		can._names = location.pathname, can.Conf(chat.TOOL)? can.onappend.layout(can, can._output, "flow", can.core.List(can.Conf(chat.TOOL), function(item) {
+			item.type = "plugin"
+			item.opts = can.misc.Search(can)
+			item.mode = chat.CMD; return item
+		})).layout(window.innerWidth, window.innerHeight): can.runAction(can.request(), ctx.COMMAND, [], function(msg) { can.core.Next(msg.Table(), function(item, next) {
 			can.onimport._cmd(can, item, next)
 		}) })
 	},
@@ -123,7 +130,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		})
 	},
 	onaction_cmd: function(can, msg) { can.Conf(html.MARGIN_Y, 2*html.ACTION_HEIGHT), can.Conf(html.MARGIN_X, 0)
-		can.page.style(can, can._target, html.HEIGHT, can.ConfHeight(can.page.height()-can.Conf(html.MARGIN_Y)), html.WIDTH, can.ConfWidth(can.page.width()))
+		can.page.style(can, can._target, html.HEIGHT, can.ConfHeight(can.page.height()), html.WIDTH, can.ConfWidth(can.page.width()))
+		can.ConfHeight(can.page.height()-can.Conf(html.MARGIN_Y))
 		can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.page.ClassList.add(can, can._root._target, chat.SIMPLE) 
 	},
 	onsearch: function(can, msg, arg) { var fields = msg.Option(ice.MSG_FIELDS).split(ice.FS)

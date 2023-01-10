@@ -12,7 +12,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		switch (can.Mode()) {
 			case chat.SIMPLE: can.onmotion.hidden(can, can.ui.project); break
 			case chat.FLOAT: can.onmotion.hidden(can, can.ui.project); break
-			case chat.CMD: can.onmotion.hidden(can, can._status), can.onimport._keydown(can) // no break
+			case chat.CMD: can.page.style(can, document.body, "overflow", "hidden")
+				can.onmotion.hidden(can, can._status), can.onimport._keydown(can) // no break
 			case chat.FULL: // no break
 			default: can.onimport.project(can, paths), can.onimport._tabs(can)
 				can.onmotion.delay(can, function() { can.core.Next(files.slice(1), function(file, next) {
@@ -94,7 +95,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				}), can.ui.current && can.onmotion.toggle(can, can.ui.current, !isCommand() && !isDream())
 				var ls = can.file.split(ice.PS); if (ls.length > 4) { ls = [ls.slice(0, 2).join(ice.PS)+"/.../"+ls.slice(-2).join(ice.PS)] }
 				can.Status(kit.Dict("文件", ls.join(ice.PS), "类型", can.parse)), can.onimport.layout(can)
-				if (!skip) { can.onaction.selectLine(can, can.Option(nfs.LINE)), can.onaction.scrollIntoView(can) } can.base.isFunc(cb) && cb(), cb = null
+				// if (!skip) { can.onaction.selectLine(can, can.Option(nfs.LINE)), can.onaction.scrollIntoView(can) } can.base.isFunc(cb) && cb(), cb = null
+				can.onaction.selectLine(can, can.Option(nfs.LINE)), can.onaction.scrollIntoView(can)
+				can.base.isFunc(cb) && cb(), cb = null
 			})
 		}
 		function load(msg) { var skip = false; can.db.tabview[key] = msg
@@ -180,11 +183,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		if (can.isSimpleMode()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
 		if (can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
 		if (can.isFloatMode()) { can.onmotion.hidden(can, can.ui.profile) }
-		var width = can.ConfWidth()+(can.user.isMobile && can.isCmdMode() && can.user.isLandscape()? 16: 0)-(can.user.isWindows && !can.isCmdMode()? 20: 0)
+		var width = can.ConfWidth()+(can.user.isWindows && !can.isCmdMode()? 20: 0)
 		var height = can.user.isMobile && can.isFloatMode()? can.page.height()-2*html.ACTION_HEIGHT: can.base.Min(can.ConfHeight(), 320)-1
 		can.user.isMobile && can.isCmdMode() && can.page.style(can, can._output, html.MAX_HEIGHT, height)
 		can.ui.size = {profile: can.db.profile_size[can.onexport.keys(can)]||0.5, display: can.db.display_size[can.onexport.keys(can)]||3*html.ACTION_HEIGHT}
-		can.ui.layout(width, height)
+		can.ui.layout(width-2, height)
 		var sub = can.ui.content._plugin; sub && sub.onimport.size(sub, can.ui.content.offsetHeight-2*html.ACTION_HEIGHT, can.ui.content.offsetWidth, true)
 	},
 	exts: function(can, url, cb) {

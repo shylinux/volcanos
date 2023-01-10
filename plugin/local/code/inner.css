@@ -5,14 +5,17 @@ fieldset.inner>div.output>div.project { width:230px; }
 fieldset.inner>div.output>div.layout.flow { width:min-content; }
 fieldset.inner>div.output>div.layout.flow>div.tabs { display:none; }
 fieldset.inner>div.output>div.layout.flow>div.path { display:none; }
-fieldset.inner>div.output div.content { color:white; font-size:16px; font-family:monospace; position:relative; }
+fieldset.inner>div.output input { font-size:14px; }
+fieldset.inner>div.output div.zone { font-size:14px; line-height:20px; }
+fieldset.inner>div.output div.zone input { outline:none; }
+fieldset.inner>div.output div.content { color:white; font-size:14px; font-family:monospace; position:relative; }
 fieldset.inner>div.output div.content>tr:hover { background-color:#4682b46b; }
 fieldset.inner>div.output div.content>tr.select { background-color:#4682b46b; }
 fieldset.inner>div.output div.content>tr.select td.line { background-color:#6495ed63; border:solid 1px red; border-right:solid 2px red; }
 fieldset.inner>div.output div.content td.line { position:sticky; left:0; text-align:right; padding:0 6px; border-right:solid 2px red; }
-fieldset.inner>div.output div.content td.text { white-space:pre; padding-left:10px; cursor:text; }
-fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
-fieldset.inner>div.output div.content td.text span.keyword { color:yellow; font-weight:bold; }
+fieldset.inner>div.output div.content td.text { line-height:20px; white-space:pre; padding-left:10px; cursor:text; }
+fieldset.inner>div.output div.content td.text span.comment { background-color:#0000; color:green; }
+fieldset.inner>div.output div.content td.text span.keyword { color:yellow; }
 fieldset.inner>div.output div.content td.text span.package { color:lightgreen; }
 fieldset.inner>div.output div.content td.text span.datatype { color:cyan; }
 fieldset.inner>div.output div.content td.text span.function { color:lightgreen; }
@@ -20,19 +23,29 @@ fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.object { color:cyan; }
 fieldset.inner>div.output div.find.float { position:absolute; z-index:10; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { background-color:#70809096; height:28px; overflow:auto; display:block; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div { background-color:teal; font-family:monospace; padding:5px 15px; float:left; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div:hover { background-color:#1d3349; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.select { background-color:#1d3349; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar { padding:0; height:28px; float:right; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar>img { height:28px; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { height:38px; overflow:auto; display:block; }
+// fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { background-color:#70809096; height:38px; overflow:auto; display:block; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div { font-family:monospace; padding:10px 30px; height:38px; float:left; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar { padding:0; height:38px; float:right; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar>img { height:38px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.time { float:right; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.path { background-color:#1d3349; font-family:monospace; padding:5px 10px; display:block; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.path { font-family:monospace; padding:5px 10px; display:block; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.item { padding:3px 12px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.item:hover { background-color:cornflowerblue; cursor:pointer; }
+body.black fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
+// body.white fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div { padding:10px 30px; }
+body.white fieldset.inner>div.output div.project div.zone>div.list>div.zone>div.name { background-color:#e8e9f3; }
+body.white fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { height:38px; }
+body.white fieldset.inner>div.output div.zone { color:#6c6c6c; }
+body.white fieldset.inner>div.output div.zone.dream { color:black; }
+body.white fieldset.inner>div.output input[type=button] { background-color:#1f87d5;; }
+body.white fieldset.inner>div.output div.content td.text { line-height:14px; }
+body.white fieldset.inner>div.output div.content td.text span.constant { color:#876d2e; }
+body.white fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { background-color:#f5f5f5; }
+body.white fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div { background-color:#eeefee; }
 body.white fieldset.inner:not(.float):not(.full)>div.output div.content { color:black; }
 body.white fieldset.inner:not(.float):not(.full)>div.output div.content td.text span.keyword { color:blue; }
-body.white fieldset.inner:not(.float):not(.full)>div.output div.content td.text span.datatype { color:green; }
+body.white fieldset.inner:not(.float):not(.full)>div.output div.content td.text span.datatype { color:#02168e; }
 body.white fieldset.inner:not(.float):not(.full)>div.output div.content td.text span.function { color:green; }
 body.white fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div:hover { background-color:white; }
 body.white fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.select { background-color:white; }
@@ -43,8 +56,8 @@ body.white fieldset.inner.cmd>div.output div.content { background-color:white; }
 body.white fieldset.inner.cmd>div.output div.content tr.select { background-color:white; }
 body.white fieldset.inner.cmd>div.output div.content tr.select td.line { background-color:steelblue; color:white; border:none; }
 body.white fieldset.inner.cmd>div.output div.content tr.select td.text { border:solid 1px lightgray; }
-body.white fieldset.inner.cmd>div.output div.content td.line { padding-top:4px; border-right:none; }
-body.white fieldset.inner.cmd>div.output div.content td.text { padding-top:2px; border:solid 1px transparent; }
+body.white fieldset.inner.cmd>div.output div.content td.line { background:white; padding-top:4px; border-right:none; }
+body.white fieldset.inner.cmd>div.output div.content td.text { border:solid 1px transparent; }
 body.white fieldset.inner>div.output div.content td.text span.string { color:royalblue; }
 body.white fieldset.inner>div.output div.content td.text span.package { color:brown; }
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
@@ -62,11 +75,47 @@ body.mobile fieldset.inner.cmd>div.output div.toggle.display { background-color:
 }
 div.project div.zone.create>div.action { display:none; }
 div.project div.zone.create>div.list div.item { padding:2px; float:left; clear:none; }
-div.project div.zone.create>div.list div.item input { font-family:monospace; }
+div.project div.zone.create>div.list div.item input { font-family:monospace; letter-spacing:2px; }
 body.webview div.project div.zone.create>div.list div.item { padding:2px; }
 body.white.simple fieldset.plugin div.output.json div.item span.nonce { color:lightgray; }
 fieldset.word fieldset.inner>form.option input[name=path] { width:240px; }
 
+fieldset.Action fieldset.plugin.cmd { border:none; }
+
 fieldset>div.output>fieldset.plug { position:absolute; bottom:0px; right:0px; }
+fieldset.cmd>div.output>fieldset.plug { position:fixed; bottom:0px; right:0px; }
 fieldset>div.output>fieldset.plug { display:none; }
-fieldset>div.output>fieldset.plug.select { background-color:#0e3369b3; color:white; display:block; z-index:10; }
+fieldset>div.output>fieldset.plug.select { background-color:#060709; color:white; display:block; z-index:10; }
+
+fieldset.inner div.output div.complete>div {
+    white-space: pre;
+	float:left;
+}
+fieldset.inner div.project div.zone>div.action>div.item input[type=text] { margin-right:-10px; }
+body.dark fieldset.inner div.project div.zone>div.action>div.item input[type=text] { background-color:#444444; color:white; outline:none; margin-right:-10px; }
+body.dark fieldset.inner div.project div.zone>div.action>div.item input[type=text]:hover { background-color:#444444; color:white; outline:none; }
+body.dark fieldset.inner>div.output div.project div.zone>div.list>div.zone>div.name { background-color:#3f3f46; }
+body.dark fieldset.inner>div.output div.zone { background-color:#2a2a2a; }
+body.dark fieldset.inner>div.output input { background-color:#444444; color:white; font-family:monospace; outline:none; }
+body.dark fieldset.inner>div.output div.complete div.content { background-color:#2a2a2a; }
+body.dark fieldset.inner>div.output div.complete table { background-color:#2a2a2a; }
+body.dark fieldset.inner>div.output input[type=button] { background-color:#1d6fa8; }
+body.dark fieldset.inner>div.output input:hover { background-color:#444444; color:white; outline:none; }
+body.dark fieldset.inner>div.output * { font-size:14px; line-height:20px; color:#d2d2d2; }
+body.dark fieldset.inner>div.output legend { font-size:1rem; line-height:2rem; color:#d2d2d2; }
+body.dark fieldset.inner>div.output>div.layout.flow>div.tabs { height:40px; }
+body.dark fieldset.inner>div.output>div.layout.flow>div.tabs div { padding:10px 30px; }
+body.dark fieldset.inner>div.output>div.layout.flow>div.tabs div.avatar { height:40px; }
+body.dark fieldset.inner>div.output div.content tr.select td.line { border:solid 0px #494949; }
+body.dark fieldset.inner>div.output div.content td.line { background-color:#212121; border-right:solid 0px #494949; }
+body.dark fieldset.inner>div.output div.content td.text span.keyword { color:#5e99c9; font-weight:normal; }
+body.dark fieldset.inner>div.output div.content td.text span.constant { color:#bed3af; }
+body.dark fieldset.inner>div.output div.content td.text span.string { color:#d19b81; }
+body.dark fieldset.inner>div.output div.content td.text span.comment { background-color:#0000; color:green; }
+body.dark fieldset.inner>div.output div.content td.text span.datatype { color:#d2d2d2; }
+
+body.dark div.code { border:solid 1px cadetblue }
+body.dark div.float { background-color:#2a2a2a; }
+body.dark div.float input { background-color:#444444; color:white; }
+body.dark div.float input:hover { background-color:#444444; }
+body.dark div.float input:focus { outline:none; border:solid 1px #64afeb; }

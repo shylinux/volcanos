@@ -21,7 +21,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			}}])
 		})
 	},
-	_task: function(can, msg, list, time) { return {type: html.TD, className: time == can.base.Time().slice(0, time.length)? "today": "",
+	_task: function(can, msg, list, time) { return {type: html.TD, className: time == can.base.Time().slice(0, time.length)? html.SELECT: "",
 		ondblclick: function(event) { can.onaction.insertTask(event, can, time+can.base.Time().slice(time.length)) },
 		ondrop: function(event) { can.onkeymap.prevent(event), can.drop(event, event.target, time) },
 		ondragover: function(event) { can.onkeymap.prevent(event), can.page.Select(can, can.ui.content, html.TD, function(td) { can.page.ClassList.set(can, td, "over", td == event.target) }) },

@@ -1,4 +1,4 @@
-fieldset.Action { background-color:rgba(114, 153, 162, 0.54); min-width:160px; }
+fieldset.Action { min-width:160px; }
 fieldset.Action>div.action { background-color:#4682b46b; width:100%; display:none; }
 fieldset.Action>div.action div { font-size:1.1rem; cursor:pointer; padding:5px 20px; height:31px; float:left; }
 fieldset.Action>div.action div.select { background-color:#6495ed63; }
@@ -45,7 +45,7 @@ fieldset.Action>div.project.toggle {
 	background-color:cornsilk; opacity:0.4; color:teal; font-size:36px; padding-top:50px; height:150px; width:20px; position:fixed; top:30%;
 	border-top-right-radius:20px; border-bottom-right-radius:20px;
 }
-fieldset.Action>div.output>fieldset.plugin>legend { box-shadow:4px 4px 20px 4px #626bd0; }
+// fieldset.Action>div.output>fieldset.plugin>legend { box-shadow:4px 4px 20px 4px #626bd0; }
 fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full)>legend { float:none; }
 fieldset.Action.cmd>div.output>fieldset.plugin { padding:0; margin:0; }
 fieldset.Action.cmd>div.output>fieldset.plugin>legend { padding:0 10px; float:left; }

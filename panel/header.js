@@ -123,7 +123,7 @@ Volcanos(chat.ONPLUGIN, {
 	}),
 	topic: shy("界面主题", {
 		_init: function(can) { can.Option(chat.TOPIC, can.getHeader(chat.TOPIC)) },
-	}, ["topic:select=white,black", ice.RUN], function(can, msg, arg) {
+	}, ["topic:select=black,white,light,dark", ice.RUN], function(can, msg, arg) {
 		msg.Echo(can.onimport.topic(can, arg[0]))
 	}),
 	location: shy("请求地址", {

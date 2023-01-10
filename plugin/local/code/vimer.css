@@ -1,5 +1,5 @@
 fieldset.vimer>div.output input.current {
-	background-color:#00000000; color:#00000000; font-family:monospace;
+	background-color:#0000; color:#0000; font-family:monospace;
 	padding-left:12px; border:none; outline:none; height:22px; position:absolute;
 }
 fieldset.vimer>div.output input.current.normal { caret-color:gray; }
@@ -9,6 +9,12 @@ fieldset.vimer>div.output div.complete.insert { display:block; }
 fieldset.vimer>div.output div.complete div.pre { color:#00000000; margin-left:5px; float:left; }
 fieldset.vimer>div.output div.complete table { background-color:darkblue; }
 fieldset.vimer>div.output div.complete table.content thead { display:none; }
+
 body.white fieldset.vimer>div.output input.current.insert { caret-color:black; }
 body.white fieldset.vimer>div.output input.current.normal { caret-color:lightgray; }
 body.white fieldset.vimer>div.output div.complete table { background-color:aliceblue; }
+body.white fieldset.vimer>div.output input.current { background-color:#0000; color:#0000; margin-left:0px; margin-top:4px; height:16px; }
+body.white fieldset.vimer>div.output input.current { background-color:#0000; color:#0000; }
+body.white fieldset.vimer>div.output input.current:hover { background-color:#0000; color:#0000; }
+body.dark fieldset.vimer>div.output input.current { background-color:#0000; color:#0000; margin-left:-1px; margin-top:2px; height:16px; }
+body.dark fieldset.vimer>div.output input.current:hover { background-color:#0000; color:#0000; }

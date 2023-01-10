@@ -1,0 +1,110 @@
+fieldset.repos div.output>* {
+	margin:auto;
+}
+fieldset.repos div.output table {
+	border:solid 1px #e2e2e2;
+	border-radius:5px;
+	color:#4183c4;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+fieldset.repos div.output div.branch {
+	float:left;
+	margin-left:100px;
+	margin-top: 20px;
+}
+fieldset.repos div.output div.branch span {
+	border:solid 1px #dddddd;
+	padding:10px;
+}
+fieldset.repos div.output div.url span.branch {
+	float:left;
+}
+fieldset.repos div.output div.url {
+	margin-top:10px;
+	margin-bottom:60px;
+}
+fieldset.repos div.output div.url span {
+	border:solid 1px #dddddd;
+	height:40px;
+	padding:10px;
+	float:right;
+}
+fieldset.repos div.output div.url span:first-child {
+	border:solid 1px blue;
+}
+fieldset.repos div.output table th {
+	clear:both;
+	background-color:#f9fafb;
+	height:36px;
+}
+fieldset.repos div.output table td {
+	border-bottom:solid 1px #e2e2e2;
+	height:36px;
+}
+fieldset.repos div.output table td:first-child:before {
+	content: "😀";
+}
+
+fieldset.repos div.output div.code {
+	border:solid 1px #e2e2e2;
+	background-color:white;
+	color:black;
+}
+fieldset.repos div.output>div.info {
+	width:100%;
+	height:200px;
+	background-color:#414F5C;
+}
+fieldset.repos div.output>div.info>span {
+	display:block;
+}
+fieldset.repos div.output>div.info>span:first-child {
+	padding:20px;
+	color:white;
+	font-size:20px;
+}
+fieldset.repos div.output>div.info {
+	position:relative;
+}
+fieldset.repos div.output>div.info div.button:first-child {
+}
+fieldset.repos div.output>div.info div.button {
+	left:30px;
+	position:absolute;
+	bottom:0px;
+	display:flex;
+	justify-content: center;
+	height:40px;
+}
+fieldset.repos div.output>div.info div.button span {
+	    border-top-left-radius: 5px;
+	    border-top-right-radius: 5px;
+	float:left;
+	flex:1;
+	text-align:center;
+	display:block;
+	width:120px;
+	margin:auto;
+	padding:10px;
+	height:40px;
+	color:white;
+	
+}
+fieldset.repos div.output>div.info div.button span:first-child {
+	background-color:white;
+	color:#2596e6;
+}
+fieldset.repos div.output>div.commit {
+	margin-left:100px;
+	display:flex;
+	height:40px;
+	border:solid 1px #e2e2e2;
+	justify-content: center;
+	border-top:none;
+}
+fieldset.repos div.output>div.commit>span {
+	flex:1;
+	text-align:center;
+	margin:auto;
+}

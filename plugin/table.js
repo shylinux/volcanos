@@ -119,7 +119,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				}, onclick: function(event) {
 					can.onmotion.focus(can, event.target)
 				}, _init: function(target) { zone._search = target
-					can.onmotion.delay(can, function() { can.page.styleWidth(can, target, can.core.Value(target.parentNode.parentNode, "parentNode.offsetWidth")-32) })
+					can.onmotion.delay(can, function() { can.page.styleWidth(can, target, can.core.Value(target.parentNode.parentNode, "parentNode.offsetWidth")-10) })
 				}}], target, {})
 			}},
 			{view: html.LIST, _init: function(target) { can.ui[zone.name] = zone
