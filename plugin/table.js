@@ -106,9 +106,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				if (zone._delay_show) { zone._delay_show(zone._target), delete(zone._delay_show) }
 				can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._target)
 			}, onmouseenter: function(event) {
-				zone._menu && can.user.carteRight(event, can, zone._menu.meta, zone._menu.list||can.core.Item(zone._menu.meta), function(event, button, meta) {
+				zone._menu? can.user.carteRight(event, can, zone._menu.meta, zone._menu.list||can.core.Item(zone._menu.meta), function(event, button, meta) {
 					(meta[button]||can.onaction[button])(event, can, button)
-				})
+				}): can.page.Select(can, document.body, can.page.Keys("div.carte.float"), function(target) { can.page.Remove(can, target) })
 			}},
 			{view: html.ACTION, _init: function(target) { zone._action = target
 				can.onappend._action(can, [{input: html.TEXT, placeholder: "search", onkeyup: function(event) {
@@ -132,11 +132,16 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 
 	tabs: function(can, list, cb, cbs, action, each) { action = action||can._action
 		return can.page.Append(can, action, can.core.List(list, function(tabs) {
-			return {text: [tabs.name, html.DIV, html.TABS], title: tabs.text, onclick: function(event) {
+			return {view: html.TABS, list: [{text: [tabs.name, html.SPAN]}, {img: "/close.png", onclick: function(event) {
+				item = event.target.parentNode
+				var next = item.nextSibling||item.previousSibling; if (!next) { return }
+				next.click(), can.onmotion.delay(can, function() { can.base.isFunc(cbs) && cbs(item._meta), can.page.Remove(can, item) })
+				can.onkeymap.prevent(event)
+			}}], title: tabs.text, onclick: function(event) {
 				can.onmotion.select(can, action, html.DIV_TABS, event.target), can.base.isFunc(cb) && cb(event, tabs)
 			}, _init: function(item) {
 				function close(item) { var next = item.nextSibling||item.previousSibling; if (!next) { return }
-					can.base.isFunc(cbs) && cbs(item._meta), can.page.Remove(can, item), next.click()
+					next.click(), can.onmotion.delay(can, function() { can.base.isFunc(cbs) && cbs(item._meta), can.page.Remove(can, item) })
 				}
 				var menu = tabs._menu||shy({}, [], function(event, button, meta) { (meta[button])(event, can, button) })
 				can.page.Modify(can, item, {draggable: true, _close: function() { close(item) }, _meta: tabs,
@@ -157,7 +162,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	},
 	plug: function(can, meta, cb, target) { if (!meta || !meta.index) { return }
 		meta.type = "plug", can.onappend.plugin(can, meta, function(sub) { sub.sup = can
-			sub.ConfHeight(target.offsetHeight-2*html.ACTION_HEIGHT), sub.ConfWidth(target.offsetWidth)
+			sub.ConfHeight(target.offsetHeight-2*html.ACTION_HEIGHT)
 			can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())
 			sub.run = function(event, cmds, cb) {
 				if (can.page.Select(can, sub._option, "input[name=path]").length > 0 && sub.Option(nfs.PATH) == "") {

@@ -371,6 +371,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			{type: html.DIV_ACTION, list: [{type: html.DIV_ITEM, name: [html.HOVER], style: [GLASS_STYLE]}]},
 			{type: html.DIV_OUTPUT, style: [OUTPUT_STYLE]},
 			{type: "div.path", style: [OUTPUT_STYLE]},
+			{type: "tr.line:hover>td.line", style: [ITEM_HOVER_STYLE]},
+			{type: "tr.line.select>td.line", style: [ITEM_HOVER_STYLE]},
 			{type: html.DIV_STATUS, style: {color: color.label}},
 			{type: html.TABLE_LAYOUT, list: [{type: html.DIV_TOGGLE, style: [ITEM_HOVER_STYLE]}]},
 			{type: html.TABLE_CONTENT, list: [{type: html.TH, style: [TABLE_HEAD_STYLE]}]},
@@ -389,9 +391,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			{type: html.DIV_CODE, style: {border: color.border+SOLID}},
 			{type: html.DIV_ITEM, name: [html.HOVER], style: [ITEM_HOVER_STYLE]},
 			{type: html.DIV_ITEM, name: [html.SELECT], style: [ITEM_HOVER_STYLE]},
-			{type: html.DIV_TABS, list: [{type: html.DIV, style: {"background-color": color.plugin}}]},
-			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.HOVER], style: [OUTPUT_STYLE]}]},
-			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.SELECT], style: [OUTPUT_STYLE]}]},
+			{type: html.DIV_TABS, list: [{type: ">"+html.DIV, style: {"background-color": color.plugin}}]},
+			{type: html.DIV_TABS, list: [{type: ">"+html.DIV, name: [html.HOVER], style: [OUTPUT_STYLE]}]},
+			{type: html.DIV_TABS, list: [{type: ">"+html.DIV, name: [html.SELECT], style: [OUTPUT_STYLE]}]},
 			{type: html.DIV_CARTE, list: [{type: html.DIV_ITEM, style: [TABLE_HEAD_STYLE, CARTE_ITEM_STYLE]}]},
 			{type: html.DIV_CARTE, list: [{type: html.DIV_ITEM, name: [html.HOVER], style: [CARTE_ITEM_HOVER_STYLE]}]},
 			{type: html.DIV_FLOAT, style: [PLUGIN_STYLE]},
@@ -673,7 +675,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 
 	delayResize: function(can, target, key) {
 		can.onmotion.delay(can, function() { can.page.Select(can, target, key, function(_target) {
-			can.page.style(can, target, html.WIDTH, _target.offsetWidth, html.LEFT, (window.innerWidth-_target.offsetWidth)/2)
+			can.page.style(can, target, html.WIDTH, _target.offsetWidth+10, html.LEFT, (window.innerWidth-_target.offsetWidth)/2)
 		}) })
 	},
 	delayLong: function(can, cb, interval, key) { can.onmotion.delay(can, cb, interval||300, key) },

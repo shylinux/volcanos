@@ -4,6 +4,7 @@ fieldset.vimer>div.output input.current {
 }
 fieldset.vimer>div.output input.current.normal { caret-color:gray; }
 fieldset.vimer>div.output input.current.insert { caret-color:yellow; }
+fieldset.vimer>div.output div.project div.zone.recent div.list { max-height:240px; overflow:auto; }
 fieldset.vimer>div.output div.complete { overflow:auto; position:absolute; display:none; }
 fieldset.vimer>div.output div.complete.insert { display:block; }
 fieldset.vimer>div.output div.complete div.pre { color:#00000000; margin-left:5px; float:left; }

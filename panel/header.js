@@ -113,7 +113,7 @@ Volcanos(chat.ONACTION, {
 	logout: function(event, can) { can.user.logout(can) },
 })
 Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight },
-	topic: function(can) { return can._topic || can.misc.Search(can, chat.TOPIC) || (can.base.isNight()? chat.BLACK: chat.WHITE) },
+	topic: function(can) { return can._topic || can.misc.Search(can, chat.TOPIC) || (can.base.isNight()? "dark": chat.WHITE) },
 	background: function(can) { return can.user.info.background == "void"? "": can.user.info.background },
 	avatar: function(can) { return can.user.info.avatar == "void"? "": can.user.info.avatar },
 })

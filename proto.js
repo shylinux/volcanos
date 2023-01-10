@@ -55,6 +55,7 @@ var ice = {
 	ErrNotFound: "not found: ",
 	ErrNotValid: "not valid: ",
 	
+	USR_ICEBERGS: "usr/icebergs/",
 	USR_VOLCANOS: "usr/volcanos/",
 	LIB_MISC: "lib/misc.js",
 	LIB_PAGE: "lib/page.js",

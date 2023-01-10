@@ -25,7 +25,7 @@ Volcanos(chat.ONFIGURE, {
 		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(
 			["首页", "官网" , "文档" , "git"], window.webview? ["浏览器", "录屏", "日志", "编辑器"]: []
 		), target): can.onmotion.hidden(can, target.parentNode)
-		can.sup.onexport.link = function(can) { var args = can.Option(); args.topic = chat.BLACK
+		can.sup.onexport.link = function(can) { var args = can.Option()
 			var meta = can.Conf(); args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd)
 			return can.misc.MergePodCmd(can, args, true)
 		}
@@ -33,9 +33,14 @@ Volcanos(chat.ONFIGURE, {
 	},
 	recent: function(can, target, zone, path) { var total = 0
 		function show(msg, cb) { var list = {}; msg.Table(function(item) { var path = item.path+item.file
-			if (!list[path] && total < 10) { zone._total(++total), can.page.Append(can, target, cb(item, path)) } list[path] = item
+			if (!list[path]) { zone._total(++total), can.page.Append(can, target, cb(item, path)) } list[path] = item
 		}) }
 		can.runAction({}, code.FAVOR, ["_recent_file"], function(msg) {
+			msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, "frame.js")
+			msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, "page/index.css")
+			msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, "plugin/local/code/inner.js")
+			msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, "plugin/local/code/vimer.js")
+			msg.Push(nfs.PATH, ice.USR_ICEBERGS).Push(nfs.FILE, "core/code/vimer.go")
 			show(msg, function(item, path) { return [{text: [path.split(ice.PS).slice(-2).join(ice.PS), html.DIV, html.ITEM], onclick: function(event) {
 				can.onimport.tabview(can, item.path, item.file)
 			}}] })

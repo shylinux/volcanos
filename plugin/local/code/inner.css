@@ -25,12 +25,12 @@ fieldset.inner>div.output div.content td.text span.object { color:cyan; }
 fieldset.inner>div.output div.find.float { position:absolute; z-index:10; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { height:38px; overflow:auto; display:block; }
 // fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { background-color:#70809096; height:38px; overflow:auto; display:block; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div { font-family:monospace; padding:10px 30px; height:38px; float:left; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div { font-family:monospace; padding:10px 30px; height:38px; float:left; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar { padding:0; height:38px; float:right; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar>img { height:38px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.time { float:right; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path { font-family:monospace; padding:5px 10px; display:block; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.path span.item { padding:3px 12px; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.path span.item { padding:0px 5px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.item:hover { background-color:cornflowerblue; cursor:pointer; }
 body.black fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
 // body.white fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div { padding:10px 30px; }
@@ -81,6 +81,8 @@ body.white.simple fieldset.plugin div.output.json div.item span.nonce { color:li
 fieldset.word fieldset.inner>form.option input[name=path] { width:240px; }
 
 fieldset.Action fieldset.plugin.cmd { border:none; }
+div.carte.path.float { font-size:14px; border-radius:0; }
+div.carte.path.float div.item { padding:5px; }
 
 fieldset>div.output>fieldset.plug { position:absolute; bottom:0px; right:0px; }
 fieldset.cmd>div.output>fieldset.plug { position:fixed; bottom:0px; right:0px; }
@@ -101,13 +103,12 @@ body.dark fieldset.inner>div.output div.complete div.content { background-color:
 body.dark fieldset.inner>div.output div.complete table { background-color:#2a2a2a; }
 body.dark fieldset.inner>div.output input[type=button] { background-color:#1d6fa8; }
 body.dark fieldset.inner>div.output input:hover { background-color:#444444; color:white; outline:none; }
-body.dark fieldset.inner>div.output * { font-size:14px; line-height:20px; color:#d2d2d2; }
+body.dark fieldset.inner>div.output { font-size:14px; line-height:20px; color:#d2d2d2; }
 body.dark fieldset.inner>div.output legend { font-size:1rem; line-height:2rem; color:#d2d2d2; }
 body.dark fieldset.inner>div.output>div.layout.flow>div.tabs { height:40px; }
-body.dark fieldset.inner>div.output>div.layout.flow>div.tabs div { padding:10px 30px; }
+body.dark fieldset.inner>div.output>div.layout.flow>div.tabs>div { padding:10px 30px; }
 body.dark fieldset.inner>div.output>div.layout.flow>div.tabs div.avatar { height:40px; }
 body.dark fieldset.inner>div.output div.content tr.select td.line { border:solid 0px #494949; }
-body.dark fieldset.inner>div.output div.content td.line { background-color:#212121; border-right:solid 0px #494949; }
 body.dark fieldset.inner>div.output div.content td.text span.keyword { color:#5e99c9; font-weight:normal; }
 body.dark fieldset.inner>div.output div.content td.text span.constant { color:#bed3af; }
 body.dark fieldset.inner>div.output div.content td.text span.string { color:#d19b81; }
