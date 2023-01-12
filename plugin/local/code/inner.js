@@ -12,7 +12,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		switch (can.Mode()) {
 			case chat.SIMPLE: can.onmotion.hidden(can, can.ui.project); break
 			case chat.FLOAT: can.onmotion.hidden(can, can.ui.project); break
-			case chat.CMD: can.page.style(can, document.body, "overflow", "hidden")
+			case chat.CMD: can.page.style(can, document.body, html.OVERFLOW, html.HIDDEN)
 				can.onmotion.hidden(can, can._status), can.onimport._keydown(can) // no break
 			case chat.FULL: // no break
 			default: can.onimport.project(can, paths), can.onimport._tabs(can)
@@ -80,6 +80,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			if (can.parse == nfs.JS) {
 				if (_indent == 0 && can.base.beginWith(text, "Volcanos")) {
 					var ls = can.core.Split(text, "\t ({:}),"); block = can.base.trimPrefix(ls[1], "chat.").toLowerCase()
+					if (text.indexOf("_init") > -1) { push(block+ice.PT+"_init"+ice.DF+(index+1)) }
 				} else if (_indent == 4) {
 					var ls = can.core.Split(text, "\t ({:}),"); ls[0] && push(block+ice.PT+ls[0]+ice.DF+(index+1))
 				}
@@ -89,21 +90,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 					switch (ls[0]) {
 						case "package": package = ls[1]; break
 						case "func": if (ls[1] == "(") { ls[1] = ls[2]+ice.PT+ls[5]
-							if (ls[5].toLowerCase()[0] == ls[5][0]) {
-								push("- "+ls[1]+ice.DF+(index+1))
-							} else {
-								push("+ "+ls[1]+ice.DF+(index+1))
-							}
-							break
+							if (ls[5].toLowerCase()[0] == ls[5][0]) { push("- "+ls[1]+ice.DF+(index+1)) } else { push("+ "+ls[1]+ice.DF+(index+1)) } break
 						}
 						case "type":
 						case "var":
-							if (ls[1].toLowerCase()[0] == ls[1][0]) {
-								push("- "+ls[1]+ice.DF+(index+1))
-							} else {
-								push("+ "+package+"."+ls[1]+ice.DF+(index+1))
-							}
-							break
+							if (ls[1].toLowerCase()[0] == ls[1][0]) { push("- "+ls[1]+ice.DF+(index+1)) } else { push("+ "+package+"."+ls[1]+ice.DF+(index+1)) } break
 					}
 				} else if (_indent == 4) {
 					if (text.indexOf("MergeCommands(") > -1) { block = "cmds" } else if (text == "})") { block = "" }
@@ -127,7 +118,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.db.tabview[key]
 			can.Option(can.onimport.history(can, {path: path, file: file, line: line||can.misc.localStorage(can, "web.code.inner:selectLine:"+path+file)||can._msg.Option(nfs.LINE)||1}))
 			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg
-				can.onexport.hash(can), can.onmotion.select(can, can.ui.tabs, html.DIV_TABS, msg._tab)
+				can.onexport.hash(can), can.onmotion.select(can, can.ui.tabs, html.DIV_TABS, msg._tab), msg._tab.scrollIntoView()
 				if (isCommand()) {
 					can.ui.path.innerHTML = can.Option(nfs.FILE)
 				} else if (isDream()) {
@@ -149,7 +140,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				}), can.ui.current && can.onmotion.toggle(can, can.ui.current, !isCommand() && !isDream())
 				var ls = can.file.split(ice.PS); if (ls.length > 4) { ls = [ls.slice(0, 2).join(ice.PS)+"/.../"+ls.slice(-2).join(ice.PS)] }
 				can.Status(kit.Dict("文件", ls.join(ice.PS), "类型", can.parse)), can.onimport.layout(can)
-
 				can.onaction.selectLine(can, can.Option(nfs.LINE)), can.onaction.scrollIntoView(can)
 				can.base.isFunc(cb) && cb(), cb = null
 			})
@@ -239,7 +229,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	layout: function(can) {
 		if (can.isSimpleMode()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
 		if (can.isCmdMode()) { can.page.styleHeight(can, can._output, can.ConfHeight(can.page.height())), can.ConfWidth(can.page.width()) }
-		if (can.isFloatMode()) { can.onmotion.hidden(can, can.ui.profile) }
 		var width = can.ConfWidth()+(can.user.isWindows && !can.isCmdMode()? 20: 0)
 		var height = can.user.isMobile && can.isFloatMode()? can.page.height()-2*html.ACTION_HEIGHT: can.base.Min(can.ConfHeight(), 320)-1
 		can.user.isMobile && can.isCmdMode() && can.page.style(can, can._output, html.MAX_HEIGHT, height)
@@ -252,10 +241,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			sub.run = function(event, cmds, cb) {
 				if (cmds.length > 0 && cmds[0] == ctx.ACTION) {
 					can.run(can.request(event, can.Option()), cmds, cb||function(msg) {
-						can.onappend._output(sub, msg, sub.Conf("display"))
+						can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY))
 					}, true)
 				} else {
-					can.onappend._output(sub, can.request(event), sub.Conf("display"))
+					can.onappend._output(sub, can.request(event), sub.Conf(ctx.DISPLAY))
 				}
 			}
 			can.db.extentions[url.split("?")[0]] = sub, can.base.isFunc(cb)? cb(sub): sub.select()
@@ -337,8 +326,8 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 	},
 })
 Volcanos(chat.ONACTION, {
-	_getLine: function(can, line) { return can.page.Select(can, can.ui.content, "tr>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return td.parentNode } })[0] },
-	_getLineno: function(can, line) { return can.page.Select(can, can.ui.content, "tr>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return index+1 } })[0] },
+	_getLine: function(can, line) { return can.page.Select(can, can.ui.content, "tr.line>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return td.parentNode } })[0] },
+	_getLineno: function(can, line) { return can.page.Select(can, can.ui.content, "tr.line>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return index+1 } })[0] },
 	appendLine: function(can, value) {
 		var ui = can.page.Append(can, can.ui._content, [{type: html.TR, className: "line", list: [
 			{view: [[nfs.LINE, "unselectable"], html.TD, ++can.max], onclick: function(event) {
@@ -354,7 +343,7 @@ Volcanos(chat.ONACTION, {
 		]}]); return ui.tr
 	},
 	selectLine: function(can, line) { if (!line) { return can.onexport.line(can, can.page.SelectOne(can, can.ui._content, "tr.select")) }
-		can.page.Select(can, can.ui._content, "tr>td.line", function(td, index) { var tr = td.parentNode, n = parseInt(td.innerText)
+		can.page.Select(can, can.ui._content, "tr.line>td.line", function(td, index) { var tr = td.parentNode, n = parseInt(td.innerText)
 			if (!can.page.ClassList.set(can, tr, html.SELECT, tr == line || n == line)) { return }
 			line = tr, can.Status("行号", can.onexport.position(can, can.Option(nfs.LINE, n)))
 		}); if (!can.base.isObject(line)) { return 0 }

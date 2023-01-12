@@ -22,7 +22,7 @@ input[type=button][name=stop] { background-color:red; }
 input[type=button][name=trash] { background-color:red; }
 input[type=button][name=delete] { background-color:red; }
 input[type=button][name=remove] { background-color:red; }
-textarea { background-color:cyan; padding:5px; width:400px; resize:vertical; }
+textarea { background-color:cyan; padding:5px; width:600px; resize:vertical; }
 /* output */
 div.output { position:relative; }
 div.layout.flex>* { float:left; }
@@ -44,7 +44,6 @@ table.content.action td:last-child { background-color:steelblue; position:sticky
 div.code { background-color:#343a3445; font-size:12px; padding:10px; border:green solid 1px; }
 div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:5px 10px; border-left:solid 5px blue; margin:10px; }
 /* fieldset */
-// div.tabs div { background-color:gray; }
 div.tabs div:hover { background-color:#0000; }
 div.tabs div.select { background-color:#0000; }
 fieldset.plugin { background-color:#061c3c9e; padding:10px; margin:10px; }
@@ -89,7 +88,6 @@ fieldset.input.date div.output td span.lunar.term { color:green; }
 fieldset.input.date div.output td span.lunar.fest { color:red; }
 fieldset.input.date div.status { text-align:center; }
 /* float */
-// body div.float { background-color:#0e3369b3; color:white; padding:5px; }
 body div.float { background-color:#0e3369b3; padding:5px; }
 body>div.toast div.title { color:yellow; float:left; }
 body>div.toast div.duration { color:gray; float:right; }
@@ -215,7 +213,6 @@ body.mobile textarea { font-size:1.2rem; }
 body.mobile table.content th { padding:6px 6px; }
 body.mobile form.option>div.item { margin:0; height:38px; }
 body.mobile div.action>div.item { margin:0; height:38px; }
-// body.mobile div.action { display:none; }
 body.mobile>div.carte div.item { font-size:1.6rem; }
 body.mobile>div.input.login input { font-size:1.4rem; width:264px; }
 body.mobile fieldset.plugin { margin:10px 0; }
@@ -256,7 +253,6 @@ fieldset.plugin.parse.cmd>div.status { display:none; }
 fieldset.plugin.inner.cmd>legend { display:none; }
 fieldset.plugin.inner.cmd>div.action { display:none; }
 fieldset.plugin.inner.cmd>form.option { display:none; }
-// fieldset.story.inner.float { background-color:black; }
 fieldset.xterm div.toggle { display:none; }
 /* layout */
 table.layout { border-spacing:0; }
