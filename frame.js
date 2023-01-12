@@ -17,11 +17,22 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 			can.onengine.listen(can, chat.ONSEARCH, function(msg, arg) { arg[0] == ctx.COMMAND && can.run(msg, ["can.command"]) })
 			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb(can)
 		})
-		// can.onappend.topic(can, "dark", {topic: "#0d1117", plugin: "#030507", input: "#212121", output: "#0d1117", table: "#060709",
 		can.onappend.topic(can, "dark", {topic: "#0d1117", plugin: "#030507", input: "#212121", output: "#0d1117", table: "#030507",
 			hover: "#3f3f46", border: "#3a3f47", label: "#c9d1d9", text: "white", warn: "red", notice: "blue"}),
 		can.onappend.topic(can, "light", {topic: "white", plugin: "#f3f5f6", input: "white", output: "white", table: "#f3f5f6",
 			hover: "#E1F2F4", border: "#0000", label: "black", text: "black", warn: "red", notice: "blue"})
+		can.onappend.icon(can, {
+			open: [-27, -158],
+			close: [-82, -158],
+		}, 16)
+		can.onappend.icon(can, {
+			open: [-30, -177],
+			close: [-93, -177],
+		}, 18)
+		can.onappend.icon(can, {
+			open: [-40, -236],
+			close: [-123, -236],
+		}, 24)
 	},
 	_search: function(event, can, msg, panel, cmds, cb) {
 		var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split(ice.PT), function(value) { fun && (sub = mod, mod = fun, fun = mod[value], key = value) })
@@ -150,7 +161,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}) }
 			if (can._root && can._root.name == "popup") { can.onmotion.hidden(can, sub._action) }
 
-			can.core.Value(sub._legend, chat.ONMOUSEENTER, function(event) {
+			can.core.Value(sub._legend, "onclick", function(event) {
 				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([[ctx.ACTION].concat(can.core.Item(meta.feature._trans))]), function(event, button, meta) {
 					var _sub = can.core.Value(sub, chat._OUTPUTS_CURRENT)
 					var cb = can.core.Value(_sub, [chat.ONACTION, button]); if (can.base.isFunc(cb)) { return cb(event, _sub, button) }
@@ -343,114 +354,102 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			} }), can.onfigure[input]._init && can.onfigure[input]._init(can, meta, target, _cb)
 		})
 	},
+	icon: function(can, list, size) {
+		can.core.Item(list, function(key, value) {
+			var text = `div.icon.s${size}.${key} {
+	background:url(/publish/icon/full.jpg); background-size:${size*20}px; width:${size}px; height:${size}px;
+	background-repeat: no-repeat; background-position-x:${value[0]}px; background-position-y:${value[1]}px;
+}`; can.page.Append(can, document.head, "style", {"innerText": text}), console.log("icon", size, key, text)
+		})
+	},
 	topic: function(can, topic, color, style, list) { const SOLID = " solid 1px", GLASS = "#0000"
-		const INPUT_STYLE = "input-style", INPUT_HOVER_STYLE = "input-hover-style", GLASS_STYLE = "glass-style", OUTPUT_STYLE = "output-style"
-		const TABLE_HEAD_STYLE = "table-head-style", TABLE_ROW_HOVER_STYLE = "table-row-hover-style", TABLE_CELL_HOVER_STYLE = "table-cell-hover-style"
+		const INPUT_STYLE = "input-style", INPUT_HOVER_STYLE = "input-hover-style", OUTPUT_STYLE = "output-style", GLASS_STYLE = "glass-style"
+		const TABLE_HEAD_STYLE = "table-head-style", TABLE_HEAD_HOVER_STYLE = "table-head-hover-style", TABLE_ROW_HOVER_STYLE = "table-row-hover-style", TABLE_CELL_HOVER_STYLE = "table-cell-hover-style"
 		const ITEM_HOVER_STYLE = "item-hover-style", CARTE_ITEM_HOVER_STYLE = "carte-item-hover-style", CARTE_ITEM_STYLE = "carte-item-style"
 		const PANEL_STYLE = "panel-style", PLUGIN_STYLE = "plugin-style"
-		style = style||{
-			"input-style": {"background-color": color.input, color: color.text, border: color.border+SOLID, "border-radius": "5px", "outline": html.NONE, "box-shadow": html.NONE},
-			"input-hover-style": {"border": color.text+SOLID}, "glass-style": {"background-color": GLASS},
-			"output-style": {"background-color": color.output}, "item-hover-style": {"background-color": color.hover}, "carte-item-hover-style": {"background-color": color.hover},
-			"table-head-style": {"background-color": color.table, color: color.text}, "table-row-hover-style": {"background-color": color.table}, "table-cell-hover-style": {"background-color": color.hover},
-			"panel-style": {"background-color": color.topic, color: color.label}, "plugin-style": {"background-color": color.plugin, border: color.border+SOLID, "border-radius": "10px"},
-		}, list = list||[
-			{type: "*", style: {"color": color.label}},
-			{type: html.LEGEND, style: [INPUT_STYLE]},
-			{type: html.LEGEND, name: [html.HOVER], style: [INPUT_HOVER_STYLE]},
-			{type: html.SELECT, style: [INPUT_STYLE]},
-			{type: html.SELECT, name: [html.HOVER], style: [INPUT_HOVER_STYLE]},
-			{type: html.INPUT, style: [INPUT_STYLE]},
-			{type: html.INPUT, name: [html.HOVER], style: [INPUT_HOVER_STYLE]},
-			{type: "input:not([type=button])", style: {"border-radius": "0px"}},
-			{type: "input:not([type=button])", name: [html.HOVER], style: {border: color.notice+SOLID}},
-			{type: html.TEXTAREA, style: [INPUT_STYLE]},
+		function _bg(color) { var res = {"background-color": color}, arg = arguments; for (var i = 1; i < arg.length; i += 2) { res[arg[i]] = arg[i+1] } return res }
+		function _fg(color) { var res = {"color": color}, arg = arguments; for (var i = 1; i < arg.length; i += 2) { res[arg[i]] = arg[i+1] } return res }
+		function _b_r(size) { return  {"border-radius": size} }
+		style = style||kit.Dict(
+			INPUT_STYLE, _bg(color.input, html.COLOR, color.label, html.BORDER, color.border+SOLID, "border-radius", "5px", "outline", html.NONE, "box-shadow", html.NONE),
+			INPUT_HOVER_STYLE, _fg(color.text, html.BORDER, color.text+SOLID), OUTPUT_STYLE, _bg(color.output), GLASS_STYLE, _bg(GLASS),
+			TABLE_HEAD_STYLE, _bg(color.table, html.COLOR, color.label), TABLE_HEAD_HOVER_STYLE, _bg(color.table, html.COLOR, text),
+			TABLE_ROW_HOVER_STYLE, _bg(color.table), TABLE_CELL_HOVER_STYLE, _bg(color.hover), ITEM_HOVER_STYLE, _bg(color.hover, html.COLOR, color.text), CARTE_ITEM_HOVER_STYLE, _bg(color.hover, html.COLOR, color.text),
+			PANEL_STYLE, _bg(color.topic, html.COLOR, color.label), PLUGIN_STYLE, _bg(color.plugin, "border-radius", "10px"),
+		), list = list||[
+			{type: "", style: _fg(color.label)},
+			{type: html.LEGEND, style: [INPUT_STYLE, TABLE_HEAD_STYLE]}, {type: html.LEGEND, style: [INPUT_HOVER_STYLE]},
+			{type: html.SELECT, style: [INPUT_STYLE]}, {type: html.SELECT, style: [INPUT_HOVER_STYLE]},
+			{type: html.INPUT, style: [INPUT_STYLE]}, {type: html.INPUT, style: [INPUT_HOVER_STYLE]},
+			{type: html.INPUT+":not([type=button])", style: _b_r(0)}, {type: html.INPUT+":not([type=button])", name: [html.HOVER], style: {border: color.notice+SOLID}},
+			{type: html.TEXTAREA, style: [INPUT_STYLE]}, {type: html.TEXTAREA, style: _b_r(0)},
 			{type: html.FORM_OPTION, list: [{type: html.DIV_ITEM, name: [html.SELECT], style: [GLASS_STYLE]}]},
 			{type: html.FORM_OPTION, list: [{type: html.DIV_ITEM, name: [html.HOVER], style: [GLASS_STYLE]}]},
 			{type: html.DIV_ACTION, list: [{type: html.DIV_ITEM, name: [html.SELECT], style: [GLASS_STYLE]}]},
 			{type: html.DIV_ACTION, list: [{type: html.DIV_ITEM, name: [html.HOVER], style: [GLASS_STYLE]}]},
-			{type: html.DIV_OUTPUT, style: [OUTPUT_STYLE]},
-			{type: "div.path", style: [OUTPUT_STYLE]},
-			{type: "tr.line:hover>td.line", style: [ITEM_HOVER_STYLE]},
-			{type: "tr.line.select>td.line", style: [ITEM_HOVER_STYLE]},
-			{type: html.DIV_STATUS, style: {color: color.label}},
+			{type: html.DIV_OUTPUT, style: [OUTPUT_STYLE]}, {type: html.DIV_STATUS, style: _fg(color.label)},
 			{type: html.TABLE_LAYOUT, list: [{type: html.DIV_TOGGLE, style: [ITEM_HOVER_STYLE]}]},
+			{type: html.TABLE_CONTENT, list: [{type: html.TR, style: [TABLE_ROW_HOVER_STYLE]}]},
 			{type: html.TABLE_CONTENT, list: [{type: html.TH, style: [TABLE_HEAD_STYLE]}]},
-			{type: html.TABLE_CONTENT, name: [html.ACTION], list: [{type: "td:last-child", style: [TABLE_HEAD_STYLE]}]},
-			{type: html.TABLE_CONTENT, list: [{type: html.TR, name: [html.HOVER], style: [TABLE_ROW_HOVER_STYLE]}]},
-			{type: html.TABLE_CONTENT, list: [{type: html.TD, name: [html.HOVER], style: [TABLE_CELL_HOVER_STYLE]}]},
+			{type: html.TABLE_CONTENT, name: [html.ACTION], list: [{type: html.TD+":last-child", style: [TABLE_HEAD_STYLE]}]},
 			{type: html.TABLE_CONTENT, list: [{type: html.TD, name: [html.SELECT], style: [TABLE_CELL_HOVER_STYLE]}]},
-			{type: "div.zone>div.name", style: [TABLE_HEAD_STYLE]},
+			{type: html.TABLE_CONTENT, list: [{type: html.TD, style: [TABLE_CELL_HOVER_STYLE]}]},
+			{type: html.H1, style: [ITEM_HOVER_STYLE]}, {type: html.H2, style: [ITEM_HOVER_STYLE]}, {type: html.H3, style: [ITEM_HOVER_STYLE]},
+			{type: html.LABEL, style: _fg(color.label)}, {type: html.A, style: _fg(color.notice)},
+			{type: "tr.line.select", style: [ITEM_HOVER_STYLE]}, {type: "tr.line", style: [ITEM_HOVER_STYLE]}, {type: "tr.line>td.line", style: [OUTPUT_STYLE]},
+			{type: "div.zone>div.name", style: [TABLE_HEAD_STYLE]}, {type: "div.zone>div.name", style: [TABLE_HEAD_HOVER_STYLE]},
 			{type: "div.zone>div.list>div.zone>div.name", style: [TABLE_HEAD_STYLE]},
-			{type: "div.zone>div.list>div.zone>div.name", name: [html.HOVER], style: [ITEM_HOVER_STYLE]},
-			{type: html.H1, name: [html.HOVER], style: [ITEM_HOVER_STYLE]},
-			{type: html.H2, name: [html.HOVER], style: [ITEM_HOVER_STYLE]},
-			{type: html.H3, name: [html.HOVER], style: [ITEM_HOVER_STYLE]},
-			{type: html.LABEL, style: {color: color.label}},
-			{type: html.A, style: {color: color.notice}},
-			{type: html.DIV_CODE, style: {border: color.border+SOLID}},
-			{type: html.DIV_ITEM, name: [html.HOVER], style: [ITEM_HOVER_STYLE]},
-			{type: html.DIV_ITEM, name: [html.SELECT], style: [ITEM_HOVER_STYLE]},
-			{type: html.DIV_TABS, list: [{type: ">"+html.DIV, style: {"background-color": color.plugin}}]},
-			{type: html.DIV_TABS, list: [{type: ">"+html.DIV, name: [html.HOVER], style: [OUTPUT_STYLE]}]},
-			{type: html.DIV_TABS, list: [{type: ">"+html.DIV, name: [html.SELECT], style: [OUTPUT_STYLE]}]},
+			{type: "div.zone>div.list>div.zone>div.name", style: [TABLE_HEAD_HOVER_STYLE]},
+			{type: "div.zone div.item>div.name", name: [html.HOVER], style: _fg(color.text)},
+			{type: html.DIV_ITEM, name: [html.SELECT], style: [ITEM_HOVER_STYLE]}, {type: html.DIV_ITEM, style: [ITEM_HOVER_STYLE]},
+			{type: html.DIV_TABS, list: [{type: html.DIV, style: _bg(color.plugin)}]},
+			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.SELECT], style: [OUTPUT_STYLE]}]},
+			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.HOVER], style: [OUTPUT_STYLE]}]},
+			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.HOVER], style: _fg(color.text)}]},
+			{type: html.DIV_PATH, style: [OUTPUT_STYLE]}, {type: html.DIV_CODE, style: {border: color.border+SOLID}},
+			{type: html.DIV_PATH, list: [{type: html.SPAN, style: [ITEM_HOVER_STYLE]}]},
 			{type: html.DIV_CARTE, list: [{type: html.DIV_ITEM, style: [TABLE_HEAD_STYLE, CARTE_ITEM_STYLE]}]},
-			{type: html.DIV_CARTE, list: [{type: html.DIV_ITEM, name: [html.HOVER], style: [CARTE_ITEM_HOVER_STYLE]}]},
+			{type: html.DIV_CARTE, list: [{type: html.DIV_ITEM, style: [CARTE_ITEM_HOVER_STYLE]}]},
 			{type: html.DIV_FLOAT, style: [PLUGIN_STYLE]},
-			{type: html.FIELDSET_PANEL, style: [PANEL_STYLE]},
-			{type: html.FIELDSET_PANEL, list: [{type: ">"+html.DIV_OUTPUT, style: [PANEL_STYLE]}]},
+			{type: html.FIELDSET_FLOAT, style: [PLUGIN_STYLE]},
+			{type: html.FIELDSET_PANEL, style: [PANEL_STYLE]}, {type: html.FIELDSET_PANEL, list: [{type: ">"+html.DIV_OUTPUT, style: [PANEL_STYLE]}]},
 			{type: html.FIELDSET_PANEL, name: ["Footer"], list: [{type: html.DIV_OUTPUT, list: [{type: html.DIV_TOAST, style: [TABLE_HEAD_STYLE]}], }]},
-			{type: html.FIELDSET_PANEL, name: ["Footer"], list: [{type: html.DIV_OUTPUT, list: [{type: html.DIV, name: [html.HOVER], style: [ITEM_HOVER_STYLE]}], }]},
-			{type: html.FIELDSET_PANEL, name: ["Header"], list: [{type: html.DIV_OUTPUT, list: [{type: html.DIV, name: [html.HOVER], style: [ITEM_HOVER_STYLE]}], }]},
-			{type: html.FIELDSET_STORY, list: [{type: html.DIV_STATUS, style: {"border-top": color.border+SOLID}}]},
-			{type: html.FIELDSET_PLUGIN, list: [{type: html.DIV_STATUS, style: {"border-top": color.border+SOLID}}]},
-			{type: html.FIELDSET_PLUGIN, style: [PLUGIN_STYLE]},
-			{type: html.FIELDSET_STORY, style: [PLUGIN_STYLE]},
-			{type: html.FIELDSET_INPUT, style: [PLUGIN_STYLE]},
-			{type: html.FIELDSET_INPUT, style: {"border-radius": 0}},
-			// {type: html.FIELDSET_INPUT, style: {"border": color.notice+SOLID}},
+			{type: html.FIELDSET_PANEL, name: ["Footer"], list: [{type: html.DIV_OUTPUT, list: [{type: html.DIV, style: [ITEM_HOVER_STYLE]}], }]},
+			{type: html.FIELDSET_PANEL, name: ["Header"], list: [{type: html.DIV_OUTPUT, list: [{type: html.DIV, style: [ITEM_HOVER_STYLE]}], }]},
+			{type: html.FIELDSET_PLUGIN, style: [PLUGIN_STYLE]}, {type: html.FIELDSET_PLUGIN, list: [{type: html.DIV_STATUS, style: {"border-top": color.border+SOLID}}]},
+			{type: html.FIELDSET_STORY, style: [PLUGIN_STYLE]}, {type: html.FIELDSET_STORY, list: [{type: html.DIV_STATUS, style: {"border-top": color.border+SOLID}}]},
+			{type: html.FIELDSET_INPUT, style: [PLUGIN_STYLE]}, {type: html.FIELDSET_INPUT, style: _b_r(0)},
 		]
 		function render(pre, list) { return can.core.List(list, function(item) { var type = item.type+can.core.List(item.name, function(name) { return (name==html.HOVER? ice.DF: ice.PT)+name }).join("")
+			if (!item.name && type.indexOf(".select") == -1 && type.indexOf(":hover") == -1 && can.base.isArray(item.style) && item.style.join(",").indexOf("-hover-") > -1) { type += ":hover" }
 			return (item.style? (pre+ice.SP+type+" { "+(can.base.isArray(item.style)? can.core.List(item.style, function(item) {
 				return can.core.Item(style[item], function(key, value) { return key+": "+value }).join("; ")
 			}).join("; "): can.core.Item(can.base.Obj(item.style), function(key, value) { return key+": "+value }).join("; "))+" }"): "")+(item.list? render(pre+ice.SP+type, item.list): "")
 		}).join(ice.NL) }
-		var text = render("body."+topic, list)
-		console.log("what", text)
-		can.page.Append(can, document.head, "style", {"innerText": text})
+		var text = render("body."+topic, list); can.page.Append(can, document.head, "style", {"innerText": text}), console.log("topic", topic, text)
 	},
 	layout: function(can, target, type, list) { const FLOW = "flow", FLEX = "flex"
 		switch (type||ice.AUTO) {
 			case FLOW:
 			case FLEX:
-			case ice.AUTO: var count = 0;
-				type = type == "" || type == ice.AUTO? FLEX: type
-				var ui = {size: {}}; function append(target, type, list) { can.page.ClassList.add(can, target, [html.LAYOUT, type]),
-					can.core.List(list, function(item) {
-						if (can.base.isArray(item)) {
-							append(can.page.Append(can, target, [{}])._target, type==FLOW? FLEX: FLOW, item)
-						} else if (can.base.isObject(item)) { item._index = count++
-							item.layout = function(width, height) {
-								item.width = width
-								item.height = height
-							}
-							ui.size[item._index+""] = item.height||item.width
-							can.onappend.plugin(can, item, function(sub) {
-								item.layout = function(width, height) {
-									sub.onimport.size(sub, height, width)
-								}
-							}, target, ui[item._index+""] = can.onappend.field(can, item.type, item, target)._target)
-						} else if (can.base.isString(item)) {
-							ui[item] = can.page.Append(can, target, [item])._target
-						}
-					}); return list
-				}
+			case ice.AUTO: var count = 0, ui = {size: {}}; type = type == "" || type == ice.AUTO? FLEX: type
+				function append(target, type, list) { can.page.ClassList.add(can, target, [html.LAYOUT, type]), can.core.List(list, function(item) {
+					if (can.base.isArray(item)) {
+						append(can.page.Append(can, target, [{}])._target, type==FLOW? FLEX: FLOW, item)
+					} else if (can.base.isObject(item)) { item._index = count++, ui.size[item._index] = item.height||item.width
+						item.layout = function(width, height) { item.width = width, item.height = height }
+						can.onappend.plugin(can, item, function(sub) {
+							item.layout = function(width, height) { sub.onimport.size(sub, height, width) }
+						}, target, ui[item._index] = can.onappend.field(can, item.type, item, target)._target)
+					} else if (can.base.isString(item)) {
+						ui[item] = can.page.Append(can, target, [item])._target
+					}
+				}); return list }
 				var defer = []; function layout(type, list, width, height) { var _width = width, _height = height; can.core.List(list, function(item) {
 					if (item == html.CONTENT) {
-						defer.push(function() { can.page.style(can, ui[item], html.HEIGHT, height, html.WIDTH, width) })
-						return
+						return defer.push(function() { can.page.style(can, ui[item], html.HEIGHT, height, html.WIDTH, width) })
 					} else {
-						if (can.base.isObject(item)) { var meta = item; item = (item._index||"")+"" }
+						if (can.base.isObject(item)) { var meta = item; item = (item._index)+"" }
 						function calc(item, size, total) {
 							if (!ui.size[item]) {
 								return size
@@ -474,7 +473,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					}
 				}), can.core.List(list, function(item) { if (can.base.isArray(item)) { layout(type == FLOW? FLEX: FLOW, item, width, height) } }) }
 				list = append(target, type, list||[html.PROJECT, [[html.CONTENT, html.PROFILE], html.DISPLAY]])
-				ui.layout = function(width, height) { can.onmotion.delayLong(can, function() { defer = [], layout(type, list, width, height), defer.forEach(function(cb) { cb() }) }) }
+				ui.layout = function(width, height, delay) { can.onmotion.delay(can, function() { defer = [], layout(type, list, width, height), defer.forEach(function(cb) { cb() }) }, delay||0) }
 				return ui
 			case "tabs-box":
 				can.page.ClassList.add(can, target, "layout tabs box")

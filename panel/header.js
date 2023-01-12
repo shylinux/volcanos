@@ -4,7 +4,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport._avatar(can, msg, target)
 		can.onimport._background(can, msg, target)
 		can.onimport._search(can, msg, target)
-		can.onimport._menus(can, msg, target)
+		// can.onimport._menus(can, msg, target)
 	},
 	_title: function(can, msg, target) { if (can.user.isMobile) { return }
 		can.core.List(can.base.getValid(can.Conf(chat.TITLE)||msg.result, ["shylinux.com/x/contexts"]), function(item) {
@@ -12,13 +12,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		})
 	},
 	_state: function(can, msg, target) { if (can.user.isMobile) { return }
-		can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.AVATAR, aaa.USERNICK, mdb.TIME]).reverse(), function(item) {
+		can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
+		// can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.AVATAR, aaa.USERNICK, mdb.TIME]).reverse(), function(item) {
 			if (item == aaa.AVATAR ) { if (can.user.isLocalFile) { return }
-				can.page.Append(can, target, [{view: can.base.join([chat.STATE, item]), list: [{img: ice.SP}], onmouseenter: function(event) {
+				can.page.Append(can, target, [{view: can.base.join([chat.STATE, item]), list: [{img: ice.SP}], onclick: function(event) {
 					can.onaction.carte(event, can, [can.page.Format(html.IMG, can.onexport.avatar(can), 160)])
 				}}]); return
 			}
-			can.page.Append(can, target, [{view: [can.base.join([chat.STATE, item]), html.DIV, (can.Conf(item)||msg.Option(item)||"").split("@")[0].slice(0, 10)], onmouseenter: function(event) {
+			can.page.Append(can, target, [{view: [can.base.join([chat.STATE, item]), html.DIV, (can.Conf(item)||msg.Option(item)||"").split("@")[0].slice(0, 10)], onclick: function(event) {
 				can.core.CallFunc([can.onaction, item], [event, can, item])
 			}, _init: function(target) { item == mdb.TIME && can.onimport._time(can, target) }}])
 		})
@@ -113,7 +114,7 @@ Volcanos(chat.ONACTION, {
 	logout: function(event, can) { can.user.logout(can) },
 })
 Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight },
-	topic: function(can) { return can._topic || can.misc.Search(can, chat.TOPIC) || (can.base.isNight()? "dark": chat.WHITE) },
+	topic: function(can) { return can._topic || can.misc.Search(can, chat.TOPIC) || (can.base.isNight()? "dark": "light") },
 	background: function(can) { return can.user.info.background == "void"? "": can.user.info.background },
 	avatar: function(can) { return can.user.info.avatar == "void"? "": can.user.info.avatar },
 })
@@ -123,7 +124,7 @@ Volcanos(chat.ONPLUGIN, {
 	}),
 	topic: shy("界面主题", {
 		_init: function(can) { can.Option(chat.TOPIC, can.getHeader(chat.TOPIC)) },
-	}, ["topic:select=black,white,light,dark", ice.RUN], function(can, msg, arg) {
+	}, ["topic:select=dark,light,white,black", ice.RUN], function(can, msg, arg) {
 		msg.Echo(can.onimport.topic(can, arg[0]))
 	}),
 	location: shy("请求地址", {

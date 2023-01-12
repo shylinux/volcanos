@@ -8,6 +8,10 @@ fieldset.Action.tabs>div.output { overflow:hidden; }
 fieldset.Action.tabs>div.output>fieldset>legend { display:none; }
 fieldset.Action.tabs>div.output>fieldset.plugin { display:none; }
 fieldset.Action.tabs>div.output>fieldset.plugin.select { display:block; }
+fieldset.Header action>div.tabs { padding:0; margin-left:20px; display:contents; }
+fieldset.Header action>div.tabs:hover { background-color:none; }
+fieldset.Header div.tabs div.tabs { padding:5px 10px; }
+fieldset.Header div.tabs div.tabs:hover { background-color:#6495ed63; }
 fieldset.Action.tabview>div.output { overflow:hidden; }
 fieldset.Action.tabview>div.output fieldset.plugin.iframe div.output { overflow:hidden; }
 fieldset.Action.tabview>div.output>fieldset>legend { display:none; }
@@ -37,19 +41,10 @@ fieldset.Action.grid>div.output>fieldset.plugin>form.option input[type=text] { w
 fieldset.Action.flow>div.output>fieldset.plugin { float:left; }
 fieldset.Action.free>div.output>fieldset.plugin { position:absolute; }
 fieldset.Action.free>div.output>fieldset.plugin.select { display:block; }
-fieldset.Header action>div.tabs { padding:0; margin-left:20px; display:contents; }
-fieldset.Header action>div.tabs:hover { background-color:none; }
-fieldset.Header div.tabs div.tabs { padding:5px 10px; }
-fieldset.Header div.tabs div.tabs:hover { background-color:#6495ed63; }
 fieldset.Action>div.project.toggle {
 	background-color:cornsilk; opacity:0.4; color:teal; font-size:36px; padding-top:50px; height:150px; width:20px; position:fixed; top:30%;
 	border-top-right-radius:20px; border-bottom-right-radius:20px;
 }
-// fieldset.Action>div.output>fieldset.plugin>legend { box-shadow:4px 4px 20px 4px #626bd0; }
-fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full)>legend { float:none; }
-fieldset.Action.cmd>div.output>fieldset.plugin { padding:0; margin:0; }
-fieldset.Action.cmd>div.output>fieldset.plugin>legend { padding:0 10px; float:left; }
-fieldset.Action.cmd>div.output>fieldset.plugin:not(.float):not(.full)>legend { float:left; }
 
 div.head { background-color:#404040; color:white; padding:5px; height:42px; clear:both; }
 div.head div.username { float:right; margin-right:10px; }

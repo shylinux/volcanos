@@ -19,7 +19,7 @@ fieldset.word ul.story[data-type=endmenu] { clear:both; }
 fieldset.word p.story[data-name=inner] { background-color:#4b6c8a7a; padding:4px 10px; border-left:solid 4px blue; margin:10px 0px; }
 fieldset.word p.story[data-name=inner]:hover { background-color:#c10c8a; cursor:copy; }
 fieldset.word table.content { display:block; max-height:400px; }
-fieldset.word>div.output>fieldset.story { margin:10px; }
+fieldset.word>div.output>fieldset.story:not(.full) { margin:10px; }
 // fieldset.word>div.output>fieldset.story { margin:10px; background-color:#58a4d37d; }
 fieldset.word fieldset.story.full { margin:0px; }
 fieldset.word fieldset.story.float { margin:0px; }

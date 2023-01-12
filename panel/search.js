@@ -12,7 +12,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can
 			can.onengine.signal(can, chat.ONSEARCH, res), can.type = arg[0], can.onimport._init(can, res)
 		}), can.onmotion.show(can)
 	},
-	select: function(can, msg, cmds, cb) { can.getActionSize(function(left, top, width, height) { can.page.style(can, can._target, {left: left||0, top: top||0}), can.onaction.onsize(can, height, width) })
+	select: function(can, msg, cmds, cb) { can.getActionSize(function(left, top, width, height) {
+			can.page.style(can, can._target, {left: left||0, top: top||0, width: width}), can.onaction.onsize(can, height, width)
+		})
 		var fields = (cmds[2]||msg.Option(ice.MSG_FIELDS)||"ctx,cmd,type,name,text").split(ice.FS); can.page.Appends(can, can.ui.display, [{th: fields}]), can.onmotion.hidden(can, can.ui.display)
 		can.ui.word.value = cmds[1], can.input = function(event, word) { cmds[1] = word||cmds[1]; can.onimport._word(can, msg, cmds, fields) }
 		can.cb = function() { can.base.isFunc(cb) && cb(can.onexport.select(can)), can.onmotion.hide(can) }

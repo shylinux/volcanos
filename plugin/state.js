@@ -83,7 +83,7 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) {
 		} else {
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, "")
 		}
-		can.user.isMobile && can.onmotion.toggle(can, can._action, can.ConfHeight() < can.ConfWidth()-100)
+		// can.user.isMobile && can.onmotion.toggle(can, can._action, can.ConfHeight() < can.ConfWidth()-100)
 		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
 		if (mode) { sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub) } else { sub.onlayout._init(sub) }
 	},
@@ -117,6 +117,7 @@ Volcanos(chat.ONACTION, {list: [
 			can.onmotion.toggle(can, can._action, back.action), can.onmotion.toggle(can, can._status, back.status)
 			can.base.isFunc(load) && load(back), sub.Mode(can.Mode()), sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), sub.onlayout._init(sub)
 		}
+		can.user.isMobile && can.onmotion.hidden(can, can._action)
 	},
 	_resize: function(can, auto, height, width) { can.onimport.size(can, height, width, auto) },
 	_output: function(can, msg) {},

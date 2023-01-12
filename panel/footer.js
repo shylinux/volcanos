@@ -17,7 +17,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		case cli.CLEAR: can.cli && can.cli.close(); break
 		default:
  			can.runAction(event, ice.RUN, can.core.Split(event.target.value, ice.SP), function(msg) { can.cli && can.cli.close && can.cli.close(), can["cli"] = {}; var ui = can.onexport.float(can, msg, "cli")
-				can.getActionSize(function(left) { can.page.style(can, ui._target, html.LEFT, left, html.RIGHT, "", html.BOTTOM, can.onexport.height(can)) })
+				can.getActionSize(function(left) { can.page.style(can, ui._target, html.LEFT, left+10, html.RIGHT, "", html.BOTTOM, can.onexport.height(can)) })
 			})
 	} }}, "", target, [chat.TITLE, ice.CMD]) },
 	count: function(can, name) { can.page.Select(can, can._output, can.core.Keys(html.SPAN, name), function(item) { item.innerHTML = can.Conf(name, parseInt(can.Conf(name)||"0")+1+"")+"" }) },

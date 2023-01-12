@@ -42,7 +42,7 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) { can.onkeymap._build(can)
 				var sub = can._plugins[parseInt(event.key)-1]; if (sub) {
 					can._output.scrollTop = sub._target.offsetTop-html.PLUGIN_MARGIN
 					sub._header_tabs.click()
-					// can.onmotion.delay(can, function() { sub.Focus() })
+					can.onmotion.delay(can, function() { sub.Focus() })
 				}
 			}
 			can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
@@ -100,15 +100,10 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	),
 	onmain: function(can) { can.onimport._share(can, can.misc.Search(can, web.SHARE)) },
 	onlogin: function(can) { if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return }
-		// can._names = location.pathname, can.Conf(chat.TOOL)? can.core.Next(can.Conf(chat.TOOL), function(item, next) {
-		// 	can.onimport._cmd(can, item, next)
-		// }): can.runAction(can.request(), ctx.COMMAND, [], function(msg) { can.core.Next(msg.Table(), function(item, next) {
-			
 		can.onengine.signal(can, chat.ONACTION_CMD)
-		can._names = location.pathname, can.Conf(chat.TOOL)? can.onappend.layout(can, can._output, "flow", can.core.List(can.Conf(chat.TOOL), function(item) {
-			item.type = "plugin"
-			item.opts = can.misc.Search(can)
-			item.mode = chat.CMD; return item
+		can._names = location.pathname, can.Conf(chat.TOOL)? can.onappend.layout(can, can._output, "flow", can.core.List(can.Conf(chat.TOOL), function(item, index, list) {
+			if (list.length == 1) { item.height = window.innerHeight-2*html.ACTION_HEIGHT }
+			item.type = chat.PLUGIN, item.mode = chat.CMD, item.opts = can.misc.Search(can); return item
 		})).layout(window.innerWidth, window.innerHeight): can.runAction(can.request(), ctx.COMMAND, [], function(msg) { can.core.Next(msg.Table(), function(item, next) {
 			can.onimport._cmd(can, item, next)
 		}) })
@@ -126,7 +121,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 				return can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm}))
 			}
 			can.onaction.layout(can, can.misc.SearchOrConf(can, html.LAYOUT)||msg.Option(html.LAYOUT), true)
-			return can.onkeymap._init(can), can.onimport._menu(can, msg), can.onimport._init(can, msg)
+			// return can.onkeymap._init(can), can.onimport._menu(can, msg), can.onimport._init(can, msg)
+			return can.onkeymap._init(can), can.onimport._init(can, msg)
 		})
 	},
 	onaction_cmd: function(can, msg) { can.Conf(html.MARGIN_Y, 2*html.ACTION_HEIGHT), can.Conf(html.MARGIN_X, 0)
