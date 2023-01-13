@@ -126,7 +126,7 @@ var cli = {
 	PWD: "pwd", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
 	BEGIN: "begin", START: "start", OPEN: "open", CLOSE: "close", STOP: "stop", END: "end", RESTART: "restart",
 	COLOR: "color", WHITE: "white", BLACK: "black", RED: "red", GREEN: "green", BLUE: "blue",
-	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta", GLASS: "#0000",
+	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta", GLASS: "transparent",
 	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 }
 var log = {

@@ -21,8 +21,8 @@ fieldset.word p.story[data-name=inner]:hover { background-color:#c10c8a; cursor:
 fieldset.word table.content { display:block; max-height:400px; }
 fieldset.word>div.output>fieldset.story:not(.full) { margin:10px; }
 // fieldset.word>div.output>fieldset.story { margin:10px; background-color:#58a4d37d; }
-fieldset.word fieldset.story.full { margin:0px; }
-fieldset.word fieldset.story.float { margin:0px; }
+fieldset.word fieldset.story.full { margin:0; }
+fieldset.word fieldset.story.float { margin:0; }
 
 fieldset.word svg.story.auto defs marker { stroke:red; fill:red; }
 fieldset.word svg.story.auto rect { stroke:yellow; fill:black; }

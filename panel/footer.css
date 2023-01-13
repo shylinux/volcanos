@@ -6,7 +6,7 @@ fieldset.Footer>div.output div.title { float:left; }
 fieldset.Footer>div.output div.state { font-family:monospace; float:right; }
 fieldset.Footer>div.output div.state label { font-size:12px; }
 fieldset.Footer>div.output div.toast { background-color:darkcyan; float:right; }
-fieldset.Footer>div.output div.cmd { padding:0px; float:left; }
+fieldset.Footer>div.output div.cmd { padding:0; float:left; }
 fieldset.Footer>div.output input[name=cmd] { margin-left:40px; width:120px; transition:all 0.5s; }
 fieldset.Footer>div.output input[name=cmd]:focus { width:320px; transition:all 0.5s; }
 fieldset.Footer>div.output input[name=cmd]:hover { width:320px; transition:all 0.5s; }

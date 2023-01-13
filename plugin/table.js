@@ -90,7 +90,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		node = node||{"": target}; can.core.List(list, function(item) {
 			item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }
 				var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split); if (node[name]) { return }
-				var ui = can.page.Append(can, node[last], [{view: html.ITEM, list: [{view: ["switch", html.DIV, (index==array.length-1?"":"⌃")]}, {view: [mdb.NAME, html.DIV, value+(index==array.length-1?"":"")], _init: item._init, oncontextmenu: function(event) { if (!item._menu) { return }
+				var ui = can.page.Append(can, node[last], [{view: html.ITEM, list: [{view: ["switch"+(item.expand? " open": ""), html.DIV, (index==array.length-1?"":"⌃")]}, {view: [mdb.NAME, html.DIV, value+(index==array.length-1?"":"")], _init: item._init, oncontextmenu: function(event) { if (!item._menu) { return }
 					can.user.carteRight(event, can, item._menu.meta, item._menu.list||can.core.Item(item._meta.meta), function(event, button) {
 						(item._menu.meta[button]||item._menu)(event, can, button)
 					})

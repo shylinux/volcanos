@@ -114,6 +114,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	audio: function(can, meta, target) {},
 
 	layout: function(can) {
+		can.isCmdMode() && can.ConfHeight(can.page.height()) && can.page.styleHeight(can, can._output, "")
 		can.core.List(can._plugins, function(sub) {
 			sub.ConfHeight(can.base.Min(300, can.ConfHeight()-300)), sub.ConfWidth(can.ConfWidth()-(can.user.isWindows? 40: 20))
 			sub.onaction._resize(sub, true, sub.ConfHeight(), sub.ConfWidth())

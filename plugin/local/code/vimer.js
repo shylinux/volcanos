@@ -48,9 +48,10 @@ Volcanos(chat.ONFIGURE, {
 		})
 	},
 	source: function(can, target, zone, path) { var total = 0
+		var hash = location.hash; if (can.isCmdMode() && hash) { var args = can.core.Split(decodeURIComponent(hash).slice(1), ice.DF) } else { args = [] }
 		function show(target, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) {
 			var node; function add(list) {
-				can.core.List(list, function(item) { item._menu = shy({
+				can.core.List(list, function(item) { if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true } item._menu = shy({
 					create: function(event) { can.user.input(event, can, ["filename"], function(list) {
 						can.base.endWith(item.path, ice.PS)? can.request(event, {path: path+item.path, file: list[0]}):
 							can.request(event, {path: path+item.path.split(ice.PS).slice(0, -1).join(ice.PS)+ice.PS, file: list[0]})
@@ -64,8 +65,8 @@ Volcanos(chat.ONFIGURE, {
 			} node = add(msg.Table(), node), can.Status("目录", zone._total(total += msg.Length()))
 		}, true) } if (path.length == 1) { return show(target, path[0]) }
 		can.onimport.zone(can, can.core.List(path, function(path) { return {name: path, _init: function(target, zone) {
-			can.onmotion.hidden(can, zone._action), can.onmotion.hidden(can, zone._target)
-		}, _delay_show: function(target) { show(target, path) } }}), target), can.page.Remove(can, target.previousSibling)
+			if (path == args[0]) { show(target, path) } else { can.onmotion.hidden(can, zone._action), can.onmotion.hidden(can, zone._target) }
+		}, _delay_show: function(target) { path != args[0] && show(target, path) } }}), target), can.page.Remove(can, target.previousSibling)
 	},
 	dream: function(can, target, zone) { var call = arguments.callee
 		can.runAction({}, ice.RUN, [web.DREAM], function(msg) { msg.Table(function(item) { var color = item.status == cli.START? "": "gray"
@@ -86,8 +87,7 @@ Volcanos(chat.ONFIGURE, {
 		can.onimport.tree(can, can.core.ItemKeys(can.onengine.plugin.meta, function(key) { return total++, {index: key} }), ctx.INDEX, ice.PT, function(event, item) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(ice.CAN, item.index), ctx.INDEX)
 		}, target), zone._total(total)
-		can.onmotion.hidden(can, target)
-		can.onmotion.hidden(can, target.previousSibling)
+		can.onmotion.hidden(can, target), can.onmotion.hidden(can, target.previousSibling)
 	},
 	module: function(can, target, zone) {
 		can.runAction(can.request({}, {fields: ctx.INDEX}), ctx.COMMAND, [mdb.SEARCH, ctx.COMMAND], function(msg) {

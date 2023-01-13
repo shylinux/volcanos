@@ -17,10 +17,10 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 			can.onengine.listen(can, chat.ONSEARCH, function(msg, arg) { arg[0] == ctx.COMMAND && can.run(msg, ["can.command"]) })
 			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb(can)
 		})
-		can.onappend.topic(can, "dark", {topic: "#0d1117", plugin: "#030507", input: "#212121", output: "#0d1117", table: "#030507",
-			hover: "#3f3f46", border: "#3a3f47", label: "#c9d1d9", text: "white", warn: "red", notice: "blue"}),
-		can.onappend.topic(can, "light", {topic: "white", plugin: "#f3f5f6", input: "white", output: "white", table: "#f3f5f6",
-			hover: "#E1F2F4", border: "#0000", label: "black", text: "black", warn: "red", notice: "blue"})
+		can.onappend.topic(can, "dark", {topic: "black", plugin: "black", input: "#212121", output: "#0d1117", table: "black",
+			hover: "#212121", border: "gray", label: "silver", text: "white", warn: "red", notice: "blue"}),
+		can.onappend.topic(can, "light", {topic: "white", plugin: "aliceblue", input: "white", output: "white", table: "aliceblue",
+			hover: "aliceblue", border: "transparent", label: "black", text: "black", warn: "red", notice: "blue"})
 		can.onappend.icon(can, {
 			16: {
 				open: [-27, -158],
@@ -365,7 +365,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}).join(ice.NL) }).join(ice.NL)
 		can.page.Append(can, document.head, ctx.STYLE, {"innerText": text}), console.log("icon", text)
 	},
-	topic: function(can, topic, color, style, list) { const SOLID = " solid 1px", GLASS = "#0000"
+	topic: function(can, topic, color, style, list) { const SOLID = " solid 1px", GLASS = "transparent"
 		const INPUT_STYLE = "input-style", INPUT_HOVER_STYLE = "input-hover-style", OUTPUT_STYLE = "output-style", GLASS_STYLE = "glass-style"
 		const TABLE_HEAD_STYLE = "table-head-style", TABLE_HEAD_HOVER_STYLE = "table-head-hover-style", TABLE_ROW_HOVER_STYLE = "table-row-hover-style", TABLE_CELL_HOVER_STYLE = "table-cell-hover-style"
 		const ITEM_HOVER_STYLE = "item-hover-style", CARTE_ITEM_HOVER_STYLE = "carte-item-hover-style", CARTE_ITEM_STYLE = "carte-item-style"
@@ -377,7 +377,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			INPUT_STYLE, _bg(color.input, html.COLOR, color.label, html.BORDER, color.border+SOLID, "border-radius", "5px", "outline", html.NONE, "box-shadow", html.NONE),
 			INPUT_HOVER_STYLE, _fg(color.text, html.BORDER, color.text+SOLID), OUTPUT_STYLE, _bg(color.output), GLASS_STYLE, _bg(GLASS),
 			TABLE_HEAD_STYLE, _bg(color.table, html.COLOR, color.label), TABLE_HEAD_HOVER_STYLE, _bg(color.table, html.COLOR, text),
-			TABLE_ROW_HOVER_STYLE, _bg(color.table), TABLE_CELL_HOVER_STYLE, _bg(color.hover), ITEM_HOVER_STYLE, _bg(color.hover, html.COLOR, color.text), CARTE_ITEM_HOVER_STYLE, _bg(color.hover, html.COLOR, color.text),
+			TABLE_ROW_HOVER_STYLE, _bg(color.table), TABLE_CELL_HOVER_STYLE, _bg(color.hover), ITEM_HOVER_STYLE, _bg(color.hover, html.COLOR, color.text), CARTE_ITEM_HOVER_STYLE, _bg(color.input, html.COLOR, color.text),
 			PANEL_STYLE, _bg(color.topic, html.COLOR, color.label), PLUGIN_STYLE, _bg(color.plugin, "border-radius", "10px"),
 		), list = list||[
 			{type: "", style: _fg(color.label)},
@@ -391,6 +391,18 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			{type: html.DIV_ACTION, list: [{type: html.DIV_ITEM, name: [html.SELECT], style: [GLASS_STYLE]}]},
 			{type: html.DIV_ACTION, list: [{type: html.DIV_ITEM, name: [html.HOVER], style: [GLASS_STYLE]}]},
 			{type: html.DIV_OUTPUT, style: [OUTPUT_STYLE]}, {type: html.DIV_STATUS, style: _fg(color.label)},
+			{type: html.DIV_ITEM, name: [html.SELECT], style: [ITEM_HOVER_STYLE]}, {type: html.DIV_ITEM, style: [ITEM_HOVER_STYLE]},
+			{type: html.DIV_TABS, list: [{type: html.DIV, style: _bg(color.plugin)}]},
+			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.SELECT], style: [OUTPUT_STYLE]}]},
+			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.HOVER], style: [OUTPUT_STYLE]}]},
+			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.HOVER], style: _fg(color.text)}]},
+			{type: html.DIV_PATH, style: [OUTPUT_STYLE]}, {type: html.DIV_CODE, style: {border: color.border+SOLID}},
+			{type: html.DIV_PATH, list: [{type: html.SPAN, style: [ITEM_HOVER_STYLE]}]},
+			{type: "div.zone>div.name", style: [TABLE_HEAD_STYLE]}, {type: "div.zone>div.name", style: [TABLE_HEAD_HOVER_STYLE]},
+			{type: "div.zone>div.list>div.zone>div.name", style: [TABLE_HEAD_STYLE]},
+			{type: "div.zone>div.list>div.zone>div.name", style: [TABLE_HEAD_HOVER_STYLE]},
+			{type: "div.zone div.item>div.name", name: [html.HOVER], style: _fg(color.text)},
+			{type: "tr.line.select", style: [ITEM_HOVER_STYLE]}, {type: "tr.line", style: [ITEM_HOVER_STYLE]}, {type: "tr.line>td.line", style: [OUTPUT_STYLE]},
 			{type: html.TABLE_LAYOUT, list: [{type: html.DIV_TOGGLE, style: [ITEM_HOVER_STYLE]}]},
 			{type: html.TABLE_CONTENT, list: [{type: html.TR, style: [TABLE_ROW_HOVER_STYLE]}]},
 			{type: html.TABLE_CONTENT, list: [{type: html.TH, style: [TABLE_HEAD_STYLE]}]},
@@ -399,21 +411,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			{type: html.TABLE_CONTENT, list: [{type: html.TD, style: [TABLE_CELL_HOVER_STYLE]}]},
 			{type: html.H1, style: [ITEM_HOVER_STYLE]}, {type: html.H2, style: [ITEM_HOVER_STYLE]}, {type: html.H3, style: [ITEM_HOVER_STYLE]},
 			{type: html.LABEL, style: _fg(color.label)}, {type: html.A, style: _fg(color.notice)},
-			{type: "tr.line.select", style: [ITEM_HOVER_STYLE]}, {type: "tr.line", style: [ITEM_HOVER_STYLE]}, {type: "tr.line>td.line", style: [OUTPUT_STYLE]},
-			{type: "div.zone>div.name", style: [TABLE_HEAD_STYLE]}, {type: "div.zone>div.name", style: [TABLE_HEAD_HOVER_STYLE]},
-			{type: "div.zone>div.list>div.zone>div.name", style: [TABLE_HEAD_STYLE]},
-			{type: "div.zone>div.list>div.zone>div.name", style: [TABLE_HEAD_HOVER_STYLE]},
-			{type: "div.zone div.item>div.name", name: [html.HOVER], style: _fg(color.text)},
-			{type: html.DIV_ITEM, name: [html.SELECT], style: [ITEM_HOVER_STYLE]}, {type: html.DIV_ITEM, style: [ITEM_HOVER_STYLE]},
-			{type: html.DIV_TABS, list: [{type: html.DIV, style: _bg(color.plugin)}]},
-			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.SELECT], style: [OUTPUT_STYLE]}]},
-			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.HOVER], style: [OUTPUT_STYLE]}]},
-			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.HOVER], style: _fg(color.text)}]},
-			{type: html.DIV_PATH, style: [OUTPUT_STYLE]}, {type: html.DIV_CODE, style: {border: color.border+SOLID}},
-			{type: html.DIV_PATH, list: [{type: html.SPAN, style: [ITEM_HOVER_STYLE]}]},
-			{type: html.DIV_CARTE, list: [{type: html.DIV_ITEM, style: [TABLE_HEAD_STYLE, CARTE_ITEM_STYLE]}]},
-			{type: html.DIV_CARTE, list: [{type: html.DIV_ITEM, style: [CARTE_ITEM_HOVER_STYLE]}]},
-			{type: html.DIV_FLOAT, style: [PLUGIN_STYLE]},
 			{type: html.FIELDSET_FLOAT, style: [PLUGIN_STYLE]},
 			{type: html.FIELDSET_PANEL, style: [PANEL_STYLE]}, {type: html.FIELDSET_PANEL, list: [{type: ">"+html.DIV_OUTPUT, style: [PANEL_STYLE]}]},
 			{type: html.FIELDSET_PANEL, name: [chat.HEADER], list: [{type: html.DIV_OUTPUT, list: [{type: html.DIV, style: [ITEM_HOVER_STYLE]}], }]},
@@ -422,6 +419,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			{type: html.FIELDSET_PLUGIN, style: [PLUGIN_STYLE]}, {type: html.FIELDSET_PLUGIN, list: [{type: html.DIV_STATUS, style: {"border-top": color.border+SOLID}}]},
 			{type: html.FIELDSET_STORY, style: [PLUGIN_STYLE]}, {type: html.FIELDSET_STORY, list: [{type: html.DIV_STATUS, style: {"border-top": color.border+SOLID}}]},
 			{type: html.FIELDSET_INPUT, style: [PLUGIN_STYLE]}, {type: html.FIELDSET_INPUT, style: _b_r(0)},
+			{type: html.DIV_CARTE, list: [{type: html.DIV_ITEM, style: [TABLE_HEAD_STYLE, CARTE_ITEM_STYLE]}]},
+			{type: html.DIV_CARTE, list: [{type: html.DIV_ITEM, style: [CARTE_ITEM_HOVER_STYLE]}]},
+			{type: html.DIV_FLOAT, style: [PLUGIN_STYLE]},
 		]
 		function render(pre, list) { return can.core.List(list, function(item) { var type = item.type+can.core.List(item.name, function(name) { return (name==html.HOVER? ice.DF: ice.PT)+name }).join("")
 			if (!item.name && type.indexOf(".select") == -1 && type.indexOf(":hover") == -1 && can.base.isArray(item.style) && item.style.join(",").indexOf("-hover-") > -1) { type += ":hover" }

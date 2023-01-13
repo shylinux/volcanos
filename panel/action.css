@@ -68,8 +68,8 @@ div.main fieldset.plugin form.option { display:block; clear:both; }
 div.main fieldset.plugin form.option div.item { margin:5px; }
 div.main fieldset.plugin div.action div.item { margin:5px; }
 div.main fieldset.plugin table.content tr { border:lightgray solid 1px; }
-div.main fieldset.plugin table.content tr:hover { background-color:whitesmoke; }
-div.main fieldset.plugin table.content th { background-color:whitesmoke; padding:10px; }
+div.main fieldset.plugin table.content tr:hover { background-color:aliceblue; }
+div.main fieldset.plugin table.content th { background-color:aliceblue; padding:10px; }
 div.main fieldset.plugin table.content td { background-color:white; padding:10px; }
 div.foot { background-color:#404040; color:white; padding:5px; height:42px; clear:both; }
 div.foot div.username { float:right; margin-right:10px; }

@@ -72,7 +72,7 @@ fieldset.repos div.output>div.info div.button:first-child {
 fieldset.repos div.output>div.info div.button {
 	left:30px;
 	position:absolute;
-	bottom:0px;
+	bottom:0;
 	display:flex;
 	justify-content: center;
 	height:40px;
