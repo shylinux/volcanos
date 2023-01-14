@@ -22,8 +22,6 @@ fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.time { float:right; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path { padding:5px; display:block; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.func { margin-left:20px; }
 
-// body.white div.path span.item:hover { background-color:aliceblue; }
-// body.white div.carte.path.float div.item:hover { background-color:white; }
 body.white fieldset.inner.cmd>div.output { background-color:aliceblue; }
 body.white fieldset.inner.cmd>div.output div.content { background-color:white; }
 body.white fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.select { background-color:white; }
@@ -46,8 +44,10 @@ body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:
 
 div.zone>div.action>div.item input[type=text] { margin-right:-10px; }
 div.zone>div.list>div.zone>div.name:hover { margin-left:10px; transition:all 0.3s;  }
-div.tabs>div div.icon { margin-left:10px; margin-top:1px; float:right; visibility:hidden; } div.tabs>div:hover div.icon { visibility:visible; }
-div.action>div div.icon { margin-left:10px; margin-top:1px; float:right; visibility:hidden; } div.action>div:hover div.icon { visibility:visible; }
+div.tabs>div div.icon { margin-left:10px; margin-top:1px; float:right; visibility:hidden; }
+div.tabs>div:hover div.icon { visibility:visible; } div.tabs>div.select div.icon { visibility:visible; }
+div.action>div div.icon { margin-left:10px; margin-top:1px; float:right; visibility:hidden; }
+div.action>div:hover div.icon { visibility:visible; } div.action>div.select div.icon { visibility:visible; }
 div.carte.path.float { font-size:14px; border-radius:0; } div.carte.path.float div.item { padding:5px; }
 div.path span.item { padding:5px; cursor:pointer; }
 tr.line>td.line { text-align:right; padding:0 10px; position:sticky; left:0; }

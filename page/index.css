@@ -31,7 +31,6 @@ div.project div.switch { margin-top:2px; width:12px; float:left; rotate:90deg; }
 div.project div.switch.open { translate:3px -3px; rotate:180deg; }
 div.project div.zone>div.name { background-color:steelblue; color:white; text-align:center; padding:3px; clear:both; }
 div.project div.zone>div.list>div.zone>div.name { text-align:left; padding-left:20px; }
-// div.project div.zone>div.list>div.zone>div.name:hover { background-color:#3c7da8d9; }
 div.project div.zone>div.action>div.item { float:right; clear:none; }
 table.content thead { position:sticky; top:2px; }
 table.content th { background-color:steelblue; padding:2px 5px; }
@@ -118,6 +117,12 @@ div.status>div.item>label { font-size:0.6rem; }
 div.status>legend { margin-left:2px; margin-right:0; float:right; clear:none; }
 div.code { position:sticky; left:0; }
 /* display */
+form.option>div.icon { margin:5px; display:none; float:left; cursor:pointer; }
+fieldset.float:not(.input) form.option>div.icon { display:block; }
+fieldset.full form.option>div.icon { display:block; }
+fieldset.plug form.option>div.icon { display:block; margin-left:5px; }
+fieldset:not(.panel):not(.input) form.option>div.icon.refresh { display:block; margin-right:5px; }
+
 form.option, div.action { display:contents; }
 form.option>div.item>label, div.action>div.item>label, .hidden, .hide { display:none; }
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, div.status>div.item { float:left; }
