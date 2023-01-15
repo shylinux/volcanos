@@ -26,6 +26,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var select; can.page.Append
 	},
 })
 Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.REFRESH], _init: function(can) { can.onmotion.hidden(can) },
+	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onlogin: function(can, msg) { can.run({}, [], function(msg) { if (msg.Option(ice.MSG_RIVER) == "_share") { return }
  		can.onmotion.clear(can), can.onimport._main(can, msg), can.onimport._init(can, msg), can.onimport._menu(can, msg)
 		can.user.isMobile ||can.user.isExtension || can.user.mod.isPod || can.onmotion.toggle(can, can._target, true)

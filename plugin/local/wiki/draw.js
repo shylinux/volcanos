@@ -73,7 +73,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			sub.onimport.size(sub, can.ConfHeight()/2, can.ConfWidth()-can.ui.project.offsetWidth, true)
 		})
 	},
-}, [""])
+})
 Volcanos(chat.ONACTION, {list: [[svg.GRID, 1, 2, 3, 4, 5, 10, 20],
 		[svg.FONT_SIZE, 12, 16, 18, 24, 32], [svg.STROKE_WIDTH, 1, 2, 3, 4, 5],
 		[svg.STROKE, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE],

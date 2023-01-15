@@ -1,8 +1,8 @@
 var kit = {proto: function(sub, sup) { return sub.__proto__ = sup, sub },
-	Dict: function() { var res = {}, args = arguments; for (var i = 0; i < args.length; i += 2) { var value = args[i]
-		if (typeof value == "object") { i--; for (var k in value) { res[k] = value[k] }
-			for (var j = 0; j < value.length; j += 2) { res[value[j]] = value[j+1] }
-		} else if (typeof value == "string" && value) { res[value] = args[i+1] }
+	Dict: function() { var res = {}, arg = arguments; for (var i = 0; i < arg.length; i += 2) { var key = arg[i]
+		if (typeof key == "object") { i--; for (var k in key) { res[k] = key[k] }
+			for (var j = 0; j < key.length; j += 2) { res[key[j]] = key[j+1] }
+		} else if (typeof key == "string" && key) { res[key] = arg[i+1] }
 	} return res },
 }
 var ice = {
@@ -13,22 +13,16 @@ var ice = {
 	SHOW: "show", HIDE: "hide", HELP: "help", COPY: "copy",
 	VIEW: "view", MODE: "mode", SHIP: "ship", EXEC: "exec",
 
-	DEV: "dev",
-	POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
+	DEV: "dev", POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
 	CAN: "can", MSG: "msg", RUN: "run", RES: "res", ERR: "err",
-	CAN_PLUGIN: "can.plugin",
+	CAN_PLUGIN: "can._plugin",
 
-	MSG_DETAIL: "detail",
-	MSG_OPTION: "option",
-	MSG_APPEND: "append",
-	MSG_RESULT: "result",
-	MSG_FIELDS: "fields",
-	MSG_SESSID: "sessid",
+	MSG_DETAIL: "detail", MSG_OPTION: "option", MSG_APPEND: "append", MSG_RESULT: "result",
+	MSG_SESSID: "sessid", MSG_FIELDS: "fields",
 
 	MSG_SOURCE: "_source",
 	MSG_TARGET: "_target",
 	MSG_HANDLE: "_handle",
-	MSG_DAEMON: "_daemon",
 	MSG_UPLOAD: "_upload",
 	MSG_ACTION: "_action",
 	MSG_STATUS: "_status",
@@ -39,21 +33,12 @@ var ice = {
 	MSG_PROCESS: "_process",
 	PROCESS_AGAIN: "_again",
 
-	MSG_TITLE: "sess.title",
-	MSG_TOPIC: "sess.topic",
-	MSG_RIVER: "sess.river",
-	MSG_STORM: "sess.storm",
-
-	MSG_USERNAME: "user.name",
-	MSG_USERNICK: "user.nick",
-	
+	MSG_TITLE: "sess.title", MSG_TOPIC: "sess.topic", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm", MSG_WIDTH: "sess.width", MSG_HEIGHT: "sess.height",
+	MSG_DAEMON: "sess.daemon",
+	MSG_USERNAME: "user.name", MSG_USERNICK: "user.nick",
 	LOG_DISABLE: "log.disable",
-
-	ErrWarn: "warn: ",
-	ErrNotLogin: "not login: ",
-	ErrNotRight: "not right: ",
-	ErrNotFound: "not found: ",
-	ErrNotValid: "not valid: ",
+	
+	ErrWarn: "warn: ", ErrNotLogin: "not login: ", ErrNotRight: "not right: ", ErrNotFound: "not found: ", ErrNotValid: "not valid: ",
 	
 	USR_ICEBERGS: "usr/icebergs/",
 	USR_VOLCANOS: "usr/volcanos/",
@@ -84,16 +69,16 @@ var mdb = {
 	FOREACH: "*", RANDOMS: "%",
 }
 var web = {
-	SPACE: "space", DREAM: "dream", SHARE: "share",
-	WEBSITE: "website", DRAW: "draw", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter", SUBMIT: "submit", CANCEL: "cancel", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
+	SHARE: "share", SPACE: "space", DREAM: "dream",
+	WEBSITE: "website", DRAW: "draw", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter",
+	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
-	Accept: "Accept", ContentType: "Content-Type",
-	ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
+	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
+	VIDEO_WEBM: "video/webm",
 	
 	CODE_INNER: "web.code.inner", WIKI_WORD: "web.wiki.word",
-	VIDEO_WEBM: "video/webm",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
@@ -104,10 +89,12 @@ var aaa = {
 var lex = {
 	SPLIT: "split", PREFIX: "prefix", SUFFIX: "suffix",
 }
-var gdb = {
-	SIGNAL: "signal",
+var yac = {
 }
 var ssh = {
+}
+var gdb = {
+	SIGNAL: "signal",
 }
 var tcp = {
 	HOST: "host", PORT: "port",
@@ -140,9 +127,9 @@ var code = {
 	TEMPLATE: "template", COMPLETE: "complete", NAVIGATE: "navigate", CURRENT: "current",
 }
 var wiki = {
-	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark",
+	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark", SHELL: "shell",
 	ORDER: "order", TABLE: "table", CHART: "chart", IMAGE: "image", VIDEO: "video",
-	FIELD: "field", SHELL: "shell", LOCAL: "local", PARSE: "parse",
+	FIELD: "field", LOCAL: "local", PARSE: "parse",
 	NAVMENU: "navmenu", PREMENU: "premenu", CONTENT: "content",
 	STORY_ITEM: ".story", H2: "h2.story", H3: "h3.story",
 }
@@ -150,10 +137,10 @@ var chat = {
 	LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", STORY: "story", PLUG: "plug",
 	TOAST: "toast", CARTE: "carte", INPUT: "input", UPLOAD: "upload", CONTEXTS: "contexts",
 	LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile", ACTIONS: "actions",
-	TITLE: "title", TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print",
+	TITLE: "title", TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print", LIGHT: "light", DARK: "dark",
 	SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field", TOOL: "tool",
 	STATE: "state", MENUS: "menus", SSO: "sso", LOCATION: "location", IFRAME: "iframe",
-	SIMPLE: "simple", OUTPUT: "output", FLOAT: "float", FULL: "full", CMD: "cmd",
+	OUTPUT: "output", SIMPLE: "simple", FLOAT: "float", FULL: "full", CMD: "cmd",
 
 	HEADER: "Header", ACTION: "Action", FOOTER: "Footer",
 	libs: ["/lib/base.js", "/lib/core.js", "/lib/date.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
@@ -216,19 +203,18 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story", FIELDSET_INPUT: "fieldset.input", FIELDSET_FLOAT: "fieldset.float",
 	FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot", FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main",
 	OPTION_ARGS: "select.args,input.args,textarea.args", INPUT_ARGS: "input.args,textarea.args", INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",
-	FORM: "form", SELECT: "select", INPUT: "input", TEXT: "text", FILE: "file", BUTTON: "button", TEXTAREA: "textarea",
+	BODY: "body", FORM: "form", SELECT: "select", INPUT: "input", TEXT: "text", FILE: "file", BUTTON: "button", TEXTAREA: "textarea",
 	CLICK: "click", CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
-	TABLE: "table", THEAD: "thead", TBODY: "tbody", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li",
+	TABLE: "table", THEAD: "thead", TBODY: "tbody", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li", BR: "br", HR: "hr",
 	H1: "h1", H2: "h2", H3: "h3", A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
 	SPAN: "span", CODE: "code", DIV: "div", IMG: "img", VIDEO: "video", WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe",
-	SPACE: "space", WEBVIEW: "webview", CHROME: "chrome", MOBILE: "mobile", LANDSCAPE: "landscape",
+	WEBVIEW: "webview", CHROME: "chrome", MOBILE: "mobile", LANDSCAPE: "landscape",
 
-	BODY: "body",
-	HOVER: "hover", HOVER_SELECT: "hover,select",
-	CLASS: "class", DISPLAY: "display", BLOCK: "block", NONE: "none", HIDDEN: "hidden", TOGGLE: "toggle", SIZE: "size",
+	CLASS: "class", DISPLAY: "display", BLOCK: "block", NONE: "none", OVERFLOW: "overflow", HIDDEN: "hidden", SCROLL: "scroll", FLOAT: "float", CLEAR: "clear", BOTH: "both",
 	PADDING: "padding", BORDER: "border", MARGIN: "margin", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
 	HEIGHT: "height", WIDTH: "width", MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MIN_WIDTH: "min-width", MAX_WIDTH: "max-width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
-	BACKGROUND: "background", COLOR: "color", OPACITY: "opacity", OVERFLOW: "overflow", SCROLL: "scroll", SPEED: "speed", FLOAT: "float", CLEAR: "clear", BOTH: "both",
+	BACKGROUND_COLOR: "background-color", COLOR: "color", OPACITY: "opacity", TOGGLE: "toggle", SPEED: "speed", SIZE: "size",
+	HOVER: "hover", HOVER_SELECT: "hover,select",
 
 	PAGE: "page", TABS: "tabs", MENU: "menu", NODE: "node",
 	ZONE: "zone", LIST: "list", ITEM: "item", NAME: "name", ICON: "icon",
@@ -242,24 +228,20 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	DIV_FLOAT: "div.float", DIV_TOAST: "div.toast", DIV_CARTE: "div.carte",
 }
 var lang = {
-	UNDEFINED: "undefined", STRING: "string", NUMBER: "number", BOOLEAN: "boolean", FUNCTION: "function", OBJECT: "object", ARRAY: "array",
+	SPACE: "space", UNDEFINED: "undefined", STRING: "string", NUMBER: "number", BOOLEAN: "boolean", FUNCTION: "function", OBJECT: "object", ARRAY: "array",
 	META: "Meta", ALT: "Alt", CONTROL: "Control", SHIFT: "Shift", TAB: "Tab", ESCAPE: "Escape", ENTER: "Enter",
 	CMD: "Cmd", CTRL: "Ctrl", SPACE: "Space", BACKSPACE: "Backspace", ESC: "Esc", PS: "/",
 }
 
-function shy(help, meta, list, cb) { var args = arguments, i = 0; function next(type) {
-		if (type == lang.OBJECT) { if (typeof args[i] == lang.OBJECT && args[i].length == undefined) { return args[i++] }
-		} else if (type == lang.ARRAY) { if (typeof args[i] == lang.OBJECT && args[i].length != undefined) { return args[i++] }
-		} else if (i < args.length && (!type || type == typeof args[i])) { return args[i++] }
-	} return cb = typeof args[args.length-1] == lang.FUNCTION? args[args.length-1]: function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.ARRAY)||[], cb
+function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(type) {
+		if (type == lang.OBJECT) { if (typeof arg[i] == lang.OBJECT && arg[i].length == undefined) { return arg[i++] }
+		} else if (type == lang.ARRAY) { if (typeof arg[i] == lang.OBJECT && arg[i].length != undefined) { return arg[i++] }
+		} else if (i < arg.length && (!type || type == typeof arg[i])) { return arg[i++] }
+	} return cb = typeof arg[arg.length-1] == lang.FUNCTION? arg[arg.length-1]: function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.ARRAY)||[], cb
 }; var _can_name = "", _can_path = ""
 var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {
-		if (name.length > 0) { return Volcanos({panels: [
-			{name: chat.HEADER, pos: html.HIDE, state: [aaa.USERNICK]},
-			{name: chat.ACTION, pos: html.MAIN, tool: name},
-			{name: chat.FOOTER, pos: html.HIDE}
-		]}) }
+		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, pos: html.HIDE, state: [aaa.USERNICK]}, {name: chat.ACTION, pos: html.MAIN, tool: name}, {name: chat.FOOTER, pos: html.HIDE}]}) }
 		var Config = name; name = Config.name||ice.CAN, _can_name = "", _can_path = ""
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)
@@ -270,7 +252,7 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub), sub._path = name } meta.cache[name] = cache
 			cache.forEach(function(sub) { var name = sub._name; if (typeof cbs == lang.FUNCTION && cbs(can, name, sub)) { return }
 				can[name] = can[name]||{}; for (var k in sub) {
-					name == "onimport" && k == "_init" && (can[name]._last_init = sub[k])
+					name == chat.ONIMPORT && k == chat._INIT && (can[name]._last_init = sub[k])
 					can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k])
 				}
 			})
@@ -303,7 +285,7 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 					key.indexOf("_") == 0 || key.indexOf("user.") == 0 || set(key, item.Option(key))
 				}): can.core.Item(can.base.isFunc(item)? item(): item, set)
 			});
-			set(html.HEIGHT, can.ConfHeight()), set(html.WIDTH, can.ConfWidth())
+			set(ice.MSG_HEIGHT, can.ConfHeight()), set(ice.MSG_WIDTH, can.ConfWidth())
 			return msg
 		},
 

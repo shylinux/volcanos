@@ -101,31 +101,32 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		}); return node
 	},
 	zone: function(can, list, target) {
-		return can.page.Append(can, target, can.core.List(list, function(zone, index) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: html.ZONE+ice.SP+zone.name, list: [
-			{view: html.NAME, inner: can.user.trans(can, zone.name), onclick: function() {
-				if (zone._delay_show) { zone._delay_show(zone._target), delete(zone._delay_show) }
+		return can.page.Append(can, target, can.core.List(list, function(zone) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: [[html.ZONE, zone.name]], list: [
+			{view: html.NAME, inner: can.user.trans(can, zone.name), _init: function(target) {
+				zone._legend = target
+			}, onclick: function() {
+				if (zone._delay_show) { zone._delay_show(zone._target, zone), delete(zone._delay_show) }
 				can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._target)
 			}, oncontextmenu: function(event) {
 				zone._menu? can.user.carteRight(event, can, zone._menu.meta, zone._menu.list||can.core.Item(zone._menu.meta), function(event, button, meta) {
 					(meta[button]||can.onaction[button])(event, can, button)
-				}): can.page.Select(can, document.body, can.page.Keys("div.carte.float"), function(target) { can.page.Remove(can, target) })
+				}): can.onmotion.clearCarte(can)
 			}},
 			{view: html.ACTION, _init: function(target) { zone._action = target
-				can.onappend._action(can, [{input: html.TEXT, placeholder: "search", onkeyup: function(event) {
+				can.onappend._action(can, [{input: html.TEXT, placeholder: mdb.SEARCH, onkeyup: function(event) {
 					can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) })
-					can.page.Select(can, zone._target, html.DIV_ITEM, function(item) {
-						can.page.Select(can, item, "div.name", function(name) { can.onmotion.toggle(can, item, name.innerText.indexOf(event.target.value) > -1) })
-					})
-				}, onclick: function(event) {
-					can.onmotion.focus(can, event.target)
+					can.onkeymap.selectItems(event, can, zone._target)
+				}, onfocus: function(event) { var target = event.target
+					target.setSelectionRange && target.setSelectionRange(0, target.value.length)
 				}, _init: function(target) { zone._search = target
 					can.onmotion.delay(can, function() { can.page.styleWidth(can, target, can.core.Value(target.parentNode.parentNode, "parentNode.offsetWidth")-10) })
 				}}], target, {})
 			}},
 			{view: html.LIST, _init: function(target) { can.ui[zone.name] = zone
 				zone._total = function(total) { return can.page.Modify(can, zone._search, {placeholder: "search in "+total+" item"}), total }
-				zone._target = target, zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target, zone) }
+				zone._target = target, zone.refresh = function() { zone._init(target, zone) }
 				can.base.isFunc(zone._init) && (zone._menu = zone._init(target, zone)||zone._menu)
+				if (zone._delay_show) { can.onmotion.hidden(can, zone._action), can.onmotion.hidden(can, zone._target) }
 			}}
 		]} }))
 	},

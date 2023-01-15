@@ -24,7 +24,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
 		can.svg.Val(svg.FONT_SIZE, can.size = parseInt(can.Action(html.SIZE))), can.margin = parseInt(can.Action(html.MARGIN))
 		can.onaction[can.Action(ice.VIEW)](event, can, can.Action(ice.VIEW))
 	},
-}, [""])
+})
 Volcanos(chat.ONACTION, {list: [[ice.VIEW, "横向", "纵向"], [html.SIZE, 24, 32, 48], [html.MARGIN, 10, 30, 50]],
 	size: function(event, can) { can.onimport.layout(can) }, margin: function(event, can) { can.onimport.layout(can) },
 	"横向": function(event, can, button) { can.onimport._height(can, can._tree[can.dir_root]), can.onmotion.clear(can, can.svg)

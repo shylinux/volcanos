@@ -37,7 +37,7 @@ Volcanos({
 	},
 	_motion: function(can) {
 		can.user.toast = function(can, message, title) { chrome.notifications.create(null, {
-			message: message, title: title||can._name, iconUrl: "/favicon.ico", type: "basic",
+			message: message, title: title||can._name, iconUrl: "/page/favicon.ico", type: "basic",
 		})}
 		chrome.contextMenus && chrome.contextMenus.create({title: "volcanos", onclick: function(event) {
 			chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {

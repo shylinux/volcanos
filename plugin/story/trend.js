@@ -42,7 +42,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.requireDraw(functio
 	transform: function(can, target) {
 		target.Value("transform", "translate(0, "+parseInt(can.ConfHeight())+") scale(1, -1)")
 	},
-}, [""])
+})
 Volcanos(chat.ONACTION, {list: [
 		[ice.VIEW, "趋势图", "柱状图", "折线图", "数据源"],
 		[html.HEIGHT, ice.AUTO, 100, 200, 400, 600, 800],

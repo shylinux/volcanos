@@ -49,7 +49,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	topic: function(can, topic) { topic && (can._topic = can.base.Obj(topic).join(ice.SP)), can.user.topic(can, can.onexport.topic(can)) },
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
-		return can.page.Append(can, can._output, [{type: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
+		return can.page.Append(can, can._output, [{view: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
 			if (can.base.isString(item)) { return {view: [html.MENU, html.DIV, can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }} }
 			if (can.base.isArray(item)) {
 				return {view: [html.MENU, html.DIV, can.user.trans(can, item[0], trans)], onmouseenter: function(event) {
@@ -71,10 +71,10 @@ Volcanos(chat.ONACTION, {
 		} can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.language = can.misc.Search(can, aaa.LANGUAGE)||msg.Option(aaa.LANGUAGE)
 			can.user.info.background = msg.Option(aaa.BACKGROUND), can.user.info.avatar = msg.Option(aaa.AVATAR)
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
-			can.onmotion.clear(can), can.onimport._init(can, msg, can._output), can.ondaemon._init(can), can.onengine.signal(can, chat.ONLOGIN, msg)
+			can.onmotion.clear(can), can.onimport._init(can, msg, can._output), can.onengine.signal(can, chat.ONLOGIN, msg)
 		})
 	},
-	onsize: function(can) { can.onimport.topic(can) },
+	onsize: function(can) { can.onimport.topic(can), can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onstorm_select: function(can, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
 	onaction_cmd: function(can) { can.onmotion.hidden(can) },
 	onsearch_focus: function(can) { can._search && can._search.focus() },

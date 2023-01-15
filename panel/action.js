@@ -20,7 +20,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 		}), can.user.title(meta.name), skip || next() }), can.onlayout._init(can)
 	},
 	_run: function(can, sub, cbs) { can._plugins = can.misc.concat(can, can._plugins, [sub])
-		sub.run = function(event, cmds, cb) { (!cmds || cmds[0] != ctx.ACTION) && sub.request(event, {height: sub.ConfHeight(), width: sub.ConfWidth()})
+		sub.run = function(event, cmds, cb) { (!cmds || cmds[0] != ctx.ACTION) && sub.request(event, kit.Dict(ice.SESS_HEIGHT, sub.ConfHeight(), ice.SESS_WIDTH, sub.ConfWidth()))
 			return cbs(event, cmds, cb)
 		}, sub.Mode(can.Mode()), sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth())
 	},
@@ -99,7 +99,9 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		"refer", "参考手册",
 	),
 	onmain: function(can) { can.onimport._share(can, can.misc.Search(can, web.SHARE)) },
-	onlogin: function(can) { if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return }
+	onlogin: function(can) {
+		can.ondaemon._init(can)
+		if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return }
 		can.onengine.signal(can, chat.ONACTION_CMD)
 		can._names = location.pathname, can.Conf(chat.TOOL)? can.onappend.layout(can, can._output, "flow", can.core.List(can.Conf(chat.TOOL), function(item, index, list) {
 			if (list.length == 1) { item.height = window.innerHeight-2*html.ACTION_HEIGHT }

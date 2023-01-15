@@ -39,7 +39,7 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 	onopensearch: function(can, msg, type, word) { can.onimport.select(can, msg, [type||mdb.FOREACH, word||""]) },
 	onkeydown: function(can, msg) { msg._event.key == lang.ESCAPE && can.onmotion.hidden(can, can._target) },
 	onsize: function(can, height, width) { can.ConfHeight(height-2*html.PLUGIN_MARGIN-2*html.ACTION_HEIGHT), can.ConfWidth(width-2*html.PLUGIN_MARGIN)
-		can.core.List([can.ui.content, can.ui.display, can.ui.profile], function(target) { can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth()) })
+		can.ui && can.core.List([can.ui.content, can.ui.display, can.ui.profile], function(target) { can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth()) })
 		can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.base.Min(320, can.ConfHeight()-html.ACTION_HEIGHT-can.ui.content.offsetHeight-can.ui.display.offsetHeight)-2*html.ACTION_HEIGHT-1, can.ConfWidth()-1, true) })
 		can.page.style(can, can._output, html.MAX_HEIGHT, can.ConfHeight()-html.ACTION_HEIGHT)
 	},

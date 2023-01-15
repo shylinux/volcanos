@@ -72,7 +72,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			case ice.SP: indent++; break
 			default: return indent
 		} } }
-		var package = "", block = "", list = [], current = "", percent = ""; can.page.Select(can, can.ui.content, "tr.line>td.text", function(item, index) {
+		var carte, list = [{input: ["filter", function(event) {
+			can.onkeymap.selectItems(event, can, carte._target)
+		}], _init: function(target) { can.onmotion.delay(can, function() { target.focus() }) }}]
+		
+		var package = "", block = "", current = "", percent = ""
+		can.page.Select(can, can.ui.content, "tr.line>td.text", function(item, index) {
 			var text = item.innerText, _indent = indent(text)
 			function push(item) { list.push(item)
 				if (index < can.Option(nfs.LINE)) { current = list[list.length-1], percent = " = "+parseInt((index+1)*100/(can.max||1))+"%" }
@@ -105,9 +110,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				}
 			}
 		}); (can.parse == nfs.JS || can.parse == nfs.GO) && can.page.Append(can, target, [{view: [[html.ITEM, "func"], html.SPAN, (current||"function")+" / "+can.max+percent], onclick: function(event) {
-			can.user.carte(event, can, {_style: nfs.PATH}, list, function(ev, button) {
-				can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.core.Split(button, ice.DF)[1])
-				can.onmotion.clearFloat(can)
+			carte = can.user.carte(event, can, {_style: nfs.PATH}, list, function(ev, button) {
+				can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.core.Split(button, ice.DF)[1]), can.onmotion.clearFloat(can)
 			})
 		}}])
 	},
@@ -140,7 +144,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				}), can.ui.current && can.onmotion.toggle(can, can.ui.current, !isCommand() && !isDream())
 				var ls = can.file.split(ice.PS); if (ls.length > 4) { ls = [ls.slice(0, 2).join(ice.PS)+"/.../"+ls.slice(-2).join(ice.PS)] }
 				can.Status(kit.Dict("文件", ls.join(ice.PS), "类型", can.parse)), can.onimport.layout(can)
-				can.onaction.selectLine(can, can.Option(nfs.LINE)), can.onaction.scrollIntoView(can)
+				if (!skip) {
+					can.onaction.selectLine(can, can.Option(nfs.LINE)), can.onaction.scrollIntoView(can)
+				}
 				can.base.isFunc(cb) && cb(), cb = null
 			})
 		}
@@ -162,7 +168,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	},
 	project: function(can, path) {
 		can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) {
-			if (can.base.isFunc(cb)) { return {name: name, _init: function(target, zone) { return cb(can, target, zone, path) }} }
+			if (can.base.isFunc(cb)) { return {name: name, _trans: can.onfigure._trans? can.onfigure._trans[name]||"": "", _init: function(target, zone) { return cb(can, target, zone, path) }} }
 		}), can.ui.project), can.user.isMobile && !can.user.isLandscape() && can.onmotion.hidden(can, can.ui.project)
 	},
 	profile: function(can, msg) { var sup = can.db.tabview[can.onexport.keys(can)]
@@ -308,7 +314,6 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 		p.keyword && (line = can.core.List(can.core.Split(line, p.split.space||"\t ", p.split.operator||"{[(.,:;!?|&*/+-<=>)]}", {detail: true}), function(item, index, array) {
 			item = can.base.isObject(item)? item: {text: item}; var text = item.text, type = p.keyword[text]
 			switch (item.type||type) {
-				case html.SPACE: return text
 				case lang.STRING: return wrap(item.left+text+item.right, lang.STRING)
 				case code.COMMENT:
 				case code.KEYWORD:
@@ -430,7 +435,7 @@ Volcanos(chat.ONACTION, {
 			can.onappend.figure(can, {action: "key", mode: chat.SIMPLE, _enter: function(event) {
 				if (event.ctrlKey) { meta.grep() } else { meta[button](), can.onmotion.delay(can, function() { target.focus() }) } return true
 			}, run: function(event, cmds, cb) { var msg = can.request(event); can.core.List(can.core.Split(can.current.text(), "\t {([,:;=<>])}", {detail: true}), function(value) {
-				if (can.base.isObject(value)) { if (value.type == html.SPACE) { return }
+				if (can.base.isObject(value)) {
 					value.type == lang.STRING && msg.Push(mdb.VALUE, value.left+value.text+value.right), msg.Push(mdb.VALUE, value.text)
 				} else {
 					msg.Push(mdb.VALUE, value)

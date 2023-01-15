@@ -156,7 +156,7 @@ Volcanos(chat.ONACTION, {
 				can.keylist = can.onkeymap._parse(event, can, "normal", can.keylist)
 			}})), can.onkeymap._build(can)
 
-			sub.page.style(sub, sub._target, html.BACKGROUND, can._root._target.style.background)
+			sub.page.style(sub, sub._target, "background", can._root._target.style.background)
 			sub.page.style(sub, sub._output, html.HEIGHT, can.page.height()-2*html.ACTION_HEIGHT)
 			sub.page.style(sub, sub._output, html.WIDTH, can.page.width())
 
