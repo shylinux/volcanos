@@ -12,15 +12,20 @@ fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.object { color:cyan; }
 fieldset.inner>div.output>div.project { width:230px; }
-fieldset.inner>div.output>div.project>div.zone>div.name { letter-spacing:10px; }
+fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; }
+fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-right:0; width:100%; }
+fieldset.inner>div.output>div.project>div.zone div.action>div.item>input { width:100%; }
 fieldset.inner>div.output>div.layout.flow>div.tabs { display:none; }
 fieldset.inner>div.output>div.layout.flow>div.path { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { height:38px; display:block; overflow:auto; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div { padding:10px 20px; height:38px; float:left; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div { padding:10px; height:38px; float:left; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span { font-style:italic; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar { padding:0; height:38px; float:right; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.project.icon { font-size:32px; line-height:32px; padding:0 5px; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.create.icon { font-size:26px; line-height:32px; padding:2px 10px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar>img { height:38px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.time { float:right; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.path { padding:5px; display:block; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.path { font-style:italic; padding:5px; display:block; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.func { margin-left:20px; }
 
 body.black fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
@@ -58,10 +63,10 @@ body.dark fieldset.inner>div.output div.content td.text span.object { color:gold
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 
-div.action>div div.icon { margin-left:10px; margin-top:1px; float:right; visibility:hidden; }
-div.action>div:hover div.icon { visibility:visible; } div.action>div.select div.icon { visibility:visible; }
-div.tabs>div div.icon { margin-left:10px; margin-top:1px; float:right; visibility:hidden; }
-div.tabs>div:hover div.icon { visibility:visible; } div.tabs>div.select div.icon { visibility:visible; }
+// div.action>div div.icon { margin-left:10px; margin-top:1px; float:right; visibility:hidden; }
+// div.action>div:hover div.icon { visibility:visible; } div.action>div.select div.icon { visibility:visible; }
+// div.tabs>div div.icon { margin-left:10px; margin-top:1px; float:right; visibility:hidden; }
+// div.tabs>div:hover div.icon { visibility:visible; } div.tabs>div.select div.icon { visibility:visible; }
 div.carte.path.float { font-size:14px; border-radius:0; } div.carte.path.float div.item { padding:5px; }
 div.path span.item { padding:5px; cursor:pointer; }
 tr.line>td.line { text-align:right; padding:0 10px; position:sticky; left:0; }

@@ -42,7 +42,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		})
 	},
 	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui.tabs = can._action }
-		can.page.Append(can, can.ui.tabs, [{view: [[mdb.TIME, html.SELECT]], _init: function(target) {
+		can.user.isMobile && can.page.Append(can, can.ui.tabs, [{view: [[html.ICON, html.PROJECT], html.DIV, "\u2261"], onclick: function() {
+		 	can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)
+		}}])
+		can.page.Append(can, can.ui.tabs, [{view: [[html.ICON, mdb.CREATE], html.DIV, "+"], onclick: function() {
+			can.user.carte(event, can, can.onaction, can.onaction.list)
+		}}])
+		can.page.Append(can, can.ui.tabs, [{view: [mdb.TIME], _init: function(target) {
 			can.core.Timer({interval: 100}, function() { can.page.Modify(can, target, can.user.time(can, null, "%y-%m-%d %H:%M:%S %w")) })
 			can.onappend.figure(can, {action: "date", _hold: true}, target, function(sub, value) {})
 		}}])
@@ -67,6 +73,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		})
 	},
 	_tabFunc: function(can, target) {
+		can.db.tabFunc = can.db.tabFunc||{}; var last = can.db.tabFunc[can.Option(nfs.PATH)+can.Option(nfs.FILE)]||{}; can.db.tabFunc[can.Option(nfs.PATH)+can.Option(nfs.FILE)] = last
 		function indent(text) { var indent = 0; for (var i = 0; i < text.length; i++) { switch (text[i]) {
 			case ice.TB: indent+=4; break
 			case ice.SP: indent++; break
@@ -75,13 +82,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		var carte, list = [{input: ["filter", function(event) {
 			can.onkeymap.selectItems(event, can, carte._target)
 		}], _init: function(target) { can.onmotion.delay(can, function() { target.focus() }) }}]
-		
+		can.core.Item(last, function(key) { list.push(key) }), list.push("")
 		var package = "", block = "", current = "", percent = ""
-		can.page.Select(can, can.ui.content, "tr.line>td.text", function(item, index) {
-			var text = item.innerText, _indent = indent(text)
-			function push(item) { list.push(item)
-				if (index < can.Option(nfs.LINE)) { current = list[list.length-1], percent = " = "+parseInt((index+1)*100/(can.max||1))+"%" }
-			}
+		can.page.Select(can, can.ui.content, "tr.line>td.text", function(item, index) { var text = item.innerText, _indent = indent(text)
+			function push(item) { list.push(item); if (index < can.Option(nfs.LINE)) { current = list[list.length-1], percent = " = "+parseInt((index+1)*100/(can.max||1))+"%" } }
 			if (can.parse == nfs.JS) {
 				if (_indent == 0 && can.base.beginWith(text, "Volcanos")) {
 					var ls = can.core.Split(text, "\t ({:}),"); block = can.base.trimPrefix(ls[1], "chat.").toLowerCase()
@@ -111,6 +115,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			}
 		}); (can.parse == nfs.JS || can.parse == nfs.GO) && can.page.Append(can, target, [{view: [[html.ITEM, "func"], html.SPAN, (current||"function")+" / "+can.max+percent], onclick: function(event) {
 			carte = can.user.carte(event, can, {_style: nfs.PATH}, list, function(ev, button) {
+				last[button] = true
 				can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.core.Split(button, ice.DF)[1]), can.onmotion.clearFloat(can)
 			})
 		}}])
@@ -145,7 +150,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				var ls = can.file.split(ice.PS); if (ls.length > 4) { ls = [ls.slice(0, 2).join(ice.PS)+"/.../"+ls.slice(-2).join(ice.PS)] }
 				can.Status(kit.Dict("文件", ls.join(ice.PS), "类型", can.parse)), can.onimport.layout(can)
 				if (!skip) {
-					can.onaction.selectLine(can, can.Option(nfs.LINE)), can.onaction.scrollIntoView(can)
+					can.onaction.selectLine(can, can.Option(nfs.LINE), true)
 				}
 				can.base.isFunc(cb) && cb(), cb = null
 			})
@@ -157,7 +162,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				msg._content != can.ui._content && can.page.Remove(can, msg._content), msg._profile != can.ui._profile && can.page.Remove(can, msg._profile)
 				delete(can.ui._content._cache[key]), delete(can.ui._profile._cache[key]), delete(can.ui.display._cache[key])
 				delete(can._cache_data[key]), delete(can.db.tabview[key])
-			}, can.ui.tabs)
+			}, can.ui.tabs).ondblclick = function(event) {
+				can.onaction.clear(event, can)
+				
+			}
 		}
 		if (can.db.tabview[key]) { return !can._msg._tab && !can.isSimpleMode()? load(can.db.tabview[key]): show() }
 		isCommand()||isDream()? load(can.request({}, {index: file, line: line})): can.run({}, [path, file], load, true)
@@ -347,7 +355,7 @@ Volcanos(chat.ONACTION, {
 			}}
 		]}]); return ui.tr
 	},
-	selectLine: function(can, line) { if (!line) { return can.onexport.line(can, can.page.SelectOne(can, can.ui._content, "tr.select")) }
+	selectLine: function(can, line, scroll) { if (!line) { return can.onexport.line(can, can.page.SelectOne(can, can.ui._content, "tr.select")) }
 		can.page.Select(can, can.ui._content, "tr.line>td.line", function(td, index) { var tr = td.parentNode, n = parseInt(td.innerText)
 			if (!can.page.ClassList.set(can, tr, html.SELECT, tr == line || n == line)) { return }
 			line = tr, can.Status("行号", can.onexport.position(can, can.Option(nfs.LINE, n)))
@@ -360,7 +368,7 @@ Volcanos(chat.ONACTION, {
 				}, prev: function() { return line.previousSibling }, next: function() { return line.nextSibling },
 				line: line, text: function(text) { return text != undefined && can.onaction.modifyLine(can, line, text), item.innerText },
 			}, can.onimport.history(can, {path: can.Option(nfs.PATH), file: can.Option(nfs.FILE), line: can.Option(nfs.LINE)})
-			can.onexport.hash(can), can.onaction.scrollIntoView(can, 3), can.onengine.signal(can, "tabview.line.select")
+			can.onexport.hash(can), scroll && can.onaction.scrollIntoView(can), can.onengine.signal(can, "tabview.line.select")
 		})
 		can.misc.localStorage(can, "web.code.inner:currentFile", can.Option(nfs.PATH)+ice.DF+can.Option(nfs.FILE)+ice.DF+can.onaction._getLineno(can, can.current.line))
 		can.misc.localStorage(can, "web.code.inner:selectLine:"+can.Option(nfs.PATH)+can.Option(nfs.FILE), can.onaction._getLineno(can, can.current.line))
@@ -389,8 +397,11 @@ Volcanos(chat.ONACTION, {
 			})
 		}), can.runAction(can.request(event, {text: can.base.Format(list)}), button)
 	},
-	scrollIntoView: function(can, offset) { var scroll = can.current.scroll(), window = can.current.window(); offset = offset||window/2
-		if (scroll < 3) { can.current.scroll(scroll-3) } else if (scroll > window-offset) { can.current.scroll(scroll-window+offset) }
+	scrollIntoView: function(can, offset) { var window = can.current.window(); offset = offset||parseInt(window/4)+2
+		var current = can.onaction._getLineno(can, can.current.line)
+// 		var to = current/window*can.ui.content.offsetHeight+(offset-current%window)*can.current.line.offsetHeight
+		var to = parseInt(current/window)*can.ui.content.offsetHeight+(parseInt(current%window)-offset-1)*can.current.line.offsetHeight
+		can.ui.content.scrollTo(0, to)
 	},
 	back: function(can) { can.db.history.pop(); var last = can.db.history.pop(); last && can.onimport.tabview(can, last.path, last.file, last.line) },
 	clear: function(event, can) {
@@ -415,7 +426,7 @@ Volcanos(chat.ONACTION, {
 				case "_open": return can.runAction(event, ls[0], ls[1])
 				case ctx.INDEX:
 				case web.DREAM: return can.onimport.tabview(can, can.Option(nfs.PATH), ls[1], ls[0])
-				case nfs.LINE: return can.onaction.selectLine(can, parseInt(ls[1])), can.onaction.scrollIntoView(can)
+				case nfs.LINE: return can.onaction.selectLine(can, parseInt(ls[1]), true)
 				default: can.core.List(can.db.paths, function(path) { if (list[0].indexOf(path) == 0) { can.onimport.tabview(can, path, list[0].slice(path.length)) } })
 			}
 		})._target, html.LEFT, can.ui.project.offsetWidth+can.ui.content.offsetWidth/4-34, html.TOP, can.ui.content.offsetHeight/4, html.RIGHT, "")
@@ -428,7 +439,7 @@ Volcanos(chat.ONACTION, {
 		var last = can.onaction._getLineno(can, can.current.line)
 		function find(begin, text) { if (parseInt(text) > 0) { return can.onaction.selectLine(can, parseInt(text)) && meta.close() }
 			for (begin; begin <= can.max; begin++) { if (can.onexport.text(can, can.onaction._getLine(can, begin)).indexOf(text) > -1) {
-				return last = begin, can.onaction.selectLine(can, begin), can.onaction.scrollIntoView(can)
+				return last = begin, can.onaction.selectLine(can, begin, true)
 			} } last = 0, can.user.toast(can, "已经到最后一行")
 		}
 		function complete(target, button) {
@@ -436,8 +447,10 @@ Volcanos(chat.ONACTION, {
 				if (event.ctrlKey) { meta.grep() } else { meta[button](), can.onmotion.delay(can, function() { target.focus() }) } return true
 			}, run: function(event, cmds, cb) { var msg = can.request(event); can.core.List(can.core.Split(can.current.text(), "\t {([,:;=<>])}", {detail: true}), function(value) {
 				if (can.base.isObject(value)) {
+					if (value.type == lang.SPACE) { return }
 					value.type == lang.STRING && msg.Push(mdb.VALUE, value.left+value.text+value.right), msg.Push(mdb.VALUE, value.text)
 				} else {
+					if (value.indexOf(ice.PT) > -1) { msg.Push(mdb.VALUE, value.split(ice.PT).pop()) }
 					msg.Push(mdb.VALUE, value)
 				}
 			}), cb(msg) }}, target)

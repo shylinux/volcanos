@@ -22,15 +22,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 	]); can.ui.current = ui.current, can.ui.complete = ui.complete },
 }, [""])
 Volcanos(chat.ONFIGURE, { 
-	create: function(can, target, zone, path) {
-		can.isCmdMode()? can.onappend._action(can, can.base.Obj(can._msg.Option(ice.MSG_ACTION)).concat(
-			["首页", "官网" , "文档" , "git"], window.webview? ["浏览器", "录屏", "日志", "编辑器"]: []
-		), target): can.onmotion.hidden(can, target.parentNode), can.onmotion.hidden(can, target)
-		can.sup.onexport.link = function(can) { var args = can.Option()
-			var meta = can.Conf(); args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd)
-			return can.misc.MergePodCmd(can, args, true)
-		}
-	},
 	recent: function(can, target, zone, path) { var total = 0
 		function show(msg, cb) { var list = {}; msg.Table(function(item) { var path = item.path+item.file
 			if (!list[path]) { can.page.Append(can, target, cb(item, path)), zone._total(++total) } list[path] = item
@@ -90,6 +81,7 @@ Volcanos(chat.ONFIGURE, {
 		}, function() {}, target) }), zone._total(msg.Length())
 	}) } },
 	dream: function(can, target, zone) { var call = arguments.callee
+		zone._delay_show = function() {
 		can.runAction({}, ice.RUN, [web.DREAM], function(msg) { can.onmotion.clear(can, target), msg.Table(function(item) {
 			can.page.ClassList.add(can, can.onimport.item(can, item, function(event) { can.onimport.tabview(can, can.Option(nfs.PATH), item.name, web.DREAM) }, function(event) {
 				return shy(kit.Dict(cli.START, [cli.OPEN, cli.STOP], cli.STOP, [cli.START, nfs.TRASH])[item.status], function(event, button) {
@@ -99,6 +91,7 @@ Volcanos(chat.ONFIGURE, {
 				})
 			}, target), item.status)
 		}), zone._total(msg.Length()), can.user.toastSuccess(can) })
+		}
 		return shy(kit.Dict(
 			web.REFRESH, function(event, can, button) { call(can, target, zone) },
 			mdb.CREATE, function(event, can, button) { can.onaction.dream(event, can, web.DREAM) },
@@ -119,6 +112,7 @@ Volcanos(chat.ONFIGURE, {
 	} },
 })
 Volcanos(chat.ONACTION, {
+	list: ["autogen", "script", "save", "compile", "dream", "首页", "官网", "文档", "git"],
 	_daemon: function(event, can, arg) { switch (arg[0]) {
 		case web.DREAM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME)), web.DREAM) }); break
 		case code.XTERM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, ctx.COMMAND, code.XTERM, msg.Result()) }); break
@@ -202,7 +196,7 @@ Volcanos(chat.ONACTION, {
 			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, can.ui.current.offsetLeft, html.MARGIN_TOP, can.current.line.offsetHeight)
 			can.runAction(can.request(event, {text: pre}, can.Option()), code.COMPLETE, [], function(msg) { can.page.Appends(can, target, [{view: ["prefix", html.DIV, pre]}])
 				if (can.parse == nfs.JS) { var msg = can.request()
-					var ls = can.core.Split(can.core.Split(pre, "\t (", " ").pop(), ice.PT)
+					var ls = can.core.Split(can.core.Split(pre, "\t {(,:)}").pop(), ice.PT)
 					var list = {can: can, msg: msg, target: target, window: window}
 					can.core.ItemKeys(key == ""? list: can.core.Value(list, ls)||can.core.Value(window, ls)||window, function(k, v) {
 						v && msg.Push(mdb.NAME, k).Push(mdb.TEXT, v.toString().split(ice.NL)[0])

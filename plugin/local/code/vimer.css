@@ -1,7 +1,4 @@
-fieldset.vimer>div.output div.project div.zone.create>div.action { display:none; }
-fieldset.vimer>div.output div.project div.zone.create>div.list div.item { padding:2px; float:left; clear:none; }
-fieldset.vimer>div.output div.project div.zone.create>div.list div.item input { letter-spacing:2px; }
-fieldset.vimer>div.output div.project div.zone.recent>div.list { min-width:200px; max-height:120px; }
+fieldset.vimer>div.output div.project div.zone.recent>div.list { max-height:200px; }
 fieldset.vimer>div.output div.project div.zone.repos>div.list { max-height:120px; }
 fieldset.vimer>div.output div.project div.zone.dream>div.list { max-height:120px; }
 fieldset.vimer>div.output div.project div.zone.dream div.item.stop { color:gray; }

@@ -99,13 +99,10 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		"refer", "参考手册",
 	),
 	onmain: function(can) { can.onimport._share(can, can.misc.Search(can, web.SHARE)) },
-	onlogin: function(can) {
-		can.ondaemon._init(can)
-		if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return }
-		can.onengine.signal(can, chat.ONACTION_CMD)
+	onlogin: function(can) { can.ondaemon._init(can); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return }
+		can.onengine.signal(can, chat.ONACTION_CMD), window.onresize = function(event) { can.onaction.onresize(can), can.page.styleWidth(can, can._output, can.page.width()) }
 		can._names = location.pathname, can.Conf(chat.TOOL)? can.onappend.layout(can, can._output, "flow", can.core.List(can.Conf(chat.TOOL), function(item, index, list) {
-			if (list.length == 1) { item.height = window.innerHeight-2*html.ACTION_HEIGHT }
-			item.type = chat.PLUGIN, item.mode = chat.CMD, item.opts = can.misc.Search(can); return item
+			if (list.length == 1) { item.height = window.innerHeight-2*html.ACTION_HEIGHT } item.type = chat.PLUGIN, item.mode = chat.CMD, item.opts = can.misc.Search(can); return item
 		})).layout(window.innerWidth, window.innerHeight): can.runAction(can.request(), ctx.COMMAND, [], function(msg) { can.core.Next(msg.Table(), function(item, next) {
 			can.onimport._cmd(can, item, next)
 		}) })
@@ -140,13 +137,17 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.onmotion.select(can, can._header_tabs, html.DIV_TABS, index), can.onmotion.select(can, can._action, html.DIV_TABS, index)
 		can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, index)
 	} },
-	onresize: function(can, height, width) { can.onlayout._init(can), can.onaction.layout(can, can.Conf(html.LAYOUT)), window.setsize && window.setsize(can.page.width(), can.page.height()) },
-	onsize: function(can, msg, height, width) { can.Conf({height: height-can.Conf(html.MARGIN_Y), width: width-can.Conf(html.MARGIN_X)}) },
+	onresize: function(can, height, width) {
+		can.onlayout._init(can), can.onaction.layout(can, can.Conf(html.LAYOUT)), window.setsize && window.setsize(can.page.width(), can.page.height())
+	},
+	onsize: function(can, msg, height, width) {
+		can.Conf({height: height-can.Conf(html.MARGIN_Y), width: width-can.Conf(html.MARGIN_X)})
+	},
 	onprint: function(can, msg) { can.page.styleHeight(can, can._target, "") },
 
 	layout: function(can, button, silent) { button = button||ice.AUTO; can.page.ClassList.del(can, can._target, can.Conf(html.LAYOUT))
 		if (button == ice.AUTO) { button = "" } else { can.page.ClassList.add(can, can._target, can.Conf(html.LAYOUT, button)) }
-		can.user.isMobile || can.Mode() || (can.onmotion.toggle(can, can._root.River._target, true), can.onmotion.toggle(can, can._root.Footer._target, true))
+		can.user.isMobile || can.Mode() || (can._root.River && can.onmotion.toggle(can, can._root.River._target, true), can.onmotion.toggle(can, can._root.Footer._target, true))
 		can.user.isMobile && can.Mode() && can.page.style(can, can._target, html.WIDTH, "", html.HEIGHT, "")
 		can.onlayout._init(can), can._header_tabs && can.onmotion.hidden(can, can._header_tabs), can.Conf(chat.LAYOUT, button)
 		var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can, silent) || can.onlayout._plugin(can, button)

@@ -29,12 +29,12 @@ div.project div.item { padding:2px 10px; }
 div.project div.item>div.name { padding-left:20px; }
 div.project div.switch { margin-top:2px; width:12px; float:left; rotate:90deg; }
 div.project div.switch.open { translate:3px -3px; rotate:180deg; }
-div.project div.zone>div.name { background-color:steelblue; color:white; text-align:center; padding:3px; clear:both; position:relative; }
-div.project div.zone>div.name>div.icon { margin-left:3px; display:none; float:right; }
+div.project div.zone>div.item { background-color:steelblue; color:white; text-align:center; padding:3px; clear:both; position:relative; }
+div.project div.zone>div.item>div.icon { margin-left:3px; display:none; float:right; }
 div.project div.zone:hover>div.name>div.icon { display:block; }
 div.project div.zone>div.list>div.zone:hover>div.name>div.icon { top:3px; }
-div.project div.zone>div.list>div.zone>div.name { text-align:left; padding-left:20px; }
-div.project div.zone>div.list>div.zone>div.name:hover { margin-left:10px; transition:all 0.3s;  }
+div.project div.zone>div.list>div.zone>div.item { text-align:left; padding-left:20px; }
+div.project div.zone>div.list>div.zone>div.item:hover { margin-left:10px; transition:all 0.3s;  }
 div.project div.zone>div.list { min-width:200px; overflow:auto; }
 div.project div.zone>div.action>div.item { float:right; clear:none; }
 div.project div.zone>div.action>div.item input[type=text] { margin-right:-10px; }
@@ -93,7 +93,7 @@ body>div.toast div.progress { border:green solid 1px; margin-left:-2px; height:2
 body>div.toast div.progress div.current { background-color:red; height:18px; }
 body>div.toast div.action { display:block; }
 body>div.carte { padding:0; }
-body>div.carte input[name=filter] { margin-left:5px; width:calc(100% - 10px); position:sticky; top:0; }
+body>div.carte input[name=filter] { margin:5px; width:calc(100% - 10px); position:sticky; top:0; }
 body>div.carte div.item { padding:5px 10px; }
 body>div.input td { padding:5px; }
 body>div.input select { width:200px; }
@@ -115,6 +115,16 @@ table.content, div.project, div.item, div.code, div.story[data-type=spark], svg 
 div.action>div.tabs { padding:5px; height:31px; }
 div.status>div.item { padding:5px; height:30px; }
 div.status>div.item>label { font-size:0.6rem; }
+fieldset div.tabs span.icon { margin-left:10px; visibility:hidden; }
+fieldset div.tabs span.icon:hover { background-color: aliceblue; }
+fieldset div.tabs>div:hover span.icon { visibility:visible; }
+fieldset div.tabs>div.select span.icon { visibility:visible; }
+fieldset form.option div.icon { font-size:26px; margin-right:5px; display:none; }
+fieldset form.option div.icon:hover { background-color:white; }
+fieldset.float form.option>div.icon { display:block; }
+fieldset.full form.option>div.icon { display:block; }
+fieldset.plug form.option>div.icon { margin-left:5px; }
+div.tabs { position:relative; }
 /* display */
 form.option, div.action { display:contents; }
 form.option>div.item>label, div.action>div.item>label, .hidden, .hide { display:none; }
@@ -126,11 +136,7 @@ fieldset.plugin:not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
 fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
 div.code { position:sticky; left:0; }
-form.option>div.icon { margin:5px; display:none; float:left; cursor:pointer; }
-fieldset.float:not(.input) form.option>div.icon { display:block; }
-fieldset.full form.option>div.icon { display:block; }
-fieldset.plug form.option>div.icon { display:block; margin-left:5px; }
-fieldset:not(.panel):not(.input) form.option>div.icon.refresh { display:block; margin-right:5px; }
+hr { border-bottom:gray dashed 1px; margin:5px; }
 /* hover */
 legend:hover { background-color:skyblue; }
 select:hover { background-color:gray; color:cyan; }
@@ -140,11 +146,11 @@ table.content th:hover, table.content td:hover, table.content td.select { backgr
 div.story[data-type=spark] span:hover { background-color:deepskyblue; box-shadow:4px 4px 20px 4px #29318e; }
 div.carte div.item:hover { background-color:cornflowerblue; }
 select, input[type=text], textarea { box-shadow:4px 4px 20px 4px #626bd0; }
-legend, select, input[type=button], div.tabs, div.item, span.item, div.zone>div.name, th, td, h1, h2, h3 { cursor:pointer; }
+legend, select, input[type=button], div.tabs, div.item, span.item, div.zone>div.item, th, td, h1, h2, h3 { cursor:pointer; }
 div.title, div.story[data-type=spark] { cursor:copy; }
 /* topic */
 body.black a { color:yellow; }
-body.black div.project div.zone>div.list>div.zone>div.name { background-color:#09466fc2; }
+body.black div.project div.zone>div.list>div.zone>div.item { background-color:#09466fc2; }
 body.white { background-color:rgba(5,34,56,0.75); color:white; }
 body.white select { background-color:yellowgreen; color:white; }
 body.white input { background-color:white; }
@@ -160,7 +166,7 @@ body.white input[type=button][name=remove] { background-color:red; }
 body.white textarea { background-color:white; }
 body.white table.content th { background-color:skyblue; }
 body.white table.content.action td:last-child { background-color:skyblue; }
-body.white div.zone>div.list>div.zone>div.name { background-color:aliceblue; color:black; }
+body.white div.zone>div.list>div.zone>div.item { background-color:aliceblue; color:black; }
 body.white div.float { background-color:aliceblue; color:black; }
 body.white fieldset.panel.Search a { color:yellow; }
 body.white fieldset.panel.Action { color:black; }
@@ -172,7 +178,7 @@ body.white legend:hover { background-color:skyblue; }
 body.white select:hover { background-color:#99cc667d; }
 body.white input[name=cmd]:hover { background-color:white; color:black; }
 body.white input[type=button]:hover { background-color:#1b7acc8c; }
-body.white div.project div.zone>div.list>div.zone>div.name:hover { background-color:#4682b46b; }
+body.white div.project div.zone>div.list>div.zone>div.item:hover { background-color:#4682b46b; }
 body.white div.item:hover, body.white span.item:hover { background-color:#4682b46b; }
 body.white div.item.select { background-color:#4682b46b; }
 body.white table.content tr:hover { background-color:#4682b46b; }
@@ -199,7 +205,7 @@ body.print legend, body.print select, body.print input, body.print input[type=bu
 body.print div.item { background-color:white; } 
 body.print div.carte div.item { background-color:snow; }
 body.print div.item.select { background-color:lightgray; }
-body.print div.zone>div.name { background-color:lightgray; color:black; }
+body.print div.zone>div.item { background-color:lightgray; color:black; }
 body.print table.content th { background-color:lightgray; }
 body.print table.content.action td:last-child { background-color:lightgray; }
 body.print table.content td.select { background-color:lightgray; }

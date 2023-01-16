@@ -5,6 +5,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport._background(can, msg, target)
 		can.onimport._search(can, msg, target)
 		// can.onimport._menus(can, msg, target)
+		var themeMedia = window.matchMedia("(prefers-color-scheme: dark)")
+		can.__topic = themeMedia.matches? html.DARK: html.LIGHT, themeMedia.addListener(function(event) { can.__topic = event.matches? html.DARK: html.LIGHT })
 	},
 	_title: function(can, msg, target) { if (can.user.isMobile) { return }
 		can.core.List(can.base.getValid(can.Conf(chat.TITLE)||msg.result, ["shylinux.com/x/contexts"]), function(item) {
@@ -114,7 +116,9 @@ Volcanos(chat.ONACTION, {
 	logout: function(event, can) { can.user.logout(can) },
 })
 Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight },
-	topic: function(can) { return can._topic || can.misc.Search(can, chat.TOPIC) || (can.base.isNight()? "dark": "light") },
+	topic: function(can) {
+		return can._topic || can.misc.Search(can, chat.TOPIC) || can.__topic || (can.base.isNight()? "dark": "light")
+	},
 	background: function(can) { return can.user.info.background == "void"? "": can.user.info.background },
 	avatar: function(can) { return can.user.info.avatar == "void"? "": can.user.info.avatar },
 })

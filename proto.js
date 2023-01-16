@@ -215,6 +215,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	HEIGHT: "height", WIDTH: "width", MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MIN_WIDTH: "min-width", MAX_WIDTH: "max-width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
 	BACKGROUND_COLOR: "background-color", COLOR: "color", OPACITY: "opacity", TOGGLE: "toggle", SPEED: "speed", SIZE: "size",
 	HOVER: "hover", HOVER_SELECT: "hover,select",
+	LIGHT: "light", DARK: "dark",
 
 	PAGE: "page", TABS: "tabs", MENU: "menu", NODE: "node",
 	ZONE: "zone", LIST: "list", ITEM: "item", NAME: "name", ICON: "icon",
@@ -241,7 +242,7 @@ function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(t
 }; var _can_name = "", _can_path = ""
 var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {
-		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, pos: html.HIDE, state: [aaa.USERNICK]}, {name: chat.ACTION, pos: html.MAIN, tool: name}, {name: chat.FOOTER, pos: html.HIDE}]}) }
+		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, pos: html.HIDE, state: [mdb.TIME, aaa.USERNICK]}, {name: chat.ACTION, pos: html.MAIN, tool: name}, {name: chat.FOOTER, pos: html.HIDE}]}) }
 		var Config = name; name = Config.name||ice.CAN, _can_name = "", _can_path = ""
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)

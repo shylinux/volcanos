@@ -46,6 +46,36 @@ fieldset.Action>div.project.toggle {
 	border-top-right-radius:20px; border-bottom-right-radius:20px;
 }
 
+/* flex */
+div.layout.tabs>div.tabs { display:flex; overflow:auto; }
+div.layout.tabs>div.tabs>div { padding:10px; height:32px; flex:1; }
+div.layout.tabs>div.tabs>div:hover { background-color:steelblue; }
+div.layout.tabs>div.list { width:100%; height:100%; flex:1; }
+div.layout.tabs>div.list>div { height:100%; display:none; }
+div.layout.tabs>div.list>div.select { display:block; }
+div.layout.tabs.left { display:flex; }
+div.layout.tabs.left>div.tabs { flex-direction:column; }
+div.layout.tabs.left>div.tabs>div { writing-mode:tb; }
+div.layout.tabs.right { display:flex; }
+div.layout.tabs.right>div.tabs { flex-direction:column; }
+div.layout.tabs.right>div.tabs>div { writing-mode:tb; }
+div.layout.tabs.box>div.list { height:unset; }
+div.layout.tabs.box>div.tabs { background-color:steelblue; text-align:center; padding:3px; display:block; }
+/* layout */
+table.layout { border-spacing:0; }
+table.layout td { vertical-align:top; }
+table.layout td.content div.toggle { background-color:#4682b46b; color:white; font-size:24px; position:absolute; }
+table.layout td.content div.toggle>div { display:table-cell; }
+table.layout td.content div.toggle.project { padding-top:50px; height:130px; width:15px; top:20%; left:0; border-top-right-radius:10px; border-bottom-right-radius:10px; }
+table.layout td.content div.toggle.profile { padding-top:50px; height:130px; width:15px; top:20%; right:0; border-top-left-radius:10px; border-bottom-left-radius:10px; }
+table.layout td.content div.toggle.display { margin-top:-15px; height:15px; width:130px; left:40%; border-top-left-radius:10px; border-top-right-radius:10px; }
+table.layout td.content div.toggle.display>div { text-align:center; width:130px; rotate:-90deg; translate:5px -5px; }
+body.mobile table.layout div.toggle { font-size:48px; }
+body.mobile table.layout td.content div.toggle.project { width:30px; padding-top:35px; }
+body.mobile table.layout td.content div.toggle.profile { width:30px; padding-top:35px; }
+body.mobile table.layout td.content div.toggle.display { margin-top:-30px; height:30px; }
+body.mobile table.layout td.content div.toggle.display>div { translate:5px -15px; }
+
 div.head { background-color:#404040; color:white; padding:5px; height:42px; clear:both; }
 div.head div.username { float:right; margin-right:10px; }
 div.head div.username div.name { padding:10px; float:left; }

@@ -74,14 +74,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	itemlist: function(can, list, cb, cbs, target) {
 		return target._list = can.page.insertBefore(can, [{view: html.LIST, list: can.core.List(list, function(item) {
 			return {view: [html.ITEM, html.DIV, item.name], onclick: function(event) {
-				cb(event, item, event.target._list && can.onmotion.toggle(can, event.target._list))
+				cb(event, item, event.target._list && can.page.ClassList.neg(can, event.target._list, "hide"))
 			}, onmouseenter: function(event) { cbs(event, item) }}
 		}) }], target.nextSibling, target.parentNode)
 	},
 	list: function(can, root, cb, target) { target = target||can._output
 		can.core.List(root.list, function(item) {
 			var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.meta.name], onclick: function(event) {
-				can.base.isFunc(cb) && cb(event, item) || can.onmotion.toggle(can, ui.list)
+				can.base.isFunc(cb) && cb(event, item) || can.page.ClassList.neg(can, ui.list, "hide")
 				can.onmotion.select(can, target, html.DIV_ITEM, event.target)
 			}}, {view: html.LIST}]); can.onimport.list(can, item, cb, ui.list)
 		})
@@ -95,14 +95,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 						(item._menu.meta[button]||item._menu)(event, can, button)
 					})
 				}}], onclick: function(event) { if (node[name].childElementCount == 2) { node[name].firstChild.click() }
-					index < array.length - 1? can.page.ClassList.set(can, ui["switch"], "open", can.onmotion.toggle(can, node[name])): can.base.isFunc(cb) && cb(event, item)
-				}}, {view: html.LIST, style: {display: html.NONE}, _init: function(list) { item.expand && can.page.style(can, list, html.DISPLAY, html.BLOCK) }}]); node[name] = ui.list
+					index < array.length - 1? can.page.ClassList.set(can, ui["switch"], "open", can.page.ClassList.neg(can, node[name], "hide")): can.base.isFunc(cb) && cb(event, item)
+				}}, {view: [[html.LIST, item.expand? "": html.HIDE]]}]); node[name] = ui.list
 			})
 		}); return node
 	},
 	zone: function(can, list, target) {
 		return can.page.Append(can, target, can.core.List(list, function(zone) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: [[html.ZONE, zone.name]], list: [
-			{view: html.NAME, inner: can.user.trans(can, zone.name), _init: function(target) {
+			{view: html.ITEM, inner: can.user.trans(can, zone.name), _init: function(target) {
 				zone._legend = target
 			}, onclick: function() {
 				if (zone._delay_show) { zone._delay_show(zone._target, zone), delete(zone._delay_show) }
@@ -114,12 +114,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			}},
 			{view: html.ACTION, _init: function(target) { zone._action = target
 				can.onappend._action(can, [{input: html.TEXT, placeholder: mdb.SEARCH, onkeyup: function(event) {
-					can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) })
 					can.onkeymap.selectItems(event, can, zone._target)
+					can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) })
+					event.target.value == "" && can.page.Select(can, zone._target, html.DIV_LIST, function(target) { can.page.ClassList.add(can, target, html.HIDE) })
 				}, onfocus: function(event) { var target = event.target
 					target.setSelectionRange && target.setSelectionRange(0, target.value.length)
 				}, _init: function(target) { zone._search = target
-					can.onmotion.delay(can, function() { can.page.styleWidth(can, target, can.core.Value(target.parentNode.parentNode, "parentNode.offsetWidth")-10) })
 				}}], target, {})
 			}},
 			{view: html.LIST, _init: function(target) { can.ui[zone.name] = zone
@@ -133,7 +133,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 
 	tabs: function(can, list, cb, cbs, action, each) { action = action||can._action
 		return can.page.Append(can, action, can.core.List(list, function(tabs) {
-			return {view: html.TABS, list: [{text: [tabs.name, html.SPAN]}, {view: "close icon s16", onclick: function(event) {
+			return {view: html.TABS, list: [{text: [tabs.name, html.SPAN]}, {text: ["\u2715", html.SPAN, html.ICON], onclick: function(event) {
 				var item = event.target.parentNode, next = item.nextSibling||item.previousSibling; if (!next) { return }
 				next.click(), can.onmotion.delay(can, function() { can.base.isFunc(cbs) && cbs(item._meta), can.page.Remove(can, item) }), can.onkeymap.prevent(event)
 			}}], title: tabs.text, onclick: function(event) {
