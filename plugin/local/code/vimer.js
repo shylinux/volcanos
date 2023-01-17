@@ -5,6 +5,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 			can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(can) })
 			can.onengine.plugin(can, can.onplugin), can.base.isFunc(cb) && cb(msg)
 			can.ui.project.onscroll = function() { can.onmotion.clearFloat(can) }
+			can.isCmdMode() && can.run({}, [ctx.ACTION, ctx.COMMAND].concat(["can.topic", "cli.qrcode", "cli.runtime", "nfs.dir", "web.code.xterm"]), function(msg) {
+				msg.Table(function(value) { can.onimport.toolkit(can, value) })
+			})
 		}, target) })
 	},
 	_input: function(can) { var ui = can.page.Append(can, can.ui.content.parentNode, [
@@ -27,14 +30,13 @@ Volcanos(chat.ONFIGURE, {
 			if (!list[path]) { can.page.Append(can, target, cb(item, path)), zone._total(++total) } list[path] = item
 		}) }
 		can.runAction({}, code.FAVOR, ["_recent_file"], function(msg) {
-			msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, "frame.js")
-			msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, "index.css")
-			msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, "plugin/table.js")
-			msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, "plugin/local/code/vimer.js")
-			msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, "plugin/local/code/inner.js")
-			msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, "plugin/local/code/inner.css")
-			msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, "plugin/local/code/vimer.css")
-			msg.Push(nfs.PATH, ice.USR_ICEBERGS).Push(nfs.FILE, "core/code/vimer.go")
+			can.core.List([
+				"index.css", "proto.js", "frame.js", "plugin/table.js",
+				"plugin/local/code/vimer.js",
+				"plugin/local/code/inner.js",
+				"plugin/local/code/inner.css",
+				"plugin/local/code/vimer.css",
+			], function(item) { msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, item) })
 			show(msg, function(item, path) { return [{text: [path.split(ice.PS).slice(-2).join(ice.PS), html.DIV, html.ITEM], onclick: function(event) {
 				can.onimport.tabview(can, item.path, item.file)
 			}}] })

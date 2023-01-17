@@ -32,7 +32,7 @@ Volcanos(chat.ONACTION, {_init: function(can) { if (can.user.isExtension || can.
 	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.toast, {can: can, msg: msg}) },
 	ondebug: function(can, msg) { can.core.CallFunc(can.onimport.debug, {can: can, msg: msg}) },
 	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
-	onaction_cmd: function(can, msg) { can.onmotion.hidden(can) },
+	onaction_cmd: function(can) { can.onappend.style(can, can._target, html.HIDE) },
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
 })
 Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight },

@@ -474,6 +474,7 @@ Volcanos(chat.ONSYNTAX, {
 			"font-size": code.FUNCTION,
 			"font-family": code.FUNCTION,
 			"font-weight": code.FUNCTION,
+			"font-style": code.FUNCTION,
 			"line-height": code.FUNCTION,
 			"text-align": code.FUNCTION,
 			"white-space": code.FUNCTION,
@@ -482,6 +483,7 @@ Volcanos(chat.ONSYNTAX, {
 			"pointer": code.CONSTANT,
 			"center": code.CONSTANT,
 			"monospace": code.CONSTANT,
+			"italic": code.CONSTANT,
 			
 			"dark": code.CONSTANT,
 			"light": code.CONSTANT,

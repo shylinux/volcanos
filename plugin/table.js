@@ -160,8 +160,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		}))._target
 	},
 	plug: function(can, meta, cb, target) { if (!meta || !meta.index) { return }
-		meta.type = "plug", can.onappend.plugin(can, meta, function(sub) { sub.sup = can
-			can.page.ClassList.add(can, sub._target, chat.FLOAT)
+		meta.type = meta.type||"plug", meta.name = meta.index, can.onappend.plugin(can, meta, function(sub) { sub.sup = can
+			// can.page.ClassList.add(can, sub._target, chat.FLOAT)
+			can.page.ClassList.add(can, sub._target, html.HIDE)
 			sub.ConfHeight(target.offsetHeight-2*html.ACTION_HEIGHT)
 			can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())
 			sub.run = function(event, cmds, cb) {

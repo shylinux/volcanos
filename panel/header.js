@@ -78,7 +78,7 @@ Volcanos(chat.ONACTION, {
 	},
 	onsize: function(can) { can.onimport.topic(can), can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onstorm_select: function(can, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
-	onaction_cmd: function(can) { can.onmotion.hidden(can) },
+	onaction_cmd: function(can) { can.onappend.style(can, can._target, html.HIDE) },
 	onsearch_focus: function(can) { can._search && can._search.focus() },
 	onshare: function(can, msg, args) { can.user.share(can, msg, [ctx.ACTION, chat.SHARE].concat(args||[])) },
 	onwebpack: function(can, msg) {
