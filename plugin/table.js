@@ -41,12 +41,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)
 			}, _init: function(target) { tabs._target = target; var menu = tabs._menu||shy()
 				can.page.Modify(can, target, {draggable: true, _close: function() { close(target) },
-					ondragstart: function(event) { var target = event.target; action._drop = function(before) { action.insertBefore(target, before) } },
+					ondragstart: function(event) { action._drop = function(before) { before.parentNode == action && action.insertBefore(target, before) } },
 					ondragover: function(event) { event.preventDefault(), action._drop(event.target) },
 					ondrop: function(event) { event.preventDefault(), action._drop(event.target) },
 					oncontextmenu: function(event) { can.user.carte(event, can, kit.Dict("Close", function(event) { close(target) },
-						"Close others", function(event) { can.page.Select(can, action, html.DIV_TABS, function(_item) { _item == target || close(_item) }) },
-					), ["Close", "Close others", ""].concat(menu.list), function(event, button, meta) { (meta[button]||menu)(event, button, meta) }) },
+						"Close Other", function(event) { can.page.Select(can, action, html.DIV_TABS, function(target) { target == tabs._target || close(target) }) },
+					), ["Close", "Close Other", ""].concat(menu.list), function(event, button, meta) { (meta[button]||menu)(event, button, meta) }) },
 				}), can.onmotion.delay(can, function() { target.click() })
 			}}
 		}))._target

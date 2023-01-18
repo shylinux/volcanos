@@ -486,8 +486,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: event.target.getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)
-			if (target.offsetWidth > width/2) { can.page.style(can, target, html.MAX_WIDTH, width) }
-			if (target.offsetHeight > height/4) { can.page.style(can, target, html.MAX_HEIGHT, height/2) }
+			can.page.style(can, target, html.MAX_HEIGHT, can.base.Max(top+height-layout.top, height/2))
 			if (layout.top+target.offsetHeight > top+height) { layout.top = top+height-target.offsetHeight }
 			if (layout.left+target.offsetWidth > left+width) { layout.left = left+width-target.offsetWidth }
 		}); return can.onmotion.move(can, target, layout), layout

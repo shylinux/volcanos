@@ -144,6 +144,8 @@ div.status>legend { margin-left:2px; margin-right:0; float:right; clear:none; }
 fieldset.plugin:not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
 fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
+div.carte { overflow:auto; }
+fieldset.input { overflow:auto; }
 div.code { position:sticky; left:0; }
 hr { border-bottom:gray dashed 1px; margin:5px; }
 td.hr { border-bottom:gray dashed 1px; margin:5px; }

@@ -79,6 +79,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.core.Split(button, ice.DF)[1]), can.onmotion.clearFloat(can)
 			})
 		}}])
+		can.ui.path.ondblclick = function(event) {
+			can.onmotion.toggle(can, can.ui.tabs)
+			can.onmotion.toggle(can, can.ui.plug)
+			can.onimport.layout(can)
+		}
 		can.page.Append(can, can.ui.path, can.core.Item({
 			"\u25E8 ": function(event) {
 				if (can.page.isDisplay(can.ui.profile)) { return can.onmotion.hidden(can, can.ui.profile), can.onimport.layout(can) }
@@ -418,6 +423,7 @@ Volcanos(chat.ONACTION, {
 		can.page.style(can, can.user.input(can.request(event, {paths: paths}), can, [{name: nfs.FILE, style: {width: can.ui.content.offsetWidth/2}, run: function(event, cmds, cb) {
 			can.run(can.request(event, {paths: paths}), cmds, function(msg) {
 				if (cmds[0] == ctx.ACTION && cmds[1] == mdb.INPUTS) { var _msg = can.request({}), func = can.onexport.func(can)
+					can.core.Item(can.db.tabview, function(key) { var ls = can.core.Split(key, ice.DF); _msg.Push(nfs.PATH, ls[0]+ls[1]) })
 					can.core.List(func.list, function(item) { var ls = can.core.Split(item, ice.DF, ice.DF); _msg.Push(nfs.PATH, "line:"+ls[1]+":"+ls[0]) })
 					can.core.Item(can.onengine.plugin.meta, function(key, value) { _msg.Push(nfs.PATH, "index:can."+key) })
 					_msg.Copy(msg), cb(_msg)

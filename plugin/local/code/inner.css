@@ -20,6 +20,7 @@ fieldset.inner>div.output>div.layout.flow { position:relative; }
 fieldset.inner>div.output>div.layout.flow>div.tabs { display:none; }
 fieldset.inner>div.output>div.layout.flow>div.path { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { height:38px; display:block; overflow:auto; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div { padding:10px; height:38px; float:left; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span { font-style:italic; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span.icon { padding:0 5px; }
@@ -30,6 +31,7 @@ fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar>img { height:3
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.time { float:right; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path { font-style:italic; padding:5px; display:block; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.func { margin-left:20px; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.path.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.view { font-size:22px; line-height:12px; padding:0 4px; float:right; cursor:pointer; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug { height:31px; clear:both; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug>legend { float:right; }
