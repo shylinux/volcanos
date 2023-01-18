@@ -7,7 +7,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(msg.result, function(item) { can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "联系站长"}]) }) },
 	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [NTIP, NCMD, NLOG]).reverse(), function(item) {
-		can.page.Append(can, target, [{view: [can.base.join([chat.STATE, item]), html.DIV, can.Conf(item)], list: [
+		can.page.Append(can, target, [{view: [[chat.STATE], html.DIV, can.Conf(item)], list: [
 			{text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", html.SPAN, item]},
 		], onclick: function(event) { can.onexport[item](can) }}])
 	}) },
@@ -19,7 +19,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
  			can.runAction(event, ice.RUN, can.core.Split(event.target.value, ice.SP), function(msg) { can.cli && can.cli.close && can.cli.close(), can["cli"] = {}; var ui = can.onexport.float(can, msg, "cli")
 				can.getActionSize(function(left) { can.page.style(can, ui._target, html.LEFT, left+10, html.RIGHT, "", html.BOTTOM, can.onexport.height(can)) })
 			})
-	} }}, "", target, [chat.TITLE, ice.CMD]) },
+	} }}, "", target, [chat.TITLE]) },
 	count: function(can, name) { can.page.Select(can, can._output, can.core.Keys(html.SPAN, name), function(item) { item.innerHTML = can.Conf(name, parseInt(can.Conf(name)||"0")+1+"")+"" }) },
 	toast: function(can, msg, title, content, fileline, time) { can.onimport._data(can, NTIP, {time: time, fileline: fileline, title: title, content: content}), can.page.Modify(can, can.toast, [time, title, content].join(ice.SP)) },
 	debug: function(can, msg, _args, fileline, time) { can.onimport._data(can, NLOG, {time: time, fileline: fileline, type: _args[2], content: _args.slice(4).join(ice.SP)}) },

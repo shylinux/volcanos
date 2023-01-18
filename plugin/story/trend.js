@@ -62,7 +62,9 @@ Volcanos(chat.ONACTION, {list: [
 			can.onimport.draw(can, {shape: svg.RECT, points: [
 				order(index, args.step/4, item.close), order(index, args.step/4*3, item.begin),
 			], style: {rx: 0, ry:0}, _init: function(target) {
-				can.core.ItemCB(can.ondetail, function(key, cb) { target[key] = function(event) { cb(event, can, item) } })
+				can.core.ItemCB(can.ondetail, function(key, cb) { target[key] = function(event) { can.misc.Event(event, can, function(msg) {
+					cb(event, can, item)
+				}) } })
 			}}, item.begin < item.close? white: black)
 		})
 	},
@@ -89,7 +91,9 @@ Volcanos(chat.ONACTION, {list: [
 			function order(i) { return i*args.step+args.margin } function scale(y) { return (y - min)/(max - min)*(args.height-2*args.margin)+args.margin }
 			can.core.Next(can.data, function(item, next, i) { can.core.Timer(parseInt(can.Action(html.SPEED)), next)
 				can.onimport.draw(can, {shape: svg.RECT, style: {rx: 0, ry: 0}, points: [{x: order(i)+args.step/8.0, y: args.margin}, {x: order(i)+args.step/8.0*7, y: scale(item[field])}], _init: function(target) {
-					can.core.ItemCB(can.ondetail, function(key, cb) { target[key] = function(event) { cb(event, can, item) } })
+					can.core.ItemCB(can.ondetail, function(key, cb) { target[key] = function(event) { can.misc.Event(event, can, function(msg) {
+						cb(event, can, item)
+					}) } })
 				}}, group)
 			})
 		})

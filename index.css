@@ -11,7 +11,7 @@ input[name=offend] { width:48px; }
 input[name=id] { width:48px; }
 input[name=ID] { width:48px; }
 input[name=url] { width:320px; }
-input[name=cmd] { background-color:black; color:white; width:320px; }
+input[name=cmd] { background-color:black; color:white; width:100%; }
 input[type=button] { background-color:black; color:cyan; }
 input[type=button][name=restart] { background-color:blue; }
 input[type=button][name=start] { background-color:blue; }
@@ -26,9 +26,11 @@ div.layout.flex>* { float:left; }
 div.output { position:relative; }
 div.project div.list { margin-left:10px; }
 div.project div.item { padding:2px 10px; }
-div.project div.item>div.name { padding-left:20px; }
-div.project div.switch { margin-top:2px; width:12px; float:left; rotate:90deg; }
-div.project div.switch.open { translate:3px -3px; rotate:180deg; }
+div.project div.item>div.name { padding-left:15px; }
+div.project div.switch { float:left; transition:all 0.3s; }
+div.project div.switch.open { rotate:90deg; translate:1px 2px; transition:all 0.3s; }
+// div.project div.switch { margin-top:2px; width:12px; float:left; rotate:90deg; }
+// div.project div.switch.open { translate:3px -3px; rotate:180deg; }
 div.project div.zone>div.item { background-color:steelblue; color:white; text-align:center; padding:3px; clear:both; position:relative; }
 div.project div.zone>div.item>div.icon { margin-left:3px; display:none; float:right; }
 div.project div.zone:hover>div.name>div.icon { display:block; }
@@ -69,7 +71,7 @@ fieldset.full { position:fixed; left:0; top:0; }
 fieldset.input>legend { display:none; }
 fieldset.input.key { overflow:auto; }
 fieldset.input.key div.action { display:none; }
-fieldset.input.key.simple div.status { display:none; }
+fieldset.input.key.simple div.status { display:block; position:sticky; bottom:0; }
 fieldset.input.key.simple th { display:none; }
 fieldset.input.key.simple td { min-width:40px; }
 fieldset.input.date select { margin-right:0; width:87px; }
@@ -130,12 +132,14 @@ fieldset.web.code.git.status div.output table.content { width:100%; }
 div.tabs { position:relative; }
 /* display */
 form.option, div.action { display:contents; }
+form.option.hide, div.action.hide { display:none; }
 form.option>div.item>label, div.action>div.item>label, .hidden, .hide { display:none; }
 form.option>div.textarea { width:100%; }
 form.option>div.textarea>textarea { width:100%; }
+form.option>div.cmd { width:100%; }
 div.action, div.output, div.status, div.project, div.display, div.profile, div.content, table.content, table.content td, div.code, div.plug, div.story, div.toast { overflow:auto; }
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, div.status>div.item { float:left; }
-div.output, div.status, div.item.textarea, div.project div.item, div.content, div.code, div.story[data-type=spark] { clear:both; }
+fieldset>div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.content, div.code, div.story[data-type=spark] { clear:both; }
 div.status>legend { margin-left:2px; margin-right:0; float:right; clear:none; }
 fieldset.plugin:not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
@@ -231,14 +235,17 @@ body.mobile select { font-size:1.4rem; height:38px; }
 body.mobile input { font-size:1.2rem; height:38px; }
 body.mobile textarea { font-size:1.2rem; }
 body.mobile form.option>div.item { margin:0; height:38px; }
+body.mobile form.option>div.item.icon { font-size:32px; padding:0 10px; }
+body.mobile form.option>div.item.textarea { height:unset; }
 body.mobile div.action>div.item { margin:0; height:38px; }
 body.mobile div.carte div.item { font-size:1.6rem; }
 body.mobile table.content th { padding:6px; }
+body.mobile table.content { width:100%; }
 body.mobile fieldset:not(.panel):not(.input)>div.action { display:none; }
 body.mobile fieldset.plugin:not(.float):not(.full):not(.cmd) { margin:10px 0; }
 body.mobile fieldset.Header { font-size:1.6rem; padding:0; height:3rem; width:100%; position:fixed; top:0; }
-body.mobile fieldset.Header div.search { padding:0; height:3rem; width:100%; margin:0; }
-body.mobile fieldset.Header div.search>input { background-color:#21181838; color:white; height:53px; width:100%; }
+body.mobile fieldset.Header div.output div.search { padding:0; height:3rem; width:100%; margin:0; }
+body.mobile fieldset.Header div.output div.search>input { background-color:#21181838; color:white; height:53px; width:100%; }
 body.mobile fieldset.River { min-width:240px; position:fixed; top:3rem; z-index:10; }
 body.mobile fieldset.River>div.output { font-size:1.6rem; width:320px; }
 body.mobile fieldset.Action { margin-top:3rem; margin-bottom:3rem; }

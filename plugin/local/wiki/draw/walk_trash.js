@@ -2,7 +2,7 @@ Volcanos(chat.ONIMPORT, {
     init: function(can, msg, cb, output, action, option) {output.innerHTML = "";
         if (!msg.result || msg.result.length == 0) {
             var table = can.page.AppendTable(can, msg, output, msg.append);
-            table.onclick = function(event) {switch (event.target.tagName) {
+            table.onclick = function(event) { can.misc.Event(event, can, function(msg) { switch (event.target.tagName) {
                 case "TD":
                     can.onimport.which(event, table, msg.append, function(index, key) {
                         can.Option("file", event.target.innerHTML.trim())
@@ -13,7 +13,7 @@ Volcanos(chat.ONIMPORT, {
                     break
                 case "TR":
                 case "TABLE":
-            }}
+            } }) }
             return can.base.isFunc(cb) && cb(msg), table;
         }
 

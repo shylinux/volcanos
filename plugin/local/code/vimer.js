@@ -5,19 +5,22 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 			can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(can) })
 			can.onengine.plugin(can, can.onplugin), can.base.isFunc(cb) && cb(msg)
 			can.ui.project.onscroll = function() { can.onmotion.clearFloat(can) }
-			can.isCmdMode() && can.run({}, [ctx.ACTION, ctx.COMMAND].concat(["can.topic", "cli.qrcode", "cli.runtime", "nfs.dir", "web.code.xterm"]), function(msg) {
-				msg.Table(function(value) { can.onimport.toolkit(can, value) })
+			can.isCmdMode() && can.run({}, [ctx.ACTION, ctx.COMMAND].concat(["can.topic", "nfs.dir", "web.code.xterm", "web.code.git.status"]), function(msg) {
+				msg.Table(function(value) { can.onimport.toolkit(can, value, function(sub) { can.db.toolkit[value.index] = sub }) })
 			})
 		}, target) })
 	},
 	_input: function(can) { var ui = can.page.Append(can, can.ui.content.parentNode, [
 		{view: [code.CURRENT, html.INPUT], spellcheck: false, onkeydown: function(event) {
-			if (event.metaKey) { return can.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) }
+			if (event.metaKey) { return can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) }
 			if (event.ctrlKey && can.onaction._complete(event, can)) { return }
-			can.db._keylist = can.onkeymap._parse(event, can, can.mode+(event.ctrlKey? "_ctrl": ""), can.db._keylist, can.ui.current)
-			if (can.mode == mdb.INSERT) { can.db._keylist = [], can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) }
-			if (can.mode == mdb.NORMAL) { can.onkeymap.prevent(event), can.Status("按键", can.db._keylist.join("")) }
-		}, onkeyup: function(event) { can.onaction._complete(event, can) }, onfocus: function() {
+			can.db._keylist = can.onkeymap._parse(event, can, can.db.mode+(event.ctrlKey? "_ctrl": ""), can.db._keylist, can.ui.current)
+			if (can.db.mode == mdb.INSERT) { can.db._keylist = [], can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) }
+			if (can.db.mode == mdb.NORMAL) { can.onkeymap.prevent(event), can.Status("按键", can.db._keylist.join("")) }
+		}, onkeyup: function(event) {
+			if (event.metaKey) { return can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) }
+			can.onaction._complete(event, can)
+		}, onfocus: function() {
 			var target = can.ui.complete; can.current.line.appendChild(target), can.onmotion.toggle(can, target, true)
 		}, onclick: function(event) {
 			can.onkeymap._insert(event, can)
@@ -151,9 +154,9 @@ Volcanos(chat.ONACTION, {
 			})
 			return count
 		}
-		can.onaction._run(event, can, button, [can.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
-			if (can.parse == nfs.GO) { var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content)
-				can.max = 0, can.core.List(can.ls = msg.Result().split(ice.NL), function(item) { can.onaction.appendLine(can, item) })
+		can.onaction._run(event, can, button, [can.db.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
+			if (can.db.parse == nfs.GO) { var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content)
+				can.db.max = 0, can.core.List(can.db.ls = msg.Result().split(ice.NL), function(item) { can.onaction.appendLine(can, item) })
 				can.onaction.selectLine(can, line+imports(msg.Result())-imports(msg.Option("content")))
 			} can.user.toastSuccess(can, button, can.Option(nfs.PATH)+can.Option(nfs.FILE))
 		})
@@ -197,14 +200,14 @@ Volcanos(chat.ONACTION, {
 		function update() { target._pre = pre, target._end = end, target._index = -1
 			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, can.ui.current.offsetLeft, html.MARGIN_TOP, can.current.line.offsetHeight)
 			can.runAction(can.request(event, {text: pre}, can.Option()), code.COMPLETE, [], function(msg) { can.page.Appends(can, target, [{view: ["prefix", html.DIV, pre]}])
-				if (can.parse == nfs.JS) { var msg = can.request()
+				if (can.db.parse == nfs.JS) { var msg = can.request()
 					var ls = can.core.Split(can.core.Split(pre, "\t {(,:)}").pop(), ice.PT)
 					var list = {can: can, msg: msg, target: target, window: window}
 					can.core.ItemKeys(key == ""? list: can.core.Value(list, ls)||can.core.Value(window, ls)||window, function(k, v) {
 						v && msg.Push(mdb.NAME, k).Push(mdb.TEXT, v.toString().split(ice.NL)[0])
 					})
 				}
-				can.core.Item(can.core.Value(can.onsyntax[can.parse], "keyword"), function(key, value) {
+				can.core.Item(can.core.Value(can.onsyntax[can.db.parse], "keyword"), function(key, value) {
 					msg.Push(mdb.NAME, key)
 				})
 				can.onappend.table(can, msg, function(value, key, index) { return {text: [value, html.TD], onclick: function(event) {
@@ -242,14 +245,14 @@ Volcanos(chat.ONACTION, {
 	_selectLine: function(can) { if (!can.current) { return }
 		can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
 			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop, html.WIDTH, can.base.Min(td.offsetWidth, can.ui._content.offsetWidth))
-			can.mode == mdb.NORMAL && can.onkeymap._normal(can)
+			can.db.mode == mdb.NORMAL && can.onkeymap._normal(can)
 			if (event && event.target && event.target.tagName && can.page.tagis(event.target, html.TD, html.SPAN)) {
 				can.onkeymap._insert(event, can, 0, (event.offsetX)/12-1)
 				can.onmotion.clear(can, can.ui.complete)
 			}
 		})
 	},
-	rerankLine: function(can, value) { can.max = can.page.Select(can, can.ui.content, "tr>td.line", function(td, index) { return td.innerText = index+1 }).length },
+	rerankLine: function(can, value) { can.db.max = can.page.Select(can, can.ui.content, "tr>td.line", function(td, index) { return td.innerText = index+1 }).length },
 	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value)
 		before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before))
 		return can.onaction.rerankLine(can), can.onaction._getLineno(can, line)
@@ -265,7 +268,7 @@ Volcanos(chat.ONACTION, {
 })
 Volcanos(chat.ONEXPORT, {list: ["目录", "模式", "按键", "类型", "文件", "行号", "跳转"]})
 Volcanos(chat.ONKEYMAP, {
-	_model: function(can, value) { can.Status("模式", can.mode = value), can.page.styleClass(can, can.ui.current, [code.CURRENT, can.mode]), can.page.styleClass(can, can.ui.complete, [code.COMPLETE, can.mode, "float"]) },
+	_model: function(can, value) { can.Status("模式", can.db.mode = value), can.page.styleClass(can, can.ui.current, [code.CURRENT, can.db.mode]), can.page.styleClass(can, can.ui.complete, [code.COMPLETE, can.db.mode, "float"]) },
 	_plugin: function(can) { can.onkeymap._model(can, mdb.PLUGIN), can.ui.current.blur() },
 	_normal: function(can) { can.onkeymap._model(can, mdb.NORMAL), can.onaction.scrollHold(can), can.onkeymap.prevent(event) },
 	_insert: function(event, can, count, begin) { can.onkeymap._model(can, mdb.INSERT), can.onaction.scrollHold(can, count, begin), can.onkeymap.prevent(event) },
@@ -370,7 +373,7 @@ Volcanos(chat.ONKEYMAP, {
 			u: shy("撤销操作", function(can) { var cb = can.db.undo.pop(); cb && cb() }),
 
 			gg: shy("跳到某行", function(can, count) { return can.onaction.selectLine(can, count), true }),
-			G: shy("跳到某行", function(can, count) { return can.onaction.selectLine(can, count = count>1? count: can.max), true }),
+			G: shy("跳到某行", function(can, count) { return can.onaction.selectLine(can, count = count>1? count: can.db.max), true }),
 			zt: shy("将当前行拉到屏幕最上", function(can, count) { return can.current.scroll(can.current.scroll()-(count>1? count: 3)), true }),
 			zz: shy("将当前行拉到屏幕中间", function(can, count) { return can.current.scroll(can.current.scroll()-(count = count>1? count: can.current.window()/2)), true }),
 			zb: shy("将当前行拉到屏幕最下", function(can, count) { return can.current.scroll(can.current.scroll()-can.current.window()+(count>1? count: 5)), true }),
@@ -398,7 +401,7 @@ Volcanos(chat.ONKEYMAP, {
 			Enter: shy("换行", function(can, target) {
 				var rest = can.onkeymap.deleteText(target, target.selectionEnd).trimLeft(), text = can.ui.current.value
 				var left = text.substr(0, text.indexOf(text.trimLeft()))||(text.trimRight() == ""? text: "")
-				var line = can.onaction.selectLine(can), next = rest; for (var i = line; i < can.max; i++) { next += can.onexport.text(can, i).trimLeft(); if (next != "") { break } }
+				var line = can.onaction.selectLine(can), next = rest; for (var i = line; i < can.db.max; i++) { next += can.onexport.text(can, i).trimLeft(); if (next != "") { break } }
 				function deep(text) { var deep = 0; for (var i = 0; i < text.length; i++) { if (text[i] == "\t") { deep += 4 } else if (text[i] == " ") { deep++ } else { break } } return deep }
 				text.trim() && can.core.List(["{}", "[]", "()", "``"], function(item) { if (can.base.endWith(text, item[0])) {
 					if (can.base.beginWith(next, item[1])) {

@@ -30,10 +30,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 				}, function() { can.user.toastSuccess(can) })
 			}})},
 			{name: "explore", _init: function(target, zone) {
-				zone._search.onkeyup = function(event) { event.key == "Enter" && can.onimport._search0(can, event.target.value) }
+				zone._search.onkeyup = function(event) { can.misc.Event(event, can, function(msg) {
+					event.key == "Enter" && can.onimport._search0(can, event.target.value)
+				}) }
 			}},
 			{name: "search", _init: function(target, zone) {
-				zone._search.onkeyup = function(event) { event.key == "Enter" && can.onimport._search(can, event.target.value) }
+				zone._search.onkeyup = function(event) { can.misc.Event(event, can, function(msg) {
+					event.key == "Enter" && can.onimport._search(can, event.target.value)
+				}) }
 			}},
 			{name: "district", _init: function(target, zone) {
 				can.onimport._province(can, target)
@@ -227,7 +231,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 			var meta = this.meta, ui = can.onappend.field(can, chat.FLOAT, {}, can._output)
 			can.onappend.plugin(can, meta, function(sub) {
 				sub.run = function(event, cmds, cb) { can.runAction(can.request(event), ice.RUN, [meta.index].concat(cmds), cb) }
-				sub.onaction.close = function(event) { can.onmotion.hidden(can, sub._target) }
+				sub.onaction.close = function(event) { can.misc.Event(event, can, function(msg) {
+					can.onmotion.hidden(can, sub._target)
+				}) }
 				// can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(can.ConfHeight()/2))
 				// can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth(can.ConfWidth()/2))
 				item._plugin = sub

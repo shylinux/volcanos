@@ -36,11 +36,11 @@ Volcanos(chat.ONACTION, {
 		can.page.SelectAll(can, can._root._target, html.VIDEO, function(video) {
 			video.playbackRate = parseFloat(can.Option("rate"))
 			video.currentTime = parseInt(can.Option("skip"))
-			video.ontimeupdate = function(event) {
+			video.ontimeupdate = function(event) { can.misc.Event(event, can, function(msg) {
 				if (video.currentTime > parseInt(can.Option("next"))) {
 					can.onaction.next(event, can)
 				}
-			}, video.play(), video.requestFullscreen()
+			}) }, video.play(), video.requestFullscreen()
 		})
 	},
 })

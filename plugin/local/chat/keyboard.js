@@ -13,12 +13,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 	_input: function(can, item, data, target) { item = can.base.isObject(item)? item: {type: html.BUTTON, name: item}
 		if (can.base.isArray(item)) { return can.page.Append(can, target, [{view: "space"}]), can.core.List(item, function(item) { can.onimport._input(can, item, data, target) }) }
 		item._init = item._init||function(target) { switch (target.type) {
-			case html.TEXT: target.onkeydown = function(event) { if (event.key == lang.ENTER) {
+			case html.TEXT: target.onkeydown = function(event) { can.misc.Event(event, can, function(msg) { if (event.key == lang.ENTER) {
 					can.runAction(can.request(event, data), web.SPACE, [ctx.ACTION, item.name, target.value], function() {})
-				} }; break
-			case html.BUTTON: target.onclick = function(event) {
+				} })}; break
+			case html.BUTTON: target.onclick = function(event) { can.misc.Event(event, can, function(msg) {
 					can.runAction(can.request(event, data), web.SPACE, [ctx.ACTION].concat(item.cmds||item.name), function() {})
-				}; break
+				})}; break
 		} }, can.onappend.input(can, item, "", target)
 	},
 }, [""])

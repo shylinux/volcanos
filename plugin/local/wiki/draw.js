@@ -9,7 +9,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.ui = can.onlayout.profile(can), can.page.Modify(can, can.ui.content, msg.Results()||can.onexport.content(can)), can.onmotion.hidden(can, [can.ui.project, can.ui.profile])
 		can.page.Select(can, can.ui.content, html.SVG, function(target) { can.svg = can.group = can.onimport._block(can, target), can.onimport._group(can, target).click()
 			can.page.Select(can, target, mdb.FOREACH, function(target) { can.onimport._block(can, target), can.page.tagis(target, svg.G) && target.Value(html.CLASS) && can.onimport._group(can, target) })
-			can.core.ItemCB(can.onaction, function(key, cb) { target[key] = function(event) { cb(event, can) } })
+			can.core.ItemCB(can.onaction, function(key, cb) { target[key] = function(event) { can.misc.Event(event, can, function(msg) { cb(event, can) }) } })
 		})
 	},
 	_block: function(can, target) {

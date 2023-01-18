@@ -6,9 +6,9 @@ Volcanos(chat.ONFIGURE, {img: {
 		for (var i = 0; i < count; i++) {
 			can.page.Append(can, target.parentNode, [{type: html.DIV, style: {
 				"background-color": "yellow", "float": "left", "clear": i%n == 0? "both": "none", "margin": 1, height: width, width: width,
-			}, _init: function(target) { images[i] && add(target, images[i]), target.onclick = function(event) {
+			}, _init: function(target) { images[i] && add(target, images[i]), target.onclick = function(event) { can.misc.Event(event, can, function(msg) {
 				can.user.upload(event, can, function(msg) { add(target, msg.Result()), set() }, true)
-			} } }])
+			})} } }])
 		}
 	},
 }})

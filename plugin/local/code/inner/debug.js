@@ -8,6 +8,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) {
 		msg.Push(mdb.TEXT, item.slice(4).join(ice.SP)||"")
 	}), msg.StatusTimeCount(), can.onmotion.clear(can), can.onappend.table(can, msg)
 	can.page.Select(can, can._option, "input[name=name]", function(target) {
-		target.onkeyup = function(event) { can.onmotion.highlight(can, target.value) }
+		target.onkeyup = function(event) { can.misc.Event(event, can, function(msg) {
+			can.onmotion.highlight(can, target.value)
+		}) }
 	})
 }})

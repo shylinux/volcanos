@@ -1,7 +1,11 @@
 var kit = {proto: function(sub, sup) { return sub.__proto__ = sup, sub },
 	Dict: function() { var res = {}, arg = arguments; for (var i = 0; i < arg.length; i += 2) { var key = arg[i]
-		if (typeof key == "object") { i--; for (var k in key) { res[k] = key[k] }
-			for (var j = 0; j < key.length; j += 2) { res[key[j]] = key[j+1] }
+		if (typeof key == "object") { i--;
+			if (key.length == undefined) {
+				for (var k in key) { res[k] = key[k] }
+			} else {
+				for (var j = 0; j < key.length; j += 2) { res[key[j]] = key[j+1] }
+			}
 		} else if (typeof key == "string" && key) { res[key] = arg[i+1] }
 	} return res },
 }
@@ -114,6 +118,7 @@ var cli = {
 	BEGIN: "begin", START: "start", OPEN: "open", CLOSE: "close", STOP: "stop", END: "end", RESTART: "restart",
 	COLOR: "color", WHITE: "white", BLACK: "black", RED: "red", GREEN: "green", BLUE: "blue",
 	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta", GLASS: "transparent",
+	GRAY: "gray",
 	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 }
 var log = {
@@ -144,7 +149,7 @@ var chat = {
 
 	HEADER: "Header", ACTION: "Action", FOOTER: "Footer",
 	libs: ["/lib/base.js", "/lib/core.js", "/lib/date.js", "/lib/misc.js", "/lib/page.js", "/lib/user.js"],
-	panel_list: [{name: "Header", pos: "head"}, {name: "River",  pos: "left"}, {name: "Action", pos: "main"}, {name: "Search", pos: "auto"}, {name: "Footer", pos: "foot"}],
+	panel_list: [{name: "Header", style: "head"}, {name: "River",  style: "left"}, {name: "Action", style: "main"}, {name: "Search", style: "auto"}, {name: "Footer", style: "foot"}],
 	plugin_list: [
 		"/plugin/state.js",
 		"/plugin/input.js",
@@ -246,7 +251,7 @@ function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(t
 }; var _can_name = "", _can_path = ""
 var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {
-		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, pos: html.HIDE, state: [mdb.TIME, aaa.USERNICK]}, {name: chat.ACTION, pos: html.MAIN, tool: name}, {name: chat.FOOTER, pos: html.HIDE}]}) }
+		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, style: html.HIDE, state: [mdb.TIME, aaa.USERNICK]}, {name: chat.ACTION, style: html.MAIN, tool: name}, {name: chat.FOOTER, style: html.HIDE}]}) }
 		var Config = name; name = Config.name||ice.CAN, _can_name = "", _can_path = ""
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)
@@ -349,10 +354,10 @@ try { if (typeof(window) == lang.OBJECT) { // chrome
 		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url+Volcanos.meta.version, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
 	} }
 	Volcanos.meta._init = function(can) {
-		var last = can.page.width() < can.page.height(); window.onresize = function(event) {
+		var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
 			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
 			can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth)))
-		}
+		}) }
 	}
 } else { // nodejs
 	global.kit = kit, global.ice = ice

@@ -73,7 +73,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			can.page.Append(can, target, [{view: [[html.TOGGLE, chat.PROJECT]], list: [{text: [gt, html.DIV]}], onclick: function(event) {
 				event.target.innerHTML = toggle()? gt: lt, can.onaction.layout(can, can.Conf(html.LAYOUT))
 			}}])
-		} target.ontouchstart = function(event) { can.onengine.signal(can, chat.ONACTION_TOUCH, can.request(event)) }
+		} target.ontouchstart = function(event) { can.misc.Event(event, can, function(msg) { can.onengine.signal(can, chat.ONACTION_TOUCH, msg) }) }
 	},
 	_menus: [
 		[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE],
@@ -100,7 +100,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	),
 	onmain: function(can) { can.onimport._share(can, can.misc.Search(can, web.SHARE)) },
 	onlogin: function(can) { can.ondaemon._init(can); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return }
-		can.onengine.signal(can, chat.ONACTION_CMD), window.onresize = function(event) { can.onaction.onresize(can), can.page.styleWidth(can, can._output, can.page.width()) }
+		can.onengine.signal(can, chat.ONACTION_CMD), window.onresize = function(event) { can.misc.Event(event, can, function(msg) { can.onaction.onresize(can), can.page.styleWidth(can, can._output, can.page.width()) }) }
 		can._names = location.pathname, can.Conf(chat.TOOL)? can.onappend.layout(can, can._output, "flow", can.core.List(can.Conf(chat.TOOL), function(item, index, list) {
 			if (list.length == 1) { item.height = window.innerHeight-2*html.ACTION_HEIGHT } item.type = chat.PLUGIN, item.mode = chat.CMD, item.opts = can.misc.Search(can); return item
 		})).layout(window.innerWidth, window.innerHeight): can.runAction(can.request(), ctx.COMMAND, [], function(msg) { can.core.Next(msg.Table(), function(item, next) {

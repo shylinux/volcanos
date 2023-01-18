@@ -27,7 +27,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.page.Select(can, can._output, can.page.Keys(wiki.H2, wiki.H3), function(_target) {
 			can.page.Append(can, target, [{text: [_target.innerHTML, html.LI, _target.tagName], onclick: function() {
 				_target.scrollIntoView()
-			}}]), _target.onclick = function(event) { target.scrollIntoView() }
+			}}]), _target.onclick = function(event) { can.misc.Event(event, can, function(msg) {
+				target.scrollIntoView()
+			}) }
 		})
 	},
 	title: function(can, meta, target) { can.isCmdMode() && target.tagName == "H1" && can.user.title(meta.text) },
@@ -102,12 +104,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	chart: function(can, meta, target) {
 		can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth(), html.OVERFLOW, ice.AUTO)
 		if (!meta.fg && !meta.bg) { target.className.baseVal = "story auto" }
-		target.onclick = function(event) { meta.index && can.runActionCommand(can.request(event, meta), meta.index, [nfs.FIND, event.target.innerHTML]) }
-		target.oncontextmenu = function(event) {
+		target.onclick = function(event) { can.misc.Event(event, can, function(msg) {
+			meta.index && can.runActionCommand(can.request(event, meta), meta.index, [nfs.FIND, event.target.innerHTML])
+		}) }
+		target.oncontextmenu = function(event) { can.misc.Event(event, can, function(msg) {
 			var ui = can.user.carte(event, can, kit.Dict(mdb.EXPORT, function(event, can, button) {
 				can.user.toimage(can, "hi", target)
 			})); can.page.style(can, ui._target, {left: event.clientX, top: event.clientY})
-		}
+		}) }
 	},
 	image: function(can, meta, target) { can.page.style(can, target, html.MAX_HEIGHT, can.base.Min(can.ConfHeight(), window.innerHeight/2), html.MAX_WIDTH, can.ConfWidth()) },
 	video: function(can, meta, target) { can.page.style(can, target, html.MAX_HEIGHT, can.base.Min(can.ConfHeight(), window.innerHeight/2), html.MAX_WIDTH, can.ConfWidth()) },
