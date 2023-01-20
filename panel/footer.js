@@ -68,8 +68,8 @@ Volcanos(chat.ONPLUGIN, {
 	}),
 	debug: shy("日志", ["type:select=Info,Warn,Error,Debug", "_text"], function(can, msg, arg) {
 		arg && arg.length > 1 && can.misc[arg[0]](can, arg[1])
-		can.onmotion.delay(can, function() { var sub = msg._can; sub.page.style(can, sub._output, html.MAX_HEIGHT, 200)
-			can.page.Append(can, sub._output, [{type: html.TABLE, className: html.CONTENT, list: [{type: html.TR, list: [
+		can.onmotion.delay(can, function() { var can = msg._can
+			can.page.Append(can, can._output, [{type: html.TABLE, className: html.CONTENT, list: [{type: html.TR, list: [
 				{type: html.TH, inner: mdb.TIME},
 				{type: html.TH, inner: nfs.FILE},
 				{type: html.TH, inner: mdb.TYPE},
@@ -78,20 +78,16 @@ Volcanos(chat.ONPLUGIN, {
 				{type: html.TD, inner: list[0]},
 				{type: html.TD, inner: list[1].indexOf(location.origin) == 0? list[1].slice(location.origin.length+1): list[1]},
 				{type: html.TD, inner: list[2]},
-				{type: html.TD, inner: can.core.List(list.slice(3), function(item) {
-					if (item.Conf) {
-						return "can"
-					} else if (item.Option) {
-						return "msg"
-					} else if (can.base.isString(item)) {
-						return item
-					} else {
-						return JSON.stringify(item)
-					}
-				}).join(ice.SP)},
+				{type: html.TD, list: can.core.List(list.slice(3), function(item) { if (can.base.isString(item)) { return {text: item} }
+					return {view: "data", _init: function(target) { can.page.AppendData(can, target, "", "", item, function(prefix, value) {
+						can.Option(mdb.KEY, prefix)
+					})}}
+				}), onclick: function(event) {
+					can.onkeymap.prevent(event)
+				}},
 			], onclick: function(event) {
 				var _ls = /(https*:\/\/[^/]+)*([^:]+):([0-9]+):([0-9]+)/.exec(list[1])
-				sub.onexport.record(sub, list[1], mdb.LINK, {
+				can.onexport.record(can, list[1], mdb.LINK, {
 					time: list[0],
 					link: list[1],
 					type: list[2],
@@ -100,6 +96,26 @@ Volcanos(chat.ONPLUGIN, {
 					line: _ls[3],
 				})
 			}} })) }])
+			can.onappend._status(can, [{name: mdb.TIME, value: can.base.Time()}, {name: mdb.COUNT, value: can.misc._list.length+"x4"}])
+		})
+	}),
+	data: shy("网页标签", ["key"], function(can, msg, arg) {
+		can.onmotion.delay(can, function() { var can = msg._can
+			if (can.Option(mdb.KEY)) {
+				can.page.AppendData(can, can._output, can.Option(mdb.KEY), can.Option(mdb.KEY).split(ice.PT).pop(), can.core.Value(can._root, can.Option(mdb.KEY)))
+			} else {
+				can.page.AppendData(can, can._output, "", can._root._name, can._root)
+			}
+		})
+	}),
+	view: shy("网页标签", function(can, msg, arg) {
+		can.onmotion.delay(can, function() { var can = msg._can
+			can.page.Append(can, can._output, [
+				can.page.AppendView(can, document, "html", [
+					can.page.AppendView(can, document.head, "head"),
+					can.page.AppendView(can, document.body, "body"),
+				], true)
+			])
 		})
 	}),
 })

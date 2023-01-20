@@ -112,7 +112,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 					}
 				}, onfocus: function(event) { var target = event.target; target.setSelectionRange && target.setSelectionRange(0, target.value.length) }}], target, {})
 			}},
-			{view: html.LIST, _init: function(target) { can.ui[zone.name] = zone, zone._target = target, zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target, zone) }
+			{view: html.LIST, _init: function(target) { can.ui.zone = can.ui.zone||{}, can.ui.zone[zone.name] = zone, zone._target = target, zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target, zone) }
 				zone._total = function(total) { return can.page.Modify(can, zone._search, {placeholder: "search in "+total+" item"}), total }
 				zone._icon = function(list) {
 					can.page.Select(can, zone._legend, "span.icon", function(target) { can.page.Remove(can, target) })

@@ -235,43 +235,6 @@ Volcanos(chat.ONPLUGIN, {
 			can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)||ice.AUTO)
 		},
 	}, ["layout:select=auto,tabs,tabview,horizon,vertical,free,grid,flow,page", ice.RUN], function(can, msg, arg) { can.onaction.layout(can, arg[0], true) }),
-	data: shy("网页标签", function(can, msg, arg) {
-		can.onmotion.delay(can, function() { var can = msg._can
-			function show(value) { switch (typeof value) {
-				case "object":
-					if (value._path) {
-						return {type: "plugin", open: "- ", close: "+ ", value: "\""+value._path+"\""}
-					}
-					if (value.tagName) {
-						return {type: "html", open: "- ", close: "+ ", value: value.tagName.toLowerCase()+ice.PT+value.className.replaceAll(ice.SP, ice.PT)}
-					}
-					if (value.length != undefined) {
-						return {type: "array", open: "- ", close: "+ ", value: "["+can.core.List(value, function(value) { return show(value).value }).join(",")+"]"}
-					}
-					return {type: typeof value, open: "- ", close: "+ ", value: ""}
-				case "string": return {type: typeof value, open: "s ", close: "s ", value: "\""+value+"\""}
-				case "number": return {type: typeof value, open: "n ", close: "n ", value: value}
-				case "boolean": return {type: typeof value, open: "b ", close: "b ", value: value}
-				case "function": return {type: typeof value, open: "f ", close: "f ", value: (""+value).split(ice.NL)[0]}
-				default: return {type: typeof value, open: "  ", close: "  ", value: value}
-			} }
-			function add(target, key, value) { var loaded = false, _show = show(value)
-				var ui = can.page.Append(can, target, [{view: [[html.ITEM, _show.type]], list: [
-					{view: [html.ICON, html.SPAN, _show.close]},
-					{view: [mdb.NAME, html.SPAN, key+" "]},
-					{view: [mdb.VALUE, html.SPAN, _show.value]},
-				], onclick: function() { if (typeof value != "object") { return }
-					if (loaded) { return ui.icon.innerText = can.onmotion.toggle(can, ui.list)? _show.open: _show.close } loaded = true, ui.icon.innerText = _show.open
-					can.core.List(can.core.Item(value, function(key) { if (value.hasOwnProperty(key)) { return key } }).sort(), function(key) { add(ui.list, key, value[key]) })
-				}}, {view: html.LIST, style: {"margin-left": "20px"}}])
-			} add(can._output, can._root._name, can._root)
-		})
-	}),
-	view: shy("网页标签", function(can, msg, arg) {
-		can.onmotion.delay(can, function() { var can = msg._can
-			can.page.Append(can, can._output, [{view: [html.ITEM, html.DIV, "html"]}])
-		})
-	}),
 	"parse": shy("生成网页", {
 		"show": function(can, msg, arg) { var name = arg[1]||ice.CAN; can.isCmdMode() && can.user.title(name)
 			arg && arg[0] && Volcanos(name, {_follow: can.core.Keys(can._follow, name)}, [chat.PLUGIN_STORY+"parse.js"], function(sub) {

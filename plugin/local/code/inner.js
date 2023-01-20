@@ -282,7 +282,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 		})
 	},
 	_index: function(can, msg, cb) {
-		if (can.Option(nfs.LINE) == web.DREAM) { can.ui.dream && can.onmotion.delay(can, function() { can.ui.dream.refresh() }, 5000)
+		if (can.Option(nfs.LINE) == web.DREAM) { can.ui.zone.dream && can.onmotion.delay(can, function() { can.ui.dream.refresh() }, 5000)
 			return can.base.isFunc(cb) && cb(msg._content = msg._content||can.page.insertBefore(can, [{view: [html.CONTENT, html.IFRAME],
 				src: can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}), height: can.ui.content.offsetHeight, width: can.ui.content.offsetWidth}], can.ui._content))
 		} var meta = {type: "story", index: msg.Option(ctx.INDEX), args: can.Option(nfs.PATH) == ctx.COMMAND && can.Option(nfs.LINE) != ctx.INDEX? [can.Option(nfs.LINE)]: []}

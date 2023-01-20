@@ -29,7 +29,7 @@ Volcanos(chat.ONFIGURE, {
 	source: function(can, target, zone, path) { var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
 		zone._icon({"+": function(event) { can.user.carteRight(event, can, {}, ["script", "autogen"]) } })
 		function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) { can.onmotion.clear(can, target)
-			if (path == nfs.SRC) { can.ui.source.refresh = function() { show(target, zone, path) } }
+			if (path == nfs.SRC) { can.ui.zone.source.refresh = function() { show(target, zone, path) } }
 			var total, node; function add(list) {
 				can.core.List(list, function(item) { if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true } item._menu = shy({
 					create: function(event) { can.user.input(event, can, ["filename"], function(list) {
@@ -79,17 +79,17 @@ Volcanos(chat.ONACTION, {list: ["首页", "官网", "文档"],
 	_daemon: function(event, can, arg) { switch (arg[0]) {
 		case web.DREAM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME)), web.DREAM) }); break
 		case code.XTERM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, ctx.COMMAND, code.XTERM, msg.Result()) }); break
-		default: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, msg.Option(nfs.PATH)||can.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.source.refresh() })
+		default: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, msg.Option(nfs.PATH)||can.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.zone.source.refresh() })
 	} },
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
-		can.onimport.tabview(can, msg.Option(nfs.PATH)||can.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.source.refresh(), can.user.toastSuccess(can, button)
+		can.onimport.tabview(can, msg.Option(nfs.PATH)||can.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.zone.source.refresh(), can.user.toastSuccess(can, button)
 	}) },
 	_runs: function(event, can, button, cb) { var meta = can.Conf(); can.request(event, {action: button})
 		can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) })
 	},
 	autogen: function(event, can, button) { can.onaction._runs(can.request(event, {path: nfs.SRC}), can, button, function(msg) {
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(cli.MAIN), "", function() {
-			can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.source.refresh(), can.user.toastSuccess(can)
+			can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.zone.source.refresh(), can.user.toastSuccess(can)
 		}, true)
 	}) },
 	script: function(event, can, button) {
@@ -97,7 +97,7 @@ Volcanos(chat.ONACTION, {list: ["首页", "官网", "文档"],
 	},
 	dream: function(event, can, button) {
 		can.onaction._runs(can.request(event, {name: can.base.trimSuffix(can.Option(nfs.FILE).split(ice.PS).pop(), ice.PT+can.base.Ext(can.Option(nfs.FILE)))}), can, button, function(msg) {
-			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(mdb.NAME), web.DREAM), can.ui.dream.refresh(), can.user.toastSuccess(can)
+			can.onimport.tabview(can, can.Option(nfs.PATH), msg.Option(mdb.NAME), web.DREAM), can.ui.zone.dream.refresh(), can.user.toastSuccess(can)
 		})
 	},
 	website: function(event, can, button) {
