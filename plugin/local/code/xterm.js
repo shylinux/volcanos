@@ -11,11 +11,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can)
 		var fitAddon = new FitAddon.FitAddon(); term.loadAddon(fitAddon), term._fit = fitAddon
 		can.onmotion.delay(can, function() { fitAddon.fit() })
 		term.loadAddon(new WebLinksAddon.WebLinksAddon())
-		term.onTitleChange(function(title) { can.sup.onimport.title(can, title) })
+		term.onTitleChange(function(title) { can.onexport.title(can, title) })
 		term.onResize(function(size) { can.onimport._resize(can, size) })
 		term.onData(function(data) { can.onimport._input(can, data) })
 		term.onCursorMove(function() { can.onexport.term(can) })
-		can.sup.onimport.title(can, item.name)
+		can.onexport.title(can, item.name)
 		can._current = term, term._item = item
 		term.open(can._output), term.focus()
 	},
@@ -28,14 +28,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can)
 	},
 	grow: function(can, msg, _arg) { can._current.write(_arg) },
 })
-Volcanos(chat.ONLAYOUT, {
-	_init: function(can) {
+Volcanos(chat.ONLAYOUT, {_init: function(can) {
 		can.page.style(can, can._output, html.HEIGHT, can.ConfHeight()+8, html.WIDTH, can.ConfWidth()+18, html.MAX_WIDTH, "")
 		can._current && can._current._fit.fit(), can.onexport.term(can)
 	},
-	cmd: function(can) { can._current && can.onimport._title(can, can._current._item.name), can.ConfWidth(can.ConfWidth()-10)
-		// can.Option(mdb.HASH) && can.Option(mdb.HASH) == can.misc.Search(can, mdb.HASH)? can.sup.onaction.full({}, can.sup): can.onlayout._init(can)
-	},
+	cmd: function(can) { can._current && can.onexport.title(can, can._current._item.name), can.ConfWidth(can.ConfWidth()-10) },
 })
 Volcanos(chat.ONACTION, {
 	refresh: function(event, can, button) { can.onlayout._init(can), can._current.focus() },

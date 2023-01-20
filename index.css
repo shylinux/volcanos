@@ -137,14 +137,16 @@ form.option>div.item>label, div.action>div.item>label, .hidden, .hide { display:
 form.option>div.textarea { width:100%; }
 form.option>div.textarea>textarea { width:100%; }
 form.option>div.cmd { width:100%; }
-div.action, div.output, div.status, div.project, div.display, div.profile, div.content, table.content, table.content td, div.code, div.plug, div.story, div.toast { overflow:auto; }
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, div.status>div.item { float:left; }
+div.action, div.output, div.status, div.project, div.display, div.profile, div.content, table.content, table.content td, div.code, div.plug, div.story, div.toast { overflow:auto; }
 fieldset>div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.content, div.code, div.story[data-type=spark] { clear:both; }
 div.status>legend { margin-left:2px; margin-right:0; float:right; clear:none; }
 fieldset.plugin:not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
 fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
 div.carte { overflow:auto; }
+div.zone>div.action input::placeholder { font-style:italic; }
+input::placeholder { font-style:italic; }
 fieldset.input { overflow:auto; }
 div.code { position:sticky; left:0; }
 hr { border-bottom:gray dashed 1px; margin:5px; }
@@ -324,3 +326,5 @@ fieldset.panel.Action>div.output::-webkit-scrollbar { width:0 !important; height
 div.story[data-type=spark]::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
+
+fieldset.data div.item:not(.string):not(.number):not(.boolean)>span.value { color:silver; }

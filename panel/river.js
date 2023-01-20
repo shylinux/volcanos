@@ -6,7 +6,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var select; can.page.Append
 		can._main_river = can.misc.Search(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||Volcanos.meta.args.river||can._main_river||ls[0]||"project"
 		can._main_storm = can.misc.Search(can, chat.STORM)||msg.Option(ice.MSG_STORM)||Volcanos.meta.args.storm||can._main_storm||ls[1]||"studio"
 	},
-	_menu: function(can, msg) { if (can.user.mod.isPod) { return }
+	_menu: function(can, msg) { if (can.user.mod.isPod) { return } return
 		can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.ondetail._menus), function(event, button) {
 			can.core.CallFunc([can.ondetail, button], [event, can, button, can.Conf(chat.RIVER), can.Conf(chat.STORM)])
 		}), can.onappend._action(can, can.Conf(ctx.ACTION)||can.onaction.list)

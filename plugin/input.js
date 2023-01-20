@@ -8,8 +8,7 @@ Volcanos(chat.ONACTION, {
 	onkeydown: function(event, can) { can.onkeymap.input(event, can, event.target)
 		if (can.Conf(mdb.TYPE) == html.TEXTAREA) { if (!event.ctrlKey) { return } }
 		if (event.key == lang.ENTER) { return can.run(event), can.onmotion.focus(can, event.target), can.onkeymap.prevent(event) }
-		if (!event.ctrlKey) { return }
-		switch (event.key) {
+		if (!event.ctrlKey) { return } switch (event.key) {
 			case "m": can.CloneField(); break
 			case "b": can.CloneInput(); break
 			default: can.onkeymap.selectOutput(event, can.sup); return

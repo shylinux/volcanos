@@ -37,6 +37,7 @@ var ice = {
 	MSG_PROCESS: "_process",
 	PROCESS_AGAIN: "_again",
 
+	MSG_MODE: "sess.mode",
 	MSG_TITLE: "sess.title", MSG_TOPIC: "sess.topic", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm", MSG_WIDTH: "sess.width", MSG_HEIGHT: "sess.height",
 	MSG_DAEMON: "sess.daemon",
 	MSG_USERNAME: "user.name", MSG_USERNICK: "user.nick",
@@ -58,6 +59,7 @@ var ctx = {
 }
 var mdb = {
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
+	DATA: "data", VIEW: "view",
 
 	ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text", LINK: "link", SCAN: "scan", HELP: "help",
 	SHORT: "short", FIELD: "field", TOTAL: "total", COUNT: "count", LIMIT: "limit",
@@ -112,6 +114,7 @@ var nfs = {
 	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
 	REPOS: "repos", REPLACE: "replace", FROM: "from", TO: "to",
+	SRC: "src/",
 }
 var cli = {
 	PWD: "pwd", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
@@ -206,7 +209,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
 	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story", FIELDSET_INPUT: "fieldset.input", FIELDSET_FLOAT: "fieldset.float",
-	FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot", FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main",
+	FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot", FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main", FIELDSET_PLUG: "fieldset.plug",
 	OPTION_ARGS: "select.args,input.args,textarea.args", INPUT_ARGS: "input.args,textarea.args", INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",
 	BODY: "body", FORM: "form", SELECT: "select", INPUT: "input", TEXT: "text", FILE: "file", BUTTON: "button", TEXTAREA: "textarea",
 	CLICK: "click", CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
@@ -214,7 +217,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	H1: "h1", H2: "h2", H3: "h3", A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
 	SPAN: "span", CODE: "code", DIV: "div", IMG: "img", VIDEO: "video", WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe",
 	WEBVIEW: "webview", CHROME: "chrome", MOBILE: "mobile", LANDSCAPE: "landscape",
-
+	
 	CLASS: "class", DISPLAY: "display", BLOCK: "block", NONE: "none", OVERFLOW: "overflow", HIDDEN: "hidden", SCROLL: "scroll", FLOAT: "float", CLEAR: "clear", BOTH: "both",
 	PADDING: "padding", BORDER: "border", MARGIN: "margin", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
 	HEIGHT: "height", WIDTH: "width", MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MIN_WIDTH: "min-width", MAX_WIDTH: "max-width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
@@ -222,6 +225,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	HOVER: "hover", HOVER_SELECT: "hover,select",
 	LIGHT: "light", DARK: "dark",
 
+	PANEL: "panel",
 	VIEW: "view",
 	PLUG: "plug",
 	DIV_PLUG: "div.plug",
@@ -295,7 +299,7 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 					key.indexOf("_") == 0 || key.indexOf("user.") == 0 || set(key, item.Option(key))
 				}): can.core.Item(can.base.isFunc(item)? item(): item, set)
 			});
-			set(ice.MSG_HEIGHT, can.ConfHeight()), set(ice.MSG_WIDTH, can.ConfWidth())
+			set(ice.MSG_MODE, can.Mode()), set(ice.MSG_HEIGHT, can.ConfHeight()), set(ice.MSG_WIDTH, can.ConfWidth())
 			return msg
 		},
 
@@ -306,8 +310,10 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 			}
 			can.runAction(event, cmds[1], cmds.slice(2), cb, true)
 		},
-		runActionCommand: function(event, index, args, cb) { can.runAction(event, ice.RUN, can.misc.concat(can, [index], args), cb, true) },
-		runAction: function(event, action, args, cb, silent) { can.request(event, {_handle: ice.TRUE}, can.Option())
+		runActionCommand: function(event, index, args, cb) { can.request(event)._caller()
+			can.runAction(event, ice.RUN, can.misc.concat(can, [index], args), cb, true)
+		},
+		runAction: function(event, action, args, cb, silent) { can.request(event, {_handle: ice.TRUE}, can.Option())._caller()
 			can.run(event, can.misc.concat(can, [ctx.ACTION].concat(action), args), cb, silent)
 		},
 

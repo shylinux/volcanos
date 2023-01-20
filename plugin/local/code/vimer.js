@@ -1,59 +1,39 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
-		can.require(["inner.js"], function(can) { can.onimport._last_init(can, msg, function() {
-			can.db.undo = [], can.db.redo = [], can.onappend.style(can, code.VIMER)
-			can.onimport._input(can), can.onkeymap._build(can), can.onkeymap._plugin(can)
-			can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(can) })
-			can.onengine.plugin(can, can.onplugin), can.base.isFunc(cb) && cb(msg)
-			can.ui.project.onscroll = function() { can.onmotion.clearFloat(can) }
-			can.isCmdMode() && can.run({}, [ctx.ACTION, ctx.COMMAND].concat(["can.topic", "nfs.dir", "web.code.xterm", "web.code.git.status"]), function(msg) {
-				msg.Table(function(value) { can.onimport.toolkit(can, value, function(sub) { can.db.toolkit[value.index] = sub }) })
-			})
-		}, target) })
-	},
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.require(["inner.js"], function(can) { can.onimport._last_init(can, msg, function() {
+		can.db.undo = [], can.db.redo = [], can.onimport._input(can), can.base.isFunc(cb) && cb(msg)
+		can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(can) })
+	}, target) }) },
 	_input: function(can) { var ui = can.page.Append(can, can.ui.content.parentNode, [
-		{view: [code.CURRENT, html.INPUT], spellcheck: false, onkeydown: function(event) {
-			if (event.metaKey) { return can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) }
-			if (event.ctrlKey && can.onaction._complete(event, can)) { return }
+ 		{view: [code.CURRENT, html.INPUT], spellcheck: false, onkeydown: function(event) { can.onimport._value(can); if (event.metaKey) { return }
 			can.db._keylist = can.onkeymap._parse(event, can, can.db.mode+(event.ctrlKey? "_ctrl": ""), can.db._keylist, can.ui.current)
-			if (can.db.mode == mdb.INSERT) { can.db._keylist = [], can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) }
 			if (can.db.mode == mdb.NORMAL) { can.onkeymap.prevent(event), can.Status("按键", can.db._keylist.join("")) }
-		}, onkeyup: function(event) {
-			if (event.metaKey) { return can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) }
+			if (can.db.mode == mdb.INSERT) { can.db._keylist = [] }
+		}, onkeyup: function(event) { can.onimport._value(can); if (event.metaKey) { return }
 			can.onaction._complete(event, can)
-		}, onfocus: function() {
-			var target = can.ui.complete; can.current.line.appendChild(target), can.onmotion.toggle(can, target, true)
+		}, onfocus: function(event) {
+			can.current.line.appendChild(can.ui.complete)
 		}, onclick: function(event) {
 			can.onkeymap._insert(event, can)
 		}}, {view: [[code.COMPLETE, chat.FLOAT]]},
-	]); can.ui.current = ui.current, can.ui.complete = ui.complete },
+	]); can.ui.current = ui.current, can.ui.complete = ui.complete, can.onkeymap._build(can), can.onkeymap._plugin(can) },
+	_value: function(can) { can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) },
 }, [""])
 Volcanos(chat.ONFIGURE, { 
-	recent: function(can, target, zone, path) { var total = 0
-		function show(msg, cb) { var list = {}; msg.Table(function(item) { var path = item.path+item.file
-			if (!list[path]) { can.page.Append(can, target, cb(item, path)), zone._total(++total) } list[path] = item
-		}) }
-		can.runAction({}, code.FAVOR, ["_recent_file"], function(msg) {
-			can.core.List([
-				"index.css", "proto.js", "frame.js", "plugin/table.js",
-				"plugin/local/code/vimer.js",
-				"plugin/local/code/inner.js",
-				"plugin/local/code/inner.css",
-				"plugin/local/code/vimer.css",
-			], function(item) { msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, item) })
+	recent: function(can, target, zone) { var total = 0
+		function show(msg, cb) { var list = {}; msg.Table(function(item) { var path = item.path+item.file; if (!list[path]) { list[path] = item, can.page.Append(can, target, cb(item, path)), total++ } }) }
+		can.runAction({}, code.FAVOR, ["_recent_file"], function(msg) { can.core.List(["plugin/local/code/vimer.js"], function(item) { msg.Push(nfs.PATH, ice.USR_VOLCANOS).Push(nfs.FILE, item) })
 			show(msg, function(item, path) { return [{text: [path.split(ice.PS).slice(-2).join(ice.PS), html.DIV, html.ITEM], onclick: function(event) {
 				can.onimport.tabview(can, item.path, item.file)
-			}}] })
+			}}] }), zone._total(total)
 		})
 	},
-	source: function(can, target, zone, path) { var total = 0
-		var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
-		function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) {
-			can.onmotion.clear(can, target)
-			var node; function add(list) {
+	source: function(can, target, zone, path) { var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
+		zone._icon({"+": function(event) { can.user.carteRight(event, can, {}, ["script", "autogen"]) } })
+		function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) { can.onmotion.clear(can, target)
+			if (path == nfs.SRC) { can.ui.source.refresh = function() { show(target, zone, path) } }
+			var total, node; function add(list) {
 				can.core.List(list, function(item) { if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true } item._menu = shy({
 					create: function(event) { can.user.input(event, can, ["filename"], function(list) {
-						can.base.endWith(item.path, ice.PS)? can.request(event, {path: path+item.path, file: list[0]}):
-							can.request(event, {path: path+item.path.split(ice.PS).slice(0, -1).join(ice.PS)+ice.PS, file: list[0]})
+						can.request(event, {path: can.base.endWith(item.path, ice.PS)? path+item.path: path+item.path.split(ice.PS).slice(0, -1).join(ice.PS)+ice.PS, file: list[0]})
 						can.runAction(event, nfs.SAVE, [], function(msg) { var file = (msg.Option(nfs.PATH)+msg.Option(nfs.FILE)).slice(path.length)
 							add([{path: file}], node), can.onimport.tabview(can, path, file)
 						})
@@ -62,52 +42,26 @@ Volcanos(chat.ONFIGURE, {
 				}), item._init = function(target) { item._remove = function() { can.page.Remove(can, target.parentNode), delete(node[item.path]) } } })
 				return can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, node)
 			} node = add(msg.Table(), node), can.Status("目录", zone._total(msg.Length()))
-			
-			if (zone._icon == true) { return } zone._icon = true
-			can.page.Append(can, zone._legend, [{view: "icon s16 create", onclick: function(event) { can.user.input(event, can, ["filename"], function(list) {
-				can.runAction(can.request(event, {path: path, file: list[0]}), nfs.SAVE, [], function(msg) { can.onimport.tabview(can, path, list[0])
-					can.onimport.tree(can, [{path: list[0]}], nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, node)
-					can.core.List(list[0].split(ice.PS), function(item, index, array) { can.onmotion.toggle(can, node[array.slice(0, index+1).join(ice.PS)], true) })
-				})
-			}), can.onkeymap.prevent(event) }}])
-			can.page.Append(can, zone._legend, [{view: "icon s16 refresh", onclick: function(event) {
-				show(target, zone, path), can.onkeymap.prevent(event), can.user.toastSuccess(can)
-			}}])
 		}, true) } if (path.length == 1) { return show(target, path[0]) }
 		can.onimport.zone(can, can.core.List(path, function(path) {
 			return path.indexOf("-story") == -1 && path.indexOf("-dict") == -1 && {name: path, _init: function(target, zone) {
 				path == args[0] && show(target, zone, path)
 			}, _delay_show: path == args[0]? undefined: function(target, zone) { show(target, zone, path) }}
-		}), target), can.page.Remove(can, target.previousSibling)
+		}), target), can.page.Remove(can, zone._action)
 	},
-	repos: function(can, target, zone, path) { zone._delay_show = function() { can.runAction({}, nfs.REPOS, [], function(msg) {
-		msg.Table(function(value) { can.onimport.item(can, {name: can.page.Color(value.type)+ice.TB+value.file}, function() {
-			can.onimport.tabview(can, value.path, value.file)
-		}, function() {}, target) }), zone._total(msg.Length())
-	}) } },
-	dream: function(can, target, zone) { var call = arguments.callee
-		zone._delay_show = function() {
-		can.runAction({}, ice.RUN, [web.DREAM], function(msg) { can.onmotion.clear(can, target), msg.Table(function(item) {
-			can.page.ClassList.add(can, can.onimport.item(can, item, function(event) { can.onimport.tabview(can, can.Option(nfs.PATH), item.name, web.DREAM) }, function(event) {
-				return shy(kit.Dict(cli.START, [cli.OPEN, cli.STOP], cli.STOP, [cli.START, nfs.TRASH])[item.status], function(event, button) {
-					can.runAction(can.request({}, item), ice.RUN, [web.DREAM, ctx.ACTION, button], function(msg) {
-						can.sup.onimport._process(can.sup, msg) || call(can, target, zone)
-					})
-				})
-			}, target), item.status)
-		}), zone._total(msg.Length()), can.user.toastSuccess(can) })
-		}
-		return shy(kit.Dict(
-			web.REFRESH, function(event, can, button) { call(can, target, zone) },
-			mdb.CREATE, function(event, can, button) { can.onaction.dream(event, can, web.DREAM) },
-			code.PUBLISH, function(event, can, button) { can.runAction(event, button, [], function(msg) { can.user.toastConfirm(can, msg.Result(), button) }) },
-		))
-	},
-	plugin: function(can, target, zone) { zone._delay_show = function() { var total = 0
-		can.onimport.tree(can, can.core.ItemKeys(can.onengine.plugin.meta, function(key) { return total++, {index: key} }), ctx.INDEX, ice.PT, function(event, item) {
-			can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(ice.CAN, item.index), ctx.INDEX)
-		}, target), zone._total(total), can.onmotion.hidden(can, target), can.onmotion.hidden(can, target.previousSibling)
-	} },
+	repos: function(can, target, zone) { can.onimport._zone(can, zone, "web.code.git.status", function(sub, msg) {
+		sub.onexport.record = function(sub, value, key, line) { can.onimport.tabview(can, line.path, line.file) }
+		zone._icon({ "\u21BA": function() { sub.Update() },
+			"\u21C8": function() { sub.run({}, [ctx.ACTION, "push"]) },
+			"\u21CA": function() { sub.run({}, [ctx.ACTION, "pull"]) },
+			"=": function() { can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX) },
+		})
+	}) },
+	dream: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {
+		sub.onexport.record = function(sub, value, key, line) { can.onimport.tabview(can, can.Option(nfs.PATH), value, web.DREAM) }
+		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
+		zone._icon({ "\u21BA": function() { sub.Update() }, "+": function() { sub.run({}, [ctx.ACTION, mdb.CREATE]) }})
+	}) },
 	module: function(can, target, zone) { zone._delay_show = function() {
 		can.runAction(can.request({}, {fields: ctx.INDEX}), ctx.COMMAND, [mdb.SEARCH, ctx.COMMAND], function(msg) {
 			can.onimport.tree(can, msg.Table(), ctx.INDEX, ice.PT, function(event, item) {
@@ -115,9 +69,13 @@ Volcanos(chat.ONFIGURE, {
 			}, target), zone._total(msg.Length())
 		})
 	} },
+	plugin: function(can, target, zone) { zone._delay_show = function() { var total = 0
+		can.onimport.tree(can, can.core.ItemKeys(can.onengine.plugin.meta, function(key) { return total++, {index: key} }), ctx.INDEX, ice.PT, function(event, item) {
+			can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(ice.CAN, item.index), ctx.INDEX)
+		}, target), zone._total(total)
+	} },
 })
-Volcanos(chat.ONACTION, {
-	list: ["autogen", "script", "save", "compile", "dream", "首页", "官网", "文档", "git"],
+Volcanos(chat.ONACTION, {list: ["首页", "官网", "文档"],
 	_daemon: function(event, can, arg) { switch (arg[0]) {
 		case web.DREAM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME)), web.DREAM) }); break
 		case code.XTERM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, ctx.COMMAND, code.XTERM, msg.Result()) }); break
@@ -129,13 +87,13 @@ Volcanos(chat.ONACTION, {
 	_runs: function(event, can, button, cb) { var meta = can.Conf(); can.request(event, {action: button})
 		can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) })
 	},
-	autogen: function(event, can, button) { can.onaction._runs(can.request(event, {path: "src/"}), can, button, function(msg) {
+	autogen: function(event, can, button) { can.onaction._runs(can.request(event, {path: nfs.SRC}), can, button, function(msg) {
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(cli.MAIN), "", function() {
 			can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.source.refresh(), can.user.toastSuccess(can)
 		}, true)
 	}) },
 	script: function(event, can, button) {
-		can.onaction._runs(can.request(event, {path: "src/", file: can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.JS}), can, button)
+		can.onaction._runs(can.request(event, {path: nfs.SRC, file: can.base.trimSuffix(can.Option(nfs.FILE), can.base.Ext(can.Option(nfs.FILE)))+nfs.JS}), can, button)
 	},
 	dream: function(event, can, button) {
 		can.onaction._runs(can.request(event, {name: can.base.trimSuffix(can.Option(nfs.FILE).split(ice.PS).pop(), ice.PT+can.base.Ext(can.Option(nfs.FILE)))}), can, button, function(msg) {
@@ -298,6 +256,9 @@ Volcanos(chat.ONKEYMAP, {
 			n: shy("命令模式", function(event, can) { can.onkeymap._normal(can) }),
 			":": shy("底行模式", function(event, can) { can.onimport.toolkit(can, {index: "cli.system"}, function(sub) { can.db.toolkit["cli.system"] = sub.select(), can.onmotion.delay(can, function() { sub.Focus() }) }) }),
 
+			d: shy("查找替换", function(event, can) {
+				can.page.Select(can, can.ui.path, "span.func", function(target) { target.click() })
+			}),
 			g: shy("查找替换", function(event, can) { can.onaction.find(event, can) }),
 			s: shy("保存文件", function(event, can) { can.onaction.save(event, can, nfs.SAVE) }),
 			c: shy("编译项目", function(event, can) { can.onaction.compile(event, can, code.COMPILE) }),
@@ -378,6 +339,7 @@ Volcanos(chat.ONKEYMAP, {
 			zz: shy("将当前行拉到屏幕中间", function(can, count) { return can.current.scroll(can.current.scroll()-(count = count>1? count: can.current.window()/2)), true }),
 			zb: shy("将当前行拉到屏幕最下", function(can, count) { return can.current.scroll(can.current.scroll()-can.current.window()+(count>1? count: 5)), true }),
 			s: shy("保存文件", function(event, can) { can.onaction.save(event, can, nfs.SAVE) }),
+			c: shy("编译项目", function(event, can) { can.onaction.compile(event, can, code.COMPILE) }),
 		},
 		normal_ctrl: {
 			f: shy("向下翻页", function(can, count) {
@@ -409,6 +371,8 @@ Volcanos(chat.ONKEYMAP, {
 					} else if (deep(text) >= deep(can.onexport.text(can, line+1)) && rest == "") {
 						can.onaction.insertLine(can, left+item[1], can.current.next())
 					} left += ice.TB
+				} else if (can.base.beginWith(rest, item[1])) {
+					left = left.slice(0, -1)
 				}})
 				var line = can.onaction.insertLine(can, left+rest, can.current.next())
 				can.current.text(text.trimRight()||text), can.onaction.selectLine(can, line), can.onkeymap._insert(event, can, 0, left.length)

@@ -237,7 +237,10 @@ Volcanos(chat.ONACTION, {list: [
 		})
 	},
 })
-Volcanos(chat.ONEXPORT, {record: function(can, line) {},
+Volcanos(chat.ONEXPORT, {
+	output: function(can, msg) {},
+	action: function(can, button, line) {},
+	record: function(can, value, key, line) {},
 	statusHeight: function(can) { return can._status.style.display == html.NONE || can._status.innerHTML == "" || can._status.offsetHeight == 0? 0: html.ACTION_HEIGHT },
 	actionHeight: function(can) { return can._action.style.display == html.NONE || can._action.innerHTML == ""? 0: html.ACTION_HEIGHT },
 	link: function(can) { var meta = can.Conf(), args = can.Option()

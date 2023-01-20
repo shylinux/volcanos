@@ -1,7 +1,7 @@
 fieldset.inner>form.option input[name=path] { width:80px; }
 fieldset.inner>form.option input[name=file] { width:160px; }
-fieldset.inner>div.output { overflow:hidden; }
-fieldset.inner>div.output * { font-size:14px; font-family:monospace; outline:none; }
+fieldset.inner>div.output>div.project * { font-size:14px; font-family:monospace; outline:none; }
+fieldset.inner>div.output>div.layout>div.layout>div.content * { font-size:14px; font-family:monospace; outline:none; }
 fieldset.inner>div.output legend { font-size:1rem; line-height:2rem; }
 fieldset.inner>div.output div.content { position:relative; }
 fieldset.inner>div.output div.content td.text span.comment { color:green; }
@@ -13,7 +13,15 @@ fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.object { color:cyan; }
 fieldset.inner>div.output>div.project { width:230px; }
+fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
+fieldset.inner>div.output>div.project>div.zone fieldset.plug legend { display:none; }
+fieldset.inner>div.output>div.project>div.zone fieldset.plug form.option { display:none; }
+fieldset.inner>div.output>div.project>div.zone fieldset.plug div.action { display:none; }
+fieldset.inner>div.output>div.project>div.zone fieldset.plug div.status { display:none; }
+fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
 fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; }
+fieldset.inner>div.output>div.project>div.zone>div.item span.icon { font-size:22px; line-height:18px; width:20px; float:right; display:none; }
+fieldset.inner>div.output>div.project>div.zone:hover>div.item span.icon { display:block; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-right:0; width:100%; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item>input { width:100%; }
 fieldset.inner>div.output>div.layout.flow { position:relative; }
@@ -36,9 +44,7 @@ fieldset.inner.cmd>div.output>div.layout.flow>div.path span.view { font-size:22p
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug { height:31px; clear:both; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug>legend { float:right; }
 fieldset.inner.cmd>div.output fieldset.plug { bottom:31px; position:absolute; }
-// fieldset.inner.cmd>div.output>div.layout.flow>fieldset.plug { display:block; }
 fieldset.inner fieldset.story form.option div.icon { display:block; }
-
 
 body.black fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
 body.white fieldset.inner.cmd>div.output { background-color:aliceblue; }
@@ -75,10 +81,6 @@ body.dark fieldset.inner>div.output div.content td.text span.object { color:gold
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 
-// div.action>div div.icon { margin-left:10px; margin-top:1px; float:right; visibility:hidden; }
-// div.action>div:hover div.icon { visibility:visible; } div.action>div.select div.icon { visibility:visible; }
-// div.tabs>div div.icon { margin-left:10px; margin-top:1px; float:right; visibility:hidden; }
-// div.tabs>div:hover div.icon { visibility:visible; } div.tabs>div.select div.icon { visibility:visible; }
 div.carte.path.float { font-size:14px; border-radius:0; } div.carte.path.float div.item { padding:5px; }
 div.path span.item { padding:5px; cursor:pointer; }
 tr.line>td.line { text-align:right; padding:0 10px; position:sticky; left:0; }
