@@ -1,4 +1,4 @@
-(function() { var NTIP = "ntip", NCMD = "ncmd"
+(function() { var NTIP = "ntip", NCMD = "ncmd", NLOG = "nlog"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport._title(can, msg, target)
 		can.onimport._state(can, msg, target)
@@ -6,7 +6,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport._command(can, msg, target)
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(msg.result, function(item) { can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "联系站长"}]) }) },
-	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [NTIP, NCMD]).reverse(), function(item) {
+	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [NTIP, NCMD, NLOG]).reverse(), function(item) {
 		can.page.Append(can, target, [{view: [[chat.STATE], html.DIV, can.Conf(item)], list: [
 			{text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", html.SPAN, item]},
 		], onclick: function(event) { can.onexport[item](can) }}])
@@ -22,7 +22,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	} }}, "", target, [chat.TITLE]) },
 	count: function(can, name) { can.page.Select(can, can._output, can.core.Keys(html.SPAN, name), function(item) { item.innerHTML = can.Conf(name, parseInt(can.Conf(name)||"0")+1+"")+"" }) },
 	toast: function(can, msg, title, content, fileline, time) { can.onimport._data(can, NTIP, {time: time, fileline: fileline, title: title, content: content}), can.page.Modify(can, can.toast, [time, title, content].join(ice.SP)) },
-	ncmd: function(can, msg, _follow, _cmds) { can.onimport._data(can, NCMD, {time: can.base.Time(), follow: _follow, cmds: _cmds}) },
+	ncmd: function(can, msg, _follow, _cmds) { can.onimport._data(can, NCMD, {time: can.base.Time(), follow: _follow, cmds: _cmds}), can.onimport.nlog(can) },
+	nlog: function(can) { can.page.Select(can, can._output, can.core.Keys(html.SPAN, name), function(item) { item.innerHTML = can.misc._list.length }) },
 	_data: function(can, name, item) { can[name] = can[name]||can.request(), can[name].Push(item), can.onimport.count(can, name) },
 })
 Volcanos(chat.ONACTION, {_init: function(can) { if (can.user.isExtension || can.user.mod.isPod) { can.onmotion.hidden(can) } },
@@ -48,6 +49,7 @@ Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight
 		}, ui.output), msg && can.onappend.board(can, msg.Result(), ui.output); return ui
 	},
 	ntip: function(can) { can.onexport.float(can, can[NTIP], NTIP, function(value, key, index, line) { can.onappend._float(can, web.CODE_INNER, [ice.USR_VOLCANOS].concat(line.fileline.split(ice.DF))) }) },
+	nlog: function(can) { can.onappend._float(can, "can.debug") },
 	ncmd: function(can) { can.onexport.float(can, can[NCMD], NCMD, function(value, key, index, line) {
 		var cmds = can.base.Obj(line.cmds); switch (line.follow) {
 			case "can.Action": cmds = cmds.slice(2); break
@@ -66,57 +68,44 @@ Volcanos(chat.ONPLUGIN, {
 	toast: shy("提示", [wiki.CONTENT, wiki.TITLE], function(can, msg, arg) {
 		arg && arg.length > 0 && can.user.toast(can, arg[0], arg[1]), msg.Copy(can[NTIP]), msg.StatusTimeCount()
 	}),
-	debug: shy("日志", ["type:select=Info,Warn,Error,Debug", "_text"], function(can, msg, arg) {
-		arg && arg.length > 1 && can.misc[arg[0]](can, arg[1])
-		can.onmotion.delay(can, function() { var can = msg._can
-			can.page.Append(can, can._output, [{type: html.TABLE, className: html.CONTENT, list: [{type: html.TR, list: [
-				{type: html.TH, inner: mdb.TIME},
-				{type: html.TH, inner: nfs.FILE},
-				{type: html.TH, inner: mdb.TYPE},
-				{type: html.TH, inner: mdb.TEXT},
-			]}].concat(can.core.List(can.misc._list, function(list) { return {type: html.TR, list: [
-				{type: html.TD, inner: list[0]},
-				{type: html.TD, inner: list[1].indexOf(location.origin) == 0? list[1].slice(location.origin.length+1): list[1]},
-				{type: html.TD, inner: list[2]},
-				{type: html.TD, list: can.core.List(list.slice(3), function(item) { if (can.base.isString(item)) { return {text: item} }
-					return {view: "data", _init: function(target) { can.page.AppendData(can, target, "", "", item, function(prefix, value) {
-						can.Option(mdb.KEY, prefix)
-					})}}
-				}), onclick: function(event) {
-					can.onkeymap.prevent(event)
-				}},
-			], onclick: function(event) {
-				var _ls = /(https*:\/\/[^/]+)*([^:]+):([0-9]+):([0-9]+)/.exec(list[1])
-				can.onexport.record(can, list[1], mdb.LINK, {
-					time: list[0],
-					link: list[1],
-					type: list[2],
-					path: "usr/volcanos/",
-					file: _ls[2],
-					line: _ls[3],
-				})
-			}} })) }])
-			can.onappend._status(can, [{name: mdb.TIME, value: can.base.Time()}, {name: mdb.COUNT, value: can.misc._list.length+"x4"}])
-		})
-	}),
-	data: shy("网页标签", ["key"], function(can, msg, arg) {
-		can.onmotion.delay(can, function() { var can = msg._can
-			if (can.Option(mdb.KEY)) {
-				can.page.AppendData(can, can._output, can.Option(mdb.KEY), can.Option(mdb.KEY).split(ice.PT).pop(), can.core.Value(can._root, can.Option(mdb.KEY)))
-			} else {
-				can.page.AppendData(can, can._output, "", can._root._name, can._root)
-			}
-		})
-	}),
-	view: shy("网页标签", function(can, msg, arg) {
-		can.onmotion.delay(can, function() { var can = msg._can
-			can.page.Append(can, can._output, [
-				can.page.AppendView(can, document, "html", [
-					can.page.AppendView(can, document.head, "head"),
-					can.page.AppendView(can, document.body, "body"),
-				], true)
-			])
-		})
-	}),
+	debug: shy("日志", ["type:select=log,info,warn,error,debug,wss,onremote", "_text"], function(can, msg, arg) { can.onmotion.delay(can, function() { var _can = can, can = msg._can
+		var ui = can.page.Appends(can, can._output, [{type: html.TABLE, className: html.CONTENT, list: [{type: html.TR, list: [
+			{type: html.TH, inner: mdb.TIME}, {type: html.TH, inner: mdb.TEXT},
+		]}].concat(can.core.List(can.misc._list, function(list) { return (!arg || !arg[0] || arg[0] == "log" || arg[0] == list[2]) && {type: html.TR, list: [
+			{type: html.TD, inner: list[0]},
+			{type: html.TD, list: can.core.List(list.slice(1), function(item, index) { var vimer
+				if (index == 0) { return {type: html.SPAN, list: [{text: can.page.unicode.close+ice.SP}, {text: [item.split("?")[0]+ice.SP, html.SPAN, nfs.PATH], onclick: function(event) {
+					var _ls = /(https*:\/\/[^/]+)\/*([^:]+):([0-9]+):([0-9]+)/.exec(list[1])
+				if (can.onexport.record(can, list[1], mdb.LINK, {time: list[0], link: list[1], type: list[2], path: ice.USR_VOLCANOS, file: _ls[2].split("?")[0], line: _ls[3]})) { return }
+				if (vimer) { return can.page.Remove(can, vimer._target), vimer = null }
+				vimer = can.onappend.plugin(_can, {index: "web.code.inner", args: [ice.USR_VOLCANOS, _ls[2], _ls[3]]}, function(sub) {}, event.target.parentNode)
+			}}]} } if (!can.base.isObject(item)) { return {text: item+ice.SP} }
+				return {view: mdb.DATA, _init: function(target) { can.page.AppendData(can, target, "", "", item)}}
+			})},
+		]} })) }]); arg && arg[1] && can.page.Select(can, can._output, html.TR, function(tr) { can.page.ClassList.set(can, tr, html.HIDE, tr.innerText.indexOf(arg[1]) == -1) })
+		can.onappend._status(can, [{name: mdb.TIME, value: can.base.Time()}, {name: mdb.COUNT, value: can.page.Select(can, can._output, html.TR+":not(.hide)").length+"x2"}])
+	}) }),
+	data: shy("网页标签", [mdb.KEY], function(can, msg, arg) { can.onmotion.delay(can, function() { var can = msg._can
+		can.page.Append(can, can._output, [{text: "hello world"}])
+		if (can.Option(mdb.KEY)) {
+			can.page.AppendData(can, can._output, can.Option(mdb.KEY), can.Option(mdb.KEY).split(ice.PT).pop(), can.core.Value(can._root, can.Option(mdb.KEY)), function(prefix, value) {
+				can.Option(mdb.KEY, prefix)
+			})._target.click()
+		} else {
+			can.page.AppendData(can, can._output, "", can._root._name, can._root, function(prefix, value) {
+				can.Option(mdb.KEY, prefix)
+			})._target.click()
+		}
+	}) }),
+	view: shy("网页标签", function(can, msg, arg) { can.onmotion.delay(can, function() { var can = msg._can
+		can.page.Append(can, can._output, [can.page.AppendView(can, document, "html", [
+			can.page.AppendView(can, document.head, "head"), can.page.AppendView(can, document.body, "body", null, false, function(target) {
+				var list = []; for (var p = target; p && p.tagName; p = p.parentNode) {
+					list.push(p.tagName.toLowerCase()+(p.className? ice.PT+p.className.replaceAll(ice.SP, ice.PT): ""))
+				}
+				can.page.Appends(can, can._action, [{view: [html.ITEM, html.DIV, list.reverse().join(ice.SP+ice.GT+ice.SP)]}])
+			}),
+		], true)])
+	}) }),
 })
 })()

@@ -279,6 +279,7 @@ fieldset.plugin.inner.cmd>form.option { display:none; }
 fieldset.xterm div.toggle { display:none; }
 fieldset>div.output fieldset.plug { position:absolute; bottom:0; right:0; }
 fieldset>div.output fieldset.plug.select { display:block; }
+fieldset.cmd>div.output fieldset.plug { position:fixed; bottom:31px; right:0; }
 body.mobile fieldset.plugin>legend { border:none; }
 .unselectable { -webkit-touch-callout:none; -webkit-user-select:none; -khtml-user-select:none; -moz-user-select:none; -ms-user-select:none; -o-user-select:none; user-select:none; }
 /* layout */
@@ -327,6 +328,12 @@ div.story[data-type=spark]::-webkit-scrollbar { width:0 !important; height:0 !im
 div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
 
+.picker { box-shadow:4px 4px 20px 4px #626bd0; }
 div.item:not(.string):not(.number):not(.boolean)>span.value { color:silver; }
-span.string { color:#f29766; }
-span.tag { color:#5cadd4; }
+div.item.function>span.value { font-style:italic; }
+div.item.target>span.value { font-style:italic; }
+div.view span.keyword { color:#5cadd4; }
+div.view span.string { color:#f29766; }
+span.path { color:silver; }
+body.dark span.path { color:gray; }
+body.dark div.data div.item:not(.string):not(.number):not(.boolean)>span.value { color:gray; }

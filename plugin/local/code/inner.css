@@ -12,6 +12,7 @@ fieldset.inner>div.output div.content td.text span.function { color:lightgreen; 
 fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.object { color:cyan; }
+fieldset.inner>div.output div.content fieldset>form.option>div.icon { display:none; }
 fieldset.inner>div.output>div.project { width:230px; }
 fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
 fieldset.inner>div.output>div.project>div.zone fieldset.plug legend { display:none; }

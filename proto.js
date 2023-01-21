@@ -13,7 +13,8 @@ var ice = {
 	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
 	OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
 
-	AUTO: "auto", HTTP: "http", LIST: "list", BACK: "back",
+	AUTO: "auto",
+	HTTP: "http", HTML: "html", LIST: "list", BACK: "back",
 	SHOW: "show", HIDE: "hide", HELP: "help", COPY: "copy",
 	VIEW: "view", MODE: "mode", SHIP: "ship", EXEC: "exec",
 
@@ -59,7 +60,7 @@ var ctx = {
 }
 var mdb = {
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
-	DATA: "data", VIEW: "view",
+	DATA: "data", VIEW: "view", ICON: "icon",
 
 	ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text", LINK: "link", SCAN: "scan", HELP: "help",
 	SHORT: "short", FIELD: "field", TOTAL: "total", COUNT: "count", LIMIT: "limit",
@@ -257,7 +258,7 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {
 		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, style: html.HIDE, state: [mdb.TIME, aaa.USERNICK]}, {name: chat.ACTION, style: html.MAIN, tool: name}, {name: chat.FOOTER, style: html.HIDE}]}) }
 		var Config = name; name = Config.name||ice.CAN, _can_name = "", _can_path = ""
-		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list
+		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list, delete(Config.panels)
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)
 		cb = can||function(can) { can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target) }
 		can = Config, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width

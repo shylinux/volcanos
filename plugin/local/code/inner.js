@@ -10,6 +10,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		can.ui = can.onappend.layout(can, can._output, "", [html.PROJECT, [html.TABS, nfs.PATH, [html.CONTENT, html.PROFILE], html.DISPLAY, html.PLUG]])
 		can.ui._content = can.ui.content, can.ui._profile = can.ui.profile, can.ui._display = can.ui.display
 		can.onmotion.hidden(can, can.ui.plug)
+		var plug = can.base.Obj(msg.Option("plug"), [])
+		plug.length > 0 && can.run({}, [ctx.ACTION, ctx.COMMAND].concat(plug.reverse()), function(msg) {
+			msg.Table(function(value) { can.onimport.toolkit(can, value) })
+		})
 		can.onengine.plugin(can, can.onplugin)
 		switch (can.Mode()) {
 			case chat.SIMPLE: can.onmotion.hidden(can, can.ui.project); break
@@ -292,6 +296,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 			sub.onexport.title = function(_, title) { can.page.Modify(can, msg._tab, title) }
 			sub.onexport.record = function(_, value, key, line) {
 				line.path && can.onimport.tabview(can, line.path, line.file, line.line)
+				return true
 			}
 			sub.onimport._open = function(sub, msg, _arg) { var url = can.base.ParseURL(_arg), ls = url.origin.split("/chat/pod/")
 				if (_arg.indexOf(location.origin) == 0 && ls.length > 1) {

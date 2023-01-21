@@ -99,6 +99,8 @@ Volcanos(chat.ONACTION, {list: [
 		"刷新界面", "刷新数据", "切换浮动", "切换全屏", "共享工具", "远程控制", "打开链接", "生成链接", "生成脚本", "生成图片", [
 			"其它", "保存参数", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据",
 			"查看文档", "查看脚本", "查看源码", "查看配置", "清理配置", "导出配置", "导入配置", "删除配置", "删除工具",
+		], [
+			"调试", "查看日志",
 		],
 	],
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input())) },
@@ -173,6 +175,11 @@ Volcanos(chat.ONACTION, {list: [
 		can.user.toastProcess(can), can.onmotion.delay(can, function() { can.user.toastSuccess(can), can.Update() }, 1000)
 	}) },
 	"删除工具": function(event, can) { can.page.Remove(can, can._target) },
+	"查看日志": function(event, can, button, sub) { sub = can._outputs[0]
+		sub.onimport.tool(sub, ["can.debug"], function(sub) {
+			sub.select()
+		})
+	},
 
 	refresh: function(event, can) {
 		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return }

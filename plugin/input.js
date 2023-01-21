@@ -7,11 +7,14 @@ Volcanos(chat.ONACTION, {
 	onchange: function(event, can) { can.Conf(mdb.TYPE) == html.SELECT && can.run(event) },
 	onkeydown: function(event, can) { can.onkeymap.input(event, can, event.target)
 		if (can.Conf(mdb.TYPE) == html.TEXTAREA) { if (!event.ctrlKey) { return } }
-		if (event.key == lang.ENTER) { return can.run(event), can.onmotion.focus(can, event.target), can.onkeymap.prevent(event) }
+		if (event.key == lang.ENTER) { return can.onkeymap.prevent(event), can.run(event), can.onmotion.focus(can, event.target) }
 		if (!event.ctrlKey) { return } switch (event.key) {
 			case "m": can.CloneField(); break
 			case "b": can.CloneInput(); break
 			default: can.onkeymap.selectOutput(event, can.sup); return
 		} can.onkeymap.prevent(event)
+	},
+	onkeyup: function(event, can) {
+		if (event.key == lang.ENTER) { return can.onkeymap.prevent(event) }
 	},
 })
