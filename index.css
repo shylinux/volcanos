@@ -329,6 +329,7 @@ div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
 
 .picker { box-shadow:4px 4px 20px 4px #626bd0; }
+span.item:not(.string):not(.number):not(.boolean)>span.value { color:silver; }
 div.item:not(.string):not(.number):not(.boolean)>span.value { color:silver; }
 div.item.function>span.value { font-style:italic; }
 div.item.target>span.value { font-style:italic; }

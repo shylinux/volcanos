@@ -69,13 +69,13 @@ Volcanos(chat.ONFIGURE, {
 			}, target), zone._total(msg.Length())
 		})
 	} },
-	plugin: function(can, target, zone) { zone._delay_show = function() { var total = 0
+	plugin: function(can, target, zone) { var total = 0
 		can.onimport.tree(can, can.core.ItemKeys(can.onengine.plugin.meta, function(key) { return total++, {index: key} }), ctx.INDEX, ice.PT, function(event, item) {
 			can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(ice.CAN, item.index), ctx.INDEX)
 		}, target), zone._total(total)
-	} },
+	},
 })
-Volcanos(chat.ONACTION, {list: ["首页", "官网", "文档"],
+Volcanos(chat.ONACTION, {list: ["调试", "首页", "官网", "文档"],
 	_daemon: function(event, can, arg) { switch (arg[0]) {
 		case web.DREAM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME)), web.DREAM) }); break
 		case code.XTERM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, ctx.COMMAND, code.XTERM, msg.Result()) }); break
@@ -140,7 +140,6 @@ Volcanos(chat.ONACTION, {list: ["首页", "官网", "文档"],
 	"首页": function(event, can) { can.onaction._open(can, location.protocol+"//"+location.host) },
 	"官网": function(event, can) { can.onaction._open(can, "https://shylinux.com/") },
 	"文档": function(event, can) { can.onaction._open(can, "https://developer.mozilla.org/") },
-	"百度": function(event, can) { can.onaction._open(can, "https://baidu.com") },
 	"命令": function(event, can) { can.user.input(event, can, [ctx.INDEX], function(list) { can.onimport.tabview(can, can.Option(nfs.PATH), list[0], ctx.INDEX) }) },
 	"插件": function(event, can) { can.user.input(event, can, [ctx.INDEX], function(list) { var sub = can.db.toolkit[list[0]]; if (sub) { sub.select(); return }
 		can.onimport.toolkit(can, {index: list[0]}, function(sub) { can.db.toolkit[list[0]] = sub.select() })
@@ -152,6 +151,7 @@ Volcanos(chat.ONACTION, {list: ["首页", "官网", "文档"],
 	"日志": function(event, can) { window.opencmd("cd ~/contexts; tail -f var/log/bench.log") },
 	"编辑器": function(event, can) { window.opencmd("cd ~/contexts; vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE)) },
 	"浏览器": function(event, can) { window.openurl(location.href) },
+	"调试": function(event, can) { window.openurl(location.href) },
 	_open: function(can, url) { can.user.isWebview? window.openurl(url): window.open(url) },
 	_complete: function(event, can, target) { if (event == undefined || event.type == "click") { return } target = target||can.ui.complete
 		var pre = can.ui.current.value.slice(0, can.ui.current.selectionStart), key = can.core.Split(pre, "\t .[]", " ").pop()||"", end = can.ui.current.value.slice(can.ui.current.selectionStart)
