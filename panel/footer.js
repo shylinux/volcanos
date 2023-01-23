@@ -66,25 +66,44 @@ Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight
 Volcanos(chat.ONPLUGIN, {
 	alert: shy("提示", [wiki.CONTENT], function(can, msg, arg) { arg && arg.length > 0 && can.user.alert(arg[0]) }),
 	toast: shy("提示", [wiki.CONTENT, wiki.TITLE], function(can, msg, arg) { arg && arg.length > 0 && can.user.toast(can, arg[0], arg[1]), msg.Copy(can[NTIP]), msg.StatusTimeCount() }),
-	debug: shy("日志", ["type:select=log,info,warn,error,debug,wss,onremote", "_text"], function(can, msg, arg) { can.onmotion.delay(can, function() { var _can = can, can = msg._can
+	debug: shy("网页日志", {
+		"prune": shy("清空", function(can) { while(can.misc._list.pop()) {} can.onmotion.clear(can) }),
+		"debug": shy("调试", function(can) { can.user.opens(location.href.replace("debug=true", "")) }),
+		"w3schools": shy("教程", function(can) { can.user.open("https://www.w3schools.com/colors/colors_names.asp") }),
+		"mozilla": shy("文档", function(can) { can.user.open("https://developer.mozilla.org/en-US/") }),
+		"w3": shy("标准", function(can) { can.user.open("https://www.w3.org/TR/?tag=css") }),
+	}, ["type:select=log,info,warn,error,debug,wss,onremote", "filter", "list", "prune", "debug", "w3schools", "mozilla", "w3"], function(can, msg, arg) { can.onmotion.delay(can, function() { var _can = can, can = msg._can
+		var stat = {}
 		var ui = can.page.Appends(can, can._output, [{type: html.TABLE, className: html.CONTENT, list: [{type: html.TR, list: [
 			{type: html.TH, inner: mdb.TEXT},
-		]}].concat(can.core.List(can.misc._list, function(list) { return (!arg || !arg[0] || arg[0] == "log" || arg[0] == list[2]) && {type: html.TR, list: [
+		]}].concat(can.core.List(can.misc._list, function(list) { stat[list[2]] = ((stat[list[2]]||0)+1); return (!arg || !arg[0] || arg[0] == "log" || arg[0] == list[2]) && {type: html.TR, list: [
 			{type: html.TD, list: can.core.List(list.slice(0), function(item, index) { var vimer
 				if (index == 1) { var _ls = /(https*:\/\/[^/]+)\/*([^:]+):([0-9]+):([0-9]+)/.exec(list[1])
-					return {type: html.SPAN, list: [{text: can.page.unicode.close+ice.SP}, {text: [(_ls[1] == location.origin? _ls[2]: item).split("?")[0]+ice.SP, html.SPAN, nfs.PATH], onclick: function(event) {
+					return {view: [html.ITEM, html.SPAN], list: [{text: ice.SP+can.page.unicode.close+ice.SP}, {text: [(_ls[1] == location.origin? _ls[2].split("?")[0]+ice.DF+_ls[3]: item).split("?")[0], html.SPAN, nfs.PATH], onclick: function(event) {
 						if (can.onexport.record(can, list[1], mdb.LINK, {time: list[0], link: list[1], type: list[2], path: ice.USR_VOLCANOS, file: _ls[2].split("?")[0], line: _ls[3]})) { return }
 						if (vimer) { return can.page.Remove(can, vimer._target), vimer = null }
 						vimer = can.onappend.plugin(_can, {index: "web.code.inner", args: [ice.USR_VOLCANOS, _ls[2], _ls[3]]}, function(sub) {}, event.target.parentNode)
 					}}]}
-				} if (!can.base.isObject(item)) { return {text: item+ice.SP} }
-					return {view: [mdb.DATA, html.SPAN], _init: function(target) { can.page.AppendData(can, target, "", "", item)}}
-				}
-			)},
+				} if (!can.base.isObject(item)) { return {text: (index > 0? ice.SP: "")+item} }
+				return {view: [mdb.DATA, html.SPAN], _init: function(target) {
+					if (item.tagName) { var detail; var ui = can.page.Append(can, target, [{text: ice.SP},
+						{text: can.page.unicode.close+ice.SP, _init: function(target) { can.onmotion.delay(can, function() { ui.toggle = target }) }},
+						{view: [[html.ITEM, nfs.TARGET], html.SPAN, item.tagName.toLowerCase()+(item.className? ice.PT+item.className.replaceAll(ice.SP, ice.PT): "")], onclick: function() {
+							if (detail) { return can.page.Remove(can, detail), detail = null, can.page.Modify(can, ui.toggle, can.page.unicode.close+ice.SP) }
+							detail = can.page.AppendData(can, target, "", "", item)._target, detail.click(), can.page.Modify(can, ui.toggle, can.page.unicode.open+ice.SP)
+						}},
+					]) } else { can.page.Append(can, target, [{text: ice.SP}]), can.page.AppendData(can, target, "", "", item) }
+				}}
+			})},
 		]} })) }]); arg && arg[1] && can.page.Select(can, can._output, html.TR, function(tr) { can.page.ClassList.set(can, tr, html.HIDE, tr.innerText.indexOf(arg[1]) == -1) })
-		can.onappend._status(can, [{name: mdb.TIME, value: can.base.Time()}, {name: mdb.COUNT, value: can.page.Select(can, can._output, html.TR+":not(.hide)").length+"x2"}])
+		can.onappend._status(can, [
+			{name: mdb.TIME, value: can.base.Time()},
+			{name: mdb.COUNT, value: can.page.Select(can, can._output, html.TR+":not(.hide)").length+"x1"},
+		].concat(can.core.List(["onremote", "wss", "info", "warn", "error"], function(item) {
+			return {name: item, value: stat[item]||"0"}
+		})))
 	}) }),
-	data: shy("网页标签", [mdb.KEY], function(can, msg, arg) { can.onmotion.delay(can, function() { var can = msg._can
+	data: shy("网页数据", [mdb.KEY], function(can, msg, arg) { can.onmotion.delay(can, function() { var can = msg._can
 		if (can.Option(mdb.KEY)) {
 			can.page.AppendData(can, can._output, can.Option(mdb.KEY), can.Option(mdb.KEY).split(ice.PT).pop(), can.core.Value(can._root, can.Option(mdb.KEY)), function(prefix, value) {
 				can.Option(mdb.KEY, prefix)
@@ -95,14 +114,18 @@ Volcanos(chat.ONPLUGIN, {
 			})._target.click()
 		}
 	}) }),
-	view: shy("网页标签", function(can, msg, arg) { can.onmotion.delay(can, function() { var can = msg._can
-		can.page.Append(can, can._output, [can.page.AppendView(can, document, "html", [
-			can.page.AppendView(can, document.head, "head"), can.page.AppendView(can, document.body, "body", null, false, function(target) {
-				var list = []; for (var p = target; p && p.tagName; p = p.parentNode) {
-					list.push(p.tagName.toLowerCase()+(p.className? ice.PT+p.className.replaceAll(ice.SP, ice.PT): ""))
-				} can.page.Appends(can, can._action, [{view: [html.ITEM, html.DIV, list.reverse().join(ice.SP+ice.GT+ice.SP)]}])
-			}),
-		], true)])
+	view: shy("网页标签", [mdb.KEY], function(can, msg, arg) { can.onmotion.delay(can, function() { var can = msg._can
+		if (can.Option(mdb.KEY)) {
+			can.page.Append(can, can._output, [can.page.AppendView(can, can.page.SelectOne(can, document.body, can.Option(mdb.KEY))||document.body)])
+		} else {
+			can.page.Append(can, can._output, [can.page.AppendView(can, document, "html", [
+				can.page.AppendView(can, document.head, "head"), can.page.AppendView(can, document.body, "body", null, false, function(target) {
+					var list = []; for (var p = target; p && p.tagName && p != document.body; p = p.parentNode) {
+						list.push(p.tagName.toLowerCase()+(p.className? ice.PT+p.className.replaceAll(ice.SP, ice.PT).replace(".picker", ""): ""))
+					} can.Option(mdb.KEY, list.reverse().join(ice.SP+ice.GT+ice.SP))
+				}),
+			], true)])
+		}
 	}) }),
 })
 })()

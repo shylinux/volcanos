@@ -16,5 +16,16 @@ Volcanos(chat.ONACTION, {
 	},
 	onkeyup: function(event, can) {
 		if (event.key == lang.ENTER) { return can.onkeymap.prevent(event) }
+		if (can.Conf(mdb.NAME) == html.FILTER) {
+			can.user.toast(can, "filter out "+
+			can.page.Select(can, can._output, html.TR, function(tr) {
+				if (!can.page.ClassList.set(can, tr, html.HIDE, tr.innerText.indexOf(event.target.value) == -1)) {
+					return tr
+				}
+			}).length+" lines")
+		}
+	},
+	onfocus: function(event, can) {
+		can.Conf(mdb.TYPE) == html.TEXT && can.onmotion.selectRange(event.target)
 	},
 })

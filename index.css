@@ -329,12 +329,15 @@ div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
 
 .picker { box-shadow:4px 4px 20px 4px #626bd0; }
-span.item:not(.string):not(.number):not(.boolean)>span.value { color:silver; }
-div.item:not(.string):not(.number):not(.boolean)>span.value { color:silver; }
-div.item.function>span.value { font-style:italic; }
-div.item.target>span.value { font-style:italic; }
 div.view span.keyword { color:#5cadd4; }
 div.view span.string { color:#f29766; }
-span.path { color:silver; }
-body.dark span.path { color:gray; }
-body.dark div.data div.item:not(.string):not(.number):not(.boolean)>span.value { color:gray; }
+div.item:not(.string):not(.number):not(.boolean)>span.value { color:silver; font-style:italic; }
+span.item:not(.string):not(.number):not(.boolean)>span.value { color:silver; font-style:italic; }
+fieldset.debug span.path { color:silver; font-style:italic; }
+body.dark fieldset.debug span.path { color:gray; }
+body.dark fieldset.debug span.target { color:gray; }
+body.dark div.item:not(.string):not(.number):not(.boolean)>span.value { color:gray; }
+body.dark span.item:not(.string):not(.number):not(.boolean)>span.value { color:gray; }
+form.option>div.item { position:relative; }
+form.option>div.item>span.icon { font-size:20px; position:absolute; top:2px; right:10px; visibility:hidden; }
+form.option>div.item:hover>span.icon { visibility:visible; }

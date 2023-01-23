@@ -110,7 +110,7 @@ var nfs = {
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size", ROOT: "root",
 	COPY: "copy", EDIT: "edit", SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
 	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash", DIR_ROOT: "dir_root", PWD: "./",
-	CONTENT: "content", SOURCE: "source", SCRIPT: "script", MODULE: "module", RECENT: "recent",
+	CONTENT: "content", SOURCE: "source", SCRIPT: "script", TARGET: "target", MODULE: "module", RECENT: "recent",
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
 	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
@@ -122,7 +122,7 @@ var cli = {
 	BEGIN: "begin", START: "start", OPEN: "open", CLOSE: "close", STOP: "stop", END: "end", RESTART: "restart",
 	COLOR: "color", WHITE: "white", BLACK: "black", RED: "red", GREEN: "green", BLUE: "blue",
 	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta", GLASS: "transparent",
-	GRAY: "gray",
+	GRAY: "gray", ALICEBLUE: "aliceblue",
 	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 }
 var log = {
@@ -227,6 +227,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	LIGHT: "light", DARK: "dark",
 
 	PANEL: "panel",
+	FILTER: "filter",
 	VIEW: "view",
 	PLUG: "plug",
 	DIV_PLUG: "div.plug",

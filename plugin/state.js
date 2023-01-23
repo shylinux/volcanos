@@ -245,6 +245,7 @@ Volcanos(chat.ONACTION, {list: [
 	},
 })
 Volcanos(chat.ONEXPORT, {
+	title: function(can, title) {},
 	output: function(can, msg) {},
 	action: function(can, button, line) {},
 	record: function(can, value, key, line) {},

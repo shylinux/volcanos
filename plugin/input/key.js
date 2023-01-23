@@ -4,9 +4,7 @@ Volcanos(chat.ONFIGURE, {key: {
 		if (msg.append[msg.append.length-1] == "cb") { msg.append = msg.append.slice(0, -1) }
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, line) { value = line[key]
 			return {text: [value, html.TD, value == ""? "hr": ""], style: msg.append && msg.append.length == 1? kit.Dict(html.MIN_WIDTH, target.offsetWidth-16): {}, onclick: function(event) {
-				can.onmotion.delay(can, function() {
-				can.close()
-				})
+				can.onmotion.delay(can, function() { target.blur(), can.close() })
 				if (msg.cb && msg.cb[index]) { return msg.cb[index](value) }
 				can._delay_hidden = false, cb(can, value, target.value), msg.Option(ice.MSG_PROCESS) == ice.PROCESS_AGAIN && can.onmotion.delay(can, function() { can._load(event, can, cb, target, name, value) })
 			}}

@@ -56,7 +56,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			function close(target) { var next = target.nextSibling||target.previousSibling; if (!next) { return }
 				next.click(), can.onmotion.delay(can, function() { can.base.isFunc(cbs) && cbs(tabs), can.page.Remove(can, target) })
 			}
-			return {view: html.TABS, title: tabs.text, list: [{text: [tabs.name, html.SPAN]}, {text: ["\u2715", html.SPAN, html.ICON], onclick: function(event) {
+			return {view: html.TABS, title: tabs.text, list: [{text: [tabs.name, html.SPAN]}, {text: [can.page.unicode.delete, html.SPAN, html.ICON], onclick: function(event) {
 				close(event.target.parentNode), can.onkeymap.prevent(event)
 			}}], onclick: function(event) {
 				can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)
@@ -84,13 +84,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			}, target)
 		})
 	},
-	plug: function(can, meta, cb, target) { if (!meta || !meta.index) { return }
+	plug: function(can, meta, cb, target, field) { if (!meta || !meta.index) { return }
 		meta.type = meta.type||html.PLUG, meta.name = meta.index, can.onappend.plugin(can, meta, function(sub) { sub.sup = can
 			sub.ConfHeight(can.ConfHeight()-2*html.ACTION_HEIGHT), sub.ConfWidth(can.ConfWidth()), can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())
 			sub.run = function(event, cmds, cb) { if (can.page.Select(can, sub._option, "input[name=path]").length > 0 && sub.Option(nfs.PATH) == "") { sub.request(event, {path: "./"}) }
 				can.runActionCommand(can.request(event, can.Option()), meta.index, cmds, cb)
 			}, sub.onaction.close = function() { can.onmotion.hidden(can, target) }, can.base.isFunc(cb) && cb(sub)
-		}, target)
+		}, target, field)
 	},
 	icon: function(can, name, button, target) {
 		can.page.Append(can, target, [{text: [name, html.SPAN, html.ICON], onclick: function(event) {
