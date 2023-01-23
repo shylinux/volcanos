@@ -139,7 +139,7 @@ Volcanos(chat.ONACTION, {list: ["首页", "官网", "调试", "百度"],
 	}) },
 	"首页": function(event, can) { can.user.open(location.protocol+"//"+location.host) },
 	"官网": function(event, can) { can.user.open("https://shylinux.com/") },
-	"调试": function(event, can) { can.user.opens(location.href) },
+	"调试": function(event, can) { can.user.opens(location.href.replace("debug=true", "")) },
 	"文档": function(event, can) { can.user.opens("https://developer.mozilla.org/") },
 	"百度": function(event, can) { can.user.opens("https://baidu.com/") },
 	"命令": function(event, can) {
