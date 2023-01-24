@@ -1,5 +1,5 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can), can.onlayout._init(can)
-		can.requireModules(["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
+		can.page.requireModules(can, ["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
 			var item = {hash: can.Option(mdb.HASH)}; msg.Table(function(value) { can.core.Value(item, value.key, value.value) })
 			item.text && can.onmotion.delay(can, function() { can.onimport._input(can, item.text+ice.NL) })
 			can.onimport._connect(can, item), can.onappend.tools(can, msg, function(sub) {

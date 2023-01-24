@@ -121,7 +121,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.isCmdMode() && can.ConfHeight(can.page.height()) && can.page.styleHeight(can, can._output, "")
 		can.core.List(can._plugins, function(sub) {
 			sub.ConfHeight(can.base.Min(300, can.ConfHeight()-300)), sub.ConfWidth(can.ConfWidth()-(can.user.isWindows? 40: 20))
-			sub.onaction._resize(sub, true, sub.ConfHeight(), sub.ConfWidth())
+			sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth(), true)
 		})
 	},
 }, [""])

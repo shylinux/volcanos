@@ -1,5 +1,5 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
-		can.requireDraw(function() {
+		can.page.requireDraw(can, function() {
 			can.onimport.layout(can), can.onmotion.clear(can, can.ui.project), can.onmotion.toggle(can, can.ui.project, true)
 			can.onappend.table(can, msg, null, can.ui.project), can.page.Select(can, can.ui.project, html.TR, function(tr, index) {
 				can.page.Modify(can, tr, {onmouseenter: function(event) { can._draw(index-1) }})

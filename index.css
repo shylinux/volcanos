@@ -20,34 +20,31 @@ input[type=button][name=stop] { background-color:red; }
 input[type=button][name=trash] { background-color:red; }
 input[type=button][name=delete] { background-color:red; }
 input[type=button][name=remove] { background-color:red; }
-textarea { background-color:cyan; padding:5px; width:600px; resize:vertical; }
+textarea { background-color:cyan; padding:5px; width:100%; }
 /* output */
-div.layout.flex>* { float:left; }
-div.output { position:relative; }
 div.project div.list { margin-left:10px; }
 div.project div.item { padding:2px 10px; }
 div.project div.item>div.name { padding-left:15px; }
-div.project div.switch { float:left; transition:all 0.3s; }
-div.project div.switch.open { rotate:90deg; translate:1px 2px; transition:all 0.3s; }
-// div.project div.switch { margin-top:2px; width:12px; float:left; rotate:90deg; }
-// div.project div.switch.open { translate:3px -3px; rotate:180deg; }
-div.project div.zone>div.item { background-color:steelblue; color:white; text-align:center; padding:3px; clear:both; position:relative; }
+div.project div.expand { float:left; transition:all 0.3s; }
+div.project div.expand.open { rotate:90deg; translate:1px 2px; transition:all 0.3s; }
+div.project div.zone>div.item { background-color:steelblue; color:white; text-align:center; padding:3px; }
 div.project div.zone>div.item>div.icon { margin-left:3px; display:none; float:right; }
-div.project div.zone:hover>div.name>div.icon { display:block; }
-div.project div.zone>div.list>div.zone:hover>div.name>div.icon { top:3px; }
 div.project div.zone>div.list>div.zone>div.item { text-align:left; padding-left:20px; }
 div.project div.zone>div.list>div.zone>div.item:hover { margin-left:10px; transition:all 0.3s;  }
 div.project div.zone>div.list { min-width:200px; overflow:auto; }
 div.project div.zone>div.action>div.item { float:right; clear:none; }
 div.project div.zone>div.action>div.item input[type=text] { margin-right:-10px; }
+div.project div.zone>div.action>div.item>span.icon { font-size:18px; margin-left:-5px; visibility:hidden; }
+div.project div.zone>div.action>div.item:hover>span.icon { visibility:visible; }
 table.content thead { position:sticky; top:2px; }
 table.content th { background-color:steelblue; padding:2px 5px; }
 table.content td { padding:2px 5px; }
 table.content.action th:last-child { position:sticky; right:2px; }
 table.content.action td:last-child { background-color:steelblue; position:sticky; right:2px; }
-div.code { background-color:#343a3445; font-size:12px; padding:10px; border:green solid 1px; }
+div.code { background-color:#343a3445; font-size:14px; padding:10px; border:green solid 1px; }
 div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:5px 10px; border-left:blue solid 5px; margin:10px; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; } ul { padding-left:40px; margin:20px 0; }
+hr, td.hr { border-bottom:gray dashed 1px; margin:5px; }
 /* fieldset */
 fieldset.contexts { position:fixed; }
 fieldset.panel>legend { display:none; }
@@ -91,7 +88,7 @@ body div.float { background-color:#0e3369b3; padding:5px; }
 body>div.toast div.title { color:blue; float:left; }
 body>div.toast div.duration { color:gray; float:right; }
 body>div.toast div.content { color:blue; text-align:center; }
-body>div.toast div.progress { border:green solid 1px; margin-left:-2px; height:20px; clear:both; }
+body>div.toast div.progress { border:green solid 1px; margin-left:0px; height:20px; clear:both; }
 body>div.toast div.progress div.current { background-color:red; height:18px; }
 body>div.toast div.action { display:block; }
 body>div.carte { padding:0; }
@@ -112,55 +109,49 @@ body>div.upload div.status div.size { text-align:center; }
 body>div.upload input[type=file] { width:320px; }
 /* font */
 legend { font-size:1.2rem; height:31px; }
-select, input { font-size:1rem; height:31px; } textarea { tab-size:2; height:93px; }
+select, input { font-size:1rem; height:31px; } textarea { tab-size:2; height:93px; } input::placeholder { font-style:italic; }
 table.content, div.project, div.item, div.code, div.story[data-type=spark], svg { font-family:monospace; white-space:pre; text-align:left; }
 div.action>div.tabs { padding:5px; height:31px; }
 div.status>div.item { padding:5px; height:30px; }
 div.status>div.item>label { font-size:0.6rem; }
-fieldset div.tabs span.icon { margin-left:5px; visibility:hidden; }
-fieldset div.tabs span.icon:hover { background-color:aliceblue; color:black; }
-fieldset div.tabs>div:hover span.icon { visibility:visible; }
-fieldset div.tabs>div.select span.icon { visibility:visible; }
-fieldset div.plug { font-style:italic; }
-fieldset form.option div.icon { font-size:26px; margin-right:5px; display:none; }
-fieldset form.option div.icon:hover { background-color:white; }
-fieldset.float form.option>div.icon { display:block; }
-fieldset.full form.option>div.icon { display:block; }
-fieldset.plug form.option>div.icon { margin-left:5px; }
-fieldset.plug div.output table.content { width:100%; }
-fieldset.web.code.git.status div.output table.content { width:100%; }
-div.tabs { position:relative; }
 /* display */
-form.option, div.action { display:contents; }
-form.option.hide, div.action.hide { display:none; }
+form.option, div.action { display:contents; } form.option.hide, div.action.hide { display:none; }
 form.option>div.item>label, div.action>div.item>label, .hidden, .hide { display:none; }
-form.option>div.textarea { width:100%; }
-form.option>div.textarea>textarea { width:100%; }
-form.option>div.cmd { width:100%; }
-legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, div.status>div.item { float:left; }
-div.action, div.output, div.status, div.project, div.display, div.profile, div.content, table.content, table.content td, div.code, div.plug, div.story, div.toast { overflow:auto; }
+form.option>div.cmd, form.option>div.textarea { width:100%; } textarea { resize:vertical; }
+legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, div.status>div.item, div.layout.flex>* { float:left; }
+div.action, div.output, div.status, div.project, div.display, div.profile, div.content, table.content, table.content td, div.code, div.plug, div.story, div.toast, div.carte, fieldset.input { overflow:auto; }
 fieldset>div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.content, div.code, div.story[data-type=spark] { clear:both; }
-div.status>legend { margin-left:2px; margin-right:0; float:right; clear:none; }
+fieldset>div.status>legend { margin-left:2px; margin-right:0; float:right; clear:none; }
 fieldset.plugin:not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
 fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
-div.carte { overflow:auto; }
-div.zone>div.action input::placeholder { font-style:italic; }
-input::placeholder { font-style:italic; }
-fieldset.input { overflow:auto; }
+fieldset.plug { position:absolute; bottom:0; right:0; } fieldset.cmd fieldset.plug { position:fixed; bottom:31px; right:0; }
+fieldset.plug div.output table.content { width:100%; }
+div.output { position:relative; }
+div.tabs { position:relative; }
+div.tabs span.icon { margin-left:5px; visibility:hidden; }
+div.tabs span.icon:hover { background-color:aliceblue; color:black; }
+div.tabs>div:hover span.icon { visibility:visible; }
+div.tabs>div.select span.icon { visibility:visible; }
 div.code { position:sticky; left:0; }
-hr { border-bottom:gray dashed 1px; margin:5px; }
-td.hr { border-bottom:gray dashed 1px; margin:5px; }
+div.plug { font-style:italic; }
+form.option>div.item { position:relative; }
+form.option>div.item>span.icon { font-size:20px; position:absolute; top:2px; right:10px; visibility:hidden; }
+form.option>div.item:hover>span.icon { visibility:visible; }
+form.option>div.icon { font-size:26px; margin-right:5px; display:none; }
+form.option>div.icon:hover { background-color:white; }
+fieldset.float>form.option>div.icon { display:block; }
+fieldset.full>form.option>div.icon { display:block; }
+fieldset.plug>form.option>div.icon { margin-left:5px; }
 /* hover */
 legend:hover { background-color:skyblue; }
 select:hover { background-color:gray; color:cyan; }
 div.tabs div:hover, div.tabs div.select { background-color:transparent; }
 div.item:hover, div.item.select, span.item:hover, table.content tr:hover, table.content tr.select, h1:hover, h2:hover, h3:hover { background-color:steelblue; }
-table.content th:hover, table.content td:hover, table.content td.select { background-color:cornflowerblue; }
+div.carte div.item:hover, table.content th:hover, table.content td:hover, table.content td.select { background-color:cornflowerblue; }
 div.story[data-type=spark] span:hover { background-color:deepskyblue; box-shadow:4px 4px 20px 4px #29318e; }
-div.carte div.item:hover { background-color:cornflowerblue; }
 select, input[type=text], textarea { box-shadow:4px 4px 20px 4px #626bd0; }
-legend, select, input[type=button], div.tabs, div.item, span.item, div.zone>div.item, th, td, h1, h2, h3 { cursor:pointer; }
+legend, select, input[type=button], div.tabs, div.item, span.item, th, td, h1, h2, h3 { cursor:pointer; }
 div.title, div.story[data-type=spark] { cursor:copy; }
 /* topic */
 body.black a { color:yellow; }
@@ -261,10 +252,6 @@ body.mobile fieldset.Footer input[name=cmd] { height:3rem; }
 body.mobile fieldset.input.date div.output td { padding:8px 20px; }
 body.mobile fieldset.word.float>div.output>div.project { top:38px; }
 /* misc */
-fieldset.draw td.content { position:relative; }
-fieldset.draw div.output div.content svg { background-color:#1b5b738c; }
-fieldset.draw.spide div.output div.toggle { display:none; }
-fieldset.draw.trend div.output div.toggle { display:none; }
 fieldset.panel.Action.cmd>div.toggle.project { display:none; }
 fieldset.panel.Search div.story[data-type=spark] { padding:0; margin:0; }
 fieldset.plugin.location>div.action input[type=text] { width:40px; }
@@ -277,11 +264,12 @@ fieldset.plugin.inner.cmd>legend { display:none; }
 fieldset.plugin.inner.cmd>div.action { display:none; }
 fieldset.plugin.inner.cmd>form.option { display:none; }
 fieldset.xterm div.toggle { display:none; }
-fieldset>div.output fieldset.plug { position:absolute; bottom:0; right:0; }
-fieldset>div.output fieldset.plug.select { display:block; }
-fieldset.cmd>div.output fieldset.plug { position:fixed; bottom:31px; right:0; }
+fieldset.draw td.content { position:relative; }
+fieldset.draw div.output div.content svg { background-color:#1b5b738c; }
+fieldset.draw.spide div.output div.toggle { display:none; }
+fieldset.draw.trend div.output div.toggle { display:none; }
+fieldset.web.code.git.status div.output table.content { width:100%; }
 body.mobile fieldset.plugin>legend { border:none; }
-.unselectable { -webkit-touch-callout:none; -webkit-user-select:none; -khtml-user-select:none; -moz-user-select:none; -ms-user-select:none; -o-user-select:none; user-select:none; }
 /* layout */
 table.layout { border-spacing:0; }
 table.layout td { vertical-align:top; }
@@ -328,16 +316,4 @@ div.story[data-type=spark]::-webkit-scrollbar { width:0 !important; height:0 !im
 div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
 
-.picker { box-shadow:4px 4px 20px 4px #626bd0; }
-div.view span.keyword { color:#5cadd4; }
-div.view span.string { color:#f29766; }
-div.item:not(.string):not(.number):not(.boolean)>span.value { color:silver; font-style:italic; }
-span.item:not(.string):not(.number):not(.boolean)>span.value { color:silver; font-style:italic; }
-fieldset.debug span.path { color:silver; font-style:italic; }
-body.dark fieldset.debug span.path { color:gray; }
-body.dark fieldset.debug span.target { color:gray; }
-body.dark div.item:not(.string):not(.number):not(.boolean)>span.value { color:gray; }
-body.dark span.item:not(.string):not(.number):not(.boolean)>span.value { color:gray; }
-form.option>div.item { position:relative; }
-form.option>div.item>span.icon { font-size:20px; position:absolute; top:2px; right:10px; visibility:hidden; }
-form.option>div.item:hover>span.icon { visibility:visible; }
+body.dark ::selection { background-color:#033a3a; }

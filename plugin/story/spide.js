@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
-		can.requireDraw(function() { can.ConfDefault({field: msg.append[0], split: ice.PS})
-			can.dir_root = can.Conf(nfs.ROOT)||msg.Option(nfs.DIR_ROOT), can._tree = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))
+		can.page.requireDraw(can, function() { can.ConfDefault({field: msg.append[0], split: ice.PS})
+			can.dir_root = can.Conf(nfs.DIR_ROOT)||msg.Option(nfs.DIR_ROOT), can._tree = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))
 			can.base.isFunc(cb) && cb(msg), can.onimport.layout(can)
 		})
 	},

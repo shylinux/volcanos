@@ -25,23 +25,19 @@ var ice = {
 	MSG_DETAIL: "detail", MSG_OPTION: "option", MSG_APPEND: "append", MSG_RESULT: "result",
 	MSG_SESSID: "sessid", MSG_FIELDS: "fields",
 
-	MSG_SOURCE: "_source",
-	MSG_TARGET: "_target",
-	MSG_HANDLE: "_handle",
-	MSG_UPLOAD: "_upload",
-	MSG_ACTION: "_action",
-	MSG_STATUS: "_status",
-	MSG_PREFIX: "_prefix",
+	MSG_SOURCE: "_source", MSG_TARGET: "_target",
+	MSG_HANDLE: "_handle", MSG_UPLOAD: "_upload",
+	MSG_ACTION: "_action", MSG_STATUS: "_status",
 
 	MSG_DISPLAY: "_display",
 	MSG_TOOLKIT: "_toolkit",
 	MSG_PROCESS: "_process",
 	PROCESS_AGAIN: "_again",
+	MSG_PREFIX: "_prefix",
 
-	MSG_MODE: "sess.mode",
-	MSG_TITLE: "sess.title", MSG_TOPIC: "sess.topic", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm", MSG_WIDTH: "sess.width", MSG_HEIGHT: "sess.height",
-	MSG_DAEMON: "sess.daemon",
 	MSG_USERNAME: "user.name", MSG_USERNICK: "user.nick",
+	MSG_TITLE: "sess.title", MSG_TOPIC: "sess.topic", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm", MSG_WIDTH: "sess.width", MSG_HEIGHT: "sess.height",
+	MSG_MODE: "sess.mode", MSG_DAEMON: "sess.daemon",
 	LOG_DISABLE: "log.disable",
 	
 	ErrWarn: "warn: ", ErrNotLogin: "not login: ", ErrNotRight: "not right: ", ErrNotFound: "not found: ", ErrNotValid: "not valid: ",
@@ -60,17 +56,14 @@ var ctx = {
 }
 var mdb = {
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
-	DATA: "data", VIEW: "view", ICON: "icon",
-
-	ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text", LINK: "link", SCAN: "scan", HELP: "help",
+	ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text",
+	DATA: "data", VIEW: "view", ICON: "icon", LINK: "link", SCAN: "scan", HELP: "help",
 	SHORT: "short", FIELD: "field", TOTAL: "total", COUNT: "count", LIMIT: "limit",
 	INDEX: "index", VALUE: "value", EXTRA: "extra", ALIAS: "alias", EXPIRE: "expire",
 
 	CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete", MODIFY: "modify", SELECT: "select",
-	INPUTS: "inputs", PRUNES: "prunes", EXPORT: "export", IMPORT: "import",
+	INPUTS: "inputs", PRUNES: "prunes", EXPORT: "export", IMPORT: "import", REVERT: "revert", NORMAL: "normal",
 	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
-	REVERT: "revert",
-	NORMAL: "normal",
 
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
 	FOREACH: "*", RANDOMS: "%",
@@ -107,22 +100,21 @@ var tcp = {
 	HOST: "host", PORT: "port",
 }
 var nfs = {
-	PATH: "path", FILE: "file", LINE: "line", SIZE: "size", ROOT: "root",
-	COPY: "copy", EDIT: "edit", SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
 	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash", DIR_ROOT: "dir_root", PWD: "./",
-	CONTENT: "content", SOURCE: "source", SCRIPT: "script", TARGET: "target", MODULE: "module", RECENT: "recent",
+	COPY: "copy", EDIT: "edit", SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
+	CONTENT: "content", RECENT: "recent", SCRIPT: "script", MODULE: "module", SOURCE: "source", TARGET: "target", REPOS: "repos",
+	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
+	REPLACE: "replace", FROM: "from", TO: "to",
 	HTML: "html", CSS: "css", JS: "js", GO: "go", SH: "sh", CSV: "csv", JSON: "json",
 	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
-	REPOS: "repos", REPLACE: "replace", FROM: "from", TO: "to",
 	SRC: "src/",
 }
 var cli = {
 	PWD: "pwd", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
 	BEGIN: "begin", START: "start", OPEN: "open", CLOSE: "close", STOP: "stop", END: "end", RESTART: "restart",
-	COLOR: "color", WHITE: "white", BLACK: "black", RED: "red", GREEN: "green", BLUE: "blue",
-	YELLOW: "yellow", CYAN: "cyan", PURPLE: "purple", MAGENTA: "magenta", GLASS: "transparent",
-	GRAY: "gray", ALICEBLUE: "aliceblue",
+	COLOR: "color", BLACK: "black", WHITE: "white", BLUE: "blue", RED: "red", GRAY: "gray", CYAN: "cyan", GREEN: "green", PURPLE: "purple", YELLOW: "yellow",
+	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
 	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 }
 var log = {
@@ -160,6 +152,7 @@ var chat = {
 		"/plugin/table.js",
 		"/plugin/input/key.js",
 		"/plugin/input/date.js",
+		"/plugin/story/json.js",
 		"/plugin/story/spide.js",
 		"/plugin/story/trend.js",
 		"/plugin/local/code/xterm.js",
@@ -176,11 +169,11 @@ var chat = {
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport", ONPLUGIN: "onplugin",
 	
-	ONMAIN: "onmain", ONLOGIN: "onlogin", ONREMOTE: "onremote", ONSEARCH: "onsearch",
-	ONSIZE: "onsize", ONTOAST: "ontoast", ONDEBUG: "ondebug", ONSHARE: "onshare", ONPRINT: "onprint",
+	ONSIZE: "onsize", ONMAIN: "onmain", ONLOGIN: "onlogin", ONREMOTE: "onremote", ONSEARCH: "onsearch",
 	ONRESIZE: "onresize", ONKEYUP: "onkeyup", ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
 	ONSTORM_SELECT: "onstorm_select", ONACTION_NOTOOL: "onaction_notool", ONACTION_TOUCH: "onaction_touch", ONACTION_CMD: "onaction_cmd",
 	ONOPENSEARCH: "onopensearch", ONSEARCH_FOCUS: "onsearch_focus", ONCOMMAND_FOCUS: "oncommand_focus",
+	ONTOAST: "ontoast", ONDEBUG: "ondebug", ONSHARE: "onshare", ONPRINT: "onprint",
 
 	_INIT: "_init", _TRANS: "_trans", _STYLE: "_style", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1", _NAMES: "_names", _TOAST: "_toast",
 }
@@ -195,22 +188,11 @@ var mall = {
 	ASSET: "asset", SALARY: "salary",
 }
 
-var svg = {
-	GROUP: "group", PID: "pid", GRID: "grid",
-	FIGURE: "figure", DATA: "data", SHIP: "ship", TRANS: "trans",
-	GO: "go",
-	SHAPE: "shape", TEXT: "text", RECT: "rect", LINE: "line", CIRCLE: "circle", ELLIPSE: "ellipse", BLOCK: "block",
-	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", FONT_FAMILY: "font-family", MONOSPACE: "monospace", TEXT_ANCHOR: "text-anchor",
-	G: "g", X: "x", Y: "y", R: "r", RX: "rx", RY: "ry", CX: "cx", CY: "cy", X1: "x1", Y1: "y1", X2: "x2", Y2: "y2",
-	PATH: "path", PATH2V: "path2v", PATH2H: "path2h",
-	M: "M", Q: "Q", T: "T",
-	TEXT_LENGTH: "textLength",
-}
 var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
-	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story", FIELDSET_INPUT: "fieldset.input", FIELDSET_FLOAT: "fieldset.float",
-	FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot", FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main", FIELDSET_PLUG: "fieldset.plug",
+	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story", FIELDSET_INPUT: "fieldset.input", FIELDSET_PLUG: "fieldset.plug",
+	FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot", FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main", FIELDSET_FLOAT: "fieldset.float",
 	OPTION_ARGS: "select.args,input.args,textarea.args", INPUT_ARGS: "input.args,textarea.args", INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",
 	BODY: "body", FORM: "form", SELECT: "select", INPUT: "input", TEXT: "text", FILE: "file", BUTTON: "button", TEXTAREA: "textarea",
 	CLICK: "click", CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
@@ -222,31 +204,37 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	CLASS: "class", DISPLAY: "display", BLOCK: "block", NONE: "none", OVERFLOW: "overflow", HIDDEN: "hidden", SCROLL: "scroll", FLOAT: "float", CLEAR: "clear", BOTH: "both",
 	PADDING: "padding", BORDER: "border", MARGIN: "margin", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
 	HEIGHT: "height", WIDTH: "width", MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MIN_WIDTH: "min-width", MAX_WIDTH: "max-width", LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
-	BACKGROUND_COLOR: "background-color", COLOR: "color", OPACITY: "opacity", TOGGLE: "toggle", SPEED: "speed", SIZE: "size",
-	HOVER: "hover", HOVER_SELECT: "hover,select",
-	LIGHT: "light", DARK: "dark",
-
-	PANEL: "panel",
-	FILTER: "filter",
-	VIEW: "view",
-	PLUG: "plug",
-	DIV_PLUG: "div.plug",
-	FLOW: "flow", FLEX: "flex",
-	PAGE: "page", TABS: "tabs", MENU: "menu", NODE: "node",
-	ZONE: "zone", LIST: "list", ITEM: "item", NAME: "name", ICON: "icon",
+	BACKGROUND_COLOR: "background-color", COLOR: "color", SIZE: "size", OPACITY: "opacity",
+	FLOW: "flow", FLEX: "flex", LIGHT: "light", DARK: "dark",
+	FILTER: "filter", TOGGLE: "toggle", EXPAND: "expand", SPEED: "speed", HOVER: "hover", HOVER_SELECT: "hover,select",
+	
+	PAGE: "page", TABS: "tabs", MENU: "menu", NODE: "node", PLUG: "plug",
+	ZONE: "zone", LIST: "list", ITEM: "item", NAME: "name", ICON: "icon", VIEW: "view",
 	HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot", AUTO: "auto", SHOW: "show", HIDE: "hide",
 	PLUGIN: "plugin", LAYOUT: "layout", PROJECT: "project", DISPLAY: "display", PROFILE: "profile", CONTENT: "content",
 
-	DIV_PAGE: "div.page", DIV_TABS: "div.tabs", DIV_PATH: "div.path", DIV_CODE: "div.code",
-	DIV_ZONE: "div.zone", DIV_LIST: "div.list", DIV_ITEM: "div.item", DIV_NAME: "div.name",
+	DIV_PAGE: "div.page", DIV_TABS: "div.tabs", DIV_PATH: "div.path", DIV_CODE: "div.code", DIV_PLUG: "div.plug",
+	DIV_ZONE: "div.zone", DIV_LIST: "div.list", DIV_ITEM: "div.item", DIV_NAME: "div.name", SPAN_ITEM: "span.item", SPAN_ICON: "span.icon",
 	DIV_CONTENT: "div.content", TABLE_CONTENT: "table.content", TABLE_LAYOUT: "table.layout", DIV_TOGGLE: "div.toggle",
 	DIV_LAYOUT_HEAD: "div.layout.head", DIV_LAYOUT_FOOT: "div.layout.foot", DIV_LAYOUT_LEFT: "div.layout.left",
 	DIV_FLOAT: "div.float", DIV_TOAST: "div.toast", DIV_CARTE: "div.carte",
+	DIV_EXPAND: "div.expand",
 }
 var lang = {
 	SPACE: "space", UNDEFINED: "undefined", STRING: "string", NUMBER: "number", BOOLEAN: "boolean", FUNCTION: "function", OBJECT: "object", ARRAY: "array",
 	META: "Meta", ALT: "Alt", CONTROL: "Control", SHIFT: "Shift", TAB: "Tab", ESCAPE: "Escape", ENTER: "Enter",
 	CMD: "Cmd", CTRL: "Ctrl", SPACE: "Space", BACKSPACE: "Backspace", ESC: "Esc", PS: "/",
+}
+var svg = {
+	GROUP: "group", PID: "pid", GRID: "grid",
+	FIGURE: "figure", DATA: "data", SHIP: "ship", TRANS: "trans",
+	GO: "go",
+	SHAPE: "shape", TEXT: "text", RECT: "rect", LINE: "line", CIRCLE: "circle", ELLIPSE: "ellipse", BLOCK: "block",
+	STROKE_WIDTH: "stroke-width", STROKE: "stroke", FILL: "fill", FONT_SIZE: "font-size", FONT_FAMILY: "font-family", MONOSPACE: "monospace", TEXT_ANCHOR: "text-anchor",
+	G: "g", X: "x", Y: "y", R: "r", RX: "rx", RY: "ry", CX: "cx", CY: "cy", X1: "x1", Y1: "y1", X2: "x2", Y2: "y2",
+	PATH: "path", PATH2V: "path2v", PATH2H: "path2h",
+	M: "M", Q: "Q", T: "T",
+	TEXT_LENGTH: "textLength",
 }
 
 function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(type) {
@@ -262,26 +250,14 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list, delete(Config.panels)
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)
 		cb = can||function(can) { can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target) }
-		can = Config, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width
+		can = Config, can._path = location.href, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width
 	}
 	can = kit.proto(can||{}, kit.proto({_path: _can_path, _name: name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
 			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub), sub._path = name } meta.cache[name] = cache
 			cache.forEach(function(sub) { var name = sub._name; if (typeof cbs == lang.FUNCTION && cbs(can, name, sub)) { return }
-				can[name] = can[name]||{}; for (var k in sub) {
+				can[name] = can[name]||{}; for (var k in sub) { can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k])
 					name == chat.ONIMPORT && k == chat._INIT && (can[name]._last_init = sub[k])
-					can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k])
 				}
-			})
-		},
-		requireModules: function(libs, cb, cbs) {
-			for (var i = 0; i < libs.length; i++) { if (libs[i].indexOf(ice.PS) == 0 || libs[i].indexOf(ice.HTTP) == 0) { continue }
-				if (libs[i].indexOf(nfs._CSS) == -1 && libs[i].indexOf(nfs._JS) == -1) { libs[i] = libs[i]+"/lib/"+libs[i]+nfs._JS }
-				libs[i] = "/require/node_modules/"+libs[i]
-			} can.require(libs, cb, cbs)
-		},
-		requireDraw: function(cb) { can.page.ClassList.add(can, can._fields, "draw")
-			can.require(["/plugin/local/wiki/draw.js", "/plugin/local/wiki/draw/path.js"], function() {
-				can.onmotion.clear(can), can.onimport._show(can, can._msg), cb()
 			})
 		},
 		require: function(libs, cb, cbs) {
@@ -289,7 +265,7 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 			if (libs[0] == undefined) { return can.require(libs.slice(1), cb, cbs) }
 			if (libs[0] == "") { libs[0] = can._path.replace(nfs._JS, nfs._CSS) }
 			if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
-			var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split("?")[0]).toLowerCase(); meta.debug == true && (name += "?_="+Date.now())
+			var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split("?")[0]).toLowerCase()
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
 			meta.cache[name]? next(): (_can_path = libs[0], meta._load(name, next))
 		},
@@ -300,8 +276,7 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 				can.base.isFunc(item.Option)? can.core.List(item.Option(), function(key) {
 					key.indexOf("_") == 0 || key.indexOf("user.") == 0 || set(key, item.Option(key))
 				}): can.core.Item(can.base.isFunc(item)? item(): item, set)
-			});
-			set(ice.MSG_MODE, can.Mode()), set(ice.MSG_HEIGHT, can.ConfHeight()), set(ice.MSG_WIDTH, can.ConfWidth())
+			}); set(ice.MSG_HEIGHT, can.ConfHeight()), set(ice.MSG_WIDTH, can.ConfWidth()), set(ice.MSG_MODE, can.Mode())
 			return msg
 		},
 
@@ -309,8 +284,7 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 			if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { var msg = can.request(event, {action: cmds[1]})
 				if (can.base.isFunc(meta.feature[cmds[1]])) { return meta.feature[cmds[1]](can, msg, cmds.slice(2)) }
 				return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, can.Option()), cmds.slice(0, 2).concat(args)) })
-			}
-			can.runAction(event, cmds[1], cmds.slice(2), cb, true)
+			} can.runAction(event, cmds[1], cmds.slice(2), cb, true)
 		},
 		runActionCommand: function(event, index, args, cb) { can.request(event)._caller()
 			can.runAction(event, ice.RUN, can.misc.concat(can, [index], args), cb, true)
@@ -337,7 +311,6 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 
 		isStoryType: function(value) { return can.page.ClassList.has(can, can._fields, chat.STORY) },
 		isSimpleMode: function(value) { return can.Mode() == chat.SIMPLE },
-		isOutputMode: function(value) { return can.Mode() == chat.OUTPUT },
 		isFloatMode: function(value) { return can.Mode() == chat.FLOAT },
 		isFullMode: function(value) { return can.Mode() == chat.FULL },
 		isCmdMode: function(value) { return can.Mode() == chat.CMD },
@@ -361,17 +334,16 @@ try { if (typeof(window) == lang.OBJECT) { // chrome
 		case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+Volcanos.meta.version, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
 		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url+Volcanos.meta.version, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
 	} }
-	Volcanos.meta._init = function(can) {
-		var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
-			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
-			can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth)))
-		}) }
-	}
+	Volcanos.meta._init = function(can) { var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
+		if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
+		can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth)))
+	}) } }
 } else { // nodejs
 	global.kit = kit, global.ice = ice
-	global.ctx = ctx, global.cli = cli, global.aaa = aaa, global.web = web
-	global.mdb = mdb, global.ssh = ssh, global.nfs = nfs, global.tcp = tcp
+	global.ctx = ctx, global.mdb = mdb, global.web = web, global.aaa = aaa
+	global.lex = lex, global.yac = yac, global.ssh = ssh, global.gdb = gdb
+	global.tcp = tcp, global.nfs = nfs, global.cli = cli, global.log = log
 	global.code = code, global.wiki = wiki, global.chat = chat, global.team = team, global.mall = mall
-	global.svg = svg, global.html = html, global.lang = lang
+	global.html = html, global.lang = lang, global.svg = svg
 	global.shy = shy, global.Volcanos = Volcanos
 } } catch (e) { console.log(e) }

@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.requireDraw(function() {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(can, function() {
 		can.data = msg.Table(), can.base.isFunc(cb) && cb(msg), can.onimport.layout(can)
 	}) },
 	_sum: function(can) { if (can.list) { return can.list }

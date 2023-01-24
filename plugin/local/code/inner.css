@@ -1,8 +1,6 @@
 fieldset.inner>form.option input[name=path] { width:80px; }
 fieldset.inner>form.option input[name=file] { width:160px; }
-fieldset.inner>div.output>div.project * { font-size:14px; font-family:monospace; outline:none; }
 fieldset.inner>div.output>div.layout>div.layout>div.content * { font-size:14px; font-family:monospace; outline:none; }
-fieldset.inner>div.output legend { font-size:1rem; line-height:2rem; }
 fieldset.inner>div.output div.content { position:relative; }
 fieldset.inner>div.output div.content td.text span.comment { color:green; }
 fieldset.inner>div.output div.content td.text span.keyword { color:yellow; }
@@ -12,40 +10,32 @@ fieldset.inner>div.output div.content td.text span.function { color:lightgreen; 
 fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.object { color:cyan; }
-fieldset.inner>div.output div.content fieldset>form.option>div.icon { display:none; }
 fieldset.inner>div.output>div.project { width:230px; }
-fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
-fieldset.inner>div.output>div.project>div.zone fieldset.plug legend { display:none; }
-fieldset.inner>div.output>div.project>div.zone fieldset.plug form.option { display:none; }
-fieldset.inner>div.output>div.project>div.zone fieldset.plug div.action { display:none; }
-fieldset.inner>div.output>div.project>div.zone fieldset.plug div.status { display:none; }
-fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
+fieldset.inner>div.output>div.project * { font-size:14px; font-family:monospace; outline:none; }
 fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; }
 fieldset.inner>div.output>div.project>div.zone>div.item span.icon { font-size:22px; line-height:18px; width:20px; float:right; display:none; }
 fieldset.inner>div.output>div.project>div.zone:hover>div.item span.icon { display:block; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-right:0; width:100%; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item>input { width:100%; }
+fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
 fieldset.inner>div.output>div.layout.flow { position:relative; }
 fieldset.inner>div.output>div.layout.flow>div.tabs { display:none; }
 fieldset.inner>div.output>div.layout.flow>div.path { display:none; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { height:38px; display:block; overflow:auto; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { height:38px; display:block; overflow:hidden; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div { padding:10px; height:38px; float:left; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span { font-style:italic; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span.icon { padding:0 5px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar { padding:0; height:38px; float:right; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.project.icon { font-size:32px; line-height:32px; padding:0 5px; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.create.icon { font-size:18px; line-height:32px; padding:2px 10px; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.create.icon { font-size:18px; line-height:32px; padding:2px 5px; margin-top:2px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar>img { height:38px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.time { float:right; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path { font-style:italic; padding:5px; display:block; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.path span.func { margin-left:20px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path.hide { display:none; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.path span.func { margin-left:20px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.view { font-size:22px; line-height:12px; padding:0 4px; float:right; cursor:pointer; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug { height:31px; clear:both; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug>legend { float:right; }
-fieldset.inner.cmd>div.output fieldset.plug:not(.full) { bottom:31px; position:absolute; }
-fieldset.inner fieldset.story form.option div.icon { display:block; }
 
 body.black fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
 body.white fieldset.inner.cmd>div.output { background-color:aliceblue; }
@@ -82,12 +72,10 @@ body.dark fieldset.inner>div.output div.content td.text span.object { color:gold
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 
-div.carte.path.float { font-size:14px; border-radius:0; } div.carte.path.float div.item { padding:5px; }
 div.path span.item { padding:5px; cursor:pointer; }
+div.carte.path.float { font-size:14px; border-radius:0; } div.carte.path.float div.item { padding:5px; }
 tr.line>td.line { text-align:right; padding:0 10px; position:sticky; left:0; }
 tr.line>td.text { line-height:20px; white-space:pre; padding-left:10px; cursor:text; }
 body.white tr.line.select { background-color:dimgray; } body.white tr.line:hover { background-color:dimgray; }
 body.black tr.line.select { background-color:darkblue; } body.black tr.line:hover { background-color:darkblue; }
-td.unselectable { -webkit-touch-callout:none; -webkit-user-select:none; -khtml-user-select:none; -moz-user-select:none; -ms-user-select:none; -o-user-select:none; user-select:none; }
-
-
+tr.line>td.line { -webkit-touch-callout:none; -webkit-user-select:none; -khtml-user-select:none; -moz-user-select:none; -ms-user-select:none; -o-user-select:none; user-select:none; }

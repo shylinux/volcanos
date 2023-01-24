@@ -55,7 +55,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			sub.run = function(event, cmds, cb) { can.request(event, kit.Dict(team.TASK_POD, task.pod, team.TASK_ZONE, task.zone, team.TASK_ID, task.id))
 				can.page.style(can, sub._output, html.MAX_HEIGHT, ""), can.runAction(event, ice.RUN, [task[mdb.ZONE], task[mdb.ID]].concat(cmds), cb)
 			}, can._plugins_display = (can._plugins_display||[]).concat([sub])
-			sub.onaction._output = function() { can.onmotion.delay(can, function() {
+			sub.onexport.output = function() { can.onmotion.delay(can, function() {
 				can._display_heights[[task.zone, task.id].join(ice.FS)] = can.base.Max(sub._target.offsetHeight, can.ConfHeight()/2), can.onimport.layout(can)
 			}) }, sub.onaction.close = function() { can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can) }, can.onimport.layout(can)
 		}, can.ui.display)

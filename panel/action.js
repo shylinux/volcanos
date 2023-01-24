@@ -27,7 +27,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 	_tabs: function(can, sub, meta) {
 		var tabs = [{view: [html.TABS, html.DIV, meta.name], onclick: function(event) { can.onmotion.select(can, can._header_tabs, html.DIV_TABS, sub._header_tabs)
 			can.onmotion.select(can, can._action, html.DIV_TABS, sub._tabs), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
-			if (sub._delay_refresh) { sub._delay_refresh = false, sub.onaction._resize(sub, can.Conf(html.LAYOUT) == "", can.ConfHeight(), can.ConfWidth()) }
+			if (sub._delay_refresh) { sub._delay_refresh = false, sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), can.Conf(html.LAYOUT) == "") }
 		}, onmouseenter: sub._legend.onmouseenter, ondblclick: sub._legend.onclick}]
 		sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
 	},
@@ -74,6 +74,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 				event.target.innerHTML = toggle()? gt: lt, can.onaction.layout(can, can.Conf(html.LAYOUT))
 			}}])
 		} target.ontouchstart = function(event) { can.misc.Event(event, can, function(msg) { can.onengine.signal(can, chat.ONACTION_TOUCH, msg) }) }
+		can.onengine.listen(can, chat.ONSEARCH, function(msg, arg) { arg[0] == ctx.COMMAND && can.run(msg, ["can.command"]) })
 	},
 	_menus: [
 		[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE],
@@ -182,7 +183,7 @@ Volcanos(chat.ONLAYOUT, {
 		can.ConfHeight(h-html.ACTION_HEIGHT-3*html.PLUGIN_MARGIN), can.ConfWidth(w), can.onlayout._plugin(can, GRID)
 	}) },
 	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) {
- 		sub.onaction._resize(sub, button == "" || button == FREE || button == FLOW, can.ConfHeight(), can.ConfWidth()), button == "" && can.page.style(can, sub._output, html.MAX_HEIGHT, "")
+ 		sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), button == "" || button == FREE || button == FLOW), button == "" && can.page.style(can, sub._output, html.MAX_HEIGHT, "")
  	}) },
 })
 Volcanos(chat.ONEXPORT, {

@@ -49,7 +49,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 	_display: function(can, target) { can.onmotion.clear(can, can.ui.display)
 		target.Value(ctx.INDEX)? can.onappend.plugin(can, {index: target.Value(ctx.INDEX), args: target.Value(ctx.ARGS), height: can.ConfHeight()/2-2*html.ACTION_HEIGHT}, function(sub) {
-			can.onimport.layout(can), sub.onaction._output = function() { can._display_heights[target.Value(svg.PID)] = can.base.Max(sub._target.offsetHeight, can.ConfHeight()/2), can.onimport.layout(can) }
+			can.onimport.layout(can), sub.onexport.output = function() { can._display_heights[target.Value(svg.PID)] = can.base.Max(sub._target.offsetHeight, can.ConfHeight()/2), can.onimport.layout(can) }
 			can._plugins = (can._plugins||[]).concat(sub)
 		}, can.ui.display): can.onimport.layout(can)
 	},
@@ -77,7 +77,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 Volcanos(chat.ONACTION, {list: [[svg.GRID, 1, 2, 3, 4, 5, 10, 20],
 		[svg.FONT_SIZE, 12, 16, 18, 24, 32], [svg.STROKE_WIDTH, 1, 2, 3, 4, 5],
 		[svg.STROKE, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE],
-		[svg.FILL, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE, cli.GLASS],
+		[svg.FILL, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE, cli.TRANSPARENT],
 		[svg.GO, ice.RUN, ice.AUTO, "manual"], [ice.MODE, web.DRAW, web.RESIZE],
 		[svg.SHAPE, svg.TEXT, svg.RECT, svg.LINE, svg.BLOCK, svg.CIRCLE, svg.ELLIPSE],
 	], _change: function(can, key, value) { can.Action(key, value), can.group.Value(key, value) },
