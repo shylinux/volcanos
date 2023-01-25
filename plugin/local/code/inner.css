@@ -26,8 +26,8 @@ fieldset.inner.cmd>div.output>div.layout.flow>div.tabs.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div { padding:10px; height:38px; float:left; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span { font-style:italic; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span.icon { padding:0 5px; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.website.icon { font-size:18px; line-height:32px; padding:2px 5px; margin-top:2px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar { padding:0; height:38px; float:right; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.create.icon { font-size:18px; line-height:32px; padding:2px 5px; margin-top:2px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar>img { height:38px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.time { float:right; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path { font-style:italic; padding:5px; display:block; }
@@ -35,7 +35,10 @@ fieldset.inner.cmd>div.output>div.layout.flow>div.path.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.func { margin-left:20px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.view { font-size:22px; line-height:12px; padding:0 4px; float:right; cursor:pointer; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug { height:31px; clear:both; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.plug>legend { float:right; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.plug>legend { font-size:1rem; padding:0 10px; float:right; }
+div.vimer.find.float div.item>span.icon { margin-left:-20px; margin-right:10px; visibility:hidden; }
+div.vimer.find.float div.item:hover>span.icon { visibility:visible; }
+div.vimer.open.float td:first-child { display:none; }
 
 body.black fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
 body.white fieldset.inner.cmd>div.output { background-color:aliceblue; }

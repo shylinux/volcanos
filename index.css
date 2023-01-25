@@ -93,9 +93,11 @@ body>div.toast div.progress { border:green solid 1px; margin-left:0px; height:20
 body>div.toast div.progress div.current { background-color:red; height:18px; }
 body>div.toast div.action { display:block; }
 body>div.carte { padding:0; }
-body>div.carte input[name=filter] { margin:5px; width:calc(100% - 10px); position:sticky; top:0; }
+body>div.carte input[name=filter] { margin:5px; width:calc(100% - 10px); position:sticky; top:5px; }
 body>div.carte div.item { padding:5px 10px; }
 body>div.input td { padding:5px; }
+body>div.input td span.icon { font-size:14px; margin-left:-25px; margin-right:10px; visibility:hidden; }
+body>div.input td:hover span.icon { visibility:visible; }
 body>div.input select { width:200px; }
 body>div.input textarea { height:120px; width:200px; }
 body>div.input input:not([type=button]) { width:200px; }
@@ -141,6 +143,7 @@ form.option>div.item>span.icon { font-size:20px; position:absolute; top:2px; rig
 form.option>div.item:hover>span.icon { visibility:visible; }
 form.option>div.icon { font-size:26px; margin-right:5px; display:none; }
 form.option>div.icon:hover { background-color:white; }
+fieldset.story>form.option>div.icon { display:block; }
 fieldset.float>form.option>div.icon { display:block; }
 fieldset.full>form.option>div.icon { display:block; }
 fieldset.plug>form.option>div.icon { margin-left:5px; }

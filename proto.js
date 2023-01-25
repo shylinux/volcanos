@@ -33,6 +33,7 @@ var ice = {
 	MSG_TOOLKIT: "_toolkit",
 	MSG_PROCESS: "_process",
 	PROCESS_AGAIN: "_again",
+	PROCESS_FIELD: "_field",
 	MSG_PREFIX: "_prefix",
 
 	MSG_USERNAME: "user.name", MSG_USERNICK: "user.nick",
@@ -41,7 +42,7 @@ var ice = {
 	LOG_DISABLE: "log.disable",
 	
 	ErrWarn: "warn: ", ErrNotLogin: "not login: ", ErrNotRight: "not right: ", ErrNotFound: "not found: ", ErrNotValid: "not valid: ",
-	
+	USR: "usr",
 	USR_ICEBERGS: "usr/icebergs/",
 	USR_VOLCANOS: "usr/volcanos/",
 	LIB_MISC: "lib/misc.js",

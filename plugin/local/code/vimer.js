@@ -27,7 +27,7 @@ Volcanos(chat.ONFIGURE, {
 		})
 	},
 	source: function(can, target, zone, path) { var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
-		zone._icon({"+": function(event) { can.user.carteRight(event, can, {}, ["script", "autogen"]) } })
+		// zone._icon({"+": function(event) { can.user.carteRight(event, can, {}, ["script", "autogen"]) } })
 		function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) { can.onmotion.clear(can, target)
 			if (path == nfs.SRC) { can.ui.zone.source.refresh = function() { show(target, zone, path) } }
 			var total, node; function add(list) {
@@ -62,20 +62,8 @@ Volcanos(chat.ONFIGURE, {
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
 		zone._icon({ "\u21BA": function() { sub.Update() }, "+": function() { sub.run({}, [ctx.ACTION, mdb.CREATE]) }})
 	}) },
-	module: function(can, target, zone) { zone._delay_show = function() {
-		can.runAction(can.request({}, {fields: ctx.INDEX}), ctx.COMMAND, [mdb.SEARCH, ctx.COMMAND], function(msg) {
-			can.onimport.tree(can, msg.Table(), ctx.INDEX, ice.PT, function(event, item) {
-				can.onimport.tabview(can, can.Option(nfs.PATH), item.index, ctx.INDEX)
-			}, target), zone._total(msg.Length())
-		})
-	} },
-	plugin: function(can, target, zone) { var total = 0
-		can.onimport.tree(can, can.core.ItemKeys(can.onengine.plugin.meta, function(key) { return total++, {index: key} }), ctx.INDEX, ice.PT, function(event, item) {
-			can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(ice.CAN, item.index), ctx.INDEX)
-		}, target), zone._total(total)
-	},
 })
-Volcanos(chat.ONACTION, {list: ["首页", "官网", "调试", "百度"],
+Volcanos(chat.ONACTION, {
 	_daemon: function(event, can, arg) { switch (arg[0]) {
 		case web.DREAM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME)), web.DREAM) }); break
 		case code.XTERM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, ctx.COMMAND, code.XTERM, msg.Result()) }); break
@@ -149,7 +137,7 @@ Volcanos(chat.ONACTION, {list: ["首页", "官网", "调试", "百度"],
 		can.onimport.toolkit(can, {index: list[0]}, function(sub) { can.db.toolkit[list[0]] = sub.select() })
 	}) },
 	"扩展": function(event, can) { can.user.input(can.request(event, {action: "extension"}), can, ["url"], function(list) {
-		var sub = can.db.extentions[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0])
+		var sub = can.db.toolkit[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0])
 	}) },
 	"录屏": function(event, can) { window.openapp("QuickTime Player") },
 	"日志": function(event, can) { window.opencmd("cd ~/contexts; tail -f var/log/bench.log") },

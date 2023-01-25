@@ -28,7 +28,7 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) { msg.OptionStatus() && ca
 		msg.Table(function(item) { can.onappend._plugin(can, item, {mode: chat.FLOAT, index: item.index, args: arg.slice(1)}, function(sub, meta) {
 			sub.run = function(event, cmds, cb) { can.runAction(can.request(event, {path: msg.Option(nfs.PATH), text: msg.Option(mdb.TEXT)}), [ice.RUN, arg[0]], cmds, cb) }
 			can.getActionSize(function(left, top, width, height) { left = left||0, top = !can.Mode()? 120: 0
-				sub.onimport.size(sub, can.base.Max(height, can.page.height())-top-2*html.ACTION_HEIGHT-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0), width, true)
+				sub.onimport.size(sub, can.base.Max(height, can.page.height())-top-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0), width, true)
 				can.onmotion.move(can, sub._target, {left: left, top: top})
 			})
 		}, document.body) })
@@ -54,13 +54,14 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) { msg.OptionStatus() && ca
 		}).length == 0) { can.onappend.board(can, arg) }
 	},
 	_open: function(can, msg, arg) { return can.user.open(arg) },
-	size: function(can, height, width, auto, mode) {
+	size: function(can, height, width, auto, mode) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
+		height -= html.ACTION_HEIGHT+(sub? can.onexport.statusHeight(can): html.ACTION_HEIGHT)
 		if (auto) {
 			can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, height? can.ConfHeight(height): "", html.MAX_WIDTH, can.ConfWidth(width))
 		} else {
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, "")
 		}
-		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
+		if (!sub) { return } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
 		if (mode) { sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub) } else { sub.onlayout._init(sub) }
 	},
 	change: function(event, can, name, value, cb) { return can.page.SelectArgs(can, can._option, "", function(input) {
@@ -82,9 +83,8 @@ Volcanos(chat.ONACTION, {list: [
 				html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth(), ice.MODE, can.Mode()||"",
 				html.ACTION, can.page.isDisplay(can._action), html.STATUS, can.page.isDisplay(can._status),
 				html.OUTPUT, can.base.Copy({}, can._output.style, html.HEIGHT, html.WIDTH, html.MAX_HEIGHT, html.MAX_WIDTH),
-				ctx.STYLE, can.base.Copy({}, can._target.style, html.LEFT, html.TOP, html.RIGHT, html.BOTTOM),
-				save(),
-			)), can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), false, mode)
+				ctx.STYLE, can.base.Copy({}, can._target.style, html.LEFT, html.TOP, html.RIGHT, html.BOTTOM), save(),
+			)), can.onimport.size(can, can.ConfHeight()+html.ACTION_HEIGHT+can.onexport.statusHeight(can), can.ConfWidth(), false, mode)
 		} else { var back = (can._mode_list = can._mode_list||[]).pop(); if (!back) { return }
 			can.ConfHeight(back.height), can.ConfWidth(back.width), can.Mode(back.mode),
 			can.onmotion.toggle(can, can._action, back.action), can.onmotion.toggle(can, can._status, back.status)
