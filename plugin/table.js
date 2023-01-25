@@ -11,7 +11,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}); return }
 		var cbs = can.onimport[can.Conf(ctx.STYLE)||msg.Option(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.onappend.style(can, can._args[ctx.STYLE], target), can.core.CallFunc(cbs, {can: can, msg: msg, target: target})
-		} else { can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target) } can.onmotion.story.auto(can, target)
+		} else {
+			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target)
+		} can.onmotion.story.auto(can, target)
 	},
 	_system_app: function(can, msg, target) { can.page.Appends(can, target, msg.Table(function(item) { var name = item.name||item.text
 		return {view: html.ITEM, style: {"text-align": "center", margin: 10, width: 100, "float": "left"}, list: [

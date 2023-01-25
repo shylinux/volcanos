@@ -41,6 +41,7 @@ table.content th { background-color:steelblue; padding:2px 5px; }
 table.content td { padding:2px 5px; }
 table.content.action th:last-child { position:sticky; right:2px; }
 table.content.action td:last-child { background-color:steelblue; position:sticky; right:2px; }
+table.content.full { width:100%; }
 div.code { background-color:#343a3445; font-size:14px; padding:10px; border:green solid 1px; }
 div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:5px 10px; border-left:blue solid 5px; margin:10px; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; } ul { padding-left:40px; margin:20px 0; }
