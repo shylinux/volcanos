@@ -72,6 +72,7 @@ body.dark fieldset.inner>div.output div.content td.text span.object { color:gold
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 
+div.carte.history.float * { tab-size:2; }
 div.vimer.find.float div.item>span.icon { margin-left:-20px; margin-right:10px; visibility:hidden; }
 div.vimer.find.float div.item:hover>span.icon { visibility:visible; }
 div.vimer.open.float td:first-child { display:none; }

@@ -3,11 +3,13 @@ fieldset.vimer>div.output div.project div.zone.dream div.item.stop { color:gray;
 fieldset.vimer>div.output input.current { background-color:transparent; color:transparent; padding-left:10px; height:20px; position:absolute; }
 fieldset.vimer>div.output input.current.insert { caret-color:black; }
 fieldset.vimer>div.output input.current.normal { caret-color:lightgray; }
-fieldset.vimer>div.output div.complete { padding-top:0; display:none; overflow:auto; position:absolute; }
+fieldset.vimer>div.output div.complete { background-color:unset; padding-top:0; display:none; overflow:auto; position:absolute; }
 fieldset.vimer>div.output div.complete.insert:not(.hide) { display:block; }
 fieldset.vimer>div.output div.complete div.prefix { color:transparent; white-space:pre; float:left; }
 fieldset.vimer>div.output div.complete table.content thead { display:none; }
+fieldset.vimer>div.output div.complete table.content { width:unset; max-width:600px; display:block; }
 body.black fieldset.vimer>div.output input.current.normal { caret-color:gray; }
 body.black fieldset.vimer>div.output input.current.insert { caret-color:yellow; }
 body.dark fieldset.vimer>div.output input.current.normal { caret-color:gray; }
 body.dark fieldset.vimer>div.output input.current.insert { caret-color:yellow; }
+div.input.vimer.source.create.float td:first-child { display:none; }

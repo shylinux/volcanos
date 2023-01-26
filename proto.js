@@ -66,6 +66,7 @@ var mdb = {
 	INPUTS: "inputs", PRUNES: "prunes", EXPORT: "export", IMPORT: "import", REVERT: "revert", NORMAL: "normal",
 	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
 
+	KEYS: "keys",
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
 	FOREACH: "*", RANDOMS: "%",
 }
@@ -208,6 +209,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
 	BACKGROUND_COLOR: "background-color", COLOR: "color", SIZE: "size", OPACITY: "opacity",
 	FLOW: "flow", FLEX: "flex", LIGHT: "light", DARK: "dark",
 	FILTER: "filter", TOGGLE: "toggle", EXPAND: "expand", SPEED: "speed", HOVER: "hover", HOVER_SELECT: "hover,select",
+	NOT_HIDE: ":not(.hide)",
 	
 	PAGE: "page", TABS: "tabs", MENU: "menu", NODE: "node", PLUG: "plug",
 	ZONE: "zone", LIST: "list", ITEM: "item", NAME: "name", ICON: "icon", VIEW: "view",

@@ -109,7 +109,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			Status: function(key, value) { if (can.base.isObject(key)) { return can.core.Item(key, sub.Status), key }
 				can.page.Select(can, status, [[[html.SPAN, key]]], function(target) {
 					if (can.base.beginWith(value, ice.PS, ice.HTTP)) { value = can.page.Format(html.A, value) }
-					return can.base.isUndefined(value)? (value = target.innerHTML): (target.innerHTML = value)
+					return can.base.isUndefined(value)? (value = target.innerHTML): (target.innerHTML = value||"")
 				}); return value
 			},
 			Action: function(key, value) { return can.page.SelectArgs(can, action, key, value)[0] },
@@ -178,7 +178,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); if (msg.RunAction(event, can, cmds)) { return }
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { var msg = can.request(event, {action: cmds[1]})
 			if (can.base.isFunc(meta.feature[cmds[1]])) { return meta.feature[cmds[1]](can, msg, cmds.slice(2)) }
-			return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, can.Option()), cmds.slice(0, 2).concat(args)) })
+			return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, can.Option()), cmds.slice(0, 2).concat(args), cb) })
 		}
 		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, cb||function(msg) { if (silent) { return } var _can = can._fields? can.sup: can
 			if (_can == (msg._can._fields? msg._can._fields.sup: msg._can._fields) && can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) { return }
@@ -260,6 +260,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			{type: "div.zone div.item>div.name", name: [html.HOVER], style: _fg(color.text)},
 			{type: "tr.line.select", style: [ITEM_HOVER_STYLE]}, {type: "tr.line", style: [ITEM_HOVER_STYLE]},
 			{type: "tr.line>td.line", style: [OUTPUT_STYLE]}, {type: "tr.line.select>td.line", style: [ITEM_HOVER_STYLE]},
+			{type: "div.complete>table", style: [TABLE_HEAD_STYLE]},
 			{type: html.TABLE_CONTENT, list: [{type: html.TR, style: [TABLE_ROW_HOVER_STYLE]}]},
 			{type: html.TABLE_CONTENT, list: [{type: html.TH, style: [TABLE_HEAD_STYLE]}]},
 			{type: html.TABLE_CONTENT, name: [html.ACTION], list: [{type: html.TD+":last-child", style: [TABLE_HEAD_STYLE]}]},
@@ -440,8 +441,13 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 	figure: function(event, can, target, right) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: event.target.getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
+		if (right) {
+			for (var p = event.target; p != document.body; p = p.parentNode) {
+				var _right = p.clientLeft+p.clientWidth+10; if (_right < layout.left) { layout.left = _right }
+			}
+		}
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)
-			can.page.style(can, target, html.MAX_HEIGHT, can.base.Max(top+height-layout.top, height/4*3))
+			can.page.style(can, target, html.MAX_HEIGHT, can.base.Max(top+height-layout.top, height/2))
 			if (layout.top+target.offsetHeight > top+height) { layout.top = top+height-target.offsetHeight }
 			if (layout.left+target.offsetWidth > left+width) { layout.left = left+width-target.offsetWidth }
 		}); return can.onmotion.move(can, target, layout), layout
@@ -545,6 +551,9 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		can.page.style(can, target, html.WIDTH, _target.offsetWidth+10, html.LEFT, (window.innerWidth-_target.offsetWidth)/2)
 	}) }) },
 	delayLong: function(can, cb, interval, key) { can.onmotion.delay(can, cb, interval||300, key) },
+	delayOnce: function(can, cb, interval, list) { can.core.Item(list, function(key) { delete(list[key]) })
+		var key = can.base.Time(null, "%H:%M:%S.%s"); can.onmotion.delay(can, list[key] = function() { list[key] && cb() }, interval)
+	},
 	delay: function(can, cb, interval, key) { if (!key) { return can.core.Timer(interval||30, cb) }
 		can._delay_list = can._delay_list||shy({}, [])
 		var last = can._delay_list.meta[key]||0, self = can._delay_list.meta[key] = can._delay_list.list.push(cb)

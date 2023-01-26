@@ -6,7 +6,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			can.onimport.item(can, {name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME])}, function() {
 				can.sup.onexport.record(can, value.name, mdb.NAME, value)
 			}, function() { return shy(action, function(event, button, meta, carte) { can.misc.Event(event, can, function(msg) {
-				can.sup.onexport.action(can, button, value) || can.run(event, [ctx.ACTION, button], function(msg) { can.Update() }), carte.close()
+				can.sup.onexport.action(can, button, value) || can.run(event, [ctx.ACTION, button], function(msg) {
+					can.sup.onimport._process(can.sup, msg) || can.Update() }), carte.close()
 			}, value) }) })
 		}); return }
 		var cbs = can.onimport[can.Conf(ctx.STYLE)||msg.Option(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
@@ -73,7 +74,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			zone._menu = shy({_trans: sub._trans}, action.concat(can.base.Obj(msg.Option(ice.MSG_ACTION), [])), function(event, button, meta, carte) {
 				sub.Update(event, [ctx.ACTION, button]), carte.close()
 			}), can.user.toastSuccess(can)
-		}, zone._target = sub._target, can.ui[zone.name].refresh = function() { sub.Update() }
+		}, zone._target = sub._target
+		can.ui.zone[zone.name].refresh = function() { sub.Update() }
 	}, zone._target) } },
 	zone: function(can, list, target) {
 		return can.page.Append(can, target, can.core.List(list, function(zone) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: [[html.ZONE, zone.name]], list: [
@@ -87,7 +89,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			}},
 			{view: html.ACTION, _init: function(target) { zone._action = target
 				can.onappend._action(can, [{type: html.TEXT, name: mdb.SEARCH, _init: function(target) { zone._search = target }, onkeyup: function(event) {
-					can.onkeymap.selectItems(event, can, zone._target), can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) })
+					can.onmotion.delayOnce(can, function() { can.onkeymap.selectItems(event, can, zone._target) }, event.target.value.length<3? 500: 150, zone._delay_select = zone._delay_select||{})
+					can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, true) })
 					if (event.target.value == "") { can.page.Select(can, zone._target, html.DIV_LIST, function(target) { can.onmotion.hidden(can, target) })
 						can.page.Select(can, zone._target, html.DIV_EXPAND, function(target) { can.page.ClassList.del(can, target, cli.OPEN) })
 					}
