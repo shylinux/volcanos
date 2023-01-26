@@ -103,6 +103,24 @@ Volcanos(chat.ONPLUGIN, {
 			return {name: item, value: stat[item]||"0"}
 		})))
 	}) }),
+	localStorage: shy("本地存储", [mdb.NAME, mdb.VALUE, ice.LIST, ice.BACK], function(can, msg, arg) {
+		if (arg.length == 0) {
+			can.core.Item(localStorage, function(name, value) { if (can.base.isFunc(value) || name == "length") { return }
+				msg.Push(mdb.NAME, name).Push(mdb.VALUE, value)
+			}); return msg.StatusTimeCount()
+		}
+		if (arg.length > 1) { localStorage.setItem(arg[0], arg[1]) }
+		msg.Echo(localStorage.getItem(arg[0]))
+	}),
+	sessionStorage: shy("会话存储", [mdb.NAME, mdb.VALUE, ice.LIST, ice.BACK], function(can, msg, arg) {
+		if (arg.length == 0) {
+			can.core.Item(sessionStorage, function(name, value) { if (can.base.isFunc(value) || name == "length") { return }
+				msg.Push(mdb.NAME, name).Push(mdb.VALUE, value)
+			}); return msg.StatusTimeCount()
+		}
+		if (arg.length > 1) { sessionStorage.setItem(arg[0], arg[1]) }
+		msg.Echo(sessionStorage.getItem(arg[0]))
+	}),
 	data: shy("网页数据", [mdb.KEY], function(can, msg, arg) { can.onmotion.delay(can, function() { var can = msg._can
 		if (can.Option(mdb.KEY)) {
 			can.page.AppendData(can, can._output, can.Option(mdb.KEY), can.Option(mdb.KEY).split(ice.PT).pop(), can.core.Value(can._root, can.Option(mdb.KEY)), function(prefix, value) {
@@ -118,13 +136,16 @@ Volcanos(chat.ONPLUGIN, {
 		if (can.Option(mdb.KEY)) {
 			can.page.Append(can, can._output, [can.page.AppendView(can, can.page.SelectOne(can, document.body, can.Option(mdb.KEY))||document.body)])
 		} else {
-			can.page.Append(can, can._output, [can.page.AppendView(can, document, "html", [
+			var ui = can.page.Append(can, can._output, [can.page.AppendView(can, document, "html", [
 				can.page.AppendView(can, document.head, "head"), can.page.AppendView(can, document.body, "body", null, false, function(target) {
 					var list = []; for (var p = target; p && p.tagName && p != document.body; p = p.parentNode) {
 						list.push(p.tagName.toLowerCase()+(p.className? ice.PT+p.className.replaceAll(ice.SP, ice.PT).replace(".picker", ""): ""))
 					} can.Option(mdb.KEY, list.reverse().join(ice.SP+ice.GT+ice.SP))
 				}),
 			], true)])
+			can.onmotion.delay(can, function() {
+				can.page.Select(can, ui._target, "div.item.head,div.item.body", function(target) { target.click() })
+			})
 		}
 	}) }),
 })

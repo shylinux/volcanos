@@ -12,7 +12,6 @@ fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.object { color:cyan; }
 fieldset.inner>div.output>div.project { width:230px; }
 fieldset.inner>div.output>div.project * { font-size:14px; font-family:monospace; outline:none; }
-fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; }
 fieldset.inner>div.output>div.project>div.zone>div.item span.icon { font-size:22px; line-height:18px; width:20px; float:right; display:none; }
 fieldset.inner>div.output>div.project>div.zone:hover>div.item span.icon { display:block; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-right:0; width:100%; }
@@ -26,20 +25,18 @@ fieldset.inner.cmd>div.output>div.layout.flow>div.tabs.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div { padding:10px; height:38px; float:left; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span { font-style:italic; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span.icon { padding:0 5px; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.website.icon { font-size:18px; line-height:32px; padding:2px 5px; margin-top:2px; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar { padding:0; height:38px; float:right; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.website.icon { font-size:18px; line-height:32px; padding:2px 5px; margin-top:2px; position:sticky; top:0; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar { padding:0; height:38px; float:right; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar>img { height:38px; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.time { float:right; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.time { float:right; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path { font-style:italic; padding:5px; display:block; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.func { margin-left:20px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.view { font-size:22px; line-height:12px; padding:0 4px; float:right; cursor:pointer; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug { height:31px; clear:both; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug>legend { font-size:1rem; padding:0 10px; float:right; }
-div.vimer.find.float div.item>span.icon { margin-left:-20px; margin-right:10px; visibility:hidden; }
-div.vimer.find.float div.item:hover>span.icon { visibility:visible; }
-div.vimer.open.float td:first-child { display:none; }
 
+body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; }
 body.black fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
 body.white fieldset.inner.cmd>div.output { background-color:aliceblue; }
 body.white fieldset.inner.cmd>div.output div.content { background-color:white; }
@@ -75,6 +72,9 @@ body.dark fieldset.inner>div.output div.content td.text span.object { color:gold
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 
+div.vimer.find.float div.item>span.icon { margin-left:-20px; margin-right:10px; visibility:hidden; }
+div.vimer.find.float div.item:hover>span.icon { visibility:visible; }
+div.vimer.open.float td:first-child { display:none; }
 div.path span.item { padding:5px; cursor:pointer; }
 div.carte.path.float { font-size:14px; border-radius:0; } div.carte.path.float div.item { padding:5px; }
 tr.line>td.line { text-align:right; padding:0 10px; position:sticky; left:0; }

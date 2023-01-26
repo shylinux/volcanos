@@ -230,11 +230,8 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 }})
 Volcanos(chat.ONPLUGIN, {
 	_plugin: shy("默认插件", [mdb.NAME, ice.LIST, ice.BACK]),
-	plugin: shy("默认插件", [mdb.NAME, ice.LIST, ice.BACK]),
 	layout: shy("界面布局", {
-		_init: function(can) {
-			can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)||ice.AUTO)
-		},
+		_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)||ice.AUTO) },
 	}, ["layout:select=auto,tabs,tabview,horizon,vertical,free,grid,flow,page", ice.RUN], function(can, msg, arg) { can.onaction.layout(can, arg[0], true) }),
 	"parse": shy("生成网页", {
 		"show": function(can, msg, arg) { var name = arg[1]||ice.CAN; can.isCmdMode() && can.user.title(name)

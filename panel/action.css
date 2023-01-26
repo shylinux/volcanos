@@ -75,36 +75,3 @@ body.mobile table.layout td.content div.toggle.project { width:30px; padding-top
 body.mobile table.layout td.content div.toggle.profile { width:30px; padding-top:35px; }
 body.mobile table.layout td.content div.toggle.display { margin-top:-30px; height:30px; }
 body.mobile table.layout td.content div.toggle.display>div { translate:5px -15px; }
-
-div.head { background-color:#404040; color:white; padding:5px; height:42px; clear:both; }
-div.head div.username { float:right; margin-right:10px; }
-div.head div.username div.name { padding:10px; float:left; }
-div.head div.username div.icon { float:left; }
-div.head div.username img { height:42px; }
-div.head div.menu { cursor:pointer; padding:10px; float:left; }
-div.head>div.menu:hover { background-color:#323232; }
-div.left { background-color:#323232; width:160px; padding:20px; overflow:auto; float:left; }
-div.left div.item { background-color:#323232; color:white; padding:5px 10px; }
-div.left div.item:hover { background-color:#404040; }
-div.left div.username div { color:white; text-align:center; padding:10px; }
-div.left div.username img { width:120px; }
-div.main iframe { border:0; }
-div.main input[type=button] { padding:0 20px; }
-div.main { background-color:#cccccc; color:black; overflow:auto; float:left; }
-div.main fieldset.plugin { background-color:#f8f8f8; padding:10px; margin:10px; }
-div.main fieldset.plugin legend { margin-bottom:10px; display:block; float:left; }
-div.main fieldset.plugin select { outline:none; box-shadow:none; }
-div.main fieldset.plugin form.option { display:block; clear:both; }
-div.main fieldset.plugin form.option div.item { margin:5px; }
-div.main fieldset.plugin div.action div.item { margin:5px; }
-div.main fieldset.plugin table.content tr { border:lightgray solid 1px; }
-div.main fieldset.plugin table.content tr:hover { background-color:aliceblue; }
-div.main fieldset.plugin table.content th { background-color:aliceblue; padding:10px; }
-div.main fieldset.plugin table.content td { background-color:white; padding:10px; }
-div.foot { background-color:#404040; color:white; padding:5px; height:42px; clear:both; }
-div.foot div.username { float:right; margin-right:10px; }
-div.foot div.username div.name { padding:10px; float:left; }
-div.foot div.username div.icon { float:left; }
-div.foot div.username img { height:42px; }
-div.foot div.menu { cursor:pointer; padding:10px; float:left; }
-div.foot>div.menu:hover { background-color:#323232; }

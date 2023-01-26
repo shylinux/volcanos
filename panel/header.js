@@ -117,7 +117,7 @@ Volcanos(chat.ONACTION, {
 })
 Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight },
 	topic: function(can) {
-		return can._topic || can.misc.Search(can, chat.TOPIC) || can.__topic || (can.base.isNight()? "dark": "light")
+		return can._topic || can.misc.Search(can, chat.TOPIC) || can.misc.localStorage(can, "can.topic") || can.__topic || (can.base.isNight()? "dark": "light")
 	},
 	background: function(can) { return can.user.info.background == "void"? "": can.user.info.background },
 	avatar: function(can) { return can.user.info.avatar == "void"? "": can.user.info.avatar },
@@ -128,7 +128,9 @@ Volcanos(chat.ONPLUGIN, {
 	}),
 	topic: shy("界面主题", {
 		_init: function(can) { can.Option(chat.TOPIC, can.getHeader(chat.TOPIC)) },
-	}, ["topic:select=dark,light,white,black,print", ice.RUN], function(can, msg, arg) {
+	}, ["topic:select=auto,dark,light,white,black,print", ice.RUN], function(can, msg, arg) {
+		if (arg[0] == "auto") { arg[0] = "" }
+		if (arg.length > 0) { can.misc.localStorage(can, "can.topic", arg[0]) }
 		msg.Echo(can.onimport.topic(can, arg[0]))
 	}),
 	location: shy("请求地址", {
@@ -152,7 +154,9 @@ Volcanos(chat.ONPLUGIN, {
 	}),
 	language: shy("语言地区", {
 		_init: function(can) { can.Option(aaa.LANGUAGE, can.user.info.language||"zh") },
-	}, ["language:select=zh,en", ice.RUN], function(can, msg, arg) {
+	}, ["language:select=auto,zh,en", ice.RUN], function(can, msg, arg) {
+		if (arg[0] == "auto") { arg[0] = "" }
+		if (arg.length > 0) { can.misc.localStorage(can, "can.language", arg[0]) }
 		can.runAction(event, aaa.LANGUAGE, [arg[0]], function(msg) { can.user.reload() }) 
 	}),
 	logout: shy("退出登录", kit.Dict(

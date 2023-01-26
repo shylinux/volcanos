@@ -44,9 +44,8 @@ Volcanos(chat.ONFIGURE, {
 			} node = add(msg.Table(), node), can.Status("目录", zone._total(msg.Length()))
 		}, true) } if (path.length == 1) { return show(target, path[0]) }
 		can.onimport.zone(can, can.core.List(path, function(path) {
-			return path.indexOf("-story") == -1 && path.indexOf("-dict") == -1 && {name: path, _init: function(target, zone) {
-				path == args[0] && show(target, zone, path)
-			}, _delay_show: path == args[0]? undefined: function(target, zone) { show(target, zone, path) }}
+			return {name: path, _init: function(target, zone) { path == args[0] && show(target, zone, path) },
+				_delay_show: path == args[0]? undefined: function(target, zone) { show(target, zone, path) }}
 		}), target), can.page.Remove(can, zone._action)
 	},
 	repos: function(can, target, zone) { can.onimport._zone(can, zone, "web.code.git.status", function(sub, msg) {
