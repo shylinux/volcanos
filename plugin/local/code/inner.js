@@ -8,6 +8,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		var files = can.core.Split(can.Option(nfs.FILE), ice.FS); can.Option(nfs.FILE, files[0])
 		var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
 		can.core.List(paths.concat(can.core.Split(msg.Option(nfs.REPOS))), function(p) {
+			if (can.base.endWith(p, "-story/", "-dict/")) { return }
 			if (p && paths.indexOf(p) == -1 && p[0] != ice.PS) { paths.push(p) }
 		})
 		can.db = {paths: paths, tabview: {}, _history: [], history: [], profile_size: {}, display_size: {}, toolkit: {}}, can.onengine.plugin(can, can.onplugin)
@@ -83,7 +84,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			"\u2756": !can.user.isMobile && shy({"font-size": "20px", translate: "0 2px"}, function(event) { can.onaction.plug(event, can) }),
 			"\u271A": !can.user.isMobile && shy({"font-size": "20px", translate: "0 2px"}, function(event) { can.onaction.open(event, can) }),
 		}, function(text, cb) { return cb && {text: [text, html.SPAN, html.VIEW], style: cb.meta, onclick: cb} }))
-		// if (can.user.isMobile) { return }
 		var func = can.onexport.func(can); if (func.list.length == 0) { return } can.db.tabFunc = can.db.tabFunc||{}
 		var last = can.db.tabFunc[can.Option(nfs.PATH)+can.Option(nfs.FILE)]||{}; can.db.tabFunc[can.Option(nfs.PATH)+can.Option(nfs.FILE)] = last
 		var carte, list = [{input: [html.FILTER, function(event) { if (event.key == lang.ESCAPE) { return carte.close() } can.onkeymap.selectItems(event, can, carte._target)

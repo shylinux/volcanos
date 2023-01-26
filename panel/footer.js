@@ -68,11 +68,10 @@ Volcanos(chat.ONPLUGIN, {
 	toast: shy("提示", [wiki.CONTENT, wiki.TITLE], function(can, msg, arg) { arg && arg.length > 0 && can.user.toast(can, arg[0], arg[1]), msg.Copy(can[NTIP]), msg.StatusTimeCount() }),
 	debug: shy("网页日志", {
 		"prune": shy("清空", function(can) { while(can.misc._list.pop()) {} can.onmotion.clear(can) }),
-		"debug": shy("调试", function(can) { can.user.opens(location.href.replace("debug=true", "")) }),
 		"w3schools": shy("教程", function(can) { can.user.open("https://www.w3schools.com/colors/colors_names.asp") }),
 		"mozilla": shy("文档", function(can) { can.user.open("https://developer.mozilla.org/en-US/") }),
 		"w3": shy("标准", function(can) { can.user.open("https://www.w3.org/TR/?tag=css") }),
-	}, ["type:select=log,info,warn,error,debug,wss,onremote", "filter", "list", "prune", "debug", "w3schools", "mozilla", "w3"], function(can, msg, arg) { can.onmotion.delay(can, function() { var _can = can, can = msg._can
+	}, ["type:select=log,info,warn,error,debug,wss,onremote", "filter", "list", "prune", "w3schools", "mozilla", "w3"], function(can, msg, arg) { can.onmotion.delay(can, function() { var _can = can, can = msg._can
 		var stat = {}
 		var ui = can.page.Appends(can, can._output, [{type: html.TABLE, className: html.CONTENT, list: [{type: html.TR, list: [
 			{type: html.TH, inner: mdb.TEXT},
@@ -97,29 +96,20 @@ Volcanos(chat.ONPLUGIN, {
 			})},
 		]} })) }]); arg && arg[1] && can.page.Select(can, can._output, html.TR, function(tr) { can.page.ClassList.set(can, tr, html.HIDE, tr.innerText.indexOf(arg[1]) == -1) })
 		can.onappend._status(can, [
-			{name: mdb.TIME, value: can.base.Time()},
-			{name: mdb.COUNT, value: can.page.Select(can, can._output, html.TR+":not(.hide)").length+"x1"},
-		].concat(can.core.List(["onremote", "wss", "info", "warn", "error"], function(item) {
-			return {name: item, value: stat[item]||"0"}
-		})))
+			{name: mdb.TIME, value: can.base.Time()}, {name: mdb.COUNT, value: can.page.Select(can, can._output, html.TR+html.NOT_HIDE).length+"x1"},
+		].concat(can.core.List(["onremote", "wss", "info", "warn", "error"], function(item) { return {name: item, value: stat[item]||"0"} })))
 	}) }),
 	localStorage: shy("本地存储", [mdb.NAME, mdb.VALUE, ice.LIST, ice.BACK], function(can, msg, arg) {
-		if (arg.length == 0) {
-			can.core.Item(localStorage, function(name, value) { if (can.base.isFunc(value) || name == "length") { return }
-				msg.Push(mdb.NAME, name).Push(mdb.VALUE, value)
-			}); return msg.StatusTimeCount()
-		}
-		if (arg.length > 1) { localStorage.setItem(arg[0], arg[1]) }
-		msg.Echo(localStorage.getItem(arg[0]))
+		if (arg.length == 0) { can.core.Item(localStorage, function(name, value) { if (can.base.isFunc(value) || name == "length") { return }
+			msg.Push(mdb.NAME, name).Push(mdb.VALUE, value)
+		}); return msg.StatusTimeCount() }
+		if (arg.length > 1) { localStorage.setItem(arg[0], arg[1]) } msg.Echo(localStorage.getItem(arg[0]))
 	}),
 	sessionStorage: shy("会话存储", [mdb.NAME, mdb.VALUE, ice.LIST, ice.BACK], function(can, msg, arg) {
-		if (arg.length == 0) {
-			can.core.Item(sessionStorage, function(name, value) { if (can.base.isFunc(value) || name == "length") { return }
-				msg.Push(mdb.NAME, name).Push(mdb.VALUE, value)
-			}); return msg.StatusTimeCount()
-		}
-		if (arg.length > 1) { sessionStorage.setItem(arg[0], arg[1]) }
-		msg.Echo(sessionStorage.getItem(arg[0]))
+		if (arg.length == 0) { can.core.Item(sessionStorage, function(name, value) { if (can.base.isFunc(value) || name == "length") { return }
+			msg.Push(mdb.NAME, name).Push(mdb.VALUE, value)
+		}); return msg.StatusTimeCount() }
+		if (arg.length > 1) { sessionStorage.setItem(arg[0], arg[1]) } msg.Echo(sessionStorage.getItem(arg[0]))
 	}),
 	data: shy("网页数据", [mdb.KEY], function(can, msg, arg) { can.onmotion.delay(can, function() { var can = msg._can
 		if (can.Option(mdb.KEY)) {
@@ -127,9 +117,7 @@ Volcanos(chat.ONPLUGIN, {
 				can.Option(mdb.KEY, prefix)
 			})._target.click()
 		} else {
-			can.page.AppendData(can, can._output, "", can._root._name, can._root, function(prefix, value) {
-				can.Option(mdb.KEY, prefix)
-			})._target.click()
+			can.page.AppendData(can, can._output, "", can._root._name, can._root, function(prefix, value) { can.Option(mdb.KEY, prefix) })._target.click()
 		}
 	}) }),
 	view: shy("网页标签", [mdb.KEY], function(can, msg, arg) { can.onmotion.delay(can, function() { var can = msg._can
@@ -143,9 +131,7 @@ Volcanos(chat.ONPLUGIN, {
 					} can.Option(mdb.KEY, list.reverse().join(ice.SP+ice.GT+ice.SP))
 				}),
 			], true)])
-			can.onmotion.delay(can, function() {
-				can.page.Select(can, ui._target, "div.item.head,div.item.body", function(target) { target.click() })
-			})
+			can.onmotion.delay(can, function() { can.page.Select(can, ui._target, "div.item.head,div.item.body", function(target) { target.click() }) })
 		}
 	}) }),
 })

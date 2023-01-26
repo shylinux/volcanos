@@ -119,9 +119,9 @@ Volcanos(chat.ONACTION, {
 	"官网": function(event, can) { can.user.open("https://shylinux.com/") },
 	"调试": function(event, can) { can.user.opens(location.href.replace("debug=true", "debug=false")) },
 	"百度": function(event, can) { can.user.opens("https://baidu.com/") },
-	"录屏": function(event, can) { window.isWebview && window.openapp("QuickTime Player") },
-	"编辑器": function(event, can) { window.isWebview && window.opencmd("cd ~/contexts; vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE)) },
-	"浏览器": function(event, can) { window.isWebview && window.openurl(location.href) },
+	"录屏": function(event, can) { can.user.isWebview && window.openapp("QuickTime Player") },
+	"编辑器": function(event, can) { can.user.isWebview && window.opencmd("cd ~/contexts; vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE)) },
+	"浏览器": function(event, can) { can.user.isWebview && window.openurl(location.href) },
 
 	_complete: function(event, can, target) { if (event == undefined || event.type == "click") { return } target = target||can.ui.complete
 		var pre = can.ui.current.value.slice(0, can.ui.current.selectionStart), key = can.core.Split(pre, "\t .[]", ice.SP).pop()||"", end = can.ui.current.value.slice(can.ui.current.selectionStart)
