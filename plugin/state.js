@@ -55,14 +55,15 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) { msg.OptionStatus() && ca
 	},
 	_open: function(can, msg, arg) { return can.user.open(arg) },
 	size: function(can, height, width, auto, mode) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
-		height -= html.ACTION_HEIGHT+(sub? can.onexport.statusHeight(can): html.ACTION_HEIGHT)
+		height -= can.onexport.actionHeight(can)+can.onexport.statusHeight(can)
 		if (auto) {
 			can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, height? can.ConfHeight(height): "", html.MAX_WIDTH, can.ConfWidth(width))
 		} else {
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, "")
 		}
-		if (!sub) { return } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
+		if (!sub) { return  auto } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
 		if (mode) { sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub) } else { sub.onlayout._init(sub) }
+		return auto
 	},
 	change: function(event, can, name, value, cb) { return can.page.SelectArgs(can, can._option, "", function(input) {
 		if (input.name != name || value == input.value) { return } return input.value = value, can.Update(event, can.Input([], true), cb), input
@@ -103,7 +104,7 @@ Volcanos(chat.ONACTION, {list: [
 	}) },
 	"远程控制": function(event, can) { can.onaction.keyboard(event, can) },
 	"共享工具": function(event, can) { var meta = can.Conf()
-		can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.TOPIC, values: [can.getHeader(chat.TOPIC), "light", "dark", cli.WHITE, cli.BLACK]}], [mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input())])
+		can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.THEME, values: [can.getHeader(chat.THEME), "light", "dark", cli.WHITE, cli.BLACK]}], [mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input())])
 	},
 	"打开链接": function(event, can) { can.user.open(can.onexport.link(can)) },
 	"生成链接": function(event, can) { can.onmotion.share(event, can, [], [mdb.LINK, can.user.copy(event, can, can.onexport.link(can))]) },
@@ -202,10 +203,17 @@ Volcanos(chat.ONEXPORT, {
 		args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == web.WIKI_WORD && (args.cmd = args.path)
 		return can.misc.MergePodCmd(can, args, true)
 	},
-	title: function(can, title) {},
+	title: function(can, title) {
+		can.isCmdMode() && can.user.title(title)
+	},
 	output: function(can, msg) {},
 	action: function(can, button, line) {},
 	record: function(can, value, key, line) {},
-	actionHeight: function(can) { return can._action.style.display == html.NONE || can._action.innerHTML == ""? 0: html.ACTION_HEIGHT },
-	statusHeight: function(can) { return can._status.style.display == html.NONE || can._status.innerHTML == "" || can._status.offsetHeight == 0? 0: html.ACTION_HEIGHT },
+	actionHeight: function(can) {
+		return (!can.page.isDisplay(can._option) && !can.page.isDisplay(can._action)) ||
+			(can._option.innerHTML == "" && can._action.innerHTML == "") ||
+			(can._target.offsetHeight > 0 && can._option.offsetHeight == 0 && can._option.offsetHeight == 0)? 0: html.ACTION_HEIGHT
+	},
+	statusHeight: function(can) {
+		return !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },
 })

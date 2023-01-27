@@ -3,7 +3,7 @@ Volcanos(chat.ONACTION, {
 	run: function(event, can) { can.run(event) }, refresh: function(event, can) { can.run(event) },
 	list: function(event, can) { can.sup.isSimpleMode() || can.run(event) },
 	back: function(event, can) { can.sup.onimport._back(can.sup) },
-	onclick: function(event, can) { can.Conf(mdb.TYPE) == html.BUTTON && can.run(event, [ctx.ACTION, can.Conf(mdb.NAME)].concat(can.sup.Input())) },
+	onclick: function(event, can) { can.Conf(mdb.TYPE) == html.BUTTON && can.run(event, [ctx.ACTION, can.Conf(mdb.NAME)].concat(can.sup.Input())), can.onkeymap.prevent(event) },
 	onfocus: function(event, can, target) { can.Conf(mdb.TYPE) == html.TEXT && can.onmotion.selectRange(target) },
 	onchange: function(event, can) { can.Conf(mdb.TYPE) == html.SELECT && can.run(event) },
 	onkeydown: function(event, can) { can.onkeymap.input(event, can, event.target)

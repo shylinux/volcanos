@@ -1,7 +1,7 @@
 Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) { can.require([can.volcano], null, function(can, key, sub) { can[key] = sub })
 		if (!can.user.isMailMaster) { if (can.misc.Search(can, ice.MSG_SESSID)) { can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)); return can.misc.Search(can, ice.MSG_SESSID, "") } }
 		can.user.title(can.misc.Search(can, chat.TITLE)||can.misc.Search(can, ice.POD)||location.host)
-		can.onappend.topic(can, html.DARK), can.onappend.topic(can, html.LIGHT, {panel: cli.WHITE, plugin: cli.ALICEBLUE, legend: "lightsteelblue", input: cli.WHITE, output: cli.WHITE, table: cli.ALICEBLUE,
+		can.onappend.theme(can, html.DARK), can.onappend.theme(can, html.LIGHT, {panel: cli.WHITE, plugin: cli.ALICEBLUE, legend: "lightsteelblue", input: cli.WHITE, output: cli.WHITE, table: cli.ALICEBLUE,
 			hover: cli.ALICEBLUE, border: cli.TRANSPARENT, label: cli.BLACK, text: cli.BLACK, info: cli.BLUE, warn: cli.RED})
 		can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]; return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb) }
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
@@ -26,7 +26,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) { can.requ
 		if (panel.onengine._static(event, can, msg, panel, cmds, cb)) { return }
 		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() { toast = toast||can.user.toastProcess(msg._can, _toast) }, 500) }
 		msg.option = can.core.List(msg.option, function(item) { return [chat._TOAST, ice.MSG_HANDLE].indexOf(item) > -1 && delete(msg[item])? undefined: item })
-		msg.OptionDefault(ice.MSG_TOPIC, can.getHeader(chat.TOPIC), ice.SESS_HEIGHT, panel.Conf(html.HEIGHT), ice.SESS_WIDTH, panel.Conf(html.WIDTH))
+		msg.OptionDefault(ice.MSG_THEME, can.getHeader(chat.THEME), ice.SESS_HEIGHT, panel.Conf(html.HEIGHT), ice.SESS_WIDTH, panel.Conf(html.WIDTH))
 		if (can.base.isUndefined(msg[ice.MSG_DAEMON])) { var sub = msg._can; can.base.isUndefined(sub._daemon) && can.ondaemon._list[0] && (sub._daemon = can.ondaemon._list.push(sub)-1)
 			if (sub._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], sub._daemon)) }
 		} can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
@@ -55,7 +55,13 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) { can.requ
 			return can.base.isString(item) && (item = can.core.SplitInput(item, can.base.isFunc(command.meta[item])? html.BUTTON: type)), item.type != html.SELECT && (type = item.type), button = button || item.type == html.BUTTON, item
 		}); if (!button) { command.list.push(can.core.SplitInput(ice.LIST, html.BUTTON)) } command.can = can, command.meta.name = name, arguments.callee.meta[_name] = command
 	}),
-	listen: shy(function(can, name, cb) { arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb) }),
+	listen: shy(function(can, name, cb, target) {
+		if (target) {
+			target[name] = function(event) { can.misc.Event(event, can, cb) }
+		} else {
+			arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
+		}
+	}),
 	signal: function(can, name, msg) { msg = msg||can.request(); var _msg = name == chat.ONREMOTE? msg.Option("_msg"): msg
 		_msg.Option(ice.LOG_DISABLE) == ice.TRUE || can.misc.Log(name, can._name, (msg._cmds||[]).join(ice.SP), name == chat.ONMAIN? can: _msg)
 		// _msg.Option(ice.LOG_DISABLE) == ice.TRUE || can.misc.Log(name, can._name, (msg._cmds||[]).join(ice.SP), name == chat.ONMAIN? can: _msg, _msg._can._target)
@@ -217,7 +223,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		})
 	},
 
-	topic: function(can, topic, color, style, list) { const PANEL_STYLE = "panel-style", PLUGIN_STYLE = "plugin-style"
+	theme: function(can, theme, color, style, list) { const PANEL_STYLE = "panel-style", PLUGIN_STYLE = "plugin-style"
 		const LEGEND_STYLE = "legend-style", INPUT_STYLE = "input-style", INPUT_HOVER_STYLE = "input-hover-style", OUTPUT_STYLE = "output-style", GLASS_STYLE = "glass-style"
 		const TABLE_HEAD_STYLE = "table-head-style", TABLE_HEAD_HOVER_STYLE = "table-head-hover-style", TABLE_ROW_HOVER_STYLE = "table-row-hover-style", TABLE_CELL_HOVER_STYLE = "table-cell-hover-style"
 		const ITEM_HOVER_STYLE = "item-hover-style", CARTE_ITEM_HOVER_STYLE = "carte-item-hover-style", CARTE_ITEM_STYLE = "carte-item-style"
@@ -289,7 +295,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			return (item.style? (pre+ice.SP+type+" { "+(can.base.isArray(item.style)? can.core.List(item.style, function(item) {
 				return can.core.Item(style[item], function(key, value) { return key&&value? key+DF+value: undefined }).join(FS)
 			}).join(FS): can.core.Item(can.base.Obj(item.style), function(key, value) { return key+DF+value }).join(FS))+" }"): "")+(item.list? render(pre+ice.SP+type, item.list): "")
-		}).join(ice.NL) } can.page.Append(can, document.head, ctx.STYLE, {"innerText": render(html.BODY+ice.PT+topic, list)})
+		}).join(ice.NL) } can.page.Append(can, document.head, ctx.STYLE, {"innerText": render(html.BODY+ice.PT+theme, list)})
 	},
 	style: function(can, style, target) { target = target||can._fields||can._target
 		can.base.isObject(style) && !can.base.isArray(style)? can.page.style(can, target, style): can.page.ClassList.add(can, target, style)
@@ -352,7 +358,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (item.index) { item._index = count++, ui.size[item._index] = item.height||item.width
 					can.onappend.plugin(can, item, function(sub) { can._plugins = can.misc.concat(can, can._plugins, [sub])
 						item.layout = function(width, height) { sub.onimport.size(sub, height, width) }
-					}, target, ui[item._index] = can.onappend.field(can, item.type, {name: item.index, help: item.help}, target)._target)
+					}, target, ui[item._index] = can.onappend.field(can, item.type, {name: item.index.split(ice.PT).pop(), help: item.help}, target)._target)
 				} else { can.page.Append(can, target, [item]) }
 			}
 		}); return list } ui.list = append(target, type, list||[html.PROJECT, [[html.CONTENT, html.PROFILE], html.DISPLAY]])
@@ -390,7 +396,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		can.runAction(can.request()._caller(), ctx.COMMAND, [meta.index], function(msg) { msg.Table(function(value) { can.onappend._plugin(can, value, meta, _cb, target, field) })}); return res
 	},
 	_plugin: function(can, value, meta, cb, target, field) { can.base.Copy(meta, value, true)
-		meta.type = meta.type||chat.STORY, meta.name = meta.name||value.meta&&value.meta.name||"", meta.height = meta.height||can.ConfHeight(), meta.width = meta.width||can.ConfWidth()
+		meta.type = meta.type||chat.STORY, meta.name = meta.name||value.meta&&value.meta.name||"", meta.height = meta.height||can.ConfHeight()-2*html.ACTION_HEIGHT, meta.width = meta.width||can.ConfWidth()
 		meta.inputs = can.base.getValid(meta.inputs, can.base.Obj(value.list))||[], meta.feature = can.base.getValid(meta.feature, can.base.Obj(value.meta))||{}
 		meta.args = can.base.getValid(can.base.Obj(meta.args), can.base.Obj(meta.arg), can.base.Obj(value.args), can.base.Obj(value.arg))||[]
 		can.onappend._init(can, meta, [chat.PLUGIN_STATE_JS], function(sub, skip) {
@@ -443,8 +449,10 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: event.target.getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		if (right) {
-			for (var p = event.target; p != document.body; p = p.parentNode) {
-				var _right = p.clientLeft+p.clientWidth+10; if (_right < layout.left) { layout.left = _right }
+			for (var p = event.target; p && p != document.body; p = p.parentNode) {
+				var _right = p.clientLeft+p.clientWidth+10
+				// if (_right < layout.left) { layout.left = _right }
+				var _right = p.offsetLeft+p.offsetWidth+10
 			}
 		}
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)

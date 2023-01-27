@@ -71,7 +71,7 @@ Volcanos(chat.ONACTION, {list: [
 	"折线图": function(event, can) { var args = can.onimport._layout(can); args.step = parseFloat((args.width-2*args.margin) / (can._msg.Length()-1))
 		var black = can.onimport.group(can, cli.BLACK, kit.Dict(svg.STROKE, cli.BLACK, svg.FILL, cli.BLACK))
 		var white = can.onimport.group(can, cli.WHITE, kit.Dict(svg.STROKE, cli.WHITE, svg.FILL, cli.WHITE))
-		var group = can.getHeaderTopic() == cli.BLACK? black: white
+		var group = can.getHeaderTheme() == cli.BLACK? black: white
 		can.onimport.transform(can, black), can.onimport.transform(can, white)
 		can.core.List(can.base.Obj(can.Conf(mdb.FIELD), can._msg.append), function(field) { var max = can.data[0][field], min = can.data[0][field]
 			for (var i = 1; i < can.data.length; i += 1) { var value = can.data[i][field]; if (value > max) { max = value } if (value < min) { min = value } }
@@ -84,7 +84,7 @@ Volcanos(chat.ONACTION, {list: [
 	"柱状图": function(event, can) { var args = can.onimport._layout(can)
 		var black = can.onimport.group(can, cli.BLACK, kit.Dict(svg.STROKE, cli.BLACK, svg.FILL, cli.BLACK))
 		var white = can.onimport.group(can, cli.WHITE, kit.Dict(svg.STROKE, cli.WHITE, svg.FILL, cli.WHITE))
-		var group = can.getHeaderTopic() == cli.BLACK? black: white
+		var group = can.getHeaderTheme() == cli.BLACK? black: white
 		can.onimport.transform(can, black), can.onimport.transform(can, white)
 		can.core.List(can.base.Obj(can.Conf(mdb.FIELD), can._msg.append), function(field) { var max = can.data[0][field], min = can.data[0][field]
 			for (var i = 1; i < can.data.length; i += 1) { var value = can.data[i][field]; if (value > max) { max = value } if (value < min) { min = value } }

@@ -118,14 +118,15 @@ div.action>div.tabs { padding:5px; height:31px; }
 div.status>div.item { padding:5px; height:30px; }
 div.status>div.item>label { font-size:0.6rem; }
 /* display */
-form.option, div.action { display:contents; } form.option.hide, div.action.hide { display:none; }
+div.action { display:contents; } form.option.hide, div.action.hide { display:none; }
+// form.option, div.action { display:contents; } form.option.hide, div.action.hide { display:none; }
 form.option>div.item>label, div.action>div.item>label, .hidden, .hide { display:none; }
 form.option>div.cmd, form.option>div.textarea { width:100%; } textarea { resize:vertical; }
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, div.status>div.item, div.layout.flex>* { float:left; }
 div.action, div.output, div.status, div.project, div.display, div.profile, div.content, table.content, table.content td, div.code, div.plug, div.story, div.toast, div.carte, fieldset.input { overflow:auto; }
 fieldset>div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.content, div.code, div.story[data-type=spark] { clear:both; }
 fieldset>div.status>legend { margin-left:2px; margin-right:0; float:right; clear:none; }
-fieldset.plugin:not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
+fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
 fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
 fieldset.plug { position:absolute; bottom:0; right:0; } fieldset.cmd fieldset.plug { position:fixed; bottom:31px; right:0; }
@@ -157,7 +158,7 @@ div.story[data-type=spark] span:hover { background-color:deepskyblue; box-shadow
 select, input[type=text], textarea { box-shadow:4px 4px 20px 4px #626bd0; }
 legend, select, input[type=button], div.tabs, div.item, span.item, th, td, h1, h2, h3 { cursor:pointer; }
 div.title, div.story[data-type=spark] { cursor:copy; }
-/* topic */
+/* theme */
 body.black a { color:yellow; }
 body.black div.project div.zone>div.list>div.zone>div.item { background-color:#09466fc2; }
 body.white { background-color:rgba(5,34,56,0.75); color:white; }
@@ -228,6 +229,7 @@ body.print div.float { background-color:snow; }
 body.print select, body.print input[type=text], body.print textarea { box-shadow:4px 4px 20px 4px lightgray; }
 body.print fieldset.draw div.output { background-color:lightgray; }
 body.print fieldset.draw div.output div.content svg { background-color:lightgray; }
+body.dark ::selection { background-color:#033a3a; }
 /* mobile */
 body.mobile legend { font-size:1.6rem; height:38px; }
 body.mobile select { font-size:1.4rem; height:38px; }
@@ -289,21 +291,6 @@ body.mobile table.layout td.content div.toggle.project { width:30px; padding-top
 body.mobile table.layout td.content div.toggle.profile { width:30px; padding-top:35px; }
 body.mobile table.layout td.content div.toggle.display { margin-top:-30px; height:30px; }
 body.mobile table.layout td.content div.toggle.display>div { translate:5px -15px; }
-/* flex */
-div.layout.tabs>div.tabs { display:flex; overflow:auto; }
-div.layout.tabs>div.tabs>div { padding:10px; height:32px; flex:1; }
-div.layout.tabs>div.tabs>div:hover { background-color:steelblue; }
-div.layout.tabs>div.list { width:100%; height:100%; flex:1; }
-div.layout.tabs>div.list>div { height:100%; display:none; }
-div.layout.tabs>div.list>div.select { display:block; }
-div.layout.tabs.left { display:flex; }
-div.layout.tabs.left>div.tabs { flex-direction:column; }
-div.layout.tabs.left>div.tabs>div { writing-mode:tb; }
-div.layout.tabs.right { display:flex; }
-div.layout.tabs.right>div.tabs { flex-direction:column; }
-div.layout.tabs.right>div.tabs>div { writing-mode:tb; }
-div.layout.tabs.box>div.list { height:unset; }
-div.layout.tabs.box>div.tabs { background-color:steelblue; text-align:center; padding:3px; display:block; }
 /* table card */
 div.output.card div.item.stop { color:gray; }
 div.output.card div.item { padding:10px; border:#e7e7e7 solid 1px; margin:10px; width:240px; float:left; }
@@ -321,4 +308,3 @@ div.story[data-type=spark]::-webkit-scrollbar { width:0 !important; height:0 !im
 div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
 
-body.dark ::selection { background-color:#033a3a; }

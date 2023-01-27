@@ -37,7 +37,7 @@ var ice = {
 	MSG_PREFIX: "_prefix",
 
 	MSG_USERNAME: "user.name", MSG_USERNICK: "user.nick",
-	MSG_TITLE: "sess.title", MSG_TOPIC: "sess.topic", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm", MSG_WIDTH: "sess.width", MSG_HEIGHT: "sess.height",
+	MSG_TITLE: "sess.title", MSG_THEME: "sess.theme", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm", MSG_WIDTH: "sess.width", MSG_HEIGHT: "sess.height",
 	MSG_MODE: "sess.mode", MSG_DAEMON: "sess.daemon",
 	LOG_DISABLE: "log.disable",
 	
@@ -140,7 +140,7 @@ var chat = {
 	LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", STORY: "story", PLUG: "plug",
 	TOAST: "toast", CARTE: "carte", INPUT: "input", UPLOAD: "upload", CONTEXTS: "contexts",
 	LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile", ACTIONS: "actions",
-	TITLE: "title", TOPIC: "topic", BLACK: "black", WHITE: "white", PRINT: "print", LIGHT: "light", DARK: "dark",
+	TITLE: "title", THEME: "theme", BLACK: "black", WHITE: "white", PRINT: "print", LIGHT: "light", DARK: "dark",
 	SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field", TOOL: "tool",
 	STATE: "state", MENUS: "menus", SSO: "sso", LOCATION: "location", IFRAME: "iframe",
 	OUTPUT: "output", SIMPLE: "simple", FLOAT: "float", FULL: "full", CMD: "cmd",
@@ -175,6 +175,8 @@ var chat = {
 	ONRESIZE: "onresize", ONKEYUP: "onkeyup", ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
 	ONSTORM_SELECT: "onstorm_select", ONACTION_NOTOOL: "onaction_notool", ONACTION_TOUCH: "onaction_touch", ONACTION_CMD: "onaction_cmd",
 	ONOPENSEARCH: "onopensearch", ONSEARCH_FOCUS: "onsearch_focus", ONCOMMAND_FOCUS: "oncommand_focus",
+	ONTHEMECHANGE: "onthemechange",
+	ONLAYOUT: "onlayout",
 	ONTOAST: "ontoast", ONDEBUG: "ondebug", ONSHARE: "onshare", ONPRINT: "onprint",
 
 	_INIT: "_init", _TRANS: "_trans", _STYLE: "_style", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1", _NAMES: "_names", _TOAST: "_toast",
@@ -305,7 +307,7 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 		setHeaderMenu: function(list, cb) { can._menu && can.page.Remove(can, can._menu)
 			return can._menu = can.search(can.request({}, {trans: can.onaction._trans}), [[chat.HEADER, chat.ONIMPORT, html  .MENU], can._name].concat(list), cb)
 		},
-		getHeaderTopic: function(cb) { return can.get(chat.HEADER, chat.TOPIC, cb) },
+		getHeaderTheme: function(cb) { return can.get(chat.HEADER, chat.THEME, cb) },
 		getHeader: function(key, cb) { return can.get(chat.HEADER, key, cb) },
 		setHeader: function(key, value) { return can.set(chat.HEADER, key, value) },
 		setAction: function(key, value) { return can.set(chat.ACTION, key, value) },

@@ -36,6 +36,9 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.REFRESH], _init: function(can) {
 	onsearch: function(can, msg, arg) { if (arg[0] == mdb.FOREACH || arg[0] == chat.STORM) { can.onexport.storm(can, msg, arg) } },
 	onresize: function(can, msg) { can.user.isMobile && can.onmotion.hidden(can, can._target) },
 	onprint: function(can, msg) { can.page.styleHeight(can, can._target, "") },
+	onlayout: function(can, layout) {
+		can.onmotion.toggle(can, can._target, !layout || layout == "tabs")
+	},
 
 	create: function(event, can) { can.user.input(event, can, [{name: mdb.TYPE, values: [aaa.TECH, aaa.VOID], _trans: "类型"}, {name: mdb.NAME, value: "hi", _trans: "群名"}, {name: mdb.TEXT, value: "hello", _trans: "简介"}], function(args) {
 		can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })
@@ -66,7 +69,7 @@ Volcanos(chat.ONDETAIL, {list: ["添加应用", "重命名群组", "删除群组
 	"删除群组": function(event, can, button, river) { can.runAction(event, mdb.REMOVE, [mdb.HASH, river], function(msg) { can.misc.Search(can, {river: "", storm: ""}) }) },
 
 	"添加应用": function(event, can, button, river) { can.ondetail.create(event, can, button, river) },
-	"共享应用": function(event, can, button, river, storm) { can.onmotion.share(event, can, [{name: chat.TITLE, value: can.user.title()}, {name: chat.TOPIC, values: [cli.WHITE, cli.BLACK]}], [mdb.TYPE, chat.STORM, chat.RIVER, river, chat.STORM, storm]) },
+	"共享应用": function(event, can, button, river, storm) { can.onmotion.share(event, can, [{name: chat.TITLE, value: can.user.title()}, {name: chat.THEME, values: [cli.WHITE, cli.BLACK]}], [mdb.TYPE, chat.STORM, chat.RIVER, river, chat.STORM, storm]) },
 	"添加工具": function(event, can, button, river, storm) { can.user.select(event, can, ctx.COMMAND, ctx.INDEX, function(item, next) {
 			can.run({}, [river, storm, chat.STORM, ctx.ACTION, mdb.INSERT].concat([web.SPACE, can.misc.Search(can, ice.POD)||"", ctx.INDEX, item[0]]), function(msg) { next() })
 		}, function() { can.misc.Search(can, {river: river, storm: storm}) }) },
