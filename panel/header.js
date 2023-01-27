@@ -71,7 +71,7 @@ Volcanos(chat.ONACTION, {
 		"shareuser", "共享用户", "setnick", "设置昵称", aaa.PASSWORD, "修改密码", aaa.LANGUAGE, "语言地区", aaa.CHINESE, "中文", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
 	),
 	onsize: function(can) { can.onimport.theme(can), can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
-	onmain: function(can) { can.onimport.theme(can), can.onkeymap._init(can)
+	onmain: function(can) { can.onimport.theme(can)
 		can.run({}, [], function(msg) { if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
 			return msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)): can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg.Option(aaa.LOGIN))
 		} can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.language = can.misc.Search(can, aaa.LANGUAGE)||msg.Option(aaa.LANGUAGE)
@@ -85,7 +85,6 @@ Volcanos(chat.ONACTION, {
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
 	onsearch_focus: function(can) { can._search && can._search.focus() },
 	onshare: function(can, msg, args) { can.user.share(can, msg, [ctx.ACTION, chat.SHARE].concat(args||[])) },
-	onkeydown: function(can, msg, model) { can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output) },
 	onwebpack: function(can, msg) { can.user.input(msg._event, can, [{name: mdb.NAME, value: can.user.title()}], function(data) {
 		can.core.Item(Volcanos.meta.pack, function(key, msg) { can.core.List(["_event", "_can", "_xhr", ice.MSG_SESSID, ""], function(key) { delete(msg[key]) }) })
 		can.runAction(can.request({}, {args: "name,river,storm,theme,layout", _toast: "打包中...",
@@ -125,39 +124,17 @@ Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight
 	background: function(can) { return can.user.info.background == "void"? "": can.user.info.background },
 	avatar: function(can) { return can.user.info.avatar == "void"? "": can.user.info.avatar },
 })
-Volcanos(chat.ONKEYMAP, {_init: function(can, target) { can.onkeymap._build(can) },
-	_mode: { normal: {
-		b: function(event, can) { can.search(event, ["Header.onaction.black"]) },
-		w: function(event, can) { can.search(event, ["Header.onaction.white"]) },
-		p: function(event, can) { can.search(event, ["Header.onaction.print"]) },
-		c: function(event, can) { can.user.toimage(can, can.user.title(), can._target.parentNode, true) },
-		
-		":": function(event, can) { can.onengine.signal(can, chat.ONCOMMAND_FOCUS), can.onkeymap.prevent(event) },
-		" ": function(event, can) { can.onengine.signal(can, chat.ONSEARCH_FOCUS), can.onkeymap.prevent(event) },
-		Enter: function(event, can) { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event)) },
-		Escape: function(event, can) { can.onmotion.clearFloat(can) },
-	}, }, _engine: {},
-})
 Volcanos(chat.ONPLUGIN, {
-	title: shy("应用标题", [chat.TITLE], function(can, msg, arg) {
-		msg.Echo(can.user.title(arg[0]))
+	title: shy("应用标题", [chat.TITLE], function(can, msg, arg) { msg.Echo(can.user.title(arg[0])) }),
+	theme: shy("界面主题", {_init: function(can) { can.Option(chat.THEME, can.getHeader(chat.THEME)) }}, ["theme:select=auto,dark,light,white,black,print", ice.RUN], function(can, msg, arg) {
+		if (arg[0] == "auto") { arg[0] = "", can._theme = "" } can.misc.localStorage(can, "can.theme", arg[0]), can.onimport.theme(can, arg[0])
 	}),
-	theme: shy("界面主题", {
-		_init: function(can) { can.Option(chat.THEME, can.getHeader(chat.THEME)) },
-	}, ["theme:select=auto,dark,light,white,black,print", ice.RUN], function(can, msg, arg) {
-		if (arg[0] == "auto") { arg[0] = "", can._theme = "" }
-		if (arg.length > 0) { can.misc.localStorage(can, "can.theme", arg[0]) }
-		msg.Echo(can.onimport.theme(can, arg[0]))
-	}),
-	location: shy("请求地址", {
-		copy: function(can) { can.user.copy(msg._event, can, location.href) },
-	}, [mdb.LINK, ice.LIST, ice.COPY], function(can, msg, cb) {
+	location: shy("请求地址", {copy: function(can) { can.user.copy(msg._event, can, location.href) }}, [mdb.LINK, ice.LIST, ice.COPY], function(can, msg, cb) {
 		can.runAction(can.request({}, kit.Dict(mdb.LINK, location.href)), web.SHARE, [], function(res) {
 			msg.Echo(res.Append(mdb.TEXT)).Status(kit.Dict(mdb.LINK, res.Append(mdb.NAME))), can.base.isFunc(cb) && cb(msg)
 		}) 
 	}),
-	cookie: shy("请求参数", [mdb.NAME, mdb.VALUE, ice.LIST, ice.BACK], function(can, msg, arg) {
-		arg.length > 1 && can.misc.Cookie(can, arg[0], arg[1])
+	cookie: shy("请求参数", [mdb.NAME, mdb.VALUE, ice.LIST, ice.BACK], function(can, msg, arg) { arg.length > 1 && can.misc.Cookie(can, arg[0], arg[1])
 		can.core.Item(can.misc.Cookie(can), function(key, value) { if (!key || !value || arg[0] && key != arg[0]) { return }
 			msg.Push(mdb.NAME, key), msg.Push(mdb.VALUE, value)
 		}), msg.StatusTimeCount()
@@ -168,14 +145,8 @@ Volcanos(chat.ONPLUGIN, {
 	background: shy("背景图片", [mdb.LINK], function(can, sub, cb) {
 		can.page.Append(can, sub._output, [{img: can.user.info.background, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}])
 	}),
-	language: shy("语言地区", {
-		_init: function(can) { can.Option(aaa.LANGUAGE, can.user.info.language||"zh") },
-	}, ["language:select=auto,zh,en", ice.RUN], function(can, msg, arg) {
-		if (arg[0] == "auto") { arg[0] = "" }
-		if (arg.length > 0) { can.misc.localStorage(can, "can.language", arg[0]) }
-		can.runAction(event, aaa.LANGUAGE, [arg[0]], function(msg) { can.user.reload() }) 
+	language: shy("语言地区", {_init: function(can) { can.Option(aaa.LANGUAGE, can.user.info.language) }}, ["language:select=auto,zh,en", ice.RUN], function(can, msg, arg) {
+		if (arg[0] == ice.AUTO) { arg[0] = "" } can.misc.localStorage(can, "can.language", arg[0]), can.runAction(event, aaa.LANGUAGE, [arg[0]], function(msg) { can.user.reload() }) 
 	}),
-	logout: shy("退出登录", kit.Dict(
-		aaa.LOGOUT, shy("退出", function(can) { can.user.logout(can._root.Header, true) })
-	), [aaa.LOGOUT]),
+	logout: shy("退出登录", kit.Dict(aaa.LOGOUT, shy("退出", function(can) { can.user.logout(can._root.Header, true) })), [aaa.LOGOUT]),
 })

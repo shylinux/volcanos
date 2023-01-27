@@ -20,5 +20,5 @@ fieldset.Action.grid>div.output>fieldset.plugin { float:left; }
 fieldset.Action.grid>div.output>fieldset.plugin>div.action { display:none; }
 fieldset.Action.grid>div.output>fieldset.plugin>div.status { display:none; }
 fieldset.Action.grid>div.output>fieldset.plugin>form.option input[type=text] { width:80px; }
-fieldset.Action>div.project.toggle { font-size:32px; padding-top:50px; height:150px; position:fixed; top:30%; border-top-right-radius:20px; border-bottom-right-radius:20px; }
+fieldset.Action>div.project.toggle { font-size:32px; cursor:pointer; padding-top:50px; height:150px; position:fixed; top:30%; border-top-right-radius:20px; border-bottom-right-radius:20px; }
 fieldset.Action>div.project.toggle { background-color:#4a566e6e; }

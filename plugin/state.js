@@ -212,7 +212,8 @@ Volcanos(chat.ONEXPORT, {
 	actionHeight: function(can) {
 		return (!can.page.isDisplay(can._option) && !can.page.isDisplay(can._action)) ||
 			(can._option.innerHTML == "" && can._action.innerHTML == "") ||
-			(can._target.offsetHeight > 0 && can._option.offsetHeight == 0 && can._option.offsetHeight == 0)? 0: html.ACTION_HEIGHT
+			can.page.ClassList.has(can, can._target, html.OUTPUT)
+			? 0: html.ACTION_HEIGHT
 	},
 	statusHeight: function(can) {
 		return !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },

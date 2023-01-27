@@ -29,16 +29,14 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.REFRESH], _init: function(can) {
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onlogin: function(can, msg) { can.run({}, [], function(msg) { if (msg.Option(ice.MSG_RIVER) == "_share") { return }
  		can.onmotion.clear(can), can.onimport._main(can, msg), can.onimport._init(can, msg), can.onimport._menu(can, msg)
-		can.user.isMobile ||can.user.isExtension || can.user.mod.isPod || can.onmotion.toggle(can, can._target, true)
+		can.user.isMobile || can.user.isExtension || can.onmotion.toggle(can, can._target, true)
 	}) },
 	onaction_touch: function(can, msg) { can.user.isMobile && can.onmotion.hidden(can) },
 	onaction_notool: function(can, msg, river, storm) { can.ondetail["添加工具"](msg._event, can, "添加工具", river, storm) },
 	onsearch: function(can, msg, arg) { if (arg[0] == mdb.FOREACH || arg[0] == chat.STORM) { can.onexport.storm(can, msg, arg) } },
 	onresize: function(can, msg) { can.user.isMobile && can.onmotion.hidden(can, can._target) },
 	onprint: function(can, msg) { can.page.styleHeight(can, can._target, "") },
-	onlayout: function(can, layout) {
-		can.onmotion.toggle(can, can._target, !layout || layout == "tabs")
-	},
+	onlayout: function(can, layout) { can.user.isMobile || can.onmotion.toggle(can, can._target, !layout || layout == "tabs") },
 
 	create: function(event, can) { can.user.input(event, can, [{name: mdb.TYPE, values: [aaa.TECH, aaa.VOID], _trans: "类型"}, {name: mdb.NAME, value: "hi", _trans: "群名"}, {name: mdb.TEXT, value: "hello", _trans: "简介"}], function(args) {
 		can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })

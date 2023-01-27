@@ -39,15 +39,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	}) },
 	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui.tabs = can._action }
 		can.core.List([{name: can.page.unicode.menu, onclick: function() { can.user.carte(event, can, can.onaction, can.onaction.list) }},
-			{name: "\u25C0", style: {"font-size": "14px", "margin-top": "3px"}, onclick: function(event) {
+			{name: can.page.unicode.back, style: {"font-size": "14px", "margin-top": "3px"}, onclick: function(event) {
 				var list = {}; can.user.carte(event, can, {_style: "history"}, can.core.List(can.db.history, function(item) {
 					var value = [item.path, item.file, item.line, ice.TB+(item.text&&item.text.length>30? item.text.slice(0, 30)+"...": item.text||"")].join(ice.DF); if (!list[value]) { list[value] = item; return value }
 				}).reverse(), function(event, button, meta, carte) { carte.close()
 					var ls = button.split(ice.DF); can.onimport.tabview(can, ls[0], ls[1], ls[2])
 				})
 			}},
-			{name: "\u21BB", style: {"font-size": "24px", "margin-top": "0px"}, onclick: function() { location.reload() }},
-			{name: "\u25B6", style: {"font-size": "14px", "margin-top": "3px"}, onclick: function() {
+			{name: can.page.unicode.refresh, style: {"font-size": "24px", "margin-top": "0px"}, onclick: function() { location.reload() }},
+			{name: can.page.unicode.reback, style: {"font-size": "14px", "margin-top": "3px"}, onclick: function() {
 				var list = {}; can.user.carte(event, can, {_style: "tabview"}, can.core.Item(can.db.tabview), function(event, button, meta, carte) { carte.close()
 					var ls = button.split(ice.DF); can.onimport.tabview(can, ls[0], ls[1])
 				})
@@ -291,6 +291,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 			sub.onaction.close = function() { can.onaction.back(can), msg._tab._close() }
 			sub.onexport.title = function(_, title) { can.page.Modify(can, msg._tab, title) }
 			sub.onexport.record = function(_, value, key, line) { line.path && can.onimport.tabview(can, line.path, line.file, line.line); return true }
+			sub.onexport.output = function() { can.onimport.layout(can) }
 			msg._plugin = sub, can.base.isFunc(cb) && cb(msg._content = sub._target), sub.Focus()
 		}, can.ui._content.parentNode)
 	},
