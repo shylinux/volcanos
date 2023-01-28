@@ -18,14 +18,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.require(["i
 	_value: function(can) { can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) },
 }, [""])
 Volcanos(chat.ONFIGURE, { 
-	recent: function(can, target, zone) { var total = 0
-		function show(msg, cb) { var list = {}; msg.Table(function(item) { var path = item.path+item.file; if (!list[path]) { list[path] = item, can.page.Append(can, target, cb(item, path)), total++ } }) }
-		can.runAction({}, code.FAVOR, ["_recent_file"], function(msg) {
-			show(msg, function(item, path) { return [{text: [path.split(ice.PS).slice(-2).join(ice.PS), html.DIV, html.ITEM], title: path, onclick: function(event) {
-				can.onimport.tabview(can, item.path, item.file)
-			}}] }), zone._total(total)
-		})
-	},
 	source: function(can, target, zone, path) { var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
 		function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) { can.onmotion.clear(can, target)
 			if (path == nfs.SRC) { can.ui.zone.source.refresh = function() { show(target, zone, path) } }

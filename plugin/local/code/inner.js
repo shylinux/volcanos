@@ -1,5 +1,5 @@
 (function() { const CURRENT_FILE = "web.code.inner:currentFile", SELECT_LINE = "web.code.inner.selectLine"
-const VIEW_CREATE = "tabview.view.create", VIEW_REMOTE = "tabview.view.remove", LINE_SELECT = "tabview.line.select"
+const VIEW_CREATE = "tabview.view.create", VIEW_REMOVE = "tabview.view.remove", LINE_SELECT = "tabview.line.select"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.clear(can), can.onappend.style(can, code.INNER)
 		if (msg.Option(nfs.FILE)) { can.Option(nfs.FILE, msg.Option(nfs.FILE))
 			msg.Option(nfs.PATH) && can.Option(nfs.PATH, msg.Option(nfs.PATH))
