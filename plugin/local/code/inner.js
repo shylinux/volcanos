@@ -284,6 +284,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 				src: can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}), height: can.ui.content.offsetHeight, width: can.ui.content.offsetWidth}], can.ui._content))
 		} var index = msg.Option(ctx.INDEX).split(ice.FS), meta = {type: chat.STORY, index: index[0], args: index.slice(1)}
 		return can.onimport.plug(can, meta, function(sub) {
+			sub.onimport.size(sub, can.ui.content.offsetHeight, can.ui.content.offsetWidth, true)
 			sub.onimport._open = function(sub, msg, arg) { var url = can.base.ParseURL(arg), ls = url.origin.split("/chat/pod/")
 				arg.indexOf(location.origin) == 0 && ls.length > 1? can.onimport.tabview(can, can.Option(nfs.PATH), ls[1].split(ice.PS)[0], web.DREAM): can.user.open(arg), sub.Update()
 			}

@@ -15,6 +15,7 @@ fieldset.inner>div.output>div.project * { font-size:14px; font-family:monospace;
 fieldset.inner>div.output>div.project>div.zone>div.item span.icon { font-size:22px; line-height:18px; width:20px; float:right; display:none; }
 fieldset.inner>div.output>div.project>div.zone:hover>div.item span.icon { display:block; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-right:0; width:100%; }
+fieldset.inner>div.output>div.project>div.zone div.action>div.item>span.delete { top:3px; right:5px; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item>input { width:100%; }
 fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
 fieldset.inner>div.output>div.layout.flow { position:relative; }
@@ -73,8 +74,6 @@ body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 
 div.carte.history.float * { tab-size:2; }
-div.vimer.find.float div.item>span.icon { margin-left:-20px; margin-right:10px; visibility:hidden; }
-div.vimer.find.float div.item:hover>span.icon { visibility:visible; }
 div.vimer.open.float td:first-child { display:none; }
 div.path span.item { padding:5px; cursor:pointer; }
 div.carte.path.float { font-size:14px; border-radius:0; } div.carte.path.float div.item { padding:5px; }

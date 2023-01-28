@@ -84,6 +84,7 @@ var web = {
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
+	USER: "user",
 	PASSWORD: "password", USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
 	VOID: "void", TECH: "tech",
@@ -177,6 +178,7 @@ var chat = {
 	ONOPENSEARCH: "onopensearch", ONSEARCH_FOCUS: "onsearch_focus", ONCOMMAND_FOCUS: "oncommand_focus",
 	ONTHEMECHANGE: "onthemechange",
 	ONLAYOUT: "onlayout",
+	ONWEBPACK: "onwebpack",
 	ONTOAST: "ontoast", ONDEBUG: "ondebug", ONSHARE: "onshare", ONPRINT: "onprint",
 
 	_INIT: "_init", _TRANS: "_trans", _STYLE: "_style", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1", _NAMES: "_names", _TOAST: "_toast",

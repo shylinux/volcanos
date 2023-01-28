@@ -4,7 +4,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 			can.onappend.plugin(can, item, function(sub, meta, skip) {
 				sub.run = function(event, cmds, cb) { return can.run(event, can.misc.concat(can, river == web.SHARE? [ctx.ACTION]: [], [river, storm, meta.id||meta.index], cmds), cb) }
 				can._plugins = can.misc.concat(can, can._plugins, [sub]), can.onimport._tabs(can, sub, meta), skip || next()
-				sub._scrollIntoView = function() { can._output.scrollTop = sub._target.offsetTop-html.PLUGIN_MARGIN }
 				sub._target.onclick = function(event) { event.target == sub._target && sub._tabs.click() }
 			})
 		}, function() { can.isCmdMode() || can.onmotion.delay(can, function() { can.onaction.layout(can) }) })
@@ -16,8 +15,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 	_tabs: function(can, sub, meta) {
 		var tabs = [{view: [html.TABS, html.DIV, meta.name], onclick: function(event) { can.onmotion.select(can, can._header_tabs, html.DIV_TABS, sub._header_tabs)
 			can.onmotion.select(can, can._action, html.DIV_TABS, sub._tabs), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
-			if (sub._delay_refresh) { sub._delay_refresh = false, sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), can.onexport.layout(can) == "") }
-			if (can.onexport.layout(can)) { return } sub._scrollIntoView()
+			if (sub._delay_refresh) { sub._delay_refresh = false, sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), can.onexport.isauto(can)) }
+			can._output.scrollTop = sub._target.offsetTop-html.PLUGIN_MARGIN
 		}, oncontextmenu: sub._legend.onclick}]; sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
 	},
 	_menu: function(can, msg) { if (can.user.isMobile) { return }
@@ -28,11 +27,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+html.ACTION_MARGIN), can.Conf(html.MARGIN_X, (can.user.isMobile? 2: 4)*html.PLUGIN_MARGIN)
 		can.onengine.listen(can, "ontouchstart", function(msg) { can.onengine.signal(can, chat.ONACTION_TOUCH, msg) }, target)
-		can.onengine.listen(can, chat.ONSEARCH, function(msg, arg) { arg[0] == ctx.COMMAND && can.run(msg, ["can.command"]) })
 	},
 	onsize: function(can, msg, height, width) { can.Conf({height: height-can.Conf(html.MARGIN_Y), width: width-can.Conf(html.MARGIN_X)}) },
 	onmain: function(can, msg) { can.onimport._share(can, can.misc.Search(can, web.SHARE)) },
-	onlogin: function(can, msg) { can.ondaemon._init(can), can.onimport._menu(can, msg)
+	onlogin: function(can, msg) { can.ondaemon._init(can), can.onimport._menu(can, msg), can.onkeymap._build(can)
 		can._root.River && can.onmotion.delay(can, function() { var gt = can.page.unicode.gt, lt = can.page.unicode.lt, river = can._root.River._target
 			var target = can.page.Append(can, can._target, [{view: [[html.TOGGLE, chat.PROJECT], html.DIV, can.page.isDisplay(river)? lt: gt], onclick: function(event) {
 				can.page.Modify(can, target, (can._river_show = can.onmotion.toggle(can, river))? lt: gt), can.onaction.layout(can)
@@ -44,7 +42,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			if (msg.Length() == 1) { can.onengine.signal(can, chat.ONACTION_CMD) } can.onimport._init(can, msg)
 		})
 	},
-	onstorm_select: function(can, msg, river, storm) { can.onkeymap._init(can)
+	onstorm_select: function(can, msg, river, storm) {
 		if (can.onmotion.cache(can, function(cache, old) { var key = can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm))
 			return cache[old] = can._plugins, can._plugins = cache[key]||[], key
 		}, can._output, can._action, can._header_tabs)) { return can.onaction.layout(can) }
@@ -63,10 +61,9 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
 	},
 	onresize: function(can, height, width) { can.onaction.layout(can), window.setsize && window.setsize(can.page.width(), can.page.height()) },
-	onprint: function(can, msg) { can.page.styleHeight(can, can._target, "") },
-	layout: function(can, button) { can._layout && can.page.ClassList.del(can, can._target, can._layout), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
-		button = (can._layout = button)||can.misc.Search(can, html.LAYOUT)||can.misc.localStorage(can, "can.layout")||can.Conf(html.LAYOUT)||ice.AUTO, button == ice.AUTO? (button = ""): can.page.ClassList.add(can, can._target, button)
-		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {"layout": button})), can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), can.onlayout._init(can)
+	layout: function(can, button) { can.page.ClassList.del(can, can._target, can._layout||can.misc.localStorage(can, "can.layout")), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
+		button = (can.misc.localStorage(can, "can.layout", can._layout = button == ice.AUTO? "": button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
+		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button})), can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), can.onlayout._init(can)
 		can.core.List(can._plugins, function(sub) { sub._delay_refresh = false, can.page.ClassList.set(can, sub._target, html.OUTPUT, [TABVIEW, HORIZON, VERTICAL].indexOf(button) > -1) })
 		var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can) || can.onlayout._plugin(can, button)
 	},
@@ -80,40 +77,35 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 Volcanos(chat.ONLAYOUT, {
 	tabs: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-can.Conf(html.MARGIN_Y)+html.ACTION_MARGIN), can.ConfWidth(width-can.Conf(html.MARGIN_X)) })
 		can.core.List(can._plugins, function(sub) { sub._delay_refresh = true })
-		can.onmotion.select(can, can._action, html.DIV_TABS, can.onmotion.select(can, can._action, html.DIV_TABS)||0, function(target) { target.click() })
-		return true
+		can.onmotion.select(can, can._action, html.DIV_TABS, can.onmotion.select(can, can._action, html.DIV_TABS)||0, function(target) { target.click() }); return true
 	},
 	tabview: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height), can.ConfWidth(width) })
-		can.core.List(can._plugins, function(sub) { sub._delay_refresh = true }), can.onmotion.toggle(can, can._header_tabs, true),
-		can.onmotion.select(can, can._action, html.DIV_TABS, can.onmotion.select(can, can._action, html.DIV_TABS)||0, function(target) { target.click() })
-		return true
+		can.core.List(can._plugins, function(sub) { sub._delay_refresh = true }), can.onmotion.toggle(can, can._header_tabs, true)
+		can.onmotion.select(can, can._action, html.DIV_TABS, can.onmotion.select(can, can._action, html.DIV_TABS)||0, function(target) { target.click() }); return true
 	},
 	horizon: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height), can.ConfWidth(width/2) }) },
 	vertical: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height/2), can.ConfWidth(width) }) },
 	grid: function(can) { can.getActionSize(function(height, width) { var m = can.user.isMobile? 1: 2, n = 2
-		var h = height/n-4*html.PLUGIN_MARGIN-html.ACTION_HEIGHT, w = width/m-can.Conf(html.MARGIN_X); can.ConfHeight(h), can.ConfWidth(w), can.onlayout._plugin(can, GRID)
+		var h = height/n-4*html.PLUGIN_MARGIN-html.ACTION_HEIGHT, w = width/m-can.Conf(html.MARGIN_X); can.ConfHeight(h), can.ConfWidth(w)
 	}) },
-	free: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-2*can.Conf(html.MARGIN_Y)), can.ConfWidth(width-can.Conf(html.MARGIN_Y)) })
-		can.onmotion.toggle(can, can._header_tabs, true), can.core.List(can._plugins, function(sub, index) { can.onmotion.move(can, sub._target, {left: 120*index, top: 80*index}) })
-	},
+	free: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-can.Conf(html.MARGIN_Y)), can.ConfWidth(width-can.Conf(html.MARGIN_Y))
+		can.core.List(can._plugins, function(sub, index, array) { can.onmotion.move(can, sub._target, {left: (width/array.length/8*5+20)*index, top: (height/array.length/8*5)*index}) }), can.onmotion.toggle(can, can._header_tabs, true)
+	}) },
 	page: function(can) { can.page.styleHeight(can, can._output, ""), can.page.style(can, document.body, kit.Dict(html.OVERFLOW, "")) },
-	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), ["", FLOW, PAGE].indexOf(button) > -1) && can.page.style(can, sub._output, html.MAX_HEIGHT, "") }) },
+	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.MAX_HEIGHT, "") }) },
 })
 Volcanos(chat.ONEXPORT, {
 	size: function(can, msg) {
 		msg.Option(html.LEFT, can._output.offsetLeft), msg.Option(html.TOP, can._output.offsetTop)
-		msg.Option(html.WIDTH, can._output.offsetWidth), msg.Option(html.HEIGHT, can._output.offsetHeight)
-		msg.Option(html.MARGIN_X, can.Conf(html.MARGIN_X)), msg.Option(html.MARGIN_Y, can.Conf(html.MARGIN_Y))
-		msg.Option(html.SCROLL, can.user.isMobile? can._target.parentNode.parentNode.scrollTop: can._output.scrollTop)
+		msg.Option(html.HEIGHT, can._output.offsetHeight), msg.Option(html.WIDTH, can._output.offsetWidth)
+		msg.Option(html.MARGIN_Y, can.Conf(html.MARGIN_Y)), msg.Option(html.MARGIN_X, can.Conf(html.MARGIN_X))
 	},
-	layout: function(can) { return can._layout||can.misc.SearchOrConf(can, html.LAYOUT) },
-	args: function(can, msg, cb) { can.core.Next(can._plugins, function(sub, next, index, array) {
-		cb(can.page.SelectArgs(can, sub._option, "", function(target) { return target.value }), sub, next, index, array)
-	}) },
-	plugin: function(can, msg, arg, fields) { can.core.List(can._plugins, function(sub) { var meta = sub.Conf(); if (meta.index.indexOf(arg[1]) == -1) { return }
-		var data = {ctx: ice.CAN, cmd: can._name, type: mdb.PLUGIN, name: sub._legend.innerHTML, text: shy("goto", function(event) { sub._scrollIntoView() })}
-		if (meta.index) { data.context = "", data.command = meta.index } else if (meta.cmd) { data.context = meta.ctx, data.command = meta.cmd } else { return }
-		msg.Push(data, fields)
+	layout: function(can) { return can._layout||can.misc.SearchOrConf(can, html.LAYOUT)||"" },
+	isauto: function(can) { return ["", FLOW, PAGE].indexOf(can.onexport.layout(can)) > -1 },
+	args: function(can, msg, cb) { can.core.Next(can._plugins, function(sub, next, index, array) { cb(sub.Option(), sub, next, index, array) }) },
+	plugin: function(can, msg, arg, fields) { can.core.List(can._plugins, function(sub) { var meta = sub.Conf(); if (!can.base.contains(meta.index, arg[1])) { return }
+		var data = {ctx: ice.CAN, cmd: can._name, type: chat.PLUGIN, name: sub._index, text: shy(sub._legend.innerHTML, function(event) { sub._target.click() })}
+		if (meta.index) { data.context = "", data.command = meta.index } else if (meta.cmd) { data.context = meta.ctx, data.command = meta.cmd } else { return } msg.Push(data, fields)
 	}) },
 	command: function(can, msg, arg, fields) { var meta = can.onengine.plugin.meta; can.core.Item(arg[1] == ""? meta: meta[arg[1]]? kit.Dict(arg[1], meta[arg[1]]): {}, function(name, command) {
 		msg.Push(kit.Dict(ice.CTX, ice.CAN, ice.CMD, ctx.COMMAND, mdb.TYPE, ice.CAN, mdb.NAME, name||command.name, mdb.TEXT, command.help,
@@ -129,14 +121,18 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 	}), can.base.isFunc(cb) && cb(msg) } return true
 }})
 Volcanos(chat.ONKEYMAP, {
+	toggleLayout: function(can, layout) { can.onaction.layout(can, can.onexport.layout(can) == layout? ice.AUTO: layout) },
+	toggleTheme: function(can, theme) { can.setHeader(chat.THEME, can.getHeaderTheme() == theme? ice.AUTO: theme) },
 	_mode: {normal: {
 		j: function(event, can, target) { target.scrollBy(0, event.ctrlKey? 300: 30) },
 		k: function(event, can, target) { target.scrollBy(0, event.ctrlKey? -300: -30) },
-		t: function(event, can) { can.onaction.layout(can, can.Conf(chat.LAYOUT) == TABVIEW? ice.AUTO: TABVIEW, true) },
-		h: function(event, can) { can.onaction.layout(can, can.Conf(chat.LAYOUT) == HORIZON? ice.AUTO: HORIZON, true) },
-		v: function(event, can) { can.onaction.layout(can, can.Conf(chat.LAYOUT) == VERTICAL? ice.AUTO: VERTICAL, true) },
-		b: function(event, can) { can.search(event, ["Header.onaction.black"]) },
-		w: function(event, can) { can.search(event, ["Header.onaction.white"]) },
+		t: function(event, can) { can.onkeymap.toggleLayout(can, TABVIEW) },
+		h: function(event, can) { can.onkeymap.toggleLayout(can, HORIZON) },
+		v: function(event, can) { can.onkeymap.toggleLayout(can, VERTICAL) },
+		b: function(event, can) { can.onkeymap.toggleTheme(can, cli.BLACK) },
+		w: function(event, can) { can.onkeymap.toggleTheme(can, cli.WHITE) },
+		l: function(event, can) { can.onkeymap.toggleTheme(can, html.LIGHT) },
+		d: function(event, can) { can.onkeymap.toggleTheme(can, html.DARK) },
 		c: function(event, can) { can.user.toimage(can, can.user.title(), can._target.parentNode, true) },
 		":": function(event, can) { can.onengine.signal(can, chat.ONCOMMAND_FOCUS), can.onkeymap.prevent(event) },
 		" ": function(event, can) { can.onengine.signal(can, chat.ONSEARCH_FOCUS), can.onkeymap.prevent(event) },
@@ -145,8 +141,8 @@ Volcanos(chat.ONKEYMAP, {
 	}}, _engine: {},
 })
 Volcanos(chat.ONPLUGIN, {_plugin: shy("默认插件", [mdb.NAME, ice.LIST, ice.BACK]),
-	layout: shy("界面布局", {_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)) }}, ["layout:select=auto,tabs,tabview,horizon,vertical,flow,free,grid,page", ice.RUN], function(can, msg, arg) {
-		can.misc.localStorage(can, "can.layout", arg[0] == ice.AUTO? "": arg[0]), can.onaction.layout(can, arg[0])
+	layout: shy("界面布局", {_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)) }}, ["layout:select=auto,tabs,tabview,horizon,vertical,grid,free,flow,page", ice.RUN], function(can, msg, arg) {
+		can.onaction.layout(can, arg[0])
 	}),
 	"parse": shy("生成网页", {
 		"show": function(can, msg, arg) { var name = arg[1]||ice.CAN; can.isCmdMode() && can.user.title(name)

@@ -104,7 +104,7 @@ Volcanos(chat.ONACTION, {list: [
 	}) },
 	"远程控制": function(event, can) { can.onaction.keyboard(event, can) },
 	"共享工具": function(event, can) { var meta = can.Conf()
-		can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.THEME, values: [can.getHeader(chat.THEME), "light", "dark", cli.WHITE, cli.BLACK]}], [mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input())])
+		can.onmotion.share(event, can, [{name: chat.TITLE, value: meta.name}, {name: chat.THEME, values: [can.getHeader(chat.THEME), html.DARK, html.LIGHT, cli.WHITE, cli.BLACK]}], [mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input())])
 	},
 	"打开链接": function(event, can) { can.user.open(can.onexport.link(can)) },
 	"生成链接": function(event, can) { can.onmotion.share(event, can, [], [mdb.LINK, can.user.copy(event, can, can.onexport.link(can))]) },

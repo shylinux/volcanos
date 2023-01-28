@@ -3,7 +3,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			can.core.Item(kit.Dict(svg.GRID, 10, svg.FONT_SIZE, 24, svg.FONT_FAMILY, svg.MONOSPACE, svg.STROKE_WIDTH, 2, svg.STROKE, cli.YELLOW, svg.FILL, cli.PURPLE,
 				svg.GO, can.isCmdMode()? ice.AUTO: ice.RUN, svg.SHAPE, svg.RECT), function(key, value) { can.Action(key, can.svg.Value(key, can.svg.Value(key)||value)) })
 			can.ondetail._select(can, can.misc.SearchHash(can)[0]||can.Option(svg.PID)||can.svg.Value(svg.PID), function(target) { can.onimport._profile(can, target), can.onmotion.toggle(can, can.ui.profile) })
-		}), can.isCmdMode()? (can.keylist = [], can.onkeymap._init(can)): can.onmotion.hidden(can, can._action)
+		}), can.isCmdMode()? (can.keylist = [], can.onkeymap._build(can)): can.onmotion.hidden(can, can._action)
 	},
 	_show: function(can, msg) { can.svg = null, can.group = null, can.temp = null, can.current = null, can.points = [], can._display_heights = {}
 		can.ui = can.onlayout.profile(can), can.page.Modify(can, can.ui.content, msg.Results()||can.onexport.content(can)), can.onmotion.hidden(can, [can.ui.project, can.ui.profile])

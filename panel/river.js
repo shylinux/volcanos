@@ -3,8 +3,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var select; can.page.Append
 	})), select && select.click() },
 	_main: function(can, msg) { can.river_list = {}, can.storm_list = {}, can.sublist = {}
 		var ls = []; can.user.isExtension && (ls = (can.misc.localStorage(can, "main")||"").split(","))
-		can._main_river = can.misc.Search(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||Volcanos.meta.args.river||can._main_river||ls[0]||"project"
-		can._main_storm = can.misc.Search(can, chat.STORM)||msg.Option(ice.MSG_STORM)||Volcanos.meta.args.storm||can._main_storm||ls[1]||"studio"
+		can._main_river = ls[0]||can.misc.SearchOrConf(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||can._main_river||"project"
+		can._main_storm = ls[1]||can.misc.SearchOrConf(can, chat.STORM)||msg.Option(ice.MSG_STORM)||can._main_storm||"studio"
 	},
 	_menu: function(can, msg) { if (can.user.mod.isPod) { return } return
 		can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.ondetail._menus), function(event, button) {

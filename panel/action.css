@@ -6,9 +6,10 @@ fieldset.Action>div.action div.tabs:hover { background-color:#6495ed63; }
 fieldset.Action.tabs>div.action { display:block; }
 fieldset.Action.tabs>div.output>fieldset>legend { display:none; }
 fieldset.Action.tabs>div.output>fieldset.plugin:not(.select) { display:none; }
-fieldset.Header div.Action>div.tabs { margin-left:20px; float:left; }
+fieldset.Header div.Action { display:contents; }
+fieldset.Header div.Action>div.tabs:not(.hide) { margin-left:20px; display:contents; float:left; }
 fieldset.Header div.Action>div.tabs:hover { background-color:none; }
-fieldset.Header div.tabs>div.tabs { padding:5px 10px; height:31px; float:left; }
+fieldset.Header div.tabs>div.tabs { background-color:unset; padding:5px 10px; height:31px; float:left; }
 fieldset.Header div.tabs>div.tabs:hover { background-color:#6495ed63; }
 fieldset.Action.tabview>div.output>fieldset.plugin:not(.select) { display:none; }
 fieldset.Action.vertical>div.output>fieldset.plugin { float:left; }
