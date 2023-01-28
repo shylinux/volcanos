@@ -1,18 +1,14 @@
-fieldset.Footer { font-size:1.1rem; padding:0 5px; clear:both; }
-fieldset.Footer>div.output { overflow:auto; }
+fieldset.Footer>div.output { font-size:1.1rem; padding:0 5px; }
 fieldset.Footer>div.output div { padding:5px; height:31px; cursor:pointer; }
 fieldset.Footer>div.output div:hover { background-color:#2e515f; }
 fieldset.Footer>div.output div.title { float:left; }
 fieldset.Footer>div.output div.state { font-family:monospace; float:right; }
 fieldset.Footer>div.output div.state label { font-size:12px; }
 fieldset.Footer>div.output div.toast { background-color:darkcyan; float:right; }
-fieldset.Footer>div.output div.cmd { padding:0; float:left; position:relative; }
-fieldset.Footer>div.output div.cmd span.icon { position:absolute; top:5px; right:10px; }
+fieldset.Footer>div.output div.cmd { padding:0; float:left; }
 fieldset.Footer>div.output div.cmd:hover input[name=cmd] { width:320px; transition:all 0.5s; }
 fieldset.Footer>div.output input[name=cmd] { margin-left:40px; width:120px; transition:all 1s; }
 fieldset.Footer>div.output input[name=cmd]:focus { width:320px; transition:all 0.5s; }
-fieldset.story.nlog.float tbody tr.warn { color:yellow; }
-fieldset.story.nlog.float tbody tr.error { color:red; }
 
 .picker { box-shadow:4px 4px 20px 4px #626bd0; }
 div.view span.keyword { color:#5cadd4; }

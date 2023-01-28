@@ -44,9 +44,13 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) { can.requ
 		if (cmds[0] == ctx.ACTION && cmds[1] == ice.RUN) { var p = can.onengine.plugin(can, cmds[2])
 			if (p) { return can.core.CallFunc(p, {can: p.can||panel, msg: msg, arg: cmds.slice(3), cmds: cmds.slice(3), cb: cb}), true }
 		}
-		var p = can.onengine.plugin(can, cmds[0]), n = 1; if (p) { if (p.meta && p.meta[cmds[1]] && cmds[0] == ctx.ACTION) { n = 3 } else if (p.meta && p.meta[cmds[0]]) { n = 2 }
-			return can.core.CallFunc(p, {can: p.can||panel, sub: msg._can, msg: msg, arg: cmds.slice(n), cmds: cmds.slice(n), cb: cb}), true
-		} return false
+		var p = can.onengine.plugin(can, cmds[0]), n = 1; if (!p) { return false }
+		var func = p, _can = p.can||panel, _sup = _can
+		if (p.meta && p.meta[cmds[2]] && cmds[1] == ctx.ACTION) {
+			n = 3, func = p.meta[cmds[2]], _can = msg._can
+		} else if (p.meta && p.meta[cmds[1]]) {
+			n = 2, func = p.meta[cmds[2]], _can = msg._can
+		} return can.core.CallFunc(func, {sup: _sup, can: _can, sub: msg._can, msg: msg, arg: cmds.slice(n), cmds: cmds.slice(n), cb: cb}), true
 	},
 	plugin: shy(function(can, name, command) { var _name = can.base.trimPrefix(name, "can.")
 		if (can.base.isUndefined(name) || !can.base.isString(name) || name == _name) { return }
@@ -184,7 +188,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); if (msg.RunAction(event, can, cmds)) { return }
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { var msg = can.request(event, {action: cmds[1]})
-			if (can.base.isFunc(meta.feature[cmds[1]])) { return meta.feature[cmds[1]](can, msg, cmds.slice(2)) }
+			var action = meta.feature[cmds[1]]; if (can.base.isFunc(action)) {
+				return action.list && action.list.length > 0? can.user.input(event, can, action.list, function(data) {
+					can.core.CallFunc(action, {can: can, msg: can.request(event, data), arg: cmds.slice(2)})
+				}): can.core.CallFunc(action, {can: can, msg: can.request(event), arg: cmds.slice(2)})
+			}
 			return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, can.Option()), cmds.slice(0, 2).concat(args), cb) })
 		}
 		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, cb||function(msg) { if (silent) { return } var _can = can._fields? can.sup: can
@@ -307,7 +315,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	input: function(can, item, value, target, style) { if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
 		var icon = []
 		var input = can.page.input(can, can.base.Copy({className: "", type: "", name: ""}, item), value); input.title = can.Conf(can.core.Keys(ctx.FEATURE, chat.TITLE, item.name))||""
-		if (item.type == html.SELECT && item.value) { input._init = function(target) { target.value = value||item.value } }
+		if (item.type == html.SELECT && (value || item.value)) { input._init = function(target) { target.value = value||item.value } }
 		if (item.type == html.TEXT) { input.onkeydown = item.onkeydown||function(event) {
 			can.onkeymap.input(event, can), can.onkeymap.selectOutput(event, can), event.key == lang.ENTER && can.onkeymap.prevent(event)
 		}, icon.push({text: can.page.unicode.delete, className: "icon delete", onclick: function(event) {
@@ -406,10 +414,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			sub._index = value.index||meta.index, can.base.isFunc(cb) && cb(sub, meta, skip)
 		}, target||can._output, field)
 	},
-	_float: function(can, index, args) {
+	_float: function(can, index, args, cb) {
 		can.onappend.plugin(can, {index: index, args: args, mode: chat.FLOAT}, function(sub) {
 			can.getActionSize(function(left, top, width, height) { sub.onimport.size(sub, sub.ConfHeight(height/2), sub.ConfWidth(width), true)
-				can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+height/4})
+				can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+height/4}), can.base.isFunc(cb) && cb(sub)
 			}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
 		}, can._root._target)
 	},
