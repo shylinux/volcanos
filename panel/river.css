@@ -1,4 +1,4 @@
-fieldset.River { width:180px; overflow:auto; float:left; }
+fieldset.River { width:180px; float:left; }
 fieldset.River>div.action { padding:0 12px; display:block; }
 fieldset.River>div.output { width:180px; }
 fieldset.River>div.output div.item { padding:3px 16px; border-left:solid 3px #00ffae; }

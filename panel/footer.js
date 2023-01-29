@@ -1,12 +1,13 @@
-(function() { var NTIP = "ntip", NCMD = "ncmd", NLOG = "nlog"
+(function() { var NTIP = "ntip", NCMD = "ncmd", NLOG = "nlog", NKEY = "nkey"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.ui = {}, can.db = {}
+		can.Conf(NKEY, can.core.Item(can.misc.localStorage(can)).length)
 		can.onimport._title(can, msg, target), can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target), can.onimport._command(can, msg, target)
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.Conf(chat.TITLE)||msg.result, function(item) {
 		can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "联系站长"}])
 	}) },
-	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [NTIP, NCMD, NLOG]).reverse(), function(item) {
-		can.page.Append(can, target, [{view: [chat.STATE, html.DIV, can.Conf(item)], list: [
+	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [NTIP, NLOG, NKEY, NCMD]).reverse(), function(item) {
+		can.page.Append(can, target, [{view: [chat.STATE, html.DIV], list: [
 			{text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", html.SPAN, item]},
 		], onclick: function(event) { can.onexport[item](can) }}])
 	}) },
@@ -41,6 +42,7 @@ Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight
 	ntip: function(can) { can.onexport._float(can, NTIP, "can.toast") },
 	ncmd: function(can) { can.onexport._float(can, NCMD, "can.debug", [chat.ONREMOTE]) },
 	nlog: function(can) { can.onexport._float(can, NLOG, "can.debug") },
+	nkey: function(can) { can.onexport._float(can, NLOG, "can.localStorage") },
 	_float: function(can, name, index, args, cb) { can.ui[name]? (can.ui[name].onaction.close(), delete(can.ui[name])): can.onappend._float(can, index, args||[], function(sub) { can.ui[name] = sub
 		can.page.style(can, sub._target, {left: "", top: "", right: 0, bottom: can.onexport.height(can)}), can.base.isFunc(cb) && cb(sub)
 	}) },
@@ -90,7 +92,7 @@ Volcanos(chat.ONPLUGIN, {
 			can.page.AppendData(can, can._output, "", can._root._name, can._root, function(prefix, value) { can.Option(mdb.KEY, prefix) })._target.click()
 	}),
 	view: shy("网页元素", [mdb.KEY], function(can, msg, arg, cb) { var can = msg._can
-		if (arg[0]) { can.page.Append(can, can._output, [can.page.AppendView(can, can.page.SelectOne(can, document.body, arg[0]||document.body)]) } else {
+		if (arg[0]) { can.page.Append(can, can._output, [can.page.AppendView(can, can.page.SelectOne(can, document.body, arg[0]||document.body))]) } else {
 			var ui = can.page.Append(can, can._output, [can.page.AppendView(can, document, "html", [
 				can.page.AppendView(can, document.head, "head"), can.page.AppendView(can, document.body, "body", null, false, function(target) {
 					var list = []; for (var p = target; p && p.tagName && p != document.body; p = p.parentNode) {

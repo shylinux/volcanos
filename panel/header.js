@@ -28,7 +28,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	background: function(event, can, background) { can.user.isExtension || can.user.isLocalFile || can.runAction(event, aaa.BACKGROUND, [background], function(msg) {
 		can.user.info.background = background, can.onimport._background(can, msg), can.user.toastSuccess(can)
 	}) },
-	language: function(can, language) { can.runAction(event, aaa.LANGUAGE, [language], function(msg) { can.user.reload() }) },
+	language: function(can, language) { can.runAction(event, aaa.LANGUAGE, [language == ice.AUTO? "": language], function(msg) { can.user.reload() }) },
 	theme: function(can, theme) { theme && (can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": can.base.Obj(theme).join(ice.SP))), can.user.theme(can, can.onexport.theme(can)) },
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
 		return can.page.Append(can, can._output, [{view: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
@@ -70,7 +70,7 @@ Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMed
 	usernick: function(event, can) { can.user.mod.isPod || can.user.isExtension || can.user.isLocalFile || can.onaction.carte(event, can, can.onaction._menus) },
 	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN]) },
 	toimage: function(event, can) { can.onmotion.clearCarte(can), can.user.toimage(can, can.user.title(), can._target.parentNode) },
-	webpack: function(event, can) { can.onengine.signal(can, chat.ONWEBPACK) },
+	webpack: function(event, can) { can.onengine.signal(can, chat.ONWEBPACK, can.request(event)) },
 	setnick: function(event, can) { can.user.input(event, can, [{name: aaa.USERNICK, value: can.Conf(aaa.USERNICK)}], function(list) { can.runAction(event, aaa.USERNICK, [list[0]], function(msg) {
 		can.page.Select(can, can._output, can.core.Keys(html.DIV, aaa.USERNICK), function(item) { can.page.Modify(can, item, can.Conf(aaa.USERNICK, list[0])) }), can.user.toastSuccess(can)
 	}) }) },
@@ -83,7 +83,7 @@ Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMed
 	_params: [chat.TITLE, chat.THEME],
 	_menus: ["shareuser",
 		[chat.THEME, ice.AUTO, html.DARK, html.LIGHT, "print", cli.WHITE, cli.BLACK],
-		[aaa.LANGUAGE, "zh", "en"],
+		[aaa.LANGUAGE, ice.AUTO, "zh", "en"],
 		[nfs.SAVE, web.TOIMAGE, code.WEBPACK],
 		[aaa.USER, "setnick", aaa.PASSWORD, cli.CLEAR, aaa.LOGOUT],
 	],

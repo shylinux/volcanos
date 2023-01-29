@@ -1,5 +1,4 @@
 fieldset.Search { background-color:#041a25bd; padding:10px; display:none; position:fixed; left:0; top:31px; }
-fieldset.Search input.word { width:100%; }
-fieldset.Search>div.output table { width:100%; }
+fieldset.Search>div.action>div.item.filter>input { width:320px; }
 fieldset.Search>div.status { display:block; }
 fieldset.Search.panel fieldset.story>form.option input[type=button][name=close] { display:block; }

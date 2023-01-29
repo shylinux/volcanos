@@ -320,6 +320,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		if (item.type == html.SELECT && (value || item.value)) { input._init = function(target) { target.value = value||item.value } }
 		if (item.type == html.TEXT) { input.onkeydown = item.onkeydown||function(event) {
 			can.onkeymap.input(event, can), can.onkeymap.selectOutput(event, can), event.key == lang.ENTER && can.onkeymap.prevent(event)
+		}, input.onfocus = input.onfocus||function(event) {
+			can.onmotion.selectRange(event.target)
 		}, icon.push({text: can.page.unicode.delete, className: "icon delete", onclick: function(event) {
 			_input.value = ""; item.name == html.FILTER && can.page.Select(can, can._output, html.TR, function(tr) { can.page.ClassList.del(can, tr, html.HIDE) })
 		}}) }
