@@ -9,7 +9,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 		}, function() { can.isCmdMode() || can.onmotion.delay(can, function() { can.onaction.layout(can) }) })
 	},
 	_share: function(can, share) { share && can.runAction({}, web.SHARE, [share], function(msg) {
-		can.user.title(msg.SearchOrOption(chat.TITLE)), can.setHeader(chat.THEME, msg.SearchOrOption(chat.THEME)), msg.Length() == 1 && can.onengine.signal(can, chat.ONACTION_CMD)
+		can.user.title(msg.SearchOrOption(chat.TITLE)), can.setHeader(chat.THEME, msg.SearchOrOption(chat.THEME)), msg.Length() == 1 && can.onaction._onaction_cmd(can)
 		can.Conf(chat.RIVER, web.SHARE, chat.STORM, share), can.onimport._init(can, msg)
 	}) },
 	_tabs: function(can, sub, meta) {
@@ -20,8 +20,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 		}, oncontextmenu: sub._legend.onclick}]; sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
 	},
 	_menu: function(can, msg) { if (can.user.isMobile) { return }
-		can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.onaction._menus), function(event, button, list) { can.core.CallFunc([can.onaction, list[0]], [can, button]) })
-		can.page.Select(can, can._root.Header._output, "div.Action", function(target) { can.onmotion.hidden(can, can._header_tabs = can.page.Append(can, target, [html.TABS])._target) })
+		var target = can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.onaction._menus), function(event, button, list) { can.core.CallFunc([can.onaction, list[0]], [can, button]) })
+		can.onmotion.hidden(can, can._header_tabs = can.page.Append(can, target, [html.TABS])._target)
 	},
 })
 Volcanos(chat.ONACTION, {_init: function(can, target) {
@@ -37,9 +37,9 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			}}])._target
 		}); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return } can._names = location.pathname
 		can.Conf(chat.TOOL)? can.onappend.layout(can, can._output, FLOW, can.core.List(can.Conf(chat.TOOL), function(item, index, list) { item.type = chat.PLUGIN
-			if (list.length == 1) { can.onengine.signal(can, chat.ONACTION_CMD), item.mode = chat.CMD, item.opts = can.misc.Search(can) } return item
+			if (list.length == 1) { can.onaction._onaction_cmd(can), item.mode = chat.CMD, item.opts = can.misc.Search(can) } return item
 		})).layout(window.innerWidth, window.innerHeight): can.runAction(can.request(), ctx.COMMAND, [], function(msg) {
-			if (msg.Length() == 1) { can.onengine.signal(can, chat.ONACTION_CMD) } can.onimport._init(can, msg)
+			if (msg.Length() == 1) { can.onaction._onaction_cmd(can) } can.onimport._init(can, msg)
 		})
 	},
 	onstorm_select: function(can, msg, river, storm) {
@@ -51,7 +51,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			return can.onimport._init(can, msg)
 		})
 	},
-	onaction_cmd: function(can, msg) { can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.Conf(html.MARGIN_Y, 0), can.Conf(html.MARGIN_X, 0), can.onlayout._init(can) },
+	_onaction_cmd: function(can) { can.onengine.signal(can, chat.ONACTION_CMD), can.onlayout._init(can) },
+	onaction_cmd: function(can, msg) { can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.Conf(html.MARGIN_Y, 0), can.Conf(html.MARGIN_X, 0) },
 	onsearch: function(can, msg, arg) { var fields = msg.Option(ice.MSG_FIELDS).split(ice.FS)
 		if (arg[0] == mdb.FOREACH || arg[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, arg, fields) }
 		if (arg[0] == mdb.FOREACH || arg[0] == ctx.COMMAND) { can.onexport.command(can, msg, arg, fields) }

@@ -16,8 +16,8 @@ div.view span.keyword { color:#5cadd4; }
 div.view span.string { color:#f29766; }
 div.item:not(.string):not(.number):not(.boolean)>span.value { color:silver; font-style:italic; }
 span.item:not(.string):not(.number):not(.boolean)>span.value { color:silver; font-style:italic; }
-fieldset.debug span.path { color:silver; font-style:italic; }
 fieldset.debug div.output table.content * { font-size:14px; }
+fieldset.debug span.path { color:silver; font-style:italic; }
 body.dark fieldset.debug span.path { color:gray; }
 body.dark fieldset.debug span.target { color:gray; }
 body.dark div.item:not(.string):not(.number):not(.boolean)>span.value { color:gray; }

@@ -21,7 +21,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.user.isMobile || can.onimport.menu(can, mdb.SEARCH, function() { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: can._search.value||""})) })
 	},
 	_time: function(can, target) { can.core.Timer({interval: 100}, function() { can.onimport.time(can, target) }), can.onappend.figure(can, {action: "date"}, target) },
-	time: function(can, target) { can.onimport.theme(can), target.innerHTML = can.user.time(can, null, "%w %H:%M:%S") },
+	time: function(can, target) { can.onimport.theme(can), target.innerHTML = can.user.time(can, null, can.Conf(mdb.TIME)||"%H:%M:%S %w") },
 	avatar: function(event, can, avatar) { can.user.isExtension || can.user.isLocalFile || can.runAction(event, aaa.AVATAR, [avatar], function(msg) {
 		can.user.info.avatar = avatar, can.onimport._avatar(can, msg), can.user.toastSuccess(can)
 	}) },
@@ -130,12 +130,8 @@ Volcanos(chat.ONPLUGIN, {
 			msg.Echo(res.Append(mdb.TEXT)).Status(kit.Dict(mdb.LINK, res.Append(mdb.NAME))), can.base.isFunc(cb) && cb(msg)
 		}) 
 	}),
-	avatar: shy("用户头像", [mdb.LINK], function(can, sub, cb) {
-		can.page.Append(can, sub._output, [{img: can.user.info.avatar, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}])
-	}),
-	background: shy("背景图片", [mdb.LINK], function(can, sub, cb) {
-		can.page.Append(can, sub._output, [{img: can.user.info.background, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}])
-	}),
+	avatar: shy("用户头像", function(can, sub, cb) { can.page.Append(can, sub._output, [{img: can.user.info.avatar, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}]) }),
+	background: shy("背景图片", function(can, sub, cb) { can.page.Append(can, sub._output, [{img: can.user.info.background, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}]) }),
 	language: shy("语言地区", {_init: function(can) { can.Option(aaa.LANGUAGE, can.user.info.language||ice.AUTO) }}, ["language:select=auto,zh,en", ice.RUN], function(can, msg, arg) {
 		if (arg[0] == ice.AUTO) { arg[0] = "" } can.runAction(event, aaa.LANGUAGE, [arg[0]], function(msg) { can.user.reload() }) 
 	}),

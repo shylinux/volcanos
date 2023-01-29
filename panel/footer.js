@@ -12,8 +12,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.ui = {}, can.db
 	}) },
 	_toast: function(can, msg, target) { can.toast = can.page.Append(can, target, [{view: chat.TOAST, onclick: function(event) { can.onexport[NTIP](can) }}])._target },
 	_command: function(can, msg, target) { can.onappend.input(can, {type: html.TEXT, name: ice.CMD, onkeydown: function(event) { can.onkeymap.input(event, can)
-		function close() { can.ui.cli && can.ui.cli.close() }
-		if (event.key == lang.ESCAPE) { return close() } if (event.key != lang.ENTER) { return }
+		function close() { can.ui.cli && can.ui.cli.close() } if (event.key == lang.ESCAPE) { return close() } if (event.key != lang.ENTER) { return }
 		switch (event.target.value) {
 		case cli.CLEAR:
 		case cli.CLOSE: close(); break
@@ -29,7 +28,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.ui = {}, can.db
 	ncmd: function(can, msg, _follow, _cmds) { can.onimport._data(can, NCMD, {time: can.base.Time(), follow: _follow, cmds: _cmds}), can.onimport.nlog(can, NLOG) },
 	nlog: function(can, name) { can.onimport.count(can, name) },
 })
-Volcanos(chat.ONACTION, {_init: function(can) { if (can.user.mod.isPod || can.user.isExtension) { can.onmotion.hidden(can) } },
+Volcanos(chat.ONACTION, {_init: function(can) { can.user.isExtension || can.onmotion.hidden(can) },
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onlogin: function(can, msg) { can.run({}, [], function(msg) { can.onmotion.clear(can), can.onimport._init(can, msg, can._output) }) },
 	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.toast, {can: can, msg: msg}) },
@@ -49,8 +48,8 @@ Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight
 Volcanos(chat.ONPLUGIN, {
 	alert: shy("提示", [wiki.CONTENT], function(can, arg) { arg.length > 0 && can.user.alert(arg[0]) }),
 	toast: shy("提示", {
-		inputs: shy(function(can, sup, msg, arg) { var list = {}; can.core.List(sup[NTIP][arg[0]], function(item) { if (!can.base.contains(item, arg[1])) { return }
-			if (list[item]) { return } list[item] = true; msg.Push(arg[0], item)
+		inputs: shy(function(can, sup, msg, arg) { var list = {}; can.core.List(sup[NTIP][arg[0]], function(item) {
+			if (!can.base.contains(item, arg[1]) || list[item]) { return } list[item] = true; msg.Push(arg[0], item)
 		}) }),
 		create: shy([wiki.CONTENT, wiki.TITLE], function(can, content, title) { can.user.toast(can, content, title) }),
 	}, [html.FILTER, ice.LIST, mdb.CREATE], function(can, msg) { msg.Copy(can[NTIP]), msg.StatusTimeCount() }),
@@ -59,7 +58,7 @@ Volcanos(chat.ONPLUGIN, {
 		"w3schools": shy("教程", function(can) { can.user.open("https://www.w3schools.com/colors/colors_names.asp") }),
 		"mozilla": shy("文档", function(can) { can.user.open("https://developer.mozilla.org/en-US/") }),
 		"w3": shy("标准", function(can) { can.user.open("https://www.w3.org/TR/?tag=css") }),
-	}, ["type:select=log,info,warn,error,debug,wss,onremote", "filter", "list", "prune", "w3schools", "mozilla", "w3"], function(can, msg, arg) { can.onmotion.delay(can, function() { var _can = can, can = msg._can
+	}, ["type:select=log,info,warn,error,debug,wss,onremote", "filter", "list", "prune", "w3schools", "mozilla", "w3"], function(can, msg, arg, cb) { var _can = can, can = msg._can
 		var stat = {}; var ui = can.page.Appends(can, can._output, [{type: html.TABLE, className: html.CONTENT, list: [{type: html.TR, list: [
 			{type: html.TH, inner: mdb.TEXT},
 		]}].concat(can.core.List(can.misc._list, function(list) { stat[list[2]] = ((stat[list[2]]||0)+1); return (!arg || !arg[0] || arg[0] == "log" || arg[0] == list[2]) && {type: html.TR, list: [
@@ -84,25 +83,22 @@ Volcanos(chat.ONPLUGIN, {
 		]} })) }]); arg && arg[1] && can.page.Select(can, can._output, html.TR, function(tr) { can.page.ClassList.set(can, tr, html.HIDE, tr.innerText.indexOf(arg[1]) == -1) })
 		can.onappend._status(can, [
 			{name: mdb.TIME, value: can.base.Time()}, {name: mdb.COUNT, value: can.page.Select(can, can._output, html.TR+html.NOT_HIDE).length+"x1"},
-		].concat(can.core.List([chat.ONREMOTE, "wss", log.INFO, log.WARN, log.ERROR], function(item) { return {name: item, value: stat[item]||"0"} })))
-	}) }),
-	data: shy("网页数据", [mdb.KEY], function(can, msg, arg) { can.onmotion.delay(can, function() { var can = msg._can
-		if (can.Option(mdb.KEY)) {
-			can.page.AppendData(can, can._output, can.Option(mdb.KEY), can.Option(mdb.KEY).split(ice.PT).pop(), can.core.Value(can._root, can.Option(mdb.KEY)), function(prefix, value) {
-				can.Option(mdb.KEY, prefix)
-			})._target.click()
-		} else { can.page.AppendData(can, can._output, "", can._root._name, can._root, function(prefix, value) { can.Option(mdb.KEY, prefix) })._target.click() }
-	}) }),
-	view: shy("网页标签", [mdb.KEY], function(can, msg, arg) { can.onmotion.delay(can, function() { var can = msg._can
-		if (can.Option(mdb.KEY)) { can.page.Append(can, can._output, [can.page.AppendView(can, can.page.SelectOne(can, document.body, can.Option(mdb.KEY))||document.body)]) } else {
+		].concat(can.core.List([chat.ONREMOTE, html.WSS, log.INFO, log.WARN, log.ERROR], function(item) { return {name: item, value: stat[item]||"0"} })))
+	}),
+	data: shy("网页数据", [mdb.KEY], function(can, msg, arg, cb) { var can = msg._can
+		arg[0]? can.page.AppendData(can, can._output, arg[0], arg[0].split(ice.PT).pop(), can.core.Value(can._root, arg[0]), function(prefix, value) { can.Option(mdb.KEY, prefix) })._target.click():
+			can.page.AppendData(can, can._output, "", can._root._name, can._root, function(prefix, value) { can.Option(mdb.KEY, prefix) })._target.click()
+	}),
+	view: shy("网页元素", [mdb.KEY], function(can, msg, arg, cb) { var can = msg._can
+		if (arg[0]) { can.page.Append(can, can._output, [can.page.AppendView(can, can.page.SelectOne(can, document.body, arg[0]||document.body)]) } else {
 			var ui = can.page.Append(can, can._output, [can.page.AppendView(can, document, "html", [
 				can.page.AppendView(can, document.head, "head"), can.page.AppendView(can, document.body, "body", null, false, function(target) {
 					var list = []; for (var p = target; p && p.tagName && p != document.body; p = p.parentNode) {
 						list.push(p.tagName.toLowerCase()+(p.className? ice.PT+p.className.replaceAll(ice.SP, ice.PT).replace(".picker", ""): ""))
-					} can.Option(mdb.KEY, list.reverse().join(ice.SP+ice.GT+ice.SP))
+					} can.Option(mdb.KEY, list.reverse().join(ice.GT))
 				}),
 			], true)]); can.onmotion.delay(can, function() { can.page.Select(can, ui._target, "div.item.head,div.item.body", function(target) { target.click() }) })
 		}
-	}) }),
+	}),
 })
 })()
