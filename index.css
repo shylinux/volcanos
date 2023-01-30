@@ -199,8 +199,8 @@ body.light fieldset.panel:not(.main) { background-color:#4a566e; color:#d0d3da; 
 body.light fieldset.panel:not(.main) label { color:#d0d3da; }
 body.light fieldset.panel:not(.main) input { background-color:#6b7488; color:white; border-radius:5px; }
 body.light fieldset.panel:not(.main) input::placeholder { background-color:#6b7488; color:#d0d3da; }
-body.light fieldset.panel:not(.main) div.item.select  { background-color:#2b3446; color:white; }
-body.light fieldset.panel:not(.main) div.item:hover  { background-color:#2b3446; color:white; }
+body.light fieldset.panel:not(.main):not(.auto) div.item.select  { background-color:#2b3446; color:white; }
+body.light fieldset.panel:not(.main):not(.auto) div.item:hover  { background-color:#2b3446; color:white; }
 body.light fieldset.panel:not(.main)>div.output { background-color:#4a566e; color:#d0d3da; }
 body.light fieldset.panel:not(.main)>div.output div.state:hover  { background-color:#2b3446; color:white; }
 body.light fieldset.panel:not(.main)>div.output div.title:hover  { background-color:#2b3446; color:white; }
@@ -241,9 +241,10 @@ body.mobile table.content th { padding:6px; }
 body.mobile table.content { width:100%; }
 body.mobile fieldset:not(.panel):not(.input)>div.action { display:none; }
 body.mobile fieldset.plugin:not(.float):not(.full):not(.cmd) { margin:10px 0; }
-body.mobile fieldset.Header { font-size:1.6rem; padding:0; height:3rem; width:100%; position:fixed; top:0; }
+body.mobile fieldset.Header { padding:0; width:100%; position:fixed; top:0; }
+body.mobile fieldset.Header>div.output { font-size:1.6rem; line-height:3rem; height:3rem; }
 body.mobile fieldset.Header div.output div.search { padding:0; height:3rem; width:100%; margin:0; }
-body.mobile fieldset.Header div.output div.search>input { background-color:#21181838; color:white; height:53px; width:100%; }
+body.mobile fieldset.Header div.output div.search>input { font-size:2.2rem; background-color:#21181838; color:white; height:53px; width:100%; }
 body.mobile fieldset.River { min-width:240px; position:fixed; top:3rem; z-index:10; }
 body.mobile fieldset.River>div.output { font-size:1.6rem; width:320px; }
 body.mobile fieldset.Action { margin-top:3rem; margin-bottom:3rem; }
@@ -271,7 +272,9 @@ fieldset.draw td.content { position:relative; }
 fieldset.draw div.output div.content svg { background-color:#1b5b738c; }
 fieldset.draw.spide div.output div.toggle { display:none; }
 fieldset.draw.trend div.output div.toggle { display:none; }
-fieldset.web.code.git.status div.output table.content { width:100%; }
+fieldset.web.code.git.status>div.output table.content { width:100%; }
+fieldset.web.code.inner.cmd>div.output { overflow:hidden; }
+fieldset.web.chat.iframe>div.output { overflow:hidden; }
 fieldset.can.view { font-size:14px; }
 fieldset.can.data { font-size:14px; }
 body.mobile fieldset.plugin>legend { border:none; }

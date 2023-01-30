@@ -14,7 +14,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can), ca
 	_storm: function(can, meta, river) { return {text: [meta.name, html.DIV, html.ITEM], _init: function(target) { can.ui.storm_list[can.core.Keys(river, meta.hash)] = target },
 		onclick: function(event) { can.onaction.action(event, can, river, meta.hash) }, oncontextmenu: function(event) { can.onaction.carte(event, can, can.ondetail._menu, river, meta.hash) },
 	} },
-	_menu: function(can, msg) { can.user.mod.isPod || can.onappend._action(can, can.onaction.list, can._action) },
+	_menu: function(can, msg) { can.user.isMobile || can.user.mod.isPod || can.onappend._action(can, can.onaction.list, can._action) },
 })
 Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.REFRESH, web.SHARE], _init: function(can) { can.onmotion.hidden(can) },
 	onlogin: function(can, msg) { can.run({}, [], function(msg) { if (msg.Option(ice.MSG_RIVER)) { return can.page.Remove(can, can._target) }

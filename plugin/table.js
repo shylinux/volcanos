@@ -34,7 +34,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		function close(target) { var next = target.nextSibling||target.previousSibling; if (!next) { return }
 			next.click(), can.onmotion.delay(can, function() { can.base.isFunc(cbs) && cbs(tabs), can.page.Remove(can, target) })
 		}
-		return {view: html.TABS, title: tabs.text, list: [{text: [tabs.name, html.SPAN]}, {text: [can.page.unicode.delete, html.SPAN, html.ICON], onclick: function(event) {
+		return {view: html.TABS, title: tabs.text, list: [{text: [tabs.name, html.SPAN, mdb.NAME]}, {text: [can.page.unicode.delete, html.SPAN, html.ICON], onclick: function(event) {
 			close(tabs._target), can.onkeymap.prevent(event)
 		}}], onclick: function(event) {
 			can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)

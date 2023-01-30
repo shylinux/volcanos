@@ -341,12 +341,13 @@ try { if (typeof(window) == lang.OBJECT) { // chrome
 		case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+Volcanos.meta.version, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
 		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url+Volcanos.meta.version, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
 	} }
-	Volcanos.meta._init = function(can) { var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
-		if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
-		can.onmotion.delayOnce(can, function() {
-			can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth)))
-		}, 300, can._delay_resize = can._delay_resize||[])
-	}) } }
+	window.onerror = function(message, source, lineno, colno, error) { window._version && alert([[source, lineno, colno].join(ice.DF), message].join(ice.NL)) }
+	Volcanos.meta._init = function(can) { window.onerror = function(message, source, lineno, colno, error) { can.misc.Error(message, source, lineno, colno, error) }
+		var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
+			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
+			can.onmotion.delayOnce(can, function() { can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth))) }, 300, can._delay_resize = can._delay_resize||[])
+		}) }
+	}
 } else { // nodejs
 	global.kit = kit, global.ice = ice
 	global.ctx = ctx, global.mdb = mdb, global.web = web, global.aaa = aaa

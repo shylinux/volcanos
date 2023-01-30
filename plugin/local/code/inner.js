@@ -38,7 +38,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		can.db._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can.db._key_list, can.ui.content)
 	}) },
 	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui.tabs = can._action }
-		can.core.List([{name: can.page.unicode.menu, onclick: function() { can.user.carte(event, can, can.onaction, can.onaction.list) }},
+		can.core.List([{name: can.page.unicode.menu, onclick: function() { can.user.carte(event, can, can.onaction, can.onaction.list.concat(can.user.isWebview? ["录屏", "编辑器", "浏览器"]: [])) }},
 			{name: can.page.unicode.back, style: {"font-size": "14px", "margin-top": "3px"}, onclick: function(event) {
 				var list = {}; can.user.carte(event, can, {_style: "history"}, can.core.List(can.db.history, function(item) {
 					var value = [item.path, item.file, item.line, ice.TB+(item.text&&item.text.length>30? item.text.slice(0, 30)+"...": item.text||"")].join(ice.DF); if (!list[value]) { list[value] = item; return value }
@@ -54,7 +54,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			}},
 		], function(item) { can.page.Append(can, can.ui.tabs, [can.base.Copy(item, {view: [[html.ICON, web.WEBSITE], html.DIV, item.name]})]) })
 		can.user.isMobile || can.page.Append(can, can.ui.tabs, [{view: mdb.TIME, _init: function(target) {
-			can.core.Timer({interval: 100}, function() { can.page.Modify(can, target, can.user.time(can, null, "%y-%m-%d %H:%M:%S %w")) })
+			can.core.Timer({interval: 100}, function() { can.page.Modify(can, target, can.user.time(can, null, "%H:%M:%S %w")) })
 			can.onappend.figure(can, {action: "date", _hold: true}, target, function(sub, value) {})
 		}}]), can.user.info.avatar && can.page.Append(can, can.ui.tabs, [{view: aaa.AVATAR, list: [{img: can.user.info.avatar}]}])
 	},
@@ -283,14 +283,13 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 			return can.base.isFunc(cb) && cb(msg._content = can.page.insertBefore(can, [{view: [html.CONTENT, html.IFRAME],
 				src: can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}), height: can.ui.content.offsetHeight, width: can.ui.content.offsetWidth}], can.ui._content))
 		} var index = msg.Option(ctx.INDEX).split(ice.FS), meta = {type: chat.STORY, index: index[0], args: index.slice(1)}
-		return can.onimport.plug(can, meta, function(sub) {
-			sub.onimport.size(sub, can.ui.content.offsetHeight, can.ui.content.offsetWidth, true)
+		return can.onimport.plug(can, meta, function(sub) { sub.onimport.size(sub, can.ui.content.offsetHeight, can.ui.content.offsetWidth, true)
 			sub.onimport._open = function(sub, msg, arg) { var url = can.base.ParseURL(arg), ls = url.origin.split("/chat/pod/")
 				arg.indexOf(location.origin) == 0 && ls.length > 1? can.onimport.tabview(can, can.Option(nfs.PATH), ls[1].split(ice.PS)[0], web.DREAM): can.user.open(arg), sub.Update()
 			}
 			sub.onaction["打开链接"] = function() { can.onimport.tabview(can, can.Option(nfs.PATH), [meta.index].concat(sub.Input([], false)).join(ice.FS), ctx.INDEX) }
 			sub.onaction.close = function() { can.onaction.back(can), msg._tab._close() }
-			sub.onexport.title = function(_, title) { can.page.Modify(can, msg._tab, title) }
+			sub.onexport.title = function(_, title) { can.page.Modify(can, can.page.SelectOne(can, msg._tab, "span.name"), title) }
 			sub.onexport.record = function(_, value, key, line) { line.path && can.onimport.tabview(can, line.path, line.file, line.line); return true }
 			sub.onexport.output = function() { can.onimport.layout(can) }
 			msg._plugin = sub, can.base.isFunc(cb) && cb(msg._content = sub._target), sub.Focus()
@@ -318,7 +317,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 		}).join("")); return line
 	},
 })
-Volcanos(chat.ONACTION, {list: ["首页", "官网", "调试", "百度", "录屏", "编辑器", "浏览器"],
+Volcanos(chat.ONACTION, {list: ["首页", "官网", "调试", "百度"],
 	_getLine: function(can, line) { return can.page.Select(can, can.ui.content, "tr.line>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return td.parentNode } })[0] },
 	_getLineno: function(can, line) { return can.page.Select(can, can.ui.content, "tr.line>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return index+1 } })[0] },
 	appendLine: function(can, value) { var ui = can.page.Append(can, can.ui._content, [{view: [nfs.LINE, html.TR], list: [
