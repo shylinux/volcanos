@@ -142,7 +142,7 @@ Volcanos(chat.ONKEYMAP, {
 		":": function(event, can) { can.onengine.signal(can, chat.ONCOMMAND_FOCUS), can.onkeymap.prevent(event) },
 		" ": function(event, can) { can.onengine.signal(can, chat.ONSEARCH_FOCUS), can.onkeymap.prevent(event) },
 		Enter: function(event, can) { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event)) },
-		Escape: function(event, can) { can.onmotion.clearFloat(can) },
+		Escape: function(event, can) { can.onmotion.clearFloat(can), can._root.Search && can.onmotion.hidden(can, can._root.Search._target) },
 	}}, _engine: {},
 })
 Volcanos(chat.ONPLUGIN, {_plugin: shy("默认插件", [mdb.NAME, ice.LIST, ice.BACK]),

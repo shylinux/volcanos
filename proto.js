@@ -345,7 +345,7 @@ try { if (typeof(window) == lang.OBJECT) { // chrome
 	Volcanos.meta._init = function(can) { window.onerror = function(message, source, lineno, colno, error) { can.misc.Error(message, source, lineno, colno, error) }
 		var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
 			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
-			can.onmotion.delayOnce(can, function() { can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth))) }, 300, can._delay_resize = can._delay_resize||[])
+			can.onmotion.delayOnce(can, function() { can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth))) }, 100, can._delay_resize = can._delay_resize||[])
 		}) }
 	}
 } else { // nodejs

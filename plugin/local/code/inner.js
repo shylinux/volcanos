@@ -38,7 +38,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		can.db._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can.db._key_list, can.ui.content)
 	}) },
 	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui.tabs = can._action }
-		can.core.List([{name: can.page.unicode.menu, onclick: function() { can.user.carte(event, can, can.onaction, can.onaction.list.concat(can.user.isWebview? ["录屏", "编辑器", "浏览器"]: [])) }},
+		can.user.isMobile || can.core.List([
+			{name: can.page.unicode.menu, onclick: function() {
+				can.user.carte(event, can, can.onaction, can.onaction.list.concat(can.user.isWebview? ["全屏", "录屏", "编辑器", "浏览器"]: []))
+			}},
 			{name: can.page.unicode.back, style: {"font-size": "14px", "margin-top": "3px"}, onclick: function(event) {
 				var list = {}; can.user.carte(event, can, {_style: "history"}, can.core.List(can.db.history, function(item) {
 					var value = [item.path, item.file, item.line, ice.TB+(item.text&&item.text.length>30? item.text.slice(0, 30)+"...": item.text||"")].join(ice.DF); if (!list[value]) { list[value] = item; return value }
@@ -126,7 +129,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				can.page.SelectChild(can, can.ui._content.parentNode, can.page.Keys(html.DIV_PROFILE, [[[html.IFRAME, html.PROFILE]]]), function(target) {
 					if (can.onmotion.toggle(can, target, target == msg._profile)) { can.ui.profile = msg._profile }
 				}), can.onimport.layout(can), can.ui.current && can.onmotion.toggle(can, can.ui.current, !isIndex() && !isDream())
-				skip? can.onaction.scrollIntoView(can): can.onaction.selectLine(can, can.Option(nfs.LINE), true), can.base.isFunc(cb) && cb(), cb = null
+				skip || can.onaction.selectLine(can, can.Option(nfs.LINE), true), can.base.isFunc(cb) && cb(), cb = null
 				var ls = can.db.file.split(ice.PS); if (ls.length > 4) { ls = [ls.slice(0, 2).join(ice.PS)+"/.../"+ls.slice(-2).join(ice.PS)] }
 				can.Status(kit.Dict(nfs.FILE, ls.join(ice.PS), mdb.TYPE, can.db.parse))
 			})

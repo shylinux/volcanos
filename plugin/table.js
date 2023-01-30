@@ -97,7 +97,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				}, onfocus: function(event) { can.onmotion.selectRange(event.target) }}], target, {})
 			}},
 			{view: html.LIST, _init: function(target) { can.ui.zone = can.ui.zone||{}, can.ui.zone[zone.name] = zone, zone._target = target
-				zone._total = function(total) { return can.page.Modify(can, zone._search, {placeholder: "search in "+total+" item"}), total }
+				zone._total = function(total) { return can.page.Modify(can, zone._search, {placeholder: "search in "+total+" items"}), total }
 				zone._icon = function(list) {
 					can.page.Select(can, zone._legend, html.SPAN_ICON, function(target) { can.page.Remove(can, target) })
 					can.core.Item(list, function(name, button) { can.onimport.icon(can, name, button, zone._legend) })

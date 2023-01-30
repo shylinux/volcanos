@@ -111,6 +111,7 @@ Volcanos(chat.ONACTION, {
 	"官网": function(event, can) { can.user.open("https://shylinux.com/") },
 	"调试": function(event, can) { can.user.opens(location.href.replace("debug=true", "debug=false")) },
 	"百度": function(event, can) { can.user.opens("https://baidu.com/") },
+	"全屏": function(event, can) { can._target.requestFullScreen() },
 	"录屏": function(event, can) { window.openapp("QuickTime Player") },
 	"编辑器": function(event, can) { window.opencmd("cd ~/contexts; vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE)) },
 	"浏览器": function(event, can) { window.openurl(location.href) },

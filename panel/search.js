@@ -6,9 +6,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can
 		can.onmotion.focus(can, can.ui.filter), msg.Length() == 1 && can.ui.profile.innerHTML == "" && can.page.Select(can, table, html.TD)[0].click()
 	},
 	_size: function(can) { can.getActionSize(function(left, top, width, height) {
-		can.page.style(can, can._target, {left: left||0, top: top||0, width: width}), can.page.style(can, can._output, html.MAX_HEIGHT, height -= 2*html.PLUGIN_MARGIN+html.ACTION_HEIGHT+can.onexport.statusHeight(can)-1)
+		can.page.style(can, can._target, {left: left||0, top: top||0, width: width}), can.page.style(can, can._output, html.MAX_HEIGHT, height -= 2*html.PLUGIN_MARGIN+html.ACTION_HEIGHT+can.onexport.statusHeight(can))
 		can.core.List([can.ui.content, can.ui.display], function(target) { can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth(width-2*html.PLUGIN_MARGIN)) })
-		can.ConfHeight(can.base.Min(height-can.ui.content.offsetHeight-can.ui.display.offsetHeight+can.onexport.statusHeight(can), 320))
+		can.ConfHeight(can.base.Min(height-can.ui.content.offsetHeight-can.ui.display.offsetHeight+can.onexport.statusHeight(can)-1, 320))
 	}) },
 	_input: function(can, msg, arg, fields) { if (can.base.contains(arg[1], ";")) { arg = can.core.Split(arg[1], "\t ;", "\t ;") }
 		can.run(can.request({}, {fields: fields.join(ice.FS)}, msg), arg, function(res) { can.db.type = arg[0]
@@ -31,22 +31,26 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 		}}))
 	},
 	onopensearch: function(can, msg, type, word) { can.onimport.select(can, msg, [type||mdb.FOREACH, word||""]) },
-	close: function(event, can) { can.onmotion.hide(can) },
+	close: function(event, can) { can.onmotion.hidden(can) },
 	clear: function(event, can) { can.onmotion.clear(can, can.ui.profile) },
 	done: function(event, can) { can.base.isFunc(can.ui.done) && can.ui.done() },
-	select: function(event, can, data) { if (can.base.isFunc(data.text)) { return can.onmotion.hide(can), data.text(event) }
+	select: function(event, can, data) { if (can.base.isFunc(data.text)) { return can.onmotion.hidden(can), data.text(event) }
+		function show() { can.page.style(can, can.ui.content, html.MAX_HEIGHT, "")
+			can.page.style(can, can.ui.content, html.MAX_HEIGHT, can._output.offsetHeight-can.ui.display.offsetHeight)
+			can.Status(mdb.SELECT, can.page.Select(can, can.ui.display, html.TR).length-1)
+		}
 		var fields = can.page.Select(can, can.ui.display, html.TH, function(item) { return item.innerText }); can.onmotion.toggle(can, can.ui.display, true)
 		var ui = can.page.Append(can, can.ui.display, [{td: can.core.List(fields, function(item) { return data[item] }), onclick: function(event) {
-			can.page.Remove(can, ui.target), can.Status(mdb.SELECT, can.page.Select(can, can.ui.display, [html.TBODY, html.TR]).length)
-		}}])._target; can.Status(mdb.SELECT, can.page.Select(can, can.ui.display, [html.TBODY, html.TR]).length)
+			can.page.Remove(can, ui._target), show()
+		}}]); show()
 	},
-	plugin: function(event, can, data) { if (can.base.isFunc(data.text)) { return can.onmotion.hide(can), data.text(event) }
+	plugin: function(event, can, data) { if (can.base.isFunc(data.text)) { return can.onmotion.hidden(can), data.text(event) }
 		var cmd = data.cmd == ctx.COMMAND? can.core.Keys(data.type, data.name.split(ice.SP)[0]): can.core.Keys(data.ctx, data.cmd)
 		can.onappend.plugin(can, {index: cmd||msg.Option(mdb.INDEX), args: cmd == web.WIKI_WORD? [data.name]: []}, function(sub) { can._plugins = (can._plugins||[]).concat(sub)
 			sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), true), sub.Focus()
 		}, can.ui.profile)
 	},
 })
-Volcanos(chat.ONEXPORT, {statusHeight: function(can) { return can.db.type == mdb.FOREACH? html.ACTION_HEIGHT: 0 },
+Volcanos(chat.ONEXPORT, {statusHeight: function(can) { return can.db.type == mdb.FOREACH? 0: html.ACTION_HEIGHT },
 	select: function(can) { return can.page.Select(can, can.ui.display, html.TR, function(tr) { return can.page.Select(can, tr, html.TD, function(td) { return td.innerHTML }) }).slice(1) },
 })
