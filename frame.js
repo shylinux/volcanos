@@ -638,18 +638,6 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||documen
 		} return list
 	},
 	_mode: {
-		webview: {
-			"[": function(event, can, target) { history.back() },
-			"]": function(event, can, target) { history.forward() },
-			r: function(event, can, target) { can.user.reload(true) },
-			w: function(event, can, target) { can.user.close() },
-			q: function(event, can, target) { window.terminate() },
-
-			o: function(event, can, target) { window.openurl(location.href) },
-			p: function(event, can, target) { window.openapp("QuickTime Player") },
-			t: function(event, can, target) { window.opencmd("cd contexts; pwd") },
-			f: function(event, can, target) { can.onengine.signal(can, chat.ONOPENSEARCH, can.request({}, {type: mdb.FOREACH})) },
-		},
 		insert: {
 			Escape: function(event, can, target) { if (event.key == lang.ESCAPE) { target.blur() } },
 			Enter: function(event, can, target) { if (event.key != lang.ENTER) { return }

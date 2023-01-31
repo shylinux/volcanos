@@ -1,9 +1,8 @@
 (function() { const TABS = "tabs", TABVIEW = "tabview", HORIZON = "horizon", VERTICAL = "vertical", GRID = "grid", FREE = "free", FLOW = "flow", PAGE = "page", CAN_LAYOUT = "can.layout"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 		var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM); can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode()
-			can.onappend.plugin(can, item, function(sub, meta, skip) {
+			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = can.misc.concat(can, can._plugins, [sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.run = function(event, cmds, cb) { return can.run(event, can.misc.concat(can, river == web.SHARE? [ctx.ACTION]: [], [river, storm, meta.id||meta.index], cmds), cb) }
-				can._plugins = can.misc.concat(can, can._plugins, [sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub._target.onclick = function(event) { event.target == sub._target && sub._tabs.click() }
 			})
 		}, function() { can.isCmdMode() || can.onmotion.delay(can, function() { can.onaction.layout(can) }) })
@@ -57,7 +56,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		if (arg[0] == mdb.FOREACH || arg[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, arg, fields) }
 		if (arg[0] == mdb.FOREACH || arg[0] == ctx.COMMAND) { can.onexport.command(can, msg, arg, fields) }
 	},
-	onkeydown: function(can, msg, model) { if (can.isCmdMode()) { return }
+	onkeydown: function(can, msg, model) { if (can.isCmdMode() && !msg._event.metaKey) { return }
 		if (can.onkeymap.selectCtrlN(msg._event, can, can._action, html.DIV_TABS)) { return }
 		can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
 	},
@@ -69,11 +68,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can) || can.onlayout._plugin(can, button)
 	},
 	_menus: [[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE]],
-	_trans: kit.Dict(
-		html.LAYOUT, "布局", ice.AUTO, "默认布局", TABS, "标签布局",
-		TABVIEW, "标签分屏", HORIZON, "左右分屏", VERTICAL, "上下分屏",
-		GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局",
-	),
+	_trans: kit.Dict(html.LAYOUT, "布局", ice.AUTO, "默认布局", TABS, "标签布局", TABVIEW, "标签分屏", HORIZON, "左右分屏", VERTICAL, "上下分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
 })
 Volcanos(chat.ONLAYOUT, {
 	tabs: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-can.Conf(html.MARGIN_Y)+html.ACTION_MARGIN), can.ConfWidth(width-can.Conf(html.MARGIN_X)) })
@@ -111,9 +106,7 @@ Volcanos(chat.ONEXPORT, {
 		if (meta.index) { data.context = "", data.command = meta.index } else if (meta.cmd) { data.context = meta.ctx, data.command = meta.cmd } else { return } msg.Push(data, fields)
 	}) },
 	command: function(can, msg, arg, fields) { var meta = can.onengine.plugin.meta; can.core.Item(arg[1] == ""? meta: meta[arg[1]]? kit.Dict(arg[1], meta[arg[1]]): {}, function(name, command) {
-		msg.Push(kit.Dict(ice.CTX, ice.CAN, ice.CMD, ctx.COMMAND, mdb.TYPE, ice.CAN, mdb.NAME, name||command.name, mdb.TEXT, command.help,
-			ctx.CONTEXT, ice.CAN, ctx.COMMAND, name, ctx.INDEX, can.core.Keys(ice.CAN, name),
-		), fields)
+		msg.Push(kit.Dict(ice.CTX, ice.CAN, ice.CMD, ctx.COMMAND, mdb.TYPE, ice.CAN, mdb.NAME, name||command.name, mdb.TEXT, command.help, ctx.CONTEXT, ice.CAN, ctx.COMMAND, name, ctx.INDEX, can.core.Keys(ice.CAN, name)), fields)
 	}) }
 })
 Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
@@ -126,24 +119,38 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 Volcanos(chat.ONKEYMAP, {
 	toggleLayout: function(can, layout) { can.onaction.layout(can, can.onexport.layout(can) == layout? ice.AUTO: layout) },
 	toggleTheme: function(can, theme) { can.setHeader(chat.THEME, can.getHeaderTheme() == theme? ice.AUTO: theme) },
-	_mode: {normal: {
-		j: function(event, can, target) { target.scrollBy(0, event.ctrlKey? 300: 30) },
-		k: function(event, can, target) { target.scrollBy(0, event.ctrlKey? -300: -30) },
-		t: function(event, can) { can.onkeymap.toggleLayout(can, TABVIEW) },
-		h: function(event, can) { can.onkeymap.toggleLayout(can, HORIZON) },
-		v: function(event, can) { can.onkeymap.toggleLayout(can, VERTICAL) },
-		g: function(event, can) { can.onkeymap.toggleLayout(can, GRID) },
-		f: function(event, can) { can.onkeymap.toggleLayout(can, FREE) },
-		b: function(event, can) { can.onkeymap.toggleTheme(can, cli.BLACK) },
-		w: function(event, can) { can.onkeymap.toggleTheme(can, cli.WHITE) },
-		l: function(event, can) { can.onkeymap.toggleTheme(can, html.LIGHT) },
-		d: function(event, can) { can.onkeymap.toggleTheme(can, html.DARK) },
-		c: function(event, can) { can.user.toimage(can, can.user.title(), can._target.parentNode, true) },
-		":": function(event, can) { can.onengine.signal(can, chat.ONCOMMAND_FOCUS), can.onkeymap.prevent(event) },
-		" ": function(event, can) { can.onengine.signal(can, chat.ONSEARCH_FOCUS), can.onkeymap.prevent(event) },
-		Enter: function(event, can) { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event)) },
-		Escape: function(event, can) { can.onmotion.clearFloat(can), can._root.Search && can.onmotion.hidden(can, can._root.Search._target) },
-	}}, _engine: {},
+	_mode: {
+		webview: {
+			"[": function(event, can, target) { history.back() },
+			"]": function(event, can, target) { history.forward() },
+			r: function(event, can, target) { can.user.reload(true) },
+			w: function(event, can, target) { can.user.close() },
+			q: function(event, can, target) { window.terminate() },
+
+			o: function(event, can, target) { window.openurl(location.href) },
+			p: function(event, can, target) { window.openapp("QuickTime Player") },
+			t: function(event, can, target) { window.opencmd("cd contexts; pwd") },
+			f: function(event, can, target) { can.onengine.signal(can, chat.ONOPENSEARCH, can.request({}, {type: mdb.FOREACH})) },
+		},
+		normal: {
+			j: function(event, can, target) { target.scrollBy(0, event.ctrlKey? 300: 30) },
+			k: function(event, can, target) { target.scrollBy(0, event.ctrlKey? -300: -30) },
+			t: function(event, can) { can.onkeymap.toggleLayout(can, TABVIEW) },
+			h: function(event, can) { can.onkeymap.toggleLayout(can, HORIZON) },
+			v: function(event, can) { can.onkeymap.toggleLayout(can, VERTICAL) },
+			g: function(event, can) { can.onkeymap.toggleLayout(can, GRID) },
+			f: function(event, can) { can.onkeymap.toggleLayout(can, FREE) },
+			b: function(event, can) { can.onkeymap.toggleTheme(can, cli.BLACK) },
+			w: function(event, can) { can.onkeymap.toggleTheme(can, cli.WHITE) },
+			l: function(event, can) { can.onkeymap.toggleTheme(can, html.LIGHT) },
+			d: function(event, can) { can.onkeymap.toggleTheme(can, html.DARK) },
+			c: function(event, can) { can.user.toimage(can, can.user.title(), can._target.parentNode, true) },
+			":": function(event, can) { can.onengine.signal(can, chat.ONCOMMAND_FOCUS), can.onkeymap.prevent(event) },
+			" ": function(event, can) { can.onengine.signal(can, chat.ONSEARCH_FOCUS), can.onkeymap.prevent(event) },
+			Enter: function(event, can) { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event)) },
+			Escape: function(event, can) { can.onmotion.clearFloat(can), can._root.Search && can.onmotion.hidden(can, can._root.Search._target) },
+		},
+	}, _engine: {},
 })
 Volcanos(chat.ONPLUGIN, {_plugin: shy("默认插件", [mdb.NAME, ice.LIST, ice.BACK]),
 	layout: shy("界面布局", {_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)) }}, ["layout:select=auto,tabs,tabview,horizon,vertical,grid,free,flow,page", ice.RUN], function(can, msg, arg) {
