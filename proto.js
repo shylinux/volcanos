@@ -10,7 +10,7 @@ var kit = {proto: function(sub, sup) { return sub.__proto__ = sup, sub },
 	} return res },
 }
 var ice = {
-	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
+	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", PS: "/", PT: ".", FS: ",", QS: "?", NL: "\n", LT: "<", GT: ">",
 	OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
 
 	AUTO: "auto",

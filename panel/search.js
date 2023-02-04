@@ -17,7 +17,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can
 	},
 	select: function(can, msg, cmds, cb) { can.ui.filter.value = cmds[1], can.ui.input = function(event, word) { cmds[1] = word||cmds[1]; can.onimport._input(can, msg, cmds, fields) }
 		var fields = (cmds[2]||msg.Option(ice.MSG_FIELDS)||"ctx,cmd,type,name,text").split(ice.FS); can.page.Appends(can, can.ui.display, [{th: fields}]), can.onmotion.hidden(can, can.ui.display), can.onmotion.clear(can, can.ui.profile)
-		can.ui.done = function() { can.base.isFunc(cb) && cb(can.onexport.select(can)), can.onmotion.hide(can) }, can.db = {}, can._plugins = [], can.onimport._input(can, msg, cmds, fields)
+		can.ui.done = function() { can.base.isFunc(cb) && cb(can.onexport.select(can)), can.onmotion.hidden(can) }, can.db = {}, can._plugins = [], can.onimport._input(can, msg, cmds, fields)
 	},
 })
 Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list: [cli.CLOSE, cli.CLEAR, cli.DONE],
