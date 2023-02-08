@@ -70,7 +70,7 @@ var mdb = {
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
 	FOREACH: "*", RANDOMS: "%",
 }
-var web = {
+var web = {CHAT: "chat",
 	SHARE: "share", SPACE: "space", DREAM: "dream",
 	WEBSITE: "website", DRAW: "draw", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
@@ -128,6 +128,7 @@ var code = {
 	FAVOR: "favor", XTERM: "xterm", INNER: "inner", VIMER: "vimer",
 	WEBPACK: "webpack", BINPACK: "binpack", AUTOGEN: "autogen", COMPILE: "compile", PUBLISH: "publish",
 	COMMENT: "comment", KEYWORD: "keyword", PACKAGE: "package", DATATYPE: "datatype", FUNCTION: "function", CONSTANT: "constant", STRING: "string", OBJECT: "object",
+	SPACE: "space", UNDEFINED: "undefined", STRING: "string", NUMBER: "number", BOOLEAN: "boolean", FUNCTION: "function", OBJECT: "object", ARRAY: "array",
 	TEMPLATE: "template", COMPLETE: "complete", NAVIGATE: "navigate", CURRENT: "current",
 }
 var wiki = {
@@ -294,15 +295,15 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 			} can.runAction(event, cmds[1], cmds.slice(2), cb, true)
 		},
 		runActionCommand: function(event, index, args, cb) { can.request(event)._caller()
-			can.runAction(event, ice.RUN, can.misc.concat(can, [index], args), cb, true)
+			can.runAction(event, ice.RUN, [index].concat(args), cb, true)
 		},
 		runAction: function(event, action, args, cb, silent) { can.request(event, {_handle: ice.TRUE}, can.Option())._caller()
-			can.run(event, can.misc.concat(can, [ctx.ACTION].concat(action), args), cb, silent)
+			can.run(event, [ctx.ACTION].concat(action, args), cb, silent)
 		},
 
 		search: function(event, cmds, cb) {
 			if (cmds && typeof cmds == lang.OBJECT && cmds.length > 0 && typeof cmds[0] == lang.OBJECT && cmds[0].length > 0 ) { cmds[0] = cmds[0].join(ice.PT) }
-			return can.run && can.run(event, [chat._SEARCH].concat(cmds), cb, true)
+			return (can._root||can).run(event, [chat._SEARCH].concat(cmds), cb, true)
 		},
 		get: function(name, key, cb) { var value; can.search({}, [can.core.Keys(name, chat.ONEXPORT, key)], cb||function(msg) { value = msg.Result() }); return value },
 		set: function(name, key, value) { var msg = can.request(); msg.Option(key, value); return can.search(msg, [[name, chat.ONIMPORT, key]]) },
@@ -337,9 +338,11 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 })
 try { if (typeof(window) == lang.OBJECT) { // chrome
 	Volcanos.meta.target = document.body, Volcanos.meta._height = window.innerHeight, Volcanos.meta._width = window.innerWidth
-	Volcanos.meta._load = function(url, cb) { switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
-		case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+Volcanos.meta.version, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
-		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url+Volcanos.meta.version, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
+	Volcanos.meta._load = function(url, cb) {
+		var v = Volcanos.meta.version? Volcanos.meta.version+"&_tt="+(new Date()).getTime(): ""
+		switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
+		case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+v, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
+		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url+v, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
 	} }
 	window.onerror = function(message, source, lineno, colno, error) { window._version && alert([[source, lineno, colno].join(ice.DF), message].join(ice.NL)) }
 	Volcanos.meta._init = function(can) { window.onerror = function(message, source, lineno, colno, error) { can.misc.Error(message, source, lineno, colno, error) }

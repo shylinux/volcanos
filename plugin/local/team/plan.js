@@ -11,6 +11,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				return can.onimport._task(can, msg, get(begin_time, col, row, hash), set(begin_time, col, row))
 			})}
 		}) }])._target, can.onmotion.delay(can, function() { var target = can.sup.task && can.sup.task._target; target && target.click(), can.Status(mdb.COUNT, msg.Length())
+			return
 			can.user.isMobile || can.isCmdMode() && can.page.Append(can, can._action, [{view: [["item", "time", "select"]], style: {"float": html.RIGHT, "padding": 5, "height": 21}, _init: function(target) {
 				can.onappend.figure(can, {action: "date"}, target, function(sub, value) { }), target.onmouseenter = target.click
 				can.core.Timer({interval: 100}, function() {
@@ -26,7 +27,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		ondrop: function(event) { can.onkeymap.prevent(event), can.drop(event, event.target, time) },
 		ondragover: function(event) { can.onkeymap.prevent(event), can.page.Select(can, can.ui.content, html.TD, function(td) { can.page.ClassList.set(can, td, "over", td == event.target) }) },
 		list: can.core.List(list, function(task) { return can.base.isString(task)? {text: [task, html.DIV, "date"]}:
-			{text: [can.onexport[can.Action(ice.VIEW)||mdb.TEXT](can, task), html.DIV, can.onexport.style(can, task)],
+			{text: [can.core.CallFunc([can.onexport, can.Action(ice.VIEW)||mdb.TEXT], [can, task])||task.name, html.DIV, can.onexport.style(can, task)],
 				ondragstart: function(event) { var target = event.target; can.drop = function(event, td, time) { td.append(target)
 					can.onaction.modifyTask(event, can, task, team.BEGIN_TIME, time+task.begin_time.slice(time.length), task.begin_time)
 				} }, draggable: time != undefined, title: can.onexport.title(can, task), _init: function(target) {
@@ -123,7 +124,7 @@ Volcanos(chat.ONACTION, {list: [mdb.PREV, mdb.NEXT, mdb.INSERT, mdb.EXPORT, mdb.
 		["status", "all", "prepare", "process", "cancel", "finish"],
 		["level", "all", "l1", "l2", "l3", "l4", "l5"],
 		["score", "all", "s1", "s2", "s3", "s4", "s5"],
-		["view", "", "name", "text", "level", "score"],
+		["view", "text", "name", "text", "level", "score"],
 	], _trans: {"task": "任务", "hour": "时间", "month": "月份", "order": "周序"},
 	prev: function(event, can) { var begin = can.base.Date(can.Option(team.BEGIN_TIME)||can.base.Time())
 		can.Option(team.BEGIN_TIME, can.base.Time(new Date(begin-can.onexport.span(can)))), can.Update()
@@ -151,7 +152,7 @@ Volcanos(chat.ONACTION, {list: [mdb.PREV, mdb.NEXT, mdb.INSERT, mdb.EXPORT, mdb.
 	status: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
 	level: function(event, can, key, value) { value && can.onaction._filter(event, can, key, value) },
 	score: function(event, can, key, value) { value && can.onaction._filter(event, can, key, value) },
-	view: function(event, can, key, value) { can.Action(key, value), can.onmotion.clear(can, can.ui.project), can.onmotion.clear(can, can.ui.content), can.onimport[can.Option("scale")](can, can._msg) },
+	view: function(event, can, key, value) { can.Action(key, value), can.onmotion.clear(can, can.ui.project), can.onmotion.clear(can, can.ui.content), can.core.CallFunc([can.onimport, can.Option("scale")], [can, can._msg]) },
 })
 Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, team.BEGIN_TIME, mdb.ZONE, mdb.ID, mdb.TYPE, mdb.NAME, mdb.TEXT],
 	span: function(can) { return kit.Dict(team.DAY, 24*3600*1000, team.WEEK, 7*24*3600*1000, team.MONTH, 30*24*3600*1000, team.YAER, 365*24*3600*1000, team.LONG, 365*24*3600*1000)[can.Option("scale")]||0 },

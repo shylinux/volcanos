@@ -93,7 +93,7 @@ setTimeout(function() { Volcanos({
 	},
 }, function(can) {
     can.run = function(event, cmds, cb) { if (cmds[0] == "_search") { return }
-        var msg = can.request(event, {domain: location.host}); msg.detail = can.misc.concat(can, ["page"], cmds)
+        var msg = can.request(event, {domain: location.host}); msg.detail = ["page"].concat(cmds)
         chrome.runtime.sendMessage(msg, function(res) { can.base.isFunc(cb) && cb(msg.Copy(res)) })
     }, can._motion(can), can._daemon(can)
 }) }, 100)

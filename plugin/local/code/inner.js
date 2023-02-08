@@ -90,7 +90,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		var func = can.onexport.func(can); if (func.list.length == 0) { return } can.db.tabFunc = can.db.tabFunc||{}
 		var last = can.db.tabFunc[can.Option(nfs.PATH)+can.Option(nfs.FILE)]||{}; can.db.tabFunc[can.Option(nfs.PATH)+can.Option(nfs.FILE)] = last
 		var carte, list = [{input: [html.FILTER, function(event) { if (event.key == lang.ESCAPE) { return carte.close() } can.onkeymap.selectItems(event, can, carte._target)
-		}], _init: function(target) { can.onmotion.delay(can, function() { target.placeholder = "search in "+list.length+" items", target.focus() }) }}]
+		}], _init: function(target) { can.onmotion.delay(can, function() { target.placeholder = "search in "+(can.core.List(list, function(item) { if (item) { return item } }).length-1)+" items", target.focus() }) }}]
 		can.core.Item(last, function(key) { list.push(key) }), list = list.concat(func.list)
 		can.page.Append(can, target, [{view: [[html.ITEM, "func"], html.SPAN, (func.current||"func")+" / "+can.db.max+func.percent], onclick: function(event) {
 			carte = can.user.carte(event, can, {_style: nfs.PATH}, list, function(ev, button) { last[button] = true, carte.close()
@@ -212,7 +212,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				if (sub._delay_init == true) { sub._delay_init = false, sub.Update() }
 			}) }, sub._delay_init = true
 			sub.onexport.record = function(sub, value, key, line) { if (!line.file && !line.line) { return }
+				if (line.file.indexOf("require/src") == 0) {
+					line.path = nfs.SRC, line.file = line.file.slice(12)
+				}
 				can.onimport.tabview(can, line.path||can.Option(nfs.PATH), can.base.trimPrefix(line.file, nfs.PWD)||can.Option(nfs.FILE), parseInt(line.line))
+				return true
 			}, sub.onaction.close = sub.select = function() { return sub._legend.click(), sub }
 			sub.hidden = function() { can.onmotion.hidden(can, sub._target), can.page.ClassList.del(can, sub._legend, html.SELECT) }
 			sub.onimport.size(sub, can.ConfHeight()/2, can.ConfWidth()-can.ui.project.offsetWidth, true), can.base.isFunc(cb) && cb(sub)
@@ -489,14 +493,14 @@ Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, mdb.TYPE, nfs.FILE, nfs.LINE, ice.BAC
 		var package = "", block = "", current = "", percent = ""
 		can.page.Select(can, can.ui.content, "tr.line>td.text", function(item, index) { var text = item.innerText, _indent = indent(text)
 			function push(item) { list.push(item); if (index < can.Option(nfs.LINE)) { current = list[list.length-1], percent = " = "+parseInt((index+1)*100/(can.db.max||1))+"%" } }
-			if (can.db.parse == nfs.JS) { var ls = can.core.Split(text, "\t ({:}),")
+			if (can.db.parse == nfs.JS) { var ls = can.core.Split(text, "\t (,", ice.DF)
 				if (_indent == 0 && can.base.beginWith(text, "Volcanos")) {
 					var _block = can.base.trimPrefix(ls[1], "chat.").toLowerCase()
 					if (_block != block) { push("") } block = _block
 					if (text.indexOf(chat._INIT) > -1) { push(block+ice.PT+chat._INIT+ice.DF+(index+1)) }
 				} else if (_indent == 0 && can.base.beginWith(text, "var ")) {
 					block = ls[1]
-				} else if (_indent == 4) {
+				} else if (_indent == 4 && ls[1] == ice.DF) {
 					ls[0] && push(block+ice.PT+ls[0]+ice.DF+(index+1))
 				}
 			} else if (can.db.parse == nfs.GO) { var ls = can.core.Split(text, "\t *", "({:})")

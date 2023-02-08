@@ -33,7 +33,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
 		return can.page.Append(can, can._output, [{view: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
 			if (can.base.isString(item)) { return {view: [html.MENU, html.DIV, can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }} }
-			if (can.base.isArray(item)) { return {view: [html.MENU, html.DIV, can.user.trans(can, item[0], trans)], onclick: function(event) { can.onkeymap.prevent(event) }, onmouseenter: function(event) {
+			if (can.base.isArray(item)) { return {view: [html.MENU, html.DIV, can.user.trans(can, item[0], trans)], onclick: function(event) { can.onkeymap.prevent(event)
 				can.onaction.carte(event, can, item.slice(1), function(event, button, meta) { can.base.isFunc(cb) && cb(event, button, item) }, trans)
 			}} } if (can.base.isObject(item)) { return item }
 		}) }])._target
@@ -49,7 +49,7 @@ Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMed
 		can.run({}, [], function(msg) { if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
 			return msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)): can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg.Option(aaa.LOGIN))
 		} can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
-			can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE), msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
+			can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)||navigator.language.split("-")[0], msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			can.onmotion.clear(can), can.onimport._init(can, msg, can._output), can.onengine.signal(can, chat.ONLOGIN, msg)
 		})
 	},

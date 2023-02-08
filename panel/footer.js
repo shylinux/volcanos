@@ -25,7 +25,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.ui = {}, can.db
 	}}, "", target, [chat.TITLE]) },
 	_data: function(can, name, item) { can[name] = can[name]||can.request(), can[name].Push(item), can.onimport.count(can, name) },
 	count: function(can, name) { can.page.Select(can, can._output, can.core.Keys(html.SPAN, name), function(item) { item.innerHTML = can.Conf(name, parseInt(can.Conf(name)||"0")+1+"")+"" }) },
-	toast: function(can, msg, title, content, fileline, time) { can.onimport._data(can, NTIP, {time: time, fileline: fileline, title: title, content: content}), can.page.Modify(can, can.toast, [time, title, content].join(ice.SP)) },
+	toast: function(can, msg, title, content, fileline, time) { can.onimport._data(can, NTIP, {time: time, fileline: can.base.trimPrefix(msg.Option("log.caller"), location.origin+ice.PS), title: title, content: content}), can.page.Modify(can, can.toast, [time, title, content].join(ice.SP)) },
 	ncmd: function(can, msg, _follow, _cmds) { can.onimport._data(can, NCMD, {time: can.base.Time(), follow: _follow, cmds: _cmds}), can.onimport.nlog(can, NLOG) },
 	nlog: function(can, name) { can.onimport.count(can, name) },
 })

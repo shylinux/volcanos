@@ -1,8 +1,8 @@
 (function() { const TABS = "tabs", TABVIEW = "tabview", HORIZON = "horizon", VERTICAL = "vertical", GRID = "grid", FREE = "free", FLOW = "flow", PAGE = "page", CAN_LAYOUT = "can.layout"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can)
 		var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM); can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode()
-			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = can.misc.concat(can, can._plugins, [sub]), can.onimport._tabs(can, sub, meta), skip || next()
-				sub.run = function(event, cmds, cb) { return can.run(event, can.misc.concat(can, river == web.SHARE? [ctx.ACTION]: [], [river, storm, meta.id||meta.index], cmds), cb) }
+			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
+				sub.run = function(event, cmds, cb) { return can.run(event, (river == web.SHARE? [ctx.ACTION]: []).concat([river, storm, meta.id||meta.index], cmds), cb) }
 				sub._target.onclick = function(event) { event.target == sub._target && sub._tabs.click() }
 			})
 		}, function() { can.isCmdMode() || can.onmotion.delay(can, function() { can.onaction.layout(can) }) })

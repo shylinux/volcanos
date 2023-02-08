@@ -2,7 +2,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.page.Modify(can, target, msg.Result())
 		can.page.Select(can, target, wiki.STORY_ITEM, function(target) { var meta = target.dataset||{}
 			can.core.CallFunc([can.onimport, meta.type||target.tagName.toLowerCase()], [can, meta, target])
-			can.page.style(can, target, can.base.Obj(meta.style))
+			meta.style && can.page.style(can, target, can.base.Obj(meta.style))
 		})
 	},
 	navmenu: function(can, meta, target) { var nav = can.sup._navmenu
@@ -83,7 +83,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.onappend._init(can, item, [chat.PLUGIN_STATE_JS], function(sub) {
 			sub.run = function(event, cmds, cb, silent) { var msg = sub.request(event)
 				if (msg.Option(nfs.PATH) == can.Option(nfs.PATH)) { msg.Option(nfs.PATH, "") }
-				can.runAction(event, chat.STORY, can.misc.concat(can, [meta.type, meta.name, meta.text], cmds), cb||function(msg) {
+				can.runAction(event, chat.STORY, [meta.type, meta.name, meta.text].concat(cmds), cb||function(msg) {
 					if (msg._can == sub && can.core.CallFunc([sub, chat.ONIMPORT, ice.MSG_PROCESS], {can: sub, msg: msg})) { return }
 				}, true)
 			}, can._plugins = (can._plugins||[]).concat([sub])

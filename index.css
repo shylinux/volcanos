@@ -93,6 +93,7 @@ body>div.toast div.action { display:block; }
 body>div.carte { padding:0; }
 body>div.carte input[name=filter] { margin:5px; width:calc(100% - 10px); position:sticky; top:5px; }
 body>div.carte div.item { padding:5px 10px; }
+body>div.carte div.item span.icon.gt { float:right; }
 body>div.input td { padding:5px; }
 body>div.input td span.icon { font-size:14px; margin-left:-25px; margin-right:10px; visibility:hidden; }
 body>div.input td:hover span.icon { visibility:visible; }
@@ -102,7 +103,7 @@ body>div.input input:not([type=button]) { width:200px; }
 body>div.input div.action input[type=button] { width:90px; }
 body>div.input div.action div { margin:5px; float:right; }
 body>div.upload div.item { float:left; }
-body>div.upload div.output { border:red solid 1px; }
+body>div.upload div.output { border:red solid 1px; clear:both; }
 body>div.upload div.progress { background-color:red; height:10px; width:0; }
 body>div.upload div.status div.cost { float:left; }
 body>div.upload div.status div.show { float:right; }
@@ -119,7 +120,7 @@ div.status>div.item>label { font-size:0.6rem; }
 form.option, div.action { display:contents; } form.option.hide, div.action.hide { display:none; }
 form.option>div.item>label, div.action>div.item>label, .hidden, .hide { display:none; }
 form.option>div.cmd, form.option>div.textarea { width:100%; } textarea { resize:vertical; }
-legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, div.status>div.item, div.layout.flex>* { float:left; }
+legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item, div.layout.flex>* { float:left; }
 div.action, div.output, div.status, div.project, div.display, div.profile, div.content, table.content, table.content td, div.code, div.plug, div.story, div.toast, div.carte, fieldset.input { overflow:auto; }
 fieldset>div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
 fieldset>div.status>legend { margin-left:2px; margin-right:0; float:right; clear:none; }
@@ -145,6 +146,10 @@ fieldset.story>form.option>div.icon { display:block; }
 fieldset.float>form.option>div.icon { display:block; }
 fieldset.full>form.option>div.icon { display:block; }
 fieldset.plug>form.option>div.icon { margin-left:5px; }
+div.carte.select.float { border-radius:0; }
+div.carte.select.float>div.item { text-align:center; }
+div.item.select span { margin-left:-20px; margin-right:10px; }
+div.item.select input { font-family:monospace; border-radius:0; }
 /* hover */
 legend:hover { background-color:skyblue; }
 select:hover { background-color:gray; color:cyan; }
@@ -160,6 +165,7 @@ body.black a { color:yellow; }
 body.black div.project div.zone>div.list>div.zone>div.item { background-color:#09466fc2; }
 body.white { background-color:rgba(5,34,56,0.75); color:white; }
 body.white select { background-color:yellowgreen; color:white; }
+body.white div.item.select div { background-color:yellowgreen; color:white; float:right; height:31px; text-align:center; }
 body.white input { background-color:white; }
 body.white input[name=cmd] { background-color:black; color:white; }
 body.white input[type=button] { background-color:cornflowerblue; color:white; }
@@ -267,6 +273,7 @@ fieldset.plugin.parse.cmd>div.status { display:none; }
 fieldset.plugin.inner.cmd>legend { display:none; }
 fieldset.plugin.inner.cmd>div.action { display:none; }
 fieldset.plugin.inner.cmd>form.option { display:none; }
+fieldset.plan div.output table.content { width:100%; }
 fieldset.xterm div.toggle { display:none; }
 fieldset.draw td.content { position:relative; }
 fieldset.draw div.output div.content svg { background-color:#1b5b738c; }

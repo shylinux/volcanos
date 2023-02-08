@@ -364,6 +364,7 @@ Volcanos(chat.ONSYNTAX, {
 			"length": code.FUNCTION,
 			"split": code.FUNCTION,
 			"trim": code.FUNCTION,
+			"isArray": code.FUNCTION,
 			
 			"kit": code.DATATYPE,
 			"ice": code.DATATYPE,
