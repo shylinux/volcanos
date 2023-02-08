@@ -19,6 +19,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can), ca
 Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.REFRESH, web.SHARE], _init: function(can) { can.onmotion.hidden(can) },
 	onlogin: function(can, msg) { can.run({}, [], function(msg) { if (msg.Option(ice.MSG_RIVER)) { return can.page.Remove(can, can._target) }
 		can.onimport._init(can, msg); if (can.user.isMobile || can.user.isExtension) { return }
+		can.user.info.language != "zh" && can.onmotion.clear(can, can._action)
 		can.onmotion.toggle(can, can._target, true), can.onlayout._init(can)
 	}) },
 	onaction_touch: function(can, msg) { can.user.isMobile && can.onmotion.hidden(can) },
