@@ -287,7 +287,6 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 			}); set(ice.MSG_HEIGHT, can.ConfHeight()), set(ice.MSG_WIDTH, can.ConfWidth()), set(ice.MSG_MODE, can.Mode())
 			return msg
 		},
-
 		runActionInputs: function(event, cmds, cb) { var msg = can.request(event), meta = can.Conf()
 			if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { var msg = can.request(event, {action: cmds[1]})
 				if (can.base.isFunc(meta.feature[cmds[1]])) { return meta.feature[cmds[1]](can, msg, cmds.slice(2)) }
@@ -297,10 +296,13 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 		runActionCommand: function(event, index, args, cb) { can.request(event)._caller()
 			can.runAction(event, ice.RUN, [index].concat(args), cb, true)
 		},
-		runAction: function(event, action, args, cb, silent) { can.request(event, {_handle: ice.TRUE}, can.Option())._caller()
+		runAction: function(event, action, args, cb, silent) {
+			var msg = can.request(event); if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && can.onaction && can.onaction[action]) {
+				// return can.core.CallFunc(can.onaction[action], {event: event, can: can, msg: msg, button: action})
+			}
+			can.request(event, {_handle: ice.TRUE}, can.Option())._caller()
 			can.run(event, [ctx.ACTION].concat(action, args), cb, silent)
 		},
-
 		search: function(event, cmds, cb) {
 			if (cmds && typeof cmds == lang.OBJECT && cmds.length > 0 && typeof cmds[0] == lang.OBJECT && cmds[0].length > 0 ) { cmds[0] = cmds[0].join(ice.PT) }
 			return (can._root||can).run(event, [chat._SEARCH].concat(cmds), cb, true)
@@ -316,7 +318,6 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 		setAction: function(key, value) { return can.set(chat.ACTION, key, value) },
 		getAction: function(key, cb) { return can.get(chat.ACTION, key, cb) },
 		getActionSize: function(cb) { return can.get(chat.ACTION, nfs.SIZE, cb) },
-
 		isStoryType: function(value) { return can.page.ClassList.has(can, can._fields, chat.STORY) },
 		isSimpleMode: function(value) { return can.Mode() == chat.SIMPLE },
 		isFloatMode: function(value) { return can.Mode() == chat.FLOAT },

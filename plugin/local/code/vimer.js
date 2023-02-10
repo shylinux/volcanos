@@ -7,12 +7,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.require(["i
 			can.db._keylist = can.onkeymap._parse(event, can, can.db.mode+(event.ctrlKey? "_ctrl": ""), can.db._keylist, can.ui.current)
 			if (can.db.mode == mdb.NORMAL) { can.onkeymap.prevent(event), can.Status(mdb.KEYS, can.db._keylist.join("")) }
 			if (can.db.mode == mdb.INSERT) { can.db._keylist = [] }
-		}, onkeyup: function(event) { can.onimport._value(can); if (event.metaKey) { return }
-			can.onaction._complete(event, can)
-		}, onfocus: function(event) {
-			can.current.line.appendChild(can.ui.complete)
-		}, onclick: function(event) {
-			can.onkeymap._insert(event, can)
+		}, onkeyup: function(event) { can.onimport._value(can); if (event.metaKey) { return } can.onaction._complete(event, can)
+		}, onfocus: function(event) { can.current.line.appendChild(can.ui.complete)
+		}, onclick: function(event) { can.onkeymap._insert(event, can)
 		}}, {view: [[code.COMPLETE]]},
 	]); can.ui.current = ui.current, can.ui.complete = ui.complete, can.onkeymap._build(can), can.onkeymap._plugin(can) },
 	_value: function(can) { can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) },

@@ -4,7 +4,9 @@ Volcanos(chat.ONIMPORT, {_process: function(can, msg) { msg.OptionStatus() && ca
 	_location: function(can, msg, arg) { can.user.jumps(arg) },
 	_replace: function(can, msg, arg) { location.replace(arg) },
 	_history: function(can, msg) { history.back() },
-	_confirm: function(can, msg, arg) { can.user.confirm(arg) && can.runAction(can.request({}, msg), "confirm") },
+	_confirm: function(can, msg, arg) { can.user.toastConfirm(can, arg, "", function() {
+		can.runAction(can.request({}, msg), "confirm")
+	}) },
 	_refresh: function(can, msg, arg) { can.core.Timer(parseInt(arg||"30"), function() { can.Update(can.request({}, {_count: parseInt(msg.Option("_count")||"3")-1})) }) },
 	_rewrite: function(can, msg) { var arg = msg._arg; for (var i = 0; i < arg.length; i += 2) { can.Option(arg[i], arg[i+1]), can.Action(arg[i], arg[i+1]) } can.Update() },
 	_display: function(can, msg) { can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)) },

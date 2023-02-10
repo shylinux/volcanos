@@ -225,7 +225,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	layout: function(can) { if (can.isSimpleMode()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
 		if (can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
 		can.ui.size = {profile: can.db.profile_size[can.onexport.keys(can)]||0.5, display: can.db.display_size[can.onexport.keys(can)]||3*html.ACTION_HEIGHT}
-		can.ui.layout(can.ConfWidth(), can.ConfHeight(), 0, function(content_height, content_width) { var sub = can.ui.content._plugin; if (!sub) { return }
+		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(content_height, content_width) { var sub = can.ui.content._plugin; if (!sub) { return }
 			if (content_height == sub.ConfHeight()+sub.onexport.actionHeight(sub)+sub.onexport.statusHeight(sub) && content_width == sub.ConfWidth()) { return }
 			sub.onimport.size(sub, content_height, content_width, true)
 		})
@@ -381,7 +381,7 @@ Volcanos(chat.ONACTION, {list: ["首页", "官网", "调试", "百度"],
 		}), can.runAction(can.request(event, {text: can.base.Format(list)}), button)
 	},
 	clear: function(event, can) {
-		var list = [".input.float", "div.carte.float", "div.vimer.find.float"]; for (var i = 0; i < list.length; i++) {
+		var list = ["fieldset.input.float", "div.input.float", "div.carte.float", "div.vimer.find.float"]; for (var i = 0; i < list.length; i++) {
 			if (can.page.Select(can, can._root._target, list[i], function(item) { return can.page.Remove(can, item) }).length > 0) { return }
 		}
 		if (can.page.Select(can, can.ui.plug, "legend.select", function(item) { return item.click(), item }).length > 0) { return }
@@ -437,7 +437,7 @@ Volcanos(chat.ONACTION, {list: ["首页", "官网", "调试", "百度"],
 	},
 	find: function(event, can) {
 		var ui = can.page.Append(can, can._output, [{view: "vimer find float", list: [html.ACTION, html.OUTPUT],
-			style: {left: can.ui.project.offsetWidth+can.ui.content.offsetWidth/4, top: can.ui.content.offsetHeight/2}}]); can.onmotion.move(can, ui._target)
+			style: {left: can.ui.project.offsetWidth+can.ui.content.offsetWidth/4, top: can.ui.content.offsetHeight/2-60}}]); can.onmotion.move(can, ui._target)
 		can.onmotion.delay(can, function() { can.page.style(can, ui._target, html.LEFT, can.ui.project.offsetWidth+can.ui.content.offsetWidth/2-ui._target.offsetWidth/2) })
 		var last = can.onaction._getLineno(can, can.current.line)
 		function find(begin, text) { if (parseInt(text) > 0) { return can.onaction.selectLine(can, parseInt(text)) && meta.close() }

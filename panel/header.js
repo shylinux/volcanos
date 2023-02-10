@@ -2,13 +2,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport._title(can, msg, target), can.onimport._state(can, msg, target), can.onimport._avatar(can, msg, target), can.onimport._background(can, msg, target), can.onimport._search(can, msg, target)
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.getValid(can.Conf(chat.TITLE)||msg.result, ["shylinux.com/x/contexts"]), function(item) {
-		can.page.Append(can, target, [{view: [chat.TITLE, html.DIV, item], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
+		can.page.Append(can, target, [{view: [chat.TITLE, "", item], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
 	}) },
 	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
 		if (item == aaa.AVATAR ) { can.user.isLocalFile || can.page.Append(can, target, [{view: [[chat.STATE, item]], list: [{img: ice.SP}], onclick: function(event) {
-			can.onaction.carte(event, can, [can.page.Format(html.IMG, can.onexport.avatar(can), 160)])
+			can.onaction.carte(event, can, [can.page.Format(html.IMG, can.onexport.avatar(can), 320)])
 		}}]); return }
-		can.page.Append(can, target, [{view: [[chat.STATE, item], html.DIV, (can.Conf(item)||msg.Option(item)||"").split(ice.AT)[0].slice(0, 10)], onclick: function(event) {
+		can.page.Append(can, target, [{view: [[chat.STATE, item], "", (can.Conf(item)||msg.Option(item)||"").split(ice.AT)[0].slice(0, 10)], onclick: function(event) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
 		}, _init: function(target) { item == mdb.TIME && can.onimport._time(can, target) }}])
 	}) },
@@ -28,19 +28,21 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	background: function(event, can, background) { can.user.isExtension || can.user.isLocalFile || can.runAction(event, aaa.BACKGROUND, [background], function(msg) {
 		can.user.info.background = background, can.onimport._background(can, msg), can.user.toastSuccess(can)
 	}) },
-	language: function(can, language) { can.runAction(event, aaa.LANGUAGE, [language == ice.AUTO? "": language], function(msg) { can.user.reload() }) },
-	theme: function(can, theme) { theme && (can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": can.base.Obj(theme).join(ice.SP))), can.user.theme(can, can.onexport.theme(can)) },
+	language: function(can, language) { can.runAction(event, aaa.LANGUAGE, [language == ice.AUTO? "": language], function(msg) {
+		can.user.toastConfirm(can, "reload page for "+language, "language", function() { can.user.reload(true) })
+	}) },
+	theme: function(can, theme) { theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme), can.user.theme(can, can.onexport.theme(can)) },
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
 		return can.page.Append(can, can._output, [{view: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
-			if (can.base.isString(item)) { return {view: [html.MENU, html.DIV, can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }} }
-			if (can.base.isArray(item)) { return {view: [html.MENU, html.DIV, can.user.trans(can, item[0], trans)], onclick: function(event) { can.onkeymap.prevent(event)
-				can.onaction.carte(event, can, item.slice(1), function(event, button, meta) { can.base.isFunc(cb) && cb(event, button, item) }, trans)
-			}} } if (can.base.isObject(item)) { return item }
+			return can.base.isString(item)? /* 1.string */ {view: [html.MENU, "", can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }}:
+				can.base.isArray(item)? /* 2.array */ {view: [html.MENU, "", can.user.trans(can, item[0], trans)], onclick: function(event) { can.onkeymap.prevent(event)
+					can.onaction.carte(event, can, item.slice(1), function(event, button, meta) { can.base.isFunc(cb) && cb(event, button, item) }, trans)
+				}}: /* 3.others */ item
 		}) }])._target
 	},
 })
-Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMedia("(prefers-color-scheme: light)")
-		can.__theme = themeMedia.matches? html.LIGHT: html.DARK, themeMedia.addListener(function(event) { can.__theme = event.matches? html.LIGHT: html.DARK
+Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMedia("(prefers-color-scheme: dark)")
+		can.__theme = themeMedia.matches? html.DARK: html.LIGHT, themeMedia.addListener(function(event) { can.__theme = event.matches? html.DARK: html.LIGHT
 			can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme}))
 		}), can.onimport.theme(can)
 	},
@@ -64,7 +66,12 @@ Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMed
 		}), code.WEBPACK, [], function(msg) { can.user.download(can, web.SHARE_LOCAL+msg.Result(), name, nfs.HTML), can.user.toastSuccess(can, "打包成功", code.WEBPACK) })
 	}) },
 
-	title: function(event, can) { var args = {}; can.core.List(can.onaction._params, function(key) { var value = can.misc.Search(can, key); value && (args[key] = value) }); can.user.jumps(can.misc.MergeURL(can, args, true)) },
+	title: function(event, can) { var args = {};
+		can.core.List(can.onaction._params, function(key) { var value = can.misc.Search(can, key); value && (args[key] = value) })
+		var msg = can.request(event); can.onengine.signal(can, "ontitle", msg)
+		can.core.List(msg.Append(), function(key) { args[key] = msg.Append(key) })
+		can.user.jumps(can.misc.MergeURL(can, args, true))
+	},
 	carte: function(event, can, list, cb, trans) { can.user.carte(event, can, can.onaction, list, cb, null, trans) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
 	usernick: function(event, can) { can.user.mod.isPod || can.user.isExtension || can.user.isLocalFile || can.onaction.carte(event, can, can.onaction._menus) },
@@ -80,7 +87,7 @@ Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMed
 	clear: function(event, can) { can.onimport.background(event, can, ""), can.onimport.avatar(event, can, "") },
 	logout: function(event, can) { can.user.logout(can) },
 	
-	_params: [chat.TITLE, chat.THEME],
+	_params: [log.DEBUG, chat.TITLE],
 	_menus: ["shareuser",
 		[chat.THEME, ice.AUTO, html.DARK, html.LIGHT, "print", cli.WHITE, cli.BLACK],
 		[aaa.LANGUAGE, ice.AUTO, "zh", "en"],
@@ -104,7 +111,7 @@ Volcanos(chat.ONPLUGIN, {
 		modify: shy(function(can, msg, arg) { if (arg[0] == mdb.VALUE) { can.misc.Cookie(can, msg.Option(mdb.NAME), arg[1]) } else {
 			can.misc.Cookie(can, arg[1], msg.Option(mdb.VALUE)), can.misc.Cookie(can, msg.Option(mdb.NAME), "")
 		} }),
-	}, [html.FILTER, ice.LIST, mdb.CREATE], function(can, msg, arg) { msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
+	}, [web.FILTER, ice.LIST, mdb.CREATE], function(can, msg, arg) { msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
 		can.core.Item(can.misc.Cookie(can), function(name, value) { can.base.contains(name, arg[0]) && msg.Push(mdb.NAME, name).Push(mdb.VALUE, value) })
 	}),
 	localStorage: shy("本地存储", {
@@ -113,7 +120,7 @@ Volcanos(chat.ONPLUGIN, {
 		modify: shy(function(can, msg, arg) { if (arg[0] == mdb.VALUE) { can.misc.localStorage(can, msg.Option(mdb.NAME), arg[1]) } else {
 			can.misc.localStorage(can, arg[1], msg.Option(mdb.VALUE)), can.misc.localStorage(can, msg.Option(mdb.NAME), "")
 		} }),
-	}, [html.FILTER, ice.LIST, mdb.CREATE], function(can, msg, arg) { msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
+	}, [web.FILTER, ice.LIST, mdb.CREATE], function(can, msg, arg) { msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
 		can.core.Item(can.misc.localStorage(can), function(name, value) { can.base.contains(name, arg[0]) && msg.Push(mdb.NAME, name).Push(mdb.VALUE, value) })
 	}),
 	sessionStorage: shy("会话存储", {
@@ -122,7 +129,7 @@ Volcanos(chat.ONPLUGIN, {
 		modify: shy(function(can, msg, arg) { if (arg[0] == mdb.VALUE) { can.misc.sessionStorage(can, msg.Option(mdb.NAME), arg[1]) } else {
 			can.misc.sessionStorage(can, arg[1], msg.Option(mdb.VALUE)), can.misc.sessionStorage(can, msg.Option(mdb.NAME), "")
 		} }),
-	}, [html.FILTER, ice.LIST, mdb.CREATE], function(can, msg, arg) { msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
+	}, [web.FILTER, ice.LIST, mdb.CREATE], function(can, msg, arg) { msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
 		can.core.Item(can.misc.sessionStorage(can), function(name, value) { can.base.contains(name, arg[0]) && msg.Push(mdb.NAME, name).Push(mdb.VALUE, value) })
 	}),
 	location: shy("请求地址", {copy: function(can) { can.user.copy(msg._event, can, location.href) }}, [mdb.LINK, ice.LIST, ice.COPY], function(can, msg, cb) {
@@ -132,12 +139,10 @@ Volcanos(chat.ONPLUGIN, {
 	}),
 	avatar: shy("用户头像", function(can, sub, cb) { can.page.Append(can, sub._output, [{img: can.user.info.avatar, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}]) }),
 	background: shy("背景图片", function(can, sub, cb) { can.page.Append(can, sub._output, [{img: can.user.info.background, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}]) }),
-	language: shy("语言地区", {_init: function(can) { can.Option(aaa.LANGUAGE, can.user.info.language||ice.AUTO) }}, ["language:select=auto,zh,en", ice.RUN], function(can, msg, arg) {
-		if (arg[0] == ice.AUTO) { arg[0] = "" } can.runAction(event, aaa.LANGUAGE, [arg[0]], function(msg) { can.user.reload() }) 
-	}),
+	language: shy("语言地区", {_init: function(can) { can.Option(aaa.LANGUAGE, can.user.info.language||ice.AUTO) }}, ["language:select=auto,zh,en", ice.RUN], function(can, msg, arg) { can.onimport.language(can, arg[0]) }),
 	title: shy("网页标题", [chat.TITLE], function(can, msg, arg) { msg.Echo(can.user.title(arg[0])) }),
 	theme: shy("界面主题", {_init: function(can) { can.Option(chat.THEME, can.getHeader(chat.THEME)) }}, ["theme:select=auto,dark,light,print,white,black", ice.RUN], function(can, msg, arg) {
 		if (arg[0] == ice.AUTO) { arg[0] = "", can._theme = "" } can.misc.localStorage(can, "can.theme", arg[0]), can.onimport.theme(can, arg[0])
 	}),
-	logout: shy("退出登录", kit.Dict(aaa.LOGOUT, shy("退出", function(can) { can.user.logout(can._root.Header, true) })), [aaa.LOGOUT]),
+	logout: shy("退出登录", kit.Dict(aaa.LOGOUT, shy("退出", function(can) { can.user.logout(can._root.Header) })), [aaa.LOGOUT]),
 })
