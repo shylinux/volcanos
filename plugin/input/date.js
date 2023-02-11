@@ -21,29 +21,9 @@ Volcanos(chat.ONFIGURE, {date: {
 			chat._TRANS, kit.Dict(TODAY, "今天", mdb.NEXT, "下一月", mdb.PREV, "上一月", "over", "去年", "come", "今年"),
 		)), can._table = can.page.Appends(can, can._output, [{view: [chat.CONTENT, html.TABLE]}])._target
 		target.value == "" && (now.setMinutes(now.getMinutes()>30? 30: 0), now.setSeconds(0))
-		function show(now) {
-			can.Action(YEAR, now.getFullYear())
-			can.Action(MONTH, now.getMonth()+1)
-			can.Action(HOUR, now.getHours())
-			can.Action(MINUTE, parseInt(now.getMinutes()/5)*5)
-			can.Action(SECOND, parseInt(now.getSeconds()/5)*5)
-
-			can.page.Appends(can, can._table, [{th: ["日", "一", "二", "三", "四", "五", "六"]}])
-			var tr; function add(day, type) { if (day.getDay() == 0) { tr = can.page.Append(can, can._table, [{type: html.TR}]).last } var _day = new Date(day)
-				var l = can.date.solar2lunar(day)
-				can.page.Append(can, tr, [{view: [can.base.isIn(can.base.Time(day, "%y-%m-%d"), can.base.Time(now, "%y-%m-%d"), can.base.Time(today, "%y-%m-%d"))? html.SELECT: type, html.TD],
-					onclick: function(event) { _day.setHours(now.getHours()), _day.setMinutes(now.getMinutes()), _day.getSeconds(now.getSeconds()), _cb(_day), meta._hold? show(_day): can.close() },
-				list: [{text: day.getDate()+""}, {text: l.autoDay, "className": l.autoClass}]}])
-			}
-
-			var one = new Date(now); one.setDate(1)
-			var end = new Date(now); end.setMonth(end.getMonth()+1), end.setDate(1)
-			var head = new Date(one); head.setDate(one.getDate()-one.getDay())
-			var tail = new Date(end); tail.setDate(end.getDate()+7-end.getDay())
-
-			for (var day = new Date(head); day < one; day.setDate(day.getDate()+1)) { add(day, mdb.PREV) }
-			for (var day = new Date(one); day < end; day.setDate(day.getDate()+1)) { add(day, mdb.MAIN) }
-			for (var day = new Date(end); end.getDay() != 0 && day < tail; day.setDate(day.getDate()+1)) { add(day, mdb.NEXT) }
+		function show(now) { can.Action(YEAR, now.getFullYear()), can.Action(MONTH, now.getMonth()+1)
+			can.Action(HOUR, now.getHours()), can.Action(MINUTE, parseInt(now.getMinutes()/5)*5), can.Action(SECOND, parseInt(now.getSeconds()/5)*5)
+			can.page.Appends(can, can._table, can.date.List(can, function(event, day) { day.setHours(now.getHours()), day.setMinutes(now.getMinutes()), day.getSeconds(now.getSeconds()), _cb(day), can.close() }, now))
 			var l = can.date.solar2lunar(now); can.page.Appends(can, can._status, [{view: "today", inner: [l.gzYear, l.Animal+"年", l.cnMonth, l.cnDay, l.lunarFestival||l.festival||l.Term, l.Astro].join(ice.SP)}])
 			return now
 		}

@@ -323,8 +323,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
 	},
 	input: function(can, item, value, target, style) { if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
-		var icon = []
-		var _item = can.base.Copy({className: "", type: "", name: ""}, item)
+		var icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item)
 		var input = can.page.input(can, _item, value); input.title = can.Conf(can.core.Keys(ctx.FEATURE, chat.TITLE, item.name))||""
 		if (item.type == html.SELECT && (value || _item.value)) { input._init = function(target) { target.value = value||_item.value } }
 		if (item.type == html.TEXT) { input.onkeydown = item.onkeydown||function(event) {
@@ -337,22 +336,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) {
 			target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name])
 		}) } }
-		/*
-		if (item.type == html.SELECT) { var ui = can.page.Append(can, target, [{view: [[html.ITEM, item.type, item.name].concat(style)],
-			list: [input].concat([{type: html.INPUT, value: _item.value||_item.values[0], data: {type: html.BUTTON}, onclick: function(event) { var target = event.target
-				var carte = can.user.carte(event, can, {}, _item.values, function(event, button) { target.value = button, ui.select.value = button, ui.select.onchange({target: ui.select}) })
-				can.onappend.style(can, [html.SELECT, item.name], carte._target), can.page.style(can, carte._target, html.MIN_WIDTH, event.target.offsetWidth)
-			}, _init: function(target) { can.onmotion.delay(can, function() {
-				target.value = ui.select.value, can.page.style(can, target, html.WIDTH, ui.select.offsetWidth+10), can.onappend.style(can, html.HIDE, ui.select)
-			}) }}, {text: ["\u25BF", html.SPAN, html.ICON]}])
-		}]); return ui[item.name] }
-		*/
 		var _input = can.page.Append(can, target, [{view: [[html.ITEM, item.type, item.name].concat(style)], list: [input].concat(icon), _init: function(target, _input) {
 			item.type == html.SELECT && can.onappend.select(can, _input.select, _item)
 		}}])[item.name]; return _input
 	},
 	select: function(can, select, item) {
-		return can.page.Append(can, select.parentNode, [{view: [html.SELECT, html.INPUT], value: item.value||item.values[0], data: {type: html.BUTTON}, onclick: function(event) { var target = event.target
+		return can.page.Append(can, select.parentNode, [{type: html.INPUT, value: item.value||item.values[0], data: {className: html.SELECT, type: html.BUTTON, name: item.name}, onclick: function(event) { var target = event.target
 			var carte = can.user.carte(event, can, {}, item.values, function(event, button) { if (target.value == button) { return }
 				target.value = button, select.value = button, select.onchange && select.onchange({target: select}) })
 			can.onappend.style(can, [html.SELECT, item.name], carte._target), can.page.style(can, carte._target, html.MIN_WIDTH, event.target.offsetWidth)
