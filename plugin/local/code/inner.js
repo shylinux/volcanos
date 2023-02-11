@@ -380,11 +380,9 @@ Volcanos(chat.ONACTION, {list: ["首页", "官网", "调试", "百度"],
 			})
 		}), can.runAction(can.request(event, {text: can.base.Format(list)}), button)
 	},
-	clear: function(event, can) {
-		var list = ["fieldset.input.float", "div.input.float", "div.carte.float", "div.vimer.find.float"]; for (var i = 0; i < list.length; i++) {
-			if (can.page.Select(can, can._root._target, list[i], function(item) { return can.page.Remove(can, item) }).length > 0) { return }
-		}
-		if (can.page.Select(can, can.ui.plug, "legend.select", function(item) { return item.click(), item }).length > 0) { return }
+	clear: function(event, can) { if (can.onmotion.clearFloat(can)) { return }
+		if (can.page.Select(can, document.body, "div.vimer.find.float", function(target) { return can.page.Remove(can, target) }).length > 0) { return }
+		if (can.page.Select(can, can.ui.plug, "legend.select", function(target) { return target.click(), target }).length > 0) { return }
 		if (can.page.isDisplay(can.ui.display)) { return can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) }
 		if (can.page.isDisplay(can.ui.profile)) { return can.onmotion.hidden(can, can.ui.profile), can.onimport.layout(can) }
 	},

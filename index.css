@@ -98,7 +98,7 @@ body>div.carte div.item span.icon.gt { float:right; }
 body>div.input td { padding:5px; }
 body>div.input td span.icon { font-size:14px; margin-left:-25px; margin-right:10px; visibility:hidden; }
 body>div.input td:hover span.icon { visibility:visible; }
-body>div.input select { width:200px; }
+body>div.input select { width:190px; }
 body>div.input textarea { height:120px; width:200px; }
 body>div.input input:not([type=button]) { width:200px; }
 body>div.input div.action input[type=button] { width:90px; }
@@ -152,7 +152,7 @@ fieldset.plug>form.option>div.icon { margin-left:5px; }
 div.carte.select.float { border-radius:0; }
 div.carte.select.float>div.item { text-align:center; }
 div.item.select span { margin-left:-20px; margin-right:10px; }
-div.item.select input { font-family:monospace; border-radius:0; }
+div.item.select input { font-family:monospace; border-radius:0; min-width:60px; }
 /* hover */
 legend:hover { background-color:skyblue; }
 select:hover { background-color:gray; color:cyan; }

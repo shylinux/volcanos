@@ -256,6 +256,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			{type: html.SELECT, style: [INPUT_STYLE]}, {type: html.SELECT, style: [INPUT_HOVER_STYLE]},
 			{type: html.INPUT, style: [INPUT_STYLE]}, {type: html.INPUT, style: [INPUT_HOVER_STYLE]},
 			{type: html.INPUT+":not([type=button])", style: _b_r(0)}, {type: html.INPUT+":not([type=button])", name: [html.HOVER], style: {border: color.info+SOLID}},
+			{type: html.INPUT+":not([type=button]):focus", style: {border: color.info+SOLID}},
+			{type: html.INPUT+".select:focus", style: {border: color.info+SOLID}},
+			{type: html.INPUT+".select:hover", style: {border: color.info+SOLID}},
+			{type: html.TEXTAREA+":focus", style: {border: color.info+SOLID}},
+			{type: html.TEXTAREA+":hover", style: {border: color.info+SOLID}},
 			{type: html.TEXTAREA, style: [INPUT_STYLE]}, {type: html.TEXTAREA, style: _b_r(0)},
 			{type: html.FORM_OPTION, list: [{type: html.DIV_ITEM, name: [html.SELECT], style: [GLASS_STYLE]}]},
 			{type: html.FORM_OPTION, list: [{type: html.DIV_ITEM, name: [html.HOVER], style: [GLASS_STYLE]}]},
@@ -331,6 +336,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) {
 			target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name])
 		}) } }
+		/*
 		if (item.type == html.SELECT) { var ui = can.page.Append(can, target, [{view: [[html.ITEM, item.type, item.name].concat(style)],
 			list: [input].concat([{type: html.INPUT, value: _item.value||_item.values[0], data: {type: html.BUTTON}, onclick: function(event) { var target = event.target
 				var carte = can.user.carte(event, can, {}, _item.values, function(event, button) { target.value = button, ui.select.value = button, ui.select.onchange({target: ui.select}) })
@@ -339,7 +345,19 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				target.value = ui.select.value, can.page.style(can, target, html.WIDTH, ui.select.offsetWidth+10), can.onappend.style(can, html.HIDE, ui.select)
 			}) }}, {text: ["\u25BF", html.SPAN, html.ICON]}])
 		}]); return ui[item.name] }
-		var _input = can.page.Append(can, target, [{view: [[html.ITEM, item.type, item.name].concat(style)], list: [input].concat(icon)}])[item.name]; return _input
+		*/
+		var _input = can.page.Append(can, target, [{view: [[html.ITEM, item.type, item.name].concat(style)], list: [input].concat(icon), _init: function(target, _input) {
+			item.type == html.SELECT && can.onappend.select(can, _input.select, _item)
+		}}])[item.name]; return _input
+	},
+	select: function(can, select, item) {
+		return can.page.Append(can, select.parentNode, [{view: [html.SELECT, html.INPUT], value: item.value||item.values[0], data: {type: html.BUTTON}, onclick: function(event) { var target = event.target
+			var carte = can.user.carte(event, can, {}, item.values, function(event, button) { if (target.value == button) { return }
+				target.value = button, select.value = button, select.onchange && select.onchange({target: select}) })
+			can.onappend.style(can, [html.SELECT, item.name], carte._target), can.page.style(can, carte._target, html.MIN_WIDTH, event.target.offsetWidth)
+		}, _init: function(target) { can.onmotion.delay(can, function() {
+			target.value = select.value, can.page.style(can, target, html.WIDTH, select.offsetWidth+10), can.onappend.style(can, html.HIDE, select)
+		}) }}, {text: ["\u25BF", html.SPAN, html.ICON]}])
 	},
 	table: function(can, msg, cb, target, keys) { if (!msg || msg.Length() == 0) { return } var meta = can.base.Obj(msg.Option(mdb.META))
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
@@ -448,6 +466,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 						sub.hidden = function() { return !can.page.isDisplay(sub._target) }, sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }
 						meta.mode && can.onappend.style(sub, meta.mode), can.page.style(sub, sub._target, meta.style)
 						can.base.isFunc(meta._init) && meta._init(sub, sub._target), show(sub, cb)
+						sub._target._close = sub.close
 					}, can._root._target)
 				}})
 			}) } }), can.onfigure[input]._init && can.onfigure[input]._init(can, meta, target, _cb)
@@ -530,7 +549,11 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	scrollHold: function(can, cb, target) { target = target || can._output
 		var top = target.scrollTop, left = target.scrollLeft; cb(), target.scrollTop = top, target.scrollLeft = left
 	},
-	clearFloat: function(can) { can.page.SelectChild(can, document.body, "div.float", function(target) { can.page.Remove(can, target) }) },
+	clearFloat: function(can) {
+		var list = ["fieldset.input.float", "div.input.float", "div.carte.float"]; for (var i = 0; i < list.length; i++) {
+			if (can.page.Select(can, document.body, list[i], function(target) { return target._close? target._close(): can.page.Remove(can, target) }).length > 0) { return true }
+		}
+	},
 	clearCarte: function(can) { can.page.SelectChild(can, document.body, "div.carte.float", function(target) { can.page.Remove(can, target) }) },
 	clearInput: function(can) { can.page.SelectChild(can, document.body, "div.input.float", function(target) { can.page.Remove(can, target) }) },
 	hidden: function(can, target, show) { target = target||can._target
@@ -580,7 +603,11 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		can.page.style(can, target, html.WIDTH, _target.offsetWidth+10, html.LEFT, (window.innerWidth-_target.offsetWidth)/2)
 	}) }) },
 	delayLong: function(can, cb, interval, key) { can.onmotion.delay(can, cb, interval||300, key) },
-	delayOnce: function(can, cb, interval, list) { can.core.Item(list, function(key) { delete(list[key]) })
+	delayOnce: function(can, cb, interval, list) {
+		if (!list) {
+			var call = can.misc.fileLine(2), _call = "_delay_"+call.file+call.line
+			list = can[_call] = can[_call]||{}
+		} can.core.Item(list, function(key) { delete(list[key]) })
 		var key = can.base.Time(null, "%H:%M:%S.%s"); can.onmotion.delay(can, list[key] = function() { list[key] && cb() }, interval)
 	},
 	delay: function(can, cb, interval, key) { if (!key) { return can.core.Timer(interval||30, cb) }

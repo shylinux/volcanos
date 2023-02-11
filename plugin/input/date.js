@@ -1,6 +1,5 @@
 Volcanos(chat.ONFIGURE, {date: {
-	onclick: function(event, can, meta, target, cbs) { cbs(function(can, cb) {
-		if (can._output.innerHTML) { return }
+	onclick: function(event, can, meta, target, cbs) { cbs(function(can, cb) { if (can._output.innerHTML) { return }
 		const TODAY = "today", YEAR = "year", MONTH = "month", HOUR = "hour", MINUTE = "minute", SECOND = "second"
 		var today = new Date(), now = can.base.Date((target.value||"").trim()); function _cb(_now) { cb(can, can.user.time(can, now = _now), target.value) }
 		can.onappend._action(can, [cli.CLOSE, [HOUR].concat(can.core.List(24)), [MINUTE].concat(can.core.List(0, 60, 5)), [SECOND].concat(can.core.List(0, 60, 5)),
