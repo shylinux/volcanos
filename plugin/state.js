@@ -201,7 +201,7 @@ Volcanos(chat.ONACTION, {list: [
 	}) },
 })
 Volcanos(chat.ONEXPORT, {
-	link: function(can) { var meta = can.Conf(), args = can.Option()
+	link: function(can) { var meta = can.Conf(), args = can.Option(); can.misc.Search(can, log.DEBUG) == ice.TRUE && (args[log.DEBUG] = ice.TRUE)
 		args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == web.WIKI_WORD && (args.cmd = args.path)
 		return can.misc.MergePodCmd(can, args, true)
 	},

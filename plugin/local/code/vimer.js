@@ -104,7 +104,7 @@ Volcanos(chat.ONACTION, {
 	"扩展": function(event, can) { can.user.input(can.request(event, {action: "extension"}), can, ["url"], function(list) {
 		var sub = can.db.toolkit[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0])
 	}) },
-	"首页": function(event, can) { can.user.open(location.origin+"?debug=true") },
+	"首页": function(event, can) { can.user.open(location.origin+(can.misc.Search(can, log.DEBUG) == ice.TRUE? "?debug=true": "")) },
 	"官网": function(event, can) { can.user.open("https://shylinux.com/") },
 	"调试": function(event, can) { can.user.opens(location.href.replace("debug=true", "debug=false")) },
 	"百度": function(event, can) { can.user.opens("https://baidu.com/") },

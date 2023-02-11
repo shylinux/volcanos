@@ -241,8 +241,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		function _bg(color) { return kit.Dict(html.BACKGROUND_COLOR, color, can.core.List(arguments).slice(1)) }
 		function _fg(color) { return kit.Dict(html.COLOR, color, can.core.List(arguments).slice(1)) }
 		function _b_r(size) { return kit.Dict(RADIUS, size) }
+		const TABLE_COLOR = can.user.isWebview? "#202324": cli.BLACK
 		color = kit.Dict(
-			chat.PANEL, cli.BLACK, chat.PLUGIN, cli.BLACK, html.LEGEND, INPUT_COLOR, html.INPUT, INPUT_COLOR, html.OUTPUT, OUTPUT_COLOR, html.TABLE, cli.BLACK,
+			chat.PANEL, TABLE_COLOR, chat.PLUGIN, TABLE_COLOR, html.LEGEND, INPUT_COLOR, html.INPUT, INPUT_COLOR, html.OUTPUT, OUTPUT_COLOR, html.TABLE, TABLE_COLOR,
 			html.HOVER, INPUT_COLOR, html.BORDER, cli.GRAY, html.LABEL, cli.SILVER, html.TEXT, cli.WHITE, log.INFO, cli.BLUE, log.WARN, cli.RED, color,
 		), style = kit.Dict(LEGEND_STYLE, _bg(color.legend),
 			INPUT_STYLE, _bg(color.input, html.COLOR, color.label, RADIUS, "5px", "outline", html.NONE, "box-shadow", html.NONE),
