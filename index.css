@@ -103,6 +103,7 @@ body>div.input textarea { height:120px; width:200px; }
 body>div.input input:not([type=button]) { width:200px; }
 body>div.input div.action input[type=button] { width:90px; }
 body>div.input div.action div { margin:5px; float:right; }
+body>div.input div.action { width:100%; }
 body>div.upload div.item { float:left; }
 body>div.upload div.output { border:red solid 1px; clear:both; }
 body>div.upload div.progress { background-color:red; height:10px; width:0; }
@@ -120,13 +121,13 @@ div.action>div.tabs { padding:5px; height:31px; }
 div.status>div.item { padding:5px; height:30px; }
 div.status>div.item>label { font-size:0.6rem; }
 /* display */
-form.option, div.action { display:contents; } form.option.hide, div.action.hide { display:none; }
+fieldset>form.option, fieldset>div.action { display:contents; } form.option.hide, div.action.hide { display:none; }
 form.option>div.item>label, div.action>div.item>label, .hidden, .hide { display:none; }
 form.option>div.cmd, form.option>div.textarea { width:100%; } textarea { resize:vertical; }
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item, div.layout.flex>* { float:left; }
 div.action, div.output, div.status, div.project, div.display, div.profile, div.content, table.content, table.content td, div.code, div.plug, div.story, div.toast, div.carte, fieldset.input { overflow:auto; }
 fieldset>div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
-fieldset>div.status>legend { margin-left:2px; margin-right:0; float:right; clear:none; }
+fieldset>div.status>legend { margin-left:2px; margin-right:0; height:30px; float:right; clear:none; }
 fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
 fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
@@ -153,6 +154,16 @@ div.carte.select.float { border-radius:0; }
 div.carte.select.float>div.item { text-align:center; }
 div.item.select span { margin-left:-20px; margin-right:10px; }
 div.item.select input { font-family:monospace; border-radius:0; min-width:60px; }
+div.project div.zone div.list { clear:both; }
+
+body.en fieldset.input.date.float>div.action>div.item.select { margin:0 5px; }
+body.en fieldset.input.date.float>div.action>div.item.select select { width:65px; }
+body.en fieldset.input.date.float>div.action>div.item.select.year select { width:115px; }
+body.en fieldset.input.date.float>div.action>div.item.select.month select { width:115px; }
+body.zh fieldset.input.date.float>div.action>div.item.select { margin:0 5px; }
+body.zh fieldset.input.date.float>div.action>div.item.select select { width:68px; }
+body.zh fieldset.input.date.float>div.action>div.item.select.year select { width:95px; }
+body.zh fieldset.input.date.float>div.action>div.item.select.month select { width:95px; }
 /* hover */
 legend:hover { background-color:skyblue; }
 select:hover { background-color:gray; color:cyan; }

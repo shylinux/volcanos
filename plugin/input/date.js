@@ -9,16 +9,11 @@ Volcanos(chat.ONFIGURE, {date: {
 			MINUTE, function(event, can, button, value) { now.setMinutes(parseInt(value)||0), show(now) },
 			SECOND, function(event, can, button, value) { now.setSeconds(parseInt(value)||0), show(now) },
 			TODAY, function() { show(today) },
-
 			mdb.PREV, function() { now.setMonth(now.getMonth()-1), show(now) },
 			YEAR, function(event, can, button, value) { now.setFullYear(parseInt(value)), show(now) },
 			MONTH, function(event, can, button, value) { now.setMonth(parseInt(value)-1), show(now) },
 			mdb.NEXT, function() { now.setMonth(now.getMonth()+1), show(now) },
-
-			"rand", function() { now.setDate((Math.random() * 100 - 50) + now.getDate()), show(now) },
-			"over", function() { now.setFullYear(now.getFullYear()-1), show(now) },
-			"come", function() { now.setFullYear(now.getFullYear()+1), show(now) },
-			chat._TRANS, kit.Dict(TODAY, "今天", mdb.NEXT, "下一月", mdb.PREV, "上一月", "over", "去年", "come", "今年"),
+			chat._TRANS, kit.Dict(TODAY, "今天", mdb.NEXT, "下一月", mdb.PREV, "上一月"),
 		)), can._table = can.page.Appends(can, can._output, [{view: [chat.CONTENT, html.TABLE]}])._target
 		target.value == "" && (now.setMinutes(now.getMinutes()>30? 30: 0), now.setSeconds(0))
 		function show(now) { can.Action(YEAR, now.getFullYear()), can.Action(MONTH, now.getMonth()+1)
@@ -26,13 +21,12 @@ Volcanos(chat.ONFIGURE, {date: {
 			can.page.Appends(can, can._table, can.date.List(can, function(event, day) { day.setHours(now.getHours()), day.setMinutes(now.getMinutes()), day.getSeconds(now.getSeconds()), _cb(day), can.close() }, now))
 			var l = can.date.solar2lunar(now); can.page.Appends(can, can._status, [{view: "today", inner: [l.gzYear, l.Animal+"年", l.cnMonth, l.cnDay, l.lunarFestival||l.festival||l.Term, l.Astro].join(ice.SP)}])
 			return now
-		}
-		show(now), can._show = function(d) { _cb(show(new Date(now.getTime()+d*24*3600*1000))) }
+		} show(now), can._show = function(d) { d? _cb(show(now = new Date(now.getTime()+d*24*3600*1000))): _cb(show(now)) }
 	})},
 	onkeydown: function(event, can, meta, cb, target, sub, last) { if (sub && sub.hidden()) { return last(event) } switch (event.key) {
-		case "n": can.page.SelectInput(can, sub._action, mdb.NEXT, function(target) { target.click() }); break
-		case "p": can.page.SelectInput(can, sub._action, mdb.PREV, function(target) { target.click() }); break
-		case "t": can.page.SelectInput(can, sub._action, "today", function(target) { target.click() }); break
+		case "n": can.page.SelectInput(can, sub._action, mdb.NEXT, function(target) { target.click(), sub._show() }); break
+		case "p": can.page.SelectInput(can, sub._action, mdb.PREV, function(target) { target.click(), sub._show() }); break
+		case "t": can.page.SelectInput(can, sub._action, "today", function(target) { target.click(), sub._show() }); break
 		case "j": sub._show(7); break
 		case "k": sub._show(-7); break
 		case "h": sub._show(-1); break
