@@ -8,12 +8,12 @@ Volcanos(chat.ONFIGURE, {date: {
 			HOUR, function(event, can, button, value) { now.setHours(parseInt(value)||0), show(now) },
 			MINUTE, function(event, can, button, value) { now.setMinutes(parseInt(value)||0), show(now) },
 			SECOND, function(event, can, button, value) { now.setSeconds(parseInt(value)||0), show(now) },
-			TODAY, function() { _cb(show(today)) },
+			TODAY, function() { show(today) },
 
-			mdb.PREV, function() { now.setMonth(now.getMonth()-1), _cb(show(now)) },
+			mdb.PREV, function() { now.setMonth(now.getMonth()-1), show(now) },
 			YEAR, function(event, can, button, value) { now.setFullYear(parseInt(value)), show(now) },
 			MONTH, function(event, can, button, value) { now.setMonth(parseInt(value)-1), show(now) },
-			mdb.NEXT, function() { now.setMonth(now.getMonth()+1), _cb(show(now)) },
+			mdb.NEXT, function() { now.setMonth(now.getMonth()+1), show(now) },
 
 			"rand", function() { now.setDate((Math.random() * 100 - 50) + now.getDate()), show(now) },
 			"over", function() { now.setFullYear(now.getFullYear()-1), show(now) },
