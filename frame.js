@@ -483,8 +483,15 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 			// event.target.getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)
-			can.page.style(can, target, html.MAX_HEIGHT, can.base.Max(max > 0.5 || layout.top > (top+height)*0.5? height: top+height-layout.top, height*(max||0.5)))
-			if (layout.top+target.offsetHeight > top+height) { layout.top = top+height-target.offsetHeight }
+			// can.page.style(can, target, html.MAX_HEIGHT, max? height*max: top+height-layout.top)
+			if (max && layout.top-top > height*max) {
+				can.page.style(can, target, html.MAX_HEIGHT, layout.top-top-(rect.bottom-rect.top))
+				layout.top = layout.top-target.offsetHeight-(rect.bottom-rect.top)
+			} else {
+				can.page.style(can, target, html.MAX_HEIGHT, max? height*max: top+height-layout.top)
+				// can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
+				if (layout.top+target.offsetHeight > top+height) { layout.top = top+height-target.offsetHeight }
+			}
 			if (layout.left+target.offsetWidth > left+width) { layout.left = left+width-target.offsetWidth }
 		}); return can.onmotion.move(can, target, layout), layout
 	},
