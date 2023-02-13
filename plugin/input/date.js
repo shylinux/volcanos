@@ -24,6 +24,7 @@ Volcanos(chat.ONFIGURE, {date: {
 		} show(now), can._show = function(d) { d? _cb(show(now = new Date(now.getTime()+d*24*3600*1000))): _cb(show(now)) }
 	})},
 	onkeydown: function(event, can, meta, cb, target, sub, last) { if (sub && sub.hidden()) { return last(event) } switch (event.key) {
+		case lang.ESCAPE: sub.close(); break
 		case "n": can.page.SelectInput(can, sub._action, mdb.NEXT, function(target) { target.click(), sub._show() }); break
 		case "p": can.page.SelectInput(can, sub._action, mdb.PREV, function(target) { target.click(), sub._show() }); break
 		case "t": can.page.SelectInput(can, sub._action, "today", function(target) { target.click(), sub._show() }); break
