@@ -11,6 +11,7 @@ fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.object { color:cyan; }
 fieldset.inner>div.output>div.project { width:230px; }
+fieldset.inner>div.output>div.project div.action { width:100%; }
 fieldset.inner>div.output>div.project * { font-size:14px; font-family:monospace; outline:none; }
 fieldset.inner>div.output>div.project>div.zone>div.item span.icon { font-size:22px; line-height:18px; width:20px; float:right; display:none; }
 fieldset.inner>div.output>div.project>div.zone:hover>div.item span.icon { display:block; }
