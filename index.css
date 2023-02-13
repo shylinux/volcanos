@@ -126,7 +126,8 @@ form.option>div.item>label, div.action>div.item>label, .hidden, .hide { display:
 form.option>div.cmd, form.option>div.textarea { width:100%; } textarea { resize:vertical; }
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item, div.layout.flex>* { float:left; }
 div.action, div.output, div.status, div.project, div.display, div.profile, div.content, table.content, table.content td, div.code, div.plug, div.story, div.toast, div.carte, fieldset.input { overflow:auto; }
-fieldset>div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
+div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
+// fieldset>div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
 fieldset>div.status>legend { margin-left:2px; margin-right:0; height:30px; float:right; clear:none; }
 fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
@@ -144,7 +145,7 @@ div.plug { font-style:italic; }
 div.item.text { position:relative; }
 div.item.text>span.icon.delete { font-size:20px; line-height:28px; position:absolute; top:2px; right:10px; visibility:hidden; }
 div.item.text:hover>span.icon.delete { visibility:visible; }
-form.option>div.icon { font-size:26px; margin-right:5px; display:none; }
+form.option>div.icon { font-size:26px; margin-right:5px; height:31px; display:none; }
 form.option>div.icon:hover { background-color:white; }
 fieldset.story>form.option>div.icon { display:block; }
 fieldset.float>form.option>div.icon { display:block; }
@@ -329,4 +330,5 @@ fieldset.panel.Action>div.output::-webkit-scrollbar { width:0 !important; height
 div.story[data-type=spark]::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
+div.carte::-webkit-scrollbar { width:0 !important; height:0 !important; }
 

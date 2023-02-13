@@ -223,7 +223,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		}, can.ui.plug.parentNode)
 	},
 	layout: function(can) { if (can.isSimpleMode()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
-		if (can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
+		if (can.isCmdMode()) {
+			if (can.user.isWindows) {
+				can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()-8)
+			} else {
+				can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width())
+			}
+		}
 		can.ui.size = {profile: can.db.profile_size[can.onexport.keys(can)]||0.5, display: can.db.display_size[can.onexport.keys(can)]||3*html.ACTION_HEIGHT}
 		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(content_height, content_width) { var sub = can.ui.content._plugin; if (!sub) { return }
 			if (content_height == sub.ConfHeight()+sub.onexport.actionHeight(sub)+sub.onexport.statusHeight(sub) && content_width == sub.ConfWidth()) { return }
