@@ -1,6 +1,5 @@
 fieldset.inner>form.option input[name=path] { width:80px; }
 fieldset.inner>form.option input[name=file] { width:160px; }
-fieldset.inner>div.output>div.layout>div.layout>div.content * { font-size:14px; font-family:monospace; outline:none; }
 fieldset.inner>div.output div.content { position:relative; }
 fieldset.inner>div.output div.content td.text span.comment { color:green; }
 fieldset.inner>div.output div.content td.text span.keyword { color:yellow; }
@@ -10,9 +9,10 @@ fieldset.inner>div.output div.content td.text span.function { color:lightgreen; 
 fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.object { color:cyan; }
+fieldset.inner>div.output>div.layout>div.layout>div.content * { font-family:monospace; font-size:14px; outline:none; }
 fieldset.inner>div.output>div.project { width:230px; }
 fieldset.inner>div.output>div.project div.action { width:100%; }
-fieldset.inner>div.output>div.project * { font-size:14px; font-family:monospace; outline:none; }
+fieldset.inner>div.output>div.project * { font-size:14px; outline:none; }
 fieldset.inner>div.output>div.project>div.zone>div.item span.icon { font-size:22px; line-height:18px; width:20px; float:right; display:none; }
 fieldset.inner>div.output>div.project>div.zone:hover>div.item span.icon { display:block; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-right:0; width:100%; }

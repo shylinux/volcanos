@@ -10,7 +10,7 @@ fieldset.word>div.navmenu>div.item { font-size:1.6em; }
 
 fieldset.word a { word-break:break-all; }
 fieldset.word br.story { clear:both; }
-fieldset.word ul.story { font-family:monospace; text-align:left; }
+fieldset.word ul.story { text-align:left; }
 fieldset.word ul.story li.H2 { font-size:1.4em; font-weight:bold; }
 fieldset.word ul.story li.H3 { font-size:1.2em; }
 fieldset.word ul.story[data-type=premenu] { cursor:pointer; }

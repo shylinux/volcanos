@@ -1,8 +1,8 @@
-fieldset.Footer>div.output { font-size:1.1rem; padding:0 5px; height:31px; }
+fieldset.Footer>div.output { padding:0 5px; height:31px; }
 fieldset.Footer>div.output div { padding:5px; height:31px; cursor:pointer; }
 fieldset.Footer>div.output div:hover { background-color:#2e515f; }
 fieldset.Footer>div.output div.title { float:left; }
-fieldset.Footer>div.output div.state { font-family:monospace; float:right; }
+fieldset.Footer>div.output div.state { float:right; }
 fieldset.Footer>div.output div.state label { font-size:12px; }
 fieldset.Footer>div.output div.toast { background-color:darkcyan; float:right; }
 fieldset.Footer>div.output div.cmd { padding:0; margin-left:40px; }

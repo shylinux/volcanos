@@ -1,5 +1,5 @@
 fieldset.plan>div.output td.content { position:relative; }
-fieldset.plan>div.output table.content.plan th { font-family:unset; text-align:center; }
+fieldset.plan>div.output table.content.plan th { text-align:center; }
 fieldset.plan>div.output table.content.plan td { vertical-align:top; }
 fieldset.plan>div.output table.content.plan td.over { border:red solid 1px; }
 fieldset.plan>div.output table.content.plan td div { color:white; }
