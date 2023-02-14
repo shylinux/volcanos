@@ -655,9 +655,11 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 })
 Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||document.body
 		can.onkeymap._build(can), target.onkeydown = function(event) { can.misc.Event(event, can, function(msg) {
+			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
 			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
 			can.onengine.signal(can, chat.ONKEYDOWN, can.request(event, {"model": can.user.isWebview && event.metaKey? "webview": "normal"}))
 		}) }, target.onkeyup = function(event) { can.misc.Event(event, can, function(msg) {
+			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
 			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
 			can.onengine.signal(can, chat.ONKEYUP, can.request(event, {"model": "normal"}))
 		}) }
@@ -742,7 +744,7 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||documen
 		if (event.key == lang.ESCAPE) { event.target.blur() }
 	},
 	selectInputs: function(event, can, cb, target) { if (can.page.ismodkey(event)) { return } if (event.key == lang.ESCAPE) { return target.blur() }
-		if (event.ctrlKey || event.key == lang.TAB) { if (can.base.isUndefined(target._index)) { target._index = -1, target._value = target.value }
+		if (event.ctrlKey || can.base.isIn(event.key, "Tab", "ArrowUp", "ArrowDown")) { if (can.base.isUndefined(target._index)) { target._index = -1, target._value = target.value }
 			function select(order) { if (order == -1) { target.value = target._value }
 				var index = 0; return can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr) { if (can.page.ClassList.has(can, tr, html.HIDDEN)) { return }
 					can.page.ClassList.del(can, tr, html.SELECT); if (order == index++) { can.page.ClassList.add(can, tr, html.SELECT)
@@ -751,7 +753,9 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||documen
 				}).length
 			}
 			var total = select(target._index), key = event.key; if (event.key == lang.TAB) { key = event.shiftKey? "p": "n" } switch (key) {
+				case "ArrowDown":
 				case "n": select(target._index = (target._index+2) % (total+1) - 1); break
+				case "ArrowUp":
 				case "p": select(target._index = (target._index+total+1) % (total+1) - 1); break
 				default: return
 			} return can.Status(mdb.INDEX, target._index), can.onkeymap.prevent(event)

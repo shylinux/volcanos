@@ -284,8 +284,11 @@ Volcanos(chat.ONKEYMAP, {
 			y: shy("向上滚屏", function(can) { can.current.scroll(-1) }),
 		},
 		insert_ctrl: {
-			n: shy("向上滚屏", function(event) { can.onkeymap.prevent(event) }),
-			p: shy("向上滚屏", function(event) { can.onkeymap.prevent(event) }),
+			f: shy("光标右移", function(can, target) { can.onkeymap.cursorMove(target, 1) }),
+			b: shy("光标左移", function(can, target) { can.onkeymap.cursorMove(target, -1) }),
+			a: shy("光标行首", function(can, target) { can.onkeymap.cursorMove(target, 0, 0) }),
+			e: shy("光标行尾", function(can, target) { can.onkeymap.cursorMove(target, 0, -1) }),
+			d: shy("删除字符", function(can, target) { can.onkeymap.deleteText(target, target.selectionStart, 1) }),
 		},
 		insert: {
 			Escape: shy("退出编辑", function(event, can) { can.onkeymap._normal(can) }),

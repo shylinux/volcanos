@@ -223,13 +223,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		}, can.ui.plug.parentNode)
 	},
 	layout: function(can) { if (can.isSimpleMode()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
-		if (can.isCmdMode()) {
-			if (can.user.isWindows) {
-				can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()-8)
-			} else {
-				can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width())
-			}
-		}
+		if (can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
 		can.ui.size = {profile: can.db.profile_size[can.onexport.keys(can)]||0.5, display: can.db.display_size[can.onexport.keys(can)]||3*html.ACTION_HEIGHT}
 		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(content_height, content_width) { var sub = can.ui.content._plugin; if (!sub) { return }
 			if (content_height == sub.ConfHeight()+sub.onexport.actionHeight(sub)+sub.onexport.statusHeight(sub) && content_width == sub.ConfWidth()) { return }
@@ -420,7 +414,7 @@ Volcanos(chat.ONACTION, {list: ["首页", "官网", "调试", "百度"],
 	},
 	open: function(event, can) {
 		var paths = can.core.List(can.db.paths, function(item) { if (can.base.endWith(item, "-story/", "-dict/")) { return } return item }).join(ice.FS)
-		paths = "src/,usr/icebergs/,usr/volcanos/"
+		// paths = "src/,usr/icebergs/,usr/volcanos/"
 		var input = can.user.input(can.request(event, {paths: paths}), can, [{name: nfs.FILE, style: {width: can.ui.content.offsetWidth/2}, run: function(event, cmds, cb) {
 			can.run(can.request(event, {paths: paths}), cmds, function(msg) {
 				if (cmds[0] == ctx.ACTION && cmds[1] == mdb.INPUTS) { var _msg = can.onengine.signal(can, "tabview.open.inputs"), func = can.onexport.func(can)

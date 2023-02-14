@@ -9,7 +9,7 @@ fieldset.Footer>div.output div.cmd { padding:0; margin-left:40px; }
 fieldset.Footer>div.output div.cmd>span.delete { top:1px; right:5px; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { margin-right:0; width:120px; transition:all 1s; }
 fieldset.Footer>div.output div.cmd>input[name=cmd]:focus { width:320px; transition:all 0.5s; }
-fieldset.Footer>div.output div.cmd:hover>input[name=cmd] { width:320px; transition:all 0.5s; }
+// fieldset.Footer>div.output div.cmd:hover>input[name=cmd] { width:320px; transition:all 0.5s; }
 
 .picker { box-shadow:4px 4px 20px 4px #626bd0; }
 div.view span.keyword { color:#5cadd4; }

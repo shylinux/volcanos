@@ -22,5 +22,11 @@ Volcanos(chat.ONFIGURE, {key: {
 		if (event.key == lang.ENTER) { return meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event)? sub.close(): last(event) }
 		sub.hidden() || can.onkeymap.selectCtrlN(event, can, sub._output, "tr:not(.hidden)>td:first-child", function(td) { return cb(sub, td.innerText, target.value), td }) || can.onmotion.delayOnce(can, function() {
 			can.onkeymap.selectInputs(event, sub, function() { sub._load(event, sub, cb, target, meta.name) }, target) }, target.value.length < 3? 500: 150)
+		if (event.ctrlKey && can.user.isWindows) { can.onkeymap.prevent(event) }
+		if (can.base.isIn(event.key, "ArrowUp", "ArrowDown") && can.user.isWindows) { can.onkeymap.prevent(event) }
+	},
+	onkeyup: function(event, can, meta, cb, target, sub, last) { if (event.key == lang.ESCAPE) { return last(event) }
+		if (event.ctrlKey && can.user.isWindows) { can.onkeymap.prevent(event) }
+		if (can.base.isIn(event.key, "ArrowUp", "ArrowDown") && can.user.isWindows) { can.onkeymap.prevent(event) }
 	},
 }})

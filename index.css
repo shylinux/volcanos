@@ -93,7 +93,7 @@ body>div.toast div.action { width:100%; display:block; }
 body>div.toast div.action>div.item { float:right; }
 body>div.carte { padding:0; }
 body>div.carte input[name=filter] { margin:5px; width:calc(100% - 10px); position:sticky; top:5px; }
-body>div.carte div.item { padding:5px 10px; }
+body>div.carte div.item { white-space:pre; padding:5px 10px; }
 body>div.carte div.item span.icon.gt { float:right; }
 body>div.input td { padding:5px; }
 body>div.input td span.icon { font-size:14px; margin-left:-25px; margin-right:10px; visibility:hidden; }
@@ -158,7 +158,7 @@ div.item.select input { border-radius:0; min-width:60px; }
 div.project div.zone div.list { clear:both; }
 
 body.en fieldset.input.date.float>div.action>div.item.select { margin:0 5px; }
-body.en fieldset.input.date.float>div.action>div.item.select select { width:65px; }
+body.en fieldset.input.date.float>div.action>div.item.select select { width:64px; }
 body.en fieldset.input.date.float>div.action>div.item.select.year select { width:115px; }
 body.en fieldset.input.date.float>div.action>div.item.select.month select { width:115px; }
 body.zh fieldset.input.date.float>div.action>div.item.select { margin:0 5px; }
