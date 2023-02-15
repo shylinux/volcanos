@@ -76,7 +76,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		function remove(p) { if (p && p._sub) { remove(p._sub), can.page.Remove(can, p._sub), delete(p._sub) } } if (parent) { remove(parent), parent._sub = carte }
 	}) },
 	_tabFunc: function(can, target) {
-		can.page.Append(can, can.ui.path, can.core.Item({
+		can.user.isWindows || can.page.Append(can, can.ui.path, can.core.Item({
 			"\u25E8 ": function(event) {
 				if (can.page.isDisplay(can.ui.profile)) { return can.onmotion.hidden(can, can.ui.profile), can.onimport.layout(can) } can.onaction.show(event, can)
 			},

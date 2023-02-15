@@ -18,6 +18,7 @@ fieldset.Action.flow>div.output>fieldset.plugin { float:left; }
 fieldset.Action.free>div.output>fieldset.plugin { position:absolute; }
 fieldset.Action.free>div.output>fieldset.plugin.select { z-index:10; }
 fieldset.Action.grid>div.output>fieldset.plugin { float:left; }
+fieldset.Action.free>div.output { overflow:hidden; }
 fieldset.Action.grid>div.output>fieldset.plugin>div.action { display:none; }
 fieldset.Action.grid>div.output>fieldset.plugin>div.status { display:none; }
 fieldset.Action.grid>div.output>fieldset.plugin>form.option input[type=text] { width:80px; }
