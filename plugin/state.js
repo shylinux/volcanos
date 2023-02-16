@@ -14,33 +14,27 @@ Volcanos(chat.ONIMPORT, {
 	_field: function(can, msg) { var opts = {}
 		can.page.SelectArgs(can, can._option, "", function(target) { var value = msg.Option(target.name); target.name && value && (opts[target.name] = value) })
 		var height = can.ConfHeight(); can.page.Select(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })
-		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item[ice.ARG], []), height: can.base.Min(height, 200)}, function(sub, meta) {
+		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: can.base.Min(height, 200)}, function(sub, meta) {
 			sub.Conf(can.base.Obj(item.conf)); if (sub.isSimpleMode()) { (function() { sub.ConfHeight(can.ConfHeight()/2)
 				var msg = can.request(); msg.Echo(sub.Conf(ice.MSG_RESULT)), can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY))
 			})(); return } var opt = can.base.Obj(item[ice.OPT], []); sub.ConfWidth(can.ConfWidth())
-			sub.run = function(event, cmds, cb) {
-				var res = can.request(event, can.Option(), opts); for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
-				can.run(event, (msg.Option("_index")==can._index? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
+			sub.run = function(event, cmds, cb) { var res = can.request(event, can.Option(), opts); for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
+				can.run(event, (msg.Option("_index") == can._index? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
 			}
 		}) })
 	},
-	_float: function(can, msg) { var arg = msg._arg
-		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: arg.slice(1), mode: chat.FLOAT}, function(sub, meta) {
-			sub.run = function(event, cmds, cb) { can.runAction(can.request(event, {path: msg.Option(nfs.PATH), text: msg.Option(mdb.TEXT)}), [ice.RUN, arg[0]], cmds, cb) }
-			can.getActionSize(function(left, top, width, height) { left = left||0, top = !can.Mode()? 120: 0
-				sub.onimport.size(sub, can.base.Max(height, can.page.height())-top-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0), width, true)
-				can.onmotion.move(can, sub._target, {left: left, top: top})
-			})
-		}, document.body) })
-	},
+	_float: function(can, msg) { var arg = msg._arg; msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: arg.slice(1), mode: chat.FLOAT}, function(sub, meta) {
+		sub.run = function(event, cmds, cb) { can.runAction(can.request(event, {path: msg.Option(nfs.PATH), text: msg.Option(mdb.TEXT)}), [ice.RUN, arg[0]], cmds, cb) }
+		can.getActionSize(function(left, top, width, height) { left = left||0, top = !can.Mode()? 120: 0, can.onmotion.move(can, sub._target, {left: left, top: top})
+			sub.onimport.size(sub, can.base.Max(height, can.page.height())-top-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0), width, true)
+		})
+	}, document.body) }) },
 	_hold: function(can, msg, arg) { arg && can.user.toast(can, arg) },
-	_back: function(can) { can._history.pop()
-		for (var index = 0, his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
-			can.page.SelectArgs(can, can._option, "", function(item) { item.value = his[index++]||"" })
-			can.page.SelectArgs(can, can._action, "", function(item) { item.value = his[index++]||"" })
-			can.Update(); break
-		} !his && can.Update()
-	},
+	_back: function(can) { can._history.pop(); for (var index = 0, his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
+		can.page.SelectArgs(can, can._option, "", function(item) { item.value = his[index++]||"" })
+		can.page.SelectArgs(can, can._action, "", function(item) { item.value = his[index++]||"" })
+		can.Update(); break
+	} !his && can.Update() },
 	_rich: function(can, msg) { if (can.page.Select(can, can._output, [html.TABLE_CONTENT, html.TBODY], function(table) {
 		var head = can.page.Select(can, can._output, [html.TABLE_CONTENT, html.TH], function(th) { return th.innerText })
 		return can.page.Append(can, table, msg.Table(function(value) { return {row: can.core.List(head, function(key) { return value[key] })} }))
@@ -64,7 +58,7 @@ Volcanos(chat.ONIMPORT, {
 })
 Volcanos(chat.ONACTION, {list: [
 		"刷新界面", "刷新数据", "切换浮动", "切换全屏", "远程控制", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片",
-		["其它", "保存参数", "清空参数", "扩展参数", "复制数据", "下载数据", "清空数据", "删除工具"],
+		["其它", "扩展参数", "保存参数", "清空参数", "复制数据", "下载数据", "清空数据", "删除工具"],
 		["调试", "查看日志", "打包页面", "查看文档", "查看脚本", "查看源码", "查看配置", "清理配置", "导出配置", "导入配置", "删除配置"],
 	],
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input())) },
@@ -86,11 +80,11 @@ Volcanos(chat.ONACTION, {list: [
 	"刷新界面": function(event, can) { var sub = can._outputs[0]; sub.onlayout._init(sub), can.user.toastSuccess(can) },
 	"刷新数据": function(event, can) { can.Update(event, can.Input()), can.user.toastSuccess(can) },
 	"切换浮动": function(event, can, button, sub) { can.onaction._switch(can, sub, chat.FLOAT, function() { can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
-		can.ConfHeight(can.page.height()/2-2*html.ACTION_HEIGHT-can.onexport.statusHeight(can)), html.WIDTH, can.ConfWidth(can.page.width()/(can.user.isMobile? 1: 2))
-		can.getActionSize(function(left) { can.onmotion.move(can, can._target, {left: (left||0)+(can.user.isMobile? 0: html.PLUGIN_MARGIN), top: can.page.height()/2-html.PLUGIN_MARGIN}) })
+		can.getActionSize(function(left) { can.onmotion.move(can, can._target, {left: (left||0)+(can.user.isMobile? 0: html.PLUGIN_MARGIN), top: can.page.height()/2-html.PLUGIN_MARGIN-html.ACTION_HEIGHT}) })
+		can.ConfHeight(can.page.height()/2-can.onexport.actionHeight(can)-can.onexport.statusHeight(can)), can.ConfWidth(can.page.width()/(can.user.isMobile? 1: 2))
 	}) },
 	"切换全屏": function(event, can) { var sub = can._outputs[0]; can.onaction._switch(can, sub, chat.FULL, function() { can.page.style(can, can._target, html.LEFT, "", html.TOP, "", html.BOTTOM, "")
-		can.ConfHeight(can.page.height()-html.ACTION_HEIGHT-can.onexport.statusHeight(can)), can.ConfWidth(can.page.width())
+		can.ConfHeight(can.page.height()-can.onexport.actionHeight(can)-can.onexport.statusHeight(can)), can.ConfWidth(can.page.width())
 	}) },
 	"远程控制": function(event, can) { can.onaction.keyboard(event, can) },
 	"共享工具": function(event, can) { var meta = can.Conf(); can.onmotion.share(event, can, [
@@ -104,9 +98,9 @@ Volcanos(chat.ONACTION, {list: [
 	]; can.user.copy(event, can, list[0]) },
 	"生成图片": function(event, can) { can.user.toimage(can, can._name) },
 
+	"扩展参数": function(event, can) { can.onmotion.toggle(can, can._action) },
 	"保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
 	"清空参数": function(event, can) { can.page.SelectArgs(can, can._option, "", function(item) { return item.value = "" }) },
-	"扩展参数": function(event, can) { can.onmotion.toggle(can, can._action) },
 	"复制数据": function(event, can) { var sub = can._outputs[0]; can.user.copy(event, can, sub.onexport.table(sub)||sub.onexport.board(sub)) },
 	"下载数据": function(event, can) { var sub = can._outputs[0]; can.user.input(event, can, [{name: "filename", value: can.Conf(mdb.NAME)}], function(list) {
 		can.user.downloads(can, sub.onexport.table(sub), list[0], nfs.CSV), can.user.downloads(can, sub.onexport.board(sub), list[0], nfs.TXT)
@@ -125,9 +119,7 @@ Volcanos(chat.ONACTION, {list: [
 	"导入配置": function(event, can) { can.runAction(event, mdb.IMPORT) },
 	"删除配置": function(event, can) { can.runAction(event, ctx.CONFIG, [mdb.REMOVE], function() { can.user.toastProcess(can), can.onmotion.delay(can, function() { can.user.toastSuccess(can), can.Update() }, 1000) }) },
 	
-	refresh: function(event, can) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return }
-		sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), sub.onimport.layout(sub)
-	},
+	refresh: function(event, can) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (sub) { sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), sub.onimport.layout(sub) } },
 	close: function(event, can) {
 		if (can.isFullMode()) {
 			can.onaction["切换全屏"](event, can, "切换全屏", can.core.Value(can, chat._OUTPUTS_CURRENT))
@@ -163,9 +155,7 @@ Volcanos(chat.ONACTION, {list: [
 	}) },
 	openLocation: function(event, can) { can.user.agent.openLocation(can, can.request(event)) },
 	scanQRCode0: function(event, can, button) { can.user.agent.scanQRCode(can) },
-	scanQRCode: function(event, can, button) { can.user.agent.scanQRCode(can, function(data) {
-		can.runAction(event, button, can.base.Simple(data), function() { can.Update() })
-	}) },
+	scanQRCode: function(event, can, button) { can.user.agent.scanQRCode(can, function(data) { can.runAction(event, button, can.base.Simple(data), function() { can.Update() }) }) },
 	record0: function(event, can, name, cb) { can.user.input(event, can, [{name: nfs.FILE, value: name}], function(list) {
 		navigator.mediaDevices.getDisplayMedia({video: {height: window.innerHeight}}).then(function(stream) { var toast
 			can.core.Next([3, 2, 1], function(item, next) { toast = can.user.toast(can, item + "s 后开始截图"), can.onmotion.delay(can, next, 1000) }, function() { toast.close()
@@ -188,14 +178,14 @@ Volcanos(chat.ONACTION, {list: [
 	}) },
 })
 Volcanos(chat.ONEXPORT, {
-	link: function(can) { var meta = can.Conf(), args = can.Option(); can.misc.Search(can, log.DEBUG) == ice.TRUE && (args[log.DEBUG] = ice.TRUE)
-		args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == web.WIKI_WORD && (args.cmd = args.path)
-		return can.misc.MergePodCmd(can, args, true)
-	},
-	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
 	output: function(can, msg) {},
 	action: function(can, button, line) {},
 	record: function(can, value, key, line) {},
 	actionHeight: function(can) { return html.ACTION_HEIGHT },
 	statusHeight: function(can) { return !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },
+	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
+	link: function(can) { var meta = can.Conf(), args = can.Option(); can.misc.Search(can, log.DEBUG) == ice.TRUE && (args[log.DEBUG] = ice.TRUE)
+		args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == web.WIKI_WORD && (args.cmd = args.path)
+		return can.misc.MergePodCmd(can, args, true)
+	},
 })

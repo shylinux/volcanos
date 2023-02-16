@@ -127,7 +127,6 @@ form.option>div.cmd, form.option>div.textarea { width:100%; } textarea { resize:
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item, div.layout.flex>* { float:left; }
 div.action, div.output, div.status, div.project, div.display, div.profile, div.content, table.content, table.content td, div.code, div.plug, div.story, div.toast, div.carte, fieldset.input { overflow:auto; }
 div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
-// fieldset>div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
 fieldset>div.status>legend { margin-left:2px; margin-right:0; height:30px; float:right; clear:none; }
 fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
@@ -325,8 +324,6 @@ body.mobile div.output.card div.item { height:160px; float:none; }
 body.mobile.simple div.output.card div.item { width:100%; }
 body.mobile.landscape div.output.card div.item { width:auto; float:left; }
 /* scrollbar */
-// body { overflow:-moz-scrollbars-none; -ms-overflow-style:none; }
-// body::-webkit-scrollbar { width:0 !important; height:0 !important; }
 fieldset.panel.Action>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.story[data-type=spark]::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }

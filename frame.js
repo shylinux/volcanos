@@ -598,7 +598,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			var pos = can.page.Cache(target._cache_key = key, target); if (pos) { target.scrollTo && target.scrollTo(0, pos-1); return target }
 		}).length > 0
 	},
-	share: function(event, can, input, args) { var _args = args
+	share: function(event, can, input, args) { var _args = args; can.request(event, {submit: "共享"})
 		return can.user.input(event, can, input, function(args) { can.onengine.signal(can, chat.ONSHARE, can.request(event, {args: [mdb.TYPE, chat.FIELD].concat(_args||[], args||[])})) })
 	},
 	focus: function(can, target, value) { if (!target) { return } if (!can.base.isUndefined(value)) { target.value = value }
