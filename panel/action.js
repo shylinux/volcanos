@@ -6,7 +6,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 				sub._target.onclick = function(event) { event.target == sub._target && can.onmotion.scrollHold(can, function() { sub._tabs.click() }) }
 			})
 		}, function() { can.isCmdMode() || can.onmotion.delay(can, function() { can.onaction.layout(can)
-			list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) { sub.Conf(ctx.INDEX) == list[2] && can.onmotion.delay(can, function() { sub._tabs.click() }) })
+			can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) { sub.Conf(ctx.INDEX) == list[2] && can.onmotion.delay(can, function() { sub._tabs.click() }) })
 		}) })
 	},
 	_share: function(can, share) { share && can.runAction({}, web.SHARE, [share], function(msg) {
@@ -18,7 +18,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 			can.onmotion.select(can, can._action, html.DIV_TABS, sub._tabs), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
 			if (sub._delay_refresh) { sub._delay_refresh = false, sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), can.onexport.isauto(can)) }
 			can.onexport.layout(can) == FREE || (can._output.scrollTop = sub._target.offsetTop-html.PLUGIN_MARGIN)
-			can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), meta.index)
+			can.onexport.layout(can) && can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), meta.index)
 		}, oncontextmenu: sub._legend.onclick}]; sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
 	},
 	_menu: function(can, msg) { if (can.user.isMobile) { return }
@@ -39,7 +39,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			}}])._target; can._toggle = target
 		}); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return } can._names = location.pathname
 		can.Conf(chat.TOOL)? can.onappend.layout(can, can._output, FLOW, can.core.List(can.Conf(chat.TOOL), function(item, index, list) { item.type = chat.PLUGIN
-			if (list.length == 1) { can.onaction._onaction_cmd(can), item.mode = chat.CMD, item.opts = can.misc.Search(can) } return item
+			if (list.length == 1) { can.user.title(item.index), can.onaction._onaction_cmd(can), item.mode = chat.CMD, item.opts = can.misc.Search(can) } return item
 		})).layout(window.innerHeight, window.innerWidth): can.runAction(can.request(), ctx.COMMAND, [], function(msg) {
 			if (msg.Length() == 1) { can.onaction._onaction_cmd(can) } can.onimport._init(can, msg)
 		})

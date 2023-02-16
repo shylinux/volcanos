@@ -288,7 +288,7 @@ fieldset.plugin.parse.cmd>div.status { display:none; }
 fieldset.plugin.inner.cmd>legend { display:none; }
 fieldset.plugin.inner.cmd>div.action { display:none; }
 fieldset.plugin.inner.cmd>form.option { display:none; }
-fieldset.plan div.output table.content { width:100%; }
+fieldset.plan div.output table.content { height:100%; width:100%; }
 fieldset.xterm div.toggle { display:none; }
 fieldset.draw td.content { position:relative; }
 fieldset.draw div.output div.content svg { background-color:#1b5b738c; }
