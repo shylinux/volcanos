@@ -30,7 +30,7 @@ Volcanos(chat.ONFIGURE, {
 				}), item._init = function(target) { item._remove = function() { can.page.Remove(can, target.parentNode), delete(node[item.path]) } } })
 				return can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, node)
 			} node = add(msg.Table()), can.Status(mdb.COUNT, total += zone._total(msg.Length()))
-		}, true) } if (path.length == 1) { return show(target, path[0]) }
+		}, true) } if (path.length == 1) { return show(target, zone, path[0]) }
 		can.onimport.zone(can, can.core.List(path, function(path) {
 			return {name: path, _init: function(target, zone) { path == args[0] && show(target, zone, path) },
 				_delay_show: path == args[0]? undefined: function(target, zone) { show(target, zone, path) }}
