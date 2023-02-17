@@ -45,7 +45,6 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		can.onaction.storm({target: can.ui.river_list[river]}, can, river), can.onmotion.toggle(can, can.ui.sublist[river], true)
 		can.onmotion.select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], can.ui.storm_list[can.core.Keys(river, storm)])
 		can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm)}))
-		can.misc.localStorage(can, CAN_RIVER, river), can.misc.localStorage(can, CAN_STORM, storm)
 	},
 	carte: function(event, can, list, river, storm) { can.onkeymap.prevent(event); if (can.core.Value(can._root, can.core.Keys(chat.RIVER, river))) { return }
 		can.request(event, {river: river, storm: storm})

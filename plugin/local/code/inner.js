@@ -481,7 +481,9 @@ Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, mdb.TYPE, nfs.FILE, nfs.LINE, ice.BAC
 	selection: function(can, str) { var s = document.getSelection().toString(), begin = str.indexOf(s), end = begin+s.length
 		for (var i = begin; i >= 0; i--) { if (str[i].match(/[a-zA-Z0-9_.]/)) { s = str.slice(i, end) } else { break } } return s
 	},
-	hash: function(can) { if (!can.isCmdMode()) { return } location.hash = [can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE)].join(ice.DF) },
+	hash: function(can) { var hash = [can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE)].join(ice.DF)
+		if (can.isCmdMode()) { return location.hash = hash } return hash
+	},
 	func: function(can) { var list = []
 		function indent(text) { var indent = 0; for (var i = 0; i < text.length; i++) { switch (text[i]) {
 			case ice.TB: indent+=4; break
