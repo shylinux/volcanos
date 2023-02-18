@@ -168,7 +168,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	_action: function(can, list, action, meta) { meta = meta||can.onaction||{}, action = action||can._action, can.onmotion.clear(can, action)
 		function run(event, button) { can.misc.Event(event, can, function(msg) { var _can = can._fields? can.sup: can
 			var cb = meta[button]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: button}):
-				can.run(event, [ctx.ACTION, button].concat(_can.Input()), function(msg) { can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg}) })
+				can.run(event, [ctx.ACTION, button].concat(_can.Input()))
+				// can.run(event, [ctx.ACTION, button].concat(_can.Input()), function(msg) { can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg}) })
 		}) }
 		return can.core.List(can.page.inputs(can, can.base.getValid(can.base.Obj(list), can.core.Value(can, [chat.ONACTION, mdb.LIST]), meta != can.onaction? can.core.Item(meta): [])||[]), function(item) {
 			can.base.isUndefined(item) || can.onappend.input(can, item == ""? /* 1.空白 */ {type: html.BR}:
@@ -191,7 +192,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}
 		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, cb||function(msg) { if (silent) { return } var _can = can._fields? can.sup: can
 			if (_can == (msg._can._fields? msg._can.sup: msg._can) && can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) { return }
-			if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.CREATE, mdb.INSERT, mdb.IMPORT, nfs.TRASH) || msg.Length() == 0 && msg.Result() == "") { return can.user.toastSuccess(can, cmds[1]), can.Update() } }
+			if (cmds && cmds[0] == ctx.ACTION) { if (msg.Length() == 0 && !msg.Result()) { return can.user.toastSuccess(can, cmds[1]), can.Update() } }
+			// if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.CREATE, mdb.INSERT, mdb.IMPORT, nfs.TRASH) || msg.Length() == 0 && msg.Result() == "") { return can.user.toastSuccess(can, cmds[1]), can.Update() } }
 			can.onappend._output(can, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
 		})
 	},

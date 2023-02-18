@@ -26,7 +26,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	onaction_notool: function(can, msg, river, storm) { can.ondetail["addcmd"](msg._event, can, "addcmd", river, storm) },
 	onsearch: function(can, msg, arg) { if (arg[0] == mdb.FOREACH || arg[0] == chat.STORM) { can.onexport.storm(can, msg, arg) } },
 	onlayout: function(can, layout) { can.user.isMobile || can.onmotion.toggle(can, can._target, !layout || layout == "tabs") },
-	ontitle: function(can, msg) { can.misc.localStorage(can, CAN_RIVER, ""), can.misc.localStorage(can, CAN_STORM, "") },
+	ontitle: function(can, msg) { can.misc.sessionStorage(can, CAN_RIVER, ""), can.misc.sessionStorage(can, CAN_STORM, "") },
 	
 	create: function(event, can) { can.user.input(event, can, [{name: mdb.TYPE, values: [aaa.TECH, aaa.VOID], _trans: "类型"}, {name: mdb.NAME, value: "hi", _trans: "群名"}, {name: mdb.TEXT, value: "hello", _trans: "简介"}], function(args) {
 		can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })
