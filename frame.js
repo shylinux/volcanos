@@ -187,8 +187,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				return action.list && action.list.length > 0? can.user.input(event, can, action.list, function(data) {
 					can.core.CallFunc(action, {can: can, msg: can.request(event, data), arg: cmds.slice(2), cb: cb})
 				}): can.core.CallFunc(action, {can: can, msg: can.request(event), arg: cmds.slice(2), cb: cb})
-			}
-			return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, can.Option()), cmds.slice(0, 2).concat(args), cb) })
+			} return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, can.Option()), cmds.slice(0, 2).concat(args), cb) })
 		}
 		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, cb||function(msg) { if (silent) { return } var _can = can._fields? can.sup: can
 			if (_can == (msg._can._fields? msg._can.sup: msg._can) && can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) { return }
@@ -356,9 +355,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.run(can.request(event, can.Option()), [ctx.ACTION, target.name])
 		}) } }); return code.scrollBy && code.scrollBy(0, 10000), code
 	},
-	tools: function(can, msg, cb, target) {
-		can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []), cb, target)
-	},
+	tools: function(can, msg, cb, target) { can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []), cb, target) },
 	layout: function(can, target, type, list) { const FLOW = html.FLOW, FLEX = html.FLEX
 		var count = 0, ui = {size: {}}; type = type||FLEX
 		function append(target, type, list) { can.page.ClassList.add(can, target, [html.LAYOUT, type]), can.core.List(list, function(item) {

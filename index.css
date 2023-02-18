@@ -117,6 +117,7 @@ legend>span.delete { font-size:1rem; margin-left:5px; margin-right:-15px; visibi
 // legend:hover>span.delete { visibility:visible; }
 select, input { font-size:1rem; height:31px; } textarea { tab-size:2; height:93px; } input::placeholder { font-style:italic; }
 table.content, div.item, div.code, div.story[data-type=spark] { white-space:pre; text-align:left; }
+table.content, div.item, div.code, div.story[data-type=spark] { font-family:monospace; }
 div.action>div.tabs { padding:5px; height:31px; }
 div.status>div.item { padding:5px; height:30px; }
 div.status>div.item>label { font-size:0.6rem; }
@@ -155,15 +156,6 @@ div.carte.select.float>div.item { text-align:center; }
 div.item.select span { margin-left:-20px; margin-right:10px; }
 div.item.select input { border-radius:0; min-width:60px; }
 div.project div.zone div.list { clear:both; }
-
-body.en fieldset.input.date.float>div.action>div.item.select { margin:0 5px; }
-body.en fieldset.input.date.float>div.action>div.item.select select { width:64px; }
-body.en fieldset.input.date.float>div.action>div.item.select.year select { width:115px; }
-body.en fieldset.input.date.float>div.action>div.item.select.month select { width:115px; }
-body.zh fieldset.input.date.float>div.action>div.item.select { margin:0 5px; }
-body.zh fieldset.input.date.float>div.action>div.item.select select { width:68px; }
-body.zh fieldset.input.date.float>div.action>div.item.select.year select { width:95px; }
-body.zh fieldset.input.date.float>div.action>div.item.select.month select { width:95px; }
 /* hover */
 legend:hover { background-color:skyblue; }
 select:hover { background-color:gray; color:cyan; }
@@ -300,6 +292,14 @@ fieldset.qrcode>div.output div.code { padding:0; }
 fieldset.can.view { font-size:14px; }
 fieldset.can.data { font-size:14px; }
 body.mobile fieldset.plugin>legend { border:none; }
+body.en fieldset.input.date.float>div.action>div.item.select { margin:0 5px; }
+body.en fieldset.input.date.float>div.action>div.item.select select { width:64px; }
+body.en fieldset.input.date.float>div.action>div.item.select.year select { width:115px; }
+body.en fieldset.input.date.float>div.action>div.item.select.month select { width:115px; }
+body.zh fieldset.input.date.float>div.action>div.item.select { margin:0 5px; }
+body.zh fieldset.input.date.float>div.action>div.item.select select { width:68px; }
+body.zh fieldset.input.date.float>div.action>div.item.select.year select { width:95px; }
+body.zh fieldset.input.date.float>div.action>div.item.select.month select { width:95px; }
 /* layout */
 table.layout { border-spacing:0; }
 table.layout td { vertical-align:top; }

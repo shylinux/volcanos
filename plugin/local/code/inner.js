@@ -324,7 +324,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 		}).join("")); return line
 	},
 })
-Volcanos(chat.ONACTION, {list: ["首页", "官网", "调试", "百度"],
+Volcanos(chat.ONACTION, {list: ["调试", "首页", "官网", "源码", "百度"],
 	_getLine: function(can, line) { return can.page.Select(can, can.ui.content, "tr.line>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return td.parentNode } })[0] },
 	_getLineno: function(can, line) { return can.page.Select(can, can.ui.content, "tr.line>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return index+1 } })[0] },
 	appendLine: function(can, value) { var ui = can.page.Append(can, can.ui._content, [{view: [nfs.LINE, html.TR], list: [
