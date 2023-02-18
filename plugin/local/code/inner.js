@@ -92,7 +92,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		var carte, list = [{input: [html.FILTER, function(event) { if (event.key == lang.ESCAPE) { return carte.close() } can.onkeymap.selectItems(event, can, carte._target)
 		}], _init: function(target) { can.onmotion.delay(can, function() { target.placeholder = "search in "+(can.core.List(list, function(item) { if (item) { return item } }).length-1)+" items", target.focus() }) }}]
 		can.core.Item(last, function(key) { list.push(key) }), list = list.concat(func.list)
-		can.page.Append(can, target, [{view: [[html.ITEM, "func"], html.SPAN, (func.current||"func")+" / "+can.db.max+func.percent], onclick: function(event) {
+		can.page.Append(can, target, [{view: [[html.ITEM, "func"], html.SPAN, (func.current||"func")+" / "+can.db.max+func.percent+ice.SP+can.base.Size(can._msg.result[0].length)], onclick: function(event) {
 			carte = can.user.carte(event, can, {_style: nfs.PATH}, list, function(ev, button) { last[button] = true, carte.close()
 				can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.core.Split(button, ice.DF)[1])
 			})
