@@ -56,7 +56,7 @@ Volcanos(chat.ONFIGURE, {
 		}) }})
 	}) },
 })
-Volcanos(chat.ONACTION, {
+Volcanos(chat.ONACTION, {list: ["提交", "调试", "首页", "官网", "源码", "百度"],
 	_daemon: function(event, can, arg) { switch (arg[0]) {
 		case web.DREAM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME)), web.DREAM) }); break
 		case code.XTERM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, ctx.COMMAND, code.XTERM, msg.Result()) }); break
@@ -106,6 +106,7 @@ Volcanos(chat.ONACTION, {
 	}) },
 	"调试": function(event, can) { can.user.opens(location.href.replace("debug=true", "debug=false")) },
 	"首页": function(event, can) { can.user.open(location.origin+(can.misc.Search(can, log.DEBUG) == ice.TRUE? "?debug=true": "")) },
+	"提交": function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX) },
 	"官网": function(event, can) { can.user.open("https://contexts.com.cn/") },
 	"源码": function(event, can) { can.user.open("https://shylinux.com/") },
 	"百度": function(event, can) { can.user.opens("https://baidu.com/") },

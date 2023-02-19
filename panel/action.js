@@ -87,7 +87,7 @@ Volcanos(chat.ONLAYOUT, {
 	horizon: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height), can.ConfWidth(width/2) }) },
 	vertical: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height/2), can.ConfWidth(width) }) },
 	grid: function(can) { can.getActionSize(function(height, width) { var m = can.user.isMobile? 1: 2, n = 2
-		var h = height/n-4*html.PLUGIN_MARGIN-html.ACTION_HEIGHT, w = width/m-can.Conf(html.MARGIN_X); can.ConfHeight(h), can.ConfWidth(w)
+		var h = height/n-4*html.PLUGIN_MARGIN, w = width/m-can.Conf(html.MARGIN_X); can.ConfHeight(h), can.ConfWidth(w)
 	}) },
 	free: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-can.Conf(html.MARGIN_Y)), can.ConfWidth(width-can.Conf(html.MARGIN_Y))
 		can.core.List(can._plugins, function(sub, index, array) { can.onmotion.move(can, sub._target, {left: (width/array.length/8*5+20)*index, top: (height/array.length/8*5)*index}) }), can.onmotion.toggle(can, can._header_tabs, true)
