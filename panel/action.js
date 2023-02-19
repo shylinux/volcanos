@@ -64,10 +64,10 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
 	},
 	onresize: function(can) { can.onaction.layout(can), window.setsize && window.setsize(can.page.width(), can.page.height()) },
-	ontitle: function(can, msg) { can.misc.localStorage(can, CAN_LAYOUT, "") },
+	ontitle: function(can, msg) { can.onlayout._storage(can, "") },
 	
-	layout: function(can, button) { can.page.ClassList.del(can, can._target, can._layout||can.misc.localStorage(can, CAN_LAYOUT)), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
-		button = (can.misc.localStorage(can, CAN_LAYOUT, can._layout = button == ice.AUTO? "": button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
+	layout: function(can, button) { can.page.ClassList.del(can, can._target, can._layout||can.onlayout._storage(can)), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
+		button = (can.onlayout._storage(can, can._layout = button == ice.AUTO? "": button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
 		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button})), can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), can.onlayout._init(can)
 		can.core.List(can._plugins, function(sub) { sub._delay_refresh = false, can.page.ClassList.set(can, sub._target, html.OUTPUT, [TABVIEW, HORIZON, VERTICAL].indexOf(button) > -1) })
 		var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can) || can.onlayout._plugin(can, button)
@@ -94,6 +94,7 @@ Volcanos(chat.ONLAYOUT, {
 	}) },
 	page: function(can) { can.page.styleHeight(can, can._output, ""), can.page.style(can, document.body, kit.Dict(html.OVERFLOW, "")) },
 	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.MAX_HEIGHT, "") }) },
+	_storage: function(can, value) { return can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value) },
 })
 Volcanos(chat.ONEXPORT, {
 	size: function(can, msg) {
@@ -101,7 +102,7 @@ Volcanos(chat.ONEXPORT, {
 		msg.Option(html.HEIGHT, can._output.offsetHeight), msg.Option(html.WIDTH, can._output.offsetWidth)
 		msg.Option(html.MARGIN_Y, can.Conf(html.MARGIN_Y)), msg.Option(html.MARGIN_X, can.Conf(html.MARGIN_X))
 	},
-	layout: function(can) { return can._layout||can.misc.SearchOrConf(can, html.LAYOUT)||"" },
+	layout: function(can) { return can._layout||can.onlayout._storage(can)||can.misc.SearchOrConf(can, html.LAYOUT)||"" },
 	isauto: function(can) { return ["", FLOW, PAGE].indexOf(can.onexport.layout(can)) > -1 },
 	args: function(can, msg, cb) { can.core.Next(can._plugins, function(sub, next, index, list) {
 		cb(can.base.trim(can.page.SelectArgs(can, sub._option, "", function(item) { return item.value })), sub, next, index, list)

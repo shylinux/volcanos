@@ -176,6 +176,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	display: function(can, msg) { var width = can.ui.content.offsetWidth+can.ui.profile.offsetWidth||can.ConfWidth()-can.ui.project.offsetWidth
 		var height = can.onexport.size(can, can.db.display_size[can.onexport.keys(can)]||0.5, can.ui.content.offsetHeight||can.ConfHeight())
 		can.onimport.process(can, msg, can.ui.display, height, width, function(sub) { var _height = can.base.Max(sub._target.offsetHeight, height)
+			can.page.style(can, sub._target, html.MIN_HEIGHT, _height = can.base.Min(_height, can.ConfHeight()/4))
 			can.db.display_size[can.onexport.keys(can)] = _height, can.onimport.layout(can), sub.onimport.size(sub, _height, width, true)
 		})
 	},
