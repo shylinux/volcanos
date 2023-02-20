@@ -119,7 +119,7 @@ select, input { font-size:1rem; height:31px; } textarea { tab-size:2; height:93p
 table.content, div.item, div.code, div.story[data-type=spark] { white-space:pre; text-align:left; }
 table.content, div.item, div.code, div.story[data-type=spark] { font-family:monospace; }
 div.action>div.tabs { padding:5px; height:31px; }
-div.status>div.item { padding:5px; height:30px; }
+div.status>div.item { padding:5px; height:30px; float:left; }
 div.status>div.item>label { font-size:0.6rem; }
 /* display */
 fieldset>form.option, fieldset>div.action { display:contents; } form.option.hide, div.action.hide { display:none; }

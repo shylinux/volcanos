@@ -251,14 +251,15 @@ function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(t
 		} else if (i < arg.length && (!type || type == typeof arg[i])) { return arg[i++] }
 	} return cb = typeof arg[arg.length-1] == lang.FUNCTION? arg[arg.length-1]: function() {}, cb.help = next(lang.STRING)||"", cb.meta = next(lang.OBJECT)||{}, cb.list = next(lang.ARRAY)||[], cb
 }; var _can_name = "", _can_path = ""
-var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
+var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {
 		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, style: html.HIDE, state: [mdb.TIME, aaa.USERNICK]}, {name: chat.ACTION, style: html.MAIN, tool: name}, {name: chat.FOOTER, style: html.HIDE}]}) }
 		var Config = name; name = Config.name||ice.CAN, _can_name = "", _can_path = ""
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list, delete(Config.panels)
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)
 		cb = can||function(can) { can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target) }
-		can = Config, can._path = location.href, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width
+		can = Config, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width
+		// can._path = location.href, 
 	}
 	can = kit.proto(can||{}, kit.proto({_path: _can_path, _name: name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
 			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub), sub._path = name } meta.cache[name] = cache
@@ -269,7 +270,10 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 			})
 		},
 		require: function(libs, cb, cbs) {
-			if (!libs || libs.length == 0) { return typeof cb == lang.FUNCTION && setTimeout(function() { cb(can) }, 10) }
+			if (!libs || libs.length == 0) {
+				if (navigator.userAgent == "nodejs") { return typeof cb == lang.FUNCTION && cb(can) }
+				return typeof cb == lang.FUNCTION && setTimeout(function() { cb(can) }, 10)
+			}
 			if (libs[0] == undefined) { return can.require(libs.slice(1), cb, cbs) }
 			if (libs[0] == "") { libs[0] = can._path.replace(nfs._JS, nfs._CSS) }
 			if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
@@ -338,6 +342,7 @@ var Volcanos = shy({version: window._version||"", iceberg: "/chat/", volcano: "/
 	return can.require(can._follow? libs.concat(meta.libs, meta.volcano): libs, cb), can
 })
 try { if (typeof(window) == lang.OBJECT) { // chrome
+	Volcanos.meta.version = window._version
 	Volcanos.meta.target = document.body, Volcanos.meta._height = window.innerHeight, Volcanos.meta._width = window.innerWidth
 	Volcanos.meta._load = function(url, cb) {
 		var v = Volcanos.meta.version? Volcanos.meta.version+"&_tt="+(new Date()).getTime(): ""
@@ -353,6 +358,7 @@ try { if (typeof(window) == lang.OBJECT) { // chrome
 		}) }
 	}
 } else { // nodejs
+	global.location = {}, global.document = {}, global.window = {}, global.navigator = { userAgent: "nodejs" }
 	global.kit = kit, global.ice = ice
 	global.ctx = ctx, global.mdb = mdb, global.web = web, global.aaa = aaa
 	global.lex = lex, global.yac = yac, global.ssh = ssh, global.gdb = gdb

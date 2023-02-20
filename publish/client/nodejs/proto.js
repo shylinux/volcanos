@@ -1,25 +1,17 @@
 try { if (typeof(global) == lang.OBJECT) { // nodejs
-	Volcanos.meta._load = function(url, cb) { if (!url) { return }
-		setTimeout(function() { if (Volcanos.meta.cache[url]) { return cb(Volcanos.meta.cache[url]) }
-			switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
-				case nfs.JS:
-					require(path.isAbsolute(url)? url: path.join(process.cwd(), "usr/volcanos", url))
-					cb(Volcanos.meta.cache[url])
-					break
-			}
-		}, 100)
+	Volcanos.meta._load = function(url, cb) { if (!url) { return cb() }
+		switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
+			case nfs.JS:
+				// console.log("require", url)
+				require(url.indexOf("/src/") == 0? path.join(process.cwd(), url): path.join(process.cwd(), "usr/volcanos", url))
+				cb(Volcanos.meta.cache[url]); break
+		}
 	}
-
-	Volcanos.meta._load(global.plugin, function(cache) {
-		Volcanos.meta.volcano = "./frame.js", Volcanos({libs: [
-			"./lib/base.js", "./lib/core.js", "./lib/misc.js", "./lib/page.js", // "./lib/user.js",
-		], panels: [], plugin: []}, function(can) { can.core.List(cache, function(item) { can[item._name] = item })
-			Volcanos.meta._load("./publish/client/nodejs/proto.js", function(cache) {
-				can.core.List(cache, function(item) { can.base.Copy(can[item._name]||{}, item) })
-				can.onimport._init(can, can.request(), function(msg) { console.log(ice.NL) }, null)
-			})
-		})
-	})
+	Volcanos.meta._main = function(main) { var res
+		Volcanos({panels: [], plugin: []}, function(can) { can.require([main], function(can) { var msg = can.request()
+			can._path = main, can.core.CallFunc(can.onimport._init, {can: can, msg: msg}), res = msg.Result()
+		}) }); console.log(res); return
+	}
 } } catch (e) { console.log(e) }
 
 _can_name = "./frame.js"
@@ -30,7 +22,6 @@ Volcanos("onappend", {
 				max[k] = value[k].length
 			} }
 		})
-
 		var list = []; msg.Table(function(value, index, array) { var line = []
 			if (index == 0) {
 				for (var i = 0; i < msg.append.length; i++) { line.push(msg.append[i])
