@@ -355,8 +355,12 @@ Volcanos(chat.ONACTION, {list: ["调试", "首页", "官网", "源码", "百度"
 			}, can.onimport.history(can, {path: can.Option(nfs.PATH), file: can.Option(nfs.FILE), line: can.Option(nfs.LINE), text: can.current.text()})
 			can.onexport.hash(can), scroll && can.onaction.scrollIntoView(can), can.onengine.signal(can, LINE_SELECT, can._msg)
 		})
-		can.misc.localStorage(can, CURRENT_FILE, [can.Option(nfs.PATH), can.Option(nfs.FILE), can.onaction._getLineno(can, can.current.line)].join(ice.DF))
-		can.misc.sessionStorage(can, SELECT_LINE+ice.DF+can.Option(nfs.PATH)+can.Option(nfs.FILE), can.onaction._getLineno(can, can.current.line))
+		if (can.isCmdMode()) {
+			if (can.user.isWebview) {
+				can.misc.localStorage(can, CURRENT_FILE, [can.Option(nfs.PATH), can.Option(nfs.FILE), can.onaction._getLineno(can, can.current.line)].join(ice.DF))
+			}
+			can.misc.sessionStorage(can, SELECT_LINE+ice.DF+can.Option(nfs.PATH)+can.Option(nfs.FILE), can.onaction._getLineno(can, can.current.line))
+		}
 		return can.onexport.line(can, line)
 	},
 	scrollIntoView: function(can, offset) { var current = can.onaction._getLineno(can, can.current.line), window = can.current.window(); offset = offset||parseInt(window/4)+2
