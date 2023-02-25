@@ -80,7 +80,7 @@ Volcanos(chat.ONLAYOUT, {
 		can.core.List(can._plugins, function(sub) { sub._delay_refresh = true })
 		can.onmotion.select(can, can._action, html.DIV_TABS, can.onmotion.select(can, can._action, html.DIV_TABS)||0, function(target) { target.click() }); return true
 	},
-	tabview: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height), can.ConfWidth(width) })
+	tabview: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width) })
 		can.core.List(can._plugins, function(sub) { sub._delay_refresh = true }), can.onmotion.toggle(can, can._header_tabs, true)
 		can.onmotion.select(can, can._action, html.DIV_TABS, can.onmotion.select(can, can._action, html.DIV_TABS)||0, function(target) { target.click() }); return true
 	},
@@ -138,6 +138,7 @@ Volcanos(chat.ONKEYMAP, {
 		normal: {
 			j: function(event, can, target) { target.scrollBy(0, event.ctrlKey? 300: 30) },
 			k: function(event, can, target) { target.scrollBy(0, event.ctrlKey? -300: -30) },
+			r: function(event, can, target) { can.user.reload(true) },
 			t: function(event, can) { can.onkeymap.toggleLayout(can, TABVIEW) },
 			h: function(event, can) { can.onkeymap.toggleLayout(can, HORIZON) },
 			v: function(event, can) { can.onkeymap.toggleLayout(can, VERTICAL) },

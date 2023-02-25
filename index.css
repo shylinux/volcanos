@@ -331,3 +331,6 @@ div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.carte::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.status::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.toggle::-webkit-scrollbar { width:0 !important; height:0 !important; }
+
+body.windows form.option>div.icon { font-size:21px; }
+body.windows fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.website.icon { line-height:36px; }

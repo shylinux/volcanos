@@ -4,6 +4,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.
 		can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target)
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.Conf(chat.TITLE)||msg.result, function(item) {
+		if (can.base.contains(item, ice.AT)) {
+			item = '<a href="mailto:'+item+'">'+item+'</a>'
+		}
 		can.page.Append(can, target, [{view: [chat.TITLE, "", item], title: "联系站长"}])
 	}) },
 	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [NTIP, NLOG, NCMD, NKEY]).reverse(), function(item) {

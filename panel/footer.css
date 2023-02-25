@@ -1,11 +1,12 @@
-fieldset.Footer>div.output { padding:0 5px; height:31px; }
+fieldset.Footer>div.output { padding:0; height:31px; }
 fieldset.Footer>div.output div { padding:5px; height:31px; cursor:pointer; }
 fieldset.Footer>div.output div:hover { background-color:#2e515f; }
+fieldset.Footer>div.output div.title:first-child { text-align:center; margin-right:10px; width:230px; }
 fieldset.Footer>div.output div.title { float:left; }
 fieldset.Footer>div.output div.state { float:right; }
 fieldset.Footer>div.output div.state label { font-size:12px; }
 fieldset.Footer>div.output div.toast { background-color:darkcyan; float:right; }
-fieldset.Footer>div.output div.cmd { padding:0; margin-left:40px; }
+fieldset.Footer>div.output div.cmd { padding:0; }
 fieldset.Footer>div.output div.cmd>span.delete { top:1px; right:5px; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { margin-right:0; width:120px; transition:all 1s; }
 fieldset.Footer>div.output div.cmd>input[name=cmd]:focus { width:320px; transition:all 0.5s; }

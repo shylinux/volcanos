@@ -1,13 +1,14 @@
-fieldset.Header>div.output { font-size:1.1rem; line-height:21px; padding:0 5px; height:31px; overflow:hidden; }
+fieldset.Header>div.output { font-size:1.1rem; line-height:21px; padding:0; height:31px; overflow:hidden; }
 fieldset.Header>div.output div { height:31px; float:left; cursor:pointer; }
 fieldset.Header>div.output div:hover { background-color:#2e515f; }
 fieldset.Header>div.output div.menu { padding:5px; }
 fieldset.Header>div.output div.title { padding:5px; }
+fieldset.Header>div.output div.title:first-child { text-align:center; margin-right:10px; width:230px; }
 fieldset.Header>div.output div.state { padding:5px; float:right; }
 fieldset.Header>div.output div.state.time { margin-left:10px; }
 fieldset.Header>div.output div.state.avatar { padding:0; }
 fieldset.Header>div.output div.state.avatar>img { height:31px; }
-fieldset.Header>div.output div.search.title { padding:0; margin-left:20px; }
+fieldset.Header>div.output div.search.title { padding:0; }
 fieldset.Header>div.output div.search>span.delete { top:1px; right:5px; }
 fieldset.Header>div.output div.search>input { margin-right:0; transition:all 1s; }
 fieldset.Header>div.output div.search>input:focus { width:320px; transition:all 0.5s; }

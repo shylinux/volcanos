@@ -56,7 +56,7 @@ Volcanos(chat.ONFIGURE, {
 		}) }})
 	}) },
 })
-Volcanos(chat.ONACTION, {list: ["提交", "调试", "首页", "官网", "源码", "百度"],
+Volcanos(chat.ONACTION, {list: ["提交", "调试", "首页", "官网", "源码"],
 	_daemon: function(event, can, arg) { switch (arg[0]) {
 		case web.DREAM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME)), web.DREAM) }); break
 		case code.XTERM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, ctx.COMMAND, code.XTERM, msg.Result()) }); break
@@ -109,7 +109,6 @@ Volcanos(chat.ONACTION, {list: ["提交", "调试", "首页", "官网", "源码"
 	"提交": function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX) },
 	"官网": function(event, can) { can.user.open("https://contexts.com.cn/") },
 	"源码": function(event, can) { can.user.open("https://shylinux.com/") },
-	"百度": function(event, can) { can.user.opens("https://baidu.com/") },
 	"全屏": function(event, can) { can._target.requestFullScreen() },
 	"录屏": function(event, can) { window.openapp("QuickTime Player") },
 	"编辑器": function(event, can) { window.opencmd("cd ~/contexts; vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE)) },
@@ -278,12 +277,14 @@ Volcanos(chat.ONKEYMAP, {
 			zt: shy("将当前行拉到屏幕最上", function(can, count) { return can.current.scroll(can.current.scroll()-(count>1? count: 3)), true }),
 			zz: shy("将当前行拉到屏幕中间", function(can, count) { return can.current.scroll(can.current.scroll()-(count = count>1? count: can.current.window()/2)), true }),
 			zb: shy("将当前行拉到屏幕最下", function(can, count) { return can.current.scroll(can.current.scroll()-can.current.window()+(count>1? count: 5)), true }),
+			r: shy("向上滚屏", function(can) { can.user.reload(true) }),
 		},
 		normal_ctrl: {
 			f: shy("向下翻页", function(can, count) { var line = can.onaction.selectLine(can)+can.current.window()-3-can.current.scroll(); return can.current.scroll(line), can.onaction.selectLine(can, line), true }),
 			b: shy("向上翻页", function(can, count) { var line = can.onaction.selectLine(can)-can.current.window()+3; return can.current.scroll(line), can.onaction.selectLine(can, line), true }),
 			e: shy("向下滚屏", function(can) { can.current.scroll(1) }),
 			y: shy("向上滚屏", function(can) { can.current.scroll(-1) }),
+			r: shy("向上滚屏", function(can) { can.user.reload(true) }),
 		},
 		insert_ctrl: {
 			f: shy("光标右移", function(can, target) { can.user.isWindows && can.onkeymap.cursorMove(target, 1) }),

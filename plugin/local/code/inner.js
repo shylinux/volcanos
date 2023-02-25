@@ -42,7 +42,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			{name: can.page.unicode.menu, onclick: function() {
 				can.user.carte(event, can, can.onaction, can.onaction.list.concat(can.user.isWebview? ["全屏", "录屏", "编辑器", "浏览器"]: []))
 			}},
-			{name: can.page.unicode.back, style: {"font-size": "14px", "padding-top": "3px"}, onclick: function(event) {
+			false && {name: can.page.unicode.back, style: {"font-size": "14px", "padding-top": "3px"}, onclick: function(event) {
 				var list = {}; can.user.carte(event, can, {_style: "history"}, can.core.List(can.db.history, function(item) {
 					var value = [item.path, item.file, item.line, ice.TB+(item.text&&item.text.length>30? item.text.slice(0, 30)+"...": item.text||"")].join(ice.DF); if (!list[value]) { list[value] = item; return value }
 				}).reverse(), function(event, button, meta, carte) { carte.close()
@@ -50,7 +50,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				})
 			}},
 			{name: can.page.unicode.refresh, style: {"font-size": "24px", "padding-top": "1px"}, onclick: function() { location.reload() }},
-			{name: can.page.unicode.reback, style: {"font-size": "14px", "padding-top": "3px"}, onclick: function() {
+			false && {name: can.page.unicode.reback, style: {"font-size": "14px", "padding-top": "3px"}, onclick: function() {
 				var list = {}; can.user.carte(event, can, {_style: "tabview"}, can.core.Item(can.db.tabview), function(event, button, meta, carte) { carte.close()
 					var ls = button.split(ice.DF); can.onimport.tabview(can, ls[0], ls[1])
 				})
