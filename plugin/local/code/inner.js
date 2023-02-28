@@ -509,6 +509,11 @@ Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, mdb.TYPE, nfs.FILE, nfs.LINE, ice.BAC
 				} else if (_indent == 4 && ls[1] == ice.DF) {
 					ls[0] && push(block+ice.PT+ls[0]+ice.DF+(index+1))
 				}
+			} else if (can.db.parse == nfs.SH) {
+				if (can.base.endWith(text, "() {")) {
+					var ls = can.core.Split(text, "\t (){")
+					push(ls[0]+ice.DF+(index+1))
+				}
 			} else if (can.db.parse == nfs.GO) { var ls = can.core.Split(text, "\t *", "({:})")
 				if (_indent == 0) {
 					switch (ls[0]) {
