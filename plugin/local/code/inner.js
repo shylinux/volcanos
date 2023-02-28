@@ -18,8 +18,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			case chat.SIMPLE: // no break
 			case chat.FLOAT: can.onmotion.hidden(can, can.ui.project); break
 			case chat.CMD: can.onimport._keydown(can), can.onmotion.hidden(can, can._status)
-				var plug = can.base.Obj(msg.Option(html.PLUG), []).concat(can.misc.Search(can, log.DEBUG) == ice.TRUE? ["can.debug", "log.debug"]: [])
-				plug.length > 0 && can.run({}, [ctx.ACTION, ctx.COMMAND].concat(plug.reverse()), function(msg) { msg.Table(function(value) { can.onimport.toolkit(can, value) }) })
+				// var plug = can.base.Obj(msg.Option(html.PLUG), []).concat(can.misc.Search(can, log.DEBUG) == ice.TRUE? ["can.debug", "log.debug"]: [])
+				// plug.length > 0 && can.run({}, [ctx.ACTION, ctx.COMMAND].concat(plug.reverse()), function(msg) { msg.Table(function(value) { can.onimport.toolkit(can, value) }) })
 			case chat.FULL: // no break
 			default: can.onimport.project(can, paths), can.onimport._tabs(can)
 				can.onmotion.delay(can, function() { can.core.Next(files.slice(1), function(file, next) { can.onimport._tabview(can, paths[0], file, "", next) }, function() {
