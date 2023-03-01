@@ -57,7 +57,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	onaction_cmd: function(can, msg) { can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.Conf(html.MARGIN_Y, 0), can.Conf(html.MARGIN_X, 0) },
 	onsearch: function(can, msg, arg) { var fields = msg.Option(ice.MSG_FIELDS).split(ice.FS)
 		if (arg[0] == mdb.FOREACH || arg[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, arg, fields) }
-		if (arg[0] == mdb.FOREACH || arg[0] == ctx.COMMAND) { can.onexport.command(can, msg, arg, fields) }
+		if (arg[0] == ctx.COMMAND) { can.onexport.command(can, msg, arg, fields) }
 	},
 	onkeydown: function(can, msg, model) { if (can.isCmdMode() && !msg._event.metaKey) { return }
 		if (can.onkeymap.selectCtrlN(msg._event, can, can._action, html.DIV_TABS)) { return }

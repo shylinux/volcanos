@@ -24,7 +24,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	}) },
 	onaction_touch: function(can, msg) { can.user.isMobile && can.onmotion.hidden(can) },
 	onaction_notool: function(can, msg, river, storm) { can.ondetail["addcmd"](msg._event, can, "addcmd", river, storm) },
-	onsearch: function(can, msg, arg) { if (arg[0] == mdb.FOREACH || arg[0] == chat.STORM) { can.onexport.storm(can, msg, arg) } },
+	onsearch: function(can, msg, arg) { if (arg[0] == chat.STORM) { can.onexport.storm(can, msg, arg) } },
 	onlayout: function(can, layout) { can.user.isMobile || can.onmotion.toggle(can, can._target, !layout || layout == "tabs") },
 	ontitle: function(can, msg) { can.misc.sessionStorage(can, CAN_RIVER, ""), can.misc.sessionStorage(can, CAN_STORM, "") },
 	
@@ -33,7 +33,8 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	}) },
 	share: function(event, can) { can.core.CallFunc(can.ondetail.share, {event: event, can: can}) },
 	refresh: function(event, can) { can.misc.Search(can, {
-		river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), theme: can.getHeaderTheme(), layout: can.getAction("layout"),
+		river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM),
+		// theme: can.getHeaderTheme(), layout: can.getAction("layout"),
 	}) },
 	
 	storm: function(event, can, river) { can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])

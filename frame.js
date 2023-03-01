@@ -603,7 +603,10 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	focus: function(can, target, value) { if (!target) { return } if (!can.base.isUndefined(value)) { target.value = value }
 		target.focus(), can.onmotion.selectRange(target)
 	}, selectRange: function(target) { target && target.setSelectionRange && target.setSelectionRange(0, target.value.length) },
-	copy: function(can, target, cb) { target.title = "点击复制", target.onclick = function(event) { can.user.copy(event, can, target.innerText), can.base.isFunc(cb) && cb(event) } },
+	copy: function(can, target, cb) { target.title = "点击复制", target.onclick = function(event) {
+		can.user.copy(event, can, target.innerText), can.base.isFunc(cb) && cb(event)
+		can.onkeymap.prevent(event)
+	} },
 	move: function(can, target, layout, cb) { var begin; layout = layout||{}
 		can.page.style(can, target, layout), target.onmousedown = function(event) {
 			if (event.target != target && !event.ctrlKey) { return } can.onkeymap.prevent(event)

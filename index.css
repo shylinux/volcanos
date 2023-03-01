@@ -42,6 +42,7 @@ table.content.action td:last-child { background-color:steelblue; position:sticky
 table.content.full { width:100%; }
 div.code { background-color:#343a3445; font-size:14px; padding:10px; border:green solid 1px; }
 div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:5px 10px; border-left:blue solid 5px; margin:10px; }
+table.content div.story[data-type=spark] { margin:0; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; } ul { padding-left:40px; margin:20px 0; }
 hr, td.hr { border-bottom:gray dashed 1px; margin:5px; }
 /* fieldset */
@@ -269,7 +270,7 @@ body.mobile fieldset.input.date div.output td { padding:8px 20px; }
 body.mobile fieldset.word.float>div.output>div.project { top:38px; }
 /* misc */
 fieldset.panel.Action.cmd>div.toggle.project { display:none; }
-fieldset.panel.Search div.story[data-type=spark] { padding:0; margin:0; }
+fieldset.panel.Search div.story[data-type=spark] { margin:0; }
 fieldset.plugin.location>div.action input[type=text] { width:40px; }
 fieldset.plugin.config form.option input[name=key] { width:240px; }
 fieldset.plugin.parse.cmd>legend { display:none; }
