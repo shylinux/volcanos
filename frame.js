@@ -268,7 +268,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.HOVER], style: _fg(color.text)}]},
 			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.SELECT], style: [OUTPUT_STYLE]}]},
 			{type: html.DIV_PATH, style: [OUTPUT_STYLE]}, {type: html.DIV_PATH, list: [{type: html.SPAN, style: [ITEM_HOVER_STYLE]}]},
-			{type: html.DIV_CODE, style: {border: color.border+SOLID}},
+			// {type: html.DIV_CODE, style: {border: color.border+SOLID}},
 			{type: html.DIV_PLUG, list: [{type: html.LEGEND, style: [OUTPUT_STYLE]}]},
 			{type: html.DIV_PLUG, list: [{type: html.LEGEND, name: [html.SELECT], style: [PLUGIN_STYLE]}]},
 			{type: "div.zone>div.item", style: [TABLE_HEAD_STYLE]}, {type: "div.zone>div.item", style: [TABLE_HEAD_HOVER_STYLE]},
