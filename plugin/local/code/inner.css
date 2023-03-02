@@ -15,7 +15,8 @@ fieldset.inner>div.output>div.layout>div.tabs { font-family:monospace; font-size
 fieldset.inner>div.output>div.project { width:230px; }
 fieldset.inner>div.output>div.project div.action { width:100%; }
 fieldset.inner>div.output>div.project * { font-family:monospace; font-size:14px; outline:none; }
-fieldset.inner>div.output>div.project>div.zone>div.item { font-style:italic; font-weight:bold; line-height:32px; }
+fieldset.inner>div.output>div.project input[type=text] { box-shadow:none; }
+fieldset.inner.cmd>div.output>div.project>div.zone>div.item { font-style:italic; font-weight:bold; line-height:32px; }
 fieldset.inner>div.output>div.project>div.zone>div.item span.icon { font-size:22px; line-height:18px; width:20px; float:right; display:none; }
 fieldset.inner>div.output>div.project>div.zone:hover>div.item span.icon { display:block; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-right:0; width:100%; }

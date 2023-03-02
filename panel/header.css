@@ -5,7 +5,7 @@ fieldset.Header>div.output div { float:left; cursor:pointer; }
 fieldset.Header>div.output div:hover { background-color:#2e515f; }
 fieldset.Header>div.output div.menu { padding:10px; }
 fieldset.Header>div.output div.title { padding:10px; }
-fieldset.Header>div.output div.title:first-child { text-align:center; margin-right:5px; width:230px; }
+fieldset.Header>div.output div.title:first-child { font-style:italic; font-weight:bold; text-align:center; margin-right:5px; width:230px; }
 fieldset.Header>div.output div.state { padding:10px; float:right; }
 fieldset.Header>div.output div.state.time { margin-left:10px; }
 fieldset.Header>div.output div.state.avatar { padding:0; height:41px; }
