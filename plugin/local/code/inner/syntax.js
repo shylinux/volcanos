@@ -206,6 +206,10 @@ Volcanos(chat.ONSYNTAX, {
 			"grep": code.FUNCTION,
 
 			"/dev/null": code.CONSTANT,
+			"/dev/stdout": code.CONSTANT,
+			"/dev/stderr": code.CONSTANT,
+			"false": code.CONSTANT,
+			"true": code.CONSTANT,
 			"DEBUG": code.CONSTANT,
 			"EXIT": code.CONSTANT,
 		},
