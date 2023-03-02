@@ -6,7 +6,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	}) },
 	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
 		if (item == aaa.AVATAR ) { can.user.isLocalFile || can.page.Append(can, target, [{view: [[chat.STATE, item]], list: [{img: ice.SP}], onclick: function(event) {
-			can.onaction.carte(event, can, [can.page.Format(html.IMG, can.onexport.avatar(can), 320)])
+			can.onaction.carte(event, can, [can.page.Format(html.IMG, can.onexport.avatar(can), can.page.height()/2)])
 		}}]); return }
 		can.page.Append(can, target, [{view: [[chat.STATE, item], "", (can.Conf(item)||msg.Option(item)||"").split(ice.AT)[0].slice(0, 10)], onclick: function(event) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])

@@ -9,7 +9,7 @@ fieldset.Action.tabs>div.output>fieldset.plugin:not(.select) { display:none; }
 fieldset.Header div.Action { display:contents; }
 fieldset.Header div.Action>div.tabs:not(.hide) { margin-left:20px; display:contents; float:left; }
 fieldset.Header div.Action>div.tabs:hover { background-color:unset; }
-fieldset.Header div.tabs>div.tabs { background-color:unset; padding:5px 10px; height:31px; float:left; }
+fieldset.Header div.tabs>div.tabs { background-color:unset; padding:10px; float:left; }
 fieldset.Header div.tabs>div.tabs:hover { background-color:#6495ed63; }
 fieldset.Action.tabview>div.output>fieldset.plugin:not(.select) { display:none; }
 fieldset.Action.vertical>div.output>fieldset.plugin { float:left; }
@@ -24,4 +24,4 @@ fieldset.Action.grid>div.output>fieldset.plugin>div.action { display:none; }
 fieldset.Action.grid>div.output>fieldset.plugin>div.status { display:none; }
 fieldset.Action.grid>div.output>fieldset.plugin>form.option input[type=text] { width:80px; }
 fieldset.Action>div.project.toggle { font-size:32px; cursor:pointer; padding-top:50px; height:150px; position:fixed; top:30%; border-top-right-radius:20px; border-bottom-right-radius:20px; }
-fieldset.Action>div.project.toggle { background-color:#4a566e6e; color:white; }
+fieldset.Action>div.project.toggle { background-color:#4a566e6e; color:white; width:20px; }

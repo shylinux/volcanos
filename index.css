@@ -271,6 +271,7 @@ body.mobile fieldset.word.float>div.output>div.project { top:38px; }
 /* misc */
 fieldset.panel.Action.cmd>div.toggle.project { display:none; }
 fieldset.panel.Search div.story[data-type=spark] { margin:0; }
+fieldset.panel.Search a { color:yellow; }
 fieldset.plugin.location>div.action input[type=text] { width:40px; }
 fieldset.plugin.config form.option input[name=key] { width:240px; }
 fieldset.plugin.parse.cmd>legend { display:none; }
