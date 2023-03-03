@@ -17,7 +17,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.require(["i
 Volcanos(chat.ONFIGURE, { 
 	source: function(can, target, zone, path) { var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
 		function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) { can.onmotion.clear(can, target)
-			if (path == nfs.SRC) { can.ui.zone.source.refresh = function() { show(target, zone, path) } }
+			if (path == nfs.SRC) {
+				can.ui.zone.source.refresh = function() { show(target, zone, path) }
+				zone._icon({
+					"+": function(event) {
+						can.onaction.autogen(event, can, "autogen")
+					},
+				})
+			}
 			var total, node; function add(list) {
 				can.core.List(list, function(item) { if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true } item._menu = shy({
 					create: function(event) { can.onappend.style(can, [code.VIMER, nfs.SOURCE, mdb.CREATE], can.user.input(event, can, ["filename"], function(list) {
