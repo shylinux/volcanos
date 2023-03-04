@@ -12,7 +12,7 @@ fieldset.inner>div.output div.content td.text span.object { color:cyan; }
 fieldset.inner>div.output>div.layout>div.layout>div.content * { font-family:monospace; font-size:14px; outline:none; }
 fieldset.inner>div.output>div.layout>div.path { font-family:monospace; font-size:14px; }
 fieldset.inner>div.output>div.layout>div.tabs { font-family:monospace; font-size:14px; }
-fieldset.inner>div.output>div.project { width:230px; }
+fieldset.inner>div.output>div.project { width:230px; border-right:solid 5px black; }
 fieldset.inner>div.output>div.project * { font-family:monospace; font-size:14px; outline:none; }
 fieldset.inner>div.output>div.project div.action { width:100%; }
 fieldset.inner>div.output>div.project input[type=text] { box-shadow:none; }
