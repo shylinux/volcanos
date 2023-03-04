@@ -35,7 +35,18 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	onlogin: function(can, msg) { can.ondaemon._init(can), can.onimport._menu(can, msg), can.onkeymap._build(can)
 		can._root.River && can.onmotion.delay(can, function() { if (can.Mode()) { return } var gt = can.page.unicode.gt, lt = can.page.unicode.lt, river = can._root.River._target
 			var target = can.page.Append(can, can._target, [{view: [[html.TOGGLE, chat.PROJECT], "", can.page.isDisplay(river)? lt: gt], onclick: function(event) {
-				can.page.Modify(can, target, (can._river_show = can.onmotion.toggle(can, river))? lt: gt), can.onaction.layout(can)
+				can.page.Modify(can, target, (can._river_show = can.onmotion.toggle(can, river))? lt: gt)
+				can.onaction.layout(can)
+				return
+				var total = 230, length = 20
+				var margin = can._river_show? -total: 0
+				can.ConfWidth(can.page.width()-(can._river_show? 0: total))
+				step = can._river_show? total/length: -total/length
+				can.core.Timer({interval: 10, length: length}, function() {
+					can.page.style(can, river, {"margin-left": margin += step, "display": "block"})
+					can.ConfWidth(can.ConfWidth()-step)
+					can.onaction.layout(can, "", true)
+				})
 			}}])._target; can._toggle = target
 		}); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return } can._names = location.pathname
 		can.Conf(chat.TOOL)? can.onappend.layout(can, can._output, FLOW, can.core.List(can.Conf(chat.TOOL), function(item, index, list) { item.type = chat.PLUGIN
@@ -66,9 +77,9 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	onresize: function(can) { can.onaction.layout(can), window.setsize && window.setsize(can.page.width(), can.page.height()) },
 	ontitle: function(can, msg) { can.onlayout._storage(can, "") },
 	
-	layout: function(can, button) { can.page.ClassList.del(can, can._target, can._layout||can.onlayout._storage(can)), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
+	layout: function(can, button, skip) { can.page.ClassList.del(can, can._target, can._layout||can.onlayout._storage(can)), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		button = (can.onlayout._storage(can, can._layout = button == ice.AUTO? "": button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
-		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button})), can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), can.onlayout._init(can)
+		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button})), can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), skip || can.onlayout._init(can)
 		can.core.List(can._plugins, function(sub) { sub._delay_refresh = false, can.page.ClassList.set(can, sub._target, html.OUTPUT, [TABVIEW, HORIZON, VERTICAL].indexOf(button) > -1) })
 		var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can) || can.onlayout._plugin(can, button)
 	},

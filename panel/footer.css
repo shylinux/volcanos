@@ -1,5 +1,5 @@
-fieldset.Footer>div.output { padding:0; height:31px; }
-fieldset.Footer>div.output div { padding:5px; height:31px; cursor:pointer; }
+fieldset.Footer>div.output { padding:0; height:32px; }
+fieldset.Footer>div.output div { padding:5px; height:32px; cursor:pointer; }
 fieldset.Footer>div.output div:hover { background-color:#2e515f; }
 fieldset.Footer>div.output div.title:first-child { text-align:center; margin-right:10px; width:230px; }
 fieldset.Footer>div.output div.title { float:left; }

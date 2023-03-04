@@ -148,15 +148,16 @@ Volcanos(chat.ONSYNTAX, {
 		split: {operator: "{[($.,:;&<|>=)]}"},
 		regexp: {
 			"[A-Z0-9_]+": code.CONSTANT,
+			"ish_[A-Za-z0-9_]+": code.FUNCTION,
 		},
 		keyword: {
 			"local": code.KEYWORD,
 			"export": code.KEYWORD,
 			"require": code.KEYWORD,
+			"request": code.KEYWORD,
 			"source": code.KEYWORD,
 			"return": code.KEYWORD,
 			"exit": code.KEYWORD,
-			".": code.KEYWORD,
 
 			"if": code.KEYWORD,
 			"then": code.KEYWORD,

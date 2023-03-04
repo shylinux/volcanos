@@ -114,14 +114,14 @@ body>div.upload div.status div.show { float:right; }
 body>div.upload div.status div.size { text-align:center; }
 body>div.upload input[type=file] { width:320px; }
 /* font */
-legend { font-size:1.2rem; line-height:31px; height:31px; }
+legend { font-size:1.2rem; line-height:32px; height:32px; }
 legend>span.delete { font-size:1rem; margin-left:5px; margin-right:-15px; visibility:hidden; }
 // legend:hover>span.delete { visibility:visible; }
-select, input { font-size:1rem; height:31px; } textarea { tab-size:2; height:93px; } input::placeholder { font-style:italic; }
+select, input { font-size:1rem; height:32px; } textarea { tab-size:2; height:93px; } input::placeholder { font-style:italic; }
 table.content, div.item, div.code, div.story[data-type=spark] { white-space:pre; text-align:left; }
 table.content, div.item, div.code, div.story[data-type=spark] { font-family:monospace; }
-div.action>div.tabs { padding:5px; height:31px; }
-div.status>div.item { padding:5px; height:30px; float:left; }
+div.action>div.tabs { padding:5px; height:32px; }
+div.status>div.item { padding:5px; height:31px; float:left; }
 div.status>div.item>label { font-size:0.6rem; }
 /* display */
 fieldset>form.option, fieldset>div.action { display:contents; } form.option.hide, div.action.hide { display:none; }
@@ -134,8 +134,9 @@ fieldset>div.status>legend { margin-left:2px; margin-right:0; height:30px; float
 fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
 fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
-fieldset.plug { position:absolute; bottom:0; right:0; } fieldset.cmd fieldset.plug { position:fixed; bottom:31px; right:0; }
+fieldset.plug { position:absolute; bottom:0; right:0; } fieldset.cmd fieldset.plug { position:fixed; bottom:32px; right:0; }
 fieldset.plug div.output table.content { width:100%; }
+fieldset.plugin>div.output>fieldset.story { position:sticky; left:0; }
 div.output { position:relative; }
 div.tabs { position:relative; }
 div.tabs span.icon { margin-left:5px; visibility:hidden; }
@@ -147,11 +148,15 @@ div.plug { font-style:italic; }
 div.item.text { position:relative; }
 div.item.text>span.icon.delete { font-size:20px; line-height:28px; position:absolute; top:2px; right:10px; visibility:hidden; }
 div.item.text:hover>span.icon.delete { visibility:visible; }
-form.option>div.icon { font-size:26px; padding:0 5px; margin-left:-5px; height:31px; display:none; }
+form.option>div.icon:first-child { margin-left:-5px; }
+form.option>div.icon { font-size:26px; padding:0 5px; height:32px; display:none; }
+form.option>div.icon.refresh { line-height:28px; }
+form.option>div.icon.lt { font-size:20px; line-height:30px; }
 form.option>div.icon:hover { background-color:white; }
-fieldset.story>form.option>div.icon { display:block; }
+fieldset.float>form.option>div.item.button { display:none; }
+fieldset.story>form.option>div.icon.delete { display:block; }
 fieldset.float>form.option>div.icon { display:block; }
-fieldset.full>form.option>div.icon { display:block; }
+fieldset.full>form.option>div.icon.delete { display:block; }
 fieldset.plug>form.option>div.icon { margin-left:5px; }
 div.carte.select.float { border-radius:0; }
 div.carte.select.float>div.item { text-align:center; }
@@ -173,7 +178,7 @@ body.black a { color:yellow; }
 body.black div.project div.zone>div.list>div.zone>div.item { background-color:#09466fc2; }
 body.white { background-color:rgba(5,34,56,0.75); color:white; }
 body.white select { background-color:yellowgreen; color:white; }
-body.white div.item.select div { background-color:yellowgreen; color:white; float:right; height:31px; text-align:center; }
+body.white div.item.select div { background-color:yellowgreen; color:white; float:right; height:32px; text-align:center; }
 body.white input { background-color:white; }
 body.white input[name=cmd] { background-color:black; color:white; }
 body.white input[type=button] { background-color:cornflowerblue; color:white; }
@@ -282,8 +287,13 @@ fieldset.plugin.parse.cmd>div.status { display:none; }
 fieldset.plugin.inner.cmd>legend { display:none; }
 fieldset.plugin.inner.cmd>div.action { display:none; }
 fieldset.plugin.inner.cmd>form.option { display:none; }
+fieldset.plugin.inner.cmd fieldset.story>form.option>div.icon { display:block; }
+fieldset.plugin.inner.cmd fieldset.story>form.option>div.item.button.list>input { display:none; }
+fieldset.plugin.inner.cmd fieldset.story>form.option>div.item.button.back>input { display:none; }
+fieldset.plugin.inner.cmd fieldset.xterm>form.option>div.item.text>input { width:320px; }
 fieldset.plan div.output table.content { height:100%; width:100%; }
 fieldset.xterm div.toggle { display:none; }
+fieldset.xterm.output>div.output { overflow:hidden; }
 fieldset.draw td.content { position:relative; }
 fieldset.draw div.output div.content svg { background-color:#1b5b738c; }
 fieldset.draw.spide div.output div.toggle { display:none; }

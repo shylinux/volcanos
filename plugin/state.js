@@ -11,13 +11,13 @@ Volcanos(chat.ONIMPORT, {
 	_display: function(can, msg) { can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)) },
 	_clear: function(can, msg) { can.onmotion.clear(can) },
 	_inner: function(can, msg) { can.onappend.table(can, msg), can.onappend.board(can, msg), can.onmotion.story.auto(can) },
-	_field: function(can, msg) { var opts = {}
-		can.page.SelectArgs(can, can._option, "", function(target) { var value = msg.Option(target.name); target.name && value && (opts[target.name] = value) })
+	_field: function(can, msg) {
+		var opts = {}; can.page.SelectArgs(can, can._option, "", function(target) { var value = msg.Option(target.name); target.name && value && (opts[target.name] = value) })
 		var height = can.ConfHeight(); can.page.Select(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })
 		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: can.base.Min(height, 200)}, function(sub, meta) {
 			sub.Conf(can.base.Obj(item.conf)); if (sub.isSimpleMode()) { (function() { sub.ConfHeight(can.ConfHeight()/2)
 				var msg = can.request(); msg.Echo(sub.Conf(ice.MSG_RESULT)), can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY))
-			})(); return } var opt = can.base.Obj(item[ice.OPT], []); sub.ConfWidth(can.ConfWidth())
+			})(); return } var opt = can.base.Obj(item[ice.OPT], []); sub.ConfWidth(can.ConfWidth()), can.page.style(can, sub._output, html.MAX_WIDTH, can.ConfWidth())
 			sub.run = function(event, cmds, cb) { var res = can.request(event, can.Option(), opts); for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
 				can.run(event, (msg.Option("_index") == can._index? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
 			}
@@ -181,7 +181,7 @@ Volcanos(chat.ONEXPORT, {
 	output: function(can, msg) {},
 	action: function(can, button, line) {},
 	record: function(can, value, key, line) {},
-	actionHeight: function(can) { return html.ACTION_HEIGHT },
+	actionHeight: function(can) { return can.page.ClassList.has(can, can._target, "output")? 0: html.ACTION_HEIGHT },
 	statusHeight: function(can) { return !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
 	link: function(can) { var meta = can.Conf(), args = can.Option(); can.misc.Search(can, log.DEBUG) == ice.TRUE && (args[log.DEBUG] = ice.TRUE)

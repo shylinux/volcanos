@@ -40,8 +40,8 @@ fieldset.word.float { padding:0; margin:0; position:fixed; left:0; top:0; z-inde
 fieldset.word.float>div.action { display:contents; }
 fieldset.word.float>div.status { clear:none; display:block; }
 fieldset.word.float>div.output { background-color:#f0f8ff80; text-align:center; overflow:auto; }
-fieldset.word.float>div.output>div.project { background-color:#4682b46b; padding:10px; position:fixed; right:0; top:31px; z-index:10; }
-fieldset.word.float div.content div.page { text-align:center; margin-top:31px; display:none; }
+fieldset.word.float>div.output>div.project { background-color:#4682b46b; padding:10px; position:fixed; right:0; top:32px; z-index:10; }
+fieldset.word.float div.content div.page { text-align:center; margin-top:32px; display:none; }
 fieldset.word.float div.content div.page.show { display:block; }
 fieldset.word.float div.content.grid div.page { background-color:#a4cbecb5; margin:10px; height:200px; width:200px; overflow:auto; display:block; float:left; }
 fieldset.word.float h1 { text-align:center; }

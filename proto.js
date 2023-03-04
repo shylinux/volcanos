@@ -80,7 +80,11 @@ var web = {CHAT: "chat",
 	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 	VIDEO_WEBM: "video/webm",
 	
-	CODE_INNER: "web.code.inner", WIKI_WORD: "web.wiki.word",
+	CODE_INNER: "web.code.inner",
+	CODE_VIMER: "web.code.vimer",
+	CODE_XTERM: "web.code.xterm",
+	WIKI_WORD: "web.wiki.word",
+	CHAT_FAVOR: "web.chat.favor",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
@@ -95,6 +99,7 @@ var lex = {
 var yac = {
 }
 var ssh = {
+	SHELL: "shell",
 }
 var gdb = {
 	SIGNAL: "signal",
@@ -195,7 +200,7 @@ var mall = {
 	ASSET: "asset", SALARY: "salary",
 }
 
-var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 31, ACTION_MARGIN: 200,
+var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
 	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story", FIELDSET_INPUT: "fieldset.input", FIELDSET_PLUG: "fieldset.plug",

@@ -1,4 +1,4 @@
-fieldset.Search { background-color:#041a25bd; padding:10px; position:fixed; left:230px; top:31px; }
+fieldset.Search { background-color:#041a25bd; padding:10px; position:fixed; left:230px; top:32px; }
 fieldset.Search>div.action>div.item.filter>input { width:320px; }
 fieldset.Search>div.output table.content { width:100%; }
 fieldset.Search>div.status { display:block; }

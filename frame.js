@@ -116,7 +116,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var action = can.page.SelectOne(can, field, html.DIV_ACTION)
 		var output = can.page.SelectOne(can, field, html.DIV_OUTPUT)
 		var status = can.page.SelectOne(can, field, html.DIV_STATUS)
-		meta.index && can.page.Append(can, option, [{view: [[html.ITEM, html.ICON], html.DIV, can.page.unicode.delete], onclick: function(event) { sub.onaction.close(event, sub) }}])
+		meta.index && can.core.Item({
+			"delete": function(event) { sub.onaction.close(event, sub) },
+			"refresh": function(event) { sub.Update(event) },
+			"lt": function(event) { sub.onimport._back(sub) },
+		}, function(key, cb) {
+			can.page.Append(can, option, [{view: [[html.ITEM, html.ICON, key], html.DIV, can.page.unicode[key]], onclick: cb}])
+		})
 		var sub = Volcanos(meta.name, {_root: can._root||can, _follow: can.core.Keys(can._follow, meta.name), _target: field,
 			_legend: legend, _option: option, _action: action, _output: output, _status: status, _history: [],
 			Status: function(key, value) { if (can.base.isObject(key)) { return can.core.Item(key, sub.Status), key }
@@ -285,7 +291,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			{type: html.H1, style: [ITEM_HOVER_STYLE]}, {type: html.H2, style: [ITEM_HOVER_STYLE]}, {type: html.H3, style: [ITEM_HOVER_STYLE]},
 			{type: html.A, style: _fg(color.info)}, {type: html.LABEL, style: _fg(color.label)},
 			{type: html.FIELDSET_PANEL, style: [PANEL_STYLE]}, {type: html.FIELDSET_PANEL+ice.GT+html.DIV_OUTPUT, style: [PANEL_STYLE]},
-			{type: html.FIELDSET_PANEL, name: [chat.HEADER], list: [{type: html.DIV_OUTPUT, list: [{type: html.DIV, style: [ITEM_HOVER_STYLE]}], }]},
+			// {type: html.FIELDSET_PANEL, name: [chat.HEADER], list: [{type: html.DIV_OUTPUT, list: [{type: html.DIV, style: [ITEM_HOVER_STYLE]}], }]},
 			{type: html.FIELDSET_PANEL, name: [chat.FOOTER], list: [{type: html.DIV_OUTPUT, list: [{type: html.DIV, style: [ITEM_HOVER_STYLE]}], }]},
 			{type: html.FIELDSET_PANEL, name: [chat.FOOTER], list: [{type: html.DIV_OUTPUT, list: [{type: html.DIV_TOAST, style: [TABLE_HEAD_STYLE]}], }]},
 			{type: html.FIELDSET_PANEL, name: [chat.ACTION], list: [{type: html.DIV_OUTPUT, style: [OUTPUT_STYLE]}]},
@@ -443,7 +449,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 })
 Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._root._target; var height = can.page.height(), width = can.page.width()
 		can.page.SelectChild(can, target, can.page.Keys(html.FIELDSET_HEAD, html.FIELDSET_FOOT), function(field) { height -= field.offsetHeight })
-		can.page.SelectChild(can, target, html.FIELDSET_LEFT, function(field) { can.user.isMobile || (width -= field.offsetWidth)
+		can.page.SelectChild(can, target, html.FIELDSET_LEFT, function(field) { can.user.isMobile || can.page.isDisplay(field) && (width -= field.offsetWidth)
 			var h = height; can.page.SelectChild(can, field, html.DIV_ACTION, function(action) { h -= action.offsetHeight })
 			can.page.SelectChild(can, field, html.DIV_OUTPUT, function(output) { can.page.styleHeight(can, output, h) })
 		})

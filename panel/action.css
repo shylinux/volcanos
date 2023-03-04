@@ -9,8 +9,9 @@ fieldset.Action.tabs>div.output>fieldset.plugin:not(.select) { display:none; }
 fieldset.Header div.Action { display:contents; }
 fieldset.Header div.Action>div.tabs:not(.hide) { margin-left:20px; display:contents; float:left; }
 fieldset.Header div.Action>div.tabs:hover { background-color:unset; }
-fieldset.Header div.tabs>div.tabs { background-color:unset; padding:10px; float:left; }
-fieldset.Header div.tabs>div.tabs:hover { background-color:#6495ed63; }
+fieldset.Header div.tabs>div.tabs { background-color:unset; padding:14px; float:left; }
+fieldset.Header div.tabs>div.tabs:hover { background-color:#6495ed63; color:white; }
+fieldset.Header div.tabs>div.tabs.select { background-color:#6495ed63; color:white; }
 fieldset.Action.tabview>div.output>fieldset.plugin:not(.select) { display:none; }
 fieldset.Action.vertical>div.output>fieldset.plugin { float:left; }
 fieldset.Action.horizon>div.output>fieldset.plugin { float:left; }

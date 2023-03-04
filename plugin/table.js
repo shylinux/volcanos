@@ -8,7 +8,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.page.Select(can, can.page.Create(can, html.DIV, value.action), html.INPUT, function(target) {
 			action.push(target.name), target.name != target.value && can.user.trans(can, kit.Dict(target.name, target.value))
 		})
-		can.onimport.item(can, {name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME])}, function() {
+		can.onimport.item(can, {name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]), title: value[mdb.TEXT]}, function() {
 			can.sup.onexport.record(can, value.name, mdb.NAME, value)
 		}, function() { return shy(action, function(event, button, meta, carte) { can.misc.Event(event, can, function(msg) {
 			can.sup.onexport.action(can, button, value) || can.run(event, [ctx.ACTION, button], function(msg) { can.sup.onimport._process(can.sup, msg) || can.Update() }), carte.close()
@@ -37,12 +37,22 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}}], onclick: function(event) {
 			can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)
 		}, _init: function(target) { tabs._target = target; var menu = tabs._menu||shy()
+			target._close = function() { close(target) }
 			can.page.Modify(can, target, {draggable: true, _close: function() { close(target) },
 				ondragstart: function(event) { action._drop = function(before) { before.parentNode == action && action.insertBefore(target, before) } },
 				ondragover: function(event) { event.preventDefault(), action._drop(event.target) },
-				oncontextmenu: function(event) { can.user.carte(event, can, kit.Dict("Close", function(event) { close(target) },
-					"Close Other", function(event) { can.page.SelectChild(can, action, html.DIV_TABS, function(target) { target == tabs._target || close(target) }) }, menu.meta
-				), ["Close", "Close Other", ""].concat(can.base.getValid(menu.list, can.core.Item(menu.meta))), function(event, button, meta) { (meta[button]||menu)(event, button, meta) }) },
+				oncontextmenu: function(event) { can.user.carte(event, can, kit.Dict(
+					"Close", function(event) { close(target) },
+					"Close Other", function(event) { can.page.SelectChild(can, action, html.DIV_TABS, function(target) { target == tabs._target || close(target) }) },
+					"Rename Tabs", function(event) {
+						can.user.input(event, can, [mdb.NAME], function(list) {
+							can.page.Select(can, target, "span.name", function(target) {
+								can.page.Modify(can, target, list[0]||tabs.name)
+							})
+						})
+					},
+					menu.meta,
+				), ["Close", "Close Other", "Rename Tabs", ""].concat(can.base.getValid(menu.list, can.core.Item(menu.meta))), function(event, button, meta) { (meta[button]||menu)(event, button, meta) }) },
 			}), target.click()
 		}}
 	}))._target },
@@ -60,7 +70,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 	plug: function(can, meta, cb, target, field) { if (!meta || !meta.index) { return }
 		meta.type = meta.type||html.PLUG, meta.name = meta.index, can.onappend.plugin(can, meta, function(sub) { sub.sup = can
-			can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(can.ConfHeight()-2*html.ACTION_HEIGHT), html.MAX_WIDTH, sub.ConfWidth(can.ConfWidth()))
+			can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth(can.ConfWidth()))
+			// can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(can.ConfHeight()-2*html.ACTION_HEIGHT), html.MAX_WIDTH, sub.ConfWidth(can.ConfWidth()))
 			sub.run = function(event, cmds, cb) { if (can.page.Select(can, sub._option, "input[name=path]").length > 0 && sub.Option(nfs.PATH) == "") { sub.request(event, {path: nfs.PWD}) }
 				can.runActionCommand(can.request(event, can.Option()), meta.index, cmds, cb)
 			}, sub.onaction.close = function() { can.onmotion.hidden(can, target) }, can.base.isFunc(cb) && cb(sub)
@@ -68,6 +79,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 	_zone: function(can, zone, index, cb, field) { zone._delay_show = function() { can.onimport.plug(can, {index: index, style: html.OUTPUT, mode: mdb.ZONE, field: field}, function(sub) {
 		var action = can.core.List(sub.Conf(ctx.INPUTS), function(item) { if (item.type == html.BUTTON && [ice.LIST, ice.BACK].indexOf(item.name) == -1) { return item.name } })
+		zone._icon(kit.Dict(
+			can.page.unicode.refresh, function(event) { sub.Update(event) },
+			"+", function(event) { sub.Update(event, [ctx.ACTION, mdb.CREATE]) },
+		))
 		sub.onexport.output = function(sub, msg) { zone._total(msg.Length()), cb(sub, msg)
 			zone._menu = shy({_trans: sub._trans}, action.concat(can.base.Obj(msg.Option(ice.MSG_ACTION), [])), function(event, button, meta, carte) {
 				sub.Update(event, [ctx.ACTION, button]), carte.close()
@@ -117,7 +132,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}) }); return node
 	},
 	item: function(can, item, cb, cbs, target) { target = target||(can.ui && can.ui.project? can.ui.project: can._output)
-		var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.nick||item.name], onclick: function(event) { can.onmotion.select(can, target, html.DIV_ITEM, event.target)
+		var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.nick||item.name], title: item.title, onclick: function(event) { can.onmotion.select(can, target, html.DIV_ITEM, event.target)
 				cb(event, event.target, event.target._list && can.onmotion.toggle(can, event.target._list))
 			}, oncontextmenu: function(event) { if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } } },
 		}]); return ui._target
