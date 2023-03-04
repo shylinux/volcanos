@@ -4,17 +4,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.
 		can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target)
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.Conf(chat.TITLE)||msg.result, function(item) {
-		if (can.base.contains(item, ice.AT)) {
-			item = '<a href="mailto:'+item+'">'+item+'</a>'
-		}
-		can.page.Append(can, target, [{view: [chat.TITLE, "", item], title: "联系站长"}])
+		if (can.base.contains(item, ice.AT)) { item = '<a href="mailto:'+item+'">'+item+'</a>' }
+		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE], "", item], title: "联系站长"}])
 	}) },
 	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [NTIP, NLOG, NCMD, NKEY]).reverse(), function(item) {
-		can.page.Append(can, target, [{view: chat.STATE, list: [
+		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE]], list: [
 			{text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", "", item]},
 		], onclick: function(event) { can.onexport[item](can) }}])
 	}) },
-	_toast: function(can, msg, target) { can.ui.toast = can.page.Append(can, target, [{view: chat.TOAST, onclick: function(event) { can.onexport[NTIP](can) }}])._target },
+	_toast: function(can, msg, target) { can.ui.toast = can.page.Append(can, target, [{view: [[html.ITEM, chat.TOAST]], onclick: function(event) { can.onexport[NTIP](can) }}])._target },
 	_command: function(can, msg, target) { can.onappend.input(can, {type: html.TEXT, name: ice.CMD, onkeydown: function(event) { can.onkeymap.input(event, can)
 		function close() { can.ui.cli && can.ui.cli.onaction.close() } if (event.key == lang.ESCAPE) { return close() } if (event.key != lang.ENTER) { return }
 		close(); switch (event.target.value) {

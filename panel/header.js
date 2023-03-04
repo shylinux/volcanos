@@ -2,13 +2,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport._title(can, msg, target), can.onimport._state(can, msg, target), can.onimport._avatar(can, msg, target), can.onimport._background(can, msg, target), can.onimport._search(can, msg, target)
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.getValid(can.Conf(chat.TITLE)||msg.result, ["shylinux.com/x/contexts"]), function(item) {
-		can.page.Append(can, target, [{view: [chat.TITLE, "", item], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
+		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE], "", item], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
 	}) },
 	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
-		if (item == aaa.AVATAR ) { can.user.isLocalFile || can.page.Append(can, target, [{view: [[chat.STATE, item]], list: [{img: ice.SP}], onclick: function(event) {
+		if (item == aaa.AVATAR ) { can.user.isLocalFile || can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item]], list: [{img: ice.SP}], onclick: function(event) {
 			can.onaction.carte(event, can, [can.page.Format(html.IMG, can.onexport.avatar(can), can.page.height()/2)])
 		}}]); return }
-		can.page.Append(can, target, [{view: [[chat.STATE, item], "", (can.Conf(item)||msg.Option(item)||"").split(ice.AT)[0].slice(0, 10)], onclick: function(event) {
+		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item], "", (can.Conf(item)||msg.Option(item)||"").split(ice.AT)[0].slice(0, 10)], onclick: function(event) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
 		}, _init: function(target) { item == mdb.TIME && can.onimport._time(can, target) }}])
 	}) },
@@ -34,8 +34,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	theme: function(can, theme) { theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme), can.user.theme(can, can.onexport.theme(can)) },
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
 		return can.page.Append(can, can._output, [{view: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
-			return can.base.isString(item)? /* 1.string */ {view: [html.MENU, "", can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }}:
-				can.base.isArray(item)? /* 2.array */ {view: [html.MENU, "", can.user.trans(can, item[0], trans)], onclick: function(event) { can.onkeymap.prevent(event)
+			return can.base.isString(item)? /* 1.string */ {view: [[html.ITEM, html.MENU], "", can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }}:
+				can.base.isArray(item)? /* 2.array */ {view: [[html.ITEM, html.MENU], "", can.user.trans(can, item[0], trans)], onclick: function(event) { can.onkeymap.prevent(event)
 					can.onaction.carte(event, can, item.slice(1), function(event, button, meta) { can.base.isFunc(cb) && cb(event, button, item) }, trans)
 				}}: /* 3.others */ item
 		}) }])._target

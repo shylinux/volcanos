@@ -49,6 +49,7 @@ Volcanos(chat.ONFIGURE, {
 			case nfs.FILE: var ls = can.onexport.split(can, item.text); can.onimport.tabview(can, ls[0], ls[1]); break
 			case ctx.INDEX: can.onimport.tabview(can, "", item.text, ctx.INDEX); break
 			case ssh.SHELL: can.onimport.tabview(can, "", [web.CODE_XTERM, item.text].join(","), ctx.INDEX); break
+			case "_open": can.runAction(event, "_open", [item.text]); break
 		} }
 	}) },
 	dream: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {

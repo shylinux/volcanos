@@ -1,16 +1,12 @@
-fieldset.Footer>div.output { padding:0; height:32px; }
-fieldset.Footer>div.output div { padding:5px; height:32px; cursor:pointer; }
-fieldset.Footer>div.output div:hover { background-color:#2e515f; }
+fieldset.Footer>div.output { height:32px; }
+fieldset.Footer>div.output div.item { padding:7px; cursor:pointer; float:left; }
 fieldset.Footer>div.output div.title:first-child { text-align:center; margin-right:10px; width:230px; }
-fieldset.Footer>div.output div.title { float:left; }
 fieldset.Footer>div.output div.state { float:right; }
 fieldset.Footer>div.output div.state label { font-size:12px; }
-fieldset.Footer>div.output div.toast { background-color:darkcyan; float:right; }
+fieldset.Footer>div.output div.toast { float:right; }
 fieldset.Footer>div.output div.cmd { padding:0; }
-fieldset.Footer>div.output div.cmd>span.delete { top:1px; right:5px; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { margin-right:0; width:120px; transition:all 1s; }
 fieldset.Footer>div.output div.cmd>input[name=cmd]:focus { width:320px; transition:all 0.5s; }
-// fieldset.Footer>div.output div.cmd:hover>input[name=cmd] { width:320px; transition:all 0.5s; }
 
 .picker { box-shadow:4px 4px 20px 4px #626bd0; }
 div.view span.keyword { color:#5cadd4; }

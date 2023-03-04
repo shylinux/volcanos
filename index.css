@@ -63,7 +63,8 @@ fieldset.simple>legend { display:none; }
 fieldset.simple>form.option { display:none; }
 fieldset.simple>div.status { display:none; }
 fieldset.simple div.toggle { display:none; }
-fieldset.float { background-color:#061c3c9e; }
+fieldset.float { background-color:#061c3ceb; }
+fieldset.full { background-color:#061c3ceb; }
 fieldset.full { position:fixed; left:0; top:0; }
 /* input */
 fieldset.input>legend { display:none; }
@@ -85,7 +86,7 @@ fieldset.input.date div.output td span.lunar.term { color:green; }
 fieldset.input.date div.output td span.lunar.fest { color:red; }
 fieldset.input.date div.status { text-align:center; }
 /* float */
-body div.float { background-color:#0e3369b3; padding:5px; overflow:auto; }
+body div.float { background-color:#061c3ceb; padding:5px; overflow:auto; }
 body>div.toast div.title { color:blue; float:left; }
 body>div.toast div.duration { color:gray; float:right; }
 body>div.toast div.content { color:blue; text-align:center; }
@@ -171,6 +172,7 @@ div.item:hover, div.item.select, span.item:hover, table.content tr:hover, table.
 div.carte div.item:hover, table.content th:hover, table.content td:hover, table.content td.select { background-color:cornflowerblue; }
 div.story[data-type=spark] span:hover { background-color:deepskyblue; box-shadow:4px 4px 20px 4px #29318e; }
 select, input[type=text], textarea { box-shadow:4px 4px 20px 4px #626bd0; }
+body.black input[type=text], body.black textarea { background-color:#243783bd; color:white; outline:none; }
 legend, select, input[type=button], div.tabs, div.item, span.item, th, td, h1, h2, h3 { cursor:pointer; }
 div.title, div.story[data-type=spark] { cursor:copy; }
 /* theme */

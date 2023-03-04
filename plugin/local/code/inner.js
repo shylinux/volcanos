@@ -29,7 +29,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 					} }
 				}) })
 		} var args = can.misc.SearchHash(can); can.db.tabview[can.onexport.keys(can)] = msg
-		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE), function() { if (!can.user.isWebview && args.length > 0) {
+		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE), function() { if (!can.user.isWebview && args.length > 0 && can.isCmdMode()) {
 			can.onimport._tabview(can, args[args.length-3]||can.Option(nfs.PATH), args[args.length-2]||can.Option(nfs.FILE), args[args.length-1])
 		} }), can.base.isFunc(cb) && cb(msg)
 	},
@@ -164,7 +164,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			can.onmotion.toggle(can, can.ui.profile, true), can.db.profile_size[can.onexport.keys(can)] = 0.8, can.onimport.layout(can)
 		} else { can.ui.profile = _msg._profile = can.ui._profile
 			var height = can.ui.profile.offsetHeight||can.ui.content.offsetHeight
-			var width = can.onexport.size(can, can.db.profile_size[can.onexport.keys(can)]||0.5, can.ConfWidth()-can.ui.project.offsetWidth)
+			var per = 0.5
+			if (msg.Append(ctx.INDEX) == web.WIKI_WORD) {
+				per = 0.6
+			}
+			var width = can.onexport.size(can, can.db.profile_size[can.onexport.keys(can)]||per, can.ConfWidth()-can.ui.project.offsetWidth)
 			can.onimport.process(can, msg, can.ui.profile, height, width, function(sub) { var _width = can.base.Max(sub._target.offsetWidth, width)
 				can.db.profile_size[can.onexport.keys(can)] = _width, can.onimport.layout(can), sub.onimport.size(sub, height, _width, true)
 				can.ui.profile._plugin = can._msg._profile = sub
@@ -429,14 +433,16 @@ Volcanos(chat.ONACTION, {list: ["调试", "首页", "官网", "源码", "百度"
 	},
 	open: function(event, can) {
 		var paths = can.core.List(can.db.paths, function(item) { if (can.base.endWith(item, "-story/", "-dict/")) { return } return item }).join(ice.FS)
-		// paths = "src/,usr/icebergs/,usr/volcanos/"
-		var input = can.user.input(can.request(event, {paths: paths}), can, [{name: nfs.FILE, style: {width: can.ui.content.offsetWidth/2}, run: function(event, cmds, cb) {
+		var input = can.user.input(can.request(event, {paths: paths}), can, [{name: nfs.FILE, style: {width: can.ui.content.offsetWidth/2}, select: function(item) {
+			input.submit(event, can, "submit")
+		}, run: function(event, cmds, cb) {
 			can.run(can.request(event, {paths: paths}), cmds, function(msg) {
 				if (cmds[0] == ctx.ACTION && cmds[1] == mdb.INPUTS) { var _msg = can.onengine.signal(can, "tabview.open.inputs"), func = can.onexport.func(can)
 					can.core.Item(can.db.tabview, function(key) { var ls = can.core.Split(key, ice.DF); _msg.Push(nfs.PATH, ls[0]+ls[1]) })
-					can.core.List(func.list, function(item) { var ls = can.core.Split(item, ice.DF, ice.DF); _msg.Push(nfs.PATH, "line:"+ls[1]+ice.DF+ls[0]) })
+					_msg.Copy(msg)
 					can.core.Item(can.onengine.plugin.meta, function(key, value) { _msg.Push(nfs.PATH, "index:can."+key) })
-					_msg.Copy(msg), cb(_msg)
+					can.core.List(func.list, function(item) { var ls = can.core.Split(item, ice.DF, ice.DF); _msg.Push(nfs.PATH, "line:"+ls[1]+ice.DF+ls[0]) })
+					cb(_msg)
 				} else { cb(msg) }
 			}, true)
 		}}], function(list, input) { input.cancel(); var ls = can.core.Split(list[0], ice.DF, ice.DF); switch (ls[0]) {
@@ -445,8 +451,8 @@ Volcanos(chat.ONACTION, {list: ["调试", "首页", "官网", "源码", "百度"
 			case web.DREAM: return can.onimport.tabview(can, can.Option(nfs.PATH), ls[1], ls[0])
 			case nfs.LINE: return can.onaction.selectLine(can, parseInt(ls[1]), true)
 			default: can.core.List(can.db.paths, function(path) { if (list[0].indexOf(path) == 0) { can.onimport.tabview(can, path, list[0].slice(path.length)) } })
-		} })._target; can.page.Modify(can, input, {"className": "input vimer open float"})
-		can.page.style(can, input, html.LEFT, can.ui.project.offsetWidth+can.ui.content.offsetWidth/4-34, html.TOP, can.ui.content.offsetHeight/4, html.RIGHT, "")
+		} }); can.page.Modify(can, input._target, {"className": "input vimer open float"})
+		can.page.style(can, input._target, html.LEFT, can.ui.project.offsetWidth+can.ui.content.offsetWidth/4-34, html.TOP, can.ui.content.offsetHeight/4, html.RIGHT, "")
 	},
 	find: function(event, can) {
 		var ui = can.page.Append(can, can._output, [{view: "vimer find float", list: [html.ACTION, html.OUTPUT],
