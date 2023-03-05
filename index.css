@@ -150,8 +150,9 @@ div.item.text { position:relative; }
 div.item.text>span.icon.delete { font-size:20px; line-height:28px; position:absolute; top:2px; right:10px; visibility:hidden; }
 div.item.text:hover>span.icon.delete { visibility:visible; }
 form.option>div.icon:first-child { margin-left:-5px; }
-form.option>div.icon { font-size:26px; padding:0 5px; height:32px; display:none; }
+form.option>div.icon { line-height:30px; font-size:26px; padding:0 5px; height:32px; display:none; }
 form.option>div.icon.refresh { line-height:28px; }
+form.option>div.icon.goback { line-height:28px; }
 form.option>div.icon.lt { font-size:20px; line-height:30px; }
 form.option>div.icon:hover { background-color:white; }
 fieldset.float>form.option>div.item.button { display:none; }
@@ -296,6 +297,8 @@ fieldset.plugin.inner.cmd>form.option { display:none; }
 fieldset.plugin.inner.cmd fieldset.story>form.option>div.icon { display:block; }
 fieldset.plugin.inner.cmd fieldset.story>form.option>div.item.button.list>input { display:none; }
 fieldset.plugin.inner.cmd fieldset.story>form.option>div.item.button.back>input { display:none; }
+fieldset.plugin.inner.cmd fieldset.story>form.option>div.item.button.create>input { display:none; }
+fieldset.plugin.inner.cmd fieldset.story>form.option>div.item.button.insert>input { display:none; }
 fieldset.plugin.inner.cmd fieldset.xterm>form.option>div.item.text>input { width:320px; }
 fieldset.plan div.output table.content { height:100%; width:100%; }
 fieldset.xterm div.toggle { display:none; }

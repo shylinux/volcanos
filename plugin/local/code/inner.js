@@ -164,12 +164,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			can.onmotion.toggle(can, can.ui.profile, true), can.db.profile_size[can.onexport.keys(can)] = 0.8, can.onimport.layout(can)
 		} else { can.ui.profile = _msg._profile = can.ui._profile
 			var height = can.ui.profile.offsetHeight||can.ui.content.offsetHeight
-			var per = 0.5
-			if (msg.Append(ctx.INDEX) == web.WIKI_WORD) {
-				per = 0.6
-			}
+			var per = 0.5; if (msg.Append(ctx.INDEX) == web.WIKI_WORD) { per = 0.6 }
 			var width = can.onexport.size(can, can.db.profile_size[can.onexport.keys(can)]||per, can.ConfWidth()-can.ui.project.offsetWidth)
-			can.onimport.process(can, msg, can.ui.profile, height, width, function(sub) { var _width = can.base.Max(sub._target.offsetWidth, width)
+			can.onimport.process(can, msg, can.ui.profile, height, width, function(sub) {
+				can.page.style(can, sub._output, html.MAX_WIDTH, "")
+				var _width = can.base.Max(sub._target.offsetWidth, width-2)
 				can.db.profile_size[can.onexport.keys(can)] = _width, can.onimport.layout(can), sub.onimport.size(sub, height, _width, true)
 				can.ui.profile._plugin = can._msg._profile = sub
 			})
@@ -181,21 +180,22 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	display: function(can, msg) { var width = can.ui.content.offsetWidth+can.ui.profile.offsetWidth||can.ConfWidth()-can.ui.project.offsetWidth
 		var height = can.onexport.size(can, can.db.display_size[can.onexport.keys(can)]||0.5, can.ui.content.offsetHeight||can.ConfHeight())
 		can.page.style(can, can.ui.display, html.MAX_HEIGHT, can.ConfHeight()/2)
-		can.onimport.process(can, msg, can.ui.display, height, width, function(sub) { var _height = can.base.Max(sub._target.offsetHeight, height)
-			// can.page.style(can, sub._target, html.MIN_HEIGHT, _height = can.base.Min(_height, can.ConfHeight()/4))
+		can.onimport.process(can, msg, can.ui.display, height, width, function(sub) {
+			if (sub.ConfHeight() < can.ui.content.offsetHeight-100) { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
+			var _height = can.base.Max(sub._target.offsetHeight, height)
 			can.db.display_size[can.onexport.keys(can)] = _height, can.onimport.layout(can), sub.onimport.size(sub, _height, width, true)
 		})
 	},
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target)
 		if (msg.Option(ice.MSG_PROCESS) == ice.PROCESS_FIELD) {
 			msg.Table(function(item) { item.type = chat.STORY, item.display = msg.Option(ice.MSG_DISPLAY), item.height = height-2*html.ACTION_HEIGHT, item.width = width
-				if (item.index == "web.code.xterm") { item.style = "output" }
-				if (item.index == "web.wiki.word") { item.style = "output" }
+				if (item.index == web.CODE_XTERM) { item.style = html.OUTPUT }
+				if (item.index == web.WIKI_WORD) { item.style = html.OUTPUT }
 				can.onimport.plug(can, item, function(sub) { height && sub.ConfHeight(item.height), width && sub.ConfWidth(item.width)
 					sub.onaction.close = function() { can.onmotion.hidden(can, target), can.onimport.layout(can) }
-					sub.onexport.output = function(_sub, _msg) { can.base.isFunc(cb) && cb(_sub, _msg) }
+					sub.onexport.output = function(_sub, _msg) { can.onmotion.delay(can, function() { can.base.isFunc(cb) && cb(_sub, _msg) }) }
 					sub.run = function(event, cmds, cb) { can.runActionCommand(can.request(event, can.Option()), item.index, cmds, function(msg) {
-						height && sub.ConfHeight(item.height), width && sub.ConfWidth(item.width), can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.MAX_WIDTH, "")
+						height && sub.ConfHeight(item.height), width && sub.ConfWidth(item.width)
 						can.base.isFunc(cb) && cb(msg)
 					}) }
 				}, target)

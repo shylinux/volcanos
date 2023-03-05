@@ -37,7 +37,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 	layout: function(can) {
 		can.onmotion.toggle(can, can._option, !can.user.isMobile || !can.isFullMode())
 		can.Conf(ice.VIEW) && can.Action(ice.VIEW, can.Conf(ice.VIEW))
-		can.onaction[can.Action(ice.VIEW)]({}, can)
+		can.core.CallFunc(can.onaction[can.Action(ice.VIEW)], [{}, can])
 	},
 	transform: function(can, target) {
 		target.Value("transform", "translate(0, "+parseInt(can.ConfHeight())+") scale(1, -1)")

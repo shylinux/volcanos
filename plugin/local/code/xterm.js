@@ -1,6 +1,8 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can), can.onlayout._init(can)
 		can.page.requireModules(can, ["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
-			can._delay_cmds = function() { item.text && can.onimport._input(can, item.text+ice.NL), delete(can._delay_cmds) }
+			can._delay_cmds = function() { delete(can._delay_cmds), item.text && can.core.Next(item.text.split(ice.NL), function(item, next) {
+				can.onimport._input(can, item+ice.NL), can.onmotion.delay(can, next)
+			}) }
 			var item = msg.TableDetail(); item.hash = item.hash||can.Option(mdb.HASH), item.text && can.onmotion.delay(can, function() { can._delay_cmds && can._delay_cmds() }, 1000)
 			can.onimport._connect(can, item), can.onappend.tools(can, msg, function(sub) {
 				sub.onexport.record = function(_, value, key, line) { can.onimport._input(can, value+ice.NL) }
@@ -20,15 +22,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can)
 		term.onCursorMove(function() { can.onexport.term(can) })
 		can._current = term, term._item = item, term.open(can._output), term.focus()
 	},
-	_resize: function(can, size) { can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "")
+	_resize: function(can, size) { // can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "")
 		can.runAction(can.request({}, size, can._current._item), "resize", [], function() { can.onexport.term(can) })
 	},
 	_input: function(can, data) { can._current && can.runAction(can.request({}, can._current._item), "input", [btoa(data)], function() {}) },
 	_theme: function(can, item) { return can.base.Obj(item.theme)||(can.getHeaderTheme() == html.LIGHT? {background: cli.WHITE, foreground: cli.BLACK, cursor: cli.BLUE}: {}) },
-	grow: function(can, msg, _arg) {
-		can._delay_cmds && can._delay_cmds()
-		can._current.write(_arg)
-	},
+	grow: function(can, msg, _arg) { can._current.write(_arg), can._delay_cmds && can._delay_cmds() },
 })
 Volcanos(chat.ONLAYOUT, {_init: function(can) {
 		can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth(), html.MAX_WIDTH, "")

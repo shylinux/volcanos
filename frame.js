@@ -116,13 +116,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var action = can.page.SelectOne(can, field, html.DIV_ACTION)
 		var output = can.page.SelectOne(can, field, html.DIV_OUTPUT)
 		var status = can.page.SelectOne(can, field, html.DIV_STATUS)
-		meta.index && can.core.Item({
-			"delete": function(event) { sub.onaction.close(event, sub) },
-			"refresh": function(event) { sub.Update(event) },
-			"lt": function(event) { sub.onimport._back(sub) },
-		}, function(key, cb) {
-			can.page.Append(can, option, [{view: [[html.ITEM, html.ICON, key], html.DIV, can.page.unicode[key]], onclick: cb}])
-		})
 		var sub = Volcanos(meta.name, {_root: can._root||can, _follow: can.core.Keys(can._follow, meta.name), _target: field,
 			_legend: legend, _option: option, _action: action, _output: output, _status: status, _history: [],
 			Status: function(key, value) { if (can.base.isObject(key)) { return can.core.Item(key, sub.Status), key }
@@ -156,6 +149,17 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
+		can.core.List([""].concat(meta.inputs), function(item) {
+			var icon = {
+				refresh: {name: "refresh", cb: function(event) { can.Update(event) }},
+				run: {name: "refresh", cb: function(event) { can.Update(event) }},
+				list: {name: "refresh", cb: function(event) { can.Update(event) }},
+				back: {name: "goback", cb: function(event) { can.onimport._back(can) }},
+				create: {name: "create", cb: function(event) { can.Update(event, [ctx.ACTION, mdb.CREATE]) }},
+				insert: {name: "create", cb: function(event) { can.Update(event, [ctx.ACTION, mdb.INSERT]) }},
+				"": {name: "delete", cb: function(event) { can.onaction.close(event, can) }},
+			}[item.name||""]; icon && can.page.Append(can, option, [{view: [[html.ITEM, html.ICON, icon.name, item.name], html.DIV, can.page.unicode[icon.name]], onclick: icon.cb}])
+		})
 		function add(item, next) { item = can.base.isString(item)? {type: html.TEXT, name: item}: item, item.type != html.BUTTON && index++
 			return Volcanos(item.name, {_root: can._root, _follow: can.core.Keys(can._follow, item.name),
 				_target: can.onappend.input(can, item, args[index]||opts[item.name], option||can._option), _option: option||can._option, _action: can._action, _output: can._output, _status: can._status,
@@ -375,16 +379,18 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}); return list } ui.list = append(target, type, list||[html.PROJECT, [[html.CONTENT, html.PROFILE], html.DISPLAY]])
 		function calc(item, size, total) { return !ui.size[item]? can.base.isString(size)? parseInt(can.base.trimSuffix(size, "px")): size: ui.size[item] < 1? total*ui.size[item]: ui.size[item] }
 		var defer = [], content_height, content_width; function layout(type, list, height, width) { var _width = width, _height = height; can.core.List(list, function(item) {
+			var target = ui[item]
 			if (item == html.CONTENT) { content_height = height, content_width = width
-				return defer.push(function() { can.page.style(can, ui[item], html.HEIGHT, height, html.WIDTH, width) })
+				return defer.push(function() { can.page.style(can, target, html.HEIGHT, height, html.WIDTH, width) })
 			}
-			if (!can.page.isDisplay(ui[item])) { return } if (can.base.isObject(item)) { var meta = item; item = item._index }
-			if (type == FLOW) { var h = calc(item, ui[item].offsetHeight, height)
+			if (item == "plug") { return }
+			if (!can.page.isDisplay(target)) { return } if (can.base.isObject(item)) { var meta = item; item = item._index }
+			if (type == FLOW) { var h = calc(item, target.offsetHeight, height)
 				if (can.base.isObject(meta)) { meta.layout(h, width) }
-				can.page.style(can, ui[item], html.WIDTH, width), height -= h
-			} else { var w = calc(item, ui[item].offsetWidth||ui[item].style.width||_width/list.length, _width), h = height
+				can.page.style(can, target, html.WIDTH, width), height -= h
+			} else { var w = calc(item, target.offsetWidth||target.style.width||_width/list.length, _width), h = height
 				if (can.base.isObject(meta)) { meta.layout(h, w = _width/list.length) }
-				can.page.style(can, ui[item], html.HEIGHT, h, html.WIDTH, w), width -= w
+				can.page.style(can, target, html.HEIGHT, h, html.WIDTH, w), width -= w
 			}
 		}), can.core.List(list, function(item) { if (can.base.isArray(item)) { layout(type == FLOW? FLEX: FLOW, item, height, width) } }) }
 		ui.layout = function(height, width, delay, cb) { can.onmotion.delay(can, function() { defer = [], layout(type, ui.list, height, width), defer.forEach(function(cb) { cb() }), cb && cb(content_height, content_width) }, delay||0) }; return ui
