@@ -99,7 +99,7 @@ body>div.toast div.action>div.item { float:right; }
 body>div.carte { padding:0; }
 body>div.carte input[name=filter] { margin:5px; width:calc(100% - 10px); position:sticky; top:5px; }
 body>div.carte div.item { white-space:pre; padding:5px 10px; }
-body>div.carte div.item span.icon.gt { float:right; }
+body>div.carte div.item span.icon.next { float:right; }
 body>div.input td { padding:5px; }
 body>div.input td span.icon { font-size:14px; margin-left:-25px; margin-right:10px; visibility:hidden; }
 body>div.input td:hover span.icon { visibility:visible; }
@@ -138,7 +138,7 @@ fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
 fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
 fieldset.plug { position:absolute; bottom:0; right:0; } fieldset.cmd fieldset.plug { position:fixed; bottom:32px; right:0; }
 fieldset.plug div.output table.content { width:100%; }
-fieldset.plugin>div.output>fieldset.story { position:sticky; left:0; }
+// fieldset.plugin>div.output>fieldset.story { position:sticky; left:0; }
 div.output { position:relative; }
 div.tabs { position:relative; }
 div.tabs span.icon { margin-left:5px; visibility:hidden; }
@@ -154,12 +154,27 @@ form.option>div.icon:first-child { margin-left:-5px; }
 form.option>div.icon { line-height:30px; font-size:26px; padding:0 5px; height:32px; display:none; }
 form.option>div.icon.refresh { line-height:28px; }
 form.option>div.icon.goback { line-height:28px; }
+form.option>div.icon.play { line-height:28px; }
 form.option>div.icon.lt { font-size:20px; line-height:30px; }
 form.option>div.icon:hover { background-color:white; }
+fieldset:not(.float)>form.option>div.text>span.value { display:none; }
+fieldset.float div.item.text:hover>span.icon.delete { visibility:hidden; }
+fieldset.float>form.option>div.text>input { display:none; }
+fieldset.float>form.option>div.text>span.value { padding:7px; display:block; }
 fieldset.float>form.option>div.item.button { display:none; }
-fieldset.story>form.option>div.icon.delete { display:block; }
 fieldset.float>form.option>div.icon { display:block; }
 fieldset.full>form.option>div.icon.delete { display:block; }
+fieldset.cmd>form.option>div.icon { display:block; }
+fieldset.cmd>form.option>div.item.button.run { display:none; }
+fieldset.cmd>form.option>div.item.button.list { display:none; }
+fieldset.cmd>form.option>div.item.button.back { display:none; }
+fieldset.cmd>form.option>div.item.button.create { display:none; }
+fieldset.story>form.option>div.icon { display:block; }
+fieldset.story>form.option>div.item.button.run { display:none; }
+fieldset.story>form.option>div.item.button.list { display:none; }
+fieldset.story>form.option>div.item.button.back { display:none; }
+fieldset.story>form.option>div.item.button.create { display:none; }
+fieldset.story>form.option>div.item.button.insert { display:none; }
 fieldset.plug>form.option>div.icon { margin-left:5px; }
 div.carte.select.float { border-radius:0; }
 div.carte.select.float>div.item { text-align:center; }
@@ -287,11 +302,6 @@ fieldset.plugin.parse.cmd>div.status { display:none; }
 fieldset.plugin.inner.cmd>legend { display:none; }
 fieldset.plugin.inner.cmd>div.action { display:none; }
 fieldset.plugin.inner.cmd>form.option { display:none; }
-fieldset.plugin.inner.cmd fieldset.story>form.option>div.icon { display:block; }
-fieldset.plugin.inner.cmd fieldset.story>form.option>div.item.button.list>input { display:none; }
-fieldset.plugin.inner.cmd fieldset.story>form.option>div.item.button.back>input { display:none; }
-fieldset.plugin.inner.cmd fieldset.story>form.option>div.item.button.create>input { display:none; }
-fieldset.plugin.inner.cmd fieldset.story>form.option>div.item.button.insert>input { display:none; }
 fieldset.plugin.inner.cmd fieldset.xterm>form.option>div.item.text>input { width:320px; }
 fieldset.plan div.output table.content { height:100%; width:100%; }
 fieldset.xterm div.toggle { display:none; }

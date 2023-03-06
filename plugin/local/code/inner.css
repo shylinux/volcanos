@@ -10,8 +10,8 @@ fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.object { color:cyan; }
 fieldset.inner>div.output>div.layout>div.layout>div.content * { font-family:monospace; font-size:14px; outline:none; }
-fieldset.inner>div.output>div.layout>div.path { font-family:monospace; font-size:14px; }
 fieldset.inner>div.output>div.layout>div.tabs { font-family:monospace; font-size:14px; }
+fieldset.inner>div.output>div.layout>div.path { font-family:monospace; font-size:14px; }
 fieldset.inner>div.output>div.project { width:230px; }
 fieldset.inner>div.output>div.project * { font-family:monospace; font-size:14px; outline:none; }
 fieldset.inner>div.output>div.project div.action { width:100%; }
@@ -27,9 +27,9 @@ fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; 
 fieldset.inner>div.output>div.layout.flow { position:relative; }
 fieldset.inner>div.output>div.layout.flow>div.tabs { display:none; }
 fieldset.inner>div.output>div.layout.flow>div.path { display:none; }
-fieldset.inner.cmd>div.output>div.project { border-right:solid 2px gray; }
-fieldset.inner.cmd>div.output div.profile { border-left:solid 2px gray; }
-fieldset.inner.cmd>div.output div.display { border-top:solid 2px gray; }
+fieldset.inner.cmd>div.output>div.project { border-right:dimgray solid 1px; }
+fieldset.inner.cmd>div.output div.profile { border-left:dimgray solid 1px; }
+fieldset.inner.cmd>div.output div.display { border-top:dimgray solid 1px; }
 fieldset.inner.cmd>div.output>div.project>div.zone>div.item { font-style:italic; font-weight:bold; line-height:32px; }
 fieldset.inner.cmd>div.output>div.project>div.zone>div.item>span.icon { font-style:normal; font-weight:normal; line-height:32px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { height:38px; display:block; overflow:hidden; }

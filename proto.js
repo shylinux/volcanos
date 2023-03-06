@@ -72,7 +72,7 @@ var mdb = {
 }
 var web = {CHAT: "chat",
 	SHARE: "share", SPACE: "space", DREAM: "dream",
-	WEBSITE: "website", DRAW: "draw", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter",
+	WEBSITE: "website", DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 
@@ -80,11 +80,13 @@ var web = {CHAT: "chat",
 	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 	VIDEO_WEBM: "video/webm",
 	
-	CODE_INNER: "web.code.inner",
-	CODE_VIMER: "web.code.vimer",
+	CODE_XTERM: "web.code.git.status",
 	CODE_XTERM: "web.code.xterm",
-	WIKI_WORD: "web.wiki.word",
+	CODE_VIMER: "web.code.vimer",
+	CODE_INNER: "web.code.inner",
 	CHAT_FAVOR: "web.chat.favor",
+	WIKI_WORD: "web.wiki.word",
+	TEAM_PLAN: "web.team.plan",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
@@ -124,6 +126,7 @@ var cli = {
 	COLOR: "color", BLACK: "black", WHITE: "white", BLUE: "blue", RED: "red", GRAY: "gray", CYAN: "cyan", GREEN: "green", PURPLE: "purple", YELLOW: "yellow",
 	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
 	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
+	PLAY: "play",
 }
 var log = {
 	INFO: "info", WARN: "warn", ERROR: "error", DEBUG: "debug", TRACE: "trace",

@@ -44,8 +44,8 @@ Volcanos(chat.ONFIGURE, {
 		))
 	}) },
 	favor: function(can, target, zone) { can.onimport._zone(can, zone, web.CHAT_FAVOR, function(sub, msg) {
-		sub.onexport.record = function(sub, value, key, item) { switch (item.type) {
-			case mdb.LINK: can.onimport.tabview(can, "", item.text, web.DREAM); break
+		sub.onexport.record = function(sub, value, key, item, event) { switch (item.type) {
+			case mdb.LINK: event.shiftKey? can.user.open(item.text): can.onimport.tabview(can, "", item.text, web.DREAM); break
 			case nfs.FILE: var ls = can.onexport.split(can, item.text); can.onimport.tabview(can, ls[0], ls[1]); break
 			case ctx.INDEX: can.onimport.tabview(can, "", item.text, ctx.INDEX); break
 			case ssh.SHELL: can.onimport.tabview(can, "", [web.CODE_XTERM, item.text].join(","), ctx.INDEX); break
@@ -60,7 +60,7 @@ Volcanos(chat.ONFIGURE, {
 		sub.onexport.record = function(sub, value, key) { can.onimport.tabview(can, can.Option(nfs.PATH), value, web.DREAM) }
 	}) },
 })
-Volcanos(chat.ONACTION, {list: ["编译", "调试", "首页", "收藏", "提交", "计划"],
+Volcanos(chat.ONACTION, {list: ["编译", "调试", "首页", "提交", "收藏", "计划"],
 	_daemon: function(event, can, arg) { switch (arg[0]) {
 		case web.DREAM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, can.Option(nfs.PATH), can.core.Keys(can.misc.Search(can, ice.POD), msg.Option(mdb.NAME)), web.DREAM) }); break
 		case code.XTERM: can.runAction({}, arg[0], arg.slice(1), function(msg) { can.onimport.tabview(can, ctx.COMMAND, code.XTERM, msg.Result()) }); break
@@ -112,12 +112,12 @@ Volcanos(chat.ONACTION, {list: ["编译", "调试", "首页", "收藏", "提交"
 		var sub = can.db.toolkit[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0])
 	}) },
 	
-	"编译": function(event, can) { can.onaction.compile(event, can, "compile") },
-	"调试": function(event, can) { can.user.opens(location.href.replace("debug=true", "debug=false")) },
-	"首页": function(event, can) { can.user.open(location.origin+(can.misc.Search(can, log.DEBUG) == ice.TRUE? "?debug=true": "")) },
-	"收藏": function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.chat.favor", ctx.INDEX) },
-	"提交": function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.code.git.status", ctx.INDEX) },
-	"计划": function(event, can) { can.onimport.tabview(can, can.Option(nfs.PATH), "web.team.plan", ctx.INDEX) },
+	"编译": function(event, can) { can.onaction.compile(event, can, code.COMPILE) },
+	"调试": function(event, can) { can.onimport.tabview(can, "", can.base.MergeURL(location.href, log.DEBUG, ice.TRUE), web.DREAM) },
+	"首页": function(event, can) { can.onimport.tabview(can, "", location.origin+(can.misc.Search(can, log.DEBUG) == ice.TRUE? "?debug=true": ""), web.DREAM) },
+	"提交": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },
+	"收藏": function(event, can) { can.onimport.tabview(can, "", web.CHAT_FAVOR, ctx.INDEX) },
+	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },
 	
 	"全屏": function(event, can) { can._target.requestFullScreen() },
 	"录屏": function(event, can) { window.openapp("QuickTime Player") },
@@ -275,9 +275,8 @@ Volcanos(chat.ONKEYMAP, {
 			}),
 			J: shy("合并两行", function(can) { var next = can.current.next(); if (!next) { return }
 				var line = can.onaction.selectLine(can), text = can.current.text(), rest = can.onexport.text(can, next)
-				can.ui.current.value = can.current.text(text.trimRight()+(
-					can.base.endWith(text.trim(), "(", "[")||can.base.beginWith(rest.trim(), ",", "]", ")")?
-					"": ice.SP)+rest.trimLeft()), can.onaction.deleteLine(can, next)
+				can.ui.current.value = can.current.text(text.trimRight()+(can.base.endWith(text.trim(), "(", "[")||can.base.beginWith(rest.trim(), ",", "]", ")")? "": ice.SP)+rest.trimLeft())
+				can.onkeymap.cursorMove(can.ui.current, text.length, 0), can.onaction.deleteLine(can, next)
 				can.db.undo.push(function() { can.onaction.modifyLine(can, line, text), can.onaction.insertLine(can, rest, line+1) })
 			}),
 			".": shy("重复操作", function(can) { var cb = can.db.redo.pop(); cb && cb() }),
@@ -300,7 +299,7 @@ Volcanos(chat.ONKEYMAP, {
 		insert_ctrl: {
 			f: shy("光标右移", function(can, target) { can.user.isWindows && can.onkeymap.cursorMove(target, 1) }),
 			b: shy("光标左移", function(can, target) { can.user.isWindows && can.onkeymap.cursorMove(target, -1) }),
-			a: shy("光标行首", function(can, target) { can.user.isWindows && can.onkeymap.cursorMove(target, 0, 0) }),
+			a: shy("光标行首", function(can, target) { for (var i = 0; i < target.value.length; i++) { if (target.value[i] != "\t") { break } } can.onkeymap.cursorMove(target, i, 0), can.onkeymap.prevent(event) }),
 			e: shy("光标行尾", function(can, target) { can.user.isWindows && can.onkeymap.cursorMove(target, 0, -1) }),
 			d: shy("删除字符", function(can, target) { can.user.isWindows && can.onkeymap.deleteText(target, target.selectionStart, 1) }),
 		},

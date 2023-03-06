@@ -84,7 +84,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			sub.run = function(event, cmds, cb, silent) { var msg = sub.request(event)
 				if (msg.Option(nfs.PATH) == can.Option(nfs.PATH)) { msg.Option(nfs.PATH, "") }
 				can.runAction(event, chat.STORY, [meta.type, meta.name, meta.text].concat(cmds), function(msg) {
-					cb(msg), can.sup.onexport.output(can.sup, msg)
+					cb(msg), can.sup.onexport.output && can.sup.onexport.output(can.sup, msg)
 				}, true)
 			}, can._plugins = (can._plugins||[]).concat([sub])
 

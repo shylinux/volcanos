@@ -31,7 +31,9 @@ Volcanos(chat.ONIMPORT, {
 	}, document.body) }) },
 	_hold: function(can, msg, arg) { arg && can.user.toast(can, arg) },
 	_back: function(can) { can._history.pop(); for (var index = 0, his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
-		can.page.SelectArgs(can, can._option, "", function(item) { item.value = his[index++]||"" })
+		can.page.SelectArgs(can, can._option, "", function(item) { item.value = his[index++]||""
+			can.page.Select(can, item.parentNode, "span.value", function(target) { target.innerText = target.value||"" })
+		})
 		can.page.SelectArgs(can, can._action, "", function(item) { item.value = his[index++]||"" })
 		can.Update(); break
 	} !his && can.Update() },
@@ -52,8 +54,9 @@ Volcanos(chat.ONIMPORT, {
 		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return auto } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
 		if (mode) { sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub) } else { sub.onlayout._init(sub) } return auto
 	},
-	change: function(event, can, name, value, cb) { return can.page.SelectArgs(can, can._option, "", function(input) {
-		if (input.name != name || value == input.value) { return } return input.value = value, can.Update(event, can.Input([], true), cb), input
+	change: function(event, can, name, value, cb) { return can.page.SelectArgs(can, can._option, "", function(input) { if (input.name != name || value == input.value) { return }
+		can.page.Select(can, input.parentNode, "span.value", function(target) { target.innerText = value })
+		return input.value = value, can.Update(event, can.Input([], true), cb), input
 	})[0] },
 })
 Volcanos(chat.ONACTION, {list: [
