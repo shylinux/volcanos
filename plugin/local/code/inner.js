@@ -166,11 +166,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			var height = can.ui.profile.offsetHeight||can.ui.content.offsetHeight
 			var per = 0.5; if (msg.Append(ctx.INDEX) == web.WIKI_WORD) { per = 0.6 }
 			var width = can.onexport.size(can, can.db.profile_size[can.onexport.keys(can)]||per, can.ConfWidth()-can.ui.project.offsetWidth)
-			can.onimport.process(can, msg, can.ui.profile, height, width, function(sub) {
+			can.onimport.process(can, msg, can.ui.profile, height, width, function(sub) { can.ui.profile._plugin = can._msg._profile = sub
+				var _width = can.base.Max(sub._target.offsetWidth, width-2); if (_width == sub.ConfWidth()) { return }
 				can.page.style(can, sub._output, html.MAX_WIDTH, "")
-				var _width = can.base.Max(sub._target.offsetWidth, width-2)
 				can.db.profile_size[can.onexport.keys(can)] = _width, can.onimport.layout(can), sub.onimport.size(sub, height, _width, true)
-				can.ui.profile._plugin = can._msg._profile = sub
 			})
 			can.page.Select(can, can.ui.profile, html.TABLE, function(target) { can.onmotion.delay(can, function() {
 				if (target.offsetWidth < can.ui._profile.offsetWidth) { can.db.profile_size[can.onexport.keys(can)] = target.offsetWidth, can.onimport.layout(can) }
@@ -181,27 +180,30 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		var height = can.onexport.size(can, can.db.display_size[can.onexport.keys(can)]||0.5, can.ui.content.offsetHeight||can.ConfHeight())
 		can.page.style(can, can.ui.display, html.MAX_HEIGHT, can.ConfHeight()/2)
 		can.onimport.process(can, msg, can.ui.display, height, width, function(sub) {
+			var _height = can.base.Max(sub._target.offsetHeight, height); if (_height == sub.ConfHeight()) { return }
 			if (sub.ConfHeight() < can.ui.content.offsetHeight-100) { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
-			var _height = can.base.Max(sub._target.offsetHeight, height)
 			can.db.display_size[can.onexport.keys(can)] = _height, can.onimport.layout(can), sub.onimport.size(sub, _height, width, true)
 		})
 	},
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target)
 		if (msg.Option(ice.MSG_PROCESS) == ice.PROCESS_FIELD) {
 			msg.Table(function(item) { item.type = chat.STORY, item.display = msg.Option(ice.MSG_DISPLAY), item.height = height-2*html.ACTION_HEIGHT, item.width = width
-				if (item.index == web.CODE_XTERM) { item.style = html.OUTPUT }
-				if (item.index == web.WIKI_WORD) { item.style = html.OUTPUT }
+				if (item.index == web.CODE_XTERM) { item.style = html.OUTPUT } if (item.index == web.WIKI_WORD) { item.style = html.OUTPUT }
 				can.onimport.plug(can, item, function(sub) { height && sub.ConfHeight(item.height), width && sub.ConfWidth(item.width)
 					sub.onaction.close = function() { can.onmotion.hidden(can, target), can.onimport.layout(can) }
 					sub.onexport.output = function(_sub, _msg) { can.onmotion.delay(can, function() { can.base.isFunc(cb) && cb(_sub, _msg) }) }
 					sub.run = function(event, cmds, cb) { can.runActionCommand(can.request(event, can.Option()), item.index, cmds, function(msg) {
-						height && sub.ConfHeight(item.height), width && sub.ConfWidth(item.width)
-						can.base.isFunc(cb) && cb(msg)
+						if (sub == (msg._can._fields? msg._can.sup: msg._can)) {
+						 	 if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.IMPORT, mdb.EXPORT, "imports", "exports")) { return can.user.toastSuccess(can, cmds[1]), sub.Update() } }
+						} can.base.isFunc(cb) && cb(msg)
 					}) }
 				}, target)
 			})
 		} else if (msg.Option(ice.MSG_DISPLAY) != "") {
 			can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY), target, false, function(msg) { can.onimport.layout(can) })
+		} else if (msg.Result().indexOf("<iframe src=") > -1) {
+			var src = can.page.Select(can, can.page.Create(can, html.DIV, msg.Result()), html.IFRAME, function(target) { return target.src })[0]
+			can.page.Append(can, target, [{type: html.IFRAME, src: src, style: {height: height, width: width}}])
 		} else if (msg.Length() > 0 || msg.Result() != "") {
 			can.onappend.table(can, msg, function(value, key, index, line, array) {
 				return {text: [value, html.TD], onclick: function(event) { if (line.line || line.file) {

@@ -7,8 +7,8 @@ Volcanos(chat.ONFIGURE, {key: {
 		if (can.base.isIn(msg.append[msg.append.length-1], ctx.ACTION, "cb")) { msg.append = msg.append.slice(0, -1) }
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, item) { value = item[key]
 			return {text: [value, html.TD, value == ""? html.HR: ""], style: msg.append && msg.append.length == 1? kit.Dict(html.MIN_WIDTH, target.offsetWidth-16): {}, onclick: function(event) {
-				can.close(); var cb = can.Conf("select"); if (cb) { return cb(target.value = value) }
-				if (msg.cb && msg.cb[index]) { return msg.cb[index](value) } cb(can, value, target.value)
+				can.close(); if (msg.cb && msg.cb[index]) { return msg.cb[index](value) }
+				var _cb = can.Conf("select"); if (_cb) { return _cb(target.value = value) } can.base.isFunc(cb) && cb(can, value, target.value)
 				msg.Option(ice.MSG_PROCESS) == ice.PROCESS_AGAIN && can.onmotion.delay(can, function() { can._load(event, can, cb, target, name, value) })
 			}}
 		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length())

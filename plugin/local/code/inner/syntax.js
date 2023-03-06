@@ -561,6 +561,7 @@ Volcanos(chat.ONSYNTAX, {
 			"meta": code.KEYWORD,
 			"link": code.KEYWORD,
 			"title": code.KEYWORD,
+			"script": code.KEYWORD,
 			
 			"h1": code.KEYWORD,
 			"h2": code.KEYWORD,

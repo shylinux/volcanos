@@ -1,6 +1,21 @@
 Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) { can.require([can.volcano], null, function(can, key, sub) { can[key] = sub })
 		if (!can.user.isMailMaster) { if (can.misc.Search(can, ice.MSG_SESSID)) { can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)); return can.misc.Search(can, ice.MSG_SESSID, "") } }
 		can.user.title(can.misc.SearchOrConf(can, chat.TITLE)||can.misc.Search(can, ice.POD)||location.host)
+		can.page.Append(can, document.head, ctx.STYLE, {"innerText": `
+	body, fieldset { border:0; margin:0; overflow:hidden; }
+	fieldset>legend { float:left; }
+	fieldset>form.option { float:left; }
+	fieldset>div.action { float:left; }
+	fieldset>div.output { clear:both; }
+	fieldset>form.option>div.item { float:left; }
+	fieldset>div.action>div.item { float:left; }
+	fieldset>div.status>div.item { float:left; }
+	fieldset.Action>legend { display:none; }
+	div.float, fieldset.float { position:fixed; }
+	div.input.float div.action>div.item { float:right; }
+	div.item, fieldset>legend { cursor:pointer; }
+	.hide { display:none; }
+`})
 		can.onappend.theme(can, html.DARK), can.onappend.theme(can, html.LIGHT, {panel: cli.WHITE, plugin: cli.ALICEBLUE, legend: "lightsteelblue", input: cli.WHITE, output: cli.WHITE, table: cli.ALICEBLUE,
 			hover: cli.ALICEBLUE, border: cli.TRANSPARENT, label: cli.BLACK, text: cli.BLACK, info: cli.BLUE, warn: cli.RED})
 		can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]; return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb) }
@@ -31,7 +46,9 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) { can.requ
 			if (sub._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], sub._daemon)) }
 		} can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
 		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+panel._name)
+		if (msg.Option("log.trace") == ice.TRUE) { debugger }
 		can.misc.Run(event, can, {names: names, daemon: msg[ice.MSG_DAEMON]}, cmds, function(msg) { toast && toast.close(), toast = true
+			if (msg.Option("log.trace") == ice.TRUE) { debugger }
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(ice.FS))] = msg
 		})
 	},
@@ -200,9 +217,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}): can.core.CallFunc(action, {can: can, msg: can.request(event), arg: cmds.slice(2), cb: cb})
 			} return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, can.Option()), cmds.slice(0, 2).concat(args), cb) })
 		}
-		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, cb||function(msg) { if (silent) { return } var _can = can._fields? can.sup: can
-			if (_can == (msg._can._fields? msg._can.sup: msg._can) && can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) { return }
-			if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.CREATE, mdb.INSERT, mdb.IMPORT, nfs.TRASH) || msg.Length() == 0 && !msg.Result()) { return can.user.toastSuccess(can, cmds[1]), can.Update() } }
+		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, function(msg) {
+			var _can = can._fields? can.sup: can; if (_can == (msg._can._fields? msg._can.sup: msg._can)) { if (can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) { return } }
+			if (can.base.isFunc(cb)) { return cb(msg) } if (silent) { return }
+			if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.CREATE, mdb.INSERT, mdb.IMPORT, mdb.EXPORT, "exports", "imports", nfs.TRASH) || msg.Length() == 0 && !msg.Result()) { return can.user.toastSuccess(can, cmds[1]), can.Update() } }
 			can.onappend._output(can, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
 		})
 	},
@@ -311,6 +329,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}).join(ice.NL) } can.page.Append(can, document.head, ctx.STYLE, {"innerText": render(html.BODY+ice.PT+theme, list)})
 	},
 	style: function(can, style, target) { target = target||can._fields||can._target
+		if (can.base.endWith(style, ".css")) { return can.require([style]) }
 		can.base.isObject(style) && !can.base.isArray(style)? can.page.style(can, target, style): can.page.ClassList.add(can, target, style)
 	},
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}

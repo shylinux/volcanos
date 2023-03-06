@@ -13,13 +13,15 @@ input[name=ID] { width:48px; }
 input[name=url] { width:320px; }
 input[name=cmd] { background-color:black; color:white; width:100%; }
 input[type=button] { background-color:black; color:cyan; }
-input[type=button][name=restart] { background-color:blue; color:white; }
-input[type=button][name=start] { background-color:blue; color:white; }
-input[type=button][name=open] { background-color:blue; color:white; }
-input[type=button][name=stop] { background-color:red; color:white; }
-input[type=button][name=trash] { background-color:red; color:white; }
-input[type=button][name=delete] { background-color:red; color:white; }
-input[type=button][name=remove] { background-color:red; color:white; }
+input:hover[type=button][name=create] { background-color:blue; color:white; }
+input:hover[type=button][name=insert] { background-color:blue; color:white; }
+input:hover[type=button][name=restart] { background-color:blue; color:white; }
+input:hover[type=button][name=start] { background-color:blue; color:white; }
+input:hover[type=button][name=open] { background-color:blue; color:white; }
+input:hover[type=button][name=stop] { background-color:red; color:white; }
+input:hover[type=button][name=trash] { background-color:red; color:white; }
+input:hover[type=button][name=delete] { background-color:red; color:white; }
+input:hover[type=button][name=remove] { background-color:red; color:white; }
 textarea { background-color:cyan; padding:5px; width:100%; }
 /* output */
 div.project div.list { margin-left:10px; }
@@ -40,7 +42,7 @@ table.content td { padding:2px 5px; }
 table.content.action th:last-child { position:sticky; right:2px; }
 table.content.action td:last-child { background-color:steelblue; position:sticky; right:2px; }
 table.content.full { width:100%; }
-div.code { background-color:#5066b945; font-size:14px; padding:10px; }
+div.code { background-color:#5066b945; font-size:14px; }
 div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:5px 10px; border-left:blue solid 5px; }
 // div.story[data-type=spark] { background-color:#2169a9a6; color:white; padding:5px 10px; border-left:blue solid 5px; margin:10px; }
 table.content div.story[data-type=spark] { margin:0; }
@@ -117,7 +119,6 @@ body>div.upload input[type=file] { width:320px; }
 /* font */
 legend { font-size:1.2rem; line-height:32px; height:32px; }
 legend>span.delete { font-size:1rem; margin-left:5px; margin-right:-15px; visibility:hidden; }
-// legend:hover>span.delete { visibility:visible; }
 select, input { font-size:1rem; height:32px; } textarea { tab-size:2; height:93px; } input::placeholder { font-style:italic; }
 table.content, div.item, div.code, div.story[data-type=spark] { white-space:pre; text-align:left; }
 table.content, div.item, div.code, div.story[data-type=spark] { font-family:monospace; }
@@ -176,10 +177,10 @@ select, input[type=text], textarea { box-shadow:4px 4px 20px 4px #626bd0; }
 body.black input[type=text], body.black textarea { background-color:#243783bd; color:white; outline:none; }
 legend, select, input[type=button], div.tabs, div.item, span.item, th, td, h1, h2, h3 { cursor:pointer; }
 div.title, div.story[data-type=spark] { cursor:copy; }
-table.content tr:not(:hover) input[type=button][name=remove] { visibility:hidden; }
-table.content tr:not(:hover) input[type=button][name=delete] { visibility:hidden; }
-table.content tr:not(:hover) input[type=button][name=trash] { visibility:hidden; }
 table.content tr:not(:hover) input[type=button][name=stop] { visibility:hidden; }
+table.content tr:not(:hover) input[type=button][name=trash] { visibility:hidden; }
+table.content tr:not(:hover) input[type=button][name=delete] { visibility:hidden; }
+table.content tr:not(:hover) input[type=button][name=remove] { visibility:hidden; }
 /* theme */
 body.black a { color:yellow; }
 body.black div.project div.zone>div.list>div.zone>div.item { background-color:#09466fc2; }
@@ -189,13 +190,6 @@ body.white div.item.select div { background-color:yellowgreen; color:white; floa
 body.white input { background-color:white; }
 body.white input[name=cmd] { background-color:black; color:white; }
 body.white input[type=button] { background-color:cornflowerblue; color:white; }
-body.white input[type=button][name=restart] { background-color:blue; }
-body.white input[type=button][name=start] { background-color:blue; }
-body.white input[type=button][name=open] { background-color:blue; }
-body.white input[type=button][name=stop] { background-color:red; }
-body.white input[type=button][name=trash] { background-color:red; }
-body.white input[type=button][name=delete] { background-color:red; }
-body.white input[type=button][name=remove] { background-color:red; }
 body.white textarea { background-color:white; }
 body.white table.content th { background-color:skyblue; }
 body.white table.content.action td:last-child { background-color:skyblue; }
@@ -210,7 +204,6 @@ body.white fieldset.full { background-color:white; color:black; }
 body.white legend:hover { background-color:skyblue; }
 body.white select:hover { background-color:#99cc667d; }
 body.white input[name=cmd]:hover { background-color:white; color:black; }
-body.white input[type=button]:hover { background-color:#1b7acc8c; }
 body.white div.project div.zone>div.list>div.zone>div.item:hover { background-color:#4682b46b; }
 body.white div.item:hover, body.white span.item:hover { background-color:#4682b46b; }
 body.white div.item.select { background-color:#4682b46b; }
