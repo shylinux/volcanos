@@ -45,6 +45,27 @@ Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMed
 		can.__theme = themeMedia.matches? html.DARK: html.LIGHT, themeMedia.addListener(function(event) { can.__theme = event.matches? html.DARK: html.LIGHT
 			can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme}))
 		}), can.onimport.theme(can)
+		false && can.page.Append(can, document.head, ctx.STYLE, {"innerText": `
+	body, fieldset { border:0; margin:0; overflow:hidden; }
+	fieldset>legend { float:left; }
+	fieldset>form.option { float:left; }
+	fieldset>div.action { float:left; }
+	fieldset>div.output { clear:both; }
+	fieldset>form.option>div.item { float:left; }
+	fieldset>div.action>div.item { float:left; }
+	fieldset>div.status>div.item { float:left; }
+	fieldset.Action>legend { display:none; }
+	div.float, fieldset.float { position:fixed; }
+	div.input.float div.action>div.item { float:right; }
+	div.item, fieldset>legend { cursor:pointer; }
+	.hide { display:none; }
+`})
+		return can.require(["src/template/web.chat.header/dark.css", "src/template/web.chat.header/light.css"])
+		can._themes = {
+			"dark": can.onappend.theme(can, html.DARK),
+			"light": can.onappend.theme(can, html.LIGHT, {panel: cli.WHITE, plugin: cli.ALICEBLUE, legend: "lightsteelblue", input: cli.WHITE, output: cli.WHITE, table: cli.ALICEBLUE,
+				hover: cli.ALICEBLUE, border: cli.TRANSPARENT, label: cli.BLACK, text: cli.BLACK, info: cli.BLUE, warn: cli.RED}),
+		}
 	},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onmain: function(can) {
@@ -141,7 +162,12 @@ Volcanos(chat.ONPLUGIN, {
 	background: shy("背景图片", function(can, sub, cb) { can.page.Append(can, sub._output, [{img: can.user.info.background, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}]) }),
 	language: shy("语言地区", {_init: function(can) { can.Option(aaa.LANGUAGE, can.user.info.language||ice.AUTO) }}, ["language:select=auto,zh,en", ice.RUN], function(can, msg, arg) { can.onimport.language(can, arg[0]) }),
 	title: shy("网页标题", [chat.TITLE], function(can, msg, arg) { msg.Echo(can.user.title(arg[0])) }),
-	theme: shy("界面主题", {_init: function(can) { can.Option(chat.THEME, can.getHeader(chat.THEME)) }}, ["theme:select=auto,dark,light,print,white,black", ice.RUN], function(can, msg, arg) {
+	theme: shy("界面主题", {
+		_init: function(can) { can.Option(chat.THEME, can.getHeader(chat.THEME)) },
+		save: function(can, sup) {
+			can.user.downloads(can, sup._themes[can.Option("theme")], can.Option("theme"), "css")
+		},
+	}, ["theme:select=auto,dark,light,print,white,black", ice.RUN, nfs.SAVE], function(can, msg, arg) {
 		if (arg[0] == ice.AUTO) { arg[0] = "", can._theme = "" } can.misc.localStorage(can, "can.theme", arg[0]), can.onimport.theme(can, arg[0])
 	}),
 	logout: shy("退出登录", kit.Dict(aaa.LOGOUT, shy("退出", function(can) { can.user.logout(can._root.Header) })), [aaa.LOGOUT]),

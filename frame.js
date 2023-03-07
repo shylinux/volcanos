@@ -1,23 +1,6 @@
 Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) { can.require([can.volcano], null, function(can, key, sub) { can[key] = sub })
 		if (!can.user.isMailMaster) { if (can.misc.Search(can, ice.MSG_SESSID)) { can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)); return can.misc.Search(can, ice.MSG_SESSID, "") } }
 		can.user.title(can.misc.SearchOrConf(can, chat.TITLE)||can.misc.Search(can, ice.POD)||location.host)
-		can.page.Append(can, document.head, ctx.STYLE, {"innerText": `
-	body, fieldset { border:0; margin:0; overflow:hidden; }
-	fieldset>legend { float:left; }
-	fieldset>form.option { float:left; }
-	fieldset>div.action { float:left; }
-	fieldset>div.output { clear:both; }
-	fieldset>form.option>div.item { float:left; }
-	fieldset>div.action>div.item { float:left; }
-	fieldset>div.status>div.item { float:left; }
-	fieldset.Action>legend { display:none; }
-	div.float, fieldset.float { position:fixed; }
-	div.input.float div.action>div.item { float:right; }
-	div.item, fieldset>legend { cursor:pointer; }
-	.hide { display:none; }
-`})
-		can.onappend.theme(can, html.DARK), can.onappend.theme(can, html.LIGHT, {panel: cli.WHITE, plugin: cli.ALICEBLUE, legend: "lightsteelblue", input: cli.WHITE, output: cli.WHITE, table: cli.ALICEBLUE,
-			hover: cli.ALICEBLUE, border: cli.TRANSPARENT, label: cli.BLACK, text: cli.BLACK, info: cli.BLUE, warn: cli.RED})
 		can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]; return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb) }
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
 			can.onappend._init(can, can.base.Copy(item, can.core.Value(can, [chat.RIVER, item.name])), item.list, function(sub) { can[item.name] = sub
@@ -216,7 +199,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			var action = meta.feature[cmds[1]]; if (can.base.isFunc(action)) { cb = cb||function() { can.Update() }
 				return action.list && action.list.length > 0? can.user.input(event, can, action.list, function(data) {
 					can.core.CallFunc(action, {can: can, msg: can.request(event, data), arg: cmds.slice(2), cb: cb})
-				}): can.core.CallFunc(action, {can: can, msg: can.request(event), arg: cmds.slice(2), cb: cb})
+				}): can.core.CallFunc(action, {sup: meta.can, can: can, msg: can.request(event), arg: cmds.slice(2), cb: cb})
 			} return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, can.Option()), cmds.slice(0, 2).concat(args), cb) })
 		}
 		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, function(msg) {
@@ -255,7 +238,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			], onclick: function(event) { can.user.copy(event, can, item.value) }}])
 		})
 	},
-
 	theme: function(can, theme, color, style, list) { const PANEL_STYLE = "panel-style", PLUGIN_STYLE = "plugin-style"
 		const LEGEND_STYLE = "legend-style", INPUT_STYLE = "input-style", INPUT_HOVER_STYLE = "input-hover-style", OUTPUT_STYLE = "output-style", GLASS_STYLE = "glass-style"
 		const TABLE_HEAD_STYLE = "table-head-style", TABLE_HEAD_HOVER_STYLE = "table-head-hover-style", TABLE_ROW_HOVER_STYLE = "table-row-hover-style", TABLE_CELL_HOVER_STYLE = "table-cell-hover-style"
@@ -328,7 +310,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			return (item.style? (pre+ice.SP+type+" { "+(can.base.isArray(item.style)? can.core.List(item.style, function(item) {
 				return can.core.Item(style[item], function(key, value) { return key&&value? key+DF+value: undefined }).join(FS)
 			}).join(FS): can.core.Item(can.base.Obj(item.style), function(key, value) { return key+DF+value }).join(FS))+" }"): "")+(item.list? render(pre+ice.SP+type, item.list): "")
-		}).join(ice.NL) } can.page.Append(can, document.head, ctx.STYLE, {"innerText": render(html.BODY+ice.PT+theme, list)})
+		}).join(ice.NL) }
+		var text = render(html.BODY+ice.PT+theme, list)
+		can.page.Append(can, document.head, ctx.STYLE, {"innerText": text})
+		return text
 	},
 	style: function(can, style, target) { target = target||can._fields||can._target
 		if (can.base.endWith(style, ".css")) { return can.require([style]) }
