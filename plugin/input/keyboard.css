@@ -23,5 +23,5 @@ fieldset.keyboard>div.output>div.key.Backspace { width:90px; }
 fieldset.keyboard>div.output>div.key>span { margin-top:2px; display:block; }
 fieldset.keyboard>div.output>div.key.special>span { margin-top:10px; }
 
-table.content td input { width:50px; }
-body.mobile table.content td input { width:80px; }
+// table.content td input { width:50px; }
+// body.mobile table.content td input { width:80px; }

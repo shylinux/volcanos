@@ -1,5 +1,5 @@
 fieldset.vimer>div.output div.project div.zone.recent>div.list { max-height:200px; }
-fieldset.vimer>div.output div.project div.zone.dream div.item.stop { color:gray; }
+fieldset.vimer>div.output div.project div.zone.space div.item.stop { color:gray; }
 fieldset.vimer>div.output input.current { background-color:transparent; color:transparent; padding-left:10px; height:20px; position:absolute; }
 fieldset.vimer>div.output input.current.insert { caret-color:black; }
 fieldset.vimer>div.output input.current.normal { caret-color:lightgray; }

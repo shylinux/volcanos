@@ -51,7 +51,7 @@ Volcanos(chat.ONIMPORT, {
 	size: function(can, height, width, auto, mode) { height -= can.onexport.actionHeight(can)+can.onexport.statusHeight(can)
 		auto? can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, height? can.ConfHeight(height): "", html.MAX_WIDTH, can.ConfWidth(width)):
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, "")
-		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return auto } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
+		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return can.Mode(mode), auto } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
 		if (mode) { sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub) } else { sub.onlayout._init(sub) } return auto
 	},
 	change: function(event, can, name, value, cb) { return can.page.SelectArgs(can, can._option, "", function(input) { if (input.name != name || value == input.value) { return }
@@ -77,6 +77,7 @@ Volcanos(chat.ONACTION, {list: [
 			can.ConfHeight(back.height), can.ConfWidth(back.width), can.Mode(back.mode),
 			can.onmotion.toggle(can, can._action, back.action), can.onmotion.toggle(can, can._status, back.status)
 			can.page.style(can, can._output, back.output), can.page.style(can, can._target, back.style), can.base.isFunc(load) && load(back)
+			if (!sub) { return }
 			sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), sub.Mode(can.Mode()), sub.onlayout._init(sub)
 		}
 	},
@@ -86,7 +87,7 @@ Volcanos(chat.ONACTION, {list: [
 		can.getActionSize(function(left) { can.onmotion.move(can, can._target, {left: (left||0)+(can.user.isMobile? 0: html.PLUGIN_MARGIN), top: can.page.height()/2-html.PLUGIN_MARGIN-html.ACTION_HEIGHT}) })
 		can.ConfHeight(can.page.height()/2-can.onexport.actionHeight(can)-can.onexport.statusHeight(can)), can.ConfWidth(can.page.width()/(can.user.isMobile? 1: 2))
 	}) },
-	"切换全屏": function(event, can) { var sub = can._outputs[0]; can.onaction._switch(can, sub, chat.FULL, function() { can.page.style(can, can._target, html.LEFT, "", html.TOP, "", html.BOTTOM, "")
+	"切换全屏": function(event, can, button, sub) { can.onaction._switch(can, sub, chat.FULL, function() { can.page.style(can, can._target, html.LEFT, "", html.TOP, "", html.BOTTOM, "")
 		can.ConfHeight(can.page.height()-can.onexport.actionHeight(can)-can.onexport.statusHeight(can)), can.ConfWidth(can.page.width())
 	}) },
 	"远程控制": function(event, can) { can.onaction.keyboard(event, can) },
@@ -124,7 +125,9 @@ Volcanos(chat.ONACTION, {list: [
 	
 	refresh: function(event, can) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (sub) { sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), sub.onimport.layout(sub) } },
 	close: function(event, can) {
-		if (can.isFullMode()) {
+		if (can.isCmdMode()) {
+			can.user.close()
+		} else if (can.isFullMode()) {
 			can.onaction["切换全屏"](event, can, "切换全屏", can.core.Value(can, chat._OUTPUTS_CURRENT))
 		} else if (can.isFloatMode()) {
 			can.onaction["切换浮动"](event, can, "切换浮动", can.core.Value(can, chat._OUTPUTS_CURRENT))

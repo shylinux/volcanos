@@ -37,16 +37,6 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			var target = can.page.Append(can, can._target, [{view: [[html.TOGGLE, chat.PROJECT], "", can.page.isDisplay(river)? lt: gt], onclick: function(event) {
 				can.page.Modify(can, target, (can._river_show = can.onmotion.toggle(can, river))? lt: gt)
 				can.onaction.layout(can)
-				return
-				var total = 230, length = 20
-				var margin = can._river_show? -total: 0
-				can.ConfWidth(can.page.width()-(can._river_show? 0: total))
-				step = can._river_show? total/length: -total/length
-				can.core.Timer({interval: 10, length: length}, function() {
-					can.page.style(can, river, {"margin-left": margin += step, "display": "block"})
-					can.ConfWidth(can.ConfWidth()-step)
-					can.onaction.layout(can, "", true)
-				})
 			}}])._target; can._toggle = target
 		}); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return } can._names = location.pathname
 		can.Conf(chat.TOOL)? can.onappend.layout(can, can._output, FLOW, can.core.List(can.Conf(chat.TOOL), function(item, index, list) { item.type = chat.PLUGIN
@@ -67,7 +57,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	_onaction_cmd: function(can) { can.onengine.signal(can, chat.ONACTION_CMD), can.onlayout._init(can) },
 	onaction_cmd: function(can, msg) { can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.Conf(html.MARGIN_Y, 0), can.Conf(html.MARGIN_X, 0) },
 	onsearch: function(can, msg, arg) { var fields = msg.Option(ice.MSG_FIELDS).split(ice.FS)
-		if (arg[0] == mdb.FOREACH || arg[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, arg, fields) }
+		if (arg[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, arg, fields) }
 		if (arg[0] == ctx.COMMAND) { can.onexport.command(can, msg, arg, fields) }
 	},
 	onkeydown: function(can, msg, model) { if (can.isCmdMode() && !msg._event.metaKey) { return }

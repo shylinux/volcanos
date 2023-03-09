@@ -17,6 +17,7 @@ input:hover[type=button][name=create] { background-color:blue; color:white; }
 input:hover[type=button][name=insert] { background-color:blue; color:white; }
 input:hover[type=button][name=restart] { background-color:blue; color:white; }
 input:hover[type=button][name=start] { background-color:blue; color:white; }
+input:hover[type=button][name=run] { background-color:blue; color:white; }
 input:hover[type=button][name=open] { background-color:blue; color:white; }
 input:hover[type=button][name=stop] { background-color:red; color:white; }
 input:hover[type=button][name=trash] { background-color:red; color:white; }
@@ -92,7 +93,7 @@ body div.float { background-color:#061c3ceb; padding:5px; overflow:auto; }
 body>div.toast div.title { color:blue; float:left; }
 body>div.toast div.duration { color:gray; float:right; }
 body>div.toast div.content { color:blue; text-align:center; }
-body>div.toast div.progress { border:green solid 1px; margin-left:0px; height:20px; clear:both; }
+body>div.toast div.progress { border:blue solid 1px; margin-left:0px; height:20px; clear:both; }
 body>div.toast div.progress div.current { background-color:red; height:18px; }
 body>div.toast div.action { width:100%; display:block; }
 body>div.toast div.action>div.item { float:right; }
@@ -155,26 +156,21 @@ form.option>div.icon { line-height:30px; font-size:26px; padding:0 5px; height:3
 form.option>div.icon.refresh { line-height:28px; }
 form.option>div.icon.goback { line-height:28px; }
 form.option>div.icon.play { line-height:28px; }
+form.option>div.icon.next { font-size:18px; }
+form.option>div.icon.prev { font-size:18px; }
 form.option>div.icon.lt { font-size:20px; line-height:30px; }
 form.option>div.icon:hover { background-color:white; }
 fieldset:not(.float)>form.option>div.text>span.value { display:none; }
 fieldset.float div.item.text:hover>span.icon.delete { visibility:hidden; }
 fieldset.float>form.option>div.text>input { display:none; }
-fieldset.float>form.option>div.text>span.value { padding:7px; display:block; }
+fieldset.float>form.option>div.text>span.value { padding:7px; height:32px; display:block; }
 fieldset.float>form.option>div.item.button { display:none; }
 fieldset.float>form.option>div.icon { display:block; }
 fieldset.full>form.option>div.icon.delete { display:block; }
 fieldset.cmd>form.option>div.icon { display:block; }
-fieldset.cmd>form.option>div.item.button.run { display:none; }
-fieldset.cmd>form.option>div.item.button.list { display:none; }
-fieldset.cmd>form.option>div.item.button.back { display:none; }
-fieldset.cmd>form.option>div.item.button.create { display:none; }
+fieldset.cmd>form.option>div.item.button.icons { display:none; }
 fieldset.story>form.option>div.icon { display:block; }
-fieldset.story>form.option>div.item.button.run { display:none; }
-fieldset.story>form.option>div.item.button.list { display:none; }
-fieldset.story>form.option>div.item.button.back { display:none; }
-fieldset.story>form.option>div.item.button.create { display:none; }
-fieldset.story>form.option>div.item.button.insert { display:none; }
+fieldset.story>form.option>div.item.button.icons { display:none; }
 fieldset.plug>form.option>div.icon { margin-left:5px; }
 div.carte.select.float { border-radius:0; }
 div.carte.select.float>div.item { text-align:center; }
@@ -192,10 +188,6 @@ select, input[type=text], textarea { box-shadow:4px 4px 20px 4px #626bd0; }
 body.black input[type=text], body.black textarea { background-color:#243783bd; color:white; outline:none; }
 legend, select, input[type=button], div.tabs, div.item, span.item, th, td, h1, h2, h3 { cursor:pointer; }
 div.title, div.story[data-type=spark] { cursor:copy; }
-table.content tr:not(:hover) input[type=button][name=stop] { visibility:hidden; }
-table.content tr:not(:hover) input[type=button][name=trash] { visibility:hidden; }
-table.content tr:not(:hover) input[type=button][name=delete] { visibility:hidden; }
-table.content tr:not(:hover) input[type=button][name=remove] { visibility:hidden; }
 /* theme */
 body.black a { color:yellow; }
 body.black div.project div.zone>div.list>div.zone>div.item { background-color:#09466fc2; }

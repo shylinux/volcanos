@@ -80,7 +80,7 @@ var web = {CHAT: "chat",
 	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 	VIDEO_WEBM: "video/webm",
 	
-	CODE_XTERM: "web.code.git.status",
+	CODE_GIT_STATUS: "web.code.git.status",
 	CODE_XTERM: "web.code.xterm",
 	CODE_VIMER: "web.code.vimer",
 	CODE_INNER: "web.code.inner",
@@ -119,6 +119,7 @@ var nfs = {
 	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
 	SRC: "src/",
+	OPENS: "opens",
 }
 var cli = {
 	PWD: "pwd", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
@@ -127,6 +128,7 @@ var cli = {
 	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
 	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 	PLAY: "play",
+	OPENS: "opens",
 }
 var log = {
 	INFO: "info", WARN: "warn", ERROR: "error", DEBUG: "debug", TRACE: "trace",

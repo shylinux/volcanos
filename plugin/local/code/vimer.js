@@ -4,15 +4,20 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.require(["i
 	}, target) }) },
 	_input: function(can) { var ui = can.page.Append(can, can.ui.content.parentNode, [
  		{view: [code.CURRENT, html.INPUT], spellcheck: false, onkeydown: function(event) { can.onimport._value(can); if (event.metaKey) { return }
-			can.db._keylist = can.onkeymap._parse(event, can, can.db.mode+(event.ctrlKey? "_ctrl": ""), can.db._keylist, can.ui.current)
-			if (can.db.mode == mdb.NORMAL) { can.onkeymap.prevent(event), can.Status(mdb.KEYS, can.db._keylist.join("")) }
-			if (can.db.mode == mdb.INSERT) { can.db._keylist = [] }
+	 		can.onmotion.scrollHold(can, function() {
+				can.db._keylist = can.onkeymap._parse(event, can, can.db.mode+(event.ctrlKey? "_ctrl": ""), can.db._keylist, can.ui.current)
+				if (can.db.mode == mdb.NORMAL) { can.onkeymap.prevent(event), can.Status(mdb.KEYS, can.db._keylist.join("")) }
+				if (can.db.mode == mdb.INSERT) { can.db._keylist = [] }
+	 		}, can.ui.content, event.ctrlKey)
 		}, onkeyup: function(event) { can.onimport._value(can); if (event.metaKey) { return } can.onaction._complete(event, can)
 		}, onfocus: function(event) { can.current.line.appendChild(can.ui.complete)
 		}, onclick: function(event) { can.onkeymap._insert(event, can)
 		}}, {view: [[code.COMPLETE]]},
 	]); can.ui.current = ui.current, can.ui.complete = ui.complete, can.onkeymap._build(can), can.onkeymap._plugin(can) },
-	_value: function(can) { can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) },
+	_value: function(can) {
+		can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) })
+		can.onimport.__tabPath(can, true)
+	},
 }, [""])
 Volcanos(chat.ONFIGURE, { 
 	source: function(can, target, zone, path) { var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
@@ -45,19 +50,19 @@ Volcanos(chat.ONFIGURE, {
 	}) },
 	favor: function(can, target, zone) { can.onimport._zone(can, zone, web.CHAT_FAVOR, function(sub, msg) {
 		sub.onexport.record = function(sub, value, key, item, event) { switch (item.type) {
-			case mdb.LINK: event.shiftKey? can.user.open(item.text): can.onimport.tabview(can, "", item.text, web.DREAM); break
+			case mdb.LINK: event.shiftKey? can.user.open(item.text): can.onimport.tabview(can, "", item.text, web.SPACE); break
 			case nfs.FILE: var ls = can.onexport.split(can, item.text); can.onimport.tabview(can, ls[0], ls[1]); break
 			case ctx.INDEX: can.onimport.tabview(can, "", item.text, ctx.INDEX); break
 			case ssh.SHELL: can.onimport.tabview(can, "", [web.CODE_XTERM, item.text].join(","), ctx.INDEX); break
-			case "_open": can.runAction(event, "_open", [item.text]); break
+			case cli.OPENS: can.runAction(event, cli.OPENS, [item.text]); break
 		} }
 	}) },
-	dream: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {
+	space: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
 		sub.onimport._open = function(sub, msg, arg) { var url = can.misc.ParseURL(can, arg)
-			url.pod? can.onimport.tabview(can, can.Option(nfs.PATH), url.pod+(url.cmd? "/cmd/"+url.cmd:""), web.DREAM): can.user.open(arg)
+			url.pod? can.onimport.tabview(can, can.Option(nfs.PATH), url.pod+(url.cmd? "/cmd/"+url.cmd:""), web.SPACE): can.user.open(arg)
 		}
-		sub.onexport.record = function(sub, value, key) { can.onimport.tabview(can, can.Option(nfs.PATH), value, web.DREAM) }
+		sub.onexport.record = function(sub, value, key) { can.onimport.tabview(can, can.Option(nfs.PATH), value, web.SPACE) }
 	}) },
 })
 Volcanos(chat.ONACTION, {list: ["编译", "调试", "首页", "提交", "收藏", "计划"],
@@ -113,8 +118,8 @@ Volcanos(chat.ONACTION, {list: ["编译", "调试", "首页", "提交", "收藏"
 	}) },
 	
 	"编译": function(event, can) { can.onaction.compile(event, can, code.COMPILE) },
-	"调试": function(event, can) { can.onimport.tabview(can, "", can.base.MergeURL(location.href, log.DEBUG, ice.TRUE), web.DREAM) },
-	"首页": function(event, can) { can.onimport.tabview(can, "", location.origin+(can.misc.Search(can, log.DEBUG) == ice.TRUE? "?debug=true": ""), web.DREAM) },
+	"调试": function(event, can) { can.onimport.tabview(can, "", can.base.MergeURL(location.href, log.DEBUG, ice.TRUE), web.SPACE) },
+	"首页": function(event, can) { can.onimport.tabview(can, "", location.origin+ice.PS+(can.misc.Search(can, log.DEBUG) == ice.TRUE? "?debug=true": ""), web.SPACE) },
 	"提交": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },
 	"收藏": function(event, can) { can.onimport.tabview(can, "", web.CHAT_FAVOR, ctx.INDEX) },
 	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },
@@ -170,6 +175,8 @@ Volcanos(chat.ONACTION, {list: ["编译", "调试", "首页", "提交", "收藏"
 	},
 	_selectLine: function(can) { can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
 		can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop, html.WIDTH, can.base.Min(td.offsetWidth, can.ui._content.offsetWidth))
+			can.db.mode == mdb.NORMAL && can.onkeymap._normal(can)
+			return
 		if (event && event.target && event.target.tagName && can.page.tagis(event.target, html.TD, html.SPAN)) {
 			can.onkeymap._insert(event, can, 0, (event.offsetX)/12-1), can.onmotion.clear(can, can.ui.complete)
 		} else {
@@ -186,7 +193,10 @@ Volcanos(chat.ONACTION, {list: ["编译", "调试", "首页", "提交", "收藏"
 })
 Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, mdb.TYPE, nfs.FILE, nfs.LINE, ice.BACK, ice.MODE, mdb.KEYS]})
 Volcanos(chat.ONKEYMAP, {
-	_model: function(can, value) { can.Status(ice.MODE, can.db.mode = value), can.page.styleClass(can, can.ui.current, [code.CURRENT, can.db.mode]), can.page.styleClass(can, can.ui.complete, [code.COMPLETE, can.db.mode, chat.FLOAT]) },
+	_model: function(can, value) {
+		can.Status(ice.MODE, can.db.mode = value), can.page.styleClass(can, can.ui.current, [code.CURRENT, can.db.mode]), can.page.styleClass(can, can.ui.complete, [code.COMPLETE, can.db.mode, chat.FLOAT])
+		can.onimport.__tabPath(can, true)
+	},
 	_plugin: function(can) { can.onkeymap._model(can, mdb.PLUGIN), can.ui.current.blur() },
 	_normal: function(can) { can.onkeymap._model(can, mdb.NORMAL), can.onaction.scrollHold(can), can.onkeymap.prevent(event) },
 	_insert: function(event, can, count, begin) { can.onkeymap._model(can, mdb.INSERT), can.onaction.scrollHold(can, count, begin), can.onkeymap.prevent(event) },

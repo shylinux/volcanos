@@ -11,6 +11,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can)
 			can.sup._listen || can.onengine.listen(can, chat.ONTHEMECHANGE, function() { can = can.core.Value(can.sup, chat._OUTPUTS_CURRENT)
 				can._current.selectAll(), can.sup._save = can.base.trimSuffix(can._current.getSelection(), ice.NL), can.Update()
 			}), can.sup._listen = true
+			can.sup.onexport.link = function() { return can.misc.MergePodCmd(can, {cmd: web.CODE_XTERM, hash: item.hash, style: html.OUTPUT}) }
 		})
 	},
 	_connect: function(can, item) { var term = new Terminal({tabStopWidth: 4, cursorBlink: true, theme: can.onimport._theme(can, item)}); term.loadAddon(new WebLinksAddon.WebLinksAddon())

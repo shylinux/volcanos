@@ -83,12 +83,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.onappend._init(can, item, [chat.PLUGIN_STATE_JS], function(sub) {
 			sub.run = function(event, cmds, cb, silent) { var msg = sub.request(event)
 				if (msg.Option(nfs.PATH) == can.Option(nfs.PATH)) { msg.Option(nfs.PATH, "") }
-				can.runAction(event, chat.STORY, [meta.type, meta.name, meta.text].concat(cmds), function(msg) {
-					cb(msg), can.sup.onexport.output && can.sup.onexport.output(can.sup, msg)
-				}, true)
+				can.runAction(event, chat.STORY, [meta.type, meta.name, meta.text].concat(cmds), cb, true)
 			}, can._plugins = (can._plugins||[]).concat([sub])
 
-			sub.ConfHeight(can.base.Min(300, can.ConfHeight()-300)), sub.ConfWidth(item.width = (width||can.ConfWidth())-(can.user.isWindows? 40: 20))
+			sub.ConfHeight(can.base.Min(300, can.ConfHeight()-300)), sub.ConfWidth(item.width = (width||can.ConfWidth())-(can.user.isWindows? 42: 22))
 			can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth())
 
 			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() {

@@ -1,5 +1,5 @@
 fieldset.Header>div.output { font-size:1.1rem; line-height:21px; height:48px; overflow:hidden; }
-fieldset.Header>div.output div.item { font-family:unset; padding:13px; float:left; }
+fieldset.Header>div.output div.item { font-family:unset; padding:13.5px; float:left; }
 fieldset.Header>div.output div.title:first-child { font-style:italic; font-weight:bold; text-align:center; margin-right:5px; width:230px; cursor:pointer; }
 fieldset.Header>div.output div.state { float:right; }
 fieldset.Header>div.output div.state.time { margin-left:10px; }

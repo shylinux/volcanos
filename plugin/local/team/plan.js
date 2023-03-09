@@ -120,7 +120,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		})
 	}
 }, [""])
-Volcanos(chat.ONACTION, {list: [mdb.PREV, mdb.NEXT, mdb.INSERT, mdb.EXPORT, mdb.IMPORT,
+Volcanos(chat.ONACTION, {list: [
 		["status", "all", "prepare", "process", "cancel", "finish"],
 		["level", "all", "l1", "l2", "l3", "l4", "l5"],
 		["score", "all", "s1", "s2", "s3", "s4", "s5"],

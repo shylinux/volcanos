@@ -39,12 +39,16 @@ fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div { padding:10px; heigh
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span { font-style:italic; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span.icon { padding:0 5px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.website.icon { font-size:18px; line-height:32px; padding:2px 5px; position:sticky; top:0; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.usernick { float:right; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar { padding:0; height:38px; float:right; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar>img { height:38px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.time { float:right; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path { font-style:italic; padding:5px; display:block; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path.hide { display:none; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.path span.func { margin-left:20px; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.path span.func { padding:5px 10px; margin-left:20px; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.path span.mode { padding:5px 10px; margin-left:20px; cursor:pointer; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.path span.mode.normal { background-color:blue; color:white; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.path span.mode.insert { background-color:red; color:white; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.view { font-size:22px; line-height:12px; padding:0 4px; float:right; cursor:pointer; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug { height:32px; clear:both; position:fixed; bottom:0; right:0; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug>legend { font-size:1rem; padding:0 10px; float:right; }

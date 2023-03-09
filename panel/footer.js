@@ -59,7 +59,7 @@ Volcanos(chat.ONPLUGIN, {
 		"w3schools": shy("教程", function(can) { can.user.open("https://www.w3schools.com/colors/colors_names.asp") }),
 		"mozilla": shy("文档", function(can) { can.user.open("https://developer.mozilla.org/en-US/") }),
 		"w3": shy("标准", function(can) { can.user.open("https://www.w3.org/TR/?tag=css") }),
-	}, ["type:select=log,info,warn,error,debug,onremote,wss", web.FILTER, ice.LIST, "prune", "w3schools", "mozilla", "w3"], function(can, msg, arg, cb) { var _can = can, can = msg._can
+	}, ["type:select=error,log,info,warn,error,debug,onremote,wss", web.FILTER, ice.LIST, "prune", "w3schools", "mozilla", "w3"], function(can, msg, arg, cb) { var _can = can, can = msg._can
 		var stat = {}; var ui = can.page.Appends(can, can._output, [{view: [html.CONTENT, html.TABLE], list: [{type: html.TR, list: [
 			{text: [mdb.TEXT, html.TH]},
 		]}].concat(can.core.List(can.misc._list, function(list) { stat[list[2]] = ((stat[list[2]]||0)+1); return (!arg || !arg[0] || arg[0] == "log" || arg[0] == list[2]) && {type: html.TR, list: [
