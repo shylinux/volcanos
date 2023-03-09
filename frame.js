@@ -542,8 +542,8 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			})
 		},
 	},
-	scrollHold: function(can, cb, target, scroll) { target = target || can._output
-		var top = target.scrollTop, left = target.scrollLeft; cb(), scroll || (target.scrollTop = top), target.scrollLeft = left
+	scrollHold: function(can, cb, target) { target = target || can._output
+		var top = target.scrollTop, left = target.scrollLeft; cb(), target.scrollLeft = left
 	},
 	clearFloat: function(can) {
 		var list = ["fieldset.input.float", "div.input.float", "div.carte.float"]; for (var i = 0; i < list.length; i++) {

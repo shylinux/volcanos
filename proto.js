@@ -79,6 +79,7 @@ var web = {CHAT: "chat",
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 	VIDEO_WEBM: "video/webm",
+	INPUT: "input",
 	
 	CODE_GIT_STATUS: "web.code.git.status",
 	CODE_XTERM: "web.code.xterm",
@@ -236,6 +237,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	DIV_CONTENT: "div.content", TABLE_CONTENT: "table.content", TABLE_LAYOUT: "table.layout", DIV_TOGGLE: "div.toggle",
 	DIV_LAYOUT_HEAD: "div.layout.head", DIV_LAYOUT_FOOT: "div.layout.foot", DIV_LAYOUT_LEFT: "div.layout.left",
 	DIV_FLOAT: "div.float", DIV_TOAST: "div.toast", DIV_CARTE: "div.carte",
+	DIV_LAYOUT: "div.layout",
 	DIV_EXPAND: "div.expand",
 }
 var lang = {

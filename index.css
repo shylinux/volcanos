@@ -297,7 +297,11 @@ fieldset.plugin.inner.cmd>form.option { display:none; }
 fieldset.plugin.inner.cmd fieldset.xterm>form.option>div.item.text>input { width:320px; }
 fieldset.plan div.output table.content { height:100%; width:100%; }
 fieldset.xterm div.toggle { display:none; }
+fieldset.xterm div.output.select { border:blue solid 1px; }
 fieldset.xterm.output>div.output { overflow:hidden; }
+fieldset.xterm div.output { border-left:gray solid 1px; border-top:gray solid 1px; }
+div.layout.flex>div.output { float:left; clear:none; }
+fieldset>div.layout { clear:both; }
 fieldset.draw td.content { position:relative; }
 fieldset.draw div.output div.content svg { background-color:#1b5b738c; }
 fieldset.draw.spide div.output div.toggle { display:none; }

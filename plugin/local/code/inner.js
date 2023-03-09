@@ -63,10 +63,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		can.user.isMobile || can.page.Append(can, can.ui.tabs, [{view: mdb.TIME, _init: function(target) {
 			can.core.Timer({interval: 100}, function() { can.page.Modify(can, target, can.user.time(can, null, "%H:%M:%S %w")) })
 			can.onappend.figure(can, {action: "date", _hold: true}, target, function(sub, value) {})
-		}}]), can.user.info.avatar && can.page.Append(can, can.ui.tabs, [{view: aaa.AVATAR, list: [{img: can.user.info.avatar}]}])
-		can.page.Append(can, can.ui.tabs, [{view: ["usernick", "", can.user.info.usernick], onclick: function(event) {
-			can._root.Header.onaction.usernick(event, can._root.Header)
 		}}])
+		can.page.Append(can, can.ui.tabs, [{view: aaa.AVATAR, list: [{img: can.user.info.avatar}], onclick: function(event) { can._root.Header.onaction.avatar(event, can._root.Header) }}])
+		can.page.Append(can, can.ui.tabs, [{view: [aaa.USERNICK, "", can.user.info.usernick], onclick: function(event) { can._root.Header.onaction.usernick(event, can._root.Header) }}])
 	},
 	__tabPath: function(can, skip) { can.onmotion.clear(can, can.ui.path)
 		can.onimport._tabPath(can, ice.PS, nfs.PATH, can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE)), function(ls) {
