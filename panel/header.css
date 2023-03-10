@@ -1,11 +1,10 @@
 fieldset.Header>div.output { font-size:1.1rem; line-height:21px; height:48px; overflow:hidden; }
 fieldset.Header>div.output div.item { font-family:unset; padding:13.5px; float:left; }
-fieldset.Header>div.output div.title:first-child { font-style:italic; font-weight:bold; text-align:center; margin-right:5px; width:230px; cursor:pointer; }
+fieldset.Header>div.output div.title:first-child { font-style:italic; font-weight:bold; text-align:center; width:230px; }
 fieldset.Header>div.output div.state { float:right; }
-fieldset.Header>div.output div.state.time { margin-left:10px; }
 fieldset.Header>div.output div.state.avatar { padding:0; }
 fieldset.Header>div.output div.state.avatar>img { height:48px; }
-fieldset.Header>div.output div.search.title { padding:8px 5px; }
+fieldset.Header>div.output div.search.title { padding:8px 5px; margin-left:5px; }
 fieldset.Header>div.output div.search>span.delete { top:10px; right:10px; }
 fieldset.Header>div.output div.search>input { margin-right:0; transition:all 1s; }
 fieldset.Header>div.output div.search>input:focus { width:320px; transition:all 0.5s; }

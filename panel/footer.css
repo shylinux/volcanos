@@ -1,10 +1,10 @@
-fieldset.Footer>div.output { height:32px; }
-fieldset.Footer>div.output div.item { padding:7px; cursor:pointer; float:left; }
-fieldset.Footer>div.output div.title:first-child { font-style:italic; text-align:center; margin-right:10px; width:230px; }
+fieldset.Footer>div.output { height:32px; font-style:italic; }
+fieldset.Footer>div.output div.item { font-family:unset; padding:7px; float:left; }
+fieldset.Footer>div.output div.title:first-child { text-align:center; width:230px; }
 fieldset.Footer>div.output div.state { float:right; }
 fieldset.Footer>div.output div.state label { font-size:12px; }
 fieldset.Footer>div.output div.toast { float:right; }
-fieldset.Footer>div.output div.cmd { padding:0; }
+fieldset.Footer>div.output div.cmd { padding:0; margin-left:10px; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { margin-right:0; width:120px; transition:all 1s; }
 fieldset.Footer>div.output div.cmd>input[name=cmd]:focus { width:320px; transition:all 0.5s; }
 

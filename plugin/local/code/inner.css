@@ -92,7 +92,7 @@ body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:
 
 div.carte.history.float * { tab-size:2; }
 div.vimer.open.float td:first-child { display:none; }
-div.path span.item { padding:5px; cursor:pointer; }
+div.path span.item { padding:5px; }
 div.carte.path.float { font-size:14px; border-radius:0; } div.carte.path.float div.item { padding:5px; }
 tr.line>td.line { text-align:right; padding:0 10px; position:sticky; left:0; }
 tr.line>td.text { line-height:20px; white-space:pre; padding-left:10px; cursor:text; }
