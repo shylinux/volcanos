@@ -43,6 +43,7 @@ fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.usernick { float:righ
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar { padding:0; height:38px; float:right; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar>img { height:38px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.time { float:right; position:sticky; top:0; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div.icon { position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path { font-style:italic; padding:5px; display:block; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.func { padding:5px 10px; margin-left:20px; }
