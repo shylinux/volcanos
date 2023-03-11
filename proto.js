@@ -354,17 +354,17 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 	}, meta)); if (_can_name) { meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can) } else { list.push(can) }
 	return can.require(can._follow? libs.concat(meta.libs, meta.volcano): libs, cb), can
 })
-try { if (typeof(window) == lang.OBJECT) { // chrome
-	Volcanos.meta.version = window._version
-	Volcanos.meta.target = document.body, Volcanos.meta._height = window.innerHeight, Volcanos.meta._width = window.innerWidth
-	Volcanos.meta._load = function(url, cb) {
-		var v = Volcanos.meta.version? Volcanos.meta.version+"&_tt="+(new Date()).getTime(): ""
+try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
+	if (window._verstion && window.outerWidth-window.innerWidth < 100) { meta.version = window._version }
+	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
+	meta._load = function(url, cb) {
+		var v = meta.version? meta.version+"&_tt="+(new Date()).getTime(): ""
 		switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
 		case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+v, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
 		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url+v, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
 	} }
 	window.onerror = function(message, source, lineno, colno, error) { window._version && alert([[source, lineno, colno].join(ice.DF), message].join(ice.NL)) }
-	Volcanos.meta._init = function(can) { window.onerror = function(message, source, lineno, colno, error) { can.misc.Error(message, source, lineno, colno, error) }
+	meta._init = function(can) { window.onerror = function(message, source, lineno, colno, error) { can.misc.Error(message, source, lineno, colno, error) }
 		var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
 			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
 			can.onmotion.delayOnce(can, function() { can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth))) }, 100, can._delay_resize = can._delay_resize||[])

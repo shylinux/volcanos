@@ -35,8 +35,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	onlogin: function(can, msg) { can.ondaemon._init(can), can.onimport._menu(can, msg), can.onkeymap._build(can)
 		can._root.River && can.onmotion.delay(can, function() { if (can.Mode()) { return } var gt = can.page.unicode.next, lt = can.page.unicode.prev, river = can._root.River._target
 			var target = can.page.Append(can, can._target, [{view: [[html.TOGGLE, chat.PROJECT], "", can.page.isDisplay(river)? lt: gt], onclick: function(event) {
-				can.page.Modify(can, target, (can._river_show = can.onmotion.toggle(can, river))? lt: gt)
-				can.onaction.layout(can)
+				can.page.Modify(can, target, (can._river_show = can.onmotion.toggle(can, river))? lt: gt), can.onaction.layout(can)
 			}}])._target; can._toggle = target
 		}); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return } can._names = location.pathname
 		can.Conf(chat.TOOL)? can.onappend.layout(can, can._output, FLOW, can.core.List(can.Conf(chat.TOOL), function(item, index, list) { item.type = chat.PLUGIN
