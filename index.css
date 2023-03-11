@@ -186,7 +186,7 @@ div.carte div.item:hover, table.content th:hover, table.content td:hover, table.
 div.story[data-type=spark] span:hover { background-color:deepskyblue; box-shadow:4px 4px 20px 4px #29318e; }
 select, input[type=text], textarea { box-shadow:4px 4px 20px 4px #626bd0; }
 body.black input[type=text], body.black textarea { background-color:#243783bd; color:white; outline:none; }
-legend, select, input[type=button], div.tabs, div.item, span.item, th, h1, h2, h3 { cursor:pointer; }
+legend, select, input[type=button], div.tabs, div.item, span.item, th, table.content td, h1, h2, h3 { cursor:pointer; }
 div.title, div.story[data-type=spark] { cursor:copy; }
 /* theme */
 body.black a { color:yellow; }
