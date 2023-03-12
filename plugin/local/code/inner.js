@@ -171,6 +171,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				delete(can._cache_data[key]), delete(can.db.tabview[key])
 			}, can.ui.tabs)
 		}
+		can.db._keylist = []
 		if (can.db.tabview[key]) { return !can._msg._tab && !can.isSimpleMode()? load(can.db.tabview[key]): show() }
 		isIndex()||isSpace()? load(can.request({}, {index: file, line: line})): can.run({}, [path, file], load, true)
 	},

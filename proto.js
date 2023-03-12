@@ -355,7 +355,9 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 	return can.require(can._follow? libs.concat(meta.libs, meta.volcano): libs, cb), can
 })
 try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
-	if (window._verstion && window.outerWidth-window.innerWidth < 100) { meta.version = window._version }
+	if (window._version && window.outerWidth-window.innerWidth < 100) {
+		meta.version = window._version
+	}
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
 	meta._load = function(url, cb) {
 		var v = meta.version? meta.version+"&_tt="+(new Date()).getTime(): ""
