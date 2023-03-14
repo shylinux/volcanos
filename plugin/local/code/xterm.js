@@ -1,7 +1,7 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules(can, ["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
 		var item = msg.TableDetail(); item.hash = item.hash||can.Option(mdb.HASH), can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg), can.onappend._status(can), can.onkeymap._build(can)
 		if (item.type == html.LAYOUT) { can.onimport._layout(can, item) } else { can.onimport._connect(can, item, can._output) } can.onimport.layout(can)
-		can.sup.onexport.link = function() { return can.misc.MergePodCmd(can, {pod: can.Conf(ice.POD), cmd: web.CODE_XTERM, hash: item.hash, style: html.OUTPUT}) }
+		can.sup.onexport.link = function() { return can.misc.MergePodCmd(can, {pod: can.Conf(ice.POD), cmd: web.CODE_XTERM, hash: item.hash}) }
 	}) },
 	_layout: function(can, item) {
 		function connect(item, output, tabs) { can.run(can.request({}, item), [item.hash], function(msg) {
