@@ -59,7 +59,9 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		if (arg[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, arg, fields) }
 		if (arg[0] == ctx.COMMAND) { can.onexport.command(can, msg, arg, fields) }
 	},
-	onkeydown: function(can, msg, model) { if (can.isCmdMode() && !msg._event.metaKey) { return }
+	onkeydown: function(can, msg, model) { if (can.isCmdMode() && !msg._event.metaKey) {
+		var sub = can.core.Value(can._plugins[0], chat._OUTPUTS_CURRENT); sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: msg._event, can: sub}); return
+	}
 		if (can.onkeymap.selectCtrlN(msg._event, can, can._action, html.DIV_ITEM)) { return }
 		can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
 	},

@@ -233,7 +233,6 @@ Volcanos(chat.ONKEYMAP, {
 			g: shy("查找搜索", function(event, can) { can.onaction.find(event, can) }),
 		},
 		normal: {
-			f: shy("打开文件", function(event, can) { can.onaction.open(event, can) }),
 			s: shy("保存文件", function(event, can) { can.onaction.save(event, can, nfs.SAVE) }),
 			c: shy("编译项目", function(event, can) { can.onaction.compile(event, can, code.COMPILE) }),
 			

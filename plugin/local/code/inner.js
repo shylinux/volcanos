@@ -37,10 +37,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			can.onimport._tabview(can, args[args.length-3]||can.Option(nfs.PATH), args[args.length-2]||can.Option(nfs.FILE), args[args.length-1])
 		} }), can.base.isFunc(cb) && cb(msg)
 	},
-	_keydown: function(can) { can.onkeymap._build(can), can._root.onengine.listen(can, chat.ONKEYDOWN, function(event) {
-		if (can.onkeymap.selectCtrlN(event, can, can.ui.tabs, html.DIV_TABS)) { return }
-		can.db._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can.db._key_list, can.ui.content)
-	}) },
+	_keydown: function(can) { can.onkeymap._build(can) },
 	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui.tabs = can._action }
 		can.user.isMobile || can.core.List([
 			{name: can.page.unicode.menu, onclick: function() {
@@ -60,12 +57,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				})
 			}},
 		], function(item) { can.page.Append(can, can.ui.tabs, [can.base.Copy(item, {view: [[html.ICON, web.WEBSITE], html.DIV, item.name]})]) })
-		can.user.isMobile || can.page.Append(can, can.ui.tabs, [{view: mdb.TIME, _init: function(target) {
-			can.core.Timer({interval: 100}, function() { can.page.Modify(can, target, can.user.time(can, null, "%H:%M:%S %w")) })
-			can.onappend.figure(can, {action: "date", _hold: true}, target, function(sub, value) {})
-		}}])
-		can.page.Append(can, can.ui.tabs, [{view: aaa.AVATAR, list: [{img: can.user.info.avatar}], onclick: function(event) { can._root.Header.onaction.avatar(event, can._root.Header) }}])
-		can.page.Append(can, can.ui.tabs, [{view: [aaa.USERNICK, "", can.user.info.usernick], onclick: function(event) { can._root.Header.onaction.usernick(event, can._root.Header) }}])
+		can.page.Append(can, can.ui.tabs, can.user.header(can))
 	},
 	__tabPath: function(can, skip) { can.onmotion.clear(can, can.ui.path)
 		can.onimport._tabPath(can, ice.PS, nfs.PATH, can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE)), function(ls) {
@@ -531,6 +523,10 @@ Volcanos(chat.ONACTION, {list: ["调试", "首页", "官网", "源码", "百度"
 			}, close: function() { can.page.Remove(can, ui._target) },
 		}); var from, to
 	},
+	onkeydown: function(event, can) {
+		if (can.onkeymap.selectCtrlN(event, can, can.ui.tabs, html.DIV_TABS)) { return }
+		can.db._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can.db._key_list, can.ui.content)
+	},
 })
 Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, mdb.TYPE, nfs.FILE, nfs.LINE, ice.BACK],
 	size: function(can, size, full) { if (size > 1) { return size } if (size > 0) { return size*full } },
@@ -556,39 +552,43 @@ Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, mdb.TYPE, nfs.FILE, nfs.LINE, ice.BAC
 		} } }
 		var package = "", block = "", current = can.Option(nfs.LINE), percent = " = "+parseInt(can.Option(nfs.LINE)*100/(can.db.max||1))+"%"
 		can.page.Select(can, can.ui.content, "tr.line>td.text", function(item, index) { var text = item.innerText, _indent = indent(text)
-			function push(item) { list.push(item); if (index < can.Option(nfs.LINE)) { current = list[list.length-1], percent = " = "+parseInt((index+1)*100/(can.db.max||1))+"%" } }
-			if (can.db.parse == nfs.JS) { var ls = can.core.Split(text, "\t (,", ice.DF)
+			function push(item) { list.push(item+(item? ice.DF+(index+1): "")); if (index < can.Option(nfs.LINE)) { current = list[list.length-1], percent = " = "+parseInt((index+1)*100/(can.db.max||1))+"%" } }
+			if (can.db.parse == nfs.CSS) {
+				if (text.indexOf("/* ") == 0) {
+					push(can.base.trimPrefix(can.base.trimSuffix(text, " */"), "/* "))
+				}
+			} else if (can.db.parse == nfs.JS) { var ls = can.core.Split(text, "\t (,", ice.DF)
 				if (_indent == 0 && can.base.beginWith(text, "Volcanos")) {
 					var _block = can.base.trimPrefix(ls[1], "chat.").toLowerCase()
 					if (_block != block) { push("") } block = _block
-					if (text.indexOf(chat._INIT) > -1) { push(block+ice.PT+chat._INIT+ice.DF+(index+1)) }
+					if (text.indexOf(chat._INIT) > -1) { push(block+ice.PT+chat._INIT) }
 				} else if (_indent == 0 && can.base.beginWith(text, "var ")) {
 					block = ls[1]
 				} else if (_indent == 4 && ls[1] == ice.DF) {
-					ls[0] && push(block+ice.PT+ls[0]+ice.DF+(index+1))
+					ls[0] && push(block+ice.PT+ls[0])
 				}
 			} else if (can.db.parse == nfs.SH) {
 				if (can.base.endWith(text, "() {")) {
 					var ls = can.core.Split(text, "\t (){")
-					push(ls[0]+ice.DF+(index+1))
+					push(ls[0])
 				}
 			} else if (can.db.parse == nfs.GO) { var ls = can.core.Split(text, "\t *", "({:})")
 				if (_indent == 0) {
 					switch (ls[0]) {
 						case "package": package = ls[1]; break
 						case "func": if (ls[1] == "(") { ls[1] = ls[2]+ice.PT+ls[5]
-							if (ls[5].toLowerCase()[0] == ls[5][0]) { push("- "+ls[1]+ice.DF+(index+1)) } else { push("+ "+ls[1]+ice.DF+(index+1)) } break
+							if (ls[5].toLowerCase()[0] == ls[5][0]) { push("- "+ls[1]) } else { push("+ "+ls[1]) } break
 						}
 						case "type":
 						case "var":
-							if (ls[1].toLowerCase()[0] == ls[1][0]) { push("- "+ls[1]+ice.DF+(index+1)) } else { push("+ "+package+ice.PT+ls[1]+ice.DF+(index+1)) } break
+							if (ls[1].toLowerCase()[0] == ls[1][0]) { push("- "+ls[1]) } else { push("+ "+package+ice.PT+ls[1]) } break
 					}
 				} else if (_indent == 4) {
 					if (text.indexOf("MergeCommands(") > -1) { block = "cmds" } else if (text == "})") { block = "" }
 				} else if (_indent == 8) {
-					if (block == "cmds" && ls[1] == ice.DF) { push("+ "+package+ice.PT+ls[0]+ice.DF+(index+1)), block = package+ice.PT+ls[0] }
+					if (block == "cmds" && ls[1] == ice.DF) { push("+ "+package+ice.PT+ls[0]), block = package+ice.PT+ls[0] }
 				} else if (_indent == 12) {
-					if (block && ls[1] == ice.DF) { push("+ "+block+ice.SP+ls[0]+ice.DF+(index+1)) }
+					if (block && ls[1] == ice.DF) { push("+ "+block+ice.SP+ls[0]) }
 				}
 			}
 		}); return {list: list, current: current, percent: percent}

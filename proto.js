@@ -72,14 +72,13 @@ var mdb = {
 }
 var web = {CHAT: "chat",
 	SHARE: "share", SPACE: "space", DREAM: "dream",
-	WEBSITE: "website", DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter",
+	WEBSITE: "website", DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter", INPUT: "input",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
-	VIDEO_WEBM: "video/webm",
-	INPUT: "input",
+	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
 	
 	CODE_GIT_STATUS: "web.code.git.status",
 	CODE_XTERM: "web.code.xterm",
@@ -237,6 +236,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	DIV_CONTENT: "div.content", TABLE_CONTENT: "table.content", TABLE_LAYOUT: "table.layout", DIV_TOGGLE: "div.toggle",
 	DIV_LAYOUT_HEAD: "div.layout.head", DIV_LAYOUT_FOOT: "div.layout.foot", DIV_LAYOUT_LEFT: "div.layout.left",
 	DIV_FLOAT: "div.float", DIV_TOAST: "div.toast", DIV_CARTE: "div.carte",
+	SPAN_NAME: "span.name",
 	DIV_LAYOUT: "div.layout",
 	DIV_EXPAND: "div.expand",
 }
@@ -366,7 +366,9 @@ try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url+v, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
 	} }
 	window.onerror = function(message, source, lineno, colno, error) { window._version && alert([[source, lineno, colno].join(ice.DF), message].join(ice.NL)) }
-	meta._init = function(can) { window.onerror = function(message, source, lineno, colno, error) { can.misc.Error(message, source, lineno, colno, error) }
+	meta._init = function(can) { window.onerror = function(message, source, lineno, colno, error) {
+		meta.version? alert([message].concat(can.misc._stacks(0, error)).join(ice.NL)): can.misc.Error(message, ice.NL+[source, lineno, colno].join(ice.DF), error)
+	}
 		var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
 			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
 			can.onmotion.delayOnce(can, function() { can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth))) }, 100, can._delay_resize = can._delay_resize||[])
