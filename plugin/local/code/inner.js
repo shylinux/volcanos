@@ -1,5 +1,5 @@
 (function() {
-const PROJECT_HIDE = "web.code.inner:project", TABFUNC_HIDE = "web.code.inner:tabview"
+const PROJECT_HIDE = "web.code.inner:project", TABFILE_HIDE = "web.code.inner:tabview"
 const CURRENT_FILE = "web.code.inner:currentFile", SELECT_LINE = "web.code.inner:selectLine"
 const VIEW_CREATE = "tabview.view.create", VIEW_REMOVE = "tabview.view.remove", LINE_SELECT = "tabview.line.select"	
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.clear(can), can.onappend.style(can, code.INNER)
@@ -9,8 +9,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		} if (msg.Result() == "" && can.Option(nfs.LINE) == "1") { return }
 		var files = can.core.Split(can.Option(nfs.FILE), ice.FS); can.Option(nfs.FILE, files[0])
 		var paths = can.core.Split(can.Option(nfs.PATH), ice.FS); can.Option(nfs.PATH, paths[0])
-		can.core.List(paths.concat(can.core.Split(msg.Option(nfs.REPOS))), function(p) {
-			if (can.base.endWith(p, "-story/", "-dict/")) { return }
+		can.core.List(paths.concat(can.core.Split(msg.Option(nfs.REPOS))), function(p) { if (can.base.endWith(p, "-story/", "-dict/")) { return }
 			if (p && paths.indexOf(p) == -1 && p[0] != ice.PS) { paths.push(p) }
 		})
 		can.db = {paths: paths, tabview: {}, _history: [], history: [], profile_size: {}, display_size: {}, toolkit: {}}, can.onengine.plugin(can, can.onplugin)
@@ -19,9 +18,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		switch (can.Mode()) {
 			case chat.SIMPLE: // no break
 			case chat.FLOAT: can.onmotion.hidden(can, can.ui.project); break
-			case chat.CMD: can.onimport._keydown(can), can.onmotion.hidden(can, can._status)
+			case chat.CMD: can.onmotion.hidden(can, can._status), can.onkeymap._build(can)
 				can.misc.sessionStorage(can, PROJECT_HIDE) == html.HIDE && can.onmotion.hidden(can, can.ui.project)
-				if (can.misc.sessionStorage(can, TABFUNC_HIDE) == html.HIDE) { can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.tabs) }
+				if (can.misc.sessionStorage(can, TABFILE_HIDE) == html.HIDE) { can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.tabs) }
 				var plug = can.base.Obj(msg.Option(html.PLUG), []).concat(can.misc.Search(can, log.DEBUG) == ice.TRUE? ["can.debug", "log.debug"]: [])
 				// plug.length > 0 && can.run({}, [ctx.ACTION, ctx.COMMAND].concat(plug.reverse()), function(msg) { msg.Table(function(value) { can.onimport.toolkit(can, value) }) })
 			case chat.FULL: // no break
@@ -87,7 +86,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	_tabFunc: function(can, target, skip) {
 		can.ui.path.ondblclick = function(event) {
 			var show = can.onmotion.toggle(can, can.ui.tabs); can.onmotion.toggle(can, can.ui.project, show), can.onimport.layout(can)
-			can.isCmdMode() && can.misc.sessionStorage(can, TABFUNC_HIDE, show? "": html.HIDE)
+			can.isCmdMode() && can.misc.sessionStorage(can, TABFILE_HIDE, show? "": html.HIDE)
 		}
 		if (skip) { var func = can.db._func||{list: []} } else { var func = can.onexport.func(can); can.db._func = func }
 		if (func.list.length > 0) { can.db.tabFunc = can.db.tabFunc||{}
