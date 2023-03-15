@@ -9,9 +9,6 @@ fieldset.inner>div.output div.content td.text span.function { color:lightgreen; 
 fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
 fieldset.inner>div.output div.content td.text span.string { color:magenta; }
 fieldset.inner>div.output div.content td.text span.object { color:cyan; }
-fieldset.inner>div.output>div.layout>div.layout>div.content * { font-family:monospace; font-size:14px; outline:none; }
-fieldset.inner>div.output>div.layout>div.tabs { font-family:monospace; font-size:14px; }
-fieldset.inner>div.output>div.layout>div.path { font-family:monospace; font-size:14px; }
 fieldset.inner>div.output>div.project { width:230px; }
 fieldset.inner>div.output>div.project * { font-family:monospace; font-size:14px; outline:none; }
 fieldset.inner>div.output>div.project div.action { width:100%; }
@@ -24,26 +21,25 @@ fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-rig
 fieldset.inner>div.output>div.project>div.zone div.action>div.item>span.delete { top:3px; right:5px; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item>input { width:100%; }
 fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
+fieldset.inner>div.output>div.layout.flow>div.layout>div.content * { font-family:monospace; font-size:14px; outline:none; }
+fieldset.inner>div.output>div.layout.flow>div.tabs { font-family:monospace; font-size:14px; display:none; }
+fieldset.inner>div.output>div.layout.flow>div.path { font-family:monospace; font-size:14px; display:none; }
 fieldset.inner>div.output>div.layout.flow { position:relative; }
-fieldset.inner>div.output>div.layout.flow>div.tabs { display:none; }
-fieldset.inner>div.output>div.layout.flow>div.path { display:none; }
 fieldset.inner.cmd>div.output>div.project { border-right:dimgray solid 1px; }
 fieldset.inner.cmd>div.output div.profile { border-left:dimgray solid 1px; }
 fieldset.inner.cmd>div.output div.display { border-top:dimgray solid 1px; }
 fieldset.inner.cmd>div.output>div.project>div.zone>div.item { font-style:italic; font-weight:bold; line-height:32px; }
 fieldset.inner.cmd>div.output>div.project>div.zone>div.item>span.icon { font-style:normal; font-weight:normal; line-height:32px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs { height:38px; display:block; overflow:hidden; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.display>div.status { position:sticky; bottom:0; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div { padding:10px; height:38px; float:left; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span { font-style:italic; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div>span.icon { padding:0 5px; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.website.icon { font-size:18px; line-height:32px; padding:2px 5px; position:sticky; top:0; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.usernick { float:right; position:sticky; top:0; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar { padding:0; height:38px; float:right; position:sticky; top:0; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.avatar>img { height:38px; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.time { float:right; position:sticky; top:0; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div.icon { position:sticky; top:0; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div.icon { font-size:18px; line-height:32px; padding:2px 5px; position:sticky; top:0; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div.tabs>span { font-style:italic; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div.tabs>span.icon { padding:0 5px; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div.usernick { float:right; position:sticky; top:0; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div.avatar { padding:0; height:38px; float:right; position:sticky; top:0; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div.avatar>img { height:38px; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.tabs>div.time { float:right; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path { font-style:italic; padding:5px; display:block; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.func { padding:5px 10px; margin-left:20px; }
@@ -53,6 +49,7 @@ fieldset.inner.cmd>div.output>div.layout.flow>div.path span.mode.insert { backgr
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.view { font-size:22px; line-height:12px; padding:0 4px; float:right; cursor:pointer; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug { height:32px; clear:both; position:fixed; bottom:0; right:0; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug>legend { font-size:1rem; padding:0 10px; float:right; }
+fieldset.inner.cmd>div.output>div.layout.flow>div.display>div.status { position:sticky; bottom:0; }
 
 body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; }
 body.black fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
@@ -94,6 +91,7 @@ div.carte.history.float * { tab-size:2; }
 div.vimer.open.float td:first-child { display:none; }
 div.path span.item { padding:5px; }
 div.carte.path.float { font-size:14px; border-radius:0; } div.carte.path.float div.item { padding:5px; }
+div.carte.cmd.float { font-size:14px; border-radius:0; } div.cmd.path.float div.item { padding:5px; }
 tr.line>td.line { text-align:right; padding:0 10px; position:sticky; left:0; }
 tr.line>td.text { line-height:20px; white-space:pre; padding-left:10px; cursor:text; }
 body.white tr.line.select { background-color:dimgray; } body.white tr.line:hover { background-color:dimgray; }

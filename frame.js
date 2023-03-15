@@ -146,7 +146,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					msg.RunAction(event, can.core.Value(sub, chat._OUTPUTS_CURRENT), [ctx.ACTION, button]) || msg.RunAction(event, sub, [ctx.ACTION, button]) || sub.runAction(event, button)
 				}) })
 			}), can.base.isFunc(cb) && cb(sub)
-			sub.isCmdMode() && meta.index != web.CODE_VIMER && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields)
+			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER) && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields)
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
@@ -658,14 +658,12 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||document.body
 		can.onkeymap._build(can), target.onkeydown = function(event) { can.misc.Event(event, can, function(msg) {
 			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
-			if (can.page.tagis(event.target, html.SELECT, html.INPUT)) { return }
-			// if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
-			can.onengine.signal(can, chat.ONKEYDOWN, can.request(event, {"model": can.user.isWebview && event.metaKey? "webview": "normal"}))
+			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
+			can.onengine.signal(can, chat.ONKEYDOWN, can.request(event, {"model": can.user.isWebview && event.metaKey? "webview": mdb.NORMAL}))
 		}) }, target.onkeyup = function(event) { can.misc.Event(event, can, function(msg) {
 			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
-			if (can.page.tagis(event.target, html.SELECT, html.INPUT)) { return }
-			// if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
-			can.onengine.signal(can, chat.ONKEYUP, can.request(event, {"model": "normal"}))
+			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
+			can.onengine.signal(can, chat.ONKEYUP, can.request(event, {"model": mdb.NORMAL}))
 		}) }
 	},
 	_build: function(can) { can.core.Item(can.onkeymap._mode, function(item, value) { var engine = {list: {}}

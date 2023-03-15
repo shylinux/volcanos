@@ -21,6 +21,8 @@ var ice = {
 	DEV: "dev", POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
 	CAN: "can", MSG: "msg", RUN: "run", RES: "res", ERR: "err",
 	CAN_PLUGIN: "can._plugin",
+	CAN_DEBUG: "can.debug",
+	LOG_DEBUG: "log.debug",
 
 	MSG_DETAIL: "detail", MSG_OPTION: "option", MSG_APPEND: "append", MSG_RESULT: "result",
 	MSG_SESSID: "sessid", MSG_FIELDS: "fields",
@@ -140,6 +142,7 @@ var code = {
 	COMMENT: "comment", KEYWORD: "keyword", PACKAGE: "package", DATATYPE: "datatype", FUNCTION: "function", CONSTANT: "constant", STRING: "string", OBJECT: "object",
 	SPACE: "space", UNDEFINED: "undefined", STRING: "string", NUMBER: "number", BOOLEAN: "boolean", FUNCTION: "function", OBJECT: "object", ARRAY: "array",
 	TEMPLATE: "template", COMPLETE: "complete", NAVIGATE: "navigate", CURRENT: "current",
+	PULL: "pull", PUSH: "push",
 }
 var wiki = {
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark", SHELL: "shell",
@@ -192,7 +195,8 @@ var chat = {
 	ONWEBPACK: "onwebpack",
 	ONTOAST: "ontoast", ONDEBUG: "ondebug", ONSHARE: "onshare", ONPRINT: "onprint",
 
-	_INIT: "_init", _TRANS: "_trans", _STYLE: "_style", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1", _NAMES: "_names", _TOAST: "_toast",
+	_INIT: "_init", _DELAY_INIT: "_delay_init",
+	_TRANS: "_trans", _STYLE: "_style", _ENGINE: "_engine", _SEARCH: "_search", _OUTPUTS_CURRENT: "_outputs.-1", _NAMES: "_names", _TOAST: "_toast",
 }
 var team = {
 	TASK: "task", PLAN: "plan",

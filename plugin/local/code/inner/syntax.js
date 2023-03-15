@@ -143,6 +143,11 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	}, h: {link: "c"},
 	sh: {
+		func: function(can, push, text) {
+			if (can.base.endWith(text, "() {")) {
+				var ls = can.core.Split(text, "\t (){"); push(ls[0])
+			}
+		},
 		prefix: {"#": code.COMMENT},
 		suffix: {" {": code.COMMENT},
 		split: {operator: "{[($.,:;&<|>=)]}"},
@@ -248,6 +253,25 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	},
 	go: {
+		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t *", "({:})")
+			if (indent == 0) {
+				switch (ls[0]) {
+					case "package": opts.package = ls[1]; break
+					case "func": if (ls[1] == "(") { ls[1] = ls[2]+ice.PT+ls[5]
+						if (ls[5].toLowerCase()[0] == ls[5][0]) { push("- "+ls[1]) } else { push("+ "+ls[1]) } break
+					}
+					case "type":
+					case "var":
+						if (ls[1].toLowerCase()[0] == ls[1][0]) { push("- "+ls[1]) } else { push("+ "+opts.package+ice.PT+ls[1]) } break
+				}
+			} else if (indent == 4) {
+				if (text.indexOf("MergeCommands(") > -1) { opts.block = "cmds" } else if (text == "})") { opts.block = "" }
+			} else if (indent == 8) {
+				if (opts.block == "cmds" && ls[1] == ice.DF) { push("+ "+opts.package+ice.PT+ls[0]), opts.block = opts.package+ice.PT+ls[0] }
+			} else if (indent == 12) {
+				if (opts.block && ls[1] == ice.DF) { push("+ "+opts.block+ice.SP+ls[0]) }
+			}
+		},
 		prefix: {"//": code.COMMENT},
 		regexp: {
 			"[A-Z_0-9]+": code.CONSTANT,
@@ -304,6 +328,17 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	}, sum: {},
 	js: {
+		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t (,", ice.DF)
+			if (indent == 0 && can.base.beginWith(text, "Volcanos")) {
+				var _block = can.base.trimPrefix(ls[1], "chat.").toLowerCase()
+				if (_block != opts.block) { push("") } opts.block = _block
+				if (text.indexOf(chat._INIT) > -1) { push(opts.block+ice.PT+chat._INIT) }
+			} else if (indent == 0 && can.base.beginWith(text, "var ")) {
+				opts.block = ls[1]
+			} else if (indent == 4 && ls[1] == ice.DF) {
+				ls[0] && push(opts.block+ice.PT+ls[0])
+			}
+		},
 		prefix: {"// ": code.COMMENT},
 		regexp: {"[A-Z_0-9]+": code.CONSTANT},
 		keyword: {
@@ -395,6 +430,11 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	}, json: {},
 	css: {
+		func: function(can, push, text) {
+			if (text.indexOf("/* ") == 0) {
+				push(can.base.trimPrefix(can.base.trimSuffix(text, " */"), "/* "))
+			}
+		},
 		prefix: {"// ": code.COMMENT, "/* ": code.COMMENT},
 		split: {operator: "{[(.,:;&>=)]}"},
 		regexp: {
