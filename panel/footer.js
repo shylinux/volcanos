@@ -36,6 +36,17 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.ui = {}, can.db = {} },
 	onlayout: function(can, layout) { can.onmotion.toggle(can, can._target, !layout || layout == html.TABS) },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
+
+	ondebugs: function(can, msg) { can.runAction({}, msg.Option(ctx.ACTION), [msg.Option(ctx.INDEX)], function(_msg) {
+		_msg.Table(function(item) { item.mode = chat.FLOAT
+			can.onappend.plugin(can, item, function(sub) {
+				sub.run = function(event, cmds, cb) { can.run(event, [ctx.ACTION, msg.Option(ctx.ACTION), ice.RUN].concat(cmds), cb) }
+				can.getActionSize(function(left, top, width, height) { sub.onimport.size(sub, sub.ConfHeight(height/2), sub.ConfWidth(width), true)
+					can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+height/4})
+				}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
+			}, document.body)
+		})
+	}) },
 })
 Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight },
 	ntip: function(can) { can.onexport._float(can, NTIP, "can.toast") },

@@ -432,7 +432,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		meta.inputs = can.base.getValid(meta.inputs, can.base.Obj(value.list))||[], meta.feature = can.base.getValid(meta.feature, can.base.Obj(value.meta))||{}
 		meta.args = can.base.getValid(can.base.Obj(meta.args), can.base.Obj(meta.arg), can.base.Obj(value.args), can.base.Obj(value.arg))||[]
 		can.onappend._init(can, meta, [chat.PLUGIN_STATE_JS], function(sub, skip) {
-			sub.run = function(event, cmds, cb) { can.runActionCommand(sub.request(event), sub._index, cmds, cb) }
+			sub.run = function(event, cmds, cb) {
+				if (can.base.isFunc(value)) {
+					can.onengine._plugin(event, can._root, can.request(event), value.can, [meta.index].concat(cmds), cb)
+				} else {
+					can.runActionCommand(sub.request(event), sub._index, cmds, cb)
+				}
+			}
 			sub._index = value.index||meta.index, can.base.isFunc(cb) && cb(sub, meta, skip)
 		}, target||can._output, field)
 	},
@@ -629,7 +635,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		can.user.copy(event, can, target.innerText), can.base.isFunc(cb) && cb(event)
 		can.onkeymap.prevent(event)
 	} },
-	move: function(can, target, layout, cb) { var begin; layout = layout||{}
+	move: function(can, target, layout) { var begin; layout = layout||{}
 		can.page.style(can, target, layout), target.onmousedown = function(event) {
 			if (event.target != target && !event.ctrlKey) { return } can.onkeymap.prevent(event)
 			layout.height = target.offsetHeight, layout.width = target.offsetWidth

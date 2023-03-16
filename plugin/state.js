@@ -19,12 +19,12 @@ Volcanos(chat.ONIMPORT, {
 				var msg = can.request(); msg.Echo(sub.Conf(ice.MSG_RESULT)), can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY))
 			})(); return }; var opt = can.base.Obj(item[ice.OPT], [])
 			sub.run = function(event, cmds, cb) { var res = can.request(event, can.Option(), opts); for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
-				can.run(event, (msg.Option("_index") == can._index? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
+				can.run(event, (msg.Option("_index") == can._index || can._index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
 				sub.onimport.size(sub, height, can.ConfWidth(), true)
 			}
 		}) })
 	},
-	_float: function(can, msg) { var arg = msg._arg; msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: arg.slice(1), mode: chat.FLOAT}, function(sub, meta) {
+	_float: function(can, msg) { var arg = msg._arg; msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: arg? arg.slice(1): [], mode: chat.FLOAT}, function(sub, meta) {
 		sub.run = function(event, cmds, cb) { can.runAction(can.request(event, {path: msg.Option(nfs.PATH), text: msg.Option(mdb.TEXT)}), [ice.RUN, arg[0]], cmds, cb) }
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = !can.Mode()? 120: 0, can.onmotion.move(can, sub._target, {left: left, top: top})
 			sub.onimport.size(sub, can.base.Max(height, can.page.height())-top-(can.user.isMobile&&!can.user.isLandscape()? 2*html.ACTION_HEIGHT: 0), width, true)
@@ -63,7 +63,7 @@ Volcanos(chat.ONIMPORT, {
 Volcanos(chat.ONACTION, {list: [
 		"刷新界面", "刷新数据", "切换浮动", "切换全屏", "远程控制", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片",
 		["其它", "扩展参数", "保存参数", "清空参数", "复制数据", "下载数据", "清空数据", "删除工具"],
-		["调试", "查看日志", "打包页面", "查看文档", "查看脚本", "查看源码", "查看配置", "清理配置", "导出配置", "导入配置", "删除配置"],
+		["调试", "查看文档", "查看脚本", "查看源码", "查看配置", "查看日志", "打包页面"],
 	],
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input())) },
 	_switch: function(can, sub, mode, save, load) {
@@ -113,17 +113,13 @@ Volcanos(chat.ONACTION, {list: [
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
 	"删除工具": function(event, can) { can.page.Remove(can, can._target) },
 
+	"查看文档": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: ice.HELP, index: can.Conf(ctx.INDEX)})) },
+	"查看脚本": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: nfs.SCRIPT, index: can.Conf(ctx.INDEX)})) },
+	"查看源码": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: nfs.SOURCE, index: can.Conf(ctx.INDEX)})) },
+	"查看配置": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: ctx.CONFIG, index: can.Conf(ctx.INDEX)})) },
 	"查看日志": function(event, can) { var sub = can._outputs[0]; sub.onimport.tool(sub, ["can.debug"], function(sub) { sub.select() }) },
 	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
-	"查看文档": function(event, can) { can.runAction(event, ctx.CONFIG, [ice.HELP]) },
-	"查看脚本": function(event, can) { can.runAction(event, ctx.CONFIG, [nfs.SCRIPT]) },
-	"查看源码": function(event, can) { can.runAction(event, ctx.CONFIG, [nfs.SOURCE]) },
-	"查看配置": function(event, can) { can.runAction(event, ctx.CONFIG, [mdb.SELECT]) },
-	"清理配置": function(event, can) { can.runActionInputs(event, [ctx.ACTION, mdb.PRUNES]) },
-	"导出配置": function(event, can) { can.runAction(event, mdb.EXPORT) },
-	"导入配置": function(event, can) { can.runAction(event, mdb.IMPORT) },
-	"删除配置": function(event, can) { can.runAction(event, ctx.CONFIG, [mdb.REMOVE], function() { can.user.toastProcess(can), can.onmotion.delay(can, function() { can.user.toastSuccess(can), can.Update() }, 1000) }) },
-	
+
 	refresh: function(event, can) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (sub) { sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), sub.onimport.layout(sub) } },
 	close: function(event, can) {
 		if (can.isCmdMode()) {
