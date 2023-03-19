@@ -493,7 +493,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 				can.page.style(can, target, html.MAX_HEIGHT, layout.top-top-(rect.bottom-rect.top))
 				layout.top = layout.top-target.offsetHeight-(rect.bottom-rect.top)
 			} else {
-				can.page.style(can, target, html.MAX_HEIGHT, max? height*max: top+height-layout.top)
+				if (!right) { can.page.style(can, target, html.MAX_HEIGHT, max? height*max: top+height-layout.top) }
 				// can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
 				if (layout.top+target.offsetHeight > top+height) { layout.top = top+height-target.offsetHeight }
 			}
