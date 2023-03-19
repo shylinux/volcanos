@@ -24,6 +24,9 @@ Volcanos(chat.ONIMPORT, {
 			}
 		}) })
 	},
+	_close: function(can) {
+		can.user.close()
+	},
 	_float: function(can, msg) { var arg = msg._arg; msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: arg? arg.slice(1): [], mode: chat.FLOAT}, function(sub, meta) {
 		sub.run = function(event, cmds, cb) { can.runAction(can.request(event, {path: msg.Option(nfs.PATH), text: msg.Option(mdb.TEXT)}), [ice.RUN, arg[0]], cmds, cb) }
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = !can.Mode()? 120: 0, can.onmotion.move(can, sub._target, {left: left, top: top})
