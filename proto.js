@@ -368,6 +368,7 @@ try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 		switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
 		case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+v, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
 		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url+v, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
+		default: var item = document.createElement(nfs.SCRIPT); item.src = url+v, item.onerror = cb, item.onload = cb, document.body.appendChild(item)
 	} }
 	window.onerror = function(message, source, lineno, colno, error) { window._version && alert([[source, lineno, colno].join(ice.DF), message].join(ice.NL)) }
 	meta._init = function(can) { window.onerror = function(message, source, lineno, colno, error) {
