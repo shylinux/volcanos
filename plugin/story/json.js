@@ -43,18 +43,3 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 		}; show(data, can.page.Append(can, target, [{view: html.ITEM}]).item, 0, 0)
 	},
 }, [""])
-Volcanos(chat.ONACTION, {list: ["展开", "折叠", "复制"],
-	"展开": function(event, can) {
-		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_LIST], function(list) {
-			can.onmotion.toggle(can, list, true)
-		})
-	},
-	"折叠": function(event, can) {
-		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_LIST], function(list) {
-			can.onmotion.hidden(can, list)
-		})
-	},
-	"复制": function(event, can) {
-		can.user.copy(event, can, can._msg.Result())
-	},
-})

@@ -156,7 +156,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				list: {name: web.REFRESH, cb: function(event) { can.Update(event) }},
 				back: {name: "goback", cb: function(event) { can.onimport._back(can) }},
 				refresh: {name: web.REFRESH, cb: function(event) { can.Update(event) }},
-				next: {name: mdb.NEXT}, prev: {name: mdb.PREV}, play: {name: web.PLAY},
+				prev: {name: mdb.PREV, cb: function(event) { can.onaction.prev(event, can) }},
+				next: {name: mdb.NEXT, cb: function(event) { can.onaction.next(event, can) }},
+				play: {name: web.PLAY},
 				// create: {name: mdb.CREATE}, insert: {name: mdb.CREATE},
 				"": {name: mdb.DELETE, cb: function(event) { can.onaction.close(event, can) }},
 			}[item.name||""]; if (!icon) { return } item.style = "icons"

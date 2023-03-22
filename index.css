@@ -6,10 +6,10 @@ input:not([type=file]) { background-color:cyan; padding:0 5px; margin-right:5px;
 input:not([type=button]) { width:120px; }
 input[name=path] { width:160px; }
 input[name=line] { width:40px; }
-input[name=limit] { width:48px; }
-input[name=offend] { width:48px; }
-input[name=id] { width:48px; }
-input[name=ID] { width:48px; }
+input[name=limit] { width:60px; }
+input[name=offend] { width:60px; }
+input[name=id] { width:60px; }
+input[name=ID] { width:60px; }
 input[name=url] { width:320px; }
 input[name=cmd] { background-color:black; color:white; width:100%; }
 input[type=button] { background-color:black; color:cyan; }
@@ -166,7 +166,7 @@ fieldset:not(.float)>form.option>div.text>span.value { display:none; }
 fieldset.float div.item.text:hover>span.icon.delete { visibility:hidden; }
 fieldset.float>form.option>div.text>input { display:none; }
 fieldset.float>form.option>div.text>span.value { padding:7px; height:32px; display:block; }
-fieldset.float>form.option>div.item.button { display:none; }
+/* fieldset.float>form.option>div.item.button { display:none; } */
 fieldset.float>form.option>div.icon { display:block; }
 fieldset.full>form.option>div.icon.delete { display:block; }
 fieldset.cmd>form.option>div.icon { display:block; }

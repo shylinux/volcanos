@@ -260,8 +260,9 @@ Volcanos(chat.ONSYNTAX, {
 					case "func": if (ls[1] == "(") { ls[1] = ls[2]+ice.PT+ls[5]
 						if (ls[5].toLowerCase()[0] == ls[5][0]) { push("- "+ls[1]) } else { push("+ "+ls[1]) } break
 					}
+					case "const":
+					case "var": if (ls[1] == "(") { break }
 					case "type":
-					case "var":
 						if (ls[1].toLowerCase()[0] == ls[1][0]) { push("- "+ls[1]) } else { push("+ "+opts.package+ice.PT+ls[1]) } break
 				}
 			} else if (indent == 4) {
@@ -314,7 +315,7 @@ Volcanos(chat.ONSYNTAX, {
 			"iota": code.CONSTANT, "true": code.CONSTANT, "false": code.CONSTANT, "nil": code.CONSTANT,
 
 			"kit": code.PACKAGE, "ice": code.PACKAGE,
-			"Any": code.DATATYPE, "Map": code.DATATYPE, "Maps": code.DATATYPE, "Message": code.DATATYPE,
+			"Any": code.DATATYPE, "List": code.DATATYPE, "Map": code.DATATYPE, "Maps": code.DATATYPE, "Message": code.DATATYPE,
 			"m": code.OBJECT, "msg": code.OBJECT,
 		},
 	}, godoc: {link: "go"},

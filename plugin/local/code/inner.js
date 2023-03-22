@@ -171,7 +171,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target)
 		if (msg.Option(ice.MSG_PROCESS) == ice.PROCESS_FIELD) {
 			msg.Table(function(item) { item.type = chat.STORY, item.height = height, item.width = width, item.display = msg.Option(ice.MSG_DISPLAY)
-				if (can.base.isIn(item.index, web.CODE_XTERM, web.WIKI_WORD)) { item.style = html.OUTPUT }
+				// if (can.base.isIn(item.index, web.CODE_XTERM, web.WIKI_WORD)) { item.style = html.OUTPUT }
 				can.onimport.plug(can, item, function(sub) {
 					sub.onaction.close = function() { can.onmotion.hidden(can, target), can.onimport.layout(can) }
 					sub.onexport.output = function(_sub, _msg) { can.onmotion.delay(can, function() { can.base.isFunc(cb) && cb(_sub, _msg) }) }
@@ -274,7 +274,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 			msg._plugin = sub, can.base.isFunc(cb) && cb(msg._content = sub._target), sub.Focus()
 		}, can.ui._content.parentNode)
 	},
-	_parse: function(can, line) { line = can.page.replace(can, line||"")
+	_parse: function(can, line) {
 		function wrap(text, type) { return can.page.Format(html.SPAN, text, type) }
 		var p = can.onsyntax[can.db.parse]||{}; p = can.onsyntax[p.link]||p, p.split = p.split||{}
 		if (p.prefix && can.core.Item(p.prefix, function(pre, type) { if (can.base.beginWith(line, pre)) { return line = wrap(line, type) } }).length > 0) { return line }
