@@ -263,7 +263,8 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 	} },
 	_index: function(can, msg, cb) { if (msg._content) { return can.base.isFunc(cb) && cb(msg._content) } if (can.onsyntax._space(can, msg, cb)) { return }
 		var index = msg.Option(ctx.INDEX).split(ice.FS), item = {type: chat.STORY, index: index[0], args: index.slice(1)}
-		if (can.base.isIn(item.index, web.CODE_XTERM, web.WIKI_WORD)) { item.style = html.OUTPUT }
+		if (can.base.isIn(item.index, web.WIKI_WORD)) { item.style = html.OUTPUT }
+		// if (can.base.isIn(item.index, web.CODE_XTERM, web.WIKI_WORD)) { item.style = html.OUTPUT }
 		can.onimport.plug(can, item, function(sub) { sub.onimport.size(sub, can.ui.content.offsetHeight, can.ui.content.offsetWidth, true)
 			sub.onimport._open = function(sub, msg, arg) { can.onimport.tabview(can, "", arg, web.SPACE), sub.Update() }
 			sub.onaction.close = function() { can.onaction.back(can), msg._tab._close() }
@@ -290,7 +291,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 				case code.CONSTANT:
 				case code.OBJECT: return wrap(text, type)
 				default: var t = can.core.Item(p.regexp, function(reg, type) { var m = text.match(new RegExp(reg)); if (m && m.length > 0 && m[0] == text) { return type} })
-					return t && t.length > 0? wrap(text, t[0]): type? wrap(text, type): text
+					return t && t.length > 0? wrap(text, t[0]): type? wrap(text, type): wrap(text, "_")
 			}
 		}).join("")); return line
 	},
@@ -327,9 +328,15 @@ Volcanos(chat.ONACTION, {list: ["调试", "首页", "官网", "源码", "百度"
 	scrollIntoView: function(can, offset) { var current = can.onexport.line(can, can.current.line), window = can.current.window(); offset = offset||parseInt(window/4)+2
 		can.ui.content.scrollTo(0, parseInt(current/window)*can.ui.content.offsetHeight+(parseInt(current%window)-offset-1)*can.current.line.offsetHeight)
 	},
-	searchLine: function(event, can, value) { can.runAction(can.request(event, {name: value, text: can.current.text()}, can.Option()), code.NAVIGATE, [], function(msg) {
-		msg.Append(nfs.FILE)? can.onimport.tabview(can, msg.Append(nfs.PATH), msg.Append(nfs.FILE), msg.Append(nfs.LINE)): can.user.toastFailure(can, "not found "+value)
-	}) },
+	searchLine: function(event, can, value) {
+		var offset = 0; can.page.Select(can, can.ui.content, "tr.line", function(tr) {
+			tr == can.current.line && can.page.Select(can, tr, "td.text>span", function(span) { offset += span.innerText.length
+				span == event.target && can.runAction(can.request(event, {name: value, text: can.current.text(), offset: offset-1}, can.Option()), code.NAVIGATE, [], function(msg) {
+					msg.Append(nfs.FILE)? can.onimport.tabview(can, msg.Append(nfs.PATH), msg.Append(nfs.FILE), msg.Append(nfs.LINE)): can.user.toastFailure(can, "not found "+value)
+				})
+			}), can.page.Select(can, tr, "td.text", function(td) { offset += td.innerText.length+1 })
+		})
+	},
 	favorLine: function(event, can, value) { can.user.input(event, can, [{name: mdb.ZONE, value: "hi"}, {name: mdb.NAME, value: "hello"}], function(data) {
 		can.runAction(event, code.FAVOR, [ctx.ACTION, mdb.INSERT, mdb.ZONE, data.zone||"",
 			mdb.TYPE, can.db.parse, mdb.NAME, data.name||"", mdb.TEXT, (value||"").trimRight(),

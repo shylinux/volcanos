@@ -31,6 +31,7 @@ var ice = {
 	MSG_HANDLE: "_handle", MSG_UPLOAD: "_upload",
 	MSG_ACTION: "_action", MSG_STATUS: "_status",
 
+	MSG_INDEX: "_index",
 	MSG_DISPLAY: "_display",
 	MSG_TOOLKIT: "_toolkit",
 	MSG_PROCESS: "_process",
@@ -359,21 +360,18 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 	return can.require(can._follow? libs.concat(meta.libs, meta.volcano): libs, cb), can
 })
 try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
-	if (window._version && window.outerWidth-window.innerWidth < 100) {
-		meta.version = window._version
-	}
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
-	meta._load = function(url, cb) {
-		var v = meta.version? meta.version+"&_tt="+(new Date()).getTime(): ""
-		switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
-		case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+v, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
-		case nfs.JS: var item = document.createElement(nfs.SCRIPT); item.src = url+v, item.onerror = cb, item.onload = cb, document.body.appendChild(item); break
-		default: var item = document.createElement(nfs.SCRIPT); item.src = url+v, item.onerror = cb, item.onload = cb, document.body.appendChild(item)
-	} }
-	window.onerror = function(message, source, lineno, colno, error) { window._version && alert([[source, lineno, colno].join(ice.DF), message].join(ice.NL)) }
-	meta._init = function(can) { window.onerror = function(message, source, lineno, colno, error) {
-		meta.version? alert([message].concat(can.misc._stacks(0, error)).join(ice.NL)): can.misc.Error(message, ice.NL+[source, lineno, colno].join(ice.DF), error)
+	if (window._version && window.outerWidth-window.innerWidth < 100) { meta.version = window._version }
+	meta._load = function(url, cb) { var v = meta.version? meta.version+"&_tt="+(new Date()).getTime(): ""
+		switch (url.split(ice.QS)[0].split(ice.PT).pop().toLowerCase()) {
+			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+v, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
+			default: var item = document.createElement(nfs.SCRIPT); item.src = url+v, item.onerror = cb, item.onload = cb, document.body.appendChild(item)
+		}
 	}
+	meta._init = function(can) {
+		window.onerror = function(message, source, lineno, colno, error) {
+			meta.version? alert([message].concat(can.misc._stacks(0, error)).join(ice.NL)): can.misc.Error(message, ice.NL+[source, lineno, colno].join(ice.DF), error)
+		}, window.onbeforeunload = function() { can.Action._socket && can.Action._socket.close() }
 		var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
 			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
 			can.onmotion.delayOnce(can, function() { can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth))) }, 100, can._delay_resize = can._delay_resize||[])

@@ -23,7 +23,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 				var target = connect(item, output||can.page.insertBefore(can, [html.OUTPUT], can._status)); output = null
 				main = main||target
 			}
-		}), can.onaction.select(can, main)
+		}), main && can.onaction.select(can, main)
 	},
 	_tabs: function(can, item, output) { if (output != output._root && output._root) { return output._tabs = output._root._tabs }
 		var tabs = can.onimport.tabs(can, [{name: item.name||item.type||item.hash}], function() {
@@ -81,15 +81,21 @@ Volcanos(chat.ONKEYMAP, {
 				sub.select(), sub.onexport.record = function(_, value) { can.onimport._input(can, can._output._term, value+ice.NL) }
 			}, can._fields) }) },
 			f: function(event, can) {
-				var input = can.user.input({target: can._output._tabs}, can, [{type: mdb.TEXT, name: mdb.NAME, select: function(item) {
-					input.submit(event, can, "submit")
-				}, run: function(event, cmds, cb) { var msg = can.request(event)
-					can.page.Select(can, can._action, [html.DIV_TABS, html.SPAN_NAME], function(target) { msg.Push(mdb.NAME, target.innerText) })
-					cb(msg)
-				}}], function(list) {
-					
-				})
+				var input = can.user.input({target: can._output._tabs}, can, [{type: mdb.TEXT, name: nfs.FILE, select: function(item) {
+					var ls = item.split(ice.DF); switch (ls[0]) {
+						case "tabs": can.page.Select(can, can._action, [html.DIV_TABS, html.SPAN_NAME], function(target) { target.innerText == ls[1] && target.click() }); break
+						case web.LAYOUT: can.Option(mdb.HASH, ls[1]), can.Update(); break
+						case ctx.INDEX: can.onimport.tool(can, [ls[1]], function(sub) { sub.select() }); break
+						case ssh.SHELL: can.onaction.tabnew(can.request({}, {_handle: ice.TRUE, type: ls[1]}), can); break
+						default: can.onimport._input(can, can._output._term, item+ice.NL)
+					} input.cancel()
+				}, run: function(event, cmds, cb) { can.run(event, cmds, function(msg) { var _msg = can.request()
+					function push(type, name) { _msg.Push(nfs.FILE, can.core.List(arguments).join(ice.DF)) }
+					can.page.Select(can, can._action, [html.DIV_TABS, html.SPAN_NAME], function(target) { push("tabs", target.innerText) })
+					_msg.Copy(msg), can.core.Item(can.onengine.plugin.meta, function(key, value) { push(ctx.INDEX, "can."+key) }), cb(_msg)
+				}) }}], function(list) {})
 			},
+			Escape: function(can) { can.onmotion.clearFloat(can), can._output.click() },
 		},
 	}, _engine: {},
 })
@@ -104,11 +110,9 @@ Volcanos(chat.ONACTION, {
 		can._output._root = root, can._output = can.page.insertBefore(can, [html.OUTPUT], can._output.nextSibling, layout)
 		can._output._root = root, can._output._tabs = tabs, can.onimport._init(can, msg), can.onmotion.delay(can, function() { can._output.click() })
 	}) }) },
-	delete: function(can, output) {
-		if (output == can.sup._output) { can.onmotion.clear(can, output) } else {
-			while (output && output.parentNode.children.length == 1) { output = output.parentNode }
-			var next = output.parentNode; can.onmotion.delay(can, function() { can.page.Select(can, next, html.DIV_OUTPUT, function(target) { target.click() }) })
-			can.page.Remove(can, output)
+	delete: function(can, output) { if (can.page.Select(can, can._fields, html.DIV_OUTPUT).length == 1) { can.onmotion.delay(can, function() { can.sup.onimport._back(can.sup) }) }
+		if (output == can.sup._output) { can.onmotion.clear(can, output) } else { while (output && output.parentNode.children.length == 1) { output = output.parentNode }
+			var next = output.parentNode; can.page.Remove(can, output), can.onmotion.delay(can, function() { can.page.Select(can, next, html.DIV_OUTPUT, function(target) { target.click() }) })
 		} can.onimport.layout(can)
 	},
 	select: function(can, output) { can.page.SelectChild(can, can._fields, can.page.Keys(html.DIV_OUTPUT, html.DIV_LAYOUT), function(target) { can.onmotion.hidden(can, target, target == output || target == output._root)
@@ -123,7 +127,7 @@ Volcanos(chat.ONACTION, {
 			can.page.SelectOne(can, output[key], html.DIV_OUTPUT, function(target) { target.click() })||output[key].click()
 		}
 	},
-	sess: function(event, can) { can.user.input(event, can, [mdb.NAME], function(list) {
+	sess: function(event, can) { can.user.input({target: can._legend}, can, [mdb.NAME], function(list) {
 		can.runAction({}, mdb.CREATE, [mdb.TYPE, html.LAYOUT, mdb.NAME, list[0], mdb.TEXT, can.base.Format(can.onexport.sess(can))], function(msg) {
 			can.user.toastSuccess(can, can.user.trans(can, nfs.SAVE)+ice.SP+msg.Result())
 		}, true)
@@ -132,6 +136,9 @@ Volcanos(chat.ONACTION, {
 		if (can.onkeymap.selectCtrlN(event, can, can._action, html.DIV_TABS)) { return }
 		can._keylist = can.onkeymap._parse(event, can, mdb.NORMAL, can._keylist||[], can._output._term)
 	},
+	hidden: function(can) { can.page.Select(can, can._fields, "div.output,div.layout", function(target) {
+		target == can.sup._output? can.page.insertBefore(can, target, can._status): can.page.Remove(can, target)
+	}) },
 })
 Volcanos(chat.ONEXPORT, {list: [mdb.TIME, mdb.HASH, mdb.TYPE, mdb.NAME, "rows", "cols", "cursorY", "cursorX"],
 	term: function(can, term) { item = term._item

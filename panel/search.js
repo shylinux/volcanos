@@ -1,7 +1,7 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can.ui.content)
 		var table = can.onappend.table(can, msg, function(value, key, index, data) { return {text: [can.base.isFunc(value) && value.help || value, html.TD], onclick: function(event) {
 			can.page.tagis(event.target, html.A) || can.onaction[can.db.type == mdb.FOREACH || event.ctrlKey? mdb.PLUGIN: mdb.SELECT](event, can, data) 
-		}} }, can.ui.content, can.base.getValid(msg.Option(ice.MSG_FIELDS).split(ice.FS), msg.append)); can.onmotion.story.auto(can), can.onimport._size(can)
+		}} }, can.ui.content, msg.append); can.onmotion.story.auto(can), can.onimport._size(can)
 		can.onmotion.toggle(can, can._status, can.db.type != mdb.FOREACH) && can.onappend._status(can, can.base.Obj(msg.Option(ice.MSG_STATUS), []).concat({name: mdb.SELECT, value: "0"}))
 		can.onmotion.focus(can, can.ui.filter), msg.Length() == 1 && can.ui.profile.innerHTML == "" && can.page.Select(can, table, html.TD)[0].click()
 	},
@@ -49,7 +49,7 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 		var meta = {index: cmd||msg.Option(mdb.INDEX), args: cmd == web.WIKI_WORD? [data.name]: []}
 		if (data.type == cli.OPENS) { return can.runAction(event, cli.OPENS, [data.text], null, true) }
 		if (data.type == ssh.SHELL) { meta = {index: web.CODE_XTERM, args: [data.text]} }
-		if (data.type == ctx.INDEX) { meta = {index: data.text.split(",")[0], args: data.text.split(",").slice(1) } }
+		if (data.type == ctx.INDEX) { meta = {index: data.text.split(ice.FS)[0], args: data.text.split(ice.FS).slice(1) } }
 		if (data.type == nfs.FILE) { meta = {index: web.CODE_VIMER, args: can.misc.SplitPath(can, data.text)} }
 		can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub), sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), true), sub.Focus() }, can.ui.profile)
 	},

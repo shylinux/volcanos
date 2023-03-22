@@ -11,21 +11,15 @@ Volcanos(chat.ONIMPORT, {
 	_display: function(can, msg) { can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)) },
 	_clear: function(can, msg) { can.onmotion.clear(can) },
 	_inner: function(can, msg) { can.onappend.table(can, msg), can.onappend.board(can, msg), can.onmotion.story.auto(can) },
-	_field: function(can, msg) {
-		var opts = {pod: msg.Option(ice.POD)}; can.page.SelectArgs(can, can._option, "", function(target) { var value = msg.Option(target.name); target.name && value && (opts[target.name] = value) })
-		var height = can.ConfHeight(); can.page.SelectChild(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })
-		msg.Table(function(item) { can.onappend._plugin(can, item, {pod: msg.Option(ice.POD), index: item.index, args: can.base.Obj(item.args||item.arg, []), height: can.base.Min(height, 200)}, function(sub, meta) {
-			sub.Conf(can.base.Obj(item.conf)); if (sub.isSimpleMode()) { (function() { sub.ConfHeight(can.ConfHeight()/2)
-				var msg = can.request(); msg.Echo(sub.Conf(ice.MSG_RESULT)), can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY))
-			})(); return }; var opt = can.base.Obj(item[ice.OPT], [])
-			sub.run = function(event, cmds, cb) { var res = can.request(event, can.Option(), opts); for (var i = 0; i < opt.length; i += 2) { res.Option(opt[i], opt[i+1]) }
-				can.run(event, (msg.Option("_index") == can._index || can._index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
-				sub.onimport.size(sub, height, can.ConfWidth(), true)
+	_field: function(can, msg) { var height = can.ConfHeight(); can.page.SelectChild(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })
+		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: can.base.Min(height, 240)}, function(sub, meta) {
+			sub.Conf(can.base.Obj(item.conf)); if (sub.isSimpleMode()) { sub.ConfHeight(can.ConfHeight()/2)
+				var res = can.request(); res.Echo(sub.Conf(ice.MSG_RESULT)), can.onappend._output(sub, res, sub.Conf(ctx.DISPLAY)); return
+			}
+			sub.run = function(event, cmds, cb) { sub.onimport.size(sub, height, can.ConfWidth(), true)
+				can.run(event, (!msg.Option("_index") || msg.Option("_index") == can._index || can._index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
 			}
 		}) })
-	},
-	_close: function(can) {
-		can.user.close()
 	},
 	_float: function(can, msg) { var arg = msg._arg; msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: arg? arg.slice(1): [], mode: chat.FLOAT}, function(sub, meta) {
 		sub.run = function(event, cmds, cb) { can.runAction(can.request(event, {path: msg.Option(nfs.PATH), text: msg.Option(mdb.TEXT)}), [ice.RUN, arg[0]], cmds, cb) }

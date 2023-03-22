@@ -300,7 +300,7 @@ fieldset.plugin.parse.cmd>div.status { display:none; }
 fieldset.plugin.inner.cmd>legend { display:none; }
 fieldset.plugin.inner.cmd>div.action { display:none; }
 fieldset.plugin.inner.cmd>form.option { display:none; }
-fieldset.plugin.inner.cmd fieldset.xterm>form.option>div.item.text>input { width:320px; }
+// fieldset.plugin.inner.cmd fieldset.xterm>form.option>div.item.text>input { width:320px; }
 fieldset.plan div.output table.content { height:100%; width:100%; }
 fieldset.xterm div.output { border-left:gray solid 1px; border-top:gray solid 1px; }
 fieldset.xterm div.output.select { border:blue solid 1px; }
