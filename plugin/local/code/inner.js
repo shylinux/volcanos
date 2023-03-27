@@ -275,7 +275,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 		}, can.ui._content.parentNode)
 	},
 	_parse: function(can, line) {
-		function wrap(text, type) { return can.page.Format(html.SPAN, text, type) }
+		function wrap(text, type) { return can.page.Format(html.SPAN, can.page.trans(can, text), type) }
 		var p = can.onsyntax[can.db.parse]||{}; p = can.onsyntax[p.link]||p, p.split = p.split||{}
 		if (p.prefix && can.core.Item(p.prefix, function(pre, type) { if (can.base.beginWith(line, pre)) { return line = wrap(line, type) } }).length > 0) { return line }
 		if (p.suffix && can.core.Item(p.suffix, function(end, type) { if (can.base.endWith(line, end)) { return line = wrap(line, type) } }).length > 0) { return line }
