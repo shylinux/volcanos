@@ -120,6 +120,12 @@ Volcanos(chat.ONSYNTAX, {
 			"refer": code.KEYWORD, "image": code.KEYWORD,
 			"spark": code.KEYWORD, "shell": code.KEYWORD, "field": code.KEYWORD,
 			"chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
+			
+			"let": code.KEYWORD,
+			"if": code.KEYWORD,
+			"for": code.KEYWORD,
+			"func": code.KEYWORD,
+			"system": code.FUNCTION,
 		},
 	},
 	py: {
