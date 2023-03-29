@@ -121,6 +121,8 @@ Volcanos(chat.ONSYNTAX, {
 			"spark": code.KEYWORD, "shell": code.KEYWORD, "field": code.KEYWORD,
 			"chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
 			
+			"expr": code.KEYWORD,
+			"cmd": code.KEYWORD,
 			"let": code.KEYWORD,
 			"if": code.KEYWORD,
 			"for": code.KEYWORD,
