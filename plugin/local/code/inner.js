@@ -47,9 +47,18 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			can.isCmdMode() && can.misc.sessionStorage(can, TABVIEW_HIDE, show? "": html.HIDE)
 		}
 	},
-	_tabPath: function(can, ps, key, value, cb, target) { can.onmotion.clear(can, can.ui.path), can.core.List(can.core.Split(value, ps), function(value, index, list) {
+	_tabPath: function(can, ps, key, value, cb, target) { can.onmotion.clear(can, can.ui.path), can.core.List(can.core.Split(value.split(ice.FS)[0], ps), function(value, index, list) {
 		can.page.Append(can, target, [{text: [value+(index<list.length-1? ps: ""), "", html.ITEM], onclick: function(event) {
 			can.onimport.tabPath(event, can, ps, key, ps == ice.PT? list.slice(0, index).join(ps): (list.slice(0, index).join(ps)||ice.PT)+ps, cb)
+		}}])
+	}), can.core.List(value.split(ice.FS[0]).slice(1), function(val) {
+		var index = value.split(ice.FS)[0]
+		can.page.Append(can, target, [{text: [val, "", html.ITEM], onclick: function(event) {
+			can.runAction(can.request(event, {index: index}), mdb.INPUTS, [ctx.ARGS], function(msg) {
+				can.user.carte(event, can, {}, msg[msg.append[0]], function(event, button) {
+					can.onimport.tabview(can, "", [index, button].join(ice.FS), ctx.INDEX)
+				})
+			})
 		}}])
 	}) },
 	tabPath: function(event, can, ps, key, pre, cb, parent) { can.runAction(event, mdb.INPUTS, [key, pre, lex.SPLIT], function(msg) { var _trans = {}

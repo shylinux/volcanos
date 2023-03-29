@@ -163,18 +163,20 @@ Volcanos(chat.ONSYNTAX, {
 			"Any": code.DATATYPE, "List": code.DATATYPE, "Map": code.DATATYPE, "Maps": code.DATATYPE, "Message": code.DATATYPE,
 		},
 		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t *", "({:})")
+			function isKey() { return opts.block == "cmds" && ls[1] == ":" && ls[2] == "{" } function isEnd() { return ls[0] == "}" }
+			function prefix(key, pre) { return key.toLowerCase() == key? "- ": ("+ "+(pre? pre+ice.PT: "")) }
 			if (indent == 0) { switch (ls[0]) {
 				case "package": opts.package = ls[1]; break
-				case "func": if (ls[1] == "(") { ls[1] = ls[2]+ice.PT+ls[5], ls[5].toLowerCase()[0] == ls[5][0]? push("- "+ls[1]): push("+ "+ls[1]); break }
+				case "func": if (ls[1] == "(") { push(prefix(ls[5])+ls[2]+ice.PT+ls[5]); break }
 				case "const":
 				case "var": if (ls[1] == "(") { break }
-				case "type": ls[1].toLowerCase()[0] == ls[1][0]? push("- "+ls[1]): push("+ "+opts.package+ice.PT+ls[1]); break
-			} } else if (indent == 4) {
-				if (text.indexOf("MergeCommands(") > -1) { opts.block = "cmds" } else if (text == "})") { opts.block = "" }
+				case "type": push(prefix(ls[1], opts.package)+ls[1]); break
+			} opts.stack = [ls[0]] } else if (indent == 4 && opts.stack[0] == "func") {
+				if (text.indexOf("MergeCommands(") > -1) { opts.block = "cmds" } else if (text.indexOf("}") == 0) { opts.block = "" }
 			} else if (indent == 8) {
-				if (opts.block == "cmds" && ls[1] == ice.DF) { push("+ "+opts.package+ice.PT+ls[0]), opts.block = opts.package+ice.PT+ls[0] }
+				if (isKey()) { push(prefix(ls[0], opts.package)+ls[0]), opts.cmds = opts.package+ice.PT+ls[0] }
 			} else if (indent == 12) {
-				if (opts.block && ls[1] == ice.DF) { push("+ "+opts.block+ice.SP+ls[0]) }
+				if (isKey()) { push("+ "+opts.cmds+ice.SP+ls[0]) }
 			}
 		},
 	}, mod: {prefix: {"//": code.COMMENT}, keyword: {"go": code.KEYWORD, "module": code.KEYWORD, "require": code.KEYWORD, "replace": code.KEYWORD}}, sum: {},
