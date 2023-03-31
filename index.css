@@ -361,3 +361,8 @@ div.toggle::-webkit-scrollbar { width:0 !important; height:0 !important; }
 
 body.windows form.option>div.icon { font-size:21px; }
 body.windows fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.website.icon { line-height:36px; }
+
+body.light span.keyword { color:darkblue; }
+body.light span.function { color:darkcyan; }
+body.dark span.keyword { color:royalblue; }
+body.dark span.function { color:lightgreen; }
