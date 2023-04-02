@@ -114,34 +114,22 @@ Volcanos(chat.ONSYNTAX, {
 			"/dev/null": code.CONSTANT, "/dev/stdout": code.CONSTANT, "/dev/stderr": code.CONSTANT,
 		},
 	}, configure: {link: "sh"},
-	shy: {prefix: {"#": code.COMMENT}, keyword: {
-			"source": code.KEYWORD, "return": code.KEYWORD,
+	shy: {prefix: {"#": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT}, keyword: {
 			"title": code.KEYWORD, "premenu": code.KEYWORD, "chapter": code.KEYWORD, "section": code.KEYWORD,
 			"refer": code.KEYWORD, "image": code.KEYWORD,
 			"spark": code.KEYWORD, "shell": code.KEYWORD, "field": code.KEYWORD,
 			"chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
 			
-			"expr": code.KEYWORD,
-			"cmd": code.KEYWORD,
 			"let": code.KEYWORD,
-			"if": code.KEYWORD,
-			"for": code.KEYWORD,
-			"func": code.KEYWORD,
-			"system": code.FUNCTION,
+			"if": code.KEYWORD, "else": code.KEYWORD,
+			"for": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
+			"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD,
+			"func": code.KEYWORD, "return": code.KEYWORD, "source": code.KEYWORD, "pwd": code.FUNCTION,
+			"init": code.FUNCTION, "main": code.FUNCTION, "list": code.FUNCTION,
+			"kit": code.PACKAGE, "ice": code.PACKAGE, "m": code.OBJECT, "msg": code.OBJECT, "arg": code.OBJECT,
 		},
 	},
-	py: {
-		prefix: {
-			"#!": code.COMMENT,
-			"# ": code.COMMENT,
-		},
-		keyword: {
-			"import": code.KEYWORD,
-			"from": code.KEYWORD,
-			"return": code.KEYWORD,
-			"print": code.FUNCTION,
-		},
-	},
+	py: {prefix: {"#!": code.COMMENT, "# ": code.COMMENT}, keyword: {"import": code.KEYWORD, "from": code.KEYWORD, "return": code.KEYWORD, "print": code.FUNCTION}},
 	go: {prefix: {"// ": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT}, keyword: {
 			"package": code.KEYWORD, "import": code.KEYWORD, "const": code.KEYWORD, "type": code.KEYWORD, "struct": code.KEYWORD, "interface": code.KEYWORD, "func": code.KEYWORD, "var": code.KEYWORD,
 			"if": code.KEYWORD, "else": code.KEYWORD,
