@@ -120,12 +120,15 @@ Volcanos(chat.ONSYNTAX, {
 			"spark": code.KEYWORD, "shell": code.KEYWORD, "field": code.KEYWORD,
 			"chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
 			
-			"let": code.KEYWORD,
+			
 			"if": code.KEYWORD, "else": code.KEYWORD,
 			"for": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
 			"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD,
-			"func": code.KEYWORD, "return": code.KEYWORD, "source": code.KEYWORD, "pwd": code.FUNCTION,
+			"func": code.KEYWORD, "defer": code.KEYWORD, "return": code.KEYWORD,
+			"true": code.CONSTANT, "false": code.CONSTANT,
 			"init": code.FUNCTION, "main": code.FUNCTION, "list": code.FUNCTION,
+			"info": code.FUNCTION, "pwd": code.FUNCTION,
+			"source": code.FUNCTION,
 			"kit": code.PACKAGE, "ice": code.PACKAGE, "m": code.OBJECT, "msg": code.OBJECT, "arg": code.OBJECT,
 		},
 	},
