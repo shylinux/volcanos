@@ -121,6 +121,7 @@ Volcanos(chat.ONSYNTAX, {
 			"chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
 			
 			
+			"package": code.KEYWORD, "import": code.KEYWORD, "const": code.KEYWORD, "type": code.KEYWORD, "var": code.KEYWORD,
 			"if": code.KEYWORD, "else": code.KEYWORD,
 			"for": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
 			"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD,
@@ -128,8 +129,11 @@ Volcanos(chat.ONSYNTAX, {
 			"true": code.CONSTANT, "false": code.CONSTANT,
 			"init": code.FUNCTION, "main": code.FUNCTION, "list": code.FUNCTION,
 			"info": code.FUNCTION, "pwd": code.FUNCTION,
+			"map": code.DATATYPE, "struct": code.DATATYPE, "interface": code.DATATYPE,
+			"string": code.DATATYPE, "int": code.DATATYPE,
 			"source": code.FUNCTION,
-			"kit": code.PACKAGE, "ice": code.PACKAGE, "m": code.OBJECT, "msg": code.OBJECT, "arg": code.OBJECT,
+			"kit": code.PACKAGE, "ice": code.PACKAGE, "m": code.OBJECT, "arg": code.OBJECT,
+			"event": code.OBJECT, "can": code.OBJECT, "msg": code.OBJECT, "target": code.OBJECT,
 		},
 	},
 	py: {prefix: {"#!": code.COMMENT, "# ": code.COMMENT}, keyword: {"import": code.KEYWORD, "from": code.KEYWORD, "return": code.KEYWORD, "print": code.FUNCTION}},

@@ -295,7 +295,8 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 			if (libs[0] == "") { libs[0] = can._path.replace(nfs._JS, nfs._CSS) }
 			if (libs[0].indexOf("src/") == 0) { libs[0] = "/require/"+libs[0] }
 			if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
-			var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
+			// var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
+			var name = libs[0].toLowerCase()
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
 			meta.cache[name]? next(): (_can_path = libs[0], meta._load(name, next))
 		},
@@ -362,6 +363,7 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
 	if (window._version && window.outerWidth-window.innerWidth < 100) { meta.version = window._version }
+	// meta.version = window._version
 	meta._load = function(url, cb) { var v = meta.version? meta.version+"&_tt="+(new Date()).getTime(): ""
 		switch (url.split(ice.QS)[0].split(ice.PT).pop().toLowerCase()) {
 			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+v, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
