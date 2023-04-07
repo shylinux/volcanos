@@ -31,6 +31,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE), function() { if (!can.user.isWebview && args.length > 0 && can.isCmdMode()) {
 			can.onimport._tabview(can, args[args.length-3], args[args.length-2]||can.Option(nfs.FILE), args[args.length-1])
 		} }), can.base.isFunc(cb) && cb(msg)
+		can.ui.profile.onclick = function(event) { if (event.target.tagName == "A") {
+			var link = can.misc.ParseURL(can, event.target.href); if (!link.cmd) { return }
+			can.onkeymap.prevent(event); if (link.cmd == web.CODE_VIMER) {
+				can.onimport.tabview(can, link.path, link.file, link.line)
+			} else {
+				can.onimport.tabview(can, link.path, link.cmd, ctx.INDEX)
+			}
+		} }
 	},
 	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui.tabs = can._action }
 		can.page.Append(can, can.ui.tabs, can.core.List([

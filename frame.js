@@ -378,6 +378,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }
 		var code = can.page.Append(can, target||can._output, [{text: [can.page.Color(text), html.DIV, html.CODE]}]).code
+		if (text.indexOf("<fieldset") > 0) {
+			can.page.Select(can, target, html.FIELDSET, function(target) { var data = target.dataset
+				can.onappend.plugin(can, {index: data.index}, function(sub) {
+					can.page.Modify(can, sub._legend, data.index.split(ice.PT).pop())
+				}, can._output, target)
+			})
+		}
 		can.page.Select(can, code, html.INPUT_BUTTON, function(target) { target.onclick = function(event) { can.misc.Event(event, can, function(msg) {
 			can.run(can.request(event, can.Option()), [ctx.ACTION, target.name])
 		}) } }); return code.scrollBy && code.scrollBy(0, 10000), code
