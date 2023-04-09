@@ -162,6 +162,9 @@ form.option>div.icon.next { font-size:18px; }
 form.option>div.icon.prev { font-size:18px; }
 form.option>div.icon.lt { font-size:20px; line-height:30px; }
 form.option>div.icon:hover { background-color:white; }
+form.option>div.item.button>span.icon { line-height:30px; font-size:26px; padding:0 5px; height:32px; display:none; }
+fieldset.cmd>form.option>div.item.button>span.icon { display:unset; }
+fieldset.story>form.option>div.item.button>span.icon { display:unset; }
 fieldset:not(.float)>form.option>div.text>span.value { display:none; }
 fieldset.float div.item.text:hover>span.icon.delete { visibility:hidden; }
 fieldset.float>form.option>div.text>input { display:none; }

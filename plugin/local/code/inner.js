@@ -182,7 +182,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		can.onimport.process(can, msg, can.ui.display, height, width, function(sub) { if (sub.ConfHeight() < can.ui.content.offsetHeight-100) { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
 			can.onmotion.delay(can, function() { var _height = can.base.Max(sub._target.offsetHeight, height)
 				_msg.Option(html.HEIGHT, _height), can.onimport.layout(can), sub.onimport.size(sub, _height == height? _height-1: _height, width, true)
-			}, 300)
+			})
 		})
 	},
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target)
