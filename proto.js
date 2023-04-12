@@ -85,11 +85,9 @@ var web = {CHAT: "chat",
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
 	
 	CODE_GIT_STATUS: "web.code.git.status",
-	CODE_XTERM: "web.code.xterm",
-	CODE_VIMER: "web.code.vimer",
-	CODE_INNER: "web.code.inner",
 	CHAT_FAVOR: "web.chat.favor",
-	WIKI_WORD: "web.wiki.word",
+	CODE_XTERM: "web.code.xterm", CODE_VIMER: "web.code.vimer", CODE_INNER: "web.code.inner",
+	WIKI_WORD: "web.wiki.word", WIKI_DRAW: "web.wiki.draw", WIKI_FEEL: "web.wiki.feel",
 	TEAM_PLAN: "web.team.plan",
 }
 var aaa = {
@@ -152,6 +150,7 @@ var wiki = {
 	FIELD: "field", LOCAL: "local", PARSE: "parse",
 	NAVMENU: "navmenu", PREMENU: "premenu", CONTENT: "content",
 	STORY_ITEM: ".story", H2: "h2.story", H3: "h3.story",
+	DRAW: "draw",
 }
 var chat = {
 	LIB: "lib", PAGE: "page", PANEL: "panel", PLUGIN: "plugin", STORY: "story", PLUG: "plug",

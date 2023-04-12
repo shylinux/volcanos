@@ -1,3 +1,4 @@
+* { transition:background-color ease-in 3s; }
 * { tab-size:4; box-sizing:border-box; padding:0; border:0; margin:0; }
 body { background-color:black; color:cyan; font-size:16px; }
 legend { background-color:cadetblue; color:white; padding:0 20px; margin-right:5px; }
@@ -135,9 +136,9 @@ legend, form.option, form.option>div.item, div.action, div.action>div.item, div.
 div.action, div.output, div.status, div.project, div.display, div.profile, div.content, table.content, table.content td, div.code, div.plug, div.story, div.toast, div.carte, fieldset.input { overflow:auto; }
 div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
 fieldset>div.status>legend { margin-left:2px; margin-right:0; height:30px; float:right; clear:none; }
-fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
-fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
-fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; top:0; z-index:10; }
+fieldset.Action>div.output>fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
+fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
+fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
 fieldset.plug { position:absolute; bottom:0; right:0; } fieldset.cmd fieldset.plug { position:fixed; bottom:32px; right:0; }
 fieldset.plug div.output table.content { width:100%; }
 // fieldset.plugin>div.output>fieldset.story { position:sticky; left:0; }
@@ -315,10 +316,9 @@ fieldset.xterm div.action>div.tabs.select { color:blue; }
 fieldset.xterm.output>div.output { overflow:hidden; }
 div.layout.flex>div.output { float:left; clear:none; }
 fieldset>div.layout { clear:both; }
-fieldset.draw td.content { position:relative; }
-fieldset.draw div.output div.content svg { background-color:#1b5b738c; }
-fieldset.draw.spide div.output div.toggle { display:none; }
-fieldset.draw.trend div.output div.toggle { display:none; }
+
+fieldset.draw.trend div.output svg { background-color:#1b5b738c; }
+fieldset.draw.trend div.output { overflow:hidden; }
 fieldset.web.code.git.status>div.output table.content { width:100%; }
 fieldset.web.code.inner.cmd>div.output { overflow:hidden; }
 fieldset.web.chat.iframe>div.output { overflow:hidden; }

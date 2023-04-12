@@ -85,7 +85,7 @@ body.dark fieldset.inner>div.output div.content td.text span.datatype { color:la
 body.dark fieldset.inner>div.output div.content td.text span.function { color:lightgreen; }
 body.dark fieldset.inner>div.output div.content td.text span.constant { color:gray; }
 body.dark fieldset.inner>div.output div.content td.text span.string { color:orange; }
-body.dark fieldset.inner>div.output div.content td.text span.object { color:gold; }
+body.dark fieldset.inner>div.output div.content td.text span.object { color:silver; }
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 

@@ -1,0 +1,27 @@
+fieldset.plugin>div.output div.project { border-right:gray solid 1px; max-width:240px; }
+fieldset.plugin>div.output div.profile { border-left:gray solid 1px; max-width:240px; }
+fieldset.plugin>div.output div.display { border-top:gray solid 1px; }
+svg rect { transition:fill ease-in 5s; }
+fieldset.draw>form.option>div.item.pid>input { width:60px; }
+fieldset.draw svg text { font-size:24px; font-family:monospace; }
+fieldset.draw svg rect { stroke-width:2; }
+fieldset.draw svg line { stroke-width:2; }
+fieldset.draw svg g[font-size] text { font-size:unset; }
+fieldset.draw svg g[stroke-width] rect { stroke-width:unset; }
+fieldset.draw svg g[stroke-width] line { stroke-width:unset; }
+body.dark fieldset.draw svg text { stroke:white; fill:white; }
+body.dark fieldset.draw svg rect { stroke:white; fill:black; }
+body.dark fieldset.draw svg line { stroke:white; }
+body.light fieldset.draw svg text { stroke:black; fill:black; }
+body.light fieldset.draw svg rect { stroke:black; fill:white; }
+body.light fieldset.draw svg line { stroke:black; }
+body.light fieldset.draw svg g[fill] text { fill:unset; }
+body.light fieldset.draw svg g[stroke] text { stroke:unset; }
+body.light fieldset.draw svg g[stroke] line { stroke:unset; }
+body.light fieldset.draw svg g[stroke] rect { stroke:unset; }
+body.light fieldset.draw svg g[fill] rect { fill:unset; }
+body.dark fieldset.draw svg g[fill] text { fill:unset; }
+body.dark fieldset.draw svg g[stroke] text { stroke:unset; }
+body.dark fieldset.draw svg g[stroke] line { stroke:unset; }
+body.dark fieldset.draw svg g[stroke] rect { stroke:unset; }
+body.dark fieldset.draw svg g[fill] rect { fill:unset; }

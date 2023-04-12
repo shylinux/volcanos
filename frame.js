@@ -346,6 +346,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	input: function(can, item, value, target, style) { if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
 		var icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
+		if (item.type == html.BUTTON && !input.value) { input.value = can.user.trans(can, item.name) }
 		if (item.type == html.TEXT) { input.onfocus = input.onfocus||function(event) { can.onmotion.selectRange(event.target) }
 			input.onkeydown = item.onkeydown||function(event) { can.onkeymap.input(event, can), can.onkeymap.selectOutput(event, can) }
 			input.onkeyup = item.onkeyup||function(event) { if (item.name == html.FILTER) { can.user.toast(can, "filter out "+can.page.Select(can, can._output, html.TR, function(tr, index) {
@@ -414,12 +415,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}); return list } ui.list = append(target, type, list||[html.PROJECT, [[html.CONTENT, html.PROFILE], html.DISPLAY]])
 		function calc(item, size, total) { return !ui.size[item]? can.base.isString(size)? parseInt(can.base.trimSuffix(size, "px")): size: ui.size[item] < 1? total*ui.size[item]: ui.size[item] }
 		var defer = [], content_height, content_width; function layout(type, list, height, width) { var _width = width, _height = height; can.core.List(list, function(item) {
-			var target = ui[item]
-			if (item == html.CONTENT) { content_height = height, content_width = width
-				return defer.push(function() { can.page.style(can, target, html.HEIGHT, height, html.WIDTH, width) })
+			if (can.base.isArray(item)) { return }
+			if (can.base.isObject(item)) { var meta = item; item = item._index } if (item == "plug") { return }
+			var target = ui[item]; if (!can.page.isDisplay(target)) { return }
+			if (item == html.CONTENT) {
+				return defer.push(function() {
+					content_height = height, content_width = width
+					can.page.style(can, target, html.HEIGHT, height, html.WIDTH, width)
+				})
 			}
-			if (item == "plug") { return }
-			if (!can.page.isDisplay(target)) { return } if (can.base.isObject(item)) { var meta = item; item = item._index }
 			if (type == FLOW) { var h = calc(item, target.offsetHeight, height)
 				if (can.base.isObject(meta)) { meta.layout(h, width) }
 				can.page.style(can, target, html.WIDTH, width), height -= h
@@ -471,7 +475,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	figure: function(can, meta, target, cb) { if (meta.type == html.SELECT || meta.type == html.BUTTON) { return }
 		var input = meta.action||mdb.KEY, path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
 			function _cb(sub, value, old) { if (value == old) { return } can.base.isFunc(cb)? cb(sub, value, old): target.value = value }
-			target.onkeydown = function() { if (event.key == lang.ESCAPE && target._can) { return target._can.close(), target.blur() } }
+			target.onkeydown = function() { if (event.key == lang.ESCAPE && target._can) { return target._can.close(), target.blur() } else if (event.key == lang.ENTER) { can.base.isFunc(cb) && cb(event, target.value) } }
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function() { }; target[key] = function(event) { can.misc.Event(event, can, function(msg) {
 				function show(sub, cb) { can.base.isFunc(cb) && cb(sub, _cb), can.onlayout.figure(event, can, sub._target, false), can.onmotion.toggle(can, sub._target, true) }
 				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, last: last, cbs: function(cb) {
@@ -592,13 +596,15 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			if (can.page.ClassList.set(can, target, html.SELECT, target == which || index == which)) { can.base.isFunc(cb) && cb(target) }
 		}); return old
 	},
-	modify: function(can, target, cb, item) { var back = target.innerHTML
+	modify: function(can, target, cb, item) { var back = target.innerHTML, _target = target
 		if (back.length > 120 || back.indexOf(ice.NL) > -1) { return can.onmotion.modifys(can, target, cb) }
 		var ui = can.page.Appends(can, target, [{type: html.INPUT, value: target.innerText, style: {width: can.base.Max(target.offsetWidth-20, 400)}, onkeydown: function(event) { switch (event.key) {
 			case lang.ENTER: target.innerHTML = event.target.value, event.target.value == back || cb(event, event.target.value, back); break
 			case lang.ESCAPE: target.innerHTML = back; break
 			default: can.onkeymap.input(event, can)
-		} }, _init: function(target) { item && can.onappend.figure(can, item, target, cb), can.onmotion.focus(can, target), can.onmotion.delay(can, function() { target.click() }) }}])
+		} }, _init: function(target) { item && can.onappend.figure(can, item, target, function(event, value) {
+			can.base.isFunc(cb) && cb(event, value), _target.innerText = value
+		}), can.onmotion.focus(can, target), can.onmotion.delay(can, function() { target.click() }) }}])
 	},
 	modifys: function(can, target, cb, item) { var back = target.innerHTML
 		var ui = can.page.Appends(can, target, [{type: html.TEXTAREA, value: target.innerText, style: {

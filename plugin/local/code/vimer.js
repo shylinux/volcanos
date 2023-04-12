@@ -204,6 +204,8 @@ Volcanos(chat.ONKEYMAP, {
 		normal: {
 			s: shy("保存文件", function(event, can) { can.onaction.save(event, can, nfs.SAVE) }),
 			c: shy("编译项目", function(event, can) { can.onaction.compile(event, can, code.COMPILE) }),
+			v: shy("渲染界面", function(event, can) { can.onaction.show(event, can) }),
+			r: shy("执行命令", function(event, can) { can.onaction.exec(event, can) }),
 			
 			Escape: shy("切换模式", function(event, can) { can.onkeymap._plugin(can) }),
 			ArrowLeft: shy("光标左移", function(can, target) { can.onkeymap.cursorMove(target, -1) }),
