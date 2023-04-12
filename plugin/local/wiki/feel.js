@@ -1,10 +1,10 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.clear(can)
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.clear(can), can.dir_root = msg.Option(nfs.DIR_ROOT)
 		can._path = can.request(), can.list = [], msg.Table(function(value) { can.base.endWith(value.path, ice.PS)? can._path.Push(value): can.list.push(value) })
-		can.ui = can.onlayout.profile(can, target), can._path.Table(function(item) { item.name = item.path
+		can.ui = can.onappend.layout(can, can._output, "", [html.PROJECT, html.DISPLAY])
+		can._path.Table(function(item) { item.name = item.path
 			can.onimport.item(can, item, function() { can.Option(nfs.PATH, item.path), can.Update() }, function() {}, can.ui.project)
-		}), can.isCmdMode() || can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can.ui.project)
-		can.base.isFunc(cb) && cb(msg), can.Action(html.HEIGHT, ice.AUTO), can.Action(mdb.LIMIT, 6)
-		can.dir_root = msg.Option(nfs.DIR_ROOT), can.onimport.page(can, can.list, can.begin = parseInt(msg.Option(cli.BEGIN)||"0"))
+		}), cb(msg), can.onimport.page(can, can.list, can.begin = parseInt(msg.Option(cli.BEGIN)||"0"))
+		can.isCmdMode() || can.onmotion.hidden(can, can._action), can.onmotion.delay(can, function() { can.onimport.layout(can) })
 	},
 	_file: function(can, path, index) { var p = location.href.indexOf(ice.HTTP) == 0? "": "http://localhost:9020"
 		return path.indexOf(ice.HTTP) == 0? path: p+can.base.Path(web.SHARE_LOCAL, can.dir_root||"", path)
@@ -17,6 +17,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		begin = parseInt(begin||can.begin), limit = parseInt(limit||can.Action(mdb.LIMIT))
 		for (var i = begin; i < begin+limit; i++) { list && list[i] && can.onimport.file(can, list[i].path, i) }
 		can.Status({begin: begin, limit: limit, total: list.length})
+	},
+	layout: function(can) {
+		can.page.style(can, can.ui.display, html.WIDTH, can.ConfWidth()-can.ui.project.offsetWidth-1)
+		can.page.style(can, can.ui.project, html.HEIGHT, can.ui.display.offsetHeight)
 	},
 }, [""])
 Volcanos(chat.ONFIGURE, {
@@ -45,17 +49,15 @@ Volcanos(chat.ONFIGURE, {
 	webm: function(can, path) { return can.onfigure.video(can, path) },
 })
 Volcanos(chat.ONACTION, {list: [
-		[html.HEIGHT, 100, 200, 400, 600, 800, ice.AUTO],
-		[mdb.LIMIT, 1, 3, 6, 9, 12, 15, 20, 30, 50],
+		[html.HEIGHT, ice.AUTO, 100, 200, 400, 600, 800, ice.AUTO],
+		[mdb.LIMIT, 6, 1, 3, 6, 9, 12, 15, 20, 30, 50],
 		[html.SPEED, 0.1, 0.2, 0.5, 1, 2, 3, 5, 10],
 	],
 	height: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.list) },
 	limit: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.list) },
 	speed: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.list) },
-	
 	prev: function(event, can) { if (can.begin > 0) { can.begin -= parseInt(can.Action(mdb.LIMIT)), can.onimport.page(can, can.list) } else { can.user.toast(can, "已经是第一页了") } },
 	next: function(event, can) { if (can.begin + parseInt(can.Action(mdb.LIMIT)) < can.list.length) { can.begin += parseInt(can.Action(mdb.LIMIT)), can.onimport.page(can, can.list) } else { can.user.toast(can, "已经是最后一页了") } },
-
 	record0: function(event, can, name, cb) { can.user.input(event, can, [{name: nfs.FILE, value: name}], function(list) { var height = window.innerHeight
 		navigator.mediaDevices.getDisplayMedia({video: {height: height}}).then(function(stream) {
 			can.core.Next([3, 2, 1], function(item, next) { can.user.toast(can, item + "s 后开始截图"), can.onmotion.delay(can, next, 1000) }, function() { can.user.toast(can, "现在开始截图")
@@ -78,7 +80,7 @@ Volcanos(chat.ONACTION, {list: [
 	}) },
 })
 Volcanos(chat.ONDETAIL, {list: ["关闭", "上一个", "下一个", "设置头像", "设置背景", "复制链接", "下载", "删除"], _init: function(can, index) {
-		can.onappend._init(can, {type: "story feel float"}, [], function(sub) { can.sub = sub
+		can.onappend._init(can, {type: "story feel play float"}, [], function(sub) { can.sub = sub, sub._legend.onclick = can._legend.onclick
 			can.getActionSize(function(msg, left, top, width, height) { sub.onappend._action(can, can.ondetail.list, sub._action, can.ondetail), sub.onappend._status(sub, ["begin", nfs.FILE])
 				sub.page.style(sub, sub._target, {left: left||0, top: top||0}), sub.page.style(sub, sub._output, html.HEIGHT, height-2*html.ACTION_HEIGHT, html.WIDTH, width)
 				can.order = index, can.show = function(order) { path = can.onimport._file(can, can.list[order].path); var cb = can.onfigure[can.base.Ext(path)]||can.onfigure[wiki.IMAGE]

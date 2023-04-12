@@ -79,6 +79,7 @@ var web = {CHAT: "chat",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 
+	HTTP: "http",
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
@@ -307,7 +308,7 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 				can.base.isFunc(item.Option)? can.core.List(item.Option(), function(key) {
 					key.indexOf("_") == 0 || key.indexOf("user.") == 0 || set(key, item.Option(key))
 				}): can.core.Item(can.base.isFunc(item)? item(): item, set)
-			}); set(ice.MSG_HEIGHT, can.ConfHeight()), set(ice.MSG_WIDTH, can.ConfWidth()), set(ice.MSG_MODE, can.Mode())
+			}); set(ice.MSG_HEIGHT, can.ConfHeight()+""), set(ice.MSG_WIDTH, can.ConfWidth()+""), set(ice.MSG_MODE, can.Mode())
 			return msg
 		},
 		runActionInputs: function(event, cmds, cb) { var msg = can.request(event), meta = can.Conf()

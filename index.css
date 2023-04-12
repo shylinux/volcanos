@@ -137,7 +137,7 @@ div.output, fieldset>div.status, div.item.textarea, div.project div.item, div.co
 fieldset>div.status>legend { margin-left:2px; margin-right:0; height:30px; float:right; clear:none; }
 fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
-fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
+fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; top:0; z-index:10; }
 fieldset.plug { position:absolute; bottom:0; right:0; } fieldset.cmd fieldset.plug { position:fixed; bottom:32px; right:0; }
 fieldset.plug div.output table.content { width:100%; }
 // fieldset.plugin>div.output>fieldset.story { position:sticky; left:0; }
@@ -170,12 +170,16 @@ fieldset.float div.item.text:hover>span.icon.delete { visibility:hidden; }
 fieldset.float>form.option>div.text>input { display:none; }
 fieldset.float>form.option>div.text>span.value { padding:7px; height:32px; display:block; }
 /* fieldset.float>form.option>div.item.button { display:none; } */
+fieldset.story>form.option>div.icon { display:block; }
 fieldset.float>form.option>div.icon { display:block; }
+fieldset.full>form.option>div.icon { display:block; }
 fieldset.full>form.option>div.icon.delete { display:block; }
 fieldset.cmd>form.option>div.icon { display:block; }
-fieldset.cmd>form.option>div.item.button.icons { display:none; }
-fieldset.story>form.option>div.icon { display:block; }
 fieldset.story>form.option>div.item.button.icons { display:none; }
+fieldset.float>form.option>div.item.button.icons { display:none; }
+fieldset.full>form.option>div.item.button.icons { display:none; }
+fieldset.cmd>form.option>div.item.button.icons { display:none; }
+
 fieldset.plug>form.option>div.icon { margin-left:5px; }
 div.carte.select.float { border-radius:0; }
 div.carte.select.float>div.item { text-align:center; }

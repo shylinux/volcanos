@@ -77,6 +77,7 @@ Volcanos(chat.ONACTION, {list: [
 			can.page.style(can, can._output, back.output), can.page.style(can, can._target, back.style), can.base.isFunc(load) && load(back)
 			if (!sub) { return }
 			sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), sub.Mode(can.Mode()), sub.onlayout._init(sub)
+			can._target.click()
 		}
 	},
 	"刷新界面": function(event, can) { var sub = can._outputs[0]; sub.onlayout._init(sub), can.user.toastSuccess(can) },

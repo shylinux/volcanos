@@ -114,26 +114,28 @@ Volcanos(chat.ONSYNTAX, {
 			"/dev/null": code.CONSTANT, "/dev/stdout": code.CONSTANT, "/dev/stderr": code.CONSTANT,
 		},
 	}, configure: {link: "sh"},
-	shy: {prefix: {"#": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT}, keyword: {
-			"title": code.KEYWORD, "premenu": code.KEYWORD, "chapter": code.KEYWORD, "section": code.KEYWORD,
-			"refer": code.KEYWORD, "image": code.KEYWORD,
-			"spark": code.KEYWORD, "shell": code.KEYWORD, "field": code.KEYWORD,
-			"chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
-			
+	shy: {prefix: {"#": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT}, keyword: {"source": code.KEYWORD,
+			"title": code.KEYWORD, "navmenu": code.KEYWORD, "premenu": code.KEYWORD, "chapter": code.KEYWORD, "section": code.KEYWORD, "endmenu": code.KEYWORD,
+			"refer": code.KEYWORD, "brief": code.KEYWORD, "spark": code.KEYWORD, "shell": code.KEYWORD, "parse": code.KEYWORD,
+			"order": code.KEYWORD, "table": code.KEYWORD, "chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
+			"field": code.KEYWORD, "image": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD,
 			
 			"package": code.KEYWORD, "import": code.KEYWORD, "const": code.KEYWORD, "type": code.KEYWORD, "var": code.KEYWORD,
 			"if": code.KEYWORD, "else": code.KEYWORD,
-			"for": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
+			"for": code.KEYWORD, "range": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
 			"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD,
 			"func": code.KEYWORD, "defer": code.KEYWORD, "return": code.KEYWORD,
+			"init": code.FUNCTION, "main": code.FUNCTION, "list": code.FUNCTION, "info": code.FUNCTION,
+			"map": code.DATATYPE, "struct": code.DATATYPE, "interface": code.DATATYPE, "string": code.DATATYPE, "int": code.DATATYPE,
 			"true": code.CONSTANT, "false": code.CONSTANT,
-			"init": code.FUNCTION, "main": code.FUNCTION, "list": code.FUNCTION,
-			"info": code.FUNCTION, "pwd": code.FUNCTION,
-			"map": code.DATATYPE, "struct": code.DATATYPE, "interface": code.DATATYPE,
-			"string": code.DATATYPE, "int": code.DATATYPE,
-			"source": code.FUNCTION,
+			
 			"kit": code.PACKAGE, "ice": code.PACKAGE, "m": code.OBJECT, "arg": code.OBJECT,
 			"event": code.OBJECT, "can": code.OBJECT, "msg": code.OBJECT, "target": code.OBJECT,
+		},
+		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t ")
+			opts.chapter = opts.chapter||0
+			if (ls[0] == "chapter") { opts.chapter++, opts.section = 0, push(opts.chapter+ice.SP+ls[1]) }
+			if (ls[0] == "section") { opts.section++, push(opts.chapter+ice.PT+opts.section+ice.SP+ls[1]) }
 		},
 	},
 	py: {prefix: {"#!": code.COMMENT, "# ": code.COMMENT}, keyword: {"import": code.KEYWORD, "from": code.KEYWORD, "return": code.KEYWORD, "print": code.FUNCTION}},
@@ -230,6 +232,7 @@ Volcanos(chat.ONSYNTAX, {
 			"table": code.KEYWORD, "thead": code.KEYWORD, "tbody": code.KEYWORD, "tr": code.KEYWORD, "th": code.KEYWORD, "td": code.KEYWORD,
 			"h1": code.KEYWORD, "h2": code.KEYWORD, "h3": code.KEYWORD, "a": code.KEYWORD,
 			"label": code.KEYWORD, "span": code.KEYWORD, "img": code.KEYWORD, "svg": code.KEYWORD, "div": code.KEYWORD,
+			"video": code.KEYWORD,
 			"hover": code.DATATYPE, "focus": code.DATATYPE, "not": code.DATATYPE, "type": code.FUNCTION, "name": code.FUNCTION,
 
 			"padding": code.FUNCTION, "padding-left": code.FUNCTION, "padding-top": code.FUNCTION,
@@ -293,12 +296,14 @@ Volcanos(chat.ONSYNTAX, {
 			"contexts": code.CONSTANT,
 		},
 	},
-	html: {
+	html: {split: {operator: "<=/>"},
 		keyword: {
 			"DOCTYPE": code.KEYWORD, "html": code.KEYWORD, "head": code.KEYWORD, "body": code.KEYWORD,
 			"meta": code.KEYWORD, "title": code.KEYWORD, "link": code.KEYWORD, "script": code.KEYWORD,
 			"src": code.FUNCTION, "href": code.FUNCTION, "rel": code.FUNCTION, "style": code.FUNCTION, "width": code.FUNCTION, "height": code.FUNCTION,
+			"class": code.FUNCTION,
 			
+			"fieldset": code.KEYWORD, "legend": code.KEYWORD, "form": code.KEYWORD,
 			"h1": code.KEYWORD, "h2": code.KEYWORD, "h3": code.KEYWORD,
 			"p": code.KEYWORD, "a": code.KEYWORD, "br": code.KEYWORD, "hr": code.KEYWORD,
 			"label": code.KEYWORD, "span": code.KEYWORD, "img": code.KEYWORD, "svg": code.KEYWORD, "div": code.KEYWORD,
