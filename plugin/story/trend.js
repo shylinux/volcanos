@@ -70,7 +70,9 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "趋势图", "柱状图", "折线图"
 	margin: function(event, can) { can.onimport.layout(can) },
 	speed: function(event, can) { can.onimport.layout(can) },
 })
-Volcanos(chat.ONDETAIL, { onmouseenter: function(event, can, item) { can.Status(item) }, })
+Volcanos(chat.ONDETAIL, {
+	onmouseenter: function(event, can, item) { can.Status(item) },
+})
 Volcanos(chat.ONEXPORT, {list: ["from", "commit", "total", "max", "date", "text", "add", "del"],
 	height: function(can) { var height = can.Action(html.HEIGHT)
 		if (height == ice.AUTO) { height = can.ConfHeight() } if (height < 200) { height = 200 }

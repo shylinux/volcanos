@@ -239,7 +239,7 @@ Volcanos(chat.ONSYNTAX, {
 			"border": code.FUNCTION, "border-left": code.FUNCTION, "border-top": code.FUNCTION, "border-right": code.FUNCTION, "border-bottom": code.FUNCTION,
 			"margin": code.FUNCTION, "margin-left": code.FUNCTION, "margin-top": code.FUNCTION, "margin-right": code.FUNCTION, "margin-bottom": code.FUNCTION,
 			"display": code.FUNCTION, "visibility": code.FUNCTION, "overflow": code.FUNCTION, "position": code.FUNCTION, "z-index": code.FUNCTION, "box-sizing": code.FUNCTION, "border-box": code.CONSTANT,
-			"height": code.FUNCTION, "width": code.FUNCTION, "min-width": code.FUNCTION, "max-height": code.FUNCTION,
+			"height": code.FUNCTION, "width": code.FUNCTION, "min-width": code.FUNCTION, "max-width": code.FUNCTION, "max-height": code.FUNCTION,
 			"left": code.FUNCTION, "top": code.FUNCTION, "right": code.FUNCTION, "bottom": code.FUNCTION,
 			"border-radius": code.FUNCTION, "outline": code.FUNCTION, "box-shadow": code.FUNCTION,
 			
@@ -253,6 +253,7 @@ Volcanos(chat.ONSYNTAX, {
 			"line-height": code.FUNCTION, "text-align": code.FUNCTION, "tab-size": code.FUNCTION, "white-space": code.FUNCTION,
 			"monospace": code.CONSTANT, "italic": code.CONSTANT, "bold": code.CONSTANT, "center": code.CONSTANT,
 			"cursor": code.FUNCTION, "pointer": code.CONSTANT,
+			"stroke-width": code.FUNCTION, "stroke": code.FUNCTION, "fill": code.FUNCTION,
 			
 			"dark": code.CONSTANT, "light": code.CONSTANT, "transparent": code.CONSTANT,
 			"black": code.CONSTANT, "white": code.CONSTANT, "blue": code.CONSTANT, "red": code.CONSTANT, "yellow": code.CONSTANT,

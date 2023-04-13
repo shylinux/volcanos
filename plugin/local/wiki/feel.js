@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.clear(can), can.dir_root = msg.Option(nfs.DIR_ROOT)
 		can._path = can.request(), can.list = [], msg.Table(function(value) { can.base.endWith(value.path, ice.PS)? can._path.Push(value): can.list.push(value) })
-		can.ui = can.onappend.layout(can, can._output, "", [html.PROJECT, html.DISPLAY])
+		can.ui = can.onappend.layout(can, [html.PROJECT, html.DISPLAY])
 		can._path.Table(function(item) { item.name = item.path
 			can.onimport.item(can, item, function() { can.Option(nfs.PATH, item.path), can.Update() }, function() {}, can.ui.project)
 		}), cb(msg), can.onimport.page(can, can.list, can.begin = parseInt(msg.Option(cli.BEGIN)||"0"))

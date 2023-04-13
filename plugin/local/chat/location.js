@@ -1,5 +1,5 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
-		can.onmotion.clear(can), can.onlayout.profile(can), can.base.isFunc(cb) && cb(msg)
+		can.onmotion.clear(can), can.onappend.layout(can), can.base.isFunc(cb) && cb(msg)
 		!can.isCmdMode() && can.ConfHeight(window.innerHeight - 5*html.ACTION_HEIGHT - 5*html.PLUGIN_MARGIN)
 		can.user.isMobile && can.ConfHeight(window.innerHeight-html.ACTION_HEIGHT)
 		can.user.isMobile && can.onmotion.hidden(can, can.ui.project)

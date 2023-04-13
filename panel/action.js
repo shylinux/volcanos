@@ -40,9 +40,9 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			}}])._target; can._toggle = target
 			can.misc.sessionStorage(can, "river:hide") == ice.TRUE && target.click()
 		}); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return } can._names = location.pathname
-		can.Conf(chat.TOOL)? can.onappend.layout(can, can._output, FLOW, can.core.List(can.Conf(chat.TOOL), function(item, index, list) { item.type = chat.PLUGIN
+		can.Conf(chat.TOOL)? can.onappend.layout(can, can.core.List(can.Conf(chat.TOOL), function(item, index, list) { item.type = chat.PLUGIN
 			if (list.length == 1) { can.user.title(item.index), can.onaction._onaction_cmd(can), item.mode = chat.CMD, item.opts = can.misc.Search(can) } return item
-		})).layout(window.innerHeight, window.innerWidth): can.runAction(can.request(), ctx.COMMAND, [], function(msg) {
+		}), FLOW).layout(window.innerHeight, window.innerWidth): can.runAction(can.request(), ctx.COMMAND, [], function(msg) {
 			if (msg.Length() == 1) { can.onaction._onaction_cmd(can) } can.onimport._init(can, msg)
 		})
 	},

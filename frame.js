@@ -398,8 +398,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}) } }); return code.scrollBy && code.scrollBy(0, 10000), code
 	},
 	tools: function(can, msg, cb, target) { can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []), cb, target) },
-	layout: function(can, target, type, list) { const FLOW = html.FLOW, FLEX = html.FLEX
-		var count = 0, ui = {size: {}}; type = type||FLEX
+	layout: function(can, list, type, target) { const FLOW = html.FLOW, FLEX = html.FLEX
+		var count = 0, ui = {size: {}}; type = type||FLEX, target = target||can._output
 		function append(target, type, list) { can.page.ClassList.add(can, target, [html.LAYOUT, type]), can.core.List(list, function(item) {
 			if (can.base.isString(item)) {
 				ui[item] = can.page.Append(can, target, [item])._target
@@ -508,47 +508,17 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 	figure: function(event, can, target, right, max) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}:
 			(event.currentTarget||event.target).getBoundingClientRect()
-			// event.target.getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)
-			// can.page.style(can, target, html.MAX_HEIGHT, max? height*max: top+height-layout.top)
 			if (max && layout.top-top > height*max) {
 				can.page.style(can, target, html.MAX_HEIGHT, layout.top-top-(rect.bottom-rect.top))
 				layout.top = layout.top-target.offsetHeight-(rect.bottom-rect.top)
 			} else {
 				if (!right) { can.page.style(can, target, html.MAX_HEIGHT, max? height*max: top+height-layout.top) }
-				// can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
 				if (layout.top+target.offsetHeight > top+height) { layout.top = top+height-target.offsetHeight }
 			}
 			if (layout.left+target.offsetWidth > left+width) { layout.left = left+width-target.offsetWidth }
 		}); return can.onmotion.move(can, target, layout), layout
-	},
-
-	display: function(can, target) { return can.page.Appends(can, target||can._output, [{view: [html.LAYOUT, html.TABLE], list: [
-		{type: html.TR, list: [chat.CONTENT]}, {type: html.TR, list: [chat.DISPLAY]},
-	]}]) },
-	profile: function(can, target) {
-		function toggle(view) { var show = view.style.display == html.NONE
-			can.onmotion.toggle(can, view, show), view._toggle? view._toggle(event, show): can.onimport.layout && can.onimport.layout(can); return show
-		} var gt = "❯", lt = "❮", down = lt, up = gt, button = {}
-		var ui = can.page.Append(can, target||can._output, [{view: [html.LAYOUT, html.TABLE], list: [
-			{view: [chat.PROJECT, html.TD], list: [chat.PROJECT]}, {type: html.TD, list: [ {type: html.TR, list: [{type: html.TR, list: [
-				{view: [chat.CONTENT, html.TD], list: [chat.CONTENT,
-					{view: [[html.TOGGLE, chat.PROJECT]], list: [{text: [gt, html.DIV]}], _init: function(target) {
-						button[chat.PROJECT] = {target: target, show: lt, hide: gt}, target.onclick = function() { toggle(ui.project) }
-					}},
-					{view: [[html.TOGGLE, chat.PROFILE]], list: [{text: [lt, html.DIV]}], _init: function(target) {
-						button[chat.PROFILE] = {target: target, show: gt, hide: lt}, target.onclick = function() { toggle(ui.profile) }
-					}},
-					{view: [[html.TOGGLE, chat.DISPLAY]], list: [{text: [up, html.DIV]}], _init: function(target) {
-						button[chat.DISPLAY] = {target: target, show: down, hide: up}, target.onclick = function() { toggle(ui.display) }
-					}},
-				]}, {view: [chat.PROFILE, html.TD], list: [chat.PROFILE]},
-			]}]}, {view: [chat.DISPLAY, html.TR], list: [chat.DISPLAY]} ]}
-		] }]); function set(meta, button) { can.page.Appends(can, meta.target, [{text: [button, html.DIV]}]) }
-		can.core.List([chat.PROJECT, chat.DISPLAY, chat.PROFILE], function(item) { var meta = button[item] 
-			ui[item]._hide = function() { set(meta, meta.hide) }, ui[item]._show = function() { set(meta, meta.show) }
-		}); return can.ui = ui
 	},
 })
 Volcanos(chat.ONMOTION, {_init: function(can, target) {

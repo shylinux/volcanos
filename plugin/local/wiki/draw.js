@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can); var pid = can.misc.SearchHash(can)[0]
 		can.svg = null, can.group = null, can.temp = null, can.current = null, can.points = [], can._display_heights = {}
-		if (can._index == web.WIKI_DRAW) { can.ui = can.onappend.layout(can, can._output) } else { can.ui = {content: can._output} }
+		if (can._index == web.WIKI_DRAW) { can.ui = can.onappend.layout(can) } else { can.ui = {content: can._output} }
 		can.page.Modify(can, can.ui.content, msg.Results()||can.onexport.content(can))
 		can.page.Select(can, can.ui.content, html.SVG, function(target) { can.svg = can.group = can.onimport._block(can, target), can.onimport._group(can, target)
 			can.page.Select(can, target, mdb.FOREACH, function(target) { can.onimport._block(can, target), can.page.tagis(target, svg.G) && target.Value(html.CLASS) && can.onimport._group(can, target) })
@@ -24,7 +24,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 	_group: function(can, target) { if (!can.ui.project) { return } var name = target.Groups()
 		return name && can.onimport.item(can, {name: name}, function(event) { can.group = target, can.Status(svg.GROUP, name), can.onaction.show(event, can)
-			can.core.List([svg.FONT_SIZE, svg.STROKE_WIDTH, svg.STROKE, svg.FILL], function(key) { can.Action(key, target.Value(key)||ice.AUTO) })
+			can.core.List([svg.FONT_SIZE, svg.STROKE_WIDTH, svg.STROKE, svg.FILL], function(key) { can.Action(key, target.Value(key)||key) })
 		}, function(event) { can.user.carteRight(event, can, can.onaction, can.onaction.menu_list) }, can.ui.project)
 	},
 	_profile: function(can, target) { if (!can.ui.profile) { return } can.misc.SearchHash(can, can.Option(svg.PID, can.svg.Value(svg.PID, can.onexport._pid(can, target))))
@@ -44,9 +44,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		if (can.onmotion.cache(can, function() { return target.Value(svg.PID) }, can.ui.display)) { return } if (!target.Value(ctx.INDEX)) { return }
 		can.onappend.plugin(can, {index: target.Value(ctx.INDEX), args: target.Value(ctx.ARGS), height: can.ConfHeight()/2-2*html.ACTION_HEIGHT}, function(sub) {
 			sub.run = function(event, cmds, cb) { sub.ConfHeight(can.ConfHeight()/2-2*html.ACTION_HEIGHT), can.runActionCommand(event, target.Value(ctx.INDEX), cmds, cb) }
-			sub.onexport.output = function() { can.onmotion.delay(can, function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "")
+			sub.onexport.output = function() { can.onmotion.delay(can, function() {
+				can.page.style(can, sub._output, html.MAX_HEIGHT, "")
 				sub.onimport.size(sub, can._display_heights[target.Value(svg.PID)] = can.base.Max(sub._target.offsetHeight, can.ConfHeight()/2), can.ConfWidth()-can.ui.project.offsetWidth, true)
-				can.onimport.layout(can)
+				can.onimport.layout(can), can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight())
 			}) }
 		}, can.ui.display), can.onmotion.toggle(can, can.ui.display, true)
 	},
@@ -67,12 +68,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 }, [""])
 Volcanos(chat.ONACTION, {list: [[svg.GRID, 10, 1, 2, 3, 4, 5, 10, 20],
-		[svg.FONT_SIZE, ice.AUTO, 12, 16, 18, 24, 32], [svg.STROKE_WIDTH, ice.AUTO, 1, 2, 3, 4, 5],
-		[svg.STROKE, ice.AUTO, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE],
-		[svg.FILL, ice.AUTO, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE, cli.TRANSPARENT],
+		[svg.FONT_SIZE, svg.FONT_SIZE, 12, 16, 18, 24, 32], [svg.STROKE_WIDTH, svg.STROKE_WIDTH, 1, 2, 3, 4, 5],
+		[svg.STROKE, svg.STROKE, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE],
+		[svg.FILL, svg.FILL, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE, cli.TRANSPARENT],
 		[svg.GO, ice.RUN, ice.AUTO, "manual"], [ice.MODE, web.DRAW, web.RESIZE],
 		[svg.SHAPE, svg.RECT, svg.TEXT, svg.RECT, svg.LINE, svg.BLOCK, svg.CIRCLE, svg.ELLIPSE],
-	], _change: function(can, key, value) { can.Action(key, value), can.group.Value(key, value) },
+	], _change: function(can, key, value) {
+		value == "" && (value = key), can.Action(key, value)
+		key == value && (value = ice.AUTO), can.group.Value(key, value)
+	},
 	"font-size": function(event, can, key, value) { can.onaction._change(can, key, value) },
 	"stroke-width": function(event, can, key, value) { can.onaction._change(can, key, value) },
 	stroke: function(event, can, key, value) { can.onaction._change(can, key, value) },

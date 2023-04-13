@@ -12,6 +12,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.require(["i
 		}, onkeyup: function(event) { can.onimport._value(can); if (event.metaKey) { return } can.onaction._complete(event, can)
 		}, onfocus: function(event) { can.current.line.appendChild(can.ui.complete)
 		}, onclick: function(event) { can.onkeymap._insert(event, can)
+			if (event.metaKey) { var target = event.target, begin = target.selectionStart, end = begin, reg = /[a-zA-Z0-9]/
+				for (begin; begin > 0; begin--) { if (!reg.test(target.value.slice(begin, begin+1))) { begin++; break } }
+				for (end; end < target.value.length; end++) { if (!reg.test(target.value.slice(end, end+1))) { break } }
+				can.onaction.searchLine(event, can, target.value.slice(begin, end))
+			}
 		}}, {view: [[code.COMPLETE]]},
 	]); can.ui.current = ui.current, can.ui.complete = ui.complete, can.onkeymap._plugin(can) },
 	_value: function(can) { can.onimport.__tabPath(can, true), can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) },

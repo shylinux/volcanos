@@ -1,5 +1,5 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can, target), can._display_heights = {}
-		can.ui = can.onlayout.profile(can), can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.profile)
+		can.ui = can.onappend.layout(can), can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.profile)
 		can.onimport[can.Option("scale")||team.WEEK](can, msg), can.onimport.layout(can)
 	},
 	_content: function(can, msg, head, list, key, get, set) { var begin_time = can.base.Date(can.Option(team.BEGIN_TIME)); can.sup.task && (can.sup.task._target = null)
@@ -70,7 +70,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.onimport._content(can, msg, head, list, key, get, set)
 	},
 	week: function(can, msg) { var head = can.onexport.head(can, team.HOUR)
-		var list = [0]; for (var i = 7; i < 24; i++) { list.push(can.base.Number(i, 2)) }
+		var list = [0]; for (var i = 7; i < 24; i++) { list.push(can.base.Number(i, 2)+":00") }
 		function key(time) { return time.getDay()+" "+can.base.Number(time.getHours(), 2) }
 		function get(begin_time, col, row, hash) { return hash[col-1+" "+list[row]] }
 		function set(begin_time, col, row) { return can.base.Time(can.base.DateAdd(begin_time, -begin_time.getDay()+col-1), "%y-%m-%d ")+list[row] }

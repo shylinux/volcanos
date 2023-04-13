@@ -30,7 +30,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 			can.onmotion.delay(can, function() { var output = tabs._output; can.onaction.select(can, output._root||output) })
 		}, function() { can.onaction.delete(can, tabs._output) }); return tabs._output = output, output._tabs = tabs
 	},
-	_theme: function(can, item) { return can.base.Obj(item.theme)||(can.getHeaderTheme() == html.LIGHT? {background: cli.WHITE, foreground: cli.BLACK, cursor: cli.BLUE}: {}) },
+	_theme: function(can, item) { return can.base.Obj(item.theme)||(can.getHeaderTheme() == html.LIGHT? {background: cli.WHITE, foreground: cli.BLACK, cursor: cli.BLUE}: {foreground:"silver", cursor: "silver"}) },
 	_connect: function(can, item, output, tabs, text) { var term = new Terminal({tabStopWidth: 4, cursorBlink: true, theme: can.onimport._theme(can, item)})
 		term._item = item, term._output = output, output._term = term, output._tabs || (tabs? (output._tabs = tabs): can.onimport._tabs(can, item, output))
 		var fitAddon = new FitAddon.FitAddon(); term.loadAddon(fitAddon), term._fit = fitAddon, can.onmotion.delay(can, function() { fitAddon.fit() })

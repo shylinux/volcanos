@@ -40,7 +40,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) {
 		}, can.ui.profile)
 	},
 	layout: function(can, target) { target = target||can._output
-		can.onmotion.clear(can, target), can.onlayout.profile(can, target), can.ui.project._target = can.ui.content
+		can.onmotion.clear(can, target), can.onappend.layout(can, null, "", target), can.ui.project._target = can.ui.content
 		var width = can.ConfWidth()-320, height = can.ConfHeight()
 		if (can.isCmdMode()) {
 			width = can.page.width(), height = can.page.height(), can.user.title(can._list.meta.name)

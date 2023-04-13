@@ -13,7 +13,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			if (p && paths.indexOf(p) == -1 && p[0] != ice.PS) { paths.push(p) }
 		})
 		can.db = {paths: paths, tabview: {}, history: [], _history: [], toolkit: {}}, can.onengine.plugin(can, can.onplugin), can.sup.onimport._process = function() {}
-		can.ui = can.onappend.layout(can, can._output, "", [html.PROJECT, [html.TABS, nfs.PATH, [html.CONTENT, html.PROFILE], html.DISPLAY, html.PLUG]])
+		can.ui = can.onappend.layout(can, [html.PROJECT, [html.TABS, nfs.PATH, [html.CONTENT, html.PROFILE], html.DISPLAY, html.PLUG]])
 		can.ui._content = can.ui.content, can.ui._profile = can.ui.profile, can.ui._display = can.ui.display, can.onmotion.hidden(can, can.ui.plug)
 		switch (can.Mode()) {
 			case chat.SIMPLE: // no break
@@ -313,7 +313,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 		}).join("")); return line
 	},
 })
-Volcanos(chat.ONACTION, {list: ["调试", "首页", "官网", "源码", "百度"],
+Volcanos(chat.ONACTION, {
 	_getLine: function(can, line) { return can.page.Select(can, can.ui.content, "tr.line>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return td.parentNode } })[0] },
 	appendLine: function(can, value) { var ui = can.page.Append(can, can.ui._content, [{view: [nfs.LINE, html.TR], list: [
 		{view: [nfs.LINE, html.TD, ++can.db.max], onclick: function(event) {
@@ -347,8 +347,8 @@ Volcanos(chat.ONACTION, {list: ["调试", "首页", "官网", "源码", "百度"
 	},
 	searchLine: function(event, can, value) {
 		var offset = 0; can.page.Select(can, can.ui.content, "tr.line", function(tr) {
-			tr == can.current.line && can.page.Select(can, tr, "td.text>span", function(span) { offset += span.innerText.length
-				span == event.target && can.runAction(can.request(event, {name: value, text: can.current.text(), offset: offset-1}, can.Option()), code.NAVIGATE, [], function(msg) {
+			tr == can.current.line && can.page.Select(can, tr, "td.text>span", function(span) { offset += span.innerText.length;
+				(span == event.target || span.innerText == value) && can.runAction(can.request(event, {name: value, text: can.current.text(), offset: offset-1}, can.Option()), code.NAVIGATE, [], function(msg) {
 					msg.Append(nfs.FILE)? can.onimport.tabview(can, msg.Append(nfs.PATH), msg.Append(nfs.FILE), msg.Append(nfs.LINE)): can.user.toastFailure(can, "not found "+value)
 				})
 			}), can.page.Select(can, tr, "td.text", function(td) { offset += td.innerText.length+1 })

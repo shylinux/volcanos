@@ -51,7 +51,6 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "横向", "纵向"], [html.SIZE, 24, 
 		})
 	},
 })
-Volcanos(chat.ONEXPORT, {list: ["time", "count"]})
 Volcanos(chat.ONDETAIL, {
 	onclick: function(event, can, tree) {
 		if (tree.list.length > 0 || tree.name.endsWith(can.Conf(lex.SPLIT))) { return tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)||"横向"](event, can) }
@@ -63,7 +62,7 @@ Volcanos(chat.ONDETAIL, {
 	},
 	plugin: function(can, index, args, prefix) { can.onappend.plugin(can, {mode: chat.FLOAT, index: index, args: args}, function(sub) {
 		can.getActionSize(function(left, top, width, height) { var margin = 100; left = left||0, top = top||0
-			sub.onimport.size(sub, height/2-margin-html.ACTION_HEIGHT, width, true), can.onmotion.move(can, sub._target, {left: left, top: top+margin})
+			sub.onimport.size(sub, height-margin-html.ACTION_HEIGHT, width, true), can.onmotion.move(can, sub._target, {left: left, top: top+margin})
 		}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
 	}) },
 })
