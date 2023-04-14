@@ -418,12 +418,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (can.base.isArray(item)) { return }
 			if (can.base.isObject(item)) { var meta = item; item = item._index } if (item == "plug") { return }
 			var target = ui[item]; if (!can.page.isDisplay(target)) { return }
-			if (item == html.CONTENT) {
-				return defer.push(function() {
-					content_height = height, content_width = width
-					can.page.style(can, target, html.HEIGHT, height, html.WIDTH, width)
-				})
-			}
+			if (item == html.CONTENT) { return defer.push(function() { can.page.style(can, target, html.HEIGHT, content_height = height, html.WIDTH, content_width = width) }) }
+			if (item == html.PROFILE) { width -= 1 }
+			if (item == html.PROJECT) { width -= 1 }
 			if (type == FLOW) { var h = calc(item, target.offsetHeight, height)
 				if (can.base.isObject(meta)) { meta.layout(h, width) }
 				can.page.style(can, target, html.WIDTH, width), height -= h

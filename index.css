@@ -342,7 +342,7 @@ fieldset.plugin.parse.cmd>div.status { display:none; }
 fieldset.plugin.inner.cmd>legend { display:none; }
 fieldset.plugin.inner.cmd>div.action { display:none; }
 fieldset.plugin.inner.cmd>form.option { display:none; }
-fieldset.plan div.output table.content { height:100%; width:100%; }
+fieldset.plan div.output div.content>table.content { height:100%; width:100%; }
 fieldset.xterm div.output { border-left:gray solid 1px; border-top:gray solid 1px; }
 fieldset.xterm div.layout div.output.select { border:blue solid 1px; }
 fieldset.xterm div.action>div.tabs.select { color:blue; }
@@ -385,6 +385,7 @@ div.output.card div.item.stop { color:gray; }
 div.output.card div.item { padding:10px; border:#e7e7e7 solid 1px; margin:10px; width:240px; float:left; }
 div.output.card div.item>div.title { font-size:1.2rem; font-weight:bold; padding:10px; border-bottom:solid 1px #e7e7e7; }
 div.output.card div.item>div.content { padding:10px; height:45px; }
+div.output.card div.action { text-align:right; width:100%; }
 body.white div.output.card div.item input[type=button] { background-color:transparent; }
 body.mobile div.output.card div.item { height:160px; float:none; }
 body.mobile.simple div.output.card div.item { width:100%; }
