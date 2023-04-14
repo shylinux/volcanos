@@ -103,7 +103,7 @@ Volcanos(chat.ONACTION, {_trans: {view: "视图"},
 				sub.page.Append(sub, sub.ui.content, [{view: "page"+(index==0? " first": ""), list: can.core.List(page, function(item) { var data = item.dataset||{}
 					switch (data.type) {
 						case wiki.PREMENU: item = item.cloneNode(false); break
-						case chat.FIELD: item = can.onappend.field(can, chat.STORY, can.base.Obj(data.meta), sub.ui.content)._target; break
+						case chat.FIELD: item = can.onappend.field(can, chat.STORY, can.base.Copy(can.base.Obj(data.meta), {height: can.page.height(), width: can.page.width()}), sub.ui.content)._target; break
 						default: item = item.cloneNode(true)
 					}
 					return can.core.CallFunc([can.onimport, data.type], [sub, data, item, can.page.width()]), item

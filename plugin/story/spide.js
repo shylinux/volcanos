@@ -1,6 +1,7 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(can, function() { can.ConfDefault({field: msg.append[0], split: ice.PS})
 		can.dir_root = can.Conf(nfs.DIR_ROOT)||msg.Option(nfs.DIR_ROOT), can._tree = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))
 		can.onaction.list = [], can.base.isFunc(cb) && cb(msg), can.onimport.layout(can)
+		can.onappend._status(can, msg.Option(ice.MSG_STATUS))
 	}) },
 	_tree: function(can, list, field, split) { var node = {}; can.core.List(list, function(item) { can.core.List(item[field].split(split), function(value, index, array) {
 		var last = array.slice(0, index).join(split)||can.dir_root, name = array.slice(0, index+1).join(split)
@@ -42,15 +43,16 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "横向", "纵向"], [html.SIZE, 24, 
 			], style: {stroke: cli.CYAN}}), can.onaction._draw_vertical(can, item, x+offset, y+tree.height+8*can.margin), offset += item.width
 		})
 	},
-	_draw_horizontal: function(can, tree, x, y) {
-		tree.width = can.onaction._draw(can, tree, tree.x = x, tree.y = y+tree.height*(can.size+can.margin)/2).Val(svg.TEXT_LENGTH); if (x+tree.width > can.svg.Val(html.WIDTH)) { can.svg.Val(html.WIDTH, x+tree.width) }
+	_draw_horizontal: function(can, tree, x, y) { var height = can.size+can.margin
+		tree.width = can.onaction._draw(can, tree, tree.x = x, tree.y = y+tree.height*(can.size+can.margin)/2).Val(svg.TEXT_LENGTH)||(tree.name.length*16); if (x+tree.width > can.svg.Val(html.WIDTH)) { can.svg.Val(html.WIDTH, x+tree.width) }
 		var offset = 0; tree.hide || can.core.List(tree.list, function(item) {
 			can.onimport.draw(can, {shape: svg.PATH2H, points: [
-				{x: x+tree.width+can.margin/2, y: y+tree.height*(can.size+can.margin)/2}, {x: x+tree.width+8*can.margin-can.margin/2, y: y+offset+item.height*(can.size+can.margin)/2}
+				{x: x+tree.width+can.margin/2, y: y+tree.height*height/2-can.size/4}, {x: x+tree.width+8*can.margin-can.margin/2, y: y+offset+item.height*height/2-can.size/4}
 			], style: {stroke: cli.CYAN}}), can.onaction._draw_horizontal(can, item, x+tree.width+8*can.margin, y+offset), offset += item.height*(can.size+can.margin)
 		})
 	},
 })
+Volcanos(chat.ONEXPORT, {list: [mdb.TIME, mdb.COUNT]})
 Volcanos(chat.ONDETAIL, {
 	onclick: function(event, can, tree) {
 		if (tree.list.length > 0 || tree.name.endsWith(can.Conf(lex.SPLIT))) { return tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)||"横向"](event, can) }

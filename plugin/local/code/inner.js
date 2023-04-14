@@ -27,6 +27,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 				can.onmotion.delay(can, function() { can.core.Next(files.slice(1), function(file, next) { can.onimport._tabview(can, paths[0], file, "", next) }, function() {
 					if (can.user.isWebview && last) { var ls = can.core.Split(last, ice.DF); ls.length > 0 && can.onimport._tabview(can, ls[0], ls[1], ls[2]) }
 				}) })
+				can.user.isMobile && can.onmotion.hidden(can, can.ui.project)
 		} var args = can.misc.SearchHash(can); can.db.tabview[can.onexport.keys(can)] = msg
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE), function() { if (!can.user.isWebview && args.length > 0 && can.isCmdMode()) {
 			can.onimport._tabview(can, args[args.length-3], args[args.length-2]||can.Option(nfs.FILE), args[args.length-1])

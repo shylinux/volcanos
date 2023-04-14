@@ -15,6 +15,7 @@ fieldset.word img { word-break:break-all; }
 fieldset.word svg.story.auto defs marker { stroke:red; fill:red; }
 body.white fieldset.word svg.story.auto defs marker { stroke:red; fill:red; }
 
+fieldset.word.play.float { top:0; }
 fieldset.word.play.float>div.action { display:contents; }
 fieldset.word.play.float>div.status { clear:none; }
 fieldset.word.play.float>div.output>div.project { background-color:#4682b46b; padding:10px; position:fixed; right:0; top:32px; z-index:10; }
