@@ -14,6 +14,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 		})
 		can.db = {paths: paths, tabview: {}, history: [], _history: [], toolkit: {}}, can.onengine.plugin(can, can.onplugin), can.sup.onimport._process = function() {}
 		can.ui = can.onappend.layout(can, [html.PROJECT, [html.TABS, nfs.PATH, [html.CONTENT, html.PROFILE], html.DISPLAY, html.PLUG]])
+		can.onmotion.clear(can, can.ui.project)
 		can.ui._content = can.ui.content, can.ui._profile = can.ui.profile, can.ui._display = can.ui.display, can.onmotion.hidden(can, can.ui.plug)
 		switch (can.Mode()) {
 			case chat.SIMPLE: // no break
@@ -142,7 +143,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			})
 		}
 		function load(msg) { var skip = false; can.db.tabview[key] = msg
-			can.onimport.tabs(can, [{name: can.base.beginWith(file, "http://")? file.split(ice.QS)[0]: file.split(isIndex()? ice.PT: ice.PS).pop(), text: file, _menu: shy([
+			can.onimport.tabs(can, [{name: can.base.beginWith(file, "http://")? file.split(ice.QS)[0]: file.split(ice.FS)[0].split(isIndex()? ice.PT: ice.PS).pop(), text: file, _menu: shy([
 				nfs.SAVE, nfs.TRASH, web.REFRESH,
 			], function(event, button, meta) { can.onaction[button](event, can, button) })}], function(event, tabs) {
 				can._tab = msg._tab = tabs._target, show(skip), skip = true
@@ -266,6 +267,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 			} else { can.onmotion.hidden(can, can.ui.profile), can.onmotion.hidden(can, can.ui.display) }
 			can.db.parse = can.base.Ext(can.db.file), can.Status(ice.MODE, mdb.PLUGIN); return can.db.file
 		}, can.ui._content, can.ui._profile, can.ui._display)) { return can.base.isFunc(cb) && cb(msg._content) }
+		if (can.base.Ext(can.Option(nfs.FILE)) == nfs.SVG) { msg.Option(ctx.INDEX, web.WIKI_DRAW+ice.FS+can.Option(nfs.PATH)+can.Option(nfs.FILE)) }
 		if (msg.Option(ctx.INDEX)) { return can.onsyntax._index(can, msg, cb) }
 		function show(p) { can.db.max = 0, can.core.List(msg.Result().split(ice.NL), function(item) { can.onaction.appendLine(can, item) })
 			can.onengine.signal(can, VIEW_CREATE, msg), can.base.isFunc(cb) && cb(msg._content = can.ui._content)
@@ -280,9 +282,8 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 			src: can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}), height: can.ui.content.offsetHeight, width: can.ui.content.offsetWidth}], can.ui._content)), true
 	} },
 	_index: function(can, msg, cb) { if (msg._content) { return can.base.isFunc(cb) && cb(msg._content) } if (can.onsyntax._space(can, msg, cb)) { return }
+	
 		var index = msg.Option(ctx.INDEX).split(ice.FS), item = {type: chat.STORY, index: index[0], args: index.slice(1)}
-		if (can.base.isIn(item.index, web.WIKI_WORD)) { item.style = html.OUTPUT }
-		// if (can.base.isIn(item.index, web.CODE_XTERM, web.WIKI_WORD)) { item.style = html.OUTPUT }
 		can.onimport.plug(can, item, function(sub) { sub.onimport.size(sub, can.ui.content.offsetHeight, can.ui.content.offsetWidth, true)
 			sub.onimport._open = function(sub, msg, arg) { can.onimport.tabview(can, "", arg, web.SPACE), sub.Update() }
 			sub.onaction.close = function() { can.onaction.back(can), msg._tab._close() }

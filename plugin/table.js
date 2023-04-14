@@ -163,7 +163,11 @@ Volcanos(chat.ONLAYOUT, {
 	},
 })
 Volcanos(chat.ONEXPORT, {
-	title: function(can, title) { can._legend.innerHTML = title, can.isCmdMode() && can.user.title(title); var sup = can.sup; if (sup) { sup._header_tabs && (sup._header_tabs.innerHTML = title), sup._tabs && (sup._tabs.innerHTML = title) } },
+	title: function(can, title) {
+		can.isCmdMode() && can.user.title(title)
+		return
+		can._legend.innerHTML = title, can.isCmdMode() && can.user.title(title); var sup = can.sup; if (sup) { sup._header_tabs && (sup._header_tabs.innerHTML = title), sup._tabs && (sup._tabs.innerHTML = title) }
+	},
 	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return }
 		var res = [msg.append && msg.append.join(ice.FS)]; msg.Table(function(line, index, array) { res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS)) }); return res.join(ice.NL)
 	},

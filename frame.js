@@ -429,6 +429,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.page.style(can, target, html.HEIGHT, h, html.WIDTH, w), width -= w
 			}
 		}), can.core.List(list, function(item) { if (can.base.isArray(item)) { layout(type == FLOW? FLEX: FLOW, item, height, width) } }) }
+		ui.filter = can.onappend.input(can, {type: html.TEXT, name: web.FILTER, placeholder: "search in n items", onkeyup: function(event) {
+			can.page.Select(can, ui.project, html.DIV_ITEM, function(target) {
+				can.onmotion.toggle(can, target, target.innerText.indexOf(event.target.value) > -1 || target == ui.filter.parentNode)
+			})
+		}}, "", ui.project)
 		ui.layout = function(height, width, delay, cb) { can.onmotion.delay(can, function() { defer = [], layout(type, ui.list, height, width), defer.forEach(function(cb) { cb() }), cb && cb(content_height, content_width) }, delay||0) }; return ui
 	},
 	tabview: function(can, meta, list, target) { var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT])

@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can, target), can._display_heights = {}
 		can.list = {}; var ls = can.misc.SearchHash(can)
-		can.ui = can.onappend.layout(can), can.onmotion.hidden(can, can.ui.profile)
+		can.ui = can.onappend.layout(can), can.onmotion.hidden(can, can.ui.profile), can.onmotion.hidden(can, can.ui.display)
 		can.onimport[can.Option("scale")||team.WEEK](can, msg), can.Status(mdb.COUNT, msg.Length()), can.onimport.layout(can)
 		var item; if (can.isCmdMode() && ls.length > 0) { item = can.list[can.core.Keys(ls[0], ls[1])] } else if (can.sup.task) { item = can.list[can.core.Keys(can.sup.task.zone, can.sup.task.id)] } item && item.click()
 	},
@@ -115,9 +115,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	}
 }, [""])
 Volcanos(chat.ONACTION, {list: [
-		["status", "all", "prepare", "process", "cancel", "finish"],
-		["level", "all", "l1", "l2", "l3", "l4", "l5"],
-		["score", "all", "s1", "s2", "s3", "s4", "s5"],
+		["status", "status", "prepare", "process", "cancel", "finish"],
+		["level", "level", "l1", "l2", "l3", "l4", "l5"],
+		["score", "score", "s1", "s2", "s3", "s4", "s5"],
 		["view", "text", "name", "text", "level", "score"],
 	], _trans: {"task": "任务", "hour": "时间", "month": "月份", "order": "周序"},
 	prev: function(event, can) { var begin = can.base.Date(can.Option(team.BEGIN_TIME)||can.base.Time())
@@ -133,7 +133,7 @@ Volcanos(chat.ONACTION, {list: [
 	},
 	modifyTask: function(event, can, task, key, value) { can.runAction(can.request(event, task, can.Option()), mdb.MODIFY, [key, value], function() { can.Update() }) },
 	_filter: function(event, can, key, value) { var count = 0
-		if (value == "all") {
+		if (value == key) {
 			can.page.Select(can, can.ui.content, html.DIV_ITEM, function(item) { can.page.ClassList.del(can, item, html.HIDE), count++ })
 		} else {
 			can.page.Select(can, can.ui.content, html.DIV_ITEM, function(item) { can.page.ClassList.add(can, item, html.HIDE) })
@@ -141,8 +141,8 @@ Volcanos(chat.ONACTION, {list: [
 		} can.Action(key, value), can.Status(mdb.COUNT, count)
 	},
 	status: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
-	level: function(event, can, key, value) { value && can.onaction._filter(event, can, key, value) },
-	score: function(event, can, key, value) { value && can.onaction._filter(event, can, key, value) },
+	level: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
+	score: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
 	view: function(event, can, key, value) { can.Action(key, value), can.onmotion.clear(can, can.ui.project), can.onmotion.clear(can, can.ui.content), can.core.CallFunc([can.onimport, can.Option("scale")], [can, can._msg]) },
 })
 Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, team.BEGIN_TIME, mdb.ZONE, mdb.ID, mdb.TYPE, mdb.NAME, mdb.TEXT],

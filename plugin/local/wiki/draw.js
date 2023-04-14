@@ -1,7 +1,7 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can); var pid = can.misc.SearchHash(can)[0]
 		can.svg = null, can.group = null, can.temp = null, can.current = null, can.points = [], can._display_heights = {}
 		if (can._index == web.WIKI_DRAW) { can.ui = can.onappend.layout(can) } else { can.ui = {content: can._output} }
-		can.page.Modify(can, can.ui.content, msg.Results()||can.onexport.content(can))
+		can.page.Modify(can, can.ui.content, msg.Results()||can.onexport.content(can)), can.onexport.title(can, can.Option(nfs.PATH))
 		can.page.Select(can, can.ui.content, html.SVG, function(target) { can.svg = can.group = can.onimport._block(can, target), can.onimport._group(can, target)
 			can.page.Select(can, target, mdb.FOREACH, function(target) { can.onimport._block(can, target), can.page.tagis(target, svg.G) && target.Value(html.CLASS) && can.onimport._group(can, target) })
 			can.ui.profile && can.core.ItemCB(can.onaction, function(key, cb) { target[key] = function(event) { can.misc.Event(event, can, function(msg) { cb(event, can) }) } })
@@ -66,12 +66,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	layout: function(can) { can.onmotion.toggle(can, can._action, can.ConfWidth() > 1600)
 		can.ui.layout && can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) { can.page.style(can, can.svg, html.MIN_HEIGHT, height, html.MIN_WIDTH, width) })
 	},
-}, [""])
+})
 Volcanos(chat.ONACTION, {list: [[svg.GRID, 10, 1, 2, 3, 4, 5, 10, 20],
 		[svg.FONT_SIZE, svg.FONT_SIZE, 12, 16, 18, 24, 32], [svg.STROKE_WIDTH, svg.STROKE_WIDTH, 1, 2, 3, 4, 5],
 		[svg.STROKE, svg.STROKE, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE],
 		[svg.FILL, svg.FILL, cli.RED, cli.YELLOW, cli.GREEN, cli.CYAN, cli.BLUE, cli.PURPLE, cli.BLACK, cli.WHITE, cli.TRANSPARENT],
-		[svg.GO, ice.RUN, ice.AUTO, "manual"], [ice.MODE, web.DRAW, web.RESIZE],
+		[svg.GO, ice.AUTO, ice.RUN, ice.AUTO, "manual"], [ice.MODE, web.DRAW, web.RESIZE],
 		[svg.SHAPE, svg.RECT, svg.TEXT, svg.RECT, svg.LINE, svg.BLOCK, svg.CIRCLE, svg.ELLIPSE],
 	], _change: function(can, key, value) {
 		value == "" && (value = key), can.Action(key, value)

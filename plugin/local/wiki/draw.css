@@ -1,5 +1,0 @@
-fieldset.plugin>div.output>div.project { border-right:gray solid 1px; min-width:120px; max-width:240px; }
-fieldset.plugin>div.output div.profile { border-left:gray solid 1px; }
-fieldset.plugin>div.output div.display { border-top:gray solid 1px; }
-fieldset.draw>form.option>div.item.pid>input { width:60px; }
-fieldset.draw>div.output>div.layout>div.layout>div.profile { max-width:240px; }

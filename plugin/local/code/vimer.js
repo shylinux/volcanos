@@ -25,12 +25,18 @@ Volcanos(chat.ONFIGURE, {
 	source: function(can, target, zone, path) { var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
 		function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) { can.onmotion.clear(can, target)
 			if (path == nfs.SRC) { can.ui.zone.source.refresh = function() { show(target, zone, path) }
-				zone._icon(kit.Dict(web.REFRESH, function(event) { show(target, zone, path) },
+				zone._icon(kit.Dict(
+					web.REFRESH, function(event) { show(target, zone, path) },
 					mdb.CREATE, function(event) { can.user.carteRight(event, can, can.onaction, [nfs.MODULE, nfs.SCRIPT]) },
 				))
 			}
 			var total, cache; function add(list) {
 				can.core.List(list, function(item) { if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true }
+					item._menu = shy({trash: function(event, button) {
+						can.runAction(event, nfs.TRASH, [path+item.path], function() {
+							show(target, zone, path)
+						})
+					}})
 					item._init = function(target) { item._remove = function() { can.page.Remove(can, target.parentNode), delete(cache[item.path]) } }
 				}); return can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, cache)
 			} cache = add(msg.Table()), can.Status(mdb.COUNT, total += zone._total(msg.Length()))
@@ -62,7 +68,7 @@ Volcanos(chat.ONFIGURE, {
 		} }
 	}) },
 })
-Volcanos(chat.ONACTION, {list: ["编译", "调试", "首页", "提交", "收藏", "计划"],
+Volcanos(chat.ONACTION, {list: ["编译", "提交", "首页", "收藏", "脑图", "计划"],
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.zone.source.refresh(), can.user.toastSuccess(can, button)
 	}) },
@@ -100,10 +106,10 @@ Volcanos(chat.ONACTION, {list: ["编译", "调试", "首页", "提交", "收藏"
 		var sub = can.db.toolkit[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0])
 	}) },
 	"编译": function(event, can) { can.onaction.compile(event, can, code.COMPILE) },
-	"调试": function(event, can) { can.onimport.tabview(can, "", can.base.MergeURL(location.href, log.DEBUG, ice.TRUE), web.SPACE) },
-	"首页": function(event, can) { can.onimport.tabview(can, "", location.origin+ice.PS+(can.misc.Search(can, log.DEBUG) == ice.TRUE? "?debug=true": ""), web.SPACE) },
 	"提交": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },
+	"首页": function(event, can) { can.onimport.tabview(can, "", location.origin+ice.PS+(can.misc.Search(can, log.DEBUG) == ice.TRUE? "?debug=true": ""), web.SPACE) },
 	"收藏": function(event, can) { can.onimport.tabview(can, "", web.CHAT_FAVOR, ctx.INDEX) },
+	"脑图": function(event, can) { can.onimport.tabview(can, "", web.WIKI_DRAW, ctx.INDEX) },
 	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },
 	"全屏": function(event, can) { can._target.requestFullScreen() },
 	"录屏": function(event, can) { window.openapp("QuickTime Player") },
