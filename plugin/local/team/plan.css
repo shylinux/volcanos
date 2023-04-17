@@ -10,9 +10,9 @@ fieldset.plan>div.output table.content.plan td div.date { color:gray; }
 fieldset.plan>div.output table.content.plan td div.date span.lunar { font-size:12px; }
 fieldset.plan>div.output table.content.plan td div.date span.lunar.fest { color:red; }
 fieldset.plan>div.output table.content.plan td div.date span.lunar.term { color:green; }
-fieldset.plan>div.output table.content.plan td div.prepare { background-color:blue; }
-fieldset.plan>div.output table.content.plan td div.process { background-color:green; }
-fieldset.plan>div.output table.content.plan td div.cancel { background-color:red; }
+fieldset.plan>div.output table.content.plan td div.prepare { background-color:#0000ff70; }
+fieldset.plan>div.output table.content.plan td div.process { background-color:#00800070; }
+fieldset.plan>div.output table.content.plan td div.cancel { background-color:#ff000070; }
 fieldset.plan>div.output table.content.plan td div.finish { background-color:gray; }
 fieldset.plan>div.output table.content.plan tr:first-child { height:30px; position:sticky; top:2px; }
 fieldset.plan>div.output table.content.plan th:first-child { width:40px; position:sticky; left:2px; }

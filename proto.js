@@ -84,7 +84,7 @@ var web = {CHAT: "chat",
 	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
 	
-	CODE_GIT_STATUS: "web.code.git.status",
+	CODE_GIT_REPOS: "web.code.git.repos", CODE_GIT_STATUS: "web.code.git.status",
 	CHAT_FAVOR: "web.chat.favor",
 	CODE_XTERM: "web.code.xterm", CODE_VIMER: "web.code.vimer", CODE_INNER: "web.code.inner",
 	WIKI_WORD: "web.wiki.word", WIKI_DRAW: "web.wiki.draw", WIKI_FEEL: "web.wiki.feel",
@@ -115,6 +115,7 @@ var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash", DIR_ROOT: "dir_root", PWD: "./",
 	COPY: "copy", EDIT: "edit", SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
 	CONTENT: "content", RECENT: "recent", SCRIPT: "script", MODULE: "module", SOURCE: "source", TARGET: "target", REPOS: "repos",
+	MASTER: "master",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
 	REPLACE: "replace", FROM: "from", TO: "to",
 	HTML: "html", CSS: "css", JS: "js", SH: "sh", GO: "go", CSV: "csv", JSON: "json",
@@ -123,6 +124,9 @@ var nfs = {
 	_CSS: ".css", _JS: ".js",
 	SRC: "src/",
 	OPENS: "opens",
+	PS: "/",
+	PT: ".",
+	DF: ":",
 }
 var cli = {
 	PWD: "pwd", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",

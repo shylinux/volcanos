@@ -95,6 +95,9 @@ div.vimer.open.float td:first-child { display:none; }
 div.path span.item { padding:5px; }
 div.carte.path.float { font-size:14px; border-radius:0; } div.carte.path.float div.item { padding:5px; }
 div.carte.cmd.float { font-size:14px; border-radius:0; } div.cmd.path.float div.item { padding:5px; }
+tr.line.delete { background-color:#ff000036; color:gray; }
+tr.line.insert { background-color:#00800036; }
+fieldset.inner>div.output>div.project div.item.modify { background-color:#00800036; }
 tr.line>td.line { text-align:right; padding:0 10px; position:sticky; left:0; }
 tr.line>td.text { line-height:20px; white-space:pre; padding-left:10px; cursor:text; }
 body.white tr.line.select { background-color:dimgray; } body.white tr.line:hover { background-color:dimgray; }

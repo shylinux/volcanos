@@ -6,7 +6,7 @@ select { background-color:black; color:cyan; padding:0 10px; margin-right:5px; }
 input:not([type=file]) { background-color:cyan; padding:0 5px; margin-right:5px; }
 input:not([type=button]) { width:120px; }
 input[name=path] { width:160px; }
-input[name=line] { width:40px; }
+input[name=line] { width:60px; }
 input[name=limit] { width:60px; }
 input[name=offend] { width:60px; }
 input[name=id] { width:60px; }
@@ -365,8 +365,8 @@ fieldset.can.data { font-size:14px; }
 body.mobile fieldset.plugin>legend { border:none; }
 body.en fieldset.input.date.float>div.action>div.item.select { margin:0 5px; }
 body.en fieldset.input.date.float>div.action>div.item.select select { width:64px; }
-body.en fieldset.input.date.float>div.action>div.item.select.year select { width:115px; }
-body.en fieldset.input.date.float>div.action>div.item.select.month select { width:115px; }
+body.en fieldset.input.date.float>div.action>div.item.select.year select { width:114px; }
+body.en fieldset.input.date.float>div.action>div.item.select.month select { width:112px; }
 body.zh fieldset.input.date.float>div.action>div.item.select { margin:0 5px; }
 body.zh fieldset.input.date.float>div.action>div.item.select select { width:68px; }
 body.zh fieldset.input.date.float>div.action>div.item.select.year select { width:95px; }

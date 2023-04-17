@@ -12,11 +12,15 @@ Volcanos(chat.ONIMPORT, {
 	_clear: function(can, msg) { can.onmotion.clear(can) },
 	_inner: function(can, msg) { can.onappend.table(can, msg), can.onappend.board(can, msg), can.onmotion.story.auto(can) },
 	_field: function(can, msg) { var height = can.ConfHeight(); can.page.SelectChild(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })
-		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: can.base.Min(height, 240)}, function(sub, meta) {
+		height = can.base.Min(height, can.isCmdMode()? can.ConfHeight()/2: 320)
+		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height}, function(sub, meta) {
 			sub.Conf(can.base.Obj(item.conf)); if (sub.isSimpleMode()) { sub.ConfHeight(can.ConfHeight()/2)
 				var res = can.request(); res.Echo(sub.Conf(ice.MSG_RESULT)), can.onappend._output(sub, res, sub.Conf(ctx.DISPLAY)); return
 			}
 			sub.run = function(event, cmds, cb) { sub.onimport.size(sub, height, can.ConfWidth(), true)
+				sub.onexport.output = function() {
+					can.page.SelectChild(can, can._output, html.TABLE, function(target) { can.page.style(can, target, html.MAX_HEIGHT, can.ConfHeight()-height, html.DISPLAY, html.BLOCK) })
+				}
 				can.run(event, (!msg.Option("_index") || msg.Option("_index") == can._index || can._index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
 			}
 		}) })

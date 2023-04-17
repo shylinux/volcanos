@@ -178,11 +178,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				_target: can.onappend.input(can, item, args[index]||opts[item.name], option||can._option), _option: option||can._option, _action: can._action, _output: can._output, _status: can._status,
 				CloneField: can.Clone, CloneInput: function() { can.onmotion.focus(can, add(item)._target) }, Input: can.Input, Option: can.Option, Action: can.Action, Status: can.Status,
 			}, [item.display, chat.PLUGIN_INPUT_JS], function(sub) { sub.Conf(item)
-				if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT)) {
-					can.onappend.style(can, "icons", sub._target.parentNode)
-					can.page.Append(can, sub._target.parentNode, [{icon: item.name, onclick: function(event) {
-					can.Update(event, [ctx.ACTION, item.name])
-				}}]) }
+				if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT)) { can.onappend.style(can, "icons", sub._target.parentNode)
+					can.page.Append(can, sub._target.parentNode, [{icon: item.name, onclick: function(event) { can.Update(event, [ctx.ACTION, item.name]) }}])
+				}
 				if (item.type == html.TEXT) { can.page.Append(can, sub._target.parentNode, [{text: [sub._target.value, html.SPAN, mdb.VALUE]}]) }
 				sub.run = function(event, cmds, cb, silent) { var msg = can.request(event, kit.Dict(chat._TOAST, ice.PROCESS))._caller()
 					msg.RunAction(event, sub, cmds) || msg.RunAction(event, can.core.Value(can, chat._OUTPUTS_CURRENT), cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
