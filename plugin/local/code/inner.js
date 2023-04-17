@@ -347,7 +347,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 Volcanos(chat.ONACTION, {
 	_getLine: function(can, line) { return can.page.Select(can, can.ui.content, "tr.line>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return td.parentNode } })[0] },
 	modifyLine: function(can, line, value) { can.page.Select(can, can.onaction._getLine(can, line), "td.text", function(td) { td.innerHTML = can.onsyntax._parse(can, value) }) },
-	appendLine: function(can, value) { var ui = can.page.Append(can, can.ui._content, [{view: [nfs.LINE, html.TR], list: [
+	appendLine: function(can, value, target) { var ui = can.page.Append(can, target||can.ui._content, [{view: [nfs.LINE, html.TR], list: [
 		{view: [nfs.LINE, html.TD, ++can.db.max], onclick: function(event) {
 			can.onaction.selectLine(can, ui.tr)
 		}, ondblclick: function(event) { can.onaction.find(event, can) }},
@@ -356,18 +356,18 @@ Volcanos(chat.ONACTION, {
 			if (event.metaKey) { if (ui.text.innerText.indexOf(ice.HTTP) > -1) { var ls = (/(http[^ ]+)/).exec(ui.text.innerText); if (ls && ls[1]) { can.user.open(ls[1]) } } }
 		}, ondblclick: function(event) { can.onaction.searchLine(event, can, can.onexport.selection(can, ui.text.innerText)) }}
 	]}]); return ui._target },
-	rerankLine: function(can, which) { can.db.max = can.page.Select(can, can.ui.content, which||"tr.line:not(.delete)>td.line", function(td, index) { return td.innerText = index+1 }).length },
+	rerankLine: function(can, which, target) { can.db.max = can.page.Select(can, target||can.ui.content, which||"tr.line:not(.delete)>td.line", function(td, index) { return td.innerText = index+1 }).length },
 	selectLine: function(can, line, scroll) { if (!line) { return can.onexport.line(can, can.page.SelectOne(can, can.ui.content, "tr.select")) }
-		can.page.Select(can, can.ui._content, "tr.line>td.line", function(target) { var n = parseInt(target.innerText); target = target.parentNode
+		can.page.Select(can, can.ui.content, "tr.line>td.line", function(target) { var n = parseInt(target.innerText); target = target.parentNode
 			if (!can.page.ClassList.set(can, target, html.SELECT, n == line || target == line)) { return }
 			line = target, can.Status(nfs.LINE, can.onexport.position(can, can.Option(nfs.LINE, n)))
 		}); if (!can.base.isObject(line)) { return 0 }
 		can.page.Select(can, line, "td.text", function(target) {
 			can.current = {line: line, next: function() { return line.nextSibling }, prev: function() { return line.previousSibling },
 				text: function(text) { return text != undefined && can.onaction.modifyLine(can, line, text), target.innerText },
-				scroll: function(count) { if (count) { can.ui._content.scrollTop += count*can.current.line.offsetHeight }
-					return parseInt((can.current.line.offsetTop-can.ui._content.scrollTop)/can.current.line.offsetHeight)
-				}, window: function() { return parseInt(can.ui._content.offsetHeight/can.current.line.offsetHeight) },
+				scroll: function(count) { if (count) { can.ui.content.scrollTop += count*can.current.line.offsetHeight }
+					return parseInt((can.current.line.offsetTop-can.ui.content.scrollTop)/can.current.line.offsetHeight)
+				}, window: function() { return parseInt(can.ui.content.offsetHeight/can.current.line.offsetHeight) }, content: line.parentNode,
 			}, can.onimport.history(can, {path: can.Option(nfs.PATH), file: can.Option(nfs.FILE), line: can.Option(nfs.LINE), text: can.current.text()})
 			can.onexport.hash(can), scroll && can.onaction.scrollIntoView(can), can.onengine.signal(can, LINE_SELECT, can._msg)
 		})
@@ -482,7 +482,7 @@ Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, mdb.TYPE, nfs.FILE, nfs.LINE, ice.BAC
 	keys: function(can, path, file) { return [path||can.Option(nfs.PATH), file||can.Option(nfs.FILE)].join(ice.DF) },
 	line: function(can, line) { return parseInt(can.core.Value(can.page.SelectOne(can, line, "td.line"), "innerText")) },
 	text: function(can, line) { return can.core.Value(can.page.SelectOne(can, line, "td.text"), "innerText") },
-	content: function(can) { return can.page.Select(can, can.ui.content, "td.text", function(item) { return item.innerText }).join(ice.NL) },
+	content: function(can) { return can.page.Select(can, can.current&&can.current.content||can.ui.content, "td.text", function(item) { return item.innerText }).join(ice.NL) },
 	position: function(can, index, total) { total = total||can.db.max; return (parseInt(index))+ice.PS+parseInt(total)+" = "+parseInt((index)*100/total)+"%" },
 	selection: function(can, str) { var s = document.getSelection().toString(), begin = str.indexOf(s), end = begin+s.length
 		for (var i = begin; i >= 0; i--) { if (str[i].match(/[a-zA-Z0-9_.]/)) { s = str.slice(i, end) } else { break } } return s

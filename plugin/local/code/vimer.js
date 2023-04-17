@@ -182,11 +182,27 @@ Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图"
 	}) },
 	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value); before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before)); return can.onaction.rerankLine(can), can.onexport.line(can, line) },
 	deleteLine: function(can, line) { line = can.onaction._getLine(can, line); var next = line.nextSibling||line.previousSibling; return can.page.Remove(can, line), can.onaction.rerankLine(can), next },
-	scrollHold: function(can, count, begin) { var scroll = can.ui.content.scrollLeft; can.ui.current.focus(), count != undefined && can.onkeymap.cursorMove(can.ui.current, count, begin == undefined? count: begin), can.ui.content.scrollLeft = scroll },
+	scrollHold: function(can, count, begin) {
+		var scroll = can.ui.content.scrollLeft, _scroll = can.current.content.scrollLeft;
+		can.ui.current.focus(), count != undefined && can.onkeymap.cursorMove(can.ui.current, count, begin == undefined? count: begin)
+		can.ui.content.scrollLeft = scroll, can.current.content.scrollLeft = _scroll
+	},
 	cursorDown: function(can, target) { var p = can.onkeymap.cursorMove(target); can.onaction.selectLine(can, can.current.next()), can.onkeymap.cursorMove(target, 0, p) },
 	cursorUp: function(can, target) { var p = can.onkeymap.cursorMove(target); can.onaction.selectLine(can, can.current.prev()), can.onkeymap.cursorMove(target, 0, p) },
 })
 Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, mdb.TYPE, nfs.FILE, nfs.LINE, ice.BACK, ice.MODE, mdb.KEYS]})
+Volcanos(chat.ONLAYOUT, {
+	_split: function(can, target, layout) {
+		var layout = can.page.Create(can, html.DIV, {className: html.LAYOUT+ice.SP+layout})
+		var style = layout == html.FLOW? {width: target.offsetWidth, height: target.offsetHeight/2}: {width: target.offsetWidth/2, height: target.offsetHeight}
+		var left = can.page.Create(can, html.DIV, {className: html.CONTENT, style: style}), right = can.page.Create(can, html.DIV, {className: html.CONTENT, style: style})
+		can.page.SelectChild(can, target, "*", function(target) { left.appendChild(target), can.onaction.appendLine(can, can.page.SelectOne(can, target, "td.text").innerText, right) })
+		layout.appendChild(left), layout.appendChild(right), can.onaction.rerankLine(can, "", right), target.appendChild(layout)
+		var content = can.ui.content; can.ui.content = left, can.onaction.selectLine(can, can.Option(nfs.LINE)), can.ui.content = right, can.onaction.selectLine(can, can.Option(nfs.LINE)), can.ui.content = content
+	},
+	split: function(can, target) { can.onlayout._split(can, target, html.FLOW) },
+	vsplit: function(can, target) { can.onlayout._split(can, target, html.FLEX) },
+})
 Volcanos(chat.ONKEYMAP, {
 	_model: function(can, value) { can.Status(ice.MODE, can.db.mode = value), can.page.styleClass(can, can.ui.current, [code.CURRENT, can.db.mode]), can.page.styleClass(can, can.ui.complete, [code.COMPLETE, can.db.mode, chat.FLOAT]), can.onimport.__tabPath(can, true) },
 	_plugin: function(can) { can.onkeymap._model(can, mdb.PLUGIN), can.ui.current.blur() },
@@ -293,6 +309,8 @@ Volcanos(chat.ONKEYMAP, {
 			f: shy("向下翻页", function(can, count) { var line = can.onaction.selectLine(can)+can.current.window()-3-can.current.scroll(); return can.current.scroll(line), can.onaction.selectLine(can, line), true }),
 			b: shy("向上翻页", function(can, count) { var line = can.onaction.selectLine(can)-can.current.window()+3; return can.current.scroll(line), can.onaction.selectLine(can, line), true }),
 			r: shy("刷新页面", function(can) { can.user.reload(true) }),
+			v: shy("刷新页面", function(can) { can.onlayout.vsplit(can, can._msg._view||can.ui.content) }),
+			s: shy("刷新页面", function(can) { can.onlayout.split(can, can._msg._view||can.ui.content) }),
 		},
 		insert_ctrl: {
 			f: shy("光标右移", function(can, target) { can.user.isWindows && can.onkeymap.cursorMove(target, 1) }),

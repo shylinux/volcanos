@@ -13,3 +13,4 @@ body.black fieldset.vimer>div.output input.current.insert { caret-color:yellow; 
 body.dark fieldset.vimer>div.output input.current.normal { caret-color:gray; }
 body.dark fieldset.vimer>div.output input.current.insert { caret-color:yellow; }
 div.input.vimer.source.create.float td:first-child { display:none; }
+div.layout.flex>* { float:left; clear:none; }
