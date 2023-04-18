@@ -103,3 +103,8 @@ tr.line>td.text { line-height:20px; white-space:pre; padding-left:10px; cursor:t
 body.white tr.line.select { background-color:dimgray; } body.white tr.line:hover { background-color:dimgray; }
 body.black tr.line.select { background-color:darkblue; } body.black tr.line:hover { background-color:darkblue; }
 tr.line>td.line { -webkit-touch-callout:none; -webkit-user-select:none; -khtml-user-select:none; -moz-user-select:none; -ms-user-select:none; -o-user-select:none; user-select:none; }
+
+fieldset.inner>div.output div.content div.layout>div.content { border-right:gray solid 1px; border-top:gray solid 1px; }
+fieldset.inner>div.output div.content div.layout>div.content.select { border:blue solid 1px; }
+div.layout.flex>* { float:left; clear:none; }
+fieldset.inner>div.output div.content div.tips { color:gray; font-style:italic; position:absolute; right:0; top:0; }

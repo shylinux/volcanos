@@ -72,6 +72,7 @@ var mdb = {
 	KEYS: "keys",
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
 	FOREACH: "*", RANDOMS: "%",
+	EQ: "=", FS: ",",
 }
 var web = {CHAT: "chat",
 	SHARE: "share", SPACE: "space", DREAM: "dream",
@@ -79,7 +80,7 @@ var web = {CHAT: "chat",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 
-	HTTP: "http",
+	AT: "@", QS: "?", HTTP: "http",
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
@@ -99,6 +100,7 @@ var aaa = {
 }
 var lex = {
 	SPLIT: "split", PREFIX: "prefix", SUFFIX: "suffix",
+	TB: "\t", SP: " ", NL: "\n",
 }
 var yac = {
 }
@@ -112,21 +114,16 @@ var tcp = {
 	HOST: "host", PORT: "port",
 }
 var nfs = {
-	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash", DIR_ROOT: "dir_root", PWD: "./",
+	DIR: "dir", CAT: "cat", DEFS: "defs", TRASH: "trash", DIR_ROOT: "dir_root",
 	COPY: "copy", EDIT: "edit", SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
-	CONTENT: "content", RECENT: "recent", SCRIPT: "script", MODULE: "module", SOURCE: "source", TARGET: "target", REPOS: "repos",
-	MASTER: "master",
+	CONTENT: "content", RECENT: "recent", SCRIPT: "script", MODULE: "module", SOURCE: "source", TARGET: "target", REPOS: "repos", MASTER: "master",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
-	REPLACE: "replace", FROM: "from", TO: "to",
-	HTML: "html", CSS: "css", JS: "js", SH: "sh", GO: "go", CSV: "csv", JSON: "json",
-	ZML: "zml", IML: "iml", TXT: "txt", PNG: "png", WEBM: "webm",
-	SVG: "svg",
+	OPENS: "opens", REPLACE: "replace", FROM: "from", TO: "to",
+	SVG: "svg", HTML: "html", CSS: "css", JS: "js", SH: "sh", GO: "go", CSV: "csv", JSON: "json",
+	TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
-	SRC: "src/",
-	OPENS: "opens",
-	PS: "/",
-	PT: ".",
-	DF: ":",
+	DF: ":", PS: "/", PT: ".",
+	PWD: "./", SRC: "src/",
 }
 var cli = {
 	PWD: "pwd", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
