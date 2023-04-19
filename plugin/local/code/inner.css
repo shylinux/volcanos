@@ -1,6 +1,7 @@
 fieldset.inner>form.option input[name=path] { width:80px; }
 fieldset.inner>form.option input[name=file] { width:160px; }
 fieldset.inner>div.output div.content { position:relative; }
+fieldset.inner>div.output div.content td.text { height:20px; }
 fieldset.inner>div.output div.content td.text span.comment { color:green; }
 fieldset.inner>div.output div.content td.text span.keyword { color:yellow; }
 fieldset.inner>div.output div.content td.text span.package { color:lightgreen; }
@@ -21,7 +22,7 @@ fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-rig
 fieldset.inner>div.output>div.project>div.zone div.action>div.item>span.delete { top:3px; right:5px; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item>input { width:100%; }
 fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
-fieldset.inner>div.output>div.layout.flow>div.layout>div.content * { font-family:monospace; font-size:14px; outline:none; }
+fieldset.inner>div.output>div.layout.flow>div.layout div.content * { font-family:monospace; font-size:14px; outline:none; }
 fieldset.inner>div.output>div.layout.flow>div.tabs { font-family:monospace; font-size:14px; display:none; }
 fieldset.inner>div.output>div.layout.flow>div.path { font-family:monospace; font-size:14px; display:none; }
 fieldset.inner>div.output>div.layout.flow>div.display div.status>div { padding:5px; float:left; }
@@ -47,8 +48,6 @@ fieldset.inner.cmd>div.output>div.layout.flow>div.path { font-style:italic; padd
 fieldset.inner.cmd>div.output>div.layout.flow>div.path.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.func { padding:5px 10px; margin-left:20px; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.mode { padding:5px 10px; margin-left:20px; cursor:pointer; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.path span.mode.normal { background-color:blue; color:white; }
-fieldset.inner.cmd>div.output>div.layout.flow>div.path span.mode.insert { background-color:red; color:white; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.path span.view { font-size:22px; line-height:12px; padding:0 4px; float:right; cursor:pointer; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug { height:32px; clear:both; position:fixed; bottom:0; right:0; }
 fieldset.inner.cmd>div.output>div.layout.flow>div.plug>legend { font-size:1rem; padding:0 10px; float:right; }
@@ -104,7 +103,16 @@ body.white tr.line.select { background-color:dimgray; } body.white tr.line:hover
 body.black tr.line.select { background-color:darkblue; } body.black tr.line:hover { background-color:darkblue; }
 tr.line>td.line { -webkit-touch-callout:none; -webkit-user-select:none; -khtml-user-select:none; -moz-user-select:none; -ms-user-select:none; -o-user-select:none; user-select:none; }
 
-fieldset.inner>div.output div.content div.layout>div.content { border-right:gray solid 1px; border-top:gray solid 1px; }
-fieldset.inner>div.output div.content div.layout>div.content.select { border:blue solid 1px; }
 div.layout.flex>* { float:left; clear:none; }
-fieldset.inner>div.output div.content div.tips { color:gray; font-style:italic; position:absolute; right:0; top:0; }
+fieldset.inner>div.output>div.layout>div.layout>div.layout div.content { border-left:gray solid 1px; border-top:gray solid 1px; }
+fieldset.inner>div.output>div.layout>div.layout div.content div.tips { color:gray; font-style:italic; position:absolute; right:0; top:0; }
+
+/* focus */
+fieldset.inner>div.output>div.layout>div.path span.mode.normal { background-color:blue; color:white; }
+fieldset.inner>div.output>div.layout>div.path span.mode.insert { background-color:red; color:white; }
+fieldset.inner>div.output>div.layout>div.layout>div.layout div.content.insert.select { border:red solid 1px; }
+fieldset.inner>div.output>div.layout>div.layout>div.layout div.content.normal.select { border:blue solid 1px; }
+fieldset.inner>div.output>div.layout>div.layout div.content.normal tr.line.select>td.line { background-color:blue; color:white; }
+fieldset.inner>div.output>div.layout>div.layout div.content.insert tr.line.select>td.line { background-color:red; color:white; }
+fieldset.inner>div.output>div.layout>div.layout div.content.insert input:not([type=button]):focus { border:red solid 1px; }
+fieldset.inner>div.output>div.layout>div.layout div.content.plugin input:not([type=button]):hover { border:none }

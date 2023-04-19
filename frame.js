@@ -562,7 +562,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		return can.onmotion.hidden(can, target, !status)
 	},
 	select: function(can, target, name, which, cb) { var old = can.page.SelectOne(can, target, name+".select")
-		can.base.isUndefined(which) || can.page.Select(can, target, name, function(target, index) {
+		can.base.isUndefined(which) || can.page.SelectChild(can, target, name, function(target, index) {
 			if (can.page.ClassList.set(can, target, html.SELECT, target == which || index == which)) { can.base.isFunc(cb) && cb(target) }
 		}); return old
 	},

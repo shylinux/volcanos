@@ -174,22 +174,21 @@ Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图"
 		}
 	},
 	_selectLine: function(can) { can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
-		can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop, html.WIDTH, can.base.Min(td.offsetWidth, can.ui._content.offsetWidth))
+		can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop, html.WIDTH, can.base.Min(td.offsetWidth, can.ui.content.offsetWidth))
 		can.db.mode == mdb.NORMAL && can.onkeymap._normal(can)
 	}) },
 	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value); before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before)); return can.onaction.rerankLine(can), can.onexport.line(can, line) },
 	deleteLine: function(can, line) { line = can.onaction._getLine(can, line); var next = line.nextSibling||line.previousSibling; return can.page.Remove(can, line), can.onaction.rerankLine(can), next },
-	scrollHold: function(can, count, begin) {
-		var scroll = can.ui.content.scrollLeft, _scroll = can.ui._content.scrollLeft
-		can.ui.current.focus(), count != undefined && can.onkeymap.cursorMove(can.ui.current, count, begin == undefined? count: begin)
-		can.ui.content.scrollLeft = scroll, can.ui._content.scrollLeft = _scroll
-	},
+	scrollHold: function(can, count, begin) { var scroll = can.ui.content.scrollLeft; can.ui.current.focus(), count != undefined && can.onkeymap.cursorMove(can.ui.current, count, begin == undefined? count: begin), can.ui.content.scrollLeft = scroll },
 	cursorDown: function(can, target) { var p = can.onkeymap.cursorMove(target); can.onaction.selectLine(can, can.current.next()), can.onkeymap.cursorMove(target, 0, p) },
 	cursorUp: function(can, target) { var p = can.onkeymap.cursorMove(target); can.onaction.selectLine(can, can.current.prev()), can.onkeymap.cursorMove(target, 0, p) },
 })
 Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, mdb.TYPE, nfs.FILE, nfs.LINE, ice.BACK, ice.MODE, mdb.KEYS]})
 Volcanos(chat.ONKEYMAP, {
-	_model: function(can, value) { can.Status(ice.MODE, can.db.mode = value), can.page.styleClass(can, can.ui.current, [code.CURRENT, can.db.mode]), can.page.styleClass(can, can.ui.complete, [code.COMPLETE, can.db.mode, chat.FLOAT]), can.onimport.__tabPath(can, true) },
+	_model: function(can, value) {
+		can.page.ClassList.del(can, can.ui.content, mdb.PLUGIN), can.page.ClassList.del(can, can.ui.content, mdb.NORMAL), can.page.ClassList.del(can, can.ui.content, mdb.INSERT), can.page.ClassList.add(can, can.ui.content, value)
+		can.Status(ice.MODE, can.db.mode = value), can.page.styleClass(can, can.ui.current, [code.CURRENT, can.db.mode]), can.page.styleClass(can, can.ui.complete, [code.COMPLETE, can.db.mode, chat.FLOAT]), can.onimport.__tabPath(can, true)
+	},
 	_plugin: function(can) { can.onkeymap._model(can, mdb.PLUGIN), can.ui.current.blur() },
 	_normal: function(can) { can.onkeymap._model(can, mdb.NORMAL), can.onaction.scrollHold(can), can.onkeymap.prevent(event) },
 	_insert: function(event, can, count, begin) { can.onkeymap._model(can, mdb.INSERT), can.onaction.scrollHold(can, count, begin), can.onkeymap.prevent(event) },
