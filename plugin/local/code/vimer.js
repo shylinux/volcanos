@@ -1,15 +1,12 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.require(["inner.js"], function(can) { can.onimport._last_init(can, msg, function() {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.require(["inner.js"], function(can) { can.onimport._last_init(can, msg, function() {
 		can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(can) })
 		can.db.undo = [], can.db.redo = [], can.onimport._input(can), can.base.isFunc(cb) && cb(msg)
-	}, target) }) },
+	}) }) },
 	_input: function(can) { var ui = can.page.Append(can, can.ui.content.parentNode, [
  		{view: [code.CURRENT, html.INPUT], spellcheck: false, onkeydown: function(event) { can.onimport._value(can); if (event.metaKey) { return }
-	 		can.onmotion.scrollHold(can, function() {
-				can.db._keylist = can.onkeymap._parse(event, can, can.db.mode+(event.ctrlKey? "_ctrl": ""), can.db._keylist, can.ui.current)
-				if (can.db.mode == mdb.NORMAL) { can.onkeymap.prevent(event), can.Status(mdb.KEYS, can.db._keylist.join("")) }
-				if (can.db.mode == mdb.INSERT) { can.db._keylist = [] }
-	 		}, can.ui.content, event.ctrlKey)
-		}, onkeyup: function(event) { can.onimport._value(can); if (event.metaKey) { return } can.onaction._complete(event, can)
+			can.db._keylist = can.onkeymap._parse(event, can, can.db.mode+(event.ctrlKey? "_ctrl": ""), can.db._keylist, can.ui.current)
+			if (can.db.mode == mdb.NORMAL) { can.onkeymap.prevent(event) } if (can.db.mode == mdb.INSERT) { can.db._keylist = [] }
+		}, onkeyup: function(event) { can.onimport._value(can); if (event.metaKey) { return } can.onkeymap._complete(event, can)
 		}, onfocus: function(event) { can.current.line.appendChild(can.ui.complete)
 		}, onclick: function(event) { can.onkeymap._insert(event, can)
 			if (event.metaKey) { var target = event.target, begin = target.selectionStart, end = begin, reg = /[a-zA-Z0-9]/
@@ -23,36 +20,28 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.require(["i
 }, [""])
 Volcanos(chat.ONFIGURE, { 
 	source: function(can, target, zone, path) { var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
-		function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) { can.onmotion.clear(can, target)
-			if (path == nfs.SRC) { can.ui.zone.source.refresh = function() { show(target, zone, path) }
-				zone._icon(kit.Dict(
-					web.REFRESH, function(event) { show(target, zone, path) },
-					mdb.CREATE, function(event) { can.user.carteRight(event, can, can.onaction, [nfs.MODULE, nfs.SCRIPT]) },
-				))
-			}
-			var total, cache; function add(list) {
-				can.core.List(list, function(item) { if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true }
-					item._menu = shy({trash: function(event, button) { can.runAction(event, nfs.TRASH, [path+item.path], function() { show(target, zone, path) }) }})
-					if (msg.result && msg.result.indexOf(item.path) > -1) { item.expand = true }
-					item._init = function(target) {
-						if (msg.result && msg.result.indexOf(item.path) > -1) {
-							can.onmotion.delay(can, function() { can.onappend.style(can, mdb.MODIFY, target.parentNode)
-								for (var _target = target.parentNode; _target != zone._target; _target = _target.parentNode) {
-									_target.previousSibling && can.onappend.style(can, mdb.MODIFY, _target.previousSibling)
-								}
-							})
-						} item._remove = function() { can.page.Remove(can, target.parentNode), delete(cache[item.path]) }
-					}
-				}); return can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, cache)
-			} cache = add(msg.Table()), can.Status(mdb.COUNT, total += zone._total(msg.Length()))
-		}, true) } if (path.length == 1) { return show(target, zone, path[0]) }
-		can.onimport.zone(can, can.core.List(path, function(path) {
-			return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) { show(target, zone, path) })
-		}), target), can.page.Remove(can, zone._action)
+		function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) {
+			zone._icon(kit.Dict(
+				web.REFRESH, function(event) { show(target, zone, path) },
+				mdb.CREATE, function(event) { can.user.carteRight(event, can, can.onaction, [nfs.MODULE, nfs.SCRIPT]) },
+			)), zone._total(msg.Length()), can.onmotion.clear(can, target)
+			var cache, list = can.core.List(msg.Table(), function(item) { if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true }
+				item._init = function(target) { item._remove = function() { can.page.Remove(can, target.parentNode), delete(cache[item.path]) }
+					if (msg.result && msg.result.indexOf(item.path) > -1) { can.onmotion.delay(can, function() { can.onappend.style(can, mdb.MODIFY, target.parentNode)
+						for (var _target = target.parentNode; _target != zone._target; _target = _target.parentNode) { _target.previousSibling && can.onappend.style(can, mdb.MODIFY, _target.previousSibling) }
+					}) }
+				}, item._menu = shy(kit.Dict(
+					mdb.CREATE, function(event, button) { can.Update(can.request(event, {path: path+item.path}), [ctx.ACTION, nfs.SCRIPT], function(msg) { show(target, zone, path) }) },
+					nfs.TRASH, function(event, button) { can.runAction(event, nfs.TRASH, [path+item.path], function(msg) { show(target, zone, path) }) },
+				)); return item
+			}); cache = can.onimport.tree(can, list, nfs.PATH, ice.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, cache)
+		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
+		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) { show(target, zone, path) }) }), target)
 	},
 	repos: function(can, target, zone) { can.onimport._zone(can, zone, web.CODE_GIT_STATUS, function(sub, msg) {
 		sub.onexport.record = function(sub, value, key, item) { can.onimport.tabview(can, item.path, item.file) }
-		zone._icon(kit.Dict(web.REFRESH, function(event) { sub.Update(event) },
+		zone._icon(kit.Dict(
+			web.REFRESH, function(event) { sub.Update(event) },
 			code.PULL, function(event) { sub.runAction(event, code.PULL) },
 			code.PUSH, function(event) { sub.runAction(event, code.PUSH) },
 			"=", function() { can.onimport.tabview(can, "", sub._index, ctx.INDEX) },
@@ -75,7 +64,7 @@ Volcanos(chat.ONFIGURE, {
 })
 Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图", "计划", "收藏", "首页"],
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
-		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.zone.source.refresh(), can.user.toastSuccess(can, button)
+		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button)
 	}) },
 	_runs: function(event, can, button, cb) { var meta = can.Conf(); can.request(event, {action: button})
 		can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) })
@@ -88,8 +77,8 @@ Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图"
 			if (block == "import") { count++ }
 		}); return count }
 		can.onaction._run(event, can, button, [can.db.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
-			if (can.db.parse == nfs.GO) { var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content)
-				can.db.max = 0, can.core.List(msg.Result().split(ice.NL), function(item) { can.onaction.appendLine(can, item) })
+			if (can.base.Ext(can.Option(nfs.FILE)) == nfs.GO) { var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content)
+				can.ui.content._max = 0, can.core.List(msg.Result().split(ice.NL), function(item) { can.onaction.appendLine(can, item) })
 				can.onaction.selectLine(can, line+imports(msg.Result())-imports(msg.Option(nfs.CONTENT)))
 			} can.user.toastSuccess(can, button, can.Option(nfs.PATH)+can.Option(nfs.FILE))
 		})
@@ -118,20 +107,21 @@ Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图"
 	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },
 	"收藏": function(event, can) { can.onimport.tabview(can, "", web.CHAT_FAVOR, ctx.INDEX) },
 	"首页": function(event, can) { can.onimport.tabview(can, "", location.origin+ice.PS+(can.misc.Search(can, log.DEBUG) == ice.TRUE? "?debug=true": ""), web.SPACE) },
-	"全屏": function(event, can) { can._target.requestFullScreen() },
-	"录屏": function(event, can) { window.openapp("QuickTime Player") },
-	"编辑器": function(event, can) { window.opencmd("cd ~/contexts; vim +"+can.Option(nfs.LINE)+" "+can.Option(nfs.PATH)+can.Option(nfs.FILE)) },
-	"浏览器": function(event, can) { window.openurl(location.href) },
-	listTags: function(event, can, button) { var list = []
-		can.core.Item(can.request(event), function(key, value) { if (key.indexOf("_") == 0) { return }
-			list.push({zone: ice.MSG, type: typeof value, name: key, text: can.base.isObject(value)? "": (value+"").split(ice.NL)[0], path: ice.USR_VOLCANOS, file: ice.LIB_MISC, line: 1})
-		}), can.page._path = ice.LIB_PAGE
-		can.core.Item(can, function(zone, lib) { if (zone.indexOf("_") == 0) { return }
-			can.core.Item(lib, function(key, value) { if (!lib.hasOwnProperty(key)) { return }
-				lib._path && list.push({zone: zone, type: typeof value, name: key, text: can.base.isObject(value)? "": (value+"").split(ice.NL)[0], path: ice.USR_VOLCANOS, file: lib._path, line: 1})
-			})
-		}), can.runAction(can.request(event, {text: can.base.Format(list)}), button)
-	},
+	_selectLine: function(can) { can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
+		can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop, html.WIDTH, can.base.Min(td.offsetWidth, can.ui.content.offsetWidth))
+		can.db.mode == mdb.NORMAL && can.onkeymap._normal(can)
+	}) },
+	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value); before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before)); return can.onaction.rerankLine(can), can.onexport.line(can, line) },
+	deleteLine: function(can, line) { line = can.onaction._getLine(can, line); var next = line.nextSibling||line.previousSibling; return can.page.Remove(can, line), can.onaction.rerankLine(can), next },
+})
+Volcanos(chat.ONKEYMAP, {
+	_model: function(can, value) { can.db.mode = value, can.onimport.__tabPath(can, true), can.core.List([mdb.PLUGIN, mdb.NORMAL, mdb.INSERT], function(item) { can.page.ClassList.del(can, can.ui.content, item) }), can.page.ClassList.add(can, can.ui.content, value) },
+	_plugin: function(can) { can.onkeymap._model(can, mdb.PLUGIN), can.ui.current.blur() },
+	_normal: function(can) { can.onkeymap._model(can, mdb.NORMAL), can.onkeymap.scrollHold(can) },
+	_insert: function(event, can, count, begin) { can.onkeymap._model(can, mdb.INSERT), can.onkeymap.scrollHold(can, count, begin), can.onkeymap.prevent(event) },
+	scrollHold: function(can, count, begin) { var scroll = can.ui.content.scrollLeft; can.ui.current.focus(), count != undefined && can.onkeymap.cursorMove(can.ui.current, count, begin == undefined? count: begin), can.ui.content.scrollLeft = scroll },
+	cursorDown: function(can, target) { var p = can.onkeymap.cursorMove(target); can.onaction.selectLine(can, can.current.next()), can.onkeymap.cursorMove(target, 0, p) },
+	cursorUp: function(can, target) { var p = can.onkeymap.cursorMove(target); can.onaction.selectLine(can, can.current.prev()), can.onkeymap.cursorMove(target, 0, p) },
 	_complete: function(event, can, target) { if (event == undefined || event.type == "click") { return } target = target||can.ui.complete
 		var pre = can.ui.current.value.slice(0, can.ui.current.selectionStart), key = can.core.Split(pre, "\t .[]", ice.SP).pop()||"", end = can.ui.current.value.slice(can.ui.current.selectionStart)
 		function update() { target._pre = pre, target._end = end, target._index = -1
@@ -173,52 +163,23 @@ Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图"
 			default: filter()
 		}
 	},
-	_selectLine: function(can) { can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
-		can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop, html.WIDTH, can.base.Min(td.offsetWidth, can.ui.content.offsetWidth))
-		can.db.mode == mdb.NORMAL && can.onkeymap._normal(can)
-	}) },
-	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value); before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before)); return can.onaction.rerankLine(can), can.onexport.line(can, line) },
-	deleteLine: function(can, line) { line = can.onaction._getLine(can, line); var next = line.nextSibling||line.previousSibling; return can.page.Remove(can, line), can.onaction.rerankLine(can), next },
-	scrollHold: function(can, count, begin) { var scroll = can.ui.content.scrollLeft; can.ui.current.focus(), count != undefined && can.onkeymap.cursorMove(can.ui.current, count, begin == undefined? count: begin), can.ui.content.scrollLeft = scroll },
-	cursorDown: function(can, target) { var p = can.onkeymap.cursorMove(target); can.onaction.selectLine(can, can.current.next()), can.onkeymap.cursorMove(target, 0, p) },
-	cursorUp: function(can, target) { var p = can.onkeymap.cursorMove(target); can.onaction.selectLine(can, can.current.prev()), can.onkeymap.cursorMove(target, 0, p) },
-})
-Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, mdb.TYPE, nfs.FILE, nfs.LINE, ice.BACK, ice.MODE, mdb.KEYS]})
-Volcanos(chat.ONKEYMAP, {
-	_model: function(can, value) {
-		can.page.ClassList.del(can, can.ui.content, mdb.PLUGIN), can.page.ClassList.del(can, can.ui.content, mdb.NORMAL), can.page.ClassList.del(can, can.ui.content, mdb.INSERT), can.page.ClassList.add(can, can.ui.content, value)
-		can.Status(ice.MODE, can.db.mode = value), can.page.styleClass(can, can.ui.current, [code.CURRENT, can.db.mode]), can.page.styleClass(can, can.ui.complete, [code.COMPLETE, can.db.mode, chat.FLOAT]), can.onimport.__tabPath(can, true)
-	},
-	_plugin: function(can) { can.onkeymap._model(can, mdb.PLUGIN), can.ui.current.blur() },
-	_normal: function(can) { can.onkeymap._model(can, mdb.NORMAL), can.onaction.scrollHold(can), can.onkeymap.prevent(event) },
-	_insert: function(event, can, count, begin) { can.onkeymap._model(can, mdb.INSERT), can.onaction.scrollHold(can, count, begin), can.onkeymap.prevent(event) },
 	_mode: {
 		plugin: {
-			Backspace: shy("删除", function(event, can, target) {
-				for (var p = document.getSelection().anchorNode; !can.page.tagis(p.parentNode, html.TR); p = p.parentNode) {}
-				var line = can.onexport.line(can, p.parentNode)
-				for (var p = document.getSelection().extentNode; !can.page.tagis(p.parentNode, html.TR); p = p.parentNode) {}
-				document.getSelection().deleteFromDocument(), can.onaction.rerankLine(can), can.onaction.selectLine(can, line)
-				var text = can.current.text(); if (p && p.innerHTML) { can.current.text(text+p.innerText) }
-				can.page.Remove(can, p.parentNode), can.onaction.selectLine(can, line), can.onkeymap._insert(event, can, text.length, 0)
-			}),
-			Escape: shy("切换模式", function(event, can) { can.onaction.clear(event, can) }),
+			Escape: shy("清除浮窗", function(event, can) { can.onaction.clear(event, can) }),
+			f: shy("打开文件", function(event, can) { can.onaction.open(event, can) }),
+			g: shy("查找搜索", function(event, can) { can.onaction.find(event, can) }),
+			d: shy("查找函数", function(event, can) { can.page.Select(can, can.ui.path, "span.func", function(target) { target.click() }) }),
+			n: shy("命令模式", function(event, can) { can.onaction.selectLine(can, can.onaction.selectLine(can)), can.onkeymap._normal(can) }),
+			i: shy("插入模式", function(event, can) { can.onaction.selectLine(can, can.onaction.selectLine(can)), can.onkeymap._insert(event, can) }),
+			s: shy("保存文件", function(event, can) { can.onaction.save(event, can, nfs.SAVE) }),
+			c: shy("编译项目", function(event, can) { can.onaction.compile(event, can, code.COMPILE) }),
 			v: shy("渲染界面", function(event, can) { can.onaction.show(event, can) }),
 			r: shy("执行命令", function(event, can) { can.onaction.exec(event, can) }),
-			f: shy("打开文件", function(event, can) { can.onaction.open(event, can) }),
-			d: shy("查找函数", function(event, can) { can.page.Select(can, can.ui.path, "span.func", function(target) { target.click() }) }),
-			g: shy("查找搜索", function(event, can) { can.onaction.find(event, can) }),
 			t: shy("添加命令", function(event, can) { can.onaction["命令"](event, can) }),
 			p: shy("添加插件", function(event, can) { can.onaction["插件"](event, can) }),
-			e: shy("添加扩展", function(event, can) { can.onaction["扩展"](event, can) }),
 			l: shy("打开右边标签", function(can) { var next = can._tab.nextSibling; next && next.click() }),
 			h: shy("打开左边标签", function(can) { var prev = can._tab.previousSibling; prev && prev.click() }),
 			x: shy("关闭标签", function(can) { can._tab._close() }),
-			s: shy("保存文件", function(event, can) { can.onaction.save(event, can, nfs.SAVE) }),
-			c: shy("编译项目", function(event, can) { can.onaction.compile(event, can, code.COMPILE) }),
-			i: shy("插入模式", function(event, can) { can.onaction.selectLine(can, can.onaction.selectLine(can)), can.onkeymap._insert(event, can) }),
-			n: shy("命令模式", function(event, can) { can.onaction.selectLine(can, can.onaction.selectLine(can)), can.onkeymap._normal(can) }),
-			":": shy("底行模式", function(event, can) { can.onimport.toolkit(can, {index: "cli.system"}, function(sub) { can.db.toolkit["cli.system"] = sub.select(), can.onmotion.delay(can, function() { sub.Focus() }) }) }),
 		},
 		normal: {
 			s: shy("保存文件", function(event, can) { can.onaction.save(event, can, nfs.SAVE) }),
@@ -229,14 +190,14 @@ Volcanos(chat.ONKEYMAP, {
 			Escape: shy("切换模式", function(event, can) { can.onkeymap._plugin(can) }),
 			ArrowLeft: shy("光标左移", function(can, target) { can.onkeymap.cursorMove(target, -1) }),
 			ArrowRight: shy("光标右移", function(can, target) { can.onkeymap.cursorMove(target, 1) }),
-			ArrowDown: shy("光标下移", function(can, target) { can.onaction.cursorDown(can, target) }),
-			ArrowUp: shy("光标上移", function(can, target) { can.onaction.cursorUp(can, target) }),
+			ArrowDown: shy("光标下移", function(can, target) { can.onkeymap.cursorDown(can, target) }),
+			ArrowUp: shy("光标上移", function(can, target) { can.onkeymap.cursorUp(can, target) }),
 			H: shy("跳到行首", function(can, target) { can.onkeymap.cursorMove(target, 0, 0) }),
 			L: shy("跳到行尾", function(can, target) { can.onkeymap.cursorMove(target, 0, -1) }),
 			h: shy("光标左移", function(can, target) { can.onkeymap.cursorMove(target, -1) }),
 			l: shy("光标右移", function(can, target) { can.onkeymap.cursorMove(target, 1) }),
-			j: shy("光标下移", function(can, target) { can.onaction.cursorDown(can, target) }),
-			k: shy("光标上移", function(can, target) { can.onaction.cursorUp(can, target) }),
+			j: shy("光标下移", function(can, target) { can.onkeymap.cursorDown(can, target) }),
+			k: shy("光标上移", function(can, target) { can.onkeymap.cursorUp(can, target) }),
 
 			I: shy("插入行首", function(event, can) { can.onkeymap._insert(event, can, 0, 0) }),
 			A: shy("插入行尾", function(event, can) { can.onkeymap._insert(event, can, 0, -1) }),
@@ -294,25 +255,27 @@ Volcanos(chat.ONKEYMAP, {
 			b: shy("向上翻页", function(can, count) { var line = can.onaction.selectLine(can)-can.current.window()+3; return can.current.scroll(line), can.onaction.selectLine(can, line), true }),
 			r: shy("刷新页面", function(can) { can.user.reload(true) }),
 
-			v: shy("刷新页面", function(can) { can.onlayout.vsplit(can) }),
-			s: shy("刷新页面", function(can) { can.onlayout.split(can) }),
-			x: shy("刷新页面", function(can) { can.onlayout.close(can) }),
-			o: shy("刷新页面", function(can) { can.onlayout.only(can) }),
+			v: shy("左右分屏", function(can) { can.onlayout.vsplit(can) }),
+			s: shy("上下分屏", function(can) { can.onlayout.split(can) }),
+			x: shy("关闭文件", function(can) { can.onlayout.close(can) }),
+			o: shy("关闭其它", function(can) { can.onlayout.only(can) }),
 		},
 		insert_ctrl: {
-			f: shy("光标右移", function(can, target) { can.user.isWindows && can.onkeymap.cursorMove(target, 1) }),
-			b: shy("光标左移", function(can, target) { can.user.isWindows && can.onkeymap.cursorMove(target, -1) }),
 			a: shy("光标行首", function(can, target) { for (var i = 0; i < target.value.length; i++) { if (target.value[i] != ice.TB) { break } } can.onkeymap.cursorMove(target, i, 0), can.onkeymap.prevent(event) }),
 			e: shy("光标行尾", function(can, target) { can.user.isWindows && can.onkeymap.cursorMove(target, 0, -1) }),
+			b: shy("光标左移", function(can, target) { can.user.isWindows && can.onkeymap.cursorMove(target, -1) }),
+			f: shy("光标右移", function(can, target) { can.user.isWindows && can.onkeymap.cursorMove(target, 1) }),
 			d: shy("删除字符", function(can, target) { can.user.isWindows && can.onkeymap.deleteText(target, target.selectionStart, 1) }),
 		},
 		insert: {
 			Escape: shy("退出编辑", function(event, can) { can.onkeymap._normal(can) }),
-			Tab: shy("添加缩进", function(event, can) { can.onkeymap.insertText(can.ui.current, ice.TB), can.onkeymap.prevent(event) }),
+			ArrowUp: shy("光标上移", function(can, target) { can.onkeymap.cursorUp(can, target) }),
+			ArrowDown: shy("光标下移", function(can, target) { can.onkeymap.cursorDown(can, target) }),
 			Backspace: shy("删除字符", function(event, can, target) { if (target.selectionStart > 0 || !can.current.prev()) { return } can.onkeymap.prevent(event)
 				var rest = can.current.text(); can.onaction.selectLine(can, can.current.prev()), can.onaction.deleteLine(can, can.current.next())
 				var text = can.current.text(); can.ui.current.value = text+rest, can.onkeymap.cursorMove(target, 0, text.length)
 			}),
+			Tab: shy("添加缩进", function(event, can) { can.onkeymap.insertText(can.ui.current, ice.TB), can.onkeymap.prevent(event) }),
 			Enter: shy("插入换行", function(can, target) {
 				var rest = can.onkeymap.deleteText(target, target.selectionEnd).trimLeft(), text = can.ui.current.value
 				var left = text.substr(0, text.indexOf(text.trimLeft()))||(text.trimRight() == ""? text: "")
@@ -328,8 +291,6 @@ Volcanos(chat.ONKEYMAP, {
 				var line = can.onaction.insertLine(can, left+rest, can.current.next())
 				can.current.text(text.trimRight()||text), can.onaction.selectLine(can, line), can.onkeymap._insert(event, can, 0, left.length)
 			}),
-			ArrowDown: shy("光标下移", function(can, target) { can.onaction.cursorDown(can, target) }),
-			ArrowUp: shy("光标上移", function(can, target) { can.onaction.cursorUp(can, target) }),
 		},
 	}, _engine: {},
 })

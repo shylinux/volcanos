@@ -542,9 +542,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			})
 		},
 	},
-	scrollHold: function(can, cb, target) { target = target || can._output
-		var top = target.scrollTop, left = target.scrollLeft; cb(), target.scrollLeft = left
-	},
+	scrollHold: function(can, cb, target) { target = target || can._output; var left = target.scrollLeft; cb(), target.scrollLeft = left },
 	clearFloat: function(can) {
 		var list = ["fieldset.input.float", "div.input.float", "div.carte.float"]; for (var i = 0; i < list.length; i++) {
 			if (can.page.Select(can, document.body, list[i], function(target) { return target._close? target._close(): can.page.Remove(can, target) }).length > 0) { return true }
