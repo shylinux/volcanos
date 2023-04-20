@@ -244,8 +244,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.isCmdMode() && can.onappend.style(can, can.misc.Search(can, ctx.STYLE), can._target)
 				can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "")
 				can.onappend.style(sub, sub.Conf(ctx.STYLE))
-				// if (can.isCmdMode()) { can.onimport.size(can, can.page.height(), can.page.width(), true) }
-				can.core.List([chat.FLOAT, chat.FULL, chat.CMD], function(mode) { can.page.ClassList.has(can, can._target, mode) && sub.onlayout[mode](sub) })
+				if (can.isFullMode() || can.isCmdMode()) { can.onimport.size(can, can.page.height(), can.page.width(), true) }
+				// can.core.List([chat.FLOAT], function(mode) { can.page.ClassList.has(can, can._target, mode) && sub.onlayout[mode](sub) })
 				can.onmotion.story.auto(can, can._output), can.onexport.output(can, msg), can.base.isFunc(cb) && cb(msg)
 			}, target: output})
 		})
@@ -416,11 +416,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var defer = [], content_height, content_width; function layout(type, list, height, width) { var _width = width, _height = height; can.core.List(list, function(item) {
 			if (can.base.isArray(item)) { return }
 			if (can.base.isObject(item)) { var meta = item; item = item._index }
-			// if (item == "plug") { return }
 			var target = ui[item]; if (!can.page.isDisplay(target)) { return }
 			if (item == html.CONTENT) { return defer.push(function() { can.page.style(can, target, html.HEIGHT, content_height = height, html.WIDTH, content_width = width) }) }
-			// if (item == html.PROFILE) { width -= 1 }
-			// if (item == html.PROJECT) { width -= 1 }
 			if (type == FLOW) { var h = calc(item, target.offsetHeight, height)
 				if (can.base.isObject(meta) && meta.layout) { meta.layout(h, width) }
 				can.page.style(can, target, html.WIDTH, width), height -= h

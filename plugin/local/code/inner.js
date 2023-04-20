@@ -145,13 +145,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	history: function(can, record) { can.base.Eq(record, can.db.history[can.db.history.length-1], mdb.TEXT) || can.db.history.push(record)
 		return can.Status(ice.BACK, can.db.history.length), record
 	},
-	project: function(can, path) {
-		can.page.style(can, can.ui.project, "visibility", "hidden")
-		can.onmotion.clear(can, can.ui.project), can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) {
-			if (can.base.isFunc(cb)) { return {name: name, _trans: can.onfigure._trans? can.onfigure._trans[name]||"": "", _init: function(target, zone) { return cb(can, target, zone, path) }} }
-		}), can.ui.project)
-		can.page.style(can, can.ui.project, "visibility", "visible")
-	},
+	project: function(can, path) { can.onmotion.clear(can, can.ui.project), can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) {
+		if (can.base.isFunc(cb)) { return {name: name, _trans: can.onfigure._trans? can.onfigure._trans[name]||"": "", _init: function(target, zone) { return cb(can, target, zone, path) }} }
+	}), can.ui.project) },
 	profile: function(can, msg) { var _msg = can.db.tabview[can.onexport.keys(can)]; _msg.Option(html.WIDTH, msg.Option(html.WIDTH)||0.5)
 		if (msg.Result().indexOf("<iframe src=") > -1) { if (_msg._profile != can.ui._profile) { can.page.Remove(can, _msg._profile) }
 			var src = can.page.Select(can, can.page.Create(can, html.DIV, msg.Result()), html.IFRAME, function(target) { return target.src })[0]
@@ -251,7 +247,6 @@ Volcanos(chat.ONLAYOUT, {
 		var layout = can.page.insertBefore(can, [{view: [[html.LAYOUT, type]]}], target); layout.appendChild(target), can.page.style(can, target, style)
 		var right = can.page.Append(can, layout, [{view: html.CONTENT, style: style}])._target; can.onmotion.cache(can, function() { return can.onexport.keys(can) }, right)
 		can.ui.content = right, right._max = 0, can.page.SelectChild(can, target, "tr.line", function(target) { can.onaction.appendLine(can, can.page.SelectOne(can, target, "td.text").innerText, right) })
-		layout.parentNode == can.ui._profile.parentNode && can.page.Append(can, target, [{view: ["tips", "", msg.Option(nfs.FILE)]}]), can.page.Append(can, right, [{view: ["tips", "", msg.Option(nfs.FILE)]}])
 		right.scrollTop = target.scrollTop = scroll, right._msg = msg, msg._content = layout._root = right._root = target._root = target._root||layout
 	},
 	split: function(can) { can.onlayout._split(can, html.FLOW) },
@@ -285,14 +280,11 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.
 		if (can.onexport.parse(can) == nfs.SVG) { msg.Option(ctx.INDEX, web.WIKI_DRAW+mdb.FS+path+file) }
 		if (msg.Option(ctx.INDEX)) { return can.onsyntax._index(can, msg, function(target) { can.ui.content = target, cb(msg._content = content._root? (target._root = content._root): target) }, content._root? content: can.ui._profile.parentNode) }
 		function show(p) {
-			if (content._root) { can.page.Append(can, content, [{view: ["tips", "", file]}]) } else {
-				if (can.db.history.length > 1) { content = can.ui.content = can.page.insertBefore(can, [{view: html.CONTENT, style: {width: can.ui.content.offsetWidth}}], can.ui._profile) } content._cache_key = key
-			} content._max = 0, content._msg = msg, msg.__content = content
-			can.page.style(can, can.ui.content, "visibility", "hidden")
+			if (!content._root && can.db.history.length > 1) { content = can.ui.content = can.page.insertBefore(can, [{view: html.CONTENT, style: {width: can.ui.content.offsetWidth}}], can.ui._profile), content._cache_key = key }
+			content._max = 0, content._msg = msg, msg.__content = content, can.page.Appends(can, content, [{view: ["tips", "", msg.Option(nfs.FILE)]}])
 			if (msg.Length() > 0) { can.onsyntax._change(can, msg), can.onaction.rerankLine(can, "tr.line:not(.delete)>td.line")
 				can.page.Select(can, content, "tr.line.delete>td.line", function(target) { target.innerHTML = "" })
 			} else { can.core.List(msg.Result().split(lex.NL), function(item) { can.onaction.appendLine(can, item) }) }
-			can.page.style(can, can.ui.content, "visibility", "visible")
 			can.onengine.signal(can, VIEW_CREATE, msg), can.base.isFunc(cb) && cb(msg._content = content._root? content._root: content)
 		} can.require(["inner/syntax.js"], function() { var parse = can.onexport.parse(can); can.Conf(chat.PLUG) && (can.onsyntax[parse] = can.Conf(chat.PLUG))
 			var p = can.onsyntax[parse]; !p? can.runAction({}, mdb.PLUGIN, [parse, file, path], function(msg) { show(p = can.onsyntax[parse] = can.base.Obj(msg.Result()||"{}")) }): show(p)
@@ -367,7 +359,14 @@ Volcanos(chat.ONACTION, {
 	_getLine: function(can, line) { return can.page.Select(can, can.ui.content, "tr.line>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return td.parentNode } })[0] },
 	_getContent: function(can, line) {
 		can.ui.content = line.parentNode, can._msg = can.ui.content._msg, can.Option(nfs.PATH, can._msg.Option(nfs.PATH)), can.Option(nfs.FILE, can._msg.Option(nfs.FILE))
-		can.onmotion.select(can, can.ui.content.parentNode, html.DIV_CONTENT, can.ui.content), can.onimport.__tabPath(can)
+		can.onaction.selectContent(can, function(target) {
+			can.page.ClassList.set(can, target, html.SELECT, target == can.ui.content)
+		}), can.onimport.__tabPath(can)
+	},
+	selectContent: function(can, cb) {
+		function select(target) { target && can.core.List(target.children, function(target) {
+				cb(target), can.page.ClassList.has(can, target, html.LAYOUT) && select(target)
+		}) } select(can.ui.content._root)
 	},
 	appendLine: function(can, value, target) { var ui = can.page.Append(can, target||can.ui.content, [{view: [nfs.LINE, html.TR], list: [
 		{view: [nfs.LINE, html.TD, ++can.ui.content._max], onclick: function(event) {

@@ -46,12 +46,12 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 	},
 	plugin: function(event, can, data) { if (can.base.isFunc(data.text)) { return can.onmotion.hidden(can), data.text(event) }
 		var cmd = data.cmd == ctx.COMMAND? can.core.Keys(data.type, data.name.split(ice.SP)[0]): can.core.Keys(data.ctx, data.cmd)
-		var meta = {type: "plugin", index: cmd||msg.Option(mdb.INDEX), args: cmd == web.WIKI_WORD? [data.name]: []}
+		var meta = {type: html.PLUGIN, index: cmd||msg.Option(mdb.INDEX), args: cmd == web.WIKI_WORD? [data.name]: []}
 		if (data.type == cli.OPENS) { return can.runAction(event, cli.OPENS, [data.text], null, true) }
 		if (data.type == ssh.SHELL) { meta = {index: web.CODE_XTERM, args: [data.text]} }
 		if (data.type == ctx.INDEX) { meta = {index: data.text.split(ice.FS)[0], args: data.text.split(ice.FS).slice(1) } }
 		if (data.type == nfs.FILE) { meta = {index: web.CODE_VIMER, args: can.misc.SplitPath(can, data.text)} }
-		can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub), sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), true), sub.Focus() }, can.ui.profile)
+		can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub), sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth()-1, true), sub.Focus() }, can.ui.profile)
 	},
 })
 Volcanos(chat.ONEXPORT, {statusHeight: function(can) { return can.db.type == mdb.FOREACH? 0: html.ACTION_HEIGHT },
