@@ -203,6 +203,7 @@ fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full):not(.cmd)>lege
 fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
 fieldset.plug { position:absolute; bottom:0; right:0; } fieldset.cmd fieldset.plug { position:fixed; bottom:32px; right:0; }
 fieldset.plug div.output table.content { width:100%; }
+div.layout.flex>* { float:left; clear:none; }
 div.output { position:relative; }
 div.tabs { position:relative; }
 div.tabs span.icon { margin-left:10px; visibility:hidden; }
@@ -343,9 +344,6 @@ fieldset.plugin.parse.cmd>legend { display:none; }
 fieldset.plugin.parse.cmd>form.option { display:none; }
 fieldset.plugin.parse.cmd>div.action { display:none; }
 fieldset.plugin.parse.cmd>div.status { display:none; }
-fieldset.plugin.inner.cmd>legend { display:none; }
-fieldset.plugin.inner.cmd>div.action { display:none; }
-fieldset.plugin.inner.cmd>form.option { display:none; }
 fieldset.plan div.output div.content>table.content { height:100%; width:100%; }
 fieldset.xterm div.layout div.output { border-left:gray solid 1px; border-top:gray solid 1px; }
 fieldset.xterm div.layout div.output.select { border:blue solid 1px; }
@@ -356,8 +354,6 @@ fieldset.draw.trend div.output svg { background-color:#1b5b738c; }
 fieldset.draw.spide div.output svg text { cursor:pointer; }
 fieldset.draw.spide div.output svg path { stroke-width:1; }
 fieldset.web.code.git.status>div.output table.content { width:100%; }
-fieldset.web.code.inner.cmd>div.output { overflow:hidden; }
-fieldset.web.code.inner.cmd>div.status { display:none; }
 fieldset.web.chat.iframe>div.output { overflow:hidden; }
 fieldset.qrcode>div.output div.code { padding:0; }
 fieldset.can.view { font-size:14px; }

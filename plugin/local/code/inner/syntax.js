@@ -180,6 +180,7 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	}, mod: {prefix: {"//": code.COMMENT}, keyword: {"go": code.KEYWORD, "module": code.KEYWORD, "require": code.KEYWORD, "replace": code.KEYWORD}}, sum: {},
 	js: {prefix: {"// ": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT}, keyword: {
+			
 			"var": code.KEYWORD, "function": code.KEYWORD, "typeof": code.KEYWORD, "const": code.KEYWORD, "new": code.KEYWORD, "delete": code.KEYWORD,
 			"if": code.KEYWORD, "else": code.KEYWORD,
 			"for": code.KEYWORD, "in": code.KEYWORD, "while": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
@@ -188,7 +189,6 @@ Volcanos(chat.ONSYNTAX, {
 
 			"true": code.CONSTANT, "false": code.CONSTANT, "null": code.CONSTANT, "undefined": code.CONSTANT,
 			"Array": code.DATATYPE, "JSON": code.DATATYPE, "Date": code.DATATYPE, "Math": code.DATATYPE, "XMLHttpRequest": code.DATATYPE, "WebSocket": code.DATATYPE,
-			"event": code.OBJECT, "target": code.OBJECT,
 			"window": code.OBJECT, "console": code.OBJECT, "navigator": code.OBJECT,
 			"location": code.OBJECT, "history": code.OBJECT, "document": code.OBJECT,
 			"arguments": code.OBJECT, "callee": code.OBJECT, "this": code.OBJECT,
@@ -200,10 +200,16 @@ Volcanos(chat.ONSYNTAX, {
 			"concat": code.FUNCTION, "reverse": code.FUNCTION, "slice": code.FUNCTION, "join": code.FUNCTION, "sort": code.FUNCTION, "push": code.FUNCTION, "pop": code.FUNCTION,
 			"stringify": code.FUNCTION, "parse": code.FUNCTION,
 
-			"Volcanos": code.FUNCTION, "shy": code.FUNCTION, "cbs": code.FUNCTION, "cb": code.FUNCTION,
 			"kit": code.PACKAGE, "ice": code.PACKAGE,
-			"can": code.OBJECT, "sub": code.OBJECT, "sup": code.OBJECT,
-			"msg": code.OBJECT, "res": code.OBJECT,
+			"can": code.OBJECT, "msg": code.OBJECT, "cb": code.FUNCTION, "target": code.OBJECT, "event": code.OBJECT,
+			"Volcanos": code.FUNCTION, "shy": code.FUNCTION, "cbs": code.FUNCTION,
+			"res": code.OBJECT, "sub": code.OBJECT, "sup": code.OBJECT,
+		},
+		complete: function(event, can, msg, target, pre, key) {
+			var ls = can.core.Split(can.core.Split(pre, "\t {(:,)}").pop(), ice.PT), list = {can: can, msg: msg, target: target, event: event, window: window}
+			can.core.ItemKeys(key == ""? list: can.core.Value(list, ls)||can.core.Value(window, ls)||window, function(k, v) {
+				msg.Push(mdb.NAME, k).Push(mdb.TEXT, (v+"").split(ice.NL)[0])
+			})
 		},
 		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t (,", ice.DF)
 			if (indent == 0 && can.base.beginWith(text, "Volcanos")) {

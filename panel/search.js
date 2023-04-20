@@ -8,7 +8,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can
 	_size: function(can) { can.getActionSize(function(left, top, width, height) {
 		can.page.style(can, can._target, {left: left||0, top: top||0, width: width}), can.page.style(can, can._output, html.MAX_HEIGHT, height -= 2*html.PLUGIN_MARGIN+html.ACTION_HEIGHT+can.onexport.statusHeight(can))
 		can.core.List([can.ui.content, can.ui.display], function(target) { can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth(width-2*html.PLUGIN_MARGIN)) })
-		can.ConfHeight(can.base.Min(height-can.ui.content.offsetHeight-can.ui.display.offsetHeight-html.ACTION_HEIGHT-1, height/2))
+		can.ConfHeight(can.base.Min(height-can.ui.content.offsetHeight-can.ui.display.offsetHeight-html.ACTION_HEIGHT, height/2))
 	}) },
 	_input: function(can, msg, arg, fields) { if (can.base.contains(arg[1], ";")) { arg = can.core.Split(arg[1], "\t ;", "\t ;") }
 		can.run(can.request({}, {fields: fields.join(ice.FS)}, msg), arg, function(res) { can.db.type = arg[0]

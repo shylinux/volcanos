@@ -1,17 +1,23 @@
-fieldset.vimer>div.output div.project div.zone.recent>div.list { max-height:200px; }
-fieldset.vimer>div.output div.project div.zone.space div.item.stop { color:gray; }
-fieldset.vimer>div.output input.current { background-color:transparent; color:transparent; padding-left:10px; height:20px; position:absolute; }
-fieldset.vimer>div.output div.complete { background-color:unset; padding-top:0; display:none; overflow:auto; position:absolute; }
-fieldset.vimer>div.output div.complete div.prefix { color:transparent; white-space:pre; float:left; }
-fieldset.vimer>div.output div.complete table.content thead { display:none; }
-fieldset.vimer>div.output div.complete table.content { width:unset; max-width:600px; display:block; }
+fieldset.vimer>div.output>div.project>div.zone.space div.item.stop { color:gray; }
+fieldset.vimer>div.output>div.layout>div.path span.mode.normal { background-color:blue; color:white; }
+fieldset.vimer>div.output>div.layout>div.path span.mode.insert { background-color:red; color:white; }
+fieldset.vimer>div.output>div.layout>div.layout div.content input.current { background-color:transparent; color:transparent; padding-left:10px; height:20px; position:absolute; }
+fieldset.vimer>div.output>div.layout>div.layout div.content div.complete { background-color:unset; padding-top:0; display:none; overflow:auto; position:absolute; }
+fieldset.vimer>div.output>div.layout>div.layout div.content div.complete div.prefix { color:transparent; white-space:pre; float:left; }
+fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content thead { display:none; }
+fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content { padding-left:5px; width:unset; max-width:600px; display:block; }
 fieldset.vimer>div.output>div.layout>div.layout div.content.insert div.complete:not(.hide) { display:block; top:unset; }
+fieldset.vimer>div.output>div.layout>div.layout div.content div.tips { color:gray; font-style:italic; position:absolute; right:0; top:0; }
+fieldset.vimer>div.output>div.layout>div.layout>div.layout div.content { border-left:gray solid 1px; border-top:gray solid 1px; }
+fieldset.vimer>div.output>div.layout>div.layout>div.layout div.content.normal.select { border:blue solid 1px; }
+fieldset.vimer>div.output>div.layout>div.layout>div.layout div.content.insert.select { border:red solid 1px; }
+fieldset.vimer>div.output>div.layout>div.layout div.content.normal tr.line.select>td.line { background-color:blue; color:white; }
+fieldset.vimer>div.output>div.layout>div.layout div.content.insert tr.line.select>td.line { background-color:red; color:white; }
+fieldset.vimer>div.output>div.layout>div.layout div.content.normal input:not([type=button]) { border:blue solid 1px; }
+fieldset.vimer>div.output>div.layout>div.layout div.content.insert input:not([type=button]) { border:red solid 1px; }
 fieldset.vimer>div.output>div.layout>div.layout div.content.normal input.current { caret-color:lightgray; }
 fieldset.vimer>div.output>div.layout>div.layout div.content.insert input.current { caret-color:black; }
 body.dark fieldset.vimer>div.output>div.layout>div.layout div.content.normal input.current { caret-color:gray; }
 body.dark fieldset.vimer>div.output>div.layout>div.layout div.content.insert input.current { caret-color:yellow; }
 body.black fieldset.vimer>div.output>div.layout>div.layout div.content.normal input.current { caret-color:gray; }
 body.black fieldset.vimer>div.output>div.layout>div.layout div.content.insert input.current { caret-color:yellow; }
-
-div.input.vimer.source.create.float td:first-child { display:none; }
-

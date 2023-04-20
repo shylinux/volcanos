@@ -15,6 +15,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			case chat.FLOAT: can.onmotion.hidden(can, can.ui.project); break
 			case chat.CMD: can.misc.sessionStorage(can, PROJECT_HIDE) == html.HIDE && can.onmotion.hidden(can, can.ui.project)
 				if (can.misc.sessionStorage(can, TABVIEW_HIDE) == html.HIDE) { can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.tabs) }
+				can.onappend.style(can, html.OUTPUT)
 			case chat.FULL: // no break
 			default: can.user.isMobile && can.onmotion.hidden(can, can.ui.project), can.onimport.project(can, paths), can.onimport._tabs(can)
 		} var args = can.misc.SearchHash(can)
@@ -203,12 +204,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			can.onimport.tabview(can, item.path, can.base.trimPrefix(item.file, nfs.PWD), parseInt(item.line)); return true
 		}, can.base.isFunc(cb) && cb(sub) }, can.ui.plug.parentNode, can.ui.plug), can.page.isDisplay(can.ui.plug) || can.onmotion.toggle(can, can.ui.plug, true) && can.onimport.layout(can)
 	},
-	layout: function(can) { if (can.isSimpleMode()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
-		if (can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
-		var content = can.ui.content; if (content._root) { can.ui.content = content._root }
-		can.ui.size = {profile: can._msg.Option(html.WIDTH), display: can._msg.Option(html.HEIGHT)}
-		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
-			can.ui.content = content, can.onlayout.layout(can, height, width)
+	layout: function(can) { if (can.isSimpleMode()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) } if (can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
+		var content = can.ui.content; if (content._root) { can.ui.content = content._root } can.ui.size = {profile: can._msg.Option(html.WIDTH), display: can._msg.Option(html.HEIGHT)}
+		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) { can.ui.content = content, can.onlayout.layout(can, height, width)
 			var sub = can.ui.profile._plugin; sub && can.page.isDisplay(can.ui.profile) && sub.onimport.size(sub, can.ui.profile.offsetHeight, can.ui.profileWidth, true)
 			var sub = can.ui.content._plugin; if (!sub) { return } if (height == sub.ConfHeight()+sub.onexport.actionHeight(sub)+sub.onexport.statusHeight(sub) && width == sub.ConfWidth()) { return }
 			content._root || sub.onimport.size(sub, height, width, true), can.onlayout.layout(can)
@@ -477,22 +475,21 @@ Volcanos(chat.ONACTION, {
 				}
 			}), cb(msg) }}, target)
 		}
+		function grep(value, file, path) { var arg = can.core.List(arguments); can.onimport.exts(can, "inner/search.js", function(sub) {
+			can.page.isDisplay(sub._target) || (sub._delay_init = false, sub.select())
+			sub.runAction(can.request({}, {value: value}), nfs.GREP, arg)
+		}) }
 		var meta = can.onappend._action(can, [
 			{type: html.TEXT, name: nfs.FROM, style: {width: 200}, _init: function(target) { from = target, complete(target, nfs.FIND), can.onmotion.delay(can, function() { target.focus() }) }},
 			{type: html.BUTTON, name: nfs.FIND}, {type: html.BUTTON, name: nfs.GREP}, {type: html.TEXT, name: nfs.TO, _init: function(target) { to = target, complete(target, nfs.REPLACE) }},
 			{type: html.BUTTON, name: nfs.REPLACE}, {type: html.BUTTON, name: cli.CLOSE},
 		], ui.action, {_trans: {find: "查找", grep: "搜索", replace: "替换"},
-			find: function() { find(last+1, from.value), can.onimport.exts(can, "inner/search.js", function(sub) {
-				can.page.isDisplay(sub._target) || (sub._delay_init = false, sub.select()), meta.close()
-				sub.runAction(can.request(event, {value: from.value}), nfs.GREP, [from.value, can.Option(nfs.FILE), can.Option(nfs.PATH)])
-			}) },
-			grep: function() { can.onimport.exts(can, "inner/search.js", function(sub) {
-				can.page.isDisplay(sub._target) || (sub._delay_init = false, sub.select()), meta.close()
-				sub.runAction(can.request(event, {value: from.value}), nfs.GREP, [from.value, nfs.PT, can.Option(nfs.PATH)])
-			}) },
+			find: function() { grep(from.value, can.Option(nfs.FILE), can.Option(nfs.PATH)), find(last+1, from.value) },
+			grep: function() { grep(from.value, nfs.PT, can.Option(nfs.PATH)) },
 			replace: function() { var text = can.current.text(), line = can.onexport.line(can, can.current.line)
 				can.db.undo.push(function() { can.onaction.selectLine(can, line), can.onaction.modifyLine(can, line, text) })
-				can.current.text(text.replace(from.value, to.value)), can.current.text().indexOf(from.value) == -1 && meta.find()
+				grep(from.value, can.Option(nfs.FILE), can.Option(nfs.PATH))
+				can.current.text(text.replace(from.value, to.value)), can.current.text().indexOf(from.value) == -1, find(last+1, from.value)
 			}, close: function() { can.page.Remove(can, ui._target) },
 		}); var from, to
 	},
@@ -511,7 +508,7 @@ Volcanos(chat.ONACTION, {
 		can.db._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can.db._key_list, can.ui.content)
 	},
 })
-Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, mdb.TYPE, nfs.FILE, nfs.LINE, ice.BACK],
+Volcanos(chat.ONEXPORT, {list: [nfs.FILE, nfs.LINE, ice.BACK],
 	size: function(can, size, full) { if (size > 1) { return size } if (size > 0) { return size*full } },
 	keys: function(can, path, file) { return [path||can.Option(nfs.PATH), file||can.Option(nfs.FILE)].join(nfs.DF) },
 	line: function(can, line) { return parseInt(can.core.Value(can.page.SelectOne(can, line, "td.line"), "innerText")) },
@@ -527,7 +524,7 @@ Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, mdb.TYPE, nfs.FILE, nfs.LINE, ice.BAC
 		return [ls.slice(0, 1).join(nfs.PS)+nfs.PS, ls.slice(1).join(nfs.PS)]
 	},
 	hash: function(can) { return can.misc.SearchHash(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE)) },
-	func: function(can) { var p = can.onsyntax[can.db.parse]||{}, opts = {}
+	func: function(can) { var p = can.onsyntax[can.base.Ext(can.Option(nfs.FILE))]||{}, opts = {}
 		function indent(text) { var indent = 0; for (var i = 0; i < text.length; i++) { switch (text[i]) {
 			case lex.TB: indent+=4; break
 			case lex.SP: indent++; break
