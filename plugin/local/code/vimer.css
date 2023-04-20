@@ -1,6 +1,4 @@
 fieldset.vimer>div.output>div.project>div.zone.space div.item.stop { color:gray; }
-fieldset.vimer>div.output>div.layout>div.path span.mode.normal { background-color:blue; color:white; }
-fieldset.vimer>div.output>div.layout>div.path span.mode.insert { background-color:red; color:white; }
 fieldset.vimer>div.output>div.layout>div.layout div.content input.current { background-color:transparent; color:transparent; padding-left:10px; height:20px; position:absolute; }
 fieldset.vimer>div.output>div.layout>div.layout div.content div.complete { background-color:unset; padding-top:0; display:none; overflow:auto; position:absolute; }
 fieldset.vimer>div.output>div.layout>div.layout div.content div.complete div.prefix { color:transparent; white-space:pre; float:left; }

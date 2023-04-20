@@ -300,7 +300,7 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 			if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
 			var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
-			meta.cache[name]? next(): (_can_path = libs[0], meta._load(name, next))
+			meta.cache[name]||name==""? next(): (_can_path = libs[0], meta._load(name, next))
 		},
 		request: function(event) { event = event||{}, event = event._event||event
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg

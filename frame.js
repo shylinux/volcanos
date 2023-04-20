@@ -243,7 +243,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				action === false || sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS)), can.user.isMobile || sub.onappend.tools(sub, msg)
 				can.isCmdMode() && can.onappend.style(can, can.misc.Search(can, ctx.STYLE), can._target)
 				can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "")
-				if (can.isCmdMode()) { can.onimport.size(can, can.page.height(), can.page.width(), true) }
+				can.onappend.style(sub, sub.Conf(ctx.STYLE))
+				// if (can.isCmdMode()) { can.onimport.size(can, can.page.height(), can.page.width(), true) }
 				can.core.List([chat.FLOAT, chat.FULL, chat.CMD], function(mode) { can.page.ClassList.has(can, can._target, mode) && sub.onlayout[mode](sub) })
 				can.onmotion.story.auto(can, can._output), can.onexport.output(can, msg), can.base.isFunc(cb) && cb(msg)
 			}, target: output})
@@ -414,13 +415,14 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		function calc(item, size, total) { return !ui.size[item]? can.base.isString(size)? parseInt(can.base.trimSuffix(size, "px")): size: ui.size[item] < 1? total*ui.size[item]: ui.size[item] }
 		var defer = [], content_height, content_width; function layout(type, list, height, width) { var _width = width, _height = height; can.core.List(list, function(item) {
 			if (can.base.isArray(item)) { return }
-			if (can.base.isObject(item)) { var meta = item; item = item._index } if (item == "plug") { return }
+			if (can.base.isObject(item)) { var meta = item; item = item._index }
+			// if (item == "plug") { return }
 			var target = ui[item]; if (!can.page.isDisplay(target)) { return }
 			if (item == html.CONTENT) { return defer.push(function() { can.page.style(can, target, html.HEIGHT, content_height = height, html.WIDTH, content_width = width) }) }
-			if (item == html.PROFILE) { width -= 1 }
-			if (item == html.PROJECT) { width -= 1 }
+			// if (item == html.PROFILE) { width -= 1 }
+			// if (item == html.PROJECT) { width -= 1 }
 			if (type == FLOW) { var h = calc(item, target.offsetHeight, height)
-				if (can.base.isObject(meta)) { meta.layout(h, width) }
+				if (can.base.isObject(meta) && meta.layout) { meta.layout(h, width) }
 				can.page.style(can, target, html.WIDTH, width), height -= h
 			} else { var w = calc(item, target.offsetWidth||target.style.width||_width/list.length, _width), h = height
 				if (can.base.isObject(meta)) { meta.layout(h, w = _width/list.length) }
@@ -606,7 +608,13 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		} can.core.Item(list, function(key) { delete(list[key]) })
 		var key = can.base.Time(null, "%H:%M:%S.%s"); can.onmotion.delay(can, list[key] = function() { list[key] && cb() }, interval)
 	},
-	delay: function(can, cb, interval, key) { if (!key) { return can.core.Timer(interval||30, cb) }
+	delay: function(can, cb, interval, key) {
+		if (!key) {
+			if (interval === 0) {
+				return cb()
+			}
+			return can.core.Timer(interval||30, cb)
+		}
 		can._delay_list = can._delay_list||shy({}, [])
 		var last = can._delay_list.meta[key]||0, self = can._delay_list.meta[key] = can._delay_list.list.push(cb)
 		can.core.Timer(interval||30, function() { cb(self, last, can._delay_list.meta[key]) })

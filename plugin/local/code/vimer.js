@@ -76,8 +76,8 @@ Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图"
 			if (can.base.beginWith(item, "import ")) { count++; return }
 			if (block == "import") { count++ }
 		}); return count }
-		can.onaction._run(event, can, button, [can.db.parse, can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
-			if (can.base.Ext(can.Option(nfs.FILE)) == nfs.GO) { var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content)
+		can.onaction._run(event, can, button, [can.onexport.parse(can), can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
+			if (can.onexport.parse(can) == nfs.GO) { var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content)
 				can.ui.content._max = 0, can.core.List(msg.Result().split(lex.NL), function(item) { can.onaction.appendLine(can, item) })
 				can.onaction.selectLine(can, line+imports(msg.Result())-imports(msg.Option(nfs.CONTENT)))
 			} can.user.toastSuccess(can, button, can.Option(nfs.PATH)+can.Option(nfs.FILE))
@@ -113,6 +113,7 @@ Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图"
 		can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop,
 			html.WIDTH, can.base.Min(td.offsetWidth, can.ui.content.offsetWidth-can.page.Select(can, can.current.line, "td.line")[0].offsetWidth))
 		can.db.mode == mdb.NORMAL && can.onkeymap._normal(can)
+		if (can.ui.content._root) { can.onmotion.select(can, can.ui.content.parentNode, "*", can.ui.content) }
 	}) },
 })
 Volcanos(chat.ONKEYMAP, {
@@ -128,7 +129,7 @@ Volcanos(chat.ONKEYMAP, {
 		function update() { target._pre = pre, target._end = end, target._index = -1
 			can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, can.ui.current.offsetLeft, html.MARGIN_TOP, can.user.isChrome? can.current.line.offsetHeight: 5)
 			can.runAction(can.request(event, {text: pre}, can.Option()), code.COMPLETE, [], function(msg) { can.page.Appends(can, target, [{view: [lex.PREFIX, html.DIV, pre]}])
-				var parse = can.onsyntax[can.base.Ext(can.Option(nfs.FILE))]; can.core.CallFunc(can.core.Value(parse, code.COMPLETE), [event, can, msg, target, pre, key])
+				var parse = can.onsyntax[can.onexport.parse(can)]; can.core.CallFunc(can.core.Value(parse, code.COMPLETE), [event, can, msg, target, pre, key])
 				can.core.Item(can.core.Value(parse, code.KEYWORD), function(key, value) { msg.Push(mdb.NAME, key) })
 				can.onappend.table(can, msg, function(value, key, index) { return {text: [value, html.TD], onclick: function(event) { change(value) }} }, target)
 				can.page.style(can, target, html.MAX_HEIGHT, can.ui.content.offsetHeight-(can.current.line.offsetTop-can.ui.content.scrollTop)-can.current.line.offsetHeight)

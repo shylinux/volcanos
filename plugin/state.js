@@ -18,10 +18,9 @@ Volcanos(chat.ONIMPORT, {
 				var res = can.request(); res.Echo(sub.Conf(ice.MSG_RESULT)), can.onappend._output(sub, res, sub.Conf(ctx.DISPLAY)); return
 			}
 			sub.run = function(event, cmds, cb) { sub.onimport.size(sub, height, can.ConfWidth(), true)
-				sub.onexport.output = function() {
-					can.page.SelectChild(can, can._output, html.TABLE, function(target) { can.page.style(can, target, html.MAX_HEIGHT, can.ConfHeight()-height, html.DISPLAY, html.BLOCK) })
-				}
-				can.run(event, (!msg.Option("_index") || msg.Option("_index") == can._index || can._index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
+				sub.onexport.output = function() { sub.onimport.size(sub, height, can.ConfWidth(), true)
+					can.page.SelectChild(can, can._output, html.TABLE, function(target) { can.page.style(can, target, html.MAX_HEIGHT, height, html.DISPLAY, html.BLOCK) })
+				}, can.run(event, (!msg.Option("_index") || msg.Option("_index") == can._index || can._index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
 			}
 		}) })
 	},

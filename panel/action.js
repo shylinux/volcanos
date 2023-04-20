@@ -42,7 +42,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		}); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return } can._names = location.pathname
 		can.Conf(chat.TOOL)? can.onappend.layout(can, can.core.List(can.Conf(chat.TOOL), function(item, index, list) { item.type = chat.PLUGIN
 			if (list.length == 1) {
-				item.height = can.page.height()-2*html.ACTION_HEIGHT, item.width = can.page.width()
+				item.height = can.page.height(), item.width = can.page.width()
 				can.user.title(item.index), can.onaction._onaction_cmd(can), item.mode = chat.CMD, item.opts = can.misc.Search(can)
 			} return item
 		}), FLOW).layout(window.innerHeight, window.innerWidth): can.runAction(can.request(), ctx.COMMAND, [], function(msg) {
