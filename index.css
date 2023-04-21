@@ -161,7 +161,6 @@ body.mobile fieldset>form.option>div.button>span.icon { line-height:38px; font-s
 body.windows form.option>div.icon { font-size:21px; }
 body.windows fieldset.inner.cmd>div.output>div.layout.flow>div.tabs div.website.icon { line-height:36px; }
 /* svg */
-/* svg rect { transition:fill ease-in 5s; } */
 svg text { font-size:24px; font-family:monospace; }
 svg rect { stroke-width:2; }
 svg line { stroke-width:2; }
@@ -170,26 +169,43 @@ svg g[font-size] text { font-size:unset; }
 svg g[stroke-width] rect { stroke-width:unset; }
 svg g[stroke-width] line { stroke-width:unset; }
 svg g[stroke-width] path { stroke-width:unset; }
+svg text { stroke:black; fill:black; }
+svg rect { stroke:black; fill:white; }
+svg line { stroke:black; }
+svg path { stroke:black; }
+svg g[fill] text { fill:unset; }
+svg g[fill] rect { fill:unset; }
+svg g[stroke] text { stroke:unset; }
+svg g[stroke] rect { stroke:unset; }
+svg g[stroke] line { stroke:unset; }
+svg g[stroke] path { stroke:unset; }
 body.dark svg text { stroke:silver; fill:silver; }
 body.dark svg rect { stroke:silver; fill:black; }
 body.dark svg line { stroke:silver; }
 body.dark svg path { stroke:silver; }
-body.light svg text { stroke:black; fill:black; }
-body.light svg rect { stroke:black; fill:white; }
-body.light svg line { stroke:black; }
-body.light svg path { stroke:black; }
-body.light svg g[fill] text { fill:unset; }
-body.light svg g[stroke] text { stroke:unset; }
-body.light svg g[stroke] line { stroke:unset; }
-body.light svg g[stroke] path { stroke:unset; }
-body.light svg g[stroke] rect { stroke:unset; }
-body.light svg g[fill] rect { fill:unset; }
 body.dark svg g[fill] text { fill:unset; }
+body.dark svg g[fill] rect { fill:unset; }
 body.dark svg g[stroke] text { stroke:unset; }
+body.dark svg g[stroke] rect { stroke:unset; }
 body.dark svg g[stroke] line { stroke:unset; }
 body.dark svg g[stroke] path { stroke:unset; }
-body.dark svg g[stroke] rect { stroke:unset; }
-body.dark svg g[fill] rect { fill:unset; }
+body.black svg text { stroke:silver; fill:silver; }
+body.black svg rect { stroke:silver; fill:transparent; }
+body.black svg line { stroke:silver; }
+body.black svg path { stroke:silver; }
+body.black svg g[fill] text { fill:unset; }
+body.black svg g[fill] rect { fill:unset; }
+body.black svg g[stroke] text { stroke:unset; }
+body.black svg g[stroke] rect { stroke:unset; }
+body.black svg g[stroke] line { stroke:unset; }
+body.black svg g[stroke] path { stroke:unset; }
+body.white svg rect { fill:transparent; }
+body.white svg g[fill] text { fill:unset; }
+body.white svg g[fill] rect { fill:unset; }
+body.white svg g[stroke] text { stroke:unset; }
+body.white svg g[stroke] rect { stroke:unset; }
+body.white svg g[stroke] line { stroke:unset; }
+body.white svg g[stroke] path { stroke:unset; }
 /* display */
 fieldset>form.option, fieldset>div.action { display:contents; } form.option.hide, div.action.hide { display:none; }
 form.option>div.item>label, div.action>div.item>label, .hidden, .hide { display:none; }
