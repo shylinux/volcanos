@@ -71,7 +71,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 	plug: function(can, meta, cb, target, field) { if (!meta || !meta.index) { return }
 		meta.type = meta.type||html.PLUG, meta.name = meta.index, can.onappend.plugin(can, meta, function(sub) { sub.sup = can
-			can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth(can.ConfWidth()))
+			// can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth(can.ConfWidth()))
 			// can.page.style(can, sub._output, html.MAX_HEIGHT, sub.ConfHeight(can.ConfHeight()-2*html.ACTION_HEIGHT), html.MAX_WIDTH, sub.ConfWidth(can.ConfWidth()))
 			sub.run = function(event, cmds, cb) { if (can.page.Select(can, sub._option, "input[name=path]").length > 0 && sub.Option(nfs.PATH) == "") { sub.request(event, {path: nfs.PWD}) }
 				can.runActionCommand(can.request(event, can.Option()), meta.index, cmds, cb)
@@ -79,6 +79,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}, target, field)
 	},
 	_zone: function(can, zone, index, cb, field) { zone._delay_init = function() { can.onimport.plug(can, {index: index, style: html.OUTPUT, mode: mdb.ZONE, field: field}, function(sub) {
+		sub.run = function(event, cmds, cb) { can.request(event, {mode: mdb.ZONE}), can.runActionCommand(event, index, cmds, cb) }
 		var action = can.core.List(sub.Conf(ctx.INPUTS), function(item) { if (item.type == html.BUTTON && [ice.LIST, ice.BACK].indexOf(item.name) == -1) { return item.name } })
 		zone._icon(kit.Dict(
 			can.page.unicode.refresh, function(event) { sub.Update(event) },

@@ -19,11 +19,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.require(["inner.js"
 	_value: function(can) { can.onimport.__tabPath(can, true), can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) },
 }, [""])
 Volcanos(chat.ONFIGURE, { 
-	source: function(can, target, zone, path) { var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
+	source: function(can, target, zone, path) {
+		var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
 		function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) {
 			zone._icon(kit.Dict(
 				web.REFRESH, function(event) { show(target, zone, path) },
-				mdb.CREATE, function(event) { can.user.carteRight(event, can, can.onaction, [nfs.MODULE, nfs.SCRIPT]) },
+				mdb.CREATE, function(event, button) { can.onaction.module(event, can, nfs.MODULE) },
 			)), zone._total(msg.Length()), can.onmotion.clear(can, target)
 			var cache, list = can.core.List(msg.Table(), function(item) { if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true }
 				item._init = function(target) { item._remove = function() { can.page.Remove(can, target.parentNode), delete(cache[item.path]) }
@@ -31,7 +32,7 @@ Volcanos(chat.ONFIGURE, {
 						for (var _target = target.parentNode; _target != zone._target; _target = _target.parentNode) { _target.previousSibling && can.onappend.style(can, mdb.MODIFY, _target.previousSibling) }
 					}) }
 				}, item._menu = shy(kit.Dict(
-					mdb.CREATE, function(event, button) { can.Update(can.request(event, {path: path+item.path}), [ctx.ACTION, nfs.SCRIPT], function(msg) { show(target, zone, path) }) },
+					mdb.CREATE, function(event, button) { can.onaction.script(can.request(event, {path: path}), can, nfs.SCRIPT) },
 					nfs.TRASH, function(event, button) { can.runAction(event, nfs.TRASH, [path+item.path], function(msg) { show(target, zone, path) }) },
 				)); return item
 			}); cache = can.onimport.tree(can, list, nfs.PATH, nfs.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, cache)
@@ -48,7 +49,10 @@ Volcanos(chat.ONFIGURE, {
 		))
 	}) },
 	space: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {
-		sub.onimport._open = function(sub, msg, arg) { can.onimport.tabview(can, "", arg, web.SPACE) }
+		sub.onimport._open = function(_, msg, arg) {
+			var link = can.misc.ParseURL(can, arg); if (link.pod) { can.onimport.tabview(can, "", link.pod, web.SPACE), sub.Update(); return }
+			can.onimport.tabview(can, "", arg, web.SPACE)
+		}
 		sub.onexport.record = function(sub, value, key) { can.onimport.tabview(can, "", value, web.SPACE) }
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
 	}) },
@@ -65,6 +69,7 @@ Volcanos(chat.ONFIGURE, {
 Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图", "计划", "收藏", "首页"],
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button)
+		can.ui.zone.source.refresh()
 	}) },
 	_runs: function(event, can, button, cb) { var meta = can.Conf(); can.request(event, {action: button})
 		can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) })
@@ -100,7 +105,8 @@ Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图"
 		var sub = can.db.toolkit[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0])
 	}) },
 	"编译": function(event, can) { can.onaction.compile(event, can, code.COMPILE) },
-	"变更": function(event, can) { can.onimport.tabview(can, "", [web.CODE_GIT_REPOS, can.core.Split(can.Option(nfs.PATH), nfs.PS).pop(), nfs.MASTER, "index", can.Option(nfs.FILE)].join(mdb.FS), ctx.INDEX) },
+	// "变更": function(event, can) { can.onimport.tabview(can, "", [web.CODE_GIT_REPOS, can.core.Split(can.Option(nfs.PATH), nfs.PS).pop(), nfs.MASTER, "index", can.Option(nfs.FILE)].join(mdb.FS), ctx.INDEX) },
+	"变更": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },
 	"源码": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_REPOS, ctx.INDEX) },
 	"终端": function(event, can) { can.onimport.tabview(can, "", web.CODE_XTERM, ctx.INDEX) },
 	"导图": function(event, can) { can.onimport.tabview(can, "", web.WIKI_DRAW, ctx.INDEX) },

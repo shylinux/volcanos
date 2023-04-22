@@ -1,4 +1,4 @@
-fieldset.word>form.option>div.item>input[name=path] { width:320px; }
+fieldset.word.plugin>form.option>div.item>input[name=path] { width:320px; }
 body.mobile fieldset.word>form.option>div.item>input[name=path] { width:180px; }
 body.webview fieldset.word>form.option>div.item>input[name=path] { width:160px; }
 fieldset.word>div.navmenu { background-color:inherit; overflow:auto; min-width:120px; clear:both; float:left; }

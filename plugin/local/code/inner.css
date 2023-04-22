@@ -27,8 +27,8 @@ fieldset.inner>div.output>div.layout>div.layout div.content * { font-family:mono
 fieldset.inner>div.output>div.layout>div.layout>div.profile { max-width:unset; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile div.status>div { padding:5px; float:left; }
 fieldset.inner>div.output>div.layout>div.display div.status>div { padding:5px; float:left; }
-fieldset.inner.cmd>div.output>div.project>div.zone>div.item { font-style:italic; font-weight:bold; line-height:32px; }
-fieldset.inner.cmd>div.output>div.project>div.zone>div.item>span.icon { font-style:normal; font-weight:normal; }
+fieldset.inner>div.output>div.project>div.zone>div.item { font-style:italic; font-weight:bold; line-height:32px; }
+fieldset.inner>div.output>div.project>div.zone>div.item>span.icon { font-style:normal; font-weight:normal; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs { height:38px; display:block; overflow:hidden; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div { padding:10px; height:38px; float:left; }
@@ -47,6 +47,10 @@ fieldset.inner.cmd>div.output>div.layout>div.path span.view { font-size:22px; li
 fieldset.inner.cmd>div.output>div.layout>div.plug { height:32px; clear:both; position:fixed; bottom:0; right:0; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend { font-size:1rem; padding:0 10px; float:right; }
 fieldset.inner.cmd>div.output>div.layout>div.display>div.status { position:sticky; bottom:0; }
+fieldset.inner.cmd>legend { display:none; }
+fieldset.inner.cmd>form.option { display:none; }
+fieldset.inner.cmd>div.action { display:none; }
+fieldset.inner.cmd>div.status { display:none; }
 body.dark fieldset.inner>div.output div.content td.text span.comment { color:green; }
 body.dark fieldset.inner>div.output div.content td.text span.keyword { color:royalblue; }
 body.dark fieldset.inner>div.output div.content td.text span.datatype { color:lavender; }

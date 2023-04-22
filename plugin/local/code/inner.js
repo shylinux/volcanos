@@ -148,29 +148,27 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	project: function(can, path) { can.onmotion.clear(can, can.ui.project), can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) {
 		if (can.base.isFunc(cb)) { return {name: name, _trans: can.onfigure._trans? can.onfigure._trans[name]||"": "", _init: function(target, zone) { return cb(can, target, zone, path) }} }
 	}), can.ui.project) },
-	profile: function(can, msg) { var _msg = can.db.tabview[can.onexport.keys(can)]; _msg.Option(html.WIDTH, msg.Option(html.WIDTH)||0.5)
+	profile: function(can, msg) { var _msg = can.db.tabview[can.onexport.keys(can)]; _msg.Option(html.WIDTH, msg.Option(html.WIDTH)), border = 1
 		if (msg.Result().indexOf("<iframe src=") > -1) { if (_msg._profile != can.ui._profile) { can.page.Remove(can, _msg._profile) }
 			var src = can.page.Select(can, can.page.Create(can, html.DIV, msg.Result()), html.IFRAME, function(target) { return target.src })[0]
 			can.ui.profile = _msg._profile = can.page.Append(can, can.ui._profile.parentNode, [{view: [html.PROFILE, html.IFRAME], src: src}])._target
 			can.onmotion.toggle(can, can.ui.profile, true), can.onimport.layout(can)
-		} else { var height = can.ui.profile.offsetHeight||can.ui._content.offsetHeight; can.ui.profile = _msg._profile = can.ui._profile
-			var width = can.onexport.size(can, _msg.Option(html.WIDTH), can.ConfWidth()-can.ui.project.offsetWidth)
-			can.onimport.process(can, msg, can.ui.profile, height, width, function(sub) { can.ui.profile._plugin = can._msg._profile = sub
-				can.page.style(can, sub._output, html.MAX_WIDTH, ""); var _width = can.base.Max(sub._target.offsetWidth, width)
-				_msg.Option(html.WIDTH, _width), can.onimport.layout(can), sub.onimport.size(sub, height, _width == width? _width-1: _width, true)
+		} else {
+			var height = (can.ui.content._root||can.ui.content).offsetHeight, width = can.onexport.size(can, _msg.Option(html.WIDTH)||0.5, can.ConfWidth()-can.ui.project.offsetWidth)+border
+			can.page.style(can, can.ui.profile, html.MAX_HEIGHT, height, html.MAX_WIDTH, width), can.ui.profile = _msg._profile = can.ui._profile
+			can.onimport.process(can, msg, can.ui.profile, height, width-border, function(sub) { can.page.style(can, sub._output, html.MAX_WIDTH, ""), can.ui.profile._plugin = _msg._profile = sub
+				if (sub._index == web.WIKI_WORD) { can.page.style(can, can.ui.profile, html.WIDTH, width+border, html.MAX_WIDTH, width+border), can.onimport.layout(can); return }
+				can.page.style(can, can.ui.profile, html.WIDTH, width+border, html.MAX_WIDTH, width+border), can.onimport.layout(can); return
+				var _width = can.base.Max(sub._target.offsetWidth+border, width); _msg.Option(html.WIDTH, _width), sub.onimport.size(sub, height, _width-border, true), can.onimport.layout(can)
 			})
-			msg.Append(ctx.INDEX) == "" && can.page.Select(can, can.ui.profile, html.TABLE, function(target) { can.onmotion.delay(can, function() {
-				if (target.offsetWidth < can.ui._profile.offsetWidth) { _msg.Option(html.WIDTH, target.offsetWidth+1), can.onimport.layout(can) }
-			}) })
 		}
 	},
-	display: function(can, msg) { var _msg = can.db.tabview[can.onexport.keys(can)]; _msg.Option(html.HEIGHT, msg.Option(html.HEIGHT))
-		var height = can.onexport.size(can, _msg.Option(html.HEIGHT)||0.5, can.ui._content.offsetHeight||can.ConfHeight()); can.page.style(can, can.ui.display, html.MAX_HEIGHT, height)
-		var width = can.ConfWidth()-can.ui.project.offsetWidth
-		can.onimport.process(can, msg, can.ui.display, height, width, function(sub) { if (sub.ConfHeight() < can.ui._content.offsetHeight-100) { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
-			can.onmotion.delay(can, function() { var _height = can.base.Max(sub._target.offsetHeight, height)
-				_msg.Option(html.HEIGHT, _height), can.onimport.layout(can), sub.onimport.size(sub, _height == height? _height-1: _height, width, true)
-			})
+	display: function(can, msg) { var _msg = can.db.tabview[can.onexport.keys(can)]; _msg.Option(html.HEIGHT, msg.Option(html.HEIGHT)), border = 1
+		var height = can.onexport.size(can, _msg.Option(html.HEIGHT)||0.5, can.ui.project.offsetHeight||can.ConfHeight())+border, width = can.ConfWidth()-can.ui.project.offsetWidth
+		can.page.style(can, can.ui.display, html.MAX_HEIGHT, height, html.MAX_WIDTH, width), can.ui.display = _msg._display = can.ui._display
+		can.onimport.process(can, msg, can.ui.display, height-border, width, function(sub) { can.page.style(can, sub._output, html.MAX_HEIGHT, ""), can.ui.display._plugin = _msg._display = sub
+			if (sub._index == web.WIKI_WORD) { can.page.style(can, can.ui.display, html.HEIGHT, height+border, html.MAX_HEIGHT, height+border), can.onimport.layout(can); return }
+			var _height = can.base.Max(sub._target.offsetHeight+border, height); _msg.Option(html.HEIGHT, _height), sub.onimport.size(sub, _height-border, width, true), can.onimport.layout(can)
 		})
 	},
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target)
@@ -179,11 +177,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 				can.onimport.plug(can, item, function(sub) {
 					sub.onaction.close = function() { can.onmotion.hidden(can, target), can.onimport.layout(can) }
 					sub.onexport.output = function(_sub, _msg) { can.onmotion.delay(can, function() { can.base.isFunc(cb) && cb(_sub, _msg) }) }
-					sub.run = function(event, cmds, cb) { can.runActionCommand(event, item.index, cmds, function(msg) {
-						if (sub == (msg._can._fields? msg._can.sup: msg._can)) { if (cmds && cmds[0] == ctx.ACTION) {
-							if (can.base.isIn(cmds[1], mdb.IMPORT, mdb.EXPORT, "imports", "exports")) { return can.user.toastSuccess(can, cmds[1]), sub.Update() }
-						} } can.base.isFunc(cb) && cb(msg)
-					}) }
 				}, target)
 			})
 		} else if (msg.Option(ice.MSG_DISPLAY) != "") {
@@ -271,6 +264,11 @@ Volcanos(chat.ONLAYOUT, {
 	},
 })
 Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.keys(can), path = msg.Option(nfs.PATH, can.Option(nfs.PATH)), file = msg.Option(nfs.FILE, can.Option(nfs.FILE))
+		can.onmotion.cache(can, function(cache_data, cache_key) {
+			if (cache_key) { cache_data[cache_key] = {profile: can.ui.profile.className, display: can.ui.display.className} }
+			var back = cache_data[key]; if (back) { can.ui.profile.className = back.profile, can.ui.display.className = back.display } else { can.onmotion.hidden(can, can.ui.profile), can.onmotion.hidden(can, can.ui.display) }
+			return key
+		}, can.ui.profile, can.ui.display)
 		if (msg._content) { var list = can.page.Select(can, msg._content, html.DIV_CONTENT, function(target) { if (target._cache_key == key) { return target } })
 			if (list.length > 0) { can.onmotion.select(can, msg._content, html.DIV_CONTENT, list[0]) } else {
 				var list = can.page.Select(can, msg._content, html.DIV_CONTENT, function(target) { if (target._cache && target._cache[key]) { return target } })
@@ -298,7 +296,10 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.
 		var index = msg.Option(ctx.INDEX).split(mdb.FS), item = {type: chat.STORY, index: index[0], args: index.slice(1)}
 		if (item.index == web.CODE_XTERM && item.args.length > 0) { item.style = html.OUTPUT }
 		can.onimport.plug(can, item, function(sub) { sub.onimport.size(sub, can.ui.content.offsetHeight, can.ui.content.offsetWidth, true)
-			sub.onimport._open = function(sub, msg, arg) { can.onimport.tabview(can, "", arg, web.SPACE), sub.Update() }
+			sub.onimport._open = function(_, msg, arg) {
+				var link = can.misc.ParseURL(can, arg); if (link.pod) { can.onimport.tabview(can, "", link.pod, web.SPACE), sub.Update(); return }
+				can.onimport.tabview(can, "", arg, web.SPACE), sub.Update()
+			}
 			sub.onaction.close = function() { msg._tab._close() }
 			sub.onexport.title = function(_, title) { can.page.Modify(can, can.page.SelectOne(can, msg._tab, html.SPAN_NAME), title) }
 			sub.onexport.record = function(_, value, key, item) { item.file && can.onimport.tabview(can, item.path, item.file, item.line); return true }
