@@ -9,21 +9,21 @@ setTimeout(function() { Volcanos({
         var has = {}; target = target||document.body
         can.page.Select(can, target, html.AUDIO, function(target) {
             if (!target.src || has[target.src]) { return } has[target.src] = true
-            var name = target.src.split("?")[0].split(ice.PT).pop()
+            var name = target.src.split("?")[0].split(nfs.PT).pop()
             msg.Push(mdb.TYPE, html.AUDIO)
-            msg.Push(mdb.NAME, html.AUDIO+ice.PT+name)
+            msg.Push(mdb.NAME, html.AUDIO+nfs.PT+name)
             msg.Push(mdb.LINK, target.src)
         })
         can.page.Select(can, target, html.VIDEO, function(target) {
             if (!target.src || has[target.src]) { return } has[target.src] = true
-            var name = target.src.split("?")[0].split(ice.PT).pop()
+            var name = target.src.split("?")[0].split(nfs.PT).pop()
             msg.Push(mdb.TYPE, html.VIDEO)
-            msg.Push(mdb.NAME, html.VIDEO+ice.PT+name)
+            msg.Push(mdb.NAME, html.VIDEO+nfs.PT+name)
             msg.Push(mdb.LINK, target.src)
         })
         can.page.Select(can, target, html.IMG, function(target) {
             if (!target.src || has[target.src]) { return } has[target.src] = true
-            var name = target.src.split("?")[0].split(ice.PS).pop()
+            var name = target.src.split("?")[0].split(nfs.PS).pop()
             msg.Push(mdb.TYPE, html.IMG)
             if (target.src.indexOf("data:image") == 0) {
                 msg.Push(mdb.NAME, target.src.slice(target.src.length-20))
@@ -46,7 +46,7 @@ setTimeout(function() { Volcanos({
         })
     },
     style: function(can, msg, arg) {
-        can.core.List(arg[0].split(ice.FS), function(item) {
+        can.core.List(arg[0].split(mdb.FS), function(item) {
             can.page.Select(can, document.body, item, function(target) {
                 can.page.Modify(can, target, can.base.Obj(arg[1]))
             })

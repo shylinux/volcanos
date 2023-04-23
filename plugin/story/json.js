@@ -24,7 +24,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 					} break
 				case code.STRING: can.page.Append(can, target, [{text: ['"'+data+'"', "", code.STRING]}]); break
 				default: can.page.Append(can, target, [{text: [''+data+'', "", code.CONSTANT]}])
-			} (index < total-1) && can.page.Append(can, target, [{text: ice.FS}]); return list
+			} (index < total-1) && can.page.Append(can, target, [{text: mdb.FS}]); return list
 		}; show(data, can.page.Append(can, target, [html.ITEM])._target, 0, 0)
 	},
 }, [""])

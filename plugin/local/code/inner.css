@@ -76,6 +76,8 @@ body.white fieldset.inner>div.output div.content tr.select { background-color:al
 body.white fieldset.inner>div.output div.content tr.select td.line { background-color:steelblue; color:white; }
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
+body.windows fieldset.inner>div.output { overflow:hidden; }
+body.windows fieldset.inner>div.output>div.layout>div.layout>div.profile { overflow:hidden; }
 body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; }
 div.path span.item { padding:5px; }
 div.carte.path.float { font-size:14px; border-radius:0; } div.carte.path.float div.item { padding:5px; }

@@ -18,7 +18,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 		function pie(x, y, r, begin, span, color, cb) { can.onimport.draw(can, {shape: svg.PATH, style: kit.Dict(
 			svg.STROKE, color, svg.FILL, color, "d", can.base.joins([
 				["M", x, y], ["L"].concat(pos(x, y, r, begin)), ["A", r, r, "0", span>180? "1": "0", "1"].concat(pos(x, y, r, begin+span)), ["Z"]
-			], ice.SP, ice.FS),
+			], lex.SP, mdb.FS),
 		), onmouseenter: function(event) { can.base.isFunc(cb) && cb(event) } }) }
 		can.onmotion.clear(can, can.svg), can.svg.Value(mdb.COUNT, 0)
 		var begin = 0; can.core.List(can.list, function(item, index) { var p = index==which? pos(x, y, margin, begin+item.span/2): [x, y]

@@ -120,7 +120,7 @@ Volcanos(chat.ONDETAIL, {list: ["删除"],
 			if (index == which || page == which) {
 				sub.page.Select(sub, page, sub.page.Keys(html.H1, html.H2, html.H3), function(item) { sub.Action("菜单", item.innerHTML) })
 				sub.onmotion.select(sub, sub.ui.project, html.DIV_ITEM, index)
-				sub.Status(mdb.PAGE, index+1+ice.PS+sub.list.length)
+				sub.Status(mdb.PAGE, index+1+nfs.PS+sub.list.length)
 				sub.page.ClassList.add(sub, page, html.SHOW)
 			} else {
 				sub.page.ClassList.del(sub, page, html.SHOW)

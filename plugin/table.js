@@ -17,7 +17,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	_system_app: function(can, msg, target) { can.page.Appends(can, target, msg.Table(function(item) { var name = item.name||item.text
 		return {view: html.ITEM, style: {"text-align": "center", margin: 10, width: 100, "float": "left"}, list: [
 			{type: html.IMG, src: "/share/local/usr/icons/"+item.text, style: {display: html.BLOCK, width: 100}},
-			{text: name.split(ice.PT)[0].replace(ice.SP, ice.NL), style: {display: html.BLOCK, height: 40}},
+			{text: name.split(nfs.PT)[0].replace(lex.SP, lex.NL), style: {display: html.BLOCK, height: 40}},
 		], onclick: function(event) { can.runAction(can.request(event, item, can.Option()), "xterm", []) }}
 	})) },
 	card: function(can, msg, target) { can.page.Appends(can, target||can._output, msg.Table(function(item) {
@@ -60,7 +60,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.core.List(list.reverse(), function(meta) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) { can.onmotion.hidden(can, sub._target), sub._legend._target = sub._target
 				status.appendChild(sub._legend), sub._legend.onclick = function(event) { can.misc.Event(event, can, function(msg) {
-					if (can.page.SelectOne(can, status, ice.PT+html.SELECT, function(target) { can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
+					if (can.page.SelectOne(can, status, nfs.PT+html.SELECT, function(target) { can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true), sub.Focus()
 					if (sub._delay_init || meta.msg) { sub._delay_init = false, meta.msg = false, sub.Update() }
 				}) }, sub._delay_init = true, sub.onaction.close = function() { sub.select() }, sub.select = function() { return sub._legend.click(), sub }
@@ -170,7 +170,7 @@ Volcanos(chat.ONEXPORT, {
 		can._legend.innerHTML = title, can.isCmdMode() && can.user.title(title); var sup = can.sup; if (sup) { sup._header_tabs && (sup._header_tabs.innerHTML = title), sup._tabs && (sup._tabs.innerHTML = title) }
 	},
 	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return }
-		var res = [msg.append && msg.append.join(ice.FS)]; msg.Table(function(line, index, array) { res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS)) }); return res.join(ice.NL)
+		var res = [msg.append && msg.append.join(mdb.FS)]; msg.Table(function(line, index, array) { res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS)) }); return res.join(lex.NL)
 	},
 	board: function(can) { var msg = can._msg; return msg.Result() },
 })

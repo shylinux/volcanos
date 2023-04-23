@@ -8,7 +8,7 @@ Volcanos(chat.ONFIGURE, {keyboard: {
 		msg.Table(function(item) { item.type == html.HEAD && can.page.Append(can, can._output, html.BR)
 			function add(value) { target.value += value, target.focus(), can.user.toast(can, value||item.name) }
 			function hold() { can.page.ClassList.add(can, div, "hold") }
-			var div = can.page.Append(can, can._output, [{view: item.type+ice.SP+item.name+(item.name.indexOf(ice.NL)>-1? " double": item.name.length>1? " special": ""), list: [{text: [item.name]}], onclick: function(event) {
+			var div = can.page.Append(can, can._output, [{view: item.type+lex.SP+item.name+(item.name.indexOf(lex.NL)>-1? " double": item.name.length>1? " special": ""), list: [{text: [item.name]}], onclick: function(event) {
 				switch (item.name) {
 					case cli.CLEAR: target.value = "", target.focus(); break
 					case cli.CLOSE: can.close(); break
@@ -19,10 +19,10 @@ Volcanos(chat.ONFIGURE, {keyboard: {
 					case lang.ENTER: break
 					default: can._shift = can._shift||event.shiftKey
 						if (item.name == lang.TAB) {
-							add(ice.TB)
+							add(lex.TB)
 						} else if (item.name == lang.SPACE) {
-							add(ice.SP)
-						} else if (item.name.indexOf(ice.NL) > -1) { var ls = can.core.Split(item.name, ice.NL, ice.NL, ice.NL)
+							add(lex.SP)
+						} else if (item.name.indexOf(lex.NL) > -1) { var ls = can.core.Split(item.name, lex.NL, lex.NL, lex.NL)
 							add(can._shift? ls[0]: ls[1])
 						} else {
 							add(can._shift? item.name.toUpperCase(): item.name)
@@ -37,7 +37,7 @@ Volcanos(chat.ONFIGURE, {keyboard: {
 			["4", "5", "6"],
 			["7", "8", "9"],
 		], function(list) { can.core.List(list, function(item, index) {
-			msg.Push(can.base.isObject(item)? item: {type: [mdb.KEY, (index == 0? html.HEAD: "")].join(ice.SP), name: item})
+			msg.Push(can.base.isObject(item)? item: {type: [mdb.KEY, (index == 0? html.HEAD: "")].join(lex.SP), name: item})
 		}) }); return 150
 	},
 	_normal: function(can, msg) {
@@ -48,7 +48,7 @@ Volcanos(chat.ONFIGURE, {keyboard: {
 			[lang.SHIFT, "z", "x", "c", "v", "b", "n", "m",  "<\n,", ">\n.", "?\n/", lang.SHIFT],
 			[lang.CTRL, lang.CMD, lang.ALT, lang.SPACE, lang.ALT, lang.CMD, lang.CTRL],
 		], function(list) { can.core.List(list, function(item, index) {
-			msg.Push(can.base.isObject(item)? item: {type: [mdb.KEY, index == 0? html.HEAD: index == list.length-1? "tail": ""].join(ice.SP), name: item})
+			msg.Push(can.base.isObject(item)? item: {type: [mdb.KEY, index == 0? html.HEAD: index == list.length-1? "tail": ""].join(lex.SP), name: item})
 		}) }); return 750
 	}
 }})

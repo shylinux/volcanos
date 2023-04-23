@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(can, function() { can.ConfDefault({field: msg.append[0], split: ice.PS})
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(can, function() { can.ConfDefault({field: msg.append[0], split: nfs.PS})
 		can.dir_root = can.Conf(nfs.DIR_ROOT)||msg.Option(nfs.DIR_ROOT), can._tree = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))
 		can.onaction.list = [], can.base.isFunc(cb) && cb(msg), can.onimport.layout(can)
 		can.onappend._status(can, msg.Option(ice.MSG_STATUS))

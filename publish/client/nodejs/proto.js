@@ -1,6 +1,6 @@
 try { if (typeof(global) == lang.OBJECT) { // nodejs
 	Volcanos.meta._load = function(url, cb) { if (!url) { return cb() }
-		switch (url.split("?")[0].split(ice.PT).pop().toLowerCase()) {
+		switch (url.split("?")[0].split(nfs.PT).pop().toLowerCase()) {
 			case nfs.JS:
 				// console.log("require", url)
 				require(url.indexOf("/src/") == 0? path.join(process.cwd(), url): path.join(process.cwd(), "usr/volcanos", url))
@@ -26,22 +26,22 @@ Volcanos("onappend", {
 			if (index == 0) {
 				for (var i = 0; i < msg.append.length; i++) { line.push(msg.append[i])
 					for (var j = 0; j <= max[msg.append[i]]-msg.append[i].length; j++) {
-						line.push(ice.SP)
+						line.push(lex.SP)
 					}
-					line.push(ice.SP)
+					line.push(lex.SP)
 				}
 				list.push(line.join(""))
 			}
 			line = []; for (var i = 0; i < msg.append.length; i++) { var k = msg.append[i]
 				line.push(value[k])
 				for (var j = 0; j <= max[k]-value[k]; j++) {
-					line.push(ice.SP)
+					line.push(lex.SP)
 				}
-				line.push(ice.SP)
+				line.push(lex.SP)
 			}
 			list.push(line.join(""))
 		})
-		console.log(list.join(ice.NL))
+		console.log(list.join(lex.NL))
 	},
 	board: function(can, msg) {
 		console.log(msg.Result())

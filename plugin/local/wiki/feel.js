@@ -1,5 +1,5 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.clear(can), can.dir_root = msg.Option(nfs.DIR_ROOT)
-		can._path = can.request(), can.list = [], msg.Table(function(value) { can.base.endWith(value.path, ice.PS)? can._path.Push(value): can.list.push(value) })
+		can._path = can.request(), can.list = [], msg.Table(function(value) { can.base.endWith(value.path, nfs.PS)? can._path.Push(value): can.list.push(value) })
 		can.ui = can.onappend.layout(can, [html.PROJECT, html.DISPLAY])
 		can._path.Table(function(item) { item.name = item.path
 			can.onimport.item(can, item, function() { can.Option(nfs.PATH, item.path), can.Update() }, function() {}, can.ui.project)
@@ -61,7 +61,7 @@ Volcanos(chat.ONACTION, {list: [
 	record0: function(event, can, name, cb) { can.user.input(event, can, [{name: nfs.FILE, value: name}], function(list) { var height = window.innerHeight
 		navigator.mediaDevices.getDisplayMedia({video: {height: height}}).then(function(stream) {
 			can.core.Next([3, 2, 1], function(item, next) { can.user.toast(can, item + "s 后开始截图"), can.onmotion.delay(can, next, 1000) }, function() { can.user.toast(can, "现在开始截图")
-				cb(stream, function(blobs, ext) { var msg = can.request(event); msg._upload = new File(blobs, list[0]+ice.PT+ext)
+				cb(stream, function(blobs, ext) { var msg = can.request(event); msg._upload = new File(blobs, list[0]+nfs.PT+ext)
 					can.runAction(msg, html.UPLOAD, [], function() { can.user.toast(can, "上传成功"), can.Update() })
 					can.core.List(stream.getTracks(), function(item) { item.stop() })
 				})
@@ -85,7 +85,7 @@ Volcanos(chat.ONDETAIL, {list: ["关闭", "上一个", "下一个", "设置头�
 				sub.page.style(sub, sub._target, {left: left||0, top: top||0}), sub.page.style(sub, sub._output, html.HEIGHT, height-2*html.ACTION_HEIGHT, html.WIDTH, width)
 				can.order = index, can.show = function(order) { path = can.onimport._file(can, can.list[order].path); var cb = can.onfigure[can.base.Ext(path)]||can.onfigure[wiki.IMAGE]
 					sub.page.Appends(sub, sub._output, [can.base.Copy(cb(can, path, index), {height: "", style: kit.Dict(html.MAX_WIDTH, width, html.MAX_HEIGHT, height-2*html.ACTION_HEIGHT)})])
-					sub.Status(cli.BEGIN, order+1+ice.PS+can.list.length), sub.Status(nfs.FILE, path)
+					sub.Status(cli.BEGIN, order+1+nfs.PS+can.list.length), sub.Status(nfs.FILE, path)
 				}, can.show(can.order)
 			}), sub.run = function(can, cmds, cb) { can.run(can, cmds, cb, true) }
 		}, can._root._target)
@@ -101,5 +101,5 @@ Volcanos(chat.ONDETAIL, {list: ["关闭", "上一个", "下一个", "设置头�
 })
 Volcanos(chat.ONEXPORT, {list: [cli.BEGIN, mdb.LIMIT, mdb.TOTAL, nfs.FILE, "position"],
 	height: function(can) { var height = can.Action(html.HEIGHT); return parseInt(height == ice.AUTO? can.base.Min(can.ConfHeight()/4, 200): height)||200 },
-	position: function(can, index, total) { total = total || can.max; return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+ice.PS+parseInt(total) },
+	position: function(can, index, total) { total = total || can.max; return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+nfs.PS+parseInt(total) },
 })

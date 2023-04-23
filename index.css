@@ -409,6 +409,7 @@ body.mobile.simple div.output.card div.item { width:100%; }
 body.mobile.landscape div.output.card div.item { width:auto; float:left; }
 /* scrollbar */
 fieldset.panel.Action>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
+fieldset.panel.River>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.story[data-type=spark]::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }

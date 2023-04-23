@@ -19,7 +19,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		target.Group = function() { for (var node = target; node; node = node.parentNode) { if (can.page.tagis(node, svg.G, html.SVG)) { return node } } return can.svg }
 		target.Groups = function() { if (target == can.svg) { return html.SVG } var list = []
 			for (var node = target; node && !can.page.tagis(node, html.SVG); node = node.parentNode) { can.page.tagis(node, svg.G) && node.Value(html.CLASS) && list.push(node.Value(html.CLASS)) }
-			return list.reverse().join(ice.PT)
+			return list.reverse().join(nfs.PT)
 		}; return target
 	},
 	_group: function(can, target) { if (!can.ui.project) { return } var name = target.Groups()
@@ -147,7 +147,7 @@ Volcanos(chat.ONACTION, {list: [[svg.GRID, 10, 1, 2, 3, 4, 5, 10, 20],
 	oncontextmenu: function(event, can) { can.page.style(can, can.user.carte(event, can, can.ondetail, null, function(ev, button, meta) { meta[button](event, can, button) })._target, {left: event.clientX, top: event.clientY}) },
 })
 Volcanos(chat.ONDETAIL, {list: [cli.START, ice.COPY, html.LABEL, "toimage", mdb.REMOVE],
-	_select(can, name, cb) { if (!name) { return } var target = can.page.SelectOne(can, can.svg, ice.PT+name, cb)
+	_select(can, name, cb) { if (!name) { return } var target = can.page.SelectOne(can, can.svg, nfs.PT+name, cb)
 		can.onimport._profile(can, target), can.onimport._display(can, target), can.onimport.layout(can)
 		return target
 	},
@@ -178,7 +178,7 @@ Volcanos(chat.ONDETAIL, {list: [cli.START, ice.COPY, html.LABEL, "toimage", mdb.
 			target.Value(mdb.TEXT, can.onexport._pid(can, can.onimport.block(can, html.TEXT, can.onexport._text(can, target, can.onfigure._get(can, target), {inner: list[0]}), target.Group()) ))
 		})
 	},
-	toimage: function(event, can) { can.user.toimage(can, can.Option(nfs.PATH).split(ice.PS).pop().split(ice.PT)[0], can.svg) },
+	toimage: function(event, can) { can.user.toimage(can, can.Option(nfs.PATH).split(nfs.PS).pop().split(nfs.PT)[0], can.svg) },
 	remove: function(event, can) { if (target == can.svg) { return } var target = event.target
 		can.core.List(target.Value(ice.SHIP), function(item) { can.ondetail._select(can, item.pid, function(target) { can.page.Remove(can, target) }) })
 		can.ondetail._select(can, target.Value(mdb.TEXT), function(target) { can.page.Remove(can, target) }), can.page.Remove(can, target)
@@ -192,31 +192,31 @@ Volcanos(chat.ONDETAIL, {list: [cli.START, ice.COPY, html.LABEL, "toimage", mdb.
 Volcanos(chat.ONEXPORT, {list: [svg.GROUP, svg.FIGURE, ctx.INDEX, "pos"],
 	_point: function(event, can) { var p = can.svg.getBoundingClientRect(), point = {x: event.clientX-p.x, y: event.clientY-p.y}
 		point.x = point.x - point.x % parseInt(can.Action(svg.GRID)), point.y = point.y - point.y % parseInt(can.Action(svg.GRID))
-		return can.Status("pos", point.x+ice.FS+point.y), point
+		return can.Status("pos", point.x+mdb.FS+point.y), point
 	},
 	_pid: function(can, target) { if (target.Value(svg.PID)) { return target.Value(svg.PID) }
 		var pid = "p"+can.svg.Val(mdb.COUNT, can.svg.Val(mdb.COUNT)+1)
-		return target.Value(html.CLASS, [target.Value(html.CLASS), target.Value(svg.PID, pid)].join(ice.SP).trim()), pid
+		return target.Value(html.CLASS, [target.Value(html.CLASS), target.Value(svg.PID, pid)].join(lex.SP).trim()), pid
 	},
 	_text: function(can, target, figure, data) { var trans = can.core.Value(figure.data, svg.TRANS)||{}
 		if (figure.text) { return figure.text(can, target, data) }
 		return data.x = target.Val(trans[svg.X]||svg.X), data.y = target.Val(trans[svg.Y]||svg.Y), data
 	},
 	_size: function(can, target, figure) { var trans = can.core.Value(figure.data, svg.TRANS)||{}
-		return "<("+target.Val(trans[html.HEIGHT]||html.HEIGHT)+ice.FS+target.Val(trans[html.WIDTH]||html.WIDTH)+")"
+		return "<("+target.Val(trans[html.HEIGHT]||html.HEIGHT)+mdb.FS+target.Val(trans[html.WIDTH]||html.WIDTH)+")"
 	},
 	_position: function(can, target, figure) { var trans = can.core.Value(figure.data, svg.TRANS)||{}
-		return "@("+target.Val(trans[svg.X]||svg.X)+ice.FS+target.Val(trans[svg.Y]||svg.Y)+")"
+		return "@("+target.Val(trans[svg.X]||svg.X)+mdb.FS+target.Val(trans[svg.Y]||svg.Y)+")"
 	},
 	_show: function(can, target) { var figure = can.onfigure._get(can, target)
-		function show() { return can.onexport._size(can, target, figure)+ice.SP+can.onexport._position(can, target, figure) }
-		can.Status(svg.FIGURE, target.tagName+ice.DF+target.Value(svg.PID)+ice.SP+(figure? (figure.show||show)(can, target, figure): ""))
+		function show() { return can.onexport._size(can, target, figure)+lex.SP+can.onexport._position(can, target, figure) }
+		can.Status(svg.FIGURE, target.tagName+nfs.DF+target.Value(svg.PID)+lex.SP+(figure? (figure.show||show)(can, target, figure): ""))
 		can.Status(svg.GROUP, target.Groups()||can.group.Groups()||html.SVG)
 		can.Status(ctx.INDEX, target.Value(ctx.INDEX)||"")
 	},
 	content: function(can, target) { return ['<svg xmlns="https://www.w3.org/2000/svg" vertion="1.1" text-anchor="middle" '].concat(
 	// content: function(can, target) { return ['<svg xmlns="https://www.w3.org/2000/svg" vertion="1.1" text-anchor="middle" dominant-baseline="middle" '].concat(
-		target? can.core.List([mdb.COUNT, svg.PID], function(item) { return target.Value(item)? can.base.joinKV([item, target.Value(item)], ice.EQ): ""}).join(ice.SP): "").concat([">", target? target.innerHTML: "", "</svg>"]).join("")
+		target? can.core.List([mdb.COUNT, svg.PID], function(item) { return target.Value(item)? can.base.joinKV([item, target.Value(item)], mdb.EQ): ""}).join(lex.SP): "").concat([">", target? target.innerHTML: "", "</svg>"]).join("")
 	},
 	cursor: function(event, can, target) {
 		var p = target.getBoundingClientRect(), q = {x: event.clientX, y: event.clientY}, pos = 5, margin = 20
@@ -308,7 +308,7 @@ Volcanos(chat.ONFIGURE, {
 			return {x1: p0.x, y1: p0.y, x2: p1.x, y2: p1.y, ship: ship.length > 0? ship: undefined}
 		},
 		text: function(can, target, data) { return data.x = (target.Val(svg.X1)+target.Val(svg.X2))/2, data.y = (target.Val(svg.Y1)+target.Val(svg.Y2))/2, data },
-		show: function(can, target, figure) { return "<("+(target.Val(svg.Y2)-target.Val(svg.Y1))+ice.FS+(target.Val(svg.X2)-target.Val(svg.X1))+")"+can.onexport._position(can, target, figure) },
+		show: function(can, target, figure) { return "<("+(target.Val(svg.Y2)-target.Val(svg.Y1))+mdb.FS+(target.Val(svg.X2)-target.Val(svg.X1))+")"+can.onexport._position(can, target, figure) },
 	},
 	circle: { // "25" cy="75" r="20"/>
 		data: {points: 2, trans: {height: svg.R, width: svg.R, x: svg.CX, y: svg.CY}, copy: [svg.R]},

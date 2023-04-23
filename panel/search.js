@@ -11,12 +11,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can
 		can.ConfHeight(can.base.Min(height-can.ui.content.offsetHeight-can.ui.display.offsetHeight-html.ACTION_HEIGHT, height/2))
 	}) },
 	_input: function(can, msg, arg, fields) { if (can.base.contains(arg[1], ";")) { arg = can.core.Split(arg[1], "\t ;", "\t ;") }
-		can.run(can.request({}, {fields: fields.join(ice.FS)}, msg), arg, function(res) { can.db.type = arg[0]
+		can.run(can.request({}, {fields: fields.join(mdb.FS)}, msg), arg, function(res) { can.db.type = arg[0]
 			res.Option(ice.ARG, arg), can.onengine.signal(can, chat.ONSEARCH, res), can.onimport._init(can, res)
 		}), can.onmotion.toggle(can, can._target, true)
 	},
 	select: function(can, msg, cmds, cb) { can.ui.filter.value = cmds[1], can.ui.input = function(event, word) { cmds[1] = word||cmds[1]; can.onimport._input(can, msg, cmds, fields) }
-		var fields = (cmds[2]||msg.Option(ice.MSG_FIELDS)||"ctx,cmd,type,name,text").split(ice.FS); can.page.Appends(can, can.ui.display, [{th: fields}]), can.onmotion.hidden(can, can.ui.display), can.onmotion.clear(can, can.ui.profile)
+		var fields = (cmds[2]||msg.Option(ice.MSG_FIELDS)||"ctx,cmd,type,name,text").split(mdb.FS); can.page.Appends(can, can.ui.display, [{th: fields}]), can.onmotion.hidden(can, can.ui.display), can.onmotion.clear(can, can.ui.profile)
 		can.ui.done = function() { can.base.isFunc(cb) && cb(can.onexport.select(can)), can.onmotion.hidden(can) }, can.db = {}, can._plugins = [], can.onimport._input(can, msg, cmds, fields)
 	},
 })
@@ -45,11 +45,11 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 		}}]); show()
 	},
 	plugin: function(event, can, data) { if (can.base.isFunc(data.text)) { return can.onmotion.hidden(can), data.text(event) }
-		var cmd = data.cmd == ctx.COMMAND? can.core.Keys(data.type, data.name.split(ice.SP)[0]): can.core.Keys(data.ctx, data.cmd)
+		var cmd = data.cmd == ctx.COMMAND? can.core.Keys(data.type, data.name.split(lex.SP)[0]): can.core.Keys(data.ctx, data.cmd)
 		var meta = {type: html.PLUGIN, index: cmd||msg.Option(mdb.INDEX), args: cmd == web.WIKI_WORD? [data.name]: []}
 		if (data.type == cli.OPENS) { return can.runAction(event, cli.OPENS, [data.text], null, true) }
 		if (data.type == ssh.SHELL) { meta = {index: web.CODE_XTERM, args: [data.text]} }
-		if (data.type == ctx.INDEX) { meta = {index: data.text.split(ice.FS)[0], args: data.text.split(ice.FS).slice(1) } }
+		if (data.type == ctx.INDEX) { meta = {index: data.text.split(mdb.FS)[0], args: data.text.split(mdb.FS).slice(1) } }
 		if (data.type == nfs.FILE) { meta = {index: web.CODE_VIMER, args: can.misc.SplitPath(can, data.text)} }
 		can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub), sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth()-1, true), sub.Focus() }, can.ui.profile)
 	},

@@ -72,7 +72,8 @@ var mdb = {
 	KEYS: "keys",
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
 	FOREACH: "*", RANDOMS: "%",
-	EQ: "=", FS: ",",
+	QS: ice.QS, AT: ice.AT,
+	EQ: ice.EQ, FS: ice.FS,
 }
 var web = {CHAT: "chat",
 	SHARE: "share", SPACE: "space", DREAM: "dream",
@@ -100,7 +101,7 @@ var aaa = {
 }
 var lex = {
 	SPLIT: "split", PREFIX: "prefix", SUFFIX: "suffix",
-	TB: "\t", SP: " ", NL: "\n",
+	TB: ice.TB, SP: ice.SP, NL: ice.NL,
 }
 var yac = {
 }
@@ -122,7 +123,7 @@ var nfs = {
 	SVG: "svg", HTML: "html", CSS: "css", JS: "js", SH: "sh", GO: "go", CSV: "csv", JSON: "json",
 	TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
-	DF: ":", PS: "/", PT: ".",
+	DF: ice.DF, PS: ice.PS, PT: ice.PT,
 	PWD: "./", SRC: "src/",
 }
 var cli = {
@@ -329,7 +330,7 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 			can.run(event, [ctx.ACTION].concat(action, args), cb, silent)
 		},
 		search: function(event, cmds, cb) {
-			if (cmds && typeof cmds == lang.OBJECT && cmds.length > 0 && typeof cmds[0] == lang.OBJECT && cmds[0].length > 0 ) { cmds[0] = cmds[0].join(ice.PT) }
+			if (cmds && typeof cmds == lang.OBJECT && cmds.length > 0 && typeof cmds[0] == lang.OBJECT && cmds[0].length > 0 ) { cmds[0] = cmds[0].join(nfs.PT) }
 			return (can._root||can).run(event, [chat._SEARCH].concat(cmds), cb, true)
 		},
 		get: function(name, key, cb) { var value; can.search({}, [can.core.Keys(name, chat.ONEXPORT, key)], cb||function(msg) { value = msg.Result() }); return value },
@@ -357,7 +358,7 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 			for (var i = 0; i < arguments.length; i += 2) {
 				if (typeof key == lang.OBJECT) { res = can.core.Value(can._conf, arguments[i]), i--; continue }
 				res = can.core.Value(can._conf, arguments[i], arguments[i+1])
-			} return can.base.isUndefined(res) && key.indexOf(ctx.FEATURE+ice.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
+			} return can.base.isUndefined(res) && key.indexOf(ctx.FEATURE+nfs.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
 		}, _conf: {},
 	}, meta)); if (_can_name) { meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can) } else { list.push(can) }
 	return can.require(can._follow? libs.concat(meta.libs, meta.volcano): libs, cb), can
@@ -366,14 +367,14 @@ try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
 	if (window._version && window.outerWidth-window.innerWidth < 100) { meta.version = window._version }
 	meta._load = function(url, cb) { var v = meta.version? meta.version+"&_tt="+(new Date()).getTime(): ""
-		switch (url.split(ice.QS)[0].split(ice.PT).pop().toLowerCase()) {
+		switch (url.split(ice.QS)[0].split(nfs.PT).pop().toLowerCase()) {
 			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+v, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
 			default: var item = document.createElement(nfs.SCRIPT); item.src = url+v, item.onerror = cb, item.onload = cb, document.body.appendChild(item)
 		}
 	}
 	meta._init = function(can) {
 		window.onerror = function(message, source, lineno, colno, error) {
-			meta.version? alert([message].concat(can.misc._stacks(0, error)).join(ice.NL)): can.misc.Error(message, ice.NL+[source, lineno, colno].join(ice.DF), error)
+			meta.version? alert([message].concat(can.misc._stacks(0, error)).join(lex.NL)): can.misc.Error(message, lex.NL+[source, lineno, colno].join(ice.DF), error)
 		}, window.onbeforeunload = function() { can.Action._socket && can.Action._socket.close() }
 		var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
 			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()

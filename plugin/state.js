@@ -98,8 +98,8 @@ Volcanos(chat.ONACTION, {list: [
 	], [mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input())]) },
 	"打开链接": function(event, can) { can.user.open(can.onexport.link(can)) },
 	"生成链接": function(event, can) { can.onmotion.share(event, can, [], [mdb.LINK, can.user.copy(event, can, can.onexport.link(can))]) },
-	"生成脚本": function(event, can) { var conf = can.Conf(), args = can.Input().join(ice.SP), list = [
-		"export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -o $ctx_temp -fsSL $ctx_dev;"+" source $ctx_temp cmd "+(conf.index||"")+ice.SP+args,
+	"生成脚本": function(event, can) { var conf = can.Conf(), args = can.Input().join(lex.SP), list = [
+		"export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -o $ctx_temp -fsSL $ctx_dev;"+" source $ctx_temp cmd "+(conf.index||"")+lex.SP+args,
 		"ish_sys_dev_run_command "+args, "ish_sys_dev_run_action", "ish_sys_dev_run_source",
 	]; can.user.copy(event, can, list[0]) },
 	"生成图片": function(event, can) { can.user.toimage(can, can._name) },
@@ -163,7 +163,7 @@ Volcanos(chat.ONACTION, {list: [
 	record0: function(event, can, name, cb) { can.user.input(event, can, [{name: nfs.FILE, value: name}], function(list) {
 		navigator.mediaDevices.getDisplayMedia({video: {height: window.innerHeight}}).then(function(stream) { var toast
 			can.core.Next([3, 2, 1], function(item, next) { toast = can.user.toast(can, item + "s 后开始截图"), can.onmotion.delay(can, next, 1000) }, function() { toast.close()
-				cb(stream, function(blobs, ext) { var msg = can.request(event); msg._upload = new File(blobs, list[0]+ice.PT+ext)
+				cb(stream, function(blobs, ext) { var msg = can.request(event); msg._upload = new File(blobs, list[0]+nfs.PT+ext)
 					can.runAction(msg, html.UPLOAD, [], function() { can.user.toastSuccess(can), can.Update() })
 					can.core.List(stream.getTracks(), function(item) { item.stop() })
 				})

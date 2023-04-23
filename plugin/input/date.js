@@ -19,7 +19,7 @@ Volcanos(chat.ONFIGURE, {date: {
 		function show(now) { can.Action(YEAR, now.getFullYear()), can.Action(MONTH, now.getMonth()+1)
 			can.Action(HOUR, now.getHours()), can.Action(MINUTE, parseInt(now.getMinutes()/5)*5), can.Action(SECOND, parseInt(now.getSeconds()/5)*5)
 			can.page.Appends(can, can._table, can.date.List(can, function(event, day) { day.setHours(now.getHours()), day.setMinutes(now.getMinutes()), day.getSeconds(now.getSeconds()), _cb(day), can.close() }, now))
-			var l = can.date.solar2lunar(now); can.page.Appends(can, can._status, [{view: "today", inner: [l.gzYear, l.Animal+"年", l.cnMonth, l.cnDay, l.lunarFestival||l.festival||l.Term, l.Astro].join(ice.SP)}])
+			var l = can.date.solar2lunar(now); can.page.Appends(can, can._status, [{view: "today", inner: [l.gzYear, l.Animal+"年", l.cnMonth, l.cnDay, l.lunarFestival||l.festival||l.Term, l.Astro].join(lex.SP)}])
 			return now
 		} show(now), can._show = function(d) { d? _cb(show(now = new Date(now.getTime()+d*24*3600*1000))): _cb(show(now)) }
 	})},

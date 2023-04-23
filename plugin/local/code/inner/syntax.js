@@ -134,8 +134,8 @@ Volcanos(chat.ONSYNTAX, {
 		},
 		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t ")
 			opts.chapter = opts.chapter||0
-			if (ls[0] == "chapter") { opts.chapter++, opts.section = 0, push(opts.chapter+ice.SP+ls[1]) }
-			if (ls[0] == "section") { opts.section++, push(opts.chapter+ice.PT+opts.section+ice.SP+ls[1]) }
+			if (ls[0] == "chapter") { opts.chapter++, opts.section = 0, push(opts.chapter+lex.SP+ls[1]) }
+			if (ls[0] == "section") { opts.section++, push(opts.chapter+nfs.PT+opts.section+lex.SP+ls[1]) }
 		},
 	},
 	py: {prefix: {"#!": code.COMMENT, "# ": code.COMMENT}, keyword: {"import": code.KEYWORD, "from": code.KEYWORD, "return": code.KEYWORD, "print": code.FUNCTION}},
@@ -163,19 +163,19 @@ Volcanos(chat.ONSYNTAX, {
 		},
 		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t *", "({:})")
 			function isKey() { return opts.block == "cmds" && ls[1] == ":" && ls[2] == "{" } function isEnd() { return ls[0] == "}" }
-			function prefix(key, pre) { return key.toLowerCase() == key? "- ": ("+ "+(pre? pre+ice.PT: "")) }
+			function prefix(key, pre) { return key.toLowerCase() == key? "- ": ("+ "+(pre? pre+nfs.PT: "")) }
 			if (indent == 0) { switch (ls[0]) {
 				case "package": opts.package = ls[1]; break
-				case "func": if (ls[1] == "(") { push(prefix(ls[5])+ls[2]+ice.PT+ls[5]); break }
+				case "func": if (ls[1] == "(") { push(prefix(ls[5])+ls[2]+nfs.PT+ls[5]); break }
 				case "const":
 				case "var": if (ls[1] == "(") { break }
 				case "type": push(prefix(ls[1], opts.package)+ls[1]); break
 			} opts.stack = [ls[0]] } else if (indent == 4 && opts.stack[0] == "func") {
 				if (text.indexOf("MergeCommands(") > -1) { opts.block = "cmds" } else if (text.indexOf("}") == 0) { opts.block = "" }
 			} else if (indent == 8) {
-				if (isKey()) { push(prefix(ls[0], opts.package)+ls[0]), opts.cmds = opts.package+ice.PT+ls[0] }
+				if (isKey()) { push(prefix(ls[0], opts.package)+ls[0]), opts.cmds = opts.package+nfs.PT+ls[0] }
 			} else if (indent == 12) {
-				if (isKey()) { push("+ "+opts.cmds+ice.SP+ls[0]) }
+				if (isKey()) { push("+ "+opts.cmds+lex.SP+ls[0]) }
 			}
 		},
 	}, mod: {prefix: {"//": code.COMMENT}, keyword: {"go": code.KEYWORD, "module": code.KEYWORD, "require": code.KEYWORD, "replace": code.KEYWORD}}, sum: {},
@@ -206,20 +206,20 @@ Volcanos(chat.ONSYNTAX, {
 			"res": code.OBJECT, "sub": code.OBJECT, "sup": code.OBJECT,
 		},
 		complete: function(event, can, msg, target, pre, key) {
-			var ls = can.core.Split(can.core.Split(pre, "\t {(:,)}").pop(), ice.PT), list = {can: can, msg: msg, target: target, event: event, window: window}
+			var ls = can.core.Split(can.core.Split(pre, "\t {(:,)}").pop(), nfs.PT), list = {can: can, msg: msg, target: target, event: event, window: window}
 			can.core.ItemKeys(key == ""? list: can.core.Value(list, ls)||can.core.Value(window, ls)||window, function(k, v) {
-				msg.Push(mdb.NAME, k).Push(mdb.TEXT, (v+"").split(ice.NL)[0])
+				msg.Push(mdb.NAME, k).Push(mdb.TEXT, (v+"").split(lex.NL)[0])
 			})
 		},
-		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t (,", ice.DF)
+		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t (,", nfs.DF)
 			if (indent == 0 && can.base.beginWith(text, "Volcanos")) {
 				var _block = can.base.trimPrefix(ls[1], "chat.").toLowerCase()
 				if (_block != opts.block) { push("") } opts.block = _block
-				if (text.indexOf(chat._INIT) > -1) { push(opts.block+ice.PT+chat._INIT) }
+				if (text.indexOf(chat._INIT) > -1) { push(opts.block+nfs.PT+chat._INIT) }
 			} else if (indent == 0 && can.base.beginWith(text, "var ")) {
 				opts.block = ls[1]
-			} else if (indent == 4 && ls[1] == ice.DF) {
-				ls[0] && push(opts.block+ice.PT+ls[0])
+			} else if (indent == 4 && ls[1] == nfs.DF) {
+				ls[0] && push(opts.block+nfs.PT+ls[0])
 			}
 		},
 	}, json: {},

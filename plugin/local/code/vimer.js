@@ -115,7 +115,7 @@ Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图"
 	"首页": function(event, can) { can.onimport.tabview(can, "", location.origin+nfs.PS+(can.misc.Search(can, log.DEBUG) == ice.TRUE? "?debug=true": ""), web.SPACE) },
 	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value); before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before)); return can.onaction.rerankLine(can), can.onexport.line(can, line) },
 	deleteLine: function(can, line) { line = can.onaction._getLine(can, line); var next = line.nextSibling||line.previousSibling; return can.page.Remove(can, line), can.onaction.rerankLine(can), next },
-	_selectLine: function(can) { can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
+	_selectLine: function(can) { can.current && can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
 		can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop,
 			html.WIDTH, can.base.Min(td.offsetWidth, can.ui.content.offsetWidth-can.page.Select(can, can.current.line, "td.line")[0].offsetWidth))
 		can.db.mode == mdb.NORMAL && can.onkeymap._normal(can)

@@ -72,6 +72,6 @@ Volcanos(chat.ONDETAIL, {list: ["复制", "删除"],
 })
 Volcanos(chat.ONEXPORT, {
 	content: function(can) { return can.page.Select(can, can.ui.content, html.TR, function(tr) {
-		return can.page.Select(can, tr, can.page.Keys(html.TH, html.TD), function(td) {return td.innerHTML}).join(ice.FS)
-	}).join(ice.NL) },
+		return can.page.Select(can, tr, can.page.Keys(html.TH, html.TD), function(td) {return td.innerHTML}).join(mdb.FS)
+	}).join(lex.NL) },
 })

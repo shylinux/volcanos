@@ -19,13 +19,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.
 		close(); switch (event.target.value) {
 		case cli.CLEAR:
 		case cli.CLOSE: break
-		default: var list = can.core.Split(event.target.value, ice.SP)
+		default: var list = can.core.Split(event.target.value, lex.SP)
 			can.onexport._float(can, "cli", list[0], list.slice(1), function(sub) { can.getActionSize(function(left) { can.page.style(can, sub._target, html.LEFT, left+10, html.RIGHT, "") }) })
 		}
 	}}, "", target, [chat.TITLE]) },
 	_data: function(can, name, item) { can.db[name] = can.db[name]||can.request(), can.db[name].Push(item), can.onimport.count(can, name) },
 	count: function(can, name) { can.page.Select(can, can._output, can.core.Keys(html.SPAN, name), function(item) { item.innerHTML = can.Conf(name, parseInt(can.Conf(name)||"0")+1+"")+"" }) },
-	ntip: function(can, msg, time, title, content) { can.onimport._data(can, NTIP, {time: time, fileline: can.base.trimPrefix(msg.Option("log.caller"), location.origin+ice.PS), title: title, content: content}), can.page.Modify(can, can.ui.toast, [time, title, content].join(ice.SP)) },
+	ntip: function(can, msg, time, title, content) { can.onimport._data(can, NTIP, {time: time, fileline: can.base.trimPrefix(msg.Option("log.caller"), location.origin+nfs.PS), title: title, content: content}), can.page.Modify(can, can.ui.toast, [time, title, content].join(lex.SP)) },
 	ncmd: function(can, msg, _follow, _cmds) { can.onimport._data(can, NCMD, {time: can.base.Time(), follow: _follow, cmds: _cmds}), can.onimport.nlog(can, NLOG) },
 	nlog: function(can, name) { can.onimport.count(can, name) },
 })
@@ -77,20 +77,20 @@ Volcanos(chat.ONPLUGIN, {
 		]}].concat(can.core.List(can.misc._list, function(list) { stat[list[2]] = ((stat[list[2]]||0)+1); return (!arg || !arg[0] || arg[0] == "log" || arg[0] == list[2]) && {type: html.TR, list: [
 			{type: html.TD, list: can.core.List(list, function(item, index) { var vimer
 				if (index == 1) { var _ls = /(https*:\/\/[^/]+)\/*([^:]+):([0-9]+):([0-9]+)/.exec(list[1]); _ls[2] = _ls[2].split(ice.QS)[0]
-					return {view: [html.ITEM, html.SPAN], list: [{text: ice.SP+can.page.unicode.close+ice.SP}, {text: [(_ls[1] == location.origin? "": _ls[1])+_ls[2]+ice.DF+_ls[3], "", nfs.PATH], onclick: function(event) {
+					return {view: [html.ITEM, html.SPAN], list: [{text: lex.SP+can.page.unicode.close+lex.SP}, {text: [(_ls[1] == location.origin? "": _ls[1])+_ls[2]+nfs.DF+_ls[3], "", nfs.PATH], onclick: function(event) {
 						if (can.onexport.record(can, list[1], mdb.LINK, {time: list[0], link: list[1], type: list[2], path: ice.USR_VOLCANOS, file: _ls[2], line: _ls[3]})) { return }
 						if (vimer) { return can.page.Remove(can, vimer._target), vimer = null }
 						vimer = can.onappend.plugin(_can, {index: web.CODE_INNER, args: [ice.USR_VOLCANOS, _ls[2], _ls[3]]}, function(sub) {}, event.target.parentNode)
 					}}]}
-				} if (!can.base.isObject(item)) { return item && {text: (index > 0? ice.SP: "")+item} }
+				} if (!can.base.isObject(item)) { return item && {text: (index > 0? lex.SP: "")+item} }
 				return {view: [mdb.DATA, html.SPAN], _init: function(target) {
-					if (item.tagName) { var detail; var ui = can.page.Append(can, target, [{text: ice.SP},
-						{text: can.page.unicode.close+ice.SP, _init: function(target) { can.onmotion.delay(can, function() { ui.toggle = target }) }},
+					if (item.tagName) { var detail; var ui = can.page.Append(can, target, [{text: lex.SP},
+						{text: can.page.unicode.close+lex.SP, _init: function(target) { can.onmotion.delay(can, function() { ui.toggle = target }) }},
 						{view: [[html.ITEM, nfs.TARGET], html.SPAN, can.page.tagClass(item)], onclick: function() {
-							if (detail) { return can.page.Remove(can, detail), detail = null, can.page.Modify(can, ui.toggle, can.page.unicode.close+ice.SP) }
-							detail = can.page.AppendData(can, target, "", "", item)._target, detail.click(), can.page.Modify(can, ui.toggle, can.page.unicode.open+ice.SP)
+							if (detail) { return can.page.Remove(can, detail), detail = null, can.page.Modify(can, ui.toggle, can.page.unicode.close+lex.SP) }
+							detail = can.page.AppendData(can, target, "", "", item)._target, detail.click(), can.page.Modify(can, ui.toggle, can.page.unicode.open+lex.SP)
 						}},
-					]) } else { can.page.Append(can, target, [{text: ice.SP}]), can.page.AppendData(can, target, "", "", item) }
+					]) } else { can.page.Append(can, target, [{text: lex.SP}]), can.page.AppendData(can, target, "", "", item) }
 				}}
 			})},
 		]} })) }]); arg && arg[1] && can.page.Select(can, can._output, html.TR, function(tr) { can.page.ClassList.set(can, tr, html.HIDE, tr.innerText.indexOf(arg[1]) == -1) })
@@ -99,7 +99,7 @@ Volcanos(chat.ONPLUGIN, {
 		].concat(can.core.List([log.INFO, log.WARN, log.ERROR, chat.ONREMOTE, html.WSS], function(item) { return {name: item, value: stat[item]||"0"} })))
 	}),
 	data: shy("网页数据", [mdb.KEY], function(can, msg, arg, cb) { var can = msg._can
-		arg[0]? can.page.AppendData(can, can._output, arg[0], arg[0].split(ice.PT).pop(), can.core.Value(can._root, arg[0]), function(prefix, value) { can.Option(mdb.KEY, prefix) })._target.click():
+		arg[0]? can.page.AppendData(can, can._output, arg[0], arg[0].split(nfs.PT).pop(), can.core.Value(can._root, arg[0]), function(prefix, value) { can.Option(mdb.KEY, prefix) })._target.click():
 			can.page.AppendData(can, can._output, "", can._root._name, can._root, function(prefix, value) { can.Option(mdb.KEY, prefix) })._target.click()
 	}),
 	view: shy("网页元素", [mdb.KEY], function(can, msg, arg, cb) { var can = msg._can
@@ -107,7 +107,7 @@ Volcanos(chat.ONPLUGIN, {
 			var ui = can.page.Append(can, can._output, [can.page.AppendView(can, document, "html", [
 				can.page.AppendView(can, document.head, html.HEAD), can.page.AppendView(can, document.body, html.BODY, null, false, function(target) {
 					var list = []; for (var p = target; p && p.tagName && p != document.body; p = p.parentNode) {
-						list.push(p.tagName.toLowerCase()+(p.className? ice.PT+p.className.replaceAll(ice.SP, ice.PT).replace(".picker", ""): ""))
+						list.push(p.tagName.toLowerCase()+(p.className? nfs.PT+p.className.replaceAll(lex.SP, nfs.PT).replace(".picker", ""): ""))
 					} can.Option(mdb.KEY, list.reverse().join(ice.GT))
 				}),
 			], true)]); can.onmotion.delay(can, function() { can.page.Select(can, ui._target, "div.item.head,div.item.body", function(target) { target.click() }) })

@@ -39,9 +39,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 		term.onData(function(data) { can.onimport._input(can, term, data) })
 		term.onCursorMove(function() { can.onexport.term(can, term) })
 		term.loadAddon(new WebLinksAddon.WebLinksAddon())
-		can.onmotion.clear(can, output), term.open(output), term.focus(), text && can.onmotion.delay(can, function() { term.write(text.replaceAll(ice.NL, "\r\n")) })
+		can.onmotion.clear(can, output), term.open(output), term.focus(), text && can.onmotion.delay(can, function() { term.write(text.replaceAll(lex.NL, "\r\n")) })
 		can.onengine.listen(can, chat.ONTHEMECHANGE, function() { can = can.core.Value(can.sup, chat._OUTPUTS_CURRENT)
-			term.selectAll(), can.onimport._connect(can, item, output, tabs, can.base.trimSuffix(term.getSelection(), ice.NL))
+			term.selectAll(), can.onimport._connect(can, item, output, tabs, can.base.trimSuffix(term.getSelection(), lex.NL))
 		}), can.page.style(can, output, html.BACKGROUND_COLOR, term._publicOptions.theme.background||cli.BLACK)
 		output.onclick = function() { output._tabs._current = output
 			can.onmotion.select(can, can._fields, html.DIV_OUTPUT, can._output = output), term.focus(), can.onexport.term(can, term)
@@ -78,19 +78,19 @@ Volcanos(chat.ONKEYMAP, {
 			p: function(event, can) { can._output._tabs.previousSibling && can._output._tabs.previousSibling.click() },
 			s: function(event, can) { can.onaction.sess(event, can) },
 			t: function(event, can) { can.user.input({target: can._output._tabs}, can, [ctx.INDEX, ctx.ARGS], function(list, data) { can.onimport.tool(can, [data], function(sub) {
-				sub.select(), sub.onexport.record = function(_, value) { can.onimport._input(can, can._output._term, value+ice.NL) }
+				sub.select(), sub.onexport.record = function(_, value) { can.onimport._input(can, can._output._term, value+lex.NL) }
 			}, can._fields) }) },
 			f: function(event, can) {
 				var input = can.user.input({target: can._output._tabs}, can, [{type: mdb.TEXT, name: nfs.FILE, select: function(item) {
-					var ls = item.split(ice.DF); switch (ls[0]) {
+					var ls = item.split(nfs.DF); switch (ls[0]) {
 						case "tabs": can.page.Select(can, can._action, [html.DIV_TABS, html.SPAN_NAME], function(target) { target.innerText == ls[1] && target.click() }); break
 						case web.LAYOUT: can.Option(mdb.HASH, ls[1]), can.Update(); break
 						case ctx.INDEX: can.onimport.tool(can, [ls[1]], function(sub) { sub.select() }); break
 						case ssh.SHELL: can.onaction.tabnew(can.request({}, {_handle: ice.TRUE, type: ls[1]}), can); break
-						default: can.onimport._input(can, can._output._term, item+ice.NL)
+						default: can.onimport._input(can, can._output._term, item+lex.NL)
 					} input.cancel()
 				}, run: function(event, cmds, cb) { can.run(event, cmds, function(msg) { var _msg = can.request()
-					function push(type, name) { _msg.Push(nfs.FILE, can.core.List(arguments).join(ice.DF)) }
+					function push(type, name) { _msg.Push(nfs.FILE, can.core.List(arguments).join(nfs.DF)) }
 					can.page.Select(can, can._action, [html.DIV_TABS, html.SPAN_NAME], function(target) { push("tabs", target.innerText) })
 					_msg.Copy(msg), can.core.Item(can.onengine.plugin.meta, function(key, value) { push(ctx.INDEX, "can."+key) }), cb(_msg)
 				}) }}], function(list) {})
@@ -129,7 +129,7 @@ Volcanos(chat.ONACTION, {
 	},
 	sess: function(event, can) { can.user.input({target: can._legend}, can, [mdb.NAME], function(list) {
 		can.runAction({}, mdb.CREATE, [mdb.TYPE, html.LAYOUT, mdb.NAME, list[0], mdb.TEXT, can.base.Format(can.onexport.sess(can))], function(msg) {
-			can.user.toastSuccess(can, can.user.trans(can, nfs.SAVE)+ice.SP+msg.Result())
+			can.user.toastSuccess(can, can.user.trans(can, nfs.SAVE)+lex.SP+msg.Result())
 		}, true)
 	}) },
 	onkeydown: function(event, can) {

@@ -5,7 +5,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE], "", item], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
 	}) },
 	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
-		if (item == aaa.AVATAR ) { can.user.isLocalFile || can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item]], list: [{img: ice.SP}], onclick: function(event) {
+		if (item == aaa.AVATAR ) { can.user.isLocalFile || can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item]], list: [{img: lex.SP}], onclick: function(event) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
 		}}]); return }
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item], "", (can.Conf(item)||msg.Option(item)||"").split(ice.AT)[0].slice(0, 10)], onclick: function(event) {
