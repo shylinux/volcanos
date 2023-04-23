@@ -5,7 +5,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 	_sum: function(can) { if (can.list) { return can.list }
 		var begin = "", count = 0, rest = 0, add = 0, del = 0, max = 0
 		can.max = 0, can.min = 0, can.list = can.core.List(can.data, function(value, index) {
-			var item = {date: value[can._msg.append[0]], text: value[can._msg.append[4]], add: parseInt(value[can._msg.append[1]]), del: parseInt(value[can._msg.append[2]])}
+			var item = {date: value[can._msg.append[0]], text: value[can._msg.append[4]], add: parseInt(value[can._msg.append[1]]), del: parseInt(value[can._msg.append[2]]), hash: value.hash}
 			item.begin = rest, item.max = rest + item.add, item.min = rest - item.del, item.close = rest + item.add - item.del
 			begin = begin || item.date, count++, rest = item.close, add += item.add, del += item.del
 			if (item.max - item.min > max) { max = item.max - item.min }
@@ -72,6 +72,16 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "趋势图", "柱状图", "折线图"
 })
 Volcanos(chat.ONDETAIL, {
 	onmouseenter: function(event, can, item) { can.Status(item) },
+	onclick: function(event, can, item) {
+		can.run(can.request(event, item, can.Option()), [mdb.DETAIL], function(msg) {
+			can.getActionSize(function(left, top, width, height) { msg.Option(html.HEIGHT, height*3/4), msg.Option(html.WIDTH, width)
+				can.sup.onimport._field(can.sup, msg, function(sub) {
+					sub.onimport.size(sub, sub.ConfHeight(height/2), sub.ConfWidth(width), true)
+					can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+height/4})
+				})
+			})
+		})
+	},
 })
 Volcanos(chat.ONEXPORT, {list: ["from", "commit", "total", "max", "date", "text", "add", "del"],
 	height: function(can) { var height = can.Action(html.HEIGHT)

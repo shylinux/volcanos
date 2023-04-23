@@ -68,6 +68,7 @@ var mdb = {
 	CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete", MODIFY: "modify", SELECT: "select",
 	INPUTS: "inputs", PRUNES: "prunes", EXPORT: "export", IMPORT: "import", REVERT: "revert", NORMAL: "normal",
 	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
+	DETAIL: "detail",
 
 	KEYS: "keys",
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",

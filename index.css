@@ -137,7 +137,7 @@ div.item.text:hover>span.icon.delete { visibility:visible; }
 fieldset.float div.text:hover>span.icon.delete { visibility:hidden; }
 fieldset.float>form.option>div.text>input { display:none; }
 fieldset.float>form.option>div.text>span { display:none; }
-fieldset.float>form.option>div.text>span.value { padding:7px; height:32px; display:block; }
+fieldset.float>form.option>div.text>span.value { padding:7px; height:32px; display:block; max-width:200px; overflow:auto; }
 fieldset:not(.float)>form.option>div.text>span.value { display:none; }
 form.option>div.icon:first-child { margin-left:-5px; }
 form.option>div.icon { line-height:30px; font-size:26px; padding:0 5px; height:32px; }

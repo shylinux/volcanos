@@ -129,7 +129,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			})
 		}
 		function load(msg) { var skip = false; can.db.tabview[key] = msg
-			can.onimport.tabs(can, [{name: can.base.beginWith(file, "http://")? file.split(web.QS)[0]: file.split(mdb.FS)[0].split(isIndex()? nfs.PT: nfs.PS).pop(), text: file, _menu: shy([
+			can.onimport.tabs(can, [{name: decodeURI(can.base.beginWith(file, "http://")? file.split(web.QS)[0]: file.split(mdb.FS)[0].split(isIndex()? nfs.PT: nfs.PS).pop()), text: file, _menu: shy([
 				nfs.SAVE, nfs.TRASH, web.REFRESH,
 			], function(event, button, meta) { can.onaction[button](event, can, button) })}], function(event, tabs) {
 				can._tab = msg._tab = tabs._target, show(skip), skip = true

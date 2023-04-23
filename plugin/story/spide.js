@@ -32,7 +32,7 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "横向", "纵向"], [html.SIZE, 24, 
 		can.onaction._draw_vertical(can, can._tree[can.dir_root], can.margin, can.margin+(can.size+can.margin)/2)
 	},
 	_draw: function(can, tree, x, y, style) { var color = can.onimport._color(can, tree)
-		tree.view = can.onimport.draw(can, {shape: html.TEXT, points: [{x: x, y: y}], style: can.base.Copy(kit.Dict(svg.STROKE, color, svg.FILL, color, html.INNER, tree.name||" "), style)})
+		tree.view = can.onimport.draw(can, {shape: html.TEXT, points: [{x: x, y: y}], style: can.base.Copy(kit.Dict(html.INNER, tree.name||" "), style)})
 		return can.core.ItemCB(can.ondetail, tree.view, can, tree), tree.view
 	},
 	_draw_vertical: function(can, tree, x, y) {
@@ -40,7 +40,7 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "横向", "纵向"], [html.SIZE, 24, 
 		var offset = 0; tree.hide || can.core.List(tree.list, function(item) {
 			can.onimport.draw(can, {shape: svg.PATH2V, points: [
 				{x: x+tree.width/2, y: y+tree.height/2-can.margin/2}, {x: x+offset+item.width/2, y: y+tree.height/2+8*can.margin-can.margin/2},
-			], style: {stroke: cli.CYAN}}), can.onaction._draw_vertical(can, item, x+offset, y+tree.height+8*can.margin), offset += item.width
+			]}), can.onaction._draw_vertical(can, item, x+offset, y+tree.height+8*can.margin), offset += item.width
 		})
 	},
 	_draw_horizontal: function(can, tree, x, y) { var height = can.size+can.margin
@@ -48,7 +48,7 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "横向", "纵向"], [html.SIZE, 24, 
 		var offset = 0; tree.hide || can.core.List(tree.list, function(item) {
 			can.onimport.draw(can, {shape: svg.PATH2H, points: [
 				{x: x+tree.width+can.margin/2, y: y+tree.height*height/2-can.size/4}, {x: x+tree.width+8*can.margin-can.margin/2, y: y+offset+item.height*height/2-can.size/4}
-			], style: {stroke: cli.CYAN}}), can.onaction._draw_horizontal(can, item, x+tree.width+8*can.margin, y+offset), offset += item.height*(can.size+can.margin)
+			]}), can.onaction._draw_horizontal(can, item, x+tree.width+8*can.margin, y+offset), offset += item.height*(can.size+can.margin)
 		})
 	},
 })
