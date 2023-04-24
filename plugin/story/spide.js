@@ -58,13 +58,8 @@ Volcanos(chat.ONDETAIL, {
 		if (tree.list.length > 0 || tree.name.endsWith(can.Conf(lex.SPLIT))) { return tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)||"横向"](event, can) }
 		for (var node = tree; node; node = node.last) { can.request(event, node.meta) }
 		can.run(can.request(event, can.Option()), can.base.Obj(can.Conf(lex.PREFIX), []).concat([tree.file||"", tree.name]), function(msg) {
-			if (msg.Length() == 0) { return can.ondetail.plugin(can, web.CODE_INNER, [can._msg.Option(nfs.DIR_ROOT), tree.file, tree.line], code.INNER) }
-			if (msg.Append(mdb.INDEX)) { return msg.Table(function(value) { can.ondetail.plugin(can, value.index, value.args) }) }
+			if (msg.Length() == 0) { return can.onappend._float(can, web.CODE_INNER, [can._msg.Option(nfs.DIR_ROOT), tree.file, tree.line], code.INNER) }
+			if (msg.Append(mdb.INDEX)) { return msg.Table(function(value) { can.onappend._float(can, value.index, value.args) }) }
 		}, true)
 	},
-	plugin: function(can, index, args, prefix) { can.onappend.plugin(can, {mode: chat.FLOAT, index: index, args: args}, function(sub) {
-		can.getActionSize(function(left, top, width, height) { var margin = 100; left = left||0, top = top||0
-			sub.onimport.size(sub, height-margin-html.ACTION_HEIGHT, width, true), can.onmotion.move(can, sub._target, {left: left, top: top+margin})
-		}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
-	}) },
 })

@@ -30,7 +30,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+html.ACTION_MARGIN), can.Conf(html.MARGIN_X, (can.user.isMobile? 2: 4)*html.PLUGIN_MARGIN)
 		can.onengine.listen(can, "ontouchstart", function(msg) { can.onengine.signal(can, chat.ONACTION_TOUCH, msg) }, target)
 	},
-	onsize: function(can, msg, height, width) { can.Conf({height: height-can.Conf(html.MARGIN_Y), width: width-can.Conf(html.MARGIN_X)}) },
+	onsize: function(can, msg, height, width) { can.Conf({height: can.base.Min(height-can.Conf(html.MARGIN_Y), 240), width: width-can.Conf(html.MARGIN_X)}) },
 	onmain: function(can, msg) { can.onimport._share(can, can.misc.Search(can, web.SHARE)) },
 	onlogin: function(can, msg) { can.onimport._menu(can, msg), can.onkeymap._build(can)
 		can._root.River && can.onmotion.delay(can, function() { if (can.Mode()) { return } var gt = can.page.unicode.next, lt = can.page.unicode.prev, river = can._root.River._target
@@ -86,7 +86,7 @@ Volcanos(chat.ONLAYOUT, {
 		can.core.List(can._plugins, function(sub) { sub._delay_refresh = true })
 		can.onmotion.select(can, can._action, html.DIV_ITEM, can.onmotion.select(can, can._action, html.DIV_ITEM)||0, function(target) { target.click() }); return true
 	},
-	tabview: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width) })
+	tabview: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height), can.ConfWidth(width) })
 		can.core.List(can._plugins, function(sub) { sub._delay_refresh = true }), can.onmotion.toggle(can, can._header_tabs, true)
 		can.onmotion.select(can, can._action, html.DIV_ITEM, can.onmotion.select(can, can._action, html.DIV_TABS)||0, function(target) { target.click() }); return true
 	},

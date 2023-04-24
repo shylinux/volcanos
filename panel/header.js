@@ -4,10 +4,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.getValid(can.Conf(chat.TITLE)||msg.result, ["shylinux.com/x/contexts"]), function(item) {
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE], "", item], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
 	}) },
-	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
+	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
 		if (item == aaa.AVATAR ) { can.user.isLocalFile || can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item]], list: [{img: lex.SP}], onclick: function(event) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
 		}}]); return }
+		if (can.user.isMobile && item == mdb.TIME) { return }
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item], "", (can.Conf(item)||msg.Option(item)||"").split(ice.AT)[0].slice(0, 10)], onclick: function(event) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
 		}, _init: function(target) { item == mdb.TIME && can.onimport._time(can, target) }}])
@@ -18,7 +19,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can._search = can.onappend.input(can, {type: html.TEXT, name: mdb.SEARCH, onkeydown: function(event) { can.onkeymap.input(event, can)
 			event.key == lang.ENTER && can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: event.target.value||""}))
 		}}, "", target, [chat.TITLE])
-		can.user.isMobile || can.onimport.menu(can, mdb.SEARCH, function() { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: can._search.value||""})) })
+		can.onimport.menu(can, mdb.SEARCH, function() { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: can._search.value||""})) })
 	},
 	_time: function(can, target) { can.core.Timer({interval: 100}, function() { can.onimport.time(can, target) }), can.onappend.figure(can, {action: "date"}, target) },
 	time: function(can, target) { can.onimport.theme(can), target.innerHTML = can.user.time(can, null, can.Conf(mdb.TIME)||"%H:%M:%S %w") },

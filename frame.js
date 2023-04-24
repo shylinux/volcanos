@@ -202,6 +202,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.base.isUndefined(item) || can.onappend.input(can, item == ""? /* 1.空白 */ {type: html.BR}:
 				can.base.isString(item)? /* 2.按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
 					run(event, item)
+				}, ondlbclick: function(event) {
+					can.onkeymap.prevent(event)
 				}}: item.length > 0? /* 3.列表 */ {type: html.SELECT, name: item[0], values: item.slice(1), onchange: function(event) { can.misc.Event(event, can, function(msg) {
 					var button = event.target.value; meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]): meta[button] && can.core.CallFunc(meta[button], [event, can, button])
 				}) }}: /* 4.其它 */(item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans), item.onclick = item.onclick||function(event) {
@@ -465,8 +467,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}, target||can._output, field)
 	},
 	_float: function(can, index, args, cb) { can.onappend.plugin(can, {index: index, args: args, mode: chat.FLOAT}, function(sub) {
-		can.getActionSize(function(left, top, width, height) { sub.onimport.size(sub, sub.ConfHeight(height*3/4)-html.ACTION_HEIGHT, sub.ConfWidth(width), true)
-			can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+height/4}), can.base.isFunc(cb) && cb(sub)
+		can.getActionSize(function(left, top, width, height) { var offset = can.user.isMobile? 0: height/4
+			sub.onimport.size(sub, sub.ConfHeight(height-offset)-html.ACTION_HEIGHT, sub.ConfWidth(width), true)
+			can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+offset}), can.base.isFunc(cb) && cb(sub)
 		}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
 	}, can._root._target) },
 	figure: function(can, meta, target, cb) { if (meta.type == html.SELECT || meta.type == html.BUTTON) { return }
