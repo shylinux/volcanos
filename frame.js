@@ -464,13 +464,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			sub._index = value.index||meta.index, can.base.isFunc(cb) && cb(sub, meta, skip)
 		}, target||can._output, field)
 	},
-	_float: function(can, index, args, cb) {
-		can.onappend.plugin(can, {index: index, args: args, mode: chat.FLOAT}, function(sub) {
-			can.getActionSize(function(left, top, width, height) { sub.onimport.size(sub, sub.ConfHeight(height/2), sub.ConfWidth(width), true)
-				can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+height/4}), can.base.isFunc(cb) && cb(sub)
-			}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
-		}, can._root._target)
-	},
+	_float: function(can, index, args, cb) { can.onappend.plugin(can, {index: index, args: args, mode: chat.FLOAT}, function(sub) {
+		can.getActionSize(function(left, top, width, height) { sub.onimport.size(sub, sub.ConfHeight(height*3/4)-html.ACTION_HEIGHT, sub.ConfWidth(width), true)
+			can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+height/4}), can.base.isFunc(cb) && cb(sub)
+		}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
+	}, can._root._target) },
 	figure: function(can, meta, target, cb) { if (meta.type == html.SELECT || meta.type == html.BUTTON) { return }
 		var input = meta.action||mdb.KEY, path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
 			function _cb(sub, value, old) { if (value == old) { return } can.base.isFunc(cb)? cb(sub, value, old): target.value = value }

@@ -11,10 +11,7 @@ fieldset.word>div.output>fieldset.story:not(:hover)>form.option { display:none; 
 fieldset.word>div.output>fieldset.story:not(:hover)>div.action { display:none; }
 fieldset.word a { word-break:break-all; }
 fieldset.word img { word-break:break-all; }
-
-fieldset.word svg.story.auto defs marker { stroke:red; fill:red; }
-body.white fieldset.word svg.story.auto defs marker { stroke:red; fill:red; }
-
+fieldset.word svg.story[data-index] text { cursor:pointer; }
 fieldset.word.play.float { top:0; }
 fieldset.word.play.float>div.action { display:contents; }
 fieldset.word.play.float>div.status { clear:none; }
@@ -25,10 +22,4 @@ fieldset.word.play.float div.content.grid div.page { background-color:#a4cbecb5;
 fieldset.word.play.float h1 { text-align:center; }
 fieldset.word.play.float h2 { text-align:center; }
 fieldset.word.play.float h3 { text-align:center; }
-fieldset.word.cmd>legend { display:none; }
-fieldset.word.cmd>form.option { display:none; }
-fieldset.word.cmd>div.action { display:none; }
-fieldset.word.cmd>div.status { display:none; }
-
 div.story[data-type=spark] label { user-select:none; }
-
