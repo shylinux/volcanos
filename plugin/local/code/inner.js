@@ -424,6 +424,7 @@ Volcanos(chat.ONACTION, {
 				} else { cb(msg) }
 			}, true)
 		}}], function(list, input) { input.cancel(); var ls = can.core.Split(list[0], nfs.DF, nfs.DF); switch (ls[0]) {
+			case web.HTTP: return can.onimport.tabview(can, "", list[0], web.SPACE)
 			case nfs.LINE: return can.onaction.selectLine(can, parseInt(ls[1]), true)
 			case web.SPACE: return can.onimport.tabview(can, "", ls[1].indexOf(web.HTTP) == 0? list[0].slice(6): ls[1], web.SPACE)
 			case ctx.INDEX: return can.onimport.tabview(can, "", ls[1], ls[0])

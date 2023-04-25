@@ -3,7 +3,7 @@ Volcanos(chat.ONFIGURE, {key: {
 		name == ctx.INDEX && can.core.Item(can.onengine.plugin.meta, function(key) { msg.Push(ctx.INDEX, can.core.Keys(ice.CAN, key)) })
 		can._show(can, msg, cb, target, name)
 	}) },
-	_show: function(can, msg, cb, target, name) { if (msg.Length() == 0 || msg.Length() == 1 && msg.Append(name) == target.value) { return can.onmotion.hidden(can) }
+	_show: function(can, msg, cb, target, name) { if (msg.Length() == 0 || msg.Length() == 1 && msg.Append(name) == target.value && target.value != "") { return can.onmotion.hidden(can) }
 		if (can.base.isIn(msg.append[msg.append.length-1], ctx.ACTION, "cb")) { msg.append = msg.append.slice(0, -1) }
 		var list = {}
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, item) { value = item[key]
