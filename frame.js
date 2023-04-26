@@ -202,12 +202,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.base.isUndefined(item) || can.onappend.input(can, item == ""? /* 1.空白 */ {type: html.BR}:
 				can.base.isString(item)? /* 2.按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
 					run(event, item)
-				}, ondlbclick: function(event) {
-					can.onkeymap.prevent(event)
 				}}: item.length > 0? /* 3.列表 */ {type: html.SELECT, name: item[0], values: item.slice(1), onchange: function(event) { can.misc.Event(event, can, function(msg) {
 					var button = event.target.value; meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]): meta[button] && can.core.CallFunc(meta[button], [event, can, button])
 				}) }}: /* 4.其它 */(item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans), item.onclick = item.onclick||function(event) {
 					run(event, item.name)
+				}, item._init = item._init||function(target) {
+					if (can.page.ClassList.has(can, can._target, chat.PANEL)) { return }
+					if (can.base.isIn(item.name, mdb.CREATE, mdb.INSERT)) { can.onappend.style(can, "icons", target.parentNode)
+						can.page.Append(can, target.parentNode, [{icon: item.name, onclick: function(event) { can.Update(event, [ctx.ACTION, item.name]) }}])
+					}
 				}), item), "", action)
 		}), meta
 	},
@@ -357,8 +360,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			icon.push({icon: mdb.DELETE, onclick: function(event) { _input.value = "", item.name == html.FILTER && can.page.Select(can, can._output, html.TR, function(tr) { can.page.ClassList.del(can, tr, html.HIDE) }) }})
 		} if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }
 		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name])], list: [input].concat(icon), _init: function(target, _input) {
-			item.style && can.onappend.style(can, item.style, target)
 			if (item.type == html.SELECT) { _input.select.value =  value||_item.value||_item.values[0], can.onappend.select(can, _input.select, _item) }
+			item.style && can.onappend.style(can, item.style, target)
 		}}])[item.name]; return _input
 	},
 	select: function(can, select, item) { var carte
@@ -369,6 +372,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}, _init: function(target) { can.page.style(can, target, html.WIDTH, select.offsetWidth+10), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
 	},
 	table: function(can, msg, cb, target, keys) { if (!msg || msg.Length() == 0) { return } var meta = can.base.Obj(msg.Option(mdb.META))
+		for (var i = 0; i < msg.append.length-1; i++) { if (msg.append[i] == ctx.ACTION) { msg.append[i] = msg.append[msg.append.length-1], msg.append[msg.append.length-1] = ctx.ACTION } }
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, line, array) {
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(can.request(event, line, can.Option()), [ctx.ACTION, cmd].concat(arg)) }) }
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) { if (key == mdb.VALUE) { key = line.key } line = {}, can.core.List(array, function(item) { line[item.key] = item.value }) }

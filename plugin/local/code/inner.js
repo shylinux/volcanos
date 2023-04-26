@@ -129,7 +129,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			})
 		}
 		function load(msg) { var skip = false; can.db.tabview[key] = msg
-			can.onimport.tabs(can, [{name: decodeURI(can.base.beginWith(file, "http://")? file.split(web.QS)[0]: file.split(mdb.FS)[0].split(isIndex()? nfs.PT: nfs.PS).pop()), text: file, _menu: shy([
+			var name = file
+			if (can.base.beginWith(file, web.HTTP)) { name = decodeURI(file.split(web.QS)[0])
+				var link = can.misc.ParseURL(can, name); if (link.pod) { name = link.pod }
+			} else {
+				name = file.split(mdb.FS)[0].split(isIndex()? nfs.PT: nfs.PS).pop()
+			}
+			can.onimport.tabs(can, [{name: name, text: file, _menu: shy([
 				nfs.SAVE, nfs.TRASH, web.REFRESH,
 			], function(event, button, meta) { can.onaction[button](event, can, button) })}], function(event, tabs) {
 				can._tab = msg._tab = tabs._target, show(skip), skip = true
@@ -297,7 +303,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.
 		if (item.index == web.CODE_XTERM && item.args.length > 0) { item.style = html.OUTPUT }
 		can.onimport.plug(can, item, function(sub) { sub.onimport.size(sub, can.ui.content.offsetHeight, can.ui.content.offsetWidth, true)
 			sub.onimport._open = function(_, msg, arg) {
-				var link = can.misc.ParseURL(can, arg); if (link.pod) { can.onimport.tabview(can, "", link.pod, web.SPACE), sub.Update(); return }
+				var link = can.misc.ParseURL(can, arg); if (link.pod && arg.indexOf(location.origin) == 0) { can.onimport.tabview(can, "", link.pod, web.SPACE), sub.Update(); return }
 				can.onimport.tabview(can, "", arg, web.SPACE), sub.Update()
 			}
 			sub.onaction.close = function() { msg._tab._close() }

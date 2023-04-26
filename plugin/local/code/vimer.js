@@ -48,6 +48,9 @@ Volcanos(chat.ONFIGURE, {
 			"=", function() { can.onimport.tabview(can, "", sub._index, ctx.INDEX) },
 		))
 	}) },
+	xterm: function(can, target, zone) { can.onimport._zone(can, zone, web.CODE_XTERM, function(sub, msg) {
+		sub.onexport.record = function(sub, value, key, item) { can.onimport.tabview(can, "", [web.CODE_XTERM, item.hash, item.name||item.type].join(mdb.FS), ctx.INDEX) }
+	}) },
 	space: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {
 		sub.onimport._open = function(_, msg, arg) {
 			var link = can.misc.ParseURL(can, arg); if (link.pod) { can.onimport.tabview(can, "", link.pod, web.SPACE), sub.Update(); return }
@@ -66,7 +69,7 @@ Volcanos(chat.ONFIGURE, {
 		} }
 	}) },
 })
-Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图", "计划", "收藏", "首页"],
+Volcanos(chat.ONACTION, {list: ["编译", "源码", "终端", "导图", "计划", "收藏", "首页"],
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button)
 		can.ui.zone.source.refresh()
@@ -105,9 +108,7 @@ Volcanos(chat.ONACTION, {list: ["编译", "变更", "源码", "终端", "导图"
 		var sub = can.db.toolkit[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0])
 	}) },
 	"编译": function(event, can) { can.onaction.compile(event, can, code.COMPILE) },
-	// "变更": function(event, can) { can.onimport.tabview(can, "", [web.CODE_GIT_REPOS, can.core.Split(can.Option(nfs.PATH), nfs.PS).pop(), nfs.MASTER, "index", can.Option(nfs.FILE)].join(mdb.FS), ctx.INDEX) },
-	"变更": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },
-	"源码": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_REPOS, ctx.INDEX) },
+	"源码": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },
 	"终端": function(event, can) { can.onimport.tabview(can, "", web.CODE_XTERM, ctx.INDEX) },
 	"导图": function(event, can) { can.onimport.tabview(can, "", web.WIKI_DRAW, ctx.INDEX) },
 	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },

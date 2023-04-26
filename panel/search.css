@@ -1,5 +1,5 @@
 fieldset.Search { background-color:#061c3ceb; padding:10px; position:fixed; left:230px; top:48px; }
-fieldset.Search>div.action>div.item.filter>input { background-color:#6b7488; margin-right:0; width:320px; }
+fieldset.Search>div.action>div.item.filter>input { background-color:#6b7488; }
 fieldset.Search>div.output table.content { width:100%; }
 fieldset.Search>div.output>div.profile { max-width:unset; }
 body.dark fieldset.Search>div.action>div.item.filter>input { background-color:#212121; }

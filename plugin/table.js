@@ -8,7 +8,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.page.Select(can, can.page.Create(can, html.DIV, value.action), html.INPUT, function(target) {
 			action.push(target.name), target.name != target.value && can.user.trans(can, kit.Dict(target.name, target.value))
 		})
-		can.onimport.item(can, {name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]), title: value[mdb.TEXT]}, function(event) {
+		can.onimport.item(can, {name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]), title: value[mdb.TEXT]}, function(event) {
 			can.sup.onexport.record(can, value.name, mdb.NAME, value, event)
 		}, function() { return shy(action, function(event, button, meta, carte) { can.misc.Event(event, can, function(msg) {
 			can.sup.onexport.action(can, button, value) || can.run(event, [ctx.ACTION, button], function(msg) { can.sup.onimport._process(can.sup, msg) || can.Update() }), carte.close()
