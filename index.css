@@ -434,7 +434,7 @@ div.output.card>div.item { padding:10px; border:#e7e7e7 solid 1px; margin:10px; 
 div.output.card>div.item>div.title { font-size:1.2rem; font-weight:bold; padding:10px; border-bottom:solid 1px #e7e7e7; }
 div.output.card>div.item>div.content { padding:10px; height:70px; }
 div.output.card>div.item>div.action { text-align:right; width:100%; }
-div.output.card>div.item>div.action>input { margin:0; }
+div.output.card>div.item>div.action>input { margin-right:5px; }
 // body.white div.output.card>div.item input[type=button] { background-color:transparent; }
 body.mobile div.output.card>div.item { height:160px; width:calc(100% - 20px); float:none; }
 body.mobile.simple div.output.card>div.item { width:100%; }
