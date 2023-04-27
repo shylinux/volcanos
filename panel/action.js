@@ -58,7 +58,10 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		})
 	},
 	_onaction_cmd: function(can) { can.onengine.signal(can, chat.ONACTION_CMD), can.onlayout._init(can) },
-	onaction_cmd: function(can, msg) { can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.Conf(html.MARGIN_Y, 0), can.Conf(html.MARGIN_X, 0) },
+	onaction_cmd: function(can, msg) {
+		can.page.ClassList.add(can, document.body, can.Mode(chat.CMD))
+		can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.Conf(html.MARGIN_Y, 0), can.Conf(html.MARGIN_X, 0)
+	},
 	onsearch: function(can, msg, arg) { var fields = msg.Option(ice.MSG_FIELDS).split(mdb.FS)
 		if (arg[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, arg, fields) }
 		if (arg[0] == ctx.COMMAND) { can.onexport.command(can, msg, arg, fields) }

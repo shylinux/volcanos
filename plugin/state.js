@@ -83,6 +83,7 @@ Volcanos(chat.ONACTION, {list: [
 			if (!sub) { return }
 			sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), sub.Mode(can.Mode()), sub.onlayout._init(sub)
 			can._target.click()
+			can.page.ClassList.del(can, can._target, "move")
 		}
 	},
 	"刷新界面": function(event, can) { var sub = can._outputs[0]; sub.onlayout._init(sub), can.user.toastSuccess(can) },

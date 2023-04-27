@@ -6,6 +6,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			can.page.Select(can, target, mdb.FOREACH, function(target) { can.onimport._block(can, target), can.page.tagis(target, svg.G) && target.Value(html.CLASS) && can.onimport._group(can, target) })
 			can.ui.profile && can.core.ItemCB(can.onaction, function(key, cb) { target[key] = function(event) { can.misc.Event(event, can, function(msg) { cb(event, can) }) } })
 		}), can.ondetail._select(can, (can.isCmdMode()? pid: "")||can.Option(svg.PID)||can.svg.Value(svg.PID)), can.onkeymap._build(can)
+		can.ui.profile && can.user.isMobile && can.onmotion.hidden(can, can.ui.profile)
 	},
 	_block: function(can, target) {
 		target.Value = function(key, value) { if (can.base.isUndefined(key)) { return } if (can.base.isObject(key)) { return can.core.Item(key, target.Value), key }

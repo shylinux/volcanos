@@ -375,6 +375,21 @@ try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 		}
 	}
 	meta._init = function(can) {
+		var target, begin
+		window.onmousedown = function(event) {
+			for (target = event.target; target; target = target.parentNode) { if (target == document.body) { target = null; return }
+				if (can.page.tagis(target, html.DIV) && can.page.ClassList.has(can, target, html.OUTPUT)) { target = null; return }
+				if (can.page.tagis(event.target, html.INPUT, html.TEXTAREA)) { target = null; return }
+				if (can.page.ClassList.has(can, target, "move")) { break }
+			} begin = {left: target.offsetLeft, top: target.offsetTop, x: event.x, y: event.y}
+			can.page.SelectChild(can, document.body, ".float", function(target) { can.page.style(can, target, "z-index") && can.page.style(can, target, "z-index", 10) }), can.page.style(can, target, "z-index", 11)
+		}, window.onmouseup = function(event) { target = null, begin = {} }
+		window.onmousemove = function(event) { target && can.page.style(can, target,
+			html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth),
+			html.TOP, can.base.Min(begin.top + event.y - begin.y, 0, window.innerHeight-html.ACTION_HEIGHT)
+		) && can.onkeymap.prevent(event) }
+		
+		window.ondblclick = function(event) { can.onkeymap.prevent(event) }
 		window.onerror = function(message, source, lineno, colno, error) {
 			meta.version? alert([message].concat(can.misc._stacks(0, error)).join(lex.NL)): can.misc.Error(message, lex.NL+[source, lineno, colno].join(ice.DF), error)
 		}, window.onbeforeunload = function() { can.Action._socket && can.Action._socket.close() }

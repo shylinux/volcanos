@@ -104,6 +104,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 	layout: function(can) {
 		can.ui.layout(can.ConfHeight(), can.ConfWidth())
+		can.user.isMobile && can.page.style(can, can.ui.content, html.HEIGHT, "")
 		return
 		can.page.styleHeight(can, can._output, can.ConfHeight()), can.page.styleHeight(can, can.ui.project, can.ConfHeight())
 		var height = can._display_heights[can.sup.task? [can.sup.task.zone, can.sup.task.id].join(mdb.FS): ""]||html.ACTION_HEIGHT

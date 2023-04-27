@@ -74,6 +74,11 @@ body.white fieldset.inner.cmd>div.output>div.layout>div.path { background-color:
 body.white fieldset.inner>div.output div.content tr:hover { background-color:aliceblue; }
 body.white fieldset.inner>div.output div.content tr.select { background-color:aliceblue; }
 body.white fieldset.inner>div.output div.content tr.select td.line { background-color:steelblue; color:white; }
+
+body.white fieldset.inner.cmd>div.output { background-color:transparent; }
+body.white fieldset.inner.cmd>div.output div.content { background-color:transparent; }
+body.white fieldset.inner.cmd>div.output>div.layout>div.path { background-color:transparent; }
+
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 body.windows fieldset.inner>div.output { overflow:hidden; }

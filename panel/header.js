@@ -94,7 +94,7 @@ Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMed
 		can.core.List(msg.Append(), function(key) { args[key] = msg.Append(key) })
 		can.user.jumps(can.misc.MergeURL(can, args, true))
 	},
-	carte: function(event, can, list, cb, trans) { can.user.carte(event, can, can.onaction, list, cb, null, trans) },
+	carte: function(event, can, list, cb, trans) { return can.user.carte(event, can, can.onaction, list, cb, null, trans) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
 	avatar: function(event, can) { can.onaction.carte(event, can, [can.page.Format(html.IMG, can.onexport.avatar(can), can.page.height()/2)]) },
 	usernick: function(event, can) { can.user.mod.isPod || can.user.isExtension || can.user.isLocalFile || can.onaction.carte(event, can, can.onaction._menus) },

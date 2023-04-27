@@ -20,3 +20,5 @@ body.dark fieldset.vimer>div.output>div.layout>div.layout div.content.normal inp
 body.dark fieldset.vimer>div.output>div.layout>div.layout div.content.insert input.current { caret-color:yellow; }
 body.black fieldset.vimer>div.output>div.layout>div.layout div.content.normal input.current { caret-color:gray; }
 body.black fieldset.vimer>div.output>div.layout>div.layout div.content.insert input.current { caret-color:yellow; }
+body.black fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content { background-color:#061c3ceb; }
+body.white fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content { background-color:aliceblue; }
