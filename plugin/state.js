@@ -22,6 +22,14 @@ Volcanos(chat.ONIMPORT, {
 					can.page.SelectChild(can, can._output, html.TABLE, function(target) { can.page.style(can, target, html.MAX_HEIGHT, height, html.DISPLAY, html.BLOCK) })
 				}, can.run(event, (!msg.Option("_index") || msg.Option("_index") == can._index || can._index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
 			}
+			sub._target.onclick = function() {
+				can.page.SelectChild(can, can._output, "fieldset", function(target) {
+					can.page.style(can, target, "z-index", "9")
+				})
+				can.page.style(can, sub._target, "z-index", "10")
+			}
+			can.page.style(can, sub._target, "z-index", "10")
+			can.onappend.style(can, "move", sub._target)
 			can.base.isFunc(cb) && cb(sub)
 		}) })
 	},
@@ -189,7 +197,7 @@ Volcanos(chat.ONEXPORT, {
 	action: function(can, button, line) {},
 	record: function(can, value, key, line) {},
 	actionHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT)? 0: html.ACTION_HEIGHT },
-	statusHeight: function(can) { return !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },
+	statusHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
 	link: function(can) { var meta = can.Conf(), args = can.Option(); can.misc.Search(can, log.DEBUG) == ice.TRUE && (args[log.DEBUG] = ice.TRUE)
 		args.pod = meta.pod, args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == web.WIKI_WORD && (args.cmd = args.path)

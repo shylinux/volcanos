@@ -68,17 +68,14 @@ body.black fieldset.inner>div.output div.content td.text span.string { color:mag
 body.black fieldset.inner>div.output div.content td.text span.object { color:cyan; }
 body.white fieldset.inner.cmd>div.output { background-color:aliceblue; }
 body.white fieldset.inner.cmd>div.output div.content { background-color:white; }
-body.white fieldset.inner.cmd>div.output>div.layout>div.tabs div.select { background-color:white; }
-body.white fieldset.inner.cmd>div.output>div.layout>div.tabs div:hover { background-color:white; }
+body.white fieldset.inner.cmd>div.output>div.layout>div.tabs div:not(.select):not(:hover) { background-color:white; }
 body.white fieldset.inner.cmd>div.output>div.layout>div.path { background-color:white; }
 body.white fieldset.inner>div.output div.content tr:hover { background-color:aliceblue; }
 body.white fieldset.inner>div.output div.content tr.select { background-color:aliceblue; }
 body.white fieldset.inner>div.output div.content tr.select td.line { background-color:steelblue; color:white; }
-
 body.white fieldset.inner.cmd>div.output { background-color:transparent; }
 body.white fieldset.inner.cmd>div.output div.content { background-color:transparent; }
 body.white fieldset.inner.cmd>div.output>div.layout>div.path { background-color:transparent; }
-
 body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 body.windows fieldset.inner>div.output { overflow:hidden; }
@@ -94,4 +91,6 @@ tr.line>td.line { text-align:right; padding:0 10px; position:sticky; left:0; }
 tr.line>td.text { line-height:20px; white-space:pre; padding-left:10px; width:100%; cursor:text; }
 tr.line.delete { background-color:#ff000036; color:gray; }
 tr.line.insert { background-color:#00800036; }
+div.scrollbar.insert { background-color:#00800036; width:30px; visibility:visible; }
+div.scrollbar.delete { background-color:#ff000036; width:30px; visibility:visible; }
 fieldset.inner>div.output>div.project div.item.modify { background-color:#00800036; }

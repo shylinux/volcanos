@@ -6,6 +6,7 @@ fieldset.plan>div.output table.content.plan td.select { background-color:#5066b9
 fieldset.plan>div.output table.content.plan td:hover { background-color:#5066b945; }
 fieldset.plan>div.output table.content.plan td.over { background-color:#5066b945; }
 fieldset.plan>div.output table.content.plan td div { color:white; }
+// fieldset.plan>div.output table.content.plan td div:not(.date) { height:100%; text-align:center; }
 fieldset.plan>div.output table.content.plan td div.date { color:gray; }
 fieldset.plan>div.output table.content.plan td div.date span.lunar { font-size:12px; }
 fieldset.plan>div.output table.content.plan td div.date span.lunar.fest { color:red; }

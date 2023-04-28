@@ -289,6 +289,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.
 			if (msg.Length() > 0) { can.onsyntax._change(can, msg), can.onaction.rerankLine(can, "tr.line:not(.delete)>td.line")
 				can.page.Select(can, content, "tr.line.delete>td.line", function(target) { target.innerHTML = "" })
 			} else { can.core.List(msg.Result().split(lex.NL), function(item) { can.onaction.appendLine(can, item) }) }
+			can.onmotion.delay(can, function() { can.onappend.scroll(can, can.ui.content) })
 			can.onengine.signal(can, VIEW_CREATE, msg), can.base.isFunc(cb) && cb(msg._content = content._root? content._root: content)
 		} can.require(["inner/syntax.js"], function() { var parse = can.onexport.parse(can); can.Conf(chat.PLUG) && (can.onsyntax[parse] = can.Conf(chat.PLUG))
 			var p = can.onsyntax[parse]; !p? can.runAction({}, mdb.PLUGIN, [parse, file, path], function(msg) { show(p = can.onsyntax[parse] = can.base.Obj(msg.Result()||"{}")) }): show(p)
@@ -335,18 +336,22 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.
 		}).join("")); return line
 	},
 	_change: function(can, msg) { var _delete = [], _insert = [], deletes = [], inserts = []
+		function scroll(item, type, length, index) {
+			var tr = can.onaction.appendLine(can, item); can.onappend.style(can, type, tr)
+			if (index > 0) { return }
+			
+			var line = can.onexport.line(can, tr)||can.onexport.line(can, tr.previousSibling)
+			can.onmotion.delay(can, function() {
+				var bar = can.onappend.scroll(can, can.ui.content, line/can.ui.content._max, length/can.ui.content._max); can.onappend.style(can, type, bar)
+				bar.onclick = function() { can.onimport.tabview(can, "", can.Option(nfs.FILE), line) }
+			})
+		}
 		function append() { var rest = []
-			while (deletes.length > 0 && inserts.length > 0 && deletes[0] == inserts[0]) {
-				can.onaction.appendLine(can, deletes[0]), deletes = deletes.slice(1), inserts = inserts.slice(1)
-			}
-			while (deletes.length > 0 && inserts.length > 0 && deletes[deletes.length-1] == inserts[inserts.length-1]) {
-				can.onaction.appendLine(can, deletes[deletes.length-1]), deletes.pop(), inserts.pop()
-			}
-			while (deletes.length > 0 && inserts.length > 0 && deletes[0] == inserts[inserts.length-1]) {
-				rest.push(deletes[0]), deletes = deletes.slice(1), inserts.pop()
-			}
-			can.core.List(deletes, function(item) { can.onappend.style(can, mdb.DELETE, can.onaction.appendLine(can, item)) }), deletes = []
-			can.core.List(inserts, function(item) { can.onappend.style(can, mdb.INSERT, can.onaction.appendLine(can, item)) }), inserts = []
+			while (deletes.length > 0 && inserts.length > 0 && deletes[0] == inserts[0]) { can.onaction.appendLine(can, deletes[0]), deletes = deletes.slice(1), inserts = inserts.slice(1) }
+			while (deletes.length > 0 && inserts.length > 0 && deletes[deletes.length-1] == inserts[inserts.length-1]) { can.onaction.appendLine(can, deletes[deletes.length-1]), deletes.pop(), inserts.pop() }
+			while (deletes.length > 0 && inserts.length > 0 && deletes[0] == inserts[inserts.length-1]) { rest.push(deletes[0]), deletes = deletes.slice(1), inserts.pop() }
+			can.core.List(deletes, function(item, index, list) { scroll(item, mdb.DELETE, list.length, index) }), deletes = []
+			can.core.List(inserts, function(item, index, list) { scroll(item, mdb.INSERT, list.length, index) }), inserts = []
 			can.core.List(rest, function(item) { can.onaction.appendLine(can, item) })
 		}
 		msg.Table(function(value) { can.core.List(value.text.split(lex.NL), function(item, index, list) {
@@ -360,6 +365,10 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.
 				_delete.push(item), _insert.push(item), deletes.push(_delete.join("")), _delete = [], inserts.push(_insert.join("")), _insert = [] 
 			} else { append(), can.onaction.appendLine(can, item) }
 		}) }), _delete.length > 0 && deletes.push(_delete.join("")), _insert.length > 0 && inserts.push(_insert.join("")), append()
+		var list = can.page.Select(can, can.ui.content, "tr.insert,tr.delete")
+		list && list[0] && can.onmotion.delay(can, function() {
+			can.onimport.tabview(can, "", can.Option(nfs.FILE), can.onexport.line(can, list[0].previousSibling))
+		})
 	},
 })
 Volcanos(chat.ONACTION, {

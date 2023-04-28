@@ -231,7 +231,7 @@ div.layout.flex>* { float:left; clear:none; }
 div.output { position:relative; }
 fieldset.story { clear:both; }
 div.tabs { position:relative; }
-div.tabs span.icon { visibility:hidden; }
+div.tabs span.icon { margin-left:5px; visibility:hidden; }
 div.tabs span.icon:hover { background-color:aliceblue; color:black; }
 div.tabs>div:hover span.icon { visibility:visible; }
 div.action>div.tabs:hover span.icon { visibility:visible; }
@@ -390,6 +390,7 @@ fieldset.plugin.parse.cmd>legend { display:none; }
 fieldset.plugin.parse.cmd>form.option { display:none; }
 fieldset.plugin.parse.cmd>div.action { display:none; }
 fieldset.plugin.parse.cmd>div.status { display:none; }
+fieldset.inner.float>div.status { display:none; }
 fieldset.plan div.output div.content>table.content { height:100%; width:100%; }
 fieldset.xterm div.layout div.output { border-left:gray solid 1px; border-top:gray solid 1px; }
 fieldset.xterm div.layout div.output.select { border:blue solid 1px; }
@@ -404,6 +405,8 @@ fieldset.web.chat.iframe>div.output { overflow:hidden; }
 fieldset.qrcode>div.output div.code { padding:0; }
 fieldset.can.view { font-size:14px; }
 fieldset.can.data { font-size:14px; }
+div.scrollbar { background-color:#0000ff66; width:10px; position:absolute; right:0; top:0; transition:width .3s 1s; visibility:hidden; }
+div.scrollbar:hover { width:50px; transition:width .1s;}
 body.en fieldset.input.date.float>div.action>div.item.select { margin:0 5px; }
 body.en fieldset.input.date.float>div.action>div.item.select select { width:60px; }
 body.en fieldset.input.date.float>div.action>div.item.select.year select { width:106px; }

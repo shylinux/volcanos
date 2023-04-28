@@ -138,9 +138,18 @@ Volcanos(chat.ONDETAIL, {list: ["删除"],
 	}) },
 	grid: function(sub) { sub.page.styleClass(sub, sub.ui.content, "content grid") },
 
-	"开讲": function(event, can) { can.sup.ondetail.show(can, 0) },
-	"网格": function(event, can) { can.sup.ondetail.grid(can) },
-	"快闪": function(event, can) { can.sup.ondetail.flash(can) },
+	"开讲": function(event, can) {
+		can.page.SelectChild(can, can.ui.content, "*", function(target) { can.page.styleWidth(can, target, "") })
+		can.sup.ondetail.show(can, 0)
+	},
+	"网格": function(event, can) {
+		can.onlayout.expand(can, can.ui.content, 320)
+		can.sup.ondetail.grid(can)
+	},
+	"快闪": function(event, can) {
+		can.page.SelectChild(can, can.ui.content, "*", function(target) { can.page.styleWidth(can, target, "") })
+		can.sup.ondetail.flash(can)
+	},
 
 	"大纲": function(event, can) { can.onmotion.toggle(can, can.ui.project) },
 	"首页": function(event, can) { can.sup.ondetail.show(can, 0) },
