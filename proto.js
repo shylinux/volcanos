@@ -379,7 +379,7 @@ try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 		window.onmousedown = function(event) {
 			for (target = event.target; target; target = target.parentNode) { if (target == document.body) { target = null; return }
 				// if (can.page.tagis(target, html.DIV) && can.page.ClassList.has(can, target, html.OUTPUT)) { target = null; return }
-				if (can.page.tagis(event.target, html.INPUT, html.TEXTAREA)) { target = null; return }
+				if (can.page.tagis(event.target, html.TABLE, html.TR, html.INPUT, html.TEXTAREA)) { target = null; return }
 				if (can.page.ClassList.has(can, target, "move")) { break }
 			} begin = {left: target.offsetLeft, top: target.offsetTop, x: event.x, y: event.y}
 			can.page.SelectChild(can, target.parentNode, "*", function(target) { can.page.style(can, target, "z-index") && can.page.style(can, target, "z-index", 9) }), can.page.style(can, target, "z-index", 10)

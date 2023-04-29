@@ -32,7 +32,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	language: function(can, language) { can.runAction(event, aaa.LANGUAGE, [language == ice.AUTO? "": language], function(msg) {
 		can.user.toastConfirm(can, "reload page for "+language, "language", function() { can.user.reload(true) })
 	}) },
-	theme: function(can, theme) { theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme), can.user.theme(can, can.onexport.theme(can)) },
+	theme: function(can, theme) { theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme) && can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: theme})), can.user.theme(can, can.onexport.theme(can)) },
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
 		return can.page.Append(can, can._output, [{view: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
 			return can.base.isString(item)? /* 1.string */ {view: [[html.ITEM, html.MENU], "", can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }}:
@@ -61,7 +61,12 @@ Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMed
 	div.item, fieldset>legend { cursor:pointer; }
 	.hide { display:none; }
 `})
-		return can.require(["src/template/web.chat.header/dark.css", "src/template/web.chat.header/light.css"])
+		return can.require([
+			"src/template/web.chat.header/dark.css",
+			"src/template/web.chat.header/light.css",
+			"src/template/web.chat.header/black.css",
+			"src/template/web.chat.header/white.css",
+		])
 		can._themes = {
 			"dark": can.onappend.theme(can, html.DARK),
 			"light": can.onappend.theme(can, html.LIGHT, {panel: cli.WHITE, plugin: cli.ALICEBLUE, legend: "lightsteelblue", input: cli.WHITE, output: cli.WHITE, table: cli.ALICEBLUE,

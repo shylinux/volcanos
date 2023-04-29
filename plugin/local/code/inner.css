@@ -58,20 +58,12 @@ body.dark fieldset.inner>div.output div.content td.text span.function { color:li
 body.dark fieldset.inner>div.output div.content td.text span.constant { color:gray; }
 body.dark fieldset.inner>div.output div.content td.text span.string { color:orange; }
 body.dark fieldset.inner>div.output div.content td.text span.object { color:silver; }
-body.black fieldset.inner>div.output div.content td.text span.comment { background-color:blue; color:cyan; }
-body.black fieldset.inner>div.output div.content td.text span.keyword { color:yellow; }
-body.black fieldset.inner>div.output div.content td.text span.package { color:lightgreen; }
-body.black fieldset.inner>div.output div.content td.text span.datatype { color:cyan; }
-body.black fieldset.inner>div.output div.content td.text span.function { color:lightgreen; }
-body.black fieldset.inner>div.output div.content td.text span.constant { color:magenta; }
-body.black fieldset.inner>div.output div.content td.text span.string { color:magenta; }
-body.black fieldset.inner>div.output div.content td.text span.object { color:cyan; }
+body.dark fieldset.inner>div.output div.content tr.line:hover { background-color:unset; }
 body.white fieldset.inner.cmd>div.output { background-color:aliceblue; }
 body.white fieldset.inner.cmd>div.output div.content { background-color:white; }
 body.white fieldset.inner.cmd>div.output>div.layout>div.tabs div:not(.select):not(:hover) { background-color:white; }
 body.white fieldset.inner.cmd>div.output>div.layout>div.path { background-color:white; }
 body.white fieldset.inner>div.output div.content tr:hover { background-color:aliceblue; }
-body.white fieldset.inner>div.output div.content tr.select { background-color:aliceblue; }
 body.white fieldset.inner>div.output div.content tr.select td.line { background-color:steelblue; color:white; }
 body.white fieldset.inner.cmd>div.output { background-color:transparent; }
 body.white fieldset.inner.cmd>div.output div.content { background-color:transparent; }
