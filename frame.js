@@ -148,7 +148,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			sub.isCmdMode() && can.onappend.style(sub, can.misc.Search(can, ctx.STYLE))
 			if (can.user.isMobile && !can.user.isLandscape()) { return }
 			if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) { return }
-			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.WIKI_WORD) && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields)
+			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.WIKI_WORD, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields)
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
@@ -213,12 +213,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}), item), "", action)
 		}), meta
 	},
-	_output0: function(can, meta, event, cmds, cb, silent) {
-		var msg = can.request(event)
-		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION) {
-			var sub = can.core.Value(can, chat._OUTPUTS_CURRENT)
-			if (msg.RunAction(event, sub, cmds)) { return }
-		}
+	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event)
+		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (msg.RunAction(event, sub, cmds)) { return } }
 		if (msg.RunAction(event, can, cmds)) { return }
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { var msg = can.request(event, {action: cmds[1]})
 			var action = meta.feature[cmds[1]]; if (can.base.isFunc(action)) { cb = cb||function() { can.Update() }

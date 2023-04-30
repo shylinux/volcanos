@@ -88,6 +88,7 @@ var web = {CHAT: "chat",
 	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
 	
+	CHAT_MACOS_DESKTOP: "web.chat.macos.desktop",
 	CODE_GIT_REPOS: "web.code.git.repos", CODE_GIT_STATUS: "web.code.git.status",
 	CHAT_FAVOR: "web.chat.favor",
 	CODE_XTERM: "web.code.xterm", CODE_VIMER: "web.code.vimer", CODE_INNER: "web.code.inner",
