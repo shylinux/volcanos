@@ -128,6 +128,8 @@ var nfs = {
 	_CSS: ".css", _JS: ".js",
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
 	PWD: "./", SRC: "src/",
+
+	IMAGE_JPEG: "image/jpeg",
 }
 var cli = {
 	PWD: "pwd", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
