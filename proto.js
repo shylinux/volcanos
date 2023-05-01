@@ -127,7 +127,7 @@ var nfs = {
 	TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
-	PWD: "./", SRC: "src/",
+	PWD: "./", SRC: "src/", USR: "usr/",
 
 	IMAGE_JPEG: "image/jpeg",
 }
@@ -244,6 +244,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	ZONE: "zone", LIST: "list", ITEM: "item", NAME: "name", ICON: "icon", VIEW: "view",
 	HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot", AUTO: "auto", SHOW: "show", HIDE: "hide",
 	PLUGIN: "plugin", LAYOUT: "layout", PROJECT: "project", DISPLAY: "display", PROFILE: "profile", CONTENT: "content",
+	VISIBLE: "visible",
 
 	DIV_PAGE: "div.page", DIV_TABS: "div.tabs", DIV_PATH: "div.path", DIV_CODE: "div.code", DIV_PLUG: "div.plug",
 	DIV_ZONE: "div.zone", DIV_LIST: "div.list", DIV_ITEM: "div.item", DIV_NAME: "div.name", SPAN_ITEM: "span.item", SPAN_ICON: "span.icon",
@@ -385,7 +386,7 @@ try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 				if (can.page.tagis(event.target, html.TABLE, html.TR, html.INPUT, html.TEXTAREA)) { target = null; return }
 				if (can.page.ClassList.has(can, target, "move")) { break }
 			} begin = {left: target.offsetLeft, top: target.offsetTop, x: event.x, y: event.y}
-			can.page.SelectChild(can, target.parentNode, "*", function(target) { can.page.style(can, target, "z-index") && can.page.style(can, target, "z-index", 9) }), can.page.style(can, target, "z-index", 10)
+			can.page.SelectChild(can, target.parentNode, html.FIELDSET, function(target) { can.page.style(can, target, "z-index") && can.page.style(can, target, "z-index", 9) }), can.page.style(can, target, "z-index", 10)
 		}, window.onmouseup = function(event) { target = null, begin = {}, delete(window._scroll) }
 		window.onmousemove = function(event) { target && can.page.style(can, target,
 			html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth),
