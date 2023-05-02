@@ -133,7 +133,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			Clone: function() { meta.args = can.page.SelectArgs(can)
 				can.onappend._init(can, meta, list, function(sub) { can.base.isFunc(cb) && cb(sub, true), can.onmotion.delay(can, sub.Focus) }, target)
 			},
-		}, list, function(sub) { meta.feature = can.base.Obj(meta.feature, {}), sub.Conf(meta)
+		}, list, function(sub) { meta.feature = can.base.Obj(meta.feature, {}), sub.Conf(meta), field._can = sub
 			can.onappend.style(sub, meta.index? meta.index.split(nfs.PT): meta.name), can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onappend.style(sub, sub.Mode())
 			sub._trans = can.base.Copy(sub._trans||{}, can.core.Value(sub, [chat.ONACTION, chat._TRANS]))
 			can.core.Item(meta.feature, function(key, cb) { cb.help && sub.user.trans(sub, kit.Dict(key, cb.help)) })
@@ -669,6 +669,52 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	show: function(can, time, cb, target) { target = target||can._target, can.page.style(can, target, html.OPACITY, 0, html.DISPLAY, html.BLOCK)
 		time = can.base.isObject(time)? time: {interval: 10, length: time||30}
 		can.core.Timer(time, function(event, value, index) { can.page.style(can, target, html.OPACITY, (index+1)/time.length) }, cb)
+	},
+	resize: function(can, _window, cb, top) { var target, begin, action
+		function findTarget(event) { for (var target = event.target; target; target = target.parentNode) { if (target == document.body) { target = null; return }
+			if (can.page.tagis(event.target, html.INPUT, html.TEXTAREA, html.TABLE, html.TR)) { target = null; return }
+			if (can.page.tagis(target, html.FIELDSET) || can.page.ClassList.has(can, target, "move")) { break }
+		} return target }
+		_window.onmousedown = function(event) { target = findTarget(event); if (!target) { return }
+			begin = {left: target.offsetLeft, top: target.offsetTop, width: target.offsetWidth, height: target.offsetHeight, x: event.x, y: event.y}
+			can.page.SelectChild(can, target.parentNode, html.FIELDSET, function(target) { can.page.style(can, target, "z-index") && can.page.style(can, target, "z-index", 9) }), can.page.style(can, target, "z-index", 10)
+			window._scroll = _window.onmousemove
+		}, _window.onmouseup = function(event) { target = null, begin = {} }
+		_window.onmousemove = function(event) {
+			if (target) { can.onkeymap.prevent(event)
+				switch (action) {
+					case "left":
+						can.page.style(can, target, html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth))
+						cb? cb(target.offsetHeight, begin.width + begin.x - event.x): can.page.style(can, target, html.WIDTH, begin.width + begin.x - event.x)
+						break
+					case "right":
+						cb? cb(target.offsetHeight, begin.width + event.x - begin.x): can.page.style(can, target, html.WIDTH, begin.width + event.x - begin.x);
+						break
+					case "bottom":
+						cb? cb(begin.height + event.y - begin.y, target.offsetWidth): can.page.style(can, target, html.HEIGHT, begin.height + event.y - begin.y)
+						break
+					default:
+						can.page.style(can, target,
+							html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth),
+							html.TOP, can.base.Min(begin.top + event.y - begin.y, top||0, window.innerHeight-html.ACTION_HEIGHT)
+						)
+				}
+			} else { var _target = findTarget(event); if (!_target) { return }
+				var x = event.x - _target.offsetLeft, y = event.y - _target.offsetTop, margin = 32
+				if (-margin < x && x < margin) { action = "left"
+					can.page.style(can, _target, "cursor", "ew-resize")
+				} else if (_target.offsetWidth-margin < x && x < _target.offsetWidth+margin) { action = "right"
+					can.page.style(can, _target, "cursor", "ew-resize")
+				} else if (_target.offsetHeight-margin < y && y < _target.offsetHeight+margin) { action = "bottom"
+					can.page.style(can, _target, "cursor", "ns-resize")
+				} else if (-margin < y && y < margin) { action = "top"
+					can.page.style(can, _target, "cursor", "move")
+				} else { action = ""
+					can.page.style(can, _target, "cursor", "")
+				}
+			}
+		}
+
 	},
 })
 Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||document.body

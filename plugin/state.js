@@ -23,9 +23,7 @@ Volcanos(chat.ONIMPORT, {
 				}, can.run(event, (!msg.Option("_index") || msg.Option("_index") == can._index || can._index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
 			}
 			sub._target.onclick = function() {
-				can.page.SelectChild(can, can._output, "fieldset", function(target) {
-					can.page.style(can, target, "z-index", "9")
-				})
+				can.page.SelectChild(can, can._output, html.FIELDSET, function(target) { can.page.style(can, target, "z-index", "9") })
 				can.page.style(can, sub._target, "z-index", "10")
 			}
 			can.page.style(can, sub._target, "z-index", "10")
@@ -83,7 +81,7 @@ Volcanos(chat.ONACTION, {list: [
 				html.ACTION, can.page.isDisplay(can._action), html.STATUS, can.page.isDisplay(can._status),
 				html.OUTPUT, can.base.Copy({}, can._output.style, html.HEIGHT, html.WIDTH, html.MAX_HEIGHT, html.MAX_WIDTH),
 				ctx.STYLE, can.base.Copy({}, can._target.style, html.LEFT, html.TOP, html.RIGHT, html.BOTTOM), save(),
-			)), can.onimport.size(can, can.ConfHeight()+html.ACTION_HEIGHT+can.onexport.statusHeight(can), can.ConfWidth(), false, mode)
+			)), can.onimport.size(can, can.ConfHeight()+can.onexport.actionHeight(can)+can.onexport.statusHeight(can), can.ConfWidth(), false, mode)
 		} else { var back = (can._mode_list = can._mode_list||[]).pop(); if (!back) { return }
 			can.ConfHeight(back.height), can.ConfWidth(back.width), can.Mode(back.mode),
 			can.onmotion.toggle(can, can._action, back.action), can.onmotion.toggle(can, can._status, back.status)
