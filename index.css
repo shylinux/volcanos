@@ -214,7 +214,7 @@ fieldset.output>div.status { display:none; }
 fieldset>form.option, fieldset>div.action { display:contents; } form.option.hide, div.action.hide, .hidden, .hide { display:none; }
 div.action, div.output, div.status, div.project, div.content, div.profile, div.display, table.content, table.content td, div.list, div.code, div.story, div.float, fieldset.float { overflow:auto; }
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item { float:left; }
-div.output, fieldset>div.status, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
+fieldset.story, div.output, fieldset>div.status, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
 div.output { position:relative; } div.layout.flex>* { float:left; clear:none; }
 fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
 fieldset.cmd fieldset.plug { position:fixed; bottom:32px; right:0; }
