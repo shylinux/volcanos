@@ -206,7 +206,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					var button = event.target.value; meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]): meta[button] && can.core.CallFunc(meta[button], [event, can, button])
 				}) }}: /* 4.其它 */(item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans), item.onclick = item.onclick||function(event) {
 					run(event, item.name)
-				}, item._init = item._init||function(target) { if (!can.page.ClassList.has(can, can._target, chat.STORY)) { return }
+				}, item._init = item._init||function(target) { if (!can.page.ClassList.has(can, can._fields||can._target, chat.STORY)) { return }
 					if (can.base.isIn(item.name, mdb.CREATE, mdb.INSERT)) { can.onappend.style(can, "icons", target.parentNode)
 						can.page.Append(can, target.parentNode, [{icon: item.name, onclick: function(event) { can.Update(event, [ctx.ACTION, item.name]) }}])
 					}
@@ -673,6 +673,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	resize: function(can, _window, cb, top) { var target, begin, action
 		function findTarget(event) { for (var target = event.target; target; target = target.parentNode) { if (target == document.body) { target = null; return }
 			if (can.page.tagis(event.target, html.INPUT, html.TEXTAREA, html.TABLE, html.TR)) { target = null; return }
+			if (can.page.ClassList.has(can, target, "item")) { return }
 			if (can.page.tagis(target, html.FIELDSET) || can.page.ClassList.has(can, target, "move")) { break }
 		} return target }
 		_window.onmousedown = function(event) { target = findTarget(event); if (!target) { return }
@@ -714,7 +715,6 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 				}
 			}
 		}
-
 	},
 })
 Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||document.body

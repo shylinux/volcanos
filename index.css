@@ -103,13 +103,20 @@ body.zh fieldset.input.date>div.action>div.item.select.month select { width:81px
 /* icon */
 fieldset>form.option>div.icon { font-size:26px; line-height:28px; padding:0 5px; height:32px; margin:0; }
 fieldset>form.option>div.item.icons>span.icon { font-size:26px; line-height:28px; padding:0 5px; height:32px; }
+fieldset>div.action>div.item.icons>span.icon { font-size:26px; line-height:28px; padding:0 5px; height:32px; }
+fieldset>form.option>div.item.icons>span.icon.create { line-height:32px; }
+fieldset>div.action>div.item.icons>span.icon.create { line-height:32px; }
 form.option>div.icon:first-child { margin-left:-5px; }
 form.option>div.icon.refresh { line-height:26px; }
 form.option>div.icon.goback { line-height:26px; }
 form.option>div.icon.next { font-size:18px; }
 form.option>div.icon.prev { font-size:18px; }
-form.option>div.item>span.icon { margin-left:-15px; margin-right:5px; }
-div.action>div.item>span.icon { margin-left:-15px; margin-right:5px; }
+form.option>div.item.text>span.icon { margin-left:-15px; margin-right:3px; }
+form.option>div.item.select>span.icon { margin-left:-15px; margin-right:3px; visibility:hidden; }
+form.option>div.item.select:hover>span.icon { visibility:visible; }
+div.action>div.item.text>span.icon { margin-left:-15px; margin-right:3px; }
+div.action>div.item.select>span.icon { margin-left:-15px; margin-right:3px; visibility:hidden; }
+div.action>div.item.select:hover>span.icon { visibility:visible; }
 div.item.text>span.icon.delete { font-size:20px; visibility:hidden; }
 div.item.text:hover>span.icon.delete { visibility:visible; }
 div.tabs span.icon { margin-left:5px; visibility:hidden; }
@@ -119,6 +126,7 @@ div.tabs>div.select span.icon { visibility:visible; }
 div.action>div.tabs:hover span.icon { visibility:visible; }
 fieldset.plug>form.option>div.icon { margin-left:5px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.icon { display:none; }
+fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.button>span.icon { display:none; }
 fieldset.story>form.option>div.button.icons>input { display:none; }
 fieldset.float>form.option>div.button.icons>input { display:none; }
 fieldset.full>form.option>div.button.icons>input { display:none; }

@@ -95,11 +95,14 @@ Volcanos(chat.ONACTION, {list: [
 	"刷新界面": function(event, can) { var sub = can._outputs[0]; sub.onlayout._init(sub), can.user.toastSuccess(can) },
 	"刷新数据": function(event, can) { can.Update(event, can.Input()), can.user.toastSuccess(can) },
 	"切换浮动": function(event, can, button, sub) { can.onaction._switch(can, sub, chat.FLOAT, function() { can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
-		can.getActionSize(function(left) { can.onmotion.move(can, can._target, {left: (left||0)+(can.user.isMobile? 0: html.PLUGIN_MARGIN), top: can.page.height()/2-html.PLUGIN_MARGIN-html.ACTION_HEIGHT}) })
+		can.getActionSize(function(left, top) {
+			can.onmotion.move(can, can._target, {left: (left||0)+(can.user.isMobile? 0: html.PLUGIN_MARGIN), top: can.page.height()/2-html.PLUGIN_MARGIN-html.ACTION_HEIGHT})
+			can.onmotion.resize(can, can._target, function(height, width) { can.onimport.size(can, height, width) }, top)
+		})
 		can.ConfHeight(can.page.height()/2-can.onexport.actionHeight(can)-can.onexport.statusHeight(can)), can.ConfWidth(can.page.width()/(can.user.isMobile? 1: 2))
 	}) },
-	"切换全屏": function(event, can, button, sub) { can.onaction._switch(can, sub, chat.FULL, function() { can.page.style(can, can._target, html.LEFT, "", html.TOP, "", html.BOTTOM, "")
-		can.ConfHeight(can.page.height()-can.onexport.actionHeight(can)-can.onexport.statusHeight(can)), can.ConfWidth(can.page.width())
+	"切换全屏": function(event, can, button, sub) { can.onaction._switch(can, sub, chat.FULL, function() { can.page.style(can, can._target, html.LEFT, "", html.TOP, can.onexport.marginTop(), html.BOTTOM, "")
+		can.ConfHeight(can.page.height()-can.onexport.marginTop()-can.onexport.actionHeight(can)-can.onexport.statusHeight(can)), can.ConfWidth(can.page.width())
 	}) },
 	"远程控制": function(event, can) { can.onaction.keyboard(event, can) },
 	"共享工具": function(event, can) { var meta = can.Conf(); can.onmotion.share(event, can, [
@@ -191,9 +194,11 @@ Volcanos(chat.ONACTION, {list: [
 	}) },
 })
 Volcanos(chat.ONEXPORT, {
+	args: function(can) { return can.page.SelectArgs(can, can._option, "", function(target) { return target.value }) },
 	output: function(can, msg) {},
 	action: function(can, button, line) {},
 	record: function(can, value, key, line) {},
+	marginTop: function() { return 0 },
 	actionHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT)? 0: html.ACTION_HEIGHT },
 	statusHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },

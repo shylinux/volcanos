@@ -130,6 +130,7 @@ var nfs = {
 	PWD: "./", SRC: "src/", USR: "usr/",
 
 	IMAGE_JPEG: "image/jpeg",
+	IMAGE_PNG: "image/png",
 }
 var cli = {
 	PWD: "pwd", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
@@ -254,6 +255,8 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	SPAN_NAME: "span.name",
 	DIV_LAYOUT: "div.layout",
 	DIV_EXPAND: "div.expand",
+	DIV_DESKTOP: "div.desktop",
+	DESKTOP: "desktop",
 }
 var lang = {
 	SPACE: "space", UNDEFINED: "undefined", STRING: "string", NUMBER: "number", BOOLEAN: "boolean", FUNCTION: "function", OBJECT: "object", ARRAY: "array",
