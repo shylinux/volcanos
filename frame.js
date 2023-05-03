@@ -226,7 +226,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, function(msg) {
 			if (can.base.isFunc(cb)) { return cb(msg) } if (silent) { return }
 			var _can = can._fields? can.sup: can; if (_can == (msg._can._fields? msg._can.sup: msg._can)) { if (can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) { return } }
-			if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.CREATE, mdb.INSERT, mdb.IMPORT, mdb.EXPORT, "exports", "imports", nfs.TRASH) || msg.Length() == 0 && !msg.Result()) { return can.user.toastSuccess(can, cmds[1]), can.Update() } }
+			if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.CREATE, mdb.INSERT, mdb.PRUNES, mdb.IMPORT, mdb.EXPORT, "exports", "imports", nfs.TRASH) || msg.Length() == 0 && !msg.Result()) { return can.user.toastSuccess(can, cmds[1]), can.Update() } }
 			can.onappend._output(can, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
 		})
 	},
@@ -680,9 +680,9 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			begin = {left: target.offsetLeft, top: target.offsetTop, width: target.offsetWidth, height: target.offsetHeight, x: event.x, y: event.y}
 			can.page.SelectChild(can, target.parentNode, html.FIELDSET, function(target) { can.page.style(can, target, "z-index") && can.page.style(can, target, "z-index", 9) }), can.page.style(can, target, "z-index", 10)
 			window._scroll = _window.onmousemove
-		}, _window.onmouseup = function(event) { target = null, begin = {} }
+		}, _window.onmouseup = function(event) { target = null, begin = {}, delete(window._scroll) }
 		_window.onmousemove = function(event) {
-			if (target) { can.onkeymap.prevent(event)
+			if (window._scroll) { can.onkeymap.prevent(event)
 				switch (action) {
 					case "left":
 						can.page.style(can, target, html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth))
@@ -690,6 +690,10 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 						break
 					case "right":
 						cb? cb(target.offsetHeight, begin.width + event.x - begin.x): can.page.style(can, target, html.WIDTH, begin.width + event.x - begin.x);
+						break
+					case "top":
+						can.page.style(can, target, html.TOP, can.base.Min(begin.top + event.y - begin.y, top, window.innerHeight-target.offsetHeight))
+						cb? cb(begin.height + begin.y - event.y, target.offsetWidth): can.page.style(can, target, html.HEIGHT, begin.height + begin.y - event.y)
 						break
 					case "bottom":
 						cb? cb(begin.height + event.y - begin.y, target.offsetWidth): can.page.style(can, target, html.HEIGHT, begin.height + event.y - begin.y)
@@ -701,7 +705,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 						)
 				}
 			} else { var _target = findTarget(event); if (!_target) { return }
-				var x = event.x - _target.offsetLeft, y = event.y - _target.offsetTop, margin = 32
+				var x = event.x - _target.offsetLeft, y = event.y - _target.offsetTop, margin = 20
 				if (-margin < x && x < margin) { action = "left"
 					can.page.style(can, _target, "cursor", "ew-resize")
 				} else if (_target.offsetWidth-margin < x && x < _target.offsetWidth+margin) { action = "right"
@@ -709,6 +713,8 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 				} else if (_target.offsetHeight-margin < y && y < _target.offsetHeight+margin) { action = "bottom"
 					can.page.style(can, _target, "cursor", "ns-resize")
 				} else if (-margin < y && y < margin) { action = "top"
+					can.page.style(can, _target, "cursor", "ns-resize")
+				} else if (margin < y && y < (can._fields? can.sup: can).onexport.actionHeight(can._fields? can.sup: can)) { action = "top"
 					can.page.style(can, _target, "cursor", "move")
 				} else { action = ""
 					can.page.style(can, _target, "cursor", "")

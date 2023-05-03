@@ -14,7 +14,7 @@ Volcanos(chat.ONFIGURE, {date: {
 			MONTH, function(event, can, button, value) { now.setMonth(parseInt(value)-1), show(now) },
 			mdb.NEXT, function() { now.setMonth(now.getMonth()+1), show(now) },
 			chat._TRANS, kit.Dict(TODAY, "今天", mdb.NEXT, "下一月", mdb.PREV, "上一月"),
-		)), can._table = can.page.Appends(can, can._output, [{view: [chat.CONTENT, html.TABLE]}])._target
+		)), can._table = can.page.Appends(can, can._output, [{view: [chat.CONTENT, html.TABLE], list: [{type: html.TBODY}]}]).tbody
 		target.value == "" && (now.setMinutes(now.getMinutes()>30? 30: 0), now.setSeconds(0))
 		function show(now) { can.Action(YEAR, now.getFullYear()), can.Action(MONTH, now.getMonth()+1)
 			can.Action(HOUR, now.getHours()), can.Action(MINUTE, parseInt(now.getMinutes()/5)*5), can.Action(SECOND, parseInt(now.getSeconds()/5)*5)

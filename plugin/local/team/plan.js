@@ -7,12 +7,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 	_content: function(can, msg, head, list, key, get, set) { var begin_time = can.base.Date(can.Option(team.BEGIN_TIME)); can.sup.task && (can.sup.task._target = null)
 		var hash = {}; msg.Table(function(value, index) { var k = key(can.base.Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value]) })
-		can.ui.table = can.page.Append(can, can.ui.content, [{view: [[chat.CONTENT, team.PLAN], html.TABLE], list: can.core.List(list, function(hour, row) {
+		can.ui.table = can.page.Append(can, can.ui.content, [{view: [[chat.CONTENT, team.PLAN], html.TABLE], list: [{type: html.TBODY, list: can.core.List(list, function(hour, row) {
 			return {type: html.TR, list: can.core.List(head, function(week, col) {
 				if (row == 0) { return {text: [can.user.trans(can, week), html.TH]} } if (col == 0) { return {text: [hour, html.TH]} }
 				return can.onimport._task(can, msg, get(begin_time, col, row, hash), set(begin_time, col, row))
 			})}
-		}) }])._target, can.onmotion.delay(can, function() { var target = can.sup.task && can.sup.task._target; target && target.click(), can.Status(mdb.COUNT, msg.Length()) })
+		}) }] }])._target, can.onmotion.delay(can, function() { var target = can.sup.task && can.sup.task._target; target && target.click(), can.Status(mdb.COUNT, msg.Length()) })
 	},
 	_task: function(can, msg, list, time) { return {type: html.TD, className: time == can.base.Time().slice(0, time.length)? html.SELECT: "",
 		ondblclick: function(event) { can.onaction.insertTask(event, can, time+can.base.Time().slice(time.length)) },
