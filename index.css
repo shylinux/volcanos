@@ -219,6 +219,7 @@ fieldset.output>legend { display:none; }
 fieldset.output>form.option { display:none; }
 fieldset.output>div.action { display:none; }
 fieldset.output>div.status { display:none; }
+fieldset>form.option>div.item.select, fieldset>div.action>div.item.select { border-radius:5px; }
 fieldset>form.option, fieldset>div.action { display:contents; } form.option.hide, div.action.hide, .hidden, .hide { display:none; }
 div.action, div.output, div.status, div.project, div.content, div.profile, div.display, table.content, table.content td, div.list, div.code, div.story, div.float, fieldset.float { overflow:auto; }
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item { float:left; }

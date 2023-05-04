@@ -69,7 +69,7 @@ Volcanos(chat.ONFIGURE, {
 		} }
 	}) },
 })
-Volcanos(chat.ONACTION, {list: ["编译", "源码", "终端", "导图", "计划", "收藏", "桌面", "首页"],
+Volcanos(chat.ONACTION, {list: ["编译", "源码", "终端", "文档", "导图", "计划", "收藏", "桌面", "首页"],
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button)
 		can.ui.zone.source.refresh()
@@ -110,6 +110,7 @@ Volcanos(chat.ONACTION, {list: ["编译", "源码", "终端", "导图", "计划"
 	"编译": function(event, can) { can.onaction.compile(event, can, code.COMPILE) },
 	"源码": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },
 	"终端": function(event, can) { can.onimport.tabview(can, "", web.CODE_XTERM, ctx.INDEX) },
+	"文档": function(event, can) { can.onimport.tabview(can, "", web.WIKI_WORD, ctx.INDEX) },
 	"导图": function(event, can) { can.onimport.tabview(can, "", web.WIKI_DRAW, ctx.INDEX) },
 	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },
 	"收藏": function(event, can) { can.onimport.tabview(can, "", web.CHAT_FAVOR, ctx.INDEX) },

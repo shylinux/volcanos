@@ -683,13 +683,17 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		}, _window.onmouseup = function(event) { target = null, begin = {}, delete(window._scroll) }
 		_window.onmousemove = function(event) {
 			if (window._scroll && target) { can.onkeymap.prevent(event)
+				function move() { can.page.style(can, target,
+					html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth),
+					html.TOP, can.base.Min(begin.top + event.y - begin.y, top||0, window.innerHeight-html.ACTION_HEIGHT)
+				) }
 				switch (action) {
 					case "left":
 						can.page.style(can, target, html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth))
 						cb? cb(target.offsetHeight, begin.width + begin.x - event.x): can.page.style(can, target, html.WIDTH, begin.width + begin.x - event.x)
 						break
 					case "right":
-						cb? cb(target.offsetHeight, begin.width + event.x - begin.x): can.page.style(can, target, html.WIDTH, begin.width + event.x - begin.x);
+						cb? cb(target.offsetHeight, begin.width + event.x - begin.x): can.page.style(can, target, html.WIDTH, begin.width + event.x - begin.x)
 						break
 					case "top":
 						can.page.style(can, target, html.TOP, can.base.Min(begin.top + event.y - begin.y, top, window.innerHeight-target.offsetHeight))
@@ -698,11 +702,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 					case "bottom":
 						cb? cb(begin.height + event.y - begin.y, target.offsetWidth): can.page.style(can, target, html.HEIGHT, begin.height + event.y - begin.y)
 						break
-					default:
-						can.page.style(can, target,
-							html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth),
-							html.TOP, can.base.Min(begin.top + event.y - begin.y, top||0, window.innerHeight-html.ACTION_HEIGHT)
-						)
+					default: move()
 				}
 			} else { var _target = findTarget(event); if (!_target) { return }
 				var x = event.x - _target.offsetLeft, y = event.y - _target.offsetTop, margin = 20

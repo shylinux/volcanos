@@ -25,7 +25,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			{view: html.ACTION, inner: item.action, onclick: function(event) { can.run(can.request(event, item), [ctx.ACTION, event.target.name]) }},
 		]}
 	})), can.onlayout.expand(can, can._output, 320) },
-	icon: function(can, name, button, target) { can.page.Append(can, target, [{text: [can.page.unicode[name]||name, html.SPAN, html.ICON], onclick: function(event) {
+	icon: function(can, msg, target, cb) { return msg.Table(function(value) { value.icon = can.misc.PathJoin(value.icon||can.page.drawText(can, value.name, 80))
+		return can.page.Append(can, target, [{view: html.ITEM, list: [{view: html.ICON, list: [{img: value.icon}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
+			cb && cb(target, value)
+		}, onclick: function(event) { can.sup.onexport.record(can.sup, value.name, mdb.NAME, value) }}])._target
+	}) },
+	_icon: function(can, name, button, target) { can.page.Append(can, target, [{text: [can.page.unicode[name]||name, html.SPAN, html.ICON], onclick: function(event) {
 		can.base.isFunc(button)? button(event, button): can.onaction[button](event, can, button), can.onkeymap.prevent(event)
 	}}]) },
 	tabs: function(can, list, cb, cbs, action) { action = action||can._action; return can.page.Append(can, action, can.core.List(list, function(tabs) {
@@ -105,7 +110,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				zone._total = function(total) { return can.page.Modify(can, zone._search, {placeholder: "search in "+total+" items"}), total }
 				zone._icon = function(list) {
 					can.page.Select(can, zone._legend, html.SPAN_ICON, function(target) { can.page.Remove(can, target) })
-					can.core.Item(list, function(name, button) { can.onimport.icon(can, name, button, zone._legend) })
+					can.core.Item(list, function(name, button) { can.onimport._icon(can, name, button, zone._legend) })
 				}
 				zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target, zone) }
 				can.base.isFunc(zone._init) && (zone._menu = zone._init(target, zone)||zone._menu)
