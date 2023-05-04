@@ -682,7 +682,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			window._scroll = _window.onmousemove
 		}, _window.onmouseup = function(event) { target = null, begin = {}, delete(window._scroll) }
 		_window.onmousemove = function(event) {
-			if (window._scroll) { can.onkeymap.prevent(event)
+			if (window._scroll && target) { can.onkeymap.prevent(event)
 				switch (action) {
 					case "left":
 						can.page.style(can, target, html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth))

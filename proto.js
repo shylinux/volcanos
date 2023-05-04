@@ -94,6 +94,8 @@ var web = {CHAT: "chat",
 	CODE_XTERM: "web.code.xterm", CODE_VIMER: "web.code.vimer", CODE_INNER: "web.code.inner",
 	WIKI_WORD: "web.wiki.word", WIKI_DRAW: "web.wiki.draw", WIKI_FEEL: "web.wiki.feel",
 	TEAM_PLAN: "web.team.plan",
+	UPDATE: "update",
+	HIDDEN: "hidden",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
