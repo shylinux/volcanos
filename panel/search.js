@@ -5,7 +5,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can
 		can.onmotion.toggle(can, can._status, can.db.type != mdb.FOREACH) && can.onappend._status(can, can.base.Obj(msg.Option(ice.MSG_STATUS), []).concat({name: mdb.SELECT, value: "0"}))
 		can.onmotion.focus(can, can.ui.filter), msg.Length() == 1 && can.ui.profile.innerHTML == "" && can.page.Select(can, table, html.TD)[0].click()
 	},
-	_size: function(can) { can.getActionSize(function(left, top, width, height) {
+	_size: function(can) { can.ui && can.getActionSize(function(left, top, width, height) {
 		can.page.style(can, can._target, {left: left||0, top: top||0, width: width}), can.page.style(can, can._output, html.MAX_HEIGHT, height -= 2*html.PLUGIN_MARGIN+html.ACTION_HEIGHT+can.onexport.statusHeight(can))
 		can.core.List([can.ui.content, can.ui.display], function(target) { can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth(width-2*html.PLUGIN_MARGIN)) })
 		can.ConfHeight(can.base.Min(height-can.ui.content.offsetHeight-can.ui.display.offsetHeight-html.ACTION_HEIGHT, height/2))
@@ -21,6 +21,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can
 	},
 })
 Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list: [cli.CLOSE, cli.CLEAR, cli.DONE],
+	onsize: function(can, msg, height, width) { can.onimport._size(can), can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), true) }) },
 	onlogin: function(can, msg) { can.ui = can.page.Append(can, can._output, [chat.CONTENT, {view: [[chat.DISPLAY, chat.CONTENT], html.TABLE]}, chat.PROFILE])
 		can.onappend._action(can, (can.Conf(html.ACTION)||can.onaction.list).concat({type: html.TEXT, name: html.FILTER, _init: function(target) { can.ui.filter = target }, onkeydown: function(event) {
 			if (event.key == lang.ESCAPE) { return event.target.blur() }
@@ -54,6 +55,6 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 		can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub), sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth()-1, true), sub.Focus() }, can.ui.profile)
 	},
 })
-Volcanos(chat.ONEXPORT, {statusHeight: function(can) { return can.db.type == mdb.FOREACH? 0: html.ACTION_HEIGHT },
+Volcanos(chat.ONEXPORT, {statusHeight: function(can) { return can.db && can.db.type == mdb.FOREACH? 0: html.ACTION_HEIGHT },
 	select: function(can) { return can.page.Select(can, can.ui.display, html.TR, function(tr) { return can.page.Select(can, tr, html.TD, function(td) { return td.innerHTML }) }).slice(1) },
 })

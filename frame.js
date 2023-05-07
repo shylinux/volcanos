@@ -146,6 +146,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}) })
 			}), can.base.isFunc(cb) && cb(sub)
 			sub.isCmdMode() && can.onappend.style(sub, can.misc.Search(can, ctx.STYLE))
+			sub.isCmdMode() && sub.Conf(can.misc.Search(can))
 			if (can.user.isMobile && !can.user.isLandscape()) { return }
 			if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) { return }
 			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.WIKI_WORD, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields)
@@ -174,7 +175,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				msg.RunAction(event, can.core.Value(can, chat._OUTPUTS_CURRENT), cmds) || msg.RunAction(event, can, cmds) || can.Update(event, cmds)
 			}}])
 		})
-		can.core.List(args.slice(can.core.List(meta.inputs, function(item) { if (item.type == mdb.TEXT) { return item } }).length), function(item, index) { meta.inputs.push({type: mdb.TEXT, name: "args"+index, value: item}) })
+		can.core.List(args.slice(can.core.List(meta.inputs, function(item) { if (can.base.isIn(item.type, mdb.TEXT, mdb.SELECT)) { return item } }).length), function(item, index) { meta.inputs.push({type: mdb.TEXT, name: "args"+index, value: item}) })
 		function add(item, next) { item = can.base.isString(item)? {type: html.TEXT, name: item}: item, item.type != html.BUTTON && index++
 			return Volcanos(item.name, {_root: can._root, _follow: can.core.Keys(can._follow, item.name),
 				_target: can.onappend.input(can, item, args[index]||opts[item.name], option||can._option), _option: option||can._option, _action: can._action, _output: can._output, _status: can._status,
@@ -406,6 +407,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }
 		var code = can.page.Append(can, target||can._output, [{text: [can.page.Color(text), html.DIV, html.CODE]}]).code
+		can.page.SelectChild(can, code, "iframe", function(target) {
+			can.page.style(can, target, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth())
+		})
 		if (text.indexOf("<fieldset") > 0) {
 			can.page.Select(can, target, html.FIELDSET, function(target) { var data = target.dataset
 				data.index && can.onappend.plugin(can, {index: data.index}, function(sub) {
@@ -660,7 +664,6 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		can.user.copy(event, can, target.innerText), can.base.isFunc(cb) && cb(event)
 		can.onkeymap.prevent(event)
 	} },
-	move: function(can, target, layout) { layout && can.page.style(can, target, layout), can.onappend.style(can, "move", target) },
 	hide: function(can, time, cb, target) { target = target||can._target, can.page.style(can, target, html.OPACITY, 1)
 		time = can.base.isObject(time)? time: {value: 10, length: time||20}
 		can.core.Timer(time, function(event, value, index) { can.page.style(can, target, html.OPACITY, 1-(index+1)/time.length) },
@@ -670,23 +673,20 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		time = can.base.isObject(time)? time: {interval: 10, length: time||30}
 		can.core.Timer(time, function(event, value, index) { can.page.style(can, target, html.OPACITY, (index+1)/time.length) }, cb)
 	},
-	resize: function(can, _window, cb, top) { var target, begin, action
-		function findTarget(event) { for (var target = event.target; target; target = target.parentNode) { if (target == document.body) { target = null; return }
-			if (can.page.tagis(event.target, html.INPUT, html.TEXTAREA, html.TABLE, html.TR)) { target = null; return }
-			if (can.page.ClassList.has(can, target, "item")) { return }
-			if (can.page.tagis(target, html.FIELDSET) || can.page.ClassList.has(can, target, "move")) { break }
-		} return target }
-		_window.onmousedown = function(event) { target = findTarget(event); if (!target) { return }
+	move: function(can, target, layout) { layout && can.page.style(can, target, layout), can.onmotion.resize(can, target, function() {}) },
+	resize: function(can, target, cb, top) { var begin, action
+		target.onclick = function() { can.onkeymap.prevent(event) }
+		target.onmousedown = function(event) {
+			for (var _target = event.target; _target; _target = _target.parentNode) { if (_target == target) { break }
+				if (can.page.tagis(_target, html.INPUT, html.TEXTAREA, html.TR)) { return }
+				if (can.page.ClassList.has(can, _target, html.ITEM)) { return }
+			}
+			can.onkeymap.prevent(event)
 			begin = {left: target.offsetLeft, top: target.offsetTop, width: target.offsetWidth, height: target.offsetHeight, x: event.x, y: event.y}
-			can.page.SelectChild(can, target.parentNode, html.FIELDSET, function(target) { can.page.style(can, target, "z-index") && can.page.style(can, target, "z-index", 9) }), can.page.style(can, target, "z-index", 10)
-			window._scroll = _window.onmousemove
-		}, _window.onmouseup = function(event) { target = null, begin = {}, delete(window._scroll) }
-		_window.onmousemove = function(event) {
-			if (window._scroll && target) { can.onkeymap.prevent(event)
-				function move() { can.page.style(can, target,
-					html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth),
-					html.TOP, can.base.Min(begin.top + event.y - begin.y, top||0, window.innerHeight-html.ACTION_HEIGHT)
-				) }
+			window._mousemove = target.onmousemove
+		}, target.onmouseup = function(event) { begin = null, delete(window._mousemove) }
+		target.onmousemove = function(event) {
+			if (begin) { can.onkeymap.prevent(event)
 				switch (action) {
 					case "left":
 						can.page.style(can, target, html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth))
@@ -702,23 +702,18 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 					case "bottom":
 						cb? cb(begin.height + event.y - begin.y, target.offsetWidth): can.page.style(can, target, html.HEIGHT, begin.height + event.y - begin.y)
 						break
-					default: move()
+					default:
+						can.page.style(can, target,
+							html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth),
+							html.TOP, can.base.Min(begin.top + event.y - begin.y, top||0, window.innerHeight-html.ACTION_HEIGHT)
+						)
 				}
-			} else { var _target = findTarget(event); if (!_target) { return }
-				var x = event.x - _target.offsetLeft, y = event.y - _target.offsetTop, margin = 20
-				if (-margin < x && x < margin) { action = "left"
-					can.page.style(can, _target, "cursor", "ew-resize")
-				} else if (_target.offsetWidth-margin < x && x < _target.offsetWidth+margin) { action = "right"
-					can.page.style(can, _target, "cursor", "ew-resize")
-				} else if (_target.offsetHeight-margin < y && y < _target.offsetHeight+margin) { action = "bottom"
-					can.page.style(can, _target, "cursor", "ns-resize")
-				} else if (-margin < y && y < margin) { action = "top"
-					can.page.style(can, _target, "cursor", "ns-resize")
-				} else if (margin < y && y < (can._fields? can.sup: can).onexport.actionHeight(can._fields? can.sup: can)) { action = "top"
-					can.page.style(can, _target, "cursor", "move")
-				} else { action = ""
-					can.page.style(can, _target, "cursor", "")
-				}
+			} else { var p = can.page.position(event, target), margin = 20, cursor = ""
+				if (p.x < margin) { cursor = "ew-resize", action = "left"
+				} else if (target.offsetWidth-margin < p.x) { cursor = "ew-resize", action = "right"
+				} else if (target.offsetHeight-margin < p.y) { cursor = "ns-resize", action = "bottom"
+				} else if (p.y < margin) { cursor = "ns-resize", action = "top"
+				} else { cursor = "", action = "" } can.page.style(can, target, "cursor", cursor)
 			}
 		}
 	},

@@ -89,13 +89,13 @@ var web = {CHAT: "chat",
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
 	
 	CHAT_MACOS_DESKTOP: "web.chat.macos.desktop",
+	CHAT_MACOS_SESSION: "web.chat.macos.session",
 	CODE_GIT_REPOS: "web.code.git.repos", CODE_GIT_STATUS: "web.code.git.status",
 	CHAT_FAVOR: "web.chat.favor",
 	CODE_XTERM: "web.code.xterm", CODE_VIMER: "web.code.vimer", CODE_INNER: "web.code.inner",
 	WIKI_WORD: "web.wiki.word", WIKI_DRAW: "web.wiki.draw", WIKI_FEEL: "web.wiki.feel",
 	TEAM_PLAN: "web.team.plan",
-	UPDATE: "update",
-	HIDDEN: "hidden",
+	UPDATE: "update", TOGGLE: "toggle", HIDDEN: "hidden",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
@@ -384,7 +384,7 @@ try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 		}
 	}
 	meta._init = function(can) {
-		window.onmousemove = function(event) { window._scroll && (window._scroll(event)) }
+		window.onmousemove = function(event) { window._mousemove && (window._mousemove(event)) }
 		window.onmouseup = function(event) { delete(window._scroll) }
 		window.ondblclick = function(event) { can.onkeymap.prevent(event) }
 		window.onerror = function(message, source, lineno, colno, error) {

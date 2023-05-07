@@ -82,6 +82,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		zone._icon(kit.Dict(
 			can.page.unicode.refresh, function(event) { sub.Update(event) },
 			"+", function(event) { sub.Update(event, [ctx.ACTION, mdb.CREATE]) },
+			"=", function() { can.onimport.tabview(can, "", sub._index, ctx.INDEX) },
 		))
 		sub.onexport.output = function(sub, msg) { zone._total(msg.Length()), cb(sub, msg)
 			zone._menu = shy({_trans: sub._trans}, action.concat(can.base.Obj(msg.Option(ice.MSG_ACTION), [])), function(event, button, meta, carte) {

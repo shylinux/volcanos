@@ -21,7 +21,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 	layout: function(can) {
 		can.page.style(can, can.ui.display, html.WIDTH, can.ConfWidth()-can.ui.project.offsetWidth-1)
 		can.page.style(can, can.ui.project, html.HEIGHT, can.ui.display.offsetHeight)
-		can.page.style(can, can.ui.display, html.WIDTH, "")
+		// can.page.style(can, can.ui.display, html.WIDTH, "")
 	},
 }, [""])
 Volcanos(chat.ONFIGURE, {
