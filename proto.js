@@ -39,7 +39,7 @@ var ice = {
 	PROCESS_FIELD: "_field",
 	MSG_PREFIX: "_prefix",
 
-	MSG_USERNAME: "user.name", MSG_USERNICK: "user.nick",
+	MSG_USERNAME: "user.name", MSG_USERNICK: "user.nick", MSG_LANGUAGE: "user.lang",
 	MSG_TITLE: "sess.title", MSG_THEME: "sess.theme", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm", MSG_WIDTH: "sess.width", MSG_HEIGHT: "sess.height",
 	MSG_MODE: "sess.mode", MSG_DAEMON: "sess.daemon",
 	LOG_DISABLE: "log.disable",
@@ -376,7 +376,7 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 })
 try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
-	if (window._version && window.outerWidth-window.innerWidth < 100) { meta.version = window._version }
+	if (window._version && (window.parent.outerWidth-window.parent.innerWidth < 100)) { meta.version = window._version }
 	meta._load = function(url, cb) { var v = meta.version? meta.version+"&_tt="+(new Date()).getTime(): ""
 		switch (url.split(ice.QS)[0].split(nfs.PT).pop().toLowerCase()) {
 			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+v, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
@@ -384,13 +384,12 @@ try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 		}
 	}
 	meta._init = function(can) {
-		window.onkeydown = function(event) { if (event.key == lang.ESCAPE) { can.onkeymap.prevent(event) } }
 		window.onmousemove = function(event) { window._mousemove && (window._mousemove(event)) }
-		window.onmouseup = function(event) { delete(window._scroll) }
+		window.onmouseup = function(event) { delete(window._mousemove) }
 		window.ondblclick = function(event) { can.onkeymap.prevent(event) }
-		window.onerror = function(message, source, lineno, colno, error) {
-			meta.version? alert([message].concat(can.misc._stacks(0, error)).join(lex.NL)): can.misc.Error(message, lex.NL+[source, lineno, colno].join(ice.DF), error)
-		}, window.onbeforeunload = function() { can.Action._socket && can.Action._socket.close() }
+		window.onkeydown = function(event) { if (event.key == lang.ESCAPE && !can.page.tagis(event.target, html.INPUT)) { can.onkeymap.prevent(event) } }
+		window.onerror = function(message, source, lineno, colno, error) { meta.version? alert([message].concat(can.misc._stacks(0, error)).join(lex.NL)): can.misc.Error(message, lex.NL+[source, lineno, colno].join(ice.DF), error) }
+		window.onbeforeunload = function() { can.Action._socket && can.Action._socket.close() }
 		var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
 			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
 			can.onmotion.delayOnce(can, function() { can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth))) }, 100, can._delay_resize = can._delay_resize||[])

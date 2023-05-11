@@ -30,6 +30,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) { can.requ
 		} can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
 		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+panel._name)
 		if (!can.misc.CookieSessid(can) && can.user.info.sessid) { msg.Option(ice.MSG_SESSID, can.user.info.sessid) }
+		msg.Option(ice.MSG_LANGUAGE, can.user.info.language||"")
 		if (msg.Option("log.trace") == ice.TRUE) { debugger }
 		can.misc.Run(event, can, {names: names, daemon: msg[ice.MSG_DAEMON]}, cmds, function(msg) { toast && toast.close(), toast = true
 			if (msg.Option("log.trace") == ice.TRUE) { debugger }
@@ -382,7 +383,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	select: function(can, select, item) { var carte
 		return can.page.Append(can, select.parentNode, [{type: html.INPUT, data: {className: html.SELECT, type: html.BUTTON, name: item.name, value: item.value||item.values[0], title: item.name}, onclick: function(event) { var target = event.target
-			if (carte) { return carte.close(), carte = null } carte = can.user.carte(event, can, {}, item.values, function(event, button) { carte = null; if (target.value == button) { return }
+			if (carte) { return carte.close(), carte = null } carte = can.user.carte(event, can, {}, item.values, function(event, button) {
+				carte.close(), carte = null; if (target.value == button) { return }
 				target.value = button, select.value = button, select.onchange && select.onchange({target: select})
 			}); can.onappend.style(can, [html.SELECT, item.name], carte._target), can.page.style(can, carte._target, html.MIN_WIDTH, event.target.offsetWidth)
 		}, _init: function(target) { can.page.style(can, target, html.WIDTH, select.offsetWidth+10), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
@@ -676,7 +678,10 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	},
 	move: function(can, target, layout) { layout && can.page.style(can, target, layout), can.onmotion.resize(can, target, function() {}) },
 	resize: function(can, target, cb, top) { var begin, action
-		target.onclick = function() { can.onkeymap.prevent(event) }
+		target.onclick = function(event) {
+			if (can.page.tagis(event.target, html.INPUT)) { return }
+			can.onkeymap.prevent(event)
+		}
 		target.onmousedown = function(event) {
 			for (var _target = event.target; _target; _target = _target.parentNode) { if (_target == target) { break }
 				if (can.page.tagis(_target, html.INPUT, html.TEXTAREA, html.TR)) { return }
@@ -687,7 +692,9 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			window._mousemove = target.onmousemove
 		}, target.onmouseup = function(event) { begin = null, delete(window._mousemove) }
 		target.onmousemove = function(event) {
-			if (begin) { can.onkeymap.prevent(event)
+			if (begin) {
+				can.onkeymap.prevent(event)
+				if (!window._mousemove) { return begin = null }
 				switch (action) {
 					case "left":
 						can.page.style(can, target, html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth))

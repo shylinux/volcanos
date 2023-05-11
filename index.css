@@ -15,15 +15,16 @@ table.content thead { position:sticky; top:2px; }
 table.content th { padding:2px 5px; }
 table.content td { padding:2px 5px; }
 table.content.action th:last-child { position:sticky; right:2px; }
-table.content.action td:last-child { max-width:200px; position:sticky; right:2px; }
+table.content.action td:last-child { position:sticky; right:2px; }
+// table.content.action td:last-child { max-width:200px; position:sticky; right:2px; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; } ul { padding-left:40px; margin:20px 0; }
 hr, td.hr { border-bottom:gray dashed 1px; margin:5px; }
 img { margin-bottom:-8px; }
 /* fieldset */
 fieldset>legend { margin-right:10px; }
-fieldset>form.option>div.item { margin-right:10px; }
+fieldset>form.option>div.item { margin-right:10px; height:32px; }
 fieldset>form.option>div.item.select>input { min-width:80px; }
-fieldset>div.action>div.item { margin-right:10px; }
+fieldset>div.action>div.item { margin-right:10px; height:32px; }
 fieldset.input>legend { display:none; }
 fieldset.input.key div.action { display:none; }
 fieldset.input.key div.status { display:block; position:sticky; bottom:0; }
@@ -211,7 +212,7 @@ div.output.card>div.item.stop { color:gray; }
 div.output.card>div.item { padding:10px; border:#e7e7e7 solid 1px; margin:10px; width:320px; float:left; }
 div.output.card>div.item>div.title { font-size:1.2rem; font-weight:bold; padding:10px; border-bottom:solid 1px #e7e7e7; }
 div.output.card>div.item>div.content { padding:10px; height:70px; }
-div.output.card>div.item>div.action { text-align:right; width:100%; }
+div.output.card>div.item>div.action { text-align:right; width:100%; display:flex; }
 div.output.card>div.item>div.action>input { margin-right:5px; }
 /* display */
 fieldset.panel>legend { display:none; }
