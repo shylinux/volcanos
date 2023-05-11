@@ -137,7 +137,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			}
 			can.onimport.tabs(can, [{name: name, text: file, _menu: shy([
 				nfs.SAVE, nfs.TRASH, web.REFRESH,
-			], function(event, button, meta) { can.onaction[button](event, can, button) })}], function(event, tabs) {
+			], function(event, button, meta) {
+				if (button == "refresh") {
+					
+				}
+				can.onaction[button](event, can, button)
+			})}], function(event, tabs) {
 				can._tab = msg._tab = tabs._target, show(skip), skip = true
 			}, function(tabs) { can.onengine.signal(can, VIEW_REMOVE, msg), can.ui.zone.source.refresh()
 				msg.__content || can.page.Remove(can, msg._content), msg._profile != can.ui._profile && can.page.Remove(can, msg._profile)
@@ -303,6 +308,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.
 		var index = msg.Option(ctx.INDEX).split(mdb.FS), item = {type: chat.STORY, index: index[0], args: index.slice(1)}
 		if (item.index == web.CODE_XTERM && item.args.length > 0) { item.style = html.OUTPUT }
 		if (item.index == web.CHAT_MACOS_SESSION && item.args.length > 0) { item.style = html.OUTPUT }
+		if (item.index == web.CHAT_MACOS_DESKTOP) { item.style = html.OUTPUT }
 		can.onimport.plug(can, item, function(sub) { sub.onimport.size(sub, can.ui.content.offsetHeight, can.ui.content.offsetWidth, true)
 			sub.onimport._open = function(_, msg, arg) {
 				var link = can.misc.ParseURL(can, arg); if (link.pod && arg.indexOf(location.origin) == 0) { can.onimport.tabview(can, "", link.pod, web.SPACE), sub.Update(); return }

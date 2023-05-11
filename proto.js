@@ -384,6 +384,7 @@ try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 		}
 	}
 	meta._init = function(can) {
+		window.onkeydown = function(event) { if (event.key == lang.ESCAPE) { can.onkeymap.prevent(event) } }
 		window.onmousemove = function(event) { window._mousemove && (window._mousemove(event)) }
 		window.onmouseup = function(event) { delete(window._scroll) }
 		window.ondblclick = function(event) { can.onkeymap.prevent(event) }

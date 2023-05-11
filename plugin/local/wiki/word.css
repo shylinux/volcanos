@@ -7,8 +7,8 @@ fieldset.word>div.navmenu div.item { font-size:1.4em; font-weight:bold; font-fam
 fieldset.word>div.navmenu>div.item { font-size:1.6em; }
 fieldset.word>div.output { padding:10px; }
 fieldset.word>div.output>p.story { margin:10px; }
-fieldset.word>div.output>fieldset.story:not(:hover)>form.option { display:none; }
-fieldset.word>div.output>fieldset.story:not(:hover)>div.action { display:none; }
+// fieldset.word>div.output>fieldset.story:not(:hover)>form.option { display:none; }
+// fieldset.word>div.output>fieldset.story:not(:hover)>div.action { display:none; }
 fieldset.word a { word-break:break-all; }
 fieldset.word img { word-break:break-all; }
 fieldset.word svg.story[data-index] text { cursor:pointer; }
