@@ -28,6 +28,7 @@ fieldset>div.action>div.item { margin-right:10px; height:32px; }
 fieldset.input>legend { display:none; }
 fieldset.input.key div.action { display:none; }
 fieldset.input.key div.status { display:block; position:sticky; bottom:0; }
+fieldset.input.key div.output table.content { width:100%; }
 fieldset.input.key.simple th { display:none; }
 fieldset.input.key.simple td { min-width:40px; }
 fieldset.input.date table.content { text-align:center; width:350px; }

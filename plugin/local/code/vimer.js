@@ -109,7 +109,7 @@ Volcanos(chat.ONACTION, {list: ["编译", "源码", "终端", "文档", "计划"
 	}) },
 	"编译": function(event, can) { can.onaction.compile(event, can, code.COMPILE) },
 	"源码": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },
-	"终端": function(event, can) { can.onimport.tabview(can, "", [web.CODE_XTERM, "sh"].join(mdb.FS), ctx.INDEX) },
+	"终端": function(event, can) { can.onimport.tabview(can, "", [web.CODE_XTERM, "ish"].join(mdb.FS), ctx.INDEX) },
 	"文档": function(event, can) { can.onimport.tabview(can, "", web.WIKI_WORD, ctx.INDEX) },
 	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },
 	"桌面": function(event, can) { can.onimport.tabview(can, "", "web.chat.macos.desktop", ctx.INDEX) },
