@@ -82,9 +82,9 @@ input:hover[type=button][name=trash] { background-color:red; color:white; }
 input:hover[type=button][name=delete] { background-color:red; color:white; }
 input:hover[type=button][name=remove] { background-color:red; color:white; }
 /* font */
-legend { font-size:1.2rem; line-height:32px; height:32px; }
-select, input { font-size:1rem; height:32px; }  input::placeholder { font-style:italic; }
-textarea { tab-size:2; padding:5px; height:96px; width:100%; resize:vertical; }
+legend { font-size:1.2rem; line-height:30px; height:32px; }
+select, input { font-size:1rem; height:32px; }  textarea::placeholder, input::placeholder { font-style:italic; }
+textarea { font-size:1rem; tab-size:2; padding:5px; height:96px; width:100%; resize:vertical; }
 table.content, div.item, div.code, div.story[data-type=spark] { font-family:monospace; }
 table.content, div.item, div.code, div.story[data-type=spark] { white-space:pre; text-align:left; }
 div.story[data-type=spark] { padding:5px 10px; border-left:blue solid 5px; }
@@ -107,8 +107,8 @@ body.zh fieldset.input.date>div.action>div.item.select.month select { width:81px
 fieldset>form.option>div.icon { font-size:26px; line-height:28px; padding:0 5px; height:32px; margin:0; }
 fieldset>form.option>div.item.icons>span.icon { font-size:26px; line-height:28px; padding:0 5px; height:32px; }
 fieldset>div.action>div.item.icons>span.icon { font-size:26px; line-height:28px; padding:0 5px; height:32px; }
-fieldset>form.option>div.item.icons>span.icon.create { line-height:32px; }
-fieldset>div.action>div.item.icons>span.icon.create { line-height:32px; }
+fieldset>form.option>div.item.icons>span.icon.create { line-height:30px; }
+fieldset>div.action>div.item.icons>span.icon.create { line-height:30px; }
 form.option>div.icon:first-child { margin-left:-5px; }
 form.option>div.icon.refresh { line-height:26px; }
 form.option>div.icon.goback { line-height:26px; }
@@ -276,6 +276,7 @@ fieldset.inner.float>div.status { display:none; }
 fieldset.qrcode>div.output div.code { padding:0; }
 fieldset.xterm div.layout div.output { border-left:gray solid 1px; border-top:gray solid 1px; }
 fieldset.xterm div.layout div.output.select { border:blue solid 1px; }
+fieldset.xterm>div.layout { clear:both; }
 fieldset.plan div.output div.content>table.content { height:100%; width:100%; }
 fieldset.draw>form.option>div.item.pid>input { width:60px; }
 fieldset.draw div.output svg { margin-bottom:-4px; }

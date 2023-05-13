@@ -77,8 +77,7 @@ var mdb = {
 	EQ: ice.EQ, FS: ice.FS,
 }
 var web = {CHAT: "chat",
-	SHARE: "share", SPACE: "space", DREAM: "dream",
-	SPIDE: "spide",
+	SPACE: "space", DREAM: "dream", SHARE: "share", SPIDE: "spide",
 	WEBSITE: "website", DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter", INPUT: "input",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
@@ -87,15 +86,14 @@ var web = {CHAT: "chat",
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
+	UPDATE: "update", TOGGLE: "toggle", HIDDEN: "hidden",
 	
-	CHAT_MACOS_DESKTOP: "web.chat.macos.desktop",
-	CHAT_MACOS_SESSION: "web.chat.macos.session",
 	CODE_GIT_REPOS: "web.code.git.repos", CODE_GIT_STATUS: "web.code.git.status",
-	CHAT_FAVOR: "web.chat.favor",
 	CODE_XTERM: "web.code.xterm", CODE_VIMER: "web.code.vimer", CODE_INNER: "web.code.inner",
 	WIKI_WORD: "web.wiki.word", WIKI_DRAW: "web.wiki.draw", WIKI_FEEL: "web.wiki.feel",
+	CHAT_MACOS_DESKTOP: "web.chat.macos.desktop", CHAT_MACOS_SESSION: "web.chat.macos.session",
+	CHAT_IFRAME: "web.chat.iframe", CHAT_FAVOR: "web.chat.favor",
 	TEAM_PLAN: "web.team.plan",
-	UPDATE: "update", TOGGLE: "toggle", HIDDEN: "hidden",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",

@@ -49,8 +49,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 		can.onengine.listen(can, chat.ONTHEMECHANGE, function() { can = can.core.Value(can.sup, chat._OUTPUTS_CURRENT)
 			term.selectAll(), can.onimport._connect(can, item, output, tabs, can.base.trimSuffix(term.getSelection(), lex.NL))
 		}), can.page.style(can, output, html.BACKGROUND_COLOR, term._publicOptions.theme.background||cli.BLACK)
-		output.onclick = function() { output._tabs._current = output
-			can.onmotion.select(can, can._fields, html.DIV_OUTPUT, can._output = output), term.focus(), can.onexport.term(can, term)
+		output.onclick = function() { output._tabs._current = output, term.focus(), can.onexport.term(can, term)
+			can.page.Select(can, can._fields, html.DIV_OUTPUT, function(target) { can.page.ClassList.set(can, target, html.SELECT, target == output) })
 		}; return can.db = can.db||{}, can.db[item.hash] = term
 	},
 	_resize: function(can, term, size) { can.runAction(can.request({}, size, term._item), web.RESIZE, [], function() { can.onexport.term(can, term) }) },
@@ -60,7 +60,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 		} else {
 			if (can._delay) { can._delay = false; var msg = can.request({}, {_handle: ice.TRUE}, term._item)
 				can._keylist = can.onkeymap._parse({key: data, _msg: msg}, can, mdb.NORMAL, can._keylist||[], term); return
-			} can._output = term._output, can.runAction(can.request({}, term._item), web.INPUT, [btoa(data)], function() {})
+			} can._output = term._output, can.runAction(can.request({}, {rows: term.rows, cols: term.cols}, term._item), web.INPUT, [btoa(data)], function() {})
 		}
 	},
 	grow: function(can, msg) { var arg = msg.detail.slice(1), term = can.db[arg[0]]; arg[1] == "~~~end~~~"? can.onaction.delete(can, term._output): term.write(arg[1]); msg.Option(ice.LOG_DISABLE, ice.TRUE) },
