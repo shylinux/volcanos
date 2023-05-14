@@ -46,8 +46,9 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 		}}]); show()
 	},
 	plugin: function(event, can, data) { if (can.base.isFunc(data.text)) { return can.onmotion.hidden(can), data.text(event) }
-		var cmd = data.cmd == ctx.COMMAND? can.core.Keys(data.type, data.name.split(lex.SP)[0]): can.core.Keys(data.ctx, data.cmd)
-		var meta = {type: chat.STORY, index: cmd||msg.Option(mdb.INDEX), args: cmd == web.WIKI_WORD? [data.name]: []}
+		var cmd = data.cmd == ctx.COMMAND? can.core.Keys(data.type, data.name.split(lex.SP)[0]): can.core.Keys(data.ctx, data.cmd), arg = cmd == web.WIKI_WORD? [data.name]: []
+		data.type == ice.CMD && (cmd = data.name, arg = can.base.Obj(data.text))
+		var meta = {type: chat.STORY, index: cmd||msg.Option(mdb.INDEX), args: arg}
 		if (data.type == cli.OPENS) { return can.runAction(event, cli.OPENS, [data.text], null, true) }
 		if (data.type == ssh.SHELL) { meta = {index: web.CODE_XTERM, args: [data.text]} }
 		if (data.type == ctx.INDEX) { meta = {index: data.text.split(mdb.FS)[0], args: data.text.split(mdb.FS).slice(1) } }
