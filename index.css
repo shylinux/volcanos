@@ -274,9 +274,10 @@ fieldset.location>div.action input[type=text] { width:40px; }
 fieldset.config form.option input[name=key] { width:240px; }
 fieldset.inner.float>div.status { display:none; }
 fieldset.qrcode>div.output div.code { padding:0; }
+fieldset.xterm>div.action>div.tabs:only-child { display:none; }
+fieldset.xterm>div.layout { clear:both; }
 fieldset.xterm div.layout div.output { border-left:gray solid 1px; border-top:gray solid 1px; }
 fieldset.xterm div.layout div.output.select { border:blue solid 1px; }
-fieldset.xterm>div.layout { clear:both; }
 fieldset.plan div.output div.content>table.content { height:100%; width:100%; }
 fieldset.draw>form.option>div.item.pid>input { width:60px; }
 fieldset.draw div.output svg { margin-bottom:-4px; }

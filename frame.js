@@ -370,14 +370,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			target.addEventListener("scroll", function(event) { can.page.style(can, ui.scrollbar, html.TOP, target.scrollTop+offset*target.offsetHeight, html.RIGHT, -target.scrollLeft) })
 			return ui.scrollbar
 		}
-		var height = target.offsetHeight*target.offsetHeight/target.scrollHeight
-		var ui = can.page.Append(can, target, [{view: "scrollbar", style: {height: height},
+		var ui = can.page.Append(can, target, [{view: "scrollbar", style: {height: target.offsetHeight*target.offsetHeight/target.scrollHeight},
 			onmousedown: function(event) { var begin = {top: target.scrollTop, y: event.y}
 				window._scroll = function(event) { target.scrollTop = begin.top+(event.y-begin.y)/target.offsetHeight*target.scrollHeight, can.onkeymap.prevent(event) }
 			},
 		}])
 		target.addEventListener("scroll", function(event) { can.onmotion.delayOnce(can, function() { can.page.style(can, ui.scrollbar, "visibility", "visible")
-			can.page.style(can, ui.scrollbar, html.TOP, can.base.Min(target.scrollTop+target.scrollTop/target.scrollHeight*target.offsetHeight, 0, target.scrollHeight-height), html.RIGHT, -target.scrollLeft)
+			can.page.style(can, ui.scrollbar, html.TOP, target.scrollTop+target.scrollTop/target.scrollHeight*target.offsetHeight, html.RIGHT, -target.scrollLeft)
 			can.onmotion.delayOnce(can, function() { can.page.style(can, ui.scrollbar, "visibility", "hidden") }, 3000, target._delay_scroll = target._delay_scroll||[])
 		}, 0, target._delay_scroll = target._delay_scroll||[]) })
 		return ui.scrollbar

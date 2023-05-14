@@ -81,7 +81,6 @@ var web = {CHAT: "chat",
 	WEBSITE: "website", DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter", INPUT: "input",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
-	LINK: "link", WORKER: "worker", SERVER: "server", GATEWAY: "gateway",
 
 	AT: "@", QS: "?", HTTP: "http",
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
