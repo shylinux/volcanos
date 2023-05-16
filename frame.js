@@ -682,7 +682,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			if (can.page.tagis(event.target, html.INPUT)) { return }
 			can.onkeymap.prevent(event)
 		}
-		target.onmousedown = function(event) {
+		target.onmousedown = function(event) { if (event.which != 1) { return }
 			for (var _target = event.target; _target; _target = _target.parentNode) { if (_target == target) { break }
 				if (can.page.tagis(_target, html.INPUT, html.TEXTAREA, html.TR)) { return }
 				if (can.page.ClassList.has(can, _target, html.ITEM)) { return }

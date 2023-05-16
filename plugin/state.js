@@ -203,7 +203,7 @@ Volcanos(chat.ONEXPORT, {
 	statusHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
 	link: function(can) { var meta = can.Conf(), args = can.Option(); can.misc.Search(can, log.DEBUG) == ice.TRUE && (args[log.DEBUG] = ice.TRUE)
-		args.pod = meta.pod, args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd), args.cmd == web.WIKI_WORD && (args.cmd = args.path)
+		args.pod = meta.pod, args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd)
 		return can.misc.MergePodCmd(can, args, true)
 	},
 })
