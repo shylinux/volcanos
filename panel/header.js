@@ -49,26 +49,12 @@ Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMed
 		can.__theme = themeMedia.matches? html.DARK: html.LIGHT, themeMedia.addListener(function(event) { can.__theme = event.matches? html.DARK: html.LIGHT
 			can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme}))
 		}), can.onimport.theme(can)
-		false && can.page.Append(can, document.head, ctx.STYLE, {"innerText": `
-	body, fieldset { border:0; margin:0; overflow:hidden; }
-	fieldset>legend { float:left; }
-	fieldset>form.option { float:left; }
-	fieldset>div.action { float:left; }
-	fieldset>div.output { clear:both; }
-	fieldset>form.option>div.item { float:left; }
-	fieldset>div.action>div.item { float:left; }
-	fieldset>div.status>div.item { float:left; }
-	fieldset.Action>legend { display:none; }
-	div.float, fieldset.float { position:fixed; }
-	div.input.float div.action>div.item { float:right; }
-	div.item, fieldset>legend { cursor:pointer; }
-	.hide { display:none; }
-`})
 		return can.require([
 			"src/template/web.chat.header/dark.css",
 			"src/template/web.chat.header/light.css",
 			"src/template/web.chat.header/black.css",
 			"src/template/web.chat.header/white.css",
+			"src/template/web.chat.header/mobile.css",
 		])
 		can._themes = {
 			"dark": can.onappend.theme(can, html.DARK),

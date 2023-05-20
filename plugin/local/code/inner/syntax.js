@@ -139,6 +139,11 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	},
 	py: {prefix: {"#!": code.COMMENT, "# ": code.COMMENT}, keyword: {"import": code.KEYWORD, "from": code.KEYWORD, "return": code.KEYWORD, "print": code.FUNCTION}},
+	proto: {prefix: {"// ": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT}, keyword: {
+		"syntax": code.KEYWORD, "package": code.KEYWORD, "option": code.FUNCTION,
+		"service": code.KEYWORD, "rpc": code.KEYWORD, "returns": code.KEYWORD,
+		"message": code.KEYWORD, "repeated": code.FUNCTION, "string": code.DATATYPE, "int64": code.DATATYPE,
+	}},
 	go: {prefix: {"// ": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT}, keyword: {
 			"package": code.KEYWORD, "import": code.KEYWORD, "const": code.KEYWORD, "type": code.KEYWORD, "struct": code.KEYWORD, "interface": code.KEYWORD, "func": code.KEYWORD, "var": code.KEYWORD,
 			"if": code.KEYWORD, "else": code.KEYWORD,
