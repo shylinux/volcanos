@@ -22,7 +22,8 @@ hr, td.hr { border-bottom:gray dashed 1px; margin:5px; }
 img { margin-bottom:-8px; }
 /* fieldset */
 fieldset>legend { margin-right:10px; }
-fieldset>form.option>div.item { margin-right:10px; height:32px; }
+fieldset>form.option>div.item { margin-right:10px; }
+// fieldset>form.option>div.item { margin-right:10px; height:32px; }
 fieldset>form.option>div.item.select>input { min-width:80px; }
 fieldset>div.action>div.item { margin-right:10px; height:32px; }
 fieldset.input>legend { display:none; }

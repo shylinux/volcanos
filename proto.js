@@ -129,8 +129,8 @@ var nfs = {
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
 	PWD: "./", SRC: "src/", USR: "usr/",
 
-	IMAGE_JPEG: "image/jpeg",
 	IMAGE_PNG: "image/png",
+	IMAGE_JPEG: "image/jpeg",
 }
 var cli = {
 	PWD: "pwd", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
@@ -285,14 +285,13 @@ function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(t
 var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {
 		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, style: html.HIDE, state: [mdb.TIME, aaa.USERNICK]}, {name: chat.ACTION, style: html.MAIN, tool: name}, {name: chat.FOOTER, style: html.HIDE}]}) }
-		var Config = name; name = Config.name||ice.CAN, _can_name = "", _can_path = ""
+		var Config = name; name = Config.name||ice.CAN, _can_name = ""
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list, delete(Config.panels)
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)
 		cb = can||function(can) { can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target) }
 		can = Config, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width
-		// can._path = location.href, 
 	}
-	can = kit.proto(can||{}, kit.proto({_path: _can_path, _name: name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
+	can = kit.proto(can||{}, kit.proto({_name: name, _path: _can_path, _load: function(name, cbs) { var cache = meta.cache[name]||[]
 			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub), sub._path = name } meta.cache[name] = cache
 			cache.forEach(function(sub) { var name = sub._name; if (typeof cbs == lang.FUNCTION && cbs(can, name, sub)) { return }
 				can[name] = can[name]||{}; for (var k in sub) { can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k])
@@ -307,11 +306,12 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 			}
 			if (libs[0] == undefined) { return can.require(libs.slice(1), cb, cbs) }
 			if (libs[0] == "") { libs[0] = can._path.replace(nfs._JS, nfs._CSS) }
-			if (libs[0].indexOf("src/") == 0) { libs[0] = "/require/"+libs[0] }
+			if (libs[0].indexOf(nfs.SRC) == 0) { libs[0] = "/require/"+libs[0] }
+			if (libs[0].indexOf(nfs.USR) == 0) { libs[0] = "/require/"+libs[0] }
 			if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
 			var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
-			meta.cache[name]||name==""? next(): (_can_path = libs[0], meta._load(name, next))
+			_can_path = name, meta.cache[name]||name==""? next(): (meta._load(name, next))
 		},
 		request: function(event) { event = event||{}, event = event._event||event
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg

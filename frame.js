@@ -236,6 +236,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	_output: function(can, msg, display, output, action, cb) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
 		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/require/src/") && delete(Volcanos.meta.cache[display])
 		Volcanos(display, {_root: can._root, _follow: can.core.Keys(can._follow, display), _fields: can._target, _target: output,
+			_path: display||chat.PLUGIN_TABLE_JS,
 			_legend: can._legend, _option: can._option, _action: can._action, _output: output, _status: can._status,
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
 		}, [display, chat.PLUGIN_TABLE_JS], function(sub) { sub.Conf(can.Conf())
