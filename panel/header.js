@@ -56,11 +56,6 @@ Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMed
 			"src/template/web.chat.header/white.css",
 			"src/template/web.chat.header/mobile.css",
 		])
-		can._themes = {
-			"dark": can.onappend.theme(can, html.DARK),
-			"light": can.onappend.theme(can, html.LIGHT, {panel: cli.WHITE, plugin: cli.ALICEBLUE, legend: "lightsteelblue", input: cli.WHITE, output: cli.WHITE, table: cli.ALICEBLUE,
-				hover: cli.ALICEBLUE, border: cli.TRANSPARENT, label: cli.BLACK, text: cli.BLACK, info: cli.BLUE, warn: cli.RED}),
-		}
 	},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onmain: function(can) {

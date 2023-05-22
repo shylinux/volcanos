@@ -529,7 +529,8 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 			if (can.user.isMobile && can.user.isLandscape()) { return }
 			can.page.SelectChild(can, field, html.DIV_OUTPUT, function(output) { can.page.styleHeight(can, output, height) })
 		}), can.onengine.signal(can, chat.ONSIZE, can.request({}, {height: height, width: width}))
-		can.user.isMobile && can.user.isLandscape() || can.page.style(can, document.body, kit.Dict(html.OVERFLOW, html.HIDDEN))
+		can.page.style(can, document.body, kit.Dict(html.OVERFLOW, html.HIDDEN))
+		// can.user.isMobile && can.page.style(can, document.body, kit.Dict(html.OVERFLOW, html.HIDDEN))
 	},
 	expand: function(can, target, width) { var n = parseInt(target.offsetWidth/(width+20)); width = target.offsetWidth/n - 20
 		can.page.SelectChild(can, target, "*", function(target) { can.page.styleWidth(can, target, width) })
