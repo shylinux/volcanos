@@ -32,10 +32,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })
 	}) },
 	share: function(event, can) { can.core.CallFunc(can.ondetail.share, {event: event, can: can}) },
-	refresh: function(event, can) { can.misc.Search(can, {
-		river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM),
-		// theme: can.getHeaderTheme(), layout: can.getAction("layout"),
-	}) },
+	refresh: function(event, can) { can.misc.Search(can, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM)}) },
 	
 	storm: function(event, can, river) { can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
 		var list = can.ui.sublist[river]; if (list) { return can.onmotion.toggle(can, list) }
@@ -45,10 +42,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	},
 	action: function(event, can, river, storm) {
 		can.onaction.storm({target: can.ui.river_list[river]}, can, river), can.onmotion.toggle(can, can.ui.sublist[river], true)
-		can.onmotion.select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], can.ui.storm_list[can.core.Keys(river, storm)])
 		can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm)}))
-		// location.hash = [river, storm].join(nfs.DF)
-		// can.misc.sessionStorage(can, "can.river", river), can.misc.sessionStorage(can, "can.storm", storm)
 	},
 	carte: function(event, can, list, river, storm) { can.onkeymap.prevent(event); if (can.core.Value(can._root, can.core.Keys(chat.RIVER, river))) { return }
 		can.request(event, {river: river, storm: storm})

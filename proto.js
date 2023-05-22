@@ -189,9 +189,9 @@ var chat = {
 		"/plugin/local/code/inner/syntax.js",
 		"/plugin/local/wiki/draw/path.js",
 		"/plugin/local/wiki/draw.js",
+		"/plugin/local/wiki/feel.js",
 		"/plugin/local/wiki/word.js",
 		"/plugin/local/team/plan.js",
-		"/plugin/local/mall/goods.js",
 		"/plugin/local/mall/goods.js",
 	], PLUGIN_INPUT: "/plugin/input/", PLUGIN_STORY: "/plugin/story/", PLUGIN_LOCAL: "/plugin/local/",
 	PLUGIN_STATE_JS: "/plugin/state.js", PLUGIN_INPUT_JS: "/plugin/input.js", PLUGIN_TABLE_JS: "/plugin/table.js",
@@ -291,12 +291,10 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 		cb = can||function(can) { can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target) }
 		can = Config, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width
 	}
-	can = kit.proto(can||{}, kit.proto({_name: name, _path: _can_path, _load: function(name, cbs) { var cache = meta.cache[name]||[]
-			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub) } meta.cache[name] = cache
+	can = kit.proto(can||{}, kit.proto({_name: name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
+			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub), sub._path = sub._path||name } meta.cache[name] = cache
 			cache.forEach(function(sub) { var name = sub._name; if (typeof cbs == lang.FUNCTION && cbs(can, name, sub)) { return }
-				can[name] = can[name]||{}; for (var k in sub) { can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k])
-					name == chat.ONIMPORT && k == chat._INIT && (can[name]._last_init = sub[k])
-				}
+				can[name] = can[name]||{}; for (var k in sub) { can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k]) }
 			})
 		},
 		require: function(libs, cb, cbs) {
@@ -311,7 +309,6 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 			if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
 			var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
-			name.endsWith(nfs.JS) && (_can_path = name)
 			meta.cache[name]||name==""? next(): (meta._load(name, next))
 		},
 		request: function(event) { event = event||{}, event = event._event||event
@@ -372,7 +369,10 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 			} return can.base.isUndefined(res) && key.indexOf(ctx.FEATURE+nfs.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
 		}, _conf: {},
 	}, meta)); if (_can_name) { meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can) } else { list.push(can) }
-	return can.require(can._follow? libs.concat(meta.libs, meta.volcano): libs, cb), can
+	setTimeout(function() {
+		can.require(can._follow? libs.concat(meta.libs, meta.volcano): libs, cb)
+	}, 1)
+	return can
 })
 try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth

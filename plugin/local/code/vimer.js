@@ -1,7 +1,9 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.require(["inner.js"], function(can) { can.onimport._last_init(can, msg, function() {
-		can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(can) })
-		can.db.undo = [], can.db.redo = [], can.onimport._input(can), can.base.isFunc(cb) && cb(msg)
-	}) }) },
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
+		can.require(["inner.js"], function(can) { can.onimport._last_init(can, msg, function() {
+			can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(can) })
+			can.db.undo = [], can.db.redo = [], can.onimport._input(can), can.base.isFunc(cb) && cb(msg)
+		}) }, function(can, mod, sub) { mod == chat.ONIMPORT && (can[mod]._last_init = sub._init) })
+	},
 	_input: function(can) { var ui = can.page.Append(can, can.ui.content.parentNode, [
  		{view: [code.CURRENT, html.INPUT], spellcheck: false, onkeydown: function(event) { can.onimport._value(can); if (event.metaKey) { return }
 			can.db._keylist = can.onkeymap._parse(event, can, can.db.mode+(event.ctrlKey? "_ctrl": ""), can.db._keylist, can.ui.current)

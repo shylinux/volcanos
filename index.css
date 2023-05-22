@@ -207,7 +207,7 @@ div.project div.zone>div.list>div.zone>div.item { text-align:left; padding-left:
 div.project div.zone>div.list>div.zone>div.item:hover { margin-left:10px; transition:all 0.3s;  }
 fieldset>div.output>div.project>div.item.filter { padding:0; }
 fieldset>div.output>div.project { border-right:gray solid 1px; min-width:120px; max-width:240px; }
-fieldset>div.output div.profile { border-left:gray solid 1px; max-width:240px; }
+fieldset>div.output div.profile { border-left:gray solid 1px; max-width:320px; }
 fieldset>div.output div.display { border-top:gray solid 1px; }
 /* table card */
 div.output.card>div.item.stop { color:gray; }
