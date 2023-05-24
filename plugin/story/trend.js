@@ -44,22 +44,17 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "趋势图", "柱状图", "折线图"
 		var black = can.onimport.group(can, cli.BLACK, kit.Dict(svg.STROKE, cli.BLACK, svg.FILL, cli.BLACK))
 		var white = can.onimport.group(can, cli.WHITE, kit.Dict(svg.STROKE, cli.WHITE, svg.FILL, cli.WHITE))
 		var group = can.getHeaderTheme() == cli.BLACK? white: black;
-		// can.onimport.transform(can, can.svg)
-		can.onimport.transform(can, black)
-		can.onimport.transform(can, white)
 		var color = can.core.List(can.base.Obj(can.Conf(cli.COLOR), []), function(color) { return can.onimport.group(can, color, kit.Dict(svg.STROKE, color, svg.FILL, color)) })
-		can.core.List(color, function(color) {
-			can.onimport.transform(can, color)
-		})
-		var max, min
-		can.core.List(can.base.Obj(can.Conf(mdb.FIELD), can._msg.append), function(field, index) { max = can.data[0][field], min = can.data[0][field]
+		can.onimport.transform(can, black), can.onimport.transform(can, white), can.core.List(color, function(color) { can.onimport.transform(can, color) })
+		var max, min; can.core.List(can.core.List(can.base.Obj(can.Conf(mdb.FIELD), can._msg.append), function(field) {
+			if (can.base.isIn(field, "time", "id")) { return } return field
+		}), function(field, index) { max = can.data[0][field], min = can.data[0][field]
 			for (var i = 1; i < can.data.length; i += 1) { var value = can.data[i][field]; if (value > max) { max = value } if (value < min) { min = value } }
 			max = parseFloat(can.Conf("max")||max), min = parseFloat(can.Conf("min")||min)
 			function order(i) { return i*args.step+args.margin } function scale(y) { return (y - min)/(max - min)*(args.height-2*args.margin)+args.margin }
 			for (var i = 1; i < can.data.length; i += 1) { can.onimport.draw(can, {shape: svg.LINE, points: [{x: order(i-1), y: scale(can.data[i-1][field])}, {x: order(i), y: scale(can.data[i][field])}]}, color[index]||group) }
 		}), can.onappend._status(can, can._msg.Option(ice.MSG_STATUS))
-		var gray = can.onimport.group(can, cli.WHITE, kit.Dict(svg.STROKE, cli.GRAY, svg.FILL, cli.GRAY))
-		can.onimport.transform(can, gray)
+		var gray = can.onimport.group(can, cli.WHITE, kit.Dict(svg.STROKE, cli.GRAY, svg.FILL, cli.GRAY)); can.onimport.transform(can, gray)
 		var vline = can.onimport.draw(can, {shape: svg.LINE, points: [{x: 0, y: 0}, {x: 0, y: can.ConfHeight()}]}, gray)
 		var hline = can.onimport.draw(can, {shape: svg.LINE, points: [{x: 0, y: 0}, {x: can.ConfWidth(), y: 0}]}, gray)
 		can.svg.onmousemove = function(event) { var p = can._output.getBoundingClientRect(); p = {x: event.clientX - p.x, y: event.clientY - p.y}

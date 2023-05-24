@@ -245,7 +245,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			sub.run = function(event, cmds, cb, silent) {
 				sub.request(event)._caller().RunAction(event, sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
 			}, can._outputs = can._outputs||[], can._outputs.push(sub), sub.sup = can
-			sub._index = can._index, sub._msg = msg, sub.Conf(sub._args = can.base.ParseURL(display))
+			sub._index = can._index, can._msg = sub._msg = msg, sub.Conf(sub._args = can.base.ParseURL(display))
 			sub._trans = can.base.Copy(can.base.Copy(sub._trans||{}, can._trans), can.core.Value(sub, [chat.ONACTION, chat._TRANS]))
 			if (sub.onimport && can.base.isArray(sub.onimport.list) && sub.onimport.list.length > 0) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
