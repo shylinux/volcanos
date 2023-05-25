@@ -16,14 +16,12 @@ table.content th { padding:2px 5px; }
 table.content td { padding:2px 5px; }
 table.content.action th:last-child { position:sticky; right:2px; }
 table.content.action td:last-child { position:sticky; right:2px; }
-// table.content.action td:last-child { max-width:200px; position:sticky; right:2px; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; } ul { padding-left:40px; margin:20px 0; }
 hr, td.hr { border-bottom:gray dashed 1px; margin:5px; }
 img { margin-bottom:-8px; }
 /* fieldset */
 fieldset>legend { margin-right:10px; }
 fieldset>form.option>div.item { margin-right:10px; }
-// fieldset>form.option>div.item { margin-right:10px; height:32px; }
 fieldset>form.option>div.item.select>input { min-width:80px; }
 fieldset>div.action>div.item { margin-right:10px; height:32px; }
 fieldset.input>legend { display:none; }
@@ -285,11 +283,10 @@ fieldset.draw div.output svg { margin-bottom:-4px; }
 fieldset.draw.trend div.output svg { background-color:#1b5b738c; }
 fieldset.draw.spide div.output svg text { cursor:pointer; }
 fieldset.draw.spide div.output svg path { stroke-width:1; }
-// fieldset.web.chat.iframe>div.output { overflow:hidden; }
 fieldset.web.code.git.status>div.output table.content { width:100%; }
 fieldset.can.view { font-size:14px; }
 fieldset.can.data { font-size:14px; }
-img, iframe { margin-bottom:-4px; }
+img, iframe { margin-bottom:-3px; }
 /* scrollbar */
 div.scrollbar { background-color:#0000ff66; width:10px; position:absolute; right:0; top:0; transition:width .3s 1s; visibility:hidden; }
 div.scrollbar:hover { width:50px; transition:width .1s;}

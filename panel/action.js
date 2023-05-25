@@ -3,11 +3,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode()
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.run = function(event, cmds, cb) { return can.run(event, (river == web.SHARE? [ctx.ACTION]: []).concat([river, storm, meta.id||meta.index], cmds), cb) }
-				sub._target.onclick = function(event) { event.target == sub._target && can.onmotion.scrollHold(can, function() { sub._tabs.click() }) }
+				// sub._target.onclick = function(event) { event.target == sub._target && can.onmotion.scrollHold(can, function() { sub._tabs.click() }) }
 			})
 		}, function() { can.isCmdMode() || can.onmotion.delay(can, function() { can.onaction.layout(can)
 			can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) { sub.Conf(ctx.INDEX) == list[2] && can.onmotion.delay(can, function() { sub._tabs.click() }) })
-		}) })
+		}, 300) })
 	},
 	_share: function(can, share) { share && can.runAction({}, web.SHARE, [share], function(msg) {
 		can.user.title(msg.SearchOrOption(chat.TITLE)), can.setHeader(chat.THEME, msg.SearchOrOption(chat.THEME)), can.Mode(web.SHARE), msg.Length() == 1 && can.onaction._onaction_cmd(can)
