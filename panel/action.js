@@ -1,9 +1,10 @@
 (function() { const TABS = "tabs", TABVIEW = "tabview", HORIZON = "horizon", VERTICAL = "vertical", GRID = "grid", FREE = "free", FLOW = "flow", PAGE = "page", CAN_LAYOUT = "can.layout"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.misc.SearchHash(can)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode()
+			if (item.deleted == "true") { return next() }
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
+				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
 				sub.run = function(event, cmds, cb) { return can.run(event, (river == web.SHARE? [ctx.ACTION]: []).concat([river, storm, meta.id||meta.index], cmds), cb) }
-				// sub._target.onclick = function(event) { event.target == sub._target && can.onmotion.scrollHold(can, function() { sub._tabs.click() }) }
 			})
 		}, function() { can.isCmdMode() || can.onmotion.delay(can, function() { can.onaction.layout(can)
 			can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) { sub.Conf(ctx.INDEX) == list[2] && can.onmotion.delay(can, function() { sub._tabs.click() }) })
@@ -51,7 +52,11 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	onstorm_select: function(can, msg, river, storm) {
 		if (can.onmotion.cache(can, function(cache, old) { old && (cache[old] = can._plugins)
 			var key = can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm)); return can._plugins = cache[key]||[], key
-		}, can._output, can._action, can._header_tabs)) { return can.onaction.layout(can) }
+		}, can._output, can._action, can._header_tabs)) {
+			if (msg.Option("refresh") != "true") {
+				return can.onaction.layout(can)
+			}
+		}
 		can.run({}, [river, storm], function(msg) {
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm})) }
 			return can.onimport._init(can, msg)

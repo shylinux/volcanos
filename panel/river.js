@@ -36,17 +36,21 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	
 	storm: function(event, can, river) { can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
 		var list = can.ui.sublist[river]; if (list) { return can.onmotion.toggle(can, list) }
-		can.run({}, [river, chat.STORM], function(msg) { var select = 0; list = can.page.Append(can, can._output, [{view: html.LIST, list: msg.Table(function(item, index) {
-			return river == can._main_river && item.hash == can._main_storm && (select = index), can.onimport._storm(can, item, river)
-		}) }])._target, can.ui.sublist[river] = list, list.children.length > 0 && list.children[select].click(), event.target.nextSibling && can._output.insertBefore(list, event.target.nextSibling) })
+		can.run({}, [river, chat.STORM], function(msg) {
+			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOSTORM, can.request({}, {river: river})) }
+			var select = 0; list = can.page.Append(can, can._output, [{view: html.LIST, list: msg.Table(function(item, index) {
+				return river == can._main_river && item.hash == can._main_storm && (select = index), can.onimport._storm(can, item, river)
+			}) }])._target, can.ui.sublist[river] = list, list.children.length > 0 && list.children[select].click(), event.target.nextSibling && can._output.insertBefore(list, event.target.nextSibling)
+		})
 	},
 	action: function(event, can, river, storm) {
+		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], function(target) { can.page.ClassList.del(can, target, html.SELECT) })
+		can.onmotion.select(can, can.ui.sublist[river], html.DIV_ITEM, can.ui.storm_list[can.core.Keys(river, storm)])
 		can.onaction.storm({target: can.ui.river_list[river]}, can, river), can.onmotion.toggle(can, can.ui.sublist[river], true)
 		can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm)}))
 	},
 	carte: function(event, can, list, river, storm) { can.onkeymap.prevent(event); if (can.core.Value(can._root, can.core.Keys(chat.RIVER, river))) { return }
-		can.request(event, {river: river, storm: storm})
-		storm? can.user.carteRight(event, can, can.ondetail, list): can.user.carteRight(event, can, can.onaction, list)
+		can.request(event, {river: river, storm: storm}); storm? can.user.carteRight(event, can, can.ondetail, list): can.user.carteRight(event, can, can.onaction, list)
 	},
 	_trans: {
 		addapp: "添加应用",
@@ -61,6 +65,10 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	remove: function(event, can, button, river) { can.runAction(event, mdb.REMOVE, [mdb.HASH, river], function(msg) {
 		can.misc.localStorage(can, CAN_RIVER, ""), can.misc.localStorage(can, CAN_STORM, ""), can.misc.Search(can, {river: "", storm: ""})
 	}) },
+	onaction_nostorm: function(can, msg, river) { can.ondetail.create({}, can, mdb.CREATE, river) },
+	onaction_remove: function(can, msg, river, storm, id) {
+		can.run(can.request({}), [river, storm, chat.STORM, ctx.ACTION, mdb.DELETE, mdb.ID, id], function() { })
+	},
 })
 Volcanos(chat.ONDETAIL, {
 	_trans: {
@@ -77,9 +85,11 @@ Volcanos(chat.ONDETAIL, {
 			can.onmotion.delay(can, function() { toast.close(), next(), index == array.length-1 && can.user.toastSuccess(can) })
 		})
 	}) },
-	addcmd: function(event, can, button, river, storm) { can.user.select(event, can, ctx.COMMAND, ctx.INDEX, function(item, next) {
-		can.run({}, [river, storm, chat.STORM, ctx.ACTION, mdb.INSERT].concat([web.SPACE, can.misc.Search(can, ice.POD)||"", ctx.INDEX, item[0]]), function(msg) { next() })
-	}, function() { can.misc.Search(can, {river: river, storm: storm}) }) },
+	addcmd: function(event, can, button, river, storm) { can.user.input(event, can, [{name: web.SPACE, value: can.misc.Search(can, ice.POD)||""}, {name: ctx.INDEX, need: "must"}, ctx.ARGS, ctx.DISPLAY, ctx.STYLE], function(args) {
+		can.run({}, [river, storm, chat.STORM, ctx.ACTION, mdb.INSERT].concat(args), function(msg) {
+			can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm), refresh: ice.TRUE}))
+		})
+	}) },
 	rename: function(event, can, button, river, storm) { can.user.input(event, can, [mdb.NAME], function(args) {
 		can.run(event, [river, storm, chat.STORM, ctx.ACTION, mdb.MODIFY].concat(args), function() { can.page.Modify(can, can.ui.storm_list[can.core.Keys(river, storm)], args[1]), can.user.toastSuccess(can) })
 	}) },

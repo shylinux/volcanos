@@ -124,7 +124,7 @@ Volcanos(chat.ONACTION, {list: [
 		can.user.downloads(can, sub.onexport.table(sub), list[0], nfs.CSV), can.user.downloads(can, sub.onexport.board(sub), list[0], nfs.TXT)
 	}) },
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
-	"删除工具": function(event, can) { can.page.Remove(can, can._target) },
+	"删除工具": function(event, can) { can.onaction._close(event, can) },
 
 	"查看文档": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: ice.HELP, index: can.Conf(ctx.INDEX)})) },
 	"查看脚本": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: nfs.SCRIPT, index: can.Conf(ctx.INDEX)})) },
@@ -142,9 +142,10 @@ Volcanos(chat.ONACTION, {list: [
 		} else if (can.isFloatMode()) {
 			can.onaction["切换浮动"](event, can, "切换浮动", can.core.Value(can, chat._OUTPUTS_CURRENT))
 		} else {
-			can.page.Remove(can, can._target)
+			can.onaction._close(event, can)
 		}
 	},
+	_close: function(event, can) { can.page.Remove(can, can._target) },
 	clear: function(event, can) { can.onmotion.clear(can, can._output) },
 	actions: function(event, can) { can.onmotion.toggle(can, can._action) },
 	full: function(event, can) { can.onaction["切换全屏"](event, can, "切换全屏", can.core.Value(can, chat._OUTPUTS_CURRENT)) },
