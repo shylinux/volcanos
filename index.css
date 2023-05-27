@@ -129,6 +129,8 @@ div.action>div.tabs:hover span.icon { visibility:visible; }
 fieldset.plug>form.option>div.icon { margin-left:5px; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.icon { display:none; }
 fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.button>span.icon { display:none; }
+fieldset.plugin:not(.float):not(.full):not(.cmd)>div.action>div.button>span.icon { display:none; }
+fieldset.panel>div.action>div.button>span.icon { display:none; }
 fieldset.story>form.option>div.button.icons>input { display:none; }
 fieldset.float>form.option>div.button.icons>input { display:none; }
 fieldset.full>form.option>div.button.icons>input { display:none; }

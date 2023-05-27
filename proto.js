@@ -39,7 +39,7 @@ var ice = {
 	PROCESS_FIELD: "_field",
 	MSG_PREFIX: "_prefix",
 
-	MSG_USERNAME: "user.name", MSG_USERNICK: "user.nick", MSG_LANGUAGE: "user.lang",
+	MSG_USERNICK: "user.nick", MSG_USERNAME: "user.name", MSG_USERROLE: "user.role", MSG_LANGUAGE: "user.lang",
 	MSG_TITLE: "sess.title", MSG_THEME: "sess.theme", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm", MSG_WIDTH: "sess.width", MSG_HEIGHT: "sess.height",
 	MSG_MODE: "sess.mode", MSG_DAEMON: "sess.daemon",
 	LOG_DISABLE: "log.disable",
@@ -98,9 +98,9 @@ var web = {CHAT: "chat",
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
 	USER: "user",
-	PASSWORD: "password", USERNAME: "username", USERNICK: "usernick", BACKGROUND: "background", AVATAR: "avatar",
+	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole", BACKGROUND: "background", AVATAR: "avatar",
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
-	VOID: "void", TECH: "tech",
+	VOID: "void", TECH: "tech", ROOT: "root",
 }
 var lex = {
 	SPLIT: "split", PREFIX: "prefix", SUFFIX: "suffix",

@@ -24,7 +24,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) { can.requ
 		if (panel.onengine._static(event, can, msg, panel, cmds, cb)) { return }
 		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() { toast = toast||can.user.toastProcess(msg._can, _toast) }, 500) }
 		msg.option = can.core.List(msg.option, function(item) { return [chat._TOAST, ice.MSG_HANDLE].indexOf(item) > -1 && delete(msg[item])? undefined: item })
-		msg.OptionDefault(ice.MSG_THEME, can.getHeader(chat.THEME), ice.SESS_HEIGHT, panel.Conf(html.HEIGHT)||panel._target.offsetHeight, ice.SESS_WIDTH, panel.Conf(html.WIDTH)||panel.offsetWidth)
+		msg.OptionDefault(ice.MSG_THEME, can.getHeader(chat.THEME), ice.SESS_HEIGHT, panel.Conf(html.HEIGHT)||panel._target.offsetHeight||"", ice.SESS_WIDTH, panel.Conf(html.WIDTH)||panel.offsetWidth||"")
 		if (can.base.isUndefined(msg[ice.MSG_DAEMON])) { var sub = msg._can; can.base.isUndefined(sub._daemon) && can.ondaemon._list[0] && (sub._daemon = can.ondaemon._list.push(sub)-1)
 			if (sub._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], sub._daemon)) }
 		} can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
@@ -210,7 +210,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					var button = event.target.value; meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]): meta[button] && can.core.CallFunc(meta[button], [event, can, button])
 				}) }}: /* 4.其它 */(item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans), item.onclick = item.onclick||function(event) {
 					run(event, item.name)
-				}, item._init = item._init||function(target) { if (!can.page.ClassList.has(can, can._fields||can._target, chat.STORY)) { return }
+				}, item._init = item._init||function(target) {
+					// if (!can.page.ClassList.has(can, can._fields||can._target, chat.STORY)) { return }
 					if (can.base.isIn(item.name, mdb.CREATE, mdb.INSERT)) { can.onappend.style(can, "icons", target.parentNode)
 						can.page.Append(can, target.parentNode, [{icon: item.name, onclick: function(event) { can.Update(event, [ctx.ACTION, item.name]) }}])
 					}
@@ -683,6 +684,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	resize: function(can, target, cb, top) { var begin, action
 		target.onclick = function(event) {
 			if (can.page.tagis(event.target, html.INPUT)) { return }
+			can.onmotion.clearCarte(can)
 			can.onkeymap.prevent(event)
 		}
 		target.onmousedown = function(event) { if (event.which != 1) { return }
