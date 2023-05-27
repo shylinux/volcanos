@@ -65,6 +65,7 @@ Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMed
 			can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)||navigator.language.split("-")[0], msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			can.onmotion.clear(can), can.onimport._init(can, msg, can._output), can.onengine.signal(can, chat.ONLOGIN, msg)
 		})
+
 	},
 	onstorm_select: function(can, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },

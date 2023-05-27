@@ -5,6 +5,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.cl
 			can.onimport.item(can, item, function() { can.Option(nfs.PATH, item.path), can.Update() }, function() {}, can.ui.project)
 		}), cb(msg), can.onimport.page(can, can.list, can.begin = parseInt(msg.Option(cli.BEGIN)||"0"))
 		can.isCmdMode() || can.onmotion.hidden(can, can._action), can.onmotion.delay(can, function() { can.onimport.layout(can) })
+		can.user.isMobile && can.onmotion.hidden(can, can.ui.project)
 	},
 	_file: function(can, path, index) { var p = location.href.indexOf(ice.HTTP) == 0? "": "http://localhost:9020"
 		return path.indexOf(ice.HTTP) == 0? path: p+can.base.Path(web.SHARE_LOCAL, can.dir_root||"", path)
