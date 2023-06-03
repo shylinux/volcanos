@@ -51,6 +51,8 @@ var ice = {
 	LIB_MISC: "lib/misc.js",
 	LIB_PAGE: "lib/page.js",
 	REQUIRE: "require",
+
+	NFS: "nfs",
 }
 
 var ctx = {
@@ -128,6 +130,7 @@ var nfs = {
 	_CSS: ".css", _JS: ".js",
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
 	PWD: "./", SRC: "src/", USR: "usr/",
+	PACK: "pack",
 
 	IMAGE_PNG: "image/png",
 	IMAGE_JPEG: "image/jpeg",
@@ -138,6 +141,7 @@ var cli = {
 	COLOR: "color", BLACK: "black", WHITE: "white", BLUE: "blue", RED: "red", GRAY: "gray", CYAN: "cyan", GREEN: "green", PURPLE: "purple", YELLOW: "yellow",
 	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
 	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
+	RUN: "run",
 	PLAY: "play",
 	OPENS: "opens",
 	LINUX: "linux", DARWIN: "darwin", WINDOWS: "windows",

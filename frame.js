@@ -416,19 +416,19 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }
 		var code = can.page.Append(can, target||can._output, [{text: [can.page.Color(text), html.DIV, html.CODE]}]).code
-		can.page.SelectChild(can, code, "iframe", function(target) {
+		if (text.indexOf("<fieldset") == 0) { can.page.Select(can, code, html.FIELDSET, function(target) { var data = target.dataset
+			data.index && can.onappend.plugin(can, {index: data.index}, function(sub) {
+				can.page.Modify(can, sub._legend, data.index.split(nfs.PT).pop())
+			}, can._output, target)
+		}) } else if (text.indexOf("<iframe") == 0) { can.page.Select(can, code, html.IFRAME, function(target) { var data = target.dataset
 			can.page.style(can, target, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth())
-		})
-		if (text.indexOf("<fieldset") > 0) {
-			can.page.Select(can, target, html.FIELDSET, function(target) { var data = target.dataset
-				data.index && can.onappend.plugin(can, {index: data.index}, function(sub) {
-					can.page.Modify(can, sub._legend, data.index.split(nfs.PT).pop())
-				}, can._output, target)
-			})
-		}
-		can.page.Select(can, code, html.INPUT_BUTTON, function(target) { target.onclick = function(event) { can.misc.Event(event, can, function(msg) {
-			can.run(can.request(event, can.Option()), [ctx.ACTION, target.name])
-		}) } }); return code.scrollBy && code.scrollBy(0, 10000), code
+		}) }  else if (text.indexOf("<svg") > 0) { can.page.Select(can, code, html.SVG, function(target) {
+			can.page.style(can, target, {height: can.ConfHeight(), width: can.ConfWidth()})
+		}) } else { can.page.Select(can, code, html.INPUT_BUTTON, function(target) {
+			target.onclick = function(event) { can.misc.Event(event, can, function(msg) {
+				can.run(can.request(event, can.Option()), [ctx.ACTION, target.name])
+			}) }
+		}) } return code.scrollBy && code.scrollBy(0, 10000), code 
 	},
 	tools: function(can, msg, cb, target) { can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []), cb, target) },
 	layout: function(can, list, type, target) { const FLOW = html.FLOW, FLEX = html.FLEX
