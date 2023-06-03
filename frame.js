@@ -498,9 +498,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}, target||can._output, field)
 	},
 	_float: function(can, index, args, cb) { can.onappend.plugin(can, {index: index, args: args, mode: chat.FLOAT}, function(sub) {
-		can.getActionSize(function(left, top, width, height) { var offset = can.user.isMobile? 0: height/4
-			sub.onimport.size(sub, sub.ConfHeight(height-offset), sub.ConfWidth(width*3/4), true)
-			can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+offset}), can.base.isFunc(cb) && cb(sub)
+		can.getActionSize(function(left, top, width, height) {
+			sub.onimport.size(sub, sub.ConfHeight(height*3/4), sub.ConfWidth(width/2), true)
+			can.onmotion.move(can, sub._target, {left: width/2, top: height/4}), can.base.isFunc(cb) && cb(sub)
 		}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }
 	}, can._root._target) },
 	figure: function(can, meta, target, cb) { if (meta.type == html.SELECT || meta.type == html.BUTTON) { return }
@@ -572,7 +572,16 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	story: {
 		_hash: {
 			spark: function(can, meta, target) {
-				meta[mdb.NAME] == html.INNER? can.onmotion.copy(can, target): can.page.Select(can, target, html.SPAN, function(item) { can.onmotion.copy(can, item) })
+				meta[mdb.NAME] == html.INNER? can.onmotion.copy(can, target): can.page.Select(can, target, html.SPAN, function(item) { can.onmotion.copy(can, item, function(event) {
+					if (event.metaKey) {
+						if (item.innerText.indexOf(web.HTTP) == 0) { return can.user.open(item.innerText) }
+						if (item.innerText.indexOf("vim ") == 0) {
+							can.onappend._float(can, web.CODE_VIMER, can.misc.SplitPath(can, item.innerText.split(" ")[1]), function() {})
+						} else {
+							meta.name == "shell" && can.onappend._float(can, web.CODE_XTERM, ["sh"], function() {})
+						}
+					}
+				}) })
 			},
 		},
 		auto: function(can, target) { var that = this; target = target||can._output
@@ -670,7 +679,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	focus: function(can, target, value) { if (!target) { return } if (!can.base.isUndefined(value)) { target.value = value }
 		target.focus(), can.onmotion.selectRange(target)
 	}, selectRange: function(target) { target && target.setSelectionRange && target.setSelectionRange(0, target.value.length) },
-	copy: function(can, target, cb) { target.title = "点击复制", target.onclick = function(event) {
+	copy: function(can, target, cb) { target.title = "点击复制，或 Command + Click 打开应用", target.onclick = function(event) {
 		can.user.copy(event, can, target.innerText), can.base.isFunc(cb) && cb(event)
 		can.onkeymap.prevent(event)
 	} },

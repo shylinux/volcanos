@@ -27,7 +27,16 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	title: function(can, meta, target) { can.isCmdMode() && target.tagName == "H1" && can.user.title(meta.text) },
 	spark: function(can, meta, target) {
 		if (meta[mdb.NAME] == html.INNER) { return can.onmotion.copy(can, target) }
-		can.page.Select(can, target, html.SPAN, function(item) { can.onmotion.copy(can, item) })
+		can.page.Select(can, target, html.SPAN, function(item) { can.onmotion.copy(can, item, function() {
+			meta.type == "shell" && can.onappend.float(can, {index: web.CODE_XTERM, args: ["sh"]})
+		}) })
+	},
+	spark_tabs: function(can, meta, target) { var select
+		can.page.Select(can, target, "div.tabs>div.item", function(tabs, index) {
+			(index == 0 || can.user.isMacOSX && can.base.isIn(tabs.innerText, cli.DARWIN, "macos") || can.user.isWindows && tabs.innerText == cli.WINDOWS) && (select = tabs)
+			tabs.onclick = function() { can.onmotion.select(can, tabs.parentNode, "div.tabs>div.item", tabs), can.onmotion.select(can, target, "div.story", index) }
+			return tabs
+		}); select && select.click()
 	},
 	field: function(can, meta, target, width) { var item = can.base.Obj(meta.meta); item.inputs = item.list, item.feature = item.meta
 		can.onappend._init(can, item, [chat.PLUGIN_STATE_JS], function(sub) {

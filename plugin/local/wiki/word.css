@@ -23,3 +23,6 @@ fieldset.word.play.float h1 { text-align:center; }
 fieldset.word.play.float h2 { text-align:center; }
 fieldset.word.play.float h3 { text-align:center; }
 div.story[data-type=spark] label { user-select:none; }
+div.story[data-type=spark_tabs]>div.tabs>div.item { font-style:italic; padding:5px 20px; height:32px; float:left; }
+div.story[data-type=spark_tabs]>div.tabs>div.item.select { border-bottom:blue solid 2px; }
+div.story[data-type=spark_tabs]>div.story:not(.select) { display:none; }

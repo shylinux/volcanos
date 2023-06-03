@@ -123,7 +123,7 @@ var nfs = {
 	CONTENT: "content", RECENT: "recent", SCRIPT: "script", MODULE: "module", SOURCE: "source", TARGET: "target", REPOS: "repos", MASTER: "master",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
 	OPENS: "opens", REPLACE: "replace", FROM: "from", TO: "to",
-	SVG: "svg", HTML: "html", CSS: "css", JS: "js", SH: "sh", GO: "go", CSV: "csv", JSON: "json",
+	SVG: "svg", HTML: "html", CSS: "css", JS: "js", SH: "sh", GO: "go", CSV: "csv", JSON: "json", SHY: "shy",
 	TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
@@ -140,6 +140,7 @@ var cli = {
 	MAKE: "make", MAIN: "main", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 	PLAY: "play",
 	OPENS: "opens",
+	LINUX: "linux", DARWIN: "darwin", WINDOWS: "windows",
 }
 var log = {
 	INFO: "info", WARN: "warn", ERROR: "error", DEBUG: "debug", TRACE: "trace",
