@@ -1,7 +1,4 @@
 Volcanos(chat.ONACTION, {
-	_init: function(can, meta, target) {
-		meta.type == html.BUTTON && meta.action == ice.AUTO && can.base.isUndefined(can.sup._delay_init) && target.click()
-	},
 	run: function(event, can) { can.run(event) }, refresh: function(event, can) { can.run(event) },
 	list: function(event, can) { can.sup.isSimpleMode() || can.run(event) }, back: function(event, can) { can.sup.onimport._back(can.sup) },
 	onclick: function(event, can) { can.Conf(mdb.TYPE) == html.BUTTON && can.run(event, [ctx.ACTION, can.Conf(mdb.NAME)].concat(can.sup.Input())), can.onkeymap.prevent(event) },

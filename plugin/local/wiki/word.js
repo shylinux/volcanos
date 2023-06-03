@@ -44,8 +44,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				if (msg.Option(nfs.PATH) == can.Option(nfs.PATH)) { msg.Option(nfs.PATH, "") }
 				can.runAction(event, chat.STORY, [meta.type, meta.name, meta.text].concat(cmds), cb, true)
 			}, can._plugins = (can._plugins||[]).concat([sub])
-
-			sub.ConfHeight(can.base.Min(300, can.ConfHeight()-300)), sub.ConfWidth(item.width = (width||can.ConfWidth())-(can.user.isWindows? 42: 22))
+			sub.ConfHeight(sub.Conf("_height", parseInt(item.height))||can.base.Min(300, can.ConfHeight()-300)), sub.ConfWidth(item.width = (width||can.ConfWidth())-(can.user.isWindows? 42: 22))
 			can.page.style(can, sub._output, html.MAX_WIDTH, sub.ConfWidth())
 
 			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() {
@@ -85,7 +84,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			can.isCmdMode() && can.ConfHeight(can.page.height()) && can.page.styleHeight(can, can._output, "")
 		}
 		can.core.List(can._plugins, function(sub) {
-			sub.ConfHeight(can.base.Min(300, height-300)), sub.ConfWidth(width-(can.user.isWindows? 40: 20))
+			sub.ConfHeight(sub.Conf("_height")||can.base.Min(300, height-300)), sub.ConfWidth(width-(can.user.isWindows? 40: 20))
 			sub.onimport.size(sub, can.base.Min(300, height-300), width-(can.user.isWindows? 40: 20), true)
 		})
 		can.page.Select(can, can._output, can.page.Keys(html.IMG, html.VIDEO), function(target) { can.page.style(can, target, html.MAX_HEIGHT, height-20, html.MAX_WIDTH, width-20) })
@@ -152,7 +151,10 @@ Volcanos(chat.ONDETAIL, {list: ["删除"],
 		can.sup.ondetail.show(can, 0)
 	},
 	"网格": function(event, can) {
-		can.onlayout.expand(can, can.ui.content, 320)
+		var count = can.page.Select(can, can.ui.content, html.DIV_PAGE).length
+		var n = (can.sup.ConfHeight()-20)/340
+		for (var i = 1; i < 5; i++) { if (i*n > count) { break } }
+		can.onlayout.expand(can, can.ui.content, parseInt((can.sup.ConfWidth()-20)/i)-20)
 		can.sup.ondetail.grid(can)
 	},
 	"快闪": function(event, can) {
