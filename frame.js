@@ -141,8 +141,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.core.Item(meta.feature, function(key, cb) { cb.help && sub.user.trans(sub, kit.Dict(key, cb.help)) })
 			meta.msg && can.onmotion.delay(can, function() { var msg = sub.request(); msg.Copy(can.base.Obj(meta.msg))
 				sub.onappend._output(sub, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
-			}), meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
-			can.base.isFunc(cb) && cb(sub)
+			}), meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg), can.base.isFunc(cb) && cb(sub)
 			sub._legend && (sub._legend.onclick = function(event) {
 				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([[ctx.ACTION].concat(can.core.Item(meta.feature._trans))]), function(event, button) { can.misc.Event(event, sub, function(msg) {
 					msg.RunAction(event, can.core.Value(sub, chat._OUTPUTS_CURRENT), [ctx.ACTION, button]) || msg.RunAction(event, sub, [ctx.ACTION, button]) || sub.runAction(event, button)
@@ -152,7 +151,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			sub.isCmdMode() && sub.Conf(can.misc.Search(can))
 			if (can.user.isMobile && !can.user.isLandscape()) { return }
 			if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) { return }
-			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.WIKI_WORD, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields)
+			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields)
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
@@ -193,11 +192,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}, can._inputs = can._inputs||{}, can._inputs[item.name] = sub, sub.sup = can
 				can.core.ItemCB(sub.onaction, function(key, cb) { sub._target[key] = function(event) { can.misc.Event(event, can, function(msg) { cb(event, sub, sub._target) })} })
 				can.core.ItemCB(item, function(key, cb) { sub._target[key] = function(event) { can.misc.Event(event, can, function(msg) { cb(event, sub, sub._target) })} })
-				item.action && can.onappend.figure(sub, item, sub._target, function(_sub, value) { can.Update() }); if (skip) { return }
+				item.action && can.onappend.figure(sub, item, sub._target, function(_sub, value) { can.Update() }); if (skip === true) { return }
 				item.type == html.BUTTON && item.action == ice.AUTO && can.base.isUndefined(can._delay_init) && (auto = sub._target), next()
 				can.Conf(ice.AUTO) == item.name && (auto = sub._target)
 			})
-		}; var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() { can.Conf(ice.AUTO) == "delay" || auto && auto.click() })
+		}; var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() { skip || can.Conf(ice.AUTO) == "delay" || auto && auto.click() })
 	},
 	_action: function(can, list, action, meta) { meta = meta||can.onaction||{}, action = action||can._action, can.onmotion.clear(can, action)
 		function run(event, button) { can.misc.Event(event, can, function(msg) { var _can = can._fields? can.sup: can

@@ -185,12 +185,17 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	}, mod: {prefix: {"//": code.COMMENT}, keyword: {"go": code.KEYWORD, "module": code.KEYWORD, "require": code.KEYWORD, "replace": code.KEYWORD}}, sum: {},
 	js: {prefix: {"// ": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT}, keyword: {
-			
+			"import": code.KEYWORD, "from": code.KEYWORD,
 			"var": code.KEYWORD, "function": code.KEYWORD, "typeof": code.KEYWORD, "const": code.KEYWORD, "new": code.KEYWORD, "delete": code.KEYWORD,
 			"if": code.KEYWORD, "else": code.KEYWORD,
 			"for": code.KEYWORD, "in": code.KEYWORD, "while": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
 			"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD,
 			"return": code.KEYWORD, "try": code.KEYWORD, "catch": code.KEYWORD, "debugger": code.KEYWORD,
+
+			"import": code.KEYWORD, "from": code.KEYWORD, "export": code.KEYWORD, "default": code.KEYWORD,
+			"async": code.KEYWORD, "await": code.KEYWORD,
+			"class": code.KEYWORD, "static": code.KEYWORD,
+			"let": code.KEYWORD,
 
 			"true": code.CONSTANT, "false": code.CONSTANT, "null": code.CONSTANT, "undefined": code.CONSTANT,
 			"Array": code.DATATYPE, "JSON": code.DATATYPE, "Date": code.DATATYPE, "Math": code.DATATYPE, "XMLHttpRequest": code.DATATYPE, "WebSocket": code.DATATYPE,
@@ -227,7 +232,9 @@ Volcanos(chat.ONSYNTAX, {
 				ls[0] && push(opts.block+nfs.PT+ls[0])
 			}
 		},
-	}, json: {},
+	}, json: {split: {operator: "{[:,]}"}, keyword: {
+    "true": code.CONSTANT, "false": code.CONSTANT,
+  }},
 	css: {prefix: {"// ": code.COMMENT, "/* ": code.COMMENT}, split: {operator: "{[(.,:;&>=)]}"},
 		func: function(can, push, text) { text.indexOf("/* ") == 0 && push(can.base.trimPrefix(can.base.trimSuffix(text, " */"), "/* ")) },
 		regexp: {
@@ -259,6 +266,10 @@ Volcanos(chat.ONSYNTAX, {
 			"float": code.FUNCTION, "clear": code.FUNCTION, "both": code.CONSTANT,
 			"transition": code.FUNCTION, "transform": code.FUNCTION, "translate": code.FUNCTION, "rotate": code.FUNCTION,
 			
+			"padding-bottom": code.FUNCTION,
+			"background": code.FUNCTION,
+			"background-size": code.FUNCTION,
+			"background-position": code.FUNCTION,
 			"background-color": code.FUNCTION, "color": code.FUNCTION, "caret-color": code.FUNCTION,
 			"font-family": code.FUNCTION, "font-style": code.FUNCTION, "font-weight": code.FUNCTION, "font-size": code.FUNCTION,
 			"line-height": code.FUNCTION, "text-align": code.FUNCTION, "tab-size": code.FUNCTION, "white-space": code.FUNCTION,
@@ -313,8 +324,8 @@ Volcanos(chat.ONSYNTAX, {
 			"DOCTYPE": code.KEYWORD, "html": code.KEYWORD, "head": code.KEYWORD, "body": code.KEYWORD,
 			"meta": code.KEYWORD, "title": code.KEYWORD, "link": code.KEYWORD, "script": code.KEYWORD,
 			"src": code.FUNCTION, "href": code.FUNCTION, "rel": code.FUNCTION, "style": code.FUNCTION, "width": code.FUNCTION, "height": code.FUNCTION,
-			"class": code.FUNCTION,
 			
+			"button": code.KEYWORD,
 			"fieldset": code.KEYWORD, "legend": code.KEYWORD, "form": code.KEYWORD,
 			"h1": code.KEYWORD, "h2": code.KEYWORD, "h3": code.KEYWORD,
 			"p": code.KEYWORD, "a": code.KEYWORD, "br": code.KEYWORD, "hr": code.KEYWORD,

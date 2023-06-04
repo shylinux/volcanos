@@ -3,6 +3,9 @@ const PROJECT_HIDE = "web.code.inner:project", TABVIEW_HIDE = "web.code.inner:ta
 const CURRENT_FILE = "web.code.inner:currentFile", SELECT_LINE = "web.code.inner:selectLine"
 const VIEW_CREATE = "tabview.view.create", VIEW_REMOVE = "tabview.view.remove", LINE_SELECT = "tabview.line.select"	
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Split(can.Option(nfs.PATH), mdb.FS); can.Option(nfs.PATH, paths[0])
+		switch (can.Mode()) {
+			case "result": msg.result = msg.result||[can._output.innerHTML], can.Mode(chat.SIMPLE)
+    }
 		can.core.List(paths.concat(can.core.Split(msg.Option(nfs.REPOS))), function(p) { if (can.base.endWith(p, "-story/", "-dict/")) { return }
 			if (p && paths.indexOf(p) == -1 && p[0] != nfs.PS) { paths.push(p) }
 		}), can.onmotion.clear(can), can.onappend.style(can, code.INNER), can.sup.onimport._process = function() {}
@@ -13,6 +16,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		switch (can.Mode()) {
 			case chat.SIMPLE: // no break
 			case chat.FLOAT: can.onmotion.hidden(can, can.ui.project); break
+       make
 			case chat.CMD: can.misc.sessionStorage(can, PROJECT_HIDE) == html.HIDE && can.onmotion.hidden(can, can.ui.project)
 				if (can.misc.sessionStorage(can, TABVIEW_HIDE) == html.HIDE) { can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.tabs) }
 				can.onappend.style(can, html.OUTPUT)
@@ -160,12 +164,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		if (can.base.isFunc(cb)) { return {name: name, _trans: can.onfigure._trans? can.onfigure._trans[name]||"": "", _init: function(target, zone) { return cb(can, target, zone, path) }} }
 	}), can.ui.project) },
 	profile: function(can, msg) { var _msg = can.db.tabview[can.onexport.keys(can)]; _msg.Option(html.WIDTH, msg.Option(html.WIDTH)), border = 1
+    var height = (can.ui.content._root||can.ui.content).offsetHeight, width = can.onexport.size(can, _msg.Option(html.WIDTH)||0.5, can.ConfWidth()-can.ui.project.offsetWidth)+border
 		if (msg.Result().indexOf("<iframe src=") > -1) { if (_msg._profile != can.ui._profile) { can.page.Remove(can, _msg._profile) }
 			var src = can.page.Select(can, can.page.Create(can, html.DIV, msg.Result()), html.IFRAME, function(target) { return target.src })[0]
-			can.ui.profile = _msg._profile = can.page.Append(can, can.ui._profile.parentNode, [{view: [html.PROFILE, html.IFRAME], src: src}])._target
-			can.onmotion.toggle(can, can.ui.profile, true), can.onimport.layout(can)
+			can.ui.profile = _msg._profile = can.page.Append(can, can.ui._profile.parentNode, [{view: [html.PROFILE, html.IFRAME], src: src, style: {height: height, width: width}}])._target
+			can.onmotion.toggle(can, can.ui.profile, true), can.onmotion.delay(can, function() { can.onimport.layout(can)})
 		} else {
-			var height = (can.ui.content._root||can.ui.content).offsetHeight, width = can.onexport.size(can, _msg.Option(html.WIDTH)||0.5, can.ConfWidth()-can.ui.project.offsetWidth)+border
 			can.page.style(can, can.ui.profile, html.MAX_HEIGHT, height, html.MAX_WIDTH, width), can.ui.profile = _msg._profile = can.ui._profile
 			can.onimport.process(can, msg, can.ui.profile, height, width-border, function(sub) { can.page.style(can, sub._output, html.MAX_WIDTH, ""), can.ui.profile._plugin = _msg._profile = sub
 				if (sub._index == web.WIKI_WORD) { can.page.style(can, can.ui.profile, html.WIDTH, width+border, html.MAX_WIDTH, width+border), can.onimport.layout(can); return }
@@ -289,6 +293,11 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.
 		if (can.onexport.parse(can) == nfs.SVG) { msg.Option(ctx.INDEX, web.WIKI_DRAW+mdb.FS+path+file) }
 		if (msg.Option(ctx.INDEX)) { return can.onsyntax._index(can, msg, function(target) { can.ui.content = target, cb(msg._content = content._root? (target._root = content._root): target) }, content._root? content: can.ui._profile.parentNode) }
 		function show(p) {
+			p && p.include && can.core.List(p.include, function(from) {
+				can.core.Item(can.onsyntax[from].keyword, function(key, value) {
+					p.keyword[key] = p.keyword[key] || value
+				})
+			})
 			if (!content._root && can.db.history.length > 1) { content = can.ui.content = can.page.insertBefore(can, [{view: html.CONTENT, style: {width: can.ui.content.offsetWidth}}], can.ui._profile), content._cache_key = key }
 			content._max = 0, content._msg = msg, msg.__content = content, can.page.Appends(can, content, [{view: ["tips", "", msg.Option(nfs.FILE)]}])
 			if (msg.Length() > 0) { can.onsyntax._change(can, msg), can.onaction.rerankLine(can, "tr.line:not(.delete)>td.line")

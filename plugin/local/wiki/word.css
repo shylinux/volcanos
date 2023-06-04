@@ -29,3 +29,4 @@ div.story[data-type=spark_tabs] { margin-top:20px; }
 div.story[data-type=spark_tabs]>div.tabs>div.item { font-style:italic; padding:5px 20px; height:32px; float:left; }
 div.story[data-type=spark_tabs]>div.tabs>div.item.select { border-bottom:blue solid 2px; }
 div.story[data-type=spark_tabs]>div.story:not(.select) { display:none; }
+fieldset.word>div.output>fieldset.web.code.inner.output div.output { border-left:blue solid 5px; }
