@@ -28,7 +28,11 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	onlayout: function(can, layout) { can.user.isMobile || can.onmotion.toggle(can, can._target, !layout || layout == "tabs") },
 	ontitle: function(can, msg) { can.misc.sessionStorage(can, CAN_RIVER, ""), can.misc.sessionStorage(can, CAN_STORM, "") },
 	
-	create: function(event, can) { can.user.input(event, can, [{name: mdb.TYPE, values: [aaa.TECH, aaa.ROOT, aaa.TECH, aaa.VOID], _trans: "类型"}, {name: mdb.NAME, value: "hi", _trans: "群名"}, {name: mdb.TEXT, value: "hello", _trans: "简介"}], function(args) {
+	create: function(event, can) { can.user.input(can.request(event, {title: "创建群组"}), can, [
+		{name: mdb.TYPE, values: [aaa.TECH, aaa.ROOT, aaa.TECH, aaa.VOID], _trans: "类型"},
+		{name: mdb.NAME, value: "hi", _trans: "群名", need: "must"},
+		{name: mdb.TEXT, value: "hello", _trans: "简介"},
+	], function(args) {
 		can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })
 	}) },
 	share: function(event, can) { can.core.CallFunc(can.ondetail.share, {event: event, can: can}) },
@@ -85,7 +89,7 @@ Volcanos(chat.ONDETAIL, {
 			can.onmotion.delay(can, function() { toast.close(), next(), index == array.length-1 && can.user.toastSuccess(can) })
 		})
 	}) },
-	addcmd: function(event, can, button, river, storm) { can.user.input(event, can, [{name: web.SPACE, value: can.misc.Search(can, ice.POD)||""}, {name: ctx.INDEX, need: "must"}, ctx.ARGS, ctx.DISPLAY, ctx.STYLE], function(args) {
+	addcmd: function(event, can, button, river, storm) { can.user.input(can.request(event, {title: "添加工具"}), can, [{name: web.SPACE, value: can.misc.Search(can, ice.POD)||""}, {name: ctx.INDEX, need: "must"}, ctx.ARGS, ctx.DISPLAY, ctx.STYLE], function(args) {
 		can.run({}, [river, storm, chat.STORM, ctx.ACTION, mdb.INSERT].concat(args), function(msg) {
 			can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm), refresh: ice.TRUE}))
 		})
@@ -94,7 +98,10 @@ Volcanos(chat.ONDETAIL, {
 		can.run(event, [river, storm, chat.STORM, ctx.ACTION, mdb.MODIFY].concat(args), function() { can.page.Modify(can, can.ui.storm_list[can.core.Keys(river, storm)], args[1]), can.user.toastSuccess(can) })
 	}) },
 	remove: function(event, can, button, river, storm) { can.run(event, [river, storm, chat.STORM, ctx.ACTION, mdb.REMOVE], function(msg) { can.misc.Search(can, {river: river, storm: ""}) }) },
-	create: function(event, can, button, river) { can.user.input(event, can, [{name: mdb.NAME, value: "hi", _trans: "名称"}, {name: mdb.TEXT, value: "hello", _trans: "简介"}], function(args) {
+	create: function(event, can, button, river) { can.user.input(can.request(event, {title: "添加应用"}), can, [
+		{name: mdb.NAME, value: "hi", _trans: "名称", need: "must"},
+		{name: mdb.TEXT, value: "hello", _trans: "简介"},
+	], function(args) {
 		can.run({}, [river, chat.STORM, ctx.ACTION, mdb.CREATE].concat(args), function(msg) { can.misc.Search(can, {river: river, storm: msg.Result()}) })
 	}) },
 })

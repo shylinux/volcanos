@@ -141,16 +141,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.core.Item(meta.feature, function(key, cb) { cb.help && sub.user.trans(sub, kit.Dict(key, cb.help)) })
 			meta.msg && can.onmotion.delay(can, function() { var msg = sub.request(); msg.Copy(can.base.Obj(meta.msg))
 				sub.onappend._output(sub, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
-			}), meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg), can.base.isFunc(cb) && cb(sub)
+			}), meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
 			sub._legend && (sub._legend.onclick = function(event) {
 				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([[ctx.ACTION].concat(can.core.Item(meta.feature._trans))]), function(event, button) { can.misc.Event(event, sub, function(msg) {
 					msg.RunAction(event, can.core.Value(sub, chat._OUTPUTS_CURRENT), [ctx.ACTION, button]) || msg.RunAction(event, sub, [ctx.ACTION, button]) || sub.runAction(event, button)
 				}) })
 			})
-			sub.isCmdMode() && can.onappend.style(sub, can.misc.Search(can, ctx.STYLE))
-			sub.isCmdMode() && sub.Conf(can.misc.Search(can))
-			if (can.user.isMobile && !can.user.isLandscape()) { return }
-			if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) { return }
+			sub.isCmdMode() && can.onappend.style(sub, can.misc.Search(can, ctx.STYLE)), sub.isCmdMode() && sub.Conf(can.misc.Search(can))
+			can.base.isFunc(cb) && cb(sub)
+			if (can.user.isMobile && !can.user.isLandscape()) { return } if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) { return }
 			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields)
 		}); return sub
 	},

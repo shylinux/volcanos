@@ -1,5 +1,5 @@
 * { tab-size:4; box-sizing:border-box; padding:0; border:0; margin:0; }
-body { background-color:black; font-size:16px; }
+body { font-size:16px; }
 legend { padding:0 20px; }
 input:not([type=file]) { padding:0 10px; }
 input:not([type=button]) { width:120px; }
@@ -69,17 +69,6 @@ body>div.upload div.output div.progress { background-color:red; height:10px; wid
 body>div.upload div.status div.cost { float:left; }
 body>div.upload div.status div.show { float:right; }
 body>div.upload div.status div.size { text-align:center; }
-/* hover */
-input:hover[type=button][name=create] { background-color:blue; color:white; }
-input:hover[type=button][name=insert] { background-color:blue; color:white; }
-input:hover[type=button][name=restart] { background-color:blue; color:white; }
-input:hover[type=button][name=start] { background-color:blue; color:white; }
-input:hover[type=button][name=run] { background-color:blue; color:white; }
-input:hover[type=button][name=open] { background-color:blue; color:white; }
-input:hover[type=button][name=stop] { background-color:red; color:white; }
-input:hover[type=button][name=trash] { background-color:red; color:white; }
-input:hover[type=button][name=delete] { background-color:red; color:white; }
-input:hover[type=button][name=remove] { background-color:red; color:white; }
 /* font */
 legend { font-size:1.2rem; line-height:30px; height:32px; }
 select, input { font-size:1rem; height:32px; }  textarea::placeholder, input::placeholder { font-style:italic; }
@@ -122,7 +111,6 @@ div.action>div.item.select:hover>span.icon { visibility:visible; }
 div.item.text>span.icon.delete { font-size:20px; visibility:hidden; }
 div.item.text:hover>span.icon.delete { visibility:visible; }
 div.tabs span.icon { margin-left:5px; visibility:hidden; }
-div.tabs span.icon:hover { background-color:aliceblue; color:black; }
 div.tabs>div:hover span.icon { visibility:visible; }
 div.tabs>div.select span.icon { visibility:visible; }
 div.action>div.tabs:hover span.icon { visibility:visible; }
@@ -177,11 +165,12 @@ fieldset>div.output>div.project { border-right:gray solid 1px; min-width:120px; 
 fieldset>div.output div.profile { border-left:gray solid 1px; max-width:320px; }
 fieldset>div.output div.display { border-top:gray solid 1px; }
 /* table card */
-div.output.card>div.item.stop { color:gray; }
+div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item { padding:10px; border:#e7e7e7 solid 1px; margin:10px; width:320px; float:left; }
 div.output.card>div.item>div.title { font-size:1.2rem; font-weight:bold; padding:10px; border-bottom:solid 1px #e7e7e7; }
 div.output.card>div.item>div.content { padding:10px; height:70px; }
 div.output.card>div.item>div.action { text-align:right; width:100%; display:flex; }
+div.output.card>div.item:not(:hover)>div.action { visibility:hidden; }
 div.output.card>div.item>div.action>input { margin-right:5px; }
 /* display */
 fieldset.panel>legend { display:none; }
@@ -208,7 +197,24 @@ fieldset.plug div.output table.content { width:100%; }
 div.carte.select.float>div.item { text-align:center; }
 legend, select, input[type=button], th, table.content td, h1, h2, h3, div.item, div.tabs { cursor:pointer; }
 div.story[data-type=spark] { cursor:copy; }
+/* hover */
+input:hover[type=button][name=create] { background-color:var(--create-bg-color); color:var(--create-fg-color); }
+input:hover[type=button][name=insert] { background-color:var(--create-bg-color); color:var(--create-fg-color); }
+input:hover[type=button][name=restart] { background-color:var(--create-bg-color); color:var(--create-fg-color); }
+input:hover[type=button][name=start] { background-color:var(--create-bg-color); color:var(--create-fg-color); }
+input:hover[type=button][name=run] { background-color:var(--create-bg-color); color:var(--create-fg-color); }
+input:hover[type=button][name=open] { background-color:var(--create-bg-color); color:var(--create-fg-color); }
+input:hover[type=button][name=stop] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
+input:hover[type=button][name=trash] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
+input:hover[type=button][name=delete] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
+input:hover[type=button][name=remove] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 /* theme */
+body {
+	--body-bg-color:black; --body-fg-color:silver;
+	--danger-bg-color:red; --danger-fg-color:white;
+	--create-bg-color:blue; --create-fg-color:white;
+	--disable-fg-color:gray;
+}
 body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
 body legend { background-color:var(--legend-bg-color); border-radius:var(--input-radius); }
 body legend:hover { color:var(--hover-fg-color) }
@@ -231,17 +237,18 @@ body div.item:hover { background-color:var(--hover-bg-color); color:var(--hover-
 body div.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 body span.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 body span.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+body span.icon:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 body div.action div.tabs:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 body div.action div.tabs.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 body div.output { background-color:var(--output-bg-color); }
 body fieldset>div.status { border-top:var(--status-border); }
-body fieldset:not(.panel) { background-color:var(--plugin-bg-color); border-radius:var(--plugin-radius); }
+body fieldset:not(.panel) { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); border-radius:var(--plugin-radius); }
 body fieldset.panel:not(.main) { background-color:var(--panel-bg-color); color:var(--panel-fg-color); }
 body fieldset.panel:not(.main)>div.output { background-color:var(--panel-output-bg-color); color:var(--panel-output-fg-color); }
 body fieldset.input div.output { background-color:var(--plugin-bg-color); }
 body fieldset.input tr:hover { background-color:var(--tr-hover-bg-color); }
 body fieldset.input td:hover { background-color:var(--td-hover-bg-color); }
-body div.float { background-color:var(--float-bg-color); }
+body div.float { background-color:var(--float-bg-color); color:var(--float-fg-color); }
 body div.carte div.item { background-color:var(--carte-bg-color); }
 body div.carte div.item:hover { background-color:var(--hover-bg-color); }
 body div.zone>div.item { background-color:var(--th-bg-color); }
