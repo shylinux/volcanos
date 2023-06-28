@@ -70,7 +70,7 @@ body>div.upload div.status div.cost { float:left; }
 body>div.upload div.status div.show { float:right; }
 body>div.upload div.status div.size { text-align:center; }
 /* font */
-legend { font-size:1.2rem; line-height:30px; height:32px; }
+legend { font-size:1.2rem; line-height:32px; height:32px; }
 select, input { font-size:1rem; height:32px; }  textarea::placeholder, input::placeholder { font-style:italic; }
 textarea { font-size:1rem; tab-size:2; padding:5px; height:96px; width:100%; resize:vertical; }
 table.content, div.item, div.code, div.story[data-type=spark] { font-family:monospace; }
@@ -128,6 +128,7 @@ fieldset.float>div.action>div.button.icons>input { display:none; }
 fieldset.full>div.action>div.button.icons>input { display:none; }
 fieldset.cmd>div.action>div.button.icons>input { display:none; }
 body.windows form.option>div.icon { font-size:21px; }
+legend>i:first-child { margin-right:10px; } div.item>i:first-child { margin-right:10px; }
 fieldset.float div.text:hover>span.icon.delete { visibility:hidden; }
 fieldset.float>form.option>div.text>input { display:none; }
 fieldset.float>form.option>div.text>span { display:none; }
@@ -179,13 +180,14 @@ fieldset.output>legend { display:none; }
 fieldset.output>form.option { display:none; }
 fieldset.output>div.action { display:none; }
 fieldset.output>div.status { display:none; }
+fieldset.output>div.item { display:none; }
 fieldset>form.option>div.item.select, fieldset>div.action>div.item.select { border-radius:5px; }
 fieldset>form.option, fieldset>div.action { display:contents; } form.option.hide, div.action.hide, .hidden, .hide { display:none; }
 div.action, div.output, div.status, div.project, div.content, div.profile, div.display, table.content, table.content td, div.list, div.code, div.story, div.float, fieldset.float { overflow:auto; }
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item { float:left; }
 fieldset.story, div.output, fieldset>div.status, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
 div.output { position:relative; } div.layout.flex>* { float:left; clear:none; }
-fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; }
+fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:100; }
 fieldset.cmd fieldset.plug { position:fixed; bottom:32px; right:0; }
 fieldset.plug { position:absolute; bottom:0; right:0; }
 fieldset.full { position:fixed; left:0; top:0; }
@@ -214,51 +216,60 @@ body {
 	--danger-bg-color:red; --danger-fg-color:white;
 	--create-bg-color:blue; --create-fg-color:white;
 	--disable-fg-color:gray;
+
+	--code-comment:darkgray;
+	--code-keyword:darkblue;
+	--code-package:blue;
+	--code-datatype:cornflowerblue;
+	--code-function:darkcyan;
+	--code-constant:gray;
+	--code-string:brown;
+	--code-object:purple;
 }
 body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
-body legend { background-color:var(--legend-bg-color); border-radius:var(--input-radius); }
-body legend:hover { color:var(--hover-fg-color) }
-body select { border-radius:var(--input-radius); }
-body input { background-color:var(--input-bg-color); color:var(--input-fg-color); border-radius:var(--input-radius); }
-body input:hover { color:var(--hover-fg-color) }
-body input:not([type=button]) { border-radius:0; }
-body input:not([type=button]):hover { border:var(--input-border); }
-body input:not([type=button]):focus { border:var(--input-border); outline:none; }
-body textarea { background-color:var(--input-bg-color); color:var(--input-fg-color); }
-body table.content tr:hover { background-color:var(--tr-hover-bg-color); color:var(--hover-fg-color); }
-body table.content th { background-color:var(--th-bg-color); color:var(--th-fg-color); }
-body table.content td:hover { background-color:var(--td-hover-bg-color); }
-body table.content td.select { background-color:var(--td-hover-bg-color); }
-body table.content.action td:last-child { background-color:var(--th-bg-color); }
-body h1:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body h2:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body h3:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body div.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body div.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body span.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body span.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body span.icon:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body div.action div.tabs:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body div.action div.tabs.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body div.output { background-color:var(--output-bg-color); }
-body fieldset>div.status { border-top:var(--status-border); }
-body fieldset:not(.panel) { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); border-radius:var(--plugin-radius); }
-body fieldset.panel:not(.main) { background-color:var(--panel-bg-color); color:var(--panel-fg-color); }
-body fieldset.panel:not(.main)>div.output { background-color:var(--panel-output-bg-color); color:var(--panel-output-fg-color); }
-body fieldset.input div.output { background-color:var(--plugin-bg-color); }
-body fieldset.input tr:hover { background-color:var(--tr-hover-bg-color); }
-body fieldset.input td:hover { background-color:var(--td-hover-bg-color); }
-body div.float { background-color:var(--float-bg-color); color:var(--float-fg-color); }
-body div.carte div.item { background-color:var(--carte-bg-color); }
-body div.carte div.item:hover { background-color:var(--hover-bg-color); }
-body div.zone>div.item { background-color:var(--th-bg-color); }
-body div.zone>div.list>div.zone>div.item { background-color:var(--th-bg-color); }
-body div.tabs div { background-color:var(--plugin-bg-color); }
-body div.tabs div:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body div.tabs div.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body div.plug legend { background-color:var(--output-bg-color); }
-body div.plug legend.select { background-color:var(--plugin-bg-color); }
-body div.complete>table { background-color:var(--plugin-bg-color); }
+legend { background-color:var(--legend-bg-color); border-radius:var(--input-radius); }
+legend:hover { color:var(--hover-fg-color) }
+select { border-radius:var(--input-radius); }
+input { background-color:var(--input-bg-color); color:var(--input-fg-color); border-radius:var(--input-radius); }
+input:hover { color:var(--hover-fg-color) }
+input:not([type=button]) { border-radius:0; }
+input:not([type=button]):hover { border:var(--input-border); }
+input:not([type=button]):focus { border:var(--input-border); outline:none; }
+textarea { background-color:var(--input-bg-color); color:var(--input-fg-color); }
+table.content tr:hover { background-color:var(--tr-hover-bg-color); color:var(--hover-fg-color); }
+table.content th { background-color:var(--th-bg-color); color:var(--th-fg-color); }
+table.content td:hover { background-color:var(--td-hover-bg-color); }
+table.content td.select { background-color:var(--td-hover-bg-color); }
+table.content.action td:last-child { background-color:var(--th-bg-color); }
+h1:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+h2:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+h3:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+div.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+div.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+span.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+span.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+span.icon:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+div.action div.tabs:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+div.action div.tabs.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+div.output { background-color:var(--output-bg-color); }
+fieldset>div.status { border-top:var(--status-border); }
+fieldset:not(.panel) { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); border-radius:var(--plugin-radius); }
+fieldset.panel:not(.main) { background-color:var(--panel-bg-color); color:var(--panel-fg-color); }
+fieldset.panel:not(.main)>div.output { background-color:var(--panel-output-bg-color); color:var(--panel-output-fg-color); }
+fieldset.input div.output { background-color:var(--plugin-bg-color); }
+fieldset.input tr:hover { background-color:var(--tr-hover-bg-color); }
+fieldset.input td:hover { background-color:var(--td-hover-bg-color); }
+div.float { background-color:var(--float-bg-color); color:var(--float-fg-color); }
+div.carte div.item { background-color:var(--carte-bg-color); }
+div.carte div.item:hover { background-color:var(--hover-bg-color); }
+div.zone>div.item { background-color:var(--th-bg-color); }
+div.zone>div.list>div.zone>div.item { background-color:var(--th-bg-color); }
+div.tabs div { background-color:var(--plugin-bg-color); }
+div.tabs div:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+div.tabs div.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+div.plug legend { background-color:var(--output-bg-color); }
+div.plug legend.select { background-color:var(--plugin-bg-color); }
+div.complete>table { background-color:var(--plugin-bg-color); }
 
 body.light fieldset.panel:not(.main)>div.output div.state:hover { background-color:var(--panel-hover-bg-color); color:var(--panel-hover-fg-color); }
 body.light fieldset.panel:not(.main)>div.output div.title:hover { background-color:var(--panel-hover-bg-color); color:var(--panel-hover-fg-color); }

@@ -3,8 +3,8 @@
 	"background": {"page": "/publish/chrome/daemon.html"},
 	"browser_action": {"default_popup": "/publish/chrome/popup.html"},
 	"content_scripts": [
-		{"matches": [""], "permissions": [
+		{"matches": ["<all_urls>"], "permissions": [
 			"tabs", "history", "cookies", "bookmarks", "contextMenus", "notifications", "http://localhost:9020/*"
-		], "css": ["/page/can.css"], "js": ["/page/can.js", "/publish/chrome/contexts.js"]}
+		], "css": ["/publish/chrome/contexts.css"], "js": ["/proto.js", "/page/cache.js", "/publish/chrome/contexts.js"]}
 	]
 }

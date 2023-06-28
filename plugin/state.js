@@ -59,7 +59,8 @@ Volcanos(chat.ONIMPORT, {
 	_close: function(can, msg) { return can.user.close() || history.back() },
 	size: function(can, height, width, auto, mode) { height -= can.onexport.actionHeight(can)+can.onexport.statusHeight(can)
 		auto? can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, height? can.ConfHeight(height): "", html.MAX_WIDTH, can.ConfWidth(width)):
-			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, "")
+			(can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, ""),
+				can.page.style(can, can._target, html.WIDTH, can.ConfWidth(width)))
 		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return can.Mode(mode), auto } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
 		if (mode) { sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub) } else { sub.onlayout._init(sub) } return auto
 	},

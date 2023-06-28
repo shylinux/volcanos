@@ -119,6 +119,7 @@ Volcanos(chat.ONSYNTAX, {
 			"refer": code.KEYWORD, "brief": code.KEYWORD, "spark": code.KEYWORD, "shell": code.KEYWORD, "parse": code.KEYWORD,
 			"order": code.KEYWORD, "table": code.KEYWORD, "chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
 			"field": code.KEYWORD, "image": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD,
+			"style": code.KEYWORD,
 			
 			"package": code.KEYWORD, "import": code.KEYWORD, "const": code.KEYWORD, "type": code.KEYWORD, "var": code.KEYWORD,
 			"if": code.KEYWORD, "else": code.KEYWORD,
@@ -248,7 +249,10 @@ Volcanos(chat.ONSYNTAX, {
 		keyword: {
 			"body": code.KEYWORD, "fieldset": code.KEYWORD, "legend": code.KEYWORD, "form": code.KEYWORD, "input": code.KEYWORD, "select": code.KEYWORD, "textarea": code.KEYWORD,
 			"table": code.KEYWORD, "thead": code.KEYWORD, "tbody": code.KEYWORD, "tr": code.KEYWORD, "th": code.KEYWORD, "td": code.KEYWORD,
-			"h1": code.KEYWORD, "h2": code.KEYWORD, "h3": code.KEYWORD, "a": code.KEYWORD,
+			"h1": code.KEYWORD, "h2": code.KEYWORD, "h3": code.KEYWORD,
+			"a": code.KEYWORD,
+			"p": code.KEYWORD,
+			"ul": code.KEYWORD, "li": code.KEYWORD,
 			"label": code.KEYWORD, "span": code.KEYWORD, "img": code.KEYWORD, "svg": code.KEYWORD, "div": code.KEYWORD,
 			"video": code.KEYWORD,
 			"hover": code.DATATYPE, "focus": code.DATATYPE, "not": code.DATATYPE, "type": code.FUNCTION, "name": code.FUNCTION,
@@ -260,6 +264,7 @@ Volcanos(chat.ONSYNTAX, {
 			"height": code.FUNCTION, "width": code.FUNCTION, "min-width": code.FUNCTION, "max-width": code.FUNCTION, "max-height": code.FUNCTION,
 			"left": code.FUNCTION, "top": code.FUNCTION, "right": code.FUNCTION, "bottom": code.FUNCTION,
 			"border-radius": code.FUNCTION, "outline": code.FUNCTION, "box-shadow": code.FUNCTION,
+			"justify-content": code.FUNCTION,
 			
 			"solid": code.CONSTANT, "unset": code.CONSTANT,
 			"block": code.CONSTANT, "none": code.CONSTANT, "hidden": code.CONSTANT, "visible": code.CONSTANT, "auto": code.CONSTANT, "relative": code.CONSTANT, "absolute": code.CONSTANT, "sticky": code.CONSTANT, "fixed": code.CONSTANT,

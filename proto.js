@@ -96,6 +96,7 @@ var web = {CHAT: "chat",
 	CHAT_MACOS_DESKTOP: "web.chat.macos.desktop", CHAT_MACOS_SESSION: "web.chat.macos.session",
 	CHAT_IFRAME: "web.chat.iframe", CHAT_FAVOR: "web.chat.favor",
 	TEAM_PLAN: "web.team.plan",
+	WIKI_PORTAL: "web.wiki.portal",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
@@ -131,6 +132,7 @@ var nfs = {
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
 	PWD: "./", SRC: "src/", USR: "usr/",
 	PACK: "pack",
+	SRC_DOCUMENT: "src/document/",
 
 	IMAGE_PNG: "image/png",
 	IMAGE_JPEG: "image/jpeg",
@@ -236,7 +238,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	BODY: "body", FORM: "form", SELECT: "select", INPUT: "input", TEXT: "text", FILE: "file", BUTTON: "button", TEXTAREA: "textarea",
 	CLICK: "click", CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
 	TABLE: "table", THEAD: "thead", TBODY: "tbody", TR: "tr", TH: "th", TD: "td", BR: "br", UL: "ul", LI: "li", BR: "br", HR: "hr",
-	H1: "h1", H2: "h2", H3: "h3", A: "a", LABEL: "label", INNER: "inner", TITLE: "title",
+	H1: "h1", H2: "h2", H3: "h3", A: "a", LABEL: "label", INNER: "inner", TITLE: "title", SPACE: "space",
 	SPAN: "span", CODE: "code", DIV: "div", IMG: "img", VIDEO: "video", WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe",
 	WEBVIEW: "webview", CHROME: "chrome", MOBILE: "mobile", LANDSCAPE: "landscape",
 	
@@ -292,12 +294,12 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == lang.OBJECT) {
 		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, style: html.HIDE, state: [mdb.TIME, aaa.USERNICK]}, {name: chat.ACTION, style: html.MAIN, tool: name}, {name: chat.FOOTER, style: html.HIDE}]}) }
 		var Config = name; name = Config.name||ice.CAN, _can_name = ""
-		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = Config.libs||chat.libs, panels = Config.panels||chat.panel_list, delete(Config.panels)
+		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = (Config.libs||chat.libs).concat(Config.list), panels = Config.panels||chat.panel_list, delete(Config.panels)
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)
 		cb = can||function(can) { can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target) }
 		can = Config, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width
 	}
-	can = kit.proto(can||{}, kit.proto({_name: name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
+	can = kit.proto(can||{}, kit.proto({_name: name, _path: _can_name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
 			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub), sub._path = sub._path||name } meta.cache[name] = cache
 			cache.forEach(function(sub) { var name = sub._name; if (typeof cbs == lang.FUNCTION && cbs(can, name, sub)) { return }
 				can[name] = can[name]||{}; for (var k in sub) { can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k]) }

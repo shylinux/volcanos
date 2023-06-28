@@ -37,7 +37,10 @@ setTimeout(function() { Volcanos({
             msg.Push(mdb.TYPE, html.IFRAME)
             msg.Push(mdb.NAME, "")
             msg.Push(mdb.LINK, target.src)
-            can.spide(can, msg, target.contentWindow.document.body)
+			try {
+            	can.spide(can, msg, target.contentWindow.document.body)
+			} catch(e) {
+			}
         })
         can.page.Select(can, target, html.A, function(target) {
             msg.Push(mdb.TYPE, html.A)
@@ -46,17 +49,25 @@ setTimeout(function() { Volcanos({
         })
     },
     style: function(can, msg, arg) {
-        can.core.List(arg[0].split(mdb.FS), function(item) {
-            can.page.Select(can, document.body, item, function(target) {
-                can.page.Modify(can, target, can.base.Obj(arg[1]))
-            })
-        })
+		if (arg[0] == "style")  {
+			can.page.AppendStyle(can, arg[1])
+		} else {
+			can.core.List(arg[0].split(mdb.FS), function(item) {
+				can.page.Select(can, document.body, item, function(target) {
+					can.page.Modify(can, target, can.base.Obj(arg[1]))
+				})
+			})
+		}
 	},
 	field: function(can, msg, arg) {
 		can.onappend.plugin(can, {type: chat.CONTEXTS, index: arg[0], args: can.base.Obj(arg[1])}, function(sub, meta) {
+			var height = can.base.Max(window.innerHeight-sub._target.offsetTop-2*html.ACTION_HEIGHT, 200)
+			var width = can.base.Max(window.innerWidth-sub._target.offsetLeft, 800)
+			sub.Conf({height: height, width: width}), sub._legend.innerText = meta.help
 			sub.run = function(event, cmds, cb) { msg.RunAction(event, can, cmds) || can.runActionCommand(event, meta.index, cmds, function(msg) {
 				can.onmotion.toggle(can, sub._option, true), can.onmotion.toggle(can, sub._action, true), can.onmotion.toggle(can, sub._output, true), can.onmotion.toggle(can, sub._status, true)
-				can.page.style(can, sub._output, html.MAX_HEIGHT, window.innerHeight-sub._target.offsetTop-2*html.ACTION_HEIGHT, html.MAX_WIDTH, window.innerWidth-sub._target.offsetLeft)
+				can.page.style(can, sub._output, html.MAX_HEIGHT, height, html.MAX_WIDTH, width)
+				can.page.style(can, sub._target, html.LEFT, window.innerWidth-width, html.TOP, window.innerHeight-height-2*html.ACTION_HEIGHT)
 				can.base.isFunc(cb) && cb(msg)
 			}) }
 			sub._target.onclick = function() {
@@ -92,6 +103,15 @@ setTimeout(function() { Volcanos({
 		can.runAction({}, ctx.COMMAND, [], function(msg) { msg.result && msg.result[0] && can.field(can, msg, msg.result) })
 	},
 }, function(can) {
+	can.page.theme(function(theme) {
+		if (theme == html.LIGHT) {
+			can.page.ClassList.add(can, document.body, html.LIGHT)
+			can.page.ClassList.del(can, document.body, html.DARK)
+		} else {
+			can.page.ClassList.add(can, document.body, html.DARK)
+			can.page.ClassList.del(can, document.body, html.LIGHT)
+		}
+	})
     can.run = function(event, cmds, cb) { if (cmds[0] == "_search") { return }
         var msg = can.request(event, {domain: location.host}); msg.detail = ["page"].concat(cmds)
         chrome.runtime.sendMessage(msg, function(res) { can.base.isFunc(cb) && cb(msg.Copy(res)) })

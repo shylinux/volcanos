@@ -3,14 +3,14 @@ fieldset.inner>form.option input[name=file] { width:160px; }
 fieldset.inner>div.output { overflow:hidden; }
 fieldset.inner>div.output div.content { position:relative; }
 fieldset.inner>div.output div.content td.text { height:20px; }
-fieldset.inner>div.output div.content td.text span.comment { color:darkgray; }
-fieldset.inner>div.output div.content td.text span.keyword { color:darkblue; }
-fieldset.inner>div.output div.content td.text span.package { color:blue; }
-fieldset.inner>div.output div.content td.text span.datatype { color:cornflowerblue; }
-fieldset.inner>div.output div.content td.text span.function { color:darkcyan; }
-fieldset.inner>div.output div.content td.text span.constant { color:gray; }
-fieldset.inner>div.output div.content td.text span.string { color:brown; }
-fieldset.inner>div.output div.content td.text span.object { color:purple; }
+fieldset.inner>div.output div.content td.text span.comment { color:var(--code-comment); }
+fieldset.inner>div.output div.content td.text span.keyword { color:var(--code-keyword); }
+fieldset.inner>div.output div.content td.text span.package { color:var(--code-package); }
+fieldset.inner>div.output div.content td.text span.datatype { color:var(--code-datatype); }
+fieldset.inner>div.output div.content td.text span.function { color:var(--code-function); }
+fieldset.inner>div.output div.content td.text span.constant { color:var(--code-constant); }
+fieldset.inner>div.output div.content td.text span.string { color:var(--code-string); }
+fieldset.inner>div.output div.content td.text span.object { color:var(--code-object); }
 fieldset.inner>div.output>div.project { width:230px; }
 fieldset.inner>div.output>div.project * { font-family:monospace; font-size:14px; outline:none; }
 fieldset.inner>div.output>div.project div.action { width:100%; }
@@ -52,13 +52,6 @@ fieldset.inner.cmd>legend { display:none; }
 fieldset.inner.cmd>form.option { display:none; }
 fieldset.inner.cmd>div.action { display:none; }
 fieldset.inner.cmd>div.status { display:none; }
-body.dark fieldset.inner>div.output div.content td.text span.comment { color:green; }
-body.dark fieldset.inner>div.output div.content td.text span.keyword { color:royalblue; }
-body.dark fieldset.inner>div.output div.content td.text span.datatype { color:lavender; }
-body.dark fieldset.inner>div.output div.content td.text span.function { color:lightgreen; }
-body.dark fieldset.inner>div.output div.content td.text span.constant { color:gray; }
-body.dark fieldset.inner>div.output div.content td.text span.string { color:orange; }
-body.dark fieldset.inner>div.output div.content td.text span.object { color:silver; }
 body.dark fieldset.inner>div.output div.content tr.line:hover { background-color:unset; }
 body.white fieldset.inner.cmd>div.output { background-color:aliceblue; }
 body.white fieldset.inner.cmd>div.output div.content { background-color:white; }

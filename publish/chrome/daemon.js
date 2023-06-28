@@ -46,7 +46,7 @@ Volcanos({
 		}})
 	},
 }, function(can) {
-	can.run = function(event, cmds, cb) { can.misc.Run(event, can, {names: "http://localhost:9020/code/chrome/"+cmds[0]}, cmds.slice(1), cb) }
+	can.run = function(event, cmds, cb) { can.misc.Run(event, can, {names: "http://localhost:9020/code/chrome/"+cmds[0]+"/"}, cmds.slice(1), cb) }
 	can._motion(can), can._daemon(can)
 })
 

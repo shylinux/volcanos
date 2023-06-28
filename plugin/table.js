@@ -145,10 +145,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			}, oncontextmenu: function(event) { if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } } }}
 		}) }], target.nextSibling, target.parentNode)
 	},
-	list: function(can, root, cb, target) { target = target||can._output
+	list: function(can, root, cb, target, cbs) { target = target||can._output
 		can.core.List(root.list, function(item) { var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.meta.name], onclick: function(event) {
 			can.base.isFunc(cb) && cb(event, item) || can.onmotion.toggle(can, ui.list), can.onmotion.select(can, target, html.DIV_ITEM, event.target)
-		}}, {view: html.LIST}]); can.onimport.list(can, item, cb, ui.list) })
+		}, _init: function(target) { cbs && cbs(target, item) }}, {view: html.LIST}]); can.onimport.list(can, item, cb, ui.list, cbs) })
 	},
 })
 Volcanos(chat.ONLAYOUT, {

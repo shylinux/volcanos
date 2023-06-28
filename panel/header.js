@@ -1,7 +1,7 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport._title(can, msg, target), can.onimport._state(can, msg, target), can.onimport._avatar(can, msg, target), can.onimport._background(can, msg, target), can.onimport._search(can, msg, target)
 	},
-	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.getValid(can.Conf(chat.TITLE)||location.host||msg.result, [location.host]), function(item) {
+	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.getValid(can.Conf(chat.TITLE)||(can.user.isExtension? "chrome": location.host)||msg.result, [location.host]), function(item) {
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE], "", item], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
 	}) },
 	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
@@ -19,7 +19,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		// window.parent == window? can.onlayout.background(can, can.onexport.background(can)): can.page.style(can, document.body, html.BACKGROUND_COLOR, "transparent")
 	},
 	_search: function(can, msg, target) {
-		can._search = can.onappend.input(can, {type: html.TEXT, name: mdb.SEARCH, onkeydown: function(event) { can.onkeymap.input(event, can)
+		can._search = can.onappend.input(can, {type: html.TEXT, icon: "bi bi-search", name: mdb.SEARCH, onkeydown: function(event) { can.onkeymap.input(event, can)
 			event.key == lang.ENTER && can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: event.target.value||""}))
 		}}, "", target, [chat.TITLE])
 		can.onimport.menu(can, mdb.SEARCH, function() { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: can._search.value||""})) })
@@ -45,10 +45,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		}) }])._target
 	},
 })
-Volcanos(chat.ONACTION, {_init: function(can) { var themeMedia = window.matchMedia("(prefers-color-scheme: dark)")
-		can.__theme = themeMedia.matches? html.DARK: html.LIGHT, themeMedia.addListener(function(event) { can.__theme = event.matches? html.DARK: html.LIGHT
-			can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme}))
-		}), can.onimport.theme(can)
+Volcanos(chat.ONACTION, {_init: function(can) {
+		can.page.theme(function(theme) { can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = theme})) }), can.onimport.theme(can)
 		return can.require([
 			"src/template/web.chat.header/dark.css",
 			"src/template/web.chat.header/light.css",

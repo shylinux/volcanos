@@ -1,9 +1,9 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can)
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can), can.Conf("padding", 10)
 		can.page.Modify(can, target, msg.Result())
 		can.page.Select(can, target, wiki.STORY_ITEM, function(target) { var meta = target.dataset||{}
 			can.core.CallFunc([can.onimport, can.onimport[meta.name]? meta.name: meta.type||target.tagName.toLowerCase()], [can, meta, target])
 			meta.style && can.page.style(can, target, can.base.Obj(meta.style))
-		}), can.onmotion.delay(can, function() { can.onimport.layout(can) })
+		}), can.onmotion.delay(can, function() { can.onimport.layout(can) }, 300)
 	},
 	navmenu: function(can, meta, target) { var nav = can.sup._navmenu
 		nav = can.onmotion.clear(can, nav||can.page.insertBefore(can, [wiki.NAVMENU], can._output)), can.sup._navmenu = nav
@@ -69,10 +69,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}) }
 	},
 	image: function(can, meta, target) {
-		can.page.style(can, target, html.MAX_HEIGHT, can.base.Min(can.ConfHeight()-20, window.innerHeight/2), html.MAX_WIDTH, can.ConfWidth()-20)
+		can.page.style(can, target, html.MAX_HEIGHT, can.base.Min(can.ConfHeight()-2*can.Conf("padding"), window.innerHeight/2), html.MAX_WIDTH, can.ConfWidth()-2*can.Conf("padding"))
 	},
 	video: function(can, meta, target) {
-		can.page.style(can, target, html.MAX_HEIGHT, can.base.Min(can.ConfHeight()-20, window.innerHeight/2), html.MAX_WIDTH, can.ConfWidth()-20)
+		can.page.style(can, target, html.MAX_HEIGHT, can.base.Min(can.ConfHeight()-2*can.Conf("padding"), window.innerHeight/2), html.MAX_WIDTH, can.ConfWidth()-2*can.Conf("padding"))
 	},
 	audio: function(can, meta, target) {},
 	

@@ -9,10 +9,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg
 		can._main_river = ls[0]||can.misc.SearchOrConf(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||"project"
 		can._main_storm = ls[1]||can.misc.SearchOrConf(can, chat.STORM)||msg.Option(ice.MSG_STORM)||"studio"
 	},
-	_river: function(can, meta, cb) { return {view: [html.ITEM, "", meta.name], _init: function(target) { can.ui.river_list[meta.hash] = target, cb(target) },
+	_river: function(can, meta, cb) { return {view: html.ITEM, list: [{icon: meta.icon}, {text: meta.name}], _init: function(target) { can.ui.river_list[meta.hash] = target, cb(target) },
 		onclick: function(event) { can.onaction.storm(event, can, meta.hash) }, oncontextmenu: function(event) { can.onaction.carte(event, can, can.onaction._menu, meta.hash) },
 	} },
-	_storm: function(can, meta, river) { return {view: [html.ITEM, "", meta.name], _init: function(target) { can.ui.storm_list[can.core.Keys(river, meta.hash)] = target },
+	_storm: function(can, meta, river) { return {view: html.ITEM, list: [{icon: meta.icon}, {text: meta.name}], _init: function(target) { can.ui.storm_list[can.core.Keys(river, meta.hash)] = target },
 		onclick: function(event) { can.onaction.action(event, can, river, meta.hash) }, oncontextmenu: function(event) { can.onaction.carte(event, can, can.ondetail._menu, river, meta.hash) },
 	} },
 	_menu: function(can, msg) { can.user.isMobile || can.user.mod.isPod || can.onappend._action(can, can.onaction.list, can._action) },
@@ -31,6 +31,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	create: function(event, can) { can.user.input(can.request(event, {title: "创建群组"}), can, [
 		{name: mdb.TYPE, values: [aaa.TECH, aaa.ROOT, aaa.TECH, aaa.VOID], _trans: "类型"},
 		{name: mdb.NAME, value: "hi", _trans: "群名", need: "must"},
+		{name: mdb.ICON, value: "", _trans: "图标"},
 		{name: mdb.TEXT, value: "hello", _trans: "简介"},
 	], function(args) {
 		can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })
@@ -89,7 +90,10 @@ Volcanos(chat.ONDETAIL, {
 			can.onmotion.delay(can, function() { toast.close(), next(), index == array.length-1 && can.user.toastSuccess(can) })
 		})
 	}) },
-	addcmd: function(event, can, button, river, storm) { can.user.input(can.request(event, {title: "添加工具"}), can, [{name: web.SPACE, value: can.misc.Search(can, ice.POD)||""}, {name: ctx.INDEX, need: "must"}, ctx.ARGS, ctx.DISPLAY, ctx.STYLE], function(args) {
+	addcmd: function(event, can, button, river, storm) { can.user.input(can.request(event, {title: "添加工具"}), can, [
+		{name: web.SPACE, value: can.misc.Search(can, ice.POD)||""},
+		mdb.ICON, {name: ctx.INDEX, need: "must"}, ctx.ARGS, ctx.DISPLAY, ctx.STYLE,
+	], function(args) {
 		can.run({}, [river, storm, chat.STORM, ctx.ACTION, mdb.INSERT].concat(args), function(msg) {
 			can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm), refresh: ice.TRUE}))
 		})
@@ -100,6 +104,7 @@ Volcanos(chat.ONDETAIL, {
 	remove: function(event, can, button, river, storm) { can.run(event, [river, storm, chat.STORM, ctx.ACTION, mdb.REMOVE], function(msg) { can.misc.Search(can, {river: river, storm: ""}) }) },
 	create: function(event, can, button, river) { can.user.input(can.request(event, {title: "添加应用"}), can, [
 		{name: mdb.NAME, value: "hi", _trans: "名称", need: "must"},
+		{name: mdb.ICON, value: "", _trans: "图标"},
 		{name: mdb.TEXT, value: "hello", _trans: "简介"},
 	], function(args) {
 		can.run({}, [river, chat.STORM, ctx.ACTION, mdb.CREATE].concat(args), function(msg) { can.misc.Search(can, {river: river, storm: msg.Result()}) })
@@ -113,11 +118,11 @@ Volcanos(chat.ONEXPORT, {width: function(can) { return can._target.offsetWidth }
 Volcanos(chat.ONENGINE, {_engine: function(event, can, msg, panel, cmds, cb) { var list = can.river
 	cmds.length == 0 && can.core.ItemOrder(list, "order", function(key, value) {
 		if (can.user.info.userrole == aaa.ROOT || can.base.isIn(value.type||"", "", aaa.VOID, can.user.info.userrole)) {
-			can.core.Item(value.storm).length > 0 && msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name})
+			can.core.Item(value.storm).length > 0 && msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name, icon: value.icon||""})
 		}
 	})
 	if (cmds.length != 1 && cmds[1] != chat.STORM) { return false } var river = list[cmds[0]]; if (!river) { return false }
-	can.core.ItemOrder(river.storm, "order", function(key, value) { msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name}) })
+	can.core.ItemOrder(river.storm, "order", function(key, value) { msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name, icon: value.icon||""}) })
 	can.base.isFunc(cb) && cb(msg); return true
 }})
 })()

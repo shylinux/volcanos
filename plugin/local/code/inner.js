@@ -5,7 +5,7 @@ const VIEW_CREATE = "tabview.view.create", VIEW_REMOVE = "tabview.view.remove", 
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Split(can.Option(nfs.PATH), mdb.FS); can.Option(nfs.PATH, paths[0])
 		switch (can.Mode()) {
 			case "result": msg.result = msg.result||[can._output.innerHTML], can.Mode(chat.SIMPLE)
-    }
+		}
 		can.core.List(paths.concat(can.core.Split(msg.Option(nfs.REPOS))), function(p) { if (can.base.endWith(p, "-story/", "-dict/")) { return }
 			if (p && paths.indexOf(p) == -1 && p[0] != nfs.PS) { paths.push(p) }
 		}), can.onmotion.clear(can), can.onappend.style(can, code.INNER), can.sup.onimport._process = function() {}
@@ -13,10 +13,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		can.ui = can.onappend.layout(can, [html.PROJECT, [html.TABS, nfs.PATH, [html.CONTENT, html.PROFILE], html.DISPLAY, html.PLUG]])
 		can.ui._content = can.ui.content, can.ui._profile = can.ui.profile, can.ui._display = can.ui.display, can.onmotion.hidden(can, can.ui.plug)
 		can.onmotion.hidden(can, can.ui.profile), can.onmotion.hidden(can, can.ui.display)
+		can.Conf("style") == "output" && can.onmotion.hidden(can, can.ui.project)
+		can.Conf("style") == "output" && can.page.style(can, can.ui.content, html.HEIGHT, "")
 		switch (can.Mode()) {
 			case chat.SIMPLE: // no break
 			case chat.FLOAT: can.onmotion.hidden(can, can.ui.project); break
-       make
 			case chat.CMD: can.misc.sessionStorage(can, PROJECT_HIDE) == html.HIDE && can.onmotion.hidden(can, can.ui.project)
 				if (can.misc.sessionStorage(can, TABVIEW_HIDE) == html.HIDE) { can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.tabs) }
 				can.onappend.style(can, html.OUTPUT)
@@ -213,7 +214,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			can.onimport.tabview(can, item.path, can.base.trimPrefix(item.file, nfs.PWD), parseInt(item.line)); return true
 		}, can.base.isFunc(cb) && cb(sub) }, can.ui.plug.parentNode, can.ui.plug), can.page.isDisplay(can.ui.plug) || can.onmotion.toggle(can, can.ui.plug, true) && can.onimport.layout(can)
 	},
-	layout: function(can) { if (can.isSimpleMode()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) } if (can.isCmdMode()) { can.ConfHeight(can.page.height()) }
+	layout: function(can) { if (can.isSimpleMode() || can.Conf("style") == "output") { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) } if (can.isCmdMode()) { can.ConfHeight(can.page.height()) }
 		var content = can.ui.content; if (content._root) { can.ui.content = content._root } can.ui.size = {profile: can._msg.Option(html.WIDTH), display: can._msg.Option(html.HEIGHT)}
 		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) { can.ui.content = content, can.onlayout.layout(can, height, width)
 			var sub = can.ui.profile._plugin; sub && can.page.isDisplay(can.ui.profile) && sub.onimport.size(sub, can.ui.profile.offsetHeight, can.ui.profileWidth, true)

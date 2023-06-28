@@ -1,15 +1,7 @@
 Volcanos({name: "popup", iceberg: "http://localhost:9020/chat/", river: {
-	product: {name: "产品群", storm: {
-		office: {name: "办公 office",  list: [
-			{name: "feel", help: "影音媒体", index: "web.wiki.feel"},
-			{name: "draw", help: "思维导图", index: "web.wiki.draw"},
-			{name: "data", help: "数据表格", index: "web.wiki.data"},
-			{name: "plan", help: "计划任务", index: "web.team.plan"},
-			{name: "think", help: "智库", index: "web.wiki.word", args: ["usr/learning/"]},
-			{name: "index", help: "索引", index: "web.wiki.word", args: ["usr/learning/index.shy"]},
-			{name: "context", help: "编程", index: "web.wiki.word", args: ["src/main.shy"]},
-		]},
-		chrome: {name: "爬虫 chrome",  list: [
+	product: {name: "产品群", icon: "bi bi-bar-chart-line-fill", storm: {
+		office: {name: "办公 office", icon: "bi bi-bar-chart-line-fill",  index: ["web.chat.macos.desktop", "web.wiki.feel", "web.wiki.draw", "web.wiki.data"]},
+		chrome: {name: "爬虫 chrome", icon: "bi-browser-chrome", list: [
 			{name: "feel", help: "网页爬虫", index: "web.wiki.feel", args: ["spide/"], feature: {
 				display: "/plugin/local/wiki/feel.js",
 				height: 200, limit: 3,
@@ -18,15 +10,9 @@ Volcanos({name: "popup", iceberg: "http://localhost:9020/chat/", river: {
 			{name: "spided", help: "网页爬虫", index: "web.code.chrome.spide", args: location && location.protocol && location.protocol=="chrome-extension:"? ["1", "", "spide"]: ["1"]},
 		]},
 	}},
-	project: {name: "研发群", storm: {
-		studio: {name: "研发 studio", list: [
-			{name: "vimer", help: "编辑器", index: "web.code.vimer", args: ["src/,usr/volcanos/,usr/icebergs/,usr/toolkits/", "main.go"]},
-			{name: "repos", help: "代码库", index: "web.code.git.status"},
-			{name: "favor", help: "收藏夹", index: "web.chat.favor"},
-			{name: "plan", help: "任务表", index: "web.team.plan"},
-			{name: "ctx", help: "上下文", index: "web.wiki.word"},
-		]},
-		chrome: {name: "网页 chrome",  index: [
+	project: {name: "研发群", icon: "bi bi-git", storm: {
+		studio: {name: "研发 studio", icon: "bi bi-git", index: ["web.code.vimer", "web.code.git.status", "web.chat.favor", "web.team.plan", "web.wiki.word"]},
+		chrome: {name: "网页 chrome",  icon: "bi-browser-chrome", index: [
 			"web.code.chrome.chrome",
 			"web.code.chrome.daemon",
 			"web.code.chrome.spide",
@@ -35,48 +21,13 @@ Volcanos({name: "popup", iceberg: "http://localhost:9020/chat/", river: {
 			"web.code.chrome.field",
 		]},
 	}},
-	profile: {name: "测试群", storm: {
-		release: {name: "发布 release", index: [
-			"web.code.webpack",
-			"web.code.compile",
-			"web.code.publish",
-			"web.code.docker.client",
-			"web.space",
-			"web.dream",
-			"web.code.git.server",
-			"web.code.git.status",
-		]},
-		toolkit: {name: "工具 toolkit", index: [
-			"web.code.favor",
-			"web.code.xterm",
-			"web.code.inner",
-			"web.code.vimer",
-			"web.code.bench",
-			"web.code.pprof",
-			"web.code.oauth",
-		]},
-		language: {name: "语言 language", index: [
-			"web.code.c",
-			"web.code.sh",
-			"web.code.py",
-			"web.code.shy",
-			"web.code.js",
-			"web.code.go",
-		]},
+	profile: {name: "测试群", icon: "bi bi-list-columns", type: aaa.TECH, storm: {
+		release: {name: "发布 release", icon: "bi bi-list-check", index: ["web.code.compile", "web.code.publish", "web.code.pprof", "web.code.bench", "web.dream", "web.space", "web.code.git.service", "web.code.git.status"]},
 	}},
-	operate: {name: "运维群", storm: {
-		aaa: {name: "权限 aaa", index: [
-			"offer", "email", "user", "totp", "sess", "role",
-		]},
-		web: {name: "应用 web", index: [
-			"broad", "serve", "space", "dream", "share", "cache", "spide",
-		]},
-		cli: {name: "系统 cli", index: [
-			"qrcode", "daemon", "system", "runtime", "mirrors", "forever", "host", "port",
-		]},
-		nfs: {name: "文件 nfs", index: [
-			"cat", "dir", "pack", "tail", "trash",
-		]},
+	operate: {name: "运维群", icon: "bi bi-gear", type: aaa.TECH, storm: {
+		web: {name: "应用 web", icon: "bi bi-browser-chrome", index: ["broad", "serve", "space", "dream", "share"]},
+		aaa: {name: "权限 aaa", icon: "bi bi-people-fill", index: ["offer", "email", "user", "totp", "sess", "role"]},
+		cli: {name: "系统 cli", icon: "bi bi-windows", index: ["qrcode", "daemon", "runtime", "cli.procstat", "cli.procinfo", "mirrors", "signal", "timer", "routine", "log.debug"]},
+		nfs: {name: "文件 nfs", icon: "bi bi-server", index: ["dir", "cat", "tar", "pack", "tail", "trash", "server", "host", "port"]},
 	}},
-}})
-
+}}) // https://icons.getbootstrap.com/

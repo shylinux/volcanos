@@ -22,7 +22,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 		}, oncontextmenu: sub._legend.onclick}]; sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
 	},
 	_menu: function(can, msg) { if (can.user.isMobile) { return }
-		var target = can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.onaction._menus), function(event, button, list) { can.core.CallFunc([can.onaction, list[0]], [can, button]) })
+		var target = can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.onaction._menus), function(event, button, list) { list && can.core.CallFunc([can.onaction, list[0]], [can, button]) })
 		can.onmotion.hidden(can, can._header_tabs = can.page.Append(can, target, [html.TABS])._target)
 	},
 })
