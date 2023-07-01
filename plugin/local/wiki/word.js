@@ -4,6 +4,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			can.core.CallFunc([can.onimport, can.onimport[meta.name]? meta.name: meta.type||target.tagName.toLowerCase()], [can, meta, target])
 			meta.style && can.page.style(can, target, can.base.Obj(meta.style))
 		}), can.onmotion.delay(can, function() { can.onimport.layout(can) }, 300)
+		can.page.Select(can, target, "a", function(target) { target.innerText = target.innerText || target.href })
 	},
 	navmenu: function(can, meta, target) { var nav = can.sup._navmenu
 		nav = can.onmotion.clear(can, nav||can.page.insertBefore(can, [wiki.NAVMENU], can._output)), can.sup._navmenu = nav

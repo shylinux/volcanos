@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can); var pid = can.misc.SearchHash(can)[0]
 		can.svg = null, can.group = null, can.temp = null, can.current = null, can.points = [], can._display_heights = {}
-		if (can._index == web.WIKI_DRAW) { can.ui = can.onappend.layout(can) } else { can.ui = {content: can._output} }
+		if (can.Conf(ctx.INDEX) == web.WIKI_DRAW) { can.ui = can.onappend.layout(can) } else { can.ui = {content: can._output} }
 		can.page.Modify(can, can.ui.content, msg.Results()||can.onexport.content(can)), can.onexport.title(can, can.Option(nfs.PATH))
 		can.page.Select(can, can.ui.content, html.SVG, function(target) { can.svg = can.group = can.onimport._block(can, target), can.onimport._group(can, target)
 			can.page.Select(can, target, mdb.FOREACH, function(target) { can.onimport._block(can, target), can.page.tagis(target, svg.G) && target.Value(html.CLASS) && can.onimport._group(can, target) })

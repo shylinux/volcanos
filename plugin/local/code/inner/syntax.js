@@ -120,6 +120,7 @@ Volcanos(chat.ONSYNTAX, {
 			"order": code.KEYWORD, "table": code.KEYWORD, "chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
 			"field": code.KEYWORD, "image": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD,
 			"style": code.KEYWORD,
+			"inner": code.KEYWORD,
 			
 			"package": code.KEYWORD, "import": code.KEYWORD, "const": code.KEYWORD, "type": code.KEYWORD, "var": code.KEYWORD,
 			"if": code.KEYWORD, "else": code.KEYWORD,

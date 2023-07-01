@@ -165,6 +165,7 @@ fieldset>div.output>div.project>div.item.filter { padding:0; }
 fieldset>div.output>div.project { border-right:gray solid 1px; min-width:120px; max-width:240px; }
 fieldset>div.output div.profile { border-left:gray solid 1px; max-width:320px; }
 fieldset>div.output div.display { border-top:gray solid 1px; }
+fieldset>div.output { width:100%; } fieldset>div.status { width:100%; }
 /* table card */
 div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item { padding:10px; border:#e7e7e7 solid 1px; margin:10px; width:320px; float:left; }
