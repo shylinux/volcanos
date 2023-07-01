@@ -56,11 +56,11 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 		if (data.type == nfs.SHY) { meta = {index: web.WIKI_WORD, args: data.text} }
 		if (data.ctx == ice.NFS && data.cmd == nfs.PACK) { var ls = can.misc.SplitPath(can, data.text)
 			can.runAction(event, cli.RUN, [web.CODE_VIMER, ctx.ACTION, mdb.RENDER, data.type, ls[1], ls[0]], function(msg) { msg.Table(function(meta) {
-				can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub), sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth()-1, true), sub.Focus() }, can.ui.profile)
+				can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub), sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth()-1, true) }, can.ui.profile)
 			}), can.onappend.board(can, msg.Result(), can.ui.profile) })
 			return
 		}
-		can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub), sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth()-1, true), sub.Focus() }, can.ui.profile)
+		can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub), sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth()-1, true) }, can.ui.profile)
 	},
 })
 Volcanos(chat.ONEXPORT, {statusHeight: function(can) { return can.db && can.db.type == mdb.FOREACH? 0: html.ACTION_HEIGHT },
