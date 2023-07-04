@@ -1,6 +1,6 @@
 fieldset.inner>form.option input[name=path] { width:80px; }
 fieldset.inner>form.option input[name=file] { width:160px; }
-fieldset.inner>div.output { overflow:hidden; }
+fieldset.inner:not(.output)>div.output { overflow:hidden; }
 fieldset.inner>div.output div.content { position:relative; }
 fieldset.inner>div.output div.content td.text { height:20px; }
 fieldset.inner>div.output div.content td.text span.comment { color:var(--code-comment); }

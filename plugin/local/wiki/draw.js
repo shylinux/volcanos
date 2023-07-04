@@ -67,7 +67,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		var target = can.onimport.block(can, figure.data.name||value.shape, data, group); can.core.ItemCB(value, function(key, cb) { target[key] = cb })
 		return value._init && value._init(target), target
 	},
-	layout: function(can) { can.onmotion.toggle(can, can._action, can.ConfWidth() > 1600)
+	layout: function(can, height, width) { can.onmotion.toggle(can, can._action, can.ConfWidth() > 1600)
+		can.page.style(can, can._output, html.HEIGHT, height, html.WIDTH, width)
 		can.ui.layout && can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) { can.page.style(can, can.svg, html.MIN_HEIGHT, height, html.MIN_WIDTH, width) })
 	},
 })
@@ -152,7 +153,7 @@ Volcanos(chat.ONACTION, {list: [[svg.GRID, 10, 1, 2, 3, 4, 5, 10, 20],
 })
 Volcanos(chat.ONDETAIL, {list: [cli.START, ice.COPY, html.LABEL, "toimage", mdb.REMOVE],
 	_select(can, name, cb) { if (!name) { return } var target = can.page.SelectOne(can, can.svg, nfs.PT+name, cb)
-		can.onimport._profile(can, target), can.onimport._display(can, target), can.onimport.layout(can)
+		can.onimport._profile(can, target), can.onimport._display(can, target), can.onimport.layout(can, can.ConfHeight(), can.ConfWidth())
 		return target
 	},
 	start: function(event, can) { var target = event.target

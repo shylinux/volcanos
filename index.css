@@ -322,7 +322,7 @@ fieldset.xterm div.layout div.output { border-left:gray solid 1px; border-top:gr
 fieldset.xterm div.layout div.output.select { border:blue solid 1px; }
 fieldset.plan div.output div.content>table.content { height:100%; width:100%; }
 fieldset.draw>form.option>div.item.pid>input { width:60px; }
-fieldset.draw div.output svg { margin-bottom:-4px; }
+fieldset.draw div.output svg { margin-bottom:-4px; height:100%; width:100%; }
 fieldset.draw.trend div.output svg { background-color:#1b5b738c; }
 fieldset.draw.spide div.output svg text { cursor:pointer; }
 fieldset.draw.spide div.output svg path { stroke-width:1; }

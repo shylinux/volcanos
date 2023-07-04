@@ -256,6 +256,7 @@ Volcanos(chat.ONSYNTAX, {
 			"ul": code.KEYWORD, "li": code.KEYWORD,
 			"label": code.KEYWORD, "span": code.KEYWORD, "img": code.KEYWORD, "svg": code.KEYWORD, "div": code.KEYWORD,
 			"video": code.KEYWORD,
+			"iframe": code.KEYWORD,
 			"hover": code.DATATYPE, "focus": code.DATATYPE, "not": code.DATATYPE, "type": code.FUNCTION, "name": code.FUNCTION,
 
 			"padding": code.FUNCTION, "padding-left": code.FUNCTION, "padding-top": code.FUNCTION,

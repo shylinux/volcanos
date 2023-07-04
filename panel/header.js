@@ -57,14 +57,15 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onmain: function(can) {
-		if (can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/")) { return can.onengine.signal(can, chat.ONLOGIN) }
-		can.run({}, [], function(msg) { if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
-			return msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)): can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg.Option(aaa.LOGIN))
-		} can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
+		function show(msg) {
+			can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
 			can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)||navigator.language.split("-")[0], msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
-			can.onmotion.clear(can), can.onimport._init(can, msg, can._output), can.onengine.signal(can, chat.ONLOGIN, msg)
-		})
-
+			can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN)
+		}
+		can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/")? show(can.request()):
+			can.run({}, [], function(msg) { if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
+				return msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)): can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg.Option(aaa.LOGIN))
+			} show(msg) })
 	},
 	onstorm_select: function(can, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
