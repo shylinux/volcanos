@@ -13,7 +13,7 @@ var ice = {
 	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", PS: "/", PT: ".", FS: ",", QS: "?", NL: "\n", LT: "<", GT: ">",
 	OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
 
-	AUTO: "auto",
+	AUTO: "auto", HOME: "home",
 	HTTP: "http", HTML: "html", LIST: "list", BACK: "back",
 	SHOW: "show", HIDE: "hide", HELP: "help", COPY: "copy",
 	VIEW: "view", MODE: "mode", SHIP: "ship", EXEC: "exec",
@@ -241,6 +241,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	H1: "h1", H2: "h2", H3: "h3", A: "a", LABEL: "label", INNER: "inner", TITLE: "title", SPACE: "space",
 	SPAN: "span", CODE: "code", DIV: "div", IMG: "img", VIDEO: "video", WSS: "wss", SVG: "svg", CANVAS: "canvas", IFRAME: "iframe",
 	WEBVIEW: "webview", CHROME: "chrome", MOBILE: "mobile", LANDSCAPE: "landscape",
+	HEADER: "header", NAV: "nav", MAIN: "main", ASIDE: "aside",
 	
 	CLASS: "class", DISPLAY: "display", BLOCK: "block", NONE: "none", OVERFLOW: "overflow", HIDDEN: "hidden", SCROLL: "scroll", FLOAT: "float", CLEAR: "clear", BOTH: "both",
 	PADDING: "padding", BORDER: "border", MARGIN: "margin", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",

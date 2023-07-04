@@ -57,6 +57,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onmain: function(can) {
+		if (can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/")) { return can.onengine.signal(can, chat.ONLOGIN) }
 		can.run({}, [], function(msg) { if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
 			return msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)): can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg.Option(aaa.LOGIN))
 		} can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)

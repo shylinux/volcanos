@@ -62,7 +62,7 @@ Volcanos(chat.ONIMPORT, {
 			(can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, ""),
 				can.page.style(can, can._target, html.WIDTH, can.ConfWidth(width)))
 		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return can.Mode(mode), auto } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
-		if (mode) { sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub) } else { sub.onlayout._init(sub) } return auto
+		if (mode) { sub.Mode(can.Mode(mode)), sub.onlayout[mode](sub, height, width) } else { sub.onlayout._init(sub, height, width) } return auto
 	},
 	change: function(event, can, name, value, cb) { return can.page.SelectArgs(can, can._option, "", function(input) { if (input.name != name || value == input.value) { return }
 		can.page.Select(can, input.parentNode, "span.value", function(target) { target.innerText = value })

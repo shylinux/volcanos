@@ -218,6 +218,8 @@ body {
 	--create-bg-color:blue; --create-fg-color:white;
 	--disable-fg-color:gray;
 
+	--code-bg-color:black;
+	--code-fg-color:silver;
 	--code-comment:darkgray;
 	--code-keyword:darkblue;
 	--code-package:blue;

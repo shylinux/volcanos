@@ -253,7 +253,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				action === false || can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
 				action === false || sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS)), can.user.isMobile || sub.onappend.tools(sub, msg)
-				can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, ""), can.onappend.style(sub, sub.Conf(ctx.STYLE))
+				// can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, ""), can.onappend.style(sub, sub.Conf(ctx.STYLE))
+				can.page.style(can, can._output, html.HEIGHT, ""), can.onappend.style(sub, sub.Conf(ctx.STYLE))
+					can.onappend.style(sub, sub.Conf(ctx.STYLE))
 				if (can.isFullMode() || can.isCmdMode()) { can.onimport.size(can, can.page.height(), can.page.width(), true) }
 				can.onmotion.story.auto(can, can._output), can.onexport.output(can, msg), can.base.isFunc(cb) && cb(msg)
 			}, target: output})

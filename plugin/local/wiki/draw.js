@@ -16,7 +16,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			if (value == ice.AUTO) { return target.removeAttribute(key) }
 			if (key == html.INNER) { return value != undefined && (target.innerHTML = value), target.innerHTML }
 			if (key == ice.SHIP) { return value != undefined && target.setAttribute(key, JSON.stringify(value)), can.base.Obj(target.getAttribute(key), []) }
-			return value != undefined && target.setAttribute(key, value), target.getAttribute(key) || can.core.Value(target[key], "baseVal.value") || can.core.Value(target[key], "baseVal") || undefined
+			try {
+				return value != undefined && target.setAttribute(key, value), target.getAttribute(key) || can.core.Value(target[key], "baseVal.value") || can.core.Value(target[key], "baseVal") || undefined
+			} catch(e) { }
 		}, target.Val = function(key, value) { return parseInt(target.Value(key, value == undefined? value: parseInt(value)||0))||0 }
 		target.Group = function() { for (var node = target; node; node = node.parentNode) { if (can.page.tagis(node, svg.G, html.SVG)) { return node } } return can.svg }
 		target.Groups = function() { if (target == can.svg) { return html.SVG } var list = []
@@ -217,7 +219,6 @@ Volcanos(chat.ONEXPORT, {list: [svg.GROUP, svg.FIGURE, ctx.INDEX, "pos"],
 		can.Status(ctx.INDEX, target.Value(ctx.INDEX)||"")
 	},
 	content: function(can, target) { return ['<svg xmlns="https://www.w3.org/2000/svg" vertion="1.1" text-anchor="middle" '].concat(
-	// content: function(can, target) { return ['<svg xmlns="https://www.w3.org/2000/svg" vertion="1.1" text-anchor="middle" dominant-baseline="middle" '].concat(
 		target? can.core.List([mdb.COUNT, svg.PID], function(item) { return target.Value(item)? can.base.joinKV([item, target.Value(item)], mdb.EQ): ""}).join(lex.SP): "").concat([">", target? target.innerHTML: "", "</svg>"]).join("")
 	},
 	cursor: function(event, can, target) {

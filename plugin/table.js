@@ -152,14 +152,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 })
 Volcanos(chat.ONLAYOUT, {
-	_init: function(can) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can}) },
-	simple: function(can) { can.onlayout._init(can) },
-	output: function(can) { can.onlayout._init(can) },
-	float: function(can) { can.onlayout._init(can) },
-	full: function(can) { can.onlayout._init(can) },
-	cmd: function(can) { can.onlayout._init(can)
-		can.page.style(can, can._output, html.MAX_HEIGHT, can.ConfHeight()||window.innerHeight-2*html.ACTION_HEIGHT)
-		can.page.style(can, can._output, html.MAX_WIDTH, can.ConfWidth()||window.innerWidth)
+	_init: function(can, height, width) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can, height: height, width: width}) },
+	simple: function(can, height, width) { can.onlayout._init(can, height, width) },
+	output: function(can, height, width) { can.onlayout._init(can, height, width) },
+	float: function(can, height, width) { can.onlayout._init(can, height, width) },
+	full: function(can, height, width) { can.onlayout._init(can, height, width) },
+	cmd: function(can, height, width) { can.onlayout._init(can, height, width)
+		can.page.style(can, can._output, html.MAX_HEIGHT, height||can.ConfHeight()||window.innerHeight-2*html.ACTION_HEIGHT)
+		can.page.style(can, can._output, html.MAX_WIDTH, width||can.ConfWidth()||window.innerWidth)
 	},
 })
 Volcanos(chat.ONEXPORT, {

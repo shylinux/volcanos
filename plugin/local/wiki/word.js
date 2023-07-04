@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can), can.Conf("padding", 10)
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can), can.Conf(html.PADDING, 10)
 		can.page.Modify(can, target, msg.Result())
 		can.page.Select(can, target, wiki.STORY_ITEM, function(target) { var meta = target.dataset||{}
 			can.core.CallFunc([can.onimport, can.onimport[meta.name]? meta.name: meta.type||target.tagName.toLowerCase()], [can, meta, target])
@@ -58,7 +58,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.page.Select(can, target, html.TD, function(item) { can.onmotion.copy(can, item) })
 	},
 	chart: function(can, meta, target) {
-		can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth(), html.OVERFLOW, ice.AUTO)
+		can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth()-2*can.Conf(html.PADDING), html.OVERFLOW, ice.AUTO)
 		if (!meta.fg && !meta.bg) { target.className.baseVal = "story auto" }
 		target.onclick = function(event) { can.misc.Event(event, can, function(msg) {
 			meta.index && can.onappend._float(can, meta.index, can.base.Obj(meta.args, []).concat([event.target.innerHTML]))
@@ -70,14 +70,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}) }
 	},
 	image: function(can, meta, target) {
-		can.page.style(can, target, html.MAX_HEIGHT, can.base.Min(can.ConfHeight()-2*can.Conf("padding"), window.innerHeight/2), html.MAX_WIDTH, can.ConfWidth()-2*can.Conf("padding"))
+		can.page.style(can, target, html.MAX_HEIGHT, can.base.Min(can.ConfHeight()-2*can.Conf(html.PADDING), window.innerHeight/2), html.MAX_WIDTH, can.ConfWidth()-2*can.Conf(html.PADDING))
 	},
 	video: function(can, meta, target) {
-		can.page.style(can, target, html.MAX_HEIGHT, can.base.Min(can.ConfHeight()-2*can.Conf("padding"), window.innerHeight/2), html.MAX_WIDTH, can.ConfWidth()-2*can.Conf("padding"))
+		can.page.style(can, target, html.MAX_HEIGHT, can.base.Min(can.ConfHeight()-2*can.Conf(html.PADDING), window.innerHeight/2), html.MAX_WIDTH, can.ConfWidth()-2*can.Conf(html.PADDING))
 	},
 	audio: function(can, meta, target) {},
 	
-	layout: function(can) { var height = can.ConfHeight(), width = can.ConfWidth()
+	layout: function(can) { var height = can.ConfHeight(), width = can.ConfWidth(), padding = can.Conf(html.PADDING)
 		can.isCmdMode() && can.ConfHeight(can.page.height())
 		if (can.sup._navmenu) { can.page.style(can, can.sup._navmenu, html.HEIGHT, can.ConfHeight())
 			can.page.style(can, can._output, html.HEIGHT, height, html.WIDTH, width = can.ConfWidth()-can.sup._navmenu.offsetWidth, "clear", "none", "float", "left")
@@ -85,10 +85,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			can.isCmdMode() && can.ConfHeight(can.page.height()) && can.page.styleHeight(can, can._output, "")
 		}
 		can.core.List(can._plugins, function(sub) {
-			sub.ConfHeight(sub.Conf("_height")||can.base.Min(300, height-300)), sub.ConfWidth(width-(can.user.isWindows? 40: 20))
-			sub.onimport.size(sub, can.base.Min(300, height-300), width-(can.user.isWindows? 40: 20), true)
+			sub.ConfHeight(sub.Conf("_height")||can.base.Min(300, height-300)), sub.ConfWidth(width-(can.user.isWindows? 4*padding: 2*padding))
+			sub.onimport.size(sub, can.base.Min(300, height-300), width-(can.user.isWindows? 4*padding: 2*padding), true)
 		})
-		can.page.Select(can, can._output, can.page.Keys(html.IMG, html.VIDEO), function(target) { can.page.style(can, target, html.MAX_HEIGHT, height-20, html.MAX_WIDTH, width-20) })
+		can.page.Select(can, can._output, can.page.Keys(html.IMG, html.VIDEO), function(target) {
+			can.page.style(can, target, html.MAX_HEIGHT, height-2*padding, html.MAX_WIDTH, width-2*padding)
+		})
 	},
 }, [""])
 Volcanos(chat.ONACTION, {_trans: {view: "视图"},
