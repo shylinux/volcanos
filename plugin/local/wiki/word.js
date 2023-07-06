@@ -1,7 +1,7 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDING, 10)
 		can.onmotion.clear(can), can.page.Modify(can, target, msg.Result()), can.onimport._display(can, target)
 	},
-	_display: function(can, target, cb) { can.onappend.style(can, "word")
+	_display: function(can, target, cb) { can.onappend.style(can, web.WIKI_WORD)
 		can.page.Select(can, target, wiki.STORY_ITEM, function(target) { var meta = target.dataset||{}; cb && cb(target, meta)
 			can.core.CallFunc([can.onimport, can.onimport[meta.name]? meta.name: meta.type||target.tagName.toLowerCase()], [can, meta, target])
 			var _meta = can.base.Obj(meta.meta); _meta && _meta.style && can.page.style(can, target, can.base.Obj(_meta.style))

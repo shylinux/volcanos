@@ -121,10 +121,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var sub = Volcanos(meta.name, {_root: can._root||can, _follow: can.core.Keys(can._follow, meta.name), _target: field,
 			_legend: legend, _option: option, _action: action, _output: output, _status: status, _history: [],
 			Status: function(key, value) { if (can.base.isObject(key)) { return can.core.Item(key, sub.Status), key }
+				try {
 				can.page.Select(can, status, [[[html.SPAN, key]]], function(target) {
 					if (can.base.beginWith(value, nfs.PS, ice.HTTP)) { value = can.page.Format(html.A, value) }
-					return can.base.isUndefined(value)? (value = target.innerHTML): (target.innerHTML = value.trim? value.trim(): value||"")
+					return can.base.isUndefined(value)? (value = target.innerHTML): (target.innerHTML = value.trim? value.trim(): value+"")
 				}); return value
+				} catch(e) {}
 			},
 			Action: function(key, value) { return can.page.SelectArgs(can, action, key, value)[0] },
 			Option: function(key, value) { return can.page.SelectArgs(can, option, key, value)[0] },
@@ -151,7 +153,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			sub.isCmdMode() && can.onappend.style(sub, can.misc.Search(can, ctx.STYLE)), sub.isCmdMode() && sub.Conf(can.misc.Search(can))
 			can.base.isFunc(cb) && cb(sub)
 			if (can.user.isMobile && !can.user.isLandscape()) { return } if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) { return }
-			// sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields)
+			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields)
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
@@ -560,7 +562,11 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 				} else {
 					layout.left = left+width-target.offsetWidth-event.target.offsetWidth
 				}
-			} else if (layout.left+target.offsetWidth > left+width) { layout.left = left+width-target.offsetWidth }
+			} else if (layout.left > left+width-10) {
+				layout.left = left+width-target.offsetWidth-1-event.target.offsetWidth
+			} else if (layout.left+target.offsetWidth > left+width) {
+				layout.left = left+width-target.offsetWidth-1
+			}
 		}); return can.onmotion.move(can, target, layout), layout
 	},
 })

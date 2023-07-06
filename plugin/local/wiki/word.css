@@ -9,13 +9,13 @@ fieldset.word>div.output div.story.flex>* { padding:20px; }
 fieldset.word>div.output h2.story[data-type=spark][data-name=title] { text-align:center; }
 fieldset.word>div.output h2 { margin-top:40px; }
 fieldset.word>div.output h3 { margin-top:20px; }
-fieldset.word>div.output table { width:100%; text-align:center; }
+fieldset.word>div.output table { width:100%; }
 fieldset.word>div.output img { max-height:100%; max-width:100%; }
 fieldset.word>div.output video { max-height:100%; width:100%; }
 fieldset.word>div.output iframe { height:480px; width:100%; }
 fieldset.word>div.output svg.story[data-index] text { cursor:pointer; }
 fieldset.word>div.output input.story[type=button] { font-family:system-ui; font-weight:bold; padding:20px 40px; margin:10px; height:64px; }
-fieldset.word>div.output fieldset.web.code.inner.output div.output { border-left:blue solid 5px; }
+fieldset.word>div.output fieldset.web.code.inner.output div.output td.line { border-right:gray solid 1px; }
 
 fieldset.word>div.navmenu { background-color:inherit; overflow:auto; min-width:120px; clear:both; float:left; }
 fieldset.word>div.navmenu div.list { margin-left:20px; }
@@ -25,7 +25,7 @@ fieldset.word>div.navmenu>div.item { font-size:1.6em; }
 div.story[data-type=spark] label { user-select:none; }
 div.story[data-type=spark_tabs] { margin-top:20px; }
 div.story[data-type=spark_tabs]>div.tabs>div.item { font-style:italic; padding:5px 20px; height:32px; float:left; }
-div.story[data-type=spark_tabs]>div.tabs>div.item.select { border-bottom:blue solid 2px; }
+div.story[data-type=spark_tabs]>div.tabs>div.item.select { border-bottom:var(--code-border-color) solid 2px; }
 div.story[data-type=spark_tabs]>div.story:not(.select) { display:none; }
 
 fieldset.word.play.float { top:0; }

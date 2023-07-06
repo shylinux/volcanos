@@ -70,23 +70,27 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		if (arg[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, arg, fields) }
 		if (arg[0] == ctx.COMMAND) { can.onexport.command(can, msg, arg, fields) }
 	},
-	onkeydown: function(can, msg, model) { if (can.isCmdMode() && !msg._event.metaKey) {
-		var sub = can.core.Value(can._plugins[0], chat._OUTPUTS_CURRENT); sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: msg._event, can: sub}); return
-	}
+	onkeydown: function(can, msg, model) {
+		if (can.isCmdMode() && !msg._event.metaKey) {
+			var sub = can.core.Value(can._plugins[0], chat._OUTPUTS_CURRENT); sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: msg._event, can: sub}); return
+		}
 		if (can.onkeymap.selectCtrlN(msg._event, can, can._action, html.DIV_ITEM)) { return }
 		can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
 	},
 	onresize: function(can) { can.onaction.layout(can), window.setsize && window.setsize(can.page.width(), can.page.height()) },
 	ontitle: function(can, msg) { can.onlayout._storage(can, "") },
 	
+	portal: function(can) {
+		can.user.opens("/wiki/portal/")
+	},
 	layout: function(can, button, skip) { can.page.ClassList.del(can, can._target, can._layout||can.onlayout._storage(can)), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		button = (can.onlayout._storage(can, can._layout = button == ice.AUTO? "": button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
 		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button})), can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), skip || can.onlayout._init(can)
 		can.isCmdMode() || can.core.List(can._plugins, function(sub) { sub._delay_refresh = false, can.page.ClassList.set(can, sub._target, html.OUTPUT, [TABVIEW, HORIZON, VERTICAL].indexOf(button) > -1) })
 		var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can) || can.onlayout._plugin(can, button)
 	},
-	_menus: [[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE]],
-	_trans: kit.Dict(html.LAYOUT, "布局", ice.AUTO, "默认布局", TABS, "标签布局", TABVIEW, "标签分屏", HORIZON, "左右分屏", VERTICAL, "上下分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
+	_menus: [[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE], "portal"],
+	_trans: kit.Dict("portal", "首页", html.LAYOUT, "布局", ice.AUTO, "默认布局", TABS, "标签布局", TABVIEW, "标签分屏", HORIZON, "左右分屏", VERTICAL, "上下分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
 })
 Volcanos(chat.ONLAYOUT, {
 	tabs: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-can.Conf(html.MARGIN_Y)+html.ACTION_MARGIN), can.ConfWidth(width-can.Conf(html.MARGIN_X)) })
