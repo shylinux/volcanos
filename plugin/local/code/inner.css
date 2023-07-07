@@ -26,6 +26,7 @@ fieldset.inner>div.output>div.layout>div.tabs { font-family:monospace; font-size
 fieldset.inner>div.output>div.layout>div.path { font-family:monospace; font-size:14px; display:none; }
 fieldset.inner>div.output>div.layout>div.layout div.content * { font-family:monospace; font-size:14px; outline:none; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile { max-width:unset; }
+fieldset.inner>div.output>div.layout>div.layout>iframe.profile { border-left:var(--plugin-border-color) solid 1px; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile div.status>div { padding:5px; float:left; }
 fieldset.inner>div.output>div.layout>div.display div.status>div { padding:5px; float:left; }
 fieldset.inner>div.output>div.project>div.zone>div.item { font-style:italic; font-weight:bold; line-height:32px; }

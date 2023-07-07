@@ -88,7 +88,7 @@ body>div.carte div.item { background-color:var(--carte-bg-color); }
 body>div.carte div.item:hover { background-color:var(--hover-bg-color); }
 
 /* icon */
-fieldset.contexts form.option>div.icon { font-size:26px; line-height:28px; padding:0 5px; height:32px; margin:0; }
+fieldset.contexts form.option>div.icon { background-color:unset; font-size:26px; line-height:28px; padding:0 5px; height:32px; margin:0; }
 fieldset.contexts form.option>div.item.icons>span.icon { font-size:26px; line-height:28px; padding:0 5px; height:32px; }
 fieldset.contexts form.option>div.item.icons>span.icon.create { line-height:30px; }
 fieldset.contexts div.action>div.item.icons>span.icon { font-size:26px; line-height:28px; padding:0 5px; height:32px; }
