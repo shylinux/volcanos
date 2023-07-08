@@ -194,7 +194,7 @@ fieldset>div.status>legend:not(:hover):not(.select) { background-color:unset; }
 div.carte.select.float>div.item { text-align:center; }
 legend, select, input[type=button], th, table.content td, h1, h2, h3, div.item, div.tabs { cursor:pointer; }
 div.story[data-type=spark] { cursor:copy; }
-fieldset { display:flex; flex-wrap:wrap; } fieldset>div.output { width:100%; } fieldset>div.status { width:100%; }
+fieldset>div.output { width:100%; } fieldset>div.status { width:100%; }
 form.option>div.cmd, form.option>div.textarea { width:100%; }
 fieldset.plug div.output table.content { width:100%; }
 /* hover */
