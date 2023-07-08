@@ -12,7 +12,7 @@ fieldset.inner>div.output div.content td.text span.constant { color:var(--code-c
 fieldset.inner>div.output div.content td.text span.string { color:var(--code-string); }
 fieldset.inner>div.output div.content td.text span.object { color:var(--code-object); }
 fieldset.inner>div.output>div.project { width:230px; }
-fieldset.inner>div.output>div.project * { font-family:monospace; font-size:14px; outline:none; }
+fieldset.inner>div.output>div.project * { font-size:14px; outline:none; }
 fieldset.inner>div.output>div.project div.action { width:100%; }
 fieldset.inner>div.output>div.project input[type=text] { box-shadow:none; }
 fieldset.inner>div.output>div.project div.zone>div.item span.icon { font-size:20px; line-height:16px; width:20px; float:right; display:none; }
@@ -22,8 +22,8 @@ fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-rig
 fieldset.inner>div.output>div.project>div.zone div.action>div.item>input { width:calc(100% - 5px); }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item>span.delete { top:3px; right:5px; }
 fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
-fieldset.inner>div.output>div.layout>div.tabs { font-family:monospace; font-size:14px; display:none; }
-fieldset.inner>div.output>div.layout>div.path { font-family:monospace; font-size:14px; display:none; }
+fieldset.inner>div.output>div.layout>div.tabs { font-size:14px; display:none; }
+fieldset.inner>div.output>div.layout>div.path { font-size:14px; display:none; }
 fieldset.inner>div.output>div.layout>div.layout div.content * { font-family:monospace; font-size:14px; outline:none; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile { max-width:unset; }
 fieldset.inner>div.output>div.layout>div.layout>iframe.profile { border-left:var(--plugin-border-color) solid 1px; }

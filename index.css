@@ -74,7 +74,7 @@ body>div.upload div.status div.size { text-align:center; }
 legend { font-size:1.2rem; line-height:32px; height:32px; }
 select, input { font-size:1rem; height:32px; }  textarea::placeholder, input::placeholder { font-style:italic; }
 textarea { font-size:1rem; tab-size:2; padding:5px; height:96px; width:100%; resize:vertical; }
-table.content, div.item, div.code, div.story[data-type=spark] { font-family:monospace; }
+// table.content, div.item, div.code, div.story[data-type=spark] { font-family:monospace; }
 table.content, div.item, div.code, div.story[data-type=spark] { white-space:pre; text-align:left; }
 div.story[data-type=spark] { padding:5px 10px; border-left:var(--code-border-color) solid 5px; }
 table.content div.story[data-type=spark] { margin:0; }
