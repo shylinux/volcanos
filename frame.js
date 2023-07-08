@@ -580,7 +580,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	story: {
 		_hash: {
 			spark: function(can, meta, target) {
-				meta[mdb.NAME] == html.INNER? can.onmotion.copy(can, target): can.page.Select(can, target, html.SPAN, function(item) { can.onmotion.copy(can, item, function(event) {
+				meta[mdb.NAME] == html.INNER? can.onmotion.copy(can, target): can.page.Select(can, target, "kbd", function(item) { can.onmotion.copy(can, item, function(event) {
 					if (event.metaKey) {
 						if (item.innerText.indexOf(web.HTTP) == 0) { return can.user.open(item.innerText) }
 						if (item.innerText.indexOf("vim ") == 0) {

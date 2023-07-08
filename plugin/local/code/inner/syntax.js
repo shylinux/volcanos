@@ -331,11 +331,11 @@ Volcanos(chat.ONSYNTAX, {
 
 		"header": code.KEYWORD, "nav": code.KEYWORD, "main": code.KEYWORD, "aside": code.KEYWORD, "footer": code.KEYWORD, "article": code.KEYWORD, "section": code.KEYWORD,
 		"a": code.KEYWORD, "div": code.KEYWORD, "span": code.KEYWORD, "br": code.KEYWORD, "hr": code.KEYWORD,
-		"img": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD, "iframe": code.KEYWORD, "canvas": code.KEYWORD,
+		"img": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD, "canvas": code.KEYWORD, "iframe": code.KEYWORD,
 		"svg": code.KEYWORD, "rect": code.KEYWORD, "circle": code.KEYWORD,
 
 		"fieldset": code.KEYWORD, "legend": code.KEYWORD, "form": code.KEYWORD, "label": code.KEYWORD,
-		"select": code.KEYWORD, "option": code.KEYWORD, "button": code.KEYWORD, "input": code.KEYWORD, "textarea": code.KEYWORD,
+		"select": code.KEYWORD, "option": code.KEYWORD, "input": code.KEYWORD, "textarea": code.KEYWORD, "button": code.KEYWORD,
 		"height": code.FUNCTION, "width": code.FUNCTION,
 	}},
 })
