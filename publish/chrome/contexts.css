@@ -28,7 +28,7 @@ html, body {
 	--hover-bg-color:var(--input-bg-color);
 	--hover-fg-color:var(--input-fg-color);
 
-	--th-fg-color:black;
+	--th-fg-color:var(--plugin-fg-color);
 	--th-bg-color:var(--plugin-bg-color);
 	--td-hover-bg-color:var(--plugin-bg-color);
 	--tr-hover-bg-color:var(--plugin-bg-color);
@@ -60,6 +60,7 @@ html, body {
 	--hover-bg-color:var(--input-bg-color);
 	--hover-fg-color:white;
 
+	--th-fg-color:var(--plugin-fg-color);
 	--th-bg-color:var(--plugin-bg-color);
 	--td-hover-bg-color:var(--plugin-bg-color);
 	--tr-hover-bg-color:var(--plugin-bg-color);
@@ -82,7 +83,7 @@ fieldset.auto, fieldset.full, fieldset.float, body>div.float { position:fixed; z
 
 body>div.carte { padding:0; }
 body>div.carte input[name=filter] { margin:5px; width:calc(100% - 10px); position:sticky; top:5px; }
-body>div.carte div.item { text-align:center; white-space:pre; padding:5px 10px; }
+body>div.carte div.item { white-space:pre; padding:5px 10px; }
 body>div.carte div.item span.icon.next { float:right; }
 body>div.carte div.item { background-color:var(--carte-bg-color); }
 body>div.carte div.item:hover { background-color:var(--hover-bg-color); }

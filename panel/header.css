@@ -4,7 +4,8 @@ fieldset.Header>div.output div.title:first-child { font-style:italic; font-weigh
 fieldset.Header>div.output div.state { float:right; }
 fieldset.Header>div.output div.state.avatar { padding:0; }
 fieldset.Header>div.output div.state.avatar>img { height:48px; }
-fieldset.Header>div.output div.search.title { padding:8px 5px; margin-left:5px; }
-fieldset.Header>div.output div.search>input { margin-right:0; transition:all 1s; }
+fieldset.Header>div.output div.search.title { padding:8px 5px; margin-left:5px; position:relative; }
+fieldset.Header>div.output div.search>i { position:absolute; left:10px; top:15px; }
+fieldset.Header>div.output div.search>input { padding-left:30px; margin-right:0; transition:all 1s; }
 fieldset.Header>div.output div.search>input:focus { width:320px; transition:all 0.5s; }
-fieldset.Header>div.output div.search>span.delete { margin-left:-20px; margin-right:5px; }
+fieldset.Header>div.output div.search>span.delete { position:absolute; top:14px; right:5px; }

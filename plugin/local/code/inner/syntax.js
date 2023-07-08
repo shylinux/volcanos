@@ -1,8 +1,7 @@
 Volcanos(chat.ONSYNTAX, {
 	makefile: {prefix: {"#": code.COMMENT}, suffix: {":": code.COMMENT}, keyword: {
-			"ifeq": code.KEYWORD, "ifneq": code.KEYWORD, "else": code.KEYWORD, "endif": code.KEYWORD,
-		},
-	},
+		"ifeq": code.KEYWORD, "ifneq": code.KEYWORD, "else": code.KEYWORD, "endif": code.KEYWORD,
+	}},
 	man: {
 		prefix: {
 			"NAME": code.KEYWORD,
@@ -19,46 +18,45 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	},
 	vim: {prefix: {"\"": "comment"}, keyword: {
-			"source": code.KEYWORD,
-			"finish": code.KEYWORD,
-			"set": code.KEYWORD,
-			"let": code.KEYWORD,
-			"end": code.KEYWORD,
-			"if": code.KEYWORD,
-			"else": code.KEYWORD,
-			"elseif": code.KEYWORD,
-			"endif": code.KEYWORD,
-			"for": code.KEYWORD,
-			"in": code.KEYWORD,
-			"continue": code.KEYWORD,
-			"break": code.KEYWORD,
-			"endfor": code.KEYWORD,
-			"try": code.KEYWORD,
-			"catch": code.KEYWORD,
-			"finally": code.KEYWORD,
-			"endtry": code.KEYWORD,
-			"call": code.KEYWORD,
-			"function": code.KEYWORD,
-			"return": code.KEYWORD,
-			"endfunction": code.KEYWORD,
+		"source": code.KEYWORD,
+		"finish": code.KEYWORD,
+		"set": code.KEYWORD,
+		"let": code.KEYWORD,
+		"end": code.KEYWORD,
+		"if": code.KEYWORD,
+		"else": code.KEYWORD,
+		"elseif": code.KEYWORD,
+		"endif": code.KEYWORD,
+		"for": code.KEYWORD,
+		"in": code.KEYWORD,
+		"continue": code.KEYWORD,
+		"break": code.KEYWORD,
+		"endfor": code.KEYWORD,
+		"try": code.KEYWORD,
+		"catch": code.KEYWORD,
+		"finally": code.KEYWORD,
+		"endtry": code.KEYWORD,
+		"call": code.KEYWORD,
+		"function": code.KEYWORD,
+		"return": code.KEYWORD,
+		"endfunction": code.KEYWORD,
 
-			"autocmd": code.KEYWORD,
-			"command": code.KEYWORD,
-			"execute": code.KEYWORD,
-			"nnoremap": code.KEYWORD,
-			"cnoremap": code.KEYWORD,
-			"inoremap": code.KEYWORD,
-			"colorscheme": code.KEYWORD,
-			"highlight": code.KEYWORD,
-			"syntax": code.KEYWORD,
+		"autocmd": code.KEYWORD,
+		"command": code.KEYWORD,
+		"execute": code.KEYWORD,
+		"nnoremap": code.KEYWORD,
+		"cnoremap": code.KEYWORD,
+		"inoremap": code.KEYWORD,
+		"colorscheme": code.KEYWORD,
+		"highlight": code.KEYWORD,
+		"syntax": code.KEYWORD,
 
-			"has": code.FUNCTION,
-			"type": code.FUNCTION,
-			"empty": code.FUNCTION,
-			"exists": code.FUNCTION,
-			"executable": code.FUNCTION,
-		},
-	}, vimrc: {link: "vim"},
+		"has": code.FUNCTION,
+		"type": code.FUNCTION,
+		"empty": code.FUNCTION,
+		"exists": code.FUNCTION,
+		"executable": code.FUNCTION,
+	}}, vimrc: {link: "vim"},
 	c: {
 		prefix: {
 			"//": code.COMMENT,
@@ -103,7 +101,7 @@ Volcanos(chat.ONSYNTAX, {
 			"for": code.KEYWORD, "while": code.KEYWORD, "do": code.KEYWORD, "done": code.KEYWORD, "continue": code.KEYWORD, "break": code.KEYWORD,
 			"case": code.KEYWORD, "in": code.KEYWORD, "esac": code.KEYWORD,
 			"true": code.CONSTANT, "false": code.CONSTANT,
-			
+
 			"history": code.FUNCTION, "alias": code.FUNCTION, "complete": code.FUNCTION, "compgen": code.FUNCTION, "bind": code.FUNCTION,
 			"printf": code.FUNCTION, "echo": code.FUNCTION, "eval": code.FUNCTION, "test": code.FUNCTION, "trap": code.FUNCTION, "shift": code.FUNCTION,
 			"cd": code.FUNCTION, "ls": code.FUNCTION, "rm": code.FUNCTION, "chmod": code.FUNCTION, "mkdir": code.FUNCTION, "mktemp": code.FUNCTION,
@@ -115,25 +113,25 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	}, configure: {link: "sh"},
 	shy: {prefix: {"#": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT}, keyword: {"source": code.KEYWORD,
-			"title": code.KEYWORD, "navmenu": code.KEYWORD, "premenu": code.KEYWORD, "chapter": code.KEYWORD, "section": code.KEYWORD, "endmenu": code.KEYWORD,
-			"refer": code.KEYWORD, "brief": code.KEYWORD, "spark": code.KEYWORD, "shell": code.KEYWORD, "parse": code.KEYWORD,
-			"order": code.KEYWORD, "table": code.KEYWORD, "chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
-			"field": code.KEYWORD, "image": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD,
-			"style": code.KEYWORD,
-			"inner": code.KEYWORD,
-			
-			"package": code.KEYWORD, "import": code.KEYWORD, "const": code.KEYWORD, "type": code.KEYWORD, "var": code.KEYWORD,
-			"if": code.KEYWORD, "else": code.KEYWORD,
-			"for": code.KEYWORD, "range": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
-			"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD,
-			"func": code.KEYWORD, "defer": code.KEYWORD, "return": code.KEYWORD,
-			"init": code.FUNCTION, "main": code.FUNCTION, "list": code.FUNCTION, "info": code.FUNCTION,
-			"map": code.DATATYPE, "struct": code.DATATYPE, "interface": code.DATATYPE, "string": code.DATATYPE, "int": code.DATATYPE,
-			"true": code.CONSTANT, "false": code.CONSTANT,
-			
-			"kit": code.PACKAGE, "ice": code.PACKAGE, "m": code.OBJECT, "arg": code.OBJECT,
-			"event": code.OBJECT, "can": code.OBJECT, "msg": code.OBJECT, "target": code.OBJECT,
-		},
+		"title": code.KEYWORD, "navmenu": code.KEYWORD, "premenu": code.KEYWORD, "chapter": code.KEYWORD, "section": code.KEYWORD, "endmenu": code.KEYWORD,
+		"refer": code.KEYWORD, "brief": code.KEYWORD, "spark": code.KEYWORD, "shell": code.KEYWORD, "parse": code.KEYWORD,
+		"order": code.KEYWORD, "table": code.KEYWORD, "chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
+		"field": code.KEYWORD, "image": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD,
+		"style": code.KEYWORD,
+		"inner": code.KEYWORD,
+
+		"package": code.KEYWORD, "import": code.KEYWORD, "const": code.KEYWORD, "type": code.KEYWORD, "var": code.KEYWORD,
+		"if": code.KEYWORD, "else": code.KEYWORD,
+		"for": code.KEYWORD, "range": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
+		"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD,
+		"func": code.KEYWORD, "defer": code.KEYWORD, "return": code.KEYWORD,
+		"init": code.FUNCTION, "main": code.FUNCTION, "list": code.FUNCTION, "info": code.FUNCTION,
+		"map": code.DATATYPE, "struct": code.DATATYPE, "interface": code.DATATYPE, "string": code.DATATYPE, "int": code.DATATYPE,
+		"true": code.CONSTANT, "false": code.CONSTANT,
+
+		"kit": code.PACKAGE, "ice": code.PACKAGE, "m": code.OBJECT, "arg": code.OBJECT,
+		"event": code.OBJECT, "can": code.OBJECT, "msg": code.OBJECT, "target": code.OBJECT,
+	},
 		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t ")
 			opts.chapter = opts.chapter||0
 			if (ls[0] == "chapter") { opts.chapter++, opts.section = 0, push(opts.chapter+lex.SP+ls[1]) }
@@ -146,7 +144,8 @@ Volcanos(chat.ONSYNTAX, {
 		"service": code.KEYWORD, "rpc": code.KEYWORD, "returns": code.KEYWORD,
 		"message": code.KEYWORD, "repeated": code.FUNCTION, "string": code.DATATYPE, "int64": code.DATATYPE,
 	}},
-	go: {prefix: {"// ": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT}, keyword: {
+	go: {prefix: {"// ": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT},
+		keyword: {
 			"package": code.KEYWORD, "import": code.KEYWORD, "const": code.KEYWORD, "type": code.KEYWORD, "struct": code.KEYWORD, "interface": code.KEYWORD, "func": code.KEYWORD, "var": code.KEYWORD,
 			"if": code.KEYWORD, "else": code.KEYWORD,
 			"for": code.KEYWORD, "range": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
@@ -186,7 +185,8 @@ Volcanos(chat.ONSYNTAX, {
 			}
 		},
 	}, mod: {prefix: {"//": code.COMMENT}, keyword: {"go": code.KEYWORD, "module": code.KEYWORD, "require": code.KEYWORD, "replace": code.KEYWORD}}, sum: {},
-	js: {prefix: {"// ": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT}, keyword: {
+	js: {prefix: {"// ": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT},
+		keyword: {
 			"let": code.KEYWORD, "const": code.KEYWORD, "var": code.KEYWORD,
 			"if": code.KEYWORD, "else": code.KEYWORD,
 			"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD,
@@ -209,7 +209,7 @@ Volcanos(chat.ONSYNTAX, {
 			"async": code.KEYWORD, "await": code.KEYWORD,
 
 			"Array": code.DATATYPE, "JSON": code.DATATYPE, "Date": code.DATATYPE, "Math": code.DATATYPE, "XMLHttpRequest": code.DATATYPE, "WebSocket": code.DATATYPE,
-			
+
 			"hasOwnProperty": code.FUNCTION, "isArray": code.FUNCTION, "forEach": code.FUNCTION, "apply": code.FUNCTION, "call": code.FUNCTION,
 			"length": code.FUNCTION, "split": code.FUNCTION, "trim": code.FUNCTION, "toLowerCase": code.FUNCTION, "indexOf": code.FUNCTION, "lastIndexOf": code.FUNCTION,
 			"concat": code.FUNCTION, "reverse": code.FUNCTION, "slice": code.FUNCTION, "join": code.FUNCTION, "sort": code.FUNCTION, "push": code.FUNCTION, "pop": code.FUNCTION,
@@ -237,9 +237,7 @@ Volcanos(chat.ONSYNTAX, {
 				ls[0] && push(opts.block+nfs.PT+ls[0])
 			}
 		},
-	}, json: {split: {operator: "{[:,]}"}, keyword: {
-    "true": code.CONSTANT, "false": code.CONSTANT,
-  }},
+	}, json: {split: {operator: "{[:,]}"}, keyword: {"true": code.CONSTANT, "false": code.CONSTANT}},
 	css: {prefix: {"// ": code.COMMENT, "/* ": code.COMMENT}, split: {operator: "{[(.,:;&>=)]}"},
 		func: function(can, push, text) { text.indexOf("/* ") == 0 && push(can.base.trimPrefix(can.base.trimSuffix(text, " */"), "/* ")) },
 		regexp: {
@@ -251,13 +249,6 @@ Volcanos(chat.ONSYNTAX, {
 			"#[^ ;]+": code.CONSTANT,
 		},
 		keyword: {
-			"h1": code.KEYWORD, "h2": code.KEYWORD, "h3": code.KEYWORD,
-			"p": code.KEYWORD, "a": code.KEYWORD,
-			"ul": code.KEYWORD, "ol": code.KEYWORD, "li": code.KEYWORD,
-
-			"fieldset": code.KEYWORD, "legend": code.KEYWORD, "form": code.KEYWORD,
-			"select": code.KEYWORD, "input": code.KEYWORD, "textarea": code.KEYWORD,
-
 			"background-color": code.FUNCTION, "color": code.FUNCTION,
 			"font-family": code.FUNCTION, "font-weight": code.FUNCTION, "font-style": code.FUNCTION, "font-size": code.FUNCTION, "line-height": code.FUNCTION,
 			"text-align": code.FUNCTION, "white-space": code.FUNCTION, "tab-size": code.FUNCTION,
@@ -270,34 +261,28 @@ Volcanos(chat.ONSYNTAX, {
 			"border-radius": code.FUNCTION, "outline": code.FUNCTION, "box-shadow": code.FUNCTION, "text-shadow": code.FUNCTION,
 			"caret-color": code.FUNCTION, "cursor": code.FUNCTION, "pointer": code.CONSTANT,
 
-			"body": code.KEYWORD,
-			"table": code.KEYWORD, "thead": code.KEYWORD, "tbody": code.KEYWORD, "tr": code.KEYWORD, "th": code.KEYWORD, "td": code.KEYWORD,
-			"label": code.KEYWORD, "span": code.KEYWORD, "img": code.KEYWORD, "svg": code.KEYWORD, "div": code.KEYWORD,
-			"video": code.KEYWORD,
-			"iframe": code.KEYWORD,
 			"hover": code.DATATYPE, "focus": code.DATATYPE, "not": code.DATATYPE, "type": code.FUNCTION, "name": code.FUNCTION,
+			"box-sizing": code.FUNCTION, "border-box": code.CONSTANT,
+			"background": code.FUNCTION, "background-position": code.FUNCTION, "background-size": code.FUNCTION,
+			"flex": code.FUNCTION, "justify-content": code.FUNCTION,
+			"transition": code.FUNCTION, "transform": code.FUNCTION, "translate": code.FUNCTION, "rotate": code.FUNCTION,
+			"stroke-width": code.FUNCTION, "stroke": code.FUNCTION, "fill": code.FUNCTION,
+			"z-index": code.FUNCTION,
 
-			"z-index": code.FUNCTION, "box-sizing": code.FUNCTION, "border-box": code.CONSTANT,
-			"justify-content": code.FUNCTION,
-			
+			"monospace": code.CONSTANT, "italic": code.CONSTANT, "bold": code.CONSTANT, "center": code.CONSTANT,
 			"solid": code.CONSTANT, "unset": code.CONSTANT,
 			"block": code.CONSTANT, "none": code.CONSTANT, "hidden": code.CONSTANT, "visible": code.CONSTANT, "auto": code.CONSTANT, "relative": code.CONSTANT, "absolute": code.CONSTANT, "sticky": code.CONSTANT, "fixed": code.CONSTANT,
-			"transition": code.FUNCTION, "transform": code.FUNCTION, "translate": code.FUNCTION, "rotate": code.FUNCTION,
 
-			"background": code.FUNCTION, "background-position": code.FUNCTION, "background-size": code.FUNCTION,
-			"monospace": code.CONSTANT, "italic": code.CONSTANT, "bold": code.CONSTANT, "center": code.CONSTANT,
-			"stroke-width": code.FUNCTION, "stroke": code.FUNCTION, "fill": code.FUNCTION,
-			
 			"dark": code.CONSTANT, "light": code.CONSTANT, "transparent": code.CONSTANT,
 			"black": code.CONSTANT, "white": code.CONSTANT, "blue": code.CONSTANT, "red": code.CONSTANT, "yellow": code.CONSTANT,
-			
+
 			"green": code.CONSTANT,
 			"purple": code.CONSTANT,
 			"silver": code.CONSTANT,
 			"gray": code.CONSTANT,
 			"navy": code.CONSTANT,
 			"teal": code.CONSTANT,
-			
+
 			"gold": code.CONSTANT,
 			"orange": code.CONSTANT,
 			"lavender": code.CONSTANT,
@@ -305,7 +290,7 @@ Volcanos(chat.ONSYNTAX, {
 			"dimgray": code.CONSTANT,
 			"brown": code.CONSTANT,
 			"snow": code.CONSTANT,
-			
+
 			"skyblue": code.CONSTANT,
 			"aliceblue": code.CONSTANT,
 			"cadetblue": code.CONSTANT,
@@ -319,51 +304,38 @@ Volcanos(chat.ONSYNTAX, {
 			"lightblue": code.CONSTANT,
 			"lightgray": code.CONSTANT,
 			"lightgreen": code.CONSTANT,
-			
+
 			"cyan": code.CONSTANT,
 			"magenta": code.CONSTANT,
-			
+
 			"word-break": code.FUNCTION,
 			"vertical-align": code.FUNCTION,
 			"calc": code.FUNCTION,
 			"url": code.FUNCTION,
 			"contexts": code.CONSTANT,
-		},
+		}, include: ["html"],
 	},
-	html: {split: {operator: "<!=/>"},
-		keyword: {
-			"DOCTYPE": code.KEYWORD, "html": code.KEYWORD, "head": code.KEYWORD, "body": code.KEYWORD,
-			"meta": code.KEYWORD, "title": code.KEYWORD, "link": code.KEYWORD, "script": code.KEYWORD,
-			"src": code.FUNCTION, "href": code.FUNCTION, "rel": code.FUNCTION, "style": code.FUNCTION,
+	html: {split: {operator: "<!=/>"}, keyword: {
+		"DOCTYPE": code.KEYWORD, "html": code.KEYWORD, "head": code.KEYWORD, "body": code.KEYWORD,
+		"meta": code.KEYWORD, "title": code.KEYWORD, "link": code.KEYWORD, "script": code.KEYWORD,
+		"src": code.FUNCTION, "href": code.FUNCTION, "rel": code.FUNCTION, "style": code.FUNCTION,
 
-			"h1": code.KEYWORD, "h2": code.KEYWORD, "h3": code.KEYWORD,
-			"p": code.KEYWORD, "em": code.KEYWORD, "strong": code.KEYWORD, "sub": code.KEYWORD, "sup": code.KEYWORD, "i": code.KEYWORD, "b": code.KEYWORD, "u": code.KEYWORD,
-			"pre": code.KEYWORD, "code": code.KEYWORD, "var": code.KEYWORD, "kbd": code.KEYWORD, "samp": code.KEYWORD,
-			"ul": code.KEYWORD, "ol": code.KEYWORD, "li": code.KEYWORD,
+		"h1": code.KEYWORD, "h2": code.KEYWORD, "h3": code.KEYWORD,
+		"p": code.KEYWORD, "em": code.KEYWORD, "strong": code.KEYWORD, "sub": code.KEYWORD, "sup": code.KEYWORD, "i": code.KEYWORD, "b": code.KEYWORD, "u": code.KEYWORD,
+		"pre": code.KEYWORD, "code": code.KEYWORD, "var": code.KEYWORD, "kbd": code.KEYWORD, "samp": code.KEYWORD,
 
-			"header": code.KEYWORD, "nav": code.KEYWORD, "main": code.KEYWORD, "aside": code.KEYWORD, "footer": code.KEYWORD, "article": code.KEYWORD, "section": code.KEYWORD,
-			"img": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD, "iframe": code.KEYWORD,
+		"ul": code.KEYWORD, "ol": code.KEYWORD, "li": code.KEYWORD,
+		"table": code.KEYWORD, "thead": code.KEYWORD, "tbody": code.KEYWORD, "tfoot": code.KEYWORD,
+		"tr": code.KEYWORD, "th": code.KEYWORD, "td": code.KEYWORD,
+		"colgroup": code.KEYWORD, "col": code.KEYWORD, "colspan": code.FUNCTION, "rowspan": code.FUNCTION,
 
-			"div": code.KEYWORD, "span": code.KEYWORD,
-			"svg": code.KEYWORD,
+		"header": code.KEYWORD, "nav": code.KEYWORD, "main": code.KEYWORD, "aside": code.KEYWORD, "footer": code.KEYWORD, "article": code.KEYWORD, "section": code.KEYWORD,
+		"a": code.KEYWORD, "div": code.KEYWORD, "span": code.KEYWORD, "br": code.KEYWORD, "hr": code.KEYWORD,
+		"img": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD, "iframe": code.KEYWORD, "canvas": code.KEYWORD,
+		"svg": code.KEYWORD, "rect": code.KEYWORD, "circle": code.KEYWORD,
 
-			"a": code.KEYWORD,
-			"height": code.FUNCTION, "width": code.FUNCTION,
-
-			"fieldset": code.KEYWORD, "legend": code.KEYWORD, "form": code.KEYWORD,
-			"select": code.KEYWORD, "option": code.KEYWORD, "button": code.KEYWORD, "input": code.KEYWORD, "textarea": code.KEYWORD,
-
-			"br": code.KEYWORD, "hr": code.KEYWORD,
-			"label": code.KEYWORD,
-			"table": code.KEYWORD, "thead": code.KEYWORD, "tbody": code.KEYWORD, "tfoot": code.KEYWORD,
-			"tr": code.KEYWORD, "th": code.KEYWORD, "td": code.KEYWORD,
-			"colgroup": code.KEYWORD, "col": code.KEYWORD, "colspan": code.FUNCTION, "rowspan": code.FUNCTION,
-			
-			"dl": code.KEYWORD, "dt": code.KEYWORD, "dd": code.KEYWORD,
-			"time": code.KEYWORD,
-			"blockquote": code.KEYWORD, "q": code.KEYWORD, "cite": code.KEYWORD, "abbr": code.KEYWORD, "address": code.KEYWORD,
-			"source": code.KEYWORD, "muted": code.FUNCTION, "autoplay": code.FUNCTION, "loop": code.FUNCTION, "controls": code.FUNCTION,
-			"rect": code.KEYWORD, "circle": code.KEYWORD, "fill": code.FUNCTION, "x": code.FUNCTION, "y": code.FUNCTION, "r": code.FUNCTION,
-		},
-	},
+		"fieldset": code.KEYWORD, "legend": code.KEYWORD, "form": code.KEYWORD, "label": code.KEYWORD,
+		"select": code.KEYWORD, "option": code.KEYWORD, "button": code.KEYWORD, "input": code.KEYWORD, "textarea": code.KEYWORD,
+		"height": code.FUNCTION, "width": code.FUNCTION,
+	}},
 })

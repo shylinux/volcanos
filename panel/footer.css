@@ -4,8 +4,9 @@ fieldset.Footer>div.output div.title:first-child { text-align:center; width:230p
 fieldset.Footer>div.output div.state { float:right; }
 fieldset.Footer>div.output div.state label { font-size:12px; }
 fieldset.Footer>div.output div.toast { float:right; }
-fieldset.Footer>div.output div.cmd { padding:0; margin-left:10px; }
-fieldset.Footer>div.output div.cmd>input[name=cmd] { margin-right:0; width:120px; transition:all 1s; }
+fieldset.Footer>div.output div.cmd { padding:0; margin-left:10px; position:relative; }
+fieldset.Footer>div.output div.cmd>i { position:absolute; left:10px; top:8px; }
+fieldset.Footer>div.output div.cmd>input[name=cmd] { padding-left:30px; margin-right:0; width:120px; transition:all 1s; }
 fieldset.Footer>div.output div.cmd>input[name=cmd]:focus { width:320px; transition:all 0.5s; }
 fieldset.Footer>div.output div.cmd>span.delete { margin-left:-20px; margin-right:5px; }
 
