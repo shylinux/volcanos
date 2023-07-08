@@ -240,6 +240,8 @@ h2:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); 
 h3:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+kbd:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+samp:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 span.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 span.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 span.icon:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }

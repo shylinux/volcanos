@@ -31,7 +31,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 	},
 	spark: function(can, meta, target) {
 		if (meta[mdb.NAME] == html.INNER) { return can.onmotion.copy(can, target) }
-		can.page.Select(can, target, html.SPAN, function(item) { can.onmotion.copy(can, item, function() {
+		can.page.Select(can, target, "kbd,samp", function(item) { can.onmotion.copy(can, item, function() {
 			meta.type == "shell" && can.onappend.float(can, {index: web.CODE_XTERM, args: ["sh"]})
 		}) })
 	},
