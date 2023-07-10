@@ -34,7 +34,7 @@ fieldset.inner>div.output>div.project>div.zone>div.item>span.icon { font-style:n
 fieldset.inner.cmd>div.output>div.layout>div.tabs { height:38px; display:block; overflow:hidden; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div { padding:10px; height:38px; float:left; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.icon { font-size:18px; line-height:32px; padding:2px 5px; position:sticky; top:0; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.icon { font-size:26px; line-height:32px; padding:2px 5px; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>span { font-style:italic; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>span.icon { padding:0 5px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.usernick { float:right; position:sticky; top:0; }

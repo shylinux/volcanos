@@ -221,7 +221,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}), item), "", action)
 		}), meta
 	},
-	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event)
+	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); meta.feature = meta.feature||{}
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (msg.RunAction(event, sub, cmds)) { return } }
 		if (msg.RunAction(event, can, cmds)) { return }
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { var msg = can.request(event, {action: cmds[1]})
