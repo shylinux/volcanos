@@ -29,11 +29,11 @@ table.content.full { width:100%; }
 table.content thead { position:sticky; top:2px; }
 table.content th { padding:2px 5px; }
 table.content td { padding:2px 5px; }
-table.content.action th:last-child { position:sticky; right:2px; }
-table.content.action td:last-child { position:sticky; right:2px; }
+table.content.action th:last-child { position:sticky; right:2px; max-width:180px; }
+table.content.action td:last-child { position:sticky; right:2px; max-width:180px; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; }
 hr, td.hr { border-bottom:var(--plugin-border-color) dashed 1px; margin:5px; }
-ul { padding-left:40px; margin:20px 0; }
+ul { padding-left:20px; margin:20px 0; }
 kbd { padding:0 10px; }
 img { margin-bottom:-8px; }
 /* fieldset */
@@ -88,6 +88,7 @@ body>div.input textarea { height:120px; width:240px; }
 body>div.input div.action { width:100%; }
 body>div.input div.action>div.item { margin:5px; float:right; }
 body>div.input div.action>div.item>input[type=button] { width:110px; }
+body>div.input.login>div.output { text-align:center; }
 body>div.upload div.action input[type=file] { width:320px; }
 body>div.upload div.output { border:var(--notice-fg-color) solid 1px; }
 body>div.upload div.output div.progress { background-color:var(--progress-bg-color); height:10px; width:0; }
@@ -235,7 +236,8 @@ table.content.action td:last-child { background-color:var(--th-bg-color); }
 h1:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 h2:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 h3:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-kbd:hover { background-color:white; color:black; }
+kbd:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+/* kbd:hover { background-color:white; color:black; } */
 samp:hover { background-color:white; color:black; }
 div.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }

@@ -12,7 +12,7 @@ fieldset.inner>div.output div.content td.text span.constant { color:var(--code-c
 fieldset.inner>div.output div.content td.text span.string { color:var(--code-string); }
 fieldset.inner>div.output div.content td.text span.object { color:var(--code-object); }
 fieldset.inner>div.output>div.project { width:230px; }
-fieldset.inner>div.output>div.project * { font-size:14px; outline:none; }
+fieldset.inner>div.output>div.project * { font-size:14px; font-family:monospace; outline:none; }
 fieldset.inner>div.output>div.project div.action { width:100%; }
 fieldset.inner>div.output>div.project input[type=text] { box-shadow:none; }
 fieldset.inner>div.output>div.project div.zone>div.item span.icon { font-size:20px; line-height:16px; width:20px; float:right; display:none; }
@@ -35,6 +35,8 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs { height:38px; display:block; 
 fieldset.inner.cmd>div.output>div.layout>div.tabs.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div { padding:10px; height:38px; float:left; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.icon { font-size:26px; line-height:32px; padding:2px 5px; position:sticky; top:0; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs.select { background-color:var(--output-bg-color); }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>span { font-style:italic; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>span.icon { padding:0 5px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.usernick { float:right; position:sticky; top:0; }
@@ -52,6 +54,7 @@ fieldset.inner.cmd>div.output>div.layout>div.display>div.status { position:stick
 fieldset.inner.cmd>legend { display:none; }
 fieldset.inner.cmd>form.option { display:none; }
 fieldset.inner.cmd>div.action { display:none; }
+fieldset.inner.cmd>div.output { overflow:hidden; }
 fieldset.inner.cmd>div.status { display:none; }
 body.dark fieldset.inner>div.output div.content tr.line:hover { background-color:unset; }
 body.white fieldset.inner.cmd>div.output { background-color:aliceblue; }

@@ -538,7 +538,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 			if (can.user.isMobile && can.user.isLandscape()) { return }
 			can.page.SelectChild(can, field, html.DIV_OUTPUT, function(output) { can.page.styleHeight(can, output, height) })
 		}), can.onengine.signal(can, chat.ONSIZE, can.request({}, {height: height, width: width}))
-		can.page.style(can, document.body, kit.Dict(html.OVERFLOW, html.HIDDEN))
+		can.user.isMobile && can.user.isLandscape() || can.page.style(can, document.body, kit.Dict(html.OVERFLOW, html.HIDDEN))
 		// can.user.isMobile && can.page.style(can, document.body, kit.Dict(html.OVERFLOW, html.HIDDEN))
 	},
 	expand: function(can, target, width) { var n = parseInt(target.offsetWidth/(width+20)); width = target.offsetWidth/n - 20
@@ -703,6 +703,11 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	move: function(can, target, layout) { layout && can.page.style(can, target, layout), can.onmotion.resize(can, target, function() {}) },
 	resize: function(can, target, cb, top) { var begin, action
 		target.onclick = function(event) {
+			if (can.page.tagis(event.target, html.DIV) && can.page.ClassList.has(can, event.target, html.FLOAT)) {
+			} else if (can.page.tagis(event.target, html.FIELDSET)) {
+			} else {
+				return
+			}
 			if (can.page.tagis(event.target, html.INPUT)) { return }
 			can.onmotion.delay(can, function() { can.onmotion.clearCarte(can) })
 			can.onkeymap.prevent(event)
