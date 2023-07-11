@@ -115,8 +115,8 @@ Volcanos(chat.ONACTION, {list: ["编译", "源码", "终端", "文档", "计划"
 	"文档": function(event, can) { can.onimport.tabview(can, "", web.WIKI_WORD, ctx.INDEX) },
 	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },
 	"桌面": function(event, can) { can.onimport.tabview(can, "", "web.chat.macos.desktop", ctx.INDEX) },
-	"后台": function(event, can) { can.onimport.tabview(can, "", location.origin+"/chat/portal/"+(can.misc.Search(can, log.DEBUG) == ice.TRUE? "?debug=true": ""), web.SPACE) },
-	"官网": function(event, can) { can.onimport.tabview(can, "", location.origin+"/wiki/portal/"+(can.misc.Search(can, log.DEBUG) == ice.TRUE? "?debug=true": ""), web.SPACE) },
+	"后台": function(event, can) { can.onimport.tabview(can, "", location.origin+"/chat/portal/", web.SPACE) },
+	"官网": function(event, can) { can.onimport.tabview(can, "", location.origin+"/wiki/portal/", web.SPACE) },
 	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value); before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before)); return can.onaction.rerankLine(can), can.onexport.line(can, line) },
 	deleteLine: function(can, line) { line = can.onaction._getLine(can, line); var next = line.nextSibling||line.previousSibling; return can.page.Remove(can, line), can.onaction.rerankLine(can), next },
 	_selectLine: function(can) { can.current && can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText

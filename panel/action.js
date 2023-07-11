@@ -80,8 +80,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	onresize: function(can) { can.onaction.layout(can), window.setsize && window.setsize(can.page.width(), can.page.height()) },
 	ontitle: function(can, msg) { can.onlayout._storage(can, "") },
 	
-	portal: function(can) { can.user.opens("/wiki/portal/") },
-	desktop: function(can) { can.user.opens("/chat/cmd/web.chat.macos.desktop") },
+	portal: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: "web.wiki.portal"})) },
+	desktop: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: "web.chat.macos.desktop"})) },
 	layout: function(can, button, skip) { can.page.ClassList.del(can, can._target, can._layout||can.onlayout._storage(can)), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		button = (can.onlayout._storage(can, can._layout = button == ice.AUTO? "": button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
 		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button})), can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), skip || can.onlayout._init(can)

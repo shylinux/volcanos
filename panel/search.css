@@ -1,3 +1,4 @@
 fieldset.Search { padding:10px; position:fixed; left:230px; top:48px; }
 fieldset.Search>div.output>div.profile { max-width:unset; }
 fieldset.Search>div.output table.content { width:100%; }
+fieldset.Search>div.output>div.content a { color:silver; }

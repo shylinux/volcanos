@@ -29,8 +29,8 @@ table.content.full { width:100%; }
 table.content thead { position:sticky; top:2px; }
 table.content th { padding:2px 5px; }
 table.content td { padding:2px 5px; }
-table.content.action th:last-child { position:sticky; right:2px; max-width:180px; }
-table.content.action td:last-child { position:sticky; right:2px; max-width:180px; }
+table.content.action th:last-child { position:sticky; right:2px; max-width:190px; }
+table.content.action td:last-child { position:sticky; right:2px; max-width:190px; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; }
 hr, td.hr { border-bottom:var(--plugin-border-color) dashed 1px; margin:5px; }
 ul { padding-left:20px; margin:20px 0; }
@@ -228,7 +228,8 @@ input:not([type=button]) { border-radius:0; }
 input:not([type=button]):hover { border:var(--input-border); }
 input:not([type=button]):focus { border:var(--input-border); outline:none; }
 textarea { background-color:var(--input-bg-color); color:var(--input-fg-color); }
-table.content tr:hover { background-color:var(--tr-hover-bg-color); color:var(--hover-fg-color); }
+table.content tr:hover { background-color:var(--tr-hover-bg-color); }
+// table.content tr:hover { background-color:var(--tr-hover-bg-color); color:var(--hover-fg-color); }
 table.content th { background-color:var(--th-bg-color); color:var(--th-fg-color); }
 table.content td:hover { background-color:var(--td-hover-bg-color); }
 table.content td.select { background-color:var(--td-hover-bg-color); }
@@ -248,7 +249,7 @@ div.action div.tabs:hover { background-color:var(--hover-bg-color); color:var(--
 div.action div.tabs.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 fieldset>div.output { background-color:var(--output-bg-color); }
 fieldset>div.status { border-top:var(--status-border); }
-fieldset:not(.panel) { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); border-radius:var(--plugin-radius); }
+fieldset:not(.panel):not(.cmd) { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); border-radius:var(--plugin-radius); }
 fieldset.panel:not(.main) { background-color:var(--panel-bg-color); color:var(--panel-fg-color); }
 fieldset.panel:not(.main)>div.output { background-color:var(--panel-output-bg-color); color:var(--panel-output-fg-color); }
 fieldset.input div.output { background-color:var(--plugin-bg-color); }
