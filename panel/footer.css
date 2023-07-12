@@ -1,4 +1,4 @@
-fieldset.Footer>div.output { height:32px; font-style:italic; }
+fieldset.Footer>div.output { height:32px; font-style:italic; overflow:hidden; }
 fieldset.Footer>div.output div.item { font-family:unset; padding:7px; float:left; }
 fieldset.Footer>div.output div.title:first-child { text-align:center; width:230px; }
 fieldset.Footer>div.output div.state { float:right; }

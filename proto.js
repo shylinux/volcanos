@@ -393,8 +393,7 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 })
 try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
-	var debug = location.search.indexOf("debug=true") > 0 && (window.parent.outerWidth-window.parent.innerWidth < 100)
-	meta.version = window._version+(debug? "&_tt="+(new Date()).getTime(): "")
+	meta.version = window._version, window.parent.outerWidth-window.parent.innerWidth > 100 && (meta.version = "")
 	meta._load = function(url, cb) {
 		switch (url.split(ice.QS)[0].split(nfs.PT).pop().toLowerCase()) {
 			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+meta.version, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break

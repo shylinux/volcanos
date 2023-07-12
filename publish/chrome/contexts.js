@@ -59,26 +59,19 @@ setTimeout(function() { Volcanos({
 			})
 		}
 	},
-	field: function(can, msg, arg) {
-		can.onappend.plugin(can, {type: chat.CONTEXTS, index: arg[0], args: can.base.Obj(arg[1])}, function(sub, meta) {
-			var height = can.base.Max(window.innerHeight-sub._target.offsetTop-2*html.ACTION_HEIGHT, 200)
-			var width = can.base.Max(window.innerWidth-sub._target.offsetLeft, 800)
-			sub.Conf({height: height, width: width}), sub._legend.innerText = meta.help
-			sub.run = function(event, cmds, cb) { msg.RunAction(event, can, cmds) || can.runActionCommand(event, meta.index, cmds, function(msg) {
-				can.onmotion.toggle(can, sub._option, true), can.onmotion.toggle(can, sub._action, true), can.onmotion.toggle(can, sub._output, true), can.onmotion.toggle(can, sub._status, true)
-				can.page.style(can, sub._output, html.MAX_HEIGHT, height, html.MAX_WIDTH, width)
-				can.page.style(can, sub._target, html.LEFT, window.innerWidth-width, html.TOP, window.innerHeight-height-2*html.ACTION_HEIGHT)
-				can.base.isFunc(cb) && cb(msg)
-			}) }
-			sub._target.onclick = function() {
-				can.page.Select(can, document.body, can.page.Keys("div.carte.float"), function(target) { can.page.Remove(can, target) })
-			}
-			can.onmotion.move(can, sub._target, {left: msg.Option(html.LEFT), top: msg.Option(html.TOP), right: msg.Option(html.RIGHT), bottom: msg.Option(html.BOTTOM)})
-			sub._legend.onclick = function(event) { can.onmotion.toggle(can, sub._option), can.onmotion.toggle(can, sub._action), can.onmotion.toggle(can, sub._output), can.onmotion.toggle(can, sub._status) }
-			msg.Option("selection")? can.onengine.listen(can, "onselection", function() { sub.Option(msg.Option("selection"), window.getSelection()), sub.Update() }): sub._legend.onclick()
-			sub.onaction["保存参数"] = function(event) { can.run(can.request(event, {domain: location.host, id: msg.Option(mdb.ID)}), [chat.FIELD, mdb.MODIFY, html.TOP, sub._target.offsetTop, html.LEFT, sub._target.offsetLeft, ctx.ARGS, JSON.stringify(sub.Input([], true))]) }
-		}, document.body)
-	},
+	field: function(can, msg, arg) { can.onappend.plugin(can, {type: chat.CONTEXTS, index: arg[0], args: can.base.Obj(arg[1])}, function(sub, meta) {
+		var height = can.base.Max(window.innerHeight-sub._target.offsetTop-2*html.ACTION_HEIGHT, 160), width = can.base.Max(window.innerWidth-sub._target.offsetLeft, 600)
+		sub.Conf({height: height, width: width}), sub._legend.innerText = meta.help
+		sub.run = function(event, cmds, cb) { msg.RunAction(event, can, cmds) || can.runActionCommand(event, meta.index, cmds, function(msg) {
+			can.onmotion.toggle(can, sub._option, true), can.onmotion.toggle(can, sub._action, true), can.onmotion.toggle(can, sub._output, true), can.onmotion.toggle(can, sub._status, true)
+			can.onimport.size(sub, height, width, true), can.base.isFunc(cb) && cb(msg)
+		}) }
+		can.onmotion.move(can, sub._target, {left: msg.Option(html.LEFT)||window.innerWidth-width, top: msg.Option(html.TOP)||window.innerHeight-height-2*html.ACTION_HEIGHT, right: msg.Option(html.RIGHT), bottom: msg.Option(html.BOTTOM)})
+		sub._target.onclick = function() { can.page.Select(can, document.body, can.page.Keys("div.carte.float"), function(target) { can.page.Remove(can, target) }) }
+		// sub._legend.onclick = function(event) { can.onmotion.toggle(can, sub._option), can.onmotion.toggle(can, sub._action), can.onmotion.toggle(can, sub._output), can.onmotion.toggle(can, sub._status) }
+		msg.Option("selection") && can.onengine.listen(can, "onselection", function() { sub.Option(msg.Option("selection"), window.getSelection()), sub.Update() })
+		sub.onaction["保存参数"] = function(event) { can.run(can.request(event, {domain: location.host, id: msg.Option(mdb.ID)}), [chat.FIELD, mdb.MODIFY, html.TOP, sub._target.offsetTop, html.LEFT, sub._target.offsetLeft, ctx.ARGS, JSON.stringify(sub.Input([], true))]) }
+	}, document.body) },
     
     order: function(can, msg, arg) {
         var ui = can.user.input(event, can, [ctx.INDEX, ctx.ARGS, "selection", html.LEFT, html.TOP], function(args) {

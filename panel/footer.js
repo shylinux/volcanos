@@ -1,6 +1,6 @@
 (function() { var NTIP = "ntip", NLOG = "nlog", NCMD = "ncmd", NKEY = "nkey"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.core.Item(can.misc.localStorage(can)).length)
-		can.ondaemon._init(can); if (can.user.mod.isCmd) { return } can.Conf("version", can.base.trimPrefix(window._version, "?"))
+		can.ondaemon._init(can); if (can.user.mod.isCmd) { return } can.Conf("version", can.base.trimPrefix(window._version, "?_v="))
 		can.onimport._title(can, msg, target), can.onimport._command(can, msg, target)
 		can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target)
 	},
