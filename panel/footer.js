@@ -1,6 +1,6 @@
 (function() { var NTIP = "ntip", NLOG = "nlog", NCMD = "ncmd", NKEY = "nkey"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.core.Item(can.misc.localStorage(can)).length)
-		can.ondaemon._init(can); if (can.user.mod.isCmd) { return }
+		can.ondaemon._init(can); if (can.user.mod.isCmd) { return } can.Conf("version", can.base.trimPrefix(window._version, "?"))
 		can.onimport._title(can, msg, target), can.onimport._command(can, msg, target)
 		can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target)
 	},
@@ -8,7 +8,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.
 		if (can.base.contains(item, ice.AT)) { item = '<a href="mailto:'+item+'">'+item+'</a>' }
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE], "", item], title: "联系站长"}])
 	}) },
-	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [NTIP, NLOG, NCMD, NKEY]).reverse(), function(item) {
+	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [NTIP, NLOG, NCMD, NKEY, "version"]).reverse(), function(item) {
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE]], list: [
 			{text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", "", item]},
 		], onclick: function(event) { can.onexport[item](can) }}])

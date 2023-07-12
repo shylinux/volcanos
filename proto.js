@@ -393,18 +393,17 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 })
 try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
-	meta.version = window._version
 	var debug = location.search.indexOf("debug=true") > 0 && (window.parent.outerWidth-window.parent.innerWidth < 100)
-	if (window.parent.outerWidth - window.parent.innerWidth > 100) { meta.version = "", debug = false }
-	meta._load = function(url, cb) { var v = (meta.version||"")+(debug? "&_tt="+(new Date()).getTime(): "")
+	meta.version = window._version+(debug? "&_tt="+(new Date()).getTime(): "")
+	meta._load = function(url, cb) {
 		switch (url.split(ice.QS)[0].split(nfs.PT).pop().toLowerCase()) {
-			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+v, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
-			default: var item = document.createElement(nfs.SCRIPT); item.src = url+v, item.onerror = cb, item.onload = cb, document.body.appendChild(item)
+			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+meta.version, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
+			default: var item = document.createElement(nfs.SCRIPT); item.src = url+meta.version, item.onerror = cb, item.onload = cb, document.body.appendChild(item)
 		}
 	}
 	meta._init = function(can) {
-		window.onmousemove = function(event) { window._mousemove && (window._mousemove(event)) }
-		window.onmouseup = function(event) { delete(window._mousemove) }
+		window.onmousemove = function(event) { window._mousemove && (window._mousemove.onmousemove(event)) }
+		window.onmouseup = function(event) { window._mousemove && (window._mousemove.onmouseup(event)) }
 		window.ondblclick = function(event) { can.onkeymap.prevent(event) }
 		window.onkeydown = function(event) { if (event.key == lang.ESCAPE && !can.page.tagis(event.target, html.INPUT)) { can.onkeymap.prevent(event) } }
 		window.onerror = function(message, source, lineno, colno, error) { meta.version? alert([message].concat(can.misc._stacks(0, error)).join(lex.NL)): can.misc.Error(message, lex.NL+[source, lineno, colno].join(ice.DF), error) }

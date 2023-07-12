@@ -8,6 +8,7 @@ fieldset.Footer>div.output div.cmd { padding:0; margin-left:10px; position:relat
 fieldset.Footer>div.output div.cmd>i { position:absolute; left:10px; top:8px; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { padding-left:30px; margin-right:0; width:120px; transition:all 1s; }
 fieldset.Footer>div.output div.cmd>input[name=cmd]:focus { width:320px; transition:all 0.5s; }
+fieldset.Footer>div.output div.cmd>span.delete { margin-top:5px; }
 
 .picker { box-shadow:4px 4px 20px 4px #626bd0; }
 div.view span.keyword { color:#5cadd4; }

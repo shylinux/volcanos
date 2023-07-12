@@ -41,14 +41,14 @@ Volcanos(chat.ONFIGURE, {
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) { show(target, zone, path) }) }), target)
 	},
-	repos: function(can, target, zone) { can.onimport._zone(can, zone, web.CODE_GIT_STATUS, function(sub, msg) {
-		sub.onexport.record = function(sub, value, key, item) { can.onimport.tabview(can, item.path, item.file) }
-		zone._icon(kit.Dict(
-			web.REFRESH, function(event) { sub.Update(event) },
-			code.PULL, function(event) { sub.runAction(event, code.PULL) },
-			code.PUSH, function(event) { sub.runAction(event, code.PUSH) },
-			"=", function() { can.onimport.tabview(can, "", sub._index, ctx.INDEX) },
-		))
+	favor: function(can, target, zone) { can.onimport._zone(can, zone, web.CHAT_FAVOR, function(sub, msg) {
+		sub.onexport.record = function(sub, value, key, item, event) { switch (item.type) {
+			case nfs.FILE: var ls = can.onexport.split(can, item.text); can.onimport.tabview(can, ls[0], ls[1]); break
+			case mdb.LINK: can.onimport.tabview(can, "", item.text, web.SPACE); break
+			case ctx.INDEX: can.onimport.tabview(can, "", item.text, ctx.INDEX); break
+			case ssh.SHELL: can.onimport.tabview(can, "", [web.CODE_XTERM, item.text].join(mdb.FS), ctx.INDEX); break
+			case cli.OPENS: can.runAction(event, cli.OPENS, [item.text]); break
+		} }
 	}) },
 	xterm: function(can, target, zone) { can.onimport._zone(can, zone, web.CODE_XTERM, function(sub, msg) {
 		sub.onexport.record = function(sub, value, key, item) { can.onimport.tabview(can, "", [web.CODE_XTERM, item.hash, item.name||item.type].join(mdb.FS), ctx.INDEX) }
@@ -60,15 +60,6 @@ Volcanos(chat.ONFIGURE, {
 		}
 		sub.onexport.record = function(sub, value, key) { can.onimport.tabview(can, "", value, web.SPACE) }
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
-	}) },
-	favor: function(can, target, zone) { can.onimport._zone(can, zone, web.CHAT_FAVOR, function(sub, msg) {
-		sub.onexport.record = function(sub, value, key, item, event) { switch (item.type) {
-			case nfs.FILE: var ls = can.onexport.split(can, item.text); can.onimport.tabview(can, ls[0], ls[1]); break
-			case mdb.LINK: can.onimport.tabview(can, "", item.text, web.SPACE); break
-			case ctx.INDEX: can.onimport.tabview(can, "", item.text, ctx.INDEX); break
-			case ssh.SHELL: can.onimport.tabview(can, "", [web.CODE_XTERM, item.text].join(mdb.FS), ctx.INDEX); break
-			case cli.OPENS: can.runAction(event, cli.OPENS, [item.text]); break
-		} }
 	}) },
 })
 Volcanos(chat.ONACTION, {list: ["编译", "源码", "终端", "文档", "计划", "桌面", "后台", "官网"],

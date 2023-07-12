@@ -415,7 +415,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.onmotion.modifys(can, event.target, function(event, value, old) { run(event, mdb.MODIFY, [key, value]) }, item)
 			}}
 		}); table && can.onappend.style(can, chat.CONTENT, table), msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.onappend.style(can, ctx.ACTION, table)
-		table.offsetWidth > can.ConfWidth() / 2 && can.onappend.style(can, "full", table)
+		;(can.isCmdMode() || table.offsetWidth > can.ConfWidth() / 2) && can.onappend.style(can, "full", table)
 		return keys && can.page.RangeTable(can, table, can.core.List(keys, function(key) { return can.page.Select(can, table, html.TH, function(th, index) { if (th.innerHTML == key) { return index } })[0] })), table
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }
@@ -702,55 +702,27 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	},
 	move: function(can, target, layout) { layout && can.page.style(can, target, layout), can.onmotion.resize(can, target, function() {}) },
 	resize: function(can, target, cb, top) { var begin, action
-		target.onclick = function(event) {
-			if (can.page.tagis(event.target, html.DIV) && can.page.ClassList.has(can, event.target, html.FLOAT)) {
-			} else if (can.page.tagis(event.target, html.FIELDSET)) {
-			} else {
-				return
-			}
-			if (can.page.tagis(event.target, html.INPUT)) { return }
-			can.onmotion.delay(can, function() { can.onmotion.clearCarte(can) })
-			can.onkeymap.prevent(event)
-		}
-		target.onmousedown = function(event) { if (event.which != 1) { return }
-			for (var _target = event.target; _target; _target = _target.parentNode) { if (_target == target) { break }
-				if (can.page.tagis(_target, html.INPUT, html.TEXTAREA, html.TR)) { return }
-				if (can.page.ClassList.has(can, _target, html.ITEM)) { return }
-			}
-			can.onkeymap.prevent(event)
-			begin = {left: target.offsetLeft, top: target.offsetTop, width: target.offsetWidth, height: target.offsetHeight, x: event.x, y: event.y}
-			window._mousemove = target.onmousemove
+		target.onmousedown = function(event) { if (event.which != 1 || event.target != target && !can.page.ClassList.has(can, event.target, html.STATUS)) { return } window._mousemove = target
+			begin = {left: target.offsetLeft, top: target.offsetTop, height: target.offsetHeight, width: target.offsetWidth, x: event.x, y: event.y}
 		}, target.onmouseup = function(event) { begin = null, delete(window._mousemove) }
 		target.onmousemove = function(event) {
-			if (begin) {
-				can.onkeymap.prevent(event)
-				if (!window._mousemove) { return begin = null }
+			if (begin) { var dy = event.y - begin.y, dx = event.x - begin.x
 				switch (action) {
-					case "left":
-						can.page.style(can, target, html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth))
-						cb? cb(target.offsetHeight, begin.width + begin.x - event.x): can.page.style(can, target, html.WIDTH, begin.width + begin.x - event.x)
-						break
-					case "right":
-						cb? cb(target.offsetHeight, begin.width + event.x - begin.x): can.page.style(can, target, html.WIDTH, begin.width + event.x - begin.x)
-						break
-					case "top":
-						can.page.style(can, target, html.TOP, can.base.Min(begin.top + event.y - begin.y, top, window.innerHeight-target.offsetHeight))
-						cb? cb(begin.height + begin.y - event.y, target.offsetWidth): can.page.style(can, target, html.HEIGHT, begin.height + begin.y - event.y)
-						break
-					case "bottom":
-						cb? cb(begin.height + event.y - begin.y, target.offsetWidth): can.page.style(can, target, html.HEIGHT, begin.height + event.y - begin.y)
-						break
+					case html.LEFT: can.page.style(can, target, html.LEFT, can.base.Min(begin.left + dx, 0, window.innerWidth-target.offsetWidth)), dx = -dx
+					case html.RIGHT: cb? cb(begin.height, begin.width + dx): can.page.style(can, target, html.WIDTH, begin.width + dx); break
+					case html.TOP: can.page.style(can, target, html.TOP, can.base.Min(begin.top + dy, top, window.innerHeight-target.offsetHeight)), dy = -dy
+					case html.BOTTOM: cb? cb(begin.height + dy, begin.width): can.page.style(can, target, html.HEIGHT, begin.height + dy); break
 					default:
 						can.page.style(can, target,
-							html.LEFT, can.base.Min(begin.left + event.x - begin.x, 0, window.innerWidth-target.offsetWidth),
-							html.TOP, can.base.Min(begin.top + event.y - begin.y, top||0, window.innerHeight-html.ACTION_HEIGHT)
+							html.LEFT, can.base.Min(begin.left + dx, 0, window.innerWidth-target.offsetWidth),
+							html.TOP, can.base.Min(begin.top + dy, top||0, window.innerHeight-html.ACTION_HEIGHT)
 						)
-				}
+				} can.onkeymap.prevent(event)
 			} else { var p = can.page.position(event, target), margin = 20, cursor = ""
-				if (p.x < margin) { cursor = "ew-resize", action = "left"
-				} else if (target.offsetWidth-margin < p.x) { cursor = "ew-resize", action = "right"
-				} else if (target.offsetHeight-margin < p.y) { cursor = "ns-resize", action = "bottom"
-				} else if (p.y < margin) { cursor = "ns-resize", action = "top"
+				if (p.x < margin) { cursor = "ew-resize", action = html.LEFT
+				} else if (target.offsetWidth-margin < p.x) { cursor = "ew-resize", action = html.RIGHT
+				} else if (target.offsetHeight-margin < p.y || can.page.ClassList.has(can, event.target, html.STATUS)) { cursor = "ns-resize", action = html.BOTTOM
+				} else if (p.y < margin) { cursor = "ns-resize", action = html.TOP
 				} else { cursor = "", action = "" } can.page.style(can, target, "cursor", cursor)
 			}
 		}

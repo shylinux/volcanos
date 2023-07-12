@@ -17,6 +17,7 @@ fieldset.word>div.output svg.story[data-index] text { cursor:pointer; }
 fieldset.word>div.output input.story[type=button] { font-family:system-ui; font-weight:bold; padding:20px 40px; margin:10px; height:64px; }
 fieldset.word>div.output fieldset.web.code.inner.output div.output td.line { border-right:gray solid 1px; }
 fieldset.word>div.output fieldset.story { margin:20px 0; }
+fieldset.word>div.output fieldset.story>form.option>div.icon.delete { display:none; }
 
 fieldset.word>div.navmenu { background-color:inherit; overflow:auto; min-width:120px; clear:both; float:left; }
 fieldset.word>div.navmenu div.list { margin-left:20px; }

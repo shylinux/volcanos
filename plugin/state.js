@@ -84,13 +84,10 @@ Volcanos(chat.ONACTION, {list: [
 				ctx.STYLE, can.base.Copy({}, can._target.style, html.LEFT, html.TOP, html.RIGHT, html.BOTTOM), save(),
 			)), can.onimport.size(can, can.ConfHeight()+can.onexport.actionHeight(can)+can.onexport.statusHeight(can), can.ConfWidth(), false, mode)
 		} else { var back = (can._mode_list = can._mode_list||[]).pop(); if (!back) { return }
-			can.ConfHeight(back.height), can.ConfWidth(back.width), can.Mode(back.mode),
 			can.onmotion.toggle(can, can._action, back.action), can.onmotion.toggle(can, can._status, back.status)
-			can.page.style(can, can._output, back.output), can.page.style(can, can._target, back.style), can.base.isFunc(load) && load(back)
-			if (!sub) { return }
-			sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth()), sub.Mode(can.Mode()), sub.onlayout._init(sub)
-			can._target.click()
-			can.page.ClassList.del(can, can._target, "move")
+			can.onimport.size(can, back.height+can.onexport.actionHeight(can)+can.onexport.statusHeight(can), back.width, false, mode)
+			can.page.style(can, can._target, html.LEFT, back.style.left, html.TOP, back.style.top)
+			can.base.isFunc(load) && load(back)
 		}
 	},
 	"刷新界面": function(event, can) { var sub = can._outputs[0]; sub.onlayout._init(sub), can.user.toastSuccess(can) },
@@ -103,7 +100,7 @@ Volcanos(chat.ONACTION, {list: [
 		can.ConfHeight(can.page.height()/2-can.onexport.actionHeight(can)-can.onexport.statusHeight(can)), can.ConfWidth(can.page.width()/(can.user.isMobile? 1: 2))
 	}) },
 	"切换全屏": function(event, can, button, sub) { can.onaction._switch(can, sub, chat.FULL, function() { can.page.style(can, can._target, html.LEFT, "", html.TOP, can.onexport.marginTop(), html.BOTTOM, "")
-		can.ConfHeight(can.page.height()-can.onexport.marginTop()-can.onexport.actionHeight(can)-can.onexport.statusHeight(can)), can.ConfWidth(can.page.width())
+		can.ConfHeight(can.page.height()-can.onexport.marginTop()-can.onexport.actionHeight(can)-can.onexport.statusHeight(can)-can.onexport.marginBottom(can)), can.ConfWidth(can.page.width())
 	}) },
 	"远程控制": function(event, can) { can.onaction.keyboard(event, can) },
 	"共享工具": function(event, can) { var meta = can.Conf(); can.onmotion.share(event, can, [
@@ -197,10 +194,8 @@ Volcanos(chat.ONACTION, {list: [
 })
 Volcanos(chat.ONEXPORT, {
 	args: function(can) { return can.page.SelectArgs(can, can._option, "", function(target) { return target.value }) },
-	output: function(can, msg) {},
-	action: function(can, button, line) {},
-	record: function(can, value, key, line) {},
-	marginTop: function() { return 0 },
+	output: function(can, msg) {}, action: function(can, button, line) {}, record: function(can, value, key, line) {},
+	marginTop: function() { return 0 }, marginBottom: function() { return 0 },
 	actionHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT)? 0: html.ACTION_HEIGHT },
 	statusHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
