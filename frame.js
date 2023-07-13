@@ -392,7 +392,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		return ui.scrollbar
 	},
 	select: function(can, select, item) { var carte
-		return can.page.Append(can, select.parentNode, [{type: html.INPUT, data: {className: html.SELECT, type: html.BUTTON, name: item.name, value: item.value||item.values[0], title: item.name}, onclick: function(event) { var target = event.target
+		return can.page.Append(can, select.parentNode, [{type: html.INPUT, data: {className: html.SELECT, type: html.BUTTON, name: item.name, value: can.user.trans(can, item.value||item.values[0]), title: item.name}, onclick: function(event) { var target = event.target
 			if (carte) { return carte.close(), carte = null } carte = can.user.carte(event, can, {}, item.values, function(event, button) {
 				carte.close(), carte = null; if (target.value == button) { return }
 				target.value = button, select.value = button, select.onchange && select.onchange({target: select})

@@ -27,7 +27,6 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	onsearch: function(can, msg, arg) { if (arg[0] == chat.STORM) { can.onexport.storm(can, msg, arg) } },
 	onlayout: function(can, layout) { can.user.isMobile || can.onmotion.toggle(can, can._target, !layout || layout == "tabs") },
 	ontitle: function(can, msg) { can.misc.sessionStorage(can, CAN_RIVER, ""), can.misc.sessionStorage(can, CAN_STORM, "") },
-	
 	create: function(event, can) { can.user.input(can.request(event, {title: "创建群组"}), can, [
 		{name: mdb.TYPE, values: [aaa.TECH, aaa.ROOT, aaa.TECH, aaa.VOID], _trans: "类型"},
 		{name: mdb.NAME, value: "hi", _trans: "群名", need: "must"},
@@ -38,14 +37,14 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	}) },
 	share: function(event, can) { can.core.CallFunc(can.ondetail.share, {event: event, can: can}) },
 	refresh: function(event, can) { can.misc.Search(can, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM)}) },
-	
 	storm: function(event, can, river) { can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
 		var list = can.ui.sublist[river]; if (list) { return can.onmotion.toggle(can, list) }
+		var next = event.target.nextSibling
 		can.run({}, [river, chat.STORM], function(msg) {
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOSTORM, can.request({}, {river: river})) }
 			var select = 0; list = can.page.Append(can, can._output, [{view: html.LIST, list: msg.Table(function(item, index) {
 				return river == can._main_river && item.hash == can._main_storm && (select = index), can.onimport._storm(can, item, river)
-			}) }])._target, can.ui.sublist[river] = list, list.children.length > 0 && list.children[select].click(), event.target.nextSibling && can._output.insertBefore(list, event.target.nextSibling)
+			}) }])._target, can.ui.sublist[river] = list, list.children.length > 0 && list.children[select].click(), next && can._output.insertBefore(list, next)
 		})
 	},
 	action: function(event, can, river, storm) {

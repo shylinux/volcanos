@@ -30,8 +30,10 @@ table.content.full { width:100%; }
 table.content thead { position:sticky; top:2px; }
 table.content th { padding:2px 5px; }
 table.content td { padding:2px 5px; }
-table.content.action th:last-child { position:sticky; right:2px; max-width:190px; }
-table.content.action td:last-child { position:sticky; right:2px; max-width:190px; }
+table.content.action th:last-child { position:sticky; right:2px; }
+table.content.action td:last-child { position:sticky; right:2px; }
+table.content col.time { width:180px; }
+table.content col.action { width:180px; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; }
 hr, td.hr { border-bottom:var(--plugin-border-color) dashed 1px; margin:5px; }
 ul { padding-left:20px; margin:20px 0; }
@@ -177,7 +179,7 @@ div.project div.zone>div.item { text-align:center; padding:3px; }
 div.project div.zone>div.item>div.icon { margin-left:3px; float:right; }
 div.project div.zone>div.list>div.zone>div.item { text-align:left; padding-left:20px; }
 div.project div.zone>div.list>div.zone>div.item:hover { margin-left:10px; transition:all 0.3s;  }
-fieldset>div.output div.project { border-right:var(--plugin-border-color) solid 1px; min-width:120px; max-width:230px; }
+fieldset>div.output div.project { border-right:var(--plugin-border-color) solid 1px; width:230px; }
 fieldset>div.output div.profile { border-left:var(--plugin-border-color) solid 1px; max-width:320px; }
 fieldset>div.output div.display { border-top:var(--plugin-border-color) solid 1px; }
 /* table card */
@@ -201,6 +203,7 @@ div.action, div.output, div.status, div.project, div.content, div.profile, div.d
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item { float:left; }
 fieldset.story, div.output, fieldset>div.status, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
 div.output { position:relative; } div.layout.flex>* { float:left; clear:none; }
+div.output.flex { display:flex; }
 fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:100; }
 fieldset.plug { position:absolute; bottom:0; right:0; }
 fieldset.full { position:fixed; left:0; top:0; }
