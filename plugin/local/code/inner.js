@@ -361,7 +361,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.
 			var line = can.onexport.line(can, tr)||can.onexport.line(can, tr.previousSibling)
 			can.onmotion.delay(can, function() {
 				var bar = can.onappend.scroll(can, can.ui.content, line/can.ui.content._max, length/can.ui.content._max); can.onappend.style(can, type, bar)
-				bar.onclick = function() { can.onimport.tabview(can, "", can.Option(nfs.FILE), line) }
+				bar && (bar.onclick = function() { can.onimport.tabview(can, "", can.Option(nfs.FILE), line) })
 			})
 		}
 		function append() { var rest = []
