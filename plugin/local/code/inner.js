@@ -357,7 +357,6 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.
 		function scroll(item, type, length, index) {
 			var tr = can.onaction.appendLine(can, item); can.onappend.style(can, type, tr)
 			if (index > 0) { return }
-			
 			var line = can.onexport.line(can, tr)||can.onexport.line(can, tr.previousSibling)
 			can.onmotion.delay(can, function() {
 				var bar = can.onappend.scroll(can, can.ui.content, line/can.ui.content._max, length/can.ui.content._max); can.onappend.style(can, type, bar)
