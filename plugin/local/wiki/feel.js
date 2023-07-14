@@ -5,14 +5,20 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can)
 			can.base.endWith(item.path, nfs.PS)? can.onimport.item(can, item, function(event) { can.Option(nfs.PATH, item.path) && can.Update(event) }): can.list.push(item)
 		})
 		can.core.List(can.list, function(item, index) { item.nick = (can.misc.localStorage(can, can.onexport.key(can, "p", can.onimport._file(can, item.path)))||"")+" "+item.name; var target = can.onimport.item(can, item, function(_event) {
-			can.cb = function(event) { var target = _event.target, next = _event.target.nextSibling
+			var target = _event.target
+			can.cb = function(event) { var next = _event.target.nextSibling
 				can.misc.localStorage(can, can.onexport.key(can, "last"), item.path)
 				can.video = event.target, can.Status(item), target.innerHTML = parseInt(event.target.currentTime*100/event.target.duration)+"% "+item.name
 				if (event.type == "ended" && next) { can.onmotion.delay(can, function() { next.click() }, 3000), can.user.toast(can, "3s 后即将播放下一个", "", 3000) }
 			}
 			can.onmotion.clear(can, can.ui.content)
 			can.onimport.file(can, item.path, item, index, can.ui.content, can.ConfHeight()-can.onexport.height(can)-1, true).focus()
-		}, function() {}, can.ui.project); item.path == can.misc.localStorage(can, can.onexport.key(can, "last")) && target.click() })
+			can.onmotion.delay(can, function() { target.scrollIntoView(), can.onimport.layout(can, can.ConfHeight(), can.ConfWidth()) })
+		}, function() {}, can.ui.project); 
+			if (item.path == can.misc.localStorage(can, can.onexport.key(can, "last"))) {
+				target.click(), can.isCmdMode() && can.onmotion.delay(can, function() { can.onaction.full({}, can) })
+			}
+		})
 		can.onimport.page(can, can.list, can.begin = parseInt(msg.Option(cli.BEGIN)||"0"))
 	},
 	_file: function(can, path) { var p = location.href.indexOf(ice.HTTP) == 0? "": "http://localhost:9020"
@@ -32,6 +38,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can)
 		can.page.style(can, can.ui.display, html.WIDTH, can.ConfWidth()-can.ui.project.offsetWidth)
 		can.list.length > 0 && can.page.style(can, can.ui.project, html.HEIGHT, can.base.Min(can.ui.display.offsetHeight, can.Action(html.HEIGHT), can.ConfHeight()))
 		can.isCmdMode() && can.page.style(can, can.ui.project, html.HEIGHT, can.ConfHeight())
+		can.isCmdMode() && can.page.Select(can, can.ui.content, "video", function(target) {
+			can.page.isDisplay(can.ui.project)?
+				can.page.style(can, target, html.HEIGHT, can.ui.content.offsetHeight, html.MAX_WIDTH, can.ui.content.offsetWidth):
+				can.page.style(can, target, html.HEIGHT, can.page.height(), html.MAX_WIDTH, can.page.width())
+		})
 	},
 }, [""])
 Volcanos(chat.ONFIGURE, {
