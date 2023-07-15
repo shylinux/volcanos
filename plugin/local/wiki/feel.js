@@ -15,7 +15,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can)
 			can.onimport.file(can, item.path, item, index, can.ui.content, can.ConfHeight()-can.onexport.height(can)-1, true).focus()
 			can.onmotion.delay(can, function() { target.scrollIntoView(), can.onimport.layout(can, can.ConfHeight(), can.ConfWidth()) })
 		}, function() {}, can.ui.project); 
-			if (item.path == can.misc.localStorage(can, can.onexport.key(can, "last"))) {
+			if (can.isCmdMode() && item.path == can.misc.localStorage(can, can.onexport.key(can, "last"))) {
 				target.click(), can.isCmdMode() && can.onmotion.delay(can, function() { can.onaction.full({}, can) })
 			}
 		})
@@ -38,7 +38,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can)
 		can.page.style(can, can.ui.display, html.WIDTH, can.ConfWidth()-can.ui.project.offsetWidth)
 		can.list.length > 0 && can.page.style(can, can.ui.project, html.HEIGHT, can.base.Min(can.ui.display.offsetHeight, can.Action(html.HEIGHT), can.ConfHeight()))
 		can.isCmdMode() && can.page.style(can, can.ui.project, html.HEIGHT, can.ConfHeight())
-		can.isCmdMode() && can.page.Select(can, can.ui.content, "video", function(target) {
+		can.isCmdMode() && can.page.Select(can, can.ui.content, html.VIDEO, function(target) {
 			can.page.isDisplay(can.ui.project)?
 				can.page.style(can, target, html.HEIGHT, can.ui.content.offsetHeight, html.MAX_WIDTH, can.ui.content.offsetWidth):
 				can.page.style(can, target, html.HEIGHT, can.page.height(), html.MAX_WIDTH, can.page.width())
@@ -66,9 +66,7 @@ Volcanos(chat.ONFIGURE, {
 				can.misc.localStorage(can, can.onexport.key(can, "p", path), parseInt(event.target.currentTime*100/event.target.duration)+"%")
 				if (!init) { init = true, event.target.currentTime = last }
 				can.Status("position", can.onexport.position(can, (can._msg.currentTime=event.target.currentTime)-1, event.target.duration))
-			}, onended: function(event) { cb(event)
-				can.misc.localStorage(can, can.onexport.key(can, path), "")
-			},
+			}, onended: function(event) { cb(event), can.misc.localStorage(can, can.onexport.key(can, path), "") },
 		}
 	},
 	mp4: function(can, path, item, index, height, auto) { return can.onfigure.video(can, path, item, index, height, auto) },
@@ -143,10 +141,7 @@ Volcanos(chat.ONDETAIL, {list: ["关闭", "上一个", "下一个", "设置头�
 	"删除": function(event, can) { can.runAction(event, nfs.TRASH, [can.list[can.order].path], function(msg) { can.user.toastSuccess(can, "删除成功") }, true) },
 })
 Volcanos(chat.ONEXPORT, {list: [cli.BEGIN, mdb.LIMIT, mdb.TOTAL, nfs.FILE, nfs.SIZE, "position"],
-	height: function(can) { var height = can.Action(html.HEIGHT); return parseInt(
-		height == "hide"? 0: height == "max"? can.ConfHeight(): height == ice.AUTO? can.base.Min(can.ConfHeight()/4, 200): height) },
+	height: function(can) { var height = can.Action(html.HEIGHT); return parseInt(height == "hide"? 0: height == "max"? can.ConfHeight(): height == ice.AUTO? can.base.Min(can.ConfHeight()/4, 200): height) },
 	position: function(can, index, total) { total = total || can.max; return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+nfs.PS+parseInt(total) },
-	key: function(can) {
-		return [can.Conf(ctx.INDEX)].concat(can.core.List(arguments).slice(1)).join(":")
-	},
+	key: function(can) { return [can.Conf(ctx.INDEX)].concat(can.core.List(arguments).slice(1)).join(":") },
 })
