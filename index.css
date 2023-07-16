@@ -321,7 +321,7 @@ fieldset.qrcode>div.output div.code { padding:0; }
 fieldset.xterm>div.action>div.tabs:only-child { display:none; }
 fieldset.xterm>div.layout { clear:both; }
 fieldset.xterm div.layout div.output { border-left:var(--plugin-border-color) solid 1px; border-top:var(--plugin-border-color) solid 1px; }
-fieldset.xterm div.layout div.output.select { border:var(--code-border-border) solid 1px; }
+fieldset.xterm div.layout div.output.select { border:var(--code-border-color) solid 1px; }
 fieldset.plan div.output div.content>table.content { height:100%; width:100%; }
 fieldset.draw>form.option>div.item.pid>input { width:60px; }
 fieldset.draw div.output svg { margin-bottom:-4px; height:100%; width:100%; }
@@ -332,6 +332,7 @@ fieldset.web.code.git.status>div.output table.content { width:100%; }
 fieldset.can.view { font-size:14px; }
 fieldset.can.data { font-size:14px; }
 img, iframe { margin-bottom:-3px; }
+iframe { height:420px; width:100%; }
 /* scrollbar */
 div.scrollbar { background-color:#0000ff66; width:10px; position:absolute; right:0; top:0; transition:width .3s 1s; visibility:hidden; }
 div.scrollbar:hover { width:50px; transition:width .1s;}

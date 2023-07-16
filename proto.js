@@ -97,6 +97,7 @@ var web = {CHAT: "chat",
 	CHAT_IFRAME: "web.chat.iframe", CHAT_FAVOR: "web.chat.favor",
 	TEAM_PLAN: "web.team.plan",
 	WIKI_PORTAL: "web.wiki.portal",
+	CHAT_PORTAL: "web.chat.portal",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
@@ -393,7 +394,11 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 })
 try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
-	meta.version = window._version, window.parent.outerWidth-window.parent.innerWidth > 100 && (meta.version = "")
+	try {
+		meta.version = window._version, window.parent.outerWidth-window.parent.innerWidth > 100 && (meta.version = "")
+	} catch (e) {
+		meta.version = window._version, window.outerWidth-window.innerWidth > 100 && (meta.version = "")
+	}
 	meta._load = function(url, cb) {
 		switch (url.split(ice.QS)[0].split(nfs.PT).pop().toLowerCase()) {
 			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+meta.version, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break

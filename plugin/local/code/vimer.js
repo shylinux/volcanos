@@ -41,6 +41,9 @@ Volcanos(chat.ONFIGURE, {
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) { show(target, zone, path) }) }), target)
 	},
+	xterm: function(can, target, zone) { can.onimport._zone(can, zone, web.CODE_XTERM, function(sub, msg) {
+		sub.onexport.record = function(sub, value, key, item) { can.onimport.tabview(can, "", [web.CODE_XTERM, item.hash, item.name||item.type].join(mdb.FS), ctx.INDEX) }
+	}) },
 	favor: function(can, target, zone) { can.onimport._zone(can, zone, web.CHAT_FAVOR, function(sub, msg) {
 		sub.onexport.record = function(sub, value, key, item, event) { switch (item.type) {
 			case nfs.FILE: var ls = can.onexport.split(can, item.text); can.onimport.tabview(can, ls[0], ls[1]); break
@@ -49,9 +52,6 @@ Volcanos(chat.ONFIGURE, {
 			case ssh.SHELL: can.onimport.tabview(can, "", [web.CODE_XTERM, item.text].join(mdb.FS), ctx.INDEX); break
 			case cli.OPENS: can.runAction(event, cli.OPENS, [item.text]); break
 		} }
-	}) },
-	xterm: function(can, target, zone) { can.onimport._zone(can, zone, web.CODE_XTERM, function(sub, msg) {
-		sub.onexport.record = function(sub, value, key, item) { can.onimport.tabview(can, "", [web.CODE_XTERM, item.hash, item.name||item.type].join(mdb.FS), ctx.INDEX) }
 	}) },
 	space: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {
 		sub.onimport._open = function(_, msg, arg) {
@@ -106,8 +106,8 @@ Volcanos(chat.ONACTION, {list: ["编译", "源码", "终端", "文档", "计划"
 	"文档": function(event, can) { can.onimport.tabview(can, "", web.WIKI_WORD, ctx.INDEX) },
 	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },
 	"桌面": function(event, can) { can.onimport.tabview(can, "", "web.chat.macos.desktop", ctx.INDEX) },
-	"后台": function(event, can) { can.onimport.tabview(can, "", location.origin+"/chat/portal/", web.SPACE) },
-	"官网": function(event, can) { can.onimport.tabview(can, "", location.origin+"/wiki/portal/", web.SPACE) },
+	"后台": function(event, can) { var pod = can.misc.Search(can, ice.POD); can.onimport.tabview(can, "", location.origin+"/chat/portal/"+(pod? "?pod="+pod: ""), web.SPACE) },
+	"官网": function(event, can) { can.onimport.tabview(can, "", can.misc.MergePodCmd(can, {cmd: web.WIKI_PORTAL}), web.SPACE) },
 	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value); before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before)); return can.onaction.rerankLine(can), can.onexport.line(can, line) },
 	deleteLine: function(can, line) { line = can.onaction._getLine(can, line); var next = line.nextSibling||line.previousSibling; return can.page.Remove(can, line), can.onaction.rerankLine(can), next },
 	_selectLine: function(can) { can.current && can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText

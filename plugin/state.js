@@ -11,7 +11,7 @@ Volcanos(chat.ONIMPORT, {
 	_display: function(can, msg) { can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)) },
 	_clear: function(can, msg) { can.onmotion.clear(can) },
 	_inner: function(can, msg) { can.onappend.table(can, msg), can.onappend.board(can, msg), can.onmotion.story.auto(can) },
-	_field: function(can, msg, cb) { var height = can.ConfHeight(), width = can.ConfWidth(); can.page.SelectChild(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })
+	_field: function(can, msg, cb) { var height = can.ConfHeight(), width = can.ConfWidth(); can.page.SelectChild(can, can._output, can.page.Keys(html.TABLE, html.DIV_CODE), function(target) { height -= target.offsetHeight })
 		height = can.base.Min(msg.Option(html.HEIGHT)||height, can.isCmdMode()? can.ConfHeight()/2: 320), width = msg.Option(html.WIDTH)||can.ConfWidth()
 		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub, meta) {
 			sub.Conf(can.base.Obj(item.conf)); if (sub.isSimpleMode()) { sub.ConfHeight(can.ConfHeight()/2)
@@ -19,7 +19,7 @@ Volcanos(chat.ONIMPORT, {
 			}
 			sub.run = function(event, cmds, cb) { sub.onimport.size(sub, height, width, true)
 				sub.onexport.output = function() { sub.onimport.size(sub, height, width, true)
-					can.page.SelectChild(can, can._output, html.TABLE, function(target) { can.page.style(can, target, html.MAX_HEIGHT, height, html.DISPLAY, html.BLOCK) })
+					// can.page.SelectChild(can, can._output, html.TABLE, function(target) { can.page.style(can, target, html.MAX_HEIGHT, height, html.DISPLAY, html.BLOCK) })
 				}, can.run(event, (!msg.Option("_index") || msg.Option("_index") == can._index || can._index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, msg.Option("_index")]).concat(cmds), cb, true)
 			}
 			sub._target.onclick = function() {
