@@ -63,6 +63,7 @@ Volcanos(chat.ONFIGURE, {
 	}) },
 })
 Volcanos(chat.ONACTION, {list: ["编译", "源码", "终端", "文档", "计划", "桌面", "后台", "官网"],
+	_trans: {show: "预览", exec: "输出"},
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button)
 		can.ui.zone.source.refresh()

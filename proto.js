@@ -394,10 +394,11 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 })
 try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
+	var debug = location.search.indexOf("debug=true") > -1
 	try {
-		meta.version = window._version, window.parent.outerWidth-window.parent.innerWidth > 100 && (meta.version = "")
+		meta.version = window._version, window.parent.outerWidth-window.parent.innerWidth > 100 && (meta.version = "", debug = false)
 	} catch (e) {
-		meta.version = window._version, window.outerWidth-window.innerWidth > 100 && (meta.version = "")
+		meta.version = window._version, window.outerWidth-window.innerWidth > 100 && (meta.version = "", debug = false)
 	}
 	meta._load = function(url, cb) {
 		switch (url.split(ice.QS)[0].split(nfs.PT).pop().toLowerCase()) {
@@ -410,7 +411,7 @@ try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 		window.onmouseup = function(event) { window._mousemove && (window._mousemove.onmouseup(event)) }
 		window.ondblclick = function(event) { can.onkeymap.prevent(event) }
 		window.onkeydown = function(event) { if (event.key == lang.ESCAPE && !can.page.tagis(event.target, html.INPUT)) { can.onkeymap.prevent(event) } }
-		window.onerror = function(message, source, lineno, colno, error) { meta.version? alert([message].concat(can.misc._stacks(0, error)).join(lex.NL)): can.misc.Error(message, lex.NL+[source, lineno, colno].join(ice.DF), error) }
+		window.onerror = function(message, source, lineno, colno, error) { debug? alert([message].concat(can.misc._stacks(0, error)).join(lex.NL)): can.misc.Error(message, lex.NL+[source, lineno, colno].join(ice.DF), error) }
 		window.onbeforeunload = function() { can.Action._socket && can.Action._socket.close() }
 		var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
 			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
