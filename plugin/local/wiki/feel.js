@@ -4,11 +4,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can)
 		msg.Table(function(item) { item.name = can.base.trimPrefix(item.path, can.Option(nfs.PATH))
 			can.base.endWith(item.path, nfs.PS)? can.onimport.item(can, item, function(event) { can.Option(nfs.PATH, item.path) && can.Update(event) }): can.list.push(item)
 		})
+		var rate = can.misc.localStorage(can, "web.wiki.feel:rate"); rate && can.Action("speed", rate)
 		can.core.List(can.list, function(item, index) { item.nick = (can.misc.localStorage(can, can.onexport.key(can, "p", can.onimport._file(can, item.path)))||"")+" "+item.name; var target = can.onimport.item(can, item, function(_event) {
 			var target = _event.target
 			can.cb = function(event) { var next = _event.target.nextSibling
 				can.misc.localStorage(can, can.onexport.key(can, "last"), item.path)
 				can.video = event.target, can.Status(item), target.innerHTML = parseInt(event.target.currentTime*100/event.target.duration)+"% "+item.name
+				if (event.type == "ratechange") { can.misc.localStorage(can, "web.wiki.feel:rate", event.target.playbackRate) }
 				if (event.type == "ended" && next) { can.onmotion.delay(can, function() { next.click() }, 3000), can.user.toast(can, "3s 后即将播放下一个", "", 3000) }
 			}
 			can.onmotion.clear(can, can.ui.content)
