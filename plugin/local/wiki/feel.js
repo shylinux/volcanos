@@ -18,6 +18,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.onmotion.clear(can)
 			can.onmotion.delay(can, function() { target.scrollIntoView(), can.onimport.layout(can, can.ConfHeight(), can.ConfWidth()) })
 		}, function() {}, can.ui.project); 
 			if (can.isCmdMode() && item.path == can.misc.localStorage(can, can.onexport.key(can, "last"))) {
+				can.onmotion.hidden(can, can.ui.display), can.onmotion.hidden(can, can._action), can.Action(html.HEIGHT, "hide")
 				target.click(), can.isCmdMode() && can.onmotion.delay(can, function() { can.onaction.full({}, can) })
 			}
 		})
