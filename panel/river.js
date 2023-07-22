@@ -90,8 +90,9 @@ Volcanos(chat.ONDETAIL, {
 		})
 	}) },
 	addcmd: function(event, can, button, river, storm) { can.user.input(can.request(event, {title: "添加工具"}), can, [
-		{name: web.SPACE, value: can.misc.Search(can, ice.POD)||""},
-		mdb.ICON, {name: ctx.INDEX, need: "must"}, ctx.ARGS, ctx.DISPLAY, ctx.STYLE,
+		{name: web.SPACE, _trans: "空间"},
+		{name: ctx.INDEX, need: "must", _trans: "命令"}, {name: ctx.ARGS, _trans: "参数"},
+		{name: mdb.ICON, _trans: "图标"}, {name: ctx.STYLE, _trans: "样式"}, {name: ctx.DISPLAY, _trans: "脚本"},
 	], function(args) {
 		can.run({}, [river, storm, chat.STORM, ctx.ACTION, mdb.INSERT].concat(args), function(msg) {
 			can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm), refresh: ice.TRUE}))

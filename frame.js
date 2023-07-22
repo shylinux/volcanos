@@ -495,7 +495,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (can.base.isFunc(value)) {
 					can.onengine._plugin(event, can._root, can.request(event), value.can, [meta.index].concat(cmds), cb)
 				} else {
-					can.runActionCommand(sub.request(event), sub._index, cmds, cb)
+					can.runActionCommand(sub.request(event, {pod: meta.space}), sub._index, cmds, cb)
 				}
 			}
 			sub._index = value.index||meta.index, can.base.isFunc(cb) && cb(sub, meta, skip)

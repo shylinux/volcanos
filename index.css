@@ -38,7 +38,7 @@ table.content col.action { width:180px; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; }
 hr, td.hr { border-bottom:var(--plugin-border-color) dashed 1px; margin:5px; }
 ul { padding-left:20px; margin:20px 0; }
-kbd { padding:0 10px; }
+kbd { padding:0 5px; }
 img { margin-bottom:-8px; }
 /* fieldset */
 fieldset>legend { margin-right:10px; }
@@ -84,6 +84,7 @@ body>div.carte input[name=filter] { margin:5px; width:calc(100% - 10px); positio
 body>div.carte div.item { white-space:pre; padding:5px 10px; }
 body>div.carte div.item span.icon.next { float:right; line-height:22px; height:22px; }
 body>div.carte.select.float>div.item { text-align:center; }
+body>div.input { padding:20px; }
 body>div.input td { padding:10px; }
 body>div.input td span.icon { margin-left:-25px; visibility:hidden; }
 body>div.input td:hover span.icon { visibility:visible; }
@@ -106,7 +107,7 @@ legend { font-size:1.2rem; line-height:32px; height:32px; }
 select, input { font-size:1rem; height:32px; }  input::placeholder, textarea::placeholder { font-style:italic; }
 textarea { font-size:1rem; tab-size:2; padding:5px; height:96px; width:100%; resize:vertical; }
 table.content, div.code, div.story[data-type=spark] { white-space:pre; margin:0; }
-div.story[data-type=spark] { padding:5px 10px; border-left:var(--notice-fg-color) solid 5px; }
+div.story[data-type=spark] { padding:0 5px; border-left:var(--notice-fg-color) solid 5px; }
 fieldset>div.action>div.tabs { font-style:italic; padding:0 10px;}
 fieldset>div.output>div.code { font-size:14px; }
 fieldset>div.status>div.item { padding:5px; height:31px; }
