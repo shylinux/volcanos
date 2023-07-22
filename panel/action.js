@@ -42,9 +42,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		}); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return } can._names = location.pathname
 		can.Conf(chat.TOOL)? can.onappend.layout(can, can.core.List(can.Conf(chat.TOOL), function(item, index, list) { item.type = chat.PLUGIN
 			if (list.length == 1) {
-				if (!can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP)) {
-					can.user.title(item.index)
-				}
+				can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP) || can.user.title(item.index)
 				can.onaction._onaction_cmd(can), item.mode = chat.CMD, item.opts = can.misc.Search(can)
 			} return item
 		}), FLOW).layout(window.innerHeight, window.innerWidth): can.runAction(can.request(), ctx.COMMAND, [], function(msg) {
@@ -55,9 +53,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		if (can.onmotion.cache(can, function(cache, old) { old && (cache[old] = can._plugins)
 			var key = can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm)); return can._plugins = cache[key]||[], key
 		}, can._output, can._action, can._header_tabs)) {
-			if (msg.Option("refresh") != "true") {
-				return can.onaction.layout(can)
-			}
+			if (msg.Option("refresh") != "true") { return can.onaction.layout(can) }
 		}
 		can.run({}, [river, storm], function(msg) {
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm})) }
