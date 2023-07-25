@@ -2,7 +2,7 @@ fieldset.repos div.output>* {
 	margin:auto;
 }
 fieldset.repos div.output table {
-	border:solid 1px #e2e2e2;
+	border: #e2e2e2solid 1px;
 	border-radius:5px;
 	color:#4183c4;
 	margin-top:20px;

@@ -194,13 +194,13 @@ Volcanos(chat.ONACTION, {list: [
 })
 Volcanos(chat.ONEXPORT, {
 	args: function(can) { return can.page.SelectArgs(can, can._option, "", function(target) { return target.value }) },
-	output: function(can, msg) {}, action: function(can, button, line) {}, record: function(can, value, key, line) {},
+	output: function(can, msg) {}, action: function(can, button, line) {}, record: function(can, value, key, data) {},
 	marginTop: function() { return 0 }, marginBottom: function() { return 0 },
 	actionHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT)? 0: html.ACTION_HEIGHT },
 	statusHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
 	link: function(can) { var meta = can.Conf(), args = can.Option(); can.misc.Search(can, log.DEBUG) == ice.TRUE && (args[log.DEBUG] = ice.TRUE)
-		args.pod = meta.space||meta.pod, args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd)
+		args.pod = meta._space||meta.space||meta.pod, args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd)
 		return can.misc.MergePodCmd(can, args, true)
 	},
 })

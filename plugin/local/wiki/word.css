@@ -14,8 +14,8 @@ fieldset.word>div.output img { max-height:100%; max-width:100%; }
 fieldset.word>div.output video { max-height:100%; width:100%; }
 fieldset.word>div.output iframe { height:480px; width:100%; }
 fieldset.word>div.output svg.story[data-index] text { cursor:pointer; }
-fieldset.word>div.output input.story[type=button] { font-family:system-ui; font-weight:bold; padding:20px 40px; margin:10px; height:64px; }
-fieldset.word>div.output fieldset.web.code.inner.output div.output td.line { border-right:gray solid 1px; }
+fieldset.word>div.output input.story[type=button] { font-family:system-ui; font-weight:bold; padding:20px 40px; margin:10px; height:64px; box-shadow:var(--box-shadow); }
+fieldset.word>div.output fieldset.web.code.inner.output div.output td.line { border-right:var(--box-border); }
 fieldset.word>div.output fieldset.story { margin:20px 0; }
 fieldset.word>div.output fieldset.story>form.option>div.icon.delete { display:none; }
 

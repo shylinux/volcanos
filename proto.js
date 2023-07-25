@@ -78,11 +78,12 @@ var mdb = {
 	QS: ice.QS, AT: ice.AT,
 	EQ: ice.EQ, FS: ice.FS,
 }
-var web = {CHAT: "chat",
+var web = {CHAT: "chat", LINK: "link",
 	SPACE: "space", DREAM: "dream", SHARE: "share", SPIDE: "spide",
 	WEBSITE: "website", DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter", INPUT: "input",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
+	WORKER: "worker", SERVER: "server", GATEWAY: "gateway",
 
 	AT: "@", QS: "?", HTTP: "http",
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",

@@ -1,18 +1,18 @@
 fieldset.plan>div.output td.content { position:relative; }
-fieldset.plan>div.output table.content.plan th { text-align:center; }
-fieldset.plan>div.output table.content.plan td { vertical-align:top; }
-fieldset.plan>div.output table.content.plan td.over { border:red solid 1px; }
-fieldset.plan>div.output table.content.plan td.select { background-color:var(--hover-bg-color); }
-fieldset.plan>div.output table.content.plan td:hover { background-color:var(--hover-bg-color); }
-fieldset.plan>div.output table.content.plan td.over { background-color:var(--hover-bg-color); }
-fieldset.plan>div.output table.content.plan td div { color:white; }
-fieldset.plan>div.output table.content.plan td div.date { color:gray; }
-fieldset.plan>div.output table.content.plan td div.date span.lunar { font-size:12px; }
-fieldset.plan>div.output table.content.plan td div.date span.lunar.fest { color:red; }
-fieldset.plan>div.output table.content.plan td div.date span.lunar.term { color:green; }
-fieldset.plan>div.output table.content.plan td div.prepare { background-color:#0000ff70; }
-fieldset.plan>div.output table.content.plan td div.process { background-color:#00800070; }
-fieldset.plan>div.output table.content.plan td div.cancel { background-color:#ff000070; }
-fieldset.plan>div.output table.content.plan td div.finish { background-color:gray; }
-fieldset.plan>div.output table.content.plan tr:first-child { height:30px; position:sticky; top:2px; }
-fieldset.plan>div.output table.content.plan th:first-child { width:40px; position:sticky; left:2px; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td { vertical-align:top; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td.over { border:red solid 1px; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td.select { background-color:var(--hover-bg-color); box-shadow:var(--box-shadow); }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td:hover { background-color:var(--hover-bg-color); }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td.over { background-color:var(--hover-bg-color); }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div { color:white; padding:10px; margin:10px; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.date { color:gray; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.date span.lunar { font-size:12px; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.date span.lunar.fest { color:red; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.date span.lunar.term { color:green; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.prepare { background-color:#0000ff70; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.process { background-color:#00800070; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.cancel { background-color:#ff000070; text-decoration:line-through; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.finish { background-color:gray; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content tr:first-child { height:30px; position:sticky; top:2px; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content th:first-child { width:40px; position:sticky; left:2px; }
+fieldset.plan>div.output>div.layout>div.layout>div.profile>table.content tr:first-child { height:30px; position:sticky; top:2px; }

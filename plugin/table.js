@@ -93,33 +93,47 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}, zone._target = sub._target, can.ui.zone[zone.name].refresh = function() { sub.Update() }
 	}, zone._target) } },
 	zone: function(can, list, target) {
-		return can.page.Append(can, target, can.core.List(list, function(zone) { can.base.isString(zone) && (zone = {name: zone}); return zone && {view: [[html.ZONE, zone.name]], list: [
-			{view: html.ITEM, inner: can.user.trans(can, zone.name), _init: function(target) { zone._legend = target }, onclick: function() {
-				if (zone._delay_init) { zone._delay_init(zone._target, zone), delete(zone._delay_init) }
-				can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._target)
-			}, oncontextmenu: function(event) { var menu = zone._menu
-				menu? can.user.carteRight(event, can, menu.meta, menu.list||can.core.Item(menu.meta), can.base.isFunc(menu)? menu: function(event, button, meta, carte) {
-					can.runAction(event, button), carte.close()
-				}): can.onmotion.clearCarte(can)
-			}},
-			{view: html.ACTION, _init: function(target) { zone._action = target
-				can.onappend._action(can, [{type: html.TEXT, name: mdb.SEARCH, _init: function(target) { zone._search = target }, onkeyup: function(event) {
-					if (event.target.value == "") { can.page.Select(can, zone._target, html.DIV_EXPAND, function(target) { can.page.ClassList.del(can, target, cli.OPEN) }) }
-					can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, event.target.value != "") })
-					can.onmotion.delayOnce(can, function() { can.onkeymap.selectItems(event, can, zone._target) }, event.target.value.length<3? 500: 150)
-				}}], target, {})
-			}},
-			{view: html.LIST, _init: function(target) { can.ui.zone = can.ui.zone||{}, can.ui.zone[zone.name] = zone, zone._target = target
-				zone._total = function(total) { return can.page.Modify(can, zone._search, {placeholder: "search in "+total+" items"}), total }
-				zone._icon = function(list) {
-					can.page.Select(can, zone._legend, html.SPAN_ICON, function(target) { can.page.Remove(can, target) })
-					can.core.Item(list, function(name, button) { can.onimport._icon(can, name, button, zone._legend) })
-				}
-				zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target, zone) }
-				can.base.isFunc(zone._init) && (zone._menu = zone._init(target, zone)||zone._menu)
-				if (zone._delay_init) { can.onmotion.hidden(can, zone._action), can.onmotion.hidden(can, zone._target) }
-			}},
-		]} }))
+		return can.page.Append(can, target, can.core.List(list, function(zone) { can.base.isString(zone) && (zone = {name: zone}); if (!zone) { return }
+			zone._layout = function() { var height = target.offsetHeight, count = 0
+				can.page.SelectChild(can, target, "", function(target) {
+					can.page.SelectChild(can, target, html.DIV_ITEM, function(target) { height -= target.offsetHeight })
+					can.page.SelectChild(can, target, html.DIV_ACTION, function(target) { height -= target.offsetHeight })
+					can.page.SelectChild(can, target, html.DIV_LIST, function(target) { count += can.page.isDisplay(target)? 1: 0 })
+				})
+				count && can.page.SelectChild(can, target, "", function(target) {
+					can.page.SelectChild(can, target, html.DIV_LIST, function(target) {
+						can.page.style(can, target, html.HEIGHT, can.page.isDisplay(target)? height/count: "")
+					})
+				})
+			}
+			return {view: [[html.ZONE, zone.name]], list: [
+				{view: html.ITEM, inner: can.user.trans(can, zone.name), _init: function(target) { zone._legend = target }, onclick: function() {
+					if (zone._delay_init) { zone._delay_init(zone._target, zone), delete(zone._delay_init) }
+					can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._action.nextSibling), zone._toggle && zone._toggle()
+				}, oncontextmenu: function(event) { var menu = zone._menu
+					menu? can.user.carteRight(event, can, menu.meta, menu.list||can.core.Item(menu.meta), can.base.isFunc(menu)? menu: function(event, button, meta, carte) {
+						can.runAction(event, button), carte.close()
+					}): can.onmotion.clearCarte(can)
+				}},
+				{view: html.ACTION, _init: function(target) { zone._action = target
+					can.onappend._action(can, [{type: html.TEXT, name: mdb.SEARCH, _init: function(target) { zone._search = target }, onkeyup: function(event) {
+						if (event.target.value == "") { can.page.Select(can, zone._target, html.DIV_EXPAND, function(target) { can.page.ClassList.del(can, target, cli.OPEN) }) }
+						can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, event.target.value != "") })
+						can.onmotion.delayOnce(can, function() { can.onkeymap.selectItems(event, can, zone._target) }, event.target.value.length<3? 500: 150)
+					}}], target, {})
+				}},
+				{view: html.LIST, _init: function(target) { can.ui.zone = can.ui.zone||{}, can.ui.zone[zone.name] = zone, zone._target = target
+					zone._total = function(total) { return can.page.Modify(can, zone._search, {placeholder: "search in "+total+" items"}), total }
+					zone._icon = function(list) {
+						can.page.Select(can, zone._legend, html.SPAN_ICON, function(target) { can.page.Remove(can, target) })
+						can.core.Item(list, function(name, button) { can.onimport._icon(can, name, button, zone._legend) })
+					}
+					zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target, zone) }
+					can.base.isFunc(zone._init) && (zone._menu = zone._init(target, zone)||zone._menu)
+					if (zone._delay_init) { can.onmotion.hidden(can, zone._action), can.onmotion.hidden(can, zone._target) }
+				}},
+			]}
+		}))
 	},
 	tree: function(can, list, field, split, cb, target, node) {
 		node = node||{"": target}; can.core.List(list, function(item) { item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }

@@ -1,22 +1,29 @@
 Volcanos(chat.ONSYNTAX, {
-	makefile: {prefix: {"#": code.COMMENT}, suffix: {":": code.COMMENT}, keyword: {
-		"ifeq": code.KEYWORD, "ifneq": code.KEYWORD, "else": code.KEYWORD, "endif": code.KEYWORD,
+	makefile: {prefix: {"#": code.COMMENT}, split: {operator: "($?.,):+="}, keyword: {
+		"export": code.KEYWORD,
+		"if": code.KEYWORD, "else": code.KEYWORD, "endif": code.KEYWORD,
+		"ifeq": code.KEYWORD, "ifneq": code.KEYWORD,
+		"ifdef": code.KEYWORD, "ifndef": code.KEYWORD,
+		"define": code.KEYWORD, "endef": code.KEYWORD,
+		"shell": code.KEYWORD,
+		"PHONY": code.FUNCTION,
+	}, include: ["sh"], func: function(can, push, text, indent) {
+		var ls = can.core.Split(text, "", ":=")
+		if (indent == 0 && ls[1] == ":" && ls[2] != "=") { push(text) }
 	}},
-	man: {
-		prefix: {
-			"NAME": code.KEYWORD,
-			"SYNOPSIS": code.KEYWORD,
-			"DESCRIPTION": code.KEYWORD,
+	man: {prefix: {
+		"NAME": code.KEYWORD,
+		"SYNOPSIS": code.KEYWORD,
+		"DESCRIPTION": code.KEYWORD,
 
-			"AUTHOR": code.KEYWORD,
-			"COPYRIGHT": code.KEYWORD,
-			"LIBRARY": code.KEYWORD,
-			"STANDARDS": code.KEYWORD,
-			"SEE ALSO": code.KEYWORD,
-			"HISTORY": code.KEYWORD,
-			"BUGS": code.KEYWORD,
-		},
-	},
+		"AUTHOR": code.KEYWORD,
+		"COPYRIGHT": code.KEYWORD,
+		"LIBRARY": code.KEYWORD,
+		"STANDARDS": code.KEYWORD,
+		"SEE ALSO": code.KEYWORD,
+		"HISTORY": code.KEYWORD,
+		"BUGS": code.KEYWORD,
+	}},
 	vim: {prefix: {"\"": "comment"}, keyword: {
 		"source": code.KEYWORD,
 		"finish": code.KEYWORD,
@@ -92,7 +99,6 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	}, h: {link: "c"},
 	sh: {prefix: {"#": code.COMMENT}, suffix: {" {": code.COMMENT}, split: {operator: "{[($.,:;&<|>=)]}"}, regexp: {"[A-Z0-9_]+": code.CONSTANT, "ish_[A-Za-z0-9_]+": code.FUNCTION},
-		func: function(can, push, text) { if (can.base.endWith(text, "() {")) { var ls = can.core.Split(text, "\t (){"); push(ls[0]) } },
 		keyword: {
 			"source": code.KEYWORD, "return": code.KEYWORD, "exit": code.KEYWORD,
 			"require": code.KEYWORD, "request": code.KEYWORD,
@@ -104,34 +110,41 @@ Volcanos(chat.ONSYNTAX, {
 
 			"history": code.FUNCTION, "alias": code.FUNCTION, "complete": code.FUNCTION, "compgen": code.FUNCTION, "bind": code.FUNCTION,
 			"printf": code.FUNCTION, "echo": code.FUNCTION, "eval": code.FUNCTION, "test": code.FUNCTION, "trap": code.FUNCTION, "shift": code.FUNCTION,
-			"cd": code.FUNCTION, "ls": code.FUNCTION, "rm": code.FUNCTION, "chmod": code.FUNCTION, "mkdir": code.FUNCTION, "mktemp": code.FUNCTION,
+			"set": code.FUNCTION, "xargs": code.FUNCTION,
+			"/dev/null": code.CONSTANT, "/dev/stdout": code.CONSTANT, "/dev/stderr": code.CONSTANT,
+
+			"mkdir": code.FUNCTION, "rmdir": code.FUNCTION, "mktemp": code.FUNCTION, "du": code.FUNCTION, "df": code.FUNCTION,
+			"cd": code.FUNCTION, "ls": code.FUNCTION, "ln": code.FUNCTION, "mv": code.FUNCTION, "rm": code.FUNCTION, "cp": code.FUNCTION,
+			"groupadd": code.FUNCTION, "useradd": code.FUNCTION, "chown": code.FUNCTION, "sudo": code.FUNCTION,
 			"curl": code.FUNCTION, "wget": code.FUNCTION, "apk": code.FUNCTION, "yum": code.FUNCTION,
 			"cat": code.FUNCTION, "head": code.FUNCTION, "tail": code.FUNCTION,
 			"grep": code.FUNCTION, "cut": code.FUNCTION, "sed": code.FUNCTION, "tr": code.FUNCTION,
-			"xargs": code.FUNCTION, "sudo": code.FUNCTION, "du": code.FUNCTION, "df": code.FUNCTION,
-			"/dev/null": code.CONSTANT, "/dev/stdout": code.CONSTANT, "/dev/stderr": code.CONSTANT,
+			"make": code.FUNCTION, "file": code.FUNCTION, "vim": code.FUNCTION, "gcc": code.FUNCTION, "git": code.FUNCTION, "go": code.FUNCTION,
+			"docker": code.FUNCTION,
 		},
+		func: function(can, push, text) { if (can.base.endWith(text, "() {")) { var ls = can.core.Split(text, "\t (){"); push(ls[0]) } },
 	}, configure: {link: "sh"},
-	shy: {prefix: {"#": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT}, keyword: {"source": code.KEYWORD,
-		"title": code.KEYWORD, "navmenu": code.KEYWORD, "premenu": code.KEYWORD, "chapter": code.KEYWORD, "section": code.KEYWORD, "endmenu": code.KEYWORD,
-		"refer": code.KEYWORD, "brief": code.KEYWORD, "spark": code.KEYWORD, "shell": code.KEYWORD, "parse": code.KEYWORD,
-		"order": code.KEYWORD, "table": code.KEYWORD, "chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
-		"field": code.KEYWORD, "image": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD,
-		"style": code.KEYWORD,
-		"inner": code.KEYWORD,
+	shy: {prefix: {"#": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT},
+		keyword: {"source": code.KEYWORD,
+			"title": code.KEYWORD, "navmenu": code.KEYWORD, "premenu": code.KEYWORD, "chapter": code.KEYWORD, "section": code.KEYWORD, "endmenu": code.KEYWORD,
+			"refer": code.KEYWORD, "brief": code.KEYWORD, "spark": code.KEYWORD, "shell": code.KEYWORD, "parse": code.KEYWORD,
+			"order": code.KEYWORD, "table": code.KEYWORD, "chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
+			"field": code.KEYWORD, "image": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD,
+			"style": code.KEYWORD,
+			"inner": code.KEYWORD,
 
-		"package": code.KEYWORD, "import": code.KEYWORD, "const": code.KEYWORD, "type": code.KEYWORD, "var": code.KEYWORD,
-		"if": code.KEYWORD, "else": code.KEYWORD,
-		"for": code.KEYWORD, "range": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
-		"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD,
-		"func": code.KEYWORD, "defer": code.KEYWORD, "return": code.KEYWORD,
-		"init": code.FUNCTION, "main": code.FUNCTION, "list": code.FUNCTION, "info": code.FUNCTION,
-		"map": code.DATATYPE, "struct": code.DATATYPE, "interface": code.DATATYPE, "string": code.DATATYPE, "int": code.DATATYPE,
-		"true": code.CONSTANT, "false": code.CONSTANT,
+			"package": code.KEYWORD, "import": code.KEYWORD, "const": code.KEYWORD, "type": code.KEYWORD, "var": code.KEYWORD,
+			"if": code.KEYWORD, "else": code.KEYWORD,
+			"for": code.KEYWORD, "range": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
+			"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD,
+			"func": code.KEYWORD, "defer": code.KEYWORD, "return": code.KEYWORD,
+			"init": code.FUNCTION, "main": code.FUNCTION, "list": code.FUNCTION, "info": code.FUNCTION,
+			"map": code.DATATYPE, "struct": code.DATATYPE, "interface": code.DATATYPE, "string": code.DATATYPE, "int": code.DATATYPE,
+			"true": code.CONSTANT, "false": code.CONSTANT,
 
-		"kit": code.PACKAGE, "ice": code.PACKAGE, "m": code.OBJECT, "arg": code.OBJECT,
-		"event": code.OBJECT, "can": code.OBJECT, "msg": code.OBJECT, "target": code.OBJECT,
-	},
+			"kit": code.PACKAGE, "ice": code.PACKAGE, "m": code.OBJECT, "arg": code.OBJECT,
+			"event": code.OBJECT, "can": code.OBJECT, "msg": code.OBJECT, "target": code.OBJECT,
+		},
 		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t ")
 			opts.chapter = opts.chapter||0
 			if (ls[0] == "chapter") { opts.chapter++, opts.section = 0, push(opts.chapter+lex.SP+ls[1]) }
@@ -169,13 +182,15 @@ Volcanos(chat.ONSYNTAX, {
 		},
 		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t *", "({:})")
 			function isKey() { return opts.block == "cmds" && ls[1] == ":" && ls[2] == "{" } function isEnd() { return ls[0] == "}" }
-			function prefix(key, pre) { return key.toLowerCase() == key? "- ": ("+ "+(pre? pre+nfs.PT: "")) }
+			function prefix(key, pre) { return key.slice(0, 1).toLowerCase() == key.slice(0, 1)? "- ": ("+ "+(pre? pre+nfs.PT: "")) }
 			if (indent == 0) { switch (ls[0]) {
 				case "package": opts.package = ls[1]; break
-				case "func": if (ls[1] == "(") { push(prefix(ls[5])+ls[2]+nfs.PT+ls[5]); break }
+				case "func": if (ls[1] == "(") { var p = ls.indexOf(")")
+					push(prefix(ls[p+1])+ls[2]+nfs.PT+ls[p+1]+"()"); break
+				}
 				case "const":
 				case "var": if (ls[1] == "(") { break }
-				case "type": push(prefix(ls[1], opts.package)+ls[1]); break
+				case "type": push(prefix(ls[1])+ls[1]+(ls[0]=="type"? "{}": "")); break
 			} opts.stack = [ls[0]] } else if (indent == 4 && opts.stack[0] == "func") {
 				if (text.indexOf("MergeCommands(") > -1) { opts.block = "cmds" } else if (text.indexOf("}") == 0) { opts.block = "" }
 			} else if (indent == 8) {
@@ -184,7 +199,7 @@ Volcanos(chat.ONSYNTAX, {
 				if (isKey()) { push("+ "+opts.cmds+lex.SP+ls[0]) }
 			}
 		},
-	}, mod: {prefix: {"//": code.COMMENT}, keyword: {"go": code.KEYWORD, "module": code.KEYWORD, "require": code.KEYWORD, "replace": code.KEYWORD}}, sum: {},
+	}, mod: {prefix: {"//": code.COMMENT}, split: {operator: "(=>)"}, keyword: {"go": code.KEYWORD, "module": code.KEYWORD, "require": code.KEYWORD, "replace": code.KEYWORD}}, sum: {},
 	js: {prefix: {"// ": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT},
 		keyword: {
 			"let": code.KEYWORD, "const": code.KEYWORD, "var": code.KEYWORD,
@@ -239,7 +254,6 @@ Volcanos(chat.ONSYNTAX, {
 		},
 	}, json: {split: {operator: "{[:,]}"}, keyword: {"true": code.CONSTANT, "false": code.CONSTANT}},
 	css: {prefix: {"// ": code.COMMENT, "/* ": code.COMMENT}, split: {operator: "{[(.,:;&>=)]}"},
-		func: function(can, push, text) { text.indexOf("/* ") == 0 && push(can.base.trimPrefix(can.base.trimSuffix(text, " */"), "/* ")) },
 		regexp: {
 			"[-0-9]+deg": code.CONSTANT,
 			"[-0-9]+rem": code.CONSTANT,
@@ -314,6 +328,7 @@ Volcanos(chat.ONSYNTAX, {
 			"url": code.FUNCTION,
 			"contexts": code.CONSTANT,
 		}, include: ["html"],
+		func: function(can, push, text) { text.indexOf("/* ") == 0 && push(can.base.trimPrefix(can.base.trimSuffix(text, " */"), "/* ")) },
 	},
 	html: {split: {operator: "<!=/>"}, keyword: {
 		"DOCTYPE": code.KEYWORD, "html": code.KEYWORD, "head": code.KEYWORD, "body": code.KEYWORD,

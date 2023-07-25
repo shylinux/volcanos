@@ -39,8 +39,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	refresh: function(event, can) { can.misc.Search(can, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM)}) },
 	storm: function(event, can, river) { can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
 		var list = can.ui.sublist[river]; if (list) { return can.onmotion.toggle(can, list) }
-		var next = event.target.nextSibling
-		can.run({}, [river, chat.STORM], function(msg) {
+		can.run({}, [river, chat.STORM], function(msg) { var next = can.ui.river_list[river].nextSibling
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOSTORM, can.request({}, {river: river})) }
 			var select = 0; list = can.page.Append(can, can._output, [{view: html.LIST, list: msg.Table(function(item, index) {
 				return river == can._main_river && item.hash == can._main_storm && (select = index), can.onimport._storm(can, item, river)

@@ -1,5 +1,5 @@
 fieldset.River { width:230px; float:left; }
 fieldset.River>div.action { width:100%; display:flex; justify-content:center; }
-fieldset.River>div.output div.item { padding:10px 20px; border-left:solid 3px #00ffae; }
-fieldset.River>div.output div.list div.item { border-left:solid 3px #ccdc4c; }
+fieldset.River>div.output div.item { padding:10px 20px; border-left:#00ffae solid 3px; }
+fieldset.River>div.output div.list div.item { border-left:#ccdc4c solid 3px; }
 fieldset.River>div.output div.list { margin-left:20px; }

@@ -4,18 +4,18 @@ fieldset.inner:not(.output)>div.output { overflow:hidden; }
 fieldset.inner>div.output div.content { position:relative; }
 fieldset.inner>div.output div.content td.text { height:20px; }
 fieldset.inner>div.output div.content td.text span.comment { color:var(--code-comment); }
-fieldset.inner>div.output div.content td.text span.keyword { color:var(--code-keyword); }
+fieldset.inner>div.output div.content td.text span.keyword { color:var(--code-keyword); box-shadow:var(--box-shadow); }
 fieldset.inner>div.output div.content td.text span.package { color:var(--code-package); }
 fieldset.inner>div.output div.content td.text span.datatype { color:var(--code-datatype); }
 fieldset.inner>div.output div.content td.text span.function { color:var(--code-function); }
 fieldset.inner>div.output div.content td.text span.constant { color:var(--code-constant); }
-fieldset.inner>div.output div.content td.text span.string { color:var(--code-string); }
+fieldset.inner>div.output div.content td.text span.string { color:var(--code-string); box-shadow:var(--box-shadow); }
 fieldset.inner>div.output div.content td.text span.object { color:var(--code-object); }
-fieldset.inner>div.output>div.project { width:230px; flex:0 0 230px; }
+fieldset.inner>div.output>div.project { width:230px; flex:0 0 230px; box-shadow:var(--box-shadow); }
 fieldset.inner>div.output>div.project * { font-size:14px; font-family:monospace; outline:none; }
 fieldset.inner>div.output>div.project div.action { width:100%; }
 fieldset.inner>div.output>div.project input[type=text] { box-shadow:none; }
-fieldset.inner>div.output>div.project div.zone>div.item span.icon { font-size:20px; line-height:16px; width:20px; float:right; display:none; }
+fieldset.inner>div.output>div.project div.zone>div.item span.icon { font-size:20px; line-height:16px; padding:0 5px; float:right; display:none; }
 fieldset.inner>div.output>div.project div.zone:hover>div.item span.icon { display:block; }
 fieldset.inner>div.output>div.project>div.zone>div.item span.icon { font-size:22px; line-height:32px; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-right:0; width:100%; }
@@ -26,16 +26,20 @@ fieldset.inner>div.output>div.layout>div.tabs { font-size:14px; display:none; }
 fieldset.inner>div.output>div.layout>div.path { font-size:14px; display:none; }
 fieldset.inner>div.output>div.layout>div.layout div.content * { font-family:monospace; font-size:14px; outline:none; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile { max-width:unset; }
-fieldset.inner>div.output>div.layout>div.layout>iframe.profile { border-left:var(--plugin-border-color) solid 1px; }
+fieldset.inner>div.output>div.layout>div.layout>div.profile { max-width:unset; }
+fieldset.inner>div.output>div.layout>div.layout>div.profile h1 { text-align:left; padding:10px 0; margin:20px 0; border-bottom:var(--box-border); }
+fieldset.inner>div.output>div.layout>div.layout>div.profile h2 { padding:10px 0; margin:20px 0; border-bottom:var(--box-border); }
+fieldset.inner>div.output>div.layout>div.layout>div.profile>div.code { white-space:unset; padding:20px; }
+fieldset.inner>div.output>div.layout>div.layout>iframe.profile { border-left:var(--box-border); }
 fieldset.inner>div.output>div.layout>div.layout>div.profile div.status>div { padding:5px; float:left; }
 fieldset.inner>div.output>div.layout>div.display div.status>div { padding:5px; float:left; }
 fieldset.inner>div.output>div.project>div.zone>div.item { font-style:italic; font-weight:bold; line-height:32px; }
 fieldset.inner>div.output>div.project>div.zone>div.item>span.icon { font-style:normal; font-weight:normal; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs { height:38px; display:block; overflow:hidden; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs { height:38px; display:block; overflow:hidden; background-color:var(--plugin-bg-color); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div { padding:10px; height:38px; float:left; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.icon { font-size:26px; line-height:32px; padding:2px 5px; position:sticky; top:0; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs.select { background-color:var(--output-bg-color); }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs.select { background-color:var(--output-bg-color); box-shadow:var(--box-shadow); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>span { font-style:italic; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>span.icon { padding:0 5px; }
@@ -43,11 +47,11 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.usernick { float:right; po
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.avatar { padding:0; height:38px; float:right; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.avatar>img { height:38px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.time { float:right; position:sticky; top:0; }
-fieldset.inner.cmd>div.output>div.layout>div.path { font-style:italic; padding:5px; display:block; }
+fieldset.inner.cmd>div.output>div.layout>div.path { font-style:italic; padding:5px; display:block; box-shadow:var(--box-shadow); cursor:pointer; }
 fieldset.inner.cmd>div.output>div.layout>div.path.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout>div.path span.func { padding:5px 10px; margin-left:20px; }
-fieldset.inner.cmd>div.output>div.layout>div.path span.mode { padding:5px 10px; margin-left:20px; cursor:pointer; }
-fieldset.inner.cmd>div.output>div.layout>div.path span.view { font-size:22px; line-height:12px; padding:0 4px; float:right; cursor:pointer; }
+fieldset.inner.cmd>div.output>div.layout>div.path span.mode { padding:5px 10px; margin-left:20px; }
+fieldset.inner.cmd>div.output>div.layout>div.path span.view { font-size:22px; line-height:12px; padding:0 4px; float:right; }
 fieldset.inner.cmd>div.output>div.layout>div.plug { height:32px; clear:both; position:fixed; bottom:0; right:0; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend { font-size:1rem; padding:0 10px; float:right; }
 fieldset.inner.cmd>div.output>div.layout>div.display>div.status { position:sticky; bottom:0; }
@@ -70,9 +74,9 @@ body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 body.windows fieldset.inner>div.output { overflow:hidden; }
 body.windows fieldset.inner>div.output>div.layout>div.layout>div.profile { overflow:hidden; }
-body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; }
+body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; border-top:var(--box-border); }
 div.path span.item { padding:5px; }
-div.carte.path.float { font-size:14px; border-radius:0; } div.carte.path.float div.item { padding:5px; }
+div.carte.path.float { font-size:14px; border-radius:0; box-shadow:var(--box-shadow); } div.carte.path.float div.item { padding:5px; }
 div.carte.cmd.float { font-size:14px; border-radius:0; } div.cmd.path.float div.item { padding:5px; }
 div.vimer.open.float td:first-child { display:none; }
 div.layout.flex>input.current { clear:both; }

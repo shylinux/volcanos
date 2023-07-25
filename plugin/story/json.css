@@ -1,6 +1,6 @@
 div.output.json div.item:hover { background-color:transparent; color:unset; }
 div.output.json div.item div.item { padding-left:15px; border:transparent solid 1px; border-left:lightblue dashed 1px; margin-left:5px; }
-div.output.json div.item div.item:hover { border:gray solid 1px; }
+div.output.json div.item div.item:hover { border:var(--box-border); }
 div.output.json div.item label.nonce { color:#9cbeca4f; }
 div.output.json div.item span.string { color:orange; }
 div.output.json label { user-select:none; }

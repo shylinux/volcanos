@@ -368,9 +368,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			input.onkeyup = item.onkeyup||function(event) { if (item.name == html.FILTER) { can.user.toast(can, "filter out "+can.page.Select(can, can._output, html.TR, function(tr, index) {
 				if (!can.page.ClassList.set(can, tr, html.HIDE, index > 0 && tr.innerText.indexOf(event.target.value) == -1)) { return tr }
 			}).length+" lines") } }
-			icon.push({icon: mdb.DELETE, onclick: function(event) { _input.value = "", item.name == html.FILTER && can.page.Select(can, can._output, html.TR, function(tr) { can.page.ClassList.del(can, tr, html.HIDE) }) }})
+			icon.push({icon: mdb.DELETE, onclick: function(event) {
+				_input.value = "", input.onkeyup({target: event.target.previousSibling})
+					// , item.name == html.FILTER && can.page.Select(can, can._output, html.TR, function(tr) { can.page.ClassList.del(can, tr, html.HIDE) })
+			}})
 		} if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }
-		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name])], list: [{icon: item.icon}, input].concat(icon), _init: function(target, _input) {
+		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name])], list: [item.icon && {icon: item.icon}, input].concat(icon), _init: function(target, _input) {
 			if (item.type == html.SELECT) { _input.select.value =  value||_item.value||_item.values[0], can.onappend.select(can, _input.select, _item) }
 			item.style && can.onappend.style(can, item.style, target)
 		}}])[item.name]; return _input
@@ -463,7 +466,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.page.style(can, target, html.HEIGHT, h, html.WIDTH, w), width -= w
 			}
 		}), can.core.List(list, function(item) { if (can.base.isArray(item)) { layout(type == FLOW? FLEX: FLOW, item, height, width) } }) }
-		ui.filter = can.onappend.input(can, {type: html.TEXT, name: web.FILTER, placeholder: "search in n items", onkeyup: function(event) {
+		ui.filter = can.onappend.input(can, {type: html.TEXT, name: web.FILTER, placeholder: "search in n items", onkeydown: function() {}, onkeyup: function(event) {
 			can.page.Select(can, ui.project, html.DIV_ITEM, function(target) {
 				can.onmotion.toggle(can, target, target.innerText.indexOf(event.target.value) > -1 || target == ui.filter.parentNode)
 			})
@@ -843,8 +846,11 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||documen
 	},
 	selectOutput: function(event, can) { if (!event.ctrlKey || event.key < "0" || event.key > "9") { return }
 		event.key == "0"? can.onimport._back(can): can.page.Select(can, can._output, html.TR, function(tr, index) { if (index == event.key) {
-			var head = can.page.Select(can, can._output, html.TH, function(th, order) { return th.innerText })
-			can.page.Select(can, tr, html.TD, function(td, index) { can.Option(head[index], td.innerText) }), can.Update(event)
+			var head = can.page.Select(can, can._output, html.TH, function(th, order) { return th.innerText }), data = {}
+			can.page.Select(can, tr, html.TD, function(td, index) { data[head[index]] = td.innerText
+				can.Option(head[index], td.innerText)
+			})
+			can.onexport.record(can, "", "", data) || can.Update(event)
 		} })
 	},
 })
