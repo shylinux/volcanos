@@ -398,7 +398,7 @@ try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
 	var debug = location.search.indexOf("debug=true") > -1
 	try {
-		meta.version = window._version, window.parent.outerWidth-window.parent.innerWidth > 100 && (meta.version = "", debug = false)
+		meta.version = window._version||"", window.parent.outerWidth-window.parent.innerWidth > 100 && (meta.version = "", debug = false)
 	} catch (e) {
 		meta.version = window._version, window.outerWidth-window.innerWidth > 100 && (meta.version = "", debug = false)
 	}
