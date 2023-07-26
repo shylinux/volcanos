@@ -55,7 +55,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		}, can._output, can._action, can._header_tabs)) {
 			if (msg.Option("refresh") != "true") { return can.onaction.layout(can) }
 		}
-		can.run({}, [river, storm], function(msg) {
+		can.run(msg, [river, storm], function(msg) {
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm})) }
 			return can.onimport._init(can, msg)
 		})
