@@ -133,8 +133,9 @@ var nfs = {
 	_CSS: ".css", _JS: ".js",
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
 	PWD: "./", SRC: "src/", USR: "usr/",
-	PACK: "pack",
+	USR_LOCAL_WORK: "usr/local/work/",
 	SRC_DOCUMENT: "src/document/",
+	PACK: "pack",
 
 	IMAGE_PNG: "image/png",
 	IMAGE_JPEG: "image/jpeg",

@@ -7,7 +7,7 @@ fieldset.word>div.output>p { margin:20px auto; }
 fieldset.word>div.output div.story.flex { display:flex; justify-content:center; }
 fieldset.word>div.output div.story.flex>* { padding:20px; }
 fieldset.word>div.output h2.story[data-type=spark][data-name=title] { text-align:center; }
-fieldset.word>div.output h2 { margin-top:40px; }
+// fieldset.word>div.output h2 { margin-top:40px; }
 fieldset.word>div.output h3 { margin-top:20px; }
 fieldset.word>div.output table { width:100%; }
 fieldset.word>div.output img { max-height:100%; max-width:100%; }

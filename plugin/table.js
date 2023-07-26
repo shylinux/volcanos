@@ -28,7 +28,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		]}
 	})), can.onlayout.expand(can, can._output, 320) },
 	icon: function(can, msg, target, cb) { return msg.Table(function(value) { value.icon = can.misc.PathJoin(value.icon||can.page.drawText(can, value.name, 80))
-		return can.page.Append(can, target, [{view: html.ITEM, list: [{view: html.ICON, list: [{img: value.icon}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
+		return can.page.Append(can, target, [{view: html.ITEM, list: [{view: html.ICON, list: [{img: value.icon+(value.space? "?pod="+value.space: "")}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
 			cb && cb(target, value)
 		}, onclick: function(event) { can.sup.onexport.record(can.sup, value.name, mdb.NAME, value) }}])._target
 	}) },
@@ -109,7 +109,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			return {view: [[html.ZONE, zone.name]], list: [
 				{view: html.ITEM, inner: can.user.trans(can, zone.name), _init: function(target) { zone._legend = target }, onclick: function() {
 					if (zone._delay_init) { zone._delay_init(zone._target, zone), delete(zone._delay_init) }
-					can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._action.nextSibling), zone._toggle && zone._toggle()
+					can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._action.nextSibling||zone._target), zone._toggle && zone._toggle()
 				}, oncontextmenu: function(event) { var menu = zone._menu
 					menu? can.user.carteRight(event, can, menu.meta, menu.list||can.core.Item(menu.meta), can.base.isFunc(menu)? menu: function(event, button, meta, carte) {
 						can.runAction(event, button), carte.close()
