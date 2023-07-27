@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(can, function() { can.ConfDefault({field: msg.append[0], split: nfs.PS})
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(can, function() { msg.append && can.ConfDefault({field: msg.append[0], split: nfs.PS})
 		can.dir_root = can.Conf(nfs.DIR_ROOT)||msg.Option(nfs.DIR_ROOT), can._tree = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))
 		can.onaction.list = [], can.base.isFunc(cb) && cb(msg), can.onimport.layout(can)
 		can.onappend._status(can, msg.Option(ice.MSG_STATUS))
@@ -57,7 +57,7 @@ Volcanos(chat.ONDETAIL, {
 	onclick: function(event, can, tree) {
 		if (tree.list.length > 0 || tree.name.endsWith(can.Conf(lex.SPLIT))) { return tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)||"横向"](event, can) }
 		for (var node = tree; node; node = node.last) { can.request(event, node.meta) }
-		can.run(can.request(event, can.Option()), can.base.Obj(can.Conf(lex.PREFIX), []).concat([tree.file||"", tree.name]), function(msg) {
+		can.run(can.request(event, can.Option()), can.base.Obj(can.Conf(lex.PREFIX), []).concat(can.Conf(ctx.ACTION)||[], [tree.file||"", tree.name]), function(msg) {
 			if (msg.Length() == 0) { return can.onappend._float(can, web.CODE_INNER, [can._msg.Option(nfs.DIR_ROOT), tree.file, tree.line], code.INNER) }
 			if (msg.Append(mdb.INDEX)) { return msg.Table(function(value) { can.onappend._float(can, value.index, value.args) }) }
 		}, true)

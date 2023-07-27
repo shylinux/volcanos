@@ -168,7 +168,8 @@ fieldset.float div.text:hover>span.icon.delete { visibility:hidden; }
 body.mobile:not(.landscape) fieldset.float>form.option>div.text>span.value { display:none; }
 body.windows form.option>div.icon { font-size:21px; }
 /* svg */
-svg text { font-size:24px; font-family:monospace; stroke:var(--body-fg-color); fill:var(--body-fg-color); }
+svg text { font-size:24px; font-family:monospace; stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }
+svg text:hover { font-size:24px; font-family:monospace; stroke:var(--hover-fg-color); fill:var(--hover-fg-color); cursor:pointer; }
 svg rect { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); fill:var(--output-bg-color); }
 svg line { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); }
 svg path { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); }
