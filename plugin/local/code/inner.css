@@ -19,7 +19,8 @@ fieldset.inner>div.output>div.project div.zone>div.item span.icon { font-size:20
 fieldset.inner>div.output>div.project div.zone:hover>div.item span.icon { display:block; }
 fieldset.inner>div.output>div.project>div.zone>div.item span.icon { font-size:22px; line-height:32px; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-right:0; width:100%; }
-fieldset.inner>div.output>div.project>div.zone div.action>div.item>input { width:calc(100% - 5px); }
+fieldset.inner>div.output>div.project>div.zone div.action>div.item>input { width:calc(100% - 5px); border:var(--plugin-border-color) solid 1px; }
+fieldset.inner>div.output>div.project>div.zone div.action>div.item>input:hover { border:var(--notice-fg-color) solid 1px; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item>span.delete { top:3px; right:5px; }
 fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
 fieldset.inner>div.output>div.layout>div.tabs { font-size:14px; display:none; }

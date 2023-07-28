@@ -58,7 +58,8 @@ Volcanos(chat.ONIMPORT, {
 	_open: function(can, msg, arg) { return can.Update(), can.user.open(arg) },
 	_close: function(can, msg) { return can.user.close() || history.back() },
 	size: function(can, height, width, auto, mode) { height -= can.onexport.actionHeight(can)+can.onexport.statusHeight(can)
-		auto? can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, height? can.ConfHeight(height): "", html.MAX_WIDTH, can.ConfWidth(width)):
+		auto? (can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, height? can.ConfHeight(height): "", html.MAX_WIDTH, can.ConfWidth(width)),
+				can.page.style(can, can._target, html.WIDTH, "")):
 			(can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, ""),
 				can.page.style(can, can._target, html.WIDTH, can.ConfWidth(width)))
 		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return can.Mode(mode), auto } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
@@ -71,9 +72,22 @@ Volcanos(chat.ONIMPORT, {
 })
 Volcanos(chat.ONACTION, {list: [
 		"刷新界面", "刷新数据", "切换浮动", "切换全屏", "远程控制", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片",
+		["视图", "操作", "专注", "项目", "预览", "输出", "状态"],
 		["其它", "扩展参数", "保存参数", "清空参数", "复制数据", "下载数据", "清空数据", "删除工具"],
 		["调试", "查看文档", "查看脚本", "查看源码", "查看配置", "查看日志", "打包页面"],
 	],
+	"参数": function(event, can) { can.onmotion.toggle(can, can._option) },
+	"操作": function(event, can) { can.onmotion.toggle(can, can._action) },
+	"专注": function(event, can) { can.onaction._view(event, can, function(sub) { if (!sub.ui) { return }
+		sub.ui.project && can.onmotion.hidden(can, sub.ui.project)
+		sub.ui.profile && can.onmotion.hidden(can, sub.ui.profile)
+		sub.ui.display && can.onmotion.hidden(can, sub.ui.display)
+	}) },
+	"项目": function(event, can) { can.onaction._view(event, can, function(sub) { sub.ui && sub.ui.project && can.onmotion.toggle(can, sub.ui.project) }) },
+	"预览": function(event, can) { can.onaction._view(event, can, function(sub) { sub.ui && sub.ui.project && can.onmotion.toggle(can, sub.ui.profile) }) },
+	"输出": function(event, can) { can.onaction._view(event, can, function(sub) { sub.ui && sub.ui.project && can.onmotion.toggle(can, sub.ui.display) }) },
+	"状态": function(event, can) { can.onaction._view(event, can, function(sub) { can.onmotion.toggle(can, can._status) }) },
+	_view: function(event, can, cb) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); cb(sub), sub.onimport.layout(sub) },
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input())) },
 	_switch: function(can, sub, mode, save, load) {
 		if (can.page.ClassList.neg(can, can._target, mode)) {

@@ -1,9 +1,10 @@
 fieldset.feel>div.output { display:flex; justify-content:center; }
-fieldset.feel>div.output div.project { flex:0 0 230px; }
-fieldset.feel>div.output div.project div.item.filter { position:sticky; top:0; }
-fieldset.feel>div.output div.project div.item.filter input { width:100%; }
-fieldset.feel>div.output div.project div.item { white-space:pre; }
-fieldset.feel>div.output div.content.float { padding:0; position:fixed; left:0; top:0; }
-fieldset.feel>div.output div.content:not(.hide) { display:flex; justify-content:center; }
-fieldset.feel>div.output div.display:not(.hide) { display:flex; justify-content:center; flex-wrap:wrap; max-height:100%; }
+fieldset.feel>div.output>div.project { flex:0 0 230px; }
+fieldset.feel>div.output>div.project div.item { white-space:pre; }
+fieldset.feel>div.output>div.project div.item.filter { position:sticky; top:0; }
+fieldset.feel>div.output>div.project div.item.filter input { width:100%; }
+fieldset.feel>div.output>div.layout { flex-grow:1; }
+fieldset.feel>div.output>div.layout>div.content.float { padding:0; position:fixed; left:0; top:0; }
+fieldset.feel>div.output>div.layout>div.content:not(.hide) { display:flex; justify-content:center; }
+fieldset.feel>div.output>div.layout>div.display:not(.hide) { display:flex; justify-content:center; flex-wrap:wrap; max-height:100%; }
 fieldset.feel>div.output img { margin-bottom:0; }

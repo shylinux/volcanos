@@ -194,7 +194,8 @@ Volcanos(chat.ONSYNTAX, {
 			} opts.stack = [ls[0]] } else if (indent == 4 && opts.stack[0] == "func") {
 				if (text.indexOf("MergeCommands(") > -1) { opts.block = "cmds" } else if (text.indexOf("}") == 0) { opts.block = "" }
 			} else if (indent == 8) {
-				if (isKey()) { push(prefix(ls[0], opts.package)+ls[0]), opts.cmds = opts.package+nfs.PT+ls[0] }
+				if (isKey()) { push(prefix(ls[0], opts.package)+ls[0]), opts.cmds = ls[0] }
+				// if (isKey()) { push(prefix(ls[0], opts.package)+ls[0]), opts.cmds = opts.package+nfs.PT+ls[0] }
 			} else if (indent == 12) {
 				if (isKey()) { push("+ "+opts.cmds+lex.SP+ls[0]) }
 			}

@@ -64,7 +64,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	},
 	_menu: ["addapp", "rename", "remove"],
 	addapp: function(event, can, button, river) { can.ondetail.create(event, can, button, river) },
-	rename: function(event, can, button, river) { can.user.input(event, can, [mdb.NAME], function(args) {
+	rename: function(event, can, button, river) { can.user.input(event, can, [mdb.NAME, mdb.ICON], function(args) {
 		can.runAction(event, mdb.MODIFY, [mdb.HASH, river].concat(args), function(msg) { can.page.Modify(can, can.ui.river_list[river], args[1]), can.user.toastSuccess(can) })
 	}) },
 	remove: function(event, can, button, river) { can.runAction(event, mdb.REMOVE, [mdb.HASH, river], function(msg) {
@@ -99,7 +99,7 @@ Volcanos(chat.ONDETAIL, {
 			can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm), refresh: ice.TRUE}))
 		})
 	}) },
-	rename: function(event, can, button, river, storm) { can.user.input(event, can, [mdb.NAME], function(args) {
+	rename: function(event, can, button, river, storm) { can.user.input(event, can, [mdb.NAME, mdb.ICON], function(args) {
 		can.run(event, [river, storm, chat.STORM, ctx.ACTION, mdb.MODIFY].concat(args), function() { can.page.Modify(can, can.ui.storm_list[can.core.Keys(river, storm)], args[1]), can.user.toastSuccess(can) })
 	}) },
 	remove: function(event, can, button, river, storm) { can.run(event, [river, storm, chat.STORM, ctx.ACTION, mdb.REMOVE], function(msg) { can.misc.Search(can, {river: river, storm: ""}) }) },

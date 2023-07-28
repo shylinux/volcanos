@@ -40,11 +40,17 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}]) }), can.onmotion.story.auto(can, can.ui.profile)
 	},
 	_display: function(can, task) { can.onmotion.toggle(can, can.ui.display, true)
-		if (can.onmotion.cache(can, function() { return can.sup.task = task, can.Status(task), [task.space, task.zone, task.id].join(nfs.PT) }, can.ui.display)) { return }
+		if (can.onmotion.cache(can, function(data, old) {
+			if (old) { data[old] = {_plugin_display: can._plugin_display} }
+			var key = [task.space, task.zone, task.id].join(nfs.PT)
+			var last = data[key]; if (last) { can._plugin_display = last._plugin_display }
+			return can.sup.task = task, can.Status(task), key
+		}, can.ui.display)) { return }
 		task[ctx.EXTRA_INDEX] && can.onappend.plugin(can, {space: task.space, index: task[ctx.EXTRA_INDEX], args: task[ctx.EXTRA_ARGS], height: can.ConfHeight()/2-2*html.ACTION_HEIGHT}, function(sub, meta) {
 			sub.run = function(event, cmds, cb) { can.request(event, kit.Dict(team.TASK_POD, task.space, team.TASK_ZONE, task.zone, team.TASK_ID, task.id))
 				can.page.style(can, sub._output, html.MAX_HEIGHT, ""), can.runAction(event, ice.RUN, [task[mdb.ZONE], task[mdb.ID]].concat(cmds), cb)
 			}
+			can._plugin_display = sub
 			sub.onexport.output = function() { can.onmotion.delay(can, function() {
 				sub.onimport.size(sub, can._display_heights[[task.zone, task.id].join(mdb.FS)] = can.base.Max(sub._target.offsetHeight, can.ConfHeight()/2), can.ConfWidth()-can.ui.project.offsetWidth)
 				can.onimport.layout(can)
@@ -102,6 +108,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	layout: function(can) {
 		can.ui.layout(can.ConfHeight(), can.ConfWidth())
 		can.user.isMobile && can.page.style(can, can.ui.content, html.HEIGHT, "")
+		var sub = can._plugin_display; sub && sub.onimport.size(sub, can.ConfHeight()/2, can.ConfWidth()-can.ui.project.offsetWidth, true)
 		return
 		can.page.styleHeight(can, can._output, can.ConfHeight()), can.page.styleHeight(can, can.ui.project, can.ConfHeight())
 		var height = can._display_heights[can.sup.task? [can.sup.task.zone, can.sup.task.id].join(mdb.FS): ""]||html.ACTION_HEIGHT

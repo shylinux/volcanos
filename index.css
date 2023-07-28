@@ -12,7 +12,7 @@ body {
 
 	--svg-stroke-width:2;
 	--box-border:var(--plugin-border-color) solid 1px;
-	--box-shadow:var(--body-fg-color) 3px 3px 10px;
+	--box-shadow:var(--body-fg-color) 2px 2px 8px;
 }
 /* element */
 * { tab-size:4; box-sizing:border-box; padding:0; border:0; margin:0; }
@@ -37,6 +37,11 @@ table.content.action td:last-child { position:sticky; right:2px; box-shadow: var
 table.content col.time { width:180px; }
 // table.content col.option { cursor:pointer; }
 table.content col.action { width:180px; }
+body:not(.windows) table.content { font-family:monospace; }
+body:not(.windows) div.code { font-family:monospace; }
+body:not(.windows) div.tabs { font-family:monospace; }
+body:not(.windows) div.path { font-family:monospace; }
+body:not(.windows) div.carte { font-family:monospace; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; }
 hr, td.hr { border-bottom:var(--plugin-border-color) dashed 1px; margin:5px; }
 ol, ul { margin-left:40px; }
@@ -163,7 +168,8 @@ fieldset.cmd>div.action>div.button.icons>input { display:none; }
 fieldset:not(.float)>form.option>div.text>span.value { display:none; }
 fieldset.float>form.option>div.text>input { display:none; }
 fieldset.float>form.option>div.text>span { display:none; }
-fieldset.float>form.option>div.text>span.value { padding:7px; height:32px; max-width:200px; display:block; overflow:auto; }
+fieldset.float>form.option>div.text>span.value { white-space:pre; padding:7px; height:32px; max-width:200px; display:block; overflow:auto; }
+// fieldset.float>form.option>div.text>span.value { padding:7px; height:32px; display:block; overflow:auto; }
 fieldset.float div.text:hover>span.icon.delete { visibility:hidden; }
 body.mobile:not(.landscape) fieldset.float>form.option>div.text>span.value { display:none; }
 body.windows form.option>div.icon { font-size:21px; }
@@ -240,8 +246,9 @@ body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
 legend { background-color:var(--legend-bg-color); border-radius:var(--input-radius); }
 select { border-radius:var(--input-radius); }
 input { background-color:var(--input-bg-color); color:var(--input-fg-color); border-radius:var(--input-radius); }
-input[type=button]:hover { color:var(--hover-fg-color) }
-input:not([type=button]) { border-radius:0; }
+input[type=button]:hover { color:var(--hover-fg-color); background-color:var(--hover-bg-color); }
+legend:hover { color:var(--hover-fg-color); background-color:var(--hover-bg-color); }
+input:not([type=button]) { border-radius:0; border: var(--plugin-border-color) solid 1px; }
 input:not([type=button]):hover { border:var(--input-border); }
 input:not([type=button]):focus { border:var(--input-border); outline:none; }
 textarea { background-color:var(--input-bg-color); color:var(--input-fg-color); }
@@ -336,7 +343,7 @@ fieldset.xterm div.layout div.output { border-left:var(--box-border); border-top
 fieldset.xterm div.layout div.output.select { border:var(--box-border)}
 fieldset.plan div.output div.content>table.content { height:100%; width:100%; }
 fieldset.draw>form.option>div.item.pid>input { width:60px; }
-fieldset.draw div.output svg { margin-bottom:-4px; height:100%; width:100%; }
+// fieldset.draw div.output svg { margin-bottom:-4px; height:100%; width:100%; }
 fieldset.draw.trend div.output svg { background-color:#1b5b738c; }
 fieldset.draw.spide div.output svg text { cursor:pointer; }
 fieldset.draw.spide div.output svg path { stroke-width:1; }
