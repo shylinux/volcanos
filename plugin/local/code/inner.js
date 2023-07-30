@@ -112,11 +112,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	},
 	tabview: function(can, path, file, line, cb) { path = path||can.Option(nfs.PATH); var key = can.onexport.keys(can, path, file)
 		function isIndex() { return line == ctx.INDEX } function isSpace() { return line == web.SPACE }
-		function show(skip) { can._msg && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.db.tabview[key]
+		function show(skip) { can._msg && can._msg.Option && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.db.tabview[key]
 			can.Option(can.onimport.history(can, {path: path, file: file, line: line||can.misc.sessionStorage(can, SELECT_LINE+nfs.DF+path+file)||can._msg.Option(nfs.LINE)||1}))
 			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg; can.onexport.hash(can)
 				can.isCmdMode() && can.onexport.title(can, (isIndex()||isSpace()? "": path)+file), can.onmotion.select(can, can.ui.tabs, html.DIV_TABS, msg._tab), can.isCmdMode() && msg._tab.scrollIntoView()
-				if (isSpace()) { can.ui.path.innerHTML = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)})) } else if (isIndex()) {
+				if (isSpace()) {
+					can.ui.path.innerHTML = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}))
+				} else if (isIndex()) {
 					can.onimport._tabPath(can, nfs.PT, ice.CMD, can.Option(nfs.FILE), function(p, pre) {
 						can.onimport.tabview(can, "", can.core.Keys(can.base.trimSuffix(pre, nfs.PT), p), ctx.INDEX)
 					}, can.ui.path)
@@ -136,6 +138,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		function load(msg) { var skip = false; can.db.tabview[key] = msg; var name = file
 			if (can.base.beginWith(file, web.HTTP)) { name = decodeURI(file.split(web.QS)[0])
 				var link = can.misc.ParseURL(can, name); if (link.pod) { name = link.pod }
+				name = can.base.trimPrefix(name, location.origin)
 			} else {
 				name = file.split(mdb.FS)[0].split(isIndex()? nfs.PT: nfs.PS).pop()
 			}
@@ -189,7 +192,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 				if (can.base.isIn(item.index, web.WIKI_WORD)) { item.style = html.OUTPUT }
 				can.onimport.plug(can, item, function(sub) {
 					sub.onaction.close = function() { can.onmotion.hidden(can, target), can.onimport.layout(can) }
-					sub.onexport.output = function(_sub, _msg) { can.onmotion.delay(can, function() { can.base.isFunc(cb) && cb(_sub, _msg) }) }
+					sub.onexport.output = function(_sub, _msg) { can.onmotion.delay(can, function() { can.base.isFunc(cb) && cb(_sub.sup, _msg) }) }
 				}, target)
 			})
 		} else if (msg.Option(ice.MSG_DISPLAY) != "") {
@@ -223,11 +226,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) { can.ui.content = content, can.onlayout.layout(can, height, width)
 			var sub = can.ui.profile._plugin; sub && can.page.isDisplay(can.ui.profile) && sub.onimport && sub.onimport.size(sub, can.ui.profile.offsetHeight, can.ui.profileWidth, true)
 			var sub = can.ui.content._plugin; if (!sub) { return } if (height == sub.ConfHeight()+sub.onexport.actionHeight(sub)+sub.onexport.statusHeight(sub) && width == sub.ConfWidth()) { return }
-			content._root || sub.onimport.size(sub, height, width, true), can.onlayout.layout(can)
+			content._root || sub.onimport.size(sub, height, width, true), can.onlayout.layout(can, height, width)
 		})
-		if (can.isCmdMode()) {
-			can.ui.zone.source._layout(), can.ui.zone[can.Option(nfs.PATH)] && can.ui.zone[can.Option(nfs.PATH)]._layout()
-		}
+		if (can.isCmdMode()) { can.ui.zone.source._layout(), can.ui.zone[can.Option(nfs.PATH)] && can.ui.zone[can.Option(nfs.PATH)]._layout() }
 	},
 	exts: function(can, url, cb) { var sub = can.db.toolkit[url.split(web.QS)[0]]; if (sub) { return can.base.isFunc(cb)? cb(sub): sub.select() }
 		can.onimport.toolkit(can, {index: ice.CAN_PLUGIN, display: (url[0] == nfs.PS || url.indexOf(web.HTTP) == 0? "": can.base.Dir(can._path))+url}, function(sub) {

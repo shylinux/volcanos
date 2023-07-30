@@ -17,6 +17,10 @@ Volcanos(chat.ONIMPORT, {
 			sub.Conf(can.base.Obj(item.conf)); if (sub.isSimpleMode()) { sub.ConfHeight(can.ConfHeight()/2)
 				var res = can.request(); res.Echo(sub.Conf(ice.MSG_RESULT)), can.onappend._output(sub, res, sub.Conf(ctx.DISPLAY)); return
 			}
+			if (can.page.ClassList.has(can, sub._target, html.FLOAT)) {
+				height = window.innerHeight/2, width = window.innerWidth/2
+				can.onmotion.move(can, sub._target, {left: window.innerWidth-width, top: window.innerHeight-height})
+			}
 			sub.run = function(event, cmds, cb) { sub.onimport.size(sub, height, width, true)
 				sub.onexport.output = function() { sub.onimport.size(sub, height, width, true)
 					// can.page.SelectChild(can, can._output, html.TABLE, function(target) { can.page.style(can, target, html.MAX_HEIGHT, height, html.DISPLAY, html.BLOCK) })
@@ -26,8 +30,6 @@ Volcanos(chat.ONIMPORT, {
 				can.page.SelectChild(can, can._output, html.FIELDSET, function(target) { can.page.style(can, target, "z-index", "9") })
 				can.page.style(can, sub._target, "z-index", "10")
 			}
-			can.page.style(can, sub._target, "z-index", "10")
-			can.onappend.style(can, "move", sub._target)
 			can.base.isFunc(cb) && cb(sub)
 		}) })
 	},

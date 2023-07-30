@@ -18,7 +18,8 @@ fieldset.Action.grid>div.output>fieldset.plugin>div.action { display:none; }
 fieldset.Action.grid>div.output>fieldset.plugin>div.status { display:none; }
 fieldset.Action.grid>div.output>fieldset.plugin>form.option input[type=text] { width:80px; }
 fieldset.Action>div.project.toggle { font-size:32px; cursor:pointer; padding-top:50px; height:150px; position:fixed; top:30%; border-top-right-radius:20px; border-bottom-right-radius:20px; }
-fieldset.Action>div.project.toggle { background-color:#4a566e6e; color:white; width:20px; }
+fieldset.Action>div.project.toggle { background-color:#4a566e6e; color:var(--body-fg-color); width:20px; }
+fieldset.Action>div.project.toggle:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); width:20px; }
 fieldset.Action.tabview>div.project.toggle { display:none; }
 fieldset.Action.vertical>div.project.toggle { display:none; }
 fieldset.Action.horizon>div.project.toggle { display:none; }

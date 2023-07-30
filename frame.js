@@ -234,7 +234,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				return action.list && action.list.length > 0? can.user.input(event, can, action.list, function(data) {
 					can.core.CallFunc(action, {can: can, msg: can.request(event, data), arg: cmds.slice(2), cb: cb})
 				}): can.core.CallFunc(action, {sup: meta.can, can: can, msg: can.request(event), arg: cmds.slice(2), cb: cb})
-			} return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, can.Option()), cmds.slice(0, 2).concat(args), cb) })
+			} return can.user.input(event, can, meta.feature[cmds[1]], function(args) { can.Update(can.request(event, {_handle: ice.TRUE}, msg, can.Option()), cmds.slice(0, 2).concat(args), cb) })
 		}
 		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, function(msg) {
 			if (can.base.isFunc(cb)) { return cb(msg) } if (silent) { return }
@@ -264,7 +264,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				// can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, ""), can.onappend.style(sub, sub.Conf(ctx.STYLE))
 				can.onappend.style(sub, sub.Conf(ctx.STYLE))
 				if (can.isFullMode() || can.isCmdMode()) { can.onimport.size(can, can.page.height(), can.page.width(), true) }
-				can.onmotion.story.auto(can, can._output), can.onexport.output(can, msg), can.base.isFunc(cb) && cb(msg)
+				can.onmotion.story.auto(can, can._output), can.onexport.output(sub, msg), can.base.isFunc(cb) && cb(msg)
 			}, target: output})
 		})
 	},
@@ -424,6 +424,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}}
 		}); table && can.onappend.style(can, chat.CONTENT, table), msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.onappend.style(can, ctx.ACTION, table)
 		;(can.isCmdMode() || table.offsetWidth > can.ConfWidth() / 2) && can.onappend.style(can, "full", table)
+		can.page.Select(can, table, "input", function(target) {
+			target.name == target.value && (target.value = can.user.trans(can, target.value))
+		})
 		return keys && can.page.RangeTable(can, table, can.core.List(keys, function(key) { return can.page.Select(can, table, html.TH, function(th, index) { if (th.innerHTML == key) { return index } })[0] })), table
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }

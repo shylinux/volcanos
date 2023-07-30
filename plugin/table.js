@@ -86,7 +86,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			"+", function(event) { sub.Update(event, [ctx.ACTION, mdb.CREATE]) },
 			"=", function() { can.onimport.tabview(can, "", sub._index, ctx.INDEX) },
 		))
-		sub.onexport.output = function(sub, msg) { zone._total(msg.Length()), cb(sub, msg)
+		sub.onexport.output = function(_sub, msg) { zone._total(msg.Length()), cb(sub, msg)
 			zone._menu = shy({_trans: sub._trans}, action.concat(can.base.Obj(msg.Option(ice.MSG_ACTION), [])), function(event, button, meta, carte) {
 				sub.Update(event, [ctx.ACTION, button]), carte.close()
 			}), can.user.toastSuccess(can)
@@ -149,9 +149,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}) }); return node
 	},
 	item: function(can, item, cb, cbs, target) { target = target||(can.ui && can.ui.project? can.ui.project: can._output)
-		var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.nick||item.name], title: item.title, onclick: function(event) { can.onmotion.select(can, target, html.DIV_ITEM, event.target)
+		var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.nick||item.name||item.zone], title: item.title, onclick: function(event) { can.onmotion.select(can, target, html.DIV_ITEM, event.target)
 				cb(event, event.target, event.target._list && can.onmotion.toggle(can, event.target._list))
-			}, oncontextmenu: function(event) { if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } } },
+			}, oncontextmenu: function(event) {
+				if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } return }
+				can.user.carteItem(event, can, item)
+			},
 		}]); return ui._target
 	},
 	itemlist: function(can, list, cb, cbs, target) {

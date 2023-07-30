@@ -10,9 +10,9 @@ body {
 	--code-datatype:cornflowerblue; --code-function:darkcyan;
 	--code-constant:gray; --code-string:brown; --code-object:purple;
 
-	--svg-stroke-width:2;
 	--box-border:var(--plugin-border-color) solid 1px;
 	--box-shadow:var(--body-fg-color) 2px 2px 8px;
+	--svg-stroke-width:2;
 }
 /* element */
 * { tab-size:4; box-sizing:border-box; padding:0; border:0; margin:0; }
@@ -42,6 +42,7 @@ body:not(.windows) div.code { font-family:monospace; }
 body:not(.windows) div.tabs { font-family:monospace; }
 body:not(.windows) div.path { font-family:monospace; }
 body:not(.windows) div.carte { font-family:monospace; }
+fieldset.panel.Action.tabs table.content { width:100%; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; }
 hr, td.hr { border-bottom:var(--plugin-border-color) dashed 1px; margin:5px; }
 ol, ul { margin-left:40px; }
@@ -174,11 +175,15 @@ fieldset.float div.text:hover>span.icon.delete { visibility:hidden; }
 body.mobile:not(.landscape) fieldset.float>form.option>div.text>span.value { display:none; }
 body.windows form.option>div.icon { font-size:21px; }
 /* svg */
+fieldset.web.wiki.draw div.output svg { min-width:100%; min-height:100%; }
 svg text { font-size:24px; font-family:monospace; stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }
-svg text:hover { font-size:24px; font-family:monospace; stroke:var(--hover-fg-color); fill:var(--hover-fg-color); cursor:pointer; }
+svg text:hover { stroke:var(--hover-fg-color); fill:var(--hover-fg-color); cursor:pointer; }
 svg rect { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); fill:var(--output-bg-color); }
+svg rect:hover { stroke:var(--hover-fg-color); fill:var(--hover-bg-color); }
 svg line { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); }
+svg line:hover { stroke:var(--hover-fg-color); }
 svg path { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); }
+svg path:hover { stroke:var(--hover-fg-color); }
 svg g[stroke] text { stroke:unset; }
 svg g[stroke] rect { stroke:unset; }
 svg g[stroke] line { stroke:unset; }
@@ -189,7 +194,8 @@ svg g[fill] rect { fill:unset; }
 div.project div.list { margin-left:10px; clear:both; }
 div.project div.item { padding:2px 10px; }
 div.project div.item.filter { padding:0; }
-div.project div.item.filter input { width:100%; }
+div.project div.item.filter>input { width:100%; }
+div.project div.item.filter>span.delete { top: 3px; right: 5px; }
 div.project div.item>div.name { padding-left:15px; }
 div.project div.expand { float:left; transition:all .3s; }
 div.project div.expand.open { rotate:90deg; translate:1px 2px; transition:all .3s; }
@@ -198,7 +204,8 @@ div.project div.zone>div.item>div.icon { margin-left:3px; float:right; }
 div.project div.zone>div.list>div.zone>div.item { text-align:left; padding-left:20px; }
 div.project div.zone>div.list>div.zone>div.item:hover { margin-left:10px; transition:all 0.3s;  }
 fieldset>div.output div.project { border-right:var(--box-border); width:230px; }
-fieldset>div.output div.profile { border-left:var(--box-border); max-width:320px; }
+/* fieldset>div.output div.profile { border-left:var(--box-border); max-width:320px; } */
+fieldset>div.output div.profile { border-left:var(--box-border); }
 fieldset>div.output div.display { border-top:var(--box-border); }
 /* table card */
 div.output.card>div.item.stop { color:var(--disable-fg-color); }

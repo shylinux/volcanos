@@ -79,7 +79,7 @@ var mdb = {
 	EQ: ice.EQ, FS: ice.FS,
 }
 var web = {CHAT: "chat", LINK: "link",
-	SPACE: "space", DREAM: "dream", SHARE: "share", SPIDE: "spide",
+	DREAM: "dream", SPACE: "space", ROUTE: "route", SPIDE: "spide", COUNT: "count", SHARE: "share",
 	WEBSITE: "website", DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter", INPUT: "input",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
@@ -99,6 +99,7 @@ var web = {CHAT: "chat", LINK: "link",
 	TEAM_PLAN: "web.team.plan",
 	WIKI_PORTAL: "web.wiki.portal",
 	CHAT_PORTAL: "web.chat.portal",
+	CODE_COMPILE: "web.code.compile",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",

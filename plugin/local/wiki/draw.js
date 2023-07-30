@@ -2,6 +2,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.svg = null, can.group = null, can.temp = null, can.current = null, can.points = [], can._display_heights = {}
 		if (can.Conf(ctx.INDEX) == web.WIKI_DRAW) {
 			can.ui = can.onappend.layout(can); if (can.user.isMobile) { can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.profile) }
+			can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.profile)
 		} else { can.ui = {content: can._output} }
 		can.page.Modify(can, can.ui.content, msg.Results()||can.onexport.content(can)), can.onexport.title(can, can.Option(nfs.PATH))
 		can.page.Select(can, can.ui.content, html.SVG, function(target) { can.svg = can.group = can.onimport._block(can, target), can.onimport._group(can, target)
