@@ -62,7 +62,7 @@ Volcanos(chat.ONFIGURE, {
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
 	}) },
 })
-Volcanos(chat.ONACTION, {list: ["编译", "构建", "路由", "终端", "源码", "文档", "计划", "桌面", "后台", "官网"],
+Volcanos(chat.ONACTION, {list: ["编译", "构建", "路由", "终端", "源码", "文档", "计划", "流程", "桌面", "后台", "官网"],
 	_trans: {show: "预览", exec: "输出"},
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button)
@@ -110,6 +110,7 @@ Volcanos(chat.ONACTION, {list: ["编译", "构建", "路由", "终端", "源码"
 	"源码": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },
 	"文档": function(event, can) { can.onimport.tabview(can, "", web.WIKI_WORD, ctx.INDEX) },
 	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },
+	"流程": function(event, can) { can.onimport.tabview(can, "", web.CHAT_FLOWS, ctx.INDEX) },
 	"桌面": function(event, can) { can.onimport.tabview(can, "", web.CHAT_MACOS_DESKTOP, ctx.INDEX) },
 	"后台": function(event, can) { var pod = can.misc.Search(can, ice.POD); can.onimport.tabview(can, "", location.origin+"/chat/portal/"+(pod? "?pod="+pod: ""), web.SPACE) },
 	"官网": function(event, can) { can.onimport.tabview(can, "", can.misc.MergePodCmd(can, {cmd: web.WIKI_PORTAL}), web.SPACE) },
