@@ -446,6 +446,19 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}) } return code.scrollBy && code.scrollBy(0, 10000), code 
 	},
 	tools: function(can, msg, cb, target) { can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []), cb, target) },
+	toggle: function(can, target) {
+		var toggle = can.page.Append(can, target, [
+			{view: [[html.PROJECT, html.TOGGLE]], onclick: function() { can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can) }},
+			{view: [[html.DISPLAY, html.TOGGLE]], onclick: function() { can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can) }},
+			{view: [[html.PROFILE, html.TOGGLE]], onclick: function() { can.onmotion.toggle(can, can.ui.profile), can.onimport.layout(can) }},
+		])
+		toggle.layout = function() { var up = "\u25B2", down = "\u25BC", left = "\u25C0", right = "\u25B6"
+			can.page.Modify(can, toggle.project, can.page.isDisplay(can.ui.project)? left: right)
+			can.page.Modify(can, toggle.display, can.page.isDisplay(can.ui.display)? down: up)
+			can.page.Modify(can, toggle.profile, can.page.isDisplay(can.ui.profile)? right: left)
+		}
+		return toggle
+	},
 	layout: function(can, list, type, target) { const FLOW = html.FLOW, FLEX = html.FLEX
 		var count = 0, ui = {size: {}}; type = type||FLEX, target = target||can._output
 		function append(target, type, list) { can.page.ClassList.add(can, target, [html.LAYOUT, type]), can.core.List(list, function(item) {

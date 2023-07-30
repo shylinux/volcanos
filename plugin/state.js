@@ -74,7 +74,7 @@ Volcanos(chat.ONIMPORT, {
 })
 Volcanos(chat.ONACTION, {list: [
 		"刷新界面", "刷新数据", "切换浮动", "切换全屏", "远程控制", "共享工具", "打开链接", "生成链接", "生成脚本", "生成图片",
-		["视图", "操作", "专注", "项目", "预览", "输出", "状态"],
+		["视图", "操作", "专注", "项目", "预览", "演示", "状态"],
 		["其它", "扩展参数", "保存参数", "清空参数", "复制数据", "下载数据", "清空数据", "删除工具"],
 		["调试", "查看文档", "查看脚本", "查看源码", "查看配置", "查看日志", "打包页面"],
 	],
@@ -87,7 +87,7 @@ Volcanos(chat.ONACTION, {list: [
 	}) },
 	"项目": function(event, can) { can.onaction._view(event, can, function(sub) { sub.ui && sub.ui.project && can.onmotion.toggle(can, sub.ui.project) }) },
 	"预览": function(event, can) { can.onaction._view(event, can, function(sub) { sub.ui && sub.ui.project && can.onmotion.toggle(can, sub.ui.profile) }) },
-	"输出": function(event, can) { can.onaction._view(event, can, function(sub) { sub.ui && sub.ui.project && can.onmotion.toggle(can, sub.ui.display) }) },
+	"演示": function(event, can) { can.onaction._view(event, can, function(sub) { sub.ui && sub.ui.project && can.onmotion.toggle(can, sub.ui.display) }) },
 	"状态": function(event, can) { can.onaction._view(event, can, function(sub) { can.onmotion.toggle(can, can._status) }) },
 	_view: function(event, can, cb) { var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); cb(sub), sub.onimport.layout(sub) },
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input())) },

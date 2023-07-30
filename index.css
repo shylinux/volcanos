@@ -207,6 +207,12 @@ fieldset>div.output div.project { border-right:var(--box-border); width:230px; }
 /* fieldset>div.output div.profile { border-left:var(--box-border); max-width:320px; } */
 fieldset>div.output div.profile { border-left:var(--box-border); }
 fieldset>div.output div.display { border-top:var(--box-border); }
+div.content { position:relative; }
+div.content>div.toggle { position:absolute; }
+div.content>div.toggle:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
+div.content>div.toggle.project { top:20%; left:0; height:80px; width:unset; padding-top:25px; transform:scale(1, 3); border:none; }
+div.content>div.toggle.profile { top:20%; right:0; height:80px; padding-top:25px; transform:scale(1, 3); border:none; }
+div.content>div.toggle.display { left:20%; bottom:0; width:80px; text-align:center; transform:scale(3, 1); border:none; }
 /* table card */
 div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item { padding:10px; border:var(--box-border); margin:10px; width:320px; float:left; box-shadow:var(--box-shadow); }
@@ -260,6 +266,7 @@ input:not([type=button]):hover { border:var(--input-border); }
 input:not([type=button]):focus { border:var(--input-border); outline:none; }
 textarea { background-color:var(--input-bg-color); color:var(--input-fg-color); }
 table.content tr:hover { background-color:var(--tr-hover-bg-color); }
+table.content tr.select { background-color:var(--tr-hover-bg-color); }
 // table.content tr:hover { background-color:var(--tr-hover-bg-color); color:var(--hover-fg-color); }
 table.content th { background-color:var(--th-bg-color); color:var(--th-fg-color); }
 table.content td:hover { background-color:var(--td-hover-bg-color); }
@@ -349,6 +356,7 @@ fieldset.xterm>div.layout { clear:both; }
 fieldset.xterm div.layout div.output { border-left:var(--box-border); border-top:var(--box-border); }
 fieldset.xterm div.layout div.output.select { border:var(--box-border)}
 fieldset.plan div.output div.content>table.content { height:100%; width:100%; }
+fieldset.draw div.output svg { margin-bottom:-5px; }
 fieldset.draw>form.option>div.item.pid>input { width:60px; }
 // fieldset.draw div.output svg { margin-bottom:-4px; height:100%; width:100%; }
 fieldset.draw.trend div.output svg { background-color:#1b5b738c; }
