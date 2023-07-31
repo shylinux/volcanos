@@ -360,6 +360,8 @@ fieldset.draw div.output svg { margin-bottom:-5px; }
 fieldset.draw>form.option>div.item.pid>input { width:60px; }
 // fieldset.draw div.output svg { margin-bottom:-4px; height:100%; width:100%; }
 fieldset.draw.trend div.output svg { background-color:#1b5b738c; }
+fieldset.draw.trend div.output { overflow:hidden; }
+fieldset.draw.spide div.output { overflow:hidden; }
 fieldset.draw.spide div.output svg text { cursor:pointer; }
 fieldset.draw.spide div.output svg path { stroke-width:1; }
 fieldset.web.code.git.status>div.output table.content { width:100%; }
