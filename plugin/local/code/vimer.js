@@ -62,7 +62,7 @@ Volcanos(chat.ONFIGURE, {
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
 	}) },
 })
-Volcanos(chat.ONACTION, {list: ["编译", "构建", "路由", "终端", "源码", "文档", "计划", "流程", "后台", "桌面", "官网"],
+Volcanos(chat.ONACTION, {list: ["编译", "构建", "路由", "终端", "源码", "文档", "计划", "流程", "桌面", "后台", "官网"],
 	_trans: {show: "预览", exec: "输出"},
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button)
