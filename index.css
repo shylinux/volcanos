@@ -205,8 +205,8 @@ div.project div.zone>div.list>div.zone>div.item { text-align:left; padding-left:
 div.project div.zone>div.list>div.zone>div.item:hover { margin-left:10px; transition:all 0.3s;  }
 fieldset>div.output div.project { border-right:var(--box-border); width:230px; }
 /* fieldset>div.output div.profile { border-left:var(--box-border); max-width:320px; } */
-fieldset>div.output div.profile { border-left:var(--box-border); }
-fieldset>div.output div.display { border-top:var(--box-border); }
+fieldset>div.output div.profile:not(.toggle) { border-left:var(--box-border); min-width:230px; }
+fieldset>div.output div.display:not(.toggle) { border-top:var(--box-border); min-height:230px; }
 div.content { position:relative; }
 div.content>div.toggle { position:absolute; }
 div.content>div.toggle:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
@@ -286,7 +286,7 @@ span.icon:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-c
 div.action div.tabs:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.action div.tabs.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 fieldset>div.output { background-color:var(--output-bg-color); }
-fieldset>div.status { border-top:var(--status-border); height:32px; }
+fieldset>div.status { border-top:var(--status-border); max-height:32px; }
 fieldset:not(.panel):not(.cmd) { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
 fieldset:not(.panel) { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
 fieldset:not(.panel):not(.full):not(.cmd) { border-radius:var(--plugin-radius); box-shadow:var(--box-shadow); }
