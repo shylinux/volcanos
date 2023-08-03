@@ -7,9 +7,10 @@ Volcanos(chat.ONSYNTAX, {
 		"define": code.KEYWORD, "endef": code.KEYWORD,
 		"shell": code.KEYWORD,
 		"PHONY": code.FUNCTION,
-	}, include: ["sh"], func: function(can, push, text, indent) {
-		var ls = can.core.Split(text, "", ":=")
+	}, include: ["sh"], func: function(can, push, text, indent) { var ls = can.core.Split(text, "", ":=")
 		if (indent == 0 && ls[1] == ":" && ls[2] != "=") { push(text) }
+	}, parse: function(can, text, wrap) { var ls = can.core.Split(text, "", ":=")
+		if (ls[1] == ":" && ls[2] != "=" && can.base.beginWith(text, ls[0])) { return wrap(text, code.OBJECT) }
 	}},
 	man: {prefix: {
 		"NAME": code.KEYWORD,

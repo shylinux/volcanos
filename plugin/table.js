@@ -61,13 +61,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	tool: function(can, list, cb, target, status) { target = target||can._output, status = status||can._status
 		can.core.List(list.reverse(), function(meta) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) { can.onmotion.hidden(can, sub._target), sub._legend._target = sub._target
-				status.appendChild(sub._legend), sub._legend.onclick = function(event) { can.misc.Event(event, can, function(msg) {
+				status.appendChild(sub._legend), sub._legend.oncontextmenu = sub._legend.onclick, sub._legend.onclick = function(event) { can.misc.Event(event, can, function(msg) {
 					if (can.page.SelectOne(can, status, nfs.PT+html.SELECT, function(target) { can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
+					sub.onimport.size(sub, can.ConfHeight()/2-html.ACTION_HEIGHT, (can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0))/2)
+					sub.onaction._close = function() { can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend) }
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true), sub.Focus()
 					if (sub._delay_init || meta.msg) { sub._delay_init = false, meta.msg = false, sub.Update() }
 				}) }, sub._delay_init = true, sub.onaction.close = function() { sub.select() }, sub.select = function() { return sub._legend.click(), sub }
 				sub.hidden = function() { can.onmotion.hidden(can, sub._target), can.page.ClassList.del(can, sub._legend, html.SELECT) }
-				sub.onimport.size(sub, can.ConfHeight()/2, can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0), true), can.base.isFunc(cb) && cb(sub)
+				can.base.isFunc(cb) && cb(sub)
 			}, target)
 		})
 	},
@@ -190,4 +192,5 @@ Volcanos(chat.ONEXPORT, {
 		var res = [msg.append && msg.append.join(mdb.FS)]; msg.Table(function(line, index, array) { res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS)) }); return res.join(lex.NL)
 	},
 	board: function(can) { var msg = can._msg; return msg.Result() },
+	session: function(can, key, value) { return can.misc[can.user.isWebview? "localStorage": "sessionStorage"](can, [can.Conf(ctx.INDEX), key, location.pathname].join(":"), JSON.stringify(value)) },
 })

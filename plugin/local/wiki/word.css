@@ -42,4 +42,5 @@ fieldset.word.play.float div.content div.page ul { text-align:left; }
 fieldset.word.play.float div.content.grid div.page { background-color:#a4cbecb5; margin:10px; height:320px; width:30%; overflow:auto; display:block; float:left; }
 fieldset.word.play.float h1 { text-align:center; }
 fieldset.word.play.float h2 { text-align:center; }
+fieldset.word.play.float svg { display:block; margin:0 auto; }
 fieldset.word.play.float h3 { text-align:center; }

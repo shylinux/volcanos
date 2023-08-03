@@ -63,7 +63,7 @@ Volcanos(chat.ONFIGURE, {
 	}) },
 })
 Volcanos(chat.ONACTION, {list: ["编译", "构建", "路由", "终端", "源码", "文档", "计划", "流程", "桌面", "后台", "官网"],
-	_trans: {show: "预览", exec: "输出"},
+	_trans: {show: "预览", exec: "展示"},
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button)
 		can.ui.zone.source.refresh()
@@ -92,11 +92,11 @@ Volcanos(chat.ONACTION, {list: ["编译", "构建", "路由", "终端", "源码"
 		if (msg.Length() > 0 || msg.Result()) { return can.onimport.exts(can, "inner/search.js", function(sub) { can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY)), sub.select() }) }
 		var toast = can.user.toastProcess(can, "重启中..."); can.onmotion.delay(can, function() { toast.close(), can.user.toastSuccess(can) }, 3000)
 	}) },
-	"命令": function(event, can) {
-		can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(list) { can.onimport.tabview(can, "", list[0]+(list[1]? mdb.FS+list[1]: ""), ctx.INDEX) })
-	},
-	"插件": function(event, can) { can.user.input(event, can, [ctx.INDEX], function(list) { var sub = can.db.toolkit[list[0]]; if (sub) { sub.select(); return }
-		can.onimport.toolkit(can, {index: list[0]}, function(sub) { can.db.toolkit[list[0]] = sub.select() })
+	"命令": function(event, can) { can.user.input(event, can, [{name: ctx.INDEX, need: "must"}, ctx.ARGS], function(list) {
+		can.onimport.tabview(can, "", list[0]+(list[1]? mdb.FS+list[1]: ""), ctx.INDEX)
+	}) },
+	"插件": function(event, can) { can.user.input(event, can, [{name: ctx.INDEX, need: "must"}, ctx.ARGS], function(list) { var sub = can.db.toolkit[list.join(",")]; if (sub) { sub.select(); return }
+		can.onimport.toolkit(can, {index: list[0], args: can.core.Split(list[1]||"")}, function(sub) { can.db.toolkit[list.join(",")] = sub.select() })
 	}) },
 	"扩展": function(event, can) { can.user.input(can.request(event, {action: "extension"}), can, ["url"], function(list) {
 		var sub = can.db.toolkit[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0])

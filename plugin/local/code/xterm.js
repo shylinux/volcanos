@@ -1,3 +1,5 @@
+(function() {
+const RECOVER_STORE = "recover:"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules(can, ["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
 		var item = msg.TableDetail(); item.hash = item.hash||can.Option(mdb.HASH), can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg), can.onappend._status(can), can.onkeymap._build(can)
 		if (item.type == html.LAYOUT) { can.onimport._layout(can, item) } else { can.onimport._connect(can, item, can._output) } can.onimport.layout(can)
@@ -34,8 +36,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 	_theme: function(can, item) { return can.base.Obj(item.theme)||(
 		can.getHeaderTheme() == html.LIGHT? {background: cli.WHITE, foreground: cli.BLACK, cursor: cli.BLUE}:
 			can.getHeaderTheme() == html.DARK? {foreground:"silver", cursor: "silver"}:
-			can.getHeaderTheme() == chat.BLACK? {background: "#061c3c9e", foreground:cli.WHITE, cursor: cli.WHITE}:
-			{background: "#d5cfcf3b", foreground: cli.BLACK, cursor: cli.BLUE}
+				can.getHeaderTheme() == chat.BLACK? {background: "#061c3c9e", foreground:cli.WHITE, cursor: cli.WHITE}:
+					{background: "#d5cfcf3b", foreground: cli.BLACK, cursor: cli.BLUE}
 	) },
 	_connect: function(can, item, output, tabs, text) { var term = new Terminal({tabStopWidth: 4, cursorBlink: true, theme: can.onimport._theme(can, item)})
 		term._item = item, term._output = output, output._term = term, output._tabs || (tabs? (output._tabs = tabs): can.onimport._tabs(can, item, output))
@@ -45,22 +47,34 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 		term.onData(function(data) { can.onimport._input(can, term, data) })
 		term.onCursorMove(function() { can.onexport.term(can, term) })
 		term.loadAddon(new WebLinksAddon.WebLinksAddon())
-		can.onmotion.clear(can, output), term.open(output), term.focus(), text && can.onmotion.delay(can, function() { term.write(text.replaceAll(lex.NL, "\r\n")) })
+		can.onmotion.clear(can, output), term.open(output), term.focus()
 		can.onengine.listen(can, chat.ONTHEMECHANGE, function() { can = can.core.Value(can.sup, chat._OUTPUTS_CURRENT)
 			term.selectAll(), can.onimport._connect(can, item, output, tabs, can.base.trimSuffix(term.getSelection(), lex.NL))
-		}), can.page.style(can, output, html.BACKGROUND_COLOR, term._publicOptions.theme.background||cli.BLACK)
+		}), can.onimport._recover(can, item, term, text)
+		can.page.style(can, output, html.BACKGROUND_COLOR, term._publicOptions.theme.background||cli.BLACK)
 		output.onclick = function() { output._tabs._current = output, term.focus(), can.onexport.term(can, term)
 			can.page.Select(can, can._fields, html.DIV_OUTPUT, function(target) { can.page.ClassList.set(can, target, html.SELECT, target == output) })
 		}; return can.db = can.db||{}, can.db[item.hash] = term
 	},
-	_resize: function(can, term, size) { can.runAction(can.request({}, size, term._item), web.RESIZE, [], function() { can.onexport.term(can, term) }) },
+	_recover: function(can, item, term, text) { var recover = can.onexport.session(can, RECOVER_STORE+item.hash)
+		if (recover) { can.onexport.session(can, RECOVER_STORE+item.hash, ""), can.onmotion.delay(can, function() { term.write(recover.replaceAll(lex.NL, "\r\n")) }) }
+		can.onengine.listen(can, chat.ONUNLOAD, function(msg) { term.selectAll(), can.onexport.session(can, RECOVER_STORE+item.hash, JSON.stringify(can.base.trimSuffix(term.getSelection(), lex.NL)+lex.NL)) })
+		text && can.onmotion.delay(can, function() { term.write(text.replaceAll(lex.NL, "\r\n")) })
+	},
+	_resize: function(can, term, size) { can.runAction(can.request({}, size, term._item), web.RESIZE, [], function(msg) {
+		if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
+		can.onexport.term(can, term) }) },
 	_input: function(can, term, data) {
 		if (data == "\u0013") { can._delay = true
-			can.onmotion.delay(can, function() { can._delay && can.runAction(can.request({}, term._item), web.INPUT, [btoa(data)], function() {}) })
+			can.onmotion.delay(can, function() { can._delay && can.runAction(can.request({}, term._item), web.INPUT, [btoa(data)], function(msg) {
+				if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
+			}) })
 		} else {
 			if (can._delay) { can._delay = false; var msg = can.request({}, {_handle: ice.TRUE}, term._item)
 				can._keylist = can.onkeymap._parse({key: data, _msg: msg}, can, mdb.NORMAL, can._keylist||[], term); return
-			} can._output = term._output, can.runAction(can.request({}, {rows: term.rows, cols: term.cols}, term._item), web.INPUT, [btoa(data)], function() {})
+			} can._output = term._output, can.runAction(can.request({}, {rows: term.rows, cols: term.cols}, term._item), web.INPUT, [btoa(data)], function(msg) {
+				if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
+			})
 		}
 	},
 	grow: function(can, msg) { var arg = msg.detail.slice(1), term = can.db[arg[0]]; arg[1] == "~~~end~~~"? can.onaction.delete(can, term._output): term.write(arg[1]); msg.Option(ice.LOG_DISABLE, ice.TRUE) },
@@ -158,4 +172,8 @@ Volcanos(chat.ONEXPORT, {list: [mdb.TIME, mdb.HASH, mdb.TYPE, mdb.NAME, "rows", 
 		} else { var item = target._term._item; return {type: item.type, name: name, text: item.text, hash: item.hash} }
 	} return show(target._output) }) },
 	title: function(can, term, title) { can.page.Modify(can, can.page.SelectOne(can, term._output._tabs, html.SPAN_NAME), title), can.Status(mdb.NAME, title), can.sup.onexport.title(can.sup, title) },
+	recover: function(can, key, value) {
+		
+	},
 })
+})()

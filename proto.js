@@ -216,6 +216,7 @@ var chat = {
 	ONACTION_REMOVE: "onaction_remove",
 	ONOPENSEARCH: "onopensearch", ONSEARCH_FOCUS: "onsearch_focus", ONCOMMAND_FOCUS: "oncommand_focus",
 	ONTHEMECHANGE: "onthemechange",
+	ONUNLOAD: "onunload",
 	ONLAYOUT: "onlayout",
 	ONWEBPACK: "onwebpack",
 	ONTOAST: "ontoast", ONDEBUG: "ondebug", ONSHARE: "onshare", ONPRINT: "onprint",
@@ -416,7 +417,7 @@ try { if (typeof(window) == lang.OBJECT) { var meta = Volcanos.meta
 		window.ondblclick = function(event) { can.onkeymap.prevent(event) }
 		window.onkeydown = function(event) { if (event.key == lang.ESCAPE && !can.page.tagis(event.target, html.INPUT)) { can.onkeymap.prevent(event) } }
 		window.onerror = function(message, source, lineno, colno, error) { debug? alert([message].concat(can.misc._stacks(0, error)).join(lex.NL)): can.misc.Error(message, lex.NL+[source, lineno, colno].join(ice.DF), error) }
-		window.onbeforeunload = function() { can.Action._socket && can.Action._socket.close() }
+		window.onbeforeunload = function() { can.onengine.signal(can, chat.ONUNLOAD) }
 		var last = can.page.width() < can.page.height(); window.onresize = function(event) { can.misc.Event(event, can, function(msg) {
 			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
 			can.onmotion.delayOnce(can, function() { can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth))) }, 100, can._delay_resize = can._delay_resize||[])

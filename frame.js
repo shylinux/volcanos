@@ -261,9 +261,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				action === false || can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
 				action === false || sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS)), can.user.isMobile || sub.onappend.tools(sub, msg)
-				can.onappend.style(sub, sub.Conf(ctx.STYLE))
-				if (can.isFullMode() || can.isCmdMode()) { can.onimport.size(can, can.page.height(), can.page.width(), true) }
-				can.onmotion.story.auto(can, can._output), can.onexport.output(sub, msg), can.base.isFunc(cb) && cb(msg)
+				can.onmotion.story.auto(can, can._output), can.onappend.style(sub, sub.Conf(ctx.STYLE))
+				if (can.onimport.size) {
+					if (can.isFullMode() || can.isCmdMode()) { can.onimport.size(can, can.page.height(), can.page.width(), true) }
+					can.onexport.output(sub, msg)
+				}
+				can.base.isFunc(cb) && cb(msg)
 			}, target: output})
 		})
 	},
@@ -274,83 +277,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				{text: [item.name, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value == undefined? "": item.value.trim())+"", html.SPAN, item.name]},
 			], onclick: function(event) { can.user.copy(event, can, item.value) }}])
 		})
-	},
-	theme: function(can, theme, color, style, list) { const PANEL_STYLE = "panel-style", PLUGIN_STYLE = "plugin-style"
-		const LEGEND_STYLE = "legend-style", INPUT_STYLE = "input-style", INPUT_HOVER_STYLE = "input-hover-style", OUTPUT_STYLE = "output-style", GLASS_STYLE = "glass-style"
-		const TABLE_HEAD_STYLE = "table-head-style", TABLE_HEAD_HOVER_STYLE = "table-head-hover-style", TABLE_ROW_HOVER_STYLE = "table-row-hover-style", TABLE_CELL_HOVER_STYLE = "table-cell-hover-style"
-		const ITEM_HOVER_STYLE = "item-hover-style", CARTE_ITEM_HOVER_STYLE = "carte-item-hover-style", CARTE_ITEM_STYLE = "carte-item-style"
-		const SOLID = " solid 1px", RADIUS = "border-radius", GLASS = "transparent", INPUT_COLOR = "#212121", OUTPUT_COLOR = "#0d1117"
-		function _bg(color) { return kit.Dict(html.BACKGROUND_COLOR, color, can.core.List(arguments).slice(1)) }
-		function _fg(color) { return kit.Dict(html.COLOR, color, can.core.List(arguments).slice(1)) }
-		function _b_r(size) { return kit.Dict(RADIUS, size) }
-		const TABLE_COLOR = can.user.isWebview? "#202324": cli.BLACK
-		color = kit.Dict(
-			chat.PANEL, TABLE_COLOR, chat.PLUGIN, TABLE_COLOR, html.LEGEND, INPUT_COLOR, html.INPUT, INPUT_COLOR, html.OUTPUT, OUTPUT_COLOR, html.TABLE, TABLE_COLOR,
-			html.HOVER, INPUT_COLOR, html.BORDER, cli.GRAY, html.LABEL, cli.SILVER, html.TEXT, cli.WHITE, log.INFO, cli.BLUE, log.WARN, cli.RED, color,
-		), style = kit.Dict(LEGEND_STYLE, _bg(color.legend),
-			INPUT_STYLE, _bg(color.input, html.COLOR, color.label, RADIUS, "5px", "outline", html.NONE, "box-shadow", html.NONE),
-			INPUT_HOVER_STYLE, _fg(color.text), OUTPUT_STYLE, _bg(color.output), GLASS_STYLE, _bg(GLASS),
-			TABLE_HEAD_STYLE, _bg(color.table, html.COLOR, color.label), TABLE_HEAD_HOVER_STYLE, _bg(color.table, html.COLOR, color.text),
-			TABLE_ROW_HOVER_STYLE, _bg(color.table), TABLE_CELL_HOVER_STYLE, _bg(color.output),
-			ITEM_HOVER_STYLE, _bg(color.hover, html.COLOR, color.text), CARTE_ITEM_HOVER_STYLE, _bg(color.input, html.COLOR, color.text),
-			PANEL_STYLE, _bg(color.panel, html.COLOR, color.label), PLUGIN_STYLE, _bg(color.plugin, RADIUS, "10px"), style,
-		), list = [{type: "", style: _fg(color.label)},
-			{type: html.LEGEND, style: [INPUT_STYLE, LEGEND_STYLE]}, {type: html.LEGEND, style: [INPUT_HOVER_STYLE]},
-			{type: html.SELECT, style: [INPUT_STYLE]}, {type: html.SELECT, style: [INPUT_HOVER_STYLE]},
-			{type: html.INPUT, style: [INPUT_STYLE]}, {type: html.INPUT, style: [INPUT_HOVER_STYLE]},
-			{type: html.INPUT+":not([type=button])", style: _b_r(0)}, {type: html.INPUT+":not([type=button])", name: [html.HOVER], style: {border: color.info+SOLID}},
-			{type: html.INPUT+":not([type=button]):focus", style: {border: color.info+SOLID}},
-			{type: html.INPUT+".select:focus", style: {border: color.info+SOLID}},
-			{type: html.INPUT+".select:hover", style: {border: color.info+SOLID}},
-			{type: html.TEXTAREA+":focus", style: {border: color.info+SOLID}},
-			{type: html.TEXTAREA+":hover", style: {border: color.info+SOLID}},
-			{type: html.TEXTAREA, style: [INPUT_STYLE]}, {type: html.TEXTAREA, style: _b_r(0)},
-			{type: html.FORM_OPTION, list: [{type: html.DIV_ITEM, name: [html.SELECT], style: [GLASS_STYLE]}]},
-			{type: html.FORM_OPTION, list: [{type: html.DIV_ITEM, name: [html.HOVER], style: [GLASS_STYLE]}]},
-			{type: html.DIV_OUTPUT, style: [OUTPUT_STYLE]}, {type: html.DIV_STATUS, style: kit.Dict(_bg(color.plugin), _fg(color.label))},
-			{type: html.DIV_ITEM, name: [html.SELECT], style: [ITEM_HOVER_STYLE]}, {type: html.DIV_ITEM, style: [ITEM_HOVER_STYLE]},
-			{type: html.SPAN_ITEM, name: [html.SELECT], style: [ITEM_HOVER_STYLE]}, {type: html.SPAN_ITEM, style: [ITEM_HOVER_STYLE]},
-			{type: html.DIV_TABS, list: [{type: html.DIV, style: _bg(color.plugin)}]},
-			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.HOVER], style: [OUTPUT_STYLE]}]},
-			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.HOVER], style: _fg(color.text)}]},
-			{type: html.DIV_TABS, list: [{type: html.DIV, name: [html.SELECT], style: [OUTPUT_STYLE]}]},
-			{type: html.DIV_PATH, style: [OUTPUT_STYLE]}, {type: html.DIV_PATH, list: [{type: html.SPAN, style: [ITEM_HOVER_STYLE]}]},
-			{type: html.DIV_PLUG, list: [{type: html.LEGEND, style: [OUTPUT_STYLE]}]},
-			{type: html.DIV_PLUG, list: [{type: html.LEGEND, name: [html.SELECT], style: [PLUGIN_STYLE]}]},
-			{type: "div.zone>div.item", style: [TABLE_HEAD_STYLE]}, {type: "div.zone>div.item", style: [TABLE_HEAD_HOVER_STYLE]},
-			{type: "div.zone>div.list>div.zone>div.item", style: [TABLE_HEAD_STYLE]}, {type: "div.zone>div.list>div.zone>div.item", style: [TABLE_HEAD_HOVER_STYLE]},
-			{type: "div.zone div.item>div.name", name: [html.HOVER], style: _fg(color.text)},
-			{type: "tr.line.select", style: [ITEM_HOVER_STYLE]}, {type: "tr.line", style: [ITEM_HOVER_STYLE]},
-			{type: "tr.line>td.line", style: [OUTPUT_STYLE]}, {type: "tr.line.select>td.line", style: [ITEM_HOVER_STYLE]},
-			{type: "div.complete>table", style: [TABLE_HEAD_STYLE]},
-			{type: html.TABLE_CONTENT, list: [{type: html.TR, style: [INPUT_HOVER_STYLE, TABLE_ROW_HOVER_STYLE]}]},
-			{type: html.TABLE_CONTENT, list: [{type: html.TH, style: [TABLE_HEAD_STYLE]}]},
-			{type: html.TABLE_CONTENT, name: [html.ACTION], list: [{type: html.TD+":last-child", style: [TABLE_HEAD_STYLE]}]},
-			{type: html.TABLE_CONTENT, list: [{type: html.TD, name: [html.SELECT], style: [TABLE_CELL_HOVER_STYLE]}]},
-			{type: html.TABLE_CONTENT, list: [{type: html.TD, style: [TABLE_CELL_HOVER_STYLE]}]},
-			{type: html.H1, style: [ITEM_HOVER_STYLE]}, {type: html.H2, style: [ITEM_HOVER_STYLE]}, {type: html.H3, style: [ITEM_HOVER_STYLE]},
-			{type: html.A, style: _fg(color.info)}, {type: html.LABEL, style: _fg(color.label)},
-			{type: html.FIELDSET_PANEL, style: [PANEL_STYLE]}, {type: html.FIELDSET_PANEL+ice.GT+html.DIV_OUTPUT, style: [PANEL_STYLE]},
-			{type: html.FIELDSET_PANEL, name: [chat.ACTION], list: [{type: html.DIV_OUTPUT, style: [OUTPUT_STYLE]}]},
-			{type: html.FIELDSET_PLUGIN, style: [PLUGIN_STYLE]}, {type: html.FIELDSET_PLUGIN, list: [{type: ice.GT+html.DIV_STATUS, style: {"border-top": color.border+SOLID}}]},
-			{type: html.FIELDSET_STORY, style: [PLUGIN_STYLE]}, {type: html.FIELDSET_STORY, list: [{type: ice.GT+html.DIV_STATUS, style: {"border-top": color.border+SOLID}}]},
-			{type: html.FIELDSET_INPUT, list: [{type: html.DIV_OUTPUT, style: [PLUGIN_STYLE]}], style: [PLUGIN_STYLE]}, {type: html.FIELDSET_INPUT, style: _b_r(0)},
-			{type: html.FIELDSET_INPUT, list: [{type: html.TD, name: [html.SELECT], style: _bg(color.output)}]},
-			{type: html.FIELDSET_INPUT, list: [{type: html.TD, name: [html.HOVER], style: _bg(color.hover)}]},
-			{type: html.FIELDSET_INPUT, list: [{type: html.TR, name: [html.HOVER], style: _bg(color.output)}]},
-			{type: html.FIELDSET_FLOAT, style: [PLUGIN_STYLE]}, {type: html.DIV_FLOAT, style: [PLUGIN_STYLE]},
-			{type: html.DIV_CARTE, list: [{type: html.DIV_ITEM, style: [TABLE_HEAD_STYLE, CARTE_ITEM_STYLE]}]},
-			{type: html.DIV_CARTE, list: [{type: html.DIV_ITEM, style: [CARTE_ITEM_HOVER_STYLE]}]},
-		].concat(list); const DF = nfs.DF, FS = ";"
-		function render(pre, list) { return can.core.List(list, function(item) { if (!item) { return } var type = item.type+can.core.List(item.name, function(name) { return (name==html.HOVER? nfs.DF: nfs.PT)+name }).join("")
-			if (!item.name && type.indexOf(nfs.PT+html.SELECT) == -1 && type.indexOf(nfs.DF+html.HOVER) == -1 && can.base.isArray(item.style) && item.style.join(mdb.FS).indexOf("-hover-") > -1) { type += nfs.DF+html.HOVER }
-			return (item.style? (pre+lex.SP+type+" { "+(can.base.isArray(item.style)? can.core.List(item.style, function(item) {
-				return can.core.Item(style[item], function(key, value) { return key&&value? key+DF+value: undefined }).join(FS)
-			}).join(FS): can.core.Item(can.base.Obj(item.style), function(key, value) { return key+DF+value }).join(FS))+" }"): "")+(item.list? render(pre+lex.SP+type, item.list): "")
-		}).join(lex.NL) }
-		var text = render(html.BODY+nfs.PT+theme, list)
-		can.page.Append(can, document.head, ctx.STYLE, {"innerText": text})
-		return text
 	},
 	style: function(can, style, target) { target = target||can._fields||can._target
 		if (can.base.endWith(style, ".css")) { return can.require([style]) }
@@ -401,7 +327,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				carte.close(), carte = null; if (target.value == button) { return }
 				target.value = button, select.value = button, select.onchange && select.onchange({target: select})
 			}); can.onappend.style(can, [html.SELECT, item.name], carte._target), can.page.style(can, carte._target, html.MIN_WIDTH, event.target.offsetWidth)
-		}, _init: function(target) { can.page.style(can, target, html.WIDTH, select.offsetWidth+10), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
+		}, _init: function(target) { can.page.style(can, target, html.WIDTH, (select.offsetWidth||80)+10), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
 	},
 	table: function(can, msg, cb, target, keys) { if (!msg || msg.Length() == 0) { return } var meta = can.base.Obj(msg.Option(mdb.META))
 		for (var i = 0; i < msg.append.length-1; i++) { if (msg.append[i] == ctx.ACTION) { msg.append[i] = msg.append[msg.append.length-1], msg.append[msg.append.length-1] = ctx.ACTION } }

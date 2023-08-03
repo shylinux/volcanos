@@ -61,7 +61,7 @@ Volcanos(chat.ONIMPORT, {
 	_close: function(can, msg) { return can.user.close() || history.back() },
 	size: function(can, height, width, auto, mode) { height -= can.onexport.actionHeight(can)+can.onexport.statusHeight(can)
 		auto? (can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, height? can.ConfHeight(height): "", html.MAX_WIDTH, can.ConfWidth(width)),
-				can.page.style(can, can._target, html.WIDTH, "")):
+				can.page.style(can, can._target, html.HEIGHT, "", html.WIDTH, "")):
 			(can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(height), html.WIDTH, can.ConfWidth(width), html.MAX_HEIGHT, "", html.MAX_WIDTH, ""),
 				can.page.style(can, can._target, html.WIDTH, can.ConfWidth(width)))
 		var sub = can.core.Value(can, chat._OUTPUTS_CURRENT); if (!sub) { return can.Mode(mode), auto } sub.ConfHeight(can.ConfHeight()), sub.ConfWidth(can.ConfWidth())
@@ -122,7 +122,7 @@ Volcanos(chat.ONACTION, {list: [
 	"共享工具": function(event, can) { var meta = can.Conf(); can.onmotion.share(event, can, [
 		{name: chat.TITLE, value: meta.name}, {name: chat.THEME, values: [can.getHeader(chat.THEME), html.DARK, html.LIGHT, cli.WHITE, cli.BLACK]},
 	], [mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input())]) },
-	"打开链接": function(event, can) { can.user.open(can.onexport.link(can)) },
+	"打开链接": function(event, can) { can.user.opens(can.onexport.link(can)) },
 	"生成链接": function(event, can) { can.onmotion.share(event, can, [], [mdb.LINK, can.user.copy(event, can, can.onexport.link(can))]) },
 	"生成脚本": function(event, can) { var conf = can.Conf(), args = can.Input().join(lex.SP), list = [
 		"export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -o $ctx_temp -fsSL $ctx_dev;"+" source $ctx_temp cmd "+(conf.index||"")+lex.SP+args,

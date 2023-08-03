@@ -11,6 +11,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				return can.onimport._task(can, msg, get(begin_time, col, row, hash), set(begin_time, col, row))
 			})}
 		}) }] }])._target, can.onmotion.delay(can, function() { var target = can.sup.task && can.sup.task._target; target && target.click(), can.Status(mdb.COUNT, msg.Length()) })
+		can.ui.toggle = can.onappend.toggle(can, can.ui.content)
 	},
 	_task: function(can, msg, list, time) { return {type: html.TD, className: time == can.base.Time().slice(0, time.length)? html.SELECT: "",
 		ondblclick: function(event) { can.onaction.insertTask(event, can, time+can.base.Time().slice(time.length)) },
@@ -109,6 +110,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.ui.layout(can.ConfHeight(), can.ConfWidth())
 		can.user.isMobile && can.page.style(can, can.ui.content, html.HEIGHT, "")
 		var sub = can._plugin_display; sub && sub.onimport.size(sub, can.ConfHeight()/2, can.ConfWidth()-can.ui.project.offsetWidth, true)
+		can.ui.toggle && can.ui.toggle.layout()
 		return
 		can.page.styleHeight(can, can._output, can.ConfHeight()), can.page.styleHeight(can, can.ui.project, can.ConfHeight())
 		var height = can._display_heights[can.sup.task? [can.sup.task.zone, can.sup.task.id].join(mdb.FS): ""]||html.ACTION_HEIGHT

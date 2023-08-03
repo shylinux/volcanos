@@ -78,7 +78,7 @@ Volcanos(chat.ONACTION, {_trans: {view: "视图"},
 	onkeydown: function(event, can) { can.keylist = can.onkeymap._parse(event, can, "normal", can.keylist) },
 	play: function(event, can) { var list = [], current = []
 		can.page.Select(can, can._output, wiki.STORY_ITEM, function(item) { can.page.tagis(item, "h1", "h2", "h3") && list.push(current = []), current.push(item) })
-		can.onappend._init(can, {type: "story word play float"}, [], function(sub) { sub._legend.onclick = can._legend.onclick
+		can.onappend._init(can, {type: "story word play float", height: can.page.height(), width: can.page.width(), padding: 10}, [], function(sub) { sub._legend.onclick = can._legend.onclick
 			sub.run = can.run, sub.sup = can, can.sub = sub, can.onappend._action(sub, can.user.isMobile && can.page.height() > can.page.width()? [
 				"大纲", "上一页", "下一页", "结束",
 			]: [
