@@ -24,8 +24,8 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 	onsize: function(can, msg, height, width) { can.onimport._size(can), can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), true) }) },
 	onlogin: function(can, msg) { can.ui = can.page.Append(can, can._output, [chat.CONTENT, {view: [[chat.DISPLAY, chat.CONTENT], html.TABLE]}, chat.PROFILE])
 		can.onappend._action(can, (can.Conf(html.ACTION)||can.onaction.list).concat({type: html.TEXT, name: html.FILTER, _init: function(target) { can.ui.filter = target }, onkeydown: function(event) {
-			if (event.key == lang.ESCAPE) { return event.target.blur() }
-			if (event.key == lang.ENTER) { can.onkeymap.prevent(event); if (event.shiftKey) { return can.page.SelectOne(can, can.ui.content, [html.TBODY, html.TR, html.TD], function(target) { target.click() }) }
+			if (event.key == code.ESCAPE) { return event.target.blur() }
+			if (event.key == code.ENTER) { can.onkeymap.prevent(event); if (event.shiftKey) { return can.page.SelectOne(can, can.ui.content, [html.TBODY, html.TR, html.TD], function(target) { target.click() }) }
 				return event.ctrlKey? can.onaction.done(event, can): can.ui.input(event, event.target.value)
 			} if (event.ctrlKey) { return event.key == "0"? can.onaction.clear(event, can): can.onkeymap.selectCtrlN(event, can, can.ui.content, [html.TBODY, html.TR], function(target) { target.firstChild.click() }) }
 			event.key.length == 1 && can.onmotion.delayOnce(can, function() { can.onmotion.tableFilter(can, can.ui.content, event.target.value) }, 100, can._delay_filter = can._delay_filter||[])
@@ -56,7 +56,7 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 		if (data.type == nfs.SHY) { meta = {index: web.WIKI_WORD, args: data.text} }
 		if (data.type == ice.CMD) { meta = {index: data.name, args: can.core.Split(data.text)} }
 		if (data.ctx == ice.NFS && data.cmd == nfs.PACK) { var ls = can.misc.SplitPath(can, data.text)
-			can.runAction(event, cli.RUN, [web.CODE_VIMER, ctx.ACTION, mdb.RENDER, data.type, ls[1], ls[0]], function(msg) { msg.Table(function(meta) {
+			can.runAction(event, ctx.RUN, [web.CODE_VIMER, ctx.ACTION, mdb.RENDER, data.type, ls[1], ls[0]], function(msg) { msg.Table(function(meta) {
 				can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub), sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth()-1, true) }, can.ui.profile)
 			}), can.onappend.board(can, msg.Result(), can.ui.profile) })
 			return

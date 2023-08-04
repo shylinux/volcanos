@@ -48,7 +48,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 		term.onCursorMove(function() { can.onexport.term(can, term) })
 		term.loadAddon(new WebLinksAddon.WebLinksAddon())
 		can.onmotion.clear(can, output), term.open(output), term.focus()
-		can.onengine.listen(can, chat.ONTHEMECHANGE, function() { can = can.core.Value(can.sup, chat._OUTPUTS_CURRENT)
+		can.onengine.listen(can, chat.ONTHEMECHANGE, function() {
 			term.selectAll(), can.onimport._connect(can, item, output, tabs, can.base.trimSuffix(term.getSelection(), lex.NL))
 		}), can.onimport._recover(can, item, term, text)
 		can.page.style(can, output, html.BACKGROUND_COLOR, term._publicOptions.theme.background||cli.BLACK)

@@ -12,15 +12,15 @@ Volcanos(chat.ONFIGURE, {keyboard: {
 				switch (item.name) {
 					case cli.CLEAR: target.value = "", target.focus(); break
 					case cli.CLOSE: can.close(); break
-					case lang.ESC: can.close(); break
-					case lang.CTRL: can._ctrl = !can._ctrl, hold(); break
-					case lang.SHIFT: can._shift = !can._shift, hold(); break
-					case lang.BACKSPACE: target.value = target.value.slice(0, -1), add(""); break
-					case lang.ENTER: break
+					case code.ESC: can.close(); break
+					case code.CTRL: can._ctrl = !can._ctrl, hold(); break
+					case code.SHIFT: can._shift = !can._shift, hold(); break
+					case code.BACKSPACE: target.value = target.value.slice(0, -1), add(""); break
+					case code.ENTER: break
 					default: can._shift = can._shift||event.shiftKey
-						if (item.name == lang.TAB) {
+						if (item.name == code.TAB) {
 							add(lex.TB)
-						} else if (item.name == lang.SPACE) {
+						} else if (item.name == code.SPACE) {
 							add(lex.SP)
 						} else if (item.name.indexOf(lex.NL) > -1) { var ls = can.core.Split(item.name, lex.NL, lex.NL, lex.NL)
 							add(can._shift? ls[0]: ls[1])
@@ -41,12 +41,12 @@ Volcanos(chat.ONFIGURE, {keyboard: {
 		}) }); return 150
 	},
 	_normal: function(can, msg) {
-		can.core.List([[lang.ESC, "close", "clear"],
-			["~\n`", "!\n1", "@\n2", "#\n3", "$\n4", "%\n5", "^\n6", "&\n7", "*\n8", "(\n9", ")\n0", "_\n-", "+\n=", lang.BACKSPACE],
-			[lang.TAB, "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "{\n[", "}\n]", "|\n\\"],
-			[lang.CTRL, "a", "s", "d", "f", "g", "h", "j", "k", "l", ":\n;", "\"\n'", lang.ENTER],
-			[lang.SHIFT, "z", "x", "c", "v", "b", "n", "m",  "<\n,", ">\n.", "?\n/", lang.SHIFT],
-			[lang.CTRL, lang.CMD, lang.ALT, lang.SPACE, lang.ALT, lang.CMD, lang.CTRL],
+		can.core.List([[code.ESC, "close", "clear"],
+			["~\n`", "!\n1", "@\n2", "#\n3", "$\n4", "%\n5", "^\n6", "&\n7", "*\n8", "(\n9", ")\n0", "_\n-", "+\n=", code.BACKSPACE],
+			[code.TAB, "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "{\n[", "}\n]", "|\n\\"],
+			[code.CTRL, "a", "s", "d", "f", "g", "h", "j", "k", "l", ":\n;", "\"\n'", code.ENTER],
+			[code.SHIFT, "z", "x", "c", "v", "b", "n", "m",  "<\n,", ">\n.", "?\n/", code.SHIFT],
+			[code.CTRL, code.CMD, code.ALT, code.SPACE, code.ALT, code.CMD, code.CTRL],
 		], function(list) { can.core.List(list, function(item, index) {
 			msg.Push(can.base.isObject(item)? item: {type: [mdb.KEY, index == 0? html.HEAD: index == list.length-1? "tail": ""].join(lex.SP), name: item})
 		}) }); return 750

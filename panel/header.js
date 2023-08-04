@@ -20,7 +20,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	_search: function(can, msg, target) {
 		can._search = can.onappend.input(can, {type: html.TEXT, icon: "bi bi-search", name: mdb.SEARCH, value: can.misc.Search(can, "_search"), onkeydown: function(event) { can.onkeymap.input(event, can)
-			event.key == lang.ENTER && can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: event.target.value||""}))
+			event.key == code.ENTER && can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: event.target.value||""}))
 		}}, "", target, [chat.TITLE])
 		can.onimport.menu(can, mdb.SEARCH, function() { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: can._search.value||""})) })
 	},

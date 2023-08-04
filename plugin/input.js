@@ -4,7 +4,7 @@ Volcanos(chat.ONACTION, {
 	onclick: function(event, can) { can.Conf(mdb.TYPE) == html.BUTTON && can.run(event, [ctx.ACTION, can.Conf(mdb.NAME)].concat(can.sup.Input())), can.onkeymap.prevent(event) },
 	onchange: function(event, can) { can.Conf(mdb.TYPE) == html.SELECT && can.run(event) },
 	onkeydown: function(event, can) { can.onkeymap.input(event, can, event.target); if (can.Conf(mdb.TYPE) == html.TEXTAREA && !event.ctrlKey) { return }
-		if (event.key == lang.ENTER) { return can.onkeymap.prevent(event), can.run(event), can.onmotion.focus(can, event.target) }
+		if (event.key == code.ENTER) { return can.onkeymap.prevent(event), can.run(event), can.onmotion.focus(can, event.target) }
 		if (!event.ctrlKey) { return } switch (event.key) {
 			case "m": can.CloneField(); break
 			case "b": can.CloneInput(); break

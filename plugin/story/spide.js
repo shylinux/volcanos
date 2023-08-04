@@ -52,14 +52,14 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "横向", "纵向"], [html.SIZE, 24, 
 		})
 	},
 })
-Volcanos(chat.ONEXPORT, {list: [mdb.TIME, mdb.COUNT]})
 Volcanos(chat.ONDETAIL, {
 	onclick: function(event, can, tree) {
 		if (tree.list.length > 0 || tree.name.endsWith(can.Conf(lex.SPLIT))) { return tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)||"横向"](event, can) }
 		for (var node = tree; node; node = node.last) { can.request(event, node.meta) }
 		can.run(can.request(event, can.Option()), can.base.Obj(can.Conf(lex.PREFIX), []).concat(can.Conf(ctx.ACTION)||[], [tree.file||"", tree.name]), function(msg) {
-			if (msg.Length() == 0) { return can.onappend._float(can, web.CODE_INNER, [can._msg.Option(nfs.DIR_ROOT), tree.file, tree.line], code.INNER) }
+			if (msg.Length() == 0) { return can.onappend._float(can, web.CODE_INNER, [can._msg.Option(nfs.DIR_ROOT), tree.file, tree.line]) }
 			if (msg.Append(mdb.INDEX)) { return msg.Table(function(value) { can.onappend._float(can, value.index, value.args) }) }
 		}, true)
 	},
 })
+Volcanos(chat.ONEXPORT, {list: [mdb.TIME, mdb.COUNT]})

@@ -21,19 +21,17 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			case chat.CMD: can.onappend.style(can, html.OUTPUT)
 				can.onexport.session(can, PROJECT_HIDE) == html.HIDE && can.onmotion.hidden(can, can.ui.project)
 				if (can.onexport.session(can, TABVIEW_HIDE) == html.HIDE) { can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.tabs) }
-				can.onengine.listen(can, chat.ONUNLOAD, function() {
-					can.onexport.recover(can)
-				})
+				can.onengine.listen(can, chat.ONUNLOAD, function() { can.onexport.recover(can) })
 			case chat.FULL: // no break
 			default: can.user.isMobile && can.onmotion.hidden(can, can.ui.project), can.onimport.project(can, paths), can.onimport._tabs(can)
 		} var args = can.misc.SearchHash(can), tabs = can.onexport.session(can, RECOVER_TABS), tool = can.onexport.session(can, RECOVER_TOOL)
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE), function() { if (!can.isCmdMode()) { return }
 			if (tabs) {
 				can.core.Next(tabs, function(item, next) { can.onimport.tabview(can, item[0], item[1], item[2], next) }, function() {
-					args.length > 0 && can.onimport._tabview(can, args[args.length-3], args[args.length-2]||can.Option(nfs.FILE), args[args.length-1])
+					args.length > 0 && can.onimport.tabview(can, args[args.length-3], args[args.length-2]||can.Option(nfs.FILE), args[args.length-1])
 				})
 			} else {
-				args.length > 0 && can.onimport._tabview(can, args[args.length-3], args[args.length-2]||can.Option(nfs.FILE), args[args.length-1])
+				args.length > 0 && can.onimport.tabview(can, args[args.length-3], args[args.length-2]||can.Option(nfs.FILE), args[args.length-1])
 			}
 			tool && can.core.Next(tool, function(item, next) { can.onimport.toolkit(can, item, next) })
 		}), can.onkeymap._build(can)
@@ -65,9 +63,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		}); var index = args[0]
 		can.core.List(args.slice(1), function(val) { can.page.Append(can, target, [{text: [val, "", html.ITEM], onclick: function(event) {
 			can.runAction(can.request(event, {index: index}), mdb.INPUTS, [ctx.ARGS], function(msg) {
-				can.user.carte(event, can, {}, msg[msg.append[0]], function(event, button) {
-					can.onimport.tabview(can, "", [index, button].join(mdb.FS), ctx.INDEX)
-				})
+				can.user.carte(event, can, {}, msg[msg.append[0]], function(event, button) { can.onimport.tabview(can, "", [index, button].join(mdb.FS), ctx.INDEX) })
 			})
 		}}]) })
 	},
@@ -115,10 +111,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			"\u2756": shy({"font-size": "20px", translate: "0 2px"}, function(event) { can.onaction.plug(event, can) }),
 			"\u271A": shy({"font-size": "20px", translate: "0 2px"}, function(event) { can.onaction.open(event, can) }),
 		}, function(text, cb) { return cb && {text: [text, html.SPAN, html.VIEW], style: cb.meta, onclick: cb} }))
-	},
-	_tabview: function(can, path, file, line, cb) { var key = can.onexport.keys(can, path, file)
-		if (!can.user.isWebview) { return can.onimport.tabview(can, path, file, line, cb) }
-		if (!can.db.tabview[key]) { return can.onimport.tabview(can, path, file, line, cb), can.db.tabview[key] = true }
 	},
 	tabview: function(can, path, file, line, cb) { path = path||can.Option(nfs.PATH); var key = can.onexport.keys(can, path, file)
 		function isIndex() { return line == ctx.INDEX } function isSpace() { return line == web.SPACE }
@@ -504,8 +496,8 @@ Volcanos(chat.ONACTION, {
 			can.onappend.figure(can, {action: "key", mode: chat.SIMPLE, _enter: function(event) {
 				if (event.ctrlKey) { meta.grep() } else { meta[button](), can.onmotion.delay(can, function() { target.focus() }) } return true
 			}, run: function(event, cmds, cb) { var msg = can.request(event); can.core.List(can.core.Split(can.current.text(), "\t {([,:;=<>])}", {detail: true}), function(value) {
-				if (can.base.isObject(value)) { if (value.type == lang.SPACE) { return }
-					value.type == lang.STRING && msg.Push(mdb.VALUE, value.left+value.text+value.right), msg.Push(mdb.VALUE, value.text)
+				if (can.base.isObject(value)) { if (value.type == code.SPACE) { return }
+					value.type == code.STRING && msg.Push(mdb.VALUE, value.left+value.text+value.right), msg.Push(mdb.VALUE, value.text)
 				} else {
 					value.indexOf(nfs.PT) > -1 && msg.Push(mdb.VALUE, value.split(nfs.PT).pop()), msg.Push(mdb.VALUE, value)
 				}

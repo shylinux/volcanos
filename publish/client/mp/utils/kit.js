@@ -10,9 +10,9 @@ function shy(help, meta, list, cb) {
     }
 
     cb = args[args.length-1]||function() {}
-    cb.help = next(lang.STRING)||""
-    cb.meta = next(lang.OBJECT)|| {}
-    cb.list = next(lang.OBJECT)||[]
+    cb.help = next(code.STRING)||""
+    cb.meta = next(code.OBJECT)|| {}
+    cb.list = next(code.OBJECT)||[]
     return cb
 }
 module.exports = {

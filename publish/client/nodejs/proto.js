@@ -1,4 +1,4 @@
-try { if (typeof(global) == lang.OBJECT) { // nodejs
+try { if (typeof(global) == code.OBJECT) { // nodejs
 	Volcanos.meta._load = function(url, cb) { if (!url) { return cb() }
 		switch (url.split("?")[0].split(nfs.PT).pop().toLowerCase()) {
 			case nfs.JS:

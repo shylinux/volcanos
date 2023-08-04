@@ -5,7 +5,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
 				sub.run = function(event, cmds, cb) { return can.run(event, (river == web.SHARE? [ctx.ACTION]: []).concat([river, storm, meta.id||meta.index], cmds), cb) }
 			})
-		}, function() { can.isCmdMode() || can.onmotion.delay(can, function() { can.onaction.layout(can)
+		}, function() { can.isCmdMode() || can.onmotion.delay(can, function() { can.onaction.layout(can), can.onappend.scroll(can, can._output)
 			can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) { sub.Conf(ctx.INDEX) == list[2] && can.onmotion.delay(can, function() { sub._tabs.click() }) })
 		}, 300) })
 	},
@@ -71,7 +71,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	},
 	onkeydown: function(can, msg, model) {
 		if (can.isCmdMode() && !msg._event.metaKey) {
-			var sub = can.core.Value(can._plugins[0], chat._OUTPUTS_CURRENT); sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: msg._event, can: sub}); return
+			var sub = can._plugins[0].sub; sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: msg._event, can: sub}); return
 		}
 		if (can.onkeymap.selectCtrlN(msg._event, can, can._action, html.DIV_ITEM)) { return }
 		can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
