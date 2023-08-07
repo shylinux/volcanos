@@ -1,5 +1,4 @@
-(function() {
-const RECOVER_STORE = "recover:"
+(function() { const RECOVER_STORE = "recover:"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules(can, ["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
 		var item = msg.TableDetail(); item.hash = item.hash||can.Option(mdb.HASH), can.onmotion.clear(can), can.base.isFunc(cb) && cb(msg), can.onappend._status(can), can.onkeymap._build(can)
 		if (item.type == html.LAYOUT) { can.onimport._layout(can, item) } else { can.onimport._connect(can, item, can._output) } can.onimport.layout(can)
@@ -58,7 +57,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 	},
 	_recover: function(can, item, term, text) { var recover = can.onexport.session(can, RECOVER_STORE+item.hash)
 		if (recover) { can.onexport.session(can, RECOVER_STORE+item.hash, ""), can.onmotion.delay(can, function() { term.write(recover.replaceAll(lex.NL, "\r\n")) }) }
-		can.onengine.listen(can, chat.ONUNLOAD, function(msg) { term.selectAll(), can.onexport.session(can, RECOVER_STORE+item.hash, JSON.stringify(can.base.trimSuffix(term.getSelection(), lex.NL)+lex.NL)) })
+		can.onengine.listen(can, chat.ONUNLOAD, function(msg) { term.selectAll(), can.onexport.session(can, RECOVER_STORE+item.hash, can.base.trimSuffix(term.getSelection(), lex.NL)+lex.NL) })
 		text && can.onmotion.delay(can, function() { term.write(text.replaceAll(lex.NL, "\r\n")) })
 	},
 	_resize: function(can, term, size) { can.runAction(can.request({}, size, term._item), web.RESIZE, [], function(msg) {
@@ -77,7 +76,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 			})
 		}
 	},
-	grow: function(can, msg) { var arg = msg.detail.slice(1), term = can.db[arg[0]]; arg[1] == "~~~end~~~"? can.onaction.delete(can, term._output): term.write(arg[1]); msg.Option(ice.LOG_DISABLE, ice.TRUE) },
+	grow: function(can, msg) {
+		var arg = msg.detail.slice(1), term = can.db[arg[0]]; arg[1] == "~~~end~~~"? can.onaction.delete(can, term._output): term.write(arg[1]); msg.Option(ice.LOG_DISABLE, ice.TRUE)
+	},
 	layout: function(can) { function show(target, height, width) { var list = can.page.SelectChild(can, target, can.page.Keys(html.DIV_OUTPUT, html.DIV_LAYOUT))
 		var h = height/list.length, w = width; if (can.page.ClassList.has(can, target, html.FLEX)) { h = height, w = width/list.length } if (target == can._fields) { h = height, w = width }
 		can.core.List(list, function(target) { can.page.style(can, target, html.HEIGHT, h, html.WIDTH, w), can.page.ClassList.has(can, target, html.LAYOUT)? show(target, h, w): target._term && target._term._fit.fit() })
@@ -130,7 +131,15 @@ Volcanos(chat.ONACTION, {
 		can._output._root = root, can._output = can.page.insertBefore(can, [html.OUTPUT], can._output.nextSibling, layout)
 		can._output._root = root, can._output._tabs = tabs, can.onimport._init(can, msg), can.onmotion.delay(can, function() { can._output.click() })
 	}) }) },
-	delete: function(can, output) { if (can.page.Select(can, can._fields, html.DIV_OUTPUT).length == 1) { can.onmotion.delay(can, function() { can.sup.onimport._back(can.sup) }) }
+	delete: function(can, output) {
+		if (can.page.Select(can, can._fields, html.DIV_OUTPUT).length == 1) { can.onmotion.delay(can, function() {
+			var args = can.Conf(ctx.ARGS)
+			if (args && args.length > 0) {
+				can.sup.onaction.close({}, can.sup)
+			} else {
+				can.sup.onimport._back(can.sup)
+			}
+		}) }
 		if (output == can.sup._output) { can.onmotion.clear(can, output) } else { while (output && output.parentNode.children.length == 1) { output = output.parentNode }
 			var next = output.parentNode; can.page.Remove(can, output), can.onmotion.delay(can, function() { can.page.Select(can, next, html.DIV_OUTPUT, function(target) { target.click() }) })
 		} can.onimport.layout(can)
@@ -172,8 +181,10 @@ Volcanos(chat.ONEXPORT, {list: [mdb.TIME, mdb.HASH, mdb.TYPE, mdb.NAME, "rows", 
 		} else { var item = target._term._item; return {type: item.type, name: name, text: item.text, hash: item.hash} }
 	} return show(target._output) }) },
 	title: function(can, term, title) { can.page.Modify(can, can.page.SelectOne(can, term._output._tabs, html.SPAN_NAME), title), can.Status(mdb.NAME, title), can.sup.onexport.title(can.sup, title) },
-	recover: function(can, key, value) {
-		
+	recover: function(can) {
+		can.core.Item(can.db, function(hash, term) {
+			term.selectAll(), can.onexport.session(can, RECOVER_STORE+hash, can.base.trimSuffix(term.getSelection(), lex.NL)+lex.NL)
+		})
 	},
 })
 })()

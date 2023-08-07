@@ -169,6 +169,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 })
 Volcanos(chat.ONLAYOUT, {
 	_init: function(can, height, width) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can, height: height, width: width}) },
+	zone: function(can, height, width) { can.onlayout._init(can, height, width) },
+	result: function(can, height, width) { can.onlayout._init(can, height, width) },
 	simple: function(can, height, width) { can.onlayout._init(can, height, width) },
 	output: function(can, height, width) { can.onlayout._init(can, height, width) },
 	float: function(can, height, width) { can.onlayout._init(can, height, width) },
@@ -184,5 +186,5 @@ Volcanos(chat.ONEXPORT, {
 		var res = [msg.append && msg.append.join(mdb.FS)]; msg.Table(function(line, index, array) { res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS)) }); return res.join(lex.NL)
 	},
 	board: function(can) { var msg = can._msg; return msg.Result() },
-	session: function(can, key, value) { return can.misc[can.user.isWebview? "localStorage": "sessionStorage"](can, [can.Conf(ctx.INDEX), key, location.pathname].join(":"), JSON.stringify(value)) },
+	session: function(can, key, value) { return can.misc[can.user.isWebview? "localStorage": "sessionStorage"](can, [can.Conf(ctx.INDEX), key, location.pathname].join(":"), value == ""? "": JSON.stringify(value)) },
 })

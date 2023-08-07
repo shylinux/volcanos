@@ -16,6 +16,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
 				for (end; end < target.value.length; end++) { if (!reg.test(target.value.slice(end, end+1))) { break } }
 				can.onaction.searchLine(event, can, target.value.slice(begin, end))
 			}
+			can.onmotion.delay(can, function() { can.page.SelectChild(can, can.ui.complete, html.DIV, function(target) {
+				target.innerText = can.ui.current.value.slice(0, can.ui.current.selectionStart)
+			}) })
 		}}, {view: [[code.COMPLETE]]},
 	]); can.ui.current = ui.current, can.ui.complete = ui.complete, can.onkeymap._plugin(can) },
 	_value: function(can) { can.onimport.__tabPath(can, true), can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) },
@@ -64,13 +67,8 @@ Volcanos(chat.ONFIGURE, {
 })
 Volcanos(chat.ONACTION, {list: ["编译", "构建", "路由", "终端", "源码", "文档", "计划", "流程", "桌面", "后台", "官网"],
 	_trans: {show: "预览", exec: "展示"},
-	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
-		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button)
-		can.ui.zone.source.refresh()
-	}) },
-	_runs: function(event, can, button, cb) { var meta = can.Conf(); can.request(event, {action: button})
-		can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) })
-	},
+	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) { can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button), can.ui.zone.source.refresh() }) },
+	_runs: function(event, can, button, cb) { var meta = can.Conf(); can.request(event, {action: button}), can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) }) },
 	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
 		function imports(str) { var block = "", count = 0; can.core.List(str.split(lex.NL), function(item) {
 			if (can.base.beginWith(item, "import (")) { block = can.core.Split(item)[0]; return }
@@ -89,22 +87,17 @@ Volcanos(chat.ONACTION, {list: ["编译", "构建", "路由", "终端", "源码"
 	script: function(event, can, button) { can.onaction._runs(event, can, button) },
 	module: function(event, can, button) { can.onaction._runs(event, can, button) },
 	compile: function(event, can, button) { can.runAction(can.request(event, {_toast: "编译中..."}), button, [], function(msg) { can.ui.search && can.ui.search.hidden()
-		if (msg.Length() > 0 || msg.Result()) { return can.onimport.exts(can, "inner/search.js", function(sub) { can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY)), sub.select() }) }
-		var toast = can.user.toastProcess(can, "重启中..."); can.onmotion.delay(can, function() { toast.close(), can.user.toastSuccess(can) }, 3000)
+		if (msg.Length() > 0 || msg.Result()) { return can.onimport.exts(can, "inner/search.js", function(sub) { can.ui.search = sub, sub.select()
+			can.onmotion.delay(can, function() { can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY)) })
+		}) } var toast = can.user.toastProcess(can, "重启中..."); can.onmotion.delay(can, function() { toast.close(), can.user.toastSuccess(can) }, 3000)
 	}) },
-	"命令": function(event, can) { can.user.input(event, can, [{name: ctx.INDEX, need: "must"}, ctx.ARGS], function(list) {
-		can.onimport.tabview(can, "", list[0]+(list[1]? mdb.FS+list[1]: ""), ctx.INDEX)
-	}) },
+	"命令": function(event, can) { can.user.input(event, can, [{name: ctx.INDEX, need: "must"}, ctx.ARGS], function(list) { can.onimport.tabview(can, "", list[0]+(list[1]? mdb.FS+list[1]: ""), ctx.INDEX) }) },
 	"插件": function(event, can) { can.user.input(event, can, [{name: ctx.INDEX, need: "must"}, ctx.ARGS], function(list) { var sub = can.db.toolkit[list.join(",")]; if (sub) { sub.select(); return }
 		can.onimport.toolkit(can, {index: list[0], args: can.core.Split(list[1]||"")}, function(sub) { can.db.toolkit[list.join(",")] = sub.select() })
 	}) },
-	"扩展": function(event, can) { can.user.input(can.request(event, {action: "extension"}), can, ["url"], function(list) {
-		var sub = can.db.toolkit[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0])
-	}) },
+	"扩展": function(event, can) { can.user.input(can.request(event, {action: "extension"}), can, ["url"], function(list) { var sub = can.db.toolkit[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0]) }) },
 	"编译": function(event, can) { can.onaction.compile(event, can, code.COMPILE) },
-	"终端": function(event, can) { can.user.input(can.request(event, {action: "xterm"}), can, [mdb.TYPE], function(args) {
-		can.onimport.tabview(can, "", [web.CODE_XTERM, args[1]||"ish"].join(mdb.FS), ctx.INDEX)
-	}) },
+	"终端": function(event, can) { can.user.input(can.request(event, {action: "xterm"}), can, [mdb.TYPE], function(args) { can.onimport.tabview(can, "", [web.CODE_XTERM, args[1]||"ish"].join(mdb.FS), ctx.INDEX) }) },
 	"路由": function(event, can) { can.onimport.tabview(can, "", web.ROUTE, ctx.INDEX) },
 	"构建": function(event, can) { can.onimport.tabview(can, "", web.CODE_COMPILE, ctx.INDEX) },
 	"源码": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },
@@ -117,10 +110,12 @@ Volcanos(chat.ONACTION, {list: ["编译", "构建", "路由", "终端", "源码"
 	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value); before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before)); return can.onaction.rerankLine(can), can.onexport.line(can, line) },
 	deleteLine: function(can, line) { line = can.onaction._getLine(can, line); var next = line.nextSibling||line.previousSibling; return can.page.Remove(can, line), can.onaction.rerankLine(can), next },
 	_selectLine: function(can) { can.current && can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
-		can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop,
-			html.WIDTH, can.base.Min(td.offsetWidth, can.ui.content.offsetWidth-can.page.Select(can, can.current.line, "td.line")[0].offsetWidth))
+		can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop, html.WIDTH, can.base.Min(td.offsetWidth, can.ui.content.offsetWidth-can.page.Select(can, can.current.line, "td.line")[0].offsetWidth))
 		can.db.mode == mdb.NORMAL && can.onkeymap._normal(can)
-		if (can.ui.content._root) { can.onmotion.select(can, can.ui.content.parentNode, "*", can.ui.content) }
+		if (can.ui.content._root) { can.onmotion.select(can, can.ui.content.parentNode, "", can.ui.content) }
+		can.onmotion.delay(can, function() { can.page.SelectChild(can, can.ui.complete, html.DIV, function(target) {
+			target.innerText = can.ui.current.value.slice(0, can.ui.current.selectionStart)
+		}) })
 	}) },
 })
 Volcanos(chat.ONKEYMAP, {
@@ -138,8 +133,8 @@ Volcanos(chat.ONKEYMAP, {
 			can.runAction(can.request(event, {text: pre}, can.Option()), code.COMPLETE, [], function(msg) { can.page.Appends(can, target, [{view: [lex.PREFIX, html.DIV, pre]}])
 				var parse = can.onsyntax[can.onexport.parse(can)]; can.core.CallFunc(can.core.Value(parse, code.COMPLETE), [event, can, msg, target, pre, key])
 				can.core.Item(can.core.Value(parse, code.KEYWORD), function(key, value) { msg.Push(mdb.NAME, key) })
-				can.onappend.table(can, msg, function(value, key, index) { return {text: [value, html.TD], onclick: function(event) { change(value) }} }, target)
-				can.page.style(can, target, html.MAX_HEIGHT, can.ui.content.offsetHeight-(can.current.line.offsetTop-can.ui.content.scrollTop)-can.current.line.offsetHeight)
+				var table = can.onappend.table(can, msg, function(value, key, index) { return {text: [value, html.TD], onclick: function(event) { change(value) }} }, target)
+				can.page.style(can, table, html.MAX_HEIGHT, can.ui.content.offsetHeight-(can.current.line.offsetTop-can.ui.content.scrollTop)-can.current.line.offsetHeight)
 				can.onmotion.toggle(can, target, true)
 			})
 		}

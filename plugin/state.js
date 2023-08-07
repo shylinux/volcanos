@@ -13,6 +13,7 @@ Volcanos(chat.ONIMPORT, {
 	_inner: function(can, msg) { can.onappend.table(can, msg), can.onappend.board(can, msg), can.onmotion.story.auto(can) },
 	_field: function(can, msg, cb) { var height = can.ConfHeight(), width = can.ConfWidth(); can.page.SelectChild(can, can._output, can.page.Keys(html.TABLE, html.DIV_CODE), function(target) { height -= target.offsetHeight })
 		height = can.base.Min(msg.Option(html.HEIGHT)||height, can.isCmdMode()? can.ConfHeight()/2: 320), width = msg.Option(html.WIDTH)||can.ConfWidth()
+		height -= 2*html.ACTION_HEIGHT
 		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
 			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX)
 				can.run(event, (!index || index == can._index || index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, index]).concat(cmds), cb, true)
@@ -129,7 +130,7 @@ Volcanos(chat.ONACTION, {list: [
 		} else if (can.isFloatMode()) {
 			can.onaction["切换浮动"](event, can, "切换浮动", can.sub)
 		} else {
-			can.onaction._close(event, can)
+			can.onaction._close(event, can), can.onexport.close(can)
 		}
 	}, _close: function(event, can) { can.page.Remove(can, can._target) },
 	clear: function(event, can) { can.onmotion.clear(can, can._output) },
@@ -189,5 +190,6 @@ Volcanos(chat.ONEXPORT, {
 	link: function(can) { var meta = can.Conf(), args = can.Option()
 		args.pod = meta._space||meta.space||meta.pod, args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd)
 		return can.misc.MergePodCmd(can, args, true)
-	}, args: function(can) { return can.Option() }
+	}, args: function(can) { return can.Option() },
+	close: function(can, msg) {},
 })

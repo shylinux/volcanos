@@ -147,10 +147,11 @@ Volcanos(chat.ONPLUGIN, {
 	sessionStorage: shy("会话存储", {
 		create: shy([mdb.NAME, mdb.VALUE], function(can, name, value) { can.misc.sessionStorage(can, name, value) }),
 		remove: shy(function(can, name) { name && can.misc.sessionStorage(can, name, "") }),
+		prunes: shy(function(can, name) { can.core.Item(can.misc.sessionStorage(can), function(key, value) { can.misc.sessionStorage(can, key, "") }) }),
 		modify: shy(function(can, msg, arg) { if (arg[0] == mdb.VALUE) { can.misc.sessionStorage(can, msg.Option(mdb.NAME), arg[1]) } else {
 			can.misc.sessionStorage(can, arg[1], msg.Option(mdb.VALUE)), can.misc.sessionStorage(can, msg.Option(mdb.NAME), "")
 		} }),
-	}, [web.FILTER, ice.LIST, mdb.CREATE], function(can, msg, arg) { msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
+	}, [web.FILTER, ice.LIST, mdb.CREATE, mdb.PRUNES], function(can, msg, arg) { msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
 		can.core.Item(can.misc.sessionStorage(can), function(name, value) { can.base.contains(name, arg[0]) && msg.Push(mdb.NAME, name).Push(mdb.VALUE, value) })
 	}),
 	location: shy("请求地址", {copy: function(can) { can.user.copy(msg._event, can, location.href) }}, [mdb.LINK, ice.LIST, ice.COPY], function(can, msg, cb) {

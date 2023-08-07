@@ -35,6 +35,7 @@ table.content.action th:last-child { position:sticky; right:2px; box-shadow: var
 table.content.action td:last-child { position:sticky; right:2px; box-shadow: var(--box-shadow); }
 table.content col.time { width:180px; }
 table.content col.action { width:180px; }
+table.content:hover col.option { background-color:var(--hover-bg-color); }
 fieldset.panel.Action.tabs table.content { width:100%; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; }
 hr, td.hr { border-bottom:var(--plugin-border-color) dashed 1px; margin:5px; }
@@ -134,8 +135,8 @@ legend>i:first-child { margin-right:10px; } div.item>i:first-child { margin-righ
 form.option div.icon, form.option span.icon { font-size:20px; line-height:32px; padding:0 5px; margin:0; height:32px; }
 div.action div.icon, div.action span.icon { font-size:20px; line-height:32px; padding:0 5px; margin:0; height:32px; }
 form.option div.icon:first-child { margin-left:-5px; }
-form.option div.icon.refresh { font-size:26px; line-height:28px; }
-form.option div.icon.goback { font-size:26px; line-height:28px; }
+form.option div.icon.refresh { font-size:28px; line-height:28px; translate:0 -1px; }
+form.option div.icon.goback { font-size:28px; line-height:28px; translate:0 -1px; }
 form.option div.icon.next { font-size:18px; }
 form.option div.icon.prev { font-size:18px; }
 div.item.select>span.icon { margin-left:-25px; margin-right:3px; visibility:hidden; }
@@ -144,7 +145,7 @@ div.item.text { position:relative; }
 div.item.text>span.icon { margin-left:-25px; margin-right:3px; cursor:pointer; }
 div.item.text>span.icon.delete { position:absolute; font-size:20px; visibility:hidden; }
 div.item.text:hover>span.icon.delete { visibility:visible; }
-div.item.button>span.icon.create { font-size:26px; line-height:28px; }
+div.item.button>span.icon.create { font-size:32px; line-height:32px; translate:0px -2px; display:block; }
 div.tabs span.icon { margin-left:5px; visibility:hidden; }
 div.tabs>div.select span.icon { visibility:visible; }
 div.tabs>div:hover span.icon { visibility:visible; }
@@ -163,9 +164,10 @@ fieldset.float>div.action>div.button.icons>input { display:none; }
 fieldset.full>div.action>div.button.icons>input { display:none; }
 fieldset.cmd>div.action>div.button.icons>input { display:none; }
 fieldset:not(.float)>form.option>div.text>span.value { display:none; }
-fieldset.float>form.option>div.text>input { display:none; }
-fieldset.float>form.option>div.text>span { display:none; }
-fieldset.float>form.option>div.text>span.value { white-space:pre; padding:7px; height:32px; max-width:200px; display:block; overflow:auto; }
+fieldset.float.plug>form.option>div.text>span.value { display:none; }
+fieldset.float:not(.plug)>form.option>div.text>input { display:none; }
+fieldset.float:not(.plug)>form.option>div.text>span { display:none; }
+fieldset.float:not(.plug)>form.option>div.text>span.value { white-space:pre; padding:7px; height:32px; max-width:200px; display:block; overflow:auto; }
 fieldset.float div.text:hover>span.icon.delete { visibility:hidden; }
 body.mobile:not(.landscape) fieldset.float>form.option>div.text>span.value { display:none; }
 body.windows form.option>div.icon { font-size:21px; }
@@ -242,10 +244,14 @@ input:hover[type=button][name=create] { background-color:var(--create-bg-color);
 input:hover[type=button][name=insert] { background-color:var(--create-bg-color); color:var(--create-fg-color); }
 input:hover[type=button][name=restart] { background-color:var(--create-bg-color); color:var(--create-fg-color); }
 input:hover[type=button][name=start] { background-color:var(--create-bg-color); color:var(--create-fg-color); }
+input:hover[type=button][name=build] { background-color:var(--create-bg-color); color:var(--create-fg-color); }
 input:hover[type=button][name=run] { background-color:var(--create-bg-color); color:var(--create-fg-color); }
 input:hover[type=button][name=open] { background-color:var(--create-bg-color); color:var(--create-fg-color); }
 input:hover[type=button][name=stop] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
+input:hover[type=button][name=drop] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 input:hover[type=button][name=trash] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
+input:hover[type=button][name=prune] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
+input:hover[type=button][name=prunes] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 input:hover[type=button][name=delete] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 input:hover[type=button][name=remove] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 /* theme */
@@ -296,6 +302,7 @@ div.tabs div { background-color:var(--plugin-bg-color); }
 div.tabs div:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.tabs div.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.plug legend { background-color:var(--output-bg-color); }
+div.plug legend:hover { background-color:var(--hover-bg-color); }
 div.plug legend.select { background-color:var(--plugin-bg-color); }
 div.complete>table { background-color:var(--plugin-bg-color); }
 body.light fieldset.panel:not(.main)>div.output div.state:hover { background-color:var(--panel-hover-bg-color); color:var(--panel-hover-fg-color); }
@@ -361,14 +368,18 @@ fieldset.can.data { font-size:14px; }
 img, iframe { margin-bottom:-3px; }
 iframe { height:420px; width:100%; }
 /* scrollbar */
-div.scrollbar { background-color:#0000ff66; width:10px; position:absolute; right:0; top:0; transition:width .3s 1s; visibility:hidden; }
-div.scrollbar:hover { width:30px; transition:width .1s;}
+div.scrollbar { background-color:#0000ff66; border-radius:10px; position:absolute; visibility:hidden; font-size:8px !important; }
+div.scrollbar.vertical { writing-mode:tb; width:10px; right:0; top:0; transition:width .3s 1s; }
+div.scrollbar.vertical:hover { width:30px; transition:width .1s; font-size:24px !important; }
+div.scrollbar.horizon:hover { height:30px; transition:height .1s; font-size:24px !important; }
+div.scrollbar.horizon { height:10px; left:0; bottom:0; transition:height .3s 1s; }
 fieldset.panel.River>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
 fieldset.panel.Action>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
 form.option>div.text>span.value::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.status::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
+fieldset.word>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.toggle::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.story[data-type=spark]::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.carte::-webkit-scrollbar { width:0 !important; height:0 !important; }

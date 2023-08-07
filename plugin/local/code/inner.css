@@ -58,6 +58,8 @@ fieldset.inner.cmd>div.output>div.layout>div.path { font-style:italic; padding:5
 fieldset.inner.cmd>div.output>div.layout>div.path.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout>div.path span.func { padding:5px 10px; margin-left:20px; }
 fieldset.inner.cmd>div.output>div.layout>div.path span.mode { padding:5px 10px; margin-left:20px; }
+fieldset.inner.cmd>div.output>div.layout>div.path span.mode.insert { color:red; }
+fieldset.inner.cmd>div.output>div.layout>div.path span.mode.normal { color:blue; }
 fieldset.inner.cmd>div.output>div.layout>div.path span.view { font-size:22px; line-height:12px; padding:0 4px; float:right; }
 fieldset.inner.cmd>div.output>div.layout>fieldset.plug { bottom:32px; }
 fieldset.inner.cmd>div.output>div.layout>div.plug { height:32px; clear:both; position:fixed; bottom:0; right:0; }

@@ -38,6 +38,7 @@ var ice = {
 	MSG_PROCESS: "_process",
 	PROCESS_AGAIN: "_again",
 	PROCESS_FIELD: "_field",
+	PROCESS_REWRITE: "_rewrite",
 	MSG_PREFIX: "_prefix",
 
 	MSG_USERNICK: "user.nick", MSG_USERNAME: "user.name", MSG_USERROLE: "user.role", MSG_LANGUAGE: "user.lang",
@@ -67,6 +68,7 @@ var mdb = {
 	INPUTS: "inputs", PRUNES: "prunes", EXPORT: "export", IMPORT: "import", REVERT: "revert", NORMAL: "normal",
 	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
 	DETAIL: "detail",
+	PRUNE: "prune",
 
 	KEYS: "keys",
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
@@ -251,6 +253,9 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	DISPLAY: "display", BLOCK: "block", NONE: "none", OVERFLOW: "overflow", HIDDEN: "hidden", SCROLL: "scroll", FLOAT: "float", CLEAR: "clear", BOTH: "both",
 	LEFT: "left", TOP: "top", RIGHT: "right", BOTTOM: "bottom",
 	FLEX: "flex", FLOW: "flow",
+	SCROLLBAR: "scrollbar",
+	VISIBILITY: "visibility",
+	VERTICAL: "vertical", HORIZON: "horizon",
 
 	SIZE: "size", OPACITY: "opacity", VISIBLE: "visible", 
 	CLASS: "class", LIGHT: "light", DARK: "dark",
@@ -321,9 +326,10 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 				can.base.isFunc(item.Option)? can.core.List(item.Option(), function(key) {
 					key.indexOf("_") == 0 || key.indexOf("user.") == 0 || set(key, item.Option(key))
 				}): can.core.Item(can.base.isFunc(item)? item(): item, set)
-			}); set(ice.MSG_HEIGHT, can.ConfHeight()||32), set(ice.MSG_WIDTH, can.ConfWidth()||320), set(ice.MSG_MODE, can.Mode())
+			}); set(ice.MSG_HEIGHT, can.ConfHeight()||"32"), set(ice.MSG_WIDTH, can.ConfWidth()||"320"), set(ice.MSG_MODE, can.Mode())
 			return msg
 		},
+		requestAction: function(event, button) { return can.request(event, {action: button, _toast: ice.PROCESS+" "+button}) },
 		runActionInputs: function(event, cmds, cb) { var msg = can.request(event), meta = can.Conf()
 			if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { var msg = can.request(event, {action: cmds[1]})
 				if (can.base.isFunc(meta.feature[cmds[1]])) { return meta.feature[cmds[1]](can, msg, cmds.slice(2)) }
