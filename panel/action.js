@@ -3,16 +3,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
-				sub.run = function(event, cmds, cb) { return can.run(event, (river == web.SHARE? [ctx.ACTION]: []).concat([river, storm, meta.id||meta.index], cmds), cb) }
+				sub.run = function(event, cmds, cb) { return can.run(event, [river, storm, meta.id||meta.index].concat(cmds), cb) }
 			})
 		}, function() { can.isCmdMode() || can.onmotion.delay(can, function() { can.onaction.layout(can), can.onappend.scroll(can, can._output)
 			can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) { sub.Conf(ctx.INDEX) == list[2] && can.onmotion.delay(can, function() { sub._tabs.click() }) })
 		}, 300) })
 	},
-	_share: function(can, share) { share && can.runAction({}, web.SHARE, [share], function(msg) {
-		can.user.title(msg.SearchOrOption(chat.TITLE)), can.setHeader(chat.THEME, msg.SearchOrOption(chat.THEME)), can.Mode(web.SHARE), msg.Length() == 1 && can.onaction._onaction_cmd(can)
-		can.Conf(chat.RIVER, web.SHARE, chat.STORM, share), can.onimport._init(can, msg)
-	}) },
 	_tabs: function(can, sub, meta) {
 		var tabs = [{view: [html.ITEM, "", meta.name], onclick: function(event) { can.onmotion.select(can, can._header_tabs, html.DIV_ITEM, sub._header_tabs)
 			can.onmotion.select(can, can._action, html.DIV_ITEM, sub._tabs), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
@@ -31,7 +27,6 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.onengine.listen(can, "ontouchstart", function(msg) { can.onengine.signal(can, chat.ONACTION_TOUCH, msg) }, target)
 	},
 	onsize: function(can, msg, height, width) { can.Conf({height: can.base.Min(height-can.Conf(html.MARGIN_Y), 240), width: width-can.Conf(html.MARGIN_X)}) },
-	onmain: function(can, msg) { can.onimport._share(can, can.misc.Search(can, web.SHARE)) },
 	onlogin: function(can, msg) { can.onimport._menu(can, msg), can.onkeymap._build(can)
 		can._root.River && can.onmotion.delay(can, function() { if (can.Mode()) { return } var gt = can.page.unicode.next, lt = can.page.unicode.prev, river = can._root.River._target
 			var target = can.page.Append(can, can._target, [{view: [[html.TOGGLE, chat.PROJECT], "", can.page.isDisplay(river)? lt: gt], onclick: function(event) {

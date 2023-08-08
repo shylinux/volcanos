@@ -96,7 +96,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
 	avatar: function(event, can) { can.onaction.carte(event, can, [can.page.Format(html.IMG, can.onexport.avatar(can), can.page.height()/2)]) },
 	usernick: function(event, can) { can.onaction.carte(event, can, can.onaction._menus) },
-	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN]) },
+	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN, mdb.NAME, can.user.title(), mdb.TEXT, location.href]) },
 	toimage: function(event, can) { can.onmotion.clearCarte(can), can.user.toimage(can, can.user.title(), can._target.parentNode) },
 	webpack: function(event, can) { can.onengine.signal(can, chat.ONWEBPACK, can.request(event)) },
 	setnick: function(event, can) { can.user.input(event, can, [{name: aaa.USERNICK, value: can.Conf(aaa.USERNICK)}], function(list) { can.runAction(event, aaa.USERNICK, [list[0]], function(msg) {

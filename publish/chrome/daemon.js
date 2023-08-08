@@ -24,7 +24,7 @@ Volcanos({
 		chrome.tabs.sendMessage(parseInt(target||msg.Option(ice.MSG_TARGET)), msg, cb||function(res) { msg.Copy(res), msg.Reply() })
 	},
 	_daemon: function(can) {
-		can.misc.WSS(can, {type: html.CHROME, name: html.CHROME}, function(event, msg, cmd, arg, cb) {
+		can.misc.WSS(can, {type: html.CHROME, name: html.CHROME, module: "shylinux.com/x/volcanos", version: "v0.9.4"}, function(event, msg, cmd, arg, cb) {
 			msg.Option(ice.MSG_TARGET)? can._tabsend(can, msg): can.core.CallFunc([can, cmd], {can: can, msg: msg, arg: arg, cb: cb})
 		})
 		chrome.runtime.onMessage.addListener(function(req, sender, cb) {
