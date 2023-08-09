@@ -435,7 +435,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			function _cb(sub, value, old) { if (value == old) { return } target.value = value, can.base.isFunc(cb) && cb(sub, value, old) }
 			target.onkeydown = function() { if (event.key == code.ESCAPE && target._can) { return target._can.close(), target.blur() } else if (event.key == code.ENTER) { can.base.isFunc(cb) && cb(event, target.value) } }
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function() { }; target[key] = function(event) { can.misc.Event(event, can, function(msg) {
-				function show(sub, cb) { can.base.isFunc(cb) && cb(sub, _cb), can.onlayout.figure(event, can, sub._target, false), can.onmotion.toggle(can, sub._target, true) }
+				function show(sub, cb) { can.base.isFunc(cb) && cb(sub, _cb), can.onlayout.figure(event, can, sub._target), can.onmotion.toggle(can, sub._target, true) }
 				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, last: last, cbs: function(cb) {
 					target._can? show(target._can, cb): can.onappend._init(can, {type: html.INPUT, name: input, style: meta.name, mode: chat.FLOAT}, [path], function(sub) { sub.Conf(meta)
 						sub.run = function(event, cmds, cb) { var msg = sub.request(event)
@@ -467,28 +467,22 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		can.page.SelectChild(can, target, "", function(target) { can.page.styleWidth(can, target, width) })
 	},
 	background: function(can, url, target) { can.page.style(can, target||can._root._target, "background-image", url == "" || url == "void"? "": 'url("'+url+'")') },
-	figure: function(event, can, target, right, max) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
+	figure: function(event, can, target, right, min) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: (event.currentTarget||event.target).getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)
-			if (max && layout.top-top > height*max) {
-				can.page.style(can, target, html.MAX_HEIGHT, layout.top-top-(rect.bottom-rect.top))
-				layout.top = layout.top-target.offsetHeight-(rect.bottom-rect.top)
-			} else {
-				if (!right) { can.page.style(can, target, html.MAX_HEIGHT, max? height*max: top+height-layout.top) }
-				if (layout.top+target.offsetHeight > top+height) { layout.top = top+height-target.offsetHeight }
-			}
-			if (layout.left >= left+width) {
-				if (can.page.tagis(event.target, html.SPAN)) {
-					layout.left = left+width-target.offsetWidth-event.target.parentNode.offsetWidth
+			if (layout.top+target.offsetHeight > top+height) {
+				if (min && top+height-layout.top > min) {
+					can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
+				} else if (!right && rect.top-top>target.offsetHeight) {
+					layout.top = rect.top-target.offsetHeight
 				} else {
-					layout.left = left+width-target.offsetWidth-event.target.offsetWidth
+					if (!right) { right = true, layout.left += (event.currentTarget||event.target).offsetWidth }
+					can.page.style(can, target, html.MAX_HEIGHT, height)
+					layout.top = top+height-target.offsetHeight
 				}
-			} else if (layout.left > left+width-10) {
-				layout.left = left+width-target.offsetWidth-1-event.target.offsetWidth
-			} else if (layout.left+target.offsetWidth > left+width) {
-				layout.left = left+width-target.offsetWidth-1
 			}
+			if (layout.left+target.offsetWidth > left+width) { layout.left = (right? rect.left: left+width)-target.offsetWidth-1 }
 		}); return can.onmotion.move(can, target, layout), layout
 	},
 })

@@ -333,6 +333,8 @@ Volcanos(chat.ONSYNTAX, {
 			"--body-bg-color": code.CONSTANT, "--body-fg-color": code.CONSTANT,
 			"--plugin-bg-color": code.CONSTANT, "--plugin-fg-color": code.CONSTANT,
 			"--hover-bg-color": code.CONSTANT, "--hover-fg-color": code.CONSTANT,
+			"--notice-bg-color": code.CONSTANT, "--danger-bg-color": code.CONSTANT,
+			"--box-border": code.CONSTANT, "--box-shadow": code.CONSTANT,
 		}, include: ["html"],
 		func: function(can, push, text) { text.indexOf("/* ") == 0 && push(can.base.trimPrefix(can.base.trimSuffix(text, " */"), "/* ")) },
 	},

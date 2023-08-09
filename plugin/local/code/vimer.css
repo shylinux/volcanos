@@ -8,19 +8,15 @@ fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.c
 fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content { padding-left:5px; width:unset; max-width:600px; display:block; }
 fieldset.vimer>div.output>div.layout>div.layout>div.layout div.content { border-left:var(--box-border); border-top:var(--box-border); }
 fieldset.vimer>div.output>div.layout>div.layout div.content tr.line:hover { background-color:var(--hover-bg-color); }
-fieldset.vimer>div.output>div.layout>div.layout div.content.normal tr.line.select>td.line { background-color:blue; color:white; }
-fieldset.vimer>div.output>div.layout>div.layout div.content.insert tr.line.select>td.line { background-color:red; color:white; }
+fieldset.vimer>div.output.plugin>div.layout>div.tabs>div.tabs.select { border-top:transparent solid 2px; }
+fieldset.vimer>div.output.normal>div.layout>div.tabs>div.tabs.select { border-top:var(--notice-bg-color) solid 2px; }
+fieldset.vimer>div.output.insert>div.layout>div.tabs>div.tabs.select { border-top:var(--danger-bg-color) solid 2px; }
+fieldset.vimer>div.output.normal>div.layout>div.path span.mode.normal { color:var(--notice-bg-color); }
+fieldset.vimer>div.output.insert>div.layout>div.path span.mode.insert { color:var(--danger-bg-color); }
+fieldset.vimer>div.output>div.layout>div.layout div.content.normal tr.line.select>td.line { background-color:var(--notice-bg-color); color:white; }
+fieldset.vimer>div.output>div.layout>div.layout div.content.insert tr.line.select>td.line { background-color:var(--danger-bg-color); color:white; }
+fieldset.vimer>div.output>div.layout>div.layout div.content.normal input.current { caret-color:var(--notice-bg-color); border:var(--notice-bg-color) solid 1px; }
+fieldset.vimer>div.output>div.layout>div.layout div.content.insert input.current { caret-color:var(--danger-bg-color); border:var(--danger-bg-color) solid 1px; }
 fieldset.vimer>div.output>div.layout>div.layout div.content.insert div.complete:not(.hide) { display:block; top:unset; }
-fieldset.vimer>div.output>div.layout>div.layout div.content.normal input:not([type=button]) { border:var(--notice-fg-color) solid 1px; }
-fieldset.vimer>div.output>div.layout>div.layout div.content.insert input:not([type=button]) { border:var(--danger-bg-color) solid 1px; }
-fieldset.vimer>div.output>div.layout>div.path span.mode.insert { color:var(--danger-bg-color); }
-fieldset.vimer>div.output>div.layout>div.path span.mode.normal { color:var(--notice-fg-color); }
-fieldset.vimer>div.output>div.layout>div.layout div.content.normal input.current { caret-color:lightgray; }
-fieldset.vimer>div.output>div.layout>div.layout div.content.insert input.current { caret-color:black; }
-body.dark fieldset.vimer>div.output>div.layout>div.layout div.content.normal input.current { caret-color:gray; }
-body.dark fieldset.vimer>div.output>div.layout>div.layout div.content.insert input.current { caret-color:yellow; }
-body.black fieldset.vimer>div.output>div.layout>div.layout div.content.normal input.current { caret-color:gray; }
-body.black fieldset.vimer>div.output>div.layout>div.layout div.content.insert input.current { caret-color:yellow; }
 body.black fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content { background-color:#061c3ceb; }
 body.white fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content { background-color:aliceblue; }
-body.white fieldset.vimer>div.output>div.layout>div.layout div.content.insert input.current { caret-color:black; }

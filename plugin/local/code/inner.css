@@ -12,7 +12,6 @@ fieldset.inner>div.output div.content td.text span.constant { color:var(--code-c
 fieldset.inner>div.output div.content td.text span.string { color:var(--code-string); box-shadow:var(--box-shadow); }
 fieldset.inner>div.output div.content td.text span.object { color:var(--code-object); }
 fieldset.inner>div.output>div.project { width:230px; flex:0 0 230px; box-shadow:var(--box-shadow); }
-// fieldset.inner>div.output>div.project * { font-size:14px; font-family:monospace; outline:none; }
 body:not(.windows) fieldset.inner>div.output>div.project * { font-size:14px; font-family:monospace; outline:none; }
 fieldset.inner>div.output>div.project div.action { width:100%; }
 fieldset.inner>div.output>div.project input[type=text] { box-shadow:none; }
@@ -21,7 +20,7 @@ fieldset.inner>div.output>div.project div.zone:hover>div.item span.icon { displa
 fieldset.inner>div.output>div.project>div.zone>div.item span.icon { font-size:22px; line-height:32px; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-right:0; width:100%; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item>input { width:calc(100% - 5px); border:var(--plugin-border-color) solid 1px; }
-fieldset.inner>div.output>div.project>div.zone div.action>div.item>input:hover { border:var(--notice-fg-color) solid 1px; }
+fieldset.inner>div.output>div.project>div.zone div.action>div.item>input:hover { border:var(--notice-bg-color) solid 1px; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item>span.delete { top:3px; right:5px; }
 fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
 fieldset.inner>div.output>div.layout>div.tabs { font-size:14px; display:none; }
@@ -56,11 +55,10 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.avatar>img { height:38px; 
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.time { float:right; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout>div.path { font-style:italic; padding:5px; display:block; box-shadow:var(--box-shadow); cursor:pointer; }
 fieldset.inner.cmd>div.output>div.layout>div.path.hide { display:none; }
+fieldset.inner.cmd>div.output>div.layout>div.path>span:hover { background-color:var(--hover-bg-color); }
 fieldset.inner.cmd>div.output>div.layout>div.path span.func { padding:5px 10px; margin-left:20px; }
 fieldset.inner.cmd>div.output>div.layout>div.path span.mode { padding:5px 10px; margin-left:20px; }
-fieldset.inner.cmd>div.output>div.layout>div.path span.mode.insert { color:red; }
-fieldset.inner.cmd>div.output>div.layout>div.path span.mode.normal { color:blue; }
-fieldset.inner.cmd>div.output>div.layout>div.path span.view { font-size:22px; line-height:12px; padding:0 4px; float:right; }
+fieldset.inner.cmd>div.output>div.layout>div.path span.view { font-size:22px; padding:0 5px; margin-top:-5px; float:right; }
 fieldset.inner.cmd>div.output>div.layout>fieldset.plug { bottom:32px; }
 fieldset.inner.cmd>div.output>div.layout>div.plug { height:32px; clear:both; position:fixed; bottom:0; right:0; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend { font-size:1rem; padding:0 10px; float:right; }

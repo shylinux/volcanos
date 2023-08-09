@@ -14,7 +14,7 @@ Volcanos(chat.ONFIGURE, {key: {
 			}}
 		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length())
 		can.page.style(can, can._output, html.MAX_HEIGHT, can.page.height()/2, html.MIN_WIDTH, target.offsetWidth, html.MAX_WIDTH, can.Conf("style.width")||can.page.width()/2)
-		msg.append.length == 1 && can.page.ClassList.add(can, can._target, chat.SIMPLE), can.onlayout.figure({target: target}, can, can._target)
+		msg.append.length == 1 && can.page.ClassList.add(can, can._target, chat.SIMPLE), can.onlayout.figure({target: target}, can, can._target, false, 200)
 	},
 	onclick: function(event, can, meta, target, cbs) { can.onmotion.focus(can, target) },
 	onfocus: function(event, can, meta, target, cbs) { cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }

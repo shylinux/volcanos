@@ -112,6 +112,7 @@ var aaa = {
 }
 var lex = {
 	SPLIT: "split", PREFIX: "prefix", SUFFIX: "suffix",
+	PARSE: "parse",
 	TB: ice.TB, SP: ice.SP, NL: ice.NL,
 }
 var yac = {

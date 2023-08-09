@@ -122,7 +122,11 @@ Volcanos(chat.ONKEYMAP, {
 	scrollHold: function(can, count, begin) { var scroll = can.ui.content.scrollLeft; can.ui.current.focus(), count != undefined && can.onkeymap.cursorMove(can.ui.current, count, begin == undefined? count: begin), can.ui.content.scrollLeft = scroll },
 	cursorDown: function(can, target) { var p = can.onkeymap.cursorMove(target); can.onaction.selectLine(can, can.current.next()), can.onkeymap.cursorMove(target, 0, p) },
 	cursorUp: function(can, target) { var p = can.onkeymap.cursorMove(target); can.onaction.selectLine(can, can.current.prev()), can.onkeymap.cursorMove(target, 0, p) },
-	_model: function(can, value) { can.db.mode = value, can.onimport.__tabPath(can, true), can.core.List([mdb.PLUGIN, mdb.NORMAL, mdb.INSERT], function(item) { can.page.ClassList.del(can, can.ui.content, item) }), can.page.ClassList.add(can, can.ui.content, value) },
+	_model: function(can, value) {
+		can.db.mode = value, can.onimport.__tabPath(can, true),
+		can.core.List([mdb.PLUGIN, mdb.NORMAL, mdb.INSERT], function(item) { can.page.ClassList.del(can, can.ui.content, item) }), can.page.ClassList.add(can, can.ui.content, value)
+		can.core.List([mdb.PLUGIN, mdb.NORMAL, mdb.INSERT], function(item) { can.page.ClassList.del(can, can._output, item) }), can.page.ClassList.add(can, can._output, value)
+	},
 	_plugin: function(can) { can.onkeymap._model(can, mdb.PLUGIN), can.ui.current.blur() },
 	_normal: function(can) { can.onkeymap._model(can, mdb.NORMAL), can.onkeymap.scrollHold(can) },
 	_insert: function(event, can, count, begin) { can.onkeymap._model(can, mdb.INSERT), can.onkeymap.scrollHold(can, count, begin), can.onkeymap.prevent(event) },

@@ -50,7 +50,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				})
 			}
 			return {view: [[html.ZONE, zone.name]], list: [
-				{view: html.ITEM, inner: can.user.trans(can, zone.name), _init: function(target) { zone._legend = target }, onclick: function() {
+				{view: html.ITEM, list: [{text: can.user.trans(can, zone.name)}], _init: function(target) { zone._legend = target }, onclick: function() {
 					if (zone._delay_init) { zone._delay_init(zone._target, zone), delete(zone._delay_init) }
 					can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._action.nextSibling||zone._target), zone._toggle && zone._toggle()
 				}, oncontextmenu: function(event) { var menu = zone._menu
@@ -122,8 +122,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}}, {view: html.LIST}]); can.onimport.list(can, item, cb, ui.list, cbs) })
 	},
 	tabs: function(can, list, cb, cbs, action) { action = action||can._action; return can.page.Append(can, action, can.core.List(list, function(tabs) {
-		function close(target) { var next = target.nextSibling||target.previousSibling; if (!next) { return }
-			next.click(), can.onmotion.delay(can, function() { can.base.isFunc(cbs) && cbs(tabs), can.page.Remove(can, target) })
+		function close(target) {
+			if (can.page.ClassList.has(can, target, html.SELECT)) {
+				var next = target.nextSibling||target.previousSibling; if (!next) { return } next.click()
+			} cbs && cbs(tabs), can.page.Remove(can, target)
 		}
 		return {view: html.TABS, title: tabs.text, list: [{text: [tabs.name, html.SPAN, mdb.NAME]}, {icon: mdb.DELETE, onclick: function(event) {
 			close(tabs._target), can.onkeymap.prevent(event)
