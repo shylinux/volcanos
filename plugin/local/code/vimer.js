@@ -86,11 +86,13 @@ Volcanos(chat.ONACTION, {list: ["编译", "构建", "路由", "终端", "源码"
 	trash: function(event, can, button) { can.onaction._run(event, can, button, [can.Option(nfs.PATH)+can.Option(nfs.FILE)], function() { can._msg._tab._close() }) },
 	script: function(event, can, button) { can.onaction._runs(event, can, button) },
 	module: function(event, can, button) { can.onaction._runs(event, can, button) },
-	compile: function(event, can, button) { can.runAction(can.request(event, {_toast: "编译中..."}), button, [], function(msg) { can.ui.search && can.ui.search.hidden()
-		if (msg.Length() > 0 || msg.Result()) { return can.onimport.exts(can, "inner/search.js", function(sub) { can.ui.search = sub, sub.select()
-			can.onmotion.delay(can, function() { can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY)) })
-		}) } var toast = can.user.toastProcess(can, "重启中..."); can.onmotion.delay(can, function() { toast.close(), can.user.toastSuccess(can) }, 3000)
-	}) },
+	compile: function(event, can, button) { var _toast = can.user.toastProcess(can, "编译中...")
+		can.runAction(event, button, [], function(msg) { can.ui.search && can.ui.search.hidden(), _toast.close()
+			if (msg.Length() > 0 || msg.Result()) { return can.onimport.exts(can, "inner/search.js", function(sub) { can.ui.search = sub, sub.select()
+				can.onmotion.delay(can, function() { can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY)) })
+			}) } var toast = can.user.toastProcess(can, "重启中..."); can.onmotion.delay(can, function() { toast.close(), can.user.toastSuccess(can) }, 3000)
+		}) 
+	},
 	"命令": function(event, can) { can.user.input(event, can, [{name: ctx.INDEX, need: "must"}, ctx.ARGS], function(list) { can.onimport.tabview(can, "", list[0]+(list[1]? mdb.FS+list[1]: ""), ctx.INDEX) }) },
 	"插件": function(event, can) { can.user.input(event, can, [{name: ctx.INDEX, need: "must"}, ctx.ARGS], function(list) { var sub = can.db.toolkit[list.join(",")]; if (sub) { sub.select(); return }
 		can.onimport.toolkit(can, {index: list[0], args: can.core.Split(list[1]||"")}, function(sub) { can.db.toolkit[list.join(",")] = sub.select() })
