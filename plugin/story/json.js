@@ -1,4 +1,5 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can, target)
+		can.onappend.table(can, msg)
 		can.onappend.style(can, nfs.JSON, can._output), can.onimport.show(can, can.base.Obj(msg.Result(), {}), target)
 	},
 	show: function(can, data, target) {
