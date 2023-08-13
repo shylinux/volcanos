@@ -29,6 +29,8 @@ input[name=url] { width:320px; }
 input[name=cmd] { background-color:var(--code-bg-color); color:var(--code-fg-color); width:100%; }
 table.content.full { width:100%; }
 table.content thead { position:sticky; top:2px; }
+table.content tr.offline { color:var(--disable-fg-color); }
+table.content tr.offline a { color:var(--disable-fg-color); }
 table.content th { padding:5px; box-shadow: var(--box-shadow); }
 table.content td { padding:5px; }
 table.content.action th:last-child { position:sticky; right:2px; box-shadow: var(--box-shadow); }
