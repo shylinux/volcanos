@@ -4,3 +4,4 @@ div.json div.item div.item:hover { border:var(--box-border); }
 div.json div.item label.nonce { color:#9cbeca4f; }
 div.json div.item span.string { color:orange; }
 div.json label { user-select:none; }
+body:not(.windows) div.json { font-family:monospace; }

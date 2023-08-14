@@ -99,6 +99,7 @@ var web = {CHAT: "chat",
 	WIKI_PORTAL: "web.wiki.portal",
 	CHAT_MACOS_DESKTOP: "web.chat.macos.desktop",
 	CHAT_MACOS_SESSION: "web.chat.macos.session",
+	CHAT_IFRAME: "web.chat.iframe",
 	CHAT_FAVOR: "web.chat.favor",
 	CHAT_FLOWS: "web.chat.flows",
 	TEAM_PLAN: "web.team.plan",
@@ -327,7 +328,7 @@ var Volcanos = shy({iceberg: "/chat/", volcano: "/frame.js", cache: {}, pack: {}
 				can.base.isFunc(item.Option)? can.core.List(item.Option(), function(key) {
 					key.indexOf("_") == 0 || key.indexOf("user.") == 0 || set(key, item.Option(key))
 				}): can.core.Item(can.base.isFunc(item)? item(): item, set)
-			}); set(ice.MSG_HEIGHT, can.ConfHeight()||"32"), set(ice.MSG_WIDTH, can.ConfWidth()||"320"), set(ice.MSG_MODE, can.Mode())
+			}); set(ice.MSG_HEIGHT, (can.ConfHeight()||"32")+""), set(ice.MSG_WIDTH, (can.ConfWidth()||"320")+""), set(ice.MSG_MODE, can.Mode())
 			return msg
 		},
 		requestAction: function(event, button) { return can.request(event, {action: button, _toast: ice.PROCESS+" "+button}) },
