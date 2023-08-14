@@ -231,6 +231,7 @@ fieldset>form.option, fieldset>div.action { display:contents; } form.option.hide
 div.action, div.output, div.status, div.project, div.content, div.profile, div.display, table.content, table.content td, div.list, div.code, div.story, div.float, fieldset.float { overflow:auto; }
 legend, form.option, form.option>div.item, div.action, div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item { float:left; }
 fieldset.story, div.output, fieldset>div.status, div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
+fieldset.story { position:sticky; left:0; }
 div.output { position:relative; } div.layout.flex>* { float:left; clear:none; }
 div.output.flex { display:flex; }
 fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:100; box-shadow:var(--box-shadow); }
