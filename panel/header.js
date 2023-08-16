@@ -59,7 +59,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onmain: function(can) {
-		function show(msg) {
+		function show(msg) { var p = can.misc.Search(can, "redirect_uri"); 
+			if (location.pathname == "/login" && p) { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
 			can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
 			can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE), msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			// can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)||navigator.language.split("-")[0], msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
