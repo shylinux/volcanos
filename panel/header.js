@@ -53,7 +53,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onmain: function(can) {
 		function lang(msg, cb) { can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)
-			can.user.info.language? can.require(["src/template/web.chat.header/language/"+can.user.info.language+".js"], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb()
+			can.user.info.language? can.require(["src/template/web.chat.header/language/"+can.user.info.language+".js"], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb && cb()
 		}
 		function show(msg) { var p = can.misc.Search(can, "redirect_uri")
 			if (location.pathname == "/login" && p) { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
