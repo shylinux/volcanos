@@ -17,7 +17,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 	},
 	_layout: function(can) { var height = can.onexport.height(can), width = parseInt(can.ConfWidth())
 		can.onmotion.clear(can, can.svg), can.svg.Val(html.HEIGHT, height), can.svg.Val(html.WIDTH, width)
-		var margin = parseInt(can.Action(html.MARGIN)), step = parseFloat((width-2*margin) / can._msg.Length())
+		var margin = can.onexport.margin(can), step = parseFloat((width-2*margin) / can._msg.Length())
 		can.page.style(can, can._output, html.MAX_HEIGHT, "")
 		return {height: height, width: width, margin: margin, step: step}
 	},
@@ -26,14 +26,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 	transform: function(can, target) { target.Value("transform", "translate(0, "+parseInt(can.ConfHeight())+") scale(1, -1)") },
 })
 Volcanos(chat.ONACTION, {list: [[ice.VIEW, "趋势图", "柱状图", "折线图", "数据源"],
-		[html.HEIGHT, ice.AUTO, 100, 200, 400, 600, 800], [html.MARGIN, 10, 20, 50, 100], [html.SPEED, 10, 20, 50, 100],
+		[html.HEIGHT, html.HEIGHT, 100, 200, 400, 600, 800], [html.MARGIN, html.MARGIN, 10, 20, 50, 100], [html.SPEED, html.SPEED, 10, 20, 50, 100],
 	],
 	"趋势图": function(event, can) { var args = can.onimport._layout(can)
 		function scale(y) { return (y - can.min)/(can.max - can.min)*(args.height-2*args.margin) }
 		function order(index, x, y) { return {x: args.margin+args.step*index+x, y: args.height-args.margin-scale(y)} }
 		var black = can.onimport.group(can, cli.BLACK, kit.Dict(svg.STROKE, cli.BLACK, svg.FILL, cli.BLACK))
 		var white = can.onimport.group(can, cli.WHITE, kit.Dict(svg.STROKE, cli.WHITE, svg.FILL, cli.WHITE))
-		can.core.Next(can.onimport._sum(can), function(item, next, index) { can.core.Timer(parseInt(can.Action(html.SPEED)), next), can.Status(item)
+		can.core.Next(can.onimport._sum(can), function(item, next, index) { can.core.Timer(can.onexport.speed(can), next), can.Status(item)
 			can.onimport.draw(can, {shape: svg.LINE, points: [order(index, args.step/2, item.min), order(index, args.step/2, item.max)]}, item.begin < item.close? white: black)
 			can.onimport.draw(can, {shape: svg.RECT, points: [order(index, args.step/4, item.close), order(index, args.step/4*3, item.begin)], style: {rx: 0, ry:0}, _init: function(target) {
 				can.core.ItemCB(can.ondetail, function(key, cb) { target[key] = function(event) { can.misc.Event(event, can, function(msg) { cb(event, can, item) }) } })
@@ -71,7 +71,7 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "趋势图", "柱状图", "折线图"
 		can.core.List(can.base.Obj(can.Conf(mdb.FIELD), can._msg.append), function(field) { var max = can.db.data[0][field], min = can.db.data[0][field]
 			for (var i = 1; i < can.db.data.length; i += 1) { var value = can.db.data[i][field]; if (value > max) { max = value } if (value < min) { min = value } }
 			function order(i) { return i*args.step+args.margin } function scale(y) { return (y - min)/(max - min)*(args.height-2*args.margin)+args.margin }
-			can.core.Next(can.db.data, function(item, next, i) { can.core.Timer(parseInt(can.Action(html.SPEED)), next)
+			can.core.Next(can.db.data, function(item, next, i) { can.core.Timer(can.onexport.speed(can), next)
 				can.onimport.draw(can, {shape: svg.RECT, style: {rx: 0, ry: 0}, points: [{x: order(i)+args.step/8.0, y: args.margin}, {x: order(i)+args.step/8.0*7, y: scale(item[field])}], _init: function(target) {
 					can.core.ItemCB(can.ondetail, function(key, cb) { target[key] = function(event) { can.misc.Event(event, can, function(msg) { cb(event, can, item) }) } })
 				}}, group)
@@ -90,8 +90,7 @@ Volcanos(chat.ONDETAIL, {
 	}) },
 })
 Volcanos(chat.ONEXPORT, {list: ["from", "commit", "total", "max", "date", "text", "add", "del"],
-	height: function(can) { var height = can.Action(html.HEIGHT)
-		if (height == ice.AUTO) { height = can.ConfHeight() } if (height < 200) { height = 200 }
-		return parseInt(height||can.page.height()/2)
-	},
+	height: function(can) { return can.base.Min(parseInt(can.onexport.action_value(can, html.HEIGHT, can.ConfHeight())), 200) },
+	margin: function(can) { return parseInt(can.onexport.action_value(can, html.MARGIN, 10)) },
+	speed: function(can) { return parseInt(can.onexport.action_value(can, html.SPEED, 10)) },
 })

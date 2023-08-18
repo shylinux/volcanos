@@ -189,4 +189,8 @@ Volcanos(chat.ONEXPORT, {
 	},
 	board: function(can) { var msg = can._msg; return msg.Result() },
 	session: function(can, key, value) { return can.misc[can.user.isWebview? "localStorage": "sessionStorage"](can, [can.Conf(ctx.INDEX), key, location.pathname].join(":"), value == ""? "": JSON.stringify(value)) },
+	action_value: function(can, key, def) { var value = can.Action(key)
+		if (can.base.isIn(value, ice.AUTO, key)) { value = def }
+		return value
+	},
 })
