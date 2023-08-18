@@ -49,31 +49,27 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 })
 Volcanos(chat.ONACTION, {_init: function(can) {
 		can.page.theme(function(theme) { can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = theme})) }), can.onimport.theme(can)
-		return can.require([
-			"src/template/web.chat.header/dark.css",
-			"src/template/web.chat.header/light.css",
-			"src/template/web.chat.header/black.css",
-			"src/template/web.chat.header/white.css",
-			"src/template/web.chat.header/mobile.css",
-		])
 	},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onmain: function(can) {
-		function show(msg) { var p = can.misc.Search(can, "redirect_uri"); 
+		function lang(msg, cb) { can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)
+			can.user.info.language && can.require(["src/template/web.chat.header/language/"+can.user.info.language+".js"], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) })
+		}
+		function show(msg) { var p = can.misc.Search(can, "redirect_uri")
 			if (location.pathname == "/login" && p) { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
 			can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
-			can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE), msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
-			// can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)||navigator.language.split("-")[0], msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
-			can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN)
+			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
+			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
-		var msg = can.request(); msg._method = web.GET
-		can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/")? show(can.request()):
-			can.run(msg._event, [], function(msg) { 
+		can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/", "/chat/cmd/web.chat.oauth.client", "/chat/pod/20230511-golang-story/cmd/web.code.gitea.client")? show(can.request()):
+			can.run(can.request({}, {_method: web.GET}), [], function(msg) { lang(msg)
+				can.require(can.core.List(msg["theme.list"], function(item) { return "src/template/web.chat.header/theme/"+item }))
+				can.onaction._menus[1] = can.onaction._menus[1].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, ".css") }))
+				can.onaction._menus[2] = can.onaction._menus[2].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, ".js") }))
 				if (location.pathname == "/" && can.base.beginWith(msg.Option(ice.MAIN)||"", "/wiki/portal/", "/chat/cmd/web.wiki.portal/")) { return show(msg) }
 				if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
 					return msg.Option(chat.SSO)? can.user.jumps(msg.Option(chat.SSO)): can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg.Option(aaa.LOGIN))
-				}
-				show(msg)
+				} show(msg)
 			})
 	},
 	onstorm_select: function(can, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
@@ -111,8 +107,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	
 	_params: [log.DEBUG, chat.TITLE],
 	_menus: ["shareuser",
-		[chat.THEME, ice.AUTO, html.DARK, html.LIGHT, "print", cli.WHITE, cli.BLACK],
-		[aaa.LANGUAGE, ice.AUTO, "zh", "en"],
+		[chat.THEME, ice.AUTO],
+		[aaa.LANGUAGE, ice.AUTO],
 		[nfs.SAVE, web.TOIMAGE, code.WEBPACK],
 		[aaa.USER, "setnick", aaa.PASSWORD, cli.CLEAR, aaa.LOGOUT],
 	],

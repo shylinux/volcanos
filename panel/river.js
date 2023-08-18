@@ -18,9 +18,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg
 	_menu: function(can, msg) { can.user.isMobile || can.user.mod.isPod || can.onappend._action(can, can.onaction.list, can._action) },
 })
 Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: function(can) { can.onmotion.hidden(can) },
-	onlogin: function(can, msg) {
-		var msg = can.request(); msg._method = web.GET
-		can.run(msg._event, [], function(msg) { if (msg.Option(ice.MSG_RIVER)) { return can.page.Remove(can, can._target) }
+	onlogin: function(can, msg) { can.run(can.request({}, {_method: web.GET}), [], function(msg) { if (msg.Option(ice.MSG_RIVER)) { return can.page.Remove(can, can._target) }
 		can.onimport._init(can, msg); if (can.user.isMobile || can.user.isExtension) { return }
 		can.onmotion.toggle(can, can._target, true), can.onlayout._init(can)
 	}) },
@@ -119,11 +117,11 @@ Volcanos(chat.ONEXPORT, {width: function(can) { return can._target.offsetWidth }
 Volcanos(chat.ONENGINE, {_engine: function(event, can, msg, panel, cmds, cb) { var list = can.river
 	cmds.length == 0 && can.core.ItemOrder(list, "order", function(key, value) {
 		if (can.user.info.userrole == aaa.ROOT || can.base.isIn(value.type||"", "", aaa.VOID, can.user.info.userrole)) {
-			can.core.Item(value.storm).length > 0 && msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name, icon: value.icon||""})
+			can.core.Item(value.storm).length > 0 && msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||""})
 		}
 	})
 	if (cmds.length != 1 && cmds[1] != chat.STORM) { return false } var river = list[cmds[0]]; if (!river) { return false }
-	can.core.ItemOrder(river.storm, "order", function(key, value) { msg.Push({hash: key, name: can.user.language(can) == "en"? key: value.name, icon: value.icon||""}) })
+	can.core.ItemOrder(river.storm, "order", function(key, value) { msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||""}) })
 	can.base.isFunc(cb) && cb(msg); return true
 }})
 })()

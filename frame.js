@@ -106,6 +106,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var action = can.page.SelectOne(can, field, html.DIV_ACTION)
 		var output = can.page.SelectOne(can, field, html.DIV_OUTPUT)
 		var status = can.page.SelectOne(can, field, html.DIV_STATUS)
+		legend.innerHTML = legend.innerHTML || meta.index
 		can.base.isIn(meta.index, web.WIKI_PORTAL) && can.onappend.style(can, html.OUTPUT, field)
 		var sub = Volcanos(meta.name, {_root: can._root||can, _follow: can.core.Keys(can._follow, meta.name), _target: field,
 			_legend: legend, _option: option, _action: action, _output: output, _status: status, _history: [],
@@ -219,8 +220,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status, db: {}, ui: {},
 		}, [display, chat.PLUGIN_TABLE_JS], function(sub) { sub.Conf(can.Conf())
 			var last = can.sub; last && can.core.CallFunc([last, "onaction.hidden"], {can: last})
-			sub.run = function(event, cmds, cb, silent) {
-				sub.request(event)._caller().RunAction(event, sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
+			sub.run = function(event, cmds, cb, silent) { var msg = sub.request(event)._caller()
+				msg.RunAction(event, sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
 			}, can._outputs = can._outputs||[], can._outputs.push(sub), sub.sup = can, can.sub = sub
 			sub._index = can._index, can._msg = sub._msg = msg, sub.Conf(sub._args = can.base.ParseURL(display))
 			sub._trans = can.base.Copy(can.base.Copy(sub._trans||{}, can._trans), can.core.Value(sub, [chat.ONACTION, chat._TRANS]))
@@ -248,7 +249,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}
 		var name = can.core.Split(item.nick||item.name||"").pop()||""; name = can.core.Keys(item.space, name)
-		var title = !item.help || item.help == name || can.user.language(can) == "en"? name: name+"("+can.core.Split(item.help)[0]+")"
+		var title = item.help && item.help != name && !can.user.isEnglish(can)? name+"("+can.core.Split(item.help)[0]+")": name
 		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], list: [{type: html.LEGEND, list: [{icon: item.icon}, {text: title}]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
 	},
 	input: function(can, item, value, target, style) { if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
@@ -412,7 +413,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var value = can.onengine.plugin(can, meta.index); if (value) { can.onappend._plugin(can, value, meta, function(sub, meta, skip) {
 			value.meta && value.meta._init && value.meta._init(sub, meta), _cb(sub, meta, skip)
 		}, target, field); return res }
-		can.runAction(can.request({}, {pod: meta.space})._caller(), ctx.COMMAND, [meta.index], function(msg) { msg.Table(function(value) { can.onappend._plugin(can, value, meta, _cb, target, field) })}); return res
+		can.runAction(can.request({}, {_method: web.GET, pod: meta.space})._caller(), ctx.COMMAND, [meta.index], function(msg) { msg.Table(function(value) { can.onappend._plugin(can, value, meta, _cb, target, field) })}); return res
 	},
 	_plugin: function(can, value, meta, cb, target, field) { can.base.Copy(meta, value, true)
 		meta.type = meta.type||chat.STORY, meta.name = meta.name||value.meta&&value.meta.name||"", meta.help = meta.help||value.help||"", meta.height = meta.height||can.ConfHeight()-2*html.ACTION_HEIGHT, meta.width = meta.width||can.ConfWidth()

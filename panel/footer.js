@@ -31,7 +31,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.
 })
 Volcanos(chat.ONACTION, {_init: function(can) { can.ui = {}, can.db = {} },
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
-	onlogin: function(can, msg) { var msg = can.request(); msg._method = web.GET, can.run(msg._event, [], function(msg) { can.onmotion.clear(can), can.onimport._init(can, msg, can._output) }) },
+	onlogin: function(can, msg) { can.run(can.request({}, {_method: web.GET}), [], function(msg) { can.onmotion.clear(can), can.onimport._init(can, msg, can._output) }) },
 	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.ntip, {can: can, msg: msg}) },
 	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
 	onlayout: function(can, layout) { can.onmotion.toggle(can, can._target, !layout || layout == html.TABS) },
