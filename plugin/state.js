@@ -49,6 +49,11 @@ Volcanos(chat.ONIMPORT, {
 		var sub = can.sub; if (!sub) { return auto } sub.Mode(mode), sub.ConfHeight(height), sub.ConfWidth(width)
 		mode? sub.onlayout[mode](sub, height, width): sub.onlayout._init(sub, height, width); return auto
 	},
+	display_size: function(can, sub) { var border = 1
+		can.page.style(can, sub._output, html.MAX_HEIGHT, "")
+		var _height = can.base.Max(sub._target.offsetHeight+border, can.ConfHeight()/2)
+		sub.onimport.size(sub, _height-border, can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0), true)
+	},
 })
 Volcanos(chat.ONACTION, {list: [
 		"刷新数据", "刷新界面",

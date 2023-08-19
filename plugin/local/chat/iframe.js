@@ -1,5 +1,4 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg) {
-		can.current = msg.TableDetail()
+Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.current = msg.TableDetail(), can.sup.onimport.size(can.sup, can.sup.ConfHeight(), can.sup.ConfWidth(), true)
 		can.target = can.page.Appends(can, can._output, [{type: html.IFRAME, src: can.current.link, height: can.ConfHeight(), width: can.ConfWidth(), style: {border: 0}}])._target
 		can.onimport.layout(can)
 	},
