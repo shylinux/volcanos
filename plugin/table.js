@@ -96,8 +96,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			}}, {view: [[html.LIST, item.expand? "": html.HIDE]]}]); node[name] = ui.list
 		}) }); return node
 	},
+	filter: function(can, target) {
+		return can.onappend.input(can, {type: html.TEXT, name: web.FILTER, placeholder: "search in n items", onkeydown: function() {}, onkeyup: function(event) {
+			can.page.Select(can, target, html.DIV_ITEM, function(target) {
+				can.onmotion.toggle(can, target, target.innerText.indexOf(event.currentTarget.value) > -1 || target == event.currentTarget.parentNode)
+			})
+		}}, "", target)
+	},
 	item: function(can, item, cb, cbs, target) { target = target||(can.ui && can.ui.project? can.ui.project: can._output)
-		var ui = can.page.Append(can, target, [{view: [html.ITEM, html.DIV, item.nick||item.name||item.zone], title: item.title, onclick: function(event) { can.onmotion.select(can, target, html.DIV_ITEM, event.target)
+		var ui = can.page.Append(can, target, [{view: html.ITEM, list: [{icon: item.icon}, {text: item.nick||item.name||item.zone}], title: item.title, onclick: function(event) { can.onmotion.select(can, target, html.DIV_ITEM, event.target)
 				cb(event, event.target, event.target._list && can.onmotion.toggle(can, event.target._list))
 			}, oncontextmenu: function(event) {
 				if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } return }
@@ -162,7 +169,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		meta.type = meta.type||html.PLUG, meta.name = meta.index, can.onappend.plugin(can, meta, function(sub) { sub.sup = can
 			sub.run = function(event, cmds, cb) {
 				if (can.page.Select(can, sub._option, "input[name=path]").length > 0 && sub.Option(nfs.PATH) == "") { sub.request(event, {path: nfs.PWD}) }
-				can.runActionCommand(can.request(event, can.Option()), meta.index, cmds, cb)
+				can.runActionCommand(can.request(event, can.Option(), {space: meta.space}), meta.index, cmds, cb)
 			}, sub.onaction.close = function() { can.onmotion.hidden(can, target) }, can.base.isFunc(cb) && cb(sub)
 		}, target, field)
 	},

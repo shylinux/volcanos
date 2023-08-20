@@ -255,7 +255,7 @@ Volcanos(chat.ONSYNTAX, {
 			}
 		},
 	}, json: {split: {operator: "{[:,]}"}, keyword: {"true": code.CONSTANT, "false": code.CONSTANT}},
-	css: {prefix: {"// ": code.COMMENT, "/* ": code.COMMENT}, split: {operator: "{[(.,:;&>=)]}"},
+	css: {prefix: {"// ": code.COMMENT, "/* ": code.COMMENT}, split: {operator: "{[(.,:;&>!=)]}"},
 		regexp: {
 			"[-0-9]+deg": code.CONSTANT,
 			"[-0-9]+rem": code.CONSTANT,
@@ -281,6 +281,9 @@ Volcanos(chat.ONSYNTAX, {
 			"box-sizing": code.FUNCTION, "border-box": code.CONSTANT,
 			"background": code.FUNCTION, "background-position": code.FUNCTION, "background-size": code.FUNCTION,
 			"flex": code.FUNCTION, "justify-content": code.FUNCTION,
+			"flex-grow": code.FUNCTION,
+			"flex-shrink": code.FUNCTION,
+			"important": code.KEYWORD,
 			"transition": code.FUNCTION, "transform": code.FUNCTION, "translate": code.FUNCTION, "rotate": code.FUNCTION,
 			"stroke-width": code.FUNCTION, "stroke": code.FUNCTION, "fill": code.FUNCTION,
 			"z-index": code.FUNCTION,
@@ -334,6 +337,7 @@ Volcanos(chat.ONSYNTAX, {
 			"--plugin-bg-color": code.CONSTANT, "--plugin-fg-color": code.CONSTANT,
 			"--hover-bg-color": code.CONSTANT, "--hover-fg-color": code.CONSTANT,
 			"--notice-bg-color": code.CONSTANT, "--danger-bg-color": code.CONSTANT,
+			"--output-bg-color": code.CONSTANT,
 			"--box-border": code.CONSTANT, "--box-shadow": code.CONSTANT,
 		}, include: ["html"],
 		func: function(can, push, text) { text.indexOf("/* ") == 0 && push(can.base.trimPrefix(can.base.trimSuffix(text, " */"), "/* ")) },

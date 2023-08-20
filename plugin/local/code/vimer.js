@@ -94,8 +94,8 @@ Volcanos(chat.ONACTION, {list: ["编译", "构建", "路由", "终端", "源码"
 		}) 
 	},
 	"命令": function(event, can) { can.user.input(event, can, [{name: ctx.INDEX, need: "must"}, ctx.ARGS], function(list) { can.onimport.tabview(can, "", list[0]+(list[1]? mdb.FS+list[1]: ""), ctx.INDEX) }) },
-	"插件": function(event, can) { can.user.input(event, can, [{name: ctx.INDEX, need: "must"}, ctx.ARGS], function(list) { var sub = can.db.toolkit[list.join(",")]; if (sub) { sub.select(); return }
-		can.onimport.toolkit(can, {index: list[0], args: can.core.Split(list[1]||"")}, function(sub) { can.db.toolkit[list.join(",")] = sub.select() })
+	"插件": function(event, can) { can.user.input(event, can, [web.SPACE, {name: ctx.INDEX, need: "must"}, ctx.ARGS], function(list) { var sub = can.db.toolkit[list.join(",")]; if (sub) { sub.select(); return }
+		can.onimport.toolkit(can, {space: list[0], index: list[1], args: can.core.Split(list[2]||"")}, function(sub) { can.db.toolkit[list.join(",")] = sub.select() })
 	}) },
 	"扩展": function(event, can) { can.user.input(can.request(event, {action: "extension"}), can, ["url"], function(list) { var sub = can.db.toolkit[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0]) }) },
 	"编译": function(event, can) { can.onaction.compile(event, can, code.COMPILE) },

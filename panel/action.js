@@ -25,7 +25,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 })
 Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+html.ACTION_MARGIN), can.Conf(html.MARGIN_X, (can.user.isMobile? 2: 4)*html.PLUGIN_MARGIN)
-		can.onengine.listen(can, "ontouchstart", function(msg) { can.onengine.signal(can, chat.ONACTION_TOUCH, msg) }, target)
+		can.core.List(["ontouchstart", "ontouchmove", "ontouchend"], function(item) {
+			can.onengine.listen(can, item, function(event, msg) {
+				can.onengine.signal(can, chat.ONACTION_TOUCH, msg)
+				can.onaction[item](event, can)
+			}, target)
+		})
 	},
 	onsize: function(can, msg, height, width) { can.Conf({height: can.base.Min(height-can.Conf(html.MARGIN_Y), 240), width: width-can.Conf(html.MARGIN_X)}) },
 	onlogin: function(can, msg) { can.onimport._menu(can, msg), can.onkeymap._build(can)
@@ -74,8 +79,27 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	},
 	onresize: function(can) { can.onaction.layout(can), window.setsize && window.setsize(can.page.width(), can.page.height()) },
 	ontitle: function(can, msg) { can.onlayout._storage(can, "") },
-	
-	repos: function(can) { can.user.opens(can.user.info.repos) },
+
+	ontouchstart: function(event, can) { can.touch = can.touch || {}
+		can.touch.isStart = true, can.touch.startX = event.touches[0].clientX
+	},
+	ontouchmove: function(event, can) {
+		can.touch.isMove = true, can.touch.distanceX = event.touches[0].clientX - can.touch.startX
+	},
+	ontouchend: function(event, can) {
+		if (can.touch.isMove && Math.abs(can.touch.distanceX) > 50) {
+			if (can.touch.distanceX > 0) {
+				can.onengine.signal(can, "onslideright")
+			} else {
+				can.onengine.signal(can, "onslideleft")
+			}
+		}
+		can.touch.isMove = false, can.touch.distanceX = 0
+		can.touch.isStart = false, can.touch.startX = 0
+	},
+
+	mail: function(can) { can.user.opens("/chat/pod/20230511-golang-story/cmd/web.chat.mail.client") },
+	repos: function(can) { can.user.opens("https://repos.shylinux.com/explore/repos") },
 	portal: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.WIKI_PORTAL})) },
 	desktop: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.CHAT_MACOS_DESKTOP})) },
 	layout: function(can, button, skip) { can.page.ClassList.del(can, can._target, can._layout||can.onlayout._storage(can)), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
@@ -84,8 +108,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.isCmdMode() || can.core.List(can._plugins, function(sub) { sub._delay_refresh = false, can.page.ClassList.set(can, sub._target, html.OUTPUT, [TABVIEW, HORIZON, VERTICAL].indexOf(button) > -1) })
 		var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can) || can.onlayout._plugin(can, button)
 	},
-	_menus: [[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE], "desktop", "portal", "repos"],
-	_trans: kit.Dict("repos", "资源", "portal", "官网", "desktop", "桌面", html.LAYOUT, "布局", ice.AUTO, "默认布局", TABS, "标签布局", TABVIEW, "标签分屏", HORIZON, "左右分屏", VERTICAL, "上下分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
+	_menus: [[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE], "desktop", "portal", "repos", "mail"],
+	_trans: kit.Dict("mail", "邮箱", "repos", "资源", "portal", "官网", "desktop", "桌面", html.LAYOUT, "布局", ice.AUTO, "默认布局", TABS, "标签布局", TABVIEW, "标签分屏", HORIZON, "左右分屏", VERTICAL, "上下分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
 })
 Volcanos(chat.ONLAYOUT, {
 	tabs: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-can.Conf(html.MARGIN_Y)+html.ACTION_MARGIN), can.ConfWidth(width-can.Conf(html.MARGIN_X)) })

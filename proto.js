@@ -27,8 +27,8 @@ var Volcanos = shy({iceberg: "/chat/", volcano: chat.FRAME_JS, cache: {}, pack: 
 			if (libs[0] == undefined) { return can.require(libs.slice(1), cb, cbs) }
 			if (libs[0] == "") { libs[0] = can._path.replace(nfs._JS, nfs._CSS) }
 			if (libs[0].indexOf(nfs.SRC) == 0 || libs[0].indexOf(nfs.USR) == 0) { libs[0] = "/require/"+libs[0] }
-			if (libs[0][0] != ice.PS && libs[0].indexOf(ice.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
-			var name = (libs[0].indexOf(ice.HTTP) == 0? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
+			if (libs[0][0] != nfs.PS && libs[0].indexOf(web.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
+			var name = (libs[0].indexOf(web.HTTP) == 0 || libs[0].indexOf("?pod=") > -1? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
 			meta.cache[name]||name==""? next(): (meta._load(name, next))
 		},
@@ -103,10 +103,10 @@ try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta
 	} catch (e) {
 		meta.version = window._version, window.outerWidth-window.innerWidth > 100 && (meta.version = "", debug = false)
 	}
-	meta._load = function(url, cb) {
+	meta._load = function(url, cb) { if (meta.version) { url += (url.indexOf("?") == -1? "?": "&")+meta.version.slice(1) }
 		switch (url.split(ice.QS)[0].split(nfs.PT).pop().toLowerCase()) {
-			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url+meta.version, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
-			default: var item = document.createElement(nfs.SCRIPT); item.src = url+meta.version, item.onerror = cb, item.onload = cb, document.body.appendChild(item)
+			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
+			default: var item = document.createElement(nfs.SCRIPT); item.src = url, item.onerror = cb, item.onload = cb, document.body.appendChild(item)
 		}
 	}
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth

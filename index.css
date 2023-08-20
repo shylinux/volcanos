@@ -151,8 +151,10 @@ form.option div.icon.prev { font-size:18px; }
 div.item.select>span.icon { margin-left:-25px; margin-right:3px; visibility:hidden; }
 div.item.select:hover>span.icon { visibility:visible; }
 div.item.text { position:relative; }
-div.item.text>span.icon { margin-left:-25px; margin-right:3px; cursor:pointer; }
-div.item.text>span.icon.delete { position:absolute; font-size:20px; visibility:hidden; }
+div.item.text>span.icon { margin-left:-25px; cursor:pointer; }
+div.item.text>span.icon.delete { font-size:20px; visibility:hidden; }
+/* div.item.text>span.icon { margin-left:-25px; margin-right:3px; cursor:pointer; } */
+/* div.item.text>span.icon.delete { position:absolute; font-size:20px; visibility:hidden; } */
 div.item.text:hover>span.icon.delete { visibility:visible; }
 div.item.button>span.icon.create { font-size:32px; line-height:32px; translate:0px -2px; display:block; }
 div.tabs span.icon { margin-left:5px; visibility:hidden; }
@@ -199,8 +201,9 @@ svg g[fill] rect { fill:unset; }
 /* output */
 div.project div.list { margin-left:10px; clear:both; }
 div.project div.item { padding:2px 10px; white-space:nowrap; }
+div.project div.item.filter>span.icon { margin-left:-20px; }
 div.project div.item.filter { padding:0; }
-div.project div.item.filter>input { width:100%; }
+div.project div.item.filter>input { width:100% !important; border:var(--box-border); }
 div.project div.item.filter>span.delete { top: 3px; right: 5px; }
 div.project div.item>div.name { padding-left:15px; }
 div.project div.expand { float:left; transition:all .3s; }
@@ -271,7 +274,8 @@ select { border-radius:var(--input-radius); }
 input { background-color:var(--input-bg-color); color:var(--input-fg-color); border-radius:var(--input-radius); }
 input[type=button]:hover { color:var(--hover-fg-color); background-color:var(--hover-bg-color); }
 legend:hover { color:var(--hover-fg-color); background-color:var(--hover-bg-color); }
-input:not([type=button]) { border-radius:0; border: var(--plugin-border-color) solid 1px; }
+/* input:not([type=button]) { border-radius:0; border: var(--plugin-border-color) solid 1px; } */
+input:not([type=button]) { border-radius:0; height:30px; }
 input:not([type=button]):hover { border:var(--input-border); }
 input:not([type=button]):focus { border:var(--input-border); outline:none; }
 textarea { background-color:var(--input-bg-color); color:var(--input-fg-color); }

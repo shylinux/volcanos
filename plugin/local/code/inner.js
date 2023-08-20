@@ -169,7 +169,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		return can.Status(ice.BACK, can.db.history.length), record
 	},
 	project: function(can, path) { can.onmotion.clear(can, can.ui.project), can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) {
-		if (can.base.isFunc(cb)) { return {name: name, _trans: can.onfigure._trans? can.onfigure._trans[name]||"": "", _toggle: function() { can.onimport.layout(can) }, _init: function(target, zone) { return cb(can, target, zone, path) }} }
+		if (can.base.isFunc(cb)) { return {name: name, icon: cb.meta? cb.meta.icon: "", _trans: can.onfigure._trans? can.onfigure._trans[name]||"": "", _toggle: function() { can.onimport.layout(can) }, _init: function(target, zone) { return cb(can, target, zone, path) }} }
 	}), can.ui.project) },
 	profile: function(can, msg) { var _msg = can.db.tabview[can.onexport.keys(can)]; _msg.Option(html.WIDTH, msg.Option(html.WIDTH)), border = 1
 		var height = (can.ui.content._root||can.ui.content).offsetHeight, width = can.onexport.size(can, _msg.Option(html.WIDTH)||0.5, can.ConfWidth()-can.ui.project.offsetWidth)+border

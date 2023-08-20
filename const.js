@@ -69,6 +69,7 @@ var mdb = {
 	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
 	DETAIL: "detail",
 	PRUNE: "prune",
+	INFO: "info",
 
 	KEYS: "keys",
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
@@ -132,6 +133,7 @@ var tcp = {
 var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", PACK: "pack", TRASH: "trash", DIR_ROOT: "dir_root",
 	COPY: "copy", EDIT: "edit", SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
+	SUBJECT: "subject",
 	CONTENT: "content", RECENT: "recent", SCRIPT: "script", MODULE: "module", SOURCE: "source", TARGET: "target", REPOS: "repos", MASTER: "master",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
 	PUSH: "push", PULL: "pull",
@@ -141,6 +143,7 @@ var nfs = {
 	_CSS: ".css", _JS: ".js",
 	PWD: "./", SRC: "src/", USR: "usr/", USR_LOCAL_WORK: "usr/local/work/", SRC_DOCUMENT: "src/document/",
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
+	SRC_TEMPLATE: "src/template/",
 }
 var cli = {
 	OPENS: "opens", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
@@ -277,6 +280,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	DIV_LAYOUT: "div.layout", DIV_LAYOUT_HEAD: "div.layout.head", DIV_LAYOUT_FOOT: "div.layout.foot", DIV_LAYOUT_LEFT: "div.layout.left",
 	DIV_FLOAT: "div.float", DIV_TOAST: "div.toast", DIV_CARTE: "div.carte",
 	DESKTOP: "desktop", DIV_DESKTOP: "div.desktop", DIV_EXPAND: "div.expand",
+	DIV_ITEM_SELECT: "div.item.select",
 }
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",
