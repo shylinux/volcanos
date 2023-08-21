@@ -100,6 +100,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 
 	mail: function(can) { can.user.opens("/chat/pod/20230511-golang-story/cmd/web.chat.mail.client") },
 	repos: function(can) { can.user.opens("https://repos.shylinux.com/explore/repos") },
+	cloud: function(can) { can.user.opens("https://cloud.shylinux.com/") },
 	portal: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.WIKI_PORTAL})) },
 	desktop: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.CHAT_MACOS_DESKTOP})) },
 	layout: function(can, button, skip) { can.page.ClassList.del(can, can._target, can._layout||can.onlayout._storage(can)), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
@@ -108,8 +109,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.isCmdMode() || can.core.List(can._plugins, function(sub) { sub._delay_refresh = false, can.page.ClassList.set(can, sub._target, html.OUTPUT, [TABVIEW, HORIZON, VERTICAL].indexOf(button) > -1) })
 		var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can) || can.onlayout._plugin(can, button)
 	},
-	_menus: [[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE], "desktop", "portal", "repos", "mail"],
-	_trans: kit.Dict("mail", "邮箱", "repos", "资源", "portal", "官网", "desktop", "桌面", html.LAYOUT, "布局", ice.AUTO, "默认布局", TABS, "标签布局", TABVIEW, "标签分屏", HORIZON, "左右分屏", VERTICAL, "上下分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
+	_menus: [[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE], "desktop", "mail", "cloud", "repos", "portal"],
+	_trans: kit.Dict("mail", "邮箱", "cloud", "网盘", "repos", "资源", "portal", "官网", "desktop", "桌面", html.LAYOUT, "布局", ice.AUTO, "默认布局", TABS, "标签布局", TABVIEW, "标签分屏", HORIZON, "左右分屏", VERTICAL, "上下分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
 })
 Volcanos(chat.ONLAYOUT, {
 	tabs: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-can.Conf(html.MARGIN_Y)+html.ACTION_MARGIN), can.ConfWidth(width-can.Conf(html.MARGIN_X)) })

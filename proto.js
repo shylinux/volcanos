@@ -4,13 +4,20 @@ function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(t
 		} else if (i < arg.length && (!type || type == typeof arg[i])) { return arg[i++] }
 	} return cb = typeof arg[arg.length-1] == code.FUNCTION? arg[arg.length-1]: function() {}, cb.help = next(code.STRING)||"", cb.meta = next(code.OBJECT)||{}, cb.list = next(code.ARRAY)||[], cb
 }; var _can_name = "", _can_path = ""
-var Volcanos = shy({iceberg: "/chat/", volcano: chat.FRAME_JS, cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
+var Volcanos = shy({
+	iceberg: "", volcano: "", frame: chat.FRAME_JS,
+	cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == code.OBJECT) {
 		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, style: html.HIDE, state: [mdb.TIME, aaa.USERNICK]}, {name: chat.ACTION, style: html.MAIN, tool: name}, {name: chat.FOOTER, style: html.HIDE}]}) }
 		var Config = name; name = Config.name||ice.CAN, _can_name = ""
-		meta.iceberg = Config.iceberg||meta.iceberg, meta.libs = (Config.libs||chat.libs).concat(Config.list), panels = Config.panels||chat.panel_list, delete(Config.panels)
-		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/volcanos/panel/"+p.name+nfs._JS, "/volcanos/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugin||chat.plugin_list)
-		cb = can||function(can) { can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target) }
+		meta.iceberg = Config.iceberg||meta.iceberg, meta.volcano = Config.volcano||meta.volcano
+		meta.libs = (Config.libs||chat.libs).concat(Config.list), panels = Config.panels||chat.panel_list, delete(Config.panels)
+		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/volcanos/panel/"+p.name+nfs._JS, "/volcanos/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugins||chat.plugin_list)
+		cb = can||function(can) {
+			can.require([can.frame], function() {
+				can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target)
+			}, function(can, key, sub) { can[key] = sub })
+		}
 		can = Config, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width
 	}
 	can = kit.proto(can||{}, kit.proto({_name: name, _path: _can_name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
@@ -30,7 +37,10 @@ var Volcanos = shy({iceberg: "/chat/", volcano: chat.FRAME_JS, cache: {}, pack: 
 			if (libs[0][0] != nfs.PS && libs[0].indexOf(web.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
 			var name = (libs[0].indexOf(web.HTTP) == 0 || libs[0].indexOf("?pod=") > -1? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
-			meta.cache[name]||name==""? next(): (meta._load(name, next))
+			if (meta.cache[name] || name == "") { return next() }
+			if (name.indexOf("/volcanos/") == 0 && meta.volcano) { name = meta.volcano+name }
+			if (name.indexOf("/require/") == 0 && meta.iceberg) { name = meta.iceberg+name }
+			meta._load(name, next)
 		},
 		request: function(event) { event = event||{}, event = event._event||event
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg
@@ -94,7 +104,7 @@ var Volcanos = shy({iceberg: "/chat/", volcano: chat.FRAME_JS, cache: {}, pack: 
 			} return can.base.isUndefined(res) && key.indexOf(ctx.FEATURE+nfs.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
 		}, _conf: {},
 	}, meta)); if (_can_name) { meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can) } else { list.push(can) }
-	setTimeout(function() { can.require(can._follow? libs.concat(meta.libs, meta.volcano): libs, cb) }, 1)
+	setTimeout(function() { can.require(can._follow? libs.concat(meta.libs, meta.frame): libs, cb) }, 1)
 	return can
 })
 try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta

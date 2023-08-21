@@ -59,6 +59,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			if (location.pathname == "/login" && p) { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
 			can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
 			can.user.info.repos = msg.Option("spide.hub")
+			can.user.info.email = msg.Option("email")
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
@@ -105,12 +106,17 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	}) },
 	clear: function(event, can) { can.onimport.background(event, can, ""), can.onimport.avatar(event, can, "") },
 	logout: function(event, can) { can.user.logout(can) },
+	email: function(event, can) {
+		can.user.input(can.request(event, {to: can.user.info.email, subject: can.user.title()}), can, ["to", "subject","content"], function(args) {
+			can.runAction(event, aaa.EMAIL, args, function() { can.user.toastSuccess(can) })
+		})
+	},
 	
 	_params: [log.DEBUG, chat.TITLE],
 	_menus: ["shareuser",
 		[chat.THEME, ice.AUTO],
 		[aaa.LANGUAGE, ice.AUTO],
-		[nfs.SAVE, web.TOIMAGE, code.WEBPACK],
+		[nfs.SAVE, aaa.EMAIL, web.TOIMAGE, code.WEBPACK],
 		[aaa.USER, "setnick", aaa.PASSWORD, cli.CLEAR, aaa.LOGOUT],
 	],
 	_trans: kit.Dict(

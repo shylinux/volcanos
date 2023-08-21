@@ -108,6 +108,7 @@ var web = {CHAT: "chat",
 }
 var aaa = {
 	USER: "user",
+	EMAIL: "email",
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
 	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole", BACKGROUND: "background", AVATAR: "avatar",
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
@@ -211,7 +212,7 @@ var chat = {
 		"local/team/plan.js",
 		"local/mall/goods.js",
 	].map(function(p) { return "/volcanos/plugin/"+p }), PLUGIN_INPUT: "/volcanos/plugin/input/", PLUGIN_STORY: "/volcanos/plugin/story/", PLUGIN_LOCAL: "/volcanos/plugin/local/",
-	PLUGIN_STATE_JS: "/volcanos/plugin/state.js", PLUGIN_INPUT_JS: "/volcanos/plugin/input.js", PLUGIN_TABLE_JS: "/volcanos/plugin/table.js", FRAME_JS: "/volcanos/frame.js",
+	PLUGIN_INPUT_JS: "/volcanos/plugin/input.js", PLUGIN_TABLE_JS: "/volcanos/plugin/table.js", PLUGIN_STATE_JS: "/volcanos/plugin/state.js", FRAME_JS: "/volcanos/frame.js",
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport",
 	ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONPLUGIN: "onplugin",
