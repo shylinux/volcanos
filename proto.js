@@ -42,6 +42,7 @@ var Volcanos = shy({
 			if (name.indexOf("/require/") == 0 && meta.iceberg) { name = meta.iceberg+name }
 			meta._load(name, next)
 		},
+		requestPodCmd: function(event) { return can.request(event, {space: can.Conf(web.SPACE), index: can.Conf(ctx.INDEX)}) },
 		request: function(event) { event = event||{}, event = event._event||event
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg
 			function set(key, value) {
@@ -51,7 +52,10 @@ var Volcanos = shy({
 				can.base.isFunc(item.Option)? can.core.List(item.Option(), function(key) {
 					key.indexOf("_") == 0 || key.indexOf("user.") == 0 || set(key, item.Option(key))
 				}): can.core.Item(can.base.isFunc(item)? item(): item, set)
-			}); set(ice.MSG_HEIGHT, (can.ConfHeight()||"32")+""), set(ice.MSG_WIDTH, (can.ConfWidth()||"320")+""), set(ice.MSG_MODE, can.Mode())
+			})
+			// set(ctx.INDEX, can.Conf(ctx.INDEX))
+				set(ice.MSG_MODE, can.Mode())
+			set(ice.MSG_HEIGHT, (can.ConfHeight()||"32")+""), set(ice.MSG_WIDTH, (can.ConfWidth()||"320")+"")
 			return msg
 		},
 		requestAction: function(event, button) { return can.request(event, {action: button, _toast: ice.PROCESS+" "+button}) },

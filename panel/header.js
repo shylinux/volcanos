@@ -111,6 +111,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			can.runAction(event, aaa.EMAIL, args, function() { can.user.toastSuccess(can) })
 		})
 	},
+	fullscreen: function(event, can) { document.body.requestFullscreen() },
 	
 	_params: [log.DEBUG, chat.TITLE],
 	_menus: ["shareuser",
@@ -118,10 +119,13 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 		[aaa.LANGUAGE, ice.AUTO],
 		[nfs.SAVE, aaa.EMAIL, web.TOIMAGE, code.WEBPACK],
 		[aaa.USER, "setnick", aaa.PASSWORD, cli.CLEAR, aaa.LOGOUT],
+		"fullscreen",
 	],
 	_trans: kit.Dict(
 		"shareuser", "共享用户", chat.THEME, "界面主题", aaa.LANGUAGE, "语言地区", nfs.SAVE, "保存网页", web.TOIMAGE, "生成图片", code.WEBPACK, "打包页面",
 		aaa.USER, "用户信息", "setnick", "设置昵称", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
+		aaa.EMAIL, "发送邮件",
+		
 	),
 })
 Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight },

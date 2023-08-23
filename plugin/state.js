@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {
 	_process: function(can, msg) { msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, msg.OptionStatus())
-		if (can.onimport[msg.OptionProcess()]) { return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, msg: msg, arg: msg.Option("_arg")}), true }
+		if (can.onimport[msg.OptionProcess()]) { return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, sub: can.sub, msg: msg, arg: msg.Option("_arg")}), true }
 	},
 	_location: function(can, msg, arg) { can.user.jumps(arg) },
 	_replace: function(can, msg, arg) { location.replace(arg) },
@@ -10,10 +10,9 @@ Volcanos(chat.ONIMPORT, {
 	_rewrite: function(can, msg) { var arg = msg._arg; for (var i = 0; i < arg.length; i += 2) { can.Option(arg[i], arg[i+1]), can.Action(arg[i], arg[i+1]) } can.Update() },
 	_display: function(can, msg) { can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)) },
 	_clear: function(can, msg) { can.onmotion.clear(can) },
-	_inner: function(can, msg) { can.onappend.table(can, msg), can.onappend.board(can, msg), can.onmotion.story.auto(can) },
-	_field: function(can, msg, cb) { var height = can.ConfHeight(), width = can.ConfWidth(); can.page.SelectChild(can, can._output, can.page.Keys(html.TABLE, html.DIV_CODE), function(target) { height -= target.offsetHeight })
-		height = can.base.Min(msg.Option(html.HEIGHT)||height, can.isCmdMode()? can.ConfHeight()/2: 320), width = msg.Option(html.WIDTH)||can.ConfWidth()
-		height -= 2*html.ACTION_HEIGHT
+	_inner: function(can, sub, msg) { can.onappend.table(sub, msg), can.onappend.board(sub, msg), can.onmotion.story.auto(sub) },
+	_field: function(can, msg, cb) { var height = can.onexport.outputHeight(can), width = can.ConfWidth()
+		// height = can.base.Min(msg.Option(html.HEIGHT)||height, can.isCmdMode()? can.ConfHeight()/2: 320), width = msg.Option(html.WIDTH)||can.ConfWidth()
 		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
 			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX)
 				can.run(event, (!index || index == can._index || index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, index]).concat(cmds), cb, true)
@@ -33,7 +32,7 @@ Volcanos(chat.ONIMPORT, {
 	_grow: function(can, msg, arg) { var sub = can.sub
 		if (sub && sub.onimport && sub.onimport.grow) { return sub.onimport.grow(sub, msg, arg) }
 		arg = can.page.Color(arg); if (can.page.Select(can, can._output, html.DIV_CODE, function(div) {
-			return can.page.style(can, div, html.MAX_HEIGHT, 400), can.page.Append(can, div, [{text: arg}]), div.scrollBy(0, 10000), true
+			return can.page.style(can, div, html.MAX_HEIGHT, can.onexport.outputHeight(can)), can.page.Append(can, div, [{text: arg}]), can._output.scrollTop = div.offsetTop, div.scrollBy(0, 10000), true
 		}).length == 0) { can.onappend.board(can, arg) }
 	},
 	_open: function(can, msg, arg) { can.user.open(arg), can.Update() },
@@ -63,8 +62,11 @@ Volcanos(chat.ONACTION, {list: [
 		"生成脚本", "生成图片",
 		["视图", "参数", "操作", "状态", "专注", "项目", "预览", "演示"],
 		["数据", "保存参数", "清空参数", "复制数据", "下载数据", "清空数据", "删除工具"],
-		["调试", "打包页面", "查看文档", "查看脚本", "查看源码", "查看配置", "查看日志"],
+		["调试", "打包页面", "查看文档", "查看脚本", "查看源码", "_config", "查看日志"],
 	],
+	_trans: {
+		"_config": "查看配置",
+	},
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input())) },
 	_switch: function(can, sub, mode, save, load) {
 		if (can.page.ClassList.neg(can, can._target, mode)) {
@@ -123,7 +125,7 @@ Volcanos(chat.ONACTION, {list: [
 	"查看文档": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: ice.HELP, index: can.Conf(ctx.INDEX)})) },
 	"查看脚本": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: nfs.SCRIPT, index: can.Conf(ctx.INDEX)})) },
 	"查看源码": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: nfs.SOURCE, index: can.Conf(ctx.INDEX)})) },
-	"查看配置": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: ctx.CONFIG, index: can.Conf(ctx.INDEX)})) },
+	"_config": function(event, can) { can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
 	"查看日志": function(event, can) { var sub = can.sub; sub.onimport.tool(sub, ["can.debug"], function(sub) { sub.select() }) },
 
 	refresh: function(event, can) { can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), true, can.Mode()) },
@@ -191,6 +193,10 @@ Volcanos(chat.ONEXPORT, {
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
 	marginTop: function() { return 0 }, marginBottom: function() { return 0 },
 	actionHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT)? 0: html.ACTION_HEIGHT },
+	outputHeight: function(can) { var height = can.sub.ConfHeight()
+		can.page.SelectChild(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })
+		return can.base.Min(height, can.sub.ConfHeight()/2)
+	},
 	statusHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },
 	link: function(can) { var meta = can.Conf(), args = can.Option()
 		args.pod = meta._space||meta.space||meta.pod, args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd)

@@ -302,7 +302,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.page.Modify(can, sub._legend, data.index.split(nfs.PT).pop())
 			}, can._output, target)
 		}) } else if (text.indexOf("<iframe") == 0) { can.page.Select(can, code, html.IFRAME, function(target) { var data = target.dataset
-			can.page.style(can, target, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth())
+			var height = can.ConfHeight(); can.page.SelectChild(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })
+			can.page.style(can, target, html.HEIGHT, can.base.Min(height, 420), html.WIDTH, can.ConfWidth())
 		}) }  else if (text.indexOf("<svg") > 0) { can.page.Select(can, code, html.SVG, function(target) {
 			can.page.style(can, target, html.MIN_HEIGHT, can.ConfHeight(), html.MIN_WIDTH, can.ConfWidth())
 		}) } else { can.page.Select(can, code, html.INPUT_BUTTON, function(target) {

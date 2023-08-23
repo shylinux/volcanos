@@ -26,10 +26,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+html.ACTION_MARGIN), can.Conf(html.MARGIN_X, (can.user.isMobile? 2: 4)*html.PLUGIN_MARGIN)
 		can.core.List(["ontouchstart", "ontouchmove", "ontouchend"], function(item) {
-			can.onengine.listen(can, item, function(event, msg) {
-				can.onengine.signal(can, chat.ONACTION_TOUCH, msg)
-				can.onaction[item](event, can)
-			}, target)
+			can.onengine.listen(can, item, function(event, msg) { can.onaction[item](event, can), can.onengine.signal(can, chat.ONACTION_TOUCH, msg) }, target)
 		})
 	},
 	onsize: function(can, msg, height, width) { can.Conf({height: can.base.Min(height-can.Conf(html.MARGIN_Y), 240), width: width-can.Conf(html.MARGIN_X)}) },
@@ -53,9 +50,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	onstorm_select: function(can, msg, river, storm) {
 		if (can.onmotion.cache(can, function(cache, old) { old && (cache[old] = can._plugins)
 			var key = can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm)); return can._plugins = cache[key]||[], key
-		}, can._output, can._action, can._header_tabs)) {
-			if (msg.Option("refresh") != "true") { return can.onaction.layout(can) }
-		}
+		}, can._output, can._action, can._header_tabs)) { if (msg.Option("refresh") != "true") { return can.onaction.layout(can) } }
 		can.run(can.request({}, {_method: web.GET}), [river, storm], function(msg) {
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm})) }
 			return can.onimport._init(can, msg)
@@ -71,9 +66,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		if (arg[0] == ctx.COMMAND) { can.onexport.command(can, msg, arg, fields) }
 	},
 	onkeydown: function(can, msg, model) {
-		if (can.isCmdMode() && !msg._event.metaKey) {
-			var sub = can._plugins[0].sub; sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: msg._event, can: sub}); return
-		}
+		if (can.isCmdMode() && !msg._event.metaKey) { var sub = can._plugins[0].sub; sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: msg._event, can: sub}); return }
 		if (can.onkeymap.selectCtrlN(msg._event, can, can._action, html.DIV_ITEM)) { return }
 		can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
 	},
@@ -88,14 +81,9 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	},
 	ontouchend: function(event, can) {
 		if (can.touch.isMove && Math.abs(can.touch.distanceX) > 50) {
-			if (can.touch.distanceX > 0) {
-				can.onengine.signal(can, "onslideright")
-			} else {
-				can.onengine.signal(can, "onslideleft")
-			}
+			if (can.touch.distanceX > 0) { can.onengine.signal(can, "onslideright") } else { can.onengine.signal(can, "onslideleft") }
 		}
-		can.touch.isMove = false, can.touch.distanceX = 0
-		can.touch.isStart = false, can.touch.startX = 0
+		can.touch.isMove = false, can.touch.distanceX = 0, can.touch.isStart = false, can.touch.startX = 0
 	},
 
 	mail: function(can) { can.user.opens("/chat/pod/20230511-golang-story/cmd/web.chat.mail.client") },
