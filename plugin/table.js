@@ -78,8 +78,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	_icon: function(can, name, button, target) { can.page.Append(can, target, [{text: [can.page.unicode[name]||name, html.SPAN, html.ICON], onclick: function(event) {
 		can.base.isFunc(button)? button(event, button): can.onaction[button](event, can, button), can.onkeymap.prevent(event)
 	}}]) },
-	icon: function(can, msg, target, cb) { return msg.Table(function(value) { value.icon = can.misc.PathJoin(value.icon||can.page.drawText(can, value.name, 80))
-		return can.page.Append(can, target, [{view: html.ITEM, list: [{view: html.ICON, list: [{img: value.icon+(value.space? "?pod="+value.space: "")}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
+	icon: function(can, msg, target, cb) { return msg.Table(function(value) {
+		var space = value.space||can.ConfSpace(); value.icon && (value.icon = can.base.MergeURL(value.icon, ice.POD, space))
+		value.icon = can.misc.PathJoin(value.icon||can.page.drawText(can, value.name, 80))
+		return can.page.Append(can, target, [{view: html.ITEM, list: [{view: html.ICON, list: [{img: value.icon}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
 			cb && cb(target, value)
 		}, onclick: function(event) { can.sup.onexport.record(can.sup, value.name, mdb.NAME, value) }}])._target
 	}) },
