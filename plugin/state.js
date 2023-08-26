@@ -62,11 +62,8 @@ Volcanos(chat.ONACTION, {list: [
 		"生成脚本", "生成图片",
 		["视图", "参数", "操作", "状态", "专注", "项目", "预览", "演示"],
 		["数据", "保存参数", "清空参数", "复制数据", "下载数据", "清空数据", "删除工具"],
-		["调试", "打包页面", "查看文档", "查看脚本", "查看源码", "_config", "查看日志"],
+		["调试", "打包页面", "查看文档", "查看脚本", "查看源码", "查看配置", "查看日志"],
 	],
-	_trans: {
-		"_config": "查看配置",
-	},
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input())) },
 	_switch: function(can, sub, mode, save, load) {
 		if (can.page.ClassList.neg(can, can._target, mode)) {
@@ -124,8 +121,8 @@ Volcanos(chat.ONACTION, {list: [
 	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
 	"查看文档": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: ice.HELP, index: can.Conf(ctx.INDEX)})) },
 	"查看脚本": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: nfs.SCRIPT, index: can.Conf(ctx.INDEX)})) },
-	"查看源码": function(event, can) { can.onengine.signal(can, "ondebugs", can.request(event, {action: nfs.SOURCE, index: can.Conf(ctx.INDEX)})) },
-	"_config": function(event, can) { can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
+	"查看源码": function(event, can) { can.request(event).Option(ctx.ACTION, nfs.SOURCE), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
+	"查看配置": function(event, can) { can.request(event).Option(ctx.ACTION, ctx.CONFIG), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
 	"查看日志": function(event, can) { var sub = can.sub; sub.onimport.tool(sub, ["can.debug"], function(sub) { sub.select() }) },
 
 	refresh: function(event, can) { can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), true, can.Mode()) },

@@ -101,6 +101,8 @@ var Volcanos = shy({
 		ConfDefault: function(value) { can.core.Item(value, function(k, v) { can.Conf(k) || can.Conf(k, v) }) },
 		ConfHeight: function(value) { return can.Conf(html.HEIGHT, value) },
 		ConfWidth: function(value) { return can.Conf(html.WIDTH, value) },
+		ConfSpace: function() { return can.Conf(web.SPACE) },
+		ConfIndex: function() { return can.Conf(ctx.INDEX) },
 		Conf: function(key, value) { var res = can._conf
 			for (var i = 0; i < arguments.length; i += 2) {
 				if (typeof key == code.OBJECT) { res = can.core.Value(can._conf, arguments[i]), i--; continue }

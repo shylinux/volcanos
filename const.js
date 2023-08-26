@@ -107,6 +107,7 @@ var web = {CHAT: "chat",
 	TEAM_PLAN: "web.team.plan",
 }
 var aaa = {
+	SESS: "sess",
 	USER: "user",
 	EMAIL: "email",
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",

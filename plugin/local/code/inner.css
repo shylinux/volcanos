@@ -25,7 +25,7 @@ fieldset.inner>div.output>div.project>div.zone div.action>div.item>span.delete {
 fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
 fieldset.inner>div.output>div.layout>div.tabs { font-size:14px; display:none; }
 fieldset.inner>div.output>div.layout>div.path { font-size:14px; display:none; }
-fieldset.inner>div.output>div.layout>div.layout div.content * { font-family:monospace; font-size:14px; outline:none; }
+fieldset.inner>div.output>div.layout>div.layout>div.content * { font-family:monospace; font-size:14px; outline:none; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile { max-width:unset; box-shadow:var(--box-shadow); }
 fieldset.inner>div.output>div.layout>div.layout>div.profile h1 { text-align:left; padding:10px 0; margin:20px 0; border-bottom:var(--box-border); }
 fieldset.inner>div.output>div.layout>div.layout>div.profile h2 { padding:10px 0; margin:20px 0; border-bottom:var(--box-border); }
