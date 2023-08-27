@@ -41,11 +41,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}]) }), can.onmotion.story.auto(can, can.ui.profile)
 	},
 	_display: function(can, task) { can.onmotion.toggle(can, can.ui.display, true)
-		if (can.onmotion.cache(can, function(data, old) {
-			if (old) { data[old] = {_plugin_display: can._plugin_display} }
-			var key = [task.space, task.zone, task.id].join(nfs.PT)
-			var last = data[key]; if (last) { can._plugin_display = last._plugin_display }
-			return can.sup.task = task, can.Status(task), key
+		if (can.onmotion.cache(can, function(save, load) { save({_plugin_display: can._plugin_display}), can.sup.task = task, can.Status(task)
+			return load([task.space, task.zone, task.id].join(nfs.PT), function(bak) { can._plugin_display = bak._plugin_display })
 		}, can.ui.display)) { return }
 		task[ctx.EXTRA_INDEX] && can.onappend.plugin(can, {space: task.space, index: task[ctx.EXTRA_INDEX], args: task[ctx.EXTRA_ARGS], height: can.ConfHeight()/2-2*html.ACTION_HEIGHT}, function(sub, meta) {
 			sub.run = function(event, cmds, cb) { can.request(event, kit.Dict(team.TASK_POD, task.space, team.TASK_ZONE, task.zone, team.TASK_ID, task.id))

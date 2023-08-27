@@ -5,7 +5,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can
 		can.onmotion.toggle(can, can._status, can.db.type != mdb.FOREACH) && can.onappend._status(can, can.base.Obj(msg.Option(ice.MSG_STATUS), []).concat({name: mdb.SELECT, value: "0"}))
 		can.onmotion.focus(can, can.ui.filter), msg.Length() == 1 && can.ui.profile.innerHTML == "" && can.page.Select(can, table, html.TD)[0].click()
 	},
-	_size: function(can) { can.ui && can.getActionSize(function(left, top, width, height) {
+	_size: function(can) { can.ui && can.ui.content && can.getActionSize(function(left, top, width, height) {
 		can.page.style(can, can._target, {left: left||0, top: top||0, width: width}), can.page.style(can, can._output, html.MAX_HEIGHT, height -= 2*html.PLUGIN_MARGIN+html.ACTION_HEIGHT+can.onexport.statusHeight(can))
 		can.core.List([can.ui.content, can.ui.display], function(target) { can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth(width-2*html.PLUGIN_MARGIN)) })
 		can.ConfHeight(can.base.Min(height-can.ui.content.offsetHeight-can.ui.display.offsetHeight-1, height/2))

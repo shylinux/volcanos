@@ -89,6 +89,7 @@ var web = {CHAT: "chat",
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
+	URL: "url",
 	
 	CODE_GIT_STATUS: "web.code.git.status",
 	CODE_GIT_REPOS: "web.code.git.repos",
@@ -108,6 +109,7 @@ var web = {CHAT: "chat",
 }
 var aaa = {
 	SESS: "sess",
+	AUTH: "auth",
 	USER: "user",
 	EMAIL: "email",
 	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
@@ -239,6 +241,13 @@ var mall = {
 	ASSET: "asset", SALARY: "salary",
 }
 
+var http = {
+	ContentType: "Content-Type",
+}
+var mime = {
+	TextPlain: "text/plain",
+	ApplicationJSON: "application/json",
+}
 var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	OPTION_ARGS: "select.args,input.args,textarea.args", INPUT_ARGS: "input.args,textarea.args", INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",
@@ -266,6 +275,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	SCROLLBAR: "scrollbar",
 	VISIBILITY: "visibility",
 	VERTICAL: "vertical", HORIZON: "horizon",
+	NOTICE: "notice", DANGER: "danger",
 
 	SIZE: "size", OPACITY: "opacity", VISIBLE: "visible", 
 	CLASS: "class", LIGHT: "light", DARK: "dark",
@@ -283,6 +293,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	DIV_FLOAT: "div.float", DIV_TOAST: "div.toast", DIV_CARTE: "div.carte",
 	DESKTOP: "desktop", DIV_DESKTOP: "div.desktop", DIV_EXPAND: "div.expand",
 	DIV_ITEM_SELECT: "div.item.select",
+	DIV_TABS_SELECT: "div.tabs.select",
 }
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",

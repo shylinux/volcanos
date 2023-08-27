@@ -29,7 +29,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.
 	ncmd: function(can, msg, _follow, _cmds) { can.onimport._data(can, NCMD, {time: can.base.Time(), follow: _follow, cmds: _cmds}), can.onimport.nlog(can, NLOG) },
 	nlog: function(can, name) { can.onimport.count(can, name) },
 })
-Volcanos(chat.ONACTION, {_init: function(can) { can.ui = {}, can.db = {} },
+Volcanos(chat.ONACTION, {_init: function(can) {},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onlogin: function(can, msg) { can.run(can.request({}, {_method: web.GET}), [], function(msg) { can.onmotion.clear(can), can.onimport._init(can, msg, can._output) }) },
 	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.ntip, {can: can, msg: msg}) },
@@ -112,5 +112,15 @@ Volcanos(chat.ONPLUGIN, {
 			], true)]); can.onmotion.delay(can, function() { can.page.Select(can, ui._target, "div.item.head,div.item.body", function(target) { target.click() }) })
 		}
 	}),
+	runtime: shy("网页环境", [mdb.KEY], function(can, msg, arg) {
+		msg.Echo(JSON.stringify({
+			href: location.href,
+			height: can.page.height(), width: can.page.width(),
+			userAgent: navigator.userAgent,
+			history: history.length,
+			boot: can.db._boot,
+			version: window._version,
+		})).Display("/plugin/story/json.js")
+	})
 })
 })()

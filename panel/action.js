@@ -48,8 +48,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		})
 	},
 	onstorm_select: function(can, msg, river, storm) {
-		if (can.onmotion.cache(can, function(cache, old) { old && (cache[old] = can._plugins)
-			var key = can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm)); return can._plugins = cache[key]||[], key
+		if (can.onmotion.cache(can, function(save, load) { save({plugins: can._plugins})
+			return load(can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm)), function(bak) { can._plugins = bak.plugins })
 		}, can._output, can._action, can._header_tabs)) { if (msg.Option("refresh") != "true") { return can.onaction.layout(can) } }
 		can.run(can.request({}, {_method: web.GET}), [river, storm], function(msg) {
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm})) }

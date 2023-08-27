@@ -6,6 +6,7 @@ const PROFILE_ARGS = "profile:args:", DISPLAY_ARGS = "display:args:"
 const CURRENT_FILE = "web.code.inner:currentFile", SELECT_LINE = "selectLine"
 const VIEW_CREATE = "tabview.view.create", VIEW_REMOVE = "tabview.view.remove", LINE_SELECT = "tabview.line.select"	
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Split(can.Option(nfs.PATH), mdb.FS); can.Option(nfs.PATH, paths[0])
+		can.Mode(msg.Option("mode")||can.Mode()), can.Option(nfs.FILE) == " " && can.Option(nfs.FILE, "")
 		if (can.Mode() == ice.MSG_RESULT) { msg.result = msg.result||[can._output.innerHTML], can.Mode(chat.SIMPLE) }
 		can.core.List(paths.concat(can.core.Split(msg.Option(nfs.REPOS))), function(p) { if (can.base.beginWith(p, nfs.USR_LOCAL_WORK) || can.base.endWith(p, "-dict/")) { return }
 			if (p && paths.indexOf(p) == -1 && p[0] != nfs.PS) { paths.push(p) }
@@ -221,7 +222,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 				}, target)
 			})
 		} else if (msg.Option(ice.MSG_DISPLAY) != "") {
-			can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY), target, false, function(msg) { can.onimport.layout(can) })
+			can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY), function(msg) { can.onimport.layout(can) }, target)
 		} else if (msg.Result().indexOf("<iframe src=") > -1) {
 			var src = can.page.Select(can, can.page.Create(can, html.DIV, msg.Result()), html.IFRAME, function(target) { return target.src })[0]
 			can.page.Append(can, target, [{type: html.IFRAME, src: src, style: {height: height, width: width}}])
@@ -262,7 +263,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		can.onimport.toolkit(can, {index: ice.CAN_PLUGIN, display: (url[0] == nfs.PS || url.indexOf(web.HTTP) == 0? "": can.base.Dir(can._path))+url}, function(sub) {
 			sub.run = function(event, cmds, cb) {
 				if (cmds.length > 0 && cmds[0] == ctx.ACTION) {
-					can.run(can.request(event, can.Option()), cmds, cb||function(msg) { can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY)) }, true)
+					can.run(can.request(event, can.Option()), cmds, cb||function(msg) { can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY)) })
 				} else { can.onappend._output(sub, can.request(event), sub.Conf(ctx.DISPLAY)) }
 			}, can.db.toolkit[url.split(web.QS)[0]] = sub, can.base.isFunc(cb)? cb(sub): sub.select(), can.page.Modify(can, sub._legend, can.base.trimPrefix(url, "inner/"))
 		})
@@ -316,17 +317,16 @@ Volcanos(chat.ONLAYOUT, {
 	},
 })
 Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.keys(can), path = msg.Option(nfs.PATH, can.Option(nfs.PATH)), file = msg.Option(nfs.FILE, can.Option(nfs.FILE))
-		can.onmotion.cache(can, function(cache_data, cache_key) {
-			if (cache_key) { cache_data[cache_key] = {profile: can.ui.profile.className, display: can.ui.display.className} }
-			var back = cache_data[key]; if (back) { can.ui.profile.className = back.profile, can.ui.display.className = back.display } else { can.onmotion.hidden(can, can.ui.profile), can.onmotion.hidden(can, can.ui.display) }
-			return key
+		can.onmotion.cache(can, function(save, load) { save({profile: can.ui.profile.className, display: can.ui.display.className})
+			can.onmotion.hidden(can, can.ui.profile), can.onmotion.hidden(can, can.ui.display)
+			return load(key, function(bak) { can.ui.profile.className = bak.profile, can.ui.display.className = bak.display })
 		}, can.ui.profile, can.ui.display)
 		if (msg._content) { var list = can.page.Select(can, msg._content, html.DIV_CONTENT, function(target) { if (target._cache_key == key) { return target } })
 			if (list.length > 0) { can.onmotion.select(can, msg._content, html.DIV_CONTENT, list[0]) } else {
 				var list = can.page.Select(can, msg._content, html.DIV_CONTENT, function(target) { if (target._cache && target._cache[key]) { return target } })
-				if (list.length > 0) { can.onmotion.cache(can, function(cache_data) { return key }, list[0]) }
+				if (list.length > 0) { can.onmotion.cache(can, function() { return key }, list[0]) }
 			} return can.ui.content = list[0]||msg._content, cb(msg._content)
-		} var content = can.ui.content; if (content._root) { can.onmotion.cache(can, function(cache_data) { return key }, content) }
+		} var content = can.ui.content; if (content._root) { can.onmotion.cache(can, function() { return key }, content) }
 		if (can.onexport.parse(can) == nfs.SVG) { msg.Option(ctx.INDEX, web.WIKI_DRAW+mdb.FS+path+file) }
 		if (msg.Option(ctx.INDEX)) { return can.onsyntax._index(can, msg, function(target) { can.ui.content = target, cb(msg._content = content._root? (target._root = content._root): target) }, content._root? content: can.ui._profile.parentNode) }
 		function show(p) {

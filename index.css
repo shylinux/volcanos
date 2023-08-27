@@ -166,6 +166,7 @@ body {
 	--code-constant:gray; --code-string:brown; --code-object:purple;
 
 	--box-border:var(--plugin-border-color) solid 1px;
+	--box-notice:var(--notice-bg-color) solid 1px;
 	--box-shadow:var(--body-fg-color) 2px 2px 8px;
 	--svg-stroke-width:2;
 }
@@ -213,13 +214,6 @@ fieldset>form.option>div.item.select { border-radius:5px; }
 fieldset>div.action>div.item.select { border-radius:5px; }
 fieldset>div.action>div.item.button { border-radius:5px; }
 fieldset>div.action>div.item { margin-right:10px; box-shadow:var(--box-shadow); }
-
-fieldset.web.code.docker.studio>div.action>div.item { font-style:italic; height:32px; padding:5px 10px; }
-fieldset.web.code.docker.studio>div.output>fieldset { margin:0; }
-fieldset.web.code.docker.studio>div.output>fieldset>legend { display:none; }
-fieldset.web.code.docker.studio>div.output>fieldset>form.option>div:first-child { margin-left:10px; }
-fieldset.web.code.docker.studio>div.output { padding:10px; }
-
 fieldset>div.output { width:100%; }
 fieldset>div.output table.content input { margin-right:10px; box-shadow:var(--box-shadow); }
 fieldset>div.status { width:100%; }
@@ -279,7 +273,7 @@ select, input { font-size:1rem; height:32px; }  input::placeholder, textarea::pl
 textarea { font-size:1rem; tab-size:2; padding:5px; height:96px; width:100%; resize:vertical; }
 table.content, div.code, div.story[data-type=spark] { white-space:pre; margin:0; }
 div.story[data-type=spark] { padding:0 5px; border-left:var(--notice-bg-color) solid 5px; }
-fieldset>div.action>div.tabs { font-style:italic; padding:0 10px;}
+fieldset>div.action>div.tabs { font-style:italic; padding-left:10px; box-shadow:var(--box-shadow); margin-left:5px; }
 fieldset>div.output>div.code { font-size:14px; }
 fieldset>div.status>div.item { padding:5px; height:31px; }
 fieldset>div.status>div.item>label { font-size:0.6rem; }
@@ -405,9 +399,19 @@ fieldset.full { position:fixed; left:0; top:0; }
 fieldset>div.output>div.code { position:sticky; left:0; }
 legend, select, input[type=button], th, table.content td, h1, h2, h3, div.item, div.tabs { cursor:pointer; }
 div.story[data-type=spark] { cursor:copy; }
-fieldset>div.status>legend { margin-right:10px; float:right; clear:none; }
-fieldset>div.status>legend:not(:hover):not(.select) { background-color:unset; box-shadow: var(--box-shadow); }
+fieldset>div.status>legend {
+	font-style:italic; margin-right:5px; float:right; clear:none;
+	border-radius: 0; border-bottom-left-radius:10px; border-bottom-right-radius:10px;
+	box-shadow: var(--box-shadow);
+}
+fieldset>div.status>legend>span.remove { margin-left:10px; }
+fieldset>div.status>legend>span.remove:hover { background-color:var(--hover-bg-color); }
+fieldset>div.status>legend:not(:hover)>span.remove { visibility:hidden; }
+fieldset>div.status>legend:not(:hover):not(.select) { background-color:unset; border-radius: 0; }
 /* hover */
+div.item.notice input:hover[type=button] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+div.item.danger input:hover[type=button] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
+input:hover[type=button][name=create] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 input:hover[type=button][name=create] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 input:hover[type=button][name=insert] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 input:hover[type=button][name=restart] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
@@ -451,7 +455,18 @@ span.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-c
 span.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 span.icon:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.action div.tabs:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-div.action div.tabs.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+/* div.action div.tabs.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); } */
+div.action div.tabs {
+	/* border-top-left-radius:10px; border-top-right-radius:10px; */
+}
+div.action div.tabs:hover {
+	background-color:var(--output-bg-color); color:var(--hover-fg-color);
+	border-top-left-radius:10px; border-top-right-radius:10px;
+}
+div.action div.tabs.select {
+	background-color:var(--output-bg-color); color:var(--hover-fg-color);
+	border-top-left-radius:10px; border-top-right-radius:10px;
+}
 fieldset>div.output { background-color:var(--output-bg-color); }
 fieldset>div.status { border-top:var(--status-border); max-height:32px; }
 fieldset:not(.panel):not(.cmd) { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
@@ -482,6 +497,7 @@ body.light fieldset.panel:not(.main):not(.auto) div.item.select { background-col
 body.light fieldset.panel:not(.main):not(.auto) input { background-color:var(--panel-input-bg-color); color:var(--panel-input-fg-color); border-radius:var(--input-radius); }
 body.light fieldset.panel:not(.main)>div.output>div.item>input::placeholder { background-color:var(--panel-input-bg-color); color:var(--panel-fg-color); }
 body.light fieldset.panel:not(.main) label { color:var(--panel-fg-color); }
+body.light fieldset.panel:not(.main) a { color:var(--panel-fg-color); }
 body.light span.keyword { color:darkblue; } body.light span.function { color:darkcyan; }
 body.dark span.keyword { color:royalblue; } body.dark span.function { color:lightgreen; }
 /* print */
@@ -531,7 +547,17 @@ fieldset.draw.trend div.output { overflow:hidden; }
 fieldset.draw.spide div.output { overflow-y:hidden; }
 fieldset.draw.spide div.output svg text { cursor:pointer; }
 fieldset.draw.spide div.output svg path { stroke-width:1; }
+fieldset.web.code.docker.studio>div.action>div.item { font-style:italic; height:32px; padding:5px 10px; }
+fieldset.web.code.docker.studio>div.output>fieldset { margin:0; }
+fieldset.web.code.docker.studio>div.output>fieldset>legend { display:none; }
+fieldset.web.code.docker.studio>div.output>fieldset>form.option>div:first-child { margin-left:10px; }
+fieldset.web.code.docker.studio>div.output { padding:10px; }
 fieldset.web.code.git.status>div.output table.content { width:100%; }
+fieldset.cmd>legend { background-color:var(--ui-blue-8); }
+fieldset.cmd>div.action>div.tabs.select { border-bottom:var(--notice-bg-color) solid 2px; height:32px; }
+fieldset.cmd>div.status>legend.select { border-top:var(--notice-bg-color) solid 2px; }
+fieldset.cmd>div.output>div.project div.item.select { border-right:var(--notice-bg-color) solid 4px; }
+fieldset.cmd>div.output>div.project div.item { line-height:32px; }
 fieldset.can.view { font-size:14px; }
 fieldset.can.data { font-size:14px; }
 img, iframe { margin-bottom:-3px; }
