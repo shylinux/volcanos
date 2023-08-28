@@ -216,8 +216,18 @@ var chat = {
 		"local/wiki/word.js",
 		"local/team/plan.js",
 		"local/mall/goods.js",
-	].map(function(p) { return "/volcanos/plugin/"+p }), PLUGIN_INPUT: "/volcanos/plugin/input/", PLUGIN_STORY: "/volcanos/plugin/story/", PLUGIN_LOCAL: "/volcanos/plugin/local/",
-	PLUGIN_INPUT_JS: "/volcanos/plugin/input.js", PLUGIN_TABLE_JS: "/volcanos/plugin/table.js", PLUGIN_STATE_JS: "/volcanos/plugin/state.js", FRAME_JS: "/volcanos/frame.js",
+	].map(function(p) { return "/volcanos/plugin/"+p }).concat([
+		// https://icons.getbootstrap.com/
+		"/require/modules/bootstrap-icons/font/bootstrap-icons.min.css",
+	]),
+	PLUGIN_LOCAL: "/volcanos/plugin/local/",
+	PLUGIN_STORY: "/volcanos/plugin/story/",
+	PLUGIN_INPUT: "/volcanos/plugin/input/",
+	PLUGIN_INPUT_JS: "/volcanos/plugin/input.js",
+	PLUGIN_TABLE_JS: "/volcanos/plugin/table.js",
+	PLUGIN_STATE_JS: "/volcanos/plugin/state.js",
+	FRAME_JS: "/volcanos/frame.js",
+
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport",
 	ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONPLUGIN: "onplugin",
@@ -243,6 +253,9 @@ var mall = {
 	ASSET: "asset", SALARY: "salary",
 }
 
+var icon = {
+	SEARCH: "bi bi-search", TERMINAL: "bi bi-terminal",
+}
 var http = {
 	ContentType: "Content-Type",
 }

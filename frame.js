@@ -664,7 +664,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	slideGrow: function(can, target) {
 		var height = target.offsetHeight, begin = 0; if (height < 10) { return }
 		can.page.style(can, target, html.HEIGHT, 0)
-		can.core.Timer({interval: 1, length: 50}, function(timer, interval, index, list) {
+		can.core.Timer({interval: 1, length: height/6}, function(timer, interval, index, list) {
 			can.page.style(can, target, html.HEIGHT, begin += height/list.length)
 		}, function() {
 			can.page.style(can, target, html.HEIGHT, height)

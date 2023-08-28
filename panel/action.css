@@ -1,6 +1,6 @@
 fieldset.Action { min-width:160px; }
 fieldset.Action>div.action { width:100%; display:none; background-color:var(--plugin-bg-color); }
-fieldset.Action>div.action div.item { font-size:1.1rem; padding:10px 20px; }
+fieldset.Action>div.action div.item { font-style:italic; font-size:1.1rem; padding:10px 20px; }
 fieldset.Action.tabs>div.action { display:block; }
 fieldset.Action.tabs>div.output>fieldset>legend { display:none; }
 fieldset.Action.tabs>div.output>fieldset.plugin:not(.select) { display:none; }

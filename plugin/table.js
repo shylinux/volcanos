@@ -57,7 +57,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 					}): can.onmotion.clearCarte(can)
 				}},
 				{view: html.ACTION, _init: function(target) { zone._action = target
-					can.onappend._action(can, [{type: html.TEXT, name: mdb.SEARCH, _init: function(target) { zone._search = target }, onkeyup: function(event) {
+					can.onappend._action(can, [{icon: icon.SEARCH, type: html.TEXT, name: mdb.SEARCH, _init: function(target) { zone._search = target }, onkeyup: function(event) {
 						if (event.target.value == "") { can.page.Select(can, zone._target, html.DIV_EXPAND, function(target) { can.page.ClassList.del(can, target, cli.OPEN) }) }
 						can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, event.target.value != "") })
 						can.onmotion.delayOnce(can, function() { can.onkeymap.selectItems(event, can, zone._target) }, event.target.value.length<3? 500: 150)
@@ -99,7 +99,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}) }); return node
 	},
 	filter: function(can, target) {
-		return can.onappend.input(can, {type: html.TEXT, name: web.FILTER, placeholder: "search in n items", onkeydown: function() {}, onkeyup: function(event) {
+		return can.onappend.input(can, {icon: icon.SEARCH, type: html.TEXT, name: web.FILTER, placeholder: "search in n items", onkeydown: function() {}, onkeyup: function(event) {
 			if (event.key == code.ENTER) {
 				can.page.Select(can, target, html.DIV_ITEM+":not(.hide)", function(target) { target.click() })
 			} else if (event.key == code.ESCAPE) { event.currentTarget.value = "", event.currentTarget.blur()

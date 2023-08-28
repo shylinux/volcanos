@@ -14,7 +14,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.
 		], onclick: function(event) { can.onexport[item](can) }}])
 	}) },
 	_toast: function(can, msg, target) { can.ui.toast = can.page.Append(can, target, [{view: [[html.ITEM, chat.TOAST]], onclick: function(event) { can.onexport[NTIP](can) }}])._target },
-	_command: function(can, msg, target) { can.onappend.input(can, {type: html.TEXT, icon: "bi bi-terminal", name: ice.CMD, onkeydown: function(event) { can.onkeymap.input(event, can)
+	_command: function(can, msg, target) { can.onappend.input(can, {type: html.TEXT, icon: icon.TERMINAL, name: ice.CMD, onkeydown: function(event) { can.onkeymap.input(event, can)
 		function close() { can.ui.cli && can.ui.cli.onaction.close() } if (event.key == code.ESCAPE) { return close() } if (event.key != code.ENTER) { return }
 		close(); switch (event.target.value) {
 		case cli.CLEAR:
