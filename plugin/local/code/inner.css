@@ -19,9 +19,8 @@ fieldset.inner>div.output>div.project div.zone>div.item span.icon { font-size:20
 fieldset.inner>div.output>div.project div.zone:hover>div.item span.icon { display:block; }
 fieldset.inner>div.output>div.project>div.zone>div.item span.icon { font-size:22px; line-height:32px; }
 fieldset.inner>div.output>div.project>div.zone div.action>div.item { padding-right:0; width:100%; }
-fieldset.inner>div.output>div.project>div.zone div.action>div.item>input { width:calc(100% - 5px); border:var(--plugin-border-color) solid 1px; }
-fieldset.inner>div.output>div.project>div.zone div.action>div.item>input:hover { border:var(--notice-bg-color) solid 1px; }
-fieldset.inner>div.output>div.project>div.zone div.action>div.item>span.delete { top:3px; right:5px; }
+fieldset.inner>div.output>div.project>div.zone div.action>div.item>input { width:calc(100% - 5px); }
+fieldset.inner>div.output>div.project>div.zone div.action>div.item>span.delete { right:5px; font-size:20px; }
 fieldset.inner>div.output>div.project>div.zone fieldset.plug { position:static; }
 fieldset.inner>div.output>div.layout>div.tabs { font-size:14px; display:none; }
 fieldset.inner>div.output>div.layout>div.path { font-size:14px; display:none; }
@@ -49,7 +48,6 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.icon { font-size:26px; lin
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs.select { background-color:var(--output-bg-color); border-top-left-radius:10px; border-top-right-radius:10px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); border-top-left-radius:10px; border-top-right-radius:10px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>span { font-style:italic; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>span.icon { padding:0 5px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.usernick { float:right; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.avatar { padding:0; height:38px; float:right; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.avatar>img { height:38px; }

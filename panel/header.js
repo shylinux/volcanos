@@ -65,7 +65,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 		}
 		can.run(can.request({}, {_method: web.GET}), [], function(msg) { lang(msg)
 			can.require(can.core.List(msg["theme.list"], function(item) { return "src/template/web.chat.header/theme/"+item }))
-			can.onaction._menus[1] = can.onaction._menus[1].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, ".css") }))
+			can.onaction._menus[1] = can.onaction._menus[1].concat(can.core.List(msg["theme.list"], function(item) { if (item == "mobile.css") { return } return can.base.trimSuffix(item, ".css") }))
 			can.onaction._menus[2] = can.onaction._menus[2].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, ".js") }))
 			if (can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/", "/chat/cmd/web.chat.oauth.client", "/chat/pod/20230511-golang-story/cmd/web.code.gitea.client")) { return show(msg) }
 			if (location.pathname == "/" && can.base.beginWith(msg.Option(ice.MAIN)||"", "/wiki/portal/", "/chat/cmd/web.wiki.portal/")) { return show(msg) }

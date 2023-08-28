@@ -3,7 +3,8 @@ Volcanos(chat.ONFIGURE, {key: {
 		name == ctx.INDEX && can.core.Item(can.onengine.plugin.meta, function(key) { msg.Push(ctx.INDEX, can.core.Keys(ice.CAN, key)) })
 		can._show(can, msg, cb, target, name)
 	}) },
-	_show: function(can, msg, cb, target, name) { if (msg.Length() == 0 || msg.Length() == 1 && msg.Append(name) == target.value && target.value != "" || msg.Length() == 1 && msg.Append(name) == "") { return can.onmotion.hidden(can) }
+	_show: function(can, msg, cb, target, name) {
+		if (msg.Length() == 0 || msg.Length() == 1 && msg.Append(name) == target.value && target.value != "" || msg.Length() == 1 && msg.Append(name) == "") { return can.onmotion.hidden(can) }
 		if (can.base.isIn(msg.append[msg.append.length-1], ctx.ACTION, "cb")) { msg.append = msg.append.slice(0, -1) } var list = {}
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, item) { value = item[key]
 			if (msg.append.length == 1 && index < 100 && list[value]) { return } list[value] = true
@@ -14,6 +15,7 @@ Volcanos(chat.ONFIGURE, {key: {
 			}}
 		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length())
 		can.page.style(can, can._output, html.MAX_HEIGHT, can.page.height()/2, html.MIN_WIDTH, target.offsetWidth, html.MAX_WIDTH, can.Conf("style.width")||can.page.width()/2)
+		can.onmotion.toggle(can, can._status, msg.Length() > 5)
 		msg.append.length == 1 && can.page.ClassList.add(can, can._target, chat.SIMPLE), can.onlayout.figure({target: target}, can, can._target, false, 200)
 	},
 	onclick: function(event, can, meta, target, cbs) { can.onmotion.focus(can, target) },

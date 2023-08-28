@@ -84,6 +84,7 @@ var web = {CHAT: "chat",
 	CONFIRM: "confirm",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 	WORKER: "worker", SERVER: "server", GATEWAY: "gateway",
+	OPEN: "open",
 
 	AT: "@", QS: "?", LINK: "link", HTTP: "http",
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
@@ -156,6 +157,7 @@ var cli = {
 	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
 	MAKE: "make", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 	LINUX: "linux", DARWIN: "darwin", WINDOWS: "windows",
+	RUN: "run",
 	PWD: "pwd",
 }
 var log = {

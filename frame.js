@@ -267,7 +267,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (!can.page.ClassList.set(can, tr, html.HIDE, index > 0 && tr.innerText.indexOf(event.target.value) == -1)) { return tr }
 			}).length+" lines") } }, icon.push({icon: mdb.DELETE, onclick: function(event) { _input.value = "", input.onkeyup({target: event.target.previousSibling}) }})
 		} if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }
-		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name])], list: [item.icon && {icon: item.icon}, input].concat(icon), _init: function(target, _input) {
+
+		var _style = can.page.buttonStyle(can, item.name)
+		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name], _style)], list: [item.icon && {icon: item.icon}, input].concat(icon), _init: function(target, _input) {
 			if (item.type == html.SELECT) { _input.select.value =  value||_item.value||_item.values[0], can.onappend.select(can, _input.select, _item) }
 			item.style && can.onappend.style(can, item.style, target)
 		}}])[item.name]; return _input
@@ -487,7 +489,8 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 			if (layout.left+target.offsetWidth > left+width) { layout.left = (right? rect.left: left+width)-target.offsetWidth-1 }
 		}); 
 		can.onmotion.move(can, target, layout)
-		can.onmotion.slideDown(can, target)
+		// can.onmotion.slideDown(can, target)
+		can.onmotion.slideGrow(can, target)
 		return layout
 	},
 })
@@ -657,6 +660,15 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 				} else { cursor = "", action = "" } can.page.style(can, target, "cursor", cursor)
 			}
 		}
+	},
+	slideGrow: function(can, target) {
+		var height = target.offsetHeight, begin = 0; if (height < 10) { return }
+		can.page.style(can, target, html.HEIGHT, 0)
+		can.core.Timer({interval: 1, length: 50}, function(timer, interval, index, list) {
+			can.page.style(can, target, html.HEIGHT, begin += height/list.length)
+		}, function() {
+			can.page.style(can, target, html.HEIGHT, height)
+		})
 	},
 	slideDown: function(can, target) {
 		var top = target.offsetTop, offset = 32, begin = top - offset
