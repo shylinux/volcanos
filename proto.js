@@ -22,8 +22,10 @@ var Volcanos = shy({
 	}
 	can = kit.proto(can||{}, kit.proto({_name: name, _path: _can_name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
 			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub), sub._path = sub._path||name } meta.cache[name] = cache
-			cache.forEach(function(sub) { var name = sub._name; if (typeof cbs == code.FUNCTION && cbs(can, name, sub)) { return }
-				can[name] = can[name]||{}; for (var k in sub) { can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k]) }
+			cache.forEach(function(sub) { var name = sub._name
+				if (typeof cbs == code.FUNCTION && cbs(can, name, sub)) { return }
+				can[name] = can[name]||{}, name == chat.ONIMPORT && (can[name]._last_init = sub._init)
+				for (var k in sub) { can[name].hasOwnProperty(k) || sub.hasOwnProperty(k) && (can[name][k] = sub[k]) }
 			})
 		},
 		require: function(libs, cb, cbs) {
@@ -38,6 +40,7 @@ var Volcanos = shy({
 			var name = (libs[0].indexOf(web.HTTP) == 0 || libs[0].indexOf("?pod=") > -1? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
 			if (meta.cache[name] || name == "") { return next() }
+			if (name.indexOf("/plugin/") == 0) { name = "/volcanos"+name }
 			if (name.indexOf("/volcanos/") == 0 && meta.volcano) { name = meta.volcano+name }
 			if (name.indexOf("/require/") == 0 && meta.iceberg) { name = meta.iceberg+name }
 			meta._load(name, next)

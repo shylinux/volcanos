@@ -217,8 +217,7 @@ var chat = {
 		"local/team/plan.js",
 		"local/mall/goods.js",
 	].map(function(p) { return "/volcanos/plugin/"+p }).concat([
-		// https://icons.getbootstrap.com/
-		"/require/modules/bootstrap-icons/font/bootstrap-icons.min.css",
+		"/require/modules/bootstrap-icons/font/bootstrap-icons.min.css", // https://icons.getbootstrap.com/
 	]),
 	PLUGIN_LOCAL: "/volcanos/plugin/local/",
 	PLUGIN_STORY: "/volcanos/plugin/story/",
@@ -293,7 +292,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	NOTICE: "notice", DANGER: "danger",
 
 	SIZE: "size", OPACITY: "opacity", VISIBLE: "visible", 
-	CLASS: "class", LIGHT: "light", DARK: "dark",
+	CLASS: "class", DARK: "dark", LIGHT: "light", WHITE: "white", BLACK: "black",
 	FILTER: "filter", TOGGLE: "toggle", EXPAND: "expand", SPEED: "speed", HOVER: "hover", HOVER_SELECT: "hover,select",
 	NOT_HIDE: ":not(.hide)",
 	

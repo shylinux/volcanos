@@ -1,9 +1,9 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.current = msg.TableDetail(), can.sup.onimport.size(can.sup, can.sup.ConfHeight(), can.sup.ConfWidth(), true)
-		can.target = can.page.Appends(can, can._output, [{type: html.IFRAME, src: can.current.link, height: can.ConfHeight(), width: can.ConfWidth(), style: {border: 0}}])._target
-		can.onimport.layout(can)
+Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.db.current = msg.TableDetail()
+		can.ui.target = can.page.Appends(can, can._output, [{type: html.IFRAME, src: can.db.current.link, height: can.ConfHeight()-1, width: can.ConfWidth()}])._target
 	},
-	layout: function(can) { var item = can.current; can.sup.onexport.title(can, item.name||item.link.split(mdb.QS)[0])
-		can.page.style(can, can.target, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth())
+	layout: function(can) {
+		var item = can.db.current; can.sup.onexport.title(can, item.name||item.link.split(mdb.QS)[0])
+		can.page.style(can, can.ui.target, html.HEIGHT, can.ConfHeight()-1, html.WIDTH, can.ConfWidth())
 	},
 })
-Volcanos(chat.ONACTION, {open: function(event, can) { can.user.open(can.current.link) }})
+Volcanos(chat.ONACTION, {open: function(event, can) { can.user.open(can.db.current.link) }})

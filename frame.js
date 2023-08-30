@@ -11,9 +11,21 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 				can.core.CallFunc([sub.onaction, chat._INIT], {can: sub, cb: next, target: sub._target}), delete(sub._history), delete(sub._conf.feature)
 			}, target)
 		}, function() { can.onlayout._init(can, target), can.onmotion._init(can, target), can.onkeymap._init(can, target)
-			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb(can)
+			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb(can), can.onengine._config(can)
 		}), can._path = location.href
 	},
+	_config: function(can) { can.require(["/require/src/conf.js"], function() {}, function(can, name, sub) {
+		name == chat.ONIMPORT && can.core.Item(sub.list, function(path, meta) {
+			can.require([path], function() {}, function(can, name, sub) {
+				name == chat.ONPLUGIN && can.core.Item(sub, function(key, cmd) {
+					if (sub.hasOwnProperty(key) && can.base.isFunc(cmd)) {
+						cmd.meta._path = sub._path, can.base.Copy(cmd.meta, meta)
+						can.onengine.plugin(can, can.core.Keys(ice.CAN, key), cmd)
+					}
+				})
+			})
+		})
+	}) },
 	_search: function(event, can, msg, panel, cmds, cb) {
 		var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split(nfs.PT), function(value) { fun && (sub = mod, mod = fun, fun = mod[value], key = value) })
 		if (!sub || !mod || !fun) { can.misc.Warn(ice.ErrNotFound, cmds); return can.base.isFunc(cb) && cb(msg.Echo(ice.ErrWarn, ice.ErrNotFound, cmds)) }
@@ -42,13 +54,13 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 	_engine: function(event, can, msg, panel, cmds, cb) { return false },
 	_plugin: function(event, can, msg, panel, cmds, cb) {
 		if (cmds[0] == ctx.ACTION && cmds[1] == ice.RUN) { var p = can.onengine.plugin(can, cmds[2])
-			if (p) { return can.core.CallFunc(p, {can: p.can||panel, sub: msg._can, msg: msg, arg: cmds.slice(3), cmds: cmds.slice(3), cb: cb}), true }
+			if (p) { return can.core.CallFunc(p, {can: p.can||panel, sub: msg._can, msg: msg, arg: cmds.slice(3), cmds: cmds.slice(3), cb: cb, meta: p.meta}), true }
 		}
 		var p = can.onengine.plugin(can, cmds[0]), n = 1; if (!p) { return false }
 		var func = p, _can = p.can||panel, _sup = _can
 		if (p.meta && p.meta[cmds[2]] && cmds[1] == ctx.ACTION) { n = 3, func = p.meta[cmds[2]], _can = msg._can } else if (p.meta && p.meta[cmds[1]]) { n = 2, func = p.meta[cmds[2]], _can = msg._can }
 		if (cmds[n] == ctx.ACTION && cmds[n+1] == mdb.INPUTS) { return true }
-		return can.core.CallFunc(func, {sup: _sup, can: _can, sub: msg._can, msg: msg, arg: cmds.slice(n), cmds: cmds.slice(n), cb: cb}), true
+		return can.core.CallFunc(func, {sup: _sup, can: _can, sub: msg._can, msg: msg, arg: cmds.slice(n), cmds: cmds.slice(n), cb: cb, meta: p.meta}), true
 	},
 	plugin: shy(function(can, name, command) { var _name = can.base.trimPrefix(name, "can.")
 		if (can.base.isUndefined(name) || !can.base.isString(name) || name == _name) { return }
@@ -230,16 +242,18 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (sub.onimport && can.base.isArray(sub.onimport.list) && sub.onimport.list.length > 0) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			}
-			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
-				if (action !== false) { can.onkeymap._build(sub)
-					can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
-					sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS)), can.user.isMobile || sub.onappend.tools(sub, msg)
-				}
-				can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output)
-				if (can.onimport.size) { if (can.isFullMode() || can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
-					can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), can.Conf("_auto"), can.Mode()), can.onexport.output(sub, msg)
-				} can.base.isFunc(cb) && cb(msg)
-			}, target: output})
+			can.page.requireModules(can, can.Conf("modules"), function() {
+				can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
+					if (action !== false) { can.onkeymap._build(sub)
+						can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
+						sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS)), can.user.isMobile || sub.onappend.tools(sub, msg)
+					}
+					can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output)
+					if (can.onimport.size) { if (can.isFullMode() || can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
+						can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), can.Conf("_auto"), can.Mode()), can.onexport.output(sub, msg)
+					} can.base.isFunc(cb) && cb(msg)
+				}, target: output})
+			})
 		})
 	},
 	_status: function(can, list, status) { status = status||can._status, can.onmotion.clear(can, status)
@@ -254,7 +268,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}
 		var name = can.core.Split(item.nick||item.name||"").pop()||""; can.base.isIn(name, "server", "client", "studio") && (name = (item.index||"").split(".").slice(-2).join(".")), name = can.core.Keys(item.space, name)
 		var title = item.help && item.help != name && !can.user.isEnglish(can)? name+"("+can.core.Split(item.help)[0]+")": name
-		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], list: [{type: html.LEGEND, list: [{icon: item.icon}, {text: title}]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
+		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], list: [{type: html.LEGEND, list: [item.icon && {icon: item.icon}, {text: title}]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
 	},
 	input: function(can, item, value, target, style) { if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
 		var icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
@@ -344,7 +358,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			target.scrollHeight > target.offsetHeight && can.page.style(can, vbar, html.HEIGHT, height, html.RIGHT, -target.scrollLeft, html.VISIBILITY, html.VISIBLE,
 				html.TOP, target.scrollTop+target.scrollTop/(target.scrollHeight-target.offsetHeight)*(target.offsetHeight-height),
 			)
-			vbar.innerHTML = `${target.scrollTop}+${target.offsetHeight}/${target.scrollHeight}`
+			vbar.innerHTML = `${parseInt(target.scrollTop)}+${target.offsetHeight}/${target.scrollHeight}`
 			var width = can.base.Min(target.offsetWidth*target.offsetWidth/target.scrollWidth, target.offsetWidth/4)
 			target.scrollWidth > target.offsetWidth && can.page.style(can, hbar, html.WIDTH, width, html.BOTTOM, -target.scrollTop, html.VISIBILITY, html.VISIBLE,
 				html.LEFT, target.scrollLeft+target.scrollLeft/(target.scrollWidth-target.offsetWidth)*(target.offsetWidth-width),
@@ -604,6 +618,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		}
 		can.onimport.size(can, height, width, true)
 		can.onmotion.move(can, can._target, {left: can.page.width()-width, top: can.page.height()/4})
+		can.onmotion.resize(can, can._target, function(height, width) { can.onimport.size(can, height, width, true) })
 	},
 	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), target },
 	cache: function(can, next) { var list = can.base.getValid(can.base.Obj(can.core.List(arguments).slice(2)), [can._output])
@@ -667,7 +682,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		can.core.Timer({interval: 1, length: height/6}, function(timer, interval, index, list) {
 			can.page.style(can, target, html.HEIGHT, begin += height/list.length)
 		}, function() {
-			can.page.style(can, target, html.HEIGHT, height)
+			can.page.style(can, target, html.HEIGHT, "")
 		})
 	},
 	slideDown: function(can, target) {

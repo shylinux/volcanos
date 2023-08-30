@@ -1,0 +1,6 @@
+fieldset.monaco .monaco-editor,
+fieldset.monaco .monaco-editor .margin,
+fieldset.monaco .monaco-editor-background,
+fieldset.monaco .monaco-diff-editor {
+	background-color:var(--output-bg-color);
+}

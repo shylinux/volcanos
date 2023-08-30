@@ -330,6 +330,9 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.
 		} var content = can.ui.content; if (content._root) { can.onmotion.cache(can, function() { return key }, content) }
 		if (can.onexport.parse(can) == nfs.SVG) { msg.Option(ctx.INDEX, web.WIKI_DRAW+mdb.FS+path+file) }
 		if (msg.Option(ctx.INDEX)) { return can.onsyntax._index(can, msg, function(target) { can.ui.content = target, cb(msg._content = content._root? (target._root = content._root): target) }, content._root? content: can.ui._profile.parentNode) }
+		can.onsyntax._split(can, msg, content, cb, key)
+	},
+	_split: function(can, msg, content, cb, key) {
 		function show(p) {
 			p && p.include && can.core.List(p.include, function(from) {
 				p.keyword = p.keyword||{}, can.core.Item(can.onsyntax[from].keyword, function(key, value) { p.keyword[key] = p.keyword[key] || value })
