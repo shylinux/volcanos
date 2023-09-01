@@ -204,7 +204,7 @@ fieldset.float:not(.plug)>form.option>div.text>span { display:none; }
 fieldset.float:not(.plug)>form.option>div.text>span.value { white-space:pre; padding:7px; height:32px; max-width:200px; display:block; overflow:auto; }
 fieldset.float div.text:hover>span.icon.delete { visibility:hidden; }
 body.mobile:not(.landscape) fieldset.float>form.option>div.text>span.value { display:none; }
-body.windows form.option>div.icon { font-size:21px; }
+body.windows form.option>div.icon { font-size:21px; line-height:32px; }
 /* svg */
 fieldset.web.wiki.draw div.output svg { min-width:100%; min-height:100%; }
 svg text { font-size:24px; font-family:monospace; stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }
