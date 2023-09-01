@@ -12,7 +12,7 @@ var Volcanos = shy({
 		var Config = name; name = Config.name||ice.CAN, _can_name = ""
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.volcano = Config.volcano||meta.volcano
 		meta.libs = (Config.libs||chat.libs).concat(Config.list), panels = Config.panels||chat.panel_list, delete(Config.panels)
-		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/volcanos/panel/"+p.name+nfs._JS, "/volcanos/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugins||chat.plugin_list)
+		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugins||chat.plugin_list)
 		cb = can||function(can) {
 			can.require([can.frame], function() {
 				can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target)
@@ -39,11 +39,13 @@ var Volcanos = shy({
 			if (libs[0][0] != nfs.PS && libs[0].indexOf(web.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
 			var name = (libs[0].indexOf(web.HTTP) == 0 || libs[0].indexOf("?pod=") > -1? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
-			if (meta.cache[name] || name == "") { return next() }
+			if (name.indexOf("/lib/") == 0) { name = "/volcanos"+name }
+			if (name.indexOf("/panel/") == 0) { name = "/volcanos"+name }
 			if (name.indexOf("/plugin/") == 0) { name = "/volcanos"+name }
 			if (name.indexOf("/volcanos/") == 0 && meta.volcano) { name = meta.volcano+name }
 			if (name.indexOf("/require/") == 0 && meta.iceberg) { name = meta.iceberg+name }
-			meta._load(name, next)
+			// meta.cache[name] || name == ""? next(): meta._load(name, next)
+			meta.cache[name]? next(): meta._load(name, next)
 		},
 		requestPodCmd: function(event) { return can.request(event, {space: can.Conf(web.SPACE), index: can.Conf(ctx.INDEX)}) },
 		request: function(event) { event = event||{}, event = event._event||event

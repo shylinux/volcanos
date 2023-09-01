@@ -113,7 +113,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}}, "", target)
 	},
 	item: function(can, item, cb, cbs, target) { target = target||(can.ui && can.ui.project? can.ui.project: can._output)
-		var ui = can.page.Append(can, target, [{view: html.ITEM, list: [{icon: item.icon}, {text: item.nick||item.name||item.zone}], title: item.title, onclick: function(event) {
+		var ui = can.page.Append(can, target, [{view: html.ITEM, list: [item.icon && {icon: item.icon}, {text: item.nick||item.name||item.zone}], title: item.title, onclick: function(event) {
 				can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)
 				cb(event, event.currentTarget, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
 			}, oncontextmenu: function(event) {
@@ -230,6 +230,7 @@ Volcanos(chat.ONKEYMAP, {
 			Enter: shy("执行操作", function(event, can) { can.onaction.enter(event, can) }),
 			" ": shy("搜索项目", function(event, can) { can.ui.filter && (can.ui.filter.focus(), can.onkeymap.prevent(event)) }),
 			f: shy("搜索项目", function(event, can) { can.ui.filter && (can.ui.filter.focus(), can.onkeymap.prevent(event)) }),
+			a: shy("展示项目", function(event, can) { can.ui && can.ui.project && (can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)) }),
 			v: shy("展示预览", function(event, can) { can.ui && can.ui.profile && (can.onmotion.toggle(can, can.ui.profile), can.onimport.layout(can)) }),
 			r: shy("展示输出", function(event, can) { can.ui && can.ui.display && (can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can)) }),
 			p: shy("添加插件", function(event, can) { can.sup.onaction["添加工具"](event, can.sup) }),

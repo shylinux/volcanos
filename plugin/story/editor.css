@@ -1,41 +1,42 @@
-fieldset.can.tinymce div.tox-tinymce,
-fieldset.can.tinymce div.tox:not(.tox-tinymce-inline) .tox-editor-header {
+fieldset.tinymce div.tox-tinymce,
+fieldset.tinymce div.tox:not(.tox-tinymce-inline) .tox-editor-header {
 	border:none;
 }
-fieldset.can.tinymce div.tox-promotion { display:none; }
-fieldset.can.tinymce div.tox div.tox-sidebar-wrap div.tox-edit-area iframe {
+fieldset.tinymce div.tox-promotion { display:none; }
+fieldset.tinymce div.tox div.tox-sidebar-wrap div.tox-edit-area iframe {
 	background-color:var(--output-bg-color);
 }
 div.tox .tox-collection--list .tox-collection__item--active,
 div.tox .tox-collection--list .tox-collection__item--active:not(.tox-collection__item--state-disabled),
-fieldset.can.tinymce div.tox .tox-mbtn:hover:not(:disabled):not(.tox-mbtn--active),
-fieldset.can.tinymce div.tox .tox-mbtn:focus:not(:disabled),
-fieldset.can.tinymce div.tox .tox-mbtn--active,
-fieldset.can.tinymce div.tox .tox-tbtn:hover {
+div.tox .tox-collection--list .tox-collection__item--enabled,
+fieldset.tinymce div.tox .tox-mbtn:hover:not(:disabled):not(.tox-mbtn--active),
+fieldset.tinymce div.tox .tox-mbtn:focus:not(:disabled),
+fieldset.tinymce div.tox .tox-mbtn--active,
+fieldset.tinymce div.tox .tox-tbtn:hover {
 	background-color:var(--hover-bg-color);
 	color:var(--hover-fg-color);
 }
 div.tox .tox-menu,
 div.tox .tox-collection__item,
-fieldset.can.tinymce div.tox .tox-editor-header,
-fieldset.can.tinymce div.tox .tox-menubar,
-fieldset.can.tinymce div.tox .tox-toolbar,
-fieldset.can.tinymce div.tox .tox-toolbar-overlord,
-fieldset.can.tinymce div.tox .tox-toolbar__overflow,
-fieldset.can.tinymce div.tox .tox-toolbar__primary,
-fieldset.can.tinymce div.tox .tox-statusbar,
-fieldset.can.tinymce div.tox .tox-statusbar__path-item,
-fieldset.can.tinymce div.tox .tox-statusbar__wordcount,
-fieldset.can.tinymce div.tox .tox-statusbar a,
-fieldset.can.tinymce div.tox :not(svg):not(rect) {
+fieldset.tinymce div.tox .tox-editor-header,
+fieldset.tinymce div.tox .tox-mbtn,
+fieldset.tinymce div.tox .tox-menubar,
+fieldset.tinymce div.tox .tox-toolbar,
+fieldset.tinymce div.tox .tox-toolbar-overlord,
+fieldset.tinymce div.tox .tox-toolbar__overflow,
+fieldset.tinymce div.tox .tox-toolbar__primary,
+fieldset.tinymce div.tox .tox-statusbar,
+fieldset.tinymce div.tox .tox-statusbar__path-item,
+fieldset.tinymce div.tox .tox-statusbar__wordcount,
+fieldset.tinymce div.tox .tox-statusbar a {
 	background-color:var(--plugin-bg-color);
 	color:var(--plugin-fg-color);
 }
-fieldset.can.tinymce div.tox .tox-tbtn svg,
-fieldset.can.tinymce div.tox .tox-tbtn:disabled svg,
-fieldset.can.tinymce div.tox .tox-tbtn:disabled:hover svg,
-fieldset.can.tinymce div.tox .tox-tbtn--disabled svg,
-fieldset.can.tinymce div.tox .tox-tbtn--disabled:hover svg,
-fieldset.can.tinymce div.tox .tox-statusbar__branding svg {
+fieldset.tinymce div.tox .tox-tbtn svg,
+fieldset.tinymce div.tox .tox-tbtn:disabled svg,
+fieldset.tinymce div.tox .tox-tbtn:disabled:hover svg,
+fieldset.tinymce div.tox .tox-tbtn--disabled svg,
+fieldset.tinymce div.tox .tox-tbtn--disabled:hover svg,
+fieldset.tinymce div.tox .tox-statusbar__branding svg {
 	fill:var(--plugin-fg-color);
 }

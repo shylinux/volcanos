@@ -195,7 +195,7 @@ var chat = {
 	OUTPUT: "output", SIMPLE: "simple", FLOAT: "float", FULL: "full", CMD: "cmd",
 
 	HEADER: "Header", ACTION: "Action", FOOTER: "Footer",
-	libs: ["base.js", "core.js", "date.js", "misc.js", "page.js", "user.js"].map(function(p) { return "/volcanos/lib/"+p }),
+	libs: ["base.js", "core.js", "date.js", "misc.js", "page.js", "user.js"].map(function(p) { return "/lib/"+p }),
 	panel_list: [{name: "Header", style: "head"}, {name: "River",  style: "left"}, {name: "Action", style: "main"}, {name: "Search", style: "auto"}, {name: "Footer", style: "foot"}],
 	plugin_list: [
 		"state.js",
@@ -216,15 +216,15 @@ var chat = {
 		"local/wiki/word.js",
 		"local/team/plan.js",
 		"local/mall/goods.js",
-	].map(function(p) { return "/volcanos/plugin/"+p }).concat([
+	].map(function(p) { return "/plugin/"+p }).concat([
 		"/require/modules/bootstrap-icons/font/bootstrap-icons.min.css", // https://icons.getbootstrap.com/
 	]),
-	PLUGIN_LOCAL: "/volcanos/plugin/local/",
-	PLUGIN_STORY: "/volcanos/plugin/story/",
-	PLUGIN_INPUT: "/volcanos/plugin/input/",
-	PLUGIN_INPUT_JS: "/volcanos/plugin/input.js",
-	PLUGIN_TABLE_JS: "/volcanos/plugin/table.js",
-	PLUGIN_STATE_JS: "/volcanos/plugin/state.js",
+	PLUGIN_LOCAL: "/plugin/local/",
+	PLUGIN_STORY: "/plugin/story/",
+	PLUGIN_INPUT: "/plugin/input/",
+	PLUGIN_INPUT_JS: "/plugin/input.js",
+	PLUGIN_TABLE_JS: "/plugin/table.js",
+	PLUGIN_STATE_JS: "/plugin/state.js",
 	FRAME_JS: "/volcanos/frame.js",
 
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
@@ -308,6 +308,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	DESKTOP: "desktop", DIV_DESKTOP: "div.desktop", DIV_EXPAND: "div.expand",
 	DIV_ITEM_SELECT: "div.item.select",
 	DIV_TABS_SELECT: "div.tabs.select",
+	DIV_PROFILE: "div.profile", DIV_DISPLAY: "div.display",
 }
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",

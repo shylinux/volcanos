@@ -16,12 +16,12 @@ body {
 	--status-border:var(--box-border);
 	--panel-bg-color:var(--panel-output-bg-color);
 	--panel-fg-color:var(--panel-output-fg-color);
-	--panel-output-bg-color: var(--body-bg-color);
 	--panel-output-fg-color: var(--body-fg-color);
 	--panel-hover-bg-color:var(--hover-bg-color);
 	--panel-hover-fg-color:var(--hover-fg-color);
 	--plugin-border-color:var(--box-border); --plugin-radius:10px;
-	--plugin-bg-color:var(--body-bg-color);
+	--plugin-bg-color:var(--legend-bg-color);
+	--panel-output-bg-color:var(--input-bg-color);
    	--plugin-fg-color:var(--body-fg-color);
 	--th-bg-color:var(--plugin-bg-color);
 	--td-hover-bg-color:var(--hover-bg-color);

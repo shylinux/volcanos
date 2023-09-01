@@ -11,7 +11,9 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 				can.core.CallFunc([sub.onaction, chat._INIT], {can: sub, cb: next, target: sub._target}), delete(sub._history), delete(sub._conf.feature)
 			}, target)
 		}, function() { can.onlayout._init(can, target), can.onmotion._init(can, target), can.onkeymap._init(can, target)
-			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb(can), can.onengine._config(can)
+			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb(can)
+			return
+			can.onengine._config(can)
 		}), can._path = location.href
 	},
 	_config: function(can) { can.require(["/require/src/conf.js"], function() {}, function(can, name, sub) {
@@ -268,6 +270,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}
 		var name = can.core.Split(item.nick||item.name||"").pop()||""; can.base.isIn(name, "server", "client", "studio") && (name = (item.index||"").split(".").slice(-2).join(".")), name = can.core.Keys(item.space, name)
 		var title = item.help && item.help != name && !can.user.isEnglish(can)? name+"("+can.core.Split(item.help)[0]+")": name
+		target = can.base.isFunc(target)? target(): target
 		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], list: [{type: html.LEGEND, list: [item.icon && {icon: item.icon}, {text: title}]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
 	},
 	input: function(can, item, value, target, style) { if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
