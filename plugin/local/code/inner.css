@@ -28,7 +28,7 @@ fieldset.inner>div.output>div.layout>div.layout>iframe.profile { border-left:var
 fieldset.inner>div.output>div.layout>div.layout>div.profile h1 { text-align:left; padding:10px 0; border-bottom:var(--box-border); margin:20px 0; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile h2 { padding:10px 0; border-bottom:var(--box-border); margin:20px 0; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile pre>code { padding-left:10px; border-left:var(--code-border-color) solid 5px; display:block; }
-fieldset.inner>div.output>div.layout>div.layout>div.profile div.code { white-space:unset; padding:20px; }
+fieldset.inner>div.output>div.layout>div.layout>div.profile>div.code { white-space:unset; padding:20px; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile div.status>div { padding:5px; float:left; }
 fieldset.inner>div.output>div.layout>div.display h1 { text-align:left; padding:10px 0; border-bottom:var(--box-border); margin:20px 0; }
 fieldset.inner>div.output>div.layout>div.display h2 { padding:10px 0; border-bottom:var(--box-border); margin:20px 0; }

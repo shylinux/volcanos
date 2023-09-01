@@ -235,6 +235,7 @@ div.project div.zone>div.item { text-align:center; padding:3px; }
 div.project div.zone>div.item>div.icon { margin-left:3px; float:right; }
 div.project div.zone>div.list>div.zone>div.item { text-align:left; padding-left:20px; }
 div.project div.zone>div.list>div.zone>div.item:hover { margin-left:10px; transition:all 0.3s;  }
+div.project div.list fieldset { position:static; }
 div.content { position:relative; }
 div.content>div.toggle { position:absolute; }
 div.content>div.toggle:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }

@@ -186,7 +186,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 					return can.onmotion.toggle(can, can.ui.profile, true), can.onimport.layout(can)
 				}
 			}
-			can.onimport.process(can, msg, can.ui.profile, height, width-border, function(sub) { can.page.style(can, sub._output, html.MAX_WIDTH, ""), can.ui.profile._plugin = _msg._profile = sub
+			can.onimport.process(can, msg, can.ui.profile, height, width-border, function(sub) { can.page.style(can, sub._output, html.MAX_WIDTH, "")
+				can.ui.profile._plugin = sub
 				sub.Conf(ctx.ARGS) && can.onexport.session(can, PROFILE_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE), JSON.stringify(sub.Conf(ctx.ARGS)))
 				sub.onaction.close = function() { can.onmotion.hidden(can, can.ui.profile), can.onimport.layout(can)
 					can.onexport.session(can, PROFILE_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE), "")
@@ -317,7 +318,8 @@ Volcanos(chat.ONLAYOUT, {
 		} layout(target, height||target.offsetHeight, width||target.offsetWidth)
 	},
 })
-Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.keys(can), path = msg.Option(nfs.PATH, can.Option(nfs.PATH)), file = msg.Option(nfs.FILE, can.Option(nfs.FILE))
+Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
+		var key = can.onexport.keys(can), path = msg.Option(nfs.PATH, can.Option(nfs.PATH)), file = msg.Option(nfs.FILE, can.Option(nfs.FILE))
 		can.onmotion.cache(can, function(save, load) { save({profile: can.ui.profile.className, display: can.ui.display.className})
 			can.onmotion.hidden(can, can.ui.profile), can.onmotion.hidden(can, can.ui.display)
 			return load(key, function(bak) { can.ui.profile.className = bak.profile, can.ui.display.className = bak.display })
@@ -333,6 +335,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { var key = can.onexport.
 		can.onsyntax._split(can, msg, content, cb, key)
 	},
 	_split: function(can, msg, content, cb, key) {
+		var path = msg.Option(nfs.PATH, can.Option(nfs.PATH)), file = msg.Option(nfs.FILE, can.Option(nfs.FILE))
 		function show(p) {
 			p && p.include && can.core.List(p.include, function(from) {
 				p.keyword = p.keyword||{}, can.core.Item(can.onsyntax[from].keyword, function(key, value) { p.keyword[key] = p.keyword[key] || value })

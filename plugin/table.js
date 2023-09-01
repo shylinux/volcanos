@@ -192,10 +192,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			}, sub.onaction.close = function() { can.onmotion.hidden(can, target) }, can.base.isFunc(cb) && cb(sub)
 		}, target, field)
 	},
-	layout: function(can) { can.ui && can.ui.layout && can.ui.layout(can.ConfHeight(), can.ConfWidth()) },
+	// layout: function(can) { can.ui && can.ui.layout && can.ui.layout(can.ConfHeight(), can.ConfWidth()) },
 })
 Volcanos(chat.ONLAYOUT, {
-	_init: function(can, height, width) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can, height: height, width: width}) },
+	_init: function(can, height, width) {
+		can.core.CallFunc([can.onimport, html.LAYOUT], {can: can, height: height, width: width})
+	},
 	zone: function(can, height, width) { can.onlayout._init(can, height, width) },
 	result: function(can, height, width) { can.onlayout._init(can, height, width) },
 	simple: function(can, height, width) { can.onlayout._init(can, height, width) },
