@@ -77,7 +77,7 @@ var mdb = {
 	QS: ice.QS, AT: ice.AT,
 	EQ: ice.EQ, FS: ice.FS,
 }
-var web = {CHAT: "chat",
+var web = {CHAT: "chat", STUDIO: "studio",
 	DREAM: "dream", SPACE: "space", ROUTE: "route", SPIDE: "spide", COUNT: "count", SHARE: "share",
 	WEBSITE: "website", DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter", INPUT: "input",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
@@ -134,6 +134,8 @@ var gdb = {
 }
 var tcp = {
 	HOST: "host", PORT: "port",
+	SERVER: "server",
+	CLIENT: "client",
 }
 var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", PACK: "pack", TRASH: "trash", DIR_ROOT: "dir_root",

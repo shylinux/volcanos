@@ -230,6 +230,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			can.page.Append(can, target, [{type: html.IFRAME, src: src, style: {height: height, width: width}}])
 		} else if (msg.Length() > 0 || msg.Result() != "") {
 			can.onappend.table(can, msg, function(value, key, index, item) { return {text: [value, html.TD], onclick: function(event) {
+				if (event.target.type == html.BUTTON) { return can.runAction(can.request(event, item), event.target.name, [], function() {
+					
+				}) }
 				item.file && can.onimport.tabview(can, item.path, item.file||can.Option(nfs.FILE), item.line)
 			}} }, target), can.onappend.board(can, msg, target), msg.Option(ice.MSG_STATUS) && can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.page.Append(can, target, [html.STATUS])._target)
 			can.onmotion.delay(can, function() {
@@ -262,7 +265,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		if (can.isCmdMode()) { can.ui.zone.source._layout(), can.ui.zone[can.Option(nfs.PATH)] && can.ui.zone[can.Option(nfs.PATH)]._layout() }
 	},
 	exts: function(can, url, cb) { var sub = can.db.toolkit[url.split(web.QS)[0]]; if (sub) { return can.base.isFunc(cb)? cb(sub): sub.select() }
-		can.onimport.toolkit(can, {index: ice.CAN_PLUGIN, display: (url[0] == nfs.PS || url.indexOf(web.HTTP) == 0? "": can.base.Dir(can._path))+url}, function(sub) {
+		can.onimport.toolkit(can, {index: ice.CAN_PLUGIN, display: (url[0] == nfs.PS || url.indexOf(web.HTTP) == 0? "": can.base.Dir(can._path))+url,
+			style: url.split(nfs.PS).pop().split(nfs.PT)[0]}, function(sub) {
 			sub.run = function(event, cmds, cb) {
 				if (cmds.length > 0 && cmds[0] == ctx.ACTION) {
 					can.run(can.request(event, can.Option()), cmds, cb||function(msg) { can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY)) })
@@ -270,6 +274,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			}, can.db.toolkit[url.split(web.QS)[0]] = sub, can.base.isFunc(cb)? cb(sub): sub.select(), can.page.Modify(can, sub._legend, can.base.trimPrefix(url, "inner/"))
 		})
 	},
+	grow: function(can, msg, arg) { can.onimport.exts(can, "inner/output.js", function(sub) { sub.Conf(ctx.INDEX, can.ConfIndex())
+		sub.select(true), can.onmotion.delay(can, function() {
+			can.page.Append(can, sub._output, [{text: arg}]), sub._output.scrollTop = sub._output.scrollHeight
+			can.misc.sessionStorage(can, [can.ConfIndex(), "output"], sub._output.innerHTML)
+		})
+	}) },
 }, [""])
 Volcanos(chat.ONFIGURE, { 
 	source: function(can, target, zone, path) { var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
@@ -332,7 +342,13 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 		} var content = can.ui.content; if (content._root) { can.onmotion.cache(can, function() { return key }, content) }
 		if (can.onexport.parse(can) == nfs.SVG) { msg.Option(ctx.INDEX, web.WIKI_DRAW+mdb.FS+path+file) }
 		if (msg.Option(ctx.INDEX)) { return can.onsyntax._index(can, msg, function(target) { can.ui.content = target, cb(msg._content = content._root? (target._root = content._root): target) }, content._root? content: can.ui._profile.parentNode) }
+		if (can.base.beginWith(msg.Results(), "<img")) { return can.onsyntax._image(can, msg, content, cb, key) }
 		can.onsyntax._split(can, msg, content, cb, key)
+	},
+	_image: function(can, msg, content, cb, key) {
+		if (!content._root && can.db.history.length > 1) { content = can.ui.content = can.page.insertBefore(can, [{view: html.CONTENT, style: {width: can.ui.content.offsetWidth}}], can.ui._profile), content._cache_key = key }
+		content._max = 0, content._msg = msg, msg.__content = content, content.innerHTML = msg.Results()
+		can.onengine.signal(can, VIEW_CREATE, msg), can.base.isFunc(cb) && cb(msg._content = content._root? content._root: content)
 	},
 	_split: function(can, msg, content, cb, key) {
 		var path = msg.Option(nfs.PATH, can.Option(nfs.PATH)), file = msg.Option(nfs.FILE, can.Option(nfs.FILE))
@@ -341,9 +357,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
 				p.keyword = p.keyword||{}, can.core.Item(can.onsyntax[from].keyword, function(key, value) { p.keyword[key] = p.keyword[key] || value })
 				can.core.Item(can.onsyntax[from], function(key, value) { p[key] = p[key] || value })
 			})
-			p && p.prepare && can.core.ItemForm(p.prepare, function(value, index, key) {
-				p.keyword = p.keyword||{}, p.keyword[value] = key
-			})
+			p && p.prepare && can.core.ItemForm(p.prepare, function(value, index, key) { p.keyword = p.keyword||{}, p.keyword[value] = key })
 			if (!content._root && can.db.history.length > 1) { content = can.ui.content = can.page.insertBefore(can, [{view: html.CONTENT, style: {width: can.ui.content.offsetWidth}}], can.ui._profile), content._cache_key = key }
 			content._max = 0, content._msg = msg, msg.__content = content, can.page.Appends(can, content, [{view: ["tips", "", msg.Option(nfs.FILE)]}])
 			if (msg.Length() > 0) { can.onsyntax._change(can, msg), can.onaction.rerankLine(can, "tr.line:not(.delete)>td.line")

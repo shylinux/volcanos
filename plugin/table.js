@@ -7,11 +7,17 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		}
 	},
-	card: function(can, msg, target) { can.page.Appends(can, target||can._output, msg.Table(function(value) {
-		return {view: [[html.ITEM, value.status]], list: [{view: [wiki.TITLE, html.DIV, value.name]}, {view: [wiki.CONTENT, html.DIV, value.text]},
-			{view: html.ACTION, inner: value.action, onclick: function(event) { can.run(can.request(event, value), [ctx.ACTION, event.target.name]) }},
-		]}
-	})), can.onlayout.expand(can, can._output, 320) },
+	card: function(can, msg, target) {
+		can.sup.onexport.outputMargin = function() { return 211 }
+		can.page.Appends(can, target||can._output, msg.Table(function(value) {
+			return {view: [[html.ITEM, value.status]], list: [
+				{view: [wiki.TITLE, html.DIV], list: [value.icon && {img: can.misc.Resource(can, value.icon, value.name)}, {text: value.name}]},
+				{view: [wiki.CONTENT, html.DIV, value.text]},
+				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, 5) }},
+			]}
+		}))
+		can.onimport.layout = function() { can.onlayout.expand(can, can._output, 320) }
+	},
 	_vimer_zone: function(can, msg, target) { msg.Table(function(value) { var action = can.page.parseAction(can, value)
 		can.onimport.item(can, {name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]), title: value[mdb.TEXT]}, function(event) {
 			can.sup.onexport.record(can, value.name, mdb.NAME, value, event)
@@ -79,7 +85,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.base.isFunc(button)? button(event, button): can.onaction[button](event, can, button), can.onkeymap.prevent(event)
 	}}]) },
 	icon: function(can, msg, target, cb) { return msg.Table(function(value) {
-		var space = value.space||can.ConfSpace(); value.icon && (value.icon = can.base.MergeURL(value.icon, ice.POD, space))
+		var space = value.space||can.ConfSpace()||can.misc.Search(can, ice.POD); value.icon && (value.icon = can.base.MergeURL(value.icon, ice.POD, space))
 		value.icon = can.misc.PathJoin(value.icon||can.page.drawText(can, value.name, 80))
 		return can.page.Append(can, target, [{view: html.ITEM, list: [{view: html.ICON, list: [{img: value.icon}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
 			cb && cb(target, value)
@@ -175,11 +181,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 					sub.onimport.size(sub, can.ConfHeight()/2, (can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0))/2)
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true), sub.Focus()
 					if (sub._delay_init || meta.msg) { sub._delay_init = false, meta.msg = false, sub.Update() }
-				}) }, sub._delay_init = true, sub.onaction.close = function() { sub.select() }, sub.select = function() { return sub._legend.click(), sub }
-				sub.hidden = function() { can.onmotion.hidden(can, sub._target), can.page.ClassList.del(can, sub._legend, html.SELECT) }
-				sub.onaction._close = function() {
-					can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can)
+				}) }, sub._delay_init = true, sub.onaction.close = function() { sub.select() }, sub.select = function(show) {
+					if (show && can.page.ClassList.has(can, sub._legend, html.SELECT)) { return sub }
+					return sub._legend.click(), sub
 				}
+				sub.hidden = function() { can.onmotion.hidden(can, sub._target), can.page.ClassList.del(can, sub._legend, html.SELECT) }
+				sub.onaction._close = function() { can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can) }
 				can.base.isFunc(cb) && cb(sub), can.onexport.tool(can)
 			}, target)
 		})

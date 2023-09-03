@@ -44,23 +44,19 @@ var Volcanos = shy({
 			if (name.indexOf("/plugin/") == 0) { name = "/volcanos"+name }
 			if (name.indexOf("/volcanos/") == 0 && meta.volcano) { name = meta.volcano+name }
 			if (name.indexOf("/require/") == 0 && meta.iceberg) { name = meta.iceberg+name }
-			// meta.cache[name] || name == ""? next(): meta._load(name, next)
 			meta.cache[name]? next(): meta._load(name, next)
 		},
-		requestPodCmd: function(event) { return can.request(event, {space: can.Conf(web.SPACE), index: can.Conf(ctx.INDEX)}) },
+		requestPodCmd: function(event) { return can.request(event, {space: can.ConfSpace(), index: can.ConfIndex()}) },
 		request: function(event) { event = event||{}, event = event._event||event
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg
-			function set(key, value) {
-				if (key == "_method") { return msg._method = value }
-				value == "" || msg.Option(key) || msg.Option(key, value) }
+			function set(key, value) { if (key == "_method") { return msg._method = value }
+				value == "" || msg.Option(key) || msg.Option(key, value)
+			}
 			can.core.List(arguments, function(item, index) { if (!item || index == 0) { return } 
 				can.base.isFunc(item.Option)? can.core.List(item.Option(), function(key) {
 					key.indexOf("_") == 0 || key.indexOf("user.") == 0 || set(key, item.Option(key))
 				}): can.core.Item(can.base.isFunc(item)? item(): item, set)
 			})
-			// set(ctx.INDEX, can.Conf(ctx.INDEX))
-				set(ice.MSG_MODE, can.Mode())
-			set(ice.MSG_HEIGHT, (can.ConfHeight()||"32")+""), set(ice.MSG_WIDTH, (can.ConfWidth()||"320")+"")
 			return msg
 		},
 		requestAction: function(event, button) { return can.request(event, {action: button, _toast: ice.PROCESS+" "+button}) },
@@ -92,7 +88,6 @@ var Volcanos = shy({
 		setAction: function(key, value) { return can.set(chat.ACTION, key, value) },
 		getAction: function(key, cb) { return can.get(chat.ACTION, key, cb) },
 		getActionSize: function(cb) { return can.get(chat.ACTION, nfs.SIZE, cb) },
-
 		isPanelType: function() { return can.page.ClassList.has(can, can._fields||can._target, chat.PANEL) },
 		isPluginType: function() { return can.page.ClassList.has(can, can._fields||can._target, chat.PLUGIN) },
 		isStoryType: function() { return can.page.ClassList.has(can, can._fields||can._target, chat.STORY) },
@@ -104,10 +99,10 @@ var Volcanos = shy({
 		isAutoMode: function() { return can.Mode() == "" },
 		Mode: function(value) { return can.Conf(ice.MODE, value) },
 		ConfDefault: function(value) { can.core.Item(value, function(k, v) { can.Conf(k) || can.Conf(k, v) }) },
-		ConfHeight: function(value) { return can.Conf(html.HEIGHT, value) },
-		ConfWidth: function(value) { return can.Conf(html.WIDTH, value) },
 		ConfSpace: function() { return can.Conf(web.SPACE)||can.Conf("_space") },
 		ConfIndex: function() { return can.Conf(ctx.INDEX)||can.Conf("_index") },
+		ConfHeight: function(value) { return can.Conf(html.HEIGHT, value) },
+		ConfWidth: function(value) { return can.Conf(html.WIDTH, value) },
 		Conf: function(key, value) { var res = can._conf
 			for (var i = 0; i < arguments.length; i += 2) {
 				if (typeof key == code.OBJECT) { res = can.core.Value(can._conf, arguments[i]), i--; continue }
@@ -140,8 +135,6 @@ try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta
 		window.onerror = function(message, source, lineno, colno, error) { debug? alert([message].concat(can.misc._stacks(0, error)).join(lex.NL)): can.misc.Error(message, lex.NL+[source, lineno, colno].join(ice.DF), error) }
 		window.onmousemove = function(event) { window._mousemove && (window._mousemove.onmousemove(event)) }
 		window.onmouseup = function(event) { window._mousemove && (window._mousemove.onmouseup(event)) }
-		// window.ondblclick = function(event) { can.onkeymap.prevent(event) }
-		// window.onkeydown = function(event) { if (event.key == code.ESCAPE && !can.page.tagis(event.target, html.INPUT)) { can.onkeymap.prevent(event) } }
 	}
 } else { // nodejs
 	global.document = {}, global.location = {}, global.window = {}, global.navigator = {userAgent: "nodejs"}

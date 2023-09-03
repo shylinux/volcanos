@@ -35,7 +35,7 @@ Volcanos(chat.ONIMPORT, {
 			return can.page.style(can, div, html.MAX_HEIGHT, can.onexport.outputHeight(can)), can.page.Append(can, div, [{text: arg}]), can._output.scrollTop = div.offsetTop, div.scrollBy(0, 10000), true
 		}).length == 0) { can.onappend.board(can, arg) }
 	},
-	_open: function(can, msg, arg) { can.user.open(arg), can.Update() },
+	_open: function(can, msg, arg) { can.user.opens(arg), can.Update() },
 	_close: function(can, msg) { can.user.close() || history.back() },
 	change: function(event, can, name, value, cb) { return can.page.SelectArgs(can, can._option, "", function(input) { if (input.name != name || value == input.value) { return }
 		can.page.Select(can, input.parentNode, "span.value", function(target) { target.innerText = value })
@@ -195,14 +195,14 @@ Volcanos(chat.ONEXPORT, {
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
 	marginTop: function() { return 0 }, marginBottom: function() { return 0 },
 	actionHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT)? 0: html.ACTION_HEIGHT },
-	outputHeight: function(can) { var height = can.sub.ConfHeight()
+	outputHeight: function(can) { var height = can.sub.ConfHeight() - can.onexport.outputMargin(can)
+		if (can.user.isMobile) { return can.ConfHeight() - can.onexport.actionHeight(can) - can.onexport.statusHeight(can) }
 		can.page.SelectChild(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })
 		return can.base.Min(height, can.sub.ConfHeight()/2)
 	},
+	outputMargin: function(can) { return 0 },
 	statusHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },
-	link: function(can) { var meta = can.Conf(), args = can.Option()
-		args.pod = meta._space||meta.space||meta.pod, args.cmd = meta.index||can.core.Keys(meta.ctx, meta.cmd)
-		return can.misc.MergePodCmd(can, args, true)
-	}, args: function(can) { return can.Option() },
+	link: function(can) { var args = can.Option(); args.pod = can.ConfSpace(), args.cmd = can.ConfIndex(); return can.misc.MergePodCmd(can, args, true) },
+	args: function(can) { return can.Option() },
 	close: function(can, msg) {},
 })
