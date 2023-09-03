@@ -92,6 +92,7 @@ var web = {CHAT: "chat", STUDIO: "studio",
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
 	URL: "url",
 	
+	CODE_GIT_SEARCH: "web.code.git.search",
 	CODE_GIT_STATUS: "web.code.git.status",
 	CODE_GIT_REPOS: "web.code.git.repos",
 	CODE_COMPILE: "web.code.compile",

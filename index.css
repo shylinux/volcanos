@@ -1,4 +1,5 @@
 body {
+	background-color:black;
 	--danger-bg-color:red; --danger-fg-color:white;
 	--notice-bg-color:blue; --notice-fg-color:white;
 	--create-bg-color:blue; --create-fg-color:white;
@@ -226,6 +227,7 @@ svg g[fill] rect { fill:unset; }
 /* output */
 div.project div.list { margin-left:10px; clear:both; }
 div.project div.item { white-space:pre; line-height:24px; padding:0 10px; }
+div.project div.item img { height:32px; width:32px; }
 div.project div.item.filter { padding:0; }
 div.project div.item.filter>i:first-child { position:absolute; padding:5px; }
 div.project div.item.filter>input { width:100% !important; padding-left:25px; }
@@ -251,7 +253,7 @@ div.display:not(.toggle) { border-top:var(--box-border); }
 div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item { background:var(--plugin-bg-color); padding:10px; border:var(--box-border); border-radius:var(--plugin-radius); margin:10px; width:320px; float:left; box-shadow:var(--box-shadow); }
 div.output.card>div.item>div.title { font-size:1.2rem; font-weight:bold; padding:10px; border-bottom:var(--box-border); }
-div.output.card>div.item>div.content { white-space:pre; padding:10px; height:70px; }
+div.output.card>div.item>div.content { padding:10px; height:70px; }
 div.output.card>div.item>div.action { text-align:right; width:100%; display:flex; }
 // div.output.card>div.item:not(:hover)>div.action { visibility:hidden; }
 div.output.card>div.item>div.action>input { margin-right:5px; box-shadow:var(--box-shadow); }
@@ -407,6 +409,9 @@ fieldset.web.code.docker.studio>div.output>fieldset>form.option>div:first-child 
 fieldset.web.code.docker.studio>div.output { padding:10px; }
 fieldset.web.code.git.status>div.output table.content { width:100%; }
 fieldset.inner>div.output>div.project div.item.modify { background-color:#00800036; }
+fieldset.plug.dream.zone>div.output>div.item { display:flex; padding:5px; }
+fieldset.plug.dream.zone>div.output>div.item>img { margin-right:5px; }
+fieldset.plug.dream.zone>div.output>div.item>span { line-height:32px; }
 fieldset.vimer>div.output>div.project div.item.modify { background-color:#00800036; }
 body>div.input.vimer.plug td:first-child { display:none; }
 fieldset.cmd>div.action>div.tabs.select { border-bottom:var(--notice-bg-color) solid 2px; height:32px; }

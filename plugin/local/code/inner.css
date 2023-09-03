@@ -8,12 +8,12 @@ fieldset.inner>div.output div.content td.text span.constant { color:var(--code-c
 fieldset.inner>div.output div.content td.text span.string { color:var(--code-string); box-shadow:var(--box-shadow); }
 fieldset.inner>div.output div.content td.text span.object { color:var(--code-object); }
 fieldset.inner>div.output>div.project>div.zone>div.item { font-style:italic; font-weight:bold; line-height:32px; }
-fieldset.inner>div.output>div.project div.zone>div.item span.icon { font-style:normal; font-weight:normal; }
+fieldset.inner>div.output>div.project div.zone>div.item span.icon { font-style:normal; font-weight:normal; letter-spacing:0; }
 fieldset.inner>div.output>div.project div.zone>div.item span.icon { font-size:22px; line-height:26px; padding:0 5px; float:right; display:none; }
 fieldset.inner>div.output>div.project div.zone:hover>div.item span.icon { display:block; }
 fieldset.inner>div.output>div.project div.zone div.action { width:100%; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item { padding-right:0; width:100%; }
-fieldset.inner>div.output>div.project div.zone div.action>div.item>i { position:absolute; padding:4px; }
+fieldset.inner>div.output>div.project div.zone div.action>div.item>i { position:absolute; padding:4px 6px; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item>input { padding-left:25px; width:100%; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item>span.delete { font-size:20px; }
 fieldset.inner>div.output>div.project { box-shadow:var(--box-shadow); }

@@ -95,6 +95,7 @@ var Volcanos = shy({
 		isSimpleMode: function() { return can.Mode() == chat.SIMPLE },
 		isFloatMode: function() { return can.Mode() == chat.FLOAT },
 		isFullMode: function() { return can.Mode() == chat.FULL },
+		isZoneMode: function() { return can.Mode() == "zone" },
 		isCmdMode: function() { return can.Mode() == chat.CMD },
 		isAutoMode: function() { return can.Mode() == "" },
 		Mode: function(value) { return can.Conf(ice.MODE, value) },

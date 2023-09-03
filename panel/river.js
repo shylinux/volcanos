@@ -69,9 +69,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		can.misc.localStorage(can, CAN_RIVER, ""), can.misc.localStorage(can, CAN_STORM, ""), can.misc.Search(can, {river: "", storm: ""})
 	}) },
 	onaction_nostorm: function(can, msg, river) { can.ondetail.create({}, can, mdb.CREATE, river) },
-	onaction_remove: function(can, msg, river, storm, id) {
-		can.run(can.request({}), [river, storm, chat.STORM, ctx.ACTION, mdb.DELETE, mdb.ID, id], function() { })
-	},
+	onaction_remove: function(can, msg, river, storm, id) { can.run(can.request({}), [river, storm, chat.STORM, ctx.ACTION, mdb.DELETE, mdb.ID, id], function() { }) },
 })
 Volcanos(chat.ONDETAIL, {
 	_trans: {
