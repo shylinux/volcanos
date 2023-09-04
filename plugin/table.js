@@ -19,7 +19,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.onimport.layout = function() { can.onlayout.expand(can, can._output, 320) }
 	},
 	_vimer_zone: function(can, msg, target) { msg.Table(function(value) { var action = can.page.parseAction(can, value)
-		can.onimport.item(can, {icon: value.icon||value.avatar_url, name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]), title: value[mdb.TEXT]}, function(event) {
+		can.onimport.item(can, {icon: value.icon||value.avatar_url, name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]), title: value[mdb.TEXT]||value.description}, function(event) {
 			can.sup.onexport.record(can, value.name, mdb.NAME, value, event)
 		}, function() { return shy(action, function(event, button, meta, carte) { can.misc.Event(event, can, function(msg) { carte.close()
 			can.sup.onexport.action(can, button, value) || can.run(event, [ctx.ACTION, button], function(msg) { can.sup.onimport._process(can.sup, msg) || can.Update() })
@@ -30,7 +30,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		zone._icon(kit.Dict(
 			can.page.unicode.refresh, function(event) { sub.Update(event) },
 			"+", function(event) { sub.Update(event, [ctx.ACTION, mdb.CREATE]) },
-			"=", function() { can.onimport.tabview(can, "", sub._index, ctx.INDEX) },
+			"=", function() { can.onimport.tabview(can, "", [sub.ConfIndex()].concat(sub.Conf(ctx.ARGS)).join(","), ctx.INDEX) },
 		))
 		var action = can.core.List(sub.Conf(ctx.INPUTS), function(item) { if (item.type == html.BUTTON && [ice.LIST, ice.BACK].indexOf(item.name) == -1) { return item.name } })
 		sub.onexport.output = function(_sub, msg) { zone._total(msg.Length()), cb(sub, msg)
