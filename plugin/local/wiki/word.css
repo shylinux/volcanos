@@ -1,7 +1,3 @@
-fieldset.word>form.option>div.item>input[name=path] { width:320px; }
-body.mobile fieldset.word>form.option>div.item>input[name=path] { width:180px; }
-body.webview fieldset.word>form.option>div.item>input[name=path] { width:160px; }
-
 fieldset.word>div.output { padding:10px; }
 fieldset.word>div.output>p { margin:20px auto; }
 fieldset.word>div.output div.story.flex { display:flex; justify-content:center; }

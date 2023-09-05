@@ -247,7 +247,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			}
 			can.page.requireModules(can, can.Conf("modules"), function() {
-				can.onmotion.clear(can)
+				if (sub.Mode() != "result") { can.onmotion.clear(can) }
 				can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 					if (action !== false) { can.onkeymap._build(sub)
 						can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)

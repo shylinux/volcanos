@@ -44,32 +44,16 @@ Volcanos(chat.ONFIGURE, {
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) { show(target, zone, path) }) }), target)
 	},
-	// xterm: function(can, target, zone) { can.onimport._zone(can, zone, web.CODE_XTERM, function(sub, msg) {
-	// 	sub.onexport.record = function(sub, value, key, item) { can.onimport.tabview(can, "", [web.CODE_XTERM, item.hash, item.name||item.type].join(mdb.FS), ctx.INDEX) }
-	// }) },
-	// favor: function(can, target, zone) { can.onimport._zone(can, zone, web.CHAT_FAVOR, function(sub, msg) {
-	// 	sub.onexport.record = function(sub, value, key, item, event) { switch (item.type) {
-	// 		case nfs.FILE: var ls = can.onexport.split(can, item.text); can.onimport.tabview(can, ls[0], ls[1]); break
-	// 		case mdb.LINK: can.onimport.tabview(can, "", item.text, web.SPACE); break
-	// 		case ctx.INDEX: can.onimport.tabview(can, "", item.text, ctx.INDEX); break
-	// 		case ssh.SHELL: can.onimport.tabview(can, "", [web.CODE_XTERM, item.text].join(mdb.FS), ctx.INDEX); break
-	// 		case cli.OPENS: can.runAction(event, cli.OPENS, [item.text]); break
-	// 	} }
-	// }) },
 	space: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {
-		sub.onimport._open = function(_, msg, arg) {
-			var link = can.misc.ParseURL(can, arg); if (link.pod) { can.onimport.tabview(can, "", link.pod, web.SPACE), sub.Update(); return }
+		sub.onimport._open = function(_, msg, arg) { var link = can.misc.ParseURL(can, arg)
+			if (link.pod) { can.onimport.tabview(can, "", link.pod, web.SPACE), sub.Update(); return }
 			can.onimport.tabview(can, "", arg, web.SPACE)
 		}
-		sub.onexport.record = function(sub, value, key) {
-			can.onimport.tabview(can, "", value, web.SPACE)
-		}
+		sub.onexport.record = function(sub, value, key) { can.onimport.tabview(can, "", value, web.SPACE) }
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
 	}) },
 	repos: function(can, target, zone) { can.onimport._zone(can, zone, {index: web.CODE_GIT_SEARCH, args: ["repos"], style: html.OUTPUT, mode: mdb.ZONE}, function(sub, msg) {
-		sub.onexport.record = function(sub, value, key, data) {
-			can.user.opens(data.html_url)
-		}
+		sub.onexport.record = function(sub, value, key, data) { can.user.opens(data.html_url) }
 	}) },
 })
 Volcanos(chat.ONACTION, {list: [
@@ -133,6 +117,10 @@ Volcanos(chat.ONACTION, {list: [
 			target.innerText = can.ui.current.value.slice(0, can.ui.current.selectionStart)
 		}) })
 	}) },
+	onkeydown: function(event, can) {
+		if (can.onkeymap.selectCtrlN(event, can, can.ui.tabs, html.DIV_TABS)) { return }
+		can.db._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can.db._key_list, can.ui.content)
+	},
 })
 Volcanos(chat.ONKEYMAP, {
 	scrollHold: function(can, count, begin) { var scroll = can.ui.content.scrollLeft; can.ui.current.focus(), count != undefined && can.onkeymap.cursorMove(can.ui.current, count, begin == undefined? count: begin), can.ui.content.scrollLeft = scroll },

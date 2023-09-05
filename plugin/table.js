@@ -149,6 +149,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			if (can.page.ClassList.has(can, target, html.SELECT)) {
 				var next = target.nextSibling||target.previousSibling; if (!next) { return } next.click()
 			} cbs && cbs(tabs), can.page.Remove(can, target)
+			can.onexport.tabs(can)
 		}
 		return {view: html.TABS, title: tabs.title||tabs.text, list: [{text: [tabs.nick||tabs.name, html.SPAN, mdb.NAME]}, {icon: mdb.DELETE, onclick: function(event) {
 			close(tabs._target), can.onkeymap.prevent(event)
@@ -158,13 +159,17 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			target._item = tabs, tabs._target = target, target._close = function() { close(target) }
 			var _action = can.page.parseAction(can, tabs)
 			can.page.Modify(can, target, {draggable: true, _close: function() { close(target) },
-				ondragstart: function(event) { action._drop = function(before) { before.parentNode == action && action.insertBefore(target, before) } },
+				ondragstart: function(event) { action._drop = function(before) {
+					before.parentNode == action && action.insertBefore(target, before)
+					can.onexport.tabs(can)
+				} },
 				ondragover: function(event) { event.preventDefault(), action._drop(event.target) },
 				oncontextmenu: function(event) { can.user.carte(event, can, kit.Dict(
 					"Close", function(event) { close(target) },
 					"Close Other", function(event) { can.page.SelectChild(can, action, html.DIV_TABS, function(target) { target == tabs._target || close(target) }) },
 					"Rename Tabs", function(event) { can.user.input(event, can, [mdb.NAME], function(list) {
-						can.page.Select(can, target, "span.name", function(target) { can.page.Modify(can, target, list[0]||tabs.name) })
+						can.page.Select(can, target, html.SPAN_NAME, function(target) { can.page.Modify(can, target, list[0]||tabs.name) })
+						can.onexport.tabs(can)
 					}) }, menu.meta,
 				), ["Close", "Close Other", "Rename Tabs", ""].concat(can.base.getValid(menu.list, can.core.Item(menu.meta)), _action), function(event, button, meta) {
 					(meta[button]||menu)(can.request(event, tabs), button, meta)
@@ -228,25 +233,33 @@ Volcanos(chat.ONEXPORT, {
 	session: function(can, key, value) { return can.misc[can.user.isWebview? "localStorage": "sessionStorage"](can, [can.Conf(ctx.INDEX), key, location.pathname].join(":"), value == ""? "": JSON.stringify(value)) },
 	action_value: function(can, key, def) { var value = can.Action(key); return can.base.isIn(value, ice.AUTO, key)? def: value },
 	tool: function(can) { can.misc.sessionStorage(can, [can.ConfIndex(), "tool"], JSON.stringify(can.page.Select(can, can._status, html.LEGEND, function(target) { return target._meta }))) },
+	tabs: function(can) {},
 })
 Volcanos(chat.ONACTION, {
 	onkeydown: function(event, can) {
-		if (can.onkeymap.selectCtrlN(event, can, can._action, html.DIV_TABS)) { return }
+		if (event.ctrlKey && "0" <= event.key && event.key <= "9") { return can.onaction.ctrln(event, can) }
 		can._keylist = can.onkeymap._parse(event, can, mdb.PLUGIN, can._keylist||[], can._output)
 	},
+	escape: function(event, can) {},
+	space: function(event, can) { can.ui.filter && (can.ui.filter.focus(), can.onkeymap.prevent(event)) },
 	enter: function(event, can) {},
+	ctrln: function(event, can) { can.onkeymap.selectCtrlN(event, can, can._action, html.DIV_TABS) },
+	tabs: function(event, can) {},
+	tabx: function(event, can) { can.page.Select(can, can._action, html.DIV_TABS_SELECT, function(target) { target._close() }) },
 })
 Volcanos(chat.ONKEYMAP, {
 	_mode: {
 		plugin: {
+			Escape: shy("清理屏幕", function(event, can) { can.onaction.escape(event, can) }),
 			Enter: shy("执行操作", function(event, can) { can.onaction.enter(event, can) }),
-			" ": shy("搜索项目", function(event, can) { can.ui.filter && (can.ui.filter.focus(), can.onkeymap.prevent(event)) }),
+			" ": shy("搜索项目", function(event, can) { can.onaction.space(event, can) }),
 			f: shy("搜索项目", function(event, can) { can.ui.filter && (can.ui.filter.focus(), can.onkeymap.prevent(event)) }),
-			a: shy("展示项目", function(event, can) { can.ui && can.ui.project && (can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)) }),
-			v: shy("展示预览", function(event, can) { can.ui && can.ui.profile && (can.onmotion.toggle(can, can.ui.profile), can.onimport.layout(can)) }),
-			r: shy("展示输出", function(event, can) { can.ui && can.ui.display && (can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can)) }),
+			a: shy("展示项目", function(event, can) { can.ui.project && (can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)) }),
+			v: shy("展示预览", function(event, can) { can.ui.profile && (can.onmotion.toggle(can, can.ui.profile), can.onimport.layout(can)) }),
+			r: shy("展示输出", function(event, can) { can.ui.display && (can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can)) }),
 			p: shy("添加插件", function(event, can) { can.sup.onaction["添加工具"](event, can.sup) }),
-			x: shy("关闭标签", function(event, can) { can.page.Select(can, can._action, html.DIV_TABS_SELECT, function(target) { target._close() }) }),
+			t: shy("添加标签", function(event, can) { can.onaction.tabs(event, can) }),
+			x: shy("添加标签", function(event, can) { can.onaction.tabx(event, can) }),
 			l: shy("打开右边标签", function(event, can) { can.page.Select(can, can._action, html.DIV_TABS_SELECT, function(target) {
 				var next = target.nextSibling; next && can.page.ClassList.has(can, next, html.TABS) && next.click()
 			}) }),
