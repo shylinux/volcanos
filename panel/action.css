@@ -5,9 +5,11 @@ fieldset.Action.tabs>div.action { display:block; }
 fieldset.Action.tabs>div.output>fieldset>legend { display:none; }
 fieldset.Action.tabs>div.output>fieldset.plugin:not(.select) { display:none; }
 fieldset.Header div.Action { display:contents; }
+fieldset.Action.tabview>div.output>fieldset.plugin>legend { display:none; }
 fieldset.Action.tabview>div.output>fieldset.plugin:not(.select) { display:none; }
 fieldset.Action.vertical>div.output>fieldset.plugin { float:left; }
 fieldset.Action.horizon>div.output>fieldset.plugin { float:left; }
+fieldset.Action.horizon>div.output>fieldset.plugin>div.status { display:none; }
 fieldset.Action.flow>div.output>fieldset.plugin { float:left; }
 fieldset.Action.free>div.output>fieldset.plugin { position:absolute; }
 fieldset.Action.free>div.output>fieldset.plugin.select { z-index:10; }

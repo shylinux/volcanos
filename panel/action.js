@@ -13,7 +13,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 	_tabs: function(can, sub, meta) {
 		var tabs = [{view: [html.ITEM, "", meta.name], onclick: function(event) { can.onmotion.select(can, can._header_tabs, html.DIV_ITEM, sub._header_tabs)
 			can.onmotion.select(can, can._action, html.DIV_ITEM, sub._tabs), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
-			if (sub._delay_refresh) { sub._delay_refresh = false, sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), can.onexport.isauto(can)) }
+			if (sub._delay_refresh) { sub._delay_refresh = false, sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) }
 			can.onexport.layout(can) == FREE || (can._output.scrollTop = sub._target.offsetTop-html.PLUGIN_MARGIN)
 			can.onexport.layout(can) && can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), meta.index)
 		}, oncontextmenu: sub._legend.onclick}]; sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
@@ -24,12 +24,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 	},
 })
 Volcanos(chat.ONACTION, {_init: function(can, target) {
-		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+html.ACTION_MARGIN), can.Conf(html.MARGIN_X, (can.user.isMobile? 2: 4)*html.PLUGIN_MARGIN)
+		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+html.ACTION_HEIGHT), can.Conf(html.MARGIN_X, (can.user.isMobile? 2: 4)*html.PLUGIN_MARGIN)
 		can.core.List(["ontouchstart", "ontouchmove", "ontouchend"], function(item) {
 			can.onengine.listen(can, item, function(event, msg) { can.onaction[item](event, can), can.onengine.signal(can, chat.ONACTION_TOUCH, msg) }, target)
 		})
 	},
-	onsize: function(can, msg, height, width) { can.Conf({height: can.base.Min(height-can.Conf(html.MARGIN_Y), 240), width: width-can.Conf(html.MARGIN_X)}) },
+	onsize: function(can, msg, height, width) { can.Conf({height: can.base.Min(height, 240), width: width}) },
 	onlogin: function(can, msg) { can.onimport._menu(can, msg), can.onkeymap._build(can)
 		can._root.River && can.onmotion.delay(can, function() { if (can.Mode()) { return } var gt = can.page.unicode.next, lt = can.page.unicode.prev, river = can._root.River._target
 			var target = can.page.Append(can, can._target, [{view: [[html.TOGGLE, chat.PROJECT], "", can.page.isDisplay(river)? lt: gt], onclick: function(event) {
@@ -103,24 +103,25 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	_trans: kit.Dict("dream", "空间", "repos", "资源", "portal", "官网", "desktop", "桌面", html.LAYOUT, "布局", ice.AUTO, "默认布局", TABS, "标签布局", TABVIEW, "标签分屏", HORIZON, "左右分屏", VERTICAL, "上下分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
 })
 Volcanos(chat.ONLAYOUT, {
-	tabs: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-can.Conf(html.MARGIN_Y)+html.ACTION_MARGIN), can.ConfWidth(width-can.Conf(html.MARGIN_X)) })
+	tabs: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width) })
 		can.core.List(can._plugins, function(sub) { sub._delay_refresh = true })
 		can.onmotion.select(can, can._action, html.DIV_ITEM, can.onmotion.select(can, can._action, html.DIV_ITEM)||0, function(target) { target.click() }); return true
 	},
-	tabview: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height), can.ConfWidth(width) })
+	tabview: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width) })
 		can.core.List(can._plugins, function(sub) { sub._delay_refresh = true }), can.onmotion.toggle(can, can._header_tabs, true)
 		can.onmotion.select(can, can._action, html.DIV_ITEM, can.onmotion.select(can, can._action, html.DIV_TABS)||0, function(target) { target.click() }); return true
 	},
 	horizon: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height), can.ConfWidth(width/2) }) },
 	vertical: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height/2), can.ConfWidth(width) }) },
-	grid: function(can) { can.getActionSize(function(height, width) { var m = can.user.isMobile? 1: 2, n = 2
-		var h = height/n-4*html.PLUGIN_MARGIN, w = width/m-can.Conf(html.MARGIN_X); can.ConfHeight(h), can.ConfWidth(w)
-	}) },
-	free: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-can.Conf(html.MARGIN_Y)), can.ConfWidth(width-can.Conf(html.MARGIN_Y))
+	grid: function(can) { can.getActionSize(function(height, width) { var m = can.user.isMobile? 1: 2, n = 2, h = height/n, w = width/m; can.ConfHeight(h+html.ACTION_HEIGHT), can.ConfWidth(w) }) },
+	free: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height*3/4), can.ConfWidth(width*3/4)
 		can.core.List(can._plugins, function(sub, index, array) { can.onmotion.move(can, sub._target, {left: (width/array.length/8*5+20)*index, top: (height/array.length/8*5)*index}) }), can.onmotion.toggle(can, can._header_tabs, true)
 	}) },
+	flow: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-html.ACTION_MARGIN), can.ConfWidth(width) }) },
 	page: function(can) { can.page.styleHeight(can, can._output, ""), can.page.style(can, document.body, kit.Dict(html.OVERFLOW, "")) },
-	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.MAX_HEIGHT, "") }) },
+	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) {
+		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(button? 0: html.ACTION_MARGIN), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.MAX_HEIGHT, "")
+	}) },
 	_storage: function(can, value) { return can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value) },
 })
 Volcanos(chat.ONEXPORT, {

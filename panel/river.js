@@ -25,7 +25,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	onaction_touch: function(can, msg) { can.user.isMobile && can.onmotion.hidden(can) },
 	onaction_notool: function(can, msg, river, storm) { can.ondetail["addcmd"](msg._event, can, "addcmd", river, storm) },
 	onsearch: function(can, msg, arg) { if (arg[0] == chat.STORM) { can.onexport.storm(can, msg, arg) } },
-	onlayout: function(can, layout) { can.user.isMobile || can.onmotion.toggle(can, can._target, !layout || layout == "tabs") },
+	onlayout: function(can, layout) { can.user.isMobile || can.onmotion.toggle(can, can._target, !can.base.isIn(layout, "tabview", "horizon","vertical", "page")) },
 	ontitle: function(can, msg) { can.misc.sessionStorage(can, CAN_RIVER, ""), can.misc.sessionStorage(can, CAN_STORM, "") },
 	create: function(event, can) { can.user.input(can.request(event, {title: "创建群组"}), can, [
 		{name: mdb.TYPE, values: [aaa.TECH, aaa.ROOT, aaa.TECH, aaa.VOID], _trans: "类型"},
