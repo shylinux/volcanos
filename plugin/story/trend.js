@@ -1,7 +1,9 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(can, function() { can.base.isFunc(cb) && cb(msg)
-		can.Conf(ice.VIEW) && can.Action(ice.VIEW, can.Conf(ice.VIEW)), can.onmotion.toggle(can, can._option, !can.user.isMobile || !can.isFullMode())
-		can.db.data = msg.Table(), can.onimport.layout(can)
-	}) },
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
+		can.page.requireDraw(can, function() { can.base.isFunc(cb) && cb(msg)
+			can.Conf(ice.VIEW) && can.Action(ice.VIEW, can.Conf(ice.VIEW)), can.onmotion.toggle(can, can._option, !can.user.isMobile || !can.isFullMode())
+			can.db.data = msg.Table(), can.onimport.layout(can)
+		})
+	},
 	_sum: function(can) { if (can.db.list) { return can.db.list }
 		var begin = "", count = 0, rest = 0, add = 0, del = 0, max = 0
 		can.max = 0, can.min = 0, can.db.list = can.core.List(can.db.data, function(value, index) {
@@ -86,7 +88,7 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "趋势图", "柱状图", "折线图"
 Volcanos(chat.ONDETAIL, {
 	onmouseenter: function(event, can, item) { can.Status(item) },
 	onclick: function(event, can, item) { can.run(can.request(event, item, can.Option()), [mdb.DETAIL], function(msg) {
-		msg.Append(ctx.STYLE, html.FLOAT), can.sup.onimport._field(can, msg)
+		msg.Append(ctx.STYLE, html.FLOAT), can.sup.onimport._field(can.sup, msg)
 	}) },
 })
 Volcanos(chat.ONEXPORT, {list: ["from", "commit", "total", "max", "date", "text", "add", "del"],

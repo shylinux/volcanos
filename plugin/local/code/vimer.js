@@ -95,7 +95,7 @@ Volcanos(chat.ONACTION, {list: [
 	
 	"构建": function(event, can) { can.onimport.tabview(can, "", web.CODE_COMPILE, ctx.INDEX) },
 	"编译": function(event, can) { can.onaction.compile(event, can, code.COMPILE) },
-	"终端": function(event, can) { can.user.input(can.request(event, {action: "xterm"}), can, [mdb.TYPE], function(args) { can.onimport.tabview(can, "", [web.CODE_XTERM, args[1]||"ish"].join(mdb.FS), ctx.INDEX) }) },
+	"终端": function(event, can) { can.user.input(can.requests(event, {action: "xterm"}), can, [mdb.TYPE], function(args) { can.onimport.tabview(can, "", [web.CODE_XTERM, args[1]||"ish"].join(mdb.FS), ctx.INDEX) }) },
 	"路由": function(event, can) { can.onimport.tabview(can, "", web.ROUTE, ctx.INDEX) },
 	
 	"源码": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },

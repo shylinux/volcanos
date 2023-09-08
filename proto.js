@@ -47,7 +47,15 @@ var Volcanos = shy({
 			meta.cache[name]? next(): meta._load(name, next)
 		},
 		requestPodCmd: function(event) { return can.request(event, {space: can.ConfSpace(), index: can.ConfIndex()}) },
-		request: function(event) { event = event||{}, event = event._event||event
+		requests: function(event) { event = event||{}, event = event._event||event
+			var msg = event._msg||can.misc.Message(event, can); event._msg = msg
+			function set(key, value) { msg.Option(key, value) }
+			can.core.List(arguments, function(item, index) { if (!item || index == 0) { return } 
+				can.base.isFunc(item.Option)? can.core.List(item.Option(), function(key) { set(key, item.Option(key)) }): can.core.Item(can.base.isFunc(item)? item(): item, set)
+			}); return msg
+		},
+		request: function(event) {
+			event = event||{}, event = event._event||event
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg
 			function set(key, value) { if (key == "_method") { return msg._method = value }
 				value == "" || msg.Option(key) || msg.Option(key, value)

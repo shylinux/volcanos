@@ -238,29 +238,29 @@ Volcanos(chat.ONEXPORT, {
 })
 Volcanos(chat.ONACTION, {
 	onkeydown: function(event, can) {
-		if (event.ctrlKey && "0" <= event.key && event.key <= "9") { return can.onaction.ctrln(event, can) }
+		if (event.ctrlKey && "0" <= event.key && event.key <= "9") { return can.onkeymap.ctrln(event, can) }
 		can._keylist = can.onkeymap._parse(event, can, mdb.PLUGIN, can._keylist||[], can._output)
 	},
-	escape: function(event, can) {},
-	space: function(event, can) { can.ui.filter && (can.ui.filter.focus(), can.onkeymap.prevent(event)) },
-	enter: function(event, can) {},
-	ctrln: function(event, can) { can.onkeymap.selectCtrlN(event, can, can._action, html.DIV_TABS) },
-	tabs: function(event, can) {},
-	tabx: function(event, can) { can.page.Select(can, can._action, html.DIV_TABS_SELECT, function(target) { target._close() }) },
 })
 Volcanos(chat.ONKEYMAP, {
+	escape: function(event, can) {},
+	enter: function(event, can) {},
+	ctrln: function(event, can) { can.onkeymap.selectCtrlN(event, can, can._action, html.DIV_TABS) },
+	space: function(event, can) { can.ui.filter && (can.ui.filter.focus(), can.onkeymap.prevent(event)) },
+	tabx: function(event, can) { can.page.Select(can, can._action, html.DIV_TABS_SELECT, function(target) { target._close() }) },
+	tabs: function(event, can) {},
 	_mode: {
 		plugin: {
-			Escape: shy("清理屏幕", function(event, can) { can.onaction.escape(event, can) }),
-			Enter: shy("执行操作", function(event, can) { can.onaction.enter(event, can) }),
-			" ": shy("搜索项目", function(event, can) { can.onaction.space(event, can) }),
+			Escape: shy("清理屏幕", function(event, can) { can.onkeymap.escape(event, can) }),
+			Enter: shy("执行操作", function(event, can) { can.onkeymap.enter(event, can) }),
+			" ": shy("搜索项目", function(event, can) { can.onkeymap.space(event, can) }),
 			f: shy("搜索项目", function(event, can) { can.ui.filter && (can.ui.filter.focus(), can.onkeymap.prevent(event)) }),
 			a: shy("展示项目", function(event, can) { can.ui.project && (can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can)) }),
 			v: shy("展示预览", function(event, can) { can.ui.profile && (can.onmotion.toggle(can, can.ui.profile), can.onimport.layout(can)) }),
 			r: shy("展示输出", function(event, can) { can.ui.display && (can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can)) }),
 			p: shy("添加插件", function(event, can) { can.sup.onaction["添加工具"](event, can.sup) }),
-			t: shy("添加标签", function(event, can) { can.onaction.tabs(event, can) }),
-			x: shy("添加标签", function(event, can) { can.onaction.tabx(event, can) }),
+			t: shy("添加标签", function(event, can) { can.onkeymap.tabs(event, can) }),
+			x: shy("添加标签", function(event, can) { can.onkeymap.tabx(event, can) }),
 			l: shy("打开右边标签", function(event, can) { can.page.Select(can, can._action, html.DIV_TABS_SELECT, function(target) {
 				var next = target.nextSibling; next && can.page.ClassList.has(can, next, html.TABS) && next.click()
 			}) }),

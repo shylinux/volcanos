@@ -290,7 +290,7 @@ fieldset>div.status>legend>span.remove:hover { background-color:var(--hover-bg-c
 fieldset>div.status>legend:not(:hover)>span.remove { visibility:hidden; }
 fieldset>div.status>legend:not(:hover):not(.select) { background-color:unset; border-radius:0; }
 /* theme */
-body { background-color:var(--panel-bg-color); color:var(--body-fg-color); }
+body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
 body.cmd { background-color:var(--plugin-bg-color); color:var(--body-fg-color); }
 legend { background-color:var(--legend-bg-color); border-radius:var(--input-radius); }
 legend:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }

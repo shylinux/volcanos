@@ -15,7 +15,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	}) },
 	_avatar: function(can, msg) { can.user.isExtension || can.user.isLocalFile || can.page.Modify(can, "div.state.avatar>img", {src: can.onexport.avatar(can)}) },
 	_background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
-		can.onlayout.background(can, can.onexport.background(can))
+		// can.onlayout.background(can, can.onexport.background(can))
 		// window.parent == window? can.onlayout.background(can, can.onexport.background(can)): can.page.style(can, document.body, html.BACKGROUND_COLOR, "transparent")
 	},
 	_search: function(can, msg, target) {
