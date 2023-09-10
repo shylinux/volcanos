@@ -79,7 +79,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 	},
 })
 Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) { return }
-		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, cli.DAEMON)||name||"", text: location.pathname, module: "shylinux.com/x/volcanos", version: can.base.trimPrefix(window._version, "?_v=")}, function(event, msg, cmd, arg, cb) {
+		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, cli.DAEMON)||name||""}, function(event, msg, cmd, arg, cb) {
 			var sub = can.ondaemon._list[msg.Option(ice.MSG_TARGET)]||can; can.base.isFunc(sub.ondaemon[cmd])?
 				can.core.CallFunc(sub.ondaemon[cmd], {can: can, msg: msg, sub: sub, cmd: cmd, arg: arg, cb: cb}):
 					can.onengine._search({}, can, msg, can, [chat._SEARCH, cmd].concat(arg), cb)
@@ -267,7 +267,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}
-		var name = can.core.Split(item.nick||item.name||"").pop()||""; can.base.isIn(name, tcp.SERVER, tcp.CLIENT, web.STUDIO) && (name = (item.index||"").split(".").slice(-2).join(".")), name = can.core.Keys(item.space, name)
+		var name = can.core.Split(item.nick||item.name||"").pop()||""; can.base.isIn(name, tcp.SERVER, tcp.CLIENT, web.STUDIO, mdb.SEARCH) && (name = (item.index||"").split(".").slice(-2).join(".")), name = can.core.Keys(item.space, name)
 		var title = item.help && item.help != name && !can.user.isEnglish(can)? name+"("+can.core.Split(item.help)[0]+")": name
 		target = can.base.isFunc(target)? target(): target
 		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], list: [{type: html.LEGEND, list: [item.icon && {icon: item.icon}, {text: title}]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
@@ -509,6 +509,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		can.user.isMobile && can.user.isLandscape() || can.page.style(can, document.body, kit.Dict(html.OVERFLOW, html.HIDDEN))
 	},
 	expand: function(can, target, width) { var n = parseInt(target.offsetWidth/(width+20)); width = target.offsetWidth/n - 20
+		if (width+20 >= target.offsetWidth) { n = 1, width = target.offsetWidth - 20 }
 		can.page.SelectChild(can, target, html.DIV_ITEM, function(target) { can.page.styleWidth(can, target, width) })
 	},
 	background: function(can, url, target) { can.page.style(can, target||can._root._target, "background-image", url == "" || url == "void"? "": 'url("'+url+'")') },

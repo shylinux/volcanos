@@ -15,8 +15,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	}) },
 	_avatar: function(can, msg) { can.user.isExtension || can.user.isLocalFile || can.page.Modify(can, "div.state.avatar>img", {src: can.onexport.avatar(can)}) },
 	_background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
-		// can.onlayout.background(can, can.onexport.background(can))
-		// window.parent == window? can.onlayout.background(can, can.onexport.background(can)): can.page.style(can, document.body, html.BACKGROUND_COLOR, "transparent")
+		window.parent == window? can.onlayout.background(can, can.onexport.background(can)): can.page.style(can, document.body, html.BACKGROUND_COLOR, "transparent")
 	},
 	_search: function(can, msg, target) {
 		can._search = can.onappend.input(can, {type: html.TEXT, icon: icon.SEARCH, name: mdb.SEARCH, value: can.misc.Search(can, "_search"), onkeydown: function(event) { can.onkeymap.input(event, can)
@@ -58,14 +57,13 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 		function show(msg) { var p = can.misc.Search(can, "redirect_uri")
 			if (location.pathname == "/login" && p) { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
 			can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
-			can.user.info.repos = msg.Option("spide.hub")
-			can.user.info.email = msg.Option("email")
+			can.user.info.email = msg.Option(aaa.EMAIL), can.user.info.repos = msg.Option(nfs.REPOS)
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
 		can.run(can.request({}, {_method: web.GET}), [], function(msg) { lang(msg)
 			can.require(can.core.List(msg["theme.list"], function(item) { return "src/template/web.chat.header/theme/"+item }))
-			can.onaction._menus[1] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { if (item == "mobile.css") { return } return can.base.trimSuffix(item, ".css") }))
+			can.onaction._menus[1] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, ".css") }))
 			can.onaction._menus[2] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, ".js") }))
 			if (can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/", "/chat/cmd/web.chat.oauth.client", "/chat/pod/20230511-golang-story/cmd/web.code.gitea.client")) { return show(msg) }
 			if (location.pathname == "/" && can.base.beginWith(msg.Option(ice.MAIN)||"", "/wiki/portal/", "/chat/cmd/web.wiki.portal/")) { return show(msg) }
@@ -98,7 +96,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN, mdb.NAME, can.user.title(), mdb.TEXT, location.href]) },
 	toimage: function(event, can) { can.onmotion.clearCarte(can), can.user.toimage(can, can.user.title(), can._target.parentNode) },
 	webpack: function(event, can) { can.onengine.signal(can, chat.ONWEBPACK, can.request(event)) },
-	setnick: function(event, can) { can.user.input(event, can, [{name: aaa.USERNICK, value: can.Conf(aaa.USERNICK)}], function(list) { can.runAction(event, aaa.USERNICK, [list[0]], function(msg) {
+	usernick: function(event, can) { can.user.input(event, can, [{name: aaa.USERNICK, value: can.Conf(aaa.USERNICK)}], function(list) { can.runAction(event, aaa.USERNICK, [list[0]], function(msg) {
 		can.page.Select(can, can._output, can.core.Keys(html.DIV, aaa.USERNICK), function(item) { can.page.Modify(can, item, can.Conf(aaa.USERNICK, list[0])) }), can.user.toastSuccess(can)
 	}) }) },
 	password: function(event, can) { var ui = can.user.input(event, can, [{name: html.PASSWORD, type: html.PASSWORD, action: ice.AUTO}, {name: html.PASSWORD, type: html.PASSWORD, action: ice.AUTO}], function(list) {
@@ -111,20 +109,18 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			can.runAction(event, aaa.EMAIL, args, function() { can.user.toastSuccess(can) })
 		})
 	},
-	fullscreen: function(event, can) { document.body.requestFullscreen() },
 	
 	_params: [log.DEBUG, chat.TITLE],
 	_menus: ["shareuser",
 		[chat.THEME, ice.AUTO],
 		[aaa.LANGUAGE, ice.AUTO],
 		[nfs.SAVE, aaa.EMAIL, web.TOIMAGE, code.WEBPACK],
-		[aaa.USER, "setnick", aaa.PASSWORD, cli.CLEAR, aaa.LOGOUT],
-		"fullscreen",
+		[aaa.USER, aaa.USERNICK, aaa.PASSWORD, cli.CLEAR, aaa.LOGOUT],
 	],
 	_trans: kit.Dict(
-		"shareuser", "共享用户", chat.THEME, "界面主题", aaa.LANGUAGE, "语言地区", nfs.SAVE, "保存网页", web.TOIMAGE, "生成图片", code.WEBPACK, "打包页面",
-		aaa.USER, "用户信息", "setnick", "设置昵称", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
-		aaa.EMAIL, "发送邮件",
+		"shareuser", "共享用户", chat.THEME, "界面主题", aaa.LANGUAGE, "语言地区",
+		nfs.SAVE, "保存网页", aaa.EMAIL, "发送邮件", web.TOIMAGE, "生成图片", code.WEBPACK, "打包页面",
+		aaa.USER, "用户信息", aaa.USERNICK, "设置昵称", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
 		
 	),
 })
