@@ -59,7 +59,7 @@ table.content th { padding:5px; box-shadow: var(--box-shadow); }
 table.content td { padding:5px; }
 table.content.action th:last-child { position:sticky; right:2px; }
 table.content.action td:last-child { position:sticky; right:2px; text-align:center; }
-table.content.action td:last-child input:not(:last-child) { margin-right:10px; }
+table.content input:not(:last-child) { margin-right:10px; }
 table.content col.time { width:180px; }
 table.content col.action { width:200px; }
 table.content:hover col.option { background-color:var(--hover-bg-color); }
@@ -311,7 +311,7 @@ table.content tr.select { background-color:var(--tr-hover-bg-color); }
 table.content th { background-color:var(--th-bg-color); color:var(--th-fg-color); }
 table.content td:hover { background-color:var(--td-hover-bg-color); }
 table.content td.select { background-color:var(--td-hover-bg-color); }
-table.content.action td:last-child input { box-shadow:var(--box-shadow); }
+table.content input { box-shadow:var(--box-shadow); }
 table.content.action tr:hover td:last-child { box-shadow: var(--box-shadow); }
 table.content.action tr:hover td:last-child { background-color:var(--th-bg-color); }
 h1:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
