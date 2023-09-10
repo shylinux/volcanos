@@ -96,7 +96,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN, mdb.NAME, can.user.title(), mdb.TEXT, location.href]) },
 	toimage: function(event, can) { can.onmotion.clearCarte(can), can.user.toimage(can, can.user.title(), can._target.parentNode) },
 	webpack: function(event, can) { can.onengine.signal(can, chat.ONWEBPACK, can.request(event)) },
-	usernick: function(event, can) { can.user.input(event, can, [{name: aaa.USERNICK, value: can.Conf(aaa.USERNICK)}], function(list) { can.runAction(event, aaa.USERNICK, [list[0]], function(msg) {
+	setnick: function(event, can) { can.user.input(event, can, [{name: aaa.USERNICK, value: can.Conf(aaa.USERNICK)}], function(list) { can.runAction(event, aaa.USERNICK, [list[0]], function(msg) {
 		can.page.Select(can, can._output, can.core.Keys(html.DIV, aaa.USERNICK), function(item) { can.page.Modify(can, item, can.Conf(aaa.USERNICK, list[0])) }), can.user.toastSuccess(can)
 	}) }) },
 	password: function(event, can) { var ui = can.user.input(event, can, [{name: html.PASSWORD, type: html.PASSWORD, action: ice.AUTO}, {name: html.PASSWORD, type: html.PASSWORD, action: ice.AUTO}], function(list) {
@@ -115,12 +115,12 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 		[chat.THEME, ice.AUTO],
 		[aaa.LANGUAGE, ice.AUTO],
 		[nfs.SAVE, aaa.EMAIL, web.TOIMAGE, code.WEBPACK],
-		[aaa.USER, aaa.USERNICK, aaa.PASSWORD, cli.CLEAR, aaa.LOGOUT],
+		[aaa.USER, "setnick", aaa.PASSWORD, cli.CLEAR, aaa.LOGOUT],
 	],
 	_trans: kit.Dict(
 		"shareuser", "共享用户", chat.THEME, "界面主题", aaa.LANGUAGE, "语言地区",
 		nfs.SAVE, "保存网页", aaa.EMAIL, "发送邮件", web.TOIMAGE, "生成图片", code.WEBPACK, "打包页面",
-		aaa.USER, "用户信息", aaa.USERNICK, "设置昵称", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
+		aaa.USER, "用户信息", "setnick", "设置昵称", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
 		
 	),
 })
