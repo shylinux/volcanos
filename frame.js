@@ -242,8 +242,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (sub.onimport && can.base.isArray(sub.onimport.list) && sub.onimport.list.length > 0) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			}
-			can.page.requireModules(can, can.Conf("modules"), function() {
-				if (sub.Mode() != "result") { can.onmotion.clear(can) }
+			can.page.requireModules(can, can.Conf("modules"), function() { if (sub.Mode() != "result") { can.onmotion.clear(can) }
 				can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 					if (action !== false) { can.onkeymap._build(sub)
 						can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
@@ -358,7 +357,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}) } return code.scrollBy && code.scrollBy(0, 10000), code 
 	},
 	tools: function(can, msg, cb, target) {
-		can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT), can.misc.sessionStorage(can, [can.ConfIndex(), "tool"]))||[], cb, target)
+		// can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT), can.misc.sessionStorage(can, [can.ConfIndex(), "tool"]))||[], cb, target)
+		can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT))||[], cb, target)
 	},
 
 	style: function(can, style, target) { target = target||can._fields||can._target

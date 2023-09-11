@@ -62,6 +62,7 @@ div.path span.item { padding:5px; }
 div.carte.path.float { font-size:var(--code-font-size); } div.carte.path.float div.item { padding:5px; }
 div.carte.cmd.float { font-size:var(--code-font-size); } div.carte.cmd.float div.item { padding:5px; }
 div.vimer.open.float td:first-child { display:none; }
+div.vimer.open.float td:nth-child(2) { display:none; }
 div.layout.flex>input.current { clear:both; }
 tr.line>td.line { user-select:none; }
 tr.line>td.line { text-align:right; padding:0 10px; position:sticky; left:0; }

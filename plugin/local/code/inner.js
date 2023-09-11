@@ -29,6 +29,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 				can.onexport.session(can, PROJECT_HIDE) == html.HIDE && can.onmotion.hidden(can, can.ui.project)
 				if (can.onexport.session(can, TABVIEW_HIDE) == html.HIDE) { can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.tabs) }
 				can.onengine.listen(can, chat.ONUNLOAD, function() { can.onexport.recover(can) })
+				msg.Option(ice.MSG_TOOLKIT, "[]")
 			case chat.FULL: // no break
 			default: can.user.isMobile && can.onmotion.hidden(can, can.ui.project), can.onimport.project(can, paths), can.onimport._tabs(can)
 		} var args = can.misc.SearchHash(can), tabs = can.onexport.session(can, RECOVER_TABS), tool = can.onexport.session(can, RECOVER_TOOL)

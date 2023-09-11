@@ -1,10 +1,10 @@
 body {
+	--body-bg-color:black; --body-fg-color:silver;
 	--danger-bg-color:red; --danger-fg-color:white;
 	--notice-bg-color:blue; --notice-fg-color:white;
 	--create-bg-color:blue; --create-fg-color:white;
 	--progress-bg-color:red; --disable-fg-color:gray;
 	--hover-bg-color:#5066b945; --hover-fg-color:white;
-	--body-bg-color:black; --body-fg-color:silver;
 	--box-border:#404141 solid 1px;
 	--box-notice:var(--notice-bg-color) solid 1px;
 	--box-shadow:var(--body-fg-color) 2px 2px 8px;
@@ -109,7 +109,7 @@ fieldset.input.date>div.status { text-align:center; }
 /* float */
 body div.float { padding:5px; box-shadow:var(--box-shadow); }
 body>div.toast div.title { color:var(--notice-bg-color); float:left; }
-body>div.toast div.delete { color:var(--body-bg-color); float:right; cursor:pointer; }
+body>div.toast div.delete { color:var(--notice-bg-color); float:right; cursor:pointer; }
 body>div.toast div.delete:hover { background-color:var(--hover-bg-color); }
 body>div.toast div.duration { color:var(--disable-fg-color); float:right; }
 body>div.toast div.content { color:var(--notice-bg-color); text-align:center; }

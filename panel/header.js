@@ -32,9 +32,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.user.info.background = background, can.onimport._background(can, msg), can.user.toastSuccess(can)
 	}) },
 	language: function(can, language) { can.runAction(event, aaa.LANGUAGE, [language == ice.AUTO? "": language], function(msg) {
-		can.user.toastConfirm(can, "reload page for "+language, "language", function() { can.user.reload(true) })
+		can.user.toastConfirm(can, can.user.trans(can, "reload page for "+language), aaa.LANGUAGE, function() { can.user.reload(true) })
 	}) },
-	theme: function(can, theme) { theme && can.runAction({}, "theme", [theme])
+	theme: function(can, theme) { theme && can.runAction({}, web.THEME, [theme])
 		theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme) && can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: theme})), can.user.theme(can, can.onexport.theme(can))
 	},
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
@@ -111,17 +111,20 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	},
 	
 	_params: [log.DEBUG, chat.TITLE],
-	_menus: ["shareuser",
-		[chat.THEME, ice.AUTO],
-		[aaa.LANGUAGE, ice.AUTO],
+	_menus: ["shareuser", [web.THEME], [aaa.LANGUAGE],
 		[nfs.SAVE, aaa.EMAIL, web.TOIMAGE, code.WEBPACK],
 		[aaa.USER, "setnick", aaa.PASSWORD, cli.CLEAR, aaa.LOGOUT],
 	],
 	_trans: kit.Dict(
-		"shareuser", "共享用户", chat.THEME, "界面主题", aaa.LANGUAGE, "语言地区",
+		"shareuser", "共享用户", web.THEME, "界面主题", aaa.LANGUAGE, "语言地区",
 		nfs.SAVE, "保存网页", aaa.EMAIL, "发送邮件", web.TOIMAGE, "生成图片", code.WEBPACK, "打包页面",
 		aaa.USER, "用户信息", "setnick", "设置昵称", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
 		
+		"reload page for zh-cn", "切换语言为中文",
+		"reload page for en-us", "切换语言为英文",
+		"en-us", "英文",
+		"zh-cn", "中文",
+		"auto", "默认",
 	),
 })
 Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight },
@@ -167,11 +170,8 @@ Volcanos(chat.ONPLUGIN, {
 	background: shy("背景图片", function(can, sub, cb) { can.page.Append(can, sub._output, [{img: can.user.info.background, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}]) }),
 	language: shy("语言地区", {_init: function(can) { can.Option(aaa.LANGUAGE, can.user.info.language||ice.AUTO) }}, ["language:select=auto,zh,en", ice.RUN], function(can, msg, arg) { can.onimport.language(can, arg[0]) }),
 	title: shy("网页标题", [chat.TITLE], function(can, msg, arg) { msg.Echo(can.user.title(arg[0])) }),
-	theme: shy("界面主题", {
-		_init: function(can) { can.Option(chat.THEME, can.getHeader(chat.THEME)) },
-		save: function(can, sup) {
-			can.user.downloads(can, sup._themes[can.Option("theme")], can.Option("theme"), "css")
-		},
+	theme: shy("界面主题", {_init: function(can) { can.Option(chat.THEME, can.getHeader(chat.THEME)) },
+		save: function(can, sup) { can.user.downloads(can, sup._themes[can.Option(web.THEME)], can.Option(web.THEME), nfs.CSS) },
 	}, ["theme:select=auto,dark,light,print,white,black", ice.RUN, nfs.SAVE], function(can, msg, arg) {
 		if (arg[0] == ice.AUTO) { arg[0] = "", can._theme = "" } can.misc.localStorage(can, "can.theme", arg[0]), can.onimport.theme(can, arg[0])
 	}),

@@ -181,19 +181,22 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	tool: function(can, list, cb, target, status) { target = target||can._output, status = status||can._status
 		can.core.List(list.reverse(), function(meta) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) { can.onmotion.hidden(can, sub._target), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}
-				can.page.Append(can, sub._legend,[{text: [can.page.unicode.remove, "", "remove"], onclick: function(event) {
+				can.page.Append(can, sub._legend,[{text: [can.page.unicode.remove, "", mdb.REMOVE], onclick: function(event) {
 					can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can), can.onkeymap.prevent(event)
 				}}])
 				status.appendChild(sub._legend), sub._legend.oncontextmenu = sub._legend.onclick, sub._legend.onclick = function(event) { can.misc.Event(event, can, function(msg) {
 					if (can.page.SelectOne(can, status, nfs.PT+html.SELECT, function(target) { can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
-					sub.onimport.size(sub, can.ConfHeight()/2, (can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0))/2)
+					// sub.onimport.size(sub, can.ConfHeight()/2, can.base.Min((can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0))/2, sub._target.offsetWidth))
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true)
 					can.onmotion.select(can, target, "fieldset.plug", sub._target)
-					// sub.Focus()
 					if (sub._delay_init || meta.msg) { sub._delay_init = false, meta.msg = false, sub.Update() }
 				}) }, sub._delay_init = true, sub.onaction.close = function() { sub.select() }, sub.select = function(show) {
 					if (show && can.page.ClassList.has(can, sub._legend, html.SELECT)) { return sub }
 					return sub._legend.click(), sub
+				}
+				sub.onexport.output = function() { var width = can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0)
+					can.page.style(can, can._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
+					sub.onimport.size(sub, can.ConfHeight()/2, can.base.Min(sub._target.offsetWidth, width/2, width), true)
 				}
 				sub.hidden = function() { can.onmotion.hidden(can, sub._target), can.page.ClassList.del(can, sub._legend, html.SELECT) }
 				sub.onaction._close = function() { can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can) }
