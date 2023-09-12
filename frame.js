@@ -40,7 +40,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 		if (can.base.isUndefined(msg[ice.MSG_DAEMON])) { can.base.isUndefined(sub._daemon) && can.ondaemon._list[0] && (sub._daemon = can.ondaemon._list.push(sub)-1)
 			if (sub._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], sub._daemon)) }
 		} if (!can.misc.CookieSessid(can) && can.user.info.sessid) { msg.Option(ice.MSG_SESSID, can.user.info.sessid) }
-		msg.OptionDefault(ice.MSG_THEME, can.getHeader(chat.THEME))
+		msg.OptionDefault(ice.MSG_LANGUAGE, can.user.info.language), msg.OptionDefault(ice.MSG_THEME, can.getHeader(chat.THEME))
 		can.base.isIn(sub.ConfIndex(), "qrcode", "cli.qrcode") && can.page.exportValue(sub, msg)
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
 		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+"/chat/"+panel._name+"/")
@@ -79,7 +79,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 	},
 })
 Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) { return }
-		can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, cli.DAEMON)||name||""}, function(event, msg, cmd, arg, cb) {
+		return can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, cli.DAEMON)||name||""}, function(event, msg, cmd, arg, cb) {
 			var sub = can.ondaemon._list[msg.Option(ice.MSG_TARGET)]||can; can.base.isFunc(sub.ondaemon[cmd])?
 				can.core.CallFunc(sub.ondaemon[cmd], {can: can, msg: msg, sub: sub, cmd: cmd, arg: arg, cb: cb}):
 					can.onengine._search({}, can, msg, can, [chat._SEARCH, cmd].concat(arg), cb)
@@ -306,7 +306,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.run(can.request(event, value), [ctx.ACTION, item.name])
 				}}
 			}))
-			can.page.Append(can, target, [{type: html.INPUT, data: {type: html.BUTTON}, name: "more", value: can.user.trans(can, "more"), onclick: function(event) {
+			can.page.Append(can, target, [{type: html.INPUT, data: {type: html.BUTTON}, name: "more", value: can.user.trans(can, "more"), className: can.page.buttonStyle(can, "more"), onclick: function(event) {
 				can.user.carte(event, can, {}, can.core.List(list.slice(limit-1), function(item) { return item.name }), function(event, button) {
 					can.run(can.request(event, value), [ctx.ACTION, button])
 				})

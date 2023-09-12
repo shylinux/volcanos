@@ -162,6 +162,7 @@ var cli = {
 	MAKE: "make", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 	LINUX: "linux", DARWIN: "darwin", WINDOWS: "windows",
 	RUN: "run",
+	RUNTIME: "runtime",
 	PWD: "pwd",
 }
 var log = {

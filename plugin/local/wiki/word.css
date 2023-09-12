@@ -12,7 +12,7 @@ fieldset.word>div.output iframe { height:480px; width:100%; }
 fieldset.word>div.output svg.story[data-index] text { cursor:pointer; }
 fieldset.word>div.output input.story[type=button] { font-family:system-ui; font-weight:bold; padding:20px 40px; margin:10px; height:64px; box-shadow:var(--box-shadow); }
 fieldset.word>div.output fieldset.web.code.inner.output div.output td.line { border-right:var(--box-border); }
-fieldset.word>div.output fieldset.story:not(.full) { margin:20px 0; }
+fieldset.word>div.output>fieldset.story:not(.full) { margin:20px 0; }
 fieldset.word>div.output ul { margin:20px 40px; }
 fieldset.word>div.output fieldset.story:not(.float):not(.full)>form.option>div.icon.delete { display:none; }
 

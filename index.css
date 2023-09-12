@@ -24,6 +24,7 @@ body {
 	--plugin-bg-color:var(--legend-bg-color);
    	--plugin-fg-color:var(--body-fg-color);
 	--th-bg-color:var(--plugin-bg-color);
+	--th-fg-color:var(--plugin-fg-color);
 	--td-hover-bg-color:var(--hover-bg-color);
 	--tr-hover-bg-color:var(--hover-bg-color);
 	--float-bg-color:var(--plugin-bg-color);
@@ -50,7 +51,7 @@ input[name=limit] { width:60px; }
 input[name=offend] { width:80px; }
 input[name=id] { width:60px; }
 input[name=url] { width:320px; }
-input[name=cmd] { background-color:var(--code-bg-color); color:var(--code-fg-color); width:100%; }
+input[type=text][name=cmd] { background-color:var(--code-bg-color); color:var(--code-fg-color); width:100%; }
 table.content.full { width:100%; }
 table.content thead { position:sticky; top:2px; }
 table.content tr.offline { color:var(--disable-fg-color); }

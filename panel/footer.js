@@ -1,6 +1,6 @@
 (function() { var NTIP = "ntip", NLOG = "nlog", NCMD = "ncmd", NKEY = "nkey"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.core.Item(can.misc.localStorage(can)).length)
-		can.ondaemon._init(can); if (can.user.mod.isCmd) { return } can.Conf("version", can.base.trimPrefix(window._version, "?_v="))
+		can._wss = can.ondaemon._init(can); if (can.user.mod.isCmd) { return } can.Conf("version", can.base.trimPrefix(window._version, "?_v="))
 		can.onimport._title(can, msg, target), can.onimport._command(can, msg, target)
 		can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target)
 	},
@@ -35,6 +35,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.ntip, {can: can, msg: msg}) },
 	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
 	onlayout: function(can, layout) { can.onmotion.toggle(can, can._target, !layout || layout == html.TABS) },
+	onunload: function(can) { can._wss.close() },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
 	ondebugs: function(can, msg) { can.runAction(msg, msg.Option(ctx.ACTION), [msg.Option(ctx.INDEX)], function(_msg) {
