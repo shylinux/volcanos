@@ -58,7 +58,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		can.onimport._tabPath(can, nfs.PS, nfs.PATH, can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE)), function(p) {
 			var ls = can.onexport.split(can, p); can.onimport.tabview(can, ls[0], ls[1])
 		}, target), can.onimport._tabFunc(can, target, cache), can.onimport._tabMode(can), can.onimport._tabIcon(can)
-		target.ondblclick = function(event) {
+		target.ondblclick = function(event) { if (event.target != target) { return }
 			var show = can.onmotion.toggle(can, can.ui.tabs); can.onmotion.toggle(can, can.ui.project, show), can.onimport.layout(can)
 			can.isCmdMode() && can.onexport.session(can, TABVIEW_HIDE, show? "": html.HIDE)
 		}
@@ -79,10 +79,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		var carte = can.user[parent? "carteRight": "carte"](event, can, {_style: key}, (msg.Length() > 10? [web.FILTER]: []).concat(msg.Table(function(value) {
 			var p = can.core.Split(value[key], ps).pop()+(can.base.endWith(value[key], ps)? ps: ""); return _trans[p] = value[key], p
 		})), function(event, button) {
-			can.base.endWith(button, ps)? can.onimport.tabPath(event, can, ps, key, pre+button, cb, carte): cb(_trans[button], pre)
+			if (can.base.endWith(button, ps)) {
+				can.onimport.tabPath(event, can, ps, key, pre+button, cb, carte)
+				return true
+			} else { cb(_trans[button], pre) }
 		}, parent)._target, file = can.core.Split(event.target.innerHTML.trim(), nfs.PT)[0]
 		can.page.Select(can, carte, html.DIV_ITEM, function(target) { target.innerHTML.trim() != event.target.innerHTML.trim() && can.base.beginWith(target.innerHTML, file+nfs.PT) && carte.insertBefore(target, carte.firstChild) })
-		function remove(p) { if (p && p._sub) { remove(p._sub), can.page.Remove(can, p._sub), delete(p._sub) } } if (parent) { remove(parent), parent._sub = carte }
 	}) },
 	_tabFunc: function(can, target, cache) {
 		if (cache) { var func = can.db._func||{list: []} } else { var func = can.onexport.func(can); can.db._func = func }
