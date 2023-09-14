@@ -79,7 +79,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 	},
 })
 Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) { return }
-		return can.misc.WSS(can, {type: html.CHROME, name: can.misc.Search(can, cli.DAEMON)||name||""}, function(event, msg, cmd, arg, cb) {
+		return can.misc.WSS(can, {type: web.PORTAL, name: can.misc.Search(can, cli.DAEMON)||name||""}, function(event, msg, cmd, arg, cb) {
 			var sub = can.ondaemon._list[msg.Option(ice.MSG_TARGET)]||can; can.base.isFunc(sub.ondaemon[cmd])?
 				can.core.CallFunc(sub.ondaemon[cmd], {can: can, msg: msg, sub: sub, cmd: cmd, arg: arg, cb: cb}):
 					can.onengine._search({}, can, msg, can, [chat._SEARCH, cmd].concat(arg), cb)
@@ -242,7 +242,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (sub.onimport && can.base.isArray(sub.onimport.list) && sub.onimport.list.length > 0) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			}
-			can.page.requireModules(can, can.Conf("modules"), function() { if (sub.Mode() != "result") { can.onmotion.clear(can) }
+			can.page.requireModules(can, can.Conf("modules"), function() { if (sub.Mode() != "result") { can.onmotion.clear(can, output) }
 				can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 					if (action !== false) { can.onkeymap._build(sub)
 						can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
@@ -304,6 +304,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.page.Appends(can, target, can.core.List(list.slice(0, limit-1), function(item) {
 				return {type: html.INPUT, data: {type: html.BUTTON}, name: item.name, value: item.value, className: item.style, onclick: function(event) {
 					can.run(can.request(event, value), [ctx.ACTION, item.name])
+					can.onkeymap.prevent(event)
 				}}
 			}))
 			can.page.Append(can, target, [{type: html.INPUT, data: {type: html.BUTTON}, name: "more", value: can.user.trans(can, "more"), className: can.page.buttonStyle(can, "more"), onclick: function(event) {

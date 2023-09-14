@@ -51,7 +51,6 @@ input[name=limit] { width:60px; }
 input[name=offend] { width:80px; }
 input[name=id] { width:60px; }
 input[name=url] { width:320px; }
-input[type=text][name=cmd] { background-color:var(--code-bg-color); color:var(--code-fg-color); width:100%; }
 table.content.full { width:100%; }
 table.content thead { position:sticky; top:2px; }
 table.content tr.offline { color:var(--disable-fg-color); }
@@ -190,7 +189,6 @@ div.item.text { position:relative; }
 div.item.text>span.icon { position:absolute; right:0; visibility:hidden; }
 div.item.text:hover>span.icon { visibility:visible; }
 div.item.button>span.icon.create { font-size:32px; line-height:28px; display:block; }
-// div.tabs span.icon { font-style:normal; font-size:20px; line-height:20px; padding:0 5px; visibility:hidden; }
 div.tabs span.icon { font-style:normal; line-height:20px; padding:0 5px; visibility:hidden; }
 div.tabs>div.select span.icon { visibility:visible; }
 div.tabs>div:hover span.icon { visibility:visible; }

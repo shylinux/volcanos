@@ -35,7 +35,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		}
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE), function() { if (!can.isCmdMode()) { return }
 			if (tabs) {
-				can.core.Next(tabs, function(item, next) { can.onimport.tabview(can, item[0], item[1], item[2], function() { can.onmotion.delay(can, next) }) }, function() {
+				can.core.Next(tabs, function(item, next) { can.onimport.tabview(can, item[0], item[1], item[2], function() { can.onmotion.delay(can, next, 300) }) }, function() {
 					args.length > 0 && can.onimport.tabview(can, args[args.length-3], args[args.length-2]||can.Option(nfs.FILE), args[args.length-1])
 				})
 			} else {
