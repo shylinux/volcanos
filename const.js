@@ -222,9 +222,7 @@ var chat = {
 		"local/wiki/word.js",
 		"local/team/plan.js",
 		"local/mall/goods.js",
-	].map(function(p) { return "/plugin/"+p }).concat([
-		"/require/modules/bootstrap-icons/font/bootstrap-icons.min.css", // https://icons.getbootstrap.com/
-	]),
+	].map(function(p) { return "/plugin/"+p }),
 	PLUGIN_LOCAL: "/plugin/local/",
 	PLUGIN_STORY: "/plugin/story/",
 	PLUGIN_INPUT: "/plugin/input/",
@@ -232,6 +230,7 @@ var chat = {
 	PLUGIN_TABLE_JS: "/plugin/table.js",
 	PLUGIN_STATE_JS: "/plugin/state.js",
 	FRAME_JS: "/volcanos/frame.js",
+	ICONS_CSS: "/require/modules/bootstrap-icons/font/bootstrap-icons.min.css", // https://icons.getbootstrap.com/
 
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport",

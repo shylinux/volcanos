@@ -10,22 +10,9 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 				can.core.CallFunc([sub.onaction, chat._INIT], {can: sub, cb: next, target: sub._target}), delete(sub._history), delete(sub._conf.feature)
 			}, target)
 		}, function() { can.onlayout._init(can, target), can.onmotion._init(can, target), can.onkeymap._init(can, target)
-			// can.onengine._config(can),
 			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb(can)
 		}), can._path = location.href
 	},
-	_config: function(can) { can.require(["/require/src/conf.js"], function() {}, function(can, name, sub) {
-		name == chat.ONIMPORT && can.core.Item(sub.list, function(path, meta) {
-			can.require([path], function() {}, function(can, name, sub) {
-				name == chat.ONPLUGIN && can.core.Item(sub, function(key, cmd) {
-					if (sub.hasOwnProperty(key) && can.base.isFunc(cmd)) {
-						cmd.meta._path = sub._path, can.base.Copy(cmd.meta, meta)
-						can.onengine.plugin(can, can.core.Keys(ice.CAN, key), cmd)
-					}
-				})
-			})
-		})
-	}) },
 	_search: function(event, can, msg, panel, cmds, cb) {
 		var sub, mod = can, fun = can, key = ""; can.core.List(cmds[1].split(nfs.PT), function(value) { fun && (sub = mod, mod = fun, fun = mod[value], key = value) })
 		if (!sub || !mod || !fun) { can.misc.Warn(ice.ErrNotFound, cmds); return can.base.isFunc(cb) && cb(msg.Echo(ice.ErrWarn, ice.ErrNotFound, cmds)) }

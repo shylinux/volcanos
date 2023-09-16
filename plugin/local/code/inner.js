@@ -29,7 +29,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 				can.onexport.session(can, PROJECT_HIDE) == html.HIDE && can.onmotion.hidden(can, can.ui.project)
 				if (can.onexport.session(can, TABVIEW_HIDE) == html.HIDE) { can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.tabs) }
 				can.onengine.listen(can, chat.ONUNLOAD, function() { can.onexport.recover(can) })
-				tool = tool||can.base.Obj(msg.Option(ice.MSG_TOOLKIT)), msg.Option(ice.MSG_TOOLKIT, "[]")
+				tool = tool||(can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []).reverse()), msg.Option(ice.MSG_TOOLKIT, "[]")
 			case chat.FULL: // no break
 			default: can.user.isMobile && can.onmotion.hidden(can, can.ui.project), can.onimport.project(can, paths), can.onimport._tabs(can)
 		}
@@ -332,7 +332,7 @@ Volcanos(chat.ONLAYOUT, {
 		} layout(target, height||target.offsetHeight, width||target.offsetWidth)
 	},
 })
-Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) {
+Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { if (!msg) { return }
 		var key = can.onexport.keys(can), path = msg.Option(nfs.PATH, can.Option(nfs.PATH)), file = msg.Option(nfs.FILE, can.Option(nfs.FILE))
 		can.onmotion.cache(can, function(save, load) { save({profile: can.ui.profile.className, display: can.ui.display.className})
 			can.onmotion.hidden(can, can.ui.profile), can.onmotion.hidden(can, can.ui.display)

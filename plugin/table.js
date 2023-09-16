@@ -179,7 +179,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}}
 	}))._target },
 	tool: function(can, list, cb, target, status) { target = target||can._output, status = status||can._status
-		can.core.List(list.reverse(), function(meta) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
+		can.core.Next(list.reverse(), function(meta, next) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) {
 				sub.onexport.output = function() { var width = can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0)
 					can.page.style(can, can._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
@@ -193,7 +193,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 					if (can.page.SelectOne(can, status, nfs.PT+html.SELECT, function(target) { can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true)
 					can.onmotion.select(can, target, "fieldset.plug", sub._target)
-					if (sub._delay_init || meta.msg) { sub._delay_init = false, meta.msg = false, sub.Update() }
+					if (sub._delay_init || meta.msg) { sub._delay_init = false, meta.msg = false, (sub._inputs && sub._inputs.list || sub._inputs && sub._inputs.refresh) && sub.Update() }
 				}) }, sub._delay_init = true, sub.select = function(show) {
 					if (show && can.page.ClassList.has(can, sub._legend, html.SELECT)) { return sub }
 					return sub._legend.click(), sub
@@ -201,6 +201,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				sub.hidden = function() { can.onmotion.hidden(can, sub._target), can.page.ClassList.del(can, sub._legend, html.SELECT) }
 				sub.onaction._close = function() { can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can) }
 				sub.onaction.close = function() { sub.select() }, can.base.isFunc(cb) && cb(sub), can.onexport.tool(can)
+				next()
 			}, target)
 		})
 	},
@@ -212,12 +213,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			}, sub.onaction.close = function() { can.onmotion.hidden(can, target) }, can.base.isFunc(cb) && cb(sub)
 		}, target, field)
 	},
-	// layout: function(can) { can.ui && can.ui.layout && can.ui.layout(can.ConfHeight(), can.ConfWidth()) },
 })
 Volcanos(chat.ONLAYOUT, {
-	_init: function(can, height, width) {
-		can.core.CallFunc([can.onimport, html.LAYOUT], {can: can, height: height, width: width})
-	},
+	_init: function(can, height, width) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can, height: height, width: width}) },
 	zone: function(can, height, width) { can.onlayout._init(can, height, width) },
 	result: function(can, height, width) { can.onlayout._init(can, height, width) },
 	simple: function(can, height, width) { can.onlayout._init(can, height, width) },
@@ -231,8 +229,9 @@ Volcanos(chat.ONLAYOUT, {
 })
 Volcanos(chat.ONEXPORT, {
 	title: function(can, title) { can.sup.onexport.title(can, title) },
-	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return }
-		var res = [msg.append && msg.append.join(mdb.FS)]; msg.Table(function(line, index, array) { res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS)) }); return res.join(lex.NL)
+	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return } var res = [msg.append && msg.append.join(mdb.FS)]
+		msg.Table(function(line, index, array) { res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS)) })
+		return res.join(lex.NL)
 	},
 	board: function(can) { var msg = can._msg; return msg.Result() },
 	session: function(can, key, value) { return can.misc[can.user.isWebview? "localStorage": "sessionStorage"](can, [can.Conf(ctx.INDEX), key, location.pathname].join(":"), value == ""? "": JSON.stringify(value)) },

@@ -4,20 +4,17 @@ function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(t
 		} else if (i < arg.length && (!type || type == typeof arg[i])) { return arg[i++] }
 	} return cb = typeof arg[arg.length-1] == code.FUNCTION? arg[arg.length-1]: function() {}, cb.help = next(code.STRING)||"", cb.meta = next(code.OBJECT)||{}, cb.list = next(code.ARRAY)||[], cb
 }; var _can_name = "", _can_path = ""
-var Volcanos = shy({
-	iceberg: "", volcano: "", frame: chat.FRAME_JS,
-	cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
+var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS,
+	_cache: {}, cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == code.OBJECT) {
 		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, style: html.HIDE, state: [mdb.TIME, aaa.USERNICK]}, {name: chat.ACTION, style: html.MAIN, tool: name}, {name: chat.FOOTER, style: html.HIDE}]}) }
 		var Config = name; name = Config.name||ice.CAN, _can_name = ""
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.volcano = Config.volcano||meta.volcano
 		meta.libs = (Config.libs||chat.libs).concat(Config.list), panels = Config.panels||chat.panel_list, delete(Config.panels)
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugins||chat.plugin_list)
-		cb = can||function(can) {
-			can.require([can.frame], function() {
-				can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target)
-			}, function(can, key, sub) { can[key] = sub })
-		}
+		cb = can||function(can) { can.require([can.frame, chat.ICONS_CSS], function() {
+			can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target)
+		}, function(can, key, sub) { can[key] = sub }) }
 		can = Config, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width
 	}
 	can = kit.proto(can||{}, kit.proto({_name: name, _path: _can_name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
@@ -128,10 +125,13 @@ try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta
 	} catch (e) {
 		meta.version = window._version, window.outerWidth-window.innerWidth > 100 && (meta.version = "", debug = false)
 	}
-	meta._load = function(url, cb) { if (meta.version) { url += (url.indexOf("?") == -1? "?": "&")+meta.version.slice(1) }
+	meta._load = function(url, cb) {
+		if (meta.version) { url += (url.indexOf("?") == -1? "?": "&")+meta.version.slice(1) }
+		if (meta._cache[url]) { return meta._cache[url].push(cb) } else { meta._cache[url] = [cb] }
+		function _cb() { meta._cache[url].forEach(function(cb) { cb() }), delete(meta._cache[url]) }
 		switch (url.split(ice.QS)[0].split(nfs.PT).pop().toLowerCase()) {
-			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url, item.rel = "stylesheet", item.onload = cb, document.head.appendChild(item); break
-			default: var item = document.createElement(nfs.SCRIPT); item.src = url, item.onerror = cb, item.onload = cb, document.body.appendChild(item)
+			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url, item.rel = "stylesheet", item.onload = _cb, document.head.appendChild(item); break
+			default: var item = document.createElement(nfs.SCRIPT); item.src = url, item.onerror = _cb, item.onload = _cb, document.body.appendChild(item)
 		}
 	}
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth

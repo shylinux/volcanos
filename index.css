@@ -457,6 +457,7 @@ fieldset.config form.option input[name=key] { width:240px; }
 fieldset.qrcode>div.output div.code { padding:0; }
 fieldset.macos.desktop.cmd>div.output>fieldset.macos.dock { z-index:11; }
 fieldset.web.code.git.status>div.output table.content { width:100%; }
+fieldset.web.chat.iframe>form.option input[name=hash] { width:320px; }
 fieldset.can.view { font-size:14px; }
 fieldset.can.data { font-size:14px; }
 fieldset.word>form.option>div.item>input[name=path] { width:320px !important; }
