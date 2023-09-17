@@ -584,7 +584,8 @@ Volcanos(chat.ONACTION, {
 		can.db._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can.db._key_list, can.ui.content)
 	},
 })
-Volcanos(chat.ONEXPORT, {list: [nfs.FILE, nfs.LINE, ice.BACK],
+Volcanos(chat.ONEXPORT, {
+	// list: [mdb.TIME, nfs.FILE, nfs.LINE, ice.BACK],
 	path: function(can) { return can.Option(nfs.PATH)+can.Option(nfs.FILE) },
 	line: function(can, line) { return parseInt(can.core.Value(can.page.SelectOne(can, line, "td.line"), "innerText")) },
 	text: function(can, line) { return can.core.Value(can.page.SelectOne(can, line, "td.text"), "innerText") },
