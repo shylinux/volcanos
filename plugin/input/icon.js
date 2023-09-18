@@ -1,0 +1,24 @@
+Volcanos(chat.ONFIGURE, {icon: {
+	_load: function(event, can, cb, target, name, value) {
+		can.runAction(event, ctx.RUN, ["web.chat.icons"], function(msg) {
+			can._show(can, msg, cb, target, name)
+		})
+	},
+	_show: function(can, msg, cb, target, name) { can.onmotion.clear(can)
+		var table = can.page.Append(can, can._output, [{type: html.TABLE}])._target, tr
+		msg.Table(function(value, index) { if (index%10 == 0) { tr = can.page.Append(can, table, [{type: html.TR}])._target }
+			can.page.Append(can, tr, [{type: html.TD, inner: value.icon, title: value.name, onclick: function() {
+				can.close(), can.base.isFunc(cb) && cb(can, value.name, target.value)
+				target._icon.className = value.name
+			}}])
+		}), can.onappend._status(can, [mdb.TOTAL]), can.Status(mdb.TOTAL, msg.Length())
+		can.page.style(can, can._output, html.MAX_HEIGHT, can.page.height()/2, html.MIN_WIDTH, target.offsetWidth, html.MAX_WIDTH, can.page.width()/2)
+	},
+	onclick: function(event, can, meta, target, cbs) { can.onmotion.focus(can, target) },
+	onfocus: function(event, can, meta, target, cbs) { cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
+		target._icon = target._icon || can.page.insertBefore(can, [{type: "i"}], target)
+		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
+	}) },
+	onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },
+}})
+

@@ -124,6 +124,10 @@ body>div.carte div.item span.icon.next { float:right; line-height:22px; height:2
 body>div.carte.select.float>div.item { text-align:center; }
 body>div.input { padding:20px; }
 body>div.input td { padding:10px; }
+body>div.input td:nth-child(2) { padding:10px 0;}
+body>div.input tr.icon td:last-child { position:relative; }
+body>div.input tr.icon td:last-child i:first-child { font-size:22px; position:absolute; left:15px; top:14px; }
+body>div.input tr.icon td:last-child input { padding-left:30px; }
 body>div.input td span.icon { margin-left:-20px; visibility:hidden; }
 body>div.input td:hover span.icon { visibility:visible; }
 body>div.input select { width:230px; }
@@ -424,6 +428,7 @@ body.print select, body.print input[type=text], body.print textarea { box-shadow
 body.print fieldset.draw div.output { background-color:lightgray; }
 body.print fieldset.draw div.output div.content svg { background-color:lightgray; }
 /* misc */
+fieldset.input.icon div.output td { font-size:28px; padding:5px; }
 fieldset.Search div.story[data-type=spark] { margin:0; }
 fieldset.Search>div.output>div.profile { border-left:none; width:unset; }
 fieldset.Action>div.output>fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd) { padding:10px; margin:10px; box-shadow:var(--box-shadow); }
