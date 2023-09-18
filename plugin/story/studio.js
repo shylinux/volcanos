@@ -5,7 +5,7 @@ Volcanos(chat.ONIMPORT, {
 		can.onimport._tabs(can, msg) // can.onimport._full(can, msg)
 	},
 	_tabs: function(can, msg) { can.onappend.style(can, web.STUDIO)
-		msg.Table(function(value, index) { value.nick = value.help||value.name.split(lex.SP)[0]
+		msg.Table(function(value, index) { value.nick = can.user.trans(can, value.index.split(nfs.PT).pop(), value.help)
 			var target = can.onimport.item(can, value, function() {
 				if (value._plugin) { return can.onmotion.select(can, can._output, html.FIELDSET, value._plugin._target) }
 				can.onappend.plugin(can, value, function(sub) { value._plugin = sub

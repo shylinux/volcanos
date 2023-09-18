@@ -589,7 +589,7 @@ Volcanos(chat.ONEXPORT, {
 	path: function(can) { return can.Option(nfs.PATH)+can.Option(nfs.FILE) },
 	line: function(can, line) { return parseInt(can.core.Value(can.page.SelectOne(can, line, "td.line"), "innerText")) },
 	text: function(can, line) { return can.core.Value(can.page.SelectOne(can, line, "td.text"), "innerText") },
-	content: function(can) { return can.page.Select(can, can.current&&can.current.content||can.ui.content, "td.text", function(item) { return item.innerText }).join(lex.NL) },
+	content: function(can) { return can.page.Select(can, can.current&&can.current.content||can.ui.content, "td.text", function(item) { return item.innerText.trimEnd() }).join(lex.NL) },
 	position: function(can, index, total) { total = total||can.ui.content._max; return (parseInt(index))+nfs.PS+parseInt(total)+" = "+parseInt((index)*100/total)+"%" },
 	size: function(can, size, full) { if (size > 1) { return size } if (size > 0) { return size*full } },
 	keys: function(can, path, file) { return [path||can.Option(nfs.PATH), file||can.Option(nfs.FILE)].join(nfs.DF) },
