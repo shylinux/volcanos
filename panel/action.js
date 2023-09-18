@@ -39,7 +39,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			can.misc.sessionStorage(can, "river:hide") == ice.TRUE && target.click()
 		}); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return } can._names = location.pathname
 		can.Conf(chat.TOOL)? can.onappend.layout(can, can.core.List(can.Conf(chat.TOOL), function(item, index, list) { item.type = chat.PLUGIN
-			if (list.length == 1) {
+			if (list.length == 1) { can.user.mod.cmd = item.index
 				can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP) || can.user.title(item.index)
 				can.onaction._onaction_cmd(can), item.mode = chat.CMD, item.opts = can.misc.Search(can)
 			} return item
@@ -57,8 +57,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		})
 	},
 	_onaction_cmd: function(can) { can.onengine.signal(can, chat.ONACTION_CMD), can.onlayout._init(can) },
-	onaction_cmd: function(can, msg) {
-		can.page.ClassList.add(can, document.body, can.Mode(chat.CMD))
+	onaction_cmd: function(can, msg) { can.user.mod.isCmd = true
 		can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.Conf(html.MARGIN_Y, 0), can.Conf(html.MARGIN_X, 0)
 	},
 	onsearch: function(can, msg, arg) { var fields = msg.Option(ice.MSG_FIELDS).split(mdb.FS)

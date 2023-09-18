@@ -473,6 +473,7 @@ fieldset.draw.trend div.output { overflow:hidden; }
 fieldset.draw.spide div.output { overflow-y:hidden; }
 fieldset.draw.spide div.output svg text { cursor:pointer; }
 fieldset.draw.spide div.output svg path { stroke-width:1; }
+body.web.wiki.portal { background-color:rgb(22 31 49); }
 fieldset.web.code.docker.studio>div.action>div.item { font-style:italic; height:32px; padding:5px 10px; }
 fieldset.web.code.docker.studio>div.output>fieldset { margin:0; }
 fieldset.web.code.docker.studio>div.output>fieldset>legend { display:none; }
