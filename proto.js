@@ -12,7 +12,7 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS,
 		meta.iceberg = Config.iceberg||meta.iceberg, meta.volcano = Config.volcano||meta.volcano
 		meta.libs = (Config.libs||chat.libs).concat(Config.list), panels = Config.panels||chat.panel_list, delete(Config.panels)
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugins||chat.plugin_list)
-		cb = can||function(can) { can.require([can.frame, chat.ICONS_CSS], function() {
+		cb = can||function(can) { can.require([can.frame], function() {
 			can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target)
 		}, function(can, key, sub) { can[key] = sub }) }
 		can = Config, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width

@@ -35,7 +35,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.ntip, {can: can, msg: msg}) },
 	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
 	onlayout: function(can, layout) { can.onmotion.toggle(can, can._target, !layout || layout == html.TABS) },
-	onunload: function(can) { can._wss.close() },
+	onunload: function(can) { can._wss && can._wss.close() },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
 	ondebugs: function(can, msg) { can.runAction(msg, msg.Option(ctx.ACTION), [msg.Option(ctx.INDEX)], function(_msg) {

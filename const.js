@@ -230,7 +230,7 @@ var chat = {
 	PLUGIN_TABLE_JS: "/plugin/table.js",
 	PLUGIN_STATE_JS: "/plugin/state.js",
 	FRAME_JS: "/volcanos/frame.js",
-	ICONS_CSS: "/require/modules/bootstrap-icons/font/bootstrap-icons.min.css", // https://icons.getbootstrap.com/
+	// ICONS_CSS: "/require/modules/bootstrap-icons/font/bootstrap-icons.min.css", // https://icons.getbootstrap.com/
 
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport",

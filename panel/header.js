@@ -61,7 +61,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
-		can.run(can.request({}, {_method: web.GET}), [], function(msg) { lang(msg)
+		can.run(can.request({}, {_method: web.GET}), [], function(msg) { lang(msg), can.page.requireModules(can, [msg.Option("icons")])
 			can.require(can.core.List(msg["theme.list"], function(item) { return "src/template/web.chat.header/theme/"+item }))
 			can.onaction._menus[1] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, ".css") }))
 			can.onaction._menus[2] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, ".js") }))

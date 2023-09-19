@@ -137,10 +137,10 @@ body>div.input div.action { width:100%; }
 body>div.input div.action>div.item { margin:5px; float:right; }
 body>div.input div.action>div.item>input[type=button] { width:110px; }
 body>div.input.login>div.output { text-align:center; }
-body>div.input.login>div.output div.sso { cursor:pointer; }
+body>div.input.login>div.output div.sso { display:flex; justify-content:center; cursor:pointer; }
 body>div.input.login>div.output div.sso:hover { background-color:var(--hover-bg-color); }
 body>div.input.login>div.output div.sso>img { height:32px; }
-body>div.input.login>div.output div.sso>span { height:32px; display:inline-block; vertical-align:middle; }
+body>div.input.login>div.output div.sso>span { line-height:32px; }
 body>div.input.simple td:first-child { display:none; }
 body>div.upload div.action input[type=file] { width:320px; }
 body>div.upload div.output { border:var(--box-notice); }
@@ -410,7 +410,7 @@ body.mobile fieldset.word>div.output div.story.flex>* { padding:unset; }
 body.print { -webkit-filter: grayscale(100%); }
 body.print { background-color:white; color:black; }
 body.print legend, body.print select, body.print input, body.print input[type=button], body.print textarea { background-color:snow; color:black; }
-body.print div.item { background-color:white; } 
+body.print div.item { background-color:white; }
 body.print div.carte div.item { background-color:snow; }
 body.print div.item.select { background-color:lightgray; }
 body.print div.zone>div.item { background-color:lightgray; color:black; }
