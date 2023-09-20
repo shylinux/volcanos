@@ -106,6 +106,7 @@ fieldset.input.date>div.output td span.lunar { font-size:8px; display:block; cle
 fieldset.input.date>div.output td span.lunar.term { color:green; }
 fieldset.input.date>div.output td span.lunar.fest { color:red; }
 fieldset.input.date>div.status { text-align:center; }
+fieldset.input.icon img { height:80px; width:80px; }
 /* float */
 body div.float { padding:5px; box-shadow:var(--box-shadow); }
 body>div.toast div.title { color:var(--notice-bg-color); float:left; }
@@ -127,7 +128,8 @@ body>div.input td { padding:10px; }
 body>div.input td:nth-child(2) { padding:10px 0;}
 body>div.input tr.icon td:last-child { position:relative; }
 body>div.input tr.icon td:last-child i:first-child { font-size:22px; position:absolute; left:15px; top:14px; }
-body>div.input tr.icon td:last-child input { padding-left:30px; }
+body>div.input tr.icon td:last-child img:first-child { height:28px; width:28px; left:12px; top:12px; position:absolute; }
+body>div.input tr.icon td:last-child input { padding-left:32px; }
 body>div.input td span.icon { margin-left:-20px; visibility:hidden; }
 body>div.input td:hover span.icon { visibility:visible; }
 body>div.input select { width:230px; }
@@ -181,6 +183,8 @@ div.project div.item>i:first-child { color:var(--panel-output-fg-color); }
 div.project div.item.text:hover>i:first-child { color:var(--plugin-fg-color); }
 div.action div.icon, div.action>div.item:not(.tabs)>span.icon { font-size:20px; line-height:32px; padding:0 5px; margin:0; height:32px; }
 div.action>div.item.icons>span.icon { font-size:30px; line-height:28px; }
+div.action>div.item.icons>i { font-size:21px; line-height:32px; padding:6px; }
+form.option>div.item.icons>i { font-size:21px; line-height:32px; padding:6px; }
 form.option div.icon, form.option span.icon { font-size:20px; line-height:32px; padding:0 5px; margin:0; height:32px; }
 form.option div.icon.refresh { font-size:28px; line-height:28px; }
 form.option div.icon.goback { font-size:28px; line-height:28px; }
@@ -447,6 +451,8 @@ fieldset.plug.dream.zone>div.output>div.item>span { line-height:32px; }
 fieldset.dream>div.output.card>div.item>div.title>img  { height:48px; width:48px; float:left; }
 fieldset.dream>div.output.card>div.item>div.title>span  { line-height:48px; margin-left:10px; }
 fieldset.inner.float>div.status { display:none; }
+fieldset.trans>div.output>fieldset{ margin:10px; }
+fieldset.trans>form.option>div.item>input { width:240px; }
 fieldset.inner>form.option input[name=path] { width:80px !important; }
 fieldset.inner>form.option input[name=file] { width:160px !important; }
 fieldset.inner>div.output>div.project div.item.modify { background-color:#00800036; }

@@ -55,13 +55,14 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			can.user.info.language? can.require(["src/template/web.chat.header/language/"+can.user.info.language+".js"], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb && cb()
 		}
 		function show(msg) { var p = can.misc.Search(can, "redirect_uri")
-			if (location.pathname == "/login" && p) { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
+			if (p && location.pathname == "/login") { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
 			can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
 			can.user.info.email = msg.Option(aaa.EMAIL), can.user.info.repos = msg.Option(nfs.REPOS)
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
-		can.run(can.request({}, {_method: web.GET}), [], function(msg) { lang(msg), can.page.requireModules(can, [msg.Option("icons")])
+		can.run(can.request({}, {_method: web.GET}), [], function(msg) {
+			lang(msg), can.page.requireModules(can, [msg.Option(mdb.ICONS)])
 			can.require(can.core.List(msg["theme.list"], function(item) { return "src/template/web.chat.header/theme/"+item }))
 			can.onaction._menus[1] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, ".css") }))
 			can.onaction._menus[2] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, ".js") }))

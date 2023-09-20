@@ -30,7 +30,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	create: function(event, can) { can.user.input(can.request(event, {title: "创建群组"}), can, [
 		{name: mdb.TYPE, values: [aaa.TECH, aaa.ROOT, aaa.TECH, aaa.VOID], _trans: "类型"},
 		{name: mdb.NAME, value: "hi", _trans: "群名", need: "must"},
-		{name: mdb.ICON, value: "", _trans: "图标", action: "icon"},
+		{name: mdb.ICON, value: "", _trans: "图标"},
 		{name: mdb.TEXT, value: "hello", _trans: "简介"},
 	], function(args) {
 		can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })

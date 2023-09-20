@@ -60,7 +60,7 @@ var ctx = {
 var mdb = {
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
 	ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text",
-	DATA: "data", VIEW: "view", ICON: "icon", LINK: "link", SCAN: "scan", HELP: "help",
+	DATA: "data", VIEW: "view", ICON: "icon", ICONS: "icons", LINK: "link", SCAN: "scan", HELP: "help",
 	SHORT: "short", FIELD: "field", TOTAL: "total", COUNT: "count", LIMIT: "limit",
 	INDEX: "index", VALUE: "value", EXTRA: "extra", ALIAS: "alias", EXPIRE: "expire",
 

@@ -13,7 +13,7 @@ Volcanos(chat.ONIMPORT, {
 	_inner: function(can, sub, msg) { can.onappend.table(sub, msg), can.onappend.board(sub, msg), can.onmotion.story.auto(sub) },
 	_field: function(can, msg, cb) { var height = can.onexport.outputHeight(can), width = can.ConfWidth()
 		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
-			can.onmotion.delay(can, function() { sub._target.scrollIntoView() }, 300)
+			can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, sub._target) }, 300)
 			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX)
 				can.run(event, (!index || index == can._index || index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, index]).concat(cmds), cb, true)
 			}, can.page.ClassList.has(can, sub._target, html.FLOAT)? can.onmotion.float(sub): sub.onimport.size(sub, height, width, true), cb && cb(sub)

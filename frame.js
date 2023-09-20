@@ -164,9 +164,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				CloneField: can.Clone, CloneInput: function() { can.onmotion.focus(can, add(item)._target) }, Input: can.Input, Option: can.Option, Action: can.Action, Status: can.Status,
 			}, [item.display, chat.PLUGIN_INPUT_JS], function(sub) { sub.Conf(item)
 				if (item.type == html.TEXT) { can.page.Append(can, sub._target.parentNode, [{text: [sub._target.value, html.SPAN, mdb.VALUE]}]) }
-				if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT, mdb.PRUNES, mdb.PRUNE)) { can.onappend.style(can, "icons", sub._target.parentNode)
-					can.page.Append(can, sub._target.parentNode, [{icon: item.name, onclick: function(event) { can.Update(event, [ctx.ACTION, item.name]) }}])
-				}
+				if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT, mdb.PRUNES, mdb.PRUNE)) {
+					can.onappend.icons(can, sub._target, item.name)
+				} item.type == html.BUTTON && can.onappend.icons(can, sub._target, can.Conf(["_icons", item.name]), item.name)
 				sub.run = function(event, cmds, cb, silent) { var msg = can.requestAction(event, item.name)._caller()
 					msg.RunAction(event, sub, cmds) || msg.RunAction(event, can.sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
 				}, can._inputs = can._inputs||{}, can._inputs[item.name] = sub, sub.sup = can
@@ -192,9 +192,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}) }}: /* 4.其它 */(item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans), item.onclick = item.onclick||function(event) {
 					run(event, item.name||item.value)
 				}, item._init = item._init||function(target) { item.action && can.onappend.figure(sub, item, target, function(_sub, value) { can.Update() })
-					if (can.base.isIn(item.name, mdb.CREATE, mdb.INSERT)) { can.onappend.style(can, "icons", target.parentNode)
-						can.page.Append(can, target.parentNode, [{icon: item.name, onclick: function(event) { can.Update(event, [ctx.ACTION, item.name]) }}])
-					}
+					if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT)) {
+						can.onappend.icons(can, target, item.name)
+					} item.type == html.BUTTON && can.onappend.icons(can, target, can.Conf(["_icons", item.name]), item.name)
 				}), item), "", action)
 		}), meta
 	},
@@ -278,6 +278,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			item.style && can.onappend.style(can, item.style, target)
 		}}])[item.name]; return _input
 	},
+	icons: function(can, target, icon, cb) { if (!icon) { return } can.onappend.style(can, "icons", target.parentNode)
+		can.page.Append(can, target.parentNode, [{icon: icon, onclick: can.base.isFunc(cb)? cb: function(event) { can.Update(event, [ctx.ACTION, cb||icon]) }}])
+	},
 	mores: function(can, target, value, limit) {
 		var list = can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
 			target.name == target.value && (target.value = can.user.trans(can, target.value))
@@ -285,19 +288,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.user.trans(can, kit.Dict(target.name, target.value))
 			return {type: html.BUTTON, name: target.name, value: target.value, style: _style}
 		})
+		function run(event, button) { can.run(can.request(event, value, can.Option()), [ctx.ACTION, button]), can.onkeymap.prevent(event) }
 		if (list.length <= limit) {
-			target.onclick = function(event) { can.run(can.request(event, value), [ctx.ACTION, event.target.name]) }
+			target.onclick = function(event) { run(event, event.target.name) }
 		} else {
 			can.page.Appends(can, target, can.core.List(list.slice(0, limit-1), function(item) {
-				return {type: html.INPUT, data: {type: html.BUTTON}, name: item.name, value: item.value, className: item.style, onclick: function(event) {
-					can.run(can.request(event, value), [ctx.ACTION, item.name])
-					can.onkeymap.prevent(event)
-				}}
+				return {type: html.INPUT, data: {type: html.BUTTON}, name: item.name, value: item.value, className: item.style, onclick: function(event) { run(event, item.name) }}
 			}))
 			can.page.Append(can, target, [{type: html.INPUT, data: {type: html.BUTTON}, name: "more", value: can.user.trans(can, "more"), className: can.page.buttonStyle(can, "more"), onclick: function(event) {
-				can.user.carte(event, can, {}, can.core.List(list.slice(limit-1), function(item) { return item.name }), function(event, button) {
-					can.run(can.request(event, value), [ctx.ACTION, button])
-				})
+				can.user.carte(event, can, {}, can.core.List(list.slice(limit-1), function(item) { return item.name }), function(event, button) { run(event, button) })
 			}}])
 		}
 	},
@@ -464,7 +463,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		sub.onmotion.float(sub), sub.onaction.close = function() { can.page.Remove(can, sub._target) }, cb && cb(sub)
 	}, can._root._target) },
 	figure: function(can, meta, target, cb) { if (meta.type == html.SELECT || meta.type == html.BUTTON) { return }
-		var input = meta.action||(meta.name == mdb.ICON? mdb.ICON: mdb.KEY), path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
+		var input = meta.action||(meta.name == mdb.ICON? mdb.ICONS: mdb.KEY), path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
 			function _cb(sub, value, old) { if (value == old) { return } target.value = value, can.base.isFunc(cb) && cb(sub, value, old) }
 			target.onkeydown = function() { if (event.key == code.ESCAPE && target._can) { return target._can.close(), target.blur() } else if (event.key == code.ENTER) { can.base.isFunc(cb) && cb(event, target.value) } }
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function() { }; target[key] = function(event) { can.misc.Event(event, can, function(msg) {
@@ -553,6 +552,14 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		},
 	},
 	scrollHold: function(can, cb, target) { target = target || can._output; var left = target.scrollLeft; cb(), target.scrollLeft = left },
+	scrollIntoView: function(can, target) {
+		var offset = target.offsetTop - target.parentNode.scrollTop
+		can.core.Timer({interval: 10, length: offset/10}, function() {
+			target.parentNode.scrollTop += 10
+		}, function() {
+			target.parentNode.scrollTop = target.offsetTop
+		})
+	},
 	clearFloat: function(can) {
 		var list = ["fieldset.input.float", "div.input.float", "div.carte.float"]; for (var i = 0; i < list.length; i++) {
 			if (can.page.Select(can, document.body, list[i], function(target) { return target._close? target._close(): can.page.Remove(can, target) }).length > 0) { return true }
