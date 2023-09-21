@@ -261,6 +261,7 @@ var icon = {
 	SEARCH: "bi bi-search", TERMINAL: "bi bi-terminal",
 }
 var http = {
+	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	ContentType: "Content-Type",
 }
 var mime = {

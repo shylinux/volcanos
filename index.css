@@ -254,6 +254,11 @@ div.project div.zone>div.item>div.icon { margin-left:3px; float:right; }
 div.project div.zone>div.list>div.zone>div.item { text-align:left; padding-left:20px; }
 div.project div.zone>div.list>div.zone>div.item:hover { margin-left:10px; transition:all 0.3s;  }
 div.project div.list fieldset { position:static; }
+div.project div.action { width:100%; }
+div.project div.action div.item.search { width:100%; position:relative; }
+div.project div.action div.item.search>i:first-child { position:absolute; padding:5px; }
+div.project div.action div.item.search>input { width:100% !important; padding-left:25px; }
+div.project div.action div.item.search>span { right:10px; }
 div.content { position:relative; }
 div.content>div.toggle { position:absolute; }
 div.content>div.toggle:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
@@ -463,7 +468,6 @@ fieldset.xterm>div.layout { clear:both; }
 fieldset.xterm div.layout div.output { border-left:var(--box-border); border-top:var(--box-border); }
 fieldset.xterm div.layout div.output.select { border:var(--box-border)}
 fieldset.xterm>div.action>div.tabs:only-child { display:none; }
-fieldset.location>div.action input[type=text] { width:40px; }
 fieldset.config form.option input[name=key] { width:240px; }
 fieldset.qrcode>div.output div.code { padding:0; }
 fieldset.macos.desktop.cmd>div.output>fieldset.macos.dock { z-index:11; }
@@ -484,6 +488,9 @@ fieldset.draw.trend div.output { overflow:hidden; }
 fieldset.draw.spide div.output { overflow-y:hidden; }
 fieldset.draw.spide div.output svg text { cursor:pointer; }
 fieldset.draw.spide div.output svg path { stroke-width:1; }
+fieldset.web.chat.location>div.action input[type=text] { width:80px !important; }
+fieldset.web.chat.location>div.output>div.layout>div.layout>div.profile { position:absolute; top:0; right:0; height:200px; width:200px; z-index:5; border-left:none; }
+fieldset.web.chat.location>div.output>div.layout>div.layout { position:relative; }
 body.web.wiki.portal { background-color:rgb(22 31 49); }
 fieldset.web.code.docker.studio>div.action>div.item { font-style:italic; height:32px; padding:5px 10px; }
 fieldset.web.code.docker.studio>div.output>fieldset { margin:0; }

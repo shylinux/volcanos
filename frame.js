@@ -18,20 +18,19 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 		if (!sub || !mod || !fun) { can.misc.Warn(ice.ErrNotFound, cmds); return can.base.isFunc(cb) && cb(msg.Echo(ice.ErrWarn, ice.ErrNotFound, cmds)) }
 		return can.core.CallFunc(fun, {event: event, can: sub, msg: msg, cmds: cmds.slice(2), cb: cb, target: sub._target, button: key, cmd: key, arg: cmds.slice(2), list: cmds.slice(2)}, mod)
 	},
-	_remote: function(event, can, msg, panel, cmds, cb) {
+	_remote: function(event, can, msg, panel, cmds, cb) { var sub = msg._can; 
 		if (panel.onengine._plugin(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._engine(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._static(event, can, msg, panel, cmds, cb)) { return }
 		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() { if (msg._can && msg._can._toast) { return } toast = toast||can.user.toastProcess(msg._can, _toast) }, 500) }
-		var sub = msg._can; 
 		if (can.base.isUndefined(msg[ice.MSG_DAEMON])) { can.base.isUndefined(sub._daemon) && can.ondaemon._list[0] && (sub._daemon = can.ondaemon._list.push(sub)-1)
 			if (sub._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], sub._daemon)) }
-		} if (!can.misc.CookieSessid(can) && can.user.info.sessid) { msg.Option(ice.MSG_SESSID, can.user.info.sessid) }
-		msg.OptionDefault(ice.MSG_LANGUAGE, can.user.info.language), msg.OptionDefault(ice.MSG_THEME, can.getHeader(chat.THEME))
-		can.base.isIn(sub.ConfIndex(), "qrcode", "cli.qrcode") && can.page.exportValue(sub, msg)
-		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds}))
+		} can.base.isIn(sub.ConfIndex(), "qrcode", "cli.qrcode") && can.page.exportValue(sub, msg)
+		if (!can.misc.CookieSessid(can) && can.user.info.sessid) { msg.Option(ice.MSG_SESSID, can.user.info.sessid) }
 		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+"/chat/"+panel._name+"/")
-		can.misc.Run(event, can, {names: names, daemon: msg[ice.MSG_DAEMON]}, cmds, function(msg) { toast && toast.close(), toast = true
+		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex(), ice.MSG_LANGUAGE, can.user.info.language, ice.MSG_THEME, can.getHeader(chat.THEME))
+		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))
+		can.misc.Run(event, can, {names: names}, cmds, function(msg) { toast && toast.close && toast.close(), toast = true
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg
 		})
 	},
