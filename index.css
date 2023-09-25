@@ -225,6 +225,7 @@ body.windows form.option>div.icon { font-size:21px; line-height:32px; }
 /* svg */
 fieldset.web.wiki.draw div.output svg { min-width:100%; min-height:100%; }
 svg text { font-size:24px; font-family:monospace; stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }
+svg text.offline { stroke:var(--disable-fg-color); fill:var(--disable-fg-color); }
 svg text:hover { stroke:var(--hover-fg-color); fill:var(--hover-fg-color); cursor:pointer; }
 svg rect { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); fill:var(--output-bg-color); }
 svg rect:hover { stroke:var(--hover-fg-color); fill:var(--hover-bg-color); }

@@ -33,6 +33,7 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "横向", "纵向"], [html.SIZE, 24, 
 	},
 	_draw: function(can, tree, x, y, style) { var color = can.onimport._color(can, tree)
 		tree.view = can.onimport.draw(can, {shape: html.TEXT, points: [{x: x, y: y}], style: can.base.Copy(kit.Dict(html.INNER, tree.name||" "), style)})
+		tree.meta.status && tree.view.Value("class", tree.meta.status)
 		return can.core.ItemCB(can.ondetail, tree.view, can, tree), tree.view
 	},
 	_draw_vertical: function(can, tree, x, y) {
