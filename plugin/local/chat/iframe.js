@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.db.current = msg.TableDetail()
 		can.ui.target = can.page.Appends(can, can._output, [{type: html.IFRAME, src: can.db.current.link, height: can.ConfHeight(), width: can.ConfWidth()}])._target
-		can.page.style(can, can._output, html.OVERFLOW, html.HIDDEN)
+		can.page.style(can, can._output, "overflow-y", html.HIDDEN)
 	},
 	layout: function(can) {
 		var item = can.db.current; can.sup.onexport.title(can, item.name||item.link.split(mdb.QS)[0])

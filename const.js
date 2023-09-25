@@ -40,6 +40,7 @@ var ice = {
 	PROCESS_FIELD: "_field",
 	PROCESS_REWRITE: "_rewrite",
 	MSG_PREFIX: "_prefix",
+	MSG_METHOD: "_method",
 
 	MSG_USERNICK: "user.nick", MSG_USERNAME: "user.name", MSG_USERROLE: "user.role", MSG_LANGUAGE: "user.lang",
 	MSG_TITLE: "sess.title", MSG_THEME: "sess.theme", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",

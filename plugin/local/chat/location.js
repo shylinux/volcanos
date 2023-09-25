@@ -32,7 +32,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.ui = can.on
 		})
 	},
 	_list_result: function(can, msg, cb) { var res = can.base.Obj(msg.Result()); if (res.status) { can.user.toastFailure(can, res.message); return }
-		return res && can.core.List(res.result[0], function(item) { item.name = item.name||item.fullname; return can.base.isFunc(cb)? cb(item): item })
+		return res && res.result && can.core.List(res.result[0], function(item) { item.name = item.name||item.fullname; return can.base.isFunc(cb)? cb(item): item })
 	},
 	_district: function(can, id, cb) { can.runAction(can.request({}, {_method: http.GET, id: id}), "district", [], cb) },
 	_province: function(can, target) { can.onimport._district(can, "", function(msg) {
