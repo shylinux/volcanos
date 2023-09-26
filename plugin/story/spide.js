@@ -18,10 +18,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 	_color: function(can, tree) { return tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW) },
 	layout: function(can) { can.page.ClassList.has(can, can._fields, html.FLOAT) || can.page.style(can, can._output, html.MAX_HEIGHT, "")
 		can.svg && can.svg.Val(svg.FONT_SIZE, can.size = parseInt(can.Action(html.SIZE)||24)), can.margin = parseInt(can.Action(html.MARGIN)||10)
-		can._tree && can._tree[can.dir_root] && can.core.CallFunc(can.onaction[can.Action(ice.VIEW)||"横向"], [event, can, can.Action(ice.VIEW)])
+		can._tree && can._tree[can.dir_root] && can.core.CallFunc(can.onaction[can.Action(html.VIEW)||"横向"], [event, can, can.Action(html.VIEW)])
 	},
 })
-Volcanos(chat.ONACTION, {list: [[ice.VIEW, "横向", "纵向"], [html.SIZE, 24, 32, 48], [html.MARGIN, 10, 30, 50]],
+Volcanos(chat.ONACTION, {list: [[html.VIEW, "横向", "纵向"], [html.SIZE, 24, 32, 48], [html.MARGIN, 10, 30, 50]],
 	size: function(event, can) { can.onimport.layout(can) }, margin: function(event, can) { can.onimport.layout(can) },
 	"横向": function(event, can, button) { can.onimport._height(can, can._tree[can.dir_root]), can.onmotion.clear(can, can.svg)
 		can.svg.Val(html.HEIGHT, can._tree[can.dir_root].height*(can.size+can.margin)+2*can.margin), can.svg.Value(svg.TEXT_ANCHOR, "start")
@@ -55,7 +55,7 @@ Volcanos(chat.ONACTION, {list: [[ice.VIEW, "横向", "纵向"], [html.SIZE, 24, 
 })
 Volcanos(chat.ONDETAIL, {
 	onclick: function(event, can, tree) {
-		if (tree.list.length > 0 || tree.name.endsWith(can.Conf(lex.SPLIT))) { return tree.hide = !tree.hide, can.onaction[can.Action(ice.VIEW)||"横向"](event, can) }
+		if (tree.list.length > 0 || tree.name.endsWith(can.Conf(lex.SPLIT))) { return tree.hide = !tree.hide, can.onaction[can.Action(html.VIEW)||"横向"](event, can) }
 		for (var node = tree; node; node = node.last) { can.request(event, node.meta) }
 		can.run(can.request(event, can.Option()), can.base.Obj(can.Conf(lex.PREFIX), []).concat(can.Conf(ctx.ACTION)||[], [tree.file||"", tree.name]), function(msg) {
 			if (msg.Length() == 0) { return can.onappend._float(can, web.CODE_INNER, [can._msg.Option(nfs.DIR_ROOT), tree.file, tree.line]) }

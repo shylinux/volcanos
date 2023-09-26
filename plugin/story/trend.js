@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
 		can.page.requireDraw(can, function() { can.base.isFunc(cb) && cb(msg)
-			can.Conf(ice.VIEW) && can.Action(ice.VIEW, can.Conf(ice.VIEW)), can.onmotion.toggle(can, can._option, !can.user.isMobile || !can.isFullMode())
+			can.Conf(html.VIEW) && can.Action(html.VIEW, can.Conf(html.VIEW)), can.onmotion.toggle(can, can._option, !can.user.isMobile || !can.isFullMode())
 			can.db.data = msg.Table(), can.onimport.layout(can)
 		})
 	},
@@ -23,11 +23,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
 		can.page.style(can, can._output, html.MAX_HEIGHT, "")
 		return {height: height, width: width, margin: margin, step: step}
 	},
-	layout: function(can) { can.db.data && can.core.CallFunc(can.onaction[can.Action(ice.VIEW)], [{}, can]) },
+	layout: function(can) { can.db.data && can.core.CallFunc(can.onaction[can.Action(html.VIEW)], [{}, can]) },
 	// transform: function(can, target) { target.Value("transform", "scale(1, -1)") },
 	transform: function(can, target) { target.Value("transform", "translate(0, "+parseInt(can.ConfHeight())+") scale(1, -1)") },
 })
-Volcanos(chat.ONACTION, {list: [[ice.VIEW, "趋势图", "柱状图", "折线图", "数据源"],
+Volcanos(chat.ONACTION, {list: [[html.VIEW, "趋势图", "柱状图", "折线图", "数据源"],
 		[html.HEIGHT, html.HEIGHT, 100, 200, 400, 600, 800], [html.MARGIN, html.MARGIN, 10, 20, 50, 100], [html.SPEED, html.SPEED, 10, 20, 50, 100],
 	],
 	"趋势图": function(event, can) { var args = can.onimport._layout(can)

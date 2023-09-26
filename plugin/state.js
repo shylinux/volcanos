@@ -15,7 +15,7 @@ Volcanos(chat.ONIMPORT, {
 		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
 			can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, sub._target) }, 300)
 			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX)
-				can.run(event, (!index || index == can._index || index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ice.RUN, index]).concat(cmds), cb, true)
+				can.run(event, (!index || index == can._index || index.indexOf("can.") == 0? msg[ice.MSG_PREFIX]||[]: [ctx.RUN, index]).concat(cmds), cb, true)
 			}, can.page.ClassList.has(can, sub._target, html.FLOAT)? can.onmotion.float(sub): sub.onimport.size(sub, height, width, true), cb && cb(sub)
 		}) })
 	},
@@ -124,10 +124,10 @@ Volcanos(chat.ONACTION, {list: [
 	},
 
 	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
-	"查看文档": function(event, can) { can.request(event).Option(ctx.ACTION, ice.HELP), can.onengine.signal(can, "ondebugs", can.request(event, {action: ice.HELP, index: can.Conf(ctx.INDEX)})) },
-	"查看脚本": function(event, can) { can.request(event).Option(ctx.ACTION, nfs.SCRIPT), can.onengine.signal(can, "ondebugs", can.request(event, {action: nfs.SCRIPT, index: can.Conf(ctx.INDEX)})) },
-	"查看源码": function(event, can) { can.request(event).Option(ctx.ACTION, nfs.SOURCE), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
-	"查看配置": function(event, can) { can.request(event).Option(ctx.ACTION, ctx.CONFIG), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
+	"查看文档": function(event, can) { can.requests(event, {action: ice.HELP}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
+	"查看脚本": function(event, can) { can.requests(event, {action: nfs.SCRIPT}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
+	"查看源码": function(event, can) { can.requests(event, {action: nfs.SOURCE}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
+	"查看配置": function(event, can) { can.requests(event, {action: ctx.CONFIG}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
 	"查看日志": function(event, can) { var sub = can.sub; sub.onimport.tool(sub, ["can.debug"], function(sub) { sub.select() }) },
 	"删除工具": function(event, can) { can.onaction._close(event, can) },
 
@@ -187,7 +187,7 @@ Volcanos(chat.ONACTION, {list: [
 		}
 	}) },
 	record2: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) {
-		var recorder = new MediaRecorder(stream, {mimeType: web.VIDEO_WEBM}), blobs = []; recorder.ondataavailable = function(res) { blobs.push(res.data) }
+		var recorder = new MediaRecorder(stream, {mimeType: html.VIDEO_WEBM}), blobs = []; recorder.ondataavailable = function(res) { blobs.push(res.data) }
 		recorder.onstop = function() { cb(blobs, nfs.WEBM) }, recorder.start(1)
 	}) },
 })

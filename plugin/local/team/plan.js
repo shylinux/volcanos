@@ -18,7 +18,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		ondrop: function(event) { can.onkeymap.prevent(event), can.drop(event, event.target, time) },
 		ondragover: function(event) { can.onkeymap.prevent(event), can.page.Select(can, can.ui.content, html.TD, function(td) { can.page.ClassList.set(can, td, "over", td == event.target) }) },
 		list: can.core.List(list, function(task) { return can.base.isString(task)? {text: [task, html.DIV, "date"]}:
-			{text: [can.core.CallFunc([can.onexport, can.Action(ice.VIEW)||mdb.TEXT], [can, task])||task.name, html.DIV, can.onexport.style(can, task)],
+			{text: [can.core.CallFunc([can.onexport, can.Action(html.VIEW)||mdb.TEXT], [can, task])||task.name, html.DIV, can.onexport.style(can, task)],
 				ondragstart: function(event) { var target = event.target; can.drop = function(event, td, time) { td.append(target)
 					can.onaction.modifyTask(event, can, task, team.BEGIN_TIME, time+task.begin_time.slice(time.length), task.begin_time)
 				} }, draggable: time != undefined, title: can.onexport.title(can, task), _init: function(target) {
@@ -46,7 +46,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}, can.ui.display)) { return }
 		task[ctx.EXTRA_INDEX] && can.onappend.plugin(can, {space: task.space, index: task[ctx.EXTRA_INDEX], args: task[ctx.EXTRA_ARGS], height: can.ConfHeight()/2-2*html.ACTION_HEIGHT}, function(sub, meta) {
 			sub.run = function(event, cmds, cb) { can.request(event, kit.Dict(team.TASK_POD, task.space, team.TASK_ZONE, task.zone, team.TASK_ID, task.id))
-				can.page.style(can, sub._output, html.MAX_HEIGHT, ""), can.runAction(event, ice.RUN, [task[mdb.ZONE], task[mdb.ID]].concat(cmds), cb)
+				can.page.style(can, sub._output, html.MAX_HEIGHT, ""), can.runAction(event, ctx.RUN, [task[mdb.ZONE], task[mdb.ID]].concat(cmds), cb)
 			}
 			can._plugin_display = sub
 			sub.onaction.close = function() { can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can) }

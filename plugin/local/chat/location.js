@@ -112,7 +112,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.ui = can.on
 		myInfoWindow.prototype.createDOM = function() {
 			var meta = this.meta, ui = can.onappend.field(can, chat.FLOAT, {}, can._output)
 			can.onappend.plugin(can, meta, function(sub) {
-				sub.run = function(event, cmds, cb) { can.runAction(can.request(event), ice.RUN, [meta.index].concat(cmds), cb) }
+				sub.run = function(event, cmds, cb) { can.runAction(can.request(event), ctx.RUN, [meta.index].concat(cmds), cb) }
 				sub.onaction.close = function(event) { can.misc.Event(event, can, function(msg) {
 					can.onmotion.hidden(can, sub._target)
 				}) }

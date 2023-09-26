@@ -34,7 +34,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	language: function(can, language) { can.runAction(event, aaa.LANGUAGE, [language == ice.AUTO? "": language], function(msg) {
 		can.user.toastConfirm(can, can.user.trans(can, "reload page for "+language), aaa.LANGUAGE, function() { can.user.reload(true) })
 	}) },
-	theme: function(can, theme) { theme && can.runAction({}, web.THEME, [theme])
+	theme: function(can, theme) { theme && can.runAction({}, chat.THEME, [theme])
 		theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme) && can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: theme})), can.user.theme(can, can.onexport.theme(can))
 	},
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
@@ -61,7 +61,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
-		can.run(can.request({}, {_method: web.GET}), [], function(msg) {
+		can.run(can.request({}, {_method: http.GET}), [], function(msg) {
 			lang(msg), can.page.requireModules(can, [msg.Option(mdb.ICONS)])
 			can.require(can.core.List(msg["theme.list"], function(item) { return "src/template/web.chat.header/theme/"+item }))
 			can.onaction._menus[1] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, ".css") }))
@@ -69,7 +69,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			if (can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/", "/chat/cmd/web.chat.oauth.client", "/chat/pod/20230511-golang-story/cmd/web.code.gitea.client")) { return show(msg) }
 			if (location.pathname == "/" && can.base.beginWith(msg.Option(ice.MAIN)||"", "/wiki/portal/", "/chat/cmd/web.wiki.portal/")) { return show(msg) }
 			if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
-				return can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg.Option(aaa.LOGIN), can.base.Obj(msg.Option(chat.SSO)))
+				return can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
 			} show(msg)
 		})
 	},
@@ -112,12 +112,12 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	},
 	
 	_params: [log.DEBUG, chat.TITLE],
-	_menus: ["shareuser", [web.THEME], [aaa.LANGUAGE],
+	_menus: ["shareuser", [chat.THEME], [aaa.LANGUAGE],
 		[nfs.SAVE, aaa.EMAIL, web.TOIMAGE, code.WEBPACK],
-		[aaa.USER, "setnick", aaa.PASSWORD, cli.CLEAR, aaa.LOGOUT],
+		[aaa.USER, "setnick", aaa.PASSWORD, web.CLEAR, aaa.LOGOUT],
 	],
 	_trans: kit.Dict(
-		"shareuser", "共享用户", web.THEME, "界面主题", aaa.LANGUAGE, "语言地区",
+		"shareuser", "共享用户", chat.THEME, "界面主题", aaa.LANGUAGE, "语言地区",
 		nfs.SAVE, "保存网页", aaa.EMAIL, "发送邮件", web.TOIMAGE, "生成图片", code.WEBPACK, "打包页面",
 		aaa.USER, "用户信息", "setnick", "设置昵称", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
 		
@@ -169,11 +169,11 @@ Volcanos(chat.ONPLUGIN, {
 	}),
 	avatar: shy("用户头像", function(can, sub, cb) { can.page.Append(can, sub._output, [{img: can.user.info.avatar, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}]) }),
 	background: shy("背景图片", function(can, sub, cb) { can.page.Append(can, sub._output, [{img: can.user.info.background, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}]) }),
-	language: shy("语言地区", {_init: function(can) { can.Option(aaa.LANGUAGE, can.user.info.language||ice.AUTO) }}, ["language:select=auto,zh,en", ice.RUN], function(can, msg, arg) { can.onimport.language(can, arg[0]) }),
+	language: shy("语言地区", {_init: function(can) { can.Option(aaa.LANGUAGE, can.user.info.language||ice.AUTO) }}, ["language:select=auto,zh,en", ctx.RUN], function(can, msg, arg) { can.onimport.language(can, arg[0]) }),
 	title: shy("网页标题", [chat.TITLE], function(can, msg, arg) { msg.Echo(can.user.title(arg[0])) }),
 	theme: shy("界面主题", {_init: function(can) { can.Option(chat.THEME, can.getHeader(chat.THEME)) },
-		save: function(can, sup) { can.user.downloads(can, sup._themes[can.Option(web.THEME)], can.Option(web.THEME), nfs.CSS) },
-	}, ["theme:select=auto,dark,light,print,white,black", ice.RUN, nfs.SAVE], function(can, msg, arg) {
+		save: function(can, sup) { can.user.downloads(can, sup._themes[can.Option(chat.THEME)], can.Option(chat.THEME), nfs.CSS) },
+	}, ["theme:select=auto,dark,light,print,white,black", ctx.RUN, nfs.SAVE], function(can, msg, arg) {
 		if (arg[0] == ice.AUTO) { arg[0] = "", can._theme = "" } can.misc.localStorage(can, "can.theme", arg[0]), can.onimport.theme(can, arg[0])
 	}),
 	logout: shy("退出登录", kit.Dict(aaa.LOGOUT, shy("退出", function(can) { can.user.logout(can._root.Header) })), [aaa.LOGOUT]),

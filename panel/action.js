@@ -51,7 +51,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		if (can.onmotion.cache(can, function(save, load) { save({plugins: can._plugins})
 			return load(can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm)), function(bak) { can._plugins = bak.plugins })
 		}, can._output, can._action, can._header_tabs)) { if (msg.Option("refresh") != "true") { return can.onaction.layout(can) } }
-		can.run(can.request({}, {_method: web.GET}), [river, storm], function(msg) {
+		can.run(can.request({}, {_method: http.GET}), [river, storm], function(msg) {
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm})) }
 			return can.onimport._init(can, msg)
 		})
@@ -192,7 +192,7 @@ Volcanos(chat.ONKEYMAP, {
 	toggleLayout: function(can, layout) { can.onaction.layout(can, can.onexport.layout(can) == layout? ice.AUTO: layout) },
 })
 Volcanos(chat.ONPLUGIN, {_plugin: shy("默认插件", [mdb.NAME, ice.LIST, ice.BACK]),
-	layout: shy("界面布局", {_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)) }}, ["layout:select=auto,tabs,tabview,horizon,vertical,grid,free,flow,page", ice.RUN], function(can, msg, arg) {
+	layout: shy("界面布局", {_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)) }}, ["layout:select=auto,tabs,tabview,horizon,vertical,grid,free,flow,page", ctx.RUN], function(can, msg, arg) {
 		can.onaction.layout(can, arg[0])
 	}),
 	"parse": shy("生成网页", {

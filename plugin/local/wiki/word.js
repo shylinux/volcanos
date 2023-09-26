@@ -120,10 +120,10 @@ Volcanos(chat.ONDETAIL, {list: ["删除"],
 			}
 		})
 	},
-	next: function(sub) { sub.page.Select(sub, sub.ui.content, sub.core.Keys(html.DIV_PAGE, ice.SHOW), function(page) {
+	next: function(sub) { sub.page.Select(sub, sub.ui.content, sub.core.Keys(html.DIV_PAGE, html.SHOW), function(page) {
 		page.nextSibling? sub.sup.ondetail.show(sub, page.nextSibling): sub.user.toast(sub.sup, cli.END)
 	}) },
-	prev: function(sub) { sub.page.Select(sub, sub.ui.content, sub.core.Keys(html.DIV_PAGE, ice.SHOW), function(page) {
+	prev: function(sub) { sub.page.Select(sub, sub.ui.content, sub.core.Keys(html.DIV_PAGE, html.SHOW), function(page) {
 		page.previousSibling? sub.sup.ondetail.show(sub, page.previousSibling): sub.user.toast(sub.sup, cli.END)
 	}) },
 	flash: function(sub) { sub.core.Next(sub.page.Select(sub, sub.ui.content, html.DIV_PAGE), function(page, next) {

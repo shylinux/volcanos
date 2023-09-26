@@ -458,7 +458,7 @@ fieldset.dream>div.output.card>div.item>div.title>img  { height:48px; width:48px
 fieldset.dream>div.output.card>div.item>div.title>span  { line-height:48px; margin-left:10px; }
 fieldset.inner.float>div.status { display:none; }
 fieldset.trans>div.output>fieldset{ margin:10px; }
-fieldset.trans>form.option>div.item>input { width:240px; }
+fieldset.trans>form.option>div.item.text>input { width:240px; }
 fieldset.inner>form.option input[name=path] { width:80px !important; }
 fieldset.inner>form.option input[name=file] { width:160px !important; }
 fieldset.inner>div.output>div.project div.item.modify { background-color:#00800036; }

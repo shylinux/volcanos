@@ -1,6 +1,6 @@
 var kit = {proto: function(sub, sup) { return sub.__proto__ = sup, sub },
 	Dict: function() { var res = {}, arg = arguments; for (var i = 0; i < arg.length; i += 2) { var key = arg[i]
-		if (typeof key == "object") { i--;
+		if (typeof key == "object") { i--
 			if (key.length == undefined) {
 				for (var k in key) { res[k] = key[k] }
 			} else {
@@ -10,90 +10,73 @@ var kit = {proto: function(sub, sup) { return sub.__proto__ = sup, sub },
 	} return res },
 }
 var ice = {
-	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", PS: "/", PT: ".", FS: ",", QS: "?", NL: "\n", LT: "<", GT: ">",
+	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", QS: "?", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
 	OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", FAILURE: "failure", PROCESS: "process",
 
-	HTTP: "http", HTML: "html",
-	HOME: "home", MAIN: "main",
+	HTTP: "http", HELP: "help",
+	MAIN: "main", AUTO: "auto",
 	LIST: "list", BACK: "back",
-	SHOW: "show", HIDE: "hide",
-	VIEW: "view", MODE: "mode",
-	COPY: "copy", HELP: "help",
-	AUTO: "auto", EXEC: "exec",
-	SHIP: "ship",
 
-	DEV: "dev", POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg", OPT: "opt",
-	CAN: "can", MSG: "msg", RUN: "run", RES: "res", ERR: "err",
+	HOME: "home", COPY: "copy",
+	MODE: "mode", EXEC: "exec",
 
+	CAN: "can", POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg",
+
+	MSG_FIELDS: "fields", MSG_SESSID: "sessid",
 	MSG_DETAIL: "detail", MSG_OPTION: "option", MSG_APPEND: "append", MSG_RESULT: "result",
-	MSG_SESSID: "sessid", MSG_FIELDS: "fields",
 
-	MSG_SOURCE: "_source", MSG_TARGET: "_target",
 	MSG_HANDLE: "_handle", MSG_UPLOAD: "_upload",
+	MSG_SOURCE: "_source", MSG_TARGET: "_target",
 	MSG_ACTION: "_action", MSG_STATUS: "_status",
 
 	MSG_INDEX: "_index",
+	MSG_PROCESS: "_process",
 	MSG_DISPLAY: "_display",
 	MSG_TOOLKIT: "_toolkit",
-	MSG_PROCESS: "_process",
+	PROCESS_REWRITE: "_rewrite",
 	PROCESS_AGAIN: "_again",
 	PROCESS_FIELD: "_field",
-	PROCESS_REWRITE: "_rewrite",
 	MSG_PREFIX: "_prefix",
 	MSG_METHOD: "_method",
 
 	MSG_USERNICK: "user.nick", MSG_USERNAME: "user.name", MSG_USERROLE: "user.role", MSG_LANGUAGE: "user.lang",
-	MSG_TITLE: "sess.title", MSG_THEME: "sess.theme", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",
-	MSG_HEIGHT: "sess.height", MSG_WIDTH: "sess.width", MSG_MODE: "sess.mode", MSG_DAEMON: "sess.daemon",
-	LOG_DISABLE: "log.disable",
+	MSG_MODE: "sess.mode", MSG_THEME: "sess.theme", MSG_TITLE: "sess.title", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",
+	MSG_DAEMON: "sess.daemon", LOG_DISABLE: "log.disable",
 	
-	ErrWarn: "warn: ", ErrNotLogin: "not login: ", ErrNotRight: "not right: ", ErrNotFound: "not found: ", ErrNotValid: "not valid: ",
-	CAN_PLUGIN: "can._plugin", CAN_DEBUG: "can.debug", LOG_DEBUG: "log.debug",
-	NFS: "nfs", USR: "usr", USR_VOLCANOS: "usr/volcanos/",
+	ErrWarn: "warn: ", ErrNotLogin: "not login: ", ErrNotRight: "not right: ", ErrNotValid: "not valid: ", ErrNotFound: "not found: ",
+	NFS: "nfs", USR: "usr", USR_VOLCANOS: "usr/volcanos/", CAN_PLUGIN: "can._plugin",
 }
 
 var ctx = {
 	CONTEXT: "context", COMMAND: "command", CONFIG: "config", INPUTS: "inputs", FEATURE: "feature",
-	INDEX: "index", ARGS: "args", STYLE: "style", DISPLAY: "display", ACTION: "action",
+	INDEX: "index", ARGS: "args", STYLE: "style", DISPLAY: "display", ACTION: "action", RUN: "run",
 	EXTRA_INDEX: "extra.index", EXTRA_ARGS: "extra.args",
-	RUN: "run",
 }
-var mdb = {
+var mdb = {FOREACH: "*", RANDOMS: "%",
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
-	ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text",
-	DATA: "data", VIEW: "view", ICON: "icon", ICONS: "icons", LINK: "link", SCAN: "scan", HELP: "help",
-	SHORT: "short", FIELD: "field", TOTAL: "total", COUNT: "count", LIMIT: "limit",
+	ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text", DATA: "data", VIEW: "view",
+	LINK: "link", SCAN: "scan", HELP: "help", ICON: "icon", ICONS: "icons",
 	INDEX: "index", VALUE: "value", EXTRA: "extra", ALIAS: "alias", EXPIRE: "expire",
+	SHORT: "short", FIELD: "field", TOTAL: "total", COUNT: "count", LIMIT: "limit",
 
-	CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete", MODIFY: "modify", SELECT: "select",
-	INPUTS: "inputs", PRUNES: "prunes", EXPORT: "export", IMPORT: "import", REVERT: "revert", NORMAL: "normal",
+	INPUTS: "inputs", CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete", MODIFY: "modify", SELECT: "select",
+	PRUNES: "prunes", EXPORT: "export", IMPORT: "import",
 	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
-	DETAIL: "detail",
-	PRUNE: "prune",
-	INFO: "info",
+	DETAIL: "detail", NORMAL: "normal", PRUNE: "prune",
 
-	KEYS: "keys",
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
-	FOREACH: "*", RANDOMS: "%",
 	QS: ice.QS, AT: ice.AT,
 	EQ: ice.EQ, FS: ice.FS,
 }
-var web = {CHAT: "chat", STUDIO: "studio",
-	DREAM: "dream", SPACE: "space", ROUTE: "route", SPIDE: "spide", COUNT: "count", SHARE: "share",
-	WEBSITE: "website", DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter", INPUT: "input",
-	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage",
-	CONFIRM: "confirm",
-	THEME: "theme",
-	PORTAL: "portal",
-	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
+var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio",
+	SPIDE: "spide", SPACE: "space", ROUTE: "route", DREAM: "dream",
+	SHARE: "share", COUNT: "count",
 	WORKER: "worker", SERVER: "server", GATEWAY: "gateway",
-	OPEN: "open",
+	OPEN: "open", LINK: "link", HTTP: "http", URL: "url", SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
+	AT: ice.AT, QS: ice.QS,
 
-	AT: "@", QS: "?", LINK: "link", HTTP: "http",
-	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
-	Accept: "Accept", ContentType: "Content-Type", ContentJSON: "application/json", ContentFORM: "application/x-www-form-urlencoded",
-	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
-	URL: "url",
+	DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter",
+	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage", CONFIRM: "confirm",
 	
 	CODE_GIT_SEARCH: "web.code.git.search",
 	CODE_GIT_STATUS: "web.code.git.status",
@@ -113,18 +96,16 @@ var web = {CHAT: "chat", STUDIO: "studio",
 	TEAM_PLAN: "web.team.plan",
 }
 var aaa = {
-	SESS: "sess",
-	AUTH: "auth",
-	USER: "user",
-	EMAIL: "email",
-	LOGIN: "login", LOGOUT: "logout", INVITE: "invite", TOKEN: "token",
-	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole", BACKGROUND: "background", AVATAR: "avatar",
+	LOGIN: "login", LOGOUT: "logout",
+	USER: "user", AUTH: "auth", SESS: "sess",
+	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole",
+	EMAIL: "email", AVATAR: "avatar", BACKGROUND: "background",
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
 	VOID: "void", TECH: "tech", ROOT: "root",
 }
 var lex = {
-	SPLIT: "split", PREFIX: "prefix", SUFFIX: "suffix",
-	PARSE: "parse",
+	SPLIT: "split", PARSE: "parse",
+	PREFIX: "prefix", SUFFIX: "suffix",
 	TB: ice.TB, SP: ice.SP, NL: ice.NL,
 }
 var yac = {
@@ -138,33 +119,28 @@ var gdb = {
 }
 var tcp = {
 	HOST: "host", PORT: "port",
-	SERVER: "server",
-	CLIENT: "client",
+	CLIENT: "client", SERVER: "server",
 }
 var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", PACK: "pack", TRASH: "trash", DIR_ROOT: "dir_root",
 	COPY: "copy", EDIT: "edit", SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
-	SUBJECT: "subject",
-	CONTENT: "content", RECENT: "recent", SCRIPT: "script", MODULE: "module", SOURCE: "source", TARGET: "target", REPOS: "repos", MASTER: "master",
+	SUBJECT: "subject", CONTENT: "content", RECENT: "recent", SCRIPT: "script", SOURCE: "source", TARGET: "target",
+	REPOS: "repos", MASTER: "master", MODULE: "module", PUSH: "push", PULL: "pull",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
-	PUSH: "push", PULL: "pull",
 	REPLACE: "replace", FROM: "from", TO: "to",
 	SVG: "svg", HTML: "html", CSS: "css", JS: "js", SH: "sh", GO: "go", CSV: "csv", JSON: "json", SHY: "shy",
 	TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
-	PWD: "./", SRC: "src/", USR: "usr/", USR_LOCAL_WORK: "usr/local/work/", SRC_DOCUMENT: "src/document/",
+	PWD: "./", SRC: "src/", USR: "usr/", USR_LOCAL_WORK: "usr/local/work/", SRC_DOCUMENT: "src/document/", SRC_TEMPLATE: "src/template/",
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
-	SRC_TEMPLATE: "src/template/",
 }
 var cli = {
-	OPENS: "opens", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build",
-	BEGIN: "begin", START: "start", OPEN: "open", CLOSE: "close", STOP: "stop", END: "end", RESTART: "restart",
+	RUNTIME: "runtime", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build", OPENS: "opens",
+	BEGIN: "begin", END: "end", START: "start", RESTART: "restart", STOP: "stop", OPEN: "open", CLOSE: "close",
 	COLOR: "color", BLACK: "black", WHITE: "white", BLUE: "blue", RED: "red", GRAY: "gray", CYAN: "cyan", GREEN: "green", PURPLE: "purple", YELLOW: "yellow",
 	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
-	MAKE: "make", EXEC: "exec", DONE: "done", COST: "cost", FROM: "from", CLEAR: "clear",
 	LINUX: "linux", DARWIN: "darwin", WINDOWS: "windows",
-	RUN: "run",
-	RUNTIME: "runtime",
+	DONE: "done", COST: "cost", FROM: "from",
 	PWD: "pwd",
 }
 var log = {
@@ -222,16 +198,10 @@ var chat = {
 		"local/wiki/feel.js",
 		"local/wiki/word.js",
 		"local/team/plan.js",
-		"local/mall/goods.js",
 	].map(function(p) { return "/plugin/"+p }),
-	PLUGIN_LOCAL: "/plugin/local/",
-	PLUGIN_STORY: "/plugin/story/",
-	PLUGIN_INPUT: "/plugin/input/",
-	PLUGIN_INPUT_JS: "/plugin/input.js",
-	PLUGIN_TABLE_JS: "/plugin/table.js",
-	PLUGIN_STATE_JS: "/plugin/state.js",
+	PLUGIN_LOCAL: "/plugin/local/", PLUGIN_STORY: "/plugin/story/", PLUGIN_INPUT: "/plugin/input/",
+	PLUGIN_INPUT_JS: "/plugin/input.js", PLUGIN_TABLE_JS: "/plugin/table.js", PLUGIN_STATE_JS: "/plugin/state.js",
 	FRAME_JS: "/volcanos/frame.js",
-	// ICONS_CSS: "/require/modules/bootstrap-icons/font/bootstrap-icons.min.css", // https://icons.getbootstrap.com/
 
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport",
@@ -258,16 +228,9 @@ var mall = {
 	ASSET: "asset", SALARY: "salary",
 }
 
-var icon = {
-	SEARCH: "bi bi-search", TERMINAL: "bi bi-terminal",
-}
 var http = {
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
-	ContentType: "Content-Type",
-}
-var mime = {
-	TextPlain: "text/plain",
-	ApplicationJSON: "application/json",
+	Accept: "Accept", ContentType: "Content-Type", ApplicationJSON: "application/json", ApplicationFORM: "application/x-www-form-urlencoded",
 }
 var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
@@ -316,6 +279,11 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	DIV_ITEM_SELECT: "div.item.select",
 	DIV_TABS_SELECT: "div.tabs.select",
 	DIV_PROFILE: "div.profile", DIV_DISPLAY: "div.display",
+
+	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
+}
+var icon = {
+	SEARCH: "bi bi-search", TERMINAL: "bi bi-terminal",
 }
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",

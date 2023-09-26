@@ -17,7 +17,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.
 	_command: function(can, msg, target) { can.onappend.input(can, {type: html.TEXT, icon: icon.TERMINAL, name: ice.CMD, onkeydown: function(event) { can.onkeymap.input(event, can)
 		function close() { can.ui.cli && can.ui.cli.onaction.close() } if (event.key == code.ESCAPE) { return close() } if (event.key != code.ENTER) { return }
 		close(); switch (event.target.value) {
-		case cli.CLEAR:
+		case web.CLEAR:
 		case cli.CLOSE: break
 		default: var list = can.core.Split(event.target.value, lex.SP)
 			can.onexport._float(can, "cli", list[0], list.slice(1), function(sub) { can.getActionSize(function(left) { can.page.style(can, sub._target, html.LEFT, left+10, html.RIGHT, "") }) })
@@ -31,7 +31,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.
 })
 Volcanos(chat.ONACTION, {_init: function(can) {},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
-	onlogin: function(can, msg) { can.run(can.request({}, {_method: web.GET}), [], function(msg) { can.onmotion.clear(can), can.onimport._init(can, msg, can._output) }) },
+	onlogin: function(can, msg) { can.run(can.request({}, {_method: http.GET}), [], function(msg) { can.onmotion.clear(can), can.onimport._init(can, msg, can._output) }) },
 	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.ntip, {can: can, msg: msg}) },
 	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
 	onlayout: function(can, layout) { can.onmotion.toggle(can, can._target, !layout || layout == html.TABS) },
@@ -42,7 +42,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		can.runAction(msg, msg.Option(ctx.ACTION), [msg.Option(ctx.INDEX)], function(_msg) {
 			_msg.Table(function(item) { item.mode = chat.FLOAT
 				can.onappend.plugin(can, item, function(sub) {
-					sub.run = function(event, cmds, cb) { can.run(can.request(event, {_method: http.POST, space: sub.Conf(web.SPACE)}), [ctx.ACTION, msg.Option(ctx.ACTION), ice.RUN].concat(cmds), cb) }
+					sub.run = function(event, cmds, cb) { can.run(can.request(event, {_method: http.POST, space: sub.Conf(web.SPACE)}), [ctx.ACTION, msg.Option(ctx.ACTION), ctx.RUN].concat(cmds), cb) }
 					can.getActionSize(function(left, top, width, height) { sub.onimport.size(sub, sub.ConfHeight(height/2), sub.ConfWidth(width), true)
 						can.onmotion.move(can, sub._target, {left: left||0, top: (top||0)+height/4})
 					}), sub.onaction.close = function() { can.page.Remove(can, sub._target) }

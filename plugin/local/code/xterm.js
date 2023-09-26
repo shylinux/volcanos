@@ -65,13 +65,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 		can.onexport.term(can, term) }) },
 	_input: function(can, term, data) {
 		if (data == "\u0013") { can._delay = true
-			can.onmotion.delay(can, function() { can._delay && can.runAction(can.request({}, term._item), web.INPUT, [btoa(data)], function(msg) {
+			can.onmotion.delay(can, function() { can._delay && can.runAction(can.request({}, term._item), html.INPUT, [btoa(data)], function(msg) {
 				if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
 			}) })
 		} else {
 			if (can._delay) { can._delay = false; var msg = can.request({}, {_handle: ice.TRUE}, term._item)
 				can._keylist = can.onkeymap._parse({key: data, _msg: msg}, can, mdb.NORMAL, can._keylist||[], term); return
-			} can._output = term._output, can.runAction(can.request({}, {rows: term.rows, cols: term.cols}, term._item), web.INPUT, [btoa(data)], function(msg) {
+			} can._output = term._output, can.runAction(can.request({}, {rows: term.rows, cols: term.cols}, term._item), html.INPUT, [btoa(data)], function(msg) {
 				if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
 			})
 		}

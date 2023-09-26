@@ -40,7 +40,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 	},
 	_engine: function(event, can, msg, panel, cmds, cb) { return false },
 	_plugin: function(event, can, msg, panel, cmds, cb) {
-		if (cmds[0] == ctx.ACTION && cmds[1] == ice.RUN) { var p = can.onengine.plugin(can, cmds[2])
+		if (cmds[0] == ctx.ACTION && cmds[1] == ctx.RUN) { var p = can.onengine.plugin(can, cmds[2])
 			if (p) { return can.core.CallFunc(p, {can: p.can||panel, sub: msg._can, msg: msg, arg: cmds.slice(3), cmds: cmds.slice(3), cb: cb, meta: p.meta}), true }
 		}
 		var p = can.onengine.plugin(can, cmds[0]), n = 1; if (!p) { return false }
@@ -443,7 +443,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var value = can.onengine.plugin(can, meta.index); if (value) { can.onappend._plugin(can, value, meta, function(sub, meta, skip) {
 			value.meta && value.meta._init && value.meta._init(sub, meta), _cb(sub, meta, skip)
 		}, target, field); return res }
-		can.runAction(can.request({}, {_method: web.GET, pod: meta.space})._caller(), ctx.COMMAND, [meta.index], function(msg) { msg.Table(function(value) { can.onappend._plugin(can, value, meta, _cb, target, field) })}); return res
+		can.runAction(can.request({}, {_method: http.GET, pod: meta.space})._caller(), ctx.COMMAND, [meta.index], function(msg) { msg.Table(function(value) { can.onappend._plugin(can, value, meta, _cb, target, field) })}); return res
 	},
 	_plugin: function(can, value, meta, cb, target, field) { can.base.Copy(meta, value, true)
 		meta.type = meta.type||chat.STORY, meta.name = meta.name||value.meta&&value.meta.name||"", meta.help = meta.help||value.help||"", meta.height = meta.height||can.ConfHeight()-2*html.ACTION_HEIGHT, meta.width = meta.width||can.ConfWidth()

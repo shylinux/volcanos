@@ -26,7 +26,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
 Volcanos(chat.ONFIGURE, { 
 	source: function(can, target, zone, path) {
 		var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
-		function show(target, zone, path) { can.run(can.request({}, {_method: web.GET, dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) {
+		function show(target, zone, path) { can.run(can.request({}, {_method: http.GET, dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) {
 			zone._icon(kit.Dict(
 				web.REFRESH, function(event) { show(target, zone, path) },
 				mdb.CREATE, function(event, button) { can.onaction.module(event, can, nfs.MODULE) },

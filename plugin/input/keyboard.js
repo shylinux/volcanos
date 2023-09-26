@@ -10,7 +10,7 @@ Volcanos(chat.ONFIGURE, {keyboard: {
 			function hold() { can.page.ClassList.add(can, div, "hold") }
 			var div = can.page.Append(can, can._output, [{view: item.type+lex.SP+item.name+(item.name.indexOf(lex.NL)>-1? " double": item.name.length>1? " special": ""), list: [{text: [item.name]}], onclick: function(event) {
 				switch (item.name) {
-					case cli.CLEAR: target.value = "", target.focus(); break
+					case web.CLEAR: target.value = "", target.focus(); break
 					case cli.CLOSE: can.close(); break
 					case code.ESC: can.close(); break
 					case code.CTRL: can._ctrl = !can._ctrl, hold(); break
