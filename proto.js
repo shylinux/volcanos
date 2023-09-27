@@ -7,12 +7,11 @@ function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(t
 var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == code.OBJECT) {
 		if (name.length > 0) { return Volcanos({panels: [{name: chat.HEADER, style: html.HIDE, state: [mdb.TIME, aaa.USERNICK]}, {name: chat.ACTION, style: html.MAIN, tool: name}, {name: chat.FOOTER, style: html.HIDE}]}) }
-		var Config = name; name = Config.name||ice.CAN, _can_name = ""
-		meta.iceberg = Config.iceberg||meta.iceberg, meta.volcano = Config.volcano||meta.volcano
+		var Config = name; name = Config.name||ice.CAN, meta.iceberg = Config.iceberg||meta.iceberg, meta.volcano = Config.volcano||meta.volcano
 		meta.libs = (Config.libs||chat.libs).concat(Config.list), panels = Config.panels||chat.panel_list, delete(Config.panels)
 		libs = [], panels.forEach(function(p) { p && (libs = libs.concat(p.list = p.list||["/panel/"+p.name+nfs._JS, "/panel/"+p.name+nfs._CSS])) }), libs = libs.concat(Config.plugins||chat.plugin_list)
 		cb = can||function(can) { can.require([can.frame], function() { can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target) }, function(can, key, sub) { can[key] = sub }) }
-		can = Config, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width
+		can = Config, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width, _can_name = ""
 	}
 	can = kit.proto(can||{}, kit.proto({_name: name, _path: _can_name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
 			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub), sub._path = sub._path||name } meta.cache[name] = cache
@@ -45,7 +44,7 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 			function set(key, value) { if (key == "_method") { return msg._method = value }
 				value == "" || msg.Option(key) || msg.Option(key, value)
 			}
-			can.core.List(arguments, function(item, index) { if (!item || index == 0) { return } 
+			can.core.List(arguments, function(item, index) { if (!item || index == 0) { return }
 				can.base.isFunc(item.Option)? can.core.List(item.Option(), function(key) {
 					key.indexOf("_") == 0 || key.indexOf("user.") == 0 || set(key, item.Option(key))
 				}): can.core.Item(can.base.isFunc(item)? item(): item, set)
