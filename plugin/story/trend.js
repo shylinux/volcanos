@@ -28,7 +28,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
 	transform: function(can, target) { target.Value("transform", "translate(0, "+parseInt(can.ConfHeight())+") scale(1, -1)") },
 })
 Volcanos(chat.ONACTION, {list: [[html.VIEW, "趋势图", "柱状图", "折线图", "数据源"],
-		[html.HEIGHT, html.HEIGHT, 100, 200, 400, 600, 800], [html.MARGIN, html.MARGIN, 10, 20, 50, 100], [html.SPEED, html.SPEED, 10, 20, 50, 100],
+		[html.HEIGHT, html.HEIGHT, 100, 200, 400, 600, 800, "max"], [html.MARGIN, html.MARGIN, 10, 20, 50, 100], [html.SPEED, html.SPEED, 10, 20, 50, 100],
 	],
 	"趋势图": function(event, can) { var args = can.onimport._layout(can)
 		function scale(y) { return (y - can.min)/(can.max - can.min)*(args.height-2*args.margin) }
@@ -92,7 +92,10 @@ Volcanos(chat.ONDETAIL, {
 	}) },
 })
 Volcanos(chat.ONEXPORT, {list: ["from", "commit", "total", "max", "date", "text", "add", "del"],
-	height: function(can) { return can.base.Min(parseInt(can.onexport.action_value(can, html.HEIGHT, can.ConfHeight())), 200) },
+	height: function(can) {
+		var height = can.onexport.action_value(can, html.HEIGHT, can.ConfHeight())
+		return can.base.Min(height, 200, can.ConfHeight())
+	},
 	margin: function(can) { return parseInt(can.onexport.action_value(can, html.MARGIN, 10)) },
 	speed: function(can) { return parseInt(can.onexport.action_value(can, html.SPEED, 10)) },
 })

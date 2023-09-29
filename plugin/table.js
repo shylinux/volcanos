@@ -237,7 +237,8 @@ Volcanos(chat.ONEXPORT, {
 	},
 	board: function(can) { var msg = can._msg; return msg.Result() },
 	session: function(can, key, value) { return can.misc[can.user.isWebview? "localStorage": "sessionStorage"](can, [can.Conf(ctx.INDEX), key, location.pathname].join(":"), value == ""? "": JSON.stringify(value)) },
-	action_value: function(can, key, def) { var value = can.Action(key); return can.base.isIn(value, ice.AUTO, key)? def: value },
+	action_value: function(can, key, def) {
+		var value = can.Action(key); return can.base.isIn(value, ice.AUTO, key)? def: value },
 	tool: function(can) { can.misc.sessionStorage(can, [can.ConfIndex(), "tool"], JSON.stringify(can.page.Select(can, can._status, html.LEGEND, function(target) { return target._meta }))) },
 	tabs: function(can) {},
 })

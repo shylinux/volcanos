@@ -141,6 +141,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
+		meta.inputs = can.base.Obj(meta.inputs, [{type: html.BUTTON, name: html.LIST, action: html.AUTO}])
 		can.core.List([""].concat(meta.inputs), function(item) { if (item != "" && item.type != html.BUTTON) { return } 
 			var icon = {
 				"": {name: mdb.DELETE, cb: function(event) { can.onaction.close(event, can) }},
@@ -152,7 +153,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				next: {name: mdb.NEXT, cb: function(event) { var sub = can.sub; sub.onaction && sub.onaction.next? sub.onaction.next(event, sub): can.onaction.next(event, can) }},
 				play: {name: web.PLAY},
 			}[item.name||""]; if (!icon) { return } item.style = "icons"
-			can.page.Append(can, option, [{view: [[html.ITEM, html.ICON, icon.name, item.name], html.DIV, can.page.unicode[icon.name]], title: item.name, onclick: icon.cb||function(event) {
+			can.page.Append(can, option, [{view: [[html.ITEM, html.ICON, icon.name, item.name], html.DIV, can.page.unicode[icon.name]], title: can.user.trans(can, item.name), onclick: icon.cb||function(event) {
 				var msg = can.request(event), cmds = [ctx.ACTION, item.name]; msg.RunAction(event, can.sub, cmds) || msg.RunAction(event, can, cmds) || can.Update(event, cmds)
 			}}])
 		})
@@ -191,7 +192,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}) }}: /* 4.其它 */(item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans), item.onclick = item.onclick||function(event) {
 					run(event, item.name||item.value)
 				}, item._init = item._init||function(target) { item.action && can.onappend.figure(sub, item, target, function(_sub, value) { can.Update() })
-					if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT)) {
+					if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT, mdb.PRUNES, cli.START)) {
 						can.onappend.icons(can, target, item.name)
 					} item.type == html.BUTTON && can.onappend.icons(can, target, can.Conf(["_icons", item.name]), item.name)
 				}), item), "", action)
@@ -246,7 +247,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		can.core.List(can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST])), function(item) { item = can.base.isString(item)? {name: item}: item
 			if (can.base.beginWith(item.value, nfs.PS, ice.HTTP)) { item.value = can.page.Format(html.A, item.value, item.value.split("?")[0]) }
 			can.page.Append(can, status, [{view: html.ITEM, list: [
-				{text: [item.name, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value == undefined? "": item.value.trim())+"", html.SPAN, item.name]},
+				{text: [can.page.Color(item.name), html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value == undefined? "": item.value.trim())+"", html.SPAN, item.name]},
 			], onclick: function(event) { can.user.copy(event, can, item.value) }}])
 		})
 	},
@@ -278,7 +279,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}}])[item.name]; return _input
 	},
 	icons: function(can, target, icon, cb) { if (!icon) { return } can.onappend.style(can, "icons", target.parentNode)
-		can.page.Append(can, target.parentNode, [{icon: icon, onclick: can.base.isFunc(cb)? cb: function(event) { can.Update(event, [ctx.ACTION, cb||icon]) }}])
+		can.page.Append(can, target.parentNode, [{icon: icon, title: can.user.trans(can, icon), onclick: can.base.isFunc(cb)? cb: function(event) { can.Update(event, [ctx.ACTION, cb||icon]) }}])
 	},
 	mores: function(can, target, value, limit) {
 		var list = can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
@@ -475,7 +476,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 							(meta.run||can.run)(sub.request(event, can.Option()), cmds, cb, true)
 						}, target._can = sub, can.base.Copy(sub, can.onfigure[input], true), sub._name = sub._path = path
 						sub._target._close = sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }, sub.hidden = function() { return !can.page.isDisplay(sub._target) }
-						meta.mode && can.onappend.style(sub, meta.mode), can.page.style(sub, sub._target, meta.style), can.base.isFunc(meta._init) && meta._init(sub, sub._target), show(sub, cb)
+						meta.mode && can.onappend.style(sub, meta.mode), can.page.style(sub, sub._target, meta.style), can.base.isFunc(meta._init) && meta._init(sub, sub._target),
+							can.onmotion.delay(can, function() { show(sub, cb) }, 300)
 					}, can._root._target)
 				}})
 			}) } }), can.onfigure[input]._init && can.onfigure[input]._init(can, meta, target, _cb)

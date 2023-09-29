@@ -76,7 +76,8 @@ iframe { height:420px; width:100%; }
 fieldset>legend { box-shadow:var(--box-shadow); }
 fieldset>legend>i { margin-right:5px; }
 fieldset>form.option>div.item:not(.icon) { margin-right:10px; box-shadow:var(--box-shadow); }
-fieldset>form.option>div.item.text.cmd { color:var(--code-fg-color); width:100%; }
+fieldset>form.option>div.item.text.cmd { width:100%; }
+fieldset>form.option>div.item.text.cmd>input { background-color:var(--code-bg-color); color:var(--code-fg-color); width:100%; }
 fieldset>form.option>div.item.textarea { width:100%; height:96px; }
 fieldset>form.option>div.item.select { border-radius:5px; }
 fieldset>form.option>div.item.select>input { min-width:80px; }
@@ -181,8 +182,11 @@ body:not(.windows) div.carte { font-family:monospace; }
 div.item>i:first-child { margin-right:10px; }
 div.project div.item>i:first-child { color:var(--panel-output-fg-color); }
 div.project div.item.text:hover>i:first-child { color:var(--plugin-fg-color); }
-div.action div.icon, div.action>div.item:not(.tabs)>span.icon { font-size:20px; line-height:32px; padding:0 5px; margin:0; height:32px; }
-div.action>div.item.icons>span.icon { font-size:30px; line-height:28px; }
+div.action div.icon, div.action>div.item:not(.tabs)>span.icon { font-size:20px; line-height:32px; padding:0 5px; margin:0; height:32px; display:inline-block; }
+div.action>div.item.icons.create>span.icon { font-size:30px; line-height:28px; }
+div.action>div.item.icons.insert>span.icon { font-size:30px; line-height:28px; }
+div.action>div.item.icons.start>span.icon { font-size:30px; line-height:28px; }
+div.action>div.item.icons.prunes>span.icon { display:inline-block; padding-top:2px; }
 div.action>div.item.icons>i { font-size:21px; line-height:32px; padding:6px; }
 form.option>div.item.icons>i { font-size:21px; line-height:32px; padding:6px; }
 form.option div.icon, form.option span.icon { font-size:20px; line-height:32px; padding:0 5px; margin:0; height:32px; }
@@ -190,6 +194,7 @@ form.option div.icon.refresh { font-size:28px; line-height:28px; }
 form.option div.icon.goback { font-size:28px; line-height:28px; }
 form.option div.icon.next { font-size:18px; }
 form.option div.icon.prev { font-size:18px; }
+form.option div.icons.prunes>span.icon { display:inline-block; padding-top:1px; }
 div.item.select { position:relative; }
 div.item.select>span.icon { position:absolute; right:0; visibility:hidden; }
 div.item.select:hover>span.icon { visibility:visible; }
@@ -197,6 +202,7 @@ div.item.text { position:relative; }
 div.item.text>span.icon { position:absolute; right:0; visibility:hidden; }
 div.item.text:hover>span.icon { visibility:visible; }
 div.item.button>span.icon.create { font-size:32px; line-height:28px; display:block; }
+div.item.button>span.icon.insert { font-size:32px; line-height:28px; display:block; }
 div.tabs span.icon { font-style:normal; line-height:20px; padding:0 5px; visibility:hidden; }
 div.tabs>div.select span.icon { visibility:visible; }
 div.tabs>div:hover span.icon { visibility:visible; }
