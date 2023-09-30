@@ -61,9 +61,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
-		can.run(can.request({}, {_method: http.GET}), [], function(msg) {
-			lang(msg), can.page.requireModules(can, [msg.Option(mdb.ICONS)])
-			can.require(can.core.List(msg["theme.list"], function(item) { return "src/template/web.chat.header/theme/"+item }))
+		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)
+			can.require(can.core.List(msg["theme.list"], function(item) { return "src/template/web.chat.header/theme/"+item }), function() { can.page.requireModules(can, [msg.Option(mdb.ICONS)]) })
 			can.onaction._menus[1] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, ".css") }))
 			can.onaction._menus[2] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, ".js") }))
 			if (can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/", "/chat/cmd/web.chat.oauth.client", "/chat/pod/20230511-golang-story/cmd/web.code.gitea.client")) { return show(msg) }
