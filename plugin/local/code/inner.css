@@ -20,9 +20,9 @@ fieldset.inner>div.output>div.project { box-shadow:var(--box-shadow); }
 fieldset.inner>div.output>div.layout>div.display { box-shadow:var(--box-shadow); }
 fieldset.inner>div.output>div.layout>div.layout>div.profile { box-shadow:var(--box-shadow); }
 fieldset.inner>div.output>div.layout>div.tabs { font-size:var(--code-font-size); display:none; }
-fieldset.inner>div.output>div.layout>div.tabs>div.tabs { padding-right:0; box-shadow:var(--box-shadow); margin-left:5px; }
-fieldset.inner>div.output>div.layout>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); border-top-left-radius:10px; border-top-right-radius:10px; }
-fieldset.inner>div.output>div.layout>div.tabs>div.tabs.select { background-color:var(--output-bg-color); border-top-left-radius:10px; border-top-right-radius:10px; border-bottom:lightgray solid 2px; }
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding-right:0; box-shadow:var(--box-shadow); margin-left:5px; }
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); border-top-left-radius:10px; border-top-right-radius:10px; }
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs.select { background-color:var(--output-bg-color); border-top-left-radius:10px; border-top-right-radius:10px; border-bottom:lightgray solid 2px; }
 fieldset.inner>div.output>div.layout>div.path { font-size:var(--code-font-size); display:none; }
 fieldset.inner>div.output>div.layout>div.layout>iframe.profile { border-left:var(--box-border); }
 fieldset.inner>div.output>div.layout>div.layout>div.profile h1 { text-align:left; padding:10px 0; border-bottom:var(--box-border); margin:20px 0; }
@@ -36,15 +36,17 @@ fieldset.inner>div.output>div.layout>div.display pre>code { padding-left:10px; b
 fieldset.inner>div.output>div.layout>div.display div.code { white-space:unset; padding:20px; }
 fieldset.inner>div.output>div.layout>div.display div.status>div { padding:5px; float:left; }
 fieldset.inner>div.output>div.layout>div.display div.status { position:sticky; bottom:0; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs { height:38px; display:block; overflow:hidden; background-color:var(--plugin-bg-color); }
+fieldset.inner.cmd>div.output>div.layout>div.tabs { background-color:var(--plugin-bg-color); height:38px; display:flex; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs.hide { display:none; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div { padding:10px; height:38px; float:left; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.icon { font-size:26px; line-height:32px; padding:2px 5px; position:sticky; top:0; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>span { font-style:italic; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.usernick { float:right; position:sticky; top:0; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.avatar { padding:0; height:38px; float:right; position:sticky; top:0; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.avatar>img { height:38px; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.time { float:right; position:sticky; top:0; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div { height:38px; display:flex; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.icon>div.icon { font-size:26px; line-height:32px; padding:2px 5px; position:sticky; top:0; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs { flex-grow:1; flex-wrap:wrap; overflow:auto; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs:hover { background-color:unset; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding:5px; height:38px; display:flex; align-items:center; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>div.tabs>span { font-style:italic; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { white-space:pre; padding:5px; height:38px; display:flex; align-items:center; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; height:38px; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:38px; }
 fieldset.inner.cmd>div.output>div.layout>div.path { font-style:italic; padding:5px; box-shadow:var(--box-shadow); display:block; cursor:pointer; }
 fieldset.inner.cmd>div.output>div.layout>div.path.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout>div.path>span:hover { background-color:var(--hover-bg-color); }

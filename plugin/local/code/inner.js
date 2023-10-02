@@ -49,10 +49,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		} }, can.base.isFunc(cb) && cb(msg)
 	},
 	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui.tabs = can._action }
-		can.page.Append(can, can.ui.tabs, can.core.List([
+		var ui = can.page.Append(can, can.ui.tabs, ["icon", "tabs", "head"]); can.ui.tabs = ui.tabs
+		can.page.Append(can, ui.icon, can.core.List([
 			{name: can.page.unicode.menu, onclick: function() { can.user.carte(event, can, can.onaction, can.onaction.list) }},
 			{name: can.page.unicode.refresh, style: {"font-size": 26, "padding-top": 2}, onclick: function() { location.reload() }},
-		], function(item) { return can.base.Copy(item, {view: [[html.ITEM, html.ICON], "", item.name]}) })), can.page.Append(can, can.ui.tabs, can.user.header(can))
+		], function(item) { return can.base.Copy(item, {view: [[html.ITEM, html.ICON], "", item.name]}) }))
+		can.page.Append(can, ui.head, can.user.header(can).reverse())
 	},
 	__tabPath: function(can, cache) { var target = can.ui.path
 		can.onimport._tabPath(can, nfs.PS, nfs.PATH, can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE)), function(p) {
@@ -262,11 +264,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		if (can.isSimpleMode() || can.Conf(ctx.STYLE) == html.OUTPUT) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) } if (can.isCmdMode()) { can.ConfHeight(can.page.height()) }
 		var content = can.ui.content; if (content._root) { can.ui.content = content._root } can.ui.size = {profile: can._msg.Option(html.WIDTH), display: can._msg.Option(html.HEIGHT)}
 		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) { can.ui.content = content, can.onlayout.layout(can, height, width)
+			can.ui.tabs.style.width = ""
 			var sub = can.ui.profile._plugin; sub && can.page.isDisplay(can.ui.profile) && sub.onimport && sub.onimport.size(sub, can.ui.profile.offsetHeight, can.ui.profile.offsetWidth-1, true)
 			var sub = can.ui.content._plugin; if (!sub) { return } if (height == sub.ConfHeight()+sub.onexport.actionHeight(sub)+sub.onexport.statusHeight(sub) && width == sub.ConfWidth()) { return }
 			content._root || sub.onimport.size(sub, height, width, true), can.onlayout.layout(can, height, width)
 		})
 		if (can.isCmdMode()) { can.ui.zone.source._layout(), can.ui.zone[can.Option(nfs.PATH)] && can.ui.zone[can.Option(nfs.PATH)]._layout() }
+		can._msg._tab.scrollIntoView()
 	},
 	exts: function(can, url, cb) { var sub = can.db.toolkit[url.split(web.QS)[0]]; if (sub) { return can.base.isFunc(cb)? cb(sub): sub.select() }
 		can.onimport.toolkit(can, {index: ice.CAN_PLUGIN, display: (url[0] == nfs.PS || url.indexOf(web.HTTP) == 0? "": can.base.Dir(can._path))+url,

@@ -11,7 +11,7 @@ fieldset.vimer>div.output>div.layout>div.layout div.content.normal input.current
 fieldset.vimer>div.output>div.layout>div.layout div.content.insert input.current { caret-color:var(--danger-bg-color); border:var(--danger-bg-color) solid 1px; }
 fieldset.vimer>div.output>div.layout>div.layout div.content.normal tr.line.select>td.line { background-color:var(--notice-bg-color); color:white; }
 fieldset.vimer>div.output>div.layout>div.layout div.content.insert tr.line.select>td.line { background-color:var(--danger-bg-color); color:white; }
-fieldset.vimer>div.output.normal>div.layout>div.tabs>div.tabs.select { border-bottom:var(--notice-bg-color) solid 2px; }
-fieldset.vimer>div.output.insert>div.layout>div.tabs>div.tabs.select { border-bottom:var(--danger-bg-color) solid 2px; }
+fieldset.vimer>div.output.normal>div.layout>div.tabs>div.tabs>div.tabs.select { border-bottom:var(--notice-bg-color) solid 2px; }
+fieldset.vimer>div.output.insert>div.layout>div.tabs>div.tabs>div.tabs.select { border-bottom:var(--danger-bg-color) solid 2px; }
 fieldset.vimer>div.output.normal>div.layout>div.path span.mode.normal { color:var(--notice-bg-color); }
 fieldset.vimer>div.output.insert>div.layout>div.path span.mode.insert { color:var(--danger-bg-color); }

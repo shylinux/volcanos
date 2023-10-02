@@ -204,8 +204,8 @@ div.item.text:hover>span.icon { visibility:visible; }
 div.item.button>span.icon.create { font-size:32px; line-height:28px; display:block; }
 div.item.button>span.icon.insert { font-size:32px; line-height:28px; display:block; }
 div.tabs span.icon { font-style:normal; line-height:20px; padding:0 5px; visibility:hidden; }
-div.tabs>div.select span.icon { visibility:visible; }
-div.tabs>div:hover span.icon { visibility:visible; }
+div.tabs>div.select>span.icon { visibility:visible; }
+div.tabs>div:hover>span.icon { visibility:visible; }
 div.tabs:hover>span.icon { visibility:visible; }
 fieldset.plug>form.option>div.icon { margin-left:5px; }
 fieldset.panel>div.action>div.button>span.icon { display:none; }
@@ -365,7 +365,7 @@ div.plug legend.select { background-color:var(--plugin-bg-color); border-bottom:
 div.complete>table { background-color:var(--plugin-bg-color); }
 fieldset>div.output { background-color:var(--output-bg-color); }
 fieldset>div.status { border-top:var(--status-border); }
-fieldset>div.status>div.item:first-child { margin-left:10px; }
+/* fieldset>div.status>div.item:first-child { margin-left:10px; } */
 fieldset.panel:not(.main) { background-color:var(--panel-bg-color); color:var(--panel-fg-color); }
 fieldset.panel:not(.main)>div.output { background-color:var(--panel-output-bg-color); color:var(--panel-output-fg-color); }
 fieldset.panel:not(.main)>div.output a { color:var(--panel-output-fg-color); }
