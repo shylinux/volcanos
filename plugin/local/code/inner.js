@@ -270,7 +270,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			content._root || sub.onimport.size(sub, height, width, true), can.onlayout.layout(can, height, width)
 		})
 		if (can.isCmdMode()) { can.ui.zone.source._layout(), can.ui.zone[can.Option(nfs.PATH)] && can.ui.zone[can.Option(nfs.PATH)]._layout() }
-		can._msg._tab.scrollIntoView()
+		can.isCmdMode() && can._msg._tab.scrollIntoView()
 	},
 	exts: function(can, url, cb) { var sub = can.db.toolkit[url.split(web.QS)[0]]; if (sub) { return can.base.isFunc(cb)? cb(sub): sub.select() }
 		can.onimport.toolkit(can, {index: ice.CAN_PLUGIN, display: (url[0] == nfs.PS || url.indexOf(web.HTTP) == 0? "": can.base.Dir(can._path))+url,
