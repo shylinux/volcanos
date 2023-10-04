@@ -55,9 +55,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			can.user.info.language? can.require(["src/template/web.chat.header/language/"+can.user.info.language+".js"], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb && cb()
 		}
 		function show(msg) { var p = can.misc.Search(can, "redirect_uri")
-			if (p && location.pathname == "/basic/login") {
-				return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can)))
-			}
+			if (p && location.pathname == "/login") { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
 			can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
 			can.user.info.email = msg.Option(aaa.EMAIL), can.user.info.repos = msg.Option(nfs.REPOS)
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 

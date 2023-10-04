@@ -44,8 +44,8 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs { flex-grow:1; flex-w
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs:hover { background-color:unset; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding:5px; height:38px; display:flex; align-items:center; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>div.tabs>span { font-style:italic; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { white-space:pre; padding:5px; height:38px; display:flex; align-items:center; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; height:38px; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { white-space:pre; padding:10px; height:38px; display:flex; align-items:center; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:38px; }
 fieldset.inner.cmd>div.output>div.layout>div.path { font-style:italic; padding:5px; box-shadow:var(--box-shadow); display:block; cursor:pointer; }
 fieldset.inner.cmd>div.output>div.layout>div.path.hide { display:none; }
@@ -70,6 +70,12 @@ tr.line>td.line { user-select:none; }
 tr.line>td.line { text-align:right; padding:0 10px; position:sticky; left:0; }
 tr.line>td.text { white-space:pre; line-height:20px; padding-left:10px; width:100%; }
 tr.line:hover { background-color:var(--hover-bg-color); }
+tr.line.delete { background-color:#3c2626; }
+tr.line.insert { background-color:#283e2d; }
+body.light tr.line.delete { background-color:#e6ffed; }
+body.light tr.line.insert { background-color:#ffeef0; }
+body.white tr.line.delete { background-color:#e6ffed; }
+body.white tr.line.insert { background-color:#ffeef0; }
 
 fieldset.inner:not(.monaco)>div.output>div.layout>div.layout>div.content * { font-family:var(--code-font-family); font-size:var(--code-font-size); }
 body:not(.windows) fieldset.inner>div.output>div.project * { font-family:var(--code-font-family); font-size:var(--code-font-size); }
