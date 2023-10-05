@@ -270,9 +270,11 @@ div.project div.action div.item.search>span { right:10px; }
 div.content { position:relative; }
 div.content>div.toggle { position:absolute; }
 div.content>div.toggle:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
+div.toggle:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
 div.content>div.toggle.project { top:20%; left:0; height:80px; width:unset; padding-top:25px; transform:scale(1, 3); border:none; }
 div.content>div.toggle.profile { top:20%; right:0; height:80px; padding-top:25px; transform:scale(1, 3); border:none; }
 div.content>div.toggle.display { left:20%; bottom:0; width:80px; text-align:center; transform:scale(3, 1); border:none; }
+body.mobile div.project:not(.toggle) { border-right:var(--box-border); width:120px; flex:0 0 120px; }
 div.project:not(.toggle) { border-right:var(--box-border); width:230px; flex:0 0 230px; }
 div.profile:not(.toggle) { border-left:var(--box-border); width:50%; }
 div.display:not(.toggle) { border-top:var(--box-border); }
@@ -384,6 +386,7 @@ div.carte div.item:hover { background-color:var(--hover-bg-color); }
 div.carte div.item.danger:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 div.carte div.item.notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 /* mobile */
+body.cmd.mobile { overflow:hidden; }
 body.mobile table.content { width:100%; }
 body.mobile form.option>div.item { margin:0; }
 body.mobile form.option>div.item.button>input { display:none; }

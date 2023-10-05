@@ -396,6 +396,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.page.Modify(can, toggle.profile, can.page.isDisplay(can.ui.profile)? right: left)
 		}; return toggle
 	},
+	_toggle: function(can, target, prev, next) {
+		return can.page.Append(can, target, [
+			{view: [[html.TOGGLE, mdb.PREV], "", can.page.unicode.prev], onclick: prev||function(event) {}},
+			{view: [[html.TOGGLE, mdb.NEXT], "", can.page.unicode.next], onclick: next||function(event) {}},
+		])
+	},
 	layout: function(can, list, type, target) { const FLOW = html.FLOW, FLEX = html.FLEX
 		var count = 0, ui = {size: {}}; type = type||FLEX, target = target||can._output
 		function append(target, type, list) { can.page.ClassList.add(can, target, [html.LAYOUT, type]), can.core.List(list, function(item) {
@@ -420,7 +426,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (can.base.isObject(meta) && meta.layout) { meta.layout(h, width) }
 				can.page.style(can, target, html.WIDTH, width), height -= h
 			} else {
-				if (item == html.PROJECT) { var w = 230, h = height } else { var w = calc(item, target.offsetWidth||target.style.width||_width/list.length, _width), h = height }
+				if (item == html.PROJECT) { var w = can.user.isMobile? 120: 230, h = height } else { var w = calc(item, target.offsetWidth||target.style.width||_width/list.length, _width), h = height }
 				if (can.base.isObject(meta)) { meta.layout(h, w = _width/list.length) }
 				can.page.style(can, target, html.HEIGHT, h, html.WIDTH, w), width -= w
 			}

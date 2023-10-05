@@ -31,7 +31,9 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	},
 	onsize: function(can, msg, height, width) { can.Conf({height: can.base.Min(height, 240), width: width}) },
 	onlogin: function(can, msg) { can.onimport._menu(can, msg), can.onkeymap._build(can)
-		can._root.River && can.onmotion.delay(can, function() { if (can.Mode()) { return } var gt = can.page.unicode.next, lt = can.page.unicode.prev, river = can._root.River._target
+		can._root.River && can.onmotion.delay(can, function() {
+			if (can.Mode()) { return }
+			var gt = can.page.unicode.next, lt = can.page.unicode.prev, river = can._root.River._target
 			var target = can.page.Append(can, can._target, [{view: [[html.TOGGLE, chat.PROJECT], "", can.page.isDisplay(river)? lt: gt], onclick: function(event) {
 				can.page.Modify(can, target, (can._river_show = can.onmotion.toggle(can, river))? lt: gt), can.onaction.layout(can)
 				can.misc.sessionStorage(can, "river:hide", can._river_show? "": ice.TRUE)
