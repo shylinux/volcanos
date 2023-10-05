@@ -1,4 +1,3 @@
-body.mobile fieldset.feel>div.output>div.project { overflow-x:hidden; }
 fieldset.feel>div.output>div.layout>div.display { position:relative; overflow-y:hidden; }
 fieldset.feel>div.output>div.layout>div.display:not(.hide) { height:100px; display:flex; justify-content:center; gap:10px; }
 fieldset.feel>div.output>div.layout>div.display:not(:hover)>div.toggle { display:none; }
@@ -7,6 +6,7 @@ fieldset.feel>div.output>div.layout>div.display>div.toggle.prev { left:0; }
 fieldset.feel>div.output>div.layout>div.display>div.toggle.next { right:0; }
 fieldset.feel>div.output>div.layout>div.layout>div.content { text-align:center; overflow-y:hidden; }
 fieldset.feel>div.output>div.layout>div.layout>div.content:not(:hover)>div.toggle { display:none; }
-fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle { font-size:48px; top:40%; height:80px; }
+fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle { font-size:48px; padding-top:32px; top:40%; height:120px; }
 fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle.next { right:0; }
 fieldset.feel.float>div.output { display:flex; justify-content:center; }
+body.mobile fieldset.feel>div.output>div.project { overflow-x:hidden; }
