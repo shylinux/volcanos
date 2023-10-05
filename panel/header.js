@@ -62,14 +62,15 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)
-			can.require(can.core.List(msg["theme.list"], function(item) { return "src/template/web.chat.header/theme/"+item }), function() { can.page.requireModules(can, [msg.Option(mdb.ICONS)]) })
 			can.onaction._menus[1] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, ".css") }))
 			can.onaction._menus[2] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, ".js") }))
-			if (can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/", "/chat/cmd/web.chat.oauth.client", "/chat/pod/20230511-golang-story/cmd/web.code.gitea.client")) { return show(msg) }
-			if (location.pathname == "/" && can.base.beginWith(msg.Option(ice.MAIN)||"", "/wiki/portal/", "/chat/cmd/web.wiki.portal/")) { return show(msg) }
-			if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
-				return can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
-			} show(msg)
+			can.require(can.core.List(msg["theme.list"], function(item) { return "src/template/web.chat.header/theme/"+item }), function() { can.page.requireModules(can, [msg.Option(mdb.ICONS)])
+				if (can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/", "/chat/cmd/web.chat.oauth.client", "/chat/pod/20230511-golang-story/cmd/web.code.gitea.client")) { return show(msg) }
+				if (location.pathname == "/" && can.base.beginWith(msg.Option(ice.MAIN)||"", "/wiki/portal/", "/chat/cmd/web.wiki.portal/")) { return show(msg) }
+				if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
+					return can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
+				} show(msg)
+			})
 		})
 	},
 	onstorm_select: function(can, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
