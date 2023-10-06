@@ -260,6 +260,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	VISIBILITY: "visibility",
 	VERTICAL: "vertical", HORIZON: "horizon",
 	NOTICE: "notice", DANGER: "danger",
+	TOIMAGE: "toimage", 
 
 	SIZE: "size", OPACITY: "opacity", VISIBLE: "visible", 
 	CLASS: "class", DARK: "dark", LIGHT: "light", WHITE: "white", BLACK: "black",

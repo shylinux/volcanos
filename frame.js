@@ -115,7 +115,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					return can.base.isUndefined(value)? (value = target.innerHTML): (target.innerHTML = value.trim? value.trim(): value+"")
 				}); return value
 			} catch {} },
-			Action: function(key, value) { return can.page.SelectArgs(can, action, key, value)[0] },
+			Action: function(key, value) {
+				key && value && can.misc.sessionStorage(can, [sub.ConfIndex(), ctx.ACTION, key], value)
+				return can.page.SelectArgs(can, action, key, value)[0]
+			},
 			Option: function(key, value) { return can.page.SelectArgs(can, option, key, value)[0] },
 			Update: function(event, cmds, cb, silent) { sub.request(event)._caller(), sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input([], !silent), cb, silent); return true },
 			Focus: function() { can.page.SelectOne(can, option, html.INPUT_ARGS, function(target) { target.focus() }) },
@@ -188,7 +191,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.base.isString(item)? /* 2.按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
 					run(event, item)
 				}}: item.length > 0? /* 3.列表 */ {type: html.SELECT, name: item[0], values: item.slice(1), onchange: function(event) { can.misc.Event(event, can, function(msg) {
-					var button = event.target.value; meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]): meta[button] && can.core.CallFunc(meta[button], [event, can, button])
+					var button = event.target.value; meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]):
+						meta[button]? can.core.CallFunc(meta[button], [event, can, button]): can.Action(item[0], button)
 				}) }}: /* 4.其它 */(item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans), item.onclick = item.onclick||function(event) {
 					run(event, item.name||item.value)
 				}, item._init = item._init||function(target) { item.action && can.onappend.figure(sub, item, target, function(_sub, value) { can.Update() })
@@ -234,6 +238,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					if (action !== false) { can.onkeymap._build(sub)
 						can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
 						sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS)), can.user.isMobile || sub.onappend.tools(sub, msg)
+						can.core.Item(can.Action(), function(key) {
+							var value = can.misc.sessionStorage(can, [can.ConfIndex(), ctx.ACTION, key])
+							value && can.Action(key, value[0])
+						})
 					}
 					can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output)
 					if (can.onimport.size) { if (can.isFullMode() || can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
@@ -300,8 +308,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}}])
 		}
 	},
-	select: function(can, select, item) {
-		return can.page.Append(can, select.parentNode, [{type: html.INPUT, data: {className: html.SELECT, type: html.BUTTON, name: item.name, value: can.user.trans(can, item.value||item.values[0]), title: item.name}, onclick: function(event) { var target = event.target
+	select: function(can, select, item) { // can.user.trans(can, item.value||item.values[0])
+		return can.page.Append(can, select.parentNode, [{type: html.INPUT, data: {className: html.SELECT, type: html.BUTTON, name: item.name, value: item.value||item.values[0], title: item.name}, onclick: function(event) { var target = event.target
 			var carte = can.user.carte(event, can, {}, item.values, function(event, button) { carte.close(); if (target.value == button) { return }
 				target.value = button, select.value = button, select.onchange && select.onchange({target: select})
 			}); can.onappend.style(can, [html.SELECT, item.name], carte._target), can.page.style(can, carte._target, html.MIN_WIDTH, event.target.offsetWidth)
@@ -426,7 +434,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (can.base.isObject(meta) && meta.layout) { meta.layout(h, width) }
 				can.page.style(can, target, html.WIDTH, width), height -= h
 			} else {
-				if (item == html.PROJECT) { var w = can.user.isMobile? 120: 230, h = height } else { var w = calc(item, target.offsetWidth||target.style.width||_width/list.length, _width), h = height }
+				var w = calc(item, target.offsetWidth||target.style.width||_width/list.length, _width), h = height
 				if (can.base.isObject(meta)) { meta.layout(h, w = _width/list.length) }
 				can.page.style(can, target, html.HEIGHT, h, html.WIDTH, w), width -= w
 			}

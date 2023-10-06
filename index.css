@@ -240,6 +240,10 @@ svg line { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); }
 svg line:hover { stroke:var(--hover-fg-color); }
 svg path { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); }
 svg path:hover { stroke:var(--hover-fg-color); }
+svg g[font-size] text { font-size:unset; }
+svg g[stroke-width] rect { stroke-width:unset; }
+svg g[stroke-width] line { stroke-width:unset; }
+svg g[stroke-width] path { stroke-width:unset; }
 svg g[stroke] text { stroke:unset; }
 svg g[stroke] rect { stroke:unset; }
 svg g[stroke] line { stroke:unset; }
@@ -493,12 +497,15 @@ fieldset.plan>div.output>div.layout>div.layout>div.profile input { box-shadow:va
 fieldset.plan>div.output>div.layout>div.layout>div.profile input:not(:last-child) { margin-right:5px; }
 fieldset.plan>div.output>div.layout>div.layout>div.profile td:last-child { cursor:text; }
 fieldset.draw div.output svg { margin-bottom:-5px; }
+fieldset.draw>div.output>div.layout>div.layout>div.profile table { width:100%; }
 fieldset.draw>form.option>div.item.pid>input { width:60px !important; }
 fieldset.draw.trend div.output svg { background-color:#1b5b738c; }
 fieldset.draw.trend div.output { overflow:hidden; }
 fieldset.draw.spide div.output { overflow-y:hidden; }
 fieldset.draw.spide div.output svg text { cursor:pointer; }
 fieldset.draw.spide div.output svg path { stroke-width:1; }
+fieldset.draw>div.output>div.project { width:180px; flex:0 0 180px; }
+fieldset.draw>div.output>div.layout>div.layout>div.profile { width:180px; flex:0 0 180px; }
 fieldset.web.chat.location>div.action input[type=text] { width:80px !important; }
 fieldset.web.chat.location>div.output>div.layout>div.layout>div.profile { position:absolute; top:0; right:0; height:200px; width:200px; z-index:5; border-left:none; }
 fieldset.web.chat.location>div.output>div.layout>div.layout { position:relative; }
