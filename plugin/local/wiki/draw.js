@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var pid = can.misc.SearchHash(can)[0]
+Volcanos(chat.ONIMPORT, {_init: function(can, msg) {
 		can.isCmdMode() || can.onmotion.hidden(can, can._action)
 		if (can.ConfIndex() == web.WIKI_DRAW) { can.ui = can.onappend.layout(can), can.onexport.title(can, can.Option(nfs.PATH))
 			if (can.user.isMobile || !can.isCmdMode()) { can.onmotion.hidden(can, can.ui.project) }
@@ -8,7 +8,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var pid = can.misc.SearchHa
 		can.page.Select(can, can.ui.content, html.SVG, function(target) { can.svg = can.group = can.onimport._block(can, target), can.onimport._group(can, target)
 			can.page.Select(can, target, "", function(target) { can.onimport._block(can, target), can.page.tagis(target, svg.G) && target.Value(html.CLASS) && can.onimport._group(can, target) })
 			can.isCmdMode() && can.core.ItemCB(can.onaction, function(key, cb) { target[key] = function(event) { can.misc.Event(event, can, function(msg) { cb(event, can) }) } })
-		}), can.ondetail._select(can, (can.isCmdMode()? pid: "")||can.Option(svg.PID)||can.svg.Value(svg.PID))
+		}), can.ondetail._select(can, can.db.hash[1]||can.Option(svg.PID)||can.svg.Value(svg.PID))
 	},
 	_block: function(can, target) {
 		target.Value = function(key, value) { if (can.base.isUndefined(key)) { return } if (can.base.isObject(key)) { return can.core.Item(key, target.Value), key }
@@ -25,13 +25,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var pid = can.misc.SearchHa
 			return list.reverse().join(nfs.PT)
 		}; return target
 	},
-	_group: function(can, target) { if (!can.ui.project) { return } var name = target.Groups()
-		return name && can.onimport.item(can, {name: name}, function(event) { can.group = target, can.Status(svg.GROUP, name), can.onaction.show(event, can)
+	_group: function(can, target) { var name = target.Groups(); if (!name || !can.ui.project) { return }
+		var item = can.onimport.item(can, {name: name}, function(event) { can.group = target, can.Status(svg.GROUP, name), can.onaction.show(event, can)
 			can.core.List([svg.FONT_SIZE, svg.STROKE_WIDTH, svg.STROKE, svg.FILL], function(key) { can.Action(key, target.Value(key)||key) })
 		}, function(event) { can.user.carteRight(event, can, can.onaction, can.onaction.menu_list) }, can.ui.project)
+		name == can.db.hash[0] && can.onmotion.delay(can, function() { item.click() })
 	},
 	_profile: function(can, target) { if (!can.ui.profile) { return }
-		can.misc.SearchHash(can, can.Option(svg.PID, can.svg.Value(svg.PID, can.onexport._pid(can, target))))
+		can.misc.SearchHash(can, target.Groups()||"svg", can.Option(svg.PID, can.svg.Value(svg.PID, can.onexport._pid(can, target))))
 		var figure = can.onfigure._get(can, target), ui = can.page.Appends(can, can.ui.profile, [html.OUTPUT, html.ACTION])
 		can.page.Appends(can, ui.output, [{view: [html.CONTENT, html.TABLE], list: [
 			{th: [mdb.KEY, mdb.VALUE]}, {td: [mdb.TYPE, target.tagName]}, {td: [svg.PID, target.Value(svg.PID)]}, {td: [mdb.TEXT, target.Value(mdb.TEXT)]},
