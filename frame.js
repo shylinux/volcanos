@@ -311,8 +311,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	select: function(can, select, item) { // can.user.trans(can, item.value||item.values[0])
 		return can.page.Append(can, select.parentNode, [{type: html.INPUT, data: {className: html.SELECT, type: html.BUTTON, name: item.name, value: item.value||item.values[0], title: item.name}, onclick: function(event) { var target = event.target
-			var carte = can.user.carte(event, can, {}, item.values, function(event, button) { carte.close(); if (target.value == button) { return }
-				target.value = button, select.value = button, select.onchange && select.onchange({target: select})
+			var carte = can.user.carte(event, can, {}, item.values, function(event, button) { carte.close()
+				if (target.value != button) { target.value = button, select.value = button, select.onchange && select.onchange({target: select}) }
+				return true
 			}); can.onappend.style(can, [html.SELECT, item.name], carte._target), can.page.style(can, carte._target, html.MIN_WIDTH, event.target.offsetWidth)
 		}, _init: function(target) { can.page.style(can, target, html.WIDTH, (select.offsetWidth||80)+10), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
 	},

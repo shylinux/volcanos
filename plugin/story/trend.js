@@ -18,7 +18,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
 		return can.db.list
 	},
 	_layout: function(can) { var height = can.onexport.height(can), width = parseInt(can.ConfWidth())
-		can.onmotion.clear(can, can.svg), can.svg.Val(html.HEIGHT, height), can.svg.Val(html.WIDTH, width)
+		can.onmotion.clear(can, can.ui.svg), can.ui.svg.Val(html.HEIGHT, height), can.ui.svg.Val(html.WIDTH, width)
 		var margin = can.onexport.margin(can), step = parseFloat((width-2*margin) / can._msg.Length())
 		can.page.style(can, can._output, html.MAX_HEIGHT, "")
 		return {height: height, width: width, margin: margin, step: step}
@@ -59,7 +59,7 @@ Volcanos(chat.ONACTION, {list: [[html.VIEW, "趋势图", "柱状图", "折线图
 		var gray = can.onimport.group(can, cli.WHITE, kit.Dict(svg.STROKE, cli.GRAY, svg.FILL, cli.GRAY)); can.onimport.transform(can, gray)
 		var vline = can.onimport.draw(can, {shape: svg.LINE, points: [{x: 0, y: 0}, {x: 0, y: can.ConfHeight()}]}, gray)
 		var hline = can.onimport.draw(can, {shape: svg.LINE, points: [{x: 0, y: 0}, {x: can.ConfWidth(), y: 0}]}, gray)
-		can.svg.onmousemove = function(event) { var p = can._output.getBoundingClientRect(); p = {x: event.clientX - p.x, y: event.clientY - p.y}
+		can.ui.svg.onmousemove = function(event) { var p = can._output.getBoundingClientRect(); p = {x: event.clientX - p.x, y: event.clientY - p.y}
 			vline.Val("x1", p.x), vline.Val("x2", p.x), hline.Val("y1", can.ConfHeight()-p.y), hline.Val("y2", can.ConfHeight()-p.y)
 			var item = can.db.data[parseInt((p.x - args.margin)/args.step)]
 			item && can.Status(item), can.Status("cursor", parseInt((can.ConfHeight()-p.y-args.margin)/(can.ConfHeight()-2*args.margin)*max))
