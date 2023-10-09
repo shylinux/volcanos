@@ -473,8 +473,9 @@ fieldset.dream>div.output.card>div.item>div.title>span  { line-height:48px; marg
 fieldset.inner.float>div.status { display:none; }
 fieldset.trans>div.output>fieldset{ margin:10px; }
 fieldset.trans>form.option>div.item.text>input { width:240px; }
-fieldset.inner>form.option input[name=path] { width:80px !important; }
-fieldset.inner>form.option input[name=file] { width:160px !important; }
+/* fieldset.inner>form.option input[name=path] { width:80px !important; } */
+/* fieldset.inner>form.option input[name=file] { width:160px !important; } */
+fieldset.web.code.git>div.output>fieldset.web.code.inner>div.output { overflow:auto; }
 fieldset.inner>div.output>div.project div.item.modify { background-color:#00800036; }
 fieldset.vimer>div.output>div.project>div.zone.space div.item.stop { color:gray; }
 fieldset.vimer>div.output>div.project div.item.modify { background-color:#00800036; }
