@@ -41,11 +41,13 @@ Volcanos(chat.ONIMPORT, {
 		can.page.Select(can, input.parentNode, "span.value", function(target) { target.innerText = value })
 		return input.value = value, can.Update(event, can.Input([], true), cb), input
 	})[0] },
+	_size: function(can, height, width, auto, mode) {},
 	size: function(can, height, width, auto, mode) {
 		can.Conf("_auto", auto), can.Mode(mode), can.ConfHeight(height), can.ConfWidth(width), height -= can.onexport.actionHeight(can)+can.onexport.statusHeight(can)
 		auto || auto == undefined? (can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, height, html.MAX_WIDTH, width), can.page.style(can, can._target, html.HEIGHT, "", html.WIDTH, "")):
 			(can.page.style(can, can._output, html.HEIGHT, height, html.WIDTH, width, html.MAX_HEIGHT, "", html.MAX_WIDTH, ""), can.page.style(can, can._target, html.WIDTH, width))
 		var sub = can.sub; if (!sub) { return auto } sub.Mode(mode), sub.ConfHeight(height), sub.ConfWidth(width)
+		can.onimport._size(can)
 		mode? sub.onlayout[mode](sub, height, width): sub.onlayout._init(sub, height, width); return auto
 	},
 	display_size: function(can, sub) { var border = 1

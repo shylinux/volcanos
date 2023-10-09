@@ -1,7 +1,7 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.onmotion.clear(can)
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
 		if (can.Option(mdb.TYPE)) { return can.onimport[can.Option(mdb.TYPE)](can, msg, can.Option(mdb.FIELD)) }
-		can.ui = can.onlayout.display(can), can.table = can.onappend.table(can, msg, function(value, key, index, line) { return can.onimport._value(can, value) }, can.ui.content)
-		can.base.isFunc(cb) && cb(msg), can.onappend._status(can, msg.append), can.onaction._compute(event, can)
+		can.ui = can.onappend.layout(can), can.table = can.onappend.table(can, msg, function(value, key, index, line) { return can.onimport._value(can, value) }, can.ui.content)
+		cb && cb(msg), can.onappend._status(can, msg.append), can.onaction._compute(event, can)
 	},
 	_value: function(can, value) {
 		return {text: [value, html.TD], oncontextmenu: function(event) {
@@ -19,7 +19,7 @@ Volcanos(chat.ONFIGURE, {
 	"最小": function(event, can, res, td, index) { (res[index] === undefined || parseFloat(td.innerText) < parseFloat(res[index])) && (res[index] = parseFloat(td.innerText)) },
 	"平均": function(event, can, res, td, index, cols, rows, nrow) { res[index] = parseFloat(td.innerText) + (res[index]||0); if (nrow == rows.length - 1) { res[index] = res[index] / nrow } },
 })
-Volcanos(chat.ONACTION, {list: [ice.SAVE,
+Volcanos(chat.ONACTION, {list: [nfs.SAVE,
 		[ice.MODE, "全选", "多选", "块选", "反选", "拖动", "编辑"],
 		[ice.EXEC, "求和", "最大", "最小", "平均"],
 	],

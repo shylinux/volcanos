@@ -532,9 +532,10 @@ body.windows fieldset.inner>div.output { overflow:hidden; }
 body.windows fieldset.inner>div.output>div.layout>div.layout>div.profile { overflow:hidden; }
 /* scrollbar */
 div.scrollbar {
-background-color:#0000ff66;
-font-size:8px !important; line-height:10px;
-border-radius:10px; position:absolute; visibility:hidden;
+	/* background-color:#0000ff66; */
+	background-color:var(--hover-bg-color);
+	font-size:8px !important; line-height:10px;
+	border-radius:10px; position:absolute; visibility:hidden;
 }
 div.scrollbar.vertical { writing-mode:tb; width:10px; right:0; top:0; transition:width .3s 1s; }
 div.scrollbar.vertical:hover { width:30px; transition:width .1s; font-size:24px !important; }

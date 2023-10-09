@@ -3,7 +3,6 @@ fieldset.word>div.output>p { margin:20px auto; }
 fieldset.word>div.output div.story.flex { display:flex; justify-content:center; }
 fieldset.word>div.output div.story.flex>* { padding:20px; }
 fieldset.word>div.output h2.story[data-type=spark][data-name=title] { text-align:center; }
-// fieldset.word>div.output h2 { margin-top:40px; }
 fieldset.word>div.output h3 { margin-top:20px; }
 fieldset.word>div.output table { width:100%; }
 fieldset.word>div.output img { max-height:100%; max-width:100%; }
@@ -29,15 +28,13 @@ div.story[data-type=spark_tabs]>div.story:not(.select) { display:none; }
 
 fieldset.word.play.float { top:0; }
 fieldset.word.play.float>div.action { display:contents; }
-fieldset.word.play.float>div.status { clear:none; }
+fieldset.word.play.float>div.status { clear:none; display:contents; }
 fieldset.word.play.float>div.output>div.project { background-color:#4682b46b; padding:10px; position:fixed; right:0; top:32px; z-index:10; }
 fieldset.word.play.float div.content div.page { display:none; }
-// fieldset.word.play.float div.content div.page { text-align:center; display:none; }
 fieldset.word.play.float div.content div.page.show { display:block; }
 fieldset.word.play.float div.content div.page ul { text-align:left; }
-// fieldset.word.play.float div.content div.page fieldset { text-align:center; }
 fieldset.word.play.float div.content.grid div.page { background-color:#a4cbecb5; margin:10px; height:320px; width:30%; overflow:auto; display:block; float:left; }
 fieldset.word.play.float h1 { text-align:center; }
 fieldset.word.play.float h2 { text-align:center; }
-fieldset.word.play.float svg { display:block; margin:0 auto; }
 fieldset.word.play.float h3 { text-align:center; }
+fieldset.word.play.float svg { display:block; margin:0 auto; }

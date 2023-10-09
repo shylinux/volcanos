@@ -1,14 +1,14 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDING, 10)
-		can.onmotion.clear(can), can.page.Modify(can, target, msg.Result()), can.onimport._display(can, target)
+		can.page.Modify(can, target, msg.Results()), can.onimport._content(can, target)
 		can.onmotion.delay(can, function() { can.onappend.scroll(can, can._output) })
 	},
-	_display: function(can, target, cb) { can.onappend.style(can, web.WIKI_WORD)
+	_content: function(can, target, cb) { can.onappend.style(can, web.WIKI_WORD)
 		can.page.Select(can, target, wiki.STORY_ITEM, function(target) { var meta = target.dataset||{}; cb && cb(target, meta)
 			can.core.CallFunc([can.onimport, can.onimport[meta.name]? meta.name: meta.type||target.tagName.toLowerCase()], [can, meta, target])
 			var _meta = can.base.Obj(meta.meta); _meta && _meta.style && can.page.style(can, target, can.base.Obj(_meta.style))
 			meta.style && can.page.style(can, target, can.base.Obj(meta.style))
 		})
-		can.page.Select(can, target, "a", function(target) {
+		can.page.Select(can, target, html.A, function(target) {
 			target.innerText = target.innerText || target.href, target.href = target.href || target.innerText, target.target = target || "_blank"
 		})
 	},
@@ -16,20 +16,20 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 		nav = can.onmotion.clear(can, nav||can.page.insertBefore(can, [wiki.NAVMENU], can._output)), can.sup._navmenu = nav
 		can.onimport.list(can, can.base.Obj(meta.data), function(event, item) {
 			var link = item.meta.link; if (!link || link == can.Option(nfs.PATH)) { return false }
-			if (can.base.beginWith(link, web.HTTP, nfs.PS)) { return can.user.opens(link) }
-			if (can.onmotion.cache(can, function() { can.isCmdMode() && can.user.title(item.meta.name); return can.Option(nfs.PATH, link) })) { return }
+			if (can.base.beginWith(link, nfs.PS, web.HTTP)) { return can.user.opens(link) }
+			if (can.onmotion.cache(can, function() { return can.onexport.title(can, item.meta.name), can.Option(nfs.PATH, link) })) { return }
 			return can.sup.Update(event, [link])
 		}, nav)
+		can.onimport.layout(can)
 	},
-	premenu: function(can, meta, target) { can.page.Select(can, can._output, can.page.Keys(wiki.H2, wiki.H3), function(_target) {
-		can.onimport.item(can, {name: _target.innerHTML}, function() { _target.scrollIntoView() }, function() {}, target), _target.onclick = function(event) { target.scrollIntoView() }
+	premenu: function(can, meta, target) { can.page.Select(can, can._output, can.page.Keys(html.H2, html.H3), function(_target) {
+		can.onimport.item(can, {name: _target.innerHTML}, function() { can.onmotion.scrollIntoView(can, _target) }, function() {}, target)
+		_target.onclick = function(event) { can.onmotion.scrollIntoView(can, target) }
 	}) },
-	endmenu: function(can, meta, target) { can.page.Select(can, can._output, can.page.Keys(wiki.H2, wiki.H3), function(_target) {
-		can.onimport.item(can, {name: _target.innerHTML}, function() { _target.scrollIntoView() }, function() {}, target)
+	endmenu: function(can, meta, target) { can.page.Select(can, can._output, can.page.Keys(html.H2, html.H3), function(_target) {
+		can.onimport.item(can, {name: _target.innerHTML}, function() { can.onmotion.scrollIntoView(can, _target) }, function() {}, target)
 	}) },
-	title: function(can, meta, target) {
-		can.isCmdMode() && target.tagName == "H1" && can.user.title(meta.text)
-	},
+	title: function(can, meta, target) { can.page.tagis(target, html.H1) && can.onexport && can.onexport.title(can, meta.text) },
 	spark: function(can, meta, target) {
 		if (meta[mdb.NAME] == html.INNER) { return can.onmotion.copy(can, target) }
 		can.page.Select(can, target, "kbd,samp", function(item) { can.onmotion.copy(can, item, function() {
@@ -46,6 +46,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 	field: function(can, meta, target) { var item = can.base.Obj(meta.meta), width = item.width
 		can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 			sub.onimport.size(sub, can.base.Min(can.ConfHeight()/2, 300, 600), sub.Conf("_width", width)||(can.ConfWidth()-2*can.Conf(html.PADDING)), true)
+			var size = sub.onimport.size; sub.onimport.size = function(can, height, width, auto, mode) { size(can, height, width, auto, mode)
+				can.page.style(can, sub._output, html.MAX_HEIGHT, "", "overflow-y", "hidden")
+			}
 			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() { sub.runAction(sub.request({}, can.core.Value(item, "opts")), can.core.Value(item, "auto.cmd")) })
 		}, can._output, target)
 	},
@@ -64,19 +67,19 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 			})); can.page.style(can, ui._target, {left: event.clientX, top: event.clientY})
 		}) }
 	},
-	
-	layout: function(can, height, width) { can.onmotion.delay(can, function() { padding = can.Conf(html.PADDING)
-		if (can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
-		if (can.sup._navmenu) { can.page.style(can, can.sup._navmenu, html.HEIGHT, can.ConfHeight())
-			can.page.style(can, can._output, html.HEIGHT, height, html.WIDTH, width = can.ConfWidth()-can.sup._navmenu.offsetWidth, "clear", "none", "float", "left")
+	layout: function(can) { can.onmotion.delay(can, function() { padding = can.Conf(html.PADDING)
+		if (can.isCmdMode()) { can.ConfHeight(can.page.height()-html.ACTION_HEIGHT-1), can.ConfWidth(can.page.width()) }
+		if (can.sup._navmenu) {
+			can.ConfWidth(can.ConfWidth()-can.sup._navmenu.offsetWidth)
+			can.page.style(can, can.sup._navmenu, html.HEIGHT, can.ConfHeight())
+			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth(), "clear", "none", "float", "left")
 		} else {
 			can.isCmdMode() && can.page.styleHeight(can, can._output, "")
 		}
 		can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.base.Min(can.ConfHeight()/2, 300, 600), sub.Conf("_width")||(can.ConfWidth()-2*padding), true) })
-	}, 100) },
+	}, 0) },
 }, [""])
-Volcanos(chat.ONACTION, {_trans: {view: "视图"},
-	onkeydown: function(event, can) { can.keylist = can.onkeymap._parse(event, can, "normal", can.keylist) },
+Volcanos(chat.ONACTION, {
 	play: function(event, can) { var list = [], current = []
 		can.page.Select(can, can._output, wiki.STORY_ITEM, function(item) { can.page.tagis(item, "h1", "h2", "h3") && list.push(current = []), current.push(item) })
 		can.onappend._init(can, {type: "story word play float", height: can.page.height(), width: can.page.width(), padding: 10}, [], function(sub) { sub._legend.onclick = can._legend.onclick
@@ -107,7 +110,7 @@ Volcanos(chat.ONACTION, {_trans: {view: "视图"},
 		}, can._root._target)
 	},
 })
-Volcanos(chat.ONDETAIL, {list: ["删除"],
+Volcanos(chat.ONDETAIL, {
 	show: function(sub, which) { sub.page.styleClass(sub, sub.ui.content, chat.CONTENT)
 		sub.page.Select(sub, sub.ui.content, html.DIV_PAGE, function(page, index) {
 			if (index == which || page == which) {
@@ -158,14 +161,13 @@ Volcanos(chat.ONDETAIL, {list: ["删除"],
 })
 Volcanos(chat.ONKEYMAP, {
 	_mode: {
-		normal: {
-			"n": function(event, can) { can.ondetail.next(can.sub) },
+		plugin: {
 			"j": function(event, can) { can.ondetail.next(can.sub) },
+			"k": function(event, can) { can.ondetail.prev(can.sub) },
+			"n": function(event, can) { can.ondetail.next(can.sub) },
+			"p": function(event, can) { can.ondetail.prev(can.sub) },
 			"ArrowRight": function(event, can) { can.ondetail.next(can.sub) },
 			"ArrowLeft": function(event, can) { can.ondetail.prev(can.sub) },
-			"k": function(event, can) { can.ondetail.prev(can.sub) },
-			"p": function(event, can) { can.ondetail.prev(can.sub) },
-
 			"q": function(event, can) { can.ondetail["结束"](event, can.sub) },
 			"h": function(event, can) { can.ondetail["隐藏"](event, can.sub) },
 		},

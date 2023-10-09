@@ -570,12 +570,15 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		},
 	},
 	scrollHold: function(can, cb, target) { target = target || can._output; var left = target.scrollLeft; cb(), target.scrollLeft = left },
-	scrollIntoView: function(can, target) {
-		var offset = target.offsetTop - target.parentNode.scrollTop
-		can.core.Timer({interval: 10, length: offset/10}, function() {
-			target.parentNode.scrollTop += 10
+	scrollIntoView: function(can, target) { if (can._scroll) { return } can._scroll = true
+		var offset = target.offsetTop - target.parentNode.scrollTop, step = offset < 0? -20: 20
+		if (Math.abs(offset) > 1000) {
+			return target.parentNode.scrollTop = target.offsetTop, delete(can._scroll)
+		}
+		can.core.Timer({interval: 10, length: offset/step}, function() {
+			target.parentNode.scrollTop += step
 		}, function() {
-			target.parentNode.scrollTop = target.offsetTop
+			target.parentNode.scrollTop = target.offsetTop, delete(can._scroll)
 		})
 	},
 	clearFloat: function(can) {

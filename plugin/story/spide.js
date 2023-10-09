@@ -17,7 +17,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 	} can.core.List(tree.list, function(item) { tree.width += can.onimport._width(can, item) }); return tree.width },
 	_color: function(can, tree) { return tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW) },
 	layout: function(can) {
-		// can.page.ClassList.has(can, can._fields, html.FLOAT) || can.page.style(can, can._output, html.MAX_HEIGHT, "")
+		// can.page.ClassList.has(can, can._fields, html.FLOAT) || can.page.style(can, can._output, html.MAX_HEIGHT, "", "overflow", "hidden")
 		can.ui.svg && can.ui.svg.Val(svg.FONT_SIZE, can.size = parseInt(can.Action(html.SIZE)||24)), can.margin = parseInt(can.Action(html.MARGIN)||10)
 		can._tree && can._tree[can.dir_root] && can.core.CallFunc(can.onaction[can.Action(html.VIEW)||"横向"], [event, can, can.Action(html.VIEW)])
 	},
