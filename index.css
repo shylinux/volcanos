@@ -502,15 +502,15 @@ fieldset.draw>div.output>div.layout>div.layout>div.profile table { width:100%; }
 fieldset.draw>form.option>div.item.pid>input { width:60px !important; }
 fieldset.draw.trend div.output svg { background-color:#1b5b738c; }
 fieldset.draw.trend div.output { overflow:hidden; }
-/* fieldset.draw.spide div.output { overflow-y:hidden; } */
 fieldset.draw.spide div.output svg text { cursor:pointer; }
+fieldset.draw.spide div.output svg path { stroke-width:1; }
 fieldset.draw.spide div.output svg path { stroke-width:1; }
 fieldset.draw>div.output>div.project { width:180px; flex:0 0 180px; }
 fieldset.draw>div.output>div.layout>div.layout>div.profile { width:180px; flex:0 0 180px; }
 fieldset.web.chat.location>div.action input[type=text] { width:80px !important; }
 fieldset.web.chat.location>div.output>div.layout>div.layout>div.profile { position:absolute; top:0; right:0; height:200px; width:200px; z-index:5; border-left:none; }
 fieldset.web.chat.location>div.output>div.layout>div.layout { position:relative; }
-body.web.wiki.portal { background-color:rgb(22 31 49); }
+fieldset.web.code.git.total.draw div.output { text-align:center; }
 fieldset.web.code.docker.studio>div.action>div.item { font-style:italic; height:32px; padding:5px 10px; }
 fieldset.web.code.docker.studio>div.output>fieldset { margin:0; }
 fieldset.web.code.docker.studio>div.output>fieldset>legend { display:none; }
@@ -523,6 +523,7 @@ fieldset.studio>div.output>fieldset>form.option div.icon:nth-child(2) { margin-l
 fieldset.studio>div.output>fieldset>div.output>table.content { width:100%; }
 fieldset.studio>div.output>fieldset:not(.select) { display:none; }
 body>div.input.vimer.plug td:first-child { display:none; }
+body.web.wiki.portal { background-color:rgb(22 31 49); }
 body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; border-top:var(--box-border); }
 body.white fieldset.inner.cmd>div.output>div.layout>div.tabs div:not(.select):not(:hover) { background-color:transparent; }
 body.webview fieldset.word>form.option>div.item>input[name=path] { width:160px; }

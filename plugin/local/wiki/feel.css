@@ -1,12 +1,15 @@
 fieldset.feel>div.output>div.layout>div.display { position:relative; overflow-y:hidden; }
+fieldset.feel>div.output>div.layout>div.display>img:hover { background-color:var(--hover-bg-color); cursor:pointer; }
 fieldset.feel>div.output>div.layout>div.display:not(.hide) { height:100px; display:flex; justify-content:center; gap:10px; }
 fieldset.feel>div.output>div.layout>div.display:not(:hover)>div.toggle { display:none; }
-fieldset.feel>div.output>div.layout>div.display>div.toggle { font-size:48px; position:absolute; top:20%; }
+fieldset.feel>div.output>div.layout>div.display>div.toggle { font-size:48px; padding:5px; position:absolute; top:20%; }
 fieldset.feel>div.output>div.layout>div.display>div.toggle.prev { left:0; }
 fieldset.feel>div.output>div.layout>div.display>div.toggle.next { right:0; }
 fieldset.feel>div.output>div.layout>div.layout>div.content { text-align:center; overflow-y:hidden; }
+fieldset.feel>div.output>div.layout>div.layout>div.content>img { cursor:pointer; }
+fieldset.feel>div.output>div.layout>div.layout>div.content>img:hover { background-color:var(--hover-bg-color); }
 fieldset.feel>div.output>div.layout>div.layout>div.content:not(:hover)>div.toggle { display:none; }
-fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle { font-size:48px; padding-top:32px; top:40%; height:120px; }
+fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle { font-size:48px; padding:5px; padding-top:32px; top:40%; height:120px; }
 fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle.next { right:0; }
 fieldset.feel.float>div.output { display:flex; justify-content:center; }
 body.mobile fieldset.feel>div.output>div.project { overflow-x:hidden; }

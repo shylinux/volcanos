@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(can, function() { can.list = can.onimport._data(can, msg, can.Conf(mdb.FIELD))
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(can, function() { can.list = can.onimport._data(can, msg, can.Conf(mdb.FIELD)||mdb.VALUE)
 		can.core.List(can.list, function(item) { msg.Push(cli.COLOR, '<span style="background-color:'+item.color+'">     </span>').Push("weight", parseInt(item.span*100/360)+"%") })
 		can.onaction.list = [], can.ui.display = can.page.Append(can, can._output, [html.DISPLAY])._target
 		can.onappend.table(can, msg, null, can.ui.display), can.page.Select(can, can.ui.display, html.TR, function(tr, index) {
@@ -13,7 +13,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 		}); return list
 	},
 	_draw: function(can, x, y, r, margin, which) { if (which == can._last) { return } can._last = which
-		if (can.list.length == 1) { return can.onimport.draw(can, {shape: svg.CIRCLE, points: [{x: x, y: y}, {x: x, y: y+r}], style: {fill: "blue"}}) }
+		if (can.list.length == 1) { return can.onimport.draw(can, {shape: svg.CIRCLE, points: [{x: x, y: y}, {x: x, y: y+r}], style: {fill: cli.BLUE}}) }
 		function pos(x, y, r, angle) { angle -= 90; return [x + r * Math.cos(angle * Math.PI / 180), y + r * Math.sin(angle * Math.PI / 180)] }
 		function pie(x, y, r, begin, span, color, cb) { can.onimport.draw(can, {shape: svg.PATH, style: kit.Dict(
 			svg.STROKE, color, svg.FILL, color, "d", can.base.joins([
@@ -24,17 +24,18 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 		var begin = 0; can.core.List(can.list, function(item, index) { var p = index==which? pos(x, y, margin, begin+item.span/2): [x, y]
 			pie(p[0], p[1], r, begin, item.span, item.color, function(event) { can.onimport._draw(can, x, y, r, margin, index) }), begin += item.span
 			index == which && can.Status(item.value)
-		})
+		}), can.onimport.layout(can)
 	},
 	_parseInt: function(can, value) { value = value.toLowerCase()
-		if (can.base.endWith(value, "mi")) { return parseInt(value)*1000000 }
-		if (can.base.endWith(value, "gi")) { return parseInt(value)*1000000000 }
-		if (can.base.endWith(value, "g")) { return parseInt(value)*1000000000 }
 		if (can.base.endWith(value, "m")) { return parseInt(value)*1000000 }
+		if (can.base.endWith(value, "g")) { return parseInt(value)*1000000000 }
+		if (can.base.endWith(value, "gi")) { return parseInt(value)*1000000000 }
+		if (can.base.endWith(value, "mi")) { return parseInt(value)*1000000 }
 		return parseInt(value)
 	},
 	layout: function(can) {
 		var height = can.base.Max(can.ConfHeight(), can.ConfWidth()/2), margin = 20, r = height/2-margin; can.ui.svg.Val(html.WIDTH, height), can.ui.svg.Val(html.HEIGHT, height)
+		can.page.style(can, can.ui.display, html.HEIGHT, can.ConfHeight()-can.ui.svg.Val(html.HEIGHT))
 		can._draw = function(which) { can.onimport._draw(can, r+margin, r+margin, r, margin, which) }, can._draw(0)
 	},
 })
