@@ -68,7 +68,7 @@ var mdb = {FOREACH: "*", RANDOMS: "%",
 	QS: ice.QS, AT: ice.AT,
 	EQ: ice.EQ, FS: ice.FS,
 }
-var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio",
+var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
 	SPIDE: "spide", SPACE: "space", ROUTE: "route", DREAM: "dream",
 	SHARE: "share", COUNT: "count",
 	WORKER: "worker", SERVER: "server", GATEWAY: "gateway",

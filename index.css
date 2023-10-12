@@ -523,7 +523,8 @@ fieldset.studio>div.output>fieldset>form.option div.icon:nth-child(2) { margin-l
 fieldset.studio>div.output>fieldset>div.output>table.content { width:100%; }
 fieldset.studio>div.output>fieldset:not(.select) { display:none; }
 body>div.input.vimer.plug td:first-child { display:none; }
-body.web.wiki.portal { background-color:rgb(22 31 49); }
+body.cmd.web.wiki.portal { background-color:rgb(22 31 49); }
+body.cmd.web.chat.macos.desktop { background-color:#8dbaea; }
 body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; border-top:var(--box-border); }
 body.white fieldset.inner.cmd>div.output>div.layout>div.tabs div:not(.select):not(:hover) { background-color:transparent; }
 body.webview fieldset.word>form.option>div.item>input[name=path] { width:160px; }
