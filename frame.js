@@ -253,8 +253,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		})
 	},
 	_status: function(can, list, status) { status = status||can._status, can.onmotion.clear(can, status)
+		var keys = {}
 		can.core.List(can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST])), function(item) { item = can.base.isString(item)? {name: item}: item
 			if (can.base.beginWith(item.value, nfs.PS, ice.HTTP)) { item.value = can.page.Format(html.A, item.value, item.value.split("?")[0]) }
+			if (keys[item.name]) { return can.Status(item.name, item.value) } keys[item.name] = item
 			can.page.Append(can, status, [{view: html.ITEM, list: [
 				{text: [can.page.Color(item.name), html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value == undefined? "": item.value.trim())+"", html.SPAN, item.name]},
 			], onclick: function(event) { can.user.copy(event, can, item.value) }}])
