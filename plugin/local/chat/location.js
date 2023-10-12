@@ -184,7 +184,7 @@ Volcanos(chat.ONACTION, {list: [["mode", mdb.SELECT, mdb.INSERT],
 	pitch: function(event, can) { can.map.setPitch(can.Action("pitch")) },
 	rotation: function(event, can) { can.map.setRotation(can.Action("rotation")) },
 	_point: function(event, can, item) { var rect = can.ui.content.getBoundingClientRect()
-		return can.base.Copy({left: rect.left+event.point.x, bottom: rect.top+event.point.y, latitude: event.latLng.lat, longitude: event.latLng.lng}, item, true)
+		return can.base.Copy({left: rect.left+event.point.x, bottom: rect.top+event.point.y, latitude: event.latLng.lat.toFixed(6), longitude: event.latLng.lng.toFixed(6)}, item, true)
 	},
 	center: function(can, item) { var point = can.onimport.point(can, item); can.map.setCenter(point); if (!item.name) { return }
 		can.current.item = item, can.Status(mdb.NAME, ""), can.Status(mdb.TEXT, ""), can.Status(item), can.Status({latitude: point.lat, longitude: point.lng})
