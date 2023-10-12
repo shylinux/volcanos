@@ -41,7 +41,7 @@ var ice = {
 
 	MSG_USERNICK: "user.nick", MSG_USERNAME: "user.name", MSG_USERROLE: "user.role", MSG_LANGUAGE: "user.lang",
 	MSG_MODE: "sess.mode", MSG_THEME: "sess.theme", MSG_TITLE: "sess.title", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",
-	MSG_DAEMON: "sess.daemon", LOG_DISABLE: "log.disable",
+	MSG_DAEMON: "sess.daemon", LOG_DISABLE: "log.disable", LOG_TRACEID: "log.id",
 	
 	ErrWarn: "warn: ", ErrNotLogin: "not login: ", ErrNotRight: "not right: ", ErrNotValid: "not valid: ", ErrNotFound: "not found: ",
 	NFS: "nfs", USR: "usr", USR_VOLCANOS: "usr/volcanos/", CAN_PLUGIN: "can._plugin",
