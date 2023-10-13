@@ -187,6 +187,7 @@ div.action div.icon, div.action>div.item:not(.tabs)>span.icon { font-size:20px; 
 div.action>div.item.icons.create>span.icon { font-size:30px; line-height:28px; }
 div.action>div.item.icons.insert>span.icon { font-size:30px; line-height:28px; }
 div.action>div.item.icons.start>span.icon { font-size:30px; line-height:28px; }
+div.action>div.item.icons.refresh>span.icon { font-size:30px; line-height:28px; }
 div.action>div.item.icons.prunes>span.icon { display:inline-block; padding-top:2px; }
 div.action>div.item.icons>i { font-size:21px; line-height:32px; padding:6px; }
 form.option>div.item.icons>i { font-size:21px; line-height:32px; padding:6px; }

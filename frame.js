@@ -160,6 +160,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				var msg = can.request(event), cmds = [ctx.ACTION, item.name]; msg.RunAction(event, can.sub, cmds) || msg.RunAction(event, can, cmds) || can.Update(event, cmds)
 			}}])
 		})
+		while (args.length > 0) { if (args[args.length-1] != "") { break } args.pop() }
 		can.core.List(args.slice(can.core.List(meta.inputs, function(item) { if (can.base.isIn(item.type, html.TEXTAREA, html.TEXT, html.SELECT)) { return item } }).length), function(item, index) { meta.inputs.push({type: mdb.TEXT, name: "args"+index, value: item}) })
 		function add(item, next) { item = can.base.isString(item)? {type: html.TEXT, name: item}: item, item.type != html.BUTTON && index++
 			return Volcanos(item.name, {_root: can._root, _follow: can.core.Keys(can._follow, item.name),
@@ -196,7 +197,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}) }}: /* 4.其它 */(item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans), item.onclick = item.onclick||function(event) {
 					run(event, item.name||item.value)
 				}, item._init = item._init||function(target) { item.action && can.onappend.figure(sub, item, target, function(_sub, value) { can.Update() })
-					if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT, mdb.PRUNES, cli.START)) {
+					if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT, mdb.PRUNES, cli.START, web.REFRESH)) {
 						can.onappend.icons(can, target, item.name)
 					} item.type == html.BUTTON && can.onappend.icons(can, target, can.Conf(["_icons", item.name]), item.name)
 				}), item), "", action)
