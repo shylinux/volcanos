@@ -310,7 +310,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				return {type: html.INPUT, data: {type: html.BUTTON}, name: item.name, value: item.value, className: item.style, onclick: function(event) { run(event, item.name) }}
 			}))
 			can.page.Append(can, target, [{type: html.INPUT, data: {type: html.BUTTON}, name: "more", value: can.user.trans(can, "more"), className: can.page.buttonStyle(can, "more"), onclick: function(event) {
-				can.user.carte(event, can, {}, can.core.List(list.slice(limit-1), function(item) { return item.name }), function(event, button) { run(event, button) })
+				can.user.carte(event, can, {}, can.core.List(list.slice(limit-1), function(item) { return item.name }), function(event, button) { run(event, button) }, null, {})
 			}}])
 		}
 	},
