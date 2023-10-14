@@ -77,7 +77,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.ui = can.on
 		can.page.Select(can, can._target, "div.content>div", function(item) { can.page.style(can, item, {"z-index": 3}) })
 	},
 	_item: function(can, item, target) { if (!item.latitude || !item.longitude) { return }
-		can.onimport.item(can, item, function(event) { can.onaction.center(can, item) }, function(event) {
+		var _target = can.onimport.item(can, item, function(event) { can.onaction.center(can, item) }, function(event) {
 			can.onexport.hover(can, item), can.user.carteRight(event, can, {
 				direction: function(event, button) { can.onaction.center(can, item), can.onaction[button](event, can, button) },
 				favor: function(event) { can.request(event, item), can.onaction.create(event, can) },
@@ -86,6 +86,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb, target) { can.ui = can.on
 						item.extra = can.base.Copy(item.extra||{}, data), can.onimport.plugin(can, item)
 						can.runAction(event, mdb.MODIFY, ["extra.index", data.index, "extra.args", data.args], function() {})
 					})
+				},
+				remove: function(event, button) {
+					can.runAction(event, mdb.REMOVE, [mdb.HASH, item.hash], function() { can.page.Remove(can, _target) })
 				},
 			})
 		}, target||can.ui.zone.favor._target)

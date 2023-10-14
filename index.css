@@ -361,6 +361,7 @@ div.action div.tabs:hover {
 div.action div.tabs.select {
 	background-color:var(--output-bg-color); color:var(--hover-fg-color);
 	border-top-left-radius:10px; border-top-right-radius:10px;
+	border-bottom:var(--hover-fg-color) solid 2px;
 }
 div.zone>div.item { background-color:var(--th-bg-color); }
 div.zone>div.list>div.zone>div.item { background-color:var(--th-bg-color); }
@@ -394,7 +395,7 @@ div.carte div.item.notice:hover { background-color:var(--notice-bg-color); color
 body.cmd.mobile { overflow:hidden; }
 body.mobile table.content { width:100%; }
 body.mobile form.option>div.item { margin:0; }
-body.mobile form.option>div.item.button>input { display:none; }
+body.mobile:not(.cmd) form.option>div.item.button>input { display:none; }
 body.mobile fieldset>div.status { max-height:32px; overflow:hidden; }
 body.mobile fieldset:not(.panel):not(.input):not(.play)>div.action>div:not(.icons) { display:none; }
 body.mobile fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.icon:not(.delete) { display:block; }
