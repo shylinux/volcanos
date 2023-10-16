@@ -30,7 +30,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	} },
 	_profile: function(can, task) { can.onmotion.toggle(can, can.ui.profile, true), can.onexport.hash(can, task)
 		if (can.onmotion.cache(can, function() { return can.sup.task = task, can.Status(task), [task.space, task.zone, task.id].join(nfs.PT) }, can.ui.profile)) { return }
-		task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) { task["extra."+key] = value }), delete(task.extra)
+		task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) { task[key] = value }), delete(task.extra)
 		var table = can.page.Appends(can, can.ui.profile, [{view: [chat.CONTENT, html.TABLE], list: [{th: [can.user.trans(can, mdb.KEY, "字段"), can.user.trans(can, mdb.VALUE, "属性")]}]}])._target
 		can.core.Item(task, function(key, value) { key != "_target" && can.page.Append(can, table, [{
 			td: [key, key == web.SPACE && value != ""? can.page.Format(html.A, can.misc.MergeURL(can, {pod: value}), value): value],
