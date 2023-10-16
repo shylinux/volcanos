@@ -60,7 +60,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	},
 	_onaction_cmd: function(can) { can.onengine.signal(can, chat.ONACTION_CMD), can.onlayout._init(can) },
 	onaction_cmd: function(can, msg) { can.user.mod.isCmd = true
-		can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.Conf(html.MARGIN_Y, 0), can.Conf(html.MARGIN_X, 0)
+		can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.Conf(html.MARGIN_Y, 128), can.Conf(html.MARGIN_X, 0)
 	},
 	onsearch: function(can, msg, arg) { var fields = msg.Option(ice.MSG_FIELDS).split(mdb.FS)
 		if (arg[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, arg, fields) }
@@ -121,7 +121,8 @@ Volcanos(chat.ONLAYOUT, {
 	flow: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-html.ACTION_MARGIN), can.ConfWidth(width) }) },
 	page: function(can) { can.page.styleHeight(can, can._output, ""), can.page.style(can, document.body, kit.Dict(html.OVERFLOW, "")) },
 	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) {
-		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(button || sub.isCmdMode()? 0: html.ACTION_MARGIN), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.MAX_HEIGHT, "")
+		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(button || sub.isCmdMode()? 0: html.ACTION_MARGIN),
+			can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.MAX_HEIGHT, "")
 	}) },
 	_storage: function(can, value) { return can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value) },
 })

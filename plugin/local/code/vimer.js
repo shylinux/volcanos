@@ -59,9 +59,11 @@ Volcanos(chat.ONFIGURE, {
 Volcanos(chat.ONACTION, {list: [
 	"构建", "编译", "终端", "路由",
 	"源码", "文档", "计划", "流程",
-	"后台", "桌面", "官网"],
-	_trans: {show: "预览", exec: "展示"},
-	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) { can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button), can.ui.zone.source.refresh() }) },
+	"后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},
+	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
+		if (msg.IsErr()) { return can.user.toastFailure(can, msg.Result()) }
+		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button), can.ui.zone.source.refresh()
+	}) },
 	_runs: function(event, can, button, cb) { var meta = can.Conf(); can.request(event, {action: button}), can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) }) },
 	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
 		function imports(str) { var block = "", count = 0; can.core.List(str.split(lex.NL), function(item) {

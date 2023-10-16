@@ -162,7 +162,7 @@ div.story[data-type=spark] { padding:0 5px; border-left:var(--notice-bg-color) s
 fieldset>div.action>div.tabs { font-style:italic; padding:5px 10px; box-shadow:var(--box-shadow); margin-left:5px; }
 fieldset>div.action>div.cmds { font-style:italic; padding:5px 10px; box-shadow:var(--box-shadow); margin-left:5px; }
 fieldset>div.output>div.code { font-size:14px; }
-fieldset>div.status { font-style:italic; max-height:32px; }
+fieldset>div.status { font-style:italic; line-height:20px; max-height:32px; }
 fieldset>div.status>div.item { padding:5px; height:31px; }
 fieldset>div.status>div.item>label { font-size:0.6rem; }
 fieldset>div.status>legend { font-style:italic; height:31px; }
@@ -397,7 +397,8 @@ body.mobile table.content { width:100%; }
 body.mobile form.option>div.item { margin:0; }
 body.mobile:not(.cmd) form.option>div.item.button>input { display:none; }
 body.mobile fieldset>div.status { max-height:32px; overflow:hidden; }
-body.mobile fieldset:not(.panel):not(.input):not(.play)>div.action>div:not(.icons) { display:none; }
+body.mobile:not(.cmd) fieldset:not(.panel):not(.input):not(.play)>div.action>div:not(.icons) { display:none; }
+body.mobile fieldset>div.action>div.item { margin-right:5px; }
 body.mobile fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.icon:not(.delete) { display:block; }
 body.mobile fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.button>span.icon { display:block; }
 body.mobile fieldset.plugin:not(.float):not(.full):not(.cmd)>div.action>div.button>span.icon { display:inline-block; }
