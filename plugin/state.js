@@ -92,7 +92,7 @@ Volcanos(chat.ONACTION, {list: [
 	}) },
 	"远程控制": function(event, can) { can.onaction.keyboard(event, can) },
 	"共享工具": function(event, can) { var meta = can.Conf(); can.onmotion.share(event, can, [], [mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input())]) },
-	"打开链接": function(event, can) { can.user.opens(can.onexport.link(can)) },
+	"打开链接": function(event, can) { can.user.open(can.onexport.link(can)) },
 	"生成链接": function(event, can) { can.onmotion.share(event, can, [], [mdb.LINK, can.user.copy(event, can, can.onexport.link(can))]) },
 	"生成脚本": function(event, can) { var args = can.Input().join(lex.SP), list = [
 		"export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -o $ctx_temp -fsSL $ctx_dev;"+" source $ctx_temp cmd "+(can.Conf(ctx.INDEX))+lex.SP+args,
