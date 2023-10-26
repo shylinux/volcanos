@@ -31,9 +31,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	_profile: function(can, task) { can.onmotion.toggle(can, can.ui.profile, true), can.onexport.hash(can, task)
 		if (can.onmotion.cache(can, function() { return can.sup.task = task, can.Status(task), [task.space, task.zone, task.id].join(nfs.PT) }, can.ui.profile)) { return }
 		task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) { task[key] = value }), delete(task.extra)
-		var table = can.page.Appends(can, can.ui.profile, [{view: [chat.CONTENT, html.TABLE], list: [{th: [can.user.trans(can, mdb.KEY, "字段"), can.user.trans(can, mdb.VALUE, "属性")]}]}])._target
+		var table = can.page.Appends(can, can.ui.profile, [{view: [[chat.CONTENT, mdb.DETAIL], html.TABLE], list: [{th: [can.user.trans(can, mdb.KEY, "字段"), can.user.trans(can, mdb.VALUE, "属性")]}]}])._target
 		can.core.Item(task, function(key, value) { key != "_target" && can.page.Append(can, table, [{
-			td: [key, key == web.SPACE && value != ""? can.page.Format(html.A, can.misc.MergeURL(can, {pod: value}), value): value],
+			td: [can.user.trans(can, key, null, html.INPUT), key == web.SPACE && value != ""? can.page.Format(html.A, can.misc.MergeURL(can, {pod: value}), value): value],
 			onclick: function(event) { can.page.tagis(event.target, html.INPUT) && event.target.type == html.BUTTON && can.run(can.request(event, task), [ctx.ACTION, event.target.name]) },
 			ondblclick: function(event) { if ([web.SPACE, mdb.ZONE, mdb.ID].indexOf(key) > -1) { return }
 				can.onmotion.modify(can, event.target, function(sub, value) { can.onaction.modifyTask(event, can, task, key, value) }, {name: key, action: key.indexOf(mdb.TIME) > 0? "date": "key"})
@@ -149,7 +149,7 @@ Volcanos(chat.ONACTION, {list: [
 	score: function(event, can, key, value) { can.onaction._filter(event, can, key, value) },
 	view: function(event, can, key, value) { can.Action(key, value), can.onmotion.clear(can, can.ui.project), can.onmotion.clear(can, can.ui.content), can.core.CallFunc([can.onimport, can.Option("scale")], [can, can._msg]) },
 })
-Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, web.SPACE, team.BEGIN_TIME, mdb.ZONE, mdb.ID, mdb.TYPE, mdb.NAME, mdb.TEXT],
+Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, team.BEGIN_TIME, mdb.ZONE, mdb.ID, mdb.TYPE, mdb.NAME, mdb.TEXT, web.SPACE],
 	span: function(can) { return kit.Dict(team.DAY, 24*3600*1000, team.WEEK, 7*24*3600*1000, team.MONTH, 30*24*3600*1000, team.YEAR, 365*24*3600*1000, team.LONG, 365*24*3600*1000)[can.Option("scale")]||0 },
 	hash: function(can, task) { if (!can.isCmdMode()) { return } location.hash = [task.space, task.zone, task.id].join(nfs.DF) },
 	head: function(can, scale) { if ([team.YEAR, team.LONG].indexOf(scale) > -1) { return } return [scale].concat(can.user.time(can, "", "%W")) },

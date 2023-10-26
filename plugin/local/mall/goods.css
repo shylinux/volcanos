@@ -1,6 +1,14 @@
-fieldset.goods>div.output>div.item { border-radius:10px; height:170px; float:left; }
-fieldset.goods>div.output>div.item>div { padding:10px; float:left; clear:none; }
-fieldset.goods>div.output>div.item>div.image img { border-radius:10px; }
-fieldset.goods>div.output>div.item>div.content { float:right; }
-fieldset.goods>div.output>div.item>div.content>div.title { white-space:break-spaces; overflow:hidden; height:50px; }
-fieldset.goods>div.output>div.item>div.content>div.price { color:red; }
+fieldset.goods>div.output>div.project { flex:0 0 80px; }
+fieldset.goods>div.output>div.layout>div.layout>div.content>div.item:not(.hide) {
+	background-color:var(--plugin-bg-color); border-radius:10px; box-shadow:var(--box-shadow); margin:10px; float:left;
+	display:flex; height:150px;
+}
+fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div { padding:10px; float:left; clear:none; }
+fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.image { flex-grow:0; }
+fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.image>img { height:100px; width:100px; }
+fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.content { flex-grow:1; }
+fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.content div.title { font-weight:bold; white-space:break-spaces; overflow:hidden; height:32px; }
+fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.content div.content { height:24px; }
+fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.content div.display { line-height:32px; }
+fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.content div.display>div { float:left; margin-right:5px; }
+fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.content div.price { color:red; }

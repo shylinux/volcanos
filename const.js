@@ -55,6 +55,7 @@ var ctx = {
 var mdb = {FOREACH: "*", RANDOMS: "%",
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
 	ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text", DATA: "data", VIEW: "view",
+	STATUS: "status",
 	LINK: "link", SCAN: "scan", HELP: "help", ICON: "icon", ICONS: "icons",
 	INDEX: "index", VALUE: "value", EXTRA: "extra", ALIAS: "alias", EXPIRE: "expire",
 	SHORT: "short", FIELD: "field", TOTAL: "total", COUNT: "count", LIMIT: "limit",
@@ -70,6 +71,7 @@ var mdb = {FOREACH: "*", RANDOMS: "%",
 }
 var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
 	SPIDE: "spide", SPACE: "space", ROUTE: "route", DREAM: "dream",
+	DOMAIN: "domain",
 	SHARE: "share", COUNT: "count",
 	WORKER: "worker", SERVER: "server", GATEWAY: "gateway",
 	OPEN: "open", LINK: "link", HTTP: "http", URL: "url", SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
@@ -94,11 +96,13 @@ var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
 	CHAT_FAVOR: "web.chat.favor",
 	CHAT_FLOWS: "web.chat.flows",
 	TEAM_PLAN: "web.team.plan",
+	MALL_GOODS: "web.mall.goods",
 }
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout",
-	USER: "user", AUTH: "auth", SESS: "sess",
+	USER: "user", AUTH: "auth", SESS: "sess", ROLE: "role",
 	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole",
+	USERZONE: "userzone",
 	EMAIL: "email", AVATAR: "avatar", BACKGROUND: "background",
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
 	VOID: "void", TECH: "tech", ROOT: "root",
@@ -118,14 +122,21 @@ var gdb = {
 	SIGNAL: "signal",
 }
 var tcp = {
-	HOST: "host", PORT: "port",
 	CLIENT: "client", SERVER: "server",
+	PROTO: "proto", HOST: "host", PORT: "port",
+	HOSTNAME: "hostname",
+	SERVICE: "service",
 }
 var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", PACK: "pack", TRASH: "trash", DIR_ROOT: "dir_root",
 	COPY: "copy", EDIT: "edit", SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
 	SUBJECT: "subject", CONTENT: "content", RECENT: "recent", SCRIPT: "script", SOURCE: "source", TARGET: "target",
-	REPOS: "repos", MASTER: "master", MODULE: "module", PUSH: "push", PULL: "pull",
+	REPOS: "repos",
+	IMAGE: "image",
+	MODULE: "module", SCRIPT: "script",
+	VERSION: "version",
+	BRANCH: "branch", MASTER: "master",
+	PUSH: "push", PULL: "pull",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
 	REPLACE: "replace", FROM: "from", TO: "to",
 	SVG: "svg", HTML: "html", CSS: "css", JS: "js", SH: "sh", GO: "go", CSV: "csv", JSON: "json", SHY: "shy",
@@ -226,6 +237,7 @@ var team = {
 var mall = {
 	COUNT: "count", PRICE: "price",
 	ASSET: "asset", SALARY: "salary",
+	GOODS: "goods",
 }
 
 var http = {

@@ -11,11 +11,10 @@ Volcanos(chat.ONFIGURE, {key: {
 			return {text: [value, html.TD, value == ""? html.HR: ""], style: msg.append && msg.append.length == 1? kit.Dict(html.MIN_WIDTH, target.offsetWidth-16): {}, onclick: function(event) {
 				can.close(); if (msg.cb && msg.cb[index]) { return msg.cb[index](value) }
 				var _cb = can.Conf("select"); if (_cb) { return _cb(target.value = value) } can.base.isFunc(cb) && cb(can, value, target.value)
-				msg.Option(ice.MSG_PROCESS) == ice.PROCESS_AGAIN && can.onmotion.delay(can, function() { can._load(event, can, cb, target, name, value) })
 			}}
 		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length()), can.onmotion.toggle(can, can._status, msg.Length() > 5)
 		can.page.style(can, can._output, html.MAX_HEIGHT, can.page.height()/2, html.MIN_WIDTH, target.offsetWidth, html.MAX_WIDTH, can.Conf("style.width")||can.page.width()/2)
-		msg.append.length == 1 && can.page.ClassList.add(can, can._target, chat.SIMPLE), can.onlayout.figure({target: target}, can, can._target, false, 200)
+		msg.append.length == 1 && can.page.ClassList.add(can, can._target, chat.SIMPLE), can.onlayout._figure({target: target}, can, can._target, false, 200)
 	},
 	onclick: function(event, can, meta, target, cbs) { can.onmotion.focus(can, target) },
 	onfocus: function(event, can, meta, target, cbs) { cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }

@@ -17,9 +17,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { msg.Option(ice.MSG_ACTI
 			if (msg.IsDetail()) {
 				can.onaction.center(can, can._current = can.onimport._item(can, msg.TableDetail()))
 			} else {
-				msg.Table(function(item) { can.onimport._item(can, item) })
-				var item = can.db.list[can.db.hash[0]]; item? item.click():
-					can.user.agent.getLocation(can, function(res) { res.type = "current", can.onaction.center(can, can._current = res) })
+				msg.Table(function(item) { can.onimport._item(can, item) }), can.ui.zone.favor._total(msg.Length())
+				var item = can.db.list[can.db.hash[0]]; item? item.click(): can.user.agent.getLocation(can, function(res) { res.type = "current", can.onaction.center(can, can._current = res) })
 			}
 			can.user.isMobile && can.core.Item(can.ui.zone, function(key, item) { key == "favor" || item._legend.click() })
 		})
@@ -28,7 +27,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { msg.Option(ice.MSG_ACTI
 		{name: "explore"}, {name: "search"}, {name: "direction"},
 		{name: "favor", _menu: shy({"play": function(event, can, button) {
 			can.core.Next(can.page.Select(can, can.ui.zone.favor._target, html.DIV_ITEM), function(item, next) {
-				item.click(), can.onmotion.delay(can, next, 2000)
+				item.click(), can.onmotion.delay(can, next, 3000)
 			}, function() { can.user.toastSuccess(can) })
 		}})},
 		{name: "district", _delay_init: function(target, zone) {
@@ -103,13 +102,22 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { msg.Option(ice.MSG_ACTI
 				remove: function(event, button) { can.runAction(event, mdb.REMOVE, [mdb.HASH, item.hash], function() { can.page.Remove(can, _target) }) },
 			})
 		}, target||can.ui.zone.favor._target); can.db.list[item.hash] = _target
+		can.ui.zone.favor._total()
 		can.mark && can.mark.add({position: can.onimport.point(can, item), properties: item})
 		return item
 	},
 	point: function(can, item) { return new TMap.LatLng(item.latitude, item.longitude) },
 	plugin: function(can, item) { var extra = can.base.Obj(item.extra, {})
-		if (!extra.index) { return can.onmotion.toggle(can, can.ui.profile, false) } can.onmotion.toggle(can, can.ui.profile, true)
-		if (can.onmotion.cache(can, function() { return item.hash }, can.ui.profile)) { return true}
+		can.onmotion.toggle(can, can.ui.profile, true)
+		if (can.onmotion.cache(can, function() { return item.hash }, can.ui.profile)) { return true }
+		if (!extra.index) { return can.onmotion.toggle(can, can.ui.profile, false)
+			var msg = can.request()
+			can.core.Item(item, function(key, value) { if (key == mdb.EXTRA) { return }
+				if (key == web.SPACE) { value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }
+				msg.Push(mdb.KEY, key), msg.Push(mdb.VALUE, value)
+			}), can.onappend.table(can, msg, null, can.ui.profile)
+			return
+		}
 		can.onappend.plugin(can, {index: extra.index, args: extra.args}, function(sub) { item._plugin = sub
 			sub.onaction._close = function() { can.onmotion.hidden(can, can.ui.profile) }
 			sub.onexport.output = function() { sub.onimport.size(sub, can.ConfHeight()/2, can.ConfWidth()/2, true)
@@ -249,7 +257,7 @@ Volcanos(chat.ONACTION, {list: [
 		})
 	},
 })
-Volcanos(chat.ONEXPORT, {list: ["nation", "province", "city", "latitude", "longitude", "ip", "type", "name", "text"],
+Volcanos(chat.ONEXPORT, {list: ["nation", "province", "city", "latitude", "longitude", "ip", "type", "name", "text", "space"],
 	point: function(can, point, item) { return can.base.Copy({latitude: point.lat, longitude: point.lng}, item, true) },
 	center: function(can) { return can.onexport.point(can, can.map.getCenter()) },
 	current: function(can) {

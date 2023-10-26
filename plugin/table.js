@@ -9,7 +9,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 	card: function(can, msg, target) {
 		can.sup.onexport.outputMargin = function() { return 211 }
-		can.page.Appends(can, target||can._output, msg.Table(function(value) {
+		can.page.Appends(can, target||can._output, msg.Table(function(value) { value.icon = value.icon||value.image
 			return {view: [[html.ITEM, value.status]], list: [
 				{view: [wiki.TITLE, html.DIV], list: [value.icon && {img: can.misc.Resource(can, value.icon, value.name)}, {text: value.name}]},
 				{view: [wiki.CONTENT, html.DIV, value.text]},
@@ -184,7 +184,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.core.Next(list.reverse(), function(meta, next) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) {
 				sub.onexport.output = function() { var width = can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0)
-					can.page.style(can, can._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
+					can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
 					sub.onimport.size(sub, can.ConfHeight()/2, can.base.Min(sub._target.offsetWidth, width/2, width/(can.base.isIn(sub.ConfIndex(), code.COMPILE, cli.RUNTIME)? 1: 2)), true)
 				}
 				can.onmotion.hidden(can, sub._target), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}

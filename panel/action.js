@@ -1,14 +1,17 @@
 (function() { const TABS = "tabs", TABVIEW = "tabview", HORIZON = "horizon", VERTICAL = "vertical", GRID = "grid", FREE = "free", FLOW = "flow", PAGE = "page", CAN_LAYOUT = "can.layout"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.misc.SearchHash(can)
+		// can.isCmdMode() || can.page.style(can, can._output, "visibility", "hidden")
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
 				sub.run = function(event, cmds, cb) { return can.run(event, [river, storm, meta.id||meta.index].concat(cmds), cb) }
 				sub.onexport.output = function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
 			})
-		}, function() { can.isCmdMode() || can.onmotion.delay(can, function() { can.onaction.layout(can), can.onappend.scroll(can, can._output)
-			can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) { sub.Conf(ctx.INDEX) == list[2] && can.onmotion.delay(can, function() { sub._tabs.click() }) })
-		}, 300) })
+		}, function() { if (can.isCmdMode()) { return }
+			can.onmotion.delay(can, function() { can.onaction.layout(can), can.onappend.scroll(can, can._output), can.page.style(can, can._output, "visibility", "visible")
+				can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) { sub.Conf(ctx.INDEX) == list[2] && can.onmotion.delay(can, function() { sub._tabs.click() }) })
+			}, 300)
+		})
 	},
 	_tabs: function(can, sub, meta) {
 		var tabs = [{view: [html.ITEM, "", meta.name], onclick: function(event) { can.onmotion.select(can, can._header_tabs, html.DIV_ITEM, sub._header_tabs)
