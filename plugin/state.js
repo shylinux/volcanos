@@ -195,6 +195,7 @@ Volcanos(chat.ONACTION, {list: [
 	}) },
 })
 Volcanos(chat.ONEXPORT, {
+	_output: function(can, msg) {},
 	output: function(can, msg) {}, action: function(can, button, data) {}, record: function(can, value, key, data) {},
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
 	marginTop: function() { return 0 }, marginBottom: function() { return 0 },

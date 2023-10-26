@@ -99,7 +99,7 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) 
 })
 Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		meta.index && (meta.name = meta.index), meta.name = can.core.Split(meta.name||"", "\t .\n").pop()||can.Conf(mdb.NAME)
-		field = field||can.onappend.field(can, meta.type, meta, target)._target, can.isCmdMode() && can.onmotion.hidden(can, field)
+		field = field||can.onappend.field(can, meta.type, meta, target)._target
 		var legend = can.page.SelectOne(can, field, html.LEGEND); legend.innerHTML = legend.innerHTML || meta.index
 		var option = can.page.SelectOne(can, field, html.FORM_OPTION)
 		var action = can.page.SelectOne(can, field, html.DIV_ACTION)
@@ -238,8 +238,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}
 			sub.db.hash = can.isCmdMode()? can.misc.SearchHash(can): []
 			can.page.requireModules(can, can.Conf("modules"), function() { if (sub.Mode() != "result") { can.onmotion.clear(can, output) }
+				can.onexport._output(sub, msg)
 				can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
-					can.onmotion.toggle(can, can._target, true)
 					if (action !== false) { can.onkeymap._build(sub)
 						can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
 						sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS)), can.user.isMobile || sub.onappend.tools(sub, msg)
@@ -448,8 +448,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				append(can.page.Append(can, target, [html.LAYOUT])._target, type==FLOW? FLEX: FLOW, item)
 			} else if (can.base.isObject(item)) {
 				if (item.index) { item._index = count++, ui.size[item._index] = item.height||item.width
+					can.onmotion.hidden(can, target)
 					can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 						item.layout = function(height, width) { sub.onimport.size(sub, height, width) }
+						sub.onexport._output = function() { can.onmotion.toggle(can, target, true) }
 					}, target, ui[item._index] = can.onappend.field(can, item.type, {index: item.index, name: item.index.split(nfs.PT).pop(), help: item.help}, target)._target)
 				} else { can.page.Append(can, target, [item]) }
 			}
