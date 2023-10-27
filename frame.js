@@ -346,7 +346,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) { if (key == mdb.VALUE) { key = data.key } data = {}, can.core.List(list, function(item) { data[item.key] = item.value }) }
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(can.request(event, data, can.Option()), [ctx.ACTION, cmd].concat(arg)) }) }
 			if (key == web.SPACE && value) { value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }
-			return {text: [value, html.TD], onclick: function(event) { var target = event.target
+			return {text: [msg.IsDetail() && key == mdb.KEY? can.user.trans(can, value, null, html.INPUT): value, html.TD], onclick: function(event) { var target = event.target
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(event, target.name)
 					meta && meta[target.name]? can.user.input(event, can, meta[target.name], function(args) { run(event, target.name, args) }): run(event, target.name)
 				} else { can.sup.onimport.change(event, can.sup, key, event.target.innerText) || can.sup.onexport.record(can.sup, value, key, data, event) }
@@ -522,8 +522,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 						}, target._can = sub, can.base.Copy(sub, can.onfigure[input], true), sub._name = sub._path = path
 						sub._target._close = sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }, sub.hidden = function() { return !can.page.isDisplay(sub._target) }
 						meta.mode && can.onappend.style(sub, meta.mode), can.page.style(sub, sub._target, meta.style), can.base.isFunc(meta._init) && meta._init(sub, sub._target)
-						// can.onmotion.delay(can, function() { show(sub, cb) }, 300)
-						can.onmotion.delay(can, function() { show(sub, cb) }, 0)
+						show(sub, cb)
 					}, can._root._target)
 				}})
 			}) } }), can.onfigure[input]._init && can.onfigure[input]._init(can, meta, target, _cb)

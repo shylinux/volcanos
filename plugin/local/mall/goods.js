@@ -4,7 +4,7 @@ Volcanos(chat.ONIMPORT, {
 		can.page.Appends(can, can.ui.content, msg.Table(function(item) {
 			if (!list[item.zone]) { list[item.zone] = item, can.onimport.item(can, {name: item.zone}, function() {}) }
 			return {view: html.ITEM, list: [
-				{view: wiki.IMAGE, list: [{img: can.misc.MergeCache(can, can.core.Split(item.image)[0])}]},
+				{view: wiki.IMAGE, list: [{img: can.misc.MergeCache(can, can.core.Split(item.image)[0], item.space)}]},
 				{view: wiki.CONTENT, list: [
 					{view: [html.TITLE, html.DIV, item.name]},
 					{view: [html.CONTENT, html.DIV, item.text]},
