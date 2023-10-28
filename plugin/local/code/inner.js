@@ -81,12 +81,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		var carte = can.user[parent? "carteRight": "carte"](event, can, {_style: key}, (msg.Length() > 10? [web.FILTER]: []).concat(msg.Table(function(value) {
 			var p = can.core.Split(value[key], ps).pop()+(can.base.endWith(value[key], ps)? ps: ""); return _trans[p] = value[key], p
 		})), function(event, button) {
-			if (can.base.endWith(button, ps)) {
-				can.onimport.tabPath(event, can, ps, key, pre+button, cb, carte)
-				return true
-			} else { cb(_trans[button], pre) }
+			if (can.base.endWith(button, ps)) { can.onimport.tabPath(event, can, ps, key, pre+button, cb, carte); return true } else { cb(_trans[button], pre) }
 		}, parent)._target, file = can.core.Split(event.target.innerHTML.trim(), nfs.PT)[0]
-		can.page.Select(can, carte, html.DIV_ITEM, function(target) { target.innerHTML.trim() != event.target.innerHTML.trim() && can.base.beginWith(target.innerHTML, file+nfs.PT) && carte.insertBefore(target, carte.firstChild) })
+		can.page.Select(can, carte, html.DIV_ITEM, function(target) {
+			target.innerHTML.trim() != event.target.innerHTML.trim() && can.base.beginWith(target.innerHTML, file+nfs.PT) && carte.insertBefore(target, carte.firstChild)
+			target.innerHTML.trim() == event.target.innerHTML.trim() && can.onappend.style(can, html.SELECT, target)
+		})
 	}) },
 	_tabFunc: function(can, target, cache) {
 		if (cache) { var func = can.db._func||{list: []} } else { var func = can.onexport.func(can); can.db._func = func }
@@ -312,7 +312,9 @@ Volcanos(chat.ONLAYOUT, {
 		var style = type == html.FLOW? {height: target.offsetHeight/2, width: target.offsetWidth}: {height: target.offsetHeight, width: parseInt(target.offsetWidth/2)}
 		var layout = can.page.insertBefore(can, [{view: [[html.LAYOUT, type]]}], target); layout.appendChild(target), can.page.style(can, target, style)
 		var right = can.page.Append(can, layout, [{view: html.CONTENT, style: style}])._target; can.onmotion.cache(can, function() { return can.onexport.keys(can) }, right)
-		can.ui.content = right, right._max = 0, can.page.SelectChild(can, target, "tr.line", function(target) { can.onaction.appendLine(can, can.page.SelectOne(can, target, "td.text").innerText, right) })
+		can.ui.content = right, right._max = 0
+			can.page.Appends(can, right, [{view: ["tips", "", msg.Option(nfs.FILE)]}])
+			can.page.SelectChild(can, target, "tr.line", function(target) { can.onaction.appendLine(can, can.page.SelectOne(can, target, "td.text").innerText, right) })
 		right.scrollTop = target.scrollTop = scroll, right._msg = msg, msg._content = layout._root = right._root = target._root = target._root||layout
 	},
 	split: function(can) { can.onlayout._split(can, html.FLOW) },

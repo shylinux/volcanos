@@ -77,7 +77,7 @@ body.light tr.line.insert { background-color:#ffeef0; }
 body.white tr.line.delete { background-color:#e6ffed; }
 body.white tr.line.insert { background-color:#ffeef0; }
 
-fieldset.inner:not(.monaco)>div.output>div.layout>div.layout>div.content * { font-family:var(--code-font-family); font-size:var(--code-font-size); }
+fieldset.inner:not(.monaco)>div.output div.content>tr.line * { font-family:var(--code-font-family); font-size:var(--code-font-size); }
 body:not(.windows) fieldset.inner>div.output>div.project * { font-family:var(--code-font-family); font-size:var(--code-font-size); }
 body:not(.windows) fieldset.inner>div.output>div.layout>div.tabs { font-family:var(--code-font-family); font-size:var(--code-font-size); }
 body:not(.windows) fieldset.inner>div.output>div.layout>div.path { font-family:var(--code-font-family); font-size:var(--code-font-size); }

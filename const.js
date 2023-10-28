@@ -55,9 +55,8 @@ var ctx = {
 var mdb = {FOREACH: "*", RANDOMS: "%",
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
 	ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text", DATA: "data", VIEW: "view",
-	STATUS: "status",
 	LINK: "link", SCAN: "scan", HELP: "help", ICON: "icon", ICONS: "icons",
-	INDEX: "index", VALUE: "value", EXTRA: "extra", ALIAS: "alias", EXPIRE: "expire",
+	STATUS: "status", INDEX: "index", VALUE: "value", EXTRA: "extra", ALIAS: "alias", EXPIRE: "expire",
 	SHORT: "short", FIELD: "field", TOTAL: "total", COUNT: "count", LIMIT: "limit",
 
 	INPUTS: "inputs", CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete", MODIFY: "modify", SELECT: "select",
@@ -69,9 +68,8 @@ var mdb = {FOREACH: "*", RANDOMS: "%",
 	QS: ice.QS, AT: ice.AT,
 	EQ: ice.EQ, FS: ice.FS,
 }
-var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
+var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service", DOMAIN: "domain",
 	SPIDE: "spide", SPACE: "space", ROUTE: "route", DREAM: "dream",
-	DOMAIN: "domain",
 	SHARE: "share", COUNT: "count",
 	WORKER: "worker", SERVER: "server", GATEWAY: "gateway",
 	OPEN: "open", LINK: "link", HTTP: "http", URL: "url", SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
@@ -101,8 +99,7 @@ var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
 var aaa = {
 	LOGIN: "login", LOGOUT: "logout",
 	USER: "user", AUTH: "auth", SESS: "sess", ROLE: "role",
-	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole",
-	USERZONE: "userzone",
+	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole", USERZONE: "userzone",
 	EMAIL: "email", AVATAR: "avatar", BACKGROUND: "background",
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
 	VOID: "void", TECH: "tech", ROOT: "root",
@@ -235,9 +232,9 @@ var team = {
 	TASK_POD: "task.pod", TASK_ZONE: "task.zone", TASK_ID: "task.id",
 }
 var mall = {
-	COUNT: "count", PRICE: "price",
-	ASSET: "asset", SALARY: "salary",
+	PRICE: "price", COUNT: "count", UNITS: "units", AMOUNT: "amount",
 	GOODS: "goods",
+	ASSET: "asset", SALARY: "salary",
 }
 
 var http = {

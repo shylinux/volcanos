@@ -37,6 +37,7 @@ body {
 	--code-datatype:lavender; --code-function:lightgreen;
    	--code-constant:gray; --code-string:orange; --code-object:silver;
 	--svg-stroke-width:1; --desktop-icon-size:80px;
+	--project-width:230px;
 }
 body.windows { --code-font-family:"Courier New"; }
 /* element */
@@ -58,6 +59,7 @@ table.content tr.offline { color:var(--disable-fg-color); }
 table.content tr.offline a { color:var(--disable-fg-color); }
 table.content th { padding:5px; box-shadow: var(--box-shadow); }
 table.content td { padding:5px; }
+table.content.detail td:first-child { width:80px; }
 table.content.action th:last-child { position:sticky; right:2px; }
 table.content.action td:last-child { position:sticky; right:2px; text-align:center; }
 table.content input:not(:last-child) { margin-right:10px; }
@@ -169,6 +171,7 @@ div.story[data-type=spark] { padding:0 5px; border-left:var(--notice-bg-color) s
 fieldset>div.action>div.tabs { font-style:italic; padding:5px 10px; box-shadow:var(--box-shadow); margin-left:5px; }
 fieldset>div.action>div.cmds { font-style:italic; padding:5px 10px; box-shadow:var(--box-shadow); margin-left:5px; }
 fieldset>div.output>div.code { font-size:14px; }
+body.mobile fieldset>div.output>div.code>img { max-width:390px; }
 fieldset>div.status { font-style:italic; line-height:20px; max-height:32px; }
 fieldset>div.status>div.item { padding:5px; height:31px; }
 fieldset>div.status>div.item>label { font-size:0.6rem; }
@@ -289,7 +292,7 @@ div.content>div.toggle.project { top:20%; left:0; height:80px; width:unset; padd
 div.content>div.toggle.profile { top:20%; right:0; height:80px; padding-top:25px; transform:scale(1, 3); border:none; }
 div.content>div.toggle.display { left:20%; bottom:0; width:80px; text-align:center; transform:scale(3, 1); border:none; }
 body.mobile div.project:not(.toggle) { border-right:var(--box-border); width:120px; flex:0 0 120px; }
-div.output>div.project:not(.toggle) { border-right:var(--box-border); width:230px; flex:0 0 230px; }
+div.output>div.project:not(.toggle) { border-right:var(--box-border); width:var(--project-width); flex:0 0 var(--project-width); }
 div.profile:not(.toggle) { border-left:var(--box-border); width:50%; }
 div.display:not(.toggle) { border-top:var(--box-border); }
 /* table card */

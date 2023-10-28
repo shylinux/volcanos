@@ -86,9 +86,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.base.isFunc(button)? button(event, button): can.onaction[button](event, can, button), can.onkeymap.prevent(event)
 	}}]) },
 	icon: function(can, msg, target, cb) { return msg.Table(function(value) {
-		var space = can.core.Keys(can.misc.Search(can, ice.POD), value.space||can.ConfSpace())
-		// var space = value.space||can.ConfSpace()||can.misc.Search(can, ice.POD)
-		; value.icon && (value.icon = can.base.MergeURL(value.icon, ice.POD, space))
+		value.icon && (value.icon = can.base.MergeURL(value.icon, ice.POD, value.space||can.ConfSpace(), log.DEBUG, can.misc.Search(can, log.DEBUG)))
 		value.icon = can.misc.PathJoin(value.icon||can.page.drawText(can, value.name, 80))
 		return can.page.Append(can, target, [{view: html.ITEM, list: [{view: html.ICON, list: [{img: value.icon}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
 			cb && cb(target, value)

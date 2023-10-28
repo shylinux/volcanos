@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { if (can.user.mod.isPod) { delete(can.onfigure.space), delete(can.onfigure.repos) }
 		can.require(["/plugin/local/code/inner.js"], function(can) { can.onimport._last_init(can, msg, function() {
 			can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(can) })
 			can.db.undo = [], can.db.redo = [], can.onimport._input(can), cb && cb(msg)

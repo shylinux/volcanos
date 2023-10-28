@@ -1,11 +1,12 @@
 fieldset.goods>div.output>div.project { flex:0 0 80px; }
+fieldset.goods>div.output>div.project>div.item { text-align:center; padding:20px 10px; border-right:var(--plugin-bg-color) solid 4px; }
 fieldset.goods>div.output>div.layout>div.layout>div.content>div.item:not(.hide) {
-	background-color:var(--plugin-bg-color); border-radius:10px; box-shadow:var(--box-shadow); margin:10px; float:left;
-	display:flex; height:150px;
+	background-color:var(--plugin-bg-color); border-radius:10px; box-shadow:var(--box-shadow);
+   	margin:10px; float:left; display:flex; height:150px;
 }
 fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div { padding:10px; float:left; clear:none; }
 fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.image { flex-grow:0; }
-fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.image>img { height:100px; width:100px; }
+fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.image>img { height:120px; width:120px; }
 fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.content { flex-grow:1; }
 fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.content div.title { font-weight:bold; white-space:break-spaces; overflow:hidden; height:32px; }
 fieldset.goods>div.output>div.layout>div.layout>div.content>div.item>div.content div.content { height:24px; }
