@@ -1,6 +1,9 @@
 (function() { const TABS = "tabs", TABVIEW = "tabview", HORIZON = "horizon", VERTICAL = "vertical", GRID = "grid", FREE = "free", FLOW = "flow", PAGE = "page", CAN_LAYOUT = "can.layout"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.misc.SearchHash(can)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
+			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X)
+			if (item.style == "output") { item.width = can.ConfWidth() }
+			if (msg.Length() == 1) { item.height = can.ConfHeight()-html.ACTION_HEIGHT-4*html.PLUGIN_MARGIN }
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
 				sub.run = function(event, cmds, cb) { return can.run(event, [river, storm, meta.id||meta.index].concat(cmds), cb) }
@@ -26,7 +29,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 	},
 })
 Volcanos(chat.ONACTION, {_init: function(can, target) {
-		can.Conf(html.MARGIN_Y, 4*html.PLUGIN_MARGIN+html.ACTION_HEIGHT), can.Conf(html.MARGIN_X, (can.user.isMobile? 2: 4)*html.PLUGIN_MARGIN)
+		can.Conf(html.MARGIN_Y, (can.user.isMobile? 0: 4)*html.PLUGIN_MARGIN+html.ACTION_HEIGHT), can.Conf(html.MARGIN_X, (can.user.isMobile? 2: 4)*html.PLUGIN_MARGIN)
 		can.core.List(["ontouchstart", "ontouchmove", "ontouchend"], function(item) {
 			can.onengine.listen(can, item, function(event, msg) { can.onaction[item](event, can), can.onengine.signal(can, chat.ONACTION_TOUCH, msg) }, target)
 		})
@@ -99,7 +102,10 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	layout: function(can, button, skip) { can.page.ClassList.del(can, can._target, can._layout||can.onlayout._storage(can)), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		button = (can.onlayout._storage(can, can._layout = button == ice.AUTO? "": button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
 		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button})), can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), skip || can.onlayout._init(can)
-		can.isCmdMode() || can.core.List(can._plugins, function(sub) { sub._delay_refresh = false, can.page.ClassList.set(can, sub._target, html.OUTPUT, [TABVIEW, HORIZON, VERTICAL].indexOf(button) > -1) })
+		can.isCmdMode() || can.core.List(can._plugins, function(sub) {
+			sub._delay_refresh = false
+			// can.page.ClassList.set(can, sub._target, html.OUTPUT, [TABVIEW, HORIZON, VERTICAL].indexOf(button) > -1)
+		})
 		var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can) || can.onlayout._plugin(can, button)
 	},
 	_menus: [[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE], "desktop", "dream", "repos", "portal"],
@@ -123,6 +129,8 @@ Volcanos(chat.ONLAYOUT, {
 	flow: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-html.ACTION_MARGIN), can.ConfWidth(width) }) },
 	page: function(can) { can.page.styleHeight(can, can._output, ""), can.page.style(can, document.body, kit.Dict(html.OVERFLOW, "")) },
 	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) {
+		if (can.page.ClassList.has(can, sub._target, "output")) { return sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), true) }
+		if (can._plugins.length == 1) { return sub.onimport.size(sub, can.ConfHeight()-html.ACTION_HEIGHT-4*html.PLUGIN_MARGIN, can.ConfWidth()-can.Conf(html.MARGIN_X), true) }
 		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(button || sub.isCmdMode()? 0: html.ACTION_MARGIN),
 			can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.MAX_HEIGHT, "")
 	}) },
@@ -151,7 +159,10 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 	var storm = can.core.Value(can._root, can.core.Keys(chat.RIVER, cmds[0], chat.STORM, cmds[1])); if (!storm || cmds.length != 2) { return false }
 	if (storm.index) {
 		can.runAction(event, ctx.COMMAND, [].concat(can.core.List(storm.index, function(item) { return item.index||item })), function(msg) {
-			can.core.List(storm.index, function(item) { msg.Push(ctx.ARGS, JSON.stringify(item.args||[])) }), cb(msg)
+			can.core.List(storm.index, function(item) {
+				msg.Push(ctx.ARGS, JSON.stringify(item.args||[]))
+				msg.Push(ctx.STYLE, item.style||"")
+			}), cb(msg)
 		})
 	} else { can.core.List(storm.list, function(value) { can.base.isString(value) && (value = {index: value})
 		msg.Push(mdb.NAME, value.name||"").Push(mdb.HELP, value.help||"").Push(ctx.INPUTS, JSON.stringify(value.inputs)).Push(ctx.FEATURE, JSON.stringify(value.feature))

@@ -17,6 +17,18 @@ Volcanos(chat.ONFIGURE, {icons: {
 		target._icon = target._icon || can.page.insertBefore(can, [{type: "i"}], target)
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
-	onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },
+	// onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },
+	onkeyup: function(event, can, sub, cb) { if (!sub) { return }
+		can.page.Select(can, sub._output, html.TD, function(target) {
+			can.onmotion.hidden(can, target, target.title.indexOf(event.target.value) > -1)
+		})
+		can.page.Select(can, sub._output, html.TR, function(target) {
+			can.onmotion.hidden(can, target, 
+				can.page.Select(can, target, html.TD, function(target) {
+					if (!can.page.ClassList.has(can, target, html.HIDE)) { return target }
+				}).length > 0
+			)
+		})
+	},
 }})
 

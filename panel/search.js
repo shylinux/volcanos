@@ -1,12 +1,13 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can.ui.content)
 		var table = can.onappend.table(can, msg, function(value, key, index, data) { return {text: [can.base.isFunc(value) && value.help || value, html.TD], onclick: function(event) {
-			can.page.tagis(event.target, html.A) || can.onaction[can.db.type == mdb.FOREACH || event.ctrlKey? mdb.PLUGIN: mdb.SELECT](event, can, data) 
+			can.page.tagis(event.target, html.A) || can.onaction[can.db.type == mdb.FOREACH || event.ctrlKey? mdb.PLUGIN: mdb.SELECT](event, can, data)
 		}} }, can.ui.content, msg.append); can.onmotion.story.auto(can), can.onimport._size(can)
 		can.onmotion.toggle(can, can._status, can.db.type != mdb.FOREACH) && can.onappend._status(can, can.base.Obj(msg.Option(ice.MSG_STATUS), []).concat({name: mdb.SELECT, value: "0"}))
 		can.onmotion.focus(can, can.ui.filter), msg.Length() == 1 && can.ui.profile.innerHTML == "" && can.page.Select(can, table, html.TD)[0].click()
 	},
 	_size: function(can) { can.ui && can.ui.content && can.getActionSize(function(left, top, width, height) {
-		can.page.style(can, can._target, {left: left||0, top: top||0, width: width}), can.page.style(can, can._output, html.MAX_HEIGHT, height -= 2*html.PLUGIN_MARGIN+html.ACTION_HEIGHT+can.onexport.statusHeight(can))
+		can.page.style(can, can._target, {left: left||0, top: top||0, width: width}),
+			can.page.style(can, can._output, html.MAX_HEIGHT, height -= 2*html.PLUGIN_MARGIN+(can.user.isMobile? 2: 1)*html.ACTION_HEIGHT+can.onexport.statusHeight(can))
 		can.core.List([can.ui.content, can.ui.display], function(target) { can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth(width-2*html.PLUGIN_MARGIN)) })
 		can.ConfHeight(can.base.Min(height-can.ui.content.offsetHeight-can.ui.display.offsetHeight-1, height/2))
 	}) },
@@ -55,13 +56,17 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 		if (data.type == nfs.FILE) { meta = {index: web.CODE_VIMER, args: can.misc.SplitPath(can, data.text)} }
 		if (data.type == nfs.SHY) { meta = {index: web.WIKI_WORD, args: data.text} }
 		if (data.type == ice.CMD) { meta = {index: data.name, args: can.core.Split(data.text)} }
+		function plugin(meta) { can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub)
+			can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, can.ui.profile) }, 500)
+			sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth()-1, true)
+		}, can.ui.profile) }
 		if (data.ctx == ice.NFS && data.cmd == nfs.PACK) { var ls = can.misc.SplitPath(can, data.text)
 			can.runAction(event, ctx.RUN, [web.CODE_VIMER, ctx.ACTION, mdb.RENDER, data.type, ls[1], ls[0]], function(msg) { msg.Table(function(meta) {
-				can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub), sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth()-1, true) }, can.ui.profile)
+				plugin(meta)
 			}), can.onappend.board(can, msg.Result(), can.ui.profile) })
-			return
+		} else {
+			plugin(meta)
 		}
-		can.onappend.plugin(can, meta, function(sub) { can._plugins = (can._plugins||[]).concat(sub), sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth()-1, true) }, can.ui.profile)
 	},
 })
 Volcanos(chat.ONEXPORT, {statusHeight: function(can) { return can.db && can.db.type == mdb.FOREACH? 0: html.ACTION_HEIGHT },

@@ -92,7 +92,10 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	},
 	carte: function(event, can, list, cb, trans) { return can.user.carte(event, can, can.onaction, list, cb, null, trans) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
-	avatar: function(event, can) { can.onaction.carte(event, can, [can.page.Format(html.IMG, can.onexport.avatar(can), can.page.height()/2)]) },
+	avatar: function(event, can) { var src = can.onexport.avatar(can)
+		can.onaction.carte(event, can, [
+		can.user.isMobile? `<img src="${src}" width=${can.ConfWidth()-20}>`: can.page.Format(html.IMG, src, can.page.height()/2)
+	]) },
 	usernick: function(event, can) { can.onaction.carte(event, can, can.onaction._menus) },
 	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN, mdb.NAME, can.user.title(), mdb.TEXT, location.href]) },
 	toimage: function(event, can) { can.onmotion.clearCarte(can), can.user.toimage(can, can.user.title(), can._target.parentNode) },

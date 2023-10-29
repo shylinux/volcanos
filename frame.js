@@ -99,7 +99,7 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) 
 })
 Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		meta.index && (meta.name = meta.index), meta.name = can.core.Split(meta.name||"", "\t .\n").pop()||can.Conf(mdb.NAME)
-		field = field||can.onappend.field(can, meta.type, meta, target)._target
+		field = field||can.onappend.field(can, meta.type, meta, target)._target, meta.style == "output" && can.onappend.style(can, "output", field)
 		var legend = can.page.SelectOne(can, field, html.LEGEND); legend.innerHTML = legend.innerHTML || meta.index
 		var option = can.page.SelectOne(can, field, html.FORM_OPTION)
 		var action = can.page.SelectOne(can, field, html.DIV_ACTION)
@@ -533,7 +533,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._root._target; var height = can.page.height(), width = can.page.width()
 		can.page.SelectChild(can, target, can.page.Keys(html.FIELDSET_HEAD, html.FIELDSET_FOOT), function(field) { height -= field.offsetHeight })
 		can.page.SelectChild(can, target, html.FIELDSET_LEFT, function(field) { can.user.isMobile || can.page.isDisplay(field) && (width -= field.offsetWidth)
-			var h = height; can.page.SelectChild(can, field, html.DIV_ACTION, function(action) { h -= action.offsetHeight })
+			var h = height; can.page.SelectChild(can, field, html.DIV_ACTION, function(action) { h -= action.offsetHeight }), can.user.isMobile || (h -= 160-32)
 			can.page.SelectChild(can, field, html.DIV_OUTPUT, function(output) { can.page.styleHeight(can, output, h) })
 		})
 		can.page.SelectChild(can, target, html.FIELDSET_MAIN, function(field) {
@@ -565,7 +565,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)
 			if (can.user.isMobile) {
-				if (target.offsetHeight > height/2) { layout.top = top+32 }
+				if (target.offsetHeight > height/2) { layout.top = top }
 				if (target.offsetWidth > width/2) { layout.left = left, can.page.style(can, target, html.WIDTH, width) }
 			}
 			if (layout.top+target.offsetHeight > top+height) {

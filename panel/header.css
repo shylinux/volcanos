@@ -3,7 +3,8 @@ fieldset.Header>div.output div.item { background-color:var(--panel-output-bg-col
 fieldset.Header>div.output div.title:first-child { font-style:italic; font-weight:bold; text-align:center; width:var(--project-width); overflow:auto; }
 fieldset.Header>div.output div.state { float:right; }
 fieldset.Header>div.output div.state.avatar { padding:0; }
-fieldset.Header>div.output div.state.avatar>img { height:48px; }
+body.mobile fieldset.Header>div.output div.state.avatar { margin-right:10px; }
+fieldset.Header>div.output div.state.avatar>img { height:48px; clip-path:circle(40%); }
 fieldset.Header>div.output div.search.title { padding:8px 5px; margin-left:5px; position:relative; }
 fieldset.Header>div.output div.search>i { padding:6px; position:absolute; }
 fieldset.Header>div.output div.search>input { padding-left:30px; transition:all 1s; }

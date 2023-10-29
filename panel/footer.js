@@ -2,12 +2,16 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.core.Item(can.misc.localStorage(can)).length)
 		can._wss = can.ondaemon._init(can); if (can.user.mod.isCmd) { return } can.Conf("version", can.base.trimPrefix(window._version, "?_v="))
 		can.onimport._title(can, msg, target), can.onimport._command(can, msg, target)
+		can.onimport._storm(can, msg, target)
 		can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target)
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.Conf(chat.TITLE)||msg.result, function(item) {
 		if (can.base.contains(item, ice.AT)) { item = '<a href="mailto:'+item+'">'+item+'</a>' }
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE], "", item], title: "联系站长"}])
 	}) },
+	_storm: function(can, msg, target) {
+		can.ui.storm = can.page.Append(can, can._output, ["menu"])._target
+	},
 	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [NTIP, NLOG, NCMD, NKEY, "version"]).reverse(), function(item) {
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE]], list: [
 			{text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", "", item]},
@@ -28,13 +32,23 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.
 	ntip: function(can, msg, time, title, content) { can.onimport._data(can, NTIP, {time: time, fileline: can.base.trimPrefix(msg.Option("log.caller"), location.origin+nfs.PS), title: title, content: content}), can.page.Modify(can, can.ui.toast, [time, title, content].join(lex.SP)) },
 	ncmd: function(can, msg, _follow, _cmds) { can.onimport._data(can, NCMD, {time: can.base.Time(), follow: _follow, cmds: _cmds}), can.onimport.nlog(can, NLOG) },
 	nlog: function(can, name) { can.onimport.count(can, name) },
+	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
+		return can.page.Append(can, can.ui.storm, [{view: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
+			return {view: [[html.ITEM, item.name]], list: [{icon: item.icon}, {text: item.name}], onclick: function(event) {
+				can.onmotion.select(can, event.currentTarget.parentNode, html.DIV_ITEM, event.currentTarget)
+				cb(event, item.hash)
+			}}
+		}) }])._target
+	},
 })
 Volcanos(chat.ONACTION, {_init: function(can) {},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onlogin: function(can, msg) { can.run(can.request({}, {_method: http.GET}), [], function(msg) { can.onmotion.clear(can), can.onimport._init(can, msg, can._output) }) },
 	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.ntip, {can: can, msg: msg}) },
 	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
-	onlayout: function(can, layout) { can.onmotion.toggle(can, can._target, !layout || layout == html.TABS) },
+	onlayout: function(can, layout) {
+		// can.onmotion.toggle(can, can._target, !layout || layout == html.TABS)
+	},
 	onunload: function(can) { can._wss && can._wss.close() },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },

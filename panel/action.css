@@ -27,3 +27,4 @@ fieldset.Action.vertical>div.project.toggle { display:none; }
 fieldset.Action.horizon>div.project.toggle { display:none; }
 fieldset.Action.free>div.project.toggle { display:none; }
 fieldset.Action.grid>div.project.toggle { display:none; }
+body.mobile fieldset.Action>div.project.toggle { top:60%; }

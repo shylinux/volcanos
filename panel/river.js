@@ -17,7 +17,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg
 	} },
 	_menu: function(can, msg) { can.user.isMobile || can.user.mod.isPod || can.onappend._action(can, can.onaction.list, can._action) },
 })
-Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: function(can) { can.onmotion.hidden(can) },
+Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: function(can) {
+		can.db.storm_list = {}
+		can.onmotion.hidden(can)
+	},
 	onlogin: function(can, msg) { can.run(can.request({}, {_method: http.GET}), [], function(msg) { if (msg.Option(ice.MSG_RIVER)) { return can.page.Remove(can, can._target) }
 		can.onimport._init(can, msg); if (can.user.isMobile || can.user.isExtension) { return can.page.ClassList.add(can, can._target, ice.AUTO) }
 		can.onmotion.toggle(can, can._target, true), can.onlayout._init(can)
@@ -37,16 +40,23 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	}) },
 	share: function(event, can) { can.core.CallFunc(can.ondetail.share, {event: event, can: can}) },
 	refresh: function(event, can) { can.misc.Search(can, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM)}) },
-	storm: function(event, can, river) { can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
-		var list = can.ui.sublist[river]; if (list) { return can.onmotion.toggle(can, list) }
+	storm: function(event, can, river) {
+		can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
+		function _menu() { can.user.isMobile && can.onmotion.delay(can, function() { var list = can.db.storm_list[river]
+			can.onmotion.hidden(can, can._root.Footer._target, list.length > 1)
+			var menu = can.setFooterMenu(list, function(event, button, list) { can.onaction.action(event, can, river, button) })
+			can.page.SelectChild(can, menu, html.DIV_ITEM, function(target, index) { can.page.ClassList.set(can, target, html.SELECT, list[index].hash == can.Conf("storm")) })
+		}) }
+		var list = can.ui.sublist[river]; if (list) { return can.onmotion.toggle(can, list), _menu() }
 		can.run({}, [river, chat.STORM], function(msg) { var next = can.ui.river_list[river].nextSibling
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOSTORM, can.request({}, {river: river})) }
+			can.db.storm_list[river] = msg.Table()
 			var select = 0; list = can.page.Append(can, can._output, [{view: html.LIST, list: msg.Table(function(item, index) {
 				return river == can._main_river && item.hash == can._main_storm && (select = index), can.onimport._storm(can, item, river)
-			}) }])._target, next && can._output.insertBefore(list, next), can.ui.sublist[river] = list, list.children.length > 0 && list.children[select].click()
+			}) }])._target, next && can._output.insertBefore(list, next), can.ui.sublist[river] = list, _menu(), list.children.length > 0 && list.children[select].click()
 		})
 	},
-	action: function(event, can, river, storm) {
+	action: function(event, can, river, storm) { can.misc.SearchHash(can, river, storm)
 		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], function(target) { can.page.ClassList.del(can, target, html.SELECT) })
 		can.onmotion.select(can, can.ui.sublist[river], html.DIV_ITEM, can.ui.storm_list[can.core.Keys(river, storm)])
 		can.onaction.storm({target: can.ui.river_list[river]}, can, river), can.onmotion.toggle(can, can.ui.sublist[river], true)

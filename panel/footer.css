@@ -9,6 +9,12 @@ fieldset.Footer>div.output div.cmd>i { padding:7px; position:absolute; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { padding-left:30px; width:120px; transition:all 1s; }
 fieldset.Footer>div.output div.cmd>input[name=cmd]:focus { width:320px; transition:all 0.5s; }
 fieldset.Footer>div.output div.cmd>span.delete { padding:6px; }
+fieldset.Footer>div.output div.menu>div.River { display:flex; justify-content:space-around; }
+fieldset.Footer>div.output div.menu>div.River>div.item { display:flex; flex-direction:column; text-align:center; flex-grow:1; }
+fieldset.Footer>div.output div.menu>div.River>div.item>i { font-size:24px; margin-right:0; }
+fieldset.Footer>div.output div.menu>div.River>div.item>span { font-size:12px; }
+body.mobile fieldset.Footer>div.output { font-style:italic; height:60px; overflow:hidden; }
+body.mobile fieldset.Footer>div.output div.cmd { display:none; }
 
 .picker { box-shadow:4px 4px 20px 4px #626bd0; }
 div.view span.keyword { color:#5cadd4; }

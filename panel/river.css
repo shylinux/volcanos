@@ -1,6 +1,7 @@
 fieldset.River { width:var(--project-width); float:left; }
 fieldset.River>div.action { width:100%; display:flex; justify-content:center; }
-fieldset.River>div.output { padding:40px 10px; }
 fieldset.River>div.output div.item { padding:20px 20px; border-left:#00ffae solid 3px; }
 fieldset.River>div.output div.list div.item { border-left:#ccdc4c solid 3px; }
 fieldset.River>div.output div.list { margin-left:20px; }
+body:not(.mobile) fieldset.River>div.output { padding:10px; }
+body:not(.mobile) fieldset.River>div.output { margin:80px 0; }
