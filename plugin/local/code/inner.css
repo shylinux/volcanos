@@ -15,7 +15,7 @@ fieldset.inner>div.output>div.project div.zone div.action { width:100%; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item { padding-right:0; width:100%; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item>i { position:absolute; padding:4px 6px; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item>input { padding-left:25px; width:100%; }
-fieldset.inner>div.output>div.project div.zone div.action>div.item>span.delete { font-size:20px; }
+fieldset.inner>div.output>div.project div.zone div.action>div.item>span.delete { font-size:20px; margin-right:-10px; }
 fieldset.inner>div.output>div.project { box-shadow:var(--box-shadow); }
 fieldset.inner>div.output>div.layout>div.display { box-shadow:var(--box-shadow); }
 fieldset.inner>div.output>div.layout>div.layout>div.profile { box-shadow:var(--box-shadow); }

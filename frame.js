@@ -428,7 +428,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			{view: [[html.DISPLAY, html.TOGGLE]], onclick: function() { can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can) }},
 			{view: [[html.PROFILE, html.TOGGLE]], onclick: function() { can.onmotion.toggle(can, can.ui.profile), can.onimport.layout(can) }},
 		])
-		toggle.layout = function() { var up = "\u25B2", down = "\u25BC", left = "\u25C0", right = "\u25B6"
+		toggle.layout = function() {
+			// var up = "\u25B2", down = "\u25BC", left = "\u25C0", right = "\u25B6"
+			var up = "\u25B2", down = "\u25BC", left = can.page.unicode.prev, right = can.page.unicode.next
 			can.page.Modify(can, toggle.project, can.page.isDisplay(can.ui.project)? left: right)
 			can.page.Modify(can, toggle.display, can.page.isDisplay(can.ui.display)? down: up)
 			can.page.Modify(can, toggle.profile, can.page.isDisplay(can.ui.profile)? right: left)
