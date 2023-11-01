@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can, target)
 		if (can.Mode() == html.ZONE) { return can.onimport._vimer_zone(can, msg, target) }
-		can.sup.onimport.size(can.sup, can.sup.ConfHeight(), can.sup.ConfWidth(), true)
+		can.sup.onimport.size(can.sup, can.sup.ConfHeight(), can.sup.ConfWidth(), can.Conf("_auto"))
 		var cbs = can.onimport[can.Conf(ctx.STYLE)||msg.Option(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.onappend.style(can, can._args[ctx.STYLE], target), can.core.CallFunc(cbs, {can: can, msg: msg, target: target})
 		} else {

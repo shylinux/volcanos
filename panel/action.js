@@ -2,7 +2,7 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.misc.SearchHash(can)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X)
-			if (item.style == "output") { item.width = can.ConfWidth() }
+			if (item.style == html.OUTPUT) { item.width = can.ConfWidth() }
 			if (msg.Length() == 1) { item.height = can.ConfHeight()-html.ACTION_HEIGHT-4*html.PLUGIN_MARGIN }
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
@@ -59,7 +59,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			return load(can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm)), function(bak) {
 				can._plugins = bak.plugins
 			})
-		}, can._output, can._action, can._header_tabs)) { if (msg.Option("refresh") != "true") { return can.onaction.layout(can) } }
+		}, can._output, can._action, can._header_tabs)) { if (msg.Option("refresh") != ice.TRUE) { return can.onaction.layout(can) } }
 		can.run(can.request({}, {_method: http.GET}), [river, storm], function(msg) {
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm})) }
 			return can.onimport._init(can, msg)
@@ -96,7 +96,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 
 	mail: function(can) { can.user.opens("/chat/pod/20230511-golang-story/cmd/web.chat.mail.client") },
 	repos: function(can) { can.user.opens("https://repos.shylinux.com/explore/repos") },
-	repos: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.CODE_GIT_SEARCH, repos: "repos"})) },
+	repos: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.CODE_GIT_SEARCH, repos: nfs.REPOS})) },
 	dream: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.DREAM})) },
 	cloud: function(can) { can.user.opens("https://cloud.shylinux.com/") },
 	portal: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.WIKI_PORTAL})) },
@@ -131,10 +131,9 @@ Volcanos(chat.ONLAYOUT, {
 	flow: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-html.ACTION_MARGIN), can.ConfWidth(width) }) },
 	page: function(can) { can.page.styleHeight(can, can._output, ""), can.page.style(can, document.body, kit.Dict(html.OVERFLOW, "")) },
 	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) {
-		if (can.page.ClassList.has(can, sub._target, "output")) { return sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), true) }
-		if (can._plugins.length == 1) { return sub.onimport.size(sub, can.ConfHeight()-html.ACTION_HEIGHT-4*html.PLUGIN_MARGIN, can.ConfWidth()-can.Conf(html.MARGIN_X), true) }
-		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(button || sub.isCmdMode()? 0: html.ACTION_MARGIN),
-			can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.MAX_HEIGHT, "")
+		if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) { return sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), true) }
+		if (can._plugins.length == 1) { return sub.onimport.size(sub, can.ConfHeight()-html.ACTION_HEIGHT-4*html.PLUGIN_MARGIN, can.ConfWidth()-can.Conf(html.MARGIN_X), false) }
+		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(button || sub.isCmdMode()? 0: html.ACTION_MARGIN), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.MAX_HEIGHT, "")
 	}) },
 	_storage: function(can, value) { return can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value) },
 })
