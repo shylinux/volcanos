@@ -896,7 +896,8 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||documen
 			can.page.Select(can, tr, html.TD, function(td) { has = has || td.innerText.indexOf(target.value)>-1 }), can.page.ClassList.set(can, tr, html.HIDDEN, !has)
 		}), target._index = -1, target._value = target.value
 		var total = can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr) { if (!can.page.ClassList.has(can, tr, html.HIDDEN)) { return tr } }).length
-		total == 0 && can.base.isFunc(cb) && cb(), can.Status(kit.Dict(mdb.TOTAL, total, mdb.INDEX, target._index))
+		can.Status(kit.Dict(mdb.TOTAL, total, mdb.INDEX, target._index))
+		total == 0 && can.base.isFunc(cb) && cb()
 	},
 	selectOutput: function(event, can) { if (!event.ctrlKey || event.key < "0" || event.key > "9") { return }
 		event.key == "0"? can.onimport._back(can): can.page.Select(can, can._output, html.TR, function(tr, index) { if (index == event.key) {

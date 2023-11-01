@@ -152,7 +152,7 @@ body>div.input textarea { height:120px; width:240px !important; }
 body>div.input div.action { width:100%; position:sticky; bottom:0; }
 body>div.input div.action>div.item { margin:5px; float:right; }
 body>div.input div.action>div.item>input[type=button] { width:110px; }
-body>div.input.login>div.output { text-align:center; }
+body>div.input.login>div.output { text-align:center; clear:both; }
 body>div.input.login>div.output div.sso { display:flex; justify-content:center; cursor:pointer; }
 body>div.input.login>div.output div.sso:hover { background-color:var(--hover-bg-color); }
 body>div.input.login>div.output div.sso>img { height:32px; }
@@ -493,6 +493,15 @@ fieldset.qrcode>div.output div.code { padding:0; }
 fieldset.macos.desktop.cmd>div.output>fieldset.macos.dock { z-index:11; }
 fieldset.web.code.git.status>div.output table.content { width:100%; }
 fieldset.web.code.git>div.output>fieldset.web.code.inner>div.output { overflow:auto; }
+
+fieldset.web.mall.region>div.output>table.content td:nth-child(3) { text-align:right; }
+fieldset.web.mall.region>div.output>table.content td:nth-child(4) { text-align:right; }
+fieldset.web.mall.region>div.output>table.content td:nth-child(5) { text-align:right; }
+
+fieldset.web.mall.region>div.output>table.content td:nth-child(3) { text-align:right; }
+fieldset.web.mall.region>div.output>table.content td:nth-child(4) { text-align:right; }
+fieldset.web.mall.region>div.output>table.content td:nth-child(5) { text-align:right; }
+
 fieldset.web.chat.iframe>form.option input[name=hash] { width:320px; }
 fieldset.can.view { font-size:14px; }
 fieldset.can.data { font-size:14px; }
