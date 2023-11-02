@@ -47,7 +47,7 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding:5p
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>div.tabs>span { font-style:italic; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { white-space:pre; padding:10px; height:38px; display:flex; align-items:center; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:38px; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:38px; clip-path:circle(40%); }
 fieldset.inner.cmd>div.output>div.layout>div.path { font-style:italic; padding:5px; box-shadow:var(--box-shadow); display:block; cursor:pointer; }
 fieldset.inner.cmd>div.output>div.layout>div.path.hide { display:none; }
 fieldset.inner.cmd>div.output>div.layout>div.path>span:hover { background-color:var(--hover-bg-color); }

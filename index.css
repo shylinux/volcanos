@@ -298,7 +298,7 @@ div.display:not(.toggle) { border-top:var(--box-border); }
 div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item { background:var(--plugin-bg-color); padding:10px; border:var(--box-border); border-radius:var(--plugin-radius); margin:10px; width:320px; float:left; box-shadow:var(--box-shadow); }
 div.output.card>div.item>div.title { font-size:1.2rem; font-weight:bold; padding:10px; border-bottom:var(--box-border); }
-div.output.card>div.item>div.content { padding:10px; height:70px; }
+div.output.card>div.item>div.content { padding:10px; height:48px; }
 div.output.card>div.item>div.action { text-align:right; width:100%; display:flex; }
 div.output.card>div.item>div.action>input { margin-right:var(--button-margin); box-shadow:var(--box-shadow); }
 input[type=button].danger:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
@@ -406,7 +406,7 @@ div.carte div.item.notice:hover { background-color:var(--notice-bg-color); color
 body.cmd.mobile { overflow:hidden; }
 body.mobile table.content { width:100%; }
 body.mobile form.option>div.item:not(.icon) { margin-right:var(--button-margin); }
-body.mobile:not(.cmd) form.option>div.item.button>input { display:none; }
+body.mobile:not(.cmd) form.option>div.item.button.icons>input { display:none; }
 body.mobile table.content input:not(:last-child) { margin-right:var(--button-margin); }
 body.mobile fieldset>div.status { max-height:32px; overflow:hidden; }
 body.mobile fieldset>div.action>div.item { margin-right:var(--button-margin); }

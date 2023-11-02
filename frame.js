@@ -341,7 +341,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}, _init: function(target) { can.page.style(can, target, html.WIDTH, (select.offsetWidth||80)+10), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
 	},
 	table: function(can, msg, cb, target, keys) { if (!msg || msg.Length() == 0) { return } var meta = can.base.Obj(msg.Option(mdb.META))
-		for (var i = 0; i < msg.append.length-1; i++) { if (msg.append[i] == ctx.ACTION) { msg.append[i] = msg.append[msg.append.length-1], msg.append[msg.append.length-1] = ctx.ACTION } }
+		if (can.user.isMobile) {
+			can.base.toLast(msg.append, mdb.TIME)
+			can.base.toLast(msg.append, web.LINK)
+		} can.base.toLast(msg.append, ctx.ACTION)
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, data, list) {
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) { if (key == mdb.VALUE) { key = data.key } data = {}, can.core.List(list, function(item) { data[item.key] = item.value }) }
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(can.request(event, data, can.Option()), [ctx.ACTION, cmd].concat(arg)) }) }
@@ -408,7 +411,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		target.addEventListener("scroll", function(event) {
 			var height = can.base.Min(target.offsetHeight*target.offsetHeight/target.scrollHeight, target.offsetHeight/4)
 			target.scrollHeight > target.offsetHeight && can.page.style(can, vbar, html.HEIGHT, height, html.RIGHT, -target.scrollLeft, html.VISIBILITY, html.VISIBLE,
-				html.TOP, target.scrollTop+target.scrollTop/(target.scrollHeight-target.offsetHeight)*(target.offsetHeight-height),
+				html.TOP, can.base.Max(target.scrollTop+target.scrollTop/(target.scrollHeight-target.offsetHeight)*(target.offsetHeight-height)-10, target.scrollHeight-height),
 			)
 			vbar.innerHTML = `${parseInt(target.scrollTop)}+${target.offsetHeight}/${target.scrollHeight}`
 			var width = can.base.Min(target.offsetWidth*target.offsetWidth/target.scrollWidth, target.offsetWidth/4)
@@ -428,9 +431,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			{view: [[html.DISPLAY, html.TOGGLE]], onclick: function() { can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can) }},
 			{view: [[html.PROFILE, html.TOGGLE]], onclick: function() { can.onmotion.toggle(can, can.ui.profile), can.onimport.layout(can) }},
 		])
-		toggle.layout = function() {
+		toggle.layout = function() { var up = "\u25B2", down = "\u25BC", left = can.page.unicode.prev, right = can.page.unicode.next
 			// var up = "\u25B2", down = "\u25BC", left = "\u25C0", right = "\u25B6"
-			var up = "\u25B2", down = "\u25BC", left = can.page.unicode.prev, right = can.page.unicode.next
 			can.page.Modify(can, toggle.project, can.page.isDisplay(can.ui.project)? left: right)
 			can.page.Modify(can, toggle.display, can.page.isDisplay(can.ui.display)? down: up)
 			can.page.Modify(can, toggle.profile, can.page.isDisplay(can.ui.profile)? right: left)
@@ -634,7 +636,9 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			if (can.page.Select(can, document.body, list[i], function(target) { return target._close? target._close(): can.page.Remove(can, target) }).length > 0) { return true }
 		}
 	},
-	clearCarte: function(can) { can.page.SelectChild(can, document.body, "div.carte.float,fieldset.input.float", function(target) { can.page.Remove(can, target) }) },
+	clearCarte: function(can) {
+		can.page.SelectChild(can, document.body, "div.carte.float", function(target) { can.page.Remove(can, target) })
+	},
 	clearInput: function(can) { can.page.SelectChild(can, document.body, "div.input.float", function(target) { can.page.Remove(can, target) }) },
 	hidden: function(can, target, show) { target = target||can._target
 		if (!target.tagName && target.length > 0) { return can.core.List(target, function(target) { can.onmotion.hidden(can, target, show) }) }
