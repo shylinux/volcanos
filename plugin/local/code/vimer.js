@@ -56,10 +56,7 @@ Volcanos(chat.ONFIGURE, {
 		sub.onexport.record = function(sub, value, key, data) { can.user.opens(data.html_url) }
 	}) },
 })
-Volcanos(chat.ONACTION, {list: [
-	"构建", "编译", "终端", "路由",
-	"源码", "文档", "计划", "流程",
-	"后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},
+Volcanos(chat.ONACTION, {list: ["创建", "编译", "源码", "计划", "流程", "文档", "后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		if (msg.IsErr()) { return can.user.toastFailure(can, msg.Result()) }
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button), can.ui.zone.source.refresh()
@@ -81,7 +78,7 @@ Volcanos(chat.ONACTION, {list: [
 	},
 	trash: function(event, can, button) { can.onaction._run(event, can, button, [can.Option(nfs.PATH)+can.Option(nfs.FILE)], function() { can._msg._tab._close() }) },
 	script: function(event, can, button) { can.onaction._runs(event, can, button) },
-	module: function(event, can, button) { can.onaction._runs(event, can, button) },
+	module: function(event, can, button) { can.onaction._runs(can.request(event, {title: "创建模块"}), can, button) },
 	compile: function(event, can, button) { var _toast = can.user.toastProcess(can, "编译中...")
 		can.runAction(event, button, [], function(msg) { can.ui.search && can.ui.search.hidden(), _toast.close()
 			if (msg.Length() > 0 || msg.Result()) { return can.onimport.exts(can, "inner/search.js", function(sub) { can.ui.search = sub, sub.select()
@@ -94,17 +91,13 @@ Volcanos(chat.ONACTION, {list: [
 		can.onimport.toolkit(can, {index: data.index, args: can.core.Split(data.args||"")}, function(sub) { can.db.toolkit[list.join(",")] = sub.select() })
 	}) },
 	"扩展": function(event, can) { can.user.input(can.request(event, {action: "extension"}), can, ["url"], function(list) { var sub = can.db.toolkit[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0]) }) },
-	
-	"构建": function(event, can) { can.onimport.tabview(can, "", web.CODE_COMPILE, ctx.INDEX) },
+
+	"创建": function(event, can) { can.onaction.module(event, can, nfs.MODULE) },
 	"编译": function(event, can) { can.onaction.compile(event, can, code.COMPILE) },
-	"终端": function(event, can) { can.user.input(can.requests(event, {action: "xterm"}), can, [mdb.TYPE], function(args) { can.onimport.tabview(can, "", [web.CODE_XTERM, args[1]||"ish"].join(mdb.FS), ctx.INDEX) }) },
-	"路由": function(event, can) { can.onimport.tabview(can, "", web.ROUTE, ctx.INDEX) },
-	
 	"源码": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },
-	"文档": function(event, can) { can.onimport.tabview(can, "", web.WIKI_WORD, ctx.INDEX) },
 	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },
 	"流程": function(event, can) { can.onimport.tabview(can, "", web.CHAT_FLOWS, ctx.INDEX) },
-	
+	"文档": function(event, can) { can.onimport.tabview(can, "", web.WIKI_WORD, ctx.INDEX) },
 	"后台": function(event, can) { var pod = can.misc.Search(can, ice.POD); can.onimport.tabview(can, "", location.origin+"/chat/portal/"+(pod? "?pod="+pod: ""), web.SPACE) },
 	"桌面": function(event, can) { can.onimport.tabview(can, "", web.CHAT_MACOS_DESKTOP, ctx.INDEX) },
 	"官网": function(event, can) { can.onimport.tabview(can, "", can.misc.MergePodCmd(can, {cmd: web.WIKI_PORTAL}), web.SPACE) },
