@@ -1,4 +1,5 @@
 fieldset.inner>div.output div.content td.text { height:20px; }
+fieldset.inner>div.output>div.layout>div.layout div.content div.tips { color:var(--disable-fg-color); font-style:italic; position:absolute; top:0; right:0; }
 fieldset.inner>div.output div.content td.text span.comment { color:var(--code-comment); }
 fieldset.inner>div.output div.content td.text span.keyword { color:var(--code-keyword); box-shadow:var(--box-shadow); }
 fieldset.inner>div.output div.content td.text span.package { color:var(--code-package); }
