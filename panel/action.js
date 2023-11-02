@@ -95,8 +95,6 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	},
 
 	mail: function(can) { can.user.opens("/chat/pod/20230511-golang-story/cmd/web.chat.mail.client") },
-	repos: function(can) { can.user.opens("https://repos.shylinux.com/explore/repos") },
-	repos: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.CODE_GIT_SEARCH, repos: nfs.REPOS})) },
 	dream: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.DREAM})) },
 	cloud: function(can) { can.user.opens("https://cloud.shylinux.com/") },
 	portal: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.WIKI_PORTAL})) },
@@ -110,8 +108,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		})
 		var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can) || can.onlayout._plugin(can, button)
 	},
-	_menus: [[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE], "desktop", "dream", "repos", "portal"],
-	_trans: kit.Dict("dream", "空间", "repos", "资源", "portal", "官网", "desktop", "桌面", html.LAYOUT, "布局", ice.AUTO, "默认布局", TABS, "标签布局", TABVIEW, "标签分屏", HORIZON, "左右分屏", VERTICAL, "上下分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
+	_menus: [[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE], web.DREAM, "desktop", "portal"],
+	_trans: kit.Dict(web.DREAM, "空间", "portal", "官网", "desktop", "桌面", html.LAYOUT, "布局", ice.AUTO, "默认布局", TABS, "标签布局", TABVIEW, "标签分屏", HORIZON, "左右分屏", VERTICAL, "上下分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
 })
 Volcanos(chat.ONLAYOUT, {
 	tabs: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width) })

@@ -39,11 +39,14 @@ body {
 	--code-comment:green; --code-keyword:royalblue; --code-package:blue;
 	--code-datatype:lavender; --code-function:lightgreen;
    	--code-constant:gray; --code-string:orange; --code-object:silver;
-	--svg-stroke-width:1; --desktop-icon-size:80px;
+	--svg-font-size:24px; --svg-stroke-width:1; --desktop-icon-size:80px;
 	--project-width:230px;
 }
-body.mobile { --input-width:80px; --button-margin:5px; }
-body.mobile { --header-height:48px; }
+body.mobile {
+	--input-width:80px; --button-margin:5px;
+	--svg-font-size:13px;
+	--header-height:48px;
+}
 body.windows { --code-font-family:"Courier New"; }
 /* element */
 * { tab-size:4; box-sizing:border-box; padding:0; border:0; margin:0; }
@@ -51,7 +54,7 @@ legend { padding:0 20px; }
 select { padding:0 var(--input-padding); }
 input:not([type=file]) { padding:0 var(--input-padding); }
 input:not([type=button]) { border-radius:0; outline:none; width:var(--input-width); }
-input[name=path] { width:160px; }
+body:not(.mobile) input[name=path] { width:160px; }
 input[name=line] { width:60px !important; }
 input[name=limit] { width:60px; }
 input[name=offend] { width:80px; }
@@ -243,7 +246,7 @@ body.mobile:not(.landscape) fieldset.float>form.option>div.text>span.value { dis
 body.windows form.option>div.icon { font-size:21px; line-height:32px; }
 /* svg */
 fieldset.web.wiki.draw div.output svg { min-width:100%; min-height:100%; }
-svg text { font-size:24px; font-family:var(--code-font-family); stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }
+svg text { font-size:var(--svg-font-size); font-family:var(--code-font-family); stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }
 svg text.offline { stroke:var(--disable-fg-color); fill:var(--disable-fg-color); }
 svg text:hover { stroke:var(--hover-fg-color); fill:var(--hover-fg-color); cursor:pointer; }
 svg rect { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); fill:var(--output-bg-color); }
@@ -543,7 +546,7 @@ body.white fieldset.inner.cmd>div.output>div.layout>div.tabs div:not(.select):no
 body.webview fieldset.word>form.option>div.item>input[name=path] { width:160px; }
 body.mobile fieldset.word>form.option>div.item>input[name=path] { width:180px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
-body.mobile fieldset.inner>form.option input[name=file] { width:90px; }
+body.mobile fieldset.inner>form.option input[name=file] { width:160px; }
 body.windows fieldset.inner>div.output { overflow:hidden; }
 body.windows fieldset.inner>div.output>div.layout>div.layout>div.profile { overflow:hidden; }
 /* scrollbar */
