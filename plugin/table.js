@@ -146,6 +146,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}}, {view: html.LIST}]); can.onimport.list(can, item, cb, ui.list, cbs) })
 	},
 	tabs: function(can, list, cb, cbs, action) { action = action||can._action; return can.page.Append(can, action, can.core.List(list, function(tabs) {
+		if (typeof tabs == "string") { tabs = {name: tabs} }
 		function close(target) {
 			if (can.page.ClassList.has(can, target, html.SELECT)) {
 				var next = target.nextSibling||target.previousSibling; if (!next) { return } next.click()
