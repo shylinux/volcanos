@@ -1,38 +1,28 @@
 Volcanos(chat.ONIMPORT, {
-	_init: function(can, msg) { var cache = {}
-		if (can.Conf(ctx.STYLE) == html.FLOAT && !can.page.ClassList.has(can, can._fields, html.FLOAT)) { msg.Option(ice.MSG_STATUS, ""), can.onlayout._float(can) }
-		var title = msg.Option("title")||can.Conf("title"), field = can.Conf(mdb.FIELD)||mdb.VALUE, name = msg.Option(mdb.NAME)||can.Conf(mdb.NAME)||"中国", path = msg.Option(nfs.PATH)||can.Conf(nfs.PATH)||"100000"
+	_init: function(can, msg) { var field = can.Conf(mdb.FIELD)||mdb.VALUE, cache = {}, path = msg.Option(nfs.PATH)||can.Conf(nfs.PATH)||"10"
 		var max = 0, data = msg.Table(function(value) { if (parseFloat(value[field]) > max) { max = parseFloat(value[field]) } return {name: value.name, value: value[field]} })
-		var option = {title: {text: title, left: '5%', textStyle: {fontSize: '24'}},
-			tooltip: {show: true, trigger: "item", formatter: function (params) { return params.name+': '+(params.value||"0") }},
-			visualMap: {min: 0, max: max, text: ['高', '低'], calculable: true, left: 'left', top: 'bottom'},
+		var option = {title: {text: msg.Option("title")||can.Conf("title"), textStyle: {fontSize: '24'}, left: '5%'},
+			tooltip: {formatter: function (item) { return item.name+': '+(item.value||"0") }},
+			visualMap: {min: 0, max: max, text: [max]},
 		}
-		can.user.toastProcess(can), can.page.requireModules(can, ["echarts/dist/echarts.js"], function() {
+		if (can.Conf(ctx.STYLE) == html.FLOAT && !can.page.ClassList.has(can, can._fields, html.FLOAT)) { msg.Option(ice.MSG_STATUS, ""), can.onlayout._float(can) }
+		can.page.requireModules(can, ["echarts/dist/echarts.js"], function() { can.misc.GET(can, "/wiki/geoarea/city.json", function(text) { can.onimport.adcode = JSON.parse(text)
+			!can.onimport.adcode[path] && can.core.Item(can.onimport.adcode, function(code, list) { list.name == path && (path = code) })
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth())
-			function load(name, path) { can.onimport.load(can, name, path, function() {
-				can.onimport.tabs(can, [{name:name}], function() {
-					if (cache[name]) { return can.page.SelectChild(can, can._output, html.DIV_ITEM, function(target) { can.onmotion.toggle(can, target, target == cache[name]) }) }
-					var chart = echarts.init(cache[name] = can.page.Append(can, can._output, [{view: html.ITEM, style: {height: can.ConfHeight(), width: can.ConfWidth()}}])._target)
-					option.series = [{name: title, data: data, mapType: name, type: "map"}], option.geo = {map: name}, chart.setOption(option), can.user.toastSuccess(can)
-					chart.on(html.CLICK, function(params) {
-						var p = can.onimport.adcode[params.name]; if (p) { return load(params.name, p) }
-						var p = can.onimport.adcode[name+params.name]; if (p) { return load(name+params.name, p) }
-						can.user.input({}, can, ["adcode"], function(list) { load(name+params.name, can.onimport.adcode[name+params.name] = list[0]) })
-					}), can.page.SelectChild(can, can._output, html.DIV_ITEM, function(target) { can.onmotion.toggle(can, target, target == cache[name]) })
-				}, function() {
-				})
-			}) } load(name, path)
-		})
-	},
-	load: function(can, name, path, cb) {
+			function load(path, name) { if (cache[path]) { return cache[path]._tabs.click() } can.onimport.load(can, path, function(text) { echarts.registerMap(path, JSON.parse(text))
+				can.onimport.tabs(can, [{name: name}], function(event, tabs) { var list = can.onimport.adcode[path]; msg.Length() == 0 && can.Status(mdb.COUNT, list && list.list? can.core.Item(list.list).length: 0)
+					if (cache[path]) { return can.page.SelectChild(can, can._output, html.DIV_ITEM, function(target) { can.onmotion.toggle(can, target, target == cache[path]) }) }
+					var chart = echarts.init(cache[path] = can.page.Append(can, can._output, [{view: html.ITEM, style: {height: can.ConfHeight(), width: can.ConfWidth()}}])._target)
+					option.series = [{data: data, mapType: path, type: "map"}], option.geo = {map: path}, chart.setOption(option)
+					chart.on(html.CLICK, function(item) { if (list && list.list) { var code = list.list[item.name]; code && load(code, item.name) } })
+					cache[path]._tabs = tabs._target, can.page.SelectChild(can, can._output, html.DIV_ITEM, function(target) { can.onmotion.toggle(can, target, target == cache[path]) })
+				}, function() { can.page.Remove(can, cache[path]), delete(cache[path]) })
+			}) } load(path, can.onimport.adcode[path].name)
+		}) })
+	}, adcode: {},
+	load: function(can, path, cb) { var _path = path
 		path.length == 2 && (path += "0000"), path.length == 4 && (path += "00")
 		path = "/wiki/geoarea/"+path+(can.base.endWith(path, "00")? "_full": "")+".json"
-		can.misc.POST(can, can.request({}, {_method: "GET"}), path, {}, function(msg) { echarts.registerMap(name, JSON.parse(msg._xhr.responseText)), cb() })
-	},
-	adcode: {
-		"中国": "100000",
-		"广东省": "440000",
-		"深圳市": "440300",
-		"宝安区": "440306",
+		can.misc.GET(can, path, function(text) { text? cb(text): can.misc.GET(can, path.replace("_full", ""), cb) })
 	},
 })

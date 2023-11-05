@@ -501,7 +501,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.runActionCommand(sub.request(event, {pod: meta.space}), sub._index, cmds, cb)
 				}
 			}, sub._index = value.index||meta.index, can.base.isFunc(cb) && cb(sub, meta, skip)
-			meta.style == html.FLOAT && can.onlayout._float(sub)
+			if (meta.style == html.FLOAT || value.style == html.FLOAT) { can.onlayout._float(sub) }
 		}, target||can._output, field)
 	},
 	_float: function(can, index, args, cb) { can.onappend.plugin(can, {index: index, args: args, mode: chat.FLOAT}, function(sub) {

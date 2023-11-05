@@ -535,6 +535,7 @@ fieldset.web.code.docker.studio>div.output>fieldset { margin:0; }
 fieldset.web.code.docker.studio>div.output>fieldset>legend { display:none; }
 fieldset.web.code.docker.studio>div.output>fieldset>form.option>div:first-child { margin-left:10px; }
 fieldset.web.code.docker.studio>div.output { padding:10px; }
+fieldset.web.mall.region>div.output>fieldset.web.mall.region.float>div.action { display:none; }
 fieldset.studio>div.output { padding:10px; }
 fieldset.studio>div.action>div.cmds { padding:5px 20px; }
 fieldset.studio>div.output>fieldset>form.option div.icon.delete { display:none; }
