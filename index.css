@@ -242,6 +242,7 @@ fieldset.float.plug>form.option>div.text>span.value { display:none; }
 fieldset.float:not(.plug)>form.option>div.text>input { display:none; }
 fieldset.float:not(.plug)>form.option>div.text>span { display:none; }
 fieldset.float:not(.plug)>form.option>div.text>span.value { white-space:pre; padding:7px; height:32px; max-width:200px; display:block; overflow:auto; }
+fieldset.float:not(.plug)>form.option>div.text { box-shadow:none; }
 body.mobile:not(.landscape) fieldset.float>form.option>div.text>span.value { display:none; }
 body.windows form.option>div.icon { font-size:21px; line-height:32px; }
 /* svg */
@@ -320,7 +321,7 @@ legend, form.option, form.option>div.item, div.action, div.action>div.item, div.
 fieldset.story, fieldset>div.output, fieldset>div.status, div.output>div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
 fieldset.story { position:sticky; left:0; }
 fieldset.full { position:fixed; left:0; top:0; }
-fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:100; box-shadow:var(--box-shadow); }
+fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; box-shadow:var(--box-shadow); }
 fieldset.plug { position:absolute; bottom:0; right:0; }
 div.output { position:relative; }
 div.layout.flex>* { float:left; clear:none; }
@@ -424,7 +425,7 @@ body.mobile fieldset.Header div.output div.item:not(.avatar) { padding:0px 10px;
 body.mobile fieldset.Search>div.action>div.item.filter>input { width:100%; }
 body.mobile fieldset.Search>div.action>div.item.filter>span { position:absolute; }
 body.mobile fieldset.Search>div.action>div.item.filter { width:100%; position:relative; }
-body.mobile fieldset.River { position:fixed; top:var(--header-height); z-index:100; }
+body.mobile fieldset.River { position:fixed; top:var(--header-height); z-index:11; }
 body.mobile fieldset.River>div.output { font-size:1.4rem; min-width:240px; }
 body.mobile fieldset.Action { margin-top:var(--header-height); }
 body.mobile fieldset.Action.cmd { margin-top:0; }
@@ -498,6 +499,7 @@ fieldset.web.code.git.status>div.output table.content { width:100%; }
 fieldset.web.code.git>div.output>fieldset.web.code.inner>div.output { overflow:auto; }
 
 fieldset.web.mall.region>div.output>table.content td:nth-child(3) { text-align:right; }
+fieldset.web.mall.region>div.output>table.content td:nth-child(3) { text-align:right; }
 fieldset.web.mall.region>div.output>table.content td:nth-child(4) { text-align:right; }
 fieldset.web.mall.region>div.output>table.content td:nth-child(5) { text-align:right; }
 
@@ -525,7 +527,7 @@ fieldset.draw.spide div.output svg path { stroke-width:1; }
 fieldset.draw>div.output>div.project { width:180px; flex:0 0 180px; }
 fieldset.draw>div.output>div.layout>div.layout>div.profile { width:180px; flex:0 0 180px; }
 fieldset.web.chat.location>div.action input[type=text] { width:80px !important; }
-fieldset.web.chat.location>div.output>div.layout>div.layout>div.profile { background-color:var(--plugin-bg-color); position:absolute; right:0; width:360px; z-index:5; border-left:none; }
+fieldset.web.chat.location>div.output>div.layout>div.layout>div.profile { background-color:var(--plugin-bg-color); position:absolute; right:0; width:360px; z-index:9; border-left:none; }
 fieldset.web.chat.location>div.output>div.layout>div.layout { position:relative; }
 fieldset.web.code.git.total.draw div.output { text-align:center; }
 fieldset.web.code.docker.studio>div.action>div.item { font-style:italic; height:32px; padding:5px 10px; }

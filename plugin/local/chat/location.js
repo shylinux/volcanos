@@ -86,7 +86,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { msg.Option(ice.MSG_ACTI
 			circle: can.onfigure.circle(can, item, 100),
 		}
 		can.onfigure._mark(can), can.mark && can.mark.add({position: can.onimport.point(can, can._current), properties: can._current})
-		can.page.Select(can, can._target, "div.content>div", function(item) { can.page.style(can, item, {"z-index": 3}) })
+		can.page.Select(can, can._target, "div.content>div", function(item) { can.page.style(can, item, {"z-index": 9}) })
 	},
 	_item: function(can, item, target) { if (!item.latitude || !item.longitude) { return item }
 		var _target = can.onimport.item(can, item, function(event) {
