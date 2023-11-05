@@ -150,7 +150,7 @@ body>div.input tr.icon td:last-child input { padding-left:32px; }
 body>div.input td span.icon { margin-left:-20px; visibility:hidden; }
 body>div.input td:hover span.icon { visibility:visible; }
 body>div.input select { width:230px !important; }
-body>div.input input:not([type=button]) { width:240px !important; }
+body>div.input input:not([type=button]) { width:240px; }
 body>div.input textarea { height:120px; width:240px !important; }
 body>div.input div.action { width:100%; position:sticky; bottom:0; }
 body>div.input div.action>div.item { margin:5px; float:right; }

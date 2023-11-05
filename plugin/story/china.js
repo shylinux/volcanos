@@ -2,8 +2,7 @@ Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg) { var field = can.Conf(mdb.FIELD)||mdb.VALUE, cache = {}, path = msg.Option(nfs.PATH)||can.Conf(nfs.PATH)||"10"
 		var max = 0, data = msg.Table(function(value) { if (parseFloat(value[field]) > max) { max = parseFloat(value[field]) } return {name: value.name, value: value[field]} })
 		var option = {title: {text: msg.Option("title")||can.Conf("title"), textStyle: {fontSize: '24'}, left: '5%'},
-			tooltip: {formatter: function (item) { return item.name+': '+(item.value||"0") }},
-			visualMap: {min: 0, max: max, text: [max]},
+			tooltip: {formatter: function (item) { return item.name+': '+(item.value||"0") }}, visualMap: {min: 0, max: max, text: [max]},
 		}
 		if (can.Conf(ctx.STYLE) == html.FLOAT && !can.page.ClassList.has(can, can._fields, html.FLOAT)) { msg.Option(ice.MSG_STATUS, ""), can.onlayout._float(can) }
 		can.page.requireModules(can, ["echarts/dist/echarts.js"], function() { can.misc.GET(can, "/wiki/geoarea/city.json", function(text) { can.onimport.adcode = JSON.parse(text)
