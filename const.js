@@ -70,7 +70,7 @@ var mdb = {FOREACH: "*", RANDOMS: "%",
 }
 var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service", DOMAIN: "domain",
 	SPIDE: "spide", SPACE: "space", ROUTE: "route", DREAM: "dream",
-	SHARE: "share", COUNT: "count",
+	TOKEN: "token", SHARE: "share", COUNT: "count",
 	WORKER: "worker", SERVER: "server", GATEWAY: "gateway",
 	OPEN: "open", LINK: "link", HTTP: "http", URL: "url", SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 	AT: ice.AT, QS: ice.QS,

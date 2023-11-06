@@ -1,7 +1,7 @@
 Volcanos(chat.ONFIGURE, {key: {
 	_load: function(event, can, cb, target, name, value) {
 		if (target._done && target.value) { return can.onmotion.hidden(can, can._target, can.Status("total") > 0)} target._done = true
-		can.onmotion.hidden(can, can._target)
+		can.onmotion.focus(can, target), can.onmotion.hidden(can, can._target)
 		can.runAction(event, mdb.INPUTS, [name, value||""], function(msg) {
 			name == ctx.INDEX && can.core.Item(can.onengine.plugin.meta, function(key) { msg.Push(ctx.INDEX, can.core.Keys(ice.CAN, key)) })
 			can._show(can, msg, cb, target, name)
