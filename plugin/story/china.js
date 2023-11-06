@@ -5,7 +5,7 @@ Volcanos(chat.ONIMPORT, {
 			tooltip: {formatter: function (item) { return item.name+': '+(item.value||"0") }}, visualMap: {min: 0, max: max, text: [max]},
 		}
 		if (can.Conf(ctx.STYLE) == html.FLOAT && !can.page.ClassList.has(can, can._fields, html.FLOAT)) { msg.Option(ice.MSG_STATUS, ""), can.onlayout._float(can) }
-		can.page.requireModules(can, ["echarts/dist/echarts.js"], function() { can.misc.GET(can, "/wiki/geoarea/city.json", function(text) { can.onimport.adcode = JSON.parse(text)
+		can.page.requireModules(can, ["echarts/dist/echarts.min.js"], function() { can.misc.GET(can, "/wiki/geoarea/city.json", function(text) { can.onimport.adcode = JSON.parse(text)
 			!can.onimport.adcode[path] && can.core.Item(can.onimport.adcode, function(code, list) { list.name == path && (path = code) })
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth())
 			function load(path, name) { if (cache[path]) { return cache[path]._tabs.click() } can.onimport.load(can, path, function(text) { echarts.registerMap(path, JSON.parse(text))
