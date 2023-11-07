@@ -135,6 +135,7 @@ Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight
 	avatar: function(can) { return can.user.info.avatar == "void"? "": can.user.info.avatar },
 	background: function(can) { return can.user.info.background == "void"? "": can.user.info.background },
 	theme: function(can) { return can._theme || can.misc.SearchOrConf(can, chat.THEME) || can.__theme || (can.base.isNight()? html.DARK: html.LIGHT) },
+	language: function(can) { return can.user.info.language },
 })
 Volcanos(chat.ONPLUGIN, {
 	cookie: shy("会话参数", {

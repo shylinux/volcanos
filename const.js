@@ -97,6 +97,7 @@ var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
 	MALL_GOODS: "web.mall.goods",
 }
 var aaa = {
+	SECRET: "secret",
 	LOGIN: "login", LOGOUT: "logout",
 	USER: "user", AUTH: "auth", SESS: "sess", ROLE: "role",
 	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole", USERZONE: "userzone",

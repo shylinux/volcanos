@@ -82,6 +82,7 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 			return can._footer_menu = can.search(can.request({}, {trans: can.onaction._trans}), [[chat.FOOTER, chat.ONIMPORT, html.MENU], can._name].concat(list), cb)
 		},
 		getHeaderTheme: function(cb) { return can.get(chat.HEADER, chat.THEME, cb) },
+		getHeaderLanguage: function(cb) { return can.get(chat.HEADER, aaa.LANGUAGE, cb) },
 		getHeader: function(key, cb) { return can.get(chat.HEADER, key, cb) },
 		setHeader: function(key, value) { return can.set(chat.HEADER, key, value) },
 		setAction: function(key, value) { return can.set(chat.ACTION, key, value) },

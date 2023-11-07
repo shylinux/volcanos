@@ -338,6 +338,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (target.value != button) { target.value = button, select.value = trans[button], select.onchange && select.onchange({target: select}) }
 				return true
 			}); can.onappend.style(can, [html.SELECT, item.name], carte._target), can.page.style(can, carte._target, html.MIN_WIDTH, event.target.offsetWidth)
+			can.page.Select(can, carte._target, html.DIV_ITEM, function(item) {
+				if (target.value == item.innerText) {
+					can.onappend.style(can, html.SELECT, item)
+				}
+			})
 		}, _init: function(target) { can.page.style(can, target, html.WIDTH, (select.offsetWidth||80)+10), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
 	},
 	table: function(can, msg, cb, target, keys) { if (!msg || msg.Length() == 0) { return } var meta = can.base.Obj(msg.Option(mdb.META))
