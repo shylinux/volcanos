@@ -44,7 +44,7 @@ var ice = {
 	MSG_DAEMON: "sess.daemon", LOG_DISABLE: "log.disable", LOG_TRACEID: "log.id",
 	
 	ErrWarn: "warn: ", ErrNotLogin: "not login: ", ErrNotRight: "not right: ", ErrNotValid: "not valid: ", ErrNotFound: "not found: ",
-	NFS: "nfs", USR: "usr", USR_VOLCANOS: "usr/volcanos/", CAN_PLUGIN: "can._plugin",
+	NFS: "nfs", USR: "usr", CAN_PLUGIN: "can._plugin",
 }
 
 var ctx = {
@@ -128,13 +128,10 @@ var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", PACK: "pack", TRASH: "trash", DIR_ROOT: "dir_root",
 	COPY: "copy", EDIT: "edit", SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
 	SUBJECT: "subject", CONTENT: "content", RECENT: "recent", SCRIPT: "script", SOURCE: "source", TARGET: "target",
-	REPOS: "repos",
-	IMAGE: "image",
+	REPOS: "repos", IMAGE: "image",
 	MODULE: "module", SCRIPT: "script",
-	BINARY: "binary",
-	VERSION: "version",
-	TEMPLATE: "template",
-	BRANCH: "branch", MASTER: "master",
+	BRANCH: "branch", VERSION: "version",
+	TEMPLATE: "template", BINARY: "binary",
 	PUSH: "push", PULL: "pull",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
 	REPLACE: "replace", FROM: "from", TO: "to",
@@ -142,6 +139,7 @@ var nfs = {
 	TXT: "txt", PNG: "png", WEBM: "webm",
 	_CSS: ".css", _JS: ".js",
 	PWD: "./", SRC: "src/", USR: "usr/", USR_LOCAL_WORK: "usr/local/work/", SRC_DOCUMENT: "src/document/", SRC_TEMPLATE: "src/template/",
+	USR_ICONS: "usr/icons/", USR_GEOAREA: "usr/geoarea/", USR_VOLCANOS: "usr/volcanos/",
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
 }
 var cli = {
