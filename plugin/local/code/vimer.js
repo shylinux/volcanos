@@ -51,10 +51,10 @@ Volcanos(chat.ONFIGURE, {
 		}
 		sub.onexport.record = function(sub, value, key) { can.onimport.tabview(can, "", value, web.SPACE) }
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
-	}) },
+	}), zone.toggle(false) },
 	repos: function(can, target, zone) { can.onimport._zone(can, zone, {index: web.CODE_GIT_SEARCH, args: ["repos"], style: html.OUTPUT, mode: mdb.ZONE}, function(sub, msg) {
 		sub.onexport.record = function(sub, value, key, data) { can.user.opens(data.html_url) }
-	}) },
+	}), zone.toggle(false) },
 })
 Volcanos(chat.ONACTION, {list: ["创建", "编译", "源码", "计划", "流程", "文档", "后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {

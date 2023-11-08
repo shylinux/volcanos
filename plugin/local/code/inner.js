@@ -301,12 +301,12 @@ Volcanos(chat.ONFIGURE, {
 	},
 	module: function(can, target, zone) { zone._delay_init = function() { can.runAction({}, mdb.INPUTS, [ctx.INDEX], function(msg) {
 		can.onimport.tree(can, msg.Table(), ctx.INDEX, nfs.PT, function(event, item) { can.onimport.tabview(can, "", item.index, ctx.INDEX) }, target), zone._total(msg.Length())
-	}) } },
+	}) }, zone.toggle(false) },
 	plugin: function(can, target, zone) { zone._delay_init = function() { var total = 0
 		can.onimport.tree(can, can.core.ItemKeys(can.onengine.plugin.meta, function(key) { if (key[0] != "_") { return total++, {index: key} } }), ctx.INDEX, nfs.PT, function(event, item) {
 			can.onimport.tabview(can, "", can.core.Keys(ice.CAN, item.index), ctx.INDEX)
 		}, target), zone._total(total)
-	} },
+	}, zone.toggle(false) },
 })
 Volcanos(chat.ONLAYOUT, {
 	_split: function(can, type) { var target = can.ui.content, msg = target._msg, scroll = target.scrollTop

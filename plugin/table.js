@@ -57,7 +57,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			return {view: [[html.ZONE, zone.name]], list: [
 				{view: html.ITEM, list: [{text: can.user.trans(can, zone.name)}], _init: function(target) { zone._legend = target }, onclick: function() {
 					if (zone._delay_init) { zone._delay_init(zone._target, zone), delete(zone._delay_init) }
-					can.onmotion.toggle(can, zone._action), can.onmotion.toggle(can, zone._action.nextSibling||zone._target), zone._toggle && zone._toggle()
+					zone.toggle(), zone._toggle && zone._toggle()
 				}, oncontextmenu: function(event) { var menu = zone._menu
 					menu? can.user.carteRight(event, can, menu.meta, menu.list||can.core.Item(menu.meta), can.base.isFunc(menu)? menu: function(event, button, meta, carte) {
 						can.runAction(event, button), carte.close()
@@ -76,8 +76,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 						can.core.Item(list, function(name, button) { can.onimport._icon(can, name, button, zone._legend) })
 					}
 					zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target, zone) }
-					can.base.isFunc(zone._init) && (zone._menu = zone._init(target, zone)||zone._menu)
-					if (zone._delay_init) { can.onmotion.hidden(can, zone._action), can.onmotion.hidden(can, zone._target) }
+					zone.toggle = function(show) { can.onmotion.toggle(can, zone._action, show), can.onmotion.toggle(can, zone._target, show) }
+					can.base.isFunc(zone._init)? (zone._menu = zone._init(target, zone)||zone._menu): zone.toggle(false)
 				}},
 			]}
 		}))
@@ -120,15 +120,17 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		}}, "", target)
 	},
 	item: function(can, item, cb, cbs, target) { target = target||(can.ui && can.ui.project? can.ui.project: can._output)
+		function oncontextmenu(event) {
+			if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } return }
+			can.user.carteItem(event, can, item)
+		}
 		var ui = can.page.Append(can, target, [{view: html.ITEM, list: [
 			item.icon && (can.base.contains(item.icon, "http", ".png", ".jpg")? {img: item.icon}: {icon: item.icon}),
 			{text: item.nick||item.name||item.zone}], title: item.title, onclick: function(event) {
 				can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)
 				cb(event, event.currentTarget, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
-			}, oncontextmenu: function(event) {
-				if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } return }
-				can.user.carteItem(event, can, item)
-			},
+				can.user.isMobile && oncontextmenu(event)
+			}, oncontextmenu: oncontextmenu,
 		}]); return ui._target
 	},
 	itemlist: function(can, list, cb, cbs, target) {
