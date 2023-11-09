@@ -56,7 +56,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 			}) }])._target, next && can._output.insertBefore(list, next), can.ui.sublist[river] = list, _menu(), list.children.length > 0 && list.children[select].click()
 		})
 	},
-	action: function(event, can, river, storm) { can.misc.SearchHash(can, river, storm)
+	action: function(event, can, river, storm) { can.user.isMobile || can.misc.SearchHash(can, river, storm)
 		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], function(target) { can.page.ClassList.del(can, target, html.SELECT) })
 		can.onmotion.select(can, can.ui.sublist[river], html.DIV_ITEM, can.ui.storm_list[can.core.Keys(river, storm)])
 		can.onaction.storm({target: can.ui.river_list[river]}, can, river), can.onmotion.toggle(can, can.ui.sublist[river], true)

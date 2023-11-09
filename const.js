@@ -104,6 +104,9 @@ var aaa = {
 	EMAIL: "email", AVATAR: "avatar", BACKGROUND: "background",
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
 	VOID: "void", TECH: "tech", ROOT: "root",
+	PROVINCE: "province",
+	COUNTRY: "country",
+	CITY: "city",
 }
 var lex = {
 	SPLIT: "split", PARSE: "parse",

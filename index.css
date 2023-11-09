@@ -149,6 +149,12 @@ body>div.input tr.icon td:last-child img:first-child { height:28px; width:28px; 
 body>div.input tr.icon td:last-child input { padding-left:32px; }
 body>div.input td span.icon { margin-left:-20px; visibility:hidden; }
 body>div.input td:hover span.icon { visibility:visible; }
+body>div.input tr.icons td:last-child { position:relative; }
+body>div.input tr.icons td:last-child i:first-child { font-size:22px; position:absolute; left:15px; top:14px; }
+body>div.input tr.icons td:last-child img:first-child { height:28px; width:28px; left:12px; top:12px; position:absolute; }
+body>div.input tr.icons td:last-child input { padding-left:32px; }
+body>div.input td span.icons { margin-left:-20px; visibility:hidden; }
+body>div.input td:hover span.icons { visibility:visible; }
 body>div.input select { width:230px !important; }
 body>div.input input:not([type=button]) { width:240px; }
 body>div.input textarea { height:120px; width:240px !important; }
@@ -535,6 +541,7 @@ fieldset.web.code.docker.studio>div.output>fieldset { margin:0; }
 fieldset.web.code.docker.studio>div.output>fieldset>legend { display:none; }
 fieldset.web.code.docker.studio>div.output>fieldset>form.option>div:first-child { margin-left:10px; }
 fieldset.web.code.docker.studio>div.output { padding:10px; }
+body>fieldset.story.web.chat.wx.agent { position:fixed; left:0; bottom:0; }
 fieldset.web.mall.region>div.output>fieldset.web.mall.region.float>div.action { display:none; }
 fieldset.studio>div.output { padding:10px; }
 fieldset.studio>div.action>div.cmds { padding:5px 20px; }
