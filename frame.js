@@ -347,7 +347,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}, _init: function(target) { can.page.style(can, target, html.WIDTH, (select.offsetWidth||80)+10), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
 	},
 	table: function(can, msg, cb, target, keys) { if (!msg || msg.Length() == 0) { return } var meta = can.base.Obj(msg.Option(mdb.META))
-		if (can.user.isMobile) { can.base.toLast(msg.append, mdb.TIME), can.base.toLast(msg.append, web.LINK) } can.base.toLast(msg.append, ctx.ACTION)
+		if (can.user.isMobile) { can.base.toLast(msg.append, mdb.TIME) } can.base.toLast(msg.append, web.LINK), can.base.toLast(msg.append, ctx.ACTION)
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, data, list) {
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) { if (key == mdb.VALUE) { key = data.key } data = {}, can.core.List(list, function(item) { data[item.key] = item.value }) }
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(can.request(event, data, can.Option()), [ctx.ACTION, cmd].concat(arg)) }) }
@@ -491,7 +491,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	tabview: function(can, meta, list, target) { var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT])
 		can.core.List(can.base.getValid(list, can.core.Item(meta)), function(name, index) {
-			ui[name] = can.page.Append(can, ui.action, [{text: name, onclick: function(event) {
+			ui[name] = can.page.Append(can, ui.action, [{view: [html.TABS, html.DIV, name], onclick: function(event) {
+				can.onmotion.select(can, ui.action, html.DIV_TABS, event.target)
 				if (can.onmotion.cache(can, function() { return name }, ui.output)) { return } meta[name](ui.output)
 			}, _init: function(target) { index == 0 && can.onmotion.delay(can, function() { target.click() }) }}])._target
 		}); return ui._target = target, ui
