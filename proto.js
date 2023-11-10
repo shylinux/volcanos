@@ -125,7 +125,7 @@ try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta
 		if (meta._cache[url]) { return meta._cache[url].push(cb) } else { meta._cache[url] = [cb] }
 		function _cb() { meta._cache[url].forEach(function(cb) { cb() }), delete(meta._cache[url]) }
 		switch (url.split(web.QS)[0].split(nfs.PT).pop().toLowerCase()) {
-			case nfs.CSS: var item = document.createElement(mdb.LINK); item.href = url, item.rel = "stylesheet", item.onload = _cb, document.head.appendChild(item); break
+			case nfs.CSS: var item = document.createElement(web.LINK); item.href = url, item.rel = "stylesheet", item.onload = _cb, document.head.appendChild(item); break
 			default: var item = document.createElement(nfs.SCRIPT); item.src = url, item.onerror = _cb, item.onload = _cb, document.body.appendChild(item)
 		}
 	}

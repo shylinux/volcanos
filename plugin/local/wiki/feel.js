@@ -149,7 +149,7 @@ Volcanos(chat.ONDETAIL, {list: ["关闭", "上一个", "下一个", "设置头�
 	"下一个": function(event, can) { can.order < can.db.list.length-1? can.show(++can.order): can.user.toast(can, "已经是最后一张啦!") },
 	"设置头像": function(event, can) { can.setHeader(aaa.AVATAR, can.onimport._file(can, can.db.list[can.order].path)) },
 	"设置背景": function(event, can) { can.setHeader(aaa.BACKGROUND, can.onimport._file(can, can.db.list[can.order].path)) },
-	"复制链接": function(event, can) { can.onmotion.share(event, can, [], [mdb.LINK, can.user.copy(event, can, can.misc.MergeURL(can, {_path: can.onimport._file(can, can.db.list[can.order].path)}, true)) ]) },
+	"复制链接": function(event, can) { can.onmotion.share(event, can, [], [web.LINK, can.user.copy(event, can, can.misc.MergeURL(can, {_path: can.onimport._file(can, can.db.list[can.order].path)}, true)) ]) },
 	"下载": function(event, can) { can.user.download(can, path = can.onimport._file(can, can.db.list[can.order].path)) },
 	"删除": function(event, can) { can.runAction(event, nfs.TRASH, [can.db.list[can.order].path], function(msg) { can.user.toastSuccess(can, "删除成功") }, true) },
 })

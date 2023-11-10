@@ -72,6 +72,7 @@ table.content.action td:last-child { position:sticky; right:2px; text-align:cent
 table.content input:not(:last-child) { margin-right:var(--button-margin); }
 table.content col.action { width:200px; }
 table.content col.time { width:180px; }
+table.content img[title^=http] { cursor:pointer; }
 table.content:hover col.option { background-color:var(--hover-bg-color); }
 fieldset.panel.Action.tabs table.content { width:100%; }
 h1 { text-align:center; margin:20px 0; } h2 { margin:20px 0; } h3 { margin:20px 0; }
@@ -187,7 +188,7 @@ fieldset>div.status { font-style:italic; line-height:20px; max-height:32px; }
 fieldset>div.status>div.item { padding:5px; height:31px; }
 fieldset>div.status>div.item>label { font-size:0.6rem; }
 fieldset>div.status>legend { font-style:italic; height:31px; }
-legend, select, input[type=button], th, table.content td, h1, h2, h3, div.menu, div.item, div.tabs { cursor:pointer; }
+legend, select, input[type=button], th, h1, h2, h3, div.menu, div.item, div.tabs { cursor:pointer; }
 div.story[data-type=spark] { cursor:copy; }
 body.en fieldset.input.date>div.action>div.item.select select { width:55px; }
 body.en fieldset.input.date>div.action>div.item.select.year select { width:100px; }
@@ -219,6 +220,7 @@ div.item.select { position:relative; }
 div.item.select>span.icon { position:absolute; right:0; visibility:hidden; }
 div.item.select:hover>span.icon { visibility:visible; }
 div.item.text { position:relative; }
+div.item.text.will input { border:var(--box-notice); }
 div.item.text>span.icon { position:absolute; right:0; visibility:hidden; }
 div.item.text:hover>span.icon { visibility:visible; }
 div.item.button>span.icon.create { font-size:32px; line-height:28px; display:block; }

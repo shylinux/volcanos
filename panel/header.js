@@ -167,9 +167,9 @@ Volcanos(chat.ONPLUGIN, {
 	}, [web.FILTER, ice.LIST, mdb.CREATE, mdb.PRUNES], function(can, msg, arg) { msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
 		can.core.Item(can.misc.sessionStorage(can), function(name, value) { can.base.contains(name, arg[0]) && msg.Push(mdb.NAME, name).Push(mdb.VALUE, value) })
 	}),
-	location: shy("请求地址", {copy: function(can) { can.user.copy(msg._event, can, location.href) }}, [mdb.LINK, ice.LIST, ice.COPY], function(can, msg, cb) {
-		can.runAction(can.request({}, kit.Dict(mdb.LINK, location.href)), web.SHARE, [], function(res) {
-			msg.Echo(res.Append(mdb.TEXT)).Status(kit.Dict(mdb.LINK, res.Append(mdb.NAME))), can.base.isFunc(cb) && cb(msg)
+	location: shy("请求地址", {copy: function(can) { can.user.copy(msg._event, can, location.href) }}, [web.LINK, ice.LIST, ice.COPY], function(can, msg, cb) {
+		can.runAction(can.request({}, kit.Dict(web.LINK, location.href)), web.SHARE, [], function(res) {
+			msg.Echo(res.Append(mdb.TEXT)).Status(kit.Dict(web.LINK, res.Append(mdb.NAME))), can.base.isFunc(cb) && cb(msg)
 		}) 
 	}),
 	avatar: shy("用户头像", function(can, sub, cb) { can.page.Append(can, sub._output, [{img: can.user.info.avatar, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}]) }),

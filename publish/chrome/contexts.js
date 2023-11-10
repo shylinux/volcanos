@@ -2,9 +2,9 @@ setTimeout(function() { Volcanos({
 	Option: function() { return [] },
     spide: function(can, msg, target) {
         if (!target) {
-            msg.Push(mdb.TYPE, mdb.LINK)
+            msg.Push(mdb.TYPE, web.LINK)
             msg.Push(mdb.NAME, document.title)
-            msg.Push(mdb.LINK, location.href)
+            msg.Push(web.LINK, location.href)
         }
         var has = {}; target = target||document.body
         can.page.Select(can, target, html.AUDIO, function(target) {
@@ -12,14 +12,14 @@ setTimeout(function() { Volcanos({
             var name = target.src.split("?")[0].split(nfs.PT).pop()
             msg.Push(mdb.TYPE, html.AUDIO)
             msg.Push(mdb.NAME, html.AUDIO+nfs.PT+name)
-            msg.Push(mdb.LINK, target.src)
+            msg.Push(web.LINK, target.src)
         })
         can.page.Select(can, target, html.VIDEO, function(target) {
             if (!target.src || has[target.src]) { return } has[target.src] = true
             var name = target.src.split("?")[0].split(nfs.PT).pop()
             msg.Push(mdb.TYPE, html.VIDEO)
             msg.Push(mdb.NAME, html.VIDEO+nfs.PT+name)
-            msg.Push(mdb.LINK, target.src)
+            msg.Push(web.LINK, target.src)
         })
         can.page.Select(can, target, html.IMG, function(target) {
             if (!target.src || has[target.src]) { return } has[target.src] = true
@@ -30,13 +30,13 @@ setTimeout(function() { Volcanos({
             } else {
                 msg.Push(mdb.NAME, name||"image.jpg")
             }
-            msg.Push(mdb.LINK, target.src)
+            msg.Push(web.LINK, target.src)
         })
         can.page.Select(can, target, html.IFRAME, function(target) {
             if (!target.src || has[target.src]) { return } has[target.src] = true
             msg.Push(mdb.TYPE, html.IFRAME)
             msg.Push(mdb.NAME, "")
-            msg.Push(mdb.LINK, target.src)
+            msg.Push(web.LINK, target.src)
 			try {
             	can.spide(can, msg, target.contentWindow.document.body)
 			} catch(e) {
@@ -45,7 +45,7 @@ setTimeout(function() { Volcanos({
         can.page.Select(can, target, html.A, function(target) {
             msg.Push(mdb.TYPE, html.A)
             msg.Push(mdb.NAME, "")
-            msg.Push(mdb.LINK, target.href)
+            msg.Push(web.LINK, target.href)
         })
     },
     style: function(can, msg, arg) {

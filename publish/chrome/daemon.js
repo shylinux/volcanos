@@ -32,7 +32,7 @@ Volcanos({
 			return msg._source = [sender.tab.id], can.run(msg, req.detail||[], cb), true
 		})
 		chrome.history && chrome.history.onVisited.addListener(function(item) {
-			can.run({}, ["sync", mdb.TYPE, mdb.LINK, mdb.NAME, item.title, mdb.LINK, item.url, "tid", item.id])
+			can.run({}, ["sync", mdb.TYPE, web.LINK, mdb.NAME, item.title, web.LINK, item.url, "tid", item.id])
 		})
 	},
 	_motion: function(can) {

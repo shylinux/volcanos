@@ -94,7 +94,7 @@ Volcanos(chat.ONPLUGIN, {
 			{type: html.TD, list: can.core.List(list, function(item, index) { var vimer
 				if (index == 1) { var _ls = /(https*:\/\/[^/]+)\/*([^:]+):([0-9]+):([0-9]+)/.exec(list[1]); _ls[2] = _ls[2].split(ice.QS)[0]
 					return {view: [html.ITEM, html.SPAN], list: [{text: lex.SP+can.page.unicode.close+lex.SP}, {text: [(_ls[1] == location.origin? "": _ls[1])+_ls[2]+nfs.DF+_ls[3], "", nfs.PATH], onclick: function(event) {
-						if (can.onexport.record(can, list[1], mdb.LINK, {time: list[0], link: list[1], type: list[2], path: nfs.USR_VOLCANOS, file: _ls[2], line: _ls[3]})) { return }
+						if (can.onexport.record(can, list[1], web.LINK, {time: list[0], link: list[1], type: list[2], path: nfs.USR_VOLCANOS, file: _ls[2], line: _ls[3]})) { return }
 						if (vimer) { return can.page.Remove(can, vimer._target), vimer = null }
 						vimer = can.onappend.plugin(_can, {index: web.CODE_INNER, args: [nfs.USR_VOLCANOS, _ls[2], _ls[3]]}, function(sub) {}, event.target.parentNode)
 					}}]}

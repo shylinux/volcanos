@@ -16,7 +16,6 @@ var ice = {
 	HTTP: "http", HELP: "help",
 	MAIN: "main", AUTO: "auto",
 	LIST: "list", BACK: "back",
-
 	HOME: "home", COPY: "copy",
 	MODE: "mode", EXEC: "exec",
 
@@ -49,30 +48,32 @@ var ice = {
 
 var ctx = {
 	CONTEXT: "context", COMMAND: "command", CONFIG: "config", INPUTS: "inputs", FEATURE: "feature",
-	INDEX: "index", ARGS: "args", STYLE: "style", DISPLAY: "display", ACTION: "action", RUN: "run",
+	CMDS: "cmds", INDEX: "index", ARGS: "args", STYLE: "style", DISPLAY: "display", ACTION: "action", RUN: "run",
 	EXTRA_INDEX: "extra.index", EXTRA_ARGS: "extra.args",
 }
 var mdb = {FOREACH: "*", RANDOMS: "%",
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
-	ID: "id", KEY: "key", TIME: "time", ZONE: "zone", TYPE: "type", NAME: "name", TEXT: "text", DATA: "data", VIEW: "view",
-	LINK: "link", SCAN: "scan", HELP: "help", ICON: "icon", ICONS: "icons",
-	STATUS: "status", INDEX: "index", VALUE: "value", EXTRA: "extra", ALIAS: "alias", EXPIRE: "expire",
-	SHORT: "short", FIELD: "field", TOTAL: "total", COUNT: "count", LIMIT: "limit",
-
-	INPUTS: "inputs", CREATE: "create", REMOVE: "remove", INSERT: "insert", DELETE: "delete", MODIFY: "modify", SELECT: "select",
+	TIME: "time", ZONE: "zone", ID: "id",
+	TYPE: "type", NAME: "name", TEXT: "text", ICON: "icon", ICONS: "icons",
+	KEY: "key", VALUE: "value", STATUS: "status", EXPIRE: "expire", EXTRA: "extra",
+	SHORT: "short", FIELD: "field", COUNT: "count", TOTAL: "total", INDEX: "index", LIMIT: "limit",
+	DATA: "data", VIEW: "view",
+	INPUTS: "inputs", CREATE: "create", REMOVE: "remove", UPDATE: "update",
+	INSERT: "insert", DELETE: "delete", MODIFY: "modify", SELECT: "select",
 	PRUNES: "prunes", EXPORT: "export", IMPORT: "import",
 	SEARCH: "search", ENGINE: "engine", RENDER: "render", PLUGIN: "plugin",
 	DETAIL: "detail", NORMAL: "normal", PRUNE: "prune",
-
 	MAIN: "main", PAGE: "page", NEXT: "next", PREV: "prev", LIMIT: "limit", OFFEND: "offend",
 	QS: ice.QS, AT: ice.AT,
 	EQ: ice.EQ, FS: ice.FS,
 }
-var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service", DOMAIN: "domain",
-	SPIDE: "spide", SPACE: "space", ROUTE: "route", DREAM: "dream",
-	TOKEN: "token", SHARE: "share", COUNT: "count",
+var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
+	SERVE: "serve", SPACE: "space", ROUTE: "route", DREAM: "dream",
+	SPIDE: "spide", TOKEN: "token", SHARE: "share", COUNT: "count",
 	WORKER: "worker", SERVER: "server", GATEWAY: "gateway",
-	OPEN: "open", LINK: "link", HTTP: "http", URL: "url", SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
+	ONLINE: "online", OFFLINE: "offline",
+	OPEN: "open", LINK: "link", HTTP: "http", DOMAIN: "domain", URL: "url",
+	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 	AT: ice.AT, QS: ice.QS,
 
 	DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter",
@@ -97,16 +98,16 @@ var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
 	MALL_GOODS: "web.mall.goods",
 }
 var aaa = {
-	SECRET: "secret",
-	LOGIN: "login", LOGOUT: "logout",
 	USER: "user", AUTH: "auth", SESS: "sess", ROLE: "role",
-	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole", USERZONE: "userzone",
-	EMAIL: "email", AVATAR: "avatar", BACKGROUND: "background",
+	LOGIN: "login", LOGOUT: "logout",
+
+	BACKGROUND: "background", AVATAR: "avatar", EMAIL: "email", SECRET: "secret",
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
+	LONGITUDE: "longitude", LATITUDE: "latitude",
+	PROVINCE: "province", COUNTRY: "country", CITY: "city",
+
+	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole", USERZONE: "userzone",
 	VOID: "void", TECH: "tech", ROOT: "root",
-	PROVINCE: "province",
-	COUNTRY: "country",
-	CITY: "city",
 }
 var lex = {
 	SPLIT: "split", PARSE: "parse",
@@ -125,35 +126,37 @@ var gdb = {
 var tcp = {
 	CLIENT: "client", SERVER: "server",
 	PROTO: "proto", HOST: "host", PORT: "port",
-	HOSTNAME: "hostname",
-	SERVICE: "service",
+	SERVICE: "service", HOSTNAME: "hostname",
 }
 var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", PACK: "pack", TRASH: "trash", DIR_ROOT: "dir_root",
 	COPY: "copy", EDIT: "edit", SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
-	SUBJECT: "subject", CONTENT: "content", RECENT: "recent", SCRIPT: "script", SOURCE: "source", TARGET: "target",
-	REPOS: "repos", IMAGE: "image",
-	MODULE: "module", SCRIPT: "script",
-	BRANCH: "branch", VERSION: "version",
-	TEMPLATE: "template", BINARY: "binary",
-	PUSH: "push", PULL: "pull",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
+	REPOS: "repos", MODULE: "module", BRANCH: "branch", VERSION: "version",
+	BINARY: "binary", SCRIPT: "script", TEMPLATE: "template",
 	REPLACE: "replace", FROM: "from", TO: "to",
-	SVG: "svg", HTML: "html", CSS: "css", JS: "js", SH: "sh", GO: "go", CSV: "csv", JSON: "json", SHY: "shy",
-	TXT: "txt", PNG: "png", WEBM: "webm",
-	_CSS: ".css", _JS: ".js",
-	PWD: "./", SRC: "src/", USR: "usr/", USR_LOCAL_WORK: "usr/local/work/", SRC_DOCUMENT: "src/document/", SRC_TEMPLATE: "src/template/",
-	USR_ICONS: "usr/icons/", USR_GEOAREA: "usr/geoarea/", USR_VOLCANOS: "usr/volcanos/",
+	SUBJECT: "subject", CONTENT: "content",
+	SOURCE: "source", TARGET: "target",
+	PUSH: "push", PULL: "pull",
+	RECENT: "recent",
+	IMAGE: "image",
+	SH: "sh", SHY: "shy", GO: "go", JS: "js", CSS: "css", HTML: "html", SVG: "svg", _JS: ".js", _CSS: ".css",
+	TXT: "txt", CSV: "csv", JSON: "json",
+	PNG: "png", WEBM: "webm",
+	PWD: "./", SRC: "src/", SRC_TEMPLATE: "src/template/", SRC_DOCUMENT: "src/document/",
+	USR: "usr/", USR_LOCAL_WORK: "usr/local/work/", USR_VOLCANOS: "usr/volcanos/", USR_GEOAREA: "usr/geoarea/", USR_ICONS: "usr/icons/",
+	USR_INTSHELL: "usr/intshell", USR_LEARNING: "usr/learning",
+	REQUIRE: "/require/", REQUIRE_MODULES: "/require/modules/",
+	SHARE_LOCAL: "/share/local/",
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
 }
 var cli = {
 	RUNTIME: "runtime", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build", OPENS: "opens",
 	BEGIN: "begin", END: "end", START: "start", RESTART: "restart", STOP: "stop", OPEN: "open", CLOSE: "close",
-	COLOR: "color", BLACK: "black", WHITE: "white", BLUE: "blue", RED: "red", GRAY: "gray", CYAN: "cyan", GREEN: "green", PURPLE: "purple", YELLOW: "yellow",
+	QRCODE: "qrcode", COLOR: "color", BLACK: "black", WHITE: "white", BLUE: "blue", RED: "red", GRAY: "gray", CYAN: "cyan", GREEN: "green", PURPLE: "purple", YELLOW: "yellow",
 	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
 	LINUX: "linux", DARWIN: "darwin", WINDOWS: "windows",
-	DONE: "done", COST: "cost", FROM: "from",
-	PWD: "pwd",
+	DONE: "done", COST: "cost", FROM: "from", PWD: "pwd",
 }
 var log = {
 	INFO: "info", WARN: "warn", ERROR: "error", DEBUG: "debug", TRACE: "trace",
@@ -161,14 +164,12 @@ var log = {
 
 var code = {
 	FAVOR: "favor", XTERM: "xterm", INNER: "inner", VIMER: "vimer",
-	WEBPACK: "webpack", BINPACK: "binpack", AUTOGEN: "autogen", COMPILE: "compile", PUBLISH: "publish",
+	WEBPACK: "webpack", BINPACK: "binpack", AUTOGEN: "autogen", COMPILE: "compile", PUBLISH: "publish", UPGRADE: "upgrade",
 	TEMPLATE: "template", COMPLETE: "complete", NAVIGATE: "navigate", CURRENT: "current",
 	PULL: "pull", PUSH: "push",
 	COMMENT: "comment", KEYWORD: "keyword",
-	UPGRADE: "upgrade",
 	PACKAGE: "package", DATATYPE: "datatype", FUNCTION: "function", CONSTANT: "constant",
 	STRING: "string", NUMBER: "number", BOOLEAN: "boolean", OBJECT: "object", ARRAY: "array", UNDEFINED: "undefined",
-
 	META: "Meta", ALT: "Alt", CONTROL: "Control", SHIFT: "Shift", TAB: "Tab", ESCAPE: "Escape", ENTER: "Enter",
 	CMD: "Cmd", CTRL: "Ctrl", SPACE: "Space", BACKSPACE: "Backspace", ESC: "Esc", PS: "/",
 }
@@ -231,13 +232,12 @@ var chat = {
 }
 var team = {
 	TASK: "task", PLAN: "plan",
-	BEGIN_TIME: "begin_time",
+	BEGIN_TIME: "begin_time", END_TIME: "end_time",
 	LONG: "long", YEAR: "year", MONTH: "month", WEEK: "week", DAY: "day", HOUR: "hour",
 	TASK_POD: "task.pod", TASK_ZONE: "task.zone", TASK_ID: "task.id",
 }
 var mall = {
-	PRICE: "price", COUNT: "count", UNITS: "units", AMOUNT: "amount",
-	GOODS: "goods",
+	GOODS: "goods", PRICE: "price", COUNT: "count", UNITS: "units", AMOUNT: "amount",
 	ASSET: "asset", SALARY: "salary",
 }
 
@@ -292,9 +292,11 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	DIV_LAYOUT: "div.layout", DIV_LAYOUT_HEAD: "div.layout.head", DIV_LAYOUT_FOOT: "div.layout.foot", DIV_LAYOUT_LEFT: "div.layout.left",
 	DIV_FLOAT: "div.float", DIV_TOAST: "div.toast", DIV_CARTE: "div.carte",
 	DESKTOP: "desktop", DIV_DESKTOP: "div.desktop", DIV_EXPAND: "div.expand",
+	DIV_ITEM_TEXT: "div.item.text",
 	DIV_ITEM_SELECT: "div.item.select",
 	DIV_TABS_SELECT: "div.tabs.select",
 	DIV_PROFILE: "div.profile", DIV_DISPLAY: "div.display",
+	VALUE: "value",
 
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
 }
