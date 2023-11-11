@@ -80,7 +80,7 @@ hr, td.hr { border-bottom:var(--plugin-border-color) dashed 1px; margin:5px; }
 ol, ul { margin-left:40px; }
 a { color:var(--body-fg-color); font-style:italic; }
 p { margin:20px 0; }
-kbd { padding:0 5px; font-family:var(--code-font-family); }
+kbd { font-family:var(--code-font-family); padding:0 5px; }
 iframe { height:420px; width:100%; }
 /* fieldset */
 fieldset>legend { box-shadow:var(--box-shadow); }
