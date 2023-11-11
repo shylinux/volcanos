@@ -142,7 +142,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}) })
 			}), can.base.isFunc(cb) && cb(sub)
 			if (sub.isOutputStyle()) { return } if (can.user.isMobile && !can.user.isLandscape()) { return }
-			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields)
+			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields||sub._target)
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
@@ -331,7 +331,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}
 	},
 	select: function(can, select, item) { // can.user.trans(can, item.value||item.values[0])
-		var trans = {}; can.core.List(item.values, function(value) { trans[can.user.trans(can, value, null, html.INPUT)] = value })
+		var trans = {}; can.core.List(item.values, function(value) { trans[can.user.trans(can, value, null, html.VALUE)] = value })
 		return can.page.Append(can, select.parentNode, [{type: html.INPUT, data: {className: html.SELECT, type: html.BUTTON, name: item.name, value: can.user.trans(can, item.value||item.values[0], null, html.VALUE), title: can.user.trans(can, item.name, null, html.VALUE)}, onclick: function(event) { var target = event.target
 			var carte = can.user.carte(event, can, {}, can.core.List(item.values, function(item) {
 				return can.user.trans(can, item, null, html.VALUE)

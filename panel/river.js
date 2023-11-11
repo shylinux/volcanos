@@ -129,7 +129,11 @@ Volcanos(chat.ONENGINE, {_engine: function(event, can, msg, panel, cmds, cb) { v
 		}
 	})
 	if (cmds.length != 1 && cmds[1] != chat.STORM) { return false } var river = list[cmds[0]]; if (!river) { return false }
-	can.core.ItemOrder(river.storm, "order", function(key, value) { msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||""}) })
+	can.core.ItemOrder(river.storm, "order", function(key, value) {
+		if (can.user.info.userrole == aaa.ROOT || can.base.isIn(value.type||"", "", aaa.VOID, can.user.info.userrole)) {
+			msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||""})
+		}
+	})
 	can.base.isFunc(cb) && cb(msg); return true
 }})
 })()

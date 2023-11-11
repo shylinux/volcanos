@@ -9,7 +9,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
 		}}]); return }
 		if (can.user.isMobile && item == mdb.TIME) { return }
-		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item], "", (can.Conf(item)||msg.Option(item)||"").split(ice.AT)[0].slice(0, 10)], onclick: function(event) {
+		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item], "", can.Conf(item)||msg.Option(item)||""], onclick: function(event) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
 		}, _init: function(target) { item == mdb.TIME && can.onimport._time(can, target) }}])
 	}) },
@@ -59,7 +59,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
 			can.user.info.email = msg.Option(aaa.EMAIL), can.user.info.repos = msg.Option(nfs.REPOS)
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
-			msg.Option(mdb.PLUGIN) && can.onappend.plugin(can, {index: msg.Option(mdb.PLUGIN)}, function() {}, document.body)
+			msg.Option(mdb.PLUGIN) && can.onappend.plugin(can, {index: msg.Option(mdb.PLUGIN)}, function(sub) { can.onmotion.hidden(can, sub._target) }, document.body)
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)
@@ -69,7 +69,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 				can.page.requireModules(can, [msg.Option("icon.lib")])
 				if (can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/", "/chat/cmd/web.chat.oauth.client", "/chat/pod/20230511-golang-story/cmd/web.code.gitea.client")) { return show(msg) }
 				if (location.pathname == "/" && can.base.beginWith(msg.Option(ice.MAIN)||"", "/wiki/portal/", "/chat/cmd/web.wiki.portal/")) { return show(msg) }
-				if (!can.Conf(aaa.USERNICK, msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME))) {
+				if (!can.Conf(aaa.USERNICK, (msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)).slice(0, 8))) {
 					return can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
 				} show(msg)
 			})

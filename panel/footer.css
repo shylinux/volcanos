@@ -13,8 +13,9 @@ fieldset.Footer>div.output div.menu>div.River { display:flex; justify-content:sp
 fieldset.Footer>div.output div.menu>div.River>div.item { display:flex; flex-direction:column; text-align:center; flex-grow:1; }
 fieldset.Footer>div.output div.menu>div.River>div.item>i { font-size:24px; margin-right:0; }
 fieldset.Footer>div.output div.menu>div.River>div.item>span { font-size:12px; }
-body.mobile fieldset.Footer>div.output { font-style:italic; height:60px; overflow:hidden; }
+body.mobile fieldset.Footer>div.output { font-style:italic; height:80px; overflow:hidden; }
 body.mobile fieldset.Footer>div.output div.cmd { display:none; }
+body.mobile fieldset.Footer>div.output div.toast { display:none; }
 
 .picker { box-shadow:4px 4px 20px 4px #626bd0; }
 div.view span.keyword { color:#5cadd4; }
