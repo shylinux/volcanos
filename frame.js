@@ -1,5 +1,4 @@
 Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
-		if (!can.user.isMailMaster) { if (can.misc.Search(can, ice.MSG_SESSID)) { can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)); return can.misc.Search(can, ice.MSG_SESSID, "") } }
 		can.Option = function() {}, can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]; return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb) }
 		can.user.title(can.misc.SearchOrConf(can, chat.TITLE)||can.misc.Search(can, ice.POD)||location.host)
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
@@ -382,9 +381,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }
 		var code = can.page.Append(can, target||can._output, [{text: [can.page.Color(text), html.DIV, html.CODE]}]).code
-		code.ondblclick = function(event) {
-			can.Option(mdb.KEY, window.getSelection().toString()) && can.Update()
-		}
+		code.ondblclick = function(event) { can.Option(mdb.KEY, window.getSelection().toString()) && can.Update() }
 		if (text.indexOf("<fieldset") == 0) { can.page.Select(can, code, html.FIELDSET, function(target) { var data = target.dataset
 			data.index && can.onappend.plugin(can, {index: data.index, args: can.base.Split(data.args)}, function(sub) {
 				can.page.Modify(can, sub._legend, data.index.split(nfs.PT).pop())
@@ -749,8 +746,8 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		target.focus(), can.user.isMobile || can.onmotion.selectRange(target)
 	}, selectRange: function(target) { target && target.setSelectionRange && target.setSelectionRange(0, target.value.length) },
 	copy: function(can, target, cb) { target.title = "点击复制，或 Command + Click 打开应用", target.onclick = function(event) {
-		can.user.copy(event, can, target.innerText), can.base.isFunc(cb) && cb(event)
-		can.onkeymap.prevent(event)
+		can.user.copy(event, can, target.innerText), can.base.isFunc(cb) && cb(event), can.onkeymap.prevent(event)
+		if (target.innerText.indexOf(ice.HTTP) == 0) { can.user.opens(target.innerText) }
 	} },
 	hide: function(can, time, cb, target) { target = target||can._target, can.page.style(can, target, html.OPACITY, 1)
 		time = can.base.isObject(time)? time: {value: 10, length: time||20}

@@ -79,6 +79,11 @@ var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
 	DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage", CONFIRM: "confirm",
 	
+	CHAT_SSO: "/chat/sso/",
+	CHAT_POD: "/chat/pod/",
+	CHAT_CMD: "/chat/cmd/",
+	BASIC_LOGIN: "/basic/login",
+
 	CODE_GIT_SEARCH: "web.code.git.search",
 	CODE_GIT_STATUS: "web.code.git.status",
 	CODE_GIT_REPOS: "web.code.git.repos",
@@ -92,6 +97,7 @@ var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
 	CHAT_MACOS_DESKTOP: "web.chat.macos.desktop",
 	CHAT_MACOS_SESSION: "web.chat.macos.session",
 	CHAT_IFRAME: "web.chat.iframe",
+	CHAT_HEADER: "web.chat.header",
 	CHAT_FAVOR: "web.chat.favor",
 	CHAT_FLOWS: "web.chat.flows",
 	TEAM_PLAN: "web.team.plan",
@@ -148,6 +154,8 @@ var nfs = {
 	USR_INTSHELL: "usr/intshell", USR_LEARNING: "usr/learning",
 	REQUIRE: "/require/", REQUIRE_MODULES: "/require/modules/",
 	SHARE_LOCAL: "/share/local/",
+	WIKI_PORTAL: "/wiki/portal/",
+	CHAT_PORTAL: "/chat/portal/",
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
 }
 var cli = {

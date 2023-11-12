@@ -52,10 +52,12 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onmain: function(can) {
 		function lang(msg, cb) { can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)
-			can.user.info.language? can.require(["src/template/web.chat.header/language/"+can.user.info.language+".js"], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb && cb()
+			can.user.info.language? can.require([nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/language/"+can.user.info.language+".js"], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb && cb()
 		}
+		if (!can.user.isMailMaster) { if (can.misc.Search(can, ice.MSG_SESSID)) { can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)); return can.misc.Search(can, ice.MSG_SESSID, "") } }
 		function show(msg) { var p = can.misc.Search(can, "redirect_uri")
-			if (p && location.pathname == "/basic/login") { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
+			if (p && location.pathname == web.BASIC_LOGIN) { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
+			var p = can.misc.Search(can, "back"); if (p && location.pathname == web.CHAT_SSO) { return location.reload() }
 			can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
 			can.user.info.email = msg.Option(aaa.EMAIL), can.user.info.repos = msg.Option(nfs.REPOS)
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
@@ -65,10 +67,9 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)
 			can.onaction._menus[1] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, ".css") }))
 			can.onaction._menus[2] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, ".js") }))
-			can.require(can.core.List(msg["theme.list"], function(item) { return "src/template/web.chat.header/theme/"+item }), function() {
-				can.page.requireModules(can, [msg.Option("icon.lib")])
-				if (can.base.beginWith(location.pathname, "/wiki/portal/", "/chat/cmd/web.wiki.portal/", "/chat/cmd/web.chat.oauth.client", "/chat/pod/20230511-golang-story/cmd/web.code.gitea.client")) { return show(msg) }
-				if (location.pathname == "/" && can.base.beginWith(msg.Option(ice.MAIN)||"", "/wiki/portal/", "/chat/cmd/web.wiki.portal/")) { return show(msg) }
+			can.require(can.core.List(msg["theme.list"], function(item) { return nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/theme/"+item }), function() { can.page.requireModules(can, [msg.Option("icon.lib")])
+				if (can.base.beginWith(location.pathname, nfs.WIKI_PORTAL, web.CHAT_CMD+web.WIKI_PORTAL, web.CHAT_CMD+"web.chat.oauth.client", web.CHAT_POD+"20230511-golang-story/cmd/web.code.gitea.client")) { return show(msg) }
+				if (location.pathname == nfs.PS && can.base.beginWith(msg.Option(ice.MAIN)||"", nfs.WIKI_PORTAL, web.CHAT_CMD+web.WIKI_PORTAL)) { return show(msg) }
 				if (!can.Conf(aaa.USERNICK, (msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)).slice(0, 8))) {
 					return can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
 				} show(msg)
