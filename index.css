@@ -177,7 +177,7 @@ body>div.input.login>div.display>span.item { font-style:italic; word-break:break
 body>div.input.login>div.display div.sso { display:flex; justify-content:center; cursor:pointer; }
 body>div.input.login>div.display div.sso div.item { display:flex; align-items:center; padding:10px; }
 body>div.input.login>div.display div.sso div.item:hover { background-color:var(--hover-bg-color); }
-body>div.input.login>div.display div.sso div.item>img { height:32px; }
+body>div.input.login>div.display div.sso div.item>img { height:32px; width:32px; }
 body>div.input.login>div.display div.sso div.item>span { line-height:32px; padding:5px; }
 body>div.input.simple td:first-child { display:none; }
 body>div.upload div.action input[type=file] { width:320px; }
