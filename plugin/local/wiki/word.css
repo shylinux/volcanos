@@ -1,6 +1,7 @@
 fieldset.word>div.output { padding:10px; }
 fieldset.word>div.output>p { margin:20px auto; }
 fieldset.word>div.output div.story.flex { display:flex; justify-content:center; }
+fieldset.word>div.output div.story.flex div.story.flex { display:flex; justify-content:center; }
 fieldset.word>div.output div.story.flex>* { padding:20px; }
 fieldset.word>div.output h2.story[data-type=spark][data-name=title] { text-align:center; }
 fieldset.word>div.output h3 { margin-top:20px; }
