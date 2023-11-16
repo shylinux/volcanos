@@ -10,10 +10,10 @@ fieldset.Footer>div.output div.cmd>input[name=cmd] { padding-left:30px; width:12
 fieldset.Footer>div.output div.cmd>input[name=cmd]:focus { width:320px; transition:all 0.5s; }
 fieldset.Footer>div.output div.cmd>span.delete { padding:6px; }
 fieldset.Footer>div.output div.menu>div.River { display:flex; justify-content:space-around; }
-fieldset.Footer>div.output div.menu>div.River>div.item { display:flex; flex-direction:column; text-align:center; flex-grow:1; }
+fieldset.Footer>div.output div.menu>div.River>div.item { height:60px; display:flex; flex-direction:column; text-align:center; flex-grow:1; }
 fieldset.Footer>div.output div.menu>div.River>div.item>i { font-size:24px; margin-right:0; }
 fieldset.Footer>div.output div.menu>div.River>div.item>span { font-size:12px; }
-body.mobile fieldset.Footer>div.output { font-style:italic; height:80px; overflow:hidden; }
+body.mobile fieldset.Footer>div.output { font-style:italic; height:60px; overflow:hidden; }
 body.mobile fieldset.Footer>div.output div.cmd { display:none; }
 body.mobile fieldset.Footer>div.output div.toast { display:none; }
 

@@ -180,6 +180,12 @@ body>div.input.login>div.display div.sso div.item:hover { background-color:var(-
 body>div.input.login>div.display div.sso div.item>img { height:32px; width:32px; }
 body>div.input.login>div.display div.sso div.item>span { line-height:32px; padding:5px; }
 body>div.input.simple td:first-child { display:none; }
+div.output.stats { display:flex;
+/* justify-content:space-between; */
+ flex-wrap:wrap; }
+div.output.stats>div.item { text-align:center; padding:10px; margin:10px; float:left; display:flex; flex-direction:column; justify-content:center; }
+div.output.stats>div.item>div.value { font-size:32px; }
+div.output.stats>div.item>div.name { font-style:italic; color:var(--disable-fg-color); }
 body>div.upload div.action input[type=file] { width:320px; }
 body>div.upload div.output { border:var(--box-notice); }
 body>div.upload div.output div.progress { background-color:var(--progress-bg-color); height:10px; width:0; }

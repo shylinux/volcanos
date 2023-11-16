@@ -240,6 +240,7 @@ var chat = {
 }
 var team = {
 	TASK: "task", PLAN: "plan",
+	ASSET: "asset",
 	BEGIN_TIME: "begin_time", END_TIME: "end_time",
 	LONG: "long", YEAR: "year", MONTH: "month", WEEK: "week", DAY: "day", HOUR: "hour",
 	TASK_POD: "task.pod", TASK_ZONE: "task.zone", TASK_ID: "task.id",

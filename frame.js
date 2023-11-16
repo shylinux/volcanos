@@ -352,6 +352,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(can.request(event, data, can.Option()), [ctx.ACTION, cmd].concat(arg)) }) }
 			if (key == web.SPACE && value) { value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }
 			if (key == mdb.ICONS && value) { value = can.page.Format(html.IMG, can.misc.Resource(can, data[key]), msg.IsDetail()? 128: 48, msg.IsDetail()? null: 48) }
+			if (key == mdb.NAME) { value = can.user.trans(can, value, null, html.INPUT) }
 			return {text: [msg.IsDetail() && key == mdb.KEY? can.user.trans(can, value, null, html.INPUT): can.user.trans(can, value, null, html.VALUE), html.TD], onclick: function(event) { var target = event.target
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(event, target.name)
@@ -553,9 +554,12 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		}), can.onengine.signal(can, chat.ONSIZE, can.request({}, {height: height, width: width}))
 		can.user.isMobile && can.user.isLandscape() || can.page.style(can, document.body, kit.Dict(html.OVERFLOW, html.HIDDEN))
 	},
-	expand: function(can, target, width) { var n = parseInt(target.offsetWidth/(width+20)); width = target.offsetWidth/n - 20
+	expand: function(can, target, width, height) { var n = parseInt(target.offsetWidth/(width+20)); width = target.offsetWidth/n - 20
 		if (width+20 >= target.offsetWidth) { n = 1, width = target.offsetWidth - 20 }
-		can.page.SelectChild(can, target, html.DIV_ITEM, function(target) { can.page.styleWidth(can, target, width) })
+		can.page.SelectChild(can, target, html.DIV_ITEM, function(target) {
+			can.page.styleWidth(can, target, width)
+			height = can.page.styleHeight(can, target, height)
+		})
 	},
 	background: function(can, url, target) { can.page.style(can, target||can._root._target, "background-image", url == "" || url == "void"? "": 'url("'+url+'")') },
 	figure: function(event, can, target, right, min) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
