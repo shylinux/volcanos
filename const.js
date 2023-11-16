@@ -154,6 +154,7 @@ var nfs = {
 	USR_INTSHELL: "usr/intshell", USR_LEARNING: "usr/learning",
 	REQUIRE: "/require/", REQUIRE_MODULES: "/require/modules/",
 	SHARE_LOCAL: "/share/local/",
+	SHARE_CACHE: "/share/cache/",
 	WIKI_PORTAL: "/wiki/portal/",
 	CHAT_PORTAL: "/chat/portal/",
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,

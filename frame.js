@@ -350,8 +350,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, data, list) {
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) { if (key == mdb.VALUE) { key = data.key } data = {}, can.core.List(list, function(item) { data[item.key] = item.value }) }
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(can.request(event, data, can.Option()), [ctx.ACTION, cmd].concat(arg)) }) }
+			function img(p) { return can.page.Format(html.IMG, p, msg.IsDetail()? 128: 48, msg.IsDetail()? null: 48) }
 			if (key == web.SPACE && value) { value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }
-			if (key == mdb.ICONS && value) { value = can.page.Format(html.IMG, can.misc.Resource(can, data[key]), msg.IsDetail()? 128: 48, msg.IsDetail()? null: 48) }
+			if (key == nfs.IMAGE && value) { value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item)) }).join("") }
+			if (key == mdb.ICONS && value) { value = img(can.misc.Resource(can, data[key])) }
 			if (key == mdb.NAME) { value = can.user.trans(can, value, null, html.INPUT) }
 			return {text: [msg.IsDetail() && key == mdb.KEY? can.user.trans(can, value, null, html.INPUT): can.user.trans(can, value, null, html.VALUE), html.TD], onclick: function(event) { var target = event.target
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
@@ -581,6 +583,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 				}
 			}
 			if (layout.left+target.offsetWidth > left+width) { layout.left = (right? rect.left: left+width)-target.offsetWidth-1 }
+			layout.left = can.base.Min(layout.left, 0), layout.top = can.base.Min(layout.top, 32)
 			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
 		});
 		can.onmotion.move(can, target, layout), can.onmotion.slideGrow(can, target)
