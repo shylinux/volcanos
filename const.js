@@ -41,7 +41,7 @@ var ice = {
 	MSG_USERNICK: "user.nick", MSG_USERNAME: "user.name", MSG_USERROLE: "user.role", MSG_LANGUAGE: "user.lang",
 	MSG_MODE: "sess.mode", MSG_THEME: "sess.theme", MSG_TITLE: "sess.title", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",
 	MSG_DAEMON: "sess.daemon", LOG_DISABLE: "log.disable", LOG_TRACEID: "log.id",
-	
+
 	ErrWarn: "warn: ", ErrNotLogin: "not login: ", ErrNotRight: "not right: ", ErrNotValid: "not valid: ", ErrNotFound: "not found: ",
 	NFS: "nfs", USR: "usr", CAN_PLUGIN: "can._plugin",
 }
@@ -78,7 +78,7 @@ var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
 
 	DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage", CONFIRM: "confirm",
-	
+
 	CHAT_SSO: "/chat/sso/",
 	CHAT_POD: "/chat/pod/",
 	CHAT_CMD: "/chat/cmd/",
@@ -255,7 +255,8 @@ var http = {
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	Accept: "Accept", ContentType: "Content-Type", ApplicationJSON: "application/json", ApplicationFORM: "application/x-www-form-urlencoded",
 }
-var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
+var html = {
+	PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	OPTION_ARGS: "select.args,input.args,textarea.args", INPUT_ARGS: "input.args,textarea.args", INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",
 	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
@@ -291,7 +292,7 @@ var html = {PLUGIN_MARGIN: 10, ACTION_HEIGHT: 32, ACTION_MARGIN: 200,
 	CLASS: "class", DARK: "dark", LIGHT: "light", WHITE: "white", BLACK: "black",
 	FILTER: "filter", TOGGLE: "toggle", EXPAND: "expand", SPEED: "speed", HOVER: "hover", HOVER_SELECT: "hover,select",
 	NOT_HIDE: ":not(.hide)",
-	
+
 	PAGE: "page", TABS: "tabs", MENU: "menu", NODE: "node", PLUG: "plug",
 	ZONE: "zone", LIST: "list", ITEM: "item", NAME: "name", ICON: "icon", VIEW: "view",
 	HEAD: "head", LEFT: "left", MAIN: "main", FOOT: "foot", AUTO: "auto", SHOW: "show", HIDE: "hide",

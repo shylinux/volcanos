@@ -1,4 +1,3 @@
 <import src="../../app.wxml"/>
 <template is="action" data="{{action}}"></template>
 <template is="list" data="{{list}}"></template>
-

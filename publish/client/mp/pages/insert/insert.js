@@ -1,5 +1,5 @@
-const kit = require("../../utils/kit.js")
 const app = getApp()
+var kit = {}
 
 Page({
     name: "insert",

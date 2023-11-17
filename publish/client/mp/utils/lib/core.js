@@ -1,15 +1,7 @@
+const {ice, mdb, nfs, code, http} = require("../const.js")
+const {shy, Volcanos} = require("../proto.js")
+module.exports =
 Volcanos("core", {
-	Defer: function(cb) { var defer = []; cb(defer)
-		while (defer.length > 0) { defer.pop()() }
-	},
-	Keys: function() { var list = []
-		for (var i = 0; i < arguments.length; i++) { var v = arguments[i]; switch (typeof v) {
-			case code.OBJECT: for (var j = 0; j < v.length; j++) { list.push(v[j]) } break
-			case code.NUMBER: list.push(v+""); break
-			case code.FUNCTION: v = v()
-			default: v && list.push(v+"")
-		} } return list.join(nfs.PT)
-	},
 	Value: function(data, key, value) { if (data == undefined) { return } if (key == undefined) { return data }
 		if (typeof key == code.OBJECT) { if (key.length != undefined) { key = key.join(nfs.PT) } else { for (var k in key) { arguments.callee.call(this, data, k, key[k]) } return data } }
 		if (value != undefined) { var _node = data, keys = key.split(nfs.PT)
@@ -44,23 +36,6 @@ Volcanos("core", {
 			} else { begin == -1 && (begin = i) }
 		} return begin > -1 && (s? push({type: code.STRING, text: str.slice(begin), left: s, right: ""}): push(str.slice(begin))), res
 	},
-	SplitInput: function(item, type) { if (typeof item == code.OBJECT) { return item } type = type||html.TEXT; switch (item) {
-		case ctx.RUN: return {type: html.BUTTON, name: item}
-		case ice.LIST: return {type: html.BUTTON, name: item, action: ice.AUTO}
-		case ice.BACK: return {type: html.BUTTON, name: item}
-		case mdb.NAME: return {type: html.TEXT, name: item}
-		case mdb.TEXT: return {type: html.TEXTAREA, name: item}
-		case ctx.ARGS: return {type: html.TEXTAREA, name: item}
-		default: var ls = this.Split(item, lex.SP, "*:=@"), res = {type: type, name: ls[0]}; for (var i = 1; i < ls.length; i += 2) { switch (ls[i]) {
-			case "*": res["need"] = "must", i--; break
-			case nfs.DF: res[mdb.TYPE] = ls[i+1]; break
-			case mdb.EQ:
-				if (res[mdb.TYPE] == html.SELECT) { res.values = this.Split(ls[i+1]); for (var j = 1; j < res.values.length; j++) {
-					if (res.values[0] == "" || res.values[0] == res.values[j]) { res.value = res.values[0], res.values = res.values.slice(1); break }
-				} } else { res.value = ls[i+1] } break
-			case ice.AT: res[ctx.ACTION] = ls[i+1]; break
-		} } return res
-	} },
 	CallFunc: function(func, args, mod) { args = args||{}; var can = args["can"]||args[0], msg = args["msg"]||args[1], cb = args["cb"]
 		if (Array.isArray(args)) { this.List(args, function(arg) { if (!arg) { return } if (arg.request && arg.run) { can = arg } else if (arg.Append && arg.Result) { msg = arg } else if (typeof arg == code.FUNCTION) { cb = arg } }) }
 		func = typeof func == code.FUNCTION? func: typeof func == code.OBJECT && func.length > 0? this.Value(func[0], this.Keys(func.slice(1))): typeof func == code.STRING? this.Value(mod||can, func): null
@@ -83,29 +58,8 @@ Volcanos("core", {
 			list = res
 		} return list
 	},
-	Next: function(list, cb, cbs) {
-		switch (typeof list) {
-			case code.OBJECT: if (list == null) { list = []; break } if (list.length == undefined) { var ls = []; for (var k in list) { ls.push(k) } list = ls } break
-			default: if (list == undefined) { list = []; break } list = [list]
-		}
-		function next(i) { i < list.length? typeof cb == code.FUNCTION && cb(list[i], function() { next(i+1) }, i, list): typeof cbs == code.FUNCTION && cbs(list) }
-		return next(0), list
-	},
 	Item: function(obj, cb) { var list = []
 		for (var k in obj) { var res = typeof cb == code.FUNCTION? cb(k, obj[k], list): k; res != undefined && list.push(res) }
-		return list
-	},
-	ItemKeys: function(obj, cb) { var list = [], keys = []; for (var k in obj) { keys.push(k) } keys.sort()
-		for (var i in keys) { var k = keys[i]; var res = typeof cb == code.FUNCTION? cb(k, obj[k]): k; res != undefined && list.push(res) }
-		return list
-	},
-	ItemOrder: function(obj, key, cb) { var list = [], order = [], keys = {}, vals = {}, i = 0
-		for (var k in obj) { o = obj[k][key]||i++, order.push(o), keys[o] = k, vals[o] = obj[k] } order.sort()
-		for (var i in order) { var k = order[i], res = typeof cb == code.FUNCTION? cb(keys[k], vals[k]): k; res != undefined && list.push(res) }
-		return list
-	},
-	ItemForm: function(obj, cb) { var list = []
-		for (var k in obj) { list = list.concat(this.List(obj[k], function(v, i) { return typeof cb == code.FUNCTION && cb(v, i, k, obj) })) }
 		return list
 	},
 	ItemCB: function(meta, cb, can, item) { var list = []
