@@ -369,10 +369,14 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { if (!msg) { return }
 	_split: function(can, msg, content, cb, key) {
 		var path = msg.Option(nfs.PATH, can.Option(nfs.PATH)), file = msg.Option(nfs.FILE, can.Option(nfs.FILE))
 		function show(p) {
-			p && p.include && can.core.List(p.include, function(from) {
-				p.keyword = p.keyword||{}, can.core.Item(can.onsyntax[from].keyword, function(key, value) { p.keyword[key] = p.keyword[key] || value })
-				can.core.Item(can.onsyntax[from], function(key, value) { p[key] = p[key] || value })
-			})
+			function include(list) { if (!list || list.length == 0) { return }
+				can.core.List(list, function(from) {
+					p.split = p.split|| can.onsyntax[from].split
+					include(can.onsyntax[from].include)
+					p.keyword = p.keyword||{}, can.core.Item(can.onsyntax[from].keyword, function(key, value) { p.keyword[key] = p.keyword[key] || value })
+					can.core.Item(can.onsyntax[from], function(key, value) { p[key] = p[key] || value })
+				})
+			} p && include(p.include)
 			p && p.prepare && can.core.ItemForm(p.prepare, function(value, index, key) { p.keyword = p.keyword||{}, p.keyword[value] = key })
 			if (!content._root && can.db.history.length > 1) { content = can.ui.content = can.page.insertBefore(can, [{view: html.CONTENT, style: {width: can.ui.content.offsetWidth}}], can.ui._profile), content._cache_key = key }
 			content._max = 0, content._msg = msg, msg.__content = content, can.page.Appends(can, content, [{view: ["tips", "", msg.Option(nfs.FILE)]}])

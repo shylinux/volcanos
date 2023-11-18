@@ -494,6 +494,7 @@ body.mobile div.output.stats { justify-content:space-around; }
 div.output.stats>div.item { text-align:center; padding:10px; margin:10px; float:left; display:flex; flex-direction:column; justify-content:center; flex-grow:1; }
 div.output.stats>div.item>div.name { font-size:var(--status-font-size); font-style:italic; color:var(--disable-fg-color); }
 div.output.stats>div.item>div.value { font-size:32px; }
+div.output.stats>div.item>div.value span.units { color:var(--disable-fg-color); font-size:24px; font-style:italic; }
 fieldset.input.icon div.output td { font-size:28px; padding:5px; }
 fieldset.Search div.story[data-type=spark] { margin:0; }
 fieldset.Search>div.output>div.profile { border-left:none; width:unset; }

@@ -231,8 +231,14 @@ Volcanos(chat.ONSYNTAX, {
 			"length": code.FUNCTION, "split": code.FUNCTION, "trim": code.FUNCTION, "toLowerCase": code.FUNCTION, "indexOf": code.FUNCTION, "lastIndexOf": code.FUNCTION,
 			"concat": code.FUNCTION, "reverse": code.FUNCTION, "slice": code.FUNCTION, "join": code.FUNCTION, "sort": code.FUNCTION, "push": code.FUNCTION, "pop": code.FUNCTION,
 			"stringify": code.FUNCTION, "parse": code.FUNCTION,
+			"require": code.FUNCTION,
 
-			"kit": code.PACKAGE, "ice": code.PACKAGE,
+			"kit": code.CONSTANT, "ice": code.CONSTANT,
+			"ctx": code.CONSTANT, "mdb": code.CONSTANT, "web": code.CONSTANT, "aaa": code.CONSTANT,
+			"tcp": code.CONSTANT, "nfs": code.CONSTANT, "cli": code.CONSTANT, "log": code.CONSTANT,
+			"code": code.CONSTANT, "wiki": code.CONSTANT, "chat": code.CONSTANT, "team": code.CONSTANT, "mall": code.CONSTANT,
+			"http": code.CONSTANT, "html": code.CONSTANT, "icon": code.CONSTANT, "svg": code.CONSTANT,
+
 			"can": code.OBJECT, "msg": code.OBJECT, "cb": code.FUNCTION, "target": code.OBJECT, "event": code.OBJECT,
 			"Volcanos": code.FUNCTION, "shy": code.FUNCTION, "cbs": code.FUNCTION,
 			"res": code.OBJECT, "sub": code.OBJECT, "sup": code.OBJECT,

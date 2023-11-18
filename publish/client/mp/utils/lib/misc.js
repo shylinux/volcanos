@@ -1,4 +1,4 @@
-const {kit, ice, mdb, nfs, code, http} = require("../const.js")
+const {kit, ice, mdb, nfs, code, chat, http} = require("../const.js")
 const {Volcanos} = require("../proto.js")
 module.exports =
 Volcanos("misc", {
@@ -50,11 +50,19 @@ Volcanos("misc", {
 		}); return msg },
 		Echo: function(res) { msg.result = (msg.result||[]).concat(can.core.List(arguments)); return msg._hand = true, msg },
 	}); return msg },
+	ParseURL: function(can, url) { url = url||location&&location.href; var args = can.base.ParseURL(url)
+		delete(args.link), delete(args.origin), delete(args._origin)
+		var ls = can.core.Split(url.split("://")[1].split("?")[0].split("#")[0], nfs.PS).slice(1)
+		if (ls[0] == chat.SHARE) { args[chat.SHARE] = ls[1] }
+		for (var i = 1; i < ls.length; i += 2) { if (can.base.isIn(ls[i], [ice.POD, ice.CMD])) { args[ls[i]] = ls[i+1] } }
+		return args
+	},
 	requests: function(can, msg, cmd, data, cb) {
 		wx.showLoading(), can.misc.request(can, msg, cmd, data, function(msg) { wx.hideLoading(), cb && cb(msg) })
 	},
 	request: function(can, msg, cmd, data, cb) { data.sessid = can.conf.sessid
-		wx.request({method: http.POST, url: can.conf.serve+cmd, data: data, success: function(res) {
+		can.core.List(msg.option, function(key) { data[key] = data[key]||[msg.Option(key)] }), data.option = data.option||msg.option
+		wx.request({method: http.POST, url: (msg._serve||can.conf.serve)+cmd, data: data, success: function(res) {
 			if (res.statusCode == 401) {
 				can.user.info = {}, can.misc.localStorage(can, ice.MSG_SESSID, can.conf.sessid = "")
 				return can.user.login(can, function() { can.misc.request(can, msg, cmd, data, cb) })

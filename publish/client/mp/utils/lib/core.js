@@ -2,6 +2,14 @@ const {ice, mdb, nfs, code, http} = require("../const.js")
 const {shy, Volcanos} = require("../proto.js")
 module.exports =
 Volcanos("core", {
+	Keys: function() { var list = []
+		for (var i = 0; i < arguments.length; i++) { var v = arguments[i]; switch (typeof v) {
+			case code.OBJECT: for (var j = 0; j < v.length; j++) { list.push(v[j]) } break
+			case code.NUMBER: list.push(v+""); break
+			case code.FUNCTION: v = v()
+			default: v && list.push(v+"")
+		} } return list.join(nfs.PT)
+	},
 	Value: function(data, key, value) { if (data == undefined) { return } if (key == undefined) { return data }
 		if (typeof key == code.OBJECT) { if (key.length != undefined) { key = key.join(nfs.PT) } else { for (var k in key) { arguments.callee.call(this, data, k, key[k]) } return data } }
 		if (value != undefined) { var _node = data, keys = key.split(nfs.PT)

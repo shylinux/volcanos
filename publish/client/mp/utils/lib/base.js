@@ -27,6 +27,7 @@ Volcanos("base", {
 	MergeURL: function(url) { var arg = this._parse(url); delete(arg._origin); for (var i = 1; i < arguments.length; i += 2) { delete(arg[arguments[i]]) }
 		var arg = this.Args.apply(this, [arg].concat(Array.prototype.slice.call(arguments, 1))); return url.split(ice.QS)[0]+(arg? ice.QS+arg: "")
 	},
+	ParseURL: function(url) { var res = this._parse(url); res.link = url, res.origin = res._origin; return res },
 	ParseJSON: function(str) { var res; if (typeof str == code.OBJECT) { return str }
 		if (str.indexOf(ice.HTTP) == 0) {
 			var res = this._parse(str, {type: web.LINK, name: "", text: str})

@@ -25,7 +25,8 @@ Volcanos._init = function() {
 			}); return msg
 		},
 		run: function(event, cmds, cb) {
-			can.misc.requests(can, can.request(event), can.onaction._name||nfs.CHAT_ACTION, {cmds: cmds}, function(msg) {
+			var msg = can.request(event); msg._serve = can.onaction._serve
+			can.misc.requests(can, can.request(event, {pod: can.onaction._space}), can.onaction._name||nfs.CHAT_ACTION, {cmds: (can.onaction._cmds||[]).concat(cmds)}, function(msg) {
 				msg.Dump = function() { can.ui.setData({list: msg.Table()}) }, cb(msg)
 			})
 		},

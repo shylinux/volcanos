@@ -1,7 +1,7 @@
 <template name="action">
 	<view class="action">
 		<view class="item" wx:for="{{action}}" wx:key="index">
-			<button bindtap="onaction" data-name="{{item}}" size="mini">{{item}}</button>
+			<button size="mini" bindtap="onaction" data-name="{{item}}">{{item}}</button>
 		</view>
 	</view>
 </template>
@@ -26,15 +26,12 @@
 					<!-- 文本 -->
 					<textarea wx:if="{{item.type == 'textarea'}}" placeholder="{{item.name}}" value="{{item.value}}"
 						bindinput="onInputs" data-index="{{index}}" data-order="{{order}}"></textarea>
-
 					<!-- 文本 -->
 					<input wx:elif="{{item.type == 'text'}}" placeholder="{{item.name}}" value="{{item.value}}" type="text"
 						bindinput="onInputs" data-index="{{index}}" data-order="{{order}}"/>
-
 					<!-- 列表 -->
 					<picker wx:elif="{{item.type == 'select'}}" range="{{item.values}}" value="{{item.index||0}}"
 						bindchange="onChange" data-index="{{index}}" data-order="{{order}}">{{item.values[item.index||0]}}</picker>
-
 					<!-- 按钮 -->
 					<button wx:elif="{{item.type == 'button'}}" size="mini"
 						bindtap="onAction" data-index="{{index}}" data-order="{{order}}" data-name="{{item.name}}">{{item.value||item.name}}</button>
@@ -44,7 +41,6 @@
 			<view class="output"> <!-- 输出 -->
 				<!-- 表格 -->
 				<template is="table" data="{{order: order, msg: field.msg}}"></template>
-
 				<!-- 文本 -->
 				<view class="code"><rich-text wx:for="{{field.msg.result}}" wx:key="index" nodes="{{item}}"></rich-text></view>
 			</view>
@@ -57,12 +53,13 @@
 		<tr><th wx:for="{{msg.append}}" wx:key="index">{{item}}</th></tr>
 		<tr wx:for="{{msg._index}}" wx:key="index">
 			<td wx:for="{{msg.append}}" wx:for-index="i" wx:key="i">
-				<view class="which" wx:for="{{msg._view[item][index]}}" wx:for-item="input" wx:for-index="i" wx:key="i"
-					bindtap="onDetail" data-input="{{input}}" data-value="{{input._text}}" data-name="{{item}}" data-index="{{index}}" data-order="{{order}}">
-					<view wx:if="{{input._type == 'text'}}">{{input._text}}</view>
+				<view class="which" wx:for="{{msg._view[item][index]}}" wx:for-item="input" wx:for-index="i" wx:key="i">
+					<view wx:if="{{input._type == 'text'}}"
+						bindtap="onDetail" data-input="{{input}}" data-value="{{input._text}}" data-name="{{item}}" data-index="{{index}}" data-order="{{order}}">{{input._text}}</view>
 					<rich-text wx:if="{{input._type == 'div'}}" nodes="{{input._text}}"></rich-text>
 					<image wx:if="{{input._type == 'img'}}" mode="aspectFit" src="{{input.src}}"></image>
-					<button wx:if="{{input._type == 'input' && input.type == 'button'}}" size="mini">{{input.value||input.name}}</button>
+					<button wx:if="{{input._type == 'input' && input.type == 'button'}}" size="mini"
+						bindtap="onDetail" data-input="{{input}}" data-value="{{input._text}}" data-name="{{item}}" data-index="{{index}}" data-order="{{order}}">{{input.value||input.name}}</button>
 				</view>
 			</td>
 		</tr>

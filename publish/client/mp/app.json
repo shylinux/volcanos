@@ -1,16 +1,16 @@
 {
-  "pages": [
-    "pages/river/river",
-    "pages/action/action",
-    "pages/insert/insert"
-  ],
-  "window": {
-    "backgroundColor": "#000",
-    "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#000",
-    "navigationBarTitleText": "终端工具链",
-    "navigationBarTextStyle": "white"
-  },
-  "style": "v2",
-  "sitemapLocation": "sitemap.json"
+	"pages": [
+		"pages/river/river",
+		"pages/action/action",
+		"pages/insert/insert"
+	],
+	"window": {
+		"backgroundColor": "#000",
+		"backgroundTextStyle": "dark",
+		"navigationBarBackgroundColor": "#000",
+		"navigationBarTitleText": "终端工具链",
+		"navigationBarTextStyle": "white"
+	},
+	"style": "v2",
+	"sitemapLocation": "sitemap.json"
 }

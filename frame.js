@@ -145,7 +145,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
-		meta.inputs = can.base.Obj(meta.inputs, [{type: html.BUTTON, name: html.LIST, action: html.AUTO}])
+		meta.inputs = can.base.Obj(meta.inputs, []), meta.inputs.length == 0 && can.onmotion.delay(can, function() { can.Update() })
 		can.core.List([""].concat(meta.inputs), function(item) { if (item != "" && item.type != html.BUTTON) { return }
 			var icon = {
 				"": {name: mdb.DELETE, cb: function(event) { can.onaction.close(event, can) }},
@@ -355,6 +355,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (key == nfs.IMAGE && value) { value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item)) }).join("") }
 			if (key == mdb.ICONS && value) { value = img(can.misc.Resource(can, data[key])) }
 			if (key == mdb.NAME) { value = can.user.trans(can, value, null, html.INPUT) }
+			if (key == aaa.PASSWORD) { value = "******" }
 			return {text: [msg.IsDetail() && key == mdb.KEY? can.user.trans(can, value, null, html.INPUT): can.user.trans(can, value, null, html.VALUE), html.TD], onclick: function(event) { var target = event.target
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(event, target.name)

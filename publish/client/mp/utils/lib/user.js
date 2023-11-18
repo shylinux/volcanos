@@ -1,4 +1,4 @@
-const {ice, ctx, mdb, chat} = require("../const.js")
+const {ice, ctx, mdb, web, chat} = require("../const.js")
 const {shy, Volcanos} = require("../proto.js")
 module.exports =
 Volcanos("user", {
@@ -19,18 +19,13 @@ Volcanos("user", {
 		},
 		scanQRCode: function(can, cb) {
 			wx.scanCode({success: function(res) { var data = can.base.ParseJSON(res.result)
+				if (data.type == web.LINK, data._origin) { can.base.Copy(data, can.misc.ParseURL(can, res.result)) }
 				if (cb && cb(data)) { return }
-				switch (data.type) {
-					case "auth":
-						can.user.userinfo(can, function() {
-							can.user.modal(can, "授权登录", data.name, function(res) {
-								res.confirm && can.misc.request(can, can.request(), chat.WX_LOGIN_SCAN, data, function(msg) {
-									can.user.toast(can, "授权成功")
-								})
-							})
-						})
-						break
-					default: can.misc.request(can, can.request(), chat.WX_LOGIN_SCAN, data)
+				if (data.cmd) { var serve = /(https?:\/\/[^/]+)([^?#])/.exec(data._origin)[1]; data.serve = serve
+					delete(data.type), delete(data.name), delete(data.text), delete(data._origin)
+					can.user.jumps(can.base.MergeURL("/pages/action/action", data))
+				} else {
+					can.misc.request(can, can.request(), chat.WX_LOGIN_SCAN, data)
 				}
 			}})
 		},

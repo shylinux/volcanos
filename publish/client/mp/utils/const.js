@@ -15,6 +15,8 @@ var ice = {
 	MAIN: "main", AUTO: "auto",
 	LIST: "list", BACK: "back",
 
+	CAN: "can", POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg",
+
 	MSG_FIELDS: "fields", MSG_SESSID: "sessid",
 	MSG_DETAIL: "detail", MSG_OPTION: "option", MSG_APPEND: "append", MSG_RESULT: "result",
 }
