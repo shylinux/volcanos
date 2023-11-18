@@ -74,8 +74,10 @@ Volcanos("misc", {
 		wx.showLoading(), can.misc.request(can, msg, cmd, data, function(msg) { wx.hideLoading(), cb && cb(msg) })
 	},
 	request: function(can, msg, cmd, data, cb) { data.sessid = can.conf.sessid
-		wx.request({method: http.POST, url: can.conf.serve+nfs.PS+cmd, data: data, success: function(res) {
-			if (res.statusCode == 401) { return can.user.login(can, function() { can.misc.request(can, msg, cmd, data, cb) }) }
+		wx.request({method: http.POST, url: can.conf.serve+cmd, data: data, success: function(res) {
+			if (res.statusCode == 401) {
+				can.user.info = {}, can.misc.localStorage(can, ice.MSG_SESSID, can.conf.sessid = "")
+				return can.user.login(can, function() { can.misc.request(can, msg, cmd, data, cb) }) }
 			msg.Copy(res.data), console.log("request", cmd, data.cmds||data, msg)
 			msg.Data = function(item, index) {
 				var text = msg[item]&&msg[item][index]||""

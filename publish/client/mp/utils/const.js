@@ -11,6 +11,7 @@ var kit = {proto: function(sub, sup) { return sub.__proto__ = sup, sub },
 }
 var ice = {
 	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", QS: "?", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
+	LIST: "list", BACK: "back",
 
 	MSG_FIELDS: "fields", MSG_SESSID: "sessid",
 	MSG_DETAIL: "detail", MSG_OPTION: "option", MSG_APPEND: "append", MSG_RESULT: "result",
@@ -22,7 +23,9 @@ var ctx = {
 }
 var mdb = {
 	EQ: ice.EQ, FS: ice.FS,
+	TYPE: "type", NAME: "name", TEXT: "text", ICON: "icon", ICONS: "icons",
 	KEY: "key", VALUE: "value", STATUS: "status", EXPIRE: "expire", EXTRA: "extra",
+	DATA: "data", VIEW: "view", ORDER: "order",
 }
 var nfs = {
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,

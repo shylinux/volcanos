@@ -1,5 +1,5 @@
 const {shy, Volcanos} = require("../../utils/proto.js")
-const {html} = require("../../utils/const.js")
+const {ice, ctx, mdb, html} = require("../../utils/const.js")
 Volcanos._page = {}
 Volcanos("onimport", {
 	_init: function(can, msg) { can.db.list = []
@@ -19,6 +19,9 @@ Volcanos("onimport", {
 				}
 				if (input.type == "select") {
 					input.values = input.values || can.core.Split(input.value)
+				}
+				if (input.type == "button") {
+					input.value = {"list": "查看", "back": "返回", "create": "创建"}[input.value||input.name]||input.value||input.name
 				}
 				input.type == "button" && input.action == "auto" && can.core.Timer(100, function() {
 					can.run({}, [can.db.river, can.db.storm, value.id||value.index], function(msg) {
@@ -41,23 +44,24 @@ Volcanos("onaction", {list: ["刷新", "扫码", "清屏"],
 			can.onimport._init(can, msg)
 		})
 	},
-	onaction: function(event, can, msg) { var name = msg.Option("name")
+	onaction: function(event, can, button, data) { var name = data.name
 		(can.onaction[name]||function(event) { can.run(event, [ctx.ACTION, name]) })(event, can)
 	},
-	onInputs: function(event, can, msg) { var order = msg.Option("order")||0, index = msg.Option("index")||0
+	onInputs: function(event, can, button, data) { var order = data.order, index = data.index
 		var input = can.ui.data.list[order||0].inputs[index||0]
 		input.value = event.detail.value
 	},
-	onChange: function(event, can, msg) { var order = msg.Option("order")||0, index = msg.Option("index")||0
+	onChange: function(event, can, button, data) { var order = data.order, index = data.index
 		var input = can.ui.data.list[order||0].inputs[index||0]
 		input.value = input.values[parseInt(event.detail.value)]
 	},
-	onAction: function(event, can, msg) { var order = msg.Option("order")||0, name = msg.Option("name")
+	onAction: function(event, can, button, data) { var order = data.order, name = data.name
 		var field = can.ui.data.list[order||0]
 		if (field.feature[name]) {
 			can.data.insert = {field: field, name: name, list: field.feature[name], cb: function(res) {
+				debugger
 				can.run(event, can.base.Simple([can.db.river, can.db.storm, field.id||field.index, ctx.ACTION, name], res), function(msg) {
-					can.onaction.onAction(event, can, order)
+					can.onaction.onAction(event, can, ice.LIST, {order: order, name: ice.LIST})
 				})
 			}}
 			can.user.jumps("/pages/insert/insert", {river: can.db.river, storm: can.db.storm, index: field.id||field.index, title: field.name})
@@ -65,20 +69,16 @@ Volcanos("onaction", {list: ["刷新", "扫码", "清屏"],
 		}
 		field._history = field._history||[]
 		switch (name) {
-			case "back":
-				var ls = field._history.pop()
-				var ls = field._history.pop()||[]
-				var i = 0
+			case ice.BACK: field._history.pop()
+				var ls = field._history.pop()||[], i = 0
 				can.core.List(field.inputs, function(input, index) {
-					if (input.type != html.BUTTON) {
-						input.value = ls[i++]||""
-					}
+					if (input.type != html.BUTTON) { input.value = ls[i++]||"" }
 				})
 				can.page.setData(can)
-				can.onaction.onAction(event, can, order, "list")
+				can.onaction.onAction(event, can, order, ice.LIST)
 				break
 			case "run":
-			case "list":
+			case ice.LIST:
 			case "refresh":
 				break
 			default:
@@ -96,12 +96,12 @@ Volcanos("onaction", {list: ["刷新", "扫码", "清屏"],
 		for (var i = cmds.length-1; i > 0; i--) { if (cmds[i] === "") { cmds.pop() } else { break } }
 		can.run(event, cmds, function(msg) { field.msg = msg, can.page.setData(can) })
 	},
-	onDetail: function(event, can, msg) { var order = msg.Option("order")||0, name = msg.Option("name"), value = msg.Option("value")
+	onDetail: function(event, can, button, data) { var order = data.order, name = data.name, value = data.value
 		var field = can.ui.data.list[order||0]
 		can.core.List(field.inputs, function(input) {
 			if (input.name == name) {
 				input.value = value, can.page.setData(can)
-				can.onaction.onAction(event, can, order, "list")
+				can.onaction.onAction(event, can, order, ice.LIST)
 			}
 		})
 	},

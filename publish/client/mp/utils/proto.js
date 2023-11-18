@@ -25,7 +25,7 @@ Volcanos._init = function() {
 			}); return msg
 		},
 		run: function(event, cmds, cb) {
-			can.misc.requests(can, can.request(event), can.onaction._name||"action/", {cmds: cmds}, function(msg) {
+			can.misc.requests(can, can.request(event), can.onaction._name||"/chat/action/", {cmds: cmds}, function(msg) {
 				msg.Dump = function() { can.ui.setData({list: msg.Table()}) }, cb(msg)
 			})
 		},
@@ -33,7 +33,7 @@ Volcanos._init = function() {
 	var page = {data: {action: can.onaction.list, list: []},
 		onLoad: function(options) { can.ui = this, can.db = options
 			console.log(can.ui.route, options)
-			can.user.title(options.title||"")
+			can.user.title(decodeURIComponent(options.title||""))
 			can.user.login(can, function() {
 				if (can.onaction.refresh) {
 					can.onaction.refresh({}, can)
@@ -52,7 +52,7 @@ Volcanos._init = function() {
 	}
 	can.core.ItemCB(can.onaction, function(key, cb) { page[key] = function(event) {
 		// can.core.CallFunc(cb, {event: event, can: can, msg: can.request(event, event.target.dataset)})
-		can.core.CallFunc(cb, [event, can, can.request(event, event.target.dataset)])
+		can.core.CallFunc(cb, [event, can, key, event.target.dataset])
 	} }), Page(page)
 }
 
