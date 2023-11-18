@@ -1,4 +1,4 @@
-const {ice, mdb, nfs, code, http} = require("../const.js")
+const {ice, mdb, web, nfs, code, http} = require("../const.js")
 const {Volcanos} = require("../proto.js")
 module.exports =
 Volcanos("base", {
@@ -15,12 +15,6 @@ Volcanos("base", {
 			if (from[k] === "") { delete(to[k]) } else { to[k] = from[k] }
 		} return to } for (var i = 2; i < arguments.length; i++) { var k = arguments[i]; to[k] = from[k] } return to
 	},
-	Eq: function(to, from, skip) { var call = arguments.callee; if (typeof to != typeof from) { return false }
-		if (typeof to == code.OBJECT) { if (to.length != from.length) { return false }
-			for (var i = 0; i < to.length; i++) { if (!call(to[i], from[i])) { return false } }
-			for (var k in to) { if (k != skip && !call(to[k], from[k])) { return false } } return true
-		} return to === from
-	},
 	Args: function() { var res = [], arg = arguments; function encode(k, v) { k && v != undefined && v != null && res.push(encodeURIComponent(k)+mdb.EQ+encodeURIComponent(v)) }
 		for (var i = 0; i < arg.length; i += 2) { if (typeof arg[i] == code.OBJECT) {
 			if (arg[i].length > 0) { for (var j = 0; j < arg[i].length; j += 2) { encode(arg[i][j], arg[i][j+1]) } } else { for (var k in arg[i]) { encode(k, arg[i][k]) } } i--
@@ -33,9 +27,12 @@ Volcanos("base", {
 	MergeURL: function(url) { var arg = this._parse(url); delete(arg._origin); for (var i = 1; i < arguments.length; i += 2) { delete(arg[arguments[i]]) }
 		var arg = this.Args.apply(this, [arg].concat(Array.prototype.slice.call(arguments, 1))); return url.split(ice.QS)[0]+(arg? ice.QS+arg: "")
 	},
-	Number: function(d, n) { var res = []
-		while (d > 0) { res.push(d%10); d = parseInt(d/10); n-- } while (n > 0) { res.push("0"); n-- }
-		return res.reverse(), res.join("")
+	ParseJSON: function(str) { var res; if (typeof str == code.OBJECT) { return str }
+		if (str.indexOf(ice.HTTP) == 0) {
+			var res = this._parse(str, {type: web.LINK, name: "", text: str})
+			return res.name = res._origin.split("://").pop().split(nfs.PS)[0], res
+		}
+		try { res = JSON.parse(str), res.text = res.text||str, res.type = res.type||nfs.JSON } catch (e) { res = {type: mdb.TEXT, text: str} } return res
 	},
 	Simple: function() { var res = []; for (var i = 0; i < arguments.length; i++) { var val = arguments[i]; switch (typeof val) {
 		case code.OBJECT: if (val.length > 0) { res = res.concat(val); break }
@@ -47,21 +44,6 @@ Volcanos("base", {
 		if (typeof arg[i] == code.OBJECT && arg[i].length > 0 && arg[i].indexOf(item) > -1) { return true }
 		if (item == arg[i]) { return true }
 	} },
-	Time: function(t, fmt) {var now = t? new Date(t): new Date();
-		fmt = fmt || "%y-%m-%d %H:%M:%S";
-		fmt = fmt.replace("%y", now.getFullYear())
-		fmt = fmt.replace("%m", Number(now.getMonth()+1, 2))
-		fmt = fmt.replace("%d", Number(now.getDate(), 2))
-		fmt = fmt.replace("%H", Number(now.getHours(), 2))
-		fmt = fmt.replace("%M", Number(now.getMinutes(), 2))
-		fmt = fmt.replace("%S", Number(now.getSeconds(), 2))
-		return fmt
-	},
-	ParseJSON: function(str) { var res; if (typeof str == code.OBJECT) { return str }
-		if (str.indexOf(ice.HTTP) == 0) { var res = this._parse(str, {type: web.LINK, name: "", text: str}); return res.name = res._origin.split("://").pop().split(nfs.PS)[0], res }
-		try { res = JSON.parse(str), res.text = res.text||str, res.type = res.type||nfs.JSON } catch (e) { res = {type: mdb.TEXT, text: str} } return res
-	},
-	isNumber: function(val) { return typeof val == code.NUMBER },
 	isString: function(val) { return typeof val == code.STRING },
 	isObject: function(val) { return typeof val == code.OBJECT },
 	isArray: function(val) { return Array.isArray(val) },

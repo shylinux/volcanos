@@ -11,6 +11,8 @@ var kit = {proto: function(sub, sup) { return sub.__proto__ = sup, sub },
 }
 var ice = {
 	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", QS: "?", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
+	HTTP: "http", HELP: "help",
+	MAIN: "main", AUTO: "auto",
 	LIST: "list", BACK: "back",
 
 	MSG_FIELDS: "fields", MSG_SESSID: "sessid",
@@ -27,8 +29,21 @@ var mdb = {
 	KEY: "key", VALUE: "value", STATUS: "status", EXPIRE: "expire", EXTRA: "extra",
 	DATA: "data", VIEW: "view", ORDER: "order",
 }
+var web = {
+	OPEN: "open", LINK: "link", HTTP: "http", DOMAIN: "domain", URL: "url",
+}
+var aaa = {
+}
+var tcp = {
+}
 var nfs = {
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
+	CHAT_RIVER: "/chat/river/",
+	CHAT_ACTION: "/chat/action/",
+}
+var cli = {
+}
+var log = {
 }
 var code = {
 	COMMENT: "comment", KEYWORD: "keyword",
@@ -37,8 +52,24 @@ var code = {
 	META: "Meta", ALT: "Alt", CONTROL: "Control", SHIFT: "Shift", TAB: "Tab", ESCAPE: "Escape", ENTER: "Enter",
 	CMD: "Cmd", CTRL: "Ctrl", SPACE: "Space", BACKSPACE: "Backspace", ESC: "Esc", PS: "/",
 }
+var wiki = {
+}
 var chat = {
 	SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field", TOOL: "tool",
+
+	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
+	ONIMPORT: "onimport", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport",
+	ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONPLUGIN: "onplugin",
+
+	WX_LOGIN_SESS: "/chat/wx/login/action/sess",
+	WX_LOGIN_USER: "/chat/wx/login/action/user",
+	WX_LOGIN_SCAN: "/chat/wx/login/action/scan",
+	PAGES_ACTION: "/pages/action/action",
+	PAGES_INSERT: "/pages/insert/insert",
+}
+var team = {
+}
+var mall = {
 }
 var http = {
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
@@ -49,8 +80,8 @@ var html = {
 }
 module.exports = {
 	kit, ice,
-	ctx, mdb,
-	nfs,
-	code, chat,
+	ctx, mdb, web, aaa,
+	tcp, nfs, cli, log,
+	code, wiki, chat, team, mall,
 	http, html,
 }

@@ -1,5 +1,4 @@
-const {ice, mdb, nfs, code, http} = require("../const.js")
-const {Volcanos} = require("../proto.js")
+const {shy, Volcanos} = require("../proto.js")
 module.exports =
 Volcanos("page", {
 	setData: function(can, list) {

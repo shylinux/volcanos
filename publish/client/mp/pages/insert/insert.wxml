@@ -10,8 +10,6 @@
 		<picker wx:elif="{{item.type == 'select'}}" range="{{item.values}}" value="{{item.index||0}}" bindchange="onChange" data-index="{{index}}">
 			<view>{{item.values[item.index||0]}}</view>
 		</picker>
-		<!-- 按钮 -->
-		<button wx:elif="{{item.type == 'button'}}" size="mini" bindtap="onClick" data-index="{{index}}">{{item.value||item.name}}</button>
 	</view>
 </view>
 <view class="action">

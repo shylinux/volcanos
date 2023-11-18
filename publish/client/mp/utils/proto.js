@@ -1,4 +1,4 @@
-const {ctx, code, chat} = require("const.js")
+const {ctx, nfs, code, chat} = require("const.js")
 
 function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(type) {
 	if (type == code.OBJECT) { if (typeof arg[i] == code.OBJECT && arg[i].length == undefined) { return arg[i++] }
@@ -25,14 +25,14 @@ Volcanos._init = function() {
 			}); return msg
 		},
 		run: function(event, cmds, cb) {
-			can.misc.requests(can, can.request(event), can.onaction._name||"/chat/action/", {cmds: cmds}, function(msg) {
+			can.misc.requests(can, can.request(event), can.onaction._name||nfs.CHAT_ACTION, {cmds: cmds}, function(msg) {
 				msg.Dump = function() { can.ui.setData({list: msg.Table()}) }, cb(msg)
 			})
 		},
 	}; Volcanos._page.__proto__ = getApp(), delete(Volcanos._page)
 	var page = {data: {action: can.onaction.list, list: []},
 		onLoad: function(options) { can.ui = this, can.db = options
-			console.log(can.ui.route, options)
+			console.log("app show", can.ui.route, options)
 			can.user.title(decodeURIComponent(options.title||""))
 			can.user.login(can, function() {
 				if (can.onaction.refresh) {
@@ -51,7 +51,6 @@ Volcanos._init = function() {
 		onShareAppMessage: function() {}
 	}
 	can.core.ItemCB(can.onaction, function(key, cb) { page[key] = function(event) {
-		// can.core.CallFunc(cb, {event: event, can: can, msg: can.request(event, event.target.dataset)})
 		can.core.CallFunc(cb, [event, can, key, event.target.dataset])
 	} }), Page(page)
 }

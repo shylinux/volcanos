@@ -102,20 +102,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		function set(begin_time, col, row) { return begin+col-1+"-"+can.base.Number(row, 2) }
 		can.onimport._content(can, msg, head, list, key, get, set)
 	},
-	layout: function(can) {
-		can.ui.layout(can.ConfHeight(), can.ConfWidth())
-		can.user.isMobile && can.page.style(can, can.ui.content, html.HEIGHT, "")
+	layout: function(can) { can.ui.layout(can.ConfHeight(), can.ConfWidth());
+		(can.Conf("_auto") || can.user.isMobile) && can.page.style(can, can.ui.content, html.HEIGHT, "")
 		var sub = can._plugin_display; sub && sub.onimport.display_size(can, sub)
 		can.ui.toggle && can.ui.toggle.layout()
-		return
-		can.page.styleHeight(can, can._output, can.ConfHeight()), can.page.styleHeight(can, can.ui.project, can.ConfHeight())
-		var height = can._display_heights[can.sup.task? [can.sup.task.zone, can.sup.task.id].join(mdb.FS): ""]||html.ACTION_HEIGHT
-		if (!can.ui.display.innerHTML || can.ui.display.style.display == html.NONE) { height = 0 }
-		can.page.style(can, can.ui.table, html.HEIGHT, can.ConfHeight()-height, html.WIDTH, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
-		can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight()-height, html.WIDTH, can.ConfWidth()-can.ui.project.offsetWidth-can.ui.profile.offsetWidth)
-		can.page.styleHeight(can, can.ui.profile, can.ConfHeight()-height), height == 0 || can.core.List(can._plugins_display, function(sub) {
-			sub.onimport.size(sub, height-html.ACTION_HEIGHT-sub.onexport.statusHeight(sub), sub.ConfWidth(can.ConfWidth()-can.ui.project.offsetWidth), true)
-		})
 	}
 }, [""])
 Volcanos(chat.ONACTION, {list: [
