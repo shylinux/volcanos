@@ -25,16 +25,20 @@ Volcanos._init = function() {
 			}); return msg
 		},
 		run: function(event, cmds, cb) {
-			var msg = can.request(event); msg._serve = can.onaction._serve
-			can.misc.requests(can, can.request(event, {pod: can.onaction._space}), can.onaction._name||nfs.CHAT_ACTION, {cmds: (can.onaction._cmds||[]).concat(cmds)}, function(msg) {
+			wx.showLoading()
+			var msg = can.request(event); msg._serve = can.db.serve
+			can.misc.requests(can, can.request(event, {pod: can.db.pod||can.db.space}), can.onaction._name||nfs.CHAT_ACTION, {cmds: (can.onaction._cmds||[]).concat(cmds)}, function(msg) {
 				msg.Dump = function() { can.ui.setData({list: msg.Table()}) }, cb(msg)
 			})
 		},
 	}; Volcanos._page.__proto__ = getApp(), delete(Volcanos._page)
 	var page = {data: {action: can.onaction.list, list: []},
 		onLoad: function(options) { can.ui = this, can.db = options
+			can.db.serve = can.db.serve||can.conf.serve
+			can.core.Item(can.db, function(key, value) { can.db[key] = decodeURIComponent(value) })
+			can.user.title(can.db.title||can.db.pod||can.db.space||(can.db.serve||can.conf.serve).split("://")[1])
 			console.log("app show", can.ui.route, options)
-			can.user.title(decodeURIComponent(options.title||""))
+			can.ui.setData({conf: can.db})
 			can.user.login(can, function() {
 				if (can.onaction.refresh) {
 					can.onaction.refresh({}, can)

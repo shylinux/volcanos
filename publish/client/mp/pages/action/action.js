@@ -19,28 +19,25 @@ Volcanos(chat.ONIMPORT, {
 				if (input.type == html.SELECT) {
 					input.values = input.values || can.core.Split(input.value)
 				}
+				if (input.type == html.TEXT) {
+					input.placeholder = can.user.trans(can, input.placeholder||input.name, can.core.Value(value, "feature._trans"), html.INPUT)
+				}
 				if (input.type == html.BUTTON) {
-					input.value = can.core.Value(value, "feature._trans."+(input.value||input.name))
-					input.value = {"list": "查看", "back": "返回", "create": "创建"}[input.value||input.name]||input.value||input.name
+					input.value = can.user.trans(can, input.value||input.name, can.core.Value(value, "feature._trans"))
 				}
 				input.type == html.BUTTON && input.action == ice.AUTO && can.core.Timer(100, function() {
-					can.run({}, [value.id||value.index], function(msg) {
-						value.msg = msg, can.page.setData(can)
-					})
+					can.onaction.onAction({}, can, ice.LIST, {order: index, name: ice.LIST})
 				})
 			})
-		}), can.page.setData(can)
+		}), can.page.setData(can), can.user.toast(can, "加载成功")
 	},
 })
 Volcanos(chat.ONACTION, {list: ["刷新", "扫码", "清屏"],
 	"刷新": function(event, can) { can.onaction.refresh(event, can) },
 	"扫码": function(event, can) { can.user.agent.scanQRCode(can) },
 	"清屏": function(event, can) { can.core.List(can.ui.data.list, function(item) { delete(item.msg) }), can.page.setData(can) },
-	refresh: function(event, can) { can.onaction._cmds = [], can.onaction._space = ""
-		if (can.db.cmd||can.db.index) {
-			can.onaction._space = can.db.pod||can.db.space
-			can.onaction._serve = decodeURIComponent(can.db.serve)
-			can.user.title(can.core.Keys(can.onaction._space, can.db.cmd||can.db.index))
+	refresh: function(event, can) {
+		if (can.db.cmd||can.db.index) { can.onaction._cmds = []
 			can.run(event, [ctx.ACTION, ctx.COMMAND, can.db.cmd||can.db.index], function(msg) {
 				can.onaction._cmds = [ctx.ACTION, ctx.RUN], can.onimport._init(can, msg)
 			})
@@ -59,6 +56,7 @@ Volcanos(chat.ONACTION, {list: ["刷新", "扫码", "清屏"],
 	onChange: function(event, can, button, data) { var order = data.order, index = data.index
 		var input = can.ui.data.list[order||0].inputs[index||0]
 		input.value = input.values[parseInt(event.detail.value)]
+		can.onaction.onAction({}, can, ice.LIST, {order: index, name: ice.LIST})
 	},
 	onAction: function(event, can, button, data) { var order = data.order, name = data.name
 		var field = can.ui.data.list[order||0]
@@ -68,7 +66,7 @@ Volcanos(chat.ONACTION, {list: ["刷新", "扫码", "清屏"],
 					can.onaction.onAction(event, can, ice.LIST, {order: order, name: ice.LIST})
 				})
 			}}
-			can.user.jumps(chat.PAGES_INSERT, {river: can.db.river, storm: can.db.storm, index: field.id||field.index, title: field.name})
+			can.user.jumps(chat.PAGES_INSERT, {river: can.db.river, storm: can.db.storm, index: field.id||field.index, serve: can.db.serve, space: can.db.space})
 			return
 		}
 		field._history = field._history||[]
@@ -90,20 +88,31 @@ Volcanos(chat.ONACTION, {list: ["刷新", "扫码", "清屏"],
 			for (var i = 0; i < to.length; i++) { if (to[i] != from[i]) { return false } }
 			return true
 		} eq(field._history[field._history.length-1], cmd) || field._history.push(cmd)
-		can.run(event, [field.id||field.index].concat(cmd), function(msg) { field.msg = msg, can.page.setData(can) })
+		can.run(event, [field.id||field.index].concat(cmd), function(msg) {
+			msg._head = can.core.List(msg.append, function(item) {
+				return can.user.trans(can, item, can.core.Value(field, "feature._trans"), html.INPUT)
+			})
+			can.core.Item(msg._view, function(key, value) { can.core.List(value, function(value, index) { can.core.List(value, function(input, i) {
+				if (input.type == html.BUTTON) {
+					input.value = can.user.trans(can, input.value||input.name, can.core.Value(field, "feature._trans"))
+				}
+				if (input._type == html.TEXT) {
+					input._text = can.user.trans(can, input._text, can.core.Value(field, "feature._trans"), html.VALUE)
+				}
+			}) }) })
+			field.msg = msg, can.page.setData(can)
+		})
 	},
 	onDetail: function(event, can, button, data) { var order = data.order, name = data.name, value = data.value, input = data.input
 		var field = can.ui.data.list[order||0]
-		if (input && input.type == html.BUTTON) {
-			can.request(event, field.msg.Table()[data.index])
+		if (input && input.type == html.BUTTON) { can.request(event, field.msg.Table()[data.index])
 			if (field.feature[input.name]) {
 				can.onAction(event, can, input.name, {order: order, name: input.name})
 			} else {
 				can.run(event, [field.id||field.index, ctx.ACTION, input.name], function(msg) {
 					// value.msg = msg, can.page.setData(can)
 				})
-			}
-			return
+			} return
 		}
 		can.core.List(field.inputs, function(input) {
 			if (input.name == name) { input.value = value, can.page.setData(can)

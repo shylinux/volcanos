@@ -27,6 +27,7 @@ var ctx = {
 }
 var mdb = {
 	EQ: ice.EQ, FS: ice.FS,
+	TIME: "time", ZONE: "zone", ID: "id",
 	TYPE: "type", NAME: "name", TEXT: "text", ICON: "icon", ICONS: "icons",
 	KEY: "key", VALUE: "value", STATUS: "status", EXPIRE: "expire", EXTRA: "extra",
 	DATA: "data", VIEW: "view", ORDER: "order",
@@ -79,6 +80,7 @@ var http = {
 }
 var html = {
 	SELECT: "select", INPUT: "input", TEXT: "text", FILE: "file", TEXTAREA: "textarea", BUTTON: "button",
+	VALUE: "value",
 }
 module.exports = {
 	kit, ice,

@@ -1,8 +1,14 @@
 <template name="action">
 	<view class="action">
-		<view class="item" wx:for="{{action}}" wx:key="index">
+		<view class="item button" wx:for="{{action}}" wx:key="index">
 			<button size="mini" bindtap="onaction" data-name="{{item}}">{{item}}</button>
 		</view>
+	</view>
+</template>
+
+<template name="debug">
+	<view class="debug" wx:if="{{conf.debug == 'true'}}">
+		<view wx:for="{{conf}}" wx:key="index">{{index}}: {{item}}</view>
 	</view>
 </template>
 
@@ -27,11 +33,11 @@
 					<textarea wx:if="{{item.type == 'textarea'}}" placeholder="{{item.name}}" value="{{item.value}}"
 						bindinput="onInputs" data-index="{{index}}" data-order="{{order}}"></textarea>
 					<!-- 文本 -->
-					<input wx:elif="{{item.type == 'text'}}" placeholder="{{item.name}}" value="{{item.value}}" type="text"
+					<input wx:elif="{{item.type == 'text'}}" placeholder="{{item.placeholder||item.name}}" value="{{item.value}}" type="text"
 						bindinput="onInputs" data-index="{{index}}" data-order="{{order}}"/>
 					<!-- 列表 -->
 					<picker wx:elif="{{item.type == 'select'}}" range="{{item.values}}" value="{{item.index||0}}"
-						bindchange="onChange" data-index="{{index}}" data-order="{{order}}">{{item.values[item.index||0]}}</picker>
+						bindchange="onChange" data-index="{{index}}" data-order="{{order}}">{{item.value||item.values[item.index||0]}}</picker>
 					<!-- 按钮 -->
 					<button wx:elif="{{item.type == 'button'}}" size="mini"
 						bindtap="onAction" data-index="{{index}}" data-order="{{order}}" data-name="{{item.name}}">{{item.value||item.name}}</button>
@@ -49,8 +55,8 @@
 </template>
 
 <template name="table">
-	<table wx:if="{{msg}}">
-		<tr><th wx:for="{{msg.append}}" wx:key="index">{{item}}</th></tr>
+	<table class="{{msg._style}}" wx:if="{{msg}}">
+		<tr><th wx:for="{{msg._head}}" wx:key="index">{{item}}</th></tr>
 		<tr wx:for="{{msg._index}}" wx:key="index">
 			<td wx:for="{{msg.append}}" wx:for-index="i" wx:key="i">
 				<view class="which" wx:for="{{msg._view[item][index]}}" wx:for-item="input" wx:for-index="i" wx:key="i">

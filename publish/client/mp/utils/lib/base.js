@@ -49,4 +49,10 @@ Volcanos("base", {
 	isObject: function(val) { return typeof val == code.OBJECT },
 	isArray: function(val) { return Array.isArray(val) },
 	isFunc: function(val) { return typeof val == code.FUNCTION },
+	toLast: function(list, value) { if (!list || list.length == 0) { return }
+		for (var i = 0; i < list.length-1; i++) { if (list[i] == value) {
+			for (i; i < list.length-1; i++) { list[i] = list[i+1] }
+			list[list.length-1] = value
+		} }
+	},
 })

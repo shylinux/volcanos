@@ -1,4 +1,5 @@
 <import src="../../app.wxml"/>
 <template is="action" data="{{action}}"></template>
+<template is="debug" data="{{conf}}"></template>
 <template is="field" data="{{list}}"></template>
 

@@ -2,7 +2,9 @@ const {ice, nfs, chat, html} = require("../../utils/const.js")
 const {shy, Volcanos} = require("../../utils/proto.js")
 Volcanos._page = {}
 Volcanos(chat.ONIMPORT, {
-	_init: function(can, msg) { msg.Dump(can) },
+	_init: function(can, msg) {
+		msg.Dump(can), can.user.toast(can, "加载成功")
+	},
 })
 Volcanos("onaction", {list: ["刷新", "扫码", "登录"],
 	"刷新": function(event, can) { can.onaction.refresh(event, can) },
@@ -24,7 +26,7 @@ Volcanos("onaction", {list: ["刷新", "扫码", "登录"],
 	},
 	onchange: function(event, can, button, data) { var index = data.index, i = data.i
 		var river = can.ui.data.list[index], storm = river.list[i]
-		can.user.jumps(can.base.MergeURL(chat.PAGES_ACTION, {river: river.hash, storm: storm.hash, title: river.name+"."+storm.name}))
+		can.user.jumps(can.base.MergeURL(chat.PAGES_ACTION, {river: river.hash, storm: storm.hash, serve: can.db.serve, space: can.db.space}))
 	},
 	_name: nfs.CHAT_RIVER,
 })

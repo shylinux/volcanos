@@ -1,5 +1,6 @@
 <import src="../../app.wxml"/>
 <template is="action" data="{{action}}"></template>
+<template is="debug" data="{{conf}}"></template>
 <view class="output">
 	<view class="item" wx:for="{{list}}" wx:key="index">
 		<!-- 文本 -->

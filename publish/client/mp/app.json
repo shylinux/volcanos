@@ -5,12 +5,15 @@
 		"pages/insert/insert"
 	],
 	"window": {
-		"backgroundColor": "#000",
-		"backgroundTextStyle": "dark",
-		"navigationBarBackgroundColor": "#000",
-		"navigationBarTitleText": "终端工具链",
-		"navigationBarTextStyle": "white"
+		"navigationBarBackgroundColor": "@navBgColor",
+		"navigationBarTextStyle": "@navTxtStyle",
+		"backgroundColor": "@bgColor",
+		"backgroundTextStyle": "@bgTxtStyle",
+		"backgroundColorTop": "@bgColorTop",
+		"backgroundColorBottom": "@bgColorBottom"
 	},
 	"style": "v2",
+	"darkmode": true,
+	"themeLocation": "theme.json",
 	"sitemapLocation": "sitemap.json"
 }

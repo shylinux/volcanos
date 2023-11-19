@@ -1,4 +1,4 @@
-const {kit, ice, mdb, nfs, code, chat, http} = require("../const.js")
+const {kit, ice, ctx, mdb, web, nfs, code, chat, http, html} = require("../const.js")
 const {Volcanos} = require("../proto.js")
 module.exports =
 Volcanos("misc", {
@@ -58,19 +58,28 @@ Volcanos("misc", {
 		return args
 	},
 	requests: function(can, msg, cmd, data, cb) {
-		wx.showLoading(), can.misc.request(can, msg, cmd, data, function(msg) { wx.hideLoading(), cb && cb(msg) })
+		can.misc.request(can, msg, cmd, data, function(msg) { cb && cb(msg) })
 	},
-	request: function(can, msg, cmd, data, cb) { data.sessid = can.conf.sessid
+	request: function(can, msg, cmd, data, cb) { data.sessid = can.conf.sessid, data.appid = data.appid||can.conf.appid
 		can.core.List(msg.option, function(key) { data[key] = data[key]||[msg.Option(key)] }), data.option = data.option||msg.option
-		wx.request({method: http.POST, url: (msg._serve||can.conf.serve)+cmd, data: data, success: function(res) {
+		wx.request({method: http.POST, url: (msg._serve||can.db.serve||can.conf.serve)+cmd, data: data, success: function(res) {
 			if (res.statusCode == 401) {
 				can.user.info = {}, can.misc.localStorage(can, ice.MSG_SESSID, can.conf.sessid = "")
 				return can.user.login(can, function() { can.misc.request(can, msg, cmd, data, cb) })
 			}
+			wx.hideLoading()
 			msg.Copy(res.data), console.log("request", cmd, data.cmds||data, msg)
+			can.base.toLast(msg.append, mdb.TIME), can.base.toLast(msg.append, web.LINK), can.base.toLast(msg.append, ctx.ACTION)
+			if (msg.append && msg.append.indexOf(ctx.ACTION) > 0) {
+				msg._style = "content action"
+			} else if (msg.IsDetail()) {
+				msg._style = "content detail"
+			} else {
+				msg._style = "content"
+			}
 			msg.Data = function(item, index) {
 				var text = msg[item]&&msg[item][index]||""
-				var data = {_type: "text", _text: text}
+				var data = {_type: html.TEXT, _text: text}
 				if (text.indexOf("<") != 0) { return [data] }
 				var res = [], list = can.core.Split(text, " ", "<=/>")
 				for (var i = 0; i < list.length; i++) {
@@ -89,7 +98,7 @@ Volcanos("misc", {
 				return res.length == 0? [data]: res
 			}
 			msg._index = []; for (var i = 0; i < msg.Length(); i++) { msg._index.push(i) }
-			msg._view = {}, msg[ice.MSG_APPEND] && can.core.List(msg[ice.MSG_APPEND], function(k) { msg._view[k] = {}
+			msg._view = {}, msg[ice.MSG_APPEND] && can.core.List(msg[ice.MSG_APPEND], function(k) { msg._view[k] = []
 				for (var i in msg[k]) { msg._view[k][i] = msg.Data(k, i) }
 			}), cb && cb(msg)
 		}})
