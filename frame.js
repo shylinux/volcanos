@@ -350,9 +350,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, data, list) {
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) { if (key == mdb.VALUE) { key = data.key } data = {}, can.core.List(list, function(item) { data[item.key] = item.value }) }
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(can.request(event, data, can.Option()), [ctx.ACTION, cmd].concat(arg)) }) }
-			function img(p) { return can.page.Format(html.IMG, p, msg.IsDetail()? 128: 48, msg.IsDetail()? null: 48) }
+			function img(p) { return !msg.IsDetail()? can.page.Format(html.IMG, p, 48, 48): can.user.isMobile? can.page.Format(html.IMG, p, null, 320): can.page.Format(html.IMG, p, 320, null) }
 			if (key == web.SPACE && value) { value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }
-			if (key == nfs.IMAGE && value) { value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item)) }).join("") }
+			if (key == nfs.IMAGE && value) { value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
 			if (key == mdb.ICONS && value) { value = img(can.misc.Resource(can, data[key])) }
 			if (key == mdb.NAME) { value = can.user.trans(can, value, null, html.INPUT) }
 			if (key == aaa.PASSWORD) { value = "******" }

@@ -94,6 +94,7 @@ fieldset>form.option>div.item.select { border-radius:var(--button-radius); }
 fieldset>form.option>div.item.select>input { min-width:80px; }
 fieldset>form.option>div.item.button { border-radius:var(--button-radius); }
 fieldset>div.action>div.item { margin-right:var(--button-margin); box-shadow:var(--box-shadow); }
+fieldset.River>div.action>div.item { margin:0 5px; }
 fieldset>div.action>div.item.select:not(.cmds) { border-radius:var(--button-radius); }
 fieldset>div.action>div.item.select.cmds { border-bottom:var(--notice-bg-color) solid 2px; height:32px; }
 fieldset>div.action>div.item.button { border-radius:var(--button-radius); }
@@ -172,7 +173,7 @@ body>div.input.login>div.action>div.tabs { padding:10px; }
 body>div.input.login>div.output { text-align:center; clear:both; }
 body>div.input.login>div.output>fieldset { box-shadow:none; }
 body>div.input.login>div.output>fieldset>div.output { background-color:transparent; }
-body>div.input.login>div.output { height:380px; width:420px; overflow:hidden; }
+body>div.input.login>div.output { height:320px; width:420px; overflow:hidden; }
 body.mobile.landscape>div.input.login>div.output { height:290px; }
 body>div.input.login>div.display>span.item { font-style:italic; word-break:break-all; padding-left:5px; border-left:var(--notice-bg-color) solid 5px; }
 body>div.input.login>div.display div.sso { display:flex; justify-content:center; cursor:pointer; }
