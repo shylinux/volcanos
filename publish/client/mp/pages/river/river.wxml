@@ -1,4 +1,13 @@
 <import src="../../app.wxml"/>
-<template is="action" data="{{action}}"></template>
-<template is="debug" data="{{conf}}"></template>
-<template is="list" data="{{list}}"></template>
+<view class="page river">
+	<template is="action" data="{{action}}"></template>
+	<template is="debug" data="{{conf}}"></template>
+	<view class="output">
+		<view class="item" wx:for="{{list}}" wx:key="index">
+			<view class="item" bindtap="ondetail" data-index="{{index}}">{{item.name}}</view>
+			<view class="list" wx:if="{{item._show}}">
+				<view class="item" wx:for="{{item.list}}" wx:for-index="i" wx:key="i" bindtap="onchange" data-index="{{index}}" data-i="{{i}}">{{item.name}}</view>
+			</view>
+		</view>
+	</view>
+</view>

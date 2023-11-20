@@ -1,6 +1,25 @@
 {
   "projectname": "%E7%BB%88%E7%AB%AF%E5%B7%A5%E5%85%B7%E9%93%BE",
   "setting": {
-    "compileHotReLoad": false
+    "compileHotReLoad": true
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "",
+          "pathName": "pages/action/action",
+          "query": "cmd=web.code.h2.h2",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/action/action",
+          "pathName": "pages/action/action",
+          "query": "river= e0a1eb&storm=c23ae3&title=hi.scan",
+          "scene": 1001
+        }
+      ]
+    }
   }
 }

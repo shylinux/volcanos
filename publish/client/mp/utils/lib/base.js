@@ -55,4 +55,14 @@ Volcanos("base", {
 			list[list.length-1] = value
 		} }
 	},
+	trimPrefix: function(str, pre) { if (typeof str != code.STRING) { return str } var arg = arguments, callee = arg.callee
+		if (arg.length > 2) { for (var i = 1; i < arg.length; i++) { str = callee(str, arg[i]) } return str }
+		if (str.indexOf(pre) == -1) { return str } return str.slice(pre.length)
+	},
+	trimSuffix: function(str, end) { while (str) { var index = str.lastIndexOf(end)
+		if (index == -1 || index+end.length != str.length) { break } str = str.slice(0, index)
+	} return str },
+	trim: function(arg) { if (this.isString(arg)) { return arg.trim() }
+		if (this.isArray(arg)) { for (var i = arg.length-1; i >= 0; i--) { if (!arg[i]) { arg.pop() } else { break } } } return arg
+	},
 })

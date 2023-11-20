@@ -28,6 +28,6 @@ Volcanos("onaction", {list: ["刷新", "扫码", "登录"],
 		var river = can.ui.data.list[index], storm = river.list[i]
 		can.user.jumps(can.base.MergeURL(chat.PAGES_ACTION, {river: river.hash, storm: storm.hash, serve: can.db.serve, space: can.db.space}))
 	},
-	_name: nfs.CHAT_RIVER,
+	_apis: nfs.CHAT_RIVER,
 })
 Volcanos._init()

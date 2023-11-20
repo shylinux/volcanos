@@ -67,7 +67,6 @@ Volcanos("misc", {
 				can.user.info = {}, can.misc.localStorage(can, ice.MSG_SESSID, can.conf.sessid = "")
 				return can.user.login(can, function() { can.misc.request(can, msg, cmd, data, cb) })
 			}
-			wx.hideLoading()
 			msg.Copy(res.data), console.log("request", cmd, data.cmds||data, msg)
 			can.base.toLast(msg.append, mdb.TIME), can.base.toLast(msg.append, web.LINK), can.base.toLast(msg.append, ctx.ACTION)
 			if (msg.append && msg.append.indexOf(ctx.ACTION) > 0) {

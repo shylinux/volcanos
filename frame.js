@@ -26,6 +26,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 			if (sub._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], sub._daemon)) }
 		} can.base.isIn(sub.ConfIndex(), "qrcode", "cli.qrcode") && can.page.exportValue(sub, msg)
 		if (!can.misc.CookieSessid(can) && can.user.info.sessid) { msg.Option(ice.MSG_SESSID, can.user.info.sessid) }
+		msg.OptionDefault(ice.MSG_THEME, can.getHeaderTheme())
 		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+"/chat/"+panel._name+"/")
 		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex(), ice.MSG_LANGUAGE, can.user.info.language, ice.MSG_THEME, can.getHeader(chat.THEME))
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))

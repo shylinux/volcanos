@@ -19,6 +19,7 @@ var ice = {
 
 	MSG_FIELDS: "fields", MSG_SESSID: "sessid",
 	MSG_DETAIL: "detail", MSG_OPTION: "option", MSG_APPEND: "append", MSG_RESULT: "result",
+	MSG_ACTION: "_action", MSG_STATUS: "_status",
 }
 var ctx = {
 	CONTEXT: "context", COMMAND: "command", CONFIG: "config", INPUTS: "inputs", FEATURE: "feature",
@@ -64,11 +65,12 @@ var chat = {
 	ONIMPORT: "onimport", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport",
 	ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONPLUGIN: "onplugin",
 
+	PAGES_RIVER: "/pages/river/river",
+	PAGES_ACTION: "/pages/action/action",
+	PAGES_INSERT: "/pages/insert/insert",
 	WX_LOGIN_SESS: "/chat/wx/login/action/sess",
 	WX_LOGIN_USER: "/chat/wx/login/action/user",
 	WX_LOGIN_SCAN: "/chat/wx/login/action/scan",
-	PAGES_ACTION: "/pages/action/action",
-	PAGES_INSERT: "/pages/insert/insert",
 }
 var team = {
 }
