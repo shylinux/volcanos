@@ -18,7 +18,17 @@ Volcanos("user", {
 			}})
 		},
 		scanQRCode: function(can, cb) {
-			wx.scanCode({success: function(res) { var data = can.base.ParseJSON(res.result)
+			wx.scanCode({success: function(res) {
+				if (res.result.indexOf("WIFI:") == 0) {
+					var ls = can.core.Split(res.result, ":;"), data = {}
+					for (var i = 1; i < ls.length; i += 2) { data[ls[i]] = ls[i+1] }
+					console.log("scan", data)
+					can.user.agent.connectWifi(can, data.S, data.P, function() {
+						can.user.toast(can, "success")
+					})
+					return
+				}
+				var data = can.base.ParseJSON(res.result)
 				if (data.type == web.LINK && data._origin) { can.base.Copy(data, can.misc.ParseURL(can, res.result)) }
 				console.log("scan", data)
 				if (cb && cb(data)) { return }

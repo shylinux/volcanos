@@ -41,6 +41,7 @@ var ice = {
 	MSG_USERNICK: "user.nick", MSG_USERNAME: "user.name", MSG_USERROLE: "user.role", MSG_LANGUAGE: "user.lang",
 	MSG_MODE: "sess.mode", MSG_THEME: "sess.theme", MSG_TITLE: "sess.title", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",
 	MSG_DAEMON: "sess.daemon", LOG_DISABLE: "log.disable", LOG_TRACEID: "log.id",
+	MSG_DEBUG: "debug",
 
 	ErrWarn: "warn: ", ErrNotLogin: "not login: ", ErrNotRight: "not right: ", ErrNotValid: "not valid: ", ErrNotFound: "not found: ",
 	NFS: "nfs", USR: "usr", CAN_PLUGIN: "can._plugin",
@@ -133,6 +134,7 @@ var tcp = {
 	CLIENT: "client", SERVER: "server",
 	PROTO: "proto", HOST: "host", PORT: "port",
 	SERVICE: "service", HOSTNAME: "hostname",
+	WIFI: "wifi", SSID: "ssid",
 }
 var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", PACK: "pack", TRASH: "trash", DIR_ROOT: "dir_root",

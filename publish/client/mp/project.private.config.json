@@ -7,6 +7,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "cli.qrcode",
+          "pathName": "pages/action/action",
+          "query": "index=cli.qrcode",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "cli.runtime",
           "pathName": "pages/action/action",
           "query": "index=cli.runtime&serve=http%3A%2F%2F192.168.10.12%3A9020&debug=true",

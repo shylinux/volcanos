@@ -12,7 +12,6 @@
 	</view>
 </template>
 
-
 <template name="table">
 	<table class="{{msg._style}}" wx:if="{{msg}}">
 		<tr><th wx:for="{{msg._head}}" wx:key="index">{{item}}</th></tr>

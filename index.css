@@ -321,6 +321,7 @@ body.mobile div.project:not(.toggle) { border-right:var(--box-border); width:120
 div.profile:not(.toggle) { border-left:var(--box-border); width:50%; }
 div.display:not(.toggle) { border-top:var(--box-border); }
 div.output div.code input[type=button][name=login] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+table.content td { cursor:pointer; }
 /* table card */
 div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item { background:var(--plugin-bg-color); padding:10px; border:var(--box-border); border-radius:var(--plugin-radius); margin:10px; width:320px; float:left; box-shadow:var(--box-shadow); }

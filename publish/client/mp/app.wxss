@@ -11,7 +11,7 @@ page { padding:10px; }
 page, view { box-sizing: border-box; }
 view.debug { font-family:monospace; font-style:italic; padding:10px; clear:both; }
 view.output { width:100%; overflow:auto; clear:both; }
-view.output textarea { width:100%; }
+view.output textarea { width:100%; text-align:left; }
 view.output view.item { font-size:18px; text-align:center; padding:10px; border:var(--box-border); }
 view.output view.list view.item { margin-left:20px; }
 

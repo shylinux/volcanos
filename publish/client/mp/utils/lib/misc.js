@@ -75,12 +75,11 @@ Volcanos("misc", {
 		})
 		return socket
 	},
-	requests: function(can, msg, cmd, data, cb) {
-		can.misc.request(can, msg, cmd, data, function(msg) { cb && cb(msg) })
-	},
 	request: function(can, msg, cmd, data, cb) { data.sessid = can.conf.sessid, data.appid = data.appid||can.conf.appid
 		can.core.List(msg.option, function(key) { data[key] = data[key]||[msg.Option(key)] }), data.option = data.option||msg.option
-		wx.request({method: http.POST, url: (msg._serve||can.db.serve||can.conf.serve)+cmd, data: data, success: function(res) {
+		var url = (msg._serve||can.db.serve||can.conf.serve)+cmd
+		if (data && can.base.isIn(msg._method, http.GET, http.DELETE)) { url = can.base.MergeURL(url, data), data = {} }
+		wx.request({method: msg._method||http.POST, url: url, data: data, success: function(res) {
 			if (res.statusCode == 401) {
 				can.user.info = {}, can.misc.localStorage(can, ice.MSG_SESSID, can.conf.sessid = "")
 				return can.user.login(can, function() { can.misc.request(can, msg, cmd, data, cb) })

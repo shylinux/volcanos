@@ -1,4 +1,4 @@
-const {ice, ctx, mdb, nfs, code, chat} = require("const.js")
+const {kit, ice, ctx, mdb, nfs, code, chat} = require("const.js")
 function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(type) {
 	if (type == code.OBJECT) { if (typeof arg[i] == code.OBJECT && arg[i].length == undefined) { return arg[i++] }
 	} else if (type == code.ARRAY) { if (typeof arg[i] == code.OBJECT && arg[i].length != undefined) { return arg[i++] }
@@ -21,8 +21,11 @@ Volcanos._init = function() {
 				}): can.core.Item(can.base.isFunc(item)? item(): item, set)
 			}); return msg
 		},
-		run: function(event, cmds, cb) { wx.showLoading()
-			can.misc.requests(can, can.request(event, {pod: can.db.pod||can.db.space}), can.onaction._apis||nfs.CHAT_ACTION, {cmds: (can.onaction._cmds||[]).concat(cmds)}, function(msg) {
+		run: function(event, cmds, cb) {
+			wx.showLoading(); const res = wx.getSystemInfoSync()
+			can.misc.request(can, can.request(event), can.base.MergeURL(can.onaction._apis||nfs.CHAT_ACTION, kit.Dict(
+				ice.POD, can.db.pod||can.db.space, ice.MSG_THEME, res.theme, ice.MSG_DEBUG, can.db.debug,
+			)), {cmds: (can.onaction._cmds||[]).concat(cmds)}, function(msg) {
 				msg.Dump = function() { can.ui.setData({list: msg.Table()}) }, cb(msg), wx.hideLoading()
 			})
 		},
@@ -31,10 +34,12 @@ Volcanos._init = function() {
 		onLoad: function(options) { can.ui = this, can.db = options, can.db.serve = can.db.serve||can.conf.serve
 			can.core.Item(can.db, function(key, value) { can.db[key] = decodeURIComponent(value) })
 			can.user.title(can.db.title||can.db.pod||can.db.space||(can.db.serve||can.conf.serve).split("://")[1])
-			console.log("app show", can.ui.route, options)
+			console.log("app show", can.ui.route, can.db)
 			if (can.db.ssid && can.db.password != "******") {
 				can.user.agent.connectWifi(can, can.db.ssid, can.db.password||"", function() { can.db.password = "******"
-					can.ui.setData({conf: can.db}), can.user.login(can, function() { can.onaction.refresh({}, can) })
+					can.core.Timer(300, function() {
+						can.ui.setData({conf: can.db}), can.user.login(can, function() { can.onaction.refresh({}, can) })
+					})
 				})
 			} else {
 				can.ui.setData({conf: can.db}), can.user.login(can, function() { can.onaction.refresh({}, can) })

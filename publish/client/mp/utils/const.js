@@ -22,6 +22,8 @@ var ice = {
 	MSG_FIELDS: "fields", MSG_SESSID: "sessid",
 	MSG_DETAIL: "detail", MSG_OPTION: "option", MSG_APPEND: "append", MSG_RESULT: "result",
 	MSG_ACTION: "_action", MSG_STATUS: "_status",
+	MSG_THEME: "sess.theme",
+	MSG_DEBUG: "debug",
 }
 var ctx = {
 	CONTEXT: "context", COMMAND: "command", CONFIG: "config", INPUTS: "inputs", FEATURE: "feature",

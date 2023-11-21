@@ -1,4 +1,4 @@
-const {ice, ctx, mdb, code, chat, html} = require("../../utils/const.js")
+const {ice, ctx, mdb, code, chat, http, html} = require("../../utils/const.js")
 const {shy, Volcanos} = require("../../utils/proto.js")
 Volcanos._page = {}
 Volcanos(chat.ONIMPORT, {
@@ -48,12 +48,13 @@ Volcanos(chat.ONACTION, {list: ["刷新", "扫码", "清屏"],
 			can.run(event, [ctx.ACTION, ctx.COMMAND], function(msg) {
 				can.onaction._cmds = [ctx.ACTION, ctx.RUN], can.onimport._init(can, msg)
 			})
-		} else if (can.db.cmd||can.db.index) {
-			can.run(event, [ctx.ACTION, ctx.COMMAND, can.db.cmd||can.db.index], function(msg) {
+		} else if (can.db.river && can.db.storm) {
+			can.onaction._cmds = [can.db.river, can.db.storm]
+			can.run(event, [], function(msg) { can.onimport._init(can, msg) })
+		} else {
+			can.run(event, [ctx.ACTION, ctx.COMMAND, can.db.cmd||can.db.index||"cli.qrcode"], function(msg) {
 				can.onaction._cmds = [ctx.ACTION, ctx.RUN], can.onimport._init(can, msg)
 			})
-		} else { can.onaction._cmds = [can.db.river, can.db.storm]
-			can.run(event, [], function(msg) { can.onimport._init(can, msg) })
 		}
 	},
 	onaction: function(event, can, button, data) { var name = data.name;
@@ -69,8 +70,10 @@ Volcanos(chat.ONACTION, {list: ["刷新", "扫码", "清屏"],
 		can.onaction._refresh(event, can, order)
 	},
 	onAction: function(event, can, button, data) { var order = data.order, name = data.name
+		var msg = can.request(event)
 		var field = can.ui.data.list[order||0]
 		if (field.feature[name]) {
+			if (can.base.isIn(name, mdb.CREATE, mdb.INSERT)) { msg._method = http.PUT }
 			return can.data.insert = {field: field, name: name, list: field.feature[name], cb: function(res) {
 				can.run(event, can.base.Simple([field.id||field.index, ctx.ACTION, name], res), function(msg) {
 					can.onaction._refresh(event, can, order)
@@ -84,10 +87,11 @@ Volcanos(chat.ONACTION, {list: ["刷新", "扫码", "清屏"],
 				can.core.List(field.inputs, function(input) { if (input.type != html.BUTTON) { input.value = ls[i++]||"" } })
 				can.onaction._refresh(event, can, order)
 				break
-			case ctx.RUN:
+			case ctx.RUN: break
 			case ice.LIST:
-			case "refresh": break
-			default: m.Option(ctx.ACTION, name)
+			case "refresh": msg._method = http.GET
+				break
+			default: msg.Option(ctx.ACTION, name)
 		}
 		var cmd = can.core.List(field.inputs, function(input) { if (input.type != html.BUTTON) { return input.value } })
 		for (var i = cmd.length-1; i > 0; i--) { if (cmd[i] === "") { cmd.pop() } else { break } }
@@ -110,7 +114,8 @@ Volcanos(chat.ONACTION, {list: ["刷新", "扫码", "清屏"],
 	},
 	onDetail: function(event, can, button, data) { var order = data.order, name = data.name, value = data.value, input = data.input
 		var field = can.ui.data.list[order||0]
-		if (input && input.type == html.BUTTON) { can.request(event, field.msg.Table()[data.index])
+		if (input && input.type == html.BUTTON) { var msg = can.request(event, field.msg.Table()[data.index])
+			if (can.base.isIn(name, mdb.REMOVE, mdb.DELETE)) { msg._method = http.DELETE }
 			var _input = {}; can.core.List(field.inputs, function(input) { if (input.type != html.BUTTON) { _input[input.name] = input.value } }), can.request(event, _input)
 			if (field.feature[input.name]) {
 				can.onAction(event, can, input.name, {order: order, name: input.name})
