@@ -7,16 +7,17 @@
     "miniprogram": {
       "list": [
         {
-          "name": "",
+          "name": "cli.runtime",
           "pathName": "pages/action/action",
-          "query": "cmd=web.code.h2.h2",
+          "query": "index=cli.runtime&serve=http%3A%2F%2F192.168.10.12%3A9020&debug=true",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "pages/action/action",
+          "name": "web.dream",
           "pathName": "pages/action/action",
-          "query": "river= e0a1eb&storm=c23ae3&title=hi.scan",
+          "query": "index=web.dream&serve=http%3A%2F%2F192.168.10.12%3A9020&debug=true",
+          "launchMode": "default",
           "scene": 1001
         }
       ]

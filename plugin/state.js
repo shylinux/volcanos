@@ -31,8 +31,9 @@ Volcanos(chat.ONIMPORT, {
 	}).length == 0) { can.onappend.table(can, msg) } },
 	_grow: function(can, msg, arg) { var sub = can.sub
 		if (sub && sub.onimport && sub.onimport.grow) { return sub.onimport.grow(sub, msg, arg) }
-		arg = can.page.Color(arg); if (can.page.Select(can, can._output, html.DIV_CODE, function(div) {
-			return can.page.style(can, div, html.MAX_HEIGHT, can.onexport.outputHeight(can)), can.page.Append(can, div, [{text: arg}]), can._output.scrollTop = div.offsetTop, div.scrollBy(0, 10000), true
+		arg = can.page.Color(arg); if (can.page.SelectOne(can, can._output, html.DIV_CODE, function(div) {
+			return can.page.style(can, div, html.MAX_HEIGHT, can.onexport.outputHeight(can)),
+				can.page.Append(can, div, [{text: arg}]), can._output.scrollTop = div.offsetTop, div.scrollBy(0, 10000), true
 		}).length == 0) { can.onappend.board(can, arg) }
 	},
 	_open: function(can, msg, arg) { can.user.opens(arg), can.Update() },

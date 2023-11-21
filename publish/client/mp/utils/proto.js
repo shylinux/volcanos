@@ -1,16 +1,13 @@
-const {ctx, nfs, code, chat} = require("const.js")
-
+const {ice, ctx, mdb, nfs, code, chat} = require("const.js")
 function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(type) {
 	if (type == code.OBJECT) { if (typeof arg[i] == code.OBJECT && arg[i].length == undefined) { return arg[i++] }
 	} else if (type == code.ARRAY) { if (typeof arg[i] == code.OBJECT && arg[i].length != undefined) { return arg[i++] }
 	} else if (i < arg.length && (!type || type == typeof arg[i])) { return arg[i++] }
 } return cb = typeof arg[arg.length-1] == code.FUNCTION? arg[arg.length-1]: function() {}, cb.help = next(code.STRING)||"", cb.meta = next(code.OBJECT)||{}, cb.list = next(code.ARRAY)||[], cb }
-
 function Volcanos(name, list) {
 	if (Volcanos._page) { Volcanos._page[name] = list }
 	return list
 }
-
 Volcanos._init = function() {
 	var can = {__proto__: Volcanos._page,
 		request: function(event) { event = event||{}, event = event._event||event
@@ -34,13 +31,19 @@ Volcanos._init = function() {
 		onLoad: function(options) { can.ui = this, can.db = options, can.db.serve = can.db.serve||can.conf.serve
 			can.core.Item(can.db, function(key, value) { can.db[key] = decodeURIComponent(value) })
 			can.user.title(can.db.title||can.db.pod||can.db.space||(can.db.serve||can.conf.serve).split("://")[1])
-			console.log("app show", can.ui.route, options), can.ui.setData({conf: can.db})
-			can.user.login(can, function() { can.onaction.refresh({}, can) })
+			console.log("app show", can.ui.route, options)
+			if (can.db.ssid && can.db.password != "******") {
+				can.user.agent.connectWifi(can, can.db.ssid, can.db.password||"", function() { can.db.password = "******"
+					can.ui.setData({conf: can.db}), can.user.login(can, function() { can.onaction.refresh({}, can) })
+				})
+			} else {
+				can.ui.setData({conf: can.db}), can.user.login(can, function() { can.onaction.refresh({}, can) })
+			}
 		},
-		onShow: function() {},
+		onShow: function() { can.misc.WSS(can) },
 		onReady: function() {},
-		onHide: function() {},
-		onUnload: function() {},
+		onHide: function() { can._socket && can._socket.close(), delete(can._socket) },
+		onUnload: function() { can._socket && can._socket.close(), delete(can._socket) },
 		onReachBottom: function() {},
 		onPullDownRefresh: function() { this.onLoad(can.db) },
 		onShareAppMessage: function() {}
@@ -49,5 +52,4 @@ Volcanos._init = function() {
 		can.core.CallFunc(cb, [event, can, key, event.target.dataset])
 	} }), Page(page)
 }
-
 module.exports = {shy, Volcanos}

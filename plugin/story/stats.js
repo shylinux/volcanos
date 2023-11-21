@@ -1,7 +1,8 @@
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg) { can.onappend.style(can, "stats", can._output)
-		var units = {}, stats = {}; msg.Table(function(value) { units[value.name] = value.units
+		var stats = {}, units = {}, index = {}; msg.Table(function(value) { units[value.name] = value.units
 			stats[value.name] = parseFloat(stats[value.name]||"0") + parseFloat(value.value)
+			index[value.name] = value.index
 		})
 		function fmts(value) { var ls = []
 			while (value > 0) { ls.push(value%1000)
@@ -12,6 +13,8 @@ Volcanos(chat.ONIMPORT, {
 		can.core.Item(stats, function(name, value) { can.page.Append(can, can._output, [{view: [[html.ITEM, name]], list: [
 			{view: mdb.VALUE, list: [{text: can.base.trimSuffix(fmts(parseFloat(value).toFixed(2))+"", ".00")}, {text: [units[name], "", "units"]}]},
 			{view: [mdb.NAME, "", can.user.trans(can, name, null, html.INPUT)]},
-		]}]) }), can.isCmdMode() && can.onappend.table(can, msg)
+		], onclick: function() {
+			can.onappend.plugin(can, {index: index[name], style: html.FLOAT})
+		}}]) }), can.isCmdMode() && can.onappend.table(can, msg)
 	},
 })

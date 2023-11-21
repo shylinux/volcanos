@@ -6,12 +6,15 @@ Volcanos(chat.ONIMPORT, {
 		msg.Dump(can), can.user.toast(can, "加载成功")
 	},
 })
-Volcanos("onaction", {list: ["刷新", "扫码", "登录"],
+Volcanos("onaction", {list: ["刷新", "扫码", "登录", "网络"],
 	"刷新": function(event, can) { can.onaction.refresh(event, can) },
 	"扫码": function(event, can) { can.user.agent.scanQRCode(can) },
 	"登录": function(event, can) {
 		can.user.info = {}, can.misc.localStorage(can, ice.MSG_SESSID, can.conf.sessid = "")
 		can.user.userinfo(can, function() { can.onaction.refresh(event, can) })
+	},
+	"网络": function(event, can) {
+		can.user.agent.connectWifi(can, "CMCC-UQJ7", "RZGR9FGF")
 	},
 	refresh: function(event, can) { can.run(event, [], function(msg) { can.onimport._init(can, msg) }) },
 	onaction: function(event, can, button, data) { var name = data.name;

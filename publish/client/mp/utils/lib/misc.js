@@ -57,6 +57,24 @@ Volcanos("misc", {
 		for (var i = 1; i < ls.length; i += 2) { if (can.base.isIn(ls[i], [ice.POD, ice.CMD])) { args[ls[i]] = ls[i+1] } }
 		return args
 	},
+	WSS: function(can) {
+		var url = can.base.MergeURL(can.db.serve.replace("http", "ws")+"/space/", mdb.TYPE, "weixin", mdb.NAME, "weixin", mdb.TEXT, can.base.MergeURL(nfs.PS+can.ui.route, can.db), can.conf)
+		var socket = wx.connectSocket({url: url, header:{"content-type": "application/json"}})
+		console.log("wss connect", url, socket)
+		socket.onOpen(function(res) { console.log("wss open", res) })
+		socket.onClose(function(res) { console.log("wss close", res)
+			if (can._socket) { can._socket = socket = can.misc.WSS(can) }
+		})
+		socket.onMessage(function(res) {
+			var msg = can.request(), data = can.base.Obj(res.data); msg.Copy(data), msg.detail = data.detail, console.log("wss recv", msg)
+			switch (msg.detail[0]) {
+				case "pwd": can._daemon = msg.detail[1]; break
+			}
+			msg.Echo("hello world")
+			delete(msg._hand), console.log("wss send", msg), socket.sendSocketMessage({data: JSON.stringify(msg)})
+		})
+		return socket
+	},
 	requests: function(can, msg, cmd, data, cb) {
 		can.misc.request(can, msg, cmd, data, function(msg) { cb && cb(msg) })
 	},
