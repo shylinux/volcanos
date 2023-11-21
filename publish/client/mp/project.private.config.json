@@ -7,6 +7,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "web.dream",
+          "pathName": "pages/action/action",
+          "query": "index=web.dream&debug=true",
+          "launchMode": "default",
+          "scene": 1001
+        },
+        {
           "name": "cli.qrcode",
           "pathName": "pages/action/action",
           "query": "index=cli.qrcode",
@@ -19,13 +26,6 @@
           "query": "index=cli.runtime&serve=http%3A%2F%2F192.168.10.12%3A9020&debug=true",
           "launchMode": "default",
           "scene": null
-        },
-        {
-          "name": "web.dream",
-          "pathName": "pages/action/action",
-          "query": "index=web.dream&serve=http%3A%2F%2F192.168.10.12%3A9020&debug=true",
-          "launchMode": "default",
-          "scene": 1001
         }
       ]
     }

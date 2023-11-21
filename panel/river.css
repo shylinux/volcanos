@@ -1,6 +1,9 @@
 fieldset.River { width:var(--project-width); float:left; }
 fieldset.River>div.action { width:100%; display:flex; justify-content:center; }
 fieldset.River>div.output div.item { padding:20px 20px; border-left:#00ffae solid 3px; }
+fieldset.River>div.output div.item>i.bi-chevron-down { float:right; }
+fieldset.River>div.output div.item.open>i.bi-chevron-down { rotate:-180deg; transition:all 0.5s; }
+fieldset.River>div.output div.item:not(.open)>i.bi-chevron-down  { transition:all 0.5s; }
 fieldset.River>div.output div.list div.item { border-left:#ccdc4c solid 3px; }
 fieldset.River>div.output div.list { margin-left:20px; }
 body:not(.mobile) fieldset.River>div.output { padding:10px; }

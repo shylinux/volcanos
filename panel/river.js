@@ -9,7 +9,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg
 		can._main_river = ls[0]||can.misc.SearchOrConf(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||"project"
 		can._main_storm = ls[1]||can.misc.SearchOrConf(can, chat.STORM)||msg.Option(ice.MSG_STORM)||"studio"
 	},
-	_river: function(can, meta, cb) { return {view: html.ITEM, list: [{icon: meta.icon}, {text: meta.name}], _init: function(target) { can.ui.river_list[meta.hash] = target, cb(target) },
+	_river: function(can, meta, cb) { return {view: html.ITEM, list: [{icon: meta.icon}, {text: meta.name}, {icon: "bi bi-chevron-down"}], _init: function(target) { can.ui.river_list[meta.hash] = target, cb(target) },
 		onclick: function(event) { can.onaction.storm(event, can, meta.hash) }, oncontextmenu: function(event) { can.onaction.carte(event, can, can.onaction._menu, meta.hash) },
 	} },
 	_storm: function(can, meta, river) { return {view: html.ITEM, list: [{icon: meta.icon}, {text: meta.name}], _init: function(target) { can.ui.storm_list[can.core.Keys(river, meta.hash)] = target },
@@ -47,8 +47,11 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 			var menu = can.setFooterMenu(list, function(event, button, list) { can.onaction.action(event, can, river, button) })
 			can.page.SelectChild(can, menu, html.DIV_ITEM, function(target, index) { can.page.ClassList.set(can, target, html.SELECT, list[index].hash == can.Conf("storm")) })
 		}) }
-		var list = can.ui.sublist[river]; if (list) { return can.onmotion.toggle(can, list), _menu() }
+		var list = can.ui.sublist[river]; if (list) {
+			return can.page.ClassList.set(can, can.ui.river_list[river], "open", can.onmotion.toggle(can, list)), _menu()
+		}
 		can.run({}, [river, chat.STORM], function(msg) { var next = can.ui.river_list[river].nextSibling
+			can.page.ClassList.set(can, can.ui.river_list[river], "open", true)
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOSTORM, can.request({}, {river: river})) }
 			can.db.storm_list[river] = msg.Table()
 			var select = 0; list = can.page.Append(can, can._output, [{view: html.LIST, list: msg.Table(function(item, index) {
@@ -59,7 +62,8 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	action: function(event, can, river, storm) { can.user.isMobile || can.misc.SearchHash(can, river, storm)
 		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], function(target) { can.page.ClassList.del(can, target, html.SELECT) })
 		can.onmotion.select(can, can.ui.sublist[river], html.DIV_ITEM, can.ui.storm_list[can.core.Keys(river, storm)])
-		can.onaction.storm({target: can.ui.river_list[river]}, can, river), can.onmotion.toggle(can, can.ui.sublist[river], true)
+		can.onaction.storm({target: can.ui.river_list[river]}, can, river)
+		can.page.ClassList.set(can, can.ui.river_list[river], "open", can.onmotion.toggle(can, can.ui.sublist[river], true))
 		can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm)}))
 	},
 	carte: function(event, can, list, river, storm) { can.onkeymap.prevent(event); if (can.core.Value(can._root, can.core.Keys(chat.RIVER, river))) { return }

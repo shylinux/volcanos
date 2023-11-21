@@ -111,7 +111,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.page.Select(can, status, [[[html.SPAN, key]]], function(target) {
 					if (key == web.SPACE && value) { value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }
 					if (can.base.beginWith(value, nfs.PS, ice.HTTP)) { value = can.page.Format(html.A, value) }
-					return can.base.isUndefined(value)? (value = target.innerHTML): (target.innerHTML = value.trim? value.trim(): value+"")
+					return can.base.isUndefined(value)? (value = target.innerText): (target.innerHTML = value.trim? value.trim(): value+"")
 				}); return value
 			} catch {} },
 			Action: function(key, value) {
@@ -795,9 +795,10 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		}
 	},
 	slideGrow: function(can, target) {
+		if (can.page.tagis(target, html.DIV) && can.page.ClassList.has(can, target, html.INPUT)) { return }
 		var height = target.offsetHeight, begin = 0; if (height < 10) { return }
 		can.page.style(can, target, html.HEIGHT, 0)
-		can.core.Timer({interval: 1, length: height/6}, function(timer, interval, index, list) {
+		can.core.Timer({interval: 1, length: height/5}, function(timer, interval, index, list) {
 			can.page.style(can, target, html.HEIGHT, begin += height/list.length)
 		}, function() {
 			can.page.style(can, target, html.HEIGHT, "")

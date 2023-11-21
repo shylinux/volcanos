@@ -109,7 +109,7 @@ fieldset.input.key.simple th { display:none; }
 fieldset.input.key.simple td { min-width:40px; }
 fieldset.input.date>div.action>div.item.next { margin-right:0; }
 fieldset.input.date>div.action>div.item.today { margin-right:0; }
-fieldset.input.date>div.output table.content { text-align:center; width:100%; min-width:350px; }
+fieldset.input.date>div.output table.content { text-align:center; width:100%; min-width:350px; border:var(--notice-bg-color) solid 1px; }
 fieldset.input.date>div.output td { padding:2px 10px; }
 fieldset.input.date>div.output td.prev { color:var(--disable-fg-color); }
 fieldset.input.date>div.output td.next { color:var(--disable-fg-color); }
@@ -138,6 +138,11 @@ body.mobile>div.carte div.item { padding:10px; }
 body>div.carte div.item span.icon.next { float:right; line-height:22px; height:22px; }
 body>div.carte.select.float>div.item { text-align:center; }
 body>div.input { padding:20px; }
+body>div.input>legend { font-style:italic; width:100%; }
+body>div.input input[name=cancel] { border:var(--danger-bg-color) solid 1px; }
+body>div.input input[name=submit] { border:var(--notice-bg-color) solid 1px; }
+body>div.input input[name=submit]:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+body>div.input input[name=cancel]:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 /* body>div.input div.output { clear:both; } */
 body>div.input td { padding:10px; }
 body>div.input td:nth-child(2) { padding:10px 0;}
@@ -162,8 +167,8 @@ body>div.input td:hover span.icons { visibility:visible; }
 body>div.input select { width:230px !important; }
 body>div.input input:not([type=button]) { width:240px; }
 body>div.input textarea { height:120px; width:240px !important; }
-body>div.input div.action { width:100%; position:sticky; bottom:0; }
-body>div.input div.action>div.item { margin:5px; float:right; }
+body>div.input div.action { padding:0 10px; width:100%; position:sticky; bottom:0; }
+body>div.input div.action>div.item { margin-left:10px; float:right; }
 body>div.input div.action>div.item>input[type=button] { width:110px; }
 body.mobile.landscape>div.input.login { padding:0; }
 body.mobile.landscape>div.input.login div.output img { max-height:280px; }
@@ -365,9 +370,11 @@ body.cmd { background-color:var(--plugin-bg-color); color:var(--body-fg-color); 
 legend { background-color:var(--legend-bg-color); border-radius:var(--input-radius); }
 legend:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 select { border-radius:var(--input-radius); }
+textarea:hover { border:var(--box-notice); }
 input { background-color:var(--input-bg-color); color:var(--input-fg-color); border-radius:var(--input-radius); }
 input:not([type=button]) { border:var(--input-border); }
 input:not([type=button]):hover { border:var(--box-notice); }
+input.select[type=button]:hover { border:var(--box-notice); }
 input:not([type=button]):focus { border:var(--box-notice); }
 input[type=button]:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 textarea { background-color:var(--input-bg-color); color:var(--input-fg-color); border:var(--box-border); }

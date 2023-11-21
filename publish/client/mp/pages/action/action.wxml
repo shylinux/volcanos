@@ -3,7 +3,7 @@
 	<template is="action" data="{{action}}"></template>
 	<template is="debug" data="{{conf}}"></template>
 	<view class="output">
-		<view class="field" wx:for="{{list}}" wx:for-index="order" wx:for-item="field" wx:key="index">
+		<view class="field {{field.index}}" wx:for="{{list}}" wx:for-index="order" wx:for-item="field" wx:key="index">
 			<view class="legend"><text>{{field.name}}({{field.help}})</text></view>
 			<view class="option"> <!-- 参数 -->
 				<view class="item {{item.type}}" wx:for="{{field.inputs}}" wx:key="name">
