@@ -7,9 +7,9 @@
 </template>
 
 <template name="debug">
-	<view class="debug" wx:if="{{conf.debug == 'true'}}">
-		<view wx:for="{{conf}}" wx:key="index">{{index}}: {{item}}</view>
-	</view>
+	<table class="debug" wx:if="{{conf.debug == 'true'}}">
+		<tr wx:for="{{conf}}" wx:key="index"><th>{{index}}</th><td>{{item}}</td></tr>
+	</table>
 </template>
 
 <template name="table">

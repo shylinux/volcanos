@@ -80,7 +80,7 @@ Volcanos("user", {
 		}}) })
 	},
 	trans: function(can, text, list, zone) { if (!text) { return text }
-		return can.core.Value(list, can.core.Keys(zone, text))||can.core.Value({
+		return can.core.Value(can.core.Value(list, ctx.FEATURE_TRANS), can.core.Keys(zone, text))||can.core.Value({
 			"run": "执行", "list": "查看", "back": "返回",
 			"create": "创建", "remove": "删除",
 			"prunes": "清理",

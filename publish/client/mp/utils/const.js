@@ -26,7 +26,7 @@ var ice = {
 	MSG_DEBUG: "debug",
 }
 var ctx = {
-	CONTEXT: "context", COMMAND: "command", CONFIG: "config", INPUTS: "inputs", FEATURE: "feature",
+	CONTEXT: "context", COMMAND: "command", CONFIG: "config", INPUTS: "inputs", FEATURE: "feature", FEATURE_TRANS: "feature._trans",
 	CMDS: "cmds", INDEX: "index", ARGS: "args", STYLE: "style", DISPLAY: "display", ACTION: "action", RUN: "run",
 	EXTRA_INDEX: "extra.index", EXTRA_ARGS: "extra.args",
 }
@@ -39,6 +39,7 @@ var mdb = {
 }
 var web = {
 	OPEN: "open", LINK: "link", HTTP: "http", DOMAIN: "domain", URL: "url",
+	DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter",
 }
 var aaa = {
 }

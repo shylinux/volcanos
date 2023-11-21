@@ -1,4 +1,4 @@
-const {ice, ctx, mdb, code, chat, http, html} = require("../../utils/const.js")
+const {ice, ctx, mdb, web, code, chat, http, html} = require("../../utils/const.js")
 const {shy, Volcanos} = require("../../utils/proto.js")
 Volcanos._page = {}
 Volcanos(chat.ONIMPORT, {
@@ -21,11 +21,11 @@ Volcanos(chat.ONIMPORT, {
 				if (input.type == html.SELECT) {
 					input.values = input.values || can.core.Split(input.value)
 				}
-				if (input.type == html.TEXT) {
-					input.placeholder = can.user.trans(can, input.placeholder||input.name, can.core.Value(field, "feature._trans"), html.INPUT)
+				if (can.base.isIn(input.type, html.TEXT, html.TEXTAREA)) {
+					input.placeholder = can.user.trans(can, input.placeholder||input.name, field, html.INPUT)
 				}
 				if (input.type == html.BUTTON) {
-					input.value = can.user.trans(can, input.value||input.name, can.core.Value(field, "feature._trans"))
+					input.value = can.user.trans(can, input.value||input.name, field)
 				} else {
 					if (can.db.cmd||can.db.index) { input.value = input.value||can.db[input.name] }
 				}
@@ -70,27 +70,21 @@ Volcanos(chat.ONACTION, {list: ["刷新", "扫码", "清屏"],
 		can.onaction._refresh(event, can, order)
 	},
 	onAction: function(event, can, button, data) { var order = data.order, name = data.name
-		var msg = can.request(event)
-		var field = can.ui.data.list[order||0]
-		if (field.feature[name]) {
-			if (can.base.isIn(name, mdb.CREATE, mdb.INSERT)) { msg._method = http.PUT }
+		var field = can.ui.data.list[order||0], msg = can.request(event)
+		if (field.feature[name]) { if (can.base.isIn(name, mdb.CREATE, mdb.INSERT)) { msg._method = http.PUT }
 			return can.data.insert = {field: field, name: name, list: field.feature[name], cb: function(res) {
 				can.run(event, can.base.Simple([field.id||field.index, ctx.ACTION, name], res), function(msg) {
 					can.onaction._refresh(event, can, order)
 				})
 			}}, can.user.jumps(chat.PAGES_INSERT)
-		}
-		field._history = field._history||[]
+		} field._history = field._history||[]
 		switch (name) {
-			case ice.BACK: field._history.pop()
-				var ls = field._history.pop()||[], i = 0
+			case ice.BACK: field._history.pop(); var ls = field._history.pop()||[], i = 0
 				can.core.List(field.inputs, function(input) { if (input.type != html.BUTTON) { input.value = ls[i++]||"" } })
-				can.onaction._refresh(event, can, order)
-				break
+				can.onaction._refresh(event, can, order); break
 			case ctx.RUN: break
 			case ice.LIST:
-			case "refresh": msg._method = http.GET
-				break
+			case web.REFRESH: msg._method = http.GET; break
 			default: msg.Option(ctx.ACTION, name)
 		}
 		var cmd = can.core.List(field.inputs, function(input) { if (input.type != html.BUTTON) { return input.value } })
@@ -99,17 +93,16 @@ Volcanos(chat.ONACTION, {list: ["刷新", "扫码", "清屏"],
 			for (var i = 0; i < to.length; i++) { if (to[i] != from[i]) { return false } } return true
 		} eq(field._history[field._history.length-1], cmd) || field._history.push(cmd)
 		can.run(event, [field.id||field.index].concat(cmd), function(msg) {
-			msg._head = can.core.List(msg.append, function(item) { return can.user.trans(can, item, can.core.Value(field, "feature._trans"), html.INPUT) })
+			msg._head = can.core.List(msg.append, function(item) { return can.user.trans(can, item, field, html.INPUT) })
 			can.core.Item(msg._view, function(key, value) { can.core.List(value, function(value) { can.core.List(value, function(input, i) {
-				if (input.type == html.BUTTON) { input.value = can.user.trans(can, input.value||input.name, can.core.Value(field, "feature._trans")) }
-				if (input._type == html.TEXT) { input._text = can.user.trans(can, input._text, can.core.Value(field, "feature._trans"), html.VALUE) }
+				if (input.type == html.BUTTON) { input.value = can.user.trans(can, input.value||input.name, field) }
+				if (input._type == html.TEXT) { input._text = can.user.trans(can, input._text, field, html.VALUE) }
 			}) }) })
-			msg._status = can.core.List(can.base.Obj(msg.Option(ice.MSG_STATUS)), function(item) { return item.name = can.user.trans(can, item.name), can.user.trans(can, item, html.INPUT) })
+			msg._status = can.core.List(can.base.Obj(msg.Option(ice.MSG_STATUS)), function(item) { return item })
 			msg._action = can.core.List(can.base.Obj(msg.Option(ice.MSG_ACTION)), function(item) {
 				if (typeof item == code.STRING) { return {type: html.BUTTON, name: item, value: can.user.trans(can, item)} }
 				return item.value = can.user.trans(can, item.value||item.name), item
-			})
-			field.msg = msg, can.page.setData(can)
+			}), field.msg = msg, can.page.setData(can)
 		})
 	},
 	onDetail: function(event, can, button, data) { var order = data.order, name = data.name, value = data.value, input = data.input
