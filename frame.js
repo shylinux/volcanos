@@ -237,23 +237,19 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			}
 			sub.db.hash = can.isCmdMode()? can.misc.SearchHash(can): []
-			can.page.requireModules(can, can.Conf("modules"), function() { if (sub.Mode() != "result") { can.onmotion.clear(can, output) }
-				can.onexport._output(sub, msg)
-				can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
-					if (action !== false) { can.onkeymap._build(sub)
-						can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
-						sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS)), can.user.isMobile || sub.onappend.tools(sub, msg)
-						can.core.Item(can.Action(), function(key) {
-							var value = can.misc.sessionStorage(can, [can.ConfIndex(), ctx.ACTION, key])
-							value && can.Action(key, value[0])
-						})
-					}
-					can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output)
-					if (can.onimport.size) { if (can.isFullMode() || can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
-						can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), can.Conf("_auto"), can.Mode()), can.onexport.output(sub, msg)
-					} can.base.isFunc(cb) && cb(msg)
-				}, target: output})
-			})
+			can.onexport._output(sub, msg), sub.Mode() != "result" && can.onmotion.clear(can, output)
+			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
+				if (action !== false) { can.onkeymap._build(sub)
+					can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
+					sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS)), can.user.isMobile || sub.onappend.tools(sub, msg)
+					can.core.Item(can.Action(), function(key) { var value = can.misc.sessionStorage(can, [can.ConfIndex(), ctx.ACTION, key]); value && can.Action(key, value[0]) })
+				}
+				can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output)
+				if (can.onimport.size) { if (can.isFullMode() || can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
+					can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), can.Conf("_auto"), can.Mode()), can.onexport.output(sub, msg)
+					can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight(), html.WIDTH, sub.ConfWidth())
+				} can.base.isFunc(cb) && cb(msg)
+			}, target: output})
 		})
 	},
 	_status: function(can, list, status) { status = status||can._status, can.onmotion.clear(can, status); var keys = {}

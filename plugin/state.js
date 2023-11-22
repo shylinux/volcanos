@@ -206,7 +206,7 @@ Volcanos(chat.ONEXPORT, {
 		return can.base.Min(height, can.sub.ConfHeight()/2)
 	},
 	outputMargin: function(can) { return 0 },
-	statusHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.ACTION_HEIGHT },
+	statusHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.STATUS_HEIGHT },
 	link: function(can) { var args = can.Option(); args.pod = can.ConfSpace(), args.cmd = can.ConfIndex(); return can.misc.MergePodCmd(can, args, true) },
 	args: function(can) { return can.Option() },
 	close: function(can, msg) {},

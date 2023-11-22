@@ -187,6 +187,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				sub.onexport.output = function() { var width = can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0)
 					can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
 					sub.onimport.size(sub, can.ConfHeight()/2, can.base.Min(sub._target.offsetWidth, width/2, width/(can.base.isIn(sub.ConfIndex(), code.COMPILE, cli.RUNTIME)? 1: 2)), true)
+					sub.onimport.size(sub, can.ConfHeight()/2, can.base.Min(sub._target.offsetWidth, width/2, width), true)
 				}
 				can.onmotion.hidden(can, sub._target), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}
 				can.page.Append(can, sub._legend,[{text: [can.page.unicode.remove, "", mdb.REMOVE], onclick: function(event) {

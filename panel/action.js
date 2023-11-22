@@ -1,8 +1,7 @@
 (function() { const TABS = "tabs", TABVIEW = "tabview", HORIZON = "horizon", VERTICAL = "vertical", GRID = "grid", FREE = "free", FLOW = "flow", PAGE = "page", CAN_LAYOUT = "can.layout"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.misc.SearchHash(can)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
-			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X)
-			if (item.style == html.OUTPUT) { item.width = can.ConfWidth() }
+			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X); if (item.style == html.OUTPUT) { item.width = can.ConfWidth() }
 			if (msg.Length() == 1) { item.height = can.ConfHeight()-html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y) }
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }

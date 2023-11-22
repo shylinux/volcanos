@@ -62,10 +62,11 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			can.user.info.email = msg.Option(aaa.EMAIL), can.user.info.repos = msg.Option(nfs.REPOS)
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			msg.Option(mdb.PLUGIN) && can.onappend.plugin(can, {index: msg.Option(mdb.PLUGIN)}, function(sub) { can.onmotion.hidden(can, sub._target) }, document.body)
-			html.ACTION_HEIGHT = can.page.styleValueInt(can, "--action-height")
-			html.ACTION_MARGIN = can.page.styleValueInt(can, "--action-margin")
 			html.PLUGIN_MARGIN = can.page.styleValueInt(can, "--plugin-margin")
 			html.PLUGIN_PADDING = can.page.styleValueInt(can, "--plugin-padding")
+			html.ACTION_MARGIN = can.page.styleValueInt(can, "--action-margin")
+			html.ACTION_HEIGHT = can.page.styleValueInt(can, "--action-height")
+			html.STATUS_HEIGHT = can.page.styleValueInt(can, "--status-height")
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)
