@@ -1,4 +1,4 @@
-fieldset.River { width:var(--project-width); float:left; }
+fieldset.River { width:var(--river-width); float:left; }
 fieldset.River>div.action { width:100%; display:flex; justify-content:center; }
 fieldset.River>div.output div.item { padding:20px 20px; border-left:#00ffae solid 3px; }
 fieldset.River>div.output div.item>i.bi-chevron-down { float:right; }

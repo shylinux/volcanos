@@ -3,7 +3,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X)
 			if (item.style == html.OUTPUT) { item.width = can.ConfWidth() }
-			if (msg.Length() == 1) { item.height = can.ConfHeight()-html.ACTION_HEIGHT-4*html.PLUGIN_MARGIN }
+			if (msg.Length() == 1) { item.height = can.ConfHeight()-html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y) }
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
 				sub.run = function(event, cmds, cb) { return can.run(event, [river, storm, meta.id||meta.index].concat(cmds), cb) }
@@ -19,7 +19,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 		var tabs = [{view: [html.ITEM, "", meta.name], onclick: function(event) { can.onmotion.select(can, can._header_tabs, html.DIV_ITEM, sub._header_tabs)
 			can.onmotion.select(can, can._action, html.DIV_ITEM, sub._tabs), can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
 			if (sub._delay_refresh) { sub._delay_refresh = false, sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) }
-			can.onexport.layout(can) == FREE || (can._output.scrollTop = sub._target.offsetTop-html.PLUGIN_MARGIN)
+			can.onexport.layout(can) == FREE || (can._output.scrollTop = sub._target.offsetTop-10)
 			can.onexport.layout(can) && can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), meta.index)
 		}, oncontextmenu: sub._legend.onclick}]; sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
 	},
@@ -29,13 +29,17 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 	},
 })
 Volcanos(chat.ONACTION, {_init: function(can, target) {
-		can.Conf(html.MARGIN_Y, (can.user.isMobile? 0: 4)*html.PLUGIN_MARGIN+html.ACTION_HEIGHT), can.Conf(html.MARGIN_X, (can.user.isMobile? 2: 4)*html.PLUGIN_MARGIN)
+		can.Conf(html.MARGIN_Y, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN+html.ACTION_HEIGHT)
+		can.Conf(html.MARGIN_X, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN)
 		can.core.List(["ontouchstart", "ontouchmove", "ontouchend"], function(item) {
 			can.onengine.listen(can, item, function(event, msg) { can.onaction[item](event, can), can.onengine.signal(can, chat.ONACTION_TOUCH, msg) }, target)
 		})
 	},
 	onsize: function(can, msg, height, width) { can.Conf({height: can.base.Min(height, 240), width: width}) },
-	onlogin: function(can, msg) { can.onimport._menu(can, msg), can.onkeymap._build(can)
+	onlogin: function(can, msg) {
+		can.Conf(html.MARGIN_Y, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN+html.ACTION_HEIGHT)
+		can.Conf(html.MARGIN_X, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN)
+		can.onimport._menu(can, msg), can.onkeymap._build(can)
 		can._root.River && can.onmotion.delay(can, function() {
 			if (can.Mode()) { return }
 			var gt = can.page.unicode.next, lt = can.page.unicode.prev, river = can._root.River._target
@@ -130,7 +134,7 @@ Volcanos(chat.ONLAYOUT, {
 	page: function(can) { can.page.styleHeight(can, can._output, ""), can.page.style(can, document.body, kit.Dict(html.OVERFLOW, "")) },
 	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) {
 		if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) { return sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), true) }
-		if (can._plugins.length == 1) { return sub.onimport.size(sub, can.ConfHeight()-html.ACTION_HEIGHT-4*html.PLUGIN_MARGIN, can.ConfWidth()-can.Conf(html.MARGIN_X), false) }
+		if (can._plugins.length == 1) { return sub.onimport.size(sub, can.ConfHeight()-html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), false) }
 		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(button || sub.isCmdMode()? 0: html.ACTION_MARGIN), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.MAX_HEIGHT, "")
 	}) },
 	_storage: function(can, value) { return can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value) },

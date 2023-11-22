@@ -1,13 +1,13 @@
-fieldset.Footer>div.output { font-style:italic; height:32px; overflow:hidden; }
-fieldset.Footer>div.output div.item { padding:7px; float:left; }
-fieldset.Footer>div.output div.title:first-child { font-weight:bold; text-align:center; width:var(--project-width); overflow:auto; }
+fieldset.Footer>div.output { font-style:italic; height:var(--footer-height); overflow:hidden; }
+fieldset.Footer>div.output div.item { padding:7px; height:var(--footer-height); float:left; }
+fieldset.Footer>div.output div.title:first-child { font-weight:bold; text-align:center; width:var(--river-width); overflow:auto; }
 fieldset.Footer>div.output div.state { float:right; }
 fieldset.Footer>div.output div.state label { font-size:12px; }
 fieldset.Footer>div.output div.toast { float:right; line-height:18px; }
 fieldset.Footer>div.output div.cmd { padding:0; margin-left:10px; position:relative; }
 fieldset.Footer>div.output div.cmd>i { padding:7px; position:absolute; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { padding-left:30px; width:120px; transition:all 1s; }
-fieldset.Footer>div.output div.cmd>input[name=cmd]:focus { width:320px; transition:all 0.5s; }
+fieldset.Footer>div.output div.cmd>input[name=cmd]:focus { width:var(--river-width); transition:all 0.5s; }
 fieldset.Footer>div.output div.cmd>span.delete { padding:6px; }
 fieldset.Footer>div.output div.menu>div.River { display:flex; justify-content:space-around; }
 fieldset.Footer>div.output div.menu>div.River>div.item { height:60px; display:flex; flex-direction:column; text-align:center; flex-grow:1; }
