@@ -314,6 +314,7 @@ var html = {PLUGIN_MARGIN: 10, PLUGIN_PADDING: 10, ACTION_MARGIN: 200, ACTION_HE
 }
 var icon = {
 	SEARCH: "bi bi-search", TERMINAL: "bi bi-terminal",
+	CHEVRON_DOWN: "bi bi-chevron-down",
 }
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",

@@ -9,7 +9,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg
 		can._main_river = ls[0]||can.misc.SearchOrConf(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||"project"
 		can._main_storm = ls[1]||can.misc.SearchOrConf(can, chat.STORM)||msg.Option(ice.MSG_STORM)||"studio"
 	},
-	_river: function(can, meta, cb) { return {view: html.ITEM, list: [{icon: meta.icon}, {text: meta.name}, {icon: "bi bi-chevron-down"}], _init: function(target) { can.ui.river_list[meta.hash] = target, cb(target) },
+	_river: function(can, meta, cb) { return {view: html.ITEM, list: [{icon: meta.icon}, {text: meta.name}, {icon: icon.CHEVRON_DOWN}], _init: function(target) { can.ui.river_list[meta.hash] = target, cb(target) },
 		onclick: function(event) { can.onaction.storm(event, can, meta.hash) }, oncontextmenu: function(event) { can.onaction.carte(event, can, can.onaction._menu, meta.hash) },
 	} },
 	_storm: function(can, meta, river) { return {view: html.ITEM, list: [{icon: meta.icon}, {text: meta.name}], _init: function(target) { can.ui.storm_list[can.core.Keys(river, meta.hash)] = target },
