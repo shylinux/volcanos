@@ -2,7 +2,7 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.misc.SearchHash(can)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X); if (item.style == html.OUTPUT) { item.width = can.ConfWidth() }
-			if (msg.Length() == 1) { item.height = can.ConfHeight()-html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y) }
+			if (msg.Length() == 1) { item.height = can.ConfHeight()-(can.user.isMobile? 2: 1)*html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y) }
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
 				sub.run = function(event, cmds, cb) { return can.run(event, [river, storm, meta.id||meta.index].concat(cmds), cb) }
@@ -52,8 +52,9 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			if (list.length == 1) { can.user.mod.cmd = item.index
 				can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP) || can.user.title(item.index)
 				can.onaction._onaction_cmd(can), item.mode = chat.CMD, item.opts = can.misc.Search(can)
+				can.user.mod.isCmd && can.user.isMobile && (can.ConfHeight(can.ConfHeight()-html.ACTION_HEIGHT))
 			} return item
-		}), FLOW).layout(window.innerHeight, window.innerWidth): can.runAction(can.request(), ctx.COMMAND, [], function(msg) {
+		}), FLOW).layout(can.page.height(), can.page.width()): can.runAction(can.request(), ctx.COMMAND, [], function(msg) {
 			if (msg.Length() == 1) { can.onaction._onaction_cmd(can) } can.onimport._init(can, msg)
 		})
 	},
@@ -81,7 +82,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		if (can.onkeymap.selectCtrlN(msg._event, can, can._action, html.DIV_ITEM)) { return }
 		can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
 	},
-	onresize: function(can) { can.onaction.layout(can), window.setsize && window.setsize(can.page.width(), can.page.height()) },
+	onresize: function(can) { can.onaction.layout(can) },
+	// onresize: function(can) { can.onaction.layout(can), window.setsize && window.setsize(can.page.width(), can.page.height()) },
 	ontitle: function(can, msg) { can.onlayout._storage(can, "") },
 
 	ontouchstart: function(event, can) { can.touch = can.touch || {}

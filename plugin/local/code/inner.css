@@ -22,8 +22,8 @@ fieldset.inner>div.output>div.layout>div.display { box-shadow:var(--box-shadow);
 fieldset.inner>div.output>div.layout>div.layout>div.profile { box-shadow:var(--box-shadow); }
 fieldset.inner>div.output>div.layout>div.tabs { font-size:var(--code-font-size); display:none; }
 fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding-right:0; box-shadow:var(--box-shadow); margin-left:5px; }
-fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); border-top-left-radius:10px; border-top-right-radius:10px; }
-fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs.select { background-color:var(--output-bg-color); border-top-left-radius:10px; border-top-right-radius:10px; border-bottom:lightgray solid 2px; }
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); border-top-left-radius:var(--button-radius); border-top-right-radius:var(--button-radius); }
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs.select { background-color:var(--output-bg-color); border-top-left-radius:var(--button-radius); border-top-right-radius:var(--button-radius); border-bottom:lightgray solid 2px; }
 fieldset.inner>div.output>div.layout>div.path { font-size:var(--code-font-size); display:none; }
 fieldset.inner>div.output>div.layout>div.layout>iframe.profile { border-left:var(--box-border); }
 fieldset.inner>div.output>div.layout>div.layout>div.profile h1 { text-align:left; padding:10px 0; border-bottom:var(--box-border); margin:20px 0; }

@@ -1,41 +1,39 @@
-fieldset.word>div.output { padding:10px; }
-fieldset.word>div.output>p { margin:20px auto; }
+fieldset.word>div.output { padding:var(--plugin-padding); }
 fieldset.word>div.output div.story.flex { display:flex; justify-content:center; }
 fieldset.word>div.output div.story.flex div.story.flex { display:flex; justify-content:center; }
-fieldset.word>div.output div.story.flex>* { padding:20px; }
+fieldset.word>div.output div.story.flex>* { padding:var(--plugin-padding); }
+fieldset.word>div.output p { margin:var(--title-margin) auto; }
+fieldset.word>div.output h3 { margin-top:var(--title-margin); }
 fieldset.word>div.output h2.story[data-type=spark][data-name=title] { text-align:center; }
-fieldset.word>div.output h3 { margin-top:20px; }
-fieldset.word>div.output table { width:100%; }
+fieldset.word>div.output ul { margin:20px; margin-right:0; }
 fieldset.word>div.output img { display:block; margin:auto; max-height:100%; max-width:100%; }
 fieldset.word>div.output table.content img { margin:unset; max-width:unset; }
+fieldset.word>div.output table { width:100%; }
 fieldset.word>div.output video { max-height:100%; width:100%; }
-fieldset.word>div.output iframe { height:480px; width:100%; }
+fieldset.word>div.output iframe { height:var(--iframe-height); width:100%; }
 fieldset.word>div.output svg.story[data-index] text { cursor:pointer; }
-fieldset.word>div.output input.story[type=button] { font-family:system-ui; font-weight:bold; padding:20px 40px; margin:10px; height:64px; box-shadow:var(--box-shadow); }
+fieldset.word>div.output input.story[type=button] { font-family:system-ui; font-weight:bold; padding:10px 40px; margin:var(--button-margin); height:var(--header-height); box-shadow:var(--box-shadow); }
+body.mobile fieldset.word>div.output input.story[type=button] { padding:10px 20px; }
 fieldset.word>div.output fieldset.web.code.inner.output div.output td.line { border-right:var(--box-border); }
-fieldset.word>div.output>fieldset.story:not(.full) { margin:20px 0; }
-fieldset.word>div.output ul { margin:20px 40px; }
-fieldset.word>div.output fieldset.story:not(.float):not(.full)>form.option>div.icon.delete { display:none; }
-
 fieldset.word>div.navmenu { background-color:inherit; overflow:auto; min-width:120px; clear:both; float:left; }
-fieldset.word>div.navmenu div.list { margin-left:20px; }
-fieldset.word>div.navmenu div.item { font-size:1.4em; font-weight:bold; font-family:cursive; padding:4px 20px; }
+fieldset.word>div.navmenu div.list { margin-left:var(--title-margin); }
+fieldset.word>div.navmenu div.item { font-size:1.4em; font-weight:bold; font-family:cursive; padding:var(--input-padding) var(--title-margin); }
 fieldset.word>div.navmenu>div.item { font-size:1.6em; }
 
 div.story[data-type=spark] label { user-select:none; }
-div.story[data-type=spark_tabs] { margin-top:20px; }
-div.story[data-type=spark_tabs]>div.tabs>div.item { font-style:italic; padding:5px 20px; height:32px; float:left; }
+div.story[data-type=spark_tabs] { margin-top:var(--title-margin); }
+div.story[data-type=spark_tabs]>div.tabs>div.item { font-style:italic; padding:var(--input-padding) var(--button-padding); height:var(--action-height); float:left; }
 div.story[data-type=spark_tabs]>div.tabs>div.item.select { border-bottom:var(--code-border-color) solid 2px; }
 div.story[data-type=spark_tabs]>div.story:not(.select) { display:none; }
 
 fieldset.word.play.float { top:0; }
 fieldset.word.play.float>div.action { display:contents; }
 fieldset.word.play.float>div.status { clear:none; display:contents; }
-fieldset.word.play.float>div.output>div.project { background-color:#4682b46b; padding:10px; position:fixed; right:0; top:32px; z-index:10; }
+fieldset.word.play.float>div.output>div.project { background-color:#4682b46b; padding:var(--plugin-padding); position:fixed; right:0; top:var(--action-height); z-index:10; }
 fieldset.word.play.float div.content div.page { display:none; }
 fieldset.word.play.float div.content div.page.show { display:block; }
 fieldset.word.play.float div.content div.page ul { text-align:left; }
-fieldset.word.play.float div.content.grid div.page { background-color:#a4cbecb5; margin:10px; height:320px; width:30%; overflow:auto; display:block; float:left; }
+fieldset.word.play.float div.content.grid div.page { background-color:#a4cbecb5; margin:var(--plugin-padding); height:var(--qrcode-height); width:30%; overflow:auto; display:block; float:left; }
 fieldset.word.play.float h1 { text-align:center; }
 fieldset.word.play.float h2 { text-align:center; }
 fieldset.word.play.float h3 { text-align:center; }

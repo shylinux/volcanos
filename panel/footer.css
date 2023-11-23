@@ -2,19 +2,19 @@ fieldset.Footer>div.output { font-style:italic; height:var(--footer-height); ove
 fieldset.Footer>div.output div.item { padding:7px; height:var(--footer-height); float:left; }
 fieldset.Footer>div.output div.title:first-child { font-weight:bold; text-align:center; width:var(--river-width); overflow:auto; }
 fieldset.Footer>div.output div.state { float:right; }
-fieldset.Footer>div.output div.state label { font-size:12px; }
+fieldset.Footer>div.output div.state label { font-size:var(--status-font-size); }
 fieldset.Footer>div.output div.toast { float:right; line-height:18px; }
 fieldset.Footer>div.output div.cmd { padding:0; margin-left:20px; position:relative; }
 fieldset.Footer>div.output div.cmd>i { padding:7px; position:absolute; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { padding-left:30px; }
-fieldset.Footer>div.output div.cmd>span.delete { padding:6px; }
+fieldset.Footer>div.output div.cmd>span.delete { padding:var(--input-padding); }
 fieldset.Footer>div.output div.menu>div.River { display:flex; justify-content:space-around; }
-fieldset.Footer>div.output div.menu>div.River>div.item { height:60px; display:flex; flex-direction:column; text-align:center; flex-grow:1; }
+fieldset.Footer>div.output div.menu>div.River>div.item { height:var(--footer-height); display:flex; flex-direction:column; text-align:center; flex-grow:1; }
 fieldset.Footer>div.output div.menu>div.River>div.item>i { font-size:24px; margin-right:0; }
-fieldset.Footer>div.output div.menu>div.River>div.item>span { font-size:12px; }
-body.mobile fieldset.Footer>div.output { font-style:italic; height:60px; overflow:hidden; }
-body.mobile fieldset.Footer>div.output div.cmd { display:none; }
+fieldset.Footer>div.output div.menu>div.River>div.item>span { font-size:var(--status-font-size); }
+body.mobile fieldset.Footer>div.output { font-style:italic; height:var(--footer-height); overflow:hidden; }
 body.mobile fieldset.Footer>div.output div.toast { display:none; }
+body.mobile fieldset.Footer>div.output div.cmd { display:none; }
 
 .picker { box-shadow:4px 4px 20px 4px #626bd0; }
 div.view span.keyword { color:#5cadd4; }

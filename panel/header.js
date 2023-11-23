@@ -2,7 +2,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport._title(can, msg, target), can.onimport._state(can, msg, target), can.onimport._avatar(can, msg, target), can.onimport._background(can, msg, target), can.onimport._search(can, msg, target)
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.getValid(can.Conf(chat.TITLE)||(can.user.isExtension? "contexts": location.host)||msg.result, [location.host]), function(item) {
-		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE], "", item], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
+		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE]], list: [{img: "/volcanos/favicon.ico"}, {text: item}], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
 	}) },
 	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
 		if (item == aaa.AVATAR ) { can.user.isLocalFile || can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item]], list: [{img: lex.SP}], onclick: function(event) {
@@ -47,7 +47,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 })
 Volcanos(chat.ONACTION, {_init: function(can) {
-		can.page.theme(function(theme) { can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = theme})) }), can.onimport.theme(can)
 	},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onmain: function(can) {
@@ -62,8 +61,13 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			can.user.info.email = msg.Option(aaa.EMAIL), can.user.info.repos = msg.Option(nfs.REPOS)
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			msg.Option(mdb.PLUGIN) && can.onappend.plugin(can, {index: msg.Option(mdb.PLUGIN)}, function(sub) { can.onmotion.hidden(can, sub._target) }, document.body)
-			html.PLUGIN_MARGIN = can.page.styleValueInt(can, "--plugin-margin")
+			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}
+			can.page.theme(function(theme) { theme = can.ui.diy&&can.ui.diy[theme]||theme
+				can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = theme}))
+			}), can.onimport.theme(can)
+			html.RIVER_MARGIN = can.page.styleValueInt(can, "--river-margin")
 			html.PLUGIN_PADDING = can.page.styleValueInt(can, "--plugin-padding")
+			html.PLUGIN_MARGIN = can.page.styleValueInt(can, "--plugin-margin")
 			html.ACTION_MARGIN = can.page.styleValueInt(can, "--action-margin")
 			html.ACTION_HEIGHT = can.page.styleValueInt(can, "--action-height")
 			html.STATUS_HEIGHT = can.page.styleValueInt(can, "--status-height")
@@ -101,7 +105,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	carte: function(event, can, list, cb, trans) { return can.user.carte(event, can, can.onaction, list, cb, null, trans) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
 	avatar: function(event, can) { var src = can.onexport.avatar(can)
-		can.onaction.carte(event, can, [
+		can.onaction.carte(can.request(event, {_style: "header avatar"}), can, [
 		can.user.isMobile? `<img src="${src}" width=${can.ConfWidth()-20}>`: can.page.Format(html.IMG, src, can.page.height()/2)
 	]) },
 	usernick: function(event, can) { can.onaction.carte(event, can, can.onaction._menus) },
@@ -114,7 +118,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	password: function(event, can) { var ui = can.user.input(event, can, [{name: html.PASSWORD, type: html.PASSWORD, action: ice.AUTO}, {name: html.PASSWORD, type: html.PASSWORD, action: ice.AUTO}], function(list) {
 		if (list[0] != list[1]) { return can.user.toast(can, "密码不一致"), ui.focus(), true } can.runAction(event, aaa.PASSWORD, [list[0]], function() { can.user.toastSuccess(can) })
 	}) },
-	clear: function(event, can) { can.onimport.background(event, can, ""), can.onimport.avatar(event, can, "") },
+	clear: function(event, can) { can.onimport.background(event, can, "") },
 	logout: function(event, can) { can.user.logout(can) },
 	email: function(event, can) {
 		can.user.input(can.request(event, {to: can.user.info.email, subject: can.user.title()}), can, ["to", "subject","content"], function(args) {
