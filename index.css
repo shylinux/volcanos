@@ -73,7 +73,7 @@ table.kcontent.full { width:100%; }
 table.content thead { position:sticky; top:2px; }
 table.content tr.offline { color:var(--disable-fg-color); }
 table.content tr.offline a { color:var(--disable-fg-color); }
-table.content th { padding:var(--table-padding); box-shadow:var(--box-shadow); }
+table.content th { padding:var(--input-padding) var(--table-padding); box-shadow:var(--box-shadow); }
 table.content td { padding:var(--table-padding); }
 table.content.detail td:first-child { width:var(--input-width); }
 table.content.action th:last-child { position:sticky; right:2px; }
