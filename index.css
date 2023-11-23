@@ -14,6 +14,10 @@ body {
 	--input-border:var(--box-border);
 	--output-bg-color: var(--input-bg-color);
 	--status-border:var(--box-border);
+	--tr-hover-bg-color:var(--hover-bg-color);
+	--th-bg-color:var(--plugin-bg-color);
+	--th-fg-color:var(--plugin-fg-color);
+	--td-hover-bg-color:var(--hover-bg-color);
 	--panel-bg-color:var(--panel-output-bg-color);
 	--panel-fg-color:var(--panel-output-fg-color);
 	--panel-output-fg-color: var(--body-fg-color);
@@ -23,42 +27,58 @@ body {
 	--plugin-border-color:var(--box-border);
 	--plugin-bg-color:var(--legend-bg-color);
    	--plugin-fg-color:var(--body-fg-color);
-	--th-bg-color:var(--plugin-bg-color);
-	--th-fg-color:var(--plugin-fg-color);
-	--td-hover-bg-color:var(--hover-bg-color);
-	--tr-hover-bg-color:var(--hover-bg-color);
 	--float-bg-color:var(--plugin-bg-color);
 	--float-fg-color:var(--plugin-fg-color);
 	--carte-bg-color:var(--plugin-bg-color);
 
-	--header-height:48px; --river-width:280px; --footer-height:32px;
-	--plugin-margin:20px; --plugin-radius:10px; --plugin-padding:20px;
-   	--button-margin:20px; --button-radius:5px;
-   	--input-radius:5px; --input-padding:10px; --input-width:120px;
-	--project-width:230px; --table-padding:10px;
-	--action-height:32px; --action-margin:200px;
-	--status-height:32px; --status-font-size:12px;
-
-	--code-font-size:14px; --code-font-family:monospace;
 	--code-bg-color:black; --code-fg-color:silver; --code-border-color:var(--notice-bg-color);
 	--code-comment:green; --code-keyword:royalblue; --code-package:blue;
 	--code-datatype:lavender; --code-function:lightgreen;
    	--code-constant:gray; --code-string:orange; --code-object:silver;
-	--svg-font-size:24px; --svg-stroke-width:1; --desktop-icon-size:80px;
+   	--code-font-size:14px; --svg-font-size:24px; --status-font-size:12px;
+   	--code-font-family:monospace; --svg-stroke-width:1; --desktop-icon-size:80px;
+
+	--header-height:48px; --footer-height:32px; --action-height:32px; --status-height:32px;
+   	--river-width:280px; --input-width:120px; --project-width:230px;
+	--plugin-margin:10px; --action-margin:200px; --button-margin:10px;
+   	--plugin-padding:10px; --input-padding:10px; --table-padding:5px;
+	--plugin-radius:10px; --input-radius:5px; --button-radius:5px;
 }
-body.mobile {
-	--plugin-margin:0; --plugin-padding:10px;
-   	--button-margin:5px;
-	--input-width:80px;
+body.width1 { /* 320-640 手机竖屏 */
+	--river-width:230px; --input-width:80px;
+	--plugin-margin:0; --button-margin:5px;
+	--plugin-padding:10px; --input-padding:5px; --table-padding:5px;
 	--svg-font-size:13px;
 }
+body.width2 { /* 640-960 手机横屏 平板竖屏 笔记本调试 */
+	--river-width:230px;
+	--plugin-margin:10px; --button-margin:5px;
+	--plugin-padding:10px; --input-padding:10px; --table-padding:5px;
+}
+body.width3 { /* 960-1280 平板横屏 */
+
+}
+body.width4 { /* 1280-1600 笔记本 显示器调试 */
+
+}
+body.width5 { /* 1600-1920 */
+
+}
+body.width6 { /* 1920-2240 显示器 */
+	--river-width:320px; --input-width:180px;
+	--plugin-margin:20px; --button-margin:20px;
+	--plugin-padding:20px; --input-padding:10px; --table-padding:20px;
+}
 body.windows { --code-font-family:"Courier New"; }
+
 /* element */
 * { tab-size:4; box-sizing:border-box; padding:0; border:0; margin:0; }
 legend { padding:0 20px; }
 select { padding:0 var(--input-padding); }
 input:not([type=file]) { padding:0 var(--input-padding); }
 input:not([type=button]) { border-radius:0; outline:none; width:var(--input-width); }
+div.item.text.trans input:not([type=button]) { transition:all 1s; }
+div.item.text.trans input:not([type=button]):focus { transition:all 0.5s; width:var(--river-width); }
 body:not(.mobile) input[name=path] { width:160px; }
 input[name=line] { width:60px !important; }
 input[name=limit] { width:60px; }
@@ -319,10 +339,10 @@ div.project div.action div.item.search>i:first-child { position:absolute; paddin
 div.project div.action div.item.search>input { width:100% !important; padding-left:25px; }
 div.project div.action div.item.search>span { right:10px; }
 div.content { position:relative; }
-div.content>div.toggle { position:absolute; }
-div.content>div.toggle.project { background-color:#4a566e6e; color:var(--panel-fg-color); font-size:32px; padding-top:38px; height:120px; top:20%; left:0; border-top-right-radius:20px; border-bottom-right-radius:20px; }
-div.content>div.toggle.profile { background-color:#4a566e6e; color:var(--panel-fg-color); font-size:32px; padding-top:38px; height:120px; top:20%; right:0; border-top-left-radius:20px; border-bottom-left-radius:20px; }
-div.content>div.toggle.display { transform:scale(3, 1); text-align:center; width:80px; left:20%; bottom:0; }
+div.content>div.toggle { background-color:#4a566e6e; color:var(--panel-fg-color); font-size:32px; padding-top:38px; height:120px; position:absolute; }
+div.content>div.toggle.project { top:20%; left:0; border-top-right-radius:20px; border-bottom-right-radius:20px; }
+div.content>div.toggle.profile { top:20%; right:0; border-top-left-radius:20px; border-bottom-left-radius:20px; }
+div.content>div.toggle.display { left:20%; bottom:-52px; rotate:90deg; border-top-left-radius:20px; border-bottom-left-radius:20px; }
 div.content>div.toggle:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
 div.toggle:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
 div.output>div.project:not(.toggle) { border-right:var(--box-border); width:var(--project-width); flex:0 0 var(--project-width); }
@@ -337,7 +357,7 @@ div.output.card>div.item { background:var(--plugin-bg-color); padding:10px; bord
 div.output.card>div.item>div.title { font-size:1.2rem; font-weight:bold; padding:10px; border-bottom:var(--box-border); }
 div.output.card>div.item>div.content { padding:10px; height:48px; }
 div.output.card>div.item>div.action { text-align:right; width:100%; display:flex; }
-div.output.card>div.item>div.action>input { margin-right:10px; box-shadow:var(--box-shadow); }
+div.output.card>div.item>div.action>input { margin-right:var(--button-margin); box-shadow:var(--box-shadow); }
 input[type=button].danger:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 input[type=button].notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 /* display */

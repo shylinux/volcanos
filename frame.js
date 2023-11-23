@@ -295,7 +295,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			} }, icon.push({icon: mdb.DELETE, onclick: function(event) { _input.value = "", input.onkeyup({target: event.target.previousSibling}) }})
 		} if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }
 		var _style = can.page.buttonStyle(can, item.name)
-		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name], _style)], list: [item.icon && {icon: item.icon}, input].concat(icon), _init: function(target, _input) {
+		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name, item._className], _style)], list: [item.icon && {icon: item.icon}, input].concat(icon), _init: function(target, _input) {
 			if (item.type == html.SELECT) {
 				_input.select.value = value||_item.value||_item.values[0]
 				can.onappend.select(can, _input.select, _item)
@@ -439,7 +439,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			{view: [[html.DISPLAY, html.TOGGLE]], onclick: function() { can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can) }},
 			{view: [[html.PROFILE, html.TOGGLE]], onclick: function() { can.onmotion.toggle(can, can.ui.profile), can.onimport.layout(can) }},
 		])
-		toggle.layout = function() { var up = "\u25B2", down = "\u25BC", left = can.page.unicode.prev, right = can.page.unicode.next
+		toggle.layout = function() {
+			var up = can.page.unicode.prev, down = can.page.unicode.next, left = can.page.unicode.prev, right = can.page.unicode.next
 			// var up = "\u25B2", down = "\u25BC", left = "\u25C0", right = "\u25B6"
 			can.page.Modify(can, toggle.project, can.page.isDisplay(can.ui.project)? left: right)
 			can.page.Modify(can, toggle.display, can.page.isDisplay(can.ui.display)? down: up)

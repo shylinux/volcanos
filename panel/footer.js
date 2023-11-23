@@ -3,6 +3,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.
 		can._wss = can.ondaemon._init(can); if (can.user.mod.isCmd) { return } can.Conf("version", can.base.trimPrefix(window._version, "?_v="))
 		can.onimport._title(can, msg, target), can.onimport._command(can, msg, target)
 		can.onimport._storm(can, msg, target)
+		can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width())
 		can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target)
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.Conf(chat.TITLE)||msg.result, function(item) {
@@ -10,15 +11,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE], "", item], title: "联系站长"}])
 	}) },
 	_storm: function(can, msg, target) {
-		can.ui.storm = can.page.Append(can, can._output, ["menu"])._target
+		can.ui.storm = can.page.Append(can, can._output, [html.MENU])._target
 	},
-	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [NTIP, NLOG, NCMD, NKEY, "version"]).reverse(), function(item) {
+	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), can.onexport.list).reverse(), function(item) {
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE]], list: [
 			{text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", "", item]},
 		], onclick: function(event) { can.onexport[item](can) }}])
 	}) },
 	_toast: function(can, msg, target) { can.ui.toast = can.page.Append(can, target, [{view: [[html.ITEM, chat.TOAST]], onclick: function(event) { can.onexport[NTIP](can) }}])._target },
-	_command: function(can, msg, target) { can.onappend.input(can, {type: html.TEXT, icon: icon.TERMINAL, name: ice.CMD, onkeydown: function(event) { can.onkeymap.input(event, can)
+	_command: function(can, msg, target) { can.onappend.input(can, {type: html.TEXT, _className: "args trans", icon: icon.TERMINAL, name: ice.CMD, onkeydown: function(event) { can.onkeymap.input(event, can)
 		function close() { can.ui.cli && can.ui.cli.onaction.close() } if (event.key == code.ESCAPE) { return close() } if (event.key != code.ENTER) { return }
 		close(); switch (event.target.value) {
 		case web.CLEAR:
@@ -46,9 +47,6 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	onlogin: function(can, msg) { can.run(can.request({}, {_method: http.GET}), [], function(msg) { can.onmotion.clear(can), can.onimport._init(can, msg, can._output) }) },
 	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.ntip, {can: can, msg: msg}) },
 	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
-	onlayout: function(can, layout) {
-		// can.onmotion.toggle(can, can._target, !layout || layout == html.TABS)
-	},
 	onunload: function(can) { can._wss && can._wss.close() },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
@@ -65,7 +63,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		})
 	},
 })
-Volcanos(chat.ONEXPORT, {height: function(can) { return can._target.offsetHeight },
+Volcanos(chat.ONEXPORT, {list: [NTIP, NLOG, NCMD, NKEY, html.WIDTH, html.HEIGHT, nfs.VERSION],
+	height: function(can) { return can._target.offsetHeight },
 	ntip: function(can) { can.onexport._float(can, NTIP, "can.toast") },
 	nlog: function(can) { can.onexport._float(can, NLOG, "can.debug") },
 	ncmd: function(can) { can.onexport._float(can, NCMD, "can.debug", [chat.ONREMOTE]) },
