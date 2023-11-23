@@ -53,8 +53,7 @@ body.width5 { /* 1600-1920 */
 
 }
 body.width6 { /* 1920-2240 显示器 */
-	--river-width:280px; --input-width:180px;
-	--plugin-padding:20px;
+	--river-width:280px; --input-width:180px; --plugin-padding:20px;
 }
 body.windows { --code-font-family:"Courier New"; }
 
@@ -100,7 +99,8 @@ fieldset>form.option>div.item.text.cmd>input { background-color:var(--code-bg-co
 fieldset>form.option>div.item.select { border-radius:var(--button-radius); }
 fieldset>form.option>div.item.select>input { min-width:var(--button-width); }
 fieldset>form.option>div.item.button { border-radius:var(--button-radius); }
-fieldset>div.action>div.item { margin-right:var(--button-margin); box-shadow:var(--box-shadow); height:var(--action-height); }
+fieldset>div.action>div.item { box-shadow:var(--box-shadow); height:var(--action-height); }
+fieldset>div.action>div.item:not(:last-child) { margin-right:var(--button-margin); }
 fieldset>div.action>div.item.button { border-radius:var(--button-radius); }
 fieldset>div.action>div.item.select:not(.cmds) { border-radius:var(--button-radius); }
 fieldset>div.action>div.item.select.cmds { border-bottom:var(--notice-bg-color) solid 2px; height:var(--action-height); }
