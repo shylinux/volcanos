@@ -4,10 +4,9 @@ fieldset.Footer>div.output div.title:first-child { font-weight:bold; text-align:
 fieldset.Footer>div.output div.state { float:right; }
 fieldset.Footer>div.output div.state label { font-size:var(--status-font-size); }
 fieldset.Footer>div.output div.toast { float:right; line-height:18px; }
-fieldset.Footer>div.output div.cmd { padding:0; margin-left:20px; position:relative; }
-fieldset.Footer>div.output div.cmd>i { padding:7px; position:absolute; }
+fieldset.Footer>div.output div.cmd { padding:0; margin-left:20px; }
+fieldset.Footer>div.output div.cmd>i { padding:7px; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { padding-left:30px; }
-fieldset.Footer>div.output div.cmd>span.delete { padding:var(--input-padding); }
 fieldset.Footer>div.output div.menu>div.River { display:flex; justify-content:space-around; }
 fieldset.Footer>div.output div.menu>div.River>div.item { height:var(--footer-height); display:flex; flex-direction:column; text-align:center; flex-grow:1; }
 fieldset.Footer>div.output div.menu>div.River>div.item>i { font-size:24px; margin-right:0; }

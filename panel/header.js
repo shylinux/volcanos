@@ -41,7 +41,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		return can.page.Append(can, can._output, [{view: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
 			return can.base.isString(item)? /* 1.string */ {view: [[html.ITEM, html.MENU], "", can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }}:
 				can.base.isArray(item)? /* 2.array */ {view: [[html.ITEM, html.MENU], "", can.user.trans(can, item[0], trans)], onclick: function(event) { can.onkeymap.prevent(event)
-					can.onaction.carte(event, can, item.slice(1), function(event, button, meta) { can.base.isFunc(cb) && cb(event, button, item) }, trans)
+					can.onaction.carte(can.request(event, {_style: "header "+item[0]}), can, item.slice(1), function(event, button, meta) { can.base.isFunc(cb) && cb(event, button, item) }, trans)
 				}}: /* 3.others */ item
 		}) }])._target
 	},
@@ -108,7 +108,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 		can.onaction.carte(can.request(event, {_style: "header avatar"}), can, [
 		can.user.isMobile? `<img src="${src}" width=${can.ConfWidth()-20}>`: can.page.Format(html.IMG, src, can.page.height()/2)
 	]) },
-	usernick: function(event, can) { can.onaction.carte(event, can, can.onaction._menus) },
+	usernick: function(event, can) { can.onaction.carte(can.request(event, {_style: "header usernick"}), can, can.onaction._menus) },
 	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN, mdb.NAME, can.user.title(), mdb.TEXT, location.href]) },
 	toimage: function(event, can) { can.onmotion.clearCarte(can), can.user.toimage(can, can.user.title(), can._target.parentNode) },
 	webpack: function(event, can) { can.onengine.signal(can, chat.ONWEBPACK, can.request(event)) },

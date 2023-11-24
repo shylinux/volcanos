@@ -5,5 +5,4 @@ fieldset.River>div.output div.item:hover { color:var(--panel-hover-fg-color); }
 fieldset.River>div.output div.item.select { color:var(--panel-hover-fg-color); }
 fieldset.River>div.output div.list div.item { border-left:#ccdc4c solid 3px; }
 fieldset.River>div.output div.list { margin-left:var(--legend-padding); }
-body:not(.mobile) fieldset.River>div.output { padding:var(--plugin-padding); }
 fieldset.River>div.output { margin:var(--river-margin) 0; }

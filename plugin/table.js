@@ -29,8 +29,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	_zone: function(can, zone, index, cb, field) { zone._delay_init = function() { can.onimport.plug(can, can.base.isObject(index)? index: {index: index, style: html.OUTPUT, mode: mdb.ZONE, field: field}, function(sub) {
 		sub.run = function(event, cmds, cb) { can.runActionCommand(can.request(event, {mode: mdb.ZONE}), index.index||index, cmds, cb) }
 		zone._icon(kit.Dict(
-			can.page.unicode.refresh, function(event) { sub.Update(event) },
-			"+", function(event) { sub.Update(event, [ctx.ACTION, mdb.CREATE]) },
+			web.REFRESH, function(event) { sub.Update(event) },
+			mdb.CREATE, function(event) { sub.Update(event, [ctx.ACTION, mdb.CREATE]) },
 			"=", function() { can.onimport.tabview(can, "", [sub.ConfIndex()].concat(sub.Conf(ctx.ARGS)).join(","), ctx.INDEX) },
 		))
 		var action = can.core.List(sub.Conf(ctx.INPUTS), function(item) { if (item.type == html.BUTTON && [ice.LIST, ice.BACK].indexOf(item.name) == -1) { return item.name } })
@@ -82,7 +82,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			]}
 		}))
 	},
-	_icon: function(can, name, button, target) { can.page.Append(can, target, [{text: [can.page.unicode[name]||name, html.SPAN, html.ICON], onclick: function(event) {
+	_icon: function(can, name, button, target) { can.page.Append(can, target, [{text: [can.page.unicode[name]||name, html.SPAN, [html.ICON, name]], onclick: function(event) {
 		can.base.isFunc(button)? button(event, button): can.onaction[button](event, can, button), can.onkeymap.prevent(event)
 	}}]) },
 	icon: function(can, msg, target, cb) { return msg.Table(function(value) {
@@ -186,9 +186,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.core.Next(list.reverse(), function(meta, next) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) {
 				sub.onexport.output = function() { var width = can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0)
+					var height = can.base.Max(can.ConfHeight()/2, 320, can.ConfHeight()-html.ACTION_HEIGHT)
 					can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
-					sub.onimport.size(sub, can.ConfHeight()/2, can.base.Min(sub._target.offsetWidth, width/2, width/(can.base.isIn(sub.ConfIndex(), code.COMPILE, cli.RUNTIME)? 1: 2)), true)
-					sub.onimport.size(sub, can.ConfHeight()/2, can.base.Min(sub._target.offsetWidth, width/2, width), true)
+					sub.onimport.size(sub, height, can.base.Min(sub._target.offsetWidth, can.base.Min(width/2, 640), width/(can.base.isIn(sub.ConfIndex(), code.COMPILE, cli.RUNTIME)? 1: 2)), false)
+					can.onmotion.delay(can, function() { sub.onimport.size(sub, height, can.base.Min(sub._target.offsetWidth, can.base.Min(width/2, 640), width), false) })
 				}
 				can.onmotion.hidden(can, sub._target), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}
 				can.page.Append(can, sub._legend,[{text: [can.page.unicode.remove, "", mdb.REMOVE], onclick: function(event) {

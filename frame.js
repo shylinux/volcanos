@@ -342,7 +342,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.onappend.style(can, html.SELECT, item)
 				}
 			})
-		}, _init: function(target) { can.page.style(can, target, html.WIDTH, (select.offsetWidth||80)+10), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
+		}, _init: function(target) { can.page.style(can, target, html.WIDTH, (select.offsetWidth||80)+30), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
 	},
 	table: function(can, msg, cb, target, keys) { if (!msg || msg.Length() == 0) { return } var meta = can.base.Obj(msg.Option(mdb.META))
 		if (can.user.isMobile) { can.base.toLast(msg.append, mdb.TIME) } can.base.toLast(msg.append, web.LINK), can.base.toLast(msg.append, ctx.ACTION)
@@ -489,6 +489,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}), can.core.List(list, function(item) { if (can.base.isArray(item)) { layout(type == FLOW? FLEX: FLOW, item, height, width) } }) }
 		ui.profile && can.onmotion.hidden(can, ui.profile), ui.display && can.onmotion.hidden(can, ui.display)
 		if (can.onimport.filter) { ui.filter = can.onimport.filter(can, ui.project) }
+		ui.project && can.user.isMobile && can.onmotion.hidden(can, ui.project)
 		ui.layout = function(height, width, delay, cb) { can.onmotion.delay(can, function() { defer = [], layout(type, ui.list, height, width), defer.forEach(function(cb) { cb() }), cb && cb(content_height, content_width) }, delay||0) }; return ui
 	},
 	tabview: function(can, meta, list, target) { var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT])
