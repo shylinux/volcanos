@@ -56,8 +56,7 @@ body.width5 { /* 1600-1920 */
 
 }
 body.width6 { /* 1920-2240 显示器 */
-	--river-width:280px; --input-width:180px; --plugin-padding:20px;
- 	--code-line-height:26px; --code-font-size:18px;
+	--river-width:280px; --input-width:180px;
 }
 body.windows { --code-font-family:"Courier New"; }
 
