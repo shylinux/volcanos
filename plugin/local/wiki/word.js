@@ -107,7 +107,7 @@ Volcanos(chat.ONACTION, {
 					return can.core.CallFunc([can.onimport, data.type], [sub, data, item, can.page.width()]), item
 				}), }])
 			}), can.onmotion.hidden(can, sub.ui.project), can.ondetail.show(sub, 0) 
-			sub.onappend._status(sub, [mdb.PAGE, cli.FROM, cli.COST]), sub.Status(cli.FROM, can.base.Time())
+			sub.onappend._status(sub, [mdb.PAGE, cli.FROM, cli.COST]), sub.Status(cli.FROM, can.base.Time()), sub.Status(mdb.PAGE, list.length)
 			var from = new Date(); can.core.Timer({interval: 100}, function() { var now = new Date(); sub.Status(cli.COST, can.base.Duration(now-from)) })
 		}, can._root._target)
 	},
@@ -134,24 +134,21 @@ Volcanos(chat.ONDETAIL, {
 	flash: function(sub) { sub.core.Next(sub.page.Select(sub, sub.ui.content, html.DIV_PAGE), function(page, next) {
 		sub.sup.ondetail.show(sub, page), sub.onmotion.delay(sub, next, 500)
 	}) },
-	grid: function(sub) { sub.page.styleClass(sub, sub.ui.content, "content grid") },
-
+	grid: function(sub) {
+		sub.page.styleClass(sub, sub.ui.content, "content grid")
+	},
 	"开讲": function(event, can) {
-		can.page.SelectChild(can, can.ui.content, "*", function(target) { can.page.styleWidth(can, target, "") })
+		can.page.SelectChild(can, can.ui.content, "", function(target) { can.page.style(can, target, html.HEIGHT, "", html.WIDTH, "") })
 		can.sup.ondetail.show(can, 0)
 	},
-	"网格": function(event, can) {
-		var count = can.page.Select(can, can.ui.content, html.DIV_PAGE).length
-		var n = (can.sup.ConfHeight()-20)/340
-		for (var i = 1; i < 5; i++) { if (i*n > count) { break } }
-		can.onlayout.expand(can, can.ui.content, parseInt((can.sup.ConfWidth()-20)/i)-20)
+	"网格": function(event, can) { function size(p) { return (p-2*html.PLUGIN_PADDING)/3-2*html.PLUGIN_PADDING }
+		can.onlayout.expand(can, can.ui.content, can.base.Min(size(can.ConfWidth()), 320, 640), can.base.Min(size(can.ConfHeight()-2*html.ACTION_HEIGHT), 240, 320), html.DIV_PAGE)
 		can.sup.ondetail.grid(can)
 	},
 	"快闪": function(event, can) {
-		can.page.SelectChild(can, can.ui.content, "*", function(target) { can.page.styleWidth(can, target, "") })
+		can.page.SelectChild(can, can.ui.content, "", function(target) { can.page.style(can, target, html.HEIGHT, "", html.WIDTH, "") })
 		can.sup.ondetail.flash(can)
 	},
-
 	"大纲": function(event, can) { can.onmotion.toggle(can, can.ui.project) },
 	"首页": function(event, can) { can.sup.ondetail.show(can, 0) },
 	"上一页": function(event, can) { can.sup.ondetail.prev(can, can.ui.content) },

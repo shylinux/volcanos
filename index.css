@@ -140,33 +140,38 @@ body>div.carte input[name=filter] { margin:var(--input-margin); width:calc(100% 
 body>div.carte div.item { white-space:pre; padding:var(--button-padding); }
 body>div.carte div.item span.icon.next { float:right; line-height:22px; height:22px; }
 body>div.carte.select.float>div.item { text-align:center; }
-
 body>div.input { padding:var(--plugin-padding); }
 body>div.input>legend { font-style:italic; width:100%; }
 body>div.input td { padding:var(--table-padding); }
 body>div.input td:nth-child(2) { padding:var(--table-padding) 0; }
 body>div.input tr.img td:last-child>span { display:none; }
-body>div.input tr.img td:last-child>div {
-	background-color:gray; margin:1px; float:left; cursor:pointer;
+body>div.input tr.img td:last-child>div.item {
+	display:flex; flex-wrap:wrap; width:var(--river-width);
+}
+body>div.input tr.img td:last-child>div.item>div {
+	background-color:gray; margin:var(--input-margin);
 	display:flex; align-items:center; justify-content:center;
+}
+body>div.input tr.img td:last-child>div>span.icon {
+	display:none;
 }
 body>div.input tr.img td:last-child>div>span { font-size:var(--action-height); }
 body>div.input tr.icon td:last-child { position:relative; }
-body>div.input tr.icon td:last-child i:first-child { font-size:22px; position:absolute; left:15px; top:14px; }
+/* body>div.input tr.icon td:last-child i:first-child { font-size:22px; } */
 body>div.input tr.icon td:last-child img:first-child { position:absolute; height:28px; width:28px; left:12px; top:12px; }
 body>div.input tr.icon td:last-child input { padding-left:var(--action-height); }
 body>div.input tr.icons td:last-child { position:relative; }
-body>div.input tr.icons td:last-child i:first-child { font-size:22px; position:absolute; left:15px; top:14px; }
+/* body>div.input tr.icons td:last-child i:first-child { font-size:22px; } */
 body>div.input tr.icons td:last-child img:first-child { position:absolute; height:28px; width:28px; left:12px; top:12px; }
 body>div.input tr.icons td:last-child input { padding-left:var(--action-height); }
 body>div.input td span.icon { margin-left:-20px; visibility:hidden; }
 body>div.input td span.icons { margin-left:-20px; visibility:hidden; }
 body>div.input td:hover span.icon { visibility:visible; }
 body>div.input td:hover span.icons { visibility:visible; }
-body>div.input textarea { height:var(--textarea-height); width:var(--project-width) !important; }
-body>div.input select { width:var(--project-width) !important; }
-body>div.input input:not([type=button]) { width:var(--project-width) !important; }
-body>div.input input.select[type=button] { width:var(--project-width) !important; }
+body>div.input textarea { height:var(--textarea-height); width:var(--river-width) !important; }
+body>div.input select { width:var(--river-width) !important; }
+body>div.input input:not([type=button]) { width:var(--river-width) !important; }
+body>div.input input.select[type=button] { width:var(--river-width) !important; }
 body>div.input input[name=cancel] { border:var(--danger-bg-color) solid 1px; }
 body>div.input input[name=submit] { border:var(--notice-bg-color) solid 1px; }
 body>div.input input[name=submit]:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
@@ -207,6 +212,7 @@ fieldset>div.output>div.code { font-size:var(--code-font-size); }
 fieldset>div.status { font-style:italic; line-height:20px; max-height:var(--action-height); }
 fieldset>div.status>div.item { padding:var(--input-padding); height:31px; }
 fieldset>div.status>div.item>label { font-size:var(--status-font-size); }
+fieldset>div.status>div.item>span { margin-left:var(--input-padding); }
 fieldset>div.status>legend { font-style:italic; height:31px; }
 body.mobile.landscape>div.input.login { padding:0; }
 body.mobile.landscape>div.input.login>div.output { height:290px; }
@@ -239,7 +245,7 @@ div.item.text.path>input { width:var(--project-width); }
 div.item.text.line>input { width:var(--button-width) !important; }
 div.item.text.limit>input { width:var(--button-width); }
 div.item.text.offend>input { width:var(--button-width); }
-div.item.text>i:first-child { position:absolute; padding:var(--input-padding); }
+div.item.text>i:first-child { position:absolute; padding:7px; }
 div.item.text>span.icon { font-size:var(--icon-font-size); padding:0 var(--input-padding); position:absolute; right:0; visibility:hidden; }
 div.item.text:hover>span.icon { visibility:visible; }
 div.item.button { position:relative; display:flex; align-items:center; height:var(--action-height); }
@@ -267,10 +273,12 @@ fieldset.plugin.full>form.option>div.button.icons>span.icon { visibility:visible
 fieldset.plugin.full>div.action>div.button.icons>input { display:none; }
 fieldset.plugin.full>div.action>div.button.icons>span.icon { visibility:visible; position:unset; }
 fieldset.plugin.cmd>form.option>div.icon.delete { display:none; }
+
 fieldset.plugin.cmd>form.option>div.button.icons>input { display:none; }
 fieldset.plugin.cmd>form.option>div.button.icons>span.icon { visibility:visible; position:unset; }
 fieldset.plugin.cmd>div.action>div.button.icons>input { display:none; }
 fieldset.plugin.cmd>div.action>div.button.icons>span.icon { visibility:visible; position:unset; }
+
 fieldset.story>form.option>div.button.icons>input { display:none; }
 fieldset.story>div.action>div.button.icons>input { display:none; }
 fieldset.plug>form.option>div.icon:first-child { margin-left:var(--input-margin); }
@@ -283,6 +291,10 @@ fieldset.float:not(.plug)>form.option>div.text>input { display:none; }
 fieldset.float:not(.plug)>form.option>div.text>span.icon { display:none; }
 fieldset>form.option>div.text>span.value { white-space:pre; padding:var(--input-padding); max-width:200px; height:var(--action-height); overflow:auto; }
 body.mobile:not(.landscape) fieldset.float>form.option>div.text>span.value { display:none; }
+body.mobile:not(.landscape) fieldset.plugin>form.option>div.button.icons>input { display:none; }
+body.mobile:not(.landscape) fieldset.plugin>form.option>div.button.icons>span.icon { visibility:visible; position:unset; }
+body.mobile:not(.landscape) fieldset.plugin>div.action>div.button.icons>input { display:none; }
+body.mobile:not(.landscape) fieldset.plugin>div.action>div.button.icons>span.icon { visibility:visible; position:unset; }
 body.windows form.option>div.icon { font-size:21px; line-height:var(--action-height); }
 /* svg */
 svg text { font-size:var(--svg-font-size); font-family:var(--code-font-family); stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }
@@ -318,7 +330,7 @@ div.project div.zone>div.item { text-align:center; padding:var(--input-padding);
 div.project div.zone>div.item span:first-child { flex-grow:1; }
 div.project div.zone>div.item span:first-child:hover { background-color:var(--hover-bg-color); }
 div.project>div.zone>div.item span:first-child { font-style:italic; font-weight:bold; line-height:var(--action-height); }
-div.project div.zone>div.item span.icon { font-size:22px; letter-spacing:0; padding:0 var(--input-padding); display:none; }
+div.project div.zone>div.item span.icon { font-size:22px !important; letter-spacing:0; padding:0 var(--input-padding); display:none; }
 div.project div.zone>div.item span.icon.refresh { margin-top:-2px; }
 div.project div.zone:hover>div.item span.icon { display:block; }
 div.project div.zone>div.list>div.zone>div.item { text-align:left; padding-left:var(--button-padding); transition:all .5s; }
@@ -446,6 +458,7 @@ fieldset.panel:not(.main)>div.output a { color:var(--panel-output-fg-color); }
 fieldset.panel:not(.main):not(.auto) div.item:hover { background-color:var(--panel-hover-bg-color); color:var(--panel-hover-fg-color); }
 fieldset.panel:not(.main):not(.auto) div.item.select { background-color:var(--panel-hover-bg-color); color:var(--panel-hover-fg-color); }
 fieldset.panel:not(.main):not(.auto) input { background-color:var(--panel-input-bg-color); color:var(--panel-input-fg-color); }
+fieldset.panel:not(.main):not(.auto) input:hover { background-color:var(--panel-hover-bg-color); color:var(--panel-hover-fg-color); }
 fieldset.panel:not(.main):not(.auto) input::placeholder { background-color:var(--panel-input-bg-color); color:var(--panel-fg-color); }
 fieldset.panel.auto { background-color:var(--panel-bg-color); color:var(--panel-fg-color); }
 fieldset.panel.auto>div.output { background-color:var(--panel-bg-color); color:var(--panel-fg-color); }

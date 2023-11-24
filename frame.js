@@ -530,7 +530,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			function _cb(sub, value, old) { if (value == old) { return } target.value = value, can.base.isFunc(cb) && cb(sub, value, old) }
 			target.onkeydown = function() { if (event.key == code.ESCAPE && target._can) { return target._can.close(), target.blur() } else if (event.key == code.ENTER) { can.base.isFunc(cb) && cb(event, target.value) } }
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function() { }; target[key] = function(event) { can.misc.Event(event, can, function(msg) {
-				function show(sub, cb) { can.base.isFunc(cb) && cb(sub, _cb), can.onlayout._figure(event, can, sub._target), can.onmotion.toggle(can, sub._target, true) }
+				function show(sub, cb) { can.base.isFunc(cb) && cb(sub, _cb), can.onlayout.figure(event, can, sub._target), can.onmotion.toggle(can, sub._target, true) }
 				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, last: last, cbs: function(cb) {
 					target._can? show(target._can, cb): can.onappend._init(can, {type: html.INPUT, name: input, style: meta.name, mode: chat.FLOAT}, [path], function(sub) { sub.Conf(meta)
 						sub.run = function(event, cmds, cb) { var msg = sub.request(event)
@@ -559,20 +559,21 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		}), can.onengine.signal(can, chat.ONSIZE, can.request({}, {height: height, width: width}))
 		can.user.isMobile && can.user.isLandscape() || can.page.style(can, document.body, kit.Dict(html.OVERFLOW, html.HIDDEN))
 	},
-	expand: function(can, target, width, height) { var margin = 2*html.PLUGIN_PADDING
+	expand: function(can, target, width, height, item) { var margin = 2*html.PLUGIN_PADDING
 		var n = parseInt(target.offsetWidth/(width+margin)); width = target.offsetWidth/n - margin
 		if (width+margin >= target.offsetWidth) { n = 1, width = target.offsetWidth - margin }
-		can.page.SelectChild(can, target, html.DIV_ITEM, function(target) {
-			height = can.page.styleHeight(can, target, height), can.page.styleWidth(can, target, width)
+		can.page.SelectChild(can, target, item||html.DIV_ITEM, function(target) {
+			can.page.styleHeight(can, target, height), can.page.styleWidth(can, target, width)
 		})
 	},
 	background: function(can, url, target) { can.page.style(can, target||can._root._target, "background-image", url == "" || url == "void"? "": 'url("'+url+'")') },
-	figure: function(event, can, target, right, min) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
+	figure: function(event, can, target, right, min) {
+		if (!event || !event.target) { return {} } target = target||can._fields||can._target
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: (event.currentTarget||event.target).getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)
 			if (can.user.isMobile) {
-				if (target.offsetHeight > height/2) { layout.top = top }
+				if (target.offsetHeight > height/2 && can.page.tagis(target, "div.input")) { layout.top = top }
 				if (target.offsetWidth > width/2) { layout.left = left, can.page.style(can, target, html.WIDTH, width) }
 			}
 			if (layout.top+target.offsetHeight > top+height) {
@@ -588,19 +589,6 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 			if (layout.left+target.offsetWidth > left+width) { layout.left = (right? rect.left: left+width)-target.offsetWidth-1 }
 			layout.left = can.base.Min(layout.left, 0), layout.top = can.base.Min(layout.top, 32)
 			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
-		});
-		can.onmotion.move(can, target, layout), can.onmotion.slideGrow(can, target)
-		return layout
-	},
-	_figure: function(event, can, target, right, min) {
-		if (!can.user.isMobile) { return can.onlayout.figure(event, can, target, right, min) }
-		if (!event || !event.target) { return {} } target = target||can._fields||can._target
-		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: (event.currentTarget||event.target).getBoundingClientRect()
-		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
-		can.getActionSize(function(left, top, width, height) {
-			left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)
-			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
-			can.page.style(can, target, html.MAX_WIDTH, left+width-layout.left)
 		});
 		can.onmotion.move(can, target, layout), can.onmotion.slideGrow(can, target)
 		return layout
