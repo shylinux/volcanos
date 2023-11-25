@@ -1,5 +1,6 @@
 Volcanos(chat.ONIMPORT, {
-	_process: function(can, msg) { msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, msg.OptionStatus())
+	_process: function(can, msg) {
+		// msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, msg.OptionStatus())
 		if (can.onimport[msg.OptionProcess()]) { return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, sub: can.sub, msg: msg, arg: msg.Option("_arg")}), true }
 	},
 	_location: function(can, msg, arg) { can.user.jumps(arg) },
@@ -38,9 +39,9 @@ Volcanos(chat.ONIMPORT, {
 	},
 	_open: function(can, msg, arg) { can.user.opens(arg), can.Update() },
 	_close: function(can, msg) { can.user.close() || history.back() },
-	change: function(event, can, name, value, cb) { return can.page.SelectArgs(can, can._option, "", function(input) { if (input.name != name || value == input.value) { return }
+	change: function(event, can, name, value, cb, data) { return can.page.SelectArgs(can, can._option, "", function(input) { if (input.name != name || value == input.value) { return }
 		can.page.Select(can, input.parentNode, "span.value", function(target) { target.innerText = value })
-		return input.value = value, can.Update(event, can.Input([], true), cb), input
+		return input.value = value, can.Update(event, can.Input([], true, data), cb), input
 	})[0] },
 	_size: function(can, height, width, auto, mode) {},
 	size: function(can, height, width, auto, mode) {

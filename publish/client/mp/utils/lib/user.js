@@ -12,6 +12,17 @@ Volcanos("user", {
 				})
 			}})
 		},
+		connectWifi: function(can, ssid, password, cb, cbs) { wx.showLoading()
+			wx.startWifi({success: function(res) {
+				wx.connectWifi({SSID: ssid, password: password, success: function(res) { wx.hideLoading()
+					console.log("wifi", res), cb && cb(res)
+				}, fail: function(res) {
+					console.log("wifi", res), cbs && cbs(res)
+				}})
+			}, fail: function(res) {
+				console.log("wifi", res), cbs && cbs(res)
+			}})
+		},
 		getClipboard: function(can, cb) {
 			wx.getClipboardData({success: function(res) {
 				cb && cb(can.base.ParseJSON(res.data))
@@ -43,17 +54,6 @@ Volcanos("user", {
 				} else {
 					can.misc.request(can, can.request(), chat.WX_LOGIN_SCAN, data)
 				}
-			}})
-		},
-		connectWifi: function(can, ssid, password, cb, cbs) { wx.showLoading()
-			wx.startWifi({success: function(res) {
-				wx.connectWifi({SSID: ssid, password: password, success: function(res) { wx.hideLoading()
-					console.log("wifi", res), cb && cb(res)
-				}, fail: function(res) {
-					console.log("wifi", res), cbs && cbs(res)
-				}})
-			}, fail: function(res) {
-				console.log("wifi", res), cbs && cbs(res)
 			}})
 		},
 	}, info: {},

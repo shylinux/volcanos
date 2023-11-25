@@ -1,7 +1,7 @@
 fieldset.Header>div.output { line-height:21px; height:var(--header-height); overflow:hidden; }
 fieldset.Header>div.output div.item { background-color:var(--panel-output-bg-color); padding:13.5px; height:var(--header-height); float:left; }
-fieldset.Header>div.output div.title:first-child { font-size:var(--legend-font-size); font-style:italic; font-weight:bold; width:var(--river-width); display:flex; align-items:center; justify-content:center; overflow:hidden; }
-fieldset.Header>div.output div.title img { margin-right:var(--button-margin); height:var(--action-height); width:var(--action-height); }
+fieldset.Header>div.output div.title:first-child { font-size:var(--legend-font-size); font-style:italic; font-weight:bold; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+fieldset.Header>div.output div.title img { height:var(--action-height); width:var(--action-height); }
 fieldset.Header>div.output div.state { float:right; }
 fieldset.Header>div.output div.state.avatar { padding:0; }
 fieldset.Header>div.output div.state.avatar>img { height:var(--header-height); clip-path:circle(40%); }
@@ -9,4 +9,5 @@ fieldset.Header>div.output div.search.title { padding:7px 5px; margin-left:15px;
 fieldset.Header>div.output div.search>i { padding:7px; }
 fieldset.Header>div.output div.search>input { padding-left:25px; }
 fieldset.Header>div.output div.search>span.icon { padding:var(--input-padding) var(--button-padding); }
-body.mobile fieldset.Header>div.output div.state.avatar { margin-right:var(--button-margin); }
+body:not(.mobile) fieldset.Header>div.output div.title:first-child { width:var(--river-width); }
+body:not(.mobile) fieldset.Header>div.output div.title img { margin-right:var(--button-margin); }

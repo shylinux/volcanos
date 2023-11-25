@@ -38,6 +38,7 @@ var ice = {
 	MSG_PREFIX: "_prefix",
 	MSG_METHOD: "_method",
 
+	MSG_BG: "sess.bg", MSG_FG: "sess.fg",
 	MSG_USERNICK: "user.nick", MSG_USERNAME: "user.name", MSG_USERROLE: "user.role", MSG_LANGUAGE: "user.lang",
 	MSG_MODE: "sess.mode", MSG_THEME: "sess.theme", MSG_TITLE: "sess.title", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",
 	MSG_DAEMON: "sess.daemon", LOG_DISABLE: "log.disable", LOG_TRACEID: "log.id",
@@ -77,8 +78,9 @@ var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 	AT: ice.AT, QS: ice.QS,
 
-	DRAW: "draw", PLAY: "play", CLEAR: "clear", REFRESH: "refresh", RESIZE: "resize", FILTER: "filter",
-	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", DOWNLOAD: "download", TOIMAGE: "toimage", CONFIRM: "confirm",
+	DRAW: "draw", PLAY: "play", CLEAR: "clear", RESIZE: "resize", FILTER: "filter",
+	CANCEL: "cancel", SUBMIT: "submit", CONFIRM: "confirm", REFRESH: "refresh",
+	UPLOAD: "upload", DOWNLOAD: "download", PREVIEW: "preview", TOIMAGE: "toimage",
 
 	CHAT_SSO: "/chat/sso/",
 	CHAT_POD: "/chat/pod/",
@@ -267,7 +269,7 @@ var html = {RIVER_MARGIN: 80, PLUGIN_MARGIN: 10, PLUGIN_PADDING: 10, ACTION_MARG
 
 	H1: "h1", H2: "h2", H3: "h3", UL: "ul", OL: "ol", LI: "li", BR: "br", HR: "hr",
 	A: "a", SPAN: "span", CODE: "code", DIV: "div",
-	SVG: "svg", IMG: "img", VIDEO: "video", AUDIO: "audio", CANVAS: "canvas", IFRAME: "iframe",
+	SVG: "svg", IMG: "img", IMAGE: "image", VIDEO: "video", AUDIO: "audio", CANVAS: "canvas", IFRAME: "iframe",
 	WSS: "wss", WEBVIEW: "webview", CHROME: "chrome", MOBILE: "mobile", LANDSCAPE: "landscape",
 	BODY: "body", FORM: "form", LABEL: "label", TITLE: "title", INNER: "inner", SPACE: "space", CLICK: "click",
 	SELECT: "select", INPUT: "input", TEXT: "text", FILE: "file", TEXTAREA: "textarea", BUTTON: "button",

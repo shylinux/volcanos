@@ -15,11 +15,24 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg
 	_storm: function(can, meta, river) { return {view: html.ITEM, list: [{icon: meta.icon}, {text: meta.name}], _init: function(target) { can.ui.storm_list[can.core.Keys(river, meta.hash)] = target },
 		onclick: function(event) { can.onaction.action(event, can, river, meta.hash) }, oncontextmenu: function(event) { can.onaction.carte(event, can, can.ondetail._menu, river, meta.hash) },
 	} },
-	_menu: function(can, msg) { can.user.isMobile || can.user.mod.isPod || can.onappend._action(can, can.onaction.list, can._action) },
+	_menu: function(can, msg) {
+		if (can.user.isMobile || can.user.mod.isPod) {
+			can.onmotion.hidden(can, can._action)
+		} else {
+			can.onappend._action(can, can.onaction.list, can._action)
+		}
+	},
 })
 Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: function(can) {
-		can.db.storm_list = {}
-		can.onmotion.hidden(can)
+		can.db.storm_list = {}, can.onmotion.hidden(can)
+		var next = can.page.unicode.next, prev = can.page.unicode.prev
+		can._prev = can.page.Append(can, can._target, [{view: [[html.TOGGLE, mdb.PREV], "", prev], onclick: function(event) {
+			can._output.scrollBy && can._output.scrollBy(0, -10000)
+		}}])._target
+		can._next = can.page.Append(can, can._target, [{view: [[html.TOGGLE, mdb.NEXT], "", next], onclick: function(event) {
+			can._output.scrollBy && can._output.scrollBy(0, 10000)
+		}}])._target
+		can._output.onscroll = function() { can.onexport.scroll(can) }
 	},
 	onlogin: function(can, msg) { can.run(can.request({}, {_method: http.GET}), [], function(msg) { if (msg.Option(ice.MSG_RIVER)) { return can.page.Remove(can, can._target) }
 		can.onimport._init(can, msg); if (can.user.isMobile || can.user.isExtension) { return can.page.ClassList.add(can, can._target, ice.AUTO) }
@@ -39,27 +52,33 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })
 	}) },
 	share: function(event, can) { can.core.CallFunc(can.ondetail.share, {event: event, can: can}) },
+	onsize: function(can, height) { var margin = "0px", _margin = 0; can.page.style(can, can._output, html.MARGIN, "0px", html.HEIGHT, "")
+		if (can.page.isDisplay(can._action)) { _margin = can._action.offsetHeight + html.PLUGIN_MARGIN }
+		if (can._output.offsetHeight < height) { margin = can.base.Min((height-can._output.offsetHeight)/2, _margin)+"px 0px" }
+		height && can.page.style(can, can._output, html.MARGIN, margin, html.HEIGHT, can.base.Max(can._output.offsetHeight, height-_margin))
+		can.onexport.scroll(can)
+	},
 	refresh: function(event, can) { can.misc.Search(can, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM)}) },
 	storm: function(event, can, river) {
 		can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
-		function _menu() { can.user.isMobile && can.onmotion.delay(can, function() { var list = can.db.storm_list[river]
-			can.onmotion.hidden(can, can._root.Footer._target, list.length > 1)
-			var menu = can.setFooterMenu(list, function(event, button, list) { can.onaction.action(event, can, river, button) })
-			can.page.SelectChild(can, menu, html.DIV_ITEM, function(target, index) { can.page.ClassList.set(can, target, html.SELECT, list[index].hash == can.Conf("storm")) })
-		}) }
-		var list = can.ui.sublist[river]; if (list) {
-			return can.page.ClassList.set(can, can.ui.river_list[river], "open", can.onmotion.toggle(can, list)), _menu()
+		function _menu(list) { can.onlayout._init(can)
+			can.page.ClassList.set(can, can.ui.river_list[river], "open", can.page.isDisplay(list))
+			can.user.isMobile && can.onmotion.delay(can, function() { var list = can.db.storm_list[river]
+				can.onmotion.hidden(can, can._root.Footer._target, list.length > 1)
+				var menu = can.setFooterMenu(list, function(event, button, list) { can.onaction.action(event, can, river, button) })
+				can.page.SelectChild(can, menu, html.DIV_ITEM, function(target, index) { can.page.ClassList.set(can, target, html.SELECT, list[index].hash == can.Conf("storm")) })
+			})
 		}
+		var list = can.ui.sublist[river]; if (list) { return can.onmotion.toggle(can, list), _menu(list) }
 		can.run({}, [river, chat.STORM], function(msg) { var next = can.ui.river_list[river].nextSibling
-			can.page.ClassList.set(can, can.ui.river_list[river], "open", true)
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOSTORM, can.request({}, {river: river})) }
 			can.db.storm_list[river] = msg.Table()
 			var select = 0; list = can.page.Append(can, can._output, [{view: html.LIST, list: msg.Table(function(item, index) {
 				return river == can._main_river && item.hash == can._main_storm && (select = index), can.onimport._storm(can, item, river)
-			}) }])._target, next && can._output.insertBefore(list, next), can.ui.sublist[river] = list, _menu(), list.children.length > 0 && list.children[select].click()
+			}) }])._target, next && can._output.insertBefore(list, next), can.ui.sublist[river] = list, _menu(list), list.children.length > 0 && list.children[select].click()
 		})
 	},
-	action: function(event, can, river, storm) { can.user.isMobile || can.misc.SearchHash(can, river, storm)
+	action: function(event, can, river, storm) { can.misc.SearchHash(can, river, storm)
 		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], function(target) { can.page.ClassList.del(can, target, html.SELECT) })
 		can.onmotion.select(can, can.ui.sublist[river], html.DIV_ITEM, can.ui.storm_list[can.core.Keys(river, storm)])
 		can.onaction.storm({target: can.ui.river_list[river]}, can, river)
@@ -125,6 +144,17 @@ Volcanos(chat.ONEXPORT, {width: function(can) { return can._target.offsetWidth }
 	storm: function(can, msg, arg) { can.core.Item(can._root.river, function(river, value) { can.core.Item(value.storm, function(storm, item) { if (arg[1] != "" && storm.indexOf(arg[1]) == -1 && item.name.indexOf(arg[1]) == -1) { return }
 		msg.Push({ctx: ice.CAN, cmd: can._name, type: river, name: storm, text: shy("跳转", function(event) { can.onaction.action(event, can, river, storm) })})
 	}) }) },
+	scroll: function(can) {
+		can.onmotion.delayOnce(can, function() {
+			if (can._output.offsetHeight == can._output.scrollHeight) {
+				can.onmotion.hidden(can, can._prev)
+				can.onmotion.hidden(can, can._next)
+			} else {
+				can.onmotion.toggle(can, can._prev, can._output.scrollTop > 10)
+				can.onmotion.toggle(can, can._next, can._output.scrollTop+can._output.offsetHeight < can._output.scrollHeight-10)
+			}
+		})
+	},
 })
 Volcanos(chat.ONENGINE, {_engine: function(event, can, msg, panel, cmds, cb) { var list = can.river
 	cmds.length == 0 && can.core.ItemOrder(list, "order", function(key, value) {

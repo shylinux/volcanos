@@ -1,9 +1,9 @@
 fieldset.Footer>div.output { font-style:italic; height:var(--footer-height); overflow:hidden; }
 fieldset.Footer>div.output div.item { padding:7px; height:var(--footer-height); float:left; }
 fieldset.Footer>div.output div.title:first-child { font-weight:bold; text-align:center; width:var(--river-width); overflow:auto; }
-fieldset.Footer>div.output div.state { float:right; }
+fieldset.Footer>div.output div.state { font-family:var(--status-font-family); float:right; line-height:18px; }
 fieldset.Footer>div.output div.state label { font-size:var(--status-font-size); }
-fieldset.Footer>div.output div.toast { float:right; line-height:18px; }
+fieldset.Footer>div.output div.toast { font-family:var(--status-font-family); float:right; line-height:18px; }
 fieldset.Footer>div.output div.cmd { padding:0; margin-left:20px; }
 fieldset.Footer>div.output div.cmd>i { padding:7px; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { padding-left:30px; }

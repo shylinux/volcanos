@@ -1,8 +1,12 @@
-fieldset.River { width:var(--river-width); float:left; }
-fieldset.River>div.action { margin-top:var(--plugin-margin); width:100%; display:flex; justify-content:center; }
-fieldset.River>div.output div.item { padding:var(--legend-padding); border-left:#00ffae solid 3px; }
+fieldset.River { width:var(--river-width); float:left; position:relative; }
+fieldset.River>div.action:not(.hide) { margin-top:var(--plugin-margin); width:100%; display:flex; justify-content:center; }
+fieldset.River>div.output { transition:all .3s; }
+fieldset.River>div.output div.item { font-family:var(--legend-font-family); padding:var(--legend-padding); border-left:#00ffae solid 3px; }
 fieldset.River>div.output div.item:hover { color:var(--panel-hover-fg-color); }
 fieldset.River>div.output div.item.select { color:var(--panel-hover-fg-color); }
 fieldset.River>div.output div.list div.item { border-left:#ccdc4c solid 3px; }
 fieldset.River>div.output div.list { margin-left:var(--legend-padding); }
 fieldset.River>div.output { margin:var(--river-margin) 0; }
+fieldset.River>div.toggle { rotate:90deg; right:calc(50% - 5px); }
+fieldset.River>div.toggle.prev { top:-10px; }
+fieldset.River>div.toggle.next { bottom:-50px; }

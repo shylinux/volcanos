@@ -21,7 +21,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.ui = can.onappend.l
 				can.onimport.layout(can), can.onmotion.scrollIntoView(can, target), can.onmotion.clear(can, can.ui.content)
 				var _target = can.onimport.file(can, item.path, item, index, can.ui.content, can.ui.content.offsetHeight, true)
 				_target.focus(), _target.onclick = function() { can.ondetail._init(can, index) }
-				can.isCmdMode() && can.misc.SearchHash(can, item.path)
+				can.onimport.layout(can), can.isCmdMode() && can.misc.SearchHash(can, item.path)
 				can.onappend._toggle(can, can.ui.content, function() {
 					index == 0? can.user.toast(can, "已经是第一页了"): _event.target.previousSibling.click()
 				}, function() {
@@ -52,8 +52,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.ui = can.onappend.l
 		can.Status({begin: begin, limit: limit, total: list.length})
 	},
 	layout: function(can) { can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
-		can.page.Select(can, can.ui.content, html.VIDEO, function(target) {
-			can.page.style(can, target, html.HEIGHT, height, html.MAX_WIDTH, width)
+		can.page.Select(can, can.ui.content, can.page.Keys(html.IMG, html.VIDEO), function(target) {
+			can.user.isMobile && !can.user.isLandscape()? can.page.style(can, target, html.HEIGHT, "", html.MAX_HEIGHT, height, html.WIDTH, width):
+				can.page.style(can, target, html.HEIGHT, height, html.MAX_WIDTH, width)
 		})
 	}) },
 }, [""])
@@ -61,7 +62,7 @@ Volcanos(chat.ONFIGURE, {
 	png: function(can, path, item, index, height) { return can.onfigure.image(can, path, item, index, height) },
 	jpg: function(can, path, item, index, height) { return can.onfigure.image(can, path, item, index, height) },
 	jpeg: function(can, path, item, index, height) { return can.onfigure.image(can, path, item, index, height) },
-	image: function(can, path, item, index, height) { return {img: path, height: height||can.onexport.height(can),
+	image: function(can, path, item, index, height) { return {img: path,
 		onmouseover: function(event) { can.Status(nfs.FILE, path), can.Status(item) },
 		onclick: function(event) { item._target.click() },
 	} },
