@@ -261,7 +261,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		})
 	},
 	_status: function(can, list, status) { status = status||can._status, can.onmotion.clear(can, status); var keys = {}
-		can.core.List(can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST])).concat(can.misc.Search(can, log.DEBUG)==ice.TRUE? [
+		can.core.List((can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST]))||[]).concat(can.misc.Search(can, log.DEBUG)==ice.TRUE? [
 			{name: html.HEIGHT, value: can.ConfHeight()}, {name: html.WIDTH, value: can.ConfWidth()},
 		]: []), function(item) { item = can.base.isString(item)? {name: item}: item
 			if (item && item.name == web.SPACE && item.value) { item.value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: item.value}), item.value) }
