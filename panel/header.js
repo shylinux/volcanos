@@ -3,7 +3,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	_title: function(can, msg, target) {
 		can.core.List(can.base.getValid(can.Conf(chat.TITLE)||(can.user.isExtension? "contexts": location.host)||msg.result, [location.host]), function(item) {
-			can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE]], list: [{img: "/volcanos/favicon.ico"}, {text: item}], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
+			can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE]], list: [{img: can.misc.ResourceFavicon(can)}, {text: item}], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
 		})
 	},
 	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {

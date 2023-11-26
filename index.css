@@ -26,7 +26,7 @@ body {
 	--code-object:silver; --code-datatype:lavender; --code-package:blue;
 	--code-font-family:monospace; --svg-font-family:var(--code-font-family);
 	--body-font-family:sans-serif;
-	--legend-font-family:var(--input-font-family); --status-font-family:var(--input-font-family);
+	--legend-font-family:var(--input-font-family); --status-font-family:var(--body-font-family);
    	--input-font-family:cursive; --table-font-family:var(--body-font-family);
 
 	--body-font-size:16px; --legend-font-size:20px; --icon-font-size:20px;
@@ -144,7 +144,7 @@ body>div.carte input[name=filter] { margin:var(--input-margin); width:calc(100% 
 body>div.carte div.item { white-space:pre; padding:var(--button-padding); }
 body>div.carte div.item span.icon.next { float:right; line-height:22px; height:22px; }
 body>div.carte.select.float>div.item { text-align:center; }
-body>div.input { padding:var(--plugin-padding); }
+body>div.input { padding:var(--plugin-padding); z-index:100; }
 body>div.input>legend { font-style:italic; width:100%; }
 body>div.input td { padding:var(--table-padding); }
 body>div.input td:nth-child(2) { padding:var(--table-padding) 0; }
@@ -215,7 +215,7 @@ div.story[data-type=spark] { padding:0 var(--table-padding); border-left:var(--n
 fieldset>div.action>div.tabs { font-style:italic; padding:var(--input-padding) var(--button-padding); margin-left:var(--input-margin); box-shadow:var(--box-shadow); height:var(--action-height); }
 fieldset>div.action>div.cmds { font-style:italic; padding:var(--input-padding) var(--button-padding); margin-left:var(--input-margin); box-shadow:var(--box-shadow); height:var(--action-height); }
 fieldset>div.output>div.code { font-size:var(--code-font-size); }
-fieldset>div.status { font-family:var(--status-font-family); font-style:italic; line-height:20px; max-height:var(--action-height); }
+fieldset>div.status { font-family:var(--status-font-family); font-size:var(--status-font-size); font-style:italic; line-height:20px; max-height:var(--action-height); }
 fieldset>div.status>div.item { padding:var(--input-padding); height:31px; }
 fieldset>div.status>div.item>label { font-size:var(--status-font-size); }
 fieldset>div.status>div.item>span { margin-left:var(--input-padding); }
@@ -253,7 +253,7 @@ div.item.text.limit>input { width:var(--button-width); }
 div.item.text.offend>input { width:var(--button-width); }
 div.item.text.will>input { border:var(--box-notice); }
 div.item.text>i:first-child { position:absolute; padding:7px; }
-div.item.text>span.icon { font-size:var(--icon-font-size); padding:0 var(--input-padding); position:absolute; right:0; visibility:hidden; }
+div.item.text>span.icon { font-size:var(--icon-font-size); padding:var(--input-padding); position:absolute; right:0; visibility:hidden; }
 div.item.text:hover>span.icon { visibility:visible; }
 div.item.button { position:relative; display:flex; align-items:center; height:var(--action-height); }
 div.item.button>span.icon { font-size:var(--icon-font-size); padding:0 var(--input-padding); }
@@ -371,7 +371,8 @@ legend, form.option, form.option>div.item, div.action, div.action>div.item, div.
 fieldset.story, fieldset>div.output, fieldset>div.status, div.output>div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
 fieldset.story { position:sticky; left:0; }
 fieldset.full { position:fixed; left:0; top:0; }
-fieldset.auto, fieldset.full, fieldset.float, div.float { position:fixed; z-index:10; box-shadow:var(--box-shadow); }
+fieldset.auto, fieldset.full, fieldset.float { position:fixed; z-index:10; box-shadow:var(--box-shadow); }
+div.float { position:fixed; z-index:100; box-shadow:var(--box-shadow); }
 fieldset.plug { position:absolute; bottom:0; right:0; }
 div.output { position:relative; }
 div.layout.flex>* { float:left; clear:none; }

@@ -1,4 +1,5 @@
 fieldset.Action { min-width:var(--project-width); }
+fieldset.Action>div.output { overflow-x:hidden; }
 fieldset.Action>div.action { width:100%; display:none; background-color:var(--plugin-bg-color); }
 fieldset.Action>div.action div.item { font-style:italic; font-size:1.1rem; padding:10px 20px; }
 fieldset.Action.tabs>div.action { display:block; }

@@ -48,9 +48,10 @@ Volcanos(chat.ONIMPORT, {
 		can.Conf("_auto", auto), can.Mode(mode), can.ConfHeight(height), can.ConfWidth(width), height -= can.onexport.actionHeight(can)+can.onexport.statusHeight(can)
 		auto || auto == undefined? (can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, height, html.MAX_WIDTH, width), can.page.style(can, can._target, html.HEIGHT, "", html.WIDTH, "")):
 			(can.page.style(can, can._output, html.HEIGHT, height, html.WIDTH, width, html.MAX_HEIGHT, "", html.MAX_WIDTH, ""), can.page.style(can, can._target, html.WIDTH, width))
-		var sub = can.sub; if (!sub) { return auto } sub.Mode(mode), sub.ConfHeight(height), sub.ConfWidth(width)
-		can.onimport._size(can)
-		mode? sub.onlayout[mode](sub, height, width): sub.onlayout._init(sub, height, width); return auto
+		if (can.misc.Search(can, log.DEBUG) == ice.TRUE) { can.Status(html.HEIGHT, can.base.Max(height, can._output.offsetHeight), html.WIDTH, width) }
+		var sub = can.sub; if (!sub) { return auto } sub.Mode(mode), sub.ConfHeight(height), sub.ConfWidth(width), can.onimport._size(can)
+		mode? sub.onlayout[mode](sub, height, width): sub.onlayout._init(sub, height, width)
+		return auto
 	},
 	display_size: function(can, sub) { var border = 1
 		can.page.style(can, sub._output, html.MAX_HEIGHT, "")
@@ -204,7 +205,7 @@ Volcanos(chat.ONEXPORT, {
 	outputHeight: function(can) { var height = can.sub.ConfHeight() - can.onexport.outputMargin(can)
 		if (can.user.isMobile) { return can.ConfHeight() - can.onexport.actionHeight(can) - can.onexport.statusHeight(can) }
 		can.page.SelectChild(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })
-		return can.base.Min(height, can.sub.ConfHeight()/2)
+		return can.base.Max(can.base.Min(height, can.sub.ConfHeight()/2), can.ConfHeight()-html.ACTION_HEIGHT, 320)
 	},
 	outputMargin: function(can) { return 0 },
 	statusHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.STATUS_HEIGHT },

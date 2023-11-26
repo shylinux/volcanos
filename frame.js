@@ -254,14 +254,16 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (can.onimport.size) {
 					// if (can.isFullMode() || can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
 					can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), can.Conf("_auto"), can.Mode())
-						can.onexport.output(sub, msg)
 					can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight(), html.WIDTH, sub.ConfWidth())
+					can.onexport.output(sub, msg)
 				} can.base.isFunc(cb) && cb(msg)
 			}, target: output})
 		})
 	},
 	_status: function(can, list, status) { status = status||can._status, can.onmotion.clear(can, status); var keys = {}
-		can.core.List(can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST])), function(item) { item = can.base.isString(item)? {name: item}: item
+		can.core.List(can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST])).concat(can.misc.Search(can, log.DEBUG)==ice.TRUE? [
+			{name: html.HEIGHT, value: can.ConfHeight()}, {name: html.WIDTH, value: can.ConfWidth()},
+		]: []), function(item) { item = can.base.isString(item)? {name: item}: item
 			if (item && item.name == web.SPACE && item.value) { item.value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: item.value}), item.value) }
 			if (can.base.beginWith(item.value, nfs.PS, ice.HTTP)) { item.value = can.page.Format(html.A, item.value, item.value.split("?")[0]) }
 			if (keys[item.name]) { return can.Status(item.name, item.value) } keys[item.name] = item
@@ -600,7 +602,8 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 				}
 			}
 			if (layout.left+target.offsetWidth > left+width) { layout.left = (right? rect.left: left+width)-target.offsetWidth-1 }
-			layout.left = can.base.Min(layout.left, 0), layout.top = can.base.Min(layout.top, 32)
+			layout.left = can.base.Min(layout.left, 0)
+			// layout.top = can.base.Min(layout.top, 32)
 			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
 		});
 		can.onmotion.move(can, target, layout), can.onmotion.slideGrow(can, target)

@@ -221,7 +221,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	},
 })
 Volcanos(chat.ONLAYOUT, {
-	_init: function(can, height, width) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can, height: height, width: width}) },
+	_init: function(can, height, width) {
+		can.core.CallFunc([can.onimport, html.LAYOUT], {can: can, height: height, width: width})
+	},
 	zone: function(can, height, width) { can.onlayout._init(can, height, width) },
 	result: function(can, height, width) { can.onlayout._init(can, height, width) },
 	simple: function(can, height, width) { can.onlayout._init(can, height, width) },
