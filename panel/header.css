@@ -2,6 +2,9 @@ fieldset.Header>div.output { line-height:21px; height:var(--header-height); over
 fieldset.Header>div.output div.item { background-color:var(--panel-output-bg-color); padding:13.5px; height:var(--header-height); float:left; }
 fieldset.Header>div.output div.title:first-child { font-size:var(--legend-font-size); font-style:italic; font-weight:bold; display:flex; align-items:center; justify-content:center; overflow:hidden; }
 fieldset.Header>div.output div.title img { height:var(--action-height); width:var(--action-height); }
+fieldset.Header>div.output div.item.theme { margin-right:var(--button-margin); }
+fieldset.Header>div.output div.item.theme>i { margin-right:0; }
+fieldset.Header>div.output div.item.language>span:last-child { color:var(--disable-fg-color); }
 fieldset.Header>div.output div.state { float:right; }
 fieldset.Header>div.output div.state.avatar { padding:0; }
 fieldset.Header>div.output div.state.avatar>img { height:var(--header-height); clip-path:circle(40%); }

@@ -318,6 +318,7 @@ var html = {RIVER_MARGIN: 80, PLUGIN_MARGIN: 10, PLUGIN_PADDING: 10, ACTION_MARG
 }
 var icon = {
 	CHEVRON_DOWN: "bi bi-chevron-down", SEARCH: "bi bi-search", TERMINAL: "bi bi-terminal",
+	SUN: "bi bi-sun", MOON: "bi bi-moon-stars",
 }
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",

@@ -580,7 +580,7 @@ fieldset.plug.dream.zone>div.output>div.item { display:flex; padding:var(--input
 fieldset.plug.dream.zone>div.output>div.item>img { margin-right:var(--input-margin); }
 fieldset.plug.dream.zone>div.output>div.item>span { line-height:var(--action-height); }
 body>div.input.vimer.plug td:first-child { display:none; }
-body>div.carte.header.avatar img { min-width:400px; }
+body>div.carte.header.avatar img { width:370px; }
 body>fieldset.story.web.chat.wx.agent { position:fixed; left:0; bottom:0; }
 body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; border-top:var(--box-border); }
 body.white fieldset.inner.cmd>div.output>div.layout>div.tabs div:not(.select):not(:hover) { background-color:transparent; }

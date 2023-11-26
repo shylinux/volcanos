@@ -6,19 +6,27 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE]], list: [{img: can.misc.ResourceFavicon(can)}, {text: item}], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
 		})
 	},
-	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
+	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [aaa.LANGUAGE, chat.THEME, aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
 		if (item == aaa.AVATAR ) { can.user.isLocalFile || can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item]], list: [{img: lex.SP}], onclick: function(event) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
-		}}]); return }
-		if (can.user.isMobile && item == mdb.TIME) { return }
+		}}]); return } if (can.user.isMobile && item == mdb.TIME) { return }
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item], "", can.Conf(item)||msg.Option(item)||""], onclick: function(event) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
-		}, _init: function(target) { item == mdb.TIME && can.onimport._time(can, target) }}])
+		}, _init: function(target) {
+			item == mdb.TIME && can.onimport._time(can, target)
+			item == aaa.LANGUAGE && can.page.Append(can, target, [{text: "en / 中"}])
+			item == chat.THEME && can.page.Append(can, target, [{icon: icon.SUN}])
+		}}])
 	}) },
 	_avatar: function(can, msg) { can.user.isExtension || can.user.isLocalFile || can.page.Modify(can, "div.state.avatar>img", {src: can.onexport.avatar(can)}) },
 	_background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
 		window.parent == window? can.onlayout.background(can, can.onexport.background(can)): can.page.style(can, document.body, html.BACKGROUND_COLOR, "transparent")
 	},
+	_language: function(can) { can.page.Select(can, can._output, "div.item.language", function(target) {
+		can.page.Appends(can, target, can.user.info.language.indexOf("zh") == 0?
+			[{text: "中"}, {text: " / "}, {text: "en"}]: [{text: "en"}, {text: " / "}, {text: "中"}]
+		)
+	}) },
 	_search: function(can, msg, target) {
 		can._search = can.onappend.input(can, {type: html.TEXT, _className: "args trans", icon: icon.SEARCH, name: mdb.SEARCH, value: can.misc.Search(can, "_search"), onkeydown: function(event) { can.onkeymap.input(event, can)
 			event.key == code.ENTER && can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: event.target.value||""}))
@@ -26,6 +34,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport.menu(can, mdb.SEARCH, function() { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: can._search.value||""})) })
 	},
 	_time: function(can, target) { can.core.Timer({interval: 100}, function() { can.onimport.time(can, target) }), can.onappend.figure(can, {action: "date"}, target) },
+	_const: function(can) {
+		html.RIVER_MARGIN = can.page.styleValueInt(can, "--river-margin")
+		html.PLUGIN_PADDING = can.page.styleValueInt(can, "--plugin-padding")
+		html.PLUGIN_MARGIN = can.page.styleValueInt(can, "--plugin-margin")
+		html.ACTION_MARGIN = can.page.styleValueInt(can, "--action-margin")
+		html.ACTION_HEIGHT = can.page.styleValueInt(can, "--action-height")
+		html.STATUS_HEIGHT = can.page.styleValueInt(can, "--status-height")
+	},
 	time: function(can, target) { can.onimport.theme(can), target.innerHTML = can.user.time(can, null, can.Conf(mdb.TIME)||"%H:%M:%S %w") },
 	avatar: function(event, can, avatar) { can.user.isExtension || can.user.isLocalFile || can.runAction(event, aaa.AVATAR, [avatar], function(msg) {
 		can.user.info.avatar = avatar, can.onimport._avatar(can, msg), can.user.toastSuccess(can)
@@ -36,8 +52,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	language: function(can, language) { can.runAction(event, aaa.LANGUAGE, [language == ice.AUTO? "": language], function(msg) {
 		can.user.toastConfirm(can, can.user.trans(can, "reload page for "+language), aaa.LANGUAGE, function() { can.user.reload(true) })
 	}) },
-	theme: function(can, theme) { theme && can.runAction({}, chat.THEME, [theme])
-		theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme) && can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: theme})), can.user.theme(can, can.onexport.theme(can))
+	theme: function(can, theme) { theme = can.ui.diy&&can.ui.diy[theme]||theme; theme && can.runAction({}, chat.THEME, [theme])
+		theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme) && can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: theme}))
+		can.user.theme(can, theme = can.onexport.theme(can))
+		can.page.Select(can, can._output, "div.item.theme>i", function(target) { var list = [html.LIGHT, html.WHITE]
+			if (list.indexOf(theme) == -1 && list.indexOf(theme[0]) == -1) { target.className = icon.MOON } else { target.className = icon.SUN }
+		})
 	},
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
 		return can.page.Append(can, can._output, [{view: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
@@ -48,12 +68,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		}) }])._target
 	},
 })
-Volcanos(chat.ONACTION, {_init: function(can) {
-	},
+Volcanos(chat.ONACTION, {_init: function(can) {},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onmain: function(can) {
 		function lang(msg, cb) { can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)
 			can.user.info.language? can.require([can.misc.Resource(can, nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/language/"+can.user.info.language+".js")], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb && cb()
+			can.onmotion.delay(can, function() { can.onimport._language(can) })
 		}
 		if (!can.user.isMailMaster) { if (can.misc.Search(can, ice.MSG_SESSID)) { can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)); return can.misc.Search(can, ice.MSG_SESSID, "") } }
 		function show(msg) { var p = can.misc.Search(can, "redirect_uri")
@@ -63,16 +83,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 			can.user.info.email = msg.Option(aaa.EMAIL), can.user.info.repos = msg.Option(nfs.REPOS)
 			msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) }) 
 			msg.Option(mdb.PLUGIN) && can.onappend.plugin(can, {index: msg.Option(mdb.PLUGIN)}, function(sub) { can.onmotion.hidden(can, sub._target) }, document.body)
-			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}
-			can.page.theme(function(theme) { theme = can.ui.diy&&can.ui.diy[theme]||theme
-				can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = theme}))
-			}), can.onimport.theme(can)
-			html.RIVER_MARGIN = can.page.styleValueInt(can, "--river-margin")
-			html.PLUGIN_PADDING = can.page.styleValueInt(can, "--plugin-padding")
-			html.PLUGIN_MARGIN = can.page.styleValueInt(can, "--plugin-margin")
-			html.ACTION_MARGIN = can.page.styleValueInt(can, "--action-margin")
-			html.ACTION_HEIGHT = can.page.styleValueInt(can, "--action-height")
-			html.STATUS_HEIGHT = can.page.styleValueInt(can, "--status-height")
+			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.onimport._const(can)
+			can.page.theme(function(theme) { can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.ui.diy&&can.ui.diy[theme]||theme})) }), can.onimport.theme(can)
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)
@@ -107,10 +119,13 @@ Volcanos(chat.ONACTION, {_init: function(can) {
 	},
 	carte: function(event, can, list, cb, trans) { return can.user.carte(event, can, can.onaction, list, cb, null, trans) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
+	theme: function(event, can) { can.page.Select(can, can._output, "div.item.theme>i", function(target) {
+		can.onimport.theme(can, target.className == icon.SUN? html.DARK: html.LIGHT)
+	}) },
+	language: function(event, can) { can.onimport.language(can, can.user.info.language.indexOf("zh") == 0? "en-us": "zh-cn") },
 	avatar: function(event, can) { var src = can.onexport.avatar(can)
-		can.onaction.carte(can.request(event, {_style: "header avatar"}), can, [
-		can.user.isMobile? `<img src="${src}" width=${can.ConfWidth()-20}>`: can.page.Format(html.IMG, src, can.page.height()/2)
-	]) },
+		can.onaction.carte(can.request(event, {_style: "header avatar"}), can, [`<img src="${src}">`])
+	},
 	usernick: function(event, can) { can.onaction.carte(can.request(event, {_style: "header usernick"}), can, can.onaction._menus) },
 	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN, mdb.NAME, can.user.title(), mdb.TEXT, location.href]) },
 	toimage: function(event, can) { can.onmotion.clearCarte(can), can.user.toimage(can, can.user.title(), can._target.parentNode) },
