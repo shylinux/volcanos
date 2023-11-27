@@ -3,6 +3,7 @@ fieldset.vimer>div.output>div.layout>div.layout div.content input.current { back
 fieldset.vimer>div.output>div.layout>div.layout div.content div.complete { background-color:unset; padding-top:0; display:none; position:absolute; height:1px; overflow:visible; }
 fieldset.vimer>div.output>div.layout>div.layout div.content div.complete div.prefix { color:transparent; white-space:pre; float:left; }
 fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content thead { display:none; }
+fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content td:first-child { padding-left:0; }
 fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content { padding-left:var(--input-padding); width:unset; max-width:600px; display:block; box-shadow:var(--box-shadow); }
 fieldset.vimer>div.output>div.layout>div.layout div.content.insert div.complete:not(.hide) { display:block; top:unset; }
 fieldset.vimer>div.output>div.layout>div.layout div.content.normal input.current { caret-color:var(--notice-bg-color); border:var(--notice-bg-color) solid 1px; }

@@ -4,8 +4,9 @@ Volcanos(chat.ONFIGURE, {img: {
 		function add(target, hash) { target._hash = hash, can.page.Appends(can, target, [{img: can.base.MergeURL(can.misc.MergeURL(can, {_path: web.SHARE_CACHE+hash}, true), {pod: meta.space||undefined}), height: width, width: width}]) }
 		function set() { target.value = can.page.SelectChild(can, target.parentNode, html.DIV, function(target) { return target._hash }).join(mdb.FS) }
 		can.onmotion.hidden(can, target)
+		can.onappend.style(can, html.FLEX, target.parentNode)
 		for (var i = 0; i < count; i++) {
-			can.page.Append(can, target.parentNode, [{type: html.DIV, style: {
+			can.page.Append(can, target.parentNode, [{view: html.FLEX, style: {
 				"clear": i%n == 0? "both": "none", height: width, width: width,
 			}, _init: function(target) {
 				if (images[i] && images[i].length > 10) { add(target, images[i]) } else { can.page.Append(can, target, [{text: "+"}]) }

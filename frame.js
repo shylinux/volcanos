@@ -501,6 +501,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		ui.layout = function(height, width, delay, cb) { can.onmotion.delay(can, function() { defer = [], layout(type, ui.list, height, width), defer.forEach(function(cb) { cb() }), cb && cb(content_height, content_width) }, delay||0) }; return ui
 	},
 	tabview: function(can, meta, list, target) { var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT])
+		can.onappend.style(can, html.FLEX, ui.action)
 		can.core.List(can.base.getValid(list, can.core.Item(meta)), function(name, index) {
 			ui[name] = can.page.Append(can, ui.action, [{view: [html.TABS, html.DIV, name], onclick: function(event) {
 				can.onmotion.select(can, ui.action, html.DIV_TABS, event.target)
@@ -802,22 +803,10 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	},
 	slideGrow: function(can, target) {
 		if (can.page.tagis(target, html.DIV) && can.page.ClassList.has(can, target, html.INPUT)) { return }
-		var height = target.offsetHeight, begin = 0; if (height < 10) { return }
-		can.page.style(can, target, html.HEIGHT, 0)
-		can.core.Timer({interval: 1, length: height/5}, function(timer, interval, index, list) {
+		var height = target.offsetHeight, begin = 0; if (height < 50) { return } can.page.style(can, target, html.HEIGHT, 0)
+		can.core.Timer({interval: 10, length: height/10}, function(timer, interval, index, list) {
 			can.page.style(can, target, html.HEIGHT, begin += height/list.length)
-		}, function() {
-			can.page.style(can, target, html.HEIGHT, "")
-		})
-	},
-	slideDown: function(can, target) {
-		var top = target.offsetTop, offset = 32, begin = top - offset
-		can.page.style(can, target, html.TOP, begin)
-		can.core.Timer({interval: 1, length: 30}, function(timer, interval, index, list) {
-			can.page.style(can, target, html.TOP, begin += offset/list.length)
-		}, function() {
-			can.page.style(can, target, html.TOP, top)
-		})
+		}, function() { can.page.style(can, target, html.HEIGHT, "") })
 	},
 })
 Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||document.body

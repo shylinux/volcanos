@@ -1,6 +1,4 @@
 fieldset.word>div.output { padding:var(--plugin-padding); }
-fieldset.word>div.output div.story.flex { display:flex; justify-content:center; }
-fieldset.word>div.output div.story.flex div.story.flex { display:flex; justify-content:center; }
 fieldset.word>div.output div.story.flex>* { padding:var(--plugin-padding); }
 fieldset.word>div.output p { margin:var(--title-margin) auto; }
 fieldset.word>div.output h3 { margin-top:var(--title-margin); }

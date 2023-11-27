@@ -7,7 +7,7 @@ Volcanos(chat.ONIMPORT, {
 					can.onmotion.scrollIntoView(can, item._target, 10)
 				})
 			}
-			return {view: html.ITEM, style: style, list: [
+			return {view: [[html.ITEM, html.FLEX]], style: style, list: [
 				{view: wiki.IMAGE, list: [{img: can.misc.MergeCache(can, can.core.Split(item.image)[0], item.space)}]},
 				{view: wiki.CONTENT, list: [
 					{view: [html.TITLE, html.DIV, item.name]},

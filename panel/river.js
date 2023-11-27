@@ -1,5 +1,7 @@
 (function() { const CAN_RIVER = "can.river", CAN_STORM = "can.storm"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg)
+
+		can.onappend.style(can, html.FLEX, can._action)
 		var select; can.page.Appends(can, can._output, msg.Table(function(item, index) {
 			return can.onimport._river(can, item, function(target) { (index == 0 || item.hash == can._main_river) && (select = target) })
 		})), select && select.click(), can.onimport._menu(can, msg)
@@ -54,7 +56,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	share: function(event, can) { can.core.CallFunc(can.ondetail.share, {event: event, can: can}) },
 	onsize: function(can, height) { var margin = "0px", _margin = 0; can.page.style(can, can._output, html.MARGIN, "0px", html.HEIGHT, "")
 		if (can.page.isDisplay(can._action)) { _margin = can._action.offsetHeight + html.PLUGIN_MARGIN }
-		if (can._output.offsetHeight < height) { margin = can.base.Min((height-can._output.offsetHeight)/2, _margin)+"px 0px" }
+		if (can._output.offsetHeight < height) { margin = can.base.Min((height-_margin-can._output.offsetHeight)/2, _margin)+"px 0px" }
 		height && can.page.style(can, can._output, html.MARGIN, margin, html.HEIGHT, can.base.Max(can._output.offsetHeight, height-_margin))
 		can.onexport.scroll(can)
 	},

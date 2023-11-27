@@ -4,16 +4,15 @@ const RECOVER_TOOL = "recover:tool"
 const PROJECT_HIDE = "project:hide", TABVIEW_HIDE = "tabview:hide"
 const PROFILE_ARGS = "profile:args:", DISPLAY_ARGS = "display:args:"
 const CURRENT_FILE = "web.code.inner:currentFile", SELECT_LINE = "selectLine"
-const VIEW_CREATE = "tabview.view.create", VIEW_REMOVE = "tabview.view.remove", LINE_SELECT = "tabview.line.select"	
+const VIEW_CREATE = "tabview.view.create", VIEW_REMOVE = "tabview.view.remove", LINE_SELECT = "tabview.line.select"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Split(can.Option(nfs.PATH), mdb.FS); can.Option(nfs.PATH, paths[0])
 		can.Mode(msg.Option("mode")||can.Mode()), can.Option(nfs.FILE) == " " && can.Option(nfs.FILE, "")
 		if (can.Mode() == ice.MSG_RESULT) { msg.result = msg.result||[can._output.innerHTML], can.Mode(chat.SIMPLE), can.sup.Mode(chat.SIMPLE) }
 		can.core.List(paths.concat(can.core.Split(msg.Option(nfs.REPOS))), function(p) {
 			if (can.base.beginWith(p, nfs.USR_LOCAL_WORK) || can.base.endWith(p, "-dict/") || can.base.isIn(p,
-				nfs.USR_INTSHELL,
-				nfs.USR_LEARNING,
-				nfs.USR_GEOAREA,
-				nfs.USR_ICONS,
+				nfs.USR_WEBSOCKET, nfs.USR_GO_QRCODE, nfs.USR_GO_GIT,
+				nfs.USR_ICONS, nfs.USR_GEOAREA, nfs.USR_LEARNING,
+				// nfs.USR_INTSHELL,
 			)) { return }
 			if (p && paths.indexOf(p) == -1 && p[0] != nfs.PS) { paths.push(p) }
 		}), can.onmotion.clear(can), can.onappend.style(can, code.INNER), can.sup.onimport._process = function(_can, msg) {
@@ -60,12 +59,17 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			{name: can.page.unicode.menu, onclick: function() { can.user.carte(event, can, can.onaction, can.onaction.list) }},
 			{name: can.page.unicode.refresh, style: {"font-size": 26, "padding-top": 2}, onclick: function() { location.reload() }},
 		], function(item) { return can.base.Copy(item, {view: [[html.ITEM, html.ICON], "", item.name]}) }))
+		can.onappend.style(can, html.FLEX, ui.head)
+		can.onappend.style(can, html.FLEX, ui.tabs)
+		can.onappend.style(can, html.FLEX, ui.icon)
 		can.page.Append(can, ui.head, can.user.header(can).reverse())
 	},
-	__tabPath: function(can, cache) { var target = can.ui.path
+	__tabPath: function(can, cache) { var target = can.ui.path; can.onappend.style(can, html.FLEX, can.ui.path)
 		can.onimport._tabPath(can, nfs.PS, nfs.PATH, can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE)), function(p) {
 			var ls = can.onexport.split(can, p); can.onimport.tabview(can, ls[0], ls[1])
-		}, target), can.onimport._tabFunc(can, target, cache), can.onimport._tabMode(can), can.onimport._tabIcon(can)
+		}, target), can.onimport._tabFunc(can, target, cache), can.onimport._tabMode(can)
+		can.page.Append(can, target, [{view: [["item", "space"], html.SPAN]}])
+		can.onimport._tabIcon(can)
 		target.ondblclick = function(event) { if (event.target != target) { return }
 			var show = can.onmotion.toggle(can, can.ui.tabs); can.onmotion.toggle(can, can.ui.project, show), can.onimport.layout(can)
 			can.isCmdMode() && can.onexport.session(can, TABVIEW_HIDE, show? "": html.HIDE)
@@ -233,7 +237,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		} else if (msg.Length() > 0 || msg.Result() != "") {
 			can.onappend.table(can, msg, function(value, key, index, item) { return {text: [value, html.TD], onclick: function(event) {
 				if (event.target.type == html.BUTTON) { return can.runAction(can.request(event, item), event.target.name, [], function() {
-					
+
 				}) }
 				item.file && can.onimport.tabview(can, item.path, item.file||can.Option(nfs.FILE), item.line)
 			}} }, target), can.onappend.board(can, msg, target), msg.Option(ice.MSG_STATUS) && can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.page.Append(can, target, [html.STATUS])._target)
@@ -288,7 +292,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		})
 	}) },
 }, [""])
-Volcanos(chat.ONFIGURE, { 
+Volcanos(chat.ONFIGURE, {
 	source: function(can, target, zone, path) { var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
 		function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true, "_toast": "目录加载中..."}), [nfs.PWD], function(msg) { can.onmotion.clear(can, target)
 			can.onimport.tree(can, can.core.List(msg.Table(), function(item) {
@@ -461,7 +465,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { if (!msg) { return }
 			} else if (value.type == mdb.INSERT) {
 				_insert.push(item), inserts.push(_insert.join("")), _insert = []
 			} else if (_delete.length > 0 || _insert.length > 0) {
-				_delete.push(item), _insert.push(item), deletes.push(_delete.join("")), _delete = [], inserts.push(_insert.join("")), _insert = [] 
+				_delete.push(item), _insert.push(item), deletes.push(_delete.join("")), _delete = [], inserts.push(_insert.join("")), _insert = []
 			} else { append(), can.onaction.appendLine(can, item) }
 		}) }), _delete.length > 0 && deletes.push(_delete.join("")), _insert.length > 0 && inserts.push(_insert.join("")), append()
 		var list = can.page.Select(can, can.ui.content, "tr.insert,tr.delete")

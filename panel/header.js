@@ -3,10 +3,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	_title: function(can, msg, target) {
 		can.core.List(can.base.getValid(can.Conf(chat.TITLE)||(can.user.isExtension? "contexts": location.host)||msg.result, [location.host]), function(item) {
-			can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE]], list: [{img: can.misc.ResourceFavicon(can)}, {text: item}], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
+			can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE, html.FLEX]], list: [{img: can.misc.ResourceFavicon(can)}, {text: item}], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
 		})
 	},
 	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [chat.THEME, aaa.LANGUAGE, aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
+		if (item == aaa.LANGUAGE && can.user.isMobile) { return }
+		if (item == chat.THEME && can.user.isMobile) { return }
 		if (item == aaa.AVATAR ) { can.user.isLocalFile || can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item]], list: [{img: lex.SP}], onclick: function(event) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
 		}}]); return } if (can.user.isMobile && item == mdb.TIME) { return }

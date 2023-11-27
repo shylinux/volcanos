@@ -1,7 +1,7 @@
 fieldset.Header>div.output { line-height:21px; height:var(--header-height); overflow:hidden; }
 fieldset.Header>div.output div.item { background-color:var(--panel-output-bg-color); padding:13.5px; height:var(--header-height); float:left; }
-fieldset.Header>div.output div.title:first-child { font-size:var(--legend-font-size); font-style:italic; font-weight:bold; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-fieldset.Header>div.output div.title img { height:var(--action-height); width:var(--action-height); }
+fieldset.Header>div.output div.item.title:first-child { font-size:var(--legend-font-size); font-style:italic; font-weight:bold; overflow:hidden; }
+fieldset.Header>div.output div.item.title img { height:var(--action-height); width:var(--action-height); }
 fieldset.Header>div.output div.item.theme { user-select:none; }
 fieldset.Header>div.output div.item.theme>i { margin-right:0; }
 fieldset.Header>div.output div.item.theme>i:last-child { color:var(--disable-fg-color); }

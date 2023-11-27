@@ -1,5 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.ui = can.onappend.layout(can), cb && cb(msg)
 		can.db.hash = can.isCmdMode()? can.misc.SearchHash(can): []
+		can.onappend.style(can, html.FLEX, can.ui.display)
 		can.onmotion.hidden(can, can._action), can.onmotion.toggle(can, can.ui.display, true), can.onimport.layout(can)
 		can.onimport._project(can, msg), can.onimport.page(can, can.db.list, can.db.begin = parseInt(msg.Option(cli.BEGIN)||"0"))
 	},
@@ -136,6 +137,7 @@ Volcanos(chat.ONACTION, {list: ["full",
 Volcanos(chat.ONDETAIL, {list: ["关闭", "上一个", "下一个", "设置头像", "设置背景", "复制链接", "下载", "删除"],
 	_init: function(can, index) {
 		can.onappend._init(can, {type: "story feel play float"}, [], function(sub) { can.sub = sub, sub._legend.onclick = can._legend.onclick
+			can.onappend.style(can, html.FLEX, sub._output)
 			can.getActionSize(function(msg, left, top, width, height) { sub.onappend._action(can, can.ondetail.list, sub._action, can.ondetail), sub.onappend._status(sub, ["begin", nfs.FILE])
 				sub.page.style(sub, sub._target, {left: left||0, top: top||0}), sub.page.style(sub, sub._output, html.HEIGHT, height-2*html.ACTION_HEIGHT, html.WIDTH, width)
 				can.order = index, can.show = function(order) { path = can.onimport._file(can, can.db.list[order].path); var cb = can.onfigure[can.base.Ext(path)]||can.onfigure[wiki.IMAGE]
