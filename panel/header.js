@@ -15,7 +15,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		}, _init: function(target) {
 			item == mdb.TIME && can.onimport._time(can, target)
 			item == aaa.LANGUAGE && can.page.Append(can, target, [{text: "en / 中"}])
-			item == chat.THEME && can.page.Append(can, target, [{icon: icon.SUN}])
+			item == chat.THEME && can.page.Append(can, target, [{icon: icon.SUN}, {text: " / "}, {icon: icon.MOON}])
 		}}])
 	}) },
 	_avatar: function(can, msg) { can.user.isExtension || can.user.isLocalFile || can.page.Modify(can, "div.state.avatar>img", {src: can.onexport.avatar(can)}) },
@@ -54,9 +54,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	}) },
 	theme: function(can, theme) { theme = can.ui.diy&&can.ui.diy[theme]||theme; theme && can.runAction({}, chat.THEME, [theme])
 		theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme) && can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: theme}))
-		can.user.theme(can, theme = can.onexport.theme(can))
-		can.page.Select(can, can._output, "div.item.theme>i", function(target) { var list = [html.LIGHT, html.WHITE]
+		can.user.theme(can, theme = can.onexport.theme(can)); var list = [html.LIGHT, html.WHITE]
+		can.page.Select(can, can._output, "div.item.theme>i:first-child", function(target) {
 			if (list.indexOf(theme) == -1 && list.indexOf(theme[0]) == -1) { target.className = icon.MOON } else { target.className = icon.SUN }
+		})
+		can.page.Select(can, can._output, "div.item.theme>i:last-child", function(target) {
+			if (list.indexOf(theme) == -1 && list.indexOf(theme[0]) == -1) { target.className = icon.SUN } else { target.className = icon.MOON }
 		})
 	},
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
@@ -119,9 +122,11 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	},
 	carte: function(event, can, list, cb, trans) { return can.user.carte(event, can, can.onaction, list, cb, null, trans) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
-	theme: function(event, can) { can.page.Select(can, can._output, "div.item.theme>i", function(target) {
-		can.onimport.theme(can, target.className == icon.SUN? html.DARK: html.LIGHT)
-	}) },
+	theme: function(event, can) {
+		can.page.Select(can, can._output, "div.item.theme>i:first-child", function(target) {
+			can.onimport.theme(can, target.className == icon.SUN? html.DARK: html.LIGHT)
+		})
+	},
 	language: function(event, can) { can.onimport.language(can, can.user.info.language.indexOf("zh") == 0? "en-us": "zh-cn") },
 	avatar: function(event, can) { var src = can.onexport.avatar(can)
 		can.onaction.carte(can.request(event, {_style: "header avatar"}), can, [`<img src="${src}">`])
