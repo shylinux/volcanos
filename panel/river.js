@@ -81,8 +81,8 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	action: function(event, can, river, storm) { can.misc.SearchHash(can, river, storm)
 		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], function(target) { can.page.ClassList.del(can, target, html.SELECT) })
 		can.onmotion.select(can, can.ui.sublist[river], html.DIV_ITEM, can.ui.storm_list[can.core.Keys(river, storm)])
-		can.onaction.storm({target: can.ui.river_list[river]}, can, river)
-		can.page.ClassList.set(can, can.ui.river_list[river], "open", can.onmotion.toggle(can, can.ui.sublist[river], true))
+		// can.onaction.storm({target: can.ui.river_list[river]}, can, river)
+		// can.page.ClassList.set(can, can.ui.river_list[river], "open", can.onmotion.toggle(can, can.ui.sublist[river], true))
 		can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm)}))
 	},
 	carte: function(event, can, list, river, storm) { can.onkeymap.prevent(event); if (can.core.Value(can._root, can.core.Keys(chat.RIVER, river))) { return }
