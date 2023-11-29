@@ -3,6 +3,11 @@ const {shy, Volcanos} = require("../proto.js")
 module.exports =
 Volcanos("user", {
 	agent: {
+		enableDebug: function(can) {
+			if (can.db.debug == ice.TRUE && can.conf.platform != "devtools") {
+				wx.setEnableDebug({enableDebug: true})
+			}
+		},
 		getLocation: function(can, cb) {
 			wx.chooseLocation({success: function(res) {
 				cb && cb({
@@ -14,14 +19,12 @@ Volcanos("user", {
 		},
 		connectWifi: function(can, ssid, password, cb, cbs) { wx.showLoading()
 			wx.startWifi({success: function(res) {
-				wx.connectWifi({SSID: ssid, password: password, success: function(res) { wx.hideLoading()
-					console.log("wifi", res), cb && cb(res)
-				}, fail: function(res) {
-					console.log("wifi", res), cbs && cbs(res)
-				}})
-			}, fail: function(res) {
-				console.log("wifi", res), cbs && cbs(res)
-			}})
+				wx.connectWifi({SSID: ssid, password: password, success: function(res) {
+					can.core.Timer(1000, function() { wx.hideLoading()
+						can.misc.Info("wifi", res), cb && cb(res)
+					})
+				}, fail: function(res) { can.misc.Warn("wifi", res), cbs && cbs(res) }})
+			}, fail: function(res) { can.misc.Warn("wifi", res), cbs && cbs(res) }})
 		},
 		getClipboard: function(can, cb) {
 			wx.getClipboardData({success: function(res) {
@@ -30,33 +33,37 @@ Volcanos("user", {
 		},
 		scanQRCode: function(can, cb) {
 			wx.scanCode({success: function(res) {
-				if (res.result.indexOf("WIFI:") == 0) {
-					var ls = can.core.Split(res.result, ":;"), data = {}
-					for (var i = 1; i < ls.length; i += 2) { data[ls[i]] = ls[i+1] }
-					console.log("scan", data)
-					can.user.agent.connectWifi(can, data.S, data.P, function() {
-						can.user.toast(can, "success")
-					})
-					return
-				}
-				var data = can.base.ParseJSON(res.result)
-				if (data.type == web.LINK && data._origin) { can.base.Copy(data, can.misc.ParseURL(can, res.result)) }
-				console.log("scan", data)
-				if (cb && cb(data)) { return }
-				if (data.type == web.LINK && data._origin) { delete(data.type), delete(data.name), delete(data.text)
-					var ls = new RegExp("(https?://[^/]+)([^?#]*)([^#]*)(.*)").exec(data._origin); delete(data._origin)
-					data.serve = ls[1]; if (ls[2].indexOf("/pages/") == 0) { data.pages = ls[2] }
-				}
-				if (data.cmd||data.index||data.share) {
-					can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_ACTION, data))
-				} else if (data.pod||data.space||data.serve) {
-					can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_RIVER, data))
-				} else {
-					can.misc.request(can, can.request(), chat.WX_LOGIN_SCAN, data)
-				}
+				can.misc.Info("scan", res.result)
+				can.user.parse(can, res.result, cb)
 			}})
 		},
 	}, info: {},
+	scene: function(can, scene) {
+		can.misc.request(can, can.request(), "/chat/wx/login/action/scene", {scene: scene}, function(msg) {
+			can.misc.Info("app parse", msg.Result()), can.user.parse(can, msg.Result())
+		})
+	},
+	parse: function(can, text, cb) {
+		if (text.indexOf("WIFI:") == 0) { var data = kit.Dict(can.core.Split(text, ":;").slice(1))
+			if (cb && cb(data)) { return }
+			return can.user.agent.connectWifi(can, data.S, data.P, function() { can.user.toast(can, ice.SUCCESS) })
+		}
+		var data = can.base.ParseJSON(text)
+		if (data.type == web.LINK && data._origin) { can.base.Copy(data, can.misc.ParseURL(can, text)) }
+		if (cb && cb(data)) { return }
+		if (data.type == web.LINK && data._origin) { delete(data.type), delete(data.name), delete(data.text)
+			var ls = new RegExp("(https?://[^/]+)([^?#]*)([^#]*)(.*)").exec(data._origin); delete(data._origin)
+			data.serve = ls[1]; if (ls[2].indexOf("/pages/") == 0) { data.pages = ls[2] }
+		}
+		can.misc.Info("app parse", data)
+		if (data.cmd||data.index||data.share) {
+			can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_ACTION, data))
+		} else if (data.pod||data.space||data.serve) {
+			can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_RIVER, data))
+		} else {
+			can.misc.request(can, can.request(), chat.WX_LOGIN_SCAN, data)
+		}
+	},
 	jumps: function(url, cb) { wx.navigateTo({url: url, success: cb}) },
 	title: function(text, cb) { text && wx.setNavigationBarTitle({title: text, success: cb}) },
 	toast: function(can, title) { wx.showToast({title: title||""}) },

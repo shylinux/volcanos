@@ -28,7 +28,8 @@ Volcanos("base", {
 		var arg = this.Args.apply(this, [arg].concat(Array.prototype.slice.call(arguments, 1))); return url.split(ice.QS)[0]+(arg? ice.QS+arg: "")
 	},
 	ParseURL: function(url) { var res = this._parse(url); res.link = url, res.origin = res._origin; return res },
-	ParseJSON: function(str) { var res; if (typeof str == code.OBJECT) { return str }
+	ParseJSON: function(str) {
+		var res; if (typeof str == code.OBJECT) { return str }
 		if (str.indexOf(ice.HTTP) == 0) {
 			var res = this._parse(str, {type: web.LINK, name: "", text: str})
 			return res.name = res._origin.split("://").pop().split(nfs.PS)[0], res
@@ -65,4 +66,5 @@ Volcanos("base", {
 	trim: function(arg) { if (this.isString(arg)) { return arg.trim() }
 		if (this.isArray(arg)) { for (var i = arg.length-1; i >= 0; i--) { if (!arg[i]) { arg.pop() } else { break } } } return arg
 	},
+	random: function(max, min) { return min = min||0, parseInt(Math.random()*(max-min))+min },
 })

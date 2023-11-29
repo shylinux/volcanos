@@ -14,6 +14,6 @@ App({
 		this.conf.platform = res.platform
 		this.conf.brand = res.brand
 		this.conf.model = res.model
-		console.log("app load", this.conf, res)
+		this.misc.Info("app load", this.conf, res)
 	},
 })

@@ -7,6 +7,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "",
+          "pathName": "pages/action/action",
+          "query": "index=web.chat.wx.ide",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "web.dream",
           "pathName": "pages/action/action",
           "query": "index=web.dream&debug=true",

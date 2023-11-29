@@ -43,16 +43,21 @@ var web = {
 }
 var aaa = {
 }
+var lex = {
+	NL: "\n",
+}
 var tcp = {
 }
 var nfs = {
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
 	CHAT_RIVER: "/chat/river/",
 	CHAT_ACTION: "/chat/action/",
+	PATH: "path",
 }
 var cli = {
 }
 var log = {
+	INFO: "info",
 }
 var code = {
 	COMMENT: "comment", KEYWORD: "keyword",
@@ -92,6 +97,7 @@ var html = {
 module.exports = {
 	kit, ice,
 	ctx, mdb, web, aaa,
+	lex,
 	tcp, nfs, cli, log,
 	code, wiki, chat, team, mall,
 	http, html,
