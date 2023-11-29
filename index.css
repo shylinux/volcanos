@@ -173,7 +173,7 @@ body>div.input div.action { padding:0 var(--table-padding); width:100%; position
 body>div.input div.action>div.item { margin-left:var(--button-margin); float:right; }
 body>div.input div.action>div.item>input[type=button] { width:112px; }
 body>div.input.login { box-shadow:unset; flex-direction:column; }
-body>div.input.login>div.action { border-bottom:var(--box-border); }
+body>div.input.login>div.action { border-bottom:var(--box-border); flex-direction:row; }
 body>div.input.login>div.action>div.tabs { padding:var(--button-padding); }
 body>div.input.login>div.output { text-align:center; clear:both; }
 body>div.input.login>div.output { height:var(--qrcode-height); width:var(--iframe-height); overflow:hidden; }
