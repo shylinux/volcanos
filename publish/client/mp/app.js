@@ -7,7 +7,7 @@ const user = require("utils/lib/user.js")
 App({
 	data: {}, conf: {
 		serve: "https://2021.shylinux.com", appid: "wxf4e5104d83476ed6",
-		module: "shylinux.com/x/volcanos", version: "v0.2.1",
+		module: "shylinux.com/x/volcanos", version: "v0.3.1",
 	}, base: base, core: core, misc: misc, page: page, user: user,
 	onLaunch: function() {
 		const res = wx.getSystemInfoSync()

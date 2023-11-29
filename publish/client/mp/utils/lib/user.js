@@ -39,7 +39,7 @@ Volcanos("user", {
 		},
 	}, info: {},
 	scene: function(can, scene) {
-		can.misc.request(can, can.request(), "/chat/wx/login/action/scene", {scene: scene}, function(msg) {
+		can.misc.request(can, can.request(), "/chat/wx/login/action/scene", {scene: scene, serve: can.db.serve}, function(msg) {
 			can.misc.Info("app parse", msg.Result()), can.user.parse(can, msg.Result())
 		})
 	},
