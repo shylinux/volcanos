@@ -382,8 +382,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.page.ClassList.set(can, target, "will", can.page.ClassList.has(can, target, key))
 				})
 			}, title: can.user.trans(can, can.Option(key) == undefined? key: "click to detail", null, html.INPUT), _init: function(target) {
-				key == ctx.ACTION && can.onappend.mores(can, target, data, can.user.isMobile && !can.user.isLandscape()? 2: can.isCmdMode() || msg.IsDetail()? 5: 3)
-				can.page.style(can, target, "cursor", key == mdb.KEY? "default": can.Option(key) != undefined? "pointer": "text")
+				key == ctx.ACTION && can.onappend.mores(can, target, data, can.user.isMobile? can.user.isLandscape() || msg.IsDetail()? 5: 3: can.isCmdMode() || msg.IsDetail()? 10: 5)
+				can.page.style(can, target, "cursor", can.base.isIn(key, mdb.KEY, mdb.TIME)? "default": can.Option(key) != undefined? "pointer": "text")
 			}}
 		}); table && can.onappend.style(can, chat.CONTENT, table), table && msg.IsDetail() && can.onappend.style(can, mdb.DETAIL, table)
 		msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.onappend.style(can, ctx.ACTION, table)

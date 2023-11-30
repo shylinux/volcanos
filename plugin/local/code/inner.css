@@ -11,9 +11,9 @@ fieldset.inner>div.output>div.project div.zone div.action:not(.hide) { width:100
 fieldset.inner>div.output>div.project div.zone div.action>div.item { padding-right:0; width:100%; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item>input { padding-left:25px; width:100%; }
 fieldset.inner>div.output>div.layout>div.tabs { font-size:var(--code-font-size); display:none; }
-fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding-right:0; box-shadow:var(--box-shadow); margin-left:5px; }
-fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); border-top-left-radius:var(--button-radius); border-top-right-radius:var(--button-radius); }
-fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs.select { background-color:var(--output-bg-color); border-top-left-radius:var(--button-radius); border-top-right-radius:var(--button-radius); border-bottom:lightgray solid 2px; }
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding-right:0; margin-left:5px; }
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); border-top-left-radius:var(--plugin-radius); border-top-right-radius:var(--plugin-radius); box-shadow:var(--box-shadow); }
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs.select { background-color:var(--output-bg-color); border-top-left-radius:var(--plugin-radius); border-top-right-radius:var(--plugin-radius); border-bottom:lightgray solid 2px;  box-shadow:var(--box-shadow);}
 fieldset.inner>div.output>div.layout>div.path { font-size:var(--code-font-size); display:none; }
 fieldset.inner>div.output>div.layout>div.display h1 { border-bottom:var(--box-border); margin:var(--title-margin) 0; }
 fieldset.inner>div.output>div.layout>div.display h2 { border-bottom:var(--box-border); margin:var(--title-margin) 0; }
@@ -56,6 +56,7 @@ div.carte.cmd.float { font-size:var(--code-font-size); } div.carte.cmd.float div
 div.carte.path.float { font-size:var(--code-font-size); } div.carte.path.float div.item { padding:var(--input-padding); }
 div.vimer.open.float td:first-child { display:none; }
 div.vimer.open.float td:nth-child(2) { display:none; }
+div.vimer.plug.float div.item.text input { width:var(--river-width); }
 div.layout.flex>input.current { clear:both; }
 tr.line>td.line { user-select:none; border-right:var(--box-border); }
 tr.line>td.line { text-align:right; padding:0 var(--button-padding); position:sticky; left:0; }

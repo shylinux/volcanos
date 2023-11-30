@@ -186,7 +186,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.core.Next(list.reverse(), function(meta, next) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) {
 				sub.onexport.output = function() { var width = can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0)
-					var height = can.base.Max(can.ConfHeight()/2, 320, can.ConfHeight()-html.ACTION_HEIGHT)
+					var height = can.base.Max(can.ConfHeight()/2, can.ConfHeight()-html.ACTION_HEIGHT, 320)
 					can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
 					sub.onimport.size(sub, height, can.base.Min(sub._target.offsetWidth, can.base.Min(width/2, 640), width/(can.base.isIn(sub.ConfIndex(), code.COMPILE, cli.RUNTIME)? 1: 2)), false)
 					can.onmotion.delay(can, function() { sub.onimport.size(sub, height, can.base.Min(sub._target.offsetWidth, can.base.Min(width/2, 640), width), false) })
