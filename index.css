@@ -34,7 +34,7 @@ body {
  	--svg-font-size:24px; --svg-stroke-width:1; --status-font-size:12px;
 
 	--legend-padding:20px; --title-margin:var(--legend-padding); --river-margin:80px;
-	--textarea-height:96px; --qrcode-height:360px; --iframe-height:420px;
+	--textarea-height:96px; --qrcode-height:320px; --iframe-height:420px;
 	--action-height:32px; --status-height:var(--action-height); --footer-height:var(--action-height); --header-height:48px;
 	--project-width:230px; --river-width:var(--project-width); --input-width:120px; --button-width:60px;
 	--plugin-margin:var(--plugin-padding); --button-margin:var(--button-padding); --input-margin:var(--input-padding); --action-margin:200px; --desktop-icon-size:80px;
@@ -472,7 +472,7 @@ body.mobile fieldset.Search>div.action>div.item.filter>span { position:absolute;
 body.mobile fieldset.Search>div.action>div.item.filter { width:100%; position:relative; }
 body.mobile fieldset.River { position:fixed; top:var(--header-height); z-index:11; }
 body.mobile fieldset.River>div.output { font-size:1.4rem; min-width:var(--project-width); }
-html:not(.login) body.mobile fieldset.Action { margin-top:var(--header-height); }
+html:not(.login) body.mobile:not(.cmd) fieldset.Action { margin-top:var(--header-height); }
 body.mobile fieldset.Action.cmd { margin-top:0; }
 body.mobile fieldset.Action>div.output { overflow-x:hidden; }
 body.mobile fieldset.word>div.output { overflow-x:hidden; }
