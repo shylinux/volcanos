@@ -73,6 +73,7 @@ input:not([type=file]) { padding:0 var(--button-padding); }
 input:not([type=button]) { padding:0 var(--input-padding); border-radius:0; outline:none; }
 table.content.full { width:100%; }
 table.content thead { position:sticky; top:2px; }
+table.content tr.disable { color:var(--disable-fg-color); }
 table.content tr.offline { color:var(--disable-fg-color); }
 table.content tr.offline a { color:var(--disable-fg-color); }
 table.content th { font-family:var(--input-font-family); padding:var(--input-padding) var(--table-padding); box-shadow:var(--box-shadow); }
