@@ -36,7 +36,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			can.onengine.listen(can, item, function(event, msg) { can.onaction[item](event, can), can.onengine.signal(can, chat.ONACTION_TOUCH, msg) }, target)
 		})
 	},
-	onsize: function(can, msg, height, width) { can.Conf({height: can.base.Min(height, 240), width: width}) },
+	onsize: function(can, msg, height, width) {
+		can.Conf({height: can.base.Min(height, 240), width: width}) },
 	onlogin: function(can, msg) {
 		can.Conf(html.MARGIN_Y, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN+html.ACTION_HEIGHT)
 		can.Conf(html.MARGIN_X, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN)
@@ -48,7 +49,10 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 				can.misc.sessionStorage(can, "river:hide", can._river_show? "": ice.TRUE)
 			}}])._target; can._toggle = target
 			can.misc.sessionStorage(can, "river:hide") == ice.TRUE && target.click()
-		}); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return } can._names = location.pathname
+		}); if (!can.Conf(chat.TOOL) && !can.user.mod.isCmd) { return }
+		if (can.base.beginWith(location.pathname, "/share/")) {
+			can._names = location.pathname
+		}
 		can.Conf(chat.TOOL)? can.onappend.layout(can, can.core.List(can.Conf(chat.TOOL), function(item, index, list) { item.type = chat.PLUGIN
 			if (list.length == 1) { can.user.mod.cmd = item.index
 				can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP) || can.user.title(item.index)
