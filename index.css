@@ -224,8 +224,8 @@ fieldset>legend>i { margin-right:var(--input-margin); }
 div.item>i:first-child { margin-right:var(--button-margin); height:var(--action-height); }
 form.option>div.item.icon { position:relative; height:var(--action-height); overflow:hidden; }
 form.option>div.item.icon { font-size:var(--icon-font-size); padding:0 var(--input-padding); }
-form.option>div.item.icon.refresh { font-size:28px; margin-top:-3px; }
-form.option>div.item.icon.goback { font-size:28px; margin-top:-3px; }
+form.option>div.item.icon.refresh { font-size:28px; height:calc(var(--action-height) - 5px); }
+form.option>div.item.icon.goback { font-size:28px; height:calc(var(--action-height) - 5px); }
 form.option>div.item.icon.play { font-size:16px; }
 body.mobile form.option>div.item.icon.prev { margin-top:4px; height:28px; }
 body.mobile form.option>div.item.icon.next { margin-top:4px; height:28px; }
