@@ -54,10 +54,15 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) })
 	}) },
 	share: function(event, can) { can.core.CallFunc(can.ondetail.share, {event: event, can: can}) },
-	onsize: function(can, height) { var margin = "0px", _margin = 0; can.page.style(can, can._output, html.MARGIN, "0px", html.HEIGHT, "")
-		if (can.page.isDisplay(can._action)) { _margin = can._action.offsetHeight + html.PLUGIN_MARGIN }
-		if (can._output.offsetHeight < height) { margin = can.base.Min((height-_margin-can._output.offsetHeight)/2, _margin)+"px 0px" }
-		height && can.page.style(can, can._output, html.MARGIN, margin, html.HEIGHT, can.base.Max(can._output.offsetHeight, height-_margin))
+	onsize: function(can, height) { var margin = 0
+		if (can.page.isDisplay(can._action)) { margin = can._action.offsetHeight + html.PLUGIN_MARGIN }
+		can.page.style(can, can._output, html.MARGIN, "0px", html.HEIGHT, "", html.MAX_HEIGHT, "")
+		if (can._output.offsetHeight < height-margin) {
+			margin += (height-margin-can._output.offsetHeight)/2
+		} else {
+			can.page.style(can, can._output, html.MAX_HEIGHT, height-margin)
+		}
+		can.page.style(can, can._output, html.MARGIN, margin+"px 0px 0px")
 		can.onexport.scroll(can)
 	},
 	refresh: function(event, can) { can.misc.Search(can, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM)}) },
