@@ -7,7 +7,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 			if (msg.Length() == 1) { item.height = can.ConfHeight()-(can.user.isMobile? 2: 1)*html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y) }
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
-				sub.run = function(event, cmds, cb) { return can.run(event, [river, storm, meta.id||meta.index].concat(cmds), cb) }
+				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.space||meta.pod}), [river, storm, meta.id||meta.index].concat(cmds), cb) }
 				sub.onexport.output = function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
 			})
 		}, function() { if (can.isCmdMode()) { return }
@@ -180,6 +180,7 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 	} else { can.core.List(storm.list, function(value) { can.base.isString(value) && (value = {index: value})
 		msg.Push(mdb.NAME, value.name||"").Push(mdb.HELP, value.help||"").Push(ctx.INPUTS, JSON.stringify(value.inputs)).Push(ctx.FEATURE, JSON.stringify(value.feature))
 		msg.Push(ctx.INDEX, value.index||"").Push(ctx.ARGS, value.args||"[]").Push(ctx.STYLE, value.style||"").Push(ctx.DISPLAY, value.display||"")
+		msg.Push(web.SPACE, value.space||"")
 	}), can.base.isFunc(cb) && cb(msg) } return true
 }})
 Volcanos(chat.ONKEYMAP, {
