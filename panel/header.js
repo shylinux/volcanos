@@ -12,13 +12,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
 		}, _init: function(target) { item == mdb.TIME && can.onimport._time(can, target)
 			item == aaa.AVATAR && can.page.Append(can, target, [{img: lex.SP}])
-			item == aaa.LANGUAGE && can.page.Append(can, target, [{text: "en / 中"}])
+			item == aaa.LANGUAGE && can.page.Append(can, target, [{text: "EN"}, {text: " / "}, {text: "中"}])
 			item == chat.THEME && can.page.Append(can, target, [{icon: icon.SUN}, {text: " / "}, {icon: icon.MOON}])
 		}}])
 	}) },
 	_language: function(can) { can.page.Select(can, can._output, "div.item.language", function(target) {
 		can.page.Appends(can, target, can.user.info.language.indexOf("zh") == 0?
-			[{text: "中"}, {text: " / "}, {text: "en"}]: [{text: "en"}, {text: " / "}, {text: "中"}]
+			[{text: "中"}, {text: " / "}, {text: "EN"}]: [{text: "EN"}, {text: " / "}, {text: "中"}]
 		)
 	}) },
 	_theme: function(can, theme) { return can.ui.diy&&can.ui.diy[theme]||theme },
@@ -74,8 +74,9 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
 	onmain: function(can) {
 		if (!can.user.isMailMaster) { if (can.misc.Search(can, ice.MSG_SESSID)) { can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)); return can.misc.Search(can, ice.MSG_SESSID, "") } }
-		function lang(msg, cb) { can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE), can.onmotion.delay(can, function() { can.onimport._language(can) })
+		function lang(msg, cb) { can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)
 			can.user.info.language? can.require([can.misc.Resource(can, nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/language/"+can.user.info.language+".js")], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb && cb()
+			can.onmotion.delay(can, function() { can.onimport._language(can) })
 		}
 		function show(msg) { var p = can.misc.Search(can, "redirect_uri")
 			if (p && location.pathname == web.BASIC_LOGIN) { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }

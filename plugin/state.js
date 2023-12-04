@@ -30,8 +30,24 @@ Volcanos(chat.ONIMPORT, {
 		var head = can.page.Select(can, can._output, [html.TABLE_CONTENT, html.TH], function(th) { return th.innerText })
 		return can.page.Append(can, table, msg.Table(function(value) { return {row: can.core.List(head, function(key) { return value[key] })} }))
 	}).length == 0) { can.onappend.table(can, msg) } },
-	_grow: function(can, msg, arg) { var sub = can.sub
-		if (sub && sub.onimport && sub.onimport.grow) { return sub.onimport.grow(sub, msg, arg) }
+	_grow: function(can, msg, arg) {
+		var sub = can.sub; if (sub && sub.onimport && sub.onimport.grow) { return sub.onimport.grow(sub, msg, msg.detail[1], msg.detail[2]) }
+		if (msg.Option(ctx.DISPLAY)) {
+			function _grow() { if (can.sub._grow_list.length == 0) { return } if (can.sub._grow_running) { return } can.sub._grow_running = true
+				var msg = can.sub._grow_list.shift(), list = [], text = msg.detail[1]; for (var i = 0; i < text.length; i++) { list.push(text[i]) }
+				can.core.Next(list, function(text, next) { can.core.Timer(30, next), can.sub._grow.onimport.grow(can.sub._grow, msg, "only", text) }, function() { can.sub._grow_running = false, _grow() })
+			}
+			if (can.sub._grow) {
+				(can.sub._grow_list = can.sub._grow_list||[]).push(msg); return _grow()
+			} else {
+				(can.sub._grow_list = can.sub._grow_list||[]).push(msg); if (can.sub._grow_list.length > 1) { return }
+			}
+			var height = can.onexport.outputHeight(can)
+			can.onappend.plugin(can, {index: "can._plugin", title: msg.Option(ctx.DISPLAY).split(nfs.PS).pop(), display: msg.Option(ctx.DISPLAY), height: height}, function(sub) {
+				sub.onexport.output = function() { can.sub._grow = sub.sub, _grow() }
+			})
+			return
+		}
 		arg = can.page.Color(arg); if (!can.page.SelectOne(can, can._output, html.DIV_CODE, function(div) {
 			return can.page.style(can, div, html.MAX_HEIGHT, can.onexport.outputHeight(can)),
 				can.page.Append(can, div, [{text: arg}]), can._output.scrollTop = div.offsetTop, div.scrollBy(0, 10000), true

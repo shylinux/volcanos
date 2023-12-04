@@ -12,7 +12,7 @@ fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.
 fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.prepare { background-color:#0000ff70; }
 fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.process { background-color:#00800070; }
 fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.cancel { background-color:#ff000070; text-decoration:line-through; }
-fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.finish { background-color:gray; }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.finish { background-color:#8080809c; }
 fieldset.plan>div.output>div.layout>div.layout>div.content>table.content tr:first-child { height:30px; position:sticky; top:2px; }
 fieldset.plan>div.output>div.layout>div.layout>div.content>table.content th:first-child { width:40px; position:sticky; left:2px; }
 fieldset.plan>div.output>div.layout>div.layout>div.profile>table.content tr:first-child { height:30px; position:sticky; top:2px; }
