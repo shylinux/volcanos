@@ -1,8 +1,7 @@
 (function() { var NTIP = "ntip", NLOG = "nlog", NCMD = "ncmd", NKEY = "nkey"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(NKEY, can.core.Item(can.misc.localStorage(can)).length)
-		can._wss = can.ondaemon._init(can); if (can.user.mod.isCmd) { return } can.Conf("version", can.base.trimPrefix(window._version, "?_v=").split("&")[0])
-		can.onimport._title(can, msg, target), can.onimport._command(can, msg, target)
-		can.onimport._storm(can, msg, target)
+		can._wss = can.ondaemon._init(can); if (can.user.mod.isCmd && can.misc.Search(can, ice.CMD) != web.CHAT_PORTAL) { return } can.Conf("version", can.base.trimPrefix(window._version, "?_v=").split("&")[0])
+		can.onimport._title(can, msg, target), can.onimport._command(can, msg, target), can.onimport._storm(can, msg, target)
 		can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width())
 		can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target)
 	},
