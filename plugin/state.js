@@ -35,7 +35,10 @@ Volcanos(chat.ONIMPORT, {
 		if (msg.Option(ctx.DISPLAY)) {
 			function _grow() { if (can.sub._grow_list.length == 0) { return } if (can.sub._grow_running) { return } can.sub._grow_running = true
 				var msg = can.sub._grow_list.shift(), list = [], text = msg.detail[1]; for (var i = 0; i < text.length; i++) { list.push(text[i]) }
-				can.core.Next(list, function(text, next) { can.core.Timer(30, next), can.sub._grow.onimport.grow(can.sub._grow, msg, "only", text) }, function() { can.sub._grow_running = false, _grow() })
+				can.core.Next(list, function(text, next) {
+					can.sub._grow.onimport.grow(can.sub._grow, msg, "only", text)
+					can.core.Timer(msg.Option("delay")||30, next)
+				}, function() { can.sub._grow_running = false, _grow() })
 			}
 			if (can.sub._grow) {
 				(can.sub._grow_list = can.sub._grow_list||[]).push(msg); return _grow()
