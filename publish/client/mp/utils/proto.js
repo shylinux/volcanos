@@ -19,7 +19,7 @@ Volcanos._init = function() {
 			}); return msg
 		},
 		run: function(event, cmds, cb) { wx.showLoading(); const sys = wx.getSystemInfoSync()
-			can.misc.request(can, can.request(event), can.base.MergeURL(can.onaction._apis||nfs.CHAT_ACTION, kit.Dict(
+			can.misc.request(can, can.request(event, {share: can.db.share}), can.base.MergeURL(can.onaction._apis||nfs.CHAT_ACTION, kit.Dict(
 				ice.POD, can.db.pod||can.db.space, ice.MSG_THEME, sys.theme, ice.MSG_DEBUG, can.db.debug,
 			)), {cmds: (can.onaction._cmds||[]).concat(cmds)}, function(msg) { wx.hideLoading()
 				msg.Dump = function() { can.ui.setData({list: msg.Table()}) }, cb(msg)
@@ -28,6 +28,7 @@ Volcanos._init = function() {
 	}; Volcanos._page.__proto__ = getApp(), delete(Volcanos._page)
 	var page = {data: {action: can.onaction.list, list: []},
 		onLoad: function(options) { can.ui = this, can.db = options, can.db.serve = can.db.serve||can.conf.serve
+			can.core.Item(can.db, function(key, value) { can.db[key] = decodeURIComponent(value) })
 			can.core.Item(can.db, function(key, value) { can.db[key] = decodeURIComponent(value) })
 			can.misc.Info("app show", can.ui.route, can.db), can.user.agent.enableDebug(can)
 			can.user.title(can.db.title||can.db.pod||can.db.space||(can.db.serve||can.conf.serve).split("://")[1])

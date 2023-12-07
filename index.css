@@ -128,7 +128,7 @@ fieldset.input.date>div.status>div.today { padding:var(--input-padding); }
 fieldset.input.icon img { height:var(--desktop-icon-size); width:var(--desktop-icon-size); }
 /* float */
 body div.float { padding:var(--plugin-padding); box-shadow:var(--box-shadow); }
-body>div.toast div.title { color:var(--notice-bg-color); float:left; }
+body>div.toast div.title { word-break:break-all; color:var(--notice-bg-color); float:left; }
 body>div.toast div.delete { color:var(--notice-bg-color); float:right; cursor:pointer; }
 body>div.toast div.delete:hover { background-color:var(--hover-bg-color); }
 body>div.toast div.duration { color:var(--disable-fg-color); float:right; }
@@ -450,6 +450,8 @@ fieldset:not(.panel):not(.full):not(.cmd) { border-radius:var(--plugin-radius); 
 fieldset.input div.output { background-color:var(--plugin-bg-color); }
 fieldset.input tr:hover { background-color:var(--tr-hover-bg-color); }
 fieldset.input td:hover { background-color:var(--td-hover-bg-color); }
+fieldset.input>span.close { padding:var(--input-padding); position:absolute; top:var(--input-padding); right:var(--input-padding); }
+fieldset.input>span.close:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
 div.float { background-color:var(--float-bg-color); color:var(--float-fg-color); }
 div.carte div.item { background-color:var(--carte-bg-color); }
 div.carte div.item:hover { background-color:var(--hover-bg-color); }

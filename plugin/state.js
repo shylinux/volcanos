@@ -112,7 +112,7 @@ Volcanos(chat.ONACTION, {list: [
 		can.ConfHeight(can.page.height()-can.onexport.marginTop()-can.onexport.marginBottom(can)), can.ConfWidth(can.page.width())
 	}) },
 	"远程控制": function(event, can) { can.onaction.keyboard(event, can) },
-	"共享工具": function(event, can) { var meta = can.Conf(); can.onmotion.share(event, can, [], [mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input())]) },
+	"共享工具": function(event, can) { var meta = can.Conf(); can.onmotion.share(can.request(event, {pod: can.ConfSpace()}), can, [], [mdb.NAME, meta.index, mdb.TEXT, JSON.stringify(can.Input())]) },
 	"打开链接": function(event, can) { can.user.open(can.onexport.link(can)) },
 	"生成链接": function(event, can) { can.onmotion.share(event, can, [], [web.LINK, can.user.copy(event, can, can.onexport.link(can))]) },
 	"生成脚本": function(event, can) { var args = can.Input().join(lex.SP), list = [
