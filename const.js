@@ -35,6 +35,7 @@ var ice = {
 	PROCESS_REWRITE: "_rewrite",
 	PROCESS_AGAIN: "_again",
 	PROCESS_FIELD: "_field",
+	PROCESS_HOLD: "_hold",
 	MSG_PREFIX: "_prefix",
 	MSG_METHOD: "_method",
 

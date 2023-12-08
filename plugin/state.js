@@ -68,6 +68,7 @@ Volcanos(chat.ONIMPORT, {
 		auto || auto == undefined? (can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, height, html.MAX_WIDTH, width), can.page.style(can, can._target, html.HEIGHT, "", html.WIDTH, "")):
 			(can.page.style(can, can._output, html.HEIGHT, height, html.WIDTH, width, html.MAX_HEIGHT, "", html.MAX_WIDTH, ""), can.page.style(can, can._target, html.WIDTH, width))
 		if (can.misc.Search(can, log.DEBUG) == ice.TRUE) { can.Status(html.HEIGHT, can.base.Max(height, can._output.offsetHeight), html.WIDTH, width) }
+		can.page.style(can, can._status, html.MAX_WIDTH, width)
 		var sub = can.sub; if (!sub) { return auto } sub.Mode(mode), sub.ConfHeight(height), sub.ConfWidth(width), can.onimport._size(can)
 		mode? sub.onlayout[mode](sub, height, width): sub.onlayout._init(sub, height, width)
 		return auto
@@ -80,13 +81,14 @@ Volcanos(chat.ONIMPORT, {
 })
 Volcanos(chat.ONACTION, {list: [
 		"刷新数据", "刷新界面", "切换浮动", "切换全屏",
-		// "远程控制", "共享工具",
+		// "远程控制",
 		"共享工具", "打开链接", "生成链接",
 		"生成脚本",
 		// "生成图片",
 		["视图", "参数", "操作", "状态", "专注", "项目", "预览", "演示"],
-		["数据", "保存参数", "清空参数", "复制数据", "下载数据", "清空数据", "添加工具"],
+		["数据", "保存参数", "清空参数", "复制数据", "下载数据", "添加工具", "清空数据"],
 		["调试", "查看文档", "查看脚本", "查看源码", "查看配置", "删除工具"],
+		// ["调试", "打包页面", "查看文档", "查看脚本", "查看源码", "查看配置", "查看日志"],
 		// ["调试", "打包页面", "查看文档", "查看脚本", "查看源码", "查看配置", "查看日志", "添加工具"],
 	],
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input())) },

@@ -188,8 +188,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				sub.onexport.output = function() { var width = can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0)
 					var height = can.base.Max(can.ConfHeight()/2, can.ConfHeight()-html.ACTION_HEIGHT, 320)
 					can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
-					sub.onimport.size(sub, height, can.base.Min(sub._target.offsetWidth, can.base.Min(width/2, 640), width/(can.base.isIn(sub.ConfIndex(), code.COMPILE, cli.RUNTIME)? 1: 2)), false)
-					can.onmotion.delay(can, function() { sub.onimport.size(sub, height, can.base.Min(sub._target.offsetWidth, can.base.Min(width/2, 640), width), false) })
+					sub.onimport.size(sub, height, can.base.Max(sub._target.offsetWidth, width, 800), false)
+					can.onmotion.delay(can, function() {
+						sub.onimport.size(sub, height, can.base.Max(sub._target.offsetWidth, width, 800), false)
+					})
 				}
 				can.onmotion.hidden(can, sub._target), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}
 				can.page.Append(can, sub._legend,[{text: [can.page.unicode.remove, "", mdb.REMOVE], onclick: function(event) {

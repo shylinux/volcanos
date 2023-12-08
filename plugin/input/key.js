@@ -20,6 +20,7 @@ Volcanos(chat.ONFIGURE, {key: {
 		can.page.style(can, can._output, html.MAX_HEIGHT, can.page.height()/2, html.MIN_WIDTH, target.offsetWidth, html.MAX_WIDTH, can.Conf("style.width")||can.page.width()/2)
 		msg.append.length == 1 && can.page.ClassList.add(can, can._target, chat.SIMPLE), can.onlayout.figure({target: target}, can, can._target, false, 200)
 		can.onmotion.toggle(can, can._target, can.Status("total") > 0)
+		can.Status("index", "-1")
 	},
 	onclick: function(event, can, meta, target, cbs) { cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
