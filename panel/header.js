@@ -33,6 +33,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport.menu(can, mdb.SEARCH, function() { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: can._search.value||""})) })
 	},
 	_const: function(can) {
+		html.RIVER_WIDTH = can.page.styleValueInt(can, "--river-width")
 		html.RIVER_MARGIN = can.page.styleValueInt(can, "--river-margin")
 		html.PLUGIN_PADDING = can.page.styleValueInt(can, "--plugin-padding")
 		html.PLUGIN_MARGIN = can.page.styleValueInt(can, "--plugin-margin")

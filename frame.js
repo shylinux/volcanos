@@ -249,11 +249,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
 					sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS)), can.user.isMobile || sub.onappend.tools(sub, msg)
 					can.core.Item(can.Action(), function(key) { var value = can.misc.sessionStorage(can, [can.ConfIndex(), ctx.ACTION, key]); value && can.Action(key, value[0]) })
-				}
-				can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output)
+				} can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output)
 				if (can.onimport.size) {
-					// if (can.isFullMode() || can.isCmdMode()) { can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width()) }
-					can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), can.Conf("_auto"), can.Mode())
+					can.page.ClassList.has(can, can._target, html.FLOAT) && !can.page.ClassList.has(can, can._target, html.PLUG)?
+						can.onimport.size(can, can.ConfHeight(), can.base.Min(can.ConfWidth(), can._target.offsetWidth), can.Conf("_auto"), can.Mode()):
+						can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), can.Conf("_auto"), can.Mode())
 					can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight(), html.WIDTH, sub.ConfWidth())
 					can.onexport.output(sub, msg)
 				} can.base.isFunc(cb) && cb(msg)
@@ -619,11 +619,10 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 	},
 	_float: function(can) { var target = can._fields||can._target, sup = can._fields? can.sup: can
 		can.onappend.style(can, html.FLOAT), can.onmotion.resize(can, target, function(height, width) { sup.onimport.size(sup, height, width, true) })
-		can.page.style(can, target, html.LEFT, 250, html.TOP, 132), sup.onimport.size(sup, 600, 600, true)
+		var left = html.RIVER_WIDTH+html.PLUGIN_MARGIN+html.PLUGIN_PADDING+(can.user.mod.isCmd? 0: 120), top = can.page.height()/4; if (can.user.isMobile) { left = 0 }
+		can.page.style(can, target, html.LEFT, left, html.TOP, top), sup.onimport.size(sup, can.base.Max(600, can.page.height()-top), can.base.Max(can.user.mod.isCmd? 1200: 1000, can.page.width()-left), true)
 		target.onclick = function(event) { can.onkeymap.prevent(event)
-			can.page.Select(can, document.body, "fieldset.float,div.float", function(target) {
-				can.page.style(can, target, "z-index", 9)
-			}), can.page.style(can, target, "z-index", 10)
+			can.page.Select(can, document.body, "fieldset.float,div.float", function(target) { can.page.style(can, target, "z-index", 9) }), can.page.style(can, target, "z-index", 10)
 		}
 	},
 })

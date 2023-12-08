@@ -268,7 +268,9 @@ var http = {
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	Accept: "Accept", ContentType: "Content-Type", ApplicationJSON: "application/json", ApplicationFORM: "application/x-www-form-urlencoded",
 }
-var html = {RIVER_MARGIN: 80, PLUGIN_MARGIN: 10, PLUGIN_PADDING: 10, ACTION_MARGIN: 200, ACTION_HEIGHT: 32, STATUS_HEIGHT: 32,
+var html = {
+	RIVER_WIDTH: 230,
+	RIVER_MARGIN: 80, PLUGIN_MARGIN: 10, PLUGIN_PADDING: 10, ACTION_MARGIN: 200, ACTION_HEIGHT: 32, STATUS_HEIGHT: 32,
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	OPTION_ARGS: "select.args,input.args,textarea.args", INPUT_ARGS: "input.args,textarea.args", INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",
 	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",
