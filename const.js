@@ -165,6 +165,7 @@ var nfs = {
 	USR: "usr/", USR_LOCAL_WORK: "usr/local/work/",
 	USR_WEBSOCKET: "usr/websocket/", USR_GO_QRCODE: "usr/go-qrcode/", USR_GO_GIT: "usr/go-git/",
 	USR_VOLCANOS: "usr/volcanos/", USR_INTSHELL: "usr/intshell/",
+	USR_PROGRAM: "usr/program/",
 	USR_ICONS: "usr/icons/", USR_GEOAREA: "usr/geoarea/", USR_LEARNING: "usr/learning/",
 	REQUIRE: "/require/", REQUIRE_MODULES: "/require/modules/",
 	SHARE_LOCAL: "/share/local/",
