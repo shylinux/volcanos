@@ -50,6 +50,39 @@ Volcanos("misc", {
 		}); return msg },
 		Echo: function(res) { msg.result = (msg.result||[]).concat(can.core.List(arguments)); return msg._hand = true, msg },
 	}); return msg },
+	ParseCmd: function(can, msg) { can.ui.data.list = []
+		msg.Table(function(field, order) { can.ui.data.list.push(field)
+			field.feature = can.base.Obj(field.meta, {})
+			field.inputs = can.base.Obj(field.list, [])
+			field.name = can.core.Split(field.name)[0]
+			if (!field.inputs || field.inputs.length === 0) {
+				return can.core.Timer(30, function() {
+					can.onaction._refresh({}, can, order)
+				})
+			}
+			can.core.List(field.inputs, function(input) {
+				input.action = input.action || input.value
+				input.value == ice.AUTO && (input.value = "")
+				if (input.value && input.value.indexOf("@") == 0) {
+					input.action = input.value.slice(1), input.value = ""
+				}
+				if (input.type == html.SELECT) {
+					input.values = input.values || can.core.Split(input.value)
+				}
+				if (can.base.isIn(input.type, html.TEXT, html.TEXTAREA)) {
+					input.placeholder = can.user.trans(can, input.placeholder||input.name, field, html.INPUT)
+				}
+				if (input.type == html.BUTTON) {
+					input.value = can.user.trans(can, input.value||input.name, field)
+				} else {
+					if (can.db.cmd||can.db.index) { input.value = input.value||can.db[input.name] }
+				}
+				input.type == html.BUTTON && input.action == ice.AUTO && can.core.Timer(30, function() {
+					can.onaction._refresh({}, can, order)
+				})
+			})
+		}), can.page.setData(can), can.user.toast(can, "加载成功")
+	},
 	ParseURL: function(can, url) { url = url||location&&location.href; var args = can.base.ParseURL(url)
 		delete(args.link), delete(args.origin), delete(args._origin)
 		var ls = can.core.Split(url.split("://")[1].split("?")[0].split("#")[0], nfs.PS).slice(1)
