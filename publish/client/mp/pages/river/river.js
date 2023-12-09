@@ -7,21 +7,21 @@ Volcanos(chat.ONIMPORT, {
 	},
 })
 Volcanos("onaction", {list: ["刷新", "扫码", "登录"],
-	"刷新": function(event, can) { can.onaction.refresh(event, can) },
-	"扫码": function(event, can) { can.user.agent.scanQRCode(can) },
-	"登录": function(event, can) {
-		can.user.info = {}, can.misc.localStorage(can, ice.MSG_SESSID, can.conf.sessid = "")
-		can.user.userinfo(can, function() { can.onaction.refresh(event, can) })
-	},
+	// "刷新": function(event, can) { can.onaction.refresh(event, can) },
+	// "扫码": function(event, can) { can.user.agent.scanQRCode(can) },
+	// "登录": function(event, can) {
+	// 	can.user.info = {}, can.misc.localStorage(can, ice.MSG_SESSID, can.conf.sessid = "")
+	// 	can.user.userinfo(can, function() { can.onaction.refresh(event, can) })
+	// },
 	refresh: function(event, can) { can.run(event, [], function(msg) { can.onimport._init(can, msg) }) },
 	onaction: function(event, can, button, data) { var name = data.name;
 		(can.onaction[name]||function(event) { can.run(event, [ctx.ACTION, name]) })(event, can)
 	},
 	ondetail: function(event, can, button, data) { var index = data.index
 		var item = can.ui.data.list[index]; item._show = !item._show
-		if (item.list) { return can.page.setData(can) }
+		if (item.list) { return can.misc.setData(can) }
 		can.run(event, [item.hash, chat.STORM], function(msg) {
-			item.list = msg.Table(), can.page.setData(can)
+			item.list = msg.Table(), can.misc.setData(can)
 		})
 	},
 	onchange: function(event, can, button, data) { var index = data.index, i = data.i

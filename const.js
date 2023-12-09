@@ -54,6 +54,7 @@ var ctx = {
 	CONTEXT: "context", COMMAND: "command", CONFIG: "config", INPUTS: "inputs", FEATURE: "feature",
 	CMDS: "cmds", INDEX: "index", ARGS: "args", STYLE: "style", DISPLAY: "display", ACTION: "action", RUN: "run",
 	EXTRA_INDEX: "extra.index", EXTRA_ARGS: "extra.args",
+	FEATURE_TRANS: "feature._trans",
 }
 var mdb = {FOREACH: "*", RANDOMS: "%",
 	DICT: "dict", META: "meta", HASH: "hash", LIST: "list",
@@ -171,6 +172,9 @@ var nfs = {
 	WIKI_PORTAL: "/wiki/portal/",
 	CHAT_PORTAL: "/chat/portal/",
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
+
+	CHAT_RIVER: "/chat/river/",
+	CHAT_ACTION: "/chat/action/",
 }
 var cli = {
 	RUNTIME: "runtime", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build", OPENS: "opens",
@@ -252,6 +256,13 @@ var chat = {
 
 	_INIT: "_init", _DELAY_INIT: "_delay_init",
 	_TRANS: "_trans", _STYLE: "_style", _ENGINE: "_engine", _SEARCH: "_search", _NAMES: "_names", _TOAST: "_toast",
+
+	PAGES_RIVER: "/pages/river/river",
+	PAGES_ACTION: "/pages/action/action",
+	PAGES_INSERT: "/pages/insert/insert",
+	WX_LOGIN_SESS: "/chat/wx/login/action/sess",
+	WX_LOGIN_USER: "/chat/wx/login/action/user",
+	WX_LOGIN_SCAN: "/chat/wx/login/action/scan",
 }
 var team = {
 	TASK: "task", PLAN: "plan",
@@ -341,3 +352,11 @@ var svg = {
 	M: "M", Q: "Q", T: "T",
 	TEXT_LENGTH: "textLength",
 }
+try { module.exports = {
+	kit, ice,
+	ctx, mdb, web, aaa,
+	lex, yac, ssh, gdb,
+	tcp, nfs, cli, log,
+	code, wiki, chat, team, mall,
+	http, html, icon, svg
+} } catch {}

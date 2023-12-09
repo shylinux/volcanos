@@ -17,7 +17,7 @@ Volcanos(chat.ONACTION, {list: ["刷新", "扫码"],
 			if (input.type == html.SELECT) {
 				input.values = input.values || can.core.Split(input.value)
 			}
-		}), can.page.setData(can, can.data.insert.list)
+		}), can.misc.setData(can, can.data.insert.list)
 	},
 	onaction: function(event, can, button, data) { var name = data.name;
 		(can.onaction[name]||function(event) { can.run(event, [ctx.ACTION, name]) })(event, can)

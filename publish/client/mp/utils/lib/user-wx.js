@@ -1,4 +1,10 @@
-const {ice, ctx, mdb, web, chat} = require("../const.js")
+const {kit, ice,
+	ctx, mdb, web, aaa,
+	lex, yac, ssh, gdb,
+	tcp, nfs, cli, log,
+	code, wiki, chat, team, mall,
+	http, html, icon, svg
+} = require("../const.js")
 const {shy, Volcanos} = require("../proto.js")
 module.exports =
 Volcanos("user", {
@@ -64,7 +70,11 @@ Volcanos("user", {
 			can.misc.request(can, can.request(), chat.WX_LOGIN_SCAN, data)
 		}
 	},
-	jumps: function(url, cb) { wx.navigateTo({url: url, success: cb}) },
+	jumps: function(url, cb) {
+		wx.navigateTo({url: url, success: cb, fail: function(res) {
+			console.log(res)
+		}})
+	},
 	title: function(text, cb) { text && wx.setNavigationBarTitle({title: text, success: cb}) },
 	toast: function(can, title) { wx.showToast({title: title||""}) },
 	modal: function(can, content, title, cb) { wx.showModal({title: title||"", content: content||"", success: cb}) },
@@ -87,22 +97,6 @@ Volcanos("user", {
 		}}) })
 	},
 	trans: function(can, text, list, zone) { if (!text) { return text }
-		return can.core.Value(can.core.Value(list, ctx.FEATURE_TRANS), can.core.Keys(zone, text))||can.core.Value({
-			"run": "执行", "list": "查看", "back": "返回",
-			"create": "创建", "remove": "删除",
-			"prunes": "清理",
-			"start": "启动", "stop": "停止", "open": "打开",
-			"trash": "清理",
-			input: {
-				"hash": "索引",
-				"time": "时间", "link": "链接", "status": "状态", "action": "操作",
-				"type": "类型", "name": "名称", "text": "内容", "icon": "图标",
-				"repos": "仓库", "binary": "程序", "script": "脚本", "template": "仓库", "version": "版本",
-				"path": "路径", "size": "大小",
-			},
-			value: {
-				"start": "启动", "stop": "停止",
-			},
-		}, can.core.Keys(zone, text))||text
-	},
+		return can.core.Value(can.core.Value(list, ctx.FEATURE_TRANS), can.core.Keys(zone, text))||can.core.Value(can.user._trans, can.core.Keys(zone, text))||text
+	}, _trans: {},
 })
