@@ -22,6 +22,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		}
 		can.db = {paths: paths, tabview: {}, history: [], _history: [], toolkit: {}}, can.db.tabview[can.onexport.keys(can)] = msg
 		can.ui = can.onappend.layout(can, [html.PROJECT, [html.TABS, nfs.PATH, [html.CONTENT, html.PROFILE], html.DISPLAY, html.PLUG]])
+		can.onimport.layout(can)
 		can.ui._content = can.ui.content, can.ui._profile = can.ui.profile, can.ui._display = can.ui.display, can.onmotion.hidden(can, can.ui.plug)
 		can.onmotion.hidden(can, can.ui.profile), can.onmotion.hidden(can, can.ui.display)
 		if (can.Conf(ctx.STYLE) == html.OUTPUT) { can.onmotion.hidden(can, can.ui.project), can.page.style(can, can.ui.content, html.HEIGHT, "") }

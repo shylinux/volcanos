@@ -55,7 +55,7 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 			can.core.List(arguments, function(item, index) { if (!item || index == 0) { return } can.core.Item(item, set) }); return msg
 		},
 		requestPodCmd: function(event) { return can.request(event, {space: can.ConfSpace(), index: can.ConfIndex()}) },
-		requestAction: function(event, button) { return can.request(event, {action: button, _toast: ice.PROCESS+" "+button}) },
+		requestAction: function(event, button) { return can.request(event, {action: button, _toast: event.isTrusted? ice.PROCESS+" "+button: ""}) },
 		runActionInputs: function(event, cmds, cb) { var msg = can.request(event), meta = can.Conf()
 			if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION && meta.feature[cmds[1]]) { var msg = can.request(event, {action: cmds[1]})
 				if (can.base.isFunc(meta.feature[cmds[1]])) { return meta.feature[cmds[1]](can, msg, cmds.slice(2)) }

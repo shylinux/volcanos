@@ -281,8 +281,8 @@ var http = {
 	GET: "GET", PUT: "PUT", POST: "POST", DELETE: "DELETE",
 	Accept: "Accept", ContentType: "Content-Type", ApplicationJSON: "application/json", ApplicationFORM: "application/x-www-form-urlencoded",
 }
-var html = {
-	RIVER_WIDTH: 230,
+var html = {RIVER_WIDTH: 230, PROJECT_WIDTH: 230,
+	PLUG_WIDTH: 800, PLUG_HEIHGT: 320, STORY_HEIHGT: 480, FLOAT_HEIHGT: 480, FLOAT_WIDTH: 1200, DESKTOP_WIDTH: 1200, DESKTOP_HEIGHT: 684,
 	RIVER_MARGIN: 80, PLUGIN_MARGIN: 10, PLUGIN_PADDING: 10, ACTION_MARGIN: 200, ACTION_HEIGHT: 32, STATUS_HEIGHT: 32,
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	OPTION_ARGS: "select.args,input.args,textarea.args", INPUT_ARGS: "input.args,textarea.args", INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",

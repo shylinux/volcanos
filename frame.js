@@ -21,14 +21,14 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 		if (panel.onengine._plugin(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._engine(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._static(event, can, msg, panel, cmds, cb)) { return }
-		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() { if (msg._can && msg._can._toast) { return } toast = toast||can.user.toastProcess(msg._can, _toast) }, 500) }
+		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() { if (msg._can && msg._can._toast) { return } toast = toast||can.user.toastProcess(msg._can, _toast) }, 300) }
 		if (can.base.isUndefined(msg[ice.MSG_DAEMON])) { can.base.isUndefined(sub._daemon) && can.ondaemon._list[0] && (sub._daemon = can.ondaemon._list.push(sub)-1)
 			if (sub._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], sub._daemon)) }
 		} if (!can.misc.CookieSessid(can) && can.user.info.sessid) { msg.Option(ice.MSG_SESSID, can.user.info.sessid) }
 		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+"/chat/"+panel._name+"/")
 		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex()), can.page.exportValue(sub, msg)
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))
-		can.misc.Run(event, can, {names: names}, cmds, function(msg) { toast && toast.close && toast.close(), toast = true
+		can.misc.Run(event, can, {names: names}, cmds, function(msg) { toast && toast.close && toast.close(), toast = true, _toast && can.user.toastSuccess(msg._can)
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg
 		})
 	},
@@ -122,7 +122,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			Option: function(key, value) {
 				value && (value = can.user.trans(sub, value, null, html.INPUT))
 				return can.page.SelectArgs(can, option, key, value)[0] },
-			Update: function(event, cmds, cb, silent) { sub.request(event)._caller(), sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input([], !silent), cb, silent); return true },
+			Update: function(event, cmds, cb, silent) { event = event||{}
+				sub.request(event, {_toast: event.isTrusted? ice.PROCESS: ""})._caller(), sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input([], !silent), cb, silent); return true },
 			Focus: function() { can.page.SelectOne(can, option, html.INPUT_ARGS, function(target) { target.focus() }) },
 			Input: function(cmds, save, opts) { cmds = cmds && cmds.length > 0? cmds: can.page.SelectArgs(sub), cmds && cmds[0] != ctx.ACTION && (cmds = can.base.trim(cmds))
 				cmds._opts = opts
@@ -152,9 +153,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			var icon = {
 				"": {name: mdb.DELETE, cb: function(event) { can.onaction.close(event, can) }},
 				run: {name: web.PLAY, cb: function(event) { can.Update(event) }},
-				list: {name: web.REFRESH, cb: function(event) { can.Update(event) }},
-				back: {name: "goback", cb: function(event) { can.onimport._back(can) }},
 				refresh: {name: web.REFRESH, cb: function(event) { can.Update(event) }},
+				list: {name: web.REFRESH, cb: function(event) { can.Update(event) }},
+				back: {name: "goback", cb: function(event) { can.onimport.back(event, can) }},
 				prev: {name: mdb.PREV, cb: function(event) { var sub = can.sub; sub.onaction && sub.onaction.prev? sub.onaction.prev(event, sub): can.onaction.prev(event, can) }},
 				next: {name: mdb.NEXT, cb: function(event) { var sub = can.sub; sub.onaction && sub.onaction.next? sub.onaction.next(event, sub): can.onaction.next(event, can) }},
 				play: {name: web.PLAY},
@@ -244,6 +245,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			}
 			sub.db.hash = can.isCmdMode()? can.misc.SearchHash(can): []
+			can.page.style(can, can._output, html.HEIGHT, can._output.offsetHeight)
 			can.onexport._output(sub, msg), sub.Mode() != "result" && can.onmotion.clear(can, output)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				if (action !== false) { can.onkeymap._build(sub)
@@ -743,16 +745,9 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		var last = can._delay_list.meta[key]||0, self = can._delay_list.meta[key] = can._delay_list.list.push(cb)
 		return can.core.Timer(interval||30, function() { cb(self, last, can._delay_list.meta[key]) })
 	},
-	float: function(can) { var height = can.page.height()/2, width = can.page.width()*3/4
-		if (can.user.isMobile) {
-			if (can.user.isLandscape()) {
-				height = can.page.height()*3/4, width = can.page.width()*3/4
-			} else {
-				width = can.page.width()
-			}
-		}
-		can.onimport.size(can, height, width, true)
-		can.onmotion.move(can, can._target, {left: can.page.width()-width, top: can.page.height()/4})
+	float: function(can) { var height = can.base.Max(html.FLOAT_HEIGHT, can.page.height()/2), width = can.base.Max(html.FLOAT_WIDTH, can.page.width()-html.RIVER_WIDTH)
+		if (can.user.isMobile) { if (can.user.isLandscape()) { height = can.page.height()*3/4, width = can.page.width()*3/4 } else { width = can.page.width() } }
+		can.onimport.size(can, height, width, true), can.onmotion.move(can, can._target, {left: can.page.width()-width, top: can.page.height()/4})
 		can.onmotion.resize(can, can._target, function(height, width) { can.onimport.size(can, height, width, true) })
 	},
 	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), target },
@@ -934,7 +929,7 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||documen
 		total == 0 && can.base.isFunc(cb) && cb()
 	},
 	selectOutput: function(event, can) { if (!event.ctrlKey || event.key < "0" || event.key > "9") { return }
-		event.key == "0"? can.onimport._back(can): can.page.Select(can, can._output, html.TR, function(tr, index) { if (index == event.key) {
+		event.key == "0"? can.onimport.back(event, can): can.page.Select(can, can._output, html.TR, function(tr, index) { if (index == event.key) {
 			var head = can.page.Select(can, can._output, html.TH, function(th, order) { return th.innerText }), data = {}
 			can.page.Select(can, tr, html.TD, function(td, index) { data[head[index]] = td.innerText, can.Option(head[index], td.innerText) })
 			can.onexport.record(can, "", "", data) || can.Update(event)

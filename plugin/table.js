@@ -180,11 +180,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 	tool: function(can, list, cb, target, status) { target = target||can._output, status = status||can._status
 		can.core.Next(list.reverse(), function(meta, next) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) {
-				sub.onexport.output = function() { var width = can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0)
-					var height = can.base.Max(can.ConfHeight()/2, can.ConfHeight()-html.ACTION_HEIGHT, 320)
-					can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
-					sub.onimport.size(sub, height, can.base.Max(sub._target.offsetWidth, width, 800), false)
-					can.onmotion.delay(can, function() { sub.onimport.size(sub, height, can.base.Max(sub._target.offsetWidth, width, 800), false) })
+				sub.onexport.output = function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
+					var height = can.base.Max(html.PLUG_HEIGHT, can.ConfHeight()-html.ACTION_HEIGHT), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-html.PROJECT_WIDTH)
+					sub.onimport.size(sub, height, width, false), can.onmotion.delay(can, function() { sub.onimport.size(sub, height, width, false) })
 				}
 				can.onmotion.hidden(can, sub._target), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}
 				can.page.Append(can, sub._legend,[{text: [can.page.unicode.remove, "", mdb.REMOVE], onclick: function(event) {

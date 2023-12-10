@@ -12,7 +12,7 @@ Volcanos(chat.ONIMPORT, {
 	_display: function(can, msg) { can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)) },
 	_clear: function(can, msg) { can.onmotion.clear(can) },
 	_inner: function(can, sub, msg) { can.onappend.table(sub, msg), can.onappend.board(sub, msg), can.onmotion.story.auto(sub) },
-	_field: function(can, msg, cb) { var height = can.onexport.outputHeight(can), width = can.ConfWidth()
+	_field: function(can, msg, cb) { var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight(), can.onexport.outputHeight(can)), width = can.ConfWidth()
 		msg.Table(function(item) { can.onappend._plugin(can, item, {_space: can.ConfSpace(), index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
 			can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, sub._target) }, 300)
 			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX)
@@ -22,10 +22,7 @@ Volcanos(chat.ONIMPORT, {
 	},
 	_float: function(can, msg) { can.onimport._field(can, msg, function(sub) { can.onmotion.float(sub) }) },
 	_hold: function(can, msg, arg) { can.user.toast(can, arg||ice.SUCCESS) },
-	_back: function(can) { can._history.pop(); for (var i = 0, his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
-		can.page.SelectArgs(can, can._option, "", function(target) { target.value = his[i++]||"", can.page.Select(can, target.parentNode, "span.value", function(target) { target.innerText = target.value||"" }) })
-		can.page.SelectArgs(can, can._action, "", function(target) { target.value = his[i++]||"" }); break
-	} can.Update() },
+	_back: function(can) { can.onimport.back({}, can) },
 	_rich: function(can, msg) { if (can.page.Select(can, can._output, [html.TABLE_CONTENT, html.TBODY], function(table) {
 		var head = can.page.Select(can, can._output, [html.TABLE_CONTENT, html.TH], function(th) { return th.innerText })
 		return can.page.Append(can, table, msg.Table(function(value) { return {row: can.core.List(head, function(key) { return value[key] })} }))
@@ -78,6 +75,10 @@ Volcanos(chat.ONIMPORT, {
 		var _height = can.base.Max(sub._target.offsetHeight+border, can.ConfHeight()/2)
 		sub.onimport.size(sub, _height-border, can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0), true)
 	},
+	back: function(event, can) { can._history.pop(); for (var i = 0, his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
+		can.page.SelectArgs(can, can._option, "", function(target) { target.value = his[i++]||"", can.page.Select(can, target.parentNode, "span.value", function(target) { target.innerText = target.value||"" }) })
+		can.page.SelectArgs(can, can._action, "", function(target) { target.value = his[i++]||"" }); break
+	} can.Update(event) },
 })
 Volcanos(chat.ONACTION, {list: [
 		"刷新数据", "刷新界面", "切换浮动", "切换全屏",
