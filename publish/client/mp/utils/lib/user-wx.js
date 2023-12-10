@@ -45,7 +45,7 @@ Volcanos("user", {
 		},
 	}, info: {},
 	scene: function(can, scene) {
-		can.misc.request(can, can.request(), "/chat/wx/login/action/scene", {scene: scene, serve: can.db.serve}, function(msg) {
+		can.misc.POST(can, can.request(), "/chat/wx/login/action/scene", {scene: scene, serve: can.db.serve}, function(msg) {
 			can.misc.Info("app parse", msg.Result()), can.user.parse(can, msg.Result())
 		})
 	},
@@ -67,36 +67,19 @@ Volcanos("user", {
 		} else if (data.pod||data.space||data.serve) {
 			can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_RIVER, data))
 		} else {
-			can.misc.request(can, can.request(), chat.WX_LOGIN_SCAN, data)
+			can.misc.POST(can, can.request(), chat.WX_LOGIN_SCAN, data)
 		}
 	},
-	jumps: function(url, cb) {
-		wx.navigateTo({url: url, success: cb, fail: function(res) {
-			console.log(res)
-		}})
-	},
+	jumps: function(url, cb) { wx.navigateTo({url: url, success: cb, fail: function(res) { console.warn(res) }}) },
 	title: function(text, cb) { text && wx.setNavigationBarTitle({title: text, success: cb}) },
-	toast: function(can, title) { wx.showToast({title: title||""}) },
-	modal: function(can, content, title, cb) { wx.showModal({title: title||"", content: content||"", success: cb}) },
-	login: function(can, cb) {
-		can.conf.sessid = can.conf.sessid||can.misc.localStorage(can, ice.MSG_SESSID)
-		if (can.conf.sessid) { return cb && cb() }
-		wx.login({success: function(res) { can.misc.request(can, can.request(), chat.WX_LOGIN_SESS, {code: res.code}, function(msg) {
-			wx.setStorage({key: ice.MSG_SESSID, data: can.conf.sessid = msg.Result()}), cb && cb()
-		}) }})
-	},
-	userinfo: function(can, cb) {
-		can.user.info.userNick? can.misc.request(can, can.request(), chat.WX_LOGIN_USER, {}, function(msg) {
-			cb && cb(can.user.info)
-		}): can.user.login(can, function() { wx.getSetting({success: function(res) {
-			res.authSetting['scope.userInfo'] && wx.getUserInfo({success: function(res) {
-				can.misc.request(can, can.request(), chat.WX_LOGIN_USER, can.user.info = res.userInfo, function(msg) {
-					cb && cb(can.user.info)
-				})
-			}})
-		}}) })
-	},
 	trans: function(can, text, list, zone) { if (!text) { return text }
 		return can.core.Value(can.core.Value(list, ctx.FEATURE_TRANS), can.core.Keys(zone, text))||can.core.Value(can.user._trans, can.core.Keys(zone, text))||text
 	}, _trans: {},
+	toast: function(can, title) { wx.showToast({title: title||""}) },
+	modal: function(can, content, title, cb) { wx.showModal({title: title||"", content: content||"", success: cb}) },
+	login: function(can, cb) { can.conf.sessid = can.conf.sessid||can.misc.localStorage(can, ice.MSG_SESSID); if (can.conf.sessid) { return cb && cb() }
+		wx.login({success: function(res) { can.misc.POST(can, can.request(), chat.WX_LOGIN_SESS, {code: res.code}, function(msg) {
+			wx.setStorage({key: ice.MSG_SESSID, data: can.conf.sessid = msg.Result()}), cb && cb()
+		}) }})
+	},
 })

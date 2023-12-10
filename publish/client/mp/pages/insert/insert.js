@@ -1,12 +1,7 @@
-const {ice, mdb, chat, html} = require("../../utils/const.js")
+const {kit, ice, ctx, mdb, web, nfs, code, chat, http, html} = require("../../utils/const.js")
 const {shy, Volcanos} = require("../../utils/proto.js")
 Volcanos._page = {}
-Volcanos(chat.ONIMPORT, {
-	_init: function(can, msg) {},
-})
 Volcanos(chat.ONACTION, {list: ["刷新", "扫码"],
-	"刷新": function(event, can) { can.onaction.refresh(event, can) },
-	"扫码": function(event, can) { can.user.agent.scanQRCode(can) },
 	refresh: function(event, can) {
 		can.core.List(can.data.insert.list, function(input) {
 			input.action = input.action || input.value
@@ -17,10 +12,7 @@ Volcanos(chat.ONACTION, {list: ["刷新", "扫码"],
 			if (input.type == html.SELECT) {
 				input.values = input.values || can.core.Split(input.value)
 			}
-		}), can.misc.setData(can, can.data.insert.list)
-	},
-	onaction: function(event, can, button, data) { var name = data.name;
-		(can.onaction[name]||function(event) { can.run(event, [ctx.ACTION, name]) })(event, can)
+		}), can.page.setData(can, can.data.insert.list)
 	},
 	onInputs: function(event, can, button, data) { var index = data.index
 		var input = can.data.insert.list[index]

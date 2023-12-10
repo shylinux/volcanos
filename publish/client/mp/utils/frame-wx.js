@@ -11,19 +11,18 @@ Volcanos(chat.ONIMPORT, {})
 Volcanos(chat.ONACTION, {
 	"刷新": function(event, can) { can.onaction.refresh(event, can) },
 	"扫码": function(event, can) { can.user.agent.scanQRCode(can) },
-	"清屏": function(event, can) { can.core.List(can.ui.data.list, function(item) { delete(item.msg) }), can.misc.setData(can) },
-	"登录": function(event, can) {
-		can.user.info = {}, can.misc.localStorage(can, ice.MSG_SESSID, can.conf.sessid = "")
-		can.user.userinfo(can, function() { can.onaction.refresh(event, can) })
-	},
-	_refresh: function(event, can, order) { can.misc.setData(can)
+	"清屏": function(event, can) { can.core.List(can.ui.data.list, function(item) { delete(item.msg) }), can.page.setData(can) },
+	_refresh: function(event, can, order) { can.page.setData(can)
 		can.onaction.onAction({}, can, ice.LIST, {order: order, name: ice.LIST})
 	},
 	_reload: function(can, msg) {
-		can.misc.ParseCmd(can, msg)
+		can.ui.data.list = can.misc.ParseCmd(can, msg, function(field, order) {
+			can.onaction._refresh({}, can, order)
+		}, function(input, index, field, order) {
+			if (can.db.cmd||can.db.index) { input.value = input.value||can.db[input.name] }
+		}), can.page.setData(can), can.user.toast(can, "加载成功")
 	},
-	refresh: function(event, can) {
-		can.onaction._apis = "", can.onaction._cmds = []
+	refresh: function(event, can) { can.onaction._apis = "", can.onaction._cmds = []
 		if (can.db.share) { can.onaction._apis = "/share/"+can.db.share
 			can.run(event, [ctx.ACTION, ctx.COMMAND], function(msg) {
 				can.onaction._cmds = [ctx.ACTION, ctx.RUN], can.onaction._reload(can, msg)
@@ -82,7 +81,7 @@ Volcanos(chat.ONACTION, {
 			msg._action = can.core.List(can.base.Obj(msg.Option(ice.MSG_ACTION)), function(item) {
 				if (typeof item == code.STRING) { return {type: html.BUTTON, name: item, value: can.user.trans(can, item)} }
 				return item.value = can.user.trans(can, item.value||item.name), item
-			}), field.msg = msg, can.misc.setData(can)
+			}), field.msg = msg, can.page.setData(can)
 		})
 	},
 	onDetail: function(event, can, button, data) { var order = data.order, name = data.name, value = data.value, input = data.input
