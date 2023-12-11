@@ -6,7 +6,6 @@ fieldset.Footer>div.output div.state { font-family:var(--status-font-family); fl
 fieldset.Footer>div.output div.state label { font-size:var(--status-font-size); }
 fieldset.Footer>div.output div.toast { font-family:var(--status-font-family); float:right; line-height:18px; }
 fieldset.Footer>div.output div.cmd { padding:0; margin-left:20px; }
-fieldset.Footer>div.output div.cmd>i { padding:7px; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { padding-left:30px; }
 fieldset.Footer>div.output div.menu>div.River { display:flex; justify-content:space-around; }
 fieldset.Footer>div.output div.menu>div.River>div.item { height:var(--footer-height); display:flex; flex-direction:column; text-align:center; flex-grow:1; }

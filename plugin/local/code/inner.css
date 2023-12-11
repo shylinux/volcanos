@@ -21,6 +21,7 @@ fieldset.inner>div.output>div.layout>div.display pre>code { padding-left:var(--t
 fieldset.inner>div.output>div.layout>div.display div.code { white-space:unset; padding:var(--table-padding); }
 fieldset.inner>div.output>div.layout>div.display div.status>div { padding:var(--input-padding); float:left; }
 fieldset.inner>div.output>div.layout>div.display div.status { position:sticky; bottom:0; }
+fieldset.inner>div.output>div.layout>div.layout { justify-content:flex-start; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile h1 { border-bottom:var(--box-border); margin:var(--title-margin) 0; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile h2 { border-bottom:var(--box-border); margin:var(--title-margin) 0; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile pre>code { padding-left:var(--table-padding); border-left:var(--code-border-color) solid 5px; display:block; }
@@ -36,11 +37,13 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding:va
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { white-space:pre; padding:10px; height:var(--code-tabs-height); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:var(--code-tabs-height); clip-path:circle(40%); }
-fieldset.inner.cmd>div.output>div.layout>div.path:not(.hide) { font-style:italic; box-shadow:var(--box-shadow); display:flex; cursor:pointer; }
+fieldset.inner.cmd>div.output>div.layout>div.path:not(.hide) { font-style:italic; box-shadow:var(--box-shadow); display:flex; cursor:pointer; justify-content:flex-start; }
+fieldset.inner.cmd>div.output>div.layout>div.path>a { padding:var(--input-padding) var(--button-padding); }
+fieldset.inner.cmd>div.output>div.layout>div.path>a:hover { background-color:var(--hover-bg-color); }
 fieldset.inner.cmd>div.output>div.layout>div.path>span { padding:var(--input-padding); }
 fieldset.inner.cmd>div.output>div.layout>div.path>span:hover { background-color:var(--hover-bg-color); }
-fieldset.inner.cmd>div.output>div.layout>div.path span.func { margin-left:var(--button-margin); }
-fieldset.inner.cmd>div.output>div.layout>div.path span.mode { margin-left:var(--button-margin);  }
+fieldset.inner.cmd>div.output>div.layout>div.path span.func { padding:var(--input-padding) 40px; margin-left:40px; }
+fieldset.inner.cmd>div.output>div.layout>div.path span.mode { padding:var(--input-padding) 40px; margin-left:40px; }
 fieldset.inner.cmd>div.output>div.layout>div.path span.space { flex-grow:1; }
 fieldset.inner.cmd>div.output>div.layout>div.path span.view { font-size:22px; padding:0 var(--input-padding); margin-top:-5px; float:right; }
 fieldset.inner.cmd>div.output>div.layout>fieldset.plug { bottom:var(--action-height); }

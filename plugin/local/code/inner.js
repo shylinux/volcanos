@@ -271,6 +271,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			var sub = can.ui.profile._plugin; sub && can.page.isDisplay(can.ui.profile) && sub.onimport && sub.onimport.size(sub, can.ui.profile.offsetHeight, can.ui.profile.offsetWidth-1, true)
 			var sub = can.ui.content._plugin; if (!sub) { return } if (height == sub.ConfHeight()+sub.onexport.actionHeight(sub)+sub.onexport.statusHeight(sub) && width == sub.ConfWidth()) { return }
 			content._root || sub.onimport.size(sub, height, width, true), can.onlayout.layout(can, height, width)
+			can.page.style(can, sub._target, html.FLEX, "0 0 "+width+"px")
 		})
 		if (can.isCmdMode()) {
 			can.page.style(can, can.ui.tabs.parentNode, html.WIDTH, can.ui.path.offsetWidth)
@@ -410,6 +411,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { if (!msg) { return }
 		if (item.index == web.CHAT_MACOS_SESSION && item.args.length > 0) { item.style = html.OUTPUT }
 		if (item.index == web.CHAT_MACOS_DESKTOP) { item.style = html.OUTPUT }
 		can.onimport.plug(can, item, function(sub) { sub.onimport.size(sub, can.ui.content.offsetHeight, can.ui.content.offsetWidth, true)
+			can.onimport.layout(can)
 			sub.onimport._open = function(_, msg, arg) {
 				var link = can.misc.ParseURL(can, arg); if (link.pod && arg.indexOf(location.origin) == 0) { can.onimport.tabview(can, "", link.pod, web.SPACE), sub.Update(); return }
 				can.onimport.tabview(can, "", arg, web.SPACE), sub.Update()
