@@ -82,7 +82,8 @@ table.content th { position:relative; }
 table.content th span { cursor:pointer; }
 table.content th i { position:absolute; right:var(--input-padding); cursor:pointer; }
 table.content th:not(.select) i { display:none; }
-table.content th.select { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+table.content th.select { border:var(--notice-bg-color) solid 1px; }
+/* table.content th.select { background-color:var(--notice-bg-color); color:var(--notice-fg-color); } */
 table.content th.select[data-asc="1"] i.bi-sort-down-alt { display:none; }
 table.content th.select[data-asc="0"] i.bi-sort-up { display:none; }
 table.content td { padding:var(--table-padding); }
@@ -137,15 +138,18 @@ fieldset.input.date>div.status>div.today { padding:var(--input-padding); }
 fieldset.input.icon img { height:var(--desktop-icon-size); width:var(--desktop-icon-size); }
 /* float */
 body div.float { padding:var(--plugin-padding); box-shadow:var(--box-shadow); }
-body>div.toast div.title { word-break:break-all; color:var(--notice-bg-color); float:left; }
+body>div.toast div.title { font-style:italic; word-break:break-all; color:var(--notice-bg-color); float:left; }
 body>div.toast div.delete { color:var(--notice-bg-color); float:right; cursor:pointer; }
 body>div.toast div.delete:hover { background-color:var(--hover-bg-color); }
 body>div.toast div.duration { color:var(--disable-fg-color); float:right; }
 body>div.toast div.content { color:var(--notice-bg-color); text-align:center; min-height:48px; margin-bottom:5px; }
 body>div.toast div.progress { border:var(--box-notice); margin-left:0px; height:20px; clear:both; }
 body>div.toast div.progress div.current { background-color:var(--progress-bg-color); height:18px; }
-body>div.toast div.action:not(.hide) { width:100%; display:block; }
+body>div.toast div.action:not(.hide) { width:100%; display:block; display:flex; flex-direction:row-reverse; gap:10px; }
 body>div.toast div.action>div.item { float:right; }
+body>div.toast div.action>div.item input { padding:0 20px; }
+body>div.toast div.action>div.item.danger input { border:var(--danger-bg-color) solid 1px; }
+body>div.toast div.action>div.item.notice input { border:var(--notice-bg-color) solid 1px; }
 body>div.carte { padding:0; }
 body>div.carte input[name=filter] { margin:var(--input-margin); width:calc(100% - 10px); position:sticky; top:var(--input-margin); }
 body>div.carte div.item { white-space:pre; padding:var(--button-padding); }
@@ -407,7 +411,9 @@ input.select[type=button] { border:var(--input-border); padding:0 var(--button-p
 input[type=button]:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 input[type=button].danger:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 input[type=button].notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
-input[type=button][name=login] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+input[type=button].danger { border:var(--danger-bg-color) solid 1px; }
+input[type=button].notice { border:var(--notice-bg-color) solid 1px; }
+/* input[type=button][name=login] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); } */
 table.content tr:hover { background-color:var(--tr-hover-bg-color) !important; }
 table.content tr.select { background-color:var(--tr-hover-bg-color); }
 table.content th { background-color:var(--th-bg-color); color:var(--th-fg-color); }
@@ -429,6 +435,8 @@ div.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-co
 div.item.select:not(.button) { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.item.danger input:hover[type=button] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 div.item.notice input:hover[type=button] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+div.item.danger input { border:var(--danger-bg-color) solid 1px; }
+div.item.notice input { border:var(--notice-bg-color) solid 1px; }
 div.action div.tabs:hover {
 	background-color:var(--output-bg-color); color:var(--hover-fg-color);
 	border-top-left-radius:var(--button-margin); border-top-right-radius:var(--button-margin);

@@ -20,6 +20,7 @@ var ice = {
 	MODE: "mode", EXEC: "exec",
 
 	CAN: "can", POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg",
+	APP: "app",
 
 	MSG_FIELDS: "fields", MSG_SESSID: "sessid",
 	MSG_DETAIL: "detail", MSG_OPTION: "option", MSG_APPEND: "append", MSG_RESULT: "result",
@@ -180,6 +181,7 @@ var nfs = {
 var cli = {
 	RUNTIME: "runtime", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build", OPENS: "opens",
 	BEGIN: "begin", END: "end", START: "start", RESTART: "restart", STOP: "stop", OPEN: "open", CLOSE: "close",
+	REBOOT: "reboot",
 	QRCODE: "qrcode", COLOR: "color", BLACK: "black", WHITE: "white", BLUE: "blue", RED: "red", GRAY: "gray", CYAN: "cyan", GREEN: "green", PURPLE: "purple", YELLOW: "yellow",
 	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
 	LINUX: "linux", DARWIN: "darwin", WINDOWS: "windows",
