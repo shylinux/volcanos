@@ -361,7 +361,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.page.tagis(target, html.TH) && can.page.Select(can, table, "tr>td:first-child>input[type=checkbox]", function(target) { target.checked = event.target.checked })
 			var list = {}, key = can.page.SelectArgs(can, can._option, "", function(target) { if (target.value == "") { return target.name } })
 			can.page.Select(can, table, "tr>td:first-child>input[type=checkbox]", function(target) { can.page.ClassList.set(can, can.page.parentNode(can, target, html.TR), html.SELECT, target.checked)
-				target.checked && can.core.List(key, function(key) { list[key] = (list[key]||[]).concat([msg[key][can.page.parentNode(can, target, html.TR).dataset.index]]) })
+				target.checked && can.core.List(key, function(key) { if (!msg[key]) { return } list[key] = (list[key]||[]).concat([msg[key][can.page.parentNode(can, target, html.TR).dataset.index]]) })
 			}), can.db._checkbox = {}, can.core.Item(list, function(k, v) { can.db._checkbox[k] = v.join(",") })
 		}}] }], target)
 	}) },

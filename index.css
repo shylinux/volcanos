@@ -547,6 +547,7 @@ fieldset.inner>div.output>div.project div.item.modify { background-color:#008000
 fieldset.vimer>div.output>div.project div.item.modify { background-color:#00800036; }
 fieldset.vimer>div.output>div.project>div.zone.space div.item.stop { color:var(--disable-fg-color); }
 fieldset.xterm>div.action>div.tabs:only-child { display:none; }
+fieldset.xterm.story>form.option>div.item.hash input { width:400px; }
 fieldset.xterm>div.layout { clear:both; }
 fieldset.xterm div.layout div.output { border-left:var(--box-border); border-top:var(--box-border); }
 fieldset.xterm div.layout div.output.select { border:var(--box-border)}

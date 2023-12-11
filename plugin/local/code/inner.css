@@ -42,8 +42,8 @@ fieldset.inner.cmd>div.output>div.layout>div.path>a { padding:var(--input-paddin
 fieldset.inner.cmd>div.output>div.layout>div.path>a:hover { background-color:var(--hover-bg-color); }
 fieldset.inner.cmd>div.output>div.layout>div.path>span { padding:var(--input-padding); }
 fieldset.inner.cmd>div.output>div.layout>div.path>span:hover { background-color:var(--hover-bg-color); }
-fieldset.inner.cmd>div.output>div.layout>div.path span.func { padding:var(--input-padding) 40px; margin-left:40px; }
-fieldset.inner.cmd>div.output>div.layout>div.path span.mode { padding:var(--input-padding) 40px; margin-left:40px; }
+fieldset.inner.cmd>div.output>div.layout>div.path span.func { padding:var(--input-padding); margin-left:80px; }
+fieldset.inner.cmd>div.output>div.layout>div.path span.mode { padding:var(--input-padding); margin-left:80px; }
 fieldset.inner.cmd>div.output>div.layout>div.path span.space { flex-grow:1; }
 fieldset.inner.cmd>div.output>div.layout>div.path span.view { font-size:22px; padding:0 var(--input-padding); margin-top:-5px; float:right; }
 fieldset.inner.cmd>div.output>div.layout>fieldset.plug { bottom:var(--action-height); }

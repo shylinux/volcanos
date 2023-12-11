@@ -642,6 +642,7 @@ Volcanos(chat.ONEXPORT, {
 Volcanos(chat.ONKEYMAP, {
 	_mode: {plugin: {
 		Escape: shy("清除浮窗", function(event, can) { can.onaction.clear(event, can) }),
+		" ": shy("打开文件", function(event, can) { can.onaction.open(event, can) }),
 		f: shy("打开文件", function(event, can) { can.onaction.open(event, can) }),
 		g: shy("查找搜索", function(event, can) { can.onaction.find(event, can) }),
 		d: shy("查找函数", function(event, can) { can.page.Select(can, can.ui.path, "span.func", function(target) { target.click() }) }),
