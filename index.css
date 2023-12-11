@@ -91,13 +91,11 @@ table.content th.select { border:var(--notice-bg-color) solid 1px; }
 table.content th.select[data-asc="1"] i.bi-sort-down-alt { display:none; }
 table.content th.select[data-asc="0"] i.bi-sort-up { display:none; }
 table.content td { padding:var(--table-padding); }
-table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding); }
-table.content.checkbox td:first-child { text-align:center; }
+table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; }
+table.content.checkbox td:first-child { background-color:var(--th-bg-color); text-align:center; position:sticky; left:2px; }
 table.content.detail td:first-child { width:var(--input-width); }
 table.content.action th:last-child { position:sticky; right:2px; }
-table.content.action td:last-child { background-color:var(--th-bg-color); position:sticky; right:2px; text-align:center; }
-table.content.checkbox th:first-child { position:sticky; left:2px; }
-table.content.checkbox td:first-child { background-color:var(--th-bg-color); position:sticky; left:2px; text-align:center; }
+table.content.action td:last-child { background-color:var(--th-bg-color); text-align:center; position:sticky; right:2px; }
 table.content:hover col.option { background-color:var(--hover-bg-color); }
 table.content col.action { width:var(--project); }
 table.content col.time { width:180px; }
