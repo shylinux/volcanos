@@ -196,7 +196,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			var cb = meta[button]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: button}):
 				can.run(event, button == mdb.LIST? []: [ctx.ACTION, button].concat(_can.Input()))
 		}) }
-		return can.core.List(can.page.inputs(can, can.base.getValid(can.base.Obj(list), can.core.Value(can, [chat.ONACTION, mdb.LIST]), meta != can.onaction? can.core.Item(meta): [])||[]), function(item) {
+		var list = can.page.inputs(can, can.base.getValid(can.base.Obj(list), can.core.Value(can, [chat.ONACTION, mdb.LIST]), meta != can.onaction? can.core.Item(meta): [])||[])
+		var limit = html.ACTION_BUTTON; if (list.length >= limit) { var rest = list.slice(limit-1); list = list.slice(0, limit-1), list.push({type: html.BUTTON, name: "more", onclick: function(event) {
+			can.user.carte(event, can, {_trans: meta._trans||can._trans}, can.core.List(rest, function(item) { return item.name }), function(event, button) {
+				run(event, button)
+			})
+		}}) }
+		return can.core.List(list, function(item) {
 			can.base.isUndefined(item) || can.onappend.input(can, item == ""? /* 1.空白 */ {type: html.BR}:
 				can.base.isString(item)? /* 2.按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
 					run(event, item)
@@ -289,6 +295,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
 		if (item.type == html.SELECT) { can.core.List(input.list, function(item) { item.inner = can.user.trans(can, item.inner, null, html.INPUT) }) }
 		if (item.type == html.BUTTON && !input.value) { input.value = can.user.trans(can, item.name) }
+		input.onclick = item.onclick
 		if (item.type == html.TEXT) {
 			input.placeholder = can.user.trans(can, input.placeholder||input.name, null, html.INPUT)
 			input.title = can.user.trans(can, input.title||input.placeholder||input.name, null, html.INPUT)
@@ -356,15 +363,20 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			})
 		}, _init: function(target) { can.page.style(can, target, html.WIDTH, (select.offsetWidth||80)+30), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
 	},
-	checkbox: function(can, table, msg) { can.page.Select(can, table, "tr>th:first-child,tr>td:first-child", function(target) {
-		can.page.insertBefore(can, [{type: target.tagName, list: [{type: html.INPUT, data: {type: html.CHECKBOX}, onchange: function(event) {
-			can.page.tagis(target, html.TH) && can.page.Select(can, table, "tr>td:first-child>input[type=checkbox]", function(target) { target.checked = event.target.checked })
-			var list = {}, key = can.page.SelectArgs(can, can._option, "", function(target) { if (target.value == "") { return target.name } })
-			can.page.Select(can, table, "tr>td:first-child>input[type=checkbox]", function(target) { can.page.ClassList.set(can, can.page.parentNode(can, target, html.TR), html.SELECT, target.checked)
-				target.checked && can.core.List(key, function(key) { if (!msg[key]) { return } list[key] = (list[key]||[]).concat([msg[key][can.page.parentNode(can, target, html.TR).dataset.index]]) })
-			}), can.db._checkbox = {}, can.core.Item(list, function(k, v) { can.db._checkbox[k] = v.join(",") })
-		}}] }], target)
-	}) },
+	checkbox: function(can, table, msg) {
+		can.page.Select(can, table, "tr>th:first-child,tr>td:first-child", function(target) {
+			can.page.insertBefore(can, [{type: target.tagName, list: [{type: html.INPUT, data: {type: html.CHECKBOX}, onchange: function(event) {
+				can.page.tagis(target, html.TH) && can.page.Select(can, table, "tr>td:first-child>input[type=checkbox]", function(target) { target.checked = event.target.checked })
+				var list = {}, key = can.page.SelectArgs(can, can._option, "", function(target) { if (target.value == "") { return target.name } })
+				can.page.Select(can, table, "tr>td:first-child>input[type=checkbox]", function(target) { can.page.ClassList.set(can, can.page.parentNode(can, target, html.TR), html.SELECT, target.checked)
+					target.checked && can.core.List(key, function(key) { if (!msg[key]) { return } list[key] = (list[key]||[]).concat([msg[key][can.page.parentNode(can, target, html.TR).dataset.index]]) })
+				}), can.db._checkbox = {}, can.core.Item(list, function(k, v) { can.db._checkbox[k] = v.join(",") })
+			}}] }], target)
+		})
+		can.page.Select(can, table, "colgroup>col:first-child", function(target) {
+			can.page.insertBefore(can, [{type: target.tagName, className: "checkbox"}], target)
+		})
+	},
 	table: function(can, msg, cb, target, keys) { if (!msg || msg.Length() == 0) { return } var meta = can.base.Obj(msg.Option(mdb.META))
 		if (can.user.isMobile) { can.base.toLast(msg.append, mdb.TIME) } can.base.toLast(msg.append, web.LINK), can.base.toLast(msg.append, ctx.ACTION)
 		if (msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.core.List(msg[ctx.ACTION], function(item) { if (item) { return item } }).length == 0) { msg.append.pop() }
@@ -397,7 +409,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.page.ClassList.set(can, target, "will", can.page.ClassList.has(can, target, key))
 				})
 			}, title: can.user.trans(can, can.Option(key) == undefined? key: "click to detail", null, html.INPUT), _init: function(target) {
-				key == ctx.ACTION && can.onappend.mores(can, target, data, can.user.isMobile? can.user.isLandscape() || msg.IsDetail()? 5: 3: can.isCmdMode() || msg.IsDetail()? 10: 5)
+				key == ctx.ACTION && can.onappend.mores(can, target, data, msg.IsDetail()? 10: html.TABLE_BUTTON)
 				can.page.SelectOne(can, target, html.SPAN, function(span) { can.core.List(span.style, function(key) { target.style[key] = span.style[key] }) })
 				can.page.style(can, target, "cursor", can.base.isIn(key, mdb.KEY, mdb.TIME)? "default": can.Option(key) != undefined? "pointer": "text")
 			}}

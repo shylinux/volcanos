@@ -11,7 +11,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 			return {view: [[html.ITEM, value.status]], list: [
 				{view: [wiki.TITLE, html.DIV], list: [value.icon && {img: can.misc.Resource(can, value.icon, value.name)}, {text: value.name}]},
 				{view: [wiki.CONTENT, html.DIV, value.text]},
-				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, 5) }},
+				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, html.TABLE_BUTTON) }},
 			]}
 		})), can.onimport.layout = function() { can.onlayout.expand(can, can._output, 320) }, can.onappend.scroll(can, can._output)
 	},

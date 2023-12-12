@@ -33,21 +33,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport.menu(can, mdb.SEARCH, function() { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: can._search.value||""})) })
 	},
 	_const: function(can) {
-		html.RIVER_WIDTH = can.page.styleValueInt(can, "--river-width")
-		html.RIVER_MARGIN = can.page.styleValueInt(can, "--river-margin")
-		html.PROJECT_WIDTH = can.page.styleValueInt(can, "--project-width")
-		html.PLUG_WIDTH = can.page.styleValueInt(can, "--plug-width")
-		html.PLUG_HEIGHT = can.page.styleValueInt(can, "--plug-height")
-		html.STORY_HEIGHT = can.page.styleValueInt(can, "--story-height")
-		html.FLOAT_HEIGHT = can.page.styleValueInt(can, "--float-height")
-		html.FLOAT_WIDTH = can.page.styleValueInt(can, "--float-width")
-		html.DESKTOP_WIDTH = can.page.styleValueInt(can, "--desktop-width")
-		html.DESKTOP_HEIGHT = can.page.styleValueInt(can, "--desktop-height")
-		html.PLUGIN_PADDING = can.page.styleValueInt(can, "--plugin-padding")
-		html.PLUGIN_MARGIN = can.page.styleValueInt(can, "--plugin-margin")
-		html.ACTION_MARGIN = can.page.styleValueInt(can, "--action-margin")
-		html.ACTION_HEIGHT = can.page.styleValueInt(can, "--action-height")
-		html.STATUS_HEIGHT = can.page.styleValueInt(can, "--status-height")
+		can.core.Item(html.value, function(key, value) { html[key] = can.page.styleValueInt(can, "--"+key.toLowerCase().replaceAll("_", "-"))||value }) 
 	},
 	_time: function(can, target) { can.core.Timer({interval: 100}, function() { can.onimport.time(can, target) }), can.onappend.figure(can, {action: "date"}, target) },
 	time: function(can, target) { can.onimport.theme(can), target.innerHTML = can.user.time(can, null, can.Conf(mdb.TIME)||"%H:%M:%S %w") },
