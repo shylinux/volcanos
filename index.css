@@ -44,7 +44,9 @@ body {
 }
 input { font-family:var(--input-font-family); }
 body { font-family:var(--body-font-family); }
+body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
 body.windows { --code-font-family:"Courier New"; }
+body.cmd:not(.portal) { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
 body.cmd {
 	--plug-width:1200px; --plug-height:480px;
 }
@@ -400,8 +402,6 @@ fieldset>div.status>legend>span.remove:hover { background-color:var(--hover-bg-c
 fieldset>div.status>legend:not(:hover)>span.remove { visibility:hidden; }
 fieldset>div.status>legend:not(:hover):not(.select) { background-color:unset; border-radius:0; }
 /* theme */
-body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
-body.cmd { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
 legend { background-color:var(--legend-bg-color); border-radius:var(--button-radius); }
 legend:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 textarea:hover { border:var(--box-notice); }
