@@ -1,16 +1,14 @@
 (function() { const TABS = "tabs", TABVIEW = "tabview", HORIZON = "horizon", VERTICAL = "vertical", GRID = "grid", FREE = "free", FLOW = "flow", PAGE = "page", CAN_LAYOUT = "can.layout"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.misc.SearchHash(can)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
-			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X); if (item.style == html.OUTPUT) {
-				item.width = can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING
-			}
+			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X); if (item.style == html.OUTPUT) { item.width = can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING }
 			if (msg.Length() == 1) { item.height = can.ConfHeight()-(can.user.isMobile? 2: 1)*html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y) }
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.space||meta.pod}), [river, storm, meta.id||meta.index].concat(cmds), cb) }
 				sub.onexport.output = function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
 			})
-		}, function() { if (can.isCmdMode()) { return }
+		}, function() { if (can.isCmdMode()) { return } can.user.mod.isCmd = false
 			can.onmotion.delay(can, function() { can.onaction.layout(can), can.onappend.scroll(can, can._output), can.page.style(can, can._output, "visibility", "visible")
 				can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) { sub.Conf(ctx.INDEX) == list[2] && can.onmotion.delay(can, function() { sub._tabs.click() }) })
 			}, 300)
@@ -58,15 +56,11 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 				can.onappend.style(can, item.index, document.body)
 			} return item
 		}), FLOW).layout(can.page.height(), can.page.width()): can.runAction(can.request(), ctx.COMMAND, [], function(msg) {
-			if (msg.Length() == 1) {
-				can.onaction._onaction_cmd(can) } can.onimport._init(can, msg)
-		})
+			if (msg.Length() == 1) { can.onaction._onaction_cmd(can) } can.onimport._init(can, msg) })
 	},
 	onstorm_select: function(can, msg, river, storm) {
 		if (can.onmotion.cache(can, function(save, load) { save({plugins: can._plugins}), can._plugins = []
-			return load(can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm)), function(bak) {
-				can._plugins = bak.plugins
-			})
+			return load(can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm)), function(bak) { can._plugins = bak.plugins })
 		}, can._output, can._action, can._header_tabs)) { if (msg.Option("refresh") != ice.TRUE) { return can.onaction.layout(can) } }
 		can.run(can.request({}, {_method: http.GET}), [river, storm], function(msg) {
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm})) }
