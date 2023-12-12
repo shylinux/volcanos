@@ -35,7 +35,7 @@ body {
 
 	--river-width:var(--project-width); --project-width:230px; --input-width:120px; --button-width:60px;
 	--action-height:32px; --status-height:var(--action-height); --footer-height:var(--action-height); --header-height:48px;
-	--plug-width:800px; --plug-height:320px; --story-height:480px; --float-height:480px; --float-width:1000px; --desktop-width:1200px; --desktop-height:684px;
+	--plug-width:800px; --plug-height:240px; --story-height:480px; --float-height:480px; --float-width:1000px; --desktop-width:1200px; --desktop-height:684px;
 	--textarea-height:96px; --qrcode-height:320px; --iframe-height:420px; --desktop-icon-size:80px;
 	--river-margin:80px; --action-margin:200px;
 	--plugin-padding:10px; --plugin-margin:var(--plugin-padding);
@@ -50,14 +50,13 @@ input { font-family:var(--input-font-family); }
 body { font-family:var(--body-font-family); }
 body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
 body.windows { --code-font-family:"Courier New"; }
-body.cmd:not(.portal) { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
 body.cmd { --plug-width:1200px; --plug-height:480px; }
 body.width1 { /* 320-640 手机竖屏 */
 	--svg-font-size:13px;
    	--river-width:280px;; --project-width:120px; --input-width:80px;
 	--river-margin:0;
    	--plugin-margin:0; --button-margin:5px;
-	--footer-height:60px; 
+	--footer-height:60px;
 	--action-button:2; --table-button:2;
 }
 body.width2 { /* 640-960 手机横屏 平板竖屏 笔记本调试 */

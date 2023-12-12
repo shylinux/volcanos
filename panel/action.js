@@ -9,6 +9,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 				sub.onexport.output = function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
 			})
 		}, function() { if (can.isCmdMode()) { return } can.user.mod.isCmd = false
+		can.page.ClassList.del(can, document.body, "cmd")
 			can.onmotion.delay(can, function() { can.onaction.layout(can), can.onappend.scroll(can, can._output), can.page.style(can, can._output, "visibility", "visible")
 				can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) { sub.Conf(ctx.INDEX) == list[2] && can.onmotion.delay(can, function() { sub._tabs.click() }) })
 			}, 300)

@@ -181,7 +181,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.core.Next(list.reverse(), function(meta, next) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) {
 				sub.onexport.output = function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
-					var height = can.base.Max(html.PLUG_HEIGHT, can.ConfHeight()-html.ACTION_HEIGHT), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-html.PROJECT_WIDTH)
+					var height = can.base.Min(html.PLUG_HEIGHT, 240, can._output.offsetHeight), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-html.PROJECT_WIDTH)
+					// var height = can.base.Min(html.PLUG_HEIGHT, 240, can.ConfHeight()-html.ACTION_HEIGHT), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-html.PROJECT_WIDTH)
 					sub.onimport.size(sub, height, width, false), can.onmotion.delay(can, function() { sub.onimport.size(sub, height, width, false) })
 				}
 				can.onmotion.hidden(can, sub._target), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}
