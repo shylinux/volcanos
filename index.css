@@ -1,13 +1,13 @@
 body {
-	--danger-bg-color:red; --danger-fg-color:var(--notice-fg-color);
 	--notice-bg-color:blue; --notice-fg-color:white;
+	--danger-bg-color:red; --danger-fg-color:var(--notice-fg-color);
 	--create-bg-color:var(--notice-bg-color); --create-fg-color:var(--notice-fg-color);
-	--progress-bg-color:red; --disable-fg-color:gray;
-	--hover-bg-color:#5066b945; --hover-fg-color:var(--notice-fg-color);
 	--box-border:#404141 solid 1px; --box-shadow:var(--body-fg-color) 2px 2px 8px; --box-notice:var(--notice-bg-color) solid 1px;
+	--hover-bg-color:#5066b945; --hover-fg-color:var(--notice-fg-color);
+	--progress-bg-color:red; --disable-fg-color:gray;
 	--body-bg-color:var(--plugin-bg-color); --body-fg-color:var(--plugin-fg-color);
-
 	--plugin-bg-color:black; --plugin-fg-color:silver; --plugin-border-color:var(--box-border);
+
 	--legend-bg-color:var(--plugin-bg-color);
 	--input-bg-color:var(--plugin-fg-color); --input-fg-color: var(--plugin-fg-color); --input-border:var(--box-border);
 	--output-bg-color:var(--input-bg-color); --output-fg-color:var(--input-fg-color); --status-border:var(--box-border);
@@ -35,7 +35,7 @@ body {
 
 	--river-width:var(--project-width); --project-width:230px; --input-width:120px; --button-width:60px;
 	--action-height:32px; --status-height:var(--action-height); --footer-height:var(--action-height); --header-height:48px;
-	--plug-width:800px; --plug-height:240px; --story-height:480px; --float-height:480px; --float-width:1000px; --desktop-width:1200px; --desktop-height:684px;
+	--plug-width:800px; --plug-height:480px; --story-height:var(--plug-height); --float-height:var(--story-height); --float-width:1000px; --desktop-width:1200px; --desktop-height:684px;
 	--textarea-height:96px; --qrcode-height:320px; --iframe-height:420px; --desktop-icon-size:80px;
 	--river-margin:80px; --action-margin:200px;
 	--plugin-padding:10px; --plugin-margin:var(--plugin-padding);
@@ -576,6 +576,7 @@ fieldset.plan>div.output>div.layout>div.layout>div.profile:not(.toggle) { width:
 fieldset.plan>div.output>div.layout>div.layout>div.profile input { box-shadow:var(--box-shadow); }
 fieldset.plan>div.output>div.layout>div.layout>div.profile input:not(:last-child) { margin-right:var(--button-margin); }
 fieldset.plan>div.output>div.layout>div.layout { align-items:flex-start; }
+fieldset.plan>div.output>div.layout { height:100%; }
 fieldset.draw div.output svg { margin-bottom:-5px; }
 fieldset.draw>div.output>div.layout>div.layout>div.profile table { width:100%; }
 fieldset.draw>form.option>div.item.pid>input { width:var(--button-width) !important; }
