@@ -194,8 +194,8 @@ body>div.input td:hover span.icon { visibility:visible; }
 body>div.input td:hover span.icons { visibility:visible; }
 body>div.input textarea { height:var(--textarea-height); width:var(--river-width) !important; }
 body>div.input select { width:var(--river-width) !important; }
-body>div.input:not(.vimer) input:not([type=button]) { width:var(--river-width) !important; }
-body>div.input:not(.vimer) input[type=text] { width:var(--river-width) !important; }
+body>div.input input[type=text] { width:var(--river-width) !important; }
+body>div.input input:not([type=button]) { width:var(--river-width) !important; }
 body>div.input input.select[type=button] { width:var(--river-width) !important; }
 body>div.input input[name=cancel] { border:var(--danger-bg-color) solid 1px; }
 body>div.input input[name=submit] { border:var(--notice-bg-color) solid 1px; }

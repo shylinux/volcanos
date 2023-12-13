@@ -15,3 +15,4 @@ fieldset.vimer>div.output.normal>div.layout>div.tabs>div.tabs>div.tabs.select { 
 fieldset.vimer>div.output.insert>div.layout>div.tabs>div.tabs>div.tabs.select { border-bottom:var(--danger-bg-color) solid 2px; }
 fieldset.vimer>div.output.normal>div.layout>div.path span.mode.normal { color:var(--notice-bg-color); }
 fieldset.vimer>div.output.insert>div.layout>div.path span.mode.insert { color:var(--danger-bg-color); }
+div.input.vimer.open.float input[type=text] { width:100% !important; }
