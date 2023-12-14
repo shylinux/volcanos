@@ -119,14 +119,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				value && (value = can.user.trans(sub, value, null, html.INPUT))
 				return can.page.SelectArgs(can, action, key, value)[0]
 			},
-			Option: function(key, value) {
-				value && (value = can.user.trans(sub, value, null, html.INPUT))
+			Option: function(key, value) { value && (value = can.user.trans(sub, value, null, html.INPUT))
 				return can.page.SelectArgs(can, option, key, value)[0] },
-			Update: function(event, cmds, cb, silent) { event = event||{}
-				sub.request(event, {_toast: event.isTrusted? ice.PROCESS: ""}, can.core.Value(sub, "sub.db._checkbox"))._caller(), sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input([], !silent), cb, silent); return true },
+			Update: function(event, cmds, cb, silent) { event = event||{}, sub.request(event, {_toast: event.isTrusted? ice.PROCESS: ""},
+				can.core.Value(sub, "sub.db._checkbox"))._caller(), sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input([], !silent), cb, silent); return true },
 			Focus: function() { can.page.SelectOne(can, option, html.INPUT_ARGS, function(target) { target.focus() }) },
-			Input: function(cmds, save, opts) { cmds = cmds && cmds.length > 0? cmds: can.page.SelectArgs(sub), cmds && cmds[0] != ctx.ACTION && (cmds = can.base.trim(cmds))
-				cmds._opts = opts
+			Input: function(cmds, save, opts) { cmds = cmds && cmds.length > 0? cmds: can.page.SelectArgs(sub), cmds && cmds[0] != ctx.ACTION && (cmds = can.base.trim(cmds)), cmds._opts = opts
 				return !save || cmds[0] == ctx.ACTION || can.base.Eq(sub._history[sub._history.length-1], cmds) || sub._history.push(cmds), cmds
 			},
 			Clone: function() { meta.args = can.page.SelectArgs(can), can.onappend._init(can, meta, list, function(sub) { can.base.isFunc(cb) && cb(sub, true), can.onmotion.delay(can, sub.Focus) }, target) },
@@ -277,9 +275,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (can.base.beginWith(item.value, nfs.PS, ice.HTTP)) { item.value = can.page.Format(html.A, item.value, item.value.split("?")[0]) }
 			if (keys[item.name]) { return can.Status(item.name, item.value) } keys[item.name] = item
 			msg && item.name == cli.COST && (item.value = msg.Option(ice.MSG_COST)||item.value)
+			msg && item.name == nfs.SIZE && (item.value = can.base.Size(item.value||msg._xhr.responseText.length))
 			can.page.Append(can, status, [{view: html.ITEM, list: [
 				{text: [can.page.Color(can.user.trans(can, item.name, null, html.INPUT)), html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value == undefined? "": (item.value+"").trim())+"", html.SPAN, item.name]},
-			], onclick: function(event) { can.user.copy(event, can, item.value) }}])
+			], onclick: function(event) {
+				can.user.copy(event, can, item.value)
+				if (item.name == ice.LOG_TRACEID) {
+					can.onappend._float(can, web.CODE_XTERM, ["sh", item.value, "grep "+item.value+" var/log/bench.log | grep -v grep | grep -v "+item.value+"$"])
+				}
+			}}])
 		})
 	},
 
