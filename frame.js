@@ -281,7 +281,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			], onclick: function(event) {
 				can.user.copy(event, can, item.value)
 				if (item.name == ice.LOG_TRACEID) {
-					can.onappend._float(can, web.CODE_XTERM, ["sh", item.value, "grep "+item.value+" var/log/bench.log | grep -v grep | grep -v "+item.value+"$"])
+					can.onappend._float(can, web.CODE_XTERM, ["sh", item.value, "grep "+item.value+" var/log/bench.log | grep -v grep | grep -v '"+item.value+" $'"])
 				}
 			}}])
 		})
