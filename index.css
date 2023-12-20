@@ -36,7 +36,7 @@ body {
 	--river-width:var(--project-width); --project-width:230px; --input-width:120px; --button-width:60px;
 	--action-height:32px; --status-height:var(--action-height); --footer-height:var(--action-height); --header-height:48px;
 	--plug-width:800px; --plug-height:480px; --story-height:var(--plug-height); --float-height:var(--story-height); --float-width:1000px; --desktop-width:1200px; --desktop-height:684px;
-	--textarea-height:96px; --qrcode-height:320px; --iframe-height:420px; --desktop-icon-size:80px;
+	--textarea-height:96px; --qrcode-height:360px; --iframe-height:420px; --desktop-icon-size:80px;
 	--river-margin:80px; --action-margin:200px;
 	--plugin-padding:10px; --plugin-margin:var(--plugin-padding);
 	--legend-padding:20px; --title-margin:var(--legend-padding);
