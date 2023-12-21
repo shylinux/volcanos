@@ -54,7 +54,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 				can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP) || can.user.title(item.index)
 				can.onaction._onaction_cmd(can), item.mode = chat.CMD, item.opts = can.misc.Search(can)
 				can.user.mod.isCmd && can.user.isMobile && (can.ConfHeight(can.ConfHeight()-html.ACTION_HEIGHT))
-				can.onappend.style(can, item.index, document.body)
+				can.onappend.style(can, ice.CMD, document.body), can.onappend.style(can, item.index, document.body)
 			} return item
 		}), FLOW).layout(can.page.height(), can.page.width()): can.runAction(can.request(), ctx.COMMAND, [], function(msg) {
 			if (msg.Length() == 1) { can.onaction._onaction_cmd(can) } can.onimport._init(can, msg) })
