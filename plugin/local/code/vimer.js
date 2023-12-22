@@ -36,10 +36,10 @@ Volcanos(chat.ONFIGURE, {
 					if (msg.result && msg.result.indexOf(item.path) > -1) { can.onmotion.delay(can, function() { can.onappend.style(can, mdb.MODIFY, target.parentNode)
 						for (var _target = target.parentNode; _target != zone._target; _target = _target.parentNode) { _target.previousSibling && can.onappend.style(can, mdb.MODIFY, _target.previousSibling) }
 					}) }
-				}, item._menu = shy(kit.Dict(
-					mdb.CREATE, function(event, button) { can.onaction.script(can.request(event, {path: path}), can, nfs.SCRIPT) },
+				}, item._menu = {meta: kit.Dict(
+					mdb.CREATE, function(event, button) { can.onaction.script(can.request(event, {path: path, file: item.path}), can, nfs.SCRIPT) },
 					nfs.TRASH, function(event, button) { can.runAction(event, nfs.TRASH, [path+item.path], function(msg) { show(target, zone, path) }) },
-				)); return item
+				)}; return item
 			}); cache = can.onimport.tree(can, list, nfs.PATH, nfs.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, cache)
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) { show(target, zone, path) }) }), target)

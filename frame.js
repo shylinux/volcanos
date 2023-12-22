@@ -552,7 +552,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	plugin: function(can, meta, cb, target, field) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||ice.CAN_PLUGIN, meta._space = meta._space||can.ConfSpace()
 		var res = {}; function _cb(sub, meta, skip) { kit.proto(res, sub), cb && cb(sub, meta, skip) }
 		if (meta.inputs && meta.inputs.length > 0 || meta.meta) { can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, _cb, target, field); return res }
-		var value = can.onengine.plugin(can, meta.index); if (value) { can.onappend._plugin(can, value, meta, function(sub, meta, skip) { value.meta && value.meta._init && value.meta._init(sub, meta), _cb(sub, meta, skip) }, target, field); return res }
+		var value = can.onengine.plugin(can, meta.index); if (value) { can.onappend._plugin(can, value, meta, function(sub, meta, skip) {
+			value.meta && value.meta._init && value.meta._init(sub, meta), _cb(sub, meta, skip) }, target, field); return res }
 		can.runAction(can.request({}, {_method: http.GET, pod: meta.space})._caller(), ctx.COMMAND, [meta.index], function(msg) { msg.Table(function(value) { can.onappend._plugin(can, value, meta, _cb, target, field) })}); return res
 	},
 	_plugin: function(can, value, meta, cb, target, field) { can.base.Copy(meta, value, true)
@@ -573,6 +574,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	_float: function(can, index, args, cb) {
 		can.onappend.plugin(can, typeof index == code.OBJECT? (index.mode = chat.FLOAT, index.args = args, index): {index: index, args: args, mode: chat.FLOAT}, function(sub) {
 			sub.onmotion.float(sub), sub.onaction.close = function() { can.page.Remove(can, sub._target) }, cb && cb(sub)
+			sub._target.onclick = function(event) {
+				can.page.Select(can, document.body, "fieldset.float", function(target) {
+					can.page.style(can, target, "z-index", target == sub._target? 10: 9)
+				})
+			}
 		}, can._root._target)
 	},
 	figure: function(can, meta, target, cb) { if (meta.type == html.SELECT || meta.type == html.BUTTON) { return }

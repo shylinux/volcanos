@@ -1,7 +1,7 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can, target), can.onappend.table(can, msg)
 		can.onappend.style(can, nfs.JSON, can._output), can.onimport.show(can, can.base.Obj(msg.Result(), {}), target)
 	},
-	show: function(can, data, target) {
+	show: function(can, data, target) { var hidden = data.detail && data.option
 		function show(data, target, index, total) { var list
 			switch (typeof data) {
 				case code.OBJECT: if (data == null) { can.page.Append(can, target, [{text: "null"}]); break }
@@ -13,9 +13,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 					function toggle(list) { return list && can.onmotion.toggle(can, list) }
 					function _item() { return can.page.Append(can, list = list || can.page.Append(can, target, [html.LIST])._target, [html.ITEM])._target }
 					if (can.base.isArray(data)) { var inner = ""
-						if (can.core.List(data, function(item) { if (can.base.isIn(typeof item, code.STRING, code.NUMBER, code.BOOLEAN)) { return item } }).length == data.length) {
+						if (hidden && can.core.List(data, function(item) { if (can.base.isIn(typeof item, code.STRING, code.NUMBER, code.BOOLEAN)) { return item } }).length == data.length) {
 							inner = [], can.core.List(data, function(item, index) {
-								inner.push({text: [format(item), "", [code.STRING, "inner"]]}, index < data.length-1 && {text: [", ", "", ["inner"]]})
+								inner.push({text: [format(item), "", [code.STRING, code.INNER]]}, index < data.length-1 && {text: [", ", "", [code.INNER]]})
 							})
 						}
 						wrap("[", "]", data.length > 0, function() { can.core.List(data, function(value, index) { var item = _item()
@@ -25,7 +25,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 						wrap("{", "}", length > 0, function() { can.core.Item(data, function(key, value) { var item = _item()
 							can.page.Append(can, item, [{text: [format(key)], onclick: function(event) {
 								var display = !toggle(sub); can.page.SelectChild(can, sub.parentNode, "span.inner", function(target) { can.onmotion.toggle(can, target, display) })
-							}}, {text: ": "}]); var sub = show(value, item, count++, length); can.onmotion.hidden(can, sub)
+							}}, {text: ": "}]); var sub = show(value, item, count++, length); hidden && sub && can.onmotion.hidden(can, sub)
 						}) })
 					} break
 				case code.STRING: can.page.Append(can, target, [{text: [format(data), "", code.STRING]}]); break

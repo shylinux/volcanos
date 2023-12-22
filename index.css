@@ -310,7 +310,8 @@ fieldset>form.option>div.text>span.value {
 white-space:pre; padding:var(--input-padding) var(--button-padding); max-width:320px; height:var(--action-height); overflow:auto; }
 fieldset.plug>form.option>div.text>span.value { display:none; }
 fieldset:not(.float)>form.option>div.text>span.value { display:none; }
-fieldset.float:not(.plug)>form.option>div.text>input { display:none; }
+fieldset.float:not(.plug)>form.option>div.text:not(.filter)>input { display:none; }
+fieldset.float:not(.plug)>form.option>div.text.filter>span.value { display:none; }
 fieldset.float:not(.plug)>form.option>div.text>span.icon { display:none; }
 fieldset.float:not(.plug)>form.option>div.item:last-child { margin-right:var(--action-height); }
 fieldset.float:not(.plug)>div.action>div.item:last-child { margin-right:var(--action-height); }
@@ -601,8 +602,15 @@ fieldset.web.chat.location>div.output .amap-controls { z-index:unset; }
 fieldset.web.chat.location>div.output .amap-maptypecontrol { z-index:unset; }
 fieldset.web.chat.location>div.output>div.layout>div.layout>div.profile { background-color:var(--plugin-bg-color); position:absolute; right:0; width:360px; z-index:9; border-left:none; }
 fieldset.web.chat.iframe>form.option input[name=hash] { width:var(--river-width); }
+fieldset.can.data>div.output { font-family:var(--code-font-family); font-size:14px; white-space:pre; }
+fieldset.can.data>div.output div.item { display:flex; gap:5px; }
+fieldset.can.data>div.output div.item>span.icon { color:var(--disable-fg-color); }
+fieldset.can.data>div.output div.item.string>span.value { color:var(--code-string); }
+fieldset.can.data>div.output div.item.number>span.value { color:var(--code-constant); }
+fieldset.can.data>div.output div.item.object>span.value { color:var(--disable-fg-color); }
+fieldset.can.data>div.output div.item.target>span.value { color:var(--disable-fg-color); }
+fieldset.can.data>div.output div.item.function>span.value { color:var(--disable-fg-color); }
 fieldset.can.view { font-size:14px; }
-fieldset.can.data { font-size:14px; }
 fieldset.Search div.story[data-type=spark] { margin:0; }
 fieldset.Search>div.output>div.profile { border-left:none; width:unset; }
 fieldset.Action.tabs table.content { width:100%; }
