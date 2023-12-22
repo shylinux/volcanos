@@ -1,3 +1,4 @@
+div.json div.item { white-space:pre; }
 div.json div.item:hover { background-color:transparent; color:unset; }
 div.json div.item div.item { padding-left:15px; border:transparent solid 1px; border-left:lightblue dashed 1px; margin-left:5px; }
 div.json div.item div.item:hover { border:var(--box-border); }

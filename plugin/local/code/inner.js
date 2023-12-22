@@ -6,7 +6,8 @@ const PROFILE_ARGS = "profile:args:", DISPLAY_ARGS = "display:args:"
 const CURRENT_FILE = "web.code.inner:currentFile", SELECT_LINE = "selectLine"
 const VIEW_CREATE = "tabview.view.create", VIEW_REMOVE = "tabview.view.remove", LINE_SELECT = "tabview.line.select"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Split(can.Option(nfs.PATH), mdb.FS); can.Option(nfs.PATH, paths[0])
-		can.Mode(msg.Option("mode")||can.Mode()), can.Option(nfs.FILE) == lex.SP && can.Option(nfs.FILE, "")
+		can.core.List([nfs.PATH, nfs.FILE, nfs.LINE], function(key) { msg.Option(key) && can.Option(key, msg.Option(key)) })
+		can.Mode(msg.Option("mode")||can.Mode()), (msg.Option(nfs.FILE) == lex.SP || can.Option(nfs.FILE) == lex.SP) && can.Option(nfs.FILE, "")
 		if (can.Mode() == ice.MSG_RESULT) { msg.result = msg.result||[can._output.innerHTML], can.Mode(chat.SIMPLE), can.sup.Mode(chat.SIMPLE) }
 		can.core.List(paths.concat(can.core.Split(msg.Option(nfs.REPOS))), function(p) {
 			if (can.base.beginWith(p, nfs.USR_LOCAL_WORK) || can.base.endWith(p, "-dict/") || can.base.isIn(p, nfs.USR_LEARNING, nfs.USR_INTSHELL,

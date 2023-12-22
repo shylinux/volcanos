@@ -119,8 +119,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				value && (value = can.user.trans(sub, value, null, html.INPUT))
 				return can.page.SelectArgs(can, action, key, value)[0]
 			},
-			Option: function(key, value) { value && (value = can.user.trans(sub, value, null, html.INPUT))
-				return can.page.SelectArgs(can, option, key, value)[0] },
+			Option: function(key, value) { value && (value = can.user.trans(sub, value, null, html.INPUT)); return can.page.SelectArgs(can, option, key, value)[0] },
 			Update: function(event, cmds, cb, silent) { event = event||{}, sub.request(event, {_toast: event.isTrusted? ice.PROCESS: ""},
 				can.core.Value(sub, "sub.db._checkbox"))._caller(), sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input([], !silent), cb, silent); return true },
 			Focus: function() { can.page.SelectOne(can, option, html.INPUT_ARGS, function(target) { target.focus() }) },
@@ -187,7 +186,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				item.type == html.BUTTON && item.action == ice.AUTO && can.base.isUndefined(can._delay_init) && (auto = sub._target), next()
 				can.Conf(ice.AUTO) == item.name && (auto = sub._target)
 			})
-		}; var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() { skip || can.Conf(ice.AUTO) == "delay" || auto && auto.click() })
+		}; var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() {
+			skip || can.Conf(ice.AUTO) == "delay" || auto && auto.click()
+			meta._help && add({type: html.BUTTON, name: ice.HELP, onclick: function(event) { can.onappend._float(can, {index: web.WIKI_WORD}, [meta._help]) }}, function() {})
+		})
 	},
 	_action: function(can, list, action, meta, hold) { meta = meta||can.onaction||{}, action = action||can._action, hold || can.onmotion.clear(can, action)
 		function run(event, button) { can.misc.Event(event, can, function(msg) { var _can = can._fields? can.sup: can; can.requestAction(event, button)
@@ -278,9 +280,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			msg && item.name == nfs.SIZE && (item.value = can.base.Size(item.value||msg._xhr.responseText.length))
 			can.page.Append(can, status, [{view: html.ITEM, list: [
 				{text: [can.page.Color(can.user.trans(can, item.name, null, html.INPUT)), html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value == undefined? "": (item.value+"").trim())+"", html.SPAN, item.name]},
-			], onclick: function(event) {
-				can.user.copy(event, can, item.value)
-				if (item.name == ice.LOG_TRACEID) {
+			], onclick: function(event) { can.user.copy(event, can, item.value)
+				if (can.base.isIn(item.name, cli.COST, nfs.SIZE)) {
+					can.onappend._float(can, {title: "msg", index: ice.CAN_PLUGIN, display: "/plugin/story/json.js"}, [], function(sub) {
+						sub.run = function(event, cmds, cb) { var _msg = can.request(event); _msg.result = [JSON.stringify(msg)], cb(_msg) }
+					})
+				} else if (item.name == ice.LOG_TRACEID) {
 					can.onappend._float(can, web.CODE_XTERM, ["sh", item.value, "grep "+item.value+" var/log/bench.log | grep -v grep | grep -v '"+item.value+" $'"])
 				}
 			}}])
@@ -565,9 +570,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (meta.style == html.FLOAT || value.style == html.FLOAT) { can.onlayout._float(sub) }
 		}, target||can._output, field)
 	},
-	_float: function(can, index, args, cb) { can.onappend.plugin(can, {index: index, args: args, mode: chat.FLOAT}, function(sub) {
-		sub.onmotion.float(sub), sub.onaction.close = function() { can.page.Remove(can, sub._target) }, cb && cb(sub)
-	}, can._root._target) },
+	_float: function(can, index, args, cb) {
+		can.onappend.plugin(can, typeof index == code.OBJECT? (index.mode = chat.FLOAT, index.args = args, index): {index: index, args: args, mode: chat.FLOAT}, function(sub) {
+			sub.onmotion.float(sub), sub.onaction.close = function() { can.page.Remove(can, sub._target) }, cb && cb(sub)
+		}, can._root._target)
+	},
 	figure: function(can, meta, target, cb) { if (meta.type == html.SELECT || meta.type == html.BUTTON) { return }
 		var input = meta.action||(can.base.isIn(meta.name, mdb.ICON, mdb.ICONS)? meta.name: mdb.KEY), path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
 			function _cb(sub, value, old) { if (value == old) { return } target.value = value, can.base.isFunc(cb) && cb(sub, value, old) }

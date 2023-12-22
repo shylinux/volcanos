@@ -1,8 +1,5 @@
 Volcanos(chat.ONIMPORT, {
-	_process: function(can, msg) {
-		// msg.OptionStatus() && can.onmotion.clear(can, can._status) && can.onappend._status(can, msg.OptionStatus())
-		if (can.onimport[msg.OptionProcess()]) { return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, sub: can.sub, msg: msg, arg: msg.Option("_arg")}), true }
-	},
+	_process: function(can, msg) { if (can.onimport[msg.OptionProcess()]) { return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, sub: can.sub, msg: msg, arg: msg.Option("_arg")}), true } },
 	_location: function(can, msg, arg) { can.user.jumps(arg) },
 	_replace: function(can, msg, arg) { location.replace(arg) },
 	_history: function(can, msg) { history.length == 1? can.user.close(): history.back() },
@@ -81,12 +78,10 @@ Volcanos(chat.ONIMPORT, {
 	} can.Update(event) },
 })
 Volcanos(chat.ONACTION, {list: [
-		"刷新数据", "刷新界面", "切换浮动", "切换全屏",
-		"共享工具", "打开链接", "生成链接", // "生成脚本", // "生成图片", // "远程控制",
+		"刷新数据", "刷新界面", "切换浮动", "切换全屏", "共享工具", "打开链接", "生成链接",
 		["视图", "参数", "操作", "状态", "专注", "项目", "预览", "演示"],
 		["数据", "保存参数", "清空参数", "复制数据", "下载数据", "添加工具", "清空数据"],
-		["调试", "查看文档", "查看脚本", "查看源码", "查看配置", "删除工具"],
-		// ["调试", "打包页面", "查看文档", "查看脚本", "查看源码", "查看配置", "查看日志", "添加工具"],
+		["调试", "查看文档", "查看脚本", "查看源码", "查看配置", "查看数据", "查看日志", "删除工具"],
 	],
 	_engine: function(event, can, button) { can.Update(event, [ctx.ACTION, button].concat(can.Input())) },
 	_switch: function(can, sub, mode, save, load) {
@@ -148,10 +143,17 @@ Volcanos(chat.ONACTION, {list: [
 
 	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
 	"查看文档": function(event, can) { can.requests(event, {action: ice.HELP}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
-	"查看脚本": function(event, can) { can.requests(event, {action: nfs.SCRIPT}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
+	"查看脚本": function(event, can) { can.onappend._float(can, web.CODE_INNER, can.misc.SplitPath(can, can.sub._path)) },
 	"查看源码": function(event, can) { can.requests(event, {action: nfs.SOURCE}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
 	"查看配置": function(event, can) { can.requests(event, {action: ctx.CONFIG}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
-	"查看日志": function(event, can) { var sub = can.sub; sub.onimport.tool(sub, ["can.debug"], function(sub) { sub.select() }) },
+	"查看数据": function(event, can) { var msg = can._msg
+		can.onappend._float(can, {title: "msg", index: ice.CAN_PLUGIN, display: "/plugin/story/json.js"}, [], function(sub) {
+			sub.run = function(event, cmds, cb) { var _msg = can.request(event); _msg.result = [JSON.stringify(msg)], cb(_msg) }
+		})
+	},
+	"查看日志": function(event, can) { var logid = can.Status("log.id")
+		can.onappend._float(can, web.CODE_XTERM, ["sh", logid, "grep "+logid+" var/log/bench.log | grep -v grep | grep -v '"+logid+" $'"])
+	},
 	"删除工具": function(event, can) { can.onaction._close(event, can) },
 
 	refresh: function(event, can) { can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), true, can.Mode()) },
