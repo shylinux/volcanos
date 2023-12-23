@@ -83,7 +83,7 @@ Volcanos(chat.ONACTION, {list: [
 		["数据", "保存参数", "清空参数", "复制数据", "下载数据", "添加工具", "清空数据"],
 		["调试",
 			"查看文档", "查看脚本", "查看源码",
-			"查看视图", "查看数据", "查看通知",
+			"查看通知", "查看视图", "查看数据",
 			"会话存储", "本地存储",
 			"查看报文", "查看配置", "查看日志",
 			"删除工具",
@@ -147,22 +147,22 @@ Volcanos(chat.ONACTION, {list: [
 		})
 	},
 
-	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
 	"查看文档": function(event, can) { can.requests(event, {action: ice.HELP}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
-	"查看报文": function(event, can) { var msg = can._msg
-		can.onappend._float(can, {title: "msg", index: ice.CAN_PLUGIN, display: "/plugin/story/json.js"}, [], function(sub) {
-			sub.run = function(event, cmds, cb) { var _msg = can.request(event); _msg.result = [JSON.stringify(msg)], cb(_msg) }
-		})
-	},
+	"查看脚本": function(event, can) { can.onappend._float(can, web.CODE_INNER, can.misc.SplitPath(can, can.sub._path)) },
+	"查看源码": function(event, can) { can.requests(event, {action: nfs.SOURCE}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
 	"查看通知": function(event, can) { can.onappend._float(can, {index: "can.toast"}, [can.ConfIndex()]) },
-	"查看视图": function(event, can) { can.onappend._float(can, {index: "can.view", _target: can._target}) },
+	"查看视图": function(event, can) { can.onappend._float(can, {index: "can.view", _target: can._fields||can._target}) },
 	"查看数据": function(event, can) { can.onappend._float(can, {index: "can.data", _target: can}) },
 	"会话存储": function(event, can) { can.onappend._float(can, {index: "can.sessionStorage"}, [can.ConfIndex()]) },
 	"本地存储": function(event, can) { can.onappend._float(can, {index: "can.localStorage"}, [can.ConfIndex()]) },
-	"查看脚本": function(event, can) { can.onappend._float(can, web.CODE_INNER, can.misc.SplitPath(can, can.sub._path)) },
-	"查看源码": function(event, can) { can.requests(event, {action: nfs.SOURCE}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
+	"查看报文": function(event, can) { var msg = can._msg
+		can.onappend._float(can, {title: "msg(报文)", index: ice.CAN_PLUGIN, display: "/plugin/story/json.js"}, [], function(sub) {
+			sub.run = function(event, cmds, cb) { var _msg = can.request(event); _msg.result = [JSON.stringify(msg)], cb(_msg) }
+		})
+	},
 	"查看配置": function(event, can) { can.requests(event, {action: ctx.CONFIG}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
 	"查看日志": function(event, can) { var logid = can.Status("log.id"); can.onappend._float(can, web.CODE_XTERM, ["sh", logid, "grep "+logid+" var/log/bench.log | grep -v grep | grep -v '"+logid+" $'"]) },
+	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
 	"删除工具": function(event, can) { can.onaction._close(event, can) },
 
 	refresh: function(event, can) { can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), true, can.Mode()) },

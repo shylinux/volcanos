@@ -1,8 +1,8 @@
-div.json div.item { white-space:pre; }
-div.json div.item:hover { background-color:transparent; color:unset; }
-div.json div.item div.item { padding-left:15px; border:transparent solid 1px; border-left:lightblue dashed 1px; margin-left:5px; }
-div.json div.item div.item:hover { border:var(--box-border); }
-div.json div.item label.nonce { color:#9cbeca4f; }
-div.json div.item span.string { color:orange; }
-div.json label { user-select:none; }
-body:not(.windows) div.json { font-family:monospace; }
+div.output.json { font-family:var(--code-font-family); font-size:var(--code-font-size); white-space:pre; }
+div.output.json div.item { cursor:text; }
+div.output.json div.item:hover { background-color:transparent; color:unset; }
+div.output.json div.item div.item { border:transparent solid 1px; border-left:var(--disable-fg-color) dashed 1px; padding-left:15px; margin-left:5px; }
+div.output.json div.item div.item:hover { border:var(--box-border); }
+div.output.json div.item span.key { cursor:pointer; }
+div.output.json div.item span.string { color:var(--code-string); }
+div.output.json div.item label.nonce { color:var(--disable-fg-color); user-select:none; }

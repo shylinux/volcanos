@@ -286,6 +286,7 @@ var http = {
 	Accept: "Accept", ContentType: "Content-Type", ApplicationJSON: "application/json", ApplicationFORM: "application/x-www-form-urlencoded",
 }
 var html = {value: {
+	HEADER_HEIGHT: 48,
 	RIVER_WIDTH: 230, PROJECT_WIDTH: 230,
 	ACTION_HEIGHT: 32, STATUS_HEIGHT: 32,
 	PLUG_WIDTH: 800, PLUG_HEIGHT: 480, STORY_HEIGHT: 480, FLOAT_HEIGHT: 480, FLOAT_WIDTH: 1200, DESKTOP_WIDTH: 1200, DESKTOP_HEIGHT: 684,
@@ -328,6 +329,7 @@ var html = {value: {
 	CLASS: "class", DARK: "dark", LIGHT: "light", WHITE: "white", BLACK: "black",
 	FILTER: "filter", TOGGLE: "toggle", EXPAND: "expand", SPEED: "speed", HOVER: "hover", HOVER_SELECT: "hover,select",
 	NOT_HIDE: ":not(.hide)",
+	PICKER: "picker",
 
 	PAGE: "page", TABS: "tabs", MENU: "menu", NODE: "node", PLUG: "plug",
 	ZONE: "zone", LIST: "list", ITEM: "item", NAME: "name", ICON: "icon", VIEW: "view",
