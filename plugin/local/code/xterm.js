@@ -39,7 +39,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 				can.getHeaderTheme() == chat.BLACK? {background: "#061c3c9e", foreground:cli.WHITE, cursor: cli.WHITE}:
 					{background: "#d5cfcf3b", foreground: cli.BLACK, cursor: cli.BLUE}
 	) },
-	_connect: function(can, item, output, tabs, text) { var term = new Terminal({tabStopWidth: 4, cursorBlink: true, theme: can.onimport._theme(can, item)})
+	_connect: function(can, item, output, tabs, text) {
+		var term = new Terminal({
+			fontSize: html.CODE_FONT_SIZE, tabStopWidth: 4, cursorBlink: true, theme: can.onimport._theme(can, item),
+		})
 		term._item = item, term._output = output, output._term = term, output._tabs || (tabs? (output._tabs = tabs): can.onimport._tabs(can, item, output))
 		var fitAddon = new FitAddon.FitAddon(); term.loadAddon(fitAddon), term._fit = fitAddon, can.onmotion.delay(can, function() { fitAddon.fit() })
 		term.onTitleChange(function(title) { can.onexport.title(can, term, title) }), can.onexport.title(can, term, item.name)
@@ -85,7 +88,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 			}), can._output = term._output
 		}
 	},
-	grow: function(can, msg, hash, text) { var arg = msg.detail.slice(1); arg = [hash||arg[0], text||arg[1]]
+	grow: function(can, msg, hash, text) {
+		var arg = msg.detail.slice(1); arg = [hash||arg[0], text||arg[1]]
 		term = can.db[arg[0]]; arg[1] == "~~~end~~~"? can.onaction.delete(can, term._output): term.write(arg[1]); msg.Option(ice.LOG_DISABLE, ice.TRUE)
 	},
 	layout: function(can) { function show(target, height, width) { var list = can.page.SelectChild(can, target, can.page.Keys(html.DIV_OUTPUT, html.DIV_LAYOUT))

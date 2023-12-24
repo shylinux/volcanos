@@ -286,6 +286,7 @@ var http = {
 	Accept: "Accept", ContentType: "Content-Type", ApplicationJSON: "application/json", ApplicationFORM: "application/x-www-form-urlencoded",
 }
 var html = {value: {
+	CODE_FONT_SIZE: 14,
 	HEADER_HEIGHT: 48,
 	RIVER_WIDTH: 230, PROJECT_WIDTH: 230,
 	ACTION_HEIGHT: 32, STATUS_HEIGHT: 32,

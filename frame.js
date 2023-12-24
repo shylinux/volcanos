@@ -39,7 +39,12 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 	_engine: function(event, can, msg, panel, cmds, cb) { return false },
 	_plugin: function(event, can, msg, panel, cmds, cb) {
 		if (cmds[0] == ctx.ACTION && cmds[1] == ctx.RUN) { var p = can.onengine.plugin(can, cmds[2])
-			if (p) { return can.core.CallFunc(p, {can: p.can||panel, sub: msg._can, msg: msg, arg: cmds.slice(3), cmds: cmds.slice(3), cb: cb, meta: p.meta}), true }
+			if (p) {
+				if (cmds[3] == ctx.ACTION && typeof p.meta[cmds[4]] == code.FUNCTION) {
+					return can.core.CallFunc(p.meta[cmds[4]], {can: p.can||panel, sub: msg._can, msg: msg, arg: cmds.slice(5), cmds: cmds.slice(3), cb: cb, meta: p.meta}), true
+				}
+				return can.core.CallFunc(p, {can: p.can||panel, sub: msg._can, msg: msg, arg: cmds.slice(3), cmds: cmds.slice(3), cb: cb, meta: p.meta}), true
+			}
 		}
 		var p = can.onengine.plugin(can, cmds[0]), n = 1; if (!p) { return false }
 		var func = p, _can = p.can||panel, _sup = _can
@@ -191,13 +196,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			meta._help && add({type: html.BUTTON, name: ice.HELP, onclick: function(event) { can.onappend._float(can, {index: web.WIKI_WORD}, [meta._help]) }}, function() {})
 		})
 	},
-	_action: function(can, list, action, meta, hold) { meta = meta||can.onaction||{}, action = action||can._action, hold || can.onmotion.clear(can, action)
+	_action: function(can, list, action, meta, hold, limit) { meta = meta||can.onaction||{}, action = action||can._action, hold || can.onmotion.clear(can, action)
 		function run(event, button) { can.misc.Event(event, can, function(msg) { var _can = can._fields? can.sup: can; can.requestAction(event, button)
 			var cb = meta[button]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: button}):
 				can.run(event, button == mdb.LIST? []: [ctx.ACTION, button].concat(_can.Input()))
 		}) }
 		var list = can.page.inputs(can, can.base.getValid(can.base.Obj(list), can.core.Value(can, [chat.ONACTION, mdb.LIST]), meta != can.onaction? can.core.Item(meta): [])||[])
-		var limit = html.ACTION_BUTTON; if (list.length >= limit) { var rest = list.slice(limit-1); list = list.slice(0, limit-1), list.push({type: html.BUTTON, name: "more", onclick: function(event) {
+		limit = limit||html.ACTION_BUTTON; if (list.length >= limit) { var rest = list.slice(limit-1); list = list.slice(0, limit-1), list.push({type: html.BUTTON, name: "more", onclick: function(event) {
 			can.user.carte(event, can, {_trans: meta._trans||can._trans}, can.core.List(rest, function(item) { return item.name }), function(event, button) {
 				run(event, button)
 			})
@@ -283,7 +288,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			], onclick: function(event) {
 				if (item.name == mdb.COUNT) {
 					can.onappend._float(can, {index: ctx.CONFIG}, [can.ConfIndex()])
-				} else if (can.base.isIn(item.name, mdb.TIME, cli.COST)) {
+				} else if (can.base.isIn(item.name, mdb.TIME)) {
+					can.onappend._float(can, {index: "can.debug"}, ["log", can.ConfIndex()])
+				} else if (can.base.isIn(item.name, cli.COST)) {
 					can.onappend._float(can, {index: "can.toast"}, [can.ConfIndex()])
 				} else if (can.base.isIn(item.name, nfs.SIZE)) {
 					can.onappend._float(can, {title: "msg(报文)", index: ice.CAN_PLUGIN, display: "/plugin/story/json.js"}, [], function(sub) {
