@@ -164,36 +164,33 @@ Volcanos(chat.ONPLUGIN, {
 			boot: can.db._boot,
 		})).Display("/plugin/story/json.js")
 	}),
-	dir: shy("网页目录", [nfs.PATH, ice.LIST, ice.BACK], async function(can, msg, arg, cb) {
-		async function list(key, root) {
-			msg._can._handle[key] = root
-			for await (const [name, handle] of root) {
-				if (can.base.beginWith(name, nfs.PT)) { continue }
-				if (handle.kind === 'file') {
-					msg.Push(nfs.PATH, key+name)
+	dir: shy("网页目录", [nfs.PATH, ice.LIST, ice.BACK], async function(can, msg, arg, cb) { var can = msg._can._fields? msg._can.sup: msg._can
+		async function list(key, root) { can._handle[key] = root
+			for await (const [name, handle] of root) { if (can.base.beginWith(name, nfs.PT)) { continue }
+				if (handle.kind == nfs.FILE) { var _file = await handle.getFile()
+					msg.Push(mdb.TIME, can.base.Time(new Date(_file.lastModified))), msg.Push(nfs.PATH, key+name), msg.Push(nfs.SIZE, can.base.Size(_file.size))
 				} else {
-					msg.Push(nfs.PATH, key+name+nfs.PS)
+					msg.Push(mdb.TIME, can.base.Time()), msg.Push(nfs.PATH, key+name+nfs.PS), msg.Push(nfs.SIZE, 0)
 				}
-			}
-		}
-		msg._can._handle = msg._can._handle||{}
-		var raw = arg[0]||""
-		arg[0] = can.base.trimSuffix(raw, nfs.PS)
-		var key = arg[0].indexOf(nfs.PS) > -1? arg[0].slice(0, arg[0].lastIndexOf(nfs.PS)): ""
-		var handle = msg._can._handle[key]
-
-		if (raw == "") { if (!msg._event.isTrusted) { return }
-			await list("", handle || await window.showDirectoryPicker())
-			cb(msg)
+			} can.onmotion.delay(can, function() { can.page.Select(can, can._output, "tr>th")[1].click(), can.page.Select(can, msg._can._output, "tr>th")[1].click() }, 50)
+		} can._handle = can._handle||{}; if (arg[0] == ctx.ACTION && arg[1] == ice.LIST) { arg = [] }
+		if (arg.length == 0) { if (!msg._event.isTrusted) { return msg.Echo(can.page.Format(html.INPUT, "", mdb.TYPE, html.BUTTON, mdb.NAME, ice.LIST, mdb.VALUE, "list")), cb(msg) }
+			await list("", can._handle[""] || await window.showDirectoryPicker()), cb(msg)
 		} else {
-			if (can.base.endWith(raw, nfs.PS)) {
-				await list(key, await handle.getDirectoryHandle(arg[0]))
-				cb(msg)
+			if (can.base.endWith(arg[0], nfs.PS)) { var path = can.base.trimSuffix(arg[0], nfs.PS)
+				if (path.indexOf(nfs.PS) == -1) {
+					var file = path, path = ""
+				} else {
+					var file = path.slice(path.lastIndexOf(nfs.PS)+1), path = path.slice(0, path.lastIndexOf(nfs.PS)+1)
+				} var handle = can._handle[path]
+				await list(arg[0], await handle.getDirectoryHandle(file)), cb(msg)
 			} else {
-				const file = await handle.getFileHandle(arg[0])
-				const reader = new FileReader()
-				reader.onload = () => { msg.Echo(reader.result), cb(msg) }
-				reader.readAsText(await file.getFile())
+				if (arg[0].indexOf(nfs.PS) == -1) {
+					var file = arg[0], path = ""
+				} else { var path = can.base.trimSuffix(arg[0], nfs.PS)
+					var file = path.slice(path.lastIndexOf(nfs.PS)+1), path = path.slice(0, path.lastIndexOf(nfs.PS)+1)
+				} var handle = can._handle[path], _file = await handle.getFileHandle(file)
+				var reader = new FileReader(); reader.onload = () => { msg.Echo(reader.result), cb(msg) }, reader.readAsText(await _file.getFile())
 			}
 		}
 	}),
