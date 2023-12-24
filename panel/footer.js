@@ -65,7 +65,8 @@ Volcanos(chat.ONEXPORT, {list: [NTIP, NLOG, NCMD, NKEY, html.WIDTH, html.HEIGHT,
 	nkey: function(can) { can.onexport._float(can, NKEY, "can.localStorage") },
 	version: function(can) { can.onexport._float(can, NKEY, "can.runtime") },
 	_float: function(can, name, index, args, cb) { can.ui[name]? can.ui[name].onaction.close(): can.onappend._float(can, index, args||[], function(sub) { can.ui[name] = sub
-		can.page.style(can, sub._target, {left: html.RIVER_WIDTH, top: "", right: 0, bottom: html.ACTION_HEIGHT}), can.base.isFunc(cb) && cb(sub)
+		// can.page.style(can, sub._target, {left: html.RIVER_WIDTH, top: "", right: 0, bottom: html.ACTION_HEIGHT}), can.base.isFunc(cb) && cb(sub)
+		can.page.style(can, sub._target, {top: "", right: 0, bottom: html.ACTION_HEIGHT}), can.base.isFunc(cb) && cb(sub)
 		can.onmotion.delay(can, function() { sub.onaction.close = function() { can.page.Remove(can, sub._target), delete(can.ui[name]) } })
 	}) },
 })
