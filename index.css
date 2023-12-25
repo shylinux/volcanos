@@ -591,6 +591,7 @@ fieldset.input.icon div.output td { font-size:28px; padding:var(--input-padding)
 fieldset.web.code.git>div.output>fieldset.web.code.inner>div.output { overflow:auto; }
 fieldset.web.code.git.status>div.output table.content { width:100%; }
 fieldset.web.code.git.total.draw div.output { text-align:center; }
+fieldset.web.code.git.trend>div.output rect { cursor:pointer; }
 fieldset.web.wiki.draw div.output svg { min-width:100%; min-height:100%; }
 fieldset.web.chat.location>div.output>div.layout>div.layout { position:relative; }
 fieldset.web.chat.location>div.output .amap-toolbar { z-index:unset; }

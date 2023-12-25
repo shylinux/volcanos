@@ -694,8 +694,8 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		_hash: {
 			spark: function(can, meta, target) {
 				meta[mdb.NAME] == html.INNER? can.onmotion.copy(can, target): can.page.Select(can, target, "kbd", function(item) { can.onmotion.copy(can, item, function(event) {
-					if (can.base.beginWith(item.innerText, "open http")) { return can.user.open(can.core.Split(item.innerText)[1]) }
 					if (event.metaKey) {
+						if (can.base.beginWith(item.innerText, "open http")) { return can.user.open(can.core.Split(item.innerText)[1]) }
 						if (item.innerText.indexOf(web.HTTP) == 0) { return can.user.open(item.innerText) }
 						if (item.innerText.indexOf("vim ") == 0) {
 							can.onappend._float(can, web.CODE_VIMER, can.misc.SplitPath(can, item.innerText.split(" ")[1]))
