@@ -176,7 +176,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}, [item.display, chat.PLUGIN_INPUT_JS], function(sub) { sub.Conf(item)
 				sub._fields = can
 				if (item.type == html.TEXT) { can.page.Append(can, sub._target.parentNode, [{text: [sub._target.value, html.SPAN, mdb.VALUE]}]) }
-				if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT, mdb.PRUNES, mdb.PRUNE)) {
+				if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT, mdb.PRUNES, mdb.PRUNE, ice.HELP)) {
 					can.onappend.icons(can, sub._target, item.name, function(event) {
 						can.Update(event, [ctx.ACTION, item.name].concat(can.page.SelectArgs(sub)))
 					})
@@ -194,7 +194,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			})
 		}; var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() {
 			skip || can.Conf(ice.AUTO) == "delay" || auto && auto.click()
-			meta._help && add({type: html.BUTTON, name: ice.HELP, onclick: function(event) { can.onappend._float(can, {index: web.WIKI_WORD}, [meta._help]) }}, function() {})
+			can.core.Item(can.Option()).length == 0 && meta._help && add({type: html.BUTTON, name: ice.HELP, onclick: function(event) { can.onappend._float(can, {index: web.WIKI_WORD}, [meta._help]) }}, function() {})
 		})
 	},
 	_action: function(can, list, action, meta, hold, limit) { meta = meta||can.onaction||{}, action = action||can._action, hold || can.onmotion.clear(can, action)

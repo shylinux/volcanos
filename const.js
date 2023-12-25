@@ -353,6 +353,7 @@ var html = {value: {
 var icon = {
 	CHEVRON_DOWN: "bi bi-chevron-down", SEARCH: "bi bi-search", TERMINAL: "bi bi-terminal",
 	SUN: "bi bi-sun", MOON: "bi bi-moon-stars",
+	help: "bi bi-question-square",
 }
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",

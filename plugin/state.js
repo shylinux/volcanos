@@ -77,14 +77,23 @@ Volcanos(chat.ONIMPORT, {
 		can.page.SelectArgs(can, can._action, "", function(target) { target.value = his[i++]||"" }); break
 	} can.Update(event) },
 })
-Volcanos(chat.ONACTION, {list: [
-		"刷新数据", "刷新界面", "切换浮动", "切换全屏", "共享工具", "打开链接", "生成链接",
-		["视图", "参数", "操作", "状态", "专注", "项目", "预览", "演示"],
-		["数据", "保存参数", "清空参数", "复制数据", "下载数据", "添加工具", "清空数据"],
+Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", "切换全屏", "共享工具", "生成链接",
+		function(can) { if (!can.isCmdMode()) { return "打开链接" } }, function(can) { if (can.isCmdMode()) { return "打开首页" } },
+		function(can) { if (can.ConfSpace() || can.isCmdMode() && can.misc.Search(can, ice.POD)) { return "打开空间" } },
+		["视图", "参数",
+			function(can) { if (can._action.innerHTML) { return "操作" } },
+			function(can) { if (can._status.innerHTML) { return "状态" } },
+			function(can) { if (can.sub.ui.project) { return "专注" } },
+			function(can) { if (can.sub.ui.project) { return "项目" } },
+			function(can) { if (can.sub.ui.profile) { return "预览" } },
+			function(can) { if (can.sub.ui.display) { return "演示" } },
+			"插件",
+		],
+		// ["数据", "保存参数", "清空参数", "复制数据", "下载数据", "清空数据"],
 		["调试",
-			"查看文档", "查看脚本", "查看源码",
-			"查看通知", "查看视图", "查看数据",
-			"会话存储", "本地存储",
+			function(can) { if (can.Conf("_help")) { return "查看文档" } },
+			"查看脚本", "查看源码",
+			"查看通知", "查看视图", "查看数据", "会话存储", "本地存储",
 			"查看报文", "查看配置", "查看日志",
 			"删除工具",
 		],
@@ -133,6 +142,11 @@ Volcanos(chat.ONACTION, {list: [
 	"项目": function(event, can) { can.onaction._view(can, function(sub) { sub.ui && sub.ui.project && can.onmotion.toggle(can, sub.ui.project) }) },
 	"预览": function(event, can) { can.onaction._view(can, function(sub) { sub.ui && sub.ui.project && can.onmotion.toggle(can, sub.ui.profile) }) },
 	"演示": function(event, can) { can.onaction._view(can, function(sub) { sub.ui && sub.ui.project && can.onmotion.toggle(can, sub.ui.display) }) },
+	"插件": function(event, can) {
+		can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) {
+			var sub = can.sub; sub.onimport.tool(sub, [data], function(sub) { sub.select() })
+		})
+	},
 
 	"保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
 	"清空参数": function(event, can) { can.page.SelectArgs(can, can._option, "", function(target) { return target.value = "" }) },
@@ -141,11 +155,9 @@ Volcanos(chat.ONACTION, {list: [
 		can.user.downloads(can, sub.onexport.table(sub), list[0], nfs.CSV), can.user.downloads(can, sub.onexport.board(sub), list[0], nfs.TXT)
 	}) },
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
-	"添加工具": function(event, can) {
-		can.user.input(event, can, [ctx.INDEX, ctx.ARGS], function(data) {
-			var sub = can.sub; sub.onimport.tool(sub, [data], function(sub) { sub.select() })
-		})
-	},
+
+	"打开首页": function(event, can) { can.user.open(location.origin) },
+	"打开空间": function(event, can) { can.user.open(can.misc.MergePodCmd(can, {pod: can.ConfSpace()||can.misc.Search(can, ice.POD)})) },
 
 	"查看文档": function(event, can) { can.requests(event, {action: ice.HELP}), can.onengine.signal(can, "ondebugs", can.requestPodCmd(event)) },
 	"查看脚本": function(event, can) { can.onappend._float(can, web.CODE_INNER, can.misc.SplitPath(can, can.sub._path)) },
@@ -179,6 +191,9 @@ Volcanos(chat.ONACTION, {list: [
 	}, _close: function(event, can) { can.page.Remove(can, can._target) },
 	clear: function(event, can) { can.onmotion.clear(can, can._output) },
 	actions: function(event, can) { can.onmotion.toggle(can, can._action) },
+	help: function(event, can) {
+		can.onappend._float(can, {index: web.WIKI_WORD}, [can.Conf("_help")]) 
+	},
 	full: function(event, can) { can.onaction["切换全屏"](event, can, "切换全屏", can.sub) },
 	prev: function(event, can) { can.runAction(event, mdb.PREV, [can.Status(mdb.TOTAL)||0, can.Option(mdb.LIMIT)||can.Action(mdb.LIMIT)||can._msg.Option("cache.limit")||"", can.Option(mdb.OFFEND)||can.Action(mdb.OFFEND)||""], function(msg) { can.onimport._process(can, msg) }) },
 	next: function(event, can) { can.runAction(event, mdb.NEXT, [can.Status(mdb.TOTAL)||0, can.Option(mdb.LIMIT)||can.Action(mdb.LIMIT)||can._msg.Option("cache.limit")||"", can.Option(mdb.OFFEND)||can.Action(mdb.OFFEND)||""], function(msg) { can.onimport._process(can, msg) }) },
