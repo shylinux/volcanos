@@ -176,10 +176,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}, [item.display, chat.PLUGIN_INPUT_JS], function(sub) { sub.Conf(item)
 				sub._fields = can
 				if (item.type == html.TEXT) { can.page.Append(can, sub._target.parentNode, [{text: [sub._target.value, html.SPAN, mdb.VALUE]}]) }
-				if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT, mdb.PRUNES, mdb.PRUNE, ice.HELP)) {
-					can.onappend.icons(can, sub._target, item.name, function(event) {
-						can.Update(event, [ctx.ACTION, item.name].concat(can.page.SelectArgs(sub)))
-					})
+				if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) {
+					can.onappend.icons(can, sub._target, item.name, function(event) { can.Update(event, [ctx.ACTION, item.name].concat(can.page.SelectArgs(sub))) })
 				} item.type == html.BUTTON && can.onappend.icons(can, sub._target, can.Conf(["_icons", item.name]), function(event) {
 					can.Update(event, [ctx.ACTION, item.name].concat(can.page.SelectArgs(sub)))
 				})
@@ -217,9 +215,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}) }}: /* 4.其它 */(item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans), item.onclick = item.onclick||function(event) {
 					run(event, item.name||item.value)
 				}, item._init = item._init||function(target) { item.action && can.onappend.figure(sub, item, target, function(_sub, value) { can.Update() })
-					if (item.type == html.BUTTON && can.base.isIn(item.name, mdb.CREATE, mdb.INSERT, mdb.PRUNES, cli.START, web.REFRESH)) {
-						can.onappend.icons(can, target, item.name)
-					} item.type == html.BUTTON && can.onappend.icons(can, target, can.Conf(["_icons", item.name]), item.name)
+					if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) { can.onappend.icons(can, target, item.name) }
 				}), item), "", action)
 		}), meta
 	},
@@ -351,8 +347,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			item.style && can.onappend.style(can, item.style, target)
 		}}])[item.name]; return _input
 	},
-	icons: function(can, target, icon, cb) { if (!icon) { return } can.onappend.style(can, "icons", target.parentNode)
-		can.page.Append(can, target.parentNode, [{icon: icon, title: can.user.trans(can, icon), onclick: can.base.isFunc(cb)? cb: function(event) { can.Update(event, [ctx.ACTION, cb||icon]) }}])
+	icons: function(can, target, name, cb) {
+		var _icon = can.Conf("feature._icons."+name) || icon[name] || name
+		if (!_icon) { return } can.onappend.style(can, "icons", target.parentNode)
+		can.page.Append(can, target.parentNode, [{icon: _icon, title: can.user.trans(can, name), onclick: can.base.isFunc(cb)? cb: target.onclick||function(event) { can.Update(event, [ctx.ACTION, cb||name]) }}])
 	},
 	mores: function(can, target, value, limit) {
 		var list = can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
@@ -436,6 +434,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				})
 			}, title: can.user.trans(can, can.Option(key) == undefined? key: "click to detail", null, html.INPUT), _init: function(target) {
 				key == ctx.ACTION && can.onappend.mores(can, target, data, msg.IsDetail()? 10: html.TABLE_BUTTON)
+				var list = can.page.Select(can, target, html.INPUT, function(target) {
+					var _icon = can.Conf("feature._icons."+target.name)||icon[target.name]; if (_icon) { return target }
+				})
+				can.core.List(list, function(target) { can.onappend.style(can, "icons", target)
+					var _icon = can.Conf("feature._icons."+target.name)||icon[target.name]
+					can.page.insertBefore(can, [{icon: _icon, title: can.user.trans(can, target.name), onclick: target.onclick||function(event) {
+						can.Update(can.request(event, data), [ctx.ACTION, target.name])
+					}}], target.nextSibling, target.parentNode)
+				})
 				can.page.SelectOne(can, target, html.SPAN, function(span) { can.core.List(span.style, function(key) { target.style[key] = span.style[key] }) })
 				can.page.style(can, target, "cursor", can.base.isIn(key, mdb.KEY, mdb.TIME)? "default": can.Option(key) != undefined? "pointer": "text")
 			}}
@@ -697,7 +704,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 						if (can.base.beginWith(item.innerText, "open http")) { return can.user.open(can.core.Split(item.innerText)[1]) }
 						if (item.innerText.indexOf(web.HTTP) == 0) { return can.user.open(item.innerText) }
 						if (item.innerText.indexOf("vim ") == 0) {
-							can.onappend._float(can, web.CODE_VIMER, can.misc.SplitPath(can, item.innerText.split(" ")[1]))
+							can.onappend._float(can, web.CODE_VIMER, can.misc.SplitPath(can, item.innerText.split(lex.SP)[1]))
 						} else {
 							meta.name == "shell" && can.onappend._float(can, web.CODE_XTERM, ["sh"])
 						}

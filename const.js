@@ -353,7 +353,32 @@ var html = {value: {
 var icon = {
 	CHEVRON_DOWN: "bi bi-chevron-down", SEARCH: "bi bi-search", TERMINAL: "bi bi-terminal",
 	SUN: "bi bi-sun", MOON: "bi bi-moon-stars",
-	help: "bi bi-question-square",
+
+	help: "bi bi-question-square", doc: "bi bi-question-square",
+	admin: "bi bi-window-sidebar", login: "bi bi-person-check",
+
+	vimer: "bi bi-keyboard", build: "bi bi-tools", repos: "bi bi-git",
+	xterm: "bi bi-terminal", cmds: "bi bi-terminal", cmd: "bi bi-terminal",
+	cat: "bi bi-file-earmark-code",
+
+	record1: "bi bi-images", record2: "bi bi-record-circle",
+	spide: "bi bi-diagram-3", travel: "bi bi-list-ol",
+	upload: "bi bi-cloud-upload", download: "bi bi-cloud-download",
+	push: "bi bi-cloud-upload", pull: "bi bi-cloud-download",
+	autogen: "bi bi-tools", preview: "bi bi-window-stack", show: "bi bi-window-stack",
+	start: "bi bi-play-circle", stop: "bi bi-stop-circle",
+	startall: "bi bi-play-circle", stopall: "bi bi-stop-circle",
+	play: "bi bi-play-circle",
+	conf: "bi bi-gear", configs: "bi bi-gear",
+	inspect: "bi bi-window-stack",
+	logs: "bi bi-calendar4-week",
+	tag: "bi bi-tags",
+
+	open: "bi bi-box-arrow-up-right",
+	main: "bi bi-box-arrow-up-right",
+	portal: "bi bi-box-arrow-up-right",
+	trash: "bi bi-trash", remove: "bi bi-trash",
+	more: "bi bi-three-dots-vertical", actions: "bi bi-three-dots",
 }
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",
