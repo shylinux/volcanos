@@ -203,11 +203,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.run(event, button == mdb.LIST? []: [ctx.ACTION, button].concat(_can.Input()))
 		}) }
 		var list = can.page.inputs(can, can.base.getValid(can.base.Obj(list), can.core.Value(can, [chat.ONACTION, mdb.LIST]), meta != can.onaction? can.core.Item(meta): [])||[])
-		limit = limit||html.ACTION_BUTTON; if (list.length >= limit) { var rest = list.slice(limit-1); list = list.slice(0, limit-1), list.push({type: html.BUTTON, name: "more", onclick: function(event) {
-			can.user.carte(event, can, {_trans: meta._trans||can._trans}, can.core.List(rest, function(item) { return item.name }), function(event, button) {
-				run(event, button)
-			})
-		}}) }
+		limit = limit||html.ACTION_BUTTON; if (list.length > limit) {
+			var rest = list.slice(limit-1); list = list.slice(0, limit-1), list.push({type: html.BUTTON, name: "more", onclick: function(event) {
+				can.user.carte(event, can, {_trans: meta._trans||can._trans}, can.core.List(rest, function(item) { return item.name }), function(event, button) { run(event, button) })
+			}}) }
 		return can.core.List(list, function(item) {
 			can.base.isUndefined(item) || can.onappend.input(can, item == ""? /* 1.空白 */ {type: html.BR}:
 				can.base.isString(item)? /* 2.按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {

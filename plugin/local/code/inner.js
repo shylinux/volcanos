@@ -541,7 +541,9 @@ Volcanos(chat.ONACTION, {
 		}, true) }}, ctx.ARGS], function(list) { show(list[0], list[1]) })
 	},
 	open: function(event, can, button) {
-		var input = can.user.input(can.request(event, {type: button}), can, [{name: nfs.FILE, style: {width: (can._output.offsetWidth-can.ui.project.offsetWidth)/2}, select: function(item) { input.submit(event, can, web.SUBMIT) }, run: function(event, cmds, cb) {
+		var left = can.ui.project.offsetWidth+(can._output.offsetWidth)/4-34, width = (can._output.offsetWidth-can.ui.project.offsetWidth)/2
+		if (can.user.isMobile) { left = 0, width = can.page.width()-40 }
+		var input = can.user.input(can.request(event, {type: button}), can, [{name: nfs.FILE, style: {width: width}, select: function(item) { input.submit(event, can, web.SUBMIT) }, run: function(event, cmds, cb) {
 			can.run(can.request(event, {paths: can.db.paths.join(mdb.FS)}), cmds, function(msg) { function push(type, name) { _msg.Push(nfs.PATH, can.core.List(arguments).join(nfs.DF)) }
 				if (cmds[0] == ctx.ACTION && cmds[1] == mdb.INPUTS) { var _msg = can.onengine.signal(can, "tabview.open.inputs"), func = can.onexport.func(can)
 					can.core.Item(can.db.tabview, function(key) { var ls = can.core.Split(key, nfs.DF); push(ls[0]+ls[1]) }), _msg.Copy(msg)
@@ -558,7 +560,7 @@ Volcanos(chat.ONACTION, {
 			case cli.OPENS: return can.runAction(event, ls[0], ls[1], null, true)
 			default: var ls = can.onexport.split(can, list[0]); can.onimport.tabview(can, ls[0], ls[1])
 		} }); can.page.Modify(can, input._target, {className: "input vimer open float"})
-		can.page.style(can, input._target, html.LEFT, can.ui.project.offsetWidth+(can._output.offsetWidth)/4-34, html.TOP, can._output.offsetHeight/4, html.RIGHT, "")
+		can.page.style(can, input._target, html.LEFT, left, html.TOP, can._output.offsetHeight/4, html.RIGHT, "")
 	},
 	find: function(event, can) { var last = can.onexport.line(can, can.current.line)
 		var ui = can.page.Append(can, can._output, [{view: "input vimer find float", list: [html.ACTION, html.OUTPUT],

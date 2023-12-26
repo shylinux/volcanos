@@ -44,11 +44,13 @@ fieldset.inner.cmd>div.output>div.layout>div.path>span { padding:var(--input-pad
 fieldset.inner.cmd>div.output>div.layout>div.path>span:hover { background-color:var(--hover-bg-color); }
 fieldset.inner.cmd>div.output>div.layout>div.path span.func { padding:var(--input-padding); margin-left:80px; }
 fieldset.inner.cmd>div.output>div.layout>div.path span.mode { padding:var(--input-padding); margin-left:80px; }
+body.mobile fieldset.inner.cmd>div.output>div.layout>div.path span.func { display:none; }
+body.mobile fieldset.inner.cmd>div.output>div.layout>div.path span.mode { display:none; }
 fieldset.inner.cmd>div.output>div.layout>div.path span.space { flex-grow:1; }
 fieldset.inner.cmd>div.output>div.layout>div.path span.view { font-size:22px; padding:0 var(--input-padding); margin-top:-5px; float:right; }
-fieldset.inner.cmd>div.output>div.layout>fieldset.plug { bottom:var(--action-height); }
+body:not(.mobile) fieldset.inner.cmd>div.output>div.layout>fieldset.plug { bottom:var(--action-height); }
 fieldset.inner.cmd>div.output>div.layout>fieldset.plug.output { white-space:pre; }
-fieldset.inner.cmd>div.output>div.layout>div.plug { height:var(--action-height); position:fixed; right:0; bottom:0; }
+fieldset.inner.cmd>div.output>div.layout>div.plug { height:var(--action-height); position:fixed; right:0; bottom:0; overflow:auto; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend { font-size:var(--legend-font-size); font-style:italic; float:right; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend { padding:0 var(--input-padding); }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove { padding:var(--input-padding); }
