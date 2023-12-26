@@ -160,8 +160,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				back: {name: "goback", cb: function(event) { can.onimport.back(event, can) }},
 				prev: {name: mdb.PREV, cb: function(event) { var sub = can.sub; sub.onaction && sub.onaction.prev? sub.onaction.prev(event, sub): can.onaction.prev(event, can) }},
 				next: {name: mdb.NEXT, cb: function(event) { var sub = can.sub; sub.onaction && sub.onaction.next? sub.onaction.next(event, sub): can.onaction.next(event, can) }},
-				play: {name: web.PLAY},
-				favor: {name: "favor"},
+				// play: {name: web.PLAY},
+				// favor: {name: "favor"},
 			}[item.name||""]; if (!icon) { return } item.style = "icons"
 			can.page.Append(can, option, [{view: [[html.ITEM, html.ICON, icon.name, item.name], html.DIV, can.page.unicode[icon.name]], title: can.user.trans(can, item.name), onclick: icon.cb||function(event) {
 				var msg = can.request(event), cmds = [ctx.ACTION, item.name]; msg.RunAction(event, can.sub, cmds) || msg.RunAction(event, can, cmds) || can.Update(event, cmds)
@@ -178,9 +178,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (item.type == html.TEXT) { can.page.Append(can, sub._target.parentNode, [{text: [sub._target.value, html.SPAN, mdb.VALUE]}]) }
 				if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) {
 					can.onappend.icons(can, sub._target, item.name, function(event) { can.Update(event, [ctx.ACTION, item.name].concat(can.page.SelectArgs(sub))) })
-				} item.type == html.BUTTON && can.onappend.icons(can, sub._target, can.Conf(["_icons", item.name]), function(event) {
-					can.Update(event, [ctx.ACTION, item.name].concat(can.page.SelectArgs(sub)))
-				})
+				}
+				// item.type == html.BUTTON && can.onappend.icons(can, sub._target, can.Conf(["_icons", item.name]), function(event) {
+				// 	can.Update(event, [ctx.ACTION, item.name].concat(can.page.SelectArgs(sub)))
+				// })
 				sub.run = function(event, cmds, cb, silent) { var msg = can.requestAction(event, item.name)._caller()
 					msg.RunAction(event, sub, cmds) || msg.RunAction(event, can.sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
 				}, can._inputs = can._inputs||{}, can._inputs[item.name] = sub, sub.sup = can

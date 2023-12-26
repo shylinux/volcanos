@@ -87,7 +87,7 @@ Volcanos(chat.ONPLUGIN, {
 		]}].concat(can.core.List(can.misc._list, function(list) { stat[list[2]] = ((stat[list[2]]||0)+1); return (!arg || !arg[0] || arg[0] == "log" || arg[0] == list[2]) && {type: html.TR, list: [
 			{type: html.TD, list: can.core.List(list, function(item, index) { var vimer
 				if (index == 1) { var _ls = new RegExp("(https*://[^/]+)*/*([^:]+):([0-9]+):([0-9]+)").exec(list[1])||[]; _ls[2] = (_ls[2]||"").split(ice.QS)[0]||""
-					return {view: [html.ITEM, html.SPAN], list: [{text: lex.SP+can.page.unicode.close+lex.SP}, {text: [(_ls[1] == location.origin? "": _ls[1]||"")+_ls[2]+nfs.DF+_ls[3], "", nfs.PATH], onclick: function(event) {
+					return {view: [html.ITEM, html.SPAN], list: [{text: lex.SP+can.page.unicode.closes+lex.SP}, {text: [(_ls[1] == location.origin? "": _ls[1]||"")+_ls[2]+nfs.DF+_ls[3], "", nfs.PATH], onclick: function(event) {
 						if (can.onexport.record(can, list[1], web.LINK, {time: list[0], link: list[1], type: list[2], path: nfs.USR_VOLCANOS, file: _ls[2], line: _ls[3]})) { return }
 						if (vimer) { return can.page.Remove(can, vimer._target), vimer = null }
 						vimer = can.onappend.plugin(_can, {index: web.CODE_INNER, args: [nfs.USR_VOLCANOS, _ls[2], _ls[3]]}, function(sub) {}, event.target.parentNode)
@@ -95,10 +95,10 @@ Volcanos(chat.ONPLUGIN, {
 				} if (!can.base.isObject(item)) { return item && {text: (index > 0? lex.SP: "")+item} }
 				return {view: [mdb.DATA, html.SPAN], _init: function(target) {
 					if (item.tagName) { var detail; var ui = can.page.Append(can, target, [{text: lex.SP},
-						{text: can.page.unicode.close+lex.SP, _init: function(target) { can.onmotion.delay(can, function() { ui.toggle = target }) }},
+						{text: can.page.unicode.closes+lex.SP, _init: function(target) { can.onmotion.delay(can, function() { ui.toggle = target }) }},
 						{view: [[html.ITEM, nfs.TARGET], html.SPAN, can.page.tagClass(item)], onclick: function() {
-							if (detail) { return can.page.Remove(can, detail), detail = null, can.page.Modify(can, ui.toggle, can.page.unicode.close+lex.SP) }
-							detail = can.page.AppendData(can, target, "", "", item)._target, detail.click(), can.page.Modify(can, ui.toggle, can.page.unicode.open+lex.SP)
+							if (detail) { return can.page.Remove(can, detail), detail = null, can.page.Modify(can, ui.toggle, can.page.unicode.closes+lex.SP) }
+							detail = can.page.AppendData(can, target, "", "", item)._target, detail.click(), can.page.Modify(can, ui.toggle, can.page.unicode.opens+lex.SP)
 						}},
 					]) } else { can.page.Append(can, target, [{text: lex.SP}]), can.page.AppendData(can, target, "", "", item) }
 				}}

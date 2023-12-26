@@ -170,6 +170,8 @@ body>div.toast div.progress { border:var(--box-notice); margin-left:0px; height:
 body>div.toast div.progress div.current { background-color:var(--progress-bg-color); height:18px; }
 body>div.toast div.action:not(.hide) { width:100%; display:block; display:flex; flex-direction:row-reverse; gap:10px; }
 body>div.toast div.action>div.item { float:right; }
+body>div.toast div.action>div.item i { display:none; }
+body>div.toast div.action>div.item span { display:none; }
 body>div.toast div.action>div.item input { padding:0 20px; }
 body>div.toast div.action>div.item.danger input { border:var(--danger-bg-color) solid 1px; }
 body>div.toast div.action>div.item.notice input { border:var(--notice-bg-color) solid 1px; }
@@ -245,7 +247,7 @@ fieldset>div.action>div.cmds { font-style:italic; padding:var(--input-padding) v
 fieldset>div.output>div.code { font-size:var(--code-font-size); }
 fieldset>div.status { font-family:var(--status-font-family); font-size:var(--status-font-size); font-style:italic; line-height:20px; max-height:var(--action-height); }
 fieldset>div.status>div.item { padding:var(--input-padding); height:31px; }
-fieldset>div.status>div.item>label { font-size:var(--status-font-size); }
+fieldset>div.status>div.item>label { font-size:var(--status-font-size); cursor:pointer; }
 fieldset>div.status>div.item>span { margin-left:var(--input-padding); }
 fieldset>div.status>legend { font-style:italic; height:31px; }
 body.mobile.landscape>div.input.login { padding:0; }
