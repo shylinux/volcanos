@@ -106,8 +106,8 @@ table.content td { padding:var(--table-padding); }
 table.content td input.icons { display:none; }
 table.content td i:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
 table.content td i { padding:var(--input-padding); }
-body:not(.mobile) fieldset.plugin:not(.float):not(.full):not(.cmd) table.content td input.icons { display:unset; }
-body:not(.mobile) fieldset.plugin:not(.float):not(.full):not(.cmd) table.content td i { display:none; }
+body:not(.mobile) fieldset.plugin:not(.plug):not(.float):not(.full):not(.cmd)>div.output>table.content td input.icons { display:unset; }
+body:not(.mobile) fieldset.plugin:not(.plug):not(.float):not(.full):not(.cmd)>div.output>table.content td i { display:none; }
 table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; z-index:1; }
 table.content.checkbox td:first-child { background-color:var(--th-bg-color); text-align:center; position:sticky; left:2px; }
 table.content.detail td:first-child { width:var(--input-width); }
@@ -171,6 +171,8 @@ body>div.toast div.progress div.current { background-color:var(--progress-bg-col
 body>div.toast div.action:not(.hide) { width:100%; display:block; display:flex; flex-direction:row-reverse; gap:10px; }
 body>div.toast div.action>div.item { float:right; }
 body>div.toast div.action>div.item i { display:none; }
+body>fieldset.date span.close { display:none; }
+body>fieldset.date div.action>div.time div.item span { display:none; }
 body>div.toast div.action>div.item span { display:none; }
 body>div.toast div.action>div.item input { padding:0 20px; }
 body>div.toast div.action>div.item.danger input { border:var(--danger-bg-color) solid 1px; }
