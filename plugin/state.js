@@ -246,10 +246,10 @@ Volcanos(chat.ONEXPORT, {
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
 	marginTop: function() { return 0 }, marginBottom: function() { return 0 },
 	actionHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT)? 0: html.ACTION_HEIGHT },
-	outputHeight: function(can) { var height = can.sub.ConfHeight() - can.onexport.outputMargin(can)
+	outputHeight: function(can) { var height = can.ConfHeight() - can.onexport.outputMargin(can)
 		if (can.user.isMobile) { return can.ConfHeight() - can.onexport.actionHeight(can) - can.onexport.statusHeight(can) }
 		can.page.SelectChild(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })
-		return can.base.Max(can.base.Min(height, can.sub.ConfHeight()/2), can.ConfHeight()-html.ACTION_HEIGHT, 320)
+		return can.base.Max(can.base.Min(height, can.ConfHeight()/2), can.ConfHeight()-html.ACTION_HEIGHT, 320)
 	},
 	outputMargin: function(can) { return 0 },
 	statusHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || can._status.innerHTML == "" || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0)? 0: html.STATUS_HEIGHT },

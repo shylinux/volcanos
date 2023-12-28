@@ -426,9 +426,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				item._enter = function(event, value) { if (event.ctrlKey) { run(event, mdb.MODIFY, [key, value]) } }
 				can.onmotion.modifys(can, event.target, function(event, value, old) { run(event, mdb.MODIFY, [key, value]) }, item)
 			}, onmouseout: function() {
-				can.page.SelectChild(can, can._option, html.DIV_ITEM_TEXT, function(target) {
-					can.page.ClassList.del(can, target, "will")
-				})
+				can.page.SelectChild(can, can._option, html.DIV_ITEM_TEXT, function(target) { can.page.ClassList.del(can, target, "will") })
 			}, onmouseover: function(event) {
 				can.page.SelectChild(can, can._option, html.DIV_ITEM_TEXT, function(target) {
 					can.page.ClassList.set(can, target, "will", can.page.ClassList.has(can, target, key))
@@ -441,7 +439,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.core.List(list, function(target) { can.onappend.style(can, "icons", target)
 					var _icon = can.Conf("feature._icons."+target.name)||icon[target.name]
 					can.page.insertBefore(can, [{icon: _icon, title: can.user.trans(can, target.name), onclick: target.onclick||function(event) {
-						can.Update(can.request(event, data), [ctx.ACTION, target.name])
+						can.Update(can.request(event, data, {_toast: "process"}), [ctx.ACTION, target.name]), can.onkeymap.prevent(event)
 					}}], target.nextSibling, target.parentNode)
 				})
 				can.page.SelectOne(can, target, html.SPAN, function(span) { can.core.List(span.style, function(key) { target.style[key] = span.style[key] }) })
@@ -724,6 +722,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	},
 	scrollHold: function(can, cb, target) { target = target || can._output; var left = target.scrollLeft; cb(), target.scrollLeft = left },
 	scrollIntoView: function(can, target, margin) { if (can._scroll) { return } can._scroll = true, margin = margin||0
+		if (!target.parentNode) { return }
 		var offset = (target.offsetTop-margin) - target.parentNode.scrollTop, step = offset < 0? -20: 20
 		if (Math.abs(offset) > 1000) {
 			return target.parentNode.scrollTop = (target.offsetTop-margin), delete(can._scroll)
