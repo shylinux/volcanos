@@ -51,7 +51,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
 	ondebugs: function(can, msg) { can.runAction(msg, msg.Option(ctx.ACTION), [msg.Option(ctx.INDEX)], function(_msg) { _msg.Table(function(item) {
 		can.onappend._float(can, item, can.base.Obj(item.args, []), function(sub) {
-			sub.run = function(event, cmds, cb) { can.run(can.request(event, {_method: http.POST, space: sub.Conf(web.SPACE)}), [ctx.ACTION, msg.Option(ctx.ACTION), ctx.RUN].concat(cmds), cb) }
+			sub.run = function(event, cmds, cb) { can.run(can.request(event, {_method: http.POST, pod: sub.ConfSpace()}), [ctx.ACTION, msg.Option(ctx.ACTION), ctx.RUN].concat(cmds), cb) }
 		})
 	}) }) },
 })
@@ -130,13 +130,8 @@ Volcanos(chat.ONPLUGIN, {
 		can.onappend.style(can, "view")
 	}),
 	console: shy("网页终端", {
-		prompt: function(can, msg, arg, meta) { msg.detail = []
-			msg._can.onimport.grow(msg._can, msg, "only", ["\r",
-				can.base.Time(null, "[%H:%M:%S]"), "can$ "].join(""))
-		},
-		resize: function(can, msg, arg, meta) { msg.detail = []
-			meta.prompt(can, msg, arg, meta)
-		},
+		prompt: function(can, msg, arg, meta) { msg.detail = [], msg._can.onimport.grow(msg._can, msg, "only", ["\r", can.base.Time(null, "[%H:%M:%S]"), "can$ "].join("")) },
+		resize: function(can, msg, arg, meta) { msg.detail = [], meta.prompt(can, msg, arg, meta) },
 		input: function(can, msg, arg, meta) { can = msg._can, msg.detail = [], can._list = can._list||[]
 			var text = atob(arg[0]); function grow(text) { can.onimport.grow(can, msg, "only", text) }
 			if (text == "\r") { var cmd = can._list.join("")
@@ -154,7 +149,7 @@ Volcanos(chat.ONPLUGIN, {
 				grow(text), can._list = (can._list||[]).concat(text)
 			}
 		},
-	}, [ice.CMD], function(can, msg, arg) { msg._can.Option("cmd", "")
+	}, [ice.CMD], function(can, msg, arg) { msg._can.Option(ice.CMD, "")
 		msg.Display("/plugin/local/code/xterm.js")
 	}),
 	runtime: shy("网页环境", [mdb.KEY], function(can, msg, arg) {

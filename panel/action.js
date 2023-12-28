@@ -2,12 +2,12 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.misc.SearchHash(can)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X); if (item.style == html.OUTPUT) { item.width = can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING }
-			if (msg.Length() == 1) {
-				item.height = can.ConfHeight()-(can.user.isMobile? 1: 1)*html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y)
-			}
-			can.onappend.plugin(can, item, function(sub, meta, skip) { can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
+			if (msg.Length() == 1) { item.height = can.ConfHeight()-(can.user.isMobile? 1: 1)*html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y) }
+			can.onappend.plugin(can, item, function(sub, meta, skip) {
+				can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
-				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.space||meta.pod}), [river, storm, meta.id||meta.index].concat(cmds), cb) }
+				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.space||meta.pod}),
+					(can.base.beginWith(meta.index, "can.")? []: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				sub.onexport.output = function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
 			})
 		}, function() { if (can.isCmdMode()) { return } can.user.mod.isCmd = false
