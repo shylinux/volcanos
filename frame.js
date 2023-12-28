@@ -441,7 +441,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.core.List(list, function(target) { can.onappend.style(can, "icons", target)
 					var _icon = can.Conf("feature._icons."+target.name)||icon[target.name]
 					can.page.insertBefore(can, [{icon: _icon, title: can.user.trans(can, target.name), onclick: target.onclick||function(event) {
-						can.Update(can.request(event, data), [ctx.ACTION, target.name])
+						can.Update(can.request(event, data), [ctx.ACTION, target.name]), can.onkeymap.prevent(event)
 					}}], target.nextSibling, target.parentNode)
 				})
 				can.page.SelectOne(can, target, html.SPAN, function(span) { can.core.List(span.style, function(key) { target.style[key] = span.style[key] }) })
