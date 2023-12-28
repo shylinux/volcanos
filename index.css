@@ -36,7 +36,7 @@ body {
 	--river-width:var(--project-width); --project-width:230px; --input-width:120px; --button-width:60px;
 	--action-height:32px; --status-height:var(--action-height); --footer-height:var(--action-height); --header-height:48px;
 	--plug-width:800px; --plug-height:480px; --story-height:var(--plug-height); --float-height:var(--story-height); --float-width:1000px; --desktop-width:1200px; --desktop-height:684px;
-	--textarea-height:96px; --qrcode-height:360px; --iframe-height:420px; --desktop-icon-size:80px; --desktop-icon-margin:10px;
+	--textarea-height:96px; --qrcode-height:360px; --iframe-height:420px; --desktop-icon-size:80px;
 	--river-margin:80px; --action-margin:200px;
 	--plugin-padding:10px; --plugin-margin:var(--plugin-padding);
 	--legend-padding:20px; --title-margin:var(--legend-padding);
@@ -71,7 +71,6 @@ body.width3 { /* 960-1280 平板横屏 */
 body.width4 { /* 1280-1600 笔记本 显示器调试 */
 	--plugin-padding:10px;
 	--action-button:6; --table-button:4;
-	--desktop-icon-margin:0;
 }
 body.width5 { /* 1600-1920 */
 	--plugin-padding:10px;
@@ -106,7 +105,7 @@ table.content th.select[data-asc="0"] i.bi-sort-up { display:none; }
 table.content td { padding:var(--table-padding); }
 table.content td input.icons { display:none; }
 table.content td i:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
-table.content td i { padding:var(--input-padding); font-size:20px; }
+table.content td i { padding:var(--input-padding); }
 body:not(.mobile) fieldset.plugin:not(.plug):not(.float):not(.full):not(.cmd)>div.output>table.content td input.icons { display:unset; }
 body:not(.mobile) fieldset.plugin:not(.plug):not(.float):not(.full):not(.cmd)>div.output>table.content td i { display:none; }
 table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; z-index:1; }
@@ -129,7 +128,7 @@ iframe { height:var(--iframe-height); width:100%; }
 /* fieldset */
 fieldset>legend { box-shadow:var(--box-shadow); }
 fieldset>form.option>div.item:not(.icon) { margin-right:var(--button-margin); box-shadow:var(--box-shadow); }
-// fieldset.story:not(.float)>form.option>div.item.icons:not(.icon) { margin-right:0; }
+fieldset.story:not(.float)>form.option>div.item.icons:not(.icon) { margin-right:0; }
 fieldset>form.option>div.item.textarea { width:100%; height:var(--textarea-height); }
 fieldset>form.option>div.item.text.cmd { width:100%; }
 fieldset>form.option>div.item.text.cmd>input { background-color:var(--code-bg-color); color:var(--code-fg-color); width:100%; }
