@@ -81,7 +81,7 @@ var web = {CHAT: "chat", PORTAL: "portal", STUDIO: "studio", SERVICE: "service",
 	STATS: "stats", ADMIN: "admin",
 	WORKER: "worker", SERVER: "server", GATEWAY: "gateway",
 	ONLINE: "online", OFFLINE: "offline",
-	OPEN: "open", LINK: "link", HTTP: "http", DOMAIN: "domain", URL: "url",
+	FULL: "full", OPEN: "open", LINK: "link", HTTP: "http", DOMAIN: "domain", URL: "url",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 	AT: ice.AT, QS: ice.QS,
 

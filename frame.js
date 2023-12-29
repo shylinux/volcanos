@@ -160,8 +160,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				back: {name: "goback", cb: function(event) { can.onimport.back(event, can) }},
 				prev: {name: mdb.PREV, cb: function(event) { var sub = can.sub; sub.onaction && sub.onaction.prev? sub.onaction.prev(event, sub): can.onaction.prev(event, can) }},
 				next: {name: mdb.NEXT, cb: function(event) { var sub = can.sub; sub.onaction && sub.onaction.next? sub.onaction.next(event, sub): can.onaction.next(event, can) }},
-				// play: {name: web.PLAY},
-				// favor: {name: "favor"},
 			}[item.name||""]; if (!icon) { return } item.style = "icons"
 			can.page.Append(can, option, [{view: [[html.ITEM, html.ICON, icon.name, item.name], html.DIV, can.page.unicode[icon.name]], title: can.user.trans(can, item.name), onclick: icon.cb||function(event) {
 				var msg = can.request(event), cmds = [ctx.ACTION, item.name]; msg.RunAction(event, can.sub, cmds) || msg.RunAction(event, can, cmds) || can.Update(event, cmds)
@@ -179,9 +177,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) {
 					can.onappend.icons(can, sub._target, item.name, function(event) { can.Update(event, [ctx.ACTION, item.name].concat(can.page.SelectArgs(sub))) })
 				}
-				// item.type == html.BUTTON && can.onappend.icons(can, sub._target, can.Conf(["_icons", item.name]), function(event) {
-				// 	can.Update(event, [ctx.ACTION, item.name].concat(can.page.SelectArgs(sub)))
-				// })
 				sub.run = function(event, cmds, cb, silent) { var msg = can.requestAction(event, item.name)._caller()
 					msg.RunAction(event, sub, cmds) || msg.RunAction(event, can.sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
 				}, can._inputs = can._inputs||{}, can._inputs[item.name] = sub, sub.sup = can
@@ -206,7 +201,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			var rest = list.slice(limit-1); list = list.slice(0, limit-1), list.push({type: html.BUTTON, name: "more", onclick: function(event) {
 				can.user.carte(event, can, {_trans: meta._trans||can._trans}, can.core.List(rest, function(item) { return item.name }), function(event, button) { run(event, button) })
 			}}) }
-		return can.core.List(list, function(item) {
+		can.core.List(list, function(item) {
 			can.base.isUndefined(item) || can.onappend.input(can, item == ""? /* 1.空白 */ {type: html.BR}:
 				can.base.isString(item)? /* 2.按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
 					run(event, item)
@@ -218,7 +213,16 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}, item._init = item._init||function(target) { item.action && can.onappend.figure(sub, item, target, function(_sub, value) { can.Update() })
 					if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) { can.onappend.icons(can, target, item.name) }
 				}), item), "", action)
-		}), meta
+		})
+		var _can = can._fields? can.sup: can
+		can.isCmdMode() || can.base.beginWith(can.ConfIndex(), "can.") || can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
+			can.core.Item({full: "切换全屏", open: "打开链接"}, function(key, value) {
+				return {view: [[html.ITEM, html.BUTTON, key, "icons"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
+					_can.onaction[value](event, _can, value, _can.sub)
+				}}
+			})
+		)
+		return meta
 	},
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); meta.feature = meta.feature||{}
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION) { if (msg.RunAction(event, can.sub, cmds)) { return } }
@@ -273,13 +277,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	_status: function(can, list, status, msg) { status = status||can._status, can.onmotion.clear(can, status); var keys = {}
 		var fileline = can.base.trimPrefix((can.Conf("_fileline")||"").split("?")[0], "/require/")
-		can.core.List((can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST]))||[]).concat(can.misc.Search(can, log.DEBUG)==ice.TRUE? [
+		can.core.List((can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST]))||[]).concat([
+			can.ConfSpace() && {name: web.SPACE, value: can.ConfSpace()},
+		], can.misc.Search(can, log.DEBUG)==ice.TRUE? [
 			can.Conf("_fileline") && {name: nfs.SOURCE, value: fileline, onclick: function(event) { can.onkeymap.prevent(event)
 				var ls = can.misc.SplitPath(can, fileline); if (event.metaKey) {
 					can.user.open(can.misc.MergePodCmd(can, {pod: can.ConfSpace(), cmd: web.CODE_VIMER, path: ls[0], file: ls[1]}))
-				} else {
-					can.onappend._float(can, web.CODE_VIMER, ls)
-				}
+				} else { can.onappend._float(can, web.CODE_VIMER, ls) }
 			}},
 			{name: html.HEIGHT, value: can.ConfHeight(), onclick: function(event) { can.onappend._float(can, {index: "can.view", _target: can._fields||can._target}) }},
 			{name: html.WIDTH, value: can.ConfWidth(), onclick: function(event) { can.onappend._float(can, {index: "can.data", _target: can}) }},
@@ -728,7 +732,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	scrollHold: function(can, cb, target) { target = target || can._output; var left = target.scrollLeft; cb(), target.scrollLeft = left },
 	scrollIntoView: function(can, target, margin) { if (can._scroll) { return } can._scroll = true, margin = margin||0
 		var offset = (target.offsetTop-margin) - target.parentNode.scrollTop, step = offset < 0? -20: 20
-		if (Math.abs(offset) > 1000) {
+		if (Math.abs(offset) > 3000) {
 			return target.parentNode.scrollTop = (target.offsetTop-margin), delete(can._scroll)
 		}
 		can.core.Timer({interval: 10, length: offset/step}, function() {
