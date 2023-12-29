@@ -9,7 +9,7 @@ Volcanos(chat.ONIMPORT, {
 	_display: function(can, msg) { can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)) },
 	_clear: function(can, msg) { can.onmotion.clear(can) },
 	_inner: function(can, sub, msg) { can.onappend.table(sub, msg), can.onappend.board(sub, msg), can.onmotion.story.auto(sub) },
-	_field: function(can, msg, cb) { var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight(), can.onexport.outputHeight(can)), width = can.ConfWidth()
+	_field: function(can, msg, cb) { var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()), width = can.ConfWidth()
 		msg.Table(function(item) { can.onappend._plugin(can, item, {_space: can.ConfSpace(), index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
 			can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, sub._target) }, 300)
 			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX)
@@ -50,7 +50,7 @@ Volcanos(chat.ONIMPORT, {
 				can.page.Append(can, div, [{text: arg}]), can._output.scrollTop = div.offsetTop, div.scrollBy(0, 10000), true
 		})) { can.onappend.board(can, arg) }
 	},
-	_open: function(can, msg, arg) { can.user.opens(arg) },
+	_open: function(can, msg, arg) { can.user.opens(arg); if (can.ConfIndex() == "web.dream") { can.Update() } },
 	_close: function(can, msg) { can.user.close() || history.back() },
 	change: function(event, can, name, value, cb, data) { return can.page.SelectArgs(can, can._option, "", function(input) { if (input.name != name || value == input.value) { return }
 		can.page.Select(can, input.parentNode, "span.value", function(target) { target.innerText = value })
@@ -81,6 +81,7 @@ Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", 
 		function(can) { if (!can.isCmdMode()) { return "打开链接" } }, function(can) { if (can.isCmdMode()) { return "打开首页" } },
 		function(can) { if (can.ConfSpace() || can.isCmdMode() && can.misc.Search(can, ice.POD)) { return "打开空间" } },
 		function(can) { if (can.misc.Search(can, log.MSG_DEBUG)) { return "查看源码" } },
+		function(can) { if (can.misc.Search(can, log.MSG_DEBUG)) { return "查看镜像" } },
 		["视图", "参数",
 			function(can) { if (can._action.innerHTML) { return "操作" } },
 			function(can) { if (can._status.innerHTML) { return "状态" } },
@@ -93,7 +94,7 @@ Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", 
 		// ["数据", "保存参数", "清空参数", "复制数据", "下载数据", "清空数据"],
 		["调试",
 			function(can) { if (can.Conf("_help")) { return "查看文档" } },
-			"查看脚本", "查看源码",
+			"查看脚本", "查看源码", "查看镜像",
 			"查看通知", "查看视图", "查看数据", "会话存储", "本地存储",
 			"查看报文", "查看配置", "查看日志", "删除工具",
 		],
@@ -161,6 +162,7 @@ Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", 
 	"查看文档": function(event, can) { can.requests(event, {action: ice.HELP}), can.onengine.signal(can, chat.ONDEBUGS, can.requestPodCmd(event)) },
 	"查看脚本": function(event, can) { can.onappend._float(can, web.CODE_VIMER, can.misc.SplitPath(can, can.sub._path)) },
 	"查看源码": function(event, can) { can.requests(event, {action: nfs.SOURCE}), can.onengine.signal(can, chat.ONDEBUGS, can.requestPodCmd(event)) },
+	"查看镜像": function(event, can) { can.onappend._float(can, {index: "web.code.compile"}) },
 	"查看通知": function(event, can) { can.onappend._float(can, {index: "can.toast"}, [can.ConfIndex()]) },
 	"查看视图": function(event, can) { can.onappend._float(can, {index: "can.view", _target: can._fields||can._target}) },
 	"查看数据": function(event, can) { can.onappend._float(can, {index: "can.data", _target: can}) },
