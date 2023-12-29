@@ -10,7 +10,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		can.Mode(msg.Option("mode")||can.Mode()), (msg.Option(nfs.FILE) == lex.SP || can.Option(nfs.FILE) == lex.SP) && can.Option(nfs.FILE, "")
 		if (can.Mode() == ice.MSG_RESULT) { msg.result = msg.result||[can._output.innerHTML], can.Mode(chat.SIMPLE), can.sup.Mode(chat.SIMPLE) }
 		can.core.List(paths.concat(can.core.Split(msg.Option(nfs.REPOS))), function(p) {
-			if (can.base.beginWith(p, nfs.USR_LOCAL_WORK) || can.base.endWith(p, "-dict/") || can.base.isIn(p, nfs.USR_LEARNING, nfs.USR_INTSHELL,
+			if (can.base.beginWith(p, nfs.USR_LOCAL_WORK, "C:/") || can.base.endWith(p, "-dict/") || can.base.isIn(p, nfs.USR_LEARNING, nfs.USR_INTSHELL,
 				nfs.USR_WEBSOCKET, nfs.USR_GO_QRCODE, nfs.USR_GO_GIT, nfs.USR_ICONS, nfs.USR_GEOAREA, nfs.USR_PROGRAM, nfs.USR_NODE_MODULES,
 			)) { return }
 			if (p && paths.indexOf(p) == -1 && p[0] != nfs.PS) { paths.push(p) }
