@@ -75,13 +75,9 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name) { if (can.user.isLocalFile) 
 		})
 	}, _list: [""], pwd: function(can, arg) { can._wss_name = can.ondaemon._list[0] = arg[0] },
 	close: function(can, msg, sub) { can.user.close() }, exit: function(can, msg, sub) { can.user.close() },
-	toast: function(can, sub, arg, cb) {
-		can.core.CallFunc(can.user.toast, [sub].concat(arg))
-	},
-	grow: function(can, msg, sub, arg) {
-		if (sub._fields && sub.sup && sub.sup.onimport._grow) { return sub.sup.onimport._grow(sub.sup, msg, arg.join("")) }
-		if (!sub._fields && sub && sub.onimport._grow) { return sub.onimport._grow(sub, msg, arg.join("")) }
-	},
+	toast: function(can, sub, arg, cb) { can.core.CallFunc(can.user.toast, [sub].concat(arg)) },
+	grow: function(can, msg, sub, arg) { var _can = sub._fields && sub.sup? sub.sup: sub; _can.onimport._grow(_can, msg, arg.join("")) },
+	rich: function(can, msg, sub, arg) { var _can = sub._fields && sub.sup? sub.sup: sub; _can.onimport._rich(_can, msg, arg) },
 	refresh: function(can, sub) { can.base.isFunc(sub.Update) && sub.Update() },
 	action: function(can, msg, sub, arg) {
 		if (arg[0] == "ctrl") { var list = []
@@ -474,7 +470,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}) } return code.scrollBy && code.scrollBy(0, 10000), code
 	},
 	tools: function(can, msg, cb, target) { can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT))||[], cb, target) },
-	style: function(can, style, target) { target = target||can._fields||can._target
+	style: function(can, style, target) { if (!style) { return }
+		target = target||can._fields||can._target
 		if (can.base.endWith(style, ".css")) { return can.require([style]) }
 		can.base.isObject(style) && !can.base.isArray(style)? can.page.style(can, target, style): can.page.ClassList.add(can, target, style)
 	},
@@ -730,7 +727,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		},
 	},
 	scrollHold: function(can, cb, target) { target = target || can._output; var left = target.scrollLeft; cb(), target.scrollLeft = left },
-	scrollIntoView: function(can, target, margin) { if (can._scroll) { return } can._scroll = true, margin = margin||0
+	scrollIntoView: function(can, target, margin) { if (!target || can._scroll) { return } can._scroll = true, margin = margin||0
 		var offset = (target.offsetTop-margin) - target.parentNode.scrollTop, step = offset < 0? -20: 20
 		if (Math.abs(offset) > 3000) {
 			return target.parentNode.scrollTop = (target.offsetTop-margin), delete(can._scroll)

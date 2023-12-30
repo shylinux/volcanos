@@ -217,7 +217,9 @@ Volcanos(chat.ONKEYMAP, {
 	toggleTheme: function(can, theme) { can.setHeader(chat.THEME, can.getHeaderTheme() == theme? ice.AUTO: theme) },
 	toggleLayout: function(can, layout) { can.onaction.layout(can, can.onexport.layout(can) == layout? ice.AUTO: layout) },
 })
-Volcanos(chat.ONPLUGIN, {_plugin: shy("默认插件", [mdb.NAME, ice.LIST, ice.BACK]),
+Volcanos(chat.ONPLUGIN, {
+	_plugin: shy("默认插件", [mdb.NAME, ice.LIST, ice.BACK]),
+	_filter: shy("默认插件", [web.FILTER, ice.LIST, ice.BACK]),
 	layout: shy("界面布局", {_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)) }}, ["layout:select=auto,tabs,tabview,horizon,vertical,grid,free,flow,page", ctx.RUN], function(can, msg, arg) {
 		can.onaction.layout(can, arg[0])
 	}),
