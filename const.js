@@ -184,6 +184,7 @@ var cli = {
 	RUNTIME: "runtime", SYSTEM: "system", DAEMON: "daemon", ORDER: "order", BUILD: "build", OPENS: "opens",
 	BEGIN: "begin", END: "end", START: "start", RESTART: "restart", STOP: "stop", OPEN: "open", CLOSE: "close",
 	REBOOT: "reboot",
+	DELAY: "delay",
 	QRCODE: "qrcode", COLOR: "color", BLACK: "black", WHITE: "white", BLUE: "blue", RED: "red", GRAY: "gray", CYAN: "cyan", GREEN: "green", PURPLE: "purple", YELLOW: "yellow",
 	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
 	LINUX: "linux", DARWIN: "darwin", WINDOWS: "windows",
