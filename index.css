@@ -594,8 +594,8 @@ fieldset.draw>form.option>div.item.pid>input { width:var(--button-width) !import
 fieldset.draw.trends div.output { overflow:hidden; }
 fieldset.draw.trends div.output svg { background-color:#1b5b738c; }
 fieldset.form>div.output { text-align:center; }
-fieldset.form>div.output div.info { font-size:20px; padding:80px 20px; overflow:auto; }
-fieldset.form>div.output input[type=button] { font-size:24px; border:var(--notice-bg-color) solid 1px; width:240px; height:48px; }
+fieldset.form>div.output div.info { font-size:20px; padding:40px 20px; overflow:auto; }
+fieldset.form>div.output input[type=button] { font-size:24px; border:var(--notice-bg-color) solid 1px; height:48px; width:240px; margin:40px; }
 fieldset.draw.spides div.output svg text { cursor:pointer; }
 fieldset.draw.spides div.output svg path { stroke-width:1; }
 fieldset.draw>div.output>div.layout>div.layout>div.profile { width:var(--project-width); flex:0 0 var(--project-width); }
