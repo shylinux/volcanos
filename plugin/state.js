@@ -13,6 +13,14 @@ Volcanos(chat.ONIMPORT, {
 		can.onmotion.scrollIntoView(can, can.onappend.board(sub, msg))
 		can.onmotion.story.auto(sub)
 	},
+	_cookie: function(can, msg) {
+		can.misc.Cookie(can, msg._arg[0], msg._arg[1])
+		can.Update()
+	},
+	_session: function(can, msg) {
+		can.misc.sessionStorage(can, msg._arg[0], msg._arg[1])
+		can.Update()
+	},
 	_field: function(can, msg, cb) { var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()), width = can.ConfWidth()
 		msg.Table(function(item) { can.onappend._plugin(can, item, {_space: can.ConfSpace(), index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
 			if (can.base.isIn(sub.ConfIndex(), web.CODE_VIMER, web.CHAT_MACOS_DESKTOP, web.WIKI_PORTAL)) { height = can.base.Max(can.onexport.outputHeight(can), can.ConfHeight()) }

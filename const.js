@@ -124,6 +124,7 @@ var aaa = {
 	PROVINCE: "province", COUNTRY: "country", CITY: "city",
 	LONGITUDE: "longitude", LATITUDE: "latitude",
 	EMAIL: "email", SECRET: "secret",
+	MOBILE: "mobile",
 
 	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole", USERZONE: "userzone",
 	VOID: "void", TECH: "tech", ROOT: "root",
@@ -233,8 +234,8 @@ var chat = {
 		"input/date.js",
 		"story/json.js",
 		"story/stats.js",
-		"story/spide.js",
-		"story/trend.js",
+		"story/spides.js",
+		"story/trends.js",
 		"local/code/xterm.js",
 		"local/code/vimer.js",
 		"local/code/inner.js",

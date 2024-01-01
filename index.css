@@ -37,7 +37,7 @@ body {
 	--action-height:32px; --status-height:var(--action-height); --footer-height:var(--action-height); --header-height:48px;
  	--desktop-height:684px; --float-height:480px; --plug-height:var(--story-height); --story-height:var(--float-height);
  	--desktop-width:1200px; --float-width:1200px; --plug-width:800px;
-	--textarea-height:96px; --qrcode-height:360px; --iframe-height:420px;
+	--textarea-height:96px; --qrcode-height:260px; --iframe-height:420px;
 	--river-margin:80px; --action-margin:200px; --desktop-icon-size:80px;
 	--plugin-padding:10px; --plugin-margin:var(--plugin-padding);
 	--legend-padding:20px; --title-margin:var(--legend-padding);
@@ -220,7 +220,7 @@ body>div.input.login { box-shadow:unset; flex-direction:column; }
 body>div.input.login>div.action { border-bottom:var(--box-border); flex-direction:row; }
 body>div.input.login>div.action>div.tabs { padding:var(--button-padding); }
 body>div.input.login>div.output { text-align:center; clear:both; }
-body>div.input.login>div.output { height:var(--qrcode-height); width:var(--iframe-height); overflow:hidden; }
+body>div.input.login>div.output { min-height:var(--qrcode-height); min-width:var(--iframe-height); overflow:hidden; }
 body>div.input.login>div.output>fieldset { box-shadow:none; }
 body>div.input.login>div.output>fieldset>div.output { background-color:transparent; }
 body>div.input.login>div.display { flex-direction:column; padding-top:var(--button-padding); width:100%; }
@@ -380,6 +380,9 @@ div.project:not(.toggle) { border-right:var(--box-border); width:var(--project-w
 div.profile:not(.toggle) { border-left:var(--box-border); width:50%; flex:0 0 50%; }
 div.display:not(.toggle) { border-top:var(--box-border); }
 /* output style */
+div.output.card {
+	overflow-x:hidden;
+}
 div.output.card>div.item {
 	background-color:var(--plugin-bg-color); padding:var(--plugin-padding); margin:var(--plugin-padding);
 	border:var(--box-border); border-radius:var(--plugin-radius); box-shadow:var(--box-shadow);
@@ -596,6 +599,12 @@ fieldset.draw.trends div.output svg { background-color:#1b5b738c; }
 fieldset.form>div.output { text-align:center; }
 fieldset.form>div.output div.info { font-size:20px; padding:40px 20px; overflow:auto; }
 fieldset.form>div.output input[type=button] { font-size:24px; border:var(--notice-bg-color) solid 1px; height:48px; width:240px; margin:40px; }
+fieldset>div.output.form { padding:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+fieldset>div.output.form>div.item { text-align:left; margin:10px; }
+fieldset>div.output.form>div.item>span { padding:var(--input-padding); }
+fieldset>div.output.form>div.item>span.need { color:red; }
+fieldset>div.output.form>div.item>div.item>input { width:var(--river-width); }
+fieldset>div.output.form>div.item>div.item>input[type=button] { border:var(--notice-bg-color) solid 1px; }
 fieldset.draw.spides div.output svg text { cursor:pointer; }
 fieldset.draw.spides div.output svg path { stroke-width:1; }
 fieldset.draw>div.output>div.layout>div.layout>div.profile { width:var(--project-width); flex:0 0 var(--project-width); }

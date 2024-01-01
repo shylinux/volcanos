@@ -181,9 +181,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				item.type == html.BUTTON && item.action == ice.AUTO && can.base.isUndefined(can._delay_init) && (auto = sub._target), next()
 				can.Conf(ice.AUTO) == item.name && (auto = sub._target)
 			})
-		}; var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() { skip || can.Conf(ice.AUTO) == cli.DELAY || auto && auto.click()
-			meta._help && add({type: html.BUTTON, name: ice.HELP, onclick: function(event) { can.onappend._float(can, {index: web.WIKI_WORD}, [meta._help]) }}, function() {})
-			can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && add({type: html.BUTTON, name: "vimer", _trans: "源码", onclick: function(event) {
+		}; var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() {
+			var p = can.misc.Search(can, ctx.ACTION)
+			if (p && can.isCmdMode()) {
+				skip || can.Conf(ice.AUTO) == cli.DELAY || can.Update({}, [ctx.ACTION, p])
+			} else {
+				skip || can.Conf(ice.AUTO) == cli.DELAY || auto && auto.click()
+			}
+			can.user.isMobile || meta._help && add({type: html.BUTTON, name: ice.HELP, onclick: function(event) { can.onappend._float(can, {index: web.WIKI_WORD}, [meta._help]) }}, function() {})
+			can.user.isMobile || can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && add({type: html.BUTTON, name: "vimer", _trans: "源码", onclick: function(event) {
 				var _can = can._fields? can.sup: can, value = "查看源码"; _can.onaction[value](event, _can, value, _can.sub)
 			}}, function() {})
 		})
@@ -212,7 +218,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}), item), "", action)
 		})
 		var _can = can._fields? can.sup: can
-		can.isCmdMode() || can.base.beginWith(can.ConfIndex(), "can.") || can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
+		can.user.isMobile || can.isCmdMode() || can.base.beginWith(can.ConfIndex(), "can.") || can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
 			can.core.Item({full: "切换全屏", open: "打开链接"}, function(key, value) {
 				return {view: [[html.ITEM, html.BUTTON, key, "icons"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
 					_can.onaction[value](event, _can, value, _can.sub)
@@ -254,6 +260,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			}
 			sub.db.hash = can.isCmdMode()? can.misc.SearchHash(can): []
+			sub._output.className = html.OUTPUT, can.onappend.style(can, sub._args.style, can._output)
 			can.page.style(can, can._output, html.HEIGHT, can._output.offsetHeight)
 			can.onexport._output(sub, msg), sub.Mode() != ice.MSG_RESULT && can.onmotion.clear(can, output)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
@@ -697,8 +704,10 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 	},
 })
 Volcanos(chat.ONMOTION, {_init: function(can, target) {
-		target.onclick = function(event) { if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
+		target.onclick = function(event) {
+			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
 			if (can.page.tagis(event.target, html.A) && can.user.isWebview) { return event.shiftKey? window.outopen(event.target.href): can.user.open(event.target.href) }
+			if (can.page.tagis(event.target, html.IMG) && can.base.beginWith(event.target.title, web.HTTP)) { return can.user.open(event.target.title) }
 			can.onmotion.clearCarte(can)
 		}
 	},
