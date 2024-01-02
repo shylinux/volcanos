@@ -382,7 +382,7 @@ div.project:not(.toggle) { border-right:var(--box-border); width:var(--project-w
 div.profile:not(.toggle) { border-left:var(--box-border); width:50%; flex:0 0 50%; }
 div.display:not(.toggle) { border-top:var(--box-border); }
 /* output style */
-div.output.card {
+body.mobile div.output.card {
 	overflow-x:hidden;
 }
 div.output.card>div.item {
