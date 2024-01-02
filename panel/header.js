@@ -42,7 +42,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	}) },
 	theme: function(can, theme) { theme && can.runAction({}, chat.THEME, [theme])
 		theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme) && can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: theme}))
-		can.user.theme(can, theme = can.onexport.theme(can)); var list = [html.LIGHT, html.WHITE]
+		theme = can.onexport.theme(can)
+		var change = can.page.ClassList.has(can, document.body, theme)
+		can.user.theme(can, theme); var list = [html.LIGHT, html.WHITE]
+		change || can.onimport._const(can)
 		can.page.Select(can, can._output, "div.item.theme>i:first-child", function(target) {
 			if (list.indexOf(theme) == -1 && list.indexOf(theme[0]) == -1) { target.className = icon.MOON } else { target.className = icon.SUN }
 		})
@@ -76,7 +79,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg), can.page.requireModules(can, [msg.Option("icon.lib")])
-			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.__theme = can.onimport._theme(can, can.onexport.theme(can)), can.onimport.theme(can), can.onimport._const(can)
+			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.__theme = can.onimport._theme(can, can.onexport.theme(can)), can.onimport.theme(can)
 			can.page.theme(function(theme) { can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.ui.diy&&can.ui.diy[theme]||theme})) })
 			can.onaction._menus[2] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, nfs._JS) }))
 			can.onaction._menus[1] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, nfs._CSS) }))
