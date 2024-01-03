@@ -146,7 +146,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
-		meta.inputs = can.base.Obj(meta.inputs, []), meta.inputs.length == 0 && can.onmotion.delay(can, function() { can.Update() })
+		meta.inputs = can.base.Obj(meta.inputs, []), meta.inputs.length == 0 && (!can.Conf("_ismain") || can.Conf("_role") || can.misc.Search(can, log.DEBUG) == ice.TRUE) && can.onmotion.delay(can, function() { can.Update() })
 		can.core.List([""].concat(meta.inputs), function(item) { if (item != "" && item.type != html.BUTTON) { return }
 			var icon = {
 				"": {name: mdb.DELETE, cb: function(event) { can.onaction.close(event, can) }},
@@ -184,7 +184,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			})
 		}; var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() {
 			var p = can.misc.Search(can, ctx.ACTION)
-			if (p && can.isCmdMode()) {
+			if (can.Conf("_ismain") && !can.Conf("_role") && can.misc.Search(can, log.DEBUG) != ice.TRUE) {
+
+			} else if (p && can.isCmdMode()) {
 				skip || can.Conf(ice.AUTO) == cli.DELAY || can.Update({}, [ctx.ACTION, p])
 			} else {
 				skip || can.Conf(ice.AUTO) == cli.DELAY || auto && auto.click()

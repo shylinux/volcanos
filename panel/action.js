@@ -169,14 +169,17 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 	if (storm.index) {
 		can.runAction(event, ctx.COMMAND, [].concat(can.core.List(storm.index, function(item) { return item.index||item })), function(msg) {
 			can.core.List(storm.index, function(item) {
-				msg.Push(ctx.ARGS, JSON.stringify(item.args||[]))
-				msg.Push(ctx.STYLE, item.style||"")
+				msg.Push(ctx.ARGS, JSON.stringify(item.args||[])).Push(ctx.STYLE, item.style||"").Push(ctx.DISPLAY, item.display||"")
+				msg.Push(web.SPACE, item.space||"")
+				msg.Push("_ismain", ice.TRUE)
 			}), cb(msg)
 		})
-	} else { can.core.List(storm.list, function(value) { can.base.isString(value) && (value = {index: value})
-		msg.Push(mdb.NAME, value.name||"").Push(mdb.HELP, value.help||"").Push(ctx.INPUTS, JSON.stringify(value.inputs)).Push(ctx.FEATURE, JSON.stringify(value.feature))
-		msg.Push(ctx.INDEX, value.index||"").Push(ctx.ARGS, value.args||"[]").Push(ctx.STYLE, value.style||"").Push(ctx.DISPLAY, value.display||"")
-		msg.Push(web.SPACE, value.space||"")
+	} else { can.core.List(storm.list, function(item) { can.base.isString(item) && (item = {index: item})
+		msg.Push(ctx.INDEX, item.index||"")
+		msg.Push(mdb.NAME, item.name||"").Push(mdb.HELP, item.help||"").Push(ctx.INPUTS, JSON.stringify(item.inputs)).Push(ctx.FEATURE, JSON.stringify(item.feature))
+		msg.Push(ctx.ARGS, item.args||"[]").Push(ctx.STYLE, item.style||"").Push(ctx.DISPLAY, item.display||"")
+		msg.Push(web.SPACE, item.space||"")
+		msg.Push("_ismain", ice.TRUE)
 	}), can.base.isFunc(cb) && cb(msg) } return true
 }})
 Volcanos(chat.ONKEYMAP, {
