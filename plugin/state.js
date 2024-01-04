@@ -38,10 +38,11 @@ Volcanos(chat.ONIMPORT, {
 			var msg = sub._rich_list.shift(), list = msg.detail.slice(1)
 			if (!sub._rich._table) {
 				for (var i = 1; i < msg.detail.length; i += 2) { msg.Push(msg.detail[i], msg.detail[i+1]) }
-				sub._rich._table = can.onappend.table(sub._rich, msg)
+				sub._rich._table = can.page.SelectOne(can, can.onappend.table(sub._rich, msg), html.TBODY)
 			} else { var list = []
 				for (var i = 1; i < msg.detail.length; i += 2) { list.push(msg.detail[i+1]) }
-				can.page.Append(can, sub._rich._table, [{td: list}]), sub._rich._output.scrollTop += 100000
+				var tr = can.page.Append(can, sub._rich._table, [{td: list}]).tr; sub._rich._output.scrollTop += 100000
+				can.onmotion.delayOnce(can, function() { can.onmotion.select(can, tr.parentNode, html.TR, tr) }, 500)
 			} can.core.Timer(msg.Option(cli.DELAY)||0, function() { sub._rich_running = false, _rich() })
 		}
 		if (sub._rich) {
