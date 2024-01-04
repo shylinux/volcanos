@@ -118,7 +118,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		can.onimport.theme(can, can.onimport._theme(can, target.className == icon.SUN? html.DARK: html.LIGHT))
 	}) },
 	language: function(event, can) { can.onimport.language(can, can.user.info.language.indexOf("zh") == 0? "en-us": "zh-cn") },
-	email: function(event, can) { can.user.input(can.request(event, {to: can.user.info.email, subject: can.user.title()}), can, ["to", "subject","content"], function(args) {
+	email: function(event, can) { can.user.input(can.request(event, {to: can.user.info.email, subject: can.user.title()}), can, [{name: "to", _trans: "收件人", need: "must"}, "subject","content"], function(args) {
 		can.runAction(event, aaa.EMAIL, args, function() { can.user.toastSuccess(can) })
 	}) },
 	toimage: function(event, can) { can.onmotion.clearCarte(can), can.user.toimage(can, can.user.title(), can._target.parentNode) },

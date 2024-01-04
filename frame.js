@@ -192,9 +192,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				skip || can.Conf(ice.AUTO) == cli.DELAY || auto && auto.click()
 			}
 			if (meta.inputs.length == 0) { return }
+			var _can = can._fields? can.sup: can
+			if (!can.page.tagis(_can._target, html.FIELDSET_PLUGIN)) { return }
 			can.user.isMobile || meta._help && add({type: html.BUTTON, name: ice.HELP, onclick: function(event) { can.onappend._float(can, {index: web.WIKI_WORD}, [meta._help]) }}, function() {})
 			can.user.isMobile || can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && add({type: html.BUTTON, name: "vimer", _trans: "源码", onclick: function(event) {
-				var _can = can._fields? can.sup: can, value = "查看源码"; _can.onaction[value](event, _can, value, _can.sub)
+				var value = "查看源码"; _can.onaction[value](event, _can, value, _can.sub)
 			}}, function() {})
 		})
 	},
@@ -222,6 +224,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}), item), "", action)
 		})
 		if (list.length == 0) { return meta }
+		// if (!can.page.tagis(can, html.FIELDSET_PLUGIN)) { return meta }
 		var _can = can._fields? can.sup: can
 		can.user.isMobile || can.isCmdMode() || can.base.beginWith(can.ConfIndex(), "can.") || can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
 			can.core.Item({full: "切换全屏", open: "打开链接"}, function(key, value) {

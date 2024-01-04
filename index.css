@@ -651,7 +651,7 @@ fieldset.cmd>div.action>div.tabs.select { border-bottom:var(--notice-bg-color) s
 fieldset.cmd>div.status>legend.select { border-top:var(--notice-bg-color) solid 2px; }
 fieldset.cmd>div.output>div.project div.item.select { border-right:var(--notice-bg-color) solid 4px; }
 fieldset.plug>div.output table.content { width:100%; }
-fieldset.plug.dream.zone>div.output>div.item { display:flex; padding:var(--input-padding); }
+fieldset.plug.dream.zone>div.output>div.item { display:flex; padding:var(--input-padding); margin:var(--input-margin); }
 fieldset.plug.dream.zone>div.output>div.item>img { margin-right:var(--input-margin); }
 fieldset.plug.dream.zone>div.output>div.item>span { line-height:var(--action-height); }
 body>div.carte.header.avatar img { width:370px; }

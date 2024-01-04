@@ -1,6 +1,5 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
-		can.onappend.style(can, can.Conf("style"))
-		can.onmotion.clear(can, target)
+		can.onmotion.clear(can, target), can.onappend.style(can, can.Conf(ctx.STYLE))
 		if (can.Mode() == html.ZONE) { return can.onimport._vimer_zone(can, msg, target) }
 		var cbs = can.onimport[can.Conf(ctx.STYLE)||msg.Option(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.onappend.style(can, can._args[ctx.STYLE], target), can.core.CallFunc(cbs, {can: can, msg: msg, target: target})
@@ -36,7 +35,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			zone._menu = shy({_trans: sub._trans}, action.concat(can.base.Obj(msg.Option(ice.MSG_ACTION), [])), function(event, button, meta, carte) {
 				sub.Update(event, [ctx.ACTION, button]), carte.close()
 			}), can.user.toastSuccess(can)
-		}, zone._target = sub._target, can.ui.zone[zone.name].refresh = function() { sub.Update() }
+		}, can.ui.zone[zone.name].refresh = function() { sub.Update() }
 	}, zone._target) } },
 	zone: function(can, list, target) {
 		return can.page.Append(can, target, can.core.List(list, function(zone) { can.base.isString(zone) && (zone = {name: zone}); if (!zone) { return }
@@ -48,14 +47,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 				})
 				count && can.page.SelectChild(can, target, "", function(target) {
 					can.page.SelectChild(can, target, html.DIV_LIST, function(target) {
-						can.page.style(can, target, html.HEIGHT, can.page.isDisplay(target)? height/count: "")
+						can.page.style(can, target, html.HEIGHT, can.page.isDisplay(target)? can.base.Min(height/count, 120): "")
 					})
 				})
 			}
 			return {view: [[html.ZONE, zone.name]], list: [
 				{view: html.ITEM, list: [{text: can.user.trans(can, zone.name)}], _init: function(target) { zone._legend = target }, onclick: function() {
-					if (zone._delay_init) { zone._delay_init(zone._target, zone), delete(zone._delay_init) }
-					zone.toggle(), zone._toggle && zone._toggle()
+					if (zone._delay_init) { zone._delay_init(zone._target, zone), delete(zone._delay_init) } zone.toggle(), zone._toggle && zone._toggle()
 				}, oncontextmenu: function(event) { var menu = zone._menu
 					menu? can.user.carteRight(event, can, menu.meta, menu.list||can.core.Item(menu.meta), can.base.isFunc(menu)? menu: function(event, button, meta, carte) {
 						can.runAction(event, button), carte.close()
@@ -74,7 +72,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 						can.core.Item(list, function(name, button) { can.onimport._icon(can, name, button, zone._legend) })
 					}
 					zone.refresh = function() { can.onmotion.clear(can, target), zone._init(target, zone) }
-					zone.toggle = function(show) { can.onmotion.toggle(can, zone._action, show), can.onmotion.toggle(can, zone._target, show) }
+					zone.toggle = function(show) { can.onmotion.toggle(can, zone._target, show), can.onmotion.toggle(can, zone._action, show) }
 					can.base.isFunc(zone._init)? (zone._menu = zone._init(target, zone)||zone._menu): zone.toggle(false)
 				}},
 			]}
