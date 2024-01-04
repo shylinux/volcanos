@@ -167,7 +167,10 @@ Volcanos(chat.ONEXPORT, {
 Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 	var storm = can.core.Value(can._root, can.core.Keys(chat.RIVER, cmds[0], chat.STORM, cmds[1])); if (!storm || cmds.length != 2) { return false }
 	if (storm.index) {
-		can.runAction(event, ctx.COMMAND, [].concat(can.core.List(storm.index, function(item) { return item.index||item })), function(msg) {
+		can.runAction(event, ctx.COMMAND, [].concat(can.core.List(storm.index, function(item) {
+			if (typeof item == code.FUNCTION) { item = item(can) }
+			if (item) { return item.index||item }
+		})), function(msg) {
 			can.core.List(storm.index, function(item) {
 				msg.Push(ctx.ARGS, JSON.stringify(item.args||[])).Push(ctx.STYLE, item.style||"").Push(ctx.DISPLAY, item.display||"")
 				msg.Push(web.SPACE, item.space||"")
