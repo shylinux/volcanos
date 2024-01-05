@@ -47,7 +47,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 				})
 				count && can.page.SelectChild(can, target, "", function(target) {
 					can.page.SelectChild(can, target, html.DIV_LIST, function(target) {
-						can.page.style(can, target, html.HEIGHT, can.page.isDisplay(target)? can.base.Min(height/count, 120): "")
+						can.page.style(can, target, html.HEIGHT, can.page.isDisplay(target)? can.base.Min(height/count, 180): "")
 					})
 				})
 			}
@@ -181,7 +181,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.onimport.plug(can, meta, function(sub) {
 				sub.onexport.output = function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
 					var height = can.base.Max(html.PLUG_HEIGHT, can._output.offsetHeight, 240), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-(can.user.isMobile? 0: html.PROJECT_WIDTH))
-					// var height = can.base.Min(html.PLUG_HEIGHT, 240, can.ConfHeight()-html.ACTION_HEIGHT), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-html.PROJECT_WIDTH)
 					sub.onimport.size(sub, height, width, false), can.onmotion.delay(can, function() { sub.onimport.size(sub, height, width, false) })
 				}
 				can.onmotion.hidden(can, sub._target), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}

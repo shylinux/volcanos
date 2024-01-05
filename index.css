@@ -50,13 +50,10 @@ body {
 input { font-family:var(--input-font-family); }
 body { font-family:var(--body-font-family); }
 body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
-// body { background-color:var(--body-bg-color); color:var(--body-fg-color); background-position: center; background-image: url(/require/usr/icons/background.jpg); }
 body.windows { --code-font-family:"Courier New"; }
 body.mobile { --qrcode-height:284px; }
-body.cmd {
-	background-color:var(--plugin-bg-color);
-	--plug-width:1200px; --plug-height:480px;
-}
+body.cmd { background-color:var(--plugin-bg-color); }
+body.cmd { --plug-width:1200px; --plug-height:480px; }
 body.width1 { /* 320-640 手机竖屏 */
 	--svg-font-size:13px;
    	--river-width:280px;; --project-width:120px; --input-width:80px;
@@ -83,7 +80,6 @@ body.width6 { /* 1920-2240 显示器 */
 	--plugin-padding:10px;
 	--river-width:280px; --input-width:180px;
 }
-
 /* element */
 * { tab-size:4; box-sizing:border-box; padding:0; border:0; margin:0; }
 legend { font-family:var(--legend-font-family); padding:0 var(--legend-padding); }
@@ -127,11 +123,11 @@ ol, ul { margin-left:var(--title-margin); }
 a { color:var(--body-fg-color); font-style:italic; }
 p { margin:var(--title-margin) 0; }
 kbd { font-family:var(--code-font-family); padding:0 var(--input-padding); }
+div.output>div.code>img { margin-bottom:-3px; }
 iframe { height:var(--iframe-height); width:100%; }
 /* fieldset */
 fieldset>legend { box-shadow:var(--box-shadow); }
 fieldset>form.option>div.item:not(.icon) { margin-right:var(--button-margin); box-shadow:var(--box-shadow); }
-/* fieldset.story:not(.float)>form.option>div.item.icons:not(.icon) { margin-right:0; } */
 fieldset>form.option>div.item.textarea { width:100%; height:var(--textarea-height); }
 fieldset>form.option>div.item.text.cmd { width:100%; }
 fieldset>form.option>div.item.text.cmd>input { background-color:var(--code-bg-color); color:var(--code-fg-color); width:100%; }
@@ -382,9 +378,7 @@ div.project:not(.toggle) { border-right:var(--box-border); width:var(--project-w
 div.profile:not(.toggle) { border-left:var(--box-border); width:50%; flex:0 0 50%; }
 div.display:not(.toggle) { border-top:var(--box-border); }
 /* output style */
-body.mobile div.output.card {
-	overflow-x:hidden;
-}
+body.mobile div.output.card { overflow-x:hidden; }
 div.output.card>div.item {
 	background-color:var(--plugin-bg-color); padding:var(--plugin-padding); margin:var(--plugin-padding);
 	border:var(--box-border); border-radius:var(--plugin-radius); box-shadow:var(--box-shadow);

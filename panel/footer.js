@@ -158,6 +158,7 @@ Volcanos(chat.ONPLUGIN, {
 			userAgent: navigator.userAgent,
 			history: history.length,
 			boot: can.db._boot,
+			daemon: can.misc.sessionStorage(can, "can.daemon"),
 		})).Display("/plugin/story/json.js")
 	}),
 	dir: shy("网页目录", [nfs.PATH, ice.LIST, ice.BACK], async function(can, msg, arg, cb) { var can = msg._can._fields? msg._can.sup: msg._can

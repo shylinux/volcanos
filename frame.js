@@ -17,12 +17,13 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 		if (!sub || !mod || !fun) { can.misc.Warn(ice.ErrNotFound, cmds); return can.base.isFunc(cb) && cb(msg.Echo(ice.ErrWarn, ice.ErrNotFound, cmds)) }
 		return can.core.CallFunc(fun, {event: event, can: sub, msg: msg, cmds: cmds.slice(2), cb: cb, target: sub._target, button: key, cmd: key, arg: cmds.slice(2), list: cmds.slice(2)}, mod)
 	},
-	_remote: function(event, can, msg, panel, cmds, cb) { var sub = msg._can
+	_remote: function(event, can, msg, panel, cmds, cb) { var sub = msg._can._fields? msg._can.sup: msg._can
 		if (panel.onengine._plugin(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._engine(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._static(event, can, msg, panel, cmds, cb)) { return }
 		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() { if (msg._can && msg._can._toast) { return } toast = toast||can.user.toastProcess(msg._can, _toast) }, 300) }
-		if (can.base.isUndefined(msg[ice.MSG_DAEMON])) { can.base.isUndefined(sub._daemon) && can.ondaemon._list[0] && (sub._daemon = can.ondaemon._list.push(sub)-1)
+		if (can.base.isUndefined(msg[ice.MSG_DAEMON])) {
+			can.base.isUndefined(sub._daemon) && can.ondaemon._list[0] && (sub._daemon = can.ondaemon._list.push(sub)-1)
 			if (sub._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], sub._daemon)) }
 		} if (!can.misc.CookieSessid(can) && can.user.info.sessid) { msg.Option(ice.MSG_SESSID, can.user.info.sessid) }
 		var names = msg.Option(chat._NAMES)||panel._names||((can.Conf("iceberg")||Volcanos.meta.iceberg)+"/chat/"+panel._name+nfs.PS)
@@ -68,18 +69,18 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 	},
 })
 Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.isLocalFile) { return }
-		return can.misc.WSS(can, {type: type||web.PORTAL, name: can.misc.Search(can, cli.DAEMON)||name||""}, function(event, msg, cmd, arg, cb) {
+		return can.misc.WSS(can, {type: type||web.PORTAL, name: name||can.misc.Search(can, cli.DAEMON)||can.misc.sessionStorage(can, "can.daemon")||""}, function(event, msg, cmd, arg, cb) {
 			if (cbs && can.core.CallFunc(cbs, {event: event, msg: msg, cmd: cmd, arg: arg, cb: cb})) { return }
-			var sub = can.ondaemon._list[msg.Option(ice.MSG_TARGET)]||can; can.base.isFunc(sub.ondaemon[cmd])?
+			var sub = can.ondaemon._list[can.core.Keys(msg[ice.MSG_TARGET])]||can; can.base.isFunc(sub.ondaemon[cmd])?
 				can.core.CallFunc(sub.ondaemon[cmd], {can: can, msg: msg, sub: sub, cmd: cmd, arg: arg, cb: cb}):
-					can.onengine._search({}, can, msg, can, [chat._SEARCH, cmd].concat(arg), cb)
+				can.onengine._search({}, can, msg, can, [chat._SEARCH, cmd].concat(arg), cb)
 		})
-	}, _list: [""], pwd: function(can, arg) { can._wss_name = can.ondaemon._list[0] = arg[0] },
+	}, _list: [""], pwd: function(can, arg) { can.misc.sessionStorage(can, "can.daemon", can._wss_name = can.ondaemon._list[0] = arg[0]) },
 	close: function(can, msg, sub) { can.user.close() }, exit: function(can, msg, sub) { can.user.close() },
 	toast: function(can, sub, arg, cb) { can.core.CallFunc(can.user.toast, [sub].concat(arg)) },
 	grow: function(can, msg, sub, arg) { var _can = sub._fields && sub.sup? sub.sup: sub; _can.onimport._grow(_can, msg, arg.join("")) },
 	rich: function(can, msg, sub, arg) { var _can = sub._fields && sub.sup? sub.sup: sub; _can.onimport._rich(_can, msg, arg) },
-	refresh: function(can, sub) { can.base.isFunc(sub.Update) && sub.Update() },
+	refresh: function(can, sub) { can.base.isFunc(sub.Update) && sub.Update(), can.user.toastSuccess(can) },
 	action: function(can, msg, sub, arg) {
 		if (arg[0] == "ctrl") { var list = []
 			can.page.Select(can, can._root._target, html.INPUT, function(target, index) { list[index] = target
@@ -121,8 +122,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				return can.page.SelectArgs(can, action, key, value)[0]
 			},
 			Option: function(key, value) { value && (value = can.user.trans(sub, value, null, html.INPUT)); return can.page.SelectArgs(can, option, key, value)[0] },
-			Update: function(event, cmds, cb, silent) { event = event||{}, sub.request(event, {_toast: event.isTrusted? ice.PROCESS: ""},
-				can.core.Value(sub, "sub.db._checkbox"))._caller(), sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input([], !silent), cb, silent); return true },
+			Update: function(event, cmds, cb, silent) { event = event||{}
+				// sub.request(event, {_toast: event.isTrusted? ice.PROCESS: ""}, can.core.Value(sub, "sub.db._checkbox"))._caller(),
+				sub.request(event, can.core.Value(sub, "sub.db._checkbox"))._caller(),
+				sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input([], !silent), cb, silent); return true },
 			Focus: function() { can.page.SelectOne(can, option, html.INPUT_ARGS, function(target) { target.focus() }) },
 			Input: function(cmds, save, opts) { cmds = cmds && cmds.length > 0? cmds: can.page.SelectArgs(sub), cmds && cmds[0] != ctx.ACTION && (cmds = can.base.trim(cmds)), cmds._opts = opts
 				return !save || cmds[0] == ctx.ACTION || can.base.Eq(sub._history[sub._history.length-1], cmds) || sub._history.push(cmds), cmds
