@@ -3,7 +3,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next, index) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X); if (item.style == html.OUTPUT) { item.width = can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING }
 			if (msg.Length() == 1) { item.height = can.ConfHeight()-(can.user.isMobile? 1: 1)*html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y) }
-			can.onappend.plugin(can, item, function(sub, meta, skip) { can.ondaemon._list[sub._daemon = can.core.Keys(river, storm, index)] = sub
+			can.onappend.plugin(can, item, function(sub, meta, skip) { can.user.isChrome && (can.ondaemon._list[sub._daemon = can.core.Keys(river, storm, index)] = sub)
 				can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.space||meta.pod}),
