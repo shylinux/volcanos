@@ -29,6 +29,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	_toast: function(can, msg, target) { can.ui.toast = can.page.Append(can, target, [{view: [[html.ITEM, chat.TOAST]], onclick: function(event) { can.onexport[NTIP](can) }}])._target },
 	_data: function(can, name, item) { can.db[name] = can.db[name]||can.request(), can.db[name].Push(item), can.onimport.count(can, name) },
+	value: function(can, name, value) { can.page.Select(can, can._output, "div.item>span."+name, function(target) { target.innerHTML = value }) },
 	count: function(can, name) { can.page.Select(can, can._output, can.core.Keys(html.SPAN, name), function(item) { item.innerHTML = can.Conf(name, parseInt(can.Conf(name)||"0")+1+"")+"" }) },
 	ntip: function(can, msg, time, title, content) { can.onimport._data(can, NTIP, {time: time, fileline: can.base.trimPrefix(msg.Option("log.caller"), location.origin+nfs.PS), title: title, content: content}), can.page.Modify(can, can.ui.toast, [time, title, content].join(lex.SP)) },
 	ncmd: function(can, msg, _follow, _cmds) { can.onimport._data(can, NCMD, {time: can.base.Time(), follow: _follow, cmds: _cmds}), can.onimport.nlog(can, NLOG) },
@@ -42,7 +43,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 })
 Volcanos(chat.ONACTION, {_init: function(can) {},
-	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
+	onsize: function(can) {
+		can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth)
+		can.onimport.value(can, html.HEIGHT, can.page.height())
+		can.onimport.value(can, html.WIDTH, can.page.width())
+	},
 	onlogin: function(can, msg) { can.run(can.request({}, {_method: http.GET}), [], function(msg) { can.onmotion.clear(can), can.onimport._init(can, msg, can._output) }) },
 	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.ntip, {can: can, msg: msg}) },
 	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
