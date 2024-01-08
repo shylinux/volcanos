@@ -116,7 +116,7 @@ table.content:hover col.option { background-color:var(--hover-bg-color); }
 table.content col.action { width:var(--project); }
 table.content col.time { width:180px; }
 table.content input:not(:last-child) { margin-right:var(--button-margin); }
-table.content img[title^=http] { cursor:pointer; }
+img[title^=http] { cursor:pointer; }
 h1 { text-align:center; margin:var(--title-margin) 0; } h2 { margin:var(--title-margin) 0; } h3 { margin:var(--title-margin) 0; }
 hr, td.hr { border-bottom:var(--plugin-border-color) dashed 1px; margin:var(--input-margin); }
 ol, ul { margin-left:var(--title-margin); }

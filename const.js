@@ -357,6 +357,7 @@ var icon = {
 	CHEVRON_DOWN: "bi bi-chevron-down", SEARCH: "bi bi-search", TERMINAL: "bi bi-terminal",
 	SUN: "bi bi-sun", MOON: "bi bi-moon-stars",
 
+	qrcode: "bi bi-qr-code",
 	search: "bi bi-search", favor: "bi bi-star", save: "bi bi-floppy",
 	admin: "bi bi-window-sidebar", login: "bi bi-person-check",
 	configs: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week",
