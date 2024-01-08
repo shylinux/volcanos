@@ -2,7 +2,7 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.misc.SearchHash(can)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next, index) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X); if (item.style == html.OUTPUT) { item.width = can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING }
-			if (msg.Length() == 1) { item.height = can.ConfHeight()-(can.user.isMobile? 1: 1)*html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y) }
+			if (msg.Length() == 1) { item.height = can.ConfHeight()-(can.user.isMobile? 1: 0)*html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y) }
 			can.onappend.plugin(can, item, function(sub, meta, skip) { can.user.isChrome && (can.ondaemon._list[sub._daemon = can.core.Keys(river, storm, index)] = sub)
 				can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
@@ -55,7 +55,6 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 			if (list.length == 1) { can.user.mod.cmd = item.index
 				can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP) || can.user.title(item.index)
 				can.onaction._onaction_cmd(can), item.mode = chat.CMD, item.opts = can.misc.Search(can)
-				// can.user.mod.isCmd && can.user.isMobile && (can.ConfHeight(can.ConfHeight()-html.ACTION_HEIGHT))
 				can.onappend.style(can, ice.CMD, document.body), can.onappend.style(can, item.index, document.body)
 			} return item
 		}), FLOW).layout(can.page.height(), can.page.width()): can.runAction(can.request(), ctx.COMMAND, [], function(msg) {
@@ -84,7 +83,6 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
 	},
 	onresize: function(can) { can.onaction.layout(can) },
-	// onresize: function(can) { can.onaction.layout(can), window.setsize && window.setsize(can.page.width(), can.page.height()) },
 	ontitle: function(can, msg) { can.onlayout._storage(can, "") },
 
 	ontouchstart: function(event, can) { can.touch = can.touch || {}
@@ -108,10 +106,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	layout: function(can, button, skip) { can.page.ClassList.del(can, can._target, can._layout||can.onlayout._storage(can)), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		button = (can.onlayout._storage(can, can._layout = button == ice.AUTO? "": button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
 		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button})), can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), skip || can.onlayout._init(can)
-		can.isCmdMode() || can.core.List(can._plugins, function(sub) {
-			sub._delay_refresh = false
-			// can.page.ClassList.set(can, sub._target, html.OUTPUT, [TABVIEW, HORIZON, VERTICAL].indexOf(button) > -1)
-		})
+		can.isCmdMode() || can.core.List(can._plugins, function(sub) { sub._delay_refresh = false })
 		var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can) || can.onlayout._plugin(can, button)
 	},
 	_menus: [[html.LAYOUT, ice.AUTO, TABS, TABVIEW, HORIZON, VERTICAL, GRID, FREE, FLOW, PAGE], web.DREAM, "desktop", "portal"],
@@ -135,12 +130,8 @@ Volcanos(chat.ONLAYOUT, {
 	flow: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-html.ACTION_MARGIN), can.ConfWidth(width) }) },
 	page: function(can) { can.page.styleHeight(can, can._output, ""), can.page.style(can, document.body, kit.Dict(html.OVERFLOW, "")) },
 	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) {
-		if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) {
-			return sub.onimport.size(sub,
-				can.ConfHeight()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING,
-				can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING,
-				true) }
-		if (can._plugins.length == 1) { return sub.onimport.size(sub, can.ConfHeight()-(can.user.isMobile? 2: 1)*html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), false) }
+		if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) { return sub.onimport.size(sub, can.ConfHeight()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING, can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING, true) }
+		if (can._plugins.length == 1) { return sub.onimport.size(sub, can.ConfHeight()-(can.user.isMobile? 2: 0)*html.ACTION_HEIGHT-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), false) }
 		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(button || sub.isCmdMode()? 0: html.ACTION_MARGIN), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.MAX_HEIGHT, "")
 	}) },
 	_storage: function(can, value) { return can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value) },
