@@ -140,7 +140,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}), meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
 			sub._legend && (sub._legend.onclick = function(event) {
 				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([[ctx.ACTION].concat(can.core.Item(meta.feature._trans))]), function(event, button) { can.misc.Event(event, sub, function(msg) {
-					can.misc.Inputs(can, msg, [ctx.ACTION, button], null, meta) ||
+					can.misc.Inputs(sub, msg, [ctx.ACTION, button], null, meta) ||
 					msg.RunAction(event, sub.sub, [ctx.ACTION, button]) ||
 						msg.RunAction(event, sub, [ctx.ACTION, button]) ||
 						sub.runAction(event, button, [], function(msg) { can.onappend._output(sub, msg) })
