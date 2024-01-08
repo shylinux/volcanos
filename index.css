@@ -36,7 +36,7 @@ body {
 	--river-width:var(--project-width); --project-width:230px; --input-width:120px; --button-width:60px;
 	--action-height:32px; --status-height:var(--action-height); --footer-height:var(--action-height); --header-height:48px;
  	--desktop-height:684px; --float-height:480px; --plug-height:var(--story-height); --story-height:var(--float-height);
- 	--desktop-width:1200px; --float-width:1200px; --plug-width:800px;
+ 	--desktop-width:1200px; --float-width:1200px; --plug-width:1200px;
 	--textarea-height:96px; --qrcode-height:364px; --iframe-height:420px;
 	--river-margin:80px; --action-margin:200px; --desktop-icon-size:80px;
 	--plugin-padding:10px; --plugin-margin:var(--plugin-padding);
@@ -53,7 +53,7 @@ body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
 body.windows { --code-font-family:"Courier New"; }
 body.mobile { --qrcode-height:284px; }
 body.cmd { background-color:var(--plugin-bg-color); }
-body.cmd { --plug-width:1200px; --plug-height:480px; }
+body.cmd { --plug-width:1200px; --plug-height:640px; }
 body.width1 { /* 320-640 手机竖屏 */
 	--svg-font-size:13px;
    	--river-width:280px;; --project-width:120px; --input-width:80px;
