@@ -83,16 +83,15 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg), can.page.requireModules(can, [msg.Option("icon.lib")])
 			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.__theme = can.onimport._theme(can, can.onexport.theme(can)), can.onimport.theme(can)
 			can.page.theme(function(theme) { can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.ui.diy&&can.ui.diy[theme]||theme})) })
-			can.onaction._menus[2] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, nfs._JS) }))
-			can.onaction._menus[1] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, nfs._CSS) }))
+			can.onaction._menus[3] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, nfs._JS) }))
+			can.onaction._menus[2] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, nfs._CSS) }))
 			can.require(can.core.List(msg["theme.list"], function(item) { return nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/theme/"+item }), function() {
 				if (can.base.beginWith(location.pathname, nfs.WIKI_PORTAL, web.CHAT_CMD+web.WIKI_PORTAL, web.CHAT_CMD+web.CHAT_OAUTH_CLIENT)) { return show(msg) }
 				if (location.pathname == nfs.PS && can.base.beginWith(msg.Option(ice.MAIN)||"", nfs.WIKI_PORTAL, web.CHAT_CMD+web.WIKI_PORTAL)) { return show(msg) }
 				msg.Option(mdb.PLUGIN) && can.onappend.plugin(can, {index: msg.Option(mdb.PLUGIN)}, function(sub) { can.onmotion.hidden(can, sub._target) }, document.body)
 				msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) })
-				var tool = can._root.Action._conf.tool
-				if (tool && tool[0]._role == ice.OK && tool[0].index != web.CHAT_GRANT || can.misc.Search(can, web.SHARE)) { return show(msg) }
 				if (!can.Conf(aaa.USERNICK, (msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)).slice(0, 8))) {
+					var tool = can._root.Action._conf.tool; if (tool && tool[0]._role == ice.OK && tool[0].index != web.CHAT_GRANT || can.misc.Search(can, web.SHARE)) { return show(msg) }
 					return can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
 				} show(msg)
 			})
@@ -139,12 +138,12 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	carte: function(event, can, list, cb, trans) { return can.user.carte(event, can, can.onaction, list, cb, null, trans) },
 
 	_params: [log.DEBUG, chat.TITLE],
-	_menus: ["shareuser", [chat.THEME], [aaa.LANGUAGE],
+	_menus: ["shareuser", cli.QRCODE, [chat.THEME], [aaa.LANGUAGE],
 		[nfs.SAVE, aaa.EMAIL, web.TOIMAGE, code.WEBPACK],
 		[aaa.USER, "setnick", web.CLEAR, aaa.LOGOUT],
 	],
-	_trans: kit.Dict(
-		"shareuser", "共享用户", chat.THEME, "界面主题", aaa.LANGUAGE, "语言地区",
+	_trans: kit.Dict("shareuser", "共享用户", cli.QRCODE, "生成链接",
+		chat.THEME, "界面主题", aaa.LANGUAGE, "语言地区",
 		nfs.SAVE, "保存网页", aaa.EMAIL, "发送邮件", web.TOIMAGE, "生成图片", code.WEBPACK, "打包页面",
 		aaa.USER, "用户信息", "setnick", "设置昵称", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
 

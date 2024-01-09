@@ -228,7 +228,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) { can.onappend.icons(can, target, item.name) }
 				}), item), "", action)
 		})
-		// if (list.length == 0) { return meta }
+		if (list.length == 0 && can.Conf("inputs").length == 0) { return meta }
 		var _can = can._fields? can.sup: can
 		can.user.isMobile || can.isCmdMode() || can.base.beginWith(can.ConfIndex(), "can.") || can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
 			can.core.Item({full: "切换全屏", open: "打开链接"}, function(key, value) {

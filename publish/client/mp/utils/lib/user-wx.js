@@ -59,10 +59,13 @@ Volcanos("user", {
 		if (cb && cb(data)) { return }
 		if (data.type == web.LINK && data._origin) { delete(data.type), delete(data.name), delete(data.text)
 			var ls = new RegExp("(https?://[^/]+)([^?#]*)([^#]*)(.*)").exec(data._origin); delete(data._origin)
-			data.serve = ls[1]; if (ls[2].indexOf("/pages/") == 0) { data.pages = ls[2] }
+			if (ls[1] != "https://servicewechat.com") { data.serve = ls[1] }
+			if (ls[2].indexOf("/pages/") == 0) { data.pages = ls[2] }
 		}
 		can.misc.Info("app parse", data)
-		if (data.cmd||data.index||data.share) {
+		if (data.cmd == "web.chat.portal") {
+			can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_RIVER, data))
+		} if (data.cmd||data.index||data.share) {
 			can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_ACTION, data))
 		} else if (data.pod||data.space||data.serve) {
 			can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_RIVER, data))

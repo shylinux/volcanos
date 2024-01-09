@@ -93,6 +93,10 @@ Volcanos(chat.ONACTION, {
 				can.onAction(event, can, input.name, {order: order, name: input.name})
 			} else {
 				can.run(event, [field.id||field.index, ctx.ACTION, input.name], function(msg) {
+					switch (msg.Option(ice.MSG_PROCESS)) {
+						case "_location":
+							can.user.parse(can, msg.Option("_arg"))
+					}
 					can.onaction._refresh(event, can, order)
 				})
 			} return
