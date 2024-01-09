@@ -362,7 +362,7 @@ var icon = {
 	admin: "bi bi-window-sidebar", login: "bi bi-person-check",
 	configs: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week",
 	help: "bi bi-question-square", doc: "bi bi-question-square",
-	play: "bi bi-play-circle", full: "bi bi-arrows-fullscreen", app: "bi bi-box-arrow-down-right",
+	play: "bi bi-play-circle", full: "bi bi-arrows-fullscreen", app: "bi bi-box-arrow-down-left",
 	open: "bi bi-box-arrow-up-right", main: "bi bi-box-arrow-up-right", portal: "bi bi-box-arrow-up-right",
 	push: "bi bi-cloud-upload", pull: "bi bi-cloud-download",
 	start: "bi bi-play-circle", stop: "bi bi-stop-circle",
