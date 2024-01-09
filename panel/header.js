@@ -65,7 +65,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 })
 Volcanos(chat.ONACTION, {_init: function(can) {},
 	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
-	onmain: function(can) { if (can.misc.Search(can, ice.MSG_SESSID) && can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID))) { return can.misc.Search(can, ice.MSG_SESSID, "") }
+	onmain: function(can) {
+		if (can.misc.Search(can, ice.MSG_SESSID) && can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)) && !can.user.isMailMaster) {
+			return can.misc.Search(can, ice.MSG_SESSID, "")
+		}
 		function lang(msg, cb) { can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)
 			can.user.info.language? can.require([can.misc.Resource(can, nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/language/"+can.user.info.language+".js")], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb && cb()
 			can.onmotion.delay(can, function() { can.onimport._language(can) })
