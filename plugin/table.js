@@ -8,12 +8,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		}
 	},
-	card: function(can, msg, target) { can.sup.onexport.outputMargin = function() { return 211 }
+	card: function(can, msg, target) { can.sup.onexport.outputMargin = function() { return 240 }
 		can.page.Appends(can, target||can._output, msg.Table(function(value) { value.icon = value.icon||value.image
 			return {view: [[html.ITEM, value.status]], list: [
 				{view: [wiki.TITLE, html.DIV], list: [value.icon && {img: can.misc.Resource(can, value.icon, value.name)}, {text: value.name}]},
 				{view: [wiki.CONTENT, html.DIV, value.text]},
-				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, html.TABLE_BUTTON) }},
+				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, 5) }},
 			]}
 		})), can.onimport.layout = function() { can.onlayout.expand(can, can._output, 320) }, can.onappend.scroll(can, can._output)
 	},
