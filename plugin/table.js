@@ -8,7 +8,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		}
 	},
-	card: function(can, msg, target) { can.sup.onexport.outputMargin = function() { return 240 }
+	card: function(can, msg, target) { can.sup.onexport.outputMargin = function() { return 260 }
 		can.page.Appends(can, target||can._output, msg.Table(function(value) { value.icon = value.icon||value.image
 			return {view: [[html.ITEM, value.status]], list: [
 				{view: [wiki.TITLE, html.DIV], list: [value.icon && {img: can.misc.Resource(can, value.icon, value.name)}, {text: value.name}]},

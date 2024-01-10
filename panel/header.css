@@ -8,6 +8,8 @@ fieldset.Header>div.output div.item.theme>i:last-child { color:var(--disable-fg-
 fieldset.Header>div.output div.item.theme>i.bi-moon-stars:last-child { font-size:12px; }
 fieldset.Header>div.output div.item.language { user-select:none; }
 fieldset.Header>div.output div.item.language>span:last-child { color:var(--disable-fg-color); }
+fieldset.Header>div.output div.Action>div.tabs { padding-left:40px; height:100%; overflow:auto; }
+fieldset.Header>div.output div.Action>div.tabs div.item { font-style:italic; }
 fieldset.Header>div.output div.state { float:right; }
 fieldset.Header>div.output div.state.avatar { padding:0; }
 fieldset.Header>div.output div.state.avatar>img { height:var(--header-height); clip-path:circle(40%); }

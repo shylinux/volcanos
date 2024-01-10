@@ -8,10 +8,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg
 		can._main_river = can.misc.SearchOrConf(can, chat.RIVER)||ls[0]||msg.Option(ice.MSG_RIVER)||"project"
 		can._main_storm = can.misc.SearchOrConf(can, chat.STORM)||ls[1]||msg.Option(ice.MSG_STORM)||"studio"
 	},
-	_river: function(can, meta, cb) { return {view: html.ITEM, list: [{icon: meta.icon}, {text: meta.name}, {icon: icon.CHEVRON_DOWN}], _init: function(target) { can.ui.river_list[meta.hash] = target, cb(target) },
+	_river: function(can, meta, cb) { return {view: html.ITEM, title: meta.name, list: [{icon: meta.icon}, {text: meta.name}, {icon: icon.CHEVRON_DOWN}], _init: function(target) { can.ui.river_list[meta.hash] = target, cb(target) },
 		onclick: function(event) { can.onaction.storm(event, can, meta.hash) }, oncontextmenu: function(event) { can.onaction.carte(event, can, can.onaction._menu, meta.hash) },
 	} },
-	_storm: function(can, meta, river) { return {view: html.ITEM, list: [{icon: meta.icon}, {text: meta.name}], _init: function(target) { can.ui.storm_list[can.core.Keys(river, meta.hash)] = target },
+	_storm: function(can, meta, river) { return {view: html.ITEM, title: meta.name, list: [{icon: meta.icon}, {text: meta.name}], _init: function(target) { can.ui.storm_list[can.core.Keys(river, meta.hash)] = target },
 		onclick: function(event) { can.onaction.action(event, can, river, meta.hash) }, oncontextmenu: function(event) { can.onaction.carte(event, can, can.ondetail._menu, river, meta.hash) },
 	} },
 	_menu: function(can, msg) { can.user.isMobile || can.user.mod.isPod? can.onmotion.hidden(can, can._action): can.onappend._action(can, can.onaction.list, can._action) },
@@ -34,7 +34,9 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	onaction_touch: function(can, msg) { can.user.isMobile && can.onmotion.hidden(can) },
 	onaction_notool: function(can, msg, river, storm) { can.ondetail["addcmd"](msg._event, can, "addcmd", river, storm) },
 	onsearch: function(can, msg, arg) { if (arg[0] == chat.STORM) { can.onexport.storm(can, msg, arg) } },
-	onlayout: function(can, layout) { can.user.isMobile || can.onmotion.toggle(can, can._target, !can.base.isIn(layout, "tabview", "horizon","vertical", "page")) },
+	onlayout: function(can, layout, before) { if (can.user.isMobile) { return }
+		can.page.ClassList.del(can, can._target, before||"auto"), can.page.ClassList.add(can, can._target, layout||"auto")
+	},
 	create: function(event, can) { can.user.input(can.request(event, {title: "创建群组"}), can, [
 		{name: mdb.TYPE, values: [aaa.TECH, aaa.VOID], _trans: "类型"},
 		{name: mdb.NAME, value: "hi", _trans: "群名", need: "must"},

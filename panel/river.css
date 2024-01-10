@@ -12,3 +12,13 @@ fieldset.River>div.output { margin:var(--river-margin) 0; }
 fieldset.River>div.toggle { rotate:90deg; right:calc(50% - 5px); }
 fieldset.River>div.toggle.prev { top:-10px; }
 fieldset.River>div.toggle.next { bottom:-50px; }
+fieldset.River>div.output div.item>i:first-child { margin-right:var(--button-margin); }
+fieldset.River.page { display:none; }
+fieldset.River:not(.auto):not(.tabs):not(.page) { width:var(--header-height); }
+fieldset.River:not(.auto):not(.tabs):not(.page)>div.action { display:none; }
+fieldset.River:not(.auto):not(.tabs):not(.page)>div.output div.item { padding:var(--button-padding); }
+fieldset.River:not(.auto):not(.tabs):not(.page)>div.output div.item>span { display:none; }
+fieldset.River:not(.auto):not(.tabs):not(.page)>div.output>div.item>i:last-child { display:none; }
+fieldset.River:not(.auto):not(.tabs):not(.page)>div.output>div.item>i:first-child { font-size:24px; }
+fieldset.River:not(.auto):not(.tabs):not(.page)>div.output div.item>i:first-child { margin-right:0; }
+fieldset.River:not(.auto):not(.tabs):not(.page)>div.output>div.list { margin-left:var(--input-margin); }
