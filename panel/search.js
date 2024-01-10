@@ -9,7 +9,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can
 		can.page.style(can, can._target, {left: left||0, top: top||0, width: width}),
 			can.page.style(can, can._output, html.MAX_HEIGHT, height -= 2*10+(can.user.isMobile? 2: 1)*html.ACTION_HEIGHT+can.onexport.statusHeight(can))
 		can.core.List([can.ui.content, can.ui.display], function(target) { can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth(width-2*10)) })
-		can.ConfHeight(can.base.Min(height-can.ui.content.offsetHeight-can.ui.display.offsetHeight-1, height/2))
+		can.ConfHeight(can.base.Min(height-can.ui.content.offsetHeight-can.ui.display.offsetHeight, height/2))
 	}) },
 	_input: function(can, msg, arg, fields) { if (can.base.contains(arg[1], ";")) { arg = can.core.Split(arg[1], "\t ;", "\t ;") }
 		can.run(can.request({}, {fields: fields.join(mdb.FS)}, msg), arg, function(res) { can.db.type = arg[0]
