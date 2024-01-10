@@ -63,7 +63,7 @@ Volcanos("user", {
 			if (ls[2].indexOf("/pages/") == 0) { data.pages = ls[2] }
 		}
 		can.misc.Info("app parse", data)
-		if (data.cmd == "web.chat.portal") {
+		if (data.cmd == "admin") {
 			can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_RIVER, data))
 		} if (data.cmd||data.index||data.share) {
 			can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_ACTION, data))

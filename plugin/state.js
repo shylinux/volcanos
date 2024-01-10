@@ -8,24 +8,14 @@ Volcanos(chat.ONIMPORT, {
 	_rewrite: function(can, msg) { var arg = msg._arg; for (var i = 0; i < arg.length; i += 2) { can.Option(arg[i], arg[i+1]), can.Action(arg[i], arg[i+1]) } can.Update() },
 	_display: function(can, msg) { can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)) },
 	_clear: function(can, msg) { can.onmotion.clear(can) },
-	_inner: function(can, sub, msg) {
-		can.onmotion.scrollIntoView(can, can.onappend.table(sub, msg))
-		can.onmotion.scrollIntoView(can, can.onappend.board(sub, msg))
-		can.onmotion.story.auto(sub)
-	},
-	_cookie: function(can, msg) {
-		can.misc.Cookie(can, msg._arg[0], msg._arg[1])
-		can.Update()
-	},
-	_session: function(can, msg) {
-		can.misc.sessionStorage(can, msg._arg[0], msg._arg[1])
-		can.Update()
-	},
+	_inner: function(can, sub, msg) { can.onmotion.scrollIntoView(can, can.onappend.table(sub, msg)), can.onmotion.scrollIntoView(can, can.onappend.board(sub, msg)), can.onmotion.story.auto(sub) },
+	_cookie: function(can, msg) { can.misc.Cookie(can, msg._arg[0], msg._arg[1]), can.Update() },
+	_session: function(can, msg) { can.misc.sessionStorage(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_field: function(can, msg, cb) { var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()), width = can.ConfWidth()
 		msg.Table(function(item) { can.onappend._plugin(can, item, {_space: can.ConfSpace(), index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
 			if (can.base.isIn(sub.ConfIndex(),
 				web.WIKI_PORTAL, web.CHAT_IFRAME, web.CHAT_MACOS_DESKTOP, web.CODE_VIMER,
-			)) { height = can.base.Max(can.base.Min(can.onexport.outputHeight(can), 640), can.ConfHeight()) }
+			)) { height = can.base.Max(can.base.Min(can.onexport.outputHeight(can), 480), can.ConfHeight()) }
 			can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, sub._target) }, 300)
 			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX)
 				can.run(event, (msg[ice.MSG_PREFIX]? msg[ice.MSG_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true)
@@ -112,8 +102,8 @@ Volcanos(chat.ONIMPORT, {
 Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", "切换全屏", "共享工具", "生成链接",
 		function(can) { if (!can.isCmdMode()) { return "打开链接" } }, function(can) { if (can.isCmdMode()) { return "打开首页" } },
 		function(can) { if (can.ConfSpace() || can.isCmdMode() && can.misc.Search(can, ice.POD)) { return "打开空间" } },
-		function(can) { if (can.misc.Search(can, log.MSG_DEBUG)) { return "查看源码" } },
-		function(can) { if (can.misc.Search(can, log.MSG_DEBUG)) { return "查看镜像" } },
+		function(can) { if (can.misc.Search(can, ice.MSG_DEBUG)) { return "查看源码" } },
+		function(can) { if (can.misc.Search(can, ice.MSG_DEBUG)) { return "查看镜像" } },
 		["视图", "参数",
 			function(can) { if (can._action.innerHTML) { return "操作" } },
 			function(can) { if (can._status.innerHTML) { return "状态" } },
@@ -225,7 +215,7 @@ Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", 
 	clear: function(event, can) { can.onmotion.clear(can, can._output) },
 	actions: function(event, can) { can.onmotion.toggle(can, can._action) },
 	help: function(event, can) {
-		can.onappend._float(can, {index: web.WIKI_WORD}, [can.Conf("_help")]) 
+		can.onappend._float(can, {index: web.WIKI_WORD}, [can.Conf("_help")])
 	},
 	full: function(event, can) { can.onaction["切换全屏"](event, can, "切换全屏", can.sub) },
 	prev: function(event, can) { can.runAction(event, mdb.PREV, [can.Status(mdb.TOTAL)||0, can.Option(mdb.LIMIT)||can.Action(mdb.LIMIT)||can._msg.Option("cache.limit")||"", can.Option(mdb.OFFEND)||can.Action(mdb.OFFEND)||""], function(msg) { can.onimport._process(can, msg) }) },

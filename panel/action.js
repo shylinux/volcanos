@@ -101,8 +101,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	mail: function(can) { can.user.opens("/chat/pod/20230511-golang-story/cmd/web.chat.mail.client") },
 	dream: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.DREAM})) },
 	cloud: function(can) { can.user.opens("https://cloud.shylinux.com/") },
-	portal: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.WIKI_PORTAL})) },
-	desktop: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.CHAT_MACOS_DESKTOP})) },
+	portal: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.PORTAL})) },
+	desktop: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.DESKTOP})) },
 	layout: function(can, button, skip) { can.page.ClassList.del(can, can._target, can._layout||can.onlayout._storage(can)), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		button = (can.onlayout._storage(can, can._layout = button == ice.AUTO? "": button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
 		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button})), can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), skip || can.onlayout._init(can)

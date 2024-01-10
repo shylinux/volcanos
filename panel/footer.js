@@ -1,5 +1,9 @@
 (function() { var NTIP = "ntip", NLOG = "nlog", NCMD = "ncmd", NKEY = "nkey"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
+		if (!can.misc.isDebug(can)) {
+			can.onmotion.hidden(can)
+			return
+		}
 		can.Conf(nfs.VERSION, can.base.trimPrefix(window._version, "?_v=").split("&")[0])
 		can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width())
 		can.Conf(NKEY, can.core.Item(can.misc.localStorage(can)).length)

@@ -103,7 +103,7 @@ Volcanos(chat.ONACTION, {list: ["创建", "编译", "源码", "计划", "流程"
 	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },
 	"流程": function(event, can) { can.onimport.tabview(can, "", web.CHAT_FLOWS, ctx.INDEX) },
 	"文档": function(event, can) { can.onimport.tabview(can, "", web.WIKI_WORD, ctx.INDEX) },
-	"后台": function(event, can) { var pod = can.misc.Search(can, ice.POD); can.onimport.tabview(can, "", location.origin+nfs.CHAT_PORTAL+(pod? "?pod="+pod: ""), web.SPACE) },
+	"后台": function(event, can) { var pod = can.misc.Search(can, ice.POD); can.onimport.tabview(can, "", location.origin+"/c/admin"+(pod? "?pod="+pod: ""), web.SPACE) },
 	"桌面": function(event, can) { can.onimport.tabview(can, "", web.CHAT_MACOS_DESKTOP, ctx.INDEX) },
 	"官网": function(event, can) { can.onimport.tabview(can, "", can.misc.MergePodCmd(can, {cmd: web.WIKI_PORTAL}), web.SPACE) },
 

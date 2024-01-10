@@ -82,7 +82,7 @@ body.width6 { /* 1920-2240 显示器 */
 }
 /* element */
 * { tab-size:4; box-sizing:border-box; padding:0; border:0; margin:0; }
-legend { font-family:var(--legend-font-family); padding:0 var(--legend-padding); }
+legend { font-family:var(--legend-font-family); padding:0 var(--legend-padding); margin-right:var(--button-margin); }
 select { padding:0 var(--button-padding); }
 input:not([type=file]) { padding:0 var(--button-padding); }
 input:not([type=button]) { padding:0 var(--input-padding); border-radius:0; outline:none; }
@@ -291,6 +291,7 @@ div.item.button.select:hover>span.icon { visibility:visible; }
 div.item.button.icons>i { font-size:20px; padding:var(--input-padding); }
 div.item.button.create>span.icon { font-size:30px; margin-top:-5px; }
 div.item.button.insert>span.icon { font-size:30px; margin-top:-5px; }
+div.item.button.refresh>span.icon { font-size:28px; margin-top:-3px; }
 div.tabs>span { font-style:italic; }
 div.tabs>span.icon { font-size:var(--icon-font-size); font-style:normal; padding-left:var(--input-padding); visibility:hidden; }
 div.tabs.select>span.icon { visibility:visible; }
