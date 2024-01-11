@@ -214,7 +214,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 })
 Volcanos(chat.ONLAYOUT, {
-	_init: function(can, height, width) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can, height: height, width: width}) },
+	_init: function(can, height, width) {
+		can.core.CallFunc([can.onimport, html.LAYOUT], {can: can, height: height, width: width})
+		can.page.SelectChild(can, can._output, html.TABLE, function(table) {
+			(can.isCmdMode() || table.offsetWidth > can.ConfWidth() / 2) && can.onappend.style(can, "full", table)
+		})
+	},
 	zone: function(can, height, width) { can.onlayout._init(can, height, width) },
 	result: function(can, height, width) { can.onlayout._init(can, height, width) },
 	simple: function(can, height, width) { can.onlayout._init(can, height, width) },

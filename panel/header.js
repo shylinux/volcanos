@@ -9,10 +9,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item], "", can.Conf(item)||msg.Option(item)||""], onclick: function(event) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
 		}, _init: function(target) { item == mdb.TIME && can.onimport._time(can, target)
-			item == aaa.AVATAR && can.page.Append(can, target, [{img: lex.SP}])
-			item == aaa.LANGUAGE && can.page.Append(can, target, [{text: "EN"}, {text: " / "}, {text: "中"}])
-			item == chat.THEME && can.page.Append(can, target, [{icon: icon.SUN}, {text: " / "}, {icon: icon.MOON}])
-			item == cli.QRCODE && can.page.Append(can, target, [{icon: icon.qrcode}])
+			item == aaa.AVATAR && can.page.Appends(can, target, [{img: lex.SP}])
+			item == aaa.USERNICK && can.page.Appends(can, target, [{text: can.Conf(aaa.USERNICK)}, {icon: icon.CHEVRON_DOWN}])
+			item == aaa.LANGUAGE && can.page.Appends(can, target, [{text: "EN"}, {text: " / "}, {text: "中"}])
+			item == chat.THEME && can.page.Appends(can, target, [{icon: icon.SUN}, {text: " / "}, {icon: icon.MOON}])
+			item == cli.QRCODE && can.page.Appends(can, target, [{icon: icon.qrcode, title: can.user.trans(can, cli.QRCODE)}])
 		}}])
 	}) },
 	_language: function(can) { can.page.Select(can, can._output, "div.item.language", function(target) {
@@ -56,8 +57,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
 		return can.page.Append(can, can._output, [{view: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
-			return can.base.isString(item)? /* 1.string */ {view: [[html.ITEM, html.MENU], "", can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }}:
-				can.base.isArray(item)? /* 2.array */ {view: [[html.ITEM, html.MENU], "", can.user.trans(can, item[0], trans)], onclick: function(event) { can.onkeymap.prevent(event)
+			return can.base.isString(item)? /* 1.string */ {view: [[html.ITEM, html.MENU, item], "", can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }}:
+				can.base.isArray(item)? /* 2.array */ {view: [[html.ITEM, html.MENU, item[0]]], list: [{text: can.user.trans(can, item[0], trans)}, {icon: icon.CHEVRON_DOWN}], onclick: function(event) { can.onkeymap.prevent(event)
 					can.onaction.carte(can.request(event, {_style: "header "+item[0]}), can, item.slice(1), function(event, button, meta) { can.base.isFunc(cb) && cb(event, button, item) }, trans)
 				}}: /* 3.others */ item
 		}) }])._target
@@ -100,6 +101,9 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	onstorm_select: function(can, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE), can.onmotion.delay(can, function() { can.onimport._const(can) }) },
 	onsearch_focus: function(can) { can._search && can._search.focus() },
+	onlayout: function(can, layout, before) { if (can.user.isMobile) { return }
+		can.page.ClassList.del(can, can._target, before), can.page.ClassList.add(can, can._target, layout)
+	},
 	onshare: function(can, msg, args) { can.user.share(can, msg, [ctx.ACTION, chat.SHARE].concat(args||[])) },
 	onwebpack: function(can, msg) { can.user.input(msg._event, can, [{name: mdb.NAME, value: can.user.title()}], function(data) {
 		can.core.Item(Volcanos.meta.pack, function(key, msg) { can.core.List(["_event", "_can", "_xhr", ""], function(key) { delete(msg[key]) }) })

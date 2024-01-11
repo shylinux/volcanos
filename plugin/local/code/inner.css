@@ -10,12 +10,17 @@ fieldset.inner>div.output div.content td.text span.package { color:var(--code-pa
 fieldset.inner>div.output>div.project div.zone div.action:not(.hide) { width:100%; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item { padding-right:0; width:100%; overflow:hidden; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item>input { padding-left:25px; width:100%; }
+fieldset.inner>div.output>div.project div.zone.space>div.list div.output>div.item { margin:var(--input-margin) 0; width:calc(100% - 5px); }
+fieldset.inner>div.output>div.project div.zone.space>div.list div.output>div.item:hover { background-color:var(--hover-bg-color); }
+fieldset.inner>div.output>div.project div.zone.repos>div.list div.output>div.item { margin:0; width:100% !important; }
+fieldset.inner>div.output>div.project div.zone.repos>div.list div.output>div.item:hover { background-color:var(--hover-bg-color); }
 fieldset.inner>div.output>div.layout>div.tabs { font-size:var(--code-font-size); display:none; }
 fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding-right:0; margin-left:5px; }
 fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); border-top-left-radius:var(--plugin-radius); border-top-right-radius:var(--plugin-radius); box-shadow:var(--box-shadow); }
 fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs.select { background-color:var(--output-bg-color); border-top-left-radius:var(--plugin-radius); border-top-right-radius:var(--plugin-radius); border-bottom:lightgray solid 2px;  box-shadow:var(--box-shadow);}
 fieldset.inner>div.output>div.layout>div.path { font-size:var(--code-font-size); display:none; }
 fieldset.inner.float>div.output>div.layout>div.path { font-size:var(--code-font-size); display:flex; }
+fieldset.Action.tabview fieldset.inner>div.output>div.layout>div.path { font-size:var(--code-font-size); display:flex; }
 fieldset.inner>div.output>div.layout>div.display h1 { border-bottom:var(--box-border); margin:var(--title-margin) 0; }
 fieldset.inner>div.output>div.layout>div.display h2 { border-bottom:var(--box-border); margin:var(--title-margin) 0; }
 fieldset.inner>div.output>div.layout>div.display pre>code { padding-left:var(--table-padding); border-left:var(--code-border-color) solid 5px; display:block; }

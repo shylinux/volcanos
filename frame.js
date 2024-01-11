@@ -176,7 +176,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				sub._fields = can
 				if (item.type == html.TEXT) { can.page.Append(can, sub._target.parentNode, [{text: [sub._target.value, html.SPAN, mdb.VALUE]}]) }
 				if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) {
-					can.onappend.icons(can, sub._target, item.name, item.onclick||function(event) { can.Update(event, [ctx.ACTION, item.name].concat(can.page.SelectArgs(sub))) })
+					can.onappend.icons(can, sub._target, item.name, item.onclick||function(event) {
+						can.Update(event, item.name == "refresh"? []: [ctx.ACTION, item.name].concat(can.page.SelectArgs(sub)))
+					})
 				}
 				sub.run = function(event, cmds, cb, silent) { var msg = can.requestAction(event, item.name)._caller()
 					msg.RunAction(event, sub, cmds) || msg.RunAction(event, can.sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
@@ -232,7 +234,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		if (list.length == 0 && can.Conf("inputs").length == 0) { return meta }
 		var _can = can._fields? can.sup: can
 		can.user.isMobile || can.isCmdMode() || can.base.beginWith(can.ConfIndex(), "can.") || can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
-			can.core.Item({full: "切换全屏", open: "打开链接"}, function(key, value) {
+			can.core.Item({full: "切换全屏", open: "打开链接", qrcode: "生成链接"}, function(key, value) {
 				return {view: [[html.ITEM, html.BUTTON, key, "icons"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
 					_can.onaction[value](event, _can, value, _can.sub)
 				}}

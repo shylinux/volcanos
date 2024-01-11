@@ -75,9 +75,10 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 			}) }])._target, next && can._output.insertBefore(list, next), can.ui.sublist[river] = list, _menu(list), list.children.length > 0 && list.children[select].click()
 		})
 	},
-	action: function(event, can, river, storm) { can.misc.SearchHash(can, river, storm)
+	action: function(event, can, river, storm) {
 		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], function(target) { can.page.ClassList.del(can, target, html.SELECT) })
 		can.onmotion.select(can, can.ui.sublist[river], html.DIV_ITEM, can.ui.storm_list[can.core.Keys(river, storm)])
+		can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
 		can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm)}))
 	},
 	carte: function(event, can, list, river, storm) { can.onkeymap.prevent(event); if (can.core.Value(can._root, can.core.Keys(chat.RIVER, river))) { return }

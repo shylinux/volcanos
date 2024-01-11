@@ -43,10 +43,7 @@ Volcanos(chat.ONFIGURE, {
 			}); cache = can.onimport.tree(can, list, nfs.PATH, nfs.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, cache)
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) {
-			show(target, zone, path)
-			zone._toggle = function() {
-				zone._layout()
-			}
+			show(target, zone, path), zone._toggle = function() { zone._layout() }
 		}) }), target)
 	},
 	space: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {
@@ -58,7 +55,7 @@ Volcanos(chat.ONFIGURE, {
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
 	}), zone.toggle(false) },
 	repos: function(can, target, zone) { can.onimport._zone(can, zone, {index: web.CODE_GIT_SEARCH, style: html.OUTPUT, mode: mdb.ZONE}, function(sub, msg) {
-		sub.onexport.record = function(sub, value, key, data) { can.user.opens(data.html_url) }
+		sub.onexport.record = function(sub, value, key, data) { can.onimport.tabview(can, "", [web.CODE_GIT_SEARCH, value].join(","), ctx.INDEX) }
 	}), zone.toggle(false) },
 })
 Volcanos(chat.ONACTION, {list: ["创建", "编译", "源码", "计划", "流程", "文档", "后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},
