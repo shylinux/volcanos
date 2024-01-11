@@ -10,7 +10,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.core.CallFunc([can.onaction, item], [event, can, item])
 		}, _init: function(target) { item == mdb.TIME && can.onimport._time(can, target)
 			item == aaa.AVATAR && can.page.Appends(can, target, [{img: lex.SP}])
-			item == aaa.USERNICK && can.page.Appends(can, target, [{text: can.Conf(aaa.USERNICK)}, {icon: icon.CHEVRON_DOWN}])
+			item == aaa.USERNICK && !can.user.isMobile && can.page.Appends(can, target, [{text: can.Conf(aaa.USERNICK)}, {icon: icon.CHEVRON_DOWN}])
 			item == aaa.LANGUAGE && can.page.Appends(can, target, [{text: "EN"}, {text: " / "}, {text: "中"}])
 			item == chat.THEME && can.page.Appends(can, target, [{icon: icon.SUN}, {text: " / "}, {icon: icon.MOON}])
 			item == cli.QRCODE && can.page.Appends(can, target, [{icon: icon.qrcode, title: can.user.trans(can, cli.QRCODE)}])

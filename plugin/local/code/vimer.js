@@ -43,7 +43,10 @@ Volcanos(chat.ONFIGURE, {
 			}); cache = can.onimport.tree(can, list, nfs.PATH, nfs.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, cache)
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) {
-			show(target, zone, path), zone._toggle = function() { zone._layout() }
+			show(target, zone, path), zone._toggle = function() {
+				can.ui.zone.source && can.ui.zone.source._layout()
+				zone._layout()
+			}
 		}) }), target)
 	},
 	space: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {

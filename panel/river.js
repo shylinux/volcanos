@@ -34,9 +34,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	onaction_touch: function(can, msg) { can.user.isMobile && can.onmotion.hidden(can) },
 	onaction_notool: function(can, msg, river, storm) { can.ondetail["addcmd"](msg._event, can, "addcmd", river, storm) },
 	onsearch: function(can, msg, arg) { if (arg[0] == chat.STORM) { can.onexport.storm(can, msg, arg) } },
-	onlayout: function(can, layout, before) { if (can.user.isMobile) { return }
-		can.page.ClassList.del(can, can._target, before||"auto"), can.page.ClassList.add(can, can._target, layout||"auto")
-	},
+	onlayout: function(can, layout, before) { can.page.ClassList.del(can, can._target, before), can.page.ClassList.add(can, can._target, layout) },
 	create: function(event, can) { can.user.input(can.request(event, {title: "创建群组"}), can, [
 		{name: mdb.TYPE, values: [aaa.TECH, aaa.VOID], _trans: "类型"},
 		{name: mdb.NAME, value: "hi", _trans: "群名", need: "must"},

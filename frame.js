@@ -267,6 +267,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (sub.onimport && can.base.isArray(sub.onimport.list) && sub.onimport.list.length > 0) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			}
+			can.page.ClassList.del(can, sub._fields, "form")
 			sub.db.hash = can.isCmdMode()? can.misc.SearchHash(can): []
 			sub._output.className = html.OUTPUT, can.onappend.style(can, sub._args.style, can._output)
 			can.page.style(can, can._output, html.HEIGHT, can._output.offsetHeight)
@@ -490,7 +491,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		if (can.base.endWith(style, ".css")) { return can.require([style]) }
 		can.base.isObject(style) && !can.base.isArray(style)? can.page.style(can, target, style): can.page.ClassList.add(can, target, style)
 	},
-	scroll: function(can, target, offset, length) {
+	scroll: function(can, target, offset, length) { if (!can.user.isChrome) { return }
 		if (offset) { var ui = can.page.Append(can, target, [{view: "scrollbar", style: {height: length*target.offsetHeight*2}}])
 			target.addEventListener("scroll", function(event) { can.page.style(can, ui.scrollbar, html.TOP, target.scrollTop+offset*target.offsetHeight, html.RIGHT, -target.scrollLeft) })
 			return ui.scrollbar
@@ -553,6 +554,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.onmotion.hidden(can, target)
 					can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 						item.layout = function(height, width) { sub.onimport.size(sub, height, width) }
+						can.onmotion.select(can, sub._target.parentNode, html.FIELDSET, sub._target)
 						sub.onexport._output = function() { can.onmotion.toggle(can, target, true) }
 					}, target, ui[item._index] = can.onappend.field(can, item.type, {index: item.index, name: item.index.split(nfs.PT).pop(), help: item.help}, target)._target)
 				} else { can.page.Append(can, target, [item]) }

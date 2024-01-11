@@ -111,8 +111,8 @@ table.content td { padding:var(--table-padding); }
 table.content td input.icons { display:none; }
 table.content td i:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
 table.content td i { padding:var(--input-padding); font-size:20px; }
-body:not(.mobile) fieldset.Action:not(.tabview):not(.grid) fieldset.plugin:not(.plug):not(.float):not(.full):not(.cmd)>div.output>table.content td input.icons { display:unset; }
-body:not(.mobile) fieldset.Action:not(.tabview):not(.grid) fieldset.plugin:not(.plug):not(.float):not(.full):not(.cmd)>div.output>table.content td i { display:none; }
+body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.plug):not(.float):not(.full):not(.cmd)>div.output>table.content td input.icons { display:unset; }
+body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.plug):not(.float):not(.full):not(.cmd)>div.output>table.content td i { display:none; }
 table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; z-index:1; }
 table.content.checkbox td:first-child { background-color:var(--th-bg-color); text-align:center; position:sticky; left:2px; }
 table.content.detail td:first-child { width:var(--input-width); }
@@ -280,7 +280,7 @@ div.item.text { position:relative; }
 div.item.text>input { width:var(--input-width); height:var(--action-height); }
 div.item.text.id>input { width:var(--button-width); }
 div.item.text.url>input { width:var(--river-width); }
-div.item.text.path>input { width:var(--project-width); }
+fieldset.Action:not(.horizon):not(.grid) div.item.text.path>input { width:var(--project-width); }
 fieldset.story>form.option>div.item.text.path>input { width:var(--input-width); }
 div.item.text.line>input { width:var(--button-width) !important; }
 div.item.text.limit>input { width:var(--button-width); }
@@ -305,15 +305,16 @@ fieldset.plugin>legend { font-style:italic; }
 fieldset.plugin>form.option>div.button.icons>input { display:none; }
 fieldset.plugin>div.action>div.button.icons>input { display:none; }
 /* fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.icon { display:none; } */
-fieldset.Action:not(.tabview):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.icon { display:none; }
+fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.icon { display:none; }
 fieldset.Action.tabview fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.icon.delete { display:none; }
 fieldset.Action.grid fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.icon.delete { display:none; }
-body:not(.mobile) fieldset.Action:not(.tabview):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.button.icons>input { display:unset; }
-body:not(.mobile) fieldset.Action:not(.tabview):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.button.icons>span.icon { display:none; }
-body:not(.mobile) fieldset.Action:not(.tabview):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.button.icons>i { display:none; }
-body:not(.mobile) fieldset.Action:not(.tabview):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.action>div.button.icons>input { display:unset; }
-body:not(.mobile) fieldset.Action:not(.tabview):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.action>div.button.icons>span.icon { display:none; }
-body:not(.mobile) fieldset.Action:not(.tabview):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.action>div.button.icons>i { display:none; }
+fieldset.Action.horizon fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.icon.delete { display:none; }
+body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.button.icons>input { display:unset; }
+body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.button.icons>span.icon { display:none; }
+body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.button.icons>i { display:none; }
+body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.action>div.button.icons>input { display:unset; }
+body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.action>div.button.icons>span.icon { display:none; }
+body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.action>div.button.icons>i { display:none; }
 fieldset.panel>div.action>div.button.icons>span.icon { display:none; }
 fieldset.plugin.cmd>form.option>div.icon.delete { display:none; }
 fieldset.story>form.option>div.button.icons>input { display:none; }
@@ -634,6 +635,7 @@ fieldset.word>div.output>fieldset.story:not(.full) { margin:var(--title-margin) 
 fieldset.word>div.output fieldset.story:not(.float):not(.full)>form.option>div.icon.delete { display:none; }
 fieldset.input.icon div.output td { font-size:28px; padding:var(--input-padding); }
 fieldset.status>div.output table.content { width:100%; }
+fieldset.web.stats>div.output { align-items: normal; }
 fieldset.web.code.git>div.output>fieldset.web.code.inner>div.output { overflow:auto; }
 fieldset.web.code.git.total.draw div.output { text-align:center; }
 fieldset.web.code.git.trend>div.output rect { cursor:pointer; }
@@ -681,7 +683,7 @@ body.white fieldset.inner.cmd>div.output>div.layout>div.tabs div:not(.select):no
 body.mobile fieldset.inner>form.option input[name=file] { width:160px; }
 body.mobile fieldset.word>form.option>div.item>input[name=path] { width:180px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
-body.mobile fieldset.Action>div.output>fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd) { margin:20px 0; }
+body.mobile fieldset.Action>div.output>fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd):not(:first-child) { margin:20px 0; }
 body.windows fieldset.inner>div.output { overflow:hidden; }
 body.windows fieldset.inner>div.output>div.layout>div.layout>div.profile { overflow:hidden; }
 /* scrollbar */
