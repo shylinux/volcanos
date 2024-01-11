@@ -202,7 +202,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			var _can = can._fields? can.sup: can
 			if (!can.page.tagis(_can._target, html.FIELDSET_PLUGIN)) { return }
 			can.user.isMobile || meta._help && add({type: html.BUTTON, name: ice.HELP, onclick: function(event) { can.onappend._float(can, {index: web.WIKI_WORD}, [meta._help]) }}, function() {})
-			can.base.isIn(can.ConfIndex(), web.CODE_VIMER) || can.user.isMobile || can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && add({type: html.BUTTON, name: "vimer", _trans: "源码", onclick: function(event) {
+			!can.Conf("_fileline") || can.base.isIn(can.ConfIndex(), web.CODE_VIMER) || can.user.isMobile || can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && add({type: html.BUTTON, name: "vimer", _trans: "源码", onclick: function(event) {
 				var value = "查看源码"; _can.onaction[value](event, _can, value, _can.sub)
 			}}, function() {})
 		})
@@ -231,16 +231,14 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) { can.onappend.icons(can, target, item.name) }
 				}), item), "", action)
 		})
-		if (list.length == 0 && can.Conf("inputs").length == 0) { return meta }
-		var _can = can._fields? can.sup: can
+		if (list.length == 0 && can.Conf("inputs").length == 0) { return meta } var _can = can._fields? can.sup: can
 		can.user.isMobile || can.isCmdMode() || can.base.beginWith(can.ConfIndex(), "can.") || can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
-			can.core.Item({full: "切换全屏", open: "打开链接", qrcode: "生成链接"}, function(key, value) {
+			can.core.Item({full: "切换全屏", qrcode: "生成链接", open: "打开链接"}, function(key, value) {
 				return {view: [[html.ITEM, html.BUTTON, key, "icons"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
 					_can.onaction[value](event, _can, value, _can.sub)
 				}}
 			})
-		)
-		return meta
+		); return meta
 	},
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); meta.feature = meta.feature||{}
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION) { if (msg.RunAction(event, can.sub, cmds)) { return } }

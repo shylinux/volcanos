@@ -28,3 +28,5 @@ fieldset.River:not(.all):not(.tabs):not(.page)>div.output>div.item>i:first-child
 fieldset.River:not(.all):not(.tabs):not(.page)>div.output div.item>i:first-child { margin-right:0; }
 fieldset.River:not(.all):not(.tabs):not(.page)>div.output>div.list { margin-left:var(--input-margin); }
 fieldset.River.tabview>div.action:not(.hide) { margin-top:calc(var(--plugin-margin) + var(--plugin-padding)); }
+fieldset.River.tabs>div.action:not(.hide) { margin-top:0; }
+body.void fieldset.River>div.action { display:none; }

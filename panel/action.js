@@ -12,17 +12,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 			})
 		}, function() { if (can.isCmdMode()) { return } can.user.mod.isCmd = false, can.page.ClassList.del(can, document.body, ice.CMD)
 			can.onaction.layout(can, list[3]); if (can.user.isMobile) { return }
-			var _select = can._plugins[0]; can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) {
-				sub.Conf(ctx.INDEX) == list[2] && (_select = sub)
-			}) , _select._tabs.click()
+			can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) { sub.Conf(ctx.INDEX) == list[2] && (sub._tabs.click()) })
 		})
 	},
 	_tabs: function(can, sub, meta) {
 		var tabs = [{view: [html.ITEM, "", can.user.trans(can, meta.name, meta.help)], title: meta.help, onclick: function(event) { can._current = sub
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target), can.onmotion.select(can, can._action, html.DIV_ITEM, sub._tabs), can.onmotion.select(can, can._header_tabs, html.DIV_ITEM, sub._header_tabs)
 			var layout = can.onexport.layout(can); layout == FREE || (can._output.scrollTop = sub._target.offsetTop-10)
-			if (sub._delay_refresh || layout == TABVIEW) { sub._delay_refresh = false, sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) }
 			can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), meta.index, layout)
+			sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))
 		}, oncontextmenu: sub._legend.onclick}]; sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
 	},
 	_menu: function(can, msg) { if (can.user.isMobile) { return }
@@ -104,30 +102,24 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.page.ClassList.del(can, can._target, before), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		button = (can.onlayout._storage(can, can._layout = button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
 		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button, before: before})), can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), skip || can.onlayout._init(can)
-		can.isCmdMode() || can.core.List(can._plugins, function(sub) { sub._delay_refresh = false })
-		var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can) || can.onlayout._plugin(can, button)
+		can.getActionSize(function(height, width) { var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can, height, width) || can.onlayout._plugin(can, button) })
 	},
 	_menus: [[html.LAYOUT, ALL, TABS, TABVIEW, VERTICAL, HORIZON, GRID, FREE, FLOW, PAGE], web.DREAM, web.DESKTOP, web.PORTAL],
 	_trans: kit.Dict(web.DREAM, "空间", web.DESKTOP, "桌面", web.PORTAL, "官网", html.LAYOUT, "布局", ALL, "详情布局", TABS, "标签布局", TABVIEW, "标签分屏", VERTICAL, "上下分屏", HORIZON, "左右分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
 })
 Volcanos(chat.ONLAYOUT, {
-	tabs: function(can) {
-		can.getActionSize(function(height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width) })
-		can.core.List(can._plugins, function(sub) { sub._delay_refresh = true })
-		can.onmotion.select(can, can._action, html.DIV_ITEM, can.onmotion.select(can, can._action, html.DIV_ITEM)||0, function(target) { target.click() }); return true
+	tabs: function(can, height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width) },
+	tabview: function(can, height, width) {
+		can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width), can.onmotion.toggle(can, can._header_tabs, true)
+		can.page.SelectOne(can, can._header_tabs, html.DIV_ITEM_SELECT) || can.page.Select(can, can._header_tabs, html.DIV_ITEM, function(target, index) { index == 0 && target.click() })
 	},
-	tabview: function(can) { can.onmotion.toggle(can, can._header_tabs, true)
-		can.getActionSize(function(height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width) })
-		// can.core.List(can._plugins, function(sub) { sub._delay_refresh = true })
-		// can.onmotion.select(can, can._action, html.DIV_ITEM, can.onmotion.select(can, can._action, html.DIV_TABS)||0, function(target) { target.click() }); return true
+	horizon: function(can, height, width) { can.ConfHeight(height), can.ConfWidth(width/2) },
+	vertical: function(can, height, width) { can.ConfHeight(height/2), can.ConfWidth(width) },
+	grid: function(can, height, width) { var m = can.user.isMobile? 1: 2, n = 2, h = height/n, w = width/m; can.ConfHeight(h+html.ACTION_HEIGHT), can.ConfWidth(w) },
+	free: function(can, height, width) { can.ConfHeight(height*3/4), can.ConfWidth(width*3/4), can.onmotion.toggle(can, can._header_tabs, true)
+		can.core.List(can._plugins, function(sub, index, array) { can.onmotion.move(can, sub._target, {left: (width/array.length/8*5+20)*index, top: (height/array.length/8*5)*index}) })
 	},
-	horizon: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height), can.ConfWidth(width/2) }) },
-	vertical: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height/2), can.ConfWidth(width) }) },
-	grid: function(can) { can.getActionSize(function(height, width) { var m = can.user.isMobile? 1: 2, n = 2, h = height/n, w = width/m; can.ConfHeight(h+html.ACTION_HEIGHT), can.ConfWidth(w) }) },
-	free: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height*3/4), can.ConfWidth(width*3/4)
-		can.core.List(can._plugins, function(sub, index, array) { can.onmotion.move(can, sub._target, {left: (width/array.length/8*5+20)*index, top: (height/array.length/8*5)*index}) }), can.onmotion.toggle(can, can._header_tabs, true)
-	}) },
-	flow: function(can) { can.getActionSize(function(height, width) { can.ConfHeight(height-html.ACTION_MARGIN), can.ConfWidth(width) }) },
+	flow: function(can, height, width) { can.ConfHeight(height-html.ACTION_MARGIN), can.ConfWidth(width) },
 	page: function(can) { can.page.styleHeight(can, can._output, ""), can.page.style(can, document.body, kit.Dict(html.OVERFLOW, "")) },
 	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) {
 		if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) { return sub.onimport.size(sub, can.ConfHeight()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING, can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING, true) }

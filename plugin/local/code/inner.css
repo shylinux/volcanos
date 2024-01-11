@@ -1,3 +1,4 @@
+fieldset.inner>div.output { justify-content:flex-start; }
 fieldset.inner>div.output div.content td.text { height:var(--code-line-height); }
 fieldset.inner>div.output div.content td.text span.comment { color:var(--code-comment); }
 fieldset.inner>div.output div.content td.text span.keyword { color:var(--code-keyword); box-shadow:var(--box-shadow); }
