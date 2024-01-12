@@ -80,12 +80,6 @@ body.width6 { /* 1920-2240 显示器 */
 	--plugin-padding:10px;
 	--river-width:280px; --input-width:180px;
 }
-body.width2>fieldset.Header>div.output>div.state.time { display:none; }
-body.width2>fieldset.Header>div.output>div.state.language { display:none; }
-body.width2>fieldset.Header>div.output>div.state.theme { display:none; }
-body.width2>fieldset.Header>div.output>div.state.qrcode { display:none; }
-body.width3>fieldset.Header>div.output>div.state.time { display:none; }
-body.width3>fieldset.Header>div.output>div.state.language { display:none; }
 /* element */
 * { tab-size:4; box-sizing:border-box; padding:0; border:0; margin:0; }
 legend { font-family:var(--legend-font-family); padding:0 var(--legend-padding); margin-right:var(--button-margin); }
