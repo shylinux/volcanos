@@ -4,7 +4,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X); if (item.style == html.OUTPUT) { item.width = can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING }
 			if (msg.Length() == 1) { item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y) } list.length == 0 && item.index == "web.dream" && (list = [river, storm, item.index])
 			can.onappend.plugin(can, item, function(sub, meta, skip) {
-				sub.onexport.output = function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "") }
+				sub.onexport.output = function() { can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "") }
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.space||meta.pod}), (can.base.beginWith(meta.index, "can.")? []: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				can.user.isChrome && (can.ondaemon._list[sub._daemon = can.core.Keys(river, storm, index)] = sub)
@@ -12,14 +12,16 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 			})
 		}, function() { if (can.isCmdMode()) { return } can.user.mod.isCmd = false, can.page.ClassList.del(can, document.body, ice.CMD)
 			can.onaction.layout(can, list[3]); if (can.user.isMobile) { return }
-			can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) { sub.Conf(ctx.INDEX) == list[2] && (sub._tabs.click()) })
+			can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) {
+				can.base.isIn(list[2], sub.Conf(ctx.INDEX), sub.Conf("_command")||sub.Conf(ctx.INDEX)) && sub._tabs.click()
+			})
 		})
 	},
 	_tabs: function(can, sub, meta) {
 		var tabs = [{view: [html.ITEM, "", can.user.trans(can, meta.name, meta.help)], title: meta.help, onclick: function(event) { can._current = sub
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target), can.onmotion.select(can, can._action, html.DIV_ITEM, sub._tabs), can.onmotion.select(can, can._header_tabs, html.DIV_ITEM, sub._header_tabs)
 			var layout = can.onexport.layout(can); layout == FREE || (can._output.scrollTop = sub._target.offsetTop-10)
-			can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), meta.index, layout)
+			can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), sub.Conf("_command")||meta.index, layout)
 			sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))
 		}, oncontextmenu: sub._legend.onclick}]; sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
 	},
@@ -63,13 +65,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		if (can.onmotion.cache(can, function(save, load) { save({plugins: can._plugins, current: can._current}), can._plugins = []
 			return load(can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm)), function(bak) { can._plugins = bak.plugins, can._current = bak.current })
 		}, can._output, can._action, can._header_tabs)) {
-			if (msg.Option(web.REFRESH) != ice.TRUE) {
-				can._current._tabs.click()
-				can.onmotion.delay(can, function() {
-					can.onaction.layout(can)
-				})
-				return
-			}
+			if (msg.Option(web.REFRESH) != ice.TRUE) { return can._current && can._current._tabs.click(), can.onaction.layout(can) }
 		}
 		can.run(can.request({}, {_method: http.GET}), [river, storm], function(msg) {
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOTOOL, can.request({}, {river: river, storm: storm})) }

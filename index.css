@@ -274,7 +274,7 @@ div.item.text { position:relative; }
 div.item.text>input { width:var(--input-width); height:var(--action-height); }
 div.item.text.id>input { width:var(--button-width); }
 div.item.text.url>input { width:var(--river-width); }
-fieldset.Action:not(.horizon):not(.grid) div.item.text.path>input { width:var(--project-width); }
+fieldset.Action:not(.horizon):not(.grid)>fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
 fieldset.story>form.option>div.item.text.path>input { width:var(--input-width); }
 div.item.text.line>input { width:var(--button-width) !important; }
 div.item.text.limit>input { width:var(--button-width); }
@@ -588,6 +588,7 @@ fieldset.vimer>div.output>div.project>div.zone.space div.item.stop { color:var(-
 fieldset.xterm>div.action>div.tabs:only-child { display:none; }
 fieldset.xterm.story>form.option>div.item.hash input { width:320px; }
 fieldset.cmd>div.output>fieldset.xterm.story>form.option>div.item.hash input { width:var(--plug-width); }
+fieldset.cmd>div.output>fieldset.iframe.story>form.option>div.item.hash input { width:var(--plug-width); }
 fieldset.xterm>div.layout { clear:both; }
 fieldset.xterm div.layout div.output { border-left:var(--box-border); border-top:var(--box-border); }
 fieldset.xterm div.layout div.output.select { border:var(--box-border)}

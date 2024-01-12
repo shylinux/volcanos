@@ -4,9 +4,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg
 			return can.onimport._river(can, item, function(target) { (index == 0 || item.hash == can._main_river) && (select = target) })
 		})), select && select.click(), can.onimport._menu(can, msg)
 	},
-	_main: function(can, msg) { can.ui = {river_list: {}, storm_list: {}, sublist: {}}; var ls = location.hash.slice(1).split(nfs.DF)
-		can._main_river = can.misc.SearchOrConf(can, chat.RIVER)||ls[0]||msg.Option(ice.MSG_RIVER)||"project"
-		can._main_storm = can.misc.SearchOrConf(can, chat.STORM)||ls[1]||msg.Option(ice.MSG_STORM)||"studio"
+	_main: function(can, msg) { can.ui = {river_list: {}, storm_list: {}, sublist: {}}
+		var ls = can.misc.SearchHash(can); msg.Table(function(item) { item.main && (can._main_river = item.hash) })
+		can._main_river = ls[0]||can.misc.SearchOrConf(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||can._main_river||"project"
+		can._main_storm = ls[1]||can.misc.SearchOrConf(can, chat.STORM)||msg.Option(ice.MSG_STORM)
+			// ||can._main_storm||"studio"
 	},
 	_river: function(can, meta, cb) { return {view: html.ITEM, title: meta.name, list: [{icon: meta.icon}, {text: meta.name}, {icon: icon.CHEVRON_DOWN}], _init: function(target) { can.ui.river_list[meta.hash] = target, cb(target) },
 		onclick: function(event) { can.onaction.storm(event, can, meta.hash) }, oncontextmenu: function(event) { can.onaction.carte(event, can, can.onaction._menu, meta.hash) },
@@ -62,14 +64,16 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 				can.onmotion.hidden(can, can._root.Footer._target, list.length > 1)
 				var menu = can.setFooterMenu(list, function(event, button, list) { can.onaction.action(event, can, river, button) })
 				can.page.SelectChild(can, menu, html.DIV_ITEM, function(target, index) { can.page.ClassList.set(can, target, html.SELECT, list[index].hash == can.Conf("storm")) })
-			})
+			}, 300)
 		}
 		var list = can.ui.sublist[river]; if (list) { return can.onmotion.toggle(can, list), _menu(list) }
 		can.run({}, [river, chat.STORM], function(msg) { var next = can.ui.river_list[river].nextSibling
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOSTORM, can.request({}, {river: river})) }
 			can.db.storm_list[river] = msg.Table()
+			var _main_storm; msg.Table(function(item) { item.main && (_main_storm = item.hash) }), _main_storm = can._main_storm || _main_storm || "studio"
 			var select = 0; list = can.page.Append(can, can._output, [{view: html.LIST, list: msg.Table(function(item, index) {
-				return river == can._main_river && item.hash == can._main_storm && (select = index), can.onimport._storm(can, item, river)
+				river == can._main_river && (item.hash == _main_storm) && (select = index)
+				return can.onimport._storm(can, item, river)
 			}) }])._target, next && can._output.insertBefore(list, next), can.ui.sublist[river] = list, _menu(list), list.children.length > 0 && list.children[select].click()
 		})
 	},
@@ -136,13 +140,13 @@ Volcanos(chat.ONENGINE, {_engine: function(event, can, msg, panel, cmds, cb) {
 	var list = can.river
 	cmds.length == 0 && can.core.ItemOrder(list, mdb.ORDER, function(key, value) {
 		if (can.user.info.userrole == aaa.ROOT || can.base.isIn(value.type||"", "", aaa.VOID, can.user.info.userrole)) {
-			can.core.Item(value.storm).length > 0 && msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||""})
+			can.core.Item(value.storm).length > 0 && msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||"", main: value.main||false})
 		}
 	})
 	if (cmds.length != 1 && cmds[1] != chat.STORM) { return false } var river = list[cmds[0]]; if (!river) { return false }
 	can.core.ItemOrder(river.storm, mdb.ORDER, function(key, value) {
 		if (can.user.info.userrole == aaa.ROOT || can.base.isIn(value.type||"", "", aaa.VOID, can.user.info.userrole)) {
-			msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||""})
+			msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||"", main: value.main||false})
 		}
 	}), can.base.isFunc(cb) && cb(msg); return true
 }})
