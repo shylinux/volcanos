@@ -244,6 +244,7 @@ Volcanos(chat.ONSYNTAX, {
 			"res": code.OBJECT, "sub": code.OBJECT, "sup": code.OBJECT,
 		},
 		complete: function(event, can, msg, target, pre, key) {
+			return
 			var ls = can.core.Split(can.core.Split(pre, "\t {(:,)}").pop(), nfs.PT), list = {can: can, msg: msg, target: target, event: event, window: window}
 			can.core.ItemKeys(key == ""? list: can.core.Value(list, ls)||can.core.Value(window, ls)||window, function(k, v) {
 				msg.Push(mdb.NAME, k).Push(mdb.TEXT, (v+"").split(lex.NL)[0])

@@ -307,6 +307,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.page.Append(can, status, [{view: html.ITEM, list: [
 				{text: [can.page.Color(can.user.trans(can, item.name, null, html.INPUT)), html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value == undefined? "": (item.value+"").trim())+"", html.SPAN, item.name]},
 			], onclick: item.onclick||function(event) {
+				if (!can.misc.isDebug(can)) { return }
 				if (can.base.isIn(item.name, mdb.TIME)) {
 					can.onappend._float(can, {index: "can.debug"}, ["log", can.ConfIndex()])
 				} else if (item.name == mdb.COUNT) {

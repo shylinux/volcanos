@@ -99,11 +99,12 @@ Volcanos(chat.ONIMPORT, {
 		can.page.SelectArgs(can, can._action, "", function(target) { target.value = his[i++]||"" }); break
 	} can.Update(event) },
 })
-Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", "切换全屏", "共享工具", "生成链接",
+Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", "切换全屏", "生成链接",
 		function(can) { if (!can.isCmdMode()) { return "打开链接" } }, function(can) { if (can.isCmdMode()) { return "打开首页" } },
 		function(can) { if (can.ConfSpace() || can.isCmdMode() && can.misc.Search(can, ice.POD)) { return "打开空间" } },
 		function(can) { if (can.misc.Search(can, ice.MSG_DEBUG)) { return "查看源码" } },
 		function(can) { if (can.misc.Search(can, ice.MSG_DEBUG)) { return "查看镜像" } },
+		"共享工具",
 		["视图", "参数",
 			function(can) { if (can._action.innerHTML) { return "操作" } },
 			function(can) { if (can._status.innerHTML) { return "状态" } },

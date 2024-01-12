@@ -1,12 +1,11 @@
 (function() { var NTIP = "ntip", NLOG = "nlog", NCMD = "ncmd", NKEY = "nkey"
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.ondaemon._init(can)
 		if (!can.user.isMobile && !can.misc.isDebug(can)) { can.onmotion.hidden(can); return }
 		can.Conf(nfs.VERSION, can.base.trimPrefix(window._version, "?_v=").split("&")[0])
 		can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width())
 		can.Conf(NKEY, can.core.Item(can.misc.localStorage(can)).length)
 		can.onimport._title(can, msg, target), can.onimport._command(can, msg, target), can.onimport._storm(can, msg, target)
 		can.misc.isDebug(can) && can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target)
-		can._wss = can.ondaemon._init(can)
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.Conf(chat.TITLE)||msg.result, function(item) {
 		if (can.base.contains(item, ice.AT)) { item = '<a href="mailto:'+item+'">'+item+'</a>' }

@@ -142,8 +142,11 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	carte: function(event, can, list, cb, trans) { return can.user.carte(event, can, can.onaction, list, cb, null, trans) },
 
 	_params: [log.DEBUG, chat.TITLE],
-	_menus: ["shareuser", cli.QRCODE, [chat.THEME], [aaa.LANGUAGE],
-		[nfs.SAVE, aaa.EMAIL, web.TOIMAGE, code.WEBPACK],
+	_menus: [
+		cli.QRCODE,
+		"shareuser",
+		[chat.THEME], [aaa.LANGUAGE],
+		// [nfs.SAVE, aaa.EMAIL, web.TOIMAGE, code.WEBPACK],
 		[aaa.USER, "setnick", web.CLEAR, aaa.LOGOUT],
 	],
 	_trans: kit.Dict("shareuser", "共享用户", cli.QRCODE, "生成链接",
