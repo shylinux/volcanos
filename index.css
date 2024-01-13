@@ -1,3 +1,10 @@
+@media (prefers-color-scheme: light) {
+	body { --plugin-bg-color:white; --plugin-fg-color:black; }
+}
+@media (prefers-color-scheme: dark) {
+	body { --plugin-bg-color:black; --plugin-fg-color:silver; }
+	body { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
+}
 body {
 	--notice-bg-color:blue; --notice-fg-color:white;
 	--danger-bg-color:red; --danger-fg-color:var(--notice-fg-color);
@@ -6,10 +13,10 @@ body {
 	--hover-bg-color:#5066b945; --hover-fg-color:var(--notice-fg-color);
 	--progress-bg-color:red; --disable-fg-color:gray;
 	--body-bg-color:var(--plugin-bg-color); --body-fg-color:var(--plugin-fg-color);
-	--plugin-bg-color:black; --plugin-fg-color:silver; --plugin-border-color:var(--box-border);
+	--plugin-border-color:var(--box-border);
 
 	--legend-bg-color:var(--plugin-bg-color);
-	--input-bg-color:var(--plugin-fg-color); --input-fg-color: var(--plugin-fg-color); --input-border:var(--box-border);
+	--input-bg-color:var(--plugin-bg-color); --input-fg-color: var(--plugin-fg-color); --input-border:var(--box-border);
 	--output-bg-color:var(--input-bg-color); --output-fg-color:var(--input-fg-color); --status-border:var(--box-border);
 	--th-bg-color:var(--plugin-bg-color); --th-fg-color:var(--plugin-fg-color);
 	--tr-hover-bg-color:var(--hover-bg-color); --td-hover-bg-color:var(--hover-bg-color);
@@ -49,7 +56,6 @@ body {
 }
 input { font-family:var(--input-font-family); }
 body { font-family:var(--body-font-family); }
-body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
 body.windows { --code-font-family:"Courier New"; }
 body.mobile { --qrcode-height:284px; }
 body.cmd { background-color:var(--plugin-bg-color); }

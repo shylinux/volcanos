@@ -82,8 +82,9 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg), can.page.requireModules(can, [msg.Option("icon.lib")])
-			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.__theme = can.onimport._theme(can, can.onexport.theme(can)), can.onimport.theme(can)
-			can.page.theme(function(theme) { can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.ui.diy&&can.ui.diy[theme]||theme})) })
+			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.__theme = can.onimport._theme(can, can.page.theme(function(theme) {
+				can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.onimport._theme(can, theme)}))
+			})), can.onimport.theme(can)
 			can.onaction._menus[3] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, nfs._JS) }))
 			can.onaction._menus[2] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, nfs._CSS) }))
 			can.require(can.core.List(msg["theme.list"], function(item) { return nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/theme/"+item }), function() {
@@ -124,7 +125,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	}) },
 	qrcode: function(event, can) {
 		can.runAction(event, cli.QRCODE, [], function(msg) {
-			can.user.toast(can, {title: msg.Append(web.LINK), duration: -1, content: msg.Result(), action: [cli.CLOSE, cli.OPEN], resize: html.IMG})
+			var ui = can.user.toast(can, {title: msg.Append(web.LINK), duration: -1, content: msg.Result(), action: [cli.CLOSE, cli.OPEN], resize: html.IMG})
+			can.page.style(can, ui._target, html.TOP, (can.page.height() - 360)/2)
 		})
 	},
 	language: function(event, can) { can.onimport.language(can, can.user.info.language.indexOf("zh") == 0? "en-us": "zh-cn") },

@@ -25,9 +25,12 @@ Volcanos(chat.ONFIGURE, {key: {
 	onclick: function(event, can, meta, target, cbs) { cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
-	onfocus: function(event, can, meta, target, cbs) { cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
-		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
-	}) },
+	onfocus: function(event, can, meta, target, cbs) {
+		return
+		cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
+			meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
+		})
+	},
 	onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },
 	onkeydown: function(event, can, meta, cb, target, sub, last) { if (event.key == code.TAB) { return }
 		if (event.key == code.ENTER) { return meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event, target.value)? sub.close(): last(event) }
