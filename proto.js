@@ -41,7 +41,9 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 		},
 		request: function(event) { event = event||{}, event = event._event||event
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg
-			function set(key, value) { if (key == "_method") { return msg._method = value }
+			function set(key, value) {
+				if (key == "_method") { return msg._method = value }
+				if (typeof value == code.FUNCTION) { return msg[key] = value }
 				value == "" || msg.Option(key) || msg.Option(key, value)
 			}
 			can.core.List(arguments, function(item, index) { if (!item || index == 0) { return }

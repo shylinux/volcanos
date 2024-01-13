@@ -582,6 +582,7 @@ body.print select, body.print input[type=text], body.print textarea { box-shadow
 body.print fieldset.draw div.output { background-color:lightgray; }
 body.print fieldset.draw div.output div.content svg { background-color:lightgray; }
 /* misc */
+body:not(.debug) fieldset.plugin.can._notfound { display:none; }
 fieldset.inner.float>div.status { display:none; }
 fieldset.inner>div.output>div.project div.item.modify { background-color:#00800036; }
 fieldset.vimer>div.output>div.project div.item.modify { background-color:#00800036; }

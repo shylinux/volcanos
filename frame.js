@@ -80,7 +80,7 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.is
 	toast: function(can, sub, arg, cb) { can.core.CallFunc(can.user.toast, [sub].concat(arg)) },
 	grow: function(can, msg, sub, arg) { var _can = sub._fields && sub.sup? sub.sup: sub; _can.onimport._grow(_can, msg, arg.join("")) },
 	rich: function(can, msg, sub, arg) { var _can = sub._fields && sub.sup? sub.sup: sub; _can.onimport._rich(_can, msg, arg) },
-	refresh: function(can, sub) { can.base.isFunc(sub.Update) && sub.Update(), can.user.toastSuccess(can) },
+	refresh: function(can, sub) { can.base.isFunc(sub.Update) && sub.Update() },
 	action: function(can, msg, sub, arg) {
 		if (arg[0] == "ctrl") { var list = []
 			can.page.Select(can, can._root._target, html.INPUT, function(target, index) { list[index] = target
@@ -593,10 +593,14 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	plugin: function(can, meta, cb, target, field) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||ice.CAN_PLUGIN, meta._space = meta._space||can.ConfSpace()
 		var res = {}; function _cb(sub, meta, skip) { kit.proto(res, sub), cb && cb(sub, meta, skip) }
 		if (meta.inputs && meta.inputs.length > 0 || meta.meta) { can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, _cb, target, field); return res }
-		var value = can.onengine.plugin(can, meta.index); if (value) { can.onappend._plugin(can, value, meta, function(sub, meta, skip) {
-			value.meta && value.meta._init && value.meta._init(sub, meta), _cb(sub, meta, skip) }, target, field); return res }
-		can.runAction(can.request({}, {_method: http.GET, pod: meta.space})._caller(), ctx.COMMAND, [meta.index], function(msg) {
-			if (msg.Length() == 0) { return can.misc.Warn("not found", meta.index), can.onappend._plugin(can, {index: "can._plugin", style: html.HIDE}, meta, _cb, target, field) }
+		function _plugin(_meta) { var value = can.onengine.plugin(can, _meta.index)
+			if (value) { can.onappend._plugin(can, value, _meta, function(sub, meta, skip) {
+				value.meta && value.meta._init && value.meta._init(sub, meta), _cb(sub, meta, skip)
+			}, target, field); return true }
+		} if (_plugin(meta)) { return res }
+		can.runAction(can.request({}, {_method: http.GET, pod: meta.space, _failure: function() {
+			return can.misc.isDebug(can) && can.misc.Warn("not found", meta.index), _plugin({type: meta.type, index: "can._notfound", args: [meta.index, meta.space]})
+		}})._caller(), ctx.COMMAND, [meta.index], function(msg) { if (msg.Length() == 0) { return msg._failure() }
 			msg.Table(function(value) { can.onappend._plugin(can, value, meta, _cb, target, field) })
 		}); return res
 	},

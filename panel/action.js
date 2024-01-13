@@ -3,10 +3,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next, index) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X); if (item.style == html.OUTPUT) { item.width = can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING }
 			if (msg.Length() == 1) { item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y) } list.length == 0 && item.index == "web.dream" && (list = [river, storm, item.index])
-			can.onappend.plugin(can, item, function(sub, meta, skip) {
+			can.onappend.plugin(can, item, function(sub, meta, skip) { if (meta.index == "can._notfound" && !can.misc.isDebug(can)) { return skip || next() }
 				sub.onexport.output = function() { can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "") }
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
-				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.space||meta.pod}), (can.base.beginWith(meta.index, "can.")? []: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
+				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.space||meta.pod}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				can.user.isChrome && (can.ondaemon._list[sub._daemon = can.core.Keys(river, storm, index)] = sub)
 				can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
 			})
@@ -202,21 +202,9 @@ Volcanos(chat.ONKEYMAP, {
 	toggleLayout: function(can, layout) { can.onaction.layout(can, can.onexport.layout(can) == layout? ice.AUTO: layout) },
 })
 Volcanos(chat.ONPLUGIN, {
-	_plugin: shy("默认插件", [mdb.NAME, ice.LIST, ice.BACK]),
-	_filter: shy("默认插件", [web.FILTER, ice.LIST, ice.BACK]),
-	layout: shy("界面布局", {_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)) }}, ["layout:select=auto,tabs,tabview,horizon,vertical,grid,free,flow,page", ctx.RUN], function(can, msg, arg) {
-		can.onaction.layout(can, arg[0])
-	}),
-	"parse": shy("生成网页", {
-		"show": function(can, msg, arg) { var name = arg[1]||ice.CAN; can.isCmdMode() && can.user.title(name)
-			arg && arg[0] && Volcanos(name, {_follow: can.core.Keys(can._follow, name)}, [chat.PLUGIN_STORY+"parse.js"], function(sub) {
-				sub.run = can.run, sub.Option = function() {}
-				can.isCmdMode() && sub.ConfHeight(can.page.height())
-				can.onengine.listen(can, "menu", function(msg) { console.log(msg) })
-				sub.onappend.parse(sub, sub.onappend._parse(sub, arg[0], name, sub.ConfHeight()), can._output)
-			})
-		},
-	}, [mdb.TEXT, mdb.NAME, "show:button@auto", "clear:button"]),
-	"nfs.save": shy("保存文件", {"save": function(can, msg, arg) { can.user.downloads(can, arg[1], arg[0]) }}, ["file=hi.txt", "text:textarea='hello world'", "save:button"]),
+	_plugin: shy("插件", [mdb.NAME, ice.LIST, ice.BACK]),
+	_filter: shy("表格", [web.FILTER, ice.LIST, ice.BACK]),
+	_notfound: shy("缺失", [ctx.INDEX, web.SPACE, ice.LIST], function(can, msg, arg) { msg.Echo("not found "+arg[0]+" "+arg[1]) }),
+	layout: shy("界面布局", {_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)) }}, ["layout:select=auto,tabs,tabview,horizon,vertical,grid,free,flow,page", ctx.RUN], function(can, msg, arg) { can.onaction.layout(can, arg[0]) }),
 })
 })()
