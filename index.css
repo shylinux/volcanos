@@ -3,7 +3,6 @@
 }
 @media (prefers-color-scheme: dark) {
 	body { --plugin-bg-color:black; --plugin-fg-color:silver; }
-	body { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
 }
 body {
 	--notice-bg-color:blue; --notice-fg-color:white;
@@ -56,6 +55,7 @@ body {
 }
 input { font-family:var(--input-font-family); }
 body { font-family:var(--body-font-family); }
+body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
 body.windows { --code-font-family:"Courier New"; }
 body.mobile { --qrcode-height:284px; }
 body.cmd { background-color:var(--plugin-bg-color); }
