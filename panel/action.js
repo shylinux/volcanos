@@ -7,7 +7,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 				item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y)
 			} list.length == 0 && item.index == "web.dream" && (list = [river, storm, item.index])
 			can.onappend.plugin(can, item, function(sub, meta, skip) { if (meta.index == "can._notfound" && !can.misc.isDebug(can)) { return skip || next() }
-				sub.onexport.output = function() { can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "") }
+				sub.onexport.output = function() {
+					can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
+				}
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.space||meta.pod}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				can.user.isChrome && (can.ondaemon._list[sub._daemon = can.core.Keys(river, storm, index)] = sub)
@@ -125,7 +127,9 @@ Volcanos(chat.ONLAYOUT, {
 		if (can._plugins.length == 1) { return sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), false) }
 		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(button && button != ALL || sub.isCmdMode()? 0: html.ACTION_MARGIN), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
 	}) },
-	_storage: function(can, value) { return can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value) },
+	_storage: function(can, value) {
+		return (can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value)||[])[0]
+	},
 })
 Volcanos(chat.ONEXPORT, {
 	size: function(can, msg) {

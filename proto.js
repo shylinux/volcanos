@@ -103,7 +103,7 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 		Mode: function(value) { return can.Conf(ice.MODE, value) },
 		ConfDefault: function(value) { can.core.Item(value, function(k, v) { can.Conf(k) || can.Conf(k, v) }) },
 		ConfSpace: function() { return can.Conf(web.SPACE)||can.Conf("_space") },
-		ConfIndex: function() { return can.Conf(ctx.INDEX)||can.Conf("_index") },
+		ConfIndex: function() { return can.Conf("_command")||can.Conf(ctx.INDEX)||can.Conf("_index") },
 		ConfHeight: function(value) { return can.Conf(html.HEIGHT, value) },
 		ConfWidth: function(value) { return can.Conf(html.WIDTH, value) },
 		Conf: function(key, value) { var res = can._conf
