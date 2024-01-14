@@ -269,7 +269,7 @@ Volcanos(chat.ONEXPORT, {
 	output: function(can, msg) {}, action: function(can, button, data) {}, record: function(can, value, key, data) {},
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
 	marginTop: function() { return 0 }, marginBottom: function() { return 0 },
-	actionHeight: function(can) { return (can._option.childElementCount == 1 && can._action.childElementCount == 0 || can.page.ClassList.has(can, can._target, html.OUTPUT))? 0: html.ACTION_HEIGHT },
+	actionHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT)? 0: html.ACTION_HEIGHT },
 	outputHeight: function(can) { var height = can.ConfHeight() - can.onexport.actionHeight(can) - can.onexport.statusHeight(can)
 		if (can.user.isMobile) { return height } height -= can.onexport.outputMargin(can)
 		can.page.SelectChild(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })

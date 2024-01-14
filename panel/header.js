@@ -105,7 +105,9 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	onlayout: function(can, layout, before) { if (can.user.isMobile) { return }
 		can.page.ClassList.del(can, can._target, before), can.page.ClassList.add(can, can._target, layout)
 	},
-	onshare: function(can, msg, args) { can.user.share(can, msg, [ctx.ACTION, chat.SHARE].concat(args||[])) },
+	onshare: function(can, msg, args) {
+		can.user.share(can, msg, [ctx.ACTION, chat.SHARE].concat(args||[]))
+	},
 	onwebpack: function(can, msg) { can.user.input(msg._event, can, [{name: mdb.NAME, value: can.user.title()}], function(data) {
 		can.core.Item(Volcanos.meta.pack, function(key, msg) { can.core.List(["_event", "_can", "_xhr", ""], function(key) { delete(msg[key]) }) })
 		can.runAction(can.request({}, {args: "name,river,storm,title,theme,layout", _toast: "打包中...", content: JSON.stringify(Volcanos.meta.pack),

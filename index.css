@@ -167,7 +167,7 @@ fieldset.input.date>div.status>div.today { padding:var(--input-padding); }
 fieldset.input.icon img { height:var(--desktop-icon-size); width:var(--desktop-icon-size); cursor:pointer; }
 /* float */
 body div.float { padding:var(--plugin-padding); box-shadow:var(--box-shadow); }
-body>div.toast div.title { font-style:italic; word-break:break-all; color:var(--notice-bg-color); float:left; cursor:copy; }
+body>div.toast div.title { color:var(--notice-bg-color); font-style:italic; white-space:pre; max-width:280px; overflow:auto; float:left; cursor:copy; }
 body>div.toast div.delete { color:var(--notice-bg-color); float:right; cursor:pointer; }
 body>div.toast div.delete:hover { background-color:var(--hover-bg-color); }
 body>div.toast div.duration { color:var(--disable-fg-color); float:right; }
@@ -690,7 +690,7 @@ body>div.carte.header.avatar img { width:370px; }
 body>fieldset.story.web.chat.wx.agent { position:fixed; left:0; bottom:0; }
 body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; border-top:var(--box-border); }
 body.white fieldset.inner.cmd>div.output>div.layout>div.tabs div:not(.select):not(:hover) { background-color:transparent; }
-body.mobile fieldset.inner>form.option input[name=file] { width:160px; }
+/* body.mobile fieldset.inner>form.option input[name=file] { width:160px; } */
 body.mobile fieldset.word>form.option>div.item>input[name=path] { width:180px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 body.mobile fieldset.Action>div.output>fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd):not(:first-child) { margin:20px 0; }

@@ -39,10 +39,11 @@ body.width3>fieldset.Header>div.output>div.item.avatar { margin-right:var(--plug
 body.width3>fieldset.Header>div.output div.Action>div.tabs { padding-left:0; }
 body.width4>fieldset.Header>div.output div.Action>div.tabs { padding-left:0; }
 /* body.width4>fieldset.Header>div.output>div.item.theme { display:none; } */
+body.width2>fieldset.Header>div.output div.Action>div.tabs { padding-left:0; }
 body.width2>fieldset.Header>div.output div.item.title:first-child img { margin-right:0; }
 body.width2>fieldset.Header>div.output div.item.title:first-child span { display:none; }
 body.width2>fieldset.Header>div.output>div.item.avatar { margin-right:var(--plugin-margin); }
-/* body.width2>fieldset.Header>div.output>div.item.theme { display:none; } */
+body.width2>fieldset.Header>div.output>div.item.theme { display:none; }
 body.width2>fieldset.Header>div.output>div.item.time { display:none; }
 body.width2>fieldset.Footer>div.output div.item.cmd { display:none; }
 body.width2>fieldset.Footer>div.output div.item.title { display:none; }
