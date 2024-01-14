@@ -435,7 +435,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (key == nfs.IMAGE && value) { value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
 			if (key == mdb.ICONS && value) { value = img(can.misc.Resource(can, data[key])) }
 			if (key == mdb.NAME) { value = can.user.trans(can, value, null, html.INPUT) }
-			if (key == aaa.PASSWORD) { value = "******" }
+			if (value && can.base.isIn(key, aaa.PASSWORD, web.TOKEN)) { value = "******" }
 			return {text: [msg.IsDetail() && key == mdb.KEY? can.user.trans(can, value, null, html.INPUT): can.user.trans(can, value, null, html.VALUE), html.TD], onclick: function(event) { var target = event.target
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(event, target.name)
