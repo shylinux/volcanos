@@ -367,6 +367,7 @@ var icon = {
 	record1: "bi bi-images", record2: "bi bi-record-circle",
 	full: "bi bi-arrows-fullscreen", open: "bi bi-box-arrow-up-right",
 	search: "bi bi-search", favor: "bi bi-star", qrcode: "bi bi-qr-code",
+	notifications: "bi bi-chat-right-text",
 	help: "bi bi-question-square", doc: "bi bi-question-square",
 
 	"export": "bi bi-box-arrow-up", "import": "bi bi-box-arrow-in-down",

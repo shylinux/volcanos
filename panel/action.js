@@ -2,14 +2,12 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.misc.SearchHash(can)
 		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next, index) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X); if (item.style == html.OUTPUT) { item.width = can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING }
-			if (msg.Length() == 1) {
+			if (msg.Length() == 1) { item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y)
 				can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP) && (item.style = html.OUTPUT)
-				item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y)
-			} list.length == 0 && item.index == "web.dream" && (list = [river, storm, item.index])
+			}
+			list.length == 0 && item.index == "web.dream" && (list = [river, storm, item.index])
 			can.onappend.plugin(can, item, function(sub, meta, skip) { if (meta.index == "can._notfound" && !can.misc.isDebug(can)) { return skip || next() }
-				sub.onexport.output = function() {
-					can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
-				}
+				sub.onexport.output = function() { can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "") }
 				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.space||meta.pod}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				can.user.isChrome && (can.ondaemon._list[sub._daemon = can.core.Keys(river, storm, index)] = sub)
@@ -102,7 +100,9 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		var list = can.misc.SearchHash(can); list.length > 2 && (list[3] = button); can.misc.SearchHash(can, list[0], list[1], list[2], list[3])
 		can.page.ClassList.del(can, can._target, before), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		button = (can.onlayout._storage(can, can._layout = button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
-		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button, before: before})), can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), skip || can.onlayout._init(can)
+		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button, before: before}))
+		can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target)
+		skip || can.onlayout._init(can)
 		can.getActionSize(function(height, width) { var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can, height, width) || can.onlayout._plugin(can, button) })
 	},
 	_menus: [[html.LAYOUT, ALL, TABS, TABVIEW, VERTICAL, HORIZON, GRID, FREE, FLOW, PAGE], web.DREAM, web.DESKTOP, web.PORTAL],
@@ -110,8 +110,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 })
 Volcanos(chat.ONLAYOUT, {
 	tabs: function(can, height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width) },
-	tabview: function(can, height, width) {
-		can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width), can.onmotion.toggle(can, can._header_tabs, true)
+	tabview: function(can, height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width), can.onmotion.toggle(can, can._header_tabs, true)
 		can.page.SelectOne(can, can._header_tabs, html.DIV_ITEM_SELECT) || can.page.Select(can, can._header_tabs, html.DIV_ITEM, function(target, index) { index == 0 && target.click() })
 	},
 	horizon: function(can, height, width) { can.ConfHeight(height), can.ConfWidth(width/2) },
@@ -123,13 +122,10 @@ Volcanos(chat.ONLAYOUT, {
 	flow: function(can, height, width) { can.ConfHeight(height-html.ACTION_MARGIN), can.ConfWidth(width) },
 	page: function(can) { can.page.styleHeight(can, can._output, ""), can.page.style(can, document.body, kit.Dict(html.OVERFLOW, "")) },
 	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) {
-		if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) { return sub.onimport.size(sub, can.ConfHeight()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING, can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING, true) }
-		if (can._plugins.length == 1) { return sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), false) }
-		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(button && button != ALL || sub.isCmdMode()? 0: html.ACTION_MARGIN), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
+		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(button && button != ALL || sub.isCmdMode() || can.page.ClassList.has(can, sub._target, html.OUTPUT)? 0: html.ACTION_MARGIN),
+			can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can)) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
 	}) },
-	_storage: function(can, value) {
-		return (can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value)||[])[0]
-	},
+	_storage: function(can, value) { return (can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value)||[])[0] },
 })
 Volcanos(chat.ONEXPORT, {
 	size: function(can, msg) {
@@ -154,13 +150,11 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 	var storm = can.core.Value(can._root, can.core.Keys(chat.RIVER, cmds[0], chat.STORM, cmds[1])); if (!storm || cmds.length != 2) { return false }
 	if (storm.index) {
 		can.runAction(event, ctx.COMMAND, [].concat(can.core.List(storm.index, function(item) {
-			if (typeof item == code.FUNCTION) { item = item(can) }
-			if (item) { return item.index||item }
+			if (typeof item == code.FUNCTION) { item = item(can) } if (item) { return item.index||item }
 		})), function(msg) {
 			can.core.List(storm.index, function(item) { if (!item || typeof item == code.FUNCTION) { return }
 				msg.Push(ctx.ARGS, JSON.stringify(item.args||[])).Push(ctx.STYLE, item.style||"").Push(ctx.DISPLAY, item.display||"")
-				msg.Push(web.SPACE, item.space||"")
-				msg.Push("_ismain", ice.TRUE)
+				msg.Push(web.SPACE, item.space||"").Push("_ismain", ice.TRUE)
 			}), cb(msg)
 		})
 	} else { can.core.List(storm.list, function(item) { can.base.isString(item) && (item = {index: item})
@@ -168,8 +162,7 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 		msg.Push(mdb.NAME, item.name||"").Push(mdb.HELP, item.help||"")
 		msg.Push(ctx.INPUTS, JSON.stringify(item.inputs)).Push(ctx.FEATURE, JSON.stringify(item.feature))
 		msg.Push(ctx.ARGS, item.args||"[]").Push(ctx.STYLE, item.style||"").Push(ctx.DISPLAY, item.display||"")
-		msg.Push(web.SPACE, item.space||"")
-		msg.Push("_ismain", ice.TRUE)
+		msg.Push(web.SPACE, item.space||"").Push("_ismain", ice.TRUE)
 	}), can.base.isFunc(cb) && cb(msg) } return true
 }})
 Volcanos(chat.ONKEYMAP, {
