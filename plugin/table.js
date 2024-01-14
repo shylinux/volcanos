@@ -10,7 +10,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	card: function(can, msg, target) { can.sup.onexport.outputMargin = function() { return 260 }
 		can.page.Appends(can, target||can._output, msg.Table(function(value) { value.icon = value.icon||value.image
-			return {view: [[html.ITEM, value.status]], list: [
+			return {view: [[html.ITEM, value.type, value.status]], list: [
 				{view: [wiki.TITLE, html.DIV], list: [value.icon && {img: can.misc.Resource(can, value.icon, value.name)}, {text: value.name}]},
 				{view: [wiki.CONTENT, html.DIV, value.text]},
 				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, 5) }},
