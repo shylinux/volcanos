@@ -454,7 +454,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				})
 			}, title: can.user.trans(can, can.Option(key) == undefined? key: "click to detail", null, html.INPUT), _init: function(target) {
 				key == ctx.ACTION && can.onappend.mores(can, target, data, msg.IsDetail()? 10: html.TABLE_BUTTON)
-				var list = can.page.Select(can, target, html.INPUT, function(target) { var _icon = can.Conf("_icons."+target.name)||icon[target.name]; if (_icon) { return target } })
+				var list = can.page.Select(can, target, html.INPUT, function(target) { var _icon = can.Conf("_icons."+target.name)||icon[target.name]; if (_icon && typeof _icon == code.STRING) { return target } })
 				can.core.List(list, function(target) { can.onappend.style(can, "icons", target); var _icon = can.Conf("_icons."+target.name)||icon[target.name]
 					can.page.insertBefore(can, [{icon: _icon, title: can.user.trans(can, target.name), onclick: target.onclick||function(event) {
 						can.Update(can.request(event, data, {_toast: ice.PROCESS}), [ctx.ACTION, target.name]), can.onkeymap.prevent(event)
