@@ -427,20 +427,24 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		if (can.user.isMobile) { can.base.toLast(msg.append, mdb.TIME) } can.base.toLast(msg.append, web.LINK), can.base.toLast(msg.append, ctx.ACTION)
 		if (msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.core.List(msg[ctx.ACTION], function(item) { if (item) { return item } }).length == 0) { msg.append.pop() }
 		if (msg.append[msg.append.length-1] == ctx.ACTION && (!msg[ctx.ACTION] || msg[ctx.ACTION].length == 0)) { msg.append.pop() }
-		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, data, list) {
+		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, data, list) { var _value = value
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) { if (key == mdb.VALUE) { key = data.key } data = {}, can.core.List(list, function(item) { data[item.key] = item.value }) }
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(can.request(event, data, can.Option()), [ctx.ACTION, cmd].concat(arg)) }) }
 			function img(p) { return !msg.IsDetail()? can.page.Format(html.IMG, p, 48, 48): can.user.isMobile? can.page.Format(html.IMG, p, null, 320): can.page.Format(html.IMG, p, 320, null) }
-			if (key == web.SPACE && value) { value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }
-			if (key == nfs.IMAGE && value) { value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
-			if (key == mdb.ICONS && value) { value = img(can.misc.Resource(can, data[key])) }
-			if (key == mdb.NAME) { value = can.user.trans(can, value, null, html.INPUT) }
-			if (value && can.base.isIn(key, aaa.PASSWORD, web.TOKEN)) { value = "******" }
-			return {text: [msg.IsDetail() && key == mdb.KEY? can.user.trans(can, value, null, html.INPUT): can.user.trans(can, value, null, html.VALUE), html.TD], onclick: function(event) { var target = event.target
+			if (key == mdb.NAME && value) { _value = can.user.trans(can, value, null, html.INPUT) }
+			if (key == mdb.ICONS && value) { _value = img(can.misc.Resource(can, data[key])) }
+			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
+			if (key == web.SPACE && value) { _value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }
+			if (key == mdb.HASH && can.ConfIndex() == web.TOKEN) { _value = value.slice(0, 4)+"****" }
+			if (key == web.TOKEN && value) { _value = value.slice(0, 4)+"****" }
+			if (key == aaa.PASSWORD && value) { _value = "********" }
+			return {text: [msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): can.user.trans(can, _value, null, html.VALUE), html.TD], onclick: function(event) { var target = event.target
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(event, target.name)
 					meta && meta[target.name]? can.user.input(event, can, meta[target.name], function(args) { run(event, target.name, args) }, data): run(event, target.name)
-				} else { can.sup.onimport.change(event, can.sup, key, event.target.innerText, null, data) || can.sup.onexport.record(can.sup, value, key, data, event) }
+				} else {
+					can.sup.onimport.change(event, can.sup, key, value, null, data) || can.sup.onexport.record(can.sup, value, key, data, event)
+				}
 			}, ondblclick: function(event) { if (can.base.isIn(key, mdb.KEY, mdb.HASH, mdb.ID)) { return }
 				var item = can.core.List(can.Conf([ctx.FEATURE, mdb.INSERT]), function(item) { if (item.name == key) { return item } })[0]||{name: key, value: value}
 				item.run = function(event, cmds, cb) { can.run(can.request(event, data, can.Option()), cmds, cb, true) }
