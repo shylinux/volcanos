@@ -32,8 +32,9 @@ Volcanos(chat.ONFIGURE, {key: {
 		})
 	},
 	onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },
-	onkeydown: function(event, can, meta, cb, target, sub, last) { if (event.key == code.TAB) { return }
-		if (event.key == code.ENTER) { return meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event, target.value)? sub.close(): last(event) }
+	onkeydown: function(event, can, meta, cb, target, sub, last) {
+		if (event.key == code.TAB) { return }
+		if (event.key == code.ENTER) { return meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event, target.value)? sub && sub.close(): last(event) }
 		if (!sub) { return } can.onmotion.toggle(can, sub._target, true)
 		sub.hidden() || can.onkeymap.selectCtrlN(event, can, sub._output, "tr:not(.hidden)>td:first-child", function(td) { return meta.select && (sub.close(), meta.select(target.value = td.innerText)), cb(sub, td.innerText, target.value), td })
 			|| can.onmotion.delayOnce(can, function() { can.onkeymap.selectInputs(event, sub, function() { sub._load(event, sub, cb, target, meta.name) }, target) }, target.value.length < 3? 500: 150)

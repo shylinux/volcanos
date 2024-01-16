@@ -15,7 +15,7 @@ Volcanos(chat.ONIMPORT, {
 		msg.Table(function(item) { can.onappend._plugin(can, item, {_space: can.ConfSpace(), index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
 			if (can.base.isIn(sub.ConfIndex(),
 				web.WIKI_PORTAL, web.CHAT_IFRAME, web.CHAT_MACOS_DESKTOP, web.WIKI_WORD, web.CODE_VIMER,
-			)) { height = can.base.Max(can.base.Min(can.onexport.outputHeight(can), 480), can.ConfHeight()) }
+			)) { height = can.base.Max(can.base.Min(can.onexport.outputHeight(can), 640), can.ConfHeight()) }
 			can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, sub._target) }, 300)
 			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX)
 				can.run(event, (msg[ice.MSG_PREFIX]? msg[ice.MSG_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true)
