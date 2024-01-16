@@ -54,6 +54,9 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	onunload: function(can) { can._wss && can._wss.close() },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
+	onlayout: function(can, layout, before) { if (can.user.isMobile) { return }
+		can.page.ClassList.del(can, can._target, before), can.page.ClassList.add(can, can._target, layout)
+	},
 	ondebugs: function(can, msg) { can.runAction(msg, msg.Option(ctx.ACTION), [msg.Option(ctx.INDEX)], function(_msg) { _msg.Table(function(item) {
 		can.onappend._float(can, item, can.base.Obj(item.args, []), function(sub) {
 			sub.run = function(event, cmds, cb) { can.run(can.request(event, {_method: http.POST, pod: sub.ConfSpace()}), [ctx.ACTION, msg.Option(ctx.ACTION), ctx.RUN].concat(cmds), cb) }
