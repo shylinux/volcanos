@@ -44,10 +44,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	}) },
 	theme: function(can, theme) { theme && can.runAction({}, chat.THEME, [theme])
 		theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme) && can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: theme}))
-		theme = can.onexport.theme(can)
-		var change = can.page.ClassList.has(can, document.body, theme)
-		can.user.theme(can, theme); var list = [html.LIGHT, html.WHITE]
-		change || can.onimport._const(can)
+		theme = can.onexport.theme(can); var list = [html.LIGHT, html.WHITE]
+		var change = can.page.ClassList.has(can, document.body, theme); can.user.theme(can, theme), change || can.onimport._const(can)
 		can.page.Select(can, can._output, "div.item.theme>i:first-child", function(target) {
 			if (list.indexOf(theme) == -1 && list.indexOf(theme[0]) == -1) { target.className = icon.MOON } else { target.className = icon.SUN }
 		})
@@ -93,21 +91,17 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 				msg.Option(mdb.PLUGIN) && can.onappend.plugin(can, {index: msg.Option(mdb.PLUGIN)}, function(sub) { can.onmotion.hidden(can, sub._target) }, document.body)
 				msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) })
 				var tool = can._root.Action._conf.tool
-				if (can.Conf(aaa.USERNICK, (msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)).slice(0, 8)) || can.misc.Search(can, web.SHARE) || tool && can.base.isIn(tool[0].index, aaa.OFFER)) {
-					return show(msg)
-				} can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
+				if (can.Conf(aaa.USERNICK, (msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)).slice(0, 8)) || can.misc.Search(can, web.SHARE)
+					|| tool && can.base.isIn(tool[0]._command, web.PORTAL, aaa.OFFER)) { return show(msg) }
+				can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
 			})
 		})
 	},
 	onstorm_select: function(can, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE), can.onmotion.delay(can, function() { can.onimport._const(can) }) },
 	onsearch_focus: function(can) { can._search && can._search.focus() },
-	onlayout: function(can, layout, before) { if (can.user.isMobile) { return }
-		can.page.ClassList.del(can, can._target, before), can.page.ClassList.add(can, can._target, layout)
-	},
-	onshare: function(can, msg, args) {
-		can.user.share(can, msg, [ctx.ACTION, chat.SHARE].concat(args||[]))
-	},
+	onlayout: function(can, layout, before) { can.user.isMobile || can.page.ClassList.del(can, can._target, before), can.page.ClassList.add(can, can._target, layout) },
+	onshare: function(can, msg, args) { can.user.share(can, msg, [ctx.ACTION, chat.SHARE].concat(args||[])) },
 	onwebpack: function(can, msg) { can.user.input(msg._event, can, [{name: mdb.NAME, value: can.user.title()}], function(data) {
 		can.core.Item(Volcanos.meta.pack, function(key, msg) { can.core.List(["_event", "_can", "_xhr", ""], function(key) { delete(msg[key]) }) })
 		can.runAction(can.request({}, {args: "name,river,storm,title,theme,layout", _toast: "打包中...", content: JSON.stringify(Volcanos.meta.pack),
@@ -125,12 +119,10 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	theme: function(event, can) { can.page.Select(can, can._output, "div.item.theme>i:first-child", function(target) {
 		can.onimport.theme(can, can.onimport._theme(can, target.className == icon.SUN? html.DARK: html.LIGHT))
 	}) },
-	qrcode: function(event, can) {
-		can.runAction(event, cli.QRCODE, [], function(msg) {
-			var ui = can.user.toast(can, {title: msg.Append(web.LINK), duration: -1, content: msg.Result(), action: [cli.CLOSE, cli.OPEN], resize: html.IMG})
-			can.page.style(can, ui._target, html.TOP, (can.page.height() - 360)/2)
-		})
-	},
+	qrcode: function(event, can) { can.runAction(event, cli.QRCODE, [], function(msg) {
+		var ui = can.user.toast(can, {title: msg.Append(web.LINK), duration: -1, content: msg.Result(), action: [cli.CLOSE, cli.OPEN], resize: html.IMG})
+		can.page.style(can, ui._target, html.TOP, (can.page.height() - 360)/2)
+	}) },
 	language: function(event, can) { can.onimport.language(can, can.user.info.language.indexOf("zh") == 0? "en-us": "zh-cn") },
 	email: function(event, can) { can.user.input(can.request(event, {to: can.user.info.email, subject: can.user.title()}), can, [{name: "to", _trans: "收件人", need: "must"}, "subject","content"], function(args) {
 		can.runAction(event, aaa.EMAIL, args, function() { can.user.toastSuccess(can) })
@@ -147,8 +139,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 
 	_params: [log.DEBUG, chat.TITLE],
 	_menus: [
-		cli.QRCODE,
-		"shareuser",
+		cli.QRCODE, "shareuser",
 		[chat.THEME], [aaa.LANGUAGE],
 		// [nfs.SAVE, aaa.EMAIL, web.TOIMAGE, code.WEBPACK],
 		[aaa.USER, "setnick", web.CLEAR, aaa.LOGOUT],

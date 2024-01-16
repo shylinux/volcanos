@@ -24,7 +24,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 		var tabs = [{view: [html.ITEM, "", can.user.trans(can, meta.name, meta.help)], title: meta.help, onclick: function(event) { can._current = sub
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target), can.onmotion.select(can, can._action, html.DIV_ITEM, sub._tabs), can.onmotion.select(can, can._header_tabs, html.DIV_ITEM, sub._header_tabs)
 			var layout = can.onexport.layout(can); layout == FREE || (can._output.scrollTop = sub._target.offsetTop-10)
-			can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), sub.Conf("_command")||meta.index, layout)
+			can.isCmdMode() || can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), sub.Conf("_command")||meta.index, layout)
 			sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))
 		}, oncontextmenu: sub._legend.onclick}]; sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
 	},
@@ -38,7 +38,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 		can.Conf(html.MARGIN_X, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN)
 		can.core.List(["ontouchstart", "ontouchmove", "ontouchend"], function(item) {
 			can.onengine.listen(can, item, function(event, msg) { can.onaction[item](event, can), can.onengine.signal(can, chat.ONACTION_TOUCH, msg) }, target)
-		}), can.onaction.layout(can)
+		})
+		// can.onaction.layout(can)
 	},
 	onsize: function(can, msg, height, width) { can.Conf({height: can.base.Min(height, 240), width: width}) },
 	onlogin: function(can, msg) {
@@ -97,7 +98,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) {
 	portal: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.PORTAL})) },
 	desktop: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.DESKTOP})) },
 	layout: function(can, button, skip) { var before = can._layout||can.onlayout._storage(can); button = button||before||(can.user.isMobile? ALL: TABVIEW)
-		var list = can.misc.SearchHash(can); list.length > 2 && (list[3] = button); can.misc.SearchHash(can, list[0], list[1], list[2], list[3])
+		var list = can.misc.SearchHash(can); list.length > 2 && (list[3] = button); can.isCmdMode() || can.misc.SearchHash(can, list[0], list[1], list[2], list[3])
 		can.page.ClassList.del(can, can._target, before), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		button = (can.onlayout._storage(can, can._layout = button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
 		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button, before: before}))

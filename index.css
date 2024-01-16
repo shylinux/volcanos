@@ -59,7 +59,7 @@ body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
 body.windows { --code-font-family:"Courier New"; }
 body.mobile { --qrcode-height:284px; }
 body.cmd { background-color:var(--plugin-bg-color); }
-body.cmd { --plug-width:1200px; --plug-height:640px; }
+// body.cmd { --plug-width:1200px; --plug-height:480px; }
 body.width1 { /* 320-640 手机竖屏 */
 	--svg-font-size:13px;
 	--river-width:280px;; --project-width:120px; --input-width:80px;
