@@ -92,11 +92,10 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 				if (location.pathname == nfs.PS && can.base.beginWith(msg.Option(ice.MAIN)||"", nfs.WIKI_PORTAL, web.CHAT_CMD+web.WIKI_PORTAL)) { return show(msg) }
 				msg.Option(mdb.PLUGIN) && can.onappend.plugin(can, {index: msg.Option(mdb.PLUGIN)}, function(sub) { can.onmotion.hidden(can, sub._target) }, document.body)
 				msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) })
-				if (!can.Conf(aaa.USERNICK, (msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)).slice(0, 8))) {
-					var tool = can._root.Action._conf.tool; if (tool && tool[0]._role == ice.OK && tool[0].index != web.CHAT_GRANT ||
-						tool && can.base.isIn(tool[0].index, aaa.OFFER) || can.misc.Search(can, web.SHARE)) { return show(msg) }
-					return can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
-				} show(msg)
+				var tool = can._root.Action._conf.tool
+				if (can.Conf(aaa.USERNICK, (msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)).slice(0, 8)) || can.misc.Search(can, web.SHARE) || tool && can.base.isIn(tool[0].index, aaa.OFFER)) {
+					return show(msg)
+				} can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
 			})
 		})
 	},
