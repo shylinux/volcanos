@@ -122,6 +122,7 @@ var aaa = {
 	PROVINCE: "province", COUNTRY: "country", CITY: "city",
 	LONGITUDE: "longitude", LATITUDE: "latitude",
 	EMAIL: "email", SECRET: "secret",
+	OFFER: "offer",
 	MOBILE: "mobile",
 
 	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole", USERZONE: "userzone",
