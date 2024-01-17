@@ -690,6 +690,8 @@ fieldset.plug>div.output table.content { width:100%; }
 fieldset.plug.dream.zone>div.output>div.item { display:flex; padding:var(--input-padding); margin:var(--input-margin); }
 fieldset.plug.dream.zone>div.output>div.item>img { margin-right:var(--input-margin); }
 fieldset.plug.dream.zone>div.output>div.item>span { line-height:var(--action-height); }
+body.en span[lang^=zh] { display:none; }
+body.zh span[lang^=en] { display:none; }
 body>div.carte.header.avatar img { width:370px; }
 body>fieldset.story.web.chat.wx.agent { position:fixed; left:0; bottom:0; }
 body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; border-top:var(--box-border); }
