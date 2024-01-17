@@ -144,7 +144,7 @@ Volcanos(chat.ONENGINE, {_engine: function(event, can, msg, panel, cmds, cb) {
 		}
 	})
 	if (cmds.length != 1 && cmds[1] != chat.STORM) { return false } var river = list[cmds[0]]; if (!river) { return false }
-	can.core.ItemOrder(river.storm, mdb.ORDER, function(key, value) {
+	can.core.ItemOrder(river.storm, mdb.ORDER, function(key, value) { if (!value) { return }
 		if (can.user.info.userrole == aaa.ROOT || can.base.isIn(value.type||"", "", aaa.VOID, can.user.info.userrole)) {
 			msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||"", main: value.main||false})
 		}

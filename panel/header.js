@@ -76,7 +76,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			if (p && location.pathname == web.BASIC_LOGIN) { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
 			var p = can.misc.Search(can, ice.BACK); if (p && location.pathname == web.CHAT_SSO) { return location.reload() }
 			can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.repos = msg.Option(nfs.REPOS)
-			can.user.info.nodetype = msg.Option("nodetype"),
+			can.user.info.nodetype = msg.Option(ice.MSG_NODETYPE)
 			can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.email = msg.Option(aaa.EMAIL), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
