@@ -210,8 +210,10 @@ var wiki = {
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark", SHELL: "shell",
 	ORDER: "order", TABLE: "table", CHART: "chart", IMAGE: "image", VIDEO: "video",
 	FIELD: "field", LOCAL: "local", PARSE: "parse",
+	WORD: "word",
 	NAVMENU: "navmenu", PREMENU: "premenu", CONTENT: "content",
 	STORY_ITEM: ".story", H2: "h2.story", H3: "h3.story",
+	PORTAL: "portal",
 	DRAW: "draw",
 }
 var chat = {
@@ -220,7 +222,7 @@ var chat = {
 	LAYOUT: "layout", PROJECT: "project", CONTENT: "content", DISPLAY: "display", PROFILE: "profile", ACTIONS: "actions",
 	TITLE: "title", THEME: "theme", BLACK: "black", WHITE: "white", PRINT: "print", LIGHT: "light", DARK: "dark",
 	SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field", TOOL: "tool",
-	STATE: "state", MENUS: "menus", SSO: "sso", LOCATION: "location", IFRAME: "iframe",
+	STATE: "state", MENUS: "menus", SSO: "sso", LOCATION: "location", IFRAME: "iframe", DESKTOP: "desktop",
 	OUTPUT: "output", SIMPLE: "simple", FLOAT: "float", FULL: "full", CMD: "cmd",
 
 	HEADER: "Header", ACTION: "Action", FOOTER: "Footer",

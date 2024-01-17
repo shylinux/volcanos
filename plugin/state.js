@@ -11,15 +11,13 @@ Volcanos(chat.ONIMPORT, {
 	_inner: function(can, sub, msg) { can.onmotion.scrollIntoView(can, can.onappend.table(sub, msg)), can.onmotion.scrollIntoView(can, can.onappend.board(sub, msg)), can.onmotion.story.auto(sub) },
 	_cookie: function(can, msg) { can.misc.Cookie(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_session: function(can, msg) { can.misc.sessionStorage(can, msg._arg[0], msg._arg[1]), can.Update() },
-	_field: function(can, msg, cb) { var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()), width = can.ConfWidth()
+	_field: function(can, msg, cb) { var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()-2*html.ACTION_HEIGHT), width = can.ConfWidth()
 		msg.Table(function(item) { can.onappend._plugin(can, item, {_space: can.ConfSpace(), index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
-			if (can.base.isIn(sub.ConfIndex(),
-				web.WIKI_PORTAL, web.CHAT_IFRAME, web.CHAT_MACOS_DESKTOP, web.WIKI_WORD, web.CODE_VIMER,
-			)) { height = can.base.Max(can.base.Min(can.onexport.outputHeight(can), 640), can.ConfHeight()-2*html.ACTION_HEIGHT) }
+			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX); can.run(event, (msg[ice.MSG_PREFIX]? msg[ice.MSG_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true) }
+			if (can.base.isIn(sub.ConfIndex(), wiki.PORTAL, chat.IFRAME, chat.DESKTOP, wiki.WORD, code.VIMER,)) { height = can.onexport.outputHeight(can) }
+			can.page.ClassList.has(can, sub._target, html.FLOAT)? can.onmotion.float(sub): sub.onimport.size(sub, height, width, true), cb && cb(sub)
+			if (can.base.isIn(sub.ConfIndex(), wiki.WORD)) { sub.onexport.output = function() { can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "") } }
 			can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, sub._target) }, 300)
-			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX)
-				can.run(event, (msg[ice.MSG_PREFIX]? msg[ice.MSG_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true)
-			}, can.page.ClassList.has(can, sub._target, html.FLOAT)? can.onmotion.float(sub): sub.onimport.size(sub, height, width, true), cb && cb(sub)
 		}) })
 	},
 	_float: function(can, msg) { can.onimport._field(can, msg, function(sub) { can.onmotion.float(sub) }) },
