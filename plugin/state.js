@@ -14,7 +14,7 @@ Volcanos(chat.ONIMPORT, {
 	_field: function(can, msg, cb) { var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()-2*html.ACTION_HEIGHT), width = can.ConfWidth()
 		msg.Table(function(item) { can.onappend._plugin(can, item, {_space: can.ConfSpace(), index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
 			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX); can.run(event, (msg[ice.MSG_PREFIX]? msg[ice.MSG_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true) }
-			if (can.base.isIn(sub.ConfIndex(), wiki.PORTAL, chat.IFRAME, chat.DESKTOP, wiki.WORD, code.VIMER,)) { height = can.onexport.outputHeight(can) }
+			if (can.base.isIn(sub.ConfIndex(), wiki.PORTAL, chat.IFRAME, chat.DESKTOP, wiki.WORD, code.VIMER,)) { height = can.base.Max(can.onexport.outputHeight(can), can.ConfHeight(), 480) }
 			can.page.ClassList.has(can, sub._target, html.FLOAT)? can.onmotion.float(sub): sub.onimport.size(sub, height, width, true), cb && cb(sub)
 			if (can.base.isIn(sub.ConfIndex(), wiki.WORD)) { sub.onexport.output = function() { can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "") } }
 			can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, sub._target) }, 300)
