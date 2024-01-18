@@ -1,4 +1,5 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) {
+		can.isCmdMode() || can.onmotion.hidden(can, can._action)
 		can.OptionPath = function(value) { return can.Option(nfs.PATH, value) }
 		can.OptionPid = function(value) { return can.Option(svg.PID, value) }
 		can.ActionGo = function(value) { return can.Action(svg.GO, value) }

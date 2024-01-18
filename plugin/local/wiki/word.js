@@ -91,7 +91,7 @@ Volcanos(chat.ONACTION, {
 				["布局", "开讲", "网格", "快闪"], "大纲", "首页", "上一页",
 				["菜单"].concat(can.core.List(list, function(page) { return page[0].innerHTML })),
 				"下一页", "隐藏", "结束",
-			], sub._action, can.ondetail), can.onkeymap._build(can)
+			], sub._action, can.ondetail, false, 10), can.onkeymap._build(can)
 			sub.page.style(sub, sub._target, "background", can._root._target.style.background)
 			sub.page.style(sub, sub._output, html.HEIGHT, can.page.height()-2*html.ACTION_HEIGHT)
 			sub.page.style(sub, sub._output, html.WIDTH, can.page.width())

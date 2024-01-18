@@ -56,16 +56,8 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		can.onexport.scroll(can)
 	},
 	refresh: function(event, can) { can.misc.Search(can, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM)}) },
-	storm: function(event, can, river) {
-		can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
-		function _menu(list) { can.onlayout._init(can)
-			can.page.ClassList.set(can, can.ui.river_list[river], "open", can.page.isDisplay(list))
-			can.user.isMobile && can.onmotion.delay(can, function() { var list = can.db.storm_list[river]
-				can.onmotion.hidden(can, can._root.Footer._target, list.length > 1)
-				var menu = can.setFooterMenu(list, function(event, button, list) { can.onaction.action(event, can, river, button) })
-				can.page.SelectChild(can, menu, html.DIV_ITEM, function(target, index) { can.page.ClassList.set(can, target, html.SELECT, list[index].hash == can.Conf("storm")) })
-			}, 300)
-		}
+	storm: function(event, can, river) { can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
+		function _menu(list) { can.onlayout._init(can), can.page.ClassList.set(can, can.ui.river_list[river], "open", can.page.isDisplay(list)) }
 		var list = can.ui.sublist[river]; if (list) { return can.onmotion.toggle(can, list), _menu(list) }
 		can.run({}, [river, chat.STORM], function(msg) { var next = can.ui.river_list[river].nextSibling
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOSTORM, can.request({}, {river: river})) }
@@ -81,7 +73,11 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], function(target) { can.page.ClassList.del(can, target, html.SELECT) })
 		can.onmotion.select(can, can.ui.sublist[river], html.DIV_ITEM, can.ui.storm_list[can.core.Keys(river, storm)])
 		can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
-		can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm)}))
+		var list = can.db.storm_list[river];
+		can.user.isMobile && can.onmotion.hidden(can, can._root.Footer._target, list.length > 1)
+		can.user.isMobile && can.onmotion.delay(can, function() { var menu = can.setFooterMenu(list, function(event, button, list) { can.onaction.action(event, can, river, button) })
+			can.page.SelectChild(can, menu, html.DIV_ITEM, function(target, index) { can.page.ClassList.set(can, target, html.SELECT, list[index].hash == can.Conf("storm")) })
+		}), can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm)}))
 	},
 	carte: function(event, can, list, river, storm) { can.onkeymap.prevent(event); if (can.core.Value(can._root, can.core.Keys(chat.RIVER, river))) { return }
 		can.request(event, {river: river, storm: storm}); storm? can.user.carteRight(event, can, can.ondetail, list): can.user.carteRight(event, can, can.onaction, list)

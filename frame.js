@@ -232,14 +232,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) { can.onappend.icons(can, target, item.name) }
 				}), item), "", action)
 		})
-		if (list.length == 0 && can.Conf("inputs").length == 0) { return meta } var _can = can._fields? can.sup: can
-		can.user.isMobile || can.isCmdMode() || can.base.beginWith(can.ConfIndex(), "can.", "web.chat.macos.") || can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
-			can.core.Item({full: "切换全屏", qrcode: "生成链接", open: "打开链接"}, function(key, value) {
-				return {view: [[html.ITEM, html.BUTTON, key, "icons"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
-					_can.onaction[value](event, _can, value, _can.sub)
-				}}
-			})
-		); return meta
+		var _can = can._fields? can.sup: can
+		list.length == 0 && can.Conf("inputs").length == 0 || can.isCmdMode() || can.base.beginWith(can.ConfIndex(), "can.", "web.chat.macos.") ||
+			can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
+				can.core.Item(can.user.isMobile? {open: "打开链接"}: {full: "切换全屏", qrcode: "生成链接", open: "打开链接"}, function(key, value) {
+					return {view: [[html.ITEM, html.BUTTON, key, "icons"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
+						_can.onaction[value](event, _can, value, _can.sub)
+					}}
+				})
+			); return meta
 	},
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); meta.feature = meta.feature||{}
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION) { if (msg.RunAction(event, can.sub, cmds)) { return } }
@@ -659,17 +660,12 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		can.page.SelectChild(can, target, can.page.Keys(html.FIELDSET_HEAD, html.FIELDSET_FOOT), function(field) { height -= field.offsetHeight })
 		can.page.SelectChild(can, target, html.FIELDSET_LEFT, function(field) { can.user.isMobile || can.page.isDisplay(field) && (width -= field.offsetWidth)
 			var h = height; can.page.SelectChild(can, field, html.DIV_ACTION, function(action) {
-				h -= action.offsetHeight
-				if (action.offsetHeight == 0 && html.RIVER_MARGIN > 0) {
-					h -= html.ACTION_HEIGHT
-				}
+				h -= action.offsetHeight; if (action.offsetHeight == 0 && html.RIVER_MARGIN > 0) { h -= html.ACTION_HEIGHT }
 			}), can.user.isMobile || (h -= 2*html.RIVER_MARGIN-html.ACTION_HEIGHT)
 			can.page.SelectChild(can, field, html.DIV_OUTPUT, function(output) { can.page.styleHeight(can, output, h) })
 		})
 		can.page.SelectChild(can, target, html.FIELDSET_MAIN, function(field) {
-			can.page.SelectChild(can, field, html.DIV_ACTION, function(action) {
-				height -= action.offsetHeight
-			})
+			can.page.SelectChild(can, field, html.DIV_ACTION, function(action) { height -= action.offsetHeight })
 			if (can.user.isMobile && can.user.isLandscape()) { return }
 			can.page.SelectChild(can, field, html.DIV_OUTPUT, function(output) { can.page.styleHeight(can, output, height) })
 		}), can.onengine.signal(can, chat.ONSIZE, can.request({}, {height: height, width: width}))
@@ -702,7 +698,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 					layout.top = top+height-target.offsetHeight
 				}
 			}
-			if (layout.left+target.offsetWidth > left+width) { layout.left = (right? rect.left: left+width)-target.offsetWidth-1 }
+			if (layout.left+target.offsetWidth > left+width-20) { layout.left = (right? rect.left: left+width)-target.offsetWidth-1 }
 			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
 		});
 		can.onmotion.move(can, target, layout), can.onmotion.slideGrow(can, target)

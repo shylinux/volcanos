@@ -1,6 +1,8 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
 		can.page.requireDraw(can, function() { can.base.isFunc(cb) && cb(msg)
-			can.Conf(html.VIEW) && can.Action(html.VIEW, can.Conf(html.VIEW)), can.onmotion.toggle(can, can._option, !can.user.isMobile || !can.isFullMode())
+			can.Conf(html.VIEW) && can.Action(html.VIEW, can.Conf(html.VIEW))
+			can.onmotion.toggle(can, can._option, !can.user.isMobile)
+			can.onmotion.toggle(can, can._action, !can.user.isMobile)
 			can.db.data = msg.Table(), can.onimport.layout(can)
 		})
 	},
@@ -24,7 +26,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
 		return {height: height, width: width, margin: margin, step: step}
 	},
 	layout: function(can) { can.db.data && can.core.CallFunc(can.onaction[can.Action(html.VIEW)], [{}, can]) },
-	// transform: function(can, target) { target.Value("transform", "scale(1, -1)") },
 	transform: function(can, target) { target.Value("transform", "translate(0, "+parseInt(can.ConfHeight())+") scale(1, -1)") },
 })
 Volcanos(chat.ONACTION, {list: [[html.VIEW, "趋势图", "柱状图", "折线图", "数据源"],
