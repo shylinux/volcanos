@@ -459,7 +459,7 @@ table.content td:hover { background-color:var(--td-hover-bg-color); }
 table.content td.select { background-color:var(--td-hover-bg-color); }
 table.content.action tr:hover td:last-child { background-color:var(--th-bg-color); box-shadow:var(--box-shadow); }
 table.content.detail td:first-child { text-align:center; min-width:80px; padding:var(--table-padding) 0; }
-table.content.detail td { text-align:center; min-width:80px; padding:var(--table-padding) 0; }
+table.content.detail td { min-width:80px; padding:var(--table-padding) 0; }
 table.content input { box-shadow:var(--box-shadow); }
 body.mobile table.content input { border:var(--box-border); box-shadow:var(--box-shadow); }
 h1:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
@@ -581,8 +581,6 @@ fieldset.vimer>div.output>div.project div.item.modify { background-color:#008000
 fieldset.vimer>div.output>div.project>div.zone.space div.item.stop { color:var(--disable-fg-color); }
 fieldset.vimer>div.output>div.project>div.zone.space fieldset>div.output>div.item { height:42px; }
 fieldset.xterm>div.action>div.tabs:only-child { display:none; }
-fieldset.xterm.story>form.option>div.item.hash input { width:320px; }
-body.width2 fieldset.xterm.story>form.option>div.item.hash input { width:var(--input-width); }
 fieldset.cmd>div.output>fieldset.xterm.story>form.option>div.item.hash input { width:var(--plug-width); }
 fieldset.cmd>div.output>fieldset.iframe.story>form.option>div.item.hash input { width:var(--plug-width); }
 fieldset.xterm>div.layout { clear:both; }
@@ -592,8 +590,6 @@ fieldset.dream>div.output.card>div.item.begin>div.title { color:var(--disable-fg
 fieldset.dream>div.output.card>div.item.login { border:var(--danger-bg-color) solid 3px; }
 fieldset.dream>div.output.card>div.item.server { border:var(--notice-bg-color) solid 3px; }
 fieldset.dream>div.output.card>div.item.master { border:var(--danger-bg-color) solid 3px; }
-fieldset.trans>form.option>div.item.text>input { width:var(--project-width); }
-body.width2 fieldset.trans>form.option>div.item.text>input { width:var(--input-width); }
 fieldset.trans>div.output>fieldset { margin:var(--button-margin); }
 fieldset.config form.option input[name=key] { width:var(--project-width); }
 fieldset.qrcode>div.output div.code { padding:0; }
@@ -641,7 +637,12 @@ fieldset.web.chat.location>div.output .amap-toolbar { z-index:unset; }
 fieldset.web.chat.location>div.output .amap-controls { z-index:unset; }
 fieldset.web.chat.location>div.output .amap-maptypecontrol { z-index:unset; }
 fieldset.web.chat.location>div.output>div.layout>div.layout>div.profile { background-color:var(--plugin-bg-color); position:absolute; right:0; width:360px; z-index:9; border-left:none; }
-fieldset.web.chat.iframe>form.option input[name=hash] { width:var(--river-width); }
+body.width6 fieldset.trans>form.option>div.item.text>input { width:var(--project-width); }
+body.width6 fieldset.word>form.option>div.item.text>input { width:var(--project-width); }
+body.width6 fieldset.xterm.story>form.option>div.item.hash input { width:var(--form-width); }
+body.width6 fieldset.iframe>form.option input[name=hash] { width:var(--form-width); }
+body.width6 fieldset.desktop>div.output>div.desktop>fieldset.web.chat.iframe>form.option>div.item.hash>input { width:var(--river-width); }
+body.width2 fieldset.desktop>div.output>div.desktop>fieldset>form.option>div.item:last-child { margin-right:0; }
 fieldset.can.data>div.output { font-family:var(--code-font-family); font-size:var(--code-font-size); white-space:pre; }
 fieldset.can.data>div.output div.item:not(.hide) { display:flex; gap:5px; }
 fieldset.can.data>div.output div.view div.item:not(.hide) { display:block; }

@@ -460,8 +460,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				})
 			}, title: can.user.trans(can, can.Option(key) == undefined? key: "click to detail", null, html.INPUT), _init: function(target) {
 				key == ctx.ACTION && can.onappend.mores(can, target, data, msg.IsDetail()? 10: html.TABLE_BUTTON)
-				var list = can.page.Select(can, target, html.INPUT, function(target) { var _icon = can.Conf("_icons."+target.name)||icon[target.name]; if (_icon && typeof _icon == code.STRING) { return target } })
+				var list = can.page.Select(can, target, html.INPUT, function(target) {
+					var _icon = can.Conf("_icons."+target.name)||icon[target.name]; if (_icon && typeof _icon == code.STRING || target.name == mdb.DELETE) { return target }
+				})
 				can.core.List(list, function(target) { can.onappend.style(can, "icons", target); var _icon = can.Conf("_icons."+target.name)||icon[target.name]
+					if (target.name == mdb.DELETE) { _icon = icon.trash }
 					can.page.insertBefore(can, [{icon: _icon, title: can.user.trans(can, target.name), onclick: target.onclick||function(event) {
 						can.Update(can.request(event, data, {_toast: ice.PROCESS}), [ctx.ACTION, target.name]), can.onkeymap.prevent(event)
 					}}], target.nextSibling, target.parentNode)
@@ -472,7 +475,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}); table && can.onappend.style(can, chat.CONTENT, table), table && msg.IsDetail() && can.onappend.style(can, mdb.DETAIL, table)
 		msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.onappend.style(can, ctx.ACTION, table)
 		if (msg.Option(ice.TABLE_CHECKBOX) == ice.TRUE && !msg.IsDetail()) { can.onappend.checkbox(can, table, msg), can.onappend.style(can, html.CHECKBOX, table) }
-		(can.isCmdMode() || table.offsetWidth > can.ConfWidth() / 2) && can.onappend.style(can, "full", table)
+		// (can.isCmdMode() || table.offsetWidth > can.ConfWidth() / 2) && 
+			can.onappend.style(can, "full", table)
 		return keys && can.page.RangeTable(can, table, can.core.List(keys, function(key) { return can.page.Select(can, table, html.TH, function(th, index) { if (th.innerHTML == key) { return index } })[0] })), table
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }

@@ -123,6 +123,7 @@ var aaa = {
 	PROVINCE: "province", COUNTRY: "country", CITY: "city",
 	LONGITUDE: "longitude", LATITUDE: "latitude",
 	EMAIL: "email", SECRET: "secret",
+	IP: "ip", UA: "ua",
 	OFFER: "offer",
 	MOBILE: "mobile",
 
