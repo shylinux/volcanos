@@ -11,7 +11,7 @@ fieldset.inner>div.output div.content td.text span.package { color:var(--code-pa
 fieldset.inner>div.output>div.project div.zone div.action:not(.hide) { width:100%; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item { padding-right:0; width:100%; overflow:hidden; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item>input { padding-left:25px; width:100%; }
-fieldset.inner>div.output>div.project div.zone.space>div.list div.output>div.item { margin:var(--input-margin) 0; width:calc(100% - 5px); }
+/* fieldset.inner>div.output>div.project div.zone.space>div.list div.output>div.item { margin:var(--input-margin) 0; width:calc(100% - 5px); } */
 fieldset.inner>div.output>div.project div.zone.space>div.list div.output>div.item:hover { background-color:var(--hover-bg-color); }
 fieldset.inner>div.output>div.project div.zone.repos>div.list div.output>div.item { margin:0; width:100% !important; }
 fieldset.inner>div.output>div.project div.zone.repos>div.list div.output>div.item:hover { background-color:var(--hover-bg-color); }
