@@ -50,7 +50,7 @@ Volcanos(chat.ONACTION, {list: [[html.VIEW, "趋势图", "柱状图", "折线图
 		var color = can.core.List(can.base.Obj(can.Conf(cli.COLOR), []), function(color) { return can.onimport.group(can, color, kit.Dict(svg.STROKE, color, svg.FILL, color)) })
 		can.onimport.transform(can, black), can.onimport.transform(can, white), can.core.List(color, function(color) { can.onimport.transform(can, color) })
 		var max, min; can.core.List(can.core.List(can.base.Obj(can.Conf(mdb.FIELD), can._msg.append), function(field) {
-			if (can.base.isIn(field, "time", "id")) { return } return field
+			if (can.base.isIn(field, mdb.TIME, mdb.ID)) { return } return field
 		}), function(field, index) { max = can.db.data[0][field], min = can.db.data[0][field]
 			for (var i = 1; i < can.db.data.length; i += 1) { var value = can.db.data[i][field]; if (value > max) { max = value } if (value < min) { min = value } }
 			max = parseFloat(can.Conf("max")||max), min = parseFloat(can.Conf("min")||min)

@@ -22,7 +22,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	_theme: function(can, theme) { return can.ui.diy&&can.ui.diy[theme]||theme },
 	_avatar: function(can, msg) { can.user.isExtension || can.user.isLocalFile || can.page.Modify(can, "div.state.avatar>img", {src: can.onexport.avatar(can)}) },
 	_background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
-		window.parent == window? can.onlayout.background(can, can.onexport.background(can)): can.page.style(can, document.body, html.BACKGROUND_COLOR, cli.TRANSPARENT)
+		can.onlayout.background(can, can.onexport.background(can))
+		// window.parent == window? can.onlayout.background(can, can.onexport.background(can)): can.page.style(can, document.body, html.BACKGROUND_COLOR, cli.TRANSPARENT)
 	},
 	_search: function(can, msg, target) {
 		can._search = can.onappend.input(can, {type: html.TEXT, _className: "args trans", icon: icon.SEARCH, name: mdb.SEARCH, value: can.misc.Search(can, "_search"), onkeydown: function(event) { can.onkeymap.input(event, can)

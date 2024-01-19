@@ -25,7 +25,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { if (can.user.mod.isPod)
 }, [""])
 Volcanos(chat.ONFIGURE, {
 	source: function(can, target, zone, path) {
-		var args = can.base.getValid(can.misc.SearchHash(can), [can.Option(nfs.PATH), can.Option(nfs.FILE)])
+		var args = (can.isCmdMode() && can.base.getValid(can.misc.SearchHash(can))) || [can.Option(nfs.PATH), can.Option(nfs.FILE)]
 		function show(target, zone, path) { can.run(can.request({}, {_method: http.GET, dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) {
 			zone._icon(kit.Dict(
 				web.REFRESH, function(event) { show(target, zone, path) },
@@ -43,10 +43,7 @@ Volcanos(chat.ONFIGURE, {
 			}); cache = can.onimport.tree(can, list, nfs.PATH, nfs.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, cache)
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) {
-			show(target, zone, path), zone._toggle = function() {
-				can.ui.zone.source && can.ui.zone.source._layout()
-				zone._layout()
-			}
+			show(target, zone, path), zone._toggle = function() { can.ui.zone.source && can.ui.zone.source._layout(), zone._layout() }
 		}) }), target)
 	},
 	space: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {

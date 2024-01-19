@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(can, function() { msg.append && can.ConfDefault({field: msg.append[0], split: nfs.PS})
 		can.dir_root = can.Conf(nfs.DIR_ROOT)||msg.Option(nfs.DIR_ROOT), can._tree = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))
-		can.onaction.list = [], can.base.isFunc(cb) && cb(msg), can.onimport.layout(can)
+		can.onaction.list = [], can.base.isFunc(cb) && cb(msg), can.onimport.layout(can), can.onmotion.toggle(can, can._action, true)
 		can.onappend._status(can, msg.Option(ice.MSG_STATUS))
 	}) },
 	_tree: function(can, list, field, split) { var node = {}; can.core.List(list, function(item) { can.core.List(item[field].split(split), function(value, index, array) {
@@ -17,7 +17,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 	} can.core.List(tree.list, function(item) { tree.width += can.onimport._width(can, item) }); return tree.width },
 	_color: function(can, tree) { return tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW) },
 	layout: function(can) {
-		// can.page.ClassList.has(can, can._fields, html.FLOAT) || can.page.style(can, can._output, html.MAX_HEIGHT, "", "overflow", "hidden")
 		can.ui.svg && can.ui.svg.Val(svg.FONT_SIZE, can.size = parseInt(can.Action(html.SIZE)||24)), can.margin = parseInt(can.Action(html.MARGIN)||10)
 		can._tree && can._tree[can.dir_root] && can.core.CallFunc(can.onaction[can.Action(html.VIEW)||"横向"], [event, can, can.Action(html.VIEW)])
 	},

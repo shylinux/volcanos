@@ -60,12 +60,14 @@ body.windows { --code-font-family:"Courier New"; }
 body.mobile { --qrcode-height:284px; --svg-font-size:13px; }
 body.cmd { background-color:var(--plugin-bg-color); }
 body.width1 { /* 320-640 手机竖屏 */
-	--river-width:280px; --project-width:120px; --input-width:80px;
+	--river-width:280px; --project-width:120px;
+ 	--input-width:80px;
 	--river-margin:0; --plugin-margin:0; --button-margin:5px;
 	--footer-height:60px;
  	--table-button:2;
 }
 body.width2 { /* 640-960 手机横屏 平板竖屏 笔记本调试 */
+ 	--input-width:80px;
  	--table-button:3;
 }
 body.width3 { /* 960-1280 平板横屏 */
@@ -580,6 +582,7 @@ fieldset.vimer>div.output>div.project>div.zone.space div.item.stop { color:var(-
 fieldset.vimer>div.output>div.project>div.zone.space fieldset>div.output>div.item { height:42px; }
 fieldset.xterm>div.action>div.tabs:only-child { display:none; }
 fieldset.xterm.story>form.option>div.item.hash input { width:320px; }
+body.width2 fieldset.xterm.story>form.option>div.item.hash input { width:var(--input-width); }
 fieldset.cmd>div.output>fieldset.xterm.story>form.option>div.item.hash input { width:var(--plug-width); }
 fieldset.cmd>div.output>fieldset.iframe.story>form.option>div.item.hash input { width:var(--plug-width); }
 fieldset.xterm>div.layout { clear:both; }
@@ -590,6 +593,7 @@ fieldset.dream>div.output.card>div.item.login { border:var(--danger-bg-color) so
 fieldset.dream>div.output.card>div.item.server { border:var(--notice-bg-color) solid 3px; }
 fieldset.dream>div.output.card>div.item.master { border:var(--danger-bg-color) solid 3px; }
 fieldset.trans>form.option>div.item.text>input { width:var(--project-width); }
+body.width2 fieldset.trans>form.option>div.item.text>input { width:var(--input-width); }
 fieldset.trans>div.output>fieldset { margin:var(--button-margin); }
 fieldset.config form.option input[name=key] { width:var(--project-width); }
 fieldset.qrcode>div.output div.code { padding:0; }
