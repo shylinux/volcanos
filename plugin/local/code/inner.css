@@ -52,6 +52,8 @@ fieldset.inner>div.output>div.layout>div.path>span { padding:var(--input-padding
 fieldset.inner>div.output>div.layout>div.path>span:hover { background-color:var(--hover-bg-color); }
 fieldset.inner>div.output>div.layout>div.path span.func { padding:var(--input-padding); margin-left:80px; }
 fieldset.inner>div.output>div.layout>div.path span.mode { padding:var(--input-padding); margin-left:80px; }
+body.width2 fieldset.inner>div.output>div.layout>div.path span.mode { display:none; }
+/* body.width2 fieldset.inner>div.output>div.layout>div.path span.mode { display:none; } */
 body.mobile fieldset.inner>div.output>div.layout>div.path span.func { display:none; }
 body.mobile fieldset.inner>div.output>div.layout>div.path span.mode { display:none; }
 body:not(.mobile) fieldset.inner>div.output>div.layout>fieldset.plug { bottom:var(--action-height); }
