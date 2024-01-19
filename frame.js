@@ -141,10 +141,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}), meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
 			sub._legend && (sub._legend.onclick = function(event) {
 				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([[ctx.ACTION].concat(can.core.Item(meta.feature._trans))]), function(event, button) { can.misc.Event(event, sub, function(msg) {
-					can.misc.Inputs(sub, msg, [ctx.ACTION, button], null, meta) ||
-					msg.RunAction(event, sub.sub, [ctx.ACTION, button]) ||
-						msg.RunAction(event, sub, [ctx.ACTION, button]) ||
-						sub.runAction(event, button, [], function(msg) { can.onappend._output(sub, msg) })
+					can.misc.Inputs(sub, msg, [ctx.ACTION, button], null, meta) || msg.RunAction(event, sub.sub, [ctx.ACTION, button]) || msg.RunAction(event, sub, [ctx.ACTION, button]) || sub.runAction(event, button, [], function(msg) { can.onappend._output(sub, msg) })
 				}) })
 			}), can.base.isFunc(cb) && cb(sub)
 			if (sub.isOutputStyle()) { return } if (can.user.isMobile && !can.user.isLandscape()) { return }
@@ -157,7 +154,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			var icon = {
 				"": {name: mdb.DELETE, cb: function(event) { can.onaction.close(event, can) }},
 				run: {name: web.PLAY, cb: function(event) { can.Update(event) }},
-				// refresh: {name: web.REFRESH, cb: function(event) { can.Update(event) }},
 				list: {name: web.REFRESH, cb: function(event) { can.Update(event) }},
 				back: {name: "goback", cb: function(event) { can.onimport.back(event, can) }},
 				prev: {name: mdb.PREV, cb: function(event) { var sub = can.sub; sub.onaction && sub.onaction.prev? sub.onaction.prev(event, sub): can.onaction.prev(event, can) }},
@@ -198,10 +194,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				skip || can.Conf(ice.AUTO) == cli.DELAY || can.Update({}, [ctx.ACTION, p])
 			} else {
 				skip || can.Conf(ice.AUTO) == cli.DELAY || auto && auto.click()
-			}
-			if (meta.inputs.length == 0) { return }
-			var _can = can._fields? can.sup: can
-			if (!can.page.tagis(_can._target, html.FIELDSET_PLUGIN)) { return }
+			} if (meta.inputs.length == 0) { return } var _can = can._fields? can.sup: can; if (!can.page.tagis(_can._target, html.FIELDSET_PLUGIN)) { return }
 			can.user.isMobile || meta._help && add({type: html.BUTTON, name: ice.HELP, onclick: function(event) { can.onappend._float(can, {index: web.WIKI_WORD}, [meta._help]) }}, function() {})
 			!can.Conf("_fileline") || can.base.isIn(can.ConfIndex(), web.CODE_VIMER) || can.user.isMobile || can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && add({type: html.BUTTON, name: "vimer", _trans: "源码", onclick: function(event) {
 				var value = "查看源码"; _can.onaction[value](event, _can, value, _can.sub)

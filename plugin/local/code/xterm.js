@@ -3,8 +3,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 		var item = can.base.Obj(msg.TableDetail(), {hash: "only"}); item.hash = item.hash||can.Option(mdb.HASH), can.onmotion.clear(can)
 		if (item.type == html.LAYOUT) { can.onimport._layout(can, item) } else { can.onimport._connect(can, item, can._output) } can.onimport.layout(can)
 		can.sup.onexport.link = function() { return can.misc.MergePodCmd(can, {pod: can.Conf(ice.POD), cmd: web.CODE_XTERM, hash: item.hash}) }
-		can.sup.onexport.title(can, item.name||item.type)
-		can.base.isFunc(cb) && cb(msg), can.onappend._status(can), can.onkeymap._build(can)
+		can.sup.onexport.title(can, item.name||item.type), can.base.isFunc(cb) && cb(msg), can.onappend._status(can), can.onkeymap._build(can)
 	}) },
 	_layout: function(can, item) {
 		function connect(item, output, tabs) { can.run(can.request({}, item), [item.hash], function(msg) {
@@ -53,18 +52,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 		can.onmotion.clear(can, output), term.open(output), term.focus()
 		can.onengine.listen(can, chat.ONTHEMECHANGE, function() {
 			term.selectAll(), can.onimport._connect(can, item, output, tabs, can.base.trimSuffix(term.getSelection(), lex.NL))
-		}), can.onimport._recover(can, item, term, text)
+		})
 		can.page.style(can, output, html.BACKGROUND_COLOR, term._publicOptions.theme.background||cli.BLACK)
 		output.onclick = function() { output._tabs._current = output, term.focus(), can.onexport.term(can, term)
 			can.page.Select(can, can._fields, html.DIV_OUTPUT, function(target) { can.page.ClassList.set(can, target, html.SELECT, target == output) })
 		}; return can.db = can.db||{}, can.db[item.hash] = term
-	},
-	_recover: function(can, item, term, text) {
-		// var recover = can.onexport.session(can, RECOVER_STORE+item.hash)
-		var recover = ""
-		if (recover) { can.onexport.session(can, RECOVER_STORE+item.hash, ""), can.onmotion.delay(can, function() { term.write(recover.replaceAll(lex.NL, "\r\n")) }) }
-		can.onengine.listen(can, chat.ONUNLOAD, function(msg) { term.selectAll(), can.onexport.session(can, RECOVER_STORE+item.hash, can.base.trimSuffix(term.getSelection(), lex.NL)+lex.NL) })
-		text && can.onmotion.delay(can, function() { term.write(text.replaceAll(lex.NL, "\r\n")) })
 	},
 	_resize: function(can, term, size) { can.runAction(can.request({}, size, term._item), web.RESIZE, [], function(msg) {
 		if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
@@ -73,20 +65,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 		can.runAction(can.request({}, {rows: term.rows, cols: term.cols}, term._item), html.INPUT, [btoa(data)], function(msg) {
 			if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
 		}), can._output = term._output
-		return
-
-		if (data == "\u0013") { can._delay = true
-			can.onmotion.delay(can, function() { can._delay && can.runAction(can.request({}, term._item), html.INPUT, [btoa(data)], function(msg) {
-				if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
-			}) })
-		} else {
-			if (can._delay) { can._delay = false; var msg = can.request({}, {_handle: ice.TRUE}, term._item)
-				can._keylist = can.onkeymap._parse({key: data, _msg: msg}, can, mdb.NORMAL, can._keylist||[], term); return
-			}
-			can.runAction(can.request({}, {rows: term.rows, cols: term.cols}, term._item), html.INPUT, [btoa(data)], function(msg) {
-				if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
-			}), can._output = term._output
-		}
 	},
 	grow: function(can, msg, hash, text) {
 		var arg = msg.detail.slice(1); arg = [hash||arg[0], text||arg[1]]
