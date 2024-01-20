@@ -145,7 +145,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}) })
 			}), can.base.isFunc(cb) && cb(sub)
 			if (sub.isOutputStyle()) { return } if (can.user.isMobile && !can.user.isLandscape()) { return }
-			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, can.user.header(can), sub._output, sub._fields||sub._target)
+			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, can.user.header(sub), sub._output, sub._fields||sub._target)
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
@@ -809,10 +809,11 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	tableFilter: function(can, target, value) { can.page.Select(can, target, html.TR, function(tr, index) {
 		index > 0 && can.page.ClassList.set(can, tr, html.HIDDEN, can.page.Select(can, tr, html.TD, function(td) { if (td.innerText.toLowerCase().indexOf(value.toLowerCase()) > -1) { return td } }) == 0)
 	}) },
-	delayResize: function(can, target, key) { can.onmotion.delay(can, function() { can.page.Select(can, target, key, function(_target) {
-		var width = _target.offsetWidth+2*html.PLUGIN_PADDING
-		can.page.style(can, target, html.WIDTH, width, html.LEFT, (window.innerWidth-width)/2, html.TOP, (window.innerHeight-_target.offsetHeight)/2)
-	}) }) },
+	delayResize: function(can, target, key) {
+		can.page.Select(can, target, key, function(_target) { _target.onload = function() { var width = _target.offsetWidth+2*html.PLUGIN_PADDING
+			can.page.style(can, target, html.WIDTH, width, html.LEFT, (window.innerWidth-width)/2, html.TOP, (window.innerHeight-_target.offsetHeight)/4)
+		} })
+	},
 	delayLong: function(can, cb, interval, key) { can.onmotion.delay(can, cb, interval||300, key) },
 	delayOnce: function(can, cb, interval, list) {
 		if (!list) { var call = can.misc.fileLine(2), _call = "_delay_"+call.file+call.line; list = can[_call] = can[_call]||{} }

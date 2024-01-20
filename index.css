@@ -662,9 +662,9 @@ fieldset.Search>div.output>div.profile { border-left:none; width:unset; }
 fieldset.Action.tabs table.content { width:100%; }
 fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full):not(.cmd) { padding:var(--plugin-padding); margin:var(--plugin-margin); box-shadow:var(--box-shadow); }
 fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
-fieldset.cmd>div.item.time { line-height:22px; padding:var(--input-padding) var(--button-padding); float:right; }
-fieldset.cmd>div.item.usernick { line-height:22px; padding:var(--input-padding) var(--button-padding); float:right; }
-fieldset.cmd>div.item.avatar { padding:0; height:var(--action-height); float:right; }
+fieldset.cmd>div.item.state { line-height:22px; padding:var(--input-padding) var(--button-padding); float:right; }
+/* fieldset.cmd>div.item.qrcode { padding:0; height:var(--action-height); } */
+fieldset.cmd>div.item.avatar { padding:0; height:var(--action-height); }
 fieldset.cmd>div.item.avatar>img { height:var(--action-height); }
 fieldset.cmd>div.action>div.tabs.select { border-bottom:var(--notice-bg-color) solid 2px; }
 fieldset.cmd>div.status>legend.select { border-top:var(--notice-bg-color) solid 2px; }
