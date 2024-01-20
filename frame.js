@@ -553,7 +553,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				append(can.page.Append(can, target, [html.LAYOUT])._target, type==FLOW? FLEX: FLOW, item)
 			} else if (can.base.isObject(item)) {
 				if (item.index) { item._index = count++, ui.size[item._index] = item.height||item.width
-					// can.onmotion.hidden(can, target)
+					can.base.isIn(item.index, web.WIKI_PORTAL) && can.onmotion.hidden(can, target)
 					can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 						item.layout = function(height, width) { sub.onimport.size(sub, height, width) }
 						can.onmotion.select(can, sub._target.parentNode, html.FIELDSET, sub._target)

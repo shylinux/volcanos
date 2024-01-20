@@ -222,7 +222,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target)
 		if (msg.Option(ice.MSG_PROCESS) == ice.PROCESS_FIELD) {
 			msg.Table(function(item) { item.type = chat.STORY, item.height = height, item.width = width, item.display = msg.Option(ice.MSG_DISPLAY)
-				if (can.base.isIn(item.index, web.WIKI_WORD)) { item.style = html.OUTPUT }
+				if (can.base.isIn(item.index, web.CODE_XTERM, web.WIKI_WORD)) { item.style = html.OUTPUT }
 				can.onimport.plug(can, item, function(sub) {
 					sub.onaction.close = function() { can.onmotion.hidden(can, target), can.onimport.layout(can) }
 					sub.onexport.output = function(_sub, _msg) { can.base.isFunc(cb) && cb(_sub.sup, _msg) }
