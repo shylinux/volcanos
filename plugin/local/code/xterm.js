@@ -60,7 +60,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 	},
 	_resize: function(can, term, size) { can.runAction(can.request({}, size, term._item), web.RESIZE, [], function(msg) {
 		if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
-		can.onexport.term(can, term) }) },
+		can.onexport.term(can, term)
+	}) },
 	_input: function(can, term, data) {
 		can.runAction(can.request({}, {rows: term.rows, cols: term.cols}, term._item), html.INPUT, [btoa(data)], function(msg) {
 			if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
@@ -162,8 +163,14 @@ Volcanos(chat.ONACTION, {
 })
 Volcanos(chat.ONEXPORT, {list: [mdb.TIME, mdb.HASH, mdb.TYPE, mdb.NAME, "rows", "cols", "cursorY", "cursorX"],
 	term: function(can, term) { item = term._item
-		can.core.List(can.onexport.list, function(key) { can.Status(key, can.base.getValid(item[key], term[key], term.buffer.active[key], "")+"") })
-		can.core.List([mdb.TIME, mdb.HASH, mdb.TYPE, mdb.NAME], function(key) { can.Status(key, item[key]||"") })
+		can.core.List(can.onexport.list, function(key) {
+			if (key == mdb.TIME && !item[key]) { return }
+			can.Status(key, can.base.getValid(item[key], term[key], term.buffer.active[key], "")+"")
+		})
+		can.core.List([mdb.TIME, mdb.HASH, mdb.TYPE, mdb.NAME], function(key) {
+			if (key == mdb.TIME && !item[key]) { return }
+			can.Status(key, item[key]||"")
+		})
 	},
 	sess: function(can) { return can.page.Select(can, can._action, html.DIV_TABS, function(target) { function show(target) {
 		var name = can.page.SelectOne(can, target._tabs, html.SPAN_NAME).innerText
@@ -172,10 +179,5 @@ Volcanos(chat.ONEXPORT, {list: [mdb.TIME, mdb.HASH, mdb.TYPE, mdb.NAME, "rows", 
 		} else { var item = target._term._item; return {type: item.type, name: name, text: item.text, hash: item.hash} }
 	} return show(target._output) }) },
 	title: function(can, term, title) { can.page.Modify(can, can.page.SelectOne(can, term._output._tabs, html.SPAN_NAME), title), can.Status(mdb.NAME, title), can.sup.onexport.title(can.sup, title) },
-	recover: function(can) {
-		can.core.Item(can.db, function(hash, term) {
-			term.selectAll(), can.onexport.session(can, RECOVER_STORE+hash, can.base.trimSuffix(term.getSelection(), lex.NL)+lex.NL)
-		})
-	},
 })
 })()

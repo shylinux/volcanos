@@ -298,7 +298,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (can.base.beginWith(item.value, nfs.PS, ice.HTTP)) { item.value = can.page.Format(html.A, item.value, item.value.split("?")[0]) }
 			if (keys[item.name]) { return can.Status(item.name, item.value) } keys[item.name] = item
 			msg && item.name == cli.COST && (item.value = msg.Option(ice.MSG_COST)||item.value)
-			msg && item.name == "msg" && (item.value = can.base.Size(item.value||msg._xhr.responseText.length))
+			msg && item.name == "msg" && (item.value = can.base.Size(item.value||msg._xhr? msg._xhr.responseText.length: 0))
+			if (item.name == mdb.COUNT && item.value == "0x0") {
+				var list = can.page.Select(can, can._output, "tbody>tr")
+				var _list = can.page.Select(can, list[0], "td")
+				item.value = list.length+"x"+_list.length
+			}
 			can.page.Append(can, status, [{view: html.ITEM, list: [
 				{text: [can.page.Color(can.user.trans(can, item.name, null, html.INPUT)), html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value == undefined? "": (item.value+"").trim())+"", html.SPAN, item.name]},
 			], onclick: item.onclick||function(event) {

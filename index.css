@@ -144,6 +144,7 @@ fieldset>div.action div.item.select:not(.cmds) { border-radius:var(--button-radi
 fieldset>div.action div.item.select.cmds { border-bottom:var(--notice-bg-color) solid 2px; height:var(--action-height); }
 fieldset>div.output { width:100%; }
 fieldset>div.status { width:100%; }
+fieldset.rich>div.output>table.content { font-family:var(--code-font-family); }
 fieldset.input>legend { display:none; }
 fieldset.input.key div.action { display:none; }
 fieldset.input.key div.output table.content { width:100%; }

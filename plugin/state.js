@@ -24,15 +24,17 @@ Volcanos(chat.ONIMPORT, {
 	_hold: function(can, msg, arg) { can.user.toast(can, arg||ice.SUCCESS) },
 	_back: function(can) { can.onimport.back({}, can) },
 	_rich: function(can, msg) { var sub = can.sub
-		function _rich() { if (sub._rich_list.length == 0) { return } if (sub._rich_running) { return } sub._rich_running = true
+		function _rich() {
+			if (sub._rich_list.length == 0) { return } if (sub._rich_running) { return } sub._rich_running = true
 			var msg = sub._rich_list.shift(), list = msg.detail.slice(1)
 			if (!sub._rich._table) {
 				for (var i = 1; i < msg.detail.length; i += 2) { msg.Push(msg.detail[i], msg.detail[i+1]) }
 				sub._rich._table = can.page.SelectOne(can, can.onappend.table(sub._rich, msg), html.TBODY)
 			} else { var list = []
-				for (var i = 1; i < msg.detail.length; i += 2) { list.push(msg.detail[i+1]) }
+				for (var i = 1; i < msg.detail.length; i += 2) { list.push(can.page.Color(msg.detail[i+1])) }
 				var tr = can.page.Append(can, sub._rich._table, [{td: list}]).tr; sub._rich._output.scrollTop += 100000
 				can.onmotion.delayOnce(can, function() { can.onmotion.select(can, tr.parentNode, html.TR, tr) }, 500)
+				sub._rich.onappend._status(sub._rich, msg.Option(ice.MSG_STATUS), null, msg)
 			} can.core.Timer(msg.Option(cli.DELAY)||0, function() { sub._rich_running = false, _rich() })
 		}
 		if (sub._rich) {
@@ -41,7 +43,7 @@ Volcanos(chat.ONIMPORT, {
 			(sub._rich_list = sub._rich_list||[]).push(msg); if (sub._rich_list.length > 1) { return }
 		}
 		var height = can.onexport.outputHeight(can)
-		can.onappend.plugin(can, {index: "can._filter", title: "table.js", height: height}, function(sub) {
+		can.onappend.plugin(can, {title: msg.Option(ice.MSG_TITLE)||"table.js", index: "can._filter", height: height, style: "rich"}, function(sub) {
 			sub.onexport.output = function() { can.sub._rich = sub.sub, _rich(), can.onmotion.scrollIntoView(can, sub._target) }
 		}); return
 	},
@@ -50,9 +52,12 @@ Volcanos(chat.ONIMPORT, {
 		if (msg.Option(ctx.DISPLAY)) {
 			function _grow() { if (can.sub._grow_list.length == 0) { return } if (can.sub._grow_running) { return } can.sub._grow_running = true
 				var msg = can.sub._grow_list.shift(), list = [], text = msg.detail[1]; for (var i = 0; i < text.length; i++) { list.push(text[i]) }
-				can.core.Next(list, function(text, next) {
+				can.core.Next(list, function(text, next) { sub._grow._size = (sub._grow._size||0)+text.length
+					text && text.match(/\n/g) && (sub._grow._count = (sub._grow._count||0)+text.match(/\n/g).length)
 					can.sub._grow.onimport.grow(can.sub._grow, msg, "only", text)
 					can.core.Timer(msg.Option(cli.DELAY)||0, next)
+					sub._grow.onappend._status(sub._grow, msg.Option(ice.MSG_STATUS), null, msg)
+					sub._grow.Status(mdb.COUNT, sub._grow._count), sub._grow.Status("msg", can.base.Size(sub._grow._size))
 				}, function() { can.sub._grow_running = false, _grow() })
 			}
 			if (can.sub._grow) {
@@ -61,7 +66,7 @@ Volcanos(chat.ONIMPORT, {
 				(can.sub._grow_list = can.sub._grow_list||[]).push(msg); if (can.sub._grow_list.length > 1) { return }
 			}
 			var height = can.onexport.outputHeight(can)
-			can.onappend.plugin(can, {index: "can._filter", title: msg.Option(ctx.DISPLAY).split(nfs.PS).pop(), display: msg.Option(ctx.DISPLAY), height: height}, function(sub) {
+			can.onappend.plugin(can, {title: msg.Option(ice.MSG_TITLE)||msg.Option(ctx.DISPLAY).split(nfs.PS).pop(), index: "can._filter", display: msg.Option(ctx.DISPLAY), height: height}, function(sub) {
 				sub.onexport.output = function() { can.onmotion.scrollIntoView(can, sub._target), can.sub._grow = sub.sub, _grow() }
 			}); return
 		}
