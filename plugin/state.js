@@ -43,7 +43,7 @@ Volcanos(chat.ONIMPORT, {
 			(sub._rich_list = sub._rich_list||[]).push(msg); if (sub._rich_list.length > 1) { return }
 		}
 		var height = can.onexport.outputHeight(can)
-		can.onappend.plugin(can, {title: msg.Option(ice.MSG_TITLE)||"table.js", index: "can._filter", height: height, style: "rich"}, function(sub) {
+		can.onappend.plugin(can, {title: can.core.Keys(can.ConfSpace(), msg.Option(ice.MSG_TITLE)||"table.js"), index: "can._filter", height: height, style: "rich"}, function(sub) {
 			sub.onexport.output = function() { can.sub._rich = sub.sub, _rich(), can.onmotion.scrollIntoView(can, sub._target) }
 		}); return
 	},
@@ -66,7 +66,7 @@ Volcanos(chat.ONIMPORT, {
 				(can.sub._grow_list = can.sub._grow_list||[]).push(msg); if (can.sub._grow_list.length > 1) { return }
 			}
 			var height = can.onexport.outputHeight(can)
-			can.onappend.plugin(can, {title: msg.Option(ice.MSG_TITLE)||msg.Option(ctx.DISPLAY).split(nfs.PS).pop(), index: "can._filter", display: msg.Option(ctx.DISPLAY), height: height}, function(sub) {
+			can.onappend.plugin(can, {title: can.core.Keys(can.ConfSpace(), msg.Option(ice.MSG_TITLE)||msg.Option(ctx.DISPLAY).split(nfs.PS).pop()), index: "can._filter", display: msg.Option(ctx.DISPLAY), height: height}, function(sub) {
 				sub.onexport.output = function() { can.onmotion.scrollIntoView(can, sub._target), can.sub._grow = sub.sub, _grow() }
 			}); return
 		}
