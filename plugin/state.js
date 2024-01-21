@@ -44,21 +44,25 @@ Volcanos(chat.ONIMPORT, {
 		}
 		var height = can.onexport.outputHeight(can)
 		can.onappend.plugin(can, {title: can.core.Keys(can.ConfSpace(), msg.Option(ice.MSG_TITLE)||"table.js"), index: "can._filter", height: height, style: "rich"}, function(sub) {
-			sub.onexport.output = function() { can.sub._rich = sub.sub, _rich(), can.onmotion.scrollIntoView(can, sub._target) }
+			sub.onexport.output = function() {
+				can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
+				can.sub._rich = sub.sub, _rich(), can.onmotion.scrollIntoView(can, sub._target)
+			}
 		}); return
 	},
 	_grow: function(can, msg, arg) {
 		var sub = can.sub; if (sub && sub.onimport && sub.onimport.grow) { return sub.onimport.grow(sub, msg, msg.detail[1], msg.detail[2]) }
 		if (msg.Option(ctx.DISPLAY)) {
 			function _grow() { if (can.sub._grow_list.length == 0) { return } if (can.sub._grow_running) { return } can.sub._grow_running = true
-				var msg = can.sub._grow_list.shift(), list = [], text = msg.detail[1]; for (var i = 0; i < text.length; i++) { list.push(text[i]) }
-				can.core.Next(list, function(text, next) { sub._grow._size = (sub._grow._size||0)+text.length
-					text && text.match(/\n/g) && (sub._grow._count = (sub._grow._count||0)+text.match(/\n/g).length)
-					can.sub._grow.onimport.grow(can.sub._grow, msg, "only", text)
-					can.core.Timer(msg.Option(cli.DELAY)||0, next)
-					sub._grow.onappend._status(sub._grow, msg.Option(ice.MSG_STATUS), null, msg)
-					sub._grow.Status(mdb.COUNT, sub._grow._count), sub._grow.Status("msg", can.base.Size(sub._grow._size))
-				}, function() { can.sub._grow_running = false, _grow() })
+				var msg = can.sub._grow_list.shift(), text = msg.detail[1]; sub._grow.onappend._status(sub._grow, msg.Option(ice.MSG_STATUS), null, msg)
+				sub._grow._size = (sub._grow._size||0)+text.length, text && text.match(/\n/g) && (sub._grow._count = (sub._grow._count||0)+text.match(/\n/g).length)
+				if (msg.Option(cli.DELAY) && msg.Option(cli.DELAY) != "0") { var list = []; for (var i = 0; i < text.length; i++) { list.push(text[i]) }
+					can.core.Next(list, function(text, next) {
+						can.sub._grow.onimport.grow(can.sub._grow, msg, "only", text), can.core.Timer(msg.Option(cli.DELAY), next)
+					}, function() { can.sub._grow_running = false, _grow() })
+				} else {
+					can.sub._grow.onimport.grow(can.sub._grow, msg, "only", text), can.sub._grow_running = false, _grow()
+				} sub._grow.Status(mdb.COUNT, sub._grow._count), sub._grow.Status("msg", can.base.Size(sub._grow._size))
 			}
 			if (can.sub._grow) {
 				(can.sub._grow_list = can.sub._grow_list||[]).push(msg); return _grow()
