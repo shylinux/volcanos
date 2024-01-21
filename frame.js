@@ -124,6 +124,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			},
 			Option: function(key, value) { value && (value = can.user.trans(sub, value, null, html.INPUT)); return can.page.SelectArgs(can, option, key, value)[0] },
 			Update: function(event, cmds, cb, silent) { event = event||{}
+				if (event.isTrusted && cmds && cmds.length > 0 && cmds[0] == ctx.ACTION) { can.onengine.signal(can, "onrecord", can.request({}, {cmds: [sub.ConfIndex()].concat(cmds||[])})) }
 				sub.request(event, can.core.Value(sub, "sub.db._checkbox"))._caller(),
 				sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input([], !silent), cb, silent); return true },
 			Focus: function() { can.page.SelectOne(can, option, html.INPUT_ARGS, function(target) { target.focus() }) },
@@ -169,8 +170,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			return Volcanos(item.name, {_root: can._root, _follow: can.core.Keys(can._follow, item.name),
 				_target: can.onappend.input(can, item, args[index]||opts[item.name], option||can._option), _option: option||can._option, _action: can._action, _output: can._output, _status: can._status,
 				CloneField: can.Clone, CloneInput: function() { can.onmotion.focus(can, add(item)._target) }, Input: can.Input, Option: can.Option, Action: can.Action, Status: can.Status,
-			}, [item.display, chat.PLUGIN_INPUT_JS], function(sub) { sub.Conf(item)
-				sub._fields = can
+			}, [item.display, chat.PLUGIN_INPUT_JS], function(sub) { sub.Conf(item), sub._fields = can
 				if (item.type == html.TEXT) { can.page.Append(can, sub._target.parentNode, [{text: [sub._target.value, html.SPAN, mdb.VALUE]}]) }
 				if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) {
 					can.onappend.icons(can, sub._target, item.name, item.onclick||function(event) {
@@ -185,8 +185,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				item.action && can.onappend.figure(sub, item, sub._target, function(_sub, value) { can.Update() }); if (skip === true) { return }
 				item.type == html.BUTTON && item.action == ice.AUTO && can.base.isUndefined(can._delay_init) && (auto = sub._target), next()
 				can.Conf(ice.AUTO) == item.name && (auto = sub._target)
+				can._auto = auto
 			})
-		}; var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() {
+		};
+		var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() {
 			var p = can.misc.Search(can, ctx.ACTION)
 			if (can.Conf("_ismain") && !can.Conf("_role") && can.misc.Search(can, log.DEBUG) != ice.TRUE) {
 
