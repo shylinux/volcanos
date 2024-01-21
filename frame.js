@@ -124,7 +124,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			},
 			Option: function(key, value) { value && (value = can.user.trans(sub, value, null, html.INPUT)); return can.page.SelectArgs(can, option, key, value)[0] },
 			Update: function(event, cmds, cb, silent) { event = event||{}
-				if (event.isTrusted && cmds && cmds.length > 0 && cmds[0] == ctx.ACTION) { can.onengine.signal(can, "onrecord", can.request({}, {cmds: [sub.ConfIndex()].concat(cmds||[])})) }
+				if (event.isTrusted && cmds && cmds.length > 0 && cmds[0] == ctx.ACTION) {
+					can.onengine.signal(can, "onrecord", can.request({}, {cmds: [sub.ConfSpace(), sub.ConfIndex()].concat(cmds||[])})) }
 				sub.request(event, can.core.Value(sub, "sub.db._checkbox"))._caller(),
 				sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input([], !silent), cb, silent); return true },
 			Focus: function() { can.page.SelectOne(can, option, html.INPUT_ARGS, function(target) { target.focus() }) },
@@ -441,7 +442,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (key == mdb.HASH && can.ConfIndex() == web.TOKEN) { _value = value.slice(0, 4)+"****" }
 			if (key == web.TOKEN && value) { _value = value.slice(0, 4)+"****" }
 			if (key == aaa.PASSWORD && value) { _value = "********" }
+			function onclick() { return false }
+			if (key == mdb.STATUS && value == mdb.DISABLE) { _value = `<i class="${icon.enable}">`
+				function onclick() { run(event, mdb.MODIFY, [mdb.STATUS, mdb.ENABLE]); return true }
+			}
+			if (key == mdb.STATUS && value == mdb.ENABLE) { _value = `<i class="${icon.disable}">`
+				function onclick() { run(event, mdb.MODIFY, [mdb.STATUS, mdb.DISABLE]); return true }
+			}
 			return {text: [msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): can.user.trans(can, _value, null, html.VALUE), html.TD], onclick: function(event) { var target = event.target
+				if (onclick()) { return }
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(event, target.name)
 					meta && meta[target.name]? can.user.input(event, can, meta[target.name], function(args) { run(event, target.name, args) }, data): run(event, target.name)

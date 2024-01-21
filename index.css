@@ -93,6 +93,7 @@ table.content.full { width:100%; }
 body.mobile table.content.detail { word-break:break-all; white-space:unset; }
 table.content thead { position:sticky; top:2px; }
 table.content tr.disable { color:var(--disable-fg-color); }
+table.content tr.danger { background-color:var(--danger-bg-color) !important; color:var(--danger-fg-color) !important; }
 table.content tr.offline { color:var(--disable-fg-color); }
 table.content tr.offline a { color:var(--disable-fg-color); }
 table.content th { font-family:var(--input-font-family); padding:var(--input-padding) 24px; box-shadow:var(--box-shadow); }
@@ -265,6 +266,8 @@ body div.tabs { font-family:var(--code-font-family); }
 body div.path { font-family:var(--code-font-family); }
 body div.carte { font-family:var(--code-font-family); }
 /* icon */
+i.bi.bi-toggle-on { color:var(--notice-bg-color); }
+i.bi.bi-toggle-on:hover { color:var(--notice-bg-color); }
 fieldset>legend>i { margin-right:var(--input-margin); }
 form.option>div.item.icon { position:relative; height:var(--action-height); overflow:hidden; }
 form.option>div.item.icon { font-size:var(--icon-font-size); padding:0 var(--input-padding); }

@@ -53,7 +53,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
 	onunload: function(can) { can._wss && can._wss.close() },
 	onrecord: function(can, msg) {
-		can.runAction(can.request(), nfs.SCRIPT, msg.cmds[0])
+		var zone = can.misc.sessionStorage(can, "web.chat.script:zone")
+		zone && can.runAction(can.request(), nfs.SCRIPT, [zone].concat(msg.cmds[0]))
 	},
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
