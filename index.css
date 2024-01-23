@@ -426,7 +426,7 @@ div.float { position:fixed; z-index:100; box-shadow:var(--box-shadow); }
 fieldset.plug { position:absolute; bottom:0; right:0; }
 div.output { position:relative; }
 div.layout.flex>* { float:left; clear:none; }
-div.output.flex { overflow:hidden; align-items:flex-start; }
+div.output.flex { overflow:hidden; align-items:flex-start; justify-content: flex-start; }
 div.output>div.code { position:sticky; left:0; }
 div.output>div.code video { max-width:100%; }
 fieldset>div.status>legend {

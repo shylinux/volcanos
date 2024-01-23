@@ -21,6 +21,7 @@ var ice = {
 
 	CAN: "can", POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg",
 	APP: "app",
+	DEV: "dev",
 
 	MSG_FIELDS: "fields", MSG_SESSID: "sessid",
 	MSG_DETAIL: "detail", MSG_OPTION: "option", MSG_APPEND: "append", MSG_RESULT: "result",

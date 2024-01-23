@@ -192,6 +192,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 					if (can.page.SelectOne(can, status, nfs.PT+html.SELECT, function(target) { can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true)
 					can.onmotion.select(can, target, html.FIELDSET_PLUG, sub._target)
+					sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth())
 					if (sub._delay_init || meta.msg) { sub._delay_init = false, meta.msg = false, (sub._inputs && sub._inputs.list || sub._inputs && sub._inputs.refresh) && sub.Update() }
 				}) }, sub._delay_init = true, sub.select = function(show) {
 					if (show && can.page.ClassList.has(can, sub._legend, html.SELECT)) { return sub }
