@@ -229,7 +229,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}), item), "", action)
 		})
 		var _can = can._fields? can.sup: can
-		list.length == 0 && can.Conf("inputs").length == 0 || can.isCmdMode() || can.base.beginWith(can.ConfIndex(), "can.", "web.chat.macos.") ||
+		can.isCmdMode() || can.base.beginWith(can.ConfIndex(), "can.", "web.chat.macos.") ||
 			can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
 				can.core.Item(can.user.isMobile? {open: "打开链接"}: {full: "切换全屏", chat: "发送聊天", qrcode: "生成链接", open: "打开链接"}, function(key, value) {
 					return {view: [[html.ITEM, html.BUTTON, key, "icons"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
