@@ -724,7 +724,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 	_float: function(can) { var target = can._fields||can._target, sup = can._fields? can.sup: can
 		can.onappend.style(can, html.FLOAT), can.onmotion.resize(can, target, function(height, width) { sup.onimport.size(sup, height, width, true) })
 		var left = html.RIVER_WIDTH+html.PLUGIN_MARGIN+html.PLUGIN_PADDING+(can.user.mod.isCmd? 0: 120), top = can.page.height()/4; if (can.user.isMobile) { left = 0 }
-		can.page.style(can, target, html.LEFT, left, html.TOP, top), sup.onimport.size(sup, can.base.Max(600, can.page.height()-top), can.base.Max(can.user.mod.isCmd? 1200: 1000, can.page.width()-left), true)
+		can.page.style(can, target, html.LEFT, left, html.TOP, top), sup.onimport.size(sup, can.base.Max(600, can.page.height()-top-html.ACTION_HEIGHT), can.base.Max(can.user.mod.isCmd? 1200: 1000, can.page.width()-left), true)
 		target.onclick = function(event) { can.onkeymap.prevent(event)
 			can.page.Select(can, document.body, "fieldset.float,div.float", function(target) { can.page.style(can, target, "z-index", 9) }), can.page.style(can, target, "z-index", 10)
 		}

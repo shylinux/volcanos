@@ -1,5 +1,5 @@
 fieldset.word>div.output { padding:var(--plugin-padding); }
-fieldset.word>div.output div.story.flex>* { padding:var(--plugin-padding); }
+/* fieldset.word>div.output div.story.flex>* { padding:var(--plugin-padding); } */
 fieldset.word>div.output p { margin:var(--title-margin) auto; }
 fieldset.word>div.output h3 { margin-top:var(--title-margin); }
 fieldset.word>div.output h2.story[data-type=spark][data-name=title] { text-align:center; }
