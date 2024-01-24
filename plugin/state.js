@@ -156,6 +156,11 @@ Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", 
 	"打开首页": function(event, can) { can.user.open(location.origin) },
 	"打开空间": function(event, can) { can.user.open(can.misc.MergePodCmd(can, {pod: can.ConfSpace()||can.misc.Search(can, ice.POD)})) },
 	"打开链接": function(event, can) { can.user.open(can.onexport.link(can)) },
+	"发送聊天": function(event, can) {
+		can.user.input(event, can, [{name: "message", value: "dream"}], function(list) {
+			can._root.Header.run(event, [ctx.ACTION, "message", list[0], mdb.TYPE, "plug", web.SPACE, can.ConfSpace(), ctx.INDEX, can.ConfIndex(), ctx.ARGS, JSON.stringify(can.Option())])
+		})
+	},
 	"生成链接": function(event, can) { can.onmotion.share(event, can, [], [web.LINK, can.user.copy(event, can, can.onexport.link(can))]) },
 	"生成脚本": function(event, can) { var args = can.Input().join(lex.SP), list = [
 		"export ctx_dev="+location.origin+"; ctx_temp=$(mktemp); curl -o $ctx_temp -fsSL $ctx_dev;"+" source $ctx_temp cmd "+(can.Conf(ctx.INDEX))+lex.SP+args,
