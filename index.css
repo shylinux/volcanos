@@ -88,7 +88,7 @@ legend { font-family:var(--legend-font-family); padding:0 var(--legend-padding);
 select { padding:0 var(--button-padding); }
 input:not([type=file]) { padding:0 var(--button-padding); }
 input:not([type=button]) { padding:0 var(--input-padding); border-radius:0; outline:none; }
-input[type=checkbox] { height:22px; width:22px; margin:5px; }
+input[type=checkbox] { height:22px; width:22px; margin:var(--input-margin); }
 table.content.full { width:100%; }
 body.mobile table.content.detail { word-break:break-all; white-space:unset; }
 table.content thead { position:sticky; top:2px; }
@@ -141,6 +141,7 @@ fieldset>form.option>div.item.button { border-radius:var(--button-radius); }
 fieldset>div.action div.item { box-shadow:var(--box-shadow); height:var(--action-height); }
 fieldset>div.action div.item:not(:last-child) { margin-right:var(--button-margin); }
 fieldset>div.action div.item.button { border-radius:var(--button-radius); }
+fieldset>div.action div.item.filter input { padding-left:24px; }
 fieldset>div.action div.item.select:not(.cmds) { border-radius:var(--button-radius); }
 fieldset>div.action div.item.select.cmds { border-bottom:var(--notice-bg-color) solid 2px; height:var(--action-height); }
 fieldset>div.output { width:100%; }
@@ -287,7 +288,7 @@ div.item.text.line>input { width:var(--button-width) !important; }
 div.item.text.limit>input { width:var(--button-width); }
 div.item.text.offend>input { width:var(--button-width); }
 div.item.text.will>input { border:var(--box-notice); }
-div.item.text>i:first-child { position:absolute; left:var(--input-padding); }
+div.item.text>i:first-child { position:absolute; left:var(--input-padding); padding:var(--input-padding); }
 div.item.text>span.icon { font-size:var(--icon-font-size); padding:var(--input-padding); position:absolute; right:0; visibility:hidden; }
 div.item.text:hover>span.icon { visibility:visible; }
 div.item.button { position:relative; height:var(--action-height); }
@@ -475,7 +476,7 @@ span.keyword { color:var(--code-keyword); } span.function { color:var(--code-fun
 span.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 span.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 span.icon:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-div.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+div.item:not(.text):hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.item.select:not(.button) { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.item.button.danger input:hover[type=button] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 div.item.button.notice input:hover[type=button] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }

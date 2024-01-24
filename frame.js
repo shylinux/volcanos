@@ -351,16 +351,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.onkeymap.input(event, can), can.onkeymap.selectOutput(event, can)
 			}
 			input.onkeyup = item.onkeyup||function(event) { if (item.name == html.FILTER) {
-				can.onmotion.delayOnce(can, function() {
-					var count = can.page.Select(can, can._output, html.TR, function(tr, index) {
-						if (!can.page.ClassList.set(can, tr, html.HIDE, index > 0 && tr.innerText.indexOf(event.target.value) == -1)) { return tr }
-					}).length
-					count += can.page.SelectChild(can, can.ui && can.ui.content? can.ui.content: can._output, html.DIV_ITEM, function(target) {
-						if (!can.page.ClassList.set(can, target, html.HIDE, target.innerText.indexOf(event.target.value) == -1)) { return target }
-					}).length
-					can.user.toast(can, "filter out "+count+" lines")
-				}, 1000)
-
+				can.onmotion.filter(can, event.target.value)
 			} }, icon.push({icon: mdb.DELETE, onclick: function(event) { _input.value = "", input.onkeyup({target: event.target.previousSibling}) }})
 		} if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }
 		var _style = can.page.buttonStyle(can, item.name)
@@ -855,6 +846,17 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		can.onmotion.resize(can, can._target, function(height, width) { can.onimport.size(can, height, width, true) }, top, left)
 	},
 	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), target },
+	filter: function(can, value) {
+		can.onmotion.delayOnce(can, function() {
+			var count = can.page.Select(can, can._output, html.TR, function(tr, index) {
+				if (!can.page.ClassList.set(can, tr, html.HIDE, index > 0 && tr.innerText.indexOf(value) == -1)) { return tr }
+			}).length
+			count += can.page.SelectChild(can, can.ui && can.ui.content? can.ui.content: can._output, html.DIV_ITEM, function(target) {
+				if (!can.page.ClassList.set(can, target, html.HIDE, target.innerText.indexOf(value) == -1)) { return target }
+			}).length
+			can.user.toast(can, "filter out "+count+" lines")
+		}, 500)
+	},
 	cache: function(can, next) { var list = can.base.getValid(can.base.Obj(can.core.List(arguments).slice(2)), [can._output])
 		var data = can._cache_data = can._cache_data||{}, old = list[0]._cache_key
 		var key = next(function(save) { if (old) { data[old] = save } }, function(hash, load) { var bak = data[hash]; if (bak) { load(bak) } return hash })
