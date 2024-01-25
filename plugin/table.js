@@ -9,13 +9,16 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		}
 	},
 	card: function(can, msg, target) { can.sup.onexport.outputMargin = function() { return 200 }
-		can.page.Appends(can, target||can._output, msg.Table(function(value) { value.icon = value.icon||value.image
+		can.page.Appends(can, target||can.ui.content||can._output, msg.Table(function(value) { value.icon = value.icon||value.image
 			return {view: [[html.ITEM, value.type, value.status]], list: [
-				{view: [wiki.TITLE, html.DIV], list: [value.icon && {img: can.misc.Resource(can, value.icon, value.type == web.MASTER? "": value.name)}, {text: value.name}]},
+				{view: [wiki.TITLE, html.DIV], list: [
+					value.icon && {img: can.misc.Resource(can, value.icon, value.type == web.MASTER? "": value.name)},
+					{view: wiki.TITLE, list: [{text: value.name}, can.onappend.label(can, value)]},
+				]},
 				{view: [wiki.CONTENT, html.DIV, value.text]},
 				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, 5) }},
 			]}
-		})), can.onimport.layout = function() { can.onlayout.expand(can, can._output, 320) }, can.onappend.scroll(can, can._output)
+		})), can.onimport.layout = can.onimport.layout||function() { can.onlayout.expand(can, can._output, 320) }, can.onappend.scroll(can, can._output)
 	},
 	_vimer_zone: function(can, msg, target) { msg.Table(function(value) { var action = can.page.parseAction(can, value)
 		can.onimport.item(can, {icon: can.misc.Resource(can, value.icon||value.avatar_url), name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]), title: value[mdb.TEXT]||value.description}, function(event) {

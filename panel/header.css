@@ -18,7 +18,7 @@ fieldset.Header>div.output div.item.avatar { padding:0; }
 fieldset.Header>div.output div.item.avatar>img { height:var(--header-height); clip-path:circle(40%); }
 fieldset.Header>div.output div.state { float:right; }
 fieldset.Header>div.output div.search.title { padding:7px 5px; margin-left:15px; }
-fieldset.Header>div.output div.search>i { padding:7px; }
+fieldset.Header>div.output div.search>i { padding:7px; left:3px; }
 fieldset.Header>div.output div.search>input { padding-left:25px; }
 fieldset.Header>div.output div.search>span.icon { padding:var(--input-padding) var(--button-padding); }
 fieldset.Header>div.output div.Action>div.tabs { padding-left:40px; height:100%; overflow:auto; }
