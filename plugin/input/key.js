@@ -16,24 +16,18 @@ Volcanos(chat.ONFIGURE, {key: {
 				can.close(); if (msg.cb && msg.cb[index]) { return msg.cb[index](value) }
 				var _cb = can.Conf("select"); if (_cb) { return _cb(target.value = value) } can.base.isFunc(cb) && cb(can, value, target.value)
 			}}
-		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length()), can.onmotion.toggle(can, can._status, msg.Length() > 5)
+		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length()), can.Status("index", "-1")
+		can.onmotion.toggle(can, can._status, msg.Length() > 5), can.onmotion.toggle(can, can._target, can.Status("total") > 0)
+		can.core.CallFunc(can.oninputs._show, {event: event, can: can, msg: msg, target: target, name: name})
 		can.page.style(can, can._output, html.MAX_HEIGHT, can.page.height()/2, html.MIN_WIDTH, target.offsetWidth, html.MAX_WIDTH, can.Conf("style.width")||can.page.width()/2)
-		msg.append.length == 1 && can.page.ClassList.add(can, can._target, chat.SIMPLE), can.onlayout.figure({target: target}, can, can._target, false, 200)
-		can.onmotion.toggle(can, can._target, can.Status("total") > 0)
-		can.Status("index", "-1")
+		msg.append.length == 1 && can.page.ClassList.add(can, can._target, chat.SIMPLE)
+		can.onlayout.figure({target: target}, can, can._target, false, 200)
 	},
 	onclick: function(event, can, meta, target, cbs) { cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
-	onfocus: function(event, can, meta, target, cbs) {
-		return
-		cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
-			meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
-		})
-	},
 	onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },
-	onkeydown: function(event, can, meta, cb, target, sub, last) {
-		if (event.key == code.TAB) { return }
+	onkeydown: function(event, can, meta, cb, target, sub, last) { if (event.key == code.TAB) { return }
 		if (event.key == code.ENTER) { return meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event, target.value)? sub && sub.close(): last(event) }
 		if (!sub) { return } can.onmotion.toggle(can, sub._target, true)
 		sub.hidden() || can.onkeymap.selectCtrlN(event, can, sub._output, "tr:not(.hidden)>td:first-child", function(td) { return meta.select && (sub.close(), meta.select(target.value = td.innerText)), cb(sub, td.innerText, target.value), td })

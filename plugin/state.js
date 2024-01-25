@@ -106,12 +106,12 @@ Volcanos(chat.ONIMPORT, {
 		can.page.SelectArgs(can, can._action, "", function(target) { target.value = his[i++]||"" }); break
 	} can.Update(event) },
 })
-Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", "切换全屏", "生成链接",
+Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", "切换全屏", "发送聊天", "生成链接",
 		function(can) { if (!can.isCmdMode()) { return "打开链接" } }, function(can) { if (can.isCmdMode()) { return "打开首页" } },
 		function(can) { if (can.ConfSpace() || can.isCmdMode() && can.misc.Search(can, ice.POD)) { return "打开空间" } },
+		"共享工具",
 		function(can) { if (can.misc.Search(can, ice.MSG_DEBUG)) { return "查看源码" } },
 		function(can) { if (can.misc.Search(can, ice.MSG_DEBUG)) { return "查看镜像" } },
-		"共享工具",
 		["视图", "参数",
 			function(can) { if (can._action.innerHTML) { return "操作" } },
 			function(can) { if (can._status.innerHTML) { return "状态" } },
@@ -157,7 +157,11 @@ Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", 
 	"打开空间": function(event, can) { can.user.open(can.misc.MergePodCmd(can, {pod: can.ConfSpace()||can.misc.Search(can, ice.POD)})) },
 	"打开链接": function(event, can) { can.user.open(can.onexport.link(can)) },
 	"发送聊天": function(event, can) {
-		can.user.input(event, can, [{name: "message", value: "dream"}], function(list) {
+		can.user.input(event, can, [{name: "message", display: "/require/usr/icebergs/core/chat/message.js", run: function(event, cmds, cb) {
+			can._root.Header.run(event, [ctx.ACTION, "message"].concat(cmds), function(msg) {
+				cb(msg)
+			})
+		}}], function(list) {
 			can._root.Header.run(event, [ctx.ACTION, "message", list[0], mdb.TYPE, "plug", web.SPACE, can.ConfSpace(), ctx.INDEX, can.ConfIndex(), ctx.ARGS, JSON.stringify(can.Option())])
 		})
 	},

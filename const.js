@@ -192,7 +192,8 @@ var cli = {
 	DELAY: "delay",
 	PLAY: "play", STEP: "step",
 	QRCODE: "qrcode", COLOR: "color", BLACK: "black", WHITE: "white", BLUE: "blue", RED: "red", GRAY: "gray", CYAN: "cyan", GREEN: "green", PURPLE: "purple", YELLOW: "yellow",
-	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
+	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue",
+	TRANSPARENT: "transparent",
 	LINUX: "linux", DARWIN: "darwin", WINDOWS: "windows",
 	DONE: "done", COST: "cost", FROM: "from", PWD: "pwd",
 }
@@ -260,6 +261,7 @@ var chat = {
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport",
 	ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONPLUGIN: "onplugin",
+	ONINPUTS: "oninputs",
 
 	ONSIZE: "onsize", ONMAIN: "onmain", ONLOGIN: "onlogin", ONREMOTE: "onremote", ONSEARCH: "onsearch",
 	ONRESIZE: "onresize", ONKEYUP: "onkeyup", ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
@@ -331,6 +333,7 @@ var html = {value: {
 	FLEX: "flex", FLOW: "flow",
 	SCROLLBAR: "scrollbar",
 	VISIBILITY: "visibility",
+	TRANSPARENT: "transparent",
 	VERTICAL: "vertical", HORIZON: "horizon",
 	NOTICE: "notice", DANGER: "danger",
 	TOIMAGE: "toimage",
