@@ -30,7 +30,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 		can.user.info.sessid && msg.Option(ice.MSG_SESSID, can.user.info.sessid)
 		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex()), can.page.exportValue(sub, msg)
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))
-		can.misc.Run(event, can, {names: names}, cmds, function(msg) { toast && toast.close && toast.close(), toast = true, _toast && can.user.toastSuccess(msg._can)
+		can.misc.Run(event, can, {names: names}, cmds, function(msg) { toast && can.user.toastSuccess(msg._can), toast && toast.close && toast.close(), toast = true
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg
 		})
 	},
@@ -109,7 +109,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var output = can.page.SelectOne(can, field, html.DIV_OUTPUT)
 		var status = can.page.SelectOne(can, field, html.DIV_STATUS)
 		var sub = Volcanos(meta.name, {_root: can._root||can, _follow: can.core.Keys(can._follow, meta.name), _target: field,
-			_legend: legend, _option: option, _action: action, _output: output, _status: status, _history: [],
+			_legend: legend, _option: option, _action: action, _output: output, _status: status, _history: [], db: {}, ui: {},
 			Status: function(key, value) { if (can.base.isObject(key)) { return can.core.Item(key, sub.Status), key } try {
 				can.page.Select(can, status, [[[html.SPAN, key]]], function(target) {
 					if (key == web.SPACE && value) { value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }

@@ -31,7 +31,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 	_data: function(can, name, item) { can.db[name] = can.db[name]||can.request(), can.db[name].Push(item), can.onimport.count(can, name) },
 	value: function(can, name, value) { can.page.Select(can, can._output, "div.item>span."+name, function(target) { target.innerHTML = value }) },
 	count: function(can, name) { can.page.Select(can, can._output, can.core.Keys(html.SPAN, name), function(item) { item.innerHTML = can.Conf(name, parseInt(can.Conf(name)||"0")+1+"")+"" }) },
-	ntip: function(can, msg, time, title, content) { can.onimport._data(can, NTIP, {time: time, fileline: can.base.trimPrefix(msg.Option("log.caller"), location.origin+nfs.PS), title: title, content: content}), can.page.Modify(can, can.ui.toast, [time, title, content].join(lex.SP)) },
+	ntip: function(can, msg, time, title, content) { can.onimport._data(can, NTIP, {time: time,
+		// fileline: can.base.trimPrefix(msg.Option("log.caller"), location.origin+nfs.PS),
+		title: title, content: content}), can.page.Modify(can, can.ui.toast, [time, title, content].join(lex.SP)) },
 	ncmd: function(can, msg, _follow, _cmds) { can.onimport._data(can, NCMD, {time: can.base.Time(), follow: _follow, cmds: _cmds}), can.onimport.nlog(can, NLOG) },
 	nlog: function(can, name) { can.onimport.count(can, name) },
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
