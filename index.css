@@ -1,6 +1,20 @@
 /* variable */
-@media (prefers-color-scheme: light) { body { --plugin-bg-color:white; --plugin-fg-color:black; } }
-@media (prefers-color-scheme: dark) { body { --plugin-bg-color:black; --plugin-fg-color:silver; } }
+@media (prefers-color-scheme: light) {
+	body { --plugin-bg-color:white; --plugin-fg-color:black; }
+	body {
+		--code-comment:green; --code-keyword:darkblue;
+		--code-function:darkcyan; --code-constant:gray; --code-string:brown;
+		--code-object:purple; --code-datatype:cornflowerblue; --code-package:blue;
+	}
+}
+@media (prefers-color-scheme: dark) {
+	body { --plugin-bg-color:black; --plugin-fg-color:silver; }
+	body {
+		--code-comment:green; --code-keyword:royalblue;
+		--code-function:lightgreen; --code-constant:gray; --code-string:orange;
+		--code-object:silver; --code-datatype:lavender; --code-package:blue;
+	}
+}
 body {
 	--notice-bg-color:blue; --notice-fg-color:white;
 	--danger-bg-color:red; --danger-fg-color:var(--notice-fg-color);
@@ -24,11 +38,7 @@ body {
 	--carte-bg-color:var(--plugin-bg-color);
 
 	--code-bg-color:black; --code-fg-color:silver; --code-border-color:var(--notice-bg-color);
-	--code-comment:green; --code-keyword:royalblue;
-	--code-function:lightgreen; --code-constant:gray; --code-string:orange;
-	--code-object:silver; --code-datatype:lavender; --code-package:blue;
-	--code-font-family:monospace; --svg-font-family:var(--code-font-family);
-	--body-font-family:sans-serif;
+	--body-font-family:sans-serif; --code-font-family:monospace; --svg-font-family:var(--code-font-family);
 	--legend-font-family:var(--input-font-family); --status-font-family:var(--body-font-family);
 	--input-font-family:cursive; --table-font-family:var(--body-font-family);
 
@@ -36,19 +46,20 @@ body {
 	--code-font-size:14px; --code-line-height:24px; --code-tabs-height:48px;
  	--svg-font-size:24px; --svg-stroke-width:1; --status-font-size:12px;
 
+   	--header-height:48px; --footer-height:var(--action-height); --action-height:32px; --status-height:var(--action-height);
 	--river-width:var(--project-width); --project-width:230px; --input-width:120px; --button-width:60px; --form-width:320px;
-	--action-height:32px; --status-height:var(--action-height); --footer-height:var(--action-height); --header-height:48px;
  	--desktop-height:684px; --float-height:480px; --plug-height:480px; --story-height:var(--float-height);
  	--desktop-width:1200px; --float-width:1200px; --plug-width:1000px;
 	--textarea-height:96px; --qrcode-height:364px; --iframe-height:420px;
 	--river-margin:80px; --action-margin:200px; --desktop-icon-size:80px;
+
 	--plugin-padding:10px; --plugin-margin:var(--plugin-padding);
 	--legend-padding:20px; --title-margin:var(--legend-padding);
 	--button-padding:var(--plugin-padding); --button-margin:var(--button-padding);
 	--input-padding:5px; --input-margin:var(--input-padding);
 	--table-padding:var(--button-padding);
-	--plugin-radius:var(--plugin-padding); --button-radius:var(--input-padding);
 	--action-button:10; --table-button:5;
+	--plugin-radius:var(--plugin-padding); --button-radius:var(--input-padding);
 }
 input { font-family:var(--input-font-family); }
 body { font-family:var(--body-font-family); }
