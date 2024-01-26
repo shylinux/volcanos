@@ -417,7 +417,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}, _init: function(target) { can.page.style(can, target, html.WIDTH, (select.offsetWidth||80)+30), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
 	},
 	label: function(can, value, icons) {
-		return {view: html.STATUS, list: can.core.Item(icons||{version: "bi bi-tags", time: "bi bi-clock-history"}, function(name, icon) { var text = value[name]
+		return {view: html.STATUS, list: can.core.Item(icons||{version: "bi bi-tags",
+			time: can.base.isIn(can.ConfIndex(), web.DREAM, web.STORE)? "bi bi-tools": "bi bi-clock-history",
+		}, function(name, icon) { var text = value[name]
 			if (name == nfs.VERSION) { text = value.version.split("-").slice(0, 2).join("-") }
 			if (name == mdb.TIME) { text = can.base.TimeTrim(value[name]) }
 			return value[name] && {view: [[html.ITEM]], list: [{icon: icon}, {text: text}]}
