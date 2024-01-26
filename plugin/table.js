@@ -10,9 +10,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	card: function(can, msg, target) { can.sup.onexport.outputMargin = function() { return 200 }
 		can.page.Appends(can, target||can.ui.content||can._output, msg.Table(function(value) { value.icon = value.icon||value.image
+			var img = can.misc.Resource(can, value.icon, value.type == web.MASTER? "": value.name)
+			if (img.indexOf("/require/") == 0 && value.origin) { img = value.origin + img }
 			return {view: [[html.ITEM, value.type, value.status]], list: [
 				{view: [wiki.TITLE, html.DIV], list: [
-					value.icon && {img: can.misc.Resource(can, value.icon, value.type == web.MASTER? "": value.name)},
+					value.icon && {img: img},
 					{view: wiki.TITLE, list: [{text: value.name}, can.onappend.label(can, value)]},
 				]},
 				{view: [wiki.CONTENT, html.DIV, value.text]},

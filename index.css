@@ -66,11 +66,14 @@ body { font-family:var(--body-font-family); }
 body { background-color:var(--body-bg-color); color:var(--body-fg-color); }
 body.cmd { background-color:var(--plugin-bg-color); }
 body.windows { --code-font-family:"Courier New"; }
-body.mobile { --qrcode-height:284px; --svg-font-size:13px; }
+body.mobile {
+	--qrcode-height:284px; --svg-font-size:13px;
+	--footer-height:60px;
+}
 body.width1 { /* 320-640 手机竖屏 */
 	--river-width:280px; --project-width:120px; --input-width:80px;
 	--river-margin:0; --plugin-margin:0; --button-margin:5px;
-	--footer-height:60px; --table-button:2;
+   	--table-button:2;
 }
 body.width2 { /* 640-960 手机横屏 平板竖屏 笔记本调试 */
  	--input-width:80px;

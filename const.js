@@ -217,6 +217,7 @@ var code = {
 	WEBPACK: "webpack", BINPACK: "binpack", AUTOGEN: "autogen", COMPILE: "compile", PUBLISH: "publish", UPGRADE: "upgrade",
 	TEMPLATE: "template", COMPLETE: "complete", NAVIGATE: "navigate", CURRENT: "current",
 	PULL: "pull", PUSH: "push",
+	INSTALL: "install",
 	COMMENT: "comment", KEYWORD: "keyword", DATATYPE: "datatype", PACKAGE: "package",
 	FUNCTION: "function", CONSTANT: "constant", STRING: "string", NUMBER: "number", BOOLEAN: "boolean",
 	OBJECT: "object", ARRAY: "array", UNDEFINED: "undefined",
