@@ -275,10 +275,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (sub.onimport && can.base.isArray(sub.onimport.list) && sub.onimport.list.length > 0) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			}
-			can.page.ClassList.del(can, sub._fields, "form")
 			sub.db.hash = can.isCmdMode()? can.misc.SearchHash(can): []
-			sub._output.className = html.OUTPUT, can.onappend.style(can, sub._args.style, can._output)
+			can.page.ClassList.del(can, sub._fields, html.FORM)
+			delete(can._status._cache), delete(can._status._cache_key)
 			can.page.style(can, can._output, html.HEIGHT, can._output.offsetHeight)
+			sub._output.className = html.OUTPUT, can.onappend.style(can, sub._args.style, can._output)
 			can.onexport._output(sub, msg), sub.Mode() != ice.MSG_RESULT && can.onmotion.clear(can, output)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				if (action !== false) { can.onkeymap._build(sub)

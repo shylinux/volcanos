@@ -420,7 +420,7 @@ div.output.card>div.item {
 div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item>div.title { font-size:var(--legend-font-size); font-weight:bold; padding-bottom:var(--input-padding); border-bottom:var(--box-border); display:flex; align-items:center; overflow:hidden; }
 div.output.card>div.item>div.title>img { margin-right:var(--button-margin); margin-left:0; height:var(--header-height); width:var(--header-height); float:left; }
-div.output.card>div.item>div.content { font-size:var(--status-font-size); padding:var(--input-padding); height:var(--header-height); }
+div.output.card>div.item>div.content { white-space:pre; font-size:var(--status-font-size); padding:var(--input-padding); height:var(--header-height); }
 div.output.card>div.item>div.action { text-align:right; width:100%; display:flex; position:absolute; bottom:var(--plugin-padding); }
 div.output.card>div.item>div.action>input { padding:0 var(--button-padding); margin-right:var(--input-margin); box-shadow:var(--box-shadow); }
 div.output.stats { flex-wrap:wrap; }
