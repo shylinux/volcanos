@@ -230,7 +230,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}), item), "", action)
 		})
 		var _can = can._fields? can.sup: can
-		debugger
 		can.base.beginWith(can.ConfIndex(), "can.", "web.chat.macos.") ||
 			can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
 				can.core.Item(can.user.isMobile? {

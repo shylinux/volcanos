@@ -96,7 +96,7 @@ var web = {
 	CHAT_SSO: "/chat/sso/", CHAT_POD: "/chat/pod/", CHAT_CMD: "/chat/cmd/",
 
 	CHAT: "chat",
-	PkORTAL: "portal", DESKTOP: "desktop",
+	PORTAL: "portal", DESKTOP: "desktop",
 	STUDIO: "studio", SERVICE: "service",
 
 	CODE_GIT_SEARCH: "web.code.git.search",
