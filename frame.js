@@ -701,15 +701,15 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		}), can.onengine.signal(can, chat.ONSIZE, can.request({}, {height: height, width: width}))
 		can.user.isMobile && can.user.isLandscape() || can.page.style(can, document.body, kit.Dict(html.OVERFLOW, html.HIDDEN))
 	},
-	expand: function(can, target, width, height, item) { var margin = 2*html.PLUGIN_PADDING; width = width||320, height = height||160
+	expand: function(can, target, width, height, item) {
+		var margin = 2*html.PLUGIN_PADDING; width = width||html.CARD_WIDTH, height = height||html.CARD_HEIGHT
 		var n = parseInt(target.offsetWidth/(width+margin)); width = target.offsetWidth/n - margin
 		if (width+margin >= target.offsetWidth) { n = 1, width = target.offsetWidth - margin }
 		var m = parseInt(target.offsetHeight/(height+margin)); height = target.offsetHeight/m - margin
 		if (height+margin >= target.offsetHeight) { n = 1, height = target.offsetHeight - margin }
 		can.page.SelectChild(can, target, item||html.DIV_ITEM, function(target) {
 			can.page.styleHeight(can, target, height), can.page.styleWidth(can, target, width)
-		})
-		return height+margin
+		}); return height+margin
 	},
 	background: function(can, url, target) { can.page.style(can, target||can._root._target, "background-image", url == "" || url == "void"? "": 'url("'+url+'")') },
 	figure: function(event, can, target, right, min) {

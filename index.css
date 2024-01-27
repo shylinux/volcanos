@@ -46,8 +46,9 @@ body {
 	--code-font-size:14px; --code-line-height:24px; --code-tabs-height:48px;
  	--svg-font-size:24px; --svg-stroke-width:1; --status-font-size:12px;
 
-   	--header-height:48px; --footer-height:var(--action-height); --action-height:32px; --status-height:var(--action-height);
+	--header-height:48px; --footer-height:var(--action-height); --action-height:32px; --status-height:var(--action-height);
 	--river-width:var(--project-width); --project-width:230px; --input-width:120px; --button-width:60px; --form-width:320px;
+	--card-width:320px; --card-height:180px;
  	--desktop-height:684px; --float-height:480px; --plug-height:480px; --story-height:var(--float-height);
  	--desktop-width:1200px; --float-width:1200px; --plug-width:1000px;
 	--textarea-height:96px; --qrcode-height:364px; --iframe-height:420px;
@@ -84,6 +85,7 @@ body.width3 { /* 960-1280 平板横屏 */
 }
 body.width4 { /* 1280-1600 笔记本 显示器调试 */
  	--table-button:4;
+	--card-height:150;
 }
 body.width5 { /* 1600-1920 */
  	--table-button:4;
@@ -416,7 +418,7 @@ body.mobile div.output.card { overflow-x:hidden; }
 div.output.card>div.item {
 	background-color:var(--plugin-bg-color); padding:var(--plugin-padding); margin:var(--plugin-padding);
 	border:var(--box-border); border-radius:var(--plugin-radius); box-shadow:var(--box-shadow);
-	min-height:160px; min-width:320px; position:relative; float:left;
+	min-width:320px; position:relative; float:left;
 }
 div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item>div.title { font-size:var(--legend-font-size); font-weight:bold; padding-bottom:var(--input-padding); border-bottom:var(--box-border); display:flex; align-items:center; overflow:hidden; }
