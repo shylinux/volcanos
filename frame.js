@@ -233,17 +233,17 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		can.base.beginWith(can.ConfIndex(), "can.", "web.chat.macos.") ||
 			can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
 				can.core.Item(can.user.isMobile? {
-					chat: "发送聊天",
 					open: !can.isCmdMode() && "打开链接",
-				}: {
-					_space: "", full: !can.isCmdMode() && "切换全屏",
 					chat: "发送聊天",
+				}: {_space: "",
+					full: !can.isCmdMode() && "切换全屏",
+					open: !can.isCmdMode() && "打开链接",
 					qrcode: !can.isCmdMode() && "生成链接",
-					open: !can.isCmdMode() && "打开链接",
+					chat: "发送聊天",
 					help: can.page.ClassList.has(can, can._fields, html.PLUGIN) && can.Conf("_help") && can.Conf("_help") != "" && "查看文档",
 					vimer: can.page.ClassList.has(can, can._fields, html.PLUGIN) && can.Conf("_fileline") && can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "查看源码",
 				}, function(key, value) {
-					return (value || value === "") && {view: [[html.ITEM, html.BUTTON, key, "icons"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
+					return (value || value === "") && {view: [[html.ITEM, html.BUTTON, key, mdb.ICONS, "state"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
 						_can.onaction[value](event, _can, value, _can.sub)
 					}}
 				})
@@ -498,7 +498,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}); table && can.onappend.style(can, chat.CONTENT, table), table && msg.IsDetail() && can.onappend.style(can, mdb.DETAIL, table)
 		msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.onappend.style(can, ctx.ACTION, table)
 		if (msg.Option(ice.TABLE_CHECKBOX) == ice.TRUE && !msg.IsDetail()) { can.onappend.checkbox(can, table, msg), can.onappend.style(can, html.CHECKBOX, table) }
-		// (can.isCmdMode() || table.offsetWidth > can.ConfWidth() / 2) && 
+		// (can.isCmdMode() || table.offsetWidth > can.ConfWidth() / 2) &&
 			can.onappend.style(can, "full", table)
 		return keys && can.page.RangeTable(can, table, can.core.List(keys, function(key) { return can.page.Select(can, table, html.TH, function(th, index) { if (th.innerHTML == key) { return index } })[0] })), table
 	},
@@ -584,7 +584,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				append(can.page.Append(can, target, [html.LAYOUT])._target, type==FLOW? FLEX: FLOW, item)
 			} else if (can.base.isObject(item)) {
 				if (item.index) { item._index = count++, ui.size[item._index] = item.height||item.width
-					can.base.isIn(item.index, web.WIKI_PORTAL, web.CHAT_DESKTOP, web.DESKTOP) && can.onmotion.hidden(can, target)
+					can.base.isIn(item.index, web.WIKI_PORTAL, web.CHAT_MACOS_DESKTOP, web.DESKTOP) && can.onmotion.hidden(can, target)
 					can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 						item.layout = function(height, width) { sub.onimport.size(sub, height, width) }
 						can.onmotion.select(can, sub._target.parentNode, html.FIELDSET, sub._target)
