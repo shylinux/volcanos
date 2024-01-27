@@ -123,7 +123,6 @@ Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", 
 			function(can) { if (can.sub.ui.profile) { return "预览" } },
 			function(can) { if (can.sub.ui.display) { return "演示" } },
 		],
-		// ["数据", "保存参数", "清空参数", "复制数据", "下载数据", "清空数据"],
 		["调试",
 			function(can) { if (can.Conf("_help")) { return "查看文档" } },
 			"查看脚本", "查看源码", "查看镜像",
@@ -147,9 +146,7 @@ Volcanos(chat.ONACTION, {list: ["刷新数据", "刷新界面", "切换浮动", 
 	},
 	"刷新数据": function(event, can) { can.Update(event, can.Input()), can.user.toastSuccess(can) },
 	"刷新界面": function(event, can) { var sub = can.sub; sub.onlayout._init(sub, sub.ConfHeight(), sub.ConfWidth()), can.user.toastSuccess(can) },
-	"切换浮动": function(event, can, button, sub) { can.onaction._switch(can, sub, chat.FLOAT, function() { can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
-		can.onmotion.float(can), can.onmotion.resize(can, can._target, function(height, width) { can.onimport.size(can, height, width) })
-	}) },
+	"切换浮动": function(event, can, button, sub) { can.onaction._switch(can, sub, chat.FLOAT, function() { can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status), can.onmotion.float(can) }) },
 	"切换全屏": function(event, can, button, sub) { can.onaction._switch(can, sub, chat.FULL, function() { can.page.style(can, can._target, html.LEFT, "", html.TOP, can.onexport.marginTop(), html.BOTTOM, "")
 		can.ConfHeight(can.page.height()-can.onexport.marginTop()-can.onexport.marginBottom(can)), can.ConfWidth(can.page.width())
 	}) },

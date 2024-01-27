@@ -32,6 +32,6 @@ Volcanos(chat.ONIMPORT, {
 	},
 	layout: function(can) { if (!can.ui.content) { return }
 		can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth()-can.ui.project.offsetWidth)
-		can.onlayout.expand(can, can.ui.content, 260)
+		can.onlayout.expand(can, can.ui.content)
 	},
 }, [""])

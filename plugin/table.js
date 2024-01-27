@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onmotion.clear(can, target), can.onappend.style(can, can.Conf(ctx.STYLE))
-		if (can.isCmdMode() && can.Conf(ctx.STYLE) == "form") { can.onappend.style(can, html.OUTPUT) }
+		if (can.isCmdMode() && can.Conf(ctx.STYLE) == html.FORM) { can.onappend.style(can, html.OUTPUT) }
 		if (can.Mode() == html.ZONE) { return can.onimport._vimer_zone(can, msg, target) }
 		var cbs = can.onimport[can.Conf(ctx.STYLE)||msg.Option(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.onappend.style(can, can._args[ctx.STYLE], target), can.core.CallFunc(cbs, {can: can, msg: msg, target: target})
@@ -8,19 +8,19 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		}
 	},
-	card: function(can, msg, target) { can.sup.onexport.outputMargin = function() { return 200 }
+	card: function(can, msg, target) {
 		can.page.Appends(can, target||can.ui.content||can._output, msg.Table(function(value) { value.icon = value.icon||value.image
 			var img = can.misc.Resource(can, value.icon, value.type == web.MASTER? "": value.name)
 			if (img.indexOf("/require/") == 0 && value.origin) { img = value.origin + img }
 			return {view: [[html.ITEM, value.type, value.status]], list: [
 				{view: [wiki.TITLE, html.DIV], list: [
-					value.icon && {img: img},
-					{view: wiki.TITLE, list: [{text: value.name}, can.onappend.label(can, value)]},
-				]},
-				{view: [wiki.CONTENT, html.DIV, value.text]},
+					value.icon && {img: img}, {view: wiki.TITLE, list: [{text: value.name}, can.onappend.label(can, value)]},
+				]}, {view: [wiki.CONTENT, html.DIV, value.text]},
 				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, 5) }},
 			]}
-		})), can.onimport.layout = can.onimport.layout||function() { can.onlayout.expand(can, can._output, 320) }, can.onappend.scroll(can, can._output)
+		})), can.onimport.layout = can.onimport.layout||function() {
+			var height = can.onlayout.expand(can, can._output); can.sup.onexport.outputMargin = function() { return height }
+		}, can.onappend.scroll(can, can._output)
 	},
 	_vimer_zone: function(can, msg, target) { msg.Table(function(value) { var action = can.page.parseAction(can, value)
 		can.onimport.item(can, {icon: can.misc.Resource(can, value.icon||value.avatar_url), name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]), title: value[mdb.TEXT]||value.description}, function(event) {
@@ -125,7 +125,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.user.carteItem(event, can, item)
 		}
 		var ui = can.page.Append(can, target, [{view: html.ITEM, list: [
-			item.icon && (can.base.contains(item.icon, "http", ".png", ".jpg")? {img: item.icon}: {icon: item.icon}),
+			item.icon && (can.base.contains(item.icon, ice.HTTP, ".png", ".jpg")? {img: item.icon}: {icon: item.icon}),
 			{text: item.nick||item.name||item.zone}], title: item.title, onclick: function(event) {
 				can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)
 				cb(event, event.currentTarget, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))

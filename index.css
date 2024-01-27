@@ -416,7 +416,7 @@ body.mobile div.output.card { overflow-x:hidden; }
 div.output.card>div.item {
 	background-color:var(--plugin-bg-color); padding:var(--plugin-padding); margin:var(--plugin-padding);
 	border:var(--box-border); border-radius:var(--plugin-radius); box-shadow:var(--box-shadow);
-	height:180px; min-width:320px; position:relative; float:left;
+	min-height:160px; min-width:320px; position:relative; float:left;
 }
 div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item>div.title { font-size:var(--legend-font-size); font-weight:bold; padding-bottom:var(--input-padding); border-bottom:var(--box-border); display:flex; align-items:center; overflow:hidden; }

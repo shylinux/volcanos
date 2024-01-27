@@ -625,8 +625,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}); return ui._target = target, ui
 	},
 
-	plugin: function(can, meta, cb, target, field) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||ice.CAN_PLUGIN
-			// , meta.space = meta.space||can.ConfSpace()
+	plugin: function(can, meta, cb, target, field) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||ice.CAN_PLUGIN, meta._space = can.Conf("_space")
 		var res = {}; function _cb(sub, meta, skip) { kit.proto(res, sub), cb && cb(sub, meta, skip) }
 		if (meta.inputs && meta.inputs.length > 0 || meta.meta) { can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, _cb, target, field); return res }
 		function _plugin(_meta) { var value = can.onengine.plugin(can, _meta.index)
@@ -702,12 +701,15 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		}), can.onengine.signal(can, chat.ONSIZE, can.request({}, {height: height, width: width}))
 		can.user.isMobile && can.user.isLandscape() || can.page.style(can, document.body, kit.Dict(html.OVERFLOW, html.HIDDEN))
 	},
-	expand: function(can, target, width, height, item) { var margin = 2*html.PLUGIN_PADDING
+	expand: function(can, target, width, height, item) { var margin = 2*html.PLUGIN_PADDING; width = width||320, height = height||160
 		var n = parseInt(target.offsetWidth/(width+margin)); width = target.offsetWidth/n - margin
 		if (width+margin >= target.offsetWidth) { n = 1, width = target.offsetWidth - margin }
+		var m = parseInt(target.offsetHeight/(height+margin)); height = target.offsetHeight/m - margin
+		if (height+margin >= target.offsetHeight) { n = 1, height = target.offsetHeight - margin }
 		can.page.SelectChild(can, target, item||html.DIV_ITEM, function(target) {
 			can.page.styleHeight(can, target, height), can.page.styleWidth(can, target, width)
 		})
+		return height+margin
 	},
 	background: function(can, url, target) { can.page.style(can, target||can._root._target, "background-image", url == "" || url == "void"? "": 'url("'+url+'")') },
 	figure: function(event, can, target, right, min) {
@@ -736,10 +738,8 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		return layout
 	},
 	_float: function(can) { var target = can._fields||can._target, sup = can._fields? can.sup: can
-		can.onappend.style(can, html.FLOAT), can.onmotion.resize(can, target, function(height, width) { sup.onimport.size(sup, height, width, true) })
-		var left =
-			(can._root.River? can._root.River.offsetWidth: 0)
-			+html.PLUGIN_MARGIN+html.PLUGIN_PADDING+(can.user.mod.isCmd? 0: 120), top = can.page.height()/4; if (can.user.isMobile) { left = 0 }
+		can.onappend.style(can, html.FLOAT), can.onmotion.resize(can, target, function(height, width) { sup.onimport.size(sup, height, width, true) }, html.HEADER_HEIGHT, can.getRiverWidth())
+		var left = can.getRiverWidth()+html.PLUGIN_MARGIN+html.PLUGIN_PADDING+(can.user.mod.isCmd? 0: 120), top = can.page.height()/4; if (can.user.isMobile) { left = 0 }
 		can.page.style(can, target, html.LEFT, left, html.TOP, top), sup.onimport.size(sup, can.base.Max(600, can.page.height()-top-html.ACTION_HEIGHT), can.base.Max(can.user.mod.isCmd? 1200: 1000, can.page.width()-left), true)
 		target.onclick = function(event) { can.onkeymap.prevent(event)
 			can.page.Select(can, document.body, "fieldset.float,div.float", function(target) { can.page.style(can, target, "z-index", 9) }), can.page.style(can, target, "z-index", 10)
@@ -864,8 +864,8 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		var last = can._delay_list.meta[key]||0, self = can._delay_list.meta[key] = can._delay_list.list.push(cb)
 		return can.core.Timer(interval||30, function() { cb(self, last, can._delay_list.meta[key]) })
 	},
-	float: function(can) { var top = html.HEADER_HEIGHT, left = can._root.River? can._root.River._target.offsetWidth: 0
-		var height = can.base.Max(html.FLOAT_HEIGHT, can.page.height()/2), width = can.base.Max(html.FLOAT_WIDTH, can.page.width()-html.RIVER_WIDTH)
+	float: function(can) { var top = html.HEADER_HEIGHT, left = can.getRiverWidth()
+		var height = can.base.Max(html.FLOAT_HEIGHT, can.page.height()/2), width = can.base.Max(html.FLOAT_WIDTH, can.page.width()-can.getRiverWidth())
 		if (can.user.mod.isCmd) { height = can.base.Max(can.page.height()/2-html.ACTION_HEIGHT, can.page.height(), 320), width = can.page.width()/2, top = html.ACTION_HEIGHT, left = 0 }
 		if (can.user.isMobile) { if (can.user.isLandscape()) { height = can.page.height()*3/4, width = can.page.width()*3/4 } else { width = can.page.width() } }
 		can.onimport.size(can, height, width, true), can.onmotion.move(can, can._target, {left: can.page.width()-width, top: (can.page.height()-height)/2})
@@ -881,7 +881,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 				if (!can.page.ClassList.set(can, target, html.HIDE, target.innerText.indexOf(value) == -1)) { return target }
 			}).length
 			can.user.toast(can, "filter out "+count+" lines")
-		}, 500)
+		}, 300)
 	},
 	cache: function(can, next) { var list = can.base.getValid(can.base.Obj(can.core.List(arguments).slice(2)), [can._output])
 		var data = can._cache_data = can._cache_data||{}, old = list[0]._cache_key
@@ -913,6 +913,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	},
 	move: function(can, target, layout) { layout && can.page.style(can, target, layout), can.onmotion.resize(can, target, function() {}) },
 	resize: function(can, target, cb, top, left) { var begin, action
+		top = top || html.HEADER_HEIGHT, left = left || can.getRiverWidth()
 		target.onmousedown = function(event) { if (event.which != 1 || event.target != target && !(can.page.ClassList.has(can, event.target, html.STATUS) && can.page.tagis(event.target, html.DIV))) { return } window._mousemove = target
 			begin = {left: target.offsetLeft, top: target.offsetTop, height: target.offsetHeight, width: target.offsetWidth, x: event.x, y: event.y}
 		}, target.onmouseup = function(event) { begin = null, delete(window._mousemove) }
