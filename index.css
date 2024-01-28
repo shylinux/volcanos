@@ -48,7 +48,7 @@ body {
 
 	--header-height:48px; --footer-height:var(--action-height); --action-height:32px; --status-height:var(--action-height);
 	--river-width:var(--project-width); --project-width:230px; --input-width:120px; --button-width:60px; --form-width:320px;
-	--card-width:320px; --card-height:180px;
+	--card-width:320px; --card-height:160px;
  	--desktop-height:684px; --float-height:480px; --plug-height:480px; --story-height:var(--float-height);
  	--desktop-width:1200px; --float-width:1200px; --plug-width:1000px;
 	--textarea-height:96px; --qrcode-height:364px; --iframe-height:420px;
