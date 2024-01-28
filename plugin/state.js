@@ -1,16 +1,14 @@
 Volcanos(chat.ONIMPORT, {
 	_process: function(can, msg) { if (can.onimport[msg.OptionProcess()]) { return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, sub: can.sub, msg: msg, arg: msg.Option("_arg")}), true } },
 	_location: function(can, msg, arg) { can.user.jumps(arg) },
-	_replace: function(can, msg, arg) {
-		debugger
-		location.replace(arg) },
+	_replace: function(can, msg, arg) { location.replace(arg) },
 	_history: function(can, msg) { history.length == 1? can.user.close(): history.back() },
 	_confirm: function(can, msg, arg) { can.user.toastConfirm(can, arg, "", function() { can.runAction(can.request({}, msg), "confirm") }) },
 	_refresh: function(can, msg, arg) { can.core.Timer(parseInt(arg||"30"), function() { can.Update(can.request({}, {_count: parseInt(msg.Option("_count")||"3")-1})) }) },
 	_rewrite: function(can, msg) { var arg = msg._arg; for (var i = 0; i < arg.length; i += 2) { can.Option(arg[i], arg[i+1]), can.Action(arg[i], arg[i+1]) } can.Update() },
 	_display: function(can, msg) { can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)) },
 	_clear: function(can, msg) { can.onmotion.clear(can) },
-	_inner: function(can, sub, msg) { sub = sub||can, can.onmotion.scrollIntoView(can, can.onappend.table(sub, msg)), can.onmotion.scrollIntoView(can, can.onappend.board(sub, msg)), can.onmotion.story.auto(sub) },
+	_inner: function(can, sub, msg) { can.onmotion.scrollIntoView(can, can.onappend.table(sub, msg)), can.onmotion.scrollIntoView(can, can.onappend.board(sub, msg)), can.onmotion.story.auto(sub) },
 	_cookie: function(can, msg) { can.misc.Cookie(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_session: function(can, msg) { can.misc.sessionStorage(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_field: function(can, msg, cb) { var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()-2*html.ACTION_HEIGHT), width = can.ConfWidth()
