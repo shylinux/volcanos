@@ -199,7 +199,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (can.Conf("_ismain") && !can.Conf("_role") && can.misc.Search(can, log.DEBUG) != ice.TRUE) {
 
 			} else if (p && can.isCmdMode()) {
-				skip || can.Conf(ice.AUTO) == cli.DELAY || can.Update({}, [ctx.ACTION, p])
+				skip || can.Conf(ice.AUTO) == cli.DELAY || can.Update(can.request({}, {_method: http.GET}), [ctx.ACTION, p])
 			} else {
 				skip || can.Conf(ice.AUTO) == cli.DELAY || auto && auto.click()
 			}
