@@ -44,7 +44,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	background: function(event, can, background) { can.user.isExtension || can.user.isLocalFile || can.runAction(event, aaa.BACKGROUND, [background], function(msg) {
 		can.user.info.background = background, can.onimport._background(can, msg), can.user.toastSuccess(can)
 	}) },
-	theme: function(can, theme) { theme && can.runAction({}, chat.THEME, [theme])
+	theme: function(can, theme) { theme && theme != ice.AUTO && can.runAction({}, chat.THEME, [theme])
 		theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme) && can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: theme}))
 		theme = can.onexport.theme(can); var list = [html.LIGHT, html.WHITE]
 		var change = can.page.ClassList.has(can, document.body, theme); can.user.theme(can, theme), change || can.onimport._const(can)

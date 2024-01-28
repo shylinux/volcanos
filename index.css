@@ -85,7 +85,7 @@ body.width3 { /* 960-1280 平板横屏 */
 }
 body.width4 { /* 1280-1600 笔记本 显示器调试 */
  	--table-button:4;
-	--card-height:150;
+	--card-height:120;
 }
 body.width5 { /* 1600-1920 */
  	--table-button:4;
@@ -604,8 +604,8 @@ body.print fieldset.draw div.output div.content svg { background-color:lightgray
 /* misc */
 fieldset.story.web.chat.wx.agent { position:fixed; left:0; bottom:0; }
 fieldset.story>form.option>div.item.text.path>input { width:var(--input-width); }
-fieldset.cmd>div.output>fieldset.xterm.story>form.option>div.item.hash input { width:var(--plug-width); }
-fieldset.cmd>div.output>fieldset.iframe.story>form.option>div.item.hash input { width:var(--plug-width); }
+div.output>fieldset.xterm.story>form.option>div.item.hash input { width:var(--form-width); }
+div.output>fieldset.iframe.story>form.option>div.item.hash input { width:var(--form-width); }
 fieldset.Action:not(.horizon):not(.grid)>fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
 body:not(.debug) fieldset.plugin.can._notfound { display:none; }
 fieldset.inner.float>div.status { display:none; }
