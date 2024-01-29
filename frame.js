@@ -307,8 +307,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.user.open(can.misc.MergePodCmd(can, {pod: can.ConfSpace(), cmd: web.CODE_VIMER, path: ls[0], file: ls[1]}))
 				} else { can.onappend._float(can, web.CODE_VIMER, ls) }
 			}},
-			{name: html.HEIGHT, value: can.ConfHeight(), onclick: function(event) { can.onappend._float(can, {index: "can.view", _target: can._fields||can._target}) }},
-			{name: html.WIDTH, value: can.ConfWidth(), onclick: function(event) { can.onappend._float(can, {index: "can.data", _target: can._fields? can.sup: can}) }},
+			{name: html.HEIGHT, value: parseInt(can.ConfHeight()), onclick: function(event) { can.onappend._float(can, {index: "can.view", _target: can._fields||can._target}) }},
+			{name: html.WIDTH, value: parseInt(can.ConfWidth()), onclick: function(event) { can.onappend._float(can, {index: "can.data", _target: can._fields? can.sup: can}) }},
 		]: []), function(item) { if (!item) { return } item = can.base.isString(item)? {name: item}: item
 			if (item && item.name == web.SPACE && item.value) { item.value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: item.value}), item.value) }
 			if (can.base.beginWith(item.value, nfs.PS, ice.HTTP)) { item.value = can.page.Format(html.A, item.value, item.value.split("?")[0]) }
