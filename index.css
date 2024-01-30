@@ -315,7 +315,7 @@ div.item.button.create>span.icon { font-size:28px; line-height:28px; height:var(
 div.item.button.insert>span.icon { font-size:28px; line-height:28px; height:var(--action-height); }
 div.item.button.refresh>span.icon { font-size:28px; line-height:28px; height:var(--action-height); }
 body.windows div.item.button.refresh>span.icon { font-size:22px; line-height:30px; }
-fieldset.plugin>div.action>div.item.button._space.icons { margin-left:20px; }
+fieldset.plugin>div.action>div.item.button._space.icons { margin-left:20px; flex-grow:1; }
 div.tabs>span { font-style:italic; }
 div.tabs>span.icon { font-size:var(--icon-font-size); font-style:normal; padding-left:var(--input-padding); visibility:hidden; }
 div.tabs.select>span.icon { visibility:visible; }
@@ -436,6 +436,7 @@ div.output>div.code>div.form>input[type=button][name=confirm] { background-color
 body.en span[lang^=zh] { display:none; } body.zh span[lang^=en] { display:none; }
 /* display */
 fieldset>form.option:not(.hide), fieldset>div.action:not(.hide):not(.flex) { display:contents; } .hide, .hidden { display:none; }
+body:not(.mobile) fieldset.plugin>div.action:not(.hide):not(.flex) { display:flex; }
 fieldset.panel>legend, fieldset.panel>div.status { display:none; }
 fieldset.output>legend, fieldset.output>form.option, fieldset.output>div.action:not(.flex), fieldset.output>div.status, fieldset.output>div.item { display:none; }
 div.action, div.output, div.status, div.project, div.content, div.profile, div.display, table.content, table.content td, div.list, div.code, div.story, div.float, fieldset.float { overflow:auto; }
