@@ -52,7 +52,7 @@ body {
  	--desktop-width:1200px; --float-width:1200px; --plug-width:1000px;
 	--textarea-height:96px; --qrcode-height:364px; --iframe-height:420px;
 	--river-margin:80px; --action-margin:200px; --desktop-icon-size:80px;
-	--card-width:320px; --card-height:150px;
+	--card-width:320px; --card-height:145px;
 
 	--plugin-padding:10px; --plugin-margin:var(--plugin-padding);
 	--legend-padding:20px; --title-margin:var(--legend-padding);
