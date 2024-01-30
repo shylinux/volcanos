@@ -597,7 +597,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var defer = [], content_height, content_width; function layout(type, list, height, width) { var _width = width, _height = height; can.core.List(list, function(item) {
 			if (can.base.isArray(item)) { return } if (can.base.isObject(item)) { var meta = item; item = item._index }
 			var target = ui[item]; if (!can.page.isDisplay(target)) { return }
-			if (item == html.CONTENT || item == "main") { return defer.push(function() { can.page.style(can, target, html.HEIGHT, content_height = height, html.WIDTH, content_width = width) }) }
+			if (item == html.CONTENT || item == ice.MAIN) { return defer.push(function() { can.page.style(can, target, html.HEIGHT, content_height = height, html.WIDTH, content_width = width) }) }
 			if (type == FLOW) { var h = calc(item, target.offsetHeight, height)
 				if (can.base.isObject(meta) && meta.layout) { meta.layout(h, width) }
 				can.page.style(can, target, html.WIDTH, width)
@@ -606,7 +606,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				var w = calc(item, target.offsetWidth||target.style.width||_width/list.length, _width), h = height
 				if (can.base.isObject(meta)) { meta.layout(h, w = _width/list.length) }
 				can.page.style(can, target, html.HEIGHT, h, html.WIDTH, w)
-				if (can.user.isMobile && item == "project") { return }
+				if (can.user.isMobile && item == html.PROJECT) { return }
 				if (can.page.isDisplay(target)) { width -= w }
 			}
 		}), can.core.List(list, function(item) { if (can.base.isArray(item)) { layout(type == FLOW? FLEX: FLOW, item, height, width) } }) }
@@ -703,10 +703,11 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 	},
 	expand: function(can, target, width, height, item) {
 		var margin = 2*html.PLUGIN_PADDING; width = width||html.CARD_WIDTH, height = height||html.CARD_HEIGHT
-		var n = parseInt(target.offsetWidth/(width+margin)); width = target.offsetWidth/n - margin
+		var n = parseInt(target.offsetWidth/(width+margin))||1; width = target.offsetWidth/n - margin
 		if (width+margin >= target.offsetWidth) { n = 1, width = target.offsetWidth - margin }
-		var m = parseInt(target.offsetHeight/(height+margin)); height = target.offsetHeight/m - margin
+		var m = parseInt(target.offsetHeight/(height+margin))||1; height = target.offsetHeight/m - margin
 		if (height+margin >= target.offsetHeight) { n = 1, height = target.offsetHeight - margin }
+		height = can.base.Min(height, html.CARD_HEIGHT), width = can.base.Min(width, html.CARD_WIDTH)
 		can.page.SelectChild(can, target, item||html.DIV_ITEM, function(target) {
 			can.page.styleHeight(can, target, height), can.page.styleWidth(can, target, width)
 		}); return height+margin

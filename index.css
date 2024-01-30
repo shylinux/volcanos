@@ -48,11 +48,11 @@ body {
 
 	--header-height:48px; --footer-height:var(--action-height); --action-height:32px; --status-height:var(--action-height);
 	--river-width:var(--project-width); --project-width:230px; --input-width:120px; --button-width:60px; --form-width:320px;
-	--card-width:320px; --card-height:160px;
  	--desktop-height:684px; --float-height:480px; --plug-height:480px; --story-height:var(--float-height);
  	--desktop-width:1200px; --float-width:1200px; --plug-width:1000px;
 	--textarea-height:96px; --qrcode-height:364px; --iframe-height:420px;
 	--river-margin:80px; --action-margin:200px; --desktop-icon-size:80px;
+	--card-width:320px; --card-height:150px;
 
 	--plugin-padding:10px; --plugin-margin:var(--plugin-padding);
 	--legend-padding:20px; --title-margin:var(--legend-padding);
@@ -85,7 +85,6 @@ body.width3 { /* 960-1280 平板横屏 */
 }
 body.width4 { /* 1280-1600 笔记本 显示器调试 */
  	--table-button:4;
-	--card-height:128;
 }
 body.width5 { /* 1600-1920 */
  	--table-button:4;
