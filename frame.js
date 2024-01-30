@@ -244,7 +244,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					vimer: can.page.ClassList.has(can, can._fields, html.PLUGIN) && can.Conf("_fileline") && can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "查看源码",
 				}, function(key, value) {
 					return (value || value === "") && {view: [[html.ITEM, html.BUTTON, key, mdb.ICONS, "state"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
-						_can.onaction[value](event, _can, value, _can.sub)
+						var cb = _can.onaction[value]; cb && _can.onaction[value](event, _can, value, _can.sub)
 					}}
 				})
 			); return meta
