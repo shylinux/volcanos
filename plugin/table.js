@@ -135,8 +135,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } return }
 			can.user.carteItem(event, can, item)
 		}
+		var icon = item.icon||item.icons
 		var ui = can.page.Append(can, target, [{view: html.ITEM, list: [
-			item.icon && (can.base.contains(item.icon, ice.HTTP, ".png", ".jpg")? {img: item.icon}: {icon: item.icon}),
+			icon && (can.base.contains(icon, ice.HTTP, ".png", ".jpg")? {img: can.misc.Resource(can, icon)}: {icon: icon}),
 			{text: item.nick||item.name||item.zone}], title: item.title, onclick: function(event) {
 				can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)
 				cb(event, event.currentTarget, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
@@ -194,12 +195,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		}}
 	}))._target },
 	tool: function(can, list, cb, target, status) { target = target||can._output, status = status||can._status
+		var height = can.base.Max(html.PLUG_HEIGHT, can.ConfHeight(), 240), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-(can.user.isMobile? 0: html.PROJECT_WIDTH))
 		can.core.Next(list.reverse(), function(meta, next) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) {
 				sub.onexport.output = function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
-					var height = can.base.Max(html.PLUG_HEIGHT, can._output.offsetHeight, 240), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-(can.user.isMobile? 0: html.PROJECT_WIDTH))
 					sub.onimport.size(sub, height, width, false), can.onmotion.delay(can, function() { sub.onimport.size(sub, height, width, false) })
-				}
+				}, sub.onimport.size(sub, height, width, false)
 				can.onmotion.hidden(can, sub._target), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}
 				can.page.Append(can, sub._legend,[{text: [can.page.unicode.remove, "", mdb.REMOVE], onclick: function(event) {
 					can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can), can.onkeymap.prevent(event)
@@ -208,7 +209,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 					if (can.page.SelectOne(can, status, nfs.PT+html.SELECT, function(target) { can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true)
 					can.onmotion.select(can, target, html.FIELDSET_PLUG, sub._target)
-					sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth())
+					sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth(), false)
 					if (sub._delay_init || meta.msg) { sub._delay_init = false, meta.msg = false, (sub._inputs && sub._inputs.list || sub._inputs && sub._inputs.refresh) && sub.Update() }
 				}) }, sub._delay_init = true, sub.select = function(show) {
 					if (show && can.page.ClassList.has(can, sub._legend, html.SELECT)) { return sub }

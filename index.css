@@ -380,8 +380,8 @@ body.mobile div.output>div.project { flex:0 0 320px; width:320px; }
 body.mobile div.output>div.project { background-color:var(--plugin-bg-color); }
 div.project div.list { margin-left:var(--button-margin); clear:both; }
 div.project div.list fieldset { position:static; }
-div.project div.item { white-space:pre; line-height:24px; padding:0 var(--button-margin); }
-div.project div.item img { height:var(--action-height); width:var(--action-height); }
+div.project div.item { white-space:pre; line-height:24px; padding:0 var(--button-margin); display:flex; align-items:center; }
+div.project div.item img { margin:var(--input-margin) !important; height:var(--action-height); width:var(--action-height); }
 div.project div.item.filter { padding:0; width:100%; }
 div.project div.item.filter>input { width:100%; padding:0 25px; }
 div.project div.item.search { padding:0; width:100%; }
@@ -684,7 +684,7 @@ fieldset>div.output.form>div.item>span.need { color:red; }
 fieldset>div.output.form>div.item>div.item>input { font-size:20px; height:38px; width:var(--form-width); }
 fieldset>div.output.form>div.item>div.item>input[type=button] { font-size:20px; height:48px; border:var(--notice-bg-color) solid 1px; }
 fieldset.studio>div.output { padding:var(--plugin-padding); }
-fieldset.studio>div.action>div.item { font-style:italic; padding:var(--input-margin) var(--button-padding); }
+fieldset.studio>div.action>div.item:not(.icons) { font-style:italic; padding:var(--input-margin) var(--button-padding); }
 fieldset.studio>div.output>fieldset>form.option div.icon.delete { display:none; }
 fieldset.studio>div.output>fieldset>form.option div.icon:nth-child(2) { margin-left:var(--plugin-margin); }
 fieldset.studio>div.output>fieldset>div.output>table.content { width:100%; }

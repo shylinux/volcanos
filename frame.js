@@ -312,8 +312,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.user.open(can.misc.MergePodCmd(can, {pod: can.ConfSpace(), cmd: web.CODE_VIMER, path: ls[0], file: ls[1]}))
 				} else { can.onappend._float(can, web.CODE_VIMER, ls) }
 			}},
-			{name: html.HEIGHT, value: parseInt(can.ConfHeight()), onclick: function(event) { can.onappend._float(can, {index: "can.view", _target: can._fields||can._target}) }},
-			{name: html.WIDTH, value: parseInt(can.ConfWidth()), onclick: function(event) { can.onappend._float(can, {index: "can.data", _target: can._fields? can.sup: can}) }},
+			{name: html.HEIGHT, value: parseInt(can.ConfHeight()||0), onclick: function(event) { can.onappend._float(can, {index: "can.view", _target: can._fields||can._target}) }},
+			{name: html.WIDTH, value: parseInt(can.ConfWidth()||0), onclick: function(event) { can.onappend._float(can, {index: "can.data", _target: can._fields? can.sup: can}) }},
 		]: []), function(item) { if (!item) { return } item = can.base.isString(item)? {name: item}: item
 			if (item && item.name == web.SPACE && item.value) { item.value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: item.value}), item.value) }
 			if (can.base.beginWith(item.value, nfs.PS, ice.HTTP)) { item.value = can.page.Format(html.A, item.value, item.value.split("?")[0]) }
@@ -354,7 +354,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		) && (name = (item.index||"").split(".").slice(-2).join(".")), (type != html.PLUG) && (name = can.core.Keys(item.space||item._space, name))
 		var title = item.title || (item.help && item.help != name && !can.user.isEnglish(can)? name+"("+can.core.Split(item.help)[0]+")": name)
 		target = can.base.isFunc(target)? target(): target
-		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], list: [{type: html.LEGEND, list: [item.icon && {icon: item.icon}, {text: title}]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
+		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], style: item.style, list: [{type: html.LEGEND, list: [item.icon && {icon: item.icon}, {text: title}]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
 	},
 	input: function(can, item, value, target, style) { if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
 		var icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
@@ -624,6 +624,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		ui.layout = function(height, width, delay, cb) { can.onmotion.delay(can, function() { defer = [], layout(type, ui.list, height, width), defer.forEach(function(cb) { cb() }), cb && cb(content_height, content_width) }, delay||0) }
 		can.onimport.layout = can.onimport.layout||function(can) { ui.layout(can.ConfHeight(), can.ConfWidth()), can.onimport._layout && can.onimport._layout(can)
 			can.Action(html.FILTER) && can.onmotion.filter(can, can.Action(html.FILTER))
+		}
+		can.onimport._layout = can.onimport._layout||function(can) { if (!can.ui.content) { return }
+			can.page.style(can, can.ui.content, html.HEIGHT, can._output.style[html.HEIGHT], html.MAX_HEIGHT, can._output.style[html.MAX_HEIGHT])
+			can.page.style(can, can.ui.project, html.HEIGHT, can.ui.content.offsetHeight+can.ui.display.offsetHeight)
+			can.onlayout.expand(can, can.ui.content)
 		}
 		return ui
 	},
