@@ -91,6 +91,7 @@ body.width5 { /* 1600-1920 */
 }
 body.width6 { /* 1920-2240 显示器 */
 	--river-width:280px; --input-width:180px;
+   	--card-height:160px;
 }
 /* element */
 * { tab-size:4; box-sizing:border-box; padding:0; border:0; margin:0; }
@@ -411,7 +412,7 @@ div.project:not(.toggle) { border-right:var(--box-border); width:var(--project-w
 div.profile:not(.toggle) { border-left:var(--box-border); width:50%; flex:0 0 50%; }
 div.display:not(.toggle) { border-top:var(--box-border); }
 /* output style */
-div.title>div.status { margin-top:var(--input-margin); }
+div.title>div.status { line-height:20px; }
 div.title>div.status>div.item { color:var(--disable-fg-color); font-size:var(--status-font-size); font-weight:normal; float:left; margin-right:var(--button-margin); }
 div.title>div.status>div.item>i { margin-right:var(--input-margin); }
 body.mobile div.output.card { overflow-x:hidden; }
@@ -567,6 +568,7 @@ body.mobile fieldset.River { position:fixed; top:var(--header-height); z-index:1
 body.mobile fieldset.River>div.output { font-size:1.4rem; min-width:var(--project-width); }
 html:not(.login) body.mobile:not(.cmd) fieldset.Action { margin-top:var(--header-height); }
 body.mobile fieldset.Action.cmd { margin-top:0; }
+body.mobile fieldset.Action { overflow:hidden; }
 body.mobile fieldset.Action>div.output { overflow-x:hidden; }
 body.mobile fieldset.word>div.output { overflow-x:hidden; }
 body.mobile fieldset.word>div.output div.story.flex { display:block; }
@@ -607,6 +609,8 @@ fieldset.story.web.chat.wx.agent { position:fixed; left:0; bottom:0; }
 fieldset.story>form.option>div.item.text.path>input { width:var(--input-width); }
 div.output>fieldset.xterm.story>form.option>div.item.hash input { width:var(--form-width); }
 div.output>fieldset.iframe.story>form.option>div.item.hash input { width:var(--form-width); }
+fieldset.xterm.float>form.option>div.item.hash input { width:var(--form-width); }
+fieldset.iframe.float>form.option>div.item.hash input { width:var(--form-width); }
 fieldset.Action:not(.horizon):not(.grid)>fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
 body:not(.debug) fieldset.plugin.can._notfound { display:none; }
 fieldset.inner.float>div.status { display:none; }

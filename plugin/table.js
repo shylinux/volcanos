@@ -8,8 +8,19 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		}
 	},
-	card: function(can, msg, target) {
-		can.page.Appends(can, target||can.ui.content||can._output, msg.Table(function(value) { value.icon = value.icon||value.image
+	__project: function(can, msg) { var select, current = can.sup.db._zone||can.db.hash[0]||ice.DEV
+		msg.Table(function(value) {
+			var _target = can.onimport.item(can, value, function(event) { can.isCmdMode()? can.misc.SearchHash(can, value.name): can.sup.db._zone = value.name
+				if (can.onmotion.cache(can, function() { return value.name }, can.ui.content, can._status)) { return can.onimport.layout(can) }
+				can.run(can.request(event, {_toast: ice.PROCESS}), [value.name], function(msg) {
+					can.onimport.__content(can, msg), can.onappend._status(can, msg), can.onimport.layout(can)
+				})
+			}, function() {}, can.ui.project); select = (value.name == current? _target: select)||_target
+		}), select && select.click(), can.onmotion.orderShow(can, can.ui.project)
+		can.onappend.style(can, "output card", can.ui.content), can.onmotion.delay(can, function() { can.onimport.layout(can) })
+	}, __content: function(can, msg) { can.onimport.card(can, msg) },
+	card: function(can, msg, target) { target = target||can.ui.content||can._output
+		var list = msg.Table(function(value) { value.icon = value.icon||value.image
 			var img = can.misc.Resource(can, value.icon, value.type == web.MASTER? "": value.name)
 			if (img.indexOf("/require/") == 0 && value.origin) { img = value.origin + img }
 			return {view: [[html.ITEM, value.type, value.status]], list: [
@@ -18,9 +29,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 				]}, {view: [wiki.CONTENT, html.DIV, value.text]},
 				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, 5) }},
 			]}
-		})), can.onimport.layout = can.onimport.layout||function() {
-			var height = can.onlayout.expand(can, can._output); can.sup.onexport.outputMargin = function() { return height }
-		}, can.onappend.scroll(can, can._output)
+		})
+		can.onimport.layout = can.onimport.layout||function() { var height = can.onlayout.expand(can, target); can.sup.onexport.outputMargin = function() { return height } }
+		can.page.Append(can, target, list), can.onmotion.orderShow(can, target)
 	},
 	_vimer_zone: function(can, msg, target) { msg.Table(function(value) { var action = can.page.parseAction(can, value)
 		can.onimport.item(can, {icon: can.misc.Resource(can, value.icon||value.avatar_url), name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]), title: value[mdb.TEXT]||value.description}, function(event) {
