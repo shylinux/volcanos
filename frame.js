@@ -592,7 +592,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				append(can.page.Append(can, target, [html.LAYOUT])._target, type==FLOW? FLEX: FLOW, item)
 			} else if (can.base.isObject(item)) {
 				if (item.index) { item._index = count++, ui.size[item._index] = item.height||item.width
-					can.base.isIn(item.index, web.WIKI_PORTAL, web.CHAT_MACOS_DESKTOP, web.DESKTOP) && can.onmotion.hidden(can, target)
+					can.base.isIn(item._command, web.PORTAL, web.DESKTOP, aaa.OFFER) && can.onmotion.hidden(can, target)
 					can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 						item.layout = function(height, width) { sub.onimport.size(sub, height, width) }
 						can.onmotion.select(can, sub._target.parentNode, html.FIELDSET, sub._target)
@@ -952,7 +952,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			}
 		}
 	},
-	orderShow: function(can, target, key) {
+	orderShow: function(can, target, key) { if (can.user.isMobile) { return }
 		var list = can.page.SelectChild(can, target, key||html.DIV_ITEM, function(target) { can.page.style(can, target, html.VISIBILITY, html.HIDDEN); return target })
 		can.core.Next(list, function(target, next) { can.page.style(can, target, html.VISIBILITY, ""), can.onmotion.delay(can, next, list.length > 3? 80: 0) })
 	},
