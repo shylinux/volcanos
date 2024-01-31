@@ -32,7 +32,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		}}, "", target, [chat.TITLE])
 		can.onimport.menu(can, mdb.SEARCH, function() { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: can._search.value||""})) })
 	},
-	_const: function(can) { can.core.Item(html.value, function(key, value) { html[key] = can.page.styleValueInt(can, "--"+key.toLowerCase().replaceAll("_", "-"))||value }) },
+	_const: function(can) {
+		can.core.Item(html.value, function(key, value) {
+			html[key] = can.page.styleValueInt(can, "--"+can.base.replaceAll(key.toLowerCase(), "_", "-"))||value
+		})
+	},
 	_time: function(can, target) { can.core.Timer({interval: 100}, function() { can.onimport.time(can, target) }), can.onappend.figure(can, {action: "date"}, target) },
 	time: function(can, target) { can.onimport.theme(can), target.innerHTML = can.user.time(can, null, can.Conf(mdb.TIME)||"%H:%M:%S %w") },
 	language: function(can, language) { can.user.toastConfirm(can, can.user.trans(can, "change language to "+language), aaa.LANGUAGE, function() {
