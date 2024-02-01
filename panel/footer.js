@@ -70,7 +70,6 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	}) }) },
 })
 Volcanos(chat.ONEXPORT, {list: [NTIP, NLOG, NCMD, NKEY, html.WIDTH, html.HEIGHT, nfs.VERSION],
-	// height: function(can) { return can._target.offsetHeight },
 	height: function(can) { can.onexport._float(can, html.HEIGHT, "can.view") },
 	width: function(can) { can.onexport._float(can, html.WIDTH, "can.data") },
 	ntip: function(can) { can.onexport._float(can, NTIP, "can.toast") },

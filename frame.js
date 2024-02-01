@@ -125,7 +125,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			Option: function(key, value) { value && (value = can.user.trans(sub, value, null, html.INPUT)); return can.page.SelectArgs(can, option, key, value)[0] },
 			Update: function(event, cmds, cb, silent) { event = event||{}
 				event.metaKey && sub.request(event, {metaKey: ice.TRUE})
-				sub.request(event, can.core.Value(sub, "sub.db._checkbox"))._caller()
+				sub.request(event)._caller()
+				var msg = sub.request(event), list = can.core.Value(sub, "sub.db._checkbox")
+				can.core.Item(list, function(key, value) { msg.Option(key, value) })
 				if (event.isTrusted && cmds && cmds.length > 0 && cmds[0] == ctx.ACTION) {
 					can.onengine.signal(can, "onrecord", can.request({}, {cmds: [sub.ConfSpace(), sub.ConfIndex()].concat(cmds||[])}))
 				}
@@ -264,7 +266,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		})
 	},
 	_output: function(can, msg, display, cb, output, status, action) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
-		if (msg.IsErr()) { return can.user.toast(can, msg.Result()) }
+		if (msg.IsErr()) { return can.user.toastFailure(can, msg.Result()) }
 		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/require/src/") && delete(Volcanos.meta.cache[display])
 		Volcanos(display, {_root: can._root, _follow: can.core.Keys(can._follow, display), _fields: can._target, _target: output, _path: display||chat.PLUGIN_TABLE_JS,
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
@@ -495,7 +497,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.core.List(list, function(target) { can.onappend.style(can, "icons", target); var _icon = can.Conf("_icons."+target.name)||icon[target.name]
 					if (target.name == mdb.DELETE) { _icon = icon.trash }
 					can.page.insertBefore(can, [{icon: _icon, title: can.user.trans(can, target.name), onclick: target.onclick||function(event) {
-						can.Update(request(event), [ctx.ACTION, target.name]), can.onkeymap.prevent(event)
+						can.Update(request(event)._event, [ctx.ACTION, target.name]), can.onkeymap.prevent(event)
 					}}], target.nextSibling, target.parentNode)
 				})
 				can.page.SelectOne(can, target, html.SPAN, function(span) { can.core.List(span.style, function(key) { target.style[key] = span.style[key] }) })
@@ -522,7 +524,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}) }  else if (text.indexOf("<svg") > 0) { can.page.Select(can, code, html.SVG, function(target) {
 			can.page.style(can, target, html.MIN_HEIGHT, can.ConfHeight(), html.MIN_WIDTH, can.ConfWidth())
 		}) } else { can.page.Select(can, code, html.INPUT_BUTTON, function(target) {
-			target.onclick = function(event) { can.misc.Event(event, can, function(msg) { can.run(can.request(event, can.Option()), [ctx.ACTION, target.name]) }) }
+			target.onclick = function(event) {
+				if (can.page.ClassList.has(can, target, "disable")) { return } can.page.ClassList.add(can, target, "disable")
+				can.misc.Event(event, can, function(msg) { can.Update(can.request(event, can.Option()), [ctx.ACTION, target.name], function(msg) {
+					can.page.ClassList.del(can, target, "disable")
+					var sup = can._fields? can.sup: can; if (sup.onimport._process(sup, msg)) { return }
+				}) })
+			}
 		}) } return code.scrollBy && code.scrollBy(0, 10000), code
 	},
 	tools: function(can, msg, cb, target) { can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT))||[], cb, target) },
@@ -959,7 +967,13 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	},
 	orderShow: function(can, target, key) { if (can.user.isMobile) { return }
 		var list = can.page.SelectChild(can, target, key||html.DIV_ITEM, function(target) { can.page.style(can, target, html.VISIBILITY, html.HIDDEN); return target })
-		can.core.Next(list, function(target, next) { can.page.style(can, target, html.VISIBILITY, ""), can.onmotion.delay(can, next, list.length > 3? 80: 0) })
+		can.core.Next(list, function(target, next, index) {
+			if (index < 30) {
+				can.page.style(can, target, html.VISIBILITY, ""), can.onmotion.delay(can, next, list.length > 3? 80: 0)
+			} else {
+				can.core.List(list, function(target) { can.page.style(can, target, html.VISIBILITY, "") })
+			}
+		})
 	},
 	slideGrow: function(can, target) {
 		if (can.page.tagis(target, html.DIV) && can.page.ClassList.has(can, target, html.INPUT)) { return }

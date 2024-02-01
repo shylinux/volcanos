@@ -16,3 +16,4 @@ fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div.
 fieldset.plan>div.output>div.layout>div.layout>div.content>table.content tr:first-child { height:30px; position:sticky; top:2px; }
 fieldset.plan>div.output>div.layout>div.layout>div.content>table.content th:first-child { width:40px; position:sticky; left:2px; }
 fieldset.plan>div.output>div.layout>div.layout>div.profile>table.content tr:first-child { height:30px; position:sticky; top:2px; }
+fieldset.plan.story>form.option>div.item.scale { display:none; }

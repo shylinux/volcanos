@@ -40,7 +40,8 @@ body {
 	--code-bg-color:black; --code-fg-color:silver; --code-border-color:var(--notice-bg-color);
 	--body-font-family:sans-serif; --code-font-family:monospace; --svg-font-family:var(--code-font-family);
 	--legend-font-family:var(--input-font-family); --status-font-family:var(--body-font-family);
-	--input-font-family:cursive; --table-font-family:var(--body-font-family);
+	/* --input-font-family:cursive; --table-font-family:var(--body-font-family); */
+	--input-font-family:cursive; --table-font-family:var(--code-font-family);
 
 	--body-font-size:16px; --legend-font-size:20px; --icon-font-size:20px;
 	--code-font-size:14px; --code-line-height:24px; --code-tabs-height:48px;
@@ -158,7 +159,7 @@ fieldset>div.action div.item.select.cmds { border-bottom:var(--notice-bg-color) 
 fieldset>div.output { width:100%; } fieldset>div.status { width:100%; }
 fieldset.input>legend { display:none; }
 fieldset.input.key div.action { display:none; }
-fieldset.input.key div.output table.content { width:100%; }
+fieldset.input.key div.output table.content { width:100%; font-family:var(--code-font-family); }
 fieldset.input.key>div.output>div.item:not(.hide) { display:flex; align-items:center; }
 fieldset.input.key>div.output>div.item img { height:var(--header-height); width:var(--header-height); }
 fieldset.input.key div.status { background-color:var(--plugin-bg-color); }
@@ -181,12 +182,13 @@ fieldset.input.float { padding:0; border-radius:0 !important; z-index:100; }
 fieldset.input.float table.content td { padding:var(--input-padding); }
 fieldset.input.float table.content th { padding:var(--input-padding); }
 /* float */
+input.disable { color:var(--disable-fg-color) !important; border:unset !important; }
 body div.float { padding:var(--plugin-padding); box-shadow:var(--box-shadow); }
 body>div.toast div.title { color:var(--notice-bg-color); font-style:italic; white-space:pre; max-width:280px; overflow:auto; float:left; cursor:copy; }
 body>div.toast div.delete { color:var(--notice-bg-color); float:right; cursor:pointer; }
 body>div.toast div.delete:hover { background-color:var(--hover-bg-color); }
 body>div.toast div.duration { color:var(--disable-fg-color); float:right; }
-body>div.toast div.content { color:var(--notice-bg-color); text-align:center; min-height:48px; margin-bottom:5px; }
+body>div.toast div.content { color:var(--notice-bg-color); white-space:normal; text-align:center; min-height:48px; margin-bottom:5px; display:block; }
 body>div.toast div.progress { border:var(--box-notice); margin-left:0px; height:20px; clear:both; }
 body>div.toast div.progress div.current { background-color:var(--progress-bg-color); height:18px; }
 body>div.toast div.action:not(.hide) { width:100%; display:block; display:flex; flex-direction:row-reverse; gap:10px; }
@@ -266,6 +268,7 @@ div.story[data-type=spark] { padding:var(--input-padding) var(--table-padding); 
 fieldset>div.action>div.tabs { font-style:italic; padding:var(--input-padding) var(--button-padding); margin-left:var(--input-margin); box-shadow:var(--box-shadow); height:var(--action-height); }
 fieldset>div.action>div.cmds { font-style:italic; padding:var(--input-padding) var(--button-padding); margin-left:var(--input-margin); box-shadow:var(--box-shadow); height:var(--action-height); }
 fieldset>div.output>div.code { font-size:var(--code-font-size); }
+fieldset.plug>div.status { height:31px; }
 fieldset>div.status { font-family:var(--status-font-family); font-size:var(--status-font-size); font-style:italic; line-height:20px; max-height:var(--action-height); }
 fieldset>div.status>div.item { padding:var(--input-padding); height:31px; }
 fieldset>div.status>div.item>label { font-size:var(--status-font-size); cursor:pointer; }
@@ -291,8 +294,6 @@ body.windows form.option>div.item.icon.delete { line-height:31px; display:flex; 
 body.windows form.option>div.item.icon.menu { font-size:22px; line-height:32px; }
 body.windows form.option>div.item.icon.refresh { font-size:24px; line-height:28px; }
 body.windows form.option>div.item.icon.goback { font-size:24px; line-height:28px; }
-body.mobile form.option>div.item.icon.prev { margin-top:4px; height:28px; }
-body.mobile form.option>div.item.icon.next { margin-top:4px; height:28px; }
 div.item.text { position:relative; }
 div.item.text>input { width:var(--input-width); height:var(--action-height); }
 div.item.text.id>input { width:var(--button-width); }

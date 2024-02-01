@@ -124,7 +124,7 @@ var web = {
 }
 var aaa = {
 	USER: "user", AUTH: "auth", SESS: "sess", ROLE: "role",
-	EMAIL: "email", OFFER: "offer",
+	EMAIL: "email", OFFER: "offer", APPLY: "apply",
 	LOGIN: "login", LOGOUT: "logout",
 
 	BACKGROUND: "background", AVATAR: "avatar", MOBILE: "mobile", SECRET: "secret",
@@ -370,7 +370,7 @@ var icon = {
 	CHEVRON_DOWN: "bi bi-chevron-down", SEARCH: "bi bi-search", TERMINAL: "bi bi-terminal",
 	SUN: "bi bi-sun", MOON: "bi bi-moon-stars",
 
-	admin: "bi bi-window-sidebar", dream: "bi bi-grid-3x3-gap", space: "bi bi-grid-3x3-gap",
+	admin: "bi bi-window-sidebar", dream: "bi bi-grid-3x3-gap", space: "bi bi-grid-3x3-gap", desktop: "bi bi-window-desktop",
 	configs: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week",
 	sso: "bi bi-shield-check", login: "bi bi-person-check",
 	start: "bi bi-play-circle", stop: "bi bi-stop-circle",

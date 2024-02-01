@@ -6,7 +6,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg
 	},
 	_main: function(can, msg) { can.ui = {river_list: {}, storm_list: {}, sublist: {}}
 		var ls = can.misc.SearchHash(can); msg.Table(function(item) { item.main && (can._main_river = item.hash) })
-		can._main_river = ls[0]||can.misc.SearchOrConf(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||can._main_river||(can.user.info.nodetype == web.WORKER? "product": "project")
+		can._main_river = ls[0]||can.misc.SearchOrConf(can, chat.RIVER)||msg.Option(ice.MSG_RIVER)||can._main_river||(can.user.info.nodetype == web.WORKER || can.misc.Search(can, ice.MSG_DEBUG) != ice.TRUE? "product": "project")
 		can._main_storm = ls[1]||can.misc.SearchOrConf(can, chat.STORM)||msg.Option(ice.MSG_STORM)
 	},
 	_river: function(can, meta, cb) { return {view: html.ITEM, title: meta.name, list: [{icon: meta.icon}, {text: meta.name}, {icon: icon.CHEVRON_DOWN}], _init: function(target) { can.ui.river_list[meta.hash] = target, cb(target) },
@@ -61,7 +61,9 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		can.run({}, [river, chat.STORM], function(msg) { var next = can.ui.river_list[river].nextSibling
 			if (msg.Length() == 0) { return can.user.isLocalFile? can.user.toastFailure(can, "miss data"): can.onengine.signal(can, chat.ONACTION_NOSTORM, can.request({}, {river: river})) }
 			can.db.storm_list[river] = msg.Table()
-			var _main_storm; msg.Table(function(item) { item.main && (_main_storm = item.hash) }), _main_storm = can._main_storm || _main_storm || (can.user.info.nodetype == web.WORKER? "desktop": "studio")
+			var _main_storm; msg.Table(function(item) { item.main && (_main_storm = item.hash) }), _main_storm = can._main_storm || _main_storm || (
+				can.user.info.nodetype == web.WORKER? web.DESKTOP: can.misc.Search(can, ice.MSG_DEBUG) != ice.TRUE? web.DREAM: "studio"
+			)
 			var select = 0; list = can.page.Append(can, can._output, [{view: html.LIST, list: msg.Table(function(item, index) {
 				river == can._main_river && (item.hash == _main_storm) && (select = index)
 				return can.onimport._storm(can, item, river)

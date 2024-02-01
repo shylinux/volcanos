@@ -43,12 +43,16 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 			return tabs
 		}); select && select.click()
 	},
-	field: function(can, meta, target) { var item = can.base.Obj(meta.meta), width = item.width
+	field: function(can, meta, target) { var item = can.base.Obj(meta.meta)
 		// if (can.Option(nfs.PATH).indexOf(nfs.DF) > 0) { var ls = can.core.Split(can.Option(nfs.PATH), nfs.DF); item.space = ls[0] }
+		var padding = 2*can.Conf(html.PADDING); if (can.user.isMobile && !can.isCmdMode()) { padding *= 2 }
+		if (!item.width || parseInt(item.width) > can.ConfWidth()) { item.width = can.ConfWidth()-padding }
+		var width = item.width
 		can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
-			sub.onimport.size(sub, can.base.Max(html.STORY_HEIGHT, can.ConfHeight()), sub.Conf("_width", width)||(can.ConfWidth()-2*can.Conf(html.PADDING)), true)
+			sub.onimport.size(sub, can.base.Max(html.STORY_HEIGHT, can.ConfHeight()), sub.Conf("_width", width), true)
 			var size = sub.onimport.size; sub.onimport.size = function(can, height, width, auto, mode) { size(can, height, width, auto, mode), can.page.style(can, sub._output, html.MAX_HEIGHT, "", "overflow-y", "hidden") }
 			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() { sub.runAction(sub.request({}, can.core.Value(item, "opts")), can.core.Value(item, "auto.cmd")) })
+			can.page.style(can, sub._target, html.WIDTH, width)
 		}, can._output, target)
 	},
 	table: function(can, meta, target) {
