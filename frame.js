@@ -79,8 +79,16 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.is
 	}, _list: [""], pwd: function(can, arg) { can.misc.sessionStorage(can, "can.daemon", can._wss_name = can.ondaemon._list[0] = arg[0]) },
 	close: function(can, msg, sub) { can.user.close() }, exit: function(can, msg, sub) { can.user.close() },
 	toast: function(can, sub, arg, cb) { can.core.CallFunc(can.user.toast, [sub].concat(arg)) },
-	grow: function(can, msg, sub, arg) { var _can = sub._fields && sub.sup? sub.sup: sub; _can.onimport._grow(_can, msg, arg.join("")) },
-	rich: function(can, msg, sub, arg) { var _can = sub._fields && sub.sup? sub.sup: sub; _can.onimport._rich(_can, msg, arg) },
+	grow: function(can, msg, sub, arg) {
+		var _can = sub._fields && sub.sup? sub.sup: sub
+		if (!_can.onimport._grow) { debugger }
+		_can.onimport._grow(_can, msg, arg.join(""))
+	},
+	rich: function(can, msg, sub, arg) {
+		var _can = sub._fields && sub.sup? sub.sup: sub
+		if (!_can.onimport._rich) { debugger }
+		_can.onimport._rich(_can, msg, arg)
+	},
 	refresh: function(can, sub) { can.base.isFunc(sub.Update) && sub.Update() },
 	action: function(can, msg, sub, arg) {
 		if (arg[0] == "ctrl") { var list = []
@@ -650,7 +658,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}); return ui._target = target, ui
 	},
 
-	plugin: function(can, meta, cb, target, field) { meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||ice.CAN_PLUGIN, meta._space = meta._space||can.Conf("_space")
+	plugin: function(can, meta, cb, target, field) {
+		meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||ice.CAN_PLUGIN, meta._space = meta._space||can.ConfSpace()
 		var res = {}; function _cb(sub, meta, skip) { kit.proto(res, sub), cb && cb(sub, meta, skip) }
 		if (meta.inputs && meta.inputs.length > 0 || meta.meta) { can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, _cb, target, field); return res }
 		function _plugin(_meta) { var value = can.onengine.plugin(can, _meta.index)

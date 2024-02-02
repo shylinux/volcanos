@@ -69,7 +69,9 @@ fieldset.inner.cmd>div.output>div.layout>div.plug>legend:not(:hover)>span.remove
 fieldset.inner>div.output>div.layout>div.layout>div.profile fieldset.xterm.story>form.option>div.item.hash input { width:120px; }
 div.path span.item { padding:var(--input-padding); }
 div.carte.cmd.float { font-size:var(--code-font-size); } div.carte.cmd.float div.item { padding:var(--input-padding); }
-div.carte.path.float { font-size:var(--code-font-size); } div.carte.path.float div.item { padding:var(--input-padding); }
+div.carte.path.float { font-size:var(--code-font-size); }
+div.carte.path.float div.item { padding:var(--input-padding); }
+div.carte.path.float div.item.private { color:var(--disable-fg-color); }
 div.vimer.open.float td:first-child { display:none; }
 div.vimer.open.float td:nth-child(2) { display:none; }
 div.vimer.plug.float div.item.text input { width:var(--river-width); }

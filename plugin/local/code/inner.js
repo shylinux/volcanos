@@ -107,6 +107,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			carte = can.user.carte(event, can, {_style: nfs.PATH}, list, function(ev, button) { last[button] = true, carte.close()
 				can.onimport.tabview(can, "", can.Option(nfs.FILE), can.core.Split(button, nfs.DF, nfs.DF).pop())
 			})
+			can.onmotion.delay(can, function() {
+				can.page.Select(can, carte._target, html.DIV_ITEM, function(target) {
+					if (can.base.beginWith(target.innerText, "- ")) {
+						can.onappend.style(can, "private", target)
+					} else {
+						can.onappend.style(can, "public", target)
+					}
+				})
+			})
 		}}])
 	},
 	_tabMode: function(can) {
