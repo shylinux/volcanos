@@ -1,6 +1,6 @@
 (function() { const RECOVER_STORE = "recover:"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules(can, ["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
-		var item = can.base.Obj(msg.TableDetail(), {hash: "only"}); item.hash = item.hash||can.Option(mdb.HASH), can.onmotion.clear(can)
+		var item = can.base.Obj(msg.TableDetail()); item.hash = item.hash||can.Option(mdb.HASH)||"only", can.onmotion.clear(can)
 		if (item.type == html.LAYOUT) { can.onimport._layout(can, item) } else { can.onimport._connect(can, item, can._output) } can.onimport.layout(can)
 		can.sup.onexport.link = function() { return can.misc.MergePodCmd(can, {pod: can.Conf(ice.POD), cmd: web.CODE_XTERM, hash: item.hash}) }
 		can.sup.onexport.title(can, item.name||item.type), can.base.isFunc(cb) && cb(msg), can.onappend._status(can), can.onkeymap._build(can)
@@ -67,8 +67,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 			if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
 		}), can._output = term._output
 	},
-	grow: function(can, msg, hash, text) {
-		var arg = msg.detail.slice(1); arg = [hash||arg[0], text||arg[1]]
+	grow: function(can, msg, hash, text) { var arg = msg.detail.slice(1); arg = [hash||arg[0], text||arg[1]]
 		term = can.db[arg[0]]; arg[1] == "~~~end~~~"? can.onaction.delete(can, term._output): term.write(arg[1]); msg.Option(ice.LOG_DISABLE, ice.TRUE)
 	},
 	layout: function(can) { function show(target, height, width) { var list = can.page.SelectChild(can, target, can.page.Keys(html.DIV_OUTPUT, html.DIV_LAYOUT))
