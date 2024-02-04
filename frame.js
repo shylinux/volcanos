@@ -248,7 +248,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
 				can.core.Item(can.user.isMobile? {
 					open: !can.isCmdMode() && "打开链接",
-					chat: "发送聊天",
+					// chat: "发送聊天",
 				}: {_space: "",
 					full: !can.isCmdMode() && "切换全屏",
 					open: !can.isCmdMode() && "打开链接",
@@ -748,29 +748,29 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		}); return height+margin
 	},
 	background: function(can, url, target) { can.page.style(can, target||can._root._target, "background-image", url == "" || url == "void"? "": 'url("'+url+'")') },
-	figure: function(event, can, target, right, min) {
-		if (!event || !event.target) { return {} } target = target||can._fields||can._target
+	figure: function(event, can, target, right, min) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: (event.currentTarget||event.target).getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)
-			if (can.user.isMobile) {
-				if (target.offsetHeight > height/2 && can.page.tagis(target, "div.input")) { layout.top = top }
-				if (target.offsetWidth > width/2) { layout.left = left, can.page.style(can, target, html.WIDTH, width) }
-			}
 			if (layout.top+target.offsetHeight > top+height) {
-				if (min && top+height-layout.top > min) {
-					can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
-				} else if (!right && rect.top-top>target.offsetHeight) {
-					layout.top = rect.top-target.offsetHeight
-				} else {
-					if (!right) { right = true, layout.left += (event.currentTarget||event.target).offsetWidth }
-					layout.top = top+height-target.offsetHeight
+				if (!min || top+height-layout.top < min) {
+					if (right) {
+						layout.top = top+can.base.Min(height-target.offsetHeight, 0)
+					} else if (rect.top-top-rect.height > top+height-rect.top) {
+						layout.top = top+can.base.Min(rect.top-target.offsetHeight, 0), height = rect.top-top
+					}
 				}
 			}
-			if (layout.left+target.offsetWidth > left+width-20) { layout.left = (right? rect.left: left+width)-target.offsetWidth-1 }
+			if (layout.left+target.offsetWidth > left+width-20) {
+				if (right) {
+					layout.left = rect.left-target.offsetWidth
+				} else {
+					layout.left = left+width-target.offsetWidth
+				}
+			}
 			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
-		});
-		can.onmotion.move(can, target, layout), can.onmotion.slideGrow(can, target)
+			can.page.style(can, target, html.MAX_WIDTH, left+width-layout.left)
+		}); can.onmotion.move(can, target, layout), can.onmotion.slideGrow(can, target)
 		return layout
 	},
 	_float: function(can) { var target = can._fields||can._target, sup = can._fields? can.sup: can
@@ -949,7 +949,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	},
 	move: function(can, target, layout) { layout && can.page.style(can, target, layout), can.onmotion.resize(can, target, function() {}) },
 	resize: function(can, target, cb, top, left) { var begin, action
-		top = top || html.HEADER_HEIGHT, left = left || can.getRiverWidth()
+		top = top || can.getHeaderHeight(), left = left || can.getRiverWidth()
 		target.onmousedown = function(event) { if (event.which != 1 || event.target != target && !(can.page.ClassList.has(can, event.target, html.STATUS) && can.page.tagis(event.target, html.DIV))) { return } window._mousemove = target
 			begin = {left: target.offsetLeft, top: target.offsetTop, height: target.offsetHeight, width: target.offsetWidth, x: event.x, y: event.y}
 		}, target.onmouseup = function(event) { begin = null, delete(window._mousemove) }

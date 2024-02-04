@@ -33,8 +33,8 @@ body:not(.width6) fieldset.Header.tabview>div.output>div.Action>div.item.dream {
 body:not(.width6) fieldset.Header.tabview>div.output>div.Action>div.item.desktop { display:none; }
 body:not(.width6) fieldset.Header>div.output>div.Action>div.item.portal { display:none; }
 body:not(.width6) fieldset.Header>div.output>div.item.language { display:none; }
-body.width2>fieldset.Header>div.output div.item:not(.usernick):not(.avatar) { padding:13.5px 8px; }
-body.width3>fieldset.Header>div.output div.item:not(.usernick):not(.avatar) { padding:13.5px 8px; }
+body.width2>fieldset.Header>div.output div.item:not(.usernick):not(.avatar) { padding:13.5px 5px; }
+body.width3>fieldset.Header>div.output div.item:not(.usernick):not(.avatar) { padding:13.5px 5px; }
 body.width3>fieldset.Header>div.output>div.item.time { display:none; }
 body.width3>fieldset.Header>div.output>div.item.avatar { margin-right:var(--plugin-margin); }
 body.width3>fieldset.Header>div.output div.Action>div.tabs { padding-left:0; }

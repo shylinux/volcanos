@@ -76,9 +76,10 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
 		var list = can.db.storm_list[river];
 		can.user.isMobile && can.onmotion.hidden(can, can._root.Footer._target, list.length > 1)
-		can.user.isMobile && can.onmotion.delay(can, function() { var menu = can.setFooterMenu(list, function(event, button, list) { can.onaction.action(event, can, river, button) })
+		can.user.isMobile && can.onmotion.delay(can, function() {
+			var menu = can.setFooterMenu(list, function(event, button, list) { can.onaction.action(event, can, river, button) })
 			can.page.SelectChild(can, menu, html.DIV_ITEM, function(target, index) { can.page.ClassList.set(can, target, html.SELECT, list[index].hash == can.Conf("storm")) })
-		}), can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm)}))
+		}, 300), can.onengine.signal(can, chat.ONSTORM_SELECT, can.request(event, {river: can.Conf(chat.RIVER, river), storm: can.Conf(chat.STORM, storm)}))
 	},
 	carte: function(event, can, list, river, storm) { can.onkeymap.prevent(event); if (can.core.Value(can._root, can.core.Keys(chat.RIVER, river))) { return }
 		can.request(event, {river: river, storm: storm}); storm? can.user.carteRight(event, can, can.ondetail, list): can.user.carteRight(event, can, can.onaction, list)

@@ -24,7 +24,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can
 Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list: [cli.CLOSE, web.CLEAR, cli.DONE],
 	onsize: function(can, msg, height, width) { can.onimport._size(can), can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth(), true) }) },
 	onlogin: function(can, msg) { can.ui = can.page.Append(can, can._output, [chat.CONTENT, {view: [[chat.DISPLAY, chat.CONTENT], html.TABLE]}, chat.PROFILE])
-		can.onappend._action(can, (can.Conf(html.ACTION)||can.onaction.list).concat({type: html.TEXT, _className: "args trans", name: html.FILTER, _init: function(target) { can.ui.filter = target }, onkeydown: function(event) {
+		can.onappend._action(can, (can.Conf(html.ACTION)||can.onaction.list).concat({type: html.TEXT, _className: "args trans", name: html.FILTER, icon: icon.search, _init: function(target) { can.ui.filter = target }, onkeydown: function(event) {
 			if (event.key == code.ESCAPE) { return event.target.blur() }
 			if (event.key == code.ENTER) { can.onkeymap.prevent(event); if (event.shiftKey) { return can.page.SelectOne(can, can.ui.content, [html.TBODY, html.TR, html.TD], function(target) { target.click() }) }
 				return event.ctrlKey? can.onaction.done(event, can): can.ui.input(event, event.target.value)

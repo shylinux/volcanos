@@ -1,4 +1,4 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDING, 10)
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDING, 5)
 		can.page.Modify(can, target, msg.Results()), can.onimport._content(can, target)
 		can.onmotion.delay(can, function() { can.onappend.scroll(can, can._output) })
 	},
@@ -44,7 +44,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 		}); select && select.click()
 	},
 	field: function(can, meta, target) { var item = can.base.Obj(meta.meta)
-		// if (can.Option(nfs.PATH).indexOf(nfs.DF) > 0) { var ls = can.core.Split(can.Option(nfs.PATH), nfs.DF); item.space = ls[0] }
 		var padding = 2*can.Conf(html.PADDING); if (can.user.isMobile && !can.isCmdMode()) { padding *= 2 }
 		if (!item.width || parseInt(item.width) > can.ConfWidth()) { item.width = can.ConfWidth()-padding }
 		var width = item.width
