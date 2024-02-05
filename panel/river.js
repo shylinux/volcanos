@@ -134,10 +134,10 @@ Volcanos(chat.ONEXPORT, {width: function(can) { return can._target.offsetWidth }
 	}) },
 })
 Volcanos(chat.ONENGINE, {_engine: function(event, can, msg, panel, cmds, cb) {
-	if (typeof can.river == code.FUNCTION) { can.river = can.river(can) }
-	var list = can.river
+	if (typeof can.river == code.FUNCTION) { can.river = can.river(can) } var list = can.river
 	cmds.length == 0 && can.core.ItemOrder(list, mdb.ORDER, function(key, value) { if (!value) { return }
-		if (can.user.info.userrole == aaa.ROOT || can.base.isIn(value.type||"", "", aaa.VOID, can.user.info.userrole)) {
+		if (value.debug && can.misc.Search(can, ice.MSG_DEBUG) != ice.TRUE) { return }
+		if (can.base.isIn(can.user.info.userrole, value.type||aaa.VOID, aaa.TECH, aaa.ROOT)) {
 			can.core.Item(value.storm).length > 0 && msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||"", main: value.main||false})
 		}
 	})

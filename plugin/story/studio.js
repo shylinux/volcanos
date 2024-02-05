@@ -2,9 +2,10 @@ Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) {
 		can.isCmdMode() && can.sup.onimport.size(can.sup, can.page.height(), can.page.width())
 		can.onmotion.clear(can), can.onmotion.hidden(can, can._status), cb && cb(msg)
-		can.onimport._tabs(can, msg) // can.onimport._full(can, msg)
+		can.onimport._tabs(can, msg)
 	},
-	_tabs: function(can, msg) { can.onappend.style(can, web.STUDIO)
+	_tabs: function(can, msg) {
+		can.onappend.style(can, web.STUDIO), can.onmotion.clear(can, can._action)
 		msg.Table(function(value, index) { value.nick = can.user.trans(can, value.index.split(nfs.PT).pop(), value.help)
 			var target = can.onimport.item(can, value, function() {
 				if (value._plugin) { return can.onmotion.select(can, can._output, html.FIELDSET, value._plugin._target) }
@@ -15,6 +16,7 @@ Volcanos(chat.ONIMPORT, {
 				}, can._output)
 			}, null, can._action); index == 0 && target.click(), can.onappend.style(can, "cmds", target)
 		})
+		can.onappend._action(can, null, null, null, true)
 	},
 	_full: function(can, msg) {
 		can.ui = can.onappend.layout(can), can.page.style(can, can.ui.content, html.PADDING, 10)

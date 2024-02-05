@@ -243,6 +243,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) { can.onappend.icons(can, target, item.name) }
 				}), item), "", action)
 		})
+		// if (!can.ConfIndex()) { return }
 		var _can = can._fields? can.sup: can
 		can.base.beginWith(can.ConfIndex(), "can.", "web.chat.macos.") ||
 			can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
@@ -253,9 +254,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					full: !can.isCmdMode() && "切换全屏",
 					open: !can.isCmdMode() && "打开链接",
 					qrcode: !can.isCmdMode() && "生成链接",
-					chat: "发送聊天",
-					help: can.page.ClassList.has(can, can._fields, html.PLUGIN) && can.Conf("_help") && can.Conf("_help") != "" && "查看文档",
-					vimer: can.page.ClassList.has(can, can._fields, html.PLUGIN) && can.Conf("_fileline") && can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "查看源码",
+					chat: can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "发送聊天",
+					help: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_help") && can.Conf("_help") != "" && "查看文档",
+					vimer: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_fileline") && can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "查看源码",
 				}, function(key, value) {
 					return (value || value === "") && {view: [[html.ITEM, html.BUTTON, key, mdb.ICONS, "state"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
 						var cb = _can.onaction[value]; cb && _can.onaction[value](event, _can, value, _can.sub)
@@ -774,9 +775,12 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		return layout
 	},
 	_float: function(can) { var target = can._fields||can._target, sup = can._fields? can.sup: can
-		can.onappend.style(can, html.FLOAT), can.onmotion.resize(can, target, function(height, width) { sup.onimport.size(sup, height, width, true) }, html.HEADER_HEIGHT, can.getRiverWidth())
+		var height = can.base.Max(html.FLOAT_HEIGHT, can.page.height()-can.getHeaderHeight()-html.ACTION_HEIGHT),
+			width = can.base.Max(html.FLOAT_WIDTH, can.page.width()-can.getRiverWidth())
+		sup.onimport.size(sup, height, width, false), can.onappend.style(can, html.FLOAT)
+		can.onmotion.resize(can, target, function(height, width) { sup.onimport.size(sup, height, width, false) }, can.getHeaderHeight(), can.getRiverWidth())
 		var left = can.getRiverWidth()+html.PLUGIN_MARGIN+html.PLUGIN_PADDING+(can.user.mod.isCmd? 0: 120), top = can.page.height()/4; if (can.user.isMobile) { left = 0 }
-		can.page.style(can, target, html.LEFT, left, html.TOP, top), sup.onimport.size(sup, can.base.Max(600, can.page.height()-top-html.ACTION_HEIGHT), can.base.Max(can.user.mod.isCmd? 1200: 1000, can.page.width()-left), true)
+		can.page.style(can, target, html.LEFT, can.page.width()-width-html.PLUGIN_MARGIN, html.TOP, can.page.height()-height-html.ACTION_HEIGHT-html.PLUGIN_MARGIN)
 		target.onclick = function(event) { can.onkeymap.prevent(event)
 			can.page.Select(can, document.body, "fieldset.float,div.float", function(target) { can.page.style(can, target, "z-index", 9) }), can.page.style(can, target, "z-index", 10)
 		}
@@ -882,9 +886,11 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		index > 0 && can.page.ClassList.set(can, tr, html.HIDDEN, can.page.Select(can, tr, html.TD, function(td) { if (td.innerText.toLowerCase().indexOf(value.toLowerCase()) > -1) { return td } }) == 0)
 	}) },
 	delayResize: function(can, target, key) {
-		can.page.Select(can, target, key, function(_target) { _target.onload = function() { var width = _target.offsetWidth+2*html.PLUGIN_PADDING
-			can.page.style(can, target, html.WIDTH, width, html.LEFT, (window.innerWidth-width)/2, html.TOP, (window.innerHeight-_target.offsetHeight)/4)
-		} })
+		can.page.Select(can, target, key, function(_target) {
+			_target.onload = function() { var width = _target.offsetWidth+2*html.PLUGIN_PADDING+10
+				can.page.style(can, target, html.WIDTH, width, html.LEFT, (window.innerWidth-width)/2, html.TOP, (window.innerHeight-_target.offsetHeight)/4)
+			}
+		})
 	},
 	delayLong: function(can, cb, interval, key) { can.onmotion.delay(can, cb, interval||300, key) },
 	delayOnce: function(can, cb, interval, list) {

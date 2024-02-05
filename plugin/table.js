@@ -188,7 +188,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		}}
 	}))._target },
 	tool: function(can, list, cb, target, status) { target = target||can._output, status = status||can._status
-		var height = can.base.Max(html.PLUG_HEIGHT, can.ConfHeight(), 240), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-(can.user.isMobile? 0: html.PROJECT_WIDTH))
+		var height = can.base.Max(html.PLUG_HEIGHT, can.ConfHeight()-2*html.ACTION_HEIGHT, 240), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-(can.user.isMobile? 0: html.PROJECT_WIDTH))
 		can.core.Next(list.reverse(), function(meta, next) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) {
 				sub.onexport.output = function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")

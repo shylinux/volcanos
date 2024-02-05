@@ -20,7 +20,7 @@ var ice = {
 	MODE: "mode", EXEC: "exec",
 
 	APP: "app", CAN: "can", CAN_PLUGIN: "can._plugin",
-	DEV: "dev", POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg",
+	OPS: "ops", DEV: "dev", POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg",
 	NFS: "nfs", USR: "usr",
 
 	MSG_FIELDS: "fields", MSG_SESSID: "sessid", MSG_METHOD: "method", MSG_DEBUG: "debug",
@@ -311,6 +311,7 @@ var html = {value: {
 	PLUGIN_PADDING: 0, PLUGIN_MARGIN: 0,
 	ACTION_BUTTON: 3, TABLE_BUTTON: 5,
 	CODE_FONT_SIZE: 14,
+	QRCODE_WIDTH: 360,
 	CARD_WIDTH: 320, CARD_HEIGHT: 160,
 	PLUG_WIDTH: 800, PLUG_HEIGHT: 480, STORY_HEIGHT: 480, FLOAT_HEIGHT: 480, FLOAT_WIDTH: 1200, DESKTOP_WIDTH: 1200, DESKTOP_HEIGHT: 684,
 },
@@ -391,7 +392,7 @@ var icon = {
 	xterm: "bi bi-terminal", cmds: "bi bi-terminal", 
 
 	desktop: "bi bi-window-desktop", admin: "bi bi-window-sidebar", dream: "bi bi-grid-3x3-gap", space: "bi bi-grid-3x3-gap",
-	config: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week",
+	configs: "bi bi-gear", config: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week",
 	save: "bi bi-floppy", trash: "bi bi-trash",
 
 	notifications: "bi bi-chat-right-text",

@@ -2,7 +2,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) {
 		can.page.requireDraw(can, function() { can.base.isFunc(cb) && cb(msg)
 			can.Conf(html.VIEW) && can.Action(html.VIEW, can.Conf(html.VIEW))
 			can.onmotion.toggle(can, can._option, !can.user.isMobile)
-			can.onmotion.toggle(can, can._action, !can.user.isMobile && can.isCmdMode())
+			can.onmotion.toggle(can, can._action, false)
 			can.db.data = msg.Table(), can.onimport.layout(can)
 		})
 	},

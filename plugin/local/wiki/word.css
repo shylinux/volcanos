@@ -27,11 +27,11 @@ div.story[data-type=spark_tabs]>div.story:not(.select) { display:none; }
 fieldset.word.play.float { top:0; }
 fieldset.word.play.float>div.action { display:contents; }
 fieldset.word.play.float>div.status { clear:none; display:contents; }
-fieldset.word.play.float>div.output>div.project { background-color:#4682b46b; padding:var(--plugin-padding); position:fixed; right:0; top:var(--action-height); z-index:10; }
+fieldset.word.play.float>div.output>div.project { background-color:var(--plugin-bg-color); padding:var(--plugin-padding); position:fixed; right:0; top:var(--action-height); z-index:10; }
 fieldset.word.play.float div.content div.page { display:none; }
 fieldset.word.play.float div.content div.page.show { display:block; }
 fieldset.word.play.float div.content div.page ul { text-align:left; }
-fieldset.word.play.float div.content.grid div.page { background-color:#a4cbecb5; margin:var(--plugin-padding); height:var(--qrcode-height); width:30%; overflow:auto; display:block; float:left; }
+fieldset.word.play.float div.content.grid div.page { background-color:var(--plugin-bg-color); margin:var(--plugin-padding); height:var(--qrcode-height); width:30%; overflow:auto; display:block; float:left; }
 fieldset.word.play.float h1 { text-align:center; }
 fieldset.word.play.float h2 { text-align:center; }
 fieldset.word.play.float h3 { text-align:center; }
