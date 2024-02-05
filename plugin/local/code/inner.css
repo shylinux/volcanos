@@ -16,9 +16,10 @@ fieldset.inner>div.output>div.project div.zone.space>div.list div.output>div.ite
 fieldset.inner>div.output>div.project div.zone.repos>div.list div.output>div.item { margin:0; width:100% !important; }
 fieldset.inner>div.output>div.project div.zone.repos>div.list div.output>div.item:hover { background-color:var(--hover-bg-color); }
 fieldset.inner>div.output>div.layout>div.tabs { font-size:var(--code-font-size); display:none; }
+fieldset.inner>div.output>div.layout>div.tabs>div:hover { background-color:unset; color:unset; box-shadow:unset; }
 fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding-right:0; margin-left:5px; }
-fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); border-top-left-radius:var(--plugin-radius); border-top-right-radius:var(--plugin-radius); box-shadow:var(--box-shadow); }
-fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs.select { background-color:var(--output-bg-color); border-top-left-radius:var(--plugin-radius); border-top-right-radius:var(--plugin-radius); border-bottom:lightgray solid 2px;  box-shadow:var(--box-shadow);}
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); color:unset; border-top-left-radius:var(--plugin-radius); border-top-right-radius:var(--plugin-radius); box-shadow:var(--box-shadow); }
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs.select { background-color:var(--output-bg-color); color:unset; border-top-left-radius:var(--plugin-radius); border-top-right-radius:var(--plugin-radius); border-bottom:lightgray solid 2px;  box-shadow:var(--box-shadow);}
 fieldset.inner>div.output>div.layout>div.path { font-size:var(--code-font-size); display:none; }
 fieldset.inner.float>div.output>div.layout>div.path { font-size:var(--code-font-size); display:flex; }
 fieldset.Action.tabview fieldset.plugin.inner>div.output>div.layout>div.path { font-size:var(--code-font-size); display:flex; }
@@ -60,7 +61,8 @@ body:not(.mobile) fieldset.inner>div.output>div.layout>fieldset.plug { bottom:va
 fieldset.inner>div.output>div.layout>div.path span.space { flex-grow:1; }
 fieldset.inner>div.output>div.layout>div.path span.view { font-size:22px; padding:0 var(--input-padding); margin-top:-5px; float:right; }
 fieldset.inner>div.output>div.layout>fieldset.plug.output { white-space:pre; }
-fieldset.inner.cmd>div.output>div.layout>div.plug { height:var(--action-height); position:fixed; right:0; bottom:0; overflow:auto; }
+/* fieldset.inner.cmd>div.output>div.layout>div.plug { height:var(--action-height); position:fixed; right:0; bottom:0; overflow:auto; } */
+fieldset.inner.cmd>div.output>div.layout>div.plug { height:var(--action-height); overflow:auto; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend { font-size:var(--legend-font-size); font-style:italic; float:right; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend { padding:0 var(--input-padding); }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove { padding:var(--input-padding); }

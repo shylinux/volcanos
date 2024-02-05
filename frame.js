@@ -740,8 +740,8 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		var margin = 2*html.PLUGIN_PADDING; width = width||html.CARD_WIDTH, height = height||html.CARD_HEIGHT
 		var n = parseInt(target.offsetWidth/(width+margin))||1; width = target.offsetWidth/n - margin
 		if (width+margin >= target.offsetWidth) { n = 1, width = target.offsetWidth - margin }
-		var m = parseInt(target.offsetHeight/(height+margin))||1; height = target.offsetHeight/m - margin
-		if (height+margin >= target.offsetHeight) { n = 1, height = target.offsetHeight - margin }
+		var m = parseInt(target.offsetHeight/(height+margin))||1; m > 2 && (height = target.offsetHeight/m - margin)
+		if (height+margin >= target.offsetHeight) { m = 1, height = target.offsetHeight - margin }
 		height = can.base.Min(height, html.CARD_HEIGHT), width = can.base.Min(width, html.CARD_WIDTH)
 		can.page.SelectChild(can, target, item||html.DIV_ITEM, function(target) {
 			can.page.styleHeight(can, target, height), can.page.styleWidth(can, target, width)
@@ -763,9 +763,9 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 			}
 			if (layout.left+target.offsetWidth > left+width-20) {
 				if (right) {
-					layout.left = rect.left-target.offsetWidth
+					layout.left = rect.left-target.offsetWidth-1
 				} else {
-					layout.left = left+width-target.offsetWidth
+					layout.left = left+width-target.offsetWidth-1
 				}
 			}
 			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
@@ -893,7 +893,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		var key = can.base.Time(null, "%H:%M:%S.%s"); list[key] = {}, list[key] = can.onmotion.delay(can, function() { list[key] && cb() }, interval)||{}
 	},
 	delay: function(can, cb, interval, key) {
-		if (!key) { if (interval === 0) { return cb() }
+		if (!key) { if (interval === 0 || interval < 0) { return cb() }
 			return can.core.Timer(interval||30, cb)
 		}
 		can._delay_list = can._delay_list||shy({}, [])
@@ -975,11 +975,12 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			}
 		}
 	},
-	orderShow: function(can, target, key) { if (can.user.isMobile) { return }
+	orderShow: function(can, target, key, limit, delay) {
+		if (can.user.isMobile) { return } target = target||can._output, limit = limit||50, delay = delay||50
 		var list = can.page.SelectChild(can, target, key||html.DIV_ITEM, function(target) { can.page.style(can, target, html.VISIBILITY, html.HIDDEN); return target })
 		can.core.Next(list, function(target, next, index) {
-			if (index < 30) {
-				can.page.style(can, target, html.VISIBILITY, ""), can.onmotion.delay(can, next, list.length > 3? 80: 0)
+			if (index < limit) {
+				can.page.style(can, target, html.VISIBILITY, ""), can.onmotion.delay(can, next, list.length > 3? delay: 0)
 			} else {
 				can.core.List(list, function(target) { can.page.style(can, target, html.VISIBILITY, "") })
 			}

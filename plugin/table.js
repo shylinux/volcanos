@@ -65,11 +65,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 						can.runAction(event, button), carte.close()
 					}): can.onmotion.clearCarte(can)
 				}},
-				{view: html.ACTION, _init: function(target) { zone._action = target
-					can.onappend._action(can, [{icon: icon.SEARCH, type: html.TEXT, name: mdb.SEARCH, _init: function(target) { zone._search = target }, onkeyup: function(event) {
-						if (event.target.value == "") { can.page.Select(can, zone._target, html.DIV_EXPAND, function(target) { can.page.ClassList.del(can, target, cli.OPEN) }) }
-						can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, event.target.value != "") })
-						can.onmotion.delayOnce(can, function() { can.onkeymap.selectItems(event, can, zone._target) }, event.target.value.length<3? 500: 150)
+				{view: html.ACTION, _init: function(target) { var value; zone._action = target
+					can.onappend._action(can, [{icon: icon.SEARCH, type: html.TEXT, name: mdb.SEARCH, _init: function(target) { zone._search = target }, onkeyup: function(event) { value = event.target.value
+						can.page.Select(can, zone._target, html.DIV_EXPAND, function(target) { can.page.ClassList.set(can, target, cli.OPEN, value != "") })
+						can.page.Select(can, zone._target, html.DIV_LIST, function(item) { can.onmotion.toggle(can, item, value != "") })
+						can.onmotion.delayOnce(can, function() { value && can.onkeymap.selectItems(event, can, zone._target) }, value.length<3? 500: 150)
 					}}], target, {})
 				}},
 				{view: html.LIST, _init: function(target) { can.ui.zone = can.ui.zone||{}, can.ui.zone[zone.name] = zone, zone._target = target
@@ -87,19 +87,23 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	_icon: function(can, name, button, target) { can.page.Append(can, target, [{text: [can.page.unicode[name]||name, html.SPAN, [html.ICON, name]], onclick: function(event) {
 		can.base.isFunc(button)? button(event, button): can.onaction[button](event, can, button), can.onkeymap.prevent(event)
 	}}]) },
-	icon: function(can, msg, target, cb) { return msg.Table(function(value) {
-		var icon = can.misc.Resource(can, value.icon||can.page.drawText(can, value.name, 80), value.space||can.ConfSpace())
-		return can.page.Append(can, target, [{view: [[html.ITEM, value.status]], list: [{view: html.ICON, list: [{img: icon}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
-			cb && cb(target, value)
-		}, onclick: function(event) { can.sup.onexport.record(can.sup, value.name, mdb.NAME, value) }}])._target
-	}) },
+	icon: function(can, msg, target, cb) {
+		msg.Table(function(value) {
+			var icon = can.misc.Resource(can, value.icon||can.page.drawText(can, value.name, 80), value.space||can.ConfSpace())
+			return can.page.Append(can, target, [{view: [[html.ITEM, value.status]], list: [{view: html.ICON, list: [{img: icon}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
+				cb && cb(target, value)
+			}, onclick: function(event) { can.sup.onexport.record(can.sup, value.name, mdb.NAME, value) }}])._target
+		})
+		can.onmotion.orderShow(can, target)
+	},
 	tree: function(can, list, field, split, cb, target, node) { node = node||{"": target}
 		can.core.List(list, function(item) { item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }
 			var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split); if (node[name]) { return }
 			var ui = can.page.Append(can, node[last], [{view: html.ITEM, list: [
 				{view: [[html.EXPAND, item.expand? cli.OPEN: ""], html.DIV, (index==array.length-1? "": can.page.unicode.closes)]},
 				{view: [mdb.NAME, html.DIV, value], _init: item._init},
-			], onclick: function(event) { if (node[name].childElementCount == 2) { node[name].firstChild.click() }
+			], onclick: function(event) {
+				if (node[name].childElementCount == 2) { node[name].firstChild.click() }
 				index < array.length - 1? can.page.ClassList.set(can, ui[html.EXPAND], cli.OPEN, !can.page.ClassList.neg(can, node[name], html.HIDE)): can.base.isFunc(cb) && cb(event, item)
 			}, oncontextmenu: function(event) { if (!item._menu) { return }
 				var menu = item._menu; can.user.carteRight(event, can, menu.meta, menu.list, menu)
