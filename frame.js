@@ -254,7 +254,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					full: !can.isCmdMode() && "切换全屏",
 					open: !can.isCmdMode() && "打开链接",
 					qrcode: !can.isCmdMode() && "生成链接",
-					chat: can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "发送聊天",
+					// chat: can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "发送聊天",
 					help: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_help") && can.Conf("_help") != "" && "查看文档",
 					vimer: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_fileline") && can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "查看源码",
 				}, function(key, value) {
@@ -363,7 +363,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var name = can.core.Split(item.nick||item.name||"").pop()||""; can.base.isIn(name,
 			tcp.SERVER, tcp.CLIENT, web.STUDIO, web.SERVICE, mdb.SEARCH,
 		) && (name = (item.index||"").split(".").slice(-2).join(".")), (type != html.PLUG) && (name = can.core.Keys(item.space||item._space, name))
-		var title = item.title || (item.help && item.help != name && !can.user.isEnglish(can)? name+"("+can.core.Split(item.help)[0]+")": name)
+		var title = item.title || (can.user.isMobile? item.help: (item.help && item.help != name && !can.user.isEnglish(can)? name+"("+can.core.Split(item.help)[0]+")": name))
 		target = can.base.isFunc(target)? target(): target
 		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], style: item.style, list: [{type: html.LEGEND, list: [item.icon && {icon: item.icon}, {text: title}]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
 	},
@@ -781,8 +781,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		return layout
 	},
 	_float: function(can) { var target = can._fields||can._target, sup = can._fields? can.sup: can
-		var height = can.base.Max(html.FLOAT_HEIGHT, can.page.height()-can.getHeaderHeight()-html.ACTION_HEIGHT),
-			width = can.base.Max(html.FLOAT_WIDTH, can.page.width()-can.getRiverWidth())
+		var height = can.base.Max(html.FLOAT_HEIGHT, can.page.height()-can.getHeaderHeight()-html.ACTION_HEIGHT), width = can.base.Max(html.FLOAT_WIDTH, can.page.width()-can.getRiverWidth())
 		sup.onimport.size(sup, height, width, false), can.onappend.style(can, html.FLOAT)
 		can.onmotion.resize(can, target, function(height, width) { sup.onimport.size(sup, height, width, false) }, can.getHeaderHeight(), can.getRiverWidth())
 		var left = can.getRiverWidth()+html.PLUGIN_MARGIN+html.PLUGIN_PADDING+(can.user.mod.isCmd? 0: 120), top = can.page.height()/4; if (can.user.isMobile) { left = 0 }

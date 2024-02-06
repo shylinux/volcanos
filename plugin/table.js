@@ -134,7 +134,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			{text: item.nick||item.name||item.zone}], title: item.title, onclick: function(event) {
 				can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)
 				cb(event, event.currentTarget, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
-				can.user.isMobile && oncontextmenu(event)
+				// can.user.isMobile && oncontextmenu(event)
 			}, oncontextmenu: oncontextmenu,
 		}]); return ui._target
 	},
