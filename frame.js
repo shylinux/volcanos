@@ -370,7 +370,13 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	input: function(can, item, value, target, style) { if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
 		var icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
 		if (item.type == html.SELECT) { can.core.List(input.list, function(item) { item.inner = can.user.trans(can, item.inner, item._trans, html.INPUT) }) }
-		if (item.type == html.BUTTON && !input.value) { input.value = can.user.trans(can, item.name, item._trans) }
+		if (item.type == html.BUTTON && !input.value) {
+			if (item.name != item.value) {
+				input.value = item.value 
+			} else {
+				input.value = can.user.trans(can, item.name, item._trans)
+			}
+		}
 		input.onclick = item.onclick
 		if (item.type == html.TEXT) {
 			input.placeholder = can.user.trans(can, input.placeholder||input.name, item._trans, html.INPUT)
@@ -653,7 +659,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	tabview: function(can, meta, list, target) { var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT])
 		can.onappend.style(can, html.FLEX, ui.action)
 		can.core.List(can.base.getValid(list, can.core.Item(meta)), function(name, index) {
-			ui[name] = can.page.Append(can, ui.action, [{view: [html.TABS, html.DIV, name], onclick: function(event) {
+			ui[name] = can.page.Append(can, ui.action, [{view: [html.TABS, html.DIV, can.user.trans(can, name)], onclick: function(event) {
 				can.onmotion.select(can, ui.action, html.DIV_TABS, event.target)
 				if (can.onmotion.cache(can, function() { return name }, ui.output)) { return } meta[name](ui.output)
 			}, _init: function(target) { index == 0 && can.onmotion.delay(can, function() { target.click() }) }}])._target
@@ -702,8 +708,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			function _cb(sub, value, old) { if (value == old) { return } target.value = value, can.base.isFunc(cb) && cb(sub, value, old) }
 			target.onkeydown = function() { if (event.key == code.ESCAPE && target._can) { return target._can.close(), target.blur() } else if (event.key == code.ENTER) { can.base.isFunc(cb) && cb(event, target.value) } }
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function() { }; target[key] = function(event) { can.misc.Event(event, can, function(msg) {
-				function show(sub, cb) {
-					can.base.isFunc(cb) && cb(sub, _cb), can.onlayout.figure(event, can, sub._target), can.onmotion.toggle(can, sub._target, true)
+				function show(sub, cb) { can.base.isFunc(cb) && cb(sub, _cb)
+					can.onlayout.figure(event, can, sub._target), can.onmotion.toggle(can, sub._target, true)
 					sub.Status(html.HEIGHT, sub._output.offsetHeight), sub.Status(html.WIDTH, sub._output.offsetWidth)
 				}
 				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, last: last, cbs: function(cb) {

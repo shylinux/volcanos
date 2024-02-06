@@ -74,17 +74,21 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		if (window.parent == window && can.misc.Search(can, ice.MSG_SESSID) && can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)) && !can.user.isMailMaster) {
 			return can.misc.Search(can, ice.MSG_SESSID, "")
 		} can.user.info.sessid = can.misc.Search(can, ice.MSG_SESSID)
-		function lang(msg, cb) { can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)
+		function lang(msg, cb) { can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)||msg.Option(ice.MSG_LANGUAGE)
 			can.user.info.language? can.require([can.misc.Resource(can, nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/language/"+can.user.info.language+".js")], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb && cb()
 			can.onmotion.delay(can, function() { can.onimport._language(can) })
 		}
 		function show(msg) { var p = can.misc.Search(can, "redirect_uri")
 			if (p && location.pathname == web.BASIC_LOGIN) { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
 			var p = can.misc.Search(can, ice.BACK); if (p && location.pathname == web.CHAT_SSO) { return location.reload() }
-			can.user.info.userrole = msg.Option(ice.MSG_USERROLE), can.user.info.repos = msg.Option(nfs.REPOS)
-			can.user.info.nodetype = msg.Option(ice.MSG_NODETYPE)
+			can.user.info.usernick = can.Conf(aaa.USERNICK)
 			can.user.info.username = msg.Option(ice.MSG_USERNAME)
-			can.user.info.usernick = can.Conf(aaa.USERNICK), can.user.info.email = msg.Option(aaa.EMAIL), can.user.info.avatar = msg.Option(aaa.AVATAR), can.user.info.background = msg.Option(aaa.BACKGROUND)
+			can.user.info.userrole = msg.Option(ice.MSG_USERROLE)
+			can.user.info.nodetype = msg.Option(ice.MSG_NODETYPE)
+			can.user.info.repos = msg.Option(nfs.REPOS)
+			can.user.info.email = msg.Option(aaa.EMAIL)
+			can.user.info.avatar = msg.Option(aaa.AVATAR)
+			can.user.info.background = msg.Option(aaa.BACKGROUND)
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg), can.page.requireModules(can, [msg.Option("icon.lib")])
