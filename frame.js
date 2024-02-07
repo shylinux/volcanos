@@ -764,7 +764,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 					if (right) {
 						layout.top = top+can.base.Min(height-target.offsetHeight, 0)
 					} else if (rect.top-top-rect.height > top+height-rect.top) {
-						layout.top = top+can.base.Min(rect.top-target.offsetHeight, 0), height = rect.top-top
+						layout.top = can.base.Min(rect.top-target.offsetHeight, top)
 					}
 				}
 			}
