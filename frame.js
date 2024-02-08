@@ -253,7 +253,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}: {_space: "",
 					full: !can.isCmdMode() && "切换全屏",
 					open: !can.isCmdMode() && "打开链接",
-					qrcode: !can.isCmdMode() && "生成链接",
+					// qrcode: !can.isCmdMode() && "生成链接",
 					// chat: can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "发送聊天",
 					help: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_help") && can.Conf("_help") != "" && "查看文档",
 					vimer: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_fileline") && can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "查看源码",
@@ -371,7 +371,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
 		if (item.type == html.SELECT) { can.core.List(input.list, function(item) { item.inner = can.user.trans(can, item.inner, item._trans, html.INPUT) }) }
 		if (item.type == html.BUTTON && !input.value) {
-			if (item.name != item.value) {
+			if (item.name != item.value && item.value) {
 				input.value = item.value 
 			} else {
 				input.value = can.user.trans(can, item.name, item._trans)
