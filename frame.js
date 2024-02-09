@@ -363,7 +363,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var name = can.core.Split(item.nick||item.name||"").pop()||""; can.base.isIn(name,
 			tcp.SERVER, tcp.CLIENT, web.STUDIO, web.SERVICE, mdb.SEARCH,
 		) && (name = (item.index||"").split(".").slice(-2).join(".")), (type != html.PLUG) && (name = can.core.Keys(item.space||item._space, name))
-		var title = item.title || (can.user.isMobile? item.help: (item.help && item.help != name && !can.user.isEnglish(can)? name+"("+can.core.Split(item.help)[0]+")": name))
+		var title = item.title || can.user.isMobile && (can.user.isEnglish(can)? name: (item.help||name)) || (!item.help || name == item.help || can.user.isEnglish(can)? name: name+"("+can.core.Split(item.help)[0]+")")
 		target = can.base.isFunc(target)? target(): target
 		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], style: item.style, list: [{type: html.LEGEND, list: [item.icon && {icon: item.icon}, {text: title}]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
 	},

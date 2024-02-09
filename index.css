@@ -60,6 +60,7 @@ body {
 	--plug-height:var(--float-height); --plug-width:var(--float-width);
 	--desktop-height:684px; --desktop-width:var(--float-width); --desktop-icon-size:80px;
 	--action-button:10; --table-button:5; --river-margin:80px; --action-margin:200px;
+	--card-button:5;
 
 	--body-font-family:sans-serif;
 	--legend-font-family:var(--input-font-family); --status-font-family:var(--body-font-family);
@@ -75,6 +76,7 @@ body.width1 { /* 320-640 手机竖屏 */
 	--river-width:280px; --project-width:120px; --input-width:80px;
 	--river-margin:0; --plugin-margin:0; --button-margin:5px;
 	--table-button:2;
+	--card-button:3;
 	--form-width:320px;
 }
 body.width2 { /* 640-960 手机横屏 平板竖屏 笔记本调试 */
