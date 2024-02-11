@@ -712,7 +712,8 @@ fieldset.can.view>div.output div.item>span.toggle { width:var(--code-font-size);
 fieldset.can.view>div.output div.item>span.inner { color:var(--disable-fg-color); }
 fieldset.can.view>div.output div.list { border-left:var(--disable-fg-color) dashed 1px; padding-left:10px; margin-left:4px; }
 fieldset.form>div.output>div.code { display:flex; flex-direction:column; justify-content:center; align-items:center; }
-fieldset.form>div.output>div.code>div.info { font-size:20px; padding:40px 20px; overflow:auto; white-space:break-spaces; }
+fieldset.form>div.output>div.code>div.info { font-size:20px; text-align:center; padding:40px 20px; overflow:auto; white-space:break-spaces; }
+fieldset.form>div.output>div.code>div.info>span.title { font-style:italic; }
 fieldset.form>div.output>div.code>input[type=button] { font-size:24px; border:var(--notice-bg-color) solid 1px; height:48px; width:240px; margin:20px; display:block; }
 fieldset>div.output.form { padding:20px; display:flex; flex-direction:column; align-items:center; }
 fieldset>div.output.form>div.item { text-align:left; margin:10px; height:unset; }

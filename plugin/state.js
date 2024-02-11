@@ -107,11 +107,10 @@ Volcanos(chat.ONIMPORT, {
 		can.page.SelectArgs(can, can._action, "", function(target) { target.value = his[i++]||"" }); break
 	} can.Update(event) },
 })
-Volcanos(chat.ONACTION, {list: [
-		function(can) { if (!can.user.isMobile) { return "刷新数据" } },
+Volcanos(chat.ONACTION, {list: ["刷新数据",
 		function(can) { if (!can.user.isMobile) { return "刷新界面" } },
-		function(can) { if (!can.user.isMobile) { return "切换浮动" } },
-		function(can) { if (!can.user.isMobile) { return "切换全屏" } },
+		function(can) { if (!can.user.isMobile && !can.isCmdMode()) { return "切换浮动" } },
+		function(can) { if (!can.user.isMobile && !can.isCmdMode()) { return "切换全屏" } },
 		function(can) { if (can.isCmdMode()) { return "打开首页" } },
 		function(can) { if (can.ConfSpace() || can.isCmdMode() && can.misc.Search(can, ice.POD)) { return "打开空间" } },
 		function(can) { if (!can.isCmdMode()) { return "打开链接" } },
@@ -284,8 +283,7 @@ Volcanos(chat.ONACTION, {list: [
 		recorder.onstop = function() { cb(blobs, nfs.WEBM) }, recorder.start(1)
 	}) },
 })
-Volcanos(chat.ONEXPORT, {
-	_output: function(can, msg) {},
+Volcanos(chat.ONEXPORT, {_output: function(can, msg) {},
 	output: function(can, msg) {}, action: function(can, button, data) {}, record: function(can, value, key, data) {},
 	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
 	marginTop: function() { return 0 }, marginBottom: function() { return 0 },
@@ -299,7 +297,13 @@ Volcanos(chat.ONEXPORT, {
 	statusHeight: function(can) {
 		return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0) ||
 			can._status.innerHTML == "" && !can.page.ClassList.has(can, can._target, html.PLUG)? 0: html.STATUS_HEIGHT },
-	link: function(can) { var args = can.Option(); args.pod = can.ConfSpace(), args.cmd = can.ConfIndex(); return can.misc.MergePodCmd(can, args, true) },
+	link: function(can) {
+		var args = can.Option();
+		args.pod = can.ConfSpace(), args.cmd = can.ConfIndex();
+		can.core.Item(args, function(key, value) {
+			if (!value) { delete(args[key]) }
+		})
+		return can.misc.MergePodCmd(can, args, true) },
 	args: function(can) { return can.Option() },
 	close: function(can, msg) {},
 })
