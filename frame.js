@@ -70,7 +70,8 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 	},
 })
 Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.isLocalFile) { return }
-		return can.misc.WSS(can, {type: type||web.PORTAL, name: name||can.misc.Search(can, cli.DAEMON)||can.user.isChrome&&can.misc.sessionStorage(can, "can.daemon")||""}, function(event, msg, cmd, arg, cb) {
+		// return can.misc.WSS(can, {type: type||web.PORTAL, name: name||can.misc.Search(can, cli.DAEMON)||can.user.isChrome&&can.misc.sessionStorage(can, "can.daemon")||""}, function(event, msg, cmd, arg, cb) {
+		return can.misc.WSS(can, {type: type||web.PORTAL, name: name||can.misc.Search(can, cli.DAEMON)||""}, function(event, msg, cmd, arg, cb) {
 			if (cbs && can.core.CallFunc(cbs, {event: event, msg: msg, cmd: cmd, arg: arg, cb: cb})) { return }
 			var sub = can.ondaemon._list[can.core.Keys(msg[ice.MSG_TARGET])]||can; can.base.isFunc(sub.ondaemon[cmd])?
 				can.core.CallFunc(sub.ondaemon[cmd], {can: can, msg: msg, sub: sub, cmd: cmd, arg: arg, cb: cb}):
@@ -372,7 +373,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		if (item.type == html.SELECT) { can.core.List(input.list, function(item) { item.inner = can.user.trans(can, item.inner, item._trans, html.INPUT) }) }
 		if (item.type == html.BUTTON && !input.value) {
 			if (item.name != item.value && item.value) {
-				input.value = item.value 
+				input.value = item.value
 			} else {
 				input.value = can.user.trans(can, item.name, item._trans)
 			}
