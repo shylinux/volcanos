@@ -528,7 +528,7 @@ div.item.button.create>span.icon { font-size:28px; line-height:28px; height:var(
 div.item.button.insert>span.icon { font-size:28px; line-height:28px; height:var(--action-height); }
 div.item.button.refresh>span.icon { font-size:28px; line-height:28px; height:var(--action-height); }
 body.windows div.item.button.refresh>span.icon { font-size:22px; line-height:30px; }
-div.item.button._space.icons { margin-left:20px; flex-grow:1; }
+div.item.button._space.icons { margin-left:var(--action-height); flex-grow:1; }
 div.item.button._space.icons:hover { background-color:unset; cursor:unset; }
 fieldset.inner fieldset.story div.item.button._space.icons { margin-left:0; flex-grow:1; }
 div.tabs>span { font-style:italic; }
@@ -566,6 +566,8 @@ fieldset.float:not(.plug)>form.option>div.text.filter>span.value { display:none;
 fieldset.float:not(.plug)>form.option>div.text>span.icon { display:none; }
 body:not(.mobile) fieldset.float:not(.plug)>form.option>div.item:last-child { margin-right:var(--action-height); }
 body:not(.mobile) fieldset.float:not(.plug)>div.action>div.item:last-child { margin-right:var(--action-height); }
+fieldset.float>form.option>div.item:last-child { margin-right:0; }
+fieldset.float>div.action>div.item.button._space.icons { margin-left:0; }
 /* svg */
 svg text { font-size:var(--svg-font-size); font-family:var(--svg-font-family); stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }
 svg text.offline { stroke:var(--disable-fg-color); fill:var(--disable-fg-color); }

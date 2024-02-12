@@ -13,6 +13,7 @@ var ice = {
 	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", QS: "?", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
 	OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", PROCESS: "process", FAILURE: "failure",
 
+	CONTEXTS: "contexts",
 	HTTP: "http", HOME: "home",
 	HELP: "help", COPY: "copy",
 	MAIN: "main", AUTO: "auto",
@@ -389,16 +390,19 @@ var icon = {
 	"export": "bi bi-box-arrow-up", "import": "bi bi-box-arrow-in-down",
 
 	compile: "bi bi-tools", publish: "bi bi-send-check", version: "bi bi-tags", upgrade: "bi bi-rocket-takeoff", install: "bi bi-box-arrow-in-down",
-	vimer: "bi bi-code-slash", repos: "bi bi-git", build: "bi bi-tools", tag: "bi bi-tags",
+	// vimer: "bi bi-code-slash",
+	vimer: "bi bi-file-earmark-code",
+	repos: "bi bi-git", build: "bi bi-tools", tag: "bi bi-tags",
 	xterm: "bi bi-terminal", cmds: "bi bi-terminal", 
 
+	portal: "bi bi-globe",
 	desktop: "bi bi-window-desktop", admin: "bi bi-window-sidebar", dream: "bi bi-grid-3x3-gap", space: "bi bi-grid-3x3-gap",
 	configs: "bi bi-gear", config: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week",
 	save: "bi bi-floppy", trash: "bi bi-trash",
 
 	notifications: "bi bi-chat-right-text",
 	play: "bi bi-play-circle", app: "bi bi-box-arrow-down-left",
-	main: "bi bi-box-arrow-up-right", portal: "bi bi-box-arrow-up-right",
+	main: "bi bi-box-arrow-up-right",
 }
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",
