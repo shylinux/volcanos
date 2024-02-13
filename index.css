@@ -131,7 +131,7 @@ ol, ul { margin-left:var(--title-margin); }
 p { margin:var(--title-margin) 0; }
 kbd { padding:0 var(--input-padding); }
 /* output style */
-div.title>div.status { line-height:20px; }
+div.title>div.status { line-height:20px; display:flex; }
 div.title>div.status>div.item { font-size:var(--status-font-size); font-weight:normal; margin-right:var(--button-margin); float:left; }
 div.title>div.status>div.item:not(:hover) { color:var(--disable-fg-color); }
 div.title>div.status>div.item>i { margin-right:var(--input-margin); }
@@ -343,6 +343,7 @@ input[type=button].notice { border:var(--notice-bg-color) solid 1px; }
 table.content tr:hover { background-color:var(--tr-hover-bg-color); }
 table.content tr.select { background-color:var(--tr-hover-bg-color); }
 table.content tr.danger { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
+table.content tr.notice { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 table.content tr.disable { color:var(--disable-fg-color); }
 table.content tr.offline { color:var(--disable-fg-color); }
 table.content th { background-color:var(--th-bg-color); color:var(--th-fg-color); }
