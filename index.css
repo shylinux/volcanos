@@ -340,8 +340,8 @@ input[type=button].danger:hover { background-color:var(--danger-bg-color); color
 input[type=button].notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 input[type=button].danger { border:var(--danger-bg-color) solid 1px; }
 input[type=button].notice { border:var(--notice-bg-color) solid 1px; }
-table.content tr:hover { background-color:var(--tr-hover-bg-color); color:var(--hover-fg-color); }
-table.content tr.select { background-color:var(--tr-hover-bg-color); color:var(--hover-fg-color); }
+table.content tr:hover { background-color:var(--tr-hover-bg-color); }
+table.content tr.select { background-color:var(--tr-hover-bg-color); }
 table.content tr.danger { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 table.content tr.disable { color:var(--disable-fg-color); }
 table.content tr.offline { color:var(--disable-fg-color); }

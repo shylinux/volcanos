@@ -441,15 +441,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			})
 		}, _init: function(target) { can.page.style(can, target, html.WIDTH, (select.offsetWidth||80)+30), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
 	},
-	label: function(can, value, icons) {
-		return {view: html.STATUS, list: can.core.Item(icons||{version: "bi bi-tags",
-			time: can.base.isIn(can.ConfIndex(), web.DREAM, web.STORE)? "bi bi-tools": "bi bi-clock-history",
-		}, function(name, icon) { var text = value[name]
-			if (name == nfs.VERSION) { text = value.version.split("-").slice(0, 2).join("-") }
-			if (name == mdb.TIME) { text = can.base.TimeTrim(value[name]) }
-			return value[name] && {view: [[html.ITEM]], list: [{icon: icon}, {text: text}]}
-		})}
-	},
 	checkbox: function(can, table, msg) {
 		can.page.Select(can, table, "tr>th:first-child,tr>td:first-child", function(target) {
 			can.page.insertBefore(can, [{type: target.tagName, list: [{type: html.INPUT, data: {type: html.CHECKBOX}, onchange: function(event) {
@@ -463,6 +454,24 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		can.page.Select(can, table, "colgroup>col:first-child", function(target) {
 			can.page.insertBefore(can, [{type: target.tagName, className: html.CHECKBOX}], target)
 		})
+	},
+	buttons: function(can, value) {
+		return {view: html.ACTION, inner: value.action, _init: function(target) {
+			can.page.Select(can, target, html.INPUT, function(target) { if (!icon[target.name]) { return }
+				can.page.insertBefore(can, [{icon: icon[target.name], onclick: function(event) {
+					can.Update(can.request(event, value), [ctx.ACTION, target.name])
+				}}], target), can.onappend.style(can, mdb.ICONS, target)
+			})
+		}}
+	},
+	label: function(can, value, icons) {
+		return {view: html.STATUS, list: can.core.Item(icons||{version: "bi bi-tags",
+			time: can.base.isIn(can.ConfIndex(), web.DREAM, web.STORE)? "bi bi-tools": "bi bi-clock-history",
+		}, function(name, icon) { var text = value[name]
+			if (name == nfs.VERSION) { text = value.version.split("-").slice(0, 2).join("-") }
+			if (name == mdb.TIME) { text = can.base.TimeTrim(value[name]) }
+			return value[name] && {view: [[html.ITEM]], list: [{icon: icon}, {text: text}]}
+		})}
 	},
 	table: function(can, msg, cb, target, keys) { if (!msg || msg.Length() == 0) { return } var meta = can.base.Obj(msg.Option(mdb.META))
 		if (can.user.isMobile) { can.base.toLast(msg.append, mdb.TIME) } can.base.toLast(msg.append, web.LINK), can.base.toLast(msg.append, ctx.ACTION)

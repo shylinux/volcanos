@@ -190,6 +190,8 @@ var nfs = {
 	USR_ICONS: "usr/icons/", USR_GEOAREA: "usr/geoarea/", USR_PROGRAM: "usr/program/",
 	USR_INTSHELL: "usr/intshell/", USR_VOLCANOS: "usr/volcanos/", USR_LEARNING: "usr/learning/",
 	USR_NODE_MODULES: "usr/node_modules/",
+	USR_ICONS_ICEBERGS: "usr/icons/icebergs.jpg",
+	USR_ICONS_VOLCANOS: "usr/icons/volcanos.jpg",
 
 	REQUIRE: "/require/", REQUIRE_MODULES: "/require/modules/",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
