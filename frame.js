@@ -801,7 +801,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		return layout
 	},
 	_float: function(can) { var target = can._fields||can._target, sup = can._fields? can.sup: can
-		var height = can.base.Max(html.FLOAT_HEIGHT, can.page.height()-can.getHeaderHeight()-html.ACTION_HEIGHT), width = can.base.Max(html.FLOAT_WIDTH, can.page.width()-can.getRiverWidth())
+		var height = can.base.Max(html.FLOAT_HEIGHT, can.page.height()-can.getHeaderHeight()-html.ACTION_HEIGHT), width = can.base.Max(html.FLOAT_WIDTH, can.page.width()-can.getRiverWidth()-2*html.PLUGIN_MARGIN)
 		sup.onimport.size(sup, height, width, false), can.onappend.style(can, html.FLOAT)
 		can.onmotion.resize(can, target, function(height, width) { sup.onimport.size(sup, height, width, false) }, can.getHeaderHeight(), can.getRiverWidth())
 		var left = can.getRiverWidth()+html.PLUGIN_MARGIN+html.PLUGIN_PADDING+(can.user.mod.isCmd? 0: 120), top = can.page.height()/4; if (can.user.isMobile) { left = 0 }

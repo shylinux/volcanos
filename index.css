@@ -57,7 +57,7 @@ body {
  	--qrcode-height:364px; --qrcode-width:360px; --iframe-height:420px; --textarea-height:96px;
 	--card-height:160px; --card-width:320px;
 	--story-height:var(--float-height); --float-height:480px; --float-width:1200px;
-	--plug-height:var(--float-height); --plug-width:var(--float-width);
+	--plug-height:480px; --plug-width:var(--float-width);
 	--desktop-height:684px; --desktop-width:var(--float-width); --desktop-icon-size:80px;
 	--action-button:10; --table-button:5; --river-margin:80px; --action-margin:200px;
 	--card-button:5;
