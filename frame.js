@@ -457,9 +457,17 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	buttons: function(can, value) {
 		return {view: html.ACTION, inner: value.action, _init: function(target) {
-			can.page.Select(can, target, html.INPUT, function(target) { if (!icon[target.name]) { return }
+			can.onappend.mores(can, target, value, 5)
+			can.page.Select(can, target, html.INPUT, function(target) {
+				if (!icon[target.name]) {
+					target.onclick = function(event) {
+						can.Update(can.request(event, value), [ctx.ACTION, target.name])
+					}
+					return
+				}
 				can.page.insertBefore(can, [{icon: icon[target.name], onclick: function(event) {
-					can.Update(can.request(event, value), [ctx.ACTION, target.name])
+					target.onclick(event)
+					// can.Update(can.request(event, value), [ctx.ACTION, target.name])
 				}}], target), can.onappend.style(can, mdb.ICONS, target)
 			})
 		}}

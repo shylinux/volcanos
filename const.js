@@ -391,11 +391,12 @@ var icon = {
 	record1: "bi bi-images", record2: "bi bi-record-circle", record: "bi bi-record-circle",
 	"export": "bi bi-box-arrow-up", "import": "bi bi-box-arrow-in-down",
 
+	runtime: "bi bi-info-square",
 	compile: "bi bi-tools", publish: "bi bi-send-check", version: "bi bi-tags", upgrade: "bi bi-rocket-takeoff", install: "bi bi-box-arrow-in-down",
 	// vimer: "bi bi-code-slash",
 	vimer: "bi bi-file-earmark-code",
 	repos: "bi bi-git", build: "bi bi-tools", tag: "bi bi-tags",
-	xterm: "bi bi-terminal", cmds: "bi bi-terminal", 
+	xterm: "bi bi-terminal", cmds: "bi bi-terminal",
 
 	portal: "bi bi-globe",
 	desktop: "bi bi-window-desktop", admin: "bi bi-window-sidebar", dream: "bi bi-grid-3x3-gap", space: "bi bi-grid-3x3-gap",
