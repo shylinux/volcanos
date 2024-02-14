@@ -169,6 +169,7 @@ div.project div.zone>div.item span.icon.refresh { margin-top:-2px; }
 div.project div.zone:hover>div.item span.icon { display:block; }
 div.project div.zone>div.list>div.zone>div.item { text-align:left; padding-left:var(--button-padding); transition:all .5s; }
 div.project div.zone>div.list>div.zone>div.item:hover { margin-left:var(--button-margin); transition:all .3s; }
+div.item img { height:var(--header-height); width:var(--header-height); }
 div.item>i.bi-chevron-down { float:right; transition:all .5s; }
 div.item.open>i.bi-chevron-down { rotate:-180deg; transition:all .3s; }
 div.item.text.trans input:not([type=button]) { transition:all 1s; }
@@ -215,7 +216,7 @@ body>div.toast div.title { color:var(--notice-bg-color); font-style:italic; whit
 body>div.toast div.delete { color:var(--notice-bg-color); float:right; cursor:pointer; }
 body>div.toast div.delete:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 body>div.toast div.duration { color:var(--disable-fg-color); float:right; }
-body>div.toast div.content { color:var(--notice-bg-color); white-space:normal; text-align:center; padding:var(--input-padding); margin-bottom:var(--button-margin); min-height:28px; display:block; }
+body>div.toast div.content { color:var(--notice-bg-color); white-space:pre-line; text-align:center; padding:var(--input-padding); margin-bottom:var(--button-margin); min-height:28px; display:block; }
 body>div.toast div.progress { border:var(--box-notice); margin-left:0px; height:20px; clear:both; }
 body>div.toast div.progress div.current { background-color:var(--progress-bg-color); height:18px; }
 body>div.toast div.action:not(.hide) { width:100%; display:block; display:flex; flex-direction:row-reverse; gap:10px; }

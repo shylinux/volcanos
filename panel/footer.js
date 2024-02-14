@@ -1,5 +1,6 @@
 (function() { var NTIP = "ntip", NLOG = "nlog", NCMD = "ncmd", NKEY = "nkey"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.ondaemon._init(can)
+		can.Conf(cli.BEGIN, can.base.Time(null, "%H:%M:%S"))
 		if (!can.user.isMobile && !can.misc.isDebug(can)) { can.onmotion.hidden(can); return }
 		can.Conf(nfs.VERSION, can.base.trimPrefix(window._version, "?_v=").split("&")[0])
 		can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width())
@@ -69,7 +70,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		})
 	}) }) },
 })
-Volcanos(chat.ONEXPORT, {list: [NTIP, NLOG, NCMD, NKEY, html.WIDTH, html.HEIGHT, nfs.VERSION],
+// Volcanos(chat.ONEXPORT, {list: [NTIP, NLOG, NCMD, NKEY, html.WIDTH, html.HEIGHT, nfs.VERSION],
+Volcanos(chat.ONEXPORT, {list: [cli.BEGIN, nfs.VERSION],
 	height: function(can) { can.onexport._float(can, html.HEIGHT, "can.view") },
 	width: function(can) { can.onexport._float(can, html.WIDTH, "can.data") },
 	ntip: function(can) { can.onexport._float(can, NTIP, "can.toast") },
