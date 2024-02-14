@@ -395,6 +395,7 @@ var icon = {
 	compile: "bi bi-tools", publish: "bi bi-send-check", version: "bi bi-tags", upgrade: "bi bi-rocket-takeoff", install: "bi bi-box-arrow-in-down",
 	// vimer: "bi bi-code-slash",
 	vimer: "bi bi-file-earmark-code",
+	word: "bi bi-book",
 	repos: "bi bi-git", build: "bi bi-tools", tag: "bi bi-tags",
 	xterm: "bi bi-terminal", cmds: "bi bi-terminal",
 
