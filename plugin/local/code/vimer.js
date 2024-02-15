@@ -81,11 +81,11 @@ Volcanos(chat.ONACTION, {list: ["创建", "编译", "源码", "计划", "流程"
 	trash: function(event, can, button) { can.onaction._run(event, can, button, [can.Option(nfs.PATH)+can.Option(nfs.FILE)], function() { can._msg._tab._close() }) },
 	script: function(event, can, button) { can.onaction._runs(event, can, button) },
 	module: function(event, can, button) { can.onaction._runs(can.request(event, {title: "创建模块"}), can, button) },
-	compile: function(event, can, button) { var _toast = can.user.toastProcess(can, "编译中...")
-		can.runAction(event, button, [], function(msg) { can.ui.search && can.ui.search.hidden(), _toast.close()
+	compile: function(event, can, button) { var msg = can.request(event); msg.Option(chat._TOAST, "")
+		can.runAction(event, button, [], function(msg) { can.ui.search && can.ui.search.hidden()
 			if (msg.Length() > 0 || msg.Result()) { return can.onimport.exts(can, "inner/search.js", function(sub) { can.ui.search = sub, sub.select()
 				can.onmotion.delay(can, function() { can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY)) })
-			}) } var toast = can.user.toastProcess(can, "重启中..."); can.onmotion.delay(can, function() { toast.close(), can.user.toastSuccess(can) }, 3000)
+			}) } var toast = can.user.toastProcess(can, cli.RESTART); can.onmotion.delay(can, function() { toast.close(), can.user.toastSuccess(can, cli.RESTART) }, 3000)
 		})
 	},
 	"命令": function(event, can) { can.user.input(event, can, [{name: ctx.INDEX, need: "must"}, ctx.ARGS], function(list) { can.onimport.tabview(can, "", list[0]+(list[1]? mdb.FS+list[1]: ""), ctx.INDEX) }) },

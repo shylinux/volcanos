@@ -212,10 +212,12 @@ fieldset.input.float table.content td { padding:var(--input-padding); }
 /* float */
 body div.float { padding:var(--plugin-padding); }
 fieldset.Action>div.toast {
-	height:fit-content; width:fit-content; position:absolute; bottom:var(--action-height); right:0; z-index:10;
+	height:fit-content; width:fit-content; position:absolute; bottom:var(--footer-height); right:0; z-index:10;
+	max-height:var(--float-height); overflow:auto;
 }
 fieldset.Action>div.toast>div.toast {
 	margin:var(--plugin-margin); position:static;
+	transition:all 1s;
 }
 div.toast.float div.title { color:var(--notice-bg-color); font-style:italic; white-space:pre; padding:0 var(--input-padding); max-width:300px; overflow:auto; float:left; cursor:copy; }
 div.toast.float div.delete { color:var(--notice-bg-color); float:right; cursor:pointer; }
