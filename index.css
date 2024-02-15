@@ -692,7 +692,7 @@ fieldset.web.code.git.status>div.output table.content { width:100%; }
 fieldset.web.wiki.word>div.output>fieldset.story:not(.full) { margin:var(--title-margin) 0; }
 fieldset.web.wiki.word>div.output fieldset.story:not(.float):not(.full)>form.option>div.icon.delete { display:none; }
 fieldset.web.chat.script>div.output>fieldset.story { margin-top:20px; }
-fieldset.web.chat.script>div.output>table.content { position:sticky; top:2px; }
+/* fieldset.web.chat.script>div.output>table.content { position:sticky; top:2px; } */
 fieldset.web.chat.location>div.output>div.layout>div.layout { position:relative; }
 fieldset.web.chat.location>div.output .amap-toolbar { z-index:unset; }
 fieldset.web.chat.location>div.output .amap-controls { z-index:unset; }
