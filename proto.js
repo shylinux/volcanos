@@ -43,6 +43,7 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg
 			function set(key, value) {
 				if (key == "_method") { return msg._method = value }
+				if (key == "action" && value.indexOf("<input") == 0) { return }
 				if (typeof value == code.FUNCTION) { return msg[key] = value }
 				value == "" || msg.Option(key) || msg.Option(key, value)
 			}
