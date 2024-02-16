@@ -112,10 +112,10 @@ table.content.detail td { padding:var(--table-padding) 0; }
 table.content.detail td:first-child { text-align:center; }
 table.content.detail td i { display:none; }
 table.content:not(.detail) td input.icons { display:none; }
-table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; z-index:1; }
-table.content.checkbox td:first-child { text-align:center; position:sticky; left:2px; }
-table.content.action th:last-child { position:sticky; right:2px; }
-table.content.action td:last-child { text-align:center; position:sticky; right:2px; }
+table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding) var(--input-padding); position:sticky; left:2px; z-index:1; }
+table.content.checkbox td:first-child { text-align:center; padding:var(--table-padding) var(--input-padding); position:sticky; left:2px; }
+table.content.action th:last-child { text-align:center; padding:var(--table-padding) var(--input-padding); position:sticky; right:2px; }
+table.content.action td:last-child { text-align:center; padding:var(--table-padding) var(--input-padding); position:sticky; right:2px; }
 table.content input:not(:last-child) { margin-right:var(--button-margin); }
 body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.output>table.content td i { display:none; }
 body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.output>table.content td input.icons { display:unset; }
@@ -211,23 +211,23 @@ fieldset.input.float table.content th { padding:var(--input-padding); }
 fieldset.input.float table.content td { padding:var(--input-padding); }
 /* float */
 body div.float { padding:var(--plugin-padding); }
-fieldset.Action>div.toast {
-	height:fit-content; width:fit-content; position:absolute; bottom:var(--footer-height); right:0; z-index:10;
-	max-height:var(--float-height); overflow:auto;
+fieldset.Action>div.toast { height:fit-content; width:fit-content; overflow:auto;
+	position:absolute; right:var(--plugin-margin);
+	bottom:calc(var(--footer-height) + var(--action-height) + var(--plugin-margin)); z-index:11;
 }
-fieldset.Action>div.toast>div.toast {
-	margin:var(--plugin-margin); position:static;
-	transition:all 1s;
+body.mobile fieldset.Action>div.toast {
+	bottom:calc(var(--footer-height) + var(--action-height));
 }
+body.mobile fieldset.Action>div.toast>div.toast { margin-bottom:10px; box-shadow:var(--notice-box-shadow); }
+fieldset.Action>div.toast>div.toast { margin:var(--plugin-margin); position:static; transition:all 1s; }
 div.toast.float div.title { color:var(--notice-bg-color); font-style:italic; white-space:pre; padding:0 var(--input-padding); max-width:300px; overflow:auto; float:left; cursor:copy; }
-div.toast.float div.delete { color:var(--notice-bg-color); float:right; cursor:pointer; }
-div.toast.float div.delete:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+div.toast.float div.close { color:var(--notice-bg-color); float:right; cursor:pointer; }
+div.toast.float div.close:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.toast.float div.duration { color:var(--disable-fg-color); float:right; }
-div.toast.float div.content { color:var(--notice-bg-color); white-space:pre-line; text-align:center; padding:var(--input-padding); margin-bottom:var(--input-margin); min-height:28px; display:block; }
-div.toast.float div.progress { border:var(--box-notice); margin-left:0px; height:5px; clear:both; }
-div.toast.float div.progress div.current { background-color:var(--progress-bg-color); height:4px; }
-div.toast.float div.action:not(.hide) { width:100%; display:block; display:flex; flex-direction:row-reverse; gap:10px; }
-div.toast.float div.action>div.item { float:right; }
+div.toast.float div.content { color:var(--notice-bg-color); white-space:pre-line; text-align:center; padding:var(--input-padding); margin-bottom:var(--input-margin); min-height:28px; }
+div.toast.float div.progress { border:var(--box-notice); margin-left:0px; height:5px; }
+div.toast.float div.progress div.current { background-color:var(--progress-bg-color); height:3px; }
+div.toast.float div.action:not(.hide) { display:flex; flex-direction:row-reverse; gap:var(--button-margin); }
 div.toast.float div.action>div.item i { display:none; }
 div.toast.float div.action>div.item span { display:none; }
 div.toast.float div.action>div.item input { padding:0 20px; }
@@ -466,7 +466,7 @@ body div.carte { font-family:var(--code-font-family); }
 body { font-size:var(--body-font-size); }
 legend { font-size:var(--legend-font-size); line-height:30px; height:var(--action-height); }
 select, input { font-size:var(--body-font-size); height:var(--action-height); } input::placeholder, textarea::placeholder { font-style:italic; color:var(--disable-fg-color); }
-input[type=checkbox] { height:22px; width:22px; }
+input[type=checkbox] { height:16px; width:16px; }
 textarea { font-size:var(--body-font-size); padding:var(--input-padding); height:var(--textarea-height); width:100%; outline:none; resize:vertical; }
 table.content.full { width:100%; }
 table.content col.time { width:180px; }
@@ -514,6 +514,8 @@ div.item.text.url>input { width:var(--river-width); }
 div.item.text.line>input { width:var(--button-width) !important; }
 div.item.text.limit>input { width:var(--button-width); }
 div.item.text.offend>input { width:var(--button-width); }
+div.item.text.path>input { width:var(--project-width); }
+div.item.text.filter>input { width:var(--project-width); }
 div.item.text.will>input { border:var(--box-notice); }
 div.item.text>i:first-child { position:absolute; left:0; padding:var(--input-padding); }
 div.item.text>span.icon { font-size:var(--icon-font-size); padding:var(--input-padding); position:absolute; right:0; visibility:hidden; }
@@ -756,6 +758,7 @@ body.width6 fieldset.desktop>div.output>div.desktop>fieldset.web.chat.iframe>for
 body.width2 fieldset.desktop>div.output>div.desktop>fieldset>form.option>div.item:last-child { margin-right:0; }
 body.mobile fieldset.word:not(.cmd)>form.option>div.item>input[name=path] { width:180px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
+body.mobile fieldset.vimer>form.option div.item.path input { width:var(--input-width); }
 body.mobile fieldset.vimer>form.option div.item.line { display:none; }
 body.mobile fieldset.Action>div.output>fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd):not(:first-child) { margin:20px 0; }
 body.mobile table.content.detail { word-break:break-all; white-space:unset; }

@@ -39,7 +39,10 @@ Volcanos(chat.ONACTION, {_init: function(can, target) { can.db.list = can.misc.S
 		})
 		can._toast = can.page.Append(can, can._target, ["toast"])._target
 	},
-	onsize: function(can, msg, height, width) { can.Conf({height: can.base.Min(height, 240), width: width}) },
+	onsize: function(can, msg, height, width) {
+		can.Conf({height: can.base.Min(height, 240), width: width})
+		can.page.style(can, can._toast, html.MAX_HEIGHT, can.page.height()-can.getHeaderHeight()-can.getFooterHeight()-(html.PLUGIN_MARGIN+html.PLUGIN_PADDING+html.ACTION_HEIGHT))
+	},
 	onlogin: function(can, msg) {
 		can.Conf(html.MARGIN_Y, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN+html.ACTION_HEIGHT)
 		can.Conf(html.MARGIN_X, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN)
