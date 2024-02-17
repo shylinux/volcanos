@@ -112,10 +112,14 @@ table.content.detail td { padding:var(--table-padding) 0; }
 table.content.detail td:first-child { text-align:center; }
 table.content.detail td i { display:none; }
 table.content:not(.detail) td input.icons { display:none; }
-table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding) var(--input-padding); position:sticky; left:2px; z-index:1; }
-table.content.checkbox td:first-child { text-align:center; padding:var(--table-padding) var(--input-padding); position:sticky; left:2px; }
-table.content.action th:last-child { text-align:center; padding:var(--table-padding) var(--input-padding); position:sticky; right:2px; }
-table.content.action td:last-child { text-align:center; padding:var(--table-padding) var(--input-padding); position:sticky; right:2px; }
+table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; }
+table.content.checkbox td:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; }
+table.content.action th:last-child { text-align:center; padding:var(--table-padding); position:sticky; right:2px; }
+table.content.action td:last-child { text-align:center; padding:var(--table-padding); position:sticky; right:2px; }
+body.mobile table.content.checkbox th:first-child { padding:var(--table-padding) var(--input-padding); }
+body.mobile table.content.checkbox td:first-child { padding:var(--table-padding) var(--input-padding); }
+body.mobile table.content.action th:last-child { padding:var(--table-padding) var(--input-padding); }
+body.mobile table.content.action td:last-child { padding:var(--table-padding) var(--input-padding); }
 table.content input:not(:last-child) { margin-right:var(--button-margin); }
 body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.output>table.content td i { display:none; }
 body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.output>table.content td input.icons { display:unset; }
@@ -206,14 +210,14 @@ fieldset.input.date>div.output td span.lunar.fest { color:red; }
 fieldset.input.date>div.output td { cursor:pointer; }
 fieldset.input.date>div.status { text-align:center; }
 fieldset.input.date>div.status>div.today { padding:var(--input-padding); }
-fieldset.input.float { padding:0; z-index:100; }
+fieldset.input.float { padding:0; }
 fieldset.input.float table.content th { padding:var(--input-padding); }
 fieldset.input.float table.content td { padding:var(--input-padding); }
 /* float */
 body div.float { padding:var(--plugin-padding); }
 fieldset.Action>div.toast { height:fit-content; width:fit-content; overflow:auto;
 	position:absolute; right:var(--plugin-margin);
-	bottom:calc(var(--footer-height) + var(--action-height) + var(--plugin-margin)); z-index:11;
+	bottom:calc(var(--footer-height) + var(--action-height) + var(--plugin-margin));
 }
 body.mobile fieldset.Action>div.toast {
 	bottom:calc(var(--footer-height) + var(--action-height));
@@ -239,7 +243,7 @@ body>div.carte div.item { white-space:pre; padding:var(--button-padding); }
 body>div.carte div.item span.icon.next { line-height:22px; height:22px; float:right; }
 body>div.carte.select.float>div.item { text-align:center; }
 body>div.carte.header.avatar img { width:370px; }
-body>div.input { padding:var(--plugin-padding); z-index:100; }
+body>div.input { padding:var(--plugin-padding); }
 body>div.input:hover { box-shadow:var(--notice-box-shadow); }
 body>div.input>legend { margin-left:122px; }
 body>div.input tr { margin:var(--button-margin); }
@@ -306,10 +310,10 @@ div.action, div.output, div.status, div.project, div.content, div.profile, div.d
 legend, form.option>div.item, div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item { float:left; display:flex; align-items:center; }
 fieldset.story, fieldset>div.output, fieldset>div.status, div.output>div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
 fieldset.story { position:sticky; left:0; }
-fieldset.full, fieldset.float { position:fixed; z-index:10; }
+fieldset.auto, fieldset.full, fieldset.float { position:fixed; }
 fieldset.full { position:fixed; left:0; top:0; }
 fieldset.plug { position:absolute; bottom:0; right:0; }
-div.float { position:fixed; z-index:100; }
+div.float { position:fixed; }
 div.output { position:relative; } div.content { position:relative; }
 div.output>div.code { position:sticky; left:0; }
 div.output>div.code>img { margin-bottom:-3px; }
@@ -414,6 +418,16 @@ div.carte div.item { background-color:var(--carte-bg-color); color:var(--carte-f
 div.carte div.item:hover { background-color:var(--hover-bg-color); }
 div.carte div.item.danger:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 div.carte div.item.notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+
+/* z-index */
+fieldset.input.float { z-index:10; }
+div.input.float { z-index:10; }
+div.carte.float { z-index:10; }
+fieldset.Action>div.toast { z-index:10; }
+fieldset.full, fieldset.auto { z-index:10; }
+fieldset.float { z-index:8; }
+table.content thead { z-index:2; }
+table.content.checkbox th:first-child { z-index:2; }
 /* border */
 textarea { border:var(--box-border); }
 table.content th.select { border:var(--notice-bg-color) solid 1px; }
@@ -508,6 +522,7 @@ body.windows form.option>div.item.icon.menu { font-size:22px; line-height:32px; 
 body.windows form.option>div.item.icon.refresh { font-size:24px; line-height:28px; }
 body.windows form.option>div.item.icon.goback { font-size:24px; line-height:28px; }
 div.item.text { position:relative; }
+div.item.text.filter input { padding-left:22px; }
 div.item.text>input { width:var(--input-width); height:var(--action-height); }
 div.item.text.id>input { width:var(--button-width); }
 div.item.text.url>input { width:var(--river-width); }
@@ -598,7 +613,7 @@ div.story[data-type=spark] { cursor:copy; }
 /* mobile */
 body.mobile table.content { width:100%; }
 body.mobile div.output.card { overflow-x:hidden; }
-body.mobile div.output>div.project { position:absolute; left:0; top:0; z-index:1; }
+body.mobile div.output>div.project { position:absolute; left:0; top:0; z-index:2; }
 body.mobile div.output>div.project { flex:0 0 320px; width:320px; }
 body.mobile div.output>div.project { background-color:var(--plugin-bg-color); }
 body.mobile fieldset>div.output>div.code>img { max-width:390px; }
@@ -615,7 +630,7 @@ body.mobile fieldset.Header>div.output div.item.text.title.search { display:none
 body.mobile fieldset.Search>div.action>div.item.filter>input { width:100%; }
 body.mobile fieldset.Search>div.action>div.item.filter>span { position:absolute; }
 body.mobile fieldset.Search>div.action>div.item.filter { width:100%; position:relative; }
-body.mobile fieldset.River { position:fixed; top:var(--header-height); z-index:11; }
+body.mobile fieldset.River { position:fixed; top:var(--header-height); z-index:10; }
 body.mobile fieldset.River>div.output { font-size:1.4rem; min-width:var(--project-width); }
 html:not(.login) body.mobile:not(.cmd) fieldset.Action { margin-top:var(--header-height); }
 body.mobile fieldset.Action.cmd { margin-top:0; }
@@ -701,7 +716,7 @@ fieldset.web.chat.location>div.output>div.layout>div.layout { position:relative;
 fieldset.web.chat.location>div.output .amap-toolbar { z-index:unset; }
 fieldset.web.chat.location>div.output .amap-controls { z-index:unset; }
 fieldset.web.chat.location>div.output .amap-maptypecontrol { z-index:unset; }
-fieldset.web.chat.location>div.output>div.layout>div.layout>div.profile { background-color:var(--plugin-bg-color); position:absolute; right:0; width:360px; z-index:9; border-left:none; }
+fieldset.web.chat.location>div.output>div.layout>div.layout>div.profile { background-color:var(--plugin-bg-color); position:absolute; right:0; width:360px; z-index:2; border-left:none; }
 fieldset.can.data>div.output { font-family:var(--code-font-family); font-size:var(--code-font-size); white-space:pre; }
 fieldset.can.data>div.output div.item:not(.hide) { display:flex; gap:5px; }
 fieldset.can.data>div.output div.view div.item:not(.hide) { display:block; }

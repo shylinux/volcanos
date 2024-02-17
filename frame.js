@@ -81,6 +81,7 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.is
 	}, _list: [""], pwd: function(can, arg) { can.misc.sessionStorage(can, "can.daemon", can._wss_name = can.ondaemon._list[0] = arg[0]) },
 	close: function(can, msg, sub) { can.user.close() }, exit: function(can, msg, sub) { can.user.close() },
 	toast: function(can, sub, arg, cb) { can.core.CallFunc(can.user.toast, [sub].concat(arg)) },
+	refresh: function(can, sub) { can.base.isFunc(sub.Update) && sub.Update() },
 	grow: function(can, msg, sub, arg) {
 		var _can = sub._fields && sub.sup? sub.sup: sub
 		if (!_can.onimport._grow) { debugger }
@@ -91,7 +92,6 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.is
 		if (!_can.onimport._rich) { debugger }
 		_can.onimport._rich(_can, msg, arg)
 	},
-	refresh: function(can, sub) { can.base.isFunc(sub.Update) && sub.Update() },
 	action: function(can, msg, sub, arg) {
 		if (arg[0] == "ctrl") { var list = []
 			can.page.Select(can, can._root._target, html.INPUT, function(target, index) { list[index] = target
@@ -372,7 +372,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], style: item.style, list: [{type: html.LEGEND, list: [item.icon && {icon: item.icon}, {text: title}]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
 	},
 	input: function(can, item, value, target, style) { if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
-		var icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
+		var _icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
 		if (item.type == html.SELECT) { can.core.List(input.list, function(item) { item.inner = can.user.trans(can, item.inner, item._trans, html.INPUT) }) }
 		if (item.type == html.BUTTON && !input.value) {
 			if (item.name != item.value && item.value) {
@@ -390,10 +390,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}
 			input.onkeyup = item.onkeyup||function(event) { if (item.name == html.FILTER) {
 				can.onmotion.filter(can, event.target.value)
-			} }, icon.push({icon: mdb.DELETE, onclick: function(event) { _input.value = "", input.onkeyup({target: event.target.previousSibling}) }})
+			} }, _icon.push({icon: mdb.DELETE, onclick: function(event) { _input.value = "", input.onkeyup({target: event.target.previousSibling}) }})
+			if (item.name == html.FILTER) { item.icon = item.icon||icon.search }
 		} if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }
 		var _style = can.page.buttonStyle(can, item.name)
-		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name, item._className, html.FLEX], _style)], list: [item.icon && {icon: item.icon}, input].concat(icon), _init: function(target, _input) {
+		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name, item._className, html.FLEX], _style)], list: [item.icon && {icon: item.icon}, input].concat(_icon), _init: function(target, _input) {
 			if (item.type == html.SELECT) {
 				_input.select.value = value||_item.value||_item.values[0]
 				can.onappend.select(can, _input.select, _item)
@@ -930,7 +931,9 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		can.page.style(can, target, html.LEFT, left, html.TOP, top)
 		target.onclick = function(event) {
 			// can.onkeymap.prevent(event)
-			can.page.Select(can, document.body, "fieldset.float", function(target) { can.page.style(can, target, "z-index", 8) }), can.page.style(can, target, "z-index", 9)
+			can.page.Select(can, document.body, html.FIELDSET_FLOAT, function(_target) {
+				can.page.style(can, _target, "z-index", _target == target? 9: 8)
+			})
 		}
 	},
 	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), target },
