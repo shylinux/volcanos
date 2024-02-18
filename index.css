@@ -229,6 +229,15 @@ div.toast.float div.close { color:var(--notice-bg-color); float:right; cursor:po
 div.toast.float div.close:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.toast.float div.duration { color:var(--disable-fg-color); float:right; }
 div.toast.float div.content { color:var(--notice-bg-color); white-space:pre-line; text-align:center; padding:var(--input-padding); margin-bottom:var(--input-margin); min-height:28px; }
+div.toast.float div.duration {
+	font-size:var(--status-font-size);
+}
+div.toast.float div.title {
+	font-size:var(--status-font-size);
+}
+div.toast.float div.content {
+	/* font-size:var(--status-font-size); */
+}
 div.toast.float.warn div.content { white-space:pre; text-align:left; display:block; overflow:auto; }
 /* div.toast.float div.progress { border:var(--box-notice); margin-left:0px; height:5px; } */
 div.toast.float div.progress { margin-left:0px; height:5px; }
