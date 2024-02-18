@@ -225,7 +225,7 @@ body.mobile fieldset.Action>div.toast {
 body.mobile fieldset.Action>div.toast>div.toast { margin-bottom:10px; }
 fieldset.Action>div.toast>div.toast { margin:var(--plugin-margin); position:static; transition:all 1s; }
 div.toast.float div.title { color:var(--notice-bg-color); font-style:italic; white-space:pre; padding:0 var(--input-padding); max-width:300px; overflow:auto; float:left; cursor:copy; }
-div.toast.float div.close { color:var(--notice-bg-color); float:right; cursor:pointer; }
+div.toast.float div.close { color:var(--notice-bg-color); float:right; cursor:pointer; margin-top:-5px; }
 div.toast.float div.close:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.toast.float div.duration { color:var(--disable-fg-color); float:right; }
 div.toast.float div.content { color:var(--notice-bg-color); white-space:pre-line; text-align:center; padding:var(--input-padding); margin-bottom:var(--input-margin); min-height:28px; }
