@@ -229,9 +229,11 @@ div.toast.float div.close { color:var(--notice-bg-color); float:right; cursor:po
 div.toast.float div.close:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.toast.float div.duration { color:var(--disable-fg-color); float:right; }
 div.toast.float div.content { color:var(--notice-bg-color); white-space:pre-line; text-align:center; padding:var(--input-padding); margin-bottom:var(--input-margin); min-height:28px; }
-div.toast.warn.float div.content { white-space:pre; text-align:left; display:block; overflow:auto; }
-div.toast.float div.progress { border:var(--box-notice); margin-left:0px; height:5px; }
-div.toast.float div.progress div.current { background-color:var(--progress-bg-color); height:3px; }
+div.toast.float.warn div.content { white-space:pre; text-align:left; display:block; overflow:auto; }
+/* div.toast.float div.progress { border:var(--box-notice); margin-left:0px; height:5px; } */
+div.toast.float div.progress { margin-left:0px; height:5px; }
+div.toast.float div.progress div.current { background-color:var(--notice-bg-color); height:3px; }
+/* div.toast.float div.progress div.current { background-color:var(--progress-bg-color); height:3px; } */
 div.toast.float div.action:not(.hide) { display:flex; flex-direction:row-reverse; gap:var(--button-margin); }
 div.toast.float div.action>div.item i { display:none; }
 div.toast.float div.action>div.item span { display:none; }
