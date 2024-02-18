@@ -755,7 +755,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 })
 Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._root._target; var height = can.page.height(), width = can.page.width()
 		can.page.SelectChild(can, target, can.page.Keys(html.FIELDSET_HEAD, html.FIELDSET_FOOT), function(field) { height -= field.offsetHeight })
-		can.page.SelectChild(can, target, html.FIELDSET_LEFT, function(field) { can.user.isMobile || can.page.isDisplay(field) && (width -= field.offsetWidth)
+		can.page.SelectChild(can, target, html.FIELDSET_LEFT, function(field) {
+			can.page.styleHeight(can, field, height)
+			can.user.isMobile || can.page.isDisplay(field) && (width -= field.offsetWidth)
 			var h = height; can.page.SelectChild(can, field, html.DIV_ACTION, function(action) {
 				h -= action.offsetHeight; if (action.offsetHeight == 0 && html.RIVER_MARGIN > 0) { h -= html.ACTION_HEIGHT }
 			}), can.user.isMobile || (h -= 2*html.RIVER_MARGIN-html.ACTION_HEIGHT)

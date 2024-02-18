@@ -43,15 +43,15 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		{name: mdb.TEXT, value: "hello", _trans: "简介"},
 	], function(args) { can.runAction(event, mdb.CREATE, args, function(msg) { can.misc.Search(can, {river: msg.Result()}) }) }) },
 	share: function(event, can) { can.core.CallFunc(can.ondetail.share, {event: event, can: can}) },
-	onsize: function(can, height) { var margin = 0
-		if (can.page.isDisplay(can._action)) { margin = can._action.offsetHeight + html.PLUGIN_MARGIN } var _margin = margin
+	onsize: function(can, height) { var margin = 68, _margin = margin
 		can.page.style(can, can._output, html.MARGIN, "0px", html.HEIGHT, "", html.MAX_HEIGHT, "")
 		if (can._output.offsetHeight < height-margin) {
 			margin += (height-margin-can._output.offsetHeight)/2
 		} else {
-			can.page.style(can, can._output, html.MAX_HEIGHT, height-margin)
+			can.page.style(can, can._output, html.MAX_HEIGHT, height-margin-16)
 		}
 		can.page.style(can, can._output, html.MARGIN, margin+"px 0px "+(margin-_margin)+"px")
+		can._output.scrollTop = can._scrollTop
 		can.onexport.scroll(can)
 	},
 	refresh: function(event, can) { can.misc.Search(can, {river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM)}) },
@@ -71,6 +71,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		})
 	},
 	action: function(event, can, river, storm) {
+		can._scrollTop = can._output.scrollTop
 		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], function(target) { can.page.ClassList.del(can, target, html.SELECT) })
 		can.onmotion.select(can, can.ui.sublist[river], html.DIV_ITEM, can.ui.storm_list[can.core.Keys(river, storm)])
 		can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
