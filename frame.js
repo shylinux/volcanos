@@ -279,7 +279,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		})
 	},
 	_output: function(can, msg, display, cb, output, status, action) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
-		if (msg.IsErr()) { return can.user.toastFailure(can, msg.Result()) }
+		if (msg.IsErr()) { return can.onappend.style(can, "warn", can.user.toastFailure(can, msg.Result())._target) }
 		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/require/src/") && delete(Volcanos.meta.cache[display])
 		Volcanos(display, {_root: can._root, _follow: can.core.Keys(can._follow, display), _fields: can._target, _target: output, _path: display||chat.PLUGIN_TABLE_JS,
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
@@ -373,7 +373,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	input: function(can, item, value, target, style) { if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
 		var _icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
-		if (item.type == html.SELECT) { can.core.List(input.list, function(item) { item.inner = can.user.trans(can, item.inner, item._trans, html.INPUT) }) }
+		if (item.type == html.SELECT) {
+			can.core.List(input.list, function(item) { item.inner = can.user.trans(can, item.inner, item._trans, html.INPUT) })
+			item.icon = item.icon||icon[item.name]
+		}
 		if (item.type == html.BUTTON && !input.value) {
 			if (item.name != item.value && item.value) {
 				input.value = item.value
@@ -392,9 +395,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.onmotion.filter(can, event.target.value)
 			} }, _icon.push({icon: mdb.DELETE, onclick: function(event) { _input.value = "", input.onkeyup({target: event.target.previousSibling}) }})
 			if (item.name == html.FILTER) { item.icon = item.icon||icon.search }
+			item.icon = item.icon||icon[item.name]
 		} if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }
 		var _style = can.page.buttonStyle(can, item.name)
-		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name, item._className, html.FLEX], _style)], list: [item.icon && {icon: item.icon}, input].concat(_icon), _init: function(target, _input) {
+		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name, item._className, html.FLEX , item.icon? "_icon": ""], _style)], list: [item.icon && {icon: item.icon}, input].concat(_icon), _init: function(target, _input) {
 			if (item.type == html.SELECT) {
 				_input.select.value = value||_item.value||_item.values[0]
 				can.onappend.select(can, _input.select, _item)

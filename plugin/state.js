@@ -1,5 +1,6 @@
 Volcanos(chat.ONIMPORT, {
-	_process: function(can, msg) { if (msg.IsErr()) { can.user.toastFailure(can, msg.Result()); }
+	_process: function(can, msg) {
+		if (msg.IsErr()) { can.onappend.style(can, "warn", can.user.toastFailure(can, msg.Result())._target) }
 		if (can.onimport[msg.OptionProcess()]) { return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, sub: can.sub, msg: msg, arg: msg.Option("_arg")}), true } },
 	_location: function(can, msg, arg) { can.user.jumps(arg) },
 	_replace: function(can, msg, arg) { location.replace(arg) },

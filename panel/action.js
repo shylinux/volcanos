@@ -159,7 +159,8 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 			if (typeof item == code.FUNCTION) { item = item(can) } if (item) { return item.index||item }
 		})), function(msg) {
 			can.core.List(storm.index, function(item) { if (!item || typeof item == code.FUNCTION) { return }
-				msg.Push(ctx.ARGS, JSON.stringify(item.args||[])).Push(ctx.STYLE, item.style||"").Push(ctx.DISPLAY, item.display||"")
+				msg.Push(ctx.ARGS, JSON.stringify(item.args||[]))
+				msg.Push(ctx.STYLE, item.style||"").Push(ctx.DISPLAY, item.display||"")
 				msg.Push(web.SPACE, item.space||"").Push("_ismain", ice.TRUE)
 			}), cb(msg)
 		})
