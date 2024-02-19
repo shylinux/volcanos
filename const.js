@@ -407,11 +407,13 @@ var icon = {
 	tag: "bi bi-tags",
 
 	path: "bi bi-folder2", file: "bi bi-file-earmark-text", line: "bi bi-sort-numeric-down",
-	hash: "bi bi-hash", zone: "bi bi-diagram-3", id: "bi bi-sort-numeric-down",
+	key: "bi bi-hash", hash: "bi bi-hash", zone: "bi bi-diagram-3", id: "bi bi-sort-numeric-down",
 	branch: "bi bi-diagram-3", commit: "bi bi-hash", message: "bi bi-info-square",
 	domain: "bi bi-globe", "client.name": "bi bi-globe",
 	machine: "bi bi-pc-display", port: "bi bi-hash",
 	arch: "bi bi-cpu", os: "bi bi-ubuntu",
+	role: "bi bi-person-square",
+	username: "bi bi-person-gear",
 
 	portal: "bi bi-globe",
 	desktop: "bi bi-window-desktop", admin: "bi bi-window-sidebar", dream: "bi bi-grid-3x3-gap", space: "bi bi-grid-3x3-gap",

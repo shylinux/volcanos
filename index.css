@@ -158,7 +158,7 @@ div.project div.list fieldset { position:static; }
 div.project div.item:not(.hide) { white-space:pre; line-height:24px; padding:0 var(--button-margin); display:flex; align-items:center; }
 div.project div.item img { margin:var(--input-margin) !important; height:var(--action-height); width:var(--action-height); }
 div.project div.item.filter { padding:0; width:100%; }
-div.project div.item.filter>input { padding:0 25px; width:100%; }
+div.project div.item.filter>input { padding:0 25px; width:100% !important; }
 div.project div.item.search { padding:0; width:100%; }
 div.project div.item.search>input { padding:0 25px; width:100%; }
 div.project div.expand { margin-right:var(--input-margin); float:left; transition:all .5s; }
@@ -314,7 +314,8 @@ fieldset.story, fieldset>div.output, fieldset>div.status, div.output>div.project
 fieldset.story { position:sticky; left:0; }
 fieldset.auto, fieldset.full, fieldset.float { position:fixed; }
 fieldset.full { position:fixed; left:0; top:0; }
-fieldset.plug { position:sticky; bottom:0; float:right; }
+fieldset.plug { position:sticky; bottom:0; right:0; float:right; }
+fieldset.vimer>div.output fieldset.plug { position:absolute; bottom:0; right:0; float:right; }
 div.float { position:fixed; }
 div.output { position:relative; } div.content { position:relative; }
 div.output>div.code { position:sticky; left:0; }
@@ -538,8 +539,8 @@ div.item.text.url>input { width:var(--river-width); }
 div.item.text.line>input { width:var(--button-width) !important; }
 div.item.text.limit>input { width:var(--button-width); }
 div.item.text.offend>input { width:var(--button-width); }
-div.item.text.path>input { width:var(--project-width); }
-div.item.text.filter>input { width:var(--project-width); }
+body:not(.width2) div.item.text.path>input { width:var(--project-width); }
+body:not(.width2) div.item.text.filter>input { width:var(--project-width); }
 div.item.text.will>input { border:var(--box-notice); }
 div.item.text>i:first-child { color:var(--disable-fg-color); position:absolute; left:0; padding:var(--input-padding); }
 div.item.text:hover>i:first-child { color:unset; }
@@ -801,7 +802,7 @@ body.white fieldset.inner.cmd>div.output>div.layout>div.tabs div:not(.select):no
 body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; border-top:var(--box-border); }
 body:not(.debug) fieldset.plugin.can._notfound { display:none; }
 fieldset.story.web.chat.wx.agent { position:fixed; left:0; bottom:0; }
-fieldset.story>form.option>div.item.text.path>input { width:var(--input-width); }
+/* fieldset.story>form.option>div.item.text.path>input { width:var(--input-width); } */
 div.output>fieldset.xterm.story>form.option>div.item.hash input { width:var(--form-width); }
 div.output>fieldset.iframe.story>form.option>div.item.hash input { width:var(--form-width); }
 /* scrollbar */
