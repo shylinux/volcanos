@@ -23,7 +23,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.page.Append(can, target, list), can.onmotion.orderShow(can, target)
 	},
 	_vimer_zone: function(can, msg, target) { msg.Table(function(value) { var action = can.page.parseAction(can, value)
-		can.onimport.item(can, {icon: can.misc.Resource(can, value.icon||value.avatar_url), name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]), title: value[mdb.TEXT]||value.description}, function(event) {
+		can.onimport.item(can, {type: value.type, status: value.status, icon: can.misc.Resource(can, value.icon||value.icons||value.avatar_url), name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]), title: value[mdb.TEXT]||value.description}, function(event) {
 			can.sup.onexport.record(can, value.name, mdb.NAME, value, event)
 		}, function() { return shy(action, function(event, button, meta, carte) { can.misc.Event(event, can, function(msg) { carte.close()
 			can.sup.onexport.action(can, button, value) || can.run(event, [ctx.ACTION, button], function(msg) { can.sup.onimport._process(can.sup, msg) || can.Update() })
@@ -37,7 +37,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			"=", function() { can.onimport.tabview(can, "", [sub.ConfIndex()].concat(sub.Conf(ctx.ARGS)).join(","), ctx.INDEX) },
 		))
 		var action = can.core.List(sub.Conf(ctx.INPUTS), function(item) { if (item.type == html.BUTTON && [ice.LIST, ice.BACK].indexOf(item.name) == -1) { return item.name } })
-		sub.onexport.output = function(_sub, msg) { zone._total(msg.Length()), cb(sub, msg)
+		sub.onexport.output = function(_sub, msg) {
+			zone._total(msg.Length()), cb(sub, msg)
 			zone._menu = shy({_trans: sub._trans}, action.concat(can.base.Obj(msg.Option(ice.MSG_ACTION), [])), function(event, button, meta, carte) {
 				sub.Update(event, [ctx.ACTION, button]), carte.close()
 			}), can.user.toastSuccess(can)
@@ -129,7 +130,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.user.carteItem(event, can, item)
 		}
 		var icon = item.icon||item.icons
-		var ui = can.page.Append(can, target, [{view: html.ITEM, list: [
+		var ui = can.page.Append(can, target, [{view: [[html.ITEM, item.type, item.status]], list: [
 			icon && (can.base.contains(icon, ice.HTTP, ".png", ".jpg")? {img: can.misc.Resource(can, icon)}: {icon: icon}),
 			{text: item.nick||item.name||item.zone}], title: item.title, onclick: function(event) {
 				can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)

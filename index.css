@@ -89,6 +89,9 @@ body.width5 { /* 1600-1920 */
 }
 body.width6 { /* 1920-2240 显示器 */
 	--river-width:280px; --input-width:180px; --card-height:160px;
+	--project-width:280px;
+	--float-height:640px;
+	--float-width:1400;
 }
 /* element */
 * { box-sizing:border-box; padding:0; border:0; margin:0; tab-size:4; }
@@ -217,7 +220,8 @@ fieldset.input.float table.content td { padding:var(--input-padding); }
 body div.float { padding:var(--plugin-padding); }
 fieldset.Action>div.toast { height:fit-content; width:fit-content; overflow:auto;
 	position:absolute; right:var(--plugin-margin);
-	bottom:calc(var(--footer-height) + var(--action-height) + var(--plugin-margin));
+	top:calc(var(--header-height) + var(--plugin-margin) + var(--action-height));
+	/* bottom:calc(var(--footer-height) + var(--action-height) + var(--plugin-margin)); */
 }
 body.mobile fieldset.Action>div.toast {
 	bottom:calc(var(--footer-height) + var(--action-height));
@@ -306,6 +310,7 @@ body>div.upload div.status div.show { float:right; }
 body>div.upload div.status div.size { text-align:center; }
 /* display */
 fieldset>form.option:not(.hide), fieldset>div.action:not(.hide):not(.flex) { display:contents; } .hide, .hidden { display:none; }
+body:not(.mobile) fieldset:not(.Action):not(.output):not(.cmd)>div.action:not(.hide):not(.flex) { display:flex; }
 fieldset.panel>legend, fieldset.panel>div.status { display:none; }
 fieldset.output>legend, fieldset.output>form.option, fieldset.output>div.action:not(.flex), fieldset.output>div.status, fieldset.output>div.item { display:none; }
 div.action, div.output, div.status, div.project, div.content, div.profile, div.display, table.content, table.content td, div.list, div.code, div.story, div.float, fieldset.float { overflow:auto; }
@@ -316,6 +321,8 @@ fieldset.auto, fieldset.full, fieldset.float { position:fixed; }
 fieldset.full { position:fixed; left:0; top:0; }
 fieldset.plug { position:sticky; bottom:0; right:0; float:right; }
 fieldset.vimer>div.output fieldset.plug { position:absolute; bottom:0; right:0; float:right; }
+fieldset.vimer>div.output div.project fieldset.plug { position:static; float:unset;}
+fieldset.vimer>div.output div.project fieldset.plug div.output.card>div.item { min-width:120px; width:calc(100% - 2*var(--input-margin)); }
 div.float { position:fixed; }
 div.output { position:relative; } div.content { position:relative; }
 div.output>div.code { position:sticky; left:0; }

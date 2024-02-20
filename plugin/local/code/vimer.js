@@ -51,11 +51,9 @@ Volcanos(chat.ONFIGURE, {
 			if (link.pod) { can.onimport.tabview(can, "", link.pod, web.SPACE), sub.Update(); return }
 			can.onimport.tabview(can, "", arg, web.SPACE)
 		}
-		sub.onexport.record = function(sub, value, key) { can.onimport.tabview(can, "", value, web.SPACE) }
+		sub.onexport.record = function(sub, value, key) {
+			can.onimport.tabview(can, "", value, web.SPACE) }
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
-	}), zone.toggle(false) },
-	repos: function(can, target, zone) { can.onimport._zone(can, zone, {index: web.CODE_GIT_SEARCH, style: html.OUTPUT, mode: mdb.ZONE}, function(sub, msg) {
-		sub.onexport.record = function(sub, value, key, data) { can.onimport.tabview(can, "", [web.CODE_GIT_SEARCH, value].join(","), ctx.INDEX) }
 	}), zone.toggle(false) },
 })
 Volcanos(chat.ONACTION, {list: ["创建", "编译", "源码", "计划", "流程", "文档", "后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},

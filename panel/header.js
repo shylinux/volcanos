@@ -22,10 +22,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	}) },
 	_theme: function(can, theme) { return can.ui.diy&&can.ui.diy[theme]||theme },
 	_avatar: function(can, msg) { can.user.isExtension || can.user.isLocalFile || can.page.Modify(can, "div.state.avatar>img", {src: can.onexport.avatar(can)}) },
-	_background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return }
-		can.onlayout.background(can, can.onexport.background(can))
-		// window.parent == window? can.onlayout.background(can, can.onexport.background(can)): can.page.style(can, document.body, html.BACKGROUND_COLOR, cli.TRANSPARENT)
-	},
+	_background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return } can.onlayout.background(can, can.onexport.background(can)) },
 	_search: function(can, msg, target) {
 		can._search = can.onappend.input(can, {type: html.TEXT, _className: "args trans", icon: icon.SEARCH, name: mdb.SEARCH, value: can.misc.Search(can, "_search"), onkeydown: function(event) { can.onkeymap.input(event, can)
 			event.key == code.ENTER && can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: event.target.value||""}))
@@ -131,9 +128,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	theme: function(event, can) { can.page.Select(can, can._output, "div.item.theme>i:first-child", function(target) {
 		can.onimport.theme(can, can.onimport._theme(can, target.className == icon.SUN? html.DARK: html.LIGHT))
 	}) },
-	qrcode: function(event, can) {
-		can.user.share(can, can.request(event, {_handle: ice.TRUE}), [ctx.ACTION, cli.QRCODE])
-	},
+	qrcode: function(event, can) { can.user.share(can, can.request(event, {_handle: ice.TRUE}), [ctx.ACTION, cli.QRCODE]) },
 	language: function(event, can) { can.onimport.language(can, can.user.info.language.indexOf("zh") == 0? "en-us": "zh-cn") },
 	email: function(event, can) { can.user.input(can.request(event, {to: can.user.info.email, subject: can.user.title()}), can, [{name: "to", _trans: "收件人", need: "must"}, "subject","content"], function(args) {
 		can.runAction(event, aaa.EMAIL, args, function() { can.user.toastSuccess(can) })

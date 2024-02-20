@@ -82,8 +82,9 @@ var mdb = {FOREACH: "*", RANDOMS: "%",
 	EQ: ice.EQ, FS: ice.FS,
 }
 var web = {
-	SERVE: "serve", SPACE: "space", ROUTE: "route", DREAM: "dream", STORE: "store",
-	SHARE: "share", TOKEN: "token", SPIDE: "spide", ADMIN: "admin", STATS: "stats", COUNT: "count",
+	SERVE: "serve", SPACE: "space", DREAM: "dream", ROUTE: "route",
+	SHARE: "share", TOKEN: "token", STATS: "stats", COUNT: "count",
+	SPIDE: "spide", STORE: "store", ADMIN: "admin", MATRIX: "matrix",
 
 	WORKER: "worker", SERVER: "server", MASTER: "master", GATEWAY: "gateway",
 	ORIGIN: "origin", VENDOR: "vendor", ONLINE: "online", OFFLINE: "offline",
