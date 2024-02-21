@@ -391,6 +391,7 @@ var icon = {
 	upload: "bi bi-box-arrow-in-up", download: "bi bi-box-arrow-down",
 	record1: "bi bi-images", record2: "bi bi-record-circle", record: "bi bi-record-circle",
 	"export": "bi bi-box-arrow-up", "import": "bi bi-box-arrow-in-down",
+	"begin_time": "bi bi-clock-history",
 
 	version: "bi bi-tags",
 	compile: "bi bi-tools",

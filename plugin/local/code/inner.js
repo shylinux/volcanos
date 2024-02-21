@@ -52,8 +52,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			link.cmd == web.CODE_VIMER? can.onimport.tabview(can, link.path, link.file, link.line): can.onimport.tabview(can, link.path, link.cmd, ctx.INDEX)
 		} }, can.base.isFunc(cb) && cb(msg)
 	},
-	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui.tabs = can._action }
-		var ui = can.page.Append(can, can.ui.tabs, ["icon", "tabs", "head"]); can.ui.tabs = ui.tabs
+	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui._tabs = can._action }
+		var ui = can.page.Append(can, can.ui.tabs, ["icon", "tabs", "head"]); can.ui._tabs = ui.tabs
 		can.page.Append(can, ui.icon, can.core.List([
 			{name: can.page.unicode.menu, onclick: function() { can.user.carte(event, can, can.onaction, can.onaction.list) }},
 			{name: can.page.unicode.refresh, style: {"font-size": 26, "padding-top": 2}, onclick: function() { location.reload() }},
@@ -141,7 +141,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		function show(skip) { can._msg && can._msg.Option && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.db.tabview[key]
 			can.Option(can.onimport.history(can, {path: path, file: file, line: line||can.onexport.session(can, SELECT_LINE+nfs.DF+path+file)||can._msg.Option(nfs.LINE)||1}))
 			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg; can.onexport.hash(can)
-				can.isCmdMode() && can.onexport.title(can, (isIndex()||isSpace()? "": path)+file), can.onmotion.select(can, can.ui.tabs, html.DIV_TABS, msg._tab), can.isCmdMode() && msg._tab.scrollIntoView()
+				can.isCmdMode() && can.onexport.title(can, (isIndex()||isSpace()? "": path)+file), can.onmotion.select(can, can.ui._tabs, html.DIV_TABS, msg._tab), can.isCmdMode() && msg._tab.scrollIntoView()
 				if (isSpace()) {
 					can.ui.path.innerHTML = can.page.Format(html.A, can.base.trimPrefix(can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}), location.origin))
 				} else if (isIndex()) {
@@ -177,7 +177,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 				can.ui._profile._cache && delete(can.ui._profile._cache[key]), can.ui._display._cache && delete(can.ui._display._cache[key])
 				delete(can.db.tabview[key]), can._cache_data && delete(can._cache_data[key])
 				can.onmotion.delay(can, function() { can.user.isWebview && can.onexport.recover(can) })
-			}, can.ui.tabs); tabs._list = [path, file, line], can.user.isWebview && can.onexport.recover(can)
+			}, can.ui._tabs); tabs._list = [path, file, line], can.user.isWebview && can.onexport.recover(can)
 		}
 		if (can.db.tabview[key]) { return !can._msg._tab && !can.isSimpleMode()? load(can.db.tabview[key]): show() }
 		isIndex()||isSpace()? load(can.request({}, {index: file, line: line})): can.run({}, [path, file], load, true)
@@ -275,8 +275,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		if (can.isSimpleMode()) { can.page.style(can, can._output, html.MAX_HEIGHT, "") }
 		if (can.isSimpleMode() || can.Conf(ctx.STYLE) == html.OUTPUT) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) } if (can.isCmdMode()) { can.ConfHeight(can.page.height()) }
 		var content = can.ui.content; if (!content) { return } if (content._root) { can.ui.content = content._root } can.ui.size = {profile: can._msg.Option(html.WIDTH), display: can._msg.Option(html.HEIGHT)}
-		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) { can.ui.content = content, can.onlayout.layout(can, height, width)
-			can.ui.tabs.style.width = ""
+		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
+			can.ui._tabs.style.width = ""
+			can.ui.content = content, can.onlayout.layout(can, height, width)
 			var sub = can.ui.profile._plugin; sub && can.page.isDisplay(can.ui.profile) && sub.onimport && sub.onimport.size(sub, can.ui.profile.offsetHeight, can.ui.profile.offsetWidth-1, true)
 			var sub = can.ui.content._plugin; if (!sub) { return } if (height == sub.ConfHeight()+sub.onexport.actionHeight(sub)+sub.onexport.statusHeight(sub) && width == sub.ConfWidth()) { return }
 			content._root || sub.onimport.size(sub, height, width, true), can.onlayout.layout(can, height, width)

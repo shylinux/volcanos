@@ -63,9 +63,9 @@ fieldset.inner>div.output>div.layout>div.path span.view { font-size:22px; paddin
 fieldset.inner>div.output>div.layout>fieldset.plug.output { white-space:pre; }
 /* fieldset.inner.cmd>div.output>div.layout>div.plug { height:var(--action-height); position:fixed; right:0; bottom:0; overflow:auto; } */
 fieldset.inner.cmd>div.output>div.layout>div.plug { height:var(--action-height); overflow:auto; }
-fieldset.inner.cmd>div.output>div.layout>div.plug>legend { font-size:var(--legend-font-size); font-style:italic; float:right; }
-fieldset.inner.cmd>div.output>div.layout>div.plug>legend { padding:0 var(--input-padding); }
-fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove { padding:var(--input-padding); }
+fieldset.inner.cmd>div.output>div.layout>div.plug>legend { font-size:var(--legend-font-size); font-style:italic; float:right; padding:0 var(--input-padding); }
+fieldset.inner.cmd>div.output>div.layout>div.plug>legend:hover { color:unset; }
+fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove { padding:0 var(--input-padding); height:30px; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove:hover { background-color:var(--hover-bg-color); }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend:not(:hover)>span.remove { visibility:hidden; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile fieldset.xterm.story>form.option>div.item.hash input { width:120px; }

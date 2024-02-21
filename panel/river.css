@@ -6,7 +6,7 @@ fieldset.River>div.output { transition:all .3s; }
 /* fieldset.River>div.output { display:flex; flex-direction:column; align-items:center; } */
 fieldset.River>div.output div.item { font-family:var(--legend-font-family); padding:var(--legend-padding); border-left:#00ffae solid 3px; }
 fieldset.River>div.output div.item:hover { color:var(--panel-hover-fg-color); }
-fieldset.River>div.output div.item.select { color:var(--panel-hover-fg-color); border-right:var(--notice-bg-color) solid 3px; }
+fieldset.River>div.output div.item.select { color:var(--panel-hover-fg-color); border-right:var(--notice-bg-color) solid 5px; }
 fieldset.River>div.output div.item>i:first-child { margin-right:var(--button-margin); }
 fieldset.River>div.output div.list div.item { border-left:#ccdc4c solid 3px; }
 fieldset.River>div.output div.list { margin-left:var(--legend-padding); }
