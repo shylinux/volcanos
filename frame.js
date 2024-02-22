@@ -941,6 +941,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 				can.page.style(can, _target, "z-index", _target == target? 9: 8)
 			})
 		}
+		debugger
 		target.click()
 	},
 	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), target },

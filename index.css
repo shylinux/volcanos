@@ -321,6 +321,7 @@ fieldset.story { position:sticky; left:0; }
 fieldset.auto, fieldset.full, fieldset.float { position:fixed; }
 fieldset.full { position:fixed; left:0; top:0; }
 fieldset.plug { position:sticky; bottom:0; right:0; float:right; }
+fieldset.plug:not(.select) { display:none; }
 fieldset.vimer>div.output fieldset.plug { position:absolute; bottom:0; right:0; float:right; }
 fieldset.vimer>div.output div.project fieldset.plug { position:static; float:unset; height:100%; }
 fieldset.vimer>div.output div.project fieldset.plug>div.output { height:100%; }
@@ -787,7 +788,7 @@ fieldset.cmd>div.item.state { line-height:22px; padding:var(--input-padding) var
 fieldset.cmd>div.item.avatar { padding:0; height:var(--action-height); }
 fieldset.cmd>div.item.avatar>img { height:var(--action-height); }
 fieldset.cmd>div.action>div.tabs.select { border-bottom:var(--notice-bg-color) solid 2px; }
-fieldset.cmd>div.status>legend.select { border-top:var(--notice-bg-color) solid 2px; }
+// fieldset.cmd>div.status>legend.select { border-top:var(--notice-bg-color) solid 2px; }
 fieldset.cmd>div.output>div.project div.item.select { border-right:var(--notice-bg-color) solid 4px; }
 fieldset.Search div.story[data-type=spark] { margin:0; }
 fieldset.Search>div.output>div.profile { border-left:none; width:unset; }
