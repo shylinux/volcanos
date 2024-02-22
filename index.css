@@ -220,8 +220,8 @@ fieldset.input.float table.content td { padding:var(--input-padding); }
 body div.float { padding:var(--plugin-padding); }
 fieldset.Action>div.toast { height:fit-content; width:fit-content; overflow:auto;
 	position:absolute; right:var(--plugin-margin);
-	top:calc(var(--header-height) + var(--plugin-margin) + var(--action-height));
-	/* bottom:calc(var(--footer-height) + var(--action-height) + var(--plugin-margin)); */
+	/* top:calc(var(--header-height) + var(--plugin-margin) + var(--action-height)); */
+	bottom:calc(var(--footer-height) + var(--action-height) + var(--plugin-margin));
 }
 body.mobile fieldset.Action>div.toast {
 	bottom:calc(var(--footer-height) + var(--action-height));
