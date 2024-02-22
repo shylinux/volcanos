@@ -936,13 +936,10 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		var left = can.page.width()-width-html.PLUGIN_MARGIN, top = can.page.height()-height-margin
 		can.page.style(can, target, html.LEFT, left, html.TOP, top)
 		target.onclick = function(event) {
-			// can.onkeymap.prevent(event)
 			can.page.Select(can, document.body, html.FIELDSET_FLOAT, function(_target) {
 				can.page.style(can, _target, "z-index", _target == target? 9: 8)
 			})
-		}
-		debugger
-		target.click()
+		}, target.click()
 	},
 	clear: function(can, target) { return can.page.Modify(can, target||can._output, ""), target },
 	filter: function(can, value) {
