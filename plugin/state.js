@@ -81,7 +81,7 @@ Volcanos(chat.ONIMPORT, {
 				can.page.Append(can, div, [{text: arg}]), can._output.scrollTop = div.offsetTop, div.scrollBy(0, 10000), true
 		})) { can.onappend.board(can, arg) }
 	},
-	_open: function(can, msg, arg) { can.user.open(arg); if (msg._arg.length > 1 || can.ConfIndex() == web.DREAM) { can.Update() } },
+	_open: function(can, msg, arg) { can.user.open(arg); msg._arg.length > 1 && can.Update() },
 	_close: function(can, msg) { can.user.close() || history.back() },
 	change: function(event, can, name, value, cb, data) { return can.page.SelectArgs(can, can._option, "", function(input) { if (input.name != name || value == input.value) { return }
 		can.page.Select(can, input.parentNode, "span.value", function(target) { target.innerText = value })

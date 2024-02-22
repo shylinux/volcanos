@@ -82,6 +82,11 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.is
 	close: function(can, msg, sub) { can.user.close() }, exit: function(can, msg, sub) { can.user.close() },
 	toast: function(can, sub, arg, cb) { can.core.CallFunc(can.user.toast, [sub].concat(arg)) },
 	refresh: function(can, sub) { can.base.isFunc(sub.Update) && sub.Update() },
+	grant: function(can, msg, sub, arg) {
+		var toast = can.user.toast(can, {duration: arg[1]||10000, content: "grant "+arg[0], action: shy({
+			confirm: function(event) { toast.close(), can.run(can.request(event, {name: arg[0]}), [ctx.ACTION, ctx.RUN, web.SPACE, aaa.LOGIN]) },
+		}, [html.CANCEL, html.CONFIRM])})
+	},
 	grow: function(can, msg, sub, arg) {
 		var _can = sub._fields && sub.sup? sub.sup: sub
 		if (!_can.onimport._grow) { debugger }

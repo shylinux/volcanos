@@ -37,6 +37,7 @@ var ice = {
 	MSG_COST: "sess.cost", MSG_MODE: "sess.mode", MSG_THEME: "sess.theme", MSG_TITLE: "sess.title", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",
 	MSG_DAEMON: "sess.daemon", LOG_DISABLE: "log.disable", LOG_TRACEID: "log.id",
 	MSG_NODETYPE: "node.type", TABLE_CHECKBOX: "table.checkbox",
+	FROM_DAEMON: "from.daemon",
 
 	PROCESS_REWRITE: "_rewrite",
 	PROCESS_FIELD: "_field",
@@ -157,6 +158,7 @@ var tcp = {
 	PROTO: "proto", HOST: "host", PORT: "port",
 	SERVICE: "service", HOSTNAME: "hostname",
 	WIFI: "wifi", SSID: "ssid",
+	LOCALHOST: "localhost",
 }
 var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", PACK: "pack", TRASH: "trash", DIR_ROOT: "dir_root",
@@ -334,6 +336,7 @@ var html = {value: {
 	BODY: "body", FORM: "form", LABEL: "label", TITLE: "title", INNER: "inner", SPACE: "space", CLICK: "click",
 	SELECT: "select", INPUT: "input", TEXT: "text", FILE: "file", TEXTAREA: "textarea", BUTTON: "button", CHECKBOX: "checkbox",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
+	CONFIRM: "confirm",
 	TABLE: "table", THEAD: "thead", TBODY: "tbody", TR: "tr", TH: "th", TD: "td",
 	HEADER: "header", NAV: "nav", MAIN: "main", ASIDE: "aside", FOOTER: "footer",
 
