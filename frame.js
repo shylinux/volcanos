@@ -1009,8 +1009,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			}
 		}
 	},
-	orderShow: function(can, target, key, limit, delay) {
-		if (can.user.isMobile) { return } target = target||can._output, limit = limit||50, delay = delay||50
+	orderShow: function(can, target, key, limit, delay) { if (can.user.isMobile) { return } target = target||can._output, limit = limit||30, delay = delay||50
 		var list = can.page.SelectChild(can, target, key||html.DIV_ITEM, function(target) { can.page.style(can, target, html.VISIBILITY, html.HIDDEN); return target })
 		can.core.Next(list, function(target, next, index) {
 			if (index < limit) {
