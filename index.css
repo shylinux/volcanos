@@ -53,17 +53,16 @@ body {
 
 	--header-height:48px; --footer-height:var(--action-height); --action-height:32px; --status-height:var(--action-height);
 	--river-width:var(--project-width); --project-width:230px; --input-width:140px; --button-width:60px; --form-width:320px;
-	--url-input-width:320px;
- 	--qrcode-height:364px; --qrcode-width:360px;
+	--url-input-width:320px; --textarea-height:96px;
+   	--qrcode-width:360px; --qrcode-height:364px;
    	--iframe-height:420px;
-   	--textarea-height:96px;
 	--card-height:160px; --card-width:320px;
 	--story-height:480px;
    	--float-height:var(--story-height); --float-width:1200px;
 	--plug-height:var(--story-height); --plug-width:var(--float-width);
 	--desktop-height:684px; --desktop-width:var(--float-width); --desktop-icon-size:80px;
-	--action-button:10; --table-button:5; --river-margin:80px; --action-margin:200px;
-	--card-button:5;
+	--action-button:10; --table-button:5; --card-button:5;
+   	--river-margin:80px; --action-margin:200px;
 
 	--body-font-family:sans-serif;
 	--legend-font-family:var(--body-font-family); --status-font-family:var(--body-font-family);
@@ -73,9 +72,7 @@ body {
 	--code-font-size:14px; --code-line-height:24px; --code-tabs-height:48px;
 	--icon-font-size:var(--legend-font-size); --svg-font-size:24px; --svg-stroke-width:1;
 }
-body.en {
-	--card-button:3;
-}
+body.en { --card-button:3; }
 body.mobile { --footer-height:60px; --qrcode-height:284px; --svg-font-size:13px; }
 body.width1 { /* 320-640 手机竖屏 */
 	--river-width:280px; --project-width:120px; --input-width:80px; --url-input-width:160px; --form-width:320px;
@@ -95,7 +92,7 @@ body.width5 { /* 1600-1920 */
 }
 body.width6 { /* 1920-2240 显示器 */
 	--river-width:280px; --input-width:180px; --card-height:160px;
-	--project-width:280px;
+	--project-width:280px; --qrcode-width:420px;
 	--float-height:640px; --float-width:1400;
 }
 /* element */
@@ -134,6 +131,7 @@ h1 { text-align:center; margin:var(--title-margin) 0; } h2 { margin:var(--title-
 ol, ul { margin-left:var(--title-margin); }
 p { margin:var(--title-margin) 0; }
 kbd { padding:0 var(--input-padding); }
+img.qrcode { width:var(--qrcode-width); }
 /* output style */
 div.title>div.status { line-height:20px; display:flex; }
 div.title>div.status>div.item { font-size:var(--status-font-size); font-weight:normal; margin-right:var(--button-margin); float:left; }

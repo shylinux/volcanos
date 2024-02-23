@@ -109,7 +109,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) { can.db.list = can.misc.S
 		can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), skip || can.onlayout._init(can)
 		can.getActionSize(function(height, width) { var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can, height, width) || can.onlayout._plugin(can, button) })
 	},
-	_menus: [[html.LAYOUT, ALL, TABS, TABVIEW, VERTICAL, HORIZON, GRID, FREE, FLOW, PAGE], web.STORE, web.DREAM, web.DESKTOP, web.PORTAL],
+	// _menus: [[html.LAYOUT, ALL, TABS, TABVIEW, VERTICAL, HORIZON, GRID, FREE, FLOW, PAGE], web.STORE, web.DREAM, web.DESKTOP, web.PORTAL],
+	_menus: [[html.LAYOUT, ALL, TABS, TABVIEW, VERTICAL, HORIZON, GRID, FREE, FLOW, PAGE]],
 	_trans: kit.Dict(html.LAYOUT, "布局", ALL, "详情布局", TABS, "标签布局", TABVIEW, "标签分屏", VERTICAL, "上下分屏", HORIZON, "左右分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
 })
 Volcanos(chat.ONLAYOUT, {

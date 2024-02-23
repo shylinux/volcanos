@@ -87,16 +87,8 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.is
 			confirm: function(event) { toast.close(), can.run(can.request(event, {name: arg[0]}), [ctx.ACTION, ctx.RUN, web.SPACE, aaa.LOGIN]) },
 		}, [html.CANCEL, html.CONFIRM])})
 	},
-	grow: function(can, msg, sub, arg) {
-		var _can = sub._fields && sub.sup? sub.sup: sub
-		if (!_can.onimport._grow) { debugger }
-		_can.onimport._grow(_can, msg, arg.join(""))
-	},
-	rich: function(can, msg, sub, arg) {
-		var _can = sub._fields && sub.sup? sub.sup: sub
-		if (!_can.onimport._rich) { debugger }
-		_can.onimport._rich(_can, msg, arg)
-	},
+	grow: function(can, msg, sub, arg) { var _can = sub._fields && sub.sup? sub.sup: sub; _can.onimport._grow(_can, msg, arg.join("")) },
+	rich: function(can, msg, sub, arg) { var _can = sub._fields && sub.sup? sub.sup: sub; _can.onimport._rich(_can, msg, arg) },
 	action: function(can, msg, sub, arg) {
 		if (arg[0] == "ctrl") { var list = []
 			can.page.Select(can, can._root._target, html.INPUT, function(target, index) { list[index] = target

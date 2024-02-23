@@ -403,6 +403,9 @@ var icon = {
 	upgrade: "bi bi-rocket-takeoff",
 	install: "bi bi-box-arrow-in-down",
 	runtime: "bi bi-info-square",
+	template: "bi bi-file-earmark-medical",
+	binary: "bi bi-disc",
+	name: "bi bi-textarea-t",
 
 	word: "bi bi-book",
 	repos: "bi bi-git",
