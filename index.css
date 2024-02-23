@@ -326,9 +326,10 @@ fieldset.story { position:sticky; left:0; }
 fieldset.auto, fieldset.full, fieldset.float { position:fixed; }
 fieldset.full { position:fixed; left:0; top:0; }
 fieldset.plug { position:sticky; bottom:0; right:0; float:right; }
+fieldset.story>div.output>fieldset.plug { position:absolute; bottom:0; right:0; float:right; }
 fieldset.plug:not(.select) { display:none; }
 fieldset.vimer>div.output fieldset.plug { position:absolute; bottom:0; right:0; float:right; }
-fieldset.vimer>div.output div.project fieldset.plug { position:static; float:unset; height:100%; }
+fieldset.vimer>div.output div.project fieldset.plug:not(.hide) { position:static; float:unset; height:100%; display:block; }
 fieldset.vimer>div.output div.project fieldset.plug>div.output { height:100%; }
 fieldset.vimer>div.output div.project fieldset.plug div.output.card>div.item { min-width:120px; width:calc(100% - 2*var(--input-margin)); }
 div.float { position:fixed; }
