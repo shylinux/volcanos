@@ -469,7 +469,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					}
 					return
 				}
-				can.page.insertBefore(can, [{icon: _icon, onclick: function(event) {
+				can.page.insertBefore(can, [{icon: _icon, onclick: function(event) { can.onkeymap.prevent(event)
 					target.onclick? target.onclick(event): can.Update(can.request(event, value), [ctx.ACTION, target.name])
 				}}], target), can.onappend.style(can, mdb.ICONS, target)
 			})
