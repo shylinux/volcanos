@@ -46,7 +46,7 @@ body {
 	--th-box-shadow:var(--box-shadow);
 
 	--plugin-padding:10px; --plugin-margin:var(--plugin-padding);
-	--legend-padding:20px; --title-margin:var(--legend-padding);
+	--legend-padding:20px; --legend-margin:20px; --title-margin:var(--legend-padding);
 	--button-padding:var(--plugin-padding); --button-margin:var(--button-padding);
 	--input-padding:5px; --input-margin:var(--input-padding);
 	--table-padding:var(--button-padding);
@@ -97,7 +97,7 @@ body.width6 { /* 1920-2240 显示器 */
 }
 /* element */
 * { box-sizing:border-box; padding:0; border:0; margin:0; tab-size:4; }
-legend { padding:0 var(--legend-padding); margin-right:var(--button-margin); }
+legend { padding:0 var(--legend-padding); margin-right:var(--legend-margin); }
 select { padding:0 var(--button-padding); }
 input:not([type=file]) { padding:0 var(--button-padding); }
 input:not([type=button]) { padding:0 var(--input-padding); outline:none; }
@@ -323,8 +323,9 @@ fieldset.story, fieldset>div.output, fieldset>div.status, div.output>div.project
 fieldset.story { position:sticky; left:0; }
 fieldset.auto, fieldset.full, fieldset.float { position:fixed; }
 fieldset.full { position:fixed; left:0; top:0; }
-fieldset.plug { position:sticky; bottom:0; right:0; float:right; }
-fieldset.story>div.output>fieldset.plug { position:absolute; bottom:0; right:0; float:right; }
+/* fieldset.plug { position:sticky; bottom:0; right:0; float:right; } */
+/* fieldset.story>div.output>fieldset.plug { position:absolute; bottom:0; right:0; float:right; } */
+fieldset.plug { position:absolute; bottom:0; right:0; float:right; }
 fieldset.plug:not(.select) { display:none; }
 fieldset.vimer>div.output fieldset.plug { position:absolute; bottom:0; right:0; float:right; }
 fieldset.vimer>div.output div.project fieldset.plug:not(.hide) { position:static; float:unset; height:100%; display:block; }

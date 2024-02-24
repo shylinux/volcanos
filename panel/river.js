@@ -139,12 +139,14 @@ Volcanos(chat.ONENGINE, {
 		if (typeof can.river == code.FUNCTION) { can.river = can.river(can) } var list = can.river
 		cmds.length == 0 && can.core.ItemOrder(list, mdb.ORDER, function(key, value) { if (!value) { return }
 			if (value.debug && can.misc.Search(can, ice.MSG_DEBUG) != ice.TRUE) { return }
+			if (value.nodetype && value.nodetype != can.user.info.nodetype) { return }
 			if (can.base.isIn(can.user.info.userrole, value.type||aaa.VOID, aaa.TECH, aaa.ROOT)) {
 				can.core.Item(value.storm).length > 0 && msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||"", main: value.main||false})
 			}
 		})
 		if (cmds.length != 1 && cmds[1] != chat.STORM) { return false } var river = list[cmds[0]]; if (!river) { return false }
 		can.core.ItemOrder(river.storm, mdb.ORDER, function(key, value) { if (!value) { return }
+			if (value.nodetype && value.nodetype != can.user.info.nodetype) { return }
 			if (can.user.info.userrole == aaa.ROOT || can.base.isIn(value.type||"", "", aaa.VOID, can.user.info.userrole)) {
 				msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||"", main: value.main||false})
 			}
