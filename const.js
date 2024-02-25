@@ -32,10 +32,13 @@ var ice = {
 	MSG_ACTION: "_action", MSG_STATUS: "_status",
 	MSG_PROCESS: "_process", MSG_DISPLAY: "_display", MSG_TOOLKIT: "_toolkit",
 
-	MSG_USERNICK: "user.nick", MSG_USERNAME: "user.name", MSG_USERROLE: "user.role", MSG_LANGUAGE: "user.lang",
-	MSG_BG: "sess.bg", MSG_FG: "sess.fg",
-	MSG_COST: "sess.cost", MSG_MODE: "sess.mode", MSG_THEME: "sess.theme", MSG_TITLE: "sess.title", MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",
-	MSG_DAEMON: "sess.daemon", LOG_DISABLE: "log.disable", LOG_TRACEID: "log.id",
+	MSG_USERWEB: "user.web", MSG_USERPOD: "user.pod",
+	MSG_USERROLE: "user.role", MSG_USERNAME: "user.name", MSG_USERNICK: "user.nick", MSG_LANGUAGE: "user.lang",
+	MSG_TITLE: "sess.title", MSG_THEME: "sess.theme", MSG_BG: "sess.bg", MSG_FG: "sess.fg", MSG_DAEMON: "sess.daemon",
+	LOG_DISABLE: "log.disable", LOG_TRACEID: "log.id",
+	MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",
+
+	MSG_COST: "sess.cost", MSG_MODE: "sess.mode",
 	MSG_NODETYPE: "node.type", TABLE_CHECKBOX: "table.checkbox",
 	FROM_DAEMON: "from.daemon",
 

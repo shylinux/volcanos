@@ -14,7 +14,7 @@ Volcanos(chat.ONIMPORT, {
 	_cookie: function(can, msg) { can.misc.Cookie(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_session: function(can, msg) { can.misc.sessionStorage(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_field: function(can, msg, cb) { var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()-2*html.ACTION_HEIGHT), width = can.ConfWidth()
-		msg.Table(function(item) { can.onappend._plugin(can, item, {space: can.ConfSpace(), index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
+		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
 			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX); can.run(can.request(event, {pod: item.space}), (msg[ice.MSG_PREFIX]? msg[ice.MSG_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true) }
 			if (item.style != html.FLOAT && can.base.isIn(sub.ConfIndex(), wiki.PORTAL, chat.IFRAME, chat.DESKTOP, wiki.WORD, code.VIMER,)) { height = can.base.Max(can.onexport.outputHeight(can), can.ConfHeight(), 480) }
 			can.page.ClassList.has(can, sub._target, html.FLOAT)? can.onmotion.float(sub): sub.onimport.size(sub, height, width, true), cb && cb(sub)
@@ -298,12 +298,8 @@ Volcanos(chat.ONEXPORT, {_output: function(can, msg) {},
 	statusHeight: function(can) {
 		return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0) ||
 			can._status.innerHTML == "" && !can.page.ClassList.has(can, can._target, html.PLUG)? 0: html.STATUS_HEIGHT },
-	link: function(can) {
-		var args = can.Option();
-		args.pod = can.ConfSpace(), args.cmd = can.ConfIndex();
-		can.core.Item(args, function(key, value) {
-			if (!value) { delete(args[key]) }
-		})
+	link: function(can) { var args = can.Option(); args.pod = can.ConfSpace(), args.cmd = can.ConfIndex()
+		can.core.Item(args, function(key, value) { !value && delete(args[key]) })
 		return can.misc.MergePodCmd(can, args, true) },
 	args: function(can) { return can.Option() },
 	close: function(can, msg) {},

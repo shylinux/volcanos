@@ -90,7 +90,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	}}]) },
 	icon: function(can, msg, target, cb) {
 		msg.Table(function(value) {
-			var icon = can.misc.Resource(can, value.icon||can.page.drawText(can, value.name, 80), value.space||can.ConfSpace())
+			var icon = can.misc.Resource(can, value.icons||value.icon||can.page.drawText(can, value.name, 80), value.space||msg.Option(ice.MSG_USERPOD), msg.Option(ice.MSG_USERWEB))
 			return can.page.Append(can, target, [{view: [[html.ITEM, value.status]], list: [{view: html.ICON, list: [{img: icon}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
 				cb && cb(target, value)
 			}, onclick: function(event) { can.sup.onexport.record(can.sup, value.name, mdb.NAME, value) }}])._target
