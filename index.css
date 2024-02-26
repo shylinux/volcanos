@@ -271,7 +271,7 @@ body>div.input tr.img td:last-child>div>span.icon { display:none; }
 body>div.input tr.icon td:last-child { position:relative; }
 body>div.input tr.icon td:last-child img:first-child { height:28px; width:28px; position:absolute; left:12px; top:12px; }
 body>div.input tr.icon td:last-child input { padding-left:var(--action-height); }
-body>div.input tr.icons td:last-child img:first-child { height:28px; width:28px; position:absolute; left:2px; top:2px; }
+body>div.input tr.icons td:last-child img { height:28px; width:28px; position:absolute; left:2px; top:2px; }
 body>div.input tr.icons td:last-child span:not(.icon) { position:absolute; left:32px; }
 body>div.input tr.icons td:last-child input { padding-left:var(--action-height); }
 body>div.input td span.icon { margin-left:-20px; visibility:hidden; }
@@ -463,6 +463,7 @@ input[type=button] { border-radius:var(--button-radius); }
 fieldset>form.option>div.item.select { border-radius:var(--button-radius); }
 fieldset>form.option>div.item.button { border-radius:var(--button-radius); }
 fieldset>div.action div.item.button { border-radius:var(--button-radius); }
+fieldset>div.action div.item.button:last-child { margin-right:20px; }
 fieldset>div.action div.item.select:not(.button):not(.cmds) { border-radius:var(--button-radius); border-bottom:var(--notice-bg-color) solid 3px; }
 fieldset:not(.input):not(.panel):not(.full):not(.cmd) { border-radius:var(--plugin-radius); }
 fieldset>div.status>legend:not(:hover):not(.select) { border-radius:0; }

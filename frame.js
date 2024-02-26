@@ -981,7 +981,8 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	move: function(can, target, layout) { layout && can.page.style(can, target, layout), can.onmotion.resize(can, target, function() {}) },
 	resize: function(can, target, cb, top, left) { var begin, action
 		top = top || can.getHeaderHeight(), left = left || can.getRiverWidth()
-		target.onmousedown = function(event) { if (event.which != 1 || event.target != target && !(can.page.ClassList.has(can, event.target, html.STATUS) && can.page.tagis(event.target, html.DIV))) { return } window._mousemove = target
+		target.onmousedown = function(event) {
+			if (event.which != 1 || event.target != target && !can.page.tagis(event.target, "div.action", "div.status", "div._space")) { return } window._mousemove = target
 			begin = {left: target.offsetLeft, top: target.offsetTop, height: target.offsetHeight, width: target.offsetWidth, x: event.x, y: event.y}
 		}, target.onmouseup = function(event) { begin = null, delete(window._mousemove) }
 		target.onmousemove = function(event) {
@@ -1000,9 +1001,9 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			} else { var p = can.page.position(event, target), margin = 10, cursor = ""
 				if (p.x < margin) { cursor = "ew-resize", action = html.LEFT
 				} else if (target.offsetWidth-margin < p.x) { cursor = "ew-resize", action = html.RIGHT
-				} else if (target.offsetHeight-margin < p.y || can.page.ClassList.has(can, event.target, html.STATUS) && can.page.tagis(event.target, html.DIV)) { cursor = "ns-resize", action = html.BOTTOM
+				} else if (target.offsetHeight-margin < p.y || can.page.tagis(event.target, "div.status")) { cursor = "ns-resize", action = html.BOTTOM
 				} else if (p.y < margin) { cursor = "ns-resize", action = html.TOP
-				} else { cursor = event.target == target? "move": "", action = "" } can.page.style(can, target, "cursor", cursor)
+				} else { cursor = event.target == target || can.page.tagis(event.target, "div._space")? "move": "", action = "" } can.page.style(can, target, "cursor", cursor)
 			}
 		}
 	},

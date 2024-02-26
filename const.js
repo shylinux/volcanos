@@ -409,6 +409,8 @@ var icon = {
 	template: "bi bi-file-earmark-medical",
 	binary: "bi bi-disc",
 	name: "bi bi-textarea-t",
+	type: "bi bi-card-list",
+	send: "bi bi-send-check",
 
 	word: "bi bi-book",
 	repos: "bi bi-git",
