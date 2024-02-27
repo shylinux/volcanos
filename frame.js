@@ -699,10 +699,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				value.meta && value.meta._init && value.meta._init(sub, meta), _cb(sub, meta, skip)
 			}, target, field); return true }
 		} if (_plugin(meta)) { return res }
-		can.runAction(can.request({}, {_method: http.GET, pod: meta.space, _failure: function() {
+		can.runAction(can.request({}, meta._commands, {_method: http.GET, pod: meta.space, _failure: function() {
 			return can.misc.isDebug(can) && can.misc.Warn("not found", meta.index), _plugin({type: meta.type, index: "can._notfound", args: [meta.index, meta.space]})
 		}})._caller(), ctx.COMMAND, [meta.index], function(msg) { if (msg.Length() == 0) { return msg._failure() }
-			msg.Table(function(value) { can.onappend._plugin(can, value, meta, _cb, target, field) })
+			msg.Table(function(value) {
+				value._prefix = msg["_prefix"]
+				can.onappend._plugin(can, value, meta, _cb, target, field) })
 		}); return res
 	},
 	_plugin: function(can, value, meta, cb, target, field) { can.base.Copy(meta, value, true)
@@ -715,7 +717,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (can.base.isFunc(value)) {
 					can.onengine._plugin(event, can._root, can.request(event), value.can, [meta.index].concat(cmds), cb)
 				} else {
-					can.runActionCommand(sub.request(event, {pod: meta.space}), sub._index, cmds, cb)
+					if (value._prefix) {
+						can.run(sub.request(event, {pod: meta.space}), value._prefix.concat(cmds), cb)
+					} else {
+						can.runActionCommand(sub.request(event, {pod: meta.space}), sub._index, cmds, cb)
+					}
 				}
 			}, sub._index = value.index||meta.index, can.base.isFunc(cb) && cb(sub, meta, skip)
 			if (meta.style == html.FLOAT || value.style == html.FLOAT) { can.onmotion.float(sub) }

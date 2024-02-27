@@ -423,7 +423,9 @@ var icon = {
 
 	path: "bi bi-folder2", file: "bi bi-file-earmark-text", line: "bi bi-sort-numeric-down",
 	key: "bi bi-hash", hash: "bi bi-hash", zone: "bi bi-diagram-3", id: "bi bi-sort-numeric-down",
-	branch: "bi bi-diagram-3", commit: "bi bi-hash", message: "bi bi-info-square",
+	branch: "bi bi-diagram-3", commit: "bi bi-hash",
+	// message: "bi bi-info-square",
+	message: "bi bi-wechat",
 	domain: "bi bi-globe", "client.name": "bi bi-globe",
 	machine: "bi bi-pc-display", port: "bi bi-hash",
 	arch: "bi bi-cpu", os: "bi bi-ubuntu",

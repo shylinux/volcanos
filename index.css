@@ -458,7 +458,7 @@ div.profile:not(.toggle) { border-left:var(--box-border); }
 div.display:not(.toggle) { border-top:var(--box-border); }
 fieldset>div.status { border-top:var(--status-border); }
 /* border-radius */
-legend { border-top-left-radius:var(--button-radius); }
+legend { border-top-left-radius:var(--plugin-radius); }
 select { border-radius:var(--button-radius); }
 input[type=button] { border-radius:var(--button-radius); }
 fieldset>form.option>div.item.select { border-radius:var(--button-radius); }
@@ -539,9 +539,9 @@ fieldset>legend>i { margin-right:var(--input-margin); }
 form.option>div.item.icon { position:relative; height:var(--action-height); overflow:hidden; user-select:none; }
 form.option>div.item.icon { font-size:var(--icon-font-size); padding:0 var(--input-padding); }
 form.option>div.item.icon.menu { font-size:28px; line-height:24px; display:flex; align-items:flex-start; display:none; }
-form.option>div.item.icon.refresh { font-size:28px; line-height:24px; display:flex; align-items:flex-start; }
-form.option>div.item.icon.goback { font-size:28px; line-height:24px; display:flex; align-items:flex-start; }
-form.option>div.icon.delete { font-size:20px; line-height:32px; display:flex; align-items:flex-start; }
+form.option>div.item.icon.refresh { font-size:28px; line-height:26px; display:flex; align-items:flex-start; }
+form.option>div.item.icon.goback { font-size:28px; line-height:26px; display:flex; align-items:flex-start; }
+form.option>div.icon.delete { font-size:20px; line-height:30px; display:flex; align-items:flex-start; }
 form.option>div.item.icon.play { font-size:16px; }
 body.windows form.option>div.item.icon.delete { line-height:31px; display:flex; align-items:flex-start; }
 body.windows form.option>div.item.icon.menu { font-size:22px; line-height:32px; }
