@@ -104,6 +104,7 @@ var web = {
 	CHAT: "chat",
 	PORTAL: "portal", DESKTOP: "desktop",
 	STUDIO: "studio", SERVICE: "service",
+	WORD: "word",
 
 	CODE_GIT_SEARCH: "web.code.git.search",
 	CODE_GIT_STATUS: "web.code.git.status",

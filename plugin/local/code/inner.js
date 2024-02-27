@@ -143,9 +143,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			can.Option(can.onimport.history(can, {path: path, file: file, line: line||can.onexport.session(can, SELECT_LINE+nfs.DF+path+file)||can._msg.Option(nfs.LINE)||1}))
 			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg; can.onexport.hash(can)
 				can.isCmdMode() && can.onexport.title(can, (isIndex()||isSpace()? "": path)+file), can.onmotion.select(can, can.ui._tabs, html.DIV_TABS, msg._tab), can.isCmdMode() && msg._tab.scrollIntoView()
+				can.onmotion.toggle(can, can.ui.path, true)
 				if (isSpace()) {
 					can.ui.path.innerHTML = can.page.Format(html.A, can.base.trimPrefix(can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}), location.origin))
 				} else if (isIndex()) {
+					can.onmotion.hidden(can, can.ui.path)
 					can.onimport._tabPath(can, nfs.PT, ice.CMD, can.Option(nfs.FILE), function(p, pre) {
 						can.onimport.tabview(can, "", can.core.Keys(can.base.trimSuffix(pre, nfs.PT), p), ctx.INDEX)
 					}, can.ui.path)

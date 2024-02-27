@@ -247,6 +247,7 @@ div.toast.float div.action>div.item span { display:none; }
 div.toast.float div.action>div.item input { padding:0 20px; }
 div.toast.float div.action>div.item.danger input { border:var(--danger-bg-color) solid 1px; }
 div.toast.float div.action>div.item.notice input { border:var(--notice-bg-color) solid 1px; }
+div.toast.float div.action>div.item.open input { border:var(--notice-bg-color) solid 1px; }
 body>div.carte { padding:0; }
 body>div.carte input[name=filter] { margin:var(--input-margin); width:calc(100% - 10px); position:sticky; top:var(--input-margin); }
 body>div.carte div.item { white-space:pre; padding:var(--button-padding); }
@@ -408,9 +409,9 @@ div.zone>div.list>div.zone>div.item { background-color:var(--th-bg-color); }
 div.tabs div { background-color:var(--plugin-bg-color); }
 div.tabs div:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.tabs div.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-div.plug legend { background-color:var(--output-bg-color); }
-div.plug legend:hover { background-color:var(--hover-bg-color); }
-div.plug legend.select { background-color:var(--plugin-bg-color); border-left:var(--notice-bg-color) solid 5px; }
+div.plug>legend { background-color:var(--output-bg-color); }
+div.plug>legend:hover { background-color:var(--hover-bg-color); }
+div.plug>legend.select { background-color:var(--plugin-bg-color); border-left:var(--notice-bg-color) solid 5px; }
 div.complete>table { background-color:var(--plugin-bg-color); }
 fieldset>form.option>div.item.text.cmd>input { background-color:var(--code-bg-color); color:var(--code-fg-color); }
 fieldset>div.action div.item.select.cmds { border-bottom:var(--notice-bg-color) solid 3px; }
@@ -457,7 +458,7 @@ div.profile:not(.toggle) { border-left:var(--box-border); }
 div.display:not(.toggle) { border-top:var(--box-border); }
 fieldset>div.status { border-top:var(--status-border); }
 /* border-radius */
-legend { border-radius:var(--button-radius); }
+legend { border-top-left-radius:var(--button-radius); }
 select { border-radius:var(--button-radius); }
 input[type=button] { border-radius:var(--button-radius); }
 fieldset>form.option>div.item.select { border-radius:var(--button-radius); }

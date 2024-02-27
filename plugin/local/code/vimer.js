@@ -56,7 +56,12 @@ Volcanos(chat.ONFIGURE, {
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
 	}), zone.toggle(false) },
 })
-Volcanos(chat.ONACTION, {list: ["创建", "编译", "源码", "计划", "流程", "文档", "后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},
+Volcanos(chat.ONACTION, {list: [
+	"创建", "编译", "源码", "文档",
+	"聊天",
+	"矩阵",
+	"审批",
+	"后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		if (msg.IsErr()) { return can.user.toastFailure(can, msg.Result()) }
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button), can.ui.zone.source.refresh()
@@ -94,13 +99,16 @@ Volcanos(chat.ONACTION, {list: ["创建", "编译", "源码", "计划", "流程"
 
 	"创建": function(event, can) { can.onaction.module(event, can, nfs.MODULE) },
 	"编译": function(event, can) { can.onaction.compile(event, can, code.COMPILE) },
+	"审批": function(event, can) { can.onimport.tabview(can, "", aaa.APPLY, ctx.INDEX) },
+	"矩阵": function(event, can) { can.onimport.tabview(can, "", web.MATRIX, ctx.INDEX) },
+	"聊天": function(event, can) { can.onimport.tabview(can, "", web.CHAT_MESSAGE, ctx.INDEX) },
 	"源码": function(event, can) { can.onimport.tabview(can, "", web.CODE_GIT_STATUS, ctx.INDEX) },
 	"计划": function(event, can) { can.onimport.tabview(can, "", web.TEAM_PLAN, ctx.INDEX) },
 	"流程": function(event, can) { can.onimport.tabview(can, "", web.CHAT_FLOWS, ctx.INDEX) },
 	"文档": function(event, can) { can.onimport.tabview(can, "", web.WIKI_WORD, ctx.INDEX) },
 	"后台": function(event, can) { var pod = can.misc.Search(can, ice.POD); can.onimport.tabview(can, "", location.origin+"/c/admin"+(pod? "?pod="+pod: ""), web.SPACE) },
 	"桌面": function(event, can) { can.onimport.tabview(can, "", web.CHAT_MACOS_DESKTOP, ctx.INDEX) },
-	"官网": function(event, can) { can.onimport.tabview(can, "", can.misc.MergePodCmd(can, {cmd: web.WIKI_PORTAL}), web.SPACE) },
+	"官网": function(event, can) { can.onimport.tabview(can, "", can.misc.MergePodCmd(can, {cmd: web.PORTAL}), web.SPACE) },
 
 	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value); before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before)); return can.onaction.rerankLine(can), can.onexport.line(can, line) },
 	deleteLine: function(can, line) { line = can.onaction._getLine(can, line); var next = line.nextSibling||line.previousSibling; return can.page.Remove(can, line), can.onaction.rerankLine(can), next },
