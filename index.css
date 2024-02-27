@@ -710,6 +710,7 @@ body.print fieldset.draw div.output div.content svg { background-color:lightgray
 /* misc */
 fieldset.xterm.float>form.option>div.item.hash input { width:var(--form-width); }
 fieldset.iframe.float>form.option>div.item.hash input { width:var(--form-width); }
+fieldset.iframe>form.option>div.item.hash input { width:var(--form-width); }
 fieldset.Action:not(.horizon):not(.grid)>fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
 fieldset.inner.float>div.status { display:none; }
 fieldset.inner>div.output>div.project div.item.modify { background-color:#00800036; }
