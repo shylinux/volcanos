@@ -144,6 +144,8 @@ div.output.card>div.item:hover { background-color:var(--plugin-bg-color); color:
 div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item>div.title { font-size:var(--legend-font-size); font-weight:bold; padding-bottom:var(--input-padding); display:flex; align-items:center; overflow:hidden; }
 div.output.card>div.item>div.title>img { margin-right:var(--button-margin); margin-left:0; height:var(--header-height); width:var(--header-height); float:left; }
+div.output.card>div.item>div.title>img.jpg { padding:var(--input-padding); }
+div.item img.jpg { padding:var(--input-padding); }
 div.output.card>div.item>div.content { white-space:pre; font-size:var(--status-font-size); padding:var(--input-padding); height:var(--header-height); }
 div.output.card>div.item>div.action { text-align:right; width:calc(100% - var(--plugin-padding)); display:flex; position:absolute; bottom:var(--plugin-padding); }
 div.output.card>div.item>div.action>input { padding:0 var(--button-padding); margin-right:var(--input-margin); }
@@ -161,7 +163,7 @@ div.project div.action { width:100%; }
 div.project div.list { margin-left:var(--button-margin); clear:both; }
 div.project div.list fieldset { position:static; }
 div.project div.item:not(.hide) { white-space:pre; line-height:24px; padding:0 var(--button-margin); display:flex; align-items:center; }
-div.project div.item img { margin:var(--input-margin) !important; height:var(--action-height); width:var(--action-height); }
+div.project div.item img { height:var(--action-height); width:var(--action-height); }
 div.project div.item.filter { padding:0; width:100%; }
 div.project div.item.filter>input { padding:0 25px; width:100% !important; }
 div.project div.item.search { padding:0; width:100%; }
@@ -541,7 +543,7 @@ form.option>div.item.icon { font-size:var(--icon-font-size); padding:0 var(--inp
 form.option>div.item.icon.menu { font-size:28px; line-height:24px; display:flex; align-items:flex-start; display:none; }
 form.option>div.item.icon.refresh { font-size:28px; line-height:26px; display:flex; align-items:flex-start; }
 form.option>div.item.icon.goback { font-size:28px; line-height:26px; display:flex; align-items:flex-start; }
-form.option>div.icon.delete { font-size:20px; line-height:30px; display:flex; align-items:flex-start; }
+form.option>div.icon.delete { font-size:20px; line-height:32px; display:flex; align-items:flex-start; }
 form.option>div.item.icon.play { font-size:16px; }
 body.windows form.option>div.item.icon.delete { line-height:31px; display:flex; align-items:flex-start; }
 body.windows form.option>div.item.icon.menu { font-size:22px; line-height:32px; }
