@@ -70,7 +70,7 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 		},
 		runAction: function(event, action, args, cb, silent) {
 			can.request(event, {_handle: ice.TRUE}, can.Option())._caller()
-			can.run(event, [ctx.ACTION].concat(action, args), cb, silent)
+			can.run(event, [ctx.ACTION].concat(action, args||[]), cb, silent)
 		},
 		search: function(event, cmds, cb) {
 			if (cmds && typeof cmds == code.OBJECT && cmds.length > 0 && typeof cmds[0] == code.OBJECT && cmds[0].length > 0 ) { cmds[0] = cmds[0].join(nfs.PT) }
