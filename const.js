@@ -417,7 +417,8 @@ var icon = {
 
 	word: "bi bi-book",
 	repos: "bi bi-git",
-	vimer: "bi bi-file-earmark-code",
+	vimer: "bi bi-bug",
+	// vimer: "bi bi-file-earmark-code",
 	build: "bi bi-tools",
 	xterm: "bi bi-terminal",
 	cmds: "bi bi-terminal",
@@ -435,7 +436,10 @@ var icon = {
 	username: "bi bi-person-gear",
 
 	portal: "bi bi-globe",
-	desktop: "bi bi-window-desktop", admin: "bi bi-window-sidebar", dream: "bi bi-grid-3x3-gap", space: "bi bi-grid-3x3-gap",
+	desktop: "bi bi-window-desktop", admin: "bi bi-window-sidebar",
+	// dream: "bi bi-grid-3x3-gap",
+	dream: "bi bi-diagram-3",
+	space: "bi bi-grid-3x3-gap",
 	configs: "bi bi-gear", config: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week",
 	save: "bi bi-floppy", trash: "bi bi-trash",
 
