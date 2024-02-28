@@ -297,7 +297,7 @@ Volcanos(chat.ONEXPORT, {_output: function(can, msg) {},
 		return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0) ||
 			can._status.innerHTML == "" && !can.page.ClassList.has(can, can._target, html.PLUG)? 0: html.STATUS_HEIGHT },
 	link: function(can) { var args = can.Option(); args.pod = can.ConfSpace(), args.cmd = can.ConfIndex()
-		can.core.Item(args, function(key, value) { !value && delete(args[key]) })
+		can.core.Item(args, function(key, value) { key != ice.POD && !value && delete(args[key]) })
 		return can.misc.MergePodCmd(can, args, true) },
 	args: function(can) { return can.Option() },
 	close: function(can, msg) {},

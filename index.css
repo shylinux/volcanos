@@ -538,9 +538,9 @@ fieldset.plug>div.status { height:31px; }
 i.bi.bi-toggle-on { color:var(--notice-bg-color); }
 i.bi.bi-toggle-on:hover { color:var(--notice-bg-color); }
 fieldset>legend>i { margin-right:var(--input-margin); }
-form.option>div.item.icon { position:relative; height:var(--action-height); overflow:hidden; user-select:none; }
+form.option>div.item.icon { position:relative; height:30px; overflow:hidden; user-select:none; }
 form.option>div.item.icon { font-size:var(--icon-font-size); padding:0 var(--input-padding); }
-form.option>div.item.icon.menu { font-size:28px; line-height:24px; display:flex; align-items:flex-start; display:none; }
+form.option>div.item.icon.menu { font-size:28px; line-height:26px; display:flex; align-items:flex-start; display:none; }
 form.option>div.item.icon.refresh { font-size:28px; line-height:26px; display:flex; align-items:flex-start; }
 form.option>div.item.icon.goback { font-size:28px; line-height:26px; display:flex; align-items:flex-start; }
 form.option>div.icon.delete { font-size:20px; line-height:32px; display:flex; align-items:flex-start; }
