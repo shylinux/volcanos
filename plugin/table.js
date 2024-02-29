@@ -14,13 +14,16 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			if (img.indexOf("/require/") == 0 && value.origin) { img = value.origin + img }
 			return {view: [[html.ITEM, value.type, value.status]], list: [
 				{view: [wiki.TITLE, html.DIV], list: [
-					value.icon && {className: can.base.contains(img, ".jpg")? "jpg": "", img: img}, {view: wiki.TITLE, list: [{text: value.name}, can.onappend.label(can, value)]},
+					value.icon && {className: can.base.contains(img, ".jpg")? "jpg": "", img: img}, {view: wiki.TITLE, list: [
+						{text: value.name}, can.onappend.label(can, value),
+					]},
 				]}, {view: [wiki.CONTENT, html.DIV, value.text]},
 				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, html.CARD_BUTTON) }},
 			]}
 		})
 		can.onimport.layout = can.onimport.layout||function() { var height = can.onlayout.expand(can, target); can.sup.onexport.outputMargin = function() { return height } }
 		can.page.Append(can, target, list), can.onmotion.orderShow(can, target)
+		can.onimport._online(can)
 	},
 	_vimer_zone: function(can, msg, target) { msg.Table(function(value) { var action = can.page.parseAction(can, value)
 		can.onimport.item(can, {type: value.type, status: value.status, icon: can.misc.Resource(can, value.icon||value.icons||value.avatar_url), name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]), title: value[mdb.TEXT]||value.description}, function(event) {
@@ -222,6 +225,29 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 				can.runActionCommand(can.request(event, can.Option(), {space: meta.space}), meta.index, cmds, cb)
 			}, sub.onaction.close = function() { can.onmotion.hidden(can, target) }, can.base.isFunc(cb) && cb(sub)
 		}, target, field)
+	},
+	_online: function(can, delay) {
+		can.onmotion.delay(can, function() {
+			if (!can.ui.friend) {
+				if (can.isCmdMode()) {
+					can.ui.friend = can.page.Append(can, can._action, ["item friend"])._target
+				} else {
+					var p = can.page.SelectOne(can, can._action, "div.item._space").nextSibling
+					can.ui.friend = can.page.insertBefore(can, ["item friend"], p, can._action)
+				}
+			}
+			can._root.Header.run(can.request({}, {_space: can.ConfSpace(), _index: can.ConfIndex()}), [ctx.ACTION, web.ONLINE], function(msg) {
+				can.page.Appends(can, can.ui.friend, msg.Table(function(value, index) {
+					return index < 5 && {img: can.misc.Resource(can,
+						value.username == can.user.info.username? value.icons: value.avatar||"usr/icons/contexts.png"),
+						title: [
+							[value.usernick, value.username].join(" "),
+							[value.agent, value.system, value.ip].join(" "),
+						].join("\n")}
+				}))
+			})
+			can.onimport._online(can, 30000)
+		}, delay)
 	},
 })
 Volcanos(chat.ONLAYOUT, {

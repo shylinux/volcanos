@@ -480,12 +480,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}}
 	},
 	label: function(can, value, icons) {
-		return {view: html.STATUS, list: can.core.Item(icons||{version: "bi bi-tags",
+		return {view: html.STATUS, list: can.core.Item(icons||{
+			version: "bi bi-tags",
 			time: can.base.isIn(can.ConfIndex(), web.DREAM, web.STORE)? "bi bi-tools": "bi bi-clock-history",
+			restart: "bi bi-bootstrap-reboot",
+			access: "bi bi-file-lock",
 		}, function(name, icon) { var text = value[name]
 			if (name == nfs.VERSION) { text = value.version.split("-").slice(0, 2).join("-") }
 			if (name == mdb.TIME) { text = can.base.TimeTrim(value[name]) }
-			return value[name] && {view: [[html.ITEM]], list: [{icon: icon}, {text: text}]}
+			return value[name] && {view: [[html.ITEM, name]], list: [{icon: icon}, {text: text}]}
 		})}
 	},
 	table: function(can, msg, cb, target, keys) { if (!msg || msg.Length() == 0) { return } var meta = can.base.Obj(msg.Option(mdb.META))
