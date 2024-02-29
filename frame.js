@@ -74,14 +74,24 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.isLocalFile) { return }
 		return can.misc.WSS(can, {type: type||web.PORTAL, name: name||can.misc.Search(can, cli.DAEMON)||""}, function(event, msg, cmd, arg, cb) {
 			if (cbs && can.core.CallFunc(cbs, {event: event, msg: msg, cmd: cmd, arg: arg, cb: cb})) { return }
-			var sub = can.ondaemon._list[can.core.Keys(msg[ice.MSG_TARGET])]||can; can.base.isFunc(sub.ondaemon[cmd])?
-				can.core.CallFunc(sub.ondaemon[cmd], {can: can, msg: msg, sub: sub, cmd: cmd, arg: arg, cb: cb}):
-				can.onengine._search({}, can, msg, can, [chat._SEARCH, cmd].concat(arg), cb)
+			var sub = can.ondaemon._list[can.core.Keys(msg[ice.MSG_TARGET])]||can;
+			sub.sub && can.base.isFunc(sub.sub.ondaemon[cmd])? can.core.CallFunc(sub.sub.ondaemon[cmd], {can: can, msg: msg, sub: sub, cmd: cmd, arg: arg, cb: cb}):
+				can.base.isFunc(sub.ondaemon[cmd])? can.core.CallFunc(sub.ondaemon[cmd], {can: can, msg: msg, sub: sub, cmd: cmd, arg: arg, cb: cb}):
+					can.onengine._search({}, can, msg, can, [chat._SEARCH, cmd].concat(arg), cb)
 		})
 	}, _list: [""], pwd: function(can, arg) { can.misc.sessionStorage(can, "can.daemon", can._wss_name = can.ondaemon._list[0] = arg[0]) },
 	close: function(can, msg, sub) { can.user.close() }, exit: function(can, msg, sub) { can.user.close() },
 	toast: function(can, sub, arg, cb) { can.core.CallFunc(can.user.toast, [sub].concat(arg)) },
-	refresh: function(can, sub) { can.base.isFunc(sub.Update) && sub.Update() },
+	online: function(can, sub) { debugger },
+	refresh: function(can, msg, sub, arg) {
+		if (arg[0] == "confirm") {
+			can.user.toastConfirm(can, arg[1]||"reload?", sub.ConfIndex(), function(event, button) {
+				can.base.isFunc(sub.Update) && sub.Update()
+			})
+		} else {
+			can.base.isFunc(sub.Update) && sub.Update()
+		}
+	},
 	grant: function(can, msg, sub, arg) {
 		var toast = can.user.toast(can, {duration: arg[1]||10000, content: "grant "+arg[0], action: shy({
 			confirm: function(event) { toast.close(), can.run(can.request(event, {name: arg[0]}), [ctx.ACTION, ctx.RUN, web.SPACE, aaa.LOGIN]) },

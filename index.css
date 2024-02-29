@@ -134,7 +134,7 @@ kbd { padding:0 var(--input-padding); }
 img.qrcode { width:var(--qrcode-width); }
 /* output style */
 div.title>div.status { line-height:20px; display:flex; }
-div.title>div.status>div.item { font-size:var(--status-font-size); font-weight:normal; float:left; padding:0 var(--input-padding); }
+div.title>div.status>div.item { font-size:var(--status-font-size); font-weight:normal; white-space:pre; padding:0 var(--input-padding); display:flex; float:left; }
 div.title>div.status>div.item.restart { background-color:var(--notice-bg-color); color:var(--notice-fg-color) !important; opacity:0.4; }
 div.title>div.status>div.item.access { background-color:var(--danger-bg-color); color:var(--danger-fg-color) !important; opacity:0.4; }
 div.title>div.status>div.item:not(:hover) { color:var(--disable-fg-color); }
@@ -146,7 +146,7 @@ div.output.card>div.item:hover { background-color:var(--plugin-bg-color); color:
 div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item>div.title { font-size:var(--legend-font-size); font-weight:bold; padding-bottom:var(--input-padding); display:flex; align-items:center; overflow:hidden; }
 div.output.card>div.item>div.title>div.title>span { padding:var(--input-padding); }
-div.output.card>div.item>div.title>img { height:var(--header-height); width:var(--header-height); float:left; }
+div.output.card>div.item>div.title>img { height:var(--header-height); width:var(--header-height); margin:0; float:left; }
 div.output.card>div.item>div.title>img.jpg { padding:var(--input-padding); }
 div.item img.jpg { padding:var(--input-padding); }
 div.output.card>div.item>div.content { white-space:pre; font-size:var(--status-font-size); padding:var(--input-padding); height:var(--header-height); }
@@ -195,11 +195,16 @@ div.content>div.toggle.display { left:20%; bottom:-52px; rotate:90deg; border-to
 div.project:not(.toggle) { width:var(--project-width); flex:0 0 var(--project-width); }
 div.profile:not(.toggle) { width:50%; flex:0 0 50%; }
 /* fieldset */
-fieldset>div.action>div.friend { display:block; margin-left:10px !important; }
-fieldset>div.action>div.friend { display:block; margin-right:10px !important; overflow:hidden; }
-fieldset>div.action>div.friend img { height:var(--action-height); transition:all 1s; float:right; }
-fieldset>div.action>div.friend:not(:hover) img:not(:first-child) { margin-right:-20px; }
-fieldset>div.action>div.friend:hover img:not(:first-child) { margin-right:var(--input-margin); }
+fieldset>div.action>div.online { display:block; margin-left:10px !important; }
+fieldset>div.action>div.online { display:block; margin-right:10px !important; overflow:hidden; position:relative; }
+fieldset>div.action>div.online span { background-color:var(--hover-bg-color); color:var(--hover-fg-color); font-size:var(--status-font-size); position:absolute; bottom:0; }
+fieldset>div.action>div.online img { height:var(--action-height); transition:margin-right 1s; float:right; }
+fieldset>div.action>div.online img:hover { background-color:var(--hover-bg-color); }
+fieldset>div.action>div.online:not(:hover) img:not(:first-child) { margin-right:-20px; }
+body.mobile fieldset>div.action>div.online img:not(:first-child) { margin-right:-20px; }
+body.width6 fieldset>div.action>div.online:not(:hover) img:not(:first-child) { margin-right:var(--input-margin); }
+fieldset>div.action>div.online:hover img:not(:first-child) { margin-right:var(--input-margin); }
+fieldset>div.action>div.online:hover { background-color:unset; }
 fieldset>form.option>div.item:not(.icon) { margin-right:var(--button-margin); }
 fieldset>div.action>div.item:not(:last-child) { margin-right:var(--button-margin); }
 fieldset.input>legend { display:none; }
@@ -474,7 +479,7 @@ input[type=button] { border-radius:var(--button-radius); }
 fieldset>form.option>div.item.select { border-radius:var(--button-radius); }
 fieldset>form.option>div.item.button { border-radius:var(--button-radius); }
 fieldset>div.action div.item.button { border-radius:var(--button-radius); }
-fieldset>div.action div.item.button:last-child { margin-right:20px; }
+fieldset>div.action>div.item.button:last-child { margin-right:20px; }
 fieldset>div.action div.item.select:not(.button):not(.cmds) { border-radius:var(--button-radius); border-bottom:var(--notice-bg-color) solid 3px; }
 fieldset:not(.input):not(.panel):not(.full):not(.cmd) { border-radius:var(--plugin-radius); }
 fieldset>div.status>legend:not(:hover):not(.select) { border-radius:0; }

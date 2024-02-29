@@ -226,29 +226,23 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			}, sub.onaction.close = function() { can.onmotion.hidden(can, target) }, can.base.isFunc(cb) && cb(sub)
 		}, target, field)
 	},
-	_online: function(can, delay) {
-		can.onmotion.delay(can, function() {
-			if (!can.ui.friend) {
-				if (can.isCmdMode()) {
-					can.ui.friend = can.page.Append(can, can._action, ["item friend"])._target
-				} else {
-					var p = can.page.SelectOne(can, can._action, "div.item._space").nextSibling
-					can.ui.friend = can.page.insertBefore(can, ["item friend"], p, can._action)
-				}
+	_online: function(can, delay) { can.onmotion.delay(can, function() {
+		if (!can.ui.online) {
+			if (can.isCmdMode()) {
+				can.ui.online = can.page.Append(can, can._action, ["item online"])._target
+			} else {
+				var p = can.page.SelectOne(can, can._action, "div.item._space"); p = p? p.nextSibling: p
+				can.ui.online = can.page.insertBefore(can, ["item online"], p, can._action)
 			}
-			can._root.Header.run(can.request({}, {_space: can.ConfSpace(), _index: can.ConfIndex()}), [ctx.ACTION, web.ONLINE], function(msg) {
-				can.page.Appends(can, can.ui.friend, msg.Table(function(value, index) {
-					return index < 5 && {img: can.misc.Resource(can,
-						value.username == can.user.info.username? value.icons: value.avatar||"usr/icons/contexts.png"),
-						title: [
-							[value.usernick, value.username].join(" "),
-							[value.agent, value.system, value.ip].join(" "),
-						].join("\n")}
-				}))
-			})
-			can.onimport._online(can, 30000)
-		}, delay)
-	},
+		}
+		can._root.Header.run(can.request({}, {_space: can.ConfSpace()||can.misc.Search(can, ice.POD), _index: can.ConfIndex()}), [ctx.ACTION, web.ONLINE], function(msg) {
+			can.page.Appends(can, can.ui.online, msg.Table(function(value, index) {
+				return index < 5 && {img: can.misc.Resource(can, value.username == can.user.info.username? value.icons: value.avatar||"usr/icons/contexts.png"),
+					title: [[value.usernick, value.username].join(lex.SP), [value.agent, value.system, value.ip].join(lex.SP)].join(lex.NL)}
+			}))
+			can.page.Append(can, can.ui.online, [{text: msg.Length()+""}])
+		}), can.onimport._online(can, 30000)
+	}, delay) },
 })
 Volcanos(chat.ONLAYOUT, {
 	_init: function(can, height, width) {
