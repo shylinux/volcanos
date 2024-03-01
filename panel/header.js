@@ -24,6 +24,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	_avatar: function(can, msg) { can.user.isExtension || can.user.isLocalFile || can.page.Modify(can, "div.state.avatar>img", {src: can.onexport.avatar(can)}) },
 	_background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return } can.onlayout.background(can, can.onexport.background(can)) },
 	_search: function(can, msg, target) {
+		if (!can.user.isTechOrRoot(can)) { return }
 		can._search = can.onappend.input(can, {type: html.TEXT, _className: "args trans", icon: icon.SEARCH, name: mdb.SEARCH, value: can.misc.Search(can, "_search"), onkeydown: function(event) { can.onkeymap.input(event, can)
 			event.key == code.ENTER && can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: event.target.value||""}))
 		}}, "", target, [chat.TITLE])

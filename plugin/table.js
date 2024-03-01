@@ -7,6 +7,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		} else {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		}
+		if (msg.Option("sess.online") == ice.TRUE) { can.onimport._online(can) }
 	},
 	card: function(can, msg, target) { target = target||can.ui.content||can._output
 		var list = msg.Table(function(value) { value.icon = value.icons||value.icon||value.image

@@ -263,7 +263,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					full: !can.isCmdMode() && "切换全屏",
 					open: !can.isCmdMode() && "打开链接",
 					// qrcode: !can.isCmdMode() && "生成链接",
-					chat: "发送聊天",
+					chat: can.user.isTechOrRoot(can) && "发送聊天",
 					// chat: can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "发送聊天",
 					help: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_help") && can.Conf("_help") != "" && "查看文档",
 					// vimer: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_fileline") && can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "查看源码",
