@@ -229,10 +229,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	_online: function(can, delay) { can.onmotion.delay(can, function() {
 		if (!can.ui.online) {
 			if (can.isCmdMode()) {
-				can.ui.online = can.page.Append(can, can._action, ["item online"])._target
+				can.ui.online = can.page.Append(can, can._action, ["item online state"])._target
 			} else {
 				var p = can.page.SelectOne(can, can._action, "div.item._space"); p = p? p.nextSibling: p
-				can.ui.online = can.page.insertBefore(can, ["item online"], p, can._action)
+				can.ui.online = can.page.insertBefore(can, ["item online state"], p, can._action)
 			}
 		}
 		can._root.Header.run(can.request({}, {_space: can.ConfSpace()||can.misc.Search(can, ice.POD), _index: can.ConfIndex()}), [ctx.ACTION, web.ONLINE], function(msg) {
