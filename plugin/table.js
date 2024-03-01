@@ -135,7 +135,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		}
 		var icon = item.icon||item.icons
 		var ui = can.page.Append(can, target, [{view: [[html.ITEM, item.type, item.status]], list: [
-			icon && (can.base.contains(icon, ice.HTTP, ".png", ".jpg")? {className: can.base.contains(icon, ".jpg")? "jpg": "", img: can.misc.Resource(can, icon)}: {icon: icon}),
+			icon && (can.base.contains(icon, ice.HTTP, ".ico", ".png", ".jpg")? {img: can.misc.Resource(can, icon)}: {icon: icon}),
 			{text: item.nick||item.name||item.zone}], title: item.title, onclick: function(event) {
 				can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)
 				cb(event, event.currentTarget, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
