@@ -125,26 +125,24 @@ Volcanos(chat.ONSYNTAX, {
 		},
 		func: function(can, push, text) { if (can.base.endWith(text, "() {")) { var ls = can.core.Split(text, "\t (){"); push(ls[0]) } },
 	}, configure: {link: "sh"},
-	shy: {prefix: {"#": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT},
-		keyword: {"source": code.KEYWORD,
+	shy: {
+		prefix: {
+			"#": code.COMMENT,
+			"~": code.COMMENT,
+		},
+		regexp: {"[A-Z_0-9]+": code.CONSTANT},
+		keyword: {
+			"source": code.KEYWORD, "return": code.KEYWORD, "config": code.KEYWORD,
+			"create": code.FUNCTION, "modify": code.FUNCTION, "insert": code.FUNCTION,
+			"spide": code.DATATYPE, "serve": code.DATATYPE, "dream": code.DATATYPE,
+			"user": code.DATATYPE,
+
 			"title": code.KEYWORD, "navmenu": code.KEYWORD, "premenu": code.KEYWORD, "chapter": code.KEYWORD, "section": code.KEYWORD, "endmenu": code.KEYWORD,
 			"refer": code.KEYWORD, "brief": code.KEYWORD, "spark": code.KEYWORD, "shell": code.KEYWORD, "parse": code.KEYWORD,
 			"order": code.KEYWORD, "table": code.KEYWORD, "chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
 			"field": code.KEYWORD, "image": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD,
 			"style": code.KEYWORD,
 			"inner": code.KEYWORD,
-
-			"package": code.KEYWORD, "import": code.KEYWORD, "const": code.KEYWORD, "type": code.KEYWORD, "var": code.KEYWORD,
-			"if": code.KEYWORD, "else": code.KEYWORD,
-			"for": code.KEYWORD, "range": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
-			"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD,
-			"func": code.KEYWORD, "defer": code.KEYWORD, "return": code.KEYWORD,
-			"init": code.FUNCTION, "main": code.FUNCTION, "list": code.FUNCTION, "info": code.FUNCTION,
-			"map": code.DATATYPE, "struct": code.DATATYPE, "interface": code.DATATYPE, "string": code.DATATYPE, "int": code.DATATYPE,
-			"true": code.CONSTANT, "false": code.CONSTANT,
-
-			"kit": code.PACKAGE, "ice": code.PACKAGE, "m": code.OBJECT, "arg": code.OBJECT,
-			"event": code.OBJECT, "can": code.OBJECT, "msg": code.OBJECT, "target": code.OBJECT,
 		},
 		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t ")
 			opts.chapter = opts.chapter||0
@@ -244,8 +242,7 @@ Volcanos(chat.ONSYNTAX, {
 			"res": code.OBJECT, "sub": code.OBJECT, "sup": code.OBJECT,
 		},
 		complete: function(event, can, msg, target, pre, key) {
-			return
-			var ls = can.core.Split(can.core.Split(pre, "\t {(:,)}").pop(), nfs.PT), list = {can: can, msg: msg, target: target, event: event, window: window}
+			var ls = can.core.Split(can.core.Split(pre, "\t {(:,)}").pop(), nfs.PT), list = {event: event, can: can, msg: msg, target: target, window: window}
 			can.core.ItemKeys(key == ""? list: can.core.Value(list, ls)||can.core.Value(window, ls)||window, function(k, v) {
 				msg.Push(mdb.NAME, k).Push(mdb.TEXT, (v+"").split(lex.NL)[0])
 			})
