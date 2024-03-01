@@ -89,6 +89,7 @@ var web = {
 	SERVE: "serve", SPACE: "space", DREAM: "dream", ROUTE: "route",
 	SHARE: "share", TOKEN: "token", STATS: "stats", COUNT: "count",
 	SPIDE: "spide", STORE: "store", ADMIN: "admin", MATRIX: "matrix",
+	GRANT: "grant",
 
 	WORKER: "worker", SERVER: "server", MASTER: "master", GATEWAY: "gateway",
 	ORIGIN: "origin", VENDOR: "vendor", ONLINE: "online", OFFLINE: "offline",
