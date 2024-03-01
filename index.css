@@ -493,6 +493,7 @@ div.plug legend { border-radius:0; }
 fieldset>legend { box-shadow:var(--legend-box-shadow); }
 fieldset>form.option>div.item:not(.icon) { box-shadow:var(--input-box-shadow); }
 fieldset>div.action div.item:not(.state) { box-shadow:var(--input-box-shadow); }
+fieldset>div.action div.item:first-child { margin-left:var(--input-margin); }
 fieldset>div.action>div.tabs { box-shadow:var(--legend-box-shadow); }
 fieldset>div.action>div.cmds { box-shadow:var(--legend-box-shadow); }
 fieldset>div.status>legend { box-shadow:var(--legend-box-shadow); }
