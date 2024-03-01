@@ -167,6 +167,7 @@ div.project div.list { margin-left:var(--button-margin); clear:both; }
 div.project div.list fieldset { position:static; }
 div.project div.item:not(.hide) { white-space:pre; line-height:24px; padding:0 var(--button-margin); display:flex; align-items:center; }
 div.project div.item img { height:var(--action-height); width:var(--action-height); }
+fieldset div.project div.item img { margin:0; }
 div.project div.item.filter { padding:0; width:100%; }
 div.project div.item.filter>input { padding:0 25px; width:100% !important; }
 div.project div.item.search { padding:0; width:100%; }
