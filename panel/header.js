@@ -102,7 +102,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 				msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) })
 				var tool = can._root.Action._conf.tool
 				if (can.Conf(aaa.USERNICK, (msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)).slice(0, 8)) || can.misc.Search(can, web.SHARE)
-					|| tool && can.base.isIn(tool[0]._command, web.PORTAL, aaa.OFFER)) { return show(msg) }
+					|| tool && can.base.isIn(tool[0]._command, web.PORTAL, aaa.OFFER, aaa.APPLY)) { return show(msg) }
 				can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
 			})
 		})

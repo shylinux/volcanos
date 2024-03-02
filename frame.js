@@ -512,8 +512,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(request(event), [ctx.ACTION, cmd].concat(arg)) }) }
 			function img(p) { return !msg.IsDetail()? can.page.Format(html.IMG, p, 48, 48): can.user.isMobile? can.page.Format(html.IMG, p, null, 320): can.page.Format(html.IMG, p, 320, null) }
 			if (key == mdb.NAME && value) { _value = can.user.trans(can, value, null, html.INPUT) }
-			if (key == mdb.ICONS && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == mdb.ICON && value) { _value = img(can.misc.Resource(can, data[key])) }
+			if (key == mdb.ICONS && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
 			if (key == web.SPACE && value) { _value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }
 			if (key == mdb.HASH && can.ConfIndex() == web.TOKEN) { _value = value.slice(0, 4)+"****" }
@@ -546,6 +546,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.page.ClassList.set(can, target, "will", can.page.ClassList.has(can, target, key))
 				})
 			}, _init: function(target) {
+				if (key == ctx.ACTION && msg.IsDetail()) {
+					can.onappend.style(can, ctx.ACTION, target.parentNode)
+				}
 				key == ctx.ACTION && can.onappend.mores(can, target, data, msg.IsDetail()? 10: html.TABLE_BUTTON)
 				var list = can.page.Select(can, target, html.INPUT, function(target) {
 					var _icon = can.Conf("_icons."+target.name)||icon[target.name]; if (_icon && typeof _icon == code.STRING || target.name == mdb.DELETE) { return target }
@@ -656,7 +659,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				append(can.page.Append(can, target, [html.LAYOUT])._target, type==FLOW? FLEX: FLOW, item)
 			} else if (can.base.isObject(item)) {
 				if (item.index) { item._index = count++, ui.size[item._index] = item.height||item.width
-					can.base.isIn(item._command, web.PORTAL, web.DESKTOP, aaa.OFFER) && can.onmotion.hidden(can, target)
+					can.base.isIn(item._command, web.PORTAL, web.DESKTOP, aaa.OFFER, aaa.APPLY) && can.onmotion.hidden(can, target)
 					can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 						item.layout = function(height, width) { sub.onimport.size(sub, height, width) }
 						can.onmotion.select(can, sub._target.parentNode, html.FIELDSET, sub._target)

@@ -112,9 +112,14 @@ table.content th.select[data-asc="1"] i.bi-sort-down-alt { display:none; }
 table.content td.option { cursor:pointer; }
 table.content td { padding:var(--table-padding); }
 table.content td i { padding:var(--input-padding); }
-table.content.detail td { padding:var(--table-padding) 0; }
+// table.content.detail td { padding:var(--table-padding) 0; }
 table.content.detail td:first-child { text-align:center; }
+table.content.detail td:first-child { background-color:var(--plugin-bg-color); position:sticky; left:0; }
 table.content.detail td i { display:none; }
+table.content.detail tr.action { background-color:var(--plugin-bg-color); position:sticky; bottom:0; }
+table.content.detail tr.action td { box-shadow:var(--box-shadow); }
+table.content.detail tr.action input.icons { display:none; }
+table.content.detail tr.action i { display:unset; }
 table.content:not(.detail) td input.icons { display:none; }
 table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; }
 table.content.checkbox td:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; }
@@ -227,6 +232,7 @@ fieldset.input.icon img { height:var(--desktop-icon-size); width:var(--desktop-i
 fieldset.input.icon div.output td { font-size:28px; padding:var(--input-padding); }
 fieldset.input.date span.close { display:none; }
 fieldset.input.date>div.action { flex-direction:column; }
+fieldset.input.date>div.action>div>div:first-child { margin-left:0; }
 fieldset.input.date>div.action>div { display:flex; justify-content:space-between; }
 fieldset.input.date div.action>div.time div.item span { display:none; }
 fieldset.input.date div.action span.close { display:none; }
@@ -237,7 +243,7 @@ fieldset.input.date>div.output td span.lunar { font-size:8px; display:block; cle
 fieldset.input.date>div.output td span.lunar.term { color:green; }
 fieldset.input.date>div.output td span.lunar.fest { color:red; }
 fieldset.input.date>div.output td { cursor:pointer; }
-fieldset.input.date>div.status { text-align:center; }
+fieldset.input.date>div.status { text-align:center; border-top:unset; }
 fieldset.input.date>div.status>div.today { padding:var(--input-padding); }
 fieldset.input.float { padding:0; }
 fieldset.input.float table.content th { padding:var(--input-padding); }
@@ -461,11 +467,11 @@ div.carte div.item:hover { background-color:var(--hover-bg-color); }
 div.carte div.item.danger:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 div.carte div.item.notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 /* z-index */
-body>div.toast.float { z-index:10; }
-fieldset.input.float { z-index:10; }
+fieldset.Action>div.toast { z-index:11; }
+body>div.toast.float { z-index:11; }
+div.carte.float { z-index:11; }
 div.input.float { z-index:10; }
-div.carte.float { z-index:10; }
-fieldset.Action>div.toast { z-index:10; }
+fieldset.input.float { z-index:10; }
 fieldset.full, fieldset.auto { z-index:10; }
 fieldset.float { z-index:8; }
 table.content thead { z-index:2; }

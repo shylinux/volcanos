@@ -165,6 +165,7 @@ var tcp = {
 	SERVICE: "service", HOSTNAME: "hostname",
 	WIFI: "wifi", SSID: "ssid",
 	LOCALHOST: "localhost",
+	DIRECT: "direct", SEND: "send", RECV: "recv",
 }
 var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", PACK: "pack", TRASH: "trash", DIR_ROOT: "dir_root",
