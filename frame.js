@@ -721,9 +721,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		can.runAction(can.request({}, meta._commands, {_method: http.GET, pod: meta.space, _failure: function() {
 			return can.misc.isDebug(can) && can.misc.Warn("not found", meta.index), _plugin({type: meta.type, index: "can._notfound", args: [meta.index, meta.space]})
 		}})._caller(), ctx.COMMAND, [meta.index], function(msg) { if (msg.Length() == 0) { return msg._failure() }
-			msg.Table(function(value) {
-				value._prefix = msg["_prefix"]
-				can.onappend._plugin(can, value, meta, _cb, target, field) })
+			msg.Table(function(value) { value._prefix = msg["_prefix"], can.onappend._plugin(can, value, meta, _cb, target, field) })
 		}); return res
 	},
 	_plugin: function(can, value, meta, cb, target, field) { can.base.Copy(meta, value, true)
