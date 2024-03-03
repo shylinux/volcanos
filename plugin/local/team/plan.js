@@ -4,6 +4,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.onmotion.hidden(can, can.ui.project)
 		can.onimport[can.Option("scale")||team.WEEK](can, msg), can.Status(mdb.COUNT, msg.Length()), can.ui.filter.placeholder = `search in ${ msg.Length() } items`, can.onimport.layout(can)
 		var item; if (can.isCmdMode() && ls.length > 0) { item = can.list[can.core.Keys(ls)] } else if (can.sup.task) { item = can.list[can.core.Keys(can.sup.task.space, can.sup.task.zone, can.sup.task.id)] } item && item.click()
+		can.onimport._online(can)
 	},
 	_content: function(can, msg, head, list, key, get, set) { var begin_time = can.base.Date(can.Option(team.BEGIN_TIME)); can.sup.task && (can.sup.task._target = null)
 		var hash = {}; msg.Table(function(value, index) { var k = key(can.base.Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value]) })

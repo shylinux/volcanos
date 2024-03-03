@@ -60,7 +60,7 @@ Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 		if (can.base.isUndefined(name) || !can.base.isString(name) || name == _name) { return }
 		if (can.base.isUndefined(command)) { return arguments.callee.meta[_name] }
 		var button = false, type = html.TEXT; command.list = can.core.List(command.list, function(item) {
-			return can.base.isString(item) && (item = can.core.SplitInput(item, can.base.isFunc(command.meta[item])? html.BUTTON: type)), item.type != html.SELECT && (type = item.type), button = button || item.type == html.BUTTON, item
+			return can.base.isString(item) && (item = can.core.SplitInput(item, can.base.isIn(item, html.FILTER)? html.TEXT: can.base.isFunc(command.meta[item])? html.BUTTON: type)), item.type != html.SELECT && (type = item.type), button = button || item.type == html.BUTTON, item
 		}); if (!button) { command.list.push(can.core.SplitInput(ice.LIST, html.BUTTON)) } command.can = can, command.meta.name = name, arguments.callee.meta[_name] = command
 	}),
 	listen: shy(function(can, name, cb, target) { arguments.callee.meta[name] = (arguments.callee.meta[name]||[]).concat(cb)
@@ -165,7 +165,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				sub.onappend._output(sub, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
 			}), meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
 			sub._legend && (sub._legend.onclick = function(event) {
-				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([[ctx.ACTION].concat(can.core.Item(meta.feature._trans))]), function(event, button) { can.misc.Event(event, sub, function(msg) {
+				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["操作"].concat(can.core.Item(meta.feature._trans))]), function(event, button) { can.misc.Event(event, sub, function(msg) {
 					can.misc.Inputs(sub, msg, [ctx.ACTION, button], null, meta) || msg.RunAction(event, sub.sub, [ctx.ACTION, button]) || msg.RunAction(event, sub, [ctx.ACTION, button]) || sub.runAction(event, button, [], function(msg) { can.onappend._output(sub, msg) })
 				}) })
 			}), can.base.isFunc(cb) && cb(sub)
@@ -548,6 +548,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}, _init: function(target) {
 				if (key == ctx.ACTION && msg.IsDetail()) {
 					can.onappend.style(can, ctx.ACTION, target.parentNode)
+				}
+				if (can.base.isIn(key, mdb.TYPE, mdb.STATUS)) {
+					can.onappend.style(can, value, can.page.parentNode(can, target, html.TABLE))
 				}
 				key == ctx.ACTION && can.onappend.mores(can, target, data, msg.IsDetail()? 10: html.TABLE_BUTTON)
 				var list = can.page.Select(can, target, html.INPUT, function(target) {

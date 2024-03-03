@@ -200,7 +200,7 @@ Volcanos(chat.ONKEYMAP, {
 })
 Volcanos(chat.ONPLUGIN, {
 	_plugin: shy("插件", [mdb.NAME, ice.LIST, ice.BACK]),
-	_filter: shy("表格", [web.FILTER, ice.LIST, ice.BACK]),
+	_filter: shy("表格", [ice.LIST, html.FILTER]),
 	_notfound: shy("缺失", [ctx.INDEX, web.SPACE, ice.LIST], function(can, msg, arg) { msg.Echo("not found "+arg[0]+" "+arg[1]) }),
 	layout: shy("界面布局", {_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)) }}, ["layout:select=auto,tabs,tabview,horizon,vertical,grid,free,flow,page", ctx.RUN], function(can, msg, arg) { can.onaction.layout(can, arg[0]) }),
 })
