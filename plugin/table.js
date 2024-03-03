@@ -31,7 +31,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.sup.onexport.record(can, value.name, mdb.NAME, value, event)
 		}, function() { return shy(action, function(event, button, meta, carte) { can.misc.Event(event, can, function(msg) { carte.close()
 			can.sup.onexport.action(can, button, value) || can.run(event, [ctx.ACTION, button], function(msg) { can.sup.onimport._process(can.sup, msg) || can.Update() })
-		}, value) }) })
+		}, value) }) }), can.onmotion.orderShow(can, target)
 	}) },
 	_zone: function(can, zone, index, cb, field) { zone._delay_init = function() { can.onimport.plug(can, can.base.isObject(index)? index: {index: index, style: html.OUTPUT, mode: mdb.ZONE, field: field}, function(sub) {
 		sub.run = function(event, cmds, cb) { can.runActionCommand(can.request(event, {mode: mdb.ZONE}), index.index||index, cmds, cb) }
@@ -51,6 +51,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	zone: function(can, list, target) {
 		return can.page.Append(can, target, can.core.List(list, function(zone) { can.base.isString(zone) && (zone = {name: zone}); if (!zone) { return }
 			zone._layout = function() { var height = target.offsetHeight, count = 0
+			// debugger
 				can.page.SelectChild(can, target, "", function(target) {
 					can.page.SelectChild(can, target, html.DIV_ITEM, function(target) { height -= target.offsetHeight })
 					can.page.SelectChild(can, target, html.DIV_ACTION, function(target) { height -= target.offsetHeight })
@@ -241,7 +242,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 				return index < 5 && {img: can.misc.Resource(can, value.username == can.user.info.username? value.icons: value.avatar||"usr/icons/contexts.png"),
 					title: [[value.usernick, value.username].join(lex.SP), [value.agent, value.system, value.ip].join(lex.SP)].join(lex.NL)}
 			}))
-			can.page.Append(can, can.ui.online, [{text: msg.Length()+""}])
+			msg.Length() > 0 && can.page.Append(can, can.ui.online, [{text: msg.Length()+""}])
 		}), can.onimport._online(can, 30000)
 	}, delay) },
 })

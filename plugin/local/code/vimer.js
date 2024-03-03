@@ -2,7 +2,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { if (can.user.mod.isPod)
 		can.require(["/plugin/local/code/inner.js"], function(can) { can.onimport._last_init(can, msg, function() {
 			can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(can) })
 			can.db.undo = [], can.db.redo = [], can.onimport._input(can), cb && cb(msg)
-			can.onimport._online(can)
 		}) })
 	},
 	_input: function(can) { var ui = can.page.Append(can, can.ui.content.parentNode, [
@@ -42,18 +41,21 @@ Volcanos(chat.ONFIGURE, {
 					nfs.TRASH, function(event, button) { can.runAction(event, nfs.TRASH, [path+item.path], function(msg) { show(target, zone, path) }) },
 				)}; return item
 			}); cache = can.onimport.tree(can, list, nfs.PATH, nfs.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, cache)
+			can.onmotion.orderShow(can, target)
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) {
-			show(target, zone, path), zone._toggle = function() { can.ui.zone.source && can.ui.zone.source._layout(), zone._layout() }
-		}) }), target)
+			show(target, zone, path), zone._toggle = function() {
+				// can.ui.zone.source && can.ui.zone.source._layout()
+				// zone._layout()
+			}
+		}) }), target), can.onmotion.orderShow(can, target, html.DIV_ZONE)
 	},
 	space: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {
 		sub.onimport._open = function(_, msg, arg) { var link = can.misc.ParseURL(can, arg)
 			if (link.pod) { can.onimport.tabview(can, "", link.pod, web.SPACE), sub.Update(); return }
 			can.onimport.tabview(can, "", arg, web.SPACE)
 		}
-		sub.onexport.record = function(sub, value, key) {
-			can.onimport.tabview(can, "", value, web.SPACE) }
+		sub.onexport.record = function(sub, value, key) { can.onimport.tabview(can, "", value, web.SPACE) }
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
 	}), zone.toggle(false) },
 })

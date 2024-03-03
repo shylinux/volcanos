@@ -45,6 +45,11 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding:va
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { white-space:pre; padding:10px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:var(--code-tabs-height); clip-path:circle(40%); }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online { margin-left:var(--button-margin) !important; display:block; float:right; position:relative; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online span { background-color:var(--hover-bg-color); color:var(--hover-fg-color); font-size:var(--status-font-size); position:absolute; bottom:12px; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online img { height:var(--action-height); transition:margin-right 1s; float:right; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online img:hover { background-color:var(--hover-bg-color); }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online:not(:hover) img:not(:first-child) { margin-right:-20px; }
 fieldset.inner.cmd>div.output>div.layout>div.path:not(.hide) { display:flex; }
 fieldset.inner>div.output>div.layout>div.path:not(.hide) { font-style:italic; box-shadow:var(--box-shadow); cursor:pointer; justify-content:flex-start; }
 fieldset.inner>div.output>div.layout>div.path>a { padding:var(--input-padding) var(--button-padding); }
@@ -64,7 +69,8 @@ fieldset.inner>div.output>div.layout>div.path span.view { font-size:22px; paddin
 fieldset.inner>div.output>div.layout>fieldset.plug.output { white-space:pre; }
 /* fieldset.inner.cmd>div.output>div.layout>div.plug { height:var(--action-height); position:fixed; right:0; bottom:0; overflow:auto; } */
 fieldset.inner.cmd>div.output>div.layout>div.plug { height:var(--action-height); overflow:auto; }
-fieldset.inner.cmd>div.output>div.layout>div.plug>legend { font-size:var(--legend-font-size); font-style:italic; float:right; padding:0 var(--input-padding); }
+
+fieldset.inner.cmd>div.output>div.layout>div.plug>legend { font-size:var(--legend-font-size); font-style:italic; padding:0 var(--input-padding); margin-right:0; float:right; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend:hover { color:unset; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove { padding:0 var(--input-padding); height:30px; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove:hover { background-color:var(--hover-bg-color); }

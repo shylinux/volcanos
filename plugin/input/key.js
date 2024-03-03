@@ -23,7 +23,8 @@ Volcanos(chat.ONFIGURE, {key: {
 		msg.append.length == 1 && can.page.ClassList.add(can, can._target, chat.SIMPLE)
 		can.onlayout.figure({target: target}, can, can._target, false, 200)
 	},
-	onclick: function(event, can, meta, target, cbs) { target.value == "" && cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
+	onfocus: function(event, can, meta, target, cbs, mod) { meta._force && mod.onclick(event, can, meta, target, cbs) },
+	onclick: function(event, can, meta, target, cbs) { (target.value == "" || meta._force) && cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
 	onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },

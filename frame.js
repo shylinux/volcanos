@@ -659,11 +659,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				append(can.page.Append(can, target, [html.LAYOUT])._target, type==FLOW? FLEX: FLOW, item)
 			} else if (can.base.isObject(item)) {
 				if (item.index) { item._index = count++, ui.size[item._index] = item.height||item.width
-					can.base.isIn(item._command, web.PORTAL, web.DESKTOP, aaa.OFFER, aaa.APPLY) && can.onmotion.hidden(can, target)
+					can.base.isIn(item._command, web.PORTAL, web.DESKTOP, aaa.OFFER, aaa.APPLY, code.VIMER) && can.onmotion.hidden(can, target)
+					// can.onmotion.hidden(can, target), can.onmotion.delay(can, function() { can.onmotion.toggle(can, target, true) }, 300)
 					can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 						item.layout = function(height, width) { sub.onimport.size(sub, height, width) }
 						can.onmotion.select(can, sub._target.parentNode, html.FIELDSET, sub._target)
-						sub.onexport._output = function() { can.onmotion.toggle(can, target, true) }
+						sub.onexport._output = function() { can.onmotion.delay(can, function() { can.onmotion.toggle(can, target, true) }) }
 					}, target, ui[item._index] = can.onappend.field(can, item.type, {index: item.index, name: item.index.split(nfs.PT).pop(), help: item.help}, target)._target)
 				} else { can.page.Append(can, target, [item]) }
 			}
@@ -758,7 +759,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.onlayout.figure(event, can, sub._target), can.onmotion.toggle(can, sub._target, true)
 					sub.Status(html.HEIGHT, sub._output.offsetHeight), sub.Status(html.WIDTH, sub._output.offsetWidth)
 				}
-				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, last: last, cbs: function(cb) {
+				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, mod: can.onfigure[input],last: last, cbs: function(cb) {
 					target._can? show(target._can, cb): can.onappend._init(can, {type: html.INPUT, name: input, style: meta.name, mode: chat.FLOAT}, [path, meta.display], function(sub) { sub.Conf(meta)
 						can.page.Append(can, sub._target, [{text: [can.page.unicode.remove, "", "close"], onclick: function() { sub.close() }}])
 						sub.run = function(event, cmds, cb) { var msg = sub.request(event)
