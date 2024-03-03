@@ -7,6 +7,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 		can.Conf(NKEY, can.core.Item(can.misc.localStorage(can)).length)
 		can.onimport._title(can, msg, target), can.onimport._command(can, msg, target), can.onimport._storm(can, msg, target)
 		can.misc.isDebug(can) && can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target)
+		if (!can.user.isTechOrRoot(can)) { return }
+		can.onappend.input(can, {type: html.BUTTON, name: code.XTERM, onclick: function(event) { can.onappend._float(can, code.XTERM, cli.SH) }}, "", can._output)
+		can.onappend.input(can, {type: html.BUTTON, name: cli.RUNTIME, onclick: function(event) { can.onappend._float(can, cli.RUNTIME) }}, "", can._output)
+		can.onappend.input(can, {type: html.BUTTON, name: chat.MESSAGE, onclick: function(event) { can.onappend._float(can, chat.MESSAGE) }}, "", can._output)
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.Conf(chat.TITLE)||msg.result, function(item) {
 		if (can.base.contains(item, ice.AT)) { item = '<a href="mailto:'+item+'">'+item+'</a>' }
@@ -21,10 +25,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 			// can.onexport._float(can, "cli", list[0], list.slice(1), function(sub) { can.getActionSize(function(left) { can.page.style(can, sub._target, html.LEFT, left+html.PLUGIN_MARGIN, html.RIGHT, "") }) })
 			can.onexport._float(can, "cli", {index: "can.console", display: "/plugin/local/code/xterm.js"}, list, function(sub) { can.getActionSize(function(left) { can.page.style(can, sub._target, html.LEFT, left+html.PLUGIN_MARGIN, html.RIGHT, "") }) })
 		}
-	}}, "", target, [chat.TITLE])
-		can.onappend.input(can, {type: html.BUTTON, name: code.XTERM, onclick: function(event) { can.onappend._float(can, code.XTERM, cli.SH) }}, "", can._output)
-		can.onappend.input(can, {type: html.BUTTON, name: chat.MESSAGE, onclick: function(event) { can.onappend._float(can, chat.MESSAGE) }}, "", can._output)
-	},
+	}}, "", target, [chat.TITLE]) },
 	_storm: function(can, msg, target) { can.ui.storm = can.page.Append(can, can._output, [html.MENU])._target },
 	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), can.onexport.list).reverse(), function(item) {
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE]], list: [
@@ -81,6 +82,7 @@ Volcanos(chat.ONEXPORT, {list: [cli.BEGIN, nfs.VERSION],
 	nlog: function(can) { can.onexport._float(can, NLOG, "can.debug") },
 	ncmd: function(can) { can.onexport._float(can, NCMD, "can.debug", [chat.ONREMOTE]) },
 	nkey: function(can) { can.onexport._float(can, NKEY, "can.localStorage") },
+	begin: function(can) { can.onexport._float(can, NKEY, "can.data") },
 	version: function(can) { can.onexport._float(can, NKEY, "can.runtime") },
 	_float: function(can, name, index, args, cb) { can.ui[name]? can.ui[name].onaction.close(): can.onappend._float(can, index, args||[], function(sub) { can.ui[name] = sub
 		can.base.isFunc(cb) && cb(sub), can.onmotion.delay(can, function() { sub.onaction.close = function() { can.page.Remove(can, sub._target), delete(can.ui[name]) } })

@@ -543,8 +543,10 @@ textarea { font-size:var(--body-font-size); padding:var(--input-padding); height
 table.content.full { width:100%; }
 table.content col.time { width:180px; }
 table.content col.action { width:var(--project); }
-table.content.detail td:first-child { width:var(--input-width); }
+table.content.detail td:first-child { width:var(--input-width); box-shadow:var(--box-shadow); }
 table.content.detail td { min-width:80px; }
+fieldset.web.chat.island.portal>div.output>table.content.detail td { min-width:80px; text-align:center; }
+body.void fieldset.web.chat.island.portal>div.status { display:none; }
 table.content, div.code, div.story[data-type=spark] { white-space:pre; margin:0; }
 div.output>div.code video { max-width:100%; }
 div.story[data-type=spark] { border-left:var(--notice-bg-color) solid 5px; padding:var(--input-padding) var(--table-padding); }

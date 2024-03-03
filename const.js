@@ -443,10 +443,13 @@ var icon = {
 	username: "bi bi-person-gear",
 
 	portal: "bi bi-globe",
-	desktop: "bi bi-window-desktop", admin: "bi bi-window-sidebar",
+	desktop: "bi bi-window-desktop",
+	admin: "bi bi-window-sidebar",
 	// dream: "bi bi-grid-3x3-gap",
-	dream: "bi bi-diagram-3",
-	space: "bi bi-grid-3x3-gap",
+	// dream: "bi bi-diagram-3",
+	dream: "bi bi-box",
+	space: "bi bi-box",
+	store: "bi bi-shop",
 	configs: "bi bi-gear", config: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week",
 	save: "bi bi-floppy", trash: "bi bi-trash",
 

@@ -148,7 +148,7 @@ Volcanos(chat.ONENGINE, {
 		can.core.ItemOrder(river.storm, mdb.ORDER, function(key, value) { if (!value) { return }
 			if (value.nodetype && value.nodetype != can.user.info.nodetype) { return }
 			if (can.user.info.userrole == aaa.ROOT || can.base.isIn(value.type||"", "", aaa.VOID, can.user.info.userrole)) {
-				msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||"", main: value.main||false})
+				msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name||(can.user.trans(can, key)+" "+key), icon: value.icon||icon[key]||"", main: value.main||false})
 			}
 		}), can.base.isFunc(cb) && cb(msg); return true
 	},
