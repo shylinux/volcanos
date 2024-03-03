@@ -144,6 +144,7 @@ var aaa = {
 
 	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole", USERZONE: "userzone",
 	VOID: "void", TECH: "tech", ROOT: "root",
+	PUBLIC: "public", PRIVATE: "private",
 }
 var lex = {
 	SPLIT: "split", PARSE: "parse",
@@ -220,6 +221,7 @@ var cli = {
 	QRCODE: "qrcode", COLOR: "color", BLACK: "black", WHITE: "white", BLUE: "blue", RED: "red", GRAY: "gray", CYAN: "cyan", GREEN: "green", PURPLE: "purple", YELLOW: "yellow",
 	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
 	LINUX: "linux", DARWIN: "darwin", WINDOWS: "windows",
+	SH: "sh",
 }
 var log = {
 	INFO: "info", WARN: "warn", ERROR: "error", DEBUG: "debug", TRACE: "trace",
@@ -253,6 +255,8 @@ var chat = {
 	SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field", TOOL: "tool",
 	STATE: "state", MENUS: "menus", SSO: "sso", LOCATION: "location", IFRAME: "iframe", DESKTOP: "desktop",
 	OUTPUT: "output", SIMPLE: "simple", FLOAT: "float", FULL: "full", CMD: "cmd",
+	MESSAGE: "message",
+	MATRIX: "matrix",
 
 	HEADER: "Header", ACTION: "Action", FOOTER: "Footer",
 	libs: ["base.js", "core.js", "date.js", "misc.js", "page.js", "user.js"].map(function(p) { return "/lib/"+p }),
@@ -328,6 +332,7 @@ var html = {value: {
 	CARD_BUTTON: 5,
 	CARD_WIDTH: 320, CARD_HEIGHT: 160,
 	PLUG_WIDTH: 800, PLUG_HEIGHT: 480, STORY_HEIGHT: 480, FLOAT_HEIGHT: 480, FLOAT_WIDTH: 1200, DESKTOP_WIDTH: 1200, DESKTOP_HEIGHT: 684,
+	ORDER_SHOW_LIMIT: 30, ORDER_SHOW_DELAY: 150,
 },
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	OPTION_ARGS: "select.args,input.args,textarea.args", INPUT_ARGS: "input.args,textarea.args", INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",

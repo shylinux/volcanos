@@ -263,7 +263,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					full: !can.isCmdMode() && "切换全屏",
 					open: !can.isCmdMode() && "打开链接",
 					// qrcode: !can.isCmdMode() && "生成链接",
-					chat: can.user.isTechOrRoot(can) && "发送聊天",
+					chat: can.user.isTechOrRoot(can) && can.ConfIndex() != chat.MESSAGE && "发送聊天",
 					// chat: can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "发送聊天",
 					help: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_help") && can.Conf("_help") != "" && "查看文档",
 					// vimer: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_fileline") && can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "查看源码",
@@ -1032,11 +1032,12 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			}
 		}
 	},
-	orderShow: function(can, target, key, limit, delay) { if (can.user.isMobile) { return } target = target||can._output, limit = limit||30, delay = delay||50
+	orderShow: function(can, target, key, limit, delay) { if (can.user.isMobile) { return } target = target||can._output
 		var list = can.page.SelectChild(can, target, key||html.DIV_ITEM, function(target) { can.page.style(can, target, html.VISIBILITY, html.HIDDEN); return target })
+		limit = limit||html.ORDER_SHOW_LIMIT, delay = delay||html.ORDER_SHOW_DELAY
 		can.core.Next(list, function(target, next, index) {
 			if (index < limit) {
-				can.page.style(can, target, html.VISIBILITY, ""), can.onmotion.delay(can, next, list.length > 3? delay: 0)
+				can.page.style(can, target, html.VISIBILITY, ""), can.onmotion.delay(can, next, list.length > 3? delay/(index||1): 0)
 			} else {
 				can.core.List(list, function(target) { can.page.style(can, target, html.VISIBILITY, "") })
 			}

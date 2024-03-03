@@ -61,9 +61,7 @@ Volcanos(chat.ONFIGURE, {
 })
 Volcanos(chat.ONACTION, {list: [
 	"创建", "编译", "源码", "文档",
-	"聊天",
-	"矩阵",
-	"审批",
+	"计划", "聊天", "矩阵",
 	"后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		if (msg.IsErr()) { return can.user.toastFailure(can, msg.Result()) }

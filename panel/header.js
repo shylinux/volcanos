@@ -139,6 +139,11 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	setnick: function(event, can) { can.user.input(event, can, [{name: aaa.USERNICK, value: can.Conf(aaa.USERNICK)}], function(list) { can.runAction(event, aaa.USERNICK, [list[0]], function(msg) {
 		can.page.Select(can, can._output, can.core.Keys(html.DIV, aaa.USERNICK), function(item) { can.page.Modify(can, item, can.Conf(aaa.USERNICK, list[0])) }), can.user.toastSuccess(can)
 	}) }) },
+	setavatar: function(event, can) { can.user.input(event, can, [{name: aaa.AVATAR, value: can.Conf(aaa.AVATAR), action: mdb.ICONS}], function(list) { can.runAction(event, aaa.AVATAR, [list[0]], function(msg) {
+		can.page.Select(can, can._output, can.core.Keys(html.DIV, aaa.AVATAR)+" "+html.IMG, function(item) { item.src = can.misc.Resource(can, list[0]) }), can.user.toastSuccess(can)
+	}) }) },
+	setbackground: function(event, can) { can.user.input(event, can, [{name: aaa.BACKGROUND, value: can.Conf(aaa.BACKGROUND), action: mdb.ICONS}], function(list) { can.runAction(event, aaa.BACKGROUND, [list[0]], function(msg) {
+	}) }) },
 	clear: function(event, can) { can.onimport.background(event, can, "") },
 	logout: function(event, can) { can.user.logout(can) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
@@ -149,12 +154,12 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		cli.QRCODE, "shareuser",
 		[chat.THEME], [aaa.LANGUAGE],
 		// [nfs.SAVE, aaa.EMAIL, web.TOIMAGE, code.WEBPACK],
-		[aaa.USER, "setnick", web.CLEAR, aaa.LOGOUT],
+		[aaa.USER, "setnick", "setavatar", "setbackground", web.CLEAR, aaa.LOGOUT],
 	],
 	_trans: kit.Dict("shareuser", "共享用户", cli.QRCODE, "生成链接",
 		chat.THEME, "界面主题", aaa.LANGUAGE, "语言地区",
 		nfs.SAVE, "保存网页", aaa.EMAIL, "发送邮件", web.TOIMAGE, "生成图片", code.WEBPACK, "打包页面",
-		aaa.USER, "用户信息", "setnick", "设置昵称", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
+		aaa.USER, "用户信息", "setnick", "设置昵称", "setavatar", "设置头像", "setbackground", "设置背景", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
 
 		"change language to zh-cn", "切换语言为中文",
 		"change language to en-us", "切换语言为英文",

@@ -163,10 +163,11 @@ Volcanos(chat.ONACTION, {list: ["刷新数据",
 	"打开空间": function(event, can) { can.user.open(can.misc.MergePodCmd(can, {pod: can.ConfSpace()||can.misc.Search(can, ice.POD)})) },
 	"打开链接": function(event, can) { can.user.open(can.onexport.link(can)) },
 	"发送聊天": function(event, can) {
-		can.user.input(event, can, [{name: "message", display: "/require/usr/icebergs/core/chat/message.js", run: function(event, cmds, cb) {
-			can._root.Header.run(can.request(event, {pod: can.ConfSpace()}), [ctx.ACTION, "message"].concat(cmds), function(msg) { cb(msg) })
+		can.user.input(event, can, [{name: chat.MESSAGE, display: "/require/usr/icebergs/core/chat/message.js", run: function(event, cmds, cb) {
+			can._root.Header.run(can.request(event, {pod: can.ConfSpace()}), [ctx.ACTION, chat.MESSAGE].concat(cmds), function(msg) { cb(msg) })
 		}}], function(list) {
-			can._root.Header.run(can.request(event, {pod: can.ConfSpace()}), [ctx.ACTION, "message", list[0], mdb.TYPE, "plug", ctx.INDEX, can.ConfIndex(), ctx.ARGS, JSON.stringify(can.Option())])
+			can._root.Header.run(can.request(event, {pod: can.ConfSpace()}), [ctx.ACTION, chat.MESSAGE, list[0], mdb.TYPE, "plug", ctx.INDEX, can.ConfIndex(), ctx.ARGS, JSON.stringify(can.Option())])
+			can.onappend._float(can, chat.MESSAGE)
 		})
 	},
 	"生成链接": function(event, can) { can.onmotion.share(event, can, [], [web.LINK, can.user.copy(event, can, can.onexport.link(can))]) },

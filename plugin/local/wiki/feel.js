@@ -38,6 +38,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.ui = can.onappend.l
 				_target = target, can.onmotion.delay(can, function() { can.onaction.full({}, can) })
 			}
 		}), _target && _target.click()
+		can.onmotion.orderShow(can, can.ui.project)
 	},
 	_file: function(can, path) { var p = location.href.indexOf(ice.HTTP) == 0? "": "http://localhost:9020"
 		return path.indexOf(ice.HTTP) == 0? path: p+can.base.Path(web.SHARE_LOCAL, can.db.dir_root||"", path)
@@ -49,6 +50,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.ui = can.onappend.l
 	page: function(can, list, begin, limit) { can.onmotion.clear(can, can.ui.display)
 		begin = parseInt(begin||can.db.begin), limit = parseInt(limit||can.Action(mdb.LIMIT))
 		for (var i = begin; i < begin+limit; i++) { list && list[i] && can.onimport.file(can, list[i].path, list[i], i) }
+		can.onmotion.orderShow(can, can.ui.display, "*")
 		can.onappend._toggle(can, can.ui.display, function(event) { can.onaction.prev(event, can) }, function(event) { can.onaction.next(event, can) })
 		can.Status({begin: begin, limit: limit, total: list.length})
 	},

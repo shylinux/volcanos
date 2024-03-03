@@ -243,6 +243,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 					title: [[value.usernick, value.username].join(lex.SP), [value.agent, value.system, value.ip].join(lex.SP)].join(lex.NL)}
 			}))
 			msg.Length() > 0 && can.page.Append(can, can.ui.online, [{text: msg.Length()+""}])
+			can.onmotion.orderShow(can, can.ui.online, "*", 10, 300)
 		}), can.onimport._online(can, 30000)
 	}, delay) },
 })

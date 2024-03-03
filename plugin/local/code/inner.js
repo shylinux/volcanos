@@ -72,8 +72,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	__tabPath: function(can, cache) { var target = can.ui.path; can.onappend.style(can, html.FLEX, can.ui.path)
 		can.onimport._tabPath(can, nfs.PS, nfs.PATH, can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE)), function(p) {
 			var ls = can.onexport.split(can, p); can.onimport.tabview(can, ls[0], ls[1])
-		}, target), can.onimport._tabFunc(can, target, cache), can.onimport._tabMode(can)
-		can.page.Append(can, target, [{view: [["item", "space"], html.SPAN]}])
+		}, target), can.page.Append(can, target, [{view: [["item", "space"], html.SPAN]}])
+		can.onimport._tabFunc(can, target, cache), can.page.Append(can, target, [{view: [["item", "space"], html.SPAN]}])
+		can.onimport._tabMode(can), can.page.Append(can, target, [{view: [["item", "space"], html.SPAN], style: {"flex-grow": "4"}}])
 		can.onimport._tabIcon(can)
 		target.ondblclick = function(event) { if (event.target != target) { return }
 			var show = can.onmotion.toggle(can, can.ui.tabs); can.onmotion.toggle(can, can.ui.project, show), can.onimport.layout(can)
@@ -82,13 +83,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	},
 	_tabPath: function(can, ps, key, value, cb, target) { var args = value.split(mdb.FS); can.onmotion.clear(can, can.ui.path)
 		can.core.List(can.core.Split(args[0], ps), function(value, index, list) {
-			can.page.Append(can, target, [{text: [value+(index<list.length-1? ps: ""), "", html.ITEM], onclick: function(event) {
+			can.page.Append(can, target, [{text: [value+(index<list.length-1? " "+ps: ""), "", html.ITEM], onclick: function(event) {
 				can.onimport.tabPath(event, can, ps, key, ps == nfs.PT? list.slice(0, index).join(ps): (list.slice(0, index).join(ps)||nfs.PT)+ps, cb)
 			}}])
 		}); var index = args[0]
 		can.core.List(args.slice(1), function(val) { can.page.Append(can, target, [{text: [val, "", html.ITEM], onclick: function(event) {
 			can.runAction(can.request(event, {index: index}), mdb.INPUTS, [ctx.ARGS], function(msg) {
-				debugger
 				can.user.carte(event, can, {}, msg[msg.append[0]], function(event, button) { can.onimport.tabview(can, "", [index, button].join(mdb.FS), ctx.INDEX) })
 			})
 		}}]) })
@@ -116,11 +116,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			})
 			can.onmotion.delay(can, function() {
 				can.page.Select(can, carte._target, html.DIV_ITEM, function(target) {
-					if (can.base.beginWith(target.innerText, "- ")) {
-						can.onappend.style(can, "private", target)
-					} else {
-						can.onappend.style(can, "public", target)
-					}
+					can.onappend.style(can, can.base.beginWith(target.innerText, "- ")? aaa.PRIVATE: aaa.PUBLIC, target)
 				})
 			})
 		}}])
@@ -302,7 +298,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 				var height = can.ui.project.offsetHeight - list.length*target.offsetHeight
 				if (can.page.tagis(target.nextSibling, html.DIV_ACTION)) { height -= target.nextSibling.offsetHeight }
 				can.page.SelectChild(can, target.parentNode, html.DIV_LIST, function(target) {
-					can.page.style(can, target, html.MAX_HEIGHT, height)
+					if (can.ui.zone.source._target == target) {
+						can.page.style(can, target, html.HEIGHT, height)
+					}
 				})
 			})
 		})
@@ -417,8 +415,9 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { if (!msg) { return }
 			} else {
 				can.core.List(msg.Result().split(lex.NL), function(item) { can.onaction.appendLine(can, item) })
 			}
-			can.onmotion.delay(can, function() { can.onappend.scroll(can, can.ui.content) })
 			can.onengine.signal(can, VIEW_CREATE, msg), can.base.isFunc(cb) && cb(msg._content = content._root? content._root: content)
+			can.onmotion.delay(can, function() { can.onappend.scroll(can, can.ui.content) })
+			// can.onmotion.orderShow(can, can.ui.content, "tr")
 		} can.require([chat.PLUGIN_LOCAL+"code/inner/syntax.js"], function() { var parse = can.onexport.parse(can); can.Conf(chat.PLUG) && (can.onsyntax[parse] = can.Conf(chat.PLUG))
 			var p = can.onsyntax[parse]; !p? can.runAction({}, mdb.PLUGIN, [parse, file, path], function(msg) {
 				p = can.base.Obj(msg.Result())

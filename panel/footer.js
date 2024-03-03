@@ -21,7 +21,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 			// can.onexport._float(can, "cli", list[0], list.slice(1), function(sub) { can.getActionSize(function(left) { can.page.style(can, sub._target, html.LEFT, left+html.PLUGIN_MARGIN, html.RIGHT, "") }) })
 			can.onexport._float(can, "cli", {index: "can.console", display: "/plugin/local/code/xterm.js"}, list, function(sub) { can.getActionSize(function(left) { can.page.style(can, sub._target, html.LEFT, left+html.PLUGIN_MARGIN, html.RIGHT, "") }) })
 		}
-	}}, "", target, [chat.TITLE]) },
+	}}, "", target, [chat.TITLE])
+		can.onappend.input(can, {type: html.BUTTON, name: code.XTERM, onclick: function(event) { can.onappend._float(can, code.XTERM, cli.SH) }}, "", can._output)
+		can.onappend.input(can, {type: html.BUTTON, name: chat.MESSAGE, onclick: function(event) { can.onappend._float(can, chat.MESSAGE) }}, "", can._output)
+	},
 	_storm: function(can, msg, target) { can.ui.storm = can.page.Append(can, can._output, [html.MENU])._target },
 	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), can.onexport.list).reverse(), function(item) {
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE]], list: [
