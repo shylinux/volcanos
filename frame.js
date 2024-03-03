@@ -520,10 +520,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (key == web.TOKEN && value) { _value = value.slice(0, 4)+"****" }
 			if (key == aaa.PASSWORD && value) { _value = "********" }
 			function onclick() { return false }
-			if (key == mdb.STATUS && value == mdb.DISABLE) { _value = `<i class="${icon.enable}">`
+			if (key == mdb.STATUS && can.base.isIn(value, mdb.DISABLE, ice.FALSE)) { _value = `<i class="${icon.enable}">`
 				function onclick() { run(event, mdb.MODIFY, [mdb.STATUS, mdb.ENABLE]); return true }
 			}
-			if (key == mdb.STATUS && value == mdb.ENABLE) { _value = `<i class="${icon.disable}">`
+			if (key == mdb.STATUS && can.base.isIn(value, mdb.ENABLE, ice.TRUE)) { _value = `<i class="${icon.disable}">`
 				function onclick() { run(event, mdb.MODIFY, [mdb.STATUS, mdb.DISABLE]); return true }
 			}
 			return {className: option.indexOf(key) > -1? "option": key == ctx.ACTION? ctx.ACTION: "", text: [msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): can.user.trans(can, _value, null, html.VALUE), html.TD], onclick: function(event) { var target = event.target

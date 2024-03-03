@@ -157,6 +157,8 @@ div.output.card>div.item>div.title>img.jpg { padding:var(--input-padding); }
 /* div.item img.jpg { padding:var(--input-padding); } */
 div.item img[src*=".ico"] { padding:3px; }
 div.item img[src*=".jpg"] { padding:3px; }
+table.content tr>td img[src*=".jpg"] { padding:4px; }
+div.project div.item img[src*=".jpg"] { padding:5px; }
 div.output.card>div.item>div.content { white-space:pre; font-size:var(--status-font-size); padding:var(--input-padding); height:var(--header-height); }
 div.output.card>div.item>div.action { text-align:right; width:calc(100% - var(--plugin-padding)); display:flex; position:absolute; bottom:var(--plugin-padding); }
 div.output.card>div.item>div.action>input { padding:0 var(--button-padding); margin-right:var(--input-margin); }
