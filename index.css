@@ -139,8 +139,8 @@ img.qrcode { width:var(--qrcode-width); }
 /* output style */
 div.title>div.status { line-height:20px; display:flex; }
 div.title>div.status>div.item { font-size:var(--status-font-size); font-weight:normal; white-space:pre; padding:0 var(--input-padding); display:flex; float:left; }
-div.title>div.status>div.item.restart { background-color:var(--notice-bg-color); color:var(--notice-fg-color) !important; opacity:0.4; }
-div.title>div.status>div.item.access { background-color:var(--danger-bg-color); color:var(--danger-fg-color) !important; opacity:0.4; }
+div.title>div.status>div.item.restart { background-color:var(--notice-bg-color); color:var(--notice-fg-color) !important; }
+div.title>div.status>div.item.access { background-color:var(--danger-bg-color); color:var(--danger-fg-color) !important; }
 div.title>div.status>div.item:not(:hover) { color:var(--disable-fg-color); }
 div.title>div.status>div.item>i { margin-right:var(--input-margin); }
 fieldset.store>div.output>fieldset.story:not(.float) { display:none; }
