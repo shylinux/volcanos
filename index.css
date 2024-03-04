@@ -748,6 +748,7 @@ fieldset.iframe>form.option>div.item.hash input { width:var(--form-width); }
 fieldset.Action:not(.horizon):not(.grid)>fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
 fieldset.inner.float>div.status { display:none; }
 fieldset.user>form.option>div.item.username input { width:var(--form-width); }
+fieldset.offer>div.output>table.content tr.invite { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 fieldset.inner>div.output>div.project div.item.modify { background-color:#00800036; }
 fieldset.vimer>div.output>div.project div.item.modify { background-color:#00800036; }
 fieldset.vimer>div.output>div.project>div.zone.space div.item.stop { color:var(--disable-fg-color); }
