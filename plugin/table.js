@@ -7,7 +7,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		} else {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		}
-		if (msg.Option("sess.online") == ice.TRUE) { can.onimport._online(can) }
 	},
 	card: function(can, msg, target) { target = target||can.ui.content||can._output
 		var list = msg.Table(function(value) { value.icon = value.icons||value.icon||value.image
@@ -24,7 +23,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		})
 		can.onimport.layout = can.onimport.layout||function() { var height = can.onlayout.expand(can, target); can.sup.onexport.outputMargin = function() { return height } }
 		can.page.Append(can, target, list), can.onmotion.orderShow(can, target)
-		can.onimport._online(can)
 	},
 	_vimer_zone: function(can, msg, target) { msg.Table(function(value) { var action = can.page.parseAction(can, value)
 		can.onimport.item(can, {type: value.type, status: value.status, icon: can.misc.Resource(can, value.icon||value.icons||value.avatar_url), name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]), title: value[mdb.TEXT]||value.description}, function(event) {
@@ -228,24 +226,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			}, sub.onaction.close = function() { can.onmotion.hidden(can, target) }, can.base.isFunc(cb) && cb(sub)
 		}, target, field)
 	},
-	_online: function(can, delay) { can.onmotion.delay(can, function() {
-		if (!can.ui.online) {
-			if (can.isCmdMode()) {
-				can.ui.online = can.page.Append(can, can._action, ["item online state"])._target
-			} else {
-				var p = can.page.SelectOne(can, can._action, "div.item._space"); p = p? p.nextSibling: p
-				can.ui.online = can.page.insertBefore(can, ["item online state"], p, can._action)
-			}
-		}
-		can._root.Header.run(can.request({}, {_space: can.ConfSpace()||can.misc.Search(can, ice.POD), _index: can.ConfIndex()}), [ctx.ACTION, web.ONLINE], function(msg) {
-			can.page.Appends(can, can.ui.online, msg.Table(function(value, index) {
-				return index < 5 && {img: can.misc.Resource(can, value.username == can.user.info.username? value.icons: value.avatar||"usr/icons/contexts.png"),
-					title: [[value.usernick, value.username].join(lex.SP), [value.agent, value.system, value.ip].join(lex.SP)].join(lex.NL)}
-			}))
-			msg.Length() > 0 && can.page.Append(can, can.ui.online, [{text: msg.Length()+""}])
-			can.onmotion.orderShow(can, can.ui.online, "*", 10, 300)
-		}), can.onimport._online(can, 30000)
-	}, delay) },
 })
 Volcanos(chat.ONLAYOUT, {
 	_init: function(can, height, width) {

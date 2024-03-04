@@ -55,7 +55,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	},
 	_tabs: function(can) {
 		if (!can.isCmdMode()) {
-			can.onimport._online(can)
 			return can.ui._tabs = can._action
 		}
 		var ui = can.page.Append(can, can.ui.tabs, ["icon", "tabs", "head"]); can.ui._tabs = ui.tabs
@@ -66,7 +65,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		can.onappend.style(can, html.FLEX, ui.head)
 		can.onappend.style(can, html.FLEX, ui.tabs)
 		can.onappend.style(can, html.FLEX, ui.icon)
-		can.ui.online = can.page.Append(can, ui.head, ["online"])._target, can.onimport._online(can)
 		can.page.Append(can, ui.head, can.user.header(can).reverse())
 	},
 	__tabPath: function(can, cache) { var target = can.ui.path; can.onappend.style(can, html.FLEX, can.ui.path)

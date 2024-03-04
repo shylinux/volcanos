@@ -82,7 +82,6 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.is
 	}, _list: [""], pwd: function(can, arg) { can.misc.sessionStorage(can, "can.daemon", can._wss_name = can.ondaemon._list[0] = arg[0]) },
 	close: function(can, msg, sub) { can.user.close() }, exit: function(can, msg, sub) { can.user.close() },
 	toast: function(can, sub, arg, cb) { can.core.CallFunc(can.user.toast, [sub].concat(arg)) },
-	online: function(can, sub) { debugger },
 	refresh: function(can, msg, sub, arg) {
 		if (arg[0] == "confirm") {
 			can.user.toastConfirm(can, arg[1]||"reload?", sub.ConfIndex(), function(event, button) {
@@ -116,6 +115,26 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.is
 		can.core.CallFunc(can.core.Value(can, arg[0]), kit.Dict({can: can}, arg.slice(1)))
 	},
 	input: function(can, msg, sub, arg) { can.page.Select(can, sub._target, "input:focus", function(target) { target.value += arg[0] }) },
+	online: function(can, sub) { debugger },
+	_online: function(can, delay) { can.onmotion.delay(can, function() { can = can._fields? can.sup: can
+		if (can.ui._online) { return } can.ui._online = true
+		if (!can.ui.online) {
+			if (can.isCmdMode()) {
+				can.ui.online = can.page.Append(can, can.ui.head? can.ui.head: can._action, ["item online state"])._target
+			} else {
+				var p = can.page.SelectOne(can, can._action, "div.item._space"); p = p? p.nextSibling: p
+				can.ui.online = can.page.insertBefore(can, ["item online state"], p, can._action)
+			}
+		}
+		can._root.Header.run(can.request({}, {_space: can.ConfSpace()||can.misc.Search(can, ice.POD), _index: can.ConfIndex()}), [ctx.ACTION, web.ONLINE], function(msg) {
+			can.page.Appends(can, can.ui.online, msg.Table(function(value, index) {
+				return index < 5 && {img: can.misc.Resource(can, value.username == can.user.info.username? value.icons: value.avatar||"usr/icons/contexts.png"),
+					title: [[value.usernick, value.username].join(lex.SP), [value.agent, value.system, value.ip].join(lex.SP)].join(lex.NL)}
+			}))
+			msg.Length() > 0 && can.page.Append(can, can.ui.online, [{text: msg.Length()+""}])
+			can.onmotion.orderShow(can, can.ui.online, "*", 10, 300)
+		}), can.ondaemon._online(can, 30000)
+	}, delay) },
 })
 Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		meta.index && (meta.name = meta.index), meta.name = can.core.Split(meta.name||"", "\t .\n").pop()||can.Conf(mdb.NAME)
@@ -170,7 +189,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}) })
 			}), can.base.isFunc(cb) && cb(sub)
 			if (sub.isOutputStyle()) { return } if (can.user.isMobile && !can.user.isLandscape()) { return }
-			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, can.user.header(sub), sub._output, sub._fields||sub._target)
+			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, [{view: "header", list: can.user.header(sub)}], sub._output, sub._fields||sub._target)
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
@@ -313,6 +332,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
 					sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS), null, msg), can.user.isMobile || sub.onappend.tools(sub, msg)
 					can.core.Item(can.Action(), function(key) { var value = can.misc.sessionStorage(can, [can.ConfIndex(), ctx.ACTION, key]); value && can.Action(key, value[0]) })
+					if (msg.Option("sess.online") == ice.TRUE) { can.ondaemon._online(can) }
 				} can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output)
 				if (can.onimport.size) {
 					can.page.ClassList.has(can, can._target, html.FLOAT) && !can.page.ClassList.has(can, can._target, html.PLUG)?

@@ -4,7 +4,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.onmotion.hidden(can, can.ui.project)
 		can.onimport[can.Option("scale")||team.WEEK](can, msg), can.Status(mdb.COUNT, msg.Length()), can.ui.filter.placeholder = `search in ${ msg.Length() } items`, can.onimport.layout(can)
 		var item; if (can.isCmdMode() && ls.length > 0) { item = can.list[can.core.Keys(ls)] } else if (can.sup.task) { item = can.list[can.core.Keys(can.sup.task.space, can.sup.task.zone, can.sup.task.id)] } item && item.click()
-		can.onimport._online(can)
 	},
 	_content: function(can, msg, head, list, key, get, set) { var begin_time = can.base.Date(can.Option(team.BEGIN_TIME)); can.sup.task && (can.sup.task._target = null)
 		var hash = {}; msg.Table(function(value, index) { var k = key(can.base.Date(value.begin_time)); hash[k] = (hash[k]||[]).concat([value]) })
@@ -36,6 +35,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) { task[key] = value }), delete(task.extra)
 		var table = can.page.Appends(can, can.ui.profile, [{view: [[chat.CONTENT, mdb.DETAIL], html.TABLE], list: [{th: [can.user.trans(can, mdb.KEY, "字段"), can.user.trans(can, mdb.VALUE, "属性")]}]}])._target
 		can.core.Item(task, function(key, value) { key != "_target" && can.page.Append(can, table, [{
+			className: key,
 			td: [can.user.trans(can, key, null, html.INPUT), key == web.SPACE && value != ""? can.page.Format(html.A, can.misc.MergeURL(can, {pod: value}), value): value],
 			onclick: function(event) { can.page.tagis(event.target, html.INPUT) && event.target.type == html.BUTTON && can.run(can.request(event, task), [ctx.ACTION, event.target.name]) },
 			ondblclick: function(event) { if ([web.SPACE, mdb.ZONE, mdb.ID].indexOf(key) > -1) { return }
