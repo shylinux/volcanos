@@ -211,20 +211,9 @@ div.item.online.state img:hover { background-color:var(--hover-bg-color); }
 div.item.online.state:not(:hover) img:not(:first-child) { margin-right:-20px; }
 fieldset>div.header { display:contents; }
 fieldset>div.header>div { line-height:22px; padding:var(--input-padding); float:right; }
+fieldset>div.header>div.avatar { padding:0; }
 fieldset>div.header div.online { padding:0; }
 fieldset>div.header img { height:var(--action-height); float:right; }
-
-fieldset>div.action>div.online { margin-left:var(--button-margin) !important; display:block; }
-fieldset>div.action>div.online.state { box-shadow:none; margin-right:var(--button-margin) !important; display:block; overflow:hidden; position:relative; }
-fieldset>div.action>div.online span { background-color:var(--hover-bg-color); color:var(--hover-fg-color); font-size:var(--status-font-size); position:absolute; bottom:0; }
-fieldset>div.action>div.online img { height:var(--action-height); transition:margin-right 1s; float:right; }
-fieldset>div.action>div.online img:hover { background-color:var(--hover-bg-color); }
-fieldset>div.action>div.online:not(:hover) img:not(:first-child) { margin-right:-20px; }
-
-body.mobile fieldset>div.action>div.online img:not(:first-child) { margin-right:-20px; }
-body.width6 fieldset>div.action>div.online:not(:hover) img:not(:first-child) { margin-right:var(--input-margin); }
-fieldset>div.action>div.online:hover img:not(:first-child) { margin-right:var(--input-margin); }
-fieldset>div.action>div.online:hover { background-color:unset; }
 fieldset>form.option>div.item:not(.icon) { margin-right:var(--button-margin); }
 fieldset>div.action>div.item:not(:last-child) { margin-right:var(--button-margin); }
 fieldset.input>legend { display:none; }

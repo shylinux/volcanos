@@ -65,7 +65,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		can.onappend.style(can, html.FLEX, ui.head)
 		can.onappend.style(can, html.FLEX, ui.tabs)
 		can.onappend.style(can, html.FLEX, ui.icon)
-		can.page.Append(can, ui.head, can.user.header(can).reverse())
+		can.page.Append(can, ui.head, can.user.header(can))
 	},
 	__tabPath: function(can, cache) { var target = can.ui.path; can.onappend.style(can, html.FLEX, can.ui.path)
 		can.onimport._tabPath(can, nfs.PS, nfs.PATH, can.base.Path(can.Option(nfs.PATH), can.Option(nfs.FILE)), function(p) {

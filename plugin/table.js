@@ -40,6 +40,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		))
 		var action = can.core.List(sub.Conf(ctx.INPUTS), function(item) { if (item.type == html.BUTTON && [ice.LIST, ice.BACK].indexOf(item.name) == -1) { return item.name } })
 		sub.onexport.output = function(_sub, msg) {
+			can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "")
 			zone._total(msg.Length()), cb(sub, msg)
 			zone._menu = shy({_trans: sub._trans}, action.concat(can.base.Obj(msg.Option(ice.MSG_ACTION), [])), function(event, button, meta, carte) {
 				sub.Update(event, [ctx.ACTION, button]), carte.close()
@@ -194,7 +195,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		var height = can.base.Max(html.PLUG_HEIGHT, can.ConfHeight()-2*html.ACTION_HEIGHT, 240), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-(can.user.isMobile? 0: html.PROJECT_WIDTH))
 		can.core.Next(list.reverse(), function(meta, next) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) {
-				sub.onexport.output = function() { can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
+				sub.onexport.output = function() {
+					can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
 					sub.onimport.size(sub, height, width, false), can.onmotion.delay(can, function() { sub.onimport.size(sub, height, width, false) })
 				}, sub.onimport.size(sub, height, width, false)
 				can.onmotion.hidden(can, sub._target), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}

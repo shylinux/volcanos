@@ -38,6 +38,9 @@ fieldset.inner>div.output>div.layout>div.layout>div.profile div.status>div { pad
 fieldset.inner>div.output>div.layout>div.layout div.content div.tips { line-height:var(--code-line-height); color:var(--disable-fg-color); font-style:italic; position:absolute; top:0; right:10px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs:not(.hide) { background-color:var(--plugin-bg-color); height:var(--code-tabs-height); display:flex; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div { height:var(--code-tabs-height); }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head { flex-direction:row-reverse; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online { margin-left:0 !important; margin-right:0 !important; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online span { bottom:12px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.icon>div.icon { font-size:26px; line-height:32px; padding:2px 5px; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs { justify-content:flex-start; flex-grow:1; flex-wrap:wrap; overflow:auto; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs:hover { background-color:unset; }
@@ -45,11 +48,6 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding:va
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { white-space:pre; padding:10px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:var(--code-tabs-height); clip-path:circle(40%); }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online { margin-left:var(--button-margin) !important; display:block; float:right; position:relative; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online span { background-color:var(--hover-bg-color); color:var(--hover-fg-color); font-size:var(--status-font-size); position:absolute; bottom:12px; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online img { height:var(--action-height); transition:margin-right 1s; float:right; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online img:hover { background-color:var(--hover-bg-color); }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online:not(:hover) img:not(:first-child) { margin-right:-20px; }
 fieldset.inner.cmd>div.output>div.layout>div.path:not(.hide) { display:flex; }
 fieldset.inner>div.output>div.layout>div.path:not(.hide) { font-style:italic; box-shadow:var(--box-shadow); cursor:pointer; justify-content:flex-start; }
 fieldset.inner>div.output>div.layout>div.path>a { padding:var(--input-padding) var(--button-padding); }
