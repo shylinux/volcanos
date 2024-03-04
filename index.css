@@ -114,6 +114,7 @@ table.content td i { padding:var(--input-padding); }
 table.content.detail td:first-child { text-align:center; }
 table.content.detail td:first-child { background-color:var(--plugin-bg-color); position:sticky; left:0; }
 table.content.detail td i { display:none; }
+table.content.detail td { white-space:break-spaces; }
 table.content.detail tr.action { background-color:var(--plugin-bg-color); position:sticky; bottom:0; }
 table.content.detail tr.action td { box-shadow:var(--box-shadow); }
 table.content.detail tr.action input.icons { display:none; }
@@ -749,6 +750,7 @@ fieldset.Action:not(.horizon):not(.grid)>fieldset.plugin>form.option>div.item.te
 fieldset.inner.float>div.status { display:none; }
 fieldset.user>form.option>div.item.username input { width:var(--form-width); }
 fieldset.offer>div.output>table.content tr.invite { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+fieldset.apply>div.output>table.content.detail.apply tr.action td.action { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 fieldset.inner>div.output>div.project div.item.modify { background-color:#00800036; }
 fieldset.vimer>div.output>div.project div.item.modify { background-color:#00800036; }
 fieldset.vimer>div.output>div.project>div.zone.space div.item.stop { color:var(--disable-fg-color); }

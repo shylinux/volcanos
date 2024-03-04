@@ -50,7 +50,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	zone: function(can, list, target) {
 		return can.page.Append(can, target, can.core.List(list, function(zone) { can.base.isString(zone) && (zone = {name: zone}); if (!zone) { return }
 			zone._layout = function() { var height = target.offsetHeight, count = 0
-			// debugger
 				can.page.SelectChild(can, target, "", function(target) {
 					can.page.SelectChild(can, target, html.DIV_ITEM, function(target) { height -= target.offsetHeight })
 					can.page.SelectChild(can, target, html.DIV_ACTION, function(target) { height -= target.offsetHeight })

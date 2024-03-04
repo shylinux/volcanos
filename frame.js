@@ -569,9 +569,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (key == ctx.ACTION && msg.IsDetail()) {
 					can.onappend.style(can, ctx.ACTION, target.parentNode)
 				}
-				if (can.base.isIn(key, mdb.TYPE, mdb.STATUS)) {
-					can.onappend.style(can, value, can.page.parentNode(can, target, html.TABLE))
-				}
 				key == ctx.ACTION && can.onappend.mores(can, target, data, msg.IsDetail()? 10: html.TABLE_BUTTON)
 				var list = can.page.Select(can, target, html.INPUT, function(target) {
 					var _icon = can.Conf("_icons."+target.name)||icon[target.name]; if (_icon && typeof _icon == code.STRING || target.name == mdb.DELETE) { return target }
@@ -587,6 +584,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}}
 		}); table && can.onappend.style(can, chat.CONTENT, table), table && msg.IsDetail() && can.onappend.style(can, mdb.DETAIL, table)
 		msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.onappend.style(can, ctx.ACTION, table)
+		if (table && msg.IsDetail()) {
+			can.onappend.style(can, msg.Append(mdb.TYPE), table)
+			can.onappend.style(can, msg.Append(mdb.STATUS), table)
+		}
 		if (msg.Option(ice.TABLE_CHECKBOX) == ice.TRUE && !msg.IsDetail()) { can.onappend.checkbox(can, table, msg), can.onappend.style(can, html.CHECKBOX, table) }
 		// (can.isCmdMode() || table.offsetWidth > can.ConfWidth() / 2) &&
 			can.onappend.style(can, "full", table)

@@ -14,13 +14,15 @@ Volcanos(chat.ONIMPORT, {
 	_cookie: function(can, msg) { can.misc.Cookie(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_session: function(can, msg) { can.misc.sessionStorage(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_field: function(can, msg, cb) { var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()-2*html.ACTION_HEIGHT), width = can.ConfWidth()
-		msg.Table(function(item) { can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
-			sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX); can.run(can.request(event, {pod: item.space}), (msg[ice.MSG_PREFIX]? msg[ice.MSG_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true) }
-			if (item.style != html.FLOAT && can.base.isIn(sub.ConfIndex(), wiki.PORTAL, chat.IFRAME, chat.DESKTOP, wiki.WORD, code.VIMER,)) { height = can.base.Max(can.onexport.outputHeight(can), can.ConfHeight(), 480) }
-			can.page.ClassList.has(can, sub._target, html.FLOAT)? can.onmotion.float(sub): sub.onimport.size(sub, height, width, true), cb && cb(sub)
-			if (item.style == html.FLOAT) { return } can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, sub._target) }, 300)
-			if (can.base.isIn(sub.ConfIndex(), wiki.WORD)) { sub.onexport.output = function() { can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "") } }
-		}) })
+		msg.Table(function(item) { if (can.page.tagis(can._target, html.FIELDSET_STORY) || can._msg.IsDetail()) { item.style = item.style||html.FLOAT }
+			can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
+				sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX); can.run(can.request(event, {pod: item.space}), (msg[ice.MSG_PREFIX]? msg[ice.MSG_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true) }
+				if (item.style != html.FLOAT && can.base.isIn(sub.ConfIndex(), wiki.PORTAL, chat.IFRAME, chat.DESKTOP, wiki.WORD, code.VIMER,)) { height = can.base.Max(can.onexport.outputHeight(can), can.ConfHeight(), 480) }
+				can.page.ClassList.has(can, sub._target, html.FLOAT)? can.onmotion.float(sub): sub.onimport.size(sub, height, width, true), cb && cb(sub)
+				if (item.style == html.FLOAT) { return } can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, sub._target) }, 300)
+				if (can.base.isIn(sub.ConfIndex(), wiki.WORD)) { sub.onexport.output = function() { can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "") } }
+			})
+		})
 	},
 	_float: function(can, msg) { can.onimport._field(can, msg, function(sub) { can.onmotion.float(sub) }) },
 	_hold: function(can, msg, arg) { can.user.toast(can, arg||ice.SUCCESS) },
