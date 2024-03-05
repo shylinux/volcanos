@@ -31,7 +31,10 @@ Volcanos(chat.ONFIGURE, {
 				web.REFRESH, function(event) { show(target, zone, path) },
 				mdb.CREATE, function(event, button) { can.onaction.module(event, can, nfs.MODULE) },
 			)), zone._total(msg.Length()), can.onmotion.clear(can, target)
-			var cache, list = can.core.List(msg.Table(), function(item) { if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true }
+			var cache, list = can.core.List(msg.Table(), function(item) {
+				if (path == "src/" && can.base.isIn(item.path, "main.ico", "main.svg", "version.go", "binpack.go", "binpack_usr.go")) { return }
+				if (path == "usr/release/" && can.base.isIn(item.path, "conf.go", "binpack.go")) { return }
+				if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true }
 				item._init = function(target) { item._remove = function() { can.page.Remove(can, target.parentNode), delete(cache[item.path]) }
 					if (msg.result && msg.result.indexOf(item.path) > -1) { can.onmotion.delay(can, function() { can.onappend.style(can, mdb.MODIFY, target.parentNode)
 						for (var _target = target.parentNode; _target != zone._target; _target = _target.parentNode) { _target.previousSibling && can.onappend.style(can, mdb.MODIFY, _target.previousSibling) }
@@ -44,10 +47,7 @@ Volcanos(chat.ONFIGURE, {
 			can.onmotion.orderShow(can, target)
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) {
-			show(target, zone, path), zone._toggle = function() {
-				// can.ui.zone.source && can.ui.zone.source._layout()
-				// zone._layout()
-			}
+			show(target, zone, path), zone._toggle = function() { }
 		}) }), target), can.onmotion.orderShow(can, target, html.DIV_ZONE)
 	},
 	space: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {
