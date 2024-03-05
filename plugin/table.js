@@ -97,8 +97,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			return can.page.Append(can, target, [{view: [[html.ITEM, value.status]], list: [{view: html.ICON, list: [{img: icon}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
 				cb && cb(target, value)
 			}, onclick: function(event) { can.sup.onexport.record(can.sup, value.name, mdb.NAME, value) }}])._target
-		})
-		can.onmotion.orderShow(can, target)
+		}), can.onmotion.orderShow(can, target)
 	},
 	tree: function(can, list, field, split, cb, target, node) { node = node||{"": target}
 		can.core.List(list, function(item) { item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }

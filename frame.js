@@ -1056,6 +1056,8 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		}
 	},
 	orderShow: function(can, target, key, limit, delay) { if (can.user.isMobile) { return } target = target||can._output
+		if (!can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE) { return }
+		return
 		var list = can.page.SelectChild(can, target, key||html.DIV_ITEM, function(target) { can.page.style(can, target, html.VISIBILITY, html.HIDDEN); return target })
 		limit = limit||html.ORDER_SHOW_LIMIT, delay = delay||html.ORDER_SHOW_DELAY
 		can.core.Next(list, function(target, next, index) {
