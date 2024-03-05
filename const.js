@@ -195,7 +195,9 @@ var nfs = {
 	TXT: "txt", PNG: "png", WEBM: "webm",
 
 	PWD: "./", SRC: "src/", SRC_MAIN_ICO: "src/main.ico",
-	SRC_TEMPLATE: "src/template/", USR_LEARNING_PORTAL: "usr/learning/portal/",
+	SRC_TEMPLATE: "src/template/",
+	SRC_DOCUMENT: "src/document/",
+	USR_LEARNING_PORTAL: "usr/learning/portal/",
 	USR: "usr/", USR_LOCAL_WORK: "usr/local/work/",
 	USR_WEBSOCKET: "usr/websocket/", USR_GO_QRCODE: "usr/go-qrcode/", USR_GO_GIT: "usr/go-git/",
 	USR_ICONS: "usr/icons/", USR_GEOAREA: "usr/geoarea/", USR_PROGRAM: "usr/program/",
@@ -280,7 +282,12 @@ var chat = {
 		"local/wiki/feel.js",
 		"local/wiki/word.js",
 		"local/team/plan.js",
-	].map(function(p) { return "/plugin/"+p }),
+	].map(function(p) { return "/plugin/"+p }).concat([
+		"usr/icebergs/core/wiki/portal.css",
+		"usr/icebergs/core/wiki/portal.js",
+	].map(function(p) {
+		return "/require/"+p
+	})),
 	PLUGIN_LOCAL: "/plugin/local/", PLUGIN_STORY: "/plugin/story/", PLUGIN_INPUT: "/plugin/input/",
 	PLUGIN_INPUT_JS: "/plugin/input.js", PLUGIN_TABLE_JS: "/plugin/table.js", PLUGIN_STATE_JS: "/plugin/state.js",
 	FRAME_JS: "/volcanos/frame.js",
