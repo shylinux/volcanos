@@ -128,6 +128,7 @@ Volcanos(chat.ONLAYOUT, {
 	flow: function(can, height, width) { can.ConfHeight(height-html.ACTION_MARGIN), can.ConfWidth(width) },
 	page: function(can) { can.page.styleHeight(can, can._output, ""), can.page.style(can, document.body, kit.Dict(html.OVERFLOW, "")) },
 	_plugin: function(can, button) { can.core.List(can._plugins, function(sub) {
+		if (can.isCmdMode()) { return sub.onimport.size(sub, can.page.height(), can.page.width(), false) }
 		if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) {
 			return sub.onimport.size(sub, can.ConfHeight()-(can.user.isMobile? 2*html.PLUGIN_PADDING: can.Conf(html.MARGIN_Y)-([ALL, TABS].indexOf(can.onexport.layout(can)) > -1? html.ACTION_HEIGHT: 0)), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))
 		}
