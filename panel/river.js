@@ -45,6 +45,9 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	share: function(event, can) { can.core.CallFunc(can.ondetail.share, {event: event, can: can}) },
 	onsize: function(can, height) { var margin = 68, _margin = margin
 		can.page.style(can, can._output, html.MARGIN, "0px", html.HEIGHT, "", html.MAX_HEIGHT, "")
+		if (can.user.isMobile || !can.user.isTechOrRoot(can)) {
+			margin = 0
+		}
 		if (can._output.offsetHeight < height-margin) {
 			margin += (height-margin-can._output.offsetHeight)/2
 		} else {
@@ -147,7 +150,7 @@ Volcanos(chat.ONENGINE, {
 		if (cmds.length != 1 && cmds[1] != chat.STORM) { return false } var river = list[cmds[0]]; if (!river) { return false }
 		can.core.ItemOrder(river.storm, mdb.ORDER, function(key, value) { if (!value) { return }
 			if (value.nodetype && value.nodetype != can.user.info.nodetype) { return }
-			if (can.user.info.userrole == aaa.ROOT || can.base.isIn(value.type||"", "", aaa.VOID, can.user.info.userrole)) {
+			if (can.base.isIn(can.user.info.userrole, value.type||aaa.VOID, aaa.TECH, aaa.ROOT)) {
 				msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name||(can.user.trans(can, key)+" "+key), icon: value.icon||icon[key]||"", main: value.main||false})
 			}
 		}), can.base.isFunc(cb) && cb(msg); return true

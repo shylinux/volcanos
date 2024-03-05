@@ -1,7 +1,7 @@
 fieldset.Header>div.output { line-height:21px; height:var(--header-height); overflow:hidden; }
 fieldset.Header>div.output div.item { background-color:var(--panel-output-bg-color); padding:13.5px; height:var(--header-height); float:left; }
 fieldset.Header>div.output div.item.title:first-child { font-size:var(--legend-font-size); font-style:italic; font-weight:bold; white-space:pre; overflow:hidden; }
-fieldset.Header>div.output div.item.title img { height:var(--action-height); width:var(--action-height); }
+fieldset.Header>div.output div.item.title img { padding:0; height:var(--action-height); width:var(--action-height); }
 fieldset.Header>div.output div.item.layout>i { margin-left:var(--input-padding); }
 fieldset.Header>div.output div.item.layout:not(:hover)>i { visibility:hidden; }
 fieldset.Header>div.output div.item.layout { padding-right:0; }

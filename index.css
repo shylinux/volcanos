@@ -73,7 +73,7 @@ body {
 body.en { --card-button:3; }
 body.mobile { --footer-height:60px; --qrcode-height:284px; --svg-font-size:13px; }
 body.width1 { /* 320-640 手机竖屏 */
-	--river-width:280px; --project-width:120px; --input-width:80px; --url-input-width:160px; --form-width:320px;
+	--river-width:280px; --project-width:120px; --input-width:80px; --url-input-width:160px; --form-width:290px;
 	--river-margin:0; --plugin-margin:0; --button-margin:5px;
 	--table-button:2; --card-button:3;
 	--legend-margin:5px;

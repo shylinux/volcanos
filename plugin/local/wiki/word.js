@@ -44,7 +44,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 		}); select && select.click()
 	},
 	field: function(can, meta, target) { var item = can.base.Obj(meta.meta)
-		var padding = 2*can.Conf(html.PADDING); if (can.user.isMobile && !can.isCmdMode()) { padding *= 2 }
+		var padding = 2*can.Conf(html.PADDING);
+		// if (can.user.isMobile && !can.isCmdMode() && can.ConfIndex() == web.PORTAL) { padding *= 2 }
+		// if (can.user.isMobile && !can.isCmdMode()) { padding *= 2 }
 		if (!item.width || parseInt(item.width) > can.ConfWidth()) { item.width = can.ConfWidth()-padding }
 		var width = item.width
 		can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
@@ -110,7 +112,7 @@ Volcanos(chat.ONACTION, {
 					}
 					return can.core.CallFunc([can.onimport, data.type], [sub, data, item, can.page.width()]), item
 				}), }])
-			}), can.onmotion.hidden(can, sub.ui.project), can.ondetail.show(sub, 0) 
+			}), can.onmotion.hidden(can, sub.ui.project), can.ondetail.show(sub, 0)
 			sub.onappend._status(sub, [mdb.PAGE, cli.FROM, cli.COST]), sub.Status(cli.FROM, can.base.Time()), sub.Status(mdb.PAGE, list.length)
 			var from = new Date(); can.core.Timer({interval: 100}, function() { var now = new Date(); sub.Status(cli.COST, can.base.Duration(now-from)) })
 		}, can._root._target)
