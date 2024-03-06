@@ -7,7 +7,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 			can.core.CallFunc([can.onimport, can.onimport[meta.name]? meta.name: meta.type||target.tagName.toLowerCase()], [can, meta, target])
 			var _meta = can.base.Obj(meta.meta);
 			if (_meta && _meta.style) {
-				if (_meta.style.width == "480px") { _meta.style.width = can.ConfWidth() - 2*can.Conf(html.PADDING) }
+				if (can.user.isMobile && _meta.style.width == "480px") { _meta.style.width = can.ConfWidth() - 2*can.Conf(html.PADDING) }
 				can.page.style(can, target, can.base.Obj(_meta.style))
 			}
 			meta.style && can.page.style(can, target, can.base.Obj(meta.style))
