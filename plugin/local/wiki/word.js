@@ -5,7 +5,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 	_content: function(can, target, cb) { can.onappend.style(can, web.WIKI_WORD)
 		can.page.Select(can, target, wiki.STORY_ITEM, function(target) { var meta = target.dataset||{}; cb && cb(target, meta)
 			can.core.CallFunc([can.onimport, can.onimport[meta.name]? meta.name: meta.type||target.tagName.toLowerCase()], [can, meta, target])
-			var _meta = can.base.Obj(meta.meta); _meta && _meta.style && can.page.style(can, target, can.base.Obj(_meta.style))
+			var _meta = can.base.Obj(meta.meta);
+			if (_meta && _meta.style) {
+				if (_meta.style.width == "480px") { _meta.style.width = can.ConfWidth() - 2*can.Conf(html.PADDING) }
+				can.page.style(can, target, can.base.Obj(_meta.style))
+			}
 			meta.style && can.page.style(can, target, can.base.Obj(meta.style))
 		})
 		can.page.Select(can, target, html.A, function(target) {
@@ -43,19 +47,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 			return tabs
 		}); select && select.click()
 	},
-	field: function(can, meta, target) { var item = can.base.Obj(meta.meta)
-		var padding = 2*can.Conf(html.PADDING);
-		// if (can.user.isMobile && !can.isCmdMode() && can.ConfIndex() == web.PORTAL) { padding *= 2 }
-		// if (can.user.isMobile && !can.isCmdMode()) { padding *= 2 }
-		if (!item.width || parseInt(item.width) > can.ConfWidth()) { item.width = can.ConfWidth()-padding }
-		var width = item.width
-		can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
-			sub.onimport.size(sub, can.base.Max(html.STORY_HEIGHT, can.ConfHeight()), sub.Conf("_width", width), true)
-			var size = sub.onimport.size; sub.onimport.size = function(can, height, width, auto, mode) { size(can, height, width, auto, mode), can.page.style(can, sub._output, html.MAX_HEIGHT, "", "overflow-y", "hidden") }
-			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() { sub.runAction(sub.request({}, can.core.Value(item, "opts")), can.core.Value(item, "auto.cmd")) })
-			can.page.style(can, sub._target, html.WIDTH, width)
-		}, can._output, target)
-	},
 	table: function(can, meta, target) {
 		can.page.OrderTable(can, target), can.page.ClassList.add(can, target, chat.CONTENT)
 		can.page.Select(can, target, html.TD, function(item) { can.onmotion.copy(can, item) })
@@ -70,6 +61,16 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 				can.user.toimage(can, "hi", target)
 			})); can.page.style(can, ui._target, {left: event.clientX, top: event.clientY})
 		}) }
+	},
+	field: function(can, meta, target) { var item = can.base.Obj(meta.meta), padding = can.Conf(html.PADDING)
+		if (!item.width || parseInt(item.width) > can.ConfWidth()) { item.width = can.ConfWidth()-2*padding }
+		var width = item.width
+		can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
+			sub.onimport.size(sub, can.base.Max(html.STORY_HEIGHT, can.ConfHeight()), sub.Conf("_width", width), true)
+			var size = sub.onimport.size; sub.onimport.size = function(can, height, width, auto, mode) { size(can, height, width, auto, mode), can.page.style(can, sub._output, html.MAX_HEIGHT, "", "overflow-y", "hidden") }
+			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() { sub.runAction(sub.request({}, can.core.Value(item, "opts")), can.core.Value(item, "auto.cmd")) })
+			can.page.style(can, sub._target, html.WIDTH, width)
+		}, can._output, target)
 	},
 	layout: function(can) { can.onmotion.delay(can, function() { padding = can.Conf(html.PADDING)
 		if (can.isCmdMode()) { can.ConfHeight(can.page.height()-html.ACTION_HEIGHT-1), can.ConfWidth(can.page.width()) }
