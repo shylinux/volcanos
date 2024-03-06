@@ -40,8 +40,8 @@ body {
 	--plugin-border-color:var(--box-border); --input-border:var(--box-border); --status-border:var(--box-border);
 	--code-border-color:var(--notice-bg-color);
 	--plugin-radius:var(--plugin-padding); --button-radius:var(--input-padding);
-	--box-shadow:var(--body-fg-color) 2px 2px 8px;
-	--notice-box-shadow:var(--notice-bg-color) 2px 2px 8px;
+	--box-shadow:var(--body-fg-color) 0px 0px 10px;
+	--notice-box-shadow:var(--notice-bg-color) 0px 0px 10px;
 	--plugin-box-shadow:var(--box-shadow); --legend-box-shadow:var(--box-shadow); --input-box-shadow:var(--box-shadow);
 	--th-box-shadow:var(--box-shadow);
 
@@ -499,8 +499,11 @@ fieldset>div.status>legend:not(:hover):not(.select) { border-radius:0; }
 div.plug legend { border-radius:0; }
 /* box-shadow */
 fieldset>legend { box-shadow:var(--legend-box-shadow); }
+/* fieldset>legend:hover { box-shadow:var(--notice-box-shadow); } */
 fieldset>form.option>div.item:not(.icon) { box-shadow:var(--input-box-shadow); }
+/* fieldset>form.option>div.item:not(.icon):hover { box-shadow:var(--notice-box-shadow); } */
 fieldset>div.action div.item:not(.state) { box-shadow:var(--input-box-shadow); }
+/* fieldset>div.action div.item:not(.state):hover { box-shadow:var(--notice-box-shadow); } */
 body:not(.mobile) fieldset>div.action div.item:first-child { margin-left:var(--input-margin); }
 fieldset>div.action>div.tabs { box-shadow:var(--legend-box-shadow); }
 fieldset>div.action>div.cmds { box-shadow:var(--legend-box-shadow); }
@@ -509,7 +512,7 @@ table.content th { box-shadow:var(--th-box-shadow); }
 table.content.action td:last-child { box-shadow:var(--th-box-shadow); }
 table.content input { box-shadow:var(--input-box-shadow); }
 div.output.card>div.item { box-shadow:var(--box-shadow); }
-div.output.card>div.item:hover { box-shadow:var(--notice-bg-color) 2px 2px 8px; }
+div.output.card>div.item:hover { box-shadow:var(--notice-box-shadow); }
 div.output.card>div.item>div.action>input { box-shadow:var(--input-box-shadow); }
 fieldset:not(.panel):not(.full):not(.cmd) { box-shadow:var(--plugin-box-shadow); }
 fieldset:not(.panel):not(.full):not(.cmd):hover { box-shadow:var(--notice-box-shadow); }
