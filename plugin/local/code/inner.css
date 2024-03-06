@@ -52,7 +52,7 @@ fieldset.inner.cmd>div.output>div.layout>div.path:not(.hide) { display:flex; }
 fieldset.inner>div.output>div.layout>div.path:not(.hide) { font-style:italic; box-shadow:var(--box-shadow); cursor:pointer; justify-content:flex-start; }
 fieldset.inner>div.output>div.layout>div.path>a { padding:var(--input-padding) var(--button-padding); }
 fieldset.inner>div.output>div.layout>div.path>a:hover { background-color:var(--hover-bg-color); }
-fieldset.inner>div.output>div.layout>div.path>span { padding:var(--input-padding); }
+fieldset.inner>div.output>div.layout>div.path>span { padding:var(--input-padding); white-space:pre; }
 fieldset.inner>div.output>div.layout>div.path>span:hover { background-color:var(--hover-bg-color); }
 fieldset.inner>div.output>div.layout>div.path span.func { padding:var(--input-padding); }
 fieldset.inner>div.output>div.layout>div.path span.mode { padding:var(--input-padding); }
