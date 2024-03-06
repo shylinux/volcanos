@@ -1,7 +1,8 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.ui = can.onappend.layout(can), cb && cb(msg)
-		can.db.hash = can.isCmdMode()? can.misc.SearchHash(can): []
-		can.onappend.style(can, html.FLEX, can.ui.display)
-		can.onmotion.hidden(can, can._action), can.onmotion.toggle(can, can.ui.display, true), can.onimport.layout(can)
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg, cb) {
+		can.onmotion.hidden(can, can._action)
+		can.ui = can.onappend.layout(can), cb && cb(msg)
+		can.onappend.style(can, html.FLEX, can.ui.display), can.onmotion.toggle(can, can.ui.display, true), can.onimport.layout(can)
 		can.onimport._project(can, msg), can.onimport.page(can, can.db.list, can.db.begin = parseInt(msg.Option(cli.BEGIN)||"0"))
 	},
 	_project: function(can, msg) { can.db.list = [], can.db.dir_root = msg.Option(nfs.DIR_ROOT)
@@ -19,6 +20,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.ui = can.onappend.l
 					if (event.type == "ratechange") { can.misc.localStorage(can, [can.ConfIndex(), "rate"], event.target.playbackRate) }
 					if (event.type == "ended" && next) { can.onmotion.delay(can, function() { next.click() }, 3000), can.user.toast(can, "3s 后即将播放下一个", "", 3000) }
 				}
+				can.Option(nfs.FILE, can.base.trimPrefix(item.path, can.Option(nfs.PATH)))
 				can.onimport.layout(can), can.onmotion.scrollIntoView(can, target), can.onmotion.clear(can, can.ui.content)
 				var _target = can.onimport.file(can, item.path, item, index, can.ui.content, can.ui.content.offsetHeight, true)
 				_target.focus(), _target.onclick = function() { can.ondetail._init(can, index) }
@@ -32,13 +34,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.ui = can.onappend.l
 				if (index < can.db.begin || index >= can.db.begin+limit) {
 					can.onimport.page(can, can.db.list, can.db.begin = index-index%limit)
 				}
-			}, function() {}, can.ui.project); item._target = target, _target = can.db.hash[0] == item.path? target: _target||target
+			}, function() {}, can.ui.project); item._target = target, _target = can.base.isIn(item.path, can.db.hash[0]||can.Option(nfs.PATH)+can.Option(nfs.FILE))? target: _target||target
 			if (can.isCmdMode() && item.path == can.misc.localStorage(can, [can.ConfIndex, "last"])) {
 				can.Action(html.HEIGHT, html.HIDE), can.onmotion.hidden(can, can.ui.display)
 				_target = target, can.onmotion.delay(can, function() { can.onaction.full({}, can) })
 			}
-		}), _target && _target.click()
-		can.onmotion.orderShow(can, can.ui.project)
+		}), _target && _target.click(), can.onmotion.orderShow(can, can.ui.project)
 	},
 	_file: function(can, path) { var p = location.href.indexOf(ice.HTTP) == 0? "": "http://localhost:9020"
 		return path.indexOf(ice.HTTP) == 0? path: p+can.base.Path(web.SHARE_LOCAL, can.db.dir_root||"", path)
@@ -56,8 +57,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.ui = can.onappend.l
 	},
 	layout: function(can) { can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
 		can.page.Select(can, can.ui.content, can.page.Keys(html.IMG, html.VIDEO), function(target) {
-			can.user.isMobile && !can.user.isLandscape()? can.page.style(can, target, html.HEIGHT, "", html.MAX_HEIGHT, height, html.WIDTH, width):
-				can.page.style(can, target, html.HEIGHT, height, html.MAX_WIDTH, width)
+			can.user.isMobile && !can.user.isLandscape()? can.page.style(can, target, html.HEIGHT, "", html.MAX_HEIGHT, height, html.MAX_WIDTH, width):
+				can.page.style(can, target, html.MAX_HEIGHT, height, html.MAX_WIDTH, width)
 		})
 	}) },
 }, [""])
