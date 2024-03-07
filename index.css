@@ -52,7 +52,7 @@ body {
 	--table-padding:var(--button-padding);
 
 	--header-height:48px; --footer-height:var(--action-height); --action-height:32px; --status-height:var(--action-height); --textarea-height:96px;
-	--river-width:var(--project-width); --project-width:230px; --input-width:140px; --button-width:60px; --form-width:320px; --url-input-width:480px;
+	--river-width:var(--project-width); --project-width:230px; --input-width:140px; --button-width:60px; --form-width:360px; --url-input-width:480px;
 	--card-width:320px; --card-height:160px; --qrcode-width:360px; --qrcode-height:364px;
 	--story-height:480px; --iframe-height:420px;
 	--float-height:var(--story-height); --float-width:1200px;

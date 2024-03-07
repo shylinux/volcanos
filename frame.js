@@ -515,9 +515,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			restart: "bi bi-bootstrap-reboot",
 			access: "bi bi-file-lock",
 		}, function(name, icon) { var text = value[name]
-			if (name == nfs.VERSION) { text = value.version.split("-").slice(0, 2).join("-") }
-			if (name == mdb.TIME) { text = can.base.TimeTrim(value[name]) }
-			return value[name] && {view: [[html.ITEM, name]], list: [{icon: icon}, {text: text}]}
+			if (name == nfs.VERSION && text) { text = text.split("-").slice(0, 2).join("-") }
+			if (name == mdb.TIME && text) { text = can.base.TimeTrim(text) }
+			return text && {view: [[html.ITEM, name]], list: [{icon: icon}, {text: text}]}
 		})}
 	},
 	table: function(can, msg, cb, target, keys) { if (!msg || msg.Length() == 0) { return } var meta = can.base.Obj(msg.Option(mdb.META))
