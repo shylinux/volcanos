@@ -39,7 +39,7 @@ Volcanos(chat.ONIMPORT, {
 				can.Action(html.HEIGHT, html.HIDE), can.onmotion.hidden(can, can.ui.display)
 				_target = target, can.onmotion.delay(can, function() { can.onaction.full({}, can) })
 			}
-		}), _target && _target.click(), can.onmotion.orderShow(can, can.ui.project)
+		}), can.onmotion.delay(can, function() { _target && _target.click() }), can.onmotion.orderShow(can, can.ui.project)
 	},
 	_file: function(can, path) { var p = location.href.indexOf(ice.HTTP) == 0? "": "http://localhost:9020"
 		return path.indexOf(ice.HTTP) == 0? path: p+can.base.Path(web.SHARE_LOCAL, can.db.dir_root||"", path)
