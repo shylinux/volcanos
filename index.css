@@ -305,6 +305,7 @@ body>div.input tr.icons td:last-child span:not(.icon) { position:absolute; left:
 body>div.input tr.icons td:last-child input { padding-left:var(--action-height); }
 body>div.input td span.icon { margin-left:-20px; visibility:hidden; }
 body>div.input td span.icons { margin-left:-20px; visibility:hidden; }
+body>div.input td label { font-family:var(--code-font-family); }
 body>div.input td:hover span.icon { visibility:visible; }
 body>div.input td:hover span.icons { visibility:visible; }
 body>div.input textarea { height:var(--textarea-height); width:var(--form-width) !important; }
