@@ -132,7 +132,9 @@ Volcanos(chat.ONSYNTAX, {
 		},
 		regexp: {"[A-Z_0-9]+": code.CONSTANT},
 		keyword: {
-			"source": code.KEYWORD, "return": code.KEYWORD, "config": code.KEYWORD,
+			"source": code.KEYWORD, "return": code.KEYWORD,
+			"config": code.KEYWORD,
+			"command": code.KEYWORD,
 			"create": code.FUNCTION, "modify": code.FUNCTION, "insert": code.FUNCTION,
 			"spide": code.DATATYPE, "serve": code.DATATYPE, "dream": code.DATATYPE,
 			"user": code.DATATYPE,
