@@ -750,6 +750,10 @@ body.print div.float { background-color:snow; }
 body.print fieldset.draw div.output { background-color:lightgray; }
 body.print fieldset.draw div.output div.content svg { background-color:lightgray; }
 /* misc */
+fieldset.web.dream>div.output>div.item div.content>span { padding:0 var(--input-padding); }
+fieldset.web.dream>div.output>div.item div.content>span.files { background-color:purple; color:var(--notice-fg-color);}
+fieldset.web.dream>div.output>div.item div.content>span.add { background-color:var(--notice-bg-color); color:var(--notice-fg-color);}
+fieldset.web.dream>div.output>div.item div.content>span.del { background-color:var(--danger-bg-color); color:var(--danger-fg-color);}
 fieldset.xterm.float>form.option>div.item.hash input { width:var(--form-width); }
 fieldset.iframe.float>form.option>div.item.hash input { width:var(--form-width); }
 fieldset.iframe>form.option>div.item.hash input { width:var(--form-width); }
