@@ -462,10 +462,10 @@ var icon = {
 	vendor: "bi bi-box-arrow-up-right",
 	configs: "bi bi-gear", config: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week",
 	tag: "bi bi-tags", save: "bi bi-floppy", trash: "bi bi-trash",
+	top: "bi bi-globe", main: "bi bi-house-door",
 
 	notifications: "bi bi-chat-right-text",
 	play: "bi bi-play-circle", app: "bi bi-box-arrow-down-left",
-	main: "bi bi-box-arrow-up-right",
 }
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",
