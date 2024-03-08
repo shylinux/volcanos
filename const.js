@@ -438,7 +438,9 @@ var icon = {
 	template: "bi bi-file-earmark-medical",
 	binary: "bi bi-disc",
 	title: "bi bi-textarea-t",
-	name: "bi bi-textarea-t",
+	// name: "bi bi-textarea-t",
+	// name: "bi bi-globe",
+	name: "bi bi-sort-alpha-down",
 	type: "bi bi-card-list",
 	send: "bi bi-send-check",
 
