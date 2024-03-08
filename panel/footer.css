@@ -6,8 +6,10 @@ fieldset.Footer>div.output div.state { font-family:var(--status-font-family); fl
 fieldset.Footer>div.output div.state label { font-size:var(--status-font-size); }
 fieldset.Footer>div.output div.toast {
 	font-family:var(--status-font-family); line-height:18px;
-	max-width:360px; overflow:auto;
-	float:right;
+	max-width:640px; overflow:auto; float:right;
+}
+body.width6 fieldset.Footer>div.output div.toast {
+	max-width:1000px;
 }
 fieldset.Footer>div.output div.cmd { padding:0; margin-left:20px; }
 fieldset.Footer>div.output input[type=button] { background-color:transparent; }
