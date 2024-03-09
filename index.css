@@ -775,7 +775,7 @@ fieldset.xterm div.layout div.output.select { border:var(--box-border)}
 fieldset.dream>div.output.card>div.item.begin>div.title { color:var(--disable-fg-color); font-style:italic; text-decoration:line-through; }
 fieldset.dream>div.output.card>div.item.login { border:var(--danger-bg-color) solid 3px; }
 fieldset.dream>div.output.card>div.item.server { border:var(--notice-bg-color) solid 3px; }
-fieldset.dream>div.output.card>div.item.master { border:var(--danger-bg-color) solid 3px; }
+fieldset.dream>div.output.card>div.item.origin { border:var(--danger-bg-color) solid 3px; }
 fieldset.trans>div.output>fieldset { margin:var(--button-margin); }
 fieldset.config form.option input[name=key] { width:var(--project-width); }
 fieldset.qrcode>div.output div.code { padding:0; }

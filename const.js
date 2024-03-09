@@ -91,8 +91,8 @@ var web = {
 	SPIDE: "spide", STORE: "store", ADMIN: "admin", MATRIX: "matrix",
 	GRANT: "grant",
 
-	WORKER: "worker", SERVER: "server", MASTER: "master", GATEWAY: "gateway",
-	ORIGIN: "origin", VENDOR: "vendor", ONLINE: "online", OFFLINE: "offline",
+	WORKER: "worker", SERVER: "server", ORIGIN: "origin", VENDOR: "vendor",
+	GATEWAY: "gateway", ONLINE: "online", OFFLINE: "offline",
 
 	FULL: "full", OPEN: "open", LINK: "link", HTTP: "http", DOMAIN: "domain", URL: "url",
 	DRAW: "draw", PLAY: "play", CLEAR: "clear", RESIZE: "resize", FILTER: "filter",
@@ -107,6 +107,7 @@ var web = {
 	STUDIO: "studio", SERVICE: "service",
 	MESSAGE: "message",
 	WORD: "word",
+	VIMER: "vimer",
 
 	CODE_GIT_SEARCH: "web.code.git.search",
 	CODE_GIT_STATUS: "web.code.git.status",

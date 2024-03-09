@@ -392,14 +392,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}
 		var name = can.core.Split(item.nick||item.name||"").pop()||""; can.base.isIn(name,
-			tcp.SERVER,
-			tcp.CLIENT,
-			web.STUDIO,
-			mdb.SEARCH,
-			web.SERVICE,
-			"instance",
+			tcp.SERVER, tcp.CLIENT, web.STUDIO,
+			mdb.SEARCH, web.SERVICE, "instance",
 		) && (name = (item.index||"").split(".").slice(-2).join(".")), (type != html.PLUG && !can.base.isIn(can.ConfIndex(),
-			web.DESKTOP, web.MESSAGE,
+			web.DESKTOP, web.MESSAGE, web.VIMER,
 		)) && (name = can.core.Keys(item.space||item._space, name))
 		var title = item.title || can.user.isMobile && (can.user.isEnglish(can)? name: (item.help||name)) || (!item.help || name == item.help || can.user.isEnglish(can)? name: name+"("+can.core.Split(item.help)[0]+")")
 		target = can.base.isFunc(target)? target(): target
