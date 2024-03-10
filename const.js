@@ -444,6 +444,7 @@ var icon = {
 	name: "bi bi-sort-alpha-down",
 	type: "bi bi-card-list",
 	send: "bi bi-send-check",
+	nodename: "bi bi-globe",
 
 	portal: "bi bi-globe",
 	desktop: "bi bi-window-desktop",

@@ -222,6 +222,7 @@ fieldset>div.action>div.item:not(:last-child) { margin-right:var(--button-margin
 fieldset.input>legend { display:none; }
 fieldset.input.key div.action { display:none; }
 fieldset.input.key div.output table.content { font-family:var(--code-font-family); width:100%; }
+fieldset.input.key div.output table.content td:not(:first-child) { color:var(--disable-fg-color); }
 fieldset.input.key>div.output>div.item:not(.hide) { display:flex; align-items:center; }
 fieldset.input.key>div.output>div.item img { height:var(--header-height); width:var(--header-height); }
 fieldset.input.key div.status:not(.hide) { background-color:var(--plugin-bg-color); display:block; position:sticky; bottom:0; }
