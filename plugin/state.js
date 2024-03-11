@@ -14,7 +14,7 @@ Volcanos(chat.ONIMPORT, {
 	_cookie: function(can, msg) { can.misc.Cookie(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_session: function(can, msg) { can.misc.sessionStorage(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_field: function(can, msg, cb) { var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()-2*html.ACTION_HEIGHT), width = can.ConfWidth()
-		msg.Table(function(item) { if (can.page.tagis(can._target, html.FIELDSET_STORY) || can._msg.IsDetail()) { item.style = item.style||html.FLOAT }
+		msg.Table(function(item) { if (can.page.tagis(can._target, html.FIELDSET_STORY) || can._msg && can._msg.IsDetail()) { item.style = item.style||html.FLOAT }
 			can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) {
 				sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX); can.run(can.request(event, {pod: item.space}), (msg[ice.MSG_PREFIX]? msg[ice.MSG_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true) }
 				if (item.style != html.FLOAT && can.base.isIn(sub.ConfIndex(), wiki.PORTAL, chat.IFRAME, chat.DESKTOP, wiki.WORD, code.VIMER,)) { height = can.base.Max(can.onexport.outputHeight(can), can.ConfHeight(), 480) }
