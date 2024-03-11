@@ -275,7 +275,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var _can = can._fields? can.sup: can
 		can.base.beginWith(can.ConfIndex(), "can.", "web.chat.macos.") ||
 			can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
-				can.core.Item(can.user.isMobile? {
+					can.core.Item(can.user.isMobile? {
 					open: !can.isCmdMode() && "打开链接",
 					// chat: "发送聊天",
 				}: {_space: "",
@@ -289,7 +289,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					return (value || value === "") && {view: [[html.ITEM, html.BUTTON, key, mdb.ICONS, "state"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
 						var cb = _can.onaction[value]; cb && _can.onaction[value](event, _can, value, _can.sub)
 					}}
-				})
+				}).concat(can.Conf("_plugin_action")||[])
 			); return meta
 	},
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); meta.feature = meta.feature||{}

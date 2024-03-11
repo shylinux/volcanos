@@ -466,6 +466,8 @@ var icon = {
 	tag: "bi bi-tags", save: "bi bi-floppy", trash: "bi bi-trash",
 	top: "bi bi-globe", main: "bi bi-house-door",
 
+	pluginCreate: "bi bi-box-arrow-in-down",
+
 	notifications: "bi bi-chat-right-text",
 	play: "bi bi-play-circle", app: "bi bi-box-arrow-down-left",
 }
