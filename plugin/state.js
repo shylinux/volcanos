@@ -167,8 +167,9 @@ Volcanos(chat.ONACTION, {list: ["刷新数据",
 	"发送聊天": function(event, can) {
 		can.user.input(event, can, [{name: chat.MESSAGE, display: "/require/usr/icebergs/core/chat/message.js", run: function(event, cmds, cb) {
 			can._root.Header.run(can.request(event, {pod: can.ConfSpace()}), [ctx.ACTION, chat.MESSAGE].concat(cmds), function(msg) { cb(msg) })
-		}}], function(list) {
-			can._root.Header.run(can.request(event, {pod: can.ConfSpace()}), [ctx.ACTION, chat.MESSAGE, list[0], mdb.TYPE, "plug", ctx.INDEX, can.ConfIndex(), ctx.ARGS, JSON.stringify(can.Option())])
+		}}], function(list) { var args = can.core.Item(can.Option(), function(key, value) { return value })
+			can._root.Header.run(can.request(event, {pod: can.ConfSpace()}), [ctx.ACTION, chat.MESSAGE, list[0],
+				mdb.TYPE, "plug", ctx.INDEX, can.ConfIndex(), ctx.ARGS, args.length < 2? args[0]||"": JSON.stringify(args)])
 			can.onappend._float(can, chat.MESSAGE)
 		})
 	},
