@@ -215,8 +215,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}
 		function add(item, next) { item = can.base.isString(item)? {type: html.TEXT, name: item}: item, item.type != html.BUTTON && index++
 			return Volcanos(item.name, {_root: can._root, _follow: can.core.Keys(can._follow, item.name),
-				// _target: can.onappend.input(can, item, args[index]||args[item.name]||opts[item.name], option||can._option), _option: option||can._option, _action: can._action, _output: can._output, _status: can._status,
-				_target: can.onappend.input(can, item, args[index]||args[item.name]||opts[item.name], option||can._option), _option: option||can._option, _action: can._action, _output: can._output, _status: can._status,
+				_target: can.onappend.input(can, item, args[index]||(typeof args[item.name] == code.STRING? args[item.name]: "")||opts[item.name], option||can._option), _option: option||can._option, _action: can._action, _output: can._output, _status: can._status,
 				CloneField: can.Clone, CloneInput: function() { can.onmotion.focus(can, add(item)._target) }, Input: can.Input, Option: can.Option, Action: can.Action, Status: can.Status,
 			}, [item.display, chat.PLUGIN_INPUT_JS], function(sub) { sub.Conf(item), sub._fields = can
 				if (item.type == html.TEXT) { can.page.Append(can, sub._target.parentNode, [{text: [sub._target.value, html.SPAN, mdb.VALUE]}]) }
@@ -271,7 +270,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) { can.onappend.icons(can, target, item.name) }
 				}), item), "", action)
 		})
-		// if (!can.ConfIndex()) { return }
 		var _can = can._fields? can.sup: can
 		can.base.beginWith(can.ConfIndex(), "can.", "web.chat.macos.") ||
 			can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL, html.FIELDSET_PLUG) || action == can._action && can.page.Append(can, action,
@@ -281,10 +279,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}: {_space: "",
 					full: !can.isCmdMode() && "切换全屏",
 					open: !can.isCmdMode() && "打开链接",
-					// qrcode: !can.isCmdMode() && "生成链接",
 					chat: can.user.isTechOrRoot(can) && can.ConfIndex() != chat.MESSAGE && "发送聊天",
 					help: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_help") && can.Conf("_help") != "" && "查看文档",
-					// vimer: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_fileline") && can.misc.Search(can, ice.MSG_DEBUG) == ice.TRUE && "查看源码",
 				}, function(key, value) {
 					return (value || value === "") && {view: [[html.ITEM, html.BUTTON, key, mdb.ICONS, "state"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
 						var cb = _can.onaction[value]; cb && _can.onaction[value](event, _can, value, _can.sub)
