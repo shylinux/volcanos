@@ -419,7 +419,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}
 			input.onkeyup = item.onkeyup||function(event) { if (item.name == html.FILTER) {
 				can.onmotion.filter(can, event.target.value)
-			} }, _icon.push({icon: mdb.DELETE, onclick: function(event) { _input.value = "", input.onkeyup({target: event.target.previousSibling}) }})
+			} }, _icon.push({icon: mdb.DELETE, onclick: function(event) {
+				_input.value = "", input.onkeyup({target: event.target.previousSibling})
+				can.core.CallFunc([event.target.previousSibling, "_clear"], {})
+			}})
 			if (item.name == html.FILTER) { item.icon = item.icon||icon.search }
 			item.icon = item.icon||icon[item.name]
 		} if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }

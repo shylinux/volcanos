@@ -18,13 +18,27 @@ Volcanos(chat.ONFIGURE, {key: {
 			}}
 		}), can.onappend._status(can, [mdb.TOTAL, mdb.INDEX]), can.Status(mdb.TOTAL, msg.Length()), can.Status("index", "-1")
 		can.onmotion.toggle(can, can._status, msg.Length() > 5), can.onmotion.toggle(can, can._target, can.Status("total") > 0)
+		can.showIcons = function(value, icons, title) { can.ui = can.ui||{}
+			if (!can.ui.img) {
+				can.ui.img = can.page.insertBefore(can, [{type: html.IMG}], target)
+				can.ui.span = can.page.insertBefore(can, [{type: html.SPAN}], target)
+				can.onappend.style(can, mdb.ICONS, can.page.parentNode(can, target, html.TR))
+				can.page.style(can, target, html.COLOR, html.TRANSPARENT)
+				target._clear = function() { can.ui.img.src = can.misc.Resource(can, "usr/icons/icebergs.png"), can.ui.span.innerHTML = "" }
+			}
+			can.ui.img.src = can.misc.Resource(can, icons), can.ui.span.innerText = title||value
+			target.value = value, can.onmotion.hidden(can, can._target)
+		}
 		can.core.CallFunc([can.oninputs, "_show"], {event: event, can: can, msg: msg, target: target, name: name})
+		can.core.CallFunc([can.sup.sub, "oninputs", name], {event: event, can: can, msg: msg, target: target, name: name})
+		// can.core.CallFunc([can.sup.sub, "oninputs", "_show"], {event: event, can: can, msg: msg, target: target, name: name})
 		can.page.style(can, can._output, html.MAX_HEIGHT, can.page.height()/2, html.MIN_WIDTH, target.offsetWidth, html.MAX_WIDTH, can.Conf("style.width")||can.page.width()/2)
 		msg.append.length == 1 && can.page.ClassList.add(can, can._target, chat.SIMPLE)
 		can.onlayout.figure({target: target}, can, can._target, false, 200)
 	},
 	onfocus: function(event, can, meta, target, cbs, mod) { meta._force && mod.onclick(event, can, meta, target, cbs) },
 	onclick: function(event, can, meta, target, cbs) { (target.value == "" || meta._force) && cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
+		sub.sup = can._fields? can.sup: can
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
 	onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },

@@ -263,6 +263,17 @@ Volcanos(chat.ONACTION, {
 		can._keylist = can.onkeymap._parse(event, can, mdb.PLUGIN, can._keylist||[], can._output)
 	},
 })
+Volcanos(chat.ONINPUTS, {
+	dream: function(event, can, msg, target, name) {
+		can.page.Appends(can, can._output, msg.Table(function(value) {
+			return {view: html.ITEM, list: [{img: can.misc.Resource(can, value.icons)},
+				{view: html.CONTAINER, list: [{view: [html.TITLE, "", value[name]]},
+					can.onappend.label(can, value, {version: icon.version, time: icon.compile}),
+				]},
+			], onclick: function(event) { can.showIcons(value[name], value.icons) }}
+		}))
+	},
+})
 Volcanos(chat.ONKEYMAP, {
 	escape: function(event, can) {}, enter: function(event, can) {},
 	ctrln: function(event, can) { can.onkeymap.selectCtrlN(event, can, can._action, html.DIV_TABS) },
