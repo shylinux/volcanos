@@ -14,7 +14,7 @@ Volcanos(chat.ONFIGURE, {icons: {
 	},
 	onclick: function(event, can, meta, target, cbs) { can.onmotion.focus(can, target) },
 	onfocus: function(event, can, meta, target, cbs) { cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
-		target._icon = target._icon || can.page.insertBefore(can, [{type: "img"}], target)
+		target._icon = target._icon || can.page.insertBefore(can, [{img: can.misc.Resource(can, "usr/icons/icebergs.png") }], target)
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
 	onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },

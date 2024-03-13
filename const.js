@@ -461,6 +461,9 @@ var icon = {
 	cmds: "bi bi-terminal",
 	reboot: "bi bi-bootstrap-reboot",
 
+	token: "bi bi-key",
+	origin: "bi bi-globe",
+
 	vendor: "bi bi-box-arrow-up-right",
 	configs: "bi bi-gear", config: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week",
 	tag: "bi bi-tags", save: "bi bi-floppy", trash: "bi bi-trash",
