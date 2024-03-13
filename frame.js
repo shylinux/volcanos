@@ -424,7 +424,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.core.CallFunc([event.target.previousSibling, "_clear"], {})
 			}})
 			if (item.name == html.FILTER) { item.icon = item.icon||icon.search }
-			item.icon = item.icon||icon[item.name]
+			item.icon = item.icon||can.Conf(["_icons", item.name])||icon[item.name]
 		} if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }
 		var _style = can.page.buttonStyle(can, item.name)
 		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name, item._className, html.FLEX , item.icon? "_icon": ""], _style)], list: [item.icon && {icon: item.icon}, input].concat(_icon), _init: function(target, _input) {
