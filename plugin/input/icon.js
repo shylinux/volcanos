@@ -9,11 +9,10 @@ Volcanos(chat.ONFIGURE, {icon: {
 				can.close(), can.base.isFunc(cb) && cb(can, value.name, target.value)
 				target._icon.className = value.name
 			}}])
-		}), can.onappend._status(can, [mdb.TOTAL]), can.Status(mdb.TOTAL, msg.Length())
-		can.onlayout.figure({target: target}, can, can._target, false, 200)
+		}), can.layout(msg)
 	},
-	onclick: function(event, can, meta, target, cbs) { can.onmotion.focus(can, target) },
-	onfocus: function(event, can, meta, target, cbs) { cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
+	onfocus: function(event, can, meta, target, cbs, mod) { meta._force && mod.onclick(event, can, meta, target, cbs) },
+	onclick: function(event, can, meta, target, cbs) { cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
 		target._icon = target._icon || can.page.insertBefore(can, [{type: "i"}], target)
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
@@ -23,11 +22,9 @@ Volcanos(chat.ONFIGURE, {icon: {
 			can.onmotion.hidden(can, target, target.title.indexOf(event.target.value) > -1)
 		})
 		can.page.Select(can, sub._output, html.TR, function(target) {
-			can.onmotion.hidden(can, target, 
-				can.page.Select(can, target, html.TD, function(target) {
-					if (!can.page.ClassList.has(can, target, html.HIDE)) { return target }
-				}).length > 0
-			)
+			can.onmotion.hidden(can, target, can.page.Select(can, target, html.TD, function(target) {
+				if (!can.page.ClassList.has(can, target, html.HIDE)) { return target }
+			}).length > 0)
 		})
 	},
 }})

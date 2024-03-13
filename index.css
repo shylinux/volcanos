@@ -222,6 +222,7 @@ fieldset>div.header img { height:var(--action-height); float:right; }
 fieldset>form.option>div.item:not(.icon) { margin-right:var(--button-margin); }
 fieldset>div.action>div.item:not(:last-child) { margin-right:var(--button-margin); }
 fieldset.input>legend { display:none; }
+fieldset.input.icons table { width:100%; text-align:center; }
 fieldset.input.key div.action { display:none; }
 fieldset.input.key div.output table.content { font-family:var(--code-font-family); width:100%; }
 fieldset.input.key div.output table.content td:first-child { cursor:pointer; }

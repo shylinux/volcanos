@@ -790,6 +790,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 							(meta.run||can.run)(sub.request(event, can.Option()), cmds, cb, true)
 						}, target._can = sub, can.base.Copy(sub, can.onfigure[input], true), sub._name = sub._path = path
 						sub._target._close = sub.close = function() { can.page.Remove(can, sub._target), delete(target._can) }, sub.hidden = function() { return !can.page.isDisplay(sub._target) }
+						sub.layout = function(msg) {
+							can.onappend._status(sub, [mdb.TOTAL]), sub.Status(mdb.TOTAL, msg.Length()), can.onmotion.toggle(can, sub._status, msg.Length() > 5)
+							msg.append.length == 1 && can.page.ClassList.add(can, sub._target, chat.SIMPLE)
+							can.page.style(can, sub._target, html.MAX_HEIGHT, can.page.height()/2, html.MIN_WIDTH, target.offsetWidth, html.MAX_WIDTH, can.page.width()/2)
+							can.onlayout.figure({target: target}, can, sub._target, false, 200, function(height, width) {
+								can.page.style(can, sub._output, html.MAX_HEIGHT, height-sub._status.offsetHeight)
+								sub.Status(html.HEIGHT, parseInt(height-sub._status.offsetHeight)), sub.Status(html.WIDTH, parseInt(width))
+							})
+						}
 						meta.mode && can.onappend.style(sub, meta.mode), can.page.style(sub, sub._target, meta.style), can.base.isFunc(meta._init) && meta._init(sub, sub._target)
 						show(sub, cb)
 					}, can._root._target)
@@ -827,7 +836,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 		}); return height+margin
 	},
 	background: function(can, url, target) { can.page.style(can, target||can._root._target, "background-image", url == "" || url == "void"? "": 'url("'+url+'")') },
-	figure: function(event, can, target, right, min) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
+	figure: function(event, can, target, right, min, cb) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: (event.currentTarget||event.target).getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)
@@ -849,6 +858,7 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 			}
 			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
 			can.page.style(can, target, html.MAX_WIDTH, left+width-layout.left)
+			cb && cb(top+height-layout.top, left+width-layout.left)
 		}); can.onmotion.move(can, target, layout), can.onmotion.slideGrow(can, target)
 		return layout
 	},
