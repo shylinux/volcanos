@@ -799,7 +799,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 								sub.Status(html.HEIGHT, parseInt(height-sub._status.offsetHeight)), sub.Status(html.WIDTH, parseInt(width))
 							})
 						}
-						meta.mode && can.onappend.style(sub, meta.mode), can.page.style(sub, sub._target, meta.style), can.base.isFunc(meta._init) && meta._init(sub, sub._target)
+						meta.mode && can.onappend.style(sub, meta.mode), can.page.style(sub, sub._target, meta.style)
+						// can.base.isFunc(meta._init) && meta._init(sub, sub._target)
 						show(sub, cb)
 					}, can._root._target)
 				}})

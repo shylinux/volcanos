@@ -16,7 +16,7 @@ Volcanos(chat.ONFIGURE, {key: {
 				can.close(); if (msg.cb && msg.cb[index]) { return msg.cb[index](value) }
 				var _cb = can.Conf("select"); if (_cb) { return _cb(target.value = value) } can.base.isFunc(cb) && cb(can, value, target.value)
 			}}
-		}), can.layout(msg)
+		})
 		can.showIcons = function(value, icons, title) { can.ui = can.ui||{}
 			if (!can.ui.img) {
 				can.ui.img = can.page.insertBefore(can, [{type: html.IMG}], target)
@@ -30,13 +30,14 @@ Volcanos(chat.ONFIGURE, {key: {
 		}
 		can.core.CallFunc([can.oninputs, "_show"], {event: event, can: can, msg: msg, target: target, name: name})
 		can.core.CallFunc([can.sup.sub, "oninputs", name], {event: event, can: can, msg: msg, target: target, name: name})
+		can.layout(msg)
 	},
 	onfocus: function(event, can, meta, target, cbs, mod) { meta._force && mod.onclick(event, can, meta, target, cbs) },
 	onclick: function(event, can, meta, target, cbs) { (target.value == "" || meta._force) && cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
 		sub.sup = can._fields? can.sup: can
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
-	onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },
+	// onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },
 	onkeyup: function(event, can, meta, cb, target, sub, last) { if (event.key == code.TAB) { return }
 		if (event.key == code.ENTER) { return meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event, target.value)? sub && sub.close(): last(event) }
 		if (!sub) { return } can.onmotion.toggle(can, sub._target, true)
