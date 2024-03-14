@@ -89,7 +89,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			can.user.info.background = msg.Option(aaa.BACKGROUND)
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
-		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg), can.page.requireModules(can, [msg.Option("icon.lib")])
+		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)
+			// can.page.requireModules(can, [msg.Option("icon.lib")])
 			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.__theme = can.onimport._theme(can, can.page.theme(function(theme) {
 				can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.onimport._theme(can, theme)}))
 			})), can.onimport.theme(can)
