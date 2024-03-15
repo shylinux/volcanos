@@ -47,7 +47,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 		can.page.style(can, can._output, html.MARGIN, "0px", html.HEIGHT, "", html.MAX_HEIGHT, "")
 		if (can.user.isMobile || !can.user.isTechOrRoot(can)) { margin = 0 }
 		if (can._output.offsetHeight < height-margin) {
-			margin += (height-margin-can._output.offsetHeight)/2
+			margin += (height-margin-can._output.offsetHeight)/4
 		} else {
 			can.page.style(can, can._output, html.MAX_HEIGHT, height-margin-16)
 		}
