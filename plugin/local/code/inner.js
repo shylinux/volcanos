@@ -38,6 +38,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			case chat.FULL: // no break
 			default: can.user.isMobile && can.onmotion.hidden(can, can.ui.project), can.onimport.project(can, paths), can.onimport._tabs(can)
 		}
+		msg.result = msg.result||[""]
 		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE), function() { if (!can.isCmdMode()) { return }
 			if (tabs) {
 				can.core.Next(tabs, function(item, next) { can.onimport.tabview(can, item[0], item[1], item[2], function() { can.onmotion.delay(can, next, 300) }) }, function() {
