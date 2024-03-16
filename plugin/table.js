@@ -9,8 +9,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		}
 	},
 	card: function(can, msg, target, filter) { target = target||can.ui.content||can._output
-		var list = msg.Table(function(value) { value.icon = value.icons||value.icon||value.image
+		var list = msg.Table(function(value) {
 			if (filter && filter(value)) { return }
+			value.icon = value.icons||value.icon||value.image
 			var img = can.misc.Resource(can, value.icon, value.type == web.MASTER? "": value.name)
 			if (img.indexOf("/require/") == 0 && value.origin) { img = value.origin + img }
 			return {view: [[html.ITEM, value.type, value.status]], list: [
