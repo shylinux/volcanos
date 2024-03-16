@@ -8,8 +8,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		}
 	},
-	card: function(can, msg, target) { target = target||can.ui.content||can._output
+	card: function(can, msg, target, filter) { target = target||can.ui.content||can._output
 		var list = msg.Table(function(value) { value.icon = value.icons||value.icon||value.image
+			if (filter && filter(value)) { return }
 			var img = can.misc.Resource(can, value.icon, value.type == web.MASTER? "": value.name)
 			if (img.indexOf("/require/") == 0 && value.origin) { img = value.origin + img }
 			return {view: [[html.ITEM, value.type, value.status]], list: [
@@ -140,9 +141,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			}, oncontextmenu: oncontextmenu,
 		}]); return ui._target
 	},
-	itemlist: function(can, list, cb, cbs, target) {
+	itemlist: function(can, list, cb, cbs, target) { if (!list || list.length == 0) { return }
 		return target._list = can.page.insertBefore(can, [{view: html.LIST, list: can.core.List(list, function(item) {
-			return {view: [html.ITEM, html.DIV, item.nick||item.name], onclick: function(event) {
+			var icon = item.icon||item.icons
+			return {view: html.ITEM, list: [
+				icon && (can.base.contains(icon, ice.HTTP, ".ico", ".png", ".jpg")? {img: can.misc.Resource(can, icon)}: {icon: icon}),
+				{text: item.nick||item.name||item.zone}
+			], onclick: function(event) {
 				cb(event, item, event.target._list && can.page.ClassList.neg(can, event.target._list, html.HIDE))
 			}, oncontextmenu: function(event) { if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } } }}
 		}) }], target.nextSibling, target.parentNode)
