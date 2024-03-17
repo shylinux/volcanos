@@ -138,7 +138,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			icon && (can.base.contains(icon, ice.HTTP, ".ico", ".png", ".jpg")? {img: can.misc.Resource(can, icon)}: {icon: icon}),
 			{text: item.nick||item.name||item.zone}], title: item.title, onclick: function(event) {
 				can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)
-				cb(event, event.currentTarget, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
+				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
 			}, oncontextmenu: oncontextmenu,
 		}]); return ui._target
 	},
@@ -149,7 +149,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 				icon && (can.base.contains(icon, ice.HTTP, ".ico", ".png", ".jpg")? {img: can.misc.Resource(can, icon)}: {icon: icon}),
 				{text: item.nick||item.name||item.zone}
 			], onclick: function(event) {
-				cb(event, item, event.target._list && can.page.ClassList.neg(can, event.target._list, html.HIDE))
+				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
 			}, oncontextmenu: function(event) { if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } } }}
 		}) }], target.nextSibling, target.parentNode)
 	},
