@@ -13,6 +13,7 @@ fieldset.inner>div.output>div.project div.zone div.action>div.item { padding-rig
 fieldset.inner>div.output>div.project div.zone div.action>div.item>input { padding-left:25px; width:100%; }
 /* fieldset.inner>div.output>div.project div.zone.space>div.list div.output>div.item { margin:var(--input-margin) 0; width:calc(100% - 5px); } */
 fieldset.inner>div.output>div.project div.zone.space>div.list div.output>div.item:hover { background-color:var(--hover-bg-color); }
+fieldset.inner>div.output>div.project { font-family:var(--code-font-family); }
 fieldset.inner>div.output>div.project div.zone.repos>div.list div.output>div.item { margin:0; width:100% !important; }
 fieldset.inner>div.output>div.project div.zone.repos>div.list div.output>div.item:hover { background-color:var(--hover-bg-color); }
 fieldset.inner>div.output>div.layout>div.tabs { font-size:var(--code-font-size); display:none; }
