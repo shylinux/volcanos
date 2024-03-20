@@ -415,7 +415,6 @@ var icon = {
 	pull: "bi bi-cloud-download", push: "bi bi-cloud-upload",
 	upload: "bi bi-box-arrow-in-up", download: "bi bi-box-arrow-down",
 	record1: "bi bi-images", record2: "bi bi-record-circle", record: "bi bi-record-circle",
-	"export": "bi bi-box-arrow-up", "import": "bi bi-box-arrow-in-down",
 	"begin_time": "bi bi-clock-history",
 	"end_time": "bi bi-clock-history",
 
@@ -466,7 +465,8 @@ var icon = {
 
 	vendor: "bi bi-box-arrow-up-right",
 	configs: "bi bi-gear", config: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week",
-	tag: "bi bi-tags", save: "bi bi-floppy", trash: "bi bi-trash",
+	tag: "bi bi-tags", load: "bi bi-folder-plus", save: "bi bi-floppy", trash: "bi bi-trash",
+	"import": "bi bi-folder-plus", "export": "bi bi-floppy",
 	top: "bi bi-globe", main: "bi bi-house-door",
 
 	localCreate: "bi bi-cloud-download",
