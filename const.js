@@ -408,6 +408,7 @@ var icon = {
 	qrcode: "bi bi-qr-code",
 	chat: "bi bi-chat-dots", help: "bi bi-question-square", doc: "bi bi-question-square",
 	modify: "bi bi-pencil-square", remove: "bi bi-trash",
+	rename: "bi bi-pencil-square",
 	enable: "bi bi-toggle-off", disable: "bi bi-toggle-on",
 	start: "bi bi-play-circle", stop: "bi bi-stop-circle",
 
