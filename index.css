@@ -185,7 +185,7 @@ div.project div.item.search { padding:0; width:100%; }
 div.project div.item.search>input { padding:0 25px; width:100%; }
 div.project div.expand { margin-right:var(--input-margin); width:5px; float:left; transition:all .5s; }
 div.project div.expand.open { translate:1px 2px; rotate:90deg; transition:all .3s; }
-div.project div.item>div.name { padding-left:var(--button-padding); }
+div.project div.item>div.name { padding-left:var(--input-padding); }
 div.project div.zone>div.item { text-align:center; padding:var(--input-padding); display:flex; align-items:center; }
 div.project div.zone>div.item span:hover { background-color:var(--hover-bg-color); }
 div.project>div.zone>div.item span:first-child { font-style:italic; font-weight:bold; line-height:var(--action-height); }
