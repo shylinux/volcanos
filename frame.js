@@ -935,7 +935,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	modify: function(can, target, cb, item) { var back = target.innerHTML, _target = target
 		if (back.length > 120 || back.indexOf(lex.NL) > -1) { return can.onmotion.modifys(can, target, cb) }
 		var ui = can.page.Appends(can, target, [{type: html.INPUT, value: target.innerText, style: {width: can.base.Max(target.offsetWidth-20, 400)}, onkeydown: function(event) { switch (event.key) {
-			case code.ENTER: target.innerHTML = event.target.value, event.target.value == back || cb(event, event.target.value, back); break
+			case code.ENTER: target.innerHTML = event.target.value, event.target.value == back || cb(event, event.target.value.trim(), back); break
 			case code.ESCAPE: target.innerHTML = back; break
 			default: can.onkeymap.input(event, can)
 		} }, _init: function(target) { item && can.onappend.figure(can, item, target, function(event, value) {
@@ -946,7 +946,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		var ui = can.page.Appends(can, target, [{type: html.TEXTAREA, value: target.innerText, style: {
 			height: can.base.Min(target.offsetHeight-20, 60), width: can.base.Max(target.offsetWidth-20, 400),
 		}, onkeydown: function(event) { switch (event.key) {
-			case code.ENTER: if (event.ctrlKey) { target.innerHTML = event.target.value, event.target.value == back || cb(event, event.target.value, back) } break
+			case code.ENTER: if (event.ctrlKey) { target.innerHTML = event.target.value, event.target.value == back || cb(event, event.target.value.trim(), back) } break
 			case code.ESCAPE: target.innerHTML = back; break
 			default: can.onkeymap.input(event, can)
 		} }, _init: function(target) { item && can.onappend.figure(can, item, target), can.onmotion.focus(can, target), can.onmotion.delay(can, function() { target.click() }) }}])
