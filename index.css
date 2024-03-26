@@ -585,7 +585,7 @@ form.option>div.item.icon {
 	font-size:var(--icon-font-size); border-radius:var(--button-radius); box-shadow:var(--box-shadow);
 	padding:0 var(--input-padding); margin-right:var(--input-margin); height:var(--action-height);
 }
-form.option>div.item.icon.menu { font-size:28px; line-height:26px; display:flex; align-items:flex-start; display:none; }
+form.option>div.item.icon.menu { font-size:28px; line-height:26px; padding:0; display:flex; align-items:flex-start; display:none; }
 form.option>div.item.icon.refresh { font-size:28px; line-height:26px; display:flex; align-items:flex-start; }
 form.option>div.item.icon.goback { font-size:28px; line-height:26px; display:flex; align-items:flex-start; }
 form.option>div.icon.delete { font-size:20px; line-height:32px; display:flex; align-items:flex-start; }
@@ -655,6 +655,7 @@ fieldset.story>div.action>div.button.icons>input { display:none; }
 fieldset.plug>form.option>div.button.icons>input { display:none; }
 fieldset.plug>div.action>div.button.icons>input { display:none; }
 fieldset.plug>form.option>div.icon:first-child { margin-left:var(--input-margin); }
+body:not(.width6) fieldset.inner.float:not(.full)>form.option>div.text { display:none; }
 fieldset>form.option>div.text>span.value {
 	line-height:calc(var(--action-height) - 2 * var(--input-padding));
 	white-space:pre; padding:var(--input-padding) var(--button-padding);

@@ -282,7 +282,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					chat: can.user.isTechOrRoot(can) && can.ConfIndex() != chat.MESSAGE && "发送聊天",
 					help: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_help") && can.Conf("_help") != "" && "查看文档",
 				}, function(key, value) {
-					return (value || value === "") && {view: [[html.ITEM, html.BUTTON, key, mdb.ICONS, "state"]], list: [{icon: icon[key]}], title: can.user.trans(can, key), onclick: function(event) {
+					return (value || value === "") && {view: [[html.ITEM, html.BUTTON, key, mdb.ICONS, "state"]], list: [{icon: icon[key]}],
+						title: key == "_space"? "": can.user.trans(can, key), onclick: function(event) {
 						var cb = _can.onaction[value]; cb && _can.onaction[value](event, _can, value, _can.sub)
 					}}
 				}).concat(can.Conf("_plugin_action")||[])
