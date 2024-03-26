@@ -1,5 +1,5 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(can, function() { can.list = can.onimport._data(can, msg, can.Conf(mdb.FIELD)||mdb.VALUE)
-		can.core.List(can.list, function(item) { msg.Push(cli.COLOR, '<span style="background-color:'+item.color+'">     </span>').Push("weight", parseInt(item.span*100/360)+"%") })
+	can.core.List(can.list, function(item) { msg.Push("weight", parseInt(item.span*100/360)+"%").Push(cli.COLOR, '<span style="background-color:'+item.color+'">     </span>') })
 		can.onaction.list = [], can.ui.display = can.page.Append(can, can._output, [html.DISPLAY])._target
 		can.onappend.table(can, msg, null, can.ui.display), can.page.Select(can, can.ui.display, html.TR, function(tr, index) {
 			can.page.Modify(can, tr, {onmouseenter: function(event) { can._draw(index-1) }})
@@ -33,9 +33,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 		if (can.base.endWith(value, "mi")) { return parseInt(value)*1000000 }
 		return parseInt(value)
 	},
-	layout: function(can) {
-		var height = can.base.Max(can.ConfHeight(), can.ConfWidth()/2), margin = 20, r = height/2-margin; can.ui.svg.Val(html.WIDTH, height), can.ui.svg.Val(html.HEIGHT, height)
-		can.page.style(can, can.ui.display, html.HEIGHT, can.ConfHeight()-can.ui.svg.Val(html.HEIGHT))
-		can._draw = function(which) { can.onimport._draw(can, r+margin, r+margin, r, margin, which) }, can._draw(0)
+	layout: function(can) { if (!can.ui || !can.ui.svg) { return }
+		var padding = (can.Conf("padding")||0)
+		var height = can.base.Max(can.ConfHeight(), can.ConfWidth()/2), margin = 20, r = height/2-margin-padding;
+		can.ui.svg.Val(html.HEIGHT, height-2*padding), can.ui.svg.Val(html.WIDTH, height-2*padding)
+		// can.page.style(can, can.ui.display, html.HEIGHT, can.ConfHeight()-can.ui.svg.Val(html.HEIGHT))
+		can.page.style(can, can.ui.display, html.WIDTH, can.ConfWidth()-height)
+		can._draw = function(which) { can.onimport._draw(can, height/2-padding-10, can.ConfHeight()/2-padding-10, r, margin, which) }, can._draw(0)
 	},
 })
