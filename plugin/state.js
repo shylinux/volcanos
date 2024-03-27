@@ -90,11 +90,9 @@ Volcanos(chat.ONIMPORT, {
 		return input.value = value, can.Update(event, can.Input([], true, data), cb), input
 	})[0] },
 	_size: function(can, height, width, auto, mode) {},
-	size: function(can, height, width, auto, mode) {
-		var margin = (can.Conf("margin")||0)*2
+	size: function(can, height, width, auto, mode) { typeof width == code.STRING && (width = can.base.ParseSize(width))
 		can.Conf("_auto", auto), can.Mode(mode), can.ConfHeight(height), can.ConfWidth(width), height -= can.onexport.actionHeight(can)+can.onexport.statusHeight(can)
-		// height -= 2*margin
-		width -= 2*margin
+		var padding = can.Conf("padding")||0, margin = can.Conf("margin")||0; height -= 2*padding, width -= 2*padding+2*margin
 		auto || auto == undefined? (can.page.style(can, can._output, html.HEIGHT, "", html.WIDTH, "", html.MAX_HEIGHT, height, html.MAX_WIDTH, width), can.page.style(can, can._target, html.HEIGHT, "", html.WIDTH, "")):
 			(can.page.style(can, can._output, html.HEIGHT, height, html.WIDTH, width, html.MAX_HEIGHT, "", html.MAX_WIDTH, ""), can.page.style(can, can._target, html.WIDTH, width))
 		if (can.misc.Search(can, log.DEBUG) == ice.TRUE) { can.Status(html.HEIGHT, can.base.Max(height, can._output.offsetHeight), html.WIDTH, width) }

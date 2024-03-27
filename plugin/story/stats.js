@@ -1,9 +1,10 @@
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg) { can.onappend.style(can, [web.STATS, html.FLEX], can._output)
+		var FIELD = can.Conf(mdb.FIELD)||mdb.NAME, VALUE = can.Conf(mdb.VALUE)||mdb.VALUE
 		var list = {}, stats = {}, units = {}, trans = {}, index = {}; msg.Table(function(value) {
-			stats[value.name] = parseFloat(stats[value.name]||"0") + parseFloat(value.value)
-			units[value.name] = value.units, trans[value.name] = value._trans
-			index[value.name] = value.index, list[value.name] = value
+			stats[value[FIELD]] = parseFloat(stats[value[FIELD]]||"0") + parseFloat(value[VALUE])
+			units[value[FIELD]] = value.units, trans[value[FIELD]] = value._trans
+			index[value[FIELD]] = value.index, list[value[FIELD]] = value
 		})
 		function fmts(value) { var ls = []
 			while (value > 0) { ls.push(value%1000)

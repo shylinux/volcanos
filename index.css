@@ -56,7 +56,7 @@ body {
 	--table-padding:var(--button-padding);
 
 	--header-height:48px; --footer-height:var(--action-height); --action-height:32px; --status-height:var(--action-height); --textarea-height:96px;
-   	--input-width:140px; --button-width:60px; --form-width:360px; --url-input-width:480px;
+	--input-width:140px; --button-width:60px; --form-width:360px; --url-input-width:480px;
 	--card-width:320px; --card-height:160px; --qrcode-width:360px; --qrcode-height:364px;
 	--story-height:var(--float-height); --iframe-height:420px;
 	--plug-height:var(--float-height); --plug-width:var(--float-width);
@@ -67,7 +67,7 @@ body {
 
 	--legend-font-family:var(--body-font-family); --status-font-family:var(--body-font-family);
 	--input-font-family:var(--code-font-family); --table-font-family:var(--code-font-family);
-   	--svg-font-family:var(--code-font-family);
+	--svg-font-family:var(--code-font-family);
 	--body-font-size:16px; --legend-font-size:20px; --status-font-size:12px;
 	--code-font-size:14px; --code-line-height:24px; --code-tabs-height:48px;
 	--icon-font-size:var(--legend-font-size); --svg-font-size:24px; --svg-stroke-width:1;
@@ -214,6 +214,7 @@ div.item.online.state span { background-color:var(--hover-bg-color); color:var(-
 div.item.online.state img { height:var(--action-height); transition:margin-right 1s; float:right; }
 div.item.online.state img:hover { background-color:var(--hover-bg-color); }
 div.item.online.state:not(:hover) img:not(:first-child) { margin-right:-20px; }
+fieldset.output>div.header { display:none; }
 fieldset>div.header { display:contents; }
 fieldset>div.header>div { line-height:22px; padding:var(--input-padding); float:right; }
 fieldset>div.header>div.avatar { padding:0; }
@@ -432,15 +433,11 @@ div.item.button.danger input:hover[type=button] { background-color:var(--danger-
 div.item.button.notice input:hover[type=button] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 div.item.button.danger input { border:var(--danger-bg-color) solid 1px; }
 div.item.button.notice input { border:var(--notice-bg-color) solid 1px; }
-div.action div.tabs:hover {
-	background-color:var(--hover-bg-color);
-   	/* color:var(--hover-fg-color); */
+div.action div.tabs:hover { background-color:var(--hover-bg-color);
 	border-top-left-radius:var(--button-margin); border-top-right-radius:var(--button-margin);
 }
-div.action div.tabs.select {
-	background-color:var(--output-bg-color);
-   	/* color:var(--hover-fg-color); */
-	border-top-left-radius:var(--button-margin); border-top-right-radius:var(--button-margin); border-bottom:var(--notice-bg-color) solid 3px;
+div.action div.tabs.select { background-color:var(--hover-bg-color);
+	border-top-left-radius:var(--plugin-radius); border-top-right-radius:var(--plugin-radius); border-bottom:var(--notice-bg-color) solid 3px;
 }
 div.zone>div.item { background-color:var(--th-bg-color); }
 div.zone>div.list>div.zone>div.item { background-color:var(--th-bg-color); }
