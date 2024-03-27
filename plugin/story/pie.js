@@ -39,6 +39,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 		can.ui.svg.Val(html.HEIGHT, height-2*padding), can.ui.svg.Val(html.WIDTH, height-2*padding)
 		// can.page.style(can, can.ui.display, html.HEIGHT, can.ConfHeight()-can.ui.svg.Val(html.HEIGHT))
 		can.page.style(can, can.ui.display, html.WIDTH, can.ConfWidth()-height)
-		can._draw = function(which) { can.onimport._draw(can, height/2-padding-10, can.ConfHeight()/2-padding-10, r, margin, which) }, can._draw(0)
+		can._draw = function(which) { can.onimport._draw(can, height/2-2*padding, can.ConfHeight()/2, r, margin, which) }, can._draw(0)
 	},
 })
