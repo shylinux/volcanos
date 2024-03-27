@@ -322,7 +322,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			// can.page.style(can, can._output, html.HEIGHT, can._output.offsetHeight)
 			// sub._output.className = html.OUTPUT
 			can.onappend.style(can, sub._args.style, can._output)
-			can.isCmdMode() && can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), false)
+			// can.isCmdMode() && can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), false)
 			can.onexport._output(sub, msg), sub.Mode() != ice.MSG_RESULT && can.onmotion.clear(can, output)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				if (action !== false) { can.onkeymap._build(sub)
@@ -707,7 +707,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (item == html.CONTENT || item == ice.MAIN) { return defer.push(function() { can.page.style(can, target, html.HEIGHT, content_height = height, html.WIDTH, content_width = width) }) }
 			if (type == FLOW) {
 				var h = calc(item, target.offsetHeight, height), w = meta.width||width
-				can.page.style(can, target, html.WIDTH, w); if (can.base.isObject(meta) && meta.layout) { meta.layout(h, w) }
+				can.page.style(can, target, html.WIDTH, w); if (can.base.isObject(meta) && meta.layout) { meta.layout(h = _height/list.length, w) }
 				if (can.page.isDisplay(target)) { height -= h }
 			} else {
 				var w = calc(item, target.offsetWidth||target.style.width||_width/list.length, _width), h = meta.height||height
