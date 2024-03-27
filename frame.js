@@ -336,7 +336,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 						can.onimport.size(can, can.ConfHeight(), can.base.Min(can.ConfWidth(), can._target.offsetWidth), can.Conf("_auto"), can.Mode()):
 						can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), can.Conf("_auto"), can.Mode())
 					can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight())
-					can.onexport.output(sub, msg)
+					can.onexport.output(sub, msg); if (can.Conf("_output")) { can.Conf("_output")(sub, msg) }
 				} can.base.isFunc(cb) && cb(msg)
 			}, target: output})
 		})
@@ -733,12 +733,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	tabview: function(can, meta, list, target) { var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT])
 		can.onappend.style(can, "tabview", ui.action), can.onappend.style(can, html.FLEX, ui.action)
-		var _meta = meta
-		if (meta.Table) { _meta = {}
-			meta.Table(function(value) {
-				_meta[value.index] = value
-			})
-		}
+		var _meta = meta; if (meta.Table) { _meta = {}, meta.Table(function(value) { _meta[value.index] = value }) }
 		can.core.List(can.base.getValid(list, can.core.Item(_meta)), function(name, index) { var item = _meta[name]
 			ui[name] = can.page.Append(can, ui.action, [{view: [html.TABS, html.DIV, item.title||can.user.trans(can, name)], onclick: function(event) {
 				can.onmotion.select(can, ui.action, html.DIV_TABS, event.target)
@@ -746,9 +741,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (typeof item == code.FUNCTION) { return item(ui.output) }
 				item.type = item.type||"story"
 				can.onappend.plugin(can, item, function(sub) {
-					sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth())
+					sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth(), false)
 					sub.onexport._output = function() {
-						sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth())
+						sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth(), false)
 					}
 				}, ui.output)
 			}, _init: function(target) { index == 0 && can.onmotion.delay(can, function() { target.click() }) }}])._target
