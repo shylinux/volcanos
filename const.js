@@ -213,6 +213,7 @@ var nfs = {
 var cli = {
 	RUNTIME: "runtime", SYSTEM: "system", DAEMON: "daemon",
 	BEGIN: "begin", END: "end", START: "start", RESTART: "restart", STOP: "stop", OPEN: "open", CLOSE: "close",
+	PID: "pid",
 
 	OPENS: "opens", BUILD: "build", ORDER: "order", DELAY: "delay", REBOOT: "reboot",
 	PLAY: "play", STEP: "step", DONE: "done", COST: "cost", FROM: "from", PWD: "pwd",
