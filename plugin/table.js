@@ -26,6 +26,30 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport.layout = can.onimport.layout||function() { var height = can.onlayout.expand(can, target); can.sup.onexport.outputMargin = function() { return height } }
 		can.page.Append(can, target, list), can.onmotion.orderShow(can, target)
 	},
+	filter: function(can, target) {
+		return can.onappend.input(can, {icon: icon.SEARCH, type: html.TEXT, name: web.FILTER, placeholder: "search in n items", onkeydown: function() {}, onkeyup: function(event) {
+			if (event.key == code.ENTER) {
+				can.page.Select(can, target, html.DIV_ITEM+":not(.hide)", function(target) { target.click() })
+			} else if (event.key == code.ESCAPE) { event.currentTarget.value = "", event.currentTarget.blur()
+				can.page.Select(can, target, html.DIV_ITEM, function(target) { can.onmotion.toggle(can, target, true) })
+			} else { if (can.onkeymap.selectCtrlN(event, can, target, html.DIV_ITEM+":not(.filter):not(.hide)")) { return }
+				can.page.Select(can, target, html.DIV_ITEM, function(target) {
+					can.onmotion.toggle(can, target, target.innerText.indexOf(event.currentTarget.value) > -1 || target == event.currentTarget.parentNode)
+				})
+			}
+		}}, "", target)
+	},
+	icon: function(can, msg, target, cb) {
+		msg.Table(function(value) {
+			var icon = can.misc.Resource(can, value.icons||value.icon||can.page.drawText(can, value.name, 80), value.space||msg.Option(ice.MSG_USERPOD), msg.Option(ice.MSG_USERWEB))
+			return can.page.Append(can, target, [{view: [[html.ITEM, value.status]], list: [{view: html.ICON, list: [{img: icon}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
+				cb && cb(target, value)
+			}, onclick: function(event) { can.sup.onexport.record(can.sup, value.name, mdb.NAME, value) }}])._target
+		}), can.onmotion.orderShow(can, target)
+	},
+	_icon: function(can, name, button, target) { can.page.Append(can, target, [{text: [can.page.unicode[name]||name, html.SPAN, [html.ICON, name]], onclick: function(event) {
+		can.base.isFunc(button)? button(event, button): can.onaction[button](event, can, button), can.onkeymap.prevent(event)
+	}}]) },
 	_vimer_zone: function(can, msg, target) { msg.Table(function(value) { var action = can.page.parseAction(can, value)
 		can.onimport.item(can, {type: value.type, status: value.status, icon: can.misc.Resource(can, value.icon||value.icons||value.avatar_url), name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]), title: value[mdb.TEXT]||value.description}, function(event) {
 			can.sup.onexport.record(can, value.name, mdb.NAME, value, event)
@@ -90,45 +114,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			]}
 		}))
 	},
-	_icon: function(can, name, button, target) { can.page.Append(can, target, [{text: [can.page.unicode[name]||name, html.SPAN, [html.ICON, name]], onclick: function(event) {
-		can.base.isFunc(button)? button(event, button): can.onaction[button](event, can, button), can.onkeymap.prevent(event)
-	}}]) },
-	icon: function(can, msg, target, cb) {
-		msg.Table(function(value) {
-			var icon = can.misc.Resource(can, value.icons||value.icon||can.page.drawText(can, value.name, 80), value.space||msg.Option(ice.MSG_USERPOD), msg.Option(ice.MSG_USERWEB))
-			return can.page.Append(can, target, [{view: [[html.ITEM, value.status]], list: [{view: html.ICON, list: [{img: icon}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
-				cb && cb(target, value)
-			}, onclick: function(event) { can.sup.onexport.record(can.sup, value.name, mdb.NAME, value) }}])._target
-		}), can.onmotion.orderShow(can, target)
-	},
-	tree: function(can, list, field, split, cb, target, node) { node = node||{"": target}
-		can.core.List(list, function(item) { item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }
-			var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split); if (node[name]) { return }
-			var ui = can.page.Append(can, node[last], [{view: html.ITEM, list: [
-				{view: [[html.EXPAND, item.expand? cli.OPEN: ""], html.DIV, (index==array.length-1? "": can.page.unicode.closes)]},
-				{view: [mdb.NAME, html.DIV, value], _init: item._init},
-			], onclick: function(event) {
-				if (node[name].childElementCount == 2) { node[name].firstChild.click() }
-				index < array.length - 1? can.page.ClassList.set(can, ui[html.EXPAND], cli.OPEN, !can.page.ClassList.neg(can, node[name], html.HIDE)): can.base.isFunc(cb) && cb(event, item)
-			}, oncontextmenu: function(event) { if (!item._menu) { return }
-				var menu = item._menu; can.user.carteRight(event, can, menu.meta, menu.list, menu)
-			}}, {view: [[html.LIST, item.expand? "": html.HIDE]]}]); node[name] = ui.list
-		}) }); return node
-	},
-	filter: function(can, target) {
-		return can.onappend.input(can, {icon: icon.SEARCH, type: html.TEXT, name: web.FILTER, placeholder: "search in n items", onkeydown: function() {}, onkeyup: function(event) {
-			if (event.key == code.ENTER) {
-				can.page.Select(can, target, html.DIV_ITEM+":not(.hide)", function(target) { target.click() })
-			} else if (event.key == code.ESCAPE) { event.currentTarget.value = "", event.currentTarget.blur()
-				can.page.Select(can, target, html.DIV_ITEM, function(target) { can.onmotion.toggle(can, target, true) })
-			} else { if (can.onkeymap.selectCtrlN(event, can, target, html.DIV_ITEM+":not(.filter):not(.hide)")) { return }
-				can.page.Select(can, target, html.DIV_ITEM, function(target) {
-					can.onmotion.toggle(can, target, target.innerText.indexOf(event.currentTarget.value) > -1 || target == event.currentTarget.parentNode)
-				})
-			}
-		}}, "", target)
-	},
-	item: function(can, item, cb, cbs, target) { target = target||(can.ui && can.ui.project? can.ui.project: can._output)
+	item: function(can, item, cb, cbs, target) { target = target||can.ui.project||can._output
 		function oncontextmenu(event) {
 			if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } return }
 			can.user.carteItem(event, can, item)
@@ -141,6 +127,26 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
 			}, oncontextmenu: oncontextmenu,
 		}]); return ui._target
+	},
+	itemtabs: function(can, list, cb, cbs, target) { can.db._list = {}
+		function savetabs() { can.misc.sessionStorage(can, [can.ConfIndex(), html.TABS], can.page.Select(can, can._action, html.DIV_TABS, function(target) { return target._item.hash })) }
+		var _select; can.core.List(list, function(value) {
+			var _target = can.onimport.item(can, value, function(event) { if (value._tabs) { return value._tabs.click() }
+				value._tabs = can.onimport.tabs(can, [value], function(event) {
+					if (!cb(event, value)) { can.ui.toggle = can.onappend.toggle(can, can.ui.content) }
+					can.onmotion.select(can, can.ui.project, html.DIV_ITEM, _target), can.db.current = value
+					can.misc.SearchHash(can, value.hash), can.onimport.layout(can)
+				}, function(event) { cbs && cbs(event, value), delete(value._tabs), delete(can.ui.content._cache[value.hash])
+					can.page.Remove(can, value._profile), can.page.Remove(can, value._display)
+					can.onmotion.delay(can, function() { savetabs() })
+				}), savetabs()
+			}); can.db._list[value.hash] = _target, (!_select || value.hash == can.db.hash[0]) && (_select = _target)
+		})
+		can.onmotion.delay(can, function() {
+			can.core.Next(can.misc.sessionStorage(can, [can.ConfIndex(), html.TABS]), function(hash, next) {
+				var _target = can.db._list[hash]; _target && _target.click(), can.onmotion.delay(can, next, 150)
+			}, function() { _select && _select.click() })
+		})
 	},
 	itemlist: function(can, list, cb, cbs, target) { if (!list || list.length == 0) { return }
 		return target._list = can.page.insertBefore(can, [{view: html.LIST, list: can.core.List(list, function(item) {
@@ -160,6 +166,20 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		}, _init: function(target) { if (item.meta.name == "_") { target.innerHTML = "", can.onappend.style(can, html.SPACE, target) }
 			cbs && cbs(target, item)
 		}}, {view: html.LIST}]); can.onimport.list(can, item, cb, ui.list, cbs) })
+	},
+	tree: function(can, list, field, split, cb, target, node) { node = node||{"": target}
+		can.core.List(list, function(item) { item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }
+			var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split); if (node[name]) { return }
+			var ui = can.page.Append(can, node[last], [{view: html.ITEM, list: [
+				{view: [[html.EXPAND, item.expand? cli.OPEN: ""], html.DIV, (index==array.length-1? "": can.page.unicode.closes)]},
+				{view: [mdb.NAME, html.DIV, value], _init: item._init},
+			], onclick: function(event) {
+				if (node[name].childElementCount == 2) { node[name].firstChild.click() }
+				index < array.length - 1? can.page.ClassList.set(can, ui[html.EXPAND], cli.OPEN, !can.page.ClassList.neg(can, node[name], html.HIDE)): can.base.isFunc(cb) && cb(event, item)
+			}, oncontextmenu: function(event) { if (!item._menu) { return }
+				var menu = item._menu; can.user.carteRight(event, can, menu.meta, menu.list, menu)
+			}}, {view: [[html.LIST, item.expand? "": html.HIDE]]}]); node[name] = ui.list
+		}) }); return node
 	},
 	tabs: function(can, list, cb, cbs, action) { action = action||can._action; return can.page.Append(can, action, can.core.List(list, function(tabs) {
 		if (typeof tabs == code.STRING) { tabs = {name: tabs} }

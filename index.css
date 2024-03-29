@@ -216,7 +216,7 @@ div.item.online.state img:hover { background-color:var(--hover-bg-color); }
 div.item.online.state:not(:hover) img:not(:first-child) { margin-right:-20px; }
 fieldset.output>div.header { display:none; }
 fieldset>div.header { display:contents; }
-fieldset>div.header>div { line-height:22px; padding:var(--input-padding); float:right; }
+fieldset>div.header>div { line-height:22px; padding:var(--input-padding); margin:0 var(--input-margin); float:right; }
 fieldset>div.header>div.avatar { padding:0; }
 fieldset>div.header div.online { padding:0; }
 fieldset>div.header img { height:var(--action-height); float:right; }
@@ -378,6 +378,7 @@ div.output>div.code>img { margin:5px; }
 div.output.flex { overflow:hidden; align-items:flex-start; justify-content: flex-start; }
 div.layout.flex>* { float:left; clear:none; }
 div.flex:not(.hide) { display:flex; align-items:center; justify-content:center; }
+div.output.flex:not(.hide) { display:flex; align-items:flex-start; justify-content:flex-start; }
 fieldset>div.status>legend { margin-right:var(--button-margin); float:right; clear:none; border-bottom-left-radius:var(--button-margin); border-bottom-right-radius:var(--button-margin); }
 fieldset>div.status>legend>span.remove { margin-left:var(--input-margin); }
 fieldset>div.status>legend>span.remove:hover { background-color:var(--hover-bg-color); }
@@ -421,7 +422,7 @@ hr, td.hr { border-bottom:var(--plugin-border-color) dashed 1px; margin:var(--in
 h1:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 h2:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 h3:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-kbd:hover { background-color:var(--hover-bg-color); color:white; }
+kbd:hover { background-color:var(--hover-bg-color); }
 samp:hover { background-color:white; color:black; } a { color:unset; }
 span.keyword { color:var(--code-keyword); } span.function { color:var(--code-function); }
 span.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
@@ -602,8 +603,8 @@ div.item.text.url>input { width:var(--river-width); }
 div.item.text.line>input { width:80px; }
 div.item.text.limit>input { width:var(--button-width); }
 div.item.text.offend>input { width:var(--button-width); }
-body:not(.width2) div.item.text.path>input { width:var(--project-width); }
-body:not(.width2) div.item.text.filter>input { width:var(--project-width); }
+body:not(.width2) fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
+body:not(.width2) fieldset.plugin>div.action>div.item.text.filter>input { width:var(--project-width); }
 div.item.text.will>input { border:var(--box-notice); }
 div.item.text>i:first-child { color:var(--disable-fg-color); position:absolute; left:0; padding:var(--input-padding); }
 div.item.text:hover>i:first-child { color:unset; }
@@ -851,7 +852,7 @@ fieldset>div.output.form>div.item>span { padding:var(--input-padding); }
 fieldset>div.output.form>div.item>span.need { color:red; }
 fieldset>div.output.form>div.item>div.item>input { font-size:20px; height:38px; width:var(--form-width); }
 fieldset>div.output.form>div.item>div.item>input[type=button] { font-size:20px; height:48px; border:var(--notice-bg-color) solid 1px; }
-fieldset.studio>div.output { padding:var(--plugin-padding); }
+/* fieldset.studio>div.output { padding:var(--plugin-padding); } */
 fieldset.studio>div.action>div.item:not(.icons) { font-style:italic; padding:var(--input-margin) var(--button-padding); }
 fieldset.studio>div.output>fieldset>form.option div.icon.delete { display:none; }
 fieldset.studio>div.output>fieldset>form.option div.icon:nth-child(2) { margin-left:var(--plugin-margin); }

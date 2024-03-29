@@ -426,6 +426,7 @@ var icon = {
 	runtime: "bi bi-info-square",
 	template: "bi bi-file-earmark-medical",
 	reboot: "bi bi-bootstrap-reboot",
+	restart: "bi bi-bootstrap-reboot",
 	binary: "bi bi-disc",
 	qrcode: "bi bi-qr-code",
 	main: "bi bi-house-door", top: "bi bi-globe",
