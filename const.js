@@ -399,6 +399,7 @@ var icon = {
 	portal: "bi bi-globe", desktop: "bi bi-window-desktop", admin: "bi bi-window-sidebar",
 	dream: "bi bi-box", space: "bi bi-box", store: "bi bi-shop",
 	word: "bi bi-book", repos: "bi bi-git", vimer: "bi bi-bug", build: "bi bi-tools", xterm: "bi bi-terminal",
+	status: "bi bi-git",
 
 	sso: "bi bi-shield-check", login: "bi bi-person-check", token: "bi bi-key",
 	username: "bi bi-person-gear", nodename: "bi bi-globe",
