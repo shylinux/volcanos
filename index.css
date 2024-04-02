@@ -875,10 +875,10 @@ fieldset.Action.tabs table.content { width:100%; }
 fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full):not(.cmd) { padding:var(--plugin-padding); margin:var(--plugin-margin); }
 fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
 body.mobile fieldset.float:not(.full):not(.cmd)>legend { float:none; }
-body.width6 fieldset.word>form.option>div.item.text>input { width:var(--project-width); }
-body.width6 fieldset.trans>form.option>div.item.text>input { width:var(--project-width); }
-body.width6 fieldset.xterm.story>form.option>div.item.hash input { width:var(--form-width); }
-body.width6 fieldset.iframe>form.option input[name=hash] { width:var(--form-width); }
+body.width6 fieldset.plugin.word>form.option>div.item.text>input { width:var(--project-width); }
+body.width6 fieldset.plugin.iframe>form.option input[name=hash] { width:var(--form-width); }
+body.width6 fieldset.plugin.trans>form.option>div.item.text>input { width:var(--project-width); }
+body.width6 fieldset.story.xterm>form.option>div.item.hash input { width:var(--form-width); }
 body.width6 fieldset.desktop>div.output>div.desktop>fieldset.web.chat.iframe>form.option>div.item.hash>input { width:var(--river-width); }
 body.width2 fieldset.desktop>div.output>div.desktop>fieldset>form.option>div.item:last-child { margin-right:0; }
 body.mobile fieldset.word:not(.cmd)>form.option>div.item>input[name=path] { width:180px; }
