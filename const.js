@@ -448,6 +448,7 @@ var icon = {
 	role: "bi bi-person-square",
 	title: "bi bi-textarea-t",
 	type: "bi bi-card-list",
+	scan: "bi bi-card-list",
 	send: "bi bi-send-check",
 	cmds: "bi bi-terminal",
 	localCreate: "bi bi-cloud-download",
