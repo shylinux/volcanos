@@ -186,12 +186,10 @@ Volcanos(chat.ONSYNTAX, {
 			function prefix(key, pre) { return key.slice(0, 1).toLowerCase() == key.slice(0, 1)? "- ": ("+ "+(pre? pre+nfs.PT: "")) }
 			if (indent == 0) { switch (ls[0]) {
 				case "package": opts.package = ls[1]; break
-				case "func": if (ls[1] == "(") { var p = ls.indexOf(")")
-					push(prefix(ls[p+1])+ls[2]+nfs.PT+ls[p+1]+"()"); break
-				}
+				case "func": if (ls[1] == "(") { var p = ls.indexOf(")"); push(prefix(ls[p+1])+ls[2]+nfs.PT+ls[p+1]+"()"); break }
 				case "const":
 				case "var": if (ls[1] == "(") { break }
-				case "type": push(prefix(ls[1])+ls[1]+(ls[0]=="type"? "{}": "")); break
+				case "type": push(prefix(ls[1])+ls[1]+(ls[0]=="type"? "{}": ls[0]=="func"? "()": "")); break
 			} opts.stack = [ls[0]] } else if (indent == 4 && opts.stack[0] == "func") {
 				if (text.indexOf("MergeCommands(") > -1) { opts.block = "cmds" } else if (text.indexOf("}") == 0) { opts.block = "" }
 			} else if (indent == 8) {

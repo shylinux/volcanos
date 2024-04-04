@@ -151,7 +151,7 @@ Volcanos(chat.ONACTION, {list: ["刷新数据",
 			)), can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), false, mode)
 		} else { var back = (can._mode_list = can._mode_list||[]).pop(); if (!back) { return }
 			can.onmotion.toggle(can, can._action, back.action), can.onmotion.toggle(can, can._status, back.status)
-			can.onimport.size(can, back.height, back.width, false, mode), can.page.style(can, can._target, back.style), load && load(back)
+			can.onimport.size(can, back.height, back.width, false, back.mode), can.page.style(can, can._target, back.style), load && load(back)
 		}
 	},
 	"刷新数据": function(event, can) { can.Update(event, can.Input()), can.user.toastSuccess(can) },

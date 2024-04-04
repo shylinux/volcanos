@@ -1,29 +1,24 @@
 (function() { const ALL = "all", TABS = "tabs", TABVIEW = "tabview", VERTICAL = "vertical", HORIZON = "horizon", GRID = "grid", FREE = "free", FLOW = "flow", PAGE = "page", CAN_LAYOUT = "can.layout"
 Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.db.list
-		can.onmotion.clear(can), can.core.Next(msg.Table(), function(item, next, index) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
-			item.width = can.ConfWidth()-can.Conf(html.MARGIN_X); if (item.style == html.OUTPUT) { item.width = can.ConfWidth()-2*html.PLUGIN_MARGIN-2*html.PLUGIN_PADDING }
+		var _select; can.onmotion.clear(can), can.onaction.layout(can, list[3])
+		can.core.Next(msg.Table(), function(item, next, index) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			if (msg.Length() == 1) { item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y), can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP, web.CHAT_MESSAGE, web.WIKI_PORTAL) && (item.style = html.OUTPUT) }
-			list.length == 0 && can.user.info.nodetype == web.SERVER && item._command == web.DREAM && (list = [river, storm, item.index])
+			list.length == 0 && can.user.info.nodetype == web.SERVER && item._command == web.DREAM && (list = [river, storm, item._command])
 			can.onappend.plugin(can, item, function(sub, meta, skip) { if (meta.index == "can._notfound" && !can.misc.isDebug(can)) { return skip || next() }
+				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.pod||meta.space}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				sub.onexport.output = function() { msg.Length() > 1 && can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "") }
-				sub.onaction._close = function() { can.onengine.signal(can, chat.ONACTION_REMOVE, can.request({river: river, storm: storm}, item)), can.page.Remove(can, sub._target) }
-				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.space||meta.pod}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
-				can.user.isChrome && (can.ondaemon._list[sub._daemon = can.core.Keys(river, storm, index)] = sub)
-				can._plugins = (can._plugins||[]).concat([sub]), can.onimport._tabs(can, sub, meta), skip || next()
+				can.onaction.layout(can, list[3]), can.onimport._tabs(can, sub, meta), can._plugins = (can._plugins||[]).concat([sub])
+				can.onexport.layout(can) && list[0] == river && list[1] == storm? (can.base.isIn(list[2], sub.ConfIndex()) && (sub._tabs.click(), _select = sub)):
+					(index == 0 && (sub._tabs.click())), _select = _select||sub, skip || next()
 			})
-		}, function() { if (can.isCmdMode()) { return } can.user.mod.isCmd = false, can.page.ClassList.del(can, document.body, ice.CMD)
-			can.onaction.layout(can, list[3]); if (can.user.isMobile) { return }
-			can.onexport.layout(can) && list[0] == river && list[1] == storm && can.core.List(can._plugins, function(sub) {
-				can.base.isIn(list[2], sub.Conf(ctx.INDEX), sub.Conf("_command")||sub.Conf(ctx.INDEX)) && sub._tabs.click()
-			})
-		})
+		}, function() { can.onaction.layout(can, list[3]), _select._tabs.click() })
 	},
 	_tabs: function(can, sub, meta) {
 		var tabs = [{view: [html.ITEM, "", can.user.trans(can, meta.name, meta.help)], title: meta.help, onclick: function(event) { can._current = sub
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target), can.onmotion.select(can, can._action, html.DIV_ITEM, sub._tabs), can.onmotion.select(can, can._header_tabs, html.DIV_ITEM, sub._header_tabs)
 			can.onmotion.delay(can, function() { sub._header_tabs.scrollIntoViewIfNeeded() })
 			var layout = can.onexport.layout(can); layout == FREE || (can._output.scrollTop = sub._target.offsetTop-10)
-			can.isCmdMode() || can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), sub.Conf("_command")||meta.index, layout)
+			can.isCmdMode() || can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), sub.ConfIndex(), layout)
 			sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))
 		}, oncontextmenu: sub._legend.onclick}]; sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
 	},
@@ -41,8 +36,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) { can.db.list = can.misc.S
 		})
 		can._toast = can.page.Append(can, can._target, ["toast"])._target
 	},
-	onsize: function(can, msg, height, width) {
-		can.Conf({height: can.base.Min(height, 240), width: width})
+	onsize: function(can, msg, height, width) { can.Conf({height: can.base.Min(height, 240), width: width})
 		can.page.style(can, can._toast, html.MAX_HEIGHT, can.page.height()-can.getHeaderHeight()-can.getFooterHeight()-(html.PLUGIN_MARGIN+html.PLUGIN_PADDING+html.ACTION_HEIGHT))
 	},
 	onlogin: function(can, msg) {
@@ -110,14 +104,14 @@ Volcanos(chat.ONACTION, {_init: function(can, target) { can.db.list = can.misc.S
 		can._root.River && can._river_show === false && can.onmotion.hidden(can, can._root.River._target), skip || can.onlayout._init(can)
 		can.getActionSize(function(height, width) { var cb = can.onlayout[button]; can.base.isFunc(cb) && cb(can, height, width) || can.onlayout._plugin(can, button) })
 	},
-	// _menus: [[html.LAYOUT, ALL, TABS, TABVIEW, VERTICAL, HORIZON, GRID, FREE, FLOW, PAGE], web.STORE, web.DREAM, web.DESKTOP, web.PORTAL],
 	_menus: [[html.LAYOUT, ALL, TABS, TABVIEW, VERTICAL, HORIZON, GRID, FREE, FLOW, PAGE]],
 	_trans: kit.Dict(html.LAYOUT, "布局", ALL, "详情布局", TABS, "标签布局", TABVIEW, "标签分屏", VERTICAL, "上下分屏", HORIZON, "左右分屏", GRID, "网格布局", FREE, "自由布局", FLOW, "流动布局", PAGE, "网页布局"),
 })
 Volcanos(chat.ONLAYOUT, {
 	tabs: function(can, height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width) },
 	tabview: function(can, height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width), can.onmotion.toggle(can, can._header_tabs, true)
-		can.page.SelectOne(can, can._header_tabs, html.DIV_ITEM_SELECT) || can.page.Select(can, can._header_tabs, html.DIV_ITEM, function(target, index) { index == 0 && target.click() })
+		can.page.SelectOne(can, can._header_tabs, html.DIV_ITEM_SELECT)
+			// || can.page.Select(can, can._header_tabs, html.DIV_ITEM, function(target, index) { index == 0 && target.click() })
 	},
 	horizon: function(can, height, width) { can.ConfHeight(height), can.ConfWidth(width/2) },
 	vertical: function(can, height, width) { can.ConfHeight(height/2), can.ConfWidth(width) },
@@ -200,8 +194,7 @@ Volcanos(chat.ONKEYMAP, {
 	toggleLayout: function(can, layout) { can.onaction.layout(can, can.onexport.layout(can) == layout? ice.AUTO: layout) },
 })
 Volcanos(chat.ONPLUGIN, {
-	_plugin: shy("插件", [mdb.NAME, ice.LIST, ice.BACK]),
-	_filter: shy("表格", [ice.LIST, html.FILTER]),
+	_plugin: shy("插件", [mdb.NAME, ice.LIST, ice.BACK]), _filter: shy("表格", [ice.LIST, html.FILTER]),
 	_notfound: shy("缺失", [ctx.INDEX, web.SPACE, ice.LIST], function(can, msg, arg) { msg.Echo("not found "+arg[0]+" "+arg[1]) }),
 	layout: shy("界面布局", {_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)) }}, ["layout:select=auto,tabs,tabview,horizon,vertical,grid,free,flow,page", ctx.RUN], function(can, msg, arg) { can.onaction.layout(can, arg[0]) }),
 })

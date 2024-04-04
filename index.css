@@ -434,12 +434,8 @@ div.item.button.danger input:hover[type=button] { background-color:var(--danger-
 div.item.button.notice input:hover[type=button] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 div.item.button.danger input { border:var(--danger-bg-color) solid 1px; }
 div.item.button.notice input { border:var(--notice-bg-color) solid 1px; }
-div.action div.tabs:hover { background-color:var(--hover-bg-color);
-	border-top-left-radius:var(--button-margin); border-top-right-radius:var(--button-margin);
-}
-div.action div.tabs.select { background-color:var(--hover-bg-color);
-	border-top-left-radius:var(--plugin-radius); border-top-right-radius:var(--plugin-radius); border-bottom:var(--notice-bg-color) solid 3px;
-}
+div.action div.tabs:hover { background-color:var(--hover-bg-color); }
+div.action div.tabs.select { background-color:var(--hover-bg-color); border-bottom:var(--notice-bg-color) solid 3px; }
 div.zone>div.item { background-color:var(--th-bg-color); }
 div.zone>div.list>div.zone>div.item { background-color:var(--th-bg-color); }
 div.tabs div { background-color:var(--plugin-bg-color); }

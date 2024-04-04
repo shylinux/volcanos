@@ -3,7 +3,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	_title: function(can, msg, target) { can.core.List(can.base.getValid(can.Conf(chat.TITLE)||msg.result, [
 		decodeURIComponent(can.misc.Search(can, ice.POD)||location.host)]), function(item) {
-		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE, html.FLEX]], list: [{img: can.misc.ResourceFavicon(can)}, {text: item}], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
+		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE, html.FLEX]], list: [{img: can.user.info.favicon||can.misc.ResourceFavicon(can)}, {text: item}], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
 	}) },
 	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [cli.QRCODE, chat.THEME, aaa.LANGUAGE, aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
 		if (can.user.isMobile && can.base.isIn(item, cli.QRCODE, chat.THEME, aaa.LANGUAGE, mdb.TIME)) { return }
@@ -87,6 +87,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			can.user.info.email = msg.Option(aaa.EMAIL)
 			can.user.info.avatar = msg.Option(aaa.AVATAR)
 			can.user.info.background = msg.Option(aaa.BACKGROUND)
+			can.user.info.favicon = msg.Option("favicon")
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)

@@ -8,7 +8,8 @@ fieldset.Action.tabs>div.output>fieldset.plugin:not(.select) { display:none; }
 fieldset.Header div.Action { display:contents; }
 /* fieldset.Action.tabview:not(.cmd)>div.output>fieldset.plugin>legend { float:left !important; background-color:transparent; } */
 fieldset.Action.tabview:not(.cmd)>div.output>fieldset.plugin>legend { float:left !important; }
-fieldset.Action.tabview>div.output>fieldset.plugin:not(.select):not(:only-child) { display:none; }
+/* fieldset.Action.tabview>div.output>fieldset.plugin:not(.select):not(:only-child) { display:none; } */
+fieldset.Action.tabview>div.output>fieldset.plugin:not(.select) { display:none; }
 fieldset.Action.vertical>div.output>fieldset.plugin { float:left; }
 fieldset.Action.horizon>div.output>fieldset.plugin { float:left; }
 fieldset.Action.horizon>div.output>fieldset.plugin>div.status { display:none; }
