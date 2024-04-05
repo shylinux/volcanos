@@ -644,6 +644,8 @@ body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldse
 body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.action>div.button.icons>i { display:none; }
 fieldset.panel>div.action>div.button.icons>span.icon { display:none; }
 fieldset.plugin.cmd>form.option>div.icon.delete { display:none; }
+fieldset.story>form.option>div.button.icons.list { margin-right:0; }
+fieldset.story>form.option>div.button.icons.back { margin-right:0; }
 fieldset.story>form.option>div.button.icons>input { display:none; }
 fieldset.story>div.action>div.button.icons>input { display:none; }
 fieldset.plug>form.option>div.button.icons>input { display:none; }

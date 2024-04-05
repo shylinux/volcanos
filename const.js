@@ -403,7 +403,9 @@ var icon = {
 
 	sso: "bi bi-shield-check", login: "bi bi-person-check", token: "bi bi-key",
 	username: "bi bi-person-gear", nodename: "bi bi-globe",
-	domain: "bi bi-globe", origin: "bi bi-globe", vendor: "bi bi-box-arrow-up-right",
+	domain: "bi bi-globe", origin: "bi bi-globe",
+	// vendor: "bi bi-box-arrow-up-right",
+	vendor: "bi bi-shop",
 	full: "bi bi-arrows-fullscreen", open: "bi bi-box-arrow-up-right",
 	more: "bi bi-three-dots-vertical", actions: "bi bi-three-dots",
 	search: "bi bi-search", favor: "bi bi-star",
@@ -412,6 +414,7 @@ var icon = {
 	modify: "bi bi-pencil-square", rename: "bi bi-pencil-square", remove: "bi bi-trash",
 	enable: "bi bi-toggle-off", disable: "bi bi-toggle-on",
 
+	name: "bi bi-sort-alpha-down",
 	path: "bi bi-folder2", file: "bi bi-file-earmark-text", line: "bi bi-sort-numeric-down",
 	start: "bi bi-play-circle", stop: "bi bi-stop-circle",
 	load: "bi bi-folder-plus", save: "bi bi-floppy", trash: "bi bi-trash",

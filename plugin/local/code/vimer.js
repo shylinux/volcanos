@@ -40,7 +40,8 @@ Volcanos(chat.ONFIGURE, {
 						for (var _target = target.parentNode; _target != zone._target; _target = _target.parentNode) { _target.previousSibling && can.onappend.style(can, mdb.MODIFY, _target.previousSibling) }
 					}) }
 				}, item._menu = {meta: kit.Dict(
-					mdb.CREATE, function(event, button) { can.onaction.script(can.request(event, {path: path, file: item.path}), can, nfs.SCRIPT) },
+					mdb.CREATE, function(event, button) {
+						can.onaction.script(can.request(event, {path: path, file: item.path+(can.base.endWith(item.path, "/")? "client.go": "")}), can, nfs.SCRIPT) },
 					nfs.TRASH, function(event, button) { can.runAction(event, nfs.TRASH, [path+item.path], function(msg) { show(target, zone, path) }) },
 				)}; return item
 			}); cache = can.onimport.tree(can, list, nfs.PATH, nfs.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, cache)
