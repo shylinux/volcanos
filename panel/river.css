@@ -14,6 +14,8 @@ fieldset.River>div.output { margin:var(--river-margin) 0; margin-bottom:20px; }
 fieldset.River>div.toggle { rotate:90deg; right:calc(50% - 5px); }
 /* fieldset.River>div.toggle.prev { top:-10px; } */
 fieldset.River>div.toggle.prev { top:0; }
+body.mobile fieldset.River>div.toggle.prev { top:-52px; }
+body.mobile fieldset.River>div.output { margin-top:16px; }
 fieldset.River>div.toggle.next { bottom:-52px; }
 fieldset.River:not(:hover)>div.toggle { visibility:hidden; }
 fieldset.River.page { display:none; }

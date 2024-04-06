@@ -491,6 +491,7 @@ div.display:not(.toggle) { border-top:var(--box-border); }
 fieldset>div.status { border-top:var(--status-border); }
 /* border-radius */
 legend { border-top-left-radius:var(--plugin-radius); }
+body.mobile legend { border-top-right-radius:var(--plugin-radius); }
 select { border-radius:var(--button-radius); }
 input[type=button] { border-radius:var(--button-radius); }
 fieldset>form.option>div.item.select { border-radius:var(--button-radius); }
@@ -503,6 +504,7 @@ fieldset>div.status>legend:not(:hover):not(.select) { border-radius:0; }
 div.plug legend { border-radius:0; }
 /* box-shadow */
 fieldset>legend { box-shadow:var(--legend-box-shadow); }
+body.mobile fieldset>legend { box-shadow:none; }
 /* fieldset>legend:hover { box-shadow:var(--notice-box-shadow); } */
 fieldset>form.option>div.item:not(.icon) { box-shadow:var(--input-box-shadow); }
 /* fieldset>form.option>div.item:not(.icon):hover { box-shadow:var(--notice-box-shadow); } */
