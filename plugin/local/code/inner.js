@@ -277,9 +277,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	layout: function(can) {
 		if (can.isCmdMode()) { can.ConfHeight(can.page.height()) }
 		if (can.isSimpleMode() && !can.page.tagis(can._fields, "fieldset.float")) { can.page.style(can, can._output, html.MAX_HEIGHT, "") }
-		if (can.isSimpleMode() || can.Conf(ctx.STYLE) == html.OUTPUT) {
-			can.ui.layout(can.ConfHeight(), can.ConfWidth())
-			return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
+		if (can.Conf(ctx.STYLE) == html.OUTPUT) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
+		if (can.isSimpleMode()) { can.ui.layout(can.ConfHeight(), can.ConfWidth()); return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
 		var content = can.ui.content; if (!content) { return } if (content._root) { can.ui.content = content._root }
 		can.ui.size = {profile: can._msg.Option(html.WIDTH), display: can._msg.Option(html.HEIGHT)}
 		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
