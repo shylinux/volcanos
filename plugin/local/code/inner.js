@@ -275,12 +275,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		}, can.ui.plug.parentNode, can.ui.plug), can.page.isDisplay(can.ui.plug) || can.onmotion.toggle(can, can.ui.plug, true) && can.onimport.layout(can)
 	},
 	layout: function(can) {
-		if (can.isSimpleMode()) { can.page.style(can, can._output, html.MAX_HEIGHT, "") }
-		if (can.isSimpleMode() || can.Conf(ctx.STYLE) == html.OUTPUT) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) } if (can.isCmdMode()) { can.ConfHeight(can.page.height()) }
-		var content = can.ui.content; if (!content) { return } if (content._root) { can.ui.content = content._root } can.ui.size = {profile: can._msg.Option(html.WIDTH), display: can._msg.Option(html.HEIGHT)}
+		if (can.isCmdMode()) { can.ConfHeight(can.page.height()) }
+		if (can.isSimpleMode() && !can.page.tagis(can._fields, "fieldset.float")) { can.page.style(can, can._output, html.MAX_HEIGHT, "") }
+		if (can.isSimpleMode() || can.Conf(ctx.STYLE) == html.OUTPUT) {
+			can.ui.layout(can.ConfHeight(), can.ConfWidth())
+			return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
+		var content = can.ui.content; if (!content) { return } if (content._root) { can.ui.content = content._root }
+		can.ui.size = {profile: can._msg.Option(html.WIDTH), display: can._msg.Option(html.HEIGHT)}
 		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
-			can.ui._tabs.style.width = ""
-			can.ui.content = content, can.onlayout.layout(can, height, width)
+			can.ui._tabs.style.width = "", can.ui.content = content, can.onlayout.layout(can, height, width)
 			var sub = can.ui.profile._plugin; sub && can.page.isDisplay(can.ui.profile) && sub.onimport && sub.onimport.size(sub, can.ui.profile.offsetHeight, can.ui.profile.offsetWidth-1, true)
 			var sub = can.ui.content._plugin; if (!sub) { return } if (height == sub.ConfHeight()+sub.onexport.actionHeight(sub)+sub.onexport.statusHeight(sub) && width == sub.ConfWidth()) { return }
 			content._root || sub.onimport.size(sub, height, width, true), can.onlayout.layout(can, height, width)
@@ -297,9 +300,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 				var height = can.ui.project.offsetHeight - list.length*target.offsetHeight
 				if (can.page.tagis(target.nextSibling, html.DIV_ACTION)) { height -= target.nextSibling.offsetHeight }
 				can.page.SelectChild(can, target.parentNode, html.DIV_LIST, function(target) {
-					if (can.ui.zone.source._target == target) {
-						can.page.style(can, target, html.HEIGHT, height)
-					}
+					if (can.ui.zone.source._target == target) { can.page.style(can, target, html.HEIGHT, height) }
 				})
 			})
 		})

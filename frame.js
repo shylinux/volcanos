@@ -343,7 +343,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	_status: function(can, list, status, msg) { list && list.Option && (list = list.Option(ice.MSG_STATUS)||list)
 		status = status||can._status, can.onmotion.clear(can, status); var keys = {}
-		var fileline = can.base.trimPrefix((can.Conf("_fileline")||"").split("?")[0], "/require/")
+		// var fileline = can.base.trimPrefix((can.Conf("_fileline")||"").split("?")[0], "/require/")
+		var fileline = (can.Conf("_fileline")||"").split("?")[0]
 		can.core.List((can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST]))||[]).concat([
 			can.ConfSpace() && {name: web.SPACE, value: can.ConfSpace()},
 		], can.misc.Search(can, log.DEBUG)==ice.TRUE? [
