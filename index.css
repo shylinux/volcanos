@@ -205,7 +205,7 @@ div.toggle.project { top:20%; left:0; border-top-right-radius:var(--plugin-radiu
 div.content>div.toggle.profile { top:20%; right:0; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.content>div.toggle.display { left:20%; bottom:-52px; rotate:90deg; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.project:not(.toggle) { width:var(--project-width); flex:0 0 var(--project-width); }
-div.profile:not(.toggle) { width:50%; flex:0 0 50%; }
+div.layout>div.profile:not(.toggle) { width:50%; flex:0 0 50%; }
 /* fieldset */
 div.item.online.state { margin-left:var(--button-margin) !important; display:block; }
 body.mobile div.item.online.state { display:none; }
