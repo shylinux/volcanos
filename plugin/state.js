@@ -291,7 +291,10 @@ Volcanos(chat.ONACTION, {list: ["刷新数据",
 })
 Volcanos(chat.ONEXPORT, {_output: function(can, msg) {},
 	output: function(can, msg) {}, action: function(can, button, data) {}, record: function(can, value, key, data) {},
-	title: function(can, title) { can.isCmdMode() && can.user.title(title) },
+	title: function(can, title) {
+		if (can.base.isIn(title, web.DESKTOP)) { return }
+		var pod = can.misc.Search(can, ice.POD)
+		can.isCmdMode() && can.user.title(title+(pod && title != pod? " "+pod: "")) },
 	marginTop: function() { return 0 }, marginBottom: function() { return 0 },
 	actionHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT)? 0: html.ACTION_HEIGHT },
 	outputHeight: function(can) { var height = can.ConfHeight() - can.onexport.actionHeight(can) - can.onexport.statusHeight(can)

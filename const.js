@@ -357,6 +357,7 @@ var html = {value: {
 	CONFIRM: "confirm",
 	TABLE: "table", THEAD: "thead", TBODY: "tbody", TR: "tr", TH: "th", TD: "td",
 	HEADER: "header", NAV: "nav", MAIN: "main", ASIDE: "aside", FOOTER: "footer",
+	FAVICON: "favicon",
 
 	BACKGROUND_COLOR: "background-color", COLOR: "color",
 	PADDING: "padding", BORDER: "border", MARGIN: "margin", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",

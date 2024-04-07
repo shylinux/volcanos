@@ -1,4 +1,5 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDING, 10)
+		can.onexport.title(can, can.Option(nfs.PATH))
 		can.page.Modify(can, target, msg.Results()), can.onimport._content(can, target)
 		can.onmotion.delay(can, function() { can.onappend.scroll(can, can._output) })
 	},
@@ -33,7 +34,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 	endmenu: function(can, meta, target) { can.page.Select(can, can._output, can.page.Keys(html.H2, html.H3), function(_target) {
 		can.onimport.item(can, {name: _target.innerHTML}, function() { can.onmotion.scrollIntoView(can, _target) }, function() {}, target)
 	}) },
-	title: function(can, meta, target) { can.page.tagis(target, html.H1) && can.onexport && can.onexport.title(can, meta.text) },
 	spark: function(can, meta, target) {
 		if (meta[mdb.NAME] == html.INNER) { return can.onmotion.copy(can, target) }
 		can.page.Select(can, target, "kbd,samp", function(item) { can.onmotion.copy(can, item, function() {
