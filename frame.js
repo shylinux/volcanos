@@ -734,16 +734,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		return ui
 	},
 	tabview: function(can, meta, list, target) { var ui = can.page.Append(can, target, [html.ACTION, html.OUTPUT])
-		can.onappend.style(can, "tabview", ui.action), can.onappend.style(can, html.FLEX, ui.action)
+		can.onappend.style(can, html.TABVIEW, ui.action), can.onappend.style(can, html.FLEX, ui.action)
 		var _meta = meta; if (meta.Table) { _meta = {}, meta.Table(function(value) { _meta[value.index] = value }) }
 		can.core.List(can.base.getValid(list, can.core.Item(_meta)), function(name, index) { var item = _meta[name]
 			ui[name] = can.page.Append(can, ui.action, [{view: [html.TABS, html.DIV, item.title||can.user.trans(can, name)], onclick: function(event) {
 				can.onmotion.select(can, ui.action, html.DIV_TABS, event.target)
 				if (can.onmotion.cache(can, function() { return name }, ui.output)) { return }
 				if (typeof item == code.FUNCTION) { return item(ui.output) }
-				item.type = item.type||"story"
-				can.onappend.plugin(can, item, function(sub) {
-					sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth(), false)
+				item.type = item.type||chat.STORY, can.onappend.plugin(can, item, function(sub) {
+						sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth(), false)
 					sub.onexport._output = function() {
 						sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth(), false)
 					}

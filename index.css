@@ -76,13 +76,12 @@ body {
 body.en { --card-button:3; }
 body.mobile { --footer-height:60px; --qrcode-height:284px; --svg-font-size:13px; }
 body.width1 { /* 320-640 手机竖屏 */
-	--river-width:280px; --project-width:120px; --input-width:80px; --url-input-width:160px; --form-width:290px;
-	--river-margin:0; --plugin-margin:0; --button-margin:5px;
+	--project-width:120px; --river-width:280px; --input-width:80px; --url-input-width:160px; --form-width:290px;
+	--river-margin:0; --plugin-margin:0; --legend-margin:5px; --button-margin:5px;
 	--table-button:2; --card-button:3;
-	--legend-margin:5px;
 }
 body.width2 { /* 640-960 手机横屏 平板竖屏 笔记本调试 */
- 	--input-width:80px; --url-input-width:160px;
+	--input-width:80px; --url-input-width:160px;
 }
 body.width3 { /* 960-1280 平板横屏 */
 	--float-width:1000px;
@@ -93,8 +92,7 @@ body.width4 { /* 1280-1600 笔记本 显示器调试 */
 body.width5 { /* 1600-1920 */
 }
 body.width6 { /* 1920-2240 显示器 */
-	--river-width:280px; --input-width:180px; --card-height:160px;
-	--project-width:280px; --qrcode-width:420px;
+	--project-width:280px; --river-width:280px; --input-width:180px; --url-input-width:1000px; --qrcode-width:420px; --card-height:160px;
 	--float-height:640px; --float-width:1400;
 }
 /* element */

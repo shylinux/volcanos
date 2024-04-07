@@ -29,7 +29,9 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 			if (event.key == code.ENTER) { can.onkeymap.prevent(event); if (event.shiftKey) { return can.page.SelectOne(can, can.ui.content, [html.TBODY, html.TR, html.TD], function(target) { target.click() }) }
 				return event.ctrlKey? can.onaction.done(event, can): can.ui.input(event, event.target.value)
 			} if (event.ctrlKey) { return event.key == "0"? can.onaction.clear(event, can): can.onkeymap.selectCtrlN(event, can, can.ui.content, [html.TBODY, html.TR], function(target) { target.firstChild.click() }) }
-			event.key.length == 1 && can.onmotion.delayOnce(can, function() { can.onmotion.tableFilter(can, can.ui.content, event.target.value) }, 100, can._delay_filter = can._delay_filter||[])
+			event.key.length == 1 && can.onmotion.delayOnce(can, function() {
+				can.onmotion.tableFilter(can, can.ui.content, event.target.value)
+			}, 100, can._delay_filter = can._delay_filter||[])
 		}}), null, null, null, 10)
 		var key = can.misc.Search(can, "_search"); key && can.onmotion.delay(can, function() { can.onaction.onopensearch(can, can.request({}), "*", key) }, 1000)
 	},
