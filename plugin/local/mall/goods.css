@@ -1,6 +1,6 @@
 fieldset.goods>div.output>div.project { flex:0 0 90px; }
-fieldset.goods>div.output>div.project>div.item { text-align:center; padding:20px 10px; border-right:var(--plugin-bg-color) solid 4px; }
-fieldset.goods>div.output>div.project>div.item.select { border-right:var(--notice-bg-color) solid 4px; }
+fieldset.goods>div.output>div.project>div.item { text-align:center; padding:20px 10px; border-right:var(--box-border3); }
+fieldset.goods>div.output>div.project>div.item.select { border-right:var(--box-notice3); }
 fieldset.goods>div.output>div.layout>div.layout>div.content>div.item:not(.hide) {
 	background-color:var(--plugin-bg-color); border-radius:var(--plugin-radius); box-shadow:var(--box-shadow);
 	margin:10px; float:left;
