@@ -54,7 +54,8 @@ Volcanos(chat.ONACTION, {_init: function(can, target) { can.db.list = can.misc.S
 		if (can.base.beginWith(location.pathname, "/share/")) { can._names = location.pathname }
 		can.Conf(chat.TOOL)? can.onappend.layout(can, can.core.List(can.Conf(chat.TOOL), function(item, index, list) { item.type = chat.PLUGIN
 			if (list.length == 1) { can.user.mod.cmd = item.index
-				can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP) || can.user.title(item.index)
+				var pod = can.misc.Search(can, ice.POD)
+				can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP) || can.user.title(item.index+(pod? " "+pod: ""))
 				can.onaction._onaction_cmd(can), item.mode = chat.CMD, item.opts = can.misc.Search(can)
 				can.onappend.style(can, ice.CMD, document.body), can.onappend.style(can, item.index, document.body)
 			} return item
