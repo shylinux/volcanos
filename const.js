@@ -374,6 +374,9 @@ var html = {value: {
 	CLASS: "class", DARK: "dark", LIGHT: "light", WHITE: "white", BLACK: "black",
 	FILTER: "filter", TOGGLE: "toggle", EXPAND: "expand", SPEED: "speed", HOVER: "hover", HOVER_SELECT: "hover,select",
 
+	ICONS: "icons",
+	FULL: "full",
+	ICON: "icon",
 	VALUE: "value",
 	TOIMAGE: "toimage", NOT_HIDE: ":not(.hide)",
 	CONTAINER: "container", FLEX: "flex", FLOW: "flow",
@@ -401,6 +404,7 @@ var icon = {
 	portal: "bi bi-globe", desktop: "bi bi-window-desktop", admin: "bi bi-window-sidebar",
 	dream: "bi bi-box", space: "bi bi-box", store: "bi bi-shop",
 	word: "bi bi-book", repos: "bi bi-git", vimer: "bi bi-bug", build: "bi bi-tools", xterm: "bi bi-terminal",
+	stats: "bi bi-card-list",
 	matrix: "bi bi-grid-3x3-gap", 
 	feel: "bi bi-images", 
 	plan: "bi bi-calendar4-week",
