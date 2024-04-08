@@ -3,6 +3,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 		var _select; can.onmotion.clear(can), can.onaction.layout(can, list[3])
 		can.core.Next(msg.Table(), function(item, next, index) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			if (msg.Length() == 1) { item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y), can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP, web.CHAT_MESSAGE, web.WIKI_PORTAL) && (item.style = html.OUTPUT) }
+			can.base.isIn(item.index, ssh.CLOUD_PROFILE) && (item.style = html.OUTPUT)
 			list.length == 0 && can.user.info.nodetype == web.SERVER && item._command == web.DREAM && (list = [river, storm, item._command])
 			can.onappend.plugin(can, item, function(sub, meta, skip) { if (meta.index == "can._notfound" && !can.misc.isDebug(can)) { return skip || next() }
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.pod||meta.space}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
@@ -162,7 +163,7 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 			}), cb(msg)
 		})
 	} else { can.core.List(storm.list, function(item) { can.base.isString(item) && (item = {index: item})
-		msg.Push(ctx.INDEX, item.index||"")
+		msg.Push(ctx.INDEX, item.index||"").Push(mdb.ICONS, item.icons||"")
 		msg.Push(mdb.NAME, item.name||"").Push(mdb.HELP, item.help||"")
 		msg.Push(ctx.INPUTS, JSON.stringify(item.inputs)).Push(ctx.FEATURE, JSON.stringify(item.feature))
 		msg.Push(ctx.ARGS, item.args||"[]").Push(ctx.STYLE, item.style||"").Push(ctx.DISPLAY, item.display||"")

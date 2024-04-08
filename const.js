@@ -154,6 +154,7 @@ var yac = {
 }
 var ssh = {
 	SHELL: "shell",
+	CLOUD_PROFILE: "ssh.cloud.profile",
 }
 var gdb = {
 	SIGNAL: "signal",

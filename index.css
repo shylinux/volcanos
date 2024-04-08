@@ -378,7 +378,7 @@ div.output.flex { overflow:hidden; align-items:flex-start; justify-content: flex
 div.layout.flex>* { float:left; clear:none; }
 div.flex:not(.hide) { display:flex; align-items:center; justify-content:center; }
 div.output.flex:not(.hide) { display:flex; align-items:flex-start; justify-content:flex-start; }
-fieldset>div.status>legend { margin-right:var(--button-margin); float:right; clear:none; border-bottom-left-radius:var(--button-margin); border-bottom-right-radius:var(--button-margin); }
+fieldset>div.status>legend { margin-right:var(--button-margin); float:right; clear:none; }
 fieldset>div.status>legend>span.remove { margin-left:var(--input-margin); }
 fieldset>div.status>legend>span.remove:hover { background-color:var(--hover-bg-color); }
 fieldset>div.status>legend:not(:hover)>span.remove { visibility:hidden; }
@@ -489,7 +489,7 @@ div.profile:not(.toggle) { border-left:var(--box-border); }
 div.display:not(.toggle) { border-top:var(--box-border); }
 fieldset>div.status { border-top:var(--status-border); }
 /* border-radius */
-legend { border-top-left-radius:var(--plugin-radius); }
+fieldset.plugin>legend { border-top-left-radius:var(--plugin-radius); }
 body.mobile legend { border-top-right-radius:var(--plugin-radius); }
 select { border-radius:var(--button-radius); }
 input[type=button] { border-radius:var(--button-radius); }
@@ -540,6 +540,7 @@ body div.path { font-family:var(--code-font-family); }
 body div.carte { font-family:var(--code-font-family); }
 body { font-size:var(--body-font-size); }
 legend { font-size:var(--legend-font-size); line-height:30px; height:var(--action-height); }
+legend img { margin-right:var(--input-margin); height:32px }
 select, input { font-size:var(--body-font-size); height:var(--action-height); } input::placeholder, textarea::placeholder { font-style:italic; color:var(--disable-fg-color); }
 input[type=checkbox] { height:16px; width:16px; }
 textarea { font-size:var(--body-font-size); padding:var(--input-padding); height:var(--textarea-height); width:100%; outline:none; resize:vertical; }
@@ -568,8 +569,8 @@ fieldset>div.status { font-family:var(--status-font-family); font-style:italic; 
 fieldset>div.status>div.item { padding:var(--input-padding); height:30px; }
 fieldset>div.status>div.item>label { font-size:var(--status-font-size); }
 fieldset>div.status>div.item>span { margin-left:var(--input-padding); }
-fieldset>div.status>legend { font-style:italic; height:30px; }
-fieldset>div.status>legend.select { border-left:var(--box-notice); border-radius:0; }
+fieldset>div.status>legend { font-style:italic; border-left:var(--box-border3); height:30px; }
+fieldset>div.status>legend.select { border-left:var(--box-notice3); border-radius:0; }
 fieldset.plug>div.status { height:31px; }
 /* icon */
 i.bi.bi-toggle-on { color:var(--notice-bg-color); }
@@ -757,6 +758,9 @@ body.print div.float { background-color:snow; }
 body.print fieldset.draw div.output { background-color:lightgray; }
 body.print fieldset.draw div.output div.content svg { background-color:lightgray; }
 /* misc */
+fieldset.Action>div.output>fieldset.ssh.cloud.profile { box-shadow:none; background-color:transparent; }
+fieldset.Action>div.output>fieldset.ssh.cloud.profile:hover { box-shadow:none; }
+fieldset.Action>div.output>fieldset.ssh.cloud.profile>div.output { background-color:transparent; }
 fieldset.web.code.docker.studio>div.output>fieldset { margin:0; }
 fieldset.web.code.docker.studio>div.output>fieldset>legend { display:none; }
 fieldset.web.code.docker.studio>div.output>fieldset>form.option>div:first-child { margin-left:var(--button-margin); }

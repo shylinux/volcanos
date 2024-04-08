@@ -55,7 +55,7 @@ Volcanos(chat.ONIMPORT, {
 		can.onappend._toggle(can, can.ui.display, function(event) { can.onaction.prev(event, can) }, function(event) { can.onaction.next(event, can) })
 		can.Status({begin: begin, limit: limit, total: list.length})
 	},
-	layout: function(can) { can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
+	layout: function(can) { can.ui.layout && can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
 		can.page.Select(can, can.ui.content, can.page.Keys(html.IMG, html.VIDEO), function(target) {
 			can.user.isMobile && !can.user.isLandscape()? can.page.style(can, target, html.HEIGHT, "", html.MAX_HEIGHT, height, html.MAX_WIDTH, width):
 				can.page.style(can, target, html.MAX_HEIGHT, height, html.MAX_WIDTH, width)
