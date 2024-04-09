@@ -434,7 +434,7 @@ div.item.button.notice input:hover[type=button] { background-color:var(--notice-
 div.item.button.danger input { border:var(--box-danger); }
 div.item.button.notice input { border:var(--box-notice); }
 div.action div.tabs:hover { background-color:var(--hover-bg-color); }
-div.action div.tabs.select { background-color:var(--hover-bg-color); border-bottom:var(--box-notice3); }
+div.action div.tabs.select { background-color:var(--output-bg-color); border-top:var(--box-notice3); }
 div.zone>div.item { background-color:var(--th-bg-color); }
 div.zone>div.list>div.zone>div.item { background-color:var(--th-bg-color); }
 div.tabs div { background-color:var(--plugin-bg-color); }

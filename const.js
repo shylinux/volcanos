@@ -440,6 +440,7 @@ var icon = {
 	reboot: "bi bi-bootstrap-reboot",
 	restart: "bi bi-bootstrap-reboot",
 	binary: "bi bi-disc",
+	images: "bi bi-disc",
 	qrcode: "bi bi-qr-code",
 	main: "bi bi-house-door", top: "bi bi-globe",
 	configs: "bi bi-gear", config: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week", tag: "bi bi-tags",
