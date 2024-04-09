@@ -291,6 +291,8 @@ body>div.carte div.item { white-space:pre; padding:var(--button-padding); }
 body>div.carte div.item span.icon.next { line-height:22px; height:22px; float:right; }
 body>div.carte.select.float>div.item { text-align:center; }
 body>div.carte.header.avatar img { width:370px; }
+body>div.input.process input { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color); border:var(--box-border) !important; }
+body>div.input.process input:hover { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color); border:var(--box-border) !important; }
 body>div.input { padding:var(--plugin-padding); }
 body>div.input { padding:var(--plugin-padding); }
 body>div.input>legend { float:right; padding:0; }

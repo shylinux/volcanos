@@ -378,6 +378,7 @@ var html = {value: {
 	FULL: "full",
 	ICON: "icon",
 	VALUE: "value",
+	PROCESS: "process",
 	TOIMAGE: "toimage", NOT_HIDE: ":not(.hide)",
 	CONTAINER: "container", FLEX: "flex", FLOW: "flow",
 	MORE: "more",
