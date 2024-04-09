@@ -290,15 +290,16 @@ Volcanos(chat.ONACTION, {
 	},
 })
 Volcanos(chat.ONINPUTS, {
-	dream: function(event, can, msg, target, name) {
+	_nameicon: function(event, can, msg, target, name) {
 		can.page.Appends(can, can._output, msg.Table(function(value) {
 			return {view: html.ITEM, list: [{img: can.misc.Resource(can, value.icons)},
-				{view: html.CONTAINER, list: [{view: [html.TITLE, "", value[name]]},
+				{view: html.CONTAINER, list: [{view: [html.TITLE, "", value[name]||value[mdb.NAME]]},
 					can.onappend.label(can, value, {version: icon.version, time: icon.compile}),
 				]},
-			], onclick: function(event) { can.showIcons(value[name], value.icons) }}
+			], onclick: function(event) { can.showIcons(value[name]||value[mdb.NAME], value.icons) }}
 		}))
 	},
+	dream: function(event, can, msg, target, name) { can.sup.sub.oninputs._nameicon(event, can, msg, target, name) },
 })
 Volcanos(chat.ONKEYMAP, {
 	escape: function(event, can) {}, enter: function(event, can) {},

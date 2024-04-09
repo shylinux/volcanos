@@ -29,7 +29,8 @@ Volcanos(chat.ONFIGURE, {key: {
 			target.value = value, can.onmotion.hidden(can, can._target)
 		}
 		can.core.CallFunc([can.oninputs, "_show"], {event: event, can: can, msg: msg, target: target, name: name})
-		can.core.CallFunc([can.sup.sub, "oninputs", name], {event: event, can: can, msg: msg, target: target, name: name})
+		var style = msg.Option(ice.MSG_DISPLAY)? can.base.ParseURL(msg.Option(ice.MSG_DISPLAY)).style||name: name
+		can.core.CallFunc([can.sup.sub, "oninputs", style], {event: event, can: can, msg: msg, target: target, name: name})
 		can.layout(msg)
 	},
 	onfocus: function(event, can, meta, target, cbs, mod) { meta._force && mod.onclick(event, can, meta, target, cbs) },
