@@ -83,7 +83,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 		}
 		can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.base.Min(can.ConfHeight()/2, 300, 600), sub.Conf("_width")||(can.ConfWidth()-2*padding), true) })
 		can.page.Select(can, can._output, html.IMG, function(target) {
-			can.page.style(can, target, html.MAX_HEIGHT, can.ConfHeight())
+			can.page.style(can, target, html.MAX_HEIGHT, can.base.Max(can.ConfHeight(), 420))
 		})
 	}, 0) },
 }, [""])

@@ -4,7 +4,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 		can.core.Next(msg.Table(), function(item, next, index) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			if (msg.Length() == 1) { item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y), can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP, web.CHAT_MESSAGE, web.WIKI_PORTAL) && (item.style = html.OUTPUT) }
 			can.base.isIn(item.index, ssh.CLOUD_PROFILE) && (item.style = html.OUTPUT)
-			list.length == 0 && can.user.info.nodetype == web.SERVER && item._command == web.DREAM && (list = [river, storm, item._command])
+			if (list.length == 0) {
+				can.user.info.nodetype == web.SERVER && item._command == web.DREAM && (list = [river, storm, item._command])
+				can.user.info.nodetype == web.WORKER && item._command == web.WORD && (list = [river, storm, item._command])
+			}
 			can.onappend.plugin(can, item, function(sub, meta, skip) { if (meta.index == "can._notfound" && !can.misc.isDebug(can)) { return skip || next() }
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.pod||meta.space}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				sub.onexport.output = function() { msg.Length() > 1 && can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, ""), can.onaction.layout(can, list[3]) }
