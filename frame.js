@@ -293,8 +293,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION) { if (msg.RunAction(event, can.sub, cmds)) { return } }
 		if (msg.RunAction(event, can, cmds)) { return } if (can.misc.Inputs(can, msg, cmds, cb, meta)) { return }
 		var p = can._history[can._history.length-1]; p && p._opts && can.request(event, p._opts)
-		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, function(msg) { if (can.base.isFunc(cb)) { return cb(msg) } if (silent) { return }
-			var _can = can._fields? can.sup: can; if (_can == (msg._can._fields? msg._can.sup: msg._can)) { if (can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) { return } }
+		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, function(msg) { var _can = can._fields? can.sup: can
+			if (can.base.isFunc(cb) && !cb(msg)) { return } if (silent) { return }
+			if (_can == (msg._can._fields? msg._can.sup: msg._can)) { if (can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) { return } }
 			if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.CREATE, mdb.INSERT, mdb.PRUNES, mdb.EXPORT, mdb.IMPORT, "exports", "imports", nfs.TRASH) || msg.Length() == 0 && !msg.Result()) {
 				return can._toast || can.user.toastSuccess(can, cmds[1], ice.SUCCESS), can.Update()
 			} }
