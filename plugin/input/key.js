@@ -39,7 +39,7 @@ Volcanos(chat.ONFIGURE, {key: {
 		sub.sup = can._fields? can.sup: can
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
-	onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },
+	// onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },
 	onkeyup: function(event, can, meta, cb, target, sub, last) { if (event.key == code.TAB) { return }
 		if (event.key == code.ENTER) { return meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event, target.value)? sub && sub.close(): last(event) }
 		if (!sub) { return } can.onmotion.toggle(can, sub._target, true)

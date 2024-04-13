@@ -177,6 +177,7 @@ Volcanos(chat.ONEXPORT, {list: [mdb.TIME, mdb.HASH, mdb.TYPE, mdb.NAME, "rows", 
 			return {type: target.className, name: name, list: can.page.SelectChild(can, target, can.page.Keys(html.DIV_OUTPUT, html.DIV_LAYOUT), function(target) { return show(target) })}
 		} else { var item = target._term._item; return {type: item.type, name: name, text: item.text, hash: item.hash} }
 	} return show(target._output) }) },
-	title: function(can, term, title) { can.page.Modify(can, can.page.SelectOne(can, term._output._tabs, html.SPAN_NAME), title), can.Status(mdb.NAME, title), can.sup.onexport.title(can.sup, title) },
+	title: function(can, term, title) {
+		term && term._output && can.page.Modify(can, can.page.SelectOne(can, term._output._tabs, html.SPAN_NAME), title), can.Status(mdb.NAME, title), can.sup.onexport.title(can.sup, title) },
 })
 })()

@@ -7,6 +7,12 @@ body {
 	--code-object:purple; --code-datatype:cornflowerblue; --code-package:blue;
 }
 }
+body.light {
+	--plugin-bg-color:white; --plugin-fg-color:black;
+	--code-comment:green; --code-keyword:darkblue;
+	--code-function:darkcyan; --code-constant:gray; --code-string:brown;
+	--code-object:purple; --code-datatype:cornflowerblue; --code-package:blue;
+}
 @media (prefers-color-scheme: dark) {
 body {
 	--plugin-bg-color:black; --plugin-fg-color:silver;
@@ -14,6 +20,12 @@ body {
 	--code-function:lightgreen; --code-constant:gray; --code-string:orange;
 	--code-object:silver; --code-datatype:lavender; --code-package:blue;
 }
+}
+body.dark {
+	--plugin-bg-color:black; --plugin-fg-color:silver;
+	--code-comment:green; --code-keyword:royalblue;
+	--code-function:lightgreen; --code-constant:gray; --code-string:orange;
+	--code-object:silver; --code-datatype:lavender; --code-package:blue;
 }
 body {
 	--code-bg-color:black; --code-fg-color:silver;
@@ -217,8 +229,9 @@ fieldset>div.header>div { line-height:22px; padding:var(--input-padding); margin
 fieldset>div.header>div.avatar { padding:0; }
 fieldset>div.header div.online { padding:0; }
 fieldset>div.header img { height:var(--action-height); float:right; }
-fieldset>form.option>div.item:not(.icon) { margin-right:var(--button-margin); }
-fieldset>div.action>div.item:not(:last-child) { margin-right:var(--button-margin); }
+fieldset>form.option>div.item:not(.icon) { margin-right:var(--input-margin); }
+fieldset>div.action>div.item { margin-right:var(--input-margin); }
+// fieldset>div.action>div.item:not(:last-child) { margin-right:var(--input-margin); }
 fieldset.input>legend { display:none; }
 fieldset.input.icons table { width:100%; text-align:center; }
 fieldset.input.key div.action { display:none; }
@@ -508,7 +521,7 @@ body.mobile fieldset>legend { box-shadow:none; }
 body.mobile fieldset.plugin>legend>span { display:block; float:right; }
 fieldset>form.option>div.item:not(.icon) { box-shadow:var(--input-box-shadow); }
 fieldset>div.action div.item:not(.state) { box-shadow:var(--input-box-shadow); }
-body:not(.mobile) fieldset>div.action div.item:first-child { margin-left:var(--input-margin); }
+body:not(.mobile) fieldset>div.action div.item:first-child { margin-left:var(--button-margin); }
 fieldset>div.action>div.tabs { box-shadow:var(--legend-box-shadow); }
 fieldset>div.action>div.cmds { box-shadow:var(--legend-box-shadow); }
 fieldset>div.status>legend { box-shadow:var(--legend-box-shadow); }
@@ -560,8 +573,8 @@ fieldset>form.option>div.item.select>input { min-width:var(--button-width); }
 fieldset>form.option>div.item.textarea { height:var(--textarea-height); width:100%; }
 fieldset>div.action div.item.filter input { padding-left:24px; }
 fieldset>div.action div.item { height:var(--action-height); }
-fieldset>div.action>div.tabs { font-style:italic; padding:var(--input-padding) var(--button-padding); margin-left:var(--input-margin); height:var(--action-height); }
-fieldset>div.action>div.cmds { font-style:italic; padding:var(--input-padding) var(--button-padding); margin-left:var(--input-margin); height:var(--action-height);
+fieldset>div.action>div.tabs { font-style:italic; padding:var(--input-padding) var(--button-padding); height:var(--action-height); }
+fieldset>div.action>div.cmds { font-style:italic; padding:var(--input-padding) var(--button-padding); height:var(--action-height);
 	min-width:60px; text-align:center; justify-content:center; align-items:center;
 }
 fieldset>div.output>div.code { font-size:var(--code-font-size); }
@@ -588,7 +601,7 @@ form.option>div.item.icon.goback { font-size:28px; line-height:26px; display:fle
 form.option>div.icon.delete { font-size:20px; line-height:32px; display:flex; align-items:flex-start; }
 form.option>div.item.icon.play { font-size:16px; }
 body.windows form.option>div.item.icon.delete { line-height:31px; display:flex; align-items:flex-start; }
-body.windows form.option>div.item.icon.menu { font-size:22px; line-height:32px; }
+body.windows form.option>div.item.icon.menu { font-size:22px; line-height:32px; padding:0 3px; }
 body.windows form.option>div.item.icon.refresh { font-size:24px; line-height:28px; }
 body.windows form.option>div.item.icon.goback { font-size:24px; line-height:28px; }
 div.item.text { position:relative; }
@@ -902,15 +915,21 @@ div.scrollbar.vertical:hover { width:30px; transition:width .1s; font-size:24px 
 div.scrollbar.horizon:hover { height:30px; transition:height .1s; font-size:24px !important; }
 div.scrollbar.horizon { height:10px; left:0; bottom:0; transition:height .3s 1s; }
 form.option>div.text>span.value::-webkit-scrollbar { width:0 !important; height:0 !important; }
-div.story[data-type=spark]::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
+div.project div.list::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.status::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.toggle::-webkit-scrollbar { width:0 !important; height:0 !important; }
+div.story[data-type=spark]::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.toast.float div.title::-webkit-scrollbar { width:0 !important; height:0 !important; }
 body>div.carte::-webkit-scrollbar { width:0 !important; height:0 !important; }
-fieldset.word>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
-fieldset.dream>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
-fieldset.web.code.git.search>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
 fieldset.panel.River>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
 fieldset.panel.Action>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
+fieldset.dream>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
+fieldset.input.key::-webkit-scrollbar { width:0 !important; height:0 !important; }
+fieldset.input.key>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
+body.windows fieldset>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
+body.windows *::-webkit-scrollbar { width:0 !important; height:0 !important; }
+fieldset.word>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }
+fieldset.xterm div.xterm-viewport::-webkit-scrollbar { width:0 !important; height:0 !important; }
+fieldset.web.code.git.search>div.output::-webkit-scrollbar { width:0 !important; height:0 !important; }

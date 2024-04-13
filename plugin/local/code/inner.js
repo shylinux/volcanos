@@ -129,11 +129,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		}}])
 	},
 	_tabIcon: function(can) {
-		can.user.isWindows || can.page.Append(can, can.ui.path, can.core.Item({
-			"\u271A": shy({translate: "0 2px"}, function(event) { can.onaction.open(event, can, "open") }),
-			"\u2756": shy({translate: "0 2px"}, function(event) { can.onaction.plug(event, can, "plug") }),
+		// can.user.isWindows ||
+		can.page.Append(can, can.ui.path, can.core.Item({
+			"\u271A": shy({transform: "translate(0 2px)"}, function(event) { can.onaction.open(event, can, "open") }),
+			"\u2756": shy({}, function(event) { can.onaction.plug(event, can, "plug") }),
 			"\u25E7": function(event) { var show = can.onmotion.toggle(can, can.ui.project); can.onimport.layout(can), can.isCmdMode() && can.onexport.session(can, PROJECT_HIDE, show? "": html.HIDE) },
-			"\u25E8": shy({translate: "0 2px", rotate: "90deg"}, function(event) { if (can.page.isDisplay(can.ui.display)) { return can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) } can.onaction.exec(event, can) }),
+			"\u25E8": shy({transform: "rotate(90deg) translate"+(can.user.isWindows? "(-2px)": "(1px)")}, function(event) { if (can.page.isDisplay(can.ui.display)) { return can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) } can.onaction.exec(event, can) }),
 			"\u25E8 ": function(event) { if (can.page.isDisplay(can.ui.profile)) { return can.onmotion.hidden(can, can.ui.profile), can.onimport.layout(can) } can.onaction.show(event, can) },
 		}, function(text, cb) { return cb && {text: [text, html.SPAN, html.VIEW], style: cb.meta, onclick: cb} }))
 	},
