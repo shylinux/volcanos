@@ -522,7 +522,8 @@ body.mobile fieldset>legend { box-shadow:none; }
 body.mobile fieldset.plugin>legend>span { display:block; float:right; }
 fieldset>form.option>div.item:not(.icon) { box-shadow:var(--input-box-shadow); }
 fieldset>div.action div.item:not(.state) { box-shadow:var(--input-box-shadow); }
-body:not(.mobile) fieldset>div.action div.item:first-child { margin-left:var(--button-margin); }
+body:not(.mobile) fieldset.plugin>div.action div.item:first-child { margin-left:var(--button-margin); }
+body:not(.mobile) fieldset.story>div.action div.item:first-child { margin-left:var(--button-margin); }
 fieldset>div.action>div.tabs { box-shadow:var(--legend-box-shadow); }
 fieldset>div.action>div.cmds { box-shadow:var(--legend-box-shadow); }
 fieldset>div.status>legend { box-shadow:var(--legend-box-shadow); }

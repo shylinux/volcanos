@@ -435,7 +435,7 @@ var icon = {
 	"import": "bi bi-folder-plus", "export": "bi bi-floppy",
 	"begin_time": "bi bi-clock-history", "end_time": "bi bi-clock-history",
 
-	scale: "bi bi-arrows-fullscreen",
+	// scale: "bi bi-arrows-fullscreen",
 	tags: "bi bi-tags",
 	version: "bi bi-tags",
 	compile: "bi bi-tools",
