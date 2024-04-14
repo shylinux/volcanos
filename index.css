@@ -458,6 +458,7 @@ div.plug>legend.select { background-color:var(--plugin-bg-color); border-left:va
 div.complete>table { background-color:var(--plugin-bg-color); }
 fieldset>form.option>div.item.text.cmd>input { background-color:var(--code-bg-color); color:var(--code-fg-color); }
 fieldset>div.action div.item.cmds.select { background:var(--output-bg-color); border-top:var(--box-notice3); }
+fieldset.desktop fieldset>div.action div.item.cmds.select { border-top:unset; border-bottom:var(--box-notice3); }
 fieldset>div.action div.item.cmds:hover { background:var(--output-bg-color); }
 fieldset>div.output { background-color:var(--output-bg-color); }
 fieldset.panel:not(.main) { background-color:var(--panel-bg-color); color:var(--panel-fg-color); }
@@ -635,7 +636,7 @@ div.item.button.create>span.icon { font-size:28px; line-height:26px; height:var(
 div.item.button.insert>span.icon { font-size:28px; line-height:26px; height:var(--action-height); }
 div.item.button.refresh>span.icon { font-size:28px; line-height:26px; height:var(--action-height); }
 body.windows div.item.button.refresh>span.icon { font-size:22px; line-height:30px; }
-div.item.button._space.icons { flex-grow:1; }
+div.item.button._space.icons { flex-grow:1; min-width:var(--button-margin); }
 div.item.button._space.icons:hover { background-color:unset; cursor:unset; }
 fieldset.inner fieldset.story div.item.button._space.icons { margin-left:0; flex-grow:1; }
 div.tabs>span { font-style:italic; }

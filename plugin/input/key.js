@@ -8,7 +8,7 @@ Volcanos(chat.ONFIGURE, {key: {
 		})
 	},
 	_show: function(can, msg, cb, target, name) {
-		if (msg.Length() == 0 || msg.Length() == 1 && msg.Append(name) == target.value && target.value != "" || msg.Length() == 1 && msg.Append(name) == "") { return can.onmotion.hidden(can) }
+		if (msg.Length() == 0 || msg.Length() == 1 && msg.Append(name) == target.value && target.value != "") { return can.onmotion.hidden(can) }
 		if (can.base.isIn(msg.append[msg.append.length-1], ctx.ACTION, "cb")) { msg.append = msg.append.slice(0, -1) } var list = {}
 		msg.Option(ice.TABLE_CHECKBOX, "")
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, item) { value = item[key]

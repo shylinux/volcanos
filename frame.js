@@ -271,7 +271,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}), item), "", action)
 		})
 		var _can = can._fields? can.sup: can
-		can.base.beginWith(can.ConfIndex(), "can.", "web.chat.macos.") ||
+		can.isCmdMode() || can.base.beginWith(can.ConfIndex(), "can.", "web.chat.macos.") ||
 			can.page.tagis(can._fields||can._target, html.FIELDSET_PANEL) || action == can._action && can.page.Append(can, action,
 					can.core.Item(can.user.isMobile? {
 					open: !can.isCmdMode() && "打开链接",
@@ -431,9 +431,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}})
 			if (item.name == html.FILTER) { item.icon = item.icon||icon.search }
 			item.icon = item.icon||can.Conf(["_icons", item.name])||icon[item.name]
-		} if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }
+		}
+		if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }
 		var _style = can.page.buttonStyle(can, item.name)
-		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name, item._className, html.FLEX , item.icon? "_icon": ""], _style)], list: [item.icon && {icon: item.icon}, input].concat(_icon), _init: function(target, _input) {
+		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name, item._className, html.FLEX, item.icon? "_icon": ""], _style)], list: [item.icon && {icon: item.icon}, input].concat(_icon), _init: function(target, _input) {
 			if (item.type == html.SELECT) {
 				_input.select.value = value||_item.value||_item.values[0]
 				can.onappend.select(can, _input.select, _item)

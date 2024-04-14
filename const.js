@@ -452,6 +452,7 @@ var icon = {
 	qrcode: "bi bi-qr-code",
 	main: "bi bi-house-door", top: "bi bi-globe",
 	configs: "bi bi-gear", config: "bi bi-gear", conf: "bi bi-gear", logs: "bi bi-calendar4-week", tag: "bi bi-tags",
+	data: "bi bi-database",
 	branch: "bi bi-diagram-3", commit: "bi bi-hash",
 	message: "bi bi-wechat",
 
