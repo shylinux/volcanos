@@ -105,7 +105,8 @@ body.width5 { /* 1600-1920 */
 }
 body.width6 { /* 1920-2240 显示器 */
 	--project-width:280px; --river-width:280px; --input-width:180px; --url-input-width:1000px; --qrcode-width:420px; --card-height:160px;
-	--float-height:640px; --float-width:1400;
+	--float-height:640px; --float-width:1400px;
+	--plug-height:480px; --plug-width:1000px;
 }
 /* element */
 * { box-sizing:border-box; padding:0; border:0; margin:0; tab-size:4; }
@@ -192,9 +193,9 @@ div.project div.item.filter { padding:0; width:100%; position:sticky; top:0; }
 div.project div.item.filter>input { padding:0 25px; width:100% !important; }
 div.project div.item.search { padding:0; width:100%; }
 div.project div.item.search>input { padding:0 25px; width:100%; }
-div.project div.expand { margin-right:var(--input-margin); width:5px; float:left; transition:all .5s; }
-div.project div.expand.open { translate:1px 2px; rotate:90deg; transition:all .3s; }
-div.project div.item>div.name { padding-left:var(--input-padding); }
+div.project div.expand { margin-right:var(--input-margin); width:5px; float:left; transform: translate(1px, -1px) rotate(0deg); transition:all .5s; }
+div.project div.expand.open { transform: translate(4px, -1px) rotate(90deg); transition:all .3s; }
+div.project div.item>div.name { padding:0 var(--input-padding); }
 div.project div.zone>div.item { text-align:center; padding:var(--input-padding); display:flex; align-items:center; }
 div.project div.zone>div.item span:hover { background-color:var(--hover-bg-color); }
 div.project>div.zone>div.item span:first-child { font-style:italic; font-weight:bold; line-height:var(--action-height); }

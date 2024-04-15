@@ -36,6 +36,7 @@ Volcanos(chat.ONFIGURE, {
 				if (path == "usr/release/" && can.base.isIn(item.path, "conf.go", "binpack.go")) { return }
 				if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true }
 				item._init = function(target) { item._remove = function() { can.page.Remove(can, target.parentNode), delete(cache[item.path]) }
+					can.ui.zone.source[path+item.path] = target
 					if (msg.result && msg.result.indexOf(item.path) > -1) { can.onmotion.delay(can, function() { can.onappend.style(can, mdb.MODIFY, target.parentNode)
 						for (var _target = target.parentNode; _target != zone._target; _target = _target.parentNode) { _target.previousSibling && can.onappend.style(can, mdb.MODIFY, _target.previousSibling) }
 					}) }

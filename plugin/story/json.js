@@ -2,12 +2,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 		can.onappend.style(can, nfs.JSON, can._output), can.onimport.show(can, can.base.Obj(msg.Result(), {}), target, msg)
 	},
 	show: function(can, data, target, msg) {
-		if (data.append) {
-			var msg = can.request(); msg.Copy(data), can.onappend.table(can, msg)
-			msg._xhr = {responseText: msg.Result()}
-			can.onmotion.delay(can, function() { can.onappend._status(can, msg) })
-			return
-		}
+		// if (data.append) {
+		// 	var msg = can.request(); msg.Copy(data), can.onappend.table(can, msg)
+		// 	msg._xhr = {responseText: msg.Result()}
+		// 	can.onmotion.delay(can, function() { can.onappend._status(can, msg) })
+		// 	return
+		// }
 		var hidden = data.detail && data.option
 		function show(data, target, index, total) { var list
 			switch (typeof data) {
