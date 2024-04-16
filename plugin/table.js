@@ -120,9 +120,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.user.carteItem(event, can, item)
 		}
 		var icon = item.icon||item.icons
-		var ui = can.page.Append(can, target, [{view: [[html.ITEM, item.type, item.status]], list: [
+		var ui = can.page.Append(can, target, [{view: [[html.ITEM, item.type, item.role, item.status]], list: [
 			icon && (can.base.contains(icon, ice.HTTP, ".ico", ".png", ".jpg")? {img: can.misc.Resource(can, icon)}: {icon: icon}),
-			{text: item.nick||item.name||item.zone}], title: item.title, onclick: function(event) {
+			{text: item.nick||item.name||item.sess||item.zone}], title: item.title, onclick: function(event) {
 				can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)
 				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
 			}, oncontextmenu: oncontextmenu,
@@ -189,7 +189,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			} cbs && cbs(tabs), can.page.Remove(can, target)
 			can.onexport.tabs(can)
 		}
-		return {view: html.TABS, title: tabs.title||tabs.text, list: [{text: [tabs.nick||tabs.name, html.SPAN, mdb.NAME]}, {icon: mdb.DELETE, onclick: function(event) {
+		return {view: [[html.TABS, tabs.type, tabs.role, tabs.status]], title: tabs.title||tabs.text, list: [{text: [tabs.nick||tabs.name, html.SPAN, mdb.NAME]}, {icon: mdb.DELETE, onclick: function(event) {
 			close(tabs._target), can.onkeymap.prevent(event)
 		}}], onclick: function(event) {
 			can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)

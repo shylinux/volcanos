@@ -67,7 +67,7 @@ Volcanos(chat.ONACTION, {list: [
 	"后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		if (msg.IsErr()) { return can.user.toastFailure(can, msg.Result()) }
-		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.user.toastSuccess(can, button), can.ui.zone.source.refresh()
+		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.zone.source.refresh()
 	}) },
 	_runs: function(event, can, button, cb) { var meta = can.Conf(); can.request(event, {action: button}), can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) }) },
 	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
@@ -81,7 +81,7 @@ Volcanos(chat.ONACTION, {list: [
 			if (can.onexport.parse(can) == nfs.GO) { var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content)
 				can.ui.content._max = 0, can.core.List(msg.Result().split(lex.NL), function(item) { can.onaction.appendLine(can, item) })
 				can.onaction.selectLine(can, line+imports(msg.Result())-imports(msg.Option(nfs.CONTENT)))
-			} can.user.toastSuccess(can, button, can.Option(nfs.PATH)+can.Option(nfs.FILE))
+			} can.user.toastSuccess(can, can.Option(nfs.PATH)+can.Option(nfs.FILE), button)
 		})
 	},
 	trash: function(event, can, button) { can.onaction._run(event, can, button, [can.Option(nfs.PATH)+can.Option(nfs.FILE)], function() { can._msg._tab._close() }) },

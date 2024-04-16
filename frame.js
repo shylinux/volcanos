@@ -393,7 +393,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}
 		var name = can.core.Split(item.nick||item.index||"", " .").pop()||""; can.base.isIn(name,
 			tcp.SERVER, tcp.CLIENT, web.STUDIO, mdb.SEARCH, web.SERVICE, can.core.Split(can.ConfIndex(), ".").pop(), "launchTemplate",
-		) && (name = (item.index||"").split(".").slice(-2).join(".")), (type != html.PLUG && !can.base.isIn(can.ConfIndex(),
+		) && (name = (item.index||"").split(".").slice(-2).join(".")), (type != "story" && type != html.PLUG && !can.base.isIn(can.ConfIndex(),
 			web.DESKTOP, web.MESSAGE, web.VIMER,
 		)) && (name = can.core.Keys(item.space||item._space, name))
 		var title = item.title || can.user.isMobile && (can.user.isEnglish(can)? name: (item.help||name)) || (!item.help || name == item.help || can.user.isEnglish(can)? name: name+"("+can.core.Split(item.help)[0]+")")
@@ -554,7 +554,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (key == mdb.STATUS && can.base.isIn(value, mdb.ENABLE, ice.TRUE)) { _value = `<i class="${icon.disable}">`
 				function onclick() { run(event, mdb.MODIFY, [mdb.STATUS, mdb.DISABLE]); return true }
 			}
-			return {className: option.indexOf(key) > -1? ice.MSG_OPTION: key == ctx.ACTION? ctx.ACTION: "", text: [msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): can.user.trans(can, _value, null, html.VALUE), html.TD], onclick: function(event) { var target = event.target
+			return {className: option.indexOf(key) > -1? ice.MSG_OPTION: key == ctx.ACTION? ctx.ACTION: "", text: [msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): value, html.TD], onclick: function(event) { var target = event.target
 				if (onclick()) { return }
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(request(event), target.name)
@@ -572,6 +572,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}, onmouseover: function(event) {
 				can.page.SelectChild(can, can._option, html.DIV_ITEM_TEXT, function(target) { can.page.ClassList.set(can, target, "will", can.page.ClassList.has(can, target, key)) })
 			}, _init: function(target) {
+				if (key == mdb.TYPE) { can.onappend.style(can, value, target.parentNode) }
 				if (key == ctx.ACTION && msg.IsDetail()) { can.onappend.style(can, ctx.ACTION, target.parentNode) }
 				key == ctx.ACTION && can.onappend.mores(can, target, data, msg.IsDetail()? 20: html.TABLE_BUTTON)
 				var list = can.page.Select(can, target, html.INPUT, function(target) {
@@ -723,7 +724,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			ui.layout(can.ConfHeight(), can.ConfWidth()), can.onimport._layout && can.onimport._layout(can)
 			can.Action(html.FILTER) && can.onmotion.filter(can, can.Action(html.FILTER))
 		}
-		can.onimport._layout = can.onimport._layout||function(can) { if (!can.ui.content) { return }
+		can.onimport._layout = can.onimport._layout||function(can) { if (!can.ui.content || !can.ui.content.innerHTML) { return }
 			can.page.style(can, can.ui.content, html.HEIGHT, can._output.style[html.HEIGHT], html.MAX_HEIGHT, can._output.style[html.MAX_HEIGHT])
 			can.page.style(can, can.ui.project, html.HEIGHT, can.ui.content.offsetHeight+can.ui.display.offsetHeight)
 			can.onlayout.expand(can, can.ui.content)
@@ -913,7 +914,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		},
 	},
 	scrollHold: function(can, cb, target) { target = target || can._output; var left = target.scrollLeft; cb(), target.scrollLeft = left },
-	scrollIntoView: function(can, target, margin) { if (!target || can._scroll) { return } can._scroll = true, margin = margin||0
+	scrollIntoView: function(can, target, margin) { if (!target || !target.parentNode || can._scroll) { return } can._scroll = true, margin = margin||0
 		var offset = (target.offsetTop-margin) - target.parentNode.scrollTop, step = offset < 0? -20: 20
 		if (Math.abs(offset) > 3000) {
 			return target.parentNode.scrollTop = (target.offsetTop-margin), delete(can._scroll)

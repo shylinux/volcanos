@@ -125,6 +125,7 @@ table.content th.select[data-asc="1"] i.bi-sort-down-alt { display:none; }
 table.content td.option { cursor:pointer; }
 table.content td { padding:var(--table-padding); }
 table.content td i { padding:var(--input-padding); }
+table.content.detail td:first-child { word-break:keep-all; white-space:pre; }
 table.content.detail td:first-child { text-align:center; }
 table.content.detail td:first-child { background-color:var(--plugin-bg-color); position:sticky; left:0; }
 table.content.detail td i { display:none; }
@@ -866,7 +867,7 @@ fieldset>div.output.form>div.item>span { padding:var(--input-padding); }
 fieldset>div.output.form>div.item>span.need { color:red; }
 fieldset>div.output.form>div.item>div.item>input { font-size:20px; height:38px; width:var(--form-width); }
 fieldset>div.output.form>div.item>div.item>input[type=button] { font-size:20px; height:48px; border:var(--box-notice); }
-fieldset.studio>div.action>div.item:not(.icons) { font-style:italic; padding:var(--input-margin) var(--button-padding); }
+fieldset.studio>div.action>div.item:not(.icons) { font-style:italic; }
 fieldset.studio>div.output>fieldset>form.option div.icon.delete { display:none; }
 fieldset.studio>div.output>fieldset>form.option div.icon:nth-child(2) { margin-left:var(--plugin-margin); }
 fieldset.studio>div.output>fieldset>div.output>table.content { width:100%; }
@@ -879,8 +880,7 @@ fieldset.plug.dream.zone>div.output>div.item>span { line-height:var(--action-hei
 fieldset.cmd>div.item.state { line-height:22px; padding:var(--input-padding) var(--button-padding); float:right; }
 fieldset.cmd>div.item.avatar { padding:0; height:var(--action-height); }
 fieldset.cmd>div.item.avatar>img { height:var(--action-height); }
-fieldset.cmd>div.action>div.tabs.select { border-bottom:var(--box-notice3); }
-fieldset.cmd>div.output>div.project div.item.select { border-right:var(--box-notice3); }
+/* fieldset.cmd>div.action>div.tabs.select { border-bottom:var(--box-notice3); } */
 fieldset.Search div.story[data-type=spark] { margin:0; }
 fieldset.Search>div.output>div.profile { border-left:none; width:unset; }
 fieldset.Search>div.output>div.content>table.content td { cursor:pointer; }

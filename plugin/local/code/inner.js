@@ -134,7 +134,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			"\u271A": shy({transform: "translate(0 2px)"}, function(event) { can.onaction.open(event, can, "open") }),
 			"\u2756": shy({}, function(event) { can.onaction.plug(event, can, "plug") }),
 			"\u25E7": function(event) { var show = can.onmotion.toggle(can, can.ui.project); can.onimport.layout(can), can.isCmdMode() && can.onexport.session(can, PROJECT_HIDE, show? "": html.HIDE) },
-			"\u25E8": shy({transform: "rotate(90deg) translate"+(can.user.isWindows? "(-2px)": "(1px)")}, function(event) { if (can.page.isDisplay(can.ui.display)) { return can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) } can.onaction.exec(event, can) }),
+			"\u25E8": shy({transform: "rotate(90deg) translate"+(can.user.isWindows? "(-2px)": "(1px,-2px)")}, function(event) { if (can.page.isDisplay(can.ui.display)) { return can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) } can.onaction.exec(event, can) }),
 			"\u25E8 ": function(event) { if (can.page.isDisplay(can.ui.profile)) { return can.onmotion.hidden(can, can.ui.profile), can.onimport.layout(can) } can.onaction.show(event, can) },
 		}, function(text, cb) { return cb && {text: [text, html.SPAN, html.VIEW], style: cb.meta, onclick: cb} }))
 	},
@@ -282,8 +282,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		if (can.ui.zone && can.ui.zone.source) {
 			var p = can.ui.zone.source[can.Option(nfs.PATH)+can.Option(nfs.FILE)]
 			can.page.Select(can, can.ui.zone.source._target, "div.name", function(target) {
-				can.page.ClassList.del(can, target, "current")
-			}), p && can.page.ClassList.add(can, p, "current")
+				can.page.ClassList.del(can, target.parentNode, "current")
+			}), p && can.page.ClassList.add(can, p.parentNode, "current")
 		}
 		var content = can.ui.content; if (!content) { return } if (content._root) { can.ui.content = content._root }
 		can.ui.size = {profile: can._msg.Option(html.WIDTH), display: can._msg.Option(html.HEIGHT)}
