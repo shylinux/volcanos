@@ -449,6 +449,8 @@ div.item.button.danger input { border:var(--box-danger); }
 div.item.button.notice input { border:var(--box-notice); }
 div.action div.tabs:hover { background-color:var(--hover-bg-color); }
 div.action div.tabs.select { background-color:var(--output-bg-color); border-top:var(--box-notice3); }
+/* div.action div.tabs.select { background-color:var(--output-bg-color); border-bottom:var(--box-notice3); } */
+/* div.action div.tabs.select { background-color:var(--output-bg-color); border-left:var(--box-notice3); } */
 div.zone>div.item { background-color:var(--th-bg-color); }
 div.zone>div.list>div.zone>div.item { background-color:var(--th-bg-color); }
 div.tabs div { background-color:var(--plugin-bg-color); }
@@ -868,11 +870,11 @@ fieldset>div.output.form>div.item>span.need { color:red; }
 fieldset>div.output.form>div.item>div.item>input { font-size:20px; height:38px; width:var(--form-width); }
 fieldset>div.output.form>div.item>div.item>input[type=button] { font-size:20px; height:48px; border:var(--box-notice); }
 fieldset.studio>div.action>div.item:not(.icons) { font-style:italic; }
-fieldset.studio>div.output>fieldset>form.option div.icon.delete { display:none; }
-fieldset.studio>div.output>fieldset>form.option div.icon:nth-child(2) { margin-left:var(--plugin-margin); }
-fieldset.studio>div.output>fieldset>div.output>table.content { width:100%; }
-fieldset.studio>div.output>fieldset:not(.select) { display:none; }
-fieldset.studio>div.output>fieldset { margin:var(--plugin-margin); }
+fieldset.studio>div.output>fieldset.story { margin:var(--plugin-margin); }
+fieldset.studio>div.output>fieldset.story:not(.select) { display:none; }
+fieldset.studio>div.output>fieldset.story>form.option div.icon.delete { display:none; }
+/* fieldset.studio>div.output>fieldset>form.option div.icon:nth-child(2) { margin-left:var(--plugin-margin); } */
+/* fieldset.studio>div.output>fieldset>div.output>table.content { width:100%; } */
 fieldset.plug>div.output table.content { width:100%; }
 fieldset.plug.dream.zone>div.output>div.item { display:flex; padding:var(--input-padding); margin:var(--input-margin); }
 fieldset.plug.dream.zone>div.output>div.item>img { margin-right:var(--input-margin); }

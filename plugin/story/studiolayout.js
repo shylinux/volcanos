@@ -8,23 +8,29 @@ Volcanos(chat.ONIMPORT, {
 	},
 	_nick: function(can, value) { return value.name },
 	project: function(can, msg, key, cb) { can.ui = can.onappend.layout(can), can.onappend.style(can, "studiolayout", can._fields)
-		var _select; msg.Table(function(value) { value.nick = can.onimport._nick(can, value)
-			var target = can.onimport.item(can, value, function(event, value) { can.misc.SearchHash(can, value[key])
+		var _select; msg.Table(function(value) { var hash = value[key]; value.nick = can.onimport._nick(can, value)
+			var target = can.onimport.item(can, value, function(event, value) { can.misc.SearchHash(can, hash)
 				if (can.onmotion.cache(can, function(save, load) {
 					save({
 						_content: can.ui._content_plugin,
 						_profile: can.ui._profile_plugin,
 						_display: can.ui._display_plugin,
-					}), load(value[key], function(bak) {
+					}), load(hash, function(bak) {
 						can.ui._content_plugin = bak._content
 						can.ui._profile_plugin = bak._profile
 						can.ui._display_plugin = bak._display
 					})
-					return value[key]
+					return hash
 				}, can.ui.content, can.ui.profile, can.ui.display)) {
 					can.onmotion.select(can, can._action, html.DIV_TABS, value._tabs); return
-				} value._tabs = can.onimport.tabs(can, [value], function() { target.click() })
-				can.core.Item(cb(event, value[key], value), function(key, item) { can.onmotion.toggle(can, can.ui[key], true)
+				}
+				value._tabs = can.onimport.tabs(can, [value], function() { target.click() }, function() {
+					delete(value._tabs), delete(can._cache_data[hash])
+					delete(can.ui.content._cache[hash])
+					delete(can.ui.profile._cache[hash])
+					delete(can.ui.display._cache[hash])
+				})
+				can.core.Item(cb(event, hash, value), function(key, item) { can.onmotion.toggle(can, can.ui[key], true)
 					can.onappend.plugin(can, item, function(sub) { can.ui["_"+key+"_plugin"] = sub
 						can.onimport.layout(can), sub.onexport.output = function() { can.onimport.layout(can) }
 					}, can.ui[key])

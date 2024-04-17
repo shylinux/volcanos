@@ -554,7 +554,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (key == mdb.STATUS && can.base.isIn(value, mdb.ENABLE, ice.TRUE)) { _value = `<i class="${icon.disable}">`
 				function onclick() { run(event, mdb.MODIFY, [mdb.STATUS, mdb.DISABLE]); return true }
 			}
-			return {className: option.indexOf(key) > -1? ice.MSG_OPTION: key == ctx.ACTION? ctx.ACTION: "", text: [msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): value, html.TD], onclick: function(event) { var target = event.target
+			return {className: option.indexOf(key) > -1? ice.MSG_OPTION: key == ctx.ACTION? ctx.ACTION: "", text: [
+				msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): _value, html.TD,
+			], onclick: function(event) { var target = event.target
 				if (onclick()) { return }
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(request(event), target.name)

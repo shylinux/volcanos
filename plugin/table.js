@@ -185,29 +185,29 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		if (typeof tabs == code.STRING) { tabs = {name: tabs} }
 		function close(target) {
 			if (can.page.ClassList.has(can, target, html.SELECT)) {
-				var next = target.nextSibling||target.previousSibling; if (!next) { return } next.click()
-			} cbs && cbs(tabs), can.page.Remove(can, target)
-			can.onexport.tabs(can)
+				var next = can.page.tagis(target.nextSibling, html.DIV_TABS)? target.nextSibling: can.page.tagis(target.previousSibling, html.DIV_TABS)? target.previousSibling: null
+				if (!next) { return true } next && next.click()
+			} can.page.Remove(can, target), can.onexport.tabs && can.onexport.tabs(can)
 		}
 		return {view: [[html.TABS, tabs.type, tabs.role, tabs.status]], title: tabs.title||tabs.text, list: [{text: [tabs.nick||tabs.name, html.SPAN, mdb.NAME]}, {icon: mdb.DELETE, onclick: function(event) {
-			close(tabs._target), can.onkeymap.prevent(event)
+			tabs._target._close(), can.onkeymap.prevent(event)
 		}}], onclick: function(event) {
 			can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)
 		}, _init: function(target) { var menu = tabs._menu||shy(function(event, button) { can.Update(event, [ctx.ACTION, button]) })
-			target._item = tabs, tabs._target = target, target._close = function() { close(target) }
+			target._item = tabs, tabs._target = target, target._close = function() { close(target) || cbs && cbs(tabs) }
 			var _action = can.page.parseAction(can, tabs)
-			can.page.Modify(can, target, {draggable: true, _close: function() { close(target) },
+			can.page.Modify(can, target, {draggable: true,
 				ondragstart: function(event) { action._drop = function(before) {
-					before.parentNode == action && action.insertBefore(target, before)
-					can.onexport.tabs(can)
+					before.parentNode == action && action.insertBefore(target, before), can.onexport.tabs(can)
 				} },
 				ondragover: function(event) { event.preventDefault(), action._drop(event.target) },
 				oncontextmenu: function(event) { can.user.carte(event, can, kit.Dict(
-					"Close", function(event) { close(target) },
-					"Close Other", function(event) { can.page.SelectChild(can, action, html.DIV_TABS, function(target) { target == tabs._target || close(target) }) },
+					"Close", function(event) { target._close() },
+					"Close Other", function(event) { target.click()
+						can.page.SelectChild(can, action, html.DIV_TABS, function(target) { target == tabs._target || target._close() }) },
 					"Rename Tabs", function(event) { can.user.input(event, can, [mdb.NAME], function(list) {
 						can.page.Select(can, target, html.SPAN_NAME, function(target) { can.page.Modify(can, target, list[0]||tabs.name) })
-						can.onexport.tabs(can)
+						can.onexport.tabs && can.onexport.tabs(can)
 					}) }, menu.meta,
 				), ["Close", "Close Other", "Rename Tabs", ""].concat(can.base.getValid(menu.list, can.core.Item(menu.meta)), _action), function(event, button, meta) {
 					(meta[button]||menu)(can.request(event, tabs), button, meta)
