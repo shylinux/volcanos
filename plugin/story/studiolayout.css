@@ -12,9 +12,3 @@ fieldset.studiolayout>div.output>div.layout>div.layout>div.profile>fieldset.stor
 fieldset.studiolayout>div.output>div.layout>div.layout>div.content>fieldset.story>form.option>div.item.sess { display:none; }
 fieldset.studiolayout>div.output>div.layout>div.layout>div.profile>fieldset.story>div.action>div.item.state { display:none; }
 fieldset.studiolayout>div.output>div.layout>div.layout>div.content>fieldset.story>div.action>div.item.state { display:none; }
-
-/* body.cmd { --box-shadow:none; } */
-/* body.cmd { --legend-box-shadow:none; } */
-body.cmd { --input-box-shadow:none; }
-body.cmd { --th-box-shadow:none; }
-/* body.cmd legend { margin-right:0; } */

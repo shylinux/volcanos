@@ -1,5 +1,4 @@
 fieldset.word>div.output { padding:var(--plugin-padding); }
-/* fieldset.word>div.output div.story.flex>* { padding:var(--plugin-padding); } */
 fieldset.word>div.output p { margin:var(--title-margin) auto; }
 fieldset.word>div.output h3 { margin-top:var(--title-margin); }
 fieldset.word>div.output h2.story[data-type=spark][data-name=title] { text-align:center; }
@@ -11,7 +10,7 @@ fieldset.word>div.output table { width:100%; }
 fieldset.word>div.output video { max-height:100%; width:100%; }
 fieldset.word>div.output iframe { height:var(--iframe-height); width:100%; }
 fieldset.word>div.output svg.story[data-index] text { cursor:pointer; }
-fieldset.word>div.output input.story[type=button] { font-family:system-ui; font-weight:bold; padding:10px 40px; margin:var(--button-margin); height:var(--header-height); box-shadow:var(--box-shadow); }
+fieldset.word>div.output input.story[type=button] { font-family:system-ui; font-weight:bold; padding:10px 40px; margin:var(--button-margin); height:var(--header-height); box-shadow:var(--input-box-shadow); }
 body.mobile fieldset.word>div.output input.story[type=button] { padding:10px 20px; }
 fieldset.word>div.output fieldset.web.code.inner.output div.output td.line { border-right:var(--box-border); }
 fieldset.word>div.navmenu { background-color:inherit; overflow:auto; min-width:120px; clear:both; float:left; }

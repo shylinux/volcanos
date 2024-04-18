@@ -1,10 +1,10 @@
 fieldset.inner>div.output { justify-content:flex-start; }
 fieldset.inner>div.output div.content td.text { height:var(--code-line-height); }
 fieldset.inner>div.output div.content td.text span.comment { color:var(--code-comment); }
-fieldset.inner>div.output div.content td.text span.keyword { color:var(--code-keyword); box-shadow:var(--box-shadow); }
+fieldset.inner>div.output div.content td.text span.keyword { color:var(--code-keyword); box-shadow:var(--keyword-box-shadow); }
 fieldset.inner>div.output div.content td.text span.function { color:var(--code-function); }
 fieldset.inner>div.output div.content td.text span.constant { color:var(--code-constant); }
-fieldset.inner>div.output div.content td.text span.string { color:var(--code-string); box-shadow:var(--box-shadow); }
+fieldset.inner>div.output div.content td.text span.string { color:var(--code-string); box-shadow:var(--keyword-box-shadow); }
 fieldset.inner>div.output div.content td.text span.object { color:var(--code-object); }
 fieldset.inner>div.output div.content td.text span.datatype { color:var(--code-datatype); }
 fieldset.inner>div.output div.content td.text span.package { color:var(--code-package); }
@@ -18,8 +18,8 @@ fieldset.inner>div.output>div.project div.zone.repos>div.list div.output>div.ite
 fieldset.inner>div.output>div.layout>div.tabs { font-size:var(--code-font-size); display:none; }
 fieldset.inner>div.output>div.layout>div.tabs>div:hover { background-color:unset; color:unset; box-shadow:unset; }
 fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding-right:0; margin-left:5px; }
-fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); color:unset; box-shadow:var(--box-shadow); }
-fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs.select { background-color:var(--output-bg-color); color:unset; border-top:var(--box-border3);  box-shadow:var(--box-shadow);}
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); color:unset; box-shadow:var(--legend-box-shadow); }
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs.select { background-color:var(--output-bg-color); color:unset; border-top:var(--box-border3);  box-shadow:var(--legend-box-shadow);}
 fieldset.inner>div.output>div.layout>div.path { font-size:var(--code-font-size); display:none; }
 fieldset.inner.float>div.output>div.layout>div.path { font-size:var(--code-font-size); display:flex; }
 fieldset.Action.tabview fieldset.plugin.inner>div.output>div.layout>div.path { font-size:var(--code-font-size); display:flex; }
@@ -52,7 +52,7 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.qrcode i { displa
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; height:var(--code-tabs-height); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:var(--code-tabs-height); clip-path:circle(40%); }
 fieldset.inner.cmd>div.output>div.layout>div.path:not(.hide) { display:flex; }
-fieldset.inner>div.output>div.layout>div.path:not(.hide) { font-style:italic; box-shadow:var(--box-shadow); cursor:pointer; justify-content:flex-start; }
+fieldset.inner>div.output>div.layout>div.path:not(.hide) { font-style:italic; box-shadow:var(--legend-box-shadow); cursor:pointer; justify-content:flex-start; }
 fieldset.inner>div.output>div.layout>div.path>a { padding:var(--input-padding) var(--button-padding); }
 fieldset.inner>div.output>div.layout>div.path>a:hover { background-color:var(--hover-bg-color); }
 fieldset.inner>div.output>div.layout>div.path>span { padding:var(--input-padding); white-space:pre; }

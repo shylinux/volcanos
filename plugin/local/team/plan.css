@@ -1,7 +1,7 @@
 fieldset.plan>div.output td.content { position:relative; }
 fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td { vertical-align:top; }
 fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td.over { border:var(--box-danger); }
-fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td.select { background-color:var(--hover-bg-color); box-shadow:var(--box-shadow); }
+fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td.select { background-color:var(--hover-bg-color); box-shadow:var(--input-box-shadow); }
 fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td:hover { background-color:var(--hover-bg-color); }
 fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td.over { background-color:var(--hover-bg-color); }
 fieldset.plan>div.output>div.layout>div.layout>div.content>table.content td div { color:white; padding:10px; margin:10px; }
