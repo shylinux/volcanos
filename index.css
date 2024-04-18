@@ -68,9 +68,10 @@ body {
 	--input-font-family:var(--code-font-family); --table-font-family:var(--code-font-family);
 	--svg-font-family:var(--code-font-family);
 	--body-font-size:14px; --legend-font-size:18px; --status-font-size:12px;
-	--code-font-size:14px; --code-line-height:26px; --code-tabs-height:38px;
+	--code-font-size:14px; --code-line-height:20px; --code-tabs-height:38px;
 	--icon-font-size:var(--legend-font-size); --svg-font-size:24px; --svg-stroke-width:1;
 }
+body.web.code.vimer.cmd { --code-line-height:24px; }
 body.en { --card-button:3; }
 body.mobile { --footer-height:60px; --qrcode-height:284px; --svg-font-size:13px; }
 body.width1 { /* 320-640 手机竖屏 */
@@ -142,7 +143,7 @@ div.title>div.status { line-height:20px; display:flex; }
 div.title>div.status>div.item { font-size:var(--status-font-size); font-weight:normal; white-space:pre; padding:0 var(--input-padding); display:flex; float:left; }
 div.title>div.status>div.item.restart { background-color:var(--notice-bg-color); color:var(--notice-fg-color) !important; }
 div.title>div.status>div.item.access { background-color:var(--danger-bg-color); color:var(--danger-fg-color) !important; }
-div.title>div.status>div.item:not(:hover) { color:var(--disable-fg-color); }
+/* div.title>div.status>div.item:not(:hover) { color:var(--disable-fg-color); } */
 div.title>div.status>div.item>i { margin-right:var(--input-margin); }
 fieldset.store>div.output>fieldset.story:not(.float) { display:none; }
 div.output.card>div.item { padding:var(--plugin-padding); margin:var(--plugin-padding); min-width:120px; position:relative; float:left; }
@@ -798,9 +799,9 @@ fieldset.xterm>form.option>div.item.args0 { display:none; }
 fieldset.xterm div.layout div.output { border-left:var(--box-border); border-top:var(--box-border); }
 fieldset.xterm div.layout div.output.select { border:var(--box-border)}
 fieldset.dream>div.output.card>div.item.begin>div.title { color:var(--disable-fg-color); font-style:italic; text-decoration:line-through; }
-fieldset.dream>div.output.card>div.item.login { border:var(--box-danger3); }
-fieldset.dream>div.output.card>div.item.server { border:var(--box-notice3); }
-fieldset.dream>div.output.card>div.item.origin { border:var(--box-danger3); }
+fieldset.dream>div.output.card>div.item.login { border:var(--box-danger); }
+fieldset.dream>div.output.card>div.item.server { border:var(--box-notice); }
+fieldset.dream>div.output.card>div.item.origin { border:var(--box-danger); }
 fieldset.trans>div.output>fieldset { margin:var(--button-margin); }
 fieldset.config form.option input[name=key] { width:var(--project-width); }
 fieldset.qrcode>div.output div.code { padding:0; }
