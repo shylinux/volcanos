@@ -43,11 +43,12 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs { justify-content:fle
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs:hover { background-color:unset; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding:var(--input-padding) var(--button-padding); height:var(--code-tabs-height); display:flex; align-items:center; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head { flex-direction:row-reverse; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { white-space:pre; padding:10px; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { white-space:pre; padding:0 var(--input-padding); }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.item.online.state img { height:var(--code-tabs-height); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { height:var(--code-tabs-height); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online { margin-left:0 !important; margin-right:0 !important; height:var(--code-tabs-height); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online span { bottom:12px; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.qrcode i { display:block; margin-top:8px; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.qrcode i { display:block; margin-top:10px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; height:var(--code-tabs-height); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:var(--code-tabs-height); clip-path:circle(40%); }
 fieldset.inner.cmd>div.output>div.layout>div.path:not(.hide) { display:flex; }

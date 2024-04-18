@@ -30,8 +30,10 @@ Volcanos(chat.ONIMPORT, {
 					delete(can.ui.profile._cache[hash])
 					delete(can.ui.display._cache[hash])
 				})
-				can.core.Item(cb(event, hash, value), function(key, item) { can.onmotion.toggle(can, can.ui[key], true)
-					can.onappend.plugin(can, item, function(sub) { can.ui["_"+key+"_plugin"] = sub
+				can.core.Item(cb(event, hash, value), function(key, item) {
+					if (!item) { return }
+					can.onmotion.toggle(can, can.ui[key], true)
+					item && can.onappend.plugin(can, item, function(sub) { can.ui["_"+key+"_plugin"] = sub
 						can.onimport.layout(can), sub.onexport.output = function() { can.onimport.layout(can) }
 					}, can.ui[key])
 				})

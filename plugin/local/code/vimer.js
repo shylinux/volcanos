@@ -69,7 +69,11 @@ Volcanos(chat.ONACTION, {list: [
 		if (msg.IsErr()) { return can.user.toastFailure(can, msg.Result()) }
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.zone.source.refresh()
 	}) },
-	_runs: function(event, can, button, cb) { var meta = can.Conf(); can.request(event, {action: button}), can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) }) },
+	_runs: function(event, can, button, cb) {
+		var meta = can.Conf()
+		var msg = can.request(event)
+		msg.Option(ctx.ACTION, button)
+	can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) }) },
 	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
 		function imports(str) { var block = "", count = 0; can.core.List(str.split(lex.NL), function(item) {
 			if (can.base.beginWith(item, "import (")) { block = can.core.Split(item)[0]; return }

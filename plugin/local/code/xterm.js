@@ -40,7 +40,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 	) },
 	_connect: function(can, item, output, tabs, text) {
 		var term = new Terminal({
-			fontSize: html.CODE_FONT_SIZE, tabStopWidth: 4, cursorBlink: true, theme: can.onimport._theme(can, item),
+			fontSize: html.CODE_FONT_SIZE,
+			tabStopWidth: 4, cursorBlink: true, theme: can.onimport._theme(can, item),
 		})
 		term._item = item, term._output = output, output._term = term, output._tabs || (tabs? (output._tabs = tabs): can.onimport._tabs(can, item, output))
 		var fitAddon = new FitAddon.FitAddon(); term.loadAddon(fitAddon), term._fit = fitAddon, can.onmotion.delay(can, function() { fitAddon.fit() })
