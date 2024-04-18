@@ -176,7 +176,8 @@ div.project div.list { margin-left:var(--button-margin); clear:both; }
 div.project div.list fieldset { position:static; }
 div.project div.item:not(.hide) { white-space:pre; line-height:24px; padding:0 var(--button-margin); display:flex; align-items:center; }
 div.project div.item img { height:var(--action-height); width:var(--action-height); }
-fieldset div.project div.item img { margin:0; }
+div.project div.item img { margin:0; }
+div.project input:not([type=button]) { border-right:0; }
 div.project div.item.filter { padding:0; width:100%; position:sticky; top:0; }
 div.project div.item.filter>input { padding:0 25px; width:100% !important; }
 div.project div.item.search { padding:0; width:100%; }
@@ -399,6 +400,11 @@ input.disable { color:var(--disable-fg-color) !important; border:unset !importan
 input.select[type=button]:hover { border:var(--box-notice); }
 input.select[type=button]:focus { border:var(--box-notice); }
 input.select[type=button] { border:var(--input-border); padding:0 var(--button-padding); }
+fieldset.plug>form.option input { border-top:0; }
+fieldset.plug>div.action input { border-top:0; }
+fieldset.story>form.option input { border-top:0; }
+fieldset.story>div.action input { border-top:0; }
+input[type=button] { border:var(--input-border); border-radius:var(--button-radius); }
 input[type=button]:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 input[type=button].danger:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 input[type=button].notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
@@ -492,16 +498,14 @@ div.display:not(.toggle) { border-top:var(--box-border); }
 fieldset>div.status { border-top:var(--status-border); }
 /* border-radius */
 fieldset.output>div.output { border-radius:var(--plugin-radius); }
-fieldset.plugin { border:var(--plugin-border); border-radius:var(--plugin-radius); }
+/* fieldset.plugin:not(.cmd) { border:var(--plugin-border); border-radius:var(--plugin-radius); } */
 fieldset.plug { border:var(--plugin-border); border-radius:var(--plugin-radius); }
 fieldset.input { border:var(--plugin-border); }
 fieldset.plugin>legend { border-top-left-radius:var(--plugin-radius); }
-fieldset.plugin input[type=button] { border:var(--input-border); }
 fieldset.story { border:var(--plugin-border); border-radius:var(--plugin-radius); }
 fieldset.story>legend { border-top-left-radius:var(--plugin-radius); }
 body.mobile legend { border-top-right-radius:var(--plugin-radius); }
 select { border-radius:var(--button-radius); }
-input[type=button] { border-radius:var(--button-radius); }
 fieldset>form.option>div.item.select { border-radius:var(--button-radius); }
 fieldset>form.option>div.item.button { border-radius:var(--button-radius); }
 fieldset>div.action div.item.button { border-radius:var(--button-radius); }
@@ -818,7 +822,7 @@ fieldset.draw div.output svg { margin-bottom:-5px; }
 fieldset.draw div.output svg { min-height:100%; }
 fieldset.draw div.output { display:flex; flex-direction:row; }
 fieldset.draw.trends div.output { overflow:hidden; }
-fieldset.draw.trends div.output svg { background-color:#1b5b738c; }
+body:not(.dark) fieldset.draw.trends div.output svg { background-color:#1b5b738c; }
 fieldset.draw.spides div.output svg text { cursor:pointer; }
 fieldset.draw.spides div.output svg path { stroke-width:1; }
 fieldset.web.stats>div.output { align-items: normal; }
