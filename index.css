@@ -492,6 +492,8 @@ fieldset>div.status { border-top:var(--status-border); }
 /* border-radius */
 fieldset.output>div.output { border-radius:var(--plugin-radius); }
 fieldset.plugin { border:var(--plugin-border); border-radius:var(--plugin-radius); }
+fieldset.plug { border:var(--plugin-border); border-radius:var(--plugin-radius); }
+fieldset.input { border:var(--plugin-border); }
 fieldset.plugin>legend { border-top-left-radius:var(--plugin-radius); }
 fieldset.plugin input[type=button] { border:var(--input-border); }
 fieldset.story { border:var(--plugin-border); border-radius:var(--plugin-radius); }
