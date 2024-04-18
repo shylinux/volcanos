@@ -21,6 +21,7 @@ Volcanos(chat.ONIMPORT, {
 				can.onmotion.cache(can, function() { return tabHash })
 			}), tabs = true
 		}
+		// height -= 4, width -= 4
 		msg.Table(function(item) {
 			// if (can.page.tagis(can._target, html.FIELDSET_STORY) || can._msg && can._msg.IsDetail()) { item.style = item.style||html.FLOAT }
 			tabs && can.onmotion.cache(can, function() { return tabHash })

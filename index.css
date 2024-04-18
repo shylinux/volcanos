@@ -97,7 +97,8 @@ body.width6 { /* 1920-2240 显示器 */
 }
 /* element */
 * { box-sizing:border-box; padding:0; border:0; margin:0; tab-size:4; }
-legend { padding:0 var(--legend-padding); margin-right:var(--legend-margin); }
+fieldset.plugin>legend { margin-right:var(--legend-margin); }
+legend { padding:0 var(--legend-padding); }
 select { padding:0 var(--button-padding); }
 input:not([type=file]) { padding:0 var(--button-padding); }
 input:not([type=button]) { padding:0 var(--input-padding); outline:none; }
