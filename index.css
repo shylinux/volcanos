@@ -462,7 +462,7 @@ fieldset.input tr:hover { background-color:var(--tr-hover-bg-color); }
 fieldset.input td:hover { background-color:var(--td-hover-bg-color); }
 fieldset.input>span.close { padding:var(--input-padding); position:absolute; top:var(--input-padding); right:var(--input-padding); }
 fieldset.input>span.close:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
-div.float { background-color:var(--input-bg-color); }
+div.float { background-color:var(--float-bg-color); }
 div.carte div.item:hover { background-color:var(--hover-bg-color); }
 div.carte div.item.notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 div.carte div.item.danger:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
