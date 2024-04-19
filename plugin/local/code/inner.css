@@ -70,8 +70,8 @@ body.windows fieldset.inner>div.output>div.layout>div.path span.view { margin-to
 body.windows fieldset.inner>div.output>div.layout>div.path span.view { font-style:normal; }
 fieldset.inner>div.output>div.layout>fieldset.plug.output { white-space:pre; }
 fieldset.inner.cmd>div.output>div.layout>div.plug { height:var(--action-height); overflow:auto; }
-fieldset.inner.cmd>div.output>div.layout>div.plug>legend { font-size:var(--legend-font-size); font-style:italic; padding:0 var(--input-padding); margin-right:0; float:right; }
-fieldset.inner.cmd>div.output>div.layout>div.plug>legend:hover { color:unset; }
+fieldset.inner.cmd>div.output>div.layout>div.plug>legend { box-shadow:var(--legend-box-shadow); font-size:var(--legend-font-size); font-style:italic; padding:0 var(--input-padding); margin-right:0; float:right; }
+fieldset.inner.cmd>div.output>div.layout>div.plug>legend:hover { box-shadow:var(--notice-box-shadow); color:unset; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove { padding:0 var(--input-padding); height:30px; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove:hover { background-color:var(--hover-bg-color); }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend:not(:hover)>span.remove { visibility:hidden; }
