@@ -334,7 +334,8 @@ var html = {value: {
 	PLUGIN_PADDING: 0, PLUGIN_MARGIN: 0,
 
 	HEADER_HEIGHT: 48, ACTION_HEIGHT: 32, STATUS_HEIGHT: 32,
-	CARD_WIDTH: 280, CARD_HEIGHT: 160, QRCODE_WIDTH: 360,
+	QRCODE_HEIGHT: 363, QRCODE_WIDTH: 360,
+	CARD_HEIGHT: 160, CARD_WIDTH: 280,
 	STORY_HEIGHT: 480,
 	PLUG_HEIGHT: 480, PLUG_WIDTH: 800,
 	DESKTOP_HEIGHT: 684, DESKTOP_WIDTH: 1200,
@@ -345,6 +346,7 @@ var html = {value: {
 	ORDER_SHOW_LIMIT: 30, ORDER_SHOW_DELAY: 150,
 	CODE_FONT_SIZE: 14, CODE_LINE_HEIGHT: 20,
 },
+	STORY: "story",
 	FIELDSET: "fieldset", LEGEND: "legend", OPTION: "option", ACTION: "action", OUTPUT: "output", STATUS: "status",
 	OPTION_ARGS: "select.args,input.args,textarea.args", INPUT_ARGS: "input.args,textarea.args", INPUT_BUTTON: "input[type=button]", INPUT_FILE: "input[type=file]",
 	FORM_OPTION: "form.option", DIV_ACTION: "div.action", DIV_OUTPUT: "div.output", DIV_STATUS: "div.status",

@@ -105,6 +105,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 				var tool = can._root.Action._conf.tool
 				if (can.Conf(aaa.USERNICK, (msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)).slice(0, 8)) || can.misc.Search(can, web.SHARE)
 					|| tool && can.base.isIn(tool[0]._command, web.PORTAL, aaa.OFFER, aaa.APPLY)) { return show(msg) }
+				can.onlayout._init(can)
 				can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
 			})
 		})
