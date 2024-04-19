@@ -1,12 +1,12 @@
 fieldset.River { width:var(--river-width); float:left; position:relative; }
 fieldset.River>div.action:not(.hide) { margin-top:var(--plugin-margin); width:100%; position:absolute; }
-fieldset.River>div.action div.item.notice input { border:none; }
+fieldset.River>div.action div.item.notice input { border:0; }
 fieldset.River>div.action div.item:hover input { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 fieldset.River>div.output { transition:all .3s; }
 /* fieldset.River>div.output { display:flex; flex-direction:column; align-items:center; } */
 fieldset.River>div.output div.item { font-family:var(--legend-font-family); padding:var(--legend-padding); border-left:#00ffae solid 3px; }
-fieldset.River>div.output div.item:hover { color:var(--panel-hover-fg-color); }
 fieldset.River>div.output div.item.select { color:var(--panel-hover-fg-color); border-right:var(--box-notice3); }
+fieldset.River>div.output div.item:hover { color:var(--panel-hover-fg-color); }
 fieldset.River>div.output div.item>i:first-child { margin-right:var(--button-margin); }
 fieldset.River>div.output div.list div.item { border-left:#ccdc4c solid 3px; }
 fieldset.River>div.output div.list { margin-left:var(--legend-padding); }

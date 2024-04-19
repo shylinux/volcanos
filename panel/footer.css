@@ -6,7 +6,7 @@ fieldset.Footer>div.output div.state { font-family:var(--status-font-family); fl
 fieldset.Footer>div.output div.state label { font-size:var(--status-font-size); }
 fieldset.Footer>div.output div.toast { font-family:var(--status-font-family); line-height:18px; max-width:var(--url-input-width); overflow:auto; float:right; }
 fieldset.Footer>div.output div.cmd { padding:0; margin-left:20px; }
-fieldset.Footer>div.output input[type=button] { background-color:transparent; }
+fieldset.Footer>div.output input[type=button] { background-color:transparent; border:0; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { padding-left:30px; }
 fieldset.Footer>div.output div.menu>div.River { display:flex; justify-content:space-around; }
 fieldset.Footer>div.output div.menu>div.River>div.item { height:var(--footer-height); display:flex; flex-direction:column; text-align:center; flex-grow:1; }
@@ -16,7 +16,7 @@ body.mobile fieldset.Footer>div.output { font-style:italic; height:var(--footer-
 body.mobile fieldset.Footer>div.output div.toast { display:none; }
 body.mobile fieldset.Footer>div.output div.cmd { display:none; }
 
-.picker { box-shadow:0px 2px 10px 5px #626bd0 !important; }
+.picker { box-shadow:#626bd0 0px 2px 10px 5px !important; }
 div.view span.string { color:#f29766; }
 div.view span.keyword { color:#5cadd4; }
 div.item:not(.string):not(.number):not(.boolean)>span.value { color:var(--disable-fg-color); font-style:italic; }

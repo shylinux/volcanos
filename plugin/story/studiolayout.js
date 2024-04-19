@@ -42,10 +42,10 @@ Volcanos(chat.ONIMPORT, {
 	},
 	layout: function(can) {
 		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
-			var height = can.ConfHeight(), width = (can.ConfWidth()-can.ui.project.offsetWidth-2), margin = 0
+			var height = can.ConfHeight(), width = (can.ConfWidth()-can.ui.project.offsetWidth), margin = 0
 			can.ui._profile_plugin && (width /= 2), can.ui._display_plugin && (height /= 2)
-			can.ui._content_plugin && can.ui._content_plugin.onimport.size(can.ui._content_plugin, height-margin, width-margin, false)
-			can.ui._profile_plugin && can.ui._profile_plugin.onimport.size(can.ui._profile_plugin, height-margin, width-margin, false)
+			can.ui._content_plugin && can.ui._content_plugin.onimport.size(can.ui._content_plugin, height-margin, width-margin-1, false)
+			can.ui._profile_plugin && can.ui._profile_plugin.onimport.size(can.ui._profile_plugin, height-margin, width-margin-1, false)
 			can.ui._display_plugin && can.ui._display_plugin.onimport.size(can.ui._display_plugin, height-margin-2, width*2-margin, false)
 		})
 	},

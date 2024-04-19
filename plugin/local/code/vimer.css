@@ -15,10 +15,8 @@ fieldset.vimer>div.output.normal>div.layout>div.tabs>div.tabs>div.tabs.select { 
 fieldset.vimer>div.output.insert>div.layout>div.tabs>div.tabs>div.tabs.select { border-top:var(--box-danger3); }
 fieldset.vimer>div.output.normal>div.layout>div.path span.mode.normal { color:var(--notice-bg-color); }
 fieldset.vimer>div.output.insert>div.layout>div.path span.mode.insert { color:var(--danger-bg-color); }
-/* fieldset.vimer>div.output.insert>div.project div.item.current { background-color:var(--danger-bg-color); color:var(--danger-fg-color); } */
-/* fieldset.vimer>div.output.normal>div.project div.item.current { background-color:var(--notice-bg-color); color:var(--notice-fg-color); } */
-fieldset.vimer>div.output.insert>div.project div.item.current { background-color:var(--hover-bg-color); border-right:var(--box-danger3); }
 fieldset.vimer>div.output.normal>div.project div.item.current { background-color:var(--hover-bg-color); border-right:var(--box-notice3); }
+fieldset.vimer>div.output.insert>div.project div.item.current { background-color:var(--hover-bg-color); border-right:var(--box-danger3); }
 fieldset.vimer>div.output.normal>div.project div.expand.open { color:var(--notice-bg-color); }
 fieldset.vimer>div.output.insert>div.project div.expand.open { color:var(--danger-bg-color); }
 div.input.vimer.open.float input[type=text] { width:100% !important; }

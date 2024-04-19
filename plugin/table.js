@@ -119,10 +119,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } return }
 			can.user.carteItem(event, can, item)
 		}
-		var icon = item.icon||item.icons
+		var icon = item.icon||item.icons, nick = item.nick||item.name||item.zone||item.sess
 		var ui = can.page.Append(can, target, [{view: [[html.ITEM, item.type, item.role, item.status]], list: [
 			icon && (can.base.contains(icon, ice.HTTP, ".ico", ".png", ".jpg")? {img: can.misc.Resource(can, icon)}: {icon: icon}),
-			{text: item.nick||item.name||item.sess||item.zone}], title: item.title, onclick: function(event) {
+			{text: nick}], title: item.title||nick, onclick: function(event) {
 				can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)
 				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
 			}, oncontextmenu: oncontextmenu,

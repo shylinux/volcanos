@@ -140,6 +140,7 @@ Volcanos(chat.ONKEYMAP, {
 		can.db.mode = value, can.onimport.__tabPath(can, true),
 		can.core.List([mdb.PLUGIN, mdb.NORMAL, mdb.INSERT], function(item) { can.page.ClassList.del(can, can.ui.content, item) }), can.page.ClassList.add(can, can.ui.content, value)
 		can.core.List([mdb.PLUGIN, mdb.NORMAL, mdb.INSERT], function(item) { can.page.ClassList.del(can, can._output, item) }), can.page.ClassList.add(can, can._output, value)
+		can.core.List([mdb.NORMAL, mdb.INSERT], function(item) { can.page.ClassList.del(can, can._fields, item) }), can.page.ClassList.add(can, can._fields, value)
 	},
 	_plugin: function(can) { can.onkeymap._model(can, mdb.PLUGIN), can.ui.current.blur() },
 	_normal: function(can) { can.onkeymap._model(can, mdb.NORMAL), can.onkeymap.scrollHold(can) },
