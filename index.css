@@ -1,9 +1,9 @@
 /* variable */
 body.light {
 	--plugin-bg-color:white; --plugin-fg-color:black;
-	--code-comment:green; --code-keyword:darkblue;
+   	--code-keyword:darkblue; --code-comment:green;
 	--code-function:darkcyan; --code-constant:gray; --code-string:brown;
-	--code-object:purple; --code-datatype:cornflowerblue; --code-package:blue;
+   	--code-package:blue; --code-datatype:cornflowerblue; --code-object:purple;
 }
 body.dark {
 	--plugin-bg-color:black; --plugin-fg-color:silver;
