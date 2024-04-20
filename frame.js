@@ -858,7 +858,9 @@ Volcanos(chat.ONLAYOUT, {_init: function(can, target) { target = target||can._ro
 	figure: function(event, can, target, right, min, cb) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: (event.currentTarget||event.target).getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
-		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)
+		can.getActionSize(function(left, top, width, height) {
+			left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)
+			-html.ACTION_HEIGHT-(can.isCmdMode()? 0: 20)
 			if (layout.top+target.offsetHeight > top+height) {
 				if (!min || top+height-layout.top < min) {
 					if (right) {

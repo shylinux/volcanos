@@ -48,7 +48,7 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.item.online.state
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { height:var(--code-tabs-height); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online { margin-left:0 !important; margin-right:0 !important; height:var(--code-tabs-height); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online span { bottom:12px; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.qrcode i { display:block; margin-top:10px; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.qrcode i { display:block; margin-top:12px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; height:var(--code-tabs-height); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:var(--code-tabs-height); clip-path:circle(40%); }
 fieldset.inner.cmd>div.output>div.layout>div.path:not(.hide) { display:flex; }
@@ -70,7 +70,11 @@ body.windows fieldset.inner>div.output>div.layout>div.path span.view { margin-to
 body.windows fieldset.inner>div.output>div.layout>div.path span.view { font-style:normal; }
 fieldset.inner>div.output>div.layout>fieldset.plug.output { white-space:pre; }
 fieldset.inner.cmd>div.output>div.layout>div.plug { height:var(--action-height); overflow:auto; }
-fieldset.inner.cmd>div.output>div.layout>div.plug>legend { box-shadow:var(--legend-box-shadow); font-size:var(--legend-font-size); font-style:italic; padding:0 var(--input-padding); margin-right:0; float:right; }
+fieldset.inner.cmd>div.output>div.layout>div.plug>legend {
+	box-shadow:var(--legend-box-shadow);
+	font-style:italic; font-size:var(--legend-font-size);
+	padding:0 var(--input-padding); margin-left:var(--input-margin); margin-right:0;
+	float:right; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend:hover { box-shadow:var(--notice-box-shadow); color:unset; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove { padding:0 var(--input-padding); height:30px; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove:hover { background-color:var(--hover-bg-color); }

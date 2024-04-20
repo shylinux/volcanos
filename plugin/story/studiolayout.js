@@ -20,7 +20,8 @@ Volcanos(chat.ONIMPORT, {
 				}, can.ui.content, can.ui.profile, can.ui.display)) {
 					can.onmotion.select(can, can._action, html.DIV_TABS, value._tabs); return
 				}
-				can.isStoryType() && (value.nick = value.nick.slice(0, 6))
+				// can.isStoryType() && (value.nick = value.nick.slice(0, 6))
+				value.nick = value.nick.slice(0, 6)
 				value._tabs = can.onimport.tabs(can, [value], function() { target.click() }, function() {
 					delete(can.ui.content._cache[hash]), delete(can.ui.profile._cache[hash]), delete(can.ui.display._cache[hash])
 					delete(can._cache_data[hash]), delete(value._tabs)
