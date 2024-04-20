@@ -205,6 +205,12 @@ var nfs = {
 	USR_ICONS_ICEBERGS: "usr/icons/icebergs.jpg",
 	USR_ICONS_VOLCANOS: "usr/icons/volcanos.jpg",
 
+	V: "/v/",
+	M: "/m/",
+	P: "/p/",
+	X: "/x/",
+	S: "/s/",
+	C: "/c/",
 	REQUIRE: "/require/", REQUIRE_MODULES: "/require/modules/",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 	WIKI_PORTAL: "/wiki/portal/",
@@ -282,15 +288,10 @@ var chat = {
 		"local/wiki/feel.js",
 		"local/wiki/word.js",
 		"local/team/plan.js",
-	].map(function(p) { return "/plugin/"+p }).concat([
-		"usr/icebergs/core/wiki/portal.css",
-		"usr/icebergs/core/wiki/portal.js",
-	].map(function(p) {
-		return "/require/"+p
-	})),
+	].map(function(p) { return "/v/plugin/"+p }),
 	PLUGIN_LOCAL: "/plugin/local/", PLUGIN_STORY: "/plugin/story/", PLUGIN_INPUT: "/plugin/input/",
 	PLUGIN_INPUT_JS: "/plugin/input.js", PLUGIN_TABLE_JS: "/plugin/table.js", PLUGIN_STATE_JS: "/plugin/state.js",
-	FRAME_JS: "/volcanos/frame.js",
+	FRAME_JS: "/v/frame.js",
 
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport",
@@ -412,8 +413,8 @@ var icon = {
 	dream: "bi bi-box", space: "bi bi-box", store: "bi bi-shop",
 	word: "bi bi-book", repos: "bi bi-git", vimer: "bi bi-bug", build: "bi bi-tools", xterm: "bi bi-terminal",
 	stats: "bi bi-card-list",
-	matrix: "bi bi-grid-3x3-gap", 
-	feel: "bi bi-images", 
+	matrix: "bi bi-grid-3x3-gap",
+	feel: "bi bi-images",
 	plan: "bi bi-calendar4-week",
 	status: "bi bi-git",
 

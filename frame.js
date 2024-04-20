@@ -349,7 +349,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		can.core.List((can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST]))||[]).concat([
 			can.ConfSpace() && {name: web.SPACE, value: can.ConfSpace()},
 		], can.misc.Search(can, log.DEBUG)==ice.TRUE? [
-			fileline && {name: nfs.SOURCE, value: can.base.trimPrefix(fileline.split("?")[0], nfs.REQUIRE), onclick: function(event) { can.onkeymap.prevent(event)
+			fileline && {name: nfs.SOURCE, value: can.base.trimPrefix(fileline.split("?")[0], nfs.REQUIRE, nfs.P), onclick: function(event) { can.onkeymap.prevent(event)
 				var ls = can.misc.SplitPath(can, fileline); if (event.metaKey) {
 					can.user.open(can.misc.MergePodCmd(can, {pod: can.ConfSpace(), cmd: web.CODE_VIMER, path: ls[0], file: ls[1]}))
 				} else { can.onappend._float(can, web.CODE_VIMER, ls) }
