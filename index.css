@@ -509,7 +509,7 @@ fieldset>form.option div.item.button { border-radius:var(--button-radius); }
 fieldset>div.action div.item.button { border-radius:var(--button-radius); }
 fieldset>div.action div.item.button:last-child { margin-right:var(--button-margin); }
 fieldset.input.date.float>div.action div.item.button:last-child { margin-right:0; }
-fieldset>div.action div.item.select:not(.button) { border-bottom:var(--box-notice3); }
+// fieldset>div.action div.item.select:not(.button) { border-bottom:var(--box-notice3); }
 fieldset>div.action div.item:not(.state) { box-shadow:var(--input-box-shadow); }
 fieldset>div.action>div.tabs { box-shadow:var(--legend-box-shadow); }
 fieldset>div.action>div.cmds { box-shadow:var(--legend-box-shadow); }

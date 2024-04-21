@@ -69,11 +69,8 @@ Volcanos(chat.ONACTION, {list: [
 		if (msg.IsErr()) { return can.user.toastFailure(can, msg.Result()) }
 		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.zone.source.refresh()
 	}) },
-	_runs: function(event, can, button, cb) {
-		var meta = can.Conf()
-		var msg = can.request(event)
-		msg.Option(ctx.ACTION, button)
-	can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) }) },
+	_runs: function(event, can, button, cb) { var meta = can.Conf(), msg = can.request(event); msg.Option(ctx.ACTION, button)
+		can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) }) },
 	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
 		function imports(str) { var block = "", count = 0; can.core.List(str.split(lex.NL), function(item) {
 			if (can.base.beginWith(item, "import (")) { block = can.core.Split(item)[0]; return }
@@ -81,11 +78,12 @@ Volcanos(chat.ONACTION, {list: [
 			if (can.base.beginWith(item, "import ")) { count++; return }
 			if (block == "import") { count++ }
 		}); return count }
+		var p = can.Option(nfs.PATH)+can.Option(nfs.FILE); can.user.toastProcess(can, p, button)
 		can.onaction._run(event, can, button, [can.onexport.parse(can), can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
 			if (can.onexport.parse(can) == nfs.GO) { var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content)
 				can.ui.content._max = 0, can.core.List(msg.Result().split(lex.NL), function(item) { can.onaction.appendLine(can, item) })
 				can.onaction.selectLine(can, line+imports(msg.Result())-imports(msg.Option(nfs.CONTENT)))
-			} can.user.toastSuccess(can, can.Option(nfs.PATH)+can.Option(nfs.FILE), button)
+			} can.user.toastSuccess(can, p, button)
 		})
 	},
 	trash: function(event, can, button) { can.onaction._run(event, can, button, [can.Option(nfs.PATH)+can.Option(nfs.FILE)], function() { can._msg._tab._close() }) },

@@ -5,7 +5,8 @@ Volcanos(chat.ONIMPORT, {
 	},
 	_tabs: function(can, msg) { can.onappend.style(can, web.STUDIO), can.onmotion.clear(can, can._action)
 		var margin = html.PLUGIN_MARGIN*2
-		msg.Table(function(value, index) { value.nick = can.user.trans(can, value.index.split(nfs.PT).pop(), value.help)
+		msg.Table(function(value, index) {
+			value.nick = can.user.trans(can, value.index.split(nfs.PT).pop(), value.help)
 			var target = can.onimport.item(can, value, function() {
 				if (value._plugin) { return can.onmotion.select(can, can._output, html.FIELDSET, value._plugin._target) }
 				can.onappend.plugin(can, value, function(sub) { value._plugin = sub
@@ -18,7 +19,8 @@ Volcanos(chat.ONIMPORT, {
 	},
 	_full: function(can, msg) {
 		can.ui = can.onappend.layout(can), can.page.style(can, can.ui.content, html.PADDING, 10)
-		msg.Table(function(value, index) { value.nick = value.help||value.name.split(" ")[0]
+		msg.Table(function(value, index) {
+			value.nick = can.user.trans(can, value.index.split(nfs.PT).pop(), value.help)
 			var target = can.onimport.item(can, value, function(event) {
 				if (can.onmotion.cache(can, function() { return value.index }, can.ui.content)) { return }
 				can.onappend.plugin(can, value, function(sub) {
