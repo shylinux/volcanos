@@ -597,7 +597,7 @@ form.option>div.item.icon.goback { font-size:28px; line-height:26px; display:fle
 form.option>div.icon.delete { font-size:20px; line-height:33px; display:flex; align-items:flex-start; }
 form.option>div.item.icon.play { font-size:16px; }
 body.windows form.option>div.item.icon.delete { line-height:31px; display:flex; align-items:flex-start; }
-body.windows form.option>div.item.icon.menu { font-size:22px; line-height:32px; padding:0 3px; }
+body.windows form.option>div.item.icon.menu { font-size:22px; line-height:30px; padding:0 3px; }
 body.windows form.option>div.item.icon.refresh { font-size:24px; line-height:28px; }
 body.windows form.option>div.item.icon.goback { font-size:24px; line-height:28px; }
 div.item.text { position:relative; }
@@ -629,6 +629,7 @@ div.item.button.create { display:flex; align-items:flex-start; }
 div.item.button.insert { display:flex; align-items:flex-start; }
 div.item.button.refresh { display:flex; align-items:flex-start; }
 div.item.button.create>span.icon { font-size:28px; line-height:26px; height:var(--action-height); }
+body.windows div.item.button.create>span.icon { line-height:28px; }
 div.item.button.insert>span.icon { font-size:28px; line-height:26px; height:var(--action-height); }
 div.item.button.refresh>span.icon { font-size:28px; line-height:26px; height:var(--action-height); }
 body.windows div.item.button.refresh>span.icon { font-size:22px; line-height:30px; }
