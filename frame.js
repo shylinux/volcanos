@@ -393,9 +393,10 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}
 		var name = can.core.Split(item.nick||item.index||"", " .").pop()||""; can.base.isIn(name,
 			tcp.SERVER, tcp.CLIENT, web.STUDIO, mdb.SEARCH, web.SERVICE, can.core.Split(can.ConfIndex(), nfs.PT).pop(), "launchTemplate",
-		) && (name = (item.index||"").split(nfs.PT).slice(-2).join(nfs.PT)), (type != html.STORY && type != html.PLUG && !can.base.isIn(can.ConfIndex(),
-			web.DESKTOP, web.MESSAGE, web.VIMER,
-		)) && (name = can.core.Keys(item.space||item._space, name))
+		) && (name = (item.index||"").split(nfs.PT).slice(-2).join(nfs.PT))
+		type == html.PLUG || (type == html.STORY && item.style != html.FLOAT) || can.base.isIn(can.ConfIndex(),
+			// web.DESKTOP, web.MESSAGE, web.VIMER,
+		) || (name = can.core.Keys(item.space||item._space, name))
 		var title = item.title || can.user.isMobile && (can.user.isEnglish(can)? name: (item.help||name)) || (!item.help || name == item.help || can.user.isEnglish(can)? name: name+"("+can.core.Split(item.help)[0]+")")
 		target = can.base.isFunc(target)? target(): target
 		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], style: item.style, list: [{type: html.LEGEND, list: [

@@ -26,10 +26,10 @@ body.mobile fieldset.Header>div.output div.item.search>i { padding:0 10px; }
 body.mobile fieldset.Header>div.output div.item.search>input { width:256px; }
 body.mobile fieldset.Header>div.output div.item.search>input:not(:focus) { border-color:var(--disable-fg-color); }
 fieldset.Header>div.output div.item.search>span.icon { padding:var(--input-padding) var(--button-padding); }
-fieldset.Header>div.output div.Action>div.tabs { white-space:pre; padding-left:100px; height:100%; overflow:auto; display:flex; flex-wrap:wrap; }
+fieldset.Header>div.output div.Action>div.tabs { white-space:pre; height:100%; overflow:auto; display:flex; flex-wrap:wrap; }
 /* fieldset.Header>div.output div.Action>div.tabs { justify-content:center; } */
-fieldset.Header>div.output div.Action>div.tabs { padding-left:100px; }
 fieldset.Header>div.output div.Action>div.tabs div.item { font-style:italic; }
+fieldset.Header>div.output div.Action>div.tabs { padding-left:100px; }
 /* fieldset.Header>div.output div.Action>div.tabs div.item.select { border-bottom:var(--box-notice3); } */
 fieldset.Header>div.output div.Action>div.tabs div.item:only-child { display:none; }
 body:not(.mobile) fieldset.Header>div.output div.title:first-child { width:var(--river-width); }
@@ -45,9 +45,9 @@ body:not(.width6) fieldset.Header>div.output>div.item.language { display:none; }
 /* body.width3>fieldset.Header>div.output div.item:not(.usernick):not(.avatar) { padding:13.5px 5px; } */
 body.width3>fieldset.Header>div.output>div.item.time { display:none; }
 body.width3>fieldset.Header>div.output>div.item.avatar { margin-right:var(--plugin-margin); }
-body.width3>fieldset.Header>div.output div.Action>div.tabs { padding-left:0; }
-body.width4>fieldset.Header>div.output div.Action>div.tabs { padding-left:0; }
-body.width2>fieldset.Header>div.output div.Action>div.tabs { padding-left:0; }
+/* body.width3>fieldset.Header>div.output div.Action>div.tabs { padding-left:0; } */
+/* body.width4>fieldset.Header>div.output div.Action>div.tabs { padding-left:0; } */
+body.width2>fieldset.Header>div.output div.Action>div.tabs { padding-left:50px; }
 body.width2>fieldset.Header>div.output>div.item.avatar { margin-right:var(--plugin-margin); }
 body.width2>fieldset.Header>div.output>div.item.theme { display:none; }
 body.width2>fieldset.Header>div.output>div.item.time { display:none; }
