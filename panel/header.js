@@ -23,11 +23,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	_theme: function(can, theme) { return can.ui.diy&&can.ui.diy[theme]||theme },
 	_avatar: function(can, msg) { can.user.isExtension || can.user.isLocalFile || can.page.Modify(can, "div.state.avatar>img", {src: can.onexport.avatar(can)}) },
 	_background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return } can.onlayout.background(can, can.onexport.background(can)) },
-	_search: function(can, msg, target) {
-		if (!can.user.isTechOrRoot(can)) { return }
+	_search: function(can, msg, target) { if (!can.user.isTechOrRoot(can)) { return }
+		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE]], list: [{icon: mdb.SEARCH}], onclick: function(event) {
+			can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH}))
+		}}])
+		return
 		can._search = can.onappend.input(can, {type: html.TEXT, _className: "args trans", icon: icon.SEARCH, name: mdb.SEARCH, value: can.misc.Search(can, "_search"), onkeydown: function(event) { can.onkeymap.input(event, can)
 			event.key == code.ENTER && can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: event.target.value||""}))
-		}}, "", target, [chat.TITLE])
+		}}, "", target, [chat.STATE])
 		can.onimport.menu(can, mdb.SEARCH, function() { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: can._search.value||""})) })
 	},
 	_const: function(can) {
@@ -126,7 +129,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		var msg = can.request(event); can.onengine.signal(can, "ontitle", msg), can.core.List(msg.Append(), function(key) { args[key] = msg.Append(key) })
 		can.user.jumps(can.misc.MergeURL(can, args, true))
 	},
-	avatar: function(event, can) { var src = can.onexport.avatar(can); can.onaction.carte(can.request(event, {_style: "header avatar"}), can, [`<img src="${src}">`]) },
+	avatar: function(event, can) { if (can.user.isMobile) { return can.onaction.usernick(event, can) }
+		var src = can.onexport.avatar(can); can.onaction.carte(can.request(event, {_style: "header avatar"}), can, [`<img src="${src}">`]) },
 	usernick: function(event, can) { can.onaction.carte(can.request(event, {_style: "header usernick"}), can, can.onaction._menus) },
 	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN, mdb.NAME, can.user.title()]) },
 	theme: function(event, can) { can.page.Select(can, can._output, "div.item.theme>i:first-child", function(target) {
