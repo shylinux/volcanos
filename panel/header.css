@@ -29,6 +29,7 @@ fieldset.Header>div.output div.item.search>span.icon { padding:var(--input-paddi
 fieldset.Header>div.output div.Action>div.tabs { white-space:pre; height:100%; overflow:auto; display:flex; flex-wrap:wrap; }
 /* fieldset.Header>div.output div.Action>div.tabs { justify-content:center; } */
 fieldset.Header>div.output div.Action>div.tabs div.item { font-style:italic; }
+fieldset.Header>div.output div.Action>div.tabs div.item { padding:13.5px 20px; }
 fieldset.Header>div.output div.Action>div.tabs { padding-left:100px; }
 /* fieldset.Header>div.output div.Action>div.tabs div.item.select { border-bottom:var(--box-notice3); } */
 fieldset.Header>div.output div.Action>div.tabs div.item:only-child { display:none; }

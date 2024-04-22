@@ -511,8 +511,8 @@ fieldset>div.action div.item.button:last-child { margin-right:var(--button-margi
 fieldset.input.date.float>div.action div.item.button:last-child { margin-right:0; }
 // fieldset>div.action div.item.select:not(.button) { border-bottom:var(--box-notice3); }
 fieldset>div.action div.item:not(.state) { box-shadow:var(--input-box-shadow); }
-fieldset>div.action>div.tabs { box-shadow:var(--legend-box-shadow); }
-fieldset>div.action>div.cmds { box-shadow:var(--legend-box-shadow); }
+fieldset>div.action>div.tabs:not(.state) { box-shadow:var(--legend-box-shadow); }
+fieldset>div.action>div.cmds:not(.state) { box-shadow:var(--legend-box-shadow); }
 fieldset>div.output.card>div.item { box-shadow:var(--th-box-shadow); border:var(--plugin-border); border-radius:var(--plugin-radius); }
 fieldset>div.output.card>div.item:hover { box-shadow:var(--notice-box-shadow); }
 fieldset>div.output.card>div.item>div.title { border-bottom:var(--box-border); }
