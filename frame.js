@@ -138,7 +138,9 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.is
 })
 Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		meta.index && (meta.name = meta.index), meta.name = can.core.Split(meta.name||"", "\t .\n").pop()||can.Conf(mdb.NAME)
-		field = field||can.onappend.field(can, meta.type, meta, target)._target, meta.style == html.OUTPUT && can.onappend.style(can, html.OUTPUT, field)
+		field = field||can.onappend.field(can, meta.type, meta, target)._target
+		meta.style == html.OUTPUT && can.onappend.style(can, html.OUTPUT, field)
+		can.isCmdMode() && (can.base.isIn(meta.index, web.WIKI_PORTAL)) && can.onappend.style(can, html.OUTPUT, field)
 		var legend = can.page.SelectOne(can, field, html.LEGEND); legend.innerHTML = legend.innerHTML || meta.index
 		var option = can.page.SelectOne(can, field, html.FORM_OPTION)
 		var action = can.page.SelectOne(can, field, html.DIV_ACTION)
@@ -304,6 +306,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	_output: function(can, msg, display, cb, output, status, action) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
 		if (msg.IsErr()) { return can.onappend.style(can, "warn", can.user.toastFailure(can, msg.Result())._target) }
+		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/p/src/") && delete(Volcanos.meta.cache[display])
 		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/require/src/") && delete(Volcanos.meta.cache[display])
 		Volcanos(display, {_root: can._root, _follow: can.core.Keys(can._follow, display), _fields: can._target, _target: output, _path: display||chat.PLUGIN_TABLE_JS,
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
@@ -320,12 +323,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			}
 			can.page.ClassList.del(can, sub._fields, html.FORM), delete(can._status._cache), delete(can._status._cache_key)
-			// can.page.style(can, can._output, html.HEIGHT, can._output.offsetHeight)
-			sub._output.className = html.OUTPUT
-			can.onappend.style(can, sub._args.style, can._output)
-			// can.isCmdMode() && can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), false)
+			sub._output.className = html.OUTPUT, can.onappend.style(can, sub._args.style, can._output)
+			can.isCmdMode() && can.onappend.style(can, html.OUTPUT), sub.isCmdMode() && sub.onexport.title(sub, sub.ConfIndex())
 			can.onexport._output(sub, msg), sub.Mode() != ice.MSG_RESULT && can.onmotion.clear(can, output)
-			sub.isCmdMode() && sub.onexport.title(sub, sub.ConfIndex())
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				if (action !== false) { can.onkeymap._build(sub)
 					can.onmotion.clear(can, can._action), sub.onappend._action(sub, can.Conf(ice.MSG_ACTION)||msg.Option(ice.MSG_ACTION), action||can._action)
@@ -499,14 +499,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		})
 	},
 	buttons: function(can, value) {
-		return {view: html.ACTION, inner: value.action, _init: function(target) {
-			can.onappend.mores(can, target, value, 7)
+		return {view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, 7)
 			can.page.Select(can, target, html.INPUT, function(target) {
 				var _icon = can.Conf("feature._icons."+target.name)||icon[target.name]
 				if (!_icon) {
-					target.onclick = function(event) {
-						can.Update(can.request(event, value), [ctx.ACTION, target.name])
-					}
+					target.onclick = function(event) { can.Update(can.request(event, value), [ctx.ACTION, target.name]) }
 					return
 				}
 				can.page.insertBefore(can, [{icon: _icon, onclick: function(event) { can.onkeymap.prevent(event)
@@ -1062,23 +1059,25 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		can.core.Timer(time, function(event, value, index) { can.page.style(can, target, html.OPACITY, (index+1)/time.length) }, cb)
 	},
 	move: function(can, target, layout) { layout && can.page.style(can, target, layout), can.onmotion.resize(can, target, function() {}) },
-	resize: function(can, target, cb, top, left) { var begin, action
-		top = top || can.getHeaderHeight(), left = left || can.getRiverWidth()
+	resize: function(can, target, cb, top, left, parent) { var begin, action
+		if (!parent) { top = top || can.getHeaderHeight(), left = left || can.getRiverWidth() }
 		target.onmousedown = function(event) {
 			if (event.which != 1 || event.target != target && !can.page.tagis(event.target, "div.action", "div.status", "div._space")) { return } window._mousemove = target
 			begin = {left: target.offsetLeft, top: target.offsetTop, height: target.offsetHeight, width: target.offsetWidth, x: event.x, y: event.y}
 		}, target.onmouseup = function(event) { begin = null, delete(window._mousemove) }
 		target.onmousemove = function(event) {
+			var height = window.innerHeight, width = window.innerWidth
+			if (parent) { height = parent.offsetHeight, width = parent.offsetWidth }
 			if (begin) { var dy = event.y - begin.y, dx = event.x - begin.x
 				switch (action) {
-					case html.LEFT: can.page.style(can, target, html.LEFT, can.base.Min(begin.left + dx, left||0, window.innerWidth-target.offsetWidth)), dx = -dx
+					case html.LEFT: can.page.style(can, target, html.LEFT, can.base.Min(begin.left + dx, left||0, width-target.offsetWidth)), dx = -dx
 					case html.RIGHT: cb? cb(begin.height, begin.width + dx): can.page.style(can, target, html.WIDTH, begin.width + dx); break
-					case html.TOP: can.page.style(can, target, html.TOP, can.base.Min(begin.top + dy, top||0, window.innerHeight-target.offsetHeight)), dy = -dy
+					case html.TOP: can.page.style(can, target, html.TOP, can.base.Min(begin.top + dy, top||0, height-target.offsetHeight)), dy = -dy
 					case html.BOTTOM: cb? cb(begin.height + dy, begin.width): can.page.style(can, target, html.HEIGHT, begin.height + dy); break
 					default:
 						can.page.style(can, target,
-							html.LEFT, can.base.Min(begin.left + dx, left||0, window.innerWidth-target.offsetWidth),
-							html.TOP, can.base.Min(begin.top + dy, top||0, window.innerHeight-html.ACTION_HEIGHT)
+							html.LEFT, can.base.Min(begin.left + dx, left||0, width-target.offsetWidth),
+							html.TOP, can.base.Min(begin.top + dy, top||0, height-html.ACTION_HEIGHT)
 						)
 				} can.onkeymap.prevent(event)
 			} else { var p = can.page.position(event, target), margin = 10, cursor = ""
