@@ -8,7 +8,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 				can.user.info.nodetype == web.SERVER && item._command == web.DREAM && (list = [river, storm, item._command])
 				can.user.info.nodetype == web.WORKER && item._command == web.WORD && (list = [river, storm, item._command])
 			}
-			can.onappend.plugin(can, item, function(sub, meta, skip) { if (meta.index == "can._notfound" && !can.misc.isDebug(can)) { return skip || next() }
+			can.onappend.plugin(can, item, function(sub, meta, skip) {
+				if (can.base.isIn(meta.index, "can._notfound")) { sub.Conf(ctx.INDEX, msg.detail[index+3]) }
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.pod||meta.space}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				sub.onexport.output = function() { msg.Length() > 1 && can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, ""), can.onaction.layout(can, list[3]) }
 				can.onaction.layout(can, list[3]), can.onimport._tabs(can, sub, meta), can._plugins = (can._plugins||[]).concat([sub])
@@ -198,7 +199,7 @@ Volcanos(chat.ONKEYMAP, {
 })
 Volcanos(chat.ONPLUGIN, {
 	_plugin: shy("插件", [mdb.NAME, ice.LIST, ice.BACK]), _filter: shy("表格", [ice.LIST, html.FILTER]),
-	_notfound: shy("缺失", [ctx.INDEX, web.SPACE, ice.LIST], function(can, msg, arg) { msg.Echo("not found "+arg[0]+" "+arg[1]) }),
+	_notfound: shy("缺失", [ctx.INDEX, web.SPACE, ice.LIST], function(can, msg, arg, sub) { msg.Echo("not found "+(arg[0]||sub.ConfIndex())+" "+(arg[1]||can.ConfSpace())) }),
 	layout: shy("界面布局", {_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)) }}, ["layout:select=auto,tabs,tabview,horizon,vertical,grid,free,flow,page", ctx.RUN], function(can, msg, arg) { can.onaction.layout(can, arg[0]) }),
 })
 })()

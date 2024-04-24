@@ -39,10 +39,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 					{background: "#d5cfcf3b", foreground: cli.BLACK, cursor: cli.BLUE}
 	) },
 	_connect: function(can, item, output, tabs, text) {
-		var term = new Terminal({
-			fontSize: html.CODE_FONT_SIZE,
-			tabStopWidth: 4, cursorBlink: true, theme: can.onimport._theme(can, item),
-		})
+		var term = new Terminal({fontSize: html.CODE_FONT_SIZE, tabStopWidth: 4, cursorBlink: true, theme: can.onimport._theme(can, item)})
 		term._item = item, term._output = output, output._term = term, output._tabs || (tabs? (output._tabs = tabs): can.onimport._tabs(can, item, output))
 		var fitAddon = new FitAddon.FitAddon(); term.loadAddon(fitAddon), term._fit = fitAddon, can.onmotion.delay(can, function() { fitAddon.fit() })
 		term.onTitleChange(function(title) { can.onexport.title(can, term, title) }), can.onexport.title(can, term, item.name)
@@ -51,25 +48,27 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireModules
 		term.onCursorMove(function() { can.onexport.term(can, term) })
 		term.loadAddon(new WebLinksAddon.WebLinksAddon())
 		can.onmotion.clear(can, output), term.open(output), term.focus()
-		can.onengine.listen(can, chat.ONTHEMECHANGE, function() {
-			term.selectAll(), can.onimport._connect(can, item, output, tabs, can.base.trimSuffix(term.getSelection(), lex.NL))
-		})
+		can.onengine.listen(can, chat.ONTHEMECHANGE, function() { term.selectAll(), can.onimport._connect(can, item, output, tabs, can.base.trimSuffix(term.getSelection(), lex.NL)) })
 		can.page.style(can, output, html.BACKGROUND_COLOR, term._publicOptions.theme.background||cli.BLACK)
+		can.current = term
 		output.onclick = function() { output._tabs._current = output, term.focus(), can.onexport.term(can, term)
+			can.current = term
 			can.page.Select(can, can._fields, html.DIV_OUTPUT, function(target) { can.page.ClassList.set(can, target, html.SELECT, target == output) })
 		}; return can.db = can.db||{}, can.db[item.hash] = term
 	},
 	_resize: function(can, term, size) { can.runAction(can.request({}, size, term._item), web.RESIZE, [], function(msg) {
-		if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
-		can.onexport.term(can, term)
+		can.onexport.term(can, term); if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
 	}) },
 	_input: function(can, term, data) {
 		can.runAction(can.request({}, {rows: term.rows, cols: term.cols}, term._item), html.INPUT, [btoa(data)], function(msg) {
 			if (msg.IsErr()) { can.misc.Warn(msg.Result()) }
 		}), can._output = term._output
 	},
+	input: function(can, msg, hash, text) { var arg = msg.detail.slice(1); arg = [hash||arg[0], text||arg[1]]
+		term = can.db[arg[0]]||can.current, can.onimport._input(can, term, arg[1])
+	},
 	grow: function(can, msg, hash, text) { var arg = msg.detail.slice(1); arg = [hash||arg[0], text||arg[1]]
-		term = can.db[arg[0]]; arg[1] == "~~~end~~~"? can.onaction.delete(can, term._output): term.write(arg[1]); msg.Option(ice.LOG_DISABLE, ice.TRUE)
+		term = can.db[arg[0]]||can.current; arg[1] == "~~~end~~~"? can.onaction.delete(can, term._output): term.write(arg[1]); msg.Option(ice.LOG_DISABLE, ice.TRUE)
 	},
 	layout: function(can) { function show(target, height, width) { var list = can.page.SelectChild(can, target, can.page.Keys(html.DIV_OUTPUT, html.DIV_LAYOUT))
 		var h = height/list.length, w = width; if (can.page.ClassList.has(can, target, html.FLEX)) { h = height, w = width/list.length } if (target == can._fields) { h = height, w = width }

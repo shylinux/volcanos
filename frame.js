@@ -456,7 +456,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			can.user.trans(can, kit.Dict(target.name, target.value))
 			return {type: html.BUTTON, name: target.name, value: target.value, style: _style}
 		})
-		function run(event, button) { can.run(can.request(event, value, can.Option())._event, [ctx.ACTION, button]), can.onkeymap.prevent(event) }
+		function run(event, button) { button && can.run(can.request(event, value, can.Option())._event, [ctx.ACTION, button]), can.onkeymap.prevent(event) }
 		if (list.length <= limit) {
 			target.onclick = function(event) { run(event, event.target.name) }
 		} else {
@@ -615,6 +615,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (can.page.ClassList.has(can, target, "disable")) { return } can.page.ClassList.add(can, target, "disable")
 				can.misc.Event(event, can, function(msg) { can.Update(can.request(event, can.Option()), [ctx.ACTION, target.name], function(msg) {
 					can.page.ClassList.del(can, target, "disable")
+					can.page.ClassList.del(can, can._fields, "form")
+					can.page.ClassList.del(can, can._fields, "output")
 					var sup = can._fields? can.sup: can; if (sup.onimport._process(sup, msg)) { return }
 				}) })
 			}
@@ -753,7 +755,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 
 	plugin: function(can, meta, cb, target, field) {
-		meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||ice.CAN_PLUGIN, meta._space = meta._space||can.ConfSpace()
+		meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||"can._notfound", meta._space = meta._space||can.ConfSpace()
 		var res = {}; function _cb(sub, meta, skip) { kit.proto(res, sub), cb && cb(sub, meta, skip) }
 		if (meta.inputs && meta.inputs.length > 0 || meta.meta) { can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, _cb, target, field); return res }
 		function _plugin(_meta) { var value = can.onengine.plugin(can, _meta.index)
@@ -761,8 +763,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				value.meta && value.meta._init && value.meta._init(sub, meta), _cb(sub, meta, skip)
 			}, target, field); return true }
 		} if (_plugin(meta)) { return res }
-		can.runAction(can.request({}, meta._commands, {_method: http.GET, pod: meta.space, _failure: function() {
-			return can.misc.isDebug(can) && can.misc.Warn("not found", meta.index), _plugin({type: meta.type, index: "can._notfound", args: [meta.index, meta.space]})
+		can.runAction(can.request({}, meta._commands, {_method: http.GET, pod: meta.space, _failure: function(msg) {
+			return can.misc.isDebug(can) && can.misc.Warn("not found", meta.index), _plugin({msg: msg, type: meta.type, index: "can._notfound", args: [meta.index, meta.space]})
 		}})._caller(), ctx.COMMAND, [meta.index], function(msg) { if (msg.Length() == 0) { return msg._failure() }
 			msg.Table(function(value) { value._prefix = msg["_prefix"], can.onappend._plugin(can, value, meta, _cb, target, field) })
 		}); return res
@@ -784,6 +786,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					}
 				}
 			}, sub._index = value.index||meta.index, can.base.isFunc(cb) && cb(sub, meta, skip)
+			meta._init && (meta._init(sub))
 			if (meta.style == html.FLOAT || value.style == html.FLOAT) { can.onmotion.float(sub) }
 		}, target||can._output, field)
 	},
