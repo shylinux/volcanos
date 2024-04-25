@@ -324,7 +324,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}
 			can.page.ClassList.del(can, sub._fields, html.FORM), delete(can._status._cache), delete(can._status._cache_key)
 			sub._output.className = html.OUTPUT, can.onappend.style(can, sub._args.style, can._output)
-			can.isCmdMode() && can.onappend.style(can, html.OUTPUT), sub.isCmdMode() && sub.onexport.title(sub, sub.ConfIndex())
+			// can.isCmdMode() && can.onappend.style(can, html.OUTPUT)
+			sub.isCmdMode() && sub.onexport.title(sub, sub.ConfIndex())
+			can.onmotion.toggle(can, can._action, true)
 			can.onexport._output(sub, msg), sub.Mode() != ice.MSG_RESULT && can.onmotion.clear(can, output)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				if (action !== false) { can.onkeymap._build(sub)
@@ -392,6 +394,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}
 		var name = can.core.Split(item.nick||item.index||"", " .").pop()||""; can.base.isIn(name,
+			"cluster",
 			tcp.SERVER, tcp.CLIENT, web.STUDIO, mdb.SEARCH, web.SERVICE, can.core.Split(can.ConfIndex(), nfs.PT).pop(), "launchTemplate",
 		) && (name = (item.index||"").split(nfs.PT).slice(-2).join(nfs.PT))
 		type == html.PLUG || (type == html.STORY && item.style != html.FLOAT) || can.base.isIn(can.ConfIndex(),

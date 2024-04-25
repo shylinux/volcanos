@@ -445,6 +445,7 @@ var icon = {
 	"begin_time": "bi bi-clock-history", "end_time": "bi bi-clock-history",
 
 	// scale: "bi bi-arrows-fullscreen",
+	pie: "bi bi-pie-chart",
 	tags: "bi bi-tags",
 	version: "bi bi-tags",
 	compile: "bi bi-tools",
