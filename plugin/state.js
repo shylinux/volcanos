@@ -39,7 +39,7 @@ Volcanos(chat.ONIMPORT, {
 					}
 				}
 				if (can.base.isIn(sub.ConfIndex(), wiki.WORD)) { sub.onexport.output = function() { can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "") } }
-			})
+			}, item.style == html.FLOAT && can.page.tagis(can._target, "fieldset.story")? document.body: can._output)
 		})
 	},
 	_float: function(can, msg) { can.onimport._field(can, msg, function(sub) { can.onmotion.float(sub) }) },

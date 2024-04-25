@@ -193,7 +193,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			tabs._target._close(), can.onkeymap.prevent(event)
 		}}], onclick: function(event) {
 			can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)
-		}, _init: function(target) { var menu = tabs._menu||shy(function(event, button) { can.Update(event, [ctx.ACTION, button]) })
+		}, _init: function(target) {
+			if (action == can._action) {
+				can.page.Select(can, can._action, "div.item._space.state", function(space) {
+					can.page.insertBefore(can, target, space)
+				})
+			}
+			var menu = tabs._menu||shy(function(event, button) { can.Update(event, [ctx.ACTION, button]) })
 			target._item = tabs, tabs._target = target, target._close = function() { close(target) || cbs && cbs(tabs) }
 			var _action = can.page.parseAction(can, tabs)
 			can.page.Modify(can, target, {draggable: true,
@@ -246,10 +252,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	plug: function(can, meta, cb, target, field) { if (!meta || !meta.index) { return }
 		meta.type = meta.type||html.PLUG, meta.name = meta.index, can.onappend.plugin(can, meta, function(sub) { sub.sup = can
-			sub.run = function(event, cmds, cb) {
-				if (can.page.Select(can, sub._option, "input[name=path]").length > 0 && sub.Option(nfs.PATH) == "") { sub.request(event, {path: nfs.PWD}) }
-				can.runActionCommand(can.request(event, can.Option(), {space: meta.space}), meta.index, cmds, cb)
-			}, sub.onaction.close = function() { can.onmotion.hidden(can, target) }, can.base.isFunc(cb) && cb(sub)
+			// sub.run = function(event, cmds, cb) { can.runActionCommand(can.request(event, can.Option(), {space: meta.space}), meta.index, cmds, cb) }
+				sub.onaction.close = function() { can.onmotion.hidden(can, target) }, can.base.isFunc(cb) && cb(sub)
 		}, target, field)
 	},
 })

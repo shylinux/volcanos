@@ -90,7 +90,7 @@ div.vimer.open.float td:first-child { display:none; }
 div.vimer.open.float td:nth-child(2) { display:none; }
 div.vimer.plug.float div.item.text input { width:var(--river-width); }
 div.layout.flex>input.current { clear:both; }
-tr.line>td.line { user-select:none; border-right:var(--box-border); }
+tr.line>td.line { -webkit-user-select:none; border-right:var(--box-border); }
 tr.line>td.line { text-align:right; line-height:var(--code-line-height); padding:0 var(--button-padding); position:sticky; left:0; }
 tr.line>td.text { white-space:pre; line-height:var(--code-line-height); padding-left:var(--input-padding); width:100%; }
 tr.line:hover { background-color:var(--hover-bg-color); }

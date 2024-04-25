@@ -52,7 +52,7 @@ Volcanos(chat.ONIMPORT, {
 			], lex.SP, mdb.FS),
 		), onmouseenter: function(event) { can.base.isFunc(cb) && cb(event) } }) }
 		can.onmotion.clear(can, can.ui.svg), can.ui.svg.Value(mdb.COUNT, 0)
-		var begin = 0; can.core.Next(can.list, function(item, next, index) { var p = index==which? pos(x, y, margin*4, begin+item.span/2): [x, y]
+		var begin = 0; can.core.Next(can.list, function(item, next, index) { var p = index==which? pos(x, y, 1*margin, begin+item.span/2): [x, y]
 			pie(p[0], p[1], r, begin, item.span, item.color, item.name||item.command, function(event) { can.onimport._draw(can, x, y, r, margin, can.db.which = index) }), begin += item.span
 			index == which && (can.db.current = item.value)
 			can.onmotion.select(can, can.ui.table, html.TR, index), can.Status(item.value), can.onmotion.delay(can, next, can.db.delay)
@@ -68,7 +68,7 @@ Volcanos(chat.ONIMPORT, {
 		return parseInt(value)
 	},
 	layout: function(can) { if (!can.ui || !can.ui.svg) { return }
-		var height = can.base.Max(can.ConfHeight(), can.ConfWidth()/2), margin = 10, r = height/2-5*margin
+		var height = can.base.Max(can.ConfHeight(), can.ConfWidth()/2), margin = 10, r = height/2-1*margin-margin
 		can.page.style(can, can.ui.display, html.WIDTH, can.ConfWidth()-height), can.ui.svg.Val(html.HEIGHT, height), can.ui.svg.Val(html.WIDTH, height)
 		can._draw = function(which) { can.onimport._draw(can, height/2-margin/2, can.ConfHeight()/2-margin/2, r, margin, which) }, can._draw(can.db.which||0)
 		can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth())
