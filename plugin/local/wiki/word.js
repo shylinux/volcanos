@@ -65,7 +65,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 	field: function(can, meta, target) { var item = can.base.Obj(meta.meta), padding = can.Conf(html.PADDING)
 		if (!item.width || parseInt(item.width) > can.ConfWidth()) { item.width = can.ConfWidth()-2*padding } var width = item.width
 		can.core.Item(item, function(key, value) {
-			if (can.base.beginWith(key, "meta.")) {
+			if (can.base.beginWith(key, "meta.") && key != ctx.INDEX) {
 				can.core.Value(item, key, value)
 				delete(item[key])
 			}

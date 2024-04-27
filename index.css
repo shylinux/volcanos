@@ -74,7 +74,7 @@ body {
 	--story-height:var(--float-height); --iframe-height:420px;
 	--plug-height:var(--float-height); --plug-width:var(--float-width);
 	--desktop-height:684px; --desktop-width:var(--float-width);
-	--desktop-memu-height:25px; --desktop-width:var(--float-width);
+	--desktop-menu-height:25px; --desktop-width:var(--float-width);
 	--action-button:10; --table-button:5; --card-button:5;
 	--order-show-limit:30; --order-show-delay:150;
 	--river-margin:80px; --action-margin:200px;
@@ -510,7 +510,7 @@ div.input.float { z-index:10; }
 div.carte.float { z-index:11; }
 body>div.toast.float { z-index:12; }
 fieldset.Action>div.toast { z-index:12; }
-fieldset.web.chat.macos.desktop.cmd>div.output>fieldset.macos.dock { z-index:10; }
+fieldset.desktop.cmd>div.output>fieldset.macos.dock { z-index:10; }
 /* box-shadow */
 div.float { box-shadow:var(--plugin-box-shadow); border:var(--plugin-border); }
 div.float:hover { box-shadow:var(--notice-box-shadow); }
