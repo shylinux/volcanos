@@ -23,14 +23,13 @@ body.light {
 }
 body.dark {
 	--plugin-bg-color:black; --plugin-fg-color:silver;
-   	--code-keyword:royalblue; --code-comment:green;
+   	--code-keyword:dodgerblue; --code-comment:green;
 	--code-function:lightgreen; --code-constant:gray; --code-string:orange;
    	--code-package:lightskyblue; --code-datatype:lavender; --code-object:silver;
 }
 body {
 	--shadow-color:var(--disable-fg-color); --border-color:var(--disable-fg-color);
-	--notice-color:blue; --danger-color:red;
-
+   	--notice-color:blue; --danger-color:red;
 	--code-bg-color:black; --code-fg-color:silver;
 	--notice-bg-color:var(--notice-color); --notice-fg-color:white;
 	--danger-bg-color:var(--danger-color); --danger-fg-color:var(--notice-fg-color);
