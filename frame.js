@@ -557,8 +557,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}
 			return {className: option.indexOf(key) > -1? ice.MSG_OPTION: key == ctx.ACTION? ctx.ACTION: "", text: [
 				msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): _value, html.TD,
-			], onclick: function(event) { var target = event.target
-				if (onclick()) { return }
+			], onclick: function(event) { if (onclick()) { return } var target = event.target
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(request(event), target.name)
 					meta && meta[target.name]? can.user.input(event, can, meta[target.name], function(args) { run(event, target.name, args) }, data): run(event, target.name)
@@ -613,7 +612,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}) } else { can.page.Select(can, code, html.INPUT_BUTTON, function(target) {
 			target.onclick = function(event) {
 				if (can.page.ClassList.has(can, target, "disable")) { return } can.page.ClassList.add(can, target, "disable")
-				can.misc.Event(event, can, function(msg) { can.Update(can.request(event, can.Option()), [ctx.ACTION, target.name], function(msg) {
+				can.misc.Event(event, can, function(msg) { can.Update(can.request(event, can.Option(), {_toast: target.name}), [ctx.ACTION, target.name], function(msg) {
 					can.page.ClassList.del(can, target, "disable")
 					can.page.ClassList.del(can, can._fields, "form")
 					can.page.ClassList.del(can, can._fields, "output")

@@ -50,6 +50,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.user.info.background = background, can.onimport._background(can, msg), can.user.toastSuccess(can)
 	}) },
 	theme: function(can, theme) { theme && theme != ice.AUTO && can.runAction({}, chat.THEME, [theme])
+		theme && can.require(["/chat/theme/"+theme+".css"])
 		theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme) && can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: theme}))
 		theme = can.onexport.theme(can); var list = [html.LIGHT, html.WHITE]
 		var change = can.page.ClassList.has(can, document.body, theme); can.user.theme(can, theme), change || can.onimport._const(can)
@@ -97,7 +98,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			// can.page.requireModules(can, [msg.Option("icon.lib")])
 			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.__theme = can.onimport._theme(can, can.page.theme(function(theme) {
 				can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.onimport._theme(can, theme)}))
-			})), can.onimport.theme(can)
+			})), can.onimport.theme(can, can.misc.Search(can, "theme")||"")
 			can.onaction._menus[3] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, nfs._JS) }))
 			can.onaction._menus[2] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, nfs._CSS) }))
 			can.require(can.core.List(msg["theme.list"], function(item) { return nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/theme/"+item }), function() {

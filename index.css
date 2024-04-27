@@ -1,9 +1,19 @@
 /* variable */
 @media (prefers-color-scheme: light) {
 body { --plugin-bg-color:white; --plugin-fg-color:black; }
+body {
+   	--code-keyword:darkblue; --code-comment:green;
+	--code-function:darkcyan; --code-constant:gray; --code-string:brown;
+   	--code-package:blue; --code-datatype:cornflowerblue; --code-object:purple;
+}
 }
 @media (prefers-color-scheme: dark) {
 body { --plugin-bg-color:black; --plugin-fg-color:silver; }
+body {
+	--code-keyword:royalblue; --code-comment:green;
+	--code-function:lightgreen; --code-constant:gray; --code-string:orange;
+	--code-package:lightskyblue; --code-datatype:lavender; --code-object:silver;
+}
 }
 body.light {
 	--plugin-bg-color:white; --plugin-fg-color:black;
@@ -18,9 +28,12 @@ body.dark {
    	--code-package:lightskyblue; --code-datatype:lavender; --code-object:silver;
 }
 body {
+	--shadow-color:var(--disable-fg-color); --border-color:var(--disable-fg-color);
+	--notice-color:blue; --danger-color:red;
+
 	--code-bg-color:black; --code-fg-color:silver;
-	--notice-bg-color:blue; --notice-fg-color:white;
-	--danger-bg-color:red; --danger-fg-color:var(--notice-fg-color);
+	--notice-bg-color:var(--notice-color); --notice-fg-color:white;
+	--danger-bg-color:var(--danger-color); --danger-fg-color:var(--notice-fg-color);
 	--disable-fg-color:gray; --progress-bg-color:var(--danger-bg-color);
 	--hover-bg-color:#5066b961; --hover-fg-color:var(--notice-fg-color);
 	--body-font-family:sans-serif; --code-font-family:monospace;
@@ -30,7 +43,7 @@ body {
 body {
 	--body-bg-color:var(--panel-bg-color); --body-fg-color:var(--plugin-fg-color);
 	--legend-bg-color:var(--plugin-bg-color); --legend-fg-color:var(--plugin-fg-color);
-	--input-bg-color:var(--output-bg-color); --input-fg-color: var(--output-fg-color);
+	--input-bg-color:var(--plugin-bg-color); --input-fg-color: var(--output-fg-color);
 	--output-bg-color:var(--plugin-bg-color); --output-fg-color:var(--plugin-fg-color);
 	--th-bg-color:var(--legend-bg-color); --th-fg-color:var(--legend-fg-color);
 	--tr-hover-bg-color:var(--hover-bg-color); --td-hover-bg-color:var(--hover-bg-color);
@@ -42,11 +55,11 @@ body {
 	--panel-hover-bg-color:var(--hover-bg-color); --panel-hover-fg-color:var(--hover-fg-color);
 	--action-output-bg-color:var(--output-bg-color);
 
-	--box-shadow:var(--body-fg-color) 0px 0px 10px; --notice-box-shadow:var(--notice-bg-color) 0px 0px 10px;
+	--box-shadow:var(--shadow-color) 0px 0px 10px; --notice-box-shadow:var(--notice-bg-color) 0px 0px 10px;
 	--plugin-box-shadow:var(--box-shadow); --legend-box-shadow:var(--box-shadow); --input-box-shadow:var(--box-shadow);
 	--th-box-shadow:var(--box-shadow); --keyword-box-shadow:var(--box-shadow);
-	--box-border:var(--disable-fg-color) solid 1px; --box-notice:var(--notice-bg-color) solid 1px; --box-danger:var(--danger-bg-color) solid 1px;
-	--box-border3:var(--disable-fg-color) solid 3px; --box-notice3:var(--notice-bg-color) solid 3px; --box-danger3:var(--danger-bg-color) solid 3px;
+	--box-border:var(--border-color) solid 1px; --box-notice:var(--notice-bg-color) solid 1px; --box-danger:var(--danger-bg-color) solid 1px;
+	--box-border3:var(--border-color) solid 3px; --box-notice3:var(--notice-bg-color) solid 3px; --box-danger3:var(--danger-bg-color) solid 3px;
 	--plugin-border:var(--box-border); --input-border:var(--box-border); --status-border:var(--box-border);
 	--plugin-radius:var(--plugin-padding); --button-radius:var(--input-padding);
 
@@ -794,6 +807,7 @@ fieldset.xterm.float>form.option>div.item.hash input { width:var(--form-width); 
 fieldset.iframe.float>form.option>div.item.hash input { width:var(--form-width); }
 fieldset.iframe>form.option>div.item.hash input { width:var(--form-width); }
 fieldset.inner.float>div.status { display:none; }
+fieldset.web.chat.color table.content { border-collapse:collapse; }
 fieldset.user>form.option>div.item.username input { width:var(--form-width); }
 fieldset.offer>div.output>table.content tr.invite { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 fieldset.apply>div.output>table.content.detail.apply tr.action td.action { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
