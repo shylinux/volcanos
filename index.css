@@ -37,7 +37,7 @@ body {
 	--hover-bg-color:#5066b961; --hover-fg-color:var(--notice-fg-color);
 	--body-font-family:sans-serif; --code-font-family:monospace;
 	--project-width:230px; --river-width:var(--project-width);
-	--float-height:480px; --float-width:1200px; --desktop-icon-size:80px;
+	--float-height:640px; --float-width:1200px; --desktop-icon-size:80px;
 }
 body {
 	--body-bg-color:var(--panel-bg-color); --body-fg-color:var(--plugin-fg-color);
@@ -105,9 +105,8 @@ body.width4 { /* 1280-1600 笔记本 显示器调试 */
 }
 body.width5 { /* 1600-1920 */
 }
-body.width6 { /* 1920-2240 显示器 */
+body.width6 { /* 1920-2240 大显示器 */
 	--project-width:280px; --river-width:280px; --input-width:180px; --url-input-width:1000px; --qrcode-width:420px; --card-height:160px;
-	--float-height:640px; --float-width:1400px;
 	--plug-height:480px; --plug-width:1000px;
 }
 /* element */
@@ -194,6 +193,9 @@ body.en span[lang^=zh] { display:none; } body.zh span[lang^=en] { display:none; 
 div.project div.action { width:100%; }
 div.project div.list { margin-left:var(--button-margin); clear:both; }
 div.project div.list fieldset { position:static; }
+div.project div.item.select {
+	border-right:var(--box-notice3);
+}
 div.project div.item:not(.hide) {
 	// white-space:pre;
 	line-height:24px;
@@ -655,7 +657,7 @@ body.windows div.item.button.refresh>span.icon { font-size:22px; line-height:30p
 div.item.button._space.icons { flex-grow:1; min-width:var(--button-margin); }
 div.item.button._space.icons:hover { background-color:unset; cursor:unset; }
 fieldset.inner fieldset.story div.item.button._space.icons { margin-left:0; flex-grow:1; }
-div.tabs>span { font-style:italic; }
+div.tabs>span { font-style:italic; white-space:pre; }
 div.tabs>span.icon { font-size:var(--icon-font-size); font-style:normal; padding-left:var(--input-padding); visibility:hidden; }
 div.tabs.select>span.icon { visibility:visible; }
 div.tabs:hover>span.icon { visibility:visible; }

@@ -31,6 +31,7 @@ var ice = {
 	MSG_SOURCE: "_source", MSG_TARGET: "_target",
 	MSG_ACTION: "_action", MSG_STATUS: "_status",
 	MSG_PROCESS: "_process", MSG_DISPLAY: "_display", MSG_TOOLKIT: "_toolkit",
+	MSG_DISPLAY_CSS: "_display_css",
 
 	MSG_USERWEB: "user.web", MSG_USERPOD: "user.pod",
 	MSG_USERROLE: "user.role", MSG_USERNAME: "user.name", MSG_USERNICK: "user.nick", MSG_LANGUAGE: "user.lang",

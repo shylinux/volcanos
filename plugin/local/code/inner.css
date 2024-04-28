@@ -95,8 +95,10 @@ tr.line>td.line { text-align:right; line-height:var(--code-line-height); padding
 tr.line>td.text { white-space:pre; line-height:var(--code-line-height); padding-left:var(--input-padding); width:100%; }
 tr.line:hover { background-color:var(--hover-bg-color); }
 tr.line.insert { background-color:#283e2d; } tr.line.delete { background-color:#3c2626; }
-body.light tr.line.insert { background-color:#ffeef0; } body.light tr.line.delete { background-color:#e6ffed; }
-body.white tr.line.insert { background-color:#ffeef0; } body.white tr.line.delete { background-color:#e6ffed; }
+body.light tr.line.delete { background-color:#ffeef0; }
+body.light tr.line.insert { background-color:#e6ffed; }
+body.white tr.line.insert { background-color:#ffeef0; }
+body.white tr.line.delete { background-color:#e6ffed; }
 fieldset.inner:not(.monaco)>div.output div.content>tr.line * { font-family:var(--code-font-family); font-size:var(--code-font-size); }
 body:not(.windows) fieldset.inner>div.output>div.project * { font-family:var(--code-font-family); font-size:var(--code-font-size); }
 body:not(.windows) fieldset.inner>div.output>div.layout>div.tabs { font-family:var(--code-font-family); font-size:var(--code-font-size); }

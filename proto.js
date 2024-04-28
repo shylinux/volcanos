@@ -30,7 +30,8 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 			if (libs[0] == "") { libs[0] = can._path.replace(nfs._JS, nfs._CSS) }
 			if (libs[0].indexOf(nfs.SRC) == 0 || libs[0].indexOf(nfs.USR) == 0) { libs[0] = nfs.P+libs[0] }
 			if (libs[0][0] != nfs.PS && libs[0].indexOf(web.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
-			var name = (libs[0].indexOf(web.HTTP) == 0 || libs[0].indexOf("?pod=") > -1? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
+			// var name = (libs[0].indexOf(web.HTTP) == 0 || libs[0].indexOf("?pod=") > -1? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
+			var name = (libs[0].indexOf(web.HTTP) == 0 || libs[0].indexOf("?pod=") > -1? libs[0]: libs[0]).toLowerCase()
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
 			if (name.indexOf("/lib/") == 0) { name = "/v"+name }
 			if (name.indexOf("/panel/") == 0) { name = "/v"+name }

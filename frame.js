@@ -311,7 +311,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		Volcanos(display, {_root: can._root, _follow: can.core.Keys(can._follow, display), _fields: can._target, _target: output, _path: display||chat.PLUGIN_TABLE_JS,
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status, db: {}, ui: {layout: function() {}},
-		}, [display, chat.PLUGIN_TABLE_JS], function(sub) { sub.Conf(can.Conf())
+		}, [display, msg.Option(ice.MSG_DISPLAY_CSS), chat.PLUGIN_TABLE_JS], function(sub) { sub.Conf(can.Conf())
 			sub.db.hash = can.isCmdMode()? can.misc.SearchHash(can): []
 			var last = can.sub; last && can.core.CallFunc([last, "onaction.hidden"], {can: last})
 			sub.run = function(event, cmds, cb, silent) { var msg = sub.request(event)._caller()
@@ -323,7 +323,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			}
 			can.page.ClassList.del(can, sub._fields, html.FORM), delete(can._status._cache), delete(can._status._cache_key)
-			sub._output.className = html.OUTPUT, can.onappend.style(can, sub._args.style, can._output)
+			sub._output.className = html.OUTPUT
+			// can.onappend.style(can, sub._args.style, can._output)
 			// can.isCmdMode() && can.onappend.style(can, html.OUTPUT)
 			sub.isCmdMode() && sub.onexport.title(sub, sub.ConfIndex())
 			can.onmotion.toggle(can, can._action, true)
