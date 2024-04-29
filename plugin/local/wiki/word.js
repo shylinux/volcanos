@@ -66,7 +66,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 		if (!item.width || parseInt(item.width) > can.ConfWidth()) { item.width = can.ConfWidth()-2*padding } var width = item.width
 		can.core.Item(item, function(key, value) { if (can.base.beginWith(key, "meta.")) { can.core.Value(item, key, value), delete(item[key]) } })
 		can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
-			sub.onimport.size(sub, can.base.Max(html.STORY_HEIGHT, can.ConfHeight()-2*html.ACTION_HEIGHT-2*padding), sub.Conf("_width", width), true)
+			sub.onimport.size(sub, can.base.Max(html.STORY_HEIGHT, can.ConfHeight()-4*html.ACTION_HEIGHT-2*padding), sub.Conf("_width", width), true)
 			var size = sub.onimport.size; sub.onimport.size = function(can, height, width, auto, mode) { size(can, height, width, auto, mode), can.page.style(can, sub._output, html.MAX_HEIGHT, "", "overflow-y", "hidden") }
 			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() { sub.runAction(sub.request({}, can.core.Value(item, "opts")), can.core.Value(item, "auto.cmd")) })
 			can.page.style(can, sub._target, html.WIDTH, width)
