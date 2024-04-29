@@ -191,7 +191,7 @@ div.output>div.code>div.form>input[type=button][name=confirm] { background-color
 body.en span[lang^=zh] { display:none; } body.zh span[lang^=en] { display:none; }
 /* project */
 div.project div.action { width:100%; }
-div.project div.list { margin-left:var(--button-margin); clear:both; }
+div.project div.list { border-left:var(--disable-fg-color) dashed 1px; margin-left:var(--button-margin); clear:both; }
 div.project div.list fieldset { position:static; }
 div.project div.item.select {
 	border-right:var(--box-notice3);
@@ -344,7 +344,7 @@ body>div.input textarea { height:var(--textarea-height); width:var(--form-width)
 body>div.input select { width:var(--form-width) !important; }
 body>div.input input.select[type=button] { width:var(--form-width) !important; }
 body>div.input input:not([type=button]) { width:var(--form-width) !important; }
-body>div.input input[type=text] { width:var(--form-width) !important; }
+body>div.input input[type=text] { width:var(--form-width) !important; padding-left:24px; }
 body>div.input input[name=cancel] { border:var(--box-danger); }
 body>div.input input[name=submit] { border:var(--box-notice); }
 body>div.input input[name=submit]:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }

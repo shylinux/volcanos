@@ -149,15 +149,21 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		})
 	},
 	itemlist: function(can, list, cb, cbs, target) { if (!list || list.length == 0) { return }
-		return target._list = can.page.insertBefore(can, [{view: html.LIST, list: can.core.List(list, function(item) {
-			var icon = item.icon||item.icons
+		var _select
+		target._list = can.page.insertBefore(can, [{view: html.LIST, list: can.core.List(list, function(item) { var icon = item.icon||item.icons
 			return {view: html.ITEM, list: [
 				icon && (can.base.contains(icon, ice.HTTP, ".ico", ".png", ".jpg")? {img: can.misc.Resource(can, icon)}: {icon: icon}),
 				{text: item.nick||item.name||item.zone}
-			], onclick: function(event) {
+			], _init: function(target) {
+				item._select && (_select = target)
+			}, onclick: function(event) {
 				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
-			}, oncontextmenu: function(event) { if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } } }}
+			}, oncontextmenu: function(event) {
+				if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } }
+			}}
 		}) }], target.nextSibling, target.parentNode)
+		_select && _select.click()
+		return target._list
 	},
 	list: function(can, root, cb, target, cbs) { target = target||can._output
 		can.core.List(root.list, function(item) { var ui = can.page.Append(can, target, [{view: [[html.ITEM, "open"]], list: [{text: item.meta.name}, item.list && {icon: icon.CHEVRON_DOWN}], onclick: function(event) {
@@ -285,6 +291,7 @@ Volcanos(chat.ONEXPORT, {
 	session: function(can, key, value) { return can.misc[can.user.isWebview? "localStorage": "sessionStorage"](can, [can.Conf(ctx.INDEX), key, location.pathname].join(":"), value == ""? "": JSON.stringify(value)) },
 	action_value: function(can, key, def) { var value = can.Action(key); return can.base.isIn(value, ice.AUTO, key, undefined)? def: value },
 	tool: function(can) { can.misc.sessionStorage(can, [can.ConfIndex(), "tool"], JSON.stringify(can.page.Select(can, can._status, html.LEGEND, function(target) { return target._meta }))) },
+	hash: function(can, hash) { can.misc.SearchHash(can, hash) },
 	tabs: function(can) {},
 })
 Volcanos(chat.ONACTION, {

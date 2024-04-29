@@ -80,7 +80,7 @@ fieldset.inner.cmd>div.output>div.layout>div.plug>legend:hover { box-shadow:var(
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove { padding:0 var(--input-padding); height:30px; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove:hover { background-color:var(--hover-bg-color); }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend:not(:hover)>span.remove { visibility:hidden; }
-fieldset.inner>div.output>div.layout>div.layout>div.profile fieldset.xterm.story>form.option>div.item.hash input { width:120px; }
+// fieldset.inner>div.output>div.layout>div.layout>div.profile fieldset.xterm.story>form.option>div.item.hash input { width:120px; }
 div.path span.item { padding:var(--input-padding); }
 div.carte.cmd.float { font-size:var(--code-font-size); } div.carte.cmd.float div.item { padding:var(--input-padding); }
 div.carte.path.float { font-size:var(--code-font-size); }
