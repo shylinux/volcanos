@@ -26,14 +26,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		can.onimport.layout = can.onimport.layout||function() { var height = can.onlayout.expand(can, target); can.sup.onexport.outputMargin = function() { return height } }
 		can.page.Append(can, target, list), can.onmotion.orderShow(can, target)
 	},
-	filter: function(can, target) {
+	filter: function(can, target, output) { output = output||target
 		return can.onappend.input(can, {icon: icon.SEARCH, type: html.TEXT, name: web.FILTER, placeholder: "search in n items", onkeydown: function() {}, onkeyup: function(event) {
 			if (event.key == code.ENTER) {
-				can.page.Select(can, target, html.DIV_ITEM+":not(.hide)", function(target) { target.click() })
+				can.page.Select(can, output, html.DIV_ITEM+":not(.hide)", function(target) { target.click() })
 			} else if (event.key == code.ESCAPE) { event.currentTarget.value = "", event.currentTarget.blur()
-				can.page.Select(can, target, html.DIV_ITEM, function(target) { can.onmotion.toggle(can, target, true) })
-			} else { if (can.onkeymap.selectCtrlN(event, can, target, html.DIV_ITEM+":not(.filter):not(.hide)")) { return }
-				can.page.Select(can, target, html.DIV_ITEM, function(target) {
+				can.page.Select(can, output, html.DIV_ITEM, function(target) { can.onmotion.toggle(can, target, true) })
+			} else { if (can.onkeymap.selectCtrlN(event, can, output, html.DIV_ITEM+":not(.filter):not(.hide)")) { return }
+				can.page.Select(can, output, html.DIV_ITEM, function(target) {
 					can.onmotion.toggle(can, target, target.innerText.indexOf(event.currentTarget.value) > -1 || target == event.currentTarget.parentNode)
 				})
 			}
@@ -159,7 +159,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			}, onclick: function(event) {
 				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
 			}, oncontextmenu: function(event) {
-				if (can.base.isFunc(cbs)) { var menu = cbs(event, ui._target); if (menu) { can.user.carteRight(event, can, menu.meta, menu.list, menu) } }
+				if (can.base.isFunc(cbs)) { var menu = cbs(event, event.currentTarget); if (menu) { return can.user.carteRight(event, can, menu.meta, menu.list, menu) } }
+				can.user.carteItem(event, can, item)
 			}}
 		}) }], target.nextSibling, target.parentNode)
 		_select && _select.click()
@@ -195,7 +196,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 				if (!next) { return true } next && next.click()
 			} can.page.Remove(can, target), can.onexport.tabs && can.onexport.tabs(can)
 		}
-		return {view: [[html.TABS, tabs.type, tabs.role, tabs.status]], title: tabs.title||tabs.text, list: [{text: [tabs.nick||tabs.name, html.SPAN, mdb.NAME]}, {icon: mdb.DELETE, onclick: function(event) {
+		return {view: [[html.TABS, tabs.type, tabs.role, tabs.status]], title: tabs.title||tabs.text, list: [tabs.icon && {icon: tabs.icon}, {text: [tabs.nick||tabs.name, html.SPAN, mdb.NAME]}, {icon: mdb.DELETE, onclick: function(event) {
 			tabs._target._close(), can.onkeymap.prevent(event)
 		}}], onclick: function(event) {
 			can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)

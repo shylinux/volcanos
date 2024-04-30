@@ -7,7 +7,10 @@ Volcanos(chat.ONIMPORT, {
 	_history: function(can, msg) { history.length == 1? can.user.close(): history.back() },
 	_confirm: function(can, msg, arg) { can.user.toastConfirm(can, arg, "", function() { can.runAction(can.request({}, msg), "confirm") }) },
 	_refresh: function(can, msg, arg) { can.core.Timer(parseInt(arg||"30"), function() { can.Update(can.request({}, {_count: parseInt(msg.Option("_count")||"3")-1})) }) },
-	_rewrite: function(can, msg) { var arg = msg._arg; for (var i = 0; i < arg.length; i += 2) { can.Option(arg[i], arg[i+1]), can.Action(arg[i], arg[i+1]) } can.Update() },
+	_rewrite: function(can, msg) { var arg = msg._arg; for (var i = 0; i < arg.length; i += 2) {
+		can.Option(arg[i], arg[i+1]), can.Action(arg[i], arg[i+1])
+		can.misc.sessionStorage(can, [can.ConfIndex(), ctx.ACTION, arg[i]], arg[i+1])
+	} can.Update() },
 	_display: function(can, msg) { can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)) },
 	_clear: function(can, msg) { can.onmotion.clear(can) },
 	_inner: function(can, sub, msg) { sub = sub||can, can.onmotion.scrollIntoView(can, can.onappend.table(sub, msg)), can.onmotion.scrollIntoView(can, can.onappend.board(sub, msg)), can.onmotion.story.auto(sub) },
@@ -320,9 +323,14 @@ Volcanos(chat.ONEXPORT, {_output: function(can, msg) {},
 	statusHeight: function(can) {
 		return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0) ||
 			can._status.innerHTML == "" && !can.page.ClassList.has(can, can._target, html.PLUG)? 0: html.STATUS_HEIGHT },
-	link: function(can) { var args = can.Option(); args.pod = can.ConfSpace()||can.misc.Search(can, ice.POD), args.cmd = can.ConfIndex()
+	link: function(can) {
+		if (can.sub && can.sub.onexport.link) {
+			return can.sub.onexport.link(can.sub)
+		}
+		var args = can.Option(); args.pod = can.ConfSpace()||can.misc.Search(can, ice.POD), args.cmd = can.ConfIndex()
 		can.core.Item(args, function(key, value) { key != ice.POD && !value && delete(args[key]) })
-		return can.misc.MergePodCmd(can, args, true) },
+		return can.misc.MergePodCmd(can, args, true)
+	},
 	args: function(can) { return can.Option() },
 	close: function(can, msg) {},
 })

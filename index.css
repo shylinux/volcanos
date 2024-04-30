@@ -190,8 +190,14 @@ div.output>div.code>div.form>input[type=button] { min-width:200px; }
 div.output>div.code>div.form>input[type=button][name=confirm] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); margin:var(--button-margin) 0; }
 body.en span[lang^=zh] { display:none; } body.zh span[lang^=en] { display:none; }
 /* project */
-div.project div.action { width:100%; }
-div.project div.list { border-left:var(--disable-fg-color) dashed 1px; margin-left:var(--button-margin); clear:both; }
+div.project div.action:not(.hide) { width:100%; display:flex; }
+div.project div.action div.item input { border-right:var(--box-border); }
+div.project div.action div.item input:hover { border-right:var(--box-notice); }
+div.project div.action div.item.icons input { display:none; }
+div.project div.action div.item.icons { background-color:var(--plugin-bg-color); padding:0; }
+div.project div.list { margin-left:var(--button-margin); clear:both; }
+body.width6 div.project div.list { margin-left:var(--legend-margin); }
+// div.project div.list { border-left:var(--disable-fg-color) dashed 1px; }
 div.project div.list fieldset { position:static; }
 div.project div.item.select {
 	border-right:var(--box-notice3);
@@ -381,7 +387,7 @@ body:not(.mobile) fieldset:not(.Action):not(.output):not(.cmd)>div.action:not(.h
 fieldset.panel>legend, fieldset.panel>div.status { display:none; }
 fieldset.output>legend, fieldset.output>form.option, fieldset.output>div.action:not(.flex), fieldset.output>div.status, fieldset.output>div.item { display:none; }
 div.action, div.output, div.status, div.project, div.content, div.profile, div.display, table.content, table.content td, div.list, div.code, div.story, div.float, fieldset.float { overflow:auto; }
-legend, form.option>div.item, div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item { float:left; display:flex; align-items:center; }
+legend, form.option>div.item:not(.hide), div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item { float:left; display:flex; align-items:center; }
 fieldset.story, fieldset>div.output, fieldset>div.status, div.output>div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
 fieldset.story { position:sticky; left:0; }
 fieldset.auto, fieldset.full, fieldset.float { position:fixed; }
@@ -658,6 +664,7 @@ div.item.button._space.icons { flex-grow:1; min-width:var(--button-margin); }
 div.item.button._space.icons:hover { background-color:unset; cursor:unset; }
 fieldset.inner fieldset.story div.item.button._space.icons { margin-left:0; flex-grow:1; }
 div.tabs>span { font-style:italic; white-space:pre; }
+div.tabs>i:first-child { margin-right:var(--input-margin); margin-bottom:-4px; }
 div.tabs>span.icon { font-size:var(--icon-font-size); font-style:normal; padding-left:var(--input-padding); visibility:hidden; }
 div.tabs.select>span.icon { visibility:visible; }
 div.tabs:hover>span.icon { visibility:visible; }
@@ -789,6 +796,7 @@ fieldset.Action>div.output>fieldset.ssh.cloud.profile { box-shadow:none; backgro
 fieldset.Action>div.output>fieldset.ssh.cloud.profile:hover { box-shadow:none; }
 fieldset.Action>div.output>fieldset.ssh.cloud.profile>div.output { background-color:transparent; }
 fieldset.Action>div.output>fieldset.plugin>legend { border-top:var(--box-notice3); border-top-left-radius:0; }
+// body.cmd fieldset.Action>div.output>fieldset.plugin>legend { min-width:var(--project-width); justify-content:center; }
 fieldset.Action>div.output>fieldset.plugin>legend:not(:hover) { background-color:var(--output-bg-color); }
 fieldset.Action:not(.horizon):not(.grid)>fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
 fieldset.web.code.docker.studio>div.output>fieldset>legend { display:none; }
@@ -800,6 +808,7 @@ fieldset.web.mall.region>div.output>table.content td:nth-child(4) { text-align:r
 fieldset.web.mall.region>div.output>table.content td:nth-child(5) { text-align:right; }
 fieldset.web.mall.region>div.output>fieldset.web.mall.region.float>div.action { display:none; }
 fieldset.web.dream>div.output>div.item div.content>span { padding:0 var(--input-padding); }
+fieldset.xterm>form.option>div.item.text.hash input { width:var(--url-input-width); }
 fieldset.web.dream>div.output>div.item div.content>span.files { background-color:purple; color:var(--notice-fg-color);}
 fieldset.web.dream>div.output>div.item div.content>span.add { background-color:var(--notice-bg-color); color:var(--notice-fg-color);}
 fieldset.web.dream>div.output>div.item div.content>span.del { background-color:var(--danger-bg-color); color:var(--danger-fg-color);}
