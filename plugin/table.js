@@ -157,7 +157,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			], _init: function(target) {
 				item._select && (_select = target)
 			}, onclick: function(event) {
-				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
+				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list), event.currentTarget)
 			}, oncontextmenu: function(event) {
 				if (can.base.isFunc(cbs)) { var menu = cbs(event, event.currentTarget); if (menu) { return can.user.carteRight(event, can, menu.meta, menu.list, menu) } }
 				can.user.carteItem(event, can, item)

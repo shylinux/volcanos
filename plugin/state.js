@@ -16,14 +16,16 @@ Volcanos(chat.ONIMPORT, {
 	_cookie: function(can, msg) { can.misc.Cookie(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_session: function(can, msg) { can.misc.sessionStorage(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_field: function(can, msg, cb) {
-		var height = can.ConfHeight()-can.onexport.actionHeight(can)-can.onexport.statusHeight(can), width = can.ConfWidth()
+		var height = can.ConfHeight()-can.onexport.actionHeight(can)-(can.onexport.statusHeight(can)||1), width = can.ConfWidth()
 		var tabs = false, tabHash = msg.Option("field.tabs")
 		if (tabHash) {
 			can.sub && can.sub.onimport.tabs(can, [{name: tabHash.slice(0, 6)}], function() {
 				can.onmotion.cache(can, function() { return tabHash })
 			}), tabs = true
 		} else {
-			height = can.base.Max(html.STORY_HEIGHT, height)
+			if (!can.page.tagis(can._target, html.FIELDSET_OUTPUT)) {
+				height = can.base.Max(html.STORY_HEIGHT, height)
+			}
 		}
 		msg.Table(function(item) { tabs && can.onmotion.cache(can, function() { return tabHash })
 			can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) { can._plugins = (can._plugins||[]).concat([sub])

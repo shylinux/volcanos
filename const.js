@@ -355,6 +355,7 @@ var html = {value: {
 	FIELDSET_HEAD: "fieldset.head", FIELDSET_FOOT: "fieldset.foot", FIELDSET_LEFT: "fieldset.left", FIELDSET_MAIN: "fieldset.main",
 	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story", FIELDSET_PLUG: "fieldset.plug",
 	FIELDSET_FLOAT: "fieldset.float", FIELDSET_INPUT: "fieldset.input",
+	FIELDSET_OUTPUT: "fieldset.output",
 
 	H1: "h1", H2: "h2", H3: "h3", UL: "ul", OL: "ol", LI: "li", BR: "br", HR: "hr",
 	A: "a", SPAN: "span", CODE: "code", DIV: "div",
