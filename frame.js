@@ -313,7 +313,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status, db: {}, ui: {layout: function() {}},
 		}, [display, msg.Option(ice.MSG_DISPLAY_CSS), chat.PLUGIN_TABLE_JS], function(sub) { sub.Conf(can.Conf())
-			sub.db.hash = can.isCmdMode()? can.misc.SearchHash(can): []
+			sub.db.hash = can.base.getValid(can.isCmdMode()? can.misc.SearchHash(can): [], can.misc.localStorage(can, [sub.ConfSpace()||can.misc.Search(can, ice.POD), sub.ConfIndex(), "hash"]))||[]
 			var last = can.sub; last && can.core.CallFunc([last, "onaction.hidden"], {can: last})
 			sub.run = function(event, cmds, cb, silent) { var msg = sub.request(event)._caller()
 				msg.RunAction(event, sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
@@ -403,6 +403,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		type == html.PLUG || (type == html.STORY && item.style != html.FLOAT) || can.base.isIn(can.ConfIndex(),
 			// web.DESKTOP, web.MESSAGE, web.VIMER,
 		) || (name = can.core.Keys(item.space||item._space, name))
+		item.index && (item.help = item.help||can.user.trans(can, item.index.split(".").pop(), ""))
 		var title = item.title || can.user.isMobile && (can.user.isEnglish(can)? name: (item.help||name)) || (!item.help || name == item.help || can.user.isEnglish(can)? name: name+"("+can.core.Split(item.help)[0]+")")
 		target = can.base.isFunc(target)? target(): target
 		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], style: item.style, list: [{type: html.LEGEND, list: [
@@ -1034,6 +1035,9 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 			}).length
 			can.user.toast(can, "filter out "+count+" lines")
 		}, 300)
+	},
+	cacheClear: function(can, key) { delete(can._cache_data[key])
+		can.core.List(arguments, function(target, index) { index > 1 && delete(target._cache[key]) })
 	},
 	cache: function(can, next) { var list = can.base.getValid(can.base.Obj(can.core.List(arguments).slice(2)), [can._output])
 		var data = can._cache_data = can._cache_data||{}, old = list[0]._cache_key
