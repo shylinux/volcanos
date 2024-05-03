@@ -795,6 +795,9 @@ body.print div.float { background-color:snow; }
 body.print fieldset.draw div.output { background-color:lightgray; }
 body.print fieldset.draw div.output div.content svg { background-color:lightgray; }
 /* misc */
+body.mobile fieldset.float form.option div.item.text {
+	display:none;
+}
 fieldset.Action>div.output>fieldset.ssh.cloud.profile { box-shadow:none; background-color:transparent; }
 fieldset.Action>div.output>fieldset.ssh.cloud.profile:hover { box-shadow:none; }
 fieldset.Action>div.output>fieldset.ssh.cloud.profile>div.output { background-color:transparent; }
