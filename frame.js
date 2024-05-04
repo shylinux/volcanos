@@ -452,7 +452,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}}])[item.name]; return _input
 	},
 	icons: function(can, target, name, cb) {
-		var _icon = can.Conf("feature._icons."+name) || icon[name] || name
+		var _icon = can.Conf("feature._icons."+name) || can.core.Value(can.onaction, ["_trans.icons", name]) || icon[name] || name
 		if (!_icon) { return } can.onappend.style(can, "icons", target.parentNode)
 		can.page.Append(can, target.parentNode, [{icon: _icon, title: can.user.trans(can, name), onclick: can.base.isFunc(cb)? cb: target.onclick||function(event) { can.Update(event, [ctx.ACTION, cb||name]) }}])
 	},
