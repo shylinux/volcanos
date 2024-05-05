@@ -54,10 +54,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			link.cmd == web.CODE_VIMER? can.onimport.tabview(can, link.path, link.file, link.line): can.onimport.tabview(can, link.path, link.cmd, ctx.INDEX)
 		} }, can.base.isFunc(cb) && cb(msg)
 	},
-	_tabs: function(can) {
-		if (!can.isCmdMode()) {
-			return can.ui._tabs = can._action
-		}
+	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui._tabs = can._action }
 		var ui = can.page.Append(can, can.ui.tabs, ["icon", "tabs", "head"]); can.ui._tabs = ui.tabs
 		can.page.Append(can, ui.icon, can.core.List([
 			{name: can.page.unicode.menu, onclick: function() { can.user.carte(event, can, can.onaction, can.onaction.list) }},
@@ -188,7 +185,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	history: function(can, record) { can.base.Eq(record, can.db.history[can.db.history.length-1], mdb.TEXT) || can.db.history.push(record)
 		return can.Status(ice.BACK, can.db.history.length), record
 	},
-	project: function(can, path) { can.onmotion.clear(can, can.ui.project), can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) {
+	project: function(can, path) {
+		if (can.Conf("style") == "output") {
+			can.onmotion.hidden(can, can.ui.project)
+			return
+		}
+		can.onmotion.clear(can, can.ui.project), can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) {
 		if (can.base.isFunc(cb)) { return {name: name, icon: cb.meta? cb.meta.icon: "", _trans: can.onfigure._trans? can.onfigure._trans[name]||"": "", _toggle: function() { can.onimport.layout(can) }, _init: function(target, zone) { return cb(can, target, zone, path) }} }
 	}), can.ui.project) },
 	profile: function(can, msg) { var _msg = can.db.tabview[can.onexport.keys(can)]; _msg.Option(html.WIDTH, msg.Option(html.WIDTH)), border = 1

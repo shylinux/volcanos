@@ -124,9 +124,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			icon && (can.base.contains(icon, ice.HTTP, ".ico", ".png", ".jpg")? {img: can.misc.Resource(can, icon)}: {icon: icon}),
 			{text: nick}], title: item.title||nick, onclick: function(event) {
 				can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)
-				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list))
+				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list), ui._target)
 			}, oncontextmenu: oncontextmenu,
-		}]); return ui._target
+		}])
+		item._select && ui._target.click()
+		return ui._target
 	},
 	itemtabs: function(can, list, cb, cbs, target) { can.db._list = {}
 		function savetabs() { can.misc.sessionStorage(can, [can.ConfIndex(), html.TABS], can.page.Select(can, can._action, html.DIV_TABS, function(target) { return target._item.hash })) }
@@ -149,6 +151,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		})
 	},
 	itemlist: function(can, list, cb, cbs, target) { if (!list || list.length == 0) { return }
+		if (!target) { return can.core.List(list, function(value) { can.onimport.item(can, value, cb, cbs) }) }
 		var _select
 		target._list = can.page.insertBefore(can, [{view: html.LIST, list: can.core.List(list, function(item) { var icon = item.icon||item.icons
 			return {view: html.ITEM, list: [
@@ -156,7 +159,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 				{text: item.nick||item.name||item.zone}
 			], _init: function(target) {
 				item._select && (_select = target)
-			}, onclick: function(event) {
+			}, onclick: function(event) { var target = event.currentTarget
+				target && can.page.Select(can, can.ui.project, html.DIV_ITEM, function(target) { can.page.ClassList.del(can, target, html.SELECT) })
+				for (var p = target; p; p = p.parentNode.previousElementSibling) { can.page.ClassList.add(can, p, html.SELECT) }
 				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list), event.currentTarget)
 			}, oncontextmenu: function(event) {
 				if (can.base.isFunc(cbs)) { var menu = cbs(event, event.currentTarget); if (menu) { return can.user.carteRight(event, can, menu.meta, menu.list, menu) } }
@@ -199,6 +204,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		return {view: [[html.TABS, tabs.type, tabs.role, tabs.status]], title: tabs.title||tabs.text, list: [tabs.icon && {icon: tabs.icon}, {text: [tabs.nick||tabs.name, html.SPAN, mdb.NAME]}, {icon: mdb.DELETE, onclick: function(event) {
 			tabs._target._close(), can.onkeymap.prevent(event)
 		}}], onclick: function(event) {
+			if (can.page.ClassList.has(can, tabs._target, html.SELECT)) { return }
 			can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)
 		}, _init: function(target) {
 			if (action == can._action) {

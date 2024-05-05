@@ -19,7 +19,7 @@ fieldset.word>div.navmenu div.list { margin-left:var(--title-margin); }
 fieldset.word>div.navmenu div.item { font-size:1.4em; font-weight:bold; font-family:cursive; padding:var(--input-padding) var(--title-margin); }
 fieldset.word>div.navmenu>div.item { font-size:1.6em; }
 
-div.story[data-type=spark] label { user-select:none; }
+div.story[data-type=spark] label { -webkit-user-select:none; }
 div.story[data-type=spark_tabs] { margin-top:var(--title-margin); }
 div.story[data-type=spark_tabs]>div.tabs>div.item { font-style:italic; padding:var(--input-padding) var(--button-padding); height:var(--action-height); float:left; }
 div.story[data-type=spark_tabs]>div.tabs>div.item.select { border-bottom:var(--box-notice3); }

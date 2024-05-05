@@ -202,6 +202,9 @@ div.project div.list fieldset { position:static; }
 div.project div.item.select {
 	border-right:var(--box-notice3);
 }
+div.project div.item:not(.hide) i:first-child {
+	margin-right:var(--input-margin);
+}
 div.project div.item:not(.hide) {
 	// white-space:pre;
 	line-height:24px;
