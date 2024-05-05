@@ -206,7 +206,7 @@ div.project div.item:not(.hide) i:first-child {
 	margin-right:var(--input-margin);
 }
 div.project div.item:not(.hide) {
-	// white-space:pre;
+	white-space:pre;
 	line-height:24px;
 	padding:0 var(--button-margin); display:flex; align-items:center;
 	cursor:pointer;
@@ -670,7 +670,7 @@ div.item.button._space.icons { flex-grow:1; min-width:var(--button-margin); }
 div.item.button._space.icons:hover { background-color:unset; cursor:unset; }
 fieldset.inner fieldset.story div.item.button._space.icons { margin-left:0; flex-grow:1; }
 div.tabs>span { font-style:italic; white-space:pre; }
-div.tabs>i:first-child { margin-right:var(--input-margin); margin-bottom:-4px; }
+div.tabs>i:first-child { margin-right:var(--input-margin); }
 div.tabs>span.icon { font-size:var(--icon-font-size); font-style:normal; padding-left:var(--input-padding); visibility:hidden; }
 div.tabs.select>span.icon { visibility:visible; }
 div.tabs:hover>span.icon { visibility:visible; }
