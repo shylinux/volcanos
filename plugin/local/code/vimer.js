@@ -46,7 +46,7 @@ Volcanos(chat.ONFIGURE, {
 						can.onaction.script(can.request(event, {path: path, file: item.path+(can.base.endWith(item.path, "/")? "client.go": "")}), can, nfs.SCRIPT) },
 					nfs.TRASH, function(event, button) { can.runAction(event, nfs.TRASH, [path+item.path], function(msg) { show(target, zone, path) }) },
 				)}; return item
-			}); cache = can.onimport.tree(can, list, nfs.PATH, nfs.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target, cache)
+			}); cache = can.onimport.tree(can, list, function(event, item) { can.onimport.tabview(can, path, item.path) }, function() {}, target, cache)
 			can.onmotion.orderShow(can, target)
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) {
@@ -138,8 +138,7 @@ Volcanos(chat.ONKEYMAP, {
 	scrollHold: function(can, count, begin) { var scroll = can.ui.content.scrollLeft; can.ui.current.focus(), count != undefined && can.onkeymap.cursorMove(can.ui.current, count, begin == undefined? count: begin), can.ui.content.scrollLeft = scroll },
 	cursorDown: function(can, target) { var p = can.onkeymap.cursorMove(target); can.onaction.selectLine(can, can.current.next()), can.onkeymap.cursorMove(target, 0, p) },
 	cursorUp: function(can, target) { var p = can.onkeymap.cursorMove(target); can.onaction.selectLine(can, can.current.prev()), can.onkeymap.cursorMove(target, 0, p) },
-	_model: function(can, value) {
-		can.db.mode = value, can.onimport.__tabPath(can, true),
+	_model: function(can, value) { can.db.mode = value, can.onimport.__tabPath(can, true),
 		can.core.List([mdb.PLUGIN, mdb.NORMAL, mdb.INSERT], function(item) { can.page.ClassList.del(can, can.ui.content, item) }), can.page.ClassList.add(can, can.ui.content, value)
 		can.core.List([mdb.PLUGIN, mdb.NORMAL, mdb.INSERT], function(item) { can.page.ClassList.del(can, can._output, item) }), can.page.ClassList.add(can, can._output, value)
 		can.core.List([mdb.NORMAL, mdb.INSERT], function(item) { can.page.ClassList.del(can, can._fields, item) }), can.page.ClassList.add(can, can._fields, value)
@@ -268,6 +267,7 @@ Volcanos(chat.ONKEYMAP, {
 			zt: shy("屏幕最上", function(can, count) { return can.current.scroll(can.current.scroll()-(count>1? count: 3)), true }),
 			zz: shy("屏幕中间", function(can, count) { return can.current.scroll(can.current.scroll()-(count = count>1? count: can.current.window()/2)), true }),
 			zb: shy("屏幕最下", function(can, count) { return can.current.scroll(can.current.scroll()-can.current.window()+(count>1? count: 5)), true }),
+			F5: shy("刷新网页", function(can, target) { can.user.reload(true) }),
 		},
 		normal_ctrl: {
 			e: shy("向下滚屏", function(can) { can.current.scroll(1) }),

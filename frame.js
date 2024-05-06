@@ -311,7 +311,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/require/src/") && delete(Volcanos.meta.cache[display])
 		Volcanos(display, {_root: can._root, _follow: can.core.Keys(can._follow, display), _fields: can._target, _target: output, _path: display||chat.PLUGIN_TABLE_JS,
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
-			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status, db: {}, ui: {layout: function() {}},
+			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status, db: {hash:[""], value: {}}, ui: {layout: function() {}},
 		}, [display, msg.Option(ice.MSG_DISPLAY_CSS)||undefined, chat.PLUGIN_TABLE_JS], function(sub) { sub.Conf(can.Conf())
 			sub.db.hash = can.base.getValid(can.isCmdMode()? can.misc.SearchHash(can): [], can.misc.localStorage(can, [sub.ConfSpace()||can.misc.Search(can, ice.POD), sub.ConfIndex(), "hash"]))||[]
 			var last = can.sub; last && can.core.CallFunc([last, "onaction.hidden"], {can: last})
@@ -387,7 +387,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 						sub.run = function(event, cmds, cb) { var _msg = can.request(event); _msg.result = [JSON.stringify(msg)], cb(_msg) }
 					})
 				} else if (item.name == ice.LOG_TRACEID) {
-					can.onappend._float(can, web.CODE_XTERM, ["sh", item.value, "grep "+item.value+" var/log/bench.log | grep -v grep | grep -v '"+item.value+" $'"])
+					can.onappend._float(can, web.CODE_XTERM, ["sh", item.value, "grep "+item.value+" var/log/bench.log | grep -v grep | grep -v 'id: "+item.value+" $'"])
 				} else {
 					can.user.copy(event, can, item.value)
 				}
@@ -536,7 +536,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		if (msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.core.List(msg[ctx.ACTION], function(item) { if (item) { return item } }).length == 0) { msg.append.pop() }
 		if (msg.append[msg.append.length-1] == ctx.ACTION && (!msg[ctx.ACTION] || msg[ctx.ACTION].length == 0)) { msg.append.pop() }
 		var option = can.core.Item(can.Option())
-		var table = can.page.AppendTable(can, msg, target||can._output, msg.append, cb||function(value, key, index, data, list) { var _value = value
+		var table = can.page.AppendTable(can, msg, target||can.ui.content||can._output, msg.append, cb||function(value, key, index, data, list) { var _value = value
 			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) {
 				if (key == mdb.VALUE) { key = data.key } data = {}, can.core.List(list, function(item) { data[item.key] = item.value })
 			}
@@ -603,7 +603,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		return table
 	},
 	board: function(can, text, target) { text && text.Result && (text = text.Result()); if (!text) { return }
-		var code = can.page.Append(can, target||can._output, [{text: [can.page.Color(text), html.DIV, html.CODE]}]).code
+		var code = can.page.Append(can, target||can.ui.content||can._output, [{text: [can.page.Color(text), html.DIV, html.CODE]}]).code
 		code.ondblclick = function(event) { can.Option(mdb.KEY, window.getSelection().toString()) && can.Update() }
 		if (text.indexOf("<fieldset") == 0) { can.page.Select(can, code, html.FIELDSET, function(target) { var data = target.dataset
 			data.index && can.onappend.plugin(can, {index: data.index, args: can.base.Split(data.args)}, function(sub) {
@@ -693,7 +693,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			} else if (can.base.isObject(item)) {
 				if (item.index) { item._index = count++, ui.size[item._index] = item.height||item.width
 					item.type = item.type||"story", item.layout = function(height, width) {
-							can.page.style(can, ui[item._index], html.WIDTH, width)
+						can.page.style(can, ui[item._index], html.WIDTH, width)
 					}
 					can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 						item.layout = function(height, width) { sub.onimport.size(sub, height, width, false) }
@@ -724,16 +724,23 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (can.page.isDisplay(target)) { width -= w }
 			}
 		}), can.core.List(list, function(item) { if (can.base.isArray(item)) { layout(type == FLOW? FLEX: FLOW, item, height, width) } }) }
-		ui.profile && can.onmotion.hidden(can, ui.profile), ui.display && can.onmotion.hidden(can, ui.display)
-		if (can.onimport.filter) { ui.filter = can.onimport.filter(can, ui.project) }
-		ui.project && can.user.isMobile && can.onmotion.hidden(can, ui.project)
-		ui.layout = function(height, width, delay, cb) { can.onmotion.delay(can, function() { defer = [], layout(type, ui.list, height, width), defer.forEach(function(cb) { cb() }), cb && cb(content_height, content_width) }, delay||0) }
+		ui.project && can.user.isMobile && can.onmotion.hidden(can, ui.project); if (can.onimport.filter) { ui.filter = can.onimport.filter(can, ui.project) }
+		ui.display && can.onmotion.hidden(can, ui.display), ui.profile && can.onmotion.hidden(can, ui.profile)
+		ui.layout = function(height, width, delay, cb) { can.onmotion.delay(can, function() {
+			defer = [], layout(type, ui.list, height, width), defer.forEach(function(cb) { cb() })
+			if (can.db.value) { can.db.value._display_plugin && (height = height/2-1), can.page.style(can, can.ui.content, html.HEIGHT, height)
+				can.db.value._content_plugin && can.db.value._content_plugin.onimport.size(can.db.value._content_plugin, height, content_width, false)
+				can.db.value._display_plugin && can.db.value._display_plugin.onimport.size(can.db.value._display_plugin, height, content_width, false)
+				can.db.value._display_plugin && can.onmotion.toggle(can, can.ui.display, true)
+			} cb && cb(content_height, content_width)
+		}, delay||0) }
 		can.onimport.layout = can.onimport.layout||function(can) {
-			ui.layout(can.ConfHeight(), can.ConfWidth()), can.onimport._layout && can.onimport._layout(can)
-			can.Action(html.FILTER) && can.onmotion.filter(can, can.Action(html.FILTER))
+			ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
+				can.ui._content_plugin && can.ui._content_plugin.onimport.size(can.ui._content_plugin, height, width, false)
+			}), can.onimport._layout && can.onimport._layout(can), can.Action(html.FILTER) && can.onmotion.filter(can, can.Action(html.FILTER))
 		}
 		can.onimport._layout = can.onimport._layout||function(can) { if (!can.ui.content || !can.ui.content.innerHTML) { return }
-			can.page.style(can, can.ui.content, html.HEIGHT, can._output.style[html.HEIGHT], html.MAX_HEIGHT, can._output.style[html.MAX_HEIGHT])
+			// can.page.style(can, can.ui.content, html.HEIGHT, can._output.style[html.HEIGHT], html.MAX_HEIGHT, can._output.style[html.MAX_HEIGHT])
 			can.page.style(can, can.ui.project, html.HEIGHT, can.ui.content.offsetHeight+can.ui.display.offsetHeight)
 			can.onlayout.expand(can, can.ui.content)
 		}

@@ -278,7 +278,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	},
 	layout: function(can) {
 		if (can.isCmdMode()) { can.ConfHeight(can.page.height()) }
-		if (can.isOutputStyle()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
+		if (can.Conf(ctx.STYLE) == html.OUTPUT) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
 		if (can.isSimpleMode() && !can.page.tagis(can._fields, html.FIELDSET_FLOAT)) { can.page.style(can, can._output, html.MAX_HEIGHT, "") }
 		if (can.isSimpleMode()) { can.ui.layout(can.ConfHeight(), can.ConfWidth()); return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
 		if (can.ui.zone && can.ui.zone.source) {
@@ -335,18 +335,21 @@ Volcanos(chat.ONFIGURE, {
 		function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true, "_toast": "目录加载中..."}), [nfs.PWD], function(msg) { can.onmotion.clear(can, target)
 			can.onimport.tree(can, can.core.List(msg.Table(), function(item) {
 				if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true } return item
-			}), nfs.PATH, nfs.PS, function(event, item) { can.onimport.tabview(can, path, item.path) }, target), zone._total(msg.Length())
+			}), function(event, item) { can.onimport.tabview(can, path, item.path) }, function() {}, target), zone._total(msg.Length())
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) { show(target, zone, path) }) }), target)
 	},
 	module: function(can, target, zone) { zone._delay_init = function() { can.runAction({}, mdb.INPUTS, [ctx.INDEX], function(msg) {
-		can.onimport.tree(can, msg.Table(), ctx.INDEX, nfs.PT, function(event, item) { can.onimport.tabview(can, "", item.index, ctx.INDEX) }, target), zone._total(msg.Length())
+		can.onimport.tree(can, msg.Table(),
+			function(event, item) { can.onimport.tabview(can, "", item.index, ctx.INDEX) },
+			function() {}, target, null, ctx.INDEX, nfs.PT), zone._total(msg.Length())
 		can.onmotion.orderShow(can, target)
 	}) }, zone.toggle(false) },
 	plugin: function(can, target, zone) { zone._delay_init = function() { var total = 0
-		can.onimport.tree(can, can.core.ItemKeys(can.onengine.plugin.meta, function(key) { if (key[0] != "_") { return total++, {index: key} } }), ctx.INDEX, nfs.PT, function(event, item) {
+		can.onimport.tree(can, can.core.ItemKeys(can.onengine.plugin.meta, function(key) { if (key[0] != "_") { return total++, {index: key} } }),
+		function(event, item) {
 			can.onimport.tabview(can, "", can.core.Keys(ice.CAN, item.index), ctx.INDEX)
-		}, target), zone._total(total)
+		}, function() {}, target, null, ctx.INDEX, nfs.PT), zone._total(total)
 		can.onmotion.orderShow(can, target)
 	}, zone.toggle(false) },
 })

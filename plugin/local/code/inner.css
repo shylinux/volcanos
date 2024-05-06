@@ -70,9 +70,9 @@ fieldset.inner>div.output>div.layout>div.path span.view { font-size:22px; font-s
 body.windows fieldset.inner>div.output>div.layout>div.path span.view { margin-top:0; }
 body.windows fieldset.inner>div.output>div.layout>div.path span.view { font-style:normal; }
 fieldset.inner>div.output>div.layout>fieldset.plug.output { white-space:pre; }
-fieldset.inner.cmd>div.output>div.layout>div.plug { height:var(--action-height); overflow:auto; }
+fieldset.inner.cmd>div.output>div.layout>div.plug { box-shadow:var(--box-shadow); height:var(--action-height); overflow:auto; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend {
-	box-shadow:var(--legend-box-shadow);
+	// box-shadow:var(--legend-box-shadow);
 	font-style:italic; font-size:var(--legend-font-size);
 	padding:0 var(--input-padding); margin-left:var(--input-margin); margin-right:0;
 	float:right; }

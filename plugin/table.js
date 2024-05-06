@@ -152,8 +152,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	},
 	itemlist: function(can, list, cb, cbs, target) { if (!list || list.length == 0) { return }
 		if (!target) { return can.core.List(list, function(value) { can.onimport.item(can, value, cb, cbs) }) }
-		var _select
-		target._list = can.page.insertBefore(can, [{view: html.LIST, list: can.core.List(list, function(item) { var icon = item.icon||item.icons
+		var _list = can.core.List(list, function(item) { var icon = item.icon||item.icons
 			return {view: html.ITEM, list: [
 				icon && (can.base.contains(icon, ice.HTTP, ".ico", ".png", ".jpg")? {img: can.misc.Resource(can, icon)}: {icon: icon}),
 				{text: item.nick||item.name||item.zone}
@@ -167,31 +166,53 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 				if (can.base.isFunc(cbs)) { var menu = cbs(event, event.currentTarget); if (menu) { return can.user.carteRight(event, can, menu.meta, menu.list, menu) } }
 				can.user.carteItem(event, can, item)
 			}}
-		}) }], target.nextSibling, target.parentNode)
-		_select && _select.click()
+		})
+		var _select; if (target._list) { can.page.Append(can, target._list, _list) } else {
+			target._list = can.page.insertBefore(can, [{view: html.LIST, list: _list}], target.nextSibling, target.parentNode)
+		} _select && _select.click()
 		return target._list
 	},
-	list: function(can, root, cb, target, cbs) { target = target||can._output
+	list: function(can, root, cb, cbs, target) { target = target||can._output
 		can.core.List(root.list, function(item) { var ui = can.page.Append(can, target, [{view: [[html.ITEM, "open"]], list: [{text: item.meta.name}, item.list && {icon: icon.CHEVRON_DOWN}], onclick: function(event) {
 			can.page.ClassList.set(can, ui.item, "open", can.base.isFunc(cb) && cb(event, item) || can.onmotion.toggle(can, ui.list))
 			can.onmotion.select(can, target, html.DIV_ITEM, event.target)
 		}, _init: function(target) { if (item.meta.name == "_") { target.innerHTML = "", can.onappend.style(can, html.SPACE, target) }
 			cbs && cbs(target, item)
-		}}, {view: html.LIST}]); can.onimport.list(can, item, cb, ui.list, cbs) })
+		}}, {view: html.LIST}]); can.onimport.list(can, item, cb, cbs, ui.list) })
 	},
-	tree: function(can, list, field, split, cb, target, node) { node = node||{"": target}
+	tree: function(can, list, cb, cbs, target, node, field, split) { node = node||{"": target||can.ui.project}
+		field = field||nfs.PATH, split = split||nfs.PS
 		can.core.List(list, function(item) { item[field] && can.core.List(item[field].split(split), function(value, index, array) { if (!value) { return }
 			var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split); if (node[name]) { return }
+			last && node[last] && can.page.Select(can, node[last].previousSibling, "div.expand", function(target) { target.innerHTML == "" && (target.innerHTML = can.page.unicode.closes) })
 			var ui = can.page.Append(can, node[last], [{view: html.ITEM, list: [
 				{view: [[html.EXPAND, item.expand? cli.OPEN: ""], html.DIV, (index==array.length-1? "": can.page.unicode.closes)]},
 				{view: [mdb.NAME, html.DIV, value], _init: item._init},
-			], onclick: function(event) {
-				if (node[name].childElementCount == 2) { node[name].firstChild.click() }
-				index < array.length - 1? can.page.ClassList.set(can, ui[html.EXPAND], cli.OPEN, !can.page.ClassList.neg(can, node[name], html.HIDE)): can.base.isFunc(cb) && cb(event, item)
+			], onclick: function(event) { var target = event.currentTarget
+				if (node[name].childElementCount > 0&& !can.page.ClassList.set(can, ui[html.EXPAND], cli.OPEN, !can.page.ClassList.neg(can, node[name], html.HIDE))) { return }
+				target && can.page.Select(can, can.ui.project, html.DIV_ITEM, function(target) { can.page.ClassList.del(can, target, html.SELECT) })
+				for (var p = target; p; p = p.parentNode.previousElementSibling) {
+					can.page.ClassList.add(can, p, html.SELECT), can.onmotion.toggle(can, p.nextSibling, true)
+				} can.onexport.hash(can, [item[field]]), can.base.isFunc(cb) && cb(event, item, ui.item)
+				node[item[field]] && can.page.ClassList.add(can, node[item[field]].previousSibling, html.SELECT)
+				if (node[name].childElementCount == 2) { can.onmotion.delay(can, function() { node[name].firstChild.click() }) }
 			}, oncontextmenu: function(event) { if (!item._menu) { return }
 				var menu = item._menu; can.user.carteRight(event, can, menu.meta, menu.list, menu)
-			}}, {view: [[html.LIST, item.expand? "": html.HIDE]]}]); node[name] = ui.list
-		}) }); return node
+			}}, {view: [[html.LIST, item.expand? "": html.HIDE]]}]); node[name] = ui.list;
+			(item._select || can.db.hash && (can.db.hash[0]||"").indexOf(item[field]) == 0) && can.onmotion.delay(can, function() { ui.item.click() })
+		}) });
+		return node
+	},
+	tabsCache: function(can, msg, key, value, target, cb) { if (value._tabs) { return value._tabs.click() }
+		value._tabs = can.onimport.tabs(can, [value], function() { can.onexport.hash(can, [key]), can.Status(value), can.db.value = value
+			can.page.ClassList.has(can, target, html.SELECT) || can.onmotion.delay(can, function() { target.click() })
+			if (can.onmotion.cache(can, function() { return key }, can.ui.content, can.ui.profile, can.ui.display)) { return can.onimport.layout(can) }
+			if (cb && cb()) { return }
+			if (msg.Append(ctx.INDEX)) { msg.Table(function(value, index) {
+				index == 0 && can.onappend.plugin(can, value, function(sub) { can.db.value._content_plugin = sub, can.onimport.layout(can) }, can.ui.content)
+				index == 1 && can.onappend.plugin(can, value, function(sub) { can.db.value._display_plugin = sub, can.onimport.layout(can) }, can.ui.display)
+			}) } else { can.onappend.table(can, msg), can.onappend.board(can, msg) }
+		}, function() { delete(value._tabs), can.onmotion.cacheClear(can, key, can.ui.content, can.ui.profile, can.ui.display) })
 	},
 	tabs: function(can, list, cb, cbs, action) { action = action||can._action; return can.page.Append(can, action, can.core.List(list, function(tabs) {
 		if (typeof tabs == code.STRING) { tabs = {name: tabs} }
@@ -298,7 +319,7 @@ Volcanos(chat.ONEXPORT, {
 	session: function(can, key, value) { return can.misc[can.user.isWebview? "localStorage": "sessionStorage"](can, [can.Conf(ctx.INDEX), key, location.pathname].join(":"), value == ""? "": JSON.stringify(value)) },
 	action_value: function(can, key, def) { var value = can.Action(key); return can.base.isIn(value, ice.AUTO, key, undefined)? def: value },
 	tool: function(can) { can.misc.sessionStorage(can, [can.ConfIndex(), "tool"], JSON.stringify(can.page.Select(can, can._status, html.LEGEND, function(target) { return target._meta }))) },
-	hash: function(can, hash) { can.misc.SearchHash(can, hash)
+	hash: function(can, hash) { hash = typeof hash == code.STRING? [hash]: hash, can.misc.SearchHash(can, hash)
 		can.misc.localStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), "hash"], hash)
 	},
 	tabs: function(can) {},

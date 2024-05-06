@@ -24,7 +24,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 			if (can.base.beginWith(link, nfs.PS, web.HTTP)) { return can.user.opens(link) }
 			if (can.onmotion.cache(can, function() { return can.onexport.title(can, item.meta.name), can.Option(nfs.PATH, link) })) { return }
 			return can.sup.Update(event, [link])
-		}, nav)
+		}, function() {}, nav)
 		can.onimport.layout(can)
 	},
 	premenu: function(can, meta, target) { can.page.Select(can, can._output, can.page.Keys(html.H2, html.H3), function(_target) {
