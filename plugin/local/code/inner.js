@@ -278,9 +278,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	},
 	layout: function(can) {
 		if (can.isCmdMode()) { can.ConfHeight(can.page.height()) }
-		if (can.isSimpleMode() && !can.page.tagis(can._fields, "fieldset.float")) { can.page.style(can, can._output, html.MAX_HEIGHT, "") }
+		if (can.isOutputStyle()) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
+		if (can.isSimpleMode() && !can.page.tagis(can._fields, html.FIELDSET_FLOAT)) { can.page.style(can, can._output, html.MAX_HEIGHT, "") }
 		if (can.isSimpleMode()) { can.ui.layout(can.ConfHeight(), can.ConfWidth()); return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
-		// if (can.Conf(ctx.STYLE) == html.OUTPUT) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
 		if (can.ui.zone && can.ui.zone.source) {
 			var p = can.ui.zone.source[can.Option(nfs.PATH)+can.Option(nfs.FILE)]
 			can.page.Select(can, can.ui.zone.source._target, "div.name", function(target) {
