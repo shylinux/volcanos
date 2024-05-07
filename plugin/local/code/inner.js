@@ -185,14 +185,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	history: function(can, record) { can.base.Eq(record, can.db.history[can.db.history.length-1], mdb.TEXT) || can.db.history.push(record)
 		return can.Status(ice.BACK, can.db.history.length), record
 	},
-	project: function(can, path) {
-		if (can.Conf("style") == "output") {
-			can.onmotion.hidden(can, can.ui.project)
-			return
-		}
+	project: function(can, path) { if (can.Conf(ctx.STYLE) == html.OUTPUT) { return can.onmotion.hidden(can, can.ui.project) }
 		can.onmotion.clear(can, can.ui.project), can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) {
-		if (can.base.isFunc(cb)) { return {name: name, icon: cb.meta? cb.meta.icon: "", _trans: can.onfigure._trans? can.onfigure._trans[name]||"": "", _toggle: function() { can.onimport.layout(can) }, _init: function(target, zone) { return cb(can, target, zone, path) }} }
-	}), can.ui.project) },
+			if (can.base.isFunc(cb)) { return {name: name, icon: cb.meta? cb.meta.icon: "", _trans: can.onfigure._trans? can.onfigure._trans[name]||"": "", _toggle: function() { can.onimport.layout(can) }, _init: function(target, zone) { return cb(can, target, zone, path) }} }
+		}), can.ui.project)
+	},
 	profile: function(can, msg) { var _msg = can.db.tabview[can.onexport.keys(can)]; _msg.Option(html.WIDTH, msg.Option(html.WIDTH)), border = 1
 		var height = (can.ui.content._root||can.ui.content).offsetHeight, width = can.onexport.size(can, _msg.Option(html.WIDTH)||0.5, can.ConfWidth()-can.ui.project.offsetWidth)+border
 		if (msg.Result().indexOf("<iframe src=") > -1) { if (_msg._profile != can.ui._profile) { can.page.Remove(can, _msg._profile) }
@@ -617,15 +614,20 @@ Volcanos(chat.ONACTION, {
 			}), cb(msg) }}, target)
 		}
 		function grep(value, file, path) { var arg = can.core.List(arguments); can.onimport.exts(can, "inner/search.js", function(sub) {
+			arg.push("src/", "usr/release/", "usr/icebergs/", "usr/toolkits/", "usr/volcanos/")
 			can.page.isDisplay(sub._target) || (sub._delay_init = false, sub.select()), sub.runAction(can.request({}, {value: value}), nfs.GREP, arg)
 		}) }
 		var from, to; var meta = can.onappend._action(can, [
-			{type: html.TEXT, name: nfs.FROM, style: {width: 200}, _init: function(target) { from = target, complete(target, nfs.FIND), can.onmotion.delay(can, function() { target.focus() }) }},
-			{type: html.BUTTON, name: nfs.FIND}, {type: html.BUTTON, name: nfs.GREP}, {type: html.TEXT, name: nfs.TO, _init: function(target) { to = target, complete(target, nfs.REPLACE) }},
-			{type: html.BUTTON, name: nfs.REPLACE}, {type: html.BUTTON, name: cli.CLOSE},
+			{type: html.TEXT, name: nfs.FROM, _init: function(target) { from = target, complete(target, nfs.FIND), can.onmotion.delay(can, function() { target.focus() }) }},
+			{type: html.BUTTON, name: nfs.FIND},
+			{type: html.BUTTON, name: nfs.GREP},
+			{type: html.HR},
+			{type: html.TEXT, name: nfs.TO, _init: function(target) { to = target, complete(target, nfs.REPLACE) }},
+			{type: html.BUTTON, name: nfs.REPLACE},
+			{type: html.BUTTON, name: cli.CLOSE},
 		], ui.action, {_trans: {find: "查找", grep: "搜索", replace: "替换"},
 			find: function() { grep(from.value, can.Option(nfs.FILE), can.Option(nfs.PATH)), find(last+1, from.value) },
-			grep: function() { grep(from.value, nfs.PT, can.Option(nfs.PATH)) },
+			grep: function() { grep(from.value, can.Option(nfs.PATH)) },
 			replace: function() { var text = can.current.text(), line = can.onexport.line(can, can.current.line)
 				can.db.undo.push(function() { can.onaction.selectLine(can, line), can.onaction.modifyLine(can, line, text) })
 				grep(from.value, can.Option(nfs.FILE), can.Option(nfs.PATH))

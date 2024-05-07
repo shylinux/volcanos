@@ -76,6 +76,11 @@ fieldset.inner.cmd>div.output>div.layout>div.plug>legend {
 	font-style:italic; font-size:var(--legend-font-size);
 	padding:0 var(--input-padding); margin-left:var(--input-margin); margin-right:0;
 	float:right; }
+div.input.vimer.find div.action div.item { margin:var(--input-margin); }
+div.input.vimer.find div.action div.item.text input { width:var(--project-width) }
+div.input.vimer.find div.action div.item.close span { display:none; }
+fieldset.inner fieldset.plug.can._plugin.search>form.option>div.item.value input { width:var(--project-width); }
+fieldset.inner fieldset.plug.can._plugin.search>form.option>div.item.filter input { width:var(--project-width); }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend:hover { box-shadow:var(--notice-box-shadow); color:unset; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove { padding:0 var(--input-padding); height:30px; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove:hover { background-color:var(--hover-bg-color); }
@@ -90,7 +95,7 @@ div.vimer.open.float td:first-child { display:none; }
 div.vimer.open.float td:nth-child(2) { display:none; }
 div.vimer.plug.float div.item.text input { width:var(--river-width); }
 div.layout.flex>input.current { clear:both; }
-tr.line>td.line { -webkit-user-select:none; border-right:var(--box-border); }
+tr.line>td.line { -webkit-user-select:none; border-right:var(--box-border); cursor:pointer; }
 tr.line>td.line { text-align:right; line-height:var(--code-line-height); padding:0 var(--button-padding); position:sticky; left:0; }
 tr.line>td.text { white-space:pre; line-height:var(--code-line-height); padding-left:var(--input-padding); width:100%; }
 tr.line:hover { background-color:var(--hover-bg-color); }

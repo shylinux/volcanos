@@ -221,6 +221,11 @@ div.project div.item.search>input { padding:0 25px; width:100%; }
 div.project div.expand { margin-right:var(--input-margin); width:5px; float:left; transform: translate(1px, -1px) rotate(0deg); transition:all .5s; }
 div.project div.expand.open { transform: translate(4px, -1px) rotate(90deg); transition:all .3s; }
 div.project div.item>div.name { padding:0 var(--input-padding); }
+div.project div.item { position:relative; }
+div.project div.item>div.icon { hover:var(--hover-bg-color); position:absolute; right:0; }
+div.project div.item:not(:hover)>div.icon { display:none; }
+div.project div.item>i:last-child { hover:var(--hover-bg-color); position:absolute; right:0; }
+div.project div.item:not(:hover)>i:last-child { display:none; }
 div.project div.zone>div.item { text-align:center; padding:var(--input-padding); display:flex; align-items:center; }
 div.project div.zone>div.item span:hover { background-color:var(--hover-bg-color); }
 div.project>div.zone>div.item span:first-child { font-style:italic; font-weight:bold; line-height:var(--action-height); }
@@ -575,7 +580,8 @@ kbd { font-family:var(--code-font-family); line-height:var(--code-line-height); 
 kbd:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 table.content { font-family:var(--table-font-family); }
 table.content th { font-family:var(--input-font-family); font-style:italic; }
-body div.code { font-family:var(--table-font-family); padding:var(--table-padding); }
+body div.output>div.code { font-family:var(--table-font-family); padding:var(--table-padding); }
+body div.content>div.code { font-family:var(--table-font-family); padding:var(--table-padding); }
 body div.tabs { font-family:var(--code-font-family); }
 body div.path { font-family:var(--code-font-family); }
 body div.carte { font-family:var(--code-font-family); }
@@ -950,10 +956,10 @@ div.scrollbar {
 	background-color:var(--hover-bg-color); font-size:8px !important; line-height:10px;
 	border-radius:var(--button-radius); position:absolute; visibility:hidden;
 }
-div.scrollbar.vertical { writing-mode:tb; width:10px; right:0; top:0; transition:width .3s 1s; }
+div.scrollbar.vertical { writing-mode:tb; width:10px; right:0; top:0; transition:width .3s 1s; cursor:pointer; }
 div.scrollbar.vertical:hover { width:30px; transition:width .1s; font-size:24px !important; }
 div.scrollbar.horizon:hover { height:30px; transition:height .1s; font-size:24px !important; }
-div.scrollbar.horizon { height:10px; left:0; bottom:0; transition:height .3s 1s; }
+div.scrollbar.horizon { height:10px; left:0; bottom:0; transition:height .3s 1s; cursor:pointer; }
 form.option>div.text>span.value::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.project div.list::-webkit-scrollbar { width:0 !important; height:0 !important; }

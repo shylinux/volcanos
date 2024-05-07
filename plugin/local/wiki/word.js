@@ -17,6 +17,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 			target.innerText = target.innerText || target.href, target.href = target.href || target.innerText, target.target = target || "_blank"
 		})
 	},
+	list: function(can, root, cb, cbs, target) { target = target||can._output
+		can.core.List(root.list, function(item) { var ui = can.page.Append(can, target, [{view: [[html.ITEM, "open"]], list: [{text: item.meta.name}, item.list && {icon: icon.CHEVRON_DOWN}], onclick: function(event) {
+			can.page.ClassList.set(can, ui.item, "open", can.base.isFunc(cb) && cb(event, item) || can.onmotion.toggle(can, ui.list))
+			can.onmotion.select(can, target, html.DIV_ITEM, event.target)
+		}, _init: function(target) { if (item.meta.name == "_") { target.innerHTML = "", can.onappend.style(can, html.SPACE, target) }
+			cbs && cbs(target, item)
+		}}, {view: html.LIST}]); can.onimport.list(can, item, cb, cbs, ui.list) })
+	},
 	navmenu: function(can, meta, target) { var nav = can.sup._navmenu
 		nav = can.onmotion.clear(can, nav||can.page.insertBefore(can, [wiki.NAVMENU], can._output)), can.sup._navmenu = nav
 		can.onimport.list(can, can.base.Obj(meta.data), function(event, item) {

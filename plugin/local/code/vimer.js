@@ -46,7 +46,7 @@ Volcanos(chat.ONFIGURE, {
 						can.onaction.script(can.request(event, {path: path, file: item.path+(can.base.endWith(item.path, "/")? "client.go": "")}), can, nfs.SCRIPT) },
 					nfs.TRASH, function(event, button) { can.runAction(event, nfs.TRASH, [path+item.path], function(msg) { show(target, zone, path) }) },
 				)}; return item
-			}); cache = can.onimport.tree(can, list, function(event, item) { can.onimport.tabview(can, path, item.path) }, function() {}, target, cache)
+			}); cache = can.onimport.tree(can, list, function(event, item) { can.base.endWith(item.path, nfs.PS) || can.onimport.tabview(can, path, item.path) }, function() {}, target, cache)
 			can.onmotion.orderShow(can, target)
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) {
