@@ -139,9 +139,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		function isIndex() { return line == ctx.INDEX } function isSpace() { return line == web.SPACE }
 		function show(skip) { can._msg && can._msg.Option && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.db.tabview[key]
 			can.Option(can.onimport.history(can, {path: path, file: file, line: line||can.onexport.session(can, SELECT_LINE+nfs.DF+path+file)||can._msg.Option(nfs.LINE)||1}))
-			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg; can.onexport.hash(can)
+			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg; can.onexport.hash(can), can.onmotion.toggle(can, can.ui.path, true)
 				can.isCmdMode() && can.onexport.title(can, (isIndex()||isSpace()? "": path)+file), can.onmotion.select(can, can.ui._tabs, html.DIV_TABS, msg._tab), can.isCmdMode() && msg._tab.scrollIntoView()
-				can.onmotion.toggle(can, can.ui.path, true)
 				if (isSpace()) {
 					can.ui.path.innerHTML = can.page.Format(html.A, can.base.trimPrefix(can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}), location.origin))
 				} else if (isIndex()) { can.onmotion.hidden(can, can.ui.path)
@@ -169,9 +168,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 				name = file.split(mdb.FS)[0].split(isIndex()? nfs.PT: nfs.PS).pop()
 			}
 			var tabs = can.onimport.tabs(can, [{name: name, text: file, _menu: shy([nfs.SAVE, nfs.TRASH, web.REFRESH], function(event, button, meta) {
-				can.request(event, msg)
-				can.onaction[button](event, can, button) })}], function(event, tabs) {
-				can._tab = msg._tab = tabs._target, show(skip), skip = true
+				can.request(event, msg), can.onaction[button](event, can, button)
+			})}], function(event, tabs) { can._tab = msg._tab = tabs._target, show(skip), skip = true
+				can.onmotion.delay(can, function() {
+					var item = can.ui.zone && can.ui.zone.source && can.ui.zone.source[path+file]; if (!item) { return }
+					item._tabs = tabs._target, can.page.ClassList.has(can, item, html.SELECT) || can.ui.zone.source[path+file].click() })
 			}, function(tabs) { can.onengine.signal(can, VIEW_REMOVE, msg) // , can.ui.zone.source.refresh()
 				msg.__content || can.page.Remove(can, msg._content), msg._profile != can.ui._profile && can.page.Remove(can, msg._profile)
 				can.ui._profile._cache && delete(can.ui._profile._cache[key]), can.ui._display._cache && delete(can.ui._display._cache[key])

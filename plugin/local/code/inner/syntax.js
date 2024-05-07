@@ -200,6 +200,7 @@ Volcanos(chat.ONSYNTAX, {
 			}
 		},
 	}, mod: {prefix: {"//": code.COMMENT}, split: {operator: "(=>)"}, keyword: {"go": code.KEYWORD, "module": code.KEYWORD, "require": code.KEYWORD, "replace": code.KEYWORD}}, sum: {},
+	work: {keyword: {go: code.KEYWORD, use: code.KEYWORD}},
 	js: {prefix: {"// ": code.COMMENT}, regexp: {"[A-Z_0-9]+": code.CONSTANT},
 		keyword: {
 			"let": code.KEYWORD, "const": code.KEYWORD, "var": code.KEYWORD,

@@ -46,7 +46,9 @@ Volcanos(chat.ONFIGURE, {
 						can.onaction.script(can.request(event, {path: path, file: item.path+(can.base.endWith(item.path, "/")? "client.go": "")}), can, nfs.SCRIPT) },
 					nfs.TRASH, function(event, button) { can.runAction(event, nfs.TRASH, [path+item.path], function(msg) { show(target, zone, path) }) },
 				)}; return item
-			}); cache = can.onimport.tree(can, list, function(event, item) { can.base.endWith(item.path, nfs.PS) || can.onimport.tabview(can, path, item.path) }, function() {}, target, cache)
+			}); cache = can.onimport.tree(can, list, function(event, item) { can.base.endWith(item.path, nfs.PS) || can.onimport.tabview(can, path, item.path) }, function(event, target, item) {
+				var msg = can.request(event); msg.Option(nfs.PATH, path), msg.Option(nfs.FILE, item.path)
+			}, target, cache)
 			can.onmotion.orderShow(can, target)
 		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
 		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) {
@@ -68,10 +70,11 @@ Volcanos(chat.ONACTION, {list: [
 	"后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		if (msg.IsErr()) { return can.user.toastFailure(can, msg.Result()) }
-		can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)), can.ui.zone.source.refresh()
+		can.onmotion.delay(can, function() { can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)) }, 300)
+		can.ui.zone.source.refresh()
 	}) },
 	_runs: function(event, can, button, cb) { var meta = can.Conf(), msg = can.request(event); msg.Option(ctx.ACTION, button)
-		can.user.input(event, can, meta.feature[button], function(args) { can.onaction._run(event, can, button, args, cb) }) },
+		can.user.input(event, can, meta.feature[button], function(data, args) { var msg = can.request(event); msg.Option(data), can.onaction._run(event, can, button, args, cb) }) },
 	save: function(event, can, button) { can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
 		function imports(str) { var block = "", count = 0; can.core.List(str.split(lex.NL), function(item) {
 			if (can.base.beginWith(item, "import (")) { block = can.core.Split(item)[0]; return }
@@ -87,7 +90,11 @@ Volcanos(chat.ONACTION, {list: [
 			} can.user.toastSuccess(can, p, button)
 		})
 	},
-	trash: function(event, can, button) { can.onaction._run(event, can, button, [can.Option(nfs.PATH)+can.Option(nfs.FILE)], function() { can._msg._tab._close() }) },
+	trash: function(event, can, button) { var msg = can.request(event), p = msg.Option(nfs.PATH)+msg.Option(nfs.FILE)
+		can.onaction._run(event, can, button, [p], function() {
+			var target = can.ui.zone.source[p]; if (target._tabs) { target._tabs._close() } can.page.Remove(can, target)
+		})
+	},
 	script: function(event, can, button) { can.onaction._runs(event, can, button) },
 	module: function(event, can, button) { can.onaction._runs(can.request(event, {title: "创建模块"}), can, button) },
 	compile: function(event, can, button) { var msg = can.request(event); msg.Option(chat._TOAST, "")

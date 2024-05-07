@@ -197,19 +197,17 @@ div.project div.action div.item.icons input { display:none; }
 div.project div.action div.item.icons { background-color:var(--plugin-bg-color); padding:0; }
 div.project div.list { margin-left:var(--button-margin); clear:both; }
 body.width6 fieldset.plugin>div.output>div.project div.list { margin-left:var(--legend-margin); }
-// div.project div.list { border-left:var(--disable-fg-color) dashed 1px; }
+div.project div.list { border-left:var(--disable-fg-color) dashed 1px; }
+fieldset.inner>div.output>div.project div.list { border-left:none; }
 div.project div.list fieldset { position:static; }
-div.project div.item.select {
-	border-right:var(--box-notice3);
-}
-div.project div.item:not(.hide) i:first-child {
-	margin-right:var(--input-margin);
-}
+div.project div.item.select { border-right:var(--box-notice3); }
+fieldset.vimer>div.output>div.project div.item.select { border-right:var(--box-border3); }
+fieldset.vimer.normal>div.output>div.project div.item.select { border-right:var(--box-notice3); }
+fieldset.vimer.insert>div.output>div.project div.item.select { border-right:var(--box-danger3); }
+div.project div.item:not(.hide) i:first-child { margin-right:var(--input-margin); }
 div.project div.item:not(.hide) {
-	white-space:pre;
-	line-height:24px;
+	white-space:pre; line-height:24px; cursor:pointer;
 	padding:0 var(--button-margin); display:flex; align-items:center;
-	cursor:pointer;
 }
 div.project div.item img { height:var(--action-height); width:var(--action-height); }
 div.project div.item img { margin:0; }

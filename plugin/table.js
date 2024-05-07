@@ -104,7 +104,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		return {text: item.nick||item.name||item.zone||item.sess}
 	},
 	_menu: function(event, can, item, cbs, target) { target = target||event.currentTarget
-		if (can.base.isFunc(cbs)) { var menu = cbs(event, target); if (menu) { return can.user.carteRight(event, can, menu.meta, menu.list, menu) } }
+		if (can.base.isFunc(cbs)) { var menu = cbs(event, target, item); if (menu) { return can.user.carteRight(event, can, menu.meta, menu.list, menu) } }
 		can.user.carteItem(event, can, item)
 	},
 	_item: function(can, item, cb, cbs) {
@@ -158,7 +158,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 				if (node[name].childElementCount == 2) { can.onmotion.delay(can, function() { node[name].firstChild.click() }) }
 			}, oncontextmenu: function(event) {
 				can.onimport._menu(event, can, item, cbs)
-			}}, {view: [[html.LIST, item.expand? "": html.HIDE]]}])
+			}}, {view: [[html.LIST, html.HIDE]]}])
 			node[name] = ui.list, (item._select || can.db.hash && (can.db.hash[0]||"").indexOf(key) == 0) && can.onmotion.delay(can, function() { ui.item.click() })
 		}) }); return node
 	},
