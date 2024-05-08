@@ -119,20 +119,24 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			can.onimport._menu(event, can, item, cbs)
 		}}
 	},
-	item: function(can, item, cb, cbs, target) {
-		return can.page.Append(can, target||can.ui.project||can._output, [can.onimport._item(can, item, function(event) {
-			can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)
-			cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list), event.currentTarget)
+	item: function(can, item, cb, cbs, _target) {
+		return can.page.Append(can, _target||can.ui.project||can._output, [can.onimport._item(can, item, function(event) { var target = event.currentTarget
+			can.onmotion.select(can, _target, html.DIV_ITEM, target), cb(event, item, target._list && can.onmotion.toggle(can, target._list), target)
 		}, cbs)])._target
+	},
+	_itemselect: function(can, target) {
+		can.page.Select(can, can.ui.project, html.DIV_ITEM, function(target) { can.page.ClassList.del(can, target, html.SELECT) })
+		for (var p = target; p; p = p.parentNode.previousElementSibling) {
+			can.page.ClassList.add(can, p, html.SELECT), can.onmotion.toggle(can, p.nextSibling, true)
+		}
 	},
 	itemlist: function(can, list, cb, cbs, target) { if (!list || list.length == 0) { return }
 		if (!target) { return can.core.List(list, function(value) { can.onimport.item(can, value, cb, cbs) }) }
 		if (!target._list) { target._list = can.page.insertBefore(can, [html.LIST], target.nextSibling, target.parentNode) }
 		return can.page.Append(can, target._list, can.core.List(list, function(item) {
 			return can.onimport._item(can, item, function(event) { var target = event.currentTarget
-				can.page.Select(can, can.ui.project, html.DIV_ITEM, function(target) { can.page.ClassList.del(can, target, html.SELECT) })
-				for (var p = target; p; p = p.parentNode.previousElementSibling) { can.page.ClassList.add(can, p, html.SELECT) }
-				cb(event, item, event.currentTarget._list && can.onmotion.toggle(can, event.currentTarget._list), event.currentTarget)
+				if (target._list && target._list.childElementCount > 0 && target._list && can.onmotion.toggle(can, target._list) == false) { return }
+				can.onimport._itemselect(can, target), cb && cb(event, item, target._list && true, target)
 			}, cbs)
 		})), target._list
 	},
@@ -141,7 +145,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split); if (node[name]) { return }
 			last && node[last] && can.page.Select(can, node[last].previousSibling, "div.expand", function(target) { target.innerHTML == "" && (target.innerHTML = can.page.unicode.closes) })
 			var ui = can.page.Append(can, node[last], [{view: html.ITEM, list: [
-				// {view: [[html.EXPAND, item.expand? cli.OPEN: ""], html.DIV, (index==array.length-1? "": can.page.unicode.closes)]},
 				{view: [[html.EXPAND], html.DIV, (index==array.length-1? "": can.page.unicode.closes)]},
 				{view: [mdb.NAME, html.DIV, value]},
 				item.action && {view: [mdb.ICON], list: [{icon: "bi bi-three-dots", onclick: function(event) { can.onimport._menu(event, can, item, cbs) }}]},
@@ -150,16 +153,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 				item._init && item._init(target)
 			}, onclick: function(event) { var target = event.currentTarget
 				if (node[name].childElementCount > 0 && !can.page.ClassList.set(can, ui[html.EXPAND], cli.OPEN, !can.page.ClassList.neg(can, node[name], html.HIDE))) { return }
-				can.page.Select(can, node[""], html.DIV_ITEM, function(target) { can.page.ClassList.del(can, target, html.SELECT) })
-				for (var p = target; p; p = p.parentNode.previousElementSibling) {
-					can.page.ClassList.add(can, p, html.SELECT), can.onmotion.toggle(can, p.nextSibling, true)
-				} node[key] && can.page.ClassList.add(can, node[key].previousSibling, html.SELECT)
-				can.onexport.hash(can, [key]), can.base.isFunc(cb) && cb(event, item, ui.item)
+				can.onexport.hash(can, [key]), can.onimport._itemselect(can, target), can.base.isFunc(cb) && cb(event, item, ui.item)
+				node[key] && can.page.ClassList.add(can, node[key].previousSibling, html.SELECT)
 				if (node[name].childElementCount == 2) { can.onmotion.delay(can, function() { node[name].firstChild.click() }) }
 			}, oncontextmenu: function(event) {
 				can.onimport._menu(event, can, item, cbs)
 			}}, {view: [[html.LIST, html.HIDE]]}])
-			node[name] = ui.list, (item._select || can.db.hash && (can.db.hash[0]||"").indexOf(key) == 0) && can.onmotion.delay(can, function() { ui.item.click() })
+			node[name] = ui.list, (item._select || can.db.hash && (can.db.hash[0]||"").indexOf(key) == 0) && can.onmotion.delayOnce(can, function() { ui.item.click() })
 		}) }); return node
 	},
 	tabs: function(can, list, cb, cbs, action) { action = action||can._action; return can.page.Append(can, action, can.core.List(list, function(tabs) { if (typeof tabs == code.STRING) { tabs = {name: tabs} }

@@ -556,7 +556,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			function request(event) { delete(data.action); return can.request(event, data, can.Option()) }
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(request(event), [ctx.ACTION, cmd].concat(arg)) }) }
 			function img(p) { return !msg.IsDetail()? can.page.Format(html.IMG, p, 48, 48): can.user.isMobile? can.page.Format(html.IMG, p, null, 320): can.page.Format(html.IMG, p, 320, null) }
-			if (key == mdb.NAME && value) { _value = can.user.trans(can, value, null, html.INPUT) }
+			// if (key == mdb.NAME && value) { _value = can.user.trans(can, value, null, html.INPUT) }
 			if (key == mdb.ICON && value) { _value = img(can.misc.Resource(can, data[key], data[ice.POD]||data[web.SPACE])) }
 			if (key == mdb.ICONS && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }

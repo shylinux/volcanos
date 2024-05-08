@@ -207,7 +207,7 @@ fieldset.vimer.insert>div.output>div.project div.item.select { border-right:var(
 div.project div.item:not(.hide) i:first-child { margin-right:var(--input-margin); }
 div.project div.item:not(.hide) {
 	white-space:pre; line-height:24px; cursor:pointer;
-	padding:0 var(--button-margin); display:flex; align-items:center;
+	padding:0 var(--input-padding); display:flex; align-items:center;
 }
 div.project div.item img { height:var(--action-height); width:var(--action-height); }
 div.project div.item img { margin:0; }
@@ -218,11 +218,13 @@ div.project div.item.search { padding:0; width:100%; }
 div.project div.item.search>input { padding:0 25px; width:100%; }
 div.project div.expand { margin-right:var(--input-margin); width:5px; float:left; transform: translate(1px, -1px) rotate(0deg); transition:all .5s; }
 div.project div.expand.open { transform: translate(4px, -1px) rotate(90deg); transition:all .3s; }
-div.project div.item>div.name { padding:0 var(--input-padding); }
 div.project div.item { position:relative; }
-div.project div.item>div.icon { hover:var(--hover-bg-color); position:absolute; right:0; }
+div.project div.item>div.name { padding:0 var(--input-padding); }
+div.project div.item>div.icon { position:absolute; right:var(--input-padding); }
+div.project div.item>div.icon:hover { background-color:var(--hover-bg-color); }
 div.project div.item:not(:hover)>div.icon { display:none; }
-div.project div.item>i:last-child { hover:var(--hover-bg-color); position:absolute; right:0; }
+div.project div.item>i:last-child { position:absolute; right:var(--input-padding); }
+div.project div.item>i:last-child:hover { background-color:var(--hover-bg-color); }
 div.project div.item:not(:hover)>i:last-child { display:none; }
 div.project div.zone>div.item { text-align:center; padding:var(--input-padding); display:flex; align-items:center; }
 div.project div.zone>div.item span:hover { background-color:var(--hover-bg-color); }
@@ -356,7 +358,7 @@ body>div.input td:hover span.icons { visibility:visible; }
 body>div.input textarea { height:var(--textarea-height); width:var(--form-width) !important; }
 body>div.input select { width:var(--form-width) !important; }
 body>div.input input.select[type=button] { width:var(--form-width) !important; }
-body>div.input input:not([type=button]) { width:var(--form-width) !important; }
+body>div.input input:not([type=button]) { width:var(--form-width) !important; padding-left:24px; }
 body>div.input input[type=text] { width:var(--form-width) !important; padding-left:24px; }
 body>div.input input[name=cancel] { border:var(--box-danger); }
 body>div.input input[name=submit] { border:var(--box-notice); }
@@ -479,6 +481,7 @@ fieldset.vimer.insert>legend { border-top:var(--box-danger3) !important; }
 fieldset.plugin.vimer>legend { margin-right:31px; }
 div.action div.tabs:hover { background-color:var(--hover-bg-color); }
 fieldset.story div.action div.tabs:not(.select) { display:none; }
+body.mobile div.action div.tabs:not(.select) { display:none; }
 div.zone>div.item { background-color:var(--th-bg-color); }
 div.zone>div.list>div.zone>div.item { background-color:var(--th-bg-color); }
 div.tabs div { background-color:var(--plugin-bg-color); }
@@ -748,7 +751,8 @@ div.story[data-type=spark] { cursor:copy; }
 body.mobile table.content { width:100%; }
 body.mobile div.output.card { overflow-x:hidden; }
 body.mobile div.output>div.project { position:absolute; left:0; top:0; z-index:2; }
-body.mobile div.output>div.project { flex:0 0 320px; width:320px; }
+body.mobile div.output>div.project { flex:0 0 240px; width:240px; }
+body.mobile div.output>div.project div.item { height:var(--action-height); }
 body.mobile div.output>div.project { background-color:var(--plugin-bg-color); }
 body.mobile fieldset>div.output>div.code>img { max-width:390px; }
 body.mobile fieldset>div.output>div.code>div.form input[type=button] { width:100%; }
@@ -833,7 +837,7 @@ fieldset.iframe.float>form.option>div.item.hash input { width:var(--form-width);
 fieldset.iframe>form.option>div.item.hash input { width:var(--form-width); }
 fieldset.inner.float>div.status { display:none; }
 fieldset.web.chat.color table.content { border-collapse:collapse; }
-fieldset.user>form.option>div.item.username input { width:var(--form-width); }
+fieldset.user>form.option>div.item.username input { width:var(--project-width); }
 fieldset.offer>div.output>table.content tr.invite { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 fieldset.apply>div.output>table.content.detail.apply tr.action td.action { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 fieldset.inner>div.output>div.project div.item.modify { background-color:#00800036; }
