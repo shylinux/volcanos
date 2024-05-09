@@ -122,14 +122,13 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 	},
 	item: function(can, item, cb, cbs, _target) {
 		return can.page.Append(can, _target||can.ui.project||can._output, [can.onimport._item(can, item, function(event) { var target = event.currentTarget
-			can.onmotion.select(can, _target, html.DIV_ITEM, target), cb(event, item, target._list && can.onmotion.toggle(can, target._list), target)
+			can.onmotion.select(can, _target, html.DIV_ITEM, target)
+			var show = target._list && can.onmotion.toggle(can, target._list); cb(event, item, show, target)
 		}, cbs)])._target
 	},
 	_itemselect: function(can, target) {
 		can.page.Select(can, can.ui.project, html.DIV_ITEM, function(target) { can.page.ClassList.del(can, target, html.SELECT) })
-		for (var p = target; p; p = p.parentNode.previousElementSibling) {
-			can.page.ClassList.add(can, p, html.SELECT), can.onmotion.toggle(can, p.nextSibling, true)
-		}
+		for (var p = target; p; p = p.parentNode.previousElementSibling) { can.page.ClassList.add(can, p, html.SELECT), can.onmotion.toggle(can, p.nextSibling, true) }
 	},
 	itemlist: function(can, list, cb, cbs, target) { if (!list || list.length == 0) { return }
 		if (!target) { return can.core.List(list, function(value) { can.onimport.item(can, value, cb, cbs) }) }

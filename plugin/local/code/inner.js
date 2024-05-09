@@ -56,7 +56,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 	},
 	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui._tabs = can._action }
 		var ui = can.page.Append(can, can.ui.tabs, ["icon", "tabs", "head"]); can.ui._tabs = ui.tabs
-		can.page.Append(can, ui.icon, can.core.List([
+		false && can.page.Append(can, ui.icon, can.core.List([
 			{name: can.page.unicode.menu, onclick: function() { can.user.carte(event, can, can.onaction, can.onaction.list) }},
 			{name: can.page.unicode.refresh, style: {"font-size": 26, "padding-top": 2}, onclick: function() { location.reload() }},
 		], function(item) { return can.base.Copy(item, {view: [[html.ITEM, html.ICON], "", item.name]}) }))

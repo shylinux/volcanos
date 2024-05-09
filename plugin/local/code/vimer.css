@@ -1,6 +1,5 @@
 fieldset.vimer>div.output>div.layout>div.layout>div.layout div.content { border-left:var(--box-border); border-top:var(--box-border); }
 fieldset.vimer>div.output>div.layout>div.layout input.current { background-color:transparent; color:transparent; padding-left:var(--input-padding); height:var(--code-line-height); position:absolute; }
-// fieldset.vimer>div.output.plugin>div.layout>div.layout input.current { display:none; }
 fieldset.vimer>div.output>div.layout>div.layout div.content div.complete { background-color:unset; padding-top:0; display:none; position:absolute; height:1px; overflow:visible; }
 fieldset.vimer>div.output>div.layout>div.layout div.content div.complete div.prefix { color:transparent; white-space:pre; float:left; }
 fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content thead { display:none; }
