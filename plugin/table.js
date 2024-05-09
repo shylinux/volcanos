@@ -1,4 +1,5 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) { cb && cb(msg)
+		if (msg.index && msg.meta && msg.list) { return can.sup.onimport._field(can.sup, msg) }
 		if (can.isCmdMode() && can.Conf(ctx.STYLE) == html.FORM) { can.onappend.style(can, html.OUTPUT) }
 		if (can.Mode() == html.ZONE) { return can.onimport._vimer_zone(can, msg, target) }
 		var cbs = can.onimport[can.Conf(ctx.STYLE)||msg.Option(ctx.STYLE)]; if (can.base.isFunc(cbs)) {

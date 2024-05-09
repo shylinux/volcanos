@@ -17,26 +17,22 @@ Volcanos(chat.ONIMPORT, {
 	_session: function(can, msg) { can.misc.sessionStorage(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_field: function(can, msg, cb) {
 		var height = can.ConfHeight()-can.onexport.actionHeight(can)-(can.onexport.statusHeight(can)||1), width = can.ConfWidth()
-		var tabs = false, tabHash = msg.Option("field.tabs")
-		if (tabHash) {
-			can.sub && can.sub.onimport.tabs(can, [{name: tabHash.slice(0, 6)}], function() {
-				can.onmotion.cache(can, function() { return tabHash })
-			}), tabs = true
+		var tabs = false, tabHash = msg.Option("field.tabs"); if (tabHash) {
+			can.sub && can.sub.onimport.tabs(can, [{name: tabHash.slice(0, 6)}], function() { can.onmotion.cache(can, function() { return tabHash }) }), tabs = true
 		} else {
-			if (!can.page.tagis(can._target, html.FIELDSET_OUTPUT)) {
+			if (msg.Length() > 1) {
+				height = height / msg.Length()
+			} else if (can._output.innerHTML && !can.page.tagis(can._target, html.FIELDSET_OUTPUT)) {
 				height = can.base.Max(html.STORY_HEIGHT, height)
 			}
 		}
 		msg.Table(function(item) { tabs && can.onmotion.cache(can, function() { return tabHash })
 			can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
-				sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX); can.run(can.request(event, {pod: item.space}), (msg[ice.MSG_PREFIX]? msg[ice.MSG_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true) }
+				sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX)||item.index; can.run(can.request(event, {pod: item.space}), (msg[ice.MSG_PREFIX]? msg[ice.MSG_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true) }
 				can.page.ClassList.has(can, sub._target, html.FLOAT)? can.onmotion.float(sub): sub.onimport.size(sub, height, width, true), cb && cb(sub)
 				if (item.style == html.FLOAT) { return } can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, sub._target) }, 300)
-				sub.onexport.output = function() { if (tabs) {
-					msg.Option(ice.MSG_ACTION) && can.onappend._action(can, msg.Option(ice.MSG_ACTION))
-					sub.sub.onimport.tabs(can, [{name: tabHash.slice(0, 6)}], function() {
-						tabs || can.onmotion.cache(can, function() { return tabHash })
-					}), tabs = false
+				sub.onexport.output = function() { if (tabs) { msg.Option(ice.MSG_ACTION) && can.onappend._action(can, msg.Option(ice.MSG_ACTION))
+					sub.sub.onimport.tabs(can, [{name: tabHash.slice(0, 6)}], function() { tabs || can.onmotion.cache(can, function() { return tabHash }) }), tabs = false
 				} }
 			}, item.style == html.FLOAT && can.page.tagis(can._target, "fieldset.story")? document.body: can._output)
 		})
