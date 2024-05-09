@@ -934,8 +934,8 @@ body.width6 fieldset.story.xterm>form.option>div.item.hash input { width:var(--f
 body.width6 fieldset.desktop>div.output>div.desktop>fieldset.web.chat.iframe>form.option>div.item.hash>input { width:var(--river-width); }
 body.width2 fieldset.desktop>div.output>div.desktop>fieldset>form.option>div.item:last-child { margin-right:0; }
 fieldset.desktop { border:0; }
-fieldset.desktop>div.action { color:var(--disable-fg-color); }
-fieldset.desktop>div.status { color:var(--disable-fg-color); }
+// fieldset.desktop>div.action { color:var(--disable-fg-color); }
+// fieldset.desktop>div.status { color:var(--disable-fg-color); }
 body.mobile fieldset.word:not(.cmd)>form.option>div.item>input[name=path] { width:180px; }
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 body.mobile fieldset.vimer>form.option div.item.path input { width:var(--input-width); }
