@@ -1,12 +1,12 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) { cb && cb(msg)
-		if (msg.index && msg.meta && msg.list) { return can.sup.onimport._field(can.sup, msg) }
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
+		if (msg.index && msg.meta && msg.list) { return cb && cb(msg), can.sup.onimport._field(can.sup, msg) }
 		if (can.isCmdMode() && can.Conf(ctx.STYLE) == html.FORM) { can.onappend.style(can, html.OUTPUT) }
 		if (can.Mode() == html.ZONE) { return can.onimport._vimer_zone(can, msg, target) }
 		var cbs = can.onimport[can.Conf(ctx.STYLE)||msg.Option(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.onappend.style(can, can._args[ctx.STYLE], target), can.core.CallFunc(cbs, {can: can, msg: msg, target: target})
 		} else {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
-		}
+		} cb && cb(msg)
 	},
 	card: function(can, msg, target, filter) { target = target||can.ui.content||can._output
 		can.page.Append(can, target, msg.Table(function(value) { if (filter && filter(value)) { return }
