@@ -740,7 +740,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		ui.display && can.onmotion.hidden(can, ui.display), ui.profile && can.onmotion.hidden(can, ui.profile)
 		ui.layout = function(height, width, delay, cb) { can.onmotion.delay(can, function() {
 			defer = [], layout(type, ui.list, height, width), defer.forEach(function(cb) { cb() })
-			if (can.db.value) { var _width = can.ConfWidth(); width = width-can.ui.project.offsetWidth
+			if (can.db.value) { var _width = can.ConfWidth(); width = width-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0)
 				if (can.isCmdMode()) {
 					can.page.SelectChild(can, can._fields, "legend,form.option,div.header", function(target) { _width -= target.offsetWidth })
 					can.page.SelectChild(can, can._fields, "div.action", function(target) { can.page.style(can, target, html.MAX_WIDTH, _width-1)
