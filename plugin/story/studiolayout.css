@@ -1,5 +1,5 @@
-fieldset.studiolayout>div.output>div.project div.item { border-left:var(--box-border3); }
-fieldset.studiolayout>div.output>div.project div.item.select { border-left:var(--box-notice3); }
+// fieldset.studiolayout>div.output>div.project div.item { border-left:var(--box-border3); }
+// fieldset.studiolayout>div.output>div.project div.item.select { border-left:var(--box-notice3); }
 fieldset.studiolayout>div.output>div.layout>div.display>fieldset.story>form.option>div.item.delete { display:none; }
 fieldset.studiolayout>div.output>div.layout>div.display>fieldset.story>form.option>div.item.sess { display:none; }
 fieldset.studiolayout>div.output>div.layout>div.display>fieldset.story>div.action>div.item.state { display:none; }

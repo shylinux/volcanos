@@ -414,7 +414,7 @@ var icon = {
 
 	portal: "bi bi-globe", desktop: "bi bi-window-desktop", admin: "bi bi-window-sidebar",
 	dream: "bi bi-box", space: "bi bi-box", store: "bi bi-shop",
-	word: "bi bi-book", repos: "bi bi-git", vimer: "bi bi-bug", build: "bi bi-tools", xterm: "bi bi-terminal",
+	word: "bi bi-book", repos: "bi bi-git", vimer: "bi bi-bug", build: "bi bi-tools", xterm: "bi bi-terminal", shell: "bi bi-terminal",
 	stats: "bi bi-card-list",
 	matrix: "bi bi-grid-3x3-gap",
 	feel: "bi bi-images",

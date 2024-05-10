@@ -740,10 +740,20 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		ui.display && can.onmotion.hidden(can, ui.display), ui.profile && can.onmotion.hidden(can, ui.profile)
 		ui.layout = function(height, width, delay, cb) { can.onmotion.delay(can, function() {
 			defer = [], layout(type, ui.list, height, width), defer.forEach(function(cb) { cb() })
-			if (can.db.value) { can.db.value._display_plugin && (height = height/2-1), can.page.style(can, can.ui.content, html.HEIGHT, height)
-				can.db.value._content_plugin && can.db.value._content_plugin.onimport.size(can.db.value._content_plugin, height, content_width, false)
-				can.db.value._display_plugin && can.db.value._display_plugin.onimport.size(can.db.value._display_plugin, height, content_width, false)
+			if (can.db.value) { var _width = can.ConfWidth(); width = width-can.ui.project.offsetWidth
+				if (can.isCmdMode()) {
+					can.page.SelectChild(can, can._fields, "legend,form.option,div.header", function(target) { _width -= target.offsetWidth })
+					can.page.SelectChild(can, can._fields, "div.action", function(target) { can.page.style(can, target, html.MAX_WIDTH, _width-1)
+						can.page.Select(can, target, "span.name", function(target, index, list) { can.page.style(can, target, html.MAX_WIDTH, (_width-50)/list.length-40) })
+					})
+				}
+				can.db.value._display_plugin && (height = height/2), can.page.style(can, can.ui.content, html.HEIGHT, height)
+				can.db.value._display_plugin && can.db.value._display_plugin.onimport.size(can.db.value._display_plugin, height-1, width, false)
 				can.db.value._display_plugin && can.onmotion.toggle(can, can.ui.display, true)
+				can.db.value._profile_plugin && (width = width/2), can.page.style(can, can.ui.content, html.WIDTH, width)
+				can.db.value._profile_plugin && can.db.value._profile_plugin.onimport.size(can.db.value._profile_plugin, height, width-1, false)
+				can.db.value._profile_plugin && can.onmotion.toggle(can, can.ui.profile, true)
+				can.db.value._content_plugin && can.db.value._content_plugin.onimport.size(can.db.value._content_plugin, height, width, false)
 			} cb && cb(content_height, content_width)
 		}, delay||0) }
 		can.onimport.layout = can.onimport.layout||function(can) {

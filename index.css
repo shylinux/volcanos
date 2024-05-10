@@ -189,6 +189,13 @@ div.output>div.code>div.form { text-align:center; font-size:15px; padding:60px 1
 div.output>div.code>div.form>input[type=button] { min-width:200px; }
 div.output>div.code>div.form>input[type=button][name=confirm] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); margin:var(--button-margin) 0; }
 body.en span[lang^=zh] { display:none; } body.zh span[lang^=en] { display:none; }
+
+// fieldset.plugin.cmd { display:flex; flex-wrap:wrap; justify-content:space-between; }
+fieldset.plugin.cmd:not(.output)>form.option { float:left; display:flex !important; }
+fieldset.plugin.cmd:not(.output)>div.action { float:left; display:flex !important; flex-grow:1; height:var(--action-height); overflow:auto; }
+fieldset.plugin.cmd:not(.output)>div.action div.tabs.select { padding-top:2px; }
+fieldset.plugin.cmd:not(.output)>div.action div.tabs>span.name { overflow:hidden; }
+fieldset.plugin.cmd:not(.output)>div.header { float:right; display:flex !important; flex-direction:row-reverse; }
 /* project */
 div.project div.action:not(.hide) { width:100%; display:flex; }
 div.project div.action div.item input { border-right:var(--box-border); }
@@ -535,6 +542,8 @@ div.float { box-shadow:var(--plugin-box-shadow); border:var(--plugin-border); }
 div.float:hover { box-shadow:var(--notice-box-shadow); }
 fieldset.plugin { box-shadow:var(--plugin-box-shadow); border-radius:var(--plugin-radius); }
 fieldset.story { box-shadow:var(--plugin-box-shadow); border-radius:var(--plugin-radius); }
+fieldset.studio fieldset.story { border-radius:0; }
+fieldset.studio fieldset.story>legend { border-top-left-radius:0; }
 fieldset.float { box-shadow:var(--plugin-box-shadow); border:var(--plugin-border); border-radius:var(--plugin-radius); }
 fieldset:not(.panel):hover { box-shadow:var(--notice-box-shadow); }
 body:not(.cmd) fieldset.plugin>legend { box-shadow:var(--legend-box-shadow); margin-right:var(--legend-margin); }
@@ -966,6 +975,7 @@ div.project::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.project div.list::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.content::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.status::-webkit-scrollbar { width:0 !important; height:0 !important; }
+div.action::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.toggle::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.story[data-type=spark]::-webkit-scrollbar { width:0 !important; height:0 !important; }
 div.toast.float div.title::-webkit-scrollbar { width:0 !important; height:0 !important; }

@@ -102,7 +102,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 		return icon && (can.base.contains(icon, ice.HTTP, ".ico", ".png", ".jpg")? {img: can.misc.Resource(can, icon)}: {icon: icon})
 	},
 	_nick: function(can, item) {
-		return {text: item.nick||item.name||item.zone||item.sess}
+		return {text: [item.nick||item.name||item.zone||item.sess, "", html.NAME], className: html.NAME}
 	},
 	_menu: function(event, can, item, cbs, target) { target = target||event.currentTarget
 		if (can.base.isFunc(cbs)) { var menu = cbs(event, target, item); if (menu) { return can.user.carteRight(event, can, menu.meta, menu.list, menu) } }
@@ -122,7 +122,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 	},
 	item: function(can, item, cb, cbs, _target) {
 		return can.page.Append(can, _target||can.ui.project||can._output, [can.onimport._item(can, item, function(event) { var target = event.currentTarget
-			can.onmotion.select(can, _target, html.DIV_ITEM, target)
+			can.onmotion.select(can, target.parentNode, html.DIV_ITEM, target)
 			var show = target._list && can.onmotion.toggle(can, target._list); cb(event, item, show, target)
 		}, cbs)])._target
 	},
@@ -162,7 +162,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 			node[name] = ui.list, (item._select || can.db.hash && (can.db.hash[0]||"").indexOf(key) == 0) && can.onmotion.delayOnce(can, function() { ui.item.click() })
 		}) }); return node
 	},
-	tabs: function(can, list, cb, cbs, action) { action = action||can._action; return can.page.Append(can, action, can.core.List(list, function(tabs) { if (typeof tabs == code.STRING) { tabs = {name: tabs} }
+	tabs: function(can, list, cb, cbs, action) { action = action||can.ui.tabs||can._action; return can.page.Append(can, action, can.core.List(list, function(tabs) { if (typeof tabs == code.STRING) { tabs = {name: tabs} }
 		function close(target) {
 			if (can.page.ClassList.has(can, target, html.SELECT)) {
 				var next = can.page.tagis(target.nextSibling, html.DIV_TABS)? target.nextSibling: can.page.tagis(target.previousSibling, html.DIV_TABS)? target.previousSibling: null
@@ -171,10 +171,11 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 		}
 		return {view: [[html.TABS, tabs.type, tabs.role, tabs.status]], title: tabs.title||tabs.text, list: [
 			can.onimport._icons(can, tabs), can.onimport._nick(can, tabs), {icon: mdb.DELETE, onclick: function(event) { tabs._target._close(), can.onkeymap.prevent(event) }},
-		], onclick: function(event) { if (can.page.ClassList.has(can, tabs._target, html.SELECT)) { return }
+		], onclick: function(event) {
+			event.currentTarget.scrollIntoView()
+			if (can.page.ClassList.has(can, tabs._target, html.SELECT)) { return }
 			can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)
-		}, oncontextmenu: function(event) {
-			var target = tabs._target, _action = can.page.parseAction(can, tabs)
+		}, oncontextmenu: function(event) { var target = tabs._target, _action = can.page.parseAction(can, tabs)
 			var menu = tabs._menu||shy(function(event, button) { can.Update(event, [ctx.ACTION, button]) })
 			can.user.carte(event, can, kit.Dict(
 				"Close", function(event) { target._close() },
@@ -203,6 +204,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 			if (msg.Append(ctx.INDEX)) { msg.Table(function(value, index) {
 				index == 0 && can.onappend.plugin(can, value, function(sub) { can.db.value._content_plugin = sub, can.onimport.layout(can) }, can.ui.content)
 				index == 1 && can.onappend.plugin(can, value, function(sub) { can.db.value._display_plugin = sub, can.onimport.layout(can) }, can.ui.display)
+				index == 2 && can.onappend.plugin(can, value, function(sub) { can.db.value._profile_plugin = sub, can.onimport.layout(can) }, can.ui.profile)
+				can.onmotion.delay(can, function() { can.onimport.layout(can) })
+				can.onmotion.delay(can, function() { can.onimport.layout(can) }, 100)
+				can.onmotion.delay(can, function() { can.onimport.layout(can) }, 300)
 			}) } else { can.onappend.table(can, msg), can.onappend.board(can, msg) }
 		}, function() { delete(value._tabs), can.onmotion.cacheClear(can, key, can.ui.content, can.ui.profile, can.ui.display) })
 	},
