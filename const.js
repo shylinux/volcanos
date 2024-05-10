@@ -47,6 +47,7 @@ var ice = {
 	PROCESS_FIELD: "_field",
 	PROCESS_AGAIN: "_again",
 	PROCESS_HOLD: "_hold",
+	FIELD_PREFIX: "_prefix",
 	MSG_PREFIX: "_prefix",
 	MSG_INDEX: "_index",
 
@@ -433,6 +434,7 @@ var icon = {
 	full: "bi bi-arrows-fullscreen", open: "bi bi-box-arrow-up-right",
 	more: "bi bi-three-dots-vertical", actions: "bi bi-three-dots",
 	search: "bi bi-search", favor: "bi bi-star",
+	plugs: "bi bi-tools",
 
 	key: "bi bi-hash", hash: "bi bi-hash", zone: "bi bi-diagram-3", id: "bi bi-sort-numeric-down",
 	modify: "bi bi-pencil-square", rename: "bi bi-pencil-square", remove: "bi bi-trash",

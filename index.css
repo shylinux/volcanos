@@ -588,7 +588,9 @@ body div.path { font-family:var(--code-font-family); }
 body div.carte { font-family:var(--code-font-family); }
 body { font-size:var(--body-font-size); }
 legend { font-size:var(--legend-font-size); line-height:30px; height:var(--action-height); }
-legend img { margin-right:var(--input-margin); height:32px }
+legend>img { margin-right:var(--input-margin); height:var(--action-height); }
+legend>span.icon:first-child { margin-right:var(--input-margin); }
+legend>i:first-child { margin-right:var(--input-margin); }
 select, input { font-size:var(--body-font-size); height:var(--action-height); } input::placeholder, textarea::placeholder { font-style:italic; color:var(--disable-fg-color); }
 input[type=checkbox] { height:16px; width:16px; }
 textarea { font-size:var(--body-font-size); padding:var(--input-padding); height:var(--textarea-height); width:100%; outline:none; resize:vertical; }

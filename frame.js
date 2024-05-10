@@ -407,8 +407,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var title = item.title || can.user.isMobile && (can.user.isEnglish(can)? name: (item.help||name)) || (!item.help || name == item.help || can.user.isEnglish(can)? name: name+"("+can.core.Split(item.help)[0]+")")
 		target = can.base.isFunc(target)? target(): target
 		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], style: item.style, list: [{type: html.LEGEND, list: [
-			item.icons && {img: can.misc.Resource(can, (item.icons.indexOf(nfs.PS) == -1? nfs.USR_ICONS: "")+item.icons, item.space||item._space)},
-			item.icon && {icon: item.icon}, {text: title},
+			can.page.icons(can, item.icons||item.icon||name, item.space||item._space), {text: title},
 		]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
 	},
 	input: function(can, item, value, target, style) { if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
