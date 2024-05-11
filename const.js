@@ -74,6 +74,7 @@ var mdb = {FOREACH: "*", RANDOMS: "%",
 	ORDER: "order", WEIGHT: "weight",
 	ENABLE: "enable", DISABLE: "disable",
 	RENAME: "rename",
+	NICK: "nick",
 	DATA: "data", VIEW: "view",
 	INPUTS: "inputs", CREATE: "create", REMOVE: "remove", UPDATE: "update",
 	INSERT: "insert", DELETE: "delete", MODIFY: "modify", SELECT: "select",
@@ -141,6 +142,7 @@ var aaa = {
 	PROVINCE: "province", COUNTRY: "country", CITY: "city",
 	LONGITUDE: "longitude", LATITUDE: "latitude",
 	IP: "ip", UA: "ua",
+	LOCATION: "location",
 
 	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole", USERZONE: "userzone",
 	VOID: "void", TECH: "tech", ROOT: "root",
@@ -435,6 +437,7 @@ var icon = {
 	more: "bi bi-three-dots-vertical", actions: "bi bi-three-dots",
 	search: "bi bi-search", favor: "bi bi-star",
 	plugs: "bi bi-tools",
+	tools: "bi bi-grid",
 
 	key: "bi bi-hash", hash: "bi bi-hash", zone: "bi bi-diagram-3", id: "bi bi-sort-numeric-down",
 	modify: "bi bi-pencil-square", rename: "bi bi-pencil-square", remove: "bi bi-trash",

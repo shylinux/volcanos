@@ -111,8 +111,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 	_item: function(can, item, cb, cbs) {
 		return {view: [[html.ITEM, item.type, item.role, item.status]], title: item.title||item.nick, list: [
 			can.onimport._icons(can, item), can.onimport._nick(can, item),
+		].concat(item._label||[], [
 			item.action && {icon: "bi bi-three-dots", onclick: function(event) { can.onimport._menu(event, can, item, cbs) }},
-		], _init: function(target) {
+		]), _init: function(target) {
 			item._select && can.onmotion.delay(can, function() { target.click() })
 		}, onclick: function(event) {
 			cb(event)

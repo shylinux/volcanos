@@ -193,6 +193,8 @@ body.en span[lang^=zh] { display:none; } body.zh span[lang^=en] { display:none; 
 // fieldset.plugin.cmd { display:flex; flex-wrap:wrap; justify-content:space-between; }
 fieldset.plugin.cmd:not(.output)>form.option { float:left; display:flex !important; }
 fieldset.plugin.cmd:not(.output)>div.action { float:left; display:flex !important; flex-grow:1; height:var(--action-height); overflow:auto; }
+fieldset.plugin.cmd:not(.output)>div.action div.tabs:last-child { margin-right:var(--button-margin); }
+fieldset.plugin.cmd:not(.output)>div.action div.tabs:first-child { margin-left:var(--button-margin); }
 fieldset.plugin.cmd:not(.output)>div.action div.tabs.select { padding-top:2px; }
 fieldset.plugin.cmd:not(.output)>div.action div.tabs>span.name { overflow:hidden; }
 fieldset.plugin.cmd:not(.output)>div.header { float:right; display:flex !important; flex-direction:row-reverse; }
@@ -219,7 +221,7 @@ div.project div.item:not(.hide) {
 div.project div.item img { height:var(--action-height); width:var(--action-height); }
 div.project div.item img { margin:0; }
 div.project div.item:not(:hover) input:not([type=button]) { border-right:0; }
-div.project div.item.filter { padding:0; width:100%; position:sticky; top:0; }
+div.project div.item.filter { background-color:var(--plugin-bg-color); padding:0; width:100%; position:sticky; top:0; z-index:1; }
 div.project div.item.filter>input { padding:0 25px; width:100% !important; }
 div.project div.item.search { padding:0; width:100%; }
 div.project div.item.search>input { padding:0 25px; width:100%; }
@@ -619,6 +621,8 @@ fieldset>form.option>div.item.text.cmd>input { width:100%; }
 fieldset>form.option>div.item.select>input { min-width:var(--button-width); }
 fieldset>form.option>div.item.textarea { height:var(--textarea-height); width:100%; }
 fieldset>div.action div.item.filter input { padding-left:24px; }
+fieldset>div.action div.item.state.filter input { width:120px; transition:all 0.8s; }
+fieldset>div.action div.item.state.filter input:focus { width:240px; transition:all 0.5s; }
 fieldset>div.action div.item { height:var(--action-height); }
 fieldset>div.action>div.tabs { font-style:italic; padding:var(--input-padding) var(--button-padding); height:var(--action-height); }
 fieldset>div.action>div.cmds { font-style:italic; padding:var(--input-padding) var(--button-padding); height:var(--action-height);
