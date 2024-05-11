@@ -135,6 +135,8 @@ table.content.action td:last-child i { color:var(--notice-bg-color); }
 table.content.action td:last-child i.bi-trash { color:var(--danger-bg-color); }
 table.content.action td:last-child input { border:none; color:var(--notice-bg-color); }
 table.content.action td:last-child input:hover { background-color:var(--hover-bg-color); color:var(--notice-bg-color); }
+table.content.action td:last-child input.danger { border:none; color:var(--danger-bg-color); }
+table.content.action td:last-child input.danger:hover { background-color:var(--hover-bg-color); color:var(--danger-bg-color); }
 table.content.detail td:first-child { word-break:keep-all; white-space:pre; }
 table.content.detail td:first-child { text-align:center; }
 table.content.detail td:first-child { background-color:var(--plugin-bg-color); position:sticky; left:0; }
