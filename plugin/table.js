@@ -145,9 +145,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 		can.core.List(list, function(item) { var key = item[field]; key && can.core.List(key.split(split), function(value, index, array) { if (!value) { return }
 			var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split); if (node[name]) { return }
 			last && node[last] && can.page.Select(can, node[last].previousSibling, "div.expand", function(target) { target.innerHTML == "" && (target.innerHTML = can.page.unicode.closes) })
+			item.expand = item.expand||item._select||(can.db.hash && (can.db.hash[0]||"").indexOf(key) == 0)
 			var ui = can.page.Append(can, node[last], [{view: html.ITEM, list: [
 				{view: [[html.EXPAND], html.DIV, (index==array.length-1? "": can.page.unicode.closes)]},
-				{view: [mdb.NAME, html.DIV, value]},
+				{view: [mdb.NAME], list: [{text: [value, "", html.NAME]}].concat(item._label||[])},
 				item.action && {view: [mdb.ICON], list: [{icon: "bi bi-three-dots", onclick: function(event) { can.onimport._menu(event, can, item, cbs) }}]},
 			], _init: function(target) {
 				item.expand && can.onmotion.delay(can, function() { target.click() })
@@ -160,7 +161,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 			}, oncontextmenu: function(event) {
 				can.onimport._menu(event, can, item, cbs)
 			}}, {view: [[html.LIST, html.HIDE]]}])
-			node[name] = ui.list, (item._select || can.db.hash && (can.db.hash[0]||"").indexOf(key) == 0) && can.onmotion.delayOnce(can, function() { ui.item.click() })
+			node[name] = ui.list
 		}) }); return node
 	},
 	tabs: function(can, list, cb, cbs, action) { action = action||can.ui.tabs||can._action; return can.page.Append(can, action, can.core.List(list, function(tabs) { if (typeof tabs == code.STRING) { tabs = {name: tabs} }

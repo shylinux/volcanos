@@ -200,6 +200,8 @@ fieldset.plugin.cmd:not(.output)>div.action div.tabs:first-child { margin-left:v
 fieldset.plugin.cmd:not(.output)>div.action div.tabs.select { padding-top:2px; }
 fieldset.plugin.cmd:not(.output)>div.action div.tabs>span.name { overflow:hidden; }
 fieldset.plugin.cmd:not(.output)>div.header { float:right; display:flex !important; flex-direction:row-reverse; }
+fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>form.option>div.icon.delete { display:none; }
+fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>div.action>div.item.state.button.full.icons { display:none; }
 /* project */
 div.project div.action:not(.hide) { width:100%; display:flex; }
 div.project div.action div.item input { border-right:var(--box-border); }
