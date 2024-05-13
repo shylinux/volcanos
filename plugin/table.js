@@ -30,9 +30,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 		can.base.isFunc(button)? button(event, button): can.onaction[button](event, can, button), can.onkeymap.prevent(event)
 	}}]) },
 	_vimer_zone: function(can, msg, target) { msg.Table(function(value) { var action = can.page.parseAction(can, value)
-		can.onimport.item(can, {
-			type: value.type,
-			status: value.status,
+		can.onimport.item(can, {type: value.type, status: value.status,
 			icon: can.misc.Resource(can, value.icon||value.icons||value.avatar_url),
 			name: can.page.Color(value[can.Conf(mdb.FIELD)||mdb.VIEW]||value[mdb.NAME]||value[mdb.TEXT]||value[mdb.TYPE]),
 			title: value[mdb.TEXT]||value.description,
@@ -114,6 +112,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 		].concat(item._label||[], [
 			item.action && {icon: "bi bi-three-dots", onclick: function(event) { can.onimport._menu(event, can, item, cbs) }},
 		]), _init: function(target) {
+			can.ui[item.path] = target
 			item._select && can.onmotion.delay(can, function() { target.click() })
 		}, onclick: function(event) {
 			cb(event)
@@ -124,6 +123,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 	item: function(can, item, cb, cbs, _target) {
 		return can.page.Append(can, _target||can.ui.project||can._output, [can.onimport._item(can, item, function(event) { var target = event.currentTarget
 			can.onmotion.select(can, target.parentNode, html.DIV_ITEM, target)
+			can.onengine.signal(can, "onproject", can.request(event, {type: "item", query: can.page.getquery(can, can._fields)+","+item.path}))
 			var show = target._list && can.onmotion.toggle(can, target._list); cb(event, item, show, target)
 		}, cbs)])._target
 	},

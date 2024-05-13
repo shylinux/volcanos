@@ -28,7 +28,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 		case web.CLEAR:
 		case cli.CLOSE: break
 		default: var list = can.core.Split(event.target.value, lex.SP)
-			// can.onexport._float(can, "cli", list[0], list.slice(1), function(sub) { can.getActionSize(function(left) { can.page.style(can, sub._target, html.LEFT, left+html.PLUGIN_MARGIN, html.RIGHT, "") }) })
 			can.onexport._float(can, "cli", {index: "can.console", display: "/plugin/local/code/xterm.js"}, list, function(sub) { can.getActionSize(function(left) { can.page.style(can, sub._target, html.LEFT, left+html.PLUGIN_MARGIN, html.RIGHT, "") }) })
 		}
 	}}, "", target, [chat.TITLE]) },
@@ -42,9 +41,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 	_data: function(can, name, item) { can.db[name] = can.db[name]||can.request(), can.db[name].Push(item), can.onimport.count(can, name) },
 	value: function(can, name, value) { can.page.Select(can, can._output, "div.item>span."+name, function(target) { target.innerHTML = value }) },
 	count: function(can, name) { can.page.Select(can, can._output, can.core.Keys(html.SPAN, name), function(item) { item.innerHTML = can.Conf(name, parseInt(can.Conf(name)||"0")+1+"")+"" }) },
-	ntip: function(can, msg, time, title, content) { can.onimport._data(can, NTIP, {time: time,
-		// fileline: can.base.trimPrefix(msg.Option("log.caller"), location.origin+nfs.PS),
-		title: title, content: content}), can.page.Modify(can, can.ui.toast, [time, title, content].join(lex.SP)) },
+	ntip: function(can, msg, time, title, content) { can.onimport._data(can, NTIP, {time: time, title: title, content: content}), can.page.Modify(can, can.ui.toast, [time, title, content].join(lex.SP)) },
 	ncmd: function(can, msg, _follow, _cmds) { can.onimport._data(can, NCMD, {time: can.base.Time(), follow: _follow, cmds: _cmds}), can.onimport.nlog(can, NLOG) },
 	nlog: function(can, name) { can.onimport.count(can, name) },
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
@@ -56,31 +53,20 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 	},
 })
 Volcanos(chat.ONACTION, {_init: function(can) {},
-	onsize: function(can) {
-		can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth)
-		can.onimport.value(can, html.HEIGHT, can.page.height())
-		can.onimport.value(can, html.WIDTH, can.page.width())
+	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth)
+		can.onimport.value(can, html.HEIGHT, can.page.height()), can.onimport.value(can, html.WIDTH, can.page.width())
 	},
 	onlogin: function(can, msg) { can.run(can.request({}, {_method: http.GET}), [], function(msg) { can.onmotion.clear(can), can.onimport._init(can, msg, can._output) }) },
 	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.ntip, {can: can, msg: msg}) },
 	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
 	onunload: function(can) { can._wss && can._wss.close() },
-	onrecord: function(can, msg) { var zone = can.misc.sessionStorage(can, "web.chat.script:zone")
-		zone && can.runAction(can.request(), nfs.SCRIPT, [zone].concat(msg.cmds[0]))
-	},
+	onrecord: function(can, msg) { var zone = can.misc.sessionStorage(can, "web.chat.script:zone"); zone && can.runAction(can.request(), nfs.SCRIPT, [zone].concat(msg.cmds[0])) },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
-	onstorm_select: function(event, can, river, storm) {
-		event.isTrusted != undefined && can.onimport._data(can, chat.TUTOR, {type: chat.STORM, text: [river, storm].join(",")})
-	},
-	onremove: function(event, can, query) {
-		event.isTrusted != undefined && query && can.onimport._data(can, chat.TUTOR, {type: "remove", text: query})
-	},
-	onevent: function(event, can, query) {
-		event.isTrusted != undefined && query && can.onimport._data(can, chat.TUTOR, {type: event.type, text: query})
-	},
-	ontheme: function(event, can, theme) {
-		event.isTrusted != undefined && can.onimport._data(can, chat.TUTOR, {type: chat.THEME, text: theme})
-	},
+	onstorm_select: function(event, can, river, storm) { event.isTrusted != undefined && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: chat.STORM, text: [river, storm].join(",")}) },
+	ontheme: function(event, can, theme) { event.isTrusted && theme && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: chat.THEME, text: theme}) },
+	onevent: function(event, can, query) { event.isTrusted && query && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: event.type, text: query}) },
+	onproject: function(event, can, query) { event.isTrusted && query && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: "item", text: query}) },
+	onremove: function(event, can, query) { event.isTrusted && query && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: "remove", text: query}) },
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
 	onlayout: function(can, layout, before) { if (can.user.isMobile) { return }
 		can.page.ClassList.del(can, can._target, before), can.page.ClassList.add(can, can._target, layout)
@@ -91,7 +77,6 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		})
 	}) }) },
 })
-// Volcanos(chat.ONEXPORT, {list: [NTIP, NLOG, NCMD, NKEY, html.WIDTH, html.HEIGHT, nfs.VERSION],
 Volcanos(chat.ONEXPORT, {list: [cli.BEGIN, nfs.VERSION],
 	height: function(can) { can.onexport._float(can, html.HEIGHT, "can.view") },
 	width: function(can) { can.onexport._float(can, html.WIDTH, "can.data") },

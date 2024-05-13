@@ -9,7 +9,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 				can.user.info.nodetype == web.WORKER && item._command == web.WORD && (list = [river, storm, item._command])
 			}
 			can.onappend.plugin(can, item, function(sub, meta, skip) {
-				if (can.base.isIn(meta.index, "can._notfound")) { sub.Conf(ctx.INDEX, msg.detail[index+3]) }
+				if (msg.detail && can.base.isIn(meta.index, "can._notfound")) { sub.Conf(ctx.INDEX, msg.detail[index+3]) }
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.pod||meta.space}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				sub.onexport.output = function() { msg.Length() > 1 && can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, ""), can.onaction.layout(can, list[3]) }
 				can.onaction.layout(can, list[3]), can.onimport._tabs(can, sub, meta), can._plugins = (can._plugins||[]).concat([sub])
@@ -19,7 +19,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 		}, function() { can.onaction.layout(can, list[3]), _select._tabs.click() })
 	},
 	_tabs: function(can, sub, meta) {
-		var tabs = [{view: [html.ITEM, "", can.user.trans(can, meta.name, meta.help)], title: meta.help, onclick: function(event) { can._current = sub
+		var tabs = [{view: [[html.ITEM, meta.name], "", can.user.trans(can, meta.name, meta.help)], title: meta.help, onclick: function(event) { can._current = sub
+			can.onengine.signal(can, "onevent", can.request(event, {query: can.page.getquery(can, event.target)}))
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target), can.onmotion.select(can, can._action, html.DIV_ITEM, sub._tabs), can.onmotion.select(can, can._header_tabs, html.DIV_ITEM, sub._header_tabs)
 			can.onmotion.delay(can, function() { sub._header_tabs.scrollIntoViewIfNeeded() })
 			var layout = can.onexport.layout(can); layout == FREE || (can._output.scrollTop = sub._target.offsetTop-10)

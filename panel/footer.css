@@ -17,7 +17,7 @@ body.mobile fieldset.Footer>div.output { font-style:italic; height:var(--footer-
 body.mobile fieldset.Footer>div.output div.toast { display:none; }
 body.mobile fieldset.Footer>div.output div.cmd { display:none; }
 
-.picker { box-shadow:#626bd0 0px 2px 10px 5px !important; position:relative; top: -5px; transition:all 0.5s; }
+.picker { box-shadow:var(--notice-bg-color) 0px 0px 20px 5px !important; position:relative; left:-5px; top: -5px; transition:all 0.5s; background-color:blue !important; color:white !important; }
 div.view span.string { color:#f29766; }
 div.view span.keyword { color:#5cadd4; }
 div.item:not(.string):not(.number):not(.boolean)>span.value { color:var(--disable-fg-color); font-style:italic; }
