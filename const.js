@@ -269,6 +269,7 @@ var chat = {
 	OUTPUT: "output", SIMPLE: "simple", FLOAT: "float", FULL: "full", CMD: "cmd",
 	MESSAGE: "message",
 	MATRIX: "matrix",
+	TUTOR: "tutor",
 
 	HEADER: "Header", ACTION: "Action", FOOTER: "Footer",
 	libs: ["base.js", "core.js", "date.js", "misc.js", "page.js", "user.js"].map(function(p) { return "/lib/"+p }),

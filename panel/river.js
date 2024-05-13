@@ -74,6 +74,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: func
 	action: function(event, can, river, storm) {
 		can._scrollTop = can._output.scrollTop
 		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], function(target) { can.page.ClassList.del(can, target, html.SELECT) })
+		can.onmotion.toggle(can, can.ui.sublist[river], true)
 		can.onmotion.select(can, can.ui.sublist[river], html.DIV_ITEM, can.ui.storm_list[can.core.Keys(river, storm)])
 		can.onmotion.select(can, can._output, html.DIV_ITEM, can.ui.river_list[river])
 		var list = can.db.storm_list[river];

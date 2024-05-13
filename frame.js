@@ -162,6 +162,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			},
 			Option: function(key, value) { value && (value = can.user.trans(sub, value, null, html.INPUT)); return can.page.SelectArgs(can, option, key, value)[0] },
 			Update: function(event, cmds, cb, silent) { event = event||{}
+				if (event.isTrusted) {
+					can.onengine.signal(can, "onevent", can.request(event, {query: can.page.getquery(can, event.target)}))
+				}
 				event.metaKey && sub.request(event, {metaKey: ice.TRUE})
 				sub.request(event)._caller()
 				var msg = sub.request(event), list = can.core.Value(sub, "sub.db._checkbox")
@@ -187,6 +190,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				sub.onappend._output(sub, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
 			}), meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
 			sub._legend && (sub._legend.onclick = function(event) {
+				can.onengine.signal(can, "onevent", can.request(event, {query: `fieldset.${sub.ConfIndex()}>legend`}))
 				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["操作"].concat(can.core.Item(meta.feature._trans))]), function(event, button) { can.misc.Event(event, sub, function(msg) {
 					can.misc.Inputs(sub, msg, [ctx.ACTION, button], null, meta) || msg.RunAction(event, sub.sub, [ctx.ACTION, button]) || msg.RunAction(event, sub, [ctx.ACTION, button]) || sub.runAction(event, button, [], function(msg) { can.onappend._output(sub, msg) })
 				}) })
@@ -608,6 +612,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}, onmouseover: function(event) {
 				can.page.SelectChild(can, can._option, html.DIV_ITEM_TEXT, function(target) { can.page.ClassList.set(can, target, "will", can.page.ClassList.has(can, target, key)) })
 			}, _init: function(target) {
+				if (can.Option(key) === "") {
+					can.onappend.style(can, value, target.parentNode)
+				}
 				if (key == mdb.TYPE) { can.onappend.style(can, value, target.parentNode) }
 				if (key == mdb.STATUS) { can.onappend.style(can, value, target.parentNode) }
 				if (key == mdb.ENABLE) { can.onappend.style(can, value == ice.TRUE? mdb.ENABLE: mdb.DISABLE, target.parentNode) }

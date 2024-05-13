@@ -252,8 +252,8 @@ div.item>i.bi-chevron-down { float:right; transition:all .5s; }
 div.item.open>i.bi-chevron-down { rotate:-180deg; transition:all .3s; }
 div.item.text.trans input:not([type=button]) { transition:all 1s; }
 div.item.text.trans input:not([type=button]):focus { width:var(--river-width); transition:all .5s; }
-div.toggle { background-color:#4a566e6e; color:var(--panel-fg-color); font-size:var(--action-height); padding-top:38px; height:120px; position:absolute; }
-div.toggle:hover { background-color:var(--hover-bg-color); color:var(--panel-hover-fg-color); }
+div.toggle { background-color:var(--hover-bg-color); color:var(--hover-fg-color); font-size:var(--action-height); padding-top:38px; height:120px; position:absolute; }
+// div.toggle:hover { background-color:var(--hover-bg-color); color:var(--panel-hover-fg-color); }
 div.toggle.project { top:20%; left:0; border-top-right-radius:var(--plugin-radius); border-bottom-right-radius:var(--plugin-radius); }
 div.content>div.toggle.profile { top:20%; right:0; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.content>div.toggle.display { left:20%; bottom:-52px; rotate:90deg; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
@@ -735,9 +735,9 @@ fieldset>form.option>div.text>span.value {
 fieldset>form.option>div.text._icon>span.value { padding-left:24px; border:var(--box-border); }
 fieldset.plug>form.option>div.text>span.value { display:none; }
 fieldset:not(.float)>form.option>div.text>span.value { display:none; }
-fieldset.float:not(.plug)>form.option>div.text:not(.filter)>input { display:none; }
-fieldset.float:not(.plug)>form.option>div.text.filter>span.value { display:none; }
-fieldset.float:not(.plug)>form.option>div.text>span.icon { display:none; }
+fieldset.story.float:not(.plug)>form.option>div.text:not(.filter)>input { display:none; }
+fieldset.story.float:not(.plug)>form.option>div.text.filter>span.value { display:none; }
+fieldset.story.float:not(.plug)>form.option>div.text>span.icon { display:none; }
 fieldset.float>div.action>div.item.button._space.icons { margin-left:0; }
 /* svg */
 svg text { font-size:var(--svg-font-size); font-family:var(--svg-font-family); stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }

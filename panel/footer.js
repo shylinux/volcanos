@@ -8,9 +8,15 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 		can.onimport._title(can, msg, target), can.onimport._command(can, msg, target), can.onimport._storm(can, msg, target)
 		can.misc.isDebug(can) && can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target)
 		if (!can.user.isTechOrRoot(can)) { return }
-		can.onappend.input(can, {type: html.BUTTON, name: code.XTERM, onclick: function(event) { can.onappend._float(can, code.XTERM, cli.SH) }}, "", can._output)
-		can.onappend.input(can, {type: html.BUTTON, name: cli.RUNTIME, onclick: function(event) { can.onappend._float(can, cli.RUNTIME) }}, "", can._output)
-		can.onappend.input(can, {type: html.BUTTON, name: chat.MESSAGE, onclick: function(event) { can.onappend._float(can, chat.MESSAGE) }}, "", can._output)
+		can.core.List([
+			{index: code.XTERM, args: [cli.SH]},
+			{index: cli.RUNTIME},
+			{index: chat.MESSAGE},
+			{index: chat.TUTOR},
+		], function(value) { value.type = html.BUTTON, value.name = value.index
+			value.onclick = function() { can.onappend._float(can, value.index, value.args) }
+			can.onappend.input(can, value, "", can._output)
+		})
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.Conf(chat.TITLE)||msg.result, function(item) {
 		if (can.base.contains(item, ice.AT)) { item = '<a href="mailto:'+item+'">'+item+'</a>' }
@@ -59,11 +65,22 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	ontoast: function(can, msg) { can.core.CallFunc(can.onimport.ntip, {can: can, msg: msg}) },
 	onremote: function(can, msg) { can.core.CallFunc(can.onimport.ncmd, {can: can, msg: msg}) },
 	onunload: function(can) { can._wss && can._wss.close() },
-	onrecord: function(can, msg) {
-		var zone = can.misc.sessionStorage(can, "web.chat.script:zone")
+	onrecord: function(can, msg) { var zone = can.misc.sessionStorage(can, "web.chat.script:zone")
 		zone && can.runAction(can.request(), nfs.SCRIPT, [zone].concat(msg.cmds[0]))
 	},
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
+	onstorm_select: function(event, can, river, storm) {
+		event.isTrusted != undefined && can.onimport._data(can, chat.TUTOR, {type: chat.STORM, text: [river, storm].join(",")})
+	},
+	onremove: function(event, can, query) {
+		event.isTrusted != undefined && query && can.onimport._data(can, chat.TUTOR, {type: "remove", text: query})
+	},
+	onevent: function(event, can, query) {
+		event.isTrusted != undefined && query && can.onimport._data(can, chat.TUTOR, {type: event.type, text: query})
+	},
+	ontheme: function(event, can, theme) {
+		event.isTrusted != undefined && can.onimport._data(can, chat.TUTOR, {type: chat.THEME, text: theme})
+	},
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
 	onlayout: function(can, layout, before) { if (can.user.isMobile) { return }
 		can.page.ClassList.del(can, can._target, before), can.page.ClassList.add(can, can._target, layout)

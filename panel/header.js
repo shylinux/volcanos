@@ -49,7 +49,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	background: function(event, can, background) { can.user.isExtension || can.user.isLocalFile || can.runAction(event, aaa.BACKGROUND, [background], function(msg) {
 		can.user.info.background = background, can.onimport._background(can, msg), can.user.toastSuccess(can)
 	}) },
-	theme: function(can, theme) { theme && theme != ice.AUTO && can.runAction({}, chat.THEME, [theme])
+	theme: function(can, theme, event) { theme && theme != ice.AUTO && can.runAction({}, chat.THEME, [theme])
+		if (theme) { can.onengine.signal(can, "ontheme", can.request(event, {theme: theme})) }
 		theme && can.require(["/chat/theme/"+theme+".css"])
 		theme && can.misc.localStorage(can, "can.theme", can._theme = theme == ice.AUTO? "": theme) && can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: theme}))
 		theme = can.onexport.theme(can); var list = [html.LIGHT, html.WHITE]
@@ -135,7 +136,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	usernick: function(event, can) { can.onaction.carte(can.request(event, {_style: "header usernick"}), can, can.onaction._menus) },
 	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN, mdb.NAME, can.user.title()]) },
 	theme: function(event, can) { can.page.Select(can, can._output, "div.item.theme>i:first-child", function(target) {
-		can.onimport.theme(can, can.onimport._theme(can, target.className == icon.SUN? html.DARK: html.LIGHT))
+		can.onimport.theme(can, can.onimport._theme(can, target.className == icon.SUN? html.DARK: html.LIGHT), event)
 	}) },
 	qrcode: function(event, can) { can.user.share(can, can.request(event, {_handle: ice.TRUE}), [ctx.ACTION, cli.QRCODE]) },
 	language: function(event, can) { can.onimport.language(can, can.user.info.language.indexOf("zh") == 0? "en-us": "zh-cn") },
