@@ -13,25 +13,28 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.pod||meta.space}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				sub.onexport.output = function() { msg.Length() > 1 && can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, ""), can.onaction.layout(can, list[3]) }
 				can.onaction.layout(can, list[3]), can.onimport._tabs(can, sub, meta), can._plugins = (can._plugins||[]).concat([sub])
-				can.onexport.layout(can) && list[0] == river && list[1] == storm? (can.base.isIn(list[2], sub.ConfIndex()) && (sub._tabs.click(), _select = sub)):
-					(index == 0 && (sub._tabs.click())), _select = _select||sub, skip || next()
+				can.onexport.layout(can) && list[0] == river && list[1] == storm? (can.base.isIn(list[2], sub.ConfIndex()) && (_select = sub)): (index == 0 && (_select = sub)), _select = _select||sub, skip || next()
 			})
 		}, function() { can.onaction.layout(can, list[3]), _select._tabs.click() })
 	},
 	_tabs: function(can, sub, meta) {
-		var tabs = [{view: [[html.ITEM, meta.name], "", can.user.trans(can, meta.name, meta.help)], title: meta.help, onclick: function(event) { can._current = sub
-			can.onengine.signal(can, "onevent", can.request(event, {query: can.page.getquery(can, event.target)}))
-			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target), can.onmotion.select(can, can._action, html.DIV_ITEM, sub._tabs), can.onmotion.select(can, can._header_tabs, html.DIV_ITEM, sub._header_tabs)
+		var _init = true
+		var tabs = [{view: [[html.TABS, meta.name], "", can.user.trans(can, meta.name, meta.help)], title: meta.help, onclick: function(event) { can._current = sub
+			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
+			can.onmotion.select(can, can._action, html.DIV_ITEM, sub._tabs)
+			can.onmotion.select(can, can._header_tabs, html.DIV_TABS, sub._header_tabs)
 			can.onmotion.delay(can, function() { sub._header_tabs.scrollIntoViewIfNeeded() })
 			var layout = can.onexport.layout(can); layout == FREE || (can._output.scrollTop = sub._target.offsetTop-10)
 			can.isCmdMode() || can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), sub.ConfIndex(), layout)
 			sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))
+			can.onengine.signal(can, "onindex", can.request(_init? {target: event.target, type: "click", isTrusted: true}: event, {index: sub.ConfIndex()})), _init = false
+			// can.onengine.signal(can, "onevent", can.request(_init? {target: event.target, type: "click", isTrusted: true}: event)), _init = false
 		}, oncontextmenu: sub._legend.onclick}]; sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
 	},
 	_menu: function(can, msg) { if (can.user.isMobile) { return }
 		if (!can.user.isTechOrRoot(can)) { return }
 		var target = can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.onaction._menus), function(event, button, list) { list && can.core.CallFunc([can.onaction, list[0]], [can, button]) })
-		can.onmotion.hidden(can, can._header_tabs = can.page.Append(can, target, [html.TABS])._target)
+		can.onmotion.hidden(can, can._header_tabs = can.page.Append(can, target, ["_tabs"])._target)
 	},
 })
 Volcanos(chat.ONACTION, {_init: function(can, target) { can.db.list = can.misc.SearchHash(can)

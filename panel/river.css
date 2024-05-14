@@ -20,7 +20,7 @@ fieldset.River>div.toggle.next { bottom:-52px; }
 fieldset.River:not(:hover)>div.toggle { visibility:hidden; }
 fieldset.River.page { display:none; }
 fieldset.River:not(.all):not(.tabs):not(.page) { width:var(--header-height); }
-fieldset.River:not(.all):not(.tabs):not(.page)>div.action { flex-direction:column; overflow:hidden; visibility:hidden; }
+fieldset.River:not(.all):not(.tabs):not(.page)>div.action { flex-direction:column; overflow:hidden; }
 fieldset.River:not(.all):not(.tabs):not(.page)>div.action div.item { margin-right:0; }
 fieldset.River:not(.all):not(.tabs):not(.page)>div.action div.item.share { display:none; }
 fieldset.River:not(.all):not(.tabs):not(.page)>div.action div.item.refresh { display:none; }

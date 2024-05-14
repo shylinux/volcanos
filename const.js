@@ -94,6 +94,7 @@ var web = {
 	WORKER: "worker", SERVER: "server", ORIGIN: "origin", VENDOR: "vendor",
 	GATEWAY: "gateway", ONLINE: "online", OFFLINE: "offline",
 
+	SHOW: "show",
 	FULL: "full", OPEN: "open", LINK: "link", HTTP: "http", DOMAIN: "domain", URL: "url",
 	DRAW: "draw", PLAY: "play", CLEAR: "clear", RESIZE: "resize", FILTER: "filter",
 	CANCEL: "cancel", SUBMIT: "submit", CONFIRM: "confirm", REFRESH: "refresh",

@@ -513,6 +513,8 @@ fieldset.panel:not(.main) { background-color:var(--panel-bg-color); color:var(--
 fieldset.panel:not(.main)>div.output { background-color:var(--panel-output-bg-color); color:var(--panel-output-fg-color); }
 fieldset.panel:not(.main):not(.auto) div.item:hover { background-color:var(--panel-hover-bg-color); color:var(--panel-hover-fg-color); }
 fieldset.panel:not(.main):not(.auto) div.item.select { background-color:var(--panel-hover-bg-color); color:var(--panel-hover-fg-color); }
+fieldset.panel:not(.main):not(.auto) div.tabs:hover { background-color:var(--panel-hover-bg-color); color:var(--panel-hover-fg-color); }
+fieldset.panel:not(.main):not(.auto) div.tabs.select { background-color:var(--panel-hover-bg-color); color:var(--panel-hover-fg-color); }
 fieldset.panel:not(.main):not(.auto) input { background-color:var(--panel-input-bg-color); color:var(--panel-input-fg-color); }
 fieldset.panel:not(.main):not(.auto) input:hover { background-color:var(--panel-hover-bg-color); color:var(--panel-hover-fg-color); }
 fieldset.panel:not(.main):not(.auto) input::placeholder { background-color:var(--panel-input-bg-color); color:var(--disable-fg-color); }
@@ -608,7 +610,7 @@ legend>span.icon:first-child { margin-right:var(--input-margin); }
 legend>i:first-child { margin-right:var(--input-margin); }
 select, input { font-size:var(--body-font-size); height:var(--action-height); } input::placeholder, textarea::placeholder { font-style:italic; color:var(--disable-fg-color); }
 input[type=checkbox] { height:16px; width:16px; }
-textarea { font-size:var(--body-font-size); padding:var(--input-padding); height:var(--textarea-height); width:100%; outline:none; resize:vertical; }
+textarea { font-family:var(--input-font-family); font-size:var(--body-font-size); padding:var(--input-padding); height:var(--textarea-height); width:100%; outline:none; resize:vertical; }
 table.content.full { width:100%; }
 table.content col.time { width:180px; }
 table.content col.action { width:var(--project); }

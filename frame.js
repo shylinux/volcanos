@@ -161,18 +161,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				return can.page.SelectArgs(can, action, key, value)[0]
 			},
 			Option: function(key, value) { value && (value = can.user.trans(sub, value, null, html.INPUT)); return can.page.SelectArgs(can, option, key, value)[0] },
-			Update: function(event, cmds, cb, silent) { event = event||{}
-				if (event.isTrusted) {
-					can.onengine.signal(can, "onevent", can.request(event, {query: can.page.getquery(can, event.target)}))
-				}
-				event.metaKey && sub.request(event, {metaKey: ice.TRUE})
-				sub.request(event)._caller()
-				var msg = sub.request(event), list = can.core.Value(sub, "sub.db._checkbox")
-				can.core.Item(list, function(key, value) { msg.Option(key, value) })
+			Update: function(event, cmds, cb, silent) { event = event||{}, sub.request(event)._caller(), event.metaKey && sub.request(event, {metaKey: ice.TRUE})
+				var msg = sub.request(event), list = can.core.Value(sub, "sub.db._checkbox"); can.core.Item(list, function(key, value) { msg.Option(key, value) })
+				sub.request(event, sub.Option())
 				if (event.isTrusted && cmds && cmds.length > 0 && cmds[0] == ctx.ACTION) {
 					can.onengine.signal(can, "onrecord", can.request({}, {cmds: [sub.ConfSpace(), sub.ConfIndex()].concat(cmds||[])}))
-				}
-				sub.request(event, sub.Option())
+				} can.onengine.signal(can, "onevent", can.request(event))
 				sub.onappend._output0(sub, sub.Conf(), event||{}, cmds||sub.Input([], !silent), cb, silent)
 				return true
 			},
@@ -190,7 +184,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				sub.onappend._output(sub, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
 			}), meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
 			sub._legend && (sub._legend.onclick = function(event) {
-				can.onengine.signal(can, "onevent", can.request(event, {query: `fieldset.${sub.ConfIndex()}>legend`}))
+				can.onengine.signal(can, "onevent", can.request(event))
 				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["操作"].concat(can.core.Item(meta.feature._trans))]), function(event, button) { can.misc.Event(event, sub, function(msg) {
 					can.misc.Inputs(sub, msg, [ctx.ACTION, button], null, meta) || msg.RunAction(event, sub.sub, [ctx.ACTION, button]) || msg.RunAction(event, sub, [ctx.ACTION, button]) || sub.runAction(event, button, [], function(msg) { can.onappend._output(sub, msg) })
 				}) })
@@ -479,6 +473,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				return {type: html.INPUT, data: {type: html.BUTTON}, name: item.name, value: item.value, className: item.style, onclick: function(event) { run(event, item.name) }}
 			}))
 			can.page.Append(can, target, [{type: html.INPUT, data: {type: html.BUTTON}, name: html.MORE, value: can.user.trans(can, html.MORE), className: can.page.buttonStyle(can, html.MORE), onclick: function(event) {
+				can.onengine.signal(can, "onevent", can.request(event))
 				can.user.carte(event, can, {}, can.core.List(list.slice(limit-1), function(item) { return item.name }), function(event, button) { run(event, button) }, null, {})
 			}}])
 		}
@@ -621,9 +616,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (key == ctx.ACTION && msg.IsDetail()) { can.onappend.style(can, ctx.ACTION, target.parentNode) }
 				key == ctx.ACTION && can.onappend.mores(can, target, data, msg.IsDetail()? 20: html.TABLE_BUTTON)
 				var list = can.page.Select(can, target, html.INPUT, function(target) {
-					var _icon = can.Conf("_icons."+target.name)||icon[target.name]; if (_icon && typeof _icon == code.STRING || target.name == mdb.DELETE) { return target }
+					var _icon = (can.page.icons(can, target.name)||{}).icon;
+					if (_icon && typeof _icon == code.STRING || target.name == mdb.DELETE) { return target }
 				})
-				can.core.List(list, function(target) { can.onappend.style(can, html.ICONS, target); var _icon = can.Conf("_icons."+target.name)||icon[target.name]
+				can.core.List(list, function(target) { can.onappend.style(can, html.ICONS, target);
+					var _icon = (can.page.icons(can, target.name)||{}).icon;
 					if (target.name == mdb.DELETE) { _icon = icon.trash }
 					can.page.insertBefore(can, [{icon: _icon, title: can.user.trans(can, target.name), onclick: target.onclick||function(event) {
 						can.Update(request(event)._event, [ctx.ACTION, target.name]), can.onkeymap.prevent(event)

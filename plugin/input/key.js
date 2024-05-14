@@ -7,15 +7,18 @@ Volcanos(chat.ONFIGURE, {key: {
 			can._show(can, msg, cb, target, name)
 		})
 	},
-	_show: function(can, msg, cb, target, name) {
+	_show: function(can, msg, cb, target, name) { msg.Option(ice.TABLE_CHECKBOX, "")
 		if (msg.Length() == 0 || msg.Length() == 1 && msg.Append(name) == target.value && target.value != "") { return can.onmotion.hidden(can) }
 		if (can.base.isIn(msg.append[msg.append.length-1], ctx.ACTION, "cb")) { msg.append = msg.append.slice(0, -1) } var list = {}
-		msg.Option(ice.TABLE_CHECKBOX, "")
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, item) { value = item[key]
 			if (msg.append.length == 1 && index < 100 && list[value]) { return } list[value] = true
-			return {text: [value, html.TD, value == ""? html.HR: ""], style: msg.append && msg.append.length == 1? kit.Dict(html.MIN_WIDTH, target.offsetWidth-16): {}, onclick: function(event) {
+			return {text: [value, html.TD, [value == ""? html.HR: "", key]], style: msg.append && msg.append.length == 1? kit.Dict(html.MIN_WIDTH, target.offsetWidth-16): {}, onclick: function(event) {
+				can.onengine.signal(can, "onevent", can.request(event))
 				can.close(); if (msg.cb && msg.cb[index]) { return msg.cb[index](value) }
 				var _cb = can.Conf("select"); if (_cb) { return _cb(target.value = value) } can.base.isFunc(cb) && cb(can, value, target.value)
+			}, _init: function(target) {
+				can.onappend.style(can, "i-"+index, target.parentNode)
+				// can.onappend.style(can, "s-"+can.base.replaceAll(item[name], "/", "_"), target.parentNode)
 			}}
 		})
 		can.showIcons = function(value, icons, title) { can.ui = can.ui||{}
@@ -34,12 +37,18 @@ Volcanos(chat.ONFIGURE, {key: {
 		can.core.CallFunc([can.sup.sub, "oninputs", style], {event: event, can: can, msg: msg, target: target, name: name})
 		can.layout(msg)
 	},
-	onfocus: function(event, can, meta, target, cbs, mod) { meta._force && mod.onclick(event, can, meta, target, cbs) },
-	onclick: function(event, can, meta, target, cbs) { (target.value == "" || meta._force) && cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
+	onfocus: function(event, can, meta, target, cbs, mod) {
+		can.onengine.signal(can, "onevent", can.request(event));
+		meta._force && mod.onclick(event, can, meta, target, cbs) },
+	onclick: function(event, can, meta, target, cbs) {
+		can.onengine.signal(can, "onevent", can.request(event));
+		(target.value == "" || meta._force) && cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
 		sub.sup = can._fields? can.sup: can
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
-	onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },
+	onblur: function(event, can, sub, cb, target) {
+		can.onengine.signal(can, "onevent", can.request(event, {query: can.page.getquery(can, target)+","+target.value}));
+		sub && can.onmotion.delay(can, sub.close, 300) },
 	onkeyup: function(event, can, meta, cb, target, sub, last) { if (event.key == code.TAB) { return }
 		if (event.key == code.ENTER) { return meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event, target.value)? sub && sub.close(): last(event) }
 		if (!sub) { return } can.onmotion.toggle(can, sub._target, true)

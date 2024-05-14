@@ -11,12 +11,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 	card: function(can, msg, target, filter) { target = target||can.ui.content||can._output
 		can.page.Append(can, target, msg.Table(function(value) { if (filter && filter(value)) { return }
 			var img = can.misc.Resource(can, value.icon = value.icons||value.icon||value.image, msg.Option(ice.MSG_USERPOD), msg.Option(ice.MSG_USERWEB))
-			return {view: [[html.ITEM, value.type, value.status]], list: [
+			return {view: [[html.ITEM, value.type, value.status, "s-"+value.name]], list: [
 				{view: [wiki.TITLE, html.DIV], list: [
 					value.icon && {className: can.base.contains(img, ".jpg")? "jpg": "", img: img},
 					{view: wiki.TITLE, list: [{text: value.name}, can.onappend.label(can, value)]},
 				]}, {view: [wiki.CONTENT, html.DIV, value.text]},
-				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, html.CARD_BUTTON) }},
+				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, html.CARD_BUTTON)
+					can.page.Select(can, target, html.INPUT, function(target) { can.onappend.style(can, target.name, target) })
+				}},
 			]}
 		})), can.onimport.layout = can.onimport.layout||function() { var height = can.onlayout.expand(can, target); can.sup.onexport.outputMargin = function() { return height } }
 	},

@@ -39,6 +39,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 	},
 	_toast: function(can, msg, target) { can.ui.toast = can.page.Append(can, target, [{view: [[html.ITEM, chat.TOAST]], onclick: function(event) { can.onexport[NTIP](can) }}])._target },
 	_data: function(can, name, item) { can.db[name] = can.db[name]||can.request(), can.db[name].Push(item), can.onimport.count(can, name) },
+	tutor: function(event, can, type, text) {
+		!event._tutor && event.isTrusted && text && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: type, text: text})
+		event._tutor = true
+	},
 	value: function(can, name, value) { can.page.Select(can, can._output, "div.item>span."+name, function(target) { target.innerHTML = value }) },
 	count: function(can, name) { can.page.Select(can, can._output, can.core.Keys(html.SPAN, name), function(item) { item.innerHTML = can.Conf(name, parseInt(can.Conf(name)||"0")+1+"")+"" }) },
 	ntip: function(can, msg, time, title, content) { can.onimport._data(can, NTIP, {time: time, title: title, content: content}), can.page.Modify(can, can.ui.toast, [time, title, content].join(lex.SP)) },
@@ -63,10 +67,13 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	onrecord: function(can, msg) { var zone = can.misc.sessionStorage(can, "web.chat.script:zone"); zone && can.runAction(can.request(), nfs.SCRIPT, [zone].concat(msg.cmds[0])) },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
 	onstorm_select: function(event, can, river, storm) { event.isTrusted != undefined && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: chat.STORM, text: [river, storm].join(",")}) },
-	ontheme: function(event, can, theme) { event.isTrusted && theme && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: chat.THEME, text: theme}) },
-	onevent: function(event, can, query) { event.isTrusted && query && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: event.type, text: query}) },
-	onproject: function(event, can, query) { event.isTrusted && query && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: "item", text: query}) },
-	onremove: function(event, can, query) { event.isTrusted && query && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: "remove", text: query}) },
+
+	ontheme: function(event, can, theme) { can.onimport.tutor(event, can, chat.THEME, theme) },
+	onevent: function(event, can, query) { can.onimport.tutor(event, can, event.type, query||can.page.getquery(can, event.currentTarget||event.target)) },
+	onindex: function(event, can, index) { can.onimport.tutor(event, can, ctx.INDEX, index) },
+	onproject: function(event, can, query) { can.onimport.tutor(event, can, html.ITEM, query) },
+	onremove: function(event, can, query) { can.onimport.tutor(event, can, mdb.REMOVE, query) },
+
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
 	onlayout: function(can, layout, before) { if (can.user.isMobile) { return }
 		can.page.ClassList.del(can, can._target, before), can.page.ClassList.add(can, can._target, layout)
