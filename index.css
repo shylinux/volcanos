@@ -736,10 +736,11 @@ fieldset>form.option>div.text>span.value {
 }
 fieldset>form.option>div.text._icon>span.value { padding-left:24px; border:var(--box-border); }
 fieldset.plug>form.option>div.text>span.value { display:none; }
-fieldset:not(.float)>form.option>div.text>span.value { display:none; }
+fieldset>form.option>div.text>span.value { display:none; }
 fieldset.story.float:not(.plug)>form.option>div.text:not(.filter)>input { display:none; }
 fieldset.story.float:not(.plug)>form.option>div.text.filter>span.value { display:none; }
 fieldset.story.float:not(.plug)>form.option>div.text>span.icon { display:none; }
+fieldset.story.float:not(.plug)>form.option>div.text>span.value { display:unset; }
 fieldset.float>div.action>div.item.button._space.icons { margin-left:0; }
 /* svg */
 svg text { font-size:var(--svg-font-size); font-family:var(--svg-font-family); stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }

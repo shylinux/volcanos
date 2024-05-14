@@ -184,7 +184,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				sub.onappend._output(sub, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
 			}), meta.inputs && sub.onappend._option(sub, meta, sub._option, meta.msg)
 			sub._legend && (sub._legend.onclick = function(event) {
-				can.onengine.signal(can, "onevent", can.request(event))
+				can.onengine.signal(can, "onevent", can.request(event, {type: "legend"}))
 				can.user.carte(event, sub, sub.onaction, sub.onaction.list.concat([["操作"].concat(can.core.Item(meta.feature._trans))]), function(event, button) { can.misc.Event(event, sub, function(msg) {
 					can.misc.Inputs(sub, msg, [ctx.ACTION, button], null, meta) || msg.RunAction(event, sub.sub, [ctx.ACTION, button]) || msg.RunAction(event, sub, [ctx.ACTION, button]) || sub.runAction(event, button, [], function(msg) { can.onappend._output(sub, msg) })
 				}) })
@@ -206,7 +206,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				prev: {name: mdb.PREV, cb: function(event) { var sub = can.sub; sub.onaction && sub.onaction.prev? sub.onaction.prev(event, sub): can.onaction.prev(event, can) }},
 				next: {name: mdb.NEXT, cb: function(event) { var sub = can.sub; sub.onaction && sub.onaction.next? sub.onaction.next(event, sub): can.onaction.next(event, can) }},
 			}[item.name||item||""]; if (!icon) { return } item.style = "icons"
-			can.page.Append(can, option, [{view: [[html.ITEM, html.ICON, icon.name, item.name], html.DIV, can.page.unicode[icon.name]], title: can.user.trans(can, item.name), onclick: icon.cb||function(event) {
+			can.page.Append(can, option, [{view: [[html.ITEM, html.ICON, icon.name, item.name], html.DIV, can.page.unicode[icon.name]], title: can.user.trans(can, item.name), onclick: function(event) {
+				can.onengine.signal(can, "onevent", can.request(event, {type: "option"}))
+				if (icon.cb) { return icon.cb(event) }
 				var msg = can.request(event), cmds = [ctx.ACTION, item.name]; msg.RunAction(event, can.sub, cmds) || msg.RunAction(event, can, cmds) || can.Update(event, cmds)
 			}}])
 		})
@@ -249,6 +251,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	_action: function(can, list, action, meta, hold, limit) { meta = meta||can.onaction||{}, action = action||can._action, hold || can.onmotion.clear(can, action)
 		function run(event, button) { can.misc.Event(event, can, function(msg) { var _can = can._fields? can.sup: can; can.requestAction(event, button)
+			action == can._action && can.onengine.signal(can, "onevent", can.request(event, {type: "action"}))
 			var cb = meta[button]||meta[chat._ENGINE]; cb? can.core.CallFunc(cb, {event: event, can: can, button: button}):
 				can.run(event, can.base.isIn(button, mdb.LIST, web.REFRESH)? []: [ctx.ACTION, button].concat(_can.Input()))
 		}) }
@@ -285,6 +288,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}, function(key, value) {
 					return (value || value === "") && {view: [[html.ITEM, html.BUTTON, key, mdb.ICONS, "state"]], list: [{icon: icon[key]}],
 						title: key == "_space"? "": can.user.trans(can, key), onclick: function(event) {
+							can.onengine.signal(can, "onevent", can.request(event, {type: "action", action: key}))
 						var cb = _can.onaction[value]; cb && _can.onaction[value](event, _can, value, _can.sub)
 					}}
 				}).concat(can.Conf("_plugin_action")||[])
@@ -352,11 +356,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		})
 	},
 	_status: function(can, list, status, msg) { list && list.Option && (list = list.Option(ice.MSG_STATUS)||list)
-		status = status||can._status, can.onmotion.clear(can, status); var keys = {}
+		status = status||can._status, can.onmotion.clear(can, status)
+		var keys = {}
 		var fileline = can.Conf("_fileline")||""
 		can.core.List((can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST]))||[]).concat([
 			can.ConfSpace() && {name: web.SPACE, value: can.ConfSpace()},
-		], can.misc.Search(can, log.DEBUG)==ice.TRUE? [
+		], can.misc.Search(can, log.DEBUG) == ice.TRUE? [
 			fileline && {name: nfs.SOURCE, value: can.base.trimPrefix(fileline.split("?")[0], nfs.REQUIRE, nfs.P), onclick: function(event) { can.onkeymap.prevent(event)
 				var ls = can.misc.SplitPath(can, fileline); if (event.metaKey) {
 					can.user.open(can.misc.MergePodCmd(can, {pod: can.ConfSpace(), cmd: web.CODE_VIMER, path: ls[0], file: ls[1]}))
@@ -375,9 +380,11 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				var _list = can.page.Select(can, list[0], "td")
 				item.value = list.length+"x"+_list.length
 			}
-			can.page.Append(can, status, [{view: html.ITEM, list: [
+			can.page.Append(can, status, [{view: [[html.ITEM, item.name]], list: [
 				{text: [can.page.Color(can.user.trans(can, item.name, null, html.INPUT)), html.LABEL]}, {text: [": ", html.LABEL]}, {text: [(item.value == undefined? "": (item.value+"").trim())+"", html.SPAN, item.name]},
-			], onclick: item.onclick||function(event) {
+			], onclick: function(event) {
+				can.onengine.signal(can, "onevent", can.request(event, {type: "status"}))
+				if (item.onclick) { return item.onclick(event) }
 				if (!can.misc.isDebug(can)) { return }
 				if (can.base.isIn(item.name, mdb.TIME)) {
 					can.onappend._float(can, {index: "can.debug"}, ["log", can.ConfIndex()])
@@ -623,6 +630,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					var _icon = (can.page.icons(can, target.name)||{}).icon;
 					if (target.name == mdb.DELETE) { _icon = icon.trash }
 					can.page.insertBefore(can, [{icon: _icon, title: can.user.trans(can, target.name), onclick: target.onclick||function(event) {
+						can.onengine.signal(can, "onevent", can.request(event, {type: "button"}))
 						can.Update(request(event)._event, [ctx.ACTION, target.name]), can.onkeymap.prevent(event)
 					}}], target.nextSibling, target.parentNode)
 				})

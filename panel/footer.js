@@ -69,7 +69,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	onstorm_select: function(event, can, river, storm) { event.isTrusted != undefined && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: chat.STORM, text: [river, storm].join(",")}) },
 
 	ontheme: function(event, can, theme) { can.onimport.tutor(event, can, chat.THEME, theme) },
-	onevent: function(event, can, query) { can.onimport.tutor(event, can, event.type, query||can.page.getquery(can, event.currentTarget||event.target)) },
+	onevent: function(event, can, query) { var msg = can.request(event)
+		can.onimport.tutor(event, can, msg.Option(mdb.TYPE)||event.type, query||can.page.getquery(can, event.currentTarget||event.target)) },
 	onindex: function(event, can, index) { can.onimport.tutor(event, can, ctx.INDEX, index) },
 	onproject: function(event, can, query) { can.onimport.tutor(event, can, html.ITEM, query) },
 	onremove: function(event, can, query) { can.onimport.tutor(event, can, mdb.REMOVE, query) },
