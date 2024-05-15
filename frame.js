@@ -340,11 +340,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS), null, msg), can.user.isMobile || sub.onappend.tools(sub, msg)
 					can.core.Item(can.Action(), function(key) { var value = can.misc.sessionStorage(can, [can.ConfIndex(), ctx.ACTION, key]); value && can.Action(key, msg.Option(key)||value[0]) })
 					if (msg.Option("sess.online") == ice.TRUE) { can.ondaemon._online(can) }
-					if (msg.Length() > 9 && !sub.ui.project) { can.onmotion.delay(can, function() {
-						can.page.insertBefore(can, [
-							{view:[[html.ITEM, html.TEXT, html.FILTER, "state"]], _init: function(target) { can.onappend.filter(can, target, can._output) }}
-						], (can.page.SelectOne(can, can._action, "div.item._space")||{}).nextSibling, can._action)
-					}, 300) }
+					if (msg.Length() > 9 && !sub.ui.project && !can.user.isMobile) { can.onmotion.delay(can, function() { can.onappend._filter(can) }, 300) }
 				} can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output)
 				if (can.onimport.size) {
 					can.page.ClassList.has(can, can._target, html.FLOAT) && !can.page.ClassList.has(can, can._target, html.PLUG)?
@@ -486,7 +482,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}}])
 		}
 	},
-	filter: function(can, target, output) { output = output||target
+	_filter: function(can) {
+		can.page.insertBefore(can, [
+			{view:[[html.ITEM, html.TEXT, html.FILTER, "state"]], _init: function(target) { can.onappend.filter(can, target, can.ui.content||can._output) }}
+		], (can.page.SelectOne(can, can._action, "div.item._space")||{}).nextSibling, can._action)
+	},
+	filter: function(can, target, output) { output = output||can.ui.content||target
 		return can.onappend.input(can, {type: html.TEXT, name: web.FILTER, icon: icon.SEARCH, placeholder: "search in n items", onkeydown: function() {}, onkeyup: function(event) {
 			var value = event.currentTarget? event.currentTarget.value: ""
 			if (event.key == code.ENTER) {

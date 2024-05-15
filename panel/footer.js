@@ -5,18 +5,21 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 		can.Conf(nfs.VERSION, can.base.trimPrefix(window._version, "?_v=").split("&")[0])
 		can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width())
 		can.Conf(NKEY, can.core.Item(can.misc.localStorage(can)).length)
-		can.onimport._title(can, msg, target), can.onimport._command(can, msg, target), can.onimport._storm(can, msg, target)
-		can.misc.isDebug(can) && can.onimport._state(can, msg, target), can.onimport._toast(can, msg, target)
-		if (!can.user.isTechOrRoot(can)) { return }
+
+		can.onimport._title(can, msg, target)
+		can.onimport._storm(can, msg, target)
 		can.core.List([
-			{index: code.XTERM, args: [cli.SH]},
-			{index: cli.RUNTIME},
-			{index: chat.MESSAGE},
 			{index: chat.TUTOR},
+			{index: chat.MESSAGE},
+			{index: cli.RUNTIME},
+			{index: code.XTERM, args: [cli.SH]},
 		], function(value) { value.type = html.BUTTON, value.name = value.index
 			value.onclick = function() { can.onappend._float(can, value.index, value.args) }
 			can.onappend.input(can, value, "", can._output)
 		})
+		// can.onimport._command(can, msg, target)
+		can.onimport._toast(can, msg, target)
+		can.misc.isDebug(can) && can.onimport._state(can, msg, target)
 	},
 	_title: function(can, msg, target) { can.user.isMobile || can.core.List(can.Conf(chat.TITLE)||msg.result, function(item) {
 		if (can.base.contains(item, ice.AT)) { item = '<a href="mailto:'+item+'">'+item+'</a>' }
@@ -32,7 +35,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 		}
 	}}, "", target, [chat.TITLE]) },
 	_storm: function(can, msg, target) { can.ui.storm = can.page.Append(can, can._output, [html.MENU])._target },
-	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), can.onexport.list).reverse(), function(item) {
+	_state: function(can, msg, target) { can.user.isMobile || can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), can.onexport.list), function(item) {
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE]], list: [
 			{text: [item, html.LABEL]}, {text: [": ", html.LABEL]}, {text: [can.Conf(item)||"", "", item]},
 		], onclick: function(event) { can.core.CallFunc(can.onexport[item], [can]) }}]) })

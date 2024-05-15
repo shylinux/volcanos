@@ -1,5 +1,6 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
-		can.onimport._title(can, msg, target), can.onimport._state(can, msg, target), can.onimport._avatar(can, msg, target), can.onimport._background(can, msg, target), can.onimport._search(can, msg, target)
+		can.onimport._title(can, msg, target), can.onimport._state(can, msg, target), can.onimport._search(can, msg, target)
+		can.onimport._avatar(can, msg, target), can.onimport._background(can, msg, target)
 	},
 	_title: function(can, msg, target) { can.core.List(can.base.getValid(can.Conf(chat.TITLE)||msg.result, [
 		decodeURIComponent(can.misc.Search(can, ice.POD)||location.host)]), function(item) {
@@ -17,12 +18,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			item == cli.QRCODE && can.page.Appends(can, target, [{icon: icon.qrcode, title: can.user.trans(can, cli.QRCODE)}])
 		}}])
 	}) },
-	_language: function(can) { can.page.Select(can, can._output, "div.item.language", function(target) {
-		can.page.Appends(can, target, can.user.info.language.indexOf("zh") == 0? [{text: "中"}, {text: " / "}, {text: "EN"}]: [{text: "EN"}, {text: " / "}, {text: "中"}])
-	}) },
-	_theme: function(can, theme) { return can.ui.diy&&can.ui.diy[theme]||theme },
-	_avatar: function(can, msg) { can.user.isExtension || can.user.isLocalFile || can.page.Modify(can, "div.state.avatar>img", {src: can.onexport.avatar(can)}) },
-	_background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return } can.onlayout.background(can, can.onexport.background(can)) },
 	_search: function(can, msg, target) { if (!can.user.isTechOrRoot(can)) { return }
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE]], list: [{icon: mdb.SEARCH}], onclick: function(event) {
 			can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH}))
@@ -33,21 +28,23 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 		}}, "", target, [chat.STATE])
 		can.onimport.menu(can, mdb.SEARCH, function() { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: mdb.FOREACH, word: can._search.value||""})) })
 	},
-	_const: function(can) {
-		can.core.Item(html.value, function(key, value) {
-			html[key] = can.page.styleValueInt(can, "--"+can.base.replaceAll(key.toLowerCase(), "_", "-"))||value
-		})
-	},
+	_avatar: function(can, msg) { can.user.isExtension || can.user.isLocalFile || can.page.Modify(can, "div.state.avatar>img", {src: can.onexport.avatar(can)}) },
+	_background: function(can, msg) { if (can.user.isExtension || can.user.isLocalFile) { return } can.onlayout.background(can, can.onexport.background(can)) },
+	_language: function(can) { can.page.Select(can, can._output, "div.item.language", function(target) {
+		can.page.Appends(can, target, can.user.info.language.indexOf("zh") == 0? [{text: "中"}, {text: " / "}, {text: "EN"}]: [{text: "EN"}, {text: " / "}, {text: "中"}])
+	}) },
+	_theme: function(can, theme) { return can.ui.diy&&can.ui.diy[theme]||theme },
+	_const: function(can) { can.core.Item(html.value, function(key, value) { html[key] = can.page.styleValueInt(can, "--"+can.base.replaceAll(key.toLowerCase(), "_", "-"))||value }) },
 	_time: function(can, target) { can.core.Timer({interval: 100}, function() { can.onimport.time(can, target) }), can.onappend.figure(can, {action: "date"}, target) },
 	time: function(can, target) { can.onimport.theme(can), target.innerHTML = can.user.time(can, null, can.Conf(mdb.TIME)||"%H:%M:%S %w") },
-	language: function(can, language) { can.user.toastConfirm(can, can.user.trans(can, "change language to "+language), aaa.LANGUAGE, function() {
-		can.runAction(event, aaa.LANGUAGE, [language == ice.AUTO? "": language], function(msg) { can.user.reload(true) })
-	}) },
 	avatar: function(event, can, avatar) { can.user.isExtension || can.user.isLocalFile || can.runAction(event, aaa.AVATAR, [avatar], function(msg) {
 		can.user.info.avatar = avatar, can.onimport._avatar(can, msg), can.user.toastSuccess(can)
 	}) },
 	background: function(event, can, background) { can.user.isExtension || can.user.isLocalFile || can.runAction(event, aaa.BACKGROUND, [background], function(msg) {
 		can.user.info.background = background, can.onimport._background(can, msg), can.user.toastSuccess(can)
+	}) },
+	language: function(can, language) { can.user.toastConfirm(can, can.user.trans(can, "change language to "+language), aaa.LANGUAGE, function() {
+		can.runAction(event, aaa.LANGUAGE, [language == ice.AUTO? "": language], function(msg) { can.user.reload(true) })
 	}) },
 	theme: function(can, theme, event) { theme && theme != ice.AUTO && can.runAction({}, chat.THEME, [theme])
 		if (theme) { can.onengine.signal(can, "ontheme", can.request(event, {theme: theme})) }
