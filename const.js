@@ -369,7 +369,7 @@ var html = {value: {
 	BODY: "body", FORM: "form", LABEL: "label", TITLE: "title", INNER: "inner", SPACE: "space", CLICK: "click",
 	SELECT: "select", INPUT: "input", TEXT: "text", FILE: "file", TEXTAREA: "textarea", BUTTON: "button", CHECKBOX: "checkbox",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
-	CONFIRM: "confirm",
+	CONFIRM: "confirm", CLOSE: "close", CLICK: "click", FOCUS: "focus", BLUR: "blur",
 	TABLE: "table", THEAD: "thead", TBODY: "tbody", TR: "tr", TH: "th", TD: "td",
 	HEADER: "header", NAV: "nav", MAIN: "main", ASIDE: "aside", FOOTER: "footer",
 	FAVICON: "favicon",

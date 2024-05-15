@@ -10,7 +10,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		if (can.Mode() == ice.MSG_RESULT) { msg.result = msg.result||[can._output.innerHTML], can.Mode(chat.SIMPLE), can.sup.Mode(chat.SIMPLE) }
 		can.core.List(paths.concat(can.core.Split(msg.Option(nfs.REPOS))), function(p) {
 			if (can.base.beginWith(p, nfs.USR_LOCAL_WORK, "C:/") || can.base.endWith(p, "-dict/") || can.base.isIn(p,
-				// nfs.USR_INTSHELL,
 				nfs.USR_WEBSOCKET, nfs.USR_GO_QRCODE, nfs.USR_GO_GIT, nfs.USR_ICONS, nfs.USR_GEOAREA, nfs.USR_PROGRAM, nfs.USR_NODE_MODULES,
 			)) { return }
 			if (p && paths.indexOf(p) == -1 && p[0] != nfs.PS) { paths.push(p) }
@@ -127,7 +126,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 		}}])
 	},
 	_tabIcon: function(can) {
-		// can.user.isWindows ||
 		can.page.Append(can, can.ui.path, can.core.Item({
 			"\u271A": shy({transform: "translate(0 2px)"}, function(event) { can.onaction.open(event, can, "open") }),
 			"\u2756": shy({}, function(event) { can.onaction.plug(event, can, "plug") }),
@@ -299,7 +297,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Sp
 			can.page.style(can, can.ui.tabs.parentNode, html.WIDTH, can.ui.path.offsetWidth)
 			can.page.style(can, can.ui.display, html.WIDTH, can.ui.path.offsetWidth)
 			can.page.style(can, can.ui.display.parentNode, html.WIDTH, can.ui.path.offsetWidth)
-			// can.ui.zone.source._layout(), can.ui.zone[can.Option(nfs.PATH)] && can.ui.zone[can.Option(nfs.PATH)]._layout()
 		}
 		can.page.SelectChild(can, can.ui.project, html.DIV_ZONE, function(target, index, list) {
 			can.page.SelectChild(can, target, html.DIV_ITEM, function(target) {
@@ -517,8 +514,7 @@ Volcanos(chat.ONSYNTAX, {_init: function(can, msg, cb) { if (!msg) { return }
 		})
 	},
 })
-Volcanos(chat.ONACTION, {
-	_trans: {show: "预览", exec: "展示"},
+Volcanos(chat.ONACTION, {_trans: {show: "预览", exec: "执行"},
 	_getLine: function(can, line) { return can.page.Select(can, can.ui.content, "tr.line>td.line", function(td, index) { if (td.parentNode == line || index+1 == line) { return td.parentNode } })[0] },
 	_getContent: function(can, line) {
 		can.ui.content = line.parentNode, can._msg = can.ui.content._msg, can.Option(nfs.PATH, can._msg.Option(nfs.PATH)), can.Option(nfs.FILE, can._msg.Option(nfs.FILE))
@@ -648,7 +644,6 @@ Volcanos(chat.ONACTION, {
 	},
 })
 Volcanos(chat.ONEXPORT, {
-	// list: [mdb.TIME, nfs.FILE, nfs.LINE, ice.BACK],
 	path: function(can) { return can.Option(nfs.PATH)+can.Option(nfs.FILE) },
 	line: function(can, line) { return parseInt(can.core.Value(can.page.SelectOne(can, line, "td.line"), "innerText")) },
 	text: function(can, line) { return can.core.Value(can.page.SelectOne(can, line, "td.text"), "innerText") },

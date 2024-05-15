@@ -63,9 +63,8 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 			sub.onimport.size(sub, can.ConfHeight(), can.ConfWidth()-1, true)
 		}, can.ui.profile) }
 		if (data.ctx == ice.NFS && data.cmd == nfs.PACK) { var ls = can.misc.SplitPath(can, data.text)
-			can.runAction(event, ctx.RUN, [web.CODE_VIMER, ctx.ACTION, mdb.RENDER, data.type, ls[1], ls[0]], function(msg) { msg.Table(function(meta) {
-				plugin(meta)
-			}), can.onappend.board(can, msg.Result(), can.ui.profile) })
+			can.runAction(event, ctx.RUN, [web.CODE_VIMER, ctx.ACTION, mdb.RENDER, data.type, ls[1], ls[0]], function(msg) {
+				msg.Table(function(meta) { plugin(meta) }), can.onappend.board(can, msg.Result(), can.ui.profile) })
 		} else {
 			plugin(meta)
 		}
