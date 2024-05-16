@@ -665,7 +665,7 @@ div.item.text.id>input { width:80px; }
 div.item.text.url>input { width:var(--river-width); }
 div.item.text.port>input { width:80px; }
 div.item.text.line>input { width:80px; }
-div.item.text.path>input { width:var(--project-width); }
+fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
 div.item.text.limit>input { width:var(--button-width); }
 div.item.text.offend>input { width:var(--button-width); }
 body:not(.width2):not(.mobile) fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }

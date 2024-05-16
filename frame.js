@@ -1098,7 +1098,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		}, 300)
 	},
 	cacheClear: function(can, key) { delete(can._cache_data[key])
-		can.core.List(arguments, function(target, index) { index > 1 && delete(target._cache[key]) })
+		can.core.List(arguments, function(target, index) { index > 1 && target && target._cache && delete(target._cache[key]) })
 	},
 	cache: function(can, next) { var list = can.base.getValid(can.base.Obj(can.core.List(arguments).slice(2)), [can._output])
 		var data = can._cache_data = can._cache_data||{}, old = list[0]._cache_key

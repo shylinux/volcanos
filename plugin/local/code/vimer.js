@@ -26,35 +26,43 @@ Volcanos(chat.ONIMPORT, {
 	_value: function(can) { can.onimport.__tabPath(can, true), can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) },
 }, [""])
 Volcanos(chat.ONFIGURE, {
-	source: function(can, target, zone, path) {
+	source: function(can, target, zone) {
 		var args = (can.isCmdMode() && can.base.getValid(can.misc.SearchHash(can))) || [can.Option(nfs.PATH), can.Option(nfs.FILE)]
-		function show(target, zone, path) { can.run(can.request({}, {_method: http.GET, dir_root: path, dir_deep: true}, can.Option()), [nfs.PWD], function(msg) {
-			zone._icon(kit.Dict(
-				web.REFRESH, function(event) { show(target, zone, path) },
-				mdb.CREATE, function(event, button) { can.onaction.module(event, can, nfs.MODULE) },
-			)), zone._total(msg.Length()), can.onmotion.clear(can, target)
-			var cache, list = can.core.List(msg.Table(), function(item) {
-				if (path == "src/" && can.base.isIn(item.path, "main.ico", "main.svg", "version.go", "binpack.go", "binpack_usr.go")) { return }
-				if (path == "usr/release/" && can.base.isIn(item.path, "conf.go", "binpack.go")) { return }
-				if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true }
-				item._init = function(target) { item._remove = function() { can.page.Remove(can, target.parentNode), delete(cache[item.path]) }
-					can.ui.zone.source[path+item.path] = target
-					if (msg.result && msg.result.indexOf(item.path) > -1) { can.onmotion.delay(can, function() { can.onappend.style(can, mdb.MODIFY, target.parentNode)
-						for (var _target = target.parentNode; _target != zone._target; _target = _target.parentNode) { _target.previousSibling && can.onappend.style(can, mdb.MODIFY, _target.previousSibling) }
-					}) }
-				}, item._menu = {meta: kit.Dict(
-					mdb.CREATE, function(event, button) {
-						can.onaction.script(can.request(event, {path: path, file: item.path+(can.base.endWith(item.path, "/")? "client.go": "")}), can, nfs.SCRIPT) },
-					nfs.TRASH, function(event, button) { can.runAction(event, nfs.TRASH, [path+item.path], function(msg) { show(target, zone, path) }) },
-				)}; return item
-			}); cache = can.onimport.tree(can, list, function(event, item) { can.base.endWith(item.path, nfs.PS) || can.onimport.tabview(can, path, item.path) }, function(event, target, item) {
-				var msg = can.request(event); msg.Option(nfs.PATH, path), msg.Option(nfs.FILE, item.path)
-			}, target, cache)
-			can.onmotion.orderShow(can, target)
-		}, true) } if (path.length == 1) { return show(target, zone, path[0]) } can.page.Remove(can, zone._action)
-		can.onimport.zone(can, can.core.List(path, function(path) { return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) {
-			show(target, zone, path), zone._toggle = function() { }
-		}) }), target), can.onmotion.orderShow(can, target, html.DIV_ZONE)
+		can.run({}, [ctx.ACTION, nfs.REPOS], function(msg) { var paths = can.db.paths
+			can.core.List(paths.concat(msg.Table(function(value) { return value.path })), function(p) {
+				if (can.base.beginWith(p, nfs.USR_LOCAL_WORK) || can.base.isIn(p, nfs.USR_WEBSOCKET, nfs.USR_GO_QRCODE, nfs.USR_GO_GIT, nfs.USR_ICONS, nfs.USR_GEOAREA, nfs.USR_PROGRAM, nfs.USR_NODE_MODULES)) { return }
+				if (p && paths.indexOf(p) == -1 && p[0] != nfs.PS) { paths.push(p) }
+			})
+			function show(target, zone, path) { can.run(can.request({}, {_method: http.GET, dir_root: path, dir_deep: true}, can.Option()), [nfs.PWD], function(msg) {
+				zone._icon(kit.Dict(
+					web.REFRESH, function(event) { show(target, zone, path) },
+					mdb.CREATE, function(event, button) { can.onaction.module(event, can, nfs.MODULE) },
+				)), zone._total(msg.Length()), can.onmotion.clear(can, target)
+				var cache, list = can.core.List(msg.Table(), function(item) {
+					if (path == "src/" && can.base.isIn(item.path, "main.ico", "main.svg", "version.go", "binpack.go", "binpack_usr.go")) { return }
+					if (path == "usr/release/" && can.base.isIn(item.path, "conf.go", "binpack.go")) { return }
+					if (path == args[0] && item.path == args[1]) {
+						can.onexport.session(can, "selectLine"+nfs.DF+args[0]+args[1], args[2])
+						item.expand = true }
+					item._init = function(target) {
+						can.ui.zone.source[path+item.path] = target
+						item._remove = function() { can.page.Remove(can, target.parentNode), delete(cache[item.path]) }
+					}
+					return item
+				})
+				cache = can.onimport.tree(can, list, function(event, item) {
+					can.base.endWith(item.path, nfs.PS) || can.onimport.tabview(can, path, item.path)
+				}, function(event, target, item) {
+					var msg = can.request(event); msg.Option(nfs.PATH, path), msg.Option(nfs.FILE, item.path)
+				}, target, cache)
+			}, true) }
+			if (paths.length == 1) { return show(target, zone, paths[0]) } can.page.Remove(can, zone._action)
+			can.onimport.zone(can, can.core.List(paths, function(path) {
+				return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) {
+					show(target, zone, path), zone._toggle = function() {}
+				})
+			}), target)
+		})
 	},
 	space: function(can, target, zone) { can.onimport._zone(can, zone, web.DREAM, function(sub, msg) {
 		sub.onimport._open = function(_, msg, arg) { var link = can.misc.ParseURL(can, arg)
@@ -62,7 +70,6 @@ Volcanos(chat.ONFIGURE, {
 			can.onimport.tabview(can, "", arg, web.SPACE)
 		}
 		sub.onexport.record = function(sub, value, key) { can.onimport.tabview(can, "", value, web.SPACE) }
-		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
 	}), zone.toggle(false) },
 })
 Volcanos(chat.ONACTION, {list: ["创建", "编译", "源码", "文档", "计划", "聊天", "矩阵", "后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},

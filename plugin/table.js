@@ -1,7 +1,7 @@
 Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 		if (msg.index && msg.meta && msg.list) { return cb && cb(msg), can.sup.onimport._field(can.sup, msg) }
 		if (can.isCmdMode() && can.Conf(ctx.STYLE) == html.FORM) { can.onappend.style(can, html.OUTPUT) }
-		if (can.Mode() == html.ZONE) { return can.onimport._vimer_zone(can, msg, target) }
+		if (can.Mode() == html.ZONE) { return can.onimport._vimer_zone(can, msg, target), cb && cb(msg) }
 		var cbs = can.onimport[can.Conf(ctx.STYLE)||msg.Option(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.onappend.style(can, can._args[ctx.STYLE], target), can.core.CallFunc(cbs, {can: can, msg: msg, target: target})
 		} else {
@@ -73,7 +73,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 			}
 			return {view: [[html.ZONE, zone.name]], list: [
 				{view: html.ITEM, list: [{text: can.user.trans(can, zone.name)}], _init: function(target) { zone._legend = target }, onclick: function() {
-					if (zone._delay_init) { zone._delay_init(zone._target, zone), delete(zone._delay_init) } zone.toggle(), zone._toggle && zone._toggle()
+					if (zone._delay_init) { zone._delay_init(zone._target, zone), delete(zone._delay_init) } zone.toggle(), zone._toggle && zone._toggle(zone)
 				}, oncontextmenu: function(event) { var menu = zone._menu
 					menu? can.user.carteRight(event, can, menu.meta, menu.list||can.core.Item(menu.meta), can.base.isFunc(menu)? menu: function(event, button, meta, carte) {
 						can.runAction(event, button), carte.close()
