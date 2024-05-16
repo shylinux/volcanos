@@ -1,8 +1,9 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { if (can.user.mod.isPod) { delete(can.onfigure.space), delete(can.onfigure.repos) }
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg, cb) { if (can.user.mod.isPod) { delete(can.onfigure.space), delete(can.onfigure.repos) }
+		can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(can) })
 		can.require(["/plugin/local/code/inner.js"], function(can) { can.onimport._last_init(can, msg, function() {
-			can.onappend.style(can, "vimer", can._fields)
-			can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(can) })
 			can.db.undo = [], can.db.redo = [], can.onimport._input(can), cb && cb(msg)
+			can.onappend.style(can, code.VIMER, can._fields)
 		}) })
 	},
 	_input: function(can) { var ui = can.page.Append(can, can.ui.content.parentNode, [
@@ -64,10 +65,7 @@ Volcanos(chat.ONFIGURE, {
 		can.page.Select(can, sub._output, html.DIV_ITEM, function(target, index) { can.onappend.style(can, msg.status[index], target) })
 	}), zone.toggle(false) },
 })
-Volcanos(chat.ONACTION, {list: [
-	"创建", "编译", "源码", "文档",
-	"计划", "聊天", "矩阵",
-	"后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},
+Volcanos(chat.ONACTION, {list: ["创建", "编译", "源码", "文档", "计划", "聊天", "矩阵", "后台", "桌面", "官网"], _trans: {show: "预览", exec: "展示"},
 	_run: function(event, can, button, args, cb) { can.runAction(event, button, args, cb||function(msg) {
 		if (msg.IsErr()) { return can.user.toastFailure(can, msg.Result()) }
 		can.onmotion.delay(can, function() { can.onimport.tabview(can, msg.Option(nfs.PATH), msg.Option(nfs.FILE)) }, 300)
@@ -125,7 +123,10 @@ Volcanos(chat.ONACTION, {list: [
 
 	insertLine: function(can, value, before) { var line = can.onaction.appendLine(can, value); before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before)); return can.onaction.rerankLine(can), can.onexport.line(can, line) },
 	deleteLine: function(can, line) { line = can.onaction._getLine(can, line); var next = line.nextSibling||line.previousSibling; return can.page.Remove(can, line), can.onaction.rerankLine(can), next },
-	_selectLine: function(can) { can.current && can.page.Select(can, can.current.line, "td.text", function(td) { var target = can.ui.current; target.value = td.innerText
+	_selectLine: function(can) { can.current && can.page.Select(can, can.current.line, "td.text", function(td) {
+		var target = can.ui.current;
+		if (!target) { return }
+		target.value = td.innerText
 		can.current.line.appendChild(target), can.page.style(can, target, html.LEFT, td.offsetLeft-1, html.TOP, td.offsetTop, html.WIDTH, can.base.Min(td.offsetWidth, can.ui.content.offsetWidth-can.page.Select(can, can.current.line, "td.line")[0].offsetWidth))
 		can.db.mode == mdb.NORMAL && can.onkeymap._normal(can)
 		if (can.ui.content._root) { can.onmotion.select(can, can.ui.content.parentNode, "", can.ui.content) }

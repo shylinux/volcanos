@@ -4,55 +4,46 @@ const PROJECT_HIDE = "project:hide", TABVIEW_HIDE = "tabview:hide"
 const PROFILE_ARGS = "profile:args:", DISPLAY_ARGS = "display:args:"
 const CURRENT_FILE = "web.code.inner:currentFile", SELECT_LINE = "selectLine"
 const VIEW_CREATE = "tabview.view.create", VIEW_REMOVE = "tabview.view.remove", LINE_SELECT = "tabview.line.select"
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { var paths = can.core.Split(can.Option(nfs.PATH), mdb.FS); can.Option(nfs.PATH, paths[0])
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg, cb) { can.onappend.style(can, code.INNER)
+		var paths = can.core.Split(can.Option(nfs.PATH), mdb.FS); can.Option(nfs.PATH, paths[0])
 		can.core.List([nfs.PATH, nfs.FILE, nfs.LINE], function(key) { msg.Option(key) && can.Option(key, msg.Option(key)) })
-		can.Mode(msg.Option("mode")||can.Mode()), (msg.Option(nfs.FILE) == lex.SP || can.Option(nfs.FILE) == lex.SP) && can.Option(nfs.FILE, "")
+		can.Mode(msg.Option("mode")||can.Mode())
 		if (can.Mode() == ice.MSG_RESULT) { msg.result = msg.result||[can._output.innerHTML], can.Mode(chat.SIMPLE), can.sup.Mode(chat.SIMPLE) }
-		can.core.List(paths.concat(can.core.Split(msg.Option(nfs.REPOS))), function(p) {
-			if (can.base.beginWith(p, nfs.USR_LOCAL_WORK, "C:/") || can.base.endWith(p, "-dict/") || can.base.isIn(p,
-				nfs.USR_WEBSOCKET, nfs.USR_GO_QRCODE, nfs.USR_GO_GIT, nfs.USR_ICONS, nfs.USR_GEOAREA, nfs.USR_PROGRAM, nfs.USR_NODE_MODULES,
-			)) { return }
-			if (p && paths.indexOf(p) == -1 && p[0] != nfs.PS) { paths.push(p) }
-		}), can.onmotion.clear(can), can.onappend.style(can, code.INNER), can.sup.onimport._process = function(_can, msg) {
-			if (msg.OptionProcess() == ice.PROCESS_HOLD) { return true }
-			if (msg.OptionProcess() == ice.PROCESS_REWRITE) {
-				var args = {}, arg = msg._arg; for (var i = 0; i < arg.length; i += 2) { args[arg[i]] = arg[i+1] }
-				can.onimport.tabview(can, args.path, args.file, args.line)
-			}
-		}
+		can.onmotion.clear(can, can._output), msg.result = msg.result||[""]
+
 		can.db = {paths: paths, tabview: {}, history: [], _history: [], toolkit: {}}, can.db.tabview[can.onexport.keys(can)] = msg
 		can.ui = can.onappend.layout(can, [html.PROJECT, [html.TABS, nfs.PATH, [html.CONTENT, html.PROFILE], html.DISPLAY, html.PLUG]])
-		can.onmotion.toggle(can, can.ui.tabs, true)
-		can.ui._content = can.ui.content, can.ui._profile = can.ui.profile, can.ui._display = can.ui.display, can.onmotion.hidden(can, can.ui.plug)
-		can.onmotion.hidden(can, can.ui.profile), can.onmotion.hidden(can, can.ui.display)
-		if (can.Conf(ctx.STYLE) == html.OUTPUT) { can.onmotion.hidden(can, can.ui.project), can.page.style(can, can.ui.content, html.HEIGHT, "") }
-		var args = can.misc.SearchHash(can), tabs = can.onexport.session(can, RECOVER_TABS), tool = can.onexport.session(can, RECOVER_TOOL)
-		switch (can.Mode()) {
-			case chat.SIMPLE: // no break
-			case chat.FLOAT: can.onmotion.hidden(can, can.ui.project); break
-			case chat.CMD: can.onappend.style(can, html.OUTPUT)
-				can.onexport.session(can, PROJECT_HIDE) == html.HIDE && can.onmotion.hidden(can, can.ui.project)
-				if (can.onexport.session(can, TABVIEW_HIDE) == html.HIDE) { can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.tabs) }
-				can.onengine.listen(can, chat.ONUNLOAD, function() { can.onexport.recover(can) })
-				tool = tool||(can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []).reverse()), msg.Option(ice.MSG_TOOLKIT, "[]")
-			case chat.FULL: // no break
-			default: can.user.isMobile && can.onmotion.hidden(can, can.ui.project), can.onimport.project(can, paths), can.onimport._tabs(can)
-		}
-		msg.result = msg.result||[""]
-		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE), function() { if (!can.isCmdMode()) { return }
-			if (tabs) {
-				can.core.Next(tabs, function(item, next) { can.onimport.tabview(can, item[0], item[1], item[2], function() { can.onmotion.delay(can, next, 300) }) }, function() {
-					args.length > 0 && can.onimport.tabview(can, args[args.length-3], args[args.length-2]||can.Option(nfs.FILE), args[args.length-1])
-				})
-			} else {
-				args.length > 0 && can.onimport.tabview(can, args[args.length-3], args[args.length-2]||can.Option(nfs.FILE), args[args.length-1])
+		can.ui._content = can.ui.content, can.ui._profile = can.ui.profile, can.ui._display = can.ui.display
+		can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.profile), can.onmotion.hidden(can, can.ui.display)
+		can.onmotion.toggle(can, can.ui.tabs, true), can.onmotion.hidden(can, can.ui.plug)
+		can.onimport._tabs(can)
+
+		var args = can.misc.SearchHash(can)
+		var tool = (can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []).reverse()); msg.Option(ice.MSG_TOOLKIT, "[]")
+		// var tool = can.onexport.session(can, RECOVER_TOOL)||(can.base.Obj(msg.Option(ice.MSG_TOOLKIT), []).reverse()); msg.Option(ice.MSG_TOOLKIT, "[]")
+		can.onimport.tabview(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE), function() { cb && cb(msg)
+			switch (can.Mode()) {
+				case chat.SIMPLE: // no break
+				case chat.FLOAT: ; break
+				case chat.CMD: can.onappend.style(can, html.OUTPUT)
+					can.onexport.session(can, PROJECT_HIDE) == html.HIDE && can.onmotion.hidden(can, can.ui.project)
+					if (can.onexport.session(can, TABVIEW_HIDE) == html.HIDE) { can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.tabs) }
+				case chat.FULL: // no break
+				default:
+					can.run({}, [ctx.ACTION, nfs.REPOS], function(msg) {
+						can.core.List(paths.concat(msg.Table(function(value) { return value.path })), function(p) {
+							if (can.base.beginWith(p, nfs.USR_LOCAL_WORK) || can.base.isIn(p, nfs.USR_WEBSOCKET, nfs.USR_GO_QRCODE, nfs.USR_GO_GIT, nfs.USR_ICONS, nfs.USR_GEOAREA, nfs.USR_PROGRAM, nfs.USR_NODE_MODULES)) { return }
+							if (p && paths.indexOf(p) == -1 && p[0] != nfs.PS) { paths.push(p) }
+						}), can.onmotion.toggle(can, can.ui.project), can.onimport.project(can, paths), can.onkeymap._build(can)
+						can.user.isMobile && can.onmotion.hidden(can, can.ui.project)
+						tool && can.core.Next(tool, function(item, next) { can.onimport.toolkit(can, item, next) })
+					})
 			}
-			tool && can.core.Next(tool, function(item, next) { can.onimport.toolkit(can, item, next) })
-		}), can.onkeymap._build(can)
-		can.ui.profile.onclick = function(event) { if (can.page.tagis(event.target, html.A)) {
-			var link = can.misc.ParseURL(can, event.target.href); if (!link.cmd) { return } can.onkeymap.prevent(event)
-			link.cmd == web.CODE_VIMER? can.onimport.tabview(can, link.path, link.file, link.line): can.onimport.tabview(can, link.path, link.cmd, ctx.INDEX)
-		} }, can.base.isFunc(cb) && cb(msg)
+			args && args.length > 1 && can.onmotion.delay(can, function() {
+				can.onimport.tabview(can, args[args.length-3], args[args.length-2]||can.Option(nfs.FILE), args[args.length-1])
+			}, 300)
+		})
 	},
 	_tabs: function(can) { if (!can.isCmdMode()) { return can.ui._tabs = can._action }
 		var ui = can.page.Append(can, can.ui.tabs, ["icon", "tabs", "head"]); can.ui._tabs = ui.tabs
