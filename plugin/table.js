@@ -147,23 +147,19 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 		can.core.List(list, function(item) { var key = item[field]; key && can.core.List(key.split(split), function(value, index, array) { if (!value) { return }
 			var last = array.slice(0, index).join(split), name = array.slice(0, index+1).join(split); if (node[name]) { return }
 			last && node[last] && can.page.Select(can, node[last].previousSibling, "div.expand", function(target) { target.innerHTML == "" && (target.innerHTML = can.page.unicode.closes) })
-			item.expand = item.expand||item._select||(can.db.hash && (can.db.hash[0]||"").indexOf(key) == 0)
+			item.expand = item.expand||item._select||(can.db.hash && (can.db.hash[0] == key))
 			var ui = can.page.Append(can, node[last], [{view: html.ITEM, list: [
 				{view: [[html.EXPAND], html.DIV, (index==array.length-1? "": can.page.unicode.closes)]},
 				{view: [mdb.NAME], list: [{text: [value, "", html.NAME]}].concat(item._label||[])},
 				item.action && {view: [mdb.ICON], list: [{icon: "bi bi-three-dots", onclick: function(event) { can.onimport._menu(event, can, item, cbs) }}]},
-			], _init: function(target) {
-				item.expand && can.onmotion.delay(can, function() { target.click() })
-				item._init && item._init(target)
-			}, onclick: function(event) { var target = event.currentTarget
-				if (node[name].childElementCount > 0 && !can.page.ClassList.set(can, ui[html.EXPAND], cli.OPEN, !can.page.ClassList.neg(can, node[name], html.HIDE))) { return }
+			], onclick: function(event) { var target = event.currentTarget
+				if (index < array.length-1 && !can.page.ClassList.set(can, ui[html.EXPAND], cli.OPEN, !can.page.ClassList.neg(can, node[name], html.HIDE))) { return }
 				can.onexport.hash(can, [key]), can.onimport._itemselect(can, target), can.base.isFunc(cb) && cb(event, item, ui.item)
 				node[key] && can.page.ClassList.add(can, node[key].previousSibling, html.SELECT)
 				if (node[name].childElementCount == 2) { can.onmotion.delay(can, function() { node[name].firstChild.click() }) }
 			}, oncontextmenu: function(event) {
 				can.onimport._menu(event, can, item, cbs)
-			}}, {view: [[html.LIST, html.HIDE]]}])
-			node[name] = ui.list
+			}, _init: item._init}, {view: [[html.LIST, html.HIDE]]}]); node[name] = ui.list, item.expand && ui.item.click()
 		}) }); return node
 	},
 	tabs: function(can, list, cb, cbs, action) { action = action||can.ui.tabs||can._action; return can.page.Append(can, action, can.core.List(list, function(tabs) { if (typeof tabs == code.STRING) { tabs = {name: tabs} }

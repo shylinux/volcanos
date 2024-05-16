@@ -1,9 +1,8 @@
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) { if (can.user.mod.isPod) { delete(can.onfigure.space), delete(can.onfigure.repos) }
 		can.onengine.listen(can, "tabview.line.select", function(msg) { can.onaction._selectLine(can) })
-		can.require(["/plugin/local/code/inner.js"], function(can) { can.onimport._last_init(can, msg, function() {
+		can.require(["/plugin/local/code/inner.js"], function(can) { can.onimport._last_init(can, msg, function() { can.onappend.style(can, code.VIMER)
 			can.db.undo = [], can.db.redo = [], can.onimport._input(can), cb && cb(msg)
-			can.onappend.style(can, code.VIMER, can._fields)
 		}) })
 	},
 	_input: function(can) { var ui = can.page.Append(can, can.ui.content.parentNode, [
@@ -26,8 +25,7 @@ Volcanos(chat.ONIMPORT, {
 	_value: function(can) { can.onimport.__tabPath(can, true), can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) }) },
 }, [""])
 Volcanos(chat.ONFIGURE, {
-	source: function(can, target, zone) {
-		var args = (can.isCmdMode() && can.base.getValid(can.misc.SearchHash(can))) || [can.Option(nfs.PATH), can.Option(nfs.FILE)]
+	source: function(can, target, zone) { var hash = can.misc.SearchHash(can), args = [can.Option(nfs.PATH), can.Option(nfs.FILE)]
 		can.run({}, [ctx.ACTION, nfs.REPOS], function(msg) { var paths = can.db.paths
 			can.core.List(paths.concat(msg.Table(function(value) { return value.path })), function(p) {
 				if (can.base.beginWith(p, nfs.USR_LOCAL_WORK) || can.base.isIn(p, nfs.USR_WEBSOCKET, nfs.USR_GO_QRCODE, nfs.USR_GO_GIT, nfs.USR_ICONS, nfs.USR_GEOAREA, nfs.USR_PROGRAM, nfs.USR_NODE_MODULES)) { return }
@@ -41,11 +39,8 @@ Volcanos(chat.ONFIGURE, {
 				var cache, list = can.core.List(msg.Table(), function(item) {
 					if (path == "src/" && can.base.isIn(item.path, "main.ico", "main.svg", "version.go", "binpack.go", "binpack_usr.go")) { return }
 					if (path == "usr/release/" && can.base.isIn(item.path, "conf.go", "binpack.go")) { return }
-					if (path == args[0] && item.path == args[1]) {
-						can.onexport.session(can, "selectLine"+nfs.DF+args[0]+args[1], args[2])
-						item.expand = true }
-					item._init = function(target) {
-						can.ui.zone.source[path+item.path] = target
+					if (path == args[0] && args[1].indexOf(item.path) == 0) { item.expand = true }
+					item._init = function(target) { can.ui.zone.source[path+item.path] = target
 						item._remove = function() { can.page.Remove(can, target.parentNode), delete(cache[item.path]) }
 					}
 					return item
@@ -55,12 +50,11 @@ Volcanos(chat.ONFIGURE, {
 				}, function(event, target, item) {
 					var msg = can.request(event); msg.Option(nfs.PATH, path), msg.Option(nfs.FILE, item.path)
 				}, target, cache)
+				can.isCmdMode() && hash.length > 1 && can.onimport.tabview(can, hash[0], hash[1], hash[2]), hash = []
 			}, true) }
 			if (paths.length == 1) { return show(target, zone, paths[0]) } can.page.Remove(can, zone._action)
 			can.onimport.zone(can, can.core.List(paths, function(path) {
-				return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) {
-					show(target, zone, path), zone._toggle = function() {}
-				})
+				return kit.Dict(mdb.NAME, path, path == args[0]? chat._INIT: chat._DELAY_INIT, function(target, zone) { show(target, zone, path), zone._toggle = function() {} })
 			}), target)
 		})
 	},
@@ -145,9 +139,6 @@ Volcanos(chat.ONACTION, {list: ["创建", "编译", "源码", "文档", "计划"
 		if (can.onkeymap.selectCtrlN(event, can, can.ui.tabs, html.DIV_TABS)) { return }
 		can.db._key_list = can.onkeymap._parse(event, can, mdb.PLUGIN, can.db._key_list, can.ui.content)
 	},
-})
-Volcanos(chat.ONEXPORT, {
-	hash: function(can) { return can.misc.SearchHash(can, can.Option(nfs.PATH), can.Option(nfs.FILE), can.Option(nfs.LINE)) },
 })
 Volcanos(chat.ONKEYMAP, {
 	scrollHold: function(can, count, begin) { var scroll = can.ui.content.scrollLeft; can.ui.current.focus(), count != undefined && can.onkeymap.cursorMove(can.ui.current, count, begin == undefined? count: begin), can.ui.content.scrollLeft = scroll },
@@ -290,11 +281,6 @@ Volcanos(chat.ONKEYMAP, {
 			f: shy("向下翻页", function(can, count) { var line = can.onaction.selectLine(can)+can.current.window()-3-can.current.scroll(); return can.current.scroll(line), can.onaction.selectLine(can, line), true }),
 			b: shy("向上翻页", function(can, count) { var line = can.onaction.selectLine(can)-can.current.window()+3; return can.current.scroll(line), can.onaction.selectLine(can, line), true }),
 			r: shy("刷新页面", function(can) { can.user.reload(true) }),
-
-			v: shy("左右分屏", function(can) { can.onlayout.vsplit(can) }),
-			s: shy("上下分屏", function(can) { can.onlayout.split(can) }),
-			x: shy("关闭文件", function(can) { can.onlayout.close(can) }),
-			o: shy("关闭其它", function(can) { can.onlayout.only(can) }),
 		},
 		insert_ctrl: {
 			a: shy("光标行首", function(can, target) { for (var i = 0; i < target.value.length; i++) { if (target.value[i] != lex.TB) { break } } can.onkeymap.cursorMove(target, i, 0), can.onkeymap.prevent(event) }),

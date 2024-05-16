@@ -9,6 +9,9 @@ fieldset.inner>div.output div.content td.text span.object { color:var(--code-obj
 fieldset.inner>div.output div.content td.text span.datatype { color:var(--code-datatype); }
 fieldset.inner>div.output div.content td.text span.package { color:var(--code-package); }
 fieldset.inner>div.output>div.project { font-family:var(--code-font-family); }
+fieldset.inner>div.output>div.project div.list { border-left:none; }
+fieldset.inner>div.output>div.project div.item.select { background-color:unset; }
+fieldset.inner:not(.vimer)>div.output>div.project div.expand.open { color:var(--notice-bg-color); }
 fieldset.inner>div.output>div.project div.zone div.action:not(.hide) { width:100%; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item { padding-right:0; width:100%; overflow:hidden; }
 fieldset.inner>div.output>div.project div.zone div.action>div.item>input { padding-left:25px; width:100%; }
@@ -18,6 +21,7 @@ fieldset.inner>div.output>div.layout>div.tabs>div:hover { background-color:unset
 fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding-right:0; }
 fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs.select { background-color:var(--output-bg-color); color:unset; border-top:var(--box-notice3);  box-shadow:var(--legend-box-shadow);}
 fieldset.vimer>div.output>div.layout>div.tabs>div.tabs>div.tabs.select { border-top:var(--box-border3); }
+fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs { border-top:var(--box-border3); border-top-color:transparent; }
 fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs:hover { background-color:var(--output-bg-color); color:unset; box-shadow:var(--legend-box-shadow); }
 fieldset.inner>div.output>div.layout>div.path { font-size:var(--code-font-size); display:none; }
 fieldset.inner.cmd>div.output>div.layout>div.path:not(.hide) { display:flex; }
@@ -59,7 +63,7 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.qrocde { padding-
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:32px; clip-path:circle(40%); }
 fieldset.inner.cmd>div.output>div.layout>div.plug { box-shadow:var(--th-box-shadow); height:var(--action-height); overflow:auto; }
-fieldset.inner.cmd>div.output>div.layout>div.plug>legend { font-style:italic; font-size:var(--legend-font-size); padding:0 var(--input-padding); margin-left:var(--input-margin); margin-right:0; float:right; }
+fieldset.inner.cmd>div.output>div.layout>div.plug>legend { font-style:italic; font-size:var(--legend-font-size); padding:0 var(--input-padding); padding-right:0; margin-right:0; float:right; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend:hover { box-shadow:var(--notice-box-shadow); color:unset; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove { padding:0 var(--input-padding); height:30px; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove:hover { background-color:var(--hover-bg-color); }
@@ -67,8 +71,8 @@ fieldset.inner.cmd>div.output>div.layout>div.plug>legend:not(:hover)>span.remove
 fieldset.inner fieldset.plug.can._plugin.search>form.option>div.item.value input { width:var(--project-width); }
 fieldset.inner fieldset.plug.can._plugin.search>form.option>div.item.filter input { width:var(--project-width); }
 fieldset.inner:not(.monaco)>div.output div.content>tr.line * { font-family:var(--code-font-family); font-size:var(--code-font-size); }
-fieldset.inner>div.output>div.layout>div.layout div.content tr.line.select>td.line { background-color:var(--notice-bg-color); color:white; }
-fieldset.vimer>div.output>div.layout>div.layout div.content tr.line.select>td.line { background-color:unset; color:unset; }
+fieldset.inner.plugin>div.output>div.layout>div.layout div.content tr.line.select>td.line { background-color:var(--notice-bg-color); color:white; }
+fieldset.vimer.plugin>div.output>div.layout>div.layout div.content tr.line.select>td.line { background-color:unset; color:unset; }
 fieldset.inner.float>div.output>div.layout>div.path { font-size:var(--code-font-size); display:flex; }
 fieldset.Action.tabview fieldset.plugin.inner>div.output>div.layout>div.path { font-size:var(--code-font-size); display:flex; }
 div.input.vimer.find div.action div.item { margin:var(--input-margin); }

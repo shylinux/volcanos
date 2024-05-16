@@ -211,10 +211,6 @@ div.project div.list { margin-left:var(--button-margin); clear:both; }
 div.project div.list { border-left:var(--disable-fg-color) dashed 1px; }
 div.project div.list fieldset { position:static; }
 div.project div.item.select { border-right:var(--box-notice3); }
-fieldset.inner>div.output>div.project div.list { border-left:none; }
-fieldset.vimer>div.output>div.project div.item.select { border-right:var(--box-border3); }
-fieldset.vimer.normal>div.output>div.project div.item.select { border-right:var(--box-notice3); }
-fieldset.vimer.insert>div.output>div.project div.item.select { border-right:var(--box-danger3); }
 body.width6 fieldset.plugin>div.output>div.project div.list { margin-left:var(--legend-margin); }
 div.project div.item:not(.hide)>i:first-child { margin-right:var(--input-margin); }
 div.project div.item:not(.hide) {
