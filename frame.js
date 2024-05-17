@@ -1185,7 +1185,7 @@ Volcanos(chat.ONKEYMAP, {
 		target.onkeydown = function(event) {
 			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
 			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
-			can.onengine.signal(can, chat.ONKEYDOWN, can.request(event))
+			can.onengine.signal(can, "on"+event.type, can.request(event))
 		}, target.onkeyup = function(event) { target.onkeydown(event) }
 	},
 	_build: function(can) { can.core.Item(can.onkeymap._mode, function(mode, value) { var engine = {list: {}}

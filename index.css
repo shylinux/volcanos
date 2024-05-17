@@ -107,7 +107,7 @@ body.width5 { /* 1600-1920 */
 }
 body.width6 { /* 1920-2240 大显示器 */
 	--project-width:280px; --river-width:280px; --input-width:180px; --url-input-width:1000px; --qrcode-width:420px; --card-height:160px;
-	--plug-height:480px; --plug-width:1000px;
+	--plug-height:480px; --plug-width:1200px;
 }
 /* element */
 * { box-sizing:border-box; padding:0; border:0; margin:0; tab-size:4; }
@@ -305,6 +305,7 @@ fieldset.input.date>div.status>div.today { padding:var(--input-padding); }
 fieldset.input.float { border-radius:0; padding:0; }
 fieldset.input.float table.content th { padding:var(--input-padding); }
 fieldset.input.float table.content td { padding:var(--input-padding); }
+fieldset.input.float.file table.content td { padding-left:22px; }
 /* float */
 body div.float { padding:var(--plugin-padding); }
 fieldset.Action>div.toast { height:fit-content; width:fit-content; overflow:auto; position:absolute; right:var(--plugin-margin); bottom:calc(var(--footer-height) + var(--action-height) + var(--plugin-margin)); }

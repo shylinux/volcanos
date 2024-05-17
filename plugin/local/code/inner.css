@@ -73,6 +73,7 @@ fieldset.inner.cmd>div.output>div.layout>div.plug>legend:not(:hover)>span.remove
 fieldset.inner fieldset.plug.can._plugin.search>form.option>div.item.value input { width:var(--project-width); }
 fieldset.inner fieldset.plug.can._plugin.search>form.option>div.item.filter input { width:var(--project-width); }
 fieldset.inner:not(.monaco)>div.output div.content>tr.line * { font-family:var(--code-font-family); font-size:var(--code-font-size); }
+fieldset.inner>div.output>div.layout>fieldset.plug.can._plugin.search>div.output>table.content tr td { cursor:pointer; }
 fieldset.inner.plugin>div.output>div.layout>div.layout div.content tr.line.select>td.line { background-color:var(--notice-bg-color); color:white; }
 fieldset.vimer.plugin>div.output>div.layout>div.layout div.content tr.line.select>td.line { background-color:unset; color:unset; }
 fieldset.inner.float>div.output>div.layout>div.path { font-size:var(--code-font-size); display:flex; }

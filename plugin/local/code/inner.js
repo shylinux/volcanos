@@ -58,9 +58,7 @@ Volcanos(chat.ONIMPORT, {
 		can.page.Append(can, target, [{view: [[html.ITEM, "func"], html.SPAN, (func.current||"func")+nfs.PS+can.ui.content._max+func.percent+lex.SP+can.base.Size(can._msg.result[0].length)], onclick: function(event) {
 			carte = can.user.carte(event, can, {_style: nfs.PATH}, list, function(ev, button) { last[button] = true, carte.close()
 				var line = can.core.Split(button, nfs.DF, nfs.DF).pop()
-				can.onimport.tabview(can, "", can.Option(nfs.FILE), line, function() {
-					can.onaction.selectLine(can, line, true)
-				})
+				can.onimport.tabview(can, "", can.Option(nfs.FILE), line, function() { can.onaction.selectLine(can, line, true) })
 			})
 			can.onmotion.delay(can, function() { can.page.Select(can, carte._target, html.DIV_ITEM, function(target) {
 				can.onappend.style(can, can.base.beginWith(target.innerText, "- ")? aaa.PRIVATE: aaa.PUBLIC, target)
@@ -95,21 +93,34 @@ Volcanos(chat.ONIMPORT, {
 			target.innerHTML.trim() == event.target.innerHTML.trim() && can.onappend.style(can, html.SELECT, target)
 		})
 	}) },
+	openzone: function(can, path, file, line) {
+		if (line == web.SPACE) {
+			can.page.isDisplay(can.ui.zone.space._target) || can.ui.zone.space._legend.click()
+		} else if (line == ctx.INDEX) {
+			if (can.base.beginWith(file, "can.")) {
+				can.page.isDisplay(can.ui.zone.plugin._target) || can.ui.zone.plugin._legend.click()
+			} else {
+				can.page.isDisplay(can.ui.zone.module._target) || can.ui.zone.module._legend.click()
+			}
+		} else {
+			if (can.ui.zone && can.ui.zone.source) {
+				can.page.isDisplay(can.ui.zone.source._target) || can.ui.zone.source._legend.click()
+			}
+			return true
+		}
+	},
 	tabview: function(can, path, file, line, cb) { path = path||can.Option(nfs.PATH); var key = can.onexport.keys(can, path, file)
+		line && can.Option(nfs.LINE, line)
 		function isIndex() { return line == ctx.INDEX } function isSpace() { return line == web.SPACE }
 		function show(skip) { can._msg && can._msg.Option && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.db.tabview[key]
 			can.Option(can.onimport.history(can, {path: path, file: file, line: can._msg.Option(nfs.LINE)||can.onexport.session(can, SELECT_LINE+nfs.DF+path+file)||1}))
 			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg; can.onexport.hash(can), can.isCmdMode() && can.onexport.title(can, (isIndex()||isSpace()? "": path)+file)
 				can.onmotion.select(can, can.ui._tabs, html.DIV_TABS, msg._tab), can.isCmdMode() && msg._tab.scrollIntoView(), can.onmotion.toggle(can, can.ui.path, true)
-				if (isSpace()) {
-					can.page.isDisplay(can.ui.zone.space._target) || can.ui.zone.space._legend.click()
-					can.base.contains(file, "/") || can.onmotion.hidden(can, can.ui.path)
+				if (isSpace()) { can.base.contains(file, "/") || can.onmotion.hidden(can, can.ui.path)
 					can.ui.path.innerHTML = can.page.Format(html.A, can.base.trimPrefix(can.misc.MergePodCmd(can, {pod: file}), location.origin))
 				} else if (isIndex()) { can.onmotion.hidden(can, can.ui.path)
-					can.page.isDisplay(can.ui.zone.module._target) || can.ui.zone.module._legend.click()
 				} else { can.onimport.__tabPath(can)
-					can.page.isDisplay(can.ui.zone.source._target) || can.ui.zone.source._legend.click()
-				}
+				} can.onimport.openzone(can, path, file, line)
 				can.page.SelectChild(can, can.ui._content.parentNode, can.page.Keys(html.DIV_CONTENT, html.DIV_LAYOUT, html.FIELDSET_STORY, [[[html.IFRAME, html.CONTENT]]]), function(target) {
 					can.onmotion.toggle(can, target, target == content)
 				}), can.ui.content._plugin = msg._plugin
@@ -218,6 +229,10 @@ Volcanos(chat.ONIMPORT, {
 	toolkit: function(can, meta, cb) { can.base.isString(meta) && (meta = {index: meta})
 		var key = [meta.index].concat(meta.args).join(","), sub = can.db.toolkit[key]; if (sub) { sub.select(); return }
 		can.onimport.tool(can, [meta], function(sub) { can.db.toolkit[key] = sub
+			sub.onimport.size(sub, can.base.Max(can.ConfHeight()/2, can.ConfHeight(), 420), can.base.Max(can.ConfWidth()/2, can.ui.content.offsetWidth, html.PLUG_WIDTH), false)
+			sub.onexport.output = function() {
+				sub.onimport.size(sub, can.base.Max(can.ConfHeight()/2, can.ConfHeight(), 420), can.base.Max(can.ConfWidth()/2, can.ui.content.offsetWidth, html.PLUG_WIDTH), false)
+			}
 			sub.onaction._close = function() { delete(can.db.toolkit[key]), can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend) }
 			sub.onexport.record = function(sub, value, key, data) { if (!data.file) { return }
 				can.onimport.tabview(can, data.path, can.base.trimPrefix(data.file, nfs.PWD), parseInt(data.line)); return true
@@ -225,7 +240,9 @@ Volcanos(chat.ONIMPORT, {
 		}, can.ui.plug.parentNode, can.ui.plug)
 	},
 	exts: function(can, url, cb) { var sub = can.db.toolkit[url.split(web.QS)[0]]; if (sub) { return can.base.isFunc(cb)? cb(sub): sub.select() }
-		can.onimport.toolkit(can, {index: ice.CAN_PLUGIN, style: url.split(nfs.PS).pop().split(nfs.PT)[0],
+		can.onimport.toolkit(can, {
+			icon: "bi bi-search",
+			index: ice.CAN_PLUGIN, style: url.split(nfs.PS).pop().split(nfs.PT)[0],
 			display: (url[0] == nfs.PS || url.indexOf(web.HTTP) == 0? "": can.base.Dir(can._path))+url,
 		}, function(sub) { can.db.toolkit[url.split(web.QS)[0]] = sub
 			sub.run = function(event, cmds, cb) {
@@ -412,33 +429,29 @@ Volcanos(chat.ONACTION, {
 		}); if (!can.base.isObject(line)) { return 0 }
 		can.page.Select(can, line, "td.text", function(target) {
 			can.current = {line: line,
-				next: function() {
-					return can.page.tagis(line.nextSibling, "tr.line")? line.nextSibling: undefined
-				},
-				prev: function() {
-					return can.page.tagis(line.previousSibling, "tr.line")? line.previousSibling: undefined
-				},
+				next: function() { return can.page.tagis(line.nextSibling, "tr.line")? line.nextSibling: undefined },
+				prev: function() { return can.page.tagis(line.previousSibling, "tr.line")? line.previousSibling: undefined },
 				text: function(text) { return text != undefined && can.onaction.modifyLine(can, line, text), target.innerText },
 				scroll: function(count) { if (count) { content.scrollTop += count*can.current.line.offsetHeight }
 					return parseFloat((can.current.line.offsetTop-content.scrollTop)/can.current.line.offsetHeight)
 				}, window: function() { return parseFloat(content.offsetHeight/can.current.line.offsetHeight) },
 			}, can.onimport.history(can, {path: can.Option(nfs.PATH), file: can.Option(nfs.FILE), line: can.Option(nfs.LINE), text: can.current.text()})
-				var scroll = can.current.scroll(), window = can.current.window()
-				if (0 < scroll && scroll < 2) {
-					can.current.scroll(-1)
-				} else if (window-3 < scroll && scroll < window) {
-					can.current.scroll(1)
-				} else if (scroll < 2 || scroll > window-3) {
-					can.onaction.scrollIntoView(can)
-				}
-			can._msg.Option(nfs.LINE, can.Option(nfs.LINE))
-			can.onexport.hash(can)
-		can.onimport.__tabPath(can, false)
+			var _scroll = can.current.scroll(), _window = can.current.window()
+			if (scroll) {
+				can.onaction.scrollIntoView(can)
+			} else if (0 < _scroll && _scroll < 2) {
+				can.current.scroll(-1)
+			} else if (_window-3 < _scroll && _scroll < _window) {
+				can.current.scroll(1)
+			} else if (_scroll < 2 || _scroll > _window-3) {
+				can.onaction.scrollIntoView(can)
+			}
+			can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can.onexport.hash(can), can.onimport.__tabPath(can, false)
 			can.isCmdMode() && can.onexport.session(can, SELECT_LINE+nfs.DF+can.Option(nfs.PATH)+can.Option(nfs.FILE))
 			can.onengine.signal(can, LINE_SELECT, can._msg), can.onaction._selectLine(can)
 		}); return can.onexport.hash(can), can.onexport.line(can, line)
 	}, _selectLine: function(can) {},
-	scrollIntoView: function(can, offset) { can.ui.content.scrollTo(0, (can.onexport.line(can, can.current.line)-can.current.window()/4)*can.current.line.offsetHeight) },
+	scrollIntoView: function(can, offset) { can.ui.content.scrollTo(0, (can.onexport.line(can, can.current.line)-5)*can.current.line.offsetHeight) },
 	searchLine: function(event, can, value) { var offset = 0; can.page.Select(can, can.ui.content, "tr.line", function(tr) {
 		tr == can.current.line && can.page.Select(can, tr, "td.text>span", function(span) { offset += span.innerText.length;
 			(span == event.target || span.innerText == value) && can.runAction(can.request(event, {name: value, text: can.current.text(), offset: offset-1}, can.Option()), code.NAVIGATE, [], function(msg) {
@@ -457,8 +470,8 @@ Volcanos(chat.ONACTION, {
 		}, true) }}, ctx.ARGS], function(list) { show(list[0], list[1]) })
 	},
 	open: function(event, can, button) {
-		var left = can.ui.project.offsetWidth+(can._output.offsetWidth)/4-34, width = (can._output.offsetWidth-can.ui.project.offsetWidth)/2
-		if (can.user.isMobile) { left = 0, width = can.page.width()-40 }
+		console.log(new Error())
+		var left = can._output.offsetWidth/4, width = can._output.offsetWidth/2; if (can.user.isMobile) { left = 0, width = can.page.width()-40 }
 		var input = can.user.input(can.request(event, {type: button}), can, [{name: nfs.FILE, style: {width: width}, _force: true, select: function(item) { input.submit(event, can, web.SUBMIT) }, run: function(event, cmds, cb) {
 			can.run(can.request(event, {paths: can.db.paths.join(mdb.FS)}), cmds, function(msg) { function push(type, name) { _msg.Push(nfs.PATH, can.core.List(arguments).join(nfs.DF)) }
 				if (cmds[0] == ctx.ACTION && cmds[1] == mdb.INPUTS) { var _msg = can.onengine.signal(can, "tabview.open.inputs"), func = can.onexport.func(can)
@@ -496,7 +509,6 @@ Volcanos(chat.ONACTION, {
 			}), cb(msg) }}, target)
 		}
 		function grep(value, file, path) { var arg = can.core.List(arguments); can.onimport.exts(can, "inner/search.js", function(sub) {
-			arg.push("src/", "usr/release/", "usr/icebergs/", "usr/toolkits/", "usr/volcanos/")
 			can.page.isDisplay(sub._target) || (sub._delay_init = false, sub.select()), sub.runAction(can.request({}, {value: value}), nfs.GREP, arg)
 		}) }
 		var from, to; var meta = can.onappend._action(can, [
@@ -505,8 +517,12 @@ Volcanos(chat.ONACTION, {
 			{type: html.TEXT, name: nfs.TO, _init: function(target) { to = target, complete(target, nfs.REPLACE) }},
 			{type: html.BUTTON, name: nfs.REPLACE}, {type: html.BUTTON, name: cli.CLOSE},
 		], ui.action, {_trans: {find: "查找", grep: "搜索", replace: "替换"},
-			find: function() { grep(from.value, can.Option(nfs.FILE), can.Option(nfs.PATH)), find(last+1, from.value) },
-			grep: function() { grep(from.value, can.Option(nfs.PATH)) },
+			find: function() {
+				grep(from.value, can.Option(nfs.PATH)+can.Option(nfs.FILE))
+				find(last+1, from.value) },
+			grep: function() {
+				grep(from.value, can.Option(nfs.PATH), "src/", "usr/release/", "usr/icebergs/", "usr/toolkits/", "usr/volcanos/")
+			},
 			replace: function() { var text = can.current.text(), line = can.onexport.line(can, can.current.line)
 				can.db.undo.push(function() { can.onaction.selectLine(can, line), can.onaction.modifyLine(can, line, text) })
 				grep(from.value, can.Option(nfs.FILE), can.Option(nfs.PATH))
