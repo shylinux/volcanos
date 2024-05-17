@@ -77,7 +77,7 @@ fieldset.inner>div.output>div.layout>fieldset.plug.can._plugin.search>div.output
 fieldset.inner.plugin>div.output>div.layout>div.layout div.content tr.line.select>td.line { background-color:var(--notice-bg-color); color:white; }
 fieldset.vimer.plugin>div.output>div.layout>div.layout div.content tr.line.select>td.line { background-color:unset; color:unset; }
 fieldset.inner.float>div.output>div.layout>div.path { font-size:var(--code-font-size); display:flex; }
-fieldset.Action.tabview fieldset.plugin.inner>div.output>div.layout>div.path { font-size:var(--code-font-size); display:flex; }
+fieldset.Action.tabview fieldset.plugin.inner>div.output>div.layout>div.path:not(.hide) { font-size:var(--code-font-size); display:flex; }
 div.input.vimer.find div.action div.item { margin:var(--input-margin); }
 div.input.vimer.find div.action div.item.text input { width:var(--project-width) }
 div.input.vimer.find div.action div.item.close span { display:none; }
