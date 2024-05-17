@@ -84,13 +84,12 @@ Volcanos(chat.ONACTION, {_init: function(can, target) { can.db.list = can.misc.S
 	_onaction_cmd: function(can) { can.onengine.signal(can, chat.ONACTION_CMD), can.onlayout._init(can) },
 	onaction_cmd: function(can, msg) { can.user.mod.isCmd = true, can.page.ClassList.add(can, can._target, can.Mode(chat.CMD)), can.Conf(html.MARGIN_Y, 128), can.Conf(html.MARGIN_X, 0) },
 	onsearch: function(can, msg, arg) { var fields = msg.Option(ice.MSG_FIELDS).split(mdb.FS); if (arg[0] == mdb.PLUGIN) { can.onexport.plugin(can, msg, arg, fields) } if (arg[0] == ctx.COMMAND) { can.onexport.command(can, msg, arg, fields) } },
-	onkeydown: function(can, msg, model) {
-		if (can.isCmdMode() && !msg._event.metaKey) { var sub = can._plugins[0].sub; sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: msg._event, can: sub}); return }
-		if (can._current && !msg._event.metaKey) { var sub = can._current.sub; sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: msg._event, can: sub}); return }
-		if (can.onkeymap.selectCtrlN(msg._event, can, can._action, html.DIV_ITEM)) { return }
-		can._keylist = can.onkeymap._parse(msg._event, can, model, can._keylist||[], can._output)
-	},
 	onresize: function(can) { can.onaction.layout(can) },
+	onkeydown: function(event, can, mode) {
+		if (can.isCmdMode() && !event.metaKey) { var sub = can._plugins[0].sub; sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: event, can: sub}); return }
+		// if (can._current && !event.metaKey) { var sub = can._current.sub; sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: event, can: sub}); return }
+		can.onkeymap.selectCtrlN(event, can, can._action, html.DIV_TABS) || can.onkeymap._parse(event, can, mode)
+	},
 
 	ontouchstart: function(event, can) { can.touch = can.touch || {}, can.touch.isStart = true, can.touch.startX = event.touches[0].clientX },
 	ontouchmove: function(event, can) { can.touch.isMove = true, can.touch.distanceX = event.touches[0].clientX - can.touch.startX },
@@ -180,21 +179,8 @@ Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
 }})
 Volcanos(chat.ONKEYMAP, {
 	_mode: {
-		webview: {
-			"[": function(event, can, target) { history.back() },
-			"]": function(event, can, target) { history.forward() },
-			r: function(event, can, target) { can.user.reload(true) },
-			w: function(event, can, target) { can.user.close() },
-			q: function(event, can, target) { window.terminate() },
-			o: function(event, can, target) { window.openurl(location.href) },
-			p: function(event, can, target) { window.openapp("QuickTime Player") },
-			t: function(event, can, target) { window.opencmd("cd contexts; pwd") },
-			f: function(event, can, target) { can.onengine.signal(can, chat.ONOPENSEARCH, can.request({}, {type: mdb.FOREACH})) },
-		},
-		normal: {
-			":": function(event, can) { can.onengine.signal(can, chat.ONCOMMAND_FOCUS), can.onkeymap.prevent(event) },
-			" ": function(event, can) { can.onengine.signal(can, chat.ONSEARCH_FOCUS), can.onkeymap.prevent(event) },
-			Enter: function(event, can) { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event)) },
+		plugin: {
+			Enter: function(event, can) { can.onengine.signal(can, chat.ONOPENSEARCH, can.request(event, {type: "*"})) },
 			Escape: function(event, can) { can.onmotion.clearFloat(can) || can._root.Search && can.onmotion.hidden(can, can._root.Search._target) },
 		},
 	}, _engine: {},

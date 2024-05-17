@@ -856,6 +856,7 @@ fieldset.inner>div.output>div.project div.item.modify { background-color:#008000
 fieldset.vimer>div.output>div.project div.item.modify { background-color:#00800036; }
 fieldset.vimer>div.output>div.project>div.zone.space div.item.stop { color:var(--disable-fg-color); }
 fieldset.vimer>div.output>div.project>div.zone.space fieldset>div.output>div.item { height:42px; }
+fieldset.vimer>div.output>div.project>div.zone.space fieldset>div.output>div.item.select { border-left:var(--box-notice3); }
 fieldset.xterm>div.action>div.tabs:only-child { display:none; }
 fieldset.xterm>div.layout { clear:both; }
 fieldset.xterm>form.option>div.item.args1 { display:none; }

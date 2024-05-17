@@ -152,10 +152,6 @@ Volcanos(chat.ONACTION, {
 			can.user.toastSuccess(can, can.user.trans(can, nfs.SAVE)+lex.SP+msg.Result())
 		}, true)
 	}) },
-	onkeydown: function(event, can) {
-		if (can.onkeymap.selectCtrlN(event, can, can._action, html.DIV_TABS)) { return }
-		can._keylist = can.onkeymap._parse(event, can, mdb.NORMAL, can._keylist||[], can._output._term)
-	},
 	hidden: function(can) { can.page.Select(can, can._fields, "div.output,div.layout", function(target) {
 		target == can.sup._output? can.page.insertBefore(can, target, can._status): can.page.Remove(can, target)
 	}) },

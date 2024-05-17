@@ -1180,32 +1180,30 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		}, function() { can.page.style(can, target, html.HEIGHT, "") })
 	},
 })
-Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||document.body
-		can.onkeymap._build(can), target.onkeydown = function(event) { can.misc.Event(event, can, function(msg) {
+Volcanos(chat.ONKEYMAP, {
+	_init: function(can, target) { target = target||document.body, can.onkeymap._build(can)
+		target.onkeydown = function(event) {
 			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
 			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
-			can.onengine.signal(can, chat.ONKEYDOWN, can.request(event, {"model": can.user.isWebview && event.metaKey? "webview": mdb.NORMAL}))
-		}) }, target.onkeyup = function(event) { can.misc.Event(event, can, function(msg) {
-			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
-			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
-			can.onengine.signal(can, chat.ONKEYUP, can.request(event, {"model": mdb.NORMAL}))
-		}) }
+			can.onengine.signal(can, chat.ONKEYDOWN, can.request(event))
+		}, target.onkeyup = function(event) { target.onkeydown(event) }
 	},
-	_build: function(can) { can.core.Item(can.onkeymap._mode, function(item, value) { var engine = {list: {}}
+	_build: function(can) { can.core.Item(can.onkeymap._mode, function(mode, value) { var engine = {list: {}}
 		can.core.Item(value, function(key, cb) { var map = engine; for (var i = 0; i < key.length; i++) {
 			if (!map.list[key[i]]) { map.list[key[i]] = {list: {}} } map = map.list[key[i]]; if (i == key.length-1) { map.cb = cb }
-		} }), can.onkeymap._engine[item] = engine
+		} }), can.onkeymap._engine[mode] = engine
 	}) },
-	_parse: function(event, can, mode, list, target) { list = list||[]
-		if (event.metaKey && !can.user.isWebview) { return } if ([code.META, code.ALT, code.CONTROL, code.SHIFT].indexOf(event.key) > -1) { return list }
+	_parse: function(event, can, mode, target, list) { mode = mode||mdb.PLUGIN, target = target||can._output; if (!list) { list = target._key_list||[], target._key_list = list }
+		if (event.metaKey && !can.user.isWebview) { return list } if ([code.SHIFT, code.CONTROL, code.META, code.ALT].indexOf(event.key) > -1) { return list }
 		list.push(event.key); for (var pre = 0; pre < list.length; pre++) { if ("0" <= list[pre] && list[pre] <= "9") { continue } break }
 		var count = parseInt(list.slice(0, pre).join(""))||1, map = can.onkeymap._mode[mode]
+		function clear() { return target._key_list = [] }
 		function repeat(cb, count) { list = []; for (var i = 1; i <= count; i++) { if (can.core.CallFunc(cb, {event: event, can: can, target: target, count: count})) { break } } }
-		var cb = map && map[event.key]; if (can.base.isFunc(cb) && event.key.length > 1) { repeat(cb, count); return list }
-		var cb = map && map[event.key.toLowerCase()]; if (can.base.isFunc(cb) && event.key.length > 1) { repeat(cb, count); return list }
-		var map = can.onkeymap._engine[mode]; if (!map) { return [] }
-		for (var i = pre; i < list.length; i++ ) { var map = map.list[list[i]]; if (!map) { return [] }
-			if (i == list.length-1 && can.base.isFunc(map.cb)) { repeat(map.cb, count); return [] }
+		var cb = map && map[event.key.toLowerCase()]; if (can.base.isFunc(cb) && event.key.length > 1) { repeat(cb, count); return clear() }
+		var cb = map && map[event.key]; if (can.base.isFunc(cb) && event.key.length > 1) { repeat(cb, count); return clear() }
+		var map = can.onkeymap._engine[mode]; if (!map) { return clear() }
+		for (var i = pre; i < list.length; i++ ) { var map = map.list[list[i]]; if (!map) { return clear() }
+			if (i == list.length-1 && can.base.isFunc(map.cb)) { repeat(map.cb, count); return clear() }
 		} return list
 	},
 	_mode: {
@@ -1235,10 +1233,8 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||documen
 			},
 		},
 	}, _engine: {},
+	input: function(event, can) { can.onkeymap._parse(event, can, mdb.INSERT+(event.ctrlKey? "_ctrl": ""), event.target) },
 	prevent: function(event) { event && (event.stopPropagation(), event.preventDefault()); return true },
-	input: function(event, can) { if (event.metaKey) { return } var target = event.target
-		target._keys = can.onkeymap._parse(event, can, mdb.INSERT+(event.ctrlKey? "_ctrl": ""), target._keys, target)
-	},
 	cursorMove: function(target, count, begin) {
 		if (begin != undefined) { if (begin < 0) { begin += target.value.length+1 } target.setSelectionRange(begin, begin) }
 		return count == undefined || target.setSelectionRange(target.selectionStart+count, target.selectionStart+count), target.selectionStart
@@ -1291,7 +1287,6 @@ Volcanos(chat.ONKEYMAP, {_init: function(can, target) { target = target||documen
 			can.onmotion.hidden(can, tr, tr.innerText.indexOf(target.value) > -1)
 			return tr
 		}).length > 0) { return }
-			// , target._index = -1, target._value = target.value
 		can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr, index) { var has = false
 			can.page.Select(can, tr, html.TD, function(td) { has = has || td.innerText.indexOf(target.value)>-1 }), can.page.ClassList.set(can, tr, html.HIDDEN, !has)
 		}), target._index = -1, target._value = target.value

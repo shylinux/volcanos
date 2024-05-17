@@ -270,8 +270,8 @@ Volcanos(chat.ONEXPORT, {
 })
 Volcanos(chat.ONACTION, {
 	onkeydown: function(event, can) {
-		if (event.ctrlKey && "0" <= event.key && event.key <= "9") { return can.onkeymap.ctrln(event, can) }
-		can._keylist = can.onkeymap._parse(event, can, mdb.PLUGIN, can._keylist||[], can._output)
+		if (can.onkeymap.selectCtrlN(event, can, can.ui.tabs||can._action, html.DIV_TABS)) { return }
+		can.onkeymap._parse(event, can)
 	},
 })
 Volcanos(chat.ONKEYMAP, {

@@ -18,8 +18,12 @@ fieldset.vimer>div.output.normal>div.project div.item.current { background-color
 fieldset.vimer>div.output.insert>div.project div.item.current { background-color:var(--hover-bg-color); border-right:var(--box-danger3); }
 fieldset.vimer>div.output.normal>div.project div.expand.open { color:var(--notice-bg-color); }
 fieldset.vimer>div.output.insert>div.project div.expand.open { color:var(--danger-bg-color); }
-fieldset.vimer>div.output.normal>div.project div.item.select { border-right:var(--box-notice3); }
-fieldset.vimer>div.output.insert>div.project div.item.select { border-right:var(--box-danger3); }
-fieldset.vimer>div.output>div.project div.item.select { border-right:var(--box-border3); }
 fieldset.vimer>div.output>div.project div.expand.open { color:unset; }
 div.input.vimer.open.float input[type=text] { width:100% !important; }
+
+fieldset.vimer>div.output.source>div.project div.item.select { border-right:var(--box-border3); }
+fieldset.vimer>div.output.source.normal>div.project div.item.select { border-right:var(--box-notice3); }
+fieldset.vimer>div.output.source.insert>div.project div.item.select { border-right:var(--box-danger3); }
+fieldset.vimer>div.output.source>div.layout>div.tabs>div.tabs>div.tabs.select { border-top:var(--box-border3); }
+fieldset.vimer>div.output.source.normal>div.layout>div.tabs>div.tabs>div.tabs.select { border-top:var(--box-notice3); }
+fieldset.vimer>div.output.source.insert>div.layout>div.tabs>div.tabs>div.tabs.select { border-top:var(--box-danger3); }
