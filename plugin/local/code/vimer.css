@@ -1,29 +1,23 @@
-fieldset.vimer>div.output>div.layout>div.layout>div.layout div.content { border-left:var(--box-border); border-top:var(--box-border); }
-fieldset.vimer>div.output>div.layout>div.layout input.current { background-color:transparent; color:transparent; padding-left:var(--input-padding); height:var(--code-line-height); position:absolute; }
-fieldset.vimer>div.output>div.layout>div.layout div.content div.complete { background-color:unset; padding-top:0; display:none; position:absolute; height:1px; overflow:visible; }
-fieldset.vimer>div.output>div.layout>div.layout div.content div.complete div.prefix { color:transparent; white-space:pre; float:left; }
-fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content thead { display:none; }
-fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content td:first-child { padding-left:0; }
-fieldset.vimer>div.output>div.layout>div.layout div.content div.complete table.content { padding-left:var(--input-padding); width:unset; max-width:600px; display:block; box-shadow:var(--plugin-box-shadow); }
-fieldset.vimer>div.output>div.layout>div.layout div.content.insert div.complete:not(.hide) { display:block; top:unset; }
-fieldset.vimer.plugin>div.output>div.layout>div.layout div.content.normal input.current { caret-color:var(--notice-bg-color); border:var(--box-notice); }
-fieldset.vimer.plugin>div.output>div.layout>div.layout div.content.insert input.current { caret-color:var(--danger-bg-color); border:var(--box-danger); }
-fieldset.vimer.plugin>div.output>div.layout>div.layout div.content.normal tr.line.select>td.line { background-color:var(--notice-bg-color); color:white; }
-fieldset.vimer.plugin>div.output>div.layout>div.layout div.content.insert tr.line.select>td.line { background-color:var(--danger-bg-color); color:white; }
-fieldset.vimer>div.output.normal>div.layout>div.tabs>div.tabs>div.tabs.select { border-top:var(--box-notice3); }
-fieldset.vimer>div.output.insert>div.layout>div.tabs>div.tabs>div.tabs.select { border-top:var(--box-danger3); }
-fieldset.vimer>div.output.normal>div.layout>div.path span.mode.normal { color:var(--notice-bg-color); }
-fieldset.vimer>div.output.insert>div.layout>div.path span.mode.insert { color:var(--danger-bg-color); }
-fieldset.vimer>div.output.normal>div.project div.item.current { background-color:var(--hover-bg-color); border-right:var(--box-notice3); }
-fieldset.vimer>div.output.insert>div.project div.item.current { background-color:var(--hover-bg-color); border-right:var(--box-danger3); }
-fieldset.vimer>div.output.normal>div.project div.expand.open { color:var(--notice-bg-color); }
-fieldset.vimer>div.output.insert>div.project div.expand.open { color:var(--danger-bg-color); }
-fieldset.vimer>div.output>div.project div.expand.open { color:unset; }
-div.input.vimer.open.float input[type=text] { width:100% !important; }
-
 fieldset.vimer>div.output.source>div.project div.item.select { border-right:var(--box-border3); }
-fieldset.vimer>div.output.source.normal>div.project div.item.select { border-right:var(--box-notice3); }
-fieldset.vimer>div.output.source.insert>div.project div.item.select { border-right:var(--box-danger3); }
 fieldset.vimer>div.output.source>div.layout>div.tabs>div.tabs>div.tabs.select { border-top:var(--box-border3); }
+fieldset.vimer>div.output.source.normal>div.project div.expand.open { color:var(--notice-bg-color); }
+fieldset.vimer>div.output.source.normal>div.project div.item.select { border-right:var(--box-notice3); }
 fieldset.vimer>div.output.source.normal>div.layout>div.tabs>div.tabs>div.tabs.select { border-top:var(--box-notice3); }
+fieldset.vimer>div.output.source.normal>div.layout>div.path span.mode.normal { color:var(--notice-bg-color); }
+fieldset.vimer>div.output.source.normal>div.layout>div.layout>div.content tr.line.select>td.line { background-color:var(--notice-bg-color); color:white; }
+fieldset.vimer>div.output.source.normal>div.layout>div.layout>div.content input.current { border:var(--box-notice); caret-color:var(--notice-bg-color); }
+fieldset.vimer>div.output.source.insert>div.project div.expand.open { color:var(--danger-bg-color); }
+fieldset.vimer>div.output.source.insert>div.project div.item.select { border-right:var(--box-danger3); }
 fieldset.vimer>div.output.source.insert>div.layout>div.tabs>div.tabs>div.tabs.select { border-top:var(--box-danger3); }
+fieldset.vimer>div.output.source.insert>div.layout>div.path span.mode.insert { color:var(--danger-bg-color); }
+fieldset.vimer>div.output.source.insert>div.layout>div.layout>div.content tr.line.select>td.line { background-color:var(--danger-bg-color); color:white; }
+fieldset.vimer>div.output.source.insert>div.layout>div.layout>div.content input.current { border:var(--box-danger); caret-color:var(--danger-bg-color); }
+fieldset.vimer>div.output.source.insert>div.layout>div.layout>div.content div.complete:not(.hide) { display:block; top:unset; }
+fieldset.vimer>div.output.source>div.layout>div.layout input.current { background-color:transparent; color:transparent; padding-left:var(--input-padding); height:var(--code-line-height); position:absolute; }
+fieldset.vimer>div.output.source>div.layout>div.layout>div.content div.complete { background-color:unset; padding-top:0; height:1px; overflow:visible; display:none; position:absolute; }
+fieldset.vimer>div.output.source>div.layout>div.layout>div.content div.complete div.prefix { color:transparent; white-space:pre; float:left; }
+fieldset.vimer>div.output.source>div.layout>div.layout>div.content div.complete table.content { box-shadow:var(--plugin-box-shadow); padding-left:var(--input-padding); width:unset; max-width:600px; display:block; }
+fieldset.vimer>div.output.source>div.layout>div.layout>div.content div.complete table.content thead { display:none; }
+fieldset.vimer>div.output.source>div.layout>div.layout>div.content div.complete table.content td:first-child { padding-left:0; }
+fieldset.vimer>div.output>div.layout>div.tabs>div.tabs>div.tabs.origin.select { border-top:var(--box-danger3); }
+div.input.vimer.open.float input[type=text] { width:100% !important; }

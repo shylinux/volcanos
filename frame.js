@@ -115,8 +115,7 @@ Volcanos(chat.ONDAEMON, {_init: function(can, name, type, cbs) { if (can.user.is
 		can.core.CallFunc(can.core.Value(can, arg[0]), kit.Dict({can: can}, arg.slice(1)))
 	},
 	input: function(can, msg, sub, arg) { can.page.Select(can, sub._target, "input:focus", function(target) { target.value += arg[0] }) },
-	online: function(can, sub) { debugger },
-	_online: function(can, delay) { can.onmotion.delay(can, function() { can = can._fields? can.sup: can
+	_online: function(can, delay) { false && can.onmotion.delay(can, function() { can = can._fields? can.sup: can
 		if (can.ui._online) { return } can.ui._online = true
 		if (!can.ui.online) {
 			if (can.isCmdMode()) {
@@ -160,7 +159,9 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				value && (value = can.user.trans(sub, value, null, html.INPUT))
 				return can.page.SelectArgs(can, action, key, value)[0]
 			},
-			Option: function(key, value) { value && (value = can.user.trans(sub, value, null, html.INPUT)); return can.page.SelectArgs(can, option, key, value)[0] },
+			Option: function(key, value) {
+				// value && (value = can.user.trans(sub, value, null, html.INPUT));
+				return can.page.SelectArgs(can, option, key, value)[0] },
 			Update: function(event, cmds, cb, silent) { event = event||{}, sub.request(event)._caller(), event.metaKey && sub.request(event, {metaKey: ice.TRUE})
 				var msg = sub.request(event), list = can.core.Value(sub, "sub.db._checkbox"); can.core.Item(list, function(key, value) { msg.Option(key, value) })
 				sub.request(event, sub.Option())
@@ -985,15 +986,17 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		},
 	},
 	scrollHold: function(can, cb, target) { target = target || can._output; var left = target.scrollLeft; cb(), target.scrollLeft = left },
-	scrollIntoView: function(can, target, margin) { if (!target || !target.parentNode || can._scroll) { return } can._scroll = true, margin = margin||0
-		var offset = (target.offsetTop-margin) - target.parentNode.scrollTop, step = offset < 0? -20: 20
+	scrollIntoView: function(can, target, margin, parent) {
+		parent = parent||target.parentNode
+		if (parent._scroll) { return } parent._scroll = true, margin = margin||0
+		var offset = (target.offsetTop-margin) - parent.scrollTop, step = offset < 0? -20: 20
 		if (Math.abs(offset) > 3000) {
-			return target.parentNode.scrollTop = (target.offsetTop-margin), delete(can._scroll)
+			return parent.scrollTop = (target.offsetTop-margin), delete(can._scroll)
 		}
 		can.core.Timer({interval: 10, length: offset/step}, function() {
-			target.parentNode.scrollTop += step
+			parent.scrollTop += step
 		}, function() {
-			target.parentNode.scrollTop = (target.offsetTop-margin), delete(can._scroll)
+			parent.scrollTop = (target.offsetTop-margin), delete(can._scroll)
 		})
 	},
 	clearFloat: function(can) {
