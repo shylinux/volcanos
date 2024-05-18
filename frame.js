@@ -986,18 +986,12 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 		},
 	},
 	scrollHold: function(can, cb, target) { target = target || can._output; var left = target.scrollLeft; cb(), target.scrollLeft = left },
-	scrollIntoView: function(can, target, margin, parent) {
-		parent = parent||target.parentNode
-		if (parent._scroll) { return } parent._scroll = true, margin = margin||0
+	scrollIntoView: function(can, target, margin, parent) { if (!target) { return }
+		margin = margin||0, parent = parent||target.parentNode
+		if (parent._scroll) { return } parent._scroll = true
 		var offset = (target.offsetTop-margin) - parent.scrollTop, step = offset < 0? -20: 20
-		if (Math.abs(offset) > 3000) {
-			return parent.scrollTop = (target.offsetTop-margin), delete(can._scroll)
-		}
-		can.core.Timer({interval: 10, length: offset/step}, function() {
-			parent.scrollTop += step
-		}, function() {
-			parent.scrollTop = (target.offsetTop-margin), delete(can._scroll)
-		})
+		if (Math.abs(offset) > 3000) { return parent.scrollTop = (target.offsetTop-margin), delete(parent._scroll) }
+		can.core.Timer({interval: 10, length: offset/step}, function() { parent.scrollTop += step }, function() { parent.scrollTop = (target.offsetTop-margin), delete(parent._scroll) })
 	},
 	clearFloat: function(can) {
 		var list = ["fieldset.input.float", "div.input.float", "div.carte.float"]; for (var i = 0; i < list.length; i++) {

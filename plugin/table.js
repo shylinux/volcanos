@@ -181,7 +181,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 		}
 		return {view: [[html.TABS, tabs.type, tabs.role, tabs.status]], title: tabs.title||tabs.text, list: [
 			can.onimport._icons(can, tabs), can.onimport._nick(can, tabs), {icon: mdb.DELETE, onclick: function(event) { tabs._target._close(), can.onkeymap.prevent(event) }},
-		], onclick: function(event) { can.onmotion.scrollIntoView(can, tabs._target)
+		], onclick: function(event) {
+			can.onmotion.delay(can, function() {
+				can.onmotion.scrollIntoView(can, tabs._target)
+			})
 			if (can.page.ClassList.has(can, tabs._target, html.SELECT)) { return }
 			can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)
 		}, oncontextmenu: function(event) { var target = tabs._target, _action = can.page.parseAction(can, tabs)

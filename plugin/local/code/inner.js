@@ -148,6 +148,7 @@ Volcanos(chat.ONIMPORT, {
 				can.onmotion.cacheClear(can, key, can.ui._content, can.ui._profile, can.ui._display)
 			}, can.ui._tabs)
 		}
+		can._msg._tab && can.onmotion.scrollIntoView(can, can._msg._tab)
 		if (can.db.tabview[key]) { return can.isSimpleMode()? show(): can._msg._tab? (can._msg._tab.click(), show()): load(can.db.tabview[key]) }
 		isIndex()||isSpace()? load(can.request({}, {index: file, line: line})): can.run({}, [path, file], load, true)
 	},

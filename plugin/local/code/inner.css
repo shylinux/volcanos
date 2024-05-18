@@ -39,10 +39,10 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs:not(.hide) { background-color:
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div { height:var(--code-tabs-height); }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.icon>div.icon { font-size:26px; line-height:32px; padding:2px 5px; position:sticky; top:0; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs { justify-content:flex-start; flex-grow:1; flex-wrap:wrap; overflow:auto; display:flex; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs:hover { background-color:unset; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs:hover { background-color:unset; color:unset; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.tabs>div.tabs { padding:var(--input-padding) var(--button-padding); height:var(--code-tabs-height); display:flex; align-items:center; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head { display:flex; flex-direction:row-reverse; }
-fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { padding:0 var(--input-padding); display:flex; align-items:center; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head { display:flex; flex-direction:row-reverse; flex-shrink:0; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { padding:0 var(--input-padding); display:flex; align-items:center; flex-shrink:0; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online { margin-left:0 !important; margin-right:0 !important; flex-direction: row-reverse; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online img { height:24px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; }
