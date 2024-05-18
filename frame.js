@@ -479,7 +479,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}))
 			can.page.Append(can, target, [{type: html.INPUT, data: {type: html.BUTTON}, name: html.MORE, value: can.user.trans(can, html.MORE), className: can.page.buttonStyle(can, html.MORE), onclick: function(event) {
 				can.onengine.signal(can, "onevent", can.request(event))
-				can.user.carte(event, can, {}, can.core.List(list.slice(limit-1), function(item) { return item.name }), function(event, button) { run(event, button) }, null, {})
+				can.user.carte(event, can, {}, can.core.List(list.slice(limit-1), function(item) { return item.name }), function(event, button) { run(event, button) })
 			}}])
 		}
 	},
@@ -988,6 +988,7 @@ Volcanos(chat.ONMOTION, {_init: function(can, target) {
 	scrollHold: function(can, cb, target) { target = target || can._output; var left = target.scrollLeft; cb(), target.scrollLeft = left },
 	scrollIntoView: function(can, target, margin, parent) { if (!target) { return }
 		margin = margin||0, parent = parent||target.parentNode
+		if (!parent) { return }
 		if (parent._scroll) { return } parent._scroll = true
 		var offset = (target.offsetTop-margin) - parent.scrollTop, step = offset < 0? -20: 20
 		if (Math.abs(offset) > 3000) { return parent.scrollTop = (target.offsetTop-margin), delete(parent._scroll) }

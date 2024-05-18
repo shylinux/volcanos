@@ -84,12 +84,12 @@ Volcanos(chat.ONIMPORT, {
 		})
 	},
 	tabPath: function(event, can, ps, key, pre, cb, parent) { can.runAction(event, mdb.INPUTS, [key, pre, lex.SPLIT], function(msg) { var _trans = {}
-		var carte = can.user[parent? "carteRight": "carte"](event, can, {_style: "inner "+key}, (msg.Length() > 10? [web.FILTER]: []).concat(msg.Table(function(value) {
+		var carte = (can.user[parent? "carteRight": "carte"](event, can, {_style: "inner "+key}, (msg.Length() > 10? [web.FILTER]: []).concat(msg.Table(function(value) {
 			var p = can.core.Split(value[key], ps).pop()+(can.base.endWith(value[key], ps)? ps: ""); return _trans[p] = value[key], p
 		})), function(event, button) {
 			if (can.base.endWith(button, ps)) { can.onimport.tabPath(event, can, ps, key, pre+button, cb, carte); return true } else { cb(_trans[button], pre) }
-		}, parent)._target, file = can.core.Split(event.target.innerHTML.trim(), nfs.PT)[0]
-		can.page.Select(can, carte, html.DIV_ITEM, function(target) {
+		}, parent)||{})._target, file = can.core.Split(event.target.innerHTML.trim(), nfs.PT)[0]
+		carte && can.page.Select(can, carte, html.DIV_ITEM, function(target) {
 			target.innerHTML.trim() != event.target.innerHTML.trim() && can.base.beginWith(target.innerHTML, file+nfs.PT) && carte.insertBefore(target, carte.firstChild)
 			target.innerHTML.trim() == event.target.innerHTML.trim() && can.onappend.style(can, html.SELECT, target)
 		}), can.onmotion.delay(can, function() { carte.scrollTop = 0 })
