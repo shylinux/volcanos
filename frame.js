@@ -707,7 +707,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		})
 		return vbar
 	},
-	toggle: function(can, target) {
+	toggle: function(can, target) { target = target||(can.ui.content? can.ui.content.parentNode: can._content)
 		var toggle = can.page.Append(can, target, [
 			{view: [[html.PROJECT, html.TOGGLE]], onclick: function() { can.onmotion.toggle(can, can.ui.project), can.onimport.layout(can) }},
 			{view: [[html.DISPLAY, html.TOGGLE]], onclick: function() { can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can) }},
@@ -766,9 +766,15 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}), can.core.List(list, function(item) { if (can.base.isArray(item)) { layout(type == FLOW? FLEX: FLOW, item, height, width) } }) }
 		ui.project && can.user.isMobile && can.onmotion.hidden(can, ui.project); ui.filter = can.onappend.filter(can, ui.project)
 		ui.display && can.onmotion.hidden(can, ui.display), ui.profile && can.onmotion.hidden(can, ui.profile)
+		can.onexport.session && can.onexport.session(can, "project.hide") == "true" && can.onmotion.hidden(can, ui.project)
+		can.onexport.session && can.onexport.session(can, "display.show") == "true" && can.onmotion.toggle(can, ui.display, true)
+		can.onexport.session && can.onexport.session(can, "profile.show") == "true" && can.onmotion.toggle(can, ui.profile, true)
 		ui.layout = function(height, width, delay, cb) { can.onmotion.delay(can, function() {
 			defer = [], layout(type, ui.list, height, width), defer.forEach(function(cb) { cb() })
 			if (can.db.value) { var _width = can.ConfWidth(); width = width-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0)
+				can.onexport.session(can, "project.hide", !can.page.isDisplay(can.ui.project))
+				can.onexport.session(can, "display.show", can.page.isDisplay(can.ui.display))
+				can.onexport.session(can, "profile.show", can.page.isDisplay(can.ui.profile))
 				if (can.isCmdMode()) {
 					can.page.SelectChild(can, can._fields, "legend,form.option,div.header", function(target) { _width -= target.offsetWidth })
 					can.page.SelectChild(can, can._fields, "div.action", function(target) { can.page.style(can, target, html.MAX_WIDTH, _width-1)
@@ -784,7 +790,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.db.value._profile_plugin && can.db.value._profile_plugin.onimport.size(can.db.value._profile_plugin, height, width-1, false)
 				}
 				can.db.value._content_plugin && can.db.value._content_plugin.onimport.size(can.db.value._content_plugin, height, width, false)
-				can.ui.toggle && can.ui.toggle.layout()
+				if (can.ui.toggle) { can.ui.toggle.layout(), can.page.style(can, can.ui.toggle.profile, "right", can.ui.profile.offsetWidth+"px") }
 			} cb && cb(content_height, content_width)
 		}, delay||0) }
 		can.onimport.layout = can.onimport.layout||function(can) {

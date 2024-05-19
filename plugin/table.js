@@ -273,7 +273,9 @@ Volcanos(chat.ONEXPORT, {
 	hash: function(can, hash) { hash = typeof hash == code.STRING? hash.split(":").concat(can.core.List(arguments).slice(2)||[]): hash || can.core.Item(can.Option(), function(key, value) { return value||"" })
 		can.misc.SearchHash(can, hash), can.misc.localStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), "hash"], hash)
 	},
-	session: function(can, key, value) { return can.misc[can.user.isWebview? "localStorage": "sessionStorage"](can, [can.Conf(ctx.INDEX), key, location.pathname].join(":"), value == ""? "": JSON.stringify(value)) },
+	session: function(can, key, value) { if (value) { value = JSON.stringify(value) }
+		return can.misc.sessionStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key, location.pathname].join(":"), value)
+	},
 	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return } var res = [msg.append && msg.append.join(mdb.FS)]
 		msg.Table(function(line, index, array) { res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS)) })
 		return res.join(lex.NL)

@@ -1,7 +1,7 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(can, target), can._display_heights = {}, can.list = {}; var ls = can.misc.SearchHash(can)
-		can.onmotion.hidden(can, can._action)
-		can.ui = can.onappend.layout(can)
-		can.onmotion.hidden(can, can.ui.project)
+Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
+		can._display_heights = {}, can.list = {}; var ls = can.misc.SearchHash(can)
+		can.ui = can.onappend.layout(can), can.ui.toggle = can.onappend.toggle(can)
+		can.onmotion.hidden(can, can.ui.project), can.isCmdMode() || can.onmotion.hidden(can, can._action)
 		can.onimport[can.Option("scale")||team.WEEK](can, msg), can.Status(mdb.COUNT, msg.Length()), can.ui.filter.placeholder = `search in ${ msg.Length() } items`, can.onimport.layout(can)
 		var item; if (can.isCmdMode() && ls.length > 0) { item = can.list[can.core.Keys(ls)] } else if (can.sup.task) { item = can.list[can.core.Keys(can.sup.task.space, can.sup.task.zone, can.sup.task.id)] } item && item.click()
 	},
@@ -13,7 +13,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				return can.onimport._task(can, msg, get(begin_time, col, row, hash), set(begin_time, col, row))
 			})}
 		}) }] }])._target, can.onmotion.delay(can, function() { var target = can.sup.task && can.sup.task._target; target && target.click(), can.Status(mdb.COUNT, msg.Length()) })
-		can.ui.toggle = can.onappend.toggle(can, can.ui.content)
 	},
 	_task: function(can, msg, list, time) { return {type: html.TD, className: time == can.base.Time().slice(0, time.length)? html.SELECT: "",
 		ondblclick: function(event) { can.onaction.insertTask(event, can, time+can.base.Time().slice(time.length)) },

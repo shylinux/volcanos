@@ -201,6 +201,7 @@ fieldset.plugin.cmd:not(.output)>div.action div.tabs>span.name { overflow:hidden
 fieldset.plugin.cmd:not(.output)>div.header { float:right; display:flex !important; flex-direction:row-reverse; }
 fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>form.option>div.icon.delete { display:none; }
 fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>div.action>div.item.state.button.full.icons { display:none; }
+div.output>div.layout>div.layout { position:relative; }
 /* project */
 div.project div.action:not(.hide) { width:100%; display:flex; }
 div.project div.action div.item input { border-right:var(--box-border); }
@@ -251,6 +252,8 @@ div.toggle:hover { color:var(--hover-fg-color); }
 div.toggle.project { top:20%; left:0; border-top-right-radius:var(--plugin-radius); border-bottom-right-radius:var(--plugin-radius); }
 div.content>div.toggle.profile { top:20%; right:0; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.content>div.toggle.display { left:20%; bottom:-52px; rotate:90deg; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
+div.layout>div.toggle.profile { top:20%; right:0; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
+div.layout>div.toggle.display { left:20%; bottom:-52px; rotate:90deg; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.project:not(.toggle) { width:var(--project-width); flex:0 0 var(--project-width); }
 div.layout>div.profile:not(.toggle) { width:50%; flex:0 0 50%; }
 fieldset.story div.project:not(.toggle) { width:230px; flex:0 0 230px; }
@@ -876,6 +879,7 @@ fieldset.rich>div.output>table.content { font-family:var(--code-font-family); }
 fieldset.plan div.output div.content>table.content { height:100%; width:100%; }
 fieldset.plan>div.output>div.layout>div.layout>div.profile:not(.toggle) { width:unset; flex:unset; }
 fieldset.plan>div.output>div.layout>div.layout>div.profile input:not(:last-child) { margin-right:var(--button-margin); }
+fieldset.plan>div.output>div.layout>div.layout>div.profile table { width:100%; }
 fieldset.plan>div.output>div.layout>div.layout { align-items:flex-start; }
 fieldset.plan>div.output>div.layout { height:100%; }
 fieldset.draw>form.option>div.item.pid>input { width:var(--button-width) !important; }
