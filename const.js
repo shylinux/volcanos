@@ -271,6 +271,7 @@ var chat = {
 	MESSAGE: "message",
 	MATRIX: "matrix",
 	TUTOR: "tutor",
+	FLOWS: "flows",
 
 	HEADER: "Header", ACTION: "Action", FOOTER: "Footer",
 	libs: ["base.js", "core.js", "date.js", "misc.js", "page.js", "user.js"].map(function(p) { return "/lib/"+p }),

@@ -10,6 +10,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 		can.onimport._storm(can, msg, target)
 		can.core.List([
 			{index: chat.TUTOR},
+			{index: chat.FLOWS, value: "流程"},
 			{index: chat.MESSAGE},
 			{index: cli.RUNTIME},
 			{index: code.XTERM, args: [cli.SH]},
