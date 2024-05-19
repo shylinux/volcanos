@@ -115,7 +115,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 		return {text: [item.nick||item.name||item.zone||item.sess, "", html.NAME], className: html.NAME}
 	},
 	_menu: function(event, can, item, cbs, target) { target = target||event.currentTarget
-		if (can.base.isFunc(cbs)) { var menu = cbs(event, target, item); if (menu) { return can.user.carteRight(event, can, menu.meta, menu.list, menu) } }
+		if (can.base.isFunc(cbs)) { var menu = cbs(event, item, target); if (menu) { return can.user.carteRight(event, can, menu.meta, menu.list, menu) } }
 		can.user.carteItem(event, can, item)
 	},
 	_item: function(can, item, cb, cbs) {
@@ -124,7 +124,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 		].concat(item._label||[], [
 			item.action && {icon: "bi bi-three-dots", onclick: function(event) { can.onimport._menu(event, can, item, cbs) }},
 		]), _init: function(target) {
-			can.ui[item.path] = target
+			target._item = item, item._item = target, can.ui[item.path] = target
 			item._select && can.onmotion.delay(can, function() { target.click() })
 		}, onclick: function(event) {
 			cb(event)
@@ -136,7 +136,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 		return can.page.Append(can, _target||can.ui.project||can._output, [can.onimport._item(can, item, function(event) { var target = event.currentTarget
 			can.onmotion.select(can, target.parentNode, html.DIV_ITEM, target)
 			can.onengine.signal(can, "onproject", can.request(event, {type: "item", query: can.page.getquery(can, can._fields)+","+item.path}))
-			var show = target._list && can.onmotion.toggle(can, target._list); cb(event, item, show, target)
+			var show = target._list && can.onmotion.toggle(can, target._list);
+			if (show === false) { return } cb(event, item, show, target)
 		}, cbs)])._target
 	},
 	_itemselect: function(can, target) {
@@ -182,9 +183,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 		return {view: [[html.TABS, tabs.type, tabs.role, tabs.status]], title: tabs.title||tabs.text, list: [
 			can.onimport._icons(can, tabs), can.onimport._nick(can, tabs), {icon: mdb.DELETE, onclick: function(event) { tabs._target._close(), can.onkeymap.prevent(event) }},
 		], onclick: function(event) {
-			can.onmotion.delay(can, function() {
-				can.onmotion.scrollIntoView(can, tabs._target)
-			})
+			can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, tabs._target) })
 			if (can.page.ClassList.has(can, tabs._target, html.SELECT)) { return }
 			can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)
 		}, oncontextmenu: function(event) { var target = tabs._target, _action = can.page.parseAction(can, tabs)
@@ -194,7 +193,6 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 				"Close Other", function(event) { target.click(), can.page.SelectChild(can, action, html.DIV_TABS, function(target) { target == tabs._target || target._close() }) },
 				"Rename Tabs", function(event) { can.user.input(event, can, [mdb.NAME], function(list) {
 					can.page.SelectOne(can, target, html.SPAN, function(target) { can.page.Modify(can, target, list[0]||tabs.name) })
-					// can.onexport.tabs && can.onexport.tabs(can)
 				}) }, menu.meta,
 			), ["Close", "Close Other", "Rename Tabs", ""].concat(can.base.getValid(menu.list, can.core.Item(menu.meta)), _action), function(event, button, meta) {
 				(meta[button]||menu)(can.request(event, tabs), button, meta)
@@ -210,7 +208,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 	}))._target },
 	tabsCache: function(can, msg, key, value, target, cb) { if (value._tabs) { return value._tabs.click() }
 		value._tabs = can.onimport.tabs(can, [value], function() { can.onexport.hash(can, key), can.Status(value), can.db.value = value
-			can.page.ClassList.has(can, target, html.SELECT) || can.onmotion.delay(can, function() { target.click() })
+			can.page.isSelect(target) || can.onmotion.delay(can, function() { target.click() })
 			if (can.onmotion.cache(can, function() { return key }, can.ui.content, can.ui.profile, can.ui.display)) { return can.onimport.layout(can) }
 			if (cb && cb()) { return }
 			if (msg.Append(ctx.INDEX)) { msg.Table(function(value, index) {
@@ -272,7 +270,9 @@ Volcanos(chat.ONEXPORT, {
 	action_value: function(can, key, def) { var value = can.Action(key); return can.base.isIn(value, ice.AUTO, key, undefined)? def: value },
 	tabs: function(can) {},
 	tool: function(can) { can.misc.sessionStorage(can, [can.ConfIndex(), "tool"], JSON.stringify(can.page.Select(can, can._status, html.LEGEND, function(target) { return target._meta }))) },
-	hash: function(can, hash) { hash = typeof hash == code.STRING? hash.split(":"): hash, can.misc.SearchHash(can, hash), can.misc.localStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), "hash"], hash) },
+	hash: function(can, hash) { hash = typeof hash == code.STRING? hash.split(":"): hash || can.core.Item(can.Option(), function(key, value) { return value||"" })
+		can.misc.SearchHash(can, hash), can.misc.localStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), "hash"], hash)
+	},
 	session: function(can, key, value) { return can.misc[can.user.isWebview? "localStorage": "sessionStorage"](can, [can.Conf(ctx.INDEX), key, location.pathname].join(":"), value == ""? "": JSON.stringify(value)) },
 	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return } var res = [msg.append && msg.append.join(mdb.FS)]
 		msg.Table(function(line, index, array) { res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS)) })

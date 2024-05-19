@@ -26,7 +26,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.onmotion.clear(
 				} }, draggable: time != undefined, title: can.onexport.title(can, task), _init: function(target) {
 					var item = can.onimport.item(can, {nick: task.name+nfs.DF+task.text}, function() { can.onmotion.delay(can, function() {
 						can.onmotion.select(can, can.ui.content, html.TD, target.parentNode), can.onimport._profile(can, task), can.onimport._display(can, task), can.onimport.layout(can)
-					}) }, null, can.ui.project); task._target = target, target.onclick = function(event) { item.click() }, can.list[can.core.Keys(task.space, task.zone, task.id)] = target
+					}) }); task._target = target, target.onclick = function(event) { item.click() }, can.list[can.core.Keys(task.space, task.zone, task.id)] = target
 				}}
 		}),
 	} },

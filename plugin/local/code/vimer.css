@@ -20,4 +20,3 @@ fieldset.vimer>div.output.source>div.layout>div.layout>div.content div.complete 
 fieldset.vimer>div.output.source>div.layout>div.layout>div.content div.complete table.content thead { display:none; }
 fieldset.vimer>div.output.source>div.layout>div.layout>div.content div.complete table.content td:first-child { padding-left:0; }
 fieldset.vimer>div.output>div.layout>div.tabs>div.tabs>div.tabs.origin.select { border-top:var(--box-danger3); }
-div.input.vimer.open.float input[type=text] { width:100% !important; }

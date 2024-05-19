@@ -34,7 +34,7 @@ Volcanos(chat.ONIMPORT, {
 				if (index < can.db.begin || index >= can.db.begin+limit) {
 					can.onimport.page(can, can.db.list, can.db.begin = index-index%limit)
 				}
-			}, function() {}, can.ui.project); item._target = target, _target = can.base.isIn(item.path, can.db.hash[0]||can.Option(nfs.PATH)+can.Option(nfs.FILE))? target: _target||target
+			}); item._target = target, _target = can.base.isIn(item.path, can.db.hash[0]||can.Option(nfs.PATH)+can.Option(nfs.FILE))? target: _target||target
 			if (can.isCmdMode() && item.path == can.misc.localStorage(can, [can.ConfIndex, "last"])) {
 				can.Action(html.HEIGHT, html.HIDE), can.onmotion.hidden(can, can.ui.display)
 				_target = target, can.onmotion.delay(can, function() { can.onaction.full({}, can) })

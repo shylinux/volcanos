@@ -70,7 +70,7 @@ div.input.inner.find.float div.action div.item.text input { width:var(--project-
 div.input.inner.find.float div.action div.item.close span { display:none; }
 div.input.inner.find.float div.action div.item.replace input { border:var(--box-danger); }
 div.input.inner.open.float td:first-child { display:none; }
-div.input.inner.open.float div.item.text input { width:100% !important; }
+div.input.inner.open.float div.item.text input[type=text] { width:100% !important; }
 div.input.inner.open.float td:nth-child(2) { display:none; }
 tr.line>td.line { border-right:var(--box-border); cursor:pointer; -webkit-user-select:none; }
 tr.line>td.line { text-align:right; line-height:var(--code-line-height); padding:0 var(--button-padding); position:sticky; left:0; }

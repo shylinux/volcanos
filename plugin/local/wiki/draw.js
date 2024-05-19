@@ -31,7 +31,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) {
 		var item = can.onimport.item(can, {name: groups}, function(event) { can.ui.group = target
 			can.misc.SearchHash(can, groups, can.OptionPid()), can.Status(svg.GROUP, groups), can.onaction.show(event, can)
 			can.core.List([svg.FONT_SIZE, svg.STROKE_WIDTH, svg.STROKE, svg.FILL], function(key) { can.Action(key, target.Value(key)||key) })
-		}, function(event) { return {meta: can.onaction, list: can.onaction.menu_list} }, can.ui.project); target._item = item
+		}, function(event) { return {meta: can.onaction, list: can.onaction.menu_list} }); target._item = item
 		groups == can.db.hash[0] && can.onmotion.delay(can, function() { item.click() })
 	},
 	_profile: function(can, target) { if (!can.ui.profile) { return }
