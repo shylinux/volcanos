@@ -245,8 +245,9 @@ div.project div.zone>div.list>div.zone>div.item:hover { margin-left:var(--button
 div.item>i.bi-chevron-down { float:right; transition:all .5s; }
 div.item.open>i.bi-chevron-down { rotate:-180deg; transition:all .3s; }
 div.item.text.trans input:not([type=button]) { transition:all 1s; }
-div.item.text.trans input:not([type=button]):focus { width:var(--river-width); transition:all .5s; }
-div.toggle { background-color:var(--hover-bg-color); color:var(--hover-fg-color); font-size:var(--action-height); padding-top:38px; height:120px; position:absolute; }
+div.item.text.trans input:not([type=button]):focus { width:var(--project-width); transition:all .5s; }
+div.toggle { background-color:var(--hover-bg-color); font-size:var(--action-height); padding-top:38px; height:120px; position:absolute; }
+div.toggle:hover { color:var(--hover-fg-color); }
 div.toggle.project { top:20%; left:0; border-top-right-radius:var(--plugin-radius); border-bottom-right-radius:var(--plugin-radius); }
 div.content>div.toggle.profile { top:20%; right:0; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.content>div.toggle.display { left:20%; bottom:-52px; rotate:90deg; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
@@ -737,7 +738,7 @@ fieldset.float>div.action>div.item.button._space.icons { margin-left:0; }
 svg text { font-size:var(--svg-font-size); font-family:var(--svg-font-family); stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }
 svg text.offline { stroke:var(--disable-fg-color); fill:var(--disable-fg-color); }
 svg text:hover { cursor:pointer; }
-svg rect { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); fill:var(--output-bg-color); }
+svg rect { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); fill:var(--output-bg-color); cursor:pointer; }
 svg rect:hover { stroke:var(--hover-fg-color); fill:var(--hover-bg-color); }
 svg line { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); }
 svg line:hover { stroke:var(--hover-fg-color); }

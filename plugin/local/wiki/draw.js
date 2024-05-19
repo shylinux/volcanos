@@ -72,9 +72,12 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) {
 		var target = can.onimport.block(can, figure.data.name||meta.shape, data, group); can.core.ItemCB(meta, target, can)
 		return meta._init && meta._init(target), target
 	},
-	layout: function(can) { can.ui.layout && can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
-		can.page.style(can, can.ui.svg, html.MIN_HEIGHT, height, html.MIN_WIDTH, width)
-	}) },
+	layout: function(can) {
+		can.ui.svg && can.page.style(can, can.ui.svg, html.MIN_HEIGHT, can.ConfHeight(), html.MIN_WIDTH, can.ConfWidth())
+		can.ui.layout && can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
+			can.page.style(can, can.ui.svg, html.MIN_HEIGHT, height, html.MIN_WIDTH, width)
+		})
+	},
 })
 Volcanos(chat.ONACTION, {list: [
 		[svg.GO, ctx.RUN, ice.AUTO, "manual"], [ice.MODE, web.DRAW, html.MOVE, html.RESIZE],
