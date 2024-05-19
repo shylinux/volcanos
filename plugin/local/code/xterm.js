@@ -1,6 +1,6 @@
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) { can.page.requireModules(can, ["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
-		if (can.Option(mdb.HASH) || can.Option("args0")) { var item = can.base.Obj(msg.TableDetail()); item.hash = item.hash||can.Option(mdb.HASH)||can.Option("args0")||"current"
+		if (can.Option(mdb.HASH) || can.Option("args0") || can.ConfIndex() == "can._filter") { var item = can.base.Obj(msg.TableDetail()); item.hash = item.hash||can.Option(mdb.HASH)||can.Option("args0")||"current"
 			can.onimport._connect(can, item, can._output)
 		} else {
 			can.ui = can.onappend.layout(can), can.onimport._project(can, msg, can.db.hash)

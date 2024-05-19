@@ -75,10 +75,10 @@ Volcanos(chat.ONIMPORT, {
 				sub._grow._size = (sub._grow._size||0)+text.length, text && text.match(/\n/g) && (sub._grow._count = (sub._grow._count||0)+text.match(/\n/g).length)
 				if (msg.Option(cli.DELAY) && msg.Option(cli.DELAY) != "0") { var list = []; for (var i = 0; i < text.length; i++) { list.push(text[i]) }
 					can.core.Next(list, function(text, next) {
-						can.sub._grow.onimport.grow(can.sub._grow, msg, "only", text), can.core.Timer(msg.Option(cli.DELAY), next)
+						can.sub._grow.onimport.grow(can.sub._grow, msg, "current", text), can.core.Timer(msg.Option(cli.DELAY), next)
 					}, function() { can.sub._grow_running = false, _grow() })
 				} else {
-					can.sub._grow.onimport.grow(can.sub._grow, msg, "only", text), can.sub._grow_running = false, _grow()
+					can.sub._grow.onimport.grow(can.sub._grow, msg, "current", text), can.sub._grow_running = false, _grow()
 				} sub._grow.Status(mdb.COUNT, sub._grow._count), sub._grow.Status("msg", can.base.Size(sub._grow._size))
 			}
 			if (can.sub._grow) {
@@ -87,7 +87,10 @@ Volcanos(chat.ONIMPORT, {
 				(can.sub._grow_list = can.sub._grow_list||[]).push(msg); if (can.sub._grow_list.length > 1) { return }
 			}
 			var height = can.onexport.outputHeight(can)
-			can.onappend.plugin(can, {title: can.core.Keys(msg.Option(ice.MSG_TITLE)||msg.Option(ctx.DISPLAY).split(nfs.PS).pop()), index: "can._filter", display: msg.Option(ctx.DISPLAY), height: height}, function(sub) {
+			can.onappend.plugin(can, {
+				index: "can._filter", display: msg.Option(ctx.DISPLAY), height: height,
+				title: can.core.Keys(msg.Option(ice.MSG_TITLE)||msg.Option(ctx.DISPLAY).split(nfs.PS).pop()),
+			}, function(sub) {
 				sub.onexport.output = function() { can.onmotion.scrollIntoView(can, sub._target), can.sub._grow = sub.sub, _grow() }
 			}); return
 		}
