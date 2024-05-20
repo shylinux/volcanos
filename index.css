@@ -894,7 +894,7 @@ fieldset.draw>div.output>div.layout>div.layout>div.profile table { width:100%; }
 fieldset.draw>div.output>div.layout>div.layout>div.profile { width:var(--project-width); flex:0 0 var(--project-width); }
 fieldset.draw div.output svg { margin-bottom:-5px; }
 fieldset.draw div.output svg { min-height:100%; }
-fieldset.draw div.output { display:flex; flex-direction:row; }
+// fieldset.draw div.output { display:flex; flex-direction:row; }
 fieldset.draw.spides div.output svg text { cursor:pointer; }
 fieldset.draw.spides div.output svg path { stroke-width:1; }
 fieldset.draw.trends div.output { overflow:hidden; }

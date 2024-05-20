@@ -314,31 +314,32 @@ Volcanos(chat.ONACTION, {list: ["刷新数据",
 		recorder.onstop = function() { cb(blobs, nfs.WEBM) }, recorder.start(1)
 	}) },
 })
-Volcanos(chat.ONEXPORT, {_output: function(can, msg) {},
+Volcanos(chat.ONEXPORT, {
+	_output: function(can, msg) {},
 	output: function(can, msg) {}, action: function(can, button, data) {}, record: function(can, value, key, data) {},
-	title: function(can, title) {
-		if (can.base.isIn(title, web.DESKTOP)) { return }
-		var pod = can.misc.Search(can, ice.POD)
-		can.isCmdMode() && can.user.title(title+(pod && title != pod? " "+pod: "")) },
-	marginTop: function() { return 0 }, marginBottom: function() { return 0 },
+	marginTop: function() { return 0 }, marginBottom: function() { return 0 }, outputMargin: function(can) { return 0 },
 	actionHeight: function(can) { return can.page.ClassList.has(can, can._target, html.OUTPUT)? 0: html.ACTION_HEIGHT },
 	outputHeight: function(can) { var height = can.ConfHeight() - can.onexport.actionHeight(can) - can.onexport.statusHeight(can)
 		if (can.user.isMobile) { return height } height -= can.onexport.outputMargin(can)
 		can.page.SelectChild(can, can._output, html.TABLE, function(target) { height -= target.offsetHeight })
 		return can.base.Max(can.base.Min(height, can.ConfHeight()/2), can.ConfHeight()-2*html.ACTION_HEIGHT, 320)
 	},
-	outputMargin: function(can) { return 0 },
 	statusHeight: function(can) {
 		return can.page.ClassList.has(can, can._target, html.OUTPUT) || !can.page.isDisplay(can._status) || (can._target.offsetHeight > 0 && can._status.offsetHeight == 0) ||
-			can._status.innerHTML == "" && !can.page.ClassList.has(can, can._target, html.PLUG)? 0: html.STATUS_HEIGHT },
+			can._status.innerHTML == "" && !can.page.ClassList.has(can, can._target, html.PLUG)? 0: html.STATUS_HEIGHT
+	},
+	session: function(can, key, value) { if (value) { value = JSON.stringify(value) }
+		return can.misc.sessionStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key, location.pathname], value)
+	},
+	title: function(can, title) { if (can.base.isIn(title, web.DESKTOP)) { return }
+		var pod = can.misc.Search(can, ice.POD); can.isCmdMode() && can.user.title(title+(pod && title != pod? " "+pod: ""))
+	},
+	args: function(can) { return can.Option() },
 	link: function(can) {
-		if (can.sub && can.sub.onexport.link) {
-			return can.sub.onexport.link(can.sub)
-		}
+		if (can.sub && can.sub.onexport.link) { return can.sub.onexport.link(can.sub) }
 		var args = can.Option(); args.pod = can.ConfSpace()||can.misc.Search(can, ice.POD), args.cmd = can.ConfIndex()
 		can.core.Item(args, function(key, value) { key != ice.POD && !value && delete(args[key]) })
 		return can.misc.MergePodCmd(can, args, true)
 	},
-	args: function(can) { return can.Option() },
 	close: function(can, msg) {},
 })
