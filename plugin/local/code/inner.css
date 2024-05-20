@@ -21,6 +21,7 @@ fieldset.inner>div.output>div.layout>div.path>span { padding:var(--input-padding
 fieldset.inner>div.output>div.layout>div.path>span:hover { background-color:var(--hover-bg-color); }
 fieldset.inner>div.output>div.layout>div.path>span._space:hover { background-color:unset; }
 fieldset.inner>div.output>div.layout>div.path>span.view { font-style:normal; font-size:22px; padding:0 var(--input-padding); }
+body.windows fieldset.inner>div.output>div.layout>div.path>span.view { font-size:18px; }
 fieldset.inner>div.output>div.layout>div.display h1 { border-bottom:var(--box-border); margin:var(--title-margin) 0; }
 fieldset.inner>div.output>div.layout>div.display h2 { border-bottom:var(--box-border); margin:var(--title-margin) 0; }
 fieldset.inner>div.output>div.layout>div.display pre>code { padding-left:var(--table-padding); border-left:var(--box-notice3); display:block; }

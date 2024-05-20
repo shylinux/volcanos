@@ -155,7 +155,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}); return value
 			} catch {} },
 			Action: function(key, value) {
-				key && value && can.misc.sessionStorage(can, [sub.ConfIndex(), ctx.ACTION, key], value)
+				// key && value && can.misc.sessionStorage(can, [sub.ConfIndex(), ctx.ACTION, key], value)
 				value && (value = can.user.trans(sub, value, null, html.INPUT))
 				return can.page.SelectArgs(can, action, key, value)[0]
 			},
@@ -268,9 +268,17 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.base.isString(item)? /* 2.按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
 					run(event, item)
 				}}: item.length > 0? /* 3.列表 */ {type: html.SELECT, name: item[0], values: item.slice(1), onchange: function(event) { can.misc.Event(event, can, function(msg) {
-					var button = event.target.value; meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]):
+					var button = event.target.value;
+					can.onaction._select && can.onaction._select(event, can, item[0], button)
+					can.onexport.session && can.onexport.session(can, "action:"+item[0], button)
+					meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]):
 						meta[button]? can.core.CallFunc(meta[button], [event, can, button]): can.Action(item[0], button)
-				}) }}: /* 4.其它 */(item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans), item.onclick = item.onclick||function(event) {
+				})}, _init: function() {
+					if (can.onexport.session) {
+						var value = can.onexport.session(can, "action:"+item[0])
+						value && can.Action(item[0], value)
+					}
+				}}: /* 4.其它 */(item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans), item.onclick = item.onclick||function(event) {
 					run(event, item.name||item.value)
 				}, item._init = item._init||function(target) { item.action && can.onappend.figure(sub, item, target, function(_sub, value) { can.Update() })
 					if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) { can.onappend.icons(can, target, item.name) }
@@ -454,6 +462,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				_input.select.value = value||_item.value||_item.values[0]
 				can.onappend.select(can, _input.select, _item)
 				can.onappend.style(can, html.BUTTON, target)
+				item._init && item._init(target)
 			}
 			item.style && can.onappend.style(can, item.style, target)
 		}}])[item.name]; return _input
@@ -675,37 +684,36 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		if (can.base.endWith(style, ".css")) { return can.require([style]) }
 		can.base.isObject(style) && !can.base.isArray(style)? can.page.style(can, target, style): can.page.ClassList.add(can, target, style)
 	},
-	scroll: function(can, target, offset, length) { if (!can.user.isChrome) { return }
-		if (offset) { var ui = can.page.Append(can, target, [{view: "scrollbar", style: {height: length*target.offsetHeight*2}}])
-			target.addEventListener("scroll", function(event) { can.page.style(can, ui.scrollbar, html.TOP, target.scrollTop+offset*target.offsetHeight, html.RIGHT, -target.scrollLeft) })
-			return ui.scrollbar
-		}
-		var vbegin, vbar = can.page.Append(can, target, [{view: [["scrollbar", html.VERTICAL]],
+	scroll: function(can, target, parent) { target = target||can.ui.content||can._output, parent = target == can.ui.content? target.parentNode: target
+		var vbegin, vbar = can.page.Append(can, parent, [{view: [["scrollbar", html.VERTICAL]],
 			onmousedown: function(event) { vbegin = {top: target.scrollTop, y: event.y}, window._mousemove = event.target },
 			onmousemove: function(event) { if (!vbegin) { return } target.scrollTop = vbegin.top+(event.y-vbegin.y)/target.offsetHeight*target.scrollHeight, can.onkeymap.prevent(event) },
 			onmouseup: function(event) { vbegin = null, delete(window._mousemove) },
 		}])._target
-		var hbegin, hbar = can.page.Append(can, target, [{view: [["scrollbar", html.HORIZON]],
+		var hbegin, hbar = can.page.Append(can, parent, [{view: [["scrollbar", html.HORIZON]],
 			onmousedown: function(event) { hbegin = {left: target.scrollLeft, x: event.x}, window._mousemove = event.target },
 			onmousemove: function(event) { if (!hbegin) { return } target.scrollLeft = hbegin.left+(event.x-hbegin.x)/target.offsetWidth*target.scrollWidth, can.onkeymap.prevent(event) },
 			onmouseup: function(event) { hbegin = null, delete(window._mousemove) },
 		}])._target
 		target.addEventListener("scroll", function(event) {
 			var height = can.base.Min(target.offsetHeight*target.offsetHeight/target.scrollHeight, target.offsetHeight/4)
-			target.scrollHeight > target.offsetHeight && can.page.style(can, vbar, html.HEIGHT, height, html.RIGHT, -target.scrollLeft, html.VISIBILITY, html.VISIBLE,
-				html.TOP, can.base.Max(target.scrollTop+target.scrollTop/(target.scrollHeight-target.offsetHeight)*(target.offsetHeight-height)-10, target.scrollHeight-height),
-			)
 			vbar.innerHTML = `${(target.scrollTop*100/(target.scrollHeight-target.offsetHeight)).toFixed(2)}%`
-			var width = can.base.Min(target.offsetWidth*target.offsetWidth/target.scrollWidth, target.offsetWidth/4)
-			target.scrollWidth > target.offsetWidth+10 && can.page.style(can, hbar, html.WIDTH, width, html.BOTTOM, -target.scrollTop, html.VISIBILITY, html.VISIBLE,
-				html.LEFT, target.scrollLeft+target.scrollLeft/(target.scrollWidth-target.offsetWidth)*(target.offsetWidth-width),
+			target.scrollHeight > target.offsetHeight && can.page.style(can, vbar, html.VISIBILITY, html.VISIBLE,
+				html.HEIGHT, height, html.RIGHT, target == can.ui.content? 0: -target.scrollLeft,
+				html.TOP, target == can.ui.content? target.scrollTop/(target.scrollHeight-target.offsetHeight)*(target.offsetHeight-height):
+						can.base.Max(target.scrollTop+target.scrollTop/(target.scrollHeight-target.offsetHeight)*(target.offsetHeight-height)-10, target.scrollHeight-height),
 			)
-			hbar.innerHTML = `${target.scrollLeft}+${target.offsetWidth}/${target.scrollWidth}`
+			var width = can.base.Min(target.offsetWidth*target.offsetWidth/target.scrollWidth, target.offsetWidth/4)
+			hbar.innerHTML = `${(target.scrollLeft*100/(target.scrollWidth-target.offsetWidth)).toFixed(2)}%`
+			target.scrollWidth > target.offsetWidth+10 && can.page.style(can, hbar, html.VISIBILITY, html.VISIBLE,
+				html.WIDTH, width, html.BOTTOM, target == can.ui.content? 0: -target.scrollTop,
+				html.LEFT, target == can.ui.content? target.scrollLeft/(target.scrollWidth-target.offsetWidth)*(target.offsetWidth-width):
+						target.scrollLeft+target.scrollLeft/(target.scrollWidth-target.offsetWidth)*(target.offsetWidth-width),
+			)
 			can.onmotion.delayOnce(can, function() {
 				can.page.style(can, vbar, html.VISIBILITY, html.HIDDEN), can.page.style(can, hbar, html.VISIBILITY, html.HIDDEN)
-			}, 3000, target._delay_scroll = target._delay_scroll||[])
+			}, 30000, target._delay_scroll = target._delay_scroll||[])
 		})
-		return vbar
 	},
 	toggle: function(can, target) { target = target||(can.ui.content? can.ui.content.parentNode: can._content)
 		var toggle = can.page.Append(can, target, [
